@@ -37,6 +37,11 @@ namespace Systems.Spells
 
 		private int chargesLeft = 0;
 
+		/// <summary>
+		/// How many charges do we have left for our current cast, meaning we can use the spell x more times before it actually goes on cooldown
+		/// </summary>
+		private int castChargesLeft = 0;
+
 		protected Coroutine handle;
 
 		private void Awake()
