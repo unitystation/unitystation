@@ -21,6 +21,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 907881595092742429, guid: 2f3aabfd381d24d618e5ea35f4acce60,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 11b2dd5815b0c3f6e865f615f9666423,
+        type: 2}
+    - target: {fileID: 907881595092742429, guid: 2f3aabfd381d24d618e5ea35f4acce60,
+        type: 3}
       propertyPath: SubCatalogue.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -125,6 +131,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4506481015297489037, guid: 2f3aabfd381d24d618e5ea35f4acce60,
         type: 3}
+      propertyPath: exportCost
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4506481015297489037, guid: 2f3aabfd381d24d618e5ea35f4acce60,
+        type: 3}
       propertyPath: initialName
       value: laser musket
       objectReference: {fileID: 0}
@@ -195,6 +206,12 @@ PrefabInstance:
     - target: {fileID: 7863769940400434280, guid: 2f3aabfd381d24d618e5ea35f4acce60,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d8f93a4beec0ea1c7bd722b2b9a1a1fe,
+        type: 2}
+    - target: {fileID: 7863769940400434280, guid: 2f3aabfd381d24d618e5ea35f4acce60,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: d8f93a4beec0ea1c7bd722b2b9a1a1fe,
         type: 2}
