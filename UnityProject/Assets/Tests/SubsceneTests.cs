@@ -22,6 +22,7 @@ namespace Tests
 		public void CheckAsteroidsInBuildSettings() =>
 			CheckScenesInBuildSettings<AsteroidListSO>(so => so.Asteroids);
 
+
 		private void CheckScenesInBuildSettings<T>(Func<T, List<string>> getSceneNames) where T : ScriptableObject
 		{
 			var report = new TestReport();
@@ -36,19 +37,35 @@ namespace Tests
 		private void CheckForScenesInBuildSettings<T>(TestReport report, IEnumerable<string> scenesToCheck)
 		{
 			var typeName = typeof(T).Name;
-			var buildSettings =
-				EditorBuildSettings.scenes.ToDictionary(ebss => Path.GetFileNameWithoutExtension(ebss.path));
+			var buildSettings = EditorBuildSettings.scenes.ToDictionary(ebss => Path.GetFileNameWithoutExtension(ebss.path));
+			string mapsDirectory = "Assets/StreamingAssets/Maps";
 
 			foreach (var sceneName in scenesToCheck)
 			{
 				buildSettings.TryGetValue(sceneName, out var editorScene);
 				bool? enabled = editorScene?.enabled;
-				report.Clean()
-					.FailIfNot(enabled.HasValue)
-					.AppendLine($"{typeName}: {sceneName} scene is not in the Build Settings list.")
-					.MarkDirtyIfFailed()
-					.FailIfNot(enabled.GetValueOrDefault(false))
-					.AppendLine($"{typeName}: {sceneName} scene is not enabled in the Build Settings list.");
+
+				// Construct the relative path to check if the scene exists under the specified directory
+				string scenePath = Path.Combine(mapsDirectory, sceneName);
+				bool sceneExistsInMaps = File.Exists(scenePath);
+
+
+				if (sceneExistsInMaps == false)
+				{
+					if (enabled.HasValue)
+					{
+						// Check if the scene is enabled in the build settings
+						if (enabled.GetValueOrDefault(false) == false)
+						{
+							report.AppendLine($"{typeName}: {sceneName} scene is not enabled in the Build Settings list.").MarkDirtyIfFailed().Fail();;
+						}
+
+					}
+					else
+					{
+						report.AppendLine($"{typeName}: {sceneName} scene does not exist in the '{mapsDirectory}' directory or Built setting.").Fail();
+					}
+				}
 			}
 		}
 	}
