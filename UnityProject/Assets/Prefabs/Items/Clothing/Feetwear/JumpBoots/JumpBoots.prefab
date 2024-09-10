@@ -112,6 +112,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ca34816765d2db64bb0c7512377ebddc,
         type: 2}
+    - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ca34816765d2db64bb0c7512377ebddc,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -178,3 +184,22 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  jumpCooldown: 6
+  jumpSpeed: 12
+  jumpAirTime: 0.25
+  activateSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/podwoosh.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  rechargeSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Weapons/KineticReload.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0

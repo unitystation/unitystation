@@ -1,0 +1,114 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3871758861927996434
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1596662404435683921, guid: 7d1caa3fc6998ff04af45198956a785d,
+        type: 3}
+      propertyPath: foreverID
+      value: 29761d23dc97e849e87979bd8b922dd3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1652812888451052985, guid: 7d1caa3fc6998ff04af45198956a785d,
+        type: 3}
+      propertyPath: 'allClothingData.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 617b2b01082aebe449520ab87043f01a,
+        type: 2}
+    - target: {fileID: 2005470918676389307, guid: 7d1caa3fc6998ff04af45198956a785d,
+        type: 3}
+      propertyPath: initialVariantIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005470918676389307, guid: 7d1caa3fc6998ff04af45198956a785d,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d9ea50e268d3f764b925b51c4284d5a7,
+        type: 2}
+    - target: {fileID: 5223991603298453854, guid: 7d1caa3fc6998ff04af45198956a785d,
+        type: 3}
+      propertyPath: initialDescription
+      value: A specialized pair of combat boots with a built-in propulsion system
+        for rapid foward movement. Now in blood red!
+      objectReference: {fileID: 0}
+    - target: {fileID: 5504304225243534688, guid: 7d1caa3fc6998ff04af45198956a785d,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b5273e1a9b09da04b96fe9877f83de82,
+        type: 3}
+    - target: {fileID: 5656873230960679752, guid: 7d1caa3fc6998ff04af45198956a785d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5656873230960679752, guid: 7d1caa3fc6998ff04af45198956a785d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5656873230960679752, guid: 7d1caa3fc6998ff04af45198956a785d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5656873230960679752, guid: 7d1caa3fc6998ff04af45198956a785d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5656873230960679752, guid: 7d1caa3fc6998ff04af45198956a785d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5656873230960679752, guid: 7d1caa3fc6998ff04af45198956a785d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5656873230960679752, guid: 7d1caa3fc6998ff04af45198956a785d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5656873230960679752, guid: 7d1caa3fc6998ff04af45198956a785d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5656873230960679752, guid: 7d1caa3fc6998ff04af45198956a785d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5656873230960679752, guid: 7d1caa3fc6998ff04af45198956a785d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5661801104673318460, guid: 7d1caa3fc6998ff04af45198956a785d,
+        type: 3}
+      propertyPath: m_Name
+      value: SyndieJumpBoots
+      objectReference: {fileID: 0}
+    - target: {fileID: 5694510922488978312, guid: 7d1caa3fc6998ff04af45198956a785d,
+        type: 3}
+      propertyPath: _assetId
+      value: 2943036119
+      objectReference: {fileID: 0}
+    - target: {fileID: 5722696453417709158, guid: 7d1caa3fc6998ff04af45198956a785d,
+        type: 3}
+      propertyPath: jumpCooldown
+      value: 3
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7d1caa3fc6998ff04af45198956a785d, type: 3}
