@@ -52,6 +52,7 @@ public class OreGenerator : ItemMatrixSystemInit
 
 	public void RunOreGenerator()
 	{
+		if (isServer == false) return;
 		GeneratedLocations.Clear();
 		wallTilemap = MetaTileMap.Layers[LayerType.Walls].GetComponent<Tilemap>();
 

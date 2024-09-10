@@ -293,8 +293,12 @@ namespace MapSaver
 				}
 			}
 
+
 			Object.GetComponent<UniversalObjectPhysics>()?.ResetEverything();
-			Object.transform.SetParent(Matrix.MetaTileMap.ObjectLayer.transform);
+			if (Matrix != null)
+			{
+				Object.transform.SetParent(Matrix.MetaTileMap.ObjectLayer.transform);
+			}
 			if (string.IsNullOrEmpty(prefabData.Name) == false)
 			{
 				Object.name = prefabData.Name;
