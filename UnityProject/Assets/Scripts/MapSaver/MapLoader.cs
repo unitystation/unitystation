@@ -264,9 +264,6 @@ namespace MapSaver
 						CustomNetworkManager.Instance = CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab;
 					}
 
-
-
-
 					ReddySpawned = true;
 					Object =  (GameObject)  UnityEditor.PrefabUtility.InstantiatePrefab(
 						CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[PrefabID],
@@ -345,6 +342,12 @@ namespace MapSaver
 			{
 				Object.name = IndividualObject.Name;
 			}
+
+			if (string.IsNullOrEmpty(IndividualObject.LocalPRS) == false)
+			{
+				MapSaver.StringToPRS(Object, IndividualObject.LocalPRS);
+			}
+
 
 			foreach (var classData in IndividualObject.ClassDatas)
 			{

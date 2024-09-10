@@ -37,6 +37,7 @@ public class MyObjectEditor : Editor
 
 	private static void DrawProjectItem(string guid, Rect selectionRect)
 	{
+
 		if (TryGetSpriteData(guid, out var spriteData) == false) return;
 
 		var sprite = spriteData.CurrentSprite;
@@ -91,6 +92,8 @@ public class MyObjectEditor : Editor
 				guidIsProcessed.Add(guid);
 				return false;
 			}
+
+
 
 			var data = AssetDatabase.LoadAssetAtPath<SpriteDataSO>(assetPath);
 

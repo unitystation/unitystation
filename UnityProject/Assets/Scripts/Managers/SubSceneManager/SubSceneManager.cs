@@ -8,6 +8,7 @@ using MapSaver;
 using Messages.Client;
 using Mirror;
 using Newtonsoft.Json;
+using SecureStuff;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -88,29 +89,29 @@ public partial class SubSceneManager : MonoBehaviour
 	IEnumerator LoadSubScene(string sceneName, SubsceneLoadTimer loadTimer = null, bool HandlSynchronising = true,
 		SceneType sceneType = SceneType.HiddenScene)
 	{
+		if (AccessFile.Exists(sceneName, true, FolderType.Maps, false))
+		{
+			if (CustomNetworkManager.IsServer) //Client loading is handled automatically
+			{
 
-		// if (sceneName == "SquareStation") //WIP
-		// {
-		// 	if (CustomNetworkManager.IsServer) //Client loading is handled automatically
-		// 	{
-		//
-		// 		while (CustomNetworkManager.AllPrefabsLoadedSt == false)
-		// 		{
-		// 			yield return null;
-		// 		}
-		//
-		// 		// Read the file content
-		// 		string json = File.ReadAllText("R:/tests/SaveMap.txt");
-		//
-		// 		// Deserialize the JSON content to a MapData object
-		// 		MapSaver.MapSaver.MapData mapData = JsonConvert.DeserializeObject<MapSaver.MapSaver.MapData>(json);
-		// 		yield return MapLoader.ServerLoadMap(Vector3.zero, Vector3.zero,mapData);
-		// 	}
-		// }
-		// else
-		// {
+				while (CustomNetworkManager.AllPrefabsLoadedSt == false)
+				{
+					yield return null;
+				}
+
+				// Read the file content
+				//string json = File.ReadAllText("J:/SuperFast Programs/ss13 development/unitystation/SaveMapCompare.txt");
+				string json = AccessFile.Load(sceneName, FolderType.Maps);
+
+				// Deserialize the JSON content to a MapData object
+				MapSaver.MapSaver.MapData mapData = JsonConvert.DeserializeObject<MapSaver.MapSaver.MapData>(json);
+				yield return MapLoader.ServerLoadMap(Vector3.zero, Vector3.zero,mapData);
+			}
+		}
+		else
+		{
 			yield return LoadUnityScene(sceneName, loadTimer, HandlSynchronising, sceneType);
-		//}
+		}
 
 		Loggy.Log($"Finished loading {sceneName}");
 	}

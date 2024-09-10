@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8089176467684874777}
   - component: {fileID: 964939538889205582}
   - component: {fileID: 659669960000406522}
+  - component: {fileID: 6929312341230062190}
   m_Layer: 21
   m_Name: Light2D
   m_TagString: EmergencyLight
@@ -47,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Color: {r: 0.17933428, g: 0.5849056, b: 0.57089245, a: 0.8}
+  InitialColour: {r: 0.17933428, g: 0.5849056, b: 0.57089245, a: 0.8}
   Sprite: {fileID: 21300000, guid: 942bfa9c95b9b41488c8dd366a723e3e, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
@@ -118,8 +119,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db8de0848b7142a7b1c908d59328e0aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 180
+  InitialSpeed: 180
   randomise: 1
+--- !u!114 &6929312341230062190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473322904107424474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 181a5b4dde4eb324aa4b7559536ff75d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5665915129016697671
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,6 +146,7 @@ GameObject:
   - component: {fileID: 5863855766414669037}
   - component: {fileID: 5711858553728263904}
   - component: {fileID: 6000133350976189735}
+  - component: {fileID: 5780035539378281222}
   m_Layer: 21
   m_Name: Light2D (1)
   m_TagString: EmergencyLight
@@ -167,7 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Color: {r: 1, g: 0, b: 0.9729614, a: 0.77254903}
+  InitialColour: {r: 1, g: 0, b: 0.9729614, a: 0.77254903}
   Sprite: {fileID: 21300000, guid: 942bfa9c95b9b41488c8dd366a723e3e, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
@@ -238,8 +252,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db8de0848b7142a7b1c908d59328e0aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: -180
+  InitialSpeed: -180
   randomise: 1
+--- !u!114 &5780035539378281222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5665915129016697671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 181a5b4dde4eb324aa4b7559536ff75d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8507119015678622571
 GameObject:
   m_ObjectHideFlags: 0
@@ -253,6 +279,7 @@ GameObject:
   - component: {fileID: 783641046773823323}
   - component: {fileID: 8190263933418452990}
   - component: {fileID: 6491995597113877294}
+  - component: {fileID: 6280120002222455726}
   m_Layer: 21
   m_Name: Light2D (2)
   m_TagString: EmergencyLight
@@ -287,7 +314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Color: {r: 1, g: 1, b: 1, a: 0.58431375}
+  InitialColour: {r: 1, g: 1, b: 1, a: 0.58431375}
   Sprite: {fileID: 21300000, guid: 942bfa9c95b9b41488c8dd366a723e3e, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
@@ -358,8 +385,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db8de0848b7142a7b1c908d59328e0aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: -180
+  InitialSpeed: -180
   randomise: 1
+--- !u!114 &6280120002222455726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8507119015678622571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 181a5b4dde4eb324aa4b7559536ff75d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6808134103608878610
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -442,6 +481,12 @@ PrefabInstance:
     - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 99c4134ba9863be428d4c368f6e985f9,
+        type: 2}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 99c4134ba9863be428d4c368f6e985f9,
         type: 2}

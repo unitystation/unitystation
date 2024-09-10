@@ -12,7 +12,10 @@ namespace Systems.Radiation
 {
 	public class RadiationProducer : NetworkBehaviour
 	{
-		public float OutPuttingRadiation = 0;
+		[FormerlySerializedAs("OutPuttingRadiation")]
+		public float InitialOutPuttingRadiation = 0;
+
+		private float OutPuttingRadiation = 0;
 		private Color Colour;
 		[FormerlySerializedAs("color")] public Color InitialColour = new Color(93f / 255f, 202 / 255f, 49 / 255f, 0);
 		[NonSerialized] public int ObjectID = 0;
@@ -37,6 +40,7 @@ namespace Systems.Radiation
 
 		private void Awake()
 		{
+			OutPuttingRadiation = InitialOutPuttingRadiation;
 			InitialStrength = SynchroniseStrength;
 			Colour = InitialColour;
 

@@ -891,9 +891,10 @@ namespace TileManagement
 		public Vector3Int SetTile(Vector3Int position, TileType TileType, string tileName,
 			Matrix4x4? matrixTransform = null,
 			Color? color = null,
-			bool isPlaying = true)
+			bool isPlaying = true
+			, bool MapSaveRecord = false)
 		{
-			return SetTile(position, TileManager.GetTile(TileType, tileName), matrixTransform, color, isPlaying);
+			return SetTile(position, TileManager.GetTile(TileType, tileName), matrixTransform, color, isPlaying, MapSaveRecord : MapSaveRecord);
 		}
 
 		private const int MaxDepth = 50;
@@ -904,11 +905,22 @@ namespace TileManagement
 		{
 			if (MapSaveRecord)
 			{
-				TileSaveRollback TileSaveRollback = new TileSaveRollback();
-				TileSaveRollback.LocalPosition = position;
-				TileSaveRollback.ChangedToLayerTile = tile;
-				TileSaveRollback.InitialLayerTile = GetTile(position, tile.LayerType);
-				TileSaveRollbacks[position] = TileSaveRollback;
+				if (TileSaveRollbacks.ContainsKey(position))
+				{
+					TileSaveRollbacks[position].ChangedToLayerTile = tile;
+				}
+				else
+				{
+					TileSaveRollback TileSaveRollback = new TileSaveRollback();
+					TileSaveRollback.LocalPosition = position;
+					TileSaveRollback.ChangedToLayerTile = tile;
+					TileSaveRollback.InitialLayerTile = GetTile(position, tile.LayerType);
+
+
+					TileSaveRollbacks[position] = TileSaveRollback;
+				}
+
+
 			}
 
 			if (Layers.TryGetValue(tile.LayerType, out var layer))

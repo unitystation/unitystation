@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using InGameGizmos;
 using Items;
@@ -9,6 +10,7 @@ using TileMap.Behaviours;
 using Tiles;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Random = UnityEngine.Random;
 
 namespace Systems.Scenes
 {
@@ -24,7 +26,7 @@ namespace Systems.Scenes
 
 		public int deathLimit;
 
-		public int numR;
+		[NonSerialized] public int numR;
 
 		private int[,] terrainMap;
 		[SyncVar]
