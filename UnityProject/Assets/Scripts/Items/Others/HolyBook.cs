@@ -36,6 +36,7 @@ namespace Items
 		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+			if (interaction.TargetObject == gameObject) return false;
 
 			//Is melee on cooldown?
 			if (Cooldowns.IsOn(interaction, CooldownID.Asset(CommonCooldowns.Instance.Melee,side ))) return false;
