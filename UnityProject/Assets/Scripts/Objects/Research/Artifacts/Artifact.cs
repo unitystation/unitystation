@@ -1,4 +1,5 @@
-﻿using Weapons.Projectiles.Behaviours;
+﻿using System;
+using Weapons.Projectiles.Behaviours;
 using System.Collections;
 using System.Collections.Generic;
 using Core;
@@ -12,6 +13,7 @@ using Mirror;
 using Systems.Atmospherics;
 using ScriptableObjects.Atmospherics;
 using CustomInspectors;
+using SecureStuff;
 using Systems.Cargo;
 using Random = UnityEngine.Random;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
@@ -58,7 +60,9 @@ namespace Objects.Research
 		public float DamageEffectTimeout = 5f;
 		private float lastActivationTimeDamage;
 
-		public bool isDormant = true;
+
+		public bool InitialIsDormant = true;
+	 	[NonSerialized] public bool isDormant = true;
 		public ItemTrait DormantTrigger;
 
 		private int samplesTaken = 0;
@@ -66,7 +70,7 @@ namespace Objects.Research
 
 		private Coroutine animationCoroutine = null;
 
-		[SyncVar] public ArtifactData artifactData = new ArtifactData();
+		[SyncVar, PlayModeOnly] public ArtifactData artifactData = new ArtifactData();
 
 		public ArtifactDataSO ArtifactDataSO;
 
@@ -84,7 +88,7 @@ namespace Objects.Research
 		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
 
 
-		[SyncVar] public string ID = "T376";
+		[SyncVar, PlayModeOnly] public string ID = "T376";
 
 
 		public bool UnderTimeoutTouch
@@ -109,6 +113,7 @@ namespace Objects.Research
 
 		private void Awake()
 		{
+			isDormant = InitialIsDormant;
 			integrity = GetComponent<Integrity>();
 			radiationProducer = GetComponent<RadiationProducer>();
 			objectPhysics = GetComponent<UniversalObjectPhysics>();

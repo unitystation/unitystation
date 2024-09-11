@@ -73,7 +73,12 @@ namespace Light2D
 
         protected virtual void OnEnable()
         {
-	        Color = InitialColour;
+	        if (Color == Color.white)
+	        {
+		        Color = InitialColour;
+	        }
+
+
 	        if (Application.isPlaying == false)
 	        {
 		        TryReleaseMesh();

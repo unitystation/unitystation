@@ -13,7 +13,8 @@ namespace SecureStuff
 		Config,
 		Data,
 		Logs,
-		AddressableCatalogues
+		AddressableCatalogues,
+		Maps
 	}
 
 	public static class AccessFile
@@ -75,6 +76,7 @@ namespace SecureStuff
 						FolderType.Config => ".txt",
 						FolderType.Data => ".Data",
 						FolderType.Logs => ".log",
+						FolderType.Maps => ".json",
 						_ => extension
 					};
 				}

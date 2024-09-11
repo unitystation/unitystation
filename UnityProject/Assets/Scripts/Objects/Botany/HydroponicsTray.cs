@@ -52,7 +52,7 @@ namespace Objects.Botany
 		[SerializeField] private SpriteHandler nutrimentNotifier = null;
 		[SerializeField] private float tickRate = 0;
 
-		[SerializeField] private PlantData plantData;
+		private PlantData plantData;
 		public PlantData PlantData => plantData;
 
 		private readonly List<GameObject> readyProduce = new List<GameObject>();

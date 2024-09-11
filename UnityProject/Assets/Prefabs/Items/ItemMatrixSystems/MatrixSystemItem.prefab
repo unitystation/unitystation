@@ -101,7 +101,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 5ec8b5132283aae4bbc4201788401eba, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 5ec8b5132283aae4bbc4201788401eba,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
@@ -234,6 +235,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f421a72c1fe743b44aff183b76241c34,
         type: 2}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f421a72c1fe743b44aff183b76241c34,
+        type: 2}
     - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: parentID
@@ -282,5 +289,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Pickupable: {fileID: 0}
-  SavedLocalPosition: {x: 0, y: 0, z: 0}
-  InIted: 0

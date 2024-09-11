@@ -6,6 +6,7 @@ using Core.Utils;
 using HealthV2;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Mirror;
+using SecureStuff;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
@@ -18,8 +19,8 @@ namespace Items.Implants.Organs
 		public IPlayerPossessable Itself => this as IPlayerPossessable;
 		private IClientSynchronisedEffect Preimplemented => (IClientSynchronisedEffect)this;
 
-		[SyncVar(hook = nameof(SyncOnPlayer))] public uint OnBodyID;
-		[SyncVar(hook = nameof(SyncPossessingID))] private uint possessingID;
+		[PlayModeOnly,SyncVar(hook = nameof(SyncOnPlayer))] public uint OnBodyID;
+		[PlayModeOnly,SyncVar(hook = nameof(SyncPossessingID))] private uint possessingID;
 
 		[FormerlySerializedAs("DrunkReagent")] [SerializeField] private Reagent drunkReagent;
 		public Reagent DrunkReagent => drunkReagent;

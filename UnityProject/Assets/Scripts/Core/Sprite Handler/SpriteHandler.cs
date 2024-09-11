@@ -1082,9 +1082,7 @@ public class SpriteHandler : MonoBehaviour
 			return;
 		}
 
-		EditorApplication.delayCall -= ValidateLate;
-		EditorApplication.delayCall += ValidateLate;
-
+		ValidateLate();
 	}
 
 	public void ValidateLate()
@@ -1092,7 +1090,7 @@ public class SpriteHandler : MonoBehaviour
 		// ValidateLate might be called after this object is already destroyed.
 		if (this == null || Application.isPlaying) return;
 		if (Selection.activeGameObject == null) return;
-		if (Selection.activeGameObject.name != this.gameObject.transform.parent.gameObject.name) return;
+		if (Selection.activeGameObject.name != this.gameObject.transform.parent.gameObject.name && Selection.activeGameObject != this.gameObject ) return;
 
 		PresentSpriteSet = InitialPresentSpriteSet;
 		PushTexture();

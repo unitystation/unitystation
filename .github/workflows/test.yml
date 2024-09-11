@@ -86,7 +86,7 @@ jobs:
       
       - name: Upload Raw Test Results
         if: always() && steps.tests.outcome != 'success'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: Raw Test Results
           path: testReports/${{ matrix.targetPlatform }}/editmode-results.xml

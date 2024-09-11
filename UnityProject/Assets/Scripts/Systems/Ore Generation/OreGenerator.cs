@@ -52,6 +52,7 @@ public class OreGenerator : ItemMatrixSystemInit
 
 	public void RunOreGenerator()
 	{
+		if (isServer == false) return;
 		GeneratedLocations.Clear();
 		wallTilemap = MetaTileMap.Layers[LayerType.Walls].GetComponent<Tilemap>();
 
@@ -76,7 +77,7 @@ public class OreGenerator : ItemMatrixSystemInit
 		}
 
 		//TODO move BoundsInt bounds = wallTilemap.cellBounds to metaTileMap
-		BoundsInt bounds = wallTilemap.cellBounds;
+		BetterBoundsInt bounds = MetaTileMap.GetLocalBounds();
 		List<Vector3Int> miningTiles = new List<Vector3Int>();
 
 		for (int n = bounds.xMin; n < bounds.xMax; n++)

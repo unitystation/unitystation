@@ -1763,6 +1763,10 @@ namespace SecureStuff
 						{
 							PrefabIHaveForeverID = (PrefabDefault as GameObject)?.GetComponent<IHaveForeverID>();
 						}
+						catch (UnityEngine.UnassignedReferenceException ex)
+						{
+							//yeah that's what we're checking silly
+						}
 						catch (NullReferenceException ex)
 						{
 							//IDK Apparently accessing this can Cause an error Even though it's technically access before I don't know it's weird

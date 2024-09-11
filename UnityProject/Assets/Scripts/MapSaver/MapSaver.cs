@@ -90,6 +90,7 @@ namespace MapSaver
 			public CompactObjectMapData CompactObjectMapData;
 			public List<GameGizmoModel> PreviewGizmos = new List<GameGizmoModel>();
 
+
 			private Vector3? Offset00Cash;
 
 			public Vector3 Get00Victor(bool Cash = false)
@@ -296,9 +297,10 @@ namespace MapSaver
 
 		public class CompactObjectMapData
 		{
-			public string Ver = "1.1.1";
+			public string Ver = "1.2.0";
 			//1.1.0 Added support for Dictionaries and change syntax for Removed Elements
 			//1.1.1 Lists now are specified in reversed order to Handle removed elements properly
+			//1.2.0 Added support for Sub-gameobjects to have rotation scale and offset
 			public List<string> CommonPrefabs = new List<string>();
 
 			public List<PrefabData> PrefabData;
@@ -331,7 +333,7 @@ namespace MapSaver
 			public string Name;
 			public bool Removed = false;
 			public uint ChildLocation;
-
+			public string LocalPRS;
 			[DefaultValue("0")] public string ID = "0"; //Child index, Child index,  Child index, NOTE Always has a Zero for root
 
 			public List<ClassData> ClassDatas = new List<ClassData>();
@@ -1379,6 +1381,11 @@ namespace MapSaver
 			{
 				foreach (var EtherealThing in MetaTileMap.matrix.MetaDataLayer.EtherealThings)
 				{
+					if (EtherealThing == null)
+					{
+						Loggy.LogError("oh....");
+					}
+
 					if (UseBoundary)
 					{
 						var pos1 = EtherealThing.transform.localPosition.RoundToInt();
@@ -1511,9 +1518,14 @@ namespace MapSaver
 			if (Object.transform.localScale != Vector3.one)
 			{
 				var Angles = Object.transform.localScale;
-				data = data + Math.Round(Angles.x, 2) + "↔" +
-				       Math.Round(Angles.y, 2) + "↔" +
-				       Math.Round(Angles.z, 2) + "↔";
+				var addString = Math.Round(Angles.x, 2) + "↔" +
+				                      Math.Round(Angles.y, 2) + "↔" +
+				                      Math.Round(Angles.z, 2) + "↔";
+
+				if (addString != "1↔1↔1↔") //0.0001 Resulting in it adding 1↔1↔1↔ But then next Save it removing it, This fixes that
+				{
+					data = data + addString;
+				}
 			}
 
 
@@ -1626,10 +1638,34 @@ namespace MapSaver
 			individualObject.ID =
 				ID; //NOTE The zero is technically redundant for the First layer, But it's built into the saver
 
-			if (ID != "0" && PrefabEquivalent?.name != gameObject.name)
+			if (ID != "0")
 			{
-				individualObject.Name = gameObject.name;
+				if (PrefabEquivalent?.name != gameObject.name)
+				{
+					individualObject.Name = gameObject.name;
+				}
+
+				if (PrefabEquivalent != null)
+				{
+					if(PrefabEquivalent.transform.localPosition != gameObject.transform.localPosition
+					    || PrefabEquivalent.transform.localScale != gameObject.transform.localScale
+					    || PrefabEquivalent.transform.localRotation.eulerAngles != gameObject.transform.localRotation.eulerAngles)
+					{
+						individualObject.LocalPRS = PRSToString(gameObject, null, false);
+					}
+				}
+				else
+				{
+					if (Vector3.zero != gameObject.transform.localPosition
+					    || Vector3.one != gameObject.transform.localScale
+					    || Vector3.zero !=
+					    gameObject.transform.localRotation.eulerAngles)
+					{
+						individualObject.LocalPRS = PRSToString(gameObject, null, false);
+					}
+				}
 			}
+
 
 			//Compare classes here
 			FillOutClassData(AllComponentsOnObject, AllGameObjectOnObject, Compact, PrefabData, individualObject,
@@ -1751,6 +1787,7 @@ namespace MapSaver
 							break;
 						}
 					}
+					continue;
 				}
 
 
@@ -1760,7 +1797,11 @@ namespace MapSaver
 					PrefabMono = PrefabComponents[PrefabIndex];
 				}
 
-				var gameObjectMono = gameObjectComponents[GameObjectIndex];
+				Component gameObjectMono = null;
+
+				gameObjectMono = gameObjectComponents[GameObjectIndex];
+
+
 
 				if (gameObjectMono == null)
 				{
