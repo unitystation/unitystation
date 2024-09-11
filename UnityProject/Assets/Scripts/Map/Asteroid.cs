@@ -19,7 +19,7 @@ namespace Map
 	*/
 
 
-		private void Start()
+		public override void Start()
 		{
 			base.Start();
 			if (CustomNetworkManager.IsServer)
@@ -62,6 +62,9 @@ namespace Map
 		{
 			yield return WaitFor.EndOfFrame;
 			SpawnNearStation();
+			yield return null;
+			yield return null;
+			yield return null;
 			RandomRotation();
 		}
 
