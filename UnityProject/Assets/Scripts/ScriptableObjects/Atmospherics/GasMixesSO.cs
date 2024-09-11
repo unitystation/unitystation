@@ -6,7 +6,7 @@ using UnityEngine;
 namespace ScriptableObjects.Atmospherics
 {
 	[CreateAssetMenu(fileName = "GasMixesSO", menuName = "ScriptableObjects/Atmos/GasMixesSO")]
-	public class GasMixesSO : ScriptableObject
+	public class GasMixesSO : SOTracker
 	{
 		[SerializeField]
 		private GasMix gasMix = new GasMix();

@@ -1,6 +1,6 @@
 {
   "Ver": "1.0.0",
-  "MapName": "Asteroid_Bar",
+  "MapName": "Ruin1",
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
@@ -428,9 +428,6 @@
             "Key": "X5Y12",
             "Value": [
               {
-                "Tel": "PlatingScorched"
-              },
-              {
                 "Tel": "Plating"
               }
             ]
@@ -819,9 +816,6 @@
             "Key": "X8Y10",
             "Value": [
               {
-                "Tel": "PlatingScorched"
-              },
-              {
                 "Tel": "Plating"
               }
             ]
@@ -1109,9 +1103,6 @@
           {
             "Key": "X10Y10",
             "Value": [
-              {
-                "Tel": "PlatingScorched"
-              },
               {
                 "Tel": "Plating"
               }
@@ -1565,9 +1556,6 @@
           {
             "Key": "X13Y9",
             "Value": [
-              {
-                "Tel": "PlatingScorched"
-              },
               {
                 "Tel": "Plating"
               }
@@ -2358,6 +2346,12 @@
             "LocalPRS": "0┼0┼0┼"
           },
           {
+            "GitID": "e02a5954be8d94b4bbaaa0d63d813c71_0┼0┼0┼",
+            "PrefabID": "e02a5954be8d94b4bbaaa0d63d813c71",
+            "Name": "AI_ShouldNavigateAround",
+            "LocalPRS": "0┼0┼0┼"
+          },
+          {
             "GitID": "74f1764f9ae8c6146a627626bfa4c6c0_3┼17┼0┼",
             "PrefabID": "74f1764f9ae8c6146a627626bfa4c6c0",
             "Name": "BarDrobe",
@@ -3004,7 +2998,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "-425.5,371.5,0",
+          "Pos": "-410.5,383.5,0",
           "Size": "17,21,0"
         }
       ]

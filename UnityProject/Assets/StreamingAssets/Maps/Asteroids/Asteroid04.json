@@ -52171,6 +52171,35 @@
             "LocalPRS": "0┼0┼0┼"
           },
           {
+            "GitID": "86f1fa4a01e7f0142a6e2ce35cce0930_0┼0┼0┼",
+            "PrefabID": "86f1fa4a01e7f0142a6e2ce35cce0930",
+            "Name": "MatrixGasSettings",
+            "LocalPRS": "0┼0┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "MatrixGasSettings@0",
+                  "Data": [
+                    {
+                      "Name": "defaultRoomGasMixOverride",
+                      "Data": "Space"
+                    },
+                    {
+                      "Name": "overriderTileSpawnWithNoAir",
+                      "Data": "True"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "e02a5954be8d94b4bbaaa0d63d813c71_0┼0┼0┼",
+            "PrefabID": "e02a5954be8d94b4bbaaa0d63d813c71",
+            "Name": "AI_ShouldNavigateAround",
+            "LocalPRS": "0┼0┼0┼"
+          },
+          {
             "GitID": "8fb9b82aab871a54fb9bdb7e4a985821_16┼28┼0┼",
             "PrefabID": "8fb9b82aab871a54fb9bdb7e4a985821",
             "Name": "CarpSpawnPoint (6)",

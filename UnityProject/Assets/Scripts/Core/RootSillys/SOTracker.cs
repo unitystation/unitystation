@@ -45,6 +45,14 @@ namespace ScriptableObjects
 			}
 #endif
 		}
+		[NaughtyAttributes.Button("Assign By Name")]
+		public void ForceSetIDToName() //Assuming it's a prefab Variant
+		{
+#if UNITY_EDITOR
+			foreverID = name;
+			EditorUtility.SetDirty(this);
+#endif
+		}
 
 		[NaughtyAttributes.Button("Assign random ID")]
 		public void ForceSetID() //Assuming it's a prefab Variant

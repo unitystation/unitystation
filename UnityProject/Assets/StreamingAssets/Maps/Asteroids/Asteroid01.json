@@ -9848,6 +9848,35 @@
             }
           },
           {
+            "GitID": "86f1fa4a01e7f0142a6e2ce35cce0930_0┼0┼0┼",
+            "PrefabID": "86f1fa4a01e7f0142a6e2ce35cce0930",
+            "Name": "MatrixGasSettings",
+            "LocalPRS": "0┼0┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "MatrixGasSettings@0",
+                  "Data": [
+                    {
+                      "Name": "defaultRoomGasMixOverride",
+                      "Data": "Space"
+                    },
+                    {
+                      "Name": "overriderTileSpawnWithNoAir",
+                      "Data": "True"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "e02a5954be8d94b4bbaaa0d63d813c71_0┼0┼0┼",
+            "PrefabID": "e02a5954be8d94b4bbaaa0d63d813c71",
+            "Name": "AI_ShouldNavigateAround",
+            "LocalPRS": "0┼0┼0┼"
+          },
+          {
             "GitID": "immadirtpilewhipeeee_3┼22┼0┼",
             "PrefabID": "immadirtpilewhipeeee",
             "Name": "DirtPile (1)",
@@ -9939,15 +9968,6 @@
             "LocalPRS": "21.9┼15.58┼0┼",
             "Object": {
               "ClassDatas": [
-                {
-                  "ClassID": "NetworkIdentity@0",
-                  "Data": [
-                    {
-                      "Name": "_assetId",
-                      "Data": "63326186"
-                    }
-                  ]
-                },
                 {
                   "ClassID": "Asteroid@0",
                   "Data": [

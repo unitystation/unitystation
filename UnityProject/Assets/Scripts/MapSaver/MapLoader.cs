@@ -482,6 +482,9 @@ namespace MapSaver
 					aaMatrix = Matrix.Matrix;
 				}
 
+
+
+
 				//TODO MapSaver.CodeClass.ThisCodeClass?? Clearing?
 				MapSaver.CompactObjectMapData data = null;
 				if (MatrixData.CompactTileMapData != null)
