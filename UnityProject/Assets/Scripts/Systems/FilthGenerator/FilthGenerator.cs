@@ -23,11 +23,13 @@ namespace Systems.FilthGenerator
 
 		[SerializeField] private bool generateFilthReagent = true;
 		[SerializeField, Range(0f,100f)]
-		private float filthDensityPercentage = 4f;
+		private float FilthDensityPercentage = 6f; //What the station should look like with 50 players
 		[SerializeField, Range(0f,100f)]
-		private float filthReagentChance = 35f;
-		[SerializeField, Range(0f,100f)]
-		private float maxFilthPercentageForMatrix = 35f;
+		private float FilthReagentChance = 40f;
+
+		[SerializeField, Range(0f,100f)] private float NewMaxFilthPercentageForMatrix = 35f;
+		[SerializeField, Range(0f,100f)] private float NewMinFilthPercentageForMatrix = 2.5f;
+
 
 		[SerializeField] private List<GameObject> filthDecalsAndObjects = new List<GameObject>();
 
@@ -77,9 +79,18 @@ namespace Systems.FilthGenerator
 
 		private void SpawnOnTiles(ref List<Vector3Int> emptyTiled)
 		{
-			int numberOfPlayers = Mathf.Max(PlayerList.Instance.AllPlayers.Count, 10);
-			float scaledDensityPercentage = filthDensityPercentage / (numberOfPlayers == 0 ? 1 : numberOfPlayers) / 4f;
-			int numberOfTiles = (int)Mathf.Clamp(emptyTiled.Count * 0.01f * scaledDensityPercentage, 0.5f, maxFilthPercentageForMatrix);
+			int numberOfPlayers = Mathf.Max(PlayerList.Instance.AllPlayers.Count, 5);
+
+			float scaledDensityPercentage = FilthDensityPercentage * ((numberOfPlayers) / 25f);
+			
+			float MaxFilth = (NewMaxFilthPercentageForMatrix / 100f);
+			float minFilth =  (NewMinFilthPercentageForMatrix / 100f);
+			float CalculatorFilthy = (scaledDensityPercentage / 100f);
+
+
+			float ChosenPercentage = Mathf.Clamp(CalculatorFilthy, minFilth , MaxFilth );
+
+			int numberOfTiles = Mathf.RoundToInt(emptyTiled.Count * ChosenPercentage);
 
 			for (int i = 0; i < numberOfTiles; i++)
 			{
@@ -105,7 +116,7 @@ namespace Systems.FilthGenerator
 				return;
 			}
 
-			if (generateFilthReagent && DMMath.Prob(filthReagentChance))
+			if (generateFilthReagent && DMMath.Prob(FilthReagentChance))
 			{
 				ReagentSpawn();
 			}
