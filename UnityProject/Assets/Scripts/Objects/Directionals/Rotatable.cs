@@ -66,8 +66,8 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation90
 	[ShowIf(nameof(SetLayer))] public List<string > Layers = new List<string >(){"Rename me 1", "Rename me 2","Rename me 3", "Rename me 4"};
 
 
-	private SpriteRenderer[] spriteRenderers;
-	private SpriteHandler[] spriteHandlers;
+	private SpriteRenderer[] spriteRenderers = Array.Empty<SpriteRenderer>();
+	private SpriteHandler[] spriteHandlers = Array.Empty<SpriteHandler>();
 
 
 	public bool IsAtmosphericDevice = false;

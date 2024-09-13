@@ -82,7 +82,7 @@ namespace Systems.FilthGenerator
 			int numberOfPlayers = Mathf.Max(PlayerList.Instance.AllPlayers.Count, 5);
 
 			float scaledDensityPercentage = FilthDensityPercentage * ((numberOfPlayers) / 25f);
-			
+
 			float MaxFilth = (NewMaxFilthPercentageForMatrix / 100f);
 			float minFilth =  (NewMinFilthPercentageForMatrix / 100f);
 			float CalculatorFilthy = (scaledDensityPercentage / 100f);

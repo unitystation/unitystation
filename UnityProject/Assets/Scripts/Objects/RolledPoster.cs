@@ -65,18 +65,18 @@ namespace Items
 
 		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side))
+			if (DefaultWillInteract.Default(interaction, side) == false)
 			{
 				return false;
 			}
 
 			var interactableTiles = interaction.TargetObject.GetComponent<InteractableTiles>();
-			if (!interactableTiles)
+			if (interactableTiles == false)
 			{
 				return false;
 			}
 
-			if (!MatrixManager.IsWallAt(interaction.WorldPositionTarget.RoundToInt(), side == NetworkSide.Server))
+			if (MatrixManager.IsWallAt(interaction.WorldPositionTarget.RoundToInt(), side == NetworkSide.Server) == false)
 			{
 				return false;
 			}
@@ -86,11 +86,11 @@ namespace Items
 
 		public void ServerPerformInteraction(PositionalHandApply interaction)
 		{
-			wallPrefab.GetComponent<PosterBehaviour>().posterVariant = posterVariant;
-			wallPrefab.GetComponent<Rotatable>().SetFaceDirectionLocalVector((interaction.Performer.TileLocalPosition() - interaction.TargetPosition).RoundTo2Int());
+			var wall = Spawn.ServerPrefab(wallPrefab, interaction.WorldPositionTarget.RoundToInt(),
+				interaction.Performer.transform.parent).GameObject;
 
-			Spawn.ServerPrefab(wallPrefab, interaction.WorldPositionTarget.RoundToInt(),
-				interaction.Performer.transform.parent);
+			wall.GetComponent<PosterBehaviour>().posterVariant = posterVariant;
+			wall.GetComponent<Rotatable>().SetFaceDirectionLocalVector((interaction.Performer.TileLocalPosition() - interaction.TargetPosition).RoundTo2Int());
 
 			Inventory.ServerDespawn(interaction.HandSlot);
 		}
