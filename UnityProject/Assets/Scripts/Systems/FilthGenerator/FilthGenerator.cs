@@ -28,7 +28,7 @@ namespace Systems.FilthGenerator
 		private float FilthReagentChance = 40f;
 
 		[SerializeField, Range(0f,100f)] private float NewMaxFilthPercentageForMatrix = 35f;
-		[SerializeField, Range(0f,100f)] private float NewMinFilthPercentageForMatrix = 2.5f;
+		[SerializeField, Range(0f,100f)] private float NewMinFilthPercentageForMatrix = 2f;
 
 
 		[SerializeField] private List<GameObject> filthDecalsAndObjects = new List<GameObject>();
