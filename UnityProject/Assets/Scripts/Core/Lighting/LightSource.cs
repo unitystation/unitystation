@@ -339,7 +339,7 @@ namespace Objects.Lighting
 			}
 			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.LightReplacer))
 			{
-				TryReplaceBulb(interaction);
+				tryRemoveLightBulbOtherFunction(interaction);
 			}
 			else if (Validations.HasItemTrait(interaction.HandObject, traitRequired))
 			{
@@ -440,11 +440,10 @@ namespace Objects.Lighting
 						: LightMountState.Off);
 			}
 
-			_ = Despawn.ServerSingle(interaction.HandObject);
+			_ = Despawn.ServerSingle(interaction.HandObject); //TODO probably make it store the lightBulbs
 		}
 
-		public void
-			TryAddBulb(GameObject lightBulb) //NOTE Only used by Advanced light Replacer so Colour is inherited from  Advanced light Replacer
+		public void TryAddBulb(GameObject lightBulb) //NOTE Only used by Advanced light Replacer so Colour is inherited from  Advanced light Replacer
 		{
 			if (MountState != LightMountState.MissingBulb) return;
 
@@ -459,16 +458,27 @@ namespace Objects.Lighting
 						? LightMountState.On
 						: LightMountState.Off);
 			}
-
+			var lightTubeData = lightBulb.GetComponent<LightTubeData>();
+			if (lightTubeData != null)
+			{
+				SetColor(CurrentOnColor, lightTubeData.RegularColour);
+				SyncEmergencyColour(EmergencyColour, lightTubeData.EmergencyColour);
+			}
 			_ = Despawn.ServerSingle(lightBulb);
 		}
 
-		public bool TryReplaceBulb(HandApply interaction)
+		public GameObject tryRemoveLightBulbOtherFunction(HandApply interaction)
 		{
-			if (MountState == LightMountState.MissingBulb) return false;
-			Spawn.ServerPrefab(itemInMount, interaction.Performer.AssumedWorldPosServer());
+			if (MountState == LightMountState.MissingBulb) return null;
+			var spawnedItem= Spawn.ServerPrefab(itemInMount, interaction.Performer.AssumedWorldPosServer()).GameObject;
+			var lightTubeData = spawnedItem.GetComponent<LightTubeData>();
+			if (lightTubeData != null)
+			{
+				lightTubeData.RegularColour = CurrentOnColor;
+				lightTubeData.EmergencyColour = EmergencyColour;
+			}
 			ServerChangeLightState(LightMountState.MissingBulb);
-			return true;
+			return spawnedItem;
 		}
 
 		#endregion

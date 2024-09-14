@@ -18,6 +18,16 @@ namespace Items.Tool
 
 		[SerializeField] public bool IsAdvanced = true;
 
+		public bool BulbsCanBeRecycled = true;
+
+		public int BulbsRecycled = 0;
+
+		public ItemTrait BrokenTrait;
+
+		public GameObject LightBulb;
+		public GameObject LightTube;
+
+
 		private void Awake()
 		{
 			if (storage == null) storage = GetComponent<ItemStorage>();
@@ -26,6 +36,21 @@ namespace Items.Tool
 
 		public void ServerPerformInteraction(InventoryApply interaction)
 		{
+
+
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Broken))
+			{
+				if (BulbsCanBeRecycled)
+				{
+					//Presume bulb and tube recycle for the same amount
+					BulbsRecycled++;
+					//broken
+					_ = Despawn.ServerSingle(interaction.UsedObject);
+				}
+
+				return; //Makes it simpler
+			}
+
 			storage.ServerTryTransferFrom(interaction.FromSlot);
 			Chat.AddActionMsgToChat(interaction.Performer,
 				$"You watch as the tool automatically pulls out a mechanical arm that slots in the {interaction.TargetObject.ExpensiveName()}",
@@ -95,23 +120,79 @@ namespace Items.Tool
 			else
 			{
 				var target = storage.GetTopOccupiedIndexedSlot();
-				if (target == null)
+				var OldBulb = source.tryRemoveLightBulbOtherFunction(interaction); //Drops lightbulb at Feet
+
+				if (OldBulb != null)
 				{
-					source.TryReplaceBulb(interaction);
-					return;
+					var OldBulbIA =  OldBulb.GetComponent<ItemAttributesV2>();
+					if (OldBulbIA.HasTrait( CommonTraits.Instance.Broken) && BulbsCanBeRecycled)
+					{
+						//Presume bulb and tube recycle for the same amount
+						BulbsRecycled++;
+						//broken
+						_ = Despawn.ServerSingle(OldBulb);
+					}
+					else
+					{
+						var slot = storage.GetNextFreeIndexedSlot();
+						Inventory.ServerAdd(OldBulb, slot);
+					}
 				}
+
+
+				if (target?.ItemObject == null)
+				{
+					if (BulbsRecycled > 2)
+					{
+						if (target == null)
+						{
+							target = storage.GetNextFreeIndexedSlot();
+							if (target == null)
+							{
+								return;
+							}
+						}
+
+						BulbsRecycled -= 3;
+
+						if (source.TraitRequired == CommonTraits.Instance.LightBulb)//yes i know Hardcoded but it's only two bulbs currently, If greater than 4 make something fancy
+						{
+							var Bulb = Spawn.ServerPrefab(LightBulb).GameObject;
+							Inventory.ServerAdd(Bulb, target);
+						}
+						else
+						{
+							var Tube = Spawn.ServerPrefab(LightTube).GameObject;
+							Inventory.ServerAdd(Tube, target);
+						}
+
+					}
+					else
+					{
+						return;
+					}
+				}
+
 				if (target.ItemAttributes.GetTraits().Contains(source.TraitRequired) == false) return;
-				source.TryReplaceBulb(interaction);
-				AddLightToFixture(target, source, interaction);
+
+				if (IsAdvanced)
+				{
+					var lightTubeData = target.ItemObject.GetComponent<LightTubeData>();
+					if (lightTubeData != null)
+					{
+						lightTubeData.RegularColour = currentColor;
+					}
+				}
+
+
+				var ToPutIn = target.ItemObject;
+				target.ItemStorage.ServerTryRemove(target.ItemObject, false, interaction.PerformerPlayerScript.AssumedWorldPos);
+				source.TryAddBulb(ToPutIn);
+
 				Chat.AddExamineMsg(interaction.Performer, "You replace the light-bulb with another one.");
 			}
 		}
 
-		private void AddLightToFixture(ItemSlot target, LightSource source, HandApply interaction)
-		{
-			target.ItemStorage.ServerTryRemove(target.ItemObject, false, interaction.PerformerPlayerScript.AssumedWorldPos);
-			source.TryAddBulb(target.ItemObject); //NOTE Only used by Advanced light Replacer so Colour is inherited from  Advanced light Replacer
-		}
 
 		[TargetRpc]
 		private void LightTunerWindowOpen(NetworkConnection target)
