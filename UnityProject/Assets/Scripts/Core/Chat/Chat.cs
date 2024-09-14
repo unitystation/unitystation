@@ -314,7 +314,7 @@ public partial class Chat : MonoBehaviour
 
 	private static void CheckForChatInfluncersInsidePlayerStorage(ref ChatEvent chatEvent, ref PlayerScript player)
 	{
-		if (player.IsDeadOrGhost == false) return;
+		if (player.IsDeadOrGhost) return;
 		//Check if there's any items on the player that affects their chat (e.g : headphones, muzzles, etc)
 		foreach (var slots in player.DynamicItemStorage.ServerContents.Values)
 		{
