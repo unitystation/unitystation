@@ -1,14 +1,19 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
 using Chemistry.Components;
 using UnityEngine;
 using Mirror;
+using ScriptableObjects.Atmospherics;
 using Systems.Atmospherics;
+using Systems.Clothing;
 
 namespace Items
 {
 	/// <summary>
 	/// Base class for smokable cigarette
 	/// </summary>
+	[RequireComponent(typeof(ClothingV2))]
+	[RequireComponent(typeof(FireSource))]
+	[RequireComponent(typeof(Pickupable))]
 	public class Cigarette : NetworkBehaviour, IServerDespawn, ICheckedInteractable<HandApply>,
 		ICheckedInteractable<InventoryApply>, IServerInventoryMove
 	{
@@ -29,13 +34,16 @@ namespace Items
 
 		[SyncVar] private bool isLit = false;
 		[SerializeField] private ReagentContainer reagentContainer = null;
+		[SerializeField] private List<GasSO> gasProduct = new List<GasSO>();
 		private RegisterPlayer smoker;
+		private ClothingV2 clothing;
 
 		private void Awake()
 		{
 			pickupable = GetComponent<Pickupable>();
 			fireSource = GetComponent<FireSource>();
 			reagentContainer ??= GetComponent<ReagentContainer>();
+			clothing = GetComponent<ClothingV2>();
 		}
 
 		public void OnDespawnServer(DespawnInfo info)
@@ -115,13 +123,13 @@ namespace Items
 			{
 				UpdateManager.Add(CigBurnLogic, smokeTimeSeconds);
 			}
-
 			isLit = isLitNow;
+			clothing.ChangeSprite(1);
 		}
 
 		private bool TryLightByObject(GameObject usedObject)
 		{
-			if (!isLit)
+			if (isLit == false)
 			{
 				// check if player tries to lit cigarette with something
 				if (usedObject != null)
@@ -169,6 +177,18 @@ namespace Items
 			{
 				smoker.PlayerScript.playerHealth.reagentPoolSystem.BloodPool.Add(burnReagent);
 				Chat.AddExamineMsg(smoker.PlayerScript.gameObject, $"You take a drag out of the {gameObject.ExpensiveName()}");
+			}
+			if (gasProduct.Count > 0)
+			{
+				var tile = gameObject.RegisterTile();
+				if (tile == null) return;
+				var gasNode = tile.Matrix.GetMetaDataNode(tile.LocalPositionServer, false);
+				if (gasNode == null) return;
+				var node = gasNode.GasMixLocal;
+				foreach (var gas in gasProduct)
+				{
+					node.AddGas(gas, burnReagent.Total, Kelvin.FromC(2f));
+				}
 			}
 			if (reagentContainer.ReagentMixTotal.Approx(0)) Burn();
 		}
