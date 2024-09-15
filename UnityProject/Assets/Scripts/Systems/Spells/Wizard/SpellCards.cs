@@ -3,17 +3,13 @@ using System.Collections.Generic;
 using Systems.Spells;
 using UnityEngine;
 
-public class SpellCards : ProjectileSpell
+namespace Systems.Spells.Wizard
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+	public class SpellCards : ProjectileSpell
+	{
+		public override void UpgradeTier()
+		{
+			ProjectilesPerUse += 2;
+		}
+	}
 }

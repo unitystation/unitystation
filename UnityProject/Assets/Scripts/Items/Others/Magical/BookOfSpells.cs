@@ -85,15 +85,21 @@ namespace Items.Magical
 			Chat.AddChatMsgToChatServer(player, spellEntry.Incantation, ChatChannel.Local, Loudness.SCREAMING);
 
 			Spell spellInstance = player.Mind.GetSpellInstance(spellEntry.Spell);
+			Chat.AddChatMsgToChatServer(player, "1", ChatChannel.Local, Loudness.SCREAMING);
 
 			if (spellInstance != null)
 			{
+				Chat.AddChatMsgToChatServer(player, "2", ChatChannel.Local, Loudness.SCREAMING);
 				spellInstance.UpgradeTier();
+				Chat.AddChatMsgToChatServer(player, "3", ChatChannel.Local, Loudness.SCREAMING);
 			}
 			else
 			{
+				Chat.AddChatMsgToChatServer(player, "4", ChatChannel.Local, Loudness.SCREAMING);
 				Spell spell = spellEntry.Spell.AddToPlayer(player.Script.Mind);
+				Chat.AddChatMsgToChatServer(player, "5", ChatChannel.Local, Loudness.SCREAMING);
 				player.Mind.AddSpell(spell);
+				Chat.AddChatMsgToChatServer(player, "6", ChatChannel.Local, Loudness.SCREAMING); //this fully runs
 			}
 		}
 

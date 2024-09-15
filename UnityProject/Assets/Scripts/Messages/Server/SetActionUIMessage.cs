@@ -7,6 +7,9 @@ using ScriptableObjects.Systems.Spells;
 using UI.Core.Action;
 using Changeling;
 using Logs;
+using AdminTools;
+using Messages.Server.AdminTools;
+using Core.Admin.Logs;
 
 namespace Messages.Server
 {
@@ -106,7 +109,10 @@ namespace Messages.Server
 			else
 			{
 				// Action pre-placed on a networked object
-				LoadNetworkObject(msg.NetObject);
+				if(!LoadNetworkObject(msg.NetObject))
+					{
+						Loggy.LogError($"1 {msg.NetObject} 2 {msg}");
+					}
 				var actions = new Component[]{};
 				try
 				{

@@ -38,14 +38,21 @@ namespace Systems.Spells
 		private int chargesLeft = 0;
 
 		/// <summary>
-		/// How many charges do we have left for our current cast, meaning we can use the spell x more times before it actually goes on cooldown
+		/// How many times can we cast the spell before it goes onto cooldown
 		/// </summary>
-		private int castChargesLeft = 0;
+		[SerializeField]
+		public int CastUses { get; set; } = 1;
+
+		/// <summary>
+		/// How many uses do we have left for our current cast, meaning we can use the spell x more times before it goes on cooldown
+		/// </summary>
+		private int castUsesLeft = default;
 
 		protected Coroutine handle;
 
 		private void Awake()
 		{
+			castUsesLeft = CastUses;
 			if (SpellData == null)
 			{
 				SpellData = SpellList.Instance.InvalidData;
@@ -69,7 +76,11 @@ namespace Systems.Spells
 
 		private void AfterCast(PlayerInfo sentByPlayer)
 		{
-			Cooldowns.TryStartServer(sentByPlayer.Script, SpellData, CooldownTime);
+			castUsesLeft--;
+			if(castUsesLeft <= 0)
+				{
+					Cooldowns.TryStartServer(sentByPlayer.Script, SpellData, CooldownTime);
+				}
 
 			SoundManager.PlayNetworkedAtPos(
 					SpellData.CastSound, sentByPlayer.Script.WorldPos, sourceObj: sentByPlayer.GameObject, global: false);
@@ -101,11 +112,12 @@ namespace Systems.Spells
 			if (SpellData.ChargeType == SpellChargeType.FixedCharges && --ChargesLeft <= 0)
 			{
 				//remove it from spell list
-				UIActionManager.ToggleServer(sentByPlayer.Mind.gameObject, this, false);
+				UIActionManager.ToggleServer(sentByPlayer.Mind.gameObject, this, false); //might want to simply disable it so its possible to regain charges later
 			}
-			else
+			else if(castUsesLeft <= 0)
 			{
 				UIActionManager.SetCooldown(this, CooldownTime, sentByPlayer.GameObject);
+				castUsesLeft = CastUses;
 			}
 		}
 
