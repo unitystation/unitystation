@@ -114,7 +114,7 @@ namespace Managers
 			int randomPosCount = Random.Range(1, 5);
 			for (int i = 0; i <= randomPosCount; i++)
 			{
-				asteroidLocations.Add(gameManager.RandomPositionInSolarSystem());
+				asteroidLocations.Add(GameManager.Instance.SpaceBodies.PickRandom().transform.position);
 			}
 
 			//Shuffle the list:
