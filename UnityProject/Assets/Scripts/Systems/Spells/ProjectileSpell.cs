@@ -40,7 +40,7 @@ namespace Systems.Spells
 
 		private Vector2 CalcProjectileDirections(Vector2 direction, int iteration)
 		{
-			if (iteration == 0 ? RandomSpread == 0 : (!useIterativeSpread && RandomSpread == 0)) return direction;
+			if (iteration == 0 ? RandomSpread == 0.0 : (!useIterativeSpread && RandomSpread == 0.0)) return direction;
 
 			//This is for shotgun spread and similar multi-projectile weapons
 			float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -51,7 +51,7 @@ namespace Systems.Spells
 				angleDeviation = Convert.ToBoolean(iteration & 1) ? angleVariance : -angleVariance;
 			}
 
-			if(RandomSpread != 0)
+			if(RandomSpread != 0.0)
 			{
 				angleDeviation += UnityEngine.Random.Range(RandomSpread, -RandomSpread);
 			}
