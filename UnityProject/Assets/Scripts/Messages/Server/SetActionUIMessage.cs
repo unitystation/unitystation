@@ -189,6 +189,12 @@ namespace Messages.Server
 			// SpellList singleton index
 			else if (action is Spell spellAction)
 			{
+				if (spellAction.SpellData.Index == -1)
+				{
+					Loggy.LogError(
+						"spellAction.SpellData.Index is -1 Make sure you've added your spell to SpellList!!!!!!!!!!!");
+				}
+			
 				NetMessage msg = new NetMessage
 				{
 					spellListIndex = spellAction.SpellData.Index,
