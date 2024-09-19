@@ -1,4 +1,5 @@
 using System.Collections;
+using AddressableReferences;
 using Core;
 using Mirror;
 using UI.Action;
@@ -16,6 +17,9 @@ namespace Items.Others
 		[SerializeField] private float jumpSpeed = 12;
 		[SerializeField] private float jumpAirTime = 0.25f;
 		
+		[SerializeField] private AddressableAudioSource activateSound;
+		[SerializeField] private AddressableAudioSource rechargeSound;
+
 		private bool isJumping;
 
 		private void Awake()
@@ -50,6 +54,7 @@ namespace Items.Others
 			isJumping = true;
 			yield return WaitFor.Seconds(jumpCooldown);
 			isJumping = false;
+			SoundManager.PlayNetworkedAtPos(rechargeSound, gameObject.AssumedWorldPosServer());
 		}
 		
 		//If the player is moving in the air at a speed greater then default human runspeed they get stuned when they land as OnImpact is called
@@ -81,6 +86,7 @@ namespace Items.Others
 				obj.OnImpact.AddListener(OnLanding);
 				obj.NewtonianPush(dir.ToLocalVector2Int(), jumpSpeed, jumpAirTime, 0);
 				Chat.AddActionMsgToChat(playerScript.GameObject, "You dash forwards into the air!", $"{playerScript.GameObject.ExpensiveName()} dashes forwards into the air!");
+				SoundManager.PlayNetworkedAtPos(activateSound, gameObject.AssumedWorldPosServer());
 			}
 		}
 	}

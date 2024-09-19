@@ -264,9 +264,6 @@ namespace MapSaver
 						CustomNetworkManager.Instance = CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab;
 					}
 
-
-
-
 					ReddySpawned = true;
 					Object =  (GameObject)  UnityEditor.PrefabUtility.InstantiatePrefab(
 						CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[PrefabID],
@@ -296,8 +293,12 @@ namespace MapSaver
 				}
 			}
 
+
 			Object.GetComponent<UniversalObjectPhysics>()?.ResetEverything();
-			Object.transform.SetParent(Matrix.MetaTileMap.ObjectLayer.transform);
+			if (Matrix != null)
+			{
+				Object.transform.SetParent(Matrix.MetaTileMap.ObjectLayer.transform);
+			}
 			if (string.IsNullOrEmpty(prefabData.Name) == false)
 			{
 				Object.name = prefabData.Name;
@@ -345,6 +346,12 @@ namespace MapSaver
 			{
 				Object.name = IndividualObject.Name;
 			}
+
+			if (string.IsNullOrEmpty(IndividualObject.LocalPRS) == false)
+			{
+				MapSaver.StringToPRS(Object, IndividualObject.LocalPRS);
+			}
+
 
 			foreach (var classData in IndividualObject.ClassDatas)
 			{
@@ -474,6 +481,9 @@ namespace MapSaver
 				{
 					aaMatrix = Matrix.Matrix;
 				}
+
+
+
 
 				//TODO MapSaver.CodeClass.ThisCodeClass?? Clearing?
 				MapSaver.CompactObjectMapData data = null;

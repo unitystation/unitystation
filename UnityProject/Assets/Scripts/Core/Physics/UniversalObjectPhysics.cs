@@ -321,7 +321,7 @@ namespace Core.Physics
 		{
 			if (SnapToGridOnStart && isServer)
 			{
-				SetTransform(transform.position.RoundToInt(), true);
+				SetTransform(transform.localPosition.RoundToInt(), false);
 			}
 		}
 
@@ -862,7 +862,7 @@ namespace Core.Physics
 
 			IsMoving = false;
 			MoveIsWalking = false;
-			if (registerTile.Matrix != null)
+			if (registerTile?.Matrix != null)
 			{
 				SetLocalTarget = new Vector3WithData()
 				{

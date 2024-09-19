@@ -102,7 +102,7 @@ public class TestMapSaverScript : MonoBehaviour
 		}
 		else
 		{
-			//File.WriteAllText("R:/tests/SaveMapCompare.txt", JsonConvert.SerializeObject(Map, settings ));
+			//File.WriteAllText("J:/SuperFast Programs/ss13 development/unitystation/SaveMapCompare.txt", JsonConvert.SerializeObject(Map, settings ));
 		}
 
 	}

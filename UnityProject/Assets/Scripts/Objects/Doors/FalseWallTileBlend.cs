@@ -45,8 +45,11 @@ namespace Objects.Doors
 			falseWallsPresendtedNear = GetNearFalseWalls(falseWallPosition);
 			UpdateWallSprite();
 			ChangeNearFalseWallSprites(GetNearFalseWalls(falseWallPosition));
+			if (doorAnimator != null)
+			{
+				doorAnimator.AnimationFinished += UpdateMethod;
+			}
 
-			doorAnimator.AnimationFinished += UpdateMethod;
 			tileChangeManager.MetaTileMap.Layers[LayerType.Walls].onTileMapChanges.AddListener(UpdateMethod);
 		}
 
@@ -54,7 +57,11 @@ namespace Objects.Doors
 		{
 			UpdateManager.Remove(CallbackType.LATE_UPDATE, UpdateMethod);
 			falseWallPresented.Remove(falseWallPosition);
-			doorAnimator.AnimationFinished -= UpdateMethod;
+			if (doorAnimator != null)
+			{
+				doorAnimator.AnimationFinished -= UpdateMethod;
+			}
+
 			tileChangeManager.MetaTileMap.Layers[LayerType.Walls].RemoveTile(falseWallPosition);
 		}
 

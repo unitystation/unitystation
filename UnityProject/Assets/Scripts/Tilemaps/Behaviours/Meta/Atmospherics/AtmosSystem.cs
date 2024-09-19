@@ -13,10 +13,10 @@ namespace Systems.Atmospherics
 		public override SystemType SubsystemType => SystemType.AtmosSystem;
 
 		[SerializeField]
-		private GasMixesSO defaultRoomGasMixOverride = null;
+		public GasMixesSO defaultRoomGasMixOverride = null;
 
 		[SerializeField]
-		private bool overriderTileSpawnWithNoAir;
+		public bool overriderTileSpawnWithNoAir;
 
 		private Dictionary<int, RoomGasSetter> toSetRoom = new Dictionary<int, RoomGasSetter>();
 

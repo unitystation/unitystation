@@ -12,6 +12,8 @@ using Tilemaps.Behaviours.Layers;
 using Light2D;
 using HealthV2;
 using Logs;
+using Messages.Client.NewPlayer;
+using Player;
 using Systems.Atmospherics;
 using Systems.Electricity;
 using Systems.Pipes;
@@ -59,7 +61,7 @@ public class Matrix : MonoBehaviour
 
 	public bool IsSpaceMatrix;
 	public bool IsMainStation;
-	public bool IsLavaLand;
+	public bool IsLavaLand => transform.parent.name == "LavaLand";
 
 	public bool IsMovable => true;
 

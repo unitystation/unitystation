@@ -61,7 +61,6 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	public Dictionary<Collider2D, Tilemap> wallsTileMaps = new Dictionary<Collider2D, Tilemap>();
 
 	public Matrix spaceMatrix { get; private set; }
-	public Matrix lavaLandMatrix { get; private set; }
 	private Matrix mainStationMatrix = null;
 
 	public static MatrixInfo MainStationMatrix
@@ -327,18 +326,6 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			else
 			{
 				Loggy.Log("There is already a main station matrix registered", Category.Matrix);
-			}
-		}
-
-		if (matrix.IsLavaLand)
-		{
-			if (lavaLandMatrix == null)
-			{
-				lavaLandMatrix = matrix;
-			}
-			else
-			{
-				Loggy.Log("There is already a lava land matrix registered", Category.Matrix);
 			}
 		}
 

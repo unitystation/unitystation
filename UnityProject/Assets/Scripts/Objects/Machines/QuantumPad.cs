@@ -112,22 +112,22 @@ namespace Objects.Science
 
 			if (IsLavaLandBase1)
 			{
-				LavaLandManager.Instance.LavaLandBase1 = this;
+				LavaLandManager.LavaLandBase1 = this;
 			}
 
 			if (IsLavaLandBase2)
 			{
-				LavaLandManager.Instance.LavaLandBase2 = this;
+				LavaLandManager.LavaLandBase2 = this;
 			}
 
 			if (IsLavaLandBase1Connector)
 			{
-				LavaLandManager.Instance.LavaLandBase1Connector = this;
+				LavaLandManager.LavaLandBase1Connector = this;
 			}
 
 			if (IsLavaLandBase2Connector)
 			{
-				LavaLandManager.Instance.LavaLandBase2Connector = this;
+				LavaLandManager.LavaLandBase2Connector = this;
 			}
 
 			spriteHandler.OrNull()?.SetCatalogueIndexSprite(0);

@@ -30,6 +30,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: fe3c0fd90fa84e849bfb70e9005a845c,
         type: 2}
+    - target: {fileID: 662008806780841884, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: fe3c0fd90fa84e849bfb70e9005a845c,
+        type: 2}
     - target: {fileID: 2153160782301408824, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_IsActive
@@ -71,6 +77,18 @@ PrefabInstance:
     - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 6fc2028aaacd7f548b2925a9801502dd,
+        type: 2}
+    - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: d8207bd9c629e0f4bbef0855255e82c8,
+        type: 2}
+    - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: 6fc2028aaacd7f548b2925a9801502dd,
         type: 2}
@@ -171,6 +189,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a37f4b44b6ace3d4d93040981a8c9622,
         type: 2}
+    - target: {fileID: 7536533288437052137, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a37f4b44b6ace3d4d93040981a8c9622,
+        type: 2}
     - target: {fileID: 8546303518654307076, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_IsActive
@@ -224,6 +248,7 @@ MonoBehaviour:
   AllowSuicide: 0
   pinPrefab: {fileID: 6004521592186936485, guid: 0c0328cbf94ffe648a0903cfc375ab91,
     type: 3}
+  useFiringPin: 1
   allowPinSwap: 1
   FireDelay: 0
   isSuppressed: 0
@@ -231,9 +256,9 @@ MonoBehaviour:
   MaxRecoilVariance: 0
   ProjectileVelocity: 20
   CameraRecoilConfig:
-    Distance: 0
-    RecoilDuration: 0
-    RecoveryDuration: 0
+    Distance: 0.2
+    RecoilDuration: 0.05
+    RecoveryDuration: 0.6
   ammoPrefab: {fileID: 5999901686547831408, guid: bd07fb3945875634685790190ea8decc,
     type: 3}
   ammoType: 18

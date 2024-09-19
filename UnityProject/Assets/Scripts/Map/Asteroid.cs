@@ -1,14 +1,15 @@
 ﻿using System.Collections;
 using Mirror;
+using TileMap.Behaviours;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Map
 {
-	public class Asteroid : MonoBehaviour
+	public class Asteroid : ItemMatrixSystemInit
 	{
-		private MatrixMove mm;
-		private OreGenerator oreGenerator;
+
+
 
 		// TODO Find a use for these variables or delete them.
 		/*
@@ -17,15 +18,10 @@ namespace Map
 	private float distanceFromStation = 175; //Offset from station so it doesnt spawn into station
 	*/
 
-		void OnEnable()
-		{
-			if (mm == null) mm = GetComponent<MatrixMove>();
 
-			if(oreGenerator == null) oreGenerator = GetComponent<OreGenerator>();
-		}
-
-		private void Start()
+		public override void Start()
 		{
+			base.Start();
 			if (CustomNetworkManager.IsServer)
 			{
 				StartCoroutine(Init());
@@ -36,7 +32,7 @@ namespace Map
 		public void SpawnNearStation()
 		{
 			//Request a position from GameManager and cache the object in SpaceBodies List
-			GameManager.Instance.ServerSetSpaceBody(mm);
+			GameManager.Instance.ServerSetSpaceBody(MatrixMove);
 		}
 
 		[Server] //Asigns random rotation to each asteroid at startup for variety.
@@ -47,16 +43,16 @@ namespace Map
 			 switch (rand)
 			 {
 			 	case 0:
-				    mm.NetworkedMatrixMove.TargetOrientation = OrientationEnum.Up_By0;
+				    MatrixMove.NetworkedMatrixMove.TargetOrientation = OrientationEnum.Up_By0;
 			 		break;
 			 	case 1:
-				    mm.NetworkedMatrixMove.TargetOrientation = OrientationEnum.Down_By180;
+				    MatrixMove.NetworkedMatrixMove.TargetOrientation = OrientationEnum.Down_By180;
 			 		break;
 			 	case 2:
-				    mm.NetworkedMatrixMove.TargetOrientation = OrientationEnum.Right_By270;
+				    MatrixMove.NetworkedMatrixMove.TargetOrientation = OrientationEnum.Right_By270;
 			 		break;
 			 	case 3:
-				    mm.NetworkedMatrixMove.TargetOrientation = OrientationEnum.Left_By90;
+				    MatrixMove.NetworkedMatrixMove.TargetOrientation = OrientationEnum.Left_By90;
 			 		break;
 			 }
 		}
@@ -66,6 +62,9 @@ namespace Map
 		{
 			yield return WaitFor.EndOfFrame;
 			SpawnNearStation();
+			yield return null;
+			yield return null;
+			yield return null;
 			RandomRotation();
 		}
 

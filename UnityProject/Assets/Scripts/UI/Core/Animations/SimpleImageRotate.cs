@@ -1,17 +1,27 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 public class SimpleImageRotate : MonoBehaviour
 {
 	private bool rotating = false;
 
-	[TooltipAttribute("Degrees per second")]
-	public float Speed = 180;
+	private float Speed = 180;
+
+	[TooltipAttribute("Degrees per second") ,FormerlySerializedAs("Speed")]
+	public float InitialSpeed = 180;
 
 	public bool randomise = false;
 
 	private void OnEnable()
 	{
-		if (randomise) Speed = Random.Range(-180f, 180f);
+		if (randomise)
+		{
+			Speed = Random.Range(-180f, 180f);
+		}
+		else
+		{
+			Speed = InitialSpeed;
+		}
 		rotating = true;
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}

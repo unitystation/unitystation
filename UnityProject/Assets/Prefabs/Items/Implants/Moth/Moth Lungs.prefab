@@ -17,7 +17,7 @@ PrefabInstance:
     - target: {fileID: 62102685253320784, guid: cfda4a920ce328d449993498e023ddfc,
         type: 3}
       propertyPath: toxicGases.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 62102685253320784, guid: cfda4a920ce328d449993498e023ddfc,
         type: 3}
@@ -35,7 +35,7 @@ PrefabInstance:
         type: 3}
       propertyPath: toxicGases.Array.data[4].GasType
       value: 
-      objectReference: {fileID: 11400000, guid: c8a6070e2fed0ac43a0bb73c019af97f,
+      objectReference: {fileID: 11400000, guid: b8b09ca82f31d764595ddf8b2ecc9ffd,
         type: 2}
     - target: {fileID: 62102685253320784, guid: cfda4a920ce328d449993498e023ddfc,
         type: 3}
@@ -55,7 +55,7 @@ PrefabInstance:
     - target: {fileID: 62102685253320784, guid: cfda4a920ce328d449993498e023ddfc,
         type: 3}
       propertyPath: toxicGases.Array.data[4].PressureSafeMax
-      value: 0.4
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 62102685253320784, guid: cfda4a920ce328d449993498e023ddfc,
         type: 3}
@@ -65,7 +65,7 @@ PrefabInstance:
     - target: {fileID: 62102685253320784, guid: cfda4a920ce328d449993498e023ddfc,
         type: 3}
       propertyPath: toxicGases.Array.data[4].UnsafeLevelDamage
-      value: 0.2
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 62102685253320784, guid: cfda4a920ce328d449993498e023ddfc,
         type: 3}

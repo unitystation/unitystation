@@ -6,12 +6,39 @@ using Objects.Science;
 using ScriptableObjects;
 using Shared.Managers;
 using TileManagement;
+using TileMap.Behaviours;
 using UnityEngine;
 
 namespace Systems.Scenes
 {
-	public class LavaLandManager : SingletonManager<LavaLandManager>
+	public class LavaLandManager : ItemMatrixSystemInit
 	{
+
+		public static LavaLandManager Instance;
+
+
+		/// <summary>
+		/// If you override this then make sure you call base.Awake() somewhere in your Awake code.
+		/// </summary>
+		public void Awake()
+		{
+			if (Instance == null)
+			{
+				Instance = this;
+			}
+			else
+			{
+				Destroy(gameObject);
+			}
+		}
+
+		public override void Start()
+		{
+			base.Start();
+			Instance = this;
+		}
+
+
 		public List<LavaLandRandomAreaSO> areaSOs = new List<LavaLandRandomAreaSO>();
 
 		private List<LavaLandData> dataList = new List<LavaLandData>();
@@ -23,32 +50,30 @@ namespace Systems.Scenes
 
 		private IDictionary<GameObject, GameObject> PrefabsUsed = new Dictionary<GameObject, GameObject>();
 
-		private TileChangeManager tileChangeManager;
-
 		//temp stuff, allows for maps to have a teleport to lava land mapped if they want it.:
 		/// <summary>
 		/// Temp until shuttle landings possible
 		/// </summary>
 		[HideInInspector]
-		public QuantumPad LavaLandBase2;
+		public static QuantumPad LavaLandBase2;
 
 		/// <summary>
 		/// Temp until shuttle landings possible
 		/// </summary>
 		[HideInInspector]
-		public QuantumPad LavaLandBase1;
+		public static QuantumPad LavaLandBase1;
 
 		/// <summary>
 		/// Temp until shuttle landings possible
 		/// </summary>
 		[HideInInspector]
-		public QuantumPad LavaLandBase1Connector;
+		public static QuantumPad LavaLandBase1Connector;
 
 		/// <summary>
 		/// Temp until shuttle landings possible
 		/// </summary>
 		[HideInInspector]
-		public QuantumPad LavaLandBase2Connector;
+		public static QuantumPad LavaLandBase2Connector;
 
 		private void OnEnable()
 		{
@@ -64,7 +89,10 @@ namespace Systems.Scenes
 		{
 			EventManager.RemoveHandler(Event.ScenesLoadedServer, SpawnLavaLand);
 			randomGenScripts.Clear();
-			base.OnDestroy();
+			if (Instance == this)
+			{
+				Instance = null;
+			}
 		}
 
 		public void Clean()
@@ -76,12 +104,6 @@ namespace Systems.Scenes
 		public void SpawnLavaLand()
 		{
 			if (CustomNetworkManager.IsServer == false) return;
-
-			if (MatrixManager.Instance.lavaLandMatrix == null)
-			{
-				Loggy.LogError("LavaLandMatrix not found!");
-				return;
-			}
 
 			StartCoroutine(SpawnLavaLandCo());
 		}
@@ -96,11 +118,39 @@ namespace Systems.Scenes
 				script.DoSim();
 			}
 			yield return WaitFor.Seconds(1f);
-			tileChangeManager = MatrixManager.Instance.lavaLandMatrix.transform.parent.GetComponent<TileChangeManager>();
 
 			GenerateStructures();
 			yield return WaitFor.Seconds(1f);
-			MatrixManager.Instance.lavaLandMatrix.transform.parent.GetComponentInChildren<OreGenerator>().RunOreGenerator();
+
+			bool CheckState = true;
+
+			while (CheckState)
+			{
+				lock (MetaTileMap.QueuedChanges)
+				{
+					if (MetaTileMap.QueuedChanges.Count > 0)
+					{
+						CheckState = true;
+					}
+					else
+					{
+						CheckState = false;
+					}
+				}
+
+				if (Application.isPlaying == false)
+				{
+					CheckState = false;
+				}
+				else
+				{
+					yield return null;
+				}
+			}
+
+			var data = MetaTileMap.matrix.transform.parent.GetComponentInChildren<OreGenerator>();
+
+			data.RunOreGenerator();
 
 			SetQuantumPads();
 
@@ -178,7 +228,6 @@ namespace Systems.Scenes
 					break;
 				}
 
-				Destroy(keyValuePair.Key.gameObject);
 			}
 
 			SpawnScripts.Clear();
@@ -228,7 +277,7 @@ namespace Systems.Scenes
 					{
 						var posTarget = gameObjectPos + pos - script.gameObject.transform.parent.parent.parent.position.RoundToInt();
 
-						tileChangeManager.MetaTileMap.SetTile(posTarget, layerTile);
+						tileChangeManager.MetaTileMap.SetTile(posTarget, layerTile, MapSaveRecord : true);
 					}
 				}
 

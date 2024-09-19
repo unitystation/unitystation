@@ -98,6 +98,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4506481015297489037, guid: 2f3aabfd381d24d618e5ea35f4acce60,
         type: 3}
+      propertyPath: exportCost
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 4506481015297489037, guid: 2f3aabfd381d24d618e5ea35f4acce60,
+        type: 3}
       propertyPath: initialName
       value: smoothbore disabler
       objectReference: {fileID: 0}
@@ -163,6 +168,12 @@ PrefabInstance:
     - target: {fileID: 7863769940400434280, guid: 2f3aabfd381d24d618e5ea35f4acce60,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 0f412b0e77312272b8394997fde54b0c,
+        type: 2}
+    - target: {fileID: 7863769940400434280, guid: 2f3aabfd381d24d618e5ea35f4acce60,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 0f412b0e77312272b8394997fde54b0c,
         type: 2}
