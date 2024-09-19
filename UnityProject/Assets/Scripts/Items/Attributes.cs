@@ -324,4 +324,9 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 		if (Vector2.Distance(gameObject.AssumedWorldPosServer(), PlayerManager.LocalPlayerObject.AssumedWorldPosServer()) > MINIMUM_HIGHLIGHT_DISTANCE) return;
 		Instantiate(GlobalHighlighterManager.HighlightObject, this.transform, false);
 	}
+
+	public void SetInitialName(string Name)
+	{
+		initialName = Name;
+	}
 }
