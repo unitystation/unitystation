@@ -13,14 +13,15 @@ MonoBehaviour:
   m_Name: SpellCards
   m_EditorClassIdentifier: 
   actionType: 1
-  activeSpriteIndex: 1
+  activeSpriteIndex: 0
   callOnClient: 0
   callOnServer: 1
   actionName: Spell Cards
   description: Fire a flurry of magical cards at your foes.
   Sprites:
   - {fileID: 11400000, guid: 90fe10a2568cfa644bc9f1b7d11e211f, type: 2}
-  Backgrounds: []
+  Backgrounds:
+  - {fileID: 11400000, guid: 8f7b96a7712804949a79f2ec18abee2c, type: 2}
   PreventBeingControlledBy: 
   DisableOnEvent: 
   isAimable: 1
@@ -28,6 +29,7 @@ MonoBehaviour:
   cursorTexture: {fileID: 2800000, guid: a98858de92927fd4c844f441140f55fe, type: 3}
   cursorOffsetType: 1
   cursorOffset: {x: 0, y: 0}
+  StaySelectedOnUse: 1
   spellImplementation: {fileID: 3325156274719599389, guid: 5a89130c14b8cb34abe3363291e05b49,
     type: 3}
   chargeType: 0

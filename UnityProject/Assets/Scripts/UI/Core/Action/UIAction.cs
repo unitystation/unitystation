@@ -1,4 +1,6 @@
-﻿using Logs;
+﻿using System;
+using Logs;
+using Systems.Spells;
 using UI.Core.Action;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -31,6 +33,7 @@ namespace UI.Action
 			iAction = action;
 
 			actionData = action.ActionData;
+			actionData.OwningUIAction = this;
 			if (actionData == null)
 			{
 				Loggy.LogWarningFormat("UIAction {0}: action data is null!", Category.UserInput, iAction);
@@ -56,6 +59,7 @@ namespace UI.Action
 			iAction = action;
 
 			actionData = newActionData;
+			actionData.OwningUIAction = this;
 			if (actionData == null)
 			{
 				Loggy.LogWarningFormat("UIAction {0}: action data is null!", Category.UserInput, iAction);
@@ -98,7 +102,7 @@ namespace UI.Action
 
 			if (actionData.IsToggle)
 			{
-				Toggle();
+				Toggle(true);
 				return;
 			}
 
@@ -173,16 +177,17 @@ namespace UI.Action
 			}
 		}
 
-		private void Toggle()
+		public void Toggle(bool ForceDisable = false)
 		{
 			if (UIActionManager.Instance.HasActiveAction && UIActionManager.Instance.ActiveAction != this)
 			{
-				UIActionManager.Instance.ActiveAction.Toggle(); // Toggle off whatever other action was active.
+				UIActionManager.Instance.ActiveAction.Toggle(true); // Toggle off whatever other action was active.
 			}
 
 			// The currently active action is this, so toggle it off.
 			if (UIActionManager.Instance.HasActiveAction)
 			{
+				if(!ForceDisable && ActionData.StaySelectedOnUse) return;
 				ToggleOff();
 			}
 			else
@@ -191,8 +196,11 @@ namespace UI.Action
 			}
 		}
 
-		private void ToggleOff()
+		public event System.Action OnToggleOff;
+
+		public void ToggleOff()
 		{
+			OnToggleOff?.Invoke();
 			IconFront.SetSpriteSO(actionData.Sprites[0], networked: false);
 			UIActionManager.Instance.ActiveAction = null;
 
@@ -202,7 +210,7 @@ namespace UI.Action
 			}
 		}
 
-		private void ToggleOn()
+		public void ToggleOn()
 		{
 			IconFront.SetSpriteSO(actionData.ActiveSprite, networked: false);
 			UIActionManager.Instance.ActiveAction = this;
@@ -223,6 +231,11 @@ namespace UI.Action
 				bool isCentered = actionData.OffsetType == CursorOffsetType.Centered;
 				MouseInputController.SetCursorTexture(actionData.CursorTexture, isCentered);
 			}
+		}
+
+		private void OnDestroy()
+		{
+			OnToggleOff = null;
 		}
 	}
 }

@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using NaughtyAttributes;
 using ScriptableObjects.Systems.Spells;
+using Logs;
+using System;
 
 [System.Serializable]
 
@@ -55,13 +57,19 @@ public class ActionData : ScriptableObject
 	public bool IsToggle => ActionType == UIActionType.Toggle;
 	public bool IsAimable => isAimable;
 	/// <summary> The sprite SO that is used when the toggle is active. </summary>
-	public SpriteDataSO ActiveSprite => Sprites[activeSpriteIndex];
+	public SpriteDataSO ActiveSprite => (Sprites.Count - 1 < activeSpriteIndex && !HandleFallbackSpriteIndex()) ?
+										default : Sprites[activeSpriteIndex]; //Only access our index if its actually valid, if not then use our 0 state as a fallback and print an error
+																			  //if STILL invalid then print another error telling you to set a sprite and set our value to default
 
 	public bool HasCustomCursor => useCustomCursor;
 	public Texture2D CursorTexture => cursorTexture;
 	public bool HasCustomCursorOffset => cursorOffsetType == CursorOffsetType.Custom;
 	public CursorOffsetType OffsetType => cursorOffsetType;
 	public Vector2 CursorOffset => cursorOffset;
+	[Tooltip("Do we stay as the active action even after being used.")]
+	[SerializeField]
+	public bool StaySelectedOnUse = false;
+	[NonSerialized] public UI.Action.UIAction OwningUIAction = default;
 
 	public override string ToString()
 	{
@@ -70,6 +78,18 @@ public class ActionData : ScriptableObject
 			return "[InvalidData]";
 		}
 		return $"[ActionData '{Name}' ({Description})]";
+	}
+
+	private bool HandleFallbackSpriteIndex()
+	{
+		if(Sprites.Count - 1 < 0)
+		{
+			Loggy.LogError("ScriptableObject.ActionData.activeSpriteIndex created without any set sprites, add some!");
+			return false;
+		}
+		Loggy.LogError($"ScriptableObject.ActionData.activeSpriteIndex set to a value({activeSpriteIndex}) without a matching sprite, falling back to sprite 0.");
+		activeSpriteIndex = 0;
+		return true;
 	}
 }
 

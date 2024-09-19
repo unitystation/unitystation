@@ -8,7 +8,24 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1534706377851657813, guid: b3e452483c7f60f4b9fdf04e19571591,
+        type: 3}
+      propertyPath: decal
+      value: 
+      objectReference: {fileID: 64157212496800772, guid: 16d38da43ed88f04ab797fd480b94de7,
+        type: 3}
+    - target: {fileID: 1534706377851657813, guid: b3e452483c7f60f4b9fdf04e19571591,
+        type: 3}
+      propertyPath: animationTime
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 2244463492161318593, guid: b3e452483c7f60f4b9fdf04e19571591,
+        type: 3}
+      propertyPath: damageData
+      value: 
+      objectReference: {fileID: 11400000, guid: 809c6ccc0b5ee184b9029217563f379c,
+        type: 2}
+    - target: {fileID: 7263384001536958968, guid: b3e452483c7f60f4b9fdf04e19571591,
         type: 3}
       propertyPath: damageData
       value: 

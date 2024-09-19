@@ -40,8 +40,7 @@ namespace Systems.Spells
 		/// <summary>
 		/// How many times can we cast the spell before it goes onto cooldown
 		/// </summary>
-		[SerializeField]
-		public int CastUses { get; set; } = 1;
+		public int CastUses { get; set; } //might want to move this to fully be on SpellData
 
 		/// <summary>
 		/// How many uses do we have left for our current cast, meaning we can use the spell x more times before it goes on cooldown
@@ -52,11 +51,18 @@ namespace Systems.Spells
 
 		private void Awake()
 		{
-			castUsesLeft = CastUses;
 			if (SpellData == null)
 			{
 				SpellData = SpellList.Instance.InvalidData;
 			}
+			else if(CastUses > 1)
+				SpellData.OwningUIAction.OnToggleOff += OnActionToggleOff;
+				Loggy.LogError($"1 {CastUses}");
+		}
+
+		private void OnDestroy()
+		{
+			SpellData.OwningUIAction.OnToggleOff -= OnActionToggleOff;
 		}
 
 		public virtual void CallActionClient()
@@ -76,6 +82,9 @@ namespace Systems.Spells
 
 		private void AfterCast(PlayerInfo sentByPlayer)
 		{
+			if(castUsesLeft == 0)
+				castUsesLeft = CastUses;
+
 			castUsesLeft--;
 			if(castUsesLeft <= 0)
 				{
@@ -111,14 +120,36 @@ namespace Systems.Spells
 
 			if (SpellData.ChargeType == SpellChargeType.FixedCharges && --ChargesLeft <= 0)
 			{
+				if(ActionData.StaySelectedOnUse)
+				{
+					ActionData.OwningUIAction.ToggleOff();
+				}
 				//remove it from spell list
 				UIActionManager.ToggleServer(sentByPlayer.Mind.gameObject, this, false); //might want to simply disable it so its possible to regain charges later
 			}
 			else if(castUsesLeft <= 0)
 			{
-				UIActionManager.SetCooldown(this, CooldownTime, sentByPlayer.GameObject);
-				castUsesLeft = CastUses;
+				StartCooldown(sentByPlayer.GameObject);
+				if(ActionData.StaySelectedOnUse)
+				{
+					ActionData.OwningUIAction.ToggleOff();
+				}
 			}
+		}
+
+		private void OnActionToggleOff()
+		{
+			if(castUsesLeft > 0 && castUsesLeft != CastUses)
+				StartCooldown();
+		}
+
+		public void StartCooldown(GameObject recipient = default)
+		{
+			if(recipient == null)
+			{
+				recipient = PlayerList.Instance.GetOnline(PlayerManager.LocalPlayerScript.PlayerNetworkActions.gameObject).GameObject; //we really should just have access to our owner
+			}
+			UIActionManager.SetCooldown(this, CooldownTime, recipient);
 		}
 
 		public virtual bool CastSpellServer(PlayerInfo caster, Vector3 clickPosition)

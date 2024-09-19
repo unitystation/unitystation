@@ -109,10 +109,7 @@ namespace Messages.Server
 			else
 			{
 				// Action pre-placed on a networked object
-				if(!LoadNetworkObject(msg.NetObject))
-					{
-						Loggy.LogError($"1 {msg.NetObject} 2 {msg}");
-					}
+				LoadNetworkObject(msg.NetObject);
 				var actions = new Component[]{};
 				try
 				{
@@ -194,7 +191,7 @@ namespace Messages.Server
 					Loggy.LogError(
 						"spellAction.SpellData.Index is -1 Make sure you've added your spell to SpellList!!!!!!!!!!!");
 				}
-			
+
 				NetMessage msg = new NetMessage
 				{
 					spellListIndex = spellAction.SpellData.Index,

@@ -130,6 +130,7 @@ namespace ScriptableObjects.Systems.Spells
 			}
 			spellComponent.SpellData = this;
 			spellComponent.CooldownTime = CooldownTime;
+			spellComponent.CastUses = CastUses;
 			return spellComponent;
 		}
 	}

@@ -10,6 +10,7 @@ namespace Systems.Spells.Wizard
 		public override void UpgradeTier()
 		{
 			ProjectilesPerUse += 2;
+			base.UpgradeTier();
 		}
 	}
 }
