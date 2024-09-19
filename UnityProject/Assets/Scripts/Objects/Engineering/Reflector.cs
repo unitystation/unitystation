@@ -117,7 +117,7 @@ namespace Objects.Engineering
 
 		private void OnDestroy()
 		{
-			AngleChange = null;
+			AngleChange = null; //
 		}
 
 		#endregion
