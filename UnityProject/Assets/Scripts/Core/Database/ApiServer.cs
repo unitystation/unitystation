@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Initialisation;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using JetBrains.Annotations;
@@ -78,7 +79,6 @@ namespace Core.Database
 			{
 				request.Headers.Authorization = new AuthenticationHeaderValue("Token", token);
 			}
-
 			return await Send<T>(request);
 		}
 
@@ -88,6 +88,8 @@ namespace Core.Database
 			request.Headers.Add("Accept", "application/json");
 			HttpResponseMessage response = await SecureStuff.SafeHttpRequest.SendAsync(request);
 			string responseBody = await response.Content.ReadAsStringAsync();
+			LoadManager.DoInMainThread(() => Loggy.Log($"{request}"));
+			LoadManager.DoInMainThread(() => Loggy.Log($"{response}"));
 
 			if (response.IsSuccessStatusCode == false)
 			{
