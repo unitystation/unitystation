@@ -64,19 +64,6 @@ namespace Core.Database
 		public static async Task<ApiResult<JsonObject>> DeleteAccountsCharacterByID(int id, string token)
 		{
 			var response = await ApiServer.Delete<JsonObject>(GetUri($"characters/{id}/delete",""), token);
-			try
-			{
-				LoadManager.DoInMainThread(() =>
-				{
-					Loggy.Log($"{response.StatusCode} - {response.StatusCode}");
-					Loggy.Log($"{response.Data}");
-					Loggy.Log($"{response.Exception}");
-				});
-			}
-			catch (Exception e)
-			{
-				LoadManager.DoInMainThread(() => Loggy.LogError(e.ToString()));
-			}
 			return response;
 		}
 	}
