@@ -12,7 +12,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(EscapeKeyTarget))]
-public class DeviceRenamer : SingletonManager<DeviceRenamer>
+public class DeviceAttributeEditor : SingletonManager<DeviceAttributeEditor>
 {
 	public Button StopSelectingButton;
 
@@ -26,6 +26,8 @@ public class DeviceRenamer : SingletonManager<DeviceRenamer>
 	public GameObject PressedObject = null;
 
 	public bool Updating = false;
+
+	public Toggle IsMappedToggle;
 
 	public enum RenameType
 	{
@@ -52,8 +54,13 @@ public class DeviceRenamer : SingletonManager<DeviceRenamer>
 		Dropdown.AddOptions(options);
 		Dropdown.onValueChanged.AddListener(DropdownValueChanged);
 		InputField.onEndEdit.AddListener(SetName);
-
+		IsMappedToggle.onValueChanged.AddListener(IsMappedUpdate);
 		this.gameObject.SetActive(false);
+	}
+
+	public void IsMappedUpdate(bool Newval)
+	{
+		DeviceIsMappedMessage.Send(PressedObject,Newval);
 	}
 
 	public void SetName(string NewName)
@@ -118,6 +125,13 @@ public class DeviceRenamer : SingletonManager<DeviceRenamer>
 		{
 			PressedObject = null;
 			return;
+		}
+
+		var Attribute = PressedObject.GetComponent<Attributes>();
+
+		if (Attribute != null)
+		{
+			IsMappedToggle.isOn = PressedObject.GetComponent<Attributes>().IsMapped;
 		}
 
 		SetNameUI();

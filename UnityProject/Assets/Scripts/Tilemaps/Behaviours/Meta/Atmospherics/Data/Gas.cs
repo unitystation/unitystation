@@ -93,7 +93,7 @@ namespace Systems.Atmospherics
 			set
 			{
 
-				if (float.IsNormal(value) == false && value != 0)
+				if (value.IsUnreasonableNumber() && value != 0)
 				{
 					if (float.IsInfinity(value) || float.IsNaN(value))
 					{
@@ -103,7 +103,7 @@ namespace Systems.Atmospherics
 					return;
 				}
 
-				if (float.IsNormal(value) == false && value != 0)
+				if (value.IsUnreasonableNumber() && value != 0)
 				{
 					return;
 				}

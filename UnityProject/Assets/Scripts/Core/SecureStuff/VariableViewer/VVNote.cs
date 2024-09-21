@@ -24,11 +24,11 @@ namespace SecureStuff
 	public enum VVHighlight
 	{
 		None,
-		SafeToModify100, //green
-		SafeToModify, //Cyan
-		UnsafeToModify,//orange
-		VariableChangeUpdate, //Yellow
-		DEBUG, //red
+		SafeToModify100, //green , = this is great to modify no issues using this
+		SafeToModify, //Cyan, It is good to modify but be careful
+		UnsafeToModify,//orange, May result in erratic behaviour
+		VariableChangeUpdate, //Yellow = Will get immediately overwritten by code so no point modifying
+		DEBUG_OrUnecessary, //red = Something that you don't will never modify or is only used for debugging/observing the state
 	}
 }
 

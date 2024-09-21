@@ -41,6 +41,7 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 	public List<GizmoAndBox> PositionsToCopy = new List<GizmoAndBox>();
 
+	public List<GameGizmoSquare> NotGoingToBeSavedGizmos = new List<GameGizmoSquare>();
 
 	public List<GameGizmoSquare> PreviewGizmos = new List<GameGizmoSquare>();
 
@@ -65,6 +66,8 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 	public Toggle UesCompact;
 
 	public Toggle CutSection;
+
+	private bool DelayCut = false;
 
 	private void OnEnable()
 	{
@@ -92,6 +95,7 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 			TMP_InputField.interactable = true;
 			TMP_InputField.text = "";
 		}
+		ReGenNotGoingToBeSavedGizmos();
 	}
 
 	public void UpdateDropDown()
@@ -124,6 +128,12 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 		base.Start();
 		this.gameObject.SetActive(false);
 		TMP_Dropdown.onValueChanged.AddListener(UpdateSelected);
+		NonmappedItems.onValueChanged.AddListener(OnNonmappedItemsChange);
+	}
+
+	public void OnNonmappedItemsChange(bool newval)
+	{
+		ReGenNotGoingToBeSavedGizmos();
 	}
 
 
@@ -156,6 +166,13 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 			Gizmo.GameGizmoSquare.Remove();
 		}
 		PositionsToCopy.Clear();
+
+
+		foreach (var Gizmo in NotGoingToBeSavedGizmos)
+		{
+			Gizmo.Remove();
+		}
+		NotGoingToBeSavedGizmos.Clear();
 
 	}
 
@@ -310,6 +327,11 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 		}
 		PositionsToCopy.Clear();
 
+		foreach (var Gizmo in NotGoingToBeSavedGizmos)
+		{
+			Gizmo.Remove();
+		}
+		NotGoingToBeSavedGizmos.Clear();
 	}
 
 	public void OnLoad()
@@ -377,6 +399,7 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 			Vector3 Offset = ActiveMouseGrabber.gameObject.transform.position.ToLocal();
 			var ID = (TMP_Dropdown.options[TMP_Dropdown.value] as CustomOption).ID;
 			var MatrixName = TMP_InputField.text;
+			if (ID != null)
 			if (ID != null)
 			{
 				Matrix = MatrixManager.Get(ID.Value);
@@ -460,15 +483,17 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 				data = data.ExpandAllDirectionsBy(0.5f);
 
+
 				PositionsToCopy.Add( new GizmoAndBox()
 				{
 					BetterBounds = data,
 					GameGizmoSquare = ActiveGizmo
 				} );
 				ActiveGizmo = null;
+				ReGenNotGoingToBeSavedGizmos();
 			}
 		}
-		else
+		else if (DelayCut == false)
 		{
 			var Pos = MouseUtils.MouseToWorldPos();
 			var PositionsCopy = PositionsToCopy.ToList();
@@ -482,7 +507,83 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 					break;
 				}
 			}
+
+			ReGenNotGoingToBeSavedGizmos();
+			DelayCut = true;
+			StartCoroutine(DelayInput());
 		}
+	}
+	private IEnumerator DelayInput()
+	{
+		yield return WaitFor.Seconds(0.15f);
+		DelayCut = false;
+	}
+
+
+	public void ReGenNotGoingToBeSavedGizmos()
+	{
+
+		foreach (var Square in NotGoingToBeSavedGizmos)
+		{
+			Square.Remove();
+		}
+		NotGoingToBeSavedGizmos.Clear();
+
+		if (NonmappedItems.isOn) return; //Everything is going to be saved
+		if (PositionsToCopy.Count == 0) return; //Nothing selected
+
+
+		var ID = (TMP_Dropdown.options[TMP_Dropdown.value] as CustomOption).ID;
+		MatrixInfo Matrix = MatrixManager.AtPoint(PositionsToCopy[0].BetterBounds.Min, CustomNetworkManager.IsServer);
+		if (ID != null)
+		{
+			Matrix = MatrixManager.Get(ID.Value);
+		}
+
+		foreach (var EtherealThing in Matrix.MetaDataLayer.EtherealThings)
+		{
+			foreach (var Boxes in PositionsToCopy)
+			{
+				if (Boxes.BetterBounds.Contains(EtherealThing.transform.position))
+				{
+					var Attribute = EtherealThing.GetComponentCustom<Attributes>();
+					if (Attribute != null)
+					{
+						if (Attribute.IsMapped == false)
+						{
+							NotGoingToBeSavedGizmos.Add( GameGizmomanager.AddNewSquareStaticClient(EtherealThing.gameObject,
+								Vector3.zero, Color.yellow));
+						}
+					}
+					break;
+				}
+			}
+		}
+
+		var Objects = Matrix.MetaTileMap.ObjectLayer.GetTileList(CustomNetworkManager.Instance._isServer)
+			.AllObjects;
+
+
+		foreach (var Object in Objects)
+		{
+			foreach (var Boxes in PositionsToCopy)
+			{
+				if (Boxes.BetterBounds.Contains(Object.transform.position))
+				{
+					var Attribute = Object.GetComponentCustom<Attributes>();
+					if (Attribute != null)
+					{
+						if (Attribute.IsMapped == false)
+						{
+							NotGoingToBeSavedGizmos.Add( GameGizmomanager.AddNewSquareStaticClient(Object.gameObject,
+								Vector3.zero, Color.yellow));
+						}
+					}
+					break;
+				}
+			}
+		}
+
 	}
 
 	public void OnMousePositionUpdate()

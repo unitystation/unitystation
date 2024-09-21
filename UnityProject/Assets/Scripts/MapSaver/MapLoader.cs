@@ -313,7 +313,7 @@ namespace MapSaver
 
 			if (string.IsNullOrEmpty(ID))
 			{
-				ID = prefabData.PrefabID;
+				ID = prefabData.ID.ToString();
 			}
 
 

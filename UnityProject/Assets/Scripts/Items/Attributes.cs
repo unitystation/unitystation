@@ -113,6 +113,8 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 	private string articleDescription;
 
 
+	[SyncVar(hook = nameof(SyncIsMapped))] public bool IsMapped = false;
+
 	/// <summary>
 	/// Sizes:
 	/// Tiny - pen, coin, pills. Anything you'd easily lose in a couch.
@@ -151,6 +153,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 
 	private const float MINIMUM_HIGHLIGHT_DISTANCE = 6f;
 
+
 	public override void OnStartClient()
 	{
 		SyncArticleName(articleName, articleName);
@@ -168,6 +171,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 
 	private void Start()
 	{
+		SyncIsMapped(IsMapped, this.GetComponent<RuntimeSpawned>() == null);
 		ComponentsTracker<Attributes>.Instances.Add(this);
 	}
 
@@ -200,6 +204,20 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 	{
 		articleDescription = newDescription;
 	}
+
+	public void SyncIsMapped(bool oldIsMapped, bool NewIsMapped)
+	{
+		IsMapped = NewIsMapped;
+		if (NewIsMapped && this.GetComponent<RuntimeSpawned>() != null)
+		{
+			Destroy(this.GetComponent<RuntimeSpawned>());
+		}
+		else if (NewIsMapped == false && this.GetComponent<RuntimeSpawned>() == null)
+		{
+			gameObject.AddComponent<RuntimeSpawned>();
+		}
+	}
+
 
 	public void OnSpawnServer(SpawnInfo info)
 	{

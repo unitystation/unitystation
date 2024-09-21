@@ -92,7 +92,7 @@ namespace UI.AdminTools
 
 		public void BtnOpenDeviceRenamer()
 		{
-			DeviceRenamer.Instance.gameObject.SetActive(true);
+			DeviceAttributeEditor.Instance.gameObject.SetActive(true);
 		}
 	}
 }

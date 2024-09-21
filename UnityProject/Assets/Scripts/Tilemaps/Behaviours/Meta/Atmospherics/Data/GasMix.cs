@@ -11,7 +11,6 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
-
 namespace Systems.Atmospherics
 {
 	/// <summary>
@@ -34,7 +33,7 @@ namespace Systems.Atmospherics
 			get => pressure;
 			set
 			{
-				if (float.IsNormal(value) == false && value != 0)
+				if (value.IsUnreasonableNumber() && value != 0)
 				{
 					Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE pressure Invalid number!!!! {value}");
 					return;
@@ -55,7 +54,7 @@ namespace Systems.Atmospherics
 			get { return temperature; }
 			set
 			{
-				if (float.IsNormal(value) == false && value != 0)
+				if (value.IsUnreasonableNumber() && value != 0)
 				{
 					Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE Temperature Invalid number!!!! {value}");
 					return;
@@ -117,7 +116,7 @@ namespace Systems.Atmospherics
 
 			set
 			{
-				if (float.IsNormal(value) == false && value != 0)
+				if (value.IsUnreasonableNumber() && value != 0)
 				{
 					Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE InternalEnergy Invalid number!!!! {value}");
 					return;

@@ -255,7 +255,7 @@ namespace AdminTools.VariableViewer
 			{
 				if (UIShowDebugOptions.toggle == false)
 				{
-					if (page.VVHighlight == VVHighlight.DEBUG || (page.VariableType == null && page.VVHighlight != VVHighlight.DEBUG)) continue;
+					if (page.VVHighlight == VVHighlight.DEBUG_OrUnecessary || (page.VariableType == null && page.VVHighlight != VVHighlight.DEBUG_OrUnecessary)) continue;
 				}
 
 				GUI_PageEntry PageEntry;

@@ -718,6 +718,8 @@ public class SpriteHandler : MonoBehaviour
 		}
 
 		OnSpriteUpdated = null;
+		OnVariantUpdated = null;
+		OnSpriteDataSOChanged = null;
 	}
 
 	protected virtual void SetImageColor(Color value)

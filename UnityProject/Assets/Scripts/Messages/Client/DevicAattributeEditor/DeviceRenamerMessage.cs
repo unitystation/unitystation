@@ -11,10 +11,10 @@ public class DeviceRenamerMessage : ClientMessage<DeviceRenamerMessage.NetMessag
 	{
 		public uint ObjectID;
 		public string NewName;
-		public DeviceRenamer.RenameType RenameType;
+		public DeviceAttributeEditor.RenameType RenameType;
 	}
 
-	public static void Send(GameObject Object, string name,DeviceRenamer.RenameType RenameType )
+	public static void Send(GameObject Object, string name,DeviceAttributeEditor.RenameType RenameType )
 	{
 		NetMessage msg = new NetMessage
 		{
@@ -36,10 +36,10 @@ public class DeviceRenamerMessage : ClientMessage<DeviceRenamerMessage.NetMessag
 			switch (msg.RenameType)
 			{
 
-				case DeviceRenamer.RenameType.ObjectName:
+				case DeviceAttributeEditor.RenameType.ObjectName:
 					msg.ObjectID.NetIdToGameObject().name = msg.NewName;
 					break;
-				case DeviceRenamer.RenameType.AttributeRename:
+				case DeviceAttributeEditor.RenameType.AttributeRename:
 					var Attributes = msg.ObjectID.NetIdToGameObject().GetComponent<Attributes>();
 					if (Attributes != null)
 					{
@@ -47,7 +47,7 @@ public class DeviceRenamerMessage : ClientMessage<DeviceRenamerMessage.NetMessag
 						Attributes.ServerSetArticleName(msg.NewName);
 					}
 					break;
-				case DeviceRenamer.RenameType.MindRename:
+				case DeviceAttributeEditor.RenameType.MindRename:
 					msg.ObjectID.NetIdToGameObject()?.Player()?.Mind?.SetPermanentName(msg.NewName);
 					if (msg.ObjectID.NetIdToGameObject()?.Player()?.Script != null)
 					{
