@@ -48,7 +48,7 @@ namespace Objects.Atmospherics
 
 		public virtual void Awake()
 		{
-			pipeData.GetMixAndVolume.GetGasMix().Volume = InitialVolume;
+
 			registerTile = GetComponent<RegisterTile>();
 			directional = GetComponent<Rotatable>();
 			if (directional != null)
@@ -56,6 +56,9 @@ namespace Objects.Atmospherics
 				PreviousOrientation = directional.CurrentDirection;
 				directional.OnRotationChange.AddListener(PipeRotated);
 			}
+			if (CustomNetworkManager.IsServer == false) return;
+
+			pipeData.GetMixAndVolume.GetGasMix().Volume = InitialVolume;
 		}
 
 		public void PipeRotated(OrientationEnum newDirection)
