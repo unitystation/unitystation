@@ -106,11 +106,6 @@ public class DeviceAttributeEditor : SingletonManager<DeviceAttributeEditor>
 		{
 			OnMouseDown();
 		}
-
-		if (CommonInput.GetMouseButtonUp(0) && PressedObject != null)
-		{
-			OnMouseButtonUp();
-		}
 	}
 
 	public void OnMouseDown()
@@ -136,13 +131,7 @@ public class DeviceAttributeEditor : SingletonManager<DeviceAttributeEditor>
 
 		SetNameUI();
 	}
-
-
-	public void OnMouseButtonUp()
-	{
-	}
-
-
+	
 	public void SetNameUI()
 	{
 		// Get the index of the selected option
