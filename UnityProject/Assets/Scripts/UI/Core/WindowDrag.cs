@@ -56,8 +56,6 @@ public class WindowDrag : MonoBehaviour
 	private void OnDisable ()
 	{
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-
-		transform.localPosition = startPositon;
 	}
 
 	/// <summary>
