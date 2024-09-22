@@ -130,16 +130,16 @@ namespace Objects.Atmospherics
 				EjectInsertedContainer();
 			}
 
-			baseSpriteHandler.SetCatalogueIndexSprite(BURST_SPRITE);
+			baseSpriteHandler?.SetCatalogueIndexSprite(BURST_SPRITE);
 			if (canisterTier > 0) // Tier overlays only for above 0.
 			{
 				int burstTier = canisterTierOverlay.CataloguePage + (canisterTierOverlay.CatalogueCount / 2);
 				canisterTierOverlay.SetCatalogueIndexSprite(burstTier);
 			}
-			pressureIndicatorOverlay.PushClear();
-			connectorHoseOverlay.PushClear();
-			tankInsertedOverlay.PushClear();
-			openValveOverlay.PushClear();
+			pressureIndicatorOverlay?.PushClear();
+			connectorHoseOverlay?.PushClear();
+			tankInsertedOverlay?.PushClear();
+			openValveOverlay?.PushClear();
 
 			hasBurst = true;
 		}

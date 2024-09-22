@@ -86,7 +86,6 @@ namespace Systems.Hacking
 		{
 			MonoAvailableColours?.Clear();
 			ColourDictionary?.Clear();
-			HasRegisteredForRestart = false;
 		}
 
 		public void OnDespawnServer(DespawnInfo info)

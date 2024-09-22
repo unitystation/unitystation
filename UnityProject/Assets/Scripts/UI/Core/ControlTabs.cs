@@ -331,9 +331,6 @@ namespace UI
 			else
 			{
 				tab.gameObject.SetActive(true);
-				var localPos = Vector3.zero;
-				localPos.y += 20f;
-				tab.transform.localPosition = localPos;
 			}
 		}
 
