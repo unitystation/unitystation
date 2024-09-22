@@ -36,7 +36,7 @@ namespace MapSaver
 			var CommonColours = new List<Color>();
 			foreach (var Colour in CompactTileMapData.CommonColours)
 			{
-				ColorUtility.TryParseHtmlString(Colour, out var IndividualColour);
+				ColorUtility.TryParseHtmlString("#" + Colour, out var IndividualColour);
 				CommonColours.Add(IndividualColour);
 			}
 
