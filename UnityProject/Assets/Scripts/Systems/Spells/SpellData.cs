@@ -121,6 +121,7 @@ namespace ScriptableObjects.Systems.Spells
 
 		public Spell AddToPlayer(Mind player)
 		{
+			Loggy.LogError($"ADDED {GetInstanceID()}");
 			var spellObject = Instantiate(SpellImplementation, player.gameObject.transform);
 			var spellComponent = spellObject.GetComponent<Spell>();
 			if (spellComponent == null)
@@ -129,8 +130,6 @@ namespace ScriptableObjects.Systems.Spells
 				return default;
 			}
 			spellComponent.SpellData = this;
-			spellComponent.CooldownTime = CooldownTime;
-			spellComponent.CastUses = CastUses;
 			return spellComponent;
 		}
 	}

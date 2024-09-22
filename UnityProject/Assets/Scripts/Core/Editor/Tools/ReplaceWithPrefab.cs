@@ -1,4 +1,4 @@
-using Light2D;
+//using Light2D;
 using Logs;
 using UnityEngine;
 using UnityEditor;
@@ -74,13 +74,13 @@ public class ReplaceWithPrefab : EditorWindow
 					newObjectRotatable.FaceDirection(selectedRotatable.CurrentDirection);
 				}
 
-				var selectedLightSprite = selected.GetComponent<LightSprite>();
+				/*var selectedLightSprite = selected.GetComponent<LightSprite>();
 				var newObjectLightSprite = newObject.GetComponentInChildren<LightSprite>();
 				if (selectedLightSprite != null && newObjectLightSprite != null)
 				{
 					newObjectLightSprite.InitialColour = selectedLightSprite.InitialColour;
 					newObjectLightSprite.transform.localScale = selected.transform.lossyScale;
-				}
+				}*/
 
 				newObject.name = selected.name;
 				Undo.RegisterCreatedObjectUndo(newObject, "Replace With Prefabs");

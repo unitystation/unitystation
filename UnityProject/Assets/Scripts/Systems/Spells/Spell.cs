@@ -18,7 +18,7 @@ namespace Systems.Spells
 	/// </summary>
 	[Serializable]
 	[DisallowMultipleComponent]
-	public class Spell : NetworkBehaviour, IActionGUI
+	public class Spell : NetworkBehaviour, UnattachedIActionGUI
 	{
 		private SpellData spellData = null;
 		public SpellData SpellData {
@@ -55,14 +55,28 @@ namespace Systems.Spells
 			{
 				SpellData = SpellList.Instance.InvalidData;
 			}
-			else if(CastUses > 1)
-				SpellData.OwningUIAction.OnToggleOff += OnActionToggleOff;
-				Loggy.LogError($"1 {CastUses}");
 		}
 
 		private void OnDestroy()
 		{
 			SpellData.OwningUIAction.OnToggleOff -= OnActionToggleOff;
+		}
+
+		public void FinalSetup()
+		{
+			CooldownTime = SpellData.CooldownTime;
+			CastUses = SpellData.CastUses;
+			Loggy.LogError($"8 {SpellData.OwningUIAction}");
+		}
+
+		public virtual void OnAttachedPlayer()
+		{
+			FinalSetup();
+			if(CastUses > 1 && SpellData.OrNull()?.OwningUIAction)
+			{
+				SpellData.OwningUIAction.OnToggleOff += OnActionToggleOff;
+				Loggy.LogError($"HEHE {GetInstanceID()}");
+			}
 		}
 
 		public virtual void CallActionClient()
@@ -85,6 +99,7 @@ namespace Systems.Spells
 			if(castUsesLeft == 0)
 				castUsesLeft = CastUses;
 
+			Loggy.LogError($"USES {castUsesLeft} r {GetInstanceID()}");
 			castUsesLeft--;
 			if(castUsesLeft <= 0)
 				{
@@ -139,8 +154,10 @@ namespace Systems.Spells
 
 		private void OnActionToggleOff()
 		{
+			Loggy.LogError($"HOHO {castUsesLeft} e {CastUses} a {GetInstanceID()}");
 			if(castUsesLeft > 0 && castUsesLeft != CastUses)
-				StartCooldown(); //
+				Loggy.LogError($"AAAAA");
+				StartCooldown();
 		}
 
 		public void StartCooldown(GameObject recipient = default)

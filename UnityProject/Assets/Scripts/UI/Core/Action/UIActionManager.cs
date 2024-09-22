@@ -331,7 +331,6 @@ namespace UI.Core.Action
 
 		private static void Show(string ID ,IActionGUI iActionGUI, GameObject body)
 		{
-
 			if (CustomNetworkManager.IsServer && body != null)
 			{
 				//Send message
@@ -350,7 +349,6 @@ namespace UI.Core.Action
 						break;
 					}
 				}
-
 				UIAction _UIAction;
 				if (Instance.PooledUIAction.Count > 0)
 				{
@@ -362,16 +360,13 @@ namespace UI.Core.Action
 					_UIAction = Instantiate(Instance.UIAction);
 					_UIAction.transform.SetParent(Instance.Panel.transform, false);
 				}
-
 				Instance.ClientIActionGUIToID[iActionGUI] = ID;
 				SpriteHandlerManager.RegisterSpecialHandler(ID + "F", _UIAction.IconFront); //Front icon
 				SpriteHandlerManager.RegisterSpecialHandler(ID + "B", _UIAction.IconBackground); //back icon
-
 				if (Instance.DicIActionGUI.ContainsKey(iActionGUI) == false)
 				{
 					Instance.DicIActionGUI.Add(iActionGUI, new List<UIAction>());
 				}
-
 				Instance.DicIActionGUI[iActionGUI].Add(_UIAction);
 				_UIAction.SetUp(iActionGUI);
 			}
@@ -760,7 +755,7 @@ namespace UI.Core.Action
 				SpriteHandlerManager.RegisterSpecialHandler(ID+"F", _UIAction.IconFront); //Front icon
 				SpriteHandlerManager.RegisterSpecialHandler(ID+"B", _UIAction.IconBackground); //back icon
 
-				_UIAction.SetUp(iActionGUIMulti, actionData);
+				_UIAction.SetUpMulti(iActionGUIMulti, actionData);
 			}
 		}
 

@@ -16,6 +16,16 @@ public interface IActionGUI : IAction
 	void CallActionClient();
 }
 
+/// <summary>
+/// Certain uses of IActionGUI dont start fully attached to a client, this allows us to apply some additional logic when fully attached to a client
+/// </summary>
+public interface UnattachedIActionGUI : IActionGUI
+{
+	/// <summary>
+	/// Called on a case-by-base basis as some uses of IActionGUI wont always be fully attached to a player
+	/// </summary>
+	void OnAttachedPlayer();
+}
 
 /// <summary>
 /// Simply implement this to Implement your Networked screen action

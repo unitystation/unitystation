@@ -51,9 +51,14 @@ namespace UI.Action
 			{
 				IconBackground.SetCatalogue(actionData.Backgrounds, 0, networked: false);
 			}
-		}
 
-		public void SetUp(IActionGUIMulti action, ActionData newActionData)
+			if(iAction is UnattachedIActionGUI unattachedIActionGUI)
+			{
+				unattachedIActionGUI.OnAttachedPlayer();
+			}
+		}
+		//copy pasta funny but im too lazy to do anything about it right now
+		public void SetUpMulti(IActionGUIMulti action, ActionData newActionData)
 		{
 			gameObject.SetActive(true);
 			iAction = action;
@@ -201,6 +206,7 @@ namespace UI.Action
 		public void ToggleOff()
 		{
 			OnToggleOff?.Invoke();
+			Loggy.LogError("THE");
 			IconFront.SetSpriteSO(actionData.Sprites[0], networked: false);
 			UIActionManager.Instance.ActiveAction = null;
 
