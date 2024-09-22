@@ -15,6 +15,9 @@ public class TileChangeManager : MonoBehaviour
 
 	private TileChangeList changeList = new TileChangeList(); //it is not static so okay
 
+	private TileChangeList frameChangeList = new TileChangeList(); //it is not static so okay
+
+
 	public Vector3IntEvent OnFloorOrPlatingRemoved = new Vector3IntEvent();
 
 	private MatrixSystemManager subsystemManager;
@@ -39,6 +42,29 @@ public class TileChangeManager : MonoBehaviour
 	public InteractableTiles InteractableTiles => interactableTiles;
 
 	public MetaTileMap MetaTileMap => metaTileMap;
+
+
+	public void OnEnable()
+	{
+		if (CustomNetworkManager.IsServer == false) return;
+		UpdateManager.Add( CallbackType.LATE_UPDATE, SendTileUpdates);
+	}
+
+	public void OnDisable()
+	{
+		if (CustomNetworkManager.IsServer == false) return;
+		UpdateManager.Remove(CallbackType.LATE_UPDATE, SendTileUpdates);
+	}
+
+	public void SendTileUpdates()
+	{
+		if (frameChangeList.List.Count > 0)
+		{
+			UpdateTileMessage.SendTo(gameObject, null, frameChangeList);
+		}
+
+		frameChangeList.List.Clear();
+	}
 
 
 	private void OnDestroy()
@@ -125,6 +151,7 @@ public class TileChangeManager : MonoBehaviour
 			{
 				preExistingTileChange.TileChangeToSet(RelatedTileLocation);
 			}
+			frameChangeList.List.Add(preExistingTileChange);
 			return;
 		}
 
@@ -171,6 +198,7 @@ public class TileChangeManager : MonoBehaviour
 		}
 
 		changeList.List.Add(TileChange);
+		frameChangeList.List.Add(TileChange);
 	}
 }
 

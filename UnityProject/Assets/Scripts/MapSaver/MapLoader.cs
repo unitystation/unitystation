@@ -417,15 +417,15 @@ namespace MapSaver
 			}
 
 			MapSaver.CodeClass.ThisCodeClass.ReportStatus();
-
+			MapSaver.CodeClass.ThisCodeClass.Reset();
 		}
 
 		public static void ServerLoadSectionNoCoRoutine(MatrixInfo Matrix, Vector3 Offset00, Vector3 Offset,
 			MapSaver.MatrixData MatrixData, Action completeAction, HashSet<LayerType> LoadLayers = null,
-			bool LoadObjects = true, string MatrixName = null, bool LoadingMultiple = false)
+			bool LoadObjects = true, string MatrixName = null)
 		{
 			GameManager.Instance.StartCoroutine(ServerLoadSection(Matrix, Offset00, Offset, MatrixData, completeAction,
-				LoadLayers, LoadObjects, MatrixName, LoadingMultiple));
+				LoadLayers, LoadObjects, MatrixName, false));
 		}
 
 		//Offset00 the off set In the data so objects will appear at 0,0
