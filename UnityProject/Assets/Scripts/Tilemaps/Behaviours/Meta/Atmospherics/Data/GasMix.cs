@@ -33,7 +33,7 @@ namespace Systems.Atmospherics
 			get => pressure;
 			set
 			{
-				if (value.IsUnreasonableNumber() && value != 0)
+				if (value.IsUnreasonableNumber() && value != 0f)
 				{
 					Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE pressure Invalid number!!!! {value}");
 					return;

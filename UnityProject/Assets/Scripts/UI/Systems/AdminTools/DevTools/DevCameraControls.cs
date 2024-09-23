@@ -332,7 +332,7 @@ On";
 		{
 			foreach (var Matrix in	MatrixManager.Instance.ActiveMatrices)
 			{
-				var colour =MatrixColours.PickRandom(); ;
+				var colour =MatrixColours.PickRandom();
 				foreach (var Layers in Matrix.Value.MetaTileMap.Layers)
 				{
 					var TM = Layers.Value.GetComponent<Tilemap>();
