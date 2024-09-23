@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Initialisation;
+using Logs;
+using UnityEngine;
 
 namespace Core.Database
 {
@@ -11,6 +14,7 @@ namespace Core.Database
 		public static Uri GetUri(string endpoint, string queries = null)
 		{
 			UriBuilder.Path = $"/persistence/{endpoint}";
+
 
 			if (string.IsNullOrEmpty(queries) == false)
 			{
@@ -59,7 +63,7 @@ namespace Core.Database
 
 		public static async Task<ApiResult<JsonObject>> DeleteAccountsCharacterByID(int id, string token)
 		{
-			var response = await ApiServer.Delete<JsonObject>(GetUri($"characters/{id}/delete"), token);
+			var response = await ApiServer.Delete<JsonObject>(GetUri($"characters/{id}/delete",""), token);
 			return response;
 		}
 	}
