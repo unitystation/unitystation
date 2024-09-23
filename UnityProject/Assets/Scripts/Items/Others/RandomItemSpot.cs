@@ -107,7 +107,7 @@ namespace Items
 			}
 
 			var item = poolData.RandomItemPool.Pool.PickRandom();
-			var spread = fanOut ? Random.Range(-0.5f, 0.5f) : (float?) null;
+			var spread = fanOut ? Random.Range(0, 0.5f) : (float?) null;
 
 			if (!DMMath.Prob(item.Probability))
 			{

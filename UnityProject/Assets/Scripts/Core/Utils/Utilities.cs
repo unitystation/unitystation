@@ -7,8 +7,15 @@ using Random = System.Random;
 
 namespace Core.Utils
 {
+	public static class Colour //The cooler spelling
+	{
+		public static Color Orange => new Color(1, 0.5f, 0, 1f);
+		public static Color Purple => new Color(0.5f, 0, 1, 1f);
+		public static Color BabySick => new Color(0.563f, 1, 0, 1f);
+	}
 	public static class Utils
 	{
+
 		private static Random random = new Random();
 		public static void SetValueByName(this Dropdown dropdown, string valueName)
 		{

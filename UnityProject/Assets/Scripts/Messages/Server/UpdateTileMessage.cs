@@ -110,24 +110,16 @@ namespace Messages.Server
 					Changes = Changes
 				};
 
-				SendTo(recipient, msg);
-			}
-		}
-
-		public static NetMessage Send(uint matrixSyncNetID, Vector3Int position, TileType tileType, string tileName,
-			Matrix4x4 transformMatrix, Color colour, LayerType LayerType)
-		{
-			NetMessage msg = new NetMessage
-			{
-				Changes = new List<DelayedData>()
+				if (recipient == null)
 				{
-					new DelayedData(position, tileType, tileName, transformMatrix, colour, LayerType)
-				},
-				MatrixSyncNetID = matrixSyncNetID,
-			};
+					SendToAll(msg);
+				}
+				else
+				{
+					SendTo(recipient, msg);
+				}
 
-			SendToAll(msg);
-			return msg;
+			}
 		}
 	}
 

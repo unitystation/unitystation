@@ -54,7 +54,6 @@ namespace UI.Systems.AdminTools.DevTools
 		private int directionIndex = 0;
 
 		private Image selectedButton;
-		private LightingSystem lightingSystem;
 
 		private const int MinCharactersForSearch = 1;
 
@@ -68,7 +67,6 @@ namespace UI.Systems.AdminTools.DevTools
 
 		private void Awake()
 		{
-			lightingSystem = Camera.main.GetComponent<LightingSystem>();
 
 			SetUpDirections();
 		}
@@ -81,7 +79,6 @@ namespace UI.Systems.AdminTools.DevTools
 			SetUpCategories();
 
 			modeText.text = currentAction.ToString();
-			lightingSystem.enabled = false;
 			UIManager.IsMouseInteractionDisabled = true;
 		}
 
@@ -100,7 +97,6 @@ namespace UI.Systems.AdminTools.DevTools
 			}
 
 			UIManager.IsMouseInteractionDisabled = false;
-			lightingSystem.enabled = true;
 		}
 
 		public void Open()

@@ -399,9 +399,6 @@ namespace TileManagement
 					matrix.TileChangeManager.AddToChangeList(tileLocation.LocalPosition, tileLocation.layer.LayerType,
 						tileLocation.layer, null, false, true);
 				}
-
-				RemoveTileMessage.Send(matrix.NetworkedMatrix.MatrixSync.netId, tileLocation.LocalPosition,
-					tileLocation.layer.LayerType);
 			}
 
 			if (tileLocation.layer.LayerType == LayerType.Base)
@@ -463,11 +460,6 @@ namespace TileManagement
 						.ToLocal(MatrixManager.Instance.spaceMatrix).RoundToInt());
 					tileLocation.NewTile = false;
 				}
-
-
-				UpdateTileMessage.Send(matrix.NetworkedMatrix.MatrixSync.netId, tileLocation.LocalPosition,
-					tileLocation.layerTile.TileType, tileLocation.layerTile.name,
-					tileLocation.transformMatrix, tileLocation.Colour, tileLocation.layerTile.LayerType);
 			}
 
 			if (LocalCachedBounds != null)

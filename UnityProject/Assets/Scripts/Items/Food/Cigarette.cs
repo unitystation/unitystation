@@ -171,7 +171,7 @@ namespace Items
 		private void CigBurnLogic()
 		{
 			reagentContainer.Temperature = 300;
-			var bigHit = DMMath.Prob(50) ? 5 : 2;
+			var bigHit = DMMath.Prob(50) ? 0.5f : 0.25f;
 			var burnReagent = reagentContainer.TakeReagents(bigHit);
 			if (smoker != null)
 			{
@@ -180,14 +180,14 @@ namespace Items
 			}
 			if (gasProduct.Count > 0)
 			{
-				var tile = gameObject.RegisterTile();
+				RegisterTile tile = null;
+				tile = smoker == null ? gameObject.RegisterTile() : smoker.PlayerScript.gameObject.RegisterTile();
 				if (tile == null) return;
-				var gasNode = tile.Matrix.GetMetaDataNode(tile.LocalPositionServer, false);
-				if (gasNode == null) return;
+				var gasNode = tile.Matrix.GetMetaDataNode(tile.LocalPositionServer);
 				var node = gasNode.GasMixLocal;
 				foreach (var gas in gasProduct)
 				{
-					node.AddGas(gas, burnReagent.Total, Kelvin.FromC(2f));
+					node.AddGas(gas, burnReagent.Total * 2, 0);
 				}
 			}
 			if (reagentContainer.ReagentMixTotal.Approx(0)) Burn();
