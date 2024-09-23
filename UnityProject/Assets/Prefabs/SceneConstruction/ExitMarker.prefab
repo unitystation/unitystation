@@ -27,6 +27,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6005798261361759341, guid: 989ef5e46868af1409ddbd4469d19e57,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: df19db8e032cf364fa0615e2fccd2a2e,
+        type: 2}
+    - target: {fileID: 6005798261361759341, guid: 989ef5e46868af1409ddbd4469d19e57,
+        type: 3}
       propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: df19db8e032cf364fa0615e2fccd2a2e,
@@ -126,6 +132,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.r
       value: 0.21703447
+      objectReference: {fileID: 0}
+    - target: {fileID: 8639324099902385569, guid: 989ef5e46868af1409ddbd4469d19e57,
+        type: 3}
+      propertyPath: foreverID
+      value: bf668c0a59e6e5c4e9b1cf6485655d0a
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
