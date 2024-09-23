@@ -23,7 +23,7 @@ namespace Systems.Pipes
 			set
 			{
 
-				if (float.IsNormal(value) == false && value != 0)
+				if (value.IsUnreasonableNumber() && value != 0)
 				{
 					Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE MixAndVolume InternalEnergy Invalid number!!!! {value}");
 					return;
@@ -60,7 +60,7 @@ namespace Systems.Pipes
 			}
 			set
 			{
-				if (float.IsNormal(value) == false && value != 0)
+				if (value.IsUnreasonableNumber() && value != 0)
 				{
 					Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE MixAndVolume Temperature Invalid number!!!! {value}");
 					return;
@@ -196,7 +196,7 @@ namespace Systems.Pipes
 		public void Divide(float divideAmount, bool changeVolume = true)
 		{
 
-			if (float.IsNormal(divideAmount) == false)
+			if (divideAmount.IsUnreasonableNumber())
 			{
 				Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE MixAndVolume divideAmount Invalid number!!!! {divideAmount}");
 				return;
@@ -233,7 +233,7 @@ namespace Systems.Pipes
 		public void Multiply(float multiplyAmount, bool changeVolume = true)
 		{
 
-			if (float.IsNormal(multiplyAmount) == false)
+			if (multiplyAmount.IsUnreasonableNumber())
 			{
 				Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE MixAndVolume multiplyAmount Invalid number!!!! {multiplyAmount}");
 				return;

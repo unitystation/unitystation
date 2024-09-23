@@ -298,6 +298,7 @@ namespace MapSaver
 		public class CompactObjectMapData
 		{
 			public string Ver = "1.2.0";
+
 			//1.1.0 Added support for Dictionaries and change syntax for Removed Elements
 			//1.1.1 Lists now are specified in reversed order to Handle removed elements properly
 			//1.2.0 Added support for Sub-gameobjects to have rotation scale and offset
@@ -334,7 +335,9 @@ namespace MapSaver
 			public bool Removed = false;
 			public uint ChildLocation;
 			public string LocalPRS;
-			[DefaultValue("0")] public string ID = "0"; //Child index, Child index,  Child index, NOTE Always has a Zero for root
+
+			[DefaultValue("0")]
+			public string ID = "0"; //Child index, Child index,  Child index, NOTE Always has a Zero for root
 
 			public List<ClassData> ClassDatas = new List<ClassData>();
 			public List<IndividualObject> Children = null;
@@ -688,7 +691,8 @@ namespace MapSaver
 
 		public static void SaveTileMap(bool Compact, MatrixData ToSaveTo, MetaTileMap metaTileMap,
 			ref BetterBounds Bounds,
-			HashSet<Vector3Int> AllowedPoints = null, HashSet<LayerType> LayersToProcess = null, bool NonmappedItems = false)
+			HashSet<Vector3Int> AllowedPoints = null, HashSet<LayerType> LayersToProcess = null,
+			bool NonmappedItems = false)
 		{
 #if UNITY_EDITOR
 			if (Application.isPlaying == false)
@@ -699,11 +703,13 @@ namespace MapSaver
 
 			if (Compact)
 			{
-				CompactTileMapSave(ToSaveTo, metaTileMap, ref Bounds, AllowedPoints, LayersToProcess, NonmappedItems : NonmappedItems);
+				CompactTileMapSave(ToSaveTo, metaTileMap, ref Bounds, AllowedPoints, LayersToProcess,
+					NonmappedItems: NonmappedItems);
 			}
 			else
 			{
-				GitFriendlyTileMapSave(ToSaveTo, metaTileMap, ref Bounds, AllowedPoints, LayersToProcess, NonmappedItems : NonmappedItems);
+				GitFriendlyTileMapSave(ToSaveTo, metaTileMap, ref Bounds, AllowedPoints, LayersToProcess,
+					NonmappedItems: NonmappedItems);
 			}
 		}
 
@@ -821,7 +827,8 @@ namespace MapSaver
 
 
 		public static void GitFriendlyTileMapSave(MatrixData ToSaveTo, MetaTileMap metaTileMap, ref BetterBounds Bounds,
-			HashSet<Vector3Int> AllowedPoints = null, HashSet<LayerType> LayersToProcess = null, bool NonmappedItems = false)
+			HashSet<Vector3Int> AllowedPoints = null, HashSet<LayerType> LayersToProcess = null,
+			bool NonmappedItems = false)
 		{
 			//# Matrix4x4
 			//§ TileID
@@ -872,7 +879,6 @@ namespace MapSaver
 								}
 							}
 						}
-
 
 
 						if (LayersToProcess != null)
@@ -937,6 +943,7 @@ namespace MapSaver
 									continue;
 								}
 							}
+
 							LayerTile layerTile = TileAndLocation.layerTile;
 
 							if (LayersToProcess != null)
@@ -954,7 +961,8 @@ namespace MapSaver
 
 							if (NonmappedItems == false)
 							{
-								if (metaTileMap.TileSaveRollbacks.TryGetValue(TileAndLocation.LocalPosition, out var data))
+								if (metaTileMap.TileSaveRollbacks.TryGetValue(TileAndLocation.LocalPosition,
+									    out var data))
 								{
 									if (data.ChangedToLayerTile == layerTile)
 									{
@@ -1005,7 +1013,8 @@ namespace MapSaver
 		}
 
 		public static void CompactTileMapSave(MatrixData ToSaveTo, MetaTileMap metaTileMap, ref BetterBounds Bounds,
-			HashSet<Vector3Int> AllowedPoints = null, HashSet<LayerType> LayersToProcess = null, bool NonmappedItems = false)
+			HashSet<Vector3Int> AllowedPoints = null, HashSet<LayerType> LayersToProcess = null,
+			bool NonmappedItems = false)
 		{
 			//# Matrix4x4
 			//§ TileID
@@ -1058,7 +1067,6 @@ namespace MapSaver
 								continue;
 							}
 						}
-
 
 
 						if (TileAndLocation.layer.LayerType.IsMultilayer())
@@ -1272,7 +1280,8 @@ namespace MapSaver
 							LayerTile layerTile = TileAndLocation.layerTile;
 							if (NonmappedItems == false)
 							{
-								if (metaTileMap.TileSaveRollbacks.TryGetValue(TileAndLocation.LocalPosition, out var data))
+								if (metaTileMap.TileSaveRollbacks.TryGetValue(TileAndLocation.LocalPosition,
+									    out var data))
 								{
 									if (data.ChangedToLayerTile == layerTile)
 									{
@@ -1365,7 +1374,7 @@ namespace MapSaver
 			if (Application.isPlaying)
 			{
 				Objects = MetaTileMap.ObjectLayer.GetTileList(CustomNetworkManager.Instance._isServer)
-					.AllObjects; //TODO Disabled objectsxz
+					.AllObjects; //TODO Disabled objectsxz???
 			}
 			else
 			{
@@ -1395,8 +1404,10 @@ namespace MapSaver
 							continue;
 						}
 					}
+
 					Bounds.ExpandToPoint2D(EtherealThing.transform.localPosition);
-					ProcessIndividualObject(Compact, EtherealThing.gameObject, compactObjectMapData, NonmappedItems: NonmappedItems);
+					ProcessIndividualObject(Compact, EtherealThing.gameObject, compactObjectMapData,
+						NonmappedItems: NonmappedItems);
 				}
 			}
 
@@ -1519,10 +1530,11 @@ namespace MapSaver
 			{
 				var Angles = Object.transform.localScale;
 				var addString = Math.Round(Angles.x, 2) + "↔" +
-				                      Math.Round(Angles.y, 2) + "↔" +
-				                      Math.Round(Angles.z, 2) + "↔";
+				                Math.Round(Angles.y, 2) + "↔" +
+				                Math.Round(Angles.z, 2) + "↔";
 
-				if (addString != "1↔1↔1↔") //0.0001 Resulting in it adding 1↔1↔1↔ But then next Save it removing it, This fixes that
+				if (addString !=
+				    "1↔1↔1↔") //0.0001 Resulting in it adding 1↔1↔1↔ But then next Save it removing it, This fixes that
 				{
 					data = data + addString;
 				}
@@ -1572,15 +1584,16 @@ namespace MapSaver
 			if (Object.TryGetComponent<UniversalObjectPhysics>(out var physics))
 			{
 				physics.CheckNSnapToGrid(true);
-				if (physics.ContainedInObjectContainer && physics.ContainedInObjectContainer.StoredObjects.ContainsKey(physics.gameObject))
+				if (physics.ContainedInObjectContainer &&
+				    physics.ContainedInObjectContainer.StoredObjects.ContainsKey(physics.gameObject))
 				{
-					LocalPositionToUse = physics.GetRootObject.transform.localPosition + physics.ContainedInObjectContainer.StoredObjects[physics.gameObject];
+					LocalPositionToUse = physics.GetRootObject.transform.localPosition +
+					                     physics.ContainedInObjectContainer.StoredObjects[physics.gameObject];
 				}
 				else
 				{
 					LocalPositionToUse = physics.GetRootObject.transform.localPosition;
 				}
-
 			}
 
 			bool Round = true;
@@ -1647,9 +1660,10 @@ namespace MapSaver
 
 				if (PrefabEquivalent != null)
 				{
-					if(PrefabEquivalent.transform.localPosition != gameObject.transform.localPosition
+					if (PrefabEquivalent.transform.localPosition != gameObject.transform.localPosition
 					    || PrefabEquivalent.transform.localScale != gameObject.transform.localScale
-					    || PrefabEquivalent.transform.localRotation.eulerAngles != gameObject.transform.localRotation.eulerAngles)
+					    || PrefabEquivalent.transform.localRotation.eulerAngles !=
+					    gameObject.transform.localRotation.eulerAngles)
 					{
 						individualObject.LocalPRS = PRSToString(gameObject, null, false);
 					}
@@ -1762,32 +1776,56 @@ namespace MapSaver
 			int PrefabIndex = 0;
 			int GameObjectIndex = 0;
 
-
 			for (int i = 0; i < loopMax; i++)
 			{
-				if (PrefabComponents.Count > PrefabIndex
-				    && PrefabComponents[PrefabIndex].GetType() != gameObjectComponents[GameObjectIndex].GetType())
+				// Ensure we don't go out of bounds for gameObjectComponents
+				if (PrefabComponents.Count > PrefabIndex && gameObjectComponents.Count > GameObjectIndex)
 				{
+					if (PrefabComponents[PrefabIndex].GetType() != gameObjectComponents[GameObjectIndex].GetType())
+					{
+						while (PrefabComponents.Count > PrefabIndex)
+						{
+							// Check if gameObjectComponents is still in bounds
+							if (gameObjectComponents.Count > GameObjectIndex &&
+							    PrefabComponents[PrefabIndex].GetType() !=
+							    gameObjectComponents[GameObjectIndex].GetType())
+							{
+								ClassCount.TryAdd(PrefabComponents[PrefabIndex].GetType().Name, 0);
+								var RemoveOutClass = new ClassData();
+								RemoveOutClass.ClassID = PrefabComponents[PrefabIndex].GetType().Name + "@" +
+								                         ClassCount[PrefabComponents[PrefabIndex].GetType().Name];
+								ClassCount[PrefabComponents[PrefabIndex].GetType().Name]++;
+								RemoveOutClass.Removed = true;
+								RemoveOutClass.Data = null;
+								individualObject.ClassDatas.Add(RemoveOutClass);
+								PrefabIndex++;
+							}
+							else
+							{
+								break;
+							}
+						}
+
+						continue;
+					}
+				}
+				else
+				{
+					// If gameObjectComponents is smaller, handle remaining PrefabComponents
 					while (PrefabComponents.Count > PrefabIndex)
 					{
-						if (PrefabComponents[PrefabIndex].GetType() != gameObjectComponents[GameObjectIndex].GetType())
-						{
-							ClassCount.TryAdd(PrefabComponents[PrefabIndex].GetType().Name, 0);
-							var RemoveOutClass = new ClassData();
-							RemoveOutClass.ClassID = PrefabComponents[PrefabIndex].GetType().Name + "@" +
-							                         ClassCount[PrefabComponents[PrefabIndex].GetType().Name];
-							ClassCount[PrefabComponents[PrefabIndex].GetType().Name]++;
-							RemoveOutClass.Removed = true;
-							RemoveOutClass.Data = null;
-							individualObject.ClassDatas.Add(RemoveOutClass);
-							PrefabIndex++;
-						}
-						else
-						{
-							break;
-						}
+						ClassCount.TryAdd(PrefabComponents[PrefabIndex].GetType().Name, 0);
+						var RemoveOutClass = new ClassData();
+						RemoveOutClass.ClassID = PrefabComponents[PrefabIndex].GetType().Name + "@" +
+						                         ClassCount[PrefabComponents[PrefabIndex].GetType().Name];
+						ClassCount[PrefabComponents[PrefabIndex].GetType().Name]++;
+						RemoveOutClass.Removed = true;
+						RemoveOutClass.Data = null;
+						individualObject.ClassDatas.Add(RemoveOutClass);
+						PrefabIndex++;
 					}
-					continue;
+
+					break;
 				}
 
 
@@ -1800,7 +1838,6 @@ namespace MapSaver
 				Component gameObjectMono = null;
 
 				gameObjectMono = gameObjectComponents[GameObjectIndex];
-
 
 
 				if (gameObjectMono == null)
@@ -1821,11 +1858,13 @@ namespace MapSaver
 							{
 								if (CoordinateOverride == null)
 								{
-									ProcessIndividualObject(Compact, objectBehaviour.gameObject, compactObjectMapData, NonmappedItems: NonmappedItems);
+									ProcessIndividualObject(Compact, objectBehaviour.gameObject, compactObjectMapData,
+										NonmappedItems: NonmappedItems);
 								}
 								else
 								{
-									ProcessIndividualObject(Compact, objectBehaviour.gameObject, compactObjectMapData, NonmappedItems: NonmappedItems);
+									ProcessIndividualObject(Compact, objectBehaviour.gameObject, compactObjectMapData,
+										NonmappedItems: NonmappedItems);
 								}
 							}
 						}
@@ -1840,11 +1879,13 @@ namespace MapSaver
 							if (objectBehaviour.Item == null) continue;
 							if (CoordinateOverride == null)
 							{
-								ProcessIndividualObject(Compact, objectBehaviour.Item.gameObject, compactObjectMapData, NonmappedItems: NonmappedItems);
+								ProcessIndividualObject(Compact, objectBehaviour.Item.gameObject, compactObjectMapData,
+									NonmappedItems: NonmappedItems);
 							}
 							else
 							{
-								ProcessIndividualObject(Compact, objectBehaviour.Item.gameObject, compactObjectMapData, NonmappedItems: NonmappedItems);
+								ProcessIndividualObject(Compact, objectBehaviour.Item.gameObject, compactObjectMapData,
+									NonmappedItems: NonmappedItems);
 							}
 						}
 					}
@@ -2027,7 +2068,7 @@ namespace MapSaver
 
 			public class ReferencesAndData
 			{
-				public List<string> ReferencesNeeded = new List<string>();
+				public HashSet<string> ReferencesNeeded = new HashSet<string>();
 				public List<UnprocessedData> FieldsToPopulate = new List<UnprocessedData>();
 				public SpawnResult SpawnResult;
 			}
@@ -2064,8 +2105,17 @@ namespace MapSaver
 				{
 					if (Process.Value.ReferencesNeeded.Count > 0)
 					{
+						string data = "";
+						foreach (var NotSet in Process.Value.ReferencesNeeded)
+						{
+							if (CodeClass.ThisCodeClass.Objects.ContainsKey(NotSet))
+							{
+								data += $" {NotSet} Is in list however, ";
+							}
+						}
+
 						var stringMissing =
-							$" {Process.Key} Is missing references {string.Join(", ", Process.Value.ReferencesNeeded)} ";
+							$" {Process.Key} Is missing references {string.Join(", ", Process.Value.ReferencesNeeded)}, {data} ";
 						Loggy.LogError(stringMissing);
 						Returning += "\n" + stringMissing;
 					}

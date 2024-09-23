@@ -128,7 +128,7 @@ namespace Chemistry
 			get => temperature;
 			set
 			{
-				if (float.IsNormal(value) == false && value != 0)
+				if (value.IsUnreasonableNumber() && value != 0)
 				{
 					Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE Reagent mix temperature Invalid number!!!! {value}");
 					return;
@@ -169,7 +169,7 @@ namespace Chemistry
 
 			set
 			{
-				if (float.IsNormal(value) == false && value != 0)
+				if (value.IsUnreasonableNumber() && value != 0)
 				{
 					Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE Reagent mix InternalEnergy Invalid number!!!! {value}");
 					return;
@@ -307,7 +307,7 @@ namespace Chemistry
 				return;
 			}
 
-			if (float.IsNormal(amount) == false)
+			if (amount.IsUnreasonableNumber())
 			{
 				return;
 			}
@@ -344,7 +344,7 @@ namespace Chemistry
 				return 0;
 			}
 
-			if (float.IsNormal(amount ) == false)
+			if (amount.IsUnreasonableNumber())
 			{
 				Loggy.LogError($"Trying to remove {amount} amount of {reagent}", Category.Chemistry);
 				return 0;
@@ -439,7 +439,7 @@ namespace Chemistry
 				return;
 			}
 
-			if (float.IsNormal(multiplier) == false && multiplier != 0)
+			if (multiplier.IsUnreasonableNumber() && multiplier != 0)
 			{
 				Loggy.LogError($"Trying to Multiply by {multiplier}", Category.Chemistry);
 				return;
@@ -487,7 +487,7 @@ namespace Chemistry
 				return;
 			}
 
-			if (float.IsNormal(Divider) == false)
+			if (Divider.IsUnreasonableNumber())
 			{
 				Loggy.LogError($"Trying to Divide by {Divider}", Category.Chemistry);
 				return;

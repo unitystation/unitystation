@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Core.Utils;
 using Shared.Managers;
 using TMPro;
 using UnityEngine;
@@ -20,6 +21,23 @@ public class DevCameraControls  : SingletonManager<DevCameraControls>
 
 	public TMP_Text MappingItemText;
 
+	public Button MattrixCheckButton;
+
+	public TMP_Text  MattrixCheckText;
+
+	public List<Color> MatrixColours = new List<Color>()
+	{
+		Color.blue,
+		Color.red,
+		Color.yellow,
+		Color.green,
+		Color.magenta,
+		Color.cyan,
+		Colour.Orange,
+		Colour.Purple,
+		Colour.BabySick
+	};
+
 	public Color SelectedColour;
 	public Color UnSelectedColour;
 
@@ -35,6 +53,8 @@ public class DevCameraControls  : SingletonManager<DevCameraControls>
 	private bool? LightingSystemState = null;
 
 	public bool MappingItemState = false;
+
+	public bool MatrixCheckerState = false;
 
 	public Toggle Effects;
 	public Toggle Walls;
@@ -300,8 +320,59 @@ On";
 			Camera.main.GetComponent<LightingSystem>().enabled = true;
 		}
 		ToggleLayerForCulling(false);
+		ToggleMatrixCheck(false);
 		Override = null;
 		ToggleLayers();
+	}
+
+	void ToggleMatrixCheck(bool state)
+	{
+		MatrixCheckerState = state;
+		if (state)
+		{
+			foreach (var Matrix in	MatrixManager.Instance.ActiveMatrices)
+			{
+				var colour =MatrixColours.PickRandom();
+				foreach (var Layers in Matrix.Value.MetaTileMap.Layers)
+				{
+					var TM = Layers.Value.GetComponent<Tilemap>();
+					if (TM != null)
+					{
+						TM.color = colour;
+					}
+				}
+			}
+
+			MattrixCheckText.text = @"Turn off
+ matrix check";
+
+			var ColorBlock = MattrixCheckButton.colors;
+			ColorBlock.normalColor = SelectedColour;
+			MattrixCheckButton.colors = ColorBlock;
+
+		}
+		else
+		{
+			foreach (var Matrix in	MatrixManager.Instance.ActiveMatrices)
+			{
+				foreach (var Layers in Matrix.Value.MetaTileMap.Layers)
+				{
+
+					var TM = Layers.Value.GetComponent<Tilemap>();
+					if (TM != null)
+					{
+						TM.color = Color.white;
+					}
+				}
+			}
+
+			MattrixCheckText.text = @"Turn On
+ matrix check";
+
+			var ColorBlock = MattrixCheckButton.colors;
+			ColorBlock.normalColor = UnSelectedColour;
+			MattrixCheckButton.colors = ColorBlock;
+		}
 	}
 
 
@@ -349,5 +420,11 @@ View Off";
 	public void OnSelectedMappingItems()
 	{
 		ToggleLayerForCulling(!MappingItemState);
+	}
+
+	[NaughtyAttributes.Button]
+	public void OnSelectedMatrixChecker()
+	{
+		ToggleMatrixCheck(!MatrixCheckerState);
 	}
 }
