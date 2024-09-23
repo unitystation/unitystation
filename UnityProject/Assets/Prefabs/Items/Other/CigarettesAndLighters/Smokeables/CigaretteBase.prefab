@@ -301,7 +301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isBurningOnSpawn: 0
-  hotspotTemperature: 700
+  hotspotTemperature: 300
   changeGasMixTemp: 0
 --- !u!114 &5733160862123623072
 MonoBehaviour:
@@ -320,7 +320,7 @@ MonoBehaviour:
   syncInterval: 0.1
   buttPrefab: {fileID: 9060380378923672138, guid: 76c1cf9465a29384faac0d9df2eec3c9,
     type: 3}
-  smokeTimeSeconds: 16
+  smokeTimeSeconds: 14
   spriteHandler: {fileID: 3499719427789762796}
   reagentContainer: {fileID: 8431387283529515776}
   gasProduct:
