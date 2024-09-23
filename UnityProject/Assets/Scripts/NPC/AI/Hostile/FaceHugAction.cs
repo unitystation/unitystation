@@ -115,7 +115,6 @@ namespace Systems.MobAIs
 					if (!Validations.HasItemTrait(item.gameObject, CommonTraits.Instance.AntiFacehugger))
 					{
 						Inventory.ServerDrop(itemSlot);
-						antiHugger = true; //It just tries again
 					}
 					else
 					{
