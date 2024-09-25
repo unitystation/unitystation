@@ -1,7 +1,9 @@
 using System.Threading.Tasks;
+using Core;
 using Objects;
 using UnityEngine;
 using Mirror;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 
 namespace Player

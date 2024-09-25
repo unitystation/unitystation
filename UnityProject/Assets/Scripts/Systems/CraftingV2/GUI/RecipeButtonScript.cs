@@ -162,12 +162,14 @@ namespace Systems.CraftingV2.GUI
 			List<KeyValuePair<int, float>> possibleReagents
 		)
 		{
+			var ReasonString = "";
 			if (
 				PlayerManager.LocalPlayerScript.PlayerCrafting.KnowsRecipe(craftingRecipe)
 				&& craftingRecipe.CanBeCrafted(
 					possibleIngredients,
 					possibleTools,
-					possibleReagents
+					possibleReagents,
+					ref ReasonString
 				) == CraftingStatus.AllGood
 			)
 			{

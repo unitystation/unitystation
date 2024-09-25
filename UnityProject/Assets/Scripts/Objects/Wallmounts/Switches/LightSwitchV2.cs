@@ -100,6 +100,13 @@ namespace Objects.Lighting
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			TryInteraction();
+			if (powerState == PowerState.Off || powerState == PowerState.LowVoltage)
+			{
+				Chat.AddExamineMsg(gameObject, "You flip the switch... But nothing happens.");
+				return;
+			}
+			string state = isOn ? "on" : "off";
+			Chat.AddExamineMsg(gameObject, $"You flip the switch back {state}.");
 		}
 
 		#endregion

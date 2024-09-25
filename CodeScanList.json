@@ -362,6 +362,9 @@
 			},
 			"EditorBrowsableState" :{
 				"All": true
+			},
+			"DefaultValueAttribute" :{
+				"All": true
 			}
         },
         "System.Diagnostics.CodeAnalysis": {
@@ -556,6 +559,9 @@
 			"StringReader" : {
 				"All": true
 			},
+            "PathTooLongException" : {
+                "All": true
+            }
         },
         "System.Linq.Expressions": {
             "ConstantExpression": {},
@@ -2115,7 +2121,10 @@
 			},
 			"UriBuilder" : {
 				"All": true
-			}
+			},
+            "UnauthorizedAccessException" : {
+                "All": true
+            }
         },
         "UnityEngine": {
             "MonoBehaviour": {
@@ -2308,7 +2317,8 @@
 			"GUIUtility" : {
 				"Methods" : [
 					"void set_systemCopyBuffer(string)",
-					"void RotateAroundPivot(float, UnityEngine.Vector2)"
+					"void RotateAroundPivot(float, UnityEngine.Vector2)",
+					"string get_systemCopyBuffer()"
 					]
 			},
 			"GUI" : {
@@ -2606,7 +2616,12 @@
 			},
 			"UnassignedReferenceException" : {
 				"All": true
-			}
+			},
+            "Caching" : {
+                "Methods": [
+                    "bool ClearCache()"
+                ]
+            }
         },
 		"UnityEngine.Events" :{
 			"UnityEvent":{
@@ -3349,6 +3364,9 @@
 			},
 			"MicrophoneAccess" : {
 				"All": true
+			},
+			"UnprocessedData" : {
+				"All": true
 			}
 		},
 		"Newtonsoft.Json" : {
@@ -3387,7 +3405,10 @@
 			},
 			"DefaultValueHandling" : {
 				"All": true
-			}
+			},
+            "MissingMemberHandling" : {
+                "All": true
+            }
 		},
 		"Newtonsoft.Json.Bson" : {
 			"BsonWriter" : {
@@ -3466,48 +3487,6 @@
 			"IOrderedDictionary`2" : {
 				"All": true
 			}
-		},
-		"Firebase.Auth" : {
-			"UserProfile" :{
-				"All": true,
-				"TEMP" :  true
-			},
-			"FirebaseUser" :{
-				"All": true,
-				"TEMP" :  true
-			},
-			"FirebaseAuth" :{
-				"All": true,
-				"TEMP" :  true
-			},
-			"FirebaseException" :{
-				"All": true,
-				"TEMP" :  true
-			},
-			"FirebaseApp" :{
-				"All": true,
-				"TEMP" :  true
-			}
-		},
-		"Firebase" : {
-			"FirebaseAuth" :{
-				"All": true,
-				"TEMP" :  true
-			},
-			"FirebaseException" :{
-				"All": true,
-				"TEMP" :  true
-			},
-			"FirebaseApp" :{
-				"All": true,
-				"TEMP" :  true
-			}
-		},
-		"Firebase.Extensions" : {
-			"TaskExtension" :{
-				"All": true,
-				"TEMP" :  true
-			},
 		},
 		"C5" :{
 			"IntervalHeap`1" : {

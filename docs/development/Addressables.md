@@ -37,4 +37,9 @@ Once declared you can either play the sound by calling it in the script using th
 
 ![](../assets/images/AddressableSounds/select_sound.png)
 
+NOTE!!!
+
+AutoCreatePrefab In the addressable Packing project Can mess up pre-existing keys if used,
+since it takes the name of the audio Clip instead of the prefab, potentially resulting in a different key for the Sound
+
 That's it!

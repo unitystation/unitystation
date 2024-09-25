@@ -112,6 +112,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5350820327707673002, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
+      propertyPath: parentID
+      value: eaf8c1f2a0f9374488e16061fd5b4dcd
+      objectReference: {fileID: 0}
+    - target: {fileID: 5350820327707673002, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
       propertyPath: foreverID
       value: 27208d0fc3f7c3544a8d1a7861253b52
       objectReference: {fileID: 0}
@@ -205,6 +210,7 @@ MonoBehaviour:
   Sprite: {fileID: 4987756423560292299}
   edible: {fileID: 7037229560526396988}
   sizeScale: 1
+  scaleSync: {fileID: 0}
 --- !u!212 &1337560984964591376 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 1155915217242832539, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,

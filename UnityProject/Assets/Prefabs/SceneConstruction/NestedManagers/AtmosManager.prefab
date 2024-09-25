@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4658051877073353262}
   - component: {fileID: 4700803371900741226}
+  - component: {fileID: 6118977906102880131}
   m_Layer: 0
   m_Name: AtmosManager
   m_TagString: Untagged
@@ -44,6 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82a7b771adf143e9b7a36d9cfde3508d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  removeingpipeList: []
+  addingpipeList: []
+  pipeList: []
   reactionManagerList: []
   StopPipes: 0
   <FireLight>k__BackingField: {fileID: 1762630675659964, guid: 715614a08d7f9514aab57170abfe56ef,
@@ -54,3 +58,20 @@ MonoBehaviour:
     type: 3}
   <MetalHydrogen>k__BackingField: {fileID: 7265401691325103712, guid: e337916fff9e0c34f8dcb03c7abc4ae5,
     type: 3}
+--- !u!114 &6118977906102880131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4660828658949317422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28a60ea4c34a436d8ec878d086a212f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ticker: 0
+  tickDelay: 1500
+  threadMode: 0
+  midTick: 0
+  threadName: 

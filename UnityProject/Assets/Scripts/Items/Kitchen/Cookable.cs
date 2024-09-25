@@ -1,6 +1,10 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
+using UI.Systems.Tooltips.HoverTooltips;
+using UnityEngine.Events;
+using Util.Independent.FluentRichText;
 
 
 namespace Items.Food
@@ -11,8 +15,11 @@ namespace Items.Food
 	/// <para>The <see cref="OnCooked"/> event is raised when something cooks this, which other
 	/// components can subscribe to, to perform extra logic (for e.g. microwaving dice to rig them).</para>
 	/// </summary>
-	public class Cookable : MonoBehaviour
+	public class Cookable : MonoBehaviour, IExaminable, IHoverTooltip
 	{
+		[SerializeField]
+		private Integrity integrity;
+
 		[Tooltip("Minimum time to cook.")]
 		public int CookTime = 10;
 
@@ -28,16 +35,44 @@ namespace Items.Food
 		/// <summary>
 		/// Raised when enough cooking time has been added (via <see cref="AddCookingTime(float)"/>)
 		/// </summary>
-		public event Action OnCooked;
+		public UnityEvent OnCooked;
 
 		private float timeSpentCooking;
 
+		private Pickupable Pickupable;
+
+		[BoxGroup("Cooking by damage settings")]
+		[field: SerializeField]
+		public float minimumDamage = 2f;
+		[BoxGroup("Cooking by damage settings")]
+		[field: SerializeField]
+		public DamageType cookingByDamageType = DamageType.Burn;
+		[BoxGroup("Cooking by damage settings")]
+		[field: SerializeField]
+		public AttackType cookingByAttackType = AttackType.Fire;
+
 		private void Awake()
 		{
+			if (integrity == null) integrity = GetComponent<Integrity>();
+			Pickupable = this.GetComponent<Pickupable>();
+			integrity.OnApplyDamage.AddListener(OnDamageReceived);
 			if (CookableBy.HasFlag(CookSource.BurnUp))
 			{
-				GetComponent<Integrity>().OnBurnUpServer += OnBurnUpServer;
+				integrity.OnBurnUpServer += OnBurnUpServer;
 			}
+			OnCooked.AddListener(CookProduct);
+		}
+
+		private void OnDestroy()
+		{
+			OnCooked.RemoveAllListeners();
+		}
+
+		private void OnDamageReceived(DamageInfo info)
+		{
+			if (info.Damage < minimumDamage) return;
+			if (info.DamageType != cookingByDamageType && info.AttackType != cookingByAttackType) return;
+			AddCookingTime(info.Damage / 2f);
 		}
 
 		/// <summary>
@@ -56,19 +91,80 @@ namespace Items.Food
 		public bool AddCookingTime(float time)
 		{
 			timeSpentCooking += time;
-			if (timeSpentCooking > CookTime)
+			if (timeSpentCooking > CookTime )
 			{
 				OnCooked?.Invoke();
 				return true;
 			}
-
 			return false;
 		}
 
 		private void OnBurnUpServer(DestructionInfo info)
 		{
-			_ = Despawn.ServerSingle(gameObject);
-			Spawn.ServerPrefab(CookedProduct, gameObject.RegisterTile().WorldPosition, transform.parent);
+			if (CookedProduct == null) return;
+			var item = Spawn.ServerPrefab(CookedProduct, gameObject.AssumedWorldPosServer(), transform.parent);
+
+			if (Pickupable.ItemSlot != null)
+			{
+				Inventory.ServerAdd(item.GameObject, Pickupable.ItemSlot, ReplacementStrategy.DropOther);
+			}
+
+
+
+
+		}
+
+		public void CookProduct()
+		{
+			OnBurnUpServer(null);
+			var stackable = this.GetComponent<Stackable>();
+			if (stackable != null && stackable.Amount > 1)
+			{
+				stackable.ServerConsume(1);
+				this.ResetTimeCooked();
+			}
+			else
+			{
+				_ = Despawn.ServerSingle(this.gameObject);
+			}
+		}
+
+		public string Examine(Vector3 worldPos = default(Vector3))
+		{
+			var exanimeInfo = $"This item can be cooked under heat. {CookTime} seconds.";
+			if (timeSpentCooking > 0.1f)
+			{
+				var percentage = (int)((timeSpentCooking / CookTime) * 100);
+				exanimeInfo += " [";
+				exanimeInfo += $"{percentage}%".Color(Color.green);
+				exanimeInfo += "]";
+			}
+			return exanimeInfo;
+		}
+
+		public string HoverTip()
+		{
+			return Examine();
+		}
+
+		public string CustomTitle()
+		{
+			return null;
+		}
+
+		public Sprite CustomIcon()
+		{
+			return null;
+		}
+
+		public List<Sprite> IconIndicators()
+		{
+			return null;
+		}
+
+		public List<TextColor> InteractionsStrings()
+		{
+			return null;
 		}
 	}
 

@@ -1,19 +1,21 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
-using Color = UnityEngine.Color;
 using Random = System.Random;
-
 
 namespace Core.Utils
 {
-
+	public static class Colour //The cooler spelling
+	{
+		public static Color Orange => new Color(1, 0.5f, 0, 1f);
+		public static Color Purple => new Color(0.5f, 0, 1, 1f);
+		public static Color BabySick => new Color(0.563f, 1, 0, 1f);
+	}
 	public static class Utils
 	{
+
 		private static Random random = new Random();
 		public static void SetValueByName(this Dropdown dropdown, string valueName)
 		{
@@ -65,8 +67,45 @@ namespace Core.Utils
 
 		public static string ToHexString(this UnityEngine.Color color)
 		{
-			return ColorUtility.ToHtmlStringRGBA(color);
+			return  $"#{ColorUtility.ToHtmlStringRGBA(color)}";
 		}
+
+		public static float RoundToArbitrary(this float ValuedRound, float RoundBy)
+		{
+			if (RoundBy == 0)
+			{
+				throw new ArgumentException("Rounding value cannot be zero.", nameof(RoundBy));
+			}
+
+			return (float)(Math.Round(ValuedRound / RoundBy) * RoundBy);
+		}
+
+		/// <summary>
+		/// Used to find if two strings are closer to each other. Useful when trying to search for a string in a list.
+		/// </summary>
+		/// <returns>Level of clossness</returns>
+		public static int LevenshitenDistance(string a, string b)
+		{
+			if (string.IsNullOrEmpty(a)) return string.IsNullOrEmpty(b) ? 0 : b.Length;
+			if (string.IsNullOrEmpty(b)) return a.Length;
+
+			int[,] costs = new int[a.Length + 1, b.Length + 1];
+
+			for (int i = 0; i <= a.Length; i++) costs[i, 0] = i;
+			for (int j = 0; j <= b.Length; j++) costs[0, j] = j;
+
+			for (int i = 1; i <= a.Length; i++)
+			{
+				for (int j = 1; j <= b.Length; j++)
+				{
+					int cost = (a[i - 1] == b[j - 1]) ? 0 : 1;
+					costs[i, j] = Math.Min(Math.Min(costs[i - 1, j] + 1, costs[i, j - 1] + 1), costs[i - 1, j - 1] + cost);
+				}
+			}
+
+			return costs[a.Length, b.Length];
+		}
+
 	}
 
 	#if UNITY_EDITOR
@@ -79,287 +118,6 @@ namespace Core.Utils
 		}
 	}
 	#endif
-
-
-	public class MindNIPossessingEvent : UnityEvent<Mind, IPlayerPossessable> { }
-
-
-	[System.Serializable]
-	public class MultiInterestBool
-	{
-		[Serializable]
-		public class BoolEvent : UnityEvent<bool> { }
-
-		public bool State => state;
-
-		private bool state;
-
-		private RegisterBehaviour Behaviour = RegisterBehaviour.RemoveFalse;
-
-		private BoolBehaviour SetBoolBehaviour = BoolBehaviour.ReturnOnTrue;
-
-		public enum RegisterBehaviour
-		{
-			RemoveFalse, //Your entry of false will be just removed from the dictionary and won't contribute to
-			RegisterFalse //Your entry will be registered as false in the dictionary and contribute to options
-		}
-
-		public enum BoolBehaviour
-		{
-			ReturnOnFalse, //if any value is false Overrides all
-			ReturnOnTrue //If any value is true overrides all
-		}
-
-		public bool initialState => InitialState;
-
-		[SerializeField] private bool InitialState;
-
-		public Dictionary<object, bool> InterestedParties = new Dictionary<object ,bool>();
-
-		public BoolEvent OnBoolChange = new BoolEvent();
-
-		public void RemovePosition(object Instance)
-		{
-			if (InterestedParties.ContainsKey(Instance))
-			{
-				InterestedParties.Remove(Instance);
-			}
-			RecalculateBoolCash();
-		}
-
-		public void RecordPosition(object Instance, bool Position)
-		{
-			if (Position || Behaviour == RegisterBehaviour.RegisterFalse)
-			{
-				InterestedParties[Instance] = Position;
-			}
-			else
-			{
-				if (InterestedParties.ContainsKey(Instance))
-				{
-					InterestedParties.Remove(Instance);
-				}
-			}
-
-			RecalculateBoolCash();
-		}
-
-		private void RecalculateBoolCash()
-		{
-			bool? Tracked = null;
-
-			foreach (var Position in InterestedParties)
-			{
-				if (Position.Value)
-				{
-					Tracked = Position.Value;
-					if (SetBoolBehaviour == BoolBehaviour.ReturnOnTrue)
-					{
-						if (state == false)
-						{
-							state = true;
-							OnBoolChange.Invoke(state);
-						}
-
-						return;
-					}
-				}
-				else
-				{
-					Tracked = Position.Value;
-					if (SetBoolBehaviour == BoolBehaviour.ReturnOnFalse)
-					{
-						if (state == true)
-						{
-							state = false;
-							OnBoolChange?.Invoke(state);
-						}
-
-						return;
-					}
-				}
-			}
-
-			if (Tracked != null)
-			{
-				if (Tracked.Value != state)
-				{
-					state = Tracked.Value;
-					OnBoolChange?.Invoke(state);
-				}
-				return;
-			}
-
-
-
-			if (state != InitialState)
-			{
-				state = InitialState;
-				OnBoolChange?.Invoke(state);
-			}
-
-		}
-
-		public static implicit operator bool(MultiInterestBool value)
-		{
-			return value.State;
-		}
-
-		public MultiInterestBool(bool InDefaultState = false,
-			RegisterBehaviour inRegisterBehaviour = RegisterBehaviour.RemoveFalse,
-			BoolBehaviour InSetBoolBehaviour = BoolBehaviour.ReturnOnTrue)
-		{
-			InitialState = InDefaultState;
-			state = InitialState;
-			Behaviour = inRegisterBehaviour;
-			SetBoolBehaviour = InSetBoolBehaviour;
-		}
-
-	}
-
-
-
-	public class MultiInterestFloat
-	{
-		[Serializable]
-		public class FloatEvent : UnityEvent<float> { }
-
-		public float State => state;
-
-		private float state;
-
-		private RegisterBehaviour Behaviour = RegisterBehaviour.Remove0;
-
-		private FloatBehaviour SetFloatBehaviour = FloatBehaviour.ReturnOn1;
-
-		public enum RegisterBehaviour
-		{
-			Remove0, //Your entry of 0 will be just removed from the dictionary and won't contribute to
-			Register0 //Your entry will be registered as false in the dictionary and contribute to options
-		}
-
-		public enum FloatBehaviour
-		{
-			ReturnOn0, //if any value is 0 Overrides all
-			ReturnOn1 //if any value is 1 overrides all
-		}
-		public float initialState => InitialState;
-
-		[SerializeField] private float InitialState;
-
-		public Dictionary<object, float> InterestedParties = new Dictionary<object ,float>();
-
-		public FloatEvent OnFloatChange = new FloatEvent();
-
-		public void RemovePosition(object Instance)
-		{
-			if (InterestedParties.ContainsKey(Instance))
-			{
-				InterestedParties.Remove(Instance);
-			}
-			RecalculateBoolCash();
-		}
-
-		public void RecordPosition(object Instance, float Position)
-		{
-			if (Position != 0 || Behaviour == RegisterBehaviour.Register0)
-			{
-				InterestedParties[Instance] = Position;
-			}
-			else
-			{
-				if (InterestedParties.ContainsKey(Instance))
-				{
-					InterestedParties.Remove(Instance);
-				}
-			}
-
-			RecalculateBoolCash();
-		}
-
-		private void RecalculateBoolCash()
-		{
-			float? Tracked = null;
-
-			foreach (var Position in InterestedParties)
-			{
-				if (Position.Value > 0)
-				{
-					Tracked = Position.Value;
-
-					if (Tracked.Value >= 1f && SetFloatBehaviour == FloatBehaviour.ReturnOn1)
-					{
-						if (state != Tracked.Value)
-						{
-							state = Tracked.Value;
-							OnFloatChange?.Invoke(state);
-						}
-
-						return;
-					}
-				}
-				else
-				{
-					if (Tracked != null)
-					{
-						if (Position.Value > Tracked.Value)
-						{
-							Tracked = Position.Value;
-						}
-					}
-					else
-					{
-						Tracked = Position.Value;
-					}
-
-
-					if (SetFloatBehaviour == FloatBehaviour.ReturnOn0)
-					{
-						if (state != Tracked.Value)
-						{
-							state = Tracked.Value;
-							OnFloatChange?.Invoke(state);
-						}
-
-						return;
-					}
-				}
-			}
-
-			if (Tracked != null)
-			{
-				if (Tracked.Value != state)
-				{
-					state = Tracked.Value;
-					OnFloatChange?.Invoke(state);
-				}
-				return;
-			}
-
-
-
-			if (state != InitialState)
-			{
-				state = InitialState;
-				OnFloatChange?.Invoke(state);
-			}
-
-		}
-
-		public static implicit operator float(MultiInterestFloat value)
-		{
-			return value.State;
-		}
-
-		public MultiInterestFloat(float InInitialState = 0,
-			RegisterBehaviour inRegisterBehaviour = RegisterBehaviour.Remove0,
-			FloatBehaviour InSetFloatBehaviour = FloatBehaviour.ReturnOn1)
-		{
-			InitialState = InInitialState;
-			Behaviour = inRegisterBehaviour;
-			SetFloatBehaviour  = InSetFloatBehaviour;
-		}
-	}
 }
 
 

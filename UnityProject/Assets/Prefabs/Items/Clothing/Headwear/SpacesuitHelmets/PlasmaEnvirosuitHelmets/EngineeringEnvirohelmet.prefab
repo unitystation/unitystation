@@ -19,6 +19,12 @@ PrefabInstance:
       value: A space-worthy helmet specially designed for engineer plasmamen, the
         usual purple stripes being replaced by engineering's orange.
       objectReference: {fileID: 0}
+    - target: {fileID: 741549383598998161, guid: 2c46f309a45d8714f9c5db5361e854e6,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: addc0bf3fb7053942a448d72798f304c,
+        type: 2}
     - target: {fileID: 911725522681720307, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
       propertyPath: m_Name
@@ -117,6 +123,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6061177061013348766, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
+      propertyPath: parentID
+      value: 2c46f309a45d8714f9c5db5361e854e6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6061177061013348766, guid: 2c46f309a45d8714f9c5db5361e854e6,
+        type: 3}
       propertyPath: foreverID
       value: fb326cff61a55704ca244f0116325115
       objectReference: {fileID: 0}
@@ -150,6 +161,12 @@ PrefabInstance:
     - target: {fileID: 6476465160503121524, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: addc0bf3fb7053942a448d72798f304c,
+        type: 2}
+    - target: {fileID: 6476465160503121524, guid: 2c46f309a45d8714f9c5db5361e854e6,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: addc0bf3fb7053942a448d72798f304c,
         type: 2}

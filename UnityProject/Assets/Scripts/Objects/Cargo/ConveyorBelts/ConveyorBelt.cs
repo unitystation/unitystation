@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using Core;
 using UnityEngine;
 using Mirror;
 using ScriptableObjects;
+using SecureStuff;
 using Shared.Systems.ObjectConnection;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -60,8 +63,7 @@ namespace Construction.Conveyors
 			if (Selection.activeGameObject != this.gameObject) return;
 #endif
 #if UNITY_EDITOR
-			EditorApplication.delayCall -= EditorRefreshSprites;
-			EditorApplication.delayCall += EditorRefreshSprites;
+			EditorRefreshSprites();
 #endif
 
 		}
@@ -281,6 +283,7 @@ namespace Construction.Conveyors
 			_ = Despawn.ServerSingle(gameObject);
 		}
 
+		[VVNote(VVHighlight.SafeToModify100)]
 		private void ChangeDirection()
 		{
 			int count = (int)CurrentDirection + 1;
@@ -308,7 +311,7 @@ namespace Construction.Conveyors
 		public bool TrySetMaster(GameObject performer, IMultitoolMasterable Inmaster)
 		{
 			var SwitchOLd = (Master as ConveyorBeltSwitch);
-			SwitchOLd.RemoveConveyorBelt(this);
+			SwitchOLd?.RemoveConveyorBelt(this);
 
 			Master = Inmaster;
 

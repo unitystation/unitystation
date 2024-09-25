@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Core;
 using UnityEngine;
 using UnityEngine.Events;
 using Systems.Electricity;
@@ -13,6 +14,7 @@ using Random = UnityEngine.Random;
 using Objects.Electrical;
 using Objects.Engineering;
 using TileManagement;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 /// <summary>
 /// Collision-related stuff

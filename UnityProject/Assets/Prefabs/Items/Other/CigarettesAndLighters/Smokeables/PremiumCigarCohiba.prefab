@@ -26,12 +26,23 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 1710597379565003975, guid: cbc099e0e4f14e94a9df931c25cd4214,
         type: 3}
+      propertyPath: parentID
+      value: cbc099e0e4f14e94a9df931c25cd4214
+      objectReference: {fileID: 0}
+    - target: {fileID: 1710597379565003975, guid: cbc099e0e4f14e94a9df931c25cd4214,
+        type: 3}
       propertyPath: foreverID
       value: 34533c4a705c62d489e648e7edd4f303
       objectReference: {fileID: 0}
     - target: {fileID: 1892045739792962349, guid: cbc099e0e4f14e94a9df931c25cd4214,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 631a38c3a028b324e87ab5d5d611724a,
+        type: 2}
+    - target: {fileID: 1892045739792962349, guid: cbc099e0e4f14e94a9df931c25cd4214,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 631a38c3a028b324e87ab5d5d611724a,
         type: 2}
@@ -57,6 +68,12 @@ PrefabInstance:
       propertyPath: initialDescription
       value: There's little more you could want from a cigar.
       objectReference: {fileID: 0}
+    - target: {fileID: 5326175134510860232, guid: cbc099e0e4f14e94a9df931c25cd4214,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 631a38c3a028b324e87ab5d5d611724a,
+        type: 2}
     - target: {fileID: 5617694318809652214, guid: cbc099e0e4f14e94a9df931c25cd4214,
         type: 3}
       propertyPath: m_Sprite
@@ -142,6 +159,11 @@ PrefabInstance:
         type: 3}
       propertyPath: 'initialReagentMix.reagents.m_values.Array.data[0]'
       value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6904629306225483969, guid: cbc099e0e4f14e94a9df931c25cd4214,
+        type: 3}
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[1]'
+      value: 60
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

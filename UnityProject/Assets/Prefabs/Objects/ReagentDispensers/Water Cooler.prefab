@@ -10,6 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 825006774157790681, guid: 39da184d881f73c48b25ae5921795c55,
         type: 3}
+      propertyPath: parentID
+      value: 39da184d881f73c48b25ae5921795c55
+      objectReference: {fileID: 0}
+    - target: {fileID: 825006774157790681, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
       propertyPath: foreverID
       value: 51c0e5d18b9c1fa44badeb798e344d05
       objectReference: {fileID: 0}
@@ -73,6 +78,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4533835568187246826, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: isNotPushable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4567449949114439559, guid: 39da184d881f73c48b25ae5921795c55,
         type: 3}
       propertyPath: m_Sprite
@@ -112,6 +122,12 @@ PrefabInstance:
     - target: {fileID: 9102368241754052938, guid: 39da184d881f73c48b25ae5921795c55,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 32aeb309bf7665943aa53307cdcc9dfa,
+        type: 2}
+    - target: {fileID: 9102368241754052938, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 32aeb309bf7665943aa53307cdcc9dfa,
         type: 2}

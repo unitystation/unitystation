@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Color: {r: 0.92498475, g: 0.6179246, b: 1, a: 0.25490198}
+  InitialColour: {r: 0.92498475, g: 0.6179246, b: 1, a: 0.25490198}
   Sprite: {fileID: 21300000, guid: d762023805e093545b2ac69e5841375f, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
@@ -247,6 +247,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5263037525709609767, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
         type: 3}
+      propertyPath: parentID
+      value: 81e4f93f9ae0fc64aad2053ade3ae29e
+      objectReference: {fileID: 0}
+    - target: {fileID: 5263037525709609767, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,
+        type: 3}
       propertyPath: foreverID
       value: adv_lightreplacer
       objectReference: {fileID: 0}
@@ -340,6 +345,7 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
+  initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}
 --- !u!114 &7371254084972930010
@@ -359,6 +365,16 @@ MonoBehaviour:
   syncInterval: 0.1
   currentColor: {r: 1, g: 1, b: 1, a: 0.6666667}
   storage: {fileID: 6447919417946254890}
+  IsAdvanced: 1
+  BulbsCanBeRecycled: 1
+  BulbsRecycled: 0
+  BrokenTrait: {fileID: 11400000, guid: 11ce8d65a70014d4997c0bf4f1045b67, type: 2}
+  LightBulbTrait: {fileID: 11400000, guid: e3c06d233d4623549bc9ec895f304ff5, type: 2}
+  LightTubeTrait: {fileID: 11400000, guid: 82327368297d15b41971f9a171ce14cf, type: 2}
+  LightBulb: {fileID: 1241979378841723491, guid: bb018450ceda0b24d83c74bfd253bdc1,
+    type: 3}
+  LightTube: {fileID: 5906873233642746271, guid: c51fa6d63cfcce3479b4420a95bba17e,
+    type: 3}
 --- !u!114 &3290636334451048025 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3859178486808048078, guid: 81e4f93f9ae0fc64aad2053ade3ae29e,

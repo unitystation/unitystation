@@ -1,6 +1,8 @@
+using Core;
 using Core.Lighting_System.Light2D;
 using TileManagement;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Systems.Atmospherics
 {
@@ -37,9 +39,11 @@ namespace Systems.Atmospherics
 
 			//Spawn firelight prefab
 			if (firelight != null) return;
-			var fireLightSpawn = Spawn.ServerPrefab(node.ReactionManager.FireLightPrefab, node.WorldPosition);
+			var Position = node.LocalPosition.ToWorld(node.PositionMatrix);
+			var fireLightSpawn = Spawn.ServerPrefab(node.ReactionManager.FireLightPrefab,Position );
 
 			if(fireLightSpawn.Successful == false) return;
+			fireLightSpawn.GameObject.GetComponent<UniversalObjectPhysics>().AppearAtWorldPositionServer(Position);
 			firelight = fireLightSpawn.GameObject.GetComponent<NetworkLight>();
 		}
 

@@ -5,9 +5,7 @@ using AddressableReferences;
 using Messages.Server.SoundMessages;
 using Mirror;
 using Systems.Construction.Parts;
-using UnityEditor;
 using UnityEngine;
-using Weapons.Projectiles;
 
 namespace Weapons
 {
@@ -17,6 +15,15 @@ namespace Weapons
 		public List<AddressableAudioSource> firemodeFiringSound = new List<AddressableAudioSource>();
 		public List<string> firemodeName = new List<string>();
 		public List<int> firemodeUsage = new List<int>();
+
+		[SerializeField, Tooltip("(Optional) Charge Sprite, must have variants equal to amount of charge bars")]
+		public SpriteHandler chargeSprite;
+
+		[SerializeField, Tooltip("(Optional) Ammo Sprite")]
+		public SpriteHandler ammoSprite;
+
+		private const int NO_CELL_SPRITE = 2;
+		private const int FULL_SPRITE = 3;
 
 		private const float magRemoveTime = 3f;
 
@@ -36,7 +43,18 @@ namespace Weapons
 		{
 			UpdateFiremode(currentFiremode, 0);
 			base.OnSpawnServer(info);
+			UpdateChargeSprite();
 		}
+
+		public override void OnInventoryMoveServer(InventoryMove info)
+		{
+			base.OnInventoryMoveServer(info);
+			//update sprite when moved into or out of inventory to handle
+			//weapon chargers and other things modifying charge whilst
+			//the weapon is out of a players inventory
+			UpdateChargeSprite();
+		}
+
 
 		public override bool WillInteract(HandActivate interaction, NetworkSide side)
 		{
@@ -59,13 +77,17 @@ namespace Weapons
 			}
 			Chat.AddExamineMsgFromServer(interaction.Performer, $"You switch your {gameObject.ExpensiveName()} into {firemodeName[currentFiremode]} mode");
 			CurrentMagazine.ServerSetAmmoRemains(Battery.Watts / firemodeUsage[currentFiremode]);
+			UpdateChargeSprite();
 		}
 
 		public override bool WillInteract(AimApply interaction, NetworkSide side)
 		{
 			if (Battery == null || firemodeUsage[currentFiremode] > Battery.Watts)
 			{
-				PlayEmptySfx();
+				if (interaction.MouseButtonState != MouseButtonState.HOLD)
+				{
+					PlayEmptySfx();
+				}
 				return false;
 			}
 			CurrentMagazine.containedBullets[0] = firemodeProjectiles[currentFiremode];
@@ -78,6 +100,7 @@ namespace Weapons
 			if (firemodeUsage[currentFiremode] > Battery.Watts) return;
 			base.ServerPerformInteraction(interaction);
 			CurrentMagazine.ServerSetAmmoRemains(Battery.Watts / firemodeUsage[currentFiremode]);
+			UpdateChargeSprite();
 		}
 
 		public override bool WillInteract(InventoryApply interaction, NetworkSide side)
@@ -88,6 +111,7 @@ namespace Weapons
 			if (interaction.TargetObject == gameObject && interaction.IsFromHandSlot)
 			{
 				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver) && allowScrewdriver ||
+					Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.WeaponAttachable) ||
 					Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wirecutter) ||
 					Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.FiringPin))
 				{
@@ -110,16 +134,24 @@ namespace Weapons
 			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver) && CurrentMagazine != null && allowScrewdriver)
 			{
 				PowerCellRemoval(interaction);
+				return;
 			}
+
 			MagazineBehaviour mag = interaction.UsedObject.GetComponent<MagazineBehaviour>();
 			if (mag)
 			{
-				ServerHandleReloadRequest(mag.gameObject);
+				ServerReloadMagazine(mag.gameObject);
+				UpdateChargeSprite();
+				return;
 			}
-			else
+
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.WeaponAttachable))
 			{
-				base.PinInteraction(interaction);
+				AttachmentInteraction(interaction);
+				return;
 			}
+
+			base.PinInteraction(interaction);
 		}
 
 		private void PowerCellRemoval(InventoryApply interaction)
@@ -129,7 +161,8 @@ namespace Weapons
 				Chat.AddActionMsgToChat(interaction.Performer,
 					$"The {gameObject.ExpensiveName()}'s power cell pops out",
 					$"{interaction.Performer.ExpensiveName()} finishes removing {gameObject.ExpensiveName()}'s energy cell.");
-				base.ServerHandleUnloadRequest();
+				base.ServerUnloadMagazine();
+				UpdateChargeSprite();
 			}
 
 			var bar = StandardProgressAction.Create(base.ProgressConfig, ProgressFinishAction)
@@ -141,7 +174,7 @@ namespace Weapons
 					$"You begin unsecuring the {gameObject.ExpensiveName()}'s power cell.",
 					$"{interaction.Performer.ExpensiveName()} begins unsecuring {gameObject.ExpensiveName()}'s power cell.");
 					AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.8f, 1.2f));
-				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.screwdriver, interaction.Performer.AssumedWorldPosServer(), audioSourceParameters, sourceObj: serverHolder);
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.screwdriver, interaction.Performer.AssumedWorldPosServer(), audioSourceParameters, sourceObj: ServerHolder);
 			}
 		}
 
@@ -149,7 +182,30 @@ namespace Weapons
 		{
 			currentFiremode = newState;
 			FiringSoundA = firemodeFiringSound[currentFiremode];
-			//TODO: change sprite here
+		}
+
+		//This function should only be run serverside or it WILL desync the weapons sprites
+		public void UpdateChargeSprite() {
+			if (ammoSprite != null )
+			{
+				ammoSprite.SetCatalogueIndexSprite(currentFiremode + 2);
+			}
+			if (chargeSprite == null) {
+				return;
+			}
+			if (Battery == null)
+			{
+				chargeSprite.SetCatalogueIndexSprite(NO_CELL_SPRITE);
+			} else if (Battery.Watts / firemodeUsage[currentFiremode] != 0) {
+				chargeSprite.SetCatalogueIndexSprite(FULL_SPRITE + currentFiremode);
+				float rounds = Battery.Watts / firemodeUsage[currentFiremode];
+				float maxrounds = Battery.MaxWatts / firemodeUsage[currentFiremode];
+				int percent = Mathf.FloorToInt((rounds / maxrounds) * 100.0f);
+				int outof = Mathf.CeilToInt(percent * chargeSprite.PresentSpritesSet.Variance.Count / 100.0f);
+				chargeSprite.SetSpriteVariant(outof-1);
+			} else {
+				chargeSprite.SetCatalogueIndexSprite(NO_CELL_SPRITE);
+			}
 		}
 
 		public override String Examine(Vector3 pos)
@@ -158,6 +214,9 @@ namespace Weapons
 			exam.AppendLine($"{WeaponType} - Fires {ammoType} ammunition")
 				.AppendLine(CurrentMagazine != null ? $"{Mathf.Floor(Battery.Watts / firemodeUsage[currentFiremode])} rounds loaded" : "It's empty!")
 				.AppendLine(FiringPin != null ? $"It has a {FiringPin.gameObject.ExpensiveName()} installed" : "It doesn't have a firing pin installed, it won't fire")
+				.AppendLine(allowedAttachments != 0
+				? $"It is compatible with {FormatAttachmentString()} attachments"
+					: "It cannot use any attachments.")
 				.Append(firemodeProjectiles.Count > 1 ? $"It is set to {firemodeName[currentFiremode]} mode." : "");
 			return exam.ToString();
 		}

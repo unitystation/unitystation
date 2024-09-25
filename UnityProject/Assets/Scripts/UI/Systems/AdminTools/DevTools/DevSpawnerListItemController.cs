@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Core.Admin.Logs;
 using InGameGizmos;
 using Items;
 using Messages.Client.DevSpawner;
@@ -160,6 +161,23 @@ public class DevSpawnerListItemController : MonoBehaviour
 		}
 	}
 
+	public void OnSelectedParent()
+	{
+		var PrefabTracker = prefab.GetComponent<PrefabTracker>();
+		if (PrefabTracker == null) return;
+		Destroy(this.gameObject);
+		GUI_DevSpawner.Instance.Search(PrefabTracker.ParentID);
+	}
+
+	public void OnSelectedShowChildren()
+	{
+		var PrefabTracker = prefab.GetComponent<PrefabTracker>();
+		if (PrefabTracker == null) return;
+		Destroy(this.gameObject);
+		GUI_DevSpawner.Instance.Search(PrefabTracker.ForeverID);
+	}
+
+
 	public void OnSelected()
 	{
 		if (selectedItem != this)
@@ -257,6 +275,16 @@ public class DevSpawnerListItemController : MonoBehaviour
 		{
 			var game = Spawn.ServerPrefab(prefab, MousePosition).GameObject;
 
+			if (GUI_DevSpawner.Instance.MappingToggle.isOn)
+			{
+				var NonMapped = game.gameObject.GetComponent<RuntimeSpawned>();
+				if (NonMapped != null)
+				{
+					Destroy(NonMapped);
+				}
+			}
+
+
 			if (game.TryGetComponent<Stackable>(out var Stackable) && GUI_DevSpawner.Instance.StackAmount != -1)
 			{
 				Stackable.ServerSetAmount(GUI_DevSpawner.Instance.StackAmount);
@@ -268,12 +296,11 @@ public class DevSpawnerListItemController : MonoBehaviour
 			}
 
 			var player = PlayerManager.LocalPlayerObject.Player();
-			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
-					$"{player.Username} spawned a {prefab.name} at {MousePosition}", player.AccountId);
+			AdminLogsManager.AddNewLog(player.GameObject, $"{player.Username} spawned a {prefab.name} at {MousePosition}", LogCategory.Admin);
 		}
 		else
 		{
-			DevSpawnMessage.Send(prefab, (Vector3) MousePosition, GUI_DevSpawner.Instance.StackAmount, OrientationEnum);
+			DevSpawnMessage.Send(prefab, (Vector3) MousePosition, GUI_DevSpawner.Instance.StackAmount, OrientationEnum, GUI_DevSpawner.Instance.MappingToggle.isOn);
 		}
 	}
 }

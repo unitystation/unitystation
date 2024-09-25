@@ -95,6 +95,24 @@ PrefabInstance:
       value: A trenchcoat enhanced with a special lightweight kevlar. The epitome
         of tactical plainclothes.
       objectReference: {fileID: 0}
+    - target: {fileID: 2292539596511889348, guid: f7b1874a6ebd85a439111098540d72d7,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: e4ce6225ca489f540926e1794ad25770,
+        type: 2}
+    - target: {fileID: 2292539596511889348, guid: f7b1874a6ebd85a439111098540d72d7,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: f3f03f4929dea1b49bd2f077fd69fb3d,
+        type: 2}
+    - target: {fileID: 2292539596511889348, guid: f7b1874a6ebd85a439111098540d72d7,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 43c51c769d37e8f44b67828156359569,
+        type: 2}
     - target: {fileID: 2643966672048528345, guid: f7b1874a6ebd85a439111098540d72d7,
         type: 3}
       propertyPath: armoredBodyParts.Array.size
@@ -178,12 +196,23 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4721918441319933131, guid: f7b1874a6ebd85a439111098540d72d7,
         type: 3}
+      propertyPath: parentID
+      value: f7b1874a6ebd85a439111098540d72d7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4721918441319933131, guid: f7b1874a6ebd85a439111098540d72d7,
+        type: 3}
       propertyPath: foreverID
       value: 87f3ae414da12c240addea367416f45c
       objectReference: {fileID: 0}
     - target: {fileID: 5511061372054836001, guid: f7b1874a6ebd85a439111098540d72d7,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 43c51c769d37e8f44b67828156359569,
+        type: 2}
+    - target: {fileID: 5511061372054836001, guid: f7b1874a6ebd85a439111098540d72d7,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 43c51c769d37e8f44b67828156359569,
         type: 2}

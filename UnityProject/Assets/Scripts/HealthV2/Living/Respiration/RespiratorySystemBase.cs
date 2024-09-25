@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿﻿using UnityEngine;
 using Chemistry;
 using Systems.Atmospherics;
 using Objects.Atmospherics;
 using System.Collections.Generic;
+using Core;
 using Items.Implants.Organs;
 using Mirror;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace HealthV2
 {
@@ -82,7 +84,7 @@ namespace HealthV2
 				//For now block breathing out water vapour as it will just fill a room
 				if(gas == Gas.WaterVapor) continue;
 
-				atmos.AddGas(gas, reagent.Value);
+				atmos.AddGasWithTemperature(gas, reagent.Value, blood.Temperature);
 			}
 		}
 
@@ -157,7 +159,7 @@ namespace HealthV2
 				{
 					if (gasSlot.Item == null) continue;
 					var gasContainer = gasSlot.Item.GetComponent<GasContainer>();
-					if (gasContainer)
+					if (gasContainer && gasContainer.IgnoreInternals == false)
 					{
 						return gasContainer;
 					}

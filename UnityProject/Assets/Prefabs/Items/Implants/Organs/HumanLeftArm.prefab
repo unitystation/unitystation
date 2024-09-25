@@ -114,6 +114,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 13fa3e7a251a7b54aa67fd153c616ab7,
         type: 2}
+    - target: {fileID: 1444101878611596070, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2897815147708187720, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: Storage.Array.size
@@ -226,6 +231,21 @@ PrefabInstance:
       propertyPath: storage.Array.data[2].Condition.ConditionalParameter
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3182376050707237422, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3523244764140818517, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: runningSpeed
+      value: 0.024
+      objectReference: {fileID: 0}
+    - target: {fileID: 3523244764140818517, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: walkingSpeed
+      value: 0.024
+      objectReference: {fileID: 0}
     - target: {fileID: 3666507880365142169, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -234,8 +254,18 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4548261438558078835, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
+      propertyPath: parentID
+      value: ba9a875c31908af4ab3749cd127a2edb
+      objectReference: {fileID: 0}
+    - target: {fileID: 4548261438558078835, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
       propertyPath: foreverID
       value: 719377fefb0114b448fc6ca9f7a5a6df
+      objectReference: {fileID: 0}
+    - target: {fileID: 5626258811849946062, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5756682103643324902, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
@@ -323,6 +353,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 6f10522908349504886bbb75debfbdb1,
         type: 3}
+    - target: {fileID: 7311775021426134078, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7363429173861889706, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: _assetId
@@ -366,17 +401,17 @@ PrefabInstance:
     - target: {fileID: 7473600891628779114, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7473600891628779114, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7473600891628779114, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7473600891628779114, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
@@ -392,6 +427,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9020037484071866679, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}

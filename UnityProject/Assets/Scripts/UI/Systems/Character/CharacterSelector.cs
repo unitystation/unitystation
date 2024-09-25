@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using Core.Utils;
@@ -34,6 +35,8 @@ namespace UI.Character
 		[SerializeField] private Button selectCharacterBtn;
 		[SerializeField] private Button cancelDeleteCharacterBtn;
 		[SerializeField] private Button confirmDeleteCharacterBtn;
+		[SerializeField] private Button refreshCharacterSheetsButton;
+		[SerializeField] private Button clearAllCharactersBtn;
 
 		#endregion
 
@@ -52,6 +55,8 @@ namespace UI.Character
 			selectCharacterBtn.onClick.AddListener(OnSelectCharacterBtn);
 			cancelDeleteCharacterBtn.onClick.AddListener(OnCancelDeleteCharacterBtn);
 			confirmDeleteCharacterBtn.onClick.AddListener(OnConfirmDeleteCharacterBtn);
+			refreshCharacterSheetsButton.onClick.AddListener(OnRefreshCharacterSheets);
+			clearAllCharactersBtn.onClick.AddListener(OnDeleteAllCharacterSheets);
 
 			characterSettingsWindow.SetWindowTitle("Select your character");
 
@@ -82,6 +87,8 @@ namespace UI.Character
 			selectCharacterBtn.onClick.RemoveListener(OnSelectCharacterBtn);
 			cancelDeleteCharacterBtn.onClick.RemoveListener(OnCancelDeleteCharacterBtn);
 			confirmDeleteCharacterBtn.onClick.RemoveListener(OnConfirmDeleteCharacterBtn);
+			refreshCharacterSheetsButton.onClick.RemoveListener(OnRefreshCharacterSheets);
+			clearAllCharactersBtn.onClick.RemoveListener(OnDeleteAllCharacterSheets);
 		}
 
 		private void UpdateCharactersDropDown()
@@ -115,9 +122,11 @@ namespace UI.Character
 			characterPreviewDropdown.value = previewedCharacterKey;
 			characterPreviewRace.text = PreviewedCharacter.Species;
 			characterPreviewBodyType.text = PreviewedCharacter.BodyType.ToString();
-
-			// characterCustomization also manages the character sprite previewer, for now.
 			characterCustomization.LoadCharacter(PreviewedCharacter);
+			// This is responsible for showing characters on the selector screen outside the customizer.
+			// Do not remove this line unless you want characters to go invisible.
+			// (Max): This whole thing is scuffed.
+			StartCoroutine(characterCustomization.RefreshRotation());
 		}
 
 		private void CreateCharacter()
@@ -136,7 +145,6 @@ namespace UI.Character
 		private void DeletePreviewedCharacter()
 		{
 			CharacterManager.Remove(previewedCharacterKey);
-			previewedCharacterKey -= 1;
 
 			UpdateCharactersDropDown();
 
@@ -215,6 +223,25 @@ namespace UI.Character
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			HideCharacterDeletionConfirmation();
 			DeletePreviewedCharacter();
+		}
+
+		public void OnRefreshCharacterSheets()
+		{
+			Task.Run(async () => await CharacterManager.LoadCharacters()).Then(task =>
+			{
+				LoadManager.DoInMainThread(UpdateCharactersDropDown);
+				deleteCharacterBtn.SetActive(CharacterManager.Characters.Count > 1);
+			});
+		}
+
+		public void OnDeleteAllCharacterSheets()
+		{
+			foreach (var sheet in CharacterManager.Characters)
+			{
+				CharacterManager.Remove(sheet.Id);
+			}
+			CharacterManager.Characters.Clear();
+			UpdateCharactersDropDown();
 		}
 
 		#endregion

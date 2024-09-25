@@ -1,7 +1,9 @@
 ﻿using System;
+using Core;
 using Systems.Explosions;
 using Objects;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Items.Tool
 {

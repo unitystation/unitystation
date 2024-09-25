@@ -1,9 +1,11 @@
+using Core;
 using Systems.Explosions;
 using Gateway;
 using Items;
 using UnityEngine;
 using Weapons.Projectiles;
 using Weapons.Projectiles.Behaviours;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Research
 {

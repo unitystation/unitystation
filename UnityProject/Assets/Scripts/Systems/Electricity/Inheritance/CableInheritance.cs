@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core;
 using Logs;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Mirror;
 using Systems.Electricity;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Electrical
 {

@@ -6,9 +6,12 @@ using System.Reflection;
 using UnityEngine;
 using System.Text;
 using System.Linq;
+using AdminTools;
+using Core.Admin.Logs;
 using Logs;
 using Messages.Server.VariableViewer;
 using SecureStuff;
+using UI.Systems.AdminTools.AdminLogs;
 using UnityEngine.SceneManagement;
 using Component = UnityEngine.Component;
 using Object = System.Object;
@@ -58,10 +61,10 @@ public static class VariableViewer
 
 	public static void ProcessListOnTileTransform(List<Transform> transform, GameObject WhoBy)
 	{
-
 	}
 
-	public static void ProcessTransform(Transform transform, GameObject WhoBy, bool RefreshHierarchy = false, bool Teleport = false)
+	public static void ProcessTransform(Transform transform, GameObject WhoBy, bool RefreshHierarchy = false,
+		bool Teleport = false)
 	{
 		if (Librarian.library.TransformToBookShelves.Count == 0)
 		{
@@ -82,12 +85,11 @@ public static class VariableViewer
 
 		BookShelf.PopulateBookShelf();
 
-		SendBookShelfToClient(BookShelf,WhoBy, Teleport);
+		SendBookShelfToClient(BookShelf, WhoBy, Teleport);
 		if (RefreshHierarchy)
 		{
 			LibraryNetMessage.Send(Librarian.library, WhoBy);
 		}
-
 	}
 
 	public static void RequestHierarchy(GameObject WhoBy)
@@ -97,7 +99,8 @@ public static class VariableViewer
 	}
 
 
-	public static void ProcessOpenBook(ulong BookID, GameObject ByWho) //yes yes if you Have high Ping then rip, -Creator
+	public static void
+		ProcessOpenBook(ulong BookID, GameObject ByWho) //yes yes if you Have high Ping then rip, -Creator
 	{
 		Librarian.Book Book;
 		if (Librarian.IDToBook.ContainsKey(BookID))
@@ -108,7 +111,7 @@ public static class VariableViewer
 				Book = Librarian.Book.PopulateBook(Book);
 			}
 
-			SendBookToClient(Book,ByWho);
+			SendBookToClient(Book, ByWho);
 		}
 		else
 		{
@@ -130,16 +133,18 @@ public static class VariableViewer
 			Book.GetBindedPages();
 		}
 
-		BookNetMessage.Send(Book,ToWho);
+		BookNetMessage.Send(Book, ToWho);
 	}
 
-	public static void SendBookShelfToClient(Librarian.Library.LibraryBookShelf BookShelf, GameObject ToWho, bool Teleport)
+	public static void SendBookShelfToClient(Librarian.Library.LibraryBookShelf BookShelf, GameObject ToWho,
+		bool Teleport)
 	{
 		SubBookshelfNetMessage.Send(BookShelf, ToWho, Teleport);
 	}
 
 	//Receive from Client side
-	public static void RequestOpenPageValue(ulong PageID, uint SentenceID, bool IsSentence, bool iskey, GameObject ToWho)
+	public static void RequestOpenPageValue(ulong PageID, uint SentenceID, bool IsSentence, bool iskey,
+		GameObject ToWho)
 	{
 		if (Librarian.IDToPage.ContainsKey(PageID))
 		{
@@ -158,13 +163,13 @@ public static class VariableViewer
 					}
 
 					book = Librarian.Book.GenerateNonMonoBook(Page.Variable);
-					SendBookToClient(book,ToWho);
+					SendBookToClient(book, ToWho);
 				}
 				else
 				{
 					book = Librarian.Book.PartialGeneratebook(_MonoBehaviour);
 					book = Librarian.Book.PopulateBook(book);
-					SendBookToClient(book,ToWho);
+					SendBookToClient(book, ToWho);
 				}
 			}
 			else
@@ -187,7 +192,8 @@ public static class VariableViewer
 		}
 	}
 
-	public static void RequestSendBookshelf(ulong BookshelfID, bool IsNewbookBookshelf, GameObject WhoBy, bool RequestTeleport)
+	public static void RequestSendBookshelf(ulong BookshelfID, bool IsNewbookBookshelf, GameObject WhoBy,
+		bool RequestTeleport)
 	{
 		if (Librarian.IDToBookShelf.ContainsKey(BookshelfID))
 		{
@@ -206,6 +212,7 @@ public static class VariableViewer
 				{
 					Bookshelf.PopulateBookShelf();
 				}
+
 				SubBookshelfNetMessage.Send(Bookshelf, WhoBy, RequestTeleport);
 			}
 			else
@@ -234,19 +241,29 @@ public static class VariableViewer
 	}
 
 
-	public static void RequestChangeVariable(ulong PageID, string ChangeTo, bool SendToClient, GameObject WhoBy, string AdminId, ListModification ListModification = ListModification.NONE  )
+	public static void RequestChangeVariable(ulong PageID, string ChangeTo, bool SendToClient, GameObject WhoBy,
+		string AdminId, uint SentenceID, ListModification ListModification = ListModification.NONE)
 
 	{
 		if (Librarian.IDToPage.ContainsKey(PageID))
 		{
 			if (ListModification == ListModification.NONE)
 			{
-				UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
-					WhoBy.name + " Modified " + Librarian.IDToPage[PageID].VariableName + " on " +  Librarian.IDToPage[PageID].BindedTo.Title
-					+ " From " + VVUIElementHandler.Serialise(Librarian.IDToPage[PageID].Variable, Librarian.IDToPage[PageID].VariableType) + " to "+ ChangeTo
-					+ " with Send to clients? " + SendToClient, AdminId);
+				AdminLogsManager.AddNewLog(WhoBy, $"{WhoBy.name} Modified " + Librarian.IDToPage[PageID].VariableName + " on " +
+				                                  Librarian.IDToPage[PageID].BindedTo.Title
+				                                  + " From " + VVUIElementHandler.Serialise(Librarian.IDToPage[PageID].Variable,
+					                                  Librarian.IDToPage[PageID].VariableType) + " to " + ChangeTo
+				                                  + " with Send to clients? " + SendToClient, LogCategory.Admin);
 
-				Librarian.IDToPage[PageID].SetValue(ChangeTo);
+				if (SentenceID != uint.MaxValue && SentenceID != 0)
+				{
+					Librarian.IDToPage[PageID].SetValue(ChangeTo, SentenceID);
+				}
+				else
+				{
+					Librarian.IDToPage[PageID].SetValue(ChangeTo);
+				}
+
 				if (SendToClient)
 				{
 					var monoBehaviour = (Librarian.IDToPage[PageID].BindedTo.BookClass as Component);
@@ -255,15 +272,15 @@ public static class VariableViewer
 					//TODO List modification
 					UpdateClientValue.Send(ChangeTo, Librarian.IDToPage[PageID].VariableName,
 						TypeDescriptor.GetClassName(monoBehaviour),
-						monoBehaviour.gameObject, UpdateClientValue.Modifying.ModifyingVariable );
+						monoBehaviour.gameObject, UpdateClientValue.Modifying.ModifyingVariable);
 				}
 			}
 			else
 			{
-				UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
-					WhoBy.name + " Modified " + Librarian.IDToPage[PageID].VariableName + " on " +  Librarian.IDToPage[PageID].BindedTo.Title
-					+ " Did modifying action to " + ListModification + " to " + ChangeTo
-					+ " with Send to clients? " + SendToClient, AdminId);
+				AdminLogsManager.AddNewLog(WhoBy, WhoBy.name + " Modified " + Librarian.IDToPage[PageID].VariableName + " on " +
+				                                  Librarian.IDToPage[PageID].BindedTo.Title
+				                                  + " Did modifying action to " + ListModification + " to " + ChangeTo
+				                                  + " with Send to clients? " + SendToClient, LogCategory.Admin);
 				switch (ListModification)
 				{
 					case ListModification.Remove:
@@ -279,9 +296,7 @@ public static class VariableViewer
 						Librarian.IDToPage[PageID].AddElement();
 						break;
 				}
-
 			}
-
 		}
 		else
 		{
@@ -293,10 +308,8 @@ public static class VariableViewer
 	{
 		if (Librarian.IDToPage.ContainsKey(PageID))
 		{
-			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
-				WhoBy.name + " Invoked " + Librarian.IDToPage[PageID].VariableName + " on " +  Librarian.IDToPage[PageID].BindedTo.Title
-				, AdminId);
-
+			AdminLogsManager.AddNewLog(WhoBy, WhoBy.name + " Invoked " + Librarian.IDToPage[PageID].VariableName + " on " +
+			                                  Librarian.IDToPage[PageID].BindedTo.Title, LogCategory.Admin);
 			Librarian.IDToPage[PageID].Invoke();
 			if (SendToClient)
 			{
@@ -332,7 +345,6 @@ public static class VariableViewer
 	//	}
 	//}
 }
-
 
 
 public enum DisplayValueType

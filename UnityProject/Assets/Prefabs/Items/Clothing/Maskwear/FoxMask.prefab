@@ -10,6 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 25715693032685112, guid: 7620c1f80fbe6f14d9fd21f5db20cb7b,
         type: 3}
+      propertyPath: parentID
+      value: 7620c1f80fbe6f14d9fd21f5db20cb7b
+      objectReference: {fileID: 0}
+    - target: {fileID: 25715693032685112, guid: 7620c1f80fbe6f14d9fd21f5db20cb7b,
+        type: 3}
       propertyPath: foreverID
       value: 9f644e05e98184b49986be56dfe02118
       objectReference: {fileID: 0}
@@ -37,6 +42,12 @@ PrefabInstance:
     - target: {fileID: 984030586657343954, guid: 7620c1f80fbe6f14d9fd21f5db20cb7b,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 898d79190ff7b1c48a8c3f04fd29fe06,
+        type: 2}
+    - target: {fileID: 984030586657343954, guid: 7620c1f80fbe6f14d9fd21f5db20cb7b,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 898d79190ff7b1c48a8c3f04fd29fe06,
         type: 2}
@@ -126,6 +137,12 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A mask made of soft vinyl and latex, representing the head of a fox.
       objectReference: {fileID: 0}
+    - target: {fileID: 6776931286767099191, guid: 7620c1f80fbe6f14d9fd21f5db20cb7b,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 898d79190ff7b1c48a8c3f04fd29fe06,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

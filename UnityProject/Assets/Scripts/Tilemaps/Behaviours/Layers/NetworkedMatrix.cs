@@ -37,6 +37,8 @@ namespace Tilemaps.Behaviours.Layers
 
 		public Matrix matrix;
 
+		public bool IsJsonLoaded = false;
+
 		/// <summary>
 		/// Gets a unity event that the caller can subscribe to which will be fired once
 		/// the networking for this matrix is initialized.
@@ -127,6 +129,7 @@ namespace Tilemaps.Behaviours.Layers
 			}
 			FireInitEvents();
 			Initialized = true;
+			MatrixManager.Instance.RegisterWhenReady(matrix);
 		}
 
 		public void OnStartClient()
@@ -142,6 +145,10 @@ namespace Tilemaps.Behaviours.Layers
 			}
 			FireInitEvents();
 			Initialized = true;
+			if (CustomNetworkManager.IsServer == false)
+			{
+				MatrixManager.Instance.RegisterWhenReady(matrix);
+			}
 		}
 
 		public void BackUpSetMatrixSync()

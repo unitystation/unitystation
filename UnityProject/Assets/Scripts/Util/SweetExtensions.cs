@@ -10,8 +10,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Items;
 using System.Threading.Tasks;
+using Core;
 using Logs;
 using Messages.Server;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public static class SweetExtensions
 {
@@ -93,7 +95,7 @@ public static class SweetExtensions
 			return player.Script.visibleName;
 		}
 
-		return go.name.Replace("NPC_", "").Replace("_", " ").Replace("(Clone)","");
+		return go?.name.Replace("NPC_", "").Replace("_", " ").Replace("(Clone)","");
 	}
 
 	public static T GetRandom<T>(this List<T> list)
@@ -178,6 +180,33 @@ public static class SweetExtensions
 		}
 
 	}
+
+	public static void RemoveNulls(this IList list)
+	{
+		// Ensure the list is not null
+		if (list == null)
+		{
+			throw new ArgumentNullException(nameof(list));
+		}
+
+		// Iterate backwards to avoid issues while removing items
+		for (int i = list.Count - 1; i >= 0; i--)
+		{
+			if (list[i] == null)
+			{
+				list.RemoveAt(i);
+			}
+		}
+	}
+
+
+
+	public static bool IsUnreasonable(this Vector3 Vecctor)
+	{
+		return Vecctor.x.IsUnreasonableNumber() || Vecctor.y.IsUnreasonableNumber() || Vecctor.z.IsUnreasonableNumber();
+	}
+
+
 
 
 	/// Creates garbage! Use very sparsely!
@@ -1027,5 +1056,10 @@ public static class SweetExtensions
 			vector3.y += y;
 		}
 		return vector3;
+	}
+
+	public static Vector2 RandomDirection(this Vector2 vector2)
+	{
+		return new Vector2((int)Random.Range(-1, 1), (int)Random.Range(-1, 1));
 	}
 }

@@ -25,6 +25,8 @@ public class MainStationListSO : ScriptableObject
 			var maps = JsonConvert.DeserializeObject<MapList>(AccessFile.Load(mapsConfig));
 			return maps.GetRandomMap();
 		}
+		Chat.AddGameWideSystemMsgToChat("Uh oh! We're using the legacy way of loading scenes!!" +
+		                                "Make sure that the gamemode has a maps config file set or is not missing!!!");
 
 		// Check that we can actually load the scene.
 		var mapSoList = MainStations.Where(scene => SceneUtility.GetBuildIndexByScenePath(scene) > -1).ToList();

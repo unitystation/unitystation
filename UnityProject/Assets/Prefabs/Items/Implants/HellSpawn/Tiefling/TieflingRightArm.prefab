@@ -20,10 +20,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5637bd1d25250dc42ae7bd3bfd5af629,
         type: 2}
+    - target: {fileID: 1444101878611596070, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2501135004884365284, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: 'traumaTypesOnBodyPart.Array.data[0]'
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3182376050707237422, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3666507880365142169, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
@@ -33,8 +43,18 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4548261438558078835, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
+      propertyPath: parentID
+      value: ba9a875c31908af4ab3749cd127a2edb
+      objectReference: {fileID: 0}
+    - target: {fileID: 4548261438558078835, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
       propertyPath: foreverID
       value: gV1kzx1C536HjtWAqgqb
+      objectReference: {fileID: 0}
+    - target: {fileID: 5626258811849946062, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6313817628243374210, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
@@ -226,6 +246,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9020037484071866679, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7311775021426134078, guid: ba9a875c31908af4ab3749cd127a2edb, type: 3}

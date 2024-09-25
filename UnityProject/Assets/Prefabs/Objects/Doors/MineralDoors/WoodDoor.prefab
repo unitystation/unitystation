@@ -28,6 +28,36 @@ PrefabInstance:
       propertyPath: initialName
       value: wood door
       objectReference: {fileID: 0}
+    - target: {fileID: 3542702998424444105, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8e2caf10f8bc570498542d5272c6f035,
+        type: 2}
+    - target: {fileID: 3542702998424444105, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 8e2caf10f8bc570498542d5272c6f035,
+        type: 2}
+    - target: {fileID: 3542702998424444105, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 9f0a4644e86cf2b4285fddde6cff8f0c,
+        type: 2}
+    - target: {fileID: 3542702998424444105, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: e711066a8bd438e49ae203e6dbbf2990,
+        type: 2}
+    - target: {fileID: 3542702998424444105, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 814835ba3bcf27940935a8687dbbfe51,
+        type: 2}
     - target: {fileID: 3572030529697710648, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
       propertyPath: openSFX
@@ -40,14 +70,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4903062517644232794, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
+      propertyPath: parentID
+      value: d6882bf1e96328b4189c858524c259b6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4903062517644232794, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
       propertyPath: foreverID
       value: 93dbd338c6220214c926ec72a2c9c6b2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7549711645399890105, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: closingSFX.AssetAddress
+      value: Assets/Prefabs/Doors/doorcreaky.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 7549711645399890105, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: openingSFX.AssetAddress
+      value: Assets/Prefabs/Doors/doorcreaky.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 8078043400501678596, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -8705412580890446912, guid: 75991036a7420c94f8e27945f2e81e5a,
+      objectReference: {fileID: 21300000, guid: 513b128c77be9b84caebdc3d06bc8e17,
         type: 3}
     - target: {fileID: 8078043400501678596, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
@@ -82,17 +127,17 @@ PrefabInstance:
     - target: {fileID: 8317990795859112137, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8317990795859112137, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8317990795859112137, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8317990795859112137, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}

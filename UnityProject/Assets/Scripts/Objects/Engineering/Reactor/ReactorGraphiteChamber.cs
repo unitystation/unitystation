@@ -8,6 +8,7 @@ using Items.Engineering;
 using Logs;
 using Objects.Atmospherics;
 using Objects.Engineering.Reactor;
+using SecureStuff;
 using Shared.Systems.ObjectConnection;
 
 
@@ -15,8 +16,8 @@ namespace Objects.Engineering
 {
 	public class ReactorGraphiteChamber : MonoBehaviour, ICheckedInteractable<HandApply>, IMultitoolMasterable, IServerDespawn
 	{
-		public float EditorPresentNeutrons;
-		public float EditorEnergyReleased;
+		[PlayModeOnly] public float EditorPresentNeutrons;
+		[PlayModeOnly] public float EditorEnergyReleased;
 
 		public GameObject UraniumOre;
 		public GameObject MetalOre;
@@ -28,13 +29,9 @@ namespace Objects.Engineering
 		[SerializeField] private ItemStorage RodStorage = default;
 		[SerializeField] private ItemStorage PipeStorage = default;
 
-		private decimal NeutronLeakingChance = 0.0397M;
-
-		public decimal EnergyReleased = 0; //Wattsec
+		public decimal EnergyReleased = 0; //Joules
 
 		public ItemTrait PipeItemTrait = null;
-
-		public float LikelihoodOfSpontaneousNeutron = 0.1f;
 
 		public System.Random RNG = new System.Random();
 
@@ -52,26 +49,29 @@ namespace Objects.Engineering
 
 		public float ControlRodDepthPercentage = 1;
 
-		private float EnergyToEvaporateWaterPer1 = 2000;
-
-		public float RodMeltingTemperatureK = 1100;
-		private float BoilingPoint = 373.15f;
+		public float RodMeltingTemperatureK = 2200;
 
 		public bool MeltedDown = false;
 		public bool PoppedPipes = false;
 
-		public decimal NeutronSingularity = 76488300000M;
-		public decimal CurrentPressure = 0;
+		[PlayModeOnly] public decimal CurrentPressure = 0;
 
-		public decimal MaxPressure = 120000;
+		public const decimal NEUTRON_SINGULARITY = 76488300000M;
+		public const decimal MAX_CORE_PRESSURE = 300000;
+		public const int MAX_CORE_TEMPERATURE = 2400;
+		public const int MAX_WATER_LEVEL = 240;
+
+		private const decimal NEUTRON_LEAK_CHANCE = 0.0397M;
+		private const float SPONTANEOUS_NEUTRON_CHANCE = 0.1f;
+
+		private const float MAX_CONTROL_ROD_DEPTH = 1f;
+		private const float MIN_CONTROL_ROD_DEPTH = 0.05f;
 
 		public GameObject Corium;
 		[field: SerializeField] public bool CanRelink { get; set; } = true;
 		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
-		public decimal KFactor
-		{
-			get { return (CalculateKFactor()); }
-		}
+
+		public decimal KFactor => CalculateKFactor();
 
 		#region Lifecycle
 
@@ -154,7 +154,10 @@ namespace Objects.Engineering
 
 		public void SetControlRodDepth(float RequestedDepth)
 		{
-			ControlRodDepthPercentage = Mathf.Clamp(RequestedDepth, 0.1f, 1f);
+			if (MeltedDown == false)
+			{
+				ControlRodDepthPercentage = Mathf.Clamp(RequestedDepth, MIN_CONTROL_ROD_DEPTH, MAX_CONTROL_ROD_DEPTH);
+			}
 		}
 
 		public float Temperature => GetTemperature();
@@ -210,7 +213,7 @@ namespace Objects.Engineering
 
 
 			int SpontaneousNeutronProbability = RNG.Next(0, 10001);
-			if ((decimal) LikelihoodOfSpontaneousNeutron > (SpontaneousNeutronProbability / 1000M))
+			if ((decimal) SPONTANEOUS_NEUTRON_CHANCE > (SpontaneousNeutronProbability / 1000M))
 			{
 				PresentNeutrons += 1;
 			}
@@ -243,7 +246,7 @@ namespace Objects.Engineering
 		{
 			if (PresentNeutrons > 0)
 			{
-				var LeakedNeutrons = PresentNeutrons * NeutronLeakingChance;
+				var LeakedNeutrons = PresentNeutrons * NEUTRON_LEAK_CHANCE;
 				LeakedNeutrons = (((LeakedNeutrons / (LeakedNeutrons + ((decimal) Math.Pow((double) LeakedNeutrons, (double) 0.82M)))) - 0.5M) * 4M * 36000);
 				radiationProducer.SetLevel((float) LeakedNeutrons);
 			}
@@ -270,7 +273,7 @@ namespace Objects.Engineering
 
 
 			var ExtraEnergyGained = (float) EnergyReleased;
-			if (float.IsNormal(ExtraEnergyGained) == false && ExtraEnergyGained != 0)
+			if (ExtraEnergyGained.IsUnreasonableNumber() && ExtraEnergyGained != 0)
 			{
 				Loggy.LogError(
 					$"PowerOutput Graphite chamber invalid number from EnergyReleased With Float of {ExtraEnergyGained} With decimal of {EnergyReleased}");
@@ -287,8 +290,11 @@ namespace Objects.Engineering
 						GasNode.GasMixLocal.InternalEnergy += ExtraEnergyGained * 0.000001f;
 						if (GasNode.GasMixLocal.Temperature > 5000)
 						{
-							GasNode.GasMixLocal.Temperature = 5000;
+							GasNode.GasMixLocal.SetTemperature(5000);
 						}
+
+						registerObject.TileChangeManager.SubsystemManager.UpdateAt(this.registerObject.LocalPosition,
+							SystemType.AtmosSystem);
 					}
 				}
 
@@ -301,10 +307,9 @@ namespace Objects.Engineering
 					ReactorPipe.pipeData.mixAndVolume.InternalEnergy += ExtraEnergyGained;
 				}
 
-				CurrentPressure = (decimal) Mathf.Clamp(((ReactorPipe.pipeData.mixAndVolume.Temperature - 293.15f) * ReactorPipe.pipeData.mixAndVolume.Total.x),
-					(float) decimal.MinValue, (float) decimal.MaxValue);
+				CurrentPressure = (decimal) Mathf.Clamp((ReactorPipe.pipeData.mixAndVolume.Temperature - 273.15f) * ReactorPipe.pipeData.mixAndVolume.Total.x, 0, (float)decimal.MaxValue);
 
-				if (CurrentPressure > MaxPressure)
+				if (CurrentPressure > MAX_CORE_PRESSURE)
 				{
 					PoppedPipes = true;
 					var EmptySlot = PipeStorage.GetIndexedItemSlot(0);

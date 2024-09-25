@@ -1,178 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using Core;
+using Core.Admin.Logs;
 using HealthV2;
-using Player;
+using Logs;
 using Systems.Score;
 using UnityEngine;
 
 namespace Systems.Explosions
 {
-	public class ExplosionPropagationLine
-	{
-		public static List<ExplosionPropagationLine> PooledThis = new List<ExplosionPropagationLine>();
-
-		public static ExplosionPropagationLine Getline()
-		{
-			if (PooledThis.Count > 0)
-			{
-				ExplosionPropagationLine line = PooledThis[0];
-				PooledThis.RemoveAt(0);
-				return (line);
-			}
-			else
-			{
-				return (new ExplosionPropagationLine());
-			}
-		}
-
-		//Gets an XY direction of magnitude from a radian angle relative to the x axis
-		//Simple version
-		public static Vector2 GetXYDirection(float angle, float magnitude)
-		{
-			return new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * magnitude;
-		}
-
-
-		int x0 = 0;
-		int y0 = 0;
-		int x1 = 0;
-		int y1 = 0;
-		private float Angle = 0;
-
-		int dx = 0;
-		int sx = 0;
-		int dy = 0;
-		int sy = 0;
-		int err = 0;
-		int e2 = 0;
-		public float ExplosionStrength = 0;
-		private bool InitialStep = true;
-
-		private ExplosionNode NodeType;
-
-		private bool IsAnyMatchingType(ExplosionNode[] expNodes, ExplosionNode nodeType)
-		{
-			foreach(ExplosionNode expNode in expNodes)
-			{
-				if (IsMatchingType(expNode, nodeType)) return true;
-			}
-			return false;
-		}
-
-		private bool IsMatchingType(ExplosionNode expNode, ExplosionNode nodeType)
-		{
-			if (expNode != null && nodeType != null) return expNode.GetType() == NodeType.GetType();
-			return false;
-		}
-
-		private int FirstNullValue(ExplosionNode[] expNodes)
-		{
-			int count = 0;
-			foreach(var val in expNodes)
-			{
-				if(val == null)
-				{
-					return count;
-				}
-				count++;
-			}
-			return -1;
-		}
-
-		public void SetUp(int X0, int Y0, int X1, int Y1, float InExplosionStrength, ExplosionNode nodeType)
-		{
-			x0 = X0;
-			y0 = Y0;
-
-
-			x1 = X1;
-			y1 = Y1;
-
-			Angle = 0; // (float) (Math.Atan2(x1 - x0, y1 - y0));
-			InitialStep = true;
-			dx = Math.Abs(x1 - x0);
-			sx = x0 < x1 ? 1 : -1;
-
-			dy = Math.Abs(y1 - y0);
-			sy = y0 < y1 ? 1 : -1;
-
-			err = (dx > dy ? dx : -dy) / 2;
-			ExplosionStrength = InExplosionStrength;
-
-			NodeType = nodeType;
-		}
-
-		public void Step()
-		{
-			if (ExplosionStrength <= 0)
-			{
-				Pool();
-				return;
-			}
-
-			if (x0 == x1 && y0 == y1)
-			{
-				Pool();
-				return;
-			}
-
-			Vector3Int WorldPSos = new Vector3Int(x0, y0, 0);
-			MatrixInfo Matrix = MatrixManager.AtPoint(WorldPSos, CustomNetworkManager.IsServer);
-			Vector3Int Local = WorldPSos.ToLocal(Matrix.Matrix).RoundToInt();
-			MetaDataNode NodePoint = Matrix.MetaDataLayer.Get(Local); //Explosion node
-
-			if (NodePoint != null)
-			{
-				if (IsAnyMatchingType(NodePoint.ExplosionNodes, NodeType) == false)
-				{
-					ExplosionNode expNode = NodeType.GenInstance();
-					int fnull = FirstNullValue(NodePoint.ExplosionNodes);
-					if (fnull >= 0) NodePoint.ExplosionNodes[fnull] = expNode;
-					expNode.Initialise(Local, Matrix.Matrix);
-				}
-
-				foreach (ExplosionNode expNode in NodePoint.ExplosionNodes) //separating explosion nodes of our type from others, so we dont interfere with EMPs or whatever
-				{
-					if (IsMatchingType(expNode, NodeType))
-					{
-						expNode.AngleAndIntensity += GetXYDirection(Angle, ExplosionStrength);
-						expNode.PresentLines.Add(this);
-						ExplosionManager.CheckLocations.Add(expNode);
-					}
-				}
-			}
-
-			e2 = err;
-			if (e2 > -dx)
-			{
-				err -= dy;
-				x0 += sx;
-			}
-
-			if (e2 < dy)
-			{
-				err += dx;
-				y0 += sy;
-			}
-
-
-			ExplosionManager.CheckLines.Add(this);
-			if (InitialStep)
-			{
-				InitialStep = false;
-				Angle = (float) (Math.Atan2(x1 - x0, y1 - y0));
-			}
-		}
-
-		public void Pool()
-		{
-			PooledThis.Add(this);
-		}
-	}
-
 	public class Explosion
 	{
-		//Function to check CheckLocations
+
+		// (Max) - why were these numbers choosen before?
+		// They may look less like magic numbers now, but there is no explanation for why they are multiples of 8.
+		public const int EXPLOSION_STRENGTH_LOW = 800;
+		public const int EXPLOSION_STRENGTH_MEDIUM = 8000;
+		public const int EXPLOSION_STRENGTH_HIGH = 80000;
+		public const int NUKE_FLASH_DISTANCE = 12580;
 
 		public class ExplosionData
 		{
@@ -182,11 +27,9 @@ namespace Systems.Explosions
 		public static void StartExplosion(Vector3Int WorldPOS, float strength, ExplosionNode nodeType = null,
 			int fixedRadius = -1, int fixedShakingStrength = -1, List<ItemTrait> damageIgnoreAttributes = null, bool stunNearbyPlayers = false)
 		{
-			if (nodeType == null)
-			{
-				nodeType = new ExplosionNode();
-			}
-
+			AdminLogsManager.AddNewLog(null, $"An explosion has occured at {WorldPOS} with strength: {strength}.", LogCategory.World,
+				strength > 75 ? Severity.IMMEDIATE_ATTENTION : Severity.SUSPICOUS);
+			nodeType ??= new ExplosionNode();
 			nodeType.IgnoreAttributes = damageIgnoreAttributes;
 
 			int Radius = 0;
@@ -207,15 +50,15 @@ namespace Systems.Explosions
 			if (fixedShakingStrength <= 0 || fixedShakingStrength > 255)
 			{
 				ShakingStrength = 25;
-				if (strength > 800)
+				if (strength > EXPLOSION_STRENGTH_LOW)
 				{
 					ShakingStrength = 75;
 				}
-				else if (strength > 8000)
+				else if (strength > EXPLOSION_STRENGTH_MEDIUM)
 				{
 					ShakingStrength = 125;
 				}
-				else if (strength > 80000)
+				else if (strength > EXPLOSION_STRENGTH_HIGH)
 				{
 					ShakingStrength = 255;
 				}
@@ -239,32 +82,48 @@ namespace Systems.Explosions
 				Line.Step();
 			}
 
-			if (stunNearbyPlayers)
+			// we assume that the explosion isn't something small like an EMP gernade or
+			if (stunNearbyPlayers || strength > EXPLOSION_STRENGTH_HIGH)
 			{
-				StunAndFlashPlayers(WorldPOS.To2Int());
+				StunAndFlashPlayers(WorldPOS.To2Int(), strength);
 			}
-
 
 			ScoreMachine.AddToScoreInt(1, RoundEndScoreBuilder.COMMON_SCORE_EXPLOSION);
 		}
 
-		private static void StunAndFlashPlayers(Vector2Int startingPos)
+		public static void StunAndFlashPlayers(Vector2Int startingPos, float strength)
 		{
-			var s = Physics2D.OverlapCircleAll(startingPos, 5, LayerMask.GetMask("Players"));
-			Debug.Log(s.Length);
-			foreach (Collider2D obj in s)
+			var distance = GetDistanceFromStrength(strength);;
+			var s = ComponentsTracker<LivingHealthMasterBase>.GetAllNearbyTypesToLocation(startingPos.To3(), distance);
+			foreach (var obj in s)
 			{
-				var result = MatrixManager.Linecast(
-					startingPos.To3Int(), LayerTypeSelection.Walls, null,
-					obj.gameObject.AssumedWorldPosServer(), true);
-				if (result.ItHit) continue;
-				if (obj.gameObject.TryGetComponentCustom<LivingHealthMasterBase>(out var livingHealthMasterBase) == false) continue;
-				//TODO Stun , result.Distance <= 3, 9
-				//GameObject client, float flashDuration, bool checkForProtectiveCloth, bool stunPlayer = true, float stunDuration = 4f
-				livingHealthMasterBase.TryFlash(5, true);
+				// for performance reasons, if we have a big enough explosion: skip physics line checks as they're expensive.
+				// large explosions are slow enough as is because it has to damage/check hundreds of objects which all trigger
+				// different behaviors and events. We shouldn't strain the server with extra physics check ontop of that.
+				if (distance < 12)
+				{
+					if (IsStunReachable(startingPos, obj) == false) continue;
+				}
+				// if the explosion is too strong, skip flash protection check.
+				obj.TryFlash(5, strength < EXPLOSION_STRENGTH_HIGH);
 			}
 		}
 
+		private static bool IsStunReachable(Vector2Int startingPos, LivingHealthMasterBase obj)
+		{
+			var result = MatrixManager.Linecast(
+				startingPos.To3Int(), LayerTypeSelection.Walls, null,
+				obj.gameObject.AssumedWorldPosServer(), true);
+			if (result.ItHit)
+			{
+#if UNITY_EDITOR
+				Loggy.Log($"[Explosion/StunAndFlashPlayers()] - " +
+				          $"We hit {result.CollisionHit.GameObject?.ExpensiveName()} when using MatrixManger.Linecraft().", Category.TileMaps);
+#endif
+				return false;
+			}
+			return true;
+		}
 
 		//https://www.geeksforgeeks.org/bresenhams-circle-drawing-algorithm/
 		// Function for circle-generation
@@ -309,6 +168,15 @@ namespace Systems.Explosions
 			explosionData.CircleCircumference.Add(new Vector2Int(xc - y, yc + x));
 			explosionData.CircleCircumference.Add(new Vector2Int(xc + y, yc - x));
 			explosionData.CircleCircumference.Add(new Vector2Int(xc - y, yc - x));
+		}
+
+		private static int GetDistanceFromStrength(float strength)
+		{
+			if (strength < 92000)
+			{
+				return (int)Math.Ceiling(Math.Log(strength / 100.0) * 2);
+			}
+			return NUKE_FLASH_DISTANCE;
 		}
 	}
 }

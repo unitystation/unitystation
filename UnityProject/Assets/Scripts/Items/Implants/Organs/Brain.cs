@@ -6,6 +6,7 @@ using Core.Utils;
 using HealthV2;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Mirror;
+using SecureStuff;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
@@ -18,8 +19,8 @@ namespace Items.Implants.Organs
 		public IPlayerPossessable Itself => this as IPlayerPossessable;
 		private IClientSynchronisedEffect Preimplemented => (IClientSynchronisedEffect)this;
 
-		[SyncVar(hook = nameof(SyncOnPlayer))] public uint OnBodyID;
-		[SyncVar(hook = nameof(SyncPossessingID))] private uint possessingID;
+		[PlayModeOnly,SyncVar(hook = nameof(SyncOnPlayer))] public uint OnBodyID;
+		[PlayModeOnly,SyncVar(hook = nameof(SyncPossessingID))] private uint possessingID;
 
 		[FormerlySerializedAs("DrunkReagent")] [SerializeField] private Reagent drunkReagent;
 		public Reagent DrunkReagent => drunkReagent;
@@ -118,8 +119,9 @@ namespace Items.Implants.Organs
 			livingHealth.OnRevive.AddListener(ReviveEvent);
 		}
 
-		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
 		{
+			PossessingMind?.Ghost(); //so Players can see explosions if they Self Bomb
 			livingHealth.OnDeath -= DeathEvent;
 			livingHealth.OnRevive.RemoveListener(ReviveEvent);
 			if (livingHealth.brain == this)
@@ -130,6 +132,8 @@ namespace Items.Implants.Organs
 			livingHealth.IsMute.RemovePosition(this);
 			Itself.SetPossessingObject(null);
 			UpdateChatModifier(false);
+
+
 		}
 
 		public void SyncTelekinesis(bool Oldvalue, bool NewValue)

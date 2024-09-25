@@ -119,6 +119,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: It's a blue jumpskirt with some gold markings denoting the rank of "Captain".
       objectReference: {fileID: 0}
+    - target: {fileID: 3397443007502491847, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 669efc8eb3ba01f47b3ac7de809e6b89,
+        type: 2}
+    - target: {fileID: 8174322744686822344, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
+        type: 3}
+      propertyPath: parentID
+      value: 9c0ae44adb2c14e9bae919e9e0f844fc
+      objectReference: {fileID: 0}
     - target: {fileID: 8174322744686822344, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
         type: 3}
       propertyPath: foreverID
@@ -148,6 +159,12 @@ PrefabInstance:
     - target: {fileID: 8975007657035133986, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 669efc8eb3ba01f47b3ac7de809e6b89,
+        type: 2}
+    - target: {fileID: 8975007657035133986, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 669efc8eb3ba01f47b3ac7de809e6b89,
         type: 2}

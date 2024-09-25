@@ -115,6 +115,17 @@ PrefabInstance:
       value: It's a jumpskirt worn by someone who works in the position of "Head
         of Personnel".
       objectReference: {fileID: 0}
+    - target: {fileID: 3397443007502491847, guid: cda0c7d60b6a643279489d6c9a64d208,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: db9ca23197a7dc849a8f5e36bc2bd085,
+        type: 2}
+    - target: {fileID: 8174322744686822344, guid: cda0c7d60b6a643279489d6c9a64d208,
+        type: 3}
+      propertyPath: parentID
+      value: cda0c7d60b6a643279489d6c9a64d208
+      objectReference: {fileID: 0}
     - target: {fileID: 8174322744686822344, guid: cda0c7d60b6a643279489d6c9a64d208,
         type: 3}
       propertyPath: foreverID
@@ -144,6 +155,12 @@ PrefabInstance:
     - target: {fileID: 8975007657035133986, guid: cda0c7d60b6a643279489d6c9a64d208,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: db9ca23197a7dc849a8f5e36bc2bd085,
+        type: 2}
+    - target: {fileID: 8975007657035133986, guid: cda0c7d60b6a643279489d6c9a64d208,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: db9ca23197a7dc849a8f5e36bc2bd085,
         type: 2}

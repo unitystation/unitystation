@@ -94,6 +94,12 @@ PrefabInstance:
       propertyPath: initialDescription
       value: That's a damn fine coat.
       objectReference: {fileID: 0}
+    - target: {fileID: 2024818765580378706, guid: ebf9e2ab5fe82b445bfb8dcd986a566b,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 6258bc096f2a02644883d65c31f36bfe,
+        type: 2}
     - target: {fileID: 2844133956285234767, guid: ebf9e2ab5fe82b445bfb8dcd986a566b,
         type: 3}
       propertyPath: bodyPartsCovered
@@ -113,6 +119,11 @@ PrefabInstance:
         type: 3}
       propertyPath: armoredBodyParts.Array.data[5].armoringBodyPartType
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4777961452559450461, guid: ebf9e2ab5fe82b445bfb8dcd986a566b,
+        type: 3}
+      propertyPath: parentID
+      value: ebf9e2ab5fe82b445bfb8dcd986a566b
       objectReference: {fileID: 0}
     - target: {fileID: 4777961452559450461, guid: ebf9e2ab5fe82b445bfb8dcd986a566b,
         type: 3}
@@ -138,6 +149,12 @@ PrefabInstance:
     - target: {fileID: 5742683758786115255, guid: ebf9e2ab5fe82b445bfb8dcd986a566b,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 6258bc096f2a02644883d65c31f36bfe,
+        type: 2}
+    - target: {fileID: 5742683758786115255, guid: ebf9e2ab5fe82b445bfb8dcd986a566b,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 6258bc096f2a02644883d65c31f36bfe,
         type: 2}

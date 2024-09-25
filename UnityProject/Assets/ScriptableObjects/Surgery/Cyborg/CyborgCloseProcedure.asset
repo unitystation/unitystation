@@ -20,25 +20,28 @@ MonoBehaviour:
     FailChance: 0
     StartSelf: 
     StartOther: 
-    SuccessSelf: 
-    SuccessOther: 
+    SuccessSelf: You fasten the bolts on {WhoOn}'s {OnPart}
+    SuccessOther: '{performer} fastens the bolts on {WhoOn}''s {OnPart}'
     FailSelf: 
     FailOther: 
+    BleedStacksToAdd: -5
   - RequiredTrait: {fileID: 11400000, guid: 5524008e9372c468aacfb95c83179a91, type: 2}
     Time: 0
     FailChance: 0
     StartSelf: 
     StartOther: 
-    SuccessSelf: 
-    SuccessOther: 
+    SuccessSelf: You successfully pry the cover closed on {WhoOn}'s {OnPart}
+    SuccessOther: '{performer} successfully prys the cover closed on {WhoOn}''s {OnPart}'
     FailSelf: 
     FailOther: 
+    BleedStacksToAdd: -5
   - RequiredTrait: {fileID: 11400000, guid: 98ad76bb152404a11aed28bf6fa703d6, type: 2}
     Time: 0
     FailChance: 0
     StartSelf: 
     StartOther: 
-    SuccessSelf: 
-    SuccessOther: 
+    SuccessSelf: You screw in the cover on {WhoOn}'s {OnPart}
+    SuccessOther: '{performer} screws in the cover on {WhoOn}''s {OnPart}'
     FailSelf: 
     FailOther: 
+    BleedStacksToAdd: -5

@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Core;
 using Logs;
 using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Objects;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 /// <summary>
 /// Main API for all types of spawning (except players - see PlayerSpawn). If you ever need to spawn something, look here.
@@ -292,7 +294,49 @@ public static class Spawn
 			if (info.ScatterRadius != null)
 			{
 				var scatterRadius = info.ScatterRadius.GetValueOrDefault(0);
-				info.SpawnDestination.WorldPosition = info.SpawnDestination.WorldPosition + new Vector3(Random.Range(-scatterRadius, scatterRadius), Random.Range(-scatterRadius, scatterRadius));
+				if (scatterRadius > 0)
+				{
+					info.SpawnDestination.WorldPosition = info.SpawnDestination.WorldPosition +
+					                                      new Vector3(Random.Range(-scatterRadius, scatterRadius),
+						                                      Random.Range(-scatterRadius, scatterRadius));
+				}
+				else if (scatterRadius < 0)
+				{
+
+					Vector3 Offset= Vector3.zero;
+
+					switch (RNG.GetRandomNumber(1,9))
+					{
+						case 1:
+							Offset= Vector3.zero;
+							break;
+						case 2:
+							Offset= new Vector3(1,0,0);
+							break;
+						case 3:
+							Offset= new Vector3(-1,0,0);
+							break;
+						case 4:
+							Offset= new Vector3(0,1,0);
+							break;
+						case 5:
+							Offset= new Vector3(0,-1,0);
+							break;
+						case 6:
+							Offset= new Vector3(1,-1,0);
+							break;
+						case 7:
+							Offset= new Vector3(-1,-1,0);
+							break;
+						case 8:
+							Offset= new Vector3(-1,1,0);
+							break;
+						case 9:
+							Offset= new Vector3(1,1,0);
+							break;
+					}
+					info.SpawnDestination.WorldPosition = info.SpawnDestination.WorldPosition + Offset + new Vector3(Random.Range(-0.1875f, 0.1875f), Random.Range(-0.1875f, 0.1875f));
+				}
 			}
 
 
@@ -386,7 +430,7 @@ public static class Spawn
 	/// client-side hooks. Should only be called after object becomes networked / known by clients.
 	/// </summary>
 	/// <param name="result"></param>
-	public static void _ServerFireClientServerSpawnHooks(SpawnResult result)
+	public static void _ServerFireClientServerSpawnHooks(SpawnResult result, SpawnInfo SpawnInfoOverride = null)
 	{
 		//fire server hooks
 		foreach (var spawnedObject in result.GameObjects)
@@ -395,7 +439,15 @@ public static class Spawn
 			var comps = spawnedObject.GetComponentsInChildren<IServerSpawn>();
 			foreach (var comp in comps)
 			{
-				comp.OnSpawnServer(result.SpawnInfo);
+				if (SpawnInfoOverride != null)
+				{
+					comp.OnSpawnServer(SpawnInfoOverride);
+				}
+				else
+				{
+					comp.OnSpawnServer(result.SpawnInfo);
+				}
+
 			}
 		}
 	}

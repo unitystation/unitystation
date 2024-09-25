@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
+using Core;
+using Health.Objects;
 using HealthV2;
 using UnityEngine;
 using Systems.Atmospherics;
 using Tiles;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Systems.Interaction
 {
@@ -67,19 +70,22 @@ namespace Systems.Interaction
 
 		private void DamageObject(GameObject objectToBurn)
 		{
-			if (objectToBurn.TryGetComponent<PlayerHealthV2>(out var playerHealth))
+			if (objectToBurn.TryGetComponent<UniversalObjectPhysics>(out var uop))
+			{
+				//dont damage things that are flying thru the air (jumpboots, thrown, etc)
+				if (uop.IsInAir)
+				{
+					return;
+				}
+			}
+
+			if (objectToBurn.TryGetComponent<LivingHealthMasterBase>(out var playerHealth))
 			{
 				playerHealth.ChangeFireStacks(playerMobFireStacks);
 				return;
 			}
 
-			if (objectToBurn.TryGetComponent<LivingHealthBehaviour>(out var livingHealthBehaviour))
-			{
-				livingHealthBehaviour.ChangeFireStacks(playerMobFireStacks);
-				return;
-			}
-
-			if (objectToBurn.TryGetComponent<Integrity>(out var integrity) && integrity.Resistances.LavaProof == false)
+			if (objectToBurn.TryGetComponent<Integrity>(out var integrity) && (integrity.Resistances.LavaProof == false || integrity.Resistances.Flammable))
 			{
 				integrity.ApplyDamage(objectFireDamage, AttackType.Fire, DamageType.Burn);
 			}

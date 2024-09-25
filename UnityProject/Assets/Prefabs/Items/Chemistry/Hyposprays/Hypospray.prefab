@@ -10,6 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3798299677133241229, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
+      propertyPath: parentID
+      value: f866b44bcdd7d734885f7c49999d85c9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3798299677133241229, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
       propertyPath: foreverID
       value: 1265e6ed7f0c58249b9a29aacc18a166
       objectReference: {fileID: 0}
@@ -296,6 +301,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LocalContainer: {fileID: 6210555589579530044}
   SpriteHandler: {fileID: 1323011140707396627}
+  PullOrDrawSpriteHandler: {fileID: 0}
+  ContentsSpriteHandler: {fileID: 0}
   SicknessesInSyringe: []
   singleUse: 0
   ChangesSprite: 0

@@ -31,6 +31,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 1666505115895660852, guid: d05e6959c655a704783a7df68cd10435,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a53497d0b78777b449dde714f9f04ff5,
+        type: 2}
+    - target: {fileID: 1666505115895660852, guid: d05e6959c655a704783a7df68cd10435,
+        type: 3}
       propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: bae856632891643429b6b852dc05e1e8,
@@ -47,6 +53,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 02e61e0cfc6b5ba4092b6bb805ffd9e4,
         type: 2}
+    - target: {fileID: 1935487091443775198, guid: d05e6959c655a704783a7df68cd10435,
+        type: 3}
+      propertyPath: parentID
+      value: d05e6959c655a704783a7df68cd10435
+      objectReference: {fileID: 0}
     - target: {fileID: 1935487091443775198, guid: d05e6959c655a704783a7df68cd10435,
         type: 3}
       propertyPath: foreverID
@@ -168,13 +179,13 @@ PrefabInstance:
         type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
-      objectReference: {fileID: 11400000, guid: 7e9409c563999224eb8a5cbbd4884f2f,
+      objectReference: {fileID: 11400000, guid: 290d275b8000e664da2a6f952ee19231,
         type: 2}
     - target: {fileID: 4939067879421793745, guid: d05e6959c655a704783a7df68cd10435,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
       value: 
-      objectReference: {fileID: 11400000, guid: 65d3eb28956ae74458be1a35c796fbbc,
+      objectReference: {fileID: 11400000, guid: 448c9f91cc815d94c8d5181c27d1f468,
         type: 2}
     - target: {fileID: 5177685982098649451, guid: d05e6959c655a704783a7df68cd10435,
         type: 3}
@@ -189,6 +200,21 @@ PrefabInstance:
     - target: {fileID: 5177685982098649451, guid: d05e6959c655a704783a7df68cd10435,
         type: 3}
       propertyPath: Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5177685982098649451, guid: d05e6959c655a704783a7df68cd10435,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5177685982098649451, guid: d05e6959c655a704783a7df68cd10435,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5177685982098649451, guid: d05e6959c655a704783a7df68cd10435,
+        type: 3}
+      propertyPath: InitialColour.r
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5185865969733433047, guid: d05e6959c655a704783a7df68cd10435,

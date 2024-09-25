@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Core;
 using UnityEngine;
 using Systems.Atmospherics;
 using ScriptableObjects.Atmospherics;
 using NaughtyAttributes;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Systems.Research
 {
@@ -32,7 +34,7 @@ namespace Systems.Research
 
 			if(ChangeTemperature) node.GasMixLocal.ChangeTemperature(TemperatureChange);
 
-			if(AddGas) node.GasMixLocal.AddGas(GasToAdd, MolesToAdd);
+			if(AddGas) node.GasMixLocal.AddGasWithTemperature(GasToAdd, MolesToAdd,node.GasMixLocal.Temperature);
 		}
 	}
 }

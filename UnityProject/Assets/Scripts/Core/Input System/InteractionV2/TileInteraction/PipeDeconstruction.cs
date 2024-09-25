@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Objects.Atmospherics;
 
 
@@ -18,11 +17,24 @@ namespace Tiles.Pipes
 
 		[Tooltip("Action message to performer when they begin this interaction.")]
 		[SerializeField]
-		private string performerStartActionMessage = " you unwrench the pipe ";
+		private string performerStartActionMessage = null;
 
 		[Tooltip("Use {performer} for performer name. Action message to others when the performer begins this interaction.")]
 		[SerializeField]
-		private string othersStartActionMessage = "{performer} unwrenches the pipe ";
+		private string othersStartActionMessage = null;
+
+		[Tooltip("Seconds taken to perform this action. Leave at 0 for instant.")]
+		[SerializeField]
+		private float seconds = 0;
+
+		[Tooltip("Action message to performer when they finish this interaction.")]
+		[SerializeField]
+		private string performerFinishActionMessage = null;
+
+		[Tooltip("Use {performer} for performer name. Action message to others when performer finishes this interaction.")]
+		[SerializeField]
+		private string othersFinishActionMessage = null;
+
 
 		public override bool WillInteract(TileApply interaction, NetworkSide side)
 		{
@@ -37,9 +49,6 @@ namespace Tiles.Pipes
 
 		public override void ServerPerformInteraction(TileApply interaction)
 		{
-			string othersMessage = Chat.ReplacePerformer(othersStartActionMessage, interaction.Performer);
-			Chat.AddActionMsgToChat(interaction.Performer, performerStartActionMessage, othersMessage);
-
 			if (interaction.BasicTile.LayerType != LayerType.Pipe) return;
 
 			var pipeTile = interaction.BasicTile as PipeTile;
@@ -50,13 +59,12 @@ namespace Tiles.Pipes
 			{
 				if (metaDataNode.PipeData[i].RelatedTile != pipeTile) continue; //TODO Stuff like layers and stuff can be included
 
-				ToolUtils.ServerUseToolWithActionMessages(interaction, 1f,
-						"You start to deconstruct the pipe..",
-						$"{interaction.Performer.ExpensiveName()} starts to deconstruct the pipe...",
-						"You deconstruct the pipe",
-						$"{interaction.Performer.ExpensiveName()} deconstructs the pipe.",
-						() => { metaDataNode.PipeData[i].pipeData.DestroyThis(); });
-
+				ToolUtils.ServerUseToolWithActionMessages(interaction, seconds,
+					performerStartActionMessage,
+					Chat.ReplacePerformer(othersStartActionMessage, interaction.Performer),
+					performerFinishActionMessage,
+					Chat.ReplacePerformer(othersFinishActionMessage, interaction.Performer),
+					() => { metaDataNode.PipeData[i].pipeData.Remove(); });
 				return;
 				// var Transform =  matrix.UnderFloorLayer.GetMatrix4x4(metaDataNode.PipeData[i].NodeLocation, metaDataNode.PipeData[i].RelatedTile);
 				// var pipe = Spawn.ServerPrefab(PipeTile.SpawnOnDeconstruct, interaction.WorldPositionTarget, localRotation : QuaternionFromMatrix(Transform)).GameObject;

@@ -112,7 +112,7 @@ namespace UI.Action
 			}
 		}
 
-		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
 		{
 			UIActionManager.ToggleServer(livingHealth.gameObject, this, false);
 		}

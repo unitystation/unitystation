@@ -98,6 +98,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2444135299207855093, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
+      propertyPath: parentID
+      value: b69bfc56f39849d4ba9139d2d51bedb6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444135299207855093, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
       propertyPath: foreverID
       value: f8db3418b6542874396d1eaa52946e19
       objectReference: {fileID: 0}
@@ -180,6 +185,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 5929953063479559029}
+    - targetCorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2014993239492954016}
   m_SourcePrefab: {fileID: 100100000, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
 --- !u!114 &2205140157534800012 stripped
 MonoBehaviour:
@@ -221,6 +230,7 @@ MonoBehaviour:
   bookPrefab: {fileID: 2523309518726465326, guid: 57e5197c151e7a3439e29321baff69bd,
     type: 3}
   spriteHandler: {fileID: 2205140157534800012}
+  tonerTrait: {fileID: 11400000, guid: a8fc278c0b5261540bc28aa751377e89, type: 2}
   Copier:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/Copier.prefab
@@ -230,8 +240,12 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   inkStorage: {fileID: 4363321682485785553}
-  paperStorage: {fileID: 5929953063479559029}
-  tonerTrait: {fileID: 11400000, guid: a8fc278c0b5261540bc28aa751377e89, type: 2}
+  ScannerStorage: {fileID: 5929953063479559029}
+  PaperTrayStorage: {fileID: 2014993239492954016}
+  trayOpen: 0
+  scannerOpen: 0
+  hasScanned: 0
+  PrintBook: 0
 --- !u!114 &4363321682485785553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,6 +272,7 @@ MonoBehaviour:
     DeprecatedContents:
     - {fileID: 6396562857704763032, guid: cbd7a12222367de41a635d5b41ec0ac9, type: 3}
   SetSlotItemNotRemovableOnStartUp: 0
+  ignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}
 --- !u!114 &5929953063479559029
@@ -285,5 +300,34 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
+  ignoreRoundstartGrabObjects: 0
+  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+    type: 3}
+--- !u!114 &2014993239492954016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6686380441727672918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: dfa2f775342bc33479a3dea278303c0b,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 411b6b7a74c524a91b9a38a0c692761b,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  ManuallySpawnContent: 0
+  dropItemsOnDespawn: 1
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  SetSlotItemNotRemovableOnStartUp: 0
+  ignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}

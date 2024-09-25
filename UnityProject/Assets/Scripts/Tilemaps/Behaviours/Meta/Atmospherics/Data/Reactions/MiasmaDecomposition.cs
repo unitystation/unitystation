@@ -28,7 +28,7 @@ namespace Systems.Atmospherics
 
 			gasMix.RemoveGas(Gas.Miasma, cleanedAir);
 
-			gasMix.AddGas(Gas.Oxygen, cleanedAir);
+			gasMix.AddGasWithTemperature(Gas.Oxygen, cleanedAir, gasMix.Temperature);
 
 			gasMix.SetTemperature(gasMix.Temperature + cleanedAir * 0.002f);
 		}

@@ -8,6 +8,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 929099823763466210, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
       propertyPath: SelfArmor.Fire
@@ -50,6 +55,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
+      propertyPath: SelfArmor.TemperatureProtectionInK.x
+      value: 248.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
       propertyPath: SelfArmor.TemperatureProtectionInK.y
       value: 800
       objectReference: {fileID: 0}
@@ -57,6 +67,16 @@ PrefabInstance:
         type: 3}
       propertyPath: BodyTypesSprites.BodyTypes.Array.size
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: SubOrganBodyPartArmour.TemperatureProtectionInK.x
+      value: 248.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: SubOrganBodyPartArmour.TemperatureProtectionInK.y
+      value: 800
       objectReference: {fileID: 0}
     - target: {fileID: 1544594378003915950, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
@@ -182,16 +202,31 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -313838893973110404, guid: e266816cf24956e44945b46490fdbfef,
         type: 3}
+    - target: {fileID: 4601891037482927387, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5123827499010467942, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
       propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 8cda47cca77fdd844aff26e911f13f31,
         type: 2}
+    - target: {fileID: 6267555789530515210, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6937090166139648968, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
       propertyPath: 'traumaTypesOnBodyPart.Array.data[0]'
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7987905664350100994, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8075695979122336949, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
@@ -199,6 +234,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 7011999cadc4fa347881236a512a17ca,
         type: 2}
+    - target: {fileID: 9074195140769878879, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: parentID
+      value: 2e6f2ff9beb985749940d242877d84f0
+      objectReference: {fileID: 0}
     - target: {fileID: 9074195140769878879, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
       propertyPath: foreverID

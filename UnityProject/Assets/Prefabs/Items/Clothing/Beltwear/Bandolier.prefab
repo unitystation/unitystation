@@ -106,6 +106,29 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A bandolier for holding shotgun ammunition.
       objectReference: {fileID: 0}
+    - target: {fileID: 2235114152810004965, guid: 51c105fae1f0b074abf4c80745d8b129,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: a610c00abdc7da24b98388f588013d5c,
+        type: 2}
+    - target: {fileID: 2235114152810004965, guid: 51c105fae1f0b074abf4c80745d8b129,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 140e144cd07b2f942a09a5050ae9df56,
+        type: 2}
+    - target: {fileID: 2235114152810004965, guid: 51c105fae1f0b074abf4c80745d8b129,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 5e3fed5a34b9b474ba79d711b36b51d6,
+        type: 2}
+    - target: {fileID: 4707276644318323434, guid: 51c105fae1f0b074abf4c80745d8b129,
+        type: 3}
+      propertyPath: parentID
+      value: 51c105fae1f0b074abf4c80745d8b129
+      objectReference: {fileID: 0}
     - target: {fileID: 4707276644318323434, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
       propertyPath: foreverID
@@ -114,6 +137,12 @@ PrefabInstance:
     - target: {fileID: 5525703409436398848, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 5e3fed5a34b9b474ba79d711b36b51d6,
+        type: 2}
+    - target: {fileID: 5525703409436398848, guid: 51c105fae1f0b074abf4c80745d8b129,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 5e3fed5a34b9b474ba79d711b36b51d6,
         type: 2}

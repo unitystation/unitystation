@@ -14,12 +14,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 82f8bc9bb86f22c40bab651af28402d9,
         type: 2}
+    - target: {fileID: 504715263566553044, guid: 0c2a702923a3e6346933f0c6d52fed5d,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 82f8bc9bb86f22c40bab651af28402d9,
+        type: 2}
     - target: {fileID: 736970104734021590, guid: 0c2a702923a3e6346933f0c6d52fed5d,
         type: 3}
       propertyPath: 'allClothingData.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: e71bc8dc60fe8cb40aea595f45318717,
         type: 2}
+    - target: {fileID: 791996952283916350, guid: 0c2a702923a3e6346933f0c6d52fed5d,
+        type: 3}
+      propertyPath: parentID
+      value: 0c2a702923a3e6346933f0c6d52fed5d
+      objectReference: {fileID: 0}
     - target: {fileID: 791996952283916350, guid: 0c2a702923a3e6346933f0c6d52fed5d,
         type: 3}
       propertyPath: foreverID
@@ -106,6 +117,12 @@ PrefabInstance:
       propertyPath: initialName
       value: black bishop mitre
       objectReference: {fileID: 0}
+    - target: {fileID: 6100862746267831089, guid: 0c2a702923a3e6346933f0c6d52fed5d,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 82f8bc9bb86f22c40bab651af28402d9,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Core.Editor.Attributes;
@@ -189,8 +187,11 @@ namespace Objects.Atmospherics
 				return;
 			}
 
-			//Do vent crawl
-			DoVentCrawl(interaction, pipeMix);
+			if (isWelded == false)
+			{
+				//Do vent crawl
+				DoVentCrawl(interaction, pipeMix);
+			}
 		}
 
 		public string Examine(Vector3 worldPos = default)
@@ -333,7 +334,14 @@ namespace Objects.Atmospherics
 		#region IAcuControllable
 
 		private readonly AcuSample atmosphericSample = new AcuSample();
-		AcuSample IAcuControllable.AtmosphericSample => atmosphericSample.FromGasMix(metaNode.GasMixLocal);
+		AcuSample IAcuControllable.AtmosphericSample
+		{
+			get
+			{
+				if (atmosphericSample != null && metaNode != null) return atmosphericSample.FromGasMix(metaNode.GasMixLocal);
+				return null;
+			}
+		}
 
 		public void SetOperatingMode(AcuMode mode)
 		{

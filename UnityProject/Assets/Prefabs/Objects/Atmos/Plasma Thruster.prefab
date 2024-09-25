@@ -4981,11 +4981,8 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &8199986393446477853
 GameObject:
   m_ObjectHideFlags: 0
@@ -5136,6 +5133,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9196119485141273601, guid: 8e4c205a853b5d44bb1b793530feaefe,
         type: 3}
+      propertyPath: parentID
+      value: 8e4c205a853b5d44bb1b793530feaefe
+      objectReference: {fileID: 0}
+    - target: {fileID: 9196119485141273601, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
       propertyPath: foreverID
       value: 9bda2d5647088c74392285230ba38474
       objectReference: {fileID: 0}
@@ -5249,7 +5251,7 @@ MonoBehaviour:
   Rotatable: {fileID: 4385658394677474732}
   ThisThrusterDirectionClassification: 0
   MaxMolesUseda: 1
-  TargetMolesUsed: 0
+  PrefabThrusterMultiplier: 1
   ThrusterMultiplier: 100
   AThrusterUseMultiplier: 0.072975
   ThrustPower: 0

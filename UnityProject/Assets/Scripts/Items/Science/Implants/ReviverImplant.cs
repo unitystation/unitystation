@@ -1,7 +1,9 @@
 using UnityEngine;
 using HealthV2;
 using AddressableReferences;
+using Core;
 using NaughtyAttributes;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Items.Implants.Organs
 {

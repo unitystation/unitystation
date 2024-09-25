@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using Chemistry;
+using Core;
 using HealthV2;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Items.Food;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 [RequireComponent( typeof(ReagentCirculatedComponent))]
 public class SlimeEat : BodyPartFunctionality
@@ -36,7 +38,7 @@ public class SlimeEat : BodyPartFunctionality
 	}
 
 
-	public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
+	public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
 	{
 		if (CurrentlyEating)
 		{

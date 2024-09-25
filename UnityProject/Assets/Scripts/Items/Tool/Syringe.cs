@@ -48,7 +48,7 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>, ICheckedI
 			SpriteHandler = this.GetComponentInChildren<SpriteHandler>();
 		}
 
-		LocalContainer.OnReagentMixChanged.AddListener(ColourContentsChange);
+		LocalContainer?.OnReagentMixChanged?.AddListener(ColourContentsChange);
 
 	}
 

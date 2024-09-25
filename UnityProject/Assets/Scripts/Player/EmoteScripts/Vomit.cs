@@ -34,11 +34,12 @@ namespace Player.EmoteScripts
 			foreach (var part in bodyParts)
 			{
 				if (part.TryGetComponent<StomachExpulsion>(out var stomach) == false) continue;
+				if (stomach.WillDryHeave()) continue;
 				stomach.Vomit();
 				base.Do(player);
 				return;
 			}
-			if(instant == false) Chat.AddExamineMsg(player, "You do not have a stomach to do this...");
+			if (instant == false) Chat.AddExamineMsg(player, "You do not have a stomach to do this...");
 		}
 	}
 }

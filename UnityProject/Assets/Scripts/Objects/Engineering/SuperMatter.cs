@@ -20,6 +20,7 @@ using Weapons.Projectiles;
 using Weapons.Projectiles.Behaviours;
 using Random = UnityEngine.Random;
 using Communications;
+using Core.Admin.Logs;
 using Objects.Machines.ServerMachines.Communications;
 using ScriptableObjects.Communications;
 using Systems.Communications;
@@ -595,11 +596,11 @@ namespace Objects.Engineering
 
 				//Calculate how much gas to release
 				//Varies based on power and gas content
-				removeMix.AddGas(Gas.Plasma, Mathf.Max((deviceEnergy * dynamicHeatModifier) / PlasmaReleaseModifier, 0));
+				removeMix.AddGasWithTemperature(Gas.Plasma, Mathf.Max((deviceEnergy * dynamicHeatModifier) / PlasmaReleaseModifier, 0), removeMix.Temperature);
 
 				//Varies based on power, gas content, and heat
-				removeMix.AddGas(Gas.Oxygen, Mathf.Max(((deviceEnergy + removeMix.Temperature * dynamicHeatModifier) - 273.15f) / OxygenReleaseModifier,
-						0));
+				removeMix.AddGasWithTemperature(Gas.Oxygen, Mathf.Max(((deviceEnergy + removeMix.Temperature * dynamicHeatModifier) - 273.15f) / OxygenReleaseModifier,
+						0), removeMix.Temperature);
 
 				//Return gas to tile
 				GasMix.TransferGas(gasMix, removeMix, removeMix.Moles);
@@ -892,7 +893,7 @@ namespace Objects.Engineering
 
 			RadiationManager.Instance.RequestPulse( registerTile.LocalPositionServer, detonationRads, GetInstanceID());
 
-			Explosion.StartExplosion(registerTile.WorldPositionServer, explosionStrength);
+			Explosion.StartExplosion(registerTile.WorldPositionServer, explosionStrength, stunNearbyPlayers: true);
 
 			_ = Despawn.ServerSingle(gameObject);
 		}
@@ -1180,9 +1181,10 @@ namespace Objects.Engineering
 		private void LogBumpForAdmin(GameObject thrownObject)
 		{
 			if (thrownObject.TryGetComponent<LastTouch>(out var touch) == false || touch.LastTouchedBy == null) return;
-			var time = DateTime.Now.ToString(CultureInfo.InvariantCulture);
-			PlayerAlerts.LogPlayerAction(time, PlayerAlertTypes.RDM, touch.LastTouchedBy,
-				$"{time} : A {thrownObject.ExpensiveName()} was thrown at a super-matter and was last touched by {touch.LastTouchedBy.Script.playerName} ({touch.LastTouchedBy.Username}).");
+			AdminLogsManager.AddNewLog(touch.LastTouchedBy.GameObject,
+				$"A {thrownObject.ExpensiveName()} was thrown at a super-matter " +
+				$"and was last touched by {touch.LastTouchedBy.Script.playerName} ({touch.LastTouchedBy.Username}).",
+				LogCategory.Interaction, Severity.IMMEDIATE_ATTENTION);
 		}
 
 		#endregion

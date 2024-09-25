@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Text;
+using Logs;
 using Managers.SettingsManager;
 using Player;
 using UnityEngine;
@@ -48,7 +49,7 @@ namespace AdminTools
 			AppendPersonalInformation(displayData, playerEntryData, isForMentor);
 			displayName.text = displayData.ToString();
 			displayName.color = playerEntryData.isAntag ? antagTextColor : Color.white;
-			offlineNot.SetActive(string.IsNullOrEmpty(PlayerData.ipAddress));
+			offlineNot.SetActive(!playerEntryData.isOnline);
 
 			if (disableInteract)
 			{

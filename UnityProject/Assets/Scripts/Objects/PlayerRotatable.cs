@@ -1,7 +1,9 @@
 ﻿using System;
+using Core;
 using Messages.Client.Interaction;
 using UnityEngine;
 using Mirror;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects
 {

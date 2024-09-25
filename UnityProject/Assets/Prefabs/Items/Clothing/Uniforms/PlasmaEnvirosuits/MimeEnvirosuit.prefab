@@ -18,6 +18,12 @@ PrefabInstance:
       propertyPath: initialDescription
       value: It's not very colourful.
       objectReference: {fileID: 0}
+    - target: {fileID: 3075625591719413753, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 734349a6fcc13d54b942f9428e773939,
+        type: 2}
     - target: {fileID: 3189476086581078171, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
         type: 3}
       propertyPath: m_Name
@@ -117,12 +123,23 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8429034800751256822, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
         type: 3}
+      propertyPath: parentID
+      value: 18cfa395284a2ed4a85bb1f7999ac5bf
+      objectReference: {fileID: 0}
+    - target: {fileID: 8429034800751256822, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
+        type: 3}
       propertyPath: foreverID
       value: 9a8a6051110f4204fb283ebbc5c68396
       objectReference: {fileID: 0}
     - target: {fileID: 8720469357821825820, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 734349a6fcc13d54b942f9428e773939,
+        type: 2}
+    - target: {fileID: 8720469357821825820, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 734349a6fcc13d54b942f9428e773939,
         type: 2}

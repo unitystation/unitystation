@@ -119,6 +119,29 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A black skirt, very fancy!
       objectReference: {fileID: 0}
+    - target: {fileID: 3397443007502491847, guid: 4319a1b0d53702e458b176248bc470bb,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: d4bf189195316af45bc3f60faf178e6f,
+        type: 2}
+    - target: {fileID: 3397443007502491847, guid: 4319a1b0d53702e458b176248bc470bb,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 859a3fcc82213a44cb2fe4a84183ba49,
+        type: 2}
+    - target: {fileID: 3397443007502491847, guid: 4319a1b0d53702e458b176248bc470bb,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 8fa4f4f77a94b2a42b0e81d25017993f,
+        type: 2}
+    - target: {fileID: 8174322744686822344, guid: 4319a1b0d53702e458b176248bc470bb,
+        type: 3}
+      propertyPath: parentID
+      value: 4319a1b0d53702e458b176248bc470bb
+      objectReference: {fileID: 0}
     - target: {fileID: 8174322744686822344, guid: 4319a1b0d53702e458b176248bc470bb,
         type: 3}
       propertyPath: foreverID
@@ -148,6 +171,12 @@ PrefabInstance:
     - target: {fileID: 8975007657035133986, guid: 4319a1b0d53702e458b176248bc470bb,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8fa4f4f77a94b2a42b0e81d25017993f,
+        type: 2}
+    - target: {fileID: 8975007657035133986, guid: 4319a1b0d53702e458b176248bc470bb,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 8fa4f4f77a94b2a42b0e81d25017993f,
         type: 2}

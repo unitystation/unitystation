@@ -118,6 +118,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 3588da14e1cf29c4cae8052f9a1144b3,
         type: 2}
+    - target: {fileID: 2849320339179502146, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: ff5c89c569c875d4ba08bbec519c7623,
+        type: 2}
     - target: {fileID: 7575452727574476451, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
       propertyPath: MaximumMoles
@@ -150,6 +156,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ff5c89c569c875d4ba08bbec519c7623,
         type: 2}
+    - target: {fileID: 8368062230162943655, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ff5c89c569c875d4ba08bbec519c7623,
+        type: 2}
+    - target: {fileID: 8781441551662356813, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
+      propertyPath: parentID
+      value: 48d3c058a9e5a42418875499b82cc5e3
+      objectReference: {fileID: 0}
     - target: {fileID: 8781441551662356813, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
       propertyPath: foreverID

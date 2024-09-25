@@ -31,12 +31,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1669989403256579251, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
+      propertyPath: parentID
+      value: 6f371050bff8b32438f91c7c680900bb
+      objectReference: {fileID: 0}
+    - target: {fileID: 1669989403256579251, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
       propertyPath: foreverID
       value: 06fa88552c4d5c84a9356cc79c6d43c6
       objectReference: {fileID: 0}
     - target: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 59de24d96dbfbe1448bce7fff9ed1751,
+        type: 2}
+    - target: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 59de24d96dbfbe1448bce7fff9ed1751,
         type: 2}
@@ -107,7 +118,7 @@ PrefabInstance:
     - target: {fileID: 5295069687449651132, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5295069687449651132, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
@@ -119,7 +130,8 @@ PrefabInstance:
         type: 3}
       propertyPath: 'initialTraits.Array.data[2]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: 8c15c57c64195bdd284ef85535d84ad5,
+        type: 2}
     - target: {fileID: 5295069687449651132, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
@@ -229,6 +241,11 @@ PrefabInstance:
       propertyPath: Color.a
       value: 0.6392157
       objectReference: {fileID: 0}
+    - target: {fileID: 5344101728563766022, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: InitialColour.a
+      value: 0.6392157
+      objectReference: {fileID: 0}
     - target: {fileID: 5577623456038050690, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
       propertyPath: m_Sprite
@@ -308,5 +325,27 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5734849685452875998, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1703491430305322530}
   m_SourcePrefab: {fileID: 100100000, guid: 6f371050bff8b32438f91c7c680900bb, type: 3}
+--- !u!1 &1524261696040241017 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5734849685452875998, guid: 6f371050bff8b32438f91c7c680900bb,
+    type: 3}
+  m_PrefabInstance: {fileID: 6535009517738618791}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1703491430305322530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1524261696040241017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d2006f80a5f4f87a89c5073fe3316ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

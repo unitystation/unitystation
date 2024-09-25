@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Managers.SettingsManager;
 using UnityEngine;
 using UnityEngine.UI;
@@ -43,6 +44,8 @@ namespace UI.Chat_UI
 
 		private int stackCount = 1;
 		private Vector3 stackScaleCache;
+
+		private const string SIZE_TAG_PATTERN = @"<size(=|\+=)(\+?[0-9]+\+?)>";
 
 		#region Lifecycle
 
@@ -172,19 +175,42 @@ namespace UI.Chat_UI
 
 		public void AddChatDuplication()
 		{
-			if (stackCount == 1)
-			{
-				// Just need to do this once; message size won't change.
-				SetStackPos();
-			}
-
 			stackText.text = $"x{++stackCount}";
 			ToggleUIElements(true);
 			stackObject.SetActive(true);
 			AnimateFade(1f, 0f);
 			StartCoroutine(AnimateStackObject());
+			StackMessageSizeIncrease();
+			SetStackPos(); // Always make sure the stack bubble has its position updated incase the entry gets updated.
 			this.RestartCoroutine(FadeCooldown(), ref fadeCooldownCoroutine);
 		}
+
+		private void StackMessageSizeIncrease()
+		{
+			Match match = Regex.Match(messageText.text, SIZE_TAG_PATTERN);
+			if (match.Success)
+			{
+				if(HasLargeSizeTag(match)) return;
+				messageText.text = Regex.Replace(messageText.text, SIZE_TAG_PATTERN, match =>
+				{
+					float number = float.Parse(match.Groups[2].Value);
+					float newNumber = number + 2;
+					string newTag = $"<size{match.Groups[1].Value}+{newNumber}>";
+					return newTag;
+				}, RegexOptions.IgnoreCase);
+				StartCoroutine(UpdateEntryHeight());
+			}
+		}
+
+		private bool HasLargeSizeTag(Match match)
+		{
+			if (int.TryParse(match.Groups[2].Value, out var sizeValue) && sizeValue > 55)
+			{
+				return true;
+			}
+			return false;
+		}
+
 
 		private void SetHidden(bool hidden, bool fromCooldown = false)
 		{
@@ -249,7 +275,7 @@ namespace UI.Chat_UI
 
 			if (toggleVisibleState)
 			{
-				if (UI.Chat_UI.ChatUI.Instance.ChatContentMinimumAlpha < 0.01f)
+				if (ChatUI.Instance.ChatContentMinimumAlpha < 0.01f)
 				{
 					ToggleUIElements(false);
 				}

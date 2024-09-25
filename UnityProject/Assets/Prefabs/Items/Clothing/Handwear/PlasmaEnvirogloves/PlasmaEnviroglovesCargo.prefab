@@ -94,6 +94,12 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Covers up those scandalous boney hands. This pair is insulated.
       objectReference: {fileID: 0}
+    - target: {fileID: 3362150243410660038, guid: cb7e5ca96c976e74cb550187a84e94b3,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: e7b1c198902c33f4fa0698da1816c267,
+        type: 2}
     - target: {fileID: 8086320792411436577, guid: cb7e5ca96c976e74cb550187a84e94b3,
         type: 3}
       propertyPath: clothData
@@ -112,12 +118,23 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8142475712593013193, guid: cb7e5ca96c976e74cb550187a84e94b3,
         type: 3}
+      propertyPath: parentID
+      value: cb7e5ca96c976e74cb550187a84e94b3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8142475712593013193, guid: cb7e5ca96c976e74cb550187a84e94b3,
+        type: 3}
       propertyPath: foreverID
       value: 06d343b37dea3e94db5ce30caa14abbf
       objectReference: {fileID: 0}
     - target: {fileID: 9008118818392972835, guid: cb7e5ca96c976e74cb550187a84e94b3,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e7b1c198902c33f4fa0698da1816c267,
+        type: 2}
+    - target: {fileID: 9008118818392972835, guid: cb7e5ca96c976e74cb550187a84e94b3,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: e7b1c198902c33f4fa0698da1816c267,
         type: 2}

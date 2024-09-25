@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Core;
+using Core.Utils;
 using InGameGizmos;
 using Logs;
 using Shared.Managers;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 [RequireComponent(typeof(EscapeKeyTarget))]
 public class DeviceMover : SingletonManager<DeviceMover>
@@ -28,6 +32,10 @@ public class DeviceMover : SingletonManager<DeviceMover>
 	public bool Updating = false;
 
 	public Vector3 StartPositionWorld;
+
+	public Slider RoundSlider;
+
+	public TMP_Text RoundText;
 
 	private void OnEnable()
 	{
@@ -98,7 +106,11 @@ public class DeviceMover : SingletonManager<DeviceMover>
 		{
 			var WorldPosition = MouseUtils.MouseToWorldPos();
 			var Matrix = WorldPosition.GetMatrixAtWorld();
-			CursorLine.To = (WorldPosition.ToLocal(Matrix).RoundToInt().ToWorld(Matrix));
+			var PosToRound = (WorldPosition.ToLocal(Matrix));
+
+			PosToRound.x = PosToRound.x.RoundToArbitrary(GetRoundingValue());
+			PosToRound.y = PosToRound.y.RoundToArbitrary(GetRoundingValue());
+			CursorLine.To = PosToRound.ToWorld(Matrix);
 		}
 		else
 		{
@@ -122,7 +134,12 @@ public class DeviceMover : SingletonManager<DeviceMover>
 			{
 				var WorldPosition = MouseUtils.MouseToWorldPos();
 				var Matrix = WorldPosition.GetMatrixAtWorld();
-				DeviceMoverMessage.Send(ObjectPhysics.gameObject, WorldPosition.ToLocal(Matrix).RoundToInt().ToWorld(Matrix), null, Vector3.zero);
+				var PosToRound = (WorldPosition.ToLocal(Matrix));
+
+				PosToRound.x = PosToRound.x.RoundToArbitrary(GetRoundingValue());
+				PosToRound.y = PosToRound.y.RoundToArbitrary(GetRoundingValue());
+
+				DeviceMoverMessage.Send(ObjectPhysics.gameObject,  PosToRound.ToWorld(Matrix), null, Vector3.zero);
 			}
 			else
 			{
@@ -136,6 +153,45 @@ public class DeviceMover : SingletonManager<DeviceMover>
 
 
 		PressedObject = null;
+	}
+
+
+	public void UpdateRound()
+	{
+		switch (RoundSlider.value)
+		{
+			case 0:
+				RoundText.text = "1";
+				break;
+			case 1:
+				RoundText.text = "0.1";
+				break;
+			case 2:
+				RoundText.text = "By Pixel"; //0.03125
+				break;
+			case 3:
+				RoundText.text = "0.01";
+				break;
+		}
+	}
+
+	public float GetRoundingValue()
+	{
+		switch (RoundSlider.value)
+		{
+			case 0:
+				return 1;
+			case 1:
+				return 0.1f;
+			case 2:
+				return 0.03125f;
+				break;
+			case 3:
+				return 0.01f;
+				break;
+			default:
+				return 1;
+		}
 	}
 
 

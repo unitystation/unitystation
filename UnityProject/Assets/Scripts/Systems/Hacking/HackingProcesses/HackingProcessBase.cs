@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Core;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
@@ -11,6 +12,7 @@ using Logs;
 using Messages.Client;
 using Objects.Electrical;
 using Systems.Explosions;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Systems.Hacking
 {
@@ -19,7 +21,6 @@ namespace Systems.Hacking
 	/// It will check interactions with the object, and once the goal interactions have been met, it will open a hacking UI prefab.
 	/// e.g. check if interacted with a screw driver, then check if
 	/// </summary>
-	[RequireComponent(typeof(ItemStorage))]
 	public class HackingProcessBase : NetworkBehaviour, IServerDespawn, IEmpAble
 	{
 		private static Dictionary<Type, Dictionary<MethodInfo, Color>> ColourDictionary = new Dictionary<Type, Dictionary<MethodInfo, Color>>();
@@ -85,7 +86,6 @@ namespace Systems.Hacking
 		{
 			MonoAvailableColours?.Clear();
 			ColourDictionary?.Clear();
-			HasRegisteredForRestart = false;
 		}
 
 		public void OnDespawnServer(DespawnInfo info)

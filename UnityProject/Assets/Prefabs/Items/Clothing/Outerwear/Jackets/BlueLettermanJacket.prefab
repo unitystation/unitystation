@@ -95,6 +95,17 @@ PrefabInstance:
       value: A blue letterman jacket with a proud Nanotrasen N on the back. The tag
         says that it was made in Space China.
       objectReference: {fileID: 0}
+    - target: {fileID: 2024818765580378706, guid: 7f3cee8a5573625449fd37c4bbb83a1d,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 720142efcc4f1d94dbd205ce9b066fd0,
+        type: 2}
+    - target: {fileID: 4777961452559450461, guid: 7f3cee8a5573625449fd37c4bbb83a1d,
+        type: 3}
+      propertyPath: parentID
+      value: 7f3cee8a5573625449fd37c4bbb83a1d
+      objectReference: {fileID: 0}
     - target: {fileID: 4777961452559450461, guid: 7f3cee8a5573625449fd37c4bbb83a1d,
         type: 3}
       propertyPath: foreverID
@@ -124,6 +135,12 @@ PrefabInstance:
     - target: {fileID: 5742683758786115255, guid: 7f3cee8a5573625449fd37c4bbb83a1d,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 720142efcc4f1d94dbd205ce9b066fd0,
+        type: 2}
+    - target: {fileID: 5742683758786115255, guid: 7f3cee8a5573625449fd37c4bbb83a1d,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 720142efcc4f1d94dbd205ce9b066fd0,
         type: 2}

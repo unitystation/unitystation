@@ -18,6 +18,12 @@ PrefabInstance:
       propertyPath: initialDescription
       value: It has a syndicate emblem and it has an aura of evil.
       objectReference: {fileID: 0}
+    - target: {fileID: 3465284675447965665, guid: 423cab216aa4e354f8159742cc80d10a,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 2560887d40378d741ba85b0ff4b443ab,
+        type: 2}
     - target: {fileID: 3750167143099309023, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
       propertyPath: m_Sprite
@@ -100,6 +106,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 2560887d40378d741ba85b0ff4b443ab,
         type: 2}
+    - target: {fileID: 7186812133261251332, guid: 423cab216aa4e354f8159742cc80d10a,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2560887d40378d741ba85b0ff4b443ab,
+        type: 2}
+    - target: {fileID: 7944360039044097262, guid: 423cab216aa4e354f8159742cc80d10a,
+        type: 3}
+      propertyPath: parentID
+      value: 423cab216aa4e354f8159742cc80d10a
+      objectReference: {fileID: 0}
     - target: {fileID: 7944360039044097262, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
       propertyPath: foreverID

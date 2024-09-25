@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Initialisation;
+using Logs;
 using Shared.Managers;
 using Tiles;
 using UnityEngine;
@@ -50,6 +51,8 @@ public class TileManager : SingletonManager<TileManager>, IInitialise
 	private Dictionary<TileType, Dictionary<string, LayerTile>> tiles = new Dictionary<TileType, Dictionary<string, LayerTile>>();
 
 	public Dictionary<TileType, Dictionary<string, LayerTile>> Tiles => tiles;
+
+	public  Dictionary<string, LayerTile> AllTiles = new  Dictionary<string, LayerTile>();
 
 	private bool initialized;
 
@@ -105,7 +108,7 @@ public class TileManager : SingletonManager<TileManager>, IInitialise
 		return true;
 	}
 
-	private IEnumerator LoadAllTiles(bool staggeredload = false)
+	public IEnumerator LoadAllTiles(bool staggeredload = false)
 	{
 		initialized = true;
 		tilesToLoad = 0;
@@ -125,6 +128,12 @@ public class TileManager : SingletonManager<TileManager>, IInitialise
 
 			foreach (var t in type.layerTiles)
 			{
+				if (AllTiles.ContainsKey(t.name) && AllTiles[t.name]  != t)
+				{
+					Loggy.LogError("Duplicate names for " + t.name);
+				}
+
+				AllTiles[t.name] = t;
 				tilesLoaded++;
 				if (t.TileType == type.tileType)
 				{
@@ -159,11 +168,28 @@ public class TileManager : SingletonManager<TileManager>, IInitialise
 
 	}
 
+	public static LayerTile GetTile( string key)
+	{
+		if (Instance.AllTiles.TryGetValue(key, out var tl))
+		{
+			return tl;
+		}
+
+		Loggy.LogError( $"Could not find layerTile in dictionary with key: {key}");
+
+		return null;
+	}
+
 	public static LayerTile GetTile(TileType tileType, string key)
 	{
 		if (!Instance.initialized) Instance.StartCoroutine(Instance.LoadAllTiles());
 
 		if (Instance.tiles.TryGetValue(tileType, out var tiles) && tiles.TryGetValue(key, out var layerTile))
+		{
+			return layerTile;
+		}
+
+		if (Instance.AllTiles.TryGetValue(key, out layerTile))
 		{
 			return layerTile;
 		}

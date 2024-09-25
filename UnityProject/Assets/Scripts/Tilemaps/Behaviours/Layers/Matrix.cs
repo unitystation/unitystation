@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Core;
 using Doors;
 using UnityEngine;
 using UnityEngine.Events;
@@ -11,6 +12,8 @@ using Tilemaps.Behaviours.Layers;
 using Light2D;
 using HealthV2;
 using Logs;
+using Messages.Client.NewPlayer;
+using Player;
 using Systems.Atmospherics;
 using Systems.Electricity;
 using Systems.Pipes;
@@ -18,6 +21,7 @@ using Tilemaps.Utils;
 using Util;
 using Tiles;
 using PipeLayer = Tilemaps.Behaviours.Layers.PipeLayer;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 /// <summary>
 /// Behavior which indicates a matrix - a contiguous grid of tiles.
@@ -57,7 +61,7 @@ public class Matrix : MonoBehaviour
 
 	public bool IsSpaceMatrix;
 	public bool IsMainStation;
-	public bool IsLavaLand;
+	public bool IsLavaLand => transform.parent.name == "LavaLand";
 
 	public bool IsMovable => true;
 
@@ -110,7 +114,7 @@ public class Matrix : MonoBehaviour
 	//Pretty self-explanatory, TODO gravity generator
 	public bool HasGravity = true;
 
-	private void Awake()
+	public void Awake()
 	{
 		metaTileMap = GetComponent<MetaTileMap>();
 		if (metaTileMap == null)
@@ -131,12 +135,18 @@ public class Matrix : MonoBehaviour
 		DisposalsLayer = GetComponentInChildren<DisposalsLayer>();
 		tilemapsDamage = GetComponentsInChildren<TilemapDamage>().ToList();
 
-		if (MatrixManager.Instance.InitializingMatrixes.ContainsKey(gameObject.scene) == false)
-		{
-			MatrixManager.Instance.InitializingMatrixes.Add(gameObject.scene, new List<Matrix>());
-		}
-		MatrixManager.Instance.InitializingMatrixes[gameObject.scene].Add(this);
+		if (Application.isPlaying == false) return;
 
+		if (gameObject.scene.name != "OnlineScene")
+		{
+			if (MatrixManager.Instance.InitializingMatrixes.ContainsKey(gameObject.scene) == false)
+			{
+
+				MatrixManager.Instance.InitializingMatrixes.Add(gameObject.scene, new List<Matrix>());
+			}
+
+			MatrixManager.Instance.InitializingMatrixes[gameObject.scene].Add(this);
+		}
 
 		OnEarthquake.AddListener((worldPos, magnitude) =>
 		{
@@ -163,10 +173,8 @@ public class Matrix : MonoBehaviour
 		});
 	}
 
-	void Start()
-	{
-		StartCoroutine(MatrixManager.Instance.RegisterWhenReady(this));
-	}
+
+
 
 	public void CompressAllBounds()
 	{
@@ -492,7 +500,7 @@ public class Matrix : MonoBehaviour
 		var subsystemManager = this.GetComponentInParent<MatrixSystemManager>();
 		yield return subsystemManager.Initialize();
 
-		if (CustomNetworkManager.IsServer)
+		if (CustomNetworkManager.IsServer && NetworkedMatrix.IsJsonLoaded == false)
 		{
 			var iServerSpawnList = this.GetComponentsInChildren<IServerSpawn>();
 			GameManager.Instance.MappedOnSpawnServer(iServerSpawnList);
@@ -510,7 +518,7 @@ public class Matrix : MonoBehaviour
 			wireConnect.InData.Categorytype, position, newdata);
 	}
 
-	public void AddElectricalNode(Vector3Int position, ElectricalCableTile electricalCableTile, bool AddTile = false)
+	public void AddElectricalNode(Vector3Int position, ElectricalCableTile electricalCableTile, bool AddTile = true, bool AddLogic = false)
 	{
 		var checkPos = position;
 		checkPos.z = 0;
@@ -523,10 +531,13 @@ public class Matrix : MonoBehaviour
 			}
 		}
 
-		var newdata = new ElectricalMetaData();
-		newdata.Initialise(electricalCableTile, metaData, position, this);
-		metaData.ElectricalData.Add(newdata);
-
+		if (AddLogic)
+		{
+			var newdata = new ElectricalMetaData();
+			newdata.Initialise(electricalCableTile, metaData, position, this);
+			metaData.ElectricalData.Add(newdata);
+			ElectricalManager.Instance.electricalSync.StructureChange = true;
+		}
 	}
 
 	public void EditorAddElectricalNode(Vector3Int position, WireConnect wireConnect)

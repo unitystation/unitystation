@@ -26,6 +26,10 @@ namespace AdminTools.VariableViewer
 			return CanDo;
 		}
 
+
+
+
+
 		public override void SetUpValues(Type ValueType,
 			VariableViewerNetworking.NetFriendlyPage Page = null,
 			VariableViewerNetworking.NetFriendlySentence Sentence = null,
@@ -34,7 +38,7 @@ namespace AdminTools.VariableViewer
 			if (Page != null)
 			{
 				PageID = Page.ID;
-				SentenceID = 0;
+				SentenceID = UInt32.MaxValue;
 				IsSentence = false;
 				iskey = false;
 			}
@@ -47,7 +51,7 @@ namespace AdminTools.VariableViewer
 			}
 
 			var Data = VVUIElementHandler.ReturnCorrectString(Page, Sentence, Iskey);
-			DeSerialise(Data,null, null, true);
+			DeSerialise(Data, null, true);
 		}
 
 		public void UpdateColour(Color Color)
@@ -61,7 +65,7 @@ namespace AdminTools.VariableViewer
 				Outstring += Convert.ToChar(Mathf.RoundToInt(thisColor.b * 255));
 				Outstring += Convert.ToChar(Mathf.RoundToInt(thisColor.a * 255));
 
-				RequestChangeVariableNetMessage.Send(PageID, Outstring, UISendToClientToggle.toggle);
+				RequestChangeVariableNetMessage.Send(PageID, Outstring, UISendToClientToggle.toggle, SentenceID);
 			}
 		}
 
@@ -100,7 +104,7 @@ namespace AdminTools.VariableViewer
 			return Data.ToString();
 		}
 
-		public override object DeSerialise(string StringVariable, Type InType, object InObject, bool SetUI = false)
+		public override object DeSerialise(string StringVariable, Type InType, bool SetUI = false)
 		{
 			Color TheColour = Color.white;
 			TheColour.r = StringVariable[0] / 255f;

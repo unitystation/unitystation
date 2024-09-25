@@ -1,0 +1,324 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1452769665474003334
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 997976880842658030}
+  - component: {fileID: 6550518565075792263}
+  - component: {fileID: 314332131215810989}
+  m_Layer: 10
+  m_Name: SpriteOverlay
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &997976880842658030
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1452769665474003334}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1278750111789472313}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &6550518565075792263
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1452769665474003334}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_RenderingLayerMask: 4294967295
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: c122dd7923e087c48bf08da9da455514, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: -1463207863
+  m_SortingLayer: 13
+  m_SortingOrder: 40
+  m_Sprite: {fileID: 21300000, guid: a8814b3ffdd934b1484b7bd1d0625cf2, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &314332131215810989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1452769665474003334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: c9e7582d835eb188a86609f02ac57297, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: c9e7582d835eb188a86609f02ac57297, type: 2}
+  randomInitialSprite: 0
+  doReverseAnimation: 0
+  pushTextureOnStartUp: 1
+  variantIndex: 0
+  palette: []
+--- !u!1001 &7415492768448960118
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2450954382432651964, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 590f1755a7e860bb2b6b5be0af5f6df8,
+        type: 2}
+    - target: {fileID: 2450954382432651964, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 590f1755a7e860bb2b6b5be0af5f6df8,
+        type: 2}
+    - target: {fileID: 2450954382432651964, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 38ddf218dbc675613b8de7fde360587c,
+        type: 2}
+    - target: {fileID: 3458532336144809302, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: parentID
+      value: 838a4732b2dece64497d074b7a700be6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3458532336144809302, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: foreverID
+      value: 9048a2e02f9e4d4cabf6fb1fe495a5ce
+      objectReference: {fileID: 0}
+    - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: initialName
+      value: Atmospheric Grenade
+      objectReference: {fileID: 0}
+    - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: initialDescription
+      value: A small metal canister with a hollow body designed to store gas at high
+        pressures.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: a88f1555ca8abf643aea180c637f5329,
+        type: 2}
+    - target: {fileID: 8481510294924968551, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a27bce9c7acbafd3ba087fabea1ad4f5,
+        type: 3}
+    - target: {fileID: 8561801018043092111, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: _assetId
+      value: 207285809
+      objectReference: {fileID: 0}
+    - target: {fileID: 8594439505056330043, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: m_Name
+      value: AtmosGrenade
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599085903787527247, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599085903787527247, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599085903787527247, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599085903787527247, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599085903787527247, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599085903787527247, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599085903787527247, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599085903787527247, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599085903787527247, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599085903787527247, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9197874253917913631, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: allowReuse
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9197874253917913631, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: destroyGrenade
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9197874253917913631, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: explosionPrefab
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 8599085903787527247, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 997976880842658030}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8594439505056330043, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4135761014755609838}
+    - targetCorrespondingSourceObject: {fileID: 8594439505056330043, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3810250351249838794}
+  m_SourcePrefab: {fileID: 100100000, guid: 838a4732b2dece64497d074b7a700be6, type: 3}
+--- !u!1 &1273544886000789325 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8594439505056330043, guid: 838a4732b2dece64497d074b7a700be6,
+    type: 3}
+  m_PrefabInstance: {fileID: 7415492768448960118}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4135761014755609838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1273544886000789325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9159a75a1183cba7780b71fd1d9c6050, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  gasIndicatorSpriteHandler: {fileID: 314332131215810989}
+--- !u!114 &3810250351249838794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1273544886000789325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf6a312c50114272bc561c429cbb4175, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  GasSO: {fileID: 0}
+  StoredGasMix:
+    GasData:
+      GasesArray: []
+    pressure: 0
+    Volume: 1
+    temperature: 293.15
+  MaximumMoles: 200
+  ReleasePressure: 101.325
+  CargoSealApproved: 0
+  explodeOnTooMuchDamage: 1
+  ignoreInternals: 1
+  canToggleIgnoreInternals: 0
+--- !u!4 &1278750111789472313 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8599085903787527247, guid: 838a4732b2dece64497d074b7a700be6,
+    type: 3}
+  m_PrefabInstance: {fileID: 7415492768448960118}
+  m_PrefabAsset: {fileID: 0}

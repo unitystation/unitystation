@@ -49,7 +49,7 @@ namespace AdminTools
 
 			RequestAdminObjectiveRefreshMessage.Send(player.PlayerData.uid);
 		}
-		
+
 		/// <summary>
 		/// Removes added entry
 		/// </summary>
@@ -371,6 +371,12 @@ namespace AdminTools
 			var playerScript = player.Body;
 			if (playerScript.Mind == null)
 				return;
+
+			var Objective = player.AntagPublic.Objectives.FirstOrDefault(o => o.ID == ID);
+			if (Objective != null)
+			{
+				Destroy(Objective);
+			}
 
 			player.AntagPublic.Objectives = player.AntagPublic.Objectives.Where(o => o.ID != ID);
 		}

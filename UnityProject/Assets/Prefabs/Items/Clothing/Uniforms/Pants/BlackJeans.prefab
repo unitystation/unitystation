@@ -94,6 +94,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Only for those who can pull it off.
       objectReference: {fileID: 0}
+    - target: {fileID: 3397443007502491847, guid: db6925c2066e4fb49a396bacd6dc7552,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 5cfeedd7d1c742d4194cbdd27b234b60,
+        type: 2}
+    - target: {fileID: 8174322744686822344, guid: db6925c2066e4fb49a396bacd6dc7552,
+        type: 3}
+      propertyPath: parentID
+      value: db6925c2066e4fb49a396bacd6dc7552
+      objectReference: {fileID: 0}
     - target: {fileID: 8174322744686822344, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
       propertyPath: foreverID
@@ -123,6 +134,12 @@ PrefabInstance:
     - target: {fileID: 8975007657035133986, guid: db6925c2066e4fb49a396bacd6dc7552,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 5cfeedd7d1c742d4194cbdd27b234b60,
+        type: 2}
+    - target: {fileID: 8975007657035133986, guid: db6925c2066e4fb49a396bacd6dc7552,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 5cfeedd7d1c742d4194cbdd27b234b60,
         type: 2}

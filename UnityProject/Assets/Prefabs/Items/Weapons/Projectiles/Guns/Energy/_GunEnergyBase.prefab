@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 2153160782301408824}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.125, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -101,15 +101,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &2220118134753059110
 GameObject:
   m_ObjectHideFlags: 0
@@ -137,7 +134,7 @@ Transform:
   m_GameObject: {fileID: 2220118134753059110}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0625, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -211,15 +208,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &6227234703256324225
 GameObject:
   m_ObjectHideFlags: 0
@@ -247,7 +241,7 @@ Transform:
   m_GameObject: {fileID: 6227234703256324225}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.1875, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -321,15 +315,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &8546303518654307076
 GameObject:
   m_ObjectHideFlags: 0
@@ -431,15 +422,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &5533974169584468468
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -454,6 +442,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 6b5f254be9fd647e6a3dc1399aa47aeb,
         type: 2}
+    - target: {fileID: 3001407139512993015, guid: da85b7a590e7c8444af73629fcb5dd22,
+        type: 3}
+      propertyPath: parentID
+      value: da85b7a590e7c8444af73629fcb5dd22
+      objectReference: {fileID: 0}
     - target: {fileID: 3001407139512993015, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
       propertyPath: foreverID
@@ -529,17 +522,17 @@ PrefabInstance:
     - target: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
@@ -674,11 +667,29 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  AllowSuicide: 0
+  pinPrefab: {fileID: 6004521592186936485, guid: 0c0328cbf94ffe648a0903cfc375ab91,
+    type: 3}
+  allowPinSwap: 1
+  FireDelay: 0.5
+  isSuppressed: 0
+  WeaponType: 0
+  MaxRecoilVariance: 0
+  ProjectileVelocity: 20
+  CameraRecoilConfig:
+    Distance: 0.2
+    RecoilDuration: 0.05
+    RecoveryDuration: 0.6
   ammoPrefab: {fileID: 5999901686547831408, guid: bd07fb3945875634685790190ea8decc,
     type: 3}
-  casingPrefabOverride: {fileID: 0}
-  allowMagazineRemoval: 0
   ammoType: 14
+  casingPrefabOverride: {fileID: 0}
+  SpawnsCasing: 0
+  MagInternal: 0
+  SmartGun: 0
+  allowMagazineRemoval: 0
+  attachmentPrefabs: []
+  allowedAttachments: 6
   loadMagSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Weapons/KineticReload.prefab
@@ -695,12 +706,6 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  pinPrefab: {fileID: 6004521592186936485, guid: 0c0328cbf94ffe648a0903cfc375ab91,
-    type: 3}
-  suppressorPrefab: {fileID: 0}
-  SpawnsCasing: 0
-  MagInternal: 0
-  SmartGun: 0
   FiringSoundA:
     SetLoadSetting: 0
     AssetAddress: null
@@ -725,18 +730,6 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  FireDelay: 0.5
-  AllowSuicide: 0
-  MaxRecoilVariance: 0
-  ProjectileVelocity: 20
-  CameraRecoilConfig:
-    Distance: 0
-    RecoilDuration: 0
-    RecoveryDuration: 0
-  WeaponType: 0
-  allowPinSwap: 1
-  isSuppressed: 0
-  isSuppressible: 0
   firemodeProjectiles:
   - {fileID: 3294328072042417454, guid: 49a8364f6515be34bac52c48c9214d85, type: 3}
   firemodeFiringSound:
@@ -750,4 +743,6 @@ MonoBehaviour:
   firemodeName:
   - Kill
   firemodeUsage: 3e030000
+  chargeSprite: {fileID: 0}
+  ammoSprite: {fileID: 0}
   allowScrewdriver: 1

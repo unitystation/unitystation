@@ -73,7 +73,7 @@ namespace InGameEvents
 		{
 			var oxyMoles = gasMix.GetMoles(Gas.Oxygen);
 
-			gasMix.AddGas(Gas.Plasma, oxyMoles);
+			gasMix.AddGasWithTemperature(Gas.Plasma, oxyMoles,gasMix.Temperature );
 			gasMix.RemoveGas(Gas.Oxygen, oxyMoles);
 		}
 	}

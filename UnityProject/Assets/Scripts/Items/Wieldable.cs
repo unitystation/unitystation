@@ -18,10 +18,14 @@ namespace Items
 
 		[SerializeField] private int damageWielded;
 
+		public int DamageWielded => damageWielded;
+
 		public ItemsSprites Wielded = new ItemsSprites();
 		public ItemsSprites Unwielded = new ItemsSprites();
 
 		[SyncVar(hook = nameof(SyncState))] private bool isWielded;
+
+		public bool IsWielded => isWielded;
 
 		private ItemAttributesV2 itemAttributes;
 
@@ -87,7 +91,10 @@ namespace Items
 				isWielded = false;
 				itemAttributes.ServerHitDamage = damageUnwielded;
 				itemAttributes.SetSprites(Unwielded);
-				HideHand(HiddenHandValue.none, info.FromPlayer.PlayerScript);
+				if (info.FromPlayer != null)
+				{
+					HideHand(HiddenHandValue.none, info.FromPlayer.PlayerScript);
+				}
 			}
 		}
 

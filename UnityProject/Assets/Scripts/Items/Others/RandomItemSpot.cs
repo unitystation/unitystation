@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core;
 using Logs;
 using Mirror;
 using NaughtyAttributes;
@@ -9,6 +10,7 @@ using Systems;
 using Systems.Electricity;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Items
 {
@@ -25,6 +27,7 @@ namespace Items
 		[Tooltip("List of possible pools of items to choose from")] [SerializeField]
 		private List<PoolData> poolList = null;
 
+		[HideInInspector]
 		public GameObject spawnedItem = null;
 
 		private const int MaxAmountRolls = 5;
@@ -43,13 +46,8 @@ namespace Items
 		{
 			if (overrideTrigger == false && triggerManually) return;
 			SpawnRandomItems(UnrestrictedAndspawn);
-			if (deleteAfterUse)
-			{
-				_ = Despawn.ServerSingle(gameObject);
-				return;
-			}
-			ShoveIntoStorage(gameObject);
 			APCtoSet.OrNull()?.RemoveFromAPC();
+
 		}
 
 		[Button]
@@ -109,7 +107,7 @@ namespace Items
 			}
 
 			var item = poolData.RandomItemPool.Pool.PickRandom();
-			var spread = fanOut ? Random.Range(-0.5f, 0.5f) : (float?) null;
+			var spread = fanOut ? Random.Range(0, 0.5f) : (float?) null;
 
 			if (!DMMath.Prob(item.Probability))
 			{

@@ -12,10 +12,12 @@ using Objects.Atmospherics;
 using Objects.Wallmounts;
 using Shared.Util;
 using Systems.Spawns;
+using TileManagement;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Tilemaps;
 using Util;
 using Object = UnityEngine.Object;
 
@@ -101,6 +103,58 @@ namespace Core.Editor.Tools
 			}
 
 			Loggy.LogError(stringBuilder.ToString(), Category.Editor);
+		}
+
+
+		// Name of the child object to find and copy
+		private const string ChildToFind = "Effects";
+		private const string NewName = "UnderPlayerEffects";
+		private const LayerType NewLayerType = LayerType.UnderObjectsEffects; // Assuming this is a tag or layer name you use
+
+
+		[MenuItem("Mapping/add Underfloor effect layer")]
+		private static void addUnderfloorEffectLayer()
+		{
+			// Find all objects with the MetaTileMap component in the scene
+			MetaTileMap[] metaTileMaps = FindObjectsOfType<MetaTileMap>();
+
+			foreach (MetaTileMap metaTileMap in metaTileMaps)
+			{
+				Transform effectsChild = metaTileMap.transform.Find(ChildToFind);
+				if (effectsChild != null)
+				{
+					// Create a copy of the 'Effects' child
+					GameObject playerEffectsCopy = Instantiate(effectsChild.gameObject);
+
+					// Set the new name
+					playerEffectsCopy.name = NewName;
+
+					// Set the new layer type - assuming you have a 'LayerScript' or similar
+					Layer layerScript = playerEffectsCopy.GetComponent<Layer>();
+					if (layerScript != null)
+					{
+						layerScript.LayerType =  (NewLayerType);
+					}
+					else
+					{
+						Debug.LogWarning("LayerScript not found on the copied object: " + playerEffectsCopy.name);
+					}
+
+					// Reparent the new object under the MetaTileMap's parent
+					playerEffectsCopy.transform.SetParent(metaTileMap.transform);
+					playerEffectsCopy.transform.SetSiblingIndex(metaTileMap.transform.Find("Floors").GetSiblingIndex());
+					playerEffectsCopy.transform.localPosition = Vector3.zero;
+					playerEffectsCopy.transform.localScale = Vector3.one;
+					playerEffectsCopy.GetComponent<TilemapRenderer>().sortingLayerName = "Blood";
+					playerEffectsCopy.GetComponent<TilemapRenderer>().sortingOrder = -10;
+					Debug.Log("Copied and modified Effects object for: " + metaTileMap.name);
+				}
+				else
+				{
+					Debug.LogWarning("No child named 'Effects' found for: " + metaTileMap.name);
+				}
+			}
+			EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
 		}
 
 		[MenuItem("Mapping/Convert old Spawn points to new")]
@@ -198,6 +252,43 @@ namespace Core.Editor.Tools
 
 			Debug.Log($"{allNets.Count} net components found in prefabs");
 		}
+
+		[MenuItem("Mapping/RemmoveMissingTag")]
+		private static void RemoveNames()
+		{
+			string patternToRemove = "(Missing Prefab with guid:";
+
+			// Iterate through all root game objects in the current scene
+			foreach (GameObject root in SceneManager.GetActiveScene().GetRootGameObjects())
+			{
+				// Recursively clean the names of all child objects
+				CleanObjectName(root, patternToRemove);
+			}
+
+			// Save the scene after making changes
+			EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
+		}
+
+		private static void CleanObjectName(GameObject obj, string patternToRemove)
+		{
+			if (obj.name.Contains(patternToRemove))
+			{
+				int startIndex = obj.name.IndexOf(patternToRemove);
+				int endIndex = obj.name.IndexOf(')', startIndex);
+				if (endIndex > startIndex)
+				{
+					// Remove the pattern from the name
+					obj.name = obj.name.Remove(startIndex, endIndex - startIndex + 1).Trim();
+				}
+			}
+
+			// Iterate through all child objects and clean their names as well
+			foreach (Transform child in obj.transform)
+			{
+				CleanObjectName(child.gameObject, patternToRemove);
+			}
+		}
+
 
 		[MenuItem("Mapping/Save all scenes")]
 		private static void SaveAllScenes()
@@ -461,7 +552,7 @@ namespace Core.Editor.Tools
 			int count = 0;
 			foreach (GameObject gameObject in SceneManager.GetActiveScene().GetRootGameObjects())
 			{
-				foreach (var objectPhysics in gameObject.GetComponentsInChildren<UniversalObjectPhysics>())
+				foreach (var objectPhysics in gameObject.GetComponentsInChildren<Physics.UniversalObjectPhysics>())
 				{
 					if (objectPhysics.SnapToGridOnStart == false) continue;
 
@@ -534,7 +625,7 @@ namespace Core.Editor.Tools
 				if (Missing)
 				{
 					Undo.RegisterCompleteObjectUndo(o, "Remove missing scripts");
-					o.AddComponent<UniversalObjectPhysics>();
+					o.AddComponent<Physics.UniversalObjectPhysics>();
 					GameObjectUtility.RemoveMonoBehavioursWithMissingScript(o);
 					EditorUtility.SetDirty(o);
 					goCount++;
@@ -584,6 +675,34 @@ namespace Core.Editor.Tools
 						recipe.RequiredIngredients[i].RequiredItem,
 						parentsAndChilds
 					);
+				}
+			}
+		}
+
+		[MenuItem("Tools/Crafting/ClearAllCraftingCrossLinks!")]
+		private static void ClearAllCraftingCrossLinks()
+		{
+			string[] recipeGuids = AssetDatabase.FindAssets("t:CraftingRecipe");
+
+			if (recipeGuids.Length == 0)
+			{
+				return;
+			}
+
+			foreach (string recipeGuid in recipeGuids)
+			{
+				CraftingRecipe recipe = AssetDatabase.LoadAssetAtPath<CraftingRecipe>(
+					AssetDatabase.GUIDToAssetPath(recipeGuid)
+				);
+				for (int i = 0; i < recipe.RequiredIngredients.Count; i++)
+				{
+					recipe.RequiredIngredients[i].RequiredItem.GetComponent<CraftingIngredient>().RelatedRecipes.Clear();
+					PrefabUtility.SavePrefabAsset(recipe.RequiredIngredients[i].RequiredItem);
+				}
+				for (int i = 0; i < recipe.Result.Count; i++)
+				{
+					recipe.Result[i].GetComponent<CraftingIngredient>()?.RelatedRecipes?.Clear();
+					PrefabUtility.SavePrefabAsset(recipe.Result[i]);
 				}
 			}
 		}
@@ -646,7 +765,17 @@ namespace Core.Editor.Tools
 
 			foreach (GameObject child in parentsAndChilds[requiredIngredient])
 			{
+				if (child.GetComponent<CraftingIngredient>() != null)
+				{
+					var inggredient = child.GetComponent<CraftingIngredient>();
+					if (inggredient.InheritParentsRecipes == false)
+					{
+						continue;
+					}
+				}
+
 				CheckAndFixCraftingCrossLinks(checkingRecipe, indexInRecipe, child, parentsAndChilds);
+
 			}
 		}
 	}

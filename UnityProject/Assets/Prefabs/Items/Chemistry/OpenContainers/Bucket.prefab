@@ -10,12 +10,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1192346784581441163, guid: 364841a08150e9345b119e71191c8dcf,
         type: 3}
+      propertyPath: parentID
+      value: 364841a08150e9345b119e71191c8dcf
+      objectReference: {fileID: 0}
+    - target: {fileID: 1192346784581441163, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
       propertyPath: foreverID
       value: ba46a81cbd3cd9c4faea0e047fbae79f
       objectReference: {fileID: 0}
     - target: {fileID: 2121397489038221665, guid: 364841a08150e9345b119e71191c8dcf,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 02c9f0bce16549c49b1c39bf7a01b06a,
+        type: 2}
+    - target: {fileID: 2121397489038221665, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 02c9f0bce16549c49b1c39bf7a01b06a,
         type: 2}
@@ -184,6 +195,12 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.Texture
       value: 
       objectReference: {fileID: 2800000, guid: da71812f2f86589478f7aab6787db838, type: 3}
+    - target: {fileID: 5682190628715771268, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 02c9f0bce16549c49b1c39bf7a01b06a,
+        type: 2}
     - target: {fileID: 5682190628715771268, guid: 364841a08150e9345b119e71191c8dcf,
         type: 3}
       propertyPath: itemSprites.LeftHand.EquippedData

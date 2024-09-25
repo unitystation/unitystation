@@ -10,6 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2754019653643912758, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}
+      propertyPath: parentID
+      value: dfc0f23c4db66d144a03103586ce7619
+      objectReference: {fileID: 0}
+    - target: {fileID: 2754019653643912758, guid: dfc0f23c4db66d144a03103586ce7619,
+        type: 3}
       propertyPath: foreverID
       value: 933034bb80fc577419f86c7bb8e13a0e
       objectReference: {fileID: 0}
@@ -40,6 +45,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 74ed22e993bbb1e4ab012c80dcd563dc,
         type: 2}
+    - target: {fileID: 3153813430929650140, guid: dfc0f23c4db66d144a03103586ce7619,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 74ed22e993bbb1e4ab012c80dcd563dc,
+        type: 2}
     - target: {fileID: 8678186998923896121, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}
       propertyPath: initialName
@@ -51,6 +62,22 @@ PrefabInstance:
       value: A suit that protects against minor chemical spills. Has a purple stripe
         on the shoulder.
       objectReference: {fileID: 0}
+    - target: {fileID: 8678186998923896121, guid: dfc0f23c4db66d144a03103586ce7619,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678186998923896121, guid: dfc0f23c4db66d144a03103586ce7619,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678186998923896121, guid: dfc0f23c4db66d144a03103586ce7619,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 74ed22e993bbb1e4ab012c80dcd563dc,
+        type: 2}
     - target: {fileID: 8967636835189487879, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}
       propertyPath: m_Sprite

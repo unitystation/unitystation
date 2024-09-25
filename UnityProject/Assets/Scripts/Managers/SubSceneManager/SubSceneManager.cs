@@ -1,15 +1,22 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Logs;
+using MapSaver;
 using Messages.Client;
 using Mirror;
+using Newtonsoft.Json;
+using SecureStuff;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public partial class SubSceneManager : MonoBehaviour
 {
+	public GameObject MatrixPrefab;
+	public GameObject NetworkedMatrixPrefab;
+
 	private static SubSceneManager subSceneManager;
 
 	public static SubSceneManager Instance;
@@ -82,7 +89,35 @@ public partial class SubSceneManager : MonoBehaviour
 	IEnumerator LoadSubScene(string sceneName, SubsceneLoadTimer loadTimer = null, bool HandlSynchronising = true,
 		SceneType sceneType = SceneType.HiddenScene)
 	{
+		if (AccessFile.Exists(sceneName, true, FolderType.Maps, false))
+		{
+			if (CustomNetworkManager.IsServer) //Client loading is handled automatically
+			{
 
+				while (CustomNetworkManager.AllPrefabsLoadedSt == false)
+				{
+					yield return null;
+				}
+
+				// Read the file content
+				//string json = File.ReadAllText("J:/SuperFast Programs/ss13 development/unitystation/SaveMapCompare.txt");
+				string json = AccessFile.Load(sceneName, FolderType.Maps);
+
+				// Deserialize the JSON content to a MapData object
+				MapSaver.MapSaver.MapData mapData = JsonConvert.DeserializeObject<MapSaver.MapSaver.MapData>(json);
+				yield return MapLoader.ServerLoadMap(Vector3.zero, Vector3.zero,mapData);
+			}
+		}
+		else
+		{
+			yield return LoadUnityScene(sceneName, loadTimer, HandlSynchronising, sceneType);
+		}
+
+		Loggy.Log($"Finished loading {sceneName}");
+	}
+
+	private IEnumerator LoadUnityScene(string sceneName, SubsceneLoadTimer loadTimer = null, bool HandlSynchronising = true, SceneType sceneType = SceneType.HiddenScene)
+	{
 		if (CustomNetworkManager.IsServer == false)
 		{
 			if (clientLoadedSubScenes.Any(x => x.SceneName == sceneName))
@@ -91,7 +126,6 @@ public partial class SubSceneManager : MonoBehaviour
 				yield break;
 			}
 		}
-
 		ConnectionLoadedRecord[sceneName] = new HashSet<int>();
 		AsyncOperation AO = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 		Loggy.Log($"AO Handle Generated for {sceneName}");
@@ -138,12 +172,12 @@ public partial class SubSceneManager : MonoBehaviour
 				});
 				SubSceneManagerNetworked.netIdentity.isDirty = true;
 			}
+
 		}
 		else
 		{
 			Loggy.LogError($"was unable to find scene for {sceneName} Skipping");
 		}
-		Loggy.Log($"Finished loading {sceneName}");
 	}
 
 	public static void ProcessObserverRefreshReq(PlayerInfo connectedPlayer, Scene sceneContext)

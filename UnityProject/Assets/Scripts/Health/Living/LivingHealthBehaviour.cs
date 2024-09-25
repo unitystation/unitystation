@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core;
 using UnityEngine;
 using UnityEngine.Profiling;
 using Mirror;
@@ -10,6 +11,7 @@ using Light2D;
 using HealthV2;
 using Logs;
 using Newtonsoft.Json;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 
 /// <summary>
@@ -635,7 +637,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		//If we are in a container then don't produce miasma
 		if (objectBehaviour.ContainedInObjectContainer != null) return;
 
-		node.GasMixLocal.AddGas(Gas.Miasma, AtmosDefines.MIASMA_CORPSE_MOLES);
+		node.GasMixLocal.AddGasWithTemperature(Gas.Miasma, AtmosDefines.MIASMA_CORPSE_MOLES, node.GasMixLocal.Temperature);
 	}
 
 	private bool NotSuitableForDeath()

@@ -106,6 +106,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2494681440875532984, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
+      propertyPath: parentID
+      value: 3937c48f98f9cd043babc5471ee77682
+      objectReference: {fileID: 0}
+    - target: {fileID: 2494681440875532984, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
       propertyPath: foreverID
       value: cb2f847ef3b8b754181a970a4032c552
       objectReference: {fileID: 0}
@@ -133,6 +138,11 @@ PrefabInstance:
     - target: {fileID: 5075775655067238256, guid: 3937c48f98f9cd043babc5471ee77682,
         type: 3}
       propertyPath: CurrentDirection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5075775655067238256, guid: 3937c48f98f9cd043babc5471ee77682,
+        type: 3}
+      propertyPath: SynchroniseCurrentDirection
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,
@@ -245,6 +255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Controller: {fileID: 0}
+  <CanRelink>k__BackingField: 1
 --- !u!114 &6838831727670997784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,6 +268,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 284c55ecf95c48fe9eb8073c0d662d06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
   spritehandler: {fileID: 5629559581263994867}
   SpawnOnDeconstruct: {fileID: 4395726476476273493, guid: 0d3043e7f404c574a98e19c120e1bcbc,
     type: 3}
@@ -287,6 +301,7 @@ MonoBehaviour:
         flagLogic: 0
     CustomLogic: 0
     NetCompatible: 0
+    SelfSufficient: 0
     mixAndVolume:
       mix:
         temperature: 273.15
@@ -313,10 +328,10 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   selfSufficient: 0
-  SiphonMultiplier: 2
-  ExpandedRangeNumber: 0.5
-  NormalRangeNumber: 0.25
-  nominalMolesTransferCap: 50
+  SiphonMultiplier: 4
+  ExpandedRangeNumber: 1
+  NormalRangeNumber: 0.8
+  nominalMolesTransferCap: 100
 --- !u!114 &5629559581263994867 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6323048891065173547, guid: 3937c48f98f9cd043babc5471ee77682,

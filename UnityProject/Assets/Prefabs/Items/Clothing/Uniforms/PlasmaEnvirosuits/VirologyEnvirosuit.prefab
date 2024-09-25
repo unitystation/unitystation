@@ -19,6 +19,12 @@ PrefabInstance:
       value: The suit worn by the safest people on the station, those who are completely
         immune to the monstrosities they create.
       objectReference: {fileID: 0}
+    - target: {fileID: 3075625591719413753, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 7d7cd9e68fa1e104d88f7f014b09c4cb,
+        type: 2}
     - target: {fileID: 3189476086581078171, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
         type: 3}
       propertyPath: m_Name
@@ -113,12 +119,23 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8429034800751256822, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
         type: 3}
+      propertyPath: parentID
+      value: 18cfa395284a2ed4a85bb1f7999ac5bf
+      objectReference: {fileID: 0}
+    - target: {fileID: 8429034800751256822, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
+        type: 3}
       propertyPath: foreverID
       value: d8fe54f57b349fb4f877822812ca36b1
       objectReference: {fileID: 0}
     - target: {fileID: 8720469357821825820, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 7d7cd9e68fa1e104d88f7f014b09c4cb,
+        type: 2}
+    - target: {fileID: 8720469357821825820, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 7d7cd9e68fa1e104d88f7f014b09c4cb,
         type: 2}

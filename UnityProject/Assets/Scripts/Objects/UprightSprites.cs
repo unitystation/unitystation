@@ -1,15 +1,16 @@
 using System;
 using System.Linq;
+using Core;
 using UnityEngine;
 using Core.Editor.Attributes;
 using Logs;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 
 /// <summary>
 /// Client side component. Keeps object's sprites upright no matter the orientation of their parent matrix.
 /// Allows defining what should happen to the sprites during a matrix rotation,
 /// </summary>
-[ExecuteInEditMode]
 public class UprightSprites : MonoBehaviour, IMatrixRotation
 {
 
@@ -66,7 +67,6 @@ public class UprightSprites : MonoBehaviour, IMatrixRotation
 
 	private void OnEnable()
 	{
-		if (Application.isPlaying == false) return;
 		SetSpritesUpright();
 	}
 

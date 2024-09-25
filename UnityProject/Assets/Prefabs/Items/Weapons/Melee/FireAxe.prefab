@@ -51,13 +51,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3642327047020650198, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
         type: 3}
+      propertyPath: hitSound.AssetAddress
+      value: Assets/Prefabs/Effects/BladeSlice.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 3642327047020650198, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
+        type: 3}
       propertyPath: attackVerbs.Array.size
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3642327047020650198, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3642327047020650198, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
         type: 3}
@@ -91,6 +96,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3642327047020650198, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
         type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ea00bc166b6d2f740a2ab8ba96f1585a,
+        type: 2}
+    - target: {fileID: 3642327047020650198, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
+        type: 3}
       propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: b05bab692e98c487eb4996a0614d143d,
@@ -100,6 +111,24 @@ PrefabInstance:
       propertyPath: 'initialTraits.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: a4ba1a0fdc49dd64bb97637eaeaea223,
+        type: 2}
+    - target: {fileID: 3642327047020650198, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 5524008e9372c468aacfb95c83179a91,
+        type: 2}
+    - target: {fileID: 3642327047020650198, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: f74d19a42128bc54d8b3ae7a02d5def1,
+        type: 2}
+    - target: {fileID: 3642327047020650198, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 383f21e78be4aa34baf621e60ea4cde7,
         type: 2}
     - target: {fileID: 3774508599749603764, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
         type: 3}
@@ -176,6 +205,16 @@ PrefabInstance:
       propertyPath: customNetTransform
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3889436081215922240, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 3889436081215922240, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 3931723898954859240, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
         type: 3}
       propertyPath: m_Sprite
@@ -239,6 +278,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: af2947f5ecb780143bfb1dd12099e964,
         type: 2}
+    - target: {fileID: 7000740777950825011, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: af2947f5ecb780143bfb1dd12099e964,
+        type: 2}
+    - target: {fileID: 7843870283693882841, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
+        type: 3}
+      propertyPath: parentID
+      value: c22c01b8dd3a9e34388453bd0bdf4b0f
+      objectReference: {fileID: 0}
     - target: {fileID: 7843870283693882841, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
         type: 3}
       propertyPath: foreverID

@@ -1,7 +1,9 @@
 ﻿using System;
 using AddressableReferences;
+using Core;
 using Mirror;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Other
 {

@@ -22,7 +22,7 @@ public class RemotelyControlledBrain : BodyPartFunctionality
 		BasicClearanceSource = this.GetComponent<BasicClearanceSource>();
 	}
 
-	public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
+	public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
 	{
 		if (!lockdown) return;
 

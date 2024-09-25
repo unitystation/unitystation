@@ -57,18 +57,12 @@ namespace Systems.StatusesAndEffects
 
 		private void OnExpiredStatus(IExpirableStatus expirable)
 		{
-			void RemoveExpiredStatus()
-			{
-				if (expirable is StatusEffect status) RemoveStatus(status);
-			}
-
 			if (expirable is IStackableStatus stackable)
 			{
 				stackable.RemoveStack(1);
 				if (stackable.Stacks > 0) return;
 			}
-
-			RemoveExpiredStatus();
+			if (expirable is StatusEffect status) RemoveStatus(status);
 		}
 
 		public bool HasStatus(StatusEffect status)

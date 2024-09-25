@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Construction.Conveyors;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -12,6 +13,7 @@ using Objects.Other;
 using Shared.Editor;
 using Shared.Systems.ObjectConnection;
 using Systems.Electricity;
+using Systems.Electricity.PowerSupplies;
 
 
 namespace CustomInspectors
@@ -160,7 +162,7 @@ namespace CustomInspectors
 	[CustomEditor(typeof(Turret))]
 	public class TurretInspector : SlaveDeviceInspector { }
 
-	[CustomEditor(typeof(DoorController))]
+	[CustomEditor(typeof(DoorMasterController))]
 	public class DoorControllerInspector : SlaveDeviceInspector { }
 
 	[CustomEditor(typeof(ReactorControlConsole))]
@@ -171,6 +173,12 @@ namespace CustomInspectors
 
 	[CustomEditor(typeof(ReactorTurbine))]
 	public class ReactorTurbineSlaveInspector : SlaveDeviceInspector { }
+
+	[CustomEditor(typeof(SolarPanel))]
+	public class SolarPanelInspector : SlaveDeviceInspector { }
+
+	[CustomEditor(typeof(ConveyorBelt))]
+	public class ConveyorBeltInspector : SlaveDeviceInspector { }
 
 	#endregion
 }

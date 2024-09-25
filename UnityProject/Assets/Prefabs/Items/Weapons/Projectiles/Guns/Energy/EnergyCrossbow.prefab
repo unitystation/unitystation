@@ -20,6 +20,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 64326933076804260, guid: ead12d91b06d1d84faa1c6fd90a76059,
         type: 3}
+    - target: {fileID: 505096979424067052, guid: ba0d71e0e5bfbac4e974fefc4ad1e300,
+        type: 3}
+      propertyPath: rechargeSpriteHandler
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4233841553354124691, guid: ba0d71e0e5bfbac4e974fefc4ad1e300,
         type: 3}
       propertyPath: exportCost
@@ -73,17 +78,17 @@ PrefabInstance:
     - target: {fileID: 4341391846075563909, guid: ba0d71e0e5bfbac4e974fefc4ad1e300,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4341391846075563909, guid: ba0d71e0e5bfbac4e974fefc4ad1e300,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4341391846075563909, guid: ba0d71e0e5bfbac4e974fefc4ad1e300,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4341391846075563909, guid: ba0d71e0e5bfbac4e974fefc4ad1e300,
         type: 3}
@@ -118,6 +123,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 7248124848932884124, guid: ba0d71e0e5bfbac4e974fefc4ad1e300,
         type: 3}
+      propertyPath: parentID
+      value: ba0d71e0e5bfbac4e974fefc4ad1e300
+      objectReference: {fileID: 0}
+    - target: {fileID: 7248124848932884124, guid: ba0d71e0e5bfbac4e974fefc4ad1e300,
+        type: 3}
       propertyPath: foreverID
       value: 70e552058b77003469441042808e28a1
       objectReference: {fileID: 0}
@@ -127,6 +137,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: fd0144fbc9ebcee42b83a02150853b11,
         type: 2}
+    - target: {fileID: 8604005227905372315, guid: ba0d71e0e5bfbac4e974fefc4ad1e300,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

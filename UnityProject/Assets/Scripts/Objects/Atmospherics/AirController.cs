@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Core.Admin.Logs;
 using UnityEngine;
 using NaughtyAttributes;
 using ScriptableObjects.Atmospherics;
@@ -153,7 +154,9 @@ namespace Objects.Atmospherics
 			AtmosphericAverage.Clear();
 			foreach (IAcuControllable device in ConnectedDevices)
 			{
-				AtmosphericAverage.AddSample(device.AtmosphericSample);
+				var sample = device.AtmosphericSample;
+				if (sample == null) continue;
+				AtmosphericAverage.AddSample(sample);
 			}
 
 			if (acuSamplesAir)
@@ -190,7 +193,7 @@ namespace Objects.Atmospherics
 				if (gasDetected && Thresholds.GasMoles.ContainsKey(gas) == false)
 				{
 					// Let thresholds know about this unrecognized gas, but values are undetermined (let a technician set them).
-					Thresholds.GasMoles.Add(gas, AcuThresholds.UnknownValues);
+					Thresholds.GasMoles.Add(gas, AcuThresholds.UnknownValueslist);
 				}
 
 				GasLevelStatus[gas] = gasDetected
@@ -204,7 +207,23 @@ namespace Objects.Atmospherics
 			OverallStatus = CompositionStatus > OverallStatus ? CompositionStatus : OverallStatus;
 		}
 
-		private AcuStatus GetMetricStatus(float[] thresholds, float value)
+		private AcuStatus GetMetricStatus( List<float> thresholds, float value)
+		{
+			for (int i = 0; i < thresholds.Count; i++)
+			{
+				// ACU does not have thresholds data set for this newly-registered gas.
+				if (float.IsNaN(thresholds[i])) return AcuStatus.Caution;
+			}
+
+			if (value < thresholds[0]) return AcuStatus.Alert;
+			if (value > thresholds[3]) return AcuStatus.Alert;
+			if (value > thresholds[2]) return AcuStatus.Caution;
+			if (value < thresholds[1]) return AcuStatus.Caution;
+
+			return AcuStatus.Nominal;
+		}
+
+		private AcuStatus GetMetricStatus( float[] thresholds, float value)
 		{
 			for (int i = 0; i < thresholds.Length; i++)
 			{
@@ -290,6 +309,11 @@ namespace Objects.Atmospherics
 				Chat.AddActionMsgToChat(interaction.Performer,
 					$"You {(IsLocked ? "lock" : "unlock")} the air controller unit.",
 					$"{interaction.PerformerPlayerScript.visibleName} {(IsLocked ? "locks" : "unlocks")} the air controller unit.");
+				AdminLogsManager.AddNewLog(
+					interaction.Performer,
+					$"{interaction.PerformerPlayerScript.visibleName} has {(IsLocked ? "locked" : "unlocked")} a air control unit at {gameObject.ExpensiveName()}.",
+					LogCategory.Interaction,
+					Severity.SUSPICOUS);
 
 				OnStateChanged?.Invoke();
 			}
@@ -358,6 +382,7 @@ namespace Objects.Atmospherics
 
 		public void AddSlave(IAcuControllable device)
 		{
+			if (ConnectedDevices.Contains(device)) return;
 			ConnectedDevices.Add(device);
 			device.SetOperatingMode(DesiredMode);
 

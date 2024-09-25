@@ -100,6 +100,29 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Can hold various medical equipment.
       objectReference: {fileID: 0}
+    - target: {fileID: 2235114152810004965, guid: 51c105fae1f0b074abf4c80745d8b129,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 48e9090af7fed314bbd481d00e691258,
+        type: 2}
+    - target: {fileID: 2235114152810004965, guid: 51c105fae1f0b074abf4c80745d8b129,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: fb7bdab57e73b8d48a5075bc56ed3fac,
+        type: 2}
+    - target: {fileID: 2235114152810004965, guid: 51c105fae1f0b074abf4c80745d8b129,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 62b72605377a10f47b85bfc3ea6f38bf,
+        type: 2}
+    - target: {fileID: 4707276644318323434, guid: 51c105fae1f0b074abf4c80745d8b129,
+        type: 3}
+      propertyPath: parentID
+      value: 51c105fae1f0b074abf4c80745d8b129
+      objectReference: {fileID: 0}
     - target: {fileID: 4707276644318323434, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
       propertyPath: foreverID
@@ -108,6 +131,12 @@ PrefabInstance:
     - target: {fileID: 5525703409436398848, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 62b72605377a10f47b85bfc3ea6f38bf,
+        type: 2}
+    - target: {fileID: 5525703409436398848, guid: 51c105fae1f0b074abf4c80745d8b129,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 62b72605377a10f47b85bfc3ea6f38bf,
         type: 2}

@@ -51,7 +51,7 @@ namespace AdminTools.VariableViewer
 			if (Page != null)
 			{
 				PageID = Page.ID;
-				SentenceID = 0;
+				SentenceID = uint.MaxValue;
 				IsSentence = false;
 				iskey = false;
 			}
@@ -86,7 +86,7 @@ namespace AdminTools.VariableViewer
 					IsThisVector = Vector.Vector2;
 				}
 			}
-			DeSerialise(Data,  null, null,true);
+			DeSerialise(Data, null,true);
 		}
 
 		public void UpdateVector()
@@ -112,7 +112,7 @@ namespace AdminTools.VariableViewer
 						break;
 				}
 
-				RequestChangeVariableNetMessage.Send(PageID, Outstring, UISendToClientToggle.toggle);
+				RequestChangeVariableNetMessage.Send(PageID, Outstring, UISendToClientToggle.toggle, SentenceID);
 			}
 		}
 
@@ -170,7 +170,7 @@ namespace AdminTools.VariableViewer
 			return (Data.ToString());
 		}
 
-		public override object DeSerialise(string StringVariable, Type InType, object InObject, bool SetUI = false)
+		public override object DeSerialise(string StringVariable, Type InType, bool SetUI = false)
 		{
 			if (CountStringOccurrences(StringVariable, ",") > 1)
 			{

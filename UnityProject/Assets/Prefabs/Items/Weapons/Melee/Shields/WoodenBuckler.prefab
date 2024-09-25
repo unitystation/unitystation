@@ -15,6 +15,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3554597231095268504, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
+      propertyPath: blockChance
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 3554597231095268504, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
       propertyPath: initialName
       value: wooden buckler
       objectReference: {fileID: 0}
@@ -44,6 +49,12 @@ PrefabInstance:
       propertyPath: itemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: 8ae974ceda08ff44887f4e17fe42d8f3,
+        type: 2}
+    - target: {fileID: 3554597231095268504, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: c15a82af01fd84440914df5b1bb87186,
         type: 2}
     - target: {fileID: 3839345559943878822, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
@@ -99,17 +110,17 @@ PrefabInstance:
     - target: {fileID: 4011141344954996366, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4011141344954996366, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4011141344954996366, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4011141344954996366, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
@@ -137,6 +148,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c15a82af01fd84440914df5b1bb87186,
         type: 2}
+    - target: {fileID: 7133687355514949757, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c15a82af01fd84440914df5b1bb87186,
+        type: 2}
     - target: {fileID: 7802048611900235560, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
       propertyPath: clothData
@@ -153,6 +170,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 868fedf5141d03c478bb491d017c2533,
         type: 2}
+    - target: {fileID: 7999329761268803479, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
+      propertyPath: parentID
+      value: 5f9896c0cca80e14f8144be44d05e0a0
+      objectReference: {fileID: 0}
     - target: {fileID: 7999329761268803479, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
       propertyPath: foreverID

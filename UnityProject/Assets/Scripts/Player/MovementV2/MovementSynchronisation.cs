@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core;
+using Core.Chat;
+using Core.Admin.Logs;
 using Core.Editor.Attributes;
 using Core.Utils;
 using Items;
@@ -13,6 +16,8 @@ using Objects;
 using Player.Movement;
 using ScriptableObjects;
 using ScriptableObjects.Audio;
+using ScriptableObjects.RP;
+using SecureStuff;
 using Systems.Character;
 using Systems.Explosions;
 using Systems.Scenes;
@@ -23,6 +28,7 @@ using UI;
 using UI.Core.Action;
 using UnityEngine;
 using UnityEngine.Events;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable, IActionGUI, ICooldown,
 	IBumpableObject, ICheckedInteractable<ContextMenuApply>
@@ -33,7 +39,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	public double LastUpdatedFlyingPosition = 0;
 	public PlayerScript playerScript;
 
-	public List<MoveData> MoveQueue = new List<MoveData>();
+	[PlayModeOnly] public List<MoveData> MoveQueue = new List<MoveData>();
 
 	private const float MOVE_MAX_DELAY_QUEUE = 4f; //Only matters when low FPS mode
 
@@ -77,6 +83,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	[SerializeField] private PassableExclusionTrait needsWalking = null;
 	[SerializeField] private PassableExclusionTrait needsRunning = null;
+
+	[SerializeField] private EmoteSO VomitEmote;
+
 
 	public Vector2Int CachedPreviousMove = Vector2Int.zero;
 	public Vector2Int CachedMove = Vector2Int.zero;
@@ -248,6 +257,10 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		{
 			Inventory.ServerDrop(itemSlot);
 		}
+		AdminLogsManager.AddNewLog(
+			null,
+			$"{gameObject.ExpensiveName()} has been uncuffed.",
+			LogCategory.Interaction);
 	}
 
 
@@ -277,6 +290,10 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		{
 			Inventory.ServerDrop(itemSlot);
 		}
+		AdminLogsManager.AddNewLog(
+			null,
+			$"{gameObject.ExpensiveName()} has been cuffed.",
+			LogCategory.Interaction);
 	}
 
 
@@ -327,8 +344,17 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		holder = GetComponent<PassableExclusionHolder>();
 
 		ServerAllowInput.OnBoolChange.AddListener(BoolServerAllowInputChange);
-
+		OnImpact.AddListener(ImpactVomit);
 		base.Awake();
+	}
+
+	public void ImpactVomit(UniversalObjectPhysics ob, Vector2 Newtonian)
+	{
+		if (ob.DoImpactVomit == false || VomitEmote == null) return;
+		if (Newtonian.magnitude > 7f && DMMath.Prob(75))
+		{
+			EmoteActionManager.DoEmote(VomitEmote, gameObject);
+		}
 	}
 
 	private void BoolServerAllowInputChange(bool NewValue)
@@ -629,7 +655,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public void ClientCheckLocationFlight()
 	{
-		if (hasAuthority == false || IsFloating() == false) return;
+		if (hasAuthority == false || IsFloating() == false ) return;
 		if (NetworkTime.time - LastUpdatedFlyingPosition > 2)
 		{
 			LastUpdatedFlyingPosition = NetworkTime.time;
@@ -774,7 +800,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				}
 
 				ServerCheckQueueingPulling(ref spawned, ref entry);
-				ServerCheckClientLocation(ref entry, ref fudged, ref stored, out bool reset, out bool smooth );
+				ServerCheckClientLocation(ref entry, ref fudged, ref stored, out bool reset, out bool smooth);
 
 				if (CanInPutMove())
 				{
@@ -1063,9 +1089,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			CMDTryEscapeContainer(PlayerAction.GetMoveAction(moveActions.Direction()));
 			return;
 		}
-
-
-
 	}
 
 	[Command]
@@ -1132,6 +1155,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		}
 
 		//Loggy.LogError(" Requested move > wth  Bump " + NewMoveData.Bump);
+		if (isServer) return;
 		CmdRequestMove(newMoveData);
 	}
 
@@ -1234,7 +1258,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 					spinFactor: 35, doNotUpdateThisClient: byClient);
 
 				var player = registerTile as RegisterPlayer;
-				player.OrNull()?.ServerSlip();
+				player.OrNull()?.ServerSlip(true);
 			}
 
 			if (toRemove != null)
@@ -1335,7 +1359,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				//Need to check for Obstructions
 				if (IsNotObstructed(moveAction, willPushObjects, bumps, Hits))
 				{
-					causesSlipClient = DoesSlip(moveAction, out slippedOn);
+					causesSlipClient = IsSlipperyAt(moveAction.GlobalMoveDirection.ToVector().To3Int(), out slippedOn);
 					return true;
 				}
 				else
@@ -1354,33 +1378,32 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		return false;
 	}
 
-	private bool DoesSlip(MoveData moveAction, out ItemAttributesV2 slippedOn)
+	protected bool IsSlipperyAt(Vector3Int moveVictor, out ItemAttributesV2 slippedOn)
 	{
-		bool slipProtection = true;
+		bool slipProtection = false;
 		if (playerScript.DynamicItemStorage != null)
 		{
 			foreach (var itemSlot in playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.feet))
 			{
-				if (itemSlot.ItemAttributes == null ||
-				    itemSlot.ItemAttributes.HasTrait(CommonTraits.Instance.NoSlip) == false)
+				if (itemSlot.ItemAttributes != null &&
+				    itemSlot.ItemAttributes.HasTrait(CommonTraits.Instance.NoSlip))
 				{
-					slipProtection = false;
+					slipProtection = true;
 				}
 			}
 		}
 
 		slippedOn = null;
 		if (slipProtection) return false;
-		if (CurrentMovementType != MovementType.Running) return false;
-		if (isServer == false && hasAuthority && UIManager.Instance.intentControl.Running == false) return false;
-
-
-		var toMatrix = SetMatrixCache.GetforDirection(moveAction.GlobalMoveDirection.ToVector().To3Int()).Matrix;
-		var localTo = (registerTile.WorldPosition + moveAction.GlobalMoveDirection.ToVector().To3Int())
+		var toMatrix = SetMatrixCache.GetforDirection(moveVictor).Matrix;
+		var localTo = (registerTile.WorldPosition + moveVictor)
 			.ToLocal(toMatrix)
 			.RoundToInt();
+
 		if (toMatrix.MetaDataLayer.IsSlipperyAt(localTo))
 		{
+			if (CurrentMovementType != MovementType.Running) return false;
+			if (isServer == false && hasAuthority && UIManager.Instance.intentControl.Running == false) return false;
 			return true;
 		}
 
@@ -1402,7 +1425,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				// (Max): There's better ways to do this but due to how movement code is designed
 				// you can't extend functionality that easily without bloating the code more than it already is.
 				// TODO: Rework movement to be open for extension and closed for modifications.
-				if (CanTeleport)
+				if (CanTeleport && isServer)
 				{
 					TeleportUtils.ServerTeleportRandom(playerScript.gameObject);
 				}
@@ -1564,6 +1587,16 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		//Client side check for invalid tabs still open
 		//(Don't need to do this server side as the interactions are validated)
 		ControlTabs.CheckTabClose();
+	}
+
+	public override void AppearAtWorldPositionServer(Vector3 worldPos, bool smooth = false,
+		bool doStepInteractions = true,
+		Vector2? momentum = null, MatrixInfo  Matrixoveride = null)
+	{
+		var oldPos = gameObject.AssumedWorldPosServer();
+		base.AppearAtWorldPositionServer(worldPos, smooth, doStepInteractions, momentum, Matrixoveride);
+		AdminLogsManager.AddNewLog(gameObject,
+			$"{gameObject.ExpensiveName()} has appeared at {gameObject.AssumedWorldPosServer()} (original position: {oldPos})", LogCategory.World);
 	}
 
 	private void SyncMovementType(MovementType oldType, MovementType newType)

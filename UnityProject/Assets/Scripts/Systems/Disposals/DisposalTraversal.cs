@@ -4,7 +4,9 @@ using System.Linq;
 using UnityEngine;
 using Objects.Disposals;
 using AddressableReferences;
+using Core;
 using Random = UnityEngine.Random;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Systems.Disposals
 {

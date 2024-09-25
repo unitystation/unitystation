@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Core.Admin.Logs;
 using SecureStuff;
 using Initialisation;
 using Logs;
@@ -131,10 +132,8 @@ namespace AdminTools
 			                   || !Instance.loadedConfig.enableRdmNotification) return;
 
 			if (PlayerList.Instance.IsAntag(killedBy.GameObject)) return;
-
-			string roundTime = GameManager.Instance.RoundTime.ToString("O");
-			UIManager.Instance.playerAlerts.ServerAddNewEntry(roundTime, PlayerAlertTypes.RDM, killedBy,
-				$"{roundTime} : {killedBy.Name} killed {victim.Name} as a non-antag");
+			AdminLogsManager.AddNewLog(killedBy.GameObject,
+				$"{killedBy.Name} killed {victim.Name} as a non-antag", LogCategory.MobDamage, Severity.IMMEDIATE_ATTENTION);
 		}
 
 		public static void ProcessPlasmaRelease(PlayerInfo perp)
@@ -143,10 +142,7 @@ namespace AdminTools
 			                 || !Instance.loadedConfig.enablePlasmaReleaseNotification) return;
 
 			if (PlayerList.Instance.IsAntag(perp.GameObject)) return;
-
-			string roundTime = GameManager.Instance.RoundTime.ToString("O");
-			UIManager.Instance.playerAlerts.ServerAddNewEntry(roundTime, PlayerAlertTypes.PlasmaOpen, perp,
-				$"{roundTime} : {perp.Name} has released plasma as a non-antag");
+			AdminLogsManager.AddNewLog(perp.GameObject, $"{perp.Name} has released plasma as a non-antag", LogCategory.World, Severity.IMMEDIATE_ATTENTION);
 		}
 
 		private static bool IsEnabled()

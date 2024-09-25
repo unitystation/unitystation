@@ -50,6 +50,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -103,11 +105,8 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &8248417872068901956
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,6 +157,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -214,11 +215,8 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &4218887424821755918
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -313,6 +311,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e6ec26a6e76a9a4448a0fec4a5987a69,
         type: 2}
+    - target: {fileID: 5612314271532831491, guid: c735db9af3182104f8006ec3d79e6056,
+        type: 3}
+      propertyPath: parentID
+      value: FmNJrS2qt$0Crw_1xoJQ
+      objectReference: {fileID: 0}
     - target: {fileID: 5612314271532831491, guid: c735db9af3182104f8006ec3d79e6056,
         type: 3}
       propertyPath: foreverID
@@ -489,3 +492,9 @@ MonoBehaviour:
   initialContents: {fileID: 0}
   spawnContentsAtRoundstart: 0
   registerTile: {fileID: 0}
+  OnObjectStored:
+    m_PersistentCalls:
+      m_Calls: []
+  OnObjectRetrieved:
+    m_PersistentCalls:
+      m_Calls: []

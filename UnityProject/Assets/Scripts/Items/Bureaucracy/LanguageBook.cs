@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
+using Core;
 using HealthV2;
 using Managers;
 using Player.Language;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Items.Bureaucracy
 {

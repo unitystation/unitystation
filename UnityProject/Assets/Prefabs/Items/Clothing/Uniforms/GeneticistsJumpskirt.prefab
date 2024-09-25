@@ -134,6 +134,17 @@ PrefabInstance:
       propertyPath: initialName
       value: geneticist's jumpskirt
       objectReference: {fileID: 0}
+    - target: {fileID: 3397443007502491847, guid: 05d3054c3617b467ea8e086e2969e172,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 2177e2b1c705d5e4bafc0613fce12fd0,
+        type: 2}
+    - target: {fileID: 8174322744686822344, guid: 05d3054c3617b467ea8e086e2969e172,
+        type: 3}
+      propertyPath: parentID
+      value: 05d3054c3617b467ea8e086e2969e172
+      objectReference: {fileID: 0}
     - target: {fileID: 8174322744686822344, guid: 05d3054c3617b467ea8e086e2969e172,
         type: 3}
       propertyPath: foreverID
@@ -163,6 +174,12 @@ PrefabInstance:
     - target: {fileID: 8975007657035133986, guid: 05d3054c3617b467ea8e086e2969e172,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2177e2b1c705d5e4bafc0613fce12fd0,
+        type: 2}
+    - target: {fileID: 8975007657035133986, guid: 05d3054c3617b467ea8e086e2969e172,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 2177e2b1c705d5e4bafc0613fce12fd0,
         type: 2}

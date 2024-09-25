@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 519071981973938987}
   - component: {fileID: 6709164837621956237}
   - component: {fileID: -1693949025135080739}
+  - component: {fileID: 8654809990839055543}
   m_Layer: 0
   m_Name: SoundSpawn
   m_TagString: Untagged
@@ -48,6 +49,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 24300001, guid: 94208a0928046438d9b8a00796e7a5a7,
     type: 2}
   m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 0.05
   m_Pitch: 1
@@ -148,6 +150,7 @@ MonoBehaviour:
   AudioSource: {fileID: 0}
   RegisterTile: {fileID: 0}
   IsPlaying: 0
+  Paused: 0
   assetAddress: 
   Token: 
 --- !u!114 &519071981973938987
@@ -184,6 +187,7 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 1
+  LiesFlat3D: 0
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
 --- !u!114 &-1693949025135080739
@@ -196,5 +200,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8654809990839055543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7013270530123256728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 181a5b4dde4eb324aa4b7559536ff75d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

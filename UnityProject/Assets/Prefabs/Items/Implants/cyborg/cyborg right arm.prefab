@@ -165,6 +165,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6919096067490597734, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
+      propertyPath: parentID
+      value: da2b6aaaa6bb94f4f963d5193aa2e1a8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6919096067490597734, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
       propertyPath: foreverID
       value: 0af3fb6f8543f0b4b914da932bd18ea0
       objectReference: {fileID: 0}
@@ -204,5 +209,6 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   armEfficiency: 1
   crawlingSpeed: 0.3

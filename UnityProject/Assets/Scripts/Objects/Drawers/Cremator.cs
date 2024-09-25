@@ -1,18 +1,22 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using AddressableReferences;
+using Core.Admin.Logs;
 using HealthV2;
+using Objects.Production;
 using Systems.Clearance;
+using UI.Systems.Tooltips.HoverTooltips;
+using Util.Independent.FluentRichText;
 
 namespace Objects.Drawers
 {
 	/// <summary>
 	/// Cremator component for cremator objects, for use in crematorium rooms. Adds additional function to the base Drawer component.
-	/// TODO: Implement activation via button when buttons can be assigned a generic component instead of only a DoorController component
 	/// and remove the activation by right-click option.
 	/// </summary>
-	public class Cremator : Drawer, IRightClickable, ICheckedInteractable<ContextMenuApply>
+	[RequireComponent(typeof(BurningStorage))]
+	public class Cremator : Drawer, IRightClickable, ICheckedInteractable<ContextMenuApply>, IHoverTooltip
 	{
 		[Tooltip("Sound used for cremation.")]
 		[SerializeField] private AddressableAudioSource CremationSound = null;
@@ -28,17 +32,15 @@ namespace Objects.Drawers
 
 		private ClearanceRestricted clearanceRestricted;
 
-		private const float BURNING_DURATION = 5f;
-
-		[SerializeField] private float burningDamage = 25f;
+		[SerializeField] private BurningStorage creamationStorage;
 
 		protected override void Awake()
 		{
 			base.Awake();
 			clearanceRestricted = GetComponent<ClearanceRestricted>();
+			creamationStorage ??= GetComponent<BurningStorage>();
 		}
 
-		// This region (Interaction-RightClick) shouldn't exist once TODO in class summary is done.
 		#region Interaction-RightClick
 
 		public RightClickableResult GenerateRightClickOptions()
@@ -49,7 +51,7 @@ namespace Objects.Drawers
 			if (clearanceRestricted.HasClearance(PlayerManager.LocalPlayerObject) == false) return result;
 
 			var cremateInteraction = ContextMenuApply.ByLocalPlayer(gameObject, null);
-			if (!WillInteract(cremateInteraction, NetworkSide.Client)) return result;
+			if (WillInteract(cremateInteraction, NetworkSide.Client) == false) return result;
 
 			return result.AddElement("Activate", () => OnCremateClicked(cremateInteraction));
 		}
@@ -88,6 +90,13 @@ namespace Objects.Drawers
 			if (interaction.IsAltClick && drawerState != DrawerState.Open)
 			{
 				Cremate();
+				AdminLogsManager.AddNewLog(
+					gameObject,
+					$"{interaction.PerformerPlayerScript.playerName} has enabled a cremator at {gameObject.AssumedWorldPosServer()}",
+					LogCategory.Interaction,
+					Severity.SUSPICOUS
+					);
+				return;
 			}
 			base.ServerPerformInteraction(interaction);
 		}
@@ -101,14 +110,13 @@ namespace Objects.Drawers
 			base.CloseDrawer();
 			// Note: the sprite setting done in base.CloseDrawer() would be overridden (an unnecessary sprite call).
 			// "Not great, not terrible."
-
 			UpdateCloseState();
 		}
 
 		public override void OpenDrawer()
 		{
 			base.OpenDrawer();
-			if(drawerState == (DrawerState)CrematorState.ShutAndActive) StopCoroutine(BurnContent());
+			creamationStorage.TurnOff();
 		}
 
 		private void UpdateCloseState()
@@ -123,49 +131,65 @@ namespace Objects.Drawers
 
 		private void Cremate()
 		{
-			SoundManager.PlayNetworkedAtPos(CremationSound, DrawerWorldPosition, sourceObj: gameObject);
+			PlayCremationSound();
 			SetDrawerState((DrawerState)CrematorState.ShutAndActive);
 			UpdateCloseState();
 			OnStartPlayerCremation();
-			StartCoroutine(nameof(BurnContent));
+			creamationStorage.TurnOn();
 		}
 
-		private IEnumerator BurnContent()
+		public void PlayCremationSound()
 		{
-			foreach (var obj in container.GetStoredObjects())
-			{
-				if(obj.TryGetComponent<Integrity>(out var integrity)) //For items
-					integrity.ApplyDamage(burningDamage, AttackType.Fire, DamageType.Burn, true);
-				if (obj.TryGetComponent<LivingHealthBehaviour>(out var healthBehaviour)) //For NPCs
-					healthBehaviour.ApplyDamage(gameObject, burningDamage, AttackType.Fire, DamageType.Burn);
-				if (obj.TryGetComponent<PlayerHealthV2>(out var playerHealthV2)) //For Players
-					playerHealthV2.ApplyDamageAll(gameObject, burningDamage, AttackType.Fire, DamageType.Burn, false, TraumaticDamageTypes.BURN);
-			}
-
-			yield return WaitFor.Seconds(BURNING_DURATION);
-			//if it's just closed but not active don't start this again.
-			if (drawerState == DrawerState.Shut || drawerState == DrawerState.Open) yield break;
-			StartCoroutine(nameof(BurnContent));
+			SoundManager.PlayNetworkedAtPos(CremationSound, DrawerWorldPosition, sourceObj: gameObject);
 		}
 
 		private void OnStartPlayerCremation()
 		{
-
 			var objectsInContainer = container.GetStoredObjects();
 			foreach (var player in objectsInContainer)
 			{
-				if (player.TryGetComponent<PlayerHealthV2>(out var healthBehaviour))
+				if (player.TryGetComponent<PlayerHealthV2>(out var healthBehaviour) == false) continue;
+				if (healthBehaviour.ConsciousState is ConsciousState.CONSCIOUS)
 				{
-					if(healthBehaviour.ConsciousState == ConsciousState.CONSCIOUS ||
-					   healthBehaviour.ConsciousState == ConsciousState.BARELY_CONSCIOUS)
-						EntityTryEscape(player, null, MoveAction.NoMove);
-					// TODO: This is an incredibly brutal SFX... it also needs chopping up.
-					// (Max): We should use the scream emote from the emote system when sounds are added for them
-					// codacy ignore this ->SoundManager.PlayNetworkedAtPos("ShyguyScream", DrawerWorldPosition, sourceObj: gameObject);
+					EntityTryEscape(player, null, MoveAction.NoMove);
+					healthBehaviour.IndicatePain();
 				}
 			}
 		}
-
 		#endregion
+
+		public string HoverTip()
+		{
+			var status = creamationStorage.IsBurning ? "on".Color(Color.red) : "off".Color(Color.gray);
+			return $"It is currently {status}";
+		}
+
+		public string CustomTitle()
+		{
+			return null;
+		}
+
+		public Sprite CustomIcon()
+		{
+			return null;
+		}
+
+		public List<Sprite> IconIndicators()
+		{
+			return null;
+		}
+
+		public List<TextColor> InteractionsStrings()
+		{
+			var interactions = new List<TextColor>();
+			interactions.Add(creamationStorage.IsBurning
+				? new TextColor() { Color = Color.green, Text = $"Left Click to open and stop the cremation process." }
+				: new TextColor() { Color = Color.green, Text = $"Left Click to open/close it." });
+			if (drawerState == DrawerState.Shut && creamationStorage.IsBurning == false)
+			{
+				interactions.Add(new TextColor(){ Color = Color.green, Text = $"Alt + Left Click to quickly activate it."});
+			}
+			return interactions;
+		}
 	}
 }

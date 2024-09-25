@@ -1,0 +1,250 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2379348770980931478
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -6943314109635352739, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: Wielded.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 189a01aa70bbfbed38cdfd017db1db9e,
+        type: 2}
+    - target: {fileID: -6943314109635352739, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: Wielded.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 412403bf70416084c8ad3592bb054b2f,
+        type: 2}
+    - target: {fileID: -6943314109635352739, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: Unwielded.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ba0a0cf1710b84b3093857d1185b8786,
+        type: 2}
+    - target: {fileID: -6943314109635352739, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: Unwielded.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 271159761dd723e058879cc834577eba,
+        type: 2}
+    - target: {fileID: -3052719004654847166, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: doPush
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3052719004654847166, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: pushForce
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -3052719004654847166, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: backstabBonus
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -3052719004654847166, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: markedHitBonus
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1529380664820982249, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: rechargeTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1939338352935450630, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 40fc2d8af7463cb8f84441bc437f10d5,
+        type: 2}
+    - target: {fileID: 1939338352935450630, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 40fc2d8af7463cb8f84441bc437f10d5,
+        type: 2}
+    - target: {fileID: 1969785921733618591, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -677306117, guid: a5ae62f98bca74973acfd0aa6a0bb896,
+        type: 3}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: initialName
+      value: proto-kinetic hammer
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: initialDescription
+      value: Somehow research and development managed to make the proto-kinetic crusher
+        even bigger, allowing more parts to be fit inside and increase the power
+        output. This increased power output allows it to surpass the power generated
+        by the standard crusher, while also pushing back the target. Unfortunately
+        the flat head results in backstabs being impossible.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: 'attackVerbs.Array.data[0]'
+      value: slam
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: 'attackVerbs.Array.data[2]'
+      value: smash
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: 'attackVerbs.Array.data[3]'
+      value: flatten
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: 'attackVerbs.Array.data[4]'
+      value: pound
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ba0a0cf1710b84b3093857d1185b8786,
+        type: 2}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 271159761dd723e058879cc834577eba,
+        type: 2}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: d1bbf2babadf589908f62996a374e84e,
+        type: 2}
+    - target: {fileID: 3235497439635828136, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: cda019ac4d2711d65be6ae088dcd3add,
+        type: 3}
+    - target: {fileID: 3315982464914858880, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315982464914858880, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315982464914858880, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315982464914858880, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315982464914858880, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315982464914858880, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315982464914858880, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315982464914858880, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315982464914858880, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315982464914858880, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3321191813867953908, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_Name
+      value: ProtoKineticHammer
+      objectReference: {fileID: 0}
+    - target: {fileID: 3423593076712989504, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: _assetId
+      value: 1640745392
+      objectReference: {fileID: 0}
+    - target: {fileID: 8551640524453532313, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: foreverID
+      value: 2cf8b8f6a686e9f5a8495b29689e9d8d
+      objectReference: {fileID: 0}
+    - target: {fileID: 8885920287978841459, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d1bbf2babadf589908f62996a374e84e,
+        type: 2}
+    - target: {fileID: 8885920287978841459, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d1bbf2babadf589908f62996a374e84e,
+        type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3321191813867953908, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 116451398412185280}
+  m_SourcePrefab: {fileID: 100100000, guid: 3f3c69eb80c13d439a7659f6834b091a, type: 3}
+--- !u!1 &1085960432236919138 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3321191813867953908, guid: 3f3c69eb80c13d439a7659f6834b091a,
+    type: 3}
+  m_PrefabInstance: {fileID: 2379348770980931478}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &116451398412185280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1085960432236919138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  allClothingData:
+  - {fileID: 11400000, guid: 1760871c4e0758356b301ad43327a166, type: 2}
+  CurrentClothIndex: 0
+  randomInitialClothData: 0
+  hidesIdentity: 0
+  hidesSlots: 0
+  hideClothingFlags: 0
+  disallowConsume: 0

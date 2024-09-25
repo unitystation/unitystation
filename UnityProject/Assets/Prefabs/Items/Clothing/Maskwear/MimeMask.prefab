@@ -36,6 +36,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3585452806818900716, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
+      propertyPath: parentID
+      value: 05a135eab68164d34bb02b82fff3cde0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3585452806818900716, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
       propertyPath: foreverID
       value: 82493ba3850304e50a7d25606a4f59f1
       objectReference: {fileID: 0}
@@ -161,6 +166,24 @@ PrefabInstance:
       propertyPath: initialDescription
       value: The traditional mime's mask. It has an eerie facial posture.
       objectReference: {fileID: 0}
+    - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: c708e4aee29f33048add240297211a29,
+        type: 2}
+    - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: f9812ad7ab0bc844fb45af99f9071fad,
+        type: 2}
+    - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 004fa27701d2f6842b19b4e4212b1dc4,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

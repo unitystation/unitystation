@@ -1,12 +1,14 @@
 ﻿using Mirror;
 using System.Collections.Generic;
 using System.Net;
+using Core;
 using UnityEngine;
 using UnityEngine.Events;
 using Systems.Electricity;
 using Systems.Botany;
 using Items;
 using Items.Botany;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Botany
 {

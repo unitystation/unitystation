@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 using Util;
@@ -18,7 +19,13 @@ namespace UI.Systems.AdminTools.DevTools.Search
 		/// <summary>
 		/// Name cleaned up for searchability (like lowercase).
 		/// </summary>
-		public readonly List<string> SearchableName;
+		public readonly string[] SearchableName;
+
+		public readonly string[] RelatedPrefabsIDs;
+
+		public readonly string Name;
+
+		public readonly string ForeverID;
 
 		public bool IsDEBUG;
 
@@ -28,11 +35,40 @@ namespace UI.Systems.AdminTools.DevTools.Search
 			//TODO : this will get reworked by Max at some point because she wanted to update this menu to also be workable in creative mode.
 			IsDEBUG = _isDebug;
 			Prefab = prefab;
-			SearchableName = new List<string>();
-			SearchableName.Add(SpawnerSearch.Standardize(prefab.name));
-			if (prefab.TryGetComponent<PrefabTracker>(out var tracker) == false) return;
-			SearchableName.Add(tracker.ForeverID);
-			if (string.IsNullOrWhiteSpace(tracker.AlternativePrefabName) == false) SearchableName.Add(tracker.AlternativePrefabName);
+			var SearchableNameList = new List<string>();
+			var RelatedPrefabsIDsList = new List<string>();
+			Name = prefab.name;
+			SearchableNameList.Add(SpawnerSearch.Standardize(prefab.name));
+			if (prefab.TryGetComponent<PrefabTracker>(out var tracker) == false)
+			{
+				SearchableName = SearchableNameList.ToArray();
+				ForeverID = "";
+				RelatedPrefabsIDs = Array.Empty<string>();
+				return;
+			}
+			RelatedPrefabsIDsList.Add(tracker.ForeverID);
+			ForeverID = tracker.ForeverID;
+			if (string.IsNullOrWhiteSpace(tracker.AlternativePrefabName) == false) SearchableNameList.Add(tracker.AlternativePrefabName);
+
+			while (tracker != null)
+			{
+				if (RelatedPrefabsIDsList.Contains(tracker.ParentID) ==false)
+				{
+					RelatedPrefabsIDsList.Add(tracker.ParentID);
+				}
+
+				if (CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs.ContainsKey(tracker.ParentID))
+				{
+					tracker = CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[tracker.ParentID].OrNull()?.GetComponent<PrefabTracker>();
+				}
+				else
+				{
+					tracker = null;
+				}
+
+			}
+			SearchableName = SearchableNameList.ToArray();
+			RelatedPrefabsIDs = RelatedPrefabsIDsList.ToArray();
 		}
 
 		/// <summary>

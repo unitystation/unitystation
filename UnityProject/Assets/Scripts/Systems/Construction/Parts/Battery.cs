@@ -80,7 +80,7 @@ namespace Systems.Construction.Parts
 			{
 				status = $"<color=red>It appears to be broken.";
 			}
-			return $"{gameObject.GetComponent<ItemAttributesV2>().InitialDescription}. Charge indicator shows a {watts/MaxWatts*100} percent charge." +
+			return $"The charge indicator displays {Mathf.Round(watts*100/MaxWatts)}." +
 			       status;
 		}
 	}

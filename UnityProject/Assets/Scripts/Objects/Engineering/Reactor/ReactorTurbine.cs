@@ -4,7 +4,7 @@ using Systems.Electricity.NodeModules;
 
 namespace Objects.Engineering
 {
-	public class ReactorTurbine : MonoBehaviour, INodeControl, IMultitoolSlaveable, IMultitoolMasterable, ICheckedInteractable<HandApply>
+	public class ReactorTurbine : MonoBehaviour, INodeControl, IMultitoolSlaveable, IMultitoolMasterable, ICheckedInteractable<HandApply>, IServerSpawn
 	{
 		public ModuleSupplyingDevice moduleSupplyingDevice;
 		public GameObject ConstructMaterial;
@@ -20,13 +20,18 @@ namespace Objects.Engineering
 			moduleSupplyingDevice = GetComponent<ModuleSupplyingDevice>();
 		}
 
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			moduleSupplyingDevice?.TurnOnSupply();
+		}
+
 		private void OnEnable()
 		{
 			if (CustomNetworkManager.Instance._isServer == false) return;
 
 			UpdateManager.Add(CycleUpdate, 1);
 			//moduleSupplyingDevice = this.GetComponent<ModuleSupplyingDevice>();
-			moduleSupplyingDevice?.TurnOnSupply();
+
 		}
 
 		private void OnDisable()
@@ -43,8 +48,7 @@ namespace Objects.Engineering
 		{
 			if (Boiler != null)
 			{
-				//Loggy.Log("  moduleSupplyingDevice.ProducingWatts " +   moduleSupplyingDevice.ProducingWatts);
-				moduleSupplyingDevice.ProducingWatts  = moduleSupplyingDevice.ProducingWatts  + ((float)Boiler.OutputEnergy) / 2;
+				moduleSupplyingDevice.ProducingWatts  = (moduleSupplyingDevice.ProducingWatts  + (float)Boiler.OutputEnergy) / 2;
 			}
 			else
 			{

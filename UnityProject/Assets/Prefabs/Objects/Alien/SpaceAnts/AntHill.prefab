@@ -10,6 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 951381747229521920, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
+      propertyPath: parentID
+      value: ebb08cf966efc084aa918bd8d9429604
+      objectReference: {fileID: 0}
+    - target: {fileID: 951381747229521920, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
       propertyPath: foreverID
       value: 8Ep10LzPKF0XudwkLnOs
       objectReference: {fileID: 0}
@@ -109,6 +114,37 @@ PrefabInstance:
       propertyPath: _assetId
       value: 3701912719
       objectReference: {fileID: 0}
+    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: exportCost
+      value: -500
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: exportName
+      value: Ant Colony
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: initialName
+      value: Ant Hill
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: initialSize
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: exportMessage
+      value: What kind of !@#$ing prank is this? Do you want us to get killed?
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: initialDescription
+      value: These creatures have survived worse. Space ants are slightly more deadly
+        than their earthling counterpart, so keep your hands to yourself.
+      objectReference: {fileID: 0}
     - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -119,6 +155,11 @@ PrefabInstance:
         type: 3}
       propertyPath: doReverseAnimation
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: alwaysAnimateInEditor
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -132,10 +173,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 3590429716675606269}
-    - targetCorrespondingSourceObject: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8331985004565394025}
   m_SourcePrefab: {fileID: 100100000, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
 --- !u!1 &2163303937581648023 stripped
 GameObject:
@@ -203,12 +240,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   routineDelay: 60
-  minMaxAntDamage: {x: 2, y: 4}
   biteType: 0
   damageType: 0
   state: 0
   filthTrait: {fileID: 11400000, guid: 4c7b190bc2ad57c459127fbcb49ff7e3, type: 2}
-  flySwatterTrait: {fileID: 11400000, guid: 748d6170e42aa074f8d475e4713f573f, type: 2}
+  flySwatterTrait:
+  - {fileID: 11400000, guid: 8a70d98a964167745acd6533f6dbd8cf, type: 2}
+  - {fileID: 11400000, guid: 748d6170e42aa074f8d475e4713f573f, type: 2}
+  - {fileID: 11400000, guid: b336a4abd9d45924cb48b49a49fdea2b, type: 2}
   stateSprites:
   - {fileID: 11400000, guid: 5f6799e004291954ca50cd72085d20cd, type: 2}
   - {fileID: 11400000, guid: b29614733ffd58d45afbdd006ea5ba5a, type: 2}
@@ -227,32 +266,6 @@ MonoBehaviour:
   - {fileID: 2163303937581648023}
   - {fileID: 1934986541857315875, guid: b6026266e870c694398eb844e25b921c, type: 3}
   eatsYourLiver: 0
---- !u!114 &8331985004565394025
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2163303937581648023}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d25f701f64474544993c1372b83c1b0d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  initialName: Ant Hill
-  initialDescription: These creatures have survived worse. Space ants are slightly
-    more deadly than their earthling counterpart, so keep your hands to yourself.
-  willHighlight: 1
-  exportCost: -500
-  CanBeSoldInCargo: 1
-  exportName: Ant Colony
-  exportMessage: What kind of !@#$ing prank is this? Do you want us to get killed?
-  noMouseHighlight: 0
-  initialTraits: []
-  initialSize: 3
 --- !u!114 &6653340194705613389 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,

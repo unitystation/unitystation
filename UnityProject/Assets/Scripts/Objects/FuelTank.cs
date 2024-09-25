@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Chemistry;
 using Chemistry.Components;
+using Core;
 using Systems.Explosions;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Engineering
 {
@@ -82,11 +84,11 @@ namespace Objects.Engineering
 
 			if (registerObject == null)
 			{
-				Explosion.StartExplosion(objectBehaviour.registerTile.WorldPositionServer, strength);
+				Explosion.StartExplosion(objectBehaviour.registerTile.WorldPositionServer, strength, stunNearbyPlayers: true);
 			}
 			else
 			{
-				Explosion.StartExplosion(registerObject.WorldPositionServer, strength);
+				Explosion.StartExplosion(registerObject.WorldPositionServer, strength, stunNearbyPlayers: true);
 			}
 
 			reagentContainerObjectInteractionScript.OnHandApply.RemoveListener(TryServerPerformInteraction);

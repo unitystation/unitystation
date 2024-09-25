@@ -19,6 +19,7 @@ namespace Systems.Score
 		public const string COMMON_SCORE_HEALING = "healing";
 		public const string COMMON_SCORE_FOODEATEN = "foodeaten";
 		public const string COMMON_SCORE_EXPLOSION = "explosions";
+		public const string COMMON_SCORE_FLASHED = "flashed";
 		public const string COMMON_SCORE_CLOWNABUSE = "clownBeaten";
 		public const string COMMON_HUG_SCORE_ENTRY = "hugsGiven";
 		public const string COMMON_TAIL_SCORE_ENTRY = "tailsPulled";

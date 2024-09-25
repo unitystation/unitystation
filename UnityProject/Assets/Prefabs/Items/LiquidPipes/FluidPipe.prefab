@@ -87,7 +87,7 @@ PrefabInstance:
     - target: {fileID: 4424330186985600186, guid: 59bffb44a6861484ca22d6edb4fbf5e5,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4424330186985600186, guid: 59bffb44a6861484ca22d6edb4fbf5e5,
         type: 3}
@@ -95,6 +95,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d868d0175c2ad014bb5c3cc4fb361248,
         type: 2}
+    - target: {fileID: 4424330186985600186, guid: 59bffb44a6861484ca22d6edb4fbf5e5,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 066fee8b180af6c47a2bf6cb99f725a5,
+        type: 2}
+    - target: {fileID: 4424330186985600186, guid: 59bffb44a6861484ca22d6edb4fbf5e5,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: ac1ca3d8b99268132957ae9084e68165,
+        type: 2}
+    - target: {fileID: 7147568356734146485, guid: 59bffb44a6861484ca22d6edb4fbf5e5,
+        type: 3}
+      propertyPath: parentID
+      value: 59bffb44a6861484ca22d6edb4fbf5e5
+      objectReference: {fileID: 0}
     - target: {fileID: 7147568356734146485, guid: 59bffb44a6861484ca22d6edb4fbf5e5,
         type: 3}
       propertyPath: foreverID

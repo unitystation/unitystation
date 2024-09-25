@@ -50,11 +50,10 @@ namespace UI.Systems.AdminTools.DevTools
 		private LayerType categoryType;
 		private int categoryIndex = 0;
 		private int tileIndex = -1;
-		private int matrixIndex = 0;
+		private int? matrixIndex = null;
 		private int directionIndex = 0;
 
 		private Image selectedButton;
-		private LightingSystem lightingSystem;
 
 		private const int MinCharactersForSearch = 1;
 
@@ -64,26 +63,28 @@ namespace UI.Systems.AdminTools.DevTools
 
 		private List<Button> activeButtons = new List<Button>();
 
+		private bool FirstTimeOpen = false;
+
 		private void Awake()
 		{
-			lightingSystem = Camera.main.GetComponent<LightingSystem>();
 
 			SetUpDirections();
 		}
 
 		private void OnEnable()
 		{
+
 			SetUpMatrix();
 
 			SetUpCategories();
 
 			modeText.text = currentAction.ToString();
-			lightingSystem.enabled = false;
 			UIManager.IsMouseInteractionDisabled = true;
 		}
 
 		private void OnDisable()
 		{
+			Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
 			//Clean up
 			foreach (Transform child in categoryContentPanel.transform)
 			{
@@ -96,7 +97,6 @@ namespace UI.Systems.AdminTools.DevTools
 			}
 
 			UIManager.IsMouseInteractionDisabled = false;
-			lightingSystem.enabled = true;
 		}
 
 		public void Open()
@@ -283,8 +283,14 @@ namespace UI.Systems.AdminTools.DevTools
 				stationOption = option;
 			}
 
+
+
 			matrixDropdown.options = optionsData;
-			matrixDropdown.value = stationOption!= null ? optionsData.IndexOf(stationOption) : matrixIndex;
+			if (matrixIndex == null)
+			{
+				matrixIndex = optionsData.IndexOf(stationOption);
+			}
+			matrixDropdown.value = matrixIndex.Value;
 		}
 
 		public void OnMatrixChange()
@@ -315,7 +321,7 @@ namespace UI.Systems.AdminTools.DevTools
 			if (Input.GetMouseButtonDown(2) == false) return;
 			var matrixId =
 				MatrixManager.Instance.ActiveMatrices.Where(x =>
-					x.Value.Name == matrixDropdown.options[matrixIndex].text).ToList();
+					x.Value.Name == matrixDropdown.options[matrixIndex.Value].text).ToList();
 			if ( matrixId.Count == 0 )
 			{
 				return;
@@ -526,7 +532,7 @@ namespace UI.Systems.AdminTools.DevTools
 
 			var matrixId =
 				MatrixManager.Instance.ActiveMatrices.Where(x =>
-					x.Value.Name == matrixDropdown.options[matrixIndex].text).ToList();
+					x.Value.Name == matrixDropdown.options[matrixIndex.Value].text).ToList();
 
 			if (matrixId.Any() == false)
 			{
@@ -558,7 +564,7 @@ namespace UI.Systems.AdminTools.DevTools
 
 			var matrixId =
 				MatrixManager.Instance.ActiveMatrices.Where(x =>
-					x.Value.Name == matrixDropdown.options[matrixIndex].text).ToList();
+					x.Value.Name == matrixDropdown.options[matrixIndex.Value].text).ToList();
 
 			if (matrixId.Any() == false)
 			{
@@ -589,7 +595,7 @@ namespace UI.Systems.AdminTools.DevTools
 
 			var matrixId =
 				MatrixManager.Instance.ActiveMatrices.Where(x =>
-					x.Value.Name == matrixDropdown.options[matrixIndex].text).ToList();
+					x.Value.Name == matrixDropdown.options[matrixIndex.Value].text).ToList();
 
 			if (matrixId.Any() == false)
 			{

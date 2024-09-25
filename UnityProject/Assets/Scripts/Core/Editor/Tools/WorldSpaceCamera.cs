@@ -32,14 +32,19 @@ public class WorldSpaceCamera : EditorWindow
 		EditorGUILayout.LabelField("Image path: " + path);
 		if (GUILayout.Button("Browse"))
 		{
-			path = EditorUtility.OpenFilePanel("Show all images (.png)", "", "png");
+			path = EditorUtility.SaveFilePanel("Show all images (.png)", "", "Worldspace Screenshot", "png");
 		}
 
 		EditorGUILayout.Space(10);
-		if(GUILayout.Button("Take Snapshot"))
+
+		bool validPath = path != null && path != "";
+		string buttonTest = validPath ? "Take Snapshot" : "Please select a valid directory!";
+
+		if (GUILayout.Button(buttonTest))
 		{
-			TakeSnapshot();
+			if(validPath == true) TakeSnapshot();
 		}
+
 	}
 
 	async Task TakeSnapshot()

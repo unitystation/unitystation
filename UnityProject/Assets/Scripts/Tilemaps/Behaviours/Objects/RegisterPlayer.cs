@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core.Admin.Logs;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Events;
@@ -219,6 +220,11 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		{
 			MatrixOld.PresentPlayers.Remove(this);
 			MatrixOld.UpdatedPlayerFrame = Time.frameCount;
+			AdminLogsManager.AddNewLog(
+				gameObject,
+				$"{playerScript.playerName} has left {MatrixOld.name}",
+				LogCategory.World
+			);
 		}
 
 		if (MatrixNew != null && MatrixNew.PresentPlayers.Contains(this) == false)
@@ -301,6 +307,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		ServerCheckStandingChange(true);
 		OnSlipChangeServer.Invoke(IsSlippingServer, true);
 		playerScript.DynamicItemStorage.ServerDropItemsInHand();
+		playerScript.RegisterPlayer.ServerStun(1, false, false);
 	}
 
 	/// <summary>
@@ -365,11 +372,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		var oldVal = IsSlippingServer;
 		IsSlippingServer = false;
 
-		// Do not raise up a dead body
-		if (playerScript.playerHealth.ConsciousState == ConsciousState.CONSCIOUS)
-		{
-			ServerCheckStandingChange(false);
-		}
+
 
 		OnSlipChangeServer.Invoke(oldVal, IsSlippingServer);
 
@@ -380,6 +383,12 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 		}
 
 		ServerUpdateStunStatus(false);
+
+		// Do not raise up a dead body
+		if (playerScript.playerHealth.ConsciousState == ConsciousState.CONSCIOUS)
+		{
+			ServerCheckStandingChange(false);
+		}
 	}
 
 	public void ServerUpdateStunStatus(bool isStunned)

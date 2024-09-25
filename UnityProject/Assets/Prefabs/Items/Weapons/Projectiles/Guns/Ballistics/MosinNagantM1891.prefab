@@ -50,6 +50,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -99,15 +101,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 72f0f92b8d8e6d247be61b5ac8c4fa10, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 72f0f92b8d8e6d247be61b5ac8c4fa10,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &5300130788311338973
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -271,12 +271,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7381412912973752929, guid: f0c995ee924eb904dae952cd56a8c1d6,
         type: 3}
+      propertyPath: parentID
+      value: f0c995ee924eb904dae952cd56a8c1d6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7381412912973752929, guid: f0c995ee924eb904dae952cd56a8c1d6,
+        type: 3}
       propertyPath: foreverID
       value: 035def552b915ed429f1572133201dcb
       objectReference: {fileID: 0}
     - target: {fileID: 7749759532473064843, guid: f0c995ee924eb904dae952cd56a8c1d6,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2817cc103e3fa5543b69878737228fde,
+        type: 2}
+    - target: {fileID: 7749759532473064843, guid: f0c995ee924eb904dae952cd56a8c1d6,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 2817cc103e3fa5543b69878737228fde,
         type: 2}

@@ -1,0 +1,38 @@
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+using ScriptableObjects;
+
+[CreateAssetMenu(fileName = "SpriteData", menuName = "ScriptableObjects/SpriteData")]
+public class SpriteDataSO : SOTracker
+{
+	public override SpriteDataSO Sprite => this;
+
+	public List<Variant> Variance = new List<Variant>();
+	public bool IsPalette = false;
+
+	[NonSerialized] public int SetID = -1;
+
+	public string DisplayName;
+
+	//you can't access because of  namespace shenanigans Just use object HAHAHA
+	[NonSerialized] public object SpriteDataEntry;
+
+
+	[Serializable]
+	public struct Variant
+	{
+		public List<Frame> Frames;
+	}
+
+
+	[Serializable]
+	public class Frame
+	{
+		public Sprite sprite;
+		public float secondDelay;
+	}
+}

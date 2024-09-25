@@ -8,6 +8,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1058680709829996922, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: onTakeDamageSounds.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1058680709829996922, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: onTakeDamageSounds.Array.data[0].AssetAddress
+      value: Assets/Prefabs/Effects/wounds/crackandbleed.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 1340275603506720484, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: ashPrefab
@@ -41,6 +51,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 690f18a2fa4bec141971d6f5c7753177,
         type: 2}
+    - target: {fileID: 2728592379231489674, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: onTakeDamageSounds.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2728592379231489674, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: onTakeDamageSounds.Array.data[0].AssetAddress
+      value: Assets/Prefabs/Effects/wounds/sizzle1.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 2728592379231489674, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: onTakeDamageSounds.Array.data[1].AssetAddress
+      value: Assets/Prefabs/Effects/wounds/sizzle1.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 2780143343961368630, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: CurrentsortingGroup
@@ -89,17 +114,17 @@ PrefabInstance:
     - target: {fileID: 2815555166148818142, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2815555166148818142, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2815555166148818142, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2815555166148818142, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
@@ -116,15 +141,65 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4434023247273284483, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: onTakeDamageSounds.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4434023247273284483, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: onTakeDamageSounds.Array.data[0].AssetAddress
+      value: Assets/Prefabs/Effects/wounds/crack1.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 4434023247273284483, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: onTakeDamageSounds.Array.data[1].AssetAddress
+      value: Assets/Prefabs/Effects/wounds/crack2.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 5166433732684877445, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: maxCapacity
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 6102157500274823570, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: onTakeDamageSounds.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6102157500274823570, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: onTakeDamageSounds.Array.data[0].AssetAddress
+      value: Assets/Prefabs/Effects/wounds/blood1.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 6102157500274823570, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: onTakeDamageSounds.Array.data[1].AssetAddress
+      value: Assets/Prefabs/Effects/wounds/blood2.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 6102157500274823570, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: onTakeDamageSounds.Array.data[2].AssetAddress
+      value: Assets/Prefabs/Effects/wounds/blood3.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 6261603888642619574, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7822575272286095514, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: onTakeDamageSounds.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7822575272286095514, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: onTakeDamageSounds.Array.data[0].AssetAddress
+      value: Assets/Prefabs/Effects/wounds/crackandbleed.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 9204204549946934727, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: parentID
+      value: e241039a7933eb347bd1a9bb67a9078a
       objectReference: {fileID: 0}
     - target: {fileID: 9204204549946934727, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
@@ -200,3 +275,4 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}

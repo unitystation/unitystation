@@ -10,6 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 285738389053349974, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
+      propertyPath: parentID
+      value: 1c2ebf5951e982c4cb87e7204c670f99
+      objectReference: {fileID: 0}
+    - target: {fileID: 285738389053349974, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
       propertyPath: foreverID
       value: 588d1ebc8abb732498ce241df11cdf66
       objectReference: {fileID: 0}
@@ -25,7 +30,53 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4e538f3ca34a0a54b86de827ed877cc2,
         type: 2}
+    - target: {fileID: 2233387669780112674, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4e538f3ca34a0a54b86de827ed877cc2,
+        type: 2}
+    - target: {fileID: 2233387669780112674, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: e47f2e7312541ab4db3ef4344cf5ad4d,
+        type: 2}
+    - target: {fileID: 2233387669780112674, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 393f4c8cf216ccc4d81c09553bf82a2f,
+        type: 2}
     - target: {fileID: 2658334066486318821, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: variantIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2658334066486318821, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 1066d1b79874cfb4999a51c33e62ae8f,
+        type: 2}
+    - target: {fileID: 2658334066486318821, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 1066d1b79874cfb4999a51c33e62ae8f,
+        type: 2}
+    - target: {fileID: 2658334066486318821, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: b1838ae1ea5cec64789370e7c7b6c343,
+        type: 2}
+    - target: {fileID: 3606713445597699348, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: variantIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3606713445597699348, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
@@ -33,9 +84,15 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3606713445597699348, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
-      propertyPath: PresentSpriteSet
+      propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 1066d1b79874cfb4999a51c33e62ae8f,
+        type: 2}
+    - target: {fileID: 3606713445597699348, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: b1838ae1ea5cec64789370e7c7b6c343,
         type: 2}
     - target: {fileID: 4216582434884905401, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
@@ -53,8 +110,13 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 40f7eb6f903adb64683d3718ba6d144e,
+      objectReference: {fileID: -636272262, guid: 40f7eb6f903adb64683d3718ba6d144e,
         type: 3}
+    - target: {fileID: 4838918684345093570, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6466159670178946919, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
       propertyPath: m_Sprite
@@ -104,17 +166,17 @@ PrefabInstance:
     - target: {fileID: 6583733005057544527, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6583733005057544527, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6583733005057544527, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6583733005057544527, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
@@ -171,21 +233,38 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6753185735506847169, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
+      propertyPath: variantIndex
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6753185735506847169, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 1066d1b79874cfb4999a51c33e62ae8f,
+        type: 2}
+    - target: {fileID: 6753185735506847169, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 1066d1b79874cfb4999a51c33e62ae8f,
+        type: 2}
+    - target: {fileID: 6753185735506847169, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: b1838ae1ea5cec64789370e7c7b6c343,
         type: 2}
     - target: {fileID: 7478713189767091818, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 40f7eb6f903adb64683d3718ba6d144e,
+      objectReference: {fileID: -361506438, guid: 40f7eb6f903adb64683d3718ba6d144e,
         type: 3}
     - target: {fileID: 7929915279216974160, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 40f7eb6f903adb64683d3718ba6d144e,
+      objectReference: {fileID: -636272262, guid: 40f7eb6f903adb64683d3718ba6d144e,
         type: 3}
     - target: {fileID: 8048860274609277641, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
@@ -193,11 +272,35 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1066d1b79874cfb4999a51c33e62ae8f,
         type: 2}
+    - target: {fileID: 8048860274609277641, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: b1838ae1ea5cec64789370e7c7b6c343,
+        type: 2}
+    - target: {fileID: 8048860274609277641, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 1066d1b79874cfb4999a51c33e62ae8f,
+        type: 2}
+    - target: {fileID: 8048860274609277641, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 6ea82802770896c4fb28932323440695,
+        type: 2}
+    - target: {fileID: 8048860274609277641, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[5]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 2360974163444494290c60f0f6f54a4e,
+        type: 2}
     - target: {fileID: 9166024495216234855, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 40f7eb6f903adb64683d3718ba6d144e,
+      objectReference: {fileID: 342338188, guid: 40f7eb6f903adb64683d3718ba6d144e,
         type: 3}
     m_RemovedComponents:
     - {fileID: 7444271311577601390, guid: 1c2ebf5951e982c4cb87e7204c670f99, type: 3}

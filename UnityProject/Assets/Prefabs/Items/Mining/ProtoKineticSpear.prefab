@@ -1,0 +1,252 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2391332025416676747
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -6943314109635352739, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: Wielded.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 852103c242531808d92a76c2e0741704,
+        type: 2}
+    - target: {fileID: -6943314109635352739, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: Wielded.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 88b63ae71afe6f4f88b5755c19d7d236,
+        type: 2}
+    - target: {fileID: -6943314109635352739, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: Unwielded.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 05f2e26b807670aaba17228058874d66,
+        type: 2}
+    - target: {fileID: -6943314109635352739, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: Unwielded.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: f3acccff8b57f1274ba55f46bb5bb023,
+        type: 2}
+    - target: {fileID: -3052719004654847166, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: backstabBonus
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -3052719004654847166, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: markedHitBonus
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1939338352935450630, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: variantIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1939338352935450630, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 0dbb64c4104af82d998bfc50af22677a,
+        type: 2}
+    - target: {fileID: 1939338352935450630, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 0dbb64c4104af82d998bfc50af22677a,
+        type: 2}
+    - target: {fileID: 1969785921733618591, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 36928036, guid: fa65c9692acf3db55bdf66cbeadebeea,
+        type: 3}
+    - target: {fileID: 1969785921733618591, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: initialName
+      value: proto-kinetic spear
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: initialDescription
+      value: aving finally invested in better Proto-kinetic tech, research and development
+        was able to cobble together this new proto-kinetic weapon. By compacting
+        all the technology we were able to fit it all into a spear styled case. No
+        longer will proto-kinetic crushers be for the most skilled and suicidal,
+        but now they will be available to the most cautious paranoid miners, now
+        able to enjoy the (slightly lower) power of a crusher, while maintaining
+        a (barely) minimum safe distance.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: 'attackVerbs.Array.data[0]'
+      value: impale
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: 'attackVerbs.Array.data[1]'
+      value: stab
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: 'attackVerbs.Array.data[2]'
+      value: pierce
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: 'attackVerbs.Array.data[3]'
+      value: jab
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: 'attackVerbs.Array.data[4]'
+      value: poke
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 05f2e26b807670aaba17228058874d66,
+        type: 2}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: f3acccff8b57f1274ba55f46bb5bb023,
+        type: 2}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 665f036c2a2b93b9bb5c8b4e9f57afbb,
+        type: 2}
+    - target: {fileID: 3235497439635828136, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0c3d6ed44ea155565b0f3d87f00ef9de,
+        type: 3}
+    - target: {fileID: 3315982464914858880, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315982464914858880, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315982464914858880, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315982464914858880, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315982464914858880, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315982464914858880, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315982464914858880, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315982464914858880, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315982464914858880, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315982464914858880, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3321191813867953908, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_Name
+      value: ProtoKineticSpear
+      objectReference: {fileID: 0}
+    - target: {fileID: 3423593076712989504, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: _assetId
+      value: 2903091132
+      objectReference: {fileID: 0}
+    - target: {fileID: 8551640524453532313, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: foreverID
+      value: 5984b6b1238658f699b76c51128517fd
+      objectReference: {fileID: 0}
+    - target: {fileID: 8885920287978841459, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 665f036c2a2b93b9bb5c8b4e9f57afbb,
+        type: 2}
+    - target: {fileID: 8885920287978841459, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 665f036c2a2b93b9bb5c8b4e9f57afbb,
+        type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3321191813867953908, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5959552929733104972}
+  m_SourcePrefab: {fileID: 100100000, guid: 3f3c69eb80c13d439a7659f6834b091a, type: 3}
+--- !u!1 &1096777782617254783 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3321191813867953908, guid: 3f3c69eb80c13d439a7659f6834b091a,
+    type: 3}
+  m_PrefabInstance: {fileID: 2391332025416676747}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5959552929733104972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1096777782617254783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  allClothingData:
+  - {fileID: 11400000, guid: 7fc99df1cca1dc3e193de12bc77d2646, type: 2}
+  CurrentClothIndex: 0
+  randomInitialClothData: 0
+  hidesIdentity: 0
+  hidesSlots: 0
+  hideClothingFlags: 0
+  disallowConsume: 0

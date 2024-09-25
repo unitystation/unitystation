@@ -9,7 +9,7 @@ using UnityEngine;
 public class EnrichedRod : FuelRod
 {
 	public override decimal PresentAtoms { get; set; }  = 600000000000000000;
-	public override decimal fuelNeutronGeneration { get; set; }  = -2M;
+	public override decimal fuelNeutronGeneration { get; set; }  = -0.5M;
 	public override decimal PresentAtomsfuel { get; set; }  = 600000000000000000;
 
 	public decimal NeutronSingularity = 76488300000M;
@@ -20,7 +20,7 @@ public class EnrichedRod : FuelRod
 
 		if (AbsorbedNeutrons > NeutronSingularity)
 		{
-			Explosion.StartExplosion(CurrentlyInstalledIn.registerObject.WorldPositionServer, 200000);
+			Explosion.StartExplosion(CurrentlyInstalledIn.registerObject.WorldPositionServer, 400000);
 			data.Break = true;
 			if (this != null)
 			{

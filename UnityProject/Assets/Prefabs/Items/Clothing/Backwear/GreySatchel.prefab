@@ -94,6 +94,24 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A trendy looking satchel.
       objectReference: {fileID: 0}
+    - target: {fileID: 4391634449878879340, guid: da93b0f7c392d46ba85123e2516cfa49,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 299b6a1bc0f5a1e42964f9bbd115d082,
+        type: 2}
+    - target: {fileID: 4391634449878879340, guid: da93b0f7c392d46ba85123e2516cfa49,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: e8a21ae618b7755479a4e019fffddd81,
+        type: 2}
+    - target: {fileID: 4391634449878879340, guid: da93b0f7c392d46ba85123e2516cfa49,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 21404a65e62bf524daa734c948058fc2,
+        type: 2}
     - target: {fileID: 7089396423658287243, guid: da93b0f7c392d46ba85123e2516cfa49,
         type: 3}
       propertyPath: clothData
@@ -112,12 +130,23 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7108117357620391779, guid: da93b0f7c392d46ba85123e2516cfa49,
         type: 3}
+      propertyPath: parentID
+      value: da93b0f7c392d46ba85123e2516cfa49
+      objectReference: {fileID: 0}
+    - target: {fileID: 7108117357620391779, guid: da93b0f7c392d46ba85123e2516cfa49,
+        type: 3}
       propertyPath: foreverID
       value: a168a3bbdfd796d48bf524dd9bef1803
       objectReference: {fileID: 0}
     - target: {fileID: 8023652843657975945, guid: da93b0f7c392d46ba85123e2516cfa49,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 21404a65e62bf524daa734c948058fc2,
+        type: 2}
+    - target: {fileID: 8023652843657975945, guid: da93b0f7c392d46ba85123e2516cfa49,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 21404a65e62bf524daa734c948058fc2,
         type: 2}

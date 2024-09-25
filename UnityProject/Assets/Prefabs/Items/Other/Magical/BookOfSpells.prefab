@@ -97,6 +97,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: parentID
+      value: a7abba22164ce49f0bf9b9b219f39298
+      objectReference: {fileID: 0}
+    - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: foreverID
       value: 1a29d7430eef409409b622cc8278453e
       objectReference: {fileID: 0}
@@ -166,3 +171,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetTabType: 30
   requiresAltClick: 0
+  disabled: 0

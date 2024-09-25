@@ -1,13 +1,16 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using InGameGizmos;
 using Items;
 using Mirror;
 using ScriptableObjects;
+using TileManagement;
 using TileMap.Behaviours;
 using Tiles;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Random = UnityEngine.Random;
 
 namespace Systems.Scenes
 {
@@ -23,7 +26,7 @@ namespace Systems.Scenes
 
 		public int deathLimit;
 
-		public int numR;
+		[NonSerialized] public int numR;
 
 		private int[,] terrainMap;
 		[SyncVar]
@@ -90,7 +93,8 @@ namespace Systems.Scenes
 					if (terrainMap[x, y] != 1)
 					{
 
-						tileChangeManager.MetaTileMap.SetTile(pos, wallTile);
+						tileChangeManager.MetaTileMap.SetTile(pos, wallTile, MapSaveRecord : true);
+
 
 						//Commented out below sets bottom tile, but we don't need to for lavaland
 						//botMap.SetTile(new Vector3Int(-x + width / 2, -y + height / 2, 0), botTile);

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Core;
 using Logs;
 using Mirror;
 using UnityEngine;
@@ -9,6 +10,7 @@ using Messages.Server;
 using UI;
 using UnityEngine.Serialization;
 using Util;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 /// <summary>
 /// Allows an item to be stacked, occupying a single inventory slot.
@@ -25,11 +27,13 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	[SerializeField]
 	private int maxAmount = 50;
 
+	private List<GameObject> stacksWith = new List<GameObject>();
+
+	[SerializeField, FormerlySerializedAs("stacksWith")]
 	[Tooltip("Other prefabs which can stack with this object. By default a stackable can stack with its own" +
-				" prefab, but if you create any variants which have a different initial amount you can assign them" +
-				" in this list on either prefab to allow it to recognize that it's stackable with the parent.")]
-	[SerializeField]
-	private List<GameObject> stacksWith;
+	         " prefab, but if you create any variants which have a different initial amount you can assign them" +
+	         " in this list on either prefab to allow it to recognize that it's stackable with the parent.")]
+	private List<GameObject> InitialstacksWith;
 
 	[FormerlySerializedAs("IsRepresentationOfStack")] [SerializeField][Tooltip("Basically is this a representation of a stack vs an actual stack used in cyborg inventory ")]
 	private bool isRepresentationOfStack = false;
@@ -76,6 +80,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 
 	private void Awake()
 	{
+		stacksWith.AddRange(InitialstacksWith);
 		EnsureInit();
 		this.WaitForNetworkManager(() =>
 		{

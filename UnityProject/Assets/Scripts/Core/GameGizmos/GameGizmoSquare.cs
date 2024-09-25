@@ -6,6 +6,16 @@ public class GameGizmoSquare : GameGizmoTracked
 {
 	public List<LineRenderer> Lines = new List<LineRenderer>();
 
+	public Vector3 Size
+	{
+		set
+		{
+			foreach (var Line in Lines)
+			{
+				Line.transform.localScale = value;
+			}
+		}
+	}
 
 	public void SetUp(GameObject TrackingFrom, Vector3 Position, Color Colour, float LineThickness , Vector2 BoxSize)
 	{

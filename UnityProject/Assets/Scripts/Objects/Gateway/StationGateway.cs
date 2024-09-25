@@ -2,13 +2,16 @@
 using Mirror;
 using UnityEngine;
 using System.Linq;
+using Core;
 using UnityEditor;
 using Gateway;
 using Logs;
 using Systems.Electricity;
 using Managers;
+using Messages.Server.SoundMessages;
 using Strings;
 using UI.Systems.Tooltips.HoverTooltips;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects
 {
@@ -159,7 +162,10 @@ namespace Objects
 				if (timeElapsedServerSound > SoundLength && isOn)
 				{
 					DetectPlayer();
-					SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.MachineHum4, Position + Vector3Int.up);
+					SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.MachineHum4, Position + Vector3Int.up, new AudioSourceParameters()
+					{
+						Pitch = 1
+					});
 					timeElapsedServerSound = 0;
 				}
 			}

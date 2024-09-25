@@ -17,6 +17,7 @@ using HealthV2;
 using Objects;
 using Objects.Wallmounts;
 using Shared.Systems.ObjectConnection;
+using UnityEngine.Serialization;
 
 namespace Doors
 {
@@ -82,7 +83,7 @@ namespace Doors
 
 		private bool isPerformingAction = false;
 		public bool IsPerformingAction => isPerformingAction;
-		public bool HasPower => GetPowerState();
+		public bool HasPower => CheckPower();
 
 		private RegisterDoor registerTile;
 		public RegisterDoor RegisterTile => registerTile;
@@ -93,8 +94,6 @@ namespace Doors
 		private List<DoorModuleBase> modulesList;
 		public List<DoorModuleBase> ModulesList => modulesList;
 
-		private APCPoweredDevice apc;
-		public APCPoweredDevice Apc => apc;
 
 
 		[Tooltip("Does it have a glass window you can see trough?")]
@@ -104,6 +103,8 @@ namespace Doors
 		private int openSortingLayer;
 		private int closedLayer;
 		private int closedSortingLayer;
+
+		public bool UseMachinesForOpenLayeer = false;
 
 		public HackingProcessBase HackingProcessBase;
 
@@ -124,10 +125,16 @@ namespace Doors
 				closedLayer = LayerMask.NameToLayer("Windows");
 			}
 
+
+
 			closedSortingLayer = SortingLayer.NameToID("Doors Closed");
 
+
+
 			openLayer = LayerMask.NameToLayer("Door Open");
-			openSortingLayer = SortingLayer.NameToID("Doors Open");
+
+
+
 
 			if (TryGetComponent<FireLock>(out _))
 			{
@@ -141,9 +148,13 @@ namespace Doors
 			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 			registerTile = GetComponent<RegisterDoor>();
 			modulesList = GetComponentsInChildren<DoorModuleBase>().ToList();
-			apc = GetComponent<APCPoweredDevice>();
 			doorAnimator = GetComponent<DoorAnimatorV2>();
 			doorAnimator.AnimationFinished += OnAnimationFinished;
+			if (UseMachinesForOpenLayeer)
+			{
+				openSortingLayer = SortingLayer.NameToID("Machines");
+			}
+
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -151,21 +162,7 @@ namespace Doors
 			HackingProcessBase.RegisterPort(TryForceClose, this.GetType());
 			HackingProcessBase.RegisterPort(TryBump, this.GetType());
 			HackingProcessBase.RegisterPort(TryClose, this.GetType());
-			HackingProcessBase.RegisterPort(CheckPower, this.GetType());
 			HackingProcessBase.RegisterPort(ConfirmAIConnection, this.GetType());
-		}
-
-		public bool GetPowerState()
-		{
-			return HackingProcessBase.PulsePortConnectedNoLoop(CheckPower);
-		}
-
-		public void CheckPower()
-		{
-			if (APCPoweredDevice.IsOn(apc.State))
-			{
-				HackingProcessBase.ReceivedPulse(CheckPower);
-			}
 		}
 
 		public override void OnStartClient()
@@ -182,6 +179,19 @@ namespace Doors
 				IsClosed ? DoorUpdateType.Close : DoorUpdateType.Open,
 				true,
 				ConstructibleDoor != null && ConstructibleDoor.Panelopen);
+		}
+
+
+		private bool CheckPower()
+		{
+			foreach (var module in modulesList)
+			{
+				if(module is PowerModule powerModule)
+				{
+					return powerModule.HasPower;
+				}
+			}
+			return true;
 		}
 
 		private void TryBump()
@@ -204,10 +214,6 @@ namespace Doors
 			if (!isPerformingAction && CheckStatusAllow(states))
 			{
 				TryOpen(byPlayer);
-			}
-			else if(HasPower == false && byPlayer != null)
-			{
-				Chat.AddExamineMsgFromServer(byPlayer, $"{gameObject.ExpensiveName()} is unpowered");
 			}
 
 			StartInputCoolDown();
@@ -233,7 +239,7 @@ namespace Doors
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (ConstructibleDoor.Panelopen)
+			if (ConstructibleDoor.Panelopen && ConstructibleDoor.AllowHackingPanel	)
 			{
 				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Cable) ||
 				    Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wirecutter))
@@ -279,6 +285,10 @@ namespace Doors
 				}
 				PulseTryClose(interaction.Performer, inOverrideLogic: true);
 			}
+			else
+			{
+				AddChatTryInteractMessage(interaction, states);
+			}
 
 			StartInputCoolDown();
 		}
@@ -305,15 +315,32 @@ namespace Doors
 				}
 				TryOpen(interaction.Performer);
 			}
-			else if(HasPower == false)
+			else
+			{
+				AddChatTryInteractMessage(interaction, states);
+			}
+		}
+
+		public void AddChatTryInteractMessage(HandApply interaction, HashSet<DoorProcessingStates> States)
+		{
+			if (States.Contains(DoorProcessingStates.PowerPrevented))
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, $"{gameObject.ExpensiveName()} is unpowered");
+			}
+			else if (States.Contains(DoorProcessingStates.PhysicallyPrevented) && States.Contains(DoorProcessingStates.SoftwarePrevented) == false)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"{gameObject.ExpensiveName()} tries to move but something is physically preventing it");
+			}
+			else if (States.Contains(DoorProcessingStates.SoftwarePrevented))
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"{gameObject.ExpensiveName()} denies access");
 			}
 		}
 
 		public bool CheckStatusAllow(HashSet<DoorProcessingStates> states)
 		{
 			if (states.Contains(DoorProcessingStates.PhysicallyPrevented)) return false;
+			if (states.Contains(DoorProcessingStates.PowerPrevented)) return false;
 			if (states.Contains(DoorProcessingStates.SoftwarePrevented))
 			{
 				return states.Contains(DoorProcessingStates.SoftwareHacked);
@@ -333,15 +360,6 @@ namespace Doors
 			}
 
 			if(IsClosed == false || isPerformingAction) return;
-
-			if(HasPower == false)
-			{
-				if (originator != null)
-				{
-					Chat.AddExamineMsgFromServer(originator, $"{gameObject.ExpensiveName()} is unpowered");
-				}
-				return;
-			}
 
 			Open(blockClosing);
 		}
@@ -442,11 +460,6 @@ namespace Doors
 			{
 				ResetWaiting();
 			}
-
-			if(HasPower == false && originator != null)
-			{
-				Chat.AddExamineMsgFromServer(originator, $"{gameObject.ExpensiveName()} is unpowered");
-			}
 		}
 
 		public void Close()
@@ -475,7 +488,7 @@ namespace Doors
 			if (isFireLock == false)
 			{
 				var fireLock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
-				if (fireLock != null && fireLock.fireAlarm.activated) return;
+				if (fireLock != null && fireLock.fireAlarm.activated && fireLock.DoorMasterController.IsClosed) return;
 			}
 
 			if (!this || !gameObject) return; // probably destroyed by a shuttle crash

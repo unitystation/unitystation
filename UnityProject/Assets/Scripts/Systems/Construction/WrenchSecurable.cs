@@ -1,9 +1,11 @@
 using System;
+using Core;
 using Logs;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Mirror;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Construction
 {
@@ -14,7 +16,7 @@ namespace Objects.Construction
 	public class WrenchSecurable : NetworkBehaviour, ICheckedInteractable<HandApply>, IExaminable
 	{
 		private RegisterObject registerObject;
-		private UniversalObjectPhysics objectBehaviour;
+		public UniversalObjectPhysics objectBehaviour;
 		private HandApply currentInteraction;
 		private string objectName;
 

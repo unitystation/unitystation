@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Linq;
+using Core;
 using HealthV2;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
+
 namespace Objects
 {
 	/// <summary>

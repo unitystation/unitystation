@@ -20,8 +20,8 @@ MonoBehaviour:
     FailChance: 0
     StartSelf: 
     StartOther: 
-    SuccessSelf: You successfully undo the cover
-    SuccessOther: 
+    SuccessSelf: You successfully unfasten the cover on {WhoOn}'s {OnPart}
+    SuccessOther: '{performer} successfully unfastens the cover on {WhoOn}''s {OnPart}'
     FailSelf: 
     FailOther: 
   - RequiredTrait: {fileID: 11400000, guid: 5524008e9372c468aacfb95c83179a91, type: 2}
@@ -29,8 +29,8 @@ MonoBehaviour:
     FailChance: 0
     StartSelf: 
     StartOther: 
-    SuccessSelf: You successfully move the cover out of the way
-    SuccessOther: 
+    SuccessSelf: You successfully pry open the cover on {WhoOn}'s {OnPart}
+    SuccessOther: '{performer} successfully prys open the cover on {WhoOn}''s {OnPart}'
     FailSelf: 
     FailOther: 
   - RequiredTrait: {fileID: 11400000, guid: aaed69546e98a47d8b488a046d00ebe7, type: 2}
@@ -38,8 +38,9 @@ MonoBehaviour:
     FailChance: 0
     StartSelf: 
     StartOther: 
-    SuccessSelf: you weld the  damage and dents away
-    SuccessOther: 
+    SuccessSelf: You repair the damaged internal components within {WhoOn}'s {OnPart}
+    SuccessOther: '{performer} repairs the damaged internal components within {WhoOn}''s
+      {OnPart}'
     FailSelf: 
     FailOther: 
   - RequiredTrait: {fileID: 11400000, guid: 024541a41c4ab42a499f8e49374496d4, type: 2}
@@ -47,8 +48,8 @@ MonoBehaviour:
     FailChance: 0
     StartSelf: 
     StartOther: 
-    SuccessSelf: you reattach the cover
-    SuccessOther: 
+    SuccessSelf: You reattach the cover to {WhoOn}'s {OnPart}
+    SuccessOther: '{performer} reattaches the cover to {WhoOn}''s {OnPart}'
     FailSelf: 
     FailOther: 
   Affects: 0

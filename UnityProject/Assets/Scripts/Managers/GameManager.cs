@@ -14,6 +14,7 @@ using Mirror;
 using GameConfig;
 using Initialisation;
 using Audio.Containers;
+using Core.Admin.Logs;
 using Logs;
 using Managers;
 using Messages.Server;
@@ -23,6 +24,7 @@ using UnityEngine.Profiling;
 using Player;
 using Systems.Cargo;
 using ScriptableObjects.Characters;
+using SecureStuff;
 using UnityEditor;
 using UnityEngine.Serialization;
 
@@ -149,7 +151,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	//---------------------------------
 	public List<MatrixMove> SpaceBodies = new List<MatrixMove>();
 	private Queue<MatrixMove> PendingSpaceBodies = new Queue<MatrixMove>();
-	private bool isProcessingSpaceBody = false;
 	public float minDistanceBetweenSpaceBodies;
 
 	private bool ShuttlePathsGenerated = false;
@@ -222,6 +223,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		{
 			Destroy(this);
 		}
+		RoundID = LoadRoundID();
 	}
 
 
@@ -316,25 +318,21 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	}
 
 
-	IEnumerator ProcessSpaceBody(MatrixMove mm)
+	void ProcessSpaceBody(MatrixMove mm)
 	{
-		if (SceneManager.GetActiveScene().name == "BoxStationV1")
-		{
-			minDistanceBetweenSpaceBodies = 200f;
-		}
-		//Change this for larger maps to avoid asteroid spawning on station.
-		else
-		{
-			minDistanceBetweenSpaceBodies = 200f;
-		}
-
-		GenerateShuttlePaths();
+		minDistanceBetweenSpaceBodies = 200f;
 
 		bool validPos = false;
-		while (!validPos)
+		int tries = 0;
+
+		while (validPos == false)
 		{
 			Vector3 proposedPosition = RandomPositionInSolarSystem();
-
+			tries++;
+			if (tries > 100)
+			{
+				break;
+			}
 			bool failedChecks =
 				Vector3.Distance(proposedPosition,
 					MatrixManager.Instance.spaceMatrix.transform.parent.transform.position) <
@@ -353,37 +351,14 @@ public partial class GameManager : MonoBehaviour, IInitialise
 				}
 			}
 
-			if (!failedChecks)
+			if (failedChecks == false)
 			{
 				validPos = true;
 				mm.NetworkedMatrixMove.TargetTransform.position = (proposedPosition);
 				SpaceBodies.Add(mm);
 			}
 
-			yield return WaitFor.EndOfFrame;
 		}
-
-		yield return WaitFor.EndOfFrame;
-		isProcessingSpaceBody = false;
-	}
-
-	private void GenerateShuttlePaths()
-	{
-		if (ShuttlePathsGenerated) return;
-
-		if (GameManager.Instance.PrimaryEscapeShuttle == null)
-		{
-			Loggy.LogWarning("Cannot generate primary escape shuttle path. Shuttle not found.");
-			return;
-		}
-
-		if (AutopilotShipCargo.Instance == null)
-		{
-			Loggy.LogWarning("Cannot generate cargo escape shuttle path. Shuttle not found.");
-			return;
-		}
-
-		ShuttlePathsGenerated = true;
 	}
 
 	public Vector3 RandomPositionInSolarSystem()
@@ -452,11 +427,9 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	private void UpdateMe()
 	{
 		if (CustomNetworkManager.IsServer == false) return;
-		if (!isProcessingSpaceBody && PendingSpaceBodies.Count > 0)
+		if (PendingSpaceBodies.Count > 0)
 		{
-			InitEscapeShuttle();
-			isProcessingSpaceBody = true;
-			StartCoroutine(ProcessSpaceBody(PendingSpaceBodies.Dequeue()));
+			ProcessSpaceBody(PendingSpaceBodies.Dequeue());
 		}
 
 		if (waitForStart)
@@ -509,12 +482,32 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		}
 	}
 
+	private void SaveRoundID()
+	{
+		AccessFile.Save("RoundID.txt", RoundID.ToString(), FolderType.Data, true);
+	}
+
+	private int LoadRoundID()
+	{
+		if (AccessFile.Exists("RoundID.txt", true, FolderType.Data, true) == false)
+		{
+			AccessFile.Save("RoundID.txt", "0", FolderType.Data, true);
+			return 0;
+		}
+		if (int.TryParse(AccessFile.Load("RoundID.txt", FolderType.Data, true), out var roundNumber))
+		{
+			return roundNumber;
+		}
+		return -1;
+	}
+
 	/// <summary>
 	/// Setup the station and then begin the round for the selected game mode
 	/// </summary>
 	public void StartRound()
 	{
 		RoundID++;
+		SaveRoundID();
 		waitForStart = false;
 
 		// Only do this stuff on the server
@@ -646,15 +639,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 
 		CurrentRoundState = RoundState.Ended;
-		try
-		{
-			EventManager.Broadcast(Event.RoundEnded, true);
-		}
-		catch (Exception e)
-		{
-			Loggy.LogError(e.ToString());
-		}
-
 
 
 		try
@@ -680,9 +664,19 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			Loggy.LogError(e.ToString());
 		}
 
+		try
+		{
+			EventManager.Broadcast(Event.RoundEnded, true);
+		}
+		catch (Exception e)
+		{
+			Loggy.LogError(e.ToString());
+		}
+
 		StartCoroutine(WaitForRoundRestart());
 
 		_ = SoundManager.PlayNetworked(endOfRoundSounds.GetRandomClip());
+		AdminLogsManager.AddNewLog(null, $"Round {RoundID} has ended.", LogCategory.World);
 	}
 
 	/// <summary>
@@ -915,8 +909,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			return;
 		}
 
-
-
 		CurrentRoundState = RoundState.Restarting;
 
 		StartCoroutine(ServerRoundRestart());
@@ -953,11 +945,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			// Notify all clients that the round has ended
 			EventManager.Broadcast(Event.RoundEnded, true);
 			EventManager.Broadcast(Event.SceneUnloading, true);
-
-			if (GameManager.Instance != null)
-			{
-				GameManager.Instance.ResetEscapeShuttle();
-			}
 
 			try
 			{

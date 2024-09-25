@@ -71,6 +71,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2444135299207855093, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
+      propertyPath: parentID
+      value: b69bfc56f39849d4ba9139d2d51bedb6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444135299207855093, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
       propertyPath: foreverID
       value: f0f2f4797bd823242988adb895b8d8bd
       objectReference: {fileID: 0}
@@ -129,5 +134,6 @@ MonoBehaviour:
   MoveDirectionIn: 0
   MovedToAfterFinishingChain: {fileID: 0}
   StartOfChain: {fileID: 0}
+  DirectionOverride: -1
   StationStartBuoy: {fileID: 0}
   TargetDestinationBuoy: {fileID: 0}

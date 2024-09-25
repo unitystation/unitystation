@@ -30,6 +30,18 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A bag for storing pills, patches, and bottles.
       objectReference: {fileID: 0}
+    - target: {fileID: 2945219828330548335, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: fff3b9c3417c5dc419bf2ddf0a49d948,
+        type: 2}
+    - target: {fileID: 2945219828330548335, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 579615b8a85004847be3b324949d9c50,
+        type: 2}
     - target: {fileID: 3225680128402821201, guid: a4904005b4f886143a41a4b3c99a6845,
         type: 3}
       propertyPath: m_Sprite
@@ -119,12 +131,23 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8541259781182205792, guid: a4904005b4f886143a41a4b3c99a6845,
         type: 3}
+      propertyPath: parentID
+      value: a4904005b4f886143a41a4b3c99a6845
+      objectReference: {fileID: 0}
+    - target: {fileID: 8541259781182205792, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
       propertyPath: foreverID
       value: 068aa5798984db4498831a074f5c5102
       objectReference: {fileID: 0}
     - target: {fileID: 8895735541756795018, guid: a4904005b4f886143a41a4b3c99a6845,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 7b5dda60edd10694e996313aa6381fe0,
+        type: 2}
+    - target: {fileID: 8895735541756795018, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 7b5dda60edd10694e996313aa6381fe0,
         type: 2}

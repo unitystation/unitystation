@@ -73,6 +73,9 @@ public class Knife : MonoBehaviour, ICheckedInteractable<InventoryApply>,  IChec
 		//if the item isn't a butcher knife, no go.
 		if (!Validations.HasItemTrait(interaction, CommonTraits.Instance.Knife)) return false;
 
+		//Exception to allow for firearm weapon attachments to work
+		if (Validations.HasItemTrait(interaction.TargetObject, CommonTraits.Instance.Gun)) return false;
+
 
 		//TargetSlot must not be empty.
 		if (interaction.TargetSlot.Item == null) return false;

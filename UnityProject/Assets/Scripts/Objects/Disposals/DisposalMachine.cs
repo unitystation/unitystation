@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using Core;
+using UnityEngine;
 using Mirror;
 using Objects.Atmospherics;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Disposals
 {
@@ -33,7 +35,7 @@ namespace Objects.Disposals
 
 		protected PositionalHandApply currentInteraction;
 
-		[SyncVar]
+		[SyncVar,SerializeField]
 		private InstallState installState = InstallState.Unattached;
 		public bool MachineUnattached => installState == InstallState.Unattached;
 		public bool MachineAnchored => installState == InstallState.Anchored;

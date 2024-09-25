@@ -157,6 +157,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9196119485141273601, guid: 8e4c205a853b5d44bb1b793530feaefe,
         type: 3}
+      propertyPath: parentID
+      value: 8e4c205a853b5d44bb1b793530feaefe
+      objectReference: {fileID: 0}
+    - target: {fileID: 9196119485141273601, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
       propertyPath: foreverID
       value: f4055552c9f74c55a793607f0c9d7810
       objectReference: {fileID: 0}
@@ -198,6 +203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Controller: {fileID: 0}
+  <CanRelink>k__BackingField: 1
 --- !u!114 &6686580949925318648
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -28,8 +28,6 @@ namespace HealthV2.Living.Cyborg
 			}
 		}
 
-
-
 		public void ChargeBy(float watts)
 		{
 			Battery toCharge = null;

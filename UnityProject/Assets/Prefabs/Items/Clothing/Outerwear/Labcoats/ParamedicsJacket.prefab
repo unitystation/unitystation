@@ -10,6 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2754019653643912758, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}
+      propertyPath: parentID
+      value: dfc0f23c4db66d144a03103586ce7619
+      objectReference: {fileID: 0}
+    - target: {fileID: 2754019653643912758, guid: dfc0f23c4db66d144a03103586ce7619,
+        type: 3}
       propertyPath: foreverID
       value: 38282bf586e1d544e83af94a9c4ece90
       objectReference: {fileID: 0}
@@ -41,6 +46,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9fe8bc0581fabc646a022958fead05d1,
         type: 2}
+    - target: {fileID: 3153813430929650140, guid: dfc0f23c4db66d144a03103586ce7619,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 9fe8bc0581fabc646a022958fead05d1,
+        type: 2}
     - target: {fileID: 8678186998923896121, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}
       propertyPath: initialName
@@ -51,6 +62,12 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A dark blue jacket for paramedics with reflective stripes.
       objectReference: {fileID: 0}
+    - target: {fileID: 8678186998923896121, guid: dfc0f23c4db66d144a03103586ce7619,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 9fe8bc0581fabc646a022958fead05d1,
+        type: 2}
     - target: {fileID: 8967636835189487879, guid: dfc0f23c4db66d144a03103586ce7619,
         type: 3}
       propertyPath: m_Sprite

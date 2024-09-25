@@ -13,6 +13,12 @@ PrefabInstance:
       propertyPath: initialName
       value: white bomb suit
       objectReference: {fileID: 0}
+    - target: {fileID: 3495234765619245072, guid: 64819b198f747d24196e161eacaa366b,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: ef6a1f4bb8ac27e4da81aa9aac193413,
+        type: 2}
     - target: {fileID: 3791466462619397166, guid: 64819b198f747d24196e161eacaa366b,
         type: 3}
       propertyPath: m_Sprite
@@ -95,6 +101,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ef6a1f4bb8ac27e4da81aa9aac193413,
         type: 2}
+    - target: {fileID: 7145545764318209269, guid: 64819b198f747d24196e161eacaa366b,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ef6a1f4bb8ac27e4da81aa9aac193413,
+        type: 2}
     - target: {fileID: 7931175119129480439, guid: 64819b198f747d24196e161eacaa366b,
         type: 3}
       propertyPath: clothData
@@ -111,6 +123,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 78bbb9e63709cb64aa80d0933eb2fbbe,
         type: 2}
+    - target: {fileID: 7986767595912221471, guid: 64819b198f747d24196e161eacaa366b,
+        type: 3}
+      propertyPath: parentID
+      value: 64819b198f747d24196e161eacaa366b
+      objectReference: {fileID: 0}
     - target: {fileID: 7986767595912221471, guid: 64819b198f747d24196e161eacaa366b,
         type: 3}
       propertyPath: foreverID

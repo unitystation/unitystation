@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
@@ -21,11 +22,44 @@ namespace Player
 	/// </summary>
 	public class JoinedViewer : NetworkBehaviour
 	{
+		public static bool ClientValidated = false;
+
+		public static List<Action> DelayTillAuthenticated = new List<Action>();
+
 		private bool IsValidPlayerAndWaitingOnLoad = false; //Note This class is reused for multiple Connections
 
 		private string STUnverifiedClientId;
 		private string STVerifiedUserid;
 		private PlayerInfo STVerifiedConnPlayer;
+
+		public static void AddOnPlayerValidated(Action ToInvoke)
+		{
+			if (ClientValidated)
+			{
+				ToInvoke.Invoke();
+			}
+			else
+			{
+				DelayTillAuthenticated.Add(ToInvoke);
+			}
+		}
+
+		public static void FinishedValidating()
+		{
+			ClientValidated = true;
+			foreach (var Action in DelayTillAuthenticated)
+			{
+				try
+				{
+					Action.Invoke();
+				}
+				catch (Exception e)
+				{
+					Loggy.LogError(e.ToString());
+				}
+			}
+		}
+
 
 		public override void OnStartLocalPlayer()
 		{
@@ -38,6 +72,7 @@ namespace Player
 				RequestObserverRefresh.Send(SceneManager.GetActiveScene().name);
 				ServerSetUpPlayer(string.Empty);
 				ClientFinishLoading();
+				FinishedValidating();
 			}
 			else
 			{
@@ -72,7 +107,7 @@ namespace Player
 			if (isServer) return;
 
 			SubSceneManager.Instance.LoadScenesFromServer(JsonConvert.DeserializeObject<List<SceneInfo>>(Data),
-				OriginalScene, CmdFinishLoading);
+				OriginalScene, ClientFinishedLoading);
 		}
 
 		[Server]
@@ -159,12 +194,31 @@ namespace Player
 			STUnverifiedClientId = authData.ClientId;
 			STVerifiedUserid = authData.Account.Id;
 			STVerifiedConnPlayer = player;
+			SendDataToClient();
 
 			if (string.IsNullOrEmpty(currentScene) == false)
 			{
 				ServerRequestLoadedScenes(currentScene);
 			}
 		}
+
+		[Server]
+		public void SendDataToClient()
+		{
+			foreach (var MapData in CustomNetworkManager.LoadedMapDatas)
+			{
+				ServerReturnMapData.Send(this.gameObject, MapData, ServerReturnMapData.MessageType.MapDataForClient);
+			}
+
+		}
+
+		[Client]
+		public void ClientFinishedLoading()
+		{
+			FinishedValidating();
+			CmdFinishLoading();
+		}
+
 
 		[Command]
 		public void CmdFinishLoading()

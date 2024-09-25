@@ -28,8 +28,8 @@ namespace Systems.Atmospherics
 			gasMix.RemoveGas(Gas.WaterVapor, reactionRate);
 			gasMix.RemoveGas(Gas.Plasma, reactionRate);
 
-			gasMix.AddGas(Gas.Hydrogen, AtmosDefines.HYDROGEN_FORMATION_RATIO * reactionRate);
-			gasMix.AddGas(Gas.CarbonMonoxide, reactionRate);
+			gasMix.AddGasWithTemperature(Gas.Hydrogen, AtmosDefines.HYDROGEN_FORMATION_RATIO * reactionRate, gasMix.Temperature );
+			gasMix.AddGasWithTemperature(Gas.CarbonMonoxide, reactionRate, gasMix.Temperature );
 
 			if (energyUsed > 0)
 			{

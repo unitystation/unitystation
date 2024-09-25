@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using Core;
 using UnityEngine;
 using Gateway;
 using Logs;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Systems.Scenes
 {
@@ -47,6 +49,7 @@ namespace Systems.Scenes
 		private void PostStart()
 		{
 			if (this == null) return;
+			if (gateway == null) return;
 			gateway.GetComponent<UniversalObjectPhysics>().AppearAtWorldPositionServer(possibleExits.PickRandom().AssumedWorldPosServer()); //Randomise gateway position.
 
 			PlaceObjects();

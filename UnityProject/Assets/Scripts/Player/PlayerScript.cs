@@ -19,8 +19,10 @@ using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Changeling;
+using Core;
 using Logs;
 using Systems.Faith;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IHoverTooltip
 {
@@ -101,6 +103,9 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 	[field: SerializeField] public PlayerParticle Particles { get; private set; }
 
 	[field: SerializeField] public DimPlayerLightController DimPlayerLightController { get; private set; }
+	[field: SerializeField] public BodyAlertManager BodyAlerts { get; private set; }
+
+	public PlayerStats PlayerStats { get; private set; }
 
 	/// <summary>
 	/// Serverside world position.
@@ -203,6 +208,8 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 		PlayerFaith ??= GetComponent<PlayerFaith>();
 		Particles ??= GetComponent<PlayerParticle>();
 		DimPlayerLightController ??= GetComponent<DimPlayerLightController>();
+		PlayerStats = GetComponent<PlayerStats>();
+		BodyAlerts = GetComponent<BodyAlertManager>();
 	}
 
 	public override void OnStartClient()

@@ -202,11 +202,16 @@ namespace Systems.Atmospherics
 				//Quicker to get all RegisterTiles and grab the cached PushPull component from it than to get it manually using Get<>
 				if (registerTile.ObjectPhysics.HasComponent == false) continue;
 				if (registerTile.ObjectPhysics.Component.Intangible) continue;
-				var pushable = registerTile.ObjectPhysics.Component;
 
+				var pushable = registerTile.ObjectPhysics.Component;
+				if (pushable.isNotPushable) return;
 				float correctedForce = (windyNode.WindForce ) / (int) pushable.GetSize();
 
 				correctedForce = Mathf.Clamp(correctedForce, 0, 30);
+
+				if (pushable.NewtonianMovement.magnitude > 0) return;
+
+
 
 				if (pushable.CanBeWindPushed)
 				{
@@ -218,7 +223,7 @@ namespace Systems.Atmospherics
 				{
 					if (windyNode.WindForce * 0.15f > 0.25f)
 					{
-						pushable.NewtonianPush(windyNode.WindDirection, windyNode.WindForce * 0.05f,
+						pushable.NewtonianPush(windyNode.WindDirection, windyNode.WindForce * 0.15f,
 							windyNode.WindForce * 0.05f, spinFactor: Random.Range(20, 150));
 					}
 				}

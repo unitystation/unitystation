@@ -9,7 +9,7 @@ namespace Core.Lighting
 {
 	public class LightsHolder : NetworkBehaviour
 	{
-		public readonly SyncList<LightData> Lights = new SyncList<LightData>();
+		[HideInInspector] public readonly SyncList<LightData> Lights = new SyncList<LightData>();
 
 		[SerializeField] private Transform lightsParent;
 		[SerializeField] private GameObject lightSpriteObject;
@@ -131,6 +131,7 @@ namespace Core.Lighting
 					lightSprite.transform.localPosition = Vector3.zero;
 					// Set the correct facing direction so that the light sprite doesn't look in a different direction when it gets added to the player.
 					lightSprite.transform.rotation = Quaternion.Euler(0f, 0f, (float)currentOrientation * 90 + 90);
+					lightSprite.gameObject.SetActive(true);
 				}
 				else
 				{
@@ -142,6 +143,7 @@ namespace Core.Lighting
 
 		private void SetLightData(LightData data, LightSprite lightSprite)
 		{
+			lightSprite.gameObject.SetActive(true);
 			lightSprite.Color = data.lightColor;
 			lightSprite.Shape = data.lightShape;
 			if (data.lightSpriteObject != null)

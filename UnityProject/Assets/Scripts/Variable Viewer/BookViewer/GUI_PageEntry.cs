@@ -55,7 +55,7 @@ namespace AdminTools.VariableViewer
 					case VVHighlight.VariableChangeUpdate:
 						TypeImage.color = Color.yellow;
 						break;
-					case VVHighlight.DEBUG:
+					case VVHighlight.DEBUG_OrUnecessary:
 						TypeImage.color = Color.red;
 						break;
 				}

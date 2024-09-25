@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Mirror;
+﻿using Mirror;
 using Systems.Electricity.NodeModules;
+
 
 /// <summary>
 /// Allows this object to toggle its electrical node when clicked - turning the supply on or off.

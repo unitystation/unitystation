@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core.Admin.Logs;
 using Initialisation;
+using Logs;
 using Mirror;
 using Shared.Systems.ObjectConnection;
 using UnityEngine;
@@ -46,12 +49,15 @@ namespace Messages.Client.DeviceLinkMessage
 			{
 				if (ImultitoolSlaveable.ConType == msg.MultitoolConnectionType)
 				{
-					var MasterObject = msg.Master.NetworkIdentity();
-					ImultitoolSlaveable.SetMasterEditor(MasterObject?.GetComponent<IMultitoolMasterable>());
-					var MasterObjectName = MasterObject == null ? "null" : MasterObject.OrNull()?.name;
-
-					UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
-						$"{SentByPlayer.Username} Set the master of {ImultitoolSlaveable as MonoBehaviour} at {(ImultitoolSlaveable as MonoBehaviour).transform.position} to {MasterObjectName}", SentByPlayer.AccountId);
+					var masterObject = msg.Master.NetworkIdentity();
+					ImultitoolSlaveable.SetMasterEditor(masterObject?.GetComponent<IMultitoolMasterable>());
+					var masterObjectName = masterObject == null ? "null" : masterObject.OrNull()?.name;
+					if (masterObjectName == null)
+					{
+						Loggy.LogError("[DeviceLinKMessage] Master object is null");
+						return;
+					}
+					AdminLogsManager.AddNewLog(SentByPlayer.GameObject, $"{SentByPlayer.Username} Set the master of {ImultitoolSlaveable as MonoBehaviour} at {((ImultitoolSlaveable as MonoBehaviour)!).transform.position} to {masterObjectName}", LogCategory.Admin);
 				}
 			}
 		}

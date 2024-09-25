@@ -2,6 +2,7 @@ using UnityEngine;
 using Systems.Hacking;
 using Messages.Server;
 using Messages.Server.SoundMessages;
+using SecureStuff;
 using Systems.Electricity;
 using UI.Core.Net;
 
@@ -25,7 +26,7 @@ namespace Objects.Construction
 		/// </summary>
 		public GameObject CircuitBoardPrefab => circuitBoardPrefab;
 
-		public bool hasPower = false;
+		[PlayModeOnly] public bool hasPower = false;
 
 		[Tooltip("Time taken to screwdrive to deconstruct this.")]
 		[SerializeField]
@@ -139,6 +140,7 @@ namespace Objects.Construction
 			}
 			var frame = Spawn.ServerPrefab(framePrefab, SpawnDestination.At(gameObject)).GameObject;
 			frame.GetComponent<ComputerFrame>().ServerInitFromComputer(this);
+			frame.GetComponent<Rotatable>().FaceDirection(this.GetComponent<Rotatable>().SynchroniseCurrentDirection);
 			_ = Despawn.ServerSingle(gameObject);
 
 			integrity.OnWillDestroyServer.RemoveListener(WhenDestroyed);

@@ -68,17 +68,17 @@ PrefabInstance:
     - target: {fileID: 3426649003253581181, guid: ddd85a66da8b22448806f0f8454c01ab,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3426649003253581181, guid: ddd85a66da8b22448806f0f8454c01ab,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3426649003253581181, guid: ddd85a66da8b22448806f0f8454c01ab,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3426649003253581181, guid: ddd85a66da8b22448806f0f8454c01ab,
         type: 3}
@@ -117,6 +117,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8585229615259169892, guid: ddd85a66da8b22448806f0f8454c01ab,
         type: 3}
+      propertyPath: parentID
+      value: ddd85a66da8b22448806f0f8454c01ab
+      objectReference: {fileID: 0}
+    - target: {fileID: 8585229615259169892, guid: ddd85a66da8b22448806f0f8454c01ab,
+        type: 3}
       propertyPath: foreverID
       value: 02850781d993bb344b2a6ee5208fbcef
       objectReference: {fileID: 0}
@@ -139,6 +144,12 @@ PrefabInstance:
     - target: {fileID: 8851959254138389390, guid: ddd85a66da8b22448806f0f8454c01ab,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 40a6ca6c335501f47a3a1cc1eeab9f4c,
+        type: 2}
+    - target: {fileID: 8851959254138389390, guid: ddd85a66da8b22448806f0f8454c01ab,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 40a6ca6c335501f47a3a1cc1eeab9f4c,
         type: 2}
@@ -188,6 +199,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   actionData: {fileID: 11400000, guid: a5f5824fd6f60514bae4cfbecbb9e44c, type: 2}
   allowedSlots: 512
   useSpriteHandler: 1

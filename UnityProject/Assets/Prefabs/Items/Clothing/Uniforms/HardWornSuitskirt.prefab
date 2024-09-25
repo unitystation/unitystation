@@ -94,6 +94,17 @@ PrefabInstance:
       propertyPath: initialName
       value: hard-worn suitskirt
       objectReference: {fileID: 0}
+    - target: {fileID: 3397443007502491847, guid: de7c66806376e49fd871dfce32fb6d26,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: c6d8df2116776e946b0688f284f5a369,
+        type: 2}
+    - target: {fileID: 8174322744686822344, guid: de7c66806376e49fd871dfce32fb6d26,
+        type: 3}
+      propertyPath: parentID
+      value: de7c66806376e49fd871dfce32fb6d26
+      objectReference: {fileID: 0}
     - target: {fileID: 8174322744686822344, guid: de7c66806376e49fd871dfce32fb6d26,
         type: 3}
       propertyPath: foreverID
@@ -123,6 +134,12 @@ PrefabInstance:
     - target: {fileID: 8975007657035133986, guid: de7c66806376e49fd871dfce32fb6d26,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c6d8df2116776e946b0688f284f5a369,
+        type: 2}
+    - target: {fileID: 8975007657035133986, guid: de7c66806376e49fd871dfce32fb6d26,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: c6d8df2116776e946b0688f284f5a369,
         type: 2}

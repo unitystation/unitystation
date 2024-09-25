@@ -18,6 +18,11 @@ PrefabInstance:
       propertyPath: 'requiredClearance.Array.data[0]'
       value: 24
       objectReference: {fileID: 0}
+    - target: {fileID: 1743442577412470844, guid: 8fd7582db354a614eb90855a0072e058,
+        type: 3}
+      propertyPath: minimumFireDamageForStack
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2767213831782040296, guid: 8fd7582db354a614eb90855a0072e058,
         type: 3}
       propertyPath: _assetId
@@ -115,6 +120,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5e7480f1c19793640b59ff1186acc5be,
         type: 2}
+    - target: {fileID: 7262942523864566211, guid: 8fd7582db354a614eb90855a0072e058,
+        type: 3}
+      propertyPath: parentID
+      value: 8fd7582db354a614eb90855a0072e058
+      objectReference: {fileID: 0}
     - target: {fileID: 7262942523864566211, guid: 8fd7582db354a614eb90855a0072e058,
         type: 3}
       propertyPath: foreverID

@@ -14,7 +14,7 @@ public class BodyPartAccess : BodyPartFunctionality
 		IClearanceSource = this.GetComponent<IClearanceSource>();
 	}
 
-	public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
+	public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
 	{
 		var GroupedAccess = livingHealth.GetComponent<GroupedAccess>();
 		if (GroupedAccess != null)

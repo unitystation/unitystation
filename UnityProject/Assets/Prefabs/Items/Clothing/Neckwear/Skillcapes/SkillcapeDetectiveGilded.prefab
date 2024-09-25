@@ -14,6 +14,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: aea394998239d3141ab9cafd8e054192,
         type: 2}
+    - target: {fileID: 3683879697074944180, guid: b9825a5141678d44688ad322d1858eb6,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: aea394998239d3141ab9cafd8e054192,
+        type: 2}
     - target: {fileID: 4477950965163888822, guid: b9825a5141678d44688ad322d1858eb6,
         type: 3}
       propertyPath: clothData
@@ -30,6 +36,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5cefdca89400a9647ab15587a796beae,
         type: 2}
+    - target: {fileID: 4531575337135755102, guid: b9825a5141678d44688ad322d1858eb6,
+        type: 3}
+      propertyPath: parentID
+      value: b9825a5141678d44688ad322d1858eb6
+      objectReference: {fileID: 0}
     - target: {fileID: 4531575337135755102, guid: b9825a5141678d44688ad322d1858eb6,
         type: 3}
       propertyPath: foreverID

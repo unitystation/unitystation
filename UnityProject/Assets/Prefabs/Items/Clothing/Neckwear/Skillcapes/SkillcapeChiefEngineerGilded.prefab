@@ -26,12 +26,23 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 1350461620373246379, guid: bc9a1d735c29aec41933c617d03e5148,
         type: 3}
+      propertyPath: parentID
+      value: bc9a1d735c29aec41933c617d03e5148
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350461620373246379, guid: bc9a1d735c29aec41933c617d03e5148,
+        type: 3}
       propertyPath: foreverID
       value: 2e7704cb08978194f88c2d137293fa77
       objectReference: {fileID: 0}
     - target: {fileID: 2252199365041743425, guid: bc9a1d735c29aec41933c617d03e5148,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a327670daac66ad40a04f9903809d2a7,
+        type: 2}
+    - target: {fileID: 2252199365041743425, guid: bc9a1d735c29aec41933c617d03e5148,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: a327670daac66ad40a04f9903809d2a7,
         type: 2}
@@ -116,6 +127,12 @@ PrefabInstance:
       propertyPath: initialName
       value: chief engineer's gilded skillcape
       objectReference: {fileID: 0}
+    - target: {fileID: 5542504939143770788, guid: bc9a1d735c29aec41933c617d03e5148,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: a327670daac66ad40a04f9903809d2a7,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

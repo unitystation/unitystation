@@ -69,6 +69,8 @@ MonoBehaviour:
       type: 3}
     SkinProduce: {fileID: 6495706577167429729, guid: d8939ebf8b82f5e4cbb20bfbead306c1,
       type: 3}
+    SkinningItemTrait: {fileID: 11400000, guid: 4fd46b7ca0066174bb16d0435eef3baa,
+      type: 2}
     CanBePlayerChosen: 1
     PreviewSprite: {fileID: 11400000, guid: e05313ec04d17d34fb4806360f1886b8, type: 2}
     SystemSettings:
@@ -135,6 +137,7 @@ MonoBehaviour:
         - {fileID: 11400000, guid: b7d0a552223af4d4d9f3eb3217df9183, type: 2}
         - {fileID: 11400000, guid: 2902beb621ef39d42b6f061978844fc3, type: 2}
         - {fileID: 11400000, guid: 13adffb9ac3eeb24fa7ea444c2d4dc1f, type: 2}
+        - {fileID: 11400000, guid: b987033982fda254ab8d08cc1db71c09, type: 2}
         MetabolismComponents: []
     - rid: 5920833068371804164
       type: {class: HungerSystem, ns: HealthV2.Living.PolymorphicSystems, asm: Assets}

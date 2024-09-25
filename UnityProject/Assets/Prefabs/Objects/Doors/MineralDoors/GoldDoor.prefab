@@ -23,6 +23,41 @@ PrefabInstance:
       propertyPath: initialName
       value: gold door
       objectReference: {fileID: 0}
+    - target: {fileID: 3542702998424444105, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a81e6eac908fe6846b1feb5110711d6f,
+        type: 2}
+    - target: {fileID: 3542702998424444105, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: a81e6eac908fe6846b1feb5110711d6f,
+        type: 2}
+    - target: {fileID: 3542702998424444105, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 93623574aec5f2b4193d9d74993906fc,
+        type: 2}
+    - target: {fileID: 3542702998424444105, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 5e35626d40969304d91ab7250866ef13,
+        type: 2}
+    - target: {fileID: 3542702998424444105, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 49a3b74e35d100e4496f22f569442d22,
+        type: 2}
+    - target: {fileID: 4903062517644232794, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: parentID
+      value: d6882bf1e96328b4189c858524c259b6
+      objectReference: {fileID: 0}
     - target: {fileID: 4903062517644232794, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
       propertyPath: foreverID
@@ -32,7 +67,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -1739994179472381967, guid: b25d5f7385c8b9448a7b88fcb655f985,
+      objectReference: {fileID: 21300000, guid: b68b0b048ae4bf54ca1646f91bc2fb9e,
         type: 3}
     - target: {fileID: 8078043400501678596, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
@@ -67,17 +102,17 @@ PrefabInstance:
     - target: {fileID: 8317990795859112137, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8317990795859112137, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8317990795859112137, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8317990795859112137, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}

@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using HealthV2.Living.Surgery;
 using UnityEngine;
 using Mirror;
 using Player;
+using UI.Systems.Tooltips.HoverTooltips;
 
 namespace HealthV2
 {
 	public class Dissectible : NetworkBehaviour, IClientInteractable<HandApply>,
-		ICheckedInteractable<HandApply>
+		ICheckedInteractable<HandApply>, IExaminable, IHoverTooltip
 	{
 		public LivingHealthMasterBase LivingHealthMasterBase;
 
@@ -50,8 +52,9 @@ namespace HealthV2
 		[SyncVar(hook = nameof(SetBodyPartID))]
 		private uint BodyPartID;
 
-		public PresentProcedure ThisPresentProcedure = new PresentProcedure();
+		[field: SyncVar] public string NextTraitToUse { get; set; } = "";
 
+		public PresentProcedure ThisPresentProcedure = new PresentProcedure();
 		public List<ItemTrait> InitiateSurgeryItemTraits = new List<ItemTrait>(); //Make sure to include implantable stuff
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -283,179 +286,63 @@ namespace HealthV2
 
 		public void ReceivedSurgery(List<BodyPart> Options)
 		{
-			if (ProcedureInProgress == false)
+			if (ProcedureInProgress) return;
+			if (BodyPartIsOn != null)
 			{
-				if (BodyPartIsOn != null)
-				{
-					if (BodyPartIsopen)
-					{
-						UIManager.Instance.SurgeryDialogue.ShowDialogue(this, Options);
-					}
-					else
-					{
-						UIManager.Instance.SurgeryDialogue.ShowDialogue(this, Options);
-					}
-				}
-				else
-				{
-					UIManager.Instance.SurgeryDialogue.ShowDialogue(this, Options, true);
-				}
+				UIManager.Instance.SurgeryDialogue.ShowDialogue(this, Options);
+			}
+			else
+			{
+				UIManager.Instance.SurgeryDialogue.ShowDialogue(this, Options, true);
 			}
 		}
 
-		public class PresentProcedure
+		public string Examine(Vector3 worldPos = default)
 		{
-			System.Random RNG = new System.Random();
+			if (BodyPartIsopen == false) return null;
+			return "<color=red>This body is open.</color>";
+		}
 
-			public Dissectible isOn;
+		public string HoverTip()
+		{
+			return Examine();
+		}
 
-			public SurgeryProcedureBase SurgeryProcedureBase;
-			public int CurrentStep = 0;
-			public BodyPart RelatedBodyPart;
+		public string CustomTitle()
+		{
+			return null;
+		}
 
-			//Used for when surgeries are cancelled
-			public BodyPart PreviousBodyPart;
+		public Sprite CustomIcon()
+		{
+			return null;
+		}
 
+		public List<Sprite> IconIndicators()
+		{
+			return null;
+		}
 
-			public HandApply Stored;
-			public SurgeryStep ThisSurgeryStep;
-
-
-			public void TryTool(HandApply interaction)
+		public List<TextColor> InteractionsStrings()
+		{
+			List<TextColor> interactions = new List<TextColor>();
+			if (ProcedureInProgress && string.IsNullOrEmpty(NextTraitToUse) == false)
 			{
-				Stored = interaction;
-				ThisSurgeryStep = null;
-
-				ThisSurgeryStep = SurgeryProcedureBase.SurgerySteps[CurrentStep];
-
-				if (ThisSurgeryStep != null)
+				interactions.Add(new TextColor
 				{
-					if (Validations.HasItemTrait(interaction.HandObject, ThisSurgeryStep.RequiredTrait))
-					{
-						string StartSelf = ApplyChatModifiers(ThisSurgeryStep.StartSelf);
-						string StartOther = ApplyChatModifiers(ThisSurgeryStep.StartOther);
-						string SuccessSelf = ApplyChatModifiers(ThisSurgeryStep.SuccessSelf);
-						string SuccessOther = ApplyChatModifiers(ThisSurgeryStep.SuccessOther);
-						string FailSelf = ApplyChatModifiers(ThisSurgeryStep.FailSelf);
-						string FailOther = ApplyChatModifiers(ThisSurgeryStep.FailOther);
-						ToolUtils.ServerUseToolWithActionMessages(interaction.Performer, interaction.HandObject,
-							ActionTarget.Object(interaction.TargetObject.RegisterTile()), ThisSurgeryStep.Time,
-							StartSelf, StartOther,
-							SuccessSelf, SuccessOther,
-							SuccessfulProcedure,
-							FailSelf, FailOther,
-							UnsuccessfulProcedure);
-						return;
-					}
-					else
-					{
-						Chat.AddActionMsgToChat(interaction, $" You poke {this.isOn.LivingHealthMasterBase.playerScript.visibleName}'s {RelatedBodyPart.name} with the {interaction.UsedObject.name} ",
-							$"{interaction.PerformerPlayerScript.visibleName} pokes {this.isOn.LivingHealthMasterBase.playerScript.visibleName}'s {RelatedBodyPart.name} with the {interaction.UsedObject.name} ");
-					}
-				}
-
-				if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Cautery))
-				{
-					Chat.AddActionMsgToChat(interaction, $" You use the {interaction.HandObject.ExpensiveName()} to close up {this.isOn.LivingHealthMasterBase.playerScript.visibleName}'s {RelatedBodyPart.name} ",
-						$"{interaction.PerformerPlayerScript.visibleName} uses a {interaction.UsedObject.ExpensiveName()} to close up  {this.isOn.LivingHealthMasterBase.playerScript.visibleName}'s {RelatedBodyPart.name} ");
-
-					CancelSurgery();
-					return;
-				}
+					Text = $"Use a {NextTraitToUse} to procced with the next step of the surgery.",
+					Color = Color.yellow
+				});
 			}
-
-			public void SuccessfulProcedure()
+			if (BodyPartIsopen)
 			{
-				if (RNG.Next(0, 100) < ThisSurgeryStep.FailChance)
+				interactions.Add(new TextColor
 				{
-					UnsuccessfulProcedure();
-					return;
-				}
-
-				CurrentStep++;
-
-				int NumberSteps = 0;
-				NumberSteps = SurgeryProcedureBase.SurgerySteps.Count;
-				if (CurrentStep >= NumberSteps)
-				{
-					isOn.ProcedureInProgress = false;
-
-					SurgeryProcedureBase.FinnishSurgeryProcedure(RelatedBodyPart, Stored, this);
-
-					RelatedBodyPart?.SuccessfulProcedure(Stored, this);
-					isOn.ProcedureInProgress = false;
-					//reset!
-				}
+					Text = $"Use a {CommonTraits.Instance.Cautery.Name} to close up.",
+					Color = Color.green
+				});
 			}
-
-			public void UnsuccessfulProcedure()
-			{
-				SurgeryProcedureBase.UnsuccessfulStep(RelatedBodyPart, Stored, this);
-
-				RelatedBodyPart?.UnsuccessfulStep(Stored, this);
-			}
-
-			public void CancelSurgery()
-			{
-				RelatedBodyPart = PreviousBodyPart;
-				isOn.currentlyOn = RelatedBodyPart?.gameObject;
-				CurrentStep = 0;
-				SurgeryProcedureBase = null;
-				isOn.ProcedureInProgress = false;
-			}
-
-			public void Clean()
-			{
-				PreviousBodyPart = RelatedBodyPart;
-				RelatedBodyPart = null;
-				CurrentStep = 0;
-				SurgeryProcedureBase = null;
-			}
-
-			public void SetupProcedure(Dissectible Dissectible, BodyPart bodyPart,
-				SurgeryProcedureBase inSurgeryProcedureBase)
-			{
-				Clean();
-				if (isOn != Dissectible)
-				{
-					PreviousBodyPart = null;
-				}
-
-				isOn = Dissectible;
-				isOn.ProcedureInProgress = true;
-				RelatedBodyPart = bodyPart;
-				SurgeryProcedureBase = inSurgeryProcedureBase;
-			}
-
-			/// <summary>
-			/// Replaces $ tags with their wanted names.
-			/// </summary>
-			/// <param name="toReplace">must have performer, Using and/or OnPart tags to replace.</param>
-			/// <returns></returns>
-			public string ApplyChatModifiers(string toReplace)
-			{
-				if (!string.IsNullOrWhiteSpace(toReplace))
-				{
-					toReplace = toReplace.Replace("{WhoOn}", Stored.TargetObject.ExpensiveName());
-				}
-
-				if (!string.IsNullOrWhiteSpace(toReplace))
-				{
-					toReplace = toReplace.Replace("{performer}", Stored.Performer.ExpensiveName());
-				}
-
-				if (!string.IsNullOrWhiteSpace(toReplace))
-				{
-					toReplace = toReplace.Replace("{Using}", Stored.UsedObject.ExpensiveName());
-				}
-
-				if (!string.IsNullOrWhiteSpace(toReplace))
-				{
-					toReplace = toReplace.Replace("{OnPart}", RelatedBodyPart.OrNull()?.gameObject.OrNull()?.ExpensiveName());
-				}
-
-				return toReplace;
-			}
+			return interactions;
 		}
 	}
 }

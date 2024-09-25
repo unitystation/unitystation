@@ -18,6 +18,12 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A suit designed for the station's plasmaman paramedics.
       objectReference: {fileID: 0}
+    - target: {fileID: 3075625591719413753, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: ae5af7beb3527844c8b17c45243e070e,
+        type: 2}
     - target: {fileID: 3189476086581078171, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
         type: 3}
       propertyPath: m_Name
@@ -117,12 +123,23 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8429034800751256822, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
         type: 3}
+      propertyPath: parentID
+      value: 18cfa395284a2ed4a85bb1f7999ac5bf
+      objectReference: {fileID: 0}
+    - target: {fileID: 8429034800751256822, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
+        type: 3}
       propertyPath: foreverID
       value: ac6382b01f942be4d8c4ae28b0ce45a0
       objectReference: {fileID: 0}
     - target: {fileID: 8720469357821825820, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ae5af7beb3527844c8b17c45243e070e,
+        type: 2}
+    - target: {fileID: 8720469357821825820, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: ae5af7beb3527844c8b17c45243e070e,
         type: 2}

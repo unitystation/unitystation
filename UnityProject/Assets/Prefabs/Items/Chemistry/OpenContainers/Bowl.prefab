@@ -105,11 +105,8 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &7093473227032896787
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -118,6 +115,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1192346784581441163, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: parentID
+      value: 364841a08150e9345b119e71191c8dcf
+      objectReference: {fileID: 0}
     - target: {fileID: 1192346784581441163, guid: 364841a08150e9345b119e71191c8dcf,
         type: 3}
       propertyPath: foreverID

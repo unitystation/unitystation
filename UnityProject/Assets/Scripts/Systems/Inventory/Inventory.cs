@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core;
 using Items;
 using Logs;
 using Messages.Client;
@@ -9,6 +10,7 @@ using UnityEngine;
 using Systems.Storage;
 using Objects;
 using Random = UnityEngine.Random;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 /// <summary>
 /// Main API for modifying inventory. If you need to do something with inventory, check here first.
@@ -745,6 +747,19 @@ public static class Inventory
 				else
 				{
 					ItemSlot = itemStorage.GetNamedItemSlot(namedSlotPopulatorEntry.NamedSlot);
+
+					if (ItemSlot == null)
+					{
+						for (int i = 0; i < namedSlotPopulatorEntry.AlternativeNamedSlots.Count; i++)
+						{
+							ItemSlot = itemStorage.GetNamedItemSlot(namedSlotPopulatorEntry.AlternativeNamedSlots[i]);
+							if (ItemSlot != null)
+							{
+								break;
+							}
+						}
+					}
+
 				}
 
 				if (ItemSlot.Item != null && namedSlotPopulatorEntry.IfOccupiedFindEmptySlot)
@@ -807,6 +822,18 @@ public static class Inventory
 				else
 				{
 					ItemSlot = itemStorage.GetNamedItemSlot(namedSlotPopulatorEntry.NamedSlot);
+
+					if (ItemSlot == null)
+					{
+						for (int i = 0; i < namedSlotPopulatorEntry.AlternativeNamedSlots.Count; i++)
+						{
+							ItemSlot = itemStorage.GetNamedItemSlot(namedSlotPopulatorEntry.AlternativeNamedSlots[i]);
+							if (ItemSlot != null)
+							{
+								break;
+							}
+						}
+					}
 				}
 
 				if (ItemSlot.Item != null && namedSlotPopulatorEntry.IfOccupiedFindEmptySlot)

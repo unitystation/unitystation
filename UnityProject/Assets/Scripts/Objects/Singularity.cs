@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core;
 using UnityEngine;
 using Mirror;
 using Light2D;
@@ -12,6 +13,7 @@ using Objects.Engineering;
 using Weapons.Projectiles.Behaviours;
 using Random = UnityEngine.Random;
 using Tiles;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 
 namespace Objects
@@ -502,7 +504,7 @@ namespace Objects
 					SavedPipes.AddRange(node.PipeData);
 					foreach (var pipe in SavedPipes)
 					{
-						pipe.pipeData.DestroyThis();
+						pipe.pipeData.Remove();
 						ChangePoints(5);
 					}
 				}

@@ -19,8 +19,9 @@ MonoBehaviour:
     Time: 1
     FailChance: 0
     StartSelf: you start to use {Using} to seal up {WhoOn}'s {OnPart}
-    StartOther: '{performer} uses {Using} starting to close up {WhoOn}''s {OnPart}'
+    StartOther: '{performer} tries to use {Using} to close up {WhoOn}''s {OnPart}'
     SuccessSelf: you use {Using} to seal up {WhoOn}'s {OnPart}
     SuccessOther: '{performer} uses {Using} to seal up {WhoOn}''s {OnPart}'
-    FailSelf: you miss place {Using} messing up {WhoOn}'s {OnPart}
-    FailOther: '{performer} miss places {Using} messing up {WhoOn}''s {OnPart}'
+    FailSelf: you misplace {Using} messing up {WhoOn}'s {OnPart}
+    FailOther: '{performer} misplaces {Using} messing up {WhoOn}''s {OnPart}'
+    BleedStacksToAdd: -25

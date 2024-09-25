@@ -5,8 +5,10 @@ using UnityEngine;
 using Mirror;
 using AddressableReferences;
 using Core;
+using Core.Utils;
 using Systems.Clothing;
 using UI.Systems.Tooltips.HoverTooltips;
+using UnityEngine.Serialization;
 using Util.Independent.FluentRichText;
 
 namespace Items
@@ -91,6 +93,16 @@ namespace Items
 		[EnumFlag]
 		public TraumaticDamageTypes TraumaticDamageType;
 
+		[SerializeField,
+		Range(0, 100),
+		Tooltip("How likely a player is to block an attack if they are holding this item in their active hand, 0% for never.")]
+		private float blockChance = 0;
+
+		/// <summary>
+		/// MultiInterestFloat listing all sources that are effecting block chance, tracked server side only.
+		/// </summary>
+		public MultiInterestFloat ServerBlockChance = new( InSetFloatBehaviour: MultiInterestFloat.FloatBehaviour.AddBehaviour);
+
 		[Header("Sprites/Sounds/Flags/Misc.")]
 
 		[Tooltip("How many tiles to move per 0.1s when being thrown")]
@@ -124,6 +136,18 @@ namespace Items
 		{
 			get => hitSound;
 			set => hitSound = value;
+		}
+
+		[Tooltip("Sound to be played when we block someone elses attack")]
+		[SerializeField]
+		private AddressableAudioSource blockSound = null;
+		/// <summary>
+		/// Sound to be played when we block someone elses attack, tracked server side only
+		/// </summary>
+		public AddressableAudioSource ServerBlockSound
+		{
+			get => blockSound;
+			set => blockSound = value;
 		}
 
 		[Tooltip("Sound to be played when object gets added to storage.")]
@@ -180,9 +204,11 @@ namespace Items
 
 		public ItemsSprites ItemSprites => itemSprites;
 
+		private ItemsSprites itemSprites = new ItemsSprites();
+
 		[Tooltip("The In hands Sprites If it has any")]
-		[SerializeField]
-		private ItemsSprites itemSprites;
+		[SerializeField, FormerlySerializedAs("itemSprites")]
+		private ItemsSprites InitialitemSprites;
 
 		[HideInInspector]
 		public bool IsFakeItem = false;
@@ -193,11 +219,13 @@ namespace Items
 		{
 			EnsureInit();
 			ComponentsTracker<ItemAttributesV2>.Instances.Add(this);
+			ServerBlockChance.RecordPosition(this, blockChance);
 		}
 
 		private void OnDestroy()
 		{
 			ComponentsTracker<ItemAttributesV2>.Instances.Remove(this);
+			ServerBlockChance.RemovePosition(this);
 		}
 
 		private void EnsureInit()
@@ -207,6 +235,13 @@ namespace Items
 			{
 				traits.Add(definedTrait);
 			}
+
+			itemSprites.Palette.Clear();
+			itemSprites.Palette.AddRange(InitialitemSprites.Palette);
+			itemSprites.SpriteInventoryIcon = InitialitemSprites.SpriteInventoryIcon;
+			itemSprites.SpriteLeftHand = InitialitemSprites.SpriteLeftHand;
+			itemSprites.SpriteRightHand = InitialitemSprites.SpriteRightHand;
+			itemSprites.IsPaletted = InitialitemSprites.IsPaletted;
 
 			hasInit = true;
 		}
@@ -330,10 +365,10 @@ namespace Items
 					returnS =  "would do some damage";
 					break;
 				case < 7:
-					returnS =  "an okay damage";
+					returnS =  "okay damage";
 					break;
 				case < 11:
-					returnS =  "a decent damage";
+					returnS =  "decent damage";
 					break;
 				case < 13:
 					returnS =  "robust damage.";

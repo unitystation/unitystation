@@ -24,6 +24,12 @@ PrefabInstance:
       value: The standard issue hardsuit of the ERT, this one has red highlights.
         Offers superb protection against environmental hazards.
       objectReference: {fileID: 0}
+    - target: {fileID: 2905032154871127383, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: eea5f2a5cd53fc54993d681279d1b3c9,
+        type: 2}
     - target: {fileID: 3192155426716549481, guid: 05f59888eb108484aabd67b53074c7a6,
         type: 3}
       propertyPath: m_Sprite
@@ -102,6 +108,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8504937989527846488, guid: 05f59888eb108484aabd67b53074c7a6,
         type: 3}
+      propertyPath: parentID
+      value: 05f59888eb108484aabd67b53074c7a6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8504937989527846488, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
       propertyPath: foreverID
       value: 7c5a066aa69ef344c932a07f3600dc92
       objectReference: {fileID: 0}
@@ -124,6 +135,12 @@ PrefabInstance:
     - target: {fileID: 8933798993108994482, guid: 05f59888eb108484aabd67b53074c7a6,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: eea5f2a5cd53fc54993d681279d1b3c9,
+        type: 2}
+    - target: {fileID: 8933798993108994482, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: eea5f2a5cd53fc54993d681279d1b3c9,
         type: 2}

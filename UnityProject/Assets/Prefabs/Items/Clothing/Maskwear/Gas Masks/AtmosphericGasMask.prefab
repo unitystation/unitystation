@@ -81,12 +81,23 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3585452806818900716, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
+      propertyPath: parentID
+      value: 05a135eab68164d34bb02b82fff3cde0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3585452806818900716, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
       propertyPath: foreverID
       value: 81bdcd475341be44480bf0511b7ef1c6
       objectReference: {fileID: 0}
     - target: {fileID: 4341101185987976454, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 91120b08b30142d43ba589f51a6de8e5,
+        type: 2}
+    - target: {fileID: 4341101185987976454, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 91120b08b30142d43ba589f51a6de8e5,
         type: 2}
@@ -219,6 +230,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ef36d3a320954674f8c832dcee1ea1a3,
+        type: 2}
+    - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
       propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 9e7b7749adb1fec4593ed70decb21862,
@@ -228,6 +245,18 @@ PrefabInstance:
       propertyPath: 'initialTraits.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 3858899698cc1425f86b8b93032ca57d,
+        type: 2}
+    - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: bacae64fff45eed4e9864cb4702c8ee6,
+        type: 2}
+    - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 91120b08b30142d43ba589f51a6de8e5,
         type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

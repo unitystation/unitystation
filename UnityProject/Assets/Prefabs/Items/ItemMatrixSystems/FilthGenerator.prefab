@@ -16,12 +16,23 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2750215698149839610, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
         type: 3}
+      propertyPath: parentID
+      value: 6d04235bcbbde8349a6a46d46d8f8ae8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2750215698149839610, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
       propertyPath: foreverID
       value: b42028d7d036f7343a6a7d3b157d8386
       objectReference: {fileID: 0}
     - target: {fileID: 3465797894728902041, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 213b7828c9a99f949860cfdb8c45a973,
+        type: 2}
+    - target: {fileID: 3465797894728902041, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 213b7828c9a99f949860cfdb8c45a973,
         type: 2}
@@ -108,10 +119,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 7749086646755474108}
-    - targetCorrespondingSourceObject: {fileID: 9119793089647943319, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3335194129286269653}
   m_SourcePrefab: {fileID: 100100000, guid: 6d04235bcbbde8349a6a46d46d8f8ae8, type: 3}
 --- !u!1 &4268411239725591100 stripped
 GameObject:
@@ -131,6 +138,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae35ff434d7fbac48b8177d4ca61becc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
   priority: 99
   generateFilthReagent: 1
   filthDensityPercentage: 2
@@ -150,18 +160,3 @@ MonoBehaviour:
   - {fileID: 5018465924633598080, guid: 3c33de6530042374eaf54a98d52d5745, type: 3}
   - {fileID: 5018465924633598080, guid: 3c33de6530042374eaf54a98d52d5745, type: 3}
   - {fileID: 5018465924633598080, guid: 3c33de6530042374eaf54a98d52d5745, type: 3}
---- !u!114 &3335194129286269653
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4268411239725591100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05b7295e6a7b3f34b883bf5def034f35, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Pickupable: {fileID: 0}
-  SavedLocalPosition: {x: 0, y: 0, z: 0}
-  InIted: 0

@@ -44,7 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ReactionSounds: 1
   maxCapacity: 80
+  DEBUGReagent: {fileID: 0}
+  DEBUGAmount: 0
   reactionSet: {fileID: 11400000, guid: 9635f48a9fe17f742aee13832a4ed6c2, type: 2}
   AdditionalReactions: []
   initialReagentMix:
@@ -156,6 +159,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 64dcf963a85219640a1f5875fa7c43b7,
         type: 2}
+    - target: {fileID: 1817806423449182988, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: parentID
+      value: 35ef0ee8523cfc342bc863c12a3ac07c
+      objectReference: {fileID: 0}
     - target: {fileID: 1817806423449182988, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: foreverID
@@ -290,6 +298,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 7577eabe60e5ac546901dbb7c30538fc,
         type: 2}
+    - target: {fileID: 6638208500181761376, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: Throughput
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: BodyPartType
@@ -409,6 +422,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   StomachContents: {fileID: 7073899732039749527}
   DigesterAmountPerSecond: 1
   BodyFats: []
@@ -432,6 +446,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   stomach: {fileID: 1458293514004664868}
   dryHeavingEmote: {fileID: 11400000, guid: a6e6bd57706a7ac48a90238687d25868, type: 2}
   vomitReagentPrefab: {fileID: 1069497300762596, guid: dde8d9bf0726b3140971ecd9d5ddcb87,

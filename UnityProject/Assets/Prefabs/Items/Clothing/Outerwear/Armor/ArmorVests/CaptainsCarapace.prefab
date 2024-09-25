@@ -26,12 +26,23 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2658986937302887032, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
+      propertyPath: parentID
+      value: 900572ab8ed9030429b12eaa3974a43f
+      objectReference: {fileID: 0}
+    - target: {fileID: 2658986937302887032, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
       propertyPath: foreverID
       value: 72025a70a455d9e4fbbdfefff40695df
       objectReference: {fileID: 0}
     - target: {fileID: 2961741670957096338, guid: 900572ab8ed9030429b12eaa3974a43f,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 4483cc031f2a7394c9b6a0f90869cd13,
+        type: 2}
+    - target: {fileID: 2961741670957096338, guid: 900572ab8ed9030429b12eaa3974a43f,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 4483cc031f2a7394c9b6a0f90869cd13,
         type: 2}

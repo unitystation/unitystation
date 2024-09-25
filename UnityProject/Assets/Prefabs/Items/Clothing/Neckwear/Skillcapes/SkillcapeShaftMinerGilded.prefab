@@ -89,12 +89,29 @@ PrefabInstance:
       propertyPath: initialName
       value: shaft miner's gilded skillcape
       objectReference: {fileID: 0}
+    - target: {fileID: 2697247435162051048, guid: 8ece0ba6907c1ec46b0817bcc78c597d,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 7dc53943305c88e4d98f427e92ccdbf5,
+        type: 2}
     - target: {fileID: 8558257403484026125, guid: 8ece0ba6907c1ec46b0817bcc78c597d,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 7dc53943305c88e4d98f427e92ccdbf5,
         type: 2}
+    - target: {fileID: 8558257403484026125, guid: 8ece0ba6907c1ec46b0817bcc78c597d,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 7dc53943305c88e4d98f427e92ccdbf5,
+        type: 2}
+    - target: {fileID: 8879320624909812455, guid: 8ece0ba6907c1ec46b0817bcc78c597d,
+        type: 3}
+      propertyPath: parentID
+      value: 8ece0ba6907c1ec46b0817bcc78c597d
+      objectReference: {fileID: 0}
     - target: {fileID: 8879320624909812455, guid: 8ece0ba6907c1ec46b0817bcc78c597d,
         type: 3}
       propertyPath: foreverID

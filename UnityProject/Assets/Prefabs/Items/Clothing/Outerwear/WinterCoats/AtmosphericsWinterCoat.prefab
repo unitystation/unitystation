@@ -95,12 +95,41 @@ PrefabInstance:
       value: A yellow and blue winter coat. The zipper pull-tab is made to look like
         a miniature breath mask.
       objectReference: {fileID: 0}
+    - target: {fileID: 382790239474542668, guid: c432d0b09f765e440a39dea62e9a423e,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 80164329931f2244b899651ca1c04390,
+        type: 2}
+    - target: {fileID: 382790239474542668, guid: c432d0b09f765e440a39dea62e9a423e,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: c755b78dc5a7cf14d85e15ad1ce58a73,
+        type: 2}
+    - target: {fileID: 382790239474542668, guid: c432d0b09f765e440a39dea62e9a423e,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: dbeb2967eec103a4cadae7692694c9bc,
+        type: 2}
     - target: {fileID: 6261257142002695337, guid: c432d0b09f765e440a39dea62e9a423e,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: dbeb2967eec103a4cadae7692694c9bc,
         type: 2}
+    - target: {fileID: 6261257142002695337, guid: c432d0b09f765e440a39dea62e9a423e,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: dbeb2967eec103a4cadae7692694c9bc,
+        type: 2}
+    - target: {fileID: 6564228324828875587, guid: c432d0b09f765e440a39dea62e9a423e,
+        type: 3}
+      propertyPath: parentID
+      value: c432d0b09f765e440a39dea62e9a423e
+      objectReference: {fileID: 0}
     - target: {fileID: 6564228324828875587, guid: c432d0b09f765e440a39dea62e9a423e,
         type: 3}
       propertyPath: foreverID

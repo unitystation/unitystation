@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Core;
 using Logs;
 using UnityEngine;
 using Mirror;
@@ -11,6 +12,7 @@ using Newtonsoft.Json;
 using Player;
 using Systems;
 using Systems.Character;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 /// <summary>
 /// This interface will be called after the client has rejoined and has all scenes loaded!

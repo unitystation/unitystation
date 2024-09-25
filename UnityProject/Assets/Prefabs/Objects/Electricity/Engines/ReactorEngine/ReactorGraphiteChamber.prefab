@@ -107,6 +107,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 951381747229521920, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
+      propertyPath: parentID
+      value: ebb08cf966efc084aa918bd8d9429604
+      objectReference: {fileID: 0}
+    - target: {fileID: 951381747229521920, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
       propertyPath: foreverID
       value: 28076fd63342e8b48879932cf48f8961
       objectReference: {fileID: 0}
@@ -271,6 +276,18 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 9056394620644044228}
   m_SourcePrefab: {fileID: 100100000, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
+--- !u!114 &913600146378425684 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4800765294880679425, guid: ebb08cf966efc084aa918bd8d9429604,
+    type: 3}
+  m_PrefabInstance: {fileID: 5634703418540122965}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8390320911816615196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &8387353560818754502 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
@@ -309,6 +326,7 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
+  ignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 0}
 --- !u!114 &3033393858997830747
 MonoBehaviour:
@@ -323,7 +341,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ReactionSounds: 1
-  maxCapacity: 100
+  maxCapacity: 240
   DEBUGReagent: {fileID: 0}
   DEBUGAmount: 0
   reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
@@ -394,6 +412,7 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
+  ignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 0}
 --- !u!114 &5478961262237790931
 MonoBehaviour:
@@ -407,6 +426,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8e0d5635150f1249ad97e8674c561c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
   spritehandler: {fileID: 0}
   SpawnOnDeconstruct: {fileID: 0}
   registerTile: {fileID: 0}
@@ -436,6 +458,8 @@ MonoBehaviour:
         flagLogic: 0
     CustomLogic: 0
     NetCompatible: 0
+    SelfSufficient: 0
+    MappingNotRequiresLink: 0
     mixAndVolume:
       mix:
         temperature: 273.15
@@ -453,8 +477,7 @@ MonoBehaviour:
   Colour: {r: 1, g: 1, b: 1, a: 1}
   spawnedFromItem: 1
   directional: {fileID: 0}
-  Water: {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
-  ConnectedCores: []
+  reservoirVolume: 240
 --- !u!114 &9056394620644044228
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -479,10 +502,9 @@ MonoBehaviour:
   RodStorage: {fileID: 5255741207357749315}
   PipeStorage: {fileID: -6392628326379791579}
   PipeItemTrait: {fileID: 11400000, guid: 066fee8b180af6c47a2bf6cb99f725a5, type: 2}
-  LikelihoodOfSpontaneousNeutron: 0.1
-  radiationProducer: {fileID: 0}
-  registerObject: {fileID: 0}
-  ReactorPipe: {fileID: 0}
+  radiationProducer: {fileID: 4059444369323570419}
+  registerObject: {fileID: 913600146378425684}
+  ReactorPipe: {fileID: 5478961262237790931}
   ReactorRods:
   - {fileID: 0}
   - {fileID: 0}
@@ -504,7 +526,7 @@ MonoBehaviour:
   ReactorEngineStarters: []
   HasEnrichedRod: 0
   ControlRodDepthPercentage: 1
-  RodMeltingTemperatureK: 1100
+  RodMeltingTemperatureK: 2200
   MeltedDown: 0
   PoppedPipes: 0
   Corium: {fileID: 2574638943807976213, guid: e641b27549abd354084e3b8403810249, type: 3}

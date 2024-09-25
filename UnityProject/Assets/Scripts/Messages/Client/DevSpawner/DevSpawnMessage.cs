@@ -1,8 +1,10 @@
 ﻿using System;
+using Core.Admin.Logs;
 using Logs;
 using UnityEngine;
 using Mirror;
 using Objects.Atmospherics;
+using Object = UnityEngine.Object;
 
 
 namespace Messages.Client.DevSpawner
@@ -27,6 +29,8 @@ namespace Messages.Client.DevSpawner
 			public OrientationEnum OrientationEnum;
 
 			public bool HasOrientationEnum;
+
+			public bool Mapped;
 
 			public override string ToString()
 			{
@@ -56,6 +60,16 @@ namespace Messages.Client.DevSpawner
 				var Matrix = MatrixManager.Get(msg.MatrixID);
 				var worldPosition = msg.LocalPosition.ToWorld(Matrix);
 				var game = Spawn.ServerPrefab(prefab, worldPosition).GameObject;
+
+				if (msg.Mapped)
+				{
+					var NonMapped = game.gameObject.GetComponent<RuntimeSpawned>();
+					if (NonMapped != null)
+					{
+						Object.Destroy(NonMapped);
+					}
+				}
+
 				if (game.TryGetComponent<Stackable>(out var Stackable) && msg.SpawnStackAmount != -1)
 				{
 					Stackable.ServerSetAmount(msg.SpawnStackAmount);
@@ -65,9 +79,7 @@ namespace Messages.Client.DevSpawner
 				{
 					Rotatable.FaceDirection(msg.OrientationEnum);
 				}
-
-				UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
-					$"{SentByPlayer.Username} spawned a {prefab.name} at {worldPosition}", SentByPlayer.AccountId);
+				AdminLogsManager.AddNewLog(SentByPlayer.GameObject, $"{SentByPlayer.Username} spawned a {prefab.name} at {worldPosition}", LogCategory.Admin);
 			}
 			else
 			{
@@ -85,7 +97,7 @@ namespace Messages.Client.DevSpawner
 		/// <param name="adminId">user id of the admin trying to perform this action</param>
 		/// <param name="adminToken">token of the admin trying to perform this action</param>
 		/// <returns></returns>
-		public static void Send(GameObject prefab, Vector3 worldPosition, int InSpawnStackAmount,OrientationEnum? OrientationEnum )
+		public static void Send(GameObject prefab, Vector3 worldPosition, int InSpawnStackAmount,OrientationEnum? OrientationEnum, bool Mapped)
 		{
 			if (prefab.TryGetComponent<NetworkIdentity>(out var networkIdentity))
 			{
@@ -95,7 +107,8 @@ namespace Messages.Client.DevSpawner
 					LocalPosition = worldPosition.ToLocal(),
 					MatrixID = worldPosition.GetMatrixAtWorld().Id,
 					SpawnStackAmount = InSpawnStackAmount,
-					HasOrientationEnum = OrientationEnum != null
+					HasOrientationEnum = OrientationEnum != null,
+					Mapped = Mapped
 				};
 
 				if (msg.HasOrientationEnum)

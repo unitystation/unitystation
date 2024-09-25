@@ -6,10 +6,10 @@ using Tiles;
 using System.Threading.Tasks;
 using InGameGizmos;
 using MaintRooms;
-using Mirror;
 using Objects;
 using Shared.Systems.ObjectConnection;
 using TileMap.Behaviours;
+using NaughtyAttributes;
 
 namespace Systems.Scenes
 {
@@ -38,8 +38,8 @@ namespace Systems.Scenes
 			{Direction.West, new Vector2Int(-1, 0)}
 		};
 
-		private const int MAX_DIMENSIONS = 50;
-		private const int MAX_PERCENT = 100; //Damn codacy and it's obsession with constants.
+		private const int MAX_DIMENSIONS = 256;
+		private const int MAX_PERCENT = 100; 
 		private const int WALL_GAP = 2;
 		private readonly Vector3 GIZMO_OFFSET = new Vector3(-0.5f, -0.5f, 0);
 
@@ -63,16 +63,13 @@ namespace Systems.Scenes
 		[SerializeField, Tooltip("Possible crates or lockers that items can spawn in")]
 		private List<GameObject> containers = new List<GameObject>();
 
-		[SerializeField, Tooltip("Possible crates or lockers that items can spawn in")]
-		private List<ExclusionZone> exclusionZones = new List<ExclusionZone>();
-
-		[SerializeField, Tooltip("Possible crates or lockers that items can spawn in")]
+		[SerializeField, Tooltip("The areas inside the bounds of this maze that the maze should not generate atop of.")]
 		private List<ExclusionZoneMono> exclusionZonesMono = new List<ExclusionZoneMono>();
 
-		private int[,] mazeArray;
-		private HashSet<Vector2Int> bordercells;
+		private short[] mazeArray;
+		private List<Vector2Int> possibleCells;
 
-		public GameGizmoSquare GameGizmoSquare;
+		public GameGizmoSquare GameGizmoSquare { get; private set; }
 
 		public void AddExclusionZoneMono(ExclusionZoneMono ExclusionZoneMono)
 		{
@@ -84,22 +81,22 @@ namespace Systems.Scenes
 			exclusionZonesMono.Remove(ExclusionZoneMono);
 		}
 
+		[Button("Add Generator Reference to Zone List Entries")]
+		public void AddGeneratorToZones()
+		{
+			List<ExclusionZoneMono> lst = new List<ExclusionZoneMono>(exclusionZonesMono);
+			foreach(ExclusionZoneMono zone in lst)
+			{
+				zone.SetMasterEditor(this);
+			}
+		}
+
 		public void Start()
 		{
 			if (CustomNetworkManager.IsServer == false) return;
 
-
-
-			mazeArray = new int[width, height];
-			bordercells = new HashSet<Vector2Int>();
-
-			for (int i = 0; i < width; i++)
-			{
-				for (int j = 0; j < height; j++)
-				{
-					mazeArray[i, j] = 1; //Sets the maze to be solid walls initially
-				}
-			}
+			mazeArray = new short[width * height];
+			possibleCells = new List<Vector2Int>();
 
 			CarveRooms();
 			Task.Run(GenerateNewMaze);
@@ -111,95 +108,78 @@ namespace Systems.Scenes
 			var size = new Vector2Int(width, height).To3();
 
 			Gizmos.DrawWireCube(transform.position + offset.To3() + size / WALL_GAP + GIZMO_OFFSET, size);
-
-			Gizmos.color = Color.cyan;
-			foreach (ExclusionZone zone in exclusionZones)
-			{
-				Gizmos.DrawWireCube(
-					transform.position + offset.To3() + zone.Offset.To3() + zone.Size.To3() / WALL_GAP + GIZMO_OFFSET,
-					zone.Size.To3());
-			}
 		}
 
 		#region Tiles
 
 		private async Task GenerateNewMaze()
 		{
-			await CarvePath(1, 1);
+			await CarvePath(new Vector2Int(0,0));
 
 			MaintGeneratorManager.MaintGenerators.Add(this);
 		}
 
-		private Task CarvePath(int x, int y)
+		//Growing Tree algorithm for maze generation using a 'newest' choosing method for next cell.
+		//Eller's algorithm does scale better for larger mazes,
+		private Task CarvePath(Vector2Int startingCellLocation)
 		{
-			var directions = new List<Direction>
+			possibleCells.Add(startingCellLocation);
+
+			Vector2Int currentCell;
+			Vector2Int newCell;
+			bool foundPath;
+
+			do
 			{
-				Direction.North,
-				Direction.South,
-				Direction.East,
-				Direction.West
-			}.OrderBy(z => Guid.NewGuid());
+				foundPath = false;
+				currentCell = possibleCells[possibleCells.Count - 1];
 
-			mazeArray[x, y] = 0; //Sets current cell to air
-
-			foreach (Direction direction in directions) //Carves walls
-			{
-				Vector2Int newCell = new Vector2Int(x, y) + (DirectionVector[direction] * WALL_GAP);
-
-				if (IsOutOfBounds(newCell.x, newCell.y)) continue;
-
-				if (mazeArray[newCell.x, newCell.y] ==
-				    0) //If cell is already empty (has already been visited) remove the wall that speerates current cell to previous
+				var directions = new List<Direction>
 				{
-					mazeArray[x + DirectionVector[direction].x, y + DirectionVector[direction].y] = 0;
-					break; //If a wall is removed, move onto next cell.
-				}
-			}
+					Direction.North,
+					Direction.South,
+					Direction.East,
+					Direction.West
+				}.OrderBy(z => Guid.NewGuid());
 
-			foreach (Direction direction in directions) //Gets new bordercells
-			{
-				Vector2Int newCell = new Vector2Int(x, y) + (DirectionVector[direction] * WALL_GAP);
+				mazeArray[currentCell.x + currentCell.y*width] = (short)MazeState.EmptyCell; 
 
-				if (IsOutOfBounds(newCell.x, newCell.y)) continue;
-
-				if (mazeArray[newCell.x, newCell.y] == 1 &&
-				    bordercells.Contains(new Vector2Int(newCell.x, newCell.y)) ==
-				    false) //If cell is a wall and not current in border cells, add it to the border cells
+				foreach (Direction direction in directions) 
 				{
-					bordercells.Add(new Vector2Int(newCell.x, newCell.y));
+					newCell = new Vector2Int(currentCell.x, currentCell.y) + (DirectionVector[direction] * WALL_GAP);
+
+					if (IsOutOfBounds(newCell.x, newCell.y)) continue;
+
+					if (mazeArray[newCell.x + newCell.y*width] == (short)MazeState.FullCell) 
+					{
+						possibleCells.Add(new Vector2Int(newCell.x, newCell.y));
+
+						mazeArray[newCell.x + newCell.y*width] = (short)MazeState.EmptyCell;
+						mazeArray[currentCell.x + DirectionVector[direction].x + (currentCell.y + DirectionVector[direction].y)*width] = (short)MazeState.EmptyCell;
+
+						foundPath = true;
+					}
 				}
-			}
 
-			bordercells.Remove(new Vector2Int(x, y));
+				if (foundPath == false) possibleCells.Remove(currentCell);
 
-			if (bordercells.Count == 0)
-			{
-				return Task.CompletedTask;
-			}
-			else
-			{
-				Vector2Int nextCell = bordercells.PickRandom();
-				return CarvePath(nextCell.x, nextCell.y);
-			}
+			} while (possibleCells.Count != 0);
+
+			return Task.CompletedTask;
 		}
 
 		private void CarveRooms()
 		{
 			foreach (ExclusionZoneMono zone in exclusionZonesMono)
 			{
-				for (int x = 0; x < zone.Size.x; x++)
+				for (int y = 0; y < zone.Size.y; y++)
 				{
-					for (int y = 0; y < zone.Size.y; y++)
-					{
-						var pos =
-							(zone.transform.localPosition - this.gameObject.transform.localPosition).RoundTo2Int() +
-							zone.Offset + new Vector2Int(x, y);
+					var pos = (zone.transform.localPosition - this.gameObject.transform.localPosition).RoundTo2Int();
+					int startIndex = pos.x + ((pos.y + y) * width);
 
-						mazeArray[pos.x, pos.y] = WALL_GAP; //Not a wall but no objects can be spawn here either.
-					}
-				}
+					Array.Fill(mazeArray, (short)MazeState.ExcludedCell, startIndex, zone.Size.x);
+				}		
 			}
-
 		}
 
 		private bool IsOutOfBounds(int x, int y)
@@ -215,14 +195,13 @@ namespace Systems.Scenes
 
 		public void CreateTiles()
 		{
-			//Places tiles at mazeArray elements with value 1
 			for (int x = 0; x < width; x++)
 			{
 				for (int y = 0; y < height; y++)
 				{
 					Vector3Int pos = new Vector3Int(x, y, 0) + transform.localPosition.CutToInt() + offset.To3Int();
 
-					if (mazeArray[x, y] == 1)
+					if (mazeArray[x + y*width] == (short)MazeState.FullCell)
 					{
 						matrix.MatrixInfo.MetaTileMap.SetTile(pos, wallTile);
 					}
@@ -276,7 +255,7 @@ namespace Systems.Scenes
 			{
 				for (int j = 0; j < height; j++)
 				{
-					if (mazeArray[i, j] != 0) continue;
+					if (mazeArray[i + j*width] != (short)MazeState.EmptyCell) continue;
 
 					int h = UnityEngine.Random.Range(0, MAX_PERCENT);
 					if (h > objectChance) continue;
@@ -322,15 +301,19 @@ namespace Systems.Scenes
 		{
 			Vector2Int newCellA = new Vector2Int(x, y) + DirectionVector[Direction.East];
 			Vector2Int newCellB = new Vector2Int(x, y) + DirectionVector[Direction.West];
-			if (IsOutOfBounds(newCellB.x, newCellB.y) == false && IsOutOfBounds(newCellA.x, newCellA.y) == false
-			                                                   && (mazeArray[newCellA.x, newCellA.y] == 1 &&
-			                                                       mazeArray[newCellB.x, newCellB.y] == 1)) return true;
+
+			if (IsOutOfBounds(newCellB.x, newCellB.y) == false
+				&& IsOutOfBounds(newCellA.x, newCellA.y) == false
+				&& mazeArray[newCellA.x + newCellA.y*width] == (short)MazeState.FullCell
+				&& mazeArray[newCellB.x + newCellB.y*width] == (short)MazeState.FullCell) return true;
 
 			newCellA = new Vector2Int(x, y) + DirectionVector[Direction.North];
 			newCellB = new Vector2Int(x, y) + DirectionVector[Direction.South];
-			if (IsOutOfBounds(newCellB.x, newCellB.y) == false && IsOutOfBounds(newCellA.x, newCellA.y) == false
-			                                                   && (mazeArray[newCellA.x, newCellA.y] == 1 &&
-			                                                       mazeArray[newCellB.x, newCellB.y] == 1)) return true;
+
+			if (IsOutOfBounds(newCellB.x, newCellB.y) == false
+				&& IsOutOfBounds(newCellA.x, newCellA.y) == false
+			    && mazeArray[newCellA.x + newCellA.y*width] == (short)MazeState.FullCell
+                && mazeArray[newCellB.x + newCellB.y*width] == (short)MazeState.FullCell) return true;
 
 			return false;
 		}
@@ -344,13 +327,20 @@ namespace Systems.Scenes
 
 				if (IsOutOfBounds(newCell.x, newCell.y)) continue;
 
-				if (mazeArray[newCell.x, newCell.y] == 1) count++;
+				if (mazeArray[newCell.x + newCell.y*width] == (short)MazeState.FullCell) count++;
 			}
 
 			return count;
 		}
 
 		#endregion
+	}
+
+	public enum MazeState
+	{
+		FullCell = 0,
+		EmptyCell = 1,
+		ExcludedCell = 2,
 	}
 
 	[Serializable]

@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 618263624060537330, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
       propertyPath: relatedRecipes.Array.size
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 618263624060537330, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
@@ -147,6 +147,11 @@ PrefabInstance:
         type: 3}
       propertyPath: MaxWatts
       value: 20000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6315500071468813385, guid: a910878bd30ff5d439b94cd12e623762,
+        type: 3}
+      propertyPath: parentID
+      value: a910878bd30ff5d439b94cd12e623762
       objectReference: {fileID: 0}
     - target: {fileID: 6315500071468813385, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}

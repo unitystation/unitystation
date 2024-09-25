@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Logs;
 using Mirror;
+using NUnit.Framework;
 using UI.Systems.AdminTools.DevTools.Search;
 using UnityEngine;
 
@@ -57,7 +58,7 @@ public class SpawnerSearch
 			DeBugs.Add((DevSpawnerDocument) newEntry );
 		}
 
-		return new SpawnerSearch(documents.OrderBy(doc => doc.SearchableName[0]).ToArray(), DeBugs.OrderBy(doc => doc.SearchableName[0]).ToArray());
+		return new SpawnerSearch(documents.OrderBy(doc => doc.Name).ToArray(), DeBugs.OrderBy(doc => doc.Name).ToArray());
 	}
 
 	/// <summary>
@@ -74,8 +75,45 @@ public class SpawnerSearch
 		// Linq expression that handles grabbing multiple names from a prefab.
 		// it grabs all prefabs in documents then loops through all prefabs and grabs all searchable names.
 		// if the searchable name contains a substring that the user is searching it will return it.
-		var docs = (from doc in ToUse from prefabNames in doc.SearchableName
-			where prefabNames.Contains(standardizedSearch) select doc).ToList();
+
+		List<DevSpawnerDocument> docs = new List<DevSpawnerDocument>();
+
+
+		bool LongEnoughForPrefabIDs = standardizedSearch.Length > 8;
+		var UPPER = ToUse.Length;
+		for (int i = 0; i < UPPER; i++)
+		{
+			var Entry = ToUse[i];
+			var SearchableNameNumber = Entry.SearchableName.Length;
+			for (int j = 0; j < SearchableNameNumber; j++)
+			{
+				var Entryj = Entry.SearchableName[j];
+				if (Entryj.Contains(standardizedSearch))
+				{
+					if (Entry.ForeverID == standardizedSearch)
+					{
+						docs.Insert(0, Entry);
+					}
+					else
+					{
+						docs.Add(Entry);
+					}
+				}
+			}
+			if (LongEnoughForPrefabIDs)
+			{
+				if (Entry.RelatedPrefabsIDs.Contains(standardizedSearch))
+				{
+					if (Entry.ForeverID == standardizedSearch)
+					{
+						docs.Insert(0, Entry);
+					}
+					else
+					{ docs.Add(Entry);
+					}
+				}
+			}
+		}
 
 		return docs;
 	}

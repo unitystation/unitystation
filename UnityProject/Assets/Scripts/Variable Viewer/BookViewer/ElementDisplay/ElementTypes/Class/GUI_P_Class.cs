@@ -45,7 +45,7 @@ namespace AdminTools.VariableViewer
 			if (Page != null)
 			{
 				PageID = Page.ID;
-				SentenceID = 0;
+				SentenceID = UInt32.MaxValue;
 				IsSentence = false;
 				iskey = false;
 			}

@@ -50,6 +50,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -107,9 +109,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 0
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &4303483376002105739
 GameObject:
   m_ObjectHideFlags: 0
@@ -160,6 +159,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -222,9 +223,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 0
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &7139750000503073243
 GameObject:
   m_ObjectHideFlags: 0
@@ -275,6 +273,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -331,9 +331,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 0
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &7290149908648227996
 GameObject:
   m_ObjectHideFlags: 0
@@ -384,6 +381,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -440,9 +439,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 0
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &8387653848795343260
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,6 +489,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -554,9 +552,6 @@ MonoBehaviour:
   pushTextureOnStartUp: 0
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &71571786451086626
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -565,6 +560,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1852917357894011755, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      propertyPath: parentID
+      value: 5d7892c86699e21499ad5f872fd4d512
+      objectReference: {fileID: 0}
     - target: {fileID: 1852917357894011755, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
       propertyPath: foreverID
@@ -835,6 +835,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  GasSO: {fileID: 0}
   StoredGasMix:
     GasData:
       GasesArray: []
@@ -844,6 +845,7 @@ MonoBehaviour:
   MaximumMoles: 5538.72
   ReleasePressure: 101.325
   CargoSealApproved: 1
+  explodeOnTooMuchDamage: 1
 --- !u!114 &3744673748159336733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -872,6 +874,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gasContainer: {fileID: 3242550791702936155}
   molesAdded: 15000
+  temperatureKelvin: 293.15
+  maxPressure: 15000
 --- !u!114 &7067097863662868376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -890,6 +894,7 @@ MonoBehaviour:
   ContentsName: Gas
   UIBGTint: {r: 0.9686275, g: 0.8745099, b: 0.13333334, a: 1}
   UIInnerPanelTint: {r: 1, g: 0.95294124, b: 0.5176471, a: 1}
+  AcceptTanks: 1
   canisterTier: 0
   valveIsInitiallyOpen: 0
   baseSpriteHandler: {fileID: 7811982109262590682}
@@ -932,6 +937,3 @@ MonoBehaviour:
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []

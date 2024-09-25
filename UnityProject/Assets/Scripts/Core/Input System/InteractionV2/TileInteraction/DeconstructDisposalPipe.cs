@@ -99,19 +99,7 @@ namespace Objects.Disposals
 
 			// Spawn pipe GameObject
 			if (interaction.BasicTile.SpawnOnDeconstruct == null) return;
-
-			var spawn = Spawn.ServerPrefab(interaction.BasicTile.SpawnOnDeconstruct, interaction.WorldPositionTarget);
-			if (spawn.Successful == false) return;
-
-			if (spawn.GameObject.TryGetComponent<Rotatable>(out var Rotatable))
-			{
-				Rotatable.FaceDirection(pipeTile.DisposalPipeObjectOrientation);
-			}
-
-			if (spawn.GameObject.TryGetComponent<UniversalObjectPhysics>(out var behaviour))
-			{
-				behaviour.SetIsNotPushable(true);
-			}
+			
 		}
 
 		#endregion Deconstruction

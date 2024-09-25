@@ -50,6 +50,12 @@ PrefabInstance:
       value: A special beret with the Warden's insignia emblazoned on it. For wardens
         with class.
       objectReference: {fileID: 0}
+    - target: {fileID: 3243759188309319615, guid: a4d736b34e26278479563c6bf5f121ce,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 600a08320c0a0924fbde2250477f82d2,
+        type: 2}
     - target: {fileID: 4760672335869315065, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
       propertyPath: m_Name
@@ -144,6 +150,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8309993002612325552, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
+      propertyPath: parentID
+      value: a4d736b34e26278479563c6bf5f121ce
+      objectReference: {fileID: 0}
+    - target: {fileID: 8309993002612325552, guid: a4d736b34e26278479563c6bf5f121ce,
+        type: 3}
       propertyPath: foreverID
       value: 74cd65778d34db64b94072663b172249
       objectReference: {fileID: 0}
@@ -166,6 +177,12 @@ PrefabInstance:
     - target: {fileID: 9128691201056787290, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 600a08320c0a0924fbde2250477f82d2,
+        type: 2}
+    - target: {fileID: 9128691201056787290, guid: a4d736b34e26278479563c6bf5f121ce,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 600a08320c0a0924fbde2250477f82d2,
         type: 2}

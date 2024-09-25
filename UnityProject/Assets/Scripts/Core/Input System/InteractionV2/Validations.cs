@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Core;
 using UnityEngine;
 using TileManagement;
 using HealthV2;
@@ -10,6 +11,7 @@ using Logs;
 using Objects.Wallmounts;
 using ScriptableObjects;
 using Tiles;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 
 // TODO: namespace me to Systems.Interaction (have fun)

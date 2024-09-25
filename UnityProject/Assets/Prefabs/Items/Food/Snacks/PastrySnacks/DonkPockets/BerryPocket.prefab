@@ -128,6 +128,11 @@ PrefabInstance:
       value: A relentlessly sweet donk-pocket first created for use in Operation
         Dessert Storm.
       objectReference: {fileID: 0}
+    - target: {fileID: 4610971522632324561, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5305569483102412407, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}
       propertyPath: NutritionLevel
@@ -137,6 +142,11 @@ PrefabInstance:
         type: 3}
       propertyPath: StartingNutrients
       value: 158
+      objectReference: {fileID: 0}
+    - target: {fileID: 6975192418094665834, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
+        type: 3}
+      propertyPath: parentID
+      value: 03ecfa2b3ab8ecf4f86c295e0dc69792
       objectReference: {fileID: 0}
     - target: {fileID: 6975192418094665834, guid: 03ecfa2b3ab8ecf4f86c295e0dc69792,
         type: 3}

@@ -118,6 +118,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 9213751064059195885, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
+      propertyPath: parentID
+      value: abff3ae0227731244b0814b2055fa6f0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9213751064059195885, guid: abff3ae0227731244b0814b2055fa6f0,
+        type: 3}
       propertyPath: foreverID
       value: bdee015617db52248b97de650920e2c0
       objectReference: {fileID: 0}
@@ -167,3 +172,4 @@ MonoBehaviour:
   OnDeviceUnLinked:
     m_PersistentCalls:
       m_Calls: []
+  <CanRelink>k__BackingField: 1

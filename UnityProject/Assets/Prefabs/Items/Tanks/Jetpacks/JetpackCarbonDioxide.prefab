@@ -46,12 +46,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1211068856770080705, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
         type: 3}
+      propertyPath: parentID
+      value: 0f8ec2262945efb4bb2ae2aab5329be9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1211068856770080705, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
+        type: 3}
       propertyPath: foreverID
       value: a6be4f14190d70d4ead5531b5e15d5f9
       objectReference: {fileID: 0}
     - target: {fileID: 2103799393627445291, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 1a7c29b5737d94740a1090c148a9d227,
+        type: 2}
+    - target: {fileID: 2103799393627445291, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 1a7c29b5737d94740a1090c148a9d227,
         type: 2}
@@ -177,6 +188,12 @@ PrefabInstance:
       propertyPath: inventoryMoveSound.AssetAddress
       value: null
       objectReference: {fileID: 0}
+    - target: {fileID: 5663760201861811406, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 1a7c29b5737d94740a1090c148a9d227,
+        type: 2}
     - target: {fileID: 5663760201861811406, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
         type: 3}
       propertyPath: inventoryRemoveSound.AssetAddress

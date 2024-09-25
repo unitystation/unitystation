@@ -20,8 +20,6 @@ namespace MaintRooms
 		private const int WALL_GAP = 2;
 		private readonly Vector3 GIZMO_OFFSET = new Vector3(-0.5f, -0.5f, 0);
 
-
-		public Vector2Int Offset;
 		public Vector2Int Size;
 
 		private GameGizmoSquare GameGizmoSquare;
@@ -88,7 +86,7 @@ namespace MaintRooms
 		{
 			Gizmos.color = Color.cyan;
 
-			Gizmos.DrawWireCube(transform.position + Offset.To3() + Size.To3() / WALL_GAP + GIZMO_OFFSET, Size.To3());
+			Gizmos.DrawWireCube(transform.position + Size.To3() / WALL_GAP + GIZMO_OFFSET, Size.To3());
 		}
 
 
@@ -96,7 +94,7 @@ namespace MaintRooms
 		{
 			GameGizmoSquare.OrNull()?.Remove();
 			GameGizmoSquare = GameGizmomanager.AddNewSquareStaticClient(this.gameObject,
-				Offset.To3() + Size.To3() / WALL_GAP + GIZMO_OFFSET, Color.cyan, BoxSize: Size);
+				Size.To3() / WALL_GAP + GIZMO_OFFSET, Color.cyan, BoxSize: Size);
 		}
 
 		public void OnDeselect()
@@ -107,7 +105,7 @@ namespace MaintRooms
 
 		public void UpdateGizmos()
 		{
-			GameGizmoSquare.Position = Offset.To3() + Size.To3() / WALL_GAP + GIZMO_OFFSET;
+			GameGizmoSquare.Position = Size.To3() / WALL_GAP + GIZMO_OFFSET;
 			GameGizmoSquare.transform.localScale = Size.To3();
 		}
 	}

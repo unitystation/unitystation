@@ -25,6 +25,11 @@ MonoBehaviour:
         type: 3}
       name: Energy Sword
       isNukeOps: 0
+    - cost: 13
+      item: {fileID: 8585800665280577052, guid: 1e72418a8de460a14b3edfc3ad0c27f7,
+        type: 3}
+      name: Double Bladed Energy Sword
+      isNukeOps: 0
     - cost: 12
       item: {fileID: 4117137691947961148, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
@@ -223,11 +228,13 @@ MonoBehaviour:
       name: Syndicate Minibomb
       isNukeOps: 0
     - cost: 1
-      item: {fileID: 896716891640034833, guid: 0a45eeafcc7b5164bb139db7bf25c0a8, type: 3}
+      item: {fileID: 6621940020426841340, guid: 55e7ca4ce21d0bb4b816d936646959b7,
+        type: 3}
       name: C4
       isNukeOps: 0
     - cost: 4
-      item: {fileID: 896716891640034833, guid: 9ca978c567f2e5c4bb8a6be3190717f7, type: 3}
+      item: {fileID: 5706955965134215350, guid: de353c0b5bf1ce64ab77542efc42ed8e,
+        type: 3}
       name: X4
       isNukeOps: 0
     - cost: 24
@@ -246,12 +253,12 @@ MonoBehaviour:
       name: EMP grenade box
       isNukeOps: 0
     - cost: 15
-      item: {fileID: 1011433845357754, guid: 2354313a50efe2543862cb92150a5388, type: 3}
+      item: {fileID: 6285642168130081169, guid: 6cf09f0799c28cf4eb34908ccab8122a,
+        type: 3}
       name: Power Sink
       isNukeOps: 0
     - cost: 20
-      item: {fileID: 4761250752494374682, guid: 00265c28041a8b84f9012e430f772f08,
-        type: 3}
+      item: {fileID: 342081685440327241, guid: 1f5b619819c7bd44eb9f1f1f45d08e4d, type: 3}
       name: Syndicate Bomb
       isNukeOps: 0
     - cost: 2
@@ -271,8 +278,9 @@ MonoBehaviour:
       isNukeOps: 1
     - cost: 10
       item: {fileID: 779965398768208100, guid: 076498ffd94174f4aac18dbd4325534d, type: 3}
-      name: Bomb Enriched Reactor Rod
-      isNukeOps: 1
+      name: a plutonium rod you'd find in a nuke, designed to slot into a nuclear
+        reactor
+      isNukeOps: 0
   - categoryName: Stealthy Weapons
     itemList:
     - cost: 2
@@ -367,6 +375,11 @@ MonoBehaviour:
       item: {fileID: 6998335104120014203, guid: 24d90ebee10594247988f55484a416d6,
         type: 3}
       name: Blood-Red Magboots
+      isNukeOps: 1
+    - cost: 2
+      item: {fileID: 8874767685893225006, guid: 29761d23dc97e849e87979bd8b922dd3,
+        type: 3}
+      name: Blood-Red JumpBoots
       isNukeOps: 1
     - cost: 25
       item: {fileID: 1932387406643808284, guid: 29bb4fde205c69c8aaa3f76e935c0f68,

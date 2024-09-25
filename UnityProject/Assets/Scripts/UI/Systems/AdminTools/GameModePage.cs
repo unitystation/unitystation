@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using AdminCommands;
@@ -18,6 +19,9 @@ namespace AdminTools
 
 		[SerializeField]
 		private Toggle isVoiceChat = null;
+
+		private bool SettingTheInitialState = false;
+
 		public override void OnEnable()
 		{
 			base.OnEnable();
@@ -30,13 +34,18 @@ namespace AdminTools
 
 		}
 
+
+
 		public void UpdateisVoiceChat()
 		{
+			SettingTheInitialState = true;
 			isVoiceChat.isOn = VoiceChatManager.Instance.Enabled;
+			SettingTheInitialState = false;
 		}
 
 		public void OnVoiceChatChange()
 		{
+			if (SettingTheInitialState) return;
 			AdminRequestTurnOnVoiceChat.Send(isVoiceChat.isOn);
 		}
 

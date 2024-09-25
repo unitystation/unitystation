@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using AdminCommands;
+using Core;
 using UnityEngine;
 using UnityEditor;
 using Systems.Atmospherics;
@@ -15,6 +16,7 @@ using Messages.Server.HealthMessages;
 using ScriptableObjects;
 using Systems.Character;
 using Systems.Score;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace IngameDebugConsole
 {
@@ -498,8 +500,8 @@ namespace IngameDebugConsole
 				{
 					var localPos = MatrixManager.WorldToLocalInt(worldPos, matrix);
 					var gasMix = matrix.MetaDataLayer.Get(localPos).GasMixLocal;
-					gasMix.AddGas(Gas.Plasma, 100);
-					gasMix.AddGas(Gas.Oxygen, 100);
+					gasMix.AddGasWithTemperature(Gas.Plasma, 100, Kelvin.FromC(20f));
+					gasMix.AddGasWithTemperature(Gas.Oxygen, 100, Kelvin.FromC(20f));
 					matrix.ReactionManager.ExposeHotspot(localPos, 500);
 				}
 			}

@@ -26,8 +26,8 @@ namespace Systems.Atmospherics
 
 			//TODO shoot stim projectile using the angle
 
-			gasMix.AddGas(Gas.CarbonDioxide, 4 * pluoxUsed);
-			gasMix.AddGas(Gas.Nitrogen, 8 * stimUsed);
+			gasMix.AddGasWithTemperature(Gas.CarbonDioxide, 4 * pluoxUsed, gasMix.Temperature);
+			gasMix.AddGasWithTemperature(Gas.Nitrogen, 8 * stimUsed, gasMix.Temperature);
 
 			gasMix.SetGas(Gas.Plasma, gasMix.GetMoles(Gas.Plasma) * 0.5f);
 

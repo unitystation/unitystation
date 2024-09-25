@@ -13,6 +13,12 @@ PrefabInstance:
       propertyPath: initialName
       value: black engineering space suit
       objectReference: {fileID: 0}
+    - target: {fileID: 717283981254755830, guid: f16607d486a117e43b3eb1938400cff4,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 51c851ed2bba03e4487e8ed294ca2395,
+        type: 2}
     - target: {fileID: 1002089210358553032, guid: f16607d486a117e43b3eb1938400cff4,
         type: 3}
       propertyPath: m_Sprite
@@ -112,12 +118,23 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6315012783949932281, guid: f16607d486a117e43b3eb1938400cff4,
         type: 3}
+      propertyPath: parentID
+      value: f16607d486a117e43b3eb1938400cff4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6315012783949932281, guid: f16607d486a117e43b3eb1938400cff4,
+        type: 3}
       propertyPath: foreverID
       value: 5cb3c2a23a50bdf4eaa08040af1061d7
       objectReference: {fileID: 0}
     - target: {fileID: 6512144006790238483, guid: f16607d486a117e43b3eb1938400cff4,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 51c851ed2bba03e4487e8ed294ca2395,
+        type: 2}
+    - target: {fileID: 6512144006790238483, guid: f16607d486a117e43b3eb1938400cff4,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 51c851ed2bba03e4487e8ed294ca2395,
         type: 2}

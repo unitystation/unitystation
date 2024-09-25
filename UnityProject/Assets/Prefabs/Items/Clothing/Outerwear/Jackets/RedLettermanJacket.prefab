@@ -94,6 +94,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A letterman jacket in a sick red color. Radical.
       objectReference: {fileID: 0}
+    - target: {fileID: 2024818765580378706, guid: 7f3cee8a5573625449fd37c4bbb83a1d,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: a0a3031905ae4f4468c48f944f060299,
+        type: 2}
+    - target: {fileID: 4777961452559450461, guid: 7f3cee8a5573625449fd37c4bbb83a1d,
+        type: 3}
+      propertyPath: parentID
+      value: 7f3cee8a5573625449fd37c4bbb83a1d
+      objectReference: {fileID: 0}
     - target: {fileID: 4777961452559450461, guid: 7f3cee8a5573625449fd37c4bbb83a1d,
         type: 3}
       propertyPath: foreverID
@@ -118,6 +129,12 @@ PrefabInstance:
     - target: {fileID: 5742683758786115255, guid: 7f3cee8a5573625449fd37c4bbb83a1d,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a0a3031905ae4f4468c48f944f060299,
+        type: 2}
+    - target: {fileID: 5742683758786115255, guid: 7f3cee8a5573625449fd37c4bbb83a1d,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: a0a3031905ae4f4468c48f944f060299,
         type: 2}

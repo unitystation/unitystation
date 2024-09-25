@@ -1,0 +1,190 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2345686261931989977
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -3052719004654847166, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: reqWield
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -3052719004654847166, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: backstabBonus
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: -3052719004654847166, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: markedHitBonus
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1529380664820982249, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: rechargeTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1939338352935450630, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2b260dd6fbd13853e819f3c4935a61c4,
+        type: 2}
+    - target: {fileID: 1969785921733618591, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 3733394460219839377, guid: b7d5de9dc16a71a14872e2c960684297,
+        type: 3}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: hitDamage
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: initialName
+      value: proto-kinetic claws
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: initialSize
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: initialDescription
+      value: Truly the most compact version of the crusher ever made, it's small
+        enough to fit in your backpack and still function as a crusher.  Best used
+        when attacking from behind, rewarding those capable of landing what we call
+        a 'critical hit
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: attackVerbs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: 'attackVerbs.Array.data[0]'
+      value: swipe
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: 'attackVerbs.Array.data[1]'
+      value: slash
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: 'attackVerbs.Array.data[2]'
+      value: cut
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: 'attackVerbs.Array.data[3]'
+      value: slap
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 8a926fe6ef70903bcb8f0aaf1df2a753,
+        type: 2}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 0bbc0e6de7d51a889bdfdacb769c5ad7,
+        type: 2}
+    - target: {fileID: 3235497439635828136, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 00194d49381c53d67a504962add8189e,
+        type: 3}
+    - target: {fileID: 3315982464914858880, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315982464914858880, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315982464914858880, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315982464914858880, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315982464914858880, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315982464914858880, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315982464914858880, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315982464914858880, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315982464914858880, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315982464914858880, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3321191813867953908, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: m_Name
+      value: ProtoKineticClaw
+      objectReference: {fileID: 0}
+    - target: {fileID: 3423593076712989504, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: _assetId
+      value: 3416376706
+      objectReference: {fileID: 0}
+    - target: {fileID: 8551640524453532313, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: foreverID
+      value: 2fc8d8b0b72dd19b5be339b34449cb86
+      objectReference: {fileID: 0}
+    - target: {fileID: 8885920287978841459, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 1947099a6a3e050de98d91f9a04e6813,
+        type: 2}
+    m_RemovedComponents:
+    - {fileID: -6943314109635352739, guid: 3f3c69eb80c13d439a7659f6834b091a, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3f3c69eb80c13d439a7659f6834b091a, type: 3}

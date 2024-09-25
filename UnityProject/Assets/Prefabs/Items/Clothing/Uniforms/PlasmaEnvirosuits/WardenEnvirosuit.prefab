@@ -19,6 +19,12 @@ PrefabInstance:
       value: A plasmaman containment suit designed for the warden, white stripes
         being added to differentiate them from other members of security.
       objectReference: {fileID: 0}
+    - target: {fileID: 120201409614320011, guid: 9cfb226ceb11ccc4d8d5056ba609721a,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: c0996f8f6675bce4bb43e21123adf45d,
+        type: 2}
     - target: {fileID: 411909642771811765, guid: 9cfb226ceb11ccc4d8d5056ba609721a,
         type: 3}
       propertyPath: m_Sprite
@@ -101,6 +107,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c0996f8f6675bce4bb43e21123adf45d,
         type: 2}
+    - target: {fileID: 5908879976483997038, guid: 9cfb226ceb11ccc4d8d5056ba609721a,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c0996f8f6675bce4bb43e21123adf45d,
+        type: 2}
     - target: {fileID: 6862266148539706732, guid: 9cfb226ceb11ccc4d8d5056ba609721a,
         type: 3}
       propertyPath: clothData
@@ -117,6 +129,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b74c0de716e88bf4fb414a847b5f9212,
         type: 2}
+    - target: {fileID: 6916449151315505796, guid: 9cfb226ceb11ccc4d8d5056ba609721a,
+        type: 3}
+      propertyPath: parentID
+      value: 9cfb226ceb11ccc4d8d5056ba609721a
+      objectReference: {fileID: 0}
     - target: {fileID: 6916449151315505796, guid: 9cfb226ceb11ccc4d8d5056ba609721a,
         type: 3}
       propertyPath: foreverID

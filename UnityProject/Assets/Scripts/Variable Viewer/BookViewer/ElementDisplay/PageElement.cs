@@ -8,7 +8,7 @@ using Object = System.Object;
 public class PageElement : MonoBehaviour
 {
 	public ulong PageID;
-	public uint SentenceID;
+	public uint SentenceID = uint.MaxValue;
 	public virtual PageElementEnum PageElementType => PageElementEnum.InputField;
 	public bool IsPoolble = true;
 
@@ -17,6 +17,10 @@ public class PageElement : MonoBehaviour
 		return (new HashSet<Type>());
 	}
 
+	public virtual bool CanDeserialise(Type TType)
+	{
+		return (false);
+	}
 
 	public virtual bool IsThisType(Type TType)
 	{
@@ -34,6 +38,7 @@ public class PageElement : MonoBehaviour
 		}
 		else
 		{
+			PageID = Sentence.OnPageID;
 			SentenceID = Sentence.SentenceID;
 		}
 	}
@@ -55,20 +60,14 @@ public class PageElement : MonoBehaviour
 
 	}
 
-	public virtual object DeSerialise(string StringVariable, Type InType, object InObject, bool SetUI = false)
+	public virtual object DeSerialise(string StringVariable, Type InType, bool SetUI = false)
 	{
 		if (InType.IsEnum)
 		{
-			return Enum.Parse(InObject.GetType(), StringVariable);
+			return Enum.Parse(InType, StringVariable);
 		}
 		else
 		{
-			if (InType == null || InObject == null || InObject as IConvertible == null)
-			{
-
-				return null;
-			}
-
 			return null;
 		}
 	}

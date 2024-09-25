@@ -66,12 +66,23 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 1284137808015397257, guid: 020aa37cdb1748149b33f0786b431160,
         type: 3}
+      propertyPath: parentID
+      value: 020aa37cdb1748149b33f0786b431160
+      objectReference: {fileID: 0}
+    - target: {fileID: 1284137808015397257, guid: 020aa37cdb1748149b33f0786b431160,
+        type: 3}
       propertyPath: foreverID
       value: b032e09c1bd8c5449b888c4353d665ba
       objectReference: {fileID: 0}
     - target: {fileID: 2030712609210181219, guid: 020aa37cdb1748149b33f0786b431160,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: eea9a35b28b06ea449b920a12e16fc9e,
+        type: 2}
+    - target: {fileID: 2030712609210181219, guid: 020aa37cdb1748149b33f0786b431160,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: eea9a35b28b06ea449b920a12e16fc9e,
         type: 2}
@@ -189,6 +200,24 @@ PrefabInstance:
       value: Advanced magnetic boots that have a lighter magnetic pull, placing less
         burden on the wearer.
       objectReference: {fileID: 0}
+    - target: {fileID: 5730003522423779974, guid: 020aa37cdb1748149b33f0786b431160,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 4e0aedacbcc1539469ec0609f1c41ce5,
+        type: 2}
+    - target: {fileID: 5730003522423779974, guid: 020aa37cdb1748149b33f0786b431160,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 652954f902db4e34d8147519b1dc0af7,
+        type: 2}
+    - target: {fileID: 5730003522423779974, guid: 020aa37cdb1748149b33f0786b431160,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: eea9a35b28b06ea449b920a12e16fc9e,
+        type: 2}
     - target: {fileID: 5802957128260198651, guid: 020aa37cdb1748149b33f0786b431160,
         type: 3}
       propertyPath: m_Sprite

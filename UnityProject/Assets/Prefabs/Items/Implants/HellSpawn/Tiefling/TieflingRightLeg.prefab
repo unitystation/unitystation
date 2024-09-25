@@ -10,6 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 185805929322484740, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
+      propertyPath: parentID
+      value: 51326f2264a075148a8aaa6bf95604c7
+      objectReference: {fileID: 0}
+    - target: {fileID: 185805929322484740, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
       propertyPath: foreverID
       value: 2x@jV5mHnmgu_vPK8qVV
       objectReference: {fileID: 0}
@@ -19,10 +24,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8d214081751072649812e7a7c271409e,
         type: 2}
+    - target: {fileID: 1270195432486377817, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2251631748089412755, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
       propertyPath: 'traumaTypesOnBodyPart.Array.data[0]'
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2990615749064605777, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4062638375031680829, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
@@ -30,6 +45,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1eea53d9d708d2841a280bbc4075f7c4,
         type: 2}
+    - target: {fileID: 4658738935948558912, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6403927333314702133, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
       propertyPath: m_Sprite
@@ -143,13 +163,58 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
+      propertyPath: SubOrganBodyPartArmour.Rad
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
       propertyPath: baseTraumaDamageMultiplier
       value: 1.25
       objectReference: {fileID: 0}
     - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
+      propertyPath: SubOrganBodyPartArmour.Acid
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: SubOrganBodyPartArmour.Bomb
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: SubOrganBodyPartArmour.Fire
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: SubOrganBodyPartArmour.Laser
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: SubOrganBodyPartArmour.Magic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: SubOrganBodyPartArmour.Melee
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
       propertyPath: bodyPartAshesAboveThisDamage
       value: 145
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: SubOrganBodyPartArmour.Bullet
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: SubOrganBodyPartArmour.Energy
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
@@ -163,6 +228,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
+      propertyPath: SelfArmor.TemperatureProtectionInK.x
+      value: 248.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
       propertyPath: SelfArmor.TemperatureProtectionInK.y
       value: 800
       objectReference: {fileID: 0}
@@ -173,8 +243,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
+      propertyPath: SubOrganBodyPartArmour.PressureProtectionInKpa.x
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: SubOrganBodyPartArmour.PressureProtectionInKpa.y
+      value: 450
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: SubOrganBodyPartArmour.TemperatureProtectionInK.x
+      value: 248.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: SubOrganBodyPartArmour.TemperatureProtectionInK.y
+      value: 800
+      objectReference: {fileID: 0}
+    - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
       propertyPath: SubOrganBodyPartArmour.DismembermentProtectionChance
-      value: 35
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
@@ -204,6 +294,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8d214081751072649812e7a7c271409e,
         type: 2}
+    - target: {fileID: 8331319255090536633, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6409205596588662601, guid: 51326f2264a075148a8aaa6bf95604c7, type: 3}
     m_RemovedGameObjects: []

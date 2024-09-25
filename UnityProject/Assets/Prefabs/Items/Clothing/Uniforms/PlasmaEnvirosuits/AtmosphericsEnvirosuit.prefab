@@ -31,12 +31,23 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 546694972571092853, guid: 96d11d94b11923f488c5d1711131870a,
         type: 3}
+      propertyPath: parentID
+      value: 96d11d94b11923f488c5d1711131870a
+      objectReference: {fileID: 0}
+    - target: {fileID: 546694972571092853, guid: 96d11d94b11923f488c5d1711131870a,
+        type: 3}
       propertyPath: foreverID
       value: ff5a3ec659b03eb43a02f4203ce6f9d5
       objectReference: {fileID: 0}
     - target: {fileID: 750666265854390431, guid: 96d11d94b11923f488c5d1711131870a,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: fb993f8e19a13d44998d36df30e1fbf8,
+        type: 2}
+    - target: {fileID: 750666265854390431, guid: 96d11d94b11923f488c5d1711131870a,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: fb993f8e19a13d44998d36df30e1fbf8,
         type: 2}
@@ -51,6 +62,12 @@ PrefabInstance:
       value: An air-tight suit designed to be used by plasmamen exployed as atmos
         technicians, the usual purple stripes being replaced by atmos's blue.
       objectReference: {fileID: 0}
+    - target: {fileID: 6467559934747862138, guid: 96d11d94b11923f488c5d1711131870a,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: fb993f8e19a13d44998d36df30e1fbf8,
+        type: 2}
     - target: {fileID: 6763575781761824836, guid: 96d11d94b11923f488c5d1711131870a,
         type: 3}
       propertyPath: m_Sprite

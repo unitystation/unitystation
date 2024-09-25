@@ -17,8 +17,9 @@ using Systems.Antagonists.Antags;
 using UI.Core.Action;
 using System.Linq;
 using Changeling;
+using Core.Admin.Logs;
 using Logs;
-using static UniversalObjectPhysics;
+using static Core.Physics.UniversalObjectPhysics;
 
 /// <summary>
 /// IC character information (job role, antag info, real name, etc). A body and their ghost link to the same mind
@@ -191,8 +192,6 @@ public class Mind : NetworkBehaviour, IActionGUI
 	/// </summary>
 	private Dictionary<string, object> properties = new Dictionary<string, object>();
 
-
-
 	public bool IsMute
 	{
 		get
@@ -207,6 +206,15 @@ public class Mind : NetworkBehaviour, IActionGUI
 			}
 
 			return IsMiming;
+		}
+	}
+
+	public float SpeechCharacterLimit
+	{
+		get
+		{
+			var health = GetDeepestBody().GetComponent<LivingHealthMasterBase>();
+			return health != null ? health.SpeakCharacterLimit : 1600f;
 		}
 	}
 
@@ -415,6 +423,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 		}
 
 		SyncPossessing(IDPossessing, intID);
+		AdminLogsManager.AddNewLog(null, $"{gameObject} has possesed {obj.ExpensiveName()}.", LogCategory.Ghost);
 	}
 
 	public void InternalSetControllingObject(GameObject obj)

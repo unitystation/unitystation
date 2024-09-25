@@ -14,6 +14,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f60b24d5a30132a41951e63949dfd154,
         type: 2}
+    - target: {fileID: 2530104291256965856, guid: b027dfa588d69d848a886ae80d5b25c2,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f60b24d5a30132a41951e63949dfd154,
+        type: 2}
     - target: {fileID: 3325795963608167138, guid: b027dfa588d69d848a886ae80d5b25c2,
         type: 3}
       propertyPath: clothData
@@ -37,6 +43,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3377728999933947146, guid: b027dfa588d69d848a886ae80d5b25c2,
         type: 3}
+      propertyPath: parentID
+      value: b027dfa588d69d848a886ae80d5b25c2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3377728999933947146, guid: b027dfa588d69d848a886ae80d5b25c2,
+        type: 3}
       propertyPath: foreverID
       value: 61c2c1d3267084042bfdfd08fdd7c7a7
       objectReference: {fileID: 0}
@@ -55,6 +66,22 @@ PrefabInstance:
       propertyPath: initialDescription
       value: It's for pets.
       objectReference: {fileID: 0}
+    - target: {fileID: 8122024160340692485, guid: b027dfa588d69d848a886ae80d5b25c2,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8122024160340692485, guid: b027dfa588d69d848a886ae80d5b25c2,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8122024160340692485, guid: b027dfa588d69d848a886ae80d5b25c2,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: f60b24d5a30132a41951e63949dfd154,
+        type: 2}
     - target: {fileID: 8406908623037895227, guid: b027dfa588d69d848a886ae80d5b25c2,
         type: 3}
       propertyPath: m_Sprite

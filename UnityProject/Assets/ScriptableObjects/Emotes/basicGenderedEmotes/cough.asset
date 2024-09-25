@@ -24,7 +24,21 @@ MonoBehaviour:
   mouthBlockedText: You are unable to make a sound!
   critViewText: lets out a painful cough.
   soundsAreTyped: 1
-  defaultSounds: []
+  defaultSounds:
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Emotes/Cough/Female/Cough 1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/Emotes/Cough/Male/Cough 1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
   TypedSounds:
   - VoiceRace: {fileID: 11400000, guid: f8cc40dce57da8d4aa283decb92b4507, type: 2}
     VoiceDatas:

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 114776788309089574}
   - component: {fileID: 114577415631634126}
   - component: {fileID: 114883521337486670}
+  - component: {fileID: 657520313027932809}
   - component: {fileID: 114738972662350094}
   - component: {fileID: -6201661749900855812}
   - component: {fileID: 1373280397285383934}
@@ -80,6 +81,7 @@ MonoBehaviour:
   throwDamage: 0
   traumaDamageChance: 0
   TraumaticDamageType: 0
+  blockChance: 0
   throwSpeed: 2
   throwRange: 7
   hitSound:
@@ -91,6 +93,14 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   hitSoundSettings: 0
+  blockSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/smash.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
   inventoryMoveSound:
     SetLoadSetting: 0
     AssetAddress: 
@@ -111,7 +121,7 @@ MonoBehaviour:
   isEVACapable: 0
   attackVerbs: []
   CanBeUsedOnSelfOnHelpIntent: 0
-  itemSprites:
+  InitialitemSprites:
     SpriteInventoryIcon: {fileID: 0}
     SpriteLeftHand: {fileID: 11400000, guid: 0b395bda1e929674e9fec2099782a493, type: 2}
     SpriteRightHand: {fileID: 11400000, guid: 4111f042fe2174641bfba131ce87df1a, type: 2}
@@ -250,6 +260,28 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
+  logDamage: 0
+--- !u!114 &657520313027932809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011433845357754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a70443b1a4a57ca408b7fde35a0570a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  fireParticlePrefab: {fileID: 2178958902703507295, guid: 4c645d10f4218304496bf570a143b753,
+    type: 3}
+  minimumFireDamageForStack: 12
+  chanceToSpread: 20
+  maxStacks: 20
+  skipFlammableCheck: 0
 --- !u!114 &114738972662350094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,6 +358,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6083a8f6e47464fb42db6e06bc08665, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InheritParentsRecipes: 1
   hasSimpleRelatedRecipe: 0
   relatedRecipes: []
 --- !u!114 &6393191727481188567
@@ -340,6 +373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f4629d03e356d64eb509d18a7450082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentID: root
   foreverID: a7abba22164ce49f0bf9b9b219f39298
   <AlternativePrefabName>k__BackingField: 
   <CanBeSpawnedByAdmin>k__BackingField: 1
@@ -358,6 +392,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  BuckledToObject: {fileID: 0}
   LocalDifferenceNeeded: {x: 0, y: 0}
   LocalTargetPosition: {x: 0, y: 0, z: 0}
   CorrectingCourse: 0
@@ -377,12 +412,9 @@ MonoBehaviour:
   MappingIntangible: 0
   SnapToGridOnStart: 0
   IsPlayer: 0
-  DEBUG: 0
+  ObjectBouncyness: 0.75
   tileMoveSpeed: 1
   HasOwnGravity: 0
-  isNotPushable: 0
-  CanBeWindPushed: 1
-  rotationTarget: {fileID: 0}
   stickyMovement: 0
   OnThrowEndResetRotation: 0
   maximumStickSpeed: 1.5
@@ -392,14 +424,18 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   IsCurrentlyFloating: 0
-  Pushing: []
   Hits: []
   isFlyingSliding: 0
   IsMoving: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
   TimeSpentFlying: 0
-  BuckledToObject: {fileID: 0}
+  DEBUG: 0
+  isNotPushable: 0
+  Pushing: []
+  CanBeWindPushed: 1
+  canResetRotationFromRightClick: 1
+  rotationTarget: {fileID: 0}
 --- !u!114 &2611437823404169790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -568,12 +604,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 531dea593ef508f4abc5b76a73fd82a8, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 531dea593ef508f4abc5b76a73fd82a8,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []

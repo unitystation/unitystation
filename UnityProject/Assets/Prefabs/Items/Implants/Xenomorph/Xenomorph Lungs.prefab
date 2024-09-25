@@ -16,6 +16,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 953508599766752465, guid: cfda4a920ce328d449993498e023ddfc,
         type: 3}
+      propertyPath: parentID
+      value: cfda4a920ce328d449993498e023ddfc
+      objectReference: {fileID: 0}
+    - target: {fileID: 953508599766752465, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
       propertyPath: foreverID
       value: b4c8161620e628d49aa507f8cde6de81
       objectReference: {fileID: 0}
@@ -126,6 +131,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   breatheCooldown: 4
   pressureSafeMin: 16
   toxicGases:
@@ -148,4 +154,6 @@ MonoBehaviour:
   hasToxinsCash: 0
   ToxinAlert: {fileID: 11400000, guid: 2c812669f183287449afa3e620bfcef6, type: 2}
   SuffocatingAlert: {fileID: 11400000, guid: a242a18320bcd0345b83fe02838d0460, type: 2}
+  coughEmote: {fileID: 0}
+  coughCooldown: 6
   circulatedReagentAmount: 10

@@ -51,6 +51,18 @@ PrefabInstance:
       value: A sturdy shotgun with a longer magazine and a fixed tactical stock designed
         for non-lethal riot control.
       objectReference: {fileID: 0}
+    - target: {fileID: 3012018597040680649, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 994ccc5a83d8b6047a51f421335b5d28,
+        type: 2}
+    - target: {fileID: 3012018597040680649, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 0c1ae0b934019034bafd63ac8db14537,
+        type: 2}
     - target: {fileID: 3301342883353866999, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
       propertyPath: m_Sprite
@@ -129,12 +141,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8618752398906396102, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
+      propertyPath: parentID
+      value: 3da1d244806a96340a48e959ecc816e4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618752398906396102, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
       propertyPath: foreverID
       value: ab8d1f5a3e841a043bc60cdf2f5d9495
       objectReference: {fileID: 0}
     - target: {fileID: 8820110165900900908, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 281b21add084733448db245b3d4c8070,
+        type: 2}
+    - target: {fileID: 8820110165900900908, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 281b21add084733448db245b3d4c8070,
         type: 2}

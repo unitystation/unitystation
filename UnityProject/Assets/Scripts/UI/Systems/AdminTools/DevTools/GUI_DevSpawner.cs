@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using Logs;
 using UI.Chat_UI;
 using UI.Systems.AdminTools.DevTools.Search;
@@ -19,10 +20,11 @@ public class GUI_DevSpawner : MonoBehaviour
 	[Tooltip("content panel into which the list items should be placed")]
 	public GameObject contentPanel;
 	public InputField searchBox;
-
 	public InputField StackAmountBox;
-
 	public Toggle DEBUGToggle;
+	public Toggle MappingToggle;
+
+	public GameObject Menu;
 
 	public int StackAmount
 	{
@@ -60,7 +62,7 @@ public class GUI_DevSpawner : MonoBehaviour
 
 	void Start()
     {
-	    spawnerSearch = SpawnerSearch.ForPrefabs(Spawn.SpawnablePrefabs());
+	    spawnerSearch = SpawnerSearch.ForPrefabs(Spawn.SpawnablePrefabs().ToHashSet());
     }
 
 	private void OnEnable()
@@ -116,9 +118,9 @@ public class GUI_DevSpawner : MonoBehaviour
 	    }
     }
 
-    public void Search()
+    public void Search(string SearchOverride = null)
     {
-	    if (searchBox.text.Length < minCharactersForSearch) return;
+	    if (string.IsNullOrWhiteSpace(SearchOverride) && searchBox.text.Length < minCharactersForSearch) return;
 
 		// delete previous results
 	    foreach (Transform child in contentPanel.transform)
@@ -126,7 +128,18 @@ public class GUI_DevSpawner : MonoBehaviour
 		    Destroy(child.gameObject);
 	    }
 
-	    var docs = spawnerSearch.Search(searchBox.text, DEBUGToggle.isOn);
+	    string StringSearch = searchBox.text;
+
+	    if (string.IsNullOrWhiteSpace(SearchOverride) == false)
+	    {
+		    StringSearch = SearchOverride;
+		    bool Cashed = searchWhileTyping;
+		    searchWhileTyping = false;
+		    searchBox.text = SearchOverride;
+		    searchWhileTyping = Cashed;
+	    }
+
+	    var docs = spawnerSearch.Search(StringSearch, DEBUGToggle.isOn);
 
 	    // display new results
 	    foreach (var doc in docs)
@@ -147,7 +160,7 @@ public class GUI_DevSpawner : MonoBehaviour
 	{
 		_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		Loggy.Log("Opening dev spawner menu", Category.NetUI);
-		transform.GetChild(0).gameObject.SetActive(true);
+		Menu.gameObject.SetActive(true);
 		transform.SetAsLastSibling();
 	}
 
@@ -155,6 +168,6 @@ public class GUI_DevSpawner : MonoBehaviour
 	{
 		_ = SoundManager.Play(CommonSounds.Instance.Click01);
 		Loggy.Log("Closing dev spawner menu", Category.NetUI);
-		transform.GetChild(0).gameObject.SetActive(false);
+		Menu.SetActive(false);
 	}
 }

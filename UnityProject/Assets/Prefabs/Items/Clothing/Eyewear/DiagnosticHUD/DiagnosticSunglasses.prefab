@@ -115,6 +115,24 @@ PrefabInstance:
       propertyPath: hitSound.AssetAddress
       value: Assets/Prefabs/Effects/Tap.prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 2987011942256334699, guid: 89d026ca3c185844194baeb3ff3b4d98,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 07f9813a4a487f746bbd5b5dc2169805,
+        type: 2}
+    - target: {fileID: 2987011942256334699, guid: 89d026ca3c185844194baeb3ff3b4d98,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 95abdd5454b396049b0e148047ade153,
+        type: 2}
+    - target: {fileID: 2987011942256334699, guid: 89d026ca3c185844194baeb3ff3b4d98,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 809e45c78bead484db9f9ddb240490b5,
+        type: 2}
     - target: {fileID: 3273994478765017941, guid: 89d026ca3c185844194baeb3ff3b4d98,
         type: 3}
       propertyPath: m_Sprite
@@ -158,6 +176,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8585229615259169892, guid: 89d026ca3c185844194baeb3ff3b4d98,
         type: 3}
+      propertyPath: parentID
+      value: 89d026ca3c185844194baeb3ff3b4d98
+      objectReference: {fileID: 0}
+    - target: {fileID: 8585229615259169892, guid: 89d026ca3c185844194baeb3ff3b4d98,
+        type: 3}
       propertyPath: foreverID
       value: fa58b85eb0d83874c99737ec86dc6af2
       objectReference: {fileID: 0}
@@ -180,6 +203,12 @@ PrefabInstance:
     - target: {fileID: 8851959254138389390, guid: 89d026ca3c185844194baeb3ff3b4d98,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 809e45c78bead484db9f9ddb240490b5,
+        type: 2}
+    - target: {fileID: 8851959254138389390, guid: 89d026ca3c185844194baeb3ff3b4d98,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 809e45c78bead484db9f9ddb240490b5,
         type: 2}

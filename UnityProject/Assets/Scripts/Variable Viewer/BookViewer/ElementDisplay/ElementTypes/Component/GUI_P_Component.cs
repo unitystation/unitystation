@@ -45,10 +45,16 @@ public class GUI_P_Component : PageElement
 
 	public override PageElementEnum PageElementType => PageElementEnum.Component;
 
+	public override bool CanDeserialise(Type TType)
+	{
+		return TType.IsSubclassOf(typeof(MonoBehaviour)) || TType == typeof(GameObject) || TType == typeof(MonoBehaviour);
+	}
+
+
 	public override bool IsThisType(Type TType)
 		//TODO support coomponents in the future
 	{
-		return TType.IsSubclassOf(typeof(MonoBehaviour)) || TType == typeof(GameObject);
+		return TType.IsSubclassOf(typeof(MonoBehaviour)) || TType == typeof(GameObject) || TType == typeof(MonoBehaviour);
 	}
 
 	public override void SetUpValues(
@@ -89,7 +95,7 @@ public class GUI_P_Component : PageElement
 		if (Page != null)
 		{
 			PageID = Page.ID;
-			SentenceID = 0;
+			SentenceID = uint.MaxValue;
 			IsSentence = false;
 			iskey = false;
 		}
@@ -140,7 +146,8 @@ public class GUI_P_Component : PageElement
 				IDType = IDType.PrefabForeverID,
 				PrefabForeverID = ForeverID
 			}),
-			UISendToClientToggle.toggle);
+			UISendToClientToggle.toggle,
+			SentenceID);
 	}
 
 
@@ -154,7 +161,8 @@ public class GUI_P_Component : PageElement
 					IDType = IDType.Book,
 					BookID = BookID
 				}),
-				UISendToClientToggle.toggle);
+				UISendToClientToggle.toggle,
+				SentenceID);
 		}
 	}
 
@@ -168,7 +176,8 @@ public class GUI_P_Component : PageElement
 					IDType = IDType.Bookshelf,
 					ShelfID = ShelfID
 				}),
-				UISendToClientToggle.toggle);
+				UISendToClientToggle.toggle,
+				SentenceID);
 		}
 	}
 
@@ -187,7 +196,7 @@ public class GUI_P_Component : PageElement
 
 	public override string Serialise(object Data)
 	{
-		if (Data == "null")
+		if (Data == null || Data == "null")
 		{
 			return JsonConvert.SerializeObject(new EditData()
 			{
@@ -239,7 +248,7 @@ public class GUI_P_Component : PageElement
 		return (Data.ToString());
 	}
 
-	public override object DeSerialise(string StringVariable, Type InType, object InObject, bool SetUI = false)
+	public override object DeSerialise(string StringVariable, Type InType, bool SetUI = false)
 	{
 		EditData data = JsonConvert.DeserializeObject<EditData>(StringVariable);
 		if (data.IDType == IDType.NULL)

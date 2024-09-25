@@ -59,7 +59,7 @@ namespace Messages.Server.SoundMessages
 			if (msg.AttachedToSource && msg.SourceObj != null)
 			{
 				SoundManager.ClientPlayAtPositionAttached(addressableAudioSources, msg.Position, msg.SourceObj,
-					Guid.NewGuid().ToString(), msg.Polyphonic, true, msg.AudioParameters);
+					msg.SoundSpawnToken, msg.Polyphonic, true, msg.AudioParameters);
 				return;
 			}
 			_ = isPositionProvided ?
@@ -87,7 +87,7 @@ namespace Messages.Server.SoundMessages
 		public static string SendToNearbyPlayers(AddressableAudioSource addressableAudioSource, Vector3 pos,
 			bool polyphonic = false, GameObject sourceObj = null,
 			ShakeParameters shakeParameters = new ShakeParameters(),
-			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool attachedToSource = false)
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool attachedToSource = false, string soundSpawnToken = null)
 		{
 			var netId = NetId.Empty;
 			if (sourceObj != null)
@@ -99,7 +99,11 @@ namespace Messages.Server.SoundMessages
 				}
 			}
 
-			string soundSpawnToken = Guid.NewGuid().ToString();
+			if (string.IsNullOrEmpty(soundSpawnToken))
+			{
+				soundSpawnToken = Guid.NewGuid().ToString();
+			}
+
 
 			NetMessage msg = new NetMessage
 			{
@@ -125,7 +129,7 @@ namespace Messages.Server.SoundMessages
 		public static string SendToAll(AddressableAudioSource addressableAudioSource, Vector3 pos,
 			bool polyphonic = false, GameObject sourceObj = null,
 			ShakeParameters shakeParameters = new ShakeParameters(),
-			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool attachedToSource = false)
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool attachedToSource = false, string soundSpawnToken = null)
 		{
 			var netId = NetId.Empty;
 			if (sourceObj != null)
@@ -137,7 +141,10 @@ namespace Messages.Server.SoundMessages
 				}
 			}
 
-			string soundSpawnToken = Guid.NewGuid().ToString();
+			if (string.IsNullOrEmpty(soundSpawnToken))
+			{
+				soundSpawnToken = Guid.NewGuid().ToString();
+			}
 
 			NetMessage msg = new NetMessage
 			{
@@ -153,6 +160,43 @@ namespace Messages.Server.SoundMessages
 			};
 
 			SendToAll(msg);
+			return soundSpawnToken;
+		}
+
+		public static string SendToAdmins(AddressableAudioSource addressableAudioSource, Vector3 pos,
+			bool polyphonic = false, GameObject sourceObj = null,
+			ShakeParameters shakeParameters = new ShakeParameters(),
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool attachedToSource = false, string soundSpawnToken = null)
+		{
+			var netId = NetId.Empty;
+			if (sourceObj != null)
+			{
+				var netB = sourceObj.GetRootGameObject().GetComponent<NetworkBehaviour>();
+				if (netB != null)
+				{
+					netId = netB.netId;
+				}
+			}
+
+			if (string.IsNullOrEmpty(soundSpawnToken))
+			{
+				soundSpawnToken = Guid.NewGuid().ToString();
+			}
+
+			NetMessage msg = new NetMessage
+			{
+				SoundAddressablePath = addressableAudioSource.AssetAddress,
+				Position = pos,
+				Polyphonic = polyphonic,
+				TargetNetId = netId,
+				ShakeParameters = shakeParameters,
+				AudioParameters = audioSourceParameters,
+				SoundSpawnToken = soundSpawnToken,
+				SourceObj = sourceObj,
+				AttachedToSource = attachedToSource
+			};
+
+			SendToAdmins(msg);
 			return soundSpawnToken;
 		}
 

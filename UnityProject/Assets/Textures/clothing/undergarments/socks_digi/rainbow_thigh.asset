@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: rainbow_thigh
+  m_EditorClassIdentifier: 
+  foreverID: e39e4569801b12a51a6d344940fbda59
+  Variance:
+  - Frames:
+    - sprite: {fileID: 2477546947263328849, guid: e108b0a84663e725e990239086490a42,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -1064382242737843190, guid: e108b0a84663e725e990239086490a42,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -1954484646041593292, guid: e108b0a84663e725e990239086490a42,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -1762220330679957842, guid: e108b0a84663e725e990239086490a42,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  DisplayName: 

@@ -50,7 +50,7 @@ namespace Items.Implants.Organs.Vomit
 				vomitSound, LivingHealthMaster.gameObject.AssumedWorldPosServer());
 		}
 
-		private bool WillDryHeave()
+		public bool WillDryHeave()
 		{
 			if (dryHeavingEmote == null) return false;
 			if (stomach.StomachContents.IsEmpty == false || stomach.StomachContents.CurrentReagentMix.Total > 0.09f) return false;

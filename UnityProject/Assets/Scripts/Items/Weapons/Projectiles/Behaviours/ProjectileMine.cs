@@ -23,15 +23,18 @@ namespace Weapons.Projectiles.Behaviours
 		public virtual bool Interact(MatrixManager.CustomPhysicsHit hit, InteractableTiles interactableTiles, Vector3 worldPosition)
 		{
 
-			var tile = interactableTiles.InteractableLayerTileAt(worldPosition, true);
-			if (tile is BasicTile basicTile)
+			var tiles = interactableTiles.InteractableTileLocationsAt(worldPosition, true);
+			foreach (var tile in tiles)
 			{
-
-				if (projectileHardness < basicTile.MiningHardness)
+				if (tile.layerTile is BasicTile basicTile)
 				{
-					SoundManager.PlayNetworkedAtPos(projectileMineFail, gameObject.AssumedWorldPosServer());
-					Chat.AddActionMsgToChat(gameObject, $"The projectile pings off the surface, leaving hardly a scratch.");
-					return false;
+					if (projectileHardness < basicTile.MiningHardness)
+					{
+						SoundManager.PlayNetworkedAtPos(projectileMineFail, gameObject.AssumedWorldPosServer());
+						Chat.AddActionMsgToChat(gameObject, $"The projectile pings off the surface, leaving hardly a scratch.");
+						return false;
+					}
+
 				}
 			}
 

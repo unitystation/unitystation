@@ -8,7 +8,12 @@ using Systems.Pipes;
 using Items;
 using TileManagement;
 using AddressableReferences;
+using Core;
+using Core.Lighting_System.Light2D;
 using Player;
+using Scripts.Core.Transform;
+using Systems.Atmospherics;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 
 namespace Systems.Explosions
@@ -133,7 +138,7 @@ namespace Systems.Explosions
 				SavedPipes.AddRange(node.PipeData);
 				foreach (var Pipe in SavedPipes)
 				{
-					Pipe.pipeData.DestroyThis();
+					Pipe.pipeData.Remove();
 				}
 			}
 		}
@@ -178,8 +183,13 @@ namespace Systems.Explosions
 			//Dont add effect if it is already there
 			if (tileChangeManager.MetaTileMap.HasOverlay(position, TileType.Effects, effectName)) return;
 			tileChangeManager.MetaTileMap.AddOverlay(position, TileType.Effects, effectName);
+			var Position = position.ToWorld(tileChangeManager.MetaTileMap.matrix);
+			var fireLightSpawn = Spawn.ServerPrefab(tileChangeManager.MetaTileMap.matrix.ReactionManager.FireLightPrefab,Position );
+
+			fireLightSpawn.GameObject.GetComponent<UniversalObjectPhysics>().AppearAtWorldPositionServer(Position);
+			fireLightSpawn.GameObject.GetComponent< ScaleSync>().SetScale(Vector3.one * 30);
 			ExplosionManager.CleanupEffectLater(time * 0.001f, tileChangeManager.MetaTileMap,
-				position, effectOverlayType);
+				position, effectOverlayType, fireLightSpawn.GameObject);
 		}
 
 		public virtual ExplosionNode GenInstance()

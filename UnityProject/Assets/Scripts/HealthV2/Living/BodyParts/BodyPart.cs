@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using Core;
 using Items;
 using Items.Implants.Organs;
+using Logs;
 using Mirror;
 using UnityEngine;
 using NaughtyAttributes;
 using Player;
 using Systems.Clothing;
 using UI.CharacterCreator;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace HealthV2
 {
@@ -69,7 +72,7 @@ namespace HealthV2
 		/// Player sprites for rendering equipment and clothing on the body part container
 		/// </summary>
 		[Tooltip("Player sprites for rendering equipment and clothing on this")]
-		public PlayerSprites playerSprites;
+		[HideInInspector] public PlayerSprites playerSprites;
 
 		[HideInInspector] public bool IsBleeding = false;
 
@@ -155,7 +158,15 @@ namespace HealthV2
 			for (int i = OrganList.Count - 1; i >= 0; i--)
 			{
 				var organ = OrganList[i];
-				organ.ImplantPeriodicUpdate();
+				try
+				{
+					organ.ImplantPeriodicUpdate();
+				}
+				catch (Exception e)
+				{
+					Loggy.LogError(e.ToString());
+				}
+
 			}
 
 			CalculateRadiationDamage();

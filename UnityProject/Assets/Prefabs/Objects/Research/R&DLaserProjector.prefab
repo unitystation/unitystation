@@ -25,6 +25,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 956161840745613693, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
         type: 3}
+      propertyPath: parentID
+      value: fb2c1c5d5f027eb45bb342edeb5a3d8f
+      objectReference: {fileID: 0}
+    - target: {fileID: 956161840745613693, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
       propertyPath: foreverID
       value: 0d2a097efdcb88644898d858b77b4e94
       objectReference: {fileID: 0}
@@ -238,6 +243,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   researchServer: {fileID: 0}
+  <CanRelink>k__BackingField: 1
   PoweredState: 2
   minVoltage: 1500
   startSetUp: 1
@@ -258,9 +264,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c3a19b2c2f7b08479faf3e491537fe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
   IsMultiMaster: 0
   SetMaxDistance: 20
   SetConType: 13
+  <CanRelink>k__BackingField: 1
+  <IgnoreMaxDistanceMapper>k__BackingField: 0
 --- !u!114 &2116856896879531024
 MonoBehaviour:
   m_ObjectHideFlags: 0

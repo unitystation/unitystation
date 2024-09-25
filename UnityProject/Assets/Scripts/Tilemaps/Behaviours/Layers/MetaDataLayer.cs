@@ -170,7 +170,8 @@ public class MetaDataLayer : MonoBehaviour
 
 	public bool IsSlipperyAt(Vector3Int position)
 	{
-		return Get(position, false).IsSlippery;
+		var node = Get(position, false);
+		return node.Allslippery;
 	}
 
 	public void MakeSlipperyAt(Vector3Int position, bool canDryUp = true)
@@ -197,14 +198,70 @@ public class MetaDataLayer : MonoBehaviour
 	/// Release reagents at provided coordinates, making them react with world + decide what it should look like
 	/// </summary>
 	///
-	public void ReagentReact(ReagentMix reagents, Vector3Int worldPosInt, Vector3Int localPosInt, bool spawnPrefabEffect = true, OrientationEnum direction = OrientationEnum.Up_By0)
+	public void ReagentReact(ReagentMix reagents, Vector3Int worldPosInt, Vector3Int localPosInt,
+		bool spawnPrefabEffect = true, OrientationEnum direction = OrientationEnum.Up_By0, bool Scatter = false,LivingHealthMasterBase from = null )
 	{
 		var mobs = MatrixManager.GetAt<LivingHealthMasterBase>(worldPosInt, true);
+
+		if (mobs.Count() > 0)
+		{
+			mobs = mobs.Where(x => x != from);
+		}
+
 		reagents.Divide(mobs.Count() + 1);
 		foreach (var mob in mobs)
 		{
 			mob.ApplyReagentsToSurface(reagents, BodyPartType.None);
 		}
+
+		Vector3 Position = worldPosInt;
+		Vector3 Offset= Vector3.zero;
+		Vector3 PositionLocal = localPosInt;
+
+
+		if (Scatter)
+		{
+			switch (RNG.GetRandomNumber(1,9))
+			{
+				case 1:
+					Offset= Vector3.zero;
+					break;
+				case 2:
+					Offset= new Vector3(1,0,0);
+					break;
+				case 3:
+					Offset= new Vector3(-1,0,0);
+					break;
+				case 4:
+					Offset= new Vector3(0,1,0);
+					break;
+				case 5:
+					Offset= new Vector3(0,-1,0);
+					break;
+				case 6:
+					Offset= new Vector3(1,-1,0);
+					break;
+				case 7:
+					Offset= new Vector3(-1,-1,0);
+					break;
+				case 8:
+					Offset= new Vector3(-1,1,0);
+					break;
+				case 9:
+					Offset= new Vector3(1,1,0);
+					break;
+			}
+
+			Offset = Offset +
+			             new Vector3(Random.Range(-0.1875f, 0.1875f), Random.Range(-0.1875f, 0.1875f));
+
+			Position = worldPosInt +Offset ;
+			PositionLocal = PositionLocal + Offset;
+
+		}
+
+		worldPosInt = Position.RoundToInt();
+		localPosInt = PositionLocal.RoundToInt();
 
 		if (MatrixManager.IsTotallyImpassable(worldPosInt, true)) return;
 
@@ -213,7 +270,12 @@ public class MetaDataLayer : MonoBehaviour
 
 		//Find all reagents on this tile (including current reagent)
 		var reagentContainer = MatrixManager.GetAt<ReagentContainer>(worldPosInt, true).Where(x => x.ExamineAmount == ReagentContainer.ExamineAmountMode.UNKNOWN_AMOUNT);
+
+
+
 		var existingSplats = MatrixManager.GetAt<FloorDecal>(worldPosInt, true);
+
+
 
 		bool existingSplat = false;
 
@@ -240,6 +302,8 @@ public class MetaDataLayer : MonoBehaviour
 			//TODO: could allow you to add this to other container types like beakers but would need some balance and perhaps knocking over the beaker
 		}
 
+
+
 		if(reagents.Total > 0)
 		{
 			lock (reagents.reagents)
@@ -264,13 +328,14 @@ public class MetaDataLayer : MonoBehaviour
 							break;
 						}
 						case "SpaceCleaner":
-							Clean(worldPosInt, localPosInt, false);
+
+							Clean(	worldPosInt, localPosInt, false);
 							didSplat = true;
 							break;
 						case "SpaceLube":
 						{
 							// ( ͡° ͜ʖ ͡°)
-							if (Get(localPosInt).IsSlippery == false)
+							if (Get(worldPosInt).IsSlippery == false)
 							{
 								EffectsFactory.WaterSplat(worldPosInt);
 								MakeSlipperyAt(localPosInt, false);
@@ -289,7 +354,7 @@ public class MetaDataLayer : MonoBehaviour
 				{
 					if (paintBlood)
 					{
-						PaintBlood(worldPosInt, reagents);
+						PaintBlood(Position, reagents);
 					}
 					else
 					{
@@ -300,10 +365,10 @@ public class MetaDataLayer : MonoBehaviour
 		}
 	}
 
-	public void PaintBlood(Vector3Int worldPosInt, ReagentMix reagents)
+	public void PaintBlood(Vector3 worldPos, ReagentMix reagents)
 	{
-		EffectsFactory.BloodSplat(worldPosInt, reagents);
-		BloodDry(worldPosInt);
+		EffectsFactory.BloodSplat(worldPos, reagents);
+		BloodDry(worldPos.RoundToInt());
 	}
 
 	public void Paintsplat(Vector3Int worldPosInt, Vector3Int localPosInt, ReagentMix reagents)

@@ -19,6 +19,12 @@ PrefabInstance:
       value: It protected doctors from the Black Death, back then. You bet your arse
         it's gonna help you against viruses.
       objectReference: {fileID: 0}
+    - target: {fileID: 3495234765619245072, guid: ab1e465a59765f84b8691daa8693f857,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 2264dcc16d2a5df45a51306528f5a915,
+        type: 2}
     - target: {fileID: 3791466462619397166, guid: ab1e465a59765f84b8691daa8693f857,
         type: 3}
       propertyPath: m_Sprite
@@ -101,6 +107,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 2264dcc16d2a5df45a51306528f5a915,
         type: 2}
+    - target: {fileID: 7145545764318209269, guid: ab1e465a59765f84b8691daa8693f857,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2264dcc16d2a5df45a51306528f5a915,
+        type: 2}
     - target: {fileID: 7931175119129480439, guid: ab1e465a59765f84b8691daa8693f857,
         type: 3}
       propertyPath: clothData
@@ -122,6 +134,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a85722536b6e0534a8e216f2daeb243a,
         type: 2}
+    - target: {fileID: 7986767595912221471, guid: ab1e465a59765f84b8691daa8693f857,
+        type: 3}
+      propertyPath: parentID
+      value: ab1e465a59765f84b8691daa8693f857
+      objectReference: {fileID: 0}
     - target: {fileID: 7986767595912221471, guid: ab1e465a59765f84b8691daa8693f857,
         type: 3}
       propertyPath: foreverID

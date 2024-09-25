@@ -90,6 +90,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3157804438160328025, guid: 84ac8abc1d963be42906a209a1b97350,
         type: 3}
+      propertyPath: parentID
+      value: 84ac8abc1d963be42906a209a1b97350
+      objectReference: {fileID: 0}
+    - target: {fileID: 3157804438160328025, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
       propertyPath: foreverID
       value: 76c4b888beee06f4c9fda031b6e4d47b
       objectReference: {fileID: 0}
@@ -179,6 +184,7 @@ MonoBehaviour:
   AvailableForMachine: []
   designProductionData: {fileID: 11400000, guid: 3613c36f8a638594ab6b2486c79bee91,
     type: 2}
+  <CanRelink>k__BackingField: 1
 --- !u!114 &7604248434704265099
 MonoBehaviour:
   m_ObjectHideFlags: 0

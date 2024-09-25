@@ -78,6 +78,12 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Voices echo from the hardsuit, driving the user insane.
       objectReference: {fileID: 0}
+    - target: {fileID: 4134971925973852533, guid: 12c1799d210b6b444a768fd61642f614,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: fe5227d6a3978e74c80dbaeeaa44c891,
+        type: 2}
     - target: {fileID: 4431032030973312331, guid: 12c1799d210b6b444a768fd61642f614,
         type: 3}
       propertyPath: m_Sprite
@@ -156,6 +162,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7436987107694084730, guid: 12c1799d210b6b444a768fd61642f614,
         type: 3}
+      propertyPath: parentID
+      value: 12c1799d210b6b444a768fd61642f614
+      objectReference: {fileID: 0}
+    - target: {fileID: 7436987107694084730, guid: 12c1799d210b6b444a768fd61642f614,
+        type: 3}
       propertyPath: foreverID
       value: 853ffc9b61ad3ad45a28be39db841d5e
       objectReference: {fileID: 0}
@@ -183,6 +194,12 @@ PrefabInstance:
     - target: {fileID: 7694921735867282832, guid: 12c1799d210b6b444a768fd61642f614,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: fe5227d6a3978e74c80dbaeeaa44c891,
+        type: 2}
+    - target: {fileID: 7694921735867282832, guid: 12c1799d210b6b444a768fd61642f614,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: fe5227d6a3978e74c80dbaeeaa44c891,
         type: 2}

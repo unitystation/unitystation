@@ -104,8 +104,14 @@ PrefabInstance:
     - target: {fileID: 3926671830943762185, guid: d703599b87c99464e83982d5c3d0b3d3,
         type: 3}
       propertyPath: relatedRecipes.Array.size
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3926671830943762185, guid: d703599b87c99464e83982d5c3d0b3d3,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: c8dee7b3ded647b4aabeb12bf67a88c0,
+        type: 2}
     - target: {fileID: 3926671830943762185, guid: d703599b87c99464e83982d5c3d0b3d3,
         type: 3}
       propertyPath: relatedRecipes.Array.data[2].recipe
@@ -133,6 +139,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a1ef51db030c6a4478b3319177f0b8ca,
         type: 2}
+    - target: {fileID: 7588562756410360498, guid: d703599b87c99464e83982d5c3d0b3d3,
+        type: 3}
+      propertyPath: parentID
+      value: d703599b87c99464e83982d5c3d0b3d3
+      objectReference: {fileID: 0}
     - target: {fileID: 7588562756410360498, guid: d703599b87c99464e83982d5c3d0b3d3,
         type: 3}
       propertyPath: foreverID

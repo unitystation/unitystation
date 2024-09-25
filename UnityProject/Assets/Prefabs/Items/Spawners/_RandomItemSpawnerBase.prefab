@@ -121,6 +121,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 3767d790c7352d640907b37e4211e696,
         type: 2}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 3767d790c7352d640907b37e4211e696,
+        type: 2}
+    - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: parentID
+      value: a7abba22164ce49f0bf9b9b219f39298
+      objectReference: {fileID: 0}
     - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: foreverID
@@ -166,6 +177,8 @@ MonoBehaviour:
   poolList: []
   spawnedItem: {fileID: 0}
   triggerManually: 0
+  automaticallyShoveIntoContainerBelowSpawnedItem: 1
+  deleteAfterUse: 1
 --- !u!114 &3217208320444730080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,5 +192,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Pickupable: {fileID: 0}
-  SavedLocalPosition: {x: 0, y: 0, z: 0}
-  InIted: 0

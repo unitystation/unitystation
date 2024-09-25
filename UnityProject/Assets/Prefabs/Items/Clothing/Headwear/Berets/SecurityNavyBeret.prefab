@@ -40,6 +40,12 @@ PrefabInstance:
       value: A special beret with the security insignia emblazoned on it. For officers
         with class.
       objectReference: {fileID: 0}
+    - target: {fileID: 3243759188309319615, guid: a4d736b34e26278479563c6bf5f121ce,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 777ca6794cba43f4ba836908a3c1009c,
+        type: 2}
     - target: {fileID: 4760672335869315065, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
       propertyPath: m_Name
@@ -129,6 +135,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8309993002612325552, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
+      propertyPath: parentID
+      value: a4d736b34e26278479563c6bf5f121ce
+      objectReference: {fileID: 0}
+    - target: {fileID: 8309993002612325552, guid: a4d736b34e26278479563c6bf5f121ce,
+        type: 3}
       propertyPath: foreverID
       value: 14669856ddf44564fac40935a5a8e2b4
       objectReference: {fileID: 0}
@@ -151,6 +162,12 @@ PrefabInstance:
     - target: {fileID: 9128691201056787290, guid: a4d736b34e26278479563c6bf5f121ce,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 777ca6794cba43f4ba836908a3c1009c,
+        type: 2}
+    - target: {fileID: 9128691201056787290, guid: a4d736b34e26278479563c6bf5f121ce,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 777ca6794cba43f4ba836908a3c1009c,
         type: 2}

@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using AddressableReferences;
 using Messages.Server.SoundMessages;
+using UnityEngine.Serialization;
 
 
 namespace Alien
@@ -21,7 +22,9 @@ namespace Alien
 
 		[Tooltip("The spawned egg will take a random amount of time from 60 seconds to this attribute to spawn " +
 		         "a facehugger.")]
-		[SerializeField]
+		[SerializeField, FormerlySerializedAs("incubationTime")]
+		private float initialincubationTime = 300;
+
 		private float incubationTime = 300;
 
 		[Tooltip("In what state will this egg spawn in the world.")]
@@ -48,7 +51,7 @@ namespace Alien
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			incubationTime = UnityEngine.Random.Range(60f, incubationTime);
+			incubationTime = UnityEngine.Random.Range(60f, initialincubationTime);
 			UpdatePhase(initialState);
 			UpdateExamineMessage();
 			registerObject.SetPassable(false, false);

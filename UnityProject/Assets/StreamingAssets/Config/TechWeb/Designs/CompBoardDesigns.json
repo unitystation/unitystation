@@ -224,5 +224,25 @@
         ],
         "name": "DNA Console board",
         "Item_ID": "4bdb5ad25167fc848ab3b1f820df6638"
+    },
+    {
+        "Internal_ID": "board_machine_solar",
+        "Description": " A circuit board to make a controller for high-tech solar panels designed for space energy siphon.",
+        "Category": [
+            "Computer Boards"
+        ],
+        "Materials": {
+            "Glass": 1000,
+            "Metal": 500
+        },
+        "Machinery_type": [
+            "CircuitImprinter"
+        ],
+        "Compatible_machinery": [
+            "Engineering",
+            "Science"
+        ],
+        "name": "Solar Controller (Machine Board)",
+        "Item_ID": "hqEav5KVCj61csVVyxkP"
     }
 ]

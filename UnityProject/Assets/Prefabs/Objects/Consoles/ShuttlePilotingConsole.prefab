@@ -268,6 +268,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c7793c0d3928d26449b770bee6e6c055,
         type: 2}
+    - target: {fileID: 4212405279327074240, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4212405279327074240, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4212405279327074240, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
     - target: {fileID: 4381392260290605791, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_Sprite
@@ -286,6 +301,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 124375931300013382, guid: 5f34cc165956f1847943f94c1bbb6de9,
         type: 3}
+    - target: {fileID: 5821743376341986250, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5821743376341986250, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5821743376341986250, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
     - target: {fileID: 5903546303531293955, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_AssetId
@@ -375,6 +405,16 @@ PrefabInstance:
         type: 3}
       propertyPath: Color.r
       value: 0.526
+      objectReference: {fileID: 0}
+    - target: {fileID: 6556397441920388693, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: isSelfPowered
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6691892461727964720, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: parentID
+      value: b46887a995abc224aab70e21b9e53697
       objectReference: {fileID: 0}
     - target: {fileID: 6691892461727964720, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -610,6 +650,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: dccfff9f4fb95f14481d23fd37d7556f,
         type: 2}
+    - target: {fileID: 8289769482344225521, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8289769482344225521, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8289769482344225521, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -651,3 +706,4 @@ MonoBehaviour:
       m_EditorAssetChanged: 0
   GUItab: {fileID: 0}
   shuttleConsoleState: 0
+  Rotatable: {fileID: 0}

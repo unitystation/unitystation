@@ -150,6 +150,13 @@ public class SoundManager : MonoBehaviour
 		return PlayNetworked(addressableAudioSource, audioSourceParameters, polyphonic, shakeParameters);
 	}
 
+	public static async Task<string> PlayNetworkedAtPosAsync(AddressableAudioSource addressableAudioSource, Vector3 worldPos,
+		GameObject gameObject, string soundSpawnToken,	bool polyphonic = false, bool isGlobal = false,
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters())
+	{
+		return await PlayNetworkedAtPosAsync(addressableAudioSource, worldPos, audioSourceParameters, polyphonic, isGlobal, new ShakeParameters(), gameObject, true, soundSpawnToken);
+	}
+
 	/// <summary>
 	/// Serverside: Play sound at given position for all clients.
 	/// </summary>
@@ -164,7 +171,7 @@ public class SoundManager : MonoBehaviour
 	/// <returns>The SoundSpawn Token generated that identifies the same sound spawn instance across server and clients</returns>
 	public static async Task<string> PlayNetworkedAtPosAsync(AddressableAudioSource addressableAudioSource, Vector3 worldPos,
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool polyphonic = false, bool global = true,
-		ShakeParameters shakeParameters = new ShakeParameters(), GameObject sourceObj = null, bool attachToSource = false)
+		ShakeParameters shakeParameters = new ShakeParameters(), GameObject sourceObj = null, bool attachToSource = false, string soundSpawnToken = null)
 	{
 		if (addressableAudioSource == null || string.IsNullOrEmpty(addressableAudioSource.AssetAddress) ||
 			addressableAudioSource.AssetAddress == "null")
@@ -176,15 +183,15 @@ public class SoundManager : MonoBehaviour
 
 		addressableAudioSource = await AudioManager.GetAddressableAudioSourceFromCache(addressableAudioSource);
 
-		if (global)
+		if (global || audioSourceParameters.Loops)
 		{
 			return PlaySoundMessage.SendToAll(addressableAudioSource, worldPos, polyphonic, sourceObj, shakeParameters,
-				audioSourceParameters, attachToSource);
+				audioSourceParameters, attachToSource,  soundSpawnToken );
 		}
 		else
 		{
 			return PlaySoundMessage.SendToNearbyPlayers(addressableAudioSource, worldPos, polyphonic, sourceObj,
-				shakeParameters, audioSourceParameters, attachToSource);
+				shakeParameters, audioSourceParameters, attachToSource,  soundSpawnToken );
 		}
 	}
 
@@ -380,6 +387,7 @@ public class SoundManager : MonoBehaviour
 	public static async Task Play(List<AddressableAudioSource> addressableAudioSources, string soundSpawnToken = "",
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(), bool polyphonic = false)
 	{
+		audioSourceParameters.SpatialBlend = 1; //Because it's global
 		AddressableAudioSource addressableAudioSource = addressableAudioSources.PickRandom();
 		await Play(addressableAudioSource, soundSpawnToken, audioSourceParameters, polyphonic);
 	}
@@ -554,9 +562,12 @@ public class SoundManager : MonoBehaviour
 			audioSource.panStereo = audioSourceParameters.Pan;
 
 		//0 is 2D and ignores max/min distance, 1 is 3d and obeys them
-		//Cannot convert sounds that are 3D by default to 2D
-		if(audioSourceParameters.SpatialBlend != 0)
-			audioSource.spatialBlend = audioSourceParameters.SpatialBlend;
+		if (audioSourceParameters.SpatialBlend != 0) //This is because structure with its stupid default value can't be set
+		{
+			var LocalValue = audioSourceParameters.SpatialBlend - 1;
+			audioSource.spatialBlend = LocalValue;
+
+		}
 
 		//Cannot change the minimum distance for audio falloff to 0
 		if(audioSourceParameters.MinDistance != 0)
@@ -670,7 +681,7 @@ public class SoundManager : MonoBehaviour
 	/// Plays a given sound from playing locally.
 	/// </summary>
 	/// <param name="soundSpawnToken">The Token of the soundSpawn to play</param>
-	public static void ClientTokenPlay(string soundSpawnToken, bool OneShot)
+	public static void ClientTokenPlay(string soundSpawnToken, bool OneShot = false)
 	{
 		if (Instance.SoundSpawns.ContainsKey(soundSpawnToken))
 		{

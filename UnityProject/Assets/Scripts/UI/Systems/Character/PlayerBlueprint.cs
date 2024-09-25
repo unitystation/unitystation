@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core;
 using Systems.Character;
 using UI.Character;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public class PlayerBlueprint : MonoBehaviour, IServerSpawn
 {
@@ -25,7 +27,6 @@ public class PlayerBlueprint : MonoBehaviour, IServerSpawn
 	{
 		var Mind =  PlayerSpawn.NewSpawnCharacterV2(null, CharacterSheet, nonImportantMind);
 		Mind.Body.GetComponent<UniversalObjectPhysics>().AppearAtWorldPositionServer(this.transform.position);
-		_ = Despawn.ServerSingle(this.gameObject);
 	}
 
 	public void OnSpawnServer(SpawnInfo info)

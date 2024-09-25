@@ -120,9 +120,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4486057492469528745, guid: 2d25908ce8ab84cda986faf02dd3c84c,
         type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 2c6da83730288134e99e6e52f9953e2e,
+        type: 2}
+    - target: {fileID: 4486057492469528745, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
       propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 514fee695cad9894fabe5beffcfcd35d,
+        type: 2}
+    - target: {fileID: 4486057492469528745, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 629c44191af7dde48af1b839ffbaddac,
         type: 2}
     - target: {fileID: 4486057492469528745, guid: 2d25908ce8ab84cda986faf02dd3c84c,
         type: 3}
@@ -131,8 +143,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4486057492469528745, guid: 2d25908ce8ab84cda986faf02dd3c84c,
         type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: a07d029a673b58447b7c55a47d3fb693,
+        type: 2}
+    - target: {fileID: 4486057492469528745, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
       propertyPath: inventoryRemoveSound.AssetAddress
       value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 6923878523984042918, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      propertyPath: parentID
+      value: 2d25908ce8ab84cda986faf02dd3c84c
       objectReference: {fileID: 0}
     - target: {fileID: 6923878523984042918, guid: 2d25908ce8ab84cda986faf02dd3c84c,
         type: 3}
@@ -153,6 +176,12 @@ PrefabInstance:
     - target: {fileID: 7920186904468745292, guid: 2d25908ce8ab84cda986faf02dd3c84c,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a07d029a673b58447b7c55a47d3fb693,
+        type: 2}
+    - target: {fileID: 7920186904468745292, guid: 2d25908ce8ab84cda986faf02dd3c84c,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: a07d029a673b58447b7c55a47d3fb693,
         type: 2}
@@ -279,4 +308,5 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
+  ignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 0}

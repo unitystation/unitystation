@@ -28,7 +28,6 @@ namespace Objects.Wallmounts
 		public Sprite redSprite;
 
 		[SerializeField] [Tooltip("List of doors that this switch can control")]
-		private List<DoorController> doorControllers = new List<DoorController>();
 
 		private List<DoorMasterController> NewdoorControllers = new List<DoorMasterController>();
 
@@ -97,7 +96,7 @@ namespace Objects.Wallmounts
 
 		public void RunDoorController()
 		{
-			if (doorControllers.Count == 0 && NewdoorControllers.Count == 0)
+			if (NewdoorControllers.Count == 0)
 			{
 				return;
 			}
@@ -111,21 +110,6 @@ namespace Objects.Wallmounts
 			}
 
 			RpcPlayButtonAnim(true);
-
-			foreach (var door in doorControllers)
-			{
-				// Door doesn't exist anymore - shuttle crash, admin smash, etc.
-				if (door == null) continue;
-
-				if (door.IsClosed)
-				{
-					door.TryOpen(null);
-				}
-				else
-				{
-					door.TryClose();
-				}
-			}
 
 			foreach (var door in NewdoorControllers)
 			{
@@ -205,15 +189,6 @@ namespace Objects.Wallmounts
 				return;
 
 			//Highlighting all controlled doors with red lines and spheres
-			Gizmos.color = new Color(1, 0.5f, 0, 1);
-			for (int i = 0; i < doorControllers.Count; i++)
-			{
-				var doorController = doorControllers[i];
-				if (doorController == null) continue;
-				Gizmos.DrawLine(sprite.transform.position, doorController.transform.position);
-				Gizmos.DrawSphere(doorController.transform.position, 0.25f);
-			}
-
 			for (int i = 0; i < NewdoorControllers.Count; i++)
 			{
 				var doorController = NewdoorControllers[i];
@@ -225,8 +200,7 @@ namespace Objects.Wallmounts
 
 		private void OnDrawGizmos()
 		{
-			if ((doorControllers.Count == 0 || doorControllers.Any(controller => controller == null)) ||
-			    (NewdoorControllers.Count == 0 || NewdoorControllers.Any(controller => controller == null)))
+			if ((NewdoorControllers.Count == 0 || NewdoorControllers.Any(controller => controller == null)))
 			{
 				Gizmos.DrawIcon(transform.position, "noDoor");
 			}
@@ -239,13 +213,7 @@ namespace Objects.Wallmounts
 			foreach (var potentialObject in potentialObjects)
 			{
 				var doorController = potentialObject.GetComponent<DoorMasterController>();
-				if (doorController == null)
-				{
-					var OlddoorController = potentialObject.GetComponent<DoorController>();
-					if (OlddoorController == null) continue;
-					AddDoorControllerFromScene(OlddoorController);
-				}
-				else
+				if (doorController != null)
 				{
 					NewAddDoorControllerFromScene(doorController);
 				}
@@ -254,18 +222,6 @@ namespace Objects.Wallmounts
 			}
 
 			return approvedObjects;
-		}
-
-		public void AddDoorControllerFromScene(DoorController doorController)
-		{
-			if (doorControllers.Contains(doorController))
-			{
-				doorControllers.Remove(doorController);
-			}
-			else
-			{
-				doorControllers.Add(doorController);
-			}
 		}
 
 		public void NewAddDoorControllerFromScene(DoorMasterController doorController)

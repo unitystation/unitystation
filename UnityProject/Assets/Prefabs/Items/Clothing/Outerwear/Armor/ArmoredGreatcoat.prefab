@@ -274,6 +274,24 @@ PrefabInstance:
       value: A greatcoat enhanced with a special alloy for some extra protection
         and style for those with a commanding presence.
       objectReference: {fileID: 0}
+    - target: {fileID: 3495234765619245072, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 013a5781d9d05d445acb4fe2143e1f9c,
+        type: 2}
+    - target: {fileID: 3495234765619245072, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 183f0992c642188468d3e01f01c97893,
+        type: 2}
+    - target: {fileID: 3495234765619245072, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: a212e2c4d9df72240afdfb6b720b9fc4,
+        type: 2}
     - target: {fileID: 3791466462619397166, guid: e606c25f8104ffa4e94b68151182a216,
         type: 3}
       propertyPath: m_Sprite
@@ -425,6 +443,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a212e2c4d9df72240afdfb6b720b9fc4,
         type: 2}
+    - target: {fileID: 7145545764318209269, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a212e2c4d9df72240afdfb6b720b9fc4,
+        type: 2}
     - target: {fileID: 7931175119129480439, guid: e606c25f8104ffa4e94b68151182a216,
         type: 3}
       propertyPath: clothData
@@ -446,6 +470,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: afe664a7766d75b47b541730063c32a6,
         type: 2}
+    - target: {fileID: 7986767595912221471, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: parentID
+      value: e606c25f8104ffa4e94b68151182a216
+      objectReference: {fileID: 0}
     - target: {fileID: 7986767595912221471, guid: e606c25f8104ffa4e94b68151182a216,
         type: 3}
       propertyPath: foreverID

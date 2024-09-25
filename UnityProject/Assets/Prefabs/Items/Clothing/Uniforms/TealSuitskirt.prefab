@@ -10,6 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 152282119089543162, guid: 70e762212c1501d49bbcd7004162631a,
         type: 3}
+      propertyPath: parentID
+      value: 70e762212c1501d49bbcd7004162631a
+      objectReference: {fileID: 0}
+    - target: {fileID: 152282119089543162, guid: 70e762212c1501d49bbcd7004162631a,
+        type: 3}
       propertyPath: foreverID
       value: 0c4edd45da8bda84b8ffa10e660ce6f4
       objectReference: {fileID: 0}
@@ -32,6 +37,12 @@ PrefabInstance:
     - target: {fileID: 1144377286929211408, guid: 70e762212c1501d49bbcd7004162631a,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 1b44645f72cda054c877f306684b34d8,
+        type: 2}
+    - target: {fileID: 1144377286929211408, guid: 70e762212c1501d49bbcd7004162631a,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 1b44645f72cda054c877f306684b34d8,
         type: 2}
@@ -121,6 +132,12 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A teal suitskirt and yellow necktie. An authoritative yet tacky ensemble.
       objectReference: {fileID: 0}
+    - target: {fileID: 6650163636694136053, guid: 70e762212c1501d49bbcd7004162631a,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 1b44645f72cda054c877f306684b34d8,
+        type: 2}
     - target: {fileID: 7497797982670074626, guid: 70e762212c1501d49bbcd7004162631a,
         type: 3}
       propertyPath: bodyPartsCovered

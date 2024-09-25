@@ -110,15 +110,20 @@ namespace Managers
 
 			yield return WaitFor.Seconds(60f);
 
-			//Add in random positions
-			int randomPosCount = Random.Range(1, 5);
-			for (int i = 0; i <= randomPosCount; i++)
+			if (GameManager.Instance.SpaceBodies.Count > 0)
 			{
-				asteroidLocations.Add(gameManager.RandomPositionInSolarSystem());
+				//Add in random positions
+				int randomPosCount = Random.Range(1, 5);
+				for (int i = 0; i <= randomPosCount; i++)
+				{
+					asteroidLocations.Add(GameManager.Instance.SpaceBodies.PickRandom().transform.position);
+				}
+				//Shuffle the list:
+				asteroidLocations = asteroidLocations.OrderBy(x => Random.value).ToList();
 			}
 
-			//Shuffle the list:
-			asteroidLocations = asteroidLocations.OrderBy(x => Random.value).ToList();
+
+
 
 
 			// Checks if there will be antags this round and sets the initial update/report

@@ -2,6 +2,7 @@ using Mirror;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core;
 using Logs;
 using Messages.Client.Interaction;
 using UnityEngine;
@@ -14,6 +15,7 @@ using UI;
 using UI.Action;
 using Tiles;
 using UI.Core.Action;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 /// <summary>
 /// Main entry point for handling all input events
@@ -149,7 +151,6 @@ public class MouseInputController : MonoBehaviour
 
 		}
 
-
 		CheckMouseInput();
 		CheckCursorTexture();
 	}
@@ -196,10 +197,13 @@ public class MouseInputController : MonoBehaviour
 			if (loadedGun != null)
 			{
 				//if we are on harm intent with loaded gun,
-				//don't do anything else, just shoot (trigger the AimApply).
+				//Do the aim apply first and then check other interactions
+				//This is to allow both not interacting with things that a player probably wants to shoot
+				//While also letting bayonet interactions for firearms work
 				if (UIManager.CurrentIntent == Intent.Harm)
 				{
 					CheckAimApply(MouseButtonState.PRESS);
+					CheckClick();
 				}
 				else
 				{
@@ -565,19 +569,14 @@ public class MouseInputController : MonoBehaviour
 			return null;
 		}
 
-		var draggable =
-			MouseUtils.GetOrderedObjectsUnderMouse(null, go =>
-					go.GetComponent<MouseDraggable>() != null &&
-					go.GetComponent<MouseDraggable>().enabled &&
-					go.GetComponent<MouseDraggable>().CanBeginDrag(PlayerManager.LocalPlayerScript))
-				.FirstOrDefault();
-		if (draggable != null)
-		{
-			var dragComponent = draggable.GetComponent<MouseDraggable>();
-			return dragComponent;
-		}
-
-		return null;
+		var draggable = MouseUtils.GetOrderedObjectsUnderMouse(null, go =>
+					go.TryGetComponent<MouseDraggable>(out var draggable) &&
+					draggable.enabled &&
+					draggable.CanBeginDrag(PlayerManager.LocalPlayerScript) &&
+					go.HasComponent<Ghost>() == false).FirstOrDefault();
+		if (draggable== null) return null;
+		var dragComponent = draggable.GetComponent<MouseDraggable>();
+		return dragComponent;
 	}
 
 	public static void Point()

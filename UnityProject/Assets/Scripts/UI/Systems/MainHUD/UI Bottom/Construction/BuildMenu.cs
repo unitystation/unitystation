@@ -1,6 +1,7 @@
 using Construction;
 using UnityEngine;
 using Construction.Conveyors;
+using Core.Utils;
 using TMPro;
 
 namespace UI.UI_Bottom
@@ -16,7 +17,7 @@ namespace UI.UI_Bottom
 
 		[Tooltip("content panel into which the list items should be placed")]
 		[SerializeField] private GameObject contentPanel = null;
-
+		[SerializeField] private Transform constructionUI = null;
 		[SerializeField] private ConveyorBuildMenu conveyorBuildMenu = null;
 
 		public ConveyorBuildMenu ConveyorBuildMenu => conveyorBuildMenu;
@@ -26,6 +27,33 @@ namespace UI.UI_Bottom
 
 		[Tooltip("The number of the specified item to make ")]
 		[SerializeField] public TMP_InputField NumberInputField = null;
+
+		[SerializeField] private TMP_InputField searchField;
+
+
+		private void Start()
+		{
+			searchField.onValueChanged.AddListener(Search);
+		}
+
+		private void Search(string newValue)
+		{
+			if (string.IsNullOrEmpty(newValue))
+			{
+				foreach (Transform child in contentPanel.transform)
+				{
+					child.SetActive(true);
+				}
+				return;
+			}
+			foreach (Transform child in contentPanel.transform)
+			{
+				string childName = child.name.ToLower();
+				string searchValue = newValue.ToLower();
+				bool isMatch = childName.Contains(searchValue) || Utils.LevenshitenDistance(childName, searchValue) <= 2;
+				child.gameObject.SetActive(isMatch);
+			}
+		}
 
 
 		//TODO: Implement, model kinda after dev spawner.
@@ -37,8 +65,9 @@ namespace UI.UI_Bottom
 		public void ShowBuildMenu(BuildingMaterial buildingMaterial)
 		{
 			conveyorBuildMenu.gameObject.SetActive(false);
-			transform.GetChild(0).gameObject.SetActive(true);
+			constructionUI.SetActive(true);
 			currentBuildingMaterial = buildingMaterial;
+			UIManager.Instance.isInputFocus = true;
 			// delete previous results
 			foreach (Transform child in contentPanel.transform)
 			{
@@ -67,7 +96,8 @@ namespace UI.UI_Bottom
 		public void CloseBuildMenu()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			transform.GetChild(0).gameObject.SetActive(false);
+			constructionUI.SetActive(false);
+			UIManager.Instance.isInputFocus = false;
 		}
 
 		// add a list item to the content panel for spawning the specified result
@@ -79,6 +109,7 @@ namespace UI.UI_Bottom
 			listItem.GetComponent<BuildMenuEntryController>().Initialize(entry, currentBuildingMaterial);
 			listItem.transform.SetParent(contentPanel.transform);
 			listItem.transform.localScale = Vector3.one;
+			listItem.name = entry.Name;
 		}
 	}
 }

@@ -2,11 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Core;
 using Items;
 using Logs;
 using Objects;
 using Systems.Cargo;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public class AutopilotShipCargo : AutopilotShipMachine
 {

@@ -86,7 +86,7 @@ PrefabInstance:
     - target: {fileID: 4846533335637108899, guid: c04905100b9b3d746ad50b5a62efe998,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.00000004371139
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4846533335637108899, guid: c04905100b9b3d746ad50b5a62efe998,
         type: 3}
@@ -101,7 +101,7 @@ PrefabInstance:
     - target: {fileID: 4846533335637108899, guid: c04905100b9b3d746ad50b5a62efe998,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4846533335637108899, guid: c04905100b9b3d746ad50b5a62efe998,
         type: 3}
@@ -158,6 +158,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 14a7bb7d05b53d14391ab869aae7c254,
         type: 2}
+    - target: {fileID: 8369383052965318704, guid: c04905100b9b3d746ad50b5a62efe998,
+        type: 3}
+      propertyPath: parentID
+      value: c04905100b9b3d746ad50b5a62efe998
+      objectReference: {fileID: 0}
     - target: {fileID: 8369383052965318704, guid: c04905100b9b3d746ad50b5a62efe998,
         type: 3}
       propertyPath: foreverID

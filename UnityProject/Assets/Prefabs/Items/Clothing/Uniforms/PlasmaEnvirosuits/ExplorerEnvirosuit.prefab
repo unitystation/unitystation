@@ -48,6 +48,12 @@ PrefabInstance:
       propertyPath: initialDescription
       value: An air-tight khaki suit designed for operations on lavaland by plasmamen.
       objectReference: {fileID: 0}
+    - target: {fileID: 3075625591719413753, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 3f58316af2e0cff49b256c765097b22c,
+        type: 2}
     - target: {fileID: 3189476086581078171, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
         type: 3}
       propertyPath: m_Name
@@ -147,12 +153,23 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8429034800751256822, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
         type: 3}
+      propertyPath: parentID
+      value: 18cfa395284a2ed4a85bb1f7999ac5bf
+      objectReference: {fileID: 0}
+    - target: {fileID: 8429034800751256822, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
+        type: 3}
       propertyPath: foreverID
       value: 86c9ba8a56fe8a8408f6384948ccd2e1
       objectReference: {fileID: 0}
     - target: {fileID: 8720469357821825820, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 3f58316af2e0cff49b256c765097b22c,
+        type: 2}
+    - target: {fileID: 8720469357821825820, guid: 18cfa395284a2ed4a85bb1f7999ac5bf,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 3f58316af2e0cff49b256c765097b22c,
         type: 2}

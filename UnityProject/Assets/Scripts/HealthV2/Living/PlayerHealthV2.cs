@@ -59,6 +59,7 @@ namespace HealthV2
 			dynamicItemStorage = GetComponent<DynamicItemStorage>();
 			OnConsciousStateChangeServer.AddListener(OnPlayerConsciousStateChangeServer);
 			registerPlayer.AddStatus(this);
+			OnDeath += OnDeathActions;
 		}
 
 		private void OnPlayerConsciousStateChangeServer(ConsciousState oldState, ConsciousState newState)
@@ -110,15 +111,6 @@ namespace HealthV2
 			registerPlayer.ServerSetIsStanding(newState == ConsciousState.CONSCIOUS || PlayerMove.BuckledToObject != null);
 		}
 
-		public override void OnGib()
-		{
-			//Drop everything
-			playerScript.Mind.OrNull()?.Ghost();
-			Inventory.ServerDropAll(dynamicItemStorage);
-			base.OnGib();
-			PlayerMove.playerScript.ObjectPhysics.DisappearFromWorld();
-		}
-
 		bool RegisterPlayer.IControlPlayerState.AllowChange(bool rest)
 		{
 			if (rest)
@@ -132,80 +124,24 @@ namespace HealthV2
 		/// <summary>
 		/// Actions the server performs when the player dies
 		/// </summary>
-		protected override void OnDeathActions()
+		private void OnDeathActions()
 		{
 			if (CustomNetworkManager.Instance._isServer == false) return;
+			AnnounceDeathNearby();
+			registerPlayer.ServerLayDown();
+			TriggerEventMessage.SendTo(gameObject, Event.PlayerDied);
+		}
 
-			PlayerInfo player = gameObject.Player();
-
-			string killerName = null;
-			if (LastDamagedBy != null)
-			{
-				if (LastDamagedBy.TryGetPlayer(out var lastDamager))
-				{
-					killerName = lastDamager.Name;
-					AutoMod.ProcessPlayerKill(lastDamager, player);
-				}
-			}
-
-			if (killerName == null)
-			{
-				killerName = "stressful work";
-			}
-
-			string playerName = playerScript.visibleName ?? "dummy";
-			if (killerName == playerName)
-			{
-				Chat.AddActionMsgToChat(gameObject, "You committed suicide, what a waste.", $"{playerName} committed suicide.");
-			}
-			else if (killerName.EndsWith(playerName))
-			{
-				string themself = null;
-				if (player != null)
-				{
-					themself = playerScript.characterSettings?.ThemselfPronoun(player.Script);
-				}
-				if (themself == null)
-				{
-					themself = "themself";
-				}
-
-				//chain reactions
-				Chat.AddActionMsgToChat(gameObject, $"You screwed yourself up with some help from {killerName}",
-					$"{playerName} screwed {themself} up with some help from {killerName}");
-			}
-			else
-			{
-				PlayerList.Instance.TrackKill(LastDamagedBy, gameObject);
-			}
-
-			//drop items in hand
-			if (dynamicItemStorage != null)
-			{
-				foreach (var itemSlot in dynamicItemStorage.GetHandSlots())
-				{
-					Inventory.ServerDrop(itemSlot);
-				}
-			}
-
-			//TODO: Re - impliment this using the new reagent- first code introduced in PR #6810
-			//EffectsFactory.BloodSplat(RegisterTile.WorldPositionServer);
+		private void AnnounceDeathNearby()
+		{
+			PlayerInfo player = playerScript.PlayerInfo;
 			string their = null;
 			if (player != null)
 			{
 				their = playerScript.characterSettings?.TheirPronoun(player.Script);
 			}
-
-			if (their == null)
-			{
-				their = "their";
-			}
-
+			their ??= "their";
 			Chat.AddActionMsgToChat(gameObject, $"<b>{playerScript.visibleName}</b> seizes up and falls limp, {their} eyes dead and lifeless...");
-
-			registerPlayer.ServerLayDown();
-
-			TriggerEventMessage.SendTo(gameObject, Event.PlayerDied);
 		}
 
 		#region Sickness

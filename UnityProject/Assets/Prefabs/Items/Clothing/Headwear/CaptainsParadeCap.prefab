@@ -10,6 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3549479581640830887, guid: 97b4b6e6d0aac46f6ad3fb58fb826008,
         type: 3}
+      propertyPath: parentID
+      value: 97b4b6e6d0aac46f6ad3fb58fb826008
+      objectReference: {fileID: 0}
+    - target: {fileID: 3549479581640830887, guid: 97b4b6e6d0aac46f6ad3fb58fb826008,
+        type: 3}
       propertyPath: foreverID
       value: a340b01570aae8349b6c47fabfe0d4a3
       objectReference: {fileID: 0}
@@ -32,6 +37,12 @@ PrefabInstance:
     - target: {fileID: 4377197623706982477, guid: 97b4b6e6d0aac46f6ad3fb58fb826008,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: cdfacbe50a442494b9d7e36b09e368bb,
+        type: 2}
+    - target: {fileID: 4377197623706982477, guid: 97b4b6e6d0aac46f6ad3fb58fb826008,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: cdfacbe50a442494b9d7e36b09e368bb,
         type: 2}
@@ -121,6 +132,12 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Worn only by Captains with an abundance of class.
       objectReference: {fileID: 0}
+    - target: {fileID: 8004422176852823208, guid: 97b4b6e6d0aac46f6ad3fb58fb826008,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: cdfacbe50a442494b9d7e36b09e368bb,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

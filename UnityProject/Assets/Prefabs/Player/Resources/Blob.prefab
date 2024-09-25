@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1701130744537055684}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.29, y: 0.138, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -50,6 +50,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -111,7 +113,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2436598461504102974}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.738, y: 0.313, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -135,6 +137,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -193,11 +197,8 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &4390267312333422610
 GameObject:
   m_ObjectHideFlags: 0
@@ -281,10 +282,10 @@ MonoBehaviour:
   playerName: ' '
   visibleName: ' '
   PlayerSync: {fileID: 0}
-  SyncedWorldPos: {x: 0, y: 0, z: 0}
+  <PlayerFaith>k__BackingField: {fileID: 0}
+  <Particles>k__BackingField: {fileID: 0}
+  <DimPlayerLightController>k__BackingField: {fileID: 0}
   RTT: 0
-  RcsMode: 0
-  RcsMatrixMove: {fileID: 0}
   playerChatLocation: {fileID: 4390267312333422610}
   canVentCrawl: 0
   <OnBodyPossesedByPlayer>k__BackingField:
@@ -329,10 +330,12 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 2
+  LiesFlat3D: 0
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
-  <LayDownBehavior>k__BackingField: {fileID: 0}
+  <LayDownBehavior>k__BackingField: {fileID: 8715673610173069278}
   networkedLean: {fileID: 0}
+  stunAlert: {fileID: 0}
 --- !u!114 &1176408661413567387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,7 +355,9 @@ MonoBehaviour:
   ChangeSprites: 0
   isChangingSO: 0
   CurrentDirection: 3
+  SynchroniseCurrentDirection: 0
   IgnoreServerUpdatesIfLocalPlayer: 0
+  MatrixRotateUpdate: 1
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
 --- !u!114 &1105258743114886135
@@ -504,6 +509,7 @@ MonoBehaviour:
   HarmCursor: {fileID: 0}
   GrabCursor: {fileID: 0}
   DisarmCursor: {fileID: 0}
+  ThrowCursor: {fileID: 0}
   placeOther: 0
   blobConstructs: 0
 --- !u!114 &1205907779006116383
@@ -562,12 +568,14 @@ MonoBehaviour:
   slideTime: 0
   spinMagnitude: 0
   thrownBy: {fileID: 0}
+  thrownProtection: {fileID: 0}
   aim: 0
   ForcedPushedFrame: 0
   TryPushedFrame: 0
   PushedFrame: 0
   ChangesDirectionPush: 0
   Intangible: 1
+  MappingIntangible: 0
   SnapToGridOnStart: 0
   IsPlayer: 0
   DEBUG: 0
@@ -576,7 +584,6 @@ MonoBehaviour:
   isNotPushable: 0
   CanBeWindPushed: 1
   rotationTarget: {fileID: 0}
-  FramePushDecision: 1
   stickyMovement: 1
   OnThrowEndResetRotation: 0
   maximumStickSpeed: 9999
@@ -592,6 +599,7 @@ MonoBehaviour:
   IsMoving: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
+  TimeSpentFlying: 0
   BuckledToObject: {fileID: 0}
   IsPressedCashed: 0
   IsPressedServer: 0
@@ -605,8 +613,12 @@ MonoBehaviour:
   CrawlSpeed: 18
   needsWalking: {fileID: 0}
   needsRunning: {fileID: 0}
+  CachedPreviousMove: {x: 0, y: 0}
+  CachedMove: {x: 0, y: 0}
+  ClientRequestedType: 0
   actionData: {fileID: 0}
   IsBumping: 0
+  FudgeThresholdFlyingSliding: 0.5
 --- !u!114 &3891003690595634810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -638,7 +650,7 @@ MonoBehaviour:
   syncMode: 1
   syncInterval: 0.1
   defaultLanguages: {fileID: 11400000, guid: 35923031bcd51b94caeed8eb3cd05075, type: 2}
-  omniTongue: 0
+  omniTongue: 1
   PlayerScript: {fileID: 0}
 --- !u!114 &8715673610173069278
 MonoBehaviour:
@@ -660,8 +672,8 @@ MonoBehaviour:
   playerDirectional: {fileID: 0}
   playerScript: {fileID: 0}
   networkedLean: {fileID: 0}
-  disabled: 0
-  IsLayingDown: 0
+  disabled: 1
+  clientAutoCorrectInterval: 1.35
 --- !u!1 &5221521674064678679
 GameObject:
   m_ObjectHideFlags: 0
@@ -744,6 +756,8 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -814,7 +828,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7320126117105815585}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -838,6 +852,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -891,8 +907,5 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []

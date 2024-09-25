@@ -42,8 +42,23 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 864991872856124446, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}
+      propertyPath: parentID
+      value: 6a1a4888888e8994187da2ccb8d6f1c2
+      objectReference: {fileID: 0}
+    - target: {fileID: 864991872856124446, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
       propertyPath: foreverID
       value: 51326f2264a075148a8aaa6bf95604c7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2248888309074977091, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2816369525370566731, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3959904421835429671, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}
@@ -155,6 +170,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f0594d5820b2ebd4d90a67a4b81c7ba0,
         type: 2}
+    - target: {fileID: 5634608301428914778, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5932985456522563345, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}
       propertyPath: initialName
@@ -211,17 +231,17 @@ PrefabInstance:
     - target: {fileID: 6100172161442356487, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6100172161442356487, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6100172161442356487, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6100172161442356487, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}
@@ -262,6 +282,11 @@ PrefabInstance:
     - target: {fileID: 6217885582937215791, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
         type: 3}
       propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225978599732750163, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: playTraumaNoise
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6999556221578282813, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
@@ -387,6 +412,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f0594d5820b2ebd4d90a67a4b81c7ba0,
         type: 2}
+    - target: {fileID: 9010513991236507811, guid: 6a1a4888888e8994187da2ccb8d6f1c2,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3959904421835429671, guid: 6a1a4888888e8994187da2ccb8d6f1c2, type: 3}
     m_RemovedGameObjects: []
@@ -426,9 +456,11 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  walkingSpeed: 1.5
+  RelatedPart: {fileID: 0}
+  walkingSpeed: 2
   runningSpeed: 3
-  legEfficiency: 1
+  crawlingSpeed: 0.024
+  initialLimbEfficiency: 1
 --- !u!114 &5655852655570756341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -454,6 +486,7 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
+  ignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 0}
 --- !u!114 &6633847452124842489
 MonoBehaviour:

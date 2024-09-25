@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using Items.Implants.Organs;
 using Logs;
 using Managers;
+using Objects.Atmospherics;
 using UI;
 using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine.EventSystems;
@@ -239,9 +240,14 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IPointerEnterHandler, IPointerE
 			if (MoreInventoryImage != null)
 			{
 				var Storage = item.GetComponent<InteractableStorage>();
+				var canister = item.GetComponent<GasContainer>();
 				if (Storage != null && Storage.DoNotShowInventoryOnUI == false)
 				{
 					HasSubInventory.itemStorage = Storage.ItemStorage;
+					MoreInventoryImage.enabled = true;
+				}
+				else if (canister != null && canister.IgnoreInternals == false)
+				{
 					MoreInventoryImage.enabled = true;
 				}
 				else

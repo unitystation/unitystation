@@ -18,6 +18,8 @@ using Items;
 using Items.Botany;
 using Logs;
 using SecureStuff;
+using Systems.Atmospherics;
+using Systems.Clothing;
 using Debug = UnityEngine.Debug;
 using Random = System.Random;
 
@@ -37,310 +39,30 @@ namespace Util
 		public static SpriteCatalogue spriteCatalogue;
 
 
-		// SerializedObject serializedObject = new UnityEditor.SerializedObject(transform);
-
-		// foreach (var ob in serializedObject.GetIterator())
-		// {
-		// 	Loggy.LogError(ob.ToString()); // You can use this to reset every property on a scene object/Prefab object
-		// }
-		// var localRotation = serializedObject.FindProperty("m_LocalRotation");
-		// PrefabUtility.RevertPropertyOverride(localRotation, InteractionMode.AutomatedAction);
-
-		[MenuItem("Tools/Audio/Refresh Sound Catalogue")]
-		public static void RefreshSoundCatalogue()
-		{
-			AddressablePicker.Refresh();
-		}
-
-		[MenuItem("Tools/---CompiledDammit!!!!!!!!! #&q")]
-		public static void CompiledDammit()
-		{
-			EditorPrefs.SetInt("kAutoRefresh", 1);
-			UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation();
-
-		}
-
-
-		public static List<string> FilesToKeepInManaged
-		{
-			get
-			{
-				var path = Application.dataPath.Replace("/UnityProject/Assets", "") + "/Tools/CodeScanning/CodeScan/CodeScan/bin/Debug/net7.0/FilesToMoveToManaged.json";
-				return JsonConvert.DeserializeObject<List<string>>(File.ReadAllText(path));
-			}
-		}
-
-
-		[MenuItem("Tools/𓀠 - 𓀠 - ConvertBuildToGoodFiles 𓀂 - 𓀂 -")]
-		public static void ConvertBuildToGoodFiles()
-		{
-			PrepareWindows();
-			PrepareMac();
-			PrepareLinux();
-		}
-
-		[MenuItem("Tools/𓀠 𓀠 𓀠 𓀠 GenGoodFiles 𓀂 𓀂 𓀂 𓀂")]
-		public static void GenGoodFiles()
-		{
-
-
-			string path = Application.dataPath;
-			path = path.Replace("/Assets", "");
-			path = Path.Combine(path, "Build");
-			var Directory = new DirectoryInfo(path);
-			if (Directory.Exists)
-			{
-				Directory.Delete(true);
-			}
-			Directory.Create();
-
-			BuildWindows();
-			BuildLinux();
-			BuildMac();
-		}
-
-		private static void BuildWindows()
-		{
-			string[] levels = new string[] {};
-
-			string path = Application.dataPath;
-			path = path.Replace("/Assets", "");
-
-			path = Path.Combine(path, "Build");
-
-			// Build player.
-			BuildPipeline.BuildPlayer(levels, Path.Combine(path, "Windows", "Unitystation.exe") , BuildTarget.StandaloneWindows64, BuildOptions.None);
-
-			PrepareWindows();
-		}
-
-		private static void PrepareWindows()
-		{
-			string path = Application.dataPath;
-			path = path.Replace("/Assets", "");
-
-			path = Path.Combine(path, "Build");
-
-			var Directory = new DirectoryInfo(Path.Combine(path, "Windows", @"Unitystation_Data\Managed"));
-
-			var GoodFilesToKeepInManaged = FilesToKeepInManaged;
-
-			foreach (var file in Directory.GetFiles())
-			{
-				if (GoodFilesToKeepInManaged.Contains(file.Name.Replace(file.Extension, ""))) continue;
-				file.Delete();
-			}
-			Directory = new DirectoryInfo(Path.Combine(path, "Windows", @"Unitystation_Data\Resources"));
-			Directory.Delete(true);
-			Directory = new DirectoryInfo(Path.Combine(path, "Windows", @"Unitystation_Data\StreamingAssets"));
-			Directory.Delete(true);
-
-			Directory = new DirectoryInfo(Path.Combine(path, "Windows", @"Unitystation_Data"));
-			foreach (var file in Directory.GetFiles())
-			{
-				file.Delete();
-			}
-		}
-
-
-		private static void BuildLinux()
-		{
-			string[] levels = new string[] {};
-
-			string path = Application.dataPath;
-			path = path.Replace("/Assets", "");
-
-			path = Path.Combine(path, "Build");
-
-			// Build player.
-			BuildPipeline.BuildPlayer(levels, Path.Combine(path, "Linux", "Unitystation.x86_64") , BuildTarget.StandaloneLinux64, BuildOptions.None);
-
-			PrepareLinux();
-		}
-
-		private static void PrepareLinux()
-		{
-			string path = Application.dataPath;
-			path = path.Replace("/Assets", "");
-
-			path = Path.Combine(path, "Build");
-
-			var Directory = new DirectoryInfo(Path.Combine(path, "Linux", @"Unitystation_Data\Managed"));
-			var GoodFilesToKeepInManaged = FilesToKeepInManaged;
-			foreach (var file in Directory.GetFiles())
-			{
-				if (GoodFilesToKeepInManaged.Contains(file.Name.Replace(file.Extension, ""))) continue;
-				file.Delete();
-			}
-			Directory = new DirectoryInfo(Path.Combine(path, "Linux", @"Unitystation_Data\Resources"));
-			Directory.Delete(true);
-			Directory = new DirectoryInfo(Path.Combine(path, "Linux", @"Unitystation_Data\StreamingAssets"));
-			Directory.Delete(true);
-
-			Directory = new DirectoryInfo(Path.Combine(path, "Linux", @"Unitystation_Data"));
-			foreach (var file in Directory.GetFiles())
-			{
-				file.Delete();
-			}
-		}
-
-		private static void BuildMac()
-		{
-			string[] levels = new string[] {};
-
-			string path = Application.dataPath;
-			path = path.Replace("/Assets", "");
-
-			path = Path.Combine(path, "Build");
-
-			// Build player.
-			BuildPipeline.BuildPlayer(levels, Path.Combine(path, "Mac", "Unitystation.app") , BuildTarget.StandaloneOSX, BuildOptions.None);
-
-			PrepareMac();
-		}
-
-		private static void PrepareMac()
-		{
-			string path = Application.dataPath;
-			path = path.Replace("/Assets", "");
-
-			path = Path.Combine(path, "Build");
-			var Directory = new DirectoryInfo(Path.Combine(path, "Mac", @"Unitystation.app\Contents\Resources\Data\Managed"));
-			var GoodFilesToKeepInManaged = FilesToKeepInManaged;
-			foreach (var file in Directory.GetFiles())
-			{
-				if (GoodFilesToKeepInManaged.Contains(file.Name.Replace(file.Extension, ""))) continue;
-				file.Delete();
-			}
-			Directory = new DirectoryInfo(Path.Combine(path, "Mac", @"Unitystation.app\Contents\Resources\Data\StreamingAssets"));
-			Directory.Delete(true);
-
-			Directory = new DirectoryInfo(Path.Combine(path, "Mac", @"Unitystation.app\Contents\Resources\Data"));
-			foreach (var file in Directory.GetFiles())
-			{
-				file.Delete();
-			}
-		}
-
-		[MenuItem("Tools/Audio/Get Music keys")]
-		public static void GetMusicKeys()
-		{
-			var path = Application.dataPath.Remove(Application.dataPath.IndexOf("/Assets"));
-			path = path + "/AddressablePackingProjects/SoundAndMusic/ServerData"; //Make OS agnostic
-			Loggy.Log(path, Category.Editor);
-			var Files = Directory.GetFiles(path);
-			string FoundFile = "";
-			foreach (var File in Files)
-			{
-				Loggy.Log(File, Category.Editor);
-				if (File.EndsWith(".json"))
-				{
-					FoundFile = File;
-				}
-			}
-
-			if (FoundFile == "")
-			{
-				Loggy.LogWarning("missing json file", Category.Editor);
-				return;
-			}
-
-			JObject o1 = JObject.Parse(File.ReadAllText((@FoundFile.Replace("/", @"\"))));
-			var IDs = o1.GetValue("m_InternalIds");
-			var ListIDs = IDs.ToObject<List<string>>().Where(x => x.Contains(".bundle") == false);
-			foreach (var ListID in ListIDs)
-			{
-				Loggy.Log(ListID, Category.Editor);
-			}
-		}
-
-		[MenuItem("Tools/StopAssetEditing")]
-		public static void StopAssetEditing()
-		{
-			AssetDatabase.StopAssetEditing();
-		}
-
-		[MenuItem("Tools/StartAssetEditing")]
-		public static void StartAssetEditing()
-		{
-			AssetDatabase.StartAssetEditing();
-		}
-
-		[MenuItem("Tools/Sprites/Convert Json Sprites")]
-		public static void ConvertJsonSprites()
-		{
-			spriteCatalogue =
-				AssetDatabase.LoadAssetAtPath<SpriteCatalogue>(
-					"Assets/Resources/ScriptableObjectsSingletons/SpriteCatalogueSingleton.asset");
-			ToSeve.Clear();
-			ToDel.Clear();
-			DirSearch_ex3(Application.dataPath + "/SpriteJsonToSO");
-
-			foreach (var oDe in ToDel)
-			{
-				AssetDatabase.DeleteAsset(oDe);
-			}
-
-			var AAA = FindAssetsByType<SpriteCatalogue>();
-			foreach (var Seve in ToSeve)
-			{
-				AssetDatabase.CreateAsset(Seve.Value, Seve.Key);
-				AAA[0].AddToCatalogue(Seve.Value);
-			}
-
-			ToSeve.Clear();
-			ToDel.Clear();
-			EditorUtility.SetDirty(AAA[0]);
-			AssetDatabase.SaveAssets();
-		}
-
-		[MenuItem("Tools/Sprites/Reset SO index")]
-		public static void Reset()
-		{
-			AssetDatabase.StartAssetEditing();
-			var AAA = FindAssetsByType<SpriteCatalogue>();
-			foreach (var AA in AAA)
-			{
-				AA.Catalogue = new List<SpriteDataSO>();
-				EditorUtility.SetDirty(AA);
-			}
-
-			var SOs = FindAssetsByType<SpriteDataSO>();
-			foreach (var SO in SOs)
-			{
-				AAA[0].AddToCatalogue(SO);
-			}
-
-			EditorUtility.SetDirty(AAA[0]);
-			AssetDatabase.StopAssetEditing();
-			AssetDatabase.SaveAssets();
-		}
-
-		[MenuItem("Tools/Debug/CheckURLHubValidation")]
-		public static async Task Dothing()
-		{
-			var data = await HubValidation.RequestOpenURL(new Uri("https://old.reddit.com"), " because lol ", false);
-			data = await HubValidation.RequestAPIURL(new Uri("https://old.reddit.com"), " Because I needed ", false);
-			data = await HubValidation.RequestTrustedMode("AAAAAAAAAAAAAAAA");
-			Loggy.LogError(data.ToString());
-		}
-
-		public class coolClass
-		{
-			public int val = 0;
-		}
-
-		class LoginBody
-		{
-			public string email { get; set; }
-			public string password { get; set; }
-		}
-
-
 
 		[MenuItem("Tools/Debug/------------ Debug function -----------")]
 		public static void Generate()
 		{
+			// AssetDatabase.StartAssetEditing();
+			// var AAAa = FindAssetsByType<Chemistry.Reaction>();
+			// foreach (var a in AAAa)
+			// {
+			// 	if (a.effects == null) continue;
+			// 	foreach (var effect in a.effects)
+			// 	{
+			// 		if (effect == null) continue;
+			// 		if (a.effectDict.Contains(effect) == false)
+			// 		{
+			// 			a.effectDict[effect] = 1;
+			// 		}
+			// 	}
+			// 	EditorUtility.SetDirty(a);
+			// }
+			//
+			// AssetDatabase.StopAssetEditing();
+			// AssetDatabase.SaveAssets();
+
+			return;
 
 			var ChunkedTileMap = new ChunkedTileMap<coolClass>();
 			var url = new Uri( "https://dev-api.unitystation.org/accounts/login-credentials");
@@ -444,7 +166,7 @@ UnityEngine";
 			AssetDatabase.StartAssetEditing();
 			AssetDatabase.ForceReserializeAssets();
 			//FindInGo
-			var doors = LoadAllPrefabsOfType<DoorController>("");
+			var doors = LoadAllPrefabsOfType<DoorMasterController>("");
 
 			foreach (var door in doors)
 			{
@@ -678,6 +400,355 @@ UnityEngine";
 			}
 			*/
 		}
+
+		// SerializedObject serializedObject = new UnityEditor.SerializedObject(transform);
+
+		// foreach (var ob in serializedObject.GetIterator())
+		// {
+		// 	Loggy.LogError(ob.ToString()); // You can use this to reset every property on a scene object/Prefab object
+		// }
+		// var localRotation = serializedObject.FindProperty("m_LocalRotation");
+		// PrefabUtility.RevertPropertyOverride(localRotation, InteractionMode.AutomatedAction);
+
+		[MenuItem("Tools/Audio/Refresh Sound Catalogue")]
+		public static void RefreshSoundCatalogue()
+		{
+			AddressablePicker.Refresh();
+		}
+
+		[MenuItem("Tools/regenerateID parents of prefabs")]
+		public static void RegenerateIDparents()
+		{
+			var prefabs = LoadAllPrefabsOfType<PrefabTracker>("");
+			foreach (var prefab in prefabs)
+			{
+
+				if (prefab.TryGetComponent<PrefabTracker>(out var prefabTracker) == false) continue;
+
+				var OLdv = prefabTracker.GetUnmodifiedParentID();
+				if (string.IsNullOrEmpty(OLdv))
+				{
+					var PID = prefabTracker.ParentID;
+					Loggy.LogError($"{prefabTracker.name} or {prefabTracker.OrNull()?.name} NEEDS to be committed with it's Parent ID.");
+					continue;
+				}
+
+				prefabTracker.ReassignParentID();
+
+				if (prefabTracker.ParentID != OLdv)
+				{
+					Loggy.LogError($"{prefabTracker.name} or {prefabTracker.OrNull()?.name} NEEDS to be committed with it's Parent ID.");
+				}
+			}
+
+		}
+
+		[MenuItem("Tools/---CompiledDammit!!!!!!!!! #&q")]
+		public static void CompiledDammit()
+		{
+			EditorPrefs.SetInt("kAutoRefresh", 1);
+			UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation();
+
+		}
+
+
+		public static List<string> FilesToKeepInManaged
+		{
+			get
+			{
+				var path = Application.dataPath.Replace("/UnityProject/Assets", "") + "/Tools/CodeScanning/CodeScan/CodeScan/bin/Debug/net7.0/FilesToMoveToManaged.json";
+				return JsonConvert.DeserializeObject<List<string>>(File.ReadAllText(path));
+			}
+		}
+
+
+		[MenuItem("Tools/𓀠 - 𓀠 - ConvertBuildToGoodFiles 𓀂 - 𓀂 -")]
+		public static void ConvertBuildToGoodFiles()
+		{
+			PrepareWindows();
+			PrepareMac();
+			PrepareLinux();
+		}
+
+		[MenuItem("Tools/𓀠 𓀠 𓀠 𓀠 GenGoodFiles 𓀂 𓀂 𓀂 𓀂")]
+		public static void GenGoodFiles()
+		{
+
+
+			string path = Application.dataPath;
+			path = path.Replace("/Assets", "");
+			path = Path.Combine(path, "Build");
+			var Directory = new DirectoryInfo(path);
+			if (Directory.Exists)
+			{
+				Directory.Delete(true);
+			}
+			Directory.Create();
+
+			BuildWindows();
+			BuildLinux();
+			BuildMac();
+		}
+
+		private static void BuildWindows()
+		{
+			string[] levels = new string[] {};
+
+			string path = Application.dataPath;
+			path = path.Replace("/Assets", "");
+
+			path = Path.Combine(path, "Build");
+
+			// Build player.
+			BuildPipeline.BuildPlayer(levels, Path.Combine(path, "Windows", "Unitystation.exe") , BuildTarget.StandaloneWindows64, BuildOptions.None);
+
+			PrepareWindows();
+		}
+
+		private static void PrepareWindows()
+		{
+			string path = Application.dataPath;
+			path = path.Replace("/Assets", "");
+
+			path = Path.Combine(path, "Build");
+
+			var Directory = new DirectoryInfo(Path.Combine(path, "Windows", @"Unitystation_Data\Managed"));
+
+			var GoodFilesToKeepInManaged = FilesToKeepInManaged;
+
+			foreach (var file in Directory.GetFiles())
+			{
+				if (GoodFilesToKeepInManaged.Contains(file.Name.Replace(file.Extension, ""))) continue;
+				file.Delete();
+			}
+			Directory = new DirectoryInfo(Path.Combine(path, "Windows", @"Unitystation_Data\Resources"));
+			Directory.Delete(true);
+			Directory = new DirectoryInfo(Path.Combine(path, "Windows", @"Unitystation_Data\StreamingAssets"));
+			Directory.Delete(true);
+
+			Directory = new DirectoryInfo(Path.Combine(path, "Windows", @"Unitystation_Data"));
+			foreach (var file in Directory.GetFiles())
+			{
+				file.Delete();
+			}
+		}
+
+
+		private static void BuildLinux()
+		{
+			string[] levels = new string[] {};
+
+			string path = Application.dataPath;
+			path = path.Replace("/Assets", "");
+
+			path = Path.Combine(path, "Build");
+
+			// Build player.
+			BuildPipeline.BuildPlayer(levels, Path.Combine(path, "Linux", "Unitystation.x86_64") , BuildTarget.StandaloneLinux64, BuildOptions.None);
+
+			PrepareLinux();
+		}
+
+		private static void PrepareLinux()
+		{
+			string path = Application.dataPath;
+			path = path.Replace("/Assets", "");
+
+			path = Path.Combine(path, "Build");
+
+			var Directory = new DirectoryInfo(Path.Combine(path, "Linux", @"Unitystation_Data\Managed"));
+			var GoodFilesToKeepInManaged = FilesToKeepInManaged;
+			foreach (var file in Directory.GetFiles())
+			{
+				if (GoodFilesToKeepInManaged.Contains(file.Name.Replace(file.Extension, ""))) continue;
+				file.Delete();
+			}
+			Directory = new DirectoryInfo(Path.Combine(path, "Linux", @"Unitystation_Data\Resources"));
+			Directory.Delete(true);
+			Directory = new DirectoryInfo(Path.Combine(path, "Linux", @"Unitystation_Data\StreamingAssets"));
+			Directory.Delete(true);
+
+			Directory = new DirectoryInfo(Path.Combine(path, "Linux", @"Unitystation_Data"));
+			foreach (var file in Directory.GetFiles())
+			{
+				file.Delete();
+			}
+		}
+
+		private static void BuildMac()
+		{
+			string[] levels = new string[] {};
+
+			string path = Application.dataPath;
+			path = path.Replace("/Assets", "");
+
+			path = Path.Combine(path, "Build");
+
+			// Build player.
+			BuildPipeline.BuildPlayer(levels, Path.Combine(path, "Mac", "Unitystation.app") , BuildTarget.StandaloneOSX, BuildOptions.None);
+
+			PrepareMac();
+		}
+
+		private static void PrepareMac()
+		{
+			string path = Application.dataPath;
+			path = path.Replace("/Assets", "");
+
+			path = Path.Combine(path, "Build");
+			var Directory = new DirectoryInfo(Path.Combine(path, "Mac", @"Unitystation.app\Contents\Resources\Data\Managed"));
+			var GoodFilesToKeepInManaged = FilesToKeepInManaged;
+			foreach (var file in Directory.GetFiles())
+			{
+				if (GoodFilesToKeepInManaged.Contains(file.Name.Replace(file.Extension, ""))) continue;
+				file.Delete();
+			}
+			Directory = new DirectoryInfo(Path.Combine(path, "Mac", @"Unitystation.app\Contents\Resources\Data\StreamingAssets"));
+			Directory.Delete(true);
+
+			Directory = new DirectoryInfo(Path.Combine(path, "Mac", @"Unitystation.app\Contents\Resources\Data"));
+			foreach (var file in Directory.GetFiles())
+			{
+				file.Delete();
+			}
+		}
+
+		[MenuItem("Tools/Audio/Get Music keys")]
+		public static void GetMusicKeys()
+		{
+			var path = Application.dataPath.Remove(Application.dataPath.IndexOf("/Assets"));
+			path = path + "/AddressablePackingProjects/SoundAndMusic/ServerData"; //Make OS agnostic
+			Loggy.Log(path, Category.Editor);
+			var Files = Directory.GetFiles(path);
+			string FoundFile = "";
+			foreach (var File in Files)
+			{
+				Loggy.Log(File, Category.Editor);
+				if (File.EndsWith(".json"))
+				{
+					FoundFile = File;
+				}
+			}
+
+			if (FoundFile == "")
+			{
+				Loggy.LogWarning("missing json file", Category.Editor);
+				return;
+			}
+
+			JObject o1 = JObject.Parse(File.ReadAllText((@FoundFile.Replace("/", @"\"))));
+			var IDs = o1.GetValue("m_InternalIds");
+			var ListIDs = IDs.ToObject<List<string>>().Where(x => x.Contains(".bundle") == false);
+			foreach (var ListID in ListIDs)
+			{
+				Loggy.Log(ListID, Category.Editor);
+			}
+		}
+
+		[MenuItem("Tools/StopAssetEditing")]
+		public static void StopAssetEditing()
+		{
+			AssetDatabase.StopAssetEditing();
+		}
+
+		[MenuItem("Tools/StartAssetEditing")]
+		public static void StartAssetEditing()
+		{
+			AssetDatabase.StartAssetEditing();
+		}
+
+		[MenuItem("Tools/Sprites/SetUpClothingSprites")]
+		public static void SetSpriteDataForClothing()
+		{
+			AssetDatabase.StartAssetEditing();
+			var ClothingPefabs = LoadAllPrefabsOfType<ClothingV2>(Application.dataPath);
+			foreach (var ClothingPefab in ClothingPefabs)
+			{
+				var DataToUse = ClothingPefab.CurrentClothData;
+				if (DataToUse == null) continue;
+				var Data = ClothingPefab.GenItemsSprites(DataToUse);
+				if (Data == null) continue;
+				var att = ClothingPefab.GetComponent<ItemAttributesV2>();
+				att.SetSprites(Data);
+
+				EditorUtility.SetDirty(ClothingPefab.gameObject);
+				Undo.RecordObject(ClothingPefab.gameObject, "set SetSprites");
+			}
+			AssetDatabase.StopAssetEditing();
+			AssetDatabase.SaveAssets();
+		}
+
+
+		[MenuItem("Tools/Sprites/Convert Json Sprites")]
+		public static void ConvertJsonSprites()
+		{
+			spriteCatalogue =
+				AssetDatabase.LoadAssetAtPath<SpriteCatalogue>(
+					"Assets/Resources/ScriptableObjectsSingletons/SpriteCatalogueSingleton.asset");
+			ToSeve.Clear();
+			ToDel.Clear();
+			DirSearch_ex3(Application.dataPath + "/SpriteJsonToSO");
+
+			foreach (var oDe in ToDel)
+			{
+				AssetDatabase.DeleteAsset(oDe);
+			}
+
+			var AAA = FindAssetsByType<SpriteCatalogue>();
+			foreach (var Seve in ToSeve)
+			{
+				AssetDatabase.CreateAsset(Seve.Value, Seve.Key);
+				AAA[0].AddToCatalogue(Seve.Value);
+			}
+
+			ToSeve.Clear();
+			ToDel.Clear();
+			EditorUtility.SetDirty(AAA[0]);
+			AssetDatabase.SaveAssets();
+		}
+
+		[MenuItem("Tools/Sprites/Reset SO index")]
+		public static void Reset()
+		{
+			AssetDatabase.StartAssetEditing();
+			var AAA = FindAssetsByType<SpriteCatalogue>();
+			foreach (var AA in AAA)
+			{
+				AA.Catalogue = new List<SpriteDataSO>();
+				EditorUtility.SetDirty(AA);
+			}
+
+			var SOs = FindAssetsByType<SpriteDataSO>();
+			foreach (var SO in SOs)
+			{
+				AAA[0].AddToCatalogue(SO);
+			}
+
+			EditorUtility.SetDirty(AAA[0]);
+			AssetDatabase.StopAssetEditing();
+			AssetDatabase.SaveAssets();
+		}
+
+		[MenuItem("Tools/Debug/CheckURLHubValidation")]
+		public static async Task Dothing()
+		{
+			var data = await HubValidation.RequestOpenURL(new Uri("https://old.reddit.com"), " because lol ", false);
+			data = await HubValidation.RequestAPIURL(new Uri("https://old.reddit.com"), " Because I needed ", false);
+			data = await HubValidation.RequestTrustedMode("AAAAAAAAAAAAAAAA");
+			Loggy.LogError(data.ToString());
+		}
+
+		public class coolClass
+		{
+			public int val = 0;
+		}
+
+		class LoginBody
+		{
+			public string email { get; set; }
+			public string password { get; set; }
+		}
+
 
 		private static void FindInGo(GameObject g)
 		{

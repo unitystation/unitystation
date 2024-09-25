@@ -25,23 +25,23 @@ namespace Systems.Research
 			Vector3Int globalPos = EffectShape.CreateEffectShape(effectShapeType, center, AuraRadius).PickRandom();
 			Vector3Int localPos = MatrixManager.WorldToLocalInt(globalPos, matrixInfo.Matrix);
 
-			
+
 			LayerTile tileToPlace = tilesToSpawn.PickRandom();
 			LayerType typeToReplace = tileToPlace.LayerType;
 
 			if(typeToReplace == LayerType.Floors) typeToReplace = LayerType.Base; //Floors just need a base tile not a floor
 
 			if (matrixInfo.MetaTileMap.HasTile(localPos, typeToReplace) == false) return;
-			
-			matrixInfo.MetaTileMap.SetTile(localPos, tileToPlace);
-			
+
+			matrixInfo.MetaTileMap.SetTile(localPos, tileToPlace, MapSaveRecord: true);
+
 			int rand = Random.Range(0, 100);
 			if(rand <= objectChance && matrixInfo.MetaTileMap.IsAtmosPassableAt(localPos,true))
 			{
 				GameObject objToSpawn = objectsToSpawn.PickRandom();
 				Spawn.ServerPrefab(objToSpawn, SpawnDestination.At(globalPos));
 			}
-			
+
 		}
 	}
 }

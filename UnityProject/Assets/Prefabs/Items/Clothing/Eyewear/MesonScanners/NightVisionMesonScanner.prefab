@@ -21,9 +21,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2987011942256334699, guid: e6f80a7fd02e2c14ea72a1410452b690,
         type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 5c09afa0a01fae4418e48468376ffaa5,
+        type: 2}
+    - target: {fileID: 2987011942256334699, guid: e6f80a7fd02e2c14ea72a1410452b690,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: f3a3b78a058a8394080fe0455a2089e9,
+        type: 2}
+    - target: {fileID: 2987011942256334699, guid: e6f80a7fd02e2c14ea72a1410452b690,
+        type: 3}
       propertyPath: inventoryMoveSound.AssetAddress
       value: null
       objectReference: {fileID: 0}
+    - target: {fileID: 2987011942256334699, guid: e6f80a7fd02e2c14ea72a1410452b690,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 7cd97ff9b97759c4e9a169572f9406ca,
+        type: 2}
     - target: {fileID: 2987011942256334699, guid: e6f80a7fd02e2c14ea72a1410452b690,
         type: 3}
       propertyPath: inventoryRemoveSound.AssetAddress
@@ -107,6 +125,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8585229615259169892, guid: e6f80a7fd02e2c14ea72a1410452b690,
         type: 3}
+      propertyPath: parentID
+      value: e6f80a7fd02e2c14ea72a1410452b690
+      objectReference: {fileID: 0}
+    - target: {fileID: 8585229615259169892, guid: e6f80a7fd02e2c14ea72a1410452b690,
+        type: 3}
       propertyPath: foreverID
       value: db61b583bd06b6048a87e09970da5423
       objectReference: {fileID: 0}
@@ -134,6 +157,12 @@ PrefabInstance:
     - target: {fileID: 8851959254138389390, guid: e6f80a7fd02e2c14ea72a1410452b690,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 7cd97ff9b97759c4e9a169572f9406ca,
+        type: 2}
+    - target: {fileID: 8851959254138389390, guid: e6f80a7fd02e2c14ea72a1410452b690,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 7cd97ff9b97759c4e9a169572f9406ca,
         type: 2}
@@ -171,6 +200,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   actionData: {fileID: 11400000, guid: a5f5824fd6f60514bae4cfbecbb9e44c, type: 2}
   allowedSlots: 512
   useSpriteHandler: 1

@@ -36,12 +36,23 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3585452806818900716, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
+      propertyPath: parentID
+      value: 05a135eab68164d34bb02b82fff3cde0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3585452806818900716, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
       propertyPath: foreverID
       value: a192eab07682ae043a36c5a861253483
       objectReference: {fileID: 0}
     - target: {fileID: 4341101185987976454, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 00d3900d3c54ae74797b8f1789fe49ef,
+        type: 2}
+    - target: {fileID: 4341101185987976454, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 00d3900d3c54ae74797b8f1789fe49ef,
         type: 2}
@@ -152,6 +163,24 @@ PrefabInstance:
       value: An ancient mask carved in the shape of a frog. Sanity is like gravity,
         all it needs is a push.
       objectReference: {fileID: 0}
+    - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ef36d3a320954674f8c832dcee1ea1a3,
+        type: 2}
+    - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: bacae64fff45eed4e9864cb4702c8ee6,
+        type: 2}
+    - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 00d3900d3c54ae74797b8f1789fe49ef,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -189,6 +189,17 @@ PrefabInstance:
       propertyPath: initialName
       value: chemist's jumpskirt
       objectReference: {fileID: 0}
+    - target: {fileID: 3397443007502491847, guid: 54c252491fc58478aac029a841777c90,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: cf742fda23c4afd47a040cd0760a6774,
+        type: 2}
+    - target: {fileID: 8174322744686822344, guid: 54c252491fc58478aac029a841777c90,
+        type: 3}
+      propertyPath: parentID
+      value: 54c252491fc58478aac029a841777c90
+      objectReference: {fileID: 0}
     - target: {fileID: 8174322744686822344, guid: 54c252491fc58478aac029a841777c90,
         type: 3}
       propertyPath: foreverID
@@ -218,6 +229,12 @@ PrefabInstance:
     - target: {fileID: 8975007657035133986, guid: 54c252491fc58478aac029a841777c90,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: cf742fda23c4afd47a040cd0760a6774,
+        type: 2}
+    - target: {fileID: 8975007657035133986, guid: 54c252491fc58478aac029a841777c90,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: cf742fda23c4afd47a040cd0760a6774,
         type: 2}

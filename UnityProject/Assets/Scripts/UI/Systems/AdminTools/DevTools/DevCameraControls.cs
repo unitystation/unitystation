@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Core.Utils;
 using Shared.Managers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(EscapeKeyTarget))]
@@ -18,6 +20,23 @@ public class DevCameraControls  : SingletonManager<DevCameraControls>
 	public Button MappingItemButton;
 
 	public TMP_Text MappingItemText;
+
+	public Button MattrixCheckButton;
+
+	public TMP_Text  MattrixCheckText;
+
+	public List<Color> MatrixColours = new List<Color>()
+	{
+		Color.blue,
+		Color.red,
+		Color.yellow,
+		Color.green,
+		Color.magenta,
+		Color.cyan,
+		Colour.Orange,
+		Colour.Purple,
+		Colour.BabySick
+	};
 
 	public Color SelectedColour;
 	public Color UnSelectedColour;
@@ -34,6 +53,180 @@ public class DevCameraControls  : SingletonManager<DevCameraControls>
 	private bool? LightingSystemState = null;
 
 	public bool MappingItemState = false;
+
+	public bool MatrixCheckerState = false;
+
+	public Toggle Effects;
+	public Toggle Walls;
+	public Toggle Windows;
+	public Toggle Grills;
+	public Toggle Objects;
+	public Toggle MapObjects;
+	public Toggle Floors;
+	public Toggle Tables;
+	public Toggle Underfloor;
+	public Toggle Electrical;
+	public Toggle Pipes;
+	public Toggle Disposals;
+	public Toggle Base;
+
+
+	private bool? Override = null;
+
+	public static int? HiddenLayer = null;
+
+	public void ToggleLayers()
+	{
+		SetLayerVisibility(Override ?? Effects.isOn, LayerType.Effects);
+		SetLayerVisibility(Override ?? Walls.isOn, LayerType.Walls);
+		SetLayerVisibility(Override ?? Windows.isOn, LayerType.Windows);
+		SetLayerVisibility(Override ?? Grills.isOn, LayerType.Grills);
+		SetObjectVisibility(Override ?? Objects.isOn);
+		SetLayerVisibility(Override ?? Tables.isOn, LayerType.Tables);
+		SetLayerVisibility(Override ?? Floors.isOn, LayerType.Floors);
+		SetLayerVisibility(Override ?? Underfloor.isOn, LayerType.Underfloor);
+		SetLayerVisibility(Override ?? Electrical.isOn, LayerType.Electrical);
+		SetLayerVisibility(Override ?? Pipes.isOn, LayerType.Pipe);
+		SetLayerVisibility(Override ?? Disposals.isOn, LayerType.Disposals);
+		SetLayerVisibility(Override ?? Base.isOn, LayerType.Base);
+		Override = null;
+	}
+
+
+	public static void SetUpHiddenLayer()
+	{
+		if (HiddenLayer == null)
+		{
+			HiddenLayer = LayerMask.NameToLayer("Editor View Only");
+		}
+
+	}
+
+	public static bool ObjecIsVisible(GameObject ob)
+	{
+		SetUpHiddenLayer();
+
+		if (ob.gameObject.layer == HiddenLayer && DevCameraControls.Instance.MappingItemState == false)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+
+
+	public bool GetObjectsMappingVisible()
+	{
+		if (this.gameObject.activeInHierarchy == false)
+		{
+			return true;
+		}
+
+		if (Objects.isOn == false)
+		{
+			return false;
+		}
+
+		if (MapObjects.isOn == false)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+
+	public HashSet<LayerType> ReturnVisibleLayers()
+	{
+		if (this.gameObject.activeInHierarchy == false)
+		{
+			return null;
+		}
+
+		HashSet<LayerType> Layers = new HashSet<LayerType>();
+		if (Effects.isOn)
+		{
+			Layers.Add(LayerType.Effects);
+		}
+
+		if (Walls.isOn)
+		{
+			Layers.Add(LayerType.Walls);
+		}
+
+		if (Windows.isOn)
+		{
+			Layers.Add(LayerType.Windows);
+		}
+
+		if (Grills.isOn)
+		{
+			Layers.Add(LayerType.Grills);
+		}
+
+		if (Objects.isOn || MapObjects.isOn)
+		{
+			Layers.Add(LayerType.Objects);
+		}
+
+		if (Tables.isOn)
+		{
+			Layers.Add(LayerType.Tables);
+		}
+
+		if (Floors.isOn)
+		{
+			Layers.Add(LayerType.Floors);
+		}
+
+		if (Underfloor.isOn)
+		{
+			Layers.Add(LayerType.Underfloor);
+		}
+
+		if (Electrical.isOn)
+		{
+			Layers.Add(LayerType.Electrical);
+		}
+
+
+		if (Pipes.isOn)
+		{
+			Layers.Add(LayerType.Pipe);
+		}
+
+		if (Disposals.isOn)
+		{
+			Layers.Add(LayerType.Disposals);
+		}
+
+		if (Base.isOn)
+		{
+			Layers.Add(LayerType.Base);
+		}
+
+		return Layers;
+	}
+
+
+	public void SetObjectVisibility(bool Ison)
+	{
+		foreach (var Matrix in MatrixManager.Instance.ActiveMatrices)
+		{
+			Matrix.Value.Matrix.MetaTileMap.Layers[LayerType.Objects].gameObject.SetActive(Ison);
+		}
+	}
+
+	public void SetLayerVisibility(bool Ison, LayerType LayerType)
+	{
+		foreach (var Matrix in MatrixManager.Instance.ActiveMatrices)
+		{
+			Matrix.Value.Matrix.MetaTileMap.Layers[LayerType].Tilemap.GetComponent<TilemapRenderer>().enabled = Ison;
+		}
+	}
 
 
 	private void OnEnable()
@@ -127,11 +320,65 @@ On";
 			Camera.main.GetComponent<LightingSystem>().enabled = true;
 		}
 		ToggleLayerForCulling(false);
+		ToggleMatrixCheck(false);
+		Override = null;
+		ToggleLayers();
+	}
+
+	void ToggleMatrixCheck(bool state)
+	{
+		MatrixCheckerState = state;
+		if (state)
+		{
+			foreach (var Matrix in	MatrixManager.Instance.ActiveMatrices)
+			{
+				var colour =MatrixColours.PickRandom();
+				foreach (var Layers in Matrix.Value.MetaTileMap.Layers)
+				{
+					var TM = Layers.Value.GetComponent<Tilemap>();
+					if (TM != null)
+					{
+						TM.color = colour;
+					}
+				}
+			}
+
+			MattrixCheckText.text = @"Turn off
+ matrix check";
+
+			var ColorBlock = MattrixCheckButton.colors;
+			ColorBlock.normalColor = SelectedColour;
+			MattrixCheckButton.colors = ColorBlock;
+
+		}
+		else
+		{
+			foreach (var Matrix in	MatrixManager.Instance.ActiveMatrices)
+			{
+				foreach (var Layers in Matrix.Value.MetaTileMap.Layers)
+				{
+
+					var TM = Layers.Value.GetComponent<Tilemap>();
+					if (TM != null)
+					{
+						TM.color = Color.white;
+					}
+				}
+			}
+
+			MattrixCheckText.text = @"Turn On
+ matrix check";
+
+			var ColorBlock = MattrixCheckButton.colors;
+			ColorBlock.normalColor = UnSelectedColour;
+			MattrixCheckButton.colors = ColorBlock;
+		}
 	}
 
 
 	void ToggleLayerForCulling(bool state)
 	{
+		if (Camera.main == null) return;
 		int currentCullingMask = Camera.main.cullingMask;
 		if (layerToToggle == null) return;
 		int layerMaskToToggle = 1 << layerToToggle.Value;
@@ -173,5 +420,11 @@ View Off";
 	public void OnSelectedMappingItems()
 	{
 		ToggleLayerForCulling(!MappingItemState);
+	}
+
+	[NaughtyAttributes.Button]
+	public void OnSelectedMatrixChecker()
+	{
+		ToggleMatrixCheck(!MatrixCheckerState);
 	}
 }

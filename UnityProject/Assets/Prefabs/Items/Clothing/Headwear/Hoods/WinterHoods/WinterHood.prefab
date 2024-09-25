@@ -18,6 +18,22 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A cozy winter hood attached to a heavy winter jacket.
       objectReference: {fileID: 0}
+    - target: {fileID: 810653604209616596, guid: 3bc560c485f5ecb4491bce031cde1635,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 810653604209616596, guid: 3bc560c485f5ecb4491bce031cde1635,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 810653604209616596, guid: 3bc560c485f5ecb4491bce031cde1635,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 11eecbeb29e67b7488fa1bb5c748756a,
+        type: 2}
     - target: {fileID: 879940858911987778, guid: 3bc560c485f5ecb4491bce031cde1635,
         type: 3}
       propertyPath: Armor.Bio
@@ -116,6 +132,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6131411715875374555, guid: 3bc560c485f5ecb4491bce031cde1635,
         type: 3}
+      propertyPath: parentID
+      value: 3bc560c485f5ecb4491bce031cde1635
+      objectReference: {fileID: 0}
+    - target: {fileID: 6131411715875374555, guid: 3bc560c485f5ecb4491bce031cde1635,
+        type: 3}
       propertyPath: foreverID
       value: 211616cbdb7012b4eb5b07baff781d16
       objectReference: {fileID: 0}
@@ -138,6 +159,12 @@ PrefabInstance:
     - target: {fileID: 6407356370313720369, guid: 3bc560c485f5ecb4491bce031cde1635,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 11eecbeb29e67b7488fa1bb5c748756a,
+        type: 2}
+    - target: {fileID: 6407356370313720369, guid: 3bc560c485f5ecb4491bce031cde1635,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 11eecbeb29e67b7488fa1bb5c748756a,
         type: 2}

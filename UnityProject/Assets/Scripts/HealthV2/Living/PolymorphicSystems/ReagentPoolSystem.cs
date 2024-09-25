@@ -72,7 +72,7 @@ namespace HealthV2.Living.PolymorphicSystems
 		{
 			var bloodLoss = new ReagentMix();
 			BloodPool.TransferTo(bloodLoss, amount);
-			if (spawnReagentOnFloor) MatrixManager.ReagentReact(bloodLoss, Base.gameObject.RegisterTile().WorldPositionServer);
+			if (spawnReagentOnFloor) MatrixManager.ReagentReact(bloodLoss, Base.gameObject.RegisterTile().WorldPositionServer, Scatter: true, from: Base);
 		}
 
 		/// <summary>

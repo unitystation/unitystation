@@ -11,19 +11,17 @@ namespace Objects.Doors
 {
 	public class FalseWallTileBlend : MonoBehaviour
 	{
-		private SpriteRenderer sprite;
+		private SpriteHandler sprite;
 		[Tooltip("Empty tile to spawn when false wall texture is setted.")]
 		[SerializeField] private BasicTile falseTile = null;
 		private TileChangeManager tileChangeManager;
-		private GeneralDoorAnimator doorAnimator;
-		private DoorController doorController;
+		private DoorAnimatorV2 doorAnimator;
+		private DoorMasterController doorController;
 		private Vector3Int falseWallPosition;
 		private List<LayerTile> tilesPresendtedNear = new List<LayerTile>();
 		private List<FalseWallTileBlend> falseWallsPresendtedNear = new List<FalseWallTileBlend>();
 		private static Dictionary<Vector3Int, FalseWallTileBlend> falseWallPresented = new Dictionary<Vector3Int, FalseWallTileBlend>();
 		private bool emptyWallIsPlaced = false;
-
-		private Sprite[] sprites;
 
 		private static readonly int[] map =
 		{
@@ -33,13 +31,12 @@ namespace Objects.Doors
 
 		private void Start()
 		{
-			sprite = GetComponentInChildren<SpriteRenderer>();
 			var registerDoor = GetComponentInChildren<RegisterDoor>();
 			tileChangeManager = GetComponentInParent<TileChangeManager>();
 			falseWallPosition = Vector3Int.RoundToInt(transform.localPosition);
-			doorAnimator = GetComponent<GeneralDoorAnimator>();
-			sprites = doorAnimator.GetAnimationSprites();
-			doorController = GetComponent<DoorController>();
+			doorAnimator = GetComponent<DoorAnimatorV2>();
+			sprite = doorAnimator.DoorBase.GetComponentInChildren<SpriteHandler>();
+			doorController = GetComponent<DoorMasterController>();
 
 			if (falseWallPresented.ContainsKey(falseWallPosition))
 				falseWallPresented.Remove(falseWallPosition);
@@ -48,6 +45,10 @@ namespace Objects.Doors
 			falseWallsPresendtedNear = GetNearFalseWalls(falseWallPosition);
 			UpdateWallSprite();
 			ChangeNearFalseWallSprites(GetNearFalseWalls(falseWallPosition));
+			if (doorAnimator != null)
+			{
+				doorAnimator.AnimationFinished += UpdateMethod;
+			}
 
 			tileChangeManager.MetaTileMap.Layers[LayerType.Walls].onTileMapChanges.AddListener(UpdateMethod);
 		}
@@ -56,6 +57,11 @@ namespace Objects.Doors
 		{
 			UpdateManager.Remove(CallbackType.LATE_UPDATE, UpdateMethod);
 			falseWallPresented.Remove(falseWallPosition);
+			if (doorAnimator != null)
+			{
+				doorAnimator.AnimationFinished -= UpdateMethod;
+			}
+
 			tileChangeManager.MetaTileMap.Layers[LayerType.Walls].RemoveTile(falseWallPosition);
 		}
 
@@ -101,10 +107,8 @@ namespace Objects.Doors
 		{
 			var smoothFrameIndex = SmoothFrame();
 			// Double check to be sure and don`t stop door animation
-			if (doorController.IsClosed && !doorController.isPerformingAction)
-				sprite.sprite = sprites[smoothFrameIndex];
-			doorAnimator.closeFrame = smoothFrameIndex;
-
+			if (doorController.IsClosed && !doorController.IsPerformingAction)
+				sprite.SetSpriteVariant(smoothFrameIndex, false);
 			if (HasRealWall(falseWallPosition, tileChangeManager.MetaTileMap.Layers[LayerType.Walls]?.GetComponent<Tilemap>()) == false && emptyWallIsPlaced == false)
 			{
 				tileChangeManager.MetaTileMap.SetTile(falseWallPosition, falseTile);

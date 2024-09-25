@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Color: {r: 1, g: 0.8939422, b: 0.5707547, a: 0.29803923}
+  InitialColour: {r: 1, g: 0.8939422, b: 0.5707547, a: 0.29803923}
   Sprite: {fileID: 21300000, guid: d889f81f1d032fc4aac62153542b2700, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
@@ -70,6 +70,8 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -119,6 +121,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2466764617220362192, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a2515159959a43243bb057fa12d11fe8,
+        type: 2}
+    - target: {fileID: 2466764617220362192, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
       propertyPath: SubCatalogue.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -136,6 +144,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3442741923849517114, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
+      propertyPath: parentID
+      value: c9c58a9243d494537abcb4ee470efab0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3442741923849517114, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
       propertyPath: foreverID
       value: 6f371050bff8b32438f91c7c680900bb
       objectReference: {fileID: 0}
@@ -144,6 +157,11 @@ PrefabInstance:
       propertyPath: <AlternativePrefabName>k__BackingField
       value: light
       objectReference: {fileID: 0}
+    - target: {fileID: 4349193172791428265, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: rotationTarget
+      value: 
+      objectReference: {fileID: 5730203012241659306}
     - target: {fileID: 8139896980434582913, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: relatedRecipes.Array.size
@@ -524,6 +542,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   actionData: {fileID: 11400000, guid: 9cf6b1b6994732d4cb5f023e0cefaf19, type: 2}
   allowedSlots: -1
   useSpriteHandler: 1
@@ -582,14 +601,15 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  RelatedPart: {fileID: 0}
   LightEmission: {fileID: 0}
   objectLightEmission: {fileID: 3320711171919508498}
   IsOn: 0
-  colour: {r: 1, g: 0.90938777, b: 0.6839622, a: 0.28235295}
+  colour: {r: 1, g: 0.90938777, b: 0.6839622, a: 0.21960784}
   objectLightSprite: {fileID: 0}
   commonComponents: {fileID: 0}
   SpriteShape: 0
-  Size: 8
+  Size: 11
   weakenOnGround: 0
   revertToOldConsistencyBehavior: 0
   weakenStrength: 1.25

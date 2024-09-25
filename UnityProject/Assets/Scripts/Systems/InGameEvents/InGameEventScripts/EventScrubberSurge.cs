@@ -27,17 +27,16 @@ namespace InGameEvents
 
 		[Tooltip("Assign dispersion agents e.g. smoke or foaming agent.")]
 		[SerializeField]
-		private List<Reagent> dispersionAgents = default;
+		private List<ReagentMix> dispersionMix = default;
 
 		[FormerlySerializedAs("RareDispenseProbability")]
 		[Tooltip("The  probability that a rare dispersionAgents will be chosen")]
 		[SerializeField]
 		private float rareDispenseProbability = 0.005f;
 
-		[FormerlySerializedAs("RareDispersionAgents")]
 		[Tooltip("Assign dispersion agents e.g. smoke or foaming agent That was one according to the Rare probability.")]
 		[SerializeField]
-		private List<Reagent> rareDispersionAgents = default;
+		private List<ReagentMix> rareDispersionMix = default;
 
 		[Tooltip("Each scrubber will randomly select a delay period before spawning reagents, within this range.")]
 		[SerializeField, MinMaxSlider(0f, 100f)]
@@ -89,11 +88,11 @@ namespace InGameEvents
 			{
 				if (ShouldDispenseRareDispersionAgents())
 				{
-					reagentMix.reagents.m_dict.Add(rareDispersionAgents.PickRandom(), 25f);
+					reagentMix.Add(rareDispersionMix.PickRandom());
 				}
 				else
 				{
-					reagentMix.reagents.m_dict.Add(dispersionAgents.PickRandom(), 25f);
+					reagentMix.Add(dispersionMix.PickRandom());
 				}
 
 				reagentMix.reagents.m_dict.Add(ChemistryReagentsSO.Instance.AllChemistryReagents.PickRandom(), 75f);

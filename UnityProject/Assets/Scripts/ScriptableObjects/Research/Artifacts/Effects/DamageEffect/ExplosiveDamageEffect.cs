@@ -1,5 +1,7 @@
+using Core;
 using UnityEngine;
 using Systems.Explosions;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Systems.Research
 {
@@ -22,7 +24,7 @@ namespace Systems.Research
 
 			var worldPos = objectPhysics.registerTile.WorldPosition;
 
-			Explosion.StartExplosion(worldPos, explosiveStrength, null, explosiveRadius);
+			Explosion.StartExplosion(worldPos, explosiveStrength, null, explosiveRadius, stunNearbyPlayers: true);
 		}
 	}
 }

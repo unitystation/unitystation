@@ -1,4 +1,5 @@
-﻿using System;
+﻿﻿using System;
+using Core;
 using System.Collections;
 using Audio.Managers;
 using UnityEngine;
@@ -11,6 +12,7 @@ using Managers;
 using Systems.Score;
 using UI.Chat_UI;
 using Random = UnityEngine.Random;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Command
 {
@@ -137,8 +139,7 @@ namespace Objects.Command
 				Detonated = true;
 				//if yes, blow up the nuke
 				RpcDetonate();
-				//Kill Everyone in the universe
-				//FIXME kill only people on the station matrix that the nuke was detonated on
+				//Kills everyone on the matrix the nuke is currently on
 				StartCoroutine(WaitForDeath());
 				GameManager.Instance.RespawnCurrentlyAllowed = false;
 				DetonateVideo();
@@ -300,20 +301,35 @@ namespace Objects.Command
 		IEnumerator WaitForDeath()
 		{
 			yield return WaitFor.Seconds(2.5f);
-			var worldPos = gameObject.GetComponent<RegisterTile>().WorldPosition;
-			foreach (LivingHealthMasterBase livingHealth in FindObjectsOfType<LivingHealthMasterBase>())
+
+			//Grab the bounds of the matrix, grab all living creatures that are close-ish
+			//to the center of the matrix and gib them if they are within the bounds
+			//This is done instead of iterating over PresentPlayers on that matrix so that if a player is
+			//nearby but over a space tile or on a seperate matrix they still get gibbed
+			
+			var matrix = gameObject.GetMatrixRoot();
+
+			//Prevent shenanigans caused by removal of the tile below the nuke
+			if (matrix.IsSpaceMatrix && MatrixManager.MainStationMatrix.WorldBounds.Contains(gameObject.AssumedWorldPosServer()))
 			{
-				var dist = Vector3.Distance(worldPos, livingHealth.GetComponent<RegisterTile>().WorldPosition);
-				if (dist < explosionRadius)
+				matrix = MatrixManager.MainStationMatrix.Matrix;
+			}
+
+			var matrixbounds = matrix.MatrixInfo.WorldBounds;
+			float searchradius = Mathf.Max(matrixbounds.size.x, matrixbounds.size.y);
+			var grabEntities = ComponentsTracker<LivingHealthMasterBase>.GetAllNearbyTypesToLocation(matrixbounds.center, searchradius, bypassInventories:true);
+			foreach (LivingHealthMasterBase livingHealth in grabEntities)
+			{
+				if (matrixbounds.Contains(livingHealth.GetComponent<RegisterTile>().WorldPosition))
 				{
-					livingHealth.Death();
+					//Cyborgs wont actually die from livingHealth.Death() so gib everything instead
+					livingHealth.GetComponent<IGib>()?.OnGib(true);
 				}
 			}
 			yield return WaitFor.Seconds(10f);
 			// Trigger end of round
 			GameManager.Instance.RoundEndTime = 10;
 			GameManager.Instance.EndRound();
-
 		}
 
 		IEnumerator TickTimer()

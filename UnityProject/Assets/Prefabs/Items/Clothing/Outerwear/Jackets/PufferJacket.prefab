@@ -38,6 +38,24 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A thick jacket with a rubbery, water-resistant shell.
       objectReference: {fileID: 0}
+    - target: {fileID: 3495234765619245072, guid: dd5aab29695d7184bb5bbd12f3b1c5dd,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: e4ce6225ca489f540926e1794ad25770,
+        type: 2}
+    - target: {fileID: 3495234765619245072, guid: dd5aab29695d7184bb5bbd12f3b1c5dd,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: f3f03f4929dea1b49bd2f077fd69fb3d,
+        type: 2}
+    - target: {fileID: 3495234765619245072, guid: dd5aab29695d7184bb5bbd12f3b1c5dd,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 7d1fdab6645302849bb36d131ea454c3,
+        type: 2}
     - target: {fileID: 3791466462619397166, guid: dd5aab29695d7184bb5bbd12f3b1c5dd,
         type: 3}
       propertyPath: m_Sprite
@@ -125,6 +143,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 7d1fdab6645302849bb36d131ea454c3,
         type: 2}
+    - target: {fileID: 7145545764318209269, guid: dd5aab29695d7184bb5bbd12f3b1c5dd,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 7d1fdab6645302849bb36d131ea454c3,
+        type: 2}
     - target: {fileID: 7931175119129480439, guid: dd5aab29695d7184bb5bbd12f3b1c5dd,
         type: 3}
       propertyPath: clothData
@@ -141,6 +165,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9e2f7a2be2df616478280a7d7cdcdc4c,
         type: 2}
+    - target: {fileID: 7986767595912221471, guid: dd5aab29695d7184bb5bbd12f3b1c5dd,
+        type: 3}
+      propertyPath: parentID
+      value: dd5aab29695d7184bb5bbd12f3b1c5dd
+      objectReference: {fileID: 0}
     - target: {fileID: 7986767595912221471, guid: dd5aab29695d7184bb5bbd12f3b1c5dd,
         type: 3}
       propertyPath: foreverID

@@ -4,11 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AdminCommands;
+using AdminTools;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
 using Systems.Atmospherics;
 using Chemistry;
+using Core;
+using Core.Admin.Logs;
 using Core.Chat;
 using Core.Utils;
 using Health.Sickness;
@@ -20,7 +23,6 @@ using JetBrains.Annotations;
 using Logs;
 using NaughtyAttributes;
 using Player;
-using Newtonsoft.Json;
 using ScriptableObjects.RP;
 using Systems.Construction.Parts;
 using Systems.Score;
@@ -28,6 +30,8 @@ using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 using Systems.Character;
+using Util.Independent.FluentRichText;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace HealthV2
 {
@@ -38,7 +42,7 @@ namespace HealthV2
 	/// </Summary>
 	[RequireComponent(typeof(HealthStateController))]
 	[RequireComponent(typeof(MobSickness))]
-	public abstract class LivingHealthMasterBase : NetworkBehaviour, IFireExposable, IExaminable, IFullyHealable, IGib,
+	public abstract class LivingHealthMasterBase : NetworkBehaviour, IFireExposable, IExaminable, IFullyHealable,
 		IAreaReactionBase, IRightClickable, IServerSpawn, IHoverTooltip, IChargeable
 	{
 		public bool DoesNotRequireBrain = false;
@@ -143,9 +147,9 @@ namespace HealthV2
 		/// <summary>
 		/// A list of all body parts of the creature
 		/// </summary>
-		public List<BodyPart> BodyPartList = new List<BodyPart>();
+		[NonSerialized] public List<BodyPart> BodyPartList = new List<BodyPart>();
 
-		public List<BodyPart> SurfaceBodyParts = new List<BodyPart>();
+		[NonSerialized] public List<BodyPart> SurfaceBodyParts = new List<BodyPart>();
 
 		/// <summary>
 		/// The storage container for the body parts
@@ -181,7 +185,7 @@ namespace HealthV2
 		/// </summary>
 		public float BleedStacks;
 
-		private float maxBleedStacks = 10f;
+		private float maxBleedStacks = 1000f;
 
 		[SerializeField, BoxGroup("PainFeedback")]
 		private float painScreamDamage = 20f;
@@ -227,7 +231,7 @@ namespace HealthV2
 
 		public float BodyPartSurfaceVolume = 5;
 
-		public List<HealthSystemBase> ActiveSystems = new List<HealthSystemBase>();
+		[HideInInspector] public List<HealthSystemBase> ActiveSystems = new List<HealthSystemBase>();
 
 
 		public BodyAlertManager BodyAlertManager { get; protected set; }
@@ -251,13 +255,13 @@ namespace HealthV2
 				case int n when n.IsBetween(2, 3):
 					State = BleedingState.Low;
 					break;
-				case int n when n.IsBetween(4, 6):
+				case int n when n.IsBetween(3, 20):
 					State = BleedingState.Medium;
 					break;
-				case int n when n.IsBetween(7, 8):
+				case int n when n.IsBetween(20, 40):
 					State = BleedingState.High;
 					break;
-				case int n when n.IsBetween(9, 10):
+				case int n when n.IsBetween(50, 1000000000):
 					State = BleedingState.UhOh;
 					break;
 			}
@@ -314,16 +318,24 @@ namespace HealthV2
 		public GameObject MeatProduce => meatProduce;
 		public GameObject SkinProduce => skinProduce;
 
-
 		[NonSerialized] public MultiInterestBool IsMute = new MultiInterestBool(true,
 			MultiInterestBool.RegisterBehaviour.RegisterFalse,
 			MultiInterestBool.BoolBehaviour.ReturnOnTrue);
-
-		[SerializeField, Range(1, 60f)] private float updateTime = 1f;
-
+		[NonSerialized] public MultiInterestFloat SpeakCharacterLimit = new MultiInterestFloat(-1f, InSetFloatBehaviour : MultiInterestFloat.FloatBehaviour.PickTop );
 		[NonSerialized] public PlayerHealthData InitialSpecies = null;
+		[SerializeField, Range(1, 60f)] private float updateTime = 1f;
+		private List<MetabolismComponent> TMPUseList = new List<MetabolismComponent>();
+		[FormerlySerializedAs("AllExternalMetabolismReactions")]
+		[FormerlySerializedAs("ALLExternalMetabolismReactions")]
+		public List<ExternalBodyHealthEffect>
+			allExternalMetabolismReactions = new List<ExternalBodyHealthEffect>(); //TOOD Move somewhere static maybe
 
-		//Default is mute yes
+		public List<MetabolismReaction> MetabolismReactions { get; } = new();
+
+		private Dictionary<MetabolismReaction, List<MetabolismComponent>> PrecalculatedMetabolismReactions =
+			new Dictionary<MetabolismReaction, List<MetabolismComponent>>();
+
+		private IGib gibBehavior;
 
 		public bool HasCoreBodyPart()
 		{
@@ -355,6 +367,14 @@ namespace HealthV2
 			BodyAlertManager = GetComponent<BodyAlertManager>();
 			//Needs to be in awake so the mobId is set before mind transfer (OnSpawnServer happens after that so cannot be used)
 			mobID = PlayerManager.Instance.GetMobID();
+			gibBehavior = GetComponent<IGib>();
+			ComponentsTracker<LivingHealthMasterBase>.Instances.Add(this);
+			OnTakeDamageType += LogDamageEvent;
+		}
+
+		public void OnDestroy()
+		{
+			ComponentsTracker<LivingHealthMasterBase>.Instances.Remove(this);
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -522,13 +542,67 @@ namespace HealthV2
 			}
 		}
 
+		private void ExternalMetaboliseReactionsSurfraceReagentHandle(KeyValuePair<BodyPartType, ReagentMix> storage)
+		{
+			foreach (var reaction in PrecalculatedMetabolismReactions)
+			{
+				var hasBodyPart = false;
+				foreach (var bodyPart in PrecalculatedMetabolismReactions[reaction.Key])
+				{
+					if (SurfaceReagents.ContainsKey(bodyPart.RelatedPart.BodyPartType) == false)
+					{
+						if (BodyPartType.Chest == storage.Key)
+						{
+							hasBodyPart = true;
+							break;
+						}
+					}
+					else
+					{
+						if (bodyPart.RelatedPart.BodyPartType == storage.Key)
+						{
+							hasBodyPart = true;
+							break;
+						}
+					}
+				}
+				if (hasBodyPart) reaction.Key.Apply(this, storage.Value);
+			}
+		}
 
-		private List<MetabolismComponent> TMPUseList = new List<MetabolismComponent>();
+		private void ExternalMetaboliseReactionsInternalMetabolismReactions(KeyValuePair<BodyPartType, ReagentMix> storage)
+		{
+			foreach (MetabolismReaction reaction in MetabolismReactions)
+			{
+				TMPUseList.Clear();
+				float ProcessingAmount = 0;
+				foreach (var bodyPart in PrecalculatedMetabolismReactions[reaction])
+				{
+					if (SurfaceReagents.ContainsKey(bodyPart.RelatedPart.BodyPartType) == false)
+					{
+						if (BodyPartType.Chest == storage.Key)
+						{
+							TMPUseList.Add(bodyPart);
+							ProcessingAmount += 1;
+						}
+					}
+					else
+					{
+						if (bodyPart.RelatedPart.BodyPartType == storage.Key)
+						{
+							TMPUseList.Add(bodyPart);
+							ProcessingAmount += 1;
+						}
+					}
+				}
+				if (ProcessingAmount == 0) continue;
+				reaction.React(TMPUseList, storage.Value, ProcessingAmount);
+			}
+		}
 
-		public void ExternalMetaboliseReactions()
+		private void ExternalMetaboliseReactions()
 		{
 			var node = RegisterTile.Matrix.MetaDataLayer.Get(transform.localPosition.RoundToInt());
-
 			if (node != null && node.SmokeNode.IsActive)
 			{
 				if (RespiratorySystem == null || RespiratorySystem.IsEVACompatible() == false)
@@ -544,90 +618,22 @@ namespace HealthV2
 			{
 				if (RespiratorySystem == null || RespiratorySystem.IsEVACompatible() == false)
 				{
-					foreach (var SurfaceReagent in SurfaceReagents)
+					foreach (var surfaceReagent in SurfaceReagents)
 					{
-						ApplyReagentsToSurface(node.SmokeNode.Present.Clone(), SurfaceReagent.Key);
+						ApplyReagentsToSurface(node.SmokeNode.Present.Clone(), surfaceReagent.Key);
 					}
 				}
 			}
 
-			foreach (var storage in SurfaceReagents)
+			foreach (KeyValuePair<BodyPartType, ReagentMix> storage in SurfaceReagents)
 			{
 				if (storage.Value.Total == 0) continue;
-
 				MetabolismReactions.Clear();
-
-				foreach (var Reaction in PrecalculatedMetabolismReactions)
-				{
-					var HasBodyPart = false;
-					foreach (var bodyPart in PrecalculatedMetabolismReactions[Reaction.Key])
-					{
-						if (SurfaceReagents.ContainsKey(bodyPart.RelatedPart.BodyPartType) == false)
-						{
-							if (BodyPartType.Chest == storage.Key)
-							{
-								HasBodyPart = true;
-								break;
-							}
-						}
-						else
-						{
-							if (bodyPart.RelatedPart.BodyPartType == storage.Key)
-							{
-								HasBodyPart = true;
-								break;
-							}
-						}
-					}
-
-					if (HasBodyPart)
-					{
-						Reaction.Key.Apply(this, storage.Value);
-					}
-				}
-
-				foreach (var Reaction in MetabolismReactions)
-				{
-					TMPUseList.Clear();
-					float ProcessingAmount = 0;
-					foreach (var bodyPart in PrecalculatedMetabolismReactions[Reaction])
-					{
-						if (SurfaceReagents.ContainsKey(bodyPart.RelatedPart.BodyPartType) == false)
-						{
-							if (BodyPartType.Chest == storage.Key)
-							{
-								TMPUseList.Add(bodyPart);
-								ProcessingAmount += 1;
-							}
-						}
-						else
-						{
-							if (bodyPart.RelatedPart.BodyPartType == storage.Key)
-							{
-								TMPUseList.Add(bodyPart);
-								ProcessingAmount += 1;
-							}
-						}
-					}
-
-					if (ProcessingAmount == 0) continue;
-
-					Reaction.React(TMPUseList, storage.Value, ProcessingAmount);
-				}
-
+				ExternalMetaboliseReactionsSurfraceReagentHandle(storage);
+				ExternalMetaboliseReactionsInternalMetabolismReactions(storage);
 				storage.Value.Take(0.2f); //Evaporation
 			}
 		}
-
-		[FormerlySerializedAs("AllExternalMetabolismReactions")]
-		[FormerlySerializedAs("ALLExternalMetabolismReactions")]
-		public List<ExternalBodyHealthEffect>
-			allExternalMetabolismReactions = new List<ExternalBodyHealthEffect>(); //TOOD Move somewhere static maybe
-
-		public List<MetabolismReaction> MetabolismReactions { get; } = new();
-
-		private Dictionary<MetabolismReaction, List<MetabolismComponent>> PrecalculatedMetabolismReactions =
-			new Dictionary<MetabolismReaction, List<MetabolismComponent>>();
 
 		private void OnEnable()
 		{
@@ -909,8 +915,25 @@ namespace HealthV2
 		{
 			if (BleedStacks > 0)
 			{
-				reagentPoolSystem?.Bleed(1f * (float) Math.Ceiling(BleedStacks));
-				BleedStacks = BleedStacks - 0.1f;
+				var bloodTolose = BleedStacks;
+
+				if (BleedStacks >= 40)
+				{
+					bloodTolose = Mathf.Min(bloodTolose, 4);
+					Chat.AddActionMsgToChat(this.gameObject, $" {this.gameObject.ExpensiveName()} violently bleeds ".Color(Color.red));
+				}
+				else if (BleedStacks >= 20)
+				{
+					bloodTolose = Mathf.Min(bloodTolose, 2);
+					Chat.AddActionMsgToChat(this.gameObject, $" {this.gameObject.ExpensiveName()} bleeds ".Color(Color.yellow));
+				}
+				else
+				{
+					bloodTolose = Mathf.Min(bloodTolose, 1);
+				}
+
+				reagentPoolSystem?.Bleed(bloodTolose);
+				BleedStacks = BleedStacks - bloodTolose;
 			}
 		}
 
@@ -1230,6 +1253,7 @@ namespace HealthV2
 			if (bodyPartAim == BodyPartType.RightHand) bodyPartAim = BodyPartType.RightArm;
 			if (bodyPartAim == BodyPartType.LeftFoot) bodyPartAim = BodyPartType.LeftLeg;
 			if (bodyPartAim == BodyPartType.RightFoot) bodyPartAim = BodyPartType.RightLeg;
+			if (bodyPartAim == BodyPartType.Groin) bodyPartAim = BodyPartType.Chest;
 			return bodyPartAim;
 		}
 
@@ -1266,6 +1290,22 @@ namespace HealthV2
 			}
 
 			return null;
+		}
+
+		public List<T> GetBodyFunctionsOfType<T>() where T : BodyPartFunctionality
+		{
+			List<T> returnList = new List<T>();
+			foreach (var bodyPart in BodyPartList)
+			{
+				foreach (var organ in bodyPart.OrganList)
+				{
+					if (organ is T specificFunctionality)
+					{
+						returnList.Add(specificFunctionality);
+					}
+				}
+			}
+			return returnList;
 		}
 
 		public List<BodyPart> GetBodyPartsInArea(BodyPartType bodyPartAim, bool validateAim = true)
@@ -1310,10 +1350,12 @@ namespace HealthV2
 			var eyes = GetBodyPartsInArea(BodyPartType.Eyes, false);
 			foreach (var eye in eyes)
 			{
-				var EyeFlash = eye.GetComponentCustom<EyeFlash>();
-				if (EyeFlash != null && EyeFlash.TryFlash(flashDuration, checkForProtectiveCloth))
+				var eyeFlash = eye.GetComponentCustom<EyeFlash>();
+				if (eyeFlash != null && eyeFlash.TryFlash(flashDuration, checkForProtectiveCloth))
 				{
 					didFlash = true;
+					ScoreMachine.AddToScoreInt(1, RoundEndScoreBuilder.COMMON_SCORE_FLASHED);
+					AdminLogsManager.AddNewLog(null, $"{playerScript.visibleName} has been flashed and stunned.", LogCategory.Interaction, Severity.SUSPICOUS);
 				}
 			}
 
@@ -1480,16 +1522,18 @@ namespace HealthV2
 		public void HealDamage(GameObject healingItem, float healAmt,
 			DamageType damageTypeToHeal, BodyPartType bodyPartAim, bool ExternalHealing = false)
 		{
+			var healingLeft = healAmt;
 			foreach (var bodyPart in SurfaceBodyParts)
 			{
-				if (bodyPart.BodyPartType == bodyPartAim)
+				if (bodyPart.BodyPartType == bodyPartAim && healingLeft > 0)
 				{
 					if (ExternalHealing && bodyPart.CanNotBeHealedByExternalHealingPack)
 					{
 						continue;
 					}
-
-					bodyPart.HealDamage(healingItem, healAmt, damageTypeToHeal);
+					var healingDamage = bodyPart.Damages[(int) damageTypeToHeal];
+					bodyPart.HealDamage(healingItem, Mathf.Max(0, healingLeft), damageTypeToHeal);
+					healingLeft -= healingDamage;
 				}
 			}
 
@@ -1520,7 +1564,7 @@ namespace HealthV2
 				{
 					if (reaction.HasIngredients(Chemicals))
 					{
-						var Amount = reaction.GetReactionAmount(Chemicals);
+						var Amount = reaction.GetReactionMultiple(Chemicals);
 						foreach (var TouchCharacteristics in reaction.InitialTouchCharacteristics)
 						{
 							ApplyDamageToBodyPart(this.gameObject, Amount * TouchCharacteristics.EffectPerOne,
@@ -1559,38 +1603,10 @@ namespace HealthV2
 
 
 		[Server]
-		public virtual void OnGib()
+		public void OnGib()
 		{
-			_ = SoundManager.PlayAtPosition(CommonSounds.Instance.Slip, gameObject.transform.position,
-				gameObject); //TODO: replace with gibbing noise
-
-			reagentPoolSystem?.Bleed(reagentPoolSystem.GetTotalBlood());
-
-			SpawnSpeciesProduce(3);
-
-			Death();
-			for (int i = BodyPartList.Count - 1; i >= 0; i--)
-			{
-				if (BodyPartList[i].BodyPartType == BodyPartType.Chest) continue;
-				BodyPartList[i].TryRemoveFromBody(true, PreventGibb_Death: true);
-			}
-		}
-
-		public void SpawnSpeciesProduce(int maximumProduce)
-		{
-			if (InitialSpecies == null) return;
-			if (InitialSpecies.Base.MeatProduce != null)
-			{
-				Spawn.ServerPrefab(InitialSpecies.Base.MeatProduce,
-					gameObject.AssumedWorldPosServer(), count: Random.Range(1, maximumProduce),
-					scatterRadius: 0.5f);
-			}
-			if (InitialSpecies.Base.SkinProduce != null)
-			{
-				Spawn.ServerPrefab(InitialSpecies.Base.SkinProduce,
-					gameObject.AssumedWorldPosServer(), count: Random.Range(1, maximumProduce),
-					scatterRadius: 0.5f);
-			}
+			AdminLogsManager.AddNewLog(null, $"{gameObject.ExpensiveName()} is getting Gibbed!!", LogCategory.MobDamage, Severity.IMMEDIATE_ATTENTION);
+			gibBehavior.OnGib();
 		}
 
 		public void DismemberBodyPart(BodyPart bodyPart)
@@ -1609,11 +1625,34 @@ namespace HealthV2
 			timeOfDeath = GameManager.Instance.RoundTime;
 
 			SetConsciousState(ConsciousState.DEAD);
-			OnDeathActions();
 			if (invokeDeathEvent) OnDeath?.Invoke();
+			LogDeath();
 		}
 
-		protected abstract void OnDeathActions();
+		private void LogDeath()
+		{
+			PlayerInfo player = playerScript?.PlayerInfo;
+			if (CustomNetworkManager.Instance._isServer == false && playerScript != null && player != null) return;
+
+			string killerName = null;
+			if (LastDamagedBy != null)
+			{
+				if (LastDamagedBy.TryGetPlayer(out var lastDamager))
+				{
+					killerName = lastDamager.Name;
+					AutoMod.ProcessPlayerKill(lastDamager, player);
+				}
+			}
+
+			killerName ??= "stressful work";
+			string playerName = playerScript?.visibleName ?? "dummy";
+			if (killerName == playerName)
+			{
+				Chat.AddActionMsgToChat(gameObject, "You committed suicide, what a waste.", $"{playerName} committed suicide.");
+			}
+			PlayerList.Instance.TrackKill(LastDamagedBy, gameObject);
+			AdminLogsManager.TrackKill(LastDamagedBy, this);
+		}
 
 		/// <summary>
 		/// Updates the blood health stats from the server via NetMsg
@@ -1652,6 +1691,16 @@ namespace HealthV2
 		public void ChangeBleedStacks(float deltaValue)
 		{
 			BleedStacks = Mathf.Clamp((BleedStacks + deltaValue), 0, maxBleedStacks);
+
+		}
+
+		public void AddBleedStacks(float deltaValue)
+		{
+			BleedStacks = Mathf.Clamp((BleedStacks + deltaValue), -1000, maxBleedStacks);
+			if (BleedStacks < 0)
+			{
+				BleedStacks = 0;
+			}
 		}
 
 		/// <summary>
@@ -1696,7 +1745,7 @@ namespace HealthV2
 			//Don't continuously produce miasma, only produce max 4 moles on the tile
 			if (node.GasMixLocal.GetMoles(Gas.Miasma) > 4) return;
 
-			node.GasMixLocal.AddGas(Gas.Miasma, AtmosDefines.MIASMA_CORPSE_MOLES);
+			node.GasMixLocal.AddGasWithTemperature(Gas.Miasma, AtmosDefines.MIASMA_CORPSE_MOLES, node.GasMixLocal.Temperature);
 		}
 
 		#region Examine
@@ -1922,6 +1971,7 @@ namespace HealthV2
 
 			float damage = shockPower;
 			ApplyDamageAll(null, damage, AttackType.Internal, DamageType.Burn);
+			AdminLogsManager.AddNewLog(null, $"{playerScript.visibleName} has been electrcuted at {gameObject.AssumedWorldPosServer()}.", LogCategory.MobDamage);
 		}
 
 		#endregion
@@ -2176,6 +2226,13 @@ namespace HealthV2
 			StartCoroutine(ScreamCooldown());
 		}
 
+		public void IndicatePain()
+		{
+			if (EmoteActionManager.Instance == null || screamEmote == null
+													|| ConsciousState == ConsciousState.UNCONSCIOUS || IsDead) return;
+			EmoteActionManager.DoEmote(screamEmote, playerScript.gameObject);
+		}
+
 		private IEnumerator ScreamCooldown()
 		{
 			canScream = false;
@@ -2187,6 +2244,7 @@ namespace HealthV2
 		{
 			if (CustomNetworkManager.IsServer == false) return;
 			UpdateManager.Add(FastRegen, tickRate);
+			AdminLogsManager.AddNewLog(null, $"{playerScript.visibleName} has recevied fast regen.", LogCategory.MobDamage);
 		}
 
 		private void FastRegen()
@@ -2277,6 +2335,13 @@ namespace HealthV2
 			if (script.gameObject == abuser) return; //Don't add to the score if the clown hits themselves.
 			ScoreMachine.AddToScoreInt(Mathf.RoundToInt(-5 * Amount), RoundEndScoreBuilder.COMMON_SCORE_CLOWNABUSE);
 		}
+
+		private void LogDamageEvent(DamageType damageType, GameObject perp, float damage)
+		{
+			DamageInfo info = new DamageInfo(damage, AttackType.Internal, damageType, null);
+			AdminLogsManager.TrackDamage(perp, this, info);
+		}
+
 
 		public string HoverTip()
 		{

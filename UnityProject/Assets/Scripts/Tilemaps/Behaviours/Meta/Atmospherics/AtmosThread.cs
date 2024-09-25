@@ -22,7 +22,10 @@ namespace Systems.Atmospherics
 					var count = atmosManager.addingpipeList.Count;
 					for (int i = 0; i < count; i++)
 					{
-						atmosManager.pipeList.Add(atmosManager.addingpipeList[i]);
+						if (atmosManager.pipeList.Contains(atmosManager.addingpipeList[i]) == false)
+						{
+							atmosManager.pipeList.Add(atmosManager.addingpipeList[i]);
+						}
 					}
 					atmosManager.addingpipeList.Clear();
 

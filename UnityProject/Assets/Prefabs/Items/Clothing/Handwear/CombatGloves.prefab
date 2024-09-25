@@ -10,6 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 734138797340211379, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
+      propertyPath: parentID
+      value: f819cf8b4a0534ec59570563e52c8508
+      objectReference: {fileID: 0}
+    - target: {fileID: 734138797340211379, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
       propertyPath: foreverID
       value: cf31a682867c234409b80f763fc9a1b9
       objectReference: {fileID: 0}
@@ -136,6 +141,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6081843052801809340, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 3bcb50b9f82fd9b4aa379dd0e6b0fbf1,
+        type: 2}
+    - target: {fileID: 6081843052801809340, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
       propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 1213038ef37bbdf498fd3434a3459ce0,
@@ -151,6 +162,18 @@ PrefabInstance:
       propertyPath: 'initialTraits.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: 30a421d219292474595f4c1e34917e51,
+        type: 2}
+    - target: {fileID: 6081843052801809340, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 008b1a115e013924194b269c5ec6e59e,
+        type: 2}
+    - target: {fileID: 6081843052801809340, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 3aabed9cbf8893749a18ebf6445f911b,
         type: 2}
     - target: {fileID: 7928915401163525585, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}

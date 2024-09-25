@@ -35,7 +35,7 @@ MonoBehaviour:
   doesReflectBullet: 0
   indestructible: 0
   ExplosionImpassable: 0
-  BlocksTileInteractionsUnder: 1
+  BlocksTileInteractionsUnder: 0
   passableException:
     m_keys: 
     m_values: 
@@ -78,7 +78,7 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   SoundOnDestroy: []
-  CanConnectTo: 0100000003000000020000000600000007000000040000000d00000010000000140000000500000015000000
+  CanConnectTo: 0100000003000000020000000600000007000000040000000d000000100000001400000005000000150000000f000000
   PowerType: 1
   WireEndB: 6
   WireEndA: 9

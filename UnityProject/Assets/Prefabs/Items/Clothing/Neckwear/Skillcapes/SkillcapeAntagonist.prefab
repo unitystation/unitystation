@@ -19,6 +19,22 @@ PrefabInstance:
       value: A cape for seasoned evildoers confident enough to wear their rotten
         heart around their neck.
       objectReference: {fileID: 0}
+    - target: {fileID: 3472511965724137554, guid: b4b7a31d4267d3d44860504b0d23df24,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3472511965724137554, guid: b4b7a31d4267d3d44860504b0d23df24,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3472511965724137554, guid: b4b7a31d4267d3d44860504b0d23df24,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: f5b715a8d9a3f6049a205e49f1e4e4b4,
+        type: 2}
     - target: {fileID: 3759582188244239468, guid: b4b7a31d4267d3d44860504b0d23df24,
         type: 3}
       propertyPath: m_Sprite
@@ -111,6 +127,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f5b715a8d9a3f6049a205e49f1e4e4b4,
         type: 2}
+    - target: {fileID: 7177421414396890295, guid: b4b7a31d4267d3d44860504b0d23df24,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f5b715a8d9a3f6049a205e49f1e4e4b4,
+        type: 2}
+    - target: {fileID: 7955596012303792989, guid: b4b7a31d4267d3d44860504b0d23df24,
+        type: 3}
+      propertyPath: parentID
+      value: b4b7a31d4267d3d44860504b0d23df24
+      objectReference: {fileID: 0}
     - target: {fileID: 7955596012303792989, guid: b4b7a31d4267d3d44860504b0d23df24,
         type: 3}
       propertyPath: foreverID

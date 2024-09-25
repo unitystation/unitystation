@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1916b10721f72c927a14093e8210cb3f, type: 3}
   m_Name: Histamine
   m_EditorClassIdentifier: 
+  foreverID: Histamine
   displayName: Histamine
   description: Histamine's effects become more dangerous depending on the dosage
     amount. They range from mildly annoying to incredibly lethal.
   color: {r: 0.98039216, g: 0.39215687, b: 0.39215687, a: 1}
   state: 1
   heatDensity: 5
-  indexInSingleton: 509
+  indexInSingleton: 508

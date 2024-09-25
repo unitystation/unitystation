@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Core;
 using Logs;
 using Messages.Server;
 using Mirror;
@@ -7,6 +8,7 @@ using Systems.Antagonists;
 using Systems.Character;
 using UnityEngine;
 using Util;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace HealthV2
 {
@@ -39,7 +41,7 @@ namespace HealthV2
 			AddToInfected(playerScript);
 		}
 
-		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
 		{
 			if(checkPlayerScript.HasComponent == false) return;
 

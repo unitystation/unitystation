@@ -129,6 +129,11 @@ namespace Adrenak.UniMic {
                 CurrentDeviceIndex = 0;
         }
 
+        public void OnDestroy()
+        {
+	        StopRecording();
+        }
+
         /// <summary>
         /// Sets a Mic device for Recording
         /// </summary>
@@ -158,13 +163,36 @@ namespace Adrenak.UniMic {
             Frequency = frequency;
             SampleDurationMS = sampleDurationMS;
 
-            AudioClip = await MicrophoneAccess.Start(CurrentDeviceName, true, 1, Frequency, " for voice chat ");
-            LoadManager.DoInMainThread(() =>
+            if (MicrophoneAccess.MicEnabledPublic)
             {
+	            AudioClip =  MicrophoneAccess.Start(CurrentDeviceName, true, 1, Frequency, " for voice chat ");
 	            StartRecordingMainThreadContinuation();
-            });
+
+            }
+            else
+            {
+	            StartCoroutine(WaitForResponse(MicrophoneAccess.RequestMicrophone(" for voice chat ")));
+            }
+
+
         }
 
+
+        private IEnumerator WaitForResponse(Task<bool> Task)
+        {
+	        while (Task.IsCompleted == false)
+	        {
+		        yield return null;
+	        }
+
+	        if (Task.Result == false)
+	        {
+		        yield break;
+	        }
+
+	        AudioClip =  MicrophoneAccess.Start(CurrentDeviceName, true, 1, Frequency, " for voice chat ");
+	        StartRecordingMainThreadContinuation();
+        }
 
         public void StartRecordingMainThreadContinuation()
         {

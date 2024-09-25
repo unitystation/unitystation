@@ -22,6 +22,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4512941224573635495, guid: c7c6619435930be4e91730eea5485a29,
         type: 3}
+      propertyPath: parentID
+      value: c7c6619435930be4e91730eea5485a29
+      objectReference: {fileID: 0}
+    - target: {fileID: 4512941224573635495, guid: c7c6619435930be4e91730eea5485a29,
+        type: 3}
       propertyPath: foreverID
       value: fdfe12eb6d2828d489777c6274a9d214
       objectReference: {fileID: 0}
@@ -30,17 +35,6 @@ PrefabInstance:
       propertyPath: initialName
       value: air vent fitting
       objectReference: {fileID: 0}
-    - target: {fileID: 6986793253136492712, guid: c7c6619435930be4e91730eea5485a29,
-        type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6986793253136492712, guid: c7c6619435930be4e91730eea5485a29,
-        type: 3}
-      propertyPath: 'initialTraits.Array.data[0]'
-      value: 
-      objectReference: {fileID: 11400000, guid: d868d0175c2ad014bb5c3cc4fb361248,
-        type: 2}
     - target: {fileID: 7271761278176277654, guid: c7c6619435930be4e91730eea5485a29,
         type: 3}
       propertyPath: m_Sprite

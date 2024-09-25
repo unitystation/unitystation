@@ -1,6 +1,7 @@
 using HealthV2;
 using Mirror;
 using NaughtyAttributes;
+using UnityEngine;
 
 namespace Items.Implants.Organs
 {
@@ -18,7 +19,7 @@ namespace Items.Implants.Organs
 			RelatedPart.HealthMaster.RespiratorySystem.AddImplant(this);
 		}
 
-		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
 		{
 			RelatedPart.HealthMaster.RespiratorySystem.RemoveImplant(this);
 		}

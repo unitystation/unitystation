@@ -95,6 +95,27 @@ PrefabInstance:
       value: A small sticker lets you know they've been inspected for snakes, It
         is unclear how long ago the inspection took place...
       objectReference: {fileID: 0}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: cce2251298eea5a4b94f7c30e9f3ce79,
+        type: 2}
+    - target: {fileID: 4709096474333209969, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: parentID
+      value: 502f496beb9034b9b9c97868e845ed7e
+      objectReference: {fileID: 0}
     - target: {fileID: 4709096474333209969, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
       propertyPath: foreverID
@@ -114,6 +135,12 @@ PrefabInstance:
     - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 36687fe2d3eb6a143bdb062cbc2af852,
+        type: 2}
+    - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 36687fe2d3eb6a143bdb062cbc2af852,
         type: 2}

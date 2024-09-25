@@ -18,6 +18,12 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A sterile blue surgical apron.
       objectReference: {fileID: 0}
+    - target: {fileID: 3495234765619245072, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: b4dbb642489760a4f8e170b79aae96b2,
+        type: 2}
     - target: {fileID: 3791466462619397166, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3,
         type: 3}
       propertyPath: m_Sprite
@@ -100,6 +106,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b4dbb642489760a4f8e170b79aae96b2,
         type: 2}
+    - target: {fileID: 7145545764318209269, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: b4dbb642489760a4f8e170b79aae96b2,
+        type: 2}
     - target: {fileID: 7931175119129480439, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3,
         type: 3}
       propertyPath: clothData
@@ -116,6 +128,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8a0045ea43dbada45912cbc5be50f81f,
         type: 2}
+    - target: {fileID: 7986767595912221471, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3,
+        type: 3}
+      propertyPath: parentID
+      value: 34840ba56d91a4e4bb5c615fe3c2b1f3
+      objectReference: {fileID: 0}
     - target: {fileID: 7986767595912221471, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3,
         type: 3}
       propertyPath: foreverID

@@ -96,7 +96,7 @@ namespace Objects.Kitchen
 		private SpriteHandler spriteHandler;
 		private ItemStorage storage;
 		private APCPoweredDevice poweredDevice;
-		private readonly Dictionary<ItemSlot, Cookable> storedCookables = new Dictionary<ItemSlot, Cookable>();
+		private readonly Dictionary<ItemSlot, ItemSlot> storedCookables = new Dictionary<ItemSlot, ItemSlot>();
 
 		[SyncVar(hook = nameof(OnSyncPlayAudioLoop))]
 		private bool playAudioLoop;
@@ -250,7 +250,7 @@ namespace Objects.Kitchen
 
 			if (storageSlot.ItemObject.TryGetComponent(out Cookable cookable) && cookable.CookableBy.HasFlag(CookSource.Microwave))
 			{
-				storedCookables.Add(storageSlot, cookable);
+				storedCookables.Add(storageSlot, storageSlot);
 			}
 			else
 			{
@@ -320,26 +320,11 @@ namespace Objects.Kitchen
 			for (int i = storedCookables.Count - 1; i >= 0; i--)
 			{
 				var slot = storedCookables.Keys.ElementAt(i);
-				var cookable = storedCookables[slot];
+				var cookable = storedCookables[slot].Item.GetComponent<Cookable>();
 
-				// True if the item's total cooking time exceeds the item's minimum cooking time.
-				if (cookable.AddCookingTime(cookTime))
-				{
-					// Swap item for its cooked version, if applicable.
-					if (cookable.CookedProduct == null) return;
 
-					_ = Despawn.ServerSingle(cookable.gameObject);
-					GameObject cookedItem = Spawn.ServerPrefab(cookable.CookedProduct).GameObject;
-					Inventory.ServerAdd(cookedItem, slot);
-					if (cookedItem.TryGetComponent(out cookable))
-					{
-						storedCookables[slot] = cookable;
-					}
-					else
-					{
-						storedCookables.Remove(slot);
-					}
-				}
+				cookable.AddCookingTime(cookTime);
+
 			}
 		}
 
@@ -396,7 +381,7 @@ namespace Objects.Kitchen
 			{
 				runLoopGUID = Guid.NewGuid().ToString();
 				SoundManager.ClientPlayAtPositionAttached(RunningAudio, registerTile.WorldPosition, gameObject, runLoopGUID,
-						audioSourceParameters: new AudioSourceParameters(pitch: voltageModifier));
+						audioSourceParameters: new AudioSourceParameters(pitch: voltageModifier, loops: transform));
 			}
 		}
 

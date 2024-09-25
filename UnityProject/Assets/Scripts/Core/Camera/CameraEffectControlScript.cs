@@ -120,6 +120,15 @@ namespace CameraEffects
 			lastFlashbangCoroutine = null;
 		}
 
+		public void Stop()
+		{
+			if (lastFlashbangCoroutine == null) return;
+			StopCoroutine(lastFlashbangCoroutine);
+			lastFlashbangCoroutine = null;
+			FlashbangCamera.enabled = false;
+			lastFlashbangCoroutine = null;
+		}
+
 		public void ToggleGlitchEffectState(bool state)
 		{
 			glitchEffect.enabled = state;

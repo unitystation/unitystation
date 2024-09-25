@@ -10,6 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3549479581640830887, guid: 9445628fd16314b7388c7086f5fd2f26,
         type: 3}
+      propertyPath: parentID
+      value: 9445628fd16314b7388c7086f5fd2f26
+      objectReference: {fileID: 0}
+    - target: {fileID: 3549479581640830887, guid: 9445628fd16314b7388c7086f5fd2f26,
+        type: 3}
       propertyPath: foreverID
       value: e00c6afc5648f951aac2a8d6dfcc4620
       objectReference: {fileID: 0}
@@ -32,6 +37,12 @@ PrefabInstance:
     - target: {fileID: 4377197623706982477, guid: 9445628fd16314b7388c7086f5fd2f26,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 3593fc5551ac0d641966c7b0c573508d,
+        type: 2}
+    - target: {fileID: 4377197623706982477, guid: 9445628fd16314b7388c7086f5fd2f26,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 3593fc5551ac0d641966c7b0c573508d,
         type: 2}
@@ -157,6 +168,12 @@ PrefabInstance:
       value: A grey beret, typically worn by hard-boiled private investigators who
         roam the streets of France at night, looking for crime.
       objectReference: {fileID: 0}
+    - target: {fileID: 8004422176852823208, guid: 9445628fd16314b7388c7086f5fd2f26,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 3593fc5551ac0d641966c7b0c573508d,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

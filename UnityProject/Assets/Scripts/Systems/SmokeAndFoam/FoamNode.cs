@@ -43,7 +43,7 @@ public class FoamNode : SpreadNode
 						SmokeAndFoamManager.Instance.BaseFoam);
 				}
 			}
-			OnMetaDataNode.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(OnMetaDataNode.LocalPosition, LayerType.Floors,OverlayType.Foam);
+			OnMetaDataNode.PositionMatrix.MetaTileMap.RemoveOverlaysOfType(OnMetaDataNode.LocalPosition, LayerType.Effects,OverlayType.Foam);
 
 			SourceReservoir.RemoveTile(this);
 		}

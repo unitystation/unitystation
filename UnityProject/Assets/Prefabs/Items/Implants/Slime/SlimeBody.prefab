@@ -190,6 +190,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5232716269704749941, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
+      propertyPath: parentID
+      value: 1162a9966a460f940a18b4d183b04c30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5232716269704749941, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
       propertyPath: foreverID
       value: b9175d51a587d71459c05924e205f937
       objectReference: {fileID: 0}
@@ -405,6 +410,13 @@ MonoBehaviour:
     NormalBlood: 500
     bloodReagent: {fileID: 0}
     PumpingDevices: []
+    RegenBloodPool:
+      temperature: 273.15
+      reagents:
+        m_keys: []
+        m_values: []
+      reagentKeys: []
+    RegenEfficiency: 0.15
   ForcedBeats: 0
   isEMPVunerable: 0
   EMPResistance: 2

@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Logs;
 using UnityEngine;
 using Mirror;
 using TileManagement;
@@ -63,12 +65,15 @@ namespace Messages.Server
 
 		public override void Process(NetMessage msg)
 		{
-			if (CustomNetworkManager.IsServer) return;
+			if (CustomNetworkManager.IsServer) { return;}
 			LoadNetworkObject(msg.MatrixSyncNetID);
-
 			//client hasnt finished loading the scene, it'll ask for the bundle of changes aftewards
 			if (NetworkObject == null)
+			{
+				Loggy.LogError("client hasn't finished loading " + msg.MatrixSyncNetID);
 				return;
+			}
+
 
 			var tileChangerManager = NetworkObject.transform.parent.GetComponentInChildren<MetaTileMap>();
 			foreach (var Change in msg.Changes)
@@ -87,9 +92,10 @@ namespace Messages.Server
 
 		public static void SendTo(GameObject managerSubject, NetworkConnection recipient, TileChangeList changeList)
 		{
-			if (changeList == null || changeList.List.Count == 0) return;
+			if (changeList == null || changeList.List.Count == 0)  return;
 			var netID = managerSubject.GetComponent<NetworkedMatrix>().MatrixSync.netId;
-			foreach (var changeChunk in changeList.List.ToArray().Chunk(MAX_CHANGES_PER_MESSAGE))
+			var chunks = changeList.List.ToArray().Chunk(MAX_CHANGES_PER_MESSAGE).ToList();
+			foreach (var changeChunk in chunks)
 			{
 				List<DelayedData> Changes = new List<DelayedData>();
 
@@ -104,24 +110,16 @@ namespace Messages.Server
 					Changes = Changes
 				};
 
-				SendTo(recipient, msg);
-			}
-		}
-
-		public static NetMessage Send(uint matrixSyncNetID, Vector3Int position, TileType tileType, string tileName,
-			Matrix4x4 transformMatrix, Color colour, LayerType LayerType)
-		{
-			NetMessage msg = new NetMessage
-			{
-				Changes = new List<DelayedData>()
+				if (recipient == null)
 				{
-					new DelayedData(position, tileType, tileName, transformMatrix, colour, LayerType)
-				},
-				MatrixSyncNetID = matrixSyncNetID,
-			};
+					SendToAll(msg);
+				}
+				else
+				{
+					SendTo(recipient, msg);
+				}
 
-			SendToAll(msg);
-			return msg;
+			}
 		}
 	}
 

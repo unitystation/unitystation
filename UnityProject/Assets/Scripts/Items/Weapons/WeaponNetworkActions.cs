@@ -6,7 +6,9 @@ using TileManagement;
 using Mirror;
 using AddressableReferences;
 using HealthV2;
+using HealthV2.Limbs;
 using Items;
+using Logs;
 using Messages.Server.SoundMessages;
 using Player.Movement;
 using Systems.Interaction;
@@ -26,6 +28,8 @@ public class WeaponNetworkActions : NetworkBehaviour
 
 	[SerializeField]
 	private DamageType damageType = DamageType.Brute;
+
+	private bool damageOverwritten = false;
 
 	private float traumaDamageChance = 0;
 	private TraumaticDamageTypes tramuticDamageType;
@@ -69,6 +73,7 @@ public class WeaponNetworkActions : NetworkBehaviour
 		handDamage = newAttackDamage;
 		damageType = newDamageType;
 		chanceToHit = newChanceToHit;
+		damageOverwritten = true;
 	}
 
 	/// <summary>
@@ -80,8 +85,9 @@ public class WeaponNetworkActions : NetworkBehaviour
 	/// <param name="attackDirection">vector pointing from attacker to the target</param>
 	/// <param name="damageZone">damage zone if attacking mob, otherwise use None</param>
 	/// <param name="layerType">layer being attacked if attacking tilemap, otherwise use None</param>
+	/// <param name="onHit">Use this for conditional behaviour you only want to apply when the melee attack hits</param>
 	[Server]
-	public void ServerPerformMeleeAttack(GameObject victim, Vector2 attackDirection, BodyPartType damageZone, LayerType layerType)
+	public void ServerPerformMeleeAttack(GameObject victim, Vector2 attackDirection, BodyPartType damageZone, LayerType layerType, Action onHit = null)
 	{
 		if (victim == null) return;
 		if (playerMove.ObjectIsBuckling.OrNull()?.gameObject != null && playerMove.ObjectIsBuckling is MovementSynchronisation)
@@ -122,6 +128,20 @@ public class WeaponNetworkActions : NetworkBehaviour
 			weaponSound = weaponAttributes.hitSoundSettings == SoundItemSettings.OnlyObject ? null : weaponAttributes.ServerHitSound;
 			tramuticDamageType = weaponAttributes.TraumaticDamageType;
 			traumaDamageChance = weaponAttributes.TraumaDamageChance;
+		}
+		else if (damageOverwritten == false)
+		{
+			//weaponAttributes is null so we are punching
+			GameObject activeArm = playerScript.PlayerNetworkActions.activeHand;
+			HumanoidArm armStats = activeArm.GetComponent<HumanoidArm>();
+			if (armStats != null)
+			{
+				damage = armStats.ArmMeleeDamage;
+				currentDamageType = armStats.ArmDamageType;
+				attackVerb = armStats.ArmDamageVerbs.PickRandom();
+				tramuticDamageType = armStats.ArmTraumaticDamage;
+				traumaDamageChance = armStats.ArmTraumaticChance;
+			}
 		}
 
 		LayerTile attackedTile = null;
@@ -164,16 +184,19 @@ public class WeaponNetworkActions : NetworkBehaviour
 			// Punches have 90% chance to hit, otherwise it is a miss.
 			if (DMMath.Prob(chanceToHit))
 			{
-				// The attack hit.
-				if (victim.TryGetComponent<LivingHealthMasterBase>(out var victimHealth))
+				if (BlockCheck(victim))
 				{
-					victimHealth.ApplyDamageToBodyPart(gameObject, damage, AttackType.Melee, currentDamageType, damageZone, traumaDamageChance: traumaDamageChance, tramuticDamageType: tramuticDamageType);
-					didHit = true;
-				}
-				else if (victim.TryGetComponent<LivingHealthBehaviour>(out var victimHealthOld))
-				{
-					victimHealthOld.ApplyDamageToBodyPart(gameObject, damage, AttackType.Melee, currentDamageType, damageZone);
-					didHit = true;
+					// The attack hit.
+					if (victim.TryGetComponent<LivingHealthMasterBase>(out var victimHealth))
+					{
+						victimHealth.ApplyDamageToBodyPart(gameObject, damage, AttackType.Melee, currentDamageType, damageZone, traumaDamageChance: traumaDamageChance, tramuticDamageType: tramuticDamageType);
+						didHit = true;
+					}
+					else if (victim.TryGetComponent<LivingHealthBehaviour>(out var victimHealthOld))
+					{
+						victimHealthOld.ApplyDamageToBodyPart(gameObject, damage, AttackType.Melee, currentDamageType, damageZone);
+						didHit = true;
+					}
 				}
 			}
 			else
@@ -217,9 +240,54 @@ public class WeaponNetworkActions : NetworkBehaviour
 			{
 				RpcMeleeAttackLerp(attackDirection, weapon);
 			}
+
+			if (onHit != null)
+			{
+				onHit.Invoke();
+			}
 		}
 
 		Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Melee);
+	}
+
+	[Server]
+	private bool BlockCheck(GameObject victim)
+	{
+		float blockChance = 100f;
+		AddressableAudioSource blockSound = null;
+		string blockName = null;
+
+		if (victim.TryGetComponent<PlayerScript>(out var victimScript))
+		{
+			var hand = victimScript.DynamicItemStorage.GetActiveHandSlot();
+			if (hand != null)
+			{
+				var attribs = hand.ItemAttributes;
+				if (attribs != null)
+				{
+					blockChance -= attribs.ServerBlockChance;
+					blockSound = attribs.ServerBlockSound;
+					blockName = hand.ItemObject.ExpensiveName();
+				}
+			}
+		}
+
+		if (DMMath.Prob(blockChance) == false)
+		{
+			//Victim blocked our attack
+			string victimName = victim.ExpensiveName();
+
+			if (blockSound != null)
+			{
+				SoundManager.PlayNetworkedAtPos(blockSound, transform.position, sourceObj: gameObject);
+			}
+
+			Chat.AddCombatMsgToChat(gameObject, $"{victimName} blocks your attack with {blockName}!",
+				$"{victimName} blocks {gameObject.ExpensiveName()}'s attack with {blockName}!");
+
+			return false;
+		}
+		return true;
 	}
 
 	[ClientRpc]

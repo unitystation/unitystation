@@ -94,6 +94,12 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A ragged, dusty set of robes. Strange letters line the inside.
       objectReference: {fileID: 0}
+    - target: {fileID: 918999802101595998, guid: f165d0512a4d5ef44ba3d22decd038b7,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 66ffbd1416878e64baa209ce539667d3,
+        type: 2}
     - target: {fileID: 5931330098935284665, guid: f165d0512a4d5ef44ba3d22decd038b7,
         type: 3}
       propertyPath: clothData
@@ -118,12 +124,23 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5951456481739873361, guid: f165d0512a4d5ef44ba3d22decd038b7,
         type: 3}
+      propertyPath: parentID
+      value: f165d0512a4d5ef44ba3d22decd038b7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5951456481739873361, guid: f165d0512a4d5ef44ba3d22decd038b7,
+        type: 3}
       propertyPath: foreverID
       value: 6bd076e856454514c82643c8cf0b2fe8
       objectReference: {fileID: 0}
     - target: {fileID: 6875717833805015995, guid: f165d0512a4d5ef44ba3d22decd038b7,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 66ffbd1416878e64baa209ce539667d3,
+        type: 2}
+    - target: {fileID: 6875717833805015995, guid: f165d0512a4d5ef44ba3d22decd038b7,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 66ffbd1416878e64baa209ce539667d3,
         type: 2}

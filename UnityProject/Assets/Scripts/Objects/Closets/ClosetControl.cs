@@ -4,10 +4,12 @@ using System.Linq;
 using UnityEngine;
 using Mirror;
 using AddressableReferences;
+using Core;
 using Items;
 using Objects.Atmospherics;
 using Systems.Clearance;
 using UI.Systems.Tooltips.HoverTooltips;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects
 {

@@ -123,6 +123,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3157804438160328025, guid: 84ac8abc1d963be42906a209a1b97350,
         type: 3}
+      propertyPath: parentID
+      value: 84ac8abc1d963be42906a209a1b97350
+      objectReference: {fileID: 0}
+    - target: {fileID: 3157804438160328025, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
       propertyPath: foreverID
       value: 338e1ca6026072d418f891940ed7f245
       objectReference: {fileID: 0}
@@ -239,6 +244,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   researchServer: {fileID: 0}
+  <CanRelink>k__BackingField: 1
   PoweredState: 0
   range: 150
   spriteHandler: {fileID: 8863213257465878102}
@@ -289,7 +295,9 @@ MonoBehaviour:
   ChangeSprites: 1
   isChangingSO: 0
   CurrentDirection: 0
+  SynchroniseCurrentDirection: 0
   IgnoreServerUpdatesIfLocalPlayer: 0
+  MatrixRotateUpdate: 1
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
 --- !u!114 &8863213257465878102 stripped

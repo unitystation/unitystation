@@ -189,6 +189,24 @@ PrefabInstance:
       value: A vest that excels in protecting the wearer against energy projectiles,
         as well as occasionally reflecting them
       objectReference: {fileID: 0}
+    - target: {fileID: 3495234765619245072, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 2c3378106963c74489847be088236cab,
+        type: 2}
+    - target: {fileID: 3495234765619245072, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: a15d3a3833b98824780f153c49588f9a,
+        type: 2}
+    - target: {fileID: 3495234765619245072, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 802c6cae5aa381a49b4f03228d4a5d48,
+        type: 2}
     - target: {fileID: 3791466462619397166, guid: e606c25f8104ffa4e94b68151182a216,
         type: 3}
       propertyPath: m_Sprite
@@ -326,6 +344,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 802c6cae5aa381a49b4f03228d4a5d48,
         type: 2}
+    - target: {fileID: 7145545764318209269, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 802c6cae5aa381a49b4f03228d4a5d48,
+        type: 2}
     - target: {fileID: 7931175119129480439, guid: e606c25f8104ffa4e94b68151182a216,
         type: 3}
       propertyPath: clothData
@@ -347,6 +371,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: daeb29b84d1aaeb4597312562565ddbd,
         type: 2}
+    - target: {fileID: 7986767595912221471, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: parentID
+      value: e606c25f8104ffa4e94b68151182a216
+      objectReference: {fileID: 0}
     - target: {fileID: 7986767595912221471, guid: e606c25f8104ffa4e94b68151182a216,
         type: 3}
       propertyPath: foreverID

@@ -133,6 +133,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9066908898016155968, guid: 3e02bb6440df3c34f88a1add858dfac8,
         type: 3}
+      propertyPath: parentID
+      value: 3e02bb6440df3c34f88a1add858dfac8
+      objectReference: {fileID: 0}
+    - target: {fileID: 9066908898016155968, guid: 3e02bb6440df3c34f88a1add858dfac8,
+        type: 3}
       propertyPath: foreverID
       value: ce87617cbaaee414aab5bcc1a978da71
       objectReference: {fileID: 0}
@@ -174,7 +179,6 @@ MonoBehaviour:
   weakDuration: 12
   stunExtraTime: 3
   flashCooldown: 16
-  sunglassesTrait: {fileID: 11400000, guid: 4f5b7ce1cca0a644cba934af14ea4b2c, type: 2}
   flashSound:
     SetLoadSetting: 0
     AssetAddress: 

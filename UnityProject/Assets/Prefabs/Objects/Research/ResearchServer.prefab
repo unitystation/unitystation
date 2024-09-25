@@ -113,6 +113,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2444135299207855093, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
+      propertyPath: parentID
+      value: b69bfc56f39849d4ba9139d2d51bedb6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444135299207855093, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
       propertyPath: foreverID
       value: 5kxOLzVCyAnAz_ATY8PU
       objectReference: {fileID: 0}
@@ -203,6 +208,9 @@ MonoBehaviour:
   explosiveBountyList: {fileID: 11400000, guid: fe0ad0f017efea543816cacfac4670f9,
     type: 2}
   bountiesOnStart: 10
+  registerTile: {fileID: 0}
+  <CanRelink>k__BackingField: 1
+  <IgnoreMaxDistanceMapper>k__BackingField: 0
   conType: 11
 --- !u!114 &9065833264468658804
 MonoBehaviour:

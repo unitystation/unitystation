@@ -8,6 +8,7 @@ using Logs;
 using Mirror;
 using Objects.Construction;
 using Objects.Other;
+using SecureStuff;
 using Systems.Atmospherics;
 using Systems.Disposals;
 
@@ -36,13 +37,18 @@ namespace Objects.Atmospherics
 
 		private OrientationEnum PreviousOrientation = OrientationEnum.Default;
 
+		public float InitialVolume = 0.05f;
+
 
 		public static float MaxInternalPressure { get; } = AtmosConstants.ONE_ATMOSPHERE * 50;
+
+		[PlayModeOnly] public bool CanNowRotate = false;
 
 		#region Lifecycle
 
 		public virtual void Awake()
 		{
+
 			registerTile = GetComponent<RegisterTile>();
 			directional = GetComponent<Rotatable>();
 			if (directional != null)
@@ -50,11 +56,15 @@ namespace Objects.Atmospherics
 				PreviousOrientation = directional.CurrentDirection;
 				directional.OnRotationChange.AddListener(PipeRotated);
 			}
+			if (CustomNetworkManager.IsServer == false) return;
+
+			pipeData.GetMixAndVolume.GetGasMix().Volume = InitialVolume;
 		}
 
 		public void PipeRotated(OrientationEnum newDirection)
 		{
 			if (Matrix == null) return;
+			pipeData.OnDisable();
 			SetUpPipes(false, PreviousOrientation.RemoveDirectionsTogether(newDirection).ToPipeRotate());
 			PreviousOrientation = newDirection;
 		}
@@ -64,18 +74,24 @@ namespace Objects.Atmospherics
 		{
 			//Only run SetUpPipes for mapped, otherwise the item being used to place it will have the wrong pipe data
 			//As the pipe will not be rotated correctly before setup
+
+			CanNowRotate = info.SpawnType == SpawnType.Mapped;
 			SetUpPipes(spawnedFromItem && info.SpawnType != SpawnType.Mapped);
 		}
 
-		public void SetUpPipes(bool DoNotSetRotation = false, int? RotateOverride = null) //Warning this should only Called once!!! Since you get double rotations
+		public void SetUpPipes(bool DoNotSetRotation = false, int? RotateOverride = null, bool? InCanNowRotate = null) //Warning this should only Called once!!! Since you get double rotations
 		{
+			if (InCanNowRotate != null)
+			{
+				CanNowRotate = InCanNowRotate.Value;
+			}
 			if (pipeData.PipeAction == null)
 			{
 				pipeData.PipeAction = new MonoActions();
 			}
 			registerTile.SetPipeData(pipeData);
 			pipeData.MonoPipe = this;
-			if (DoNotSetRotation == false)
+			if (DoNotSetRotation == false && CanNowRotate)
 			{
 				int Offset = PipeFunctions.GetOffsetAngle(transform.localRotation.eulerAngles.z);
 				if (RotateOverride != null)
@@ -119,6 +135,11 @@ namespace Objects.Atmospherics
 		/// Used for cleaning up anything that needs to be cleaned up before this happens.
 		/// </summary>
 		public virtual void OnDespawnServer(DespawnInfo info)
+		{
+			pipeData.OnDisable();
+		}
+
+		public void OnDestroy()
 		{
 			pipeData.OnDisable();
 		}
@@ -175,8 +196,15 @@ namespace Objects.Atmospherics
 			}
 			else
 			{
-				ToolUtils.ServerPlayToolSound(interaction);
-				Unwrench(interaction);
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 0,
+					string.Empty,
+					string.Empty,
+					$"You unfasten the {gameObject.ExpensiveName()}.",
+					$"{interaction.Performer} unfastens the {gameObject.ExpensiveName()}",
+					() =>
+					{
+						Unwrench(interaction);
+					});
 			}
 		}
 

@@ -94,6 +94,29 @@ PrefabInstance:
       propertyPath: initialDescription
       value: ORANGE HONK!
       objectReference: {fileID: 0}
+    - target: {fileID: 3397443007502491847, guid: a08b3d5119d894fcb917204c9c820035,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 3980cd059a105e5438fc3957f200eb59,
+        type: 2}
+    - target: {fileID: 3397443007502491847, guid: a08b3d5119d894fcb917204c9c820035,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 30e990be4495da142a074a945288eabf,
+        type: 2}
+    - target: {fileID: 3397443007502491847, guid: a08b3d5119d894fcb917204c9c820035,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 5cc0e14de9775134894a140268308588,
+        type: 2}
+    - target: {fileID: 8174322744686822344, guid: a08b3d5119d894fcb917204c9c820035,
+        type: 3}
+      propertyPath: parentID
+      value: a08b3d5119d894fcb917204c9c820035
+      objectReference: {fileID: 0}
     - target: {fileID: 8174322744686822344, guid: a08b3d5119d894fcb917204c9c820035,
         type: 3}
       propertyPath: foreverID
@@ -118,6 +141,12 @@ PrefabInstance:
     - target: {fileID: 8975007657035133986, guid: a08b3d5119d894fcb917204c9c820035,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 5cc0e14de9775134894a140268308588,
+        type: 2}
+    - target: {fileID: 8975007657035133986, guid: a08b3d5119d894fcb917204c9c820035,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 5cc0e14de9775134894a140268308588,
         type: 2}

@@ -24,25 +24,9 @@ public partial class GameManager
 
 	private bool beenToStation;
 
-	public void ResetEscapeShuttle()
+	public void SetEscapeShuttle(EscapeShuttle EscapeShuttle)
 	{
-		primaryEscapeShuttle = null;
-	}
-
-	private void InitEscapeShuttle()
-	{
-		//Primary escape shuttle lookup
-		if (PrimaryEscapeShuttle == false)
-		{
-			var shuttles = FindObjectsOfType<EscapeShuttle>();
-			if (shuttles.Length != 1)
-			{
-				Loggy.LogError("Primary escape shuttle is missing from GameManager!", Category.Round);
-				return;
-			}
-			Loggy.LogWarning("Primary escape shuttle is missing from GameManager, but one was found on scene", Category.Round);
-			primaryEscapeShuttle = shuttles[0];
-		}
+		primaryEscapeShuttle = EscapeShuttle;
 	}
 
 	/// <summary>

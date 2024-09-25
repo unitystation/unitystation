@@ -1,5 +1,8 @@
-﻿using UnityEngine;
+﻿using Core;
+using Core.Admin.Logs;
+using UnityEngine;
 using Mirror;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 
 namespace Messages.Client.Admin
@@ -81,9 +84,7 @@ namespace Messages.Client.Admin
 			{
 				ghostMove.ForcePositionClient(coord, false, false);
 			}
-
-			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(
-					$"{SentByPlayer.Username} teleported {userToTeleport.playerName} to themselves", SentByPlayer.AccountId);
+			AdminLogsManager.AddNewLog(SentByPlayer.GameObject, $"{SentByPlayer.Username} teleported {userToTeleport.playerName} to themselves", LogCategory.Admin);
 		}
 
 		private void DoAdminToPlayerTeleport(NetMessage msg)
@@ -128,7 +129,7 @@ namespace Messages.Client.Admin
 				message = $"{SentByPlayer.Username} teleported to {userToTeleportTo.playerName} as a player";
 			}
 
-			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(message, SentByPlayer.AccountId);
+			AdminLogsManager.AddNewLog(SentByPlayer.GameObject, message, LogCategory.Admin);
 		}
 
 		private void DoAllPlayersToPlayerTeleport(NetMessage msg)
@@ -176,7 +177,7 @@ namespace Messages.Client.Admin
 
 			var stringMsg = $"{SentByPlayer.Username} teleported all players to {destinationPlayer.playerName}";
 
-			UIManager.Instance.adminChatWindows.adminLogWindow.ServerAddChatRecord(stringMsg, SentByPlayer.AccountId);
+			AdminLogsManager.AddNewLog(SentByPlayer.GameObject, stringMsg, LogCategory.Admin);
 		}
 
 		public static NetMessage Send(string userToTeleport, string userToTelportTo, OpperationList opperation, bool isAghost, Vector3 Coord)

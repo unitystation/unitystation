@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Core;
 using Systems.Electricity;
 using Systems.MobAIs;
 using Managers;
@@ -14,6 +15,7 @@ using Objects.Research;
 using UI.Systems.MainHUD.UI_Bottom;
 using UnityEngine;
 using HealthV2;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Systems.Ai
 {
@@ -1289,7 +1291,7 @@ namespace Systems.Ai
 			ChangeIntegrity(-1);
 		}
 
-		public void OnGib()
+		public void OnGib(bool ignoreNoGibRule = false)
 		{
 			Death();
 		}

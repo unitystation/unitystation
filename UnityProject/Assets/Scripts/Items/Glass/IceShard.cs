@@ -95,7 +95,7 @@ namespace Items
 
 		private void MeltIce(MetaDataNode node)
 		{
-			node.GasMixLocal.AddGas(Gas.WaterVapor, stackable.Amount * 2f);
+			node.GasMixLocal.AddGasWithTemperature(Gas.WaterVapor, stackable.Amount * 2f, AtmosDefines.WATER_VAPOR_FREEZE);
 			_ = Despawn.ServerSingle(gameObject);
 		}
 
@@ -103,7 +103,7 @@ namespace Items
 		{
 			if (node == null) return;
 
-			node.GasMixLocal.AddGas(Gas.Plasma, stackable.Amount * 150);
+			node.GasMixLocal.AddGasWithTemperature(Gas.Plasma, stackable.Amount * 150,  373.15f);
 			node.GasMixLocal.ChangeTemperature(stackable.Amount * 20 + 300);
 			_ = Despawn.ServerSingle(gameObject);
 		}

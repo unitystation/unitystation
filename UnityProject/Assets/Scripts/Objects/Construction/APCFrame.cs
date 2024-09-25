@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core;
 using Items;
 using Logs;
 using UnityEngine;
@@ -8,6 +9,7 @@ using Mirror;
 using ScriptableObjects;
 using Objects.Engineering;
 using Systems.Electricity;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Construction
 {

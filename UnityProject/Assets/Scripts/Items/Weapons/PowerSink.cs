@@ -5,10 +5,12 @@ using Systems.Explosions;
 using Items.Devices;
 using UnityEngine;
 using Communications;
+using Core;
 using Managers;
 using Mirror;
 using Systems.Electricity;
 using Systems.Electricity.NodeModules;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Items.Weapons
 {
@@ -139,7 +141,7 @@ namespace Items.Weapons
 			var worldPos = gameObject.AssumedWorldPosServer();
 			// Despawn the explosive
 			_ = Despawn.ServerSingle(gameObject);
-			Explosion.StartExplosion(worldPos.RoundToInt(), currentCharge * explosionAmplifer);
+			Explosion.StartExplosion(worldPos.RoundToInt(), currentCharge * explosionAmplifer, stunNearbyPlayers: true);
 		}
 
 		public void CheckForVoltage()

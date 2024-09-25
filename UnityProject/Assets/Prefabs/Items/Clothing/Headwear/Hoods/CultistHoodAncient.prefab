@@ -26,12 +26,23 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2727805130631840327, guid: d0e6cbda5c639f54ba60b282149842aa,
         type: 3}
+      propertyPath: parentID
+      value: d0e6cbda5c639f54ba60b282149842aa
+      objectReference: {fileID: 0}
+    - target: {fileID: 2727805130631840327, guid: d0e6cbda5c639f54ba60b282149842aa,
+        type: 3}
       propertyPath: foreverID
       value: e2717b6685c1f2f41a37a9c7d64f8315
       objectReference: {fileID: 0}
     - target: {fileID: 2893486360940098989, guid: d0e6cbda5c639f54ba60b282149842aa,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: dbbf7ebae744bed4c9616f226211f617,
+        type: 2}
+    - target: {fileID: 2893486360940098989, guid: d0e6cbda5c639f54ba60b282149842aa,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: dbbf7ebae744bed4c9616f226211f617,
         type: 2}
@@ -45,6 +56,12 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A torn, dust-caked hood. Strange letters line the inside.
       objectReference: {fileID: 0}
+    - target: {fileID: 8902559834540007752, guid: d0e6cbda5c639f54ba60b282149842aa,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: dbbf7ebae744bed4c9616f226211f617,
+        type: 2}
     - target: {fileID: 9004261550291760030, guid: d0e6cbda5c639f54ba60b282149842aa,
         type: 3}
       propertyPath: _assetId

@@ -16,6 +16,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3499719427789762796, guid: 77b0f36047b1a0e48ba9f97f954035fd,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 1af13f83286bbc745af2688fc062b25f,
+        type: 2}
+    - target: {fileID: 3499719427789762796, guid: 77b0f36047b1a0e48ba9f97f954035fd,
+        type: 3}
       propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 1af13f83286bbc745af2688fc062b25f,
@@ -26,6 +32,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 0164aed91c4a15045a36d760cadcaef4,
         type: 2}
+    - target: {fileID: 4426236432238511878, guid: 77b0f36047b1a0e48ba9f97f954035fd,
+        type: 3}
+      propertyPath: parentID
+      value: 77b0f36047b1a0e48ba9f97f954035fd
+      objectReference: {fileID: 0}
     - target: {fileID: 4426236432238511878, guid: 77b0f36047b1a0e48ba9f97f954035fd,
         type: 3}
       propertyPath: foreverID
@@ -164,7 +175,12 @@ PrefabInstance:
     - target: {fileID: 8431387283529515776, guid: 77b0f36047b1a0e48ba9f97f954035fd,
         type: 3}
       propertyPath: 'initialReagentMix.reagents.m_values.Array.data[0]'
-      value: 25
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8431387283529515776, guid: 77b0f36047b1a0e48ba9f97f954035fd,
+        type: 3}
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[1]'
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

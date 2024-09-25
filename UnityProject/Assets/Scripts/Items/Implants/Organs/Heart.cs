@@ -100,7 +100,7 @@ namespace Items.Implants.Organs
 
 
 
-		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
 		{
 			CashedReagentPoolSystem.PumpingDevices.Remove(this);
 			CashedReagentPoolSystem = null;

@@ -19,6 +19,12 @@ PrefabInstance:
       value: A pair of sunglasses outfitted with apparatus to scan reagents, as well
         as providing an innate understanding of liquid viscosity while in motion.
       objectReference: {fileID: 0}
+    - target: {fileID: 2987011942256334699, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 684cf3f7d536db743b6371785dfa97be,
+        type: 2}
     - target: {fileID: 3273994478765017941, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
         type: 3}
       propertyPath: m_Sprite
@@ -97,6 +103,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8585229615259169892, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
         type: 3}
+      propertyPath: parentID
+      value: 0c3e7a0b25eff4d33a4f511cfc36b5d9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8585229615259169892, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
+        type: 3}
       propertyPath: foreverID
       value: a0035ec751052984f8f49ff76eadbb3d
       objectReference: {fileID: 0}
@@ -124,6 +135,12 @@ PrefabInstance:
     - target: {fileID: 8851959254138389390, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 684cf3f7d536db743b6371785dfa97be,
+        type: 2}
+    - target: {fileID: 8851959254138389390, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 684cf3f7d536db743b6371785dfa97be,
         type: 2}

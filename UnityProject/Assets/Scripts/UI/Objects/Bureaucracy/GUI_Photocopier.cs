@@ -62,7 +62,7 @@ namespace UI.Bureaucracy
 			{
 				StatusLabel.MasterSetValue("TRAY EMPTY");
 			}
-			else if (Photocopier.ScannedTextNotEmpty)
+			else if (Photocopier.hasScanned)
 			{
 				StatusLabel.MasterSetValue("COPIER READY");
 			}
@@ -78,11 +78,11 @@ namespace UI.Bureaucracy
 			{
 				ScannerLabel.MasterSetValue("ERR: SCANNER OPEN");
 			}
-			else if (Photocopier.ScannedTextNotEmpty)
+			else if (Photocopier.hasScanned)
 			{
 				ScannerLabel.MasterSetValue("DOCUMENT SCANNED");
 			}
-			else if (Photocopier.ScannedTextNotEmpty == false)
+			else if (Photocopier.hasScanned == false)
 			{
 				ScannerLabel.MasterSetValue("DOCUMENT NOT SCANNED");
 			}
@@ -128,7 +128,7 @@ namespace UI.Bureaucracy
 
 		public void Print()
 		{
-			if (Photocopier.InkCartadge == null)
+			if (Photocopier.TonerCartadge == null)
 			{
 				StatusLabel.MasterSetValue("NO INK");
 				return;

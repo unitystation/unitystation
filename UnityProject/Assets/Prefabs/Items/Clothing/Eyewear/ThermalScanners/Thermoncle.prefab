@@ -18,6 +18,24 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Never before has seeing through walls felt so gentlepersonly.
       objectReference: {fileID: 0}
+    - target: {fileID: 2987011942256334699, guid: 0ef8e2824e992de48821b5ee531e8261,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: f6cdfdd6871648349a045be11f42af2b,
+        type: 2}
+    - target: {fileID: 2987011942256334699, guid: 0ef8e2824e992de48821b5ee531e8261,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: b94e20227c573f945ab19acee6a2b483,
+        type: 2}
+    - target: {fileID: 2987011942256334699, guid: 0ef8e2824e992de48821b5ee531e8261,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 74f1894ca96114e438fdc593dbb2d0b0,
+        type: 2}
     - target: {fileID: 3273994478765017941, guid: 0ef8e2824e992de48821b5ee531e8261,
         type: 3}
       propertyPath: m_Sprite
@@ -106,6 +124,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8585229615259169892, guid: 0ef8e2824e992de48821b5ee531e8261,
         type: 3}
+      propertyPath: parentID
+      value: 0ef8e2824e992de48821b5ee531e8261
+      objectReference: {fileID: 0}
+    - target: {fileID: 8585229615259169892, guid: 0ef8e2824e992de48821b5ee531e8261,
+        type: 3}
       propertyPath: foreverID
       value: 6a46c6f4588c59342bcbb240839d68b2
       objectReference: {fileID: 0}
@@ -128,6 +151,12 @@ PrefabInstance:
     - target: {fileID: 8851959254138389390, guid: 0ef8e2824e992de48821b5ee531e8261,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 74f1894ca96114e438fdc593dbb2d0b0,
+        type: 2}
+    - target: {fileID: 8851959254138389390, guid: 0ef8e2824e992de48821b5ee531e8261,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 74f1894ca96114e438fdc593dbb2d0b0,
         type: 2}

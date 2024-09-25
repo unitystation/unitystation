@@ -23,6 +23,12 @@ PrefabInstance:
       propertyPath: initialName
       value: bilton wrangler boots
       objectReference: {fileID: 0}
+    - target: {fileID: 2933937313702197565, guid: 4b44233aeccf8fd48b804d764fa74f6e,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: e10c419578b908b458e23199fe8b8807,
+        type: 2}
     - target: {fileID: 3218700829575046403, guid: 4b44233aeccf8fd48b804d764fa74f6e,
         type: 3}
       propertyPath: m_Sprite
@@ -107,12 +113,23 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8565937892774238770, guid: 4b44233aeccf8fd48b804d764fa74f6e,
         type: 3}
+      propertyPath: parentID
+      value: 502f496beb9v34b9a9c97868e845ed7e
+      objectReference: {fileID: 0}
+    - target: {fileID: 8565937892774238770, guid: 4b44233aeccf8fd48b804d764fa74f6e,
+        type: 3}
       propertyPath: foreverID
       value: 502f496beb9v34b9a9h97868e845ed7e
       objectReference: {fileID: 0}
     - target: {fileID: 8871235788215741912, guid: 4b44233aeccf8fd48b804d764fa74f6e,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e10c419578b908b458e23199fe8b8807,
+        type: 2}
+    - target: {fileID: 8871235788215741912, guid: 4b44233aeccf8fd48b804d764fa74f6e,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: e10c419578b908b458e23199fe8b8807,
         type: 2}

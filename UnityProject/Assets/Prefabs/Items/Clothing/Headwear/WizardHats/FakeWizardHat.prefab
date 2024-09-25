@@ -10,6 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3549479581640830887, guid: 23fbdaf1fa5d71340be316ef7c51eae0,
         type: 3}
+      propertyPath: parentID
+      value: 23fbdaf1fa5d71340be316ef7c51eae0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3549479581640830887, guid: 23fbdaf1fa5d71340be316ef7c51eae0,
+        type: 3}
       propertyPath: foreverID
       value: 76db9576a63116843a098fe7aadd38d0
       objectReference: {fileID: 0}
@@ -37,6 +42,12 @@ PrefabInstance:
     - target: {fileID: 4377197623706982477, guid: 23fbdaf1fa5d71340be316ef7c51eae0,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 15ee7fc32f7bcc74889f4b696da59496,
+        type: 2}
+    - target: {fileID: 4377197623706982477, guid: 23fbdaf1fa5d71340be316ef7c51eae0,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 15ee7fc32f7bcc74889f4b696da59496,
         type: 2}
@@ -236,6 +247,12 @@ PrefabInstance:
       propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 8004422176852823208, guid: 23fbdaf1fa5d71340be316ef7c51eae0,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 15ee7fc32f7bcc74889f4b696da59496,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using _3D;
+using Core;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering;
@@ -14,6 +15,7 @@ using Systems.Electricity;
 using Systems.Pipes;
 using Tiles;
 using Util;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public enum ObjectType
 {
@@ -181,7 +183,17 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	public PipeData PipeData => pipeData;
 
 	private CheckedComponent<UniversalObjectPhysics> objectPhysics = new CheckedComponent<UniversalObjectPhysics>();
-	public CheckedComponent<UniversalObjectPhysics> ObjectPhysics => objectPhysics;
+	public CheckedComponent<UniversalObjectPhysics> ObjectPhysics
+	{
+		get
+		{
+			if (objectPhysics.HasComponent == false)
+			{
+				objectPhysics.ResetComponent(gameObject);
+			}
+			return objectPhysics;
+		}
+	}
 
 	[SerializeField] private SortingGroup CurrentsortingGroup;
 
@@ -222,10 +234,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			}
 
 			convertTo3d.DoConvertTo3D();
-		}
-		else
-		{
-			transform.localRotation = Quaternion.Euler(0, 0, transform.localRotation.eulerAngles.z);
 		}
 	}
 
@@ -455,6 +463,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		}
 
 		var WorldCashed = transform.position;
+
+
 
 		transform.SetParent(objectLayer.transform, true);
 

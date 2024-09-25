@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1916b10721f72c927a14093e8210cb3f, type: 3}
   m_Name: Cyanide
   m_EditorClassIdentifier: 
+  foreverID: Cyanide
   displayName: Cyanide
   description: An infamous poison known for its use in assassination. Causes small
     amounts of toxin damage with a small chance of oxygen damage or a stun.
   color: {r: 0, g: 0.7058824, b: 1, a: 1}
   state: 1
   heatDensity: 5
-  indexInSingleton: 500
+  indexInSingleton: 499

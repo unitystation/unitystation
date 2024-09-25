@@ -7,4 +7,8 @@ using UnityEngine;
 public class CommonManagerEditorOnly : SingletonScriptableObject<CommonManagerEditorOnly>
 {
 	public CustomNetworkManager CustomNetworkManagerPrefab;
+	public VariableViewerManager VariableViewerManager;
+	public TileManager TileManager;
+	public GameObject Matrix;
+	public GameObject MatrixSync;
 }

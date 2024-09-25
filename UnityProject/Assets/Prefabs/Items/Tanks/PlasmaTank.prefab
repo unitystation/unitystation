@@ -51,17 +51,17 @@ PrefabInstance:
     - target: {fileID: 2410773065630705748, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2410773065630705748, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2410773065630705748, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2410773065630705748, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
@@ -123,6 +123,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7575452727574476451, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
+      propertyPath: ignoreInternals
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575452727574476451, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
       propertyPath: 'Gases.Array.data[0]'
       value: 8.73464
       objectReference: {fileID: 0}
@@ -143,6 +148,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1874f86c4337ecb438d49e2bd71a781f,
         type: 2}
+    - target: {fileID: 8781441551662356813, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
+      propertyPath: parentID
+      value: 48d3c058a9e5a42418875499b82cc5e3
+      objectReference: {fileID: 0}
     - target: {fileID: 8781441551662356813, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
       propertyPath: foreverID

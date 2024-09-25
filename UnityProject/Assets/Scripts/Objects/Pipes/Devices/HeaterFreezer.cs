@@ -7,9 +7,11 @@ using Systems.Atmospherics;
 using Systems.Electricity;
 using Systems.Interaction;
 using Items;
+using Logs;
 using Machines;
 using Objects.Machines;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 
 namespace Objects.Atmospherics
@@ -30,12 +32,19 @@ namespace Objects.Atmospherics
 		private float currentTemperature;
 		public float CurrentTemperature => currentTemperature;
 
-		[SerializeField]
+		[SerializeField, FormerlySerializedAs("targetTemperature")]
+		public float InitialTargetTemperature = 298.15f;
+
+
 		private float targetTemperature = 298.15f;
 		public float TargetTemperature => targetTemperature;
 
 		[SerializeField]
 		private float idleWattUsage = 100;
+
+		[SerializeField]
+		private float MaxWattUsage = 5000;
+
 
 		[SerializeField]
 		private HeaterFreezerType type = HeaterFreezerType.Freezer;
@@ -44,7 +53,7 @@ namespace Objects.Atmospherics
 		private bool isOn;
 		public bool IsOn => isOn;
 
-		private float heatCapacity = 0;
+		private float Efficiency = 0;
 
 		private APCPoweredDevice apcPoweredDevice;
 		public APCPoweredDevice ApcPoweredDevice => apcPoweredDevice;
@@ -55,6 +64,7 @@ namespace Objects.Atmospherics
 
 		public override void Awake()
 		{
+			targetTemperature = InitialTargetTemperature;
 			base.Awake();
 
 			apcPoweredDevice = GetComponent<APCPoweredDevice>();
@@ -79,28 +89,58 @@ namespace Objects.Atmospherics
 		{
 			pipeData.mixAndVolume.EqualiseWithOutputs(pipeData.Outputs);
 
-			//Only work when powered and online
-			if(apcPoweredDevice.State == PowerState.Off || isOn == false) return;
+			if (isOn == false)
+			{
+				apcPoweredDevice.Wattusage = idleWattUsage;
+				return;
+			}
 
-			var airHeatCapacity = pipeData.mixAndVolume.WholeHeatCapacity;
-			var combinedHeatCapacity = heatCapacity + airHeatCapacity;
+			//Only work when powered and online
+			if (apcPoweredDevice.State == PowerState.Off)
+			{
+				//Not enough current to run stuff but still  the same resistance
+				//TODO Use drop voltage to add a little bit of heat/Remove heat so watts don't disappear into nothing
+				return;
+			}
+
+			var AvailableMachineThroughput = MaxWattUsage * Efficiency; //Basically heat capacity of the machine
+
 			var oldTemperature = pipeData.mixAndVolume.Temperature;
+			var airHeatCapacity = pipeData.mixAndVolume.WholeHeatCapacity;
+			var combinedHeatCapacity = AvailableMachineThroughput + airHeatCapacity; //gas + heating plate
+
+
+			//ok,
+			//How this works basically because You're equalising to objects
+			//the heating/cooling plate always stays the same temperature,
+			//so, the gas can lose and gain heat
+			//so for example if you're heating up the gas,
+			//the calculation says that the heating plate loses loads of energy into the gas
+			//but because it's been replenished( is static in terms of calculation )
+			//Then that means it always goes up Till the Temperatures are the same
+
+			//yes I know MaxWattUsage Is a bit funky
 
 			if (combinedHeatCapacity > 0)
 			{
-				var combinedEnergy = heatCapacity * targetTemperature + airHeatCapacity * oldTemperature;
+				// heating plate Capacity*  temperature of heating plate
+				var combinedEnergy = AvailableMachineThroughput * targetTemperature + airHeatCapacity * oldTemperature;
 				pipeData.mixAndVolume.Temperature = combinedEnergy / combinedHeatCapacity;
 			}
 
 			var temperatureDelta = Mathf.Abs(oldTemperature - pipeData.mixAndVolume.Temperature);
+
 			if (temperatureDelta > 1)
 			{
-				apcPoweredDevice.Wattusage = (heatCapacity * temperatureDelta) / 10 + idleWattUsage;
+				apcPoweredDevice.Wattusage = MaxWattUsage;
 			}
 			else
 			{
 				apcPoweredDevice.Wattusage = idleWattUsage;
 			}
+
+
+
 
 			currentTemperature = pipeData.mixAndVolume.Temperature;
 			ThreadSafeUpdateGui();
@@ -129,7 +169,7 @@ namespace Objects.Atmospherics
 			//If close enough see more detail
 			if ((worldPos - registerTile.WorldPositionServer).sqrMagnitude <= 2)
 			{
-				stringBuilder.AppendLine($"The status display reads: Efficiency <b>{(heatCapacity / 5000 ) * 100}%.</b>");
+				stringBuilder.AppendLine($"The status display reads: Efficiency <b>{(Efficiency ) * 100}%.</b>");
 				stringBuilder.AppendLine(
 					$"Temperature range <b>{initalMinTemperature}K - {maxTemperature}K ({Celsius(initalMinTemperature)}C - {Celsius(maxTemperature)}C)</b>.");
 			}
@@ -159,7 +199,7 @@ namespace Objects.Atmospherics
 				}
 			}
 
-			heatCapacity = 5000 * (Mathf.Pow((rating - 1), 2));
+			Efficiency = (Mathf.Pow((rating - 1), 2));
 
 			if (type == HeaterFreezerType.Freezer || type == HeaterFreezerType.Both)
 			{

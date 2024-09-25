@@ -10,6 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3825346111126973168, guid: 06088292fadbbdd40a0d7dce08102a37,
         type: 3}
+      propertyPath: parentID
+      value: 06088292fadbbdd40a0d7dce08102a37
+      objectReference: {fileID: 0}
+    - target: {fileID: 3825346111126973168, guid: 06088292fadbbdd40a0d7dce08102a37,
+        type: 3}
       propertyPath: foreverID
       value: 694d38385227e2e419deb02bd0f313bf
       objectReference: {fileID: 0}
@@ -28,6 +33,12 @@ PrefabInstance:
     - target: {fileID: 4101366210945096986, guid: 06088292fadbbdd40a0d7dce08102a37,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 0a11f8d16230a2340831fdf9108c2693,
+        type: 2}
+    - target: {fileID: 4101366210945096986, guid: 06088292fadbbdd40a0d7dce08102a37,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 0a11f8d16230a2340831fdf9108c2693,
         type: 2}

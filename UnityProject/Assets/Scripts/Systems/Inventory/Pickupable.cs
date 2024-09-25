@@ -3,12 +3,14 @@ using Messages.Server;
 using Mirror;
 using System.Collections;
 using System.Collections.Generic;
+using Core;
 using Items;
 using Logs;
 using UI;
 using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 /// <summary>
 /// Main API / component for dealing with inventory. Use this if you want to do something to this object that involves

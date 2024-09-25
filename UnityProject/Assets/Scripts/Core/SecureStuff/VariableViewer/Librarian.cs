@@ -119,12 +119,6 @@ namespace SecureStuff
 					Page.ID = PageAID;
 					PageAID++;
 					Page.Info = Field;
-					Page.Variable = Field.GetValue(Script);
-					if (Page.Variable == null)
-					{
-						Page.Variable = "null";
-					}
-
 					Page.VariableType = Field.FieldType;
 					Page.BindedTo = Book;
 					IDToPage[Page.ID] = Page;
@@ -176,22 +170,15 @@ namespace SecureStuff
 
 						Page Page = new Page();
 						Page.VariableName = Properties.Name;
-
-						Page.Variable = Properties.GetValue(Script);
 						Page.VariableType = Properties.PropertyType;
 						Page.PInfo = Properties;
-						if (Page.Variable == null)
-						{
-							Page.Variable = "null";
-						}
-
 						Page.ID = PageAID;
 						PageAID++;
 						Page.BindedTo = Book;
 						IDToPage[Page.ID] = Page;
 						Page.Sentences = new Librarian.Sentence();
-						Page.Sentences.SentenceID = Page.ASentenceID;
-						Page.ASentenceID++;
+						//Page.Sentences.SentenceID = Page.ASentenceID;
+						//Page.ASentenceID++;
 
 						var attribute = Properties.GetCustomAttributes(typeof(VVNote), true);
 						if (attribute.Length > 0)
@@ -227,12 +214,6 @@ namespace SecureStuff
 				Page.ID = PageAID;
 				PageAID++;
 				Page.MInfo = Method;
-
-				if (Page.Variable == null)
-				{
-					Page.Variable = "null";
-				}
-
 				Page.BindedTo = Book;
 				IDToPage[Page.ID] = Page;
 				Page.Sentences = new Librarian.Sentence();
@@ -287,8 +268,8 @@ namespace SecureStuff
 									_sentence.OnPageID = Page.ID;
 									_sentence.ValueVariableType = c.GetType();
 									_sentence.SentenceID = Page.ASentenceID;
-									Page.ASentenceID++;
 									Page.IDtoSentence[_sentence.SentenceID] = _sentence;
+									Page.ASentenceID++;
 									Type valueType = c.GetType();
 									if (valueType.IsGenericType)
 									{
@@ -343,9 +324,9 @@ namespace SecureStuff
 							_sentence.OnPageID = Page.ID;
 							_sentence.ValueVariableType = c.GetType();
 							_sentence.SentenceID = Page.ASentenceID;
-							Page.ASentenceID++;
-							Page.IDtoSentence[_sentence.SentenceID] = _sentence;
 
+							Page.IDtoSentence[_sentence.SentenceID] = _sentence;
+							Page.ASentenceID++;
 							Type valueType = c.GetType();
 							if (valueType.IsGenericType)
 							{
@@ -810,7 +791,32 @@ namespace SecureStuff
 		{
 			public ulong ID;
 			public string VariableName;
-			public object Variable;
+
+			public object Variable
+			{
+				get
+				{
+					if (MInfo != null) return "null";
+					try
+					{
+						if (PInfo != null)
+						{
+							return PInfo.GetValue(BindedTo.BookClass);
+						}
+						else
+						{
+							return Info.GetValue(BindedTo.BookClass);
+						}
+
+					}
+					catch (Exception e)
+					{
+						Loggy.LogError(e.ToString());
+					}
+					return "null";
+				}
+			}
+
 			public Type VariableType;
 			public string AssemblyQualifiedName;
 			public Book BindedTo;
@@ -863,8 +869,8 @@ namespace SecureStuff
 				_sentence.OnPageID = this.ID;
 				_sentence.ValueVariableType = Ttype;
 				_sentence.SentenceID = this.ASentenceID;
-				this.ASentenceID++;
 				this.IDtoSentence[_sentence.SentenceID] = _sentence;
+				this.ASentenceID++;
 				Type valueType = Ttype;
 				if (valueType.IsGenericType)
 				{
@@ -925,6 +931,27 @@ namespace SecureStuff
 				variable[CurrentIndex] = Swapping;
 			}
 
+			public void SetValue(string Value, uint Index)
+			{
+				if (HubValidation.TrustedMode == false) return;
+
+				try
+				{
+					object DeSerialised = DeSerialiseValue(Value, IDtoSentence[(uint) Index ].ValueVariableType);
+					IList variable = (IList) Variable;
+					variable[(int)Index-1] = DeSerialised;
+					var dat = IDtoSentence[(uint)Index];
+					dat.ValueVariable = DeSerialised;
+					//TODO Set Sentences up for  Sentence when setting in VV
+					UpdatePage();
+				}
+				catch (ArgumentException exception)
+				{
+					Loggy.LogError(
+						$"Catch Argument Exception for Variable Viewer {exception.Message} \n {exception.StackTrace}",
+						Category.VariableViewer);
+				}
+			}
 
 			public void SetValue(string Value)
 			{
@@ -936,13 +963,14 @@ namespace SecureStuff
 				{
 					if (PInfo != null)
 					{
-						object DeSerialised = DeSerialiseValue(Variable, Value, VariableType);
+						object DeSerialised = DeSerialiseValue(Value, VariableType);
 						PInfo.SetValue(BindedTo.BookClass, DeSerialised);
 					}
 					else if (Info != null)
 					{
-						object DeSerialised = DeSerialiseValue(Variable, Value, VariableType);
+						object DeSerialised = DeSerialiseValue(Value, VariableType);
 						Info.SetValue(BindedTo.BookClass, DeSerialised);
+
 					}
 
 					UpdatePage();
@@ -973,12 +1001,16 @@ namespace SecureStuff
 				}
 			}
 
+			public static string Serialise(object InObject, Type TypeOf)
+			{
+				return VVUIElementHandler.Serialise(InObject, TypeOf);
+			}
 
-			public static object DeSerialiseValue(object InObject, string StringVariable, Type InType)
+			public static object DeSerialiseValue(string StringVariable, Type InType)
 			{
 				if (VVUIElementHandler.CanDeSerialiseValue(InType))
 				{
-					var data = VVUIElementHandler.DeSerialiseValue(InObject, StringVariable, InType);
+					var data = VVUIElementHandler.DeSerialiseValue(StringVariable, InType);
 					if (data != null || StringVariable.Length == 0)
 					{
 						return data;
@@ -987,20 +1019,21 @@ namespace SecureStuff
 
 				if (InType.IsEnum)
 				{
-					//if ()
-					return Enum.Parse(InObject.GetType(), StringVariable);
+					var data = Enum.Parse(InType, StringVariable);
+					return data;
 				}
 				else
 				{
-					if (InType == null || InObject == null || InObject as IConvertible == null)
+					try
 					{
-						Loggy.Log($"Can't convert {StringVariable} to {InObject.GetType()}  " +
-						          $"[(InType == null) = {InType == null} || (InObject == null) == {InObject == null} || (InObject as IConvertible == null) = {InObject as IConvertible == null}]",
-							Category.VariableViewer);
-						return null;
+						return Convert.ChangeType(StringVariable, InType);
+					}
+					catch (Exception e)
+					{
+						Loggy.LogError(e.ToString());
 					}
 
-					return Convert.ChangeType(StringVariable, InObject.GetType());
+					return null;
 				}
 			}
 
@@ -1008,21 +1041,6 @@ namespace SecureStuff
 			public void UpdatePage()
 			{
 				if (HubValidation.TrustedMode == false) return;
-				if (PInfo != null)
-				{
-					Variable = PInfo.GetValue(BindedTo.BookClass);
-				}
-
-				if (Info != null)
-				{
-					Variable = Info.GetValue(BindedTo.BookClass);
-				}
-
-				if (Variable == null)
-				{
-					Variable = "null";
-				}
-
 
 				//GenerateSentenceValuesforSentence
 				if (Sentences.Sentences != null)
@@ -1117,7 +1135,7 @@ namespace SecureStuff
 			return null;
 		}
 
-		private static Type GetUnderlyingType(this MemberInfo member)
+		private static Type The(this MemberInfo member)
 		{
 			if (HubValidation.TrustedMode == false) return null;
 			switch (member.MemberType)

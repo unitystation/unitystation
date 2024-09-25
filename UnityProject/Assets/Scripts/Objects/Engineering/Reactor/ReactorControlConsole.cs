@@ -4,11 +4,14 @@ using Communications;
 using InGameEvents;
 using Objects.Machines.ServerMachines.Communications;
 using System.Collections.Generic;
+using Core;
+using Logs;
 using SecureStuff;
 using Shared.Systems.ObjectConnection;
 using Systems.Communications;
 using Systems.Electricity;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Engineering.Reactor
 {
@@ -43,11 +46,8 @@ namespace Objects.Engineering.Reactor
 			chatEvent.position = objectPhysics.OfficialPosition;
 			chatEvent.originator = gameObject;
 			chatEvent.speaker = "[Reactor Control Console]";
-#if UNITY_EDITOR
-			chatAnnouncementCheckTime = 2f;
-#endif
 		}
-		public void SuchControllRodDepth(float requestedDepth)
+		public void SuchControlRodDepth(float requestedDepth)
 		{
 			requestedDepth = requestedDepth.Clamp(0, 1);
 
@@ -81,12 +81,13 @@ namespace Objects.Engineering.Reactor
 			{
 				SecondSinceLastUpdate = 0;
 				StringBuilder state = new StringBuilder();
+				chatEvent.channels = ChatChannels;
 				state.AppendFormat("Warning, Reactor Meltdown/Catastrophe imminent.");
-				if (ReactorChambers.CurrentPressure >= ReactorChambers.MaxPressure / (decimal)1.35f)
+				if (ReactorChambers.CurrentPressure >= ReactorGraphiteChamber.MAX_CORE_PRESSURE / (decimal)1.35f)
 				{
 					state.AppendFormat("Pressure: ").AppendFormat(
 							(Math.Round((ReactorChambers.CurrentPressure /
-							            ReactorChambers.MaxPressure) * 100)).ToString())
+								ReactorGraphiteChamber.MAX_CORE_PRESSURE) * 100)).ToString())
 						.Append(".");
 				}
 
@@ -167,6 +168,33 @@ namespace Objects.Engineering.Reactor
 		{
 			if (emmitableSignalData.Count == 0) return false;
 			return poweredDevice.State >= PowerState.On;
+		}
+
+		private DateTime ScrumLastAnnounced = new DateTime(0);
+
+		public void AnnounceSCRAM()
+		{
+			try
+			{
+				if ((DateTime.Now - ScrumLastAnnounced).TotalSeconds > 60)
+				{
+					if (ReactorChambers.ControlRodDepthPercentage != 1 && ReactorChambers.MeltedDown == false)
+					{
+						ScrumLastAnnounced = DateTime.Now;
+						chatEvent.message = "The reactor has triggered an automatic SCRAM!!";
+						chatEvent.channels = ChatChannel.Common;
+						InfluenceChat(chatEvent);
+						chatEvent.channels = ChatChannel.Engineering;
+						_ = SoundManager.PlayNetworked(CommonSounds.Instance.AnnouncementAlert);
+					}
+				}
+
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError(e.ToString());
+			}
+
 		}
 
 		public ChatEvent InfluenceChat(ChatEvent chatToManipulate)

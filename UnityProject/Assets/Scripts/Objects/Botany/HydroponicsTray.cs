@@ -5,9 +5,11 @@ using Mirror;
 using Systems.Botany;
 using Chemistry;
 using Chemistry.Components;
+using Core;
 using Items;
 using Items.Botany;
 using Logs;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Botany
 {
@@ -50,7 +52,7 @@ namespace Objects.Botany
 		[SerializeField] private SpriteHandler nutrimentNotifier = null;
 		[SerializeField] private float tickRate = 0;
 
-		[SerializeField] private PlantData plantData;
+		private PlantData plantData;
 		public PlantData PlantData => plantData;
 
 		private readonly List<GameObject> readyProduce = new List<GameObject>();

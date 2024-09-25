@@ -94,6 +94,29 @@ PrefabInstance:
       propertyPath: initialDescription
       value: The latest in fashionable security outfits.
       objectReference: {fileID: 0}
+    - target: {fileID: 3397443007502491847, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: e8c7460adca77f0428a6f8940ffac41f,
+        type: 2}
+    - target: {fileID: 3397443007502491847, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: c5135c2a7f4be934e93b17bbb0c16a2a,
+        type: 2}
+    - target: {fileID: 3397443007502491847, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: b97448ac77a47794d9fa1c4932cb38e3,
+        type: 2}
+    - target: {fileID: 8174322744686822344, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
+        type: 3}
+      propertyPath: parentID
+      value: 56b3a5e4aaeeac7409c2ce3816b0c339
+      objectReference: {fileID: 0}
     - target: {fileID: 8174322744686822344, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
         type: 3}
       propertyPath: foreverID
@@ -124,6 +147,12 @@ PrefabInstance:
     - target: {fileID: 8975007657035133986, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: b97448ac77a47794d9fa1c4932cb38e3,
+        type: 2}
+    - target: {fileID: 8975007657035133986, guid: 56b3a5e4aaeeac7409c2ce3816b0c339,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: b97448ac77a47794d9fa1c4932cb38e3,
         type: 2}

@@ -15,6 +15,13 @@ namespace SecureStuff
 	{
 	}
 
+	/// <summary>
+	/// Put this on Fields that Reference other objects, where you don't want funny scenarios where the map saver overwrites the networked state
+	/// </summary>
+	public class IsSyncedAttribute : BaseAttribute
+	{
+	}
+
 	public struct MethodsAndAttributee<T> where T : BaseAttribute
 	{
 		public MethodInfo MethodInfo;
@@ -28,16 +35,18 @@ namespace SecureStuff
 	[System.Serializable]
 	public class EventConnection
 	{
-		public Component TargetComponent;
+		public MonoBehaviour TargetComponent;
 		public string TargetFunction;
 
-		public Component SourceComponent;
+		public MonoBehaviour SourceComponent;
 		public string SourceEvent;
 	}
 
 
 	public static class AllowedReflection
 	{
+		private static Dictionary<string, Type> NameToMonoBehaviour;
+
 		public static void RegisterNetworkMessages(Type messagebaseType, Type networkManagerExtensions,
 			string registerMethodName, bool IsServer)
 		{
@@ -94,7 +103,9 @@ namespace SecureStuff
 		{
 			if (ValidateMethodInfo(methodInfo))
 			{
-				return methodInfo.Invoke(instance, BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy, (Binder) null, parameters, (CultureInfo) null);
+				return methodInfo.Invoke(instance,
+					BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Static |
+					BindingFlags.FlattenHierarchy, (Binder) null, parameters, (CultureInfo) null);
 			}
 			else
 			{
@@ -141,6 +152,31 @@ namespace SecureStuff
 			}
 
 			return EventInfo;
+		}
+
+
+		public static Type GetTypeByName(string className)
+		{
+			if (NameToMonoBehaviour == null)
+			{
+				var Types = AppDomain.CurrentDomain.GetAssemblies()
+					.Select(x => x.GetTypes().Where(t => t.IsSubclassOf(typeof(Component))));
+				NameToMonoBehaviour = new Dictionary<string, Type>();
+				foreach (var SubTypes in Types)
+				{
+					foreach (var Type in SubTypes)
+					{
+						NameToMonoBehaviour[Type.Name] = Type;
+					}
+				}
+			}
+			var val = NameToMonoBehaviour.GetValueOrDefault(className);
+			if (val == null)
+			{
+				Loggy.LogError($"Was unable to find class name of {className}");
+			}
+
+			return val;
 		}
 
 
@@ -240,9 +276,18 @@ namespace SecureStuff
 			//so What they want access to
 			//Token/Account
 			//File access
+			Component workObject = null;
 
-			var workObject =
-				NetworkObject.GetComponent(MonoBehaviourName.Substring(MonoBehaviourName.LastIndexOf('.') + 1));
+			if (MonoBehaviourName.Contains("."))
+			{
+				workObject =
+					NetworkObject.GetComponent(MonoBehaviourName.Substring(MonoBehaviourName.LastIndexOf('.') + 1));
+			}
+			else
+			{
+				workObject = NetworkObject.GetComponent(MonoBehaviourName);
+			}
+
 			var Worktype = workObject.GetType();
 
 			if (IsInvokeFunction == false)
@@ -253,7 +298,7 @@ namespace SecureStuff
 				{
 					if (infoField.IsStatic) return;
 					infoField.SetValue(workObject,
-						Librarian.Page.DeSerialiseValue(workObject, Newvalue, infoField.FieldType));
+						Librarian.Page.DeSerialiseValue(Newvalue, infoField.FieldType));
 					return;
 				}
 
@@ -265,7 +310,7 @@ namespace SecureStuff
 					if (Method == null) return;
 					if (Method.IsStatic) return;
 					infoProperty.SetValue(workObject,
-						Librarian.Page.DeSerialiseValue(workObject, Newvalue, infoProperty.PropertyType));
+						Librarian.Page.DeSerialiseValue(Newvalue, infoProperty.PropertyType));
 					return;
 				}
 			}

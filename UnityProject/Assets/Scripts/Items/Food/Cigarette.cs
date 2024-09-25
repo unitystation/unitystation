@@ -1,15 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Chemistry.Components;
 using UnityEngine;
 using Mirror;
+using ScriptableObjects.Atmospherics;
+using Systems.Atmospherics;
+using Systems.Clothing;
 
 namespace Items
 {
 	/// <summary>
 	/// Base class for smokable cigarette
 	/// </summary>
-	public class Cigarette : NetworkBehaviour, ICheckedInteractable<HandApply>,
-		ICheckedInteractable<InventoryApply>, IServerDespawn
+	[RequireComponent(typeof(ClothingV2))]
+	[RequireComponent(typeof(FireSource))]
+	[RequireComponent(typeof(Pickupable))]
+	public class Cigarette : NetworkBehaviour, IServerDespawn, ICheckedInteractable<HandApply>,
+		ICheckedInteractable<InventoryApply>, IServerInventoryMove
 	{
 		private const int DEFAULT_SPRITE = 0;
 		private const int LIT_SPRITE = 1;
@@ -26,18 +32,24 @@ namespace Items
 		private FireSource fireSource = null;
 		private Pickupable pickupable = null;
 
-		[SyncVar]
-		private bool isLit = false;
+		[SyncVar] private bool isLit = false;
+		[SerializeField] private ReagentContainer reagentContainer = null;
+		[SerializeField] private List<GasSO> gasProduct = new List<GasSO>();
+		private RegisterPlayer smoker;
+		private ClothingV2 clothing;
 
 		private void Awake()
 		{
 			pickupable = GetComponent<Pickupable>();
 			fireSource = GetComponent<FireSource>();
+			reagentContainer ??= GetComponent<ReagentContainer>();
+			clothing = GetComponent<ClothingV2>();
 		}
 
 		public void OnDespawnServer(DespawnInfo info)
 		{
 			ServerChangeLit(false);
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CigBurnLogic);
 		}
 
 		#region Interactions
@@ -109,15 +121,15 @@ namespace Items
 
 			if (isLitNow)
 			{
-				StartCoroutine(FireRoutine());
+				UpdateManager.Add(CigBurnLogic, smokeTimeSeconds);
 			}
-
 			isLit = isLitNow;
+			clothing.ChangeSprite(1);
 		}
 
 		private bool TryLightByObject(GameObject usedObject)
 		{
-			if (!isLit)
+			if (isLit == false)
 			{
 				// check if player tries to lit cigarette with something
 				if (usedObject != null)
@@ -156,12 +168,38 @@ namespace Items
 			Spawn.ServerPrefab(buttPrefab, worldPos, tr, rotation);
 		}
 
-		private IEnumerator FireRoutine()
+		private void CigBurnLogic()
 		{
-			// wait until cigarette will burn
-			yield return new WaitForSeconds(smokeTimeSeconds);
-			// despawn cigarette and spawn burn
-			Burn();
+			reagentContainer.Temperature = 300;
+			var bigHit = DMMath.Prob(50) ? 0.5f : 0.25f;
+			var burnReagent = reagentContainer.TakeReagents(bigHit);
+			if (smoker != null)
+			{
+				smoker.PlayerScript.playerHealth.reagentPoolSystem.BloodPool.Add(burnReagent);
+				Chat.AddExamineMsg(smoker.PlayerScript.gameObject, $"You take a drag out of the {gameObject.ExpensiveName()}");
+			}
+			if (gasProduct.Count > 0)
+			{
+				RegisterTile tile = null;
+				tile = smoker == null ? gameObject.RegisterTile() : smoker.PlayerScript.gameObject.RegisterTile();
+				if (tile == null) return;
+				var gasNode = tile.Matrix.GetMetaDataNode(tile.LocalPositionServer);
+				var node = gasNode.GasMixLocal;
+				foreach (var gas in gasProduct)
+				{
+					node.AddGas(gas, burnReagent.Total * 2, 0);
+				}
+			}
+			if (reagentContainer.ReagentMixTotal.Approx(0)) Burn();
+		}
+
+		public void OnInventoryMoveServer(InventoryMove info)
+		{
+			smoker = null;
+			if (info.ToPlayer == null) return;
+			if (info.ToSlot == null) return;
+			if (info.ToSlot.NamedSlot != NamedSlot.mask) return;
+			smoker = info.ToPlayer;
 		}
 	}
 }

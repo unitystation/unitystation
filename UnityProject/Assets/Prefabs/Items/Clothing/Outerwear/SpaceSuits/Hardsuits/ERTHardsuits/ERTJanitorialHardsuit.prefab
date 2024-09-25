@@ -20,6 +20,12 @@ PrefabInstance:
         Offers superb protection against environmental hazards. This one has extra
         clips for holding various janitorial tools.
       objectReference: {fileID: 0}
+    - target: {fileID: 2905032154871127383, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 6e61899efb1bac84aaa47b01b12361fc,
+        type: 2}
     - target: {fileID: 3192155426716549481, guid: 05f59888eb108484aabd67b53074c7a6,
         type: 3}
       propertyPath: m_Sprite
@@ -98,6 +104,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8504937989527846488, guid: 05f59888eb108484aabd67b53074c7a6,
         type: 3}
+      propertyPath: parentID
+      value: 05f59888eb108484aabd67b53074c7a6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8504937989527846488, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
       propertyPath: foreverID
       value: 7b4ef1aa02f929941a265827a4f710f5
       objectReference: {fileID: 0}
@@ -120,6 +131,12 @@ PrefabInstance:
     - target: {fileID: 8933798993108994482, guid: 05f59888eb108484aabd67b53074c7a6,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 6e61899efb1bac84aaa47b01b12361fc,
+        type: 2}
+    - target: {fileID: 8933798993108994482, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 6e61899efb1bac84aaa47b01b12361fc,
         type: 2}

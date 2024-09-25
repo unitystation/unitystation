@@ -21,6 +21,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1464712916763550430, guid: 0f7236d12e1c49246a29ec59fe36949a,
         type: 3}
+      propertyPath: MagInternal
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1464712916763550430, guid: 0f7236d12e1c49246a29ec59fe36949a,
+        type: 3}
       propertyPath: SpawnsCasing
       value: 0
       objectReference: {fileID: 0}
@@ -33,6 +38,11 @@ PrefabInstance:
         type: 3}
       propertyPath: isSuppressed
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1464712916763550430, guid: 0f7236d12e1c49246a29ec59fe36949a,
+        type: 3}
+      propertyPath: useFiringPin
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1464712916763550430, guid: 0f7236d12e1c49246a29ec59fe36949a,
         type: 3}
@@ -195,6 +205,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5c0a87d0d72141e46874b6069bfaa3a0,
         type: 2}
+    - target: {fileID: 9043634101616553976, guid: 0f7236d12e1c49246a29ec59fe36949a,
+        type: 3}
+      propertyPath: parentID
+      value: 0f7236d12e1c49246a29ec59fe36949a
+      objectReference: {fileID: 0}
     - target: {fileID: 9043634101616553976, guid: 0f7236d12e1c49246a29ec59fe36949a,
         type: 3}
       propertyPath: foreverID

@@ -10,6 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1935487091443775198, guid: adbb6ca456fa4b1408d794922c0fd2c4,
         type: 3}
+      propertyPath: parentID
+      value: adbb6ca456fa4b1408d794922c0fd2c4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1935487091443775198, guid: adbb6ca456fa4b1408d794922c0fd2c4,
+        type: 3}
       propertyPath: foreverID
       value: dfb6a2e7b93b69d4d86e97b828674296
       objectReference: {fileID: 0}
@@ -88,6 +93,18 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: dfb6a2e7b93b69d4d86e97b828674296
       objectReference: {fileID: 0}
+    - target: {fileID: 4939067879421793745, guid: adbb6ca456fa4b1408d794922c0fd2c4,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 290d275b8000e664da2a6f952ee19231,
+        type: 2}
+    - target: {fileID: 4939067879421793745, guid: adbb6ca456fa4b1408d794922c0fd2c4,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 448c9f91cc815d94c8d5181c27d1f468,
+        type: 2}
     - target: {fileID: 5177685982098649451, guid: adbb6ca456fa4b1408d794922c0fd2c4,
         type: 3}
       propertyPath: Color.b
@@ -101,6 +118,21 @@ PrefabInstance:
     - target: {fileID: 5177685982098649451, guid: adbb6ca456fa4b1408d794922c0fd2c4,
         type: 3}
       propertyPath: Color.r
+      value: 0.98039216
+      objectReference: {fileID: 0}
+    - target: {fileID: 5177685982098649451, guid: adbb6ca456fa4b1408d794922c0fd2c4,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 0.50980395
+      objectReference: {fileID: 0}
+    - target: {fileID: 5177685982098649451, guid: adbb6ca456fa4b1408d794922c0fd2c4,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.50980395
+      objectReference: {fileID: 0}
+    - target: {fileID: 5177685982098649451, guid: adbb6ca456fa4b1408d794922c0fd2c4,
+        type: 3}
+      propertyPath: InitialColour.r
       value: 0.98039216
       objectReference: {fileID: 0}
     - target: {fileID: 5185865969733433047, guid: adbb6ca456fa4b1408d794922c0fd2c4,

@@ -13,10 +13,10 @@ namespace Systems.Atmospherics
 		public override SystemType SubsystemType => SystemType.AtmosSystem;
 
 		[SerializeField]
-		private GasMixesSO defaultRoomGasMixOverride = null;
+		public GasMixesSO defaultRoomGasMixOverride = null;
 
 		[SerializeField]
-		private bool overriderTileSpawnWithNoAir;
+		public bool overriderTileSpawnWithNoAir;
 
 		private Dictionary<int, RoomGasSetter> toSetRoom = new Dictionary<int, RoomGasSetter>();
 
@@ -58,16 +58,6 @@ namespace Systems.Atmospherics
 				{
 					Loggy.LogError(e.ToString());
 				}
-			}
-
-			foreach (var gasSetter in toSetRoom)
-			{
-				_ = Despawn.ServerSingle(gasSetter.Value.gameObject);
-			}
-
-			foreach (var gasSetter in toSetOccupied)
-			{
-				_ = Despawn.ServerSingle(gasSetter.Value.gameObject);
 			}
 
 			toSetRoom.Clear();

@@ -13,6 +13,12 @@ PrefabInstance:
       propertyPath: initialName
       value: janitor's gilded skillcape
       objectReference: {fileID: 0}
+    - target: {fileID: 3035531489635204616, guid: cfb9a2f0bf6f78048aa234931ea3a8cb,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: c02a6feaea5bf584cadf711f72659f39,
+        type: 2}
     - target: {fileID: 3228453638103503210, guid: cfb9a2f0bf6f78048aa234931ea3a8cb,
         type: 3}
       propertyPath: m_Name
@@ -91,6 +97,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8392313451670772999, guid: cfb9a2f0bf6f78048aa234931ea3a8cb,
         type: 3}
+      propertyPath: parentID
+      value: cfb9a2f0bf6f78048aa234931ea3a8cb
+      objectReference: {fileID: 0}
+    - target: {fileID: 8392313451670772999, guid: cfb9a2f0bf6f78048aa234931ea3a8cb,
+        type: 3}
       propertyPath: foreverID
       value: 17be2febaf3588041ab1656623592ded
       objectReference: {fileID: 0}
@@ -113,6 +124,12 @@ PrefabInstance:
     - target: {fileID: 8758333925456653037, guid: cfb9a2f0bf6f78048aa234931ea3a8cb,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c02a6feaea5bf584cadf711f72659f39,
+        type: 2}
+    - target: {fileID: 8758333925456653037, guid: cfb9a2f0bf6f78048aa234931ea3a8cb,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: c02a6feaea5bf584cadf711f72659f39,
         type: 2}

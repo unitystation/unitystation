@@ -106,11 +106,8 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &8783827724552596289
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -288,6 +285,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: parentID
+      value: a7abba22164ce49f0bf9b9b219f39298
+      objectReference: {fileID: 0}
+    - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: foreverID
       value: 77d2a86d1e994c64485b5240c8f917ec
       objectReference: {fileID: 0}
@@ -340,9 +342,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85f61ef9334eff448b907d2bf379cb03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  integrity: {fileID: 0}
   CookTime: 15
   CookedProduct: {fileID: 0}
   CookableBy: 2
+  OnCooked:
+    m_PersistentCalls:
+      m_Calls: []
+  minimumDamage: 2
+  cookingByDamageType: 1
+  cookingByAttackType: 6
 --- !u!4 &8788344772610484879 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298,

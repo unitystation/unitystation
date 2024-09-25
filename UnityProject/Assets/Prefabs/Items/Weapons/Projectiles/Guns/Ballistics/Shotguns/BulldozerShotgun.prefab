@@ -50,6 +50,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -99,15 +101,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 969f370ba378d7e479e68212bf295e8f, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 969f370ba378d7e479e68212bf295e8f,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &8897308059029132826
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,6 +158,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -207,15 +209,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 6345ccfc8983cdd489aa04c42d86260c, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 6345ccfc8983cdd489aa04c42d86260c,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1001 &5984584776123358415
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -399,12 +399,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8618752398906396102, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
+      propertyPath: parentID
+      value: 3da1d244806a96340a48e959ecc816e4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8618752398906396102, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
       propertyPath: foreverID
       value: 1e9a929a33dead54e9b3584af40d2605
       objectReference: {fileID: 0}
     - target: {fileID: 8820110165900900908, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 159a6cce66544fc4b8f2e22eb075d0ca,
+        type: 2}
+    - target: {fileID: 8820110165900900908, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 159a6cce66544fc4b8f2e22eb075d0ca,
         type: 2}

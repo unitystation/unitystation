@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1916b10721f72c927a14093e8210cb3f, type: 3}
   m_Name: Teslium
   m_EditorClassIdentifier: 
+  foreverID: Teslium
   displayName: Teslium
   description: An unstable, electrically-charged metallic slurry. Periodically electrocutes
     its victim, and makes electrocutions against them more deadly. Excessively heating
@@ -20,4 +21,4 @@ MonoBehaviour:
   color: {r: 0.1254902, g: 0.19607843, b: 0.3019608, a: 1}
   state: 1
   heatDensity: 5
-  indexInSingleton: 486
+  indexInSingleton: 485

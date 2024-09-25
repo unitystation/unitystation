@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4800765294880679425}
   - component: {fileID: 5971563122362279857}
   - component: {fileID: 4732959556644653524}
+  - component: {fileID: 8199129536166038015}
   - component: {fileID: 6838691275677014393}
   - component: {fileID: 1033521399077987722}
   - component: {fileID: 90804091474310291}
@@ -205,6 +206,27 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
+--- !u!114 &8199129536166038015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4197940402254186057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a70443b1a4a57ca408b7fde35a0570a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  fireParticlePrefab: {fileID: 2178958902703507295, guid: 4c645d10f4218304496bf570a143b753,
+    type: 3}
+  minimumFireDamageForStack: 12
+  chanceToSpread: 20
+  maxStacks: 20
+  skipFlammableCheck: 0
 --- !u!114 &6838691275677014393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,6 +303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f4629d03e356d64eb509d18a7450082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentID: root
   foreverID: ebb08cf966efc084aa918bd8d9429604
   <AlternativePrefabName>k__BackingField: 
   <CanBeSpawnedByAdmin>k__BackingField: 1
@@ -318,6 +341,7 @@ MonoBehaviour:
   MappingIntangible: 0
   SnapToGridOnStart: 1
   IsPlayer: 0
+  ObjectBouncyness: 0.75
   DEBUG: 0
   tileMoveSpeed: 1
   HasOwnGravity: 0
@@ -470,8 +494,5 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []

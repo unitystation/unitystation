@@ -117,17 +117,17 @@ PrefabInstance:
     - target: {fileID: 2297519943540112506, guid: 1a6abc720c22574468cb49e878c0119a,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2297519943540112506, guid: 1a6abc720c22574468cb49e878c0119a,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2297519943540112506, guid: 1a6abc720c22574468cb49e878c0119a,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2297519943540112506, guid: 1a6abc720c22574468cb49e878c0119a,
         type: 3}
@@ -159,11 +159,38 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 9de88ef265661c54b8c9cc7d4f82b22e,
+      objectReference: {fileID: 1216674241, guid: 9de88ef265661c54b8c9cc7d4f82b22e,
         type: 3}
+    - target: {fileID: 3076177970571162725, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3102764330273990652, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: variantIndex
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3102764330273990652, guid: 1a6abc720c22574468cb49e878c0119a,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8c2084704ba38b44d80a9187b599d5a1,
+        type: 2}
+    - target: {fileID: 3102764330273990652, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3102764330273990652, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: aded0cc89abc47a4291081e94ea6b29b,
+        type: 2}
+    - target: {fileID: 3102764330273990652, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: 8c2084704ba38b44d80a9187b599d5a1,
         type: 2}
@@ -173,6 +200,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 9de88ef265661c54b8c9cc7d4f82b22e,
         type: 3}
+    - target: {fileID: 5137294304248237411, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: parentID
+      value: 1a6abc720c22574468cb49e878c0119a
+      objectReference: {fileID: 0}
     - target: {fileID: 5137294304248237411, guid: 1a6abc720c22574468cb49e878c0119a,
         type: 3}
       propertyPath: foreverID
@@ -208,6 +240,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 9107503913382923326, guid: 1a6abc720c22574468cb49e878c0119a,
         type: 3}
+      propertyPath: chargeSprite
+      value: 
+      objectReference: {fileID: 7841939704382098874}
+    - target: {fileID: 9107503913382923326, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
       propertyPath: firemodeName.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -217,7 +254,22 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 4390912427696990534, guid: 1a6abc720c22574468cb49e878c0119a, type: 3}
+    - {fileID: 4594030517527078488, guid: 1a6abc720c22574468cb49e878c0119a, type: 3}
+    - {fileID: 8379864926964269281, guid: 1a6abc720c22574468cb49e878c0119a, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a6abc720c22574468cb49e878c0119a, type: 3}
+--- !u!114 &7841939704382098874 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3102764330273990652, guid: 1a6abc720c22574468cb49e878c0119a,
+    type: 3}
+  m_PrefabInstance: {fileID: 5177751046163917382}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

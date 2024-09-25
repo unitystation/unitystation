@@ -20,12 +20,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1211068856770080705, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
         type: 3}
+      propertyPath: parentID
+      value: 0f8ec2262945efb4bb2ae2aab5329be9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1211068856770080705, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
+        type: 3}
       propertyPath: foreverID
       value: 8ce5550b60e73904c80a45b78a46a2d8
       objectReference: {fileID: 0}
     - target: {fileID: 2103799393627445291, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 11d65c0287a34544a8af64a2f37a5270,
+        type: 2}
+    - target: {fileID: 2103799393627445291, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 11d65c0287a34544a8af64a2f37a5270,
         type: 2}
@@ -133,6 +144,12 @@ PrefabInstance:
       value: A jetpack made from two air tanks, a fire extinguisher and some atmospherics
         equipment. It doesn't look like it can hold much.
       objectReference: {fileID: 0}
+    - target: {fileID: 5663760201861811406, guid: 0f8ec2262945efb4bb2ae2aab5329be9,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 11d65c0287a34544a8af64a2f37a5270,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

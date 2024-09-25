@@ -111,10 +111,10 @@ namespace UI.Objects.Research
 		private void OnRecieveBlast(BlastData data)
 		{  
 			var mix = data.ReagentMix;
-			if (smokeReaction.IsReactionValid(mix)) smokeLabel.MasterSetValue(smokeReaction.GetReactionAmount(mix).ToString());
+			if (smokeReaction.IsReactionValid(mix)) smokeLabel.MasterSetValue(smokeReaction.GetReactionQuantity(mix).ToString());
 			else smokeLabel.MasterSetValue("0");
 
-			if (foamReaction.IsReactionValid(mix)) foamLabel.MasterSetValue(foamReaction.GetReactionAmount(mix).ToString());
+			if (foamReaction.IsReactionValid(mix)) foamLabel.MasterSetValue(foamReaction.GetReactionQuantity(mix).ToString());
 			else foamLabel.MasterSetValue("0");
 
 			reagentLabel.MasterSetValue(data.ReagentMix.Total.ToString());

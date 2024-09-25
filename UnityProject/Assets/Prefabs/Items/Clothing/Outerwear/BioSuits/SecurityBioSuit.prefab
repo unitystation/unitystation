@@ -158,6 +158,12 @@ PrefabInstance:
       propertyPath: armoredBodyParts.Array.data[5].armor.Energy
       value: 35
       objectReference: {fileID: 0}
+    - target: {fileID: 3495234765619245072, guid: ab1e465a59765f84b8691daa8693f857,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 67c433691c42f0e4fa765ab357ccab94,
+        type: 2}
     - target: {fileID: 3791466462619397166, guid: ab1e465a59765f84b8691daa8693f857,
         type: 3}
       propertyPath: m_Sprite
@@ -265,6 +271,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 67c433691c42f0e4fa765ab357ccab94,
         type: 2}
+    - target: {fileID: 7145545764318209269, guid: ab1e465a59765f84b8691daa8693f857,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 67c433691c42f0e4fa765ab357ccab94,
+        type: 2}
     - target: {fileID: 7931175119129480439, guid: ab1e465a59765f84b8691daa8693f857,
         type: 3}
       propertyPath: clothData
@@ -281,6 +293,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: bf3aa623dafa03847ab31c3f7bf3a4c7,
         type: 2}
+    - target: {fileID: 7986767595912221471, guid: ab1e465a59765f84b8691daa8693f857,
+        type: 3}
+      propertyPath: parentID
+      value: ab1e465a59765f84b8691daa8693f857
+      objectReference: {fileID: 0}
     - target: {fileID: 7986767595912221471, guid: ab1e465a59765f84b8691daa8693f857,
         type: 3}
       propertyPath: foreverID

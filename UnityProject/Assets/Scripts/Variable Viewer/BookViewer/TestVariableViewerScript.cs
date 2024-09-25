@@ -3,137 +3,57 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Logs;
+using Mirror;
 using SecureStuff;
+using Systems.Scenes;
+using Tiles;
 using Random = UnityEngine.Random;
 
-public class TestVariableViewerScript : MonoBehaviour
+public class TestVariableViewerScript : NetworkBehaviour
 {
 
-	public List<SpriteDataSO> Sprites = new List<SpriteDataSO>();
+	public int BasicINT = 99;
+
+	public List<TestClass> TestClasss = new List<TestClass>();
 
 
-	public SpriteDataSO Sprite;
-	public ItemTrait ItemTrait;
+	public List<int> BasicListUntouched = new List<int>();
+	public List<int> BasicListRemoved = new List<int>();
+	public List<int> BasicListAdded = new List<int>();
 
+	public List<GameObject> PrefabGameObjectListAdded = new List<GameObject>();
 
-	public List<GameObject> PrefabReferences = new List<GameObject>();
+	public List<Component> PrefabComponentListAdded = new List<Component>();
 
-	public List<Tool> PrefabComponentReferences = new List<Tool>();
+	public List<Component> GameComponentListAdded = new List<Component>();
 
-	public List<Tool> ComponentReferences = new List<Tool>();
+	public List<LayerTile> SoListAdded = new List<LayerTile>();
 
-	public List<GameObject> GameObjectReferences = new List<GameObject>();
+	public SerializableDictionary<int, int> BasicDictionary = new SerializableDictionary<int, int>();
 
+	public SerializableDictionary<LayerTile, int> KeySOBasicDictionary = new SerializableDictionary<LayerTile, int>();
 
-	public GameObject PrefabReference;
+	public SerializableDictionary<int, LayerTile> ValSOBasicDictionary = new SerializableDictionary<int, LayerTile>();
 
-	public Tool PrefabComponentReference;
-
-	public Tool ComponentReference;
-
-	public GameObject GameObjectReference;
-
-	public UniversalObjectPhysics UniversalObjectPhysics;
-
-	[VVNote(VVHighlight.SafeToModify)] public bool Pbool = true;
-
-	[VVNote(VVHighlight.UnsafeToModify)] public int Pint = 55;
-
-	[VVNote(VVHighlight.SafeToModify100)]
-	public string pstring = "yoyyyoy";
-
-	[VVNote(VVHighlight.VariableChangeUpdate)]
-	public Teststruct pTeststruct;
-
-	[VVNote(VVHighlight.DEBUG)] public Connection pConnection = Connection.Overlap;
-
-
-	public Tuple<int, string> Trees;
-
-	private Connection _state;
-
-	public Connection State
-	{
-		get { return _state; }
-		set
-		{
-			if (_state != value)
-			{
-				_state = value;
-			}
-		}
-	}
-
-	public List<int> PListInt = new List<int>();
-	public List<bool> PListbool = new List<bool>();
-	public List<string> PListstring = new List<string>();
-	public List<Teststruct> PListTeststruct = new List<Teststruct>();
-	public List<Connection> PListConnection = new List<Connection>();
-
-	public HashSet<int> PHashSetInt = new HashSet<int>();
-	public HashSet<bool> PHashSetbool = new HashSet<bool>();
-	public HashSet<string> PHashSetstring = new HashSet<string>();
-	public HashSet<Connection> PHashSetConnection = new HashSet<Connection>();
-	public HashSet<object> PHashSetobject = new HashSet<object>();
-
-	public Dictionary<int, int> PDictionaryIntInt = new Dictionary<int, int>();
-	public Dictionary<bool, bool> PDictionaryboolbool = new Dictionary<bool, bool>();
-	public Dictionary<string, string> PDictionarystringstring = new Dictionary<string, string>();
-
-	public Dictionary<Connection, Connection>
-		PDictionaryConnectionConnection = new Dictionary<Connection, Connection>();
-
-	public Dictionary<string, HashSet<int>> DictionaryHashSet = new Dictionary<string, HashSet<int>>();
-	public Dictionary<string, List<int>> DictionaryList = new Dictionary<string, List<int>>();
-
-	public int length = 10;
-
-	public Color Colour = Color.white;
-
-	public List<Color> ColourList = new  List<Color>();
-	private void DOThingPrivate()
-	{
-		Loggy.Log("DOThingPrivate");
-	}
-
-
-	public void DOThingPublic()
-	{
-		Loggy.Log("DOThingPublic");
-	}
-
+	public List<List<int>> BasicListWithinList = new List<List<int>>();
 
 	void Start()
 	{
-		Trees = new Tuple<int, string>(2, "ggggggg");
-		for (int i = 0; i < length; i++)
+		BasicListRemoved.RemoveAt(0);
+
+		for (int i = 0; i < 2; i++)
 		{
-			ColourList.Add(new Color(Random.value, Random.value, Random.value));
-			PListInt.Add(i);
-			PListbool.Add(true);
-			PListstring.Add(i.ToString() + "< t");
-			PListConnection.Add(Connection.East);
-			var GG = new Teststruct
+			BasicListAdded.Add(i);
+			BasicDictionary[i+3] = i;
+			TestClasss.Add(new TestClass()
 			{
-				author = ("BOB" + i),
-				price = i,
-				title = i + "COOL?"
-			};
-			pTeststruct = GG;
-			PListTeststruct.Add(GG);
-			PHashSetInt.Add(i);
-			PHashSetbool.Add(true);
-			PHashSetstring.Add(i.ToString() + "< t");
-			PHashSetConnection.Add(Connection.East);
-
-			PDictionaryIntInt[i] = i;
-			PDictionaryboolbool[true] = true;
-			PDictionarystringstring[i.ToString()] = "titymm";
-			PDictionaryConnectionConnection[Connection.MachineConnect] = Connection.East;
-
-			DictionaryHashSet[i.ToString()] = PHashSetInt;
-			DictionaryList[i.ToString()] = PListInt;
+				price = 324342 + i,
+				title = "bob" + i,
+				author = "bool le cool"
+			});
 		}
+
+		netIdentity.isDirty = true;
 	}
 }
 
@@ -141,6 +61,14 @@ public class TestVariableViewerScript : MonoBehaviour
 public struct Teststruct
 {
 	public decimal price;
+	public string title;
+	public string author;
+}
+
+[System.Serializable]
+public class TestClass
+{
+	public float price;
 	public string title;
 	public string author;
 }

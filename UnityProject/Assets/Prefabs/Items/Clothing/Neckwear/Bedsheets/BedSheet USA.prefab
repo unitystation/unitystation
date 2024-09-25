@@ -18,6 +18,12 @@ PrefabInstance:
       propertyPath: initialDescription
       value: You've never felt more free than when sleeping on this."
       objectReference: {fileID: 0}
+    - target: {fileID: 3465284675447965665, guid: 423cab216aa4e354f8159742cc80d10a,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: a925cce3ffe4c714d925c7d6eb6edf18,
+        type: 2}
     - target: {fileID: 3750167143099309023, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
       propertyPath: m_Sprite
@@ -100,6 +106,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a925cce3ffe4c714d925c7d6eb6edf18,
         type: 2}
+    - target: {fileID: 7186812133261251332, guid: 423cab216aa4e354f8159742cc80d10a,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a925cce3ffe4c714d925c7d6eb6edf18,
+        type: 2}
+    - target: {fileID: 7944360039044097262, guid: 423cab216aa4e354f8159742cc80d10a,
+        type: 3}
+      propertyPath: parentID
+      value: 423cab216aa4e354f8159742cc80d10a
+      objectReference: {fileID: 0}
     - target: {fileID: 7944360039044097262, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
       propertyPath: foreverID

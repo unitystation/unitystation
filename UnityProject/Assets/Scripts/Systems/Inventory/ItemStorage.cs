@@ -95,11 +95,17 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		player = registerPlayer;
 	}
 
+	[SerializeField, FormerlySerializedAs("ignoreRoundstartGrabObjects")]
+	private bool initialignoreRoundstartGrabObjects = false;
+
+	private bool ignoreRoundstartGrabObjects = false;
+
 	[SerializeField] private GameObject ashPrefab;
 	public GameObject AshPrefab => ashPrefab;
 
 	private void Awake()
 	{
+		ignoreRoundstartGrabObjects = initialignoreRoundstartGrabObjects;
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
 		CacheDefinedSlots();
 		if (SetSlotItemNotRemovableOnStartUp)
@@ -140,7 +146,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 				ServerPopulate(Populater, PopulationContext.AfterSpawn(spawnInfo), info);
 			}
 		}
-
+		ignoreRoundstartGrabObjects = false;
 	}
 
 	public void OnDespawnServer(DespawnInfo info)
@@ -174,7 +180,18 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		var slot = GetBestSlotFor(inGameObject);
 		if (slot == null) return false;
 
-		return Inventory.ServerAdd(inGameObject, slot);
+		var CurrentlyInSlot = inGameObject.GetComponent<Pickupable>().ItemSlot;
+
+		if (CurrentlyInSlot == null)
+		{
+			return Inventory.ServerAdd(inGameObject, slot);
+		}
+		else
+		{
+			return Inventory.ServerTransfer(CurrentlyInSlot, slot);
+		}
+
+
 	}
 
 	public bool ServerTransferGameObjectToItemSlot(GameObject outGameObject, ItemSlot Slot)
@@ -184,6 +201,17 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		var slot = GetSlotFromItem(outGameObject);
 		if (slot == null) return false;
 		return Inventory.ServerTransfer(slot, Slot);
+	}
+
+	public ItemSlot GetFirstOccupiedSlot()
+	{
+		foreach (var itemSlot in GetItemSlots())
+		{
+			if (itemSlot.Item == null) continue;
+			return itemSlot;
+		}
+
+		return null;
 	}
 
 	public ItemSlot GetSlotFromItem(GameObject gameObject)
@@ -753,6 +781,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 
 	public void GrabObjects(List<GameObject> target, Action onGrab = null)
 	{
+		if (ignoreRoundstartGrabObjects) return;
 		foreach (var item in target)
 		{
 			if (item == null) continue;

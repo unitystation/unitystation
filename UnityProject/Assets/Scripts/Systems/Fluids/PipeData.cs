@@ -23,6 +23,9 @@ namespace Systems.Pipes
 
 		public bool SelfSufficient = false;
 
+		public bool MappingNotRequiresLink = false;
+
+
 		[HideInInspector] public MixAndVolume mixAndVolume = new MixAndVolume();
 
 		public MixAndVolume GetMixAndVolume
@@ -48,6 +51,8 @@ namespace Systems.Pipes
 		public MonoPipe MonoPipe;
 
 		public bool Destroyed { get; private set; }
+
+		public bool AlreadyDestroyed { get; private set; }
 
 		public Vector3Int MatrixPos
 		{
@@ -84,7 +89,6 @@ namespace Systems.Pipes
 				return (null);
 			}
 		}
-
 		public virtual void OnEnable()
 		{
 			if (PipeAction != null)
@@ -95,8 +99,7 @@ namespace Systems.Pipes
 			Destroyed = false;
 
 			AtmosManager.Instance.AddPipe(this);
-			ConnectedPipes =
-				PipeFunctions.GetConnectedPipes(ConnectedPipes, this, MatrixPos, Matrix);
+			ConnectedPipes = PipeFunctions.GetConnectedPipes(ConnectedPipes, this, MatrixPos, Matrix);
 
 			foreach (var Pipe in ConnectedPipes)
 			{
@@ -147,6 +150,7 @@ namespace Systems.Pipes
 
 		public virtual void OnDisable()
 		{
+			if (AtmosManager.Instance == null) return;
 			AtmosManager.Instance.RemovePipe(this);
 			Destroyed = true;
 			foreach (var Pipe in ConnectedPipes)
@@ -206,6 +210,7 @@ namespace Systems.Pipes
 
 		public void SpillContent(Tuple<ReagentMix, GasMix> ToSpill)
 		{
+			if (MatrixManager.Instance == null) return;
 			if (pipeNode == null && MonoPipe == null ) return;
 
 			Vector3Int ZeroedLocation = Vector3Int.zero;
@@ -338,21 +343,49 @@ namespace Systems.Pipes
 			return ToLog;
 		}
 
-		public void DestroyThis()
+		public void Remove()
 		{
+			pipeNode.LocatedOn.TileChangeManager.MetaTileMap.RemoveTileWithlayer(pipeNode.NodeLocation, LayerType.Pipe);
+		}
+
+		public void DestroyThis(bool TileAlreadyRemoved = false, Matrix4x4? matrix = null, Color? Colour = null,
+			bool SpawnItems = true)
+		{
+			if (AlreadyDestroyed) return;
+			AlreadyDestroyed = true;
 			if (MonoPipe == null)
 			{
-				Matrix4x4 matrix = Matrix.MetaTileMap.GetMatrix4x4(pipeNode.NodeLocation, LayerType.Pipe, true).GetValueOrDefault(Matrix4x4.identity);
-				var pipe = Spawn.ServerPrefab(pipeNode.RelatedTile.SpawnOnDeconstruct,
-											MatrixManager.LocalToWorld(pipeNode.NodeLocation, this.Matrix).To2().To3(),
-											localRotation: PipeDeconstruction.QuaternionFromMatrix(matrix)).GameObject;
+				if (matrix == null)
+				{
+					matrix = Matrix.MetaTileMap.GetMatrix4x4(pipeNode.NodeLocation, LayerType.Pipe, true).GetValueOrDefault(Matrix4x4.identity);
+				}
 
-				var itempipe = pipe.GetComponent<PipeItemTile>();
-				itempipe.Colour = Matrix.MetaTileMap.GetColour(pipeNode.NodeLocation, LayerType.Pipe, true).GetValueOrDefault(Color.white);
-				itempipe.Setsprite();
-				itempipe.rotatable.SetFaceDirectionRotationZ(PipeDeconstruction.QuaternionFromMatrix(matrix).eulerAngles.z);
+				if (SpawnItems)
+				{
+					var pipe = Spawn.ServerPrefab(pipeNode.RelatedTile.SpawnOnDeconstruct,
+						MatrixManager.LocalToWorld(pipeNode.NodeLocation, this.Matrix).To2().To3(),
+						localRotation: PipeDeconstruction.QuaternionFromMatrix(matrix.Value)).GameObject;
 
-				pipeNode.LocatedOn.TileChangeManager.MetaTileMap.RemoveTileWithlayer(pipeNode.NodeLocation, LayerType.Pipe);
+					var itempipe = pipe.GetComponent<PipeItemTile>();
+					if (Colour != null)
+					{
+						itempipe.Colour = Colour.Value;
+					}
+					else
+					{
+						itempipe.Colour = Matrix.MetaTileMap.GetColour(pipeNode.NodeLocation, LayerType.Pipe, true).GetValueOrDefault(Color.white);
+					}
+
+					itempipe.Setsprite();
+					itempipe.rotatable.SetFaceDirectionRotationZ(PipeDeconstruction.QuaternionFromMatrix(matrix.Value).eulerAngles.z);
+				}
+
+
+				if (TileAlreadyRemoved == false)
+				{
+					pipeNode.LocatedOn.TileChangeManager.MetaTileMap.RemoveTileWithlayer(pipeNode.NodeLocation, LayerType.Pipe);
+				}
+
 				pipeNode.IsOn.PipeData.Remove(pipeNode);
 				OnDisable();
 			}

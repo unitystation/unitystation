@@ -26,7 +26,7 @@ MonoBehaviour:
   SpawnWithNoAir: 0
   passable: 1
   mineable: 0
-  miningTime: 5
+  miningTime: -4.02
   miningHardness: 1
   constructable: 1
   RadiationPassability: 1
@@ -59,11 +59,13 @@ MonoBehaviour:
     PressureProtectionInKpa: {x: 30, y: 300}
   tileInteractions:
   - {fileID: 11400000, guid: 20594944fdc1e8c4f926faf5d0653dae, type: 2}
+  - {fileID: 11400000, guid: 26cde2c683404c491be3a9225eb5aafc, type: 2}
   <OnTileStartMining>k__BackingField: []
   <OnTileFinishMining>k__BackingField: []
   tileStepInteractions: []
-  spawnOnDeconstruct: {fileID: 0}
-  spawnAmountOnDeconstruct: 0
+  spawnOnDeconstruct: {fileID: 5331286249588652700, guid: 29ecbf5a1d918574cbcf5853927e0944,
+    type: 3}
+  spawnAmountOnDeconstruct: 1
   lootOnDespawn: {fileID: 0}
   toTileWhenDestroyed: {fileID: 11400000, guid: 28455114dec364442b57e2ae77a4b06e,
     type: 2}

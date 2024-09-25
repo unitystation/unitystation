@@ -14,6 +14,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 3ebd7fca2f2bca048a638a78dcb67176,
         type: 2}
+    - target: {fileID: 26931920513500518, guid: f27991fd74b5f6941a1ad2f9e161a022,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 3ebd7fca2f2bca048a638a78dcb67176,
+        type: 2}
     - target: {fileID: 965049928856989028, guid: f27991fd74b5f6941a1ad2f9e161a022,
         type: 3}
       propertyPath: 'allClothingData.Array.data[0]'
@@ -26,6 +32,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f213757edafc2f046bba7021f6c979c6,
         type: 2}
+    - target: {fileID: 982638643675574924, guid: f27991fd74b5f6941a1ad2f9e161a022,
+        type: 3}
+      propertyPath: parentID
+      value: f27991fd74b5f6941a1ad2f9e161a022
+      objectReference: {fileID: 0}
     - target: {fileID: 982638643675574924, guid: f27991fd74b5f6941a1ad2f9e161a022,
         type: 3}
       propertyPath: foreverID
@@ -43,6 +54,12 @@ PrefabInstance:
         instead of a plastic zipper tab. The normal liner is replaced with an exceptionally
         thick, soft layer of fur.
       objectReference: {fileID: 0}
+    - target: {fileID: 6049508525371871619, guid: f27991fd74b5f6941a1ad2f9e161a022,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 3ebd7fca2f2bca048a638a78dcb67176,
+        type: 2}
     - target: {fileID: 6089433319370141461, guid: f27991fd74b5f6941a1ad2f9e161a022,
         type: 3}
       propertyPath: Armor.Bio

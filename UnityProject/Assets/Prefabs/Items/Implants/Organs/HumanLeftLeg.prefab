@@ -8,6 +8,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3757956373148372916, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: runningSpeed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -3757956373148372916, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: walkingSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -3757956373148372916, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: crawlingSpeed
+      value: 0.024
+      objectReference: {fileID: 0}
+    - target: {fileID: 185805929322484740, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: parentID
+      value: 51326f2264a075148a8aaa6bf95604c7
+      objectReference: {fileID: 0}
     - target: {fileID: 185805929322484740, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
       propertyPath: foreverID
@@ -19,6 +39,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 901c1f6615fcfd94597e331012dacafd,
         type: 2}
+    - target: {fileID: 1270195432486377817, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2990615749064605777, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4062638375031680829, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
       propertyPath: IsSurface
@@ -73,12 +103,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 017d1b29096f3444ca19a41866459176,
         type: 2}
+    - target: {fileID: 4658738935948558912, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6403927333314702133, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 403a3aabbddb21648a5bfdce837e11a8,
         type: 3}
+    - target: {fileID: 6409205596588662601, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6498312071342856297, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
       propertyPath: m_Name
@@ -112,17 +152,17 @@ PrefabInstance:
     - target: {fileID: 6502395519655109917, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6502395519655109917, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6502395519655109917, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6502395519655109917, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
@@ -257,6 +297,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
         type: 3}
+    - target: {fileID: 8331319255090536633, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: playTraumaNoise
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
     m_RemovedGameObjects: []

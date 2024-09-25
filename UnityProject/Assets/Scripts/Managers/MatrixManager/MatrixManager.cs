@@ -3,7 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Chemistry;
+using Core;
 using Doors;
+using HealthV2;
+using Initialisation;
 using Logs;
 using Managers;
 using TileManagement;
@@ -16,7 +19,11 @@ using Messages.Client.SpriteMessages;
 using Shared.Managers;
 using Mirror;
 using Objects;
+using Player;
+using Shuttles;
+using Tilemaps.Behaviours.Layers;
 using Tiles;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 /// <summary>
 /// Defines collision type we expect
@@ -46,13 +53,14 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 	public static bool IsInitialized;
 
+	public event Action OnActiveMatricesChange;
+
 	/// <summary>
 	/// Find a wall tilemap via its Tilemap collider
 	/// </summary>
 	public Dictionary<Collider2D, Tilemap> wallsTileMaps = new Dictionary<Collider2D, Tilemap>();
 
 	public Matrix spaceMatrix { get; private set; }
-	public Matrix lavaLandMatrix { get; private set; }
 	private Matrix mainStationMatrix = null;
 
 	public static MatrixInfo MainStationMatrix
@@ -61,7 +69,15 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		{
 			if (Instance.mainStationMatrix == null)
 			{
-				return Instance.ActiveMatricesList[1];
+				if (Instance.ActiveMatricesList.Count > 1)
+				{
+					return Instance.ActiveMatricesList[1];
+				}
+				else
+				{
+					return Instance.ActiveMatricesList[0];
+				}
+
 			}
 			else
 			{
@@ -100,6 +116,38 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		IsInitialized = false;
 	}
 
+	public static Matrix MakeNewMatrix(string Name = "Matrix")
+	{
+
+		if (string.IsNullOrEmpty(Name))
+		{
+			Name = "Matrix";
+		}
+
+		var MatrixPrefab = SubSceneManager.Instance?.NetworkedMatrixPrefab;
+		GameObject Object = null;
+
+#if UNITY_EDITOR
+		if (Application.isPlaying == false)
+		{
+			MatrixPrefab = CommonManagerEditorOnly.Instance.Matrix;
+			Object =  (GameObject)  UnityEditor.PrefabUtility.InstantiatePrefab(MatrixPrefab);
+			Object = (GameObject)  UnityEditor.PrefabUtility.InstantiatePrefab(CommonManagerEditorOnly.Instance.MatrixSync, Object.transform);
+		}
+#endif
+
+		if (Object == null)
+		{
+			Object = Spawn.ServerPrefab(MatrixPrefab).GameObject;
+		}
+
+		var Synchronise = Object.transform.parent.GetComponentInChildren<MatrixSync>();
+		Synchronise.GetComponent<MatrixNamesSynchronise>().SyncMatrixName("Matrix",Name);
+		Object.transform.parent.GetComponentInChildren<NetworkedMatrix>().IsJsonLoaded = true;
+		return  Object.transform.parent.GetComponentInChildren<Matrix>();
+	}
+
+
 	void OnSceneChange(Scene oldScene, Scene newScene)
 	{
 		ResetMatrixManager();
@@ -116,6 +164,8 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			Debug.Log("removed " + CleanupUtil.RidListOfDeadElements(a.Value) + " dead matrices from MatrixManager.InitializingMatrixes");
 		}
 	}
+
+
 	public void ResetMatrixManager()
 	{
 		if (Instance != null)
@@ -133,13 +183,8 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		InitializingMatrixes.Clear();
 	}
 
-	public IEnumerator RegisterWhenReady(Matrix matrix)
+	public void RegisterWhenReady(Matrix matrix)
 	{
-		while (matrix.NetworkedMatrix.Initialized == false)
-		{
-			yield return null;
-		}
-
 		RegisterMatrix(matrix);
 		matrix.Initialized = true;
 
@@ -154,8 +199,17 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 		if (CustomNetworkManager.IsServer == false)
 		{
-			matrix.MetaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);
-			TileChangeNewPlayer.Send(matrix.MatrixInfo.NetID);
+			if (matrix.NetworkedMatrix.IsJsonLoaded == false)
+			{
+				matrix.MetaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);
+			}
+
+			var id = matrix.MatrixInfo.NetID;
+
+			JoinedViewer.AddOnPlayerValidated( (() =>
+			{
+				TileChangeNewPlayer.Send(id);
+			}));
 
 			if (AreAllMatrixReady())
 			{
@@ -275,20 +329,9 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			}
 		}
 
-		if (matrix.IsLavaLand)
-		{
-			if (lavaLandMatrix == null)
-			{
-				lavaLandMatrix = matrix;
-			}
-			else
-			{
-				Loggy.Log("There is already a lava land matrix registered", Category.Matrix);
-			}
-		}
-
 		matrix.ConfigureMatrixInfo(matrixInfo);
 		InitCollisions(matrixInfo);
+		OnActiveMatricesChange?.Invoke();
 	}
 
 	private static MatrixInfo CreateMatrixInfoFromMatrix(Matrix matrix, int id)
@@ -403,13 +446,16 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		if (layerMask != LayerTypeSelection.None)
 		{
 			//TODO do we really need to go through all matrixes? Can we break out at some point?
-			foreach (var matrixInfo in Instance.ActiveMatricesList)
+			var Count = Instance.ActiveMatricesList.Count;
+			var loc = Instance.ActiveMatricesList;
+			for (int i = 0; i < Count; i++)
 			{
-				if (LineIntersectsRect(Worldorigin, WorldTo.Value, matrixInfo.WorldBounds))
+				var Info = loc[i];
+				if (Info.WorldBounds.LineIntersectsRect(Worldorigin, WorldTo.Value))
 				{
-					var localOrigin = WorldToLocal(Worldorigin, matrixInfo).To2();
-					var localTo = WorldToLocal(WorldTo.Value, matrixInfo).To2();
-					Checkhit = matrixInfo.MetaTileMap.Raycast(localOrigin, Vector2.zero,
+					var localOrigin = WorldToLocal(Worldorigin, Info).To2();
+					var localTo = WorldToLocal(WorldTo.Value, Info).To2();
+					Checkhit = Info.MetaTileMap.Raycast(localOrigin, Vector2.zero,
 						distance,
 						layerMask,
 						localTo, tileNamesToIgnore, DEBUG: DEBUG);
@@ -606,44 +652,6 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	/// <param name="targetPos">target world position to check</param>
 	/// <returns>The DoorTrigger of the closed door object specified in the summary, null if no such object
 	/// exists at that location</returns>
-	public static InteractableDoor GetClosedDoorAt(Vector3Int worldOrigin, Vector3Int targetPos, bool isServer,
-		MatrixInfo MatrixAtOrigin = null, MatrixInfo MatrixAtTarget = null)
-	{
-		if (MatrixAtOrigin == null)
-		{
-			MatrixAtOrigin = AtPoint(worldOrigin, isServer);
-		}
-
-		if (MatrixAtTarget == null)
-		{
-			MatrixAtTarget = AtPoint(targetPos, isServer);
-		}
-
-		// Check door on the local tile first
-		Vector3Int localTarget = WorldToLocalInt(targetPos, MatrixAtTarget.Matrix);
-		var originDoorList = GetAs<RegisterDoor>(worldOrigin, isServer, MatrixAtOrigin);
-		foreach (var originDoor in originDoorList)
-		{
-			if (originDoor && originDoor.IsPassableFromInside(localTarget, isServer) ==
-			    false)
-				return originDoor.InteractableDoor;
-		}
-
-		// No closed door on local tile, check target tile
-		Vector3Int localOrigin = WorldToLocalInt(worldOrigin, MatrixAtOrigin.Matrix);
-		var targetDoorList = GetAs<RegisterDoor>(targetPos, isServer, MatrixAtTarget);
-		foreach (var targetDoor in targetDoorList)
-		{
-			if (targetDoor && targetDoor.IsPassableFromOutside(localOrigin, isServer) ==
-			    false)
-				return targetDoor.InteractableDoor;
-		}
-
-		// No closed doors on either tile
-		return null;
-	}
-
-
 	public static DoorMasterController GetNewClosedDoorAt(Vector3Int worldOrigin, Vector3Int targetPos, bool isServer)
 	{
 		// Check door on the local tile first
@@ -694,7 +702,9 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	/// Picks best matching matrix at provided coords and releases reagents to that tile.
 	/// <inheritdoc cref="MetaDataLayer.ReagentReact"/>
 	/// </summary>
-	public static void ReagentReact(ReagentMix reagents, Vector3Int worldPos, MatrixInfo matrixInfo = null,bool spawnPrefabEffect = true, OrientationEnum direction = OrientationEnum.Up_By0)
+	public static void ReagentReact(ReagentMix reagents,
+		Vector3Int worldPos, MatrixInfo matrixInfo = null,bool spawnPrefabEffect = true, OrientationEnum direction = OrientationEnum.Up_By0,
+		bool Scatter = false, LivingHealthMasterBase from = null )
 	{
 		if (CustomNetworkManager.IsServer == false)
 		{
@@ -707,7 +717,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		}
 
 		Vector3Int localPos = WorldToLocalInt(worldPos, matrixInfo);
-		matrixInfo.MetaDataLayer.ReagentReact(reagents, worldPos, localPos, spawnPrefabEffect, direction);
+		matrixInfo.MetaDataLayer.ReagentReact(reagents, worldPos, localPos, spawnPrefabEffect, direction, Scatter, from);
 	}
 
 	/// <summary>
@@ -1082,6 +1092,10 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			var DIR = MatrixCash.DIRs[i];
 			var matrixInfo = MatrixCash.GetforDirection(DIR);
 			var localPos = WorldToLocalInt(worldPos + DIR, matrixInfo);
+			if (matrixInfo.MetaDataLayer.IsSlipperyAt(localPos) )
+			{
+				continue;
+			}
 			if (matrixInfo.Matrix.HasGravity)
 			{
 				if (matrixInfo.MetaTileMap.IsEmptyTileMap(localPos) == false)
@@ -1366,25 +1380,4 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		var matrixAtPoint = AtPoint(worldPos, isServer);
 		matrixAction.Invoke(matrixAtPoint, WorldToLocalInt(worldPos, matrixAtPoint));
 	}
-}
-
-/// <summary>
-/// Types of bumps which can occur when bumping into something
-/// </summary>
-public enum BumpType
-{
-	/// Not bumping into anything - movement not prevented
-	None,
-
-	/// A closed door
-	ClosedDoor,
-
-	/// something which can be pushed from the current direction of movement
-	Push,
-
-	/// Bump which blocks movement and causes nothing else to happen
-	Blocked,
-
-	// Something we can swap places with
-	Swappable
 }

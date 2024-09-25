@@ -144,7 +144,44 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 
 	public LayerTile InteractableLayerTileAt(Vector2 worldPos, bool ignoreEffectsLayer = false)
 	{
+		//TODO Improve since this just gets the first interactive or tile and ignores Blocks tile interactions underneath,
+		//TODO so If you have a wall that doesn't block interactions it will act like it does
+		//TODO It needs to look through and check if the interaction will pass, only breaking out when reaching end of list of tiles on that position or
+		//TODO when tile blocks any further interactions or interaction is successful
 		return LayerTileAt(worldPos, ignoreEffectsLayer, true);
+	}
+
+	public List<TileLocation>  InteractableTileLocationsAt(Vector2 worldPos, bool ignoreEffectsLayer = false)
+	{
+		return TileLocationsAt(worldPos, ignoreEffectsLayer, true);
+
+
+	}
+
+	/// <summary>
+	/// Gets the LayerTile of the tile at the indicated position, null if no tile there (open space).
+	/// </summary>
+	/// <param name="worldPos"></param>
+	/// <returns></returns>
+	public List<TileLocation> TileLocationsAt(Vector3 worldPos, bool ignoreEffectsLayer = false, bool excludeNonIntractable = false)
+	{
+		Vector3Int pos = worldPos.ToLocalInt(metaTileMap.matrix);
+		var Tiles = metaTileMap.GetTileLocations(pos, ignoreEffectsLayer);
+		List<TileLocation> ToReturn = new List<TileLocation>();
+		foreach (var Tile in Tiles)
+		{
+			ToReturn.Add(Tile);
+			if (excludeNonIntractable)
+			{
+				var basicTile = Tile.layerTile as BasicTile;
+				if (basicTile != null && basicTile.BlocksTileInteractionsUnder)
+				{
+					break;
+				}
+			}
+		}
+
+		return ToReturn;
 	}
 
 
@@ -249,19 +286,22 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 		// If the tile we're looking at is a basic tile...
 		if (tile is BasicTile basicTile)
 		{
-			foreach (var layerType in UnderFloorsLayers)
-			{
-				if(tile.LayerType != layerType) continue;
-
-				// If the the tile is something that's supposed to be underneath floors...
-				if (FindLayerInteraction(interaction, localPosition, layerType, interaction.PerformerMind)) return true;
-				break;
-			}
 
 			var tileApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent, interaction.PerformerMind,
 				(Vector2Int) localPosition, this, basicTile, interaction.HandSlot, interaction.TargetPosition);
 
-			return TryInteractWithTile(tileApply);
+			if (TryInteractWithTile(tileApply)) return true;
+			if (basicTile.BlocksTileInteractionsUnder)
+			{
+				return false;
+			}
+
+		}
+
+		foreach (var layerType in UnderFloorsLayers)
+		{
+			// If the the tile is something that's supposed to be underneath floors...
+			if (FindLayerInteraction(interaction, localPosition, layerType, interaction.PerformerMind)) return true;
 		}
 
 		return false;
@@ -401,44 +441,37 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 		Vector3Int localPosition = WorldToCell(worldPosTarget);
 		//pass the interaction down to the basic tile
 		LayerTile tile = LayerTileAt(worldPosTarget, true);
+
 		if (tile is BasicTile basicTile)
 		{
-			// check which tile interaction occurs in the correct order
-			Loggy.LogTraceFormat(
-					"Server checking which tile interaction to trigger for TileApply on tile {0} at worldPos {1}",
-					Category.Interaction, tile.name, worldPosTarget);
+			var tileApply = new TileApply(performer, usedObject, intent, inMind, (Vector2Int) localPosition,
+				this, basicTile, usedSlot, TargetPosition, applyType);
 
-			switch (basicTile.LayerType)
+			if (PerformTileInteract(tileApply))
 			{
-				case LayerType.Underfloor:
-					TryLayerInteraction(performer, TargetPosition, usedSlot, usedObject, intent, inMind, applyType, localPosition,
-						LayerType.Underfloor);
-					break;
-				case LayerType.Electrical:
-					TryLayerInteraction(performer, TargetPosition, usedSlot, usedObject, intent, inMind, applyType, localPosition,
-						LayerType.Electrical);
-					break;
-				case LayerType.Pipe:
-					TryLayerInteraction(performer, TargetPosition, usedSlot, usedObject, intent, inMind, applyType, localPosition,
-						LayerType.Pipe);
-					break;
-				case LayerType.Disposals:
-					TryLayerInteraction(performer, TargetPosition, usedSlot, usedObject, intent, inMind, applyType, localPosition,
-						LayerType.Disposals);
-					break;
-				default:
-				{
-					var tileApply = new TileApply(performer, usedObject, intent, inMind, (Vector2Int) localPosition,
-						this, basicTile, usedSlot, TargetPosition, applyType);
+				return;
+			}
 
-					PerformTileInteract(tileApply);
-					break;
-				}
+			if (basicTile.BlocksTileInteractionsUnder)
+			{
+				return;
 			}
 		}
+
+		foreach (var layerType in UnderFloorsLayers)
+		{
+			if (TryLayerInteraction(performer, TargetPosition, usedSlot, usedObject, intent, inMind, applyType,
+				    localPosition,
+				    layerType))
+			{
+				break;
+			}
+		}
+
+
 	}
 
-	private void TryLayerInteraction(GameObject performer, Vector2 TargetPosition, ItemSlot usedSlot, GameObject usedObject,
+	private bool TryLayerInteraction(GameObject performer, Vector2 TargetPosition, ItemSlot usedSlot, GameObject usedObject,
 		Intent intent, Mind inMind, TileApply.ApplyType applyType, Vector3Int localPosition, LayerType layer)
 	{
 		foreach (var underFloorTile in matrix.MetaTileMap.GetAllTilesByType<BasicTile>(localPosition, layer))
@@ -453,13 +486,15 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 				if (tileInteraction.WillInteract(underFloorApply, NetworkSide.Server))
 				{
 					PerformTileInteract(underFloorApply);
-					break;
+					return true;
+
 				}
 			}
 		}
+		return false;
 	}
 
-	private void PerformTileInteract(TileApply interaction)
+	private bool PerformTileInteract(TileApply interaction)
 	{
 		foreach (var tileInteraction in interaction.BasicTile.TileInteractions)
 		{
@@ -470,6 +505,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 				if (Cooldowns.TryStartServer(interaction, CommonCooldowns.Instance.Interaction))
 				{
 					tileInteraction.ServerPerformInteraction(interaction);
+
 				}
 				else
 				{
@@ -479,13 +515,14 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 
 				// interaction should've triggered and did or we hit a cooldown, so we're
 				// done processing this request.
-				break;
+				return true;
 			}
 			else
 			{
 				tileInteraction.ServerRollbackClient(interaction);
 			}
 		}
+		return false;
 	}
 
 	public bool Interact(MouseDrop interaction)

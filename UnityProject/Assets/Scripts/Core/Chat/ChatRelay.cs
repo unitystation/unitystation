@@ -6,10 +6,12 @@ using UnityEngine;
 using Systems.MobAIs;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Core.Admin.Logs;
 using Managers;
 using Systems.Ai;
 using Messages.Server;
 using Messages.Server.SoundMessages;
+using Player;
 using Player.Language;
 using Systems.Communications;
 using TMPro;
@@ -76,9 +78,9 @@ public class ChatRelay : NetworkBehaviour
 		List<PlayerInfo> players = PlayerList.Instance.AllPlayers;
 		if (chatEvent.originator != null) WhisperCheck(chatEvent);
 
-		bool DistanceCheck(Vector3 playerPos)
+		bool DistanceCheck(Vector3 playerPos, float distancevalue)
 		{
-			if (Vector2.Distance(chatEvent.position, playerPos) > 14f)
+			if (Vector2.Distance(chatEvent.position, playerPos) > distancevalue)
 			{
 				//Player in the list is too far away for local chat, remove them:
 				return false;
@@ -131,9 +133,11 @@ public class ChatRelay : NetworkBehaviour
 				//Send chat to PlayerChatLocation pos, usually just the player object but for AI is its vessel
 				var playerPosition = players[i].Script.PlayerChatLocation.OrNull()?.AssumedWorldPosServer()
 				                     ?? players[i].Script.gameObject.AssumedWorldPosServer();
-
+				//Get chatrange stat from playerstats
+				var playerStats = players[i].Script.PlayerStats;
+				var playerHearing = playerStats == null ? 14f : playerStats.GetTotalStat(PlayerStats.Stat.LocalChatRange);
 				//Do player position to originator distance check
-				if (DistanceCheck(playerPosition) == false)
+				if (DistanceCheck(playerPosition, playerHearing) == false)
 				{
 					//Distance check failed so if we are Ai, then try send action and combat messages to their camera location
 					//as well as if possible
@@ -145,7 +149,8 @@ public class ChatRelay : NetworkBehaviour
 						playerPosition = players[i].Script.gameObject.AssumedWorldPosServer();
 
 						//Check camera pos
-						if (DistanceCheck(playerPosition))
+						//AI doesnt have ears so just pass 14f
+						if (DistanceCheck(playerPosition, 14f))
 						{
 							//Camera can see player, allow Ai to see action/combat messages
 							continue;
@@ -237,14 +242,18 @@ public class ChatRelay : NetworkBehaviour
 			}
 		}
 
+		string message = $"{chatEvent.speaker} {chatEvent.message}";
+		if ((namelessChannels & chatEvent.channels) != chatEvent.channels)
+		{
+			message = $"<b>[{chatEvent.channels}]</b> {message}";
+		}
+		AdminLogsManager.AddNewLog(
+			null,
+			$"Chat: {message}",
+			LogCategory.MISC
+		);
 		if (rconManager != null)
 		{
-			string message = $"{chatEvent.speaker} {chatEvent.message}";
-			if ((namelessChannels & chatEvent.channels) != chatEvent.channels)
-			{
-				message = $"<b>[{chatEvent.channels}]</b> {message}";
-			}
-
 			RconManager.AddChatLog(message);
 		}
 	}
@@ -409,7 +418,7 @@ public class ChatRelay : NetworkBehaviour
 			ChatUI.Instance.AddChatEntry(message, languageSprite);
 		}
 
-		AudioSourceParameters audioSourceParameters = new AudioSourceParameters();
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters(spatialBlend: 1);
 		switch (channels)
 		{
 			case ChatChannel.Syndicate:

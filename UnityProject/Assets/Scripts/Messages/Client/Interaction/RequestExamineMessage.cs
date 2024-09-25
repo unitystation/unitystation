@@ -1,3 +1,4 @@
+using System;
 using Mirror;
 using Player;
 using Shuttles;
@@ -39,7 +40,10 @@ namespace Messages.Client.Interaction
 			// Here we build the message to send, by looking at the target's components.
 			// anyone extending IExaminable gets a say in it.
 			// Look for examinables.
-			var examinables = NetworkObject.GetComponents<IExaminable>();
+			IExaminable[] examinables = NetworkObject.GetComponents<IExaminable>();
+
+			// modifying this line can make the tests fail, please update accordingly.
+			Array.Sort(examinables, (first, other) => other.ExaminablePriority.CompareTo(first.ExaminablePriority));
 			string msg = "";
 			IExaminable examinable;
 
@@ -56,8 +60,7 @@ namespace Messages.Client.Interaction
 				}
 
 				var examinableMsg = examinable.Examine(netMsg.mousePosition);
-				if (string.IsNullOrEmpty(examinableMsg))
-					continue;
+				if (string.IsNullOrEmpty(examinableMsg)) continue;
 
 				msg += examinableMsg;
 

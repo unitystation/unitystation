@@ -105,7 +105,7 @@ MonoBehaviour:
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  initialVariantIndex: 0
+  variantIndex: 0
   palette: []
 --- !u!1 &8582599332015320669
 GameObject:
@@ -508,6 +508,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2444135299207855093, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
+      propertyPath: parentID
+      value: b69bfc56f39849d4ba9139d2d51bedb6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444135299207855093, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
       propertyPath: foreverID
       value: fde32c02abddc814f9366ff1fb21f234
       objectReference: {fileID: 0}
@@ -559,7 +564,7 @@ PrefabInstance:
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: variantIndex
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
@@ -833,6 +838,7 @@ MonoBehaviour:
     - {fileID: 7657921970005526780, guid: 7f32e42309899114b9c122f261161bc5, type: 3}
     - {fileID: 5770283965274354279, guid: b83b68cfa4a201748aeeece963a989c3, type: 3}
   SetSlotItemNotRemovableOnStartUp: 0
+  ignoreRoundstartGrabObjects: 1
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}
 --- !u!114 &6946348802393932263
@@ -887,6 +893,14 @@ MonoBehaviour:
   ambientSoundWhileOn:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/AmbienceObjects/Amb LightFixture.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  turnOffOnNoise:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/light_on.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 

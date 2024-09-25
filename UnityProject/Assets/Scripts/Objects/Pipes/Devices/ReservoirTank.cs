@@ -2,6 +2,7 @@
 using ScriptableObjects;
 using Chemistry;
 using Chemistry.Components;
+using UnityEngine;
 
 
 namespace Objects.Atmospherics
@@ -10,13 +11,18 @@ namespace Objects.Atmospherics
 	{
 		public ReagentContainer Container;
 
+		[SerializeField]
+		private ReagentMix initialContents = new ReagentMix();
+
 		#region Lifecycle
 
 		public override void OnSpawnServer(SpawnInfo info)
 		{
 			pipeData.PipeAction = new ReservoirAction();
 			Container.SetIProvideReagentMix(pipeData);
-			pipeData.GetMixAndVolume.GetGasMix().Volume = Container.MaxCapacity;
+			pipeData.GetMixAndVolume.SetReagentMix(initialContents.Clone());
+			pipeData.GetMixAndVolume.SetVolume(Container.MaxCapacity);
+
 			base.OnSpawnServer(info);
 		}
 

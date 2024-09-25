@@ -10,6 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4426236432238511878, guid: 77b0f36047b1a0e48ba9f97f954035fd,
         type: 3}
+      propertyPath: parentID
+      value: 77b0f36047b1a0e48ba9f97f954035fd
+      objectReference: {fileID: 0}
+    - target: {fileID: 4426236432238511878, guid: 77b0f36047b1a0e48ba9f97f954035fd,
+        type: 3}
       propertyPath: foreverID
       value: ae31c9042c26168438e5269dc2ff93be
       objectReference: {fileID: 0}
@@ -87,6 +92,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CigaretteRobust
+      objectReference: {fileID: 0}
+    - target: {fileID: 8431387283529515776, guid: 77b0f36047b1a0e48ba9f97f954035fd,
+        type: 3}
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[0]'
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 8431387283529515776, guid: 77b0f36047b1a0e48ba9f97f954035fd,
+        type: 3}
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[1]'
+      value: 45
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

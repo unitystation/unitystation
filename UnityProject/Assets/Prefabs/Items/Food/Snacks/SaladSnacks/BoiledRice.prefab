@@ -123,13 +123,13 @@ PrefabInstance:
         type: 3}
       propertyPath: relatedRecipes.Array.data[0].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: 5e2ff2f9ec45ed44ea1b1c3d1f2e411c,
+      objectReference: {fileID: 11400000, guid: e4670d4789576cc43848876bd759f26b,
         type: 2}
     - target: {fileID: 4008759651155897962, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
         type: 3}
       propertyPath: relatedRecipes.Array.data[1].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: e4670d4789576cc43848876bd759f26b,
+      objectReference: {fileID: 11400000, guid: 5e2ff2f9ec45ed44ea1b1c3d1f2e411c,
         type: 2}
     - target: {fileID: 4008759651155897962, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
         type: 3}
@@ -196,6 +196,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 944bbf45aea0a6244b7175a99ac6900b,
         type: 2}
+    - target: {fileID: 7534613500453596113, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
+        type: 3}
+      propertyPath: parentID
+      value: 1817d25e88b0b2b4aadd7b5e6b7e1a98
+      objectReference: {fileID: 0}
     - target: {fileID: 7534613500453596113, guid: 1817d25e88b0b2b4aadd7b5e6b7e1a98,
         type: 3}
       propertyPath: foreverID

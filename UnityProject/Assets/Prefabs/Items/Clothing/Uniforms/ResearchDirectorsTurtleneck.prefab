@@ -95,6 +95,29 @@ PrefabInstance:
       value: A dark purple turtleneck and tan khakis, for a director with a superior
         sense of style.
       objectReference: {fileID: 0}
+    - target: {fileID: 3397443007502491847, guid: 14673e0d9505d4a20ba67712d7358daa,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 694f62db0457193499593af644057922,
+        type: 2}
+    - target: {fileID: 3397443007502491847, guid: 14673e0d9505d4a20ba67712d7358daa,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 9760a56ac6c60be43aa7222565bc8c3f,
+        type: 2}
+    - target: {fileID: 3397443007502491847, guid: 14673e0d9505d4a20ba67712d7358daa,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 4c46ebfbf627d19489b32f0b58433a5d,
+        type: 2}
+    - target: {fileID: 8174322744686822344, guid: 14673e0d9505d4a20ba67712d7358daa,
+        type: 3}
+      propertyPath: parentID
+      value: 14673e0d9505d4a20ba67712d7358daa
+      objectReference: {fileID: 0}
     - target: {fileID: 8174322744686822344, guid: 14673e0d9505d4a20ba67712d7358daa,
         type: 3}
       propertyPath: foreverID
@@ -130,6 +153,12 @@ PrefabInstance:
     - target: {fileID: 8975007657035133986, guid: 14673e0d9505d4a20ba67712d7358daa,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 4c46ebfbf627d19489b32f0b58433a5d,
+        type: 2}
+    - target: {fileID: 8975007657035133986, guid: 14673e0d9505d4a20ba67712d7358daa,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 4c46ebfbf627d19489b32f0b58433a5d,
         type: 2}

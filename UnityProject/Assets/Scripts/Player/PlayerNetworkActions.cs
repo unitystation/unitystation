@@ -10,6 +10,7 @@ using ScriptableObjects;
 using AdminCommands;
 using Antagonists;
 using Blob;
+using Core;
 using Core.Chat;
 using HealthV2;
 using Items;
@@ -30,6 +31,7 @@ using Systems.Faith;
 using Tiles;
 using Util;
 using Random = UnityEngine.Random;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {

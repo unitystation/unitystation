@@ -41,28 +41,16 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Folder Include="Library\PackageCache\com.unity.ugui@1.0.0\Tests\Editor\RectMask2D" />
-     <Folder Include="Library\PackageCache\com.unity.ugui@1.0.0\Tests\Editor\InputField" />
-     <Folder Include="Library\PackageCache\com.unity.ugui@1.0.0\Tests\Editor" />
-     <Folder Include="Library\PackageCache\com.unity.ugui@1.0.0\Tests\Editor\UI\PropertyDrawers" />
-     <Folder Include="Library\PackageCache\com.unity.ugui@1.0.0\Tests\Editor\UI" />
-     <Folder Include="Library\PackageCache\com.unity.ugui@1.0.0\Tests\Editor\EventSystem" />
-     <Folder Include="Library\PackageCache\com.unity.ugui@1.0.0\Tests\Editor\Canvas" />
-     <Folder Include="Library\PackageCache\com.unity.ugui@1.0.0\Tests\Editor\UnityEvent" />
-     <Folder Include="Library\PackageCache\com.unity.ugui@1.0.0\Tests\Editor\Slider" />
-     <None Include="Library\PackageCache\com.unity.ugui@1.0.0\Tests\Editor\UnityEditor.UI.EditorTests.asmdef" />
-     <Folder Include="Library\PackageCache\com.unity.ugui@1.0.0\Tests\Editor\CanvasRenderer" />
-     <Folder Include="Library\PackageCache\com.unity.ugui@1.0.0\Tests\Editor\Dropdown" />
-     <Folder Include="Library\PackageCache\com.unity.ugui@1.0.0\Tests\Editor\Text" />
-     <Reference Include="UnityEngine">
-     <HintPath>Q:\Fast programmes\Unity\2023.1.10f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
-     </Reference>
-     <Reference Include="UnityEngine.CoreModule">
-     <HintPath>Q:\Fast programmes\Unity\2023.1.10f1\Editor\Data\Managed\UnityEngine\UnityEngine.CoreModule.dll</HintPath>
-     </Reference>
-     <Reference Include="UnityEditor">
-     <HintPath>Q:\Fast programmes\Unity\2023.1.10f1\Editor\Data\Managed\UnityEngine\UnityEditor.dll</HintPath>
-     </Reference>
+    <None Include="Library\PackageCache\com.unity.ugui@2.0.0\Tests\Editor\UGUI\UnityEditor.UI.EditorTests.asmdef" />
+    <Reference Include="UnityEngine">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\Data\Managed\UnityEngine\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\2023.2.20f1\Editor\Data\Managed\UnityEngine\UnityEditor.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

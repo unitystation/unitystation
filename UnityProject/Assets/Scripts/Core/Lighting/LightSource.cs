@@ -8,10 +8,12 @@ using Mirror;
 using ScriptableObjects;
 using Light2D;
 using Logs;
+using Messages.Server.SoundMessages;
 using Systems.Electricity;
 using Shared.Systems.ObjectConnection;
 using Objects.Construction;
 using UnityEngine.Serialization;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 
 namespace Objects.Lighting
@@ -76,6 +78,7 @@ namespace Objects.Lighting
 		private bool sparking = false;
 
 		[Header("Audio")] [SerializeField] private AddressableAudioSource ambientSoundWhileOn;
+		[SerializeField] private AddressableAudioSource turnOffOnNoise;
 		private string loopKey;
 
 		private bool SoundInit = false;
@@ -218,6 +221,7 @@ namespace Objects.Lighting
 		private void SyncLightState(LightMountState oldState, LightMountState newState)
 		{
 			MountState = newState;
+			if (oldState == newState) return;
 			ChangeCurrentState(newState);
 			SetSprites();
 			SetColor(CurrentOnColor, CurrentOnColor);
@@ -231,7 +235,13 @@ namespace Objects.Lighting
 			{
 				Animator.ServerStopAnim();
 			}
+
 			CheckAudioState();
+			if (newState == LightMountState.On && isServer)
+			{
+				SoundManager.PlayNetworkedAtPos(turnOffOnNoise, gameObject.AssumedWorldPosServer(),
+					new AudioSourceParameters().PitchVariation(0.05f));
+			}
 		}
 
 		private void ChangeCurrentState(LightMountState newState)
@@ -288,26 +298,22 @@ namespace Objects.Lighting
 
 		private void CheckAudioState()
 		{
-			if (isServer)
+			if (MountState == LightMountState.On)
 			{
-				if (MountState == LightMountState.On)
+				if (SoundInit)
 				{
-					if (SoundInit)
-					{
-						SoundManager.TokenPlayNetworked(loopKey);
-					}
-					else
-					{
-						SoundManager.ClientPlayAtPositionAttached(ambientSoundWhileOn,
-							gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, true);
-						SoundInit = true;
-					}
-
+					SoundManager.ClientTokenPlay(loopKey);
 				}
 				else
 				{
-					SoundManager.StopNetworked(loopKey, false);
+					SoundManager.ClientPlayAtPositionAttached(ambientSoundWhileOn,
+						gameObject.RegisterTile().WorldPosition, gameObject, loopKey, false, false);
+					SoundInit = true;
 				}
+			}
+			else
+			{
+				SoundManager.ClientStop(loopKey, false);
 			}
 		}
 
@@ -333,7 +339,7 @@ namespace Objects.Lighting
 			}
 			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.LightReplacer))
 			{
-				TryReplaceBulb(interaction);
+				tryRemoveLightBulbOtherFunction(interaction);
 			}
 			else if (Validations.HasItemTrait(interaction.HandObject, traitRequired))
 			{
@@ -384,6 +390,7 @@ namespace Objects.Lighting
 						"<color=red>You burn your hand on the bulb while attempting to remove it!</color>");
 					return;
 				}
+
 				var spawnedItem = Spawn.ServerPrefab(itemInMount, interaction.Performer.AssumedWorldPosServer())
 					.GameObject;
 
@@ -433,7 +440,7 @@ namespace Objects.Lighting
 						: LightMountState.Off);
 			}
 
-			_ = Despawn.ServerSingle(interaction.HandObject);
+			_ = Despawn.ServerSingle(interaction.HandObject); //TODO probably make it store the lightBulbs
 		}
 
 		public void TryAddBulb(GameObject lightBulb) //NOTE Only used by Advanced light Replacer so Colour is inherited from  Advanced light Replacer
@@ -451,16 +458,27 @@ namespace Objects.Lighting
 						? LightMountState.On
 						: LightMountState.Off);
 			}
-
+			var lightTubeData = lightBulb.GetComponent<LightTubeData>();
+			if (lightTubeData != null)
+			{
+				SetColor(CurrentOnColor, lightTubeData.RegularColour);
+				SyncEmergencyColour(EmergencyColour, lightTubeData.EmergencyColour);
+			}
 			_ = Despawn.ServerSingle(lightBulb);
 		}
 
-		public bool TryReplaceBulb(HandApply interaction)
+		public GameObject tryRemoveLightBulbOtherFunction(HandApply interaction)
 		{
-			if (MountState == LightMountState.MissingBulb) return false;
-			Spawn.ServerPrefab(itemInMount, interaction.Performer.AssumedWorldPosServer());
+			if (MountState == LightMountState.MissingBulb) return null;
+			var spawnedItem= Spawn.ServerPrefab(itemInMount, interaction.Performer.AssumedWorldPosServer()).GameObject;
+			var lightTubeData = spawnedItem.GetComponent<LightTubeData>();
+			if (lightTubeData != null)
+			{
+				lightTubeData.RegularColour = CurrentOnColor;
+				lightTubeData.EmergencyColour = EmergencyColour;
+			}
 			ServerChangeLightState(LightMountState.MissingBulb);
-			return true;
+			return spawnedItem;
 		}
 
 		#endregion
@@ -469,7 +487,6 @@ namespace Objects.Lighting
 
 		public void PowerNetworkUpdate(float voltage)
 		{
-
 		}
 
 		public void StateUpdate(PowerState newPowerState)

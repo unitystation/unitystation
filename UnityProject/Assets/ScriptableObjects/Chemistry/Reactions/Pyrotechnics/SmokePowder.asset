@@ -19,10 +19,11 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 05a7d0a1d347f6c21a6bace25e4e03ff, type: 2}
     m_values: 010000000100000001000000
   useExactAmounts: 0
-  MinimumReactionMultiple: 0
+  MinimumReactionMultiple: 1
   catalysts:
-    m_keys: []
-    m_values: 
+    m_keys:
+    - {fileID: 11400000, guid: 61fb075ca9053fc48bd8a2f728068bc1, type: 2}
+    m_values: 01000000
   inhibitors:
     m_keys: []
     m_values: 
@@ -34,4 +35,8 @@ MonoBehaviour:
     m_keys:
     - {fileID: 11400000, guid: 2fe711bafe5c109f8b44185374a5071d, type: 2}
     m_values: 03000000
+  effectDict:
+    m_keys: []
+    m_values: 
   effects: []
+  overrideDisplayName: Smoke Powder

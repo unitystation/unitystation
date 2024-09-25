@@ -11,7 +11,41 @@ namespace TileManagement
 		public MetaTileMap metaTileMap = null;
 		public Layer layer = null;
 		public Color Colour = Color.white;
-		public LayerTile layerTile;
+
+		public bool Removing = false;
+
+		public bool DropItems = true;
+		public LayerTile layerTile
+		{
+			get
+			{
+				if (Removing)
+				{
+					return null;
+				}
+				else
+				{
+					return InternalLayerTile;
+				}
+			}
+			set
+			{
+				if (value != null)
+				{
+					Removing = false;
+					InternalLayerTile = value;
+				}
+				else
+				{
+					Removing = true;
+
+				}
+			}
+		}
+
+		public LayerTile InternalLayerTile;
+
+
 		public Matrix4x4 transformMatrix = Matrix4x4.identity;
 		public SetCubeSprite AssociatedSetCubeSprite;
 
@@ -30,11 +64,26 @@ namespace TileManagement
 			Colour = Color.white;
 			layerTile = null;
 			transformMatrix = Matrix4x4.identity;
+			Removing = false;
 			if (AssociatedSetCubeSprite != null)
 			{
 				GameObject.Destroy(AssociatedSetCubeSprite.gameObject);
 			}
 			AssociatedSetCubeSprite = null;
+			DropItems = true;
 		}
+
+		public void Remove(bool DropItems = true)
+		{
+			metaTileMap.RemoveTileWithlayer(LocalPosition,InternalLayerTile.LayerType, true, DropItems);
+		}
+	}
+
+	public class TileSaveRollback
+	{
+		public Vector3Int LocalPosition;
+		public LayerTile InitialLayerTile;
+		public LayerTile ChangedToLayerTile;
+
 	}
 }

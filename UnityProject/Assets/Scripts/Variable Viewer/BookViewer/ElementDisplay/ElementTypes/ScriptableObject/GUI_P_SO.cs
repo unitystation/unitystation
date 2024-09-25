@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Messages.Client.VariableViewer;
 using ScriptableObjects;
 using SecureStuff;
@@ -25,6 +26,9 @@ namespace AdminTools.VariableViewer
 		public static Dictionary<Type, List<ISOTracker>> IndividualDropDownOptions =
 			new Dictionary<Type, List<ISOTracker>>();
 
+		public static Dictionary<Type, Dictionary<string, ISOTracker>> OptimiseIndividualDropDownOptions =
+			new Dictionary<Type, Dictionary<string, ISOTracker>>();
+
 		public List<ISOTracker> ActiveList;
 
 		public SearchWithPreview DropDownSearch;
@@ -42,6 +46,11 @@ namespace AdminTools.VariableViewer
 		}
 
 
+		public override bool CanDeserialise(Type TType)
+		{
+			return typeof(ISOTracker).IsAssignableFrom(TType);
+		}
+
 		public override bool IsThisType(Type TType)
 		{
 			return typeof(ISOTracker).IsAssignableFrom(TType);
@@ -55,7 +64,7 @@ namespace AdminTools.VariableViewer
 			if (Page != null)
 			{
 				PageID = Page.ID;
-				SentenceID = 0;
+				SentenceID = uint.MaxValue;
 				IsSentence = false;
 				iskey = false;
 			}
@@ -75,8 +84,14 @@ namespace AdminTools.VariableViewer
 			base.SetUpValues(ValueType, Page, Sentence, Iskey);
 			var data = VVUIElementHandler.ReturnCorrectString(Page, Sentence, Iskey);
 			//TODO Populate drop-down
+			var usedValueType = ValueType;
+			if (ValueType.IsSubclassOf(typeof(LayerTile)))
+			{
+				usedValueType = typeof(LayerTile);
+			}
 
-			var Found = IndividualDropDownOptions[ValueType].FirstOrDefault(x => x.ForeverID == data);
+
+			var Found = IndividualDropDownOptions[usedValueType].FirstOrDefault(x => x.ForeverID == data);
 			SetupValues(Found);
 
 			if (data != null)
@@ -88,7 +103,7 @@ namespace AdminTools.VariableViewer
 				SetupValues(null);
 			}
 
-			ActiveList = IndividualDropDownOptions[ValueType];
+			ActiveList = IndividualDropDownOptions[usedValueType];
 		}
 
 		public void SetupValues(ISearchSpritePreview ISearchSpritePreview)
@@ -120,10 +135,7 @@ namespace AdminTools.VariableViewer
 		public void SetValue(ISearchSpritePreview change)
 		{
 			SetupValues(change);
-			if (PageID != 0)
-			{
-				RequestChangeVariableNetMessage.Send(PageID, Serialise(change), UISendToClientToggle.toggle);
-			}
+			RequestChangeVariableNetMessage.Send(PageID, Serialise(change) , UISendToClientToggle.toggle, SentenceID);
 		}
 
 		public void RequestOpenBookOnPage()
@@ -147,38 +159,82 @@ namespace AdminTools.VariableViewer
 			return ((ISOTracker)Data)?.ForeverID;
 		}
 
+		private static bool InheritsFrom(Type type, Type baseType)
+		{
+			while (type != null && type != typeof(object))
+			{
+				if (type == baseType)
+				{
+					return true;
+				}
+				type = type.BaseType;
+			}
+			return false;
+		}
+
+		public static Type GetImmediateBaseType(Type type, Type stopType)
+		{
+			// Get the base type
+			Type CorrectType = type;
+			Type baseType = type.BaseType;
+			while (baseType != stopType)
+			{
+				CorrectType = baseType;
+				baseType = baseType.BaseType;
+			}
+
+			return CorrectType;
+		}
+
 		public void InitialiseIndividualDropDownOptions()
 		{
 			foreach (var SO in SOListTracker.Instance.SOTrackers)
 			{
 				if (SO == null) continue;
 				var Type = ((object) SO).GetType();
+
+				if (InheritsFrom(Type, typeof(SOTracker)))
+				{
+					Type = GetImmediateBaseType(Type, typeof(SOTracker));
+				}
+
+
 				if (IndividualDropDownOptions.ContainsKey(Type) == false)
 				{
 					IndividualDropDownOptions[Type] = new List<ISOTracker>();
+					OptimiseIndividualDropDownOptions[Type] = new Dictionary<string, ISOTracker>();
 				}
+
 				IndividualDropDownOptions[Type].Add(SO);
+				OptimiseIndividualDropDownOptions[Type][SO.ForeverID] = SO;
 			}
 
 			var TypeTile = typeof(LayerTile);
-			foreach (var TileType in 	TileManager.Instance.Tiles)
+			foreach (var TileType in TileManager.Instance.Tiles)
 			{
 				foreach (var Tile in TileType.Value)
 				{
 					if (IndividualDropDownOptions.ContainsKey(TypeTile) == false)
 					{
 						IndividualDropDownOptions[TypeTile] = new List<ISOTracker>();
+						OptimiseIndividualDropDownOptions[TypeTile] = new Dictionary<string, ISOTracker>();
 					}
 					IndividualDropDownOptions[TypeTile].Add(Tile.Value);
+					OptimiseIndividualDropDownOptions[TypeTile][Tile.Value.ForeverID] = Tile.Value;
 				}
 			}
 
 
 		}
 
-		public override object DeSerialise(string StringVariable, Type InType, object InObject, bool SetUI = false)
+		public override object DeSerialise(string StringVariable, Type InType, bool SetUI = false)
 		{
-			return IndividualDropDownOptions[InType].FirstOrDefault(x => x.ForeverID == StringVariable);
+			if (IndividualDropDownOptions.Count == 0)
+			{
+				InitialiseIndividualDropDownOptions();
+			}
+
+			return OptimiseIndividualDropDownOptions[InType].GetValueOrDefault(StringVariable);
 		}
 
 		public override void Pool()

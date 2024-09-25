@@ -14,6 +14,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e67a1bb232d4aac47b9ffe6dc5763b63,
         type: 2}
+    - target: {fileID: 26931920513500518, guid: f27991fd74b5f6941a1ad2f9e161a022,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e67a1bb232d4aac47b9ffe6dc5763b63,
+        type: 2}
     - target: {fileID: 965049928856989028, guid: f27991fd74b5f6941a1ad2f9e161a022,
         type: 3}
       propertyPath: 'allClothingData.Array.data[0]'
@@ -26,6 +32,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b3dca68b8b0691545a7a9c5061a5e8de,
         type: 2}
+    - target: {fileID: 982638643675574924, guid: f27991fd74b5f6941a1ad2f9e161a022,
+        type: 3}
+      propertyPath: parentID
+      value: f27991fd74b5f6941a1ad2f9e161a022
+      objectReference: {fileID: 0}
     - target: {fileID: 982638643675574924, guid: f27991fd74b5f6941a1ad2f9e161a022,
         type: 3}
       propertyPath: foreverID
@@ -42,6 +53,12 @@ PrefabInstance:
       value: A winter coat with blue markings. Warm, but probably won't protect from
         biological agents. For the cozy doctor on the go.
       objectReference: {fileID: 0}
+    - target: {fileID: 6049508525371871619, guid: f27991fd74b5f6941a1ad2f9e161a022,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: e67a1bb232d4aac47b9ffe6dc5763b63,
+        type: 2}
     - target: {fileID: 6092671967717950293, guid: f27991fd74b5f6941a1ad2f9e161a022,
         type: 3}
       propertyPath: _assetId

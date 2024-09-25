@@ -1,8 +1,10 @@
+using Core;
 using HealthV2;
 using Systems.Explosions;
 using Systems.Scenes;
 using Systems.Teleport;
 using UnityEngine;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Systems.Research
 {

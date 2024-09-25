@@ -4,24 +4,20 @@ using AddressableReferences;
 using Core;
 using HealthV2;
 using Items.Food;
-using NUnit.Framework;
 using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine;
 using Util.Independent.FluentRichText;
-using Random = UnityEngine.Random;
 
 namespace Objects.Alien.SpaceAnts
 {
 	public class AntHill : MonoBehaviour, ICheckedInteractable<HandApply>, IHoverTooltip
 	{
-		private List<LivingHealthMasterBase> inflictedMobs = new List<LivingHealthMasterBase>();
 		[SerializeField] private float routineDelay = 30f;
-		[SerializeField] private Vector2 minMaxAntDamage = new Vector2(1, 5);
 		[SerializeField] private AttackType biteType = AttackType.Melee;
 		[SerializeField] private DamageType damageType = DamageType.Brute;
 		[SerializeField] private AntHillState state = AntHillState.Single;
 		[SerializeField] private ItemTrait filthTrait;
-		[SerializeField] private ItemTrait flySwatterTrait;
+		[SerializeField] private List<ItemTrait> flySwatterTrait;
 		[SerializeField] private List<SpriteDataSO> stateSprites = new List<SpriteDataSO>();
 		[SerializeField] private SpriteHandler stateSpritesHandler;
 		[SerializeField] private List<AddressableAudioSource> onStepSounds = new List<AddressableAudioSource>();
@@ -58,73 +54,50 @@ namespace Objects.Alien.SpaceAnts
 			if (interaction.HandObject != null &&
 			    interaction.HandObject.TryGetComponent<Attributes>(out var attributes))
 			{
-				if (attributes.InitialTraits.Contains(flySwatterTrait))
+				if (attributes.InitialTraits.Any(x => flySwatterTrait.Contains(x)))
 				{
-					Chat.AddExamineMsg(interaction.Performer, "You smack the ant hill so hard, all of its occupants turn into mush.");
+					Chat.AddExamineMsg(interaction.Performer, "You destroy the ant hill.");
 					_ = Despawn.ServerSingle(gameObject);
 					return;
 				}
 			}
 			Chat.AddExamineMsg(interaction.Performer, "You reach your hand towards the ant hill.. and a swarm of ants attack you! Ouch!");
-			InflictMob(interaction.Performer);
 			PlayStepAudio();
-		}
-
-		public void InflictMob(GameObject mob)
-		{
-			if (state is not AntHillState.Swarm) return;
-			if (DMMath.Prob(75) || mob.TryGetComponent<LivingHealthMasterBase>(out var health) == false) return;
-			if (( health.MaxHealth - health.OverallHealth) >  minMaxAntDamage.y) return;
-			inflictedMobs.Add(health);
 		}
 
 		private void AntRoutine()
 		{
-			BiteInflictedMobs();
 			LookForFood();
 			LookForFilth();
 		}
 
-		private void BiteInflictedMobs()
+		private void LookForFood()
 		{
-			var damage = state is AntHillState.Swarm ? Random.Range(minMaxAntDamage.x, minMaxAntDamage.y) : 1;
-			var mobsToDispel = new List<LivingHealthMasterBase>();
-			foreach (var mob in inflictedMobs)
-			{
-				if (mob == null) continue;
-				if (( mob.MaxHealth - mob.OverallHealth) >  minMaxAntDamage.y) continue;
-				mob.ApplyDamageToRandomBodyPart(gameObject, damage, biteType, damageType, damageSplit: true);
-				Chat.AddExamineMsg(mob.gameObject, "you feel itchy all over yourself.");
-				PlayStepAudio(mob.gameObject);
-				if (DMMath.Prob(90)) mobsToDispel.Add(mob);
-			}
-			foreach (var mobToRemove in mobsToDispel)
-			{
-				inflictedMobs.Remove(mobToRemove);
-			}
+			var edibles = ComponentsTracker<Edible>.GetAllNearbyTypesToTarget(gameObject, SearchRadius(), eatsYourLiver);
+			if (edibles.Count == 0) return;
+			AntEat(edibles.PickRandom().gameObject);
 		}
 
-		private void LookForFood()
+		private int SearchRadius()
 		{
 			var searchRadius = state switch
 			{
-				AntHillState.Single => 3,
-				AntHillState.Small => 6,
-				AntHillState.Large => 12,
-				AntHillState.Swarm => 32,
+				AntHillState.Single => 2,
+				AntHillState.Small => 3,
+				AntHillState.Large => 4,
+				AntHillState.Swarm => 5,
 				_ => 3
 			};
-			var edibles = ComponentsTracker<Edible>.GetAllNearbyTypesToTarget(gameObject, searchRadius, eatsYourLiver);
-			if (edibles.Count > 0) AntEat(edibles.PickRandom().gameObject);
+			return searchRadius;
 		}
 
 		private void LookForFilth()
 		{
-			var edibles = ComponentsTracker<Attributes>.GetAllNearbyTypesToTarget(gameObject, 32, eatsYourLiver)
+			var edibles = ComponentsTracker<Attributes>.GetAllNearbyTypesToTarget(gameObject, SearchRadius(), eatsYourLiver)
 				.Where(x => x.InitialTraits.Contains(filthTrait)).ToList();
 			if (edibles.Count == 0) return;
 			var edible = edibles.PickRandom();
-			if (DMMath.Prob(5) && state is AntHillState.Large or AntHillState.Swarm)
+			if (DMMath.Prob(3) && state is AntHillState.Large or AntHillState.Swarm)
 			{
 				Spawn.ServerClone(antMultiplyPrefabs.PickRandom(), edible.gameObject.AssumedWorldPosServer());
 			}
@@ -193,8 +166,8 @@ namespace Objects.Alien.SpaceAnts
 			{
 				new TextColor()
 				{
-					Color = Color.green,
-					Text = "Destroy with a Fly Swatter"
+					Color = Color.red,
+					Text = "Destroy with a Fly Swatter or a bar of soap"
 				}
 			};
 			return strings;

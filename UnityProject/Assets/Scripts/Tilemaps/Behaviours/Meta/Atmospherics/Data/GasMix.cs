@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Core;
 using Core.Utils;
 using Logs;
 using NaughtyAttributes;
@@ -8,7 +9,7 @@ using ScriptableObjects.Atmospherics;
 using Systems.Pipes;
 using UnityEngine;
 using UnityEngine.Serialization;
-
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Systems.Atmospherics
 {
@@ -32,7 +33,7 @@ namespace Systems.Atmospherics
 			get => pressure;
 			set
 			{
-				if (float.IsNormal(value) == false && value != 0)
+				if (value.IsUnreasonableNumber() && value != 0f)
 				{
 					Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE pressure Invalid number!!!! {value}");
 					return;
@@ -53,7 +54,7 @@ namespace Systems.Atmospherics
 			get { return temperature; }
 			set
 			{
-				if (float.IsNormal(value) == false && value != 0)
+				if (value.IsUnreasonableNumber() && value != 0)
 				{
 					Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE Temperature Invalid number!!!! {value}");
 					return;
@@ -115,7 +116,7 @@ namespace Systems.Atmospherics
 
 			set
 			{
-				if (float.IsNormal(value) == false && value != 0)
+				if (value.IsUnreasonableNumber() && value != 0)
 				{
 					Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE InternalEnergy Invalid number!!!! {value}");
 					return;
@@ -590,13 +591,6 @@ namespace Systems.Atmospherics
 			RecalculatePressure();
 		}
 
-
-
-		public void AddGas(GasSO gas, float moles)
-		{
-			GasData.ChangeMoles(gas, moles);
-			RecalculatePressure();
-		}
 
 		public void RemoveGas(GasSO gas, float moles)
 		{

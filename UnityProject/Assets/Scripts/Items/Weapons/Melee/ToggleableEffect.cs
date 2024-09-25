@@ -2,6 +2,7 @@ using AddressableReferences;
 using Mirror;
 using Systems.Construction.Parts;
 using UnityEngine;
+using Messages.Server.SoundMessages;
 
 namespace Weapons
 {
@@ -40,6 +41,11 @@ namespace Weapons
 			get { return weaponState; }
 			set { weaponState = value; }
 		}
+
+		protected StandardProgressActionConfig ProgressConfig
+			= new StandardProgressActionConfig(StandardProgressActionType.ItemTransfer);
+
+		private const float CELL_REMOVE_TIME = 3f;
 
 		private void Awake()
 		{
@@ -89,6 +95,30 @@ namespace Weapons
 			Inventory.ServerDrop(meleeEffect.batterySlot);
 		}
 
+		private void RemoveCellInteraction(InventoryApply interaction)
+		{
+			void ProgressFinishAction()
+			{
+				Chat.AddActionMsgToChat(interaction.Performer,
+					$"The {gameObject.ExpensiveName()}'s power cell pops out",
+					$"{interaction.Performer.ExpensiveName()} finishes removing {gameObject.ExpensiveName()}'s energy cell.");
+				RemoveCell();
+			}
+
+			var bar = StandardProgressAction.Create(ProgressConfig, ProgressFinishAction)
+				.ServerStartProgress(interaction.Performer.RegisterTile(), CELL_REMOVE_TIME, interaction.Performer);
+
+			if (bar != null)
+			{
+				Chat.AddActionMsgToChat(interaction.Performer,
+					$"You begin unsecuring the {gameObject.ExpensiveName()}'s power cell.",
+					$"{interaction.Performer.ExpensiveName()} begins unsecuring {gameObject.ExpensiveName()}'s power cell.");
+					AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.8f, 1.2f));
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.screwdriver, interaction.Performer.AssumedWorldPosServer(), audioSourceParameters, sourceObj: interaction.Performer);
+			}
+
+		}
+
 		//For making sure the user is actually conscious.
 		public bool WillInteract(HandActivate interaction, NetworkSide side)
 		{
@@ -122,7 +152,7 @@ namespace Weapons
 		{
 			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver) && meleeEffect.Battery != null && meleeEffect.allowScrewdriver)
 			{
-				RemoveCell();
+				RemoveCellInteraction(interaction);
 			}
 
 			if (meleeEffect.Battery == null && Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.WeaponCell))
@@ -152,20 +182,24 @@ namespace Weapons
 				{
 					if(meleeEffect.Battery != null && (meleeEffect.Battery.Watts >= meleeEffect.chargeUsage) && weaponState != WeaponState.NoCell)
 					{
+						Chat.AddExamineMsgFromServer(interaction.Performer, $"You switch the {gameObject.ExpensiveName()} on");
 						TurnOn();
 					}
 					else
 					{
-						Chat.AddExamineMsg(interaction.Performer, $"{gameObject.ExpensiveName()} is out of power or has no cell.");
+						string state = meleeEffect.Battery != null ? "is out of power" : "has no cell";
+						Chat.AddExamineMsg(interaction.Performer, $"Your {gameObject.ExpensiveName()} {state}.");
 					}
 				}
 				else
 				{
+					Chat.AddExamineMsgFromServer(interaction.Performer, $"You extend the {gameObject.ExpensiveName()}");
 					TurnOn();
 				}
 			}
 			else
 			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, meleeEffect.hasBattery ? $"You switch the {gameObject.ExpensiveName()} off" : $"You retract the {gameObject.ExpensiveName()}");
 				TurnOff();
 			}
 		}

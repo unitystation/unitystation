@@ -54,7 +54,24 @@ namespace Systems.Clothing
 		private ClothingItem clothingItem;
 
 		public ClothingItem ClothingItem => clothingItem;
-		public ClothingDataV2 CurrentClothData => allClothingData[CurrentClothIndex];
+		public ClothingDataV2 CurrentClothData
+		{
+			get
+			{
+				if (CurrentClothIndex >= allClothingData.Count)
+				{
+					if (allClothingData.Count > 0)
+					{
+						return allClothingData[0];
+					}
+					else
+					{
+						return null;
+					}
+				}
+				return allClothingData[CurrentClothIndex];
+			}
+		}
 
 		/// <summary> Whether this piece of clothing obscures the identity of the wearer (head, maskwear). </summary>
 		public bool HidesIdentity => hidesIdentity;
@@ -85,7 +102,7 @@ namespace Systems.Clothing
 		{
 			foreach (ClothingDataV2 clothData in allClothingData)
 			{
-				SetUpFromClothingData(clothData);
+
 				SpriteDataSO.Add(clothData.SpriteEquipped);
 			}
 
@@ -93,9 +110,16 @@ namespace Systems.Clothing
 			{
 				CurrentClothIndex = UnityEngine.Random.Range(0, allClothingData.Count);
 			}
+
+			SetUpFromClothingData(CurrentClothData);
 		}
 
 		private void SetUpFromClothingData(ClothingDataV2 equippedData)
+		{
+			myItem.SetSprites(GenItemsSprites(equippedData));
+		}
+
+		public ItemsSprites GenItemsSprites(ClothingDataV2 equippedData)
 		{
 			var SpriteSOData = new ItemsSprites();
 			SpriteSOData.Palette = new List<Color>(equippedData.Palette);
@@ -103,8 +127,7 @@ namespace Systems.Clothing
 			SpriteSOData.SpriteRightHand = (equippedData.SpriteInHandsRight);
 			SpriteSOData.SpriteInventoryIcon = (equippedData.SpriteItemIcon);
 			SpriteSOData.IsPaletted = equippedData.IsPaletted;
-
-			myItem.SetSprites(SpriteSOData);
+			return SpriteSOData;
 		}
 
 		public void AssignPaletteToSprites(List<Color> palette)

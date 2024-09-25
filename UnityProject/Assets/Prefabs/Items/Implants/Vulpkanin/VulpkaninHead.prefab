@@ -8,6 +8,23 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3173373948287869932, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: itemStorageCapacity
+      value: 
+      objectReference: {fileID: 11400000, guid: e582de4ca83bd0f7f875e7f6b2789115,
+        type: 2}
+    - target: {fileID: 3173373948287869932, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: itemStorageStructure
+      value: 
+      objectReference: {fileID: 11400000, guid: eb496e5c0ad0801b59b3d16c5d4685df,
+        type: 2}
+    - target: {fileID: 3679165279116993520, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: parentID
+      value: 78253771c2047f94c9ae40161a6be7ee
+      objectReference: {fileID: 0}
     - target: {fileID: 3679165279116993520, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
       propertyPath: foreverID
@@ -28,6 +45,21 @@ PrefabInstance:
         type: 3}
       propertyPath: bodyPartAshesAboveThisDamage
       value: 145
+      objectReference: {fileID: 0}
+    - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: SelfArmor.TemperatureProtectionInK.x
+      value: 233.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: SelfArmor.TemperatureProtectionInK.y
+      value: 298.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: SubOrganBodyPartArmour.TemperatureProtectionInK.x
+      value: 233.15
       objectReference: {fileID: 0}
     - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
@@ -63,6 +95,18 @@ PrefabInstance:
       propertyPath: 'Populater.DeprecatedContents.Array.data[2]'
       value: 
       objectReference: {fileID: 2869098758643736549, guid: 58d149a16251e6c4f9b6cef1e3f7ba9a,
+        type: 3}
+    - target: {fileID: 6786220533655849171, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: 'Populater.DeprecatedContents.Array.data[3]'
+      value: 
+      objectReference: {fileID: 2604502958817267536, guid: 7cdf8bfa12546b7e5a5d85d2a3ed68bd,
+        type: 3}
+    - target: {fileID: 6786220533655849171, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: 'Populater.DeprecatedContents.Array.data[5]'
+      value: 
+      objectReference: {fileID: 5702942250391028382, guid: 44f39c24b0c77fe418c04e44539a52d2,
         type: 3}
     - target: {fileID: 6786220533655849171, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
@@ -119,17 +163,17 @@ PrefabInstance:
     - target: {fileID: 7756956197327459049, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7756956197327459049, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7756956197327459049, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7756956197327459049, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
@@ -181,6 +225,32 @@ PrefabInstance:
       propertyPath: inventoryRemoveSound.AssetAddress
       value: null
       objectReference: {fileID: 0}
+    - target: {fileID: 8043249252883093520, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: storage.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8043249252883093520, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: storage.Array.data[5].SlotArea
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8043249252883093520, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: storage.Array.data[5].hoverName
+      value: Mouth
+      objectReference: {fileID: 0}
+    - target: {fileID: 8043249252883093520, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: storage.Array.data[5].namedSlot
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 8043249252883093520, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: storage.Array.data[5].placeholderSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0cd89423299c9c749b386915e51cecca,
+        type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

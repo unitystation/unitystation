@@ -10,6 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3549479581640830887, guid: 9445628fd16314b7388c7086f5fd2f26,
         type: 3}
+      propertyPath: parentID
+      value: 9445628fd16314b7388c7086f5fd2f26
+      objectReference: {fileID: 0}
+    - target: {fileID: 3549479581640830887, guid: 9445628fd16314b7388c7086f5fd2f26,
+        type: 3}
       propertyPath: foreverID
       value: 9c308081529a1fa43850db366eb71631
       objectReference: {fileID: 0}
@@ -32,6 +37,12 @@ PrefabInstance:
     - target: {fileID: 4377197623706982477, guid: 9445628fd16314b7388c7086f5fd2f26,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 080398e5c97edf642bf6f0c390391f06,
+        type: 2}
+    - target: {fileID: 4377197623706982477, guid: 9445628fd16314b7388c7086f5fd2f26,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 080398e5c97edf642bf6f0c390391f06,
         type: 2}
@@ -122,6 +133,12 @@ PrefabInstance:
       value: A black beret, perfect for war veterans and dark, brooding, anti-hero
         mimes.
       objectReference: {fileID: 0}
+    - target: {fileID: 8004422176852823208, guid: 9445628fd16314b7388c7086f5fd2f26,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 080398e5c97edf642bf6f0c390391f06,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

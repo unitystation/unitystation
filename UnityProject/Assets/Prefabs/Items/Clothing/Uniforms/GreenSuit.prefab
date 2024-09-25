@@ -109,6 +109,29 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A green suit and yellow necktie. Exemplifies authority.
       objectReference: {fileID: 0}
+    - target: {fileID: 3397443007502491847, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 4e11a3226cdf15e49a015646a93f914f,
+        type: 2}
+    - target: {fileID: 3397443007502491847, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: d3a9d065d609f8546910ddf26dde315a,
+        type: 2}
+    - target: {fileID: 3397443007502491847, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 5ff991232982343428feb537aa32015a,
+        type: 2}
+    - target: {fileID: 8174322744686822344, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
+        type: 3}
+      propertyPath: parentID
+      value: 9c0ae44adb2c14e9bae919e9e0f844fc
+      objectReference: {fileID: 0}
     - target: {fileID: 8174322744686822344, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
         type: 3}
       propertyPath: foreverID
@@ -138,6 +161,12 @@ PrefabInstance:
     - target: {fileID: 8975007657035133986, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 5ff991232982343428feb537aa32015a,
+        type: 2}
+    - target: {fileID: 8975007657035133986, guid: 9c0ae44adb2c14e9bae919e9e0f844fc,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 5ff991232982343428feb537aa32015a,
         type: 2}

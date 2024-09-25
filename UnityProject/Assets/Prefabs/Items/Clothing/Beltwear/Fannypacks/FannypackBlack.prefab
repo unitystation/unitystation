@@ -13,6 +13,12 @@ PrefabInstance:
       propertyPath: initialName
       value: black fannypack
       objectReference: {fileID: 0}
+    - target: {fileID: 3599511477918261910, guid: 50df01ef60a031640b4faafe2df999ce,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: a2c7a8eb181f19740b936e7abb1226e6,
+        type: 2}
     - target: {fileID: 3884468714001317544, guid: 50df01ef60a031640b4faafe2df999ce,
         type: 3}
       propertyPath: m_Sprite
@@ -111,6 +117,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a2c7a8eb181f19740b936e7abb1226e6,
         type: 2}
+    - target: {fileID: 7088539496839198323, guid: 50df01ef60a031640b4faafe2df999ce,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a2c7a8eb181f19740b936e7abb1226e6,
+        type: 2}
+    - target: {fileID: 8044321523661799833, guid: 50df01ef60a031640b4faafe2df999ce,
+        type: 3}
+      propertyPath: parentID
+      value: 50df01ef60a031640b4faafe2df999ce
+      objectReference: {fileID: 0}
     - target: {fileID: 8044321523661799833, guid: 50df01ef60a031640b4faafe2df999ce,
         type: 3}
       propertyPath: foreverID

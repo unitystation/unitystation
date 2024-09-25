@@ -66,8 +66,7 @@ namespace Systems.Clearance
 		public bool HasClearance(GameObject entity)
 		{
 			if (entity == null) return false;
-			var clearanceSource = GrabClearance(entity);
-			return clearanceSource == null ? HasClearance(null as IClearanceSource) : HasClearance(GrabClearance(entity));
+			return GrabClearance(entity).Any(HasClearance) ;
 		}
 
 		/// <summary>
@@ -104,21 +103,23 @@ namespace Systems.Clearance
 			type = newType;
 		}
 
-		public static IClearanceSource GrabClearance(GameObject entity)
+		public static List<IClearanceSource> GrabClearance(GameObject entity)
 		{
-			return GrabClearance(entity, true) as IClearanceSource;
+			return GrabClearance(entity, true).Select(x => (x as IClearanceSource)).ToList();;
 		}
 
-		public static GameObject GrabClearanceObject(GameObject entity)
+		public static List<GameObject> GrabClearanceObject(GameObject entity)
 		{
-			return GrabClearance(entity, false) as GameObject;
+			return GrabClearance(entity, false).Select(x => (x as GameObject)).ToList();
 		}
 
-		private static object GrabClearance(GameObject entity, bool returnIClearanceSource)
+		private static List<object> GrabClearance(GameObject entity, bool returnIClearanceSource)
 		{
+			var ReturningList = new List<object>();
+
 			if (entity == null)
 			{
-				return null;
+				return ReturningList;
 			}
 			var playerStorage = entity.GetComponent<DynamicItemStorage>();
 			if (playerStorage != null)
@@ -130,31 +131,34 @@ namespace Systems.Clearance
 				slotsToSearch.AddRange(playerStorage.GetNamedItemSlots(NamedSlot.id));
 				slotsToSearch.AddRange(playerStorage.GetNamedItemSlots(NamedSlot.belt));
 				slotsToSearch.AddRange(playerStorage.GetNamedItemSlots(NamedSlot.suitStorage));
-				return SearchItemSlotsForClearance(slotsToSearch, returnIClearanceSource);
+				ReturningList.AddRange(SearchItemSlotsForClearance(slotsToSearch, returnIClearanceSource));
 			}
 			var itemStorage = entity.GetComponent<ItemStorage>();
 			if (itemStorage != null)
 			{
-				return SearchItemSlotsForClearance(itemStorage.GetOccupiedSlots(), returnIClearanceSource);
+				ReturningList.AddRange(SearchItemSlotsForClearance(itemStorage.GetOccupiedSlots(), returnIClearanceSource));
 			}
 			if (entity.TryGetComponent<IClearanceSource>(out var clearanceSource))
 			{
-				return returnIClearanceSource ? clearanceSource : entity;
+				ReturningList.Add(returnIClearanceSource ? clearanceSource : entity);
 			}
-			return null;
+			return ReturningList;
 		}
 
-		public static object SearchItemSlotsForClearance(List<ItemSlot> slots, bool returnIClearanceSource)
+		public static List<object> SearchItemSlotsForClearance(List<ItemSlot> slots, bool returnIClearanceSource)
 		{
+
+			List<object> ClearancesToReturn = new List<object>();
+
 			foreach (var slot in slots)
 			{
 				if (slot == null) continue;
 				if (slot.ItemObject != null && slot.ItemObject.TryGetComponent<IClearanceSource>(out var idObject))
 				{
-					return returnIClearanceSource ? idObject : slot.ItemObject;
+					ClearancesToReturn.Add(returnIClearanceSource ? idObject : slot.ItemObject);
 				}
 			}
-			return null;
+			return ClearancesToReturn;
 		}
 	}
 }

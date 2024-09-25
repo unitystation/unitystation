@@ -480,6 +480,24 @@ PrefabInstance:
         were on hand, this suit offers some protection from radiation and biological
         hazards.
       objectReference: {fileID: 0}
+    - target: {fileID: 3495234765619245072, guid: e3a0238ef8323eb4caadcb2e19bbcf41,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: e03ccdcf28802274d92b24fa4df2bfdc,
+        type: 2}
+    - target: {fileID: 3495234765619245072, guid: e3a0238ef8323eb4caadcb2e19bbcf41,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: a581071e52602a147a607eaa50499e7f,
+        type: 2}
+    - target: {fileID: 3495234765619245072, guid: e3a0238ef8323eb4caadcb2e19bbcf41,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: c72053e44104c5c4c961d62345b9fb8f,
+        type: 2}
     - target: {fileID: 3791466462619397166, guid: e3a0238ef8323eb4caadcb2e19bbcf41,
         type: 3}
       propertyPath: m_Sprite
@@ -587,6 +605,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c72053e44104c5c4c961d62345b9fb8f,
         type: 2}
+    - target: {fileID: 7145545764318209269, guid: e3a0238ef8323eb4caadcb2e19bbcf41,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c72053e44104c5c4c961d62345b9fb8f,
+        type: 2}
     - target: {fileID: 7931175119129480439, guid: e3a0238ef8323eb4caadcb2e19bbcf41,
         type: 3}
       propertyPath: clothData
@@ -613,6 +637,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 3f08a538cc465e546b918aaf863a6c5e,
         type: 2}
+    - target: {fileID: 7986767595912221471, guid: e3a0238ef8323eb4caadcb2e19bbcf41,
+        type: 3}
+      propertyPath: parentID
+      value: e3a0238ef8323eb4caadcb2e19bbcf41
+      objectReference: {fileID: 0}
     - target: {fileID: 7986767595912221471, guid: e3a0238ef8323eb4caadcb2e19bbcf41,
         type: 3}
       propertyPath: foreverID

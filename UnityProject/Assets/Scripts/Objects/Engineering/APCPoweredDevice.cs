@@ -20,7 +20,7 @@ using UnityEditor;
 namespace Systems.Electricity
 {
 	[ExecuteInEditMode]
-	public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, IEmpAble, IMultitoolSlaveable, IRightClickable
+	public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, IEmpAble, IMultitoolSlaveable
 	{
 		[SerializeField ]
 		[FormerlySerializedAs("MinimumWorkingVoltage")]
@@ -45,8 +45,18 @@ namespace Systems.Electricity
 
 		public bool IsSelfPowered => isSelfPowered;
 
-		[SerializeField ]
+
+		[SerializeField]
+		[Tooltip("Does this device **not** need to be linked to an APC to pass tests?")]
+		private bool mappingNotNeedToLink = false;
+
+		public bool MappingNotNeedToLink => mappingNotNeedToLink;
+
+		[SerializeField, FormerlySerializedAs("wattusage") ]
 		[Tooltip("Watts consumed per update when running at 240v")]
+		private float initialwattusage = 0.01f;
+
+
 		private float wattusage = 0.01f;
 
 		public float Wattusage
@@ -107,6 +117,7 @@ namespace Systems.Electricity
 
 		private void Awake()
 		{
+			wattusage = initialwattusage;
 #if UNITY_EDITOR
 		disconnectedImg = AssetDatabase.LoadAssetAtPath<Texture>("Assets/Textures/EditorAssets/disconnected.png");
 
@@ -411,13 +422,6 @@ namespace Systems.Electricity
 			isSelfPowered = true;
 			SelfPoweredUpdate();
 			UpdateSynchronisedState(state, DMMath.Prob(5) ? PowerState.OverVoltage : PowerState.On);
-		}
-
-		public RightClickableResult GenerateRightClickOptions()
-		{
-			var result = new RightClickableResult();
-			result.AddAdminElement("[Debug] - Set to overvolt", () => { UpdateSynchronisedState(state, PowerState.OverVoltage); });
-			return result;
 		}
 	}
 

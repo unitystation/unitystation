@@ -26,6 +26,7 @@ namespace Tests.Scenes
 			foreach (var device in RootObjects.ComponentsInChildren<APCPoweredDevice>().NotNull())
 			{
 				if (device.IsSelfPowered) continue;
+				if (device.MappingNotNeedToLink) continue;
 				if (device.GetComponentInChildren<AutoAPCLinker>() != null) continue;
 
 				var deviceLocation = device.transform.NameAndPosition();
@@ -100,10 +101,10 @@ namespace Tests.Scenes
 			foreach (var display in RootObjects.ComponentsInChildren<StatusDisplay>().NotNull())
 			{
 				var position = display.transform.position;
-				foreach (var doorController in display.doorControllers)
+				foreach (var doorController in display.NewdoorControllers)
 				{
 					Report.FailIf(doorController, Is.Null)
-						.AppendLine($"{Scene.name}: \"{display.name}\" at {position} has a null {nameof(DoorController)}.");
+						.AppendLine($"{Scene.name}: \"{display.name}\" at {position} has a null {nameof(DoorMasterController)}.");
 				}
 			}
 

@@ -13,6 +13,12 @@ PrefabInstance:
       propertyPath: initialName
       value: atmospherics technician's gilded skillcape
       objectReference: {fileID: 0}
+    - target: {fileID: 4076353494793676873, guid: 483d868593040d54e8056686427e95d9,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 6b8f1979e2d2a2b4794bd34f1019c0b9,
+        type: 2}
     - target: {fileID: 4363551322980594807, guid: 483d868593040d54e8056686427e95d9,
         type: 3}
       propertyPath: m_Sprite
@@ -107,12 +113,23 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7405394121583430470, guid: 483d868593040d54e8056686427e95d9,
         type: 3}
+      propertyPath: parentID
+      value: 483d868593040d54e8056686427e95d9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7405394121583430470, guid: 483d868593040d54e8056686427e95d9,
+        type: 3}
       propertyPath: foreverID
       value: 33793e0224c07bf43bae5f15795a96f2
       objectReference: {fileID: 0}
     - target: {fileID: 7726374192458120364, guid: 483d868593040d54e8056686427e95d9,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 6b8f1979e2d2a2b4794bd34f1019c0b9,
+        type: 2}
+    - target: {fileID: 7726374192458120364, guid: 483d868593040d54e8056686427e95d9,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 6b8f1979e2d2a2b4794bd34f1019c0b9,
         type: 2}

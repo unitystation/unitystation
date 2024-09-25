@@ -1,4 +1,6 @@
+using System;
 using Mirror;
+using SecureStuff;
 using UnityEngine;
 
 namespace Scripts.Core.Transform
@@ -7,11 +9,21 @@ namespace Scripts.Core.Transform
     public class ScaleSync : NetworkBehaviour
     {
 	    [SyncVar(hook = nameof(SyncScale)), SerializeField]
-	    private Vector3 scaleTransform = new Vector3(1f, 1f, 1f);
+	    [PlayModeOnly] private Vector3 scaleTransform = new Vector3(1f, 1f, 1f);
+
+
 
 	    public override void OnStartClient()
 	    {
-		    SyncScale(transform.localScale, scaleTransform);
+		    if (CustomNetworkManager.IsServer)
+		    {
+			    SyncScale(transform.localScale, transform.localScale);
+		    }
+		    else
+		    {
+			    SyncScale(transform.localScale, scaleTransform);
+		    }
+
 		    base.OnStartClient();
 	    }
 

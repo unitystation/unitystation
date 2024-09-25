@@ -89,6 +89,29 @@ PrefabInstance:
       propertyPath: initialName
       value: lawyer red suit
       objectReference: {fileID: 0}
+    - target: {fileID: 3397443007502491847, guid: 6e6c876b4d53442588042c04884308f2,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: d94967105f1e0264c9d7b91846bed8fa,
+        type: 2}
+    - target: {fileID: 3397443007502491847, guid: 6e6c876b4d53442588042c04884308f2,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 0a5e66d8c91071346b5e470e65013082,
+        type: 2}
+    - target: {fileID: 3397443007502491847, guid: 6e6c876b4d53442588042c04884308f2,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 4d6d3d1b8171c6341a8eab06a360e4a5,
+        type: 2}
+    - target: {fileID: 8174322744686822344, guid: 6e6c876b4d53442588042c04884308f2,
+        type: 3}
+      propertyPath: parentID
+      value: 6e6c876b4d53442588042c04884308f2
+      objectReference: {fileID: 0}
     - target: {fileID: 8174322744686822344, guid: 6e6c876b4d53442588042c04884308f2,
         type: 3}
       propertyPath: foreverID
@@ -113,6 +136,12 @@ PrefabInstance:
     - target: {fileID: 8975007657035133986, guid: 6e6c876b4d53442588042c04884308f2,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 4d6d3d1b8171c6341a8eab06a360e4a5,
+        type: 2}
+    - target: {fileID: 8975007657035133986, guid: 6e6c876b4d53442588042c04884308f2,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 4d6d3d1b8171c6341a8eab06a360e4a5,
         type: 2}

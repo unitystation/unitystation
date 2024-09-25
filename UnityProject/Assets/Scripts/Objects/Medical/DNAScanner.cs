@@ -6,15 +6,15 @@ using UnityEngine;
 using Mirror;
 using Systems.Electricity;
 using HealthV2;
+using SecureStuff;
 
 namespace Objects.Medical
 {
 	public class DNAScanner : NetworkBehaviour, IServerSpawn, IAPCPowerable, IExaminable, IEscapable,
 			ICheckedInteractable<HandApply>, ICheckedInteractable<MouseDrop>
 	{
-		[NonSerialized]
-		public LivingHealthMasterBase occupant;
-		public string statusString;
+		[NonSerialized] public LivingHealthMasterBase occupant;
+		[PlayModeOnly] public string statusString;
 
 		public bool Powered => powered;
 		[SyncVar(hook = nameof(SyncPowered))] private bool powered;

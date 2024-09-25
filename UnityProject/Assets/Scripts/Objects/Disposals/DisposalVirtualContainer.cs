@@ -3,11 +3,13 @@ using System;
 using System.Linq;
 using UnityEngine;
 using AddressableReferences;
+using Core;
 using Mirror;
 using Objects.Atmospherics;
 using Systems.Disposals;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
+using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Disposals
 {
@@ -35,7 +37,7 @@ namespace Objects.Disposals
 		private void Awake()
 		{
 			ObjectContainer = GetComponent<ObjectContainer>();
-			ObjectContainer.ObjectStored += ObjectStored;
+			ObjectContainer.OnObjectStored.AddListener(ObjectStored);
 			gasContainer = GetComponent<GasContainer>();
 #if UNITY_EDITOR
 			struggleChance = 90f;

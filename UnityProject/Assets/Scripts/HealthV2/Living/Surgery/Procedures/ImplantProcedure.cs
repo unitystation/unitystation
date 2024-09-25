@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using HealthV2.Living.Surgery;
 using Items;
 using UnityEngine;
 
@@ -14,9 +13,9 @@ namespace HealthV2
 
 
 		public override void FinnishSurgeryProcedure(BodyPart OnBodyPart, HandApply interaction,
-			Dissectible.PresentProcedure PresentProcedure)
+			PresentProcedure presentProcedure)
 		{
-			base.FinnishSurgeryProcedure(OnBodyPart, interaction, PresentProcedure);
+			base.FinnishSurgeryProcedure(OnBodyPart, interaction, presentProcedure);
 
 			var itemApp = interaction?.HandSlot?.Item.OrNull()?.GetComponent<ItemAttributesV2>();
 
@@ -50,18 +49,18 @@ namespace HealthV2
 				}
 				else
 				{
-					var health = PresentProcedure.isOn.GetComponent<LivingHealthMasterBase>();
+					var health = presentProcedure.isOn.GetComponent<LivingHealthMasterBase>();
 
 					if (itemApp.HasTrait(CommonTraits.Instance.CoreBodyPart))
 					{
 						if (health.HasCoreBodyPart()) return;
 						health.BodyPartStorage.ServerTryTransferFrom(ToTakeFrom);
-						PresentProcedure.isOn.currentlyOn = null;
+						presentProcedure.isOn.currentlyOn = null;
 					}
 					else
 					{
 						health.BodyPartStorage.ServerTryTransferFrom(ToTakeFrom);
-						PresentProcedure.isOn.currentlyOn = null;
+						presentProcedure.isOn.currentlyOn = null;
 					}
 				}
 			}

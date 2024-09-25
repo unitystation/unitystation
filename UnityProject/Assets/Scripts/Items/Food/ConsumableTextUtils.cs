@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Core.Admin.Logs;
 using UnityEngine;
 
 public static class ConsumableTextUtils
@@ -57,5 +58,7 @@ public static class ConsumableTextUtils
 		Chat.AddActionMsgToChat(eater.gameObject,
 			$"{feeder.playerName} forces you to {eatVerb} {consumableName}!",
 			$"{feeder.playerName} forces {eater.playerName} to {eatVerb} {consumableName}!");
+		AdminLogsManager.AddNewLog(feeder.GameObject, $"{feeder.playerName} forces {eater.playerName} to {eatVerb} {consumableName}.",
+			LogCategory.Interaction, Severity.SUSPICOUS);
 	}
 }

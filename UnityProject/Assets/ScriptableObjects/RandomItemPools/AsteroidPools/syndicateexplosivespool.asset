@@ -12,14 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce108c02d022d1940bc023ceca025d81, type: 3}
   m_Name: syndicateexplosivespool
   m_EditorClassIdentifier: 
+  foreverID: 63630105eef061247851d8064fa35725
   pool:
-  - prefab: {fileID: 896716891640034833, guid: 0a45eeafcc7b5164bb139db7bf25c0a8, type: 3}
+  - prefab: {fileID: 6621940020426841340, guid: 55e7ca4ce21d0bb4b816d936646959b7,
+      type: 3}
     maxAmount: 1
     probability: 100
-  - prefab: {fileID: 896716891640034833, guid: 0a45eeafcc7b5164bb139db7bf25c0a8, type: 3}
+  - prefab: {fileID: 5706955965134215350, guid: de353c0b5bf1ce64ab77542efc42ed8e,
+      type: 3}
     maxAmount: 1
     probability: 100
-  - prefab: {fileID: 896716891640034833, guid: 0a45eeafcc7b5164bb139db7bf25c0a8, type: 3}
+  - prefab: {fileID: 342081685440327241, guid: 1f5b619819c7bd44eb9f1f1f45d08e4d, type: 3}
     maxAmount: 1
     probability: 100
   - prefab: {fileID: 8594439505056330043, guid: 838a4732b2dece64497d074b7a700be6,
@@ -30,7 +33,8 @@ MonoBehaviour:
       type: 3}
     maxAmount: 1
     probability: 100
-  - prefab: {fileID: 896716891640034833, guid: 9ca978c567f2e5c4bb8a6be3190717f7, type: 3}
+  - prefab: {fileID: 5706955965134215350, guid: de353c0b5bf1ce64ab77542efc42ed8e,
+      type: 3}
     maxAmount: 1
     probability: 100
   - prefab: {fileID: 8594439505056330043, guid: b28d41c2a9712bc448ba1d43f8554098,

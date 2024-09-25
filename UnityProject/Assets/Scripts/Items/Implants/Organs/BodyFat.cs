@@ -142,7 +142,7 @@ namespace Items.Implants.Organs
 			}
 		}
 
-		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth)
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
 		{
 			base.OnRemovedFromBody(livingHealth);
 			if (RelatedStomach != null)

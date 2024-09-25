@@ -105,6 +105,29 @@ PrefabInstance:
       value: Steel-toed mining boots for mining in hazardous environments. Very good
         at keeping toes uncrushed.
       objectReference: {fileID: 0}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: f62241ea55bbe0341a80d8ea6f7e1fa5,
+        type: 2}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: b92f58aed15a97240b8a0c15de4ba83b,
+        type: 2}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 38032498c09035147a54bb7fd8d6774a,
+        type: 2}
+    - target: {fileID: 4709096474333209969, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: parentID
+      value: 502f496beb9034b9b9c97868e845ed7e
+      objectReference: {fileID: 0}
     - target: {fileID: 4709096474333209969, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
       propertyPath: foreverID
@@ -134,6 +157,12 @@ PrefabInstance:
     - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 38032498c09035147a54bb7fd8d6774a,
+        type: 2}
+    - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 38032498c09035147a54bb7fd8d6774a,
         type: 2}

@@ -10,6 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 591988622948529778, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
+      propertyPath: chargeSprite
+      value: 
+      objectReference: {fileID: 7797330910775930160}
+    - target: {fileID: 591988622948529778, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+        type: 3}
       propertyPath: ProjectileVelocity
       value: 25
       objectReference: {fileID: 0}
@@ -41,6 +46,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3537619260171532079, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
+      propertyPath: parentID
+      value: 7fd11f09765590540b2685a0dfa2b8ea
+      objectReference: {fileID: 0}
+    - target: {fileID: 3537619260171532079, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+        type: 3}
       propertyPath: foreverID
       value: 24461e841e57b3c499e6b3621dd50639
       objectReference: {fileID: 0}
@@ -58,9 +68,31 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 6727335172233747888, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
+      propertyPath: variantIndex
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6727335172233747888, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: d876447fb4123ef4f8f6d359f9206a70,
+      objectReference: {fileID: 11400000, guid: 5ce486b9153da2c4291b95ec0a45876c,
+        type: 2}
+    - target: {fileID: 6727335172233747888, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6727335172233747888, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: e29fa3f36b5f9064aaee8ef24ce87b42,
+        type: 2}
+    - target: {fileID: 6727335172233747888, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 5ce486b9153da2c4291b95ec0a45876c,
         type: 2}
     - target: {fileID: 7509375819178772214, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
@@ -125,17 +157,17 @@ PrefabInstance:
     - target: {fileID: 7615901693902145078, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7615901693902145078, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7615901693902145078, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7615901693902145078, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
@@ -206,7 +238,22 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 34eed17eb5c9ba7448cb9de02730a7dd,
         type: 3}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 5385416323251180298, guid: 7fd11f09765590540b2685a0dfa2b8ea, type: 3}
+    - {fileID: 5301359499372747796, guid: 7fd11f09765590540b2685a0dfa2b8ea, type: 3}
+    - {fileID: 150926433017264813, guid: 7fd11f09765590540b2685a0dfa2b8ea, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7fd11f09765590540b2685a0dfa2b8ea, type: 3}
+--- !u!114 &7797330910775930160 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6727335172233747888, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+    type: 3}
+  m_PrefabInstance: {fileID: 3560628306950959232}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

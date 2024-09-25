@@ -104,6 +104,12 @@ PrefabInstance:
       propertyPath: initialName
       value: lawyer blue suitskirt
       objectReference: {fileID: 0}
+    - target: {fileID: 4451136436454626358, guid: 9e1795c845a20134abc7b0eed8f2f750,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 0f647ed49ddbefa44bc8534cc0d65dc3,
+        type: 2}
     - target: {fileID: 7157694522054977745, guid: 9e1795c845a20134abc7b0eed8f2f750,
         type: 3}
       propertyPath: clothData
@@ -122,12 +128,23 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7175006413050836793, guid: 9e1795c845a20134abc7b0eed8f2f750,
         type: 3}
+      propertyPath: parentID
+      value: 9e1795c845a20134abc7b0eed8f2f750
+      objectReference: {fileID: 0}
+    - target: {fileID: 7175006413050836793, guid: 9e1795c845a20134abc7b0eed8f2f750,
+        type: 3}
       propertyPath: foreverID
       value: 02bec04043bbbea48b517d42f7df674f
       objectReference: {fileID: 0}
     - target: {fileID: 7957324541968138451, guid: 9e1795c845a20134abc7b0eed8f2f750,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 0f647ed49ddbefa44bc8534cc0d65dc3,
+        type: 2}
+    - target: {fileID: 7957324541968138451, guid: 9e1795c845a20134abc7b0eed8f2f750,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 0f647ed49ddbefa44bc8534cc0d65dc3,
         type: 2}

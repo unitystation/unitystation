@@ -107,6 +107,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4451a39337f7b914aae307d527752a8f,
         type: 2}
+    - target: {fileID: 961760323801569489, guid: 0776de7177938cb48a6339d82019bab9,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: e113b73fcd84c9e408ec928cd7453fee,
+        type: 2}
     - target: {fileID: 3902997239584466560, guid: 0776de7177938cb48a6339d82019bab9,
         type: 3}
       propertyPath: clothData
@@ -125,12 +131,23 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5985275912275868638, guid: 0776de7177938cb48a6339d82019bab9,
         type: 3}
+      propertyPath: parentID
+      value: 0776de7177938cb48a6339d82019bab9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5985275912275868638, guid: 0776de7177938cb48a6339d82019bab9,
+        type: 3}
       propertyPath: foreverID
       value: 9925a2229a19c6841bb3103813147f84
       objectReference: {fileID: 0}
     - target: {fileID: 6841916062232906804, guid: 0776de7177938cb48a6339d82019bab9,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e113b73fcd84c9e408ec928cd7453fee,
+        type: 2}
+    - target: {fileID: 6841916062232906804, guid: 0776de7177938cb48a6339d82019bab9,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: e113b73fcd84c9e408ec928cd7453fee,
         type: 2}

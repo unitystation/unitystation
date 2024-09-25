@@ -16,7 +16,7 @@ using UnityEngine;
 
 public class Thruster : MonoPipe
 {
-	public MatrixMove RelatedMove;
+	private MatrixMove RelatedMove;
 	private RegisterTile RegisterTile;
 	public Rotatable Rotatable;
 
@@ -25,12 +25,14 @@ public class Thruster : MonoPipe
 	public float MaxMolesUseda = 1;
 	private float TargetMolesUsed = 0;
 
+
+	public float PrefabThrusterMultiplier = 1;
+
 	public float ThrusterMultiplier = 100;
 
 	public float AThrusterUseMultiplier = 0.072975f;
 
-	[SyncVar]
-	public float ThrustPower;
+	[SyncVar] public float ThrustPower;
 
 	public bool SelfPowered = false;
 
@@ -100,7 +102,7 @@ public class Thruster : MonoPipe
 
 		if (pipeData.SelfSufficient)
 		{
-			ThrustPower = TargetMolesUsed  * ThrusterMultiplier;
+			ThrustPower = TargetMolesUsed  * ThrusterMultiplier * PrefabThrusterMultiplier;
 			AtmosphericsSetUsage(TargetMolesUsed/MaxMolesUseda);
 			return;
 		}
@@ -147,7 +149,7 @@ public class Thruster : MonoPipe
 		}
 
 		// var Ratio = ((Plasma / Oxygen) / (7f / 3f));
-		ThrustPower = TargetMolesUsed * ThrustMultiplier * ThrusterMultiplier;
+		ThrustPower = TargetMolesUsed * ThrustMultiplier * ThrusterMultiplier * PrefabThrusterMultiplier;
 		AtmosphericsSetUsage((TargetMolesUsed* MoreConsumptionMultiplier) / MaxMolesUseda );
 		InletPressure = Mix.GetGasMix().Pressure;
 	}
@@ -238,7 +240,7 @@ public class Thruster : MonoPipe
 
 	    if (pipeData.SelfSufficient)
 	    {
-		    ThrustPower = TargetMolesUsed  * ThrusterMultiplier;
+		    ThrustPower = TargetMolesUsed  * ThrusterMultiplier * PrefabThrusterMultiplier;
 		    AtmosphericsSetUsage(TargetMolesUsed/MaxMolesUseda);
 		    return;
 	    }
@@ -285,7 +287,7 @@ public class Thruster : MonoPipe
 	    }
 
 	    // var Ratio = ((Plasma / Oxygen) / (7f / 3f));
-	    ThrustPower = TargetMolesUsed * ThrustMultiplier * ThrusterMultiplier;
+	    ThrustPower = TargetMolesUsed * ThrustMultiplier * ThrusterMultiplier * PrefabThrusterMultiplier;
 	    var UsedMoles = TargetMolesUsed* MoreConsumptionMultiplier * AThrusterUseMultiplier;
 	    AtmosphericsSetUsage((TargetMolesUsed* MoreConsumptionMultiplier) / MaxMolesUseda );
 	    InletPressure = Mix.GetGasMix().Pressure;

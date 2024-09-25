@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using Core.Database;
 using SecureStuff;
@@ -10,6 +11,7 @@ using UnityEngine;
 using DatabaseAPI;
 using Logs;
 using System.Threading.Tasks;
+using Initialisation;
 using Task = System.Threading.Tasks.Task;
 
 namespace Systems.Character
@@ -41,7 +43,7 @@ namespace Systems.Character
 
 		public void Init()
 		{
-			LoadCharacters();
+			_ = LoadCharacters();
 		}
 
 		private void DetermineActiveCharacter()
@@ -52,7 +54,7 @@ namespace Systems.Character
 				var defaultCharacter = CharacterSheet.GenerateRandomCharacter();
 				Add(defaultCharacter);
 				SetLastCharacterKey(0);
-				SaveCharactersOffline();
+				SaveCharacters();
 				return;
 			}
 
@@ -111,7 +113,7 @@ namespace Systems.Character
 		{
 			if (IsCharacterKeyValid(key) == false)
 			{
-				Loggy.LogWarning($"An attempt was made to fetch a character with an invalid key \"{key}\". Ignoring.");
+				Loggy.LogError($"An attempt was made to fetch a character with an invalid key \"{key}\". Ignoring.");
 				if (Characters.Count > 0)
 				{
 					return default;
@@ -141,16 +143,23 @@ namespace Systems.Character
 
 			_ = PersistenceServer.PutAccountsCharacterByID(Characters[key].Id, Characters[key], PlayerManager.Account.Token);
 			Task.Run(() => UpdateCharacterOnline(Characters[key]));
-			SaveCharacters(false);
+			SaveCharacters();
 		}
 
 		public async Task UpdateCharacterOnline(SubAccountGetCharacterSheet character)
 		{
+			LoadManager.DoInMainThread( () =>
+			{
+				Loggy.Log($"Updating character {character.Id} online.");
+			});
 			ApiResult<SubAccountGetCharacterSheet> response = await PersistenceServer.PutAccountsCharacterByID(character.Id, character, PlayerManager.Account.Token);
 
 			if (!response.IsSuccess)
 			{
-				Loggy.LogError($"Failed to update character online. because: {response.Exception!.Message}");
+				LoadManager.DoInMainThread( ()=>
+				{
+					Loggy.LogError($"Failed to update character online. because: {response.Exception!.Message}");
+				});
 				//TODO: feedback to user
 				return;
 			}
@@ -158,7 +167,7 @@ namespace Systems.Character
 			SubAccountGetCharacterSheet characters = response.Data;
 
 			character.LastUpdated = characters!.LastUpdated;
-			SaveCharacters(false);
+			SaveCharacters();
 		}
 
 
@@ -168,7 +177,11 @@ namespace Systems.Character
 		{
 			if (ValidateCharacterSheet(character) == false)
 			{
-				Loggy.LogError("An attempt was made to add a character but character validation failed. Ignoring.");
+				LoadManager.DoInMainThread( ()=>
+				{
+					Loggy.LogError(
+						"An attempt was made to add a character but character validation failed. Ignoring.");
+				});
 				return;
 			}
 
@@ -181,7 +194,7 @@ namespace Systems.Character
 			};
 			Characters.Add(SubAccountGetcharacter);
 			Task.Run(() => SaveNewCharacterTask(SubAccountGetcharacter));
-			SaveCharacters(false);
+			SaveCharacters();
 		}
 
 
@@ -189,7 +202,11 @@ namespace Systems.Character
 		{
 			if (ValidateCharacterSheet(character.Data) == false)
 			{
-				Loggy.LogError("An attempt was made to add a character but character validation failed. Ignoring.");
+				LoadManager.DoInMainThread( ()=>
+				{
+					Loggy.LogError(
+						"An attempt was made to add a character but character validation failed. Ignoring.");
+				});
 				return;
 			}
 
@@ -199,7 +216,7 @@ namespace Systems.Character
 				Task.Run(() => SaveNewCharacterTask(character));
 			}
 
-			SaveCharacters(false);
+			SaveCharacters();
 		}
 
 
@@ -208,14 +225,17 @@ namespace Systems.Character
 			ApiResult<SubAccountGetCharacterSheet> response = await PersistenceServer.PostMakeAccountsCharacter(character, PlayerManager.Account.Token);
 			if (response.IsSuccess == false)
 			{
-				Loggy.LogError($"Failed to save new character online. because: {response.Exception!.Message}");
+				LoadManager.DoInMainThread(() =>
+				{
+					Loggy.LogError($"Failed to save new character online. because: {response.Exception!.Message}");
+				});
 				return;
 			}
 
 			SubAccountGetCharacterSheet characterSheet = response.Data;
 
 			character.Id = characterSheet!.Id;
-			SaveCharacters(false);
+			SaveCharacters();
 		}
 
 		/// <summary>Remove a <see cref="CharacterSheet"/> associated with the given key.</summary>
@@ -224,14 +244,7 @@ namespace Systems.Character
 		{
 			if (IsCharacterKeyValid(key) == false)
 			{
-				Loggy.LogWarning($"An attempt was made to remove a character with an invalid key \"{key}\". Ignoring.");
-				return;
-			}
-
-			if (key < Characters.Count - 1)
-			{
-				Loggy.LogWarning(
-					$"An attempt was made to remove the last character with key \"{key}\". Ignoring as there should be at least one character.");
+				Loggy.LogError($"An attempt was made to remove a character with an invalid key \"{key}\". Ignoring.");
 				return;
 			}
 
@@ -241,11 +254,9 @@ namespace Systems.Character
 				SetLastCharacterKey(key - 1);
 			}
 
-			var CharacterRemove = Characters[key];
+			var characterRemove = Characters[key];
 			Characters.RemoveAt(key);
-
-			_ = PersistenceServer.DeleteAccountsCharacterByID(CharacterRemove.Id, PlayerManager.Account.Token);
-			SaveCharacters(false);
+			_ = PersistenceServer.DeleteAccountsCharacterByID(characterRemove.Id, PlayerManager.Account.Token);
 		}
 
 		public async Task LoadOnlineCharacters()
@@ -257,20 +268,36 @@ namespace Systems.Character
 
 				if (!accountResponse.IsSuccess)
 				{
-					Loggy.LogError($"Failed to load characters online. because: {accountResponse.Exception!.Message}");
+					LoadManager.DoInMainThread(()=>
+					{
+						Loggy.LogError(
+							$"Failed to load characters online. because: {accountResponse.Exception!.Message}");
+					});
 					throw accountResponse.Exception;
+				}
+				else
+				{
+					LoadManager.DoInMainThread(()=>
+					{
+						var loadedCharacters = new StringBuilder();
+						if (accountResponse.Data != null)
+						{
+							foreach (var sheet in accountResponse.Data.Results)
+							{
+								loadedCharacters.AppendLine($"[CharacterManager/LoadOnlineCharacters] {sheet.Id} - {sheet.Data.Name}");
+							}
+							Loggy.Log($"{loadedCharacters}");
+						}
+					});
 				}
 
 				AccountGetCharacterSheets characters = accountResponse.Data;
-
 				Characters.AddRange(characters!.Results);
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError(e.ToString());
+				LoadManager.DoInMainThread( ()=> Loggy.LogError(e.ToString()) );
 			}
-
-			SaveCharacters(false);
 		}
 
 
@@ -278,191 +305,68 @@ namespace Systems.Character
 		public async Task LoadCharacters()
 		{
 			Characters.Clear();
-			if (AccessFile.Exists(OfflineStoragePath, userPersistent: true) == false)
+			await LoadOnlineCharacters();
+			if (Characters.Count == 0 && AccessFile.Exists(OfflineStoragePath, userPersistent: true))
 			{
-				await LoadOnlineCharacters();
-			}
-			else
-			{
-				string json = AccessFile.Load(OfflineStoragePath, userPersistent: true);
-				var old = false;
 				List<SubAccountGetCharacterSheet> characters = new List<SubAccountGetCharacterSheet>();
-				try
-				{
-					characters = JsonConvert.DeserializeObject<List<SubAccountGetCharacterSheet>>(json);
-					if (characters.Count == 0 || characters[0].Data == null)
-					{
-						old = true;
-						characters.Clear();
-					}
-				}
-				catch (Exception e)
-				{
-					Loggy.LogError("OLD Characters detected porting");
-					old = true;
-				}
-
-				if (old)
-				{
-					var OLDCharacters = JsonConvert.DeserializeObject<List<CharacterSheet>>(json);
-
-					foreach (var OLDCharacter in OLDCharacters)
-					{
-						characters.Add(new SubAccountGetCharacterSheet()
-						{
-							Account = PlayerManager.Account.Id,
-							ForkCompatibility = CharacterSheetForkCompatibility,
-							CharacterSheetVersion = CharacterSheetVersion,
-							Data = OLDCharacter
-						});
-					}
-
-				}
-				else
-				{
-					characters = JsonConvert.DeserializeObject<List<SubAccountGetCharacterSheet>>(json);
-				}
-
-
+				LoadOfflineCharacterSheets(ref characters);
 				if (characters != null)
 				{
 					foreach (var character in characters)
 					{
 						Add(character, false);
 					}
-
-					ApiResult<AccountGetCharacterSheets> accountResponse = null;
-
-
-					try
-					{
-						accountResponse = await PersistenceServer.GetAccountsCharacters(CharacterSheetForkCompatibility, CharacterSheetVersion, PlayerManager.Account.Token);
-					}
-					catch (Exception e)
-					{
-						Loggy.LogError(e.ToString());
-					}
-
-
-
-					if (accountResponse != null)
-					{
-						List<SubAccountGetCharacterSheet> MissingOnline = new List<SubAccountGetCharacterSheet>();
-						List<SubAccountGetCharacterSheet> MissingLocal = new List<SubAccountGetCharacterSheet>();
-
-						List<SubAccountGetCharacterSheet> UpdateOnline = new List<SubAccountGetCharacterSheet>();
-						List<ToUpdateLocal> UpdateLocal = new List<ToUpdateLocal>();
-
-						foreach (var LocalCharacter in Characters)
-						{
-							bool OnlineHasNotLocal = true;
-							foreach (var OnlineCharacter in accountResponse.Data.Results)
-							{
-								if (OnlineCharacter.Id == LocalCharacter.Id)
-								{
-									OnlineHasNotLocal = false;
-
-									if (OnlineCharacter.LastUpdated > LocalCharacter.LastUpdated)
-									{
-										UpdateLocal.Add(new ToUpdateLocal()
-										{
-											local =  LocalCharacter,
-											online = OnlineCharacter
-										});
-									}
-									if (OnlineCharacter.LastUpdated < LocalCharacter.LastUpdated)
-									{
-										UpdateOnline.Add(LocalCharacter);
-									}
-								}
-							}
-
-							if (OnlineHasNotLocal)
-							{
-								MissingOnline.Add(LocalCharacter);
-							}
-						}
-
-						foreach (var OnlineCharacter in accountResponse.Data.Results)
-						{
-							bool LocalHasNotOnline = true;
-							foreach (var LocalCharacter in Characters)
-							{
-								if (OnlineCharacter.Id == LocalCharacter.Id)
-								{
-									LocalHasNotOnline = false;
-									//TODO is Missing date modified field
-								}
-							}
-
-							if (LocalHasNotOnline)
-							{
-								MissingLocal.Add(OnlineCharacter);
-							}
-						}
-
-						foreach (var character in MissingLocal)
-						{
-							Add(character, false);
-						}
-
-						foreach (var character in MissingOnline)
-						{
-							await SaveNewCharacterTask(character);
-						}
-
-						foreach (var character in UpdateOnline)
-						{
-							await PersistenceServer.PutAccountsCharacterByID(character.Id, character, PlayerManager.Account.Token);
-						}
-
-						foreach (var character in UpdateLocal)
-						{
-							character.local.Data = character.online.Data;
-							character.local.ForkCompatibility = character.online.ForkCompatibility;
-							character.local.Account = character.online.Account;
-							character.local.Id = character.online.Id;
-							character.local.CharacterSheetVersion = character.online.CharacterSheetVersion;
-							character.local.LastUpdated = character.online.LastUpdated;
-						}
-						SaveCharacters(false);
-					}
 				}
 			}
-
 			DetermineActiveCharacter();
 		}
 
-		public struct ToUpdateLocal
+		private void LoadOfflineCharacterSheets(ref List<SubAccountGetCharacterSheet> characters)
 		{
-			public SubAccountGetCharacterSheet online;
-			public SubAccountGetCharacterSheet local;
-
-		}
-
-		/// <summary>Save characters to both the cloud and offline storage.</summary>
-		public void SaveCharacters(bool Online = true)
-		{
-			SaveCharactersOffline();
-			if (Online)
+			string json = AccessFile.Load(OfflineStoragePath, userPersistent: true);
+			var old = false;
+			try
 			{
-				SaveCharactersOnline();
+				characters = JsonConvert.DeserializeObject<List<SubAccountGetCharacterSheet>>(json);
+				if (characters.Count == 0 || characters[0].Data == null)
+				{
+					old = true;
+					characters.Clear();
+				}
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError("OLD Characters detected porting");
+				old = true;
+			}
+
+			if (old)
+			{
+				PortOldCharacterSheetsToNewVersion(ref characters, json);
+			}
+			else
+			{
+				characters = JsonConvert.DeserializeObject<List<SubAccountGetCharacterSheet>>(json);
 			}
 		}
 
-		/// <summary>Save characters to the cloud.</summary>
-		public void SaveCharactersOnline()
+		private void PortOldCharacterSheetsToNewVersion(ref List<SubAccountGetCharacterSheet> characters, string json)
 		{
-			//TODO
-			// foreach (var Character in Characters)
-			// {
-			//
-			// 	_ = PlayerManager.Account.SaveCharacters(Characters);
-			// }
+			var oldCharacters = JsonConvert.DeserializeObject<List<CharacterSheet>>(json);
+			foreach (var oldCharacter in oldCharacters)
+			{
+				characters.Add(new SubAccountGetCharacterSheet()
+				{
+					Account = PlayerManager.Account.Id,
+					ForkCompatibility = CharacterSheetForkCompatibility,
+					CharacterSheetVersion = CharacterSheetVersion,
+					Data = oldCharacter
+				});
+			}
 		}
 
-		/// <summary>Save characters to Unity's persistent data folder.</summary>
-		public void SaveCharactersOffline()
+		/// <summary>Save characters to both the cloud and offline storage.</summary>
+		public void SaveCharacters()
 		{
 			var settings = new JsonSerializerSettings
 			{
@@ -498,6 +402,13 @@ namespace Systems.Character
 			}
 
 			return true;
+		}
+
+		public struct ToUpdateLocal
+		{
+			public SubAccountGetCharacterSheet online;
+			public SubAccountGetCharacterSheet local;
+
 		}
 	}
 }

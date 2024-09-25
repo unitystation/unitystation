@@ -114,6 +114,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A tasteful grey jumpskirt that reminds you of the good old days.
       objectReference: {fileID: 0}
+    - target: {fileID: 3397443007502491847, guid: 5a4f48d58142749de92013eb1e1d0523,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: bc47f6dae16d46e48a99df9b2325ff71,
+        type: 2}
+    - target: {fileID: 8174322744686822344, guid: 5a4f48d58142749de92013eb1e1d0523,
+        type: 3}
+      propertyPath: parentID
+      value: 5a4f48d58142749de92013eb1e1d0523
+      objectReference: {fileID: 0}
     - target: {fileID: 8174322744686822344, guid: 5a4f48d58142749de92013eb1e1d0523,
         type: 3}
       propertyPath: foreverID
@@ -143,6 +154,12 @@ PrefabInstance:
     - target: {fileID: 8975007657035133986, guid: 5a4f48d58142749de92013eb1e1d0523,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: bc47f6dae16d46e48a99df9b2325ff71,
+        type: 2}
+    - target: {fileID: 8975007657035133986, guid: 5a4f48d58142749de92013eb1e1d0523,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: bc47f6dae16d46e48a99df9b2325ff71,
         type: 2}
