@@ -7,11 +7,11 @@ public class ReflectionGolfInput
 {
 	private GUI_ReflectionGolf gui = null;
 
-	private ReflectionGolfModule miniGameModule => gui.MiniGameModule;
-	private float CellSize => miniGameModule.ScaleFactor;
-	private bool IsGameActive => miniGameModule.MiniGameActive;
+	private ReflectionGolfModule MiniGameModule => gui.MiniGameModule;
+	private float CellSize => MiniGameModule.ScaleFactor;
+	private bool IsGameActive => MiniGameModule.MiniGameActive;
 
-	private ReflectionGolfLevel Level => miniGameModule.CurrentLevel;
+	private ReflectionGolfLevel Level => MiniGameModule.CurrentLevel;
 
 	private readonly RectTransform gridTransform = null;
 
@@ -118,28 +118,28 @@ public class ReflectionGolfInput
 
 		Level.LevelData[indexOld] = oldCellData;
 
-		miniGameModule.UpdateCellsData(miniGameModule.ExpectedCellCount + lineLength);
-		miniGameModule.InsertNewMove(previousGridClick, clickPosition);
+		MiniGameModule.UpdateCellsData(MiniGameModule.ExpectedCellCount + lineLength);
+		MiniGameModule.InsertNewMove(previousGridClick, clickPosition);
 
-		if (CustomNetworkManager.IsServer) miniGameModule.SyncDataToClients(miniGameModule.PreviousMoves, Level.Width, Level.LevelData);
-		else miniGameModule.CmdSyncDataToSever(miniGameModule.PreviousMoves, Level.Width, Level.LevelData);
+		if (CustomNetworkManager.IsServer) MiniGameModule.SyncDataToClients(MiniGameModule.PreviousMoves, Level.Width, Level.LevelData);
+		else MiniGameModule.CmdSyncDataToSever(MiniGameModule.PreviousMoves, Level.Width, Level.LevelData);
 		
 	}
 
 	internal void OnUndo()
 	{
-		if (miniGameModule.PreviousMoves[0].numberLocation == Vector2Int.left || miniGameModule.PreviousMoves[0].clickLocation == Vector2Int.left) return;
+		if (MiniGameModule.PreviousMoves[0].numberLocation == Vector2Int.left || MiniGameModule.PreviousMoves[0].clickLocation == Vector2Int.left) return;
 
-		UndoLine(miniGameModule.PreviousMoves[0]); //Actually performs the Undo action on the grid
+		UndoLine(MiniGameModule.PreviousMoves[0]); //Actually performs the Undo action on the grid
 
 		UndoInformation invalidEntry = new UndoInformation(Vector2Int.left, Vector2Int.left);
 
-		miniGameModule.PreviousMoves[0] = miniGameModule.PreviousMoves[1]; //Updates the undo array to remove the top most entry
-		miniGameModule.PreviousMoves[1] = miniGameModule.PreviousMoves[2];
-		miniGameModule.PreviousMoves[2] = invalidEntry;
+		MiniGameModule.PreviousMoves[0] = MiniGameModule.PreviousMoves[1]; //Updates the undo array to remove the top most entry
+		MiniGameModule.PreviousMoves[1] = MiniGameModule.PreviousMoves[2];
+		MiniGameModule.PreviousMoves[2] = invalidEntry;
 
-		if (CustomNetworkManager.IsServer) miniGameModule.SyncDataToClients(miniGameModule.PreviousMoves, Level.Width, Level.LevelData); //Syncs the new grid data and undos to all clients
-		else miniGameModule.CmdSyncDataToSever(miniGameModule.PreviousMoves, Level.Width, Level.LevelData);
+		if (CustomNetworkManager.IsServer) MiniGameModule.SyncDataToClients(MiniGameModule.PreviousMoves, Level.Width, Level.LevelData); //Syncs the new grid data and undos to all clients
+		else MiniGameModule.CmdSyncDataToSever(MiniGameModule.PreviousMoves, Level.Width, Level.LevelData);
 
 		gui.UpdateGui();
 	}
@@ -181,7 +181,7 @@ public class ReflectionGolfInput
 
 		}
 
-		miniGameModule.UpdateCellsData(miniGameModule.ExpectedCellCount - lineLength);
+		MiniGameModule.UpdateCellsData(MiniGameModule.ExpectedCellCount - lineLength);
 	}
 
 	private int ExtendNumber(Vector2Int extensionDirection)
@@ -207,7 +207,7 @@ public class ReflectionGolfInput
 				if (priorGridPosition == Level.GoalLocation) //Line terminated in a goal
 				{
 					puzzleFailed = false;
-					miniGameModule.OnWinPuzzle();
+					MiniGameModule.OnWinPuzzle();
 				}
 				if (lineLength == expectedLineLength)
 				{
@@ -229,7 +229,7 @@ public class ReflectionGolfInput
 			lineLength++;
 		}
 
-		if(puzzleFailed) miniGameModule.OnFailPuzzle(gui);
+		if(puzzleFailed) MiniGameModule.OnFailPuzzle(gui);
 
 		return lineLength;
 	}

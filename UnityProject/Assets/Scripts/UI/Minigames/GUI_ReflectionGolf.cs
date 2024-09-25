@@ -57,12 +57,14 @@ namespace UI.Minigames
 
 		public void Awake()
 		{
-			StartCoroutine(WaitForProvider());
+			StartCoroutine(WaitForProvider());		
 		}
 
 		public override void OnEnable()
 		{
 			hasBeenClosed = false;
+			UpdateGui();
+
 			base.OnEnable();
 		}
 
@@ -247,7 +249,7 @@ namespace UI.Minigames
 
 		public void OnFail()
 		{
-			puzzleCompleteImage.sprite = completeLightSprites[2];
+			puzzleCompleteImage.sprite = completeLightSprites[0];
 		}
 
 		private IEnumerator WaitToClose()
@@ -261,8 +263,6 @@ namespace UI.Minigames
 		{
 			if (hasBeenClosed == true) return;
 			hasBeenClosed = true;
-
-			MiniGameModule.OnGuiUpdate -= UpdateGui;
 
 			CloseTab();
 		}

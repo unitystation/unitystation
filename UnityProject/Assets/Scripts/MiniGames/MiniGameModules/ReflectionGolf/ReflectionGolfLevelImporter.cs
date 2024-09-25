@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace MiniGames.MiniGameModules
 {
-	public class ReflectionGolfLevelImporter
+	public static class ReflectionGolfLevelImporter
 	{
 		private const int LOWER_BIAS = 6;
 		private const int HIGHER_BIAS = 4;
