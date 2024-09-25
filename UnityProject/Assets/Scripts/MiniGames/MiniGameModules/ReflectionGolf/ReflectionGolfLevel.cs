@@ -59,7 +59,7 @@ namespace MiniGames.MiniGameModules
 
 			if (AccessFile.Exists(path) == false)
 			{
-				Loggy.LogError($"MiniGames/RelfectionGolfLevel.cs at line 61. The specified file path does not exist! {path}");
+				Loggy.LogError($"[ReflectionGolfLevel/LoadLevelFromFile] - Tried loading level at path: {path}, but file did not exist!");
 				return;
 			}
 

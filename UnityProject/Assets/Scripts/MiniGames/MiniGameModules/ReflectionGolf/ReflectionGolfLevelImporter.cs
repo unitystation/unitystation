@@ -57,7 +57,7 @@ namespace MiniGames.MiniGameModules
 
 			if (AccessFile.Exists(path) == false)
 			{
-				Loggy.LogError($"MiniGames/MiniGameLevelImporter.cs at line 79. The specified file path does not exist! {path}");
+				Loggy.LogError($"[ReflectionGolfLevelImporter/Import] - Tried loading config file at path: {path}, but file did not exist!");
 				return false;
 			}
 
