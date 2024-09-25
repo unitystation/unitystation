@@ -63,7 +63,7 @@ namespace UI.Minigames
 		public override void OnEnable()
 		{
 			hasBeenClosed = false;
-			UpdateGui();
+			if(Provider != null) UpdateGui();
 
 			base.OnEnable();
 		}
