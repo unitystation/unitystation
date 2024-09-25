@@ -8,10 +8,10 @@ public class ReflectionGolfInput
 	private GUI_ReflectionGolf gui = null;
 
 	private ReflectionGolfModule miniGameModule => gui.MiniGameModule;
-	private float cellSize => miniGameModule.ScaleFactor;
-	private bool isGameActive => miniGameModule.MiniGameActive;
+	private float CellSize => miniGameModule.ScaleFactor;
+	private bool IsGameActive => miniGameModule.MiniGameActive;
 
-	private ReflectionGolfLevel level => miniGameModule.CurrentLevel;
+	private ReflectionGolfLevel Level => miniGameModule.CurrentLevel;
 
 	private readonly RectTransform gridTransform = null;
 
@@ -27,7 +27,7 @@ public class ReflectionGolfInput
 		gridTransform = transform;
 	}
 
-	public void AttachGUI(GUI_ReflectionGolf module) //Each GUI instance has its own input controller object, but each GolfModule can have multiple GUIs. More reliable to use the GUI here instead of the Module as a result
+	public void AttachGui(GUI_ReflectionGolf module) //Each GUI instance has its own input controller object, but each GolfModule can have multiple GUIs. More reliable to use the GUI here instead of the Module as a result
 	{
 		gui = module;
 		Initialised = true;
@@ -35,28 +35,28 @@ public class ReflectionGolfInput
 
 	public void OnGridPress(Vector3 mousePosition, Vector3 _uiPosition)
 	{
-		if (Initialised == false || isGameActive == false) return;
+		if (Initialised == false || IsGameActive == false) return;
 
 		float uiscale =  UIManager.Instance.Scaler.scaleFactor;
-		float _cellSize = cellSize * uiscale;
+		float _cellSize = CellSize * uiscale;
 
 		Vector2 pos = (mousePosition - _uiPosition).To2() - gridTransform.anchoredPosition*uiscale + new Vector2(300 * uiscale, 300 * uiscale); //To local coordinate space
 
 
-		if (level.Width < level.Height) pos.x = pos.x - ((level.Height - level.Width) * _cellSize / 2);
-		else if(level.Height < level.Width) pos.y = pos.y - ((level.Width - level.Height) * _cellSize / 2);
+		if (Level.Width < Level.Height) pos.x = pos.x - ((Level.Height - Level.Width) * _cellSize / 2);
+		else if(Level.Height < Level.Width) pos.y = pos.y - ((Level.Width - Level.Height) * _cellSize / 2);
 
 		Vector2Int clickedGridPosition = new Vector2Int((int)(pos.x / _cellSize), (int)(pos.y / _cellSize));
 
 
-		if (pos.x < 0 || pos.y < 0 || clickedGridPosition.x < 0 || clickedGridPosition.x > level.Width - 1 || clickedGridPosition.y < 0 || clickedGridPosition.y > level.Height - 1)
+		if (pos.x < 0 || pos.y < 0 || clickedGridPosition.x < 0 || clickedGridPosition.x > Level.Width - 1 || clickedGridPosition.y < 0 || clickedGridPosition.y > Level.Height - 1)
 		{
 			OnFalseMove();
 			gui.UpdateCellSpriteColour();	
 			return;
 		}
 
-		if (level.LevelData[clickedGridPosition.x + clickedGridPosition.y*level.Width].isNumber == true) OnNumberClick(clickedGridPosition);
+		if (Level.LevelData[clickedGridPosition.x + clickedGridPosition.y*Level.Width].isNumber == true) OnNumberClick(clickedGridPosition);
 		else OnNonNumberClick(clickedGridPosition);
 
 		gui.UpdateCellSpriteColour();
@@ -66,17 +66,17 @@ public class ReflectionGolfInput
 	{
 		if (previousGridClick != Vector2Int.left && previousGridClick != clickPosition)
 		{
-			CellData oldCellData = level.LevelData[previousGridClick.x + previousGridClick.y*level.Width];
+			CellData oldCellData = Level.LevelData[previousGridClick.x + previousGridClick.y*Level.Width];
 
 			if (oldCellData.isTouched == true) oldCellData.isTouched = false;
 	
-			level.LevelData[previousGridClick.x + previousGridClick.y * level.Width] = oldCellData;		
+			Level.LevelData[previousGridClick.x + previousGridClick.y * Level.Width] = oldCellData;		
 		}
 
-		CellData newCellData = level.LevelData[clickPosition.x + clickPosition.y*level.Width];
+		CellData newCellData = Level.LevelData[clickPosition.x + clickPosition.y*Level.Width];
 		newCellData.isTouched = !newCellData.isTouched;
 
-		level.LevelData[clickPosition.x + clickPosition.y*level.Width] = newCellData;
+		Level.LevelData[clickPosition.x + clickPosition.y*Level.Width] = newCellData;
 
 		previousGridClick = clickPosition;
 	}
@@ -89,8 +89,8 @@ public class ReflectionGolfInput
 			return;
 		}
 
-		int indexOld = previousGridClick.x + previousGridClick.y * level.Width;
-		CellData oldCellData = level.LevelData[indexOld];
+		int indexOld = previousGridClick.x + previousGridClick.y * Level.Width;
+		CellData oldCellData = Level.LevelData[indexOld];
 
 		if (oldCellData.isNumber == false || oldCellData.isTouched == false)
 		{
@@ -98,7 +98,7 @@ public class ReflectionGolfInput
 			return; //Unless we enabled a number with our last click, do nothing
 		}
 
-		level.LevelData[indexOld] = oldCellData;
+		Level.LevelData[indexOld] = oldCellData;
 		
 		Vector2Int extensionDirection;
 
@@ -109,20 +109,20 @@ public class ReflectionGolfInput
 
 		if (lineLength == 0)
 		{
-			level.LevelData[indexOld] = oldCellData;
+			Level.LevelData[indexOld] = oldCellData;
 			return;
 		}
 		
 		oldCellData.isNumber = false;
 		oldCellData.isTouched = false; //Disable a number after it has moved
 
-		level.LevelData[indexOld] = oldCellData;
+		Level.LevelData[indexOld] = oldCellData;
 
 		miniGameModule.UpdateCellsData(miniGameModule.ExpectedCellCount + lineLength);
 		miniGameModule.InsertNewMove(previousGridClick, clickPosition);
 
-		if (CustomNetworkManager.IsServer) miniGameModule.SyncDataToClients(miniGameModule.PreviousMoves, level.Width, level.LevelData);
-		else miniGameModule.CmdSyncDataToSever(miniGameModule.PreviousMoves, level.Width, level.LevelData);
+		if (CustomNetworkManager.IsServer) miniGameModule.SyncDataToClients(miniGameModule.PreviousMoves, Level.Width, Level.LevelData);
+		else miniGameModule.CmdSyncDataToSever(miniGameModule.PreviousMoves, Level.Width, Level.LevelData);
 		
 	}
 
@@ -138,17 +138,17 @@ public class ReflectionGolfInput
 		miniGameModule.PreviousMoves[1] = miniGameModule.PreviousMoves[2];
 		miniGameModule.PreviousMoves[2] = invalidEntry;
 
-		if (CustomNetworkManager.IsServer) miniGameModule.SyncDataToClients(miniGameModule.PreviousMoves, level.Width, level.LevelData); //Syncs the new grid data and undos to all clients
-		else miniGameModule.CmdSyncDataToSever(miniGameModule.PreviousMoves, level.Width, level.LevelData);
+		if (CustomNetworkManager.IsServer) miniGameModule.SyncDataToClients(miniGameModule.PreviousMoves, Level.Width, Level.LevelData); //Syncs the new grid data and undos to all clients
+		else miniGameModule.CmdSyncDataToSever(miniGameModule.PreviousMoves, Level.Width, Level.LevelData);
 
-		gui.UpdateGUI();
+		gui.UpdateGui();
 	}
 
 	private void UndoLine(UndoInformation undo)
 	{
-		int numberIndex = undo.numberLocation.x + undo.numberLocation.y * level.Width;
-		level.LevelData[numberIndex].isNumber = true;
-		level.LevelData[numberIndex].isTouched = false;
+		int numberIndex = undo.numberLocation.x + undo.numberLocation.y * Level.Width;
+		Level.LevelData[numberIndex].isNumber = true;
+		Level.LevelData[numberIndex].isTouched = false;
 
 		Vector2Int extensionDirection;
 		Vector2Int clickPosition = undo.clickLocation;
@@ -162,19 +162,19 @@ public class ReflectionGolfInput
 		for (int i = 0; i < MAX_RECURSION; i++)
 		{
 			Vector2Int newGridPosition = numPos + (extensionDirection * (i + 1));
-			int indexNew = newGridPosition.x + newGridPosition.y * level.Width;
-			int oldVal = level.LevelData[indexNew].value;
+			int indexNew = newGridPosition.x + newGridPosition.y * Level.Width;
+			int oldVal = Level.LevelData[indexNew].value;
 
-			level.LevelData[indexNew].value = (int)SpecialCellTypes.None;
-			level.LevelData[indexNew].currentRotation = 0;
-			level.LevelData[indexNew].isNumber = false;
+			Level.LevelData[indexNew].value = (int)SpecialCellTypes.None;
+			Level.LevelData[indexNew].currentRotation = 0;
+			Level.LevelData[indexNew].isNumber = false;
 
 			lineLength++;
 
 			if (oldVal >= (int)SpecialCellTypes.TerminatedArrow || i == MAX_RECURSION - 1)
 			{
-				int goalIndex = level.GoalLocation.x + level.GoalLocation.y * level.Width;
-				level.LevelData[goalIndex].value = (int)SpecialCellTypes.Goal;
+				int goalIndex = Level.GoalLocation.x + Level.GoalLocation.y * Level.Width;
+				Level.LevelData[goalIndex].value = (int)SpecialCellTypes.Goal;
 
 				break;
 			}
@@ -193,38 +193,38 @@ public class ReflectionGolfInput
 		for (int i = 0; i < MAX_RECURSION; i++)
 		{
 			Vector2Int newGridPosition = previousGridClick + (extensionDirection * (i + 1));
-			int indexNew = newGridPosition.x + newGridPosition.y * level.Width;
+			int indexNew = newGridPosition.x + newGridPosition.y * Level.Width;
 
-			bool outOfBounds = newGridPosition.x < 0 || newGridPosition.x > level.Width - 1 || newGridPosition.y < 0 || newGridPosition.y > level.Height - 1;
+			bool outOfBounds = newGridPosition.x < 0 || newGridPosition.x > Level.Width - 1 || newGridPosition.y < 0 || newGridPosition.y > Level.Height - 1;
 
-			if (outOfBounds || level.LevelData[indexNew].value > (int)SpecialCellTypes.Goal || i == MAX_RECURSION - 1)
+			if (outOfBounds || Level.LevelData[indexNew].value > (int)SpecialCellTypes.Goal || i == MAX_RECURSION - 1)
 			{
 				if (i == 0) break; //If this is the first segment, dont create any sort of line
 
 				Vector2Int priorGridPosition = previousGridClick + (extensionDirection * i);
-				int indexPrior = priorGridPosition.x + priorGridPosition.y * level.Width;
+				int indexPrior = priorGridPosition.x + priorGridPosition.y * Level.Width;
 
-				if (priorGridPosition == level.GoalLocation) //Line terminated in a goal
+				if (priorGridPosition == Level.GoalLocation) //Line terminated in a goal
 				{
 					puzzleFailed = false;
 					miniGameModule.OnWinPuzzle();
 				}
 				if (lineLength == expectedLineLength)
 				{
-					level.LevelData[indexPrior].value = (short)(SpecialCellTypes.ValidArrow + expectedLineLength - 1);
-					level.LevelData[indexPrior].isNumber = true;
+					Level.LevelData[indexPrior].value = (short)(SpecialCellTypes.ValidArrow + expectedLineLength - 1);
+					Level.LevelData[indexPrior].isNumber = true;
 					break;
 				}
-				level.LevelData[indexPrior].value = (short)SpecialCellTypes.TerminatedArrow;
+				Level.LevelData[indexPrior].value = (short)SpecialCellTypes.TerminatedArrow;
 
 				break;
 			}
 
-			if (level.LevelData[indexNew].value == (int)SpecialCellTypes.Goal) puzzleFailed = true;
+			if (Level.LevelData[indexNew].value == (int)SpecialCellTypes.Goal) puzzleFailed = true;
 
-			level.LevelData[indexNew].value = (int)SpecialCellTypes.Line;
-			level.LevelData[indexNew].currentRotation = Vector2IntToDirectionShort(extensionDirection);
-			level.LevelData[indexNew].isNumber = false;
+			Level.LevelData[indexNew].value = (int)SpecialCellTypes.Line;
+			Level.LevelData[indexNew].currentRotation = Vector2IntToDirectionShort(extensionDirection);
+			Level.LevelData[indexNew].isNumber = false;
 
 			lineLength++;
 		}
@@ -238,7 +238,7 @@ public class ReflectionGolfInput
 	{
 		if (previousGridClick == Vector2Int.left) return; //Last move was also invalid
 
-		level.LevelData[previousGridClick.x + previousGridClick.y*level.Width].isTouched = false; //Deselect any select numbers if clicked out of bounds
+		Level.LevelData[previousGridClick.x + previousGridClick.y*Level.Width].isTouched = false; //Deselect any select numbers if clicked out of bounds
 
 		previousGridClick = Vector2Int.left;
 	}
@@ -251,7 +251,7 @@ public class ReflectionGolfInput
 
 	private int GetExpectedLineLength(Vector2Int numberLocation)
 	{
-		int val = level.LevelData[numberLocation.x + numberLocation.y*level.Width].value;
+		int val = Level.LevelData[numberLocation.x + numberLocation.y*Level.Width].value;
 
 		if (val == (int)SpecialCellTypes.Wall || val == (int)SpecialCellTypes.Line || val == (int)SpecialCellTypes.TerminatedArrow || val == (int)SpecialCellTypes.ExpendedArrow) return 0;
 

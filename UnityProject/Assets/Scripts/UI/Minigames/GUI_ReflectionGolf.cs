@@ -74,17 +74,17 @@ namespace UI.Minigames
 			}
 
 			MiniGameModule = Provider.GetComponent<ReflectionGolfModule>();
-			MiniGameModule.OnGuiUpdate += UpdateGUI;
+			MiniGameModule.OnGuiUpdate += UpdateGui;
 			MiniGameModule.GetTracker().OnGameWon.AddListener(OnWin);
 
-			UpdateGUI();
+			UpdateGui();
 
-			if (CustomNetworkManager.IsServer == false) OnTabOpened.AddListener(UpdateGUIForPeepers);
+			if (CustomNetworkManager.IsServer == false) OnTabOpened.AddListener(UpdateGuiForPeepers);
 		}	
 
-		public void UpdateGUI() //Client side
+		public void UpdateGui() //Client side
 		{
-			if(gridInput.Initialised == false) gridInput.AttachGUI(this);
+			if(gridInput.Initialised == false) gridInput.AttachGui(this);
 
 			int lightCount = MiniGameModule.FetchUndoCount();
 			foreach(var light in UndoLights)
@@ -96,7 +96,7 @@ namespace UI.Minigames
 			UpdateCellSprites();
 		}
 
-		public void UpdateGUIForPeepers(PlayerInfo notUsed)
+		public void UpdateGuiForPeepers(PlayerInfo notUsed)
 		{
 			if (!isUpdating)
 			{
@@ -108,7 +108,7 @@ namespace UI.Minigames
 		private IEnumerator WaitForClient()
 		{
 			yield return new WaitForSeconds(0.2f);
-			UpdateGUI();
+			UpdateGui();
 
 			isUpdating = false;
 		}
@@ -122,7 +122,7 @@ namespace UI.Minigames
 		{
 			if (MiniGameModule == null) return;
 			if (CustomNetworkManager.IsServer == false) MiniGameModule.CmdReloadLevel();
-			else MiniGameModule.BeginLevel();	
+			else MiniGameModule.RestartLevel();	
 		}
 
 		#endregion
@@ -262,7 +262,7 @@ namespace UI.Minigames
 			if (hasBeenClosed == true) return;
 			hasBeenClosed = true;
 
-			MiniGameModule.OnGuiUpdate -= UpdateGUI;
+			MiniGameModule.OnGuiUpdate -= UpdateGui;
 
 			CloseTab();
 		}

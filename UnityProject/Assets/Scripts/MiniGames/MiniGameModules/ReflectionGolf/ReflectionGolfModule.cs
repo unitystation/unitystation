@@ -1,7 +1,6 @@
 using UI.Minigames;
 using UnityEngine;
 using System;
-using ScriptableObjects.MiniGames;
 using Mirror;
 
 namespace MiniGames.MiniGameModules
@@ -23,13 +22,10 @@ namespace MiniGames.MiniGameModules
 
 		public float ScaleFactor => ReflectionGolfLevel.DISPLAY_WIDTH / Math.Max(CurrentLevel.Width, CurrentLevel.Height);
 
-		private string currentLevelName = "Easy 5x5 A";
-
-
 		[Header("Settings"), SerializeField]
 		private Difficulty selectedDifficulty = Difficulty.Normal;
-		[SerializeField]
-		private ReflectionGolfPuzzleList puzzleListSO = null;
+
+		private string currentLevelName = "Easy 5x5 A";
 
 		public override void Setup(MiniGameResultTracker tracker, GameObject parent, Difficulty difficulty = Difficulty.Normal)
 		{
@@ -38,16 +34,21 @@ namespace MiniGames.MiniGameModules
 
 			if (CustomNetworkManager.IsServer == false) return;
 
-			currentLevelName = puzzleListSO.RetrieveLevel(selectedDifficulty);
 			BeginLevel();
 		}
 
 		public void BeginLevel()
 		{
 			if (CustomNetworkManager.IsServer == false) return;
-			if (currentLevelName == "") return;
+			CurrentLevel = new ReflectionGolfLevel(selectedDifficulty, this);
+		
+			SyncDataToClients(PreviousMoves, CurrentLevel.Width, CurrentLevel.LevelData);
+		}
 
-			CurrentLevel = new ReflectionGolfLevel(currentLevelName, this);
+		public void RestartLevel()
+		{
+			if (CustomNetworkManager.IsServer == false) return;
+			CurrentLevel = new ReflectionGolfLevel(this);
 
 			SyncDataToClients(PreviousMoves, CurrentLevel.Width, CurrentLevel.LevelData);
 		}
@@ -56,7 +57,6 @@ namespace MiniGames.MiniGameModules
 		{
 			return Tracker;
 		}
-
 	
 		public override void StartMiniGame()
 		{
@@ -174,7 +174,7 @@ namespace MiniGames.MiniGameModules
 		internal void CmdReloadLevel()
 		{
 			if (CustomNetworkManager.IsServer == false) return;
-			BeginLevel();
+			RestartLevel();
 
 			OnGuiUpdate?.Invoke();
 		}

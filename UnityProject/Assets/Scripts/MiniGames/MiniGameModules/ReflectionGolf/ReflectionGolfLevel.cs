@@ -22,10 +22,21 @@ namespace MiniGames.MiniGameModules
 
 		private readonly ReflectionGolfModule miniGameModule = null;
 
-		public ReflectionGolfLevel(string fileName, ReflectionGolfModule _miniGameModule)
+		public string LevelName { get; private set; } = "";
+
+		public ReflectionGolfLevel(Difficulty difficulty, ReflectionGolfModule _miniGameModule)
 		{
 			miniGameModule = _miniGameModule;
-			LoadLevelFromFile(fileName);
+
+			LevelName = ReflectionGolfLevelImporter.PickLevel(difficulty);
+			LoadLevelFromFile(LevelName);
+		}
+
+		public ReflectionGolfLevel(ReflectionGolfModule _miniGameModule)
+		{
+			miniGameModule = _miniGameModule;
+
+			LoadLevelFromFile(LevelName);
 		}
 
 		public ReflectionGolfLevel(CellData[] levelData, short width, ReflectionGolfModule _miniGameModule)
@@ -39,21 +50,19 @@ namespace MiniGames.MiniGameModules
 			InitialiseLevelValues();
 		}
 
-		public void LoadLevelFromFile(string fileName)
+		public void LoadLevelFromFile(string levelName)
 		{
 			miniGameModule.ClearAllMoves();
 
-			if (fileName == "") return;
-			string path = Path.Combine("MiniGamesData", "ReflectionGolf", fileName + ".txt");
+			string path = Path.Combine("MiniGamesData", "ReflectionGolf", $"{levelName}.txt");
 
 			if (AccessFile.Exists(path) == false)
 			{
-				Loggy.LogError($"MiniGames/ReflectionGolfLevel.cs at line 64. The specified file path does not exist! {path}");
+				Loggy.LogError($"MiniGames/MiniGameLevelImporter.cs at line 35. The specified file path does not exist! {path}");
 				return;
 			}
 
 			string level = AccessFile.Load(path);
-
 
 			MatchCollection matches = Regex.Matches(level, @"([-\d ]+)+");
 
