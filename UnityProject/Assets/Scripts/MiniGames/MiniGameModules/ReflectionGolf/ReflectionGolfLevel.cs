@@ -32,11 +32,12 @@ namespace MiniGames.MiniGameModules
 			LoadLevelFromFile(LevelName);
 		}
 
-		public ReflectionGolfLevel(ReflectionGolfModule _miniGameModule)
+		public ReflectionGolfLevel(string levelName, ReflectionGolfModule _miniGameModule)
 		{
 			miniGameModule = _miniGameModule;
 
-			LoadLevelFromFile(LevelName);
+			LevelName = levelName;
+			LoadLevelFromFile(levelName);
 		}
 
 		public ReflectionGolfLevel(CellData[] levelData, short width, ReflectionGolfModule _miniGameModule)
@@ -58,7 +59,7 @@ namespace MiniGames.MiniGameModules
 
 			if (AccessFile.Exists(path) == false)
 			{
-				Loggy.LogError($"MiniGames/MiniGameLevelImporter.cs at line 35. The specified file path does not exist! {path}");
+				Loggy.LogError($"MiniGames/RelfectionGolfLevel.cs at line 61. The specified file path does not exist! {path}");
 				return;
 			}
 

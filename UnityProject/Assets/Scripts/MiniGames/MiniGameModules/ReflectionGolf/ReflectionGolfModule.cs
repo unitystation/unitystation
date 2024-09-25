@@ -41,16 +41,19 @@ namespace MiniGames.MiniGameModules
 		{
 			if (CustomNetworkManager.IsServer == false) return;
 			CurrentLevel = new ReflectionGolfLevel(selectedDifficulty, this);
-		
+			currentLevelName = CurrentLevel.LevelName;
+
 			SyncDataToClients(PreviousMoves, CurrentLevel.Width, CurrentLevel.LevelData);
 		}
 
 		public void RestartLevel()
 		{
 			if (CustomNetworkManager.IsServer == false) return;
-			CurrentLevel = new ReflectionGolfLevel(this);
+			CurrentLevel = new ReflectionGolfLevel(currentLevelName, this);
 
 			SyncDataToClients(PreviousMoves, CurrentLevel.Width, CurrentLevel.LevelData);
+
+			OnGuiUpdate?.Invoke();
 		}
 
 		public MiniGameResultTracker GetTracker()
