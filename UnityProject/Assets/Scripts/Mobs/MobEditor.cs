@@ -7,6 +7,8 @@ using BodyPart = HealthV2.BodyPart;
 
 namespace Mobs
 {
+#if UNITY_EDITOR
+
 	public class MobEditorWindow : EditorWindow
 	{
 		private PlayerHealthData _currentData;
@@ -433,4 +435,5 @@ namespace Mobs
 			return objectList;
 		}
 	}
+#endif
 }
