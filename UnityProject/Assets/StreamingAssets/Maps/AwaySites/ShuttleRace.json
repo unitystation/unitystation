@@ -1,2005 +1,7 @@
 {
   "Ver": "1.0.0",
-  "MapName": "TinyShipE (6)",
+  "MapName": "MedicalShip",
   "ContainedMatrices": [
-    {
-      "Ver": "1.1.1",
-      "Location": "8012┼8105┼0┼",
-      "MatrixName": "TinyShipE (6)",
-      "GitFriendlyTileMapData": {
-        "Ver": "1.0.0",
-        "XYs": [
-          {
-            "Key": "X-1Y-1",
-            "Value": [
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X0Y-1",
-            "Value": [
-              {
-                "Tel": "TitaniumFloorTiledWhite"
-              },
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X1Y-1",
-            "Value": [
-              {
-                "Tel": "TitaniumFloorTiledWhite"
-              },
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          }
-        ]
-      },
-      "CompactObjectMapData": {
-        "Ver": "1.2.0",
-        "CommonPrefabs": [],
-        "PrefabData": [
-          {
-            "GitID": "9bda2d5647088c74392285230ba38474_-1┼-1┼0┼",
-            "PrefabID": "9bda2d5647088c74392285230ba38474",
-            "Name": "Shuttle_engine_center (1)",
-            "LocalPRS": "-1┼-1┼0┼0ø0ø90ø",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Thruster@0",
-                  "Data": [
-                    {
-                      "Name": "SelfPowered",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "pipeData@SelfSufficient",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Left_By90"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_0┼-1┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (1)",
-            "LocalPRS": "0┼-1┼0┼"
-          },
-          {
-            "GitID": "5425ee650c49e0849b4bed132cfb588f_0┼-1┼0┼",
-            "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
-            "Name": "TinyFan (1)",
-            "LocalPRS": "0┼-1┼0┼"
-          },
-          {
-            "GitID": "67c1a2e93881ef1479a466ad4ee872eb_0┼-1┼0┼",
-            "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
-            "Name": "ShuttleChair (1)",
-            "LocalPRS": "0┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Right_By270"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "ddcfc3ab784dec1419565255774956c5_0┼-1┼0┼",
-            "PrefabID": "ddcfc3ab784dec1419565255774956c5",
-            "Name": "WinDoorLeft (1)",
-            "LocalPRS": "0┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Up_By0"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "0a56d7747596df141be0aa6803f20980_1┼-1┼0┼",
-            "PrefabID": "0a56d7747596df141be0aa6803f20980",
-            "Name": "ShuttlePilotingConsole (3)",
-            "LocalPRS": "1┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Left_By90"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "ShuttleConsole@0",
-                  "Data": [
-                    {
-                      "Name": "shuttleConsoleState",
-                      "Data": "Emagged"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_1┼-1┼0┼",
-            "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
-            "Name": "headlight",
-            "LocalPRS": "1┼-1┼0┼0ø0ø270ø",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "LocalPRS": "0┼0┼0┼12↔12↔18↔",
-                  "ID": "0,2",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "LightSprite@0",
-                      "Data": [
-                        {
-                          "Name": "InitialColour",
-                          "Data": "ÿÿÿª"
-                        }
-                      ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "DirectionalLight64_cardinal"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_1┼-1┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (2)",
-            "LocalPRS": "1┼-1┼0┼"
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.001┼-1┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (3)",
-            "LocalPRS": "1┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Right_By270"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.002┼-1┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (4)",
-            "LocalPRS": "1┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Up_By0"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        ],
-        "IDToNetIDClient": {}
-      },
-      "PreviewGizmos": [
-        {
-          "Ver": "1.0.0",
-          "Pos": "8013,8105.5,0",
-          "Size": "2,1,0"
-        }
-      ]
-    },
-    {
-      "Ver": "1.1.1",
-      "Location": "8012┼8085┼0┼",
-      "MatrixName": "TinyShipE (1)",
-      "GitFriendlyTileMapData": {
-        "Ver": "1.0.0",
-        "XYs": [
-          {
-            "Key": "X-1Y-1",
-            "Value": [
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X0Y-1",
-            "Value": [
-              {
-                "Tel": "TitaniumFloorTiledWhite"
-              },
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X1Y-1",
-            "Value": [
-              {
-                "Tel": "TitaniumFloorTiledWhite"
-              },
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          }
-        ]
-      },
-      "CompactObjectMapData": {
-        "Ver": "1.2.0",
-        "CommonPrefabs": [],
-        "PrefabData": [
-          {
-            "GitID": "9bda2d5647088c74392285230ba38474_-0.999┼-1┼0┼",
-            "PrefabID": "9bda2d5647088c74392285230ba38474",
-            "Name": "Shuttle_engine_center (1)",
-            "LocalPRS": "-1┼-1┼0┼0ø0ø90ø",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Thruster@0",
-                  "Data": [
-                    {
-                      "Name": "SelfPowered",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "pipeData@SelfSufficient",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Left_By90"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_0.001┼-1┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (1)",
-            "LocalPRS": "0┼-1┼0┼"
-          },
-          {
-            "GitID": "5425ee650c49e0849b4bed132cfb588f_0.001┼-1┼0┼",
-            "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
-            "Name": "TinyFan (1)",
-            "LocalPRS": "0┼-1┼0┼"
-          },
-          {
-            "GitID": "67c1a2e93881ef1479a466ad4ee872eb_0.001┼-1┼0┼",
-            "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
-            "Name": "ShuttleChair (1)",
-            "LocalPRS": "0┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Right_By270"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "ddcfc3ab784dec1419565255774956c5_0.001┼-1┼0┼",
-            "PrefabID": "ddcfc3ab784dec1419565255774956c5",
-            "Name": "WinDoorLeft (1)",
-            "LocalPRS": "0┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Up_By0"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "0a56d7747596df141be0aa6803f20980_1.001┼-1┼0┼",
-            "PrefabID": "0a56d7747596df141be0aa6803f20980",
-            "Name": "ShuttlePilotingConsole (3)",
-            "LocalPRS": "1┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Left_By90"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "ShuttleConsole@0",
-                  "Data": [
-                    {
-                      "Name": "shuttleConsoleState",
-                      "Data": "Emagged"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_1.001┼-1┼0┼",
-            "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
-            "Name": "headlight",
-            "LocalPRS": "1┼-1┼0┼0ø0ø270ø",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "LocalPRS": "0┼0┼0┼12↔12↔18↔",
-                  "ID": "0,2",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "LightSprite@0",
-                      "Data": [
-                        {
-                          "Name": "InitialColour",
-                          "Data": "ÿÿÿª"
-                        }
-                      ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "DirectionalLight64_cardinal"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.003┼-1┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (2)",
-            "LocalPRS": "1┼-1┼0┼"
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.004┼-1┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (3)",
-            "LocalPRS": "1┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Right_By270"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.005┼-1┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (4)",
-            "LocalPRS": "1┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Up_By0"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        ],
-        "IDToNetIDClient": {}
-      },
-      "PreviewGizmos": [
-        {
-          "Ver": "1.0.0",
-          "Pos": "8013,8085.5,0",
-          "Size": "2,1,0"
-        }
-      ]
-    },
-    {
-      "Ver": "1.1.1",
-      "Location": "8012┼8093┼0┼",
-      "MatrixName": "TinyShipE (3)",
-      "GitFriendlyTileMapData": {
-        "Ver": "1.0.0",
-        "XYs": [
-          {
-            "Key": "X-1Y-1",
-            "Value": [
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X0Y-1",
-            "Value": [
-              {
-                "Tel": "TitaniumFloorTiledWhite"
-              },
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X1Y-1",
-            "Value": [
-              {
-                "Tel": "TitaniumFloorTiledWhite"
-              },
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          }
-        ]
-      },
-      "CompactObjectMapData": {
-        "Ver": "1.2.0",
-        "CommonPrefabs": [],
-        "PrefabData": [
-          {
-            "GitID": "9bda2d5647088c74392285230ba38474_-0.998┼-1┼0┼",
-            "PrefabID": "9bda2d5647088c74392285230ba38474",
-            "Name": "Shuttle_engine_center (1)",
-            "LocalPRS": "-1┼-1┼0┼0ø0ø90ø",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Thruster@0",
-                  "Data": [
-                    {
-                      "Name": "SelfPowered",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "pipeData@SelfSufficient",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Left_By90"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_0.002┼-1┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (1)",
-            "LocalPRS": "0┼-1┼0┼"
-          },
-          {
-            "GitID": "5425ee650c49e0849b4bed132cfb588f_0.002┼-1┼0┼",
-            "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
-            "Name": "TinyFan (1)",
-            "LocalPRS": "0┼-1┼0┼"
-          },
-          {
-            "GitID": "67c1a2e93881ef1479a466ad4ee872eb_0.002┼-1┼0┼",
-            "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
-            "Name": "ShuttleChair (1)",
-            "LocalPRS": "0┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Right_By270"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "ddcfc3ab784dec1419565255774956c5_0.002┼-1┼0┼",
-            "PrefabID": "ddcfc3ab784dec1419565255774956c5",
-            "Name": "WinDoorLeft (1)",
-            "LocalPRS": "0┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Up_By0"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "0a56d7747596df141be0aa6803f20980_1.002┼-1┼0┼",
-            "PrefabID": "0a56d7747596df141be0aa6803f20980",
-            "Name": "ShuttlePilotingConsole (3)",
-            "LocalPRS": "1┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Left_By90"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "ShuttleConsole@0",
-                  "Data": [
-                    {
-                      "Name": "shuttleConsoleState",
-                      "Data": "Emagged"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_1.002┼-1┼0┼",
-            "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
-            "Name": "headlight",
-            "LocalPRS": "1┼-1┼0┼0ø0ø270ø",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "LocalPRS": "0┼0┼0┼12↔12↔18↔",
-                  "ID": "0,2",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "LightSprite@0",
-                      "Data": [
-                        {
-                          "Name": "InitialColour",
-                          "Data": "ÿÿÿª"
-                        }
-                      ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "DirectionalLight64_cardinal"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.006┼-1┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (2)",
-            "LocalPRS": "1┼-1┼0┼"
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.007┼-1┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (3)",
-            "LocalPRS": "1┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Right_By270"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.008┼-1┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (4)",
-            "LocalPRS": "1┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Up_By0"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        ],
-        "IDToNetIDClient": {}
-      },
-      "PreviewGizmos": [
-        {
-          "Ver": "1.0.0",
-          "Pos": "8013,8093.5,0",
-          "Size": "2,1,0"
-        }
-      ]
-    },
-    {
-      "Ver": "1.1.1",
-      "Location": "8012┼8089┼0┼",
-      "MatrixName": "TinyShipE (2)",
-      "GitFriendlyTileMapData": {
-        "Ver": "1.0.0",
-        "XYs": [
-          {
-            "Key": "X-1Y-1",
-            "Value": [
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X0Y-1",
-            "Value": [
-              {
-                "Tel": "TitaniumFloorTiledWhite"
-              },
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X1Y-1",
-            "Value": [
-              {
-                "Tel": "TitaniumFloorTiledWhite"
-              },
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          }
-        ]
-      },
-      "CompactObjectMapData": {
-        "Ver": "1.2.0",
-        "CommonPrefabs": [],
-        "PrefabData": [
-          {
-            "GitID": "9bda2d5647088c74392285230ba38474_-0.997┼-1┼0┼",
-            "PrefabID": "9bda2d5647088c74392285230ba38474",
-            "Name": "Shuttle_engine_center (1)",
-            "LocalPRS": "-1┼-1┼0┼0ø0ø90ø",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Thruster@0",
-                  "Data": [
-                    {
-                      "Name": "SelfPowered",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "pipeData@SelfSufficient",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Left_By90"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_0.003┼-1┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (1)",
-            "LocalPRS": "0┼-1┼0┼"
-          },
-          {
-            "GitID": "5425ee650c49e0849b4bed132cfb588f_0.003┼-1┼0┼",
-            "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
-            "Name": "TinyFan (1)",
-            "LocalPRS": "0┼-1┼0┼"
-          },
-          {
-            "GitID": "67c1a2e93881ef1479a466ad4ee872eb_0.003┼-1┼0┼",
-            "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
-            "Name": "ShuttleChair (1)",
-            "LocalPRS": "0┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Right_By270"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "ddcfc3ab784dec1419565255774956c5_0.003┼-1┼0┼",
-            "PrefabID": "ddcfc3ab784dec1419565255774956c5",
-            "Name": "WinDoorLeft (1)",
-            "LocalPRS": "0┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Up_By0"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "0a56d7747596df141be0aa6803f20980_1.003┼-1┼0┼",
-            "PrefabID": "0a56d7747596df141be0aa6803f20980",
-            "Name": "ShuttlePilotingConsole (3)",
-            "LocalPRS": "1┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Left_By90"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "ShuttleConsole@0",
-                  "Data": [
-                    {
-                      "Name": "shuttleConsoleState",
-                      "Data": "Emagged"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_1.003┼-1┼0┼",
-            "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
-            "Name": "headlight",
-            "LocalPRS": "1┼-1┼0┼0ø0ø270ø",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "LocalPRS": "0┼0┼0┼12↔12↔18↔",
-                  "ID": "0,2",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "LightSprite@0",
-                      "Data": [
-                        {
-                          "Name": "InitialColour",
-                          "Data": "ÿÿÿª"
-                        }
-                      ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "DirectionalLight64_cardinal"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.009┼-1┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (2)",
-            "LocalPRS": "1┼-1┼0┼"
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.01┼-1┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (3)",
-            "LocalPRS": "1┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Right_By270"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.011┼-1┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (4)",
-            "LocalPRS": "1┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Up_By0"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        ],
-        "IDToNetIDClient": {}
-      },
-      "PreviewGizmos": [
-        {
-          "Ver": "1.0.0",
-          "Pos": "8013,8089.5,0",
-          "Size": "2,1,0"
-        }
-      ]
-    },
-    {
-      "Ver": "1.1.1",
-      "Location": "8012┼8097┼0┼",
-      "MatrixName": "TinyShipE (4)",
-      "GitFriendlyTileMapData": {
-        "Ver": "1.0.0",
-        "XYs": [
-          {
-            "Key": "X-1Y-1",
-            "Value": [
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X0Y-1",
-            "Value": [
-              {
-                "Tel": "TitaniumFloorTiledWhite"
-              },
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X1Y-1",
-            "Value": [
-              {
-                "Tel": "TitaniumFloorTiledWhite"
-              },
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          }
-        ]
-      },
-      "CompactObjectMapData": {
-        "Ver": "1.2.0",
-        "CommonPrefabs": [],
-        "PrefabData": [
-          {
-            "GitID": "9bda2d5647088c74392285230ba38474_-0.996┼-1┼0┼",
-            "PrefabID": "9bda2d5647088c74392285230ba38474",
-            "Name": "Shuttle_engine_center (1)",
-            "LocalPRS": "-1┼-1┼0┼0ø0ø90ø",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Thruster@0",
-                  "Data": [
-                    {
-                      "Name": "SelfPowered",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "pipeData@SelfSufficient",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Left_By90"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_0.004┼-1┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (1)",
-            "LocalPRS": "0┼-1┼0┼"
-          },
-          {
-            "GitID": "5425ee650c49e0849b4bed132cfb588f_0.004┼-1┼0┼",
-            "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
-            "Name": "TinyFan (1)",
-            "LocalPRS": "0┼-1┼0┼"
-          },
-          {
-            "GitID": "67c1a2e93881ef1479a466ad4ee872eb_0.004┼-1┼0┼",
-            "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
-            "Name": "ShuttleChair (1)",
-            "LocalPRS": "0┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Right_By270"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "ddcfc3ab784dec1419565255774956c5_0.004┼-1┼0┼",
-            "PrefabID": "ddcfc3ab784dec1419565255774956c5",
-            "Name": "WinDoorLeft (1)",
-            "LocalPRS": "0┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Up_By0"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "0a56d7747596df141be0aa6803f20980_1.004┼-1┼0┼",
-            "PrefabID": "0a56d7747596df141be0aa6803f20980",
-            "Name": "ShuttlePilotingConsole (3)",
-            "LocalPRS": "1┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Left_By90"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "ShuttleConsole@0",
-                  "Data": [
-                    {
-                      "Name": "shuttleConsoleState",
-                      "Data": "Emagged"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_1.004┼-1┼0┼",
-            "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
-            "Name": "headlight",
-            "LocalPRS": "1┼-1┼0┼0ø0ø270ø",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "LocalPRS": "0┼0┼0┼12↔12↔18↔",
-                  "ID": "0,2",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "LightSprite@0",
-                      "Data": [
-                        {
-                          "Name": "InitialColour",
-                          "Data": "ÿÿÿª"
-                        }
-                      ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "DirectionalLight64_cardinal"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.012┼-1┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (2)",
-            "LocalPRS": "1┼-1┼0┼"
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.013┼-1┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (3)",
-            "LocalPRS": "1┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Right_By270"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.014┼-1┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (4)",
-            "LocalPRS": "1┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Up_By0"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        ],
-        "IDToNetIDClient": {}
-      },
-      "PreviewGizmos": [
-        {
-          "Ver": "1.0.0",
-          "Pos": "8013,8097.5,0",
-          "Size": "2,1,0"
-        }
-      ]
-    },
-    {
-      "Ver": "1.1.1",
-      "Location": "8012┼8109┼0┼",
-      "MatrixName": "TinyShipE (7)",
-      "GitFriendlyTileMapData": {
-        "Ver": "1.0.0",
-        "XYs": [
-          {
-            "Key": "X-1Y-1",
-            "Value": [
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X0Y-1",
-            "Value": [
-              {
-                "Tel": "TitaniumFloorTiledWhite"
-              },
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X1Y-1",
-            "Value": [
-              {
-                "Tel": "TitaniumFloorTiledWhite"
-              },
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          }
-        ]
-      },
-      "CompactObjectMapData": {
-        "Ver": "1.2.0",
-        "CommonPrefabs": [],
-        "PrefabData": [
-          {
-            "GitID": "9bda2d5647088c74392285230ba38474_-0.995┼-1┼0┼",
-            "PrefabID": "9bda2d5647088c74392285230ba38474",
-            "Name": "Shuttle_engine_center (1)",
-            "LocalPRS": "-1┼-1┼0┼0ø0ø90ø",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Thruster@0",
-                  "Data": [
-                    {
-                      "Name": "SelfPowered",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "pipeData@SelfSufficient",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Left_By90"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_0.005┼-1┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (1)",
-            "LocalPRS": "0┼-1┼0┼"
-          },
-          {
-            "GitID": "5425ee650c49e0849b4bed132cfb588f_0.005┼-1┼0┼",
-            "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
-            "Name": "TinyFan (1)",
-            "LocalPRS": "0┼-1┼0┼"
-          },
-          {
-            "GitID": "67c1a2e93881ef1479a466ad4ee872eb_0.005┼-1┼0┼",
-            "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
-            "Name": "ShuttleChair (1)",
-            "LocalPRS": "0┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Right_By270"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "ddcfc3ab784dec1419565255774956c5_0.005┼-1┼0┼",
-            "PrefabID": "ddcfc3ab784dec1419565255774956c5",
-            "Name": "WinDoorLeft (1)",
-            "LocalPRS": "0┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Up_By0"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "0a56d7747596df141be0aa6803f20980_1.005┼-1┼0┼",
-            "PrefabID": "0a56d7747596df141be0aa6803f20980",
-            "Name": "ShuttlePilotingConsole (3)",
-            "LocalPRS": "1┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Left_By90"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "ShuttleConsole@0",
-                  "Data": [
-                    {
-                      "Name": "shuttleConsoleState",
-                      "Data": "Emagged"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_1.005┼-1┼0┼",
-            "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
-            "Name": "headlight",
-            "LocalPRS": "1┼-1┼0┼0ø0ø270ø1↔1↔181↔",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "LocalPRS": "0┼0┼0┼12↔12↔18↔",
-                  "ID": "0,2",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "LightSprite@0",
-                      "Data": [
-                        {
-                          "Name": "InitialColour",
-                          "Data": "ÿÿÿª"
-                        }
-                      ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "DirectionalLight64_cardinal"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.015┼-1┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (2)",
-            "LocalPRS": "1┼-1┼0┼"
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.016┼-1┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (3)",
-            "LocalPRS": "1┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Right_By270"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.017┼-1┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (4)",
-            "LocalPRS": "1┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Up_By0"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        ],
-        "IDToNetIDClient": {}
-      },
-      "PreviewGizmos": [
-        {
-          "Ver": "1.0.0",
-          "Pos": "8013,8109.5,0",
-          "Size": "2,1,0"
-        }
-      ]
-    },
-    {
-      "Ver": "1.1.1",
-      "Location": "8017┼8103┼0┼",
-      "MatrixName": "TinyShipS",
-      "GitFriendlyTileMapData": {
-        "Ver": "1.0.0",
-        "XYs": [
-          {
-            "Key": "X0Y-2",
-            "Value": [
-              {
-                "Tel": "TitaniumFloorTiledWhite"
-              },
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X0Y-1",
-            "Value": [
-              {
-                "Tel": "TitaniumFloorTiledWhite"
-              },
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X0Y0",
-            "Value": [
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          }
-        ]
-      },
-      "CompactObjectMapData": {
-        "Ver": "1.2.0",
-        "CommonPrefabs": [],
-        "PrefabData": [
-          {
-            "GitID": "0a56d7747596df141be0aa6803f20980_0┼-2┼0┼",
-            "PrefabID": "0a56d7747596df141be0aa6803f20980",
-            "Name": "ShuttlePilotingConsole (3)",
-            "LocalPRS": "0┼-2┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Up_By0"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "ShuttleConsole@0",
-                  "Data": [
-                    {
-                      "Name": "shuttleConsoleState",
-                      "Data": "Emagged"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_0┼-2┼0┼",
-            "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
-            "Name": "headlight",
-            "LocalPRS": "0┼-2┼0┼0ø0ø180ø",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "LocalPRS": "0┼0┼0┼12↔12↔18↔",
-                  "ID": "0,2",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "LightSprite@0",
-                      "Data": [
-                        {
-                          "Name": "InitialColour",
-                          "Data": "ÿÿÿª"
-                        }
-                      ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "DirectionalLight64_cardinal"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_0┼-2┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (2)",
-            "LocalPRS": "0┼-2┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Left_By90"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_0.001┼-2┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (3)",
-            "LocalPRS": "0┼-2┼0┼"
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_0.002┼-2┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (4)",
-            "LocalPRS": "0┼-2┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Right_By270"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_0.006┼-1┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (1)",
-            "LocalPRS": "0┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Left_By90"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "5425ee650c49e0849b4bed132cfb588f_0.006┼-1┼0┼",
-            "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
-            "Name": "TinyFan (1)",
-            "LocalPRS": "0┼-1┼0┼"
-          },
-          {
-            "GitID": "67c1a2e93881ef1479a466ad4ee872eb_0.006┼-1┼0┼",
-            "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
-            "Name": "ShuttleChair (1)",
-            "LocalPRS": "0┼-1┼0┼"
-          },
-          {
-            "GitID": "ddcfc3ab784dec1419565255774956c5_0.006┼-1┼0┼",
-            "PrefabID": "ddcfc3ab784dec1419565255774956c5",
-            "Name": "WinDoorLeft (1)",
-            "LocalPRS": "0┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Right_By270"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "9bda2d5647088c74392285230ba38474_0┼0┼0┼",
-            "PrefabID": "9bda2d5647088c74392285230ba38474",
-            "Name": "Shuttle_engine_center (1)",
-            "LocalPRS": "0┼0┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Thruster@0",
-                  "Data": [
-                    {
-                      "Name": "SelfPowered",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "pipeData@SelfSufficient",
-                      "Data": "True"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        ],
-        "IDToNetIDClient": {}
-      },
-      "PreviewGizmos": [
-        {
-          "Ver": "1.0.0",
-          "Pos": "8018,8103,0",
-          "Size": "0,2,0"
-        }
-      ]
-    },
-    {
-      "Ver": "1.1.1",
-      "Location": "8021┼8103┼0┼",
-      "MatrixName": "TinyShipS (1)",
-      "GitFriendlyTileMapData": {
-        "Ver": "1.0.0",
-        "XYs": [
-          {
-            "Key": "X0Y-2",
-            "Value": [
-              {
-                "Tel": "TitaniumFloorTiledWhite"
-              },
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X0Y-1",
-            "Value": [
-              {
-                "Tel": "TitaniumFloorTiledWhite"
-              },
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X0Y0",
-            "Value": [
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          }
-        ]
-      },
-      "CompactObjectMapData": {
-        "Ver": "1.2.0",
-        "CommonPrefabs": [],
-        "PrefabData": [
-          {
-            "GitID": "0a56d7747596df141be0aa6803f20980_0.001┼-2┼0┼",
-            "PrefabID": "0a56d7747596df141be0aa6803f20980",
-            "Name": "ShuttlePilotingConsole (3)",
-            "LocalPRS": "0┼-2┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Up_By0"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "ShuttleConsole@0",
-                  "Data": [
-                    {
-                      "Name": "shuttleConsoleState",
-                      "Data": "Emagged"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_0.001┼-2┼0┼",
-            "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
-            "Name": "headlight",
-            "LocalPRS": "0┼-2┼0┼0ø0ø180ø",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "LocalPRS": "0┼0┼0┼12↔12↔18↔",
-                  "ID": "0,2",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "LightSprite@0",
-                      "Data": [
-                        {
-                          "Name": "InitialColour",
-                          "Data": "ÿÿÿª"
-                        }
-                      ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "DirectionalLight64_cardinal"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_0.003┼-2┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (2)",
-            "LocalPRS": "0┼-2┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Left_By90"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_0.004┼-2┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (3)",
-            "LocalPRS": "0┼-2┼0┼"
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_0.005┼-2┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (4)",
-            "LocalPRS": "0┼-2┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Right_By270"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_0.007┼-1┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (1)",
-            "LocalPRS": "0┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Left_By90"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "5425ee650c49e0849b4bed132cfb588f_0.007┼-1┼0┼",
-            "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
-            "Name": "TinyFan (1)",
-            "LocalPRS": "0┼-1┼0┼"
-          },
-          {
-            "GitID": "67c1a2e93881ef1479a466ad4ee872eb_0.007┼-1┼0┼",
-            "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
-            "Name": "ShuttleChair (1)",
-            "LocalPRS": "0┼-1┼0┼"
-          },
-          {
-            "GitID": "ddcfc3ab784dec1419565255774956c5_0.007┼-1┼0┼",
-            "PrefabID": "ddcfc3ab784dec1419565255774956c5",
-            "Name": "WinDoorLeft (1)",
-            "LocalPRS": "0┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Right_By270"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "9bda2d5647088c74392285230ba38474_0.001┼0┼0┼",
-            "PrefabID": "9bda2d5647088c74392285230ba38474",
-            "Name": "Shuttle_engine_center (1)",
-            "LocalPRS": "0┼0┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Thruster@0",
-                  "Data": [
-                    {
-                      "Name": "SelfPowered",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "pipeData@SelfSufficient",
-                      "Data": "True"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        ],
-        "IDToNetIDClient": {}
-      },
-      "PreviewGizmos": [
-        {
-          "Ver": "1.0.0",
-          "Pos": "8022,8103,0",
-          "Size": "0,2,0"
-        }
-      ]
-    },
     {
       "Ver": "1.1.1",
       "Location": "8041┼8099┼0┼",
@@ -2274,7 +276,7 @@
             }
           },
           {
-            "GitID": "67c1a2e93881ef1479a466ad4ee872eb_0.008┼-1┼0┼",
+            "GitID": "67c1a2e93881ef1479a466ad4ee872eb_0┼-1┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
             "Name": "ShuttleChair (3)",
             "LocalPRS": "0┼-1┼0┼",
@@ -2352,7 +354,7 @@
             "LocalPRS": "1┼-2┼0┼"
           },
           {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.018┼-1┼0┼",
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_1┼-1┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (17)",
             "LocalPRS": "1┼-1┼0┼",
@@ -2452,8 +454,1259 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "8042,8099,0",
+          "Pos": "8041,8099,0",
           "Size": "2,2,0"
+        }
+      ]
+    },
+    {
+      "Ver": "1.1.1",
+      "Location": "8012┼8109┼0┼",
+      "MatrixName": "TinyShipE (7)",
+      "GitFriendlyTileMapData": {
+        "Ver": "1.0.0",
+        "XYs": [
+          {
+            "Key": "X-1Y-1",
+            "Value": [
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y-1",
+            "Value": [
+              {
+                "Tel": "TitaniumFloorTiledWhite"
+              },
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y-1",
+            "Value": [
+              {
+                "Tel": "TitaniumFloorTiledWhite"
+              },
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          }
+        ]
+      },
+      "CompactObjectMapData": {
+        "Ver": "1.2.0",
+        "CommonPrefabs": [],
+        "PrefabData": [
+          {
+            "GitID": "9bda2d5647088c74392285230ba38474_-1┼-1┼0┼",
+            "PrefabID": "9bda2d5647088c74392285230ba38474",
+            "Name": "Shuttle_engine_center (1)",
+            "LocalPRS": "-1┼-1┼0┼0ø0ø90ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Thruster@0",
+                  "Data": [
+                    {
+                      "Name": "SelfPowered",
+                      "Data": "True"
+                    },
+                    {
+                      "Name": "pipeData@SelfSufficient",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_0┼-1┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (1)",
+            "LocalPRS": "0┼-1┼0┼"
+          },
+          {
+            "GitID": "5425ee650c49e0849b4bed132cfb588f_0┼-1┼0┼",
+            "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
+            "Name": "TinyFan (1)",
+            "LocalPRS": "0┼-1┼0┼"
+          },
+          {
+            "GitID": "67c1a2e93881ef1479a466ad4ee872eb_0.001┼-1┼0┼",
+            "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "Name": "ShuttleChair (1)",
+            "LocalPRS": "0┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "ddcfc3ab784dec1419565255774956c5_0┼-1┼0┼",
+            "PrefabID": "ddcfc3ab784dec1419565255774956c5",
+            "Name": "WinDoorLeft (1)",
+            "LocalPRS": "0┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "0a56d7747596df141be0aa6803f20980_1┼-1┼0┼",
+            "PrefabID": "0a56d7747596df141be0aa6803f20980",
+            "Name": "ShuttlePilotingConsole (3)",
+            "LocalPRS": "1┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ShuttleConsole@0",
+                  "Data": [
+                    {
+                      "Name": "shuttleConsoleState",
+                      "Data": "Emagged"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_1┼-1┼0┼",
+            "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
+            "Name": "headlight",
+            "LocalPRS": "1┼-1┼0┼0ø0ø270ø1↔1↔181↔",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "LocalPRS": "0┼0┼0┼12↔12↔18↔",
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "LightSprite@0",
+                      "Data": [
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿª"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "LightSpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "DirectionalLight64_cardinal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.001┼-1┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (2)",
+            "LocalPRS": "1┼-1┼0┼"
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.002┼-1┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (3)",
+            "LocalPRS": "1┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.003┼-1┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (4)",
+            "LocalPRS": "1┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "IDToNetIDClient": {}
+      },
+      "PreviewGizmos": [
+        {
+          "Ver": "1.0.0",
+          "Pos": "8012,8109.5,0",
+          "Size": "2,1,0"
+        }
+      ]
+    },
+    {
+      "Ver": "1.1.1",
+      "Location": "8012┼8093┼0┼",
+      "MatrixName": "TinyShipE (3)",
+      "GitFriendlyTileMapData": {
+        "Ver": "1.0.0",
+        "XYs": [
+          {
+            "Key": "X-1Y-1",
+            "Value": [
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y-1",
+            "Value": [
+              {
+                "Tel": "TitaniumFloorTiledWhite"
+              },
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y-1",
+            "Value": [
+              {
+                "Tel": "TitaniumFloorTiledWhite"
+              },
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          }
+        ]
+      },
+      "CompactObjectMapData": {
+        "Ver": "1.2.0",
+        "CommonPrefabs": [],
+        "PrefabData": [
+          {
+            "GitID": "9bda2d5647088c74392285230ba38474_-0.999┼-1┼0┼",
+            "PrefabID": "9bda2d5647088c74392285230ba38474",
+            "Name": "Shuttle_engine_center (1)",
+            "LocalPRS": "-1┼-1┼0┼0ø0ø90ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Thruster@0",
+                  "Data": [
+                    {
+                      "Name": "SelfPowered",
+                      "Data": "True"
+                    },
+                    {
+                      "Name": "pipeData@SelfSufficient",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_0.001┼-1┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (1)",
+            "LocalPRS": "0┼-1┼0┼"
+          },
+          {
+            "GitID": "5425ee650c49e0849b4bed132cfb588f_0.001┼-1┼0┼",
+            "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
+            "Name": "TinyFan (1)",
+            "LocalPRS": "0┼-1┼0┼"
+          },
+          {
+            "GitID": "67c1a2e93881ef1479a466ad4ee872eb_0.002┼-1┼0┼",
+            "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "Name": "ShuttleChair (1)",
+            "LocalPRS": "0┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "ddcfc3ab784dec1419565255774956c5_0.001┼-1┼0┼",
+            "PrefabID": "ddcfc3ab784dec1419565255774956c5",
+            "Name": "WinDoorLeft (1)",
+            "LocalPRS": "0┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "0a56d7747596df141be0aa6803f20980_1.001┼-1┼0┼",
+            "PrefabID": "0a56d7747596df141be0aa6803f20980",
+            "Name": "ShuttlePilotingConsole (3)",
+            "LocalPRS": "1┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ShuttleConsole@0",
+                  "Data": [
+                    {
+                      "Name": "shuttleConsoleState",
+                      "Data": "Emagged"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_1.001┼-1┼0┼",
+            "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
+            "Name": "headlight",
+            "LocalPRS": "1┼-1┼0┼0ø0ø270ø",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "LocalPRS": "0┼0┼0┼12↔12↔18↔",
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "LightSprite@0",
+                      "Data": [
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿª"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "LightSpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "DirectionalLight64_cardinal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.004┼-1┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (2)",
+            "LocalPRS": "1┼-1┼0┼"
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.005┼-1┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (3)",
+            "LocalPRS": "1┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.006┼-1┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (4)",
+            "LocalPRS": "1┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "IDToNetIDClient": {}
+      },
+      "PreviewGizmos": [
+        {
+          "Ver": "1.0.0",
+          "Pos": "8012,8093.5,0",
+          "Size": "2,1,0"
+        }
+      ]
+    },
+    {
+      "Ver": "1.1.1",
+      "Location": "8012┼8085┼0┼",
+      "MatrixName": "TinyShipE (1)",
+      "GitFriendlyTileMapData": {
+        "Ver": "1.0.0",
+        "XYs": [
+          {
+            "Key": "X-1Y-1",
+            "Value": [
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y-1",
+            "Value": [
+              {
+                "Tel": "TitaniumFloorTiledWhite"
+              },
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y-1",
+            "Value": [
+              {
+                "Tel": "TitaniumFloorTiledWhite"
+              },
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          }
+        ]
+      },
+      "CompactObjectMapData": {
+        "Ver": "1.2.0",
+        "CommonPrefabs": [],
+        "PrefabData": [
+          {
+            "GitID": "9bda2d5647088c74392285230ba38474_-0.998┼-1┼0┼",
+            "PrefabID": "9bda2d5647088c74392285230ba38474",
+            "Name": "Shuttle_engine_center (1)",
+            "LocalPRS": "-1┼-1┼0┼0ø0ø90ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Thruster@0",
+                  "Data": [
+                    {
+                      "Name": "SelfPowered",
+                      "Data": "True"
+                    },
+                    {
+                      "Name": "pipeData@SelfSufficient",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_0.002┼-1┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (1)",
+            "LocalPRS": "0┼-1┼0┼"
+          },
+          {
+            "GitID": "5425ee650c49e0849b4bed132cfb588f_0.002┼-1┼0┼",
+            "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
+            "Name": "TinyFan (1)",
+            "LocalPRS": "0┼-1┼0┼"
+          },
+          {
+            "GitID": "67c1a2e93881ef1479a466ad4ee872eb_0.003┼-1┼0┼",
+            "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "Name": "ShuttleChair (1)",
+            "LocalPRS": "0┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "ddcfc3ab784dec1419565255774956c5_0.002┼-1┼0┼",
+            "PrefabID": "ddcfc3ab784dec1419565255774956c5",
+            "Name": "WinDoorLeft (1)",
+            "LocalPRS": "0┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "0a56d7747596df141be0aa6803f20980_1.002┼-1┼0┼",
+            "PrefabID": "0a56d7747596df141be0aa6803f20980",
+            "Name": "ShuttlePilotingConsole (3)",
+            "LocalPRS": "1┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ShuttleConsole@0",
+                  "Data": [
+                    {
+                      "Name": "shuttleConsoleState",
+                      "Data": "Emagged"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_1.002┼-1┼0┼",
+            "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
+            "Name": "headlight",
+            "LocalPRS": "1┼-1┼0┼0ø0ø270ø",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "LocalPRS": "0┼0┼0┼12↔12↔18↔",
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "LightSprite@0",
+                      "Data": [
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿª"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "LightSpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "DirectionalLight64_cardinal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.007┼-1┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (2)",
+            "LocalPRS": "1┼-1┼0┼"
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.008┼-1┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (3)",
+            "LocalPRS": "1┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.009┼-1┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (4)",
+            "LocalPRS": "1┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "IDToNetIDClient": {}
+      },
+      "PreviewGizmos": [
+        {
+          "Ver": "1.0.0",
+          "Pos": "8012,8085.5,0",
+          "Size": "2,1,0"
+        }
+      ]
+    },
+    {
+      "Ver": "1.1.1",
+      "Location": "8017┼8103┼0┼",
+      "MatrixName": "TinyShipS",
+      "GitFriendlyTileMapData": {
+        "Ver": "1.0.0",
+        "XYs": [
+          {
+            "Key": "X0Y-2",
+            "Value": [
+              {
+                "Tel": "TitaniumFloorTiledWhite"
+              },
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y-1",
+            "Value": [
+              {
+                "Tel": "TitaniumFloorTiledWhite"
+              },
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y0",
+            "Value": [
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          }
+        ]
+      },
+      "CompactObjectMapData": {
+        "Ver": "1.2.0",
+        "CommonPrefabs": [],
+        "PrefabData": [
+          {
+            "GitID": "0a56d7747596df141be0aa6803f20980_0┼-2┼0┼",
+            "PrefabID": "0a56d7747596df141be0aa6803f20980",
+            "Name": "ShuttlePilotingConsole (3)",
+            "LocalPRS": "0┼-2┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ShuttleConsole@0",
+                  "Data": [
+                    {
+                      "Name": "shuttleConsoleState",
+                      "Data": "Emagged"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_0┼-2┼0┼",
+            "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
+            "Name": "headlight",
+            "LocalPRS": "0┼-2┼0┼0ø0ø180ø",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "LocalPRS": "0┼0┼0┼12↔12↔18↔",
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "LightSprite@0",
+                      "Data": [
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿª"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "LightSpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "DirectionalLight64_cardinal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_0┼-2┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (2)",
+            "LocalPRS": "0┼-2┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_0.001┼-2┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (3)",
+            "LocalPRS": "0┼-2┼0┼"
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_0.002┼-2┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (4)",
+            "LocalPRS": "0┼-2┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_0.003┼-1┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (1)",
+            "LocalPRS": "0┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "5425ee650c49e0849b4bed132cfb588f_0.003┼-1┼0┼",
+            "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
+            "Name": "TinyFan (1)",
+            "LocalPRS": "0┼-1┼0┼"
+          },
+          {
+            "GitID": "67c1a2e93881ef1479a466ad4ee872eb_0.004┼-1┼0┼",
+            "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "Name": "ShuttleChair (1)",
+            "LocalPRS": "0┼-1┼0┼"
+          },
+          {
+            "GitID": "ddcfc3ab784dec1419565255774956c5_0.003┼-1┼0┼",
+            "PrefabID": "ddcfc3ab784dec1419565255774956c5",
+            "Name": "WinDoorLeft (1)",
+            "LocalPRS": "0┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "9bda2d5647088c74392285230ba38474_0┼0┼0┼",
+            "PrefabID": "9bda2d5647088c74392285230ba38474",
+            "Name": "Shuttle_engine_center (1)",
+            "LocalPRS": "0┼0┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Thruster@0",
+                  "Data": [
+                    {
+                      "Name": "SelfPowered",
+                      "Data": "True"
+                    },
+                    {
+                      "Name": "pipeData@SelfSufficient",
+                      "Data": "True"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "IDToNetIDClient": {}
+      },
+      "PreviewGizmos": [
+        {
+          "Ver": "1.0.0",
+          "Pos": "8017,8103,0",
+          "Size": "0,2,0"
+        }
+      ]
+    },
+    {
+      "Ver": "1.1.1",
+      "Location": "8012┼8097┼0┼",
+      "MatrixName": "TinyShipE (4)",
+      "GitFriendlyTileMapData": {
+        "Ver": "1.0.0",
+        "XYs": [
+          {
+            "Key": "X-1Y-1",
+            "Value": [
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y-1",
+            "Value": [
+              {
+                "Tel": "TitaniumFloorTiledWhite"
+              },
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y-1",
+            "Value": [
+              {
+                "Tel": "TitaniumFloorTiledWhite"
+              },
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          }
+        ]
+      },
+      "CompactObjectMapData": {
+        "Ver": "1.2.0",
+        "CommonPrefabs": [],
+        "PrefabData": [
+          {
+            "GitID": "9bda2d5647088c74392285230ba38474_-0.997┼-1┼0┼",
+            "PrefabID": "9bda2d5647088c74392285230ba38474",
+            "Name": "Shuttle_engine_center (1)",
+            "LocalPRS": "-1┼-1┼0┼0ø0ø90ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Thruster@0",
+                  "Data": [
+                    {
+                      "Name": "SelfPowered",
+                      "Data": "True"
+                    },
+                    {
+                      "Name": "pipeData@SelfSufficient",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_0.004┼-1┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (1)",
+            "LocalPRS": "0┼-1┼0┼"
+          },
+          {
+            "GitID": "5425ee650c49e0849b4bed132cfb588f_0.004┼-1┼0┼",
+            "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
+            "Name": "TinyFan (1)",
+            "LocalPRS": "0┼-1┼0┼"
+          },
+          {
+            "GitID": "67c1a2e93881ef1479a466ad4ee872eb_0.005┼-1┼0┼",
+            "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "Name": "ShuttleChair (1)",
+            "LocalPRS": "0┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "ddcfc3ab784dec1419565255774956c5_0.004┼-1┼0┼",
+            "PrefabID": "ddcfc3ab784dec1419565255774956c5",
+            "Name": "WinDoorLeft (1)",
+            "LocalPRS": "0┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "0a56d7747596df141be0aa6803f20980_1.003┼-1┼0┼",
+            "PrefabID": "0a56d7747596df141be0aa6803f20980",
+            "Name": "ShuttlePilotingConsole (3)",
+            "LocalPRS": "1┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ShuttleConsole@0",
+                  "Data": [
+                    {
+                      "Name": "shuttleConsoleState",
+                      "Data": "Emagged"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_1.003┼-1┼0┼",
+            "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
+            "Name": "headlight",
+            "LocalPRS": "1┼-1┼0┼0ø0ø270ø",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "LocalPRS": "0┼0┼0┼12↔12↔18↔",
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "LightSprite@0",
+                      "Data": [
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿª"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "LightSpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "DirectionalLight64_cardinal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.01┼-1┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (2)",
+            "LocalPRS": "1┼-1┼0┼"
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.011┼-1┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (3)",
+            "LocalPRS": "1┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.012┼-1┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (4)",
+            "LocalPRS": "1┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "IDToNetIDClient": {}
+      },
+      "PreviewGizmos": [
+        {
+          "Ver": "1.0.0",
+          "Pos": "8012,8097.5,0",
+          "Size": "2,1,0"
         }
       ]
     },
@@ -2461,6 +1714,753 @@
       "Ver": "1.1.1",
       "Location": "8012┼8081┼0┼",
       "MatrixName": "TinyShipE",
+      "GitFriendlyTileMapData": {
+        "Ver": "1.0.0",
+        "XYs": [
+          {
+            "Key": "X-1Y-1",
+            "Value": [
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y-1",
+            "Value": [
+              {
+                "Tel": "TitaniumFloorTiledWhite"
+              },
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y-1",
+            "Value": [
+              {
+                "Tel": "TitaniumFloorTiledWhite"
+              },
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          }
+        ]
+      },
+      "CompactObjectMapData": {
+        "Ver": "1.2.0",
+        "CommonPrefabs": [],
+        "PrefabData": [
+          {
+            "GitID": "9bda2d5647088c74392285230ba38474_-0.996┼-1┼0┼",
+            "PrefabID": "9bda2d5647088c74392285230ba38474",
+            "Name": "Shuttle_engine_center (1)",
+            "LocalPRS": "-1┼-1┼0┼0ø0ø90ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Thruster@0",
+                  "Data": [
+                    {
+                      "Name": "SelfPowered",
+                      "Data": "True"
+                    },
+                    {
+                      "Name": "pipeData@SelfSufficient",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_0.005┼-1┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (1)",
+            "LocalPRS": "0┼-1┼0┼"
+          },
+          {
+            "GitID": "5425ee650c49e0849b4bed132cfb588f_0.005┼-1┼0┼",
+            "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
+            "Name": "TinyFan (1)",
+            "LocalPRS": "0┼-1┼0┼"
+          },
+          {
+            "GitID": "67c1a2e93881ef1479a466ad4ee872eb_0.006┼-1┼0┼",
+            "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "Name": "ShuttleChair (1)",
+            "LocalPRS": "0┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "ddcfc3ab784dec1419565255774956c5_0.005┼-1┼0┼",
+            "PrefabID": "ddcfc3ab784dec1419565255774956c5",
+            "Name": "WinDoorLeft (1)",
+            "LocalPRS": "0┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "0a56d7747596df141be0aa6803f20980_1.004┼-1┼0┼",
+            "PrefabID": "0a56d7747596df141be0aa6803f20980",
+            "Name": "ShuttlePilotingConsole (3)",
+            "LocalPRS": "1┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ShuttleConsole@0",
+                  "Data": [
+                    {
+                      "Name": "shuttleConsoleState",
+                      "Data": "Emagged"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_1.004┼-1┼0┼",
+            "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
+            "Name": "headlight",
+            "LocalPRS": "1┼-1┼0┼0ø0ø270ø",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "LocalPRS": "0┼0┼0┼12↔12↔18↔",
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "LightSprite@0",
+                      "Data": [
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿª"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "LightSpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "DirectionalLight64_cardinal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.013┼-1┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (2)",
+            "LocalPRS": "1┼-1┼0┼"
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.014┼-1┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (3)",
+            "LocalPRS": "1┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.015┼-1┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (4)",
+            "LocalPRS": "1┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "IDToNetIDClient": {}
+      },
+      "PreviewGizmos": [
+        {
+          "Ver": "1.0.0",
+          "Pos": "8012,8081.5,0",
+          "Size": "2,1,0"
+        }
+      ]
+    },
+    {
+      "Ver": "1.1.1",
+      "Location": "8012┼8105┼0┼",
+      "MatrixName": "TinyShipE (6)",
+      "GitFriendlyTileMapData": {
+        "Ver": "1.0.0",
+        "XYs": [
+          {
+            "Key": "X-1Y-1",
+            "Value": [
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y-1",
+            "Value": [
+              {
+                "Tel": "TitaniumFloorTiledWhite"
+              },
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y-1",
+            "Value": [
+              {
+                "Tel": "TitaniumFloorTiledWhite"
+              },
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          }
+        ]
+      },
+      "CompactObjectMapData": {
+        "Ver": "1.2.0",
+        "CommonPrefabs": [],
+        "PrefabData": [
+          {
+            "GitID": "9bda2d5647088c74392285230ba38474_-0.995┼-1┼0┼",
+            "PrefabID": "9bda2d5647088c74392285230ba38474",
+            "Name": "Shuttle_engine_center (1)",
+            "LocalPRS": "-1┼-1┼0┼0ø0ø90ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Thruster@0",
+                  "Data": [
+                    {
+                      "Name": "SelfPowered",
+                      "Data": "True"
+                    },
+                    {
+                      "Name": "pipeData@SelfSufficient",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_0.006┼-1┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (1)",
+            "LocalPRS": "0┼-1┼0┼"
+          },
+          {
+            "GitID": "5425ee650c49e0849b4bed132cfb588f_0.006┼-1┼0┼",
+            "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
+            "Name": "TinyFan (1)",
+            "LocalPRS": "0┼-1┼0┼"
+          },
+          {
+            "GitID": "67c1a2e93881ef1479a466ad4ee872eb_0.007┼-1┼0┼",
+            "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "Name": "ShuttleChair (1)",
+            "LocalPRS": "0┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "ddcfc3ab784dec1419565255774956c5_0.006┼-1┼0┼",
+            "PrefabID": "ddcfc3ab784dec1419565255774956c5",
+            "Name": "WinDoorLeft (1)",
+            "LocalPRS": "0┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "0a56d7747596df141be0aa6803f20980_1.005┼-1┼0┼",
+            "PrefabID": "0a56d7747596df141be0aa6803f20980",
+            "Name": "ShuttlePilotingConsole (3)",
+            "LocalPRS": "1┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ShuttleConsole@0",
+                  "Data": [
+                    {
+                      "Name": "shuttleConsoleState",
+                      "Data": "Emagged"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_1.005┼-1┼0┼",
+            "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
+            "Name": "headlight",
+            "LocalPRS": "1┼-1┼0┼0ø0ø270ø",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "LocalPRS": "0┼0┼0┼12↔12↔18↔",
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "LightSprite@0",
+                      "Data": [
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿª"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "LightSpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "DirectionalLight64_cardinal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.016┼-1┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (2)",
+            "LocalPRS": "1┼-1┼0┼"
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.017┼-1┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (3)",
+            "LocalPRS": "1┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.018┼-1┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (4)",
+            "LocalPRS": "1┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "IDToNetIDClient": {}
+      },
+      "PreviewGizmos": [
+        {
+          "Ver": "1.0.0",
+          "Pos": "8012,8105.5,0",
+          "Size": "2,1,0"
+        }
+      ]
+    },
+    {
+      "Ver": "1.1.1",
+      "Location": "8021┼8103┼0┼",
+      "MatrixName": "TinyShipS (1)",
+      "GitFriendlyTileMapData": {
+        "Ver": "1.0.0",
+        "XYs": [
+          {
+            "Key": "X0Y-2",
+            "Value": [
+              {
+                "Tel": "TitaniumFloorTiledWhite"
+              },
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y-1",
+            "Value": [
+              {
+                "Tel": "TitaniumFloorTiledWhite"
+              },
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y0",
+            "Value": [
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          }
+        ]
+      },
+      "CompactObjectMapData": {
+        "Ver": "1.2.0",
+        "CommonPrefabs": [],
+        "PrefabData": [
+          {
+            "GitID": "0a56d7747596df141be0aa6803f20980_0.001┼-2┼0┼",
+            "PrefabID": "0a56d7747596df141be0aa6803f20980",
+            "Name": "ShuttlePilotingConsole (3)",
+            "LocalPRS": "0┼-2┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ShuttleConsole@0",
+                  "Data": [
+                    {
+                      "Name": "shuttleConsoleState",
+                      "Data": "Emagged"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_0.001┼-2┼0┼",
+            "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
+            "Name": "headlight",
+            "LocalPRS": "0┼-2┼0┼0ø0ø180ø",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "LocalPRS": "0┼0┼0┼12↔12↔18↔",
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "LightSprite@0",
+                      "Data": [
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿª"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "LightSpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "DirectionalLight64_cardinal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_0.003┼-2┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (2)",
+            "LocalPRS": "0┼-2┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_0.004┼-2┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (3)",
+            "LocalPRS": "0┼-2┼0┼"
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_0.005┼-2┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (4)",
+            "LocalPRS": "0┼-2┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_0.007┼-1┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (1)",
+            "LocalPRS": "0┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "5425ee650c49e0849b4bed132cfb588f_0.007┼-1┼0┼",
+            "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
+            "Name": "TinyFan (1)",
+            "LocalPRS": "0┼-1┼0┼"
+          },
+          {
+            "GitID": "67c1a2e93881ef1479a466ad4ee872eb_0.008┼-1┼0┼",
+            "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "Name": "ShuttleChair (1)",
+            "LocalPRS": "0┼-1┼0┼"
+          },
+          {
+            "GitID": "ddcfc3ab784dec1419565255774956c5_0.007┼-1┼0┼",
+            "PrefabID": "ddcfc3ab784dec1419565255774956c5",
+            "Name": "WinDoorLeft (1)",
+            "LocalPRS": "0┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "9bda2d5647088c74392285230ba38474_0.001┼0┼0┼",
+            "PrefabID": "9bda2d5647088c74392285230ba38474",
+            "Name": "Shuttle_engine_center (1)",
+            "LocalPRS": "0┼0┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Thruster@0",
+                  "Data": [
+                    {
+                      "Name": "SelfPowered",
+                      "Data": "True"
+                    },
+                    {
+                      "Name": "pipeData@SelfSufficient",
+                      "Data": "True"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "IDToNetIDClient": {}
+      },
+      "PreviewGizmos": [
+        {
+          "Ver": "1.0.0",
+          "Pos": "8021,8103,0",
+          "Size": "0,2,0"
+        }
+      ]
+    },
+    {
+      "Ver": "1.1.1",
+      "Location": "8012┼8101┼0┼",
+      "MatrixName": "TinyShipE (5)",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
         "XYs": [
@@ -2704,7 +2704,259 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "8013,8081.5,0",
+          "Pos": "8012,8101.5,0",
+          "Size": "2,1,0"
+        }
+      ]
+    },
+    {
+      "Ver": "1.1.1",
+      "Location": "8012┼8089┼0┼",
+      "MatrixName": "TinyShipE (2)",
+      "GitFriendlyTileMapData": {
+        "Ver": "1.0.0",
+        "XYs": [
+          {
+            "Key": "X-1Y-1",
+            "Value": [
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y-1",
+            "Value": [
+              {
+                "Tel": "TitaniumFloorTiledWhite"
+              },
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y-1",
+            "Value": [
+              {
+                "Tel": "TitaniumFloorTiledWhite"
+              },
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          }
+        ]
+      },
+      "CompactObjectMapData": {
+        "Ver": "1.2.0",
+        "CommonPrefabs": [],
+        "PrefabData": [
+          {
+            "GitID": "9bda2d5647088c74392285230ba38474_-0.993┼-1┼0┼",
+            "PrefabID": "9bda2d5647088c74392285230ba38474",
+            "Name": "Shuttle_engine_center (1)",
+            "LocalPRS": "-1┼-1┼0┼0ø0ø90ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Thruster@0",
+                  "Data": [
+                    {
+                      "Name": "SelfPowered",
+                      "Data": "True"
+                    },
+                    {
+                      "Name": "pipeData@SelfSufficient",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_0.009┼-1┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (1)",
+            "LocalPRS": "0┼-1┼0┼"
+          },
+          {
+            "GitID": "5425ee650c49e0849b4bed132cfb588f_0.009┼-1┼0┼",
+            "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
+            "Name": "TinyFan (1)",
+            "LocalPRS": "0┼-1┼0┼"
+          },
+          {
+            "GitID": "67c1a2e93881ef1479a466ad4ee872eb_0.01┼-1┼0┼",
+            "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "Name": "ShuttleChair (1)",
+            "LocalPRS": "0┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "ddcfc3ab784dec1419565255774956c5_0.009┼-1┼0┼",
+            "PrefabID": "ddcfc3ab784dec1419565255774956c5",
+            "Name": "WinDoorLeft (1)",
+            "LocalPRS": "0┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "0a56d7747596df141be0aa6803f20980_1.007┼-1┼0┼",
+            "PrefabID": "0a56d7747596df141be0aa6803f20980",
+            "Name": "ShuttlePilotingConsole (3)",
+            "LocalPRS": "1┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ShuttleConsole@0",
+                  "Data": [
+                    {
+                      "Name": "shuttleConsoleState",
+                      "Data": "Emagged"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_1.007┼-1┼0┼",
+            "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
+            "Name": "headlight",
+            "LocalPRS": "1┼-1┼0┼0ø0ø270ø",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "LocalPRS": "0┼0┼0┼12↔12↔18↔",
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "LightSprite@0",
+                      "Data": [
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿª"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "LightSpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "DirectionalLight64_cardinal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.022┼-1┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (2)",
+            "LocalPRS": "1┼-1┼0┼"
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.023┼-1┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (3)",
+            "LocalPRS": "1┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.024┼-1┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (4)",
+            "LocalPRS": "1┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "IDToNetIDClient": {}
+      },
+      "PreviewGizmos": [
+        {
+          "Ver": "1.0.0",
+          "Pos": "8012,8089.5,0",
           "Size": "2,1,0"
         }
       ]
@@ -123671,12 +123923,6 @@
         "CommonPrefabs": [],
         "PrefabData": [
           {
-            "GitID": "e02a5954be8d94b4bbaaa0d63d813c71_-1┼-1┼0┼",
-            "PrefabID": "e02a5954be8d94b4bbaaa0d63d813c71",
-            "Name": "AI_ShouldNavigateAround",
-            "LocalPRS": "-1┼-1┼0┼"
-          },
-          {
             "GitID": "e02a5954be8d94b4bbaaa0d63d813c71_0┼0┼0┼",
             "PrefabID": "e02a5954be8d94b4bbaaa0d63d813c71",
             "Name": "AI_ShouldNavigateAround",
@@ -124595,356 +124841,6 @@
             }
           },
           {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_22.68┼89.06┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "Clown at 8024 8090",
-            "LocalPRS": "22.68┼89.06┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "Clown"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "b73ec20b7d139a648a436b4583212faa"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_22.85┼88.85┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "Scientist at 8024 8090",
-            "LocalPRS": "22.85┼88.85┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "Scientist"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "bc35cb6f75d545049ac5f4697e4d944a"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_22.86┼89.06┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "Roboticist at 8024 8090",
-            "LocalPRS": "22.86┼89.06┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "Roboticist"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "82b245197e10dbd478fc9bc6cfa9e2c2"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_22.87┼88.92┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "Lawyer at 8024 8090",
-            "LocalPRS": "22.87┼88.92┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "Lawyer"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "726340e378ff4f342895c6c9ff70639b"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_22.9┼88.75┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "Quartermaster at 8024 8090",
-            "LocalPRS": "22.9┼88.75┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "Quartermaster"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "29cc3fe5dedd29b43bc5264853b49a29"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_22.93┼88.83┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "ShaftMiner at 8024 8090",
-            "LocalPRS": "22.93┼88.83┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "ShaftMiner"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "0973340d296b97e479285b9098d92522"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_22.94┼88.73┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "Warden at 8024 8090",
-            "LocalPRS": "22.94┼88.73┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "Warden"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "f8ffaf58c5db81c46a67fa4e1dab31e2"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_22.94┼88.96┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "Botanist at 8024 8090",
-            "LocalPRS": "22.94┼88.96┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "Botanist"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "0dd23f1436b901d4bb4b88ffb4e63caa"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_22.97┼89.04┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "Janitor at 8024 8090",
-            "LocalPRS": "22.97┼89.04┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "Janitor"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "39408d1df567ca147b5a4bbe0786f7b5"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_22.99┼88.98┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "Chaplain at 8024 8090",
-            "LocalPRS": "22.99┼88.98┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "Chaplain"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "0573f93efc5a5804696ae2141ac20d2a"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_23┼43┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
             "Name": "LightTubeFixture (23)",
@@ -125046,12 +124942,6 @@
             }
           },
           {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_23┼88.98┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "Assistant at 8024 8090",
-            "LocalPRS": "23┼88.98┼0┼"
-          },
-          {
             "GitID": "f85ab7ac2e81eeb48827c7b08a12b01e_23┼90┼0┼",
             "PrefabID": "f85ab7ac2e81eeb48827c7b08a12b01e",
             "Name": "QuantumPad Racers Entrance",
@@ -125081,776 +124971,6 @@
                     {
                       "Name": "padDirection",
                       "Data": "Down"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_23.04┼88.92┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "HeadOfSecurity at 8024 8090",
-            "LocalPRS": "23.04┼88.92┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "HeadOfSecurity"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "9ea04d0c539b6ac44929aa8f27233b3a"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_23.06┼89.1┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "SpaceExterior at 8024 8090",
-            "LocalPRS": "23.06┼89.1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "SpaceExterior"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "8672bf8dd479a434cbfe8daac215b223"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_23.06┼89.11┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "HeadOfPersonnel at 8024 8090",
-            "LocalPRS": "23.06┼89.11┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "HeadOfPersonnel"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "7a60632612e952e4f97c8cd0562d7201"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_23.07┼89.08┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "Chemist at 8024 8090",
-            "LocalPRS": "23.07┼89.08┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "Chemist"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "33c2aae07c89cbd4ab73c1d166412e74"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_23.1┼89.06┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "ResearchDirector at 8024 8090",
-            "LocalPRS": "23.1┼89.06┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "ResearchDirector"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "5af862b6a616f7f4b8ac668fa16f019d"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_23.11┼88.77┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "AtmosphericTechnician at 8024 8090",
-            "LocalPRS": "23.11┼88.77┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "AtmosphericTechnician"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "60ea248052a1b374fbba4f5311b12240"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_23.12┼89.06┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "AI at 8024 8090",
-            "LocalPRS": "23.12┼89.06┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "AI"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "8430bb2420690eb42b97ae6602fe9e1b"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_23.14┼89.17┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "StationEngineer at 8024 8090",
-            "LocalPRS": "23.14┼89.17┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "StationEngineer"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "784f6d758c67445429a3d2fcb7022a94"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_23.14┼89.21┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "Bartender at 8024 8090",
-            "LocalPRS": "23.14┼89.21┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "Bartender"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "d7e4a6f5b15d7a445a9a14c9bf982bec"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_23.15┼88.83┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "Medical at 8024 8090",
-            "LocalPRS": "23.15┼88.83┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "Medical"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "1f1fe01a93ff9e54eb52ac23599eb76a"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_23.15┼88.98┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "CargoTechnician at 8024 8090",
-            "LocalPRS": "23.15┼88.98┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "CargoTechnician"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "4dae43b43bd09854ab8b381f2fabad96"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_23.16┼88.9┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "MaintSpawns at 8024 8090",
-            "LocalPRS": "23.16┼88.9┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "MaintSpawns"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "6f2180fedef59fb41bf603daa92a001c"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_23.16┼89┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "Captain at 8024 8090",
-            "LocalPRS": "23.16┼89┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "Captain"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "913b5e9456f70144eba18f236e0d33c3"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_23.17┼88.88┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "Curator at 8024 8090",
-            "LocalPRS": "23.17┼88.88┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "Curator"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "5e74a22c519356541bd5cc38bcc6e585"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_23.17┼89.02┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "Cook at 8024 8090",
-            "LocalPRS": "23.17┼89.02┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "Cook"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "601bba2ee25af454ab5f55d3a142f52b"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_23.18┼89.06┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "Mime at 8024 8090",
-            "LocalPRS": "23.18┼89.06┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "Mime"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "088332eee267c0d4c8febd5a32cf5e8a"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_23.21┼89.29┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "ChiefMedicalOfficer at 8024 8090",
-            "LocalPRS": "23.21┼89.29┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "ChiefMedicalOfficer"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "9f2f300c851c28847b9db0103884a62e"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_23.23┼88.85┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "Detective at 8024 8090",
-            "LocalPRS": "23.23┼88.85┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "Detective"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "389f7c89cc3e8134e839713f5de4a746"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_23.27┼89.02┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "ChiefEngineer at 8024 8090",
-            "LocalPRS": "23.27┼89.02┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "ChiefEngineer"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "e28eb3d11a29428468ab9ec9aa15cfc0"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_23.29┼88.71┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "SecurityOfficer at 8024 8090",
-            "LocalPRS": "23.29┼88.71┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "SecurityOfficer"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "9fcd63796f3c0a046980fd72fb2540f2"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_23.31┼88.92┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "LateJoin at 8024 8090",
-            "LocalPRS": "23.31┼88.92┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "LateJoin"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "456152da55bef644f941d0e1707c7adc"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_23.32┼88.96┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "Entertainers at 8024 8090",
-            "LocalPRS": "23.32┼88.96┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "Entertainers"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "db63225c93a3fb44287a6c6a21275810"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -129044,15 +128164,6 @@
                           "Data": "ÿÿÿ´"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "b72b80854bb231b45b888b9ad400ba44"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -129607,15 +128718,6 @@
                           "Data": "ÿÿÿ´"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "c1f0681714f189b408765616728afc0d"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -129946,15 +129048,6 @@
                           "Data": "ÿÿÿ´"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "21ddf05102e9b6a45acad7f78771095f"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -130032,15 +129125,6 @@
                         {
                           "Name": "InitialColour",
                           "Data": "ÿÿÿ´"
-                        }
-                      ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "6231641d3249e8045bfb42dfeb8274ae"
                         }
                       ]
                     }
@@ -131469,15 +130553,6 @@
                           "Data": "ÿÿÿ´"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "b1fce373bc08b6143bbb13b23ef1e174"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -131778,15 +130853,6 @@
                           "Data": "ÿÿÿ´"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "f76a776babb635043a17cefed918b26a"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -131976,15 +131042,6 @@
                           "Data": "ÿÿÿ´"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "aa91a918e48dc94428ba97b84f9d12cb"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -132098,15 +131155,6 @@
                         {
                           "Name": "InitialColour",
                           "Data": "ÿÿÿ´"
-                        }
-                      ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "95acf3f165dfaf344a045dfa9cdc585b"
                         }
                       ]
                     }
@@ -132252,15 +131300,6 @@
                           "Data": "ÿÿÿ´"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "4ca019e77343d77458e31ae43b42b51e"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -132364,15 +131403,6 @@
                         {
                           "Name": "InitialColour",
                           "Data": "ÿÿÿ´"
-                        }
-                      ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "38bab3f365321e74286d9b4a0ca7a553"
                         }
                       ]
                     }
@@ -132518,15 +131548,6 @@
                           "Data": "ÿÿÿ´"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "1c65766693b7d0f44b03443454793049"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -132606,15 +131627,6 @@
                           "Data": "ÿÿÿ´"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "0faaea7127691f841a6fd4d2c121bdab"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -132692,15 +131704,6 @@
                         {
                           "Name": "InitialColour",
                           "Data": "ÿÿÿ´"
-                        }
-                      ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "38bab3f365321e74286d9b4a0ca7a553"
                         }
                       ]
                     }
@@ -132918,15 +131921,6 @@
                           "Data": "ÿÿÿ´"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "38bab3f365321e74286d9b4a0ca7a553"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -133004,15 +131998,6 @@
                         {
                           "Name": "InitialColour",
                           "Data": "ÿÿÿ´"
-                        }
-                      ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "38bab3f365321e74286d9b4a0ca7a553"
                         }
                       ]
                     }
@@ -133218,15 +132203,6 @@
                           "Data": "ÿÿÿ´"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "bc3668be6098379448d55bdaad2de05f"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -133304,15 +132280,6 @@
                         {
                           "Name": "InitialColour",
                           "Data": "ÿÿÿ´"
-                        }
-                      ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "38bab3f365321e74286d9b4a0ca7a553"
                         }
                       ]
                     }
@@ -133394,15 +132361,6 @@
                           "Data": "ÿÿÿ´"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "38bab3f365321e74286d9b4a0ca7a553"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -133480,15 +132438,6 @@
                         {
                           "Name": "InitialColour",
                           "Data": "ÿÿÿ´"
-                        }
-                      ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "aae7926fed5ac8f48afe210a6d94ca06"
                         }
                       ]
                     }
@@ -133632,15 +132581,6 @@
                         {
                           "Name": "InitialColour",
                           "Data": "ÿÿÿ´"
-                        }
-                      ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "38bab3f365321e74286d9b4a0ca7a553"
                         }
                       ]
                     }
@@ -133836,15 +132776,6 @@
                         {
                           "Name": "InitialColour",
                           "Data": "ÿÿÿ´"
-                        }
-                      ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "38bab3f365321e74286d9b4a0ca7a553"
                         }
                       ]
                     }
@@ -134096,15 +133027,6 @@
                           "Data": "ÿÿÿ´"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "38bab3f365321e74286d9b4a0ca7a553"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -134218,15 +133140,6 @@
                         {
                           "Name": "InitialColour",
                           "Data": "ÿÿÿ´"
-                        }
-                      ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "38bab3f365321e74286d9b4a0ca7a553"
                         }
                       ]
                     }
@@ -134946,15 +133859,6 @@
                           "Data": "ÿÿÿ¾"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "558954acb59d1a04f883ff3d5a3be821"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -135351,15 +134255,6 @@
                         {
                           "Name": "InitialColour",
                           "Data": "ÿÿÿ´"
-                        }
-                      ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "b57036b0cd6d7564e87f6af92590a17f"
                         }
                       ]
                     }
@@ -137197,15 +136092,6 @@
                           "Data": "ÿÿÿ´"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "74202f93df826f746bce702a32b5810e"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -137541,260 +136427,8 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "8096,8102.5,0",
-          "Size": "192,205,0"
-        }
-      ]
-    },
-    {
-      "Ver": "1.1.1",
-      "Location": "8012┼8101┼0┼",
-      "MatrixName": "TinyShipE (5)",
-      "GitFriendlyTileMapData": {
-        "Ver": "1.0.0",
-        "XYs": [
-          {
-            "Key": "X-1Y-1",
-            "Value": [
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X0Y-1",
-            "Value": [
-              {
-                "Tel": "TitaniumFloorTiledWhite"
-              },
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X1Y-1",
-            "Value": [
-              {
-                "Tel": "TitaniumFloorTiledWhite"
-              },
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          }
-        ]
-      },
-      "CompactObjectMapData": {
-        "Ver": "1.2.0",
-        "CommonPrefabs": [],
-        "PrefabData": [
-          {
-            "GitID": "9bda2d5647088c74392285230ba38474_-0.993┼-1┼0┼",
-            "PrefabID": "9bda2d5647088c74392285230ba38474",
-            "Name": "Shuttle_engine_center (1)",
-            "LocalPRS": "-1┼-1┼0┼0ø0ø90ø",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Thruster@0",
-                  "Data": [
-                    {
-                      "Name": "SelfPowered",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "pipeData@SelfSufficient",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Left_By90"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_0.009┼-1┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (1)",
-            "LocalPRS": "0┼-1┼0┼"
-          },
-          {
-            "GitID": "5425ee650c49e0849b4bed132cfb588f_0.009┼-1┼0┼",
-            "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
-            "Name": "TinyFan (1)",
-            "LocalPRS": "0┼-1┼0┼"
-          },
-          {
-            "GitID": "67c1a2e93881ef1479a466ad4ee872eb_0.01┼-1┼0┼",
-            "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
-            "Name": "ShuttleChair (1)",
-            "LocalPRS": "0┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Right_By270"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "ddcfc3ab784dec1419565255774956c5_0.009┼-1┼0┼",
-            "PrefabID": "ddcfc3ab784dec1419565255774956c5",
-            "Name": "WinDoorLeft (1)",
-            "LocalPRS": "0┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Up_By0"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "0a56d7747596df141be0aa6803f20980_1.007┼-1┼0┼",
-            "PrefabID": "0a56d7747596df141be0aa6803f20980",
-            "Name": "ShuttlePilotingConsole (3)",
-            "LocalPRS": "1┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Left_By90"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "ShuttleConsole@0",
-                  "Data": [
-                    {
-                      "Name": "shuttleConsoleState",
-                      "Data": "Emagged"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_1.007┼-1┼0┼",
-            "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
-            "Name": "headlight",
-            "LocalPRS": "1┼-1┼0┼0ø0ø270ø",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "LocalPRS": "0┼0┼0┼12↔12↔18↔",
-                  "ID": "0,2",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "LightSprite@0",
-                      "Data": [
-                        {
-                          "Name": "InitialColour",
-                          "Data": "ÿÿÿª"
-                        }
-                      ]
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "DirectionalLight64_cardinal"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.022┼-1┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (2)",
-            "LocalPRS": "1┼-1┼0┼"
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.023┼-1┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (3)",
-            "LocalPRS": "1┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Right_By270"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.024┼-1┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (4)",
-            "LocalPRS": "1┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Up_By0"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        ],
-        "IDToNetIDClient": {}
-      },
-      "PreviewGizmos": [
-        {
-          "Ver": "1.0.0",
-          "Pos": "8013,8101.5,0",
-          "Size": "2,1,0"
+          "Pos": "8096.5,8103,0",
+          "Size": "191,204,0"
         }
       ]
     }

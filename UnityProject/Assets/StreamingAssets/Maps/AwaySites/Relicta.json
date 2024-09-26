@@ -38603,8 +38603,8 @@
             "LocalPRS": "-35┼13┼0┼"
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_-33.92┼14.98┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-33.92┼14.98┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
             "LocalPRS": "-33.92┼14.98┼0┼"
           },
@@ -38631,6 +38631,19 @@
                     {
                       "Name": "Resistances@FireProof",
                       "Data": "False"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "APC"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Area Power Controller"
                     }
                   ]
                 },
@@ -38759,14 +38772,14 @@
             }
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_-31.01┼-11.01┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-31.01┼-11.01┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
             "LocalPRS": "-31.01┼-11.01┼0┼"
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_-30.07┼0.05┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-30.07┼0.05┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
             "LocalPRS": "-30.07┼0.05┼0┼"
           },
@@ -38774,7 +38787,24 @@
             "GitID": "91d832be818283a4188516804e8d5ef0_-30┼-12┼0┼",
             "PrefabID": "91d832be818283a4188516804e8d5ef0",
             "Name": "Closet_Emergency_Oxygen",
-            "LocalPRS": "-30┼-12┼0┼"
+            "LocalPRS": "-30┼-12┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "oxygen closet"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Stores emergency breathing equipment."
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "cb2f847ef3b8b754181a970a4032c552_-30┼-11┼0┼",
@@ -38995,8 +39025,8 @@
             "LocalPRS": "-26.94┼32.22┼0┼"
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_-26.06┼30.08┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-26.06┼30.08┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
             "LocalPRS": "-26.06┼30.08┼0┼"
           },
@@ -39277,6 +39307,19 @@
                   ]
                 },
                 {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "APC"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Area Power Controller"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -39508,6 +39551,19 @@
                     {
                       "Name": "Resistances@FireProof",
                       "Data": "False"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "APC"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Area Power Controller"
                     }
                   ]
                 },
@@ -39798,8 +39854,8 @@
             }
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_-20.96┼-13.98┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-20.96┼-13.98┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
             "LocalPRS": "-20.96┼-13.98┼0┼"
           },
@@ -40020,6 +40076,19 @@
                   ]
                 },
                 {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "APC"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Area Power Controller"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "APC@0",
                   "Data": [
                     {
@@ -40116,6 +40185,19 @@
                     {
                       "Name": "Resistances@FireProof",
                       "Data": "False"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "APC"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Area Power Controller"
                     }
                   ]
                 },
@@ -40337,6 +40419,19 @@
                   ]
                 },
                 {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "APC"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Area Power Controller"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "APC@0",
                   "Data": [
                     {
@@ -40381,14 +40476,14 @@
             }
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_-16.21┼16.3┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-16.21┼16.3┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
             "LocalPRS": "-16.21┼16.3┼0┼"
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_-16.03┼26.76┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-16.03┼26.76┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Ghost",
             "LocalPRS": "-16.03┼26.76┼0┼"
           },
@@ -40458,8 +40553,8 @@
             }
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_-16┼5.07┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-16┼5.07┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
             "LocalPRS": "-16┼5.07┼0┼"
           },
@@ -40639,8 +40734,8 @@
             }
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_-14.97┼-6.94┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-14.97┼-6.94┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
             "LocalPRS": "-14.97┼-6.94┼0┼"
           },
@@ -40859,8 +40954,8 @@
             }
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_-12.31┼13┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-12.31┼13┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Ghost",
             "LocalPRS": "-12.31┼13┼0┼"
           },
@@ -40887,6 +40982,19 @@
                     {
                       "Name": "Resistances@FireProof",
                       "Data": "False"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "APC"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Area Power Controller"
                     }
                   ]
                 },
@@ -41001,8 +41109,8 @@
             "LocalPRS": "-11┼28┼0┼"
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_-10.2┼9.83┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-10.2┼9.83┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
             "LocalPRS": "-10.2┼9.83┼0┼"
           },
@@ -41057,8 +41165,8 @@
             }
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_-9.28┼26.76┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-9.28┼26.76┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
             "LocalPRS": "-9.28┼26.76┼0┼"
           },
@@ -41220,7 +41328,24 @@
             "GitID": "91d832be818283a4188516804e8d5ef0_-8┼23┼0┼",
             "PrefabID": "91d832be818283a4188516804e8d5ef0",
             "Name": "Closet_Emergency_Oxygen",
-            "LocalPRS": "-8┼23┼0┼"
+            "LocalPRS": "-8┼23┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "oxygen closet"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Stores emergency breathing equipment."
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_-8┼29┼0┼",
@@ -41374,6 +41499,19 @@
                     {
                       "Name": "Resistances@FireProof",
                       "Data": "False"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "APC"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Area Power Controller"
                     }
                   ]
                 },
@@ -41605,8 +41743,8 @@
             "LocalPRS": "-4┼22.02┼0┼"
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_-3.03┼-29.07┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-3.03┼-29.07┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
             "LocalPRS": "-3.03┼-29.07┼0┼"
           },
@@ -41865,14 +42003,14 @@
             "LocalPRS": "-1┼29┼0┼"
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_-0.98┼31.85┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-0.98┼31.85┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
             "LocalPRS": "-0.98┼31.85┼0┼"
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_0┼-21.02┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_0┼-21.02┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
             "LocalPRS": "0┼-21.02┼0┼"
           },
@@ -41889,8 +42027,8 @@
             "LocalPRS": "0┼-15┼0┼"
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_0┼-9.93┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_0┼-9.93┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
             "LocalPRS": "0┼-9.93┼0┼"
           },
@@ -42137,6 +42275,19 @@
                   ]
                 },
                 {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "APC"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Area Power Controller"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "APC@0",
                   "Data": [
                     {
@@ -42293,6 +42444,19 @@
                     {
                       "Name": "Resistances@FireProof",
                       "Data": "False"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "APC"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Area Power Controller"
                     }
                   ]
                 },
@@ -42477,6 +42641,19 @@
                   ]
                 },
                 {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "APC"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Area Power Controller"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "APC@0",
                   "Data": [
                     {
@@ -42648,6 +42825,19 @@
             "Object": {
               "ClassDatas": [
                 {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "Toilet"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Every king or queen needs a throne."
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -42710,6 +42900,19 @@
             "LocalPRS": "5┼17┼0┼",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "Toilet"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Every king or queen needs a throne."
+                    }
+                  ]
+                },
                 {
                   "ClassID": "Rotatable@0",
                   "Data": [
@@ -42813,11 +43016,28 @@
             "GitID": "91d832be818283a4188516804e8d5ef0_5┼33┼0┼",
             "PrefabID": "91d832be818283a4188516804e8d5ef0",
             "Name": "Closet_Emergency_Oxygen",
-            "LocalPRS": "5┼33┼0┼"
+            "LocalPRS": "5┼33┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "oxygen closet"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Stores emergency breathing equipment."
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_5.07┼-29.07┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_5.07┼-29.07┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
             "LocalPRS": "5.07┼-29.07┼0┼"
           },
@@ -42918,6 +43138,19 @@
                     {
                       "Name": "Resistances@FireProof",
                       "Data": "False"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "APC"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Area Power Controller"
                     }
                   ]
                 },
@@ -43059,6 +43292,19 @@
                     {
                       "Name": "Resistances@FireProof",
                       "Data": "False"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "APC"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Area Power Controller"
                     }
                   ]
                 },
@@ -43392,14 +43638,14 @@
             }
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_10.11┼-17.43┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_10.11┼-17.43┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Husk",
             "LocalPRS": "10.11┼-17.43┼0┼"
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_10.11┼6.49┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_10.11┼6.49┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Ghost",
             "LocalPRS": "10.11┼6.49┼0┼"
           },
@@ -43481,6 +43727,15 @@
                       "Data": "False"
                     }
                   ]
+                },
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Can be closed to prevent passage."
+                    }
+                  ]
                 }
               ]
             }
@@ -43508,6 +43763,15 @@
                       "Data": "False"
                     }
                   ]
+                },
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Can be closed to prevent passage."
+                    }
+                  ]
                 }
               ]
             }
@@ -43533,6 +43797,15 @@
                     {
                       "Name": "Resistances@FireProof",
                       "Data": "False"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Can be closed to prevent passage."
                     }
                   ]
                 }
@@ -43598,6 +43871,19 @@
                     {
                       "Name": "Resistances@FireProof",
                       "Data": "False"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "APC"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Area Power Controller"
                     }
                   ]
                 },
@@ -43749,6 +44035,19 @@
                   ]
                 },
                 {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "APC"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Area Power Controller"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "APC@0",
                   "Data": [
                     {
@@ -43769,8 +44068,8 @@
             }
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_12.96┼14.55┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_12.96┼14.55┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
             "LocalPRS": "12.96┼14.55┼0┼"
           },
@@ -43815,6 +44114,19 @@
                       "Data": "False"
                     }
                   ]
+                },
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "BlastDoor"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "heavy metal door, built to withstand high yield explosions."
+                    }
+                  ]
                 }
               ]
             }
@@ -43842,6 +44154,19 @@
                       "Data": "False"
                     }
                   ]
+                },
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "BlastDoor"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "heavy metal door, built to withstand high yield explosions."
+                    }
+                  ]
                 }
               ]
             }
@@ -43867,6 +44192,19 @@
                     {
                       "Name": "Resistances@FireProof",
                       "Data": "False"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "BlastDoor"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "heavy metal door, built to withstand high yield explosions."
                     }
                   ]
                 }
@@ -44051,6 +44389,19 @@
                   ]
                 },
                 {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "APC"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Area Power Controller"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -44181,6 +44532,19 @@
                       "Data": "20"
                     }
                   ]
+                },
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "locker"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "A very plain locker made of metal."
+                    }
+                  ]
                 }
               ]
             }
@@ -44259,8 +44623,8 @@
             "LocalPRS": "15┼39.04┼0┼"
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_15.12┼22.92┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_15.12┼22.92┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
             "LocalPRS": "15.12┼22.92┼0┼"
           },
@@ -44274,7 +44638,20 @@
             "GitID": "68a3eee06f0a8cf4da5d8ab811ce1c73_16┼13┼0┼",
             "PrefabID": "68a3eee06f0a8cf4da5d8ab811ce1c73",
             "Name": "ClosetBase",
-            "LocalPRS": "16┼13┼0┼"
+            "LocalPRS": "16┼13┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialDescription",
+                      "Data": "A container made of metal."
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "8f3b5940c1a9ba34c856057c8b910cbe_16┼17┼0┼",
@@ -44289,6 +44666,19 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "20"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "locker"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "A very plain locker made of metal."
                     }
                   ]
                 }
@@ -44438,6 +44828,19 @@
                   ]
                 },
                 {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "APC"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Area Power Controller"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -44535,8 +44938,8 @@
             "LocalPRS": "18┼40.04┼0┼"
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_18.34┼35.19┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_18.34┼35.19┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
             "LocalPRS": "18.34┼35.19┼0┼"
           },
@@ -44563,6 +44966,19 @@
                     {
                       "Name": "Resistances@FireProof",
                       "Data": "False"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "APC"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Area Power Controller"
                     }
                   ]
                 },
@@ -44645,8 +45061,8 @@
             "LocalPRS": "20┼15┼0┼"
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_20.77┼-6.67┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_20.77┼-6.67┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
             "LocalPRS": "20.77┼-6.67┼0┼"
           },
@@ -45080,8 +45496,8 @@
             "LocalPRS": "23┼15┼0┼"
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_23.37┼4.95┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_23.37┼4.95┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
             "LocalPRS": "23.37┼4.95┼0┼"
           },
@@ -45108,6 +45524,19 @@
                     {
                       "Name": "Resistances@FireProof",
                       "Data": "False"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "APC"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Area Power Controller"
                     }
                   ]
                 },
@@ -45321,6 +45750,15 @@
                       "Data": "True"
                     }
                   ]
+                },
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialDescription",
+                      "Data": "t's a storage unit for level 3 biohazard gear."
+                    }
+                  ]
                 }
               ]
             }
@@ -45406,7 +45844,24 @@
             "GitID": "c1aebfea91112ef4a83ba10f37d3f437_29┼-4┼0┼",
             "PrefabID": "c1aebfea91112ef4a83ba10f37d3f437",
             "Name": "Closet_Fire_Red",
-            "LocalPRS": "29┼-4┼0┼"
+            "LocalPRS": "29┼-4┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "closet"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Stores firefighting equipment."
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_29┼-3┼0┼",
@@ -45486,7 +45941,24 @@
             "GitID": "91d832be818283a4188516804e8d5ef0_29┼4┼0┼",
             "PrefabID": "91d832be818283a4188516804e8d5ef0",
             "Name": "Closet_Emergency_Oxygen",
-            "LocalPRS": "29┼4┼0┼"
+            "LocalPRS": "29┼4┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "oxygen closet"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Stores emergency breathing equipment."
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "cb2f847ef3b8b754181a970a4032c552_30┼0┼0┼",
@@ -45532,8 +46004,8 @@
             "LocalPRS": "32┼-8┼0┼"
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_32.16┼-0.64┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_32.16┼-0.64┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
             "LocalPRS": "32.16┼-0.64┼0┼"
           },
@@ -45560,6 +46032,19 @@
                     {
                       "Name": "Resistances@FireProof",
                       "Data": "False"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "APC"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Area Power Controller"
                     }
                   ]
                 },
@@ -45801,6 +46286,19 @@
                     {
                       "Name": "Resistances@FireProof",
                       "Data": "False"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "APC"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Area Power Controller"
                     }
                   ]
                 },
