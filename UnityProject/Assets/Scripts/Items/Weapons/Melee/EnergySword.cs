@@ -95,7 +95,7 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandApply>, IC
 			}
 			else
 			{
-				SyncState(color, color += 1);
+				SyncState(color, num + 1);
 			}
 			Chat.AddExamineMsgFromServer(performer, "You adjust the crystalline beam emitter.");
 		}
