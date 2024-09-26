@@ -20,6 +20,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3554597231095268504, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
+      propertyPath: blockChance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3554597231095268504, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
       propertyPath: initialName
       value: telescopic shield
       objectReference: {fileID: 0}
@@ -60,6 +65,24 @@ PrefabInstance:
       propertyPath: itemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: 8618ed3d13426d64ba424a4c7f2399ab,
+        type: 2}
+    - target: {fileID: 3554597231095268504, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 3415d66e658f0f344895ab5a799c30ef,
+        type: 2}
+    - target: {fileID: 3554597231095268504, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 8618ed3d13426d64ba424a4c7f2399ab,
+        type: 2}
+    - target: {fileID: 3554597231095268504, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 6e88d3a1bfb3e2f4299219dc4d324081,
         type: 2}
     - target: {fileID: 3839345559943878822, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
@@ -143,6 +166,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 6e88d3a1bfb3e2f4299219dc4d324081,
         type: 2}
+    - target: {fileID: 7133687355514949757, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 6e88d3a1bfb3e2f4299219dc4d324081,
+        type: 2}
     - target: {fileID: 7999329761268803479, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
       propertyPath: parentID
@@ -157,5 +186,108 @@ PrefabInstance:
     - {fileID: 7802048611900235560, guid: 5f9896c0cca80e14f8144be44d05e0a0, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4015502146010655738, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6959271536702169671}
+    - targetCorrespondingSourceObject: {fileID: 4015502146010655738, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6926762046859313971}
+    - targetCorrespondingSourceObject: {fileID: 4015502146010655738, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -5140984818635738849}
+    - targetCorrespondingSourceObject: {fileID: 4015502146010655738, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -6955450626507134056}
   m_SourcePrefab: {fileID: 100100000, guid: 5f9896c0cca80e14f8144be44d05e0a0, type: 3}
+--- !u!114 &1608188122199766778 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7133687355514949757, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 8407829391820859015}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &4834457675139550589 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4015502146010655738, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 8407829391820859015}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6959271536702169671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4834457675139550589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63f4ca8961a114575a87fdce0aac206e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+--- !u!114 &6926762046859313971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4834457675139550589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dd51e0399345ec6ea673e75a5423e67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activatedBlockChance: 50
+--- !u!114 &-5140984818635738849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4834457675139550589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6557073ddc4870490a5bb7d6fb3ec5a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activatedSize: 4
+--- !u!114 &-6955450626507134056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4834457675139550589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76de6dadc1b3f5272865932c1a4151fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemIcon: {fileID: 1608188122199766778}
+  ActivatedSprites:
+    SpriteInventoryIcon: {fileID: 11400000, guid: 7d7970f718bba1a4788ef7c534b89592,
+      type: 2}
+    SpriteLeftHand: {fileID: 11400000, guid: e6bdb5e3b04ef204cb28f63bf0551da2, type: 2}
+    SpriteRightHand: {fileID: 11400000, guid: 607016429acb32b4d83adab009b8befb, type: 2}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0

@@ -8,6 +8,24 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8871251052067661461, guid: 1e67a35115f25b64283e699e311413ef,
+        type: 3}
+      propertyPath: ActivatedSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 53fe2ee57f22a424389505ba630412e2,
+        type: 2}
+    - target: {fileID: -8871251052067661461, guid: 1e67a35115f25b64283e699e311413ef,
+        type: 3}
+      propertyPath: ActivatedSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 4a4b0b3d1ff6c2843b6cfadd9d9af683,
+        type: 2}
+    - target: {fileID: -8871251052067661461, guid: 1e67a35115f25b64283e699e311413ef,
+        type: 3}
+      propertyPath: ActivatedSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 2e9dd8130dd2b02409d3233f6e30d716,
+        type: 2}
     - target: {fileID: 3872523323669412091, guid: 1e67a35115f25b64283e699e311413ef,
         type: 3}
       propertyPath: parentID
@@ -21,6 +39,12 @@ PrefabInstance:
     - target: {fileID: 4053610893726174993, guid: 1e67a35115f25b64283e699e311413ef,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a976f8b3ff4196d47b703fc87c1b6648,
+        type: 2}
+    - target: {fileID: 4053610893726174993, guid: 1e67a35115f25b64283e699e311413ef,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: a976f8b3ff4196d47b703fc87c1b6648,
         type: 2}
@@ -65,6 +89,24 @@ PrefabInstance:
       propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 63ebb1ff93c93354994ab009bc8ccf7d,
+        type: 2}
+    - target: {fileID: 7776260949658082292, guid: 1e67a35115f25b64283e699e311413ef,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 02e89a410f9a19c44a0993e43b4df331,
+        type: 2}
+    - target: {fileID: 7776260949658082292, guid: 1e67a35115f25b64283e699e311413ef,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 0ce2589304027454986d2c1f594ca9c1,
+        type: 2}
+    - target: {fileID: 7776260949658082292, guid: 1e67a35115f25b64283e699e311413ef,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: a976f8b3ff4196d47b703fc87c1b6648,
         type: 2}
     - target: {fileID: 7823732278566013218, guid: 1e67a35115f25b64283e699e311413ef,
         type: 3}
