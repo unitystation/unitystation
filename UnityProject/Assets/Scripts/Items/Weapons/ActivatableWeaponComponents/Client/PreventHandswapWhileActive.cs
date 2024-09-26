@@ -1,16 +1,8 @@
-namespace Items
-{
-	public enum HiddenHandValue
-	{
-		bothHands = 0,
-		leftHand = 1,
-		rightHand = 2,
-		none = 3
-	}
-}
-
 namespace Weapons.ActivatableWeapons
 {
+
+
+
 	public class PreventHandswapWhileActive : ClientActivatableWeaponComponent
 	{
 		private Pickupable pickupable;

@@ -12,6 +12,14 @@ namespace Weapons.ActivatableWeapons
 
 		protected ActivatableWeapon av;
 
+		private Pickupable pickupable;
+		private ItemAttributesV2 itemAttributes;
+
+		public SpriteHandler ItemIcon;
+
+		public ItemsSprites ActivatedSprites = new();
+		private ItemsSprites defaultSprites = new();
+
 		private void Awake()
 		{
 			av = GetComponent<ActivatableWeapon>();
@@ -20,14 +28,6 @@ namespace Weapons.ActivatableWeapons
 			av.ClientOnActivate += ClientActivateBehaviour;
 			av.ClientOnDeactivate += ClientDeactivateBehaviour;
 		}
-
-		private Pickupable pickupable;
-		private ItemAttributesV2 itemAttributes;
-
-		public SpriteHandler ItemIcon;
-
-		public ItemsSprites ActivatedSprites = new();
-		private ItemsSprites defaultSprites = new();
 
 		private void Start()
 		{
