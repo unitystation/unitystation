@@ -86,6 +86,7 @@ public enum NetTabType
 	PassiveGate = 68,
 	PressureValve = 69,
 	TemperatureGate = 70,
+	ReflectionGolf = 71,
 	// add new entres to the bottom
 	// the enum name must match that of the prefab except the prefab has the word tab infront of the enum name
 	// i.e TabJukeBox
