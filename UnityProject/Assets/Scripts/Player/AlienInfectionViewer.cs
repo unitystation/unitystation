@@ -19,7 +19,7 @@ namespace Player
 
 		public void OnPlayerLeaveBody(PlayerInfo account)
 		{
-			//Player left this body so remove all infected stuff
+			//Player left this body so remove all infected stuff 
 			XenomorphLarvae.LeftBody(connectionToClient);
 		}
 	}
