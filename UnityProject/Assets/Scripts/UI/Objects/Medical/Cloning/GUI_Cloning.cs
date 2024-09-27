@@ -10,12 +10,10 @@ namespace UI.Objects.Medical.Cloning
 	public class GUI_Cloning : NetTab
 	{
 		public CloningConsole CloningConsole;
-		public GUI_CloningItemList recordList = null;
 
 		public NetPageSwitcher netPageSwitcher;
 		public NetPage PageAllRecords;
-		public NetPage PageSpecificRecord;
-		public NetPage PageHealthInspection;
+		public NetPage PageMain;
 
 		public CloningRecord specificRecord;
 
@@ -68,13 +66,13 @@ namespace UI.Objects.Medical.Cloning
 
 		public void UpdateDisplay()
 		{
-			DisplayAllRecords();
+			specificRecord = CloningConsole.CurrentRecord;
 			DisplayCurrentRecord();
 			DisplayPodStatus();
 			DisplayScannerStatus();
 			LimbRecord(null);
 			OrganRecord(null);
-			buttonTextViewRecord.MasterSetValue($"View Records({CloningConsole.CloningRecords.Count()})");
+			buttonTextViewRecord.MasterSetValue(specificRecord == null ? "No record loaded.." : "Load Record");
 		}
 
 		public void StartScan()
@@ -93,12 +91,12 @@ namespace UI.Objects.Medical.Cloning
 		{
 			RemoveRecord();
 			UpdateDisplay();
-			netPageSwitcher.SetActivePage(PageAllRecords);
+			netPageSwitcher.SetActivePage(PageMain);
 		}
 
 		public void RemoveRecord()
 		{
-			CloningConsole.RemoveRecord(specificRecord);
+			CloningConsole.RemoveRecord();
 			specificRecord = null;
 		}
 
@@ -106,7 +104,6 @@ namespace UI.Objects.Medical.Cloning
 		{
 			CloningConsole.ServerTryClone(specificRecord);
 			UpdateDisplay();
-			netPageSwitcher.SetActivePage(PageAllRecords);
 		}
 
 		public void ViewAllRecords()
@@ -115,25 +112,11 @@ namespace UI.Objects.Medical.Cloning
 			netPageSwitcher.SetActivePage(PageAllRecords);
 		}
 
-		public void ViewRecord(CloningRecord cloningRecord)
-		{
-			specificRecord = cloningRecord;
-			UpdateDisplay();
-			netPageSwitcher.SetActivePage(PageSpecificRecord);
-		}
-
-		public void ViewHealthInspection()
+		public void ViewMainPage()
 		{
 			UpdateDisplay();
-			DisplayAilments();
-			SetOverlays();
-			netPageSwitcher.SetActivePage(PageHealthInspection);
+			netPageSwitcher.SetActivePage(PageMain);
 		}
-
-		public void ViewRecordReturn()
-        {
-			ViewRecord(specificRecord);
-        }
 
 		public void DisplayCurrentRecord()
 		{
@@ -146,6 +129,16 @@ namespace UI.Objects.Medical.Cloning
 				recordToxin.MasterSetValue(specificRecord.toxinDmg + "\tToxin Damage");
 				recordBrute.MasterSetValue(specificRecord.bruteDmg + "\tBrute Damage");
 				recordUniqueID.MasterSetValue(specificRecord.uniqueIdentifier);
+			}
+			else
+			{
+				recordName.MasterSetValue("No target..");
+				recordScanID.MasterSetValue("####");
+				recordOxy.MasterSetValue("\t0");
+				recordBurn.MasterSetValue("\t0");
+				recordToxin.MasterSetValue("\t0");
+				recordBrute.MasterSetValue("\t0");
+				recordUniqueID.MasterSetValue("####");
 			}
 		}
 
@@ -219,22 +212,6 @@ namespace UI.Objects.Medical.Cloning
 			tabBleeding.MasterSetValue("");
 			tabIsOpen = false;
         }
-
-		public void DisplayAllRecords()
-		{
-			recordList.Clear();
-			recordList.AddItems(CloningConsole.CloningRecords.Count());
-
-			var i = 0;
-			foreach (var cloningRecord in CloningConsole.CloningRecords)
-			{
-				GUI_CloningRecordItem item = recordList.Entries[i] as GUI_CloningRecordItem;
-				item.gui_Cloning = this;
-				item.cloningRecord = cloningRecord;
-				item.SetValues();
-				i++;
-			}
-		}
 
 		public void DisplayPodStatus()
 		{
