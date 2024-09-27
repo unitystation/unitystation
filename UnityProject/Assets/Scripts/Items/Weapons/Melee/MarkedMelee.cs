@@ -4,6 +4,7 @@ using UnityEngine;
 using Items;
 using Systems.StatusesAndEffects.Implementations;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
+using Weapons.ActivatableWeapons;
 
 namespace Weapons
 {
@@ -25,12 +26,14 @@ namespace Weapons
 		private bool isCooldown;
 		
 		private ItemAttributesV2 attribs;
-		private Wieldable wieldable;
+		private ActivatableWeapon activatable;
+		private ChangeDamageOnActivate avChangeDamage;
 		
 		void Awake()
 		{
 			attribs = gameObject.GetComponent<ItemAttributesV2>();
-			wieldable = gameObject.GetComponent<Wieldable>();
+			activatable = gameObject.GetComponent<ActivatableWeapon>();
+			avChangeDamage = gameObject.GetComponent<ChangeDamageOnActivate>();
 		}
 		
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -49,7 +52,7 @@ namespace Weapons
 			
 			if (reqWield)
 			{
-				if (wieldable.IsWielded == false)
+				if (activatable.IsActive == false)
 				{
 					Chat.AddExamineMsgFromServer(interaction.Performer, "You need to be wielding this to attack");
 					return;
@@ -104,7 +107,7 @@ namespace Weapons
 
 		public string Examine(Vector3 worldPos = default)
 		{
-			var baseDamage = reqWield ? wieldable.DamageWielded : attribs.ServerHitDamage;
+			var baseDamage = reqWield ? avChangeDamage.ActivatedHitDamage : attribs.ServerHitDamage;
 			StringBuilder exam = new StringBuilder();
 			exam.AppendLine($"Mark a creature with a destabilizing force using the projectile, then hit them with melee to do {baseDamage + markedHitBonus}")
 				.AppendLine($"Does {baseDamage + markedHitBonus + backstabBonus} damage instead if the target is backstabbed.");

@@ -301,11 +301,11 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		if (hideState)
 		{
-			HandsController.Instance.HideHands(HiddenHandValue.bothHands);
+			HandsController.Instance.HideHands(HandsController.HiddenHandValue.bothHands);
 		}
 		else
 		{
-			HandsController.Instance.HideHands(HiddenHandValue.none);
+			HandsController.Instance.HideHands(HandsController.HiddenHandValue.none);
 		}
 	}
 

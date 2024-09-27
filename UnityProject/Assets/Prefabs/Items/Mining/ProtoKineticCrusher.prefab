@@ -51,6 +51,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 540bb1ca3d2bf91418c92196cbffc492,
         type: 2}
+    - target: {fileID: 983609098388634077, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 540bb1ca3d2bf91418c92196cbffc492,
+        type: 2}
     - target: {fileID: 4090146957569035995, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
       propertyPath: Resistances.FireProof
@@ -203,6 +209,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b5f1eba03a536ab27a14880358cae9fa,
         type: 2}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 391705b102bbb8f90b413d1ee64b30d9,
+        type: 2}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: b5f1eba03a536ab27a14880358cae9fa,
+        type: 2}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: e945fda21f680834ebd556f142dad0c6,
+        type: 2}
     - target: {fileID: 7053223090983703362, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
       propertyPath: foreverID
@@ -211,6 +235,12 @@ PrefabInstance:
     - target: {fileID: 7790862161162773672, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e945fda21f680834ebd556f142dad0c6,
+        type: 2}
+    - target: {fileID: 7790862161162773672, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: e945fda21f680834ebd556f142dad0c6,
         type: 2}
@@ -225,7 +255,31 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4132242788693647151, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: -6943314109635352739}
+      addedObject: {fileID: 5975586456323971994}
+    - targetCorrespondingSourceObject: {fileID: 4132242788693647151, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8127772774069969631}
+    - targetCorrespondingSourceObject: {fileID: 4132242788693647151, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5012883227795867842}
+    - targetCorrespondingSourceObject: {fileID: 4132242788693647151, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5357643970834133107}
+    - targetCorrespondingSourceObject: {fileID: 4132242788693647151, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1717435498080961838}
+    - targetCorrespondingSourceObject: {fileID: 4132242788693647151, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5118915562846278848}
+    - targetCorrespondingSourceObject: {fileID: 4132242788693647151, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8986662425810040325}
   m_SourcePrefab: {fileID: 100100000, guid: ad527ba4de069794796e314f236794f4, type: 3}
 --- !u!1 &3321191813867953908 stripped
 GameObject:
@@ -251,7 +305,7 @@ MonoBehaviour:
   pushForce: 0
   reqWield: 1
   doPush: 0
---- !u!114 &-6943314109635352739
+--- !u!114 &5975586456323971994
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -260,16 +314,43 @@ MonoBehaviour:
   m_GameObject: {fileID: 3321191813867953908}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de0ecd3488032bf4d95a32d3450f9274, type: 3}
+  m_Script: {fileID: 11500000, guid: 63f4ca8961a114575a87fdce0aac206e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  damageUnwielded: 0
-  damageWielded: 20
-  Wielded:
-    SpriteInventoryIcon: {fileID: 0}
+--- !u!114 &8127772774069969631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3321191813867953908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a0d6dc4e2ba96a0b8ef7764b23c9d92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activatedHitDamage: 20
+  activatedThrowDamage: 5
+  activatedDamageType: 0
+--- !u!114 &5012883227795867842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3321191813867953908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76de6dadc1b3f5272865932c1a4151fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemIcon: {fileID: 8885920287978841459}
+  ActivatedSprites:
+    SpriteInventoryIcon: {fileID: 11400000, guid: e945fda21f680834ebd556f142dad0c6,
+      type: 2}
     SpriteLeftHand: {fileID: 11400000, guid: dc34284c34ebc764f8b485877bddbf62, type: 2}
     SpriteRightHand: {fileID: 11400000, guid: d96f07490c66c9946898b9e5dbca7ee6, type: 2}
     Palette:
@@ -282,17 +363,65 @@ MonoBehaviour:
     - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0, g: 0, b: 0, a: 0}
     IsPaletted: 0
-  Unwielded:
-    SpriteInventoryIcon: {fileID: 0}
-    SpriteLeftHand: {fileID: 11400000, guid: 391705b102bbb8f90b413d1ee64b30d9, type: 2}
-    SpriteRightHand: {fileID: 11400000, guid: b5f1eba03a536ab27a14880358cae9fa, type: 2}
-    Palette:
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    IsPaletted: 0
+--- !u!114 &5357643970834133107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3321191813867953908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80e2e9fa8c4cc3fad80aa29ba9155151, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1717435498080961838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3321191813867953908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4c6fcd3e72250b89b6ec316e8e24ede, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5118915562846278848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3321191813867953908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0628f0bada35bb90d83723f8bfcae634, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activateMessage: You wield {obj} grabbing it with both of your hands.
+  deactivateMessage: You unwield {obj}.
+--- !u!114 &8986662425810040325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3321191813867953908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb601676182dbb612a27f81b474d832a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8885920287978841459 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7790862161162773672, guid: ad527ba4de069794796e314f236794f4,
+    type: 3}
+  m_PrefabInstance: {fileID: 1679722502878249435}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
