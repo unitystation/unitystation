@@ -155,9 +155,14 @@ namespace Systems.Spells
 		private void OnActionToggleOff()
 		{
 			Loggy.LogError($"HOHO {castUsesLeft} e {CastUses} a {GetInstanceID()}");
-			if(castUsesLeft > 0 && castUsesLeft != CastUses)
+			/*if(castUsesLeft > 0 && castUsesLeft != CastUses)
 				Loggy.LogError($"AAAAA");
-				StartCooldown();
+				StartCooldown();*/
+		}
+
+		public string Ugg()
+		{
+			return $"{GetInstanceID()}";
 		}
 
 		public void StartCooldown(GameObject recipient = default)

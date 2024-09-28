@@ -17,12 +17,12 @@ namespace UI.Core.Action
 	/// </summary>
 	public class UIActionManager : MonoBehaviour
 	{
-
-		public class ActionAndData
+		//might be unused
+		/*public class ActionAndData
 		{
 			public ActionData ActionData;
 			public string ID;
-		}
+		}*/
 
 
 		private Dictionary<GameObject, List<IActionGUI>> ActivePlayerActions = new Dictionary<GameObject, List<IActionGUI>>();

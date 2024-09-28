@@ -70,6 +70,7 @@ public class ActionData : ScriptableObject
 	[SerializeField]
 	public bool StaySelectedOnUse = false;
 	[NonSerialized] public UI.Action.UIAction OwningUIAction = default;
+	public IActionGUI Test = default;
 
 	public override string ToString()
 	{
