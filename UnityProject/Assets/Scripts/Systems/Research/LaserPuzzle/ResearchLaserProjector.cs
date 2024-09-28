@@ -377,7 +377,7 @@ namespace Objects.Research
 
 			ItemTrait traitToCheck;
 
-			if (isWrenched == true && LocalPlayerHasValidTool(CommonTraits.Instance.Welder))
+			if (isWrenched == true)
 			{
 				TextColor text = new TextColor
 				{
@@ -386,7 +386,7 @@ namespace Objects.Research
 				};
 				interactions.Add(text);
 			}
-			if(isWelded == false && LocalPlayerHasValidTool(CommonTraits.Instance.Wrench))
+			if(isWelded == false)
 			{
 				TextColor text = new TextColor
 				{

@@ -81,10 +81,34 @@ namespace Items.Engineering
 								$"to the master device <b>{slaveComponent.gameObject.ExpensiveName()}</b>.");
 							}
 							return;
+						case IMultitoolMasterable master:
+							if (master.CanBeMastered == false)
+							{
+								Chat.AddExamineMsgFromServer(
+									interaction.Performer,
+									"This only seems to have the capability of <b>writing</b> to the buffer.");
+							}
+							else
+							{
+								if(Buffer == master)
+								{
+									Chat.AddExamineMsgFromServer(interaction.Performer,$"You cannot link this device to itself!");
+									return;
+								}
+
+								Buffer.SubscribeToController(multitoolBase.gameObject);
+								Chat.AddExamineMsgFromServer(
+									interaction.Performer,
+									$"You connect the <b>{interaction.TargetObject.ExpensiveName()}</b> " +
+									$"to the master device <b>{slaveComponent.gameObject.ExpensiveName()}</b>.");
+							}
+							return;
 						default:
+							Buffer.SubscribeToController(multitoolBase.gameObject); //Cannot be mastered or slaved, give this object to the master
 							Chat.AddExamineMsgFromServer(
 								interaction.Performer,
-								"This only seems to have the capability of <b>writing</b> to the buffer.");
+								$"You connect the <b>{interaction.TargetObject.ExpensiveName()}</b> " +
+								$"to the master device <b>{slaveComponent.gameObject.ExpensiveName()}</b>.");
 							return;
 					}
 				}
