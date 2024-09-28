@@ -34,7 +34,7 @@ namespace Objects.Traps
 				if(gobj.TryGetComponent<IGenericTrigger>(out var trigger) == false)
 				{
 					genericTriggerObjects.Remove(gobj);
-					Loggy.LogWarning($"[GenericTriggerOutput/SyncList] Gameobject {gobj.name} did not have IGenericTrigger interface. Removing from list.");
+					Loggy.LogWarning($"[GenericTriggerOutput/SyncList] Gameobject {gobj.name} did not have IGenericTrigger interface. Removing from list...");
 					continue;
 				}
 				genericTriggers.Add(trigger);
@@ -45,6 +45,11 @@ namespace Objects.Traps
 		{
 			foreach(IGenericTrigger trigger in genericTriggers)
 			{
+				if (trigger == null)
+				{
+					Loggy.LogWarning($"[GenericTriggerOutput/ReleaseOutput] Trigger in genericTrigger list was null! Removing...");
+					RemoveTrigger(trigger);
+				}
 				trigger.OnTrigger();
 			}
 		}
@@ -53,6 +58,11 @@ namespace Objects.Traps
 		{
 			foreach (IGenericTrigger trigger in genericTriggers)
 			{
+				if (trigger == null)
+				{
+					Loggy.LogWarning($"[GenericTriggerOutput/ReleaseOutput] Trigger in genericTrigger list was null! Removing...");
+					RemoveTrigger(trigger);
+				}
 				trigger.OnTriggerEnd();
 			}
 		}

@@ -55,10 +55,8 @@ namespace Weapons.Projectiles.Behaviours
 		[ClientRpc]
 		public void RpcClientSpawn(Vector3 WorldPosition)
 		{
-			var newDecal = Spawn.ClientPrefab(decal,
-				WorldPosition).GameObject;
-			var timeLimitedDecal = newDecal.GetComponent<TimeLimitedDecal>();
-			timeLimitedDecal.SetUpDecal(animationTime);
+			var newDecal = Spawn.ClientPrefab(decal, WorldPosition).GameObject;
+			if(newDecal != null && newDecal.TryGetComponent<TimeLimitedDecal>(out var timeLimitedDecal)) timeLimitedDecal.SetUpDecal(animationTime);
 		}
 	}
 }
