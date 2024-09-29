@@ -644,7 +644,8 @@ namespace Core.Physics
 					SetTransform(resetToLocal, false);
 					InternalTriggerOnLocalTileReached(resetToLocal.RoundToInt());
 				}
-				else
+
+				if (Animating)
 				{
 					var ToResetTo = resetToLocal;
 

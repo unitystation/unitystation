@@ -1257,8 +1257,11 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				NewtonianPush(newMoveData.GlobalMoveDirection.ToVector(), CurrentTileMoveSpeed, Single.NaN, 4,
 					spinFactor: 35, doNotUpdateThisClient: byClient);
 
-				var player = registerTile as RegisterPlayer;
-				player.OrNull()?.ServerSlip(true);
+				if (isServer)
+				{
+					var player = registerTile as RegisterPlayer;
+					player.OrNull()?.ServerSlip(true);
+				}
 			}
 
 			if (toRemove != null)
