@@ -103,6 +103,8 @@ namespace Items
 		/// </summary>
 		public MultiInterestFloat ServerBlockChance = new( InSetFloatBehaviour: MultiInterestFloat.FloatBehaviour.AddBehaviour);
 
+		public Action OnBlock;
+
 		[Header("Sprites/Sounds/Flags/Misc.")]
 
 		[Tooltip("How many tiles to move per 0.1s when being thrown")]
