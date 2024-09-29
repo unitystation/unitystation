@@ -34,7 +34,7 @@ public partial class SubSceneManager : MonoBehaviour
 
 	public bool IsMaintRooms
 	{
-		get { return serverChosenAwaySite == "Backrooms"; }
+		get { return serverChosenAwaySite == "AwaySites/Backrooms.json"; }
 	}
 
 	public bool MainStationLoaded { get; private set; }

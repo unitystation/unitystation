@@ -13,6 +13,24 @@ PrefabInstance:
       propertyPath: BasePurity
       value: 55
       objectReference: {fileID: 0}
+    - target: {fileID: 792705896237757825, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
+        type: 3}
+      propertyPath: ActivatedSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 7b1617f5ba523304c96bc72c6596deb5,
+        type: 2}
+    - target: {fileID: 792705896237757825, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
+        type: 3}
+      propertyPath: ActivatedSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: b899b84e2efffaf4da79296e4ef73f54,
+        type: 2}
+    - target: {fileID: 792705896237757825, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
+        type: 3}
+      propertyPath: ActivatedSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: af2947f5ecb780143bfb1dd12099e964,
+        type: 2}
     - target: {fileID: 3642327047020650198, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
         type: 3}
       propertyPath: hitDamage
@@ -130,6 +148,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 383f21e78be4aa34baf621e60ea4cde7,
         type: 2}
+    - target: {fileID: 3642327047020650198, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ea00bc166b6d2f740a2ab8ba96f1585a,
+        type: 2}
+    - target: {fileID: 3642327047020650198, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: f74d19a42128bc54d8b3ae7a02d5def1,
+        type: 2}
+    - target: {fileID: 3642327047020650198, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 383f21e78be4aa34baf621e60ea4cde7,
+        type: 2}
     - target: {fileID: 3774508599749603764, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
         type: 3}
       propertyPath: m_Name
@@ -219,7 +255,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 745b3a13f1f2b734098c554ead991e4f,
+      objectReference: {fileID: 21300000, guid: 8640d2b6e09b7f1439aefafe7abfcdfc,
         type: 3}
     - target: {fileID: 3931723898954859240, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
         type: 3}
@@ -272,6 +308,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 383f21e78be4aa34baf621e60ea4cde7,
         type: 2}
+    - target: {fileID: 5307899996920088384, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
+        type: 3}
+      propertyPath: activatedHitDamage
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 5307899996920088384, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
+        type: 3}
+      propertyPath: activatedThrowDamage
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 7000740777950825011, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -282,7 +328,7 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialPresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: af2947f5ecb780143bfb1dd12099e964,
+      objectReference: {fileID: 11400000, guid: 383f21e78be4aa34baf621e60ea4cde7,
         type: 2}
     - target: {fileID: 7843870283693882841, guid: c22c01b8dd3a9e34388453bd0bdf4b0f,
         type: 3}

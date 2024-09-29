@@ -8,6 +8,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 578573411329901164, guid: 8986f5f9b33cae34aa97c4f56be39e3f,
+        type: 3}
+      propertyPath: foreverID
+      value: fe372e5eb4602664ba2bf856c4ffc47f
+      objectReference: {fileID: 0}
     - target: {fileID: 2493418986213669399, guid: 8986f5f9b33cae34aa97c4f56be39e3f,
         type: 3}
       propertyPath: _assetId
@@ -85,6 +90,12 @@ PrefabInstance:
     - target: {fileID: 9055003723442419430, guid: 8986f5f9b33cae34aa97c4f56be39e3f,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e36e706c4f7427848844ab4279f0abac,
+        type: 2}
+    - target: {fileID: 9055003723442419430, guid: 8986f5f9b33cae34aa97c4f56be39e3f,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: e36e706c4f7427848844ab4279f0abac,
         type: 2}

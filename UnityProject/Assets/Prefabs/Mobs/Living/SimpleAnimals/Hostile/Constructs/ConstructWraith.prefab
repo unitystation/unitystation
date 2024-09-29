@@ -16,6 +16,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 746024144431020992, guid: 84faa9649dfaaf243a780dafbdaede73,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 71c8cc73a9ba7d44483ada72a1dcd88e,
+        type: 2}
+    - target: {fileID: 746024144431020992, guid: 84faa9649dfaaf243a780dafbdaede73,
+        type: 3}
       propertyPath: SubCatalogue.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -168,6 +174,11 @@ PrefabInstance:
         type: 3}
       propertyPath: mobName
       value: wraith
+      objectReference: {fileID: 0}
+    - target: {fileID: 9220062074405457738, guid: 84faa9649dfaaf243a780dafbdaede73,
+        type: 3}
+      propertyPath: foreverID
+      value: 3cb5478609f1b504c95d8eb5df90552e
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

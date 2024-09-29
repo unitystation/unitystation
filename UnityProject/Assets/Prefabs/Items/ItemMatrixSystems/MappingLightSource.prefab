@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8969896267879710907}
   - component: {fileID: 1654135186102268758}
   - component: {fileID: 3822555827328264967}
+  - component: {fileID: 1625066451438666779}
   m_Layer: 21
   m_Name: light (1)
   m_TagString: Untagged
@@ -105,6 +106,63 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3453500602954916985}
   m_Mesh: {fileID: 0}
+--- !u!114 &1625066451438666779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3453500602954916985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6510c9b95b6fa3498b97083dcdd5e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue:
+  - {fileID: 11400000, guid: 5bdbe339de217f646897cd4330d637b6, type: 2}
+  - {fileID: 11400000, guid: 3d8ec325ec2878f49a3fb13038c0588c, type: 2}
+  - {fileID: 11400000, guid: 14358f98847eba54880b1c7f04713e84, type: 2}
+  - {fileID: 11400000, guid: 2e40a630bb6c7ba4fb3f7be2b688f1be, type: 2}
+  - {fileID: 11400000, guid: ff532b948413ab84db6fa7e2eaea1fe2, type: 2}
+  - {fileID: 11400000, guid: 1371cd5a2fc024e4c9d1c95bfd587a82, type: 2}
+  - {fileID: 11400000, guid: f86db3a316659b14e9b106a6afe31e8f, type: 2}
+  - {fileID: 11400000, guid: 0a867920d07abf446b30ea688a6ae2d7, type: 2}
+  - {fileID: 11400000, guid: 7a8beb172075a5546be6c2dc10ddeed2, type: 2}
+  - {fileID: 11400000, guid: 5bec1370c8a27f14a8feaa40bc79e494, type: 2}
+  - {fileID: 11400000, guid: fcfad5dce9429254493efb6d3d9b30c7, type: 2}
+  - {fileID: 11400000, guid: ed5943c72d68b9d49a3d76db935961d7, type: 2}
+  - {fileID: 11400000, guid: 7140e15ea2f32e040a144aa5777f87d8, type: 2}
+  - {fileID: 11400000, guid: 8ecbf3d49b8884e4cb532f85d1378367, type: 2}
+  - {fileID: 11400000, guid: d555eae6cf8589644a859d71726f45c6, type: 2}
+  - {fileID: 11400000, guid: 5114ffadf950b424aa2b9c108738b996, type: 2}
+  - {fileID: 11400000, guid: 4c10d8e9c77299c48b07026e2abd5ea2, type: 2}
+  - {fileID: 11400000, guid: bd732cd97d648554899e495c442e82b3, type: 2}
+  - {fileID: 11400000, guid: 47724ba6e8f30a545931e265c0a75123, type: 2}
+  - {fileID: 11400000, guid: 24a21947e79faad4a9ba1efda0ea8389, type: 2}
+  - {fileID: 11400000, guid: f93322afdf586f3448cb32d12ea16b80, type: 2}
+  - {fileID: 11400000, guid: f8179d74ed84de34ab93e0142821cd37, type: 2}
+  - {fileID: 11400000, guid: e3a637c96f5231c498d3f8126fbd37f2, type: 2}
+  - {fileID: 11400000, guid: 5a57925630282fc4f837136cd1e8220c, type: 2}
+  - {fileID: 11400000, guid: 1dc4df1ab90b1504da69bc12d775ad36, type: 2}
+  - {fileID: 11400000, guid: 635a7b02f61419a4a9174c74462dda30, type: 2}
+  - {fileID: 11400000, guid: d39f2938943a271468e9efbe0dee0bcb, type: 2}
+  - {fileID: 11400000, guid: 76823699ce156fe4dbec8aeea97edd61, type: 2}
+  - {fileID: 11400000, guid: 8b1359601e129924a8f77730e29d7814, type: 2}
+  - {fileID: 11400000, guid: 5047ac34937f8c54f80f6199ae71b5e6, type: 2}
+  - {fileID: 11400000, guid: 5c133ed4a4135b74db4ec750f23c7b4d, type: 2}
+  - {fileID: 11400000, guid: 71658588cef41e641bcbd7d3d85874b7, type: 2}
+  - {fileID: 11400000, guid: d81d4e2ffb150d94085c5a71c2b1d007, type: 2}
+  - {fileID: 11400000, guid: 6caadf2bf3cbcf144ba0a3b7e98b7ce0, type: 2}
+  - {fileID: 11400000, guid: 4fb9fdcd14ab0c748b969d9023602795, type: 2}
+  - {fileID: 11400000, guid: 54f00872c0db5d043ab67b7f96af72b5, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 5bdbe339de217f646897cd4330d637b6,
+    type: 2}
+  randomInitialSprite: 0
+  doReverseAnimation: 0
+  pushTextureOnStartUp: 1
+  initialVariantIndex: 0
+  palette: []
 --- !u!1001 &883036876261739093
 PrefabInstance:
   m_ObjectHideFlags: 0

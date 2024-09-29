@@ -123,7 +123,7 @@ namespace SecureStuff
 				return;
 			}
 
-			if (ModField.Data is "NULL")
+			if (ModField.Data is "NULL" && string.IsNullOrEmpty(AdditionalJumps))
 			{
 				List[Index] = null; // never have to worry about value type because It can never be null on the map to
 				return;
@@ -146,8 +146,7 @@ namespace SecureStuff
 			while (List.Count <= Index)
 				//TODO Could be exploited? well You could just have a map with a million objects so idk xD
 			{
-				if ((GameObject == false && Component == false && ScriptObject == false && IsClass)
-				    || ListType.IsValueType)
+				if ((GameObject == false && Component == false && ScriptObject == false && IsClass) || ListType.IsValueType)
 				{
 					//NOTEE is dangerous
 					List.Add(Activator.CreateInstance(ListType));
@@ -801,17 +800,14 @@ namespace SecureStuff
 				isScriptableObject = false;
 				IsReferencedObject = true;
 			}
-			else if (typeof(Component).IsAssignableFrom(
-				         Field.FieldType.GetGenericArguments()[0]))
+			else if (typeof(Component).IsAssignableFrom(Field.FieldType.GetGenericArguments()[0]))
 			{
 				IsComponent = true;
 				isScriptableObject = false;
 				IsReferencedObject = true;
 			}
-			else if (typeof(ScriptableObject).IsAssignableFrom(
-				         Field.FieldType.GetGenericArguments()[0]) &&
-			         typeof(IHaveForeverID).IsAssignableFrom(
-				         Field.FieldType.GetGenericArguments()[0]))
+			else if (typeof(ScriptableObject).IsAssignableFrom(Field.FieldType.GetGenericArguments()[0]) &&
+			         typeof(IHaveForeverID).IsAssignableFrom(Field.FieldType.GetGenericArguments()[0]))
 			{
 				IsComponent = false;
 				isScriptableObject = true;
@@ -915,6 +911,14 @@ namespace SecureStuff
 				return null;
 			}
 
+			if (Id == "NULL")
+			{
+				Loaded = true;
+				return null;
+			}
+
+
+
 			if (string.IsNullOrEmpty(Id))
 			{
 				Loggy.LogError("Map has Empty references");
@@ -971,6 +975,12 @@ namespace SecureStuff
 				return null;
 			}
 
+			if (Id == "NULL")
+			{
+				Loaded = true;
+				return null;
+			}
+
 			var IDPath = Id.Split("@");
 			var Object = GetGameObjectPath(Id, IPopulateIDRelation, out Loaded);
 			if (Loaded == false) return null;
@@ -983,6 +993,7 @@ namespace SecureStuff
 			string AppropriateName = "", bool IsServer = true)
 		{
 			Type TypeMono = null;
+
 			try
 			{
 				TypeMono = Object.GetType();
@@ -1022,9 +1033,32 @@ namespace SecureStuff
 				}
 			}
 
-			var Field = TypeMono.GetField(AppropriateName,
-				BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic |
-				BindingFlags.FlattenHierarchy);
+			var Recursivetype = TypeMono;
+
+			FieldInfo FieldInfo = null;
+
+			// Loop through type and its base types
+			while (Recursivetype != null && FieldInfo == null)
+			{
+				// Get fields declared in the current type
+				var fields = Recursivetype.GetFields(
+					BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
+
+				// Check if any field matches the specified name
+				foreach (var field in fields)
+				{
+					if (field.Name.Equals(AppropriateName, StringComparison.OrdinalIgnoreCase))
+					{
+						FieldInfo = field; // Return the FieldInfo if found
+						break;
+					}
+				}
+
+				// Move to the base type
+				Recursivetype = Recursivetype.BaseType;
+			}
+
+			var Field = FieldInfo;
 
 			if (Field == null) return;
 			if (IsGoodField(Field) == false) return;
@@ -1297,13 +1331,28 @@ namespace SecureStuff
 			object SpawnedInstance,
 			bool UseInstance = false)
 		{
+
 			try
 			{
 				var TypeMono = SpawnedInstance.GetType();
-				var coolFields = TypeMono.GetFields(
-					BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic |
-					BindingFlags.FlattenHierarchy
-				);
+
+				var RecursiveType = TypeMono;
+				// List to store all fields including inherited ones
+				var coolFields = new System.Collections.Generic.List<FieldInfo>();
+
+				// Loop through type and its base types
+				while (RecursiveType != null)
+				{
+					// Get fields declared in the current type
+					var currentFields = RecursiveType.GetFields(
+						BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic |
+						BindingFlags.DeclaredOnly);
+
+					coolFields.AddRange(currentFields);
+
+					// Move to the base type
+					RecursiveType = RecursiveType.BaseType;
+				}
 
 				foreach (var Field in coolFields) //Loop through found fields
 				{
@@ -1347,12 +1396,26 @@ namespace SecureStuff
 						continue;
 					}
 
+					bool IsSO = (Field.FieldType.IsSubclassOf(typeof(ScriptableObject)) &&
+					             typeof(IHaveForeverID).IsAssignableFrom(Field.FieldType));
+
+					bool IsComponent = Field.FieldType.IsSubclassOf(typeof(UnityEngine.Component));
+
+					bool anyOfThem = IsComponent || IsSO;
+
+					if (anyOfThem == false)
+					{
+						anyOfThem = Field.FieldType == typeof(UnityEngine.GameObject);
+					}
+
 
 					//if Field is a class and is not related to unity engine.object Serialise it
-					if (Field.FieldType.IsValueType == false && Field.FieldType == typeof(string) == false &&
-					    Field.FieldType.IsGenericType == false &&
-					    (APrefabDefault != null || PrefabInstance == null) && AMonoSet != null
-					    && Field.FieldType.GetCustomAttributes(typeof(System.SerializableAttribute), true).Length > 0)
+					if (Field.FieldType.IsValueType == false
+					    && Field.FieldType == typeof(string) == false
+					    && Field.FieldType.IsGenericType == false
+					    && (APrefabDefault != null || PrefabInstance == null) && AMonoSet != null
+					    && Field.FieldType.GetCustomAttributes(typeof(System.SerializableAttribute), true).Length > 0
+					    && anyOfThem == false)
 					{
 						RecursiveSearchData(OnGameObjectComponents, AllGameObjectOnObject,
 							IPopulateIDRelation,
@@ -1381,17 +1444,7 @@ namespace SecureStuff
 						if (CheckAreSame(PrefabDefault, MonoSet, OnGameObjectComponents,
 							    AllGameObjectOnObject) == false)
 						{
-							bool IsSO = (Field.FieldType.IsSubclassOf(typeof(ScriptableObject)) &&
-							             typeof(IHaveForeverID).IsAssignableFrom(Field.FieldType));
 
-							bool IsComponent = Field.FieldType.IsSubclassOf(typeof(UnityEngine.Component));
-
-							bool anyOfThem = IsComponent || IsSO;
-
-							if (anyOfThem == false)
-							{
-								anyOfThem = Field.FieldType == typeof(UnityEngine.GameObject);
-							}
 
 							if (anyOfThem == false)
 							{
@@ -1403,7 +1456,7 @@ namespace SecureStuff
 								{
 									if (Field.FieldType.GetCustomAttributes(typeof(System.SerializableAttribute), true)
 										    .Length == 0) continue;
-									if (Field.FieldType.IsSubclassOf(typeof(UnityEngine.Object))) continue;
+									if (  Field.FieldType.IsSubclassOf(typeof(UnityEngine.Object))) continue;
 								}
 							}
 
@@ -1556,7 +1609,7 @@ namespace SecureStuff
 			Type Type, HashSet<FieldData> FieldDatas, bool UseInstance, IPopulateIDRelation IPopulateIDRelation,
 			bool MarkAsRemoved)
 		{
-			if (SpawnedInstance == null)
+			if (SpawnedInstance == null || (anyOfThem && (SpawnedInstance as UnityEngine.Object) == null)) //Weird Unity nullble
 			{
 				if (MarkAsRemoved)
 				{
@@ -1633,6 +1686,7 @@ namespace SecureStuff
 			FieldData.Data = ""; //Not compatible
 			return;
 		}
+
 
 		private static List<object> IEnumeratorToList(IEnumerator IEnumerable)
 		{
@@ -1773,9 +1827,14 @@ namespace SecureStuff
 							//and Apparently is not null xD
 						}
 
-						if (PrefabIHaveForeverID == null)
+						if (PrefabIHaveForeverID == null && MonoIHaveForeverID == null)
 						{
 							return true; //idk What this is but I can't handle it Being different
+						}
+
+						if (PrefabIHaveForeverID == null && MonoIHaveForeverID != null)
+						{
+							return false;
 						}
 
 						if (MonoIHaveForeverID.ForeverID == PrefabIHaveForeverID?.ForeverID)

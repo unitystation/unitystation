@@ -19,7 +19,7 @@ using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 ///	for Handling sprite animations
 ///	</summary>
 [ExecuteInEditMode]
-public class SpriteHandler : MonoBehaviour
+public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 {
 	[SerializeField] public bool NetworkThis = true;
 
@@ -446,6 +446,12 @@ public class SpriteHandler : MonoBehaviour
 		PushTexture(true);
 	}
 
+	void INewMappedOnSpawn.OnNewMappedOnSpawn()
+	{
+		PresentSpriteSet = InitialPresentSpriteSet;
+		PushTexture();
+	}
+
 	//Used to set the sprite of the sprite renderer/Image
 	public void PushTexture(bool networked = true)
 	{
@@ -676,8 +682,8 @@ public class SpriteHandler : MonoBehaviour
 
 	protected virtual void Awake()
 	{
-		variantIndex = initialVariantIndex;
 		PresentSpriteSet = InitialPresentSpriteSet;
+		variantIndex = initialVariantIndex;
 #if UNITY_EDITOR
 		ValidateLate();
 #endif

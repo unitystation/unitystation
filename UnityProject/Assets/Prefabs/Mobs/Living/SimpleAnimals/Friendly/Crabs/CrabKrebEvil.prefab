@@ -28,6 +28,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2026477415823318502, guid: f1941516fbff480489524daa86541143,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 5a60c661aa6d2854d81396477f7ccd6f,
+        type: 2}
+    - target: {fileID: 2026477415823318502, guid: f1941516fbff480489524daa86541143,
+        type: 3}
       propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 5a60c661aa6d2854d81396477f7ccd6f,
@@ -97,6 +103,11 @@ PrefabInstance:
     - target: {fileID: 4840468873132445975, guid: f1941516fbff480489524daa86541143,
         type: 3}
       propertyPath: m_AssetId
+      value: f3b132b6040931b4c8f3109916a8c48d
+      objectReference: {fileID: 0}
+    - target: {fileID: 7615915603178678636, guid: f1941516fbff480489524daa86541143,
+        type: 3}
+      propertyPath: foreverID
       value: f3b132b6040931b4c8f3109916a8c48d
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -92,7 +92,7 @@ PrefabInstance:
     - target: {fileID: 1641972083238813818, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: initialName
-      value: Welding Shield Implant
+      value: welding shield implant
       objectReference: {fileID: 0}
     - target: {fileID: 1641972083238813818, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -102,8 +102,8 @@ PrefabInstance:
     - target: {fileID: 1641972083238813818, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: initialDescription
-      value: "This implant will protect the user from flashes (including the flash
-        part of flashbangs) and prevents welding blindness.\r"
+      value: "This implant will protect the target from flashes when implanted in
+        the target's eye.\r"
       objectReference: {fileID: 0}
     - target: {fileID: 1641972083238813818, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -233,6 +233,12 @@ PrefabInstance:
     - target: {fileID: 4999823976648774815, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: df4ef7ada02a4a64d8f62cfc54ac5940,
+        type: 2}
+    - target: {fileID: 4999823976648774815, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: df4ef7ada02a4a64d8f62cfc54ac5940,
         type: 2}

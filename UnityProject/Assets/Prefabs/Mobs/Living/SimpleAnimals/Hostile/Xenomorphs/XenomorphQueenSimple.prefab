@@ -68,6 +68,11 @@ PrefabInstance:
       propertyPath: playRandomSoundTimer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 2769002718701830846, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: foreverID
+      value: 850a00ce2fc547b499ef46733c95c580
+      objectReference: {fileID: 0}
     - target: {fileID: 5151156347480821996, guid: 2937fbb42f33c07428faabfd58578633,
         type: 3}
       propertyPath: hitDamage
@@ -140,6 +145,12 @@ PrefabInstance:
     - target: {fileID: 6035718330051049012, guid: 2937fbb42f33c07428faabfd58578633,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 887dcdfd6df7edc4490c6f047ad3c8b7,
+        type: 2}
+    - target: {fileID: 6035718330051049012, guid: 2937fbb42f33c07428faabfd58578633,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 887dcdfd6df7edc4490c6f047ad3c8b7,
         type: 2}

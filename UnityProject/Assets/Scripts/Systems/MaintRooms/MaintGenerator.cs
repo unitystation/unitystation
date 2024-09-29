@@ -39,7 +39,7 @@ namespace Systems.Scenes
 		};
 
 		private const int MAX_DIMENSIONS = 256;
-		private const int MAX_PERCENT = 100; 
+		private const int MAX_PERCENT = 100;
 		private const int WALL_GAP = 2;
 		private readonly Vector3 GIZMO_OFFSET = new Vector3(-0.5f, -0.5f, 0);
 
@@ -55,8 +55,6 @@ namespace Systems.Scenes
 
 		[SerializeField, Range(0, MAX_PERCENT)]
 		private int objectChance = 50;
-
-		[SerializeField] private Matrix matrix;
 
 		[SerializeField] private List<MaintObject> possibleSpawns = new List<MaintObject>();
 
@@ -91,8 +89,9 @@ namespace Systems.Scenes
 			}
 		}
 
-		public void Start()
+		public override void Start()
 		{
+			base.Start();
 			if (CustomNetworkManager.IsServer == false) return;
 
 			mazeArray = new short[width * height];
@@ -119,6 +118,18 @@ namespace Systems.Scenes
 			MaintGeneratorManager.MaintGenerators.Add(this);
 		}
 
+		public void OnEnable()
+		{
+			EventManager.AddHandler(Event.ScenesLoadedServer, CreateTiles);
+			EventManager.AddHandler(Event.RoundStarted, PlaceObjects);
+		}
+
+		public void OnDisable()
+		{
+			EventManager.RemoveHandler(Event.ScenesLoadedServer, CreateTiles);
+			EventManager.RemoveHandler(Event.RoundStarted, PlaceObjects);
+		}
+
 		//Growing Tree algorithm for maze generation using a 'newest' choosing method for next cell.
 		//Eller's algorithm does scale better for larger mazes,
 		private Task CarvePath(Vector2Int startingCellLocation)
@@ -142,15 +153,15 @@ namespace Systems.Scenes
 					Direction.West
 				}.OrderBy(z => Guid.NewGuid());
 
-				mazeArray[currentCell.x + currentCell.y*width] = (short)MazeState.EmptyCell; 
+				mazeArray[currentCell.x + currentCell.y*width] = (short)MazeState.EmptyCell;
 
-				foreach (Direction direction in directions) 
+				foreach (Direction direction in directions)
 				{
 					newCell = new Vector2Int(currentCell.x, currentCell.y) + (DirectionVector[direction] * WALL_GAP);
 
 					if (IsOutOfBounds(newCell.x, newCell.y)) continue;
 
-					if (mazeArray[newCell.x + newCell.y*width] == (short)MazeState.FullCell) 
+					if (mazeArray[newCell.x + newCell.y*width] == (short)MazeState.FullCell)
 					{
 						possibleCells.Add(new Vector2Int(newCell.x, newCell.y));
 
@@ -178,7 +189,7 @@ namespace Systems.Scenes
 					int startIndex = pos.x + ((pos.y + y) * width);
 
 					Array.Fill(mazeArray, (short)MazeState.ExcludedCell, startIndex, zone.Size.x);
-				}		
+				}
 			}
 		}
 
@@ -203,7 +214,7 @@ namespace Systems.Scenes
 
 					if (mazeArray[x + y*width] == (short)MazeState.FullCell)
 					{
-						matrix.MatrixInfo.MetaTileMap.SetTile(pos, wallTile);
+						MetaTileMap.SetTile(pos, wallTile);
 					}
 				}
 			}
@@ -290,7 +301,7 @@ namespace Systems.Scenes
 
 				if (obj.TileToSpawn != null)
 				{
-					matrix.MatrixInfo.MetaTileMap.SetTile(pos.ToLocalInt(matrix), obj.TileToSpawn);
+					MetaTileMap.SetTile(pos.ToLocalInt(MetaTileMap.matrix), obj.TileToSpawn);
 				}
 
 				break;

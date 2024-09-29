@@ -33,6 +33,11 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2271558770192764579, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: foreverID
+      value: 55dca02dfb005cf4e8bc3686c0229b90
+      objectReference: {fileID: 0}
     - target: {fileID: 3783638323905235520, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
       propertyPath: m_RootOrder
@@ -86,6 +91,12 @@ PrefabInstance:
     - target: {fileID: 7649476325489687081, guid: cf769d410d94f0e47bab5eee03a3b07d,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a8ed545dd28bf2e429f302263c95e5f2,
+        type: 2}
+    - target: {fileID: 7649476325489687081, guid: cf769d410d94f0e47bab5eee03a3b07d,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: a8ed545dd28bf2e429f302263c95e5f2,
         type: 2}

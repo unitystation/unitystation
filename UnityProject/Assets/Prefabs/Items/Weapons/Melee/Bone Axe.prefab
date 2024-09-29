@@ -14,6 +14,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 2f3ae58f12986034597399dd244200c1,
         type: 2}
+    - target: {fileID: 1783377995065468239, guid: 59b20c240c1616747aeb0a3fd1680f7b,
+        type: 3}
+      propertyPath: ActivatedSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 09927404cd286504fb781565eba5d8d4,
+        type: 2}
+    - target: {fileID: 1783377995065468239, guid: 59b20c240c1616747aeb0a3fd1680f7b,
+        type: 3}
+      propertyPath: ActivatedSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: c97b89dfca1da5745add98255ca2f2c8,
+        type: 2}
+    - target: {fileID: 1783377995065468239, guid: 59b20c240c1616747aeb0a3fd1680f7b,
+        type: 3}
+      propertyPath: ActivatedSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 2572880683270a941bdda0344307ee82,
+        type: 2}
     - target: {fileID: 2392449481599438360, guid: 59b20c240c1616747aeb0a3fd1680f7b,
         type: 3}
       propertyPath: initialName
@@ -52,6 +70,24 @@ PrefabInstance:
     - target: {fileID: 2392449481599438360, guid: 59b20c240c1616747aeb0a3fd1680f7b,
         type: 3}
       propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 7a1fd5220218458458986488db72bbff,
+        type: 2}
+    - target: {fileID: 2392449481599438360, guid: 59b20c240c1616747aeb0a3fd1680f7b,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: bf96738542c45d7448a1d81e05fd8ceb,
+        type: 2}
+    - target: {fileID: 2392449481599438360, guid: 59b20c240c1616747aeb0a3fd1680f7b,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 5a1a0244025da984ca4e159d1fbf6166,
+        type: 2}
+    - target: {fileID: 2392449481599438360, guid: 59b20c240c1616747aeb0a3fd1680f7b,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteInventoryIcon
       value: 
       objectReference: {fileID: 11400000, guid: 7a1fd5220218458458986488db72bbff,
         type: 2}

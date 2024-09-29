@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using Core;
+using Core.Sprite_Handler;
 using Core.Utils;
 using Initialisation;
 using Logs;
@@ -325,6 +326,8 @@ namespace MapSaver
 			[DefaultValue("0")] public string PrefabID = "0";
 			public string Name;
 			public string LocalPRS;
+			[DefaultValue(true)] public bool Active = true;
+
 			public IndividualObject Object;
 		}
 
@@ -339,6 +342,7 @@ namespace MapSaver
 			[DefaultValue("0")]
 			public string ID = "0"; //Child index, Child index,  Child index, NOTE Always has a Zero for root
 
+			[DefaultValue(true)] public bool Active = true;
 			public List<ClassData> ClassDatas = new List<ClassData>();
 			public List<IndividualObject> Children = null;
 
@@ -352,6 +356,11 @@ namespace MapSaver
 				}
 
 				if (Removed)
+				{
+					ISEmpty = false;
+				}
+
+				if (Active == false)
 				{
 					ISEmpty = false;
 				}
@@ -1390,11 +1399,6 @@ namespace MapSaver
 			{
 				foreach (var EtherealThing in MetaTileMap.matrix.MetaDataLayer.EtherealThings)
 				{
-					if (EtherealThing == null)
-					{
-						Loggy.LogError("oh....");
-					}
-
 					if (UseBoundary)
 					{
 						var pos1 = EtherealThing.transform.localPosition.RoundToInt();
@@ -1424,14 +1428,12 @@ namespace MapSaver
 					}
 				}
 
-
 				Bounds.ExpandToPoint2D(Object.transform.localPosition);
 				ProcessIndividualObject(Compact, Object.gameObject, compactObjectMapData,
 					NonmappedItems: NonmappedItems);
 			}
 
-			compactObjectMapData
-				.SortXYs(); //It's here so if you Saving compact or non Compactly order will still be the same
+			compactObjectMapData.SortXYs(); //It's here so if you Saving compact or non Compactly order will still be the same
 
 			if (Compact)
 			{
@@ -1455,8 +1457,7 @@ namespace MapSaver
 
 				foreach (var prefabData in compactObjectMapData.PrefabData)
 				{
-					prefabData.PrefabID =
-						CommonPrefabID.IndexOf(prefabData.PrefabID).ToString(); //TODO Rethink ToString To save ""
+					prefabData.PrefabID = CommonPrefabID.IndexOf(prefabData.PrefabID).ToString(); //TODO Rethink ToString To save ""
 				}
 			}
 
@@ -1565,6 +1566,7 @@ namespace MapSaver
 			}
 
 			GameObject OriginPrefab = null;
+
 			OriginPrefab = CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[Tracker.ForeverID];
 			if (Compact)
 			{
@@ -1577,6 +1579,9 @@ namespace MapSaver
 			{
 				Prefab.Name = Object.name;
 			}
+
+			Prefab.Active = Object.gameObject.activeInHierarchy;
+
 
 
 			Vector3 LocalPositionToUse = Object.transform.localPosition;
@@ -1630,6 +1635,9 @@ namespace MapSaver
 			RecursiveSaveObject(OnObjectComplete, OnGmaeObjectComplete, Compact, Prefab, "0", Prefab.Object,
 				OriginPrefab,
 				Object.gameObject, compactObjectMapData, NonmappedItems: NonmappedItems);
+
+
+
 			if (Prefab.Object.RemoveEmptys())
 			{
 				Prefab.Object = null;
@@ -1657,6 +1665,8 @@ namespace MapSaver
 				{
 					individualObject.Name = gameObject.name;
 				}
+
+				individualObject.Active = gameObject.activeSelf;
 
 				if (PrefabEquivalent != null)
 				{
@@ -1704,13 +1714,17 @@ namespace MapSaver
 
 			for (int i = 0; i < loopMax; i++)
 			{
+				// Check if the Prefab has more children or if the names are different
 				if (PrefabObjectChildCount > PrefabIndex
-				    && PrefabEquivalent.transform.GetChild(PrefabIndex).name !=
-				    gameObject.transform.GetChild(PrefabIndex).name)
+				    && (gameObjectChildCount <= GameObjectIndex
+				        || PrefabEquivalent.transform.GetChild(PrefabIndex).name !=
+				        gameObject.transform.GetChild(GameObjectIndex).name))
 				{
 					while (PrefabObjectChildCount > PrefabIndex)
 					{
-						if (PrefabEquivalent.transform.GetChild(PrefabIndex).name !=
+						// Handle missing or differing child
+						if (gameObjectChildCount <= GameObjectIndex
+						    || PrefabEquivalent.transform.GetChild(PrefabIndex).name !=
 						    gameObject.transform.GetChild(GameObjectIndex).name)
 						{
 							var AnewindividualObject = new IndividualObject()
@@ -1719,14 +1733,17 @@ namespace MapSaver
 								Removed = true,
 								ClassDatas = null
 							};
+
 							if (individualObject.Children == null)
 								individualObject.Children = new List<IndividualObject>();
+
 							individualObject.Children.Add(AnewindividualObject);
 							PrefabIndex++;
 							IDLocation++;
 						}
 						else
 						{
+							// Child matches, stop further checks
 							break;
 						}
 					}
@@ -1739,16 +1756,23 @@ namespace MapSaver
 					PrefabChild = PrefabEquivalent.transform.GetChild(PrefabIndex).gameObject;
 				}
 
-				var newindividualObject = new IndividualObject();
-				if (individualObject.Children == null) individualObject.Children = new List<IndividualObject>();
-				individualObject.Children.Add(newindividualObject);
-				RecursiveSaveObject(AllComponentsOnObject, AllGameObjectOnObject, Compact, PrefabData,
-					ID + "," + IDLocation,
-					newindividualObject,
-					PrefabChild,
-					gameObject.transform.GetChild(GameObjectIndex).gameObject, compactObjectMapData,
-					UseInstance: UseInstance, NonmappedItems: NonmappedItems,
-					IgnoreMapSaverIgnoreObject: IgnoreMapSaverIgnoreObject);
+				// Ensure GameObjectIndex is within bounds to avoid out-of-index errors
+				if (GameObjectIndex < gameObjectChildCount)
+				{
+					var newindividualObject = new IndividualObject();
+					if (individualObject.Children == null) individualObject.Children = new List<IndividualObject>();
+					individualObject.Children.Add(newindividualObject);
+
+					// Only access gameObject.transform.GetChild(GameObjectIndex) if it's within bounds
+					RecursiveSaveObject(AllComponentsOnObject, AllGameObjectOnObject, Compact, PrefabData,
+						ID + "," + IDLocation,
+						newindividualObject,
+						PrefabChild,
+						gameObject.transform.GetChild(GameObjectIndex).gameObject, compactObjectMapData,
+						UseInstance: UseInstance, NonmappedItems: NonmappedItems,
+						IgnoreMapSaverIgnoreObject: IgnoreMapSaverIgnoreObject);
+				}
+
 
 				GameObjectIndex++;
 				PrefabIndex++;
@@ -1809,7 +1833,7 @@ namespace MapSaver
 						continue;
 					}
 				}
-				else
+				else if (gameObjectComponents.Count <= GameObjectIndex)
 				{
 					// If gameObjectComponents is smaller, handle remaining PrefabComponents
 					while (PrefabComponents.Count > PrefabIndex)
@@ -1827,6 +1851,8 @@ namespace MapSaver
 
 					break;
 				}
+
+
 
 
 				Component PrefabMono = null;
@@ -1902,10 +1928,13 @@ namespace MapSaver
 
 				if (Compact)
 				{
+
+
 					ComponentToID[gameObjectMono] = PrefabData.ID + "@" + individualObject.ID + "@" + OutClass.ClassID;
 				}
 				else
 				{
+
 					ComponentToID[gameObjectMono] =
 						PrefabData.GitID + "@" + individualObject.ID + "@" + OutClass.ClassID;
 				}
@@ -1920,7 +1949,7 @@ namespace MapSaver
 					gameObjectMono,
 					UseInstance);
 
-				if (OutClass.IsEmpty() == false || PrefabEquivalent == null)
+				if (OutClass.IsEmpty() == false || PrefabEquivalent == null || PrefabMono == null)
 				{
 					individualObject.ClassDatas.Add(OutClass);
 				}
@@ -1993,7 +2022,7 @@ namespace MapSaver
 				NeededToProcess[RootID].FieldsToPopulate.Add(UnprocessedEntry);
 			}
 
-			public bool FinishLoading(string GitiD, SpawnResult SpawnResult)
+			public bool FinishLoading(string GitiD, SpawnResult SpawnResult, GameObject Object)
 			{
 				bool NormalReturnBehaviour = true;
 				HashSet<FieldData> ReuseSEt = new HashSet<FieldData>();
@@ -2032,11 +2061,20 @@ namespace MapSaver
 								throw e;
 							}
 
-							if (Waiting.Value.SpawnResult != null && Waiting.Value.ReferencesNeeded.Count == 0)
+							if (Waiting.Value.ReferencesNeeded.Count == 0)
 							{
-								Spawn._ServerFireClientServerSpawnHooks(Waiting.Value.SpawnResult,
-									SpawnInfo.Mapped(Waiting.Value.SpawnResult.GameObject));
-								Waiting.Value.SpawnResult = null;
+								if (Waiting.Value.SpawnResult != null)
+								{
+									Spawn._ServerFireClientServerSpawnHooks(Waiting.Value.SpawnResult,
+										SpawnInfo.Mapped(Waiting.Value.SpawnResult.GameObject));
+									Waiting.Value.SpawnResult = null;
+								}
+
+
+								foreach (var Spawn in Object.GetComponentsInChildren<INewMappedOnSpawn>())
+								{
+									Spawn.OnNewMappedOnSpawn();
+								}
 							}
 						}
 					}

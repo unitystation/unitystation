@@ -36,6 +36,29 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 2e491f05d9c22db43a478bb92907b122,
         type: 2}
+    - target: {fileID: 4336870201223195884, guid: 6d093d86932670348bbbc367f3c19267,
+        type: 3}
+      propertyPath: activatedHitDamage
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 4717916905810465843, guid: 6d093d86932670348bbbc367f3c19267,
+        type: 3}
+      propertyPath: ActivatedSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 7e5a6a3e922781c49933af1dbc7e54ed,
+        type: 2}
+    - target: {fileID: 4717916905810465843, guid: 6d093d86932670348bbbc367f3c19267,
+        type: 3}
+      propertyPath: ActivatedSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 6425ea86b5d935c4893f03b80e2ef305,
+        type: 2}
+    - target: {fileID: 4717916905810465843, guid: 6d093d86932670348bbbc367f3c19267,
+        type: 3}
+      propertyPath: ActivatedSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: de5eae4dbe96c3a46a0dae17dd8c3b6f,
+        type: 2}
     - target: {fileID: 5356397431624771952, guid: 6d093d86932670348bbbc367f3c19267,
         type: 3}
       propertyPath: hitDamage
@@ -88,6 +111,24 @@ PrefabInstance:
     - target: {fileID: 5356397431624771952, guid: 6d093d86932670348bbbc367f3c19267,
         type: 3}
       propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 2e491f05d9c22db43a478bb92907b122,
+        type: 2}
+    - target: {fileID: 5356397431624771952, guid: 6d093d86932670348bbbc367f3c19267,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: c3690b802e056ae4b8d8e22411949020,
+        type: 2}
+    - target: {fileID: 5356397431624771952, guid: 6d093d86932670348bbbc367f3c19267,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 09b0a5479a15ec4449925ef6842f4558,
+        type: 2}
+    - target: {fileID: 5356397431624771952, guid: 6d093d86932670348bbbc367f3c19267,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteInventoryIcon
       value: 
       objectReference: {fileID: 11400000, guid: 2e491f05d9c22db43a478bb92907b122,
         type: 2}
