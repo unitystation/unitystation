@@ -71,6 +71,8 @@ namespace Light2D
             get { return _meshRenderer.isPartOfStaticBatch; }
         }
 
+
+
         protected virtual void OnEnable()
         {
 	        if (Color == Color.white)
@@ -134,7 +136,12 @@ namespace Light2D
 
         protected virtual void Start()
         {
+	        if (Color == Color.white)
+	        {
+		        Color = InitialColour;
+	        }
             UpdateMeshData(true);
+
         }
 
         private void OnWillRenderObject()

@@ -13,6 +13,11 @@ PrefabInstance:
       propertyPath: mobName
       value: broodmother
       objectReference: {fileID: 0}
+    - target: {fileID: 1415805527911845510, guid: 9c078bd06d8a43943ab0e581a334abf4,
+        type: 3}
+      propertyPath: foreverID
+      value: 27a9f959e7a802b43a18191296e581a6
+      objectReference: {fileID: 0}
     - target: {fileID: 4080804458103442021, guid: 9c078bd06d8a43943ab0e581a334abf4,
         type: 3}
       propertyPath: m_RootOrder
@@ -66,6 +71,12 @@ PrefabInstance:
     - target: {fileID: 7353154687105350156, guid: 9c078bd06d8a43943ab0e581a334abf4,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 9fbb19c06c2e24840b12607cad12c32f,
+        type: 2}
+    - target: {fileID: 7353154687105350156, guid: 9c078bd06d8a43943ab0e581a334abf4,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 9fbb19c06c2e24840b12607cad12c32f,
         type: 2}

@@ -15,11 +15,17 @@ public class PlayerBlueprint : MonoBehaviour, IServerSpawn
 	[FormerlySerializedAs("NonImportantMind")] [Tooltip("Should the mind be destroyed If the body is destroyed and a player is not possessing it")]
 	public bool nonImportantMind = false;
 
+	public bool SpawnOnStart = true;
+
 	[NaughtyAttributes.Button()]
 	public void Start()
 	{
 		if (this.GetComponentCustom<RuntimeSpawned>() == null) return;
-		Spawn();
+		if (SpawnOnStart)
+		{
+			Spawn();
+		}
+
 
 	}
 

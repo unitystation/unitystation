@@ -34,6 +34,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3477175024035878852, guid: c2c4445c53781df4884a5bf817e0b8c6,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: b9612ea2cc224d946a04cc1c7816dee3,
+        type: 2}
+    - target: {fileID: 3477175024035878852, guid: c2c4445c53781df4884a5bf817e0b8c6,
+        type: 3}
       propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: b9612ea2cc224d946a04cc1c7816dee3,
@@ -48,6 +54,11 @@ PrefabInstance:
         type: 3}
       propertyPath: mobName
       value: puppy
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039313406542553934, guid: c2c4445c53781df4884a5bf817e0b8c6,
+        type: 3}
+      propertyPath: foreverID
+      value: 5dc5d45ad3dd6d54a999e7dde3ed28cf
       objectReference: {fileID: 0}
     - target: {fileID: 6303648736088726618, guid: c2c4445c53781df4884a5bf817e0b8c6,
         type: 3}

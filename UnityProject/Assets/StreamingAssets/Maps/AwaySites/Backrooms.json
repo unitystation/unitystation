@@ -89261,6 +89261,12 @@
         "CommonPrefabs": [],
         "PrefabData": [
           {
+            "GitID": "86f1fa4a01e7f0142a6e2ce35cce0930_0┼0┼0┼",
+            "PrefabID": "86f1fa4a01e7f0142a6e2ce35cce0930",
+            "Name": "MatrixGasSettings",
+            "LocalPRS": "0┼0┼0┼"
+          },
+          {
             "GitID": "e02a5954be8d94b4bbaaa0d63d813c71_0┼0┼0┼",
             "PrefabID": "e02a5954be8d94b4bbaaa0d63d813c71",
             "Name": "AI_ShouldNavigateAround",
@@ -89287,9 +89293,6 @@
                     {
                       "Name": "wallTile",
                       "Data": "2c5573a92f4b03d4c809a9a90ac4ddac"
-                    },
-                    {
-                      "Name": "matrix"
                     },
                     {
                       "Name": "possibleSpawns#7@<ObjectToSpawn>k__BackingField",
@@ -89376,205 +89379,8 @@
                       "Data": "False"
                     },
                     {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@connectCategory",
-                      "Data": "Tables"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@connectType",
-                      "Data": "ToSameCategory"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@texturePath",
-                      "Data": "Tables"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@CanSoundOverride",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@atmosPassable",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@isSealed",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@SpawnWithNoAir",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@passable",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@mineable",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@miningTime",
-                      "Data": "5"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@miningHardness",
-                      "Data": "1"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@constructable",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@RadiationPassability",
-                      "Data": "1"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@ThermalConductivity",
-                      "Data": "0.05"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@HeatCapacity",
-                      "Data": "10000"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@doesReflectBullet",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@indestructible",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@ExplosionImpassable",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@BlocksTileInteractionsUnder",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@maxHealth",
-                      "Data": "100"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@damageDeflection",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@armor@Melee",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@armor@Bullet",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@armor@Laser",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@armor@Energy",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@armor@Bomb",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@armor@Rad",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@armor@Fire",
-                      "Data": "50"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@armor@Acid",
-                      "Data": "50"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@armor@Bio",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@armor@TemperatureProtectionInK",
-                      "Data": "268.15,313.15"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@armor@PressureProtectionInKpa",
-                      "Data": "30,300"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@spawnOnDeconstruct",
-                      "Data": "b83b68cfa4a201748aeeece963a989c3",
-                      "IsPrefabID": true
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@spawnAmountOnDeconstruct",
-                      "Data": "2"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@soundOnHit@SetLoadSetting",
-                      "Data": "KeepLoaded"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@soundOnHit@AssetAddress",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@soundOnHit@AssetReference@m_AssetGUID",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@soundOnHit@AssetReference@m_SubObjectName",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@soundOnHit@AssetReference@m_SubObjectType",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@soundOnHit@AssetReference@m_EditorAssetChanged",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@<ForeverID>k__BackingField",
+                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField",
                       "Data": "cf31da1d9b545944fb7423aac9d9b7d3"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@displayName",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@description",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@LayerType",
-                      "Data": "Tables"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@TileType",
-                      "Data": "Table"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@Mass",
-                      "Data": "1"
                     },
                     {
                       "Name": "possibleSpawns#3@<ObjectToSpawn>k__BackingField",
@@ -89599,7 +89405,7 @@
                     },
                     {
                       "Name": "possibleSpawns#2@<ObjectToSpawn>k__BackingField",
-                      "Data": ""
+                      "Data": "NULL"
                     },
                     {
                       "Name": "possibleSpawns#2@<ObjectChance>k__BackingField",
@@ -89618,228 +89424,12 @@
                       "Data": "False"
                     },
                     {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@CanBeHighlightedThroughScanners",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@HighlightObject",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@CanSoundOverride",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@atmosPassable",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@isSealed",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@SpawnWithNoAir",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@passable",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@mineable",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@miningTime",
-                      "Data": "5"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@miningHardness",
-                      "Data": "1"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@constructable",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@RadiationPassability",
-                      "Data": "1"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@ThermalConductivity",
-                      "Data": "0.05"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@HeatCapacity",
-                      "Data": "10000"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@doesReflectBullet",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@indestructible",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@ExplosionImpassable",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@BlocksTileInteractionsUnder",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@maxHealth",
-                      "Data": "20"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@damageDeflection",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@armor@Melee",
-                      "Data": "50"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@armor@Bullet",
-                      "Data": "70"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@armor@Laser",
-                      "Data": "70"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@armor@Energy",
-                      "Data": "100"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@armor@Bomb",
-                      "Data": "10"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@armor@Rad",
-                      "Data": "100"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@armor@Bio",
-                      "Data": "100"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@armor@TemperatureProtectionInK",
-                      "Data": "268.15,313.15"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@armor@PressureProtectionInKpa",
-                      "Data": "30,300"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@spawnOnDeconstruct",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@spawnAmountOnDeconstruct",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@soundOnHit@SetLoadSetting",
-                      "Data": "KeepLoaded"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@soundOnHit@AssetAddress",
-                      "Data": "Assets/Prefabs/Effects/GrillHit.prefab"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@soundOnHit@AssetReference@m_AssetGUID",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@soundOnHit@AssetReference@m_SubObjectName",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@soundOnHit@AssetReference@m_SubObjectType",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@soundOnHit@AssetReference@m_EditorAssetChanged",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@SoundOnDestroy#0@SetLoadSetting",
-                      "Data": "KeepLoaded"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@SoundOnDestroy#0@AssetAddress",
-                      "Data": "Assets/Prefabs/Effects/GrillHit.prefab"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@SoundOnDestroy#0@AssetReference@m_AssetGUID",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@SoundOnDestroy#0@AssetReference@m_SubObjectName",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@SoundOnDestroy#0@AssetReference@m_SubObjectType",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@SoundOnDestroy#0@AssetReference@m_EditorAssetChanged",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@<ForeverID>k__BackingField",
+                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField",
                       "Data": "c87a62cb7a026433f9d4e361d2740cbc"
                     },
                     {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@displayName",
-                      "Data": "broken grille"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@description",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@LayerType",
-                      "Data": "Grills"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@TileType",
-                      "Data": "Grill"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@Mass",
-                      "Data": "1"
-                    },
-                    {
                       "Name": "possibleSpawns#1@<ObjectToSpawn>k__BackingField",
-                      "Data": ""
+                      "Data": "NULL"
                     },
                     {
                       "Name": "possibleSpawns#1@<ObjectChance>k__BackingField",
@@ -89858,444 +89448,8 @@
                       "Data": "False"
                     },
                     {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@CanBeHighlightedThroughScanners",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@HighlightObject",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@CanSoundOverride",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@atmosPassable",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@isSealed",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@SpawnWithNoAir",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@passable",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@mineable",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@miningTime",
-                      "Data": "5"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@miningHardness",
-                      "Data": "1"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@constructable",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@RadiationPassability",
-                      "Data": "1"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@ThermalConductivity",
-                      "Data": "0.05"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@HeatCapacity",
-                      "Data": "10000"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@doesReflectBullet",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@indestructible",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@ExplosionImpassable",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@BlocksTileInteractionsUnder",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@maxHealth",
-                      "Data": "50"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@damageDeflection",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@armor@Melee",
-                      "Data": "50"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@armor@Bullet",
-                      "Data": "70"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@armor@Laser",
-                      "Data": "70"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@armor@Energy",
-                      "Data": "100"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@armor@Bomb",
-                      "Data": "10"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@armor@Rad",
-                      "Data": "100"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@armor@Bio",
-                      "Data": "100"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@armor@TemperatureProtectionInK",
-                      "Data": "268.15,313.15"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@armor@PressureProtectionInKpa",
-                      "Data": "30,300"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@spawnOnDeconstruct",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@spawnAmountOnDeconstruct",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@CanBeHighlightedThroughScanners",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@HighlightObject",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@CanSoundOverride",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@atmosPassable",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@isSealed",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@SpawnWithNoAir",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@passable",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@mineable",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@miningTime",
-                      "Data": "5"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@miningHardness",
-                      "Data": "1"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@constructable",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@RadiationPassability",
-                      "Data": "1"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@ThermalConductivity",
-                      "Data": "0.05"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@HeatCapacity",
-                      "Data": "10000"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@doesReflectBullet",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@indestructible",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@ExplosionImpassable",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@BlocksTileInteractionsUnder",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@maxHealth",
-                      "Data": "20"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@damageDeflection",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@armor@Melee",
-                      "Data": "50"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@armor@Bullet",
-                      "Data": "70"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@armor@Laser",
-                      "Data": "70"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@armor@Energy",
-                      "Data": "100"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@armor@Bomb",
-                      "Data": "10"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@armor@Rad",
-                      "Data": "100"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@armor@Bio",
-                      "Data": "100"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@armor@TemperatureProtectionInK",
-                      "Data": "268.15,313.15"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@armor@PressureProtectionInKpa",
-                      "Data": "30,300"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@spawnOnDeconstruct",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@spawnAmountOnDeconstruct",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@soundOnHit@SetLoadSetting",
-                      "Data": "KeepLoaded"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@soundOnHit@AssetAddress",
-                      "Data": "Assets/Prefabs/Effects/GrillHit.prefab"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@soundOnHit@AssetReference@m_AssetGUID",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@soundOnHit@AssetReference@m_SubObjectName",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@soundOnHit@AssetReference@m_SubObjectType",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@soundOnHit@AssetReference@m_EditorAssetChanged",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@SoundOnDestroy#0@SetLoadSetting",
-                      "Data": "KeepLoaded"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@SoundOnDestroy#0@AssetAddress",
-                      "Data": "Assets/Prefabs/Effects/GrillHit.prefab"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@SoundOnDestroy#0@AssetReference@m_AssetGUID",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@SoundOnDestroy#0@AssetReference@m_SubObjectName",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@SoundOnDestroy#0@AssetReference@m_SubObjectType",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@SoundOnDestroy#0@AssetReference@m_EditorAssetChanged",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@<ForeverID>k__BackingField",
-                      "Data": "c87a62cb7a026433f9d4e361d2740cbc"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@displayName",
-                      "Data": "broken grille"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@description",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@LayerType",
-                      "Data": "Grills"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@TileType",
-                      "Data": "Grill"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@Mass",
-                      "Data": "1"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@soundOnHit@SetLoadSetting",
-                      "Data": "KeepLoaded"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@soundOnHit@AssetAddress",
-                      "Data": "Assets/Prefabs/Effects/GrillHit.prefab"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@soundOnHit@AssetReference@m_AssetGUID",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@soundOnHit@AssetReference@m_SubObjectName",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@soundOnHit@AssetReference@m_SubObjectType",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@soundOnHit@AssetReference@m_EditorAssetChanged",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@SoundOnDestroy#0@SetLoadSetting",
-                      "Data": "KeepLoaded"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@SoundOnDestroy#0@AssetAddress",
-                      "Data": "Assets/Prefabs/Effects/GrillHit.prefab"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@SoundOnDestroy#0@AssetReference@m_AssetGUID",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@SoundOnDestroy#0@AssetReference@m_SubObjectName",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@SoundOnDestroy#0@AssetReference@m_SubObjectType",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@SoundOnDestroy#0@AssetReference@m_EditorAssetChanged",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@<ForeverID>k__BackingField",
+                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField",
                       "Data": "3975642db6c52ed4fa2086247abc1f28"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@displayName",
-                      "Data": "grille"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@description",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@LayerType",
-                      "Data": "Grills"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@TileType",
-                      "Data": "Grill"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@Mass",
-                      "Data": "1"
                     },
                     {
                       "Name": "possibleSpawns#0@<ObjectToSpawn>k__BackingField",
@@ -90536,47 +89690,6 @@
                       "Data": "2"
                     }
                   ]
-                },
-                {
-                  "ClassID": "PlaceableTile@0",
-                  "Data": [
-                    {
-                      "Name": "waysToPlace#2@layerTile@passableException#Shuttle",
-                      "Data": "#removed#"
-                    },
-                    {
-                      "Name": "waysToPlace#2@placeableOnlyOnTile@passableException#Shuttle",
-                      "Data": "#removed#"
-                    },
-                    {
-                      "Name": "waysToPlace#2@placeableOnlyOnTile@toTileWhenDestroyed@passableException#Shuttle",
-                      "Data": "#removed#"
-                    },
-                    {
-                      "Name": "waysToPlace#2@placeableOnlyOnTile@toTileWhenDestroyed@toTileWhenDestroyed@passableException#Shuttle",
-                      "Data": "#removed#"
-                    },
-                    {
-                      "Name": "waysToPlace#2@placeableOnlyOnTile@toTileWhenDestroyed@toTileWhenDestroyed@toTileWhenDestroyed@passableException#Shuttle",
-                      "Data": "#removed#"
-                    },
-                    {
-                      "Name": "waysToPlace#1@layerTile@passableException#Shuttle",
-                      "Data": "#removed#"
-                    },
-                    {
-                      "Name": "waysToPlace#1@layerTile@toTileWhenDestroyed@passableException#Shuttle",
-                      "Data": "#removed#"
-                    },
-                    {
-                      "Name": "waysToPlace#1@placeableOnlyOnTile@passableException#Shuttle",
-                      "Data": "#removed#"
-                    },
-                    {
-                      "Name": "waysToPlace#0@layerTile@passableException#Shuttle",
-                      "Data": "#removed#"
-                    }
-                  ]
                 }
               ]
             }
@@ -90614,6 +89727,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -91038,9 +90158,6 @@
                       "Data": "bd00c05722c4845ec915ce449e3b0113"
                     },
                     {
-                      "Name": "matrix"
-                    },
-                    {
                       "Name": "possibleSpawns#7@<ObjectToSpawn>k__BackingField",
                       "Data": "686203d25e1955b49aa009e1a4edddd9",
                       "IsPrefabID": true
@@ -91125,205 +90242,8 @@
                       "Data": "False"
                     },
                     {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@connectCategory",
-                      "Data": "Tables"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@connectType",
-                      "Data": "ToSameCategory"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@texturePath",
-                      "Data": "Tables"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@CanSoundOverride",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@atmosPassable",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@isSealed",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@SpawnWithNoAir",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@passable",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@mineable",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@miningTime",
-                      "Data": "5"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@miningHardness",
-                      "Data": "1"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@constructable",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@RadiationPassability",
-                      "Data": "1"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@ThermalConductivity",
-                      "Data": "0.05"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@HeatCapacity",
-                      "Data": "10000"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@doesReflectBullet",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@indestructible",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@ExplosionImpassable",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@BlocksTileInteractionsUnder",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@maxHealth",
-                      "Data": "70"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@damageDeflection",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@armor@Melee",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@armor@Bullet",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@armor@Laser",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@armor@Energy",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@armor@Bomb",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@armor@Rad",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@armor@Bio",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@armor@TemperatureProtectionInK",
-                      "Data": "268.15,313.15"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@armor@PressureProtectionInKpa",
-                      "Data": "30,300"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@spawnOnDeconstruct",
-                      "Data": "9ae38f6aa43b5cd4ba608cd31b462b24",
-                      "IsPrefabID": true
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@spawnAmountOnDeconstruct",
-                      "Data": "2"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@soundOnHit@SetLoadSetting",
-                      "Data": "KeepLoaded"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@soundOnHit@AssetAddress",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@soundOnHit@AssetReference@m_AssetGUID",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@soundOnHit@AssetReference@m_SubObjectName",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@soundOnHit@AssetReference@m_SubObjectType",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@soundOnHit@AssetReference@m_EditorAssetChanged",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@<ForeverID>k__BackingField",
+                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField",
                       "Data": "67c4061d03a804403a48b3c56a2bda4f"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@displayName",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@description",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@LayerType",
-                      "Data": "Tables"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@TileType",
-                      "Data": "Table"
-                    },
-                    {
-                      "Name": "possibleSpawns#4@<TileToSpawn>k__BackingField@Mass",
-                      "Data": "1"
                     },
                     {
                       "Name": "possibleSpawns#3@<ObjectToSpawn>k__BackingField",
@@ -91348,7 +90268,7 @@
                     },
                     {
                       "Name": "possibleSpawns#2@<ObjectToSpawn>k__BackingField",
-                      "Data": ""
+                      "Data": "NULL"
                     },
                     {
                       "Name": "possibleSpawns#2@<ObjectChance>k__BackingField",
@@ -91367,228 +90287,12 @@
                       "Data": "False"
                     },
                     {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@CanBeHighlightedThroughScanners",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@HighlightObject",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@CanSoundOverride",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@atmosPassable",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@isSealed",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@SpawnWithNoAir",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@passable",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@mineable",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@miningTime",
-                      "Data": "5"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@miningHardness",
-                      "Data": "1"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@constructable",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@RadiationPassability",
-                      "Data": "1"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@ThermalConductivity",
-                      "Data": "0.05"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@HeatCapacity",
-                      "Data": "10000"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@doesReflectBullet",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@indestructible",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@ExplosionImpassable",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@BlocksTileInteractionsUnder",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@maxHealth",
-                      "Data": "20"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@damageDeflection",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@armor@Melee",
-                      "Data": "50"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@armor@Bullet",
-                      "Data": "70"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@armor@Laser",
-                      "Data": "70"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@armor@Energy",
-                      "Data": "100"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@armor@Bomb",
-                      "Data": "10"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@armor@Rad",
-                      "Data": "100"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@armor@Bio",
-                      "Data": "100"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@armor@TemperatureProtectionInK",
-                      "Data": "268.15,313.15"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@armor@PressureProtectionInKpa",
-                      "Data": "30,300"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@spawnOnDeconstruct",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@spawnAmountOnDeconstruct",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@soundOnHit@SetLoadSetting",
-                      "Data": "KeepLoaded"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@soundOnHit@AssetAddress",
-                      "Data": "Assets/Prefabs/Effects/GrillHit.prefab"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@soundOnHit@AssetReference@m_AssetGUID",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@soundOnHit@AssetReference@m_SubObjectName",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@soundOnHit@AssetReference@m_SubObjectType",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@soundOnHit@AssetReference@m_EditorAssetChanged",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@SoundOnDestroy#0@SetLoadSetting",
-                      "Data": "KeepLoaded"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@SoundOnDestroy#0@AssetAddress",
-                      "Data": "Assets/Prefabs/Effects/GrillHit.prefab"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@SoundOnDestroy#0@AssetReference@m_AssetGUID",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@SoundOnDestroy#0@AssetReference@m_SubObjectName",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@SoundOnDestroy#0@AssetReference@m_SubObjectType",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@SoundOnDestroy#0@AssetReference@m_EditorAssetChanged",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@<ForeverID>k__BackingField",
+                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField",
                       "Data": "c87a62cb7a026433f9d4e361d2740cbc"
                     },
                     {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@displayName",
-                      "Data": "broken grille"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@description",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@LayerType",
-                      "Data": "Grills"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@TileType",
-                      "Data": "Grill"
-                    },
-                    {
-                      "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField@Mass",
-                      "Data": "1"
-                    },
-                    {
                       "Name": "possibleSpawns#1@<ObjectToSpawn>k__BackingField",
-                      "Data": ""
+                      "Data": "NULL"
                     },
                     {
                       "Name": "possibleSpawns#1@<ObjectChance>k__BackingField",
@@ -91607,444 +90311,8 @@
                       "Data": "False"
                     },
                     {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@CanBeHighlightedThroughScanners",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@HighlightObject",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@CanSoundOverride",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@atmosPassable",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@isSealed",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@SpawnWithNoAir",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@passable",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@mineable",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@miningTime",
-                      "Data": "5"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@miningHardness",
-                      "Data": "1"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@constructable",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@RadiationPassability",
-                      "Data": "1"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@ThermalConductivity",
-                      "Data": "0.05"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@HeatCapacity",
-                      "Data": "10000"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@doesReflectBullet",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@indestructible",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@ExplosionImpassable",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@BlocksTileInteractionsUnder",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@maxHealth",
-                      "Data": "50"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@damageDeflection",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@armor@Melee",
-                      "Data": "50"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@armor@Bullet",
-                      "Data": "70"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@armor@Laser",
-                      "Data": "70"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@armor@Energy",
-                      "Data": "100"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@armor@Bomb",
-                      "Data": "10"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@armor@Rad",
-                      "Data": "100"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@armor@Bio",
-                      "Data": "100"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@armor@TemperatureProtectionInK",
-                      "Data": "268.15,313.15"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@armor@PressureProtectionInKpa",
-                      "Data": "30,300"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@spawnOnDeconstruct",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@spawnAmountOnDeconstruct",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@CanBeHighlightedThroughScanners",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@HighlightObject",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@CanSoundOverride",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@atmosPassable",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@isSealed",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@SpawnWithNoAir",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@passable",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@mineable",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@miningTime",
-                      "Data": "5"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@miningHardness",
-                      "Data": "1"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@constructable",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@RadiationPassability",
-                      "Data": "1"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@ThermalConductivity",
-                      "Data": "0.05"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@HeatCapacity",
-                      "Data": "10000"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@doesReflectBullet",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@indestructible",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@ExplosionImpassable",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@BlocksTileInteractionsUnder",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@maxHealth",
-                      "Data": "20"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@damageDeflection",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@armor@Melee",
-                      "Data": "50"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@armor@Bullet",
-                      "Data": "70"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@armor@Laser",
-                      "Data": "70"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@armor@Energy",
-                      "Data": "100"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@armor@Bomb",
-                      "Data": "10"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@armor@Rad",
-                      "Data": "100"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@armor@Bio",
-                      "Data": "100"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@armor@TemperatureProtectionInK",
-                      "Data": "268.15,313.15"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@armor@PressureProtectionInKpa",
-                      "Data": "30,300"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@spawnOnDeconstruct",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@spawnAmountOnDeconstruct",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@soundOnHit@SetLoadSetting",
-                      "Data": "KeepLoaded"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@soundOnHit@AssetAddress",
-                      "Data": "Assets/Prefabs/Effects/GrillHit.prefab"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@soundOnHit@AssetReference@m_AssetGUID",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@soundOnHit@AssetReference@m_SubObjectName",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@soundOnHit@AssetReference@m_SubObjectType",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@soundOnHit@AssetReference@m_EditorAssetChanged",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@SoundOnDestroy#0@SetLoadSetting",
-                      "Data": "KeepLoaded"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@SoundOnDestroy#0@AssetAddress",
-                      "Data": "Assets/Prefabs/Effects/GrillHit.prefab"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@SoundOnDestroy#0@AssetReference@m_AssetGUID",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@SoundOnDestroy#0@AssetReference@m_SubObjectName",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@SoundOnDestroy#0@AssetReference@m_SubObjectType",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@SoundOnDestroy#0@AssetReference@m_EditorAssetChanged",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@<ForeverID>k__BackingField",
-                      "Data": "c87a62cb7a026433f9d4e361d2740cbc"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@displayName",
-                      "Data": "broken grille"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@description",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@LayerType",
-                      "Data": "Grills"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@TileType",
-                      "Data": "Grill"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@toTileWhenDestroyed@Mass",
-                      "Data": "1"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@soundOnHit@SetLoadSetting",
-                      "Data": "KeepLoaded"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@soundOnHit@AssetAddress",
-                      "Data": "Assets/Prefabs/Effects/GrillHit.prefab"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@soundOnHit@AssetReference@m_AssetGUID",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@soundOnHit@AssetReference@m_SubObjectName",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@soundOnHit@AssetReference@m_SubObjectType",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@soundOnHit@AssetReference@m_EditorAssetChanged",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@SoundOnDestroy#0@SetLoadSetting",
-                      "Data": "KeepLoaded"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@SoundOnDestroy#0@AssetAddress",
-                      "Data": "Assets/Prefabs/Effects/GrillHit.prefab"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@SoundOnDestroy#0@AssetReference@m_AssetGUID",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@SoundOnDestroy#0@AssetReference@m_SubObjectName",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@SoundOnDestroy#0@AssetReference@m_SubObjectType",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@SoundOnDestroy#0@AssetReference@m_EditorAssetChanged",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@<ForeverID>k__BackingField",
+                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField",
                       "Data": "3975642db6c52ed4fa2086247abc1f28"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@displayName",
-                      "Data": "grille"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@description",
-                      "Data": ""
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@LayerType",
-                      "Data": "Grills"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@TileType",
-                      "Data": "Grill"
-                    },
-                    {
-                      "Name": "possibleSpawns#1@<TileToSpawn>k__BackingField@Mass",
-                      "Data": "1"
                     },
                     {
                       "Name": "possibleSpawns#0@<ObjectToSpawn>k__BackingField",
@@ -92564,6 +90832,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -92694,6 +90969,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -92780,6 +91062,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -93021,7 +91310,17 @@
             "GitID": "286f9309b0cebd94689084e1e918be34_35┼-25┼0┼",
             "PrefabID": "286f9309b0cebd94689084e1e918be34",
             "Name": "LaundryCart (1)",
-            "LocalPRS": "35┼-25┼0┼"
+            "LocalPRS": "35┼-25┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "39f11c8504eb6b7409e8dba3179a52ca_35┼-24┼0┼",
@@ -93205,6 +91504,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -93285,6 +91591,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -93464,7 +91777,12 @@
             "Name": "ExitMarker (2)",
             "LocalPRS": "56┼-4┼0┼",
             "Object": {
-              "ClassDatas": [],
+              "ClassDatas": [
+                {
+                  "ClassID": "ExitMarker@0",
+                  "Data": []
+                }
+              ],
               "Children": [
                 {
                   "ID": "0,0",
@@ -93658,6 +91976,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -93723,6 +92048,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -93885,6 +92217,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -93937,7 +92276,12 @@
             "Name": "ExitMarker (4)",
             "LocalPRS": "66┼30┼0┼",
             "Object": {
-              "ClassDatas": [],
+              "ClassDatas": [
+                {
+                  "ClassID": "ExitMarker@0",
+                  "Data": []
+                }
+              ],
               "Children": [
                 {
                   "ID": "0,0",
@@ -93977,6 +92321,31 @@
                     {
                       "Name": "WorldName",
                       "Data": "The Maintrooms"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "RandomExitPosition@0",
+                  "Data": [
+                    {
+                      "Name": "ExitMarkers#4",
+                      "Data": "RrXW_F!vzLAPy2_SPwGq_66┼30┼0┼@0@ExitMarker@0"
+                    },
+                    {
+                      "Name": "ExitMarkers#3",
+                      "Data": "RrXW_F!vzLAPy2_SPwGq_71┼61┼0┼@0@ExitMarker@0"
+                    },
+                    {
+                      "Name": "ExitMarkers#2",
+                      "Data": "RrXW_F!vzLAPy2_SPwGq_56┼-4┼0┼@0@ExitMarker@0"
+                    },
+                    {
+                      "Name": "ExitMarkers#1",
+                      "Data": "bf668c0a59e6e5c4e9b1cf6485655d0a_22┼31┼0┼@0@ExitMarker@0"
+                    },
+                    {
+                      "Name": "ExitMarkers#0",
+                      "Data": "RrXW_F!vzLAPy2_SPwGq_86┼4┼0┼@0@ExitMarker@0"
                     }
                   ]
                 }
@@ -94064,6 +92433,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -94149,6 +92525,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -94441,7 +92824,12 @@
             "Name": "ExitMarker (3)",
             "LocalPRS": "71┼61┼0┼",
             "Object": {
-              "ClassDatas": [],
+              "ClassDatas": [
+                {
+                  "ClassID": "ExitMarker@0",
+                  "Data": []
+                }
+              ],
               "Children": [
                 {
                   "ID": "0,0",
@@ -94621,6 +93009,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -94686,6 +93081,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -94756,7 +93158,17 @@
             "GitID": "517c48fc4fc1cba48908d11ec58451ce_83┼1┼0┼",
             "PrefabID": "517c48fc4fc1cba48908d11ec58451ce",
             "Name": "EngineeringCrateElectrical (1)",
-            "LocalPRS": "83┼1┼0┼"
+            "LocalPRS": "83┼1┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_83┼1┼0┼",
@@ -94782,6 +93194,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -94826,6 +93245,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -94833,48 +93259,7 @@
             "GitID": "9b139d47618b5ff418198a443805c1d5_84┼7┼0┼",
             "PrefabID": "9b139d47618b5ff418198a443805c1d5",
             "Name": "TableFrame (2)",
-            "LocalPRS": "84┼7┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "TableBuilding@0",
-                  "Data": [
-                    {
-                      "Name": "metalTable@passableException#Airborne",
-                      "Data": "#removed#"
-                    },
-                    {
-                      "Name": "metalTable@passableException#Click",
-                      "Data": "#removed#"
-                    },
-                    {
-                      "Name": "glassTable@passableException#Airborne",
-                      "Data": "#removed#"
-                    },
-                    {
-                      "Name": "glassTable@passableException#Click",
-                      "Data": "#removed#"
-                    },
-                    {
-                      "Name": "woodTable@passableException#Airborne",
-                      "Data": "#removed#"
-                    },
-                    {
-                      "Name": "woodTable@passableException#Click",
-                      "Data": "#removed#"
-                    },
-                    {
-                      "Name": "reinforcedTable@passableException#Airborne",
-                      "Data": "#removed#"
-                    },
-                    {
-                      "Name": "reinforcedTable@passableException#Click",
-                      "Data": "#removed#"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "84┼7┼0┼"
           },
           {
             "GitID": "cb11f80a7ec1323428cd508fccb1f311_85┼7┼0┼",
@@ -94894,7 +93279,12 @@
             "Name": "ExitMarker",
             "LocalPRS": "86┼4┼0┼",
             "Object": {
-              "ClassDatas": [],
+              "ClassDatas": [
+                {
+                  "ClassID": "ExitMarker@0",
+                  "Data": []
+                }
+              ],
               "Children": [
                 {
                   "ID": "0,0",
@@ -94921,48 +93311,7 @@
             "GitID": "9b139d47618b5ff418198a443805c1d5_87┼1┼0┼",
             "PrefabID": "9b139d47618b5ff418198a443805c1d5",
             "Name": "TableFrame (1)",
-            "LocalPRS": "87┼1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "TableBuilding@0",
-                  "Data": [
-                    {
-                      "Name": "metalTable@passableException#Airborne",
-                      "Data": "#removed#"
-                    },
-                    {
-                      "Name": "metalTable@passableException#Click",
-                      "Data": "#removed#"
-                    },
-                    {
-                      "Name": "glassTable@passableException#Airborne",
-                      "Data": "#removed#"
-                    },
-                    {
-                      "Name": "glassTable@passableException#Click",
-                      "Data": "#removed#"
-                    },
-                    {
-                      "Name": "woodTable@passableException#Airborne",
-                      "Data": "#removed#"
-                    },
-                    {
-                      "Name": "woodTable@passableException#Click",
-                      "Data": "#removed#"
-                    },
-                    {
-                      "Name": "reinforcedTable@passableException#Airborne",
-                      "Data": "#removed#"
-                    },
-                    {
-                      "Name": "reinforcedTable@passableException#Click",
-                      "Data": "#removed#"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "87┼1┼0┼"
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_87┼1┼0┼",
@@ -94988,6 +93337,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -95025,6 +93381,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }

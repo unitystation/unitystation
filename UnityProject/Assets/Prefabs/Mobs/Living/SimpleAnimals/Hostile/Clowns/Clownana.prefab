@@ -16,6 +16,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 139661388466755808, guid: de019589c1767b24aa99c1250eee4a4d,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c0addfd9d7cf2fd45b2ade0f68cd3586,
+        type: 2}
+    - target: {fileID: 139661388466755808, guid: de019589c1767b24aa99c1250eee4a4d,
+        type: 3}
       propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: c0addfd9d7cf2fd45b2ade0f68cd3586,
@@ -129,6 +135,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8385273490692369514, guid: de019589c1767b24aa99c1250eee4a4d,
+        type: 3}
+      propertyPath: foreverID
+      value: 7e30e8dfd3c201c40a8e44bed03e6570
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

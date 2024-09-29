@@ -32511,7 +32511,21 @@
             "GitID": "1gVVwsp$tC6EF8VO_69n_-20.5┼2.5┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner snek (3)",
-            "LocalPRS": "-20.5┼2.5┼0┼"
+            "LocalPRS": "-20.5┼2.5┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "Cyn3F7aY$wycpLGuCMS!",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "6ad032af36554be438712c45a824ea32_-20┼-14┼0┼",
@@ -33353,7 +33367,21 @@
             "GitID": "1gVVwsp$tC6EF8VO_69n_-9.5┼21.01┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner VenusHumanTrap",
-            "LocalPRS": "-9.5┼21.01┼0┼"
+            "LocalPRS": "-9.5┼21.01┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "0e47639aecb611547962ccc2481106db",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "b75f6fda7fdaaae4aa008c0973bded0f_-9┼-20┼0┼",
@@ -33414,7 +33442,21 @@
             "GitID": "1gVVwsp$tC6EF8VO_69n_-8.5┼-16┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner snek",
-            "LocalPRS": "-8.5┼-16┼0┼"
+            "LocalPRS": "-8.5┼-16┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "Cyn3F7aY$wycpLGuCMS!",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "053a1ecc988b4ae49b5e748c60d98ad9_-8┼1┼0┼",
@@ -33470,6 +33512,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -33501,6 +33550,13 @@
                       "Data": "A wooden chair found in churches."
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -33534,6 +33590,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -33565,6 +33628,13 @@
                       "Data": "A wooden chair found in churches."
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -33598,6 +33668,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -33629,6 +33706,13 @@
                       "Data": "A wooden chair found in churches."
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -33816,6 +33900,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -33847,6 +33938,13 @@
                       "Data": "A wooden chair found in churches."
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -33880,6 +33978,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -33911,6 +34016,13 @@
                       "Data": "A wooden chair found in churches."
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -33944,6 +34056,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -33975,6 +34094,13 @@
                       "Data": "A wooden chair found in churches."
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -34014,7 +34140,21 @@
             "GitID": "1gVVwsp$tC6EF8VO_69n_-6┼12┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner snek (4)",
-            "LocalPRS": "-6┼12┼0┼"
+            "LocalPRS": "-6┼12┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "Cyn3F7aY$wycpLGuCMS!",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "b75f6fda7fdaaae4aa008c0973bded0f_-6┼12┼0┼",
@@ -34261,6 +34401,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -34292,6 +34439,13 @@
                       "Data": "A wooden chair found in churches."
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -34325,6 +34479,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -34356,6 +34517,13 @@
                       "Data": "A wooden chair found in churches."
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -34389,6 +34557,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -34420,6 +34595,13 @@
                       "Data": "A wooden chair found in churches."
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -34561,6 +34743,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -34592,6 +34781,13 @@
                       "Data": "A wooden chair found in churches."
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -34625,6 +34821,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -34656,6 +34859,13 @@
                       "Data": "A wooden chair found in churches."
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -34689,6 +34899,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -34721,6 +34938,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -34728,7 +34952,21 @@
             "GitID": "1gVVwsp$tC6EF8VO_69n_-3┼2┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner snek (6)",
-            "LocalPRS": "-3┼2┼0┼"
+            "LocalPRS": "-3┼2┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "Cyn3F7aY$wycpLGuCMS!",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "25b12bb335be903439c592e66148f943_-3┼7┼0┼",
@@ -34948,7 +35186,21 @@
             "GitID": "1gVVwsp$tC6EF8VO_69n_0┼-11┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner God",
-            "LocalPRS": "0┼-11┼0┼"
+            "LocalPRS": "0┼-11┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "d4e73176fd4017e48a532e839c4d6d4f",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "2304f6197e788654ebfe0cf0947a8b1a_0┼-11┼0┼",
@@ -35079,6 +35331,12 @@
             "LocalPRS": "0┼0┼0┼"
           },
           {
+            "GitID": "e02a5954be8d94b4bbaaa0d63d813c71_0.001┼0┼0┼",
+            "PrefabID": "e02a5954be8d94b4bbaaa0d63d813c71",
+            "Name": "AI_ShouldNavigateAround (1)",
+            "LocalPRS": "0┼0┼0┼"
+          },
+          {
             "GitID": "2304f6197e788654ebfe0cf0947a8b1a_0┼3.5┼0┼",
             "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
             "Name": "SW_SolarHighlight (25)",
@@ -35182,34 +35440,44 @@
                   "ClassID": "MobSpawnControlScript@0",
                   "Data": [
                     {
-                      "Name": "MobSpawners#9"
+                      "Name": "MobSpawners#9",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-3┼2┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
-                      "Name": "MobSpawners#8"
+                      "Name": "MobSpawners#8",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_3┼10┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
-                      "Name": "MobSpawners#7"
+                      "Name": "MobSpawners#7",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-6┼12┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
-                      "Name": "MobSpawners#6"
+                      "Name": "MobSpawners#6",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_18.5┼21┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
-                      "Name": "MobSpawners#5"
+                      "Name": "MobSpawners#5",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_20.5┼2.5┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
-                      "Name": "MobSpawners#4"
+                      "Name": "MobSpawners#4",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-20.5┼2.5┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
-                      "Name": "MobSpawners#3"
+                      "Name": "MobSpawners#3",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_2.5┼-21┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
-                      "Name": "MobSpawners#2"
+                      "Name": "MobSpawners#2",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-8.5┼-16┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
-                      "Name": "MobSpawners#1"
+                      "Name": "MobSpawners#1",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_0┼-11┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
-                      "Name": "MobSpawners#0"
+                      "Name": "MobSpawners#0",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-9.5┼21.01┼0┼@0@LegacyMobSpawnScript@0"
                     }
                   ]
                 }
@@ -35244,7 +35512,21 @@
             "GitID": "1gVVwsp$tC6EF8VO_69n_2.5┼-21┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner snek (1)",
-            "LocalPRS": "2.5┼-21┼0┼"
+            "LocalPRS": "2.5┼-21┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "Cyn3F7aY$wycpLGuCMS!",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "2304f6197e788654ebfe0cf0947a8b1a_2.5┼11┼0┼",
@@ -35301,6 +35583,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -35332,6 +35621,13 @@
                       "Data": "A wooden chair found in churches."
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -35365,6 +35661,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -35396,6 +35699,13 @@
                       "Data": "A wooden chair found in churches."
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -35429,6 +35739,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -35460,6 +35777,13 @@
                       "Data": "A wooden chair found in churches."
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -35499,7 +35823,21 @@
             "GitID": "1gVVwsp$tC6EF8VO_69n_3┼10┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner snek (5)",
-            "LocalPRS": "3┼10┼0┼"
+            "LocalPRS": "3┼10┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "Cyn3F7aY$wycpLGuCMS!",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "c74d8e6979d1f164a97954273f1a0f7e_3┼10┼0┼",
@@ -35630,6 +35968,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -35661,6 +36006,13 @@
                       "Data": "A wooden chair found in churches."
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -35694,6 +36046,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -35725,6 +36084,13 @@
                       "Data": "A wooden chair found in churches."
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -35758,6 +36124,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -35789,6 +36162,13 @@
                       "Data": "A wooden chair found in churches."
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -36073,6 +36453,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -36104,6 +36491,13 @@
                       "Data": "A wooden chair found in churches."
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -36137,6 +36531,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -36168,6 +36569,13 @@
                       "Data": "A wooden chair found in churches."
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -36201,6 +36609,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -36232,6 +36647,13 @@
                       "Data": "A wooden chair found in churches."
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -36464,6 +36886,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -36495,6 +36924,13 @@
                       "Data": "A wooden chair found in churches."
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -36528,6 +36964,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -36559,6 +37002,13 @@
                       "Data": "A wooden chair found in churches."
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -36592,6 +37042,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -36623,6 +37080,13 @@
                       "Data": "A wooden chair found in churches."
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -37831,7 +38295,21 @@
             "GitID": "1gVVwsp$tC6EF8VO_69n_18.5┼21┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner VenusHumanTrap",
-            "LocalPRS": "18.5┼21┼0┼"
+            "LocalPRS": "18.5┼21┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "0e47639aecb611547962ccc2481106db",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "f971211dbf3770d4cb7c0b47e7c5e0dd_19┼-20┼0┼",
@@ -37887,7 +38365,21 @@
             "GitID": "1gVVwsp$tC6EF8VO_69n_20.5┼2.5┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner snek (2)",
-            "LocalPRS": "20.5┼2.5┼0┼"
+            "LocalPRS": "20.5┼2.5┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "Cyn3F7aY$wycpLGuCMS!",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "83f82bf7d6ca0c64b920771116fc98c6_21┼-21┼0┼",

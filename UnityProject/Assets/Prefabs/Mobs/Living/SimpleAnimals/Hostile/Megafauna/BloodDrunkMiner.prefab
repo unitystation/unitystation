@@ -16,6 +16,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 680938979330203337, guid: 278a488f4ec2d4643bea94c34d67ce70,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 20570c095955e9948922a21ca4d19c8a,
+        type: 2}
+    - target: {fileID: 680938979330203337, guid: 278a488f4ec2d4643bea94c34d67ce70,
+        type: 3}
       propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 20570c095955e9948922a21ca4d19c8a,
@@ -176,6 +182,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8997482862666082883, guid: 278a488f4ec2d4643bea94c34d67ce70,
+        type: 3}
+      propertyPath: foreverID
+      value: 170d29de25f8b7b45ad90742f9a27973
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -1,6 +1,6 @@
 {
   "Ver": "1.0.0",
-  "MapName": "Asteroid7",
+  "MapName": "AsteroidX",
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
@@ -3925,65 +3925,10 @@
         "CommonPrefabs": [],
         "PrefabData": [
           {
-            "GitID": "6d04235bcbbde8349a6a46d46d8f8ae8_0┼0┼0┼",
-            "PrefabID": "6d04235bcbbde8349a6a46d46d8f8ae8",
-            "Name": "AsteroidSystem",
-            "LocalPRS": "0┼0┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "NetworkIdentity@0",
-                  "Data": [
-                    {
-                      "Name": "_assetId",
-                      "Data": "63326186"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Asteroid@0",
-                  "Data": [
-                    {
-                      "Name": "syncDirection",
-                      "Data": "ServerToClient"
-                    },
-                    {
-                      "Name": "syncMode",
-                      "Data": "Observers"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "LocalPRS": "0┼0┼0┼0.28↔0.28↔0.28↔",
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "1aecddd1e5065e54e8a103e2d9b15312"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "83b269ab1421fcf4a95ad3cf33935cff_0┼0┼0┼",
-            "PrefabID": "83b269ab1421fcf4a95ad3cf33935cff",
-            "Name": "OreGenerator",
-            "LocalPRS": "0┼0┼0┼"
-          },
-          {
-            "GitID": "86f1fa4a01e7f0142a6e2ce35cce0930_0┼0┼0┼",
+            "GitID": "86f1fa4a01e7f0142a6e2ce35cce0930_-0.5┼-0.5┼0┼",
             "PrefabID": "86f1fa4a01e7f0142a6e2ce35cce0930",
             "Name": "MatrixGasSettings",
-            "LocalPRS": "0┼0┼0┼",
+            "LocalPRS": "-0.5┼-0.5┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -4003,9 +3948,21 @@
             }
           },
           {
-            "GitID": "e02a5954be8d94b4bbaaa0d63d813c71_0┼0┼0┼",
+            "GitID": "911f81eefba53574788e7659d9b3dbfe_-0.5┼-0.5┼0┼",
+            "PrefabID": "911f81eefba53574788e7659d9b3dbfe",
+            "Name": "AsteroidSystem",
+            "LocalPRS": "-0.5┼-0.5┼0┼"
+          },
+          {
+            "GitID": "e02a5954be8d94b4bbaaa0d63d813c71_-0.5┼-0.5┼0┼",
             "PrefabID": "e02a5954be8d94b4bbaaa0d63d813c71",
             "Name": "AI_ShouldNavigateAround",
+            "LocalPRS": "-0.5┼-0.5┼0┼"
+          },
+          {
+            "GitID": "83b269ab1421fcf4a95ad3cf33935cff_0┼0┼0┼",
+            "PrefabID": "83b269ab1421fcf4a95ad3cf33935cff",
+            "Name": "OreGenerator",
             "LocalPRS": "0┼0┼0┼"
           },
           {
@@ -4166,8 +4123,8 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "-408,385,0",
-          "Size": "22,24,0"
+          "Pos": "-408.2,384.8,0",
+          "Size": "22.5,24.5,0"
         }
       ]
     }

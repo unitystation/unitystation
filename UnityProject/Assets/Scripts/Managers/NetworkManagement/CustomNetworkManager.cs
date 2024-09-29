@@ -29,6 +29,8 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public static CustomNetworkManager Instance;
 
+	public bool SpawnedByMappingTool = false;
+
 	public List<GameObject> NetworkedManagersPrefabs;
 
 	public List<GameObject> ActiveNetworkedManagersPrefabs;
@@ -44,6 +46,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	/// use spawnPrefabs to get only networked prefabs
 	/// </summary>
 	[HideInInspector] public List<GameObject> allSpawnablePrefabs = new();
+
 
 	public Dictionary<GameObject, int> IndexLookupSpawnablePrefabs = new();
 
@@ -158,8 +161,8 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		{
 			new Task(SetUpSpawnablePrefabsIndex).Start();
 		}
-		//Instance = this;
-		if (Instance == null)
+
+		if (Instance == null || Instance == this || Instance.SpawnedByMappingTool)
 		{
 			Instance = this;
 		}

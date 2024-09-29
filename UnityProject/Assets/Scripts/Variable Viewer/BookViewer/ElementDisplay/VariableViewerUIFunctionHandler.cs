@@ -86,7 +86,8 @@ public static class VVUIElementHandler
 				}
 			}
 
-			return (InObject.ToString());
+			var ReturnString = InObject.ToString();
+			return ReturnString;
 		}
 	}
 
@@ -243,7 +244,7 @@ public static class VVUIElementHandler
 			}
 		}
 
-		return (InObject.ToString());
+		return (InObject?.ToString());
 	}
 }
 

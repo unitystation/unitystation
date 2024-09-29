@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using System.IO;
@@ -8,6 +9,7 @@ using MapSaver;
 using Newtonsoft.Json;
 using SecureStuff;
 using TileManagement;
+using Object = UnityEngine.Object;
 
 public class FileSelectorWindow : EditorWindow
 {
@@ -123,11 +125,25 @@ public class FileSelectorWindow : EditorWindow
 	    CoroutineRunnerBehaviour.StartCoroutine(MapLoader.ServerLoadMap(Vector3.zero, Vector3.zero, mapData));
     }
 
+
+    public List<MetaTileMap> SortObjectsByChildIndex(List<MetaTileMap> objects)
+    {
+	    // Sort the objects based on their sibling index
+	    objects.Sort((x, y) => y.transform.parent.GetSiblingIndex().CompareTo(x.transform.parent.GetSiblingIndex()));
+
+	    // Return the sorted list
+	    return objects;
+    }
+
     private void Save(string filePath)
     {
 	    try
 	    {
-		    var  MapMatrices =  FindObjectsOfType<MetaTileMap>().ToList();
+		    var  MapMatrices = Object.FindObjectsByType<MetaTileMap>(FindObjectsSortMode.None).ToList();
+
+		    // Sort objects by their recursive child index path
+		    MapMatrices = SortObjectsByChildIndex(MapMatrices);
+
 		    if (MapMatrices.Count == 0)
 		    {
 			    Loggy.LogError($"No maps found for Save {filePath}");

@@ -85311,14 +85311,35 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_-35┼26┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-35┼26┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner Statue (3)",
-            "LocalPRS": "-35┼26┼0┼"
+            "LocalPRS": "-35┼26┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "fc656a40bbce25c4f8c7b33b892d22a4",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "c32252ab9e386cd41a495831538dd9f7_-31┼-15┼0┼",
@@ -85411,95 +85432,95 @@
                   "Data": [
                     {
                       "Name": "MobSpawners#22",
-                      "Data": "ZeUffOUxAW8tpwHwJxxP_-14┼9┼0┼@0@MobSpawnScript@0"
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-14┼9┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
                       "Name": "MobSpawners#21",
-                      "Data": "ZeUffOUxAW8tpwHwJxxP_-9┼27┼0┼@0@MobSpawnScript@0"
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-9┼27┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
                       "Name": "MobSpawners#20",
-                      "Data": "ZeUffOUxAW8tpwHwJxxP_33┼27┼0┼@0@MobSpawnScript@0"
+                      "Data": "1gVVwsp$tC6EF8VO_69n_33┼27┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
                       "Name": "MobSpawners#19",
-                      "Data": "ZeUffOUxAW8tpwHwJxxP_-35┼26┼0┼@0@MobSpawnScript@0"
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-35┼26┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
                       "Name": "MobSpawners#18",
-                      "Data": "ZeUffOUxAW8tpwHwJxxP_6┼-9.13┼0┼@0@MobSpawnScript@0"
+                      "Data": "1gVVwsp$tC6EF8VO_69n_6┼-9.13┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
                       "Name": "MobSpawners#17",
-                      "Data": "ZeUffOUxAW8tpwHwJxxP_5.97┼27.03┼0┼@0@MobSpawnScript@0"
+                      "Data": "1gVVwsp$tC6EF8VO_69n_5.97┼27.03┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
                       "Name": "MobSpawners#16",
-                      "Data": "ZeUffOUxAW8tpwHwJxxP_-25.5┼-15┼0┼@0@MobSpawnScript@0"
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-25.5┼-15┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
                       "Name": "MobSpawners#15",
-                      "Data": "ZeUffOUxAW8tpwHwJxxP_-21┼-4┼0┼@0@MobSpawnScript@0"
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-21┼-4┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
                       "Name": "MobSpawners#14",
-                      "Data": "ZeUffOUxAW8tpwHwJxxP_-25┼-6.5┼0┼@0@MobSpawnScript@0"
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-25┼-6.5┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
                       "Name": "MobSpawners#13",
-                      "Data": "ZeUffOUxAW8tpwHwJxxP_3┼10┼0┼@0@MobSpawnScript@0"
+                      "Data": "1gVVwsp$tC6EF8VO_69n_3┼10┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
                       "Name": "MobSpawners#12",
-                      "Data": "ZeUffOUxAW8tpwHwJxxP_-8┼10┼0┼@0@MobSpawnScript@0"
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-8┼10┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
                       "Name": "MobSpawners#11",
-                      "Data": "ZeUffOUxAW8tpwHwJxxP_-19┼24┼0┼@0@MobSpawnScript@0"
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-19┼24┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
                       "Name": "MobSpawners#10",
-                      "Data": "ZeUffOUxAW8tpwHwJxxP_21.09┼13.02┼0┼@0@MobSpawnScript@0"
+                      "Data": "1gVVwsp$tC6EF8VO_69n_21.09┼13.02┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
                       "Name": "MobSpawners#9",
-                      "Data": "ZeUffOUxAW8tpwHwJxxP_24┼-3┼0┼@0@MobSpawnScript@0"
+                      "Data": "1gVVwsp$tC6EF8VO_69n_24┼-3┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
                       "Name": "MobSpawners#8",
-                      "Data": "ZeUffOUxAW8tpwHwJxxP_24┼-19┼0┼@0@MobSpawnScript@0"
+                      "Data": "1gVVwsp$tC6EF8VO_69n_24┼-19┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
                       "Name": "MobSpawners#7",
-                      "Data": "ZeUffOUxAW8tpwHwJxxP_33.96┼-39┼0┼@0@MobSpawnScript@0"
+                      "Data": "1gVVwsp$tC6EF8VO_69n_33.96┼-39┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
                       "Name": "MobSpawners#6",
-                      "Data": "ZeUffOUxAW8tpwHwJxxP_24┼-32┼0┼@0@MobSpawnScript@0"
+                      "Data": "1gVVwsp$tC6EF8VO_69n_24┼-32┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
                       "Name": "MobSpawners#5",
-                      "Data": "ZeUffOUxAW8tpwHwJxxP_13┼-34┼0┼@0@MobSpawnScript@0"
+                      "Data": "1gVVwsp$tC6EF8VO_69n_13┼-34┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
                       "Name": "MobSpawners#4",
-                      "Data": "ZeUffOUxAW8tpwHwJxxP_11┼-38┼0┼@0@MobSpawnScript@0"
+                      "Data": "1gVVwsp$tC6EF8VO_69n_11┼-38┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
                       "Name": "MobSpawners#3",
-                      "Data": "ZeUffOUxAW8tpwHwJxxP_3┼-25┼0┼@0@MobSpawnScript@0"
+                      "Data": "1gVVwsp$tC6EF8VO_69n_3┼-25┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
                       "Name": "MobSpawners#2",
-                      "Data": "ZeUffOUxAW8tpwHwJxxP_-6┼-25┼0┼@0@MobSpawnScript@0"
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-6┼-25┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
                       "Name": "MobSpawners#1",
-                      "Data": "ZeUffOUxAW8tpwHwJxxP_-4┼2┼0┼@0@MobSpawnScript@0"
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-4┼2┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
                       "Name": "MobSpawners#0",
-                      "Data": "ZeUffOUxAW8tpwHwJxxP_-1.13┼28.12┼0┼@0@MobSpawnScript@0"
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-1.13┼28.12┼0┼@0@LegacyMobSpawnScript@0"
                     }
                   ]
                 }
@@ -85542,16 +85563,24 @@
             }
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_-25.5┼-15┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-25.5┼-15┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner Skeleton",
-            "LocalPRS": "-25.5┼-15┼0┼"
-          },
-          {
-            "GitID": "e02a5954be8d94b4bbaaa0d63d813c71_-25┼-37┼0┼",
-            "PrefabID": "e02a5954be8d94b4bbaaa0d63d813c71",
-            "Name": "AI_ShouldNavigateAround",
-            "LocalPRS": "-25┼-37┼0┼"
+            "LocalPRS": "-25.5┼-15┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "ed7a64706e0cc6048bec73dc630a5440",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "c32252ab9e386cd41a495831538dd9f7_-25┼-21┼0┼",
@@ -85566,10 +85595,24 @@
             "LocalPRS": "-25┼-13┼0┼"
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_-25┼-6.5┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-25┼-6.5┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner Skeleton",
-            "LocalPRS": "-25┼-6.5┼0┼"
+            "LocalPRS": "-25┼-6.5┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "ed7a64706e0cc6048bec73dc630a5440",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "c32252ab9e386cd41a495831538dd9f7_-25┼-5┼0┼",
@@ -85626,10 +85669,24 @@
             "LocalPRS": "-22┼-12┼0┼"
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_-21┼-4┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-21┼-4┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner Skeleton",
-            "LocalPRS": "-21┼-4┼0┼"
+            "LocalPRS": "-21┼-4┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "ed7a64706e0cc6048bec73dc630a5440",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "c32252ab9e386cd41a495831538dd9f7_-21┼-1┼0┼",
@@ -85669,10 +85726,24 @@
             "LocalPRS": "-19┼-16┼0┼"
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_-19┼24┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-19┼24┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner Skeleton",
-            "LocalPRS": "-19┼24┼0┼"
+            "LocalPRS": "-19┼24┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "ed7a64706e0cc6048bec73dc630a5440",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "f544c34105cb69a4498d1c784f4b1ff4_-17.03┼29┼0┼",
@@ -85698,10 +85769,24 @@
             }
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_-14┼9┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-14┼9┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner Statue (6)",
-            "LocalPRS": "-14┼9┼0┼"
+            "LocalPRS": "-14┼9┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "fc656a40bbce25c4f8c7b33b892d22a4",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "c32252ab9e386cd41a495831538dd9f7_-13┼-13┼0┼",
@@ -85747,16 +85832,44 @@
             "LocalPRS": "-9┼5┼0┼"
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_-9┼27┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-9┼27┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner Statue (5)",
-            "LocalPRS": "-9┼27┼0┼"
+            "LocalPRS": "-9┼27┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "fc656a40bbce25c4f8c7b33b892d22a4",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_-8┼10┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-8┼10┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner Skeleton",
-            "LocalPRS": "-8┼10┼0┼"
+            "LocalPRS": "-8┼10┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "ed7a64706e0cc6048bec73dc630a5440",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "e47d4a40d93f49b49bc3721acdb5f2af_-7┼11┼0┼",
@@ -85854,10 +85967,24 @@
             }
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_-6┼-25┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-6┼-25┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner Skeleton",
-            "LocalPRS": "-6┼-25┼0┼"
+            "LocalPRS": "-6┼-25┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "ed7a64706e0cc6048bec73dc630a5440",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "c32252ab9e386cd41a495831538dd9f7_-6┼-12┼0┼",
@@ -85934,10 +86061,24 @@
             }
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_-4┼2┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-4┼2┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner Statue",
-            "LocalPRS": "-4┼2┼0┼"
+            "LocalPRS": "-4┼2┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "fc656a40bbce25c4f8c7b33b892d22a4",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "26a2eb06d3764614c9aac23a89e13a7c_-4┼30┼0┼",
@@ -86036,19 +86177,67 @@
             "GitID": "1a00e842e154f7d43811c5d45328988c_-2┼29┼0┼",
             "PrefabID": "1a00e842e154f7d43811c5d45328988c",
             "Name": "Chair",
-            "LocalPRS": "-2┼29┼0┼"
+            "LocalPRS": "-2┼29┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "metal chair"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "For sitting or getting strapped onto."
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_-1.13┼28.12┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-1.13┼28.12┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner Husk",
-            "LocalPRS": "-1.13┼28.12┼0┼"
+            "LocalPRS": "-1.13┼28.12┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "24dd134af3b26d446aaab32a68011a5b",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "1a00e842e154f7d43811c5d45328988c_-1┼29┼0┼",
             "PrefabID": "1a00e842e154f7d43811c5d45328988c",
             "Name": "Chair",
-            "LocalPRS": "-1┼29┼0┼"
+            "LocalPRS": "-1┼29┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "metal chair"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "For sitting or getting strapped onto."
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "7147422770216fc47b220e213ce8395c_-0.84┼29.94┼0┼",
@@ -86087,6 +86276,18 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "86f1fa4a01e7f0142a6e2ce35cce0930_0┼0┼0┼",
+            "PrefabID": "86f1fa4a01e7f0142a6e2ce35cce0930",
+            "Name": "MatrixGasSettings",
+            "LocalPRS": "0┼0┼0┼"
+          },
+          {
+            "GitID": "e02a5954be8d94b4bbaaa0d63d813c71_0┼0┼0┼",
+            "PrefabID": "e02a5954be8d94b4bbaaa0d63d813c71",
+            "Name": "AI_ShouldNavigateAround",
+            "LocalPRS": "0┼0┼0┼"
           },
           {
             "GitID": "9da926c817a893b42bd85ef48a1aae72_0┼10┼0┼",
@@ -86275,10 +86476,24 @@
             "LocalPRS": "2┼-16┼0┼"
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_3┼-25┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_3┼-25┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner Skeleton",
-            "LocalPRS": "3┼-25┼0┼"
+            "LocalPRS": "3┼-25┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "ed7a64706e0cc6048bec73dc630a5440",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "e47d4a40d93f49b49bc3721acdb5f2af_3┼4┼0┼",
@@ -86287,10 +86502,24 @@
             "LocalPRS": "3┼4┼0┼"
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_3┼10┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_3┼10┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner Skeleton",
-            "LocalPRS": "3┼10┼0┼"
+            "LocalPRS": "3┼10┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "ed7a64706e0cc6048bec73dc630a5440",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "e47d4a40d93f49b49bc3721acdb5f2af_4┼11┼0┼",
@@ -86388,16 +86617,44 @@
             }
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_5.97┼27.03┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_5.97┼27.03┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner Statue (1)",
-            "LocalPRS": "5.97┼27.03┼0┼"
+            "LocalPRS": "5.97┼27.03┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "fc656a40bbce25c4f8c7b33b892d22a4",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_6┼-9.13┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_6┼-9.13┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner Statue (2)",
-            "LocalPRS": "6┼-9.13┼0┼"
+            "LocalPRS": "6┼-9.13┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "fc656a40bbce25c4f8c7b33b892d22a4",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "9da926c817a893b42bd85ef48a1aae72_6┼-7┼0┼",
@@ -86421,13 +86678,47 @@
             "GitID": "ed4e62dc12dca724ba1e5f374965096b_9┼-41┼0┼",
             "PrefabID": "ed4e62dc12dca724ba1e5f374965096b",
             "Name": "Rack",
-            "LocalPRS": "9┼-41┼0┼"
+            "LocalPRS": "9┼-41┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "Rack"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "to store stuff onto"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "ed4e62dc12dca724ba1e5f374965096b_9┼-40┼0┼",
             "PrefabID": "ed4e62dc12dca724ba1e5f374965096b",
             "Name": "Rack",
-            "LocalPRS": "9┼-40┼0┼"
+            "LocalPRS": "9┼-40┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "Rack"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "to store stuff onto"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "157fcff274a3644448d1ff3bdc019619_9┼-39┼0┼",
@@ -86468,7 +86759,24 @@
             "GitID": "ed4e62dc12dca724ba1e5f374965096b_9┼-39┼0┼",
             "PrefabID": "ed4e62dc12dca724ba1e5f374965096b",
             "Name": "Rack",
-            "LocalPRS": "9┼-39┼0┼"
+            "LocalPRS": "9┼-39┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "Rack"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "to store stuff onto"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "b087cae0f7059d946a59146ea8d0fb04_9┼-38┼0┼",
@@ -86510,6 +86818,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -86544,6 +86859,19 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "Smart Fridge"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "A vending machine dispensing steaks and cookies."
                     }
                   ]
                 }
@@ -86604,10 +86932,24 @@
             "LocalPRS": "10┼6┼0┼"
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_11┼-38┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_11┼-38┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner Skeleton",
-            "LocalPRS": "11┼-38┼0┼"
+            "LocalPRS": "11┼-38┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "ed7a64706e0cc6048bec73dc630a5440",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "9203bf917337c3e4db0a64a10ef0e50b_11┼-33┼0┼",
@@ -86712,6 +87054,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -86780,6 +87129,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -86790,10 +87146,24 @@
             "LocalPRS": "13┼-41┼0┼"
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_13┼-34┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_13┼-34┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner Skeleton",
-            "LocalPRS": "13┼-34┼0┼"
+            "LocalPRS": "13┼-34┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "ed7a64706e0cc6048bec73dc630a5440",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "9203bf917337c3e4db0a64a10ef0e50b_13┼-33┼0┼",
@@ -86884,6 +87254,15 @@
                       "Data": "0"
                     }
                   ]
+                },
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialDescription",
+                      "Data": "A snack machine which does not sell chocolate."
+                    }
+                  ]
                 }
               ]
             }
@@ -86922,6 +87301,13 @@
                       "Data": "0"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -86968,6 +87354,19 @@
                     {
                       "Name": "Resistances@FireProof",
                       "Data": "False"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "APC"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Area Power Controller"
                     }
                   ]
                 },
@@ -87150,6 +87549,19 @@
                   ]
                 },
                 {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "APC"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Area Power Controller"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "APC@0",
                   "Data": [
                     {
@@ -87188,10 +87600,24 @@
             "LocalPRS": "21┼-13┼0┼"
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_21.09┼13.02┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_21.09┼13.02┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner Skeleton",
-            "LocalPRS": "21.09┼13.02┼0┼"
+            "LocalPRS": "21.09┼13.02┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "ed7a64706e0cc6048bec73dc630a5440",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "ba57b15b534bc514fa63faf954c4e5da_22┼-30┼0┼",
@@ -87221,7 +87647,37 @@
             "GitID": "9c3a6c9c953a49941aa32b5ad9400d89_23┼-30┼0┼",
             "PrefabID": "9c3a6c9c953a49941aa32b5ad9400d89",
             "Name": "DepartmentBattery (1)",
-            "LocalPRS": "23┼-30┼0┼"
+            "LocalPRS": "23┼-30┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "1gVVwsp$tC6EF8VO_69n_24┼-32┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
+            "Name": "MobSpawner Skeleton",
+            "LocalPRS": "24┼-32┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "ed7a64706e0cc6048bec73dc630a5440",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_24┼-32┼0┼",
@@ -87248,14 +87704,15 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
-          },
-          {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_24┼-32┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
-            "Name": "MobSpawner Skeleton",
-            "LocalPRS": "24┼-32┼0┼"
           },
           {
             "GitID": "63c4576068eee0e4cb8cb02ef5b3bebf_24┼-31┼0┼",
@@ -87276,16 +87733,44 @@
             "LocalPRS": "24┼-30┼0┼"
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_24┼-19┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_24┼-19┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner Skeleton",
-            "LocalPRS": "24┼-19┼0┼"
+            "LocalPRS": "24┼-19┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "ed7a64706e0cc6048bec73dc630a5440",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_24┼-3┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_24┼-3┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner Skeleton",
-            "LocalPRS": "24┼-3┼0┼"
+            "LocalPRS": "24┼-3┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "ed7a64706e0cc6048bec73dc630a5440",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "4d76ade90a370ca43ab3c9a765236a26_25┼-33┼0┼",
@@ -87351,6 +87836,12 @@
           {
             "GitID": "7147422770216fc47b220e213ce8395c_27.5781┼-6.9445┼0┼",
             "PrefabID": "7147422770216fc47b220e213ce8395c",
+            "Name": "GoldBar (2)",
+            "LocalPRS": "27.5781┼-6.9445┼0┼"
+          },
+          {
+            "GitID": "7147422770216fc47b220e213ce8395c_27.5791┼-6.9445┼0┼",
+            "PrefabID": "7147422770216fc47b220e213ce8395c",
             "Name": "GoldBar (3)",
             "LocalPRS": "27.5781┼-6.9445┼0┼",
             "Object": {
@@ -87369,12 +87860,6 @@
           },
           {
             "GitID": "7147422770216fc47b220e213ce8395c_27.58┼-6.94┼0┼",
-            "PrefabID": "7147422770216fc47b220e213ce8395c",
-            "Name": "GoldBar (2)",
-            "LocalPRS": "27.58┼-6.94┼0┼"
-          },
-          {
-            "GitID": "7147422770216fc47b220e213ce8395c_27.581┼-6.94┼0┼",
             "PrefabID": "7147422770216fc47b220e213ce8395c",
             "Name": "GoldBar (1)",
             "LocalPRS": "27.58┼-6.94┼0┼"
@@ -87543,6 +88028,19 @@
                   ]
                 },
                 {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "APC"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Area Power Controller"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -87580,6 +88078,19 @@
             "LocalPRS": "32┼-35┼0┼",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "office chair"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "For sitting down or getting strapped onto."
+                    }
+                  ]
+                },
                 {
                   "ClassID": "Rotatable@0",
                   "Data": [
@@ -87696,6 +88207,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -87733,14 +88251,35 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_33┼27┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_33┼27┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner Statue (4)",
-            "LocalPRS": "33┼27┼0┼"
+            "LocalPRS": "33┼27┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "fc656a40bbce25c4f8c7b33b892d22a4",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "b32ca0cccde16ef428f4f164dc1f884a_33.05┼-33.99┼0┼",
@@ -87749,10 +88288,24 @@
             "LocalPRS": "33.05┼-33.99┼0┼"
           },
           {
-            "GitID": "ZeUffOUxAW8tpwHwJxxP_33.96┼-39┼0┼",
-            "PrefabID": "ZeUffOUxAW8tpwHwJxxP",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_33.96┼-39┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner Skeleton",
-            "LocalPRS": "33.96┼-39┼0┼"
+            "LocalPRS": "33.96┼-39┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "ed7a64706e0cc6048bec73dc630a5440",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_34┼-38┼0┼",
@@ -87777,6 +88330,19 @@
                     {
                       "Name": "Resistances@FireProof",
                       "Data": "False"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "APC"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Area Power Controller"
                     }
                   ]
                 },
@@ -87814,7 +88380,24 @@
             "GitID": "ed4e62dc12dca724ba1e5f374965096b_34┼-30┼0┼",
             "PrefabID": "ed4e62dc12dca724ba1e5f374965096b",
             "Name": "Rack",
-            "LocalPRS": "34┼-30┼0┼"
+            "LocalPRS": "34┼-30┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "Rack"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "to store stuff onto"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "c5c2333c6c1a8a8858b888665c068175_34.03┼-29.91┼0┼",
@@ -87865,6 +88448,19 @@
             "Object": {
               "ClassDatas": [
                 {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "metal chair"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "For sitting or getting strapped onto."
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -87902,7 +88498,24 @@
             "GitID": "ed4e62dc12dca724ba1e5f374965096b_36┼-30┼0┼",
             "PrefabID": "ed4e62dc12dca724ba1e5f374965096b",
             "Name": "Rack",
-            "LocalPRS": "36┼-30┼0┼"
+            "LocalPRS": "36┼-30┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "Rack"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "to store stuff onto"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "dd9b2da27626d1e4caa9524384c4b472_36.17┼-30.06┼0┼",
@@ -87940,6 +88553,13 @@
                       "Data": "Left_By90"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,3",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -88001,6 +88621,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -88027,6 +88654,19 @@
                     {
                       "Name": "Resistances@FireProof",
                       "Data": "False"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "APC"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Area Power Controller"
                     }
                   ]
                 },
@@ -88081,6 +88721,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           }
@@ -88090,7 +88737,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "4901.5,9790,0",
+          "Pos": "4900.5,9790,0",
           "Size": "93,90,0"
         }
       ]

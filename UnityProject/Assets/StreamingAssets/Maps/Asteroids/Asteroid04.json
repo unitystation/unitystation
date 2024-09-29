@@ -1,6 +1,6 @@
 {
   "Ver": "1.0.0",
-  "MapName": "Asteroid4",
+  "MapName": "AsteroidVeryLarge",
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
@@ -52049,6 +52049,41 @@
             "LocalPRS": "-3┼39┼0┼"
           },
           {
+            "GitID": "86f1fa4a01e7f0142a6e2ce35cce0930_-1┼-1┼0┼",
+            "PrefabID": "86f1fa4a01e7f0142a6e2ce35cce0930",
+            "Name": "MatrixGasSettings",
+            "LocalPRS": "-1┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "MatrixGasSettings@0",
+                  "Data": [
+                    {
+                      "Name": "defaultRoomGasMixOverride",
+                      "Data": "Space"
+                    },
+                    {
+                      "Name": "overriderTileSpawnWithNoAir",
+                      "Data": "True"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "911f81eefba53574788e7659d9b3dbfe_-1┼-1┼0┼",
+            "PrefabID": "911f81eefba53574788e7659d9b3dbfe",
+            "Name": "AsteroidSystem",
+            "LocalPRS": "-1┼-1┼0┼"
+          },
+          {
+            "GitID": "e02a5954be8d94b4bbaaa0d63d813c71_-1┼-1┼0┼",
+            "PrefabID": "e02a5954be8d94b4bbaaa0d63d813c71",
+            "Name": "AI_ShouldNavigateAround",
+            "LocalPRS": "-1┼-1┼0┼"
+          },
+          {
             "GitID": "8fb9b82aab871a54fb9bdb7e4a985821_-1┼39┼0┼",
             "PrefabID": "8fb9b82aab871a54fb9bdb7e4a985821",
             "Name": "CarpSpawnPoint (3)",
@@ -52116,87 +52151,9 @@
             }
           },
           {
-            "GitID": "6d04235bcbbde8349a6a46d46d8f8ae8_0┼0┼0┼",
-            "PrefabID": "6d04235bcbbde8349a6a46d46d8f8ae8",
-            "Name": "AsteroidSystem",
-            "LocalPRS": "0┼0┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "NetworkIdentity@0",
-                  "Data": [
-                    {
-                      "Name": "_assetId",
-                      "Data": "63326186"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Asteroid@0",
-                  "Data": [
-                    {
-                      "Name": "syncDirection",
-                      "Data": "ServerToClient"
-                    },
-                    {
-                      "Name": "syncMode",
-                      "Data": "Observers"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "LocalPRS": "0┼0┼0┼0.28↔0.28↔0.28↔",
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "1aecddd1e5065e54e8a103e2d9b15312"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
             "GitID": "83b269ab1421fcf4a95ad3cf33935cff_0┼0┼0┼",
             "PrefabID": "83b269ab1421fcf4a95ad3cf33935cff",
             "Name": "OreGenerator",
-            "LocalPRS": "0┼0┼0┼"
-          },
-          {
-            "GitID": "86f1fa4a01e7f0142a6e2ce35cce0930_0┼0┼0┼",
-            "PrefabID": "86f1fa4a01e7f0142a6e2ce35cce0930",
-            "Name": "MatrixGasSettings",
-            "LocalPRS": "0┼0┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "MatrixGasSettings@0",
-                  "Data": [
-                    {
-                      "Name": "defaultRoomGasMixOverride",
-                      "Data": "Space"
-                    },
-                    {
-                      "Name": "overriderTileSpawnWithNoAir",
-                      "Data": "True"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e02a5954be8d94b4bbaaa0d63d813c71_0┼0┼0┼",
-            "PrefabID": "e02a5954be8d94b4bbaaa0d63d813c71",
-            "Name": "AI_ShouldNavigateAround",
             "LocalPRS": "0┼0┼0┼"
           },
           {
@@ -52270,7 +52227,17 @@
             "GitID": "1d35052f4fc2cad4d8226d1a63e4a1b3_26┼48┼0┼",
             "PrefabID": "1d35052f4fc2cad4d8226d1a63e4a1b3",
             "Name": "CrateBase (1)",
-            "LocalPRS": "26┼48┼0┼"
+            "LocalPRS": "26┼48┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "63caee5f883552645b5a8620d8cdde0c_26┼48┼0┼",

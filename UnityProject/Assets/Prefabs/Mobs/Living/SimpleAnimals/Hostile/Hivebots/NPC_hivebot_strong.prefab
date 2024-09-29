@@ -13,6 +13,11 @@ PrefabInstance:
       propertyPath: mobName
       value: Strong Hivebot
       objectReference: {fileID: 0}
+    - target: {fileID: 1216750447681908314, guid: d4a3f41d96f2c4143b8556508db41c57,
+        type: 3}
+      propertyPath: foreverID
+      value: e007b4548279217449b704355d9e112b
+      objectReference: {fileID: 0}
     - target: {fileID: 4215125423003293217, guid: d4a3f41d96f2c4143b8556508db41c57,
         type: 3}
       propertyPath: _assetId
@@ -141,6 +146,12 @@ PrefabInstance:
     - target: {fileID: 7299368040237456080, guid: d4a3f41d96f2c4143b8556508db41c57,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: bf18ab73204a6844080710cc8ed25f1a,
+        type: 2}
+    - target: {fileID: 7299368040237456080, guid: d4a3f41d96f2c4143b8556508db41c57,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: bf18ab73204a6844080710cc8ed25f1a,
         type: 2}

@@ -9,7 +9,6 @@ public class AwayWorldListSO : ScriptableObject
 	[InfoBox("Add your Away site scenes to this list for it to be included in possible " +
 	         "away sites from the Station Gateway. Remember to also add your scene to " +
 	         "the build settings list",EInfoBoxType.Normal)]
-	[Scene]
 	public List<string> AwayWorlds = new List<string>();
 
 	public string GetRandomAwaySite()

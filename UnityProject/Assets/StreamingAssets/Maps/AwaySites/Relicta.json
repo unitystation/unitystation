@@ -38435,6 +38435,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -38502,6 +38509,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -38550,6 +38564,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -38606,7 +38627,21 @@
             "GitID": "1gVVwsp$tC6EF8VO_69n_-33.92┼14.98┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
-            "LocalPRS": "-33.92┼14.98┼0┼"
+            "LocalPRS": "-33.92┼14.98┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "b630726c9e54b1c4abfbe90b31311407",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_-32┼16┼0┼",
@@ -38775,13 +38810,41 @@
             "GitID": "1gVVwsp$tC6EF8VO_69n_-31.01┼-11.01┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
-            "LocalPRS": "-31.01┼-11.01┼0┼"
+            "LocalPRS": "-31.01┼-11.01┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "b630726c9e54b1c4abfbe90b31311407",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "1gVVwsp$tC6EF8VO_69n_-30.07┼0.05┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
-            "LocalPRS": "-30.07┼0.05┼0┼"
+            "LocalPRS": "-30.07┼0.05┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "b630726c9e54b1c4abfbe90b31311407",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "91d832be818283a4188516804e8d5ef0_-30┼-12┼0┼",
@@ -38859,6 +38922,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -38915,6 +38985,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -38934,7 +39011,17 @@
             "GitID": "9c3a6c9c953a49941aa32b5ad9400d89_-28┼18┼0┼",
             "PrefabID": "9c3a6c9c953a49941aa32b5ad9400d89",
             "Name": "DepartmentBattery (1)",
-            "LocalPRS": "-28┼18┼0┼"
+            "LocalPRS": "-28┼18┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "ed4e62dc12dca724ba1e5f374965096b_-28┼32┼0┼",
@@ -39003,6 +39090,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -39028,7 +39122,21 @@
             "GitID": "1gVVwsp$tC6EF8VO_69n_-26.06┼30.08┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
-            "LocalPRS": "-26.06┼30.08┼0┼"
+            "LocalPRS": "-26.06┼30.08┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "b630726c9e54b1c4abfbe90b31311407",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "8fb9b82aab871a54fb9bdb7e4a985821_-26┼-14.02┼0┼",
@@ -39093,6 +39201,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -39240,6 +39355,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -39276,6 +39398,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -39470,6 +39599,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -39507,6 +39643,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -39526,7 +39669,22 @@
             "GitID": "9363154ec4a288f41b8c9681e3531539_-23┼29.03┼0┼",
             "PrefabID": "9363154ec4a288f41b8c9681e3531539",
             "Name": "OP70Handgun",
-            "LocalPRS": "-23┼29.03┼0┼"
+            "LocalPRS": "-23┼29.03┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                },
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_-23┼32┼0┼",
@@ -39667,6 +39825,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -39703,6 +39868,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -39746,6 +39918,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -39850,6 +40029,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -39857,7 +40043,21 @@
             "GitID": "1gVVwsp$tC6EF8VO_69n_-20.96┼-13.98┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
-            "LocalPRS": "-20.96┼-13.98┼0┼"
+            "LocalPRS": "-20.96┼-13.98┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "b630726c9e54b1c4abfbe90b31311407",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "bdae81f88094e1b4e909f4b7911be203_-20┼-12┼0┼",
@@ -39953,6 +40153,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -39996,6 +40203,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -40022,7 +40236,17 @@
             "GitID": "9c3a6c9c953a49941aa32b5ad9400d89_-19┼32┼0┼",
             "PrefabID": "9c3a6c9c953a49941aa32b5ad9400d89",
             "Name": "DepartmentBattery (1)",
-            "LocalPRS": "-19┼32┼0┼"
+            "LocalPRS": "-19┼32┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "4e067333d18d9724690055be203850b5_-18┼-16.02┼0┼",
@@ -40285,6 +40509,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -40389,6 +40620,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -40479,13 +40717,41 @@
             "GitID": "1gVVwsp$tC6EF8VO_69n_-16.21┼16.3┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
-            "LocalPRS": "-16.21┼16.3┼0┼"
+            "LocalPRS": "-16.21┼16.3┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "b630726c9e54b1c4abfbe90b31311407",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "1gVVwsp$tC6EF8VO_69n_-16.03┼26.76┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Ghost",
-            "LocalPRS": "-16.03┼26.76┼0┼"
+            "LocalPRS": "-16.03┼26.76┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "2b870ee0f0fe9594ba2c5df6911a53db",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "d56b65cebb41c78479fed5218fb0344c_-16┼-8┼0┼",
@@ -40530,6 +40796,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -40556,7 +40829,21 @@
             "GitID": "1gVVwsp$tC6EF8VO_69n_-16┼5.07┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
-            "LocalPRS": "-16┼5.07┼0┼"
+            "LocalPRS": "-16┼5.07┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "b630726c9e54b1c4abfbe90b31311407",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "d56b65cebb41c78479fed5218fb0344c_-16┼10┼0┼",
@@ -40580,7 +40867,17 @@
             "GitID": "d9c42e1e7b801ab408872be5bb5b1264_-15┼-15.02┼0┼",
             "PrefabID": "d9c42e1e7b801ab408872be5bb5b1264",
             "Name": "Punisher44Mag",
-            "LocalPRS": "-15┼-15.02┼0┼"
+            "LocalPRS": "-15┼-15.02┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "fa63846bcecd1d14b8644f96e78f9888_-15┼-14.02┼0┼",
@@ -40618,6 +40915,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -40667,6 +40971,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -40730,6 +41041,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -40737,7 +41055,21 @@
             "GitID": "1gVVwsp$tC6EF8VO_69n_-14.97┼-6.94┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
-            "LocalPRS": "-14.97┼-6.94┼0┼"
+            "LocalPRS": "-14.97┼-6.94┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "b630726c9e54b1c4abfbe90b31311407",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "cb2f847ef3b8b754181a970a4032c552_-14┼-5┼0┼",
@@ -40805,7 +41137,17 @@
             "GitID": "9c3a6c9c953a49941aa32b5ad9400d89_-13┼-9┼0┼",
             "PrefabID": "9c3a6c9c953a49941aa32b5ad9400d89",
             "Name": "DepartmentBattery (1)",
-            "LocalPRS": "-13┼-9┼0┼"
+            "LocalPRS": "-13┼-9┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_-13┼-8┼0┼",
@@ -40846,6 +41188,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -40901,6 +41250,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -40950,6 +41306,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -40957,7 +41320,21 @@
             "GitID": "1gVVwsp$tC6EF8VO_69n_-12.31┼13┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Ghost",
-            "LocalPRS": "-12.31┼13┼0┼"
+            "LocalPRS": "-12.31┼13┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "2b870ee0f0fe9594ba2c5df6911a53db",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "38246cd9491b4c248abb2e296cc6c76f_-12┼-11┼0┼",
@@ -41093,6 +41470,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -41112,7 +41496,21 @@
             "GitID": "1gVVwsp$tC6EF8VO_69n_-10.2┼9.83┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
-            "LocalPRS": "-10.2┼9.83┼0┼"
+            "LocalPRS": "-10.2┼9.83┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "b630726c9e54b1c4abfbe90b31311407",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "d56b65cebb41c78479fed5218fb0344c_-10┼-26┼0┼",
@@ -41168,7 +41566,21 @@
             "GitID": "1gVVwsp$tC6EF8VO_69n_-9.28┼26.76┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
-            "LocalPRS": "-9.28┼26.76┼0┼"
+            "LocalPRS": "-9.28┼26.76┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "b630726c9e54b1c4abfbe90b31311407",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_-9┼-24┼0┼",
@@ -41203,6 +41615,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -41241,6 +41660,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -41277,6 +41703,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -41320,6 +41753,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -41381,6 +41821,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -41417,6 +41864,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -41589,6 +42043,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -41644,6 +42105,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -41687,6 +42155,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -41714,6 +42189,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -41746,7 +42228,21 @@
             "GitID": "1gVVwsp$tC6EF8VO_69n_-3.03┼-29.07┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
-            "LocalPRS": "-3.03┼-29.07┼0┼"
+            "LocalPRS": "-3.03┼-29.07┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "b630726c9e54b1c4abfbe90b31311407",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "224479214b5ed414193fdcb20d96678f_-3┼-27┼0┼",
@@ -41794,6 +42290,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -41821,6 +42324,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -41914,6 +42424,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -41993,6 +42510,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -42006,13 +42530,41 @@
             "GitID": "1gVVwsp$tC6EF8VO_69n_-0.98┼31.85┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
-            "LocalPRS": "-0.98┼31.85┼0┼"
+            "LocalPRS": "-0.98┼31.85┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "b630726c9e54b1c4abfbe90b31311407",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "1gVVwsp$tC6EF8VO_69n_0┼-21.02┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
-            "LocalPRS": "0┼-21.02┼0┼"
+            "LocalPRS": "0┼-21.02┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "b630726c9e54b1c4abfbe90b31311407",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "d56b65cebb41c78479fed5218fb0344c_0┼-17┼0┼",
@@ -42030,7 +42582,21 @@
             "GitID": "1gVVwsp$tC6EF8VO_69n_0┼-9.93┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
-            "LocalPRS": "0┼-9.93┼0┼"
+            "LocalPRS": "0┼-9.93┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "b630726c9e54b1c4abfbe90b31311407",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "WorldGateway_0┼0┼0┼",
@@ -42045,6 +42611,111 @@
                     {
                       "Name": "WorldName",
                       "Data": "Relicta"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "MobSpawnControlScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobSpawners#24",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_10.11┼-17.43┼0┼@0@LegacyMobSpawnScript@0"
+                    },
+                    {
+                      "Name": "MobSpawners#23",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_10.11┼6.49┼0┼@0@LegacyMobSpawnScript@0"
+                    },
+                    {
+                      "Name": "MobSpawners#22",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-12.31┼13┼0┼@0@LegacyMobSpawnScript@0"
+                    },
+                    {
+                      "Name": "MobSpawners#21",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-9.28┼26.76┼0┼@0@LegacyMobSpawnScript@0"
+                    },
+                    {
+                      "Name": "MobSpawners#20",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-26.06┼30.08┼0┼@0@LegacyMobSpawnScript@0"
+                    },
+                    {
+                      "Name": "MobSpawners#19",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-0.98┼31.85┼0┼@0@LegacyMobSpawnScript@0"
+                    },
+                    {
+                      "Name": "MobSpawners#18",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_12.96┼14.55┼0┼@0@LegacyMobSpawnScript@0"
+                    },
+                    {
+                      "Name": "MobSpawners#17",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_23.37┼4.95┼0┼@0@LegacyMobSpawnScript@0"
+                    },
+                    {
+                      "Name": "MobSpawners#16",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_20.77┼-6.67┼0┼@0@LegacyMobSpawnScript@0"
+                    },
+                    {
+                      "Name": "MobSpawners#15",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-16.03┼26.76┼0┼@0@LegacyMobSpawnScript@0"
+                    },
+                    {
+                      "Name": "MobSpawners#14",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-20.96┼-13.98┼0┼@0@LegacyMobSpawnScript@0"
+                    },
+                    {
+                      "Name": "MobSpawners#13",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-14.97┼-6.94┼0┼@0@LegacyMobSpawnScript@0"
+                    },
+                    {
+                      "Name": "MobSpawners#12",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-31.01┼-11.01┼0┼@0@LegacyMobSpawnScript@0"
+                    },
+                    {
+                      "Name": "MobSpawners#11",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_15.12┼22.92┼0┼@0@LegacyMobSpawnScript@0"
+                    },
+                    {
+                      "Name": "MobSpawners#10",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-16┼5.07┼0┼@0@LegacyMobSpawnScript@0"
+                    },
+                    {
+                      "Name": "MobSpawners#9",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-33.92┼14.98┼0┼@0@LegacyMobSpawnScript@0"
+                    },
+                    {
+                      "Name": "MobSpawners#8",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-16.21┼16.3┼0┼@0@LegacyMobSpawnScript@0"
+                    },
+                    {
+                      "Name": "MobSpawners#7",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-10.2┼9.83┼0┼@0@LegacyMobSpawnScript@0"
+                    },
+                    {
+                      "Name": "MobSpawners#6",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_32.16┼-0.64┼0┼@0@LegacyMobSpawnScript@0"
+                    },
+                    {
+                      "Name": "MobSpawners#5",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_18.34┼35.19┼0┼@0@LegacyMobSpawnScript@0"
+                    },
+                    {
+                      "Name": "MobSpawners#4",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_5.07┼-29.07┼0┼@0@LegacyMobSpawnScript@0"
+                    },
+                    {
+                      "Name": "MobSpawners#3",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-30.07┼0.05┼0┼@0@LegacyMobSpawnScript@0"
+                    },
+                    {
+                      "Name": "MobSpawners#2",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_0┼-9.93┼0┼@0@LegacyMobSpawnScript@0"
+                    },
+                    {
+                      "Name": "MobSpawners#1",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_0┼-21.02┼0┼@0@LegacyMobSpawnScript@0"
+                    },
+                    {
+                      "Name": "MobSpawners#0",
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-3.03┼-29.07┼0┼@0@LegacyMobSpawnScript@0"
                     }
                   ]
                 }
@@ -42062,6 +42733,12 @@
             "PrefabID": "54a552cbe4002ac44ae29b958a90e545",
             "Name": "AirlockPublicWindowed",
             "LocalPRS": "0┼29┼0┼"
+          },
+          {
+            "GitID": "e02a5954be8d94b4bbaaa0d63d813c71_0.1┼0.1┼0.5┼",
+            "PrefabID": "e02a5954be8d94b4bbaaa0d63d813c71",
+            "Name": "AI_ShouldNavigateAround",
+            "LocalPRS": "0.1┼0.1┼0.5┼"
           },
           {
             "GitID": "e58e1fd483fe772468ad2aab4259397d_0.1┼0.1┼0.5┼",
@@ -42102,7 +42779,17 @@
             "GitID": "9c3a6c9c953a49941aa32b5ad9400d89_1┼-24┼0┼",
             "PrefabID": "9c3a6c9c953a49941aa32b5ad9400d89",
             "Name": "DepartmentBattery (1)",
-            "LocalPRS": "1┼-24┼0┼"
+            "LocalPRS": "1┼-24┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "4d76ade90a370ca43ab3c9a765236a26_1┼-19┼0┼",
@@ -42192,6 +42879,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -42225,6 +42919,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -42365,6 +43066,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -42392,6 +43100,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -42550,6 +43265,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -42598,6 +43320,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -42890,6 +43619,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -42966,6 +43702,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -43009,6 +43752,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -43039,7 +43789,21 @@
             "GitID": "1gVVwsp$tC6EF8VO_69n_5.07┼-29.07┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
-            "LocalPRS": "5.07┼-29.07┼0┼"
+            "LocalPRS": "5.07┼-29.07┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "b630726c9e54b1c4abfbe90b31311407",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "1e2ab35775ce1ce41afd274356e67d90_6┼-30.03┼0┼",
@@ -43117,6 +43881,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -43228,6 +43999,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -43384,6 +44162,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -43427,6 +44212,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -43464,6 +44256,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -43500,6 +44299,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -43570,7 +44376,17 @@
             "GitID": "9c3a6c9c953a49941aa32b5ad9400d89_10┼20┼0┼",
             "PrefabID": "9c3a6c9c953a49941aa32b5ad9400d89",
             "Name": "DepartmentBattery (1)",
-            "LocalPRS": "10┼20┼0┼"
+            "LocalPRS": "10┼20┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "c937e0abe85aca9499d09951de736ec6_10┼22┼0┼",
@@ -43596,6 +44412,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -43634,6 +44457,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -43641,13 +44471,41 @@
             "GitID": "1gVVwsp$tC6EF8VO_69n_10.11┼-17.43┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Husk",
-            "LocalPRS": "10.11┼-17.43┼0┼"
+            "LocalPRS": "10.11┼-17.43┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "24dd134af3b26d446aaab32a68011a5b",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "1gVVwsp$tC6EF8VO_69n_10.11┼6.49┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Ghost",
-            "LocalPRS": "10.11┼6.49┼0┼"
+            "LocalPRS": "10.11┼6.49┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "2b870ee0f0fe9594ba2c5df6911a53db",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_11┼-7┼0┼",
@@ -43682,6 +44540,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -44071,7 +44936,21 @@
             "GitID": "1gVVwsp$tC6EF8VO_69n_12.96┼14.55┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
-            "LocalPRS": "12.96┼14.55┼0┼"
+            "LocalPRS": "12.96┼14.55┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "b630726c9e54b1c4abfbe90b31311407",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "b6ce806e76da3dd4096437c5611d39b2_13┼7┼0┼",
@@ -44245,6 +45124,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -44282,6 +45168,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -44318,6 +45211,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -44496,6 +45396,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -44613,6 +45520,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -44626,7 +45540,21 @@
             "GitID": "1gVVwsp$tC6EF8VO_69n_15.12┼22.92┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
-            "LocalPRS": "15.12┼22.92┼0┼"
+            "LocalPRS": "15.12┼22.92┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "b630726c9e54b1c4abfbe90b31311407",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "d56b65cebb41c78479fed5218fb0344c_16┼0┼0┼",
@@ -44922,6 +45850,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -44941,7 +45876,21 @@
             "GitID": "1gVVwsp$tC6EF8VO_69n_18.34┼35.19┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
-            "LocalPRS": "18.34┼35.19┼0┼"
+            "LocalPRS": "18.34┼35.19┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "b630726c9e54b1c4abfbe90b31311407",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_19┼-10┼0┼",
@@ -45064,7 +46013,21 @@
             "GitID": "1gVVwsp$tC6EF8VO_69n_20.77┼-6.67┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
-            "LocalPRS": "20.77┼-6.67┼0┼"
+            "LocalPRS": "20.77┼-6.67┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "b630726c9e54b1c4abfbe90b31311407",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_21┼-10┼0┼",
@@ -45099,6 +46062,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -45161,6 +46131,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -45270,7 +46247,17 @@
             "GitID": "9c3a6c9c953a49941aa32b5ad9400d89_21┼31┼0┼",
             "PrefabID": "9c3a6c9c953a49941aa32b5ad9400d89",
             "Name": "DepartmentBattery (1)",
-            "LocalPRS": "21┼31┼0┼"
+            "LocalPRS": "21┼31┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_21┼32┼0┼",
@@ -45480,6 +46467,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -45499,7 +46493,21 @@
             "GitID": "1gVVwsp$tC6EF8VO_69n_23.37┼4.95┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
-            "LocalPRS": "23.37┼4.95┼0┼"
+            "LocalPRS": "23.37┼4.95┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "b630726c9e54b1c4abfbe90b31311407",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_24┼9┼0┼",
@@ -45594,6 +46602,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -45601,7 +46616,17 @@
             "GitID": "9c3a6c9c953a49941aa32b5ad9400d89_25┼3┼0┼",
             "PrefabID": "9c3a6c9c953a49941aa32b5ad9400d89",
             "Name": "DepartmentBattery (1)",
-            "LocalPRS": "25┼3┼0┼"
+            "LocalPRS": "25┼3┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_25┼4┼0┼",
@@ -45825,6 +46850,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -45897,6 +46929,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -45933,6 +46972,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -46007,7 +47053,21 @@
             "GitID": "1gVVwsp$tC6EF8VO_69n_32.16┼-0.64┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner - Shambling Corpse",
-            "LocalPRS": "32.16┼-0.64┼0┼"
+            "LocalPRS": "32.16┼-0.64┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "b630726c9e54b1c4abfbe90b31311407",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_33┼7┼0┼",
@@ -46164,6 +47224,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -46191,6 +47258,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -46228,6 +47302,13 @@
                       "Data": "True"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }

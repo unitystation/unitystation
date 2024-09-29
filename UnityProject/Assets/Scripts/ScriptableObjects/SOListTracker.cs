@@ -8,6 +8,7 @@ using UnityEngine;
 #if UNITY_EDITOR
 using Chemistry;
 using Items;
+using Tiles;
 using UnityEngine;
 #endif
 

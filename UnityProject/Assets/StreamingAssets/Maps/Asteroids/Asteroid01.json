@@ -1,6 +1,6 @@
 {
   "Ver": "1.0.0",
-  "MapName": "Asteroid",
+  "MapName": "AsteroidMedium",
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
@@ -9871,6 +9871,12 @@
             }
           },
           {
+            "GitID": "911f81eefba53574788e7659d9b3dbfe_0┼0┼0┼",
+            "PrefabID": "911f81eefba53574788e7659d9b3dbfe",
+            "Name": "AsteroidSystem",
+            "LocalPRS": "0┼0┼0┼"
+          },
+          {
             "GitID": "e02a5954be8d94b4bbaaa0d63d813c71_0┼0┼0┼",
             "PrefabID": "e02a5954be8d94b4bbaaa0d63d813c71",
             "Name": "AI_ShouldNavigateAround",
@@ -9960,46 +9966,6 @@
             "PrefabID": "immadirtpilewhipeeee",
             "Name": "DirtPile (2)",
             "LocalPRS": "16┼20┼0┼"
-          },
-          {
-            "GitID": "6d04235bcbbde8349a6a46d46d8f8ae8_21.9┼15.58┼0┼",
-            "PrefabID": "6d04235bcbbde8349a6a46d46d8f8ae8",
-            "Name": "AsteroidSystem (1)",
-            "LocalPRS": "21.9┼15.58┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Asteroid@0",
-                  "Data": [
-                    {
-                      "Name": "syncDirection",
-                      "Data": "ServerToClient"
-                    },
-                    {
-                      "Name": "syncMode",
-                      "Data": "Observers"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "LocalPRS": "0┼0┼0┼0.28↔0.28↔0.28↔",
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "1aecddd1e5065e54e8a103e2d9b15312"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
           },
           {
             "GitID": "immadirtpilewhipeeee_22┼11┼0┼",
