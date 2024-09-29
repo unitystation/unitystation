@@ -149,7 +149,7 @@ MonoBehaviour:
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7781418943628128898}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: 
         m_MethodName: ViewRecord
         m_Mode: 1
@@ -170,7 +170,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3182496508376364112}
-  - component: {fileID: 7781418943628128898}
   m_Layer: 5
   m_Name: CloningRecord
   m_TagString: Untagged
@@ -200,22 +199,6 @@ RectTransform:
   m_AnchoredPosition: {x: 223.3, y: -186.4}
   m_SizeDelta: {x: 400, y: 54.84}
   m_Pivot: {x: 0.5, y: 1}
---- !u!114 &7781418943628128898
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2556737776109526403}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b982bbe15d9e064b99969c798e3c181, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Poolble: 1
-  gui_Cloning: {fileID: 0}
-  recordName: {fileID: 2195292001734795585}
-  recrodScanID: {fileID: 9022542237955235879}
 --- !u!1 &5690085278172520247
 GameObject:
   m_ObjectHideFlags: 0
