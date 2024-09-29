@@ -183,6 +183,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300016, guid: aab59a0f07ede8043ad41c425cffe0d8,
         type: 3}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: CanBeSoldInCargo
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5414819541850508356, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: Intangible
@@ -274,6 +279,7 @@ MonoBehaviour:
     SerialisedExternalCustom: []
     Species: Human
   nonImportantMind: 0
+  SpawnOnStart: 1
 --- !u!114 &7914480503513488781
 MonoBehaviour:
   m_ObjectHideFlags: 0
