@@ -1,3 +1,4 @@
+using Systems.Clearance;
 using UnityEngine;
 
 namespace Objects.Traps
@@ -7,7 +8,8 @@ namespace Objects.Traps
 		TriggerType TriggerType { get; }
 		GameObject gameObject { get; }
 
-		public void OnTrigger();
+		public void OnTrigger() { return; }
+		public void OnTriggerWithClearance(IClearanceSource source) { return; }
 		public void OnTriggerEnd();
 	}
 	public enum TriggerType

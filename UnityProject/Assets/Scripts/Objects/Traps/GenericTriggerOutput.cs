@@ -4,6 +4,7 @@ using Shared.Systems.ObjectConnection;
 using Logs;
 using Objects.Logic;
 using Mirror;
+using Systems.Clearance;
 
 namespace Objects.Traps
 {
@@ -47,10 +48,23 @@ namespace Objects.Traps
 			{
 				if (trigger == null)
 				{
-					Loggy.LogWarning($"[GenericTriggerOutput/ReleaseOutput] Trigger in genericTrigger list was null! Removing...");
+					Loggy.LogWarning($"[GenericTriggerOutput/TriggerOutput] Trigger in genericTrigger list was null! Removing...");
 					RemoveTrigger(trigger);
 				}
 				trigger.OnTrigger();
+			}
+		}
+
+		public void TriggerOutputWithClearance(IClearanceSource source)
+		{
+			foreach (IGenericTrigger trigger in genericTriggers)
+			{
+				if (trigger == null)
+				{
+					Loggy.LogWarning($"[GenericTriggerOutput/TriggerOutputWithClearance] Trigger in genericTrigger list was null! Removing...");
+					RemoveTrigger(trigger);
+				}
+				trigger.OnTriggerWithClearance(source);
 			}
 		}
 
