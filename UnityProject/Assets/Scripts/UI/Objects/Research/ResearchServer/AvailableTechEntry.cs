@@ -38,16 +38,18 @@ namespace UI.Objects.Research
 
 			for(int i = 0; i < unlockCount; i++)
 			{
+				if (spriteList.Entries[i].TryGetComponent<SpriteEntry>(out var handler) == false) continue;
+				
 				string DesignID = technologyToUnlock.DesignIDs[i]; //Gets the designs this research will unlock
 				if (Designs.Globals.InternalIDSearch.ContainsKey(DesignID) == false) continue;
-
+				
 				Design designClass = Designs.Globals.InternalIDSearch[DesignID];
 
 				//Gets the sprite of the gameObject that design is for
-				SpriteDataSO sprite = networkManager.ForeverIDLookupSpawnablePrefabs[designClass.ItemID].GetComponentInChildren<SpriteHandler>().PresentSpritesSet;
+				SpriteDataSO sprite = networkManager.ForeverIDLookupSpawnablePrefabs[designClass.ItemID].GetComponentInChildren<SpriteHandler>().initialPresentSpriteSet;
 
 				//Uses the sprite from above and sets the sprite of the list entry to that sprite
-				spriteList.Entries[i].GetComponentInChildren<NetSpriteHandler>().SetValue(sprite.SetID);
+				handler.Initialise(sprite);
 			}
 		}
 

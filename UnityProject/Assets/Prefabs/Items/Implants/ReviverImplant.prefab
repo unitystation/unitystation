@@ -101,7 +101,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 9c47b60dcaf2da347a102487710120e6, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 9c47b60dcaf2da347a102487710120e6,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
@@ -199,7 +200,7 @@ PrefabInstance:
     - target: {fileID: 1641972083238813818, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: initialName
-      value: Reviver Implant
+      value: reviver implant
       objectReference: {fileID: 0}
     - target: {fileID: 1641972083238813818, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -209,9 +210,9 @@ PrefabInstance:
     - target: {fileID: 1641972083238813818, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: initialDescription
-      value: This implant will heal you whenever you fall into critical health status;
-        it will go on cooldown after each revival. If hit by EMP, has the chance
-        to cause a heart attack.
+      value: When implanted in a target's chest, this implant will heal the user
+        whenever they fall into critical health status. This implant takes considerable
+        time to recharge.
       objectReference: {fileID: 0}
     - target: {fileID: 1641972083238813818, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -341,6 +342,12 @@ PrefabInstance:
     - target: {fileID: 4999823976648774815, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 0e9175977d0a4744fbfda8c6656cb802,
+        type: 2}
+    - target: {fileID: 4999823976648774815, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 0e9175977d0a4744fbfda8c6656cb802,
         type: 2}

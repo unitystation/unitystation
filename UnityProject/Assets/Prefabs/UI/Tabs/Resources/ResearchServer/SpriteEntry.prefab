@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 4043454298722783681}
   - component: {fileID: 5169272487207651110}
   - component: {fileID: 4186264278110125173}
-  - component: {fileID: 4664166677362770599}
-  m_Layer: 0
+  - component: {fileID: 3327388170725941495}
+  m_Layer: 5
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -67,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 086ac8c37802063448b293cbf7672067, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8afb0f13fbddb19499b01a29f5bebf27, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -91,16 +91,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 0
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: d04afecdfb5d81f4a8560c4f1f80759e, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: d04afecdfb5d81f4a8560c4f1f80759e,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
-  pushTextureOnStartUp: 0
+  pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &4664166677362770599
+--- !u!114 &3327388170725941495
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -123,7 +121,7 @@ GameObject:
   - component: {fileID: 4124674559576906289}
   - component: {fileID: 916990047793769560}
   - component: {fileID: 3960514292349163242}
-  - component: {fileID: 6813837160561949877}
+  - component: {fileID: 900897226750076805}
   m_Layer: 5
   m_Name: SpriteEntry
   m_TagString: Untagged
@@ -179,7 +177,7 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &6813837160561949877
+--- !u!114 &900897226750076805
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -188,7 +186,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 4637118177487425818}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f68104f3ca745b4a6c130b193c5a0f9, type: 3}
+  m_Script: {fileID: 11500000, guid: ab6f2ec0ca9c0d346b999ebc056e30d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Poolble: 1
+  spriteHandler: {fileID: 3327388170725941495}
