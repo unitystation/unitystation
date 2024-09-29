@@ -135,7 +135,7 @@ namespace Items.Storage
 
 		protected override void Detonate()
 		{
-			Chat.AddCombatMsgToChat(gameObject, default, "<size=+6>The pizza bomb violently explodes!</size>");
+			Chat.AddCombatMsgToChat(gameObject, "<size=+6>The pizza bomb violently explodes!</size>", "<size=+6>The pizza bomb violently explodes!</size>");
 			base.Detonate();
 		}
 
