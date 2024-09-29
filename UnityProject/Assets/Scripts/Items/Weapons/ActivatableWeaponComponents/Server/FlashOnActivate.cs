@@ -9,12 +9,18 @@ namespace Weapons.ActivatableWeapons
 	{
 
 		private FlasherBase flashComp;
+		private ItemAttributesV2 attribs;
 
 		private void Start()
 		{
 			flashComp = GetComponent<FlasherBase>();
-			var attribs = GetComponent<ItemAttributesV2>();
+			attribs = GetComponent<ItemAttributesV2>();
 			attribs.OnBlock += flashComp.FlashInRadius;
+		}
+
+		private void OnDestroy()
+		{
+			attribs.OnBlock -= flashComp.FlashInRadius;
 		}
 
 		public override void ServerActivateBehaviour(GameObject performer)
