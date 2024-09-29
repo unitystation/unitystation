@@ -1,52 +1,58 @@
 using System.Collections;
 using System.Collections.Generic;
 using Core.Physics;
+using NaughtyAttributes;
 using SecureStuff;
 using Systems.Scenes;
 using UnityEditor;
 using UnityEngine;
 
-public class RandomExitPosition : MonoBehaviour
+namespace MaintRooms
 {
-
-	public List<ExitMarker> ExitMarkers = new List<ExitMarker>();
-
-
-	public void OnEnable()
-	{
-		EventManager.AddHandler(Event.RoundStarted, PostStart);
-	}
-
-	public void OnDisable()
-	{
-		EventManager.RemoveHandler(Event.RoundStarted, PostStart);
-	}
-
-	[ContextMenu("RebuildExitMarkerList"), VVNote(VVHighlight.SafeToModify100), NaughtyAttributes.Button]
-	void RebuildExitMarkerList()
+	public class RandomExitPosition : MonoBehaviour
 	{
 
-		ExitMarkers.Clear();
-		foreach (Transform t in transform.parent)
+		public List<ExitMarker> ExitMarkers = new List<ExitMarker>();
+
+
+		public void OnEnable()
 		{
-			var mobSpawner = t.GetComponent<ExitMarker>();
-			if (mobSpawner != null)
-			{
-				ExitMarkers.Add(mobSpawner);
-			}
+			EventManager.AddHandler(Event.RoundStarted, PostStart);
 		}
+
+		public void OnDisable()
+		{
+			EventManager.RemoveHandler(Event.RoundStarted, PostStart);
+		}
+
+		[ContextMenu("RebuildExitMarkerList"), VVNote(VVHighlight.SafeToModify100), Button]
+		void RebuildExitMarkerList()
+		{
+
+			ExitMarkers.Clear();
+			foreach (Transform t in transform.parent)
+			{
+				var mobSpawner = t.GetComponent<ExitMarker>();
+				if (mobSpawner != null)
+				{
+					ExitMarkers.Add(mobSpawner);
+				}
+			}
 
 
 #if UNITY_EDITOR
-		EditorUtility.SetDirty(gameObject);
+			EditorUtility.SetDirty(gameObject);
 #endif
-	}
+		}
 
-	public void PostStart()
-	{
-		if (ExitMarkers.Count > 0)
+		public void PostStart()
 		{
-			this.GetComponent<UniversalObjectPhysics>().AppearAtWorldPositionServer(ExitMarkers.PickRandom().gameObject.AssumedWorldPosServer()); //Randomise gateway position.
+			if (ExitMarkers.Count > 0)
+			{
+				this.GetComponent<UniversalObjectPhysics>()
+					.AppearAtWorldPositionServer(ExitMarkers.PickRandom().gameObject
+						.AssumedWorldPosServer()); //Randomise gateway position.
+			}
 		}
 	}
 }
