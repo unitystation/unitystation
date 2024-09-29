@@ -92,7 +92,7 @@ PrefabInstance:
     - target: {fileID: 1641972083238813818, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: initialName
-      value: Breathing Tube Implant
+      value: breathing tube implant
       objectReference: {fileID: 0}
     - target: {fileID: 1641972083238813818, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -102,9 +102,8 @@ PrefabInstance:
     - target: {fileID: 1641972083238813818, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: initialDescription
-      value: This implant will allow the user to use gas tanks for internals, even
-        if he is not wearing a mask. If exposed to EMP, it has a chance to suffocate
-        the user.
+      value: 'When implanted in a targets head, this implant will allow the user
+        to use gas tanks for internals even when they are not wearing a mask. '
       objectReference: {fileID: 0}
     - target: {fileID: 1641972083238813818, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -234,6 +233,12 @@ PrefabInstance:
     - target: {fileID: 4999823976648774815, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 0ce00f6382e9b434dafca20c07549220,
+        type: 2}
+    - target: {fileID: 4999823976648774815, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 0ce00f6382e9b434dafca20c07549220,
         type: 2}
