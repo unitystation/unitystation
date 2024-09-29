@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Color: {r: 1, g: 0.99181634, b: 0.9575472, a: 0.8666667}
+  InitialColour: {r: 1, g: 0.99181634, b: 0.9575472, a: 0.8666667}
   Sprite: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
@@ -121,6 +121,12 @@ PrefabInstance:
     - target: {fileID: 320078766397443646, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ecf7a882f70db2040a4355d24e304b8e,
+        type: 2}
+    - target: {fileID: 320078766397443646, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: ecf7a882f70db2040a4355d24e304b8e,
         type: 2}
@@ -345,6 +351,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ecf7a882f70db2040a4355d24e304b8e,
         type: 2}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 378feaec855e86046a42703c65fb8f7f,
+        type: 2}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: fa4db43f7801ae84c8913b38370ec295,
+        type: 2}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: ecf7a882f70db2040a4355d24e304b8e,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -361,7 +385,51 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 4821844458157436374}
+    - targetCorrespondingSourceObject: {fileID: 5852210865295685049, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -3974140338802587609}
+    - targetCorrespondingSourceObject: {fileID: 5852210865295685049, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -7962244659733815921}
+    - targetCorrespondingSourceObject: {fileID: 5852210865295685049, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1822721962999607035}
+    - targetCorrespondingSourceObject: {fileID: 5852210865295685049, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4348730816077028438}
+    - targetCorrespondingSourceObject: {fileID: 5852210865295685049, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1193114179089621995}
+    - targetCorrespondingSourceObject: {fileID: 5852210865295685049, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1637920947562625228}
+    - targetCorrespondingSourceObject: {fileID: 5852210865295685049, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7746192409284162169}
+    - targetCorrespondingSourceObject: {fileID: 5852210865295685049, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7753542122139011966}
   m_SourcePrefab: {fileID: 100100000, guid: 93af1c166793efb498012ddc7370f8ec, type: 3}
+--- !u!114 &4520221803203555702 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 320078766397443646, guid: 93af1c166793efb498012ddc7370f8ec,
+    type: 3}
+  m_PrefabInstance: {fileID: 4236242615490559816}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &7777312831022217093 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
@@ -417,26 +485,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   color: 0
-  activatedSize: 5
-  activatedHitSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/blade1.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  activatedHitDamage: 30
-  activatedThrowDamage: 20
-  activatedVerbs:
-  - attacked
-  - slashed
-  - stabbed
-  - sliced
-  - tore
-  - ripped
-  - diced
-  - cut
   Sprites:
     Blue:
       SpriteInventoryIcon: {fileID: 11400000, guid: daeae19dda5100c4a95cc1947601b05f,
@@ -518,23 +566,146 @@ MonoBehaviour:
       - {r: 0, g: 0, b: 0, a: 0}
       - {r: 0, g: 0, b: 0, a: 0}
       IsPaletted: 0
-    Off:
-      SpriteInventoryIcon: {fileID: 11400000, guid: ecf7a882f70db2040a4355d24e304b8e,
-        type: 2}
-      SpriteLeftHand: {fileID: 11400000, guid: 378feaec855e86046a42703c65fb8f7f, type: 2}
-      SpriteRightHand: {fileID: 11400000, guid: fa4db43f7801ae84c8913b38370ec295,
-        type: 2}
-      Palette:
-      - {r: 0, g: 0, b: 0, a: 0}
-      - {r: 0, g: 0, b: 0, a: 0}
-      - {r: 0, g: 0, b: 0, a: 0}
-      - {r: 0, g: 0, b: 0, a: 0}
-      - {r: 0, g: 0, b: 0, a: 0}
-      - {r: 0, g: 0, b: 0, a: 0}
-      - {r: 0, g: 0, b: 0, a: 0}
-      - {r: 0, g: 0, b: 0, a: 0}
-      IsPaletted: 0
-  saberon:
+--- !u!114 &-3974140338802587609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7781396554342910705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63f4ca8961a114575a87fdce0aac206e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+--- !u!114 &-7962244659733815921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7781396554342910705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6557073ddc4870490a5bb7d6fb3ec5a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activatedSize: 5
+--- !u!114 &1822721962999607035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7781396554342910705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1ed91baf2accc29384d2d5f14361e2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activatedHitsound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/blade1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  activatedAttackVerbs:
+  - attacked
+  - slashed
+  - stabbed
+  - sliced
+  - tore
+  - ripped
+  - diced
+  - cut
+--- !u!114 &4348730816077028438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7781396554342910705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76de6dadc1b3f5272865932c1a4151fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemIcon: {fileID: 4520221803203555702}
+  ActivatedSprites:
+    SpriteInventoryIcon: {fileID: 11400000, guid: 1e0fcea3e4d339c468ede79557cc3686,
+      type: 2}
+    SpriteLeftHand: {fileID: 11400000, guid: b49d0ebe621a7074886e39064cd567c3, type: 2}
+    SpriteRightHand: {fileID: 11400000, guid: 160bf9a19629e8e4da93b9c2df1300e8, type: 2}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
+--- !u!114 &1193114179089621995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7781396554342910705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 422bd67945f84036bb931100359a319f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightControl: {fileID: 2350815963227468493}
+  Color: {r: 1, g: 0.0047169924, b: 0.0047169924, a: 1}
+--- !u!114 &1637920947562625228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7781396554342910705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dd51e0399345ec6ea673e75a5423e67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activatedBlockChance: 50
+--- !u!114 &7746192409284162169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7781396554342910705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a0d6dc4e2ba96a0b8ef7764b23c9d92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activatedHitDamage: 30
+  activatedThrowDamage: 20
+  activatedDamageType: 0
+--- !u!114 &7753542122139011966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7781396554342910705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f965c2ce6d29c94399ea4147cd4df64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activateSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/saberon.prefab
     AssetReference:
@@ -542,7 +713,7 @@ MonoBehaviour:
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  saberoff:
+  deactivateSound:
     SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/saberoff.prefab
     AssetReference:

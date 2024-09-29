@@ -1,5 +1,7 @@
 using Logs;
+using MiniGames.MiniGameModules;
 using UnityEngine;
+using Mirror;
 
 namespace MiniGames
 {
@@ -8,7 +10,7 @@ namespace MiniGames
 	/// They are meant to be used when an object can house more than one minigame or if the minigame's behavior is too complex
 	/// to be stored in just the StartMiniGame() method.
 	/// </summary>
-	public abstract class MiniGameModule : MonoBehaviour
+	public abstract class MiniGameModule : NetworkBehaviour
 	{
 		protected MiniGameResultTracker Tracker;
 		protected GameObject MiniGameParent;
@@ -16,7 +18,7 @@ namespace MiniGames
 		/// <summary>
 		/// Use the Setup() function only when you're assigned events programatically and not from the inspector.
 		/// </summary>
-		public virtual void Setup(MiniGameResultTracker tracker, GameObject parent)
+		public virtual void Setup(MiniGameResultTracker tracker, GameObject parent, Difficulty difficulty = Difficulty.Normal)
 		{
 			Tracker = tracker;
 			MiniGameParent = parent;

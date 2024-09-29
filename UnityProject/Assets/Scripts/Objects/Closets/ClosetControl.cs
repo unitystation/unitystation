@@ -370,7 +370,7 @@ namespace Objects
 			InteractionChecks(interaction);
 		}
 
-		protected virtual void InteractionChecks(PositionalHandApply interaction)
+		public virtual void InteractionChecks(PositionalHandApply interaction)
 		{
 			if (interaction.IsAltClick && IsOpen == false)
 			{

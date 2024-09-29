@@ -33,6 +33,14 @@ public class HandsController : MonoBehaviour
 	public IUIHandAreasSelectable activeDoubleHandController;
 	public NamedSlot ActiveHand;
 
+	public enum HiddenHandValue
+	{
+		bothHands = 0,
+		leftHand = 1,
+		rightHand = 2,
+		none = 3
+	}
+
 	public void Awake()
 	{
 		if (Instance == null)
