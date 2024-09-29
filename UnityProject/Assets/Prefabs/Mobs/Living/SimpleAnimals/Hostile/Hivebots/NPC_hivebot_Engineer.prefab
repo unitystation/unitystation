@@ -28,6 +28,11 @@ PrefabInstance:
       propertyPath: mobName
       value: Hivebot Engineer
       objectReference: {fileID: 0}
+    - target: {fileID: 1216750447681908314, guid: d4a3f41d96f2c4143b8556508db41c57,
+        type: 3}
+      propertyPath: foreverID
+      value: af583b1807508a84cbd05b036e027d96
+      objectReference: {fileID: 0}
     - target: {fileID: 4215125423003293217, guid: d4a3f41d96f2c4143b8556508db41c57,
         type: 3}
       propertyPath: _assetId
@@ -136,6 +141,12 @@ PrefabInstance:
     - target: {fileID: 7299368040237456080, guid: d4a3f41d96f2c4143b8556508db41c57,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: beea9646602eeb941ba0d3b8a812197f,
+        type: 2}
+    - target: {fileID: 7299368040237456080, guid: d4a3f41d96f2c4143b8556508db41c57,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: beea9646602eeb941ba0d3b8a812197f,
         type: 2}

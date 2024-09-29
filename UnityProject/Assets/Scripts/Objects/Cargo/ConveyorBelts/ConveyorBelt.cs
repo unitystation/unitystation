@@ -25,11 +25,11 @@ namespace Construction.Conveyors
 
 		[Tooltip("Set this conveyor belt's initial direction.")]
 		[SerializeField]
-		private ConveyorDirection CurrentDirection = default;
+		public ConveyorDirection CurrentDirection = default;
 
 		[Tooltip("Set this conveyor belt's initial status.")]
 		[SerializeField]
-		private ConveyorStatus CurrentStatus = default;
+		public ConveyorStatus CurrentStatus = default;
 
 		[SerializeField] private SpriteHandler spriteHandler = null;
 		private RegisterTile registerTile;

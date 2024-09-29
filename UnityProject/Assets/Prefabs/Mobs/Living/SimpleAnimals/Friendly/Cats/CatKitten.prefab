@@ -78,9 +78,20 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3949220033219817445, guid: e481edcb288d49f488b609f15236afbe,
+        type: 3}
+      propertyPath: foreverID
+      value: a344dd36bb47ef44da786c7fcc9785ba
+      objectReference: {fileID: 0}
     - target: {fileID: 4854922354611821423, guid: e481edcb288d49f488b609f15236afbe,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 0cbf8d6f46a17be4d9fca2c901e75ced,
+        type: 2}
+    - target: {fileID: 4854922354611821423, guid: e481edcb288d49f488b609f15236afbe,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 0cbf8d6f46a17be4d9fca2c901e75ced,
         type: 2}

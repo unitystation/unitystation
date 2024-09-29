@@ -187,7 +187,7 @@ namespace Objects
 			}
 		}
 
-		[Server]
+		[Server, NaughtyAttributes.Button]
 		private void ConnectToWorld()
 		{
 			var randomWorld = SubSceneManager.RequestRandomAwayWorldLink(this);

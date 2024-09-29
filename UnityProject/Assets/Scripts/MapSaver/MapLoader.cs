@@ -309,6 +309,8 @@ namespace MapSaver
 				Object.name = prefabData.Name;
 			}
 
+			Object.gameObject.SetActive(prefabData.Active);
+
 			var ID = prefabData.GitID;
 
 			if (string.IsNullOrEmpty(ID))
@@ -325,13 +327,20 @@ namespace MapSaver
 				CompactObjectMapData.IDToNetIDClient[ID] = Object.GetComponent<NetworkIdentity>().netId;
 			}
 
-			if (MapSaver.CodeClass.ThisCodeClass.FinishLoading(ID, SpawnResult))
+			if (MapSaver.CodeClass.ThisCodeClass.FinishLoading(ID, SpawnResult, Object ))
 			{
+				foreach (var Spawn in Object.GetComponentsInChildren<INewMappedOnSpawn>())
+				{
+					Spawn.OnNewMappedOnSpawn();
+				}
+
 				if (SpawnResult != null)
 				{
 					Spawn._ServerFireClientServerSpawnHooks(SpawnResult, SpawnInfo.Mapped(SpawnResult.GameObject));
+
 				}
 			}
+
 		}
 
 		public static void ProcessClassData(MapSaver.PrefabData prefabData, GameObject Object,
@@ -357,7 +366,7 @@ namespace MapSaver
 			{
 				var ClassComponents = classData.ClassID.Split("@"); //TODO Multiple components?
 				var Component = Object.GetComponent(ClassComponents[0]);
-				if (Component == null)
+				if (Component == null && classData.Removed == false)
 				{
 					try
 					{
@@ -368,6 +377,19 @@ namespace MapSaver
 						Loggy.LogError(e.ToString());
 						continue;
 					}
+				}
+
+				if (classData.Removed == true)
+				{
+					if (Application.isPlaying)
+					{
+						UnityEngine.Object.Destroy(Component);
+					}
+					else
+					{
+						UnityEngine.Object.DestroyImmediate(Component);
+					}
+
 				}
 
 				var ID = prefabData.GitID;
@@ -418,6 +440,12 @@ namespace MapSaver
 
 			MapSaver.CodeClass.ThisCodeClass.ReportStatus();
 			MapSaver.CodeClass.ThisCodeClass.Reset();
+#if UNITY_EDITOR
+			if (Application.isPlaying == false)
+			{
+				CustomNetworkManager.Instance.SpawnedByMappingTool = true;
+			}
+#endif
 		}
 
 		public static void ServerLoadSectionNoCoRoutine(MatrixInfo Matrix, Vector3 Offset00, Vector3 Offset,

@@ -68,9 +68,20 @@ PrefabInstance:
       propertyPath: mobName
       value: giant spider
       objectReference: {fileID: 0}
+    - target: {fileID: 3558984063349171176, guid: a65257a8eed4c0749a33323e8b6f2bde,
+        type: 3}
+      propertyPath: foreverID
+      value: 843edc78b2c231249a2c4936447b61fe
+      objectReference: {fileID: 0}
     - target: {fileID: 4956873007292602210, guid: a65257a8eed4c0749a33323e8b6f2bde,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ead6d6cf7b85ed043aa6c5d84fe61fb3,
+        type: 2}
+    - target: {fileID: 4956873007292602210, guid: a65257a8eed4c0749a33323e8b6f2bde,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: ead6d6cf7b85ed043aa6c5d84fe61fb3,
         type: 2}

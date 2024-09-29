@@ -16,6 +16,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 228721429395525721, guid: 3b255a0fd9be64644a636021b434902f,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 3313992121f5e5c45ad311ee01b6234b,
+        type: 2}
+    - target: {fileID: 228721429395525721, guid: 3b255a0fd9be64644a636021b434902f,
+        type: 3}
       propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 3313992121f5e5c45ad311ee01b6234b,
@@ -177,6 +183,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Monkey
+      objectReference: {fileID: 0}
+    - target: {fileID: 8539599462575776979, guid: 3b255a0fd9be64644a636021b434902f,
+        type: 3}
+      propertyPath: foreverID
+      value: 3dc8e50beee4af94da6243026e09a6f8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

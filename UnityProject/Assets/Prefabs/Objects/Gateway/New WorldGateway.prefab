@@ -92,6 +92,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8113179442673967040}
+    - targetCorrespondingSourceObject: {fileID: 8587713973174609844, guid: 5211e71d15de2e249b7745f3d7a6afe4,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 586123173171249255}
   m_SourcePrefab: {fileID: 100100000, guid: 5211e71d15de2e249b7745f3d7a6afe4, type: 3}
 --- !u!212 &1113734785737237285 stripped
 SpriteRenderer:
@@ -268,4 +272,18 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   MobSpawners: []
+  MobSpawnersNew: []
   DetectViaMatrix: 0
+--- !u!114 &586123173171249255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8720001268064069434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e1cec8620882df4aaefbe3e74211f7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ExitMarkers: []

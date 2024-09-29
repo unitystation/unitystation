@@ -82,6 +82,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 147360633717967026, guid: 66aad43ea1945ac458990cb6d4169cde,
+        type: 3}
+      propertyPath: foreverID
+      value: d1a099c0079e7c14cb19f64a63457b2a
+      objectReference: {fileID: 0}
     - target: {fileID: 212268240904160500, guid: 66aad43ea1945ac458990cb6d4169cde,
         type: 3}
       propertyPath: m_Sprite
@@ -91,6 +96,12 @@ PrefabInstance:
     - target: {fileID: 2789537394278642046, guid: 66aad43ea1945ac458990cb6d4169cde,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a6835094f4a59364bab1d03eae47c269,
+        type: 2}
+    - target: {fileID: 2789537394278642046, guid: 66aad43ea1945ac458990cb6d4169cde,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: a6835094f4a59364bab1d03eae47c269,
         type: 2}
@@ -140,6 +151,16 @@ MonoBehaviour:
   ChangeSprites: 0
   isChangingSO: 0
   CurrentDirection: -1
+  SynchroniseCurrentDirection: 0
   IgnoreServerUpdatesIfLocalPlayer: 0
+  MatrixRotateUpdate: 1
+  SetOrder: 0
+  Orders: 00000000000000000000000000000000
+  SetLayer: 0
+  Layers:
+  - Rename me 1
+  - Rename me 2
+  - Rename me 3
+  - Rename me 4
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using TMPro;
 using Messages.Client.VariableViewer;
@@ -172,9 +173,14 @@ namespace AdminTools.VariableViewer
 
 		public override object DeSerialise(string StringVariable, Type InType, bool SetUI = false)
 		{
+			if (StringVariable == "null")
+			{
+				return new Vector3(0, 0, 0);
+			}
+
 			if (CountStringOccurrences(StringVariable, ",") > 1)
 			{
-				if (!StringVariable.Contains("#"))
+				if (StringVariable.Contains("#") == false)
 				{
 					var SplitData = StringVariable.Split(',');
 

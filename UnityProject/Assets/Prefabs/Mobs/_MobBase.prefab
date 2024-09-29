@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4995315385982660190}
   - component: {fileID: 8869584225780784631}
   - component: {fileID: 5230276667365096498}
+  - component: {fileID: 3101780794331563931}
   m_Layer: 12
   m_Name: _MobBase
   m_TagString: Untagged
@@ -108,6 +109,7 @@ MonoBehaviour:
   syncInterval: 0.232
   matrixDebugLogging: 0
   objectType: 1
+  LiesFlat3D: 0
   prefabTracker: {fileID: 0}
   CurrentsortingGroup: {fileID: 0}
   AtmosPassable: 1
@@ -191,7 +193,17 @@ MonoBehaviour:
   ChangeSprites: 1
   isChangingSO: 0
   CurrentDirection: 3
+  SynchroniseCurrentDirection: 0
   IgnoreServerUpdatesIfLocalPlayer: 0
+  MatrixRotateUpdate: 1
+  SetOrder: 0
+  Orders: 00000000000000000000000000000000
+  SetLayer: 0
+  Layers:
+  - Rename me 1
+  - Rename me 2
+  - Rename me 3
+  - Rename me 4
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
 --- !u!114 &4816238574199996034
@@ -365,6 +377,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  BuckledToObject: {fileID: 0}
   LocalDifferenceNeeded: {x: 0, y: 0}
   LocalTargetPosition: {x: 0, y: 0, z: 0}
   CorrectingCourse: 0
@@ -374,21 +387,19 @@ MonoBehaviour:
   slideTime: 0
   spinMagnitude: 0
   thrownBy: {fileID: 0}
+  thrownProtection: {fileID: 0}
   aim: 0
   ForcedPushedFrame: 0
   TryPushedFrame: 0
   PushedFrame: 0
   ChangesDirectionPush: 0
   Intangible: 0
+  MappingIntangible: 0
   SnapToGridOnStart: 0
   IsPlayer: 0
-  DEBUG: 0
+  ObjectBouncyness: 0.75
   tileMoveSpeed: 1
   HasOwnGravity: 0
-  isNotPushable: 0
-  CanBeWindPushed: 1
-  rotationTarget: {fileID: 0}
-  FramePushDecision: 1
   stickyMovement: 0
   OnThrowEndResetRotation: 1
   maximumStickSpeed: 1.5
@@ -398,13 +409,18 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   IsCurrentlyFloating: 0
-  Pushing: []
   Hits: []
   isFlyingSliding: 0
   IsMoving: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
-  BuckledToObject: {fileID: 0}
+  TimeSpentFlying: 0
+  DEBUG: 0
+  isNotPushable: 0
+  Pushing: []
+  CanBeWindPushed: 1
+  canResetRotationFromRightClick: 0
+  rotationTarget: {fileID: 0}
 --- !u!114 &5230276667365096498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -421,6 +437,22 @@ MonoBehaviour:
   draggerMustBeAdjacent: 1
   allowDragWhileSoftCrit: 1
   allowedToMouseDrag: 1
+--- !u!114 &3101780794331563931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f4629d03e356d64eb509d18a7450082, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentID: root
+  foreverID: QwO1XdEcWPUWEtCK85e0
+  <AlternativePrefabName>k__BackingField: 
+  <CanBeSpawnedByAdmin>k__BackingField: 1
 --- !u!1 &3951175065346152907
 GameObject:
   m_ObjectHideFlags: 0
@@ -502,6 +534,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -553,12 +587,9 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 0}
   - {fileID: 0}
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
