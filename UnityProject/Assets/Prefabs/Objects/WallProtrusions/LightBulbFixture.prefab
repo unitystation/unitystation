@@ -57,6 +57,42 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 2dfb772b8c7a46d4b939a627cd46fb95,
         type: 2}
+    - target: {fileID: 1952478272362544665, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2dfb772b8c7a46d4b939a627cd46fb95,
+        type: 2}
+    - target: {fileID: 1952478272362544665, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 2dfb772b8c7a46d4b939a627cd46fb95,
+        type: 2}
+    - target: {fileID: 1952478272362544665, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 6cc3e5efe383256418a0d2d6914316d2,
+        type: 2}
+    - target: {fileID: 1952478272362544665, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 91fa363b9c6d18b4eae2a4db9bd1991a,
+        type: 2}
+    - target: {fileID: 1952478272362544665, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: f65645cf0fa252a47979c4f741aa01f9,
+        type: 2}
+    - target: {fileID: 1952478272362544665, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[5]'
+      value: 
+      objectReference: {fileID: 11400000, guid: ec41833ac6091f54faff301371588da1,
+        type: 2}
     - target: {fileID: 2012159806878520143, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
       propertyPath: initialStateSprites
@@ -78,6 +114,12 @@ PrefabInstance:
     - target: {fileID: 3276952608748939964, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 6cc3e5efe383256418a0d2d6914316d2,
+        type: 2}
+    - target: {fileID: 3276952608748939964, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 6cc3e5efe383256418a0d2d6914316d2,
         type: 2}
@@ -114,6 +156,11 @@ PrefabInstance:
     - target: {fileID: 6807309527984598602, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
       propertyPath: wattusage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6807309527984598602, guid: fde32c02abddc814f9366ff1fb21f234,
+        type: 3}
+      propertyPath: initialwattusage
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
@@ -271,11 +318,6 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
         type: 3}
-      propertyPath: spriteRendererLightOn
-      value: 
-      objectReference: {fileID: 2561115454955776467}
-    - target: {fileID: 6947158127070171075, guid: fde32c02abddc814f9366ff1fb21f234,
-        type: 3}
       propertyPath: emergencyLightAnimator
       value: 
       objectReference: {fileID: 0}
@@ -380,12 +422,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f24590037b6b486082fc874d1bfd9d95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!212 &2561115454955776467 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 1689274832931870787, guid: fde32c02abddc814f9366ff1fb21f234,
-    type: 3}
-  m_PrefabInstance: {fileID: 3817762127415849360}
-  m_PrefabAsset: {fileID: 0}
 --- !u!212 &6391088716132193761 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 7803294762233930865, guid: fde32c02abddc814f9366ff1fb21f234,
