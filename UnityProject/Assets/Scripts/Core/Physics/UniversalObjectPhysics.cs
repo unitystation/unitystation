@@ -36,7 +36,7 @@ namespace Core.Physics
 		//////////////////////////////
 
 		[PlayModeOnly] public Vector2 LocalDifferenceNeeded;
-		[PlayModeOnly] private Vector2 newtonianMovement; //* attributes.Size -> weight
+		[PlayModeOnly] public Vector2 newtonianMovement; //* attributes.Size -> weight
 		[PlayModeOnly] public Vector3 LocalTargetPosition;
 		[PlayModeOnly] private Vector3 LastDifference = Vector3.zero;
 		[PlayModeOnly] public bool CorrectingCourse = false;
@@ -51,8 +51,8 @@ namespace Core.Physics
 		[PlayModeOnly] public float spinMagnitude = 0;
 
 		//Reduced friction during this time, if stickyMovement Just has normal friction vs just grabbing
-		[PlayModeOnly] public GameObject thrownBy;
-		[PlayModeOnly] public GameObject thrownProtection;
+		[PlayModeOnly, SyncVar] public NetworkIdentity thrownBy;
+		[PlayModeOnly, SyncVar] public NetworkIdentity thrownProtection;
 		[PlayModeOnly] public BodyPartType aim;
 		[PlayModeOnly] public int ForcedPushedFrame = 0;
 		[PlayModeOnly] public int TryPushedFrame = 0;
@@ -87,9 +87,9 @@ namespace Core.Physics
 
 		private float localTileMoveSpeedOverride = 0;
 
-		[SyncVar]
-		private float
-			networkedTileMoveSpeedOverride = 0; //TODO Potential Desynchronisation issues, Probably should have a who caused
+		[SyncVar] private float
+			networkedTileMoveSpeedOverride =
+				0; //TODO Potential Desynchronisation issues, Probably should have a who caused
 
 		[SyncVar] public float tileMoveSpeed = 1;
 		[SyncVar] private uint parentContainer;
@@ -194,7 +194,6 @@ namespace Core.Physics
 				0; //This is so when the client walks back into its own container it was pulling it doesn't bug out
 
 		//Pulling.Component.ResetLocationOnClients();
-
 
 
 		#region Events
@@ -308,7 +307,9 @@ namespace Core.Physics
 			if (ObjectIsBuckling != null) ObjectIsBuckling.Unbuckle();
 		}
 
-		public virtual void OnEnable() { }
+		public virtual void OnEnable()
+		{
+		}
 
 		public virtual void OnDisable()
 		{
@@ -383,7 +384,7 @@ namespace Core.Physics
 				UpdateManager.Remove(CallbackType.EARLY_UPDATE, FlyingUpdateMe);
 			}
 
-			if (Animating == false && transform.localPosition != newLocalTarget.Vector3)
+			if (Animating == false && transform .localPosition != newLocalTarget.Vector3)
 			{
 				Animating = true;
 				UpdateManager.Add(CallbackType.EARLY_UPDATE, AnimationUpdateMe);
@@ -454,7 +455,7 @@ namespace Core.Physics
 				{
 					var TimeDifference = (TimeSpentFlying - timeSent);
 					var ToResetToPosition = resetToLocal + (newMomentum * TimeDifference).To3();
-					;
+
 					resetToLocal = ToResetToPosition;
 				}
 
@@ -521,8 +522,9 @@ namespace Core.Physics
 			}
 		}
 
-		public virtual void AppearAtWorldPositionServer(Vector3 worldPos, bool smooth = false, bool doStepInteractions = true,
-			Vector2? momentum = null, MatrixInfo  Matrixoveride = null)
+		public virtual void AppearAtWorldPositionServer(Vector3 worldPos, bool smooth = false,
+			bool doStepInteractions = true,
+			Vector2? momentum = null, MatrixInfo Matrixoveride = null)
 		{
 			this.doStepInteractions = doStepInteractions;
 
@@ -532,6 +534,7 @@ namespace Core.Physics
 			{
 				matrix = Matrixoveride;
 			}
+
 			ForceSetLocalPosition(worldPos.ToLocal(matrix), momentum == null ? Vector2.zero : momentum.Value, smooth,
 				matrix.Id);
 
@@ -638,37 +641,35 @@ namespace Core.Physics
 			}
 			else
 			{
+				var ToResetTo = resetToLocal;
 				if (IsFlyingSliding)
 				{
 					NewtonianMovement = momentum;
 					SetTransform(resetToLocal, false);
 					InternalTriggerOnLocalTileReached(resetToLocal.RoundToInt());
 				}
-
-				if (Animating)
+				else
 				{
-					var ToResetTo = resetToLocal;
-
 					if (localTarget != null)
 					{
 						ToResetTo = localTarget.Value;
 					}
+				}
 
-					NewtonianMovement = momentum;
-					SetLocalTarget = new Vector3WithData()
-					{
-						Vector3 = ToResetTo,
-						ByClient = NetId.Empty,
-						Matrix = matrixID
-					};
-					SetTransform(resetToLocal, false);
-					InternalTriggerOnLocalTileReached(resetToLocal);
+				NewtonianMovement = momentum;
+				SetLocalTarget = new Vector3WithData()
+				{
+					Vector3 = ToResetTo,
+					ByClient = NetId.Empty,
+					Matrix = matrixID
+				};
+				SetTransform(resetToLocal, false);
+				InternalTriggerOnLocalTileReached(resetToLocal);
 
-					if (Animating == false)
-					{
-						Animating = true;
-						UpdateManager.Add(CallbackType.EARLY_UPDATE, AnimationUpdateMe);
-					}
+				if (IsFlyingSliding == false && Animating == false)
+				{
+					Animating = true;
+					UpdateManager.Add(CallbackType.EARLY_UPDATE, AnimationUpdateMe);
 				}
 			}
 		}
@@ -785,7 +786,6 @@ namespace Core.Physics
 
 		public void SetMatrix(Matrix movetoMatrix, bool SetTarget = true)
 		{
-
 			if (movetoMatrix == null) return;
 			if (registerTile == null)
 			{
@@ -842,7 +842,6 @@ namespace Core.Physics
 
 		public void ResetEverything()
 		{
-
 			if (IsFlyingSliding)
 			{
 				UpdateManager.Remove(CallbackType.EARLY_UPDATE, FlyingUpdateMe);
@@ -940,7 +939,7 @@ namespace Core.Physics
 			}
 
 			aim = inAim;
-			thrownBy = inThrownBy;
+			thrownBy = inThrownBy.NetWorkIdentity();
 			thrownProtection = thrownBy;
 			if (Random.Range(0, 2) == 1)
 			{
@@ -1054,7 +1053,7 @@ namespace Core.Physics
 
 				MoveIsWalking = false;
 
-				if (IsFloating() && PulledBy.HasComponent == false && doNotApplyMomentumOnTarget == false)
+				if (IsFloating() && PulledBy.HasComponent == false && doNotApplyMomentumOnTarget == false && IsFlyingSliding == false)
 				{
 					NewtonianMovement = (Vector2) LastDifference.normalized * cache;
 					LastDifference = Vector3.zero;
@@ -1212,7 +1211,6 @@ namespace Core.Physics
 						NewtonianMovement *= 0;
 					}
 				}
-
 			}
 			else
 			{
@@ -1270,7 +1268,7 @@ namespace Core.Physics
 				if (hit.TryGetComponent<LivingHealthMasterBase>(out var livingHealthMasterBase) && isServer)
 				{
 					var randomHitZone = aim.Randomize();
-					livingHealthMasterBase.ApplyDamageToBodyPart(thrownBy, damage, AttackType.Melee,
+					livingHealthMasterBase.ApplyDamageToBodyPart(thrownBy.gameObject, damage, AttackType.Melee,
 						DamageType.Brute,
 						randomHitZone);
 					global::Chat.AddThrowHitMsgToChat(gameObject, livingHealthMasterBase.gameObject,
@@ -1373,9 +1371,9 @@ namespace Core.Physics
 							foreach (var push in Pushing)
 							{
 								if (push == this) continue;
-								if (push.gameObject == thrownProtection) continue;
+								if (push.gameObject.NetWorkIdentity() == thrownProtection) continue;
 								push.NewtonianNewtonPush(NewtonianMovement, (NewtonianMovement.magnitude * GetWeight()),
-									Single.NaN, Single.NaN, aim, thrownBy, spinMagnitude);
+									Single.NaN, Single.NaN, aim, thrownBy?.gameObject, spinMagnitude);
 							}
 
 							var normal = (intPosition - intNewPosition).To3();
