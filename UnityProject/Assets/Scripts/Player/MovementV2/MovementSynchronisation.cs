@@ -1255,7 +1255,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			if (causesSlipClient)
 			{
 				NewtonianPush(newMoveData.GlobalMoveDirection.ToVector(), CurrentTileMoveSpeed, Single.NaN, 4,
-					spinFactor: 35, doNotUpdateThisClient: byClient);
+					spinFactor: 35);
 
 				if (isServer)
 				{

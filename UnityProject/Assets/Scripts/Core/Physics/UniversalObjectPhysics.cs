@@ -481,7 +481,7 @@ namespace Core.Physics
 
 			InternalTriggerOnLocalTileReached(resetToLocal.RoundToInt());
 
-			if (Animating == false && IsFlyingSliding == false)
+			if (NewtonianMovement.magnitude > 0)
 			{
 				StartFlyingUpdateMe();
 			}
@@ -561,6 +561,8 @@ namespace Core.Physics
 			uint ignoreForClient = NetId.Empty, Vector3? localTarget = null)
 		{
 			//rotationTarget.rotation = Quaternion.Euler(new Vector3(0, 0, rotation));
+			slideTime = 0;
+			airTime = 0;
 
 			if (isServer && updateClient)
 			{
@@ -637,12 +639,17 @@ namespace Core.Physics
 						Animating = true;
 						UpdateManager.Add(CallbackType.EARLY_UPDATE, AnimationUpdateMe);
 					}
+
+					if (NewtonianMovement.magnitude > 0)
+					{
+						StartFlyingUpdateMe();
+					}
 				}
 			}
 			else
 			{
 				var ToResetTo = resetToLocal;
-				if (IsFlyingSliding)
+				if (IsFlyingSliding && momentum.magnitude > 0)
 				{
 					NewtonianMovement = momentum;
 					SetTransform(resetToLocal, false);
@@ -665,9 +672,19 @@ namespace Core.Physics
 				};
 				SetTransform(resetToLocal, false);
 				InternalTriggerOnLocalTileReached(resetToLocal);
+			}
 
-				if (IsFlyingSliding == false && Animating == false)
+			if (NewtonianMovement.magnitude > 0)
+			{
+				StartFlyingUpdateMe();
+			}
+			else
+			{
+				if (Animating == false)
 				{
+					IsFlyingSliding = false;
+					UpdateManager.Remove(CallbackType.EARLY_UPDATE, FlyingUpdateMe);
+					IsMoving = true;
 					Animating = true;
 					UpdateManager.Add(CallbackType.EARLY_UPDATE, AnimationUpdateMe);
 				}
@@ -922,7 +939,7 @@ namespace Core.Physics
 
 		public void NewtonianPush(Vector2 worldDirection, float speed, float nairTime = Single.NaN,
 			float inSlideTime = Single.NaN, BodyPartType inAim = BodyPartType.Chest, GameObject inThrownBy = null,
-			float spinFactor = 0, GameObject doNotUpdateThisClient = null,
+			float spinFactor = 0,
 			bool ignoreSticky = false) //Collision is just naturally part of Newtonian push
 		{
 			if (isVisible == false) return;
@@ -986,8 +1003,8 @@ namespace Core.Physics
 			if (isServer)
 			{
 				LastUpdateClientFlying = NetworkTime.time;
-				UpdateClientMomentum(transform.localPosition, NewtonianMovement, airTime, this.slideTime,
-					registerTile.Matrix.Id, spinFactor, true, doNotUpdateThisClient.NetId(), TimeSpentFlying);
+				;		UpdateClientMomentum(transform.localPosition, NewtonianMovement, airTime, this.slideTime,
+					registerTile.Matrix.Id, spinFactor, true, NetId.Empty, TimeSpentFlying);
 			}
 		}
 
@@ -1140,6 +1157,12 @@ namespace Core.Physics
 				TimeSpentFlying = 0;
 				LastUpdateClientFlying = NetworkTime.time;
 				UpdateManager.Add(CallbackType.EARLY_UPDATE, FlyingUpdateMe);
+				if (Animating)
+				{
+					Animating = false;
+					IsMoving = false;
+					UpdateManager.Remove(CallbackType.EARLY_UPDATE, AnimationUpdateMe);
+				}
 			}
 		}
 
@@ -1449,6 +1472,13 @@ namespace Core.Physics
 						IsMoving = true;
 						UpdateManager.Add(CallbackType.EARLY_UPDATE, AnimationUpdateMe);
 					}
+
+					if (Pulling.HasComponent)
+					{
+						var inDirection = ( this.transform.position - Pulling.Component.transform.position).normalized;
+						Pulling.Component.SetTransform(this.transform.position - inDirection , true);
+					}
+
 				}
 				else if (ResetClientPositionReachTile)
 				{
