@@ -191,6 +191,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 0668f4c7f366b7947a3f8642487b1ba6,
         type: 2}
+    - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 340532e8ab171c4489ebc590b660e8ac,
+        type: 2}
+    - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 268345415e6a6554082b3c7b352162d2,
+        type: 2}
+    - target: {fileID: 5576016130320151481, guid: d8e28939643d5a34095fed9b0898c45b,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 0668f4c7f366b7947a3f8642487b1ba6,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -199,6 +217,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 7802048611900235560}
+    - targetCorrespondingSourceObject: {fileID: 5443839937711004891, guid: d8e28939643d5a34095fed9b0898c45b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3346008558528864777}
   m_SourcePrefab: {fileID: 100100000, guid: d8e28939643d5a34095fed9b0898c45b, type: 3}
 --- !u!1 &4015502146010655738 stripped
 GameObject:
@@ -229,3 +251,17 @@ MonoBehaviour:
   hidesSlots: 0
   hideClothingFlags: 0
   disallowConsume: 0
+--- !u!114 &3346008558528864777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4015502146010655738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c5a1c8749bf9485da6e5a1bfe398783, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allowRepair: 1
+  repairTrait: {fileID: 11400000, guid: eab4a0cf6ec899240b34c27ae82015e2, type: 2}

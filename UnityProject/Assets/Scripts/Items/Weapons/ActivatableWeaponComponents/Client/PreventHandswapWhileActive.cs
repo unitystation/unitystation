@@ -1,8 +1,5 @@
 namespace Weapons.ActivatableWeapons
 {
-
-
-
 	public class PreventHandswapWhileActive : ClientActivatableWeaponComponent
 	{
 		private Pickupable pickupable;
