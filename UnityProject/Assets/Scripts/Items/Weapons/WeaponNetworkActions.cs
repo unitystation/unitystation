@@ -256,6 +256,7 @@ public class WeaponNetworkActions : NetworkBehaviour
 		float blockChance = 100f;
 		AddressableAudioSource blockSound = null;
 		string blockName = null;
+		Action blockAction = null;
 
 		if (victim.TryGetComponent<PlayerScript>(out var victimScript))
 		{
@@ -268,6 +269,7 @@ public class WeaponNetworkActions : NetworkBehaviour
 					blockChance -= attribs.ServerBlockChance;
 					blockSound = attribs.ServerBlockSound;
 					blockName = hand.ItemObject.ExpensiveName();
+					blockAction = attribs.OnBlock;
 				}
 			}
 		}
@@ -284,6 +286,8 @@ public class WeaponNetworkActions : NetworkBehaviour
 
 			Chat.AddCombatMsgToChat(gameObject, $"{victimName} blocks your attack with {blockName}!",
 				$"{victimName} blocks {gameObject.ExpensiveName()}'s attack with {blockName}!");
+
+			blockAction.Invoke();
 
 			return false;
 		}
