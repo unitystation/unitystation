@@ -62,7 +62,7 @@ namespace Weapons
 					integ.RestoreIntegrity(integ.initialIntegrity);
 				}
 
-				var bar = StandardProgressAction.Create(ProgressConfig, ProgressFinishAction)
+				StandardProgressAction.Create(ProgressConfig, ProgressFinishAction)
 					.ServerStartProgress(interaction.Performer.RegisterTile(), repairTime, interaction.Performer);
 			}
 		}
