@@ -15,7 +15,7 @@ public class SubSceneManagerNetworked : NetworkBehaviour
 	{
 		NetworkServer.observerSceneList.Clear();
 		// Determine a Main station subscene and away site
-		GameManager.Instance.ChooseGameMode();
+		if(GameManager.Instance.GameMode == null) GameManager.Instance.ChooseGameMode();
 		StartCoroutine(SubSceneManager.RoundStartServerLoadSequence());
 		base.OnStartServer();
 	}
