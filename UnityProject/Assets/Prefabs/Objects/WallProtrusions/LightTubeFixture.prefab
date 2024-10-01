@@ -100,12 +100,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetworkThis: 1
-  SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 07e249f505acb1244865f003c18ffc13, type: 2}
+  SubCatalogue:
+  - {fileID: 11400000, guid: e4eb608982005d94e9d3ab683cd83d7f, type: 2}
+  - {fileID: 11400000, guid: 07e249f505acb1244865f003c18ffc13, type: 2}
+  - {fileID: 11400000, guid: 73a7b7229a2aec743bcd0c36080795c0, type: 2}
+  - {fileID: 11400000, guid: b1c1d658207e1eb4db3b9b1045a3c6f5, type: 2}
+  - {fileID: 11400000, guid: 62c2265ee86cfaa4baf6c185b3b23781, type: 2}
+  - {fileID: 11400000, guid: 4ebb345e992c88e4aa8c222dffb34010, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 07e249f505acb1244865f003c18ffc13,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1 &8582599332015320669
 GameObject:
@@ -415,6 +422,11 @@ PrefabInstance:
       propertyPath: deviceType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -6356777978426299504, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: initialwattusage
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_Sprite
@@ -577,6 +589,12 @@ PrefabInstance:
       propertyPath: initialVariantIndex
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 73a7b7229a2aec743bcd0c36080795c0,
+        type: 2}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: SubCatalogue.Array.size
@@ -808,6 +826,14 @@ MonoBehaviour:
   SynchroniseCurrentDirection: 1
   IgnoreServerUpdatesIfLocalPlayer: 0
   MatrixRotateUpdate: 0
+  SetOrder: 0
+  Orders: 00000000000000000000000000000000
+  SetLayer: 0
+  Layers:
+  - Rename me 1
+  - Rename me 2
+  - Rename me 3
+  - Rename me 4
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
 --- !u!114 &4982059446412124837
@@ -838,7 +864,7 @@ MonoBehaviour:
     - {fileID: 7657921970005526780, guid: 7f32e42309899114b9c122f261161bc5, type: 3}
     - {fileID: 5770283965274354279, guid: b83b68cfa4a201748aeeece963a989c3, type: 3}
   SetSlotItemNotRemovableOnStartUp: 0
-  ignoreRoundstartGrabObjects: 1
+  initialignoreRoundstartGrabObjects: 1
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}
 --- !u!114 &6946348802393932263
@@ -877,7 +903,7 @@ MonoBehaviour:
   <CanRelink>k__BackingField: 1
   <Animator>k__BackingField: {fileID: 4710465001683396220}
   spriteHandler: {fileID: 3276952608748939964}
-  spriteRendererLightOn: {fileID: 1689274832931870787}
+  spriteRendererLightOn: {fileID: 1952478272362544665}
   integrity: {fileID: 1496935572177014779}
   directional: {fileID: 2883810215281542680}
   boxColl: {fileID: 3662677150203288956}

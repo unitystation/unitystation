@@ -87,7 +87,7 @@ public class FlipCoin : MonoBehaviour, IExaminable, ICheckedInteractable<HandAct
 	{
 		if (throwInfo.thrownBy != null)
 		{
-			Chat.AddActionMsgToChat(throwInfo.thrownBy, $"You throw the coin...", $"{throwInfo.thrownBy} throws the coin...");
+			Chat.AddActionMsgToChat(throwInfo?.thrownBy?.gameObject, $"You throw the coin...", $"{throwInfo.thrownBy} throws the coin...");
 		}
 	}
 
