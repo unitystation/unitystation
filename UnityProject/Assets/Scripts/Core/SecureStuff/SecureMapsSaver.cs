@@ -1807,6 +1807,10 @@ namespace SecureStuff
 						Loggy.LogError($"Potential difference in prefabs however they are missing Forever ID for Original prefab {(PrefabDefault as Component)?.name} new Prefab {MonoComponent.name} ");
 						return true;
 					}
+					else
+					{
+						return true;
+					}
 
 				}
 

@@ -37,7 +37,7 @@ namespace Objects.Engineering
 		private bool IsCharging => batterySupplyingModule.ChargingDivider > 0.1f;
 		private float MaxCharge => batterySupplyingModule.CapacityMax;
 		private float CurrentCharge => batterySupplyingModule.CurrentCapacity;
-		private int ChargePercent => Convert.ToInt32(Math.Round(CurrentCharge * 100 / MaxCharge));
+		private int ChargePercent => Mathf.RoundToInt(CurrentCharge * 100 / MaxCharge);
 
 		private bool isExploding = false;
 
