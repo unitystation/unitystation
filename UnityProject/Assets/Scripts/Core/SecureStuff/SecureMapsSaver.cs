@@ -1091,7 +1091,9 @@ namespace SecureStuff
 
 
 				if (Field.FieldType.IsGenericType && typeof(IEnumerable).IsAssignableFrom(Field.FieldType) &&
-				    Field.FieldType.GetGenericTypeDefinition() != typeof(Dictionary<,>))
+				    Field.FieldType.GetGenericTypeDefinition() != typeof(Dictionary<,>) &&
+					Field.FieldType.GetGenericTypeDefinition() != typeof(HashSet<>))
+
 				{
 					ListHandleLoad(RootID, root, Field, Object, ModField, int.Parse(Index), IPopulateIDRelation,
 						IsServer, AdditionalJumps);
@@ -1372,7 +1374,8 @@ namespace SecureStuff
 					    typeof(IEnumerable).IsAssignableFrom(Field.FieldType) &&
 					    Field.FieldType.GetGenericTypeDefinition() != typeof(Dictionary<,>) &&
 					    typeof(IDictionary).IsAssignableFrom(Field.FieldType) == false &&
-					    typeof(HashSet<>).IsAssignableFrom(Field.FieldType) == false)
+						Field.FieldType.GetGenericTypeDefinition() != typeof(HashSet<>))
+
 					{
 						ListHandleSave(AMonoSet, APrefabDefault, Field, FieldDatas, Prefix, UseInstance,
 							IPopulateIDRelation, OnGameObjectComponents,
@@ -1669,6 +1672,10 @@ namespace SecureStuff
 								FieldData.IsPrefabID = true;
 								return;
 							}
+							else
+							{
+								Loggy.LogError("Difference found however specified prefab did not have IHaveForeverID Prefab > " + GameObjectModified);
+							}
 						}
 						else
 						{
@@ -1776,6 +1783,12 @@ namespace SecureStuff
 						var PrefabIHaveForeverID = (PrefabDefault as Component)?.GetComponent<IHaveForeverID>();
 						if (PrefabIHaveForeverID == null)
 						{
+							if (MonoComponent.transform != (PrefabDefault as Component)?.transform)
+							{
+								Loggy.LogError($"Potential difference in prefabs however they are missing Forever ID for Original prefab {(PrefabDefault as Component)?.name} new Prefab {MonoComponent.name} ");
+								return true;
+							}
+
 							return true; //idk What this is but I can't handle it Being different
 						}
 
@@ -1788,10 +1801,13 @@ namespace SecureStuff
 							return false;
 						}
 					}
-					else
+
+					if (MonoComponent.transform != (PrefabDefault as Component)?.transform)
 					{
-						return true; //idk What this is but I can't handle it Being different
+						Loggy.LogError($"Potential difference in prefabs however they are missing Forever ID for Original prefab {(PrefabDefault as Component)?.name} new Prefab {MonoComponent.name} ");
+						return true;
 					}
+
 				}
 
 				return false; //Assumed to be external reference

@@ -112,6 +112,11 @@ PrefabInstance:
       propertyPath: projectileVelocity
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 7874096324384370460, guid: b3e452483c7f60f4b9fdf04e19571591,
+        type: 3}
+      propertyPath: foreverID
+      value: 2bf1002b95a417a4bbfce5dcca9f6d11
+      objectReference: {fileID: 0}
     - target: {fileID: 8512327479412881641, guid: b3e452483c7f60f4b9fdf04e19571591,
         type: 3}
       propertyPath: _assetId
@@ -120,6 +125,12 @@ PrefabInstance:
     - target: {fileID: 8915517050689389146, guid: b3e452483c7f60f4b9fdf04e19571591,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: bff5b193fbcb4d3479f995a79782b5d3,
+        type: 2}
+    - target: {fileID: 8915517050689389146, guid: b3e452483c7f60f4b9fdf04e19571591,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: bff5b193fbcb4d3479f995a79782b5d3,
         type: 2}

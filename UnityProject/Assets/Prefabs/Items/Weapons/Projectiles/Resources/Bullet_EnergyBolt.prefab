@@ -19,6 +19,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e97e5fea1cf71e14aa68cef0ae002f27,
         type: 2}
+    - target: {fileID: 592746078290061541, guid: 33dfe2b5f12db3a43af6d409a2b599e5,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e97e5fea1cf71e14aa68cef0ae002f27,
+        type: 2}
     - target: {fileID: 1365721336191138629, guid: 33dfe2b5f12db3a43af6d409a2b599e5,
         type: 3}
       propertyPath: stunTime
@@ -98,6 +104,11 @@ PrefabInstance:
     - target: {fileID: 2047434722705749975, guid: 33dfe2b5f12db3a43af6d409a2b599e5,
         type: 3}
       propertyPath: m_AssetId
+      value: 211099f6eecb10d448ec77f0f35887f8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2217446727736624547, guid: 33dfe2b5f12db3a43af6d409a2b599e5,
+        type: 3}
+      propertyPath: foreverID
       value: 211099f6eecb10d448ec77f0f35887f8
       objectReference: {fileID: 0}
     - target: {fileID: 7829071755516839038, guid: 33dfe2b5f12db3a43af6d409a2b599e5,
