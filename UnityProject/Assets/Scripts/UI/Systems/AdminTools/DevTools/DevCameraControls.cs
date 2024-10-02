@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Core.Utils;
+using Logs;
 using Shared.Managers;
 using TMPro;
 using UnityEngine;
@@ -325,12 +326,12 @@ On";
 		ToggleLayers();
 	}
 
-	void ToggleMatrixCheck(bool state)
+	private void ToggleMatrixCheck(bool state)
 	{
 		MatrixCheckerState = state;
 		if (state)
 		{
-			foreach (var Matrix in	MatrixManager.Instance.ActiveMatrices)
+			foreach (var Matrix in MatrixManager.Instance.ActiveMatrices)
 			{
 				var colour =MatrixColours.PickRandom();
 				foreach (var Layers in Matrix.Value.MetaTileMap.Layers)
@@ -343,8 +344,7 @@ On";
 				}
 			}
 
-			MattrixCheckText.text = @"Turn off
- matrix check";
+			MattrixCheckText.text = @"Turn off matrix check";
 
 			var ColorBlock = MattrixCheckButton.colors;
 			ColorBlock.normalColor = SelectedColour;
@@ -353,12 +353,16 @@ On";
 		}
 		else
 		{
-			foreach (var Matrix in	MatrixManager.Instance.ActiveMatrices)
+			foreach (var matrix in MatrixManager.Instance.ActiveMatrices)
 			{
-				foreach (var Layers in Matrix.Value.MetaTileMap.Layers)
+				foreach (var layers in matrix.Value.MetaTileMap.Layers)
 				{
-
-					var TM = Layers.Value.GetComponent<Tilemap>();
+					if (layers.Value == null)
+					{
+						Loggy.LogError("[DevCameraControls/ToggleMatrixCheck] - Layer is null. Are we grabbing matrices before loading any?");
+						continue;
+					}
+					var TM = layers.Value.GetComponent<Tilemap>();
 					if (TM != null)
 					{
 						TM.color = Color.white;
