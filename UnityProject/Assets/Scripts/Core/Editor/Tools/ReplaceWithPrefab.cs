@@ -98,6 +98,12 @@ public class ReplaceWithPrefab : EditorWindow
 						}
 
 					}
+
+					if (Bright == null)
+					{
+						Loggy.LogError("AAAA > " + selectedLightSprite.Sprite + "selected > " + selected.name);
+					}
+
 					Handler.SetSpriteSO(Bright);
 				}
 
