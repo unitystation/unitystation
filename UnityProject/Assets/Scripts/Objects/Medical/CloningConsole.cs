@@ -353,8 +353,9 @@ namespace Objects.Medical
 		private string ToBase64()
 		{
 			string readableString = ToCompactString();
-			byte[] bytes = Encoding.Unicode.GetBytes(readableString);
-			return Convert.ToBase64String(bytes);
+			byte[] bytes = Encoding.UTF8.GetBytes(readableString);
+			string base64String = Convert.ToBase64String(bytes);
+			return base64String;
 		}
 
 		private string ToJSON()
@@ -392,7 +393,7 @@ namespace Objects.Medical
 		private static CloningRecord FromBase64(string base64Text)
 		{
 			byte[] bytes = Convert.FromBase64String(base64Text);
-			string decodedString = Encoding.Unicode.GetString(bytes);
+			string decodedString = Encoding.UTF8.GetString(bytes);
 			return FromCompactString(decodedString);
 		}
 
