@@ -289,11 +289,11 @@ namespace Objects.Medical
 			switch (conversionMethod)
 			{
 				case ConversionMethod.PHAROH:
-					return "PHAROH|" + ToCompactString();
+					return "PHARO|" + ToCompactString();
 				case ConversionMethod.BRITISH:
-					return "BRITISH|" + ToJSON();
+					return "BRIT|" + ToJSON();
 				case ConversionMethod.AUSSIE:
-					return "AUSSIE|" + ToBase64();
+					return "TERRA|" + ToBase64();
 			}
 			return null;
 		}
@@ -313,11 +313,11 @@ namespace Objects.Medical
 
 		public static ConversionMethod DetectConversionMethod(string recordData)
 		{
-			if (recordData.StartsWith("PHAROH|"))
+			if (recordData.StartsWith("PHARO|"))
 				return ConversionMethod.PHAROH;
-			if (recordData.StartsWith("BRITISH|"))
+			if (recordData.StartsWith("BRIT|"))
 				return ConversionMethod.BRITISH;
-			if (recordData.StartsWith("AUSSIE|"))
+			if (recordData.StartsWith("TERRA|"))
 				return ConversionMethod.AUSSIE;
 
 			throw new InvalidOperationException("Unknown conversion method in record data.");
@@ -353,7 +353,7 @@ namespace Objects.Medical
 		private string ToBase64()
 		{
 			string readableString = ToCompactString();
-			byte[] bytes = Encoding.UTF8.GetBytes(readableString);
+			byte[] bytes = Encoding.Unicode.GetBytes(readableString);
 			return Convert.ToBase64String(bytes);
 		}
 
@@ -392,7 +392,7 @@ namespace Objects.Medical
 		private static CloningRecord FromBase64(string base64Text)
 		{
 			byte[] bytes = Convert.FromBase64String(base64Text);
-			string decodedString = Encoding.UTF8.GetString(bytes);
+			string decodedString = Encoding.Unicode.GetString(bytes);
 			return FromCompactString(decodedString);
 		}
 
