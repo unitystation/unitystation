@@ -184,7 +184,7 @@ public class WeaponNetworkActions : NetworkBehaviour
 			// Punches have 90% chance to hit, otherwise it is a miss.
 			if (DMMath.Prob(chanceToHit))
 			{
-				if (BlockCheck(victim))
+				if (BlockCheck(victim, damage, currentDamageType))
 				{
 					// The attack hit.
 					if (victim.TryGetComponent<LivingHealthMasterBase>(out var victimHealth))
@@ -251,12 +251,12 @@ public class WeaponNetworkActions : NetworkBehaviour
 	}
 
 	[Server]
-	private bool BlockCheck(GameObject victim)
+	private bool BlockCheck(GameObject victim, float damage, DamageType damageType)
 	{
 		float blockChance = 100f;
 		AddressableAudioSource blockSound = null;
 		string blockName = null;
-		Action blockAction = null;
+		Action<GameObject, float, DamageType> blockAction = null;
 
 		if (victim.TryGetComponent<PlayerScript>(out var victimScript))
 		{
@@ -287,7 +287,7 @@ public class WeaponNetworkActions : NetworkBehaviour
 			Chat.AddCombatMsgToChat(gameObject, $"{victimName} blocks your attack with {blockName}!",
 				$"{victimName} blocks {gameObject.ExpensiveName()}'s attack with {blockName}!");
 
-			blockAction.Invoke();
+			blockAction?.Invoke(gameObject, damage, damageType);
 
 			return false;
 		}
