@@ -8,6 +8,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using Health.Sickness;
 using Mirror;
+using Newtonsoft.Json;
 using Systems.Character;
 using UI.Objects.Medical.Cloning;
 
@@ -168,15 +169,15 @@ namespace Objects.Medical
 
 		private void CreateRecord(LivingHealthMasterBase livingHealth, PlayerScript playerScript)
 		{
-			var record = new CloningRecord();
-			record.UpdateRecord(livingHealth, playerScript);
+			var record1 = new CloningRecord();
+			record1.UpdateRecord(livingHealth, playerScript);
 			AdminLogsManager.AddNewLog(
 				null,
 				$"{gameObject.ExpensiveName()} at {gameObject.AssumedWorldPosServer()}" +
 				$" has created a new cloning record for {playerScript.playerName}.",
 				LogCategory.RoundFlow);
-			var paper = Spawn.ServerPrefab(paperPrefab, gameObject.AssumedWorldPosServer());
-			paper.GameObject.GetComponent<Paper>().SetServerString(record.ToCompactString());
+			var paper1 = Spawn.ServerPrefab(paperPrefab, gameObject.AssumedWorldPosServer());
+			paper1.GameObject.GetComponent<Paper>().SetServerString(record1.Copy());
 		}
 
 		public void UpdateDisplay()
@@ -208,7 +209,7 @@ namespace Objects.Medical
 				return;
 			}
 			if (interaction.HandObject.TryGetComponent<Paper>(out var p) == false) return;
-			var record = CloningRecord.FromCompactString(p.ServerString);
+			var record = CloningRecord.FromString(p.ServerString);
 			if (record == null)
 			{
 				Chat.AddExamineMsg(interaction.Performer, "The console spits the paper out back into your hand..");
@@ -239,6 +240,14 @@ namespace Objects.Medical
 		public Mind mind;
 		public List<BodyPartRecord> surfaceBodyParts = new();
 		public List<string> sicknessList = new();
+		private ConversionMethod conversionMethod = ConversionMethod.PHAROH;
+
+		public enum ConversionMethod
+		{
+			PHAROH,
+			BRITISH,
+			AUSSIE
+		}
 
 		public CloningRecord()
 		{
@@ -269,8 +278,54 @@ namespace Objects.Medical
 				sicknessList.Add(sickness.Sickness.SicknessName);
 		}
 
+		public string Copy()
+		{
+			// Use mindID as the seed for random
+			var random = new System.Random((int)mindID);
+			int randomValue = random.Next(0, 3);
+			// Select conversion method based on random value
+			conversionMethod = (ConversionMethod)randomValue;
+
+			switch (conversionMethod)
+			{
+				case ConversionMethod.PHAROH:
+					return "PHAROH|" + ToCompactString();
+				case ConversionMethod.BRITISH:
+					return "BRITISH|" + ToJSON();
+				case ConversionMethod.AUSSIE:
+					return "AUSSIE|" + ToBase64();
+			}
+			return null;
+		}
+
+
+		public static CloningRecord FromString(string recordData)
+		{
+			ConversionMethod method = DetectConversionMethod(recordData);
+			switch (method)
+			{
+				case ConversionMethod.PHAROH: return FromCompactString(recordData);
+				case ConversionMethod.BRITISH: return FromJSON(recordData);
+				case ConversionMethod.AUSSIE: return FromBase64(recordData);
+			}
+			return null;
+		}
+
+		public static ConversionMethod DetectConversionMethod(string recordData)
+		{
+			if (recordData.StartsWith("PHAROH|"))
+				return ConversionMethod.PHAROH;
+			if (recordData.StartsWith("BRITISH|"))
+				return ConversionMethod.BRITISH;
+			if (recordData.StartsWith("AUSSIE|"))
+				return ConversionMethod.AUSSIE;
+
+			throw new InvalidOperationException("Unknown conversion method in record data.");
+		}
+
+
 		// Method to serialize the object to a compact string
-		public string ToCompactString()
+		private string ToCompactString()
 		{
 			var sb = new StringBuilder();
 
@@ -295,8 +350,19 @@ namespace Objects.Medical
 			return sb.ToString();
 		}
 
-		// Method to deserialize the object from a compact string
-		public static CloningRecord FromCompactString(string compactString)
+		private string ToBase64()
+		{
+			string readableString = ToCompactString();
+			byte[] bytes = Encoding.UTF8.GetBytes(readableString);
+			return Convert.ToBase64String(bytes);
+		}
+
+		private string ToJSON()
+		{
+			return JsonConvert.SerializeObject(this);
+		}
+
+		private static CloningRecord FromCompactString(string compactString)
 		{
 			var parts = compactString.Split('|');
 			var record = new CloningRecord();
@@ -321,6 +387,18 @@ namespace Objects.Medical
 			record.sicknessList = new List<string>(parts[10].Split(',', StringSplitOptions.RemoveEmptyEntries));
 
 			return record;
+		}
+
+		private static CloningRecord FromBase64(string base64Text)
+		{
+			byte[] bytes = Convert.FromBase64String(base64Text);
+			string decodedString = Encoding.UTF8.GetString(bytes);
+			return FromCompactString(decodedString);
+		}
+
+		private static CloningRecord FromJSON(string json)
+		{
+			return JsonConvert.DeserializeObject<CloningRecord>(json);
 		}
 	}
 
