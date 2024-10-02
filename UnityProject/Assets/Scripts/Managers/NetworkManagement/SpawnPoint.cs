@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Logs;
@@ -94,6 +95,22 @@ namespace Systems.Spawns
 			}
 
 
+		}
+
+		public void OnEnable()
+		{
+			if (NetworkManager.startPositions.Contains(this.transform) ==false)
+			{
+				NetworkManager.RegisterStartPosition(transform);
+			}
+		}
+
+		public void OnDisable()
+		{
+			if (NetworkManager.startPositions.Contains(this.transform))
+			{
+				NetworkManager.UnRegisterStartPosition(transform);
+			}
 		}
 
 		public static Transform GetRandomPointForJob(JobType job, bool isGhost = false)

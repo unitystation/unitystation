@@ -94,6 +94,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7688865384560437380, guid: a4c2debd67d612549b05801d1e37121a,
+        type: 3}
+      propertyPath: foreverID
+      value: ed27584db3581c646825e141026f3033
+      objectReference: {fileID: 0}
     - target: {fileID: 8202147874999730033, guid: a4c2debd67d612549b05801d1e37121a,
         type: 3}
       propertyPath: _assetId
@@ -102,6 +107,12 @@ PrefabInstance:
     - target: {fileID: 8955541116726379970, guid: a4c2debd67d612549b05801d1e37121a,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ce58f968cd3c8dd4a88d2b817d24557b,
+        type: 2}
+    - target: {fileID: 8955541116726379970, guid: a4c2debd67d612549b05801d1e37121a,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: ce58f968cd3c8dd4a88d2b817d24557b,
         type: 2}

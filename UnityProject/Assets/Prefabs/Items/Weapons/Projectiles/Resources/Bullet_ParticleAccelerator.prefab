@@ -29,6 +29,12 @@ PrefabInstance:
       propertyPath: initialVariantIndex
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2567080129922137229, guid: f8f5682e74c42bb45851c71a4b53b20b,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 46a7577f4ebde97419b52eba140d42d5,
+        type: 2}
     - target: {fileID: 2678535146407671852, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
       propertyPath: damageData
@@ -50,6 +56,11 @@ PrefabInstance:
         type: 3}
       propertyPath: visibleName
       value: accelerated particles
+      objectReference: {fileID: 0}
+    - target: {fileID: 3845008246861255115, guid: f8f5682e74c42bb45851c71a4b53b20b,
+        type: 3}
+      propertyPath: foreverID
+      value: 51e37bcfda438bc45bae02a757a88dbb
       objectReference: {fileID: 0}
     - target: {fileID: 4030776248151696319, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
@@ -147,6 +158,21 @@ PrefabInstance:
     - target: {fileID: 5391593875210699565, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
       propertyPath: Color.r
+      value: 0.7058824
+      objectReference: {fileID: 0}
+    - target: {fileID: 5391593875210699565, guid: f8f5682e74c42bb45851c71a4b53b20b,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 0.6392157
+      objectReference: {fileID: 0}
+    - target: {fileID: 5391593875210699565, guid: f8f5682e74c42bb45851c71a4b53b20b,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.21176472
+      objectReference: {fileID: 0}
+    - target: {fileID: 5391593875210699565, guid: f8f5682e74c42bb45851c71a4b53b20b,
+        type: 3}
+      propertyPath: InitialColour.r
       value: 0.7058824
       objectReference: {fileID: 0}
     - target: {fileID: 5572642767229722754, guid: f8f5682e74c42bb45851c71a4b53b20b,

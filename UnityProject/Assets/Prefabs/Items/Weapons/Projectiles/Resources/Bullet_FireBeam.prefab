@@ -40,6 +40,21 @@ PrefabInstance:
       propertyPath: Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2614399258784897648, guid: c1e78413dfa7c5d4ebb396bb780027c1,
+        type: 3}
+      propertyPath: InitialColour.a
+      value: 0.627451
+      objectReference: {fileID: 0}
+    - target: {fileID: 2614399258784897648, guid: c1e78413dfa7c5d4ebb396bb780027c1,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 0.21226418
+      objectReference: {fileID: 0}
+    - target: {fileID: 2614399258784897648, guid: c1e78413dfa7c5d4ebb396bb780027c1,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.82864237
+      objectReference: {fileID: 0}
     - target: {fileID: 2635616452383839021, guid: c1e78413dfa7c5d4ebb396bb780027c1,
         type: 3}
       propertyPath: fireStacksToGive
@@ -65,6 +80,12 @@ PrefabInstance:
     - target: {fileID: 5565012698557113808, guid: c1e78413dfa7c5d4ebb396bb780027c1,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 4aaec03c29a3aa24ca2b0ff0447961dc,
+        type: 2}
+    - target: {fileID: 5565012698557113808, guid: c1e78413dfa7c5d4ebb396bb780027c1,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 4aaec03c29a3aa24ca2b0ff0447961dc,
         type: 2}
@@ -159,6 +180,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Bullet_FireBeam
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613196262922307734, guid: c1e78413dfa7c5d4ebb396bb780027c1,
+        type: 3}
+      propertyPath: foreverID
+      value: 006675ded4cd7674c8a77c3251b6d306
       objectReference: {fileID: 0}
     - target: {fileID: 6908131277788809716, guid: c1e78413dfa7c5d4ebb396bb780027c1,
         type: 3}

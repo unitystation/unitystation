@@ -55,18 +55,18 @@ public class FileSelectorWindow : EditorWindow
 	                GUILayout.BeginHorizontal();
 	                GUILayout.Label(GetRelativePath(folderPath, fileName), GUILayout.Width(200));
 
-	                if (GUILayout.Button("Load", GUILayout.Width(50)))
-	                {
-		                // Start a coroutine to perform the load function
-		                Load(fileName);
-	                }
-
 	                if (GUILayout.Button("Save", GUILayout.Width(50)))
 	                {
 		                // Start a coroutine to perform the save function
 		                Save(fileName);
 	                }
 
+	                if (GUILayout.Button("Load", GUILayout.Width(50)))
+	                {
+		                // Start a coroutine to perform the load function
+		                Load(fileName);
+	                }
+	                
 	                if (GUILayout.Button("Copy Path", GUILayout.Width(80)))
 	                {
 		                // Copy the relative file path to the clipboard

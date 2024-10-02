@@ -14,6 +14,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8c130860233322c458badee8145ebb82,
         type: 2}
+    - target: {fileID: 2567080129922137229, guid: f8f5682e74c42bb45851c71a4b53b20b,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8c130860233322c458badee8145ebb82,
+        type: 2}
     - target: {fileID: 3331400375068263998, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
       propertyPath: _assetId
@@ -28,6 +34,11 @@ PrefabInstance:
         type: 3}
       propertyPath: visibleName
       value: laser tag beam
+      objectReference: {fileID: 0}
+    - target: {fileID: 3845008246861255115, guid: f8f5682e74c42bb45851c71a4b53b20b,
+        type: 3}
+      propertyPath: foreverID
+      value: f8442576ee6ef674181ac1fcca2ea641
       objectReference: {fileID: 0}
     - target: {fileID: 4030776248151696319, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
@@ -113,6 +124,21 @@ PrefabInstance:
     - target: {fileID: 5391593875210699565, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
       propertyPath: Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5391593875210699565, guid: f8f5682e74c42bb45851c71a4b53b20b,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 0.90196085
+      objectReference: {fileID: 0}
+    - target: {fileID: 5391593875210699565, guid: f8f5682e74c42bb45851c71a4b53b20b,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.69411767
+      objectReference: {fileID: 0}
+    - target: {fileID: 5391593875210699565, guid: f8f5682e74c42bb45851c71a4b53b20b,
+        type: 3}
+      propertyPath: InitialColour.r
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5572642767229722754, guid: f8f5682e74c42bb45851c71a4b53b20b,

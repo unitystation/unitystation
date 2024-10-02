@@ -47,20 +47,17 @@ public class MobSpawnControlScript : NetworkBehaviour
 	{
 		MobSpawners.Clear();
 		MobSpawnersNew.Clear();
-		foreach (Transform t in transform.parent)
+		foreach (var mobSpawner in transform.GetComponentInParent<ObjectLayer>().GetComponentsInChildren<LegacyMobSpawnScript>())
 		{
-			var mobSpawner = t.GetComponent<LegacyMobSpawnScript>();
-			if (mobSpawner != null)
-			{
-				MobSpawners.Add(mobSpawner);
-			}
-
-			var Blueprint = t.GetComponent<PlayerBlueprint>();
-			if (Blueprint != null)
-			{
-				MobSpawnersNew.Add(Blueprint);
-			}
+			MobSpawners.Add(mobSpawner);
 		}
+
+
+		foreach (var PlayerBlueprint in transform.GetComponentInParent<ObjectLayer>().GetComponentsInChildren<PlayerBlueprint>())
+		{
+			MobSpawnersNew.Add(PlayerBlueprint);
+		}
+
 
 
 		#if UNITY_EDITOR

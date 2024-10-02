@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Color: {r: 0.6, g: 0.2, b: 1, a: 1}
+  InitialColour: {r: 0.6, g: 0.2, b: 1, a: 1}
   Sprite: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
@@ -70,6 +70,8 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -194,6 +196,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 2af4b870afff3664a832931a225e1ead,
         type: 3}
+    - target: {fileID: 7874096324384370460, guid: b3e452483c7f60f4b9fdf04e19571591,
+        type: 3}
+      propertyPath: foreverID
+      value: 3f2285adf1e272a4a8b4b27c3d4d62a7
+      objectReference: {fileID: 0}
     - target: {fileID: 8064381124288617832, guid: b3e452483c7f60f4b9fdf04e19571591,
         type: 3}
       propertyPath: m_AssetId
@@ -207,6 +214,12 @@ PrefabInstance:
     - target: {fileID: 8915517050689389146, guid: b3e452483c7f60f4b9fdf04e19571591,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e56427838d3175e46949510b507d7b71,
+        type: 2}
+    - target: {fileID: 8915517050689389146, guid: b3e452483c7f60f4b9fdf04e19571591,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: e56427838d3175e46949510b507d7b71,
         type: 2}

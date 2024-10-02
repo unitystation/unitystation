@@ -19,6 +19,11 @@ PrefabInstance:
       propertyPath: visibleName
       value: phasic bolt
       objectReference: {fileID: 0}
+    - target: {fileID: 416446682678503166, guid: cc1c44d01fdcc26409ca9bb9c3cfba80,
+        type: 3}
+      propertyPath: foreverID
+      value: 4fbae0000e49c7a4781fe9a9d3565423
+      objectReference: {fileID: 0}
     - target: {fileID: 534665058073187466, guid: cc1c44d01fdcc26409ca9bb9c3cfba80,
         type: 3}
       propertyPath: m_AssetId
@@ -99,6 +104,12 @@ PrefabInstance:
     - target: {fileID: 1385889786959825848, guid: cc1c44d01fdcc26409ca9bb9c3cfba80,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 4fdac7b0b128f374c9379d1db849f740,
+        type: 2}
+    - target: {fileID: 1385889786959825848, guid: cc1c44d01fdcc26409ca9bb9c3cfba80,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 4fdac7b0b128f374c9379d1db849f740,
         type: 2}
