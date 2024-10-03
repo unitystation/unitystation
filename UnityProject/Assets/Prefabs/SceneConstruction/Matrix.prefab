@@ -294,7 +294,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsSpaceMatrix: 0
   IsMainStation: 1
-  IsLavaLand: 0
   MatrixMove: {fileID: 0}
   AIShuttleShouldAvoid: 0
   PresentPlayers: []
@@ -904,7 +903,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatrixSync: {fileID: 0}
   matrix: {fileID: 0}
-  IsJsonLoaded: 0
+  IsJsonLoaded: 1
+  RequestInitialiseMapLoader: 0
 --- !u!114 &7375737834013467137
 MonoBehaviour:
   m_ObjectHideFlags: 0

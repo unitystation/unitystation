@@ -264,6 +264,7 @@ namespace Systems.MobAIs
 		/// </summary>
 		protected virtual void HandleSearch()
 		{
+			if (this == null) return;
 			moveWaitTime += MobController.UpdateTimeInterval;
 			searchWaitTime += MobController.UpdateTimeInterval;
 			if (!(searchWaitTime >= searchTickRate)) return;

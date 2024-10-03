@@ -55403,12 +55403,25 @@
                   "ClassID": "Thruster@0",
                   "Data": [
                     {
+                      "Name": "PrefabThrusterMultiplier",
+                      "Data": "5"
+                    },
+                    {
                       "Name": "SelfPowered",
                       "Data": "True"
                     },
                     {
                       "Name": "pipeData@SelfSufficient",
                       "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Down_By180"
                     }
                   ]
                 }
@@ -55463,20 +55476,7 @@
             "GitID": "0469b3922aa40e04d9c576979353df72_4.87┼-18.99┼0┼",
             "PrefabID": "0469b3922aa40e04d9c576979353df72",
             "Name": "SyndicateMinibomb",
-            "LocalPRS": "4.87┼-18.99┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Grenade@0",
-                  "Data": [
-                    {
-                      "Name": "explosionPrefab",
-                      "Data": ""
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "4.87┼-18.99┼0┼"
           },
           {
             "GitID": "0d553281bdfc0fd438b3f6c7db58688c_5┼-25┼0┼",
@@ -55597,20 +55597,7 @@
             "GitID": "0469b3922aa40e04d9c576979353df72_5.11┼-19.04┼0┼",
             "PrefabID": "0469b3922aa40e04d9c576979353df72",
             "Name": "SyndicateMinibomb",
-            "LocalPRS": "5.11┼-19.04┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Grenade@0",
-                  "Data": [
-                    {
-                      "Name": "explosionPrefab",
-                      "Data": ""
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "5.11┼-19.04┼0┼"
           },
           {
             "GitID": "91d832be818283a4188516804e8d5ef0_6┼-21┼0┼",
@@ -55678,6 +55665,10 @@
                     {
                       "Name": "ThisThrusterDirectionClassification",
                       "Data": "Right"
+                    },
+                    {
+                      "Name": "PrefabThrusterMultiplier",
+                      "Data": "3"
                     },
                     {
                       "Name": "SelfPowered",
@@ -56848,12 +56839,25 @@
                   "ClassID": "Thruster@0",
                   "Data": [
                     {
+                      "Name": "PrefabThrusterMultiplier",
+                      "Data": "5"
+                    },
+                    {
                       "Name": "SelfPowered",
                       "Data": "True"
                     },
                     {
                       "Name": "pipeData@SelfSufficient",
                       "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Down_By180"
                     }
                   ]
                 }
@@ -58652,6 +58656,10 @@
                       "Data": "Left"
                     },
                     {
+                      "Name": "PrefabThrusterMultiplier",
+                      "Data": "3"
+                    },
+                    {
                       "Name": "SelfPowered",
                       "Data": "True"
                     },
@@ -59075,12 +59083,25 @@
                   "ClassID": "Thruster@0",
                   "Data": [
                     {
+                      "Name": "PrefabThrusterMultiplier",
+                      "Data": "5"
+                    },
+                    {
                       "Name": "SelfPowered",
                       "Data": "True"
                     },
                     {
                       "Name": "pipeData@SelfSufficient",
                       "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Down_By180"
                     }
                   ]
                 }

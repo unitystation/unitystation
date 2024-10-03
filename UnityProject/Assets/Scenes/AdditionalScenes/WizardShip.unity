@@ -10499,7 +10499,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 1
-      m_TileSpriteIndex: 16
+      m_TileSpriteIndex: 22
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -11744,8 +11744,8 @@ Tilemap:
     m_Data: {fileID: 21300012, guid: f59d3f4456eeb7b4b8710dc8ea58ef0a, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 21300050, guid: f59d3f4456eeb7b4b8710dc8ea58ef0a, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 21300024, guid: f59d3f4456eeb7b4b8710dc8ea58ef0a, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 1
     m_Data: {fileID: 21300038, guid: f59d3f4456eeb7b4b8710dc8ea58ef0a, type: 3}
   - m_RefCount: 1
@@ -11756,6 +11756,10 @@ Tilemap:
     m_Data: {fileID: 21300056, guid: f59d3f4456eeb7b4b8710dc8ea58ef0a, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 21300036, guid: f59d3f4456eeb7b4b8710dc8ea58ef0a, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: 21300024, guid: f59d3f4456eeb7b4b8710dc8ea58ef0a, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   m_TileMatrixArray:
   - m_RefCount: 130
     m_Data:
@@ -12433,7 +12437,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsSpaceMatrix: 0
   IsMainStation: 0
-  IsLavaLand: 0
   MatrixMove: {fileID: 0}
   AIShuttleShouldAvoid: 0
   PresentPlayers: []
@@ -13200,9 +13203,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TargetMSpreFrame: 5
   MassAndCentreLock: []
-  LocalCentreOfMass: {x: -0.015151516, y: 7.8350167, z: 0}
-  LocalTotalMasslocations: {x: -9, y: 4654, z: 0}
-  Mass: 594
+  LocalCentreOfMass: {x: -0.014975041, y: 7.673877, z: 0}
+  LocalTotalMasslocations: {x: -9, y: 4612, z: 0}
+  Mass: 601
   ffLayersValues: []
   matrix: {fileID: 3850318706526197629}
 --- !u!1 &5949093896022167232
@@ -21696,6 +21699,7 @@ MonoBehaviour:
   MatrixSync: {fileID: 0}
   matrix: {fileID: 0}
   IsJsonLoaded: 0
+  RequestInitialiseMapLoader: 0
 --- !u!483693784 &8583296789573265973
 TilemapRenderer:
   m_ObjectHideFlags: 0
