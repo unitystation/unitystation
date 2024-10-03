@@ -111,7 +111,7 @@ public partial class SubSceneManager
 		{
 			serverChosenMainStation = AdminForcedMainStation;
 		}
-		else if (prevEditorScene.Contains("Lobby") == false && (prevEditorScene != "") &&
+		else if (prevEditorScene.Contains("StartUp") == false && prevEditorScene.Contains("Lobby") == false && (prevEditorScene != "") &&
 		         prevEditorScene.Contains("Online") == false &&
 		         GameData.Instance.DoNotLoadEditorPreviousScene == false) //TODO Game data option!!!!
 		{
@@ -120,6 +120,8 @@ public partial class SubSceneManager
 		else
 		{
 			serverChosenMainStation = GameManager.Instance.GameMode.mainStations.GetRandomMainStation();
+			Loggy.Log($"[SubSceneManager.SceneList] - Server has choosen {serverChosenMainStation} as main station. " +
+			          $"Previous admin forced: {AdminForcedMainStation}", Category.Round);
 		}
 
 		//Reset map selector
