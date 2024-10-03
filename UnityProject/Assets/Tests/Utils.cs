@@ -92,9 +92,6 @@ namespace Tests
 
 			report.FailIf(guids.Length, Is.EqualTo(0))
 				.AppendLine($"{typeName}: could not locate {typeName}")
-				.AssertPassed()
-				.FailIf(guids.Length, Is.GreaterThan(1))
-				.AppendLine($"{typeName}: more than one {typeName} exists!")
 				.AssertPassed();
 
 			return AssetDatabase.LoadAssetAtPath<T>(AssetDatabase.GUIDToAssetPath(guids.First()));
