@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using GameModes;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Lobby
@@ -21,6 +22,8 @@ namespace Lobby
 
 		[SerializeField]
 		private Text signedInAsText = default;
+
+		[SerializeField] private MapEditor mapMode;
 
 		private void Awake()
 		{
@@ -74,6 +77,14 @@ namespace Lobby
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			LobbyManager.Instance.Quit();
+		}
+
+		public void OnStartMapMode()
+		{
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+			GameManager.Instance.SetGameMode(mapMode, true);
+			GameManager.Instance.SecretGameMode = false;
+			LobbyManager.Instance.HostServer();
 		}
 	}
 }
