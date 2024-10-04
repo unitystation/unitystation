@@ -78,6 +78,7 @@ Transform:
   - {fileID: 8810713153213744065}
   - {fileID: 7165609935498025567}
   - {fileID: 7353157430477411556}
+  - {fileID: 1616187501725541314}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114354710356312186
@@ -186,6 +187,79 @@ MonoBehaviour:
     - rid: 7488608823936024628
       type: {class: JsonAdminLogEntryConverter, ns: Core.Admin.Logs.Stores, asm: Assets}
       data: 
+--- !u!1 &1683164892968827851
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1616187501725541314}
+  - component: {fileID: 232068088350410237}
+  m_Layer: 0
+  m_Name: IMGUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1616187501725541314
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1683164892968827851}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4244501537706558}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &232068088350410237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1683164892968827851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fa779297770e0849864f782007007e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultCamera: {fileID: 0}
+  hdrpCamera: {fileID: 0}
+  renderFeature: {fileID: 0}
+  rendererType: 0
+  platformType: 0
+  renderingMode: 0
+  toTextureRendererIndex: 0
+  initialConfiguration:
+    KeyboardNavigation: 0
+    GamepadNavigation: 0
+    NavSetMousePos: 0
+    NavNoCaptureKeyboard: 0
+    DoubleClickTime: 0.3
+    DoubleClickMaxDist: 6
+    DragThreshold: 6
+    KeyRepeatDelay: 0.275
+    KeyRepeatRate: 0.05
+    FontGlobalScale: 1
+    FontAllowUserScaling: 0
+    TextCursorBlink: 1
+    ResizeFromEdges: 1
+    MoveFromTitleOnly: 0
+    MemoryCompactTimer: 60
+  fontAtlasConfiguration: {fileID: 0}
+  iniSettings: {fileID: 0}
+  enableDocking: 1
+  shaders: {fileID: 11400000, guid: 9c25b437bdcfe95449d0617c2f2ee93d, type: 2}
+  style: {fileID: 11400000, guid: 2f5e7cc338c3ffc4caddb08baa576db2, type: 2}
+  cursorShapes: {fileID: 11400000, guid: 79f57b40c6f98a5418bdf959f1061379, type: 2}
 --- !u!1 &2025865168821906811
 GameObject:
   m_ObjectHideFlags: 0
@@ -16033,7 +16107,7 @@ PrefabInstance:
     - target: {fileID: 2638182944326202324, guid: 2e51a3d610891a643ba27bbe15bda3fa,
         type: 3}
       propertyPath: m_Value
-      value: 1.0000004
+      value: 0.9999997
       objectReference: {fileID: 0}
     - target: {fileID: 2644543980407464209, guid: 2e51a3d610891a643ba27bbe15bda3fa,
         type: 3}

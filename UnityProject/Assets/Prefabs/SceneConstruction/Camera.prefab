@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Color: {r: 0.990566, g: 0.990566, b: 0.990566, a: 0.13725491}
+  InitialColour: {r: 0.990566, g: 0.990566, b: 0.990566, a: 0.13725491}
   Sprite: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: bb638c523f5b7064b9a032025a8db0a5, type: 2}
@@ -275,6 +275,8 @@ GameObject:
   - component: {fileID: 9154780659634512158}
   - component: {fileID: 4216804807468684203}
   - component: {fileID: 2092587339786045018}
+  - component: {fileID: -1656729626789724052}
+  - component: {fileID: 5146016861577800294}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -665,6 +667,60 @@ MonoBehaviour:
   renderTexture: {fileID: 8400000, guid: 62d512a5379014c4d80fecb3ad271e2b, type: 2}
   materialRadarGreen: {fileID: 2100000, guid: b3af4e7c0a684cf4c99f967197c69e40, type: 2}
   LightingSystem: {fileID: 114239165020214558}
+--- !u!114 &-1656729626789724052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365047106309440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fa779297770e0849864f782007007e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultCamera: {fileID: 20680082919460720}
+  hdrpCamera: {fileID: 0}
+  renderFeature: {fileID: 0}
+  rendererType: 0
+  platformType: 0
+  renderingMode: 0
+  toTextureRendererIndex: 0
+  initialConfiguration:
+    KeyboardNavigation: 0
+    GamepadNavigation: 0
+    NavSetMousePos: 0
+    NavNoCaptureKeyboard: 0
+    DoubleClickTime: 0.3
+    DoubleClickMaxDist: 6
+    DragThreshold: 6
+    KeyRepeatDelay: 0.275
+    KeyRepeatRate: 0.05
+    FontGlobalScale: 1
+    FontAllowUserScaling: 0
+    TextCursorBlink: 1
+    ResizeFromEdges: 1
+    MoveFromTitleOnly: 0
+    MemoryCompactTimer: 60
+  fontAtlasConfiguration: {fileID: 0}
+  iniSettings: {fileID: 0}
+  enableDocking: 1
+  shaders: {fileID: 11400000, guid: 9c25b437bdcfe95449d0617c2f2ee93d, type: 2}
+  style: {fileID: 11400000, guid: 2f5e7cc338c3ffc4caddb08baa576db2, type: 2}
+  cursorShapes: {fileID: 11400000, guid: 79f57b40c6f98a5418bdf959f1061379, type: 2}
+--- !u!114 &5146016861577800294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365047106309440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98e36fcc5b10d7345ae01ab00947e22f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showDemo: 0
 --- !u!1 &1588444935751324
 GameObject:
   m_ObjectHideFlags: 0
