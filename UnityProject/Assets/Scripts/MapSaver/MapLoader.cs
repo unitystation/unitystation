@@ -333,6 +333,7 @@ namespace MapSaver
 						Child.rotation = Quaternion.identity;
 					}
 				}
+
 				Object.transform.SetParent(Child);
 			}
 
@@ -595,7 +596,19 @@ namespace MapSaver
 					CustomNetworkManager.LoadedMapDatas.Add(newdata);
 					ServerReturnMapData.SendAll(newdata, ServerReturnMapData.MessageType.MapDataForClient, true);
 				}
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError(e.ToString());
+			}
 
+			if (aaMatrix.NetworkedMatrix.RequestInitialiseMapLoader && Application.isPlaying)
+			{
+				yield return aaMatrix.MatrixInitialization();
+			}
+
+			try
+			{
 				completeAction?.Invoke();
 			}
 			catch (Exception e)

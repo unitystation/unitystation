@@ -103,8 +103,13 @@ namespace Systems.Electricity.NodeModules
 
 		private float MonitoringResistance = 9999999999;
 
+		private bool Init = false;
+
 		public void ApplyInitialValues()
 		{
+			if (Init) return;
+			Init= true;
+
 			MaximumCurrentSupport = InitialMaximumCurrentSupport;
 			MinimumSupportVoltage = InitialMinimumSupportVoltage;
 			StandardSupplyingVoltage = InitialStandardSupplyingVoltage;
@@ -126,9 +131,13 @@ namespace Systems.Electricity.NodeModules
 
 		private void Awake()
 		{
-			ApplyInitialValues();
 			ResistanceSourceModule = GetComponent<ResistanceSourceModule>();
 			TTransformerModule = GetComponent<TransformerModule>();
+		}
+
+		private void Start()
+		{
+			ApplyInitialValues();
 		}
 
 		public override void BroadcastSetUpMessage(ElectricalNodeControl Node)
@@ -232,10 +241,18 @@ namespace Systems.Electricity.NodeModules
 
 		public override void PowerNetworkUpdate()
 		{
-			VoltageAtChargePort = ElectricityFunctions.WorkOutVoltageFromConnector(ControllingNode.Node,
-				ResistanceSourceModule.ReactionTo.ConnectingDevice);
-			VoltageAtSupplyPort =
-				ElectricityFunctions.WorkOutVoltageFromConnectors(ControllingNode.Node, ControllingNode.CanConnectTo);
+			try
+			{
+				VoltageAtChargePort = ElectricityFunctions.WorkOutVoltageFromConnector(ControllingNode.Node,
+					ResistanceSourceModule.ReactionTo.ConnectingDevice);
+				VoltageAtSupplyPort =
+					ElectricityFunctions.WorkOutVoltageFromConnectors(ControllingNode.Node, ControllingNode.CanConnectTo);
+
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError(e.ToString());
+			}
 
 			//Checks if the battery is actually on This is not needed in PowerUpdateCurrentChange Since having those updates Would mean it would be on
 			if (isOnForInterface)
