@@ -382,6 +382,7 @@ namespace MapSaver
 				Object.name = IndividualObject.Name;
 			}
 
+
 			if (string.IsNullOrEmpty(IndividualObject.LocalPRS) == false)
 			{
 				MapSaver.StringToPRS(Object, IndividualObject.LocalPRS);
@@ -593,7 +594,7 @@ namespace MapSaver
 				{
 					if (Application.isPlaying == false) yield break;
 					var newdata = JsonConvert.SerializeObject(MatrixData.CompactObjectMapData);
-					CustomNetworkManager.LoadedMapDatas.Add(newdata);
+					CustomNetworkManager.Instance.LoadedMapDatas.Add(newdata);
 					ServerReturnMapData.SendAll(newdata, ServerReturnMapData.MessageType.MapDataForClient, true);
 				}
 			}

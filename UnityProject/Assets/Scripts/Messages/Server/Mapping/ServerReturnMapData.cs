@@ -89,7 +89,8 @@ public class ServerReturnMapData : ServerMessage<ServerReturnMapData.NetMessage>
 				 ID = id,
 				 Data = chunk,
 				 end = (i + 1) == chunkCount,
-				 MessageType = Type
+				 MessageType = Type,
+				 DoStraightaway = true
 			 };
 
 			 SendTo(recipient, msg);

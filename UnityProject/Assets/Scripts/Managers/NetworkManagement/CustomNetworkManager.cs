@@ -14,6 +14,7 @@ using Initialisation;
 using Logs;
 using MapSaver;
 using Messages.Server;
+using SecureStuff;
 using UnityEditor;
 using Util;
 using Object = UnityEngine.Object;
@@ -29,7 +30,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public static CustomNetworkManager Instance;
 
-	public bool SpawnedByMappingTool = false;
+	[NonSerialized] public bool SpawnedByMappingTool = false;
 
 	public List<GameObject> NetworkedManagersPrefabs;
 
@@ -61,10 +62,10 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	private int currentLocation = 0;
 
-	public static Dictionary<uint, MapSaver.MapSaver.PrefabData> PrePayload =
+	public Dictionary<uint, MapSaver.MapSaver.PrefabData> PrePayload =
 		new Dictionary<uint, MapSaver.MapSaver.PrefabData>();
 
-	public static List<string> LoadedMapDatas = new List<string>();
+	public List<string> LoadedMapDatas = new List<string>();
 
 	public static bool AllPrefabsLoadedSt => Instance.AllPrefabsLoaded;
 	public bool AllPrefabsLoaded => allSpawnablePrefabs.Count <= currentLocation;
@@ -116,7 +117,6 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 					id = PD.PrefabID;
 				}
 
-
 				if (Spawned.TryGetValue(data.IDToNetIDClient[id], out var networkIdentity ))
 				{
 					ObjectBeforePayloadDataClient(networkIdentity);
@@ -133,6 +133,10 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		if (PrePayload.TryGetValue(identity.netId, out var prefabdata))
 		{
 			MapLoader.ProcessIndividualObject(null, prefabdata, null, Vector3Int.zero, Vector3Int.zero, identity.gameObject);
+			foreach (var Spawn in identity.GetComponentsInChildren<INewMappedOnSpawn>())
+			{
+				Spawn.OnNewMappedOnSpawn();
+			}
 		}
 	}
 
@@ -156,19 +160,31 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public override void Awake()
 	{
-
-		if (IndexLookupSpawnablePrefabs.Count == 0)
+		bool Maped = false;
+#if UNITY_EDITOR
+		if (Instance != null)
 		{
-			new Task(SetUpSpawnablePrefabsIndex).Start();
+			Maped = Instance.SpawnedByMappingTool;
 		}
 
-		if (Instance == null || Instance == this || Instance.SpawnedByMappingTool)
+#endif
+
+
+
+		if (Instance == null || Instance == this || Maped)
 		{
 			Instance = this;
 		}
 		else
 		{
 			Destroy(gameObject);
+			return;
+		}
+
+
+		if (IndexLookupSpawnablePrefabs.Count == 0)
+		{
+			new Task(SetUpSpawnablePrefabsIndex).Start();
 		}
 	}
 
