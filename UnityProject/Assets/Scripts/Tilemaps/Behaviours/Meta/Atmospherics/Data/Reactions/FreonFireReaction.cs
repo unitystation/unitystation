@@ -15,7 +15,7 @@ namespace Systems.Atmospherics
 		public void React(GasMix gasMix, MetaDataNode node)
 		{
 			var energyReleased = 0f;
-			var oldHeatCap = gasMix.WholeHeatCapacity;
+			var OldTemperature = gasMix.Temperature;
 
 			var temperatureScale = 1f;
 
@@ -50,7 +50,7 @@ namespace Systems.Atmospherics
 
 					gasMix.RemoveGas(Gas.Freon, freonBurnRate);
 					gasMix.RemoveGas(Gas.Oxygen, freonBurnRate * oxygenBurnRate);
-
+					gasMix.RemoveGas(Gas.Plasma, freonBurnRate);
 					gasMix.AddGasWithTemperature(Gas.CarbonDioxide, freonBurnRate, gasMix.Temperature);
 
 					if (gasMix.Temperature < 160 && gasMix.Temperature > 120 && rnd.Next(0, 2) == 0)
@@ -62,13 +62,10 @@ namespace Systems.Atmospherics
 				}
 			}
 
-			if (energyReleased < 0)
+			if (Mathf.Abs(energyReleased) < 0)
 			{
-				var newHeatCap = gasMix.WholeHeatCapacity;
-				if (newHeatCap > 0.0003f)
-				{
-					gasMix.SetTemperature((gasMix.Temperature * oldHeatCap + energyReleased) / newHeatCap);
-				}
+				gasMix.Temperature = OldTemperature;
+				gasMix.InternalEnergy =+ energyReleased;
 			}
 		}
 	}
