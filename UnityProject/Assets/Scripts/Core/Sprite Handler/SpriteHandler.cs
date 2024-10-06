@@ -73,6 +73,8 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 
 	private bool animateOnce;
 
+	public Color InitialColour = Color.white;
+
 	protected Color? setColour = null;
 
 	[Tooltip("The palette that is applied to the Sprite Renderer, if the Present Sprite Set is paletted.")]
@@ -258,6 +260,10 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 			if (Application.isPlaying == false)
 			{
 				InitialPresentSpriteSet = newSpriteSO;
+				if (color != null)
+				{
+					InitialColour = color.Value;
+				}
 			}
 			// TODO: Network, change to network catalogue message
 			// See https://github.com/unitystation/unitystation/pull/5675#pullrequestreview-540239428
@@ -450,6 +456,13 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 	{
 		PresentSpriteSet = InitialPresentSpriteSet;
 		PushTexture();
+
+		if (GetColor() == Color.white && InitialColour != Color.white)
+		{
+			setColour = InitialColour;
+			SetColor(setColour.Value);
+		}
+
 	}
 
 	//Used to set the sprite of the sprite renderer/Image
