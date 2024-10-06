@@ -64,6 +64,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1e0a9946a798b5048a701790bcbe3ebf,
         type: 2}
+    - target: {fileID: 3920465809857098496, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 1e0a9946a798b5048a701790bcbe3ebf,
+        type: 2}
     - target: {fileID: 4848496751115757459, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: parentID
@@ -138,6 +144,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 8561688399768036000, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: BuckleOffset.y
+      value: -0.22
       objectReference: {fileID: 0}
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}

@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using UnityEngine;
 
 namespace Core.Physics
 {
@@ -10,6 +11,8 @@ namespace Core.Physics
 
 		public Physics.UniversalObjectPhysics BuckledToObject; //If you're a person the chair you are buckle to
 		public bool IsBuckled => BuckledToObject != null;
+
+		public Vector3 BuckleOffset = Vector3.zero;
 
 		public virtual void BuckleToChange(Physics.UniversalObjectPhysics newBuckledTo) { }
 
@@ -36,6 +39,9 @@ namespace Core.Physics
 			{
 				ObjectIsBuckling.BuckledToObject = this;
 				ObjectIsBuckling.BuckleToChange(this);
+
+				ObjectIsBuckling.SetTransform(transform.localPosition + BuckleOffset, false);
+
 				var directionalObject = GetComponent<Rotatable>();
 				if (directionalObject != null)
 				{
@@ -78,9 +84,10 @@ namespace Core.Physics
 				Unbuckle();
 				return;
 			}
+			newBuckledTo.SetTransform(transform.localPosition + BuckleOffset, false);
 			SyncObjectIsBuckling(ObjectIsBuckling, newBuckledTo);
 			BuckleToChange(ObjectIsBuckling);
-			ObjectIsBuckling.AppearAtWorldPositionServer(transform.position);
+			ObjectIsBuckling.AppearAtWorldPositionServer(transform.localPosition + BuckleOffset.ToWorld(registerTile.Matrix));
 		}
 	}
 }
