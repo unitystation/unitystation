@@ -506,6 +506,15 @@ public class Mind : NetworkBehaviour, IActionGUI
 		}
 	}
 
+	[Command]
+	public void CmdForceAGhost()
+	{
+		if (AdminCommandsManager.IsAdmin(connectionToClient, out _))
+		{
+			if (IsGhosting == false) Ghost();
+		}
+	}
+
 	public void Ghost()
 	{
 		var Body = GetDeepestBody();
