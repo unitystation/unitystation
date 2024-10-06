@@ -70,9 +70,8 @@ namespace Systems.Research
 		public bool ResearchTechology(Technology technologyToResearch, bool updateUI = true)
 		{
 			if(researchPoints < technologyToResearch.ResearchCosts) return false;
-			UnlockTechnology(technologyToResearch, updateUI);
 			researchPoints -= technologyToResearch.ResearchCosts;
-
+			UnlockTechnology(technologyToResearch, updateUI);
 			return true;
 		}
 
