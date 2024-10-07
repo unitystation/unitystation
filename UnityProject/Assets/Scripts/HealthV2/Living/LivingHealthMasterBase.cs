@@ -1266,6 +1266,7 @@ namespace HealthV2
 
 			switch (bodyPartAim)
 			{
+				case BodyPartType.Ears:
 				case BodyPartType.Eyes:
 				case BodyPartType.Mouth:
 					foreach (var bodyPart in BodyPartList)
@@ -1318,6 +1319,7 @@ namespace HealthV2
 
 			switch (bodyPartAim)
 			{
+				case BodyPartType.Ears:
 				case BodyPartType.Eyes:
 				case BodyPartType.Mouth:
 					foreach (var bodyPart in BodyPartList)
@@ -1365,7 +1367,7 @@ namespace HealthV2
 		public bool TryDeafen(float deafenDuration, bool checkForProtectiveCloth = true)
 		{
 			bool didDeafen = false;
-			var ears = GetBodyPartsInArea(BodyPartType.Head, false);
+			var ears = GetBodyPartsInArea(BodyPartType.Ears, false);
 			foreach (var ear in ears)
 			{
 				var eyeFlash = ear.GetComponentCustom<EarDeafen>();

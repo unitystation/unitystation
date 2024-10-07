@@ -68,7 +68,8 @@ namespace Systems.Explosions
 				ShakingStrength = (byte)fixedShakingStrength;
 			}
 
-			ExplosionUtils.PlaySoundAndShake(WorldPOS, ShakingStrength, Radius / 20, nodeType.CustomSound);
+			float volumeMultiplier = Mathf.Clamp(strength / EXPLOSION_STRENGTH_LOW, 0.25f, 1);
+			ExplosionUtils.PlaySoundAndShake(WorldPOS, ShakingStrength, Radius / 20, nodeType.CustomSound, volumeMultiplier);
 
 			//Generates the conference
 			var explosionData = new ExplosionData();

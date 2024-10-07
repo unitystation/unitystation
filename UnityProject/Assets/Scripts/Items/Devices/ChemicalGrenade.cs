@@ -183,6 +183,7 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 			var worldPos = objectPhysics.registerTile.WorldPosition;
 
 			BlastData blastData = new BlastData();
+			float internalEnergy = ReagentContainer1.CurrentReagentMix.InternalEnergy + ReagentContainer2.CurrentReagentMix.InternalEnergy;
 
 			ReagentContainer1.TransferTo(ReagentContainer1.ReagentMixTotal, mixedReagentContainer, false); //We use false to ensure the reagents do not react before we can obtain our blast data
 			ReagentContainer2.TransferTo(ReagentContainer2.ReagentMixTotal, mixedReagentContainer, false);
@@ -190,13 +191,15 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 			ReagentContainer1.OnReagentMixChanged?.Invoke();
 			ReagentContainer2.ReagentsChanged(true);
 			ReagentContainer2.OnReagentMixChanged?.Invoke();
+
+			mixedReagentContainer.CurrentReagentMix.InternalEnergy = internalEnergy;
 			mixedReagentContainer.ReagentsChanged(false, true); //We mix the the two containers, but cache the effects of the mixed container.
 
 			blastData.ReagentMix = mixedReagentContainer.CurrentReagentMix.CloneWithCache();
 			ExplosiveBase.ExplosionEvent.Invoke(worldPos, blastData);
 
-			mixedReagentContainer.CurrentReagentMix.ApplyEffectCache(mixedReagentContainer); //We now apply the cache
-			mixedReagentContainer.OnReagentMixChanged?.Invoke();
+			mixedReagentContainer.CurrentReagentMix.ApplyEffectCache(mixedReagentContainer);//We now apply the cache
+			mixedReagentContainer.OnReagentMixChanged?.Invoke(); 
 			spriteHandler.SetCatalogueIndexSprite(LOCKED_SPRITE);
 			spriteHandler.SetSpriteVariant(EMPTY_VARIANT);
 			mixedReagentContainer.Spill(objectPhysics.OfficialPosition.CutToInt(), DETONATE_SPILL_AMOUNT);

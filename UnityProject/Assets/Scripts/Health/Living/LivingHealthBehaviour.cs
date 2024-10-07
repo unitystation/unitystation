@@ -233,7 +233,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	/// </summary>
 	private BodyPartType GetDamageableBodyPart(BodyPartType bodyPartType)
 	{
-		if (bodyPartType == BodyPartType.Eyes || bodyPartType == BodyPartType.Mouth)
+		if (bodyPartType == BodyPartType.Eyes || bodyPartType == BodyPartType.Mouth || bodyPartType == BodyPartType.Ears)
 			bodyPartType = BodyPartType.Head;
 		else if(bodyPartType == BodyPartType.LeftHand)
 			bodyPartType = BodyPartType.LeftArm;
