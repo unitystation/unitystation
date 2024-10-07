@@ -71,13 +71,13 @@ namespace Chemistry.Effects
 					{
 						AfflictRadius(objectBehaviour.registerTile.WorldPosition, strength / 3); //Reduced flash when inside an object
 						//Otherwise, if it's not inside of a player, we consider it just an item
-						Explosion.StartExplosion(objectBehaviour.registerTile.WorldPosition, strength, node, stunNearbyPlayers: strength > 400, radiusMultiplier: 3);
+						Explosion.StartExplosion(objectBehaviour.registerTile.WorldPosition, strength, node, stunNearbyPlayers: false, radiusMultiplier: 3);
 					}
 				}
 				else
 				{
 					AfflictRadius(registerObject.WorldPosition, strength);
-					Explosion.StartExplosion(registerObject.WorldPosition, strength, node, stunNearbyPlayers: strength > 400, radiusMultiplier: 3);
+					Explosion.StartExplosion(registerObject.WorldPosition, strength, node, stunNearbyPlayers: false, radiusMultiplier: 3);
 				}
 			}
 

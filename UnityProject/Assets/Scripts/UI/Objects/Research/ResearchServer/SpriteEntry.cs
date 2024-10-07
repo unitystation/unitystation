@@ -11,20 +11,28 @@ namespace UI.Objects.Research
 	{
 		[SerializeField] private NetSpriteHandler spriteHandler;
 		[SerializeField] private GameObject toolTip;
-		[SerializeField] private NetText_label toolTipText;
+		[SerializeField] private TMP_Text toolTipText;
+		[SerializeField] private NetClientSyncString syncString;
 
 		private bool toolTipActive = false;
 
 		public void Initialise(SpriteDataSO spriteData, string toolTipText)
 		{
 			spriteHandler.MasterSetValue(spriteData.SetID);
-			this.toolTipText.MasterSetValue(toolTipText);
+			syncString.MasterSetValue(toolTipText);
+			
+			toolTip.SetActive(false);
+		}
+
+		public void Awake()
+		{
+			toolTip.SetActive(false);
 		}
 
 		public void OnPointerEnter(PointerEventData eventData)
 		{
 			toolTip.SetActive(true);
-		
+			toolTipText.text = syncString.Value;
 			toolTipActive = true;
 		}
 

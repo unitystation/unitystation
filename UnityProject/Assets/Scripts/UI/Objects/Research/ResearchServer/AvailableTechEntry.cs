@@ -3,6 +3,7 @@ using UI.Core.NetUI;
 using UnityEngine;
 using Systems.Research.Data;
 using Systems.Research;
+using System.Collections;
 
 namespace UI.Objects.Research
 {
@@ -28,15 +29,18 @@ namespace UI.Objects.Research
 			techName.MasterSetValue(GUI_TechwebPage.AppendNameAndTechType(technology));
 			techDescription.MasterSetValue(technology.Description);
 			techPrice.MasterSetValue(technology.ResearchCosts.ToString());
-			SetSprites();
+			StartCoroutine(SetSprites());
 		}
 
-		private void SetSprites()
+		private IEnumerator SetSprites()
 		{
 			int unlockCount = technologyToUnlock.DesignIDs.Count;
-			spriteList.SetItems(unlockCount);
 
-			for(int i = 0; i < unlockCount; i++)
+			yield return new WaitForEndOfFrame();
+			spriteList.SetItems(unlockCount);
+			yield return new WaitForEndOfFrame();
+
+			for (int i = 0; i < unlockCount; i++)
 			{
 				if (spriteList.Entries[i].TryGetComponent<SpriteEntry>(out var handler) == false) continue;
 				
@@ -51,6 +55,8 @@ namespace UI.Objects.Research
 
 				//Uses the sprite from above and sets the sprite of the list entry to that sprite
 				handler.Initialise(sprite, designObject.ExpensiveName());
+
+				yield return new WaitForEndOfFrame(); //Just slow down the number of updates
 			}
 		}
 
