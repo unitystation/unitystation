@@ -7,7 +7,7 @@ namespace Weapons.ActivatableWeapons
 		public void OnInventoryMoveServer(InventoryMove info)
 		{
 			if (gameObject != info.MovedObject.gameObject) return;
-
+			if (av.IsActive == false) return; 
 			if (info.InventoryMoveType == InventoryMoveType.Remove || info.InventoryMoveType == InventoryMoveType.Transfer )
 			{
 				av.ServerOnDeactivate?.Invoke(info.FromPlayer.gameObject);
