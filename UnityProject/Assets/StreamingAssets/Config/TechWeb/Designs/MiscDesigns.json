@@ -13,7 +13,8 @@
             "ProtoLathe"
         ],
         "Compatible_machinery": [
-            "Medical"
+            "Medical",
+            "Science"
         ],
         "name": "Health Scanner HUD",
         "Item_ID": "/obj/item/clothing/glasses/hud/health"
@@ -53,7 +54,8 @@
             "ProtoLathe"
         ],
         "Compatible_machinery": [
-            "Security"
+            "Security",
+            "Science"
         ],
         "name": "Security HUD",
         "Item_ID": "/obj/item/clothing/glasses/hud/security"
@@ -334,7 +336,8 @@
             "ProtoLathe"
         ],
         "Compatible_machinery": [
-            "Engineering"
+            "Engineering",
+            "Science"
         ],
         "name": "Magnetic Boots",
         "Item_ID": "020aa37cdb1748149b33f0786b431160"
@@ -357,6 +360,25 @@
         ],
         "name": "Science Goggles",
         "Item_ID": "scigog"
+    },
+    {
+        "Internal_ID": "remote_signalling_device",
+        "Description": "Small device capable of sending radio pings to compatible devices.",
+        "Category": [
+            "Equipment"
+        ],
+        "Materials": {
+            "Metal": 500,
+            "Glass": 500
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Science"
+        ],
+        "name": "Remote Signalling Device",
+        "Item_ID": "204e1dd6539bdea43b395a881530baa2"
     },
     {
         "Internal_ID": "hand_drill",

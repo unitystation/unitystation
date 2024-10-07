@@ -106,37 +106,17 @@
         "Item_ID": "fa482ab3865ec5d4483cc2d9c5d214fd"
     },
     {
-        "Internal_ID": "superresonator",
-        "Description": "An upgraded version of the resonator that allows more fields to be active at once.",
+        "Internal_ID": "pkc",
+        "Description": "",
         "Category": [
             "Mining Designs"
         ],
         "Materials": {
             "Metal": 4000,
-            "Glass": 1500,
+            "Titanium": 1500,
             "Silver": 1000,
-            "Uranium": 1000
-        },
-        "Machinery_type": [
-            "ProtoLathe"
-        ],
-        "Compatible_machinery": [
-            "Cargo"
-        ],
-        "name": "Upgraded Resonator",
-        "Item_ID": "/obj/item/weapon/resonator/upgraded"
-    },
-    {
-        "Internal_ID": "mining_helm",
-        "Description": "A special helmet designed for work in a hazardous, low pressure environment. Has reinforced plating for wildlife encounters and dual floodlights.",
-        "Category": [
-            "Mining Designs",
-            "Equipment"
-        ],
-        "Materials": {
-            "Metal": 500,
-            "Glass": 100,
-            "Silver": 100
+            "Plasma": 2000,
+            "Diamond": 500
         },
         "Machinery_type": [
             "ProtoLathe"
@@ -145,19 +125,21 @@
             "Cargo",
             "Science"
         ],
-        "name": "Mining Hardsuit Helmet",
-        "Item_ID": "6a7d48b05db6fa041a583d2cb35631f1"
+        "name": "Protokinetic Crusher",
+        "Item_ID": "3f3c69eb80c13d439a7659f6834b091a"
     },
     {
-        "Internal_ID": "mining_suit",
-        "Description": "A special suit that protects against hazardous, low pressure environments. Has reinforced plating for wildlife encounters.",
+        "Internal_ID": "pkm",
+        "Description": "",
         "Category": [
-            "Mining Designs",
-            "Equipment"
+            "Mining Designs"
         ],
         "Materials": {
-            "Metal": 1000,
-            "Silver": 350
+            "Metal": 4000,
+            "Titanium": 1500,
+            "Silver": 1000,
+            "Plasma": 2000,
+            "Diamond": 500
         },
         "Machinery_type": [
             "ProtoLathe"
@@ -166,7 +148,54 @@
             "Cargo",
             "Science"
         ],
-        "name": "Mining Hardsuit",
-        "Item_ID": "e367030969dac4f45a752faead5356d1"
+        "name": "Protokinetic Machete",
+        "Item_ID": "666c5c565a732ea67bf4663cc41523a7"
+    },
+    {
+        "Internal_ID": "pks",
+        "Description": "",
+        "Category": [
+            "Mining Designs"
+        ],
+        "Materials": {
+            "Metal": 4000,
+            "Titanium": 1500,
+            "Silver": 1000,
+            "Plasma": 2000,
+            "Diamond": 500
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Cargo",
+            "Science"
+        ],
+        "name": "Protokinetic Spear",
+        "Item_ID": "5984b6b1238658f699b76c51128517fd"
+    },
+    {
+        "Internal_ID": "pkclaw",
+        "Description": "",
+        "Category": [
+            "Mining Designs"
+        ],
+        "Materials": {
+            "Metal": 4000,
+            "Titanium": 1500,
+            "Silver": 1000,
+            "Plasma": 2000,
+            "Diamond": 500
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Cargo",
+            "Science"
+        ],
+        "name": "Protokinetic Claw",
+        "Item_ID": "2fc8d8b0b72dd19b5be339b34449cb86"
     }
+    
 ]
