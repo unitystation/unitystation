@@ -57,7 +57,7 @@ namespace UI.Objects.Research
 
 		#region Initialization
 
-		protected override void InitServer()
+		protected void Awake()
 		{
 			if (CustomNetworkManager.Instance._isServer)
 			{
@@ -109,7 +109,7 @@ namespace UI.Objects.Research
 			foamLabel.MasterSetValue(foamAmount.ToString());
 			reagentLabel.MasterSetValue(data.ReagentMix.Total.ToString());
 
-			yieldLabel.MasterSetValue(blastYieldDetector.BlastYieldData[blastYieldDetector.BlastYieldData.Count - 1].ToString());
+			yieldLabel.MasterSetValue(data.BlastYield.ToString());
 
 			UpdateDataDisplay();
 
