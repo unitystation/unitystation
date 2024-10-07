@@ -46,10 +46,11 @@ namespace UI.Objects.Research
 				Design designClass = Designs.Globals.InternalIDSearch[DesignID];
 
 				//Gets the sprite of the gameObject that design is for
-				SpriteDataSO sprite = networkManager.ForeverIDLookupSpawnablePrefabs[designClass.ItemID].GetComponentInChildren<SpriteHandler>().initialPresentSpriteSet;
+				GameObject designObject = networkManager.ForeverIDLookupSpawnablePrefabs[designClass.ItemID];
+				SpriteDataSO sprite = designObject.GetComponentInChildren<SpriteHandler>().initialPresentSpriteSet;
 
 				//Uses the sprite from above and sets the sprite of the list entry to that sprite
-				handler.Initialise(sprite);
+				handler.Initialise(sprite, designObject.ExpensiveName());
 			}
 		}
 
