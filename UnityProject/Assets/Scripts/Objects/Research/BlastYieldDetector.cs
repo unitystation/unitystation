@@ -30,7 +30,7 @@ namespace Systems.Research.Objects
 
 		protected RegisterObject registerObject;
 
-		public delegate void BlastEvent(BlastData data);
+		public delegate void BlastEvent(BlastData data, float smokeAmount, float foamAmount);
 
 		public delegate void UpdateGUIEvent();
 
@@ -39,9 +39,6 @@ namespace Systems.Research.Objects
 
 		[SerializeField]
 		private SpriteHandler spriteHandler;
-
-		[SerializeField]
-		private List<Reaction> explosiveReactions = new List<Reaction>();
 
 		public enum BlastYieldDetectorState
 		{
@@ -98,24 +95,38 @@ namespace Systems.Research.Objects
 			coneCenterVector.Normalize();
 
 			float angle = Vector2.Angle(coneCenterVector, coneToQuery);
+			float smokeAmount = 0f;
+			float foamAmount = 0f;
 
 			if (angle <= 45)
 			{
 				if (blastData.ReagentMix == null) blastData.ReagentMix = new ReagentMix();
 				float yield = 0f;
+			
 
-				foreach (Reaction reaction in explosiveReactions)
+				foreach(CachedEffect effect in blastData.ReagentMix.cachedEffects)
 				{
-					if (reaction.IsReactionValid(blastData.ReagentMix) == false) continue;
+					Chemistry.Effect effectType = effect.effectType;
 
-					foreach(var effect in reaction.effectDict.m_dict)
+					ChemExplosion explosiveEffect = effectType as ChemExplosion;
+					if(explosiveEffect != null)
 					{
-						ChemExplosion explosion = effect.Key as ChemExplosion;
-						if (explosion == null) continue;
+						yield += explosiveEffect.FindYield(effect.effectAmount);
+						return;
+					}
 
-						float multiple = reaction.GetReactionMultiple(blastData.ReagentMix);
+					SmokeEffect smokeEffect = effectType as SmokeEffect;
+					if(smokeEffect != null)
+					{
+						smokeAmount += effect.effectAmount;
+						return;
+					}
 
-						yield += explosion.FindYield(multiple * effect.Value);
+					FoamEffect foamEffect = effectType as FoamEffect;
+					if (foamEffect != null)
+					{
+						foamAmount += effect.effectAmount;
+						return;
 					}
 				}
 
@@ -125,7 +136,7 @@ namespace Systems.Research.Objects
 
 				TryCompleteBounties(blastData);
 
-				blastEvent?.Invoke(blastData);
+				blastEvent?.Invoke(blastData, smokeAmount, foamAmount);
 			}
 		}
 

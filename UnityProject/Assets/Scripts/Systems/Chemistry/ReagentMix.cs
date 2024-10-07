@@ -95,6 +95,7 @@ namespace Chemistry
 
 		[SerializeField]
 		public  SerializableDictionary<Reagent, float> reagents;
+		public readonly List<CachedEffect> cachedEffects;
 
 		//should only be accessed when locked so should be okay
 		private Dictionary<Reagent, float> TEMPReagents = new Dictionary<Reagent, float>();
@@ -104,6 +105,13 @@ namespace Chemistry
 		{
 			Temperature = temperature;
 			this.reagents = reagents;
+		}
+
+		public ReagentMix(List<CachedEffect> _cachedEffects, SerializableDictionary<Reagent, float> reagents, float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
+		{
+			Temperature = temperature;
+			this.reagents = reagents;
+			cachedEffects = _cachedEffects;
 		}
 
 		public ReagentMix(Reagent reagent, float amount, float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
@@ -326,6 +334,20 @@ namespace Chemistry
 					reagents.m_dict[reagent] += amount;
 				}
 			}
+		}
+
+		public void CacheReactionEffects(List<CachedEffect> _cachedEffects)
+		{
+			cachedEffects.AddRange(_cachedEffects);
+		}
+
+		public void ApplyEffectCache(MonoBehaviour sender)
+		{
+			foreach (var cachedEffect in cachedEffects)
+			{
+				cachedEffect.effectType.Apply(sender, cachedEffect.effectAmount);
+			}
+			cachedEffects.Clear();
 		}
 
 
@@ -675,6 +697,11 @@ namespace Chemistry
 		public ReagentMix Clone()
 		{
 			return new ReagentMix(new  SerializableDictionary<Reagent, float>(reagents.m_dict), Temperature);
+		}
+
+		public ReagentMix CloneWithCache()
+		{
+			return new ReagentMix(cachedEffects, new SerializableDictionary<Reagent, float>(reagents.m_dict), Temperature);
 		}
 
 		public bool ContentEquals (ReagentMix b)

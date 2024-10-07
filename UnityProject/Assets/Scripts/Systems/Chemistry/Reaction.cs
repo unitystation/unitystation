@@ -65,6 +65,13 @@ namespace Chemistry
 			return true;
 		}
 
+		public virtual List<CachedEffect> ApplyWithoutEffects(object sender, ReagentMix reagentMix)
+		{
+			if (IsReactionValid(reagentMix) == false) return null;
+
+			return ApplyReactionWithoutEffects(sender as MonoBehaviour, reagentMix);
+		}
+
 		public bool IsReactionValid(ReagentMix reagentMix)
 		{
 			if (HasIngredients(reagentMix) == false)
@@ -111,6 +118,31 @@ namespace Chemistry
 				var reactionResult = reactionMultiplier * effect.Value;
 				effect.Key.Apply(sender, reactionResult);
 			}
+		}
+
+		public List<CachedEffect> ApplyReactionWithoutEffects(MonoBehaviour sender, ReagentMix reagentMix)
+		{
+			List<CachedEffect> effectsToCache = new List<CachedEffect>();
+			var reactionMultiplier = GetReactionMultiple(reagentMix);
+
+			foreach (var ingredient in ingredients.m_dict)
+			{
+				reagentMix.Subtract(ingredient.Key, reactionMultiplier * ingredient.Value);
+			}
+
+			foreach (var result in results.m_dict)
+			{
+				var reactionResult = reactionMultiplier * result.Value;
+				reagentMix.Add(result.Key, reactionResult);
+			}
+
+			foreach (var effect in effectDict.m_dict)
+			{
+				var reactionResult = reactionMultiplier * effect.Value;
+				effectsToCache.Add(new CachedEffect(effect.Key, reactionResult));
+			}
+
+			return effectsToCache;
 		}
 
 		public float GetReactionMultiple(ReagentMix reagentMix)
@@ -214,5 +246,15 @@ namespace Chemistry
 			return true;
 		}
 
+	}
+	public struct CachedEffect
+	{
+		public CachedEffect(Effect _effectType, float _effectAmount)
+		{
+			effectAmount = _effectAmount;
+			effectType = _effectType;
+		}
+		public Effect effectType;
+		public float effectAmount;
 	}
 }

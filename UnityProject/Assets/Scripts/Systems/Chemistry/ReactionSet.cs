@@ -14,7 +14,6 @@ namespace Chemistry
 
 		private HashSet<Reaction> containedReactionss;
 
-
 		//Includes everything on parents to, if needs to be dynamic can change
 		public HashSet<Reaction> ContainedReactionss
 		{
@@ -102,6 +101,28 @@ namespace Chemistry
 			} while (changing);
 
 			return changed;
+		}
+
+		public static List<CachedEffect> ApplyWithoutEffects(MonoBehaviour sender, ReagentMix reagentMix, HashSet<Reaction> possibleReactions)
+		{
+			bool changing;
+			List<CachedEffect> cachedEffects = new List<CachedEffect>();
+			do
+			{
+				changing = false;
+				foreach (var reaction in possibleReactions)
+				{
+					List<CachedEffect> newList = reaction.ApplyWithoutEffects(sender, reagentMix);
+					if (newList != null)
+					{
+						changing = true;
+						cachedEffects.AddRange(newList);
+					}
+				}
+
+			} while (changing);
+
+			return cachedEffects;
 		}
 	}
 }

@@ -229,9 +229,10 @@ namespace Chemistry.Components
 		}
 
 		private HashSet<Reaction> possibleReactions = new HashSet<Reaction>();
+		private List<CachedEffect> cachedEffects = new List<CachedEffect>();
 
 		//Warning main thread only for now
-		public void ReagentsChanged(bool applyChange = true)
+		public void ReagentsChanged(bool applyChange = true, bool cacheEffects = false)
 		{
 			possibleReactions.Clear();
 			foreach (var reagents in CurrentReagentMix.reagents.m_dict)
@@ -250,6 +251,12 @@ namespace Chemistry.Components
 						possibleReactions.Add(reaction);
 					}
 				}
+			}
+
+			if(cacheEffects)
+			{
+				currentReagentMix.CacheReactionEffects(ReactionSet.ApplyWithoutEffects(this, CurrentReagentMix, possibleReactions));
+				return;
 			}
 
 			if (applyChange == true)
