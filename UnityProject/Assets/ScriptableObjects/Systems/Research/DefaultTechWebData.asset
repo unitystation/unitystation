@@ -116,20 +116,6 @@ MonoBehaviour:
     prefabID: tools
     techType: 1
     ColourPublic: {r: 0.92941177, g: 0.4862745, b: 0.24313726, a: 1}
-  - ID: bluespace
-    DisplayName: Bluespace Technology
-    Description: Allows for research into bluespace technology
-    StartingNode: 0
-    RequiredTechnologies:
-    - base
-    DesignIDs: []
-    ResearchCosts: 25
-    ExportPrice: 0
-    PotentialUnlocks:
-    - bluespacestorage
-    prefabID: bluespace
-    techType: 4
-    ColourPublic: {r: 0.25490198, g: 0.5686275, b: 0.7294118, a: 1}
   - ID: advstock
     DisplayName: Advanced Machine Parts
     Description: Better parts for your machines.
@@ -217,6 +203,20 @@ MonoBehaviour:
     prefabID: advmatter
     techType: 4
     ColourPublic: {r: 0.3019608, g: 0.70980394, b: 0.7490196, a: 1}
+  - ID: bluespace
+    DisplayName: Bluespace Technology
+    Description: Allows for research into bluespace technology
+    StartingNode: 0
+    RequiredTechnologies:
+    - base
+    DesignIDs: []
+    ResearchCosts: 25
+    ExportPrice: 0
+    PotentialUnlocks:
+    - bluespacestorage
+    prefabID: bluespace
+    techType: 4
+    ColourPublic: {r: 0.25490198, g: 0.5686275, b: 0.7294118, a: 1}
   - ID: metamatter
     DisplayName: Meta Materaial Storage
     Description: High tech methods of storing even more material

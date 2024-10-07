@@ -130,25 +130,6 @@
     "Colour": "237, 124, 62"
   },
   {
-    "ID": "bluespace",
-    "DisplayName": "Bluespace Technology",
-    "Description": "Allows for research into bluespace technology",
-    "StartingNode": false,
-    "RequiredTechnologies": [
-      "base"
-    ],
-    "DesignIDs": [],
-    "ResearchCosts": 25,
-    "ExportPrice": 0,
-    "PotentialUnlocks": [
-      "bluespacestorage"
-    ],
-    "prefabID": "bluespace",
-    "techType": 4,
-    "Techweb": null,
-    "Colour": "65, 145, 186"
-  },
-  {
     "ID": "advstock",
     "DisplayName": "Advanced Machine Parts",
     "Description": "Better parts for your machines.",
@@ -258,6 +239,25 @@
     "techType": 4,
     "Techweb": null,
     "Colour": "77, 181, 191"
+  },
+  {
+    "ID": "bluespace",
+    "DisplayName": "Bluespace Technology",
+    "Description": "Allows for research into bluespace technology",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "base"
+    ],
+    "DesignIDs": [],
+    "ResearchCosts": 25,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [
+      "bluespacestorage"
+    ],
+    "prefabID": "bluespace",
+    "techType": 4,
+    "Techweb": null,
+    "Colour": "65, 145, 186"
   },
   {
     "ID": "metamatter",
