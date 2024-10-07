@@ -229,7 +229,6 @@ namespace Chemistry.Components
 		}
 
 		private HashSet<Reaction> possibleReactions = new HashSet<Reaction>();
-		private List<CachedEffect> cachedEffects = new List<CachedEffect>();
 
 		//Warning main thread only for now
 		public void ReagentsChanged(bool applyChange = true, bool cacheEffects = false)

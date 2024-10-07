@@ -8,7 +8,6 @@ using UI.Core.Net;
 using UnityEngine;
 using Chemistry;
 using Chemistry.Effects;
-using Items.Implants.Organs.Vomit.LogicExtensions;
 
 namespace Systems.Research.Objects
 {
@@ -98,16 +97,16 @@ namespace Systems.Research.Objects
 			coneCenterVector.Normalize();
 
 			float angle = Vector2.Angle(coneCenterVector, coneToQuery);
-			float smokeAmount = 0f;
-			float foamAmount = 0f;
 
 			if (angle <= 45)
 			{
 				if (blastData.ReagentMix == null) blastData.ReagentMix = new ReagentMix();
 				float yield = 0f;
-			
+				float smokeAmount = 0f;
+				float foamAmount = 0f;
 
-				foreach(CachedEffect effect in blastData.ReagentMix.cachedEffects)
+
+				foreach (CachedEffect effect in blastData.ReagentMix.cachedEffects)
 				{
 					Chemistry.Effect effectType = effect.effectType;
 
@@ -229,13 +228,10 @@ namespace Systems.Research.Objects
 		//Explosion variants all controlled in the same script, we differentiate them here. This is for bounties that might require things like EMP explosions
 		private bool IsCorrectExplosionType(EffectBountyEntry bountyEntry, Chemistry.Effect effect)
 		{
-			ChemExplosion bountyExplosion = bountyEntry.RequiredEffect as ChemExplosion;
-			if (bountyExplosion == null) return true; //Its not an explosion effect, dont worry about the rest
+			if (bountyEntry.RequiredEffect is not ChemExplosion) return true; //Its not an explosion effect, dont worry about the rest
+			if (effect is not ChemExplosion) return false;
 
-			ChemExplosion chemExplosion = effect as ChemExplosion;
-			if (chemExplosion == null) return false;
-
-			if (chemExplosion.explosionType != bountyExplosion.explosionType) return false;
+			if (effect.DisplayName != bountyEntry.RequiredEffect.DisplayName) return false;
 
 			return true;
 		}

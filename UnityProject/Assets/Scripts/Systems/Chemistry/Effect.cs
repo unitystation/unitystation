@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using UnityEngine;
-using static UnityEngine.Networking.UnityWebRequest;
+﻿using UnityEngine;
 
 namespace Chemistry
 {

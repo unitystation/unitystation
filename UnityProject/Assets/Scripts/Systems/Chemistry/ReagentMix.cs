@@ -95,7 +95,7 @@ namespace Chemistry
 
 		[SerializeField]
 		public  SerializableDictionary<Reagent, float> reagents;
-		public readonly List<CachedEffect> cachedEffects;
+		public readonly List<CachedEffect> cachedEffects = new List<CachedEffect>();
 
 		//should only be accessed when locked so should be okay
 		private Dictionary<Reagent, float> TEMPReagents = new Dictionary<Reagent, float>();

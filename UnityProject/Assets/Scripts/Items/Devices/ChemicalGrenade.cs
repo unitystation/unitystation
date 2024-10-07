@@ -190,14 +190,13 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 			ReagentContainer1.OnReagentMixChanged?.Invoke();
 			ReagentContainer2.ReagentsChanged(true);
 			ReagentContainer2.OnReagentMixChanged?.Invoke();
-			mixedReagentContainer.ReagentsChanged(true, false);
-			mixedReagentContainer.OnReagentMixChanged?.Invoke(); 
-			//We mix the the two containers, but cache the effects of the mixed container.
+			mixedReagentContainer.ReagentsChanged(false, true); //We mix the the two containers, but cache the effects of the mixed container.
 
 			blastData.ReagentMix = mixedReagentContainer.CurrentReagentMix.CloneWithCache();
 			ExplosiveBase.ExplosionEvent.Invoke(worldPos, blastData);
 
 			mixedReagentContainer.CurrentReagentMix.ApplyEffectCache(mixedReagentContainer); //We now apply the cache
+			mixedReagentContainer.OnReagentMixChanged?.Invoke();
 			spriteHandler.SetCatalogueIndexSprite(LOCKED_SPRITE);
 			spriteHandler.SetSpriteVariant(EMPTY_VARIANT);
 			mixedReagentContainer.Spill(objectPhysics.OfficialPosition.CutToInt(), DETONATE_SPILL_AMOUNT);
