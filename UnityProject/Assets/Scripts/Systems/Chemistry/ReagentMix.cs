@@ -111,7 +111,7 @@ namespace Chemistry
 		{
 			Temperature = temperature;
 			this.reagents = reagents;
-			cachedEffects = _cachedEffects;
+			cachedEffects = new List<CachedEffect>(_cachedEffects);
 		}
 
 		public ReagentMix(Reagent reagent, float amount, float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)

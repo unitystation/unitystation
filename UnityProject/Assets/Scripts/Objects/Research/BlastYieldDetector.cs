@@ -113,22 +113,22 @@ namespace Systems.Research.Objects
 					ChemExplosion explosiveEffect = effectType as ChemExplosion;
 					if(explosiveEffect != null)
 					{
-						if (explosiveEffect.explosionType == ExplosionTypes.ExplosionType.EMP) return;
+						if (explosiveEffect.explosionType == ExplosionTypes.ExplosionType.EMP) continue;
 
 						yield += explosiveEffect.FindYield(effect.effectAmount);
-						return;
+						continue;
 					}
 
 					if(effectType is SmokeEffect)
 					{
 						smokeAmount += effect.effectAmount;
-						return;
+						continue;
 					}
 
 					if (effectType is FoamEffect)
 					{
 						foamAmount += effect.effectAmount;
-						return;
+						continue;
 					}
 				}
 
