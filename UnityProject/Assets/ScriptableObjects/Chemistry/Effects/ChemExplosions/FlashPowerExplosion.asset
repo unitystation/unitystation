@@ -9,7 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae5a370440d821f4da64a87dd50d4519, type: 3}
-  m_Name: SmokeEffect
+  m_Script: {fileID: 11500000, guid: 88c8b1dc67a62c646b0bcd345a37af82, type: 3}
+  m_Name: FlashPowerExplosion
   m_EditorClassIdentifier: 
-  overrideDisplayName: Smoke
+  overrideDisplayName: Flash Powder
+  potency: 1
+  <explosionType>k__BackingField: 2
+  Delay: 0
+  stunPlayers: 1

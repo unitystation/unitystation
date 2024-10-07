@@ -275,18 +275,18 @@ namespace Systems.Research.Objects
 				}
 			}
 
-			foreach(ReactionBountyEntry reactionEntry in bounty.RequiredReactions)
+			foreach(EffectBountyEntry effectEntry in bounty.RequiredEffects)
 			{
-				if (reactionEntry.RandomiseRequirement == true)
+				if (effectEntry.RandomiseRequirement == true)
 				{
-					int amount = Random.Range(reactionEntry.MinAmount, reactionEntry.MaxAmount);
+					int amount = Random.Range(effectEntry.MinAmount, effectEntry.MaxAmount);
 
-					if (reactionEntry.MinimumIncrement > 1)
+					if (effectEntry.MinimumIncrement > 1)
 					{
-						amount = ((int)Mathf.Round(amount / reactionEntry.MinimumIncrement)) * reactionEntry.MinimumIncrement;
+						amount = ((int)Mathf.Round(amount / effectEntry.MinimumIncrement)) * effectEntry.MinimumIncrement;
 					}
 
-					reactionEntry.RequiredAmount = amount;
+					effectEntry.RequiredAmount = amount;
 				}
 			}
 
@@ -296,7 +296,7 @@ namespace Systems.Research.Objects
 		/// <summary>
 		/// The RP awarded for completing an explosive bounty.
 		/// </summary>
-		private const int BOUNTY_AWARD = 15;
+		public const int BOUNTY_AWARD = 15;
 
 		/// <summary>
 		/// Marks an explosive bounty as complete and awards RP for its completion.

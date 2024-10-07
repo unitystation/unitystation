@@ -12,7 +12,7 @@ namespace Systems.Research
 
 		[field: SerializeField] public BountyProperty RequiredYield { get; private set; } = new BountyProperty();
 
-		[field: SerializeField] public List<ReactionBountyEntry> RequiredReactions { get; private set; } = new List<ReactionBountyEntry>();
+		[field: SerializeField] public List<EffectBountyEntry> RequiredEffects { get; private set; } = new List<EffectBountyEntry>();
 
 		[field: SerializeField] public List<ReagentBountyEntry> RequiredReagents { get; private set; } = new List<ReagentBountyEntry>();
 	}
@@ -37,9 +37,9 @@ namespace Systems.Research
 	}
 
 	[System.Serializable]
-	public class ReactionBountyEntry : BountyProperty
+	public class EffectBountyEntry : BountyProperty
 	{
-		[field: SerializeField] public Reaction RequiredReaction { get; private set; }
+		[field: SerializeField] public Chemistry.Effect RequiredEffect { get; private set; }
 	}
 
 	[System.Serializable]

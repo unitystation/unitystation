@@ -8,6 +8,7 @@ using UI.Core.Net;
 using UnityEngine;
 using Chemistry;
 using Chemistry.Effects;
+using Items.Implants.Organs.Vomit.LogicExtensions;
 
 namespace Systems.Research.Objects
 {
@@ -39,6 +40,8 @@ namespace Systems.Research.Objects
 
 		[SerializeField]
 		private SpriteHandler spriteHandler;
+
+		private const float EFFECT_TOLERABLE_THRESHOLD = 0.1f;
 
 		public enum BlastYieldDetectorState
 		{
@@ -111,19 +114,19 @@ namespace Systems.Research.Objects
 					ChemExplosion explosiveEffect = effectType as ChemExplosion;
 					if(explosiveEffect != null)
 					{
+						if (explosiveEffect.explosionType == ExplosionTypes.ExplosionType.EMP) return;
+
 						yield += explosiveEffect.FindYield(effect.effectAmount);
 						return;
 					}
 
-					SmokeEffect smokeEffect = effectType as SmokeEffect;
-					if(smokeEffect != null)
+					if(effectType is SmokeEffect)
 					{
 						smokeAmount += effect.effectAmount;
 						return;
 					}
 
-					FoamEffect foamEffect = effectType as FoamEffect;
-					if (foamEffect != null)
+					if (effectType is FoamEffect)
 					{
 						foamAmount += effect.effectAmount;
 						return;
@@ -176,6 +179,7 @@ namespace Systems.Research.Objects
 				if (MeetsYieldTarget(bounty, blastData.BlastYield) == false || MeetsReagentTargets(bounty, mix) == false || MeetsReactionTargets(bounty, mix) == false) continue;
 
 				researchServer?.CompleteBounty(bounty);
+				Chat.AddCommMsgByMachineToChat(this.gameObject, $"Bounty: {bounty.BountyName} successfully completed! Awarded {ResearchServer.BOUNTY_AWARD}RP!", ChatChannel.Local, Loudness.NORMAL);
 			}
 		}
 
@@ -204,13 +208,35 @@ namespace Systems.Research.Objects
 
 		private bool MeetsReactionTargets(ExplosiveBounty bounty, ReagentMix mix)
 		{
-			foreach (ReactionBountyEntry reaction in bounty.RequiredReactions)
+			foreach (EffectBountyEntry effect in bounty.RequiredEffects)
 			{
-				if (reaction.RequiredReaction.IsReactionValid(mix) == false || reaction.RequiredReaction.GetReactionQuantity(mix) != reaction.RequiredAmount)
+				List<CachedEffect> matchingEffects = mix.cachedEffects.FindAll(e => e.effectType.GetType() == effect.RequiredEffect.GetType());
+				if (matchingEffects.Count == 0) return false;
+
+				float amount = 0;
+				foreach (var match in matchingEffects)
 				{
-					return false;
+					if (IsCorrectExplosionType(effect, match.effectType) == false) continue;
+					amount += match.effectAmount;
 				}
+
+				float diff = Math.Abs(effect.RequiredAmount - amount);
+				if (diff > EFFECT_TOLERABLE_THRESHOLD) return false;
 			}
+			return true;
+		}
+
+		//Explosion variants all controlled in the same script, we differentiate them here. This is for bounties that might require things like EMP explosions
+		private bool IsCorrectExplosionType(EffectBountyEntry bountyEntry, Chemistry.Effect effect)
+		{
+			ChemExplosion bountyExplosion = bountyEntry.RequiredEffect as ChemExplosion;
+			if (bountyExplosion == null) return true; //Its not an explosion effect, dont worry about the rest
+
+			ChemExplosion chemExplosion = effect as ChemExplosion;
+			if (chemExplosion == null) return false;
+
+			if (chemExplosion.explosionType != bountyExplosion.explosionType) return false;
+
 			return true;
 		}
 

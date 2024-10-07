@@ -19,19 +19,19 @@ MonoBehaviour:
     <MinAmount>k__BackingField: 0
     <MaxAmount>k__BackingField: 0
     <MinimumIncrement>k__BackingField: 0
-  <RequiredReactions>k__BackingField:
+  <RequiredEffects>k__BackingField:
   - <RandomiseRequirement>k__BackingField: 1
-    <RequiredAmount>k__BackingField: 15
-    <MinAmount>k__BackingField: 10
-    <MaxAmount>k__BackingField: 30
+    <RequiredAmount>k__BackingField: 0
+    <MinAmount>k__BackingField: 5
+    <MaxAmount>k__BackingField: 15
     <MinimumIncrement>k__BackingField: 5
-    <RequiredReaction>k__BackingField: {fileID: 11400000, guid: 427c91daa07aa6048b7aa0ae7de25f2c,
+    <RequiredEffect>k__BackingField: {fileID: 11400000, guid: b02971ad9743f4941bfef94fc0577b1c,
       type: 2}
   - <RandomiseRequirement>k__BackingField: 1
-    <RequiredAmount>k__BackingField: 30
-    <MinAmount>k__BackingField: 10
-    <MaxAmount>k__BackingField: 30
+    <RequiredAmount>k__BackingField: 0
+    <MinAmount>k__BackingField: 5
+    <MaxAmount>k__BackingField: 15
     <MinimumIncrement>k__BackingField: 3
-    <RequiredReaction>k__BackingField: {fileID: 11400000, guid: 221cc37808f390b4c8e9e80cb865a375,
+    <RequiredEffect>k__BackingField: {fileID: 11400000, guid: 690b3ec697bcdbb4a9f17660753d9c65,
       type: 2}
   <RequiredReagents>k__BackingField: []

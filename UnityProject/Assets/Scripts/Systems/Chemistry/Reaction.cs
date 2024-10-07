@@ -247,6 +247,7 @@ namespace Chemistry
 		}
 
 	}
+
 	public struct CachedEffect
 	{
 		public CachedEffect(Effect _effectType, float _effectAmount)
