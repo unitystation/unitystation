@@ -56,6 +56,7 @@ namespace Objects.Research
 			return ModifiedAngle;
 		}
 
+		private const int RESEARCH_LASER_POWER = 8;
 		public void OnHitDetect(OnHitDetectData data)
 		{
 			//Only reflect lasers
@@ -82,9 +83,7 @@ namespace Objects.Research
 
 			var OffsetAngle = Vector2.Angle(data.BulletShootDirection, VectorExtensions.DegreeToVector2(Worldrotation));
 
-			var LaserResearchPower = 5;
-
-			var ResearchPower = Mathf.Round(Mathf.Pow((Mathf.Pow((OffsetAngle / 20f), 4) + 1), -1) * LaserResearchPower);
+			var ResearchPower = Mathf.Round(Mathf.Pow((Mathf.Pow((OffsetAngle / 20f), 4) + 1), -1) * RESEARCH_LASER_POWER);
 
 			Data.ResearchData.ResearchPower = ResearchPower;
 			if (AssociatedResearchLaserProjector == null)
