@@ -4,22 +4,21 @@ using Core;
 using UnityEngine;
 using Systems.Explosions;
 using HealthV2;
-using Core.Accounts;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Chemistry.Effects
 {
-	[CreateAssetMenu(fileName = "reaction", menuName = "ScriptableObjects/Chemistry/Effect/ChemExplosion")]
+	[CreateAssetMenu(fileName = "effect", menuName = "ScriptableObjects/Chemistry/Effect/ChemExplosion")]
 	public class ChemExplosion : Chemistry.Effect
 	{
 		/// <summary>
 		/// Multiplier applied to final strength calculation
 		/// </summary>
 		[Tooltip("Multiplier applied to final strength calculation")]
-		[SerializeField] private float potency = 1;
+		[SerializeField] protected float potency = 1;
 
 		[Tooltip("Explosion type")]
-		[SerializeField] private ExplosionTypes.ExplosionType explosionType = ExplosionTypes.ExplosionType.Regular;
+		[field: SerializeField] public ExplosionTypes.ExplosionType explosionType { get; private set; } = ExplosionTypes.ExplosionType.Regular;
 
 		public float Delay = 0;
 
@@ -34,7 +33,7 @@ namespace Chemistry.Effects
 			return ChemistryUtils.CalculateYieldFromReaction(amount, potency);
 		}
 
-		public IEnumerator NowExplosion(MonoBehaviour sender, float amount)
+		public virtual IEnumerator NowExplosion(MonoBehaviour sender, float amount)
 		{
 			yield return WaitFor.Seconds(Delay);
 
@@ -82,17 +81,17 @@ namespace Chemistry.Effects
 					//If not, we need to check if the item is a bodypart inside of a player
 					if (insideBody)
 					{
-						Explosion.StartExplosion(bodyPart.HealthMaster.RegisterTile.WorldPosition, strength, node);
+						Explosion.StartExplosion(bodyPart.HealthMaster.RegisterTile.WorldPosition, strength, node, radiusMultiplier: 3);
 					}
 					else
 					{
 						//Otherwise, if it's not inside of a player, we consider it just an item
-						Explosion.StartExplosion(objectBehaviour.registerTile.WorldPosition, strength, node, stunNearbyPlayers: strength > 400);
+						Explosion.StartExplosion(objectBehaviour.registerTile.WorldPosition, strength, node, stunNearbyPlayers: strength > 400, radiusMultiplier: 3);
 					}
 				}
 				else
 				{
-					Explosion.StartExplosion(registerObject.WorldPosition, strength, node, stunNearbyPlayers: strength > 400);
+					Explosion.StartExplosion(registerObject.WorldPosition, strength, node, stunNearbyPlayers: strength > 400, radiusMultiplier: 3);
 				}
 			}
 

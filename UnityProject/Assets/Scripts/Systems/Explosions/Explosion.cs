@@ -25,7 +25,7 @@ namespace Systems.Explosions
 		}
 
 		public static void StartExplosion(Vector3Int WorldPOS, float strength, ExplosionNode nodeType = null,
-			int fixedRadius = -1, int fixedShakingStrength = -1, List<ItemTrait> damageIgnoreAttributes = null, bool stunNearbyPlayers = false)
+			int fixedRadius = -1, int fixedShakingStrength = -1, List<ItemTrait> damageIgnoreAttributes = null, bool stunNearbyPlayers = false, int radiusMultiplier = 1)
 		{
 			AdminLogsManager.AddNewLog(null, $"An explosion has occured at {WorldPOS} with strength: {strength}.", LogCategory.World,
 				strength > 75 ? Severity.IMMEDIATE_ATTENTION : Severity.SUSPICOUS);
@@ -35,7 +35,7 @@ namespace Systems.Explosions
 			int Radius = 0;
 			if (fixedRadius <= 0)
 			{
-				Radius = (int)Math.Round(strength / (Math.PI * 75)) + 5;
+				Radius = (int)(Math.Round(strength / (Math.PI * 75)) + 5) * radiusMultiplier;
 			}
 			else
 			{
@@ -68,7 +68,8 @@ namespace Systems.Explosions
 				ShakingStrength = (byte)fixedShakingStrength;
 			}
 
-			ExplosionUtils.PlaySoundAndShake(WorldPOS, ShakingStrength, Radius / 20, nodeType.CustomSound);
+			float volumeMultiplier = Mathf.Clamp(strength / EXPLOSION_STRENGTH_LOW, 0.25f, 1);
+			ExplosionUtils.PlaySoundAndShake(WorldPOS, ShakingStrength, Radius / 20, nodeType.CustomSound, volumeMultiplier);
 
 			//Generates the conference
 			var explosionData = new ExplosionData();

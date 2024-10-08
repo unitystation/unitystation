@@ -9,6 +9,7 @@ using UnityEngine;
 using Shared.Systems.ObjectConnection;
 using Systems.Score;
 using Random = UnityEngine.Random;
+using System.Linq;
 
 namespace Systems.Research.Objects
 {
@@ -97,10 +98,7 @@ namespace Systems.Research.Objects
 
 			ExplosiveBounties.Clear();
 
-			for(int i = 0; i < bountiesOnStart; i++)
-			{
-				AddRandomExplosiveBounty();
-			}
+			AddExplosiveBounties();
 
 			StartCoroutine(TrickleResources());
 
@@ -275,18 +273,18 @@ namespace Systems.Research.Objects
 				}
 			}
 
-			foreach(ReactionBountyEntry reactionEntry in bounty.RequiredReactions)
+			foreach(EffectBountyEntry effectEntry in bounty.RequiredEffects)
 			{
-				if (reactionEntry.RandomiseRequirement == true)
+				if (effectEntry.RandomiseRequirement == true)
 				{
-					int amount = Random.Range(reactionEntry.MinAmount, reactionEntry.MaxAmount);
+					int amount = Random.Range(effectEntry.MinAmount, effectEntry.MaxAmount);
 
-					if (reactionEntry.MinimumIncrement > 1)
+					if (effectEntry.MinimumIncrement > 1)
 					{
-						amount = ((int)Mathf.Round(amount / reactionEntry.MinimumIncrement)) * reactionEntry.MinimumIncrement;
+						amount = ((int)Mathf.Round(amount / effectEntry.MinimumIncrement)) * effectEntry.MinimumIncrement;
 					}
 
-					reactionEntry.RequiredAmount = amount;
+					effectEntry.RequiredAmount = amount;
 				}
 			}
 
@@ -296,7 +294,7 @@ namespace Systems.Research.Objects
 		/// <summary>
 		/// The RP awarded for completing an explosive bounty.
 		/// </summary>
-		private const int BOUNTY_AWARD = 15;
+		public const int BOUNTY_AWARD = 15;
 
 		/// <summary>
 		/// Marks an explosive bounty as complete and awards RP for its completion.
@@ -312,13 +310,15 @@ namespace Systems.Research.Objects
 		/// <summary>
 		/// Adds a random bounty to this servers bounties
 		/// </summary>
-		public void AddRandomExplosiveBounty()
+		public void AddExplosiveBounties()
 		{
-			var newBounty = Instantiate(explosiveBountyList.PossibleBounties.PickRandom()); //Instantiates the SO, this is so when we edit the values of one bounty for RNG, it doesnt share amongst all bounties of same type.
-
-			newBounty = RandomiseBountyTarget(newBounty);
-
-			ExplosiveBounties.Add(newBounty);
+			var newList = explosiveBountyList.PossibleBounties.Shuffle().ToList();
+			for(int i = 0; i < bountiesOnStart; i++)
+			{
+				var newBounty = Instantiate(newList[i]); //Instantiates the SO, this is so when we edit the values of one bounty for RNG, it doesnt share amongst all bounties of same type.
+				newBounty = RandomiseBountyTarget(newBounty);
+				ExplosiveBounties.Add(newBounty);
+			}
 		}
 
 		#endregion

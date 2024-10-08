@@ -30,7 +30,7 @@ namespace Systems.Research.Objects
 
 		protected RegisterObject registerObject;
 
-		public delegate void BlastEvent(BlastData data);
+		public delegate void BlastEvent(BlastData data, float smokeAmount, float foamAmount);
 
 		public delegate void UpdateGUIEvent();
 
@@ -40,8 +40,7 @@ namespace Systems.Research.Objects
 		[SerializeField]
 		private SpriteHandler spriteHandler;
 
-		[SerializeField]
-		private List<Reaction> explosiveReactions = new List<Reaction>();
+		private const float EFFECT_TOLERABLE_THRESHOLD = 0.1f;
 
 		public enum BlastYieldDetectorState
 		{
@@ -103,19 +102,33 @@ namespace Systems.Research.Objects
 			{
 				if (blastData.ReagentMix == null) blastData.ReagentMix = new ReagentMix();
 				float yield = 0f;
+				float smokeAmount = 0f;
+				float foamAmount = 0f;
 
-				foreach (Reaction reaction in explosiveReactions)
+
+				foreach (CachedEffect effect in blastData.ReagentMix.cachedEffects)
 				{
-					if (reaction.IsReactionValid(blastData.ReagentMix) == false) continue;
+					Chemistry.Effect effectType = effect.effectType;
 
-					foreach(var effect in reaction.effectDict.m_dict)
+					ChemExplosion explosiveEffect = effectType as ChemExplosion;
+					if(explosiveEffect != null)
 					{
-						ChemExplosion explosion = effect.Key as ChemExplosion;
-						if (explosion == null) continue;
+						if (explosiveEffect.explosionType == ExplosionTypes.ExplosionType.EMP) continue;
 
-						float multiple = reaction.GetReactionMultiple(blastData.ReagentMix);
+						yield += explosiveEffect.FindYield(effect.effectAmount);
+						continue;
+					}
 
-						yield += explosion.FindYield(multiple * effect.Value);
+					if(effectType is SmokeEffect)
+					{
+						smokeAmount += effect.effectAmount;
+						continue;
+					}
+
+					if (effectType is FoamEffect)
+					{
+						foamAmount += effect.effectAmount;
+						continue;
 					}
 				}
 
@@ -125,7 +138,7 @@ namespace Systems.Research.Objects
 
 				TryCompleteBounties(blastData);
 
-				blastEvent?.Invoke(blastData);
+				blastEvent?.Invoke(blastData, smokeAmount, foamAmount);
 			}
 		}
 
@@ -165,6 +178,7 @@ namespace Systems.Research.Objects
 				if (MeetsYieldTarget(bounty, blastData.BlastYield) == false || MeetsReagentTargets(bounty, mix) == false || MeetsReactionTargets(bounty, mix) == false) continue;
 
 				researchServer?.CompleteBounty(bounty);
+				Chat.AddCommMsgByMachineToChat(this.gameObject, $"Bounty: {bounty.BountyName} successfully completed! Awarded {ResearchServer.BOUNTY_AWARD}RP!", ChatChannel.Local, Loudness.NORMAL);
 			}
 		}
 
@@ -193,13 +207,32 @@ namespace Systems.Research.Objects
 
 		private bool MeetsReactionTargets(ExplosiveBounty bounty, ReagentMix mix)
 		{
-			foreach (ReactionBountyEntry reaction in bounty.RequiredReactions)
+			foreach (EffectBountyEntry effect in bounty.RequiredEffects)
 			{
-				if (reaction.RequiredReaction.IsReactionValid(mix) == false || reaction.RequiredReaction.GetReactionQuantity(mix) != reaction.RequiredAmount)
+				List<CachedEffect> matchingEffects = mix.cachedEffects.FindAll(e => e.effectType.GetType() == effect.RequiredEffect.GetType());
+				if (matchingEffects.Count == 0) return false;
+
+				float amount = 0;
+				foreach (var match in matchingEffects)
 				{
-					return false;
+					if (IsCorrectExplosionType(effect, match.effectType) == false) continue;
+					amount += match.effectAmount;
 				}
+
+				float diff = Math.Abs(effect.RequiredAmount - amount);
+				if (diff > EFFECT_TOLERABLE_THRESHOLD) return false;
 			}
+			return true;
+		}
+
+		//Explosion variants all controlled in the same script, we differentiate them here. This is for bounties that might require things like EMP explosions
+		private bool IsCorrectExplosionType(EffectBountyEntry bountyEntry, Chemistry.Effect effect)
+		{
+			if (bountyEntry.RequiredEffect is not ChemExplosion) return true; //Its not an explosion effect, dont worry about the rest
+			if (effect is not ChemExplosion) return false;
+
+			if (effect.DisplayName != bountyEntry.RequiredEffect.DisplayName) return false;
+
 			return true;
 		}
 

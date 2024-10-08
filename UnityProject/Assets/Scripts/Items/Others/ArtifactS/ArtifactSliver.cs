@@ -30,6 +30,9 @@ namespace Items.Science
 		[SerializeField]
 		private ArtifactDataSO artifactDataSO;
 
+		private const int SLIVER_MINIMUM_RESEARCH_REWARD = 7;
+		private const int SLIVER_MAXIMUM_RESEARCH_REWARD = 12;
+
 		private void Awake()
 		{
 			radProducer = GetComponent<RadiationProducer>();
@@ -41,11 +44,11 @@ namespace Items.Science
 			ID = Id;
 			sliverData = parentData;
 
-			sliverData.radiationlevel += (int)(sliverData.radiationlevel * Random.Range(-0.20f, 0.20f)); // +- 20% accuracy
-			sliverData.bluespacesig += (int)(sliverData.bluespacesig * Random.Range(-0.20f, 0.20f)); // +- 20% accuracy
-			sliverData.bluespacesig += (int)(sliverData.bluespacesig * Random.Range(-0.20f, 0.20f)); // +- 20% accuracy
+			sliverData.radiationlevel = (int)(sliverData.radiationlevel * Random.Range(0.80f, 1.20f)); // +- 20% accuracy
+			sliverData.bluespacesig = (int)(sliverData.bluespacesig * Random.Range(0.80f, 1.20f)); 
+			sliverData.bananiumsig = (int)(sliverData.bananiumsig * Random.Range(0.80f, 1.20f));
 
-			RPReward = Random.Range(5, 10);
+			RPReward = Random.Range(SLIVER_MINIMUM_RESEARCH_REWARD, SLIVER_MAXIMUM_RESEARCH_REWARD);
 
 			sliverData.mass = sliverData.radiationlevel / 20 + sliverData.bluespacesig + sliverData.bananiumsig / 2;
 

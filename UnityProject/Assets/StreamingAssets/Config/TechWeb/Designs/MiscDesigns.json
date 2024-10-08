@@ -13,7 +13,8 @@
             "ProtoLathe"
         ],
         "Compatible_machinery": [
-            "Medical"
+            "Medical",
+            "Science"
         ],
         "name": "Health Scanner HUD",
         "Item_ID": "/obj/item/clothing/glasses/hud/health"
@@ -53,7 +54,8 @@
             "ProtoLathe"
         ],
         "Compatible_machinery": [
-            "Security"
+            "Security",
+            "Science"
         ],
         "name": "Security HUD",
         "Item_ID": "/obj/item/clothing/glasses/hud/security"
@@ -334,7 +336,8 @@
             "ProtoLathe"
         ],
         "Compatible_machinery": [
-            "Engineering"
+            "Engineering",
+            "Science"
         ],
         "name": "Magnetic Boots",
         "Item_ID": "020aa37cdb1748149b33f0786b431160"
@@ -359,10 +362,29 @@
         "Item_ID": "scigog"
     },
     {
+        "Internal_ID": "remote_signalling_device",
+        "Description": "Small device capable of sending radio pings to compatible devices.",
+        "Category": [
+            "Tools"
+        ],
+        "Materials": {
+            "Metal": 500,
+            "Glass": 500
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Science"
+        ],
+        "name": "Remote Signalling Device",
+        "Item_ID": "204e1dd6539bdea43b395a881530baa2"
+    },
+    {
         "Internal_ID": "hand_drill",
         "Description": "A small electric hand drill with an interchangeable screwdriver and bolt bit",
         "Category": [
-            "Equipment"
+            "Tools"
         ],
         "Materials": {
             "Metal": 3500,
@@ -382,7 +404,7 @@
         "Internal_ID": "jaws_of_life",
         "Description": "A small, compact Jaws of Life with an interchangeable pry jaws and cutting jaws",
         "Category": [
-            "Equipment"
+            "Tools"
         ],
         "Materials": {
             "Metal": 4500,
@@ -574,7 +596,7 @@
         "Internal_ID": "adv_mop",
         "Description": "An upgraded mop with a large internal capacity for holding water or other cleaning chemicals.",
         "Category": [
-            "Equipment"
+            "Tools"
         ],
         "Materials": {
             "Metal": 2500,
@@ -594,7 +616,7 @@
         "Internal_ID": "adv_lightreplacer",
         "Description": "An upgraded light replacer with light tuning capabilities.",
         "Category": [
-            "Equipment"
+            "Tools"
         ],
         "Materials": {
             "Metal": 100,
