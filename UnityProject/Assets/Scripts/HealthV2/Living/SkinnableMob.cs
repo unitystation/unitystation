@@ -122,6 +122,7 @@ namespace HealthV2.Living
 			if (health.playerScript.RegisterPlayer.LayDownBehavior.IsLayingDown == false && health.playerScript.playerMove.BuckledToObject == null) return null;
 			RightClickableResult result = new RightClickableResult();
 			RaceSOSingleton.TryGetRaceByName(health.playerScript.characterSettings.Species, out var species);
+			if (PlayerManager.Equipment?.ItemStorage == null) return null;
 			foreach (var slot in PlayerManager.Equipment.ItemStorage.GetHandSlots())
 			{
 				if (slot == null || slot.IsEmpty) continue;

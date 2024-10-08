@@ -3,10 +3,11 @@
         "Internal_ID": "basic_cell",
         "Description": "A basic power cell that holds 1 MJ of energy.",
         "Category": [
-            "Misc",
             "Power Designs",
             "Machinery",
-            "initial"
+            "initial",
+            "Stock Parts",
+            "Misc"
         ],
         "Materials": {
             "Metal": 700,
@@ -28,8 +29,9 @@
         "Internal_ID": "high_cell",
         "Description": "A power cell that holds 10 MJ of energy.",
         "Category": [
-            "Misc",
-            "Power Designs"
+            "Power Designs",
+            "Stock Parts",
+            "Misc"
         ],
         "Materials": {
             "Metal": 700,
@@ -52,8 +54,9 @@
         "Internal_ID": "super_cell",
         "Description": "A power cell that holds 20 MJ of energy.",
         "Category": [
-            "Misc",
-            "Power Designs"
+            "Power Designs",
+            "Stock Parts",
+            "Misc"
         ],
         "Materials": {
             "Metal": 700,
@@ -75,8 +78,9 @@
         "Internal_ID": "hyper_cell",
         "Description": "A power cell that holds 30 MJ of energy.",
         "Category": [
-            "Misc",
-            "Power Designs"
+            "Power Designs",
+            "Stock Parts",
+            "Misc"
         ],
         "Materials": {
             "Metal": 700,
@@ -99,8 +103,9 @@
         "Internal_ID": "bluespace_cell",
         "Description": "A power cell that holds 40 MJ of energy.",
         "Category": [
-            "Misc",
-            "Power Designs"
+            "Power Designs",
+            "Stock Parts",
+            "Misc"
         ],
         "Materials": {
             "Metal": 800,
@@ -120,25 +125,5 @@
         ],
         "name": "Bluespace Power Cell",
         "Item_ID": "4fe646094fef97d47b13f0d2dd3f3b0c"
-    },
-    {
-        "Internal_ID": "light_replacer",
-        "Description": "A device to automatically replace lights. Refill with working light bulbs.",
-        "Category": [
-            "Power Designs"
-        ],
-        "Materials": {
-            "Metal": 1500,
-            "Silver": 150,
-            "Glass": 3000
-        },
-        "Machinery_type": [
-            "ProtoLathe"
-        ],
-        "Compatible_machinery": [
-            "Service"
-        ],
-        "name": "Light Replacer",
-        "Item_ID": "/obj/item/device/lightreplacer"
     }
 ]

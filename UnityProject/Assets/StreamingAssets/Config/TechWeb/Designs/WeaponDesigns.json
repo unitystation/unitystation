@@ -474,5 +474,51 @@
         ],
         "name": "Energy Crossbow",
         "Item_ID": "/obj/item/weapon/gun/energy/kinetic_accelerator/crossbow/large"
+    },
+    {
+        "Internal_ID": "energymusket",
+        "Description": "Simple and weak energy weapon capable of shooting a single bouncing energy shot.",
+        "Category": [
+            "Weapons"
+        ],
+        "Materials": {
+            "Metal": 5000,
+            "Glass": 1500,
+            "Gold": 1000,
+            "Silver": 1000
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Security",
+            "Service",
+            "Science"
+        ],
+        "name": "Energy Musket",
+        "Item_ID": "e658747539648f40f8bea66a643fc55f"
+    },
+    {
+        "Internal_ID": "smoothborepistol",
+        "Description": "Simple and weak energy weapon capable of shooting a single energy shot.",
+        "Category": [
+            "Weapons"
+        ],
+        "Materials": {
+            "Metal": 1000,
+            "Glass": 500,
+            "Gold": 400,
+            "Silver": 300
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Security",
+            "Service",
+            "Science"
+        ],
+        "name": "Energy Smoothbore Pistol",
+        "Item_ID": "a5ac62d138a46be9bae79de02340eee6"
     }
 ]

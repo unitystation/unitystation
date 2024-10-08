@@ -63,29 +63,43 @@ MonoBehaviour:
     ColourPublic: {r: 0.69803923, g: 0.8901961, b: 0.65882355, a: 1}
   - ID: cyborgs
     DisplayName: Advanced Cybernetics
-    Description: The newest in artifical intelligence, and the technology needed
-      to give them form.
+    Description: Advanced actuators and components for constructing cyborgs.
     StartingNode: 0
     RequiredTechnologies:
     - synthorgan
     DesignIDs:
     - cyborg_head
-    - cyborg_chassis
     - cyborg_torso
+    - cyborg_chassis
     - cyborg_leftarm
     - cyborg_rightarm
     - cyborg_leftleg
     - cyborg_rightleg
-    - mmi
-    - mmi_posi
-    - cyborg_lights
     - battery_pack
-    ResearchCosts: 30
+    - cyborg_lights
+    ResearchCosts: 25
     ExportPrice: 0
     PotentialUnlocks: []
     prefabID: cyborgs
     techType: 1
     ColourPublic: {r: 0.4627451, g: 0.06666667, b: 0.4745098, a: 1}
+  - ID: ais
+    DisplayName: Robotic Intelligence
+    Description: The newest in artifical intelligence, and the technology needed
+      to give them form.
+    StartingNode: 0
+    RequiredTechnologies:
+    - cyborgs
+    DesignIDs:
+    - mmi
+    - mmi_posi
+    - intellicard
+    ResearchCosts: 25
+    ExportPrice: 0
+    PotentialUnlocks: []
+    prefabID: ais
+    techType: 1
+    ColourPublic: {r: 0.68418175, g: 0.33018857, b: 1, a: 1}
   - ID: cyborgtools
     DisplayName: Cyborg Tool Carousel
     Description: Tools and equipment for cyborgs.
@@ -102,34 +116,6 @@ MonoBehaviour:
     prefabID: tools
     techType: 1
     ColourPublic: {r: 0.92941177, g: 0.4862745, b: 0.24313726, a: 1}
-  - ID: bluespace
-    DisplayName: Bluespace Technology
-    Description: Allows for research into bluespace technology
-    StartingNode: 0
-    RequiredTechnologies:
-    - base
-    DesignIDs: []
-    ResearchCosts: 30
-    ExportPrice: 0
-    PotentialUnlocks:
-    - bluespacestorage
-    prefabID: bluespace
-    techType: 0
-    ColourPublic: {r: 0.25490198, g: 0.5686275, b: 0.7294118, a: 1}
-  - ID: janitor
-    DisplayName: Janitorial Science
-    Description: New ways to keep the station clean.
-    StartingNode: 0
-    RequiredTechnologies: []
-    DesignIDs:
-    - adv_mop
-    - adv_lightreplacer
-    ResearchCosts: 10
-    ExportPrice: 0
-    PotentialUnlocks: []
-    prefabID: janitor
-    techType: 3
-    ColourPublic: {r: 0.30588236, g: 0.44313726, b: 0.14509805, a: 1}
   - ID: advstock
     DisplayName: Advanced Machine Parts
     Description: Better parts for your machines.
@@ -217,6 +203,20 @@ MonoBehaviour:
     prefabID: advmatter
     techType: 4
     ColourPublic: {r: 0.3019608, g: 0.70980394, b: 0.7490196, a: 1}
+  - ID: bluespace
+    DisplayName: Bluespace Technology
+    Description: Allows for research into bluespace technology
+    StartingNode: 0
+    RequiredTechnologies:
+    - base
+    DesignIDs: []
+    ResearchCosts: 25
+    ExportPrice: 0
+    PotentialUnlocks:
+    - bluespacestorage
+    prefabID: bluespace
+    techType: 4
+    ColourPublic: {r: 0.25490198, g: 0.5686275, b: 0.7294118, a: 1}
   - ID: metamatter
     DisplayName: Meta Materaial Storage
     Description: High tech methods of storing even more material
@@ -249,6 +249,105 @@ MonoBehaviour:
     prefabID: bluespacestorage
     techType: 4
     ColourPublic: {r: 0.7647059, g: 0.44313726, b: 0.52156866, a: 1}
+  - ID: janitor
+    DisplayName: Janitorial Science
+    Description: New ways to keep the station clean.
+    StartingNode: 0
+    RequiredTechnologies: []
+    DesignIDs:
+    - adv_mop
+    - adv_lightreplacer
+    ResearchCosts: 10
+    ExportPrice: 0
+    PotentialUnlocks: []
+    prefabID: janitor
+    techType: 3
+    ColourPublic: {r: 0.30588236, g: 0.44313726, b: 0.14509805, a: 1}
+  - ID: industry
+    DisplayName: Industrial Tools
+    Description: Industry standard tools for engineers.
+    StartingNode: 0
+    RequiredTechnologies: []
+    DesignIDs:
+    - welding_mask
+    - jaws_of_life
+    - mag_boots
+    ResearchCosts: 15
+    ExportPrice: 0
+    PotentialUnlocks: []
+    prefabID: industry
+    techType: 3
+    ColourPublic: {r: 0.30588236, g: 0.10980392, b: 0.09019608, a: 1}
+  - ID: engielec
+    DisplayName: Engineering Electronics
+    Description: Electronic boards and devices for constructing more advanced devices.
+    StartingNode: 0
+    RequiredTechnologies: []
+    DesignIDs:
+    - remote_signalling_device
+    - power_control_module
+    - air_alarm_electronics
+    - fire_alarm_electronics
+    - airlock_electronics
+    - firelock_electronics
+    ResearchCosts: 15
+    ExportPrice: 0
+    PotentialUnlocks: []
+    prefabID: engielec
+    techType: 3
+    ColourPublic: {r: 0.89433956, g: 0.87444824, b: 0.261552, a: 1}
+  - ID: civweap
+    DisplayName: Civillian Weaponary
+    Description: Simple self defence weaponary, weak but better than nothing.
+    StartingNode: 0
+    RequiredTechnologies:
+    - engielec
+    DesignIDs:
+    - energymusket
+    - smoothborepistol
+    ResearchCosts: 25
+    ExportPrice: 0
+    PotentialUnlocks: []
+    prefabID: civweap
+    techType: 3
+    ColourPublic: {r: 1, g: 0.040244635, b: 0, a: 1}
+  - ID: mining
+    DisplayName: Mining Technology
+    Description: The necessities for mining in space.
+    StartingNode: 0
+    RequiredTechnologies:
+    - industry
+    - engielec
+    DesignIDs:
+    - drill
+    - drill_diamond
+    - plasma_cutter
+    - plasma_cutter_adv
+    - jackhammer
+    ResearchCosts: 15
+    ExportPrice: 0
+    PotentialUnlocks: []
+    prefabID: mining
+    techType: 3
+    ColourPublic: {r: 0.8207547, g: 0.44889674, b: 0.18118544, a: 1}
+  - ID: protokinetic
+    DisplayName: Advanced Protokinetics
+    Description: Mining technology that walks the line of smashing rock and smashing
+      heads.
+    StartingNode: 0
+    RequiredTechnologies:
+    - mining
+    DesignIDs:
+    - pkc
+    - pkm
+    - pks
+    - pkclaw
+    ResearchCosts: 35
+    ExportPrice: 0
+    PotentialUnlocks: []
+    prefabID: protokinetic
+    techType: 3
+    ColourPublic: {r: 0.7647059, g: 0.42006984, b: 0.058823526, a: 1}
   - ID: holding
     DisplayName: Bluespace Holding
     Description: New methods of storage allowing container contents to be stored
@@ -266,56 +365,3 @@ MonoBehaviour:
     prefabID: bluespaceholding
     techType: 3
     ColourPublic: {r: 0.7647059, g: 0.05882353, b: 0.2509804, a: 1}
-  - ID: industry
-    DisplayName: Industrial Tools
-    Description: Industrial standard tools for engineers.
-    StartingNode: 0
-    RequiredTechnologies: []
-    DesignIDs:
-    - welding_mask
-    - jaws_of_life
-    - mag_boots
-    ResearchCosts: 15
-    ExportPrice: 0
-    PotentialUnlocks: []
-    prefabID: industry
-    techType: 3
-    ColourPublic: {r: 0.30588236, g: 0.10980392, b: 0.09019608, a: 1}
-  - ID: anomaly
-    DisplayName: Anomaly Science
-    Description: Specialised suits and equipment for handling artifacts.
-    StartingNode: 0
-    RequiredTechnologies:
-    - industry
-    DesignIDs:
-    - ap_helm
-    - ap_suit
-    - anomaly_helm
-    - anomaly_suit
-    - hand_pick
-    - sample_container
-    ResearchCosts: 30
-    ExportPrice: 0
-    PotentialUnlocks: []
-    prefabID: anomaly
-    techType: 3
-    ColourPublic: {r: 0.3647059, g: 0.8, b: 0.7137255, a: 1}
-  - ID: mining
-    DisplayName: Mining Technology
-    Description: The necessities for mining in space.
-    StartingNode: 0
-    RequiredTechnologies:
-    - industry
-    DesignIDs:
-    - mining_helm
-    - mining_suit
-    - drill
-    - drill_diamond
-    - plasma_cutter
-    - plasma_cutter_adv
-    ResearchCosts: 40
-    ExportPrice: 0
-    PotentialUnlocks: []
-    prefabID: mining
-    techType: 3
-    ColourPublic: {r: 0.8207547, g: 0.44889674, b: 0.18118544, a: 1}

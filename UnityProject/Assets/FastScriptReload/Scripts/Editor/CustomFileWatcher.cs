@@ -18,7 +18,7 @@ public class CustomFileWatcher : EditorWindow
         // WARN: Note this data isn't exactly synced up or anything. It just reads it in when the filewatcher is initialized.
         private string _searchPattern;
         private bool _includeSubdirectories;
-
+        
         public Dictionary<string, string> Hashes => _hashes;
         public string SearchPattern => _searchPattern;
         public bool IncludeSubdirectories => _includeSubdirectories;
@@ -46,7 +46,7 @@ public class CustomFileWatcher : EditorWindow
         ListLock = new object();
         LivewatcherThread = null;
     }
-
+    
     private static void UpdateFileWatcher()
     {
         if (FileHashes.Count > 0)
@@ -61,7 +61,7 @@ public class CustomFileWatcher : EditorWindow
             Debug.LogError("File watcher has not been initialized yet. Please initialize first.");
         }
     }
-
+    
     public static void TryEnableLivewatching()
     {
         if (LivewatcherThread != null)
@@ -83,7 +83,7 @@ public class CustomFileWatcher : EditorWindow
 
         LivewatcherThread.Start();
     }
-
+    
     public static void InitializeSingularFilewatcher(string directoryPath, string searchPattern, bool includeSubdirectories)
     {
 #if ImmersiveVrTools_DebugEnabled

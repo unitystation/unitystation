@@ -2,6 +2,7 @@
 using UnityEngine;
 using UI.Core.NetUI;
 using Systems.Research.Data;
+using System.Collections;
 
 namespace UI.Objects.Research
 {
@@ -31,7 +32,7 @@ namespace UI.Objects.Research
 
 			UpdateResearchTechList();
 			UpdateFutureTechList();
-			UpdateAvailiableTechList();
+			if(gameObject.activeSelf) StartCoroutine(UpdateAvailiableTechList());
 			PointLabel.MasterSetValue($"Available Points: {serverGUI.TechWeb.researchPoints} (+{serverGUI.Server.ResearchPointsTrickle} / minute)");
 
 			FocusLabel.MasterSetValue(serverGUI.TechWeb.ResearchFocus.ToString());
@@ -70,7 +71,7 @@ namespace UI.Objects.Research
 			}
 		}
 
-		private void UpdateAvailiableTechList()
+		private IEnumerator UpdateAvailiableTechList()
 		{
 			int availableTechCount = serverGUI.TechWeb.AvailableTech.Count;
 
@@ -81,6 +82,8 @@ namespace UI.Objects.Research
 
 				if (AvailableTechList.Entries[i].TryGetComponent<AvailableTechEntry>(out var entry)) entry.Initialise(technology, serverGUI.TechWeb);
 				else Loggy.LogError("GUI_ResearchServer.cs: Could not find AvailableTechEntry component on AvailableTech Entry");
+
+				yield return new WaitForEndOfFrame();
 			}
 		}
 
