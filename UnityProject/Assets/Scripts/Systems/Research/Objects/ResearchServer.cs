@@ -9,6 +9,7 @@ using UnityEngine;
 using Shared.Systems.ObjectConnection;
 using Systems.Score;
 using Random = UnityEngine.Random;
+using System.Linq;
 
 namespace Systems.Research.Objects
 {
@@ -97,10 +98,7 @@ namespace Systems.Research.Objects
 
 			ExplosiveBounties.Clear();
 
-			for(int i = 0; i < bountiesOnStart; i++)
-			{
-				AddRandomExplosiveBounty();
-			}
+			AddExplosiveBounties();
 
 			StartCoroutine(TrickleResources());
 
@@ -312,13 +310,15 @@ namespace Systems.Research.Objects
 		/// <summary>
 		/// Adds a random bounty to this servers bounties
 		/// </summary>
-		public void AddRandomExplosiveBounty()
+		public void AddExplosiveBounties()
 		{
-			var newBounty = Instantiate(explosiveBountyList.PossibleBounties.PickRandom()); //Instantiates the SO, this is so when we edit the values of one bounty for RNG, it doesnt share amongst all bounties of same type.
-
-			newBounty = RandomiseBountyTarget(newBounty);
-
-			ExplosiveBounties.Add(newBounty);
+			var newList = explosiveBountyList.PossibleBounties.Shuffle().ToList();
+			for(int i = 0; i < bountiesOnStart; i++)
+			{
+				var newBounty = Instantiate(newList[i]); //Instantiates the SO, this is so when we edit the values of one bounty for RNG, it doesnt share amongst all bounties of same type.
+				newBounty = RandomiseBountyTarget(newBounty);
+				ExplosiveBounties.Add(newBounty);
+			}
 		}
 
 		#endregion
