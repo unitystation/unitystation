@@ -30,7 +30,7 @@ namespace Systems.Atmospherics
 
 			var HotIceCompatible = false;
 
-			if ((TritiumMoles / TotalMoles) > 0.005f) //0.5%
+			if ((TritiumMoles / TotalMoles) > 0.0001f) //0.01%
 			{
 				HotIceCompatible = true;
 				temperatureScale = (AtmosDefines.FREON_TRITIUM_MAXIMUM_BURN_TEMPERATURE - gasMix.Temperature) /
