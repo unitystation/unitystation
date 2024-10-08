@@ -66,15 +66,16 @@ namespace Objects.Disposals
 		/// </summary>
 		public void EjectContents()
 		{
-			ObjectContainer.RetrieveObjects();
-			gasContainer.ReleaseContentsInstantly();
-			gasContainer.IsSealed = false;
 
 			foreach (var Player in ObjectContainer.StoredObjects.Select(x => x.Key.GetComponent<RegisterPlayer>()))
 			{
 				if (Player == null) continue;
 				DoRpc(Player, false);
 			}
+
+			ObjectContainer.RetrieveObjects();
+			gasContainer.ReleaseContentsInstantly();
+			gasContainer.IsSealed = false;
 		}
 
 
