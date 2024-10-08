@@ -78,7 +78,7 @@ namespace Systems.Atmospherics
 					gasMix.RemoveGas(Gas.Oxygen, freonBurnRate * oxygenBurnRate);
 					gasMix.AddGasWithTemperature(Gas.CarbonDioxide, freonBurnRate, gasMix.Temperature);
 
-					if (gasMix.Temperature < 160 && gasMix.Temperature > 120 && DMMath.Prob(2) && HotIceCompatible)
+					if (gasMix.Temperature < 160 && gasMix.Temperature > 120 && rnd.Next(0, 2) == 0 && HotIceCompatible)
 					{
 						SpawnSafeThread.SpawnPrefab(node.WorldPosition, AtmosManager.Instance.HotIce);
 					}
