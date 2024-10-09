@@ -2,6 +2,7 @@
 using Mirror;
 using Messages.Server;
 using Items.Implants.Organs;
+using HealthV2;
 
 namespace Player
 {
@@ -10,13 +11,13 @@ namespace Player
 		public struct NetMessage : NetworkMessage
 		{
 			public float DeafenValue;
-			public Ears Target;
+			public GameObject Target;
 		}
 
 		public override void Process(NetMessage msg)
 		{
-			msg.Target.StopAllCoroutines();
-			msg.Target.TemporaryDeafen(msg.DeafenValue);		
+			if(msg.Target.TryGetComponent<LivingHealthMasterBase>(out var healthMaster) == false) return;
+			healthMaster.TryDeafen(msg.DeafenValue, network: false);		
 		}
 
 		/// <summary>
@@ -27,7 +28,7 @@ namespace Player
 			NetMessage msg = new NetMessage
 			{
 				DeafenValue = newflashValue,
-				Target = target
+				Target = clientConn
 			};
 
 			SendTo(clientConn, msg);

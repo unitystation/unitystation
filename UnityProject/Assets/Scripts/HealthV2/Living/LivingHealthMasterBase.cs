@@ -1364,17 +1364,17 @@ namespace HealthV2
 			return didFlash;
 		}
 
-		public bool TryDeafen(float deafenDuration, bool checkForProtectiveCloth = true)
+		public bool TryDeafen(float deafenDuration, bool checkForProtectiveCloth = true, bool network = true)
 		{
 			bool didDeafen = false;
 			var ears = GetBodyPartsInArea(BodyPartType.Ears, false);
 			foreach (var ear in ears)
 			{
-				var eyeFlash = ear.GetComponentCustom<EarDeafen>();
-				if (eyeFlash != null && eyeFlash.TryDeafen(deafenDuration, checkForProtectiveCloth))
+				var eyeFlash = ear.GetComponentCustom<EarDeafen>();		
+				if (eyeFlash != null && eyeFlash.TryDeafen(deafenDuration, checkForProtectiveCloth, network))
 				{
 					didDeafen = true;
-					AdminLogsManager.AddNewLog(null, $"{playerScript.visibleName} has been deafened.", LogCategory.Interaction, Severity.SUSPICOUS);
+					if(network) AdminLogsManager.AddNewLog(null, $"{playerScript.visibleName} has been deafened.", LogCategory.Interaction, Severity.SUSPICOUS);
 				}
 			}
 
