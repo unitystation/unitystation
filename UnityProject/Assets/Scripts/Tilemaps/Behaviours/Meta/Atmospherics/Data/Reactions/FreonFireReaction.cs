@@ -19,12 +19,6 @@ namespace Systems.Atmospherics
 
 			var temperatureScale = 1f;
 
-			if (gasMix.Temperature is < AtmosDefines.FREON_TRITIUM_LOWER_TEMPERATURE
-			    or > AtmosDefines.FREON_MAXIMUM_BURN_TEMPERATURE)
-			{
-				temperatureScale = 0;
-			}
-
 			var TotalMoles = gasMix.Moles;
 			var TritiumMoles = gasMix.GetMoles(Gas.Tritium);
 
@@ -35,6 +29,12 @@ namespace Systems.Atmospherics
 				HotIceCompatible = true;
 				temperatureScale = (AtmosDefines.FREON_TRITIUM_MAXIMUM_BURN_TEMPERATURE - gasMix.Temperature) /
 				                   (AtmosDefines.FREON_TRITIUM_MAXIMUM_BURN_TEMPERATURE - AtmosDefines.FREON_TRITIUM_LOWER_TEMPERATURE);
+
+				if (gasMix.Temperature is < AtmosDefines.FREON_TRITIUM_LOWER_TEMPERATURE
+			    	or > AtmosDefines.FREON_TRITIUM_MAXIMUM_BURN_TEMPERATURE)
+				{
+					temperatureScale = 0;
+				}
 			}
 			else
 			{
