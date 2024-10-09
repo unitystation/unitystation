@@ -166,10 +166,10 @@ public class Mind : NetworkBehaviour, IActionGUI
 
 	public bool DenyCloning;
 	public int bodyMobID;
-	public FloorSounds StepSound; //Why is this on the mind!!!, Should be on the body, update 22 months later: WHY IS THIS STILL ON MIND
+	public FloorSounds StepSound; //Why is this on the mind!!!, Should be on the body
 	public FloorSounds SecondaryStepSound;
 
-	private string pdaUplinkCode = ""; //this should be on uplinks, not minds
+	private string pdaUplinkCode = "";
 
 	// Current way to check if it's not actually a ghost but a spectator, should set this not have it be the below.
 
@@ -942,7 +942,6 @@ public class Mind : NetworkBehaviour, IActionGUI
 		}
 
 		spells.Add(spell);
-		spell.FinalSetup();
 	}
 
 	public void RemoveSpell(Spell spell)
