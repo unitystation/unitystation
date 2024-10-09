@@ -10,7 +10,7 @@ public class EarDeafen : NetworkBehaviour
 	[SerializeField] private float deafenMultiplier = 1;
 	[SerializeField] private Ears connectedEars = null;
 
-	public bool TryDeafen(float deafenDuration, bool checkForProtectiveCloth = true, bool network = true)
+	public bool TryDeafen(float deafenDuration, bool checkForProtectiveCloth = true)
 	{
 		if (connectedEars.RelatedPart.ItemAttributes.HasTrait(DeafenProtection))
 		{
@@ -24,16 +24,9 @@ public class EarDeafen : NetworkBehaviour
 				return false;
 			}
 		}
-		if (network)
-		{
-			connectedEars.RelatedPart.TakeDamage(null, deafenDuration * 0.5f, AttackType.Internal, DamageType.Burn);
-			PlayerDeafenEffectsMessage.Send(connectedEars.RelatedPart.HealthMaster.gameObject, deafenDuration * deafenMultiplier, connectedEars);
-		}
-		else
-		{
-			connectedEars.StopAllCoroutines();
-			connectedEars.TemporaryDeafen(deafenDuration);
-		}
+
+		connectedEars.RelatedPart.TakeDamage(null, deafenDuration * 0.5f, AttackType.Internal, DamageType.Burn);
+		PlayerDeafenEffectsMessage.Send(connectedEars.RelatedPart.HealthMaster.gameObject, deafenDuration * deafenMultiplier, connectedEars.netIdentity);
 
 		return true;
 	}

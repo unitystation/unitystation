@@ -11,24 +11,25 @@ namespace Player
 		public struct NetMessage : NetworkMessage
 		{
 			public float DeafenValue;
-			public GameObject Target;
+			public NetworkIdentity Target;
 		}
 
 		public override void Process(NetMessage msg)
 		{
-			if(msg.Target.TryGetComponent<LivingHealthMasterBase>(out var healthMaster) == false) return;
-			healthMaster.TryDeafen(msg.DeafenValue, network: false);		
+			if(msg.Target.gameObject.TryGetComponent<Ears>(out var earsToEffect) == false) return;
+			earsToEffect.StopAllCoroutines();
+			earsToEffect.TemporaryDeafen(msg.DeafenValue);
 		}
 
 		/// <summary>
 		/// Send full update to a client
 		/// </summary>
-		public static NetMessage Send(GameObject clientConn, float newflashValue, Ears target)
+		public static NetMessage Send(GameObject clientConn, float newflashValue, NetworkIdentity target)
 		{
 			NetMessage msg = new NetMessage
 			{
 				DeafenValue = newflashValue,
-				Target = clientConn
+				Target = target
 			};
 
 			SendTo(clientConn, msg);
