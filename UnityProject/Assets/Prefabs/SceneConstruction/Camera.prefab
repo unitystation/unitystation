@@ -275,8 +275,8 @@ GameObject:
   - component: {fileID: 9154780659634512158}
   - component: {fileID: 4216804807468684203}
   - component: {fileID: 2092587339786045018}
-  - component: {fileID: -1656729626789724052}
   - component: {fileID: 5146016861577800294}
+  - component: {fileID: 6330374925910711719}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -667,47 +667,6 @@ MonoBehaviour:
   renderTexture: {fileID: 8400000, guid: 62d512a5379014c4d80fecb3ad271e2b, type: 2}
   materialRadarGreen: {fileID: 2100000, guid: b3af4e7c0a684cf4c99f967197c69e40, type: 2}
   LightingSystem: {fileID: 114239165020214558}
---- !u!114 &-1656729626789724052
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1365047106309440}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fa779297770e0849864f782007007e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defaultCamera: {fileID: 20680082919460720}
-  hdrpCamera: {fileID: 0}
-  renderFeature: {fileID: 0}
-  rendererType: 0
-  platformType: 0
-  renderingMode: 0
-  toTextureRendererIndex: 0
-  initialConfiguration:
-    KeyboardNavigation: 0
-    GamepadNavigation: 0
-    NavSetMousePos: 0
-    NavNoCaptureKeyboard: 0
-    DoubleClickTime: 0.3
-    DoubleClickMaxDist: 6
-    DragThreshold: 6
-    KeyRepeatDelay: 0.275
-    KeyRepeatRate: 0.05
-    FontGlobalScale: 1
-    FontAllowUserScaling: 0
-    TextCursorBlink: 1
-    ResizeFromEdges: 1
-    MoveFromTitleOnly: 0
-    MemoryCompactTimer: 60
-  fontAtlasConfiguration: {fileID: 0}
-  iniSettings: {fileID: 0}
-  enableDocking: 1
-  shaders: {fileID: 11400000, guid: 9c25b437bdcfe95449d0617c2f2ee93d, type: 2}
-  style: {fileID: 11400000, guid: 2f5e7cc338c3ffc4caddb08baa576db2, type: 2}
-  cursorShapes: {fileID: 11400000, guid: 79f57b40c6f98a5418bdf959f1061379, type: 2}
 --- !u!114 &5146016861577800294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -721,6 +680,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   showDemo: 0
+--- !u!114 &6330374925910711719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365047106309440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3823c58ff231244a92c4f9877f7911e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _camera: {fileID: 20680082919460720}
+  _renderFeature: {fileID: 0}
+  _rendererType: 0
+  _platformType: 0
+  _iniSettings: {fileID: 0}
+  _initialConfiguration:
+    ImGuiConfig: 65
+    DoubleClickTime: 0.3
+    DoubleClickMaxDist: 6
+    DragThreshold: 6
+    KeyRepeatDelay: 0.25
+    KeyRepeatRate: 0.05
+    FontGlobalScale: 1
+    FontAllowUserScaling: 1
+    DisplayFramebufferScale: {x: 1, y: 1}
+    MouseDrawCursor: 0
+    TextCursorBlink: 1
+    ResizeFromEdges: 1
+    MoveFromTitleOnly: 1
+    ConfigMemoryCompactTimer: 1
+    ConfigDockingNoSplit: 0
+    ConfigDockingAlwaysTabBar: 0
+    ConfigDockingTransparentPayload: 0
+  _fontCustomInitializer:
+    m_PersistentCalls:
+      m_Calls: []
+  _fontAtlasConfiguration: {fileID: 0}
+  _shaders: {fileID: 11400000, guid: 68f2e550e81076948ba9757c73f74336, type: 2}
+  _style: {fileID: 11400000, guid: 90718c4e7d6fa04438adef1ad7a432cc, type: 2}
+  _cursorShapes: {fileID: 11400000, guid: 71deade41763c6e4eaeb5df973b321f1, type: 2}
+  _doGlobalEvents: 1
 --- !u!1 &1588444935751324
 GameObject:
   m_ObjectHideFlags: 0

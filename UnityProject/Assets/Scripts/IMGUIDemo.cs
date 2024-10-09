@@ -1,6 +1,5 @@
-using System;
 using ImGuiNET;
-using ImGuiNET.Unity;
+using UImGui;
 using UnityEngine;
 
 public class IMGUIDemo : MonoBehaviour
@@ -13,20 +12,47 @@ public class IMGUIDemo : MonoBehaviour
 			showDemo = !showDemo;
 			if (showDemo)
 			{
-				ImGuiUn.Layout += OnLayout;
+				UImGuiUtility.Layout += OnLayout;
+				UImGuiUtility.OnInitialize += OnInitialize;
+				UImGuiUtility.OnDeinitialize += OnDeinitialize;
 			}
 			else
 			{
-				ImGuiUn.Layout -= OnLayout;
+				UImGuiUtility.Layout -= OnLayout;
+				UImGuiUtility.OnInitialize -= OnInitialize;
+				UImGuiUtility.OnDeinitialize -= OnDeinitialize;
 			}
 		}
 	}
-	private void OnDisable()
+
+	private void Start()
 	{
-		ImGuiUn.Layout -= OnLayout;
+		if (showDemo)
+		{
+			UImGuiUtility.Layout += OnLayout;
+			UImGuiUtility.OnInitialize += OnInitialize;
+			UImGuiUtility.OnDeinitialize += OnDeinitialize;
+		}
 	}
 
-	private void OnLayout()
+	private void OnInitialize(UImGui.UImGui obj)
+	{
+		// runs after UImGui.OnEnable();
+	}
+
+	private void OnDeinitialize(UImGui.UImGui obj)
+	{
+		// runs after UImGui.OnDisable();
+	}
+
+	private void OnDisable()
+	{
+		UImGuiUtility.Layout -= OnLayout;
+		UImGuiUtility.OnInitialize -= OnInitialize;
+		UImGuiUtility.OnDeinitialize -= OnDeinitialize;
+	}
+
+	private void OnLayout(UImGui.UImGui obj)
 	{
 		ImGui.ShowDemoWindow();
 	}

@@ -14,14 +14,12 @@
       "dependencies": {},
       "hash": "8a8fa5a9659a6d63f196391c71e06c4286c8acd7"
     },
-    "com.realgames.dear-imgui": {
-      "version": "https://github.com/TylkoDemon/dear-imgui-unity.git",
+    "com.psydack.uimgui": {
+      "version": "https://github.com/psydack/uimgui.git",
       "depth": 0,
       "source": "git",
-      "dependencies": {
-        "com.unity.collections": "0.5.0-preview.9"
-      },
-      "hash": "338b79d5b0755f8c185aec9aab9b8474bbe3d823"
+      "dependencies": {},
+      "hash": "37eb192e70a45ee3e77b75303babcb279426b165"
     },
     "com.sabresaurus.playerprefseditor": {
       "version": "https://github.com/sabresaurus/PlayerPrefsEditor.git",
@@ -78,26 +76,6 @@
       },
       "url": "https://packages.unity.com"
     },
-    "com.unity.burst": {
-      "version": "1.8.13",
-      "depth": 2,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.mathematics": "1.2.1",
-        "com.unity.modules.jsonserialize": "1.0.0"
-      },
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.collections": {
-      "version": "1.2.4",
-      "depth": 1,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.burst": "1.6.6",
-        "com.unity.test-framework": "1.1.31"
-      },
-      "url": "https://packages.unity.com"
-    },
     "com.unity.editorcoroutines": {
       "version": "1.0.0",
       "depth": 0,
@@ -128,13 +106,6 @@
       "dependencies": {
         "com.unity.test-framework": "1.1.9"
       },
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.mathematics": {
-      "version": "1.2.6",
-      "depth": 3,
-      "source": "registry",
-      "dependencies": {},
       "url": "https://packages.unity.com"
     },
     "com.unity.memoryprofiler": {

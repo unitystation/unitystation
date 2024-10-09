@@ -32,9 +32,8 @@
         "Siccity.SerializableCallback.Editor",
         "Adrenak.UniMic.Runtime",
         "RootSillys",
-        "RG.ImGui",
-        "RG.ImGui.Unity",
-        "RG.ImGui.Unity.Editor"
+        "UImGui",
+        "UImGui.Editor"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -43,6 +42,22 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.psydack.uimgui",
+            "expression": "5",
+            "define": "UIMGUI_REMOVE_IMPLOT"
+        },
+        {
+            "name": "com.psydack.uimgui",
+            "expression": "5",
+            "define": "UIMGUI_REMOVE_IMGUIZMO"
+        },
+        {
+            "name": "com.psydack.uimgui",
+            "expression": "5",
+            "define": "UIMGUI_REMOVE_IMNODES"
+        }
+    ],
     "noEngineReferences": false
 }
