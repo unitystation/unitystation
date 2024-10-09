@@ -1,6 +1,6 @@
 {
   "Ver": "1.0.0",
-  "MapName": "Ruin2",
+  "MapName": "AsteroidShuttle",
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
@@ -2192,21 +2192,27 @@
         "CommonPrefabs": [],
         "PrefabData": [
           {
+            "GitID": "86f1fa4a01e7f0142a6e2ce35cce0930_-0.5┼-0.5┼0┼",
+            "PrefabID": "86f1fa4a01e7f0142a6e2ce35cce0930",
+            "Name": "MatrixGasSettings",
+            "LocalPRS": "-0.5┼-0.5┼0┼"
+          },
+          {
+            "GitID": "911f81eefba53574788e7659d9b3dbfe_-0.5┼-0.5┼0┼",
+            "PrefabID": "911f81eefba53574788e7659d9b3dbfe",
+            "Name": "AsteroidSystem",
+            "LocalPRS": "-0.5┼-0.5┼0┼"
+          },
+          {
+            "GitID": "e02a5954be8d94b4bbaaa0d63d813c71_-0.5┼-0.5┼0┼",
+            "PrefabID": "e02a5954be8d94b4bbaaa0d63d813c71",
+            "Name": "AI_ShouldNavigateAround",
+            "LocalPRS": "-0.5┼-0.5┼0┼"
+          },
+          {
             "GitID": "83b269ab1421fcf4a95ad3cf33935cff_0┼0┼0┼",
             "PrefabID": "83b269ab1421fcf4a95ad3cf33935cff",
             "Name": "OreGenerator",
-            "LocalPRS": "0┼0┼0┼"
-          },
-          {
-            "GitID": "911f81eefba53574788e7659d9b3dbfe_0┼0┼0┼",
-            "PrefabID": "911f81eefba53574788e7659d9b3dbfe",
-            "Name": "AsteroidSystem",
-            "LocalPRS": "0┼0┼0┼"
-          },
-          {
-            "GitID": "e02a5954be8d94b4bbaaa0d63d813c71_0┼0┼0┼",
-            "PrefabID": "e02a5954be8d94b4bbaaa0d63d813c71",
-            "Name": "AI_ShouldNavigateAround",
             "LocalPRS": "0┼0┼0┼"
           },
           {
@@ -2289,7 +2295,17 @@
             "GitID": "517c48fc4fc1cba48908d11ec58451ce_8┼10┼0┼",
             "PrefabID": "517c48fc4fc1cba48908d11ec58451ce",
             "Name": "EngineeringCrateElectrical",
-            "LocalPRS": "8┼10┼0┼"
+            "LocalPRS": "8┼10┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_8┼10┼0┼",
@@ -2315,6 +2331,13 @@
                       "Data": "f2432d244a6b7774ea00ff013beb7dcb_8┼11┼0┼@0@LightSwitchV2@0"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -2475,7 +2498,17 @@
             "GitID": "d38a25ea933e7a14c9c4c0134c741b6e_9┼15┼0┼",
             "PrefabID": "d38a25ea933e7a14c9c4c0134c741b6e",
             "Name": "RadiationCrate",
-            "LocalPRS": "9┼15┼0┼"
+            "LocalPRS": "9┼15┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "ed4e62dc12dca724ba1e5f374965096b_10┼10┼0┼",
@@ -2569,6 +2602,13 @@
                       "Data": "f2432d244a6b7774ea00ff013beb7dcb_14┼9┼0┼@0@LightSwitchV2@0"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -2838,6 +2878,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -2996,6 +3043,13 @@
                       "Data": "f2432d244a6b7774ea00ff013beb7dcb_14┼9┼0┼@0@LightSwitchV2@0"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -3173,6 +3227,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -3204,7 +3265,17 @@
             "GitID": "cbae9a210d638ba4b9402e836c970fa2_23┼12┼0┼",
             "PrefabID": "cbae9a210d638ba4b9402e836c970fa2",
             "Name": "Microwave",
-            "LocalPRS": "23┼12┼0┼"
+            "LocalPRS": "23┼12┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_23┼13┼0┼",
@@ -3230,6 +3301,13 @@
                       "Data": "f2432d244a6b7774ea00ff013beb7dcb_20┼11┼0┼@0@LightSwitchV2@0"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -3263,7 +3341,17 @@
             "GitID": "e9bd445fe39671f4da3d8e41bf5a252e_23.02┼11.03┼-0.1┼",
             "PrefabID": "e9bd445fe39671f4da3d8e41bf5a252e",
             "Name": "Matchbox",
-            "LocalPRS": "23.02┼11.03┼-0.1┼"
+            "LocalPRS": "23.02┼11.03┼-0.1┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "b83b68cfa4a201748aeeece963a989c3_23.02┼11.11┼-0.1┼",
@@ -3296,8 +3384,8 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "-472,403.5,0",
-          "Size": "24,21,0"
+          "Pos": "-487.2,391.3,0",
+          "Size": "24.5,21.6,0"
         }
       ]
     }

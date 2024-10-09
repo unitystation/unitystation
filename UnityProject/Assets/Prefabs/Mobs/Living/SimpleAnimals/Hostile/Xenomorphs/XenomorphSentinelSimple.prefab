@@ -57,6 +57,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3938342365367457108, guid: 00a84f751afb412428a586d23cf90b39,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8c078db1944edd84680957df8e4d681c,
+        type: 2}
+    - target: {fileID: 3938342365367457108, guid: 00a84f751afb412428a586d23cf90b39,
+        type: 3}
       propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 8c078db1944edd84680957df8e4d681c,
@@ -73,6 +79,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c51d6b895fcc9a54dabb885b38a23461,
         type: 2}
+    - target: {fileID: 4830560408769700318, guid: 00a84f751afb412428a586d23cf90b39,
+        type: 3}
+      propertyPath: foreverID
+      value: 2e408669b1c35ed4e8525b83d4bdeea2
+      objectReference: {fileID: 0}
     - target: {fileID: 6141197458528421439, guid: 00a84f751afb412428a586d23cf90b39,
         type: 3}
       propertyPath: mobName

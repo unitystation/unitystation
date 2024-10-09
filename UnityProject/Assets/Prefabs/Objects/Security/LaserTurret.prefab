@@ -151,11 +151,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 47639659e79b2d64b8b53d3469e8604a, type: 2}
   - {fileID: 11400000, guid: 57b0e836a2f6a6e49a71e9c40d8bd95f, type: 2}
   - {fileID: 11400000, guid: f62e4b566337b064f96ccf3061654fa5, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 2a0c00d506dfa084b9b82a6290d9fb6d, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 2a0c00d506dfa084b9b82a6290d9fb6d,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
   palette: []
 --- !u!1 &6198577405933172929
 GameObject:
@@ -325,6 +326,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d1c665c92c0087b43bc164946f3e1466,
+        type: 2}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
       propertyPath: SubCatalogue.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -459,6 +466,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 7993706743923889274}
+    - targetCorrespondingSourceObject: {fileID: 721717256067945856, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1159551954190040820}
   m_SourcePrefab: {fileID: 100100000, guid: b06b702714bab49b9ad949eab1ca4534, type: 3}
 --- !u!1 &1526276624429649764 stripped
 GameObject:
@@ -506,11 +517,11 @@ MonoBehaviour:
   ballisticTurret: 0
   turretType: 0
   CheckWeaponAuthorisation: 0
-  weaponAuthorisationClearance: {fileID: 0}
+  weaponAuthorisationClearance: {fileID: 1159551954190040820}
   CheckSecurityRecords: 1
   CheckForArrest: 1
   CheckUnauthorisedPersonnel: 0
-  authorisedClearance: {fileID: 0}
+  authorisedClearance: {fileID: 1159551954190040820}
   CheckUnidentifiedLifeSigns: 1
   <CanRelink>k__BackingField: 1
 --- !u!114 &2506153195070795302
@@ -534,7 +545,7 @@ MonoBehaviour:
   deviceType: 0
   isSelfPowered: 0
   mappingNotNeedToLink: 0
-  wattusage: 0.01
+  initialwattusage: 0.01
   InitialResistance: 100000000
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
@@ -588,8 +599,22 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
-  ignoreRoundstartGrabObjects: 0
+  initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 0}
+--- !u!114 &1159551954190040820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526276624429649764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09b7e5ca3d7645bf909222e46af44b5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  requiredClearance: 
+  type: 0
 --- !u!4 &1530055412931709374 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,

@@ -56,8 +56,6 @@ public class WindowDrag : MonoBehaviour
 	private void OnDisable ()
 	{
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-
-		transform.localPosition = startPositon;
 	}
 
 	/// <summary>
@@ -110,11 +108,11 @@ public class WindowDrag : MonoBehaviour
 
 		transform.position = new Vector3(
 			Mathf.Clamp(x,
-				windowWidth * widthScale * -0.4f,
-				Screen.width - windowWidth * widthScale * -0.4f),
+				windowWidth * widthScale * -0.1f,
+				Screen.width - windowWidth * widthScale * -0.1f),
 			Mathf.Clamp(y,
-				windowHeight * heightScale * -0.4f,
-				Screen.height - windowHeight * heightScale * -0.4f));
+				windowHeight * heightScale * -0.1f,
+				Screen.height - windowHeight * heightScale * -0.1f));
 
 		// Check if the scroll wheel is being scrolled
 		float scrollInput = Input.GetAxis("Mouse ScrollWheel");

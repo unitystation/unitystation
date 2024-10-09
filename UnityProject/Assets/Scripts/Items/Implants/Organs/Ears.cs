@@ -2,6 +2,7 @@ using Audio.Containers;
 using HealthV2;
 using Mirror;
 using Player;
+using System.Collections;
 using UnityEngine;
 
 namespace Items.Implants.Organs
@@ -139,6 +140,12 @@ namespace Items.Implants.Organs
 			ApplyChangesDeafness(TotalMultiplier, PressureMultiplier * MutationMultiplier * EfficiencyMultiplier);
 		}
 
+		public IEnumerator TemporaryDeafen(float deafenLength)
+		{
+			ApplyDeafness(false, 0);
+			yield return new WaitForSeconds(deafenLength);
+			ApplyDeafness(false, TotalMultiplier);
+		}
 
 		public void ApplyDeafness(bool Default, float Value)
 		{

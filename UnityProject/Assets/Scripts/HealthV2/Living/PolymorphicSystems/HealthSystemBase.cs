@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace HealthV2.Living.PolymorphicSystems
 {
-	[System.Serializable]
+	[Serializable]
 	public abstract class HealthSystemBase : IAllowedReflection
 	{
 

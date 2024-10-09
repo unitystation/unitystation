@@ -1,4 +1,6 @@
-//using Light2D;
+using Construction.Conveyors;
+using Core.Sprite_Handler;
+using Light2D;
 using Logs;
 using UnityEngine;
 using UnityEditor;
@@ -67,6 +69,7 @@ public class ReplaceWithPrefab : EditorWindow
 				newObject.transform.localRotation = selected.transform.localRotation;
 				newObject.transform.localScale = selected.transform.localScale;
 				newObject.transform.SetSiblingIndex(selected.transform.GetSiblingIndex());
+
 				var selectedRotatable = selected.GetComponent<Rotatable>();
 				var newObjectRotatable = newObject.GetComponent<Rotatable>();
 				if (selectedRotatable != null && newObjectRotatable != null)
@@ -74,13 +77,53 @@ public class ReplaceWithPrefab : EditorWindow
 					newObjectRotatable.FaceDirection(selectedRotatable.CurrentDirection);
 				}
 
-				/*var selectedLightSprite = selected.GetComponent<LightSprite>();
+				var selectedLightSprite = selected.GetComponent<LightSprite>();
 				var newObjectLightSprite = newObject.GetComponentInChildren<LightSprite>();
 				if (selectedLightSprite != null && newObjectLightSprite != null)
 				{
 					newObjectLightSprite.InitialColour = selectedLightSprite.InitialColour;
 					newObjectLightSprite.transform.localScale = selected.transform.lossyScale;
-				}*/
+
+					var Handler = newObjectLightSprite.GetComponentInChildren<LightSpriteHandler>();
+
+					var Catalogue = Handler.GetSubCatalogue();
+
+					SpriteDataSO Bright = null;
+					foreach (var srightSO in Catalogue)
+					{
+						if (srightSO.Variance[0].Frames[0].sprite == selectedLightSprite.Sprite)
+						{
+							Bright = srightSO;
+							break;
+						}
+
+					}
+
+					if (Bright == null)
+					{
+						Loggy.LogError("AAAA > " + selectedLightSprite.Sprite + "selected > " + selected.name);
+					}
+
+					Handler.SetSpriteSO(Bright);
+				}
+
+
+				var Conveyorselected = selected.GetComponent<ConveyorBelt>();
+				var newConveyorselected = newObject.GetComponent<ConveyorBelt>();
+				if (Conveyorselected != null && newConveyorselected != null)
+				{
+					newConveyorselected.CurrentDirection = Conveyorselected.CurrentDirection;
+					newConveyorselected.CurrentStatus = Conveyorselected.CurrentStatus;
+				}
+
+
+				var MobSpawnScripselected = selected.GetComponent<LegacyMobSpawnScript>();
+				var MobSpawnScripnewObject = newObject.GetComponent<LegacyMobSpawnScript>();
+				if (MobSpawnScripselected != null && MobSpawnScripnewObject != null)
+				{
+					MobSpawnScripnewObject.MobToSpawn = MobSpawnScripselected.MobToSpawn;
+				}
+
 
 				newObject.name = selected.name;
 				Undo.RegisterCreatedObjectUndo(newObject, "Replace With Prefabs");

@@ -22,6 +22,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5984490638706797249, guid: 90ef38b11ffed4e4d8cb4d8dc682885c,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e610c9263bdead84ba9d9c7e6c57d68c,
+        type: 2}
+    - target: {fileID: 5984490638706797249, guid: 90ef38b11ffed4e4d8cb4d8dc682885c,
+        type: 3}
       propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: e610c9263bdead84ba9d9c7e6c57d68c,
@@ -102,6 +108,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: ab626b0cb6dc8384498d6dbddbcd7dcd,
         type: 3}
+    - target: {fileID: 8624609114607293197, guid: 90ef38b11ffed4e4d8cb4d8dc682885c,
+        type: 3}
+      propertyPath: foreverID
+      value: 0c5064e76ada44246a1aa2c0fd0d7af9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

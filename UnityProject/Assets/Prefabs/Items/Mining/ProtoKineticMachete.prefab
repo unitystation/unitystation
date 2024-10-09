@@ -34,6 +34,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ff180369c4133ca7c93eeb3a1535c731,
         type: 2}
+    - target: {fileID: 1939338352935450630, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ff180369c4133ca7c93eeb3a1535c731,
+        type: 2}
     - target: {fileID: 1969785921733618591, guid: 3f3c69eb80c13d439a7659f6834b091a,
         type: 3}
       propertyPath: m_Sprite
@@ -86,6 +92,18 @@ PrefabInstance:
     - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 0af5c2b88d294d49a94634d7bd214377,
+        type: 2}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ef70258c75bcf54bcae675f164694357,
+        type: 2}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: 0af5c2b88d294d49a94634d7bd214377,
         type: 2}
@@ -166,8 +184,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c7dee96a1545b5bcbaa4eff2a145c634,
         type: 2}
+    - target: {fileID: 8885920287978841459, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c7dee96a1545b5bcbaa4eff2a145c634,
+        type: 2}
     m_RemovedComponents:
     - {fileID: -6943314109635352739, guid: 3f3c69eb80c13d439a7659f6834b091a, type: 3}
+    - {fileID: 5118915562846278848, guid: 3f3c69eb80c13d439a7659f6834b091a, type: 3}
+    - {fileID: 1717435498080961838, guid: 3f3c69eb80c13d439a7659f6834b091a, type: 3}
+    - {fileID: 5357643970834133107, guid: 3f3c69eb80c13d439a7659f6834b091a, type: 3}
+    - {fileID: 5012883227795867842, guid: 3f3c69eb80c13d439a7659f6834b091a, type: 3}
+    - {fileID: 8127772774069969631, guid: 3f3c69eb80c13d439a7659f6834b091a, type: 3}
+    - {fileID: 5975586456323971994, guid: 3f3c69eb80c13d439a7659f6834b091a, type: 3}
+    - {fileID: 8986662425810040325, guid: 3f3c69eb80c13d439a7659f6834b091a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

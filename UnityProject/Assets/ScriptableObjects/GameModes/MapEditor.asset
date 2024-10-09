@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52aedb944f434eb6ae9db2ce8bc24934, type: 3}
+  m_Name: MapEditor
+  m_EditorClassIdentifier: 
+  gameModeName: Map Editor
+  description: Edit Unitystation maps
+  canRespawn: 1
+  minPlayers: 1
+  antagRatio: 0
+  minAntags: 0
+  maxAntags: 1
+  hardNumberOfAntagsToSpawn: 0
+  forceMinAntags: 0
+  teamGameMode: 0
+  midRoundAntags: 0
+  midRoundAntagsChance: 25
+  possibleAntags: []
+  allocateJobsToAntags: 0
+  nonAntagJobTypes: 06000000160000001700000023000000210000001100000001000000
+  mainStations: {fileID: 11400000, guid: be379146f7789d74d86dd7ba1e76ebbc, type: 2}

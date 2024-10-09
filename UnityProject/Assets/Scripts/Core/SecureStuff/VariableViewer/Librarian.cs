@@ -801,11 +801,28 @@ namespace SecureStuff
 					{
 						if (PInfo != null)
 						{
-							return PInfo.GetValue(BindedTo.BookClass);
+							try
+							{
+								return PInfo.GetValue(BindedTo.BookClass);
+							}
+							catch (Exception e)
+							{
+								Loggy.LogError(e.ToString());
+								return "null";
+							}
+
 						}
 						else
 						{
-							return Info.GetValue(BindedTo.BookClass);
+							try
+							{
+								return Info.GetValue(BindedTo.BookClass);
+							}
+							catch (Exception e)
+							{
+								Loggy.LogError(e.ToString());
+								return "null";
+							}
 						}
 
 					}

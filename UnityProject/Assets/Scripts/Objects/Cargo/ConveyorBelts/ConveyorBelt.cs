@@ -4,6 +4,7 @@ using Core;
 using UnityEngine;
 using Mirror;
 using ScriptableObjects;
+using SecureStuff;
 using Shared.Systems.ObjectConnection;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 #if UNITY_EDITOR
@@ -24,11 +25,11 @@ namespace Construction.Conveyors
 
 		[Tooltip("Set this conveyor belt's initial direction.")]
 		[SerializeField]
-		private ConveyorDirection CurrentDirection = default;
+		public ConveyorDirection CurrentDirection = default;
 
 		[Tooltip("Set this conveyor belt's initial status.")]
 		[SerializeField]
-		private ConveyorStatus CurrentStatus = default;
+		public ConveyorStatus CurrentStatus = default;
 
 		[SerializeField] private SpriteHandler spriteHandler = null;
 		private RegisterTile registerTile;
@@ -282,6 +283,7 @@ namespace Construction.Conveyors
 			_ = Despawn.ServerSingle(gameObject);
 		}
 
+		[VVNote(VVHighlight.SafeToModify100)]
 		private void ChangeDirection()
 		{
 			int count = (int)CurrentDirection + 1;

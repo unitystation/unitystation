@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Core.Admin.Logs;
 using HealthV2;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using Health.Sickness;
+using Mirror;
+using Newtonsoft.Json;
 using Systems.Character;
 using UI.Objects.Medical.Cloning;
 
@@ -14,9 +17,10 @@ namespace Objects.Medical
 	/// <summary>
 	/// Main component for cloning console.
 	/// </summary>
-	public class CloningConsole : MonoBehaviour, IServerSpawn
+	[RequireComponent(typeof(ItemStorage))]
+	public class CloningConsole : MonoBehaviour, ICheckedInteractable<HandApply>, IServerSpawn
 	{
-		private List<CloningRecord> cloningRecords = new List<CloningRecord>();
+		[SerializeField] private GameObject paperPrefab;
 
 		private DNAScanner scanner;
 		/// <summary>
@@ -30,19 +34,21 @@ namespace Objects.Medical
 		/// </summary>
 		public CloningPod CloningPod => cloningPod;
 
+		private CloningRecord currentRecord;
+		public CloningRecord CurrentRecord => currentRecord;
+
 		private GUI_Cloning consoleGUI;
 		private RegisterTile registerTile;
 		private ClosetControl closet;
-
-		/// <summary>
-		/// Saved cloning records.
-		/// </summary>
-		public IEnumerable<CloningRecord> CloningRecords => cloningRecords;
+		private ItemStorage recordsStorage;
+		private HasNetworkTab networkTab;
 
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
 			closet = GetComponent<ClosetControl>();
+			recordsStorage = GetComponent<ItemStorage>();
+			networkTab = GetComponent<HasNetworkTab>();
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -83,16 +89,6 @@ namespace Objects.Medical
 			}
 		}
 
-
-		[RightClickMethod()]
-		[NaughtyAttributes.Button()]
-		public void CloneFirstRecord()
-		{
-
-			ServerTryClone(cloningRecords[0]);
-
-		}
-
 		[RightClickMethod()]
 		[NaughtyAttributes.Button()]
 
@@ -113,17 +109,6 @@ namespace Objects.Medical
 				{
 					scanner.statusString = "Bad mind/body interface.";
 					return;
-				}
-
-				for (int i = 0; i < cloningRecords.Count; i++)
-				{
-					var record = cloningRecords[i];
-					if (mobID == record.mobID)
-					{
-						record.UpdateRecord(mob, playerScript);
-						scanner.statusString = "Record updated.";
-						return;
-					}
 				}
 
 				CreateRecord(mob, playerScript);
@@ -158,12 +143,22 @@ namespace Objects.Medical
 		{
 			if (cloningPod && cloningPod.CanClone())
 			{
-				var status = record.mind.GetCloneableStatus(record.mobID);
+				Mind mind = NetworkUtils.FindObjectOrNull(record.mindID)?.GetComponent<Mind>();
+				if (mind == null)
+				{
+					return;
+				}
+				else
+				{
+					record.mind = mind;
+				}
+				CloneableStatus status = mind.GetCloneableStatus(record.mobID);
 
 				if (status == CloneableStatus.Cloneable)
 				{
 					cloningPod.ServerStartCloning(record);
-					cloningRecords.Remove(record);
+					recordsStorage.ServerDropAll();
+					consoleGUI.ViewMainPage();
 				}
 				else
 				{
@@ -174,14 +169,15 @@ namespace Objects.Medical
 
 		private void CreateRecord(LivingHealthMasterBase livingHealth, PlayerScript playerScript)
 		{
-			var record = new CloningRecord();
-			record.UpdateRecord(livingHealth, playerScript);
-			cloningRecords.Add(record);
+			var record1 = new CloningRecord();
+			record1.UpdateRecord(livingHealth, playerScript);
 			AdminLogsManager.AddNewLog(
 				null,
 				$"{gameObject.ExpensiveName()} at {gameObject.AssumedWorldPosServer()}" +
 				$" has created a new cloning record for {playerScript.playerName}.",
 				LogCategory.RoundFlow);
+			var paper1 = Spawn.ServerPrefab(paperPrefab, gameObject.AssumedWorldPosServer());
+			paper1.GameObject.GetComponent<Paper>().SetServerString(record1.Copy());
 		}
 
 		public void UpdateDisplay()
@@ -194,9 +190,38 @@ namespace Objects.Medical
 			consoleGUI = guiCloning;
 		}
 
-		public void RemoveRecord(CloningRecord specificRecord)
+		public void RemoveRecord()
 		{
-			cloningRecords.Remove(specificRecord);
+			recordsStorage.ServerDropAll();
+			currentRecord = null;
+		}
+
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			return DefaultWillInteract.Default(interaction, side);
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			if (interaction.HandObject == null)
+			{
+				networkTab.ServerPerformInteraction(interaction);
+				return;
+			}
+			if (interaction.HandObject.TryGetComponent<Paper>(out var p) == false) return;
+			var record = CloningRecord.FromString(p.ServerString);
+			if (record == null)
+			{
+				Chat.AddExamineMsg(interaction.Performer, "The console spits the paper out back into your hand..");
+				return;
+			}
+			else
+			{
+				Chat.AddExamineMsg(interaction.Performer, "The paper disappears wihtin the cloning console.");
+			}
+			recordsStorage.ServerTryTransferFrom(interaction.HandSlot);
+			currentRecord = record;
+			consoleGUI?.UpdateDisplay();
 		}
 	}
 
@@ -211,9 +236,18 @@ namespace Objects.Medical
 		public string uniqueIdentifier;
 		public CharacterSheet characterSettings;
 		public int mobID;
+		public uint mindID; // New field for mindID
 		public Mind mind;
-		public List<BodyPartRecord> surfaceBodyParts = new List<BodyPartRecord>();
-		public List<string> sicknessList = new List<string>();
+		public List<BodyPartRecord> surfaceBodyParts = new();
+		public List<string> sicknessList = new();
+		private ConversionMethod conversionMethod = ConversionMethod.PHAROH;
+
+		public enum ConversionMethod
+		{
+			PHAROH,
+			BRITISH,
+			AUSSIE
+		}
 
 		public CloningRecord()
 		{
@@ -223,7 +257,7 @@ namespace Objects.Medical
 		public void UpdateRecord(LivingHealthMasterBase livingHealth, PlayerScript playerScript)
 		{
 			mobID = livingHealth.mobID;
-			mind = playerScript.Mind;
+			mindID = playerScript.Mind.netId; // Set mindID here
 			name = playerScript.playerName;
 			characterSettings = playerScript.characterSettings;
 			oxyDmg = livingHealth.GetOxyDamage;
@@ -231,17 +265,144 @@ namespace Objects.Medical
 			toxinDmg = livingHealth.GetTotalToxDamage();
 			bruteDmg = livingHealth.GetTotalBruteDamage();
 			uniqueIdentifier = $"{livingHealth.mobID}{playerScript.playerName}".ToHexString();
-			foreach(BodyPart part in livingHealth.SurfaceBodyParts)
-            {
-				BodyPartRecord partRecord = new BodyPartRecord();
+
+			surfaceBodyParts.Clear();
+			foreach (var part in livingHealth.SurfaceBodyParts)
+			{
+				var partRecord = new BodyPartRecord();
 				surfaceBodyParts.Add(partRecord.Copy(part));
-            }
-			foreach(SicknessAffliction sickness in livingHealth.mobSickness.sicknessAfflictions)
-            {
+			}
+
+			sicknessList.Clear();
+			foreach (var sickness in livingHealth.mobSickness.sicknessAfflictions)
 				sicknessList.Add(sickness.Sickness.SicknessName);
-            }
+		}
+
+		public string Copy()
+		{
+			// Use mindID as the seed for random
+			var random = new System.Random((int)mindID);
+			int randomValue = random.Next(0, 3);
+			// Select conversion method based on random value
+			conversionMethod = (ConversionMethod)randomValue;
+
+			switch (conversionMethod)
+			{
+				case ConversionMethod.PHAROH:
+					return "PHARO|" + ToCompactString();
+				case ConversionMethod.BRITISH:
+					return "BRIT|" + ToJSON();
+				case ConversionMethod.AUSSIE:
+					return "TERRA|" + ToBase64();
+			}
+			return null;
+		}
+
+
+		public static CloningRecord FromString(string recordData)
+		{
+			ConversionMethod method = DetectConversionMethod(recordData);
+			switch (method)
+			{
+				case ConversionMethod.PHAROH: return FromCompactString(recordData);
+				case ConversionMethod.BRITISH: return FromJSON(recordData);
+				case ConversionMethod.AUSSIE: return FromBase64(recordData);
+			}
+			return null;
+		}
+
+		public static ConversionMethod DetectConversionMethod(string recordData)
+		{
+			if (recordData.StartsWith("PHARO|"))
+				return ConversionMethod.PHAROH;
+			if (recordData.StartsWith("BRIT|"))
+				return ConversionMethod.BRITISH;
+			if (recordData.StartsWith("TERRA|"))
+				return ConversionMethod.AUSSIE;
+
+			throw new InvalidOperationException("Unknown conversion method in record data.");
+		}
+
+
+		// Method to serialize the object to a compact string
+		private string ToCompactString()
+		{
+			var sb = new StringBuilder();
+
+			// Serialize simple fields with delimiters, now includes mindID
+			sb.Append(name).Append("|")
+				.Append(scanID).Append("|")
+				.Append(oxyDmg.ToString("F2")).Append("|")
+				.Append(burnDmg.ToString("F2")).Append("|")
+				.Append(toxinDmg.ToString("F2")).Append("|")
+				.Append(bruteDmg.ToString("F2")).Append("|")
+				.Append(uniqueIdentifier).Append("|")
+				.Append(mobID).Append("|")
+				.Append(mindID).Append("|"); // Include mindID here
+
+			// Serialize surfaceBodyParts
+			foreach (var part in surfaceBodyParts) sb.Append(part.ToCompactString()).Append(";");
+			sb.Append("|");
+
+			// Serialize sicknessList
+			sb.Append(string.Join(",", sicknessList));
+
+			return sb.ToString();
+		}
+
+		private string ToBase64()
+		{
+			string readableString = ToCompactString();
+			byte[] bytes = Encoding.UTF8.GetBytes(readableString);
+			string base64String = Convert.ToBase64String(bytes);
+			return base64String;
+		}
+
+		private string ToJSON()
+		{
+			return JsonConvert.SerializeObject(this);
+		}
+
+		private static CloningRecord FromCompactString(string compactString)
+		{
+			var parts = compactString.Split('|');
+			var record = new CloningRecord();
+
+			// Deserialize simple fields, including mindID
+			record.name = parts[0];
+			record.scanID = parts[1];
+			record.oxyDmg = float.Parse(parts[2]);
+			record.burnDmg = float.Parse(parts[3]);
+			record.toxinDmg = float.Parse(parts[4]);
+			record.bruteDmg = float.Parse(parts[5]);
+			record.uniqueIdentifier = parts[6];
+			record.mobID = int.Parse(parts[7]);
+			record.mindID = uint.Parse(parts[8]); // Deserialize mindID
+
+			// Deserialize surfaceBodyParts
+			var bodyParts = parts[9].Split(';', StringSplitOptions.RemoveEmptyEntries);
+			foreach (var bodyPartString in bodyParts)
+				record.surfaceBodyParts.Add(BodyPartRecord.FromCompactString(bodyPartString));
+
+			// Deserialize sicknessList
+			record.sicknessList = new List<string>(parts[10].Split(',', StringSplitOptions.RemoveEmptyEntries));
+
+			return record;
+		}
+
+		private static CloningRecord FromBase64(string base64Text)
+		{
+			byte[] bytes = Convert.FromBase64String(base64Text);
+			string decodedString = Encoding.UTF8.GetString(bytes);
+			return FromCompactString(decodedString);
+		}
+
+		private static CloningRecord FromJSON(string json)
+		{
+			return JsonConvert.DeserializeObject<CloningRecord>(json);
 		}
 	}
+
 
 	public class BodyPartRecord
     {
@@ -276,6 +437,49 @@ namespace Objects.Medical
 				organs[i].isBleeding = part.ContainBodyParts[i].IsBleeding;
 			}
 			return this;
+		}
+
+		public static BodyPartRecord FromCompactString(string compactString)
+		{
+			var parts = compactString.Split(',', StringSplitOptions.RemoveEmptyEntries);
+			var bodyPart = new BodyPartRecord
+			{
+				name = parts[0],
+				brute = decimal.Parse(parts[1]),
+				burn = decimal.Parse(parts[2]),
+				toxin = decimal.Parse(parts[3]),
+				oxygen = decimal.Parse(parts[4]),
+				isBleeding = bool.Parse(parts[5]),
+				type = (BodyPartType)int.Parse(parts[6]),
+				severity = (DamageSeverity)int.Parse(parts[7])
+			};
+
+			// Deserialize any organs
+			var organParts = compactString.Split('|', StringSplitOptions.RemoveEmptyEntries);
+			for (int i = 1; i < organParts.Length; i++)  // Start from 1 because the first part is the main body part
+			{
+				bodyPart.organs.Add(FromCompactString(organParts[i]));
+			}
+
+			return bodyPart;
+		}
+
+		public string ToCompactString()
+		{
+			var sb = new StringBuilder();
+			sb.Append(name).Append(",")
+				.Append(brute.ToString("F1")).Append(",")
+				.Append(burn.ToString("F1")).Append(",")
+				.Append(toxin.ToString("F1")).Append(",")
+				.Append(oxygen.ToString("F1")).Append(",")
+				.Append(isBleeding).Append(",")
+				.Append((int)type).Append(",")
+				.Append((int)severity);
+			foreach (var organ in organs)
+			{
+				sb.Append("|").Append(organ.ToCompactString());
+			}
+			return sb.ToString();
 		}
     }
 }

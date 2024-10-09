@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: -2051253920978219294}
   - component: {fileID: 1410495953153992223}
   - component: {fileID: 2869424982030105972}
+  - component: {fileID: 645319616914944490}
   m_Layer: 15
   m_Name: _ProjectileBase
   m_TagString: Untagged
@@ -175,6 +176,22 @@ MonoBehaviour:
   syncInterval: 0.1
   tileNamesToIgnore:
   - {fileID: 11400000, guid: 8a5d7b8cc9d261442bd185a31ad88e67, type: 2}
+--- !u!114 &645319616914944490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1560634355228308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f4629d03e356d64eb509d18a7450082, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentID: root
+  foreverID: AtEOvKE5HVCt4$F3N_XJ
+  <AlternativePrefabName>k__BackingField: 
+  <CanBeSpawnedByAdmin>k__BackingField: 1
 --- !u!1 &1577029797726278
 GameObject:
   m_ObjectHideFlags: 0
@@ -225,6 +242,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -274,15 +293,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 524ec01071bda5248b88aa04acdc9e8d, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 524ec01071bda5248b88aa04acdc9e8d,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &7479823022848850745
 GameObject:
   m_ObjectHideFlags: 0

@@ -34,6 +34,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3477175024035878852, guid: c2c4445c53781df4884a5bf817e0b8c6,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: def5d6a745565984d82bfdf5b00eacfd,
+        type: 2}
+    - target: {fileID: 3477175024035878852, guid: c2c4445c53781df4884a5bf817e0b8c6,
+        type: 3}
       propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: def5d6a745565984d82bfdf5b00eacfd,
@@ -48,6 +54,11 @@ PrefabInstance:
         type: 3}
       propertyPath: mobName
       value: exotic corgi
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039313406542553934, guid: c2c4445c53781df4884a5bf817e0b8c6,
+        type: 3}
+      propertyPath: foreverID
+      value: 5ae03746941da334aa8d089d5f27a7bd
       objectReference: {fileID: 0}
     - target: {fileID: 6303648736088726618, guid: c2c4445c53781df4884a5bf817e0b8c6,
         type: 3}

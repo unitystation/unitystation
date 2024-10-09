@@ -20,9 +20,9 @@ namespace Systems.Explosions
 		/// <param name="worldPosition">position explosion is centered at</param>
 		/// <param name="shakeIntensity">intensity of shaking</param>
 		/// <param name="shakeDistance">how far away the shaking can be felt</param>
-		public static void PlaySoundAndShake(Vector3Int worldPosition, byte shakeIntensity, int shakeDistance, AddressableAudioSource customSound = null)
+		public static void PlaySoundAndShake(Vector3Int worldPosition, byte shakeIntensity, int shakeDistance, AddressableAudioSource customSound = null, float volumeMultiplier = 1f)
 		{
-			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(0f, 100f);
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(0f, 100f * volumeMultiplier);
 			ShakeParameters shakeParameters = new ShakeParameters(true, shakeIntensity, shakeDistance);
 			if (customSound != null)
 			{
@@ -41,7 +41,7 @@ namespace Systems.Explosions
 				if (distantSound != null)
 				{
 					AudioSourceParameters distantSoundAudioSourceParameters =
-						new AudioSourceParameters(0f, 100f, minDistance: 29, maxDistance: 63);
+						new AudioSourceParameters(0f, 100f * Mathf.Clamp(volumeMultiplier - 0.2f,0,1), minDistance: 29, maxDistance: 63);
 
 					_ = SoundManager.PlayNetworkedAtPosAsync(distantSound, worldPosition, distantSoundAudioSourceParameters);
 				}
@@ -50,7 +50,7 @@ namespace Systems.Explosions
 				if (groanSound != null)
 				{
 					AudioSourceParameters groanSoundAudioSourceParameters =
-						new AudioSourceParameters(0f, 100f, minDistance: 63, maxDistance: 200);
+						new AudioSourceParameters(0f, 100f * Mathf.Clamp(volumeMultiplier - 0.25f,0,1), minDistance: 63, maxDistance: 200);
 
 					_ = SoundManager.PlayNetworkedAtPosAsync(groanSound, worldPosition, groanSoundAudioSourceParameters);
 				}

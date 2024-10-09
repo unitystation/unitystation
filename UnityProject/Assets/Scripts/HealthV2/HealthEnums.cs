@@ -9,6 +9,7 @@ public enum BodyPartType
 
 	Eyes = 7,
 	Mouth = 8,
+	Ears = 9,
 	Chest = 1,
 	[Description("Left Arm")] LeftArm = 3,
 	[Description("Left Hand")] LeftHand = 9,

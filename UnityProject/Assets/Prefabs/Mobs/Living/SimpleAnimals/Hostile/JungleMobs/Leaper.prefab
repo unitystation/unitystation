@@ -21,6 +21,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2932467527132130829, guid: 9d12a793c8af12e438d3e9f255e617a0,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 814be29b6c2086d43882cff92fc72e9b,
+        type: 2}
+    - target: {fileID: 2932467527132130829, guid: 9d12a793c8af12e438d3e9f255e617a0,
+        type: 3}
       propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 814be29b6c2086d43882cff92fc72e9b,
@@ -86,6 +92,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6709346633341328007, guid: 9d12a793c8af12e438d3e9f255e617a0,
+        type: 3}
+      propertyPath: foreverID
+      value: 432831c9b83da2e4887bfb62ea79acc4
       objectReference: {fileID: 0}
     - target: {fileID: 8507793298009520224, guid: 9d12a793c8af12e438d3e9f255e617a0,
         type: 3}

@@ -205,7 +205,7 @@ namespace Player
 		[Server]
 		public void SendDataToClient()
 		{
-			foreach (var MapData in CustomNetworkManager.LoadedMapDatas)
+			foreach (var MapData in CustomNetworkManager.Instance.LoadedMapDatas)
 			{
 				ServerReturnMapData.Send(this.gameObject, MapData, ServerReturnMapData.MessageType.MapDataForClient);
 			}

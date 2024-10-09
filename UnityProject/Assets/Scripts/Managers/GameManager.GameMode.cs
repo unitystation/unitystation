@@ -76,10 +76,15 @@ public partial class GameManager
 	/// <summary>
 	/// Sets the current gamemode
 	/// </summary>
-	public void SetGameMode(GameMode gm)
+	public void SetGameMode(GameMode gm, bool copy = false)
 	{
+		var target = gm;
+		if (copy)
+		{
+			target = Instantiate(gm);
+		}
 		Loggy.Log($"Set game mode to: {gm.Name}", Category.GameMode);
-		GameMode = gm;
+		GameMode = target;
 	}
 
 	/// <summary>

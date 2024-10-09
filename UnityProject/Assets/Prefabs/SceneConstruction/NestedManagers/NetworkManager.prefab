@@ -1183,6 +1183,7 @@ MonoBehaviour:
   - {fileID: 1894475026819698963, guid: f4410af7add3943419c5c6b4b8efa05b, type: 3}
   - {fileID: 6404652678407139925, guid: 5fb5e0de959fad947a5e99d5732f0cea, type: 3}
   - {fileID: 7701271712345465664, guid: 6b1fe6ba2d6dfb44e86f0594af87dd36, type: 3}
+  - {fileID: 1689950079704427205, guid: b0d90585deacfa34db93558a101578b5, type: 3}
   - {fileID: 6404652678407139925, guid: 7620c1f80fbe6f14d9fd21f5db20cb7b, type: 3}
   - {fileID: 8250509897985616090, guid: 3be55be10627a1c4287742ea1f152ce4, type: 3}
   - {fileID: 6404652678407139925, guid: 40c0513d984473e48a1393a33244bc46, type: 3}
@@ -3645,6 +3646,7 @@ MonoBehaviour:
   - {fileID: 7155483312090520353, guid: c4990df189c8b544980a118094ee5cc9, type: 3}
   - {fileID: 5596961487615453235, guid: 1e2ab35775ce1ce41afd274356e67d90, type: 3}
   - {fileID: 3892245000269501020, guid: d98f2fb82408dae4296038c656ee83fb, type: 3}
+  - {fileID: 8125116362618146610, guid: 6194da70c9abd0e48ba02936a9320d13, type: 3}
   - {fileID: 5429432824961251291, guid: 1796036e10808334798ef3fb0f911623, type: 3}
   - {fileID: 5944300870768993410, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b, type: 3}
   - {fileID: 6293976325419448571, guid: 38713798dd1e0e04cb2c01abfc0fc4b9, type: 3}
@@ -5820,6 +5822,7 @@ MonoBehaviour:
     dynamicAdjustmentTolerance: 1
     deliveryTimeEmaDuration: 2
   timeInterpolationGui: 0
+  SpawnedByMappingTool: 0
   NetworkedManagersPrefabs:
   - {fileID: 6401940811625325638, guid: d3e6b8892ab5b5d42a41cdd379324029, type: 3}
   ActiveNetworkedManagersPrefabs: []
@@ -7007,6 +7010,7 @@ MonoBehaviour:
   - {fileID: 1894475026819698963, guid: f4410af7add3943419c5c6b4b8efa05b, type: 3}
   - {fileID: 6404652678407139925, guid: 5fb5e0de959fad947a5e99d5732f0cea, type: 3}
   - {fileID: 7701271712345465664, guid: 6b1fe6ba2d6dfb44e86f0594af87dd36, type: 3}
+  - {fileID: 1689950079704427205, guid: b0d90585deacfa34db93558a101578b5, type: 3}
   - {fileID: 6404652678407139925, guid: 7620c1f80fbe6f14d9fd21f5db20cb7b, type: 3}
   - {fileID: 8250509897985616090, guid: 3be55be10627a1c4287742ea1f152ce4, type: 3}
   - {fileID: 6404652678407139925, guid: 40c0513d984473e48a1393a33244bc46, type: 3}
@@ -9469,6 +9473,7 @@ MonoBehaviour:
   - {fileID: 7155483312090520353, guid: c4990df189c8b544980a118094ee5cc9, type: 3}
   - {fileID: 5596961487615453235, guid: 1e2ab35775ce1ce41afd274356e67d90, type: 3}
   - {fileID: 3892245000269501020, guid: d98f2fb82408dae4296038c656ee83fb, type: 3}
+  - {fileID: 8125116362618146610, guid: 6194da70c9abd0e48ba02936a9320d13, type: 3}
   - {fileID: 5429432824961251291, guid: 1796036e10808334798ef3fb0f911623, type: 3}
   - {fileID: 5944300870768993410, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b, type: 3}
   - {fileID: 6293976325419448571, guid: 38713798dd1e0e04cb2c01abfc0fc4b9, type: 3}
@@ -11692,6 +11697,7 @@ MonoBehaviour:
   - {fileID: 1147146643899178773, guid: 611f66b541b3e4a42962d17bc06c4c46, type: 3}
   - {fileID: 4113822440349019706, guid: 60311bc6bf4173c42af3fe9662d3965c, type: 3}
   - {fileID: 4113822440349019706, guid: 546b78d0ab8074340ac2b9dcdc66f33f, type: 3}
+  - {fileID: 2108103160613776691, guid: 56915a80c91ebd244b6cfb7ff5133d43, type: 3}
   - {fileID: 2212773481615892486, guid: bb4cd386ff876cd4fa8125c1d078e0a7, type: 3}
   - {fileID: 2108103160613776691, guid: 5d67e48cf8d56ac48bd1163011e48d33, type: 3}
   - {fileID: 6517551959894976499, guid: ca0208e7d79a2db4e8d8a1aa2811636c, type: 3}
@@ -11983,6 +11989,8 @@ MonoBehaviour:
   - {fileID: 9212041992209255377, guid: 8b38e065d8b0ba92f87e51c67787e6d8, type: 3}
   - {fileID: 3799708768014915418, guid: 0deacf050f53a0a48a6d2d443526bcc6, type: 3}
   - {fileID: 1052453609811832562, guid: 0422ff79bd8ab5a4586de38367e2007c, type: 3}
+  - {fileID: 1502172408805726, guid: c851c69ee21d18146b3b86ea50270a54, type: 3}
+  - {fileID: 1502172408805726, guid: 5031daf480efb2c4495b7511f9bba51b, type: 3}
   - {fileID: 1666901027548932, guid: 8f72a055016976048b3cf9127e468404, type: 3}
   - {fileID: 9015964894283925304, guid: 699a42dbe71855d49a99de302af0fc0f, type: 3}
   - {fileID: 9015964894283925304, guid: a12c584ce4d53914a8e55e8c19a43cb8, type: 3}

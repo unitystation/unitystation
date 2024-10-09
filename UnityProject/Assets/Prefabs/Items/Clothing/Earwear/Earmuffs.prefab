@@ -149,9 +149,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8491646112091617124, guid: a9c4649a88c0143b68f95ac8adfa3067,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8491646112091617124, guid: a9c4649a88c0143b68f95ac8adfa3067,
+        type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: f33df06b7cf6bf548a288784d8097789,
+        type: 2}
+    - target: {fileID: 8491646112091617124, guid: a9c4649a88c0143b68f95ac8adfa3067,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 765fdfb07a63d1b4c809e37d6accbe3e,
         type: 2}
     - target: {fileID: 8491646112091617124, guid: a9c4649a88c0143b68f95ac8adfa3067,
         type: 3}
@@ -162,6 +173,24 @@ PrefabInstance:
     - target: {fileID: 8491646112091617124, guid: a9c4649a88c0143b68f95ac8adfa3067,
         type: 3}
       propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: d3c13c0d5219ec349b5094c32d8cb462,
+        type: 2}
+    - target: {fileID: 8491646112091617124, guid: a9c4649a88c0143b68f95ac8adfa3067,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: f33df06b7cf6bf548a288784d8097789,
+        type: 2}
+    - target: {fileID: 8491646112091617124, guid: a9c4649a88c0143b68f95ac8adfa3067,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 405f7b5afbce3934081473849f52afea,
+        type: 2}
+    - target: {fileID: 8491646112091617124, guid: a9c4649a88c0143b68f95ac8adfa3067,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteInventoryIcon
       value: 
       objectReference: {fileID: 11400000, guid: d3c13c0d5219ec349b5094c32d8cb462,
         type: 2}

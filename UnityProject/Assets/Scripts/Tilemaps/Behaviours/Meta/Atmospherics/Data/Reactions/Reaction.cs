@@ -29,7 +29,6 @@ namespace Systems.Atmospherics
 		private static GasReactions NitrylForm;
 		private static GasReactions BZForm;
 		private static GasReactions FreonForm;
-		private static GasReactions FreonCold;
 		private static GasReactions WaterVapour;
 		private static GasReactions StimulumForm;
 		private static GasReactions StimBallReaction;
@@ -141,14 +140,6 @@ namespace Systems.Atmospherics
 							minimumMolesToReact = 0.01f
 						}
 					},
-					{
-						Gas.Plasma,
-						new GasReactionData()
-						{
-							minimumMolesToReact = 0.01f
-						}
-					},
-
 				},
 
 				minimumTileTemperature: 0,
@@ -473,35 +464,6 @@ namespace Systems.Atmospherics
 					maximumTileMoles: 10000000000,
 					addToBaseReactions: true
 				);
-
-			#endregion
-
-			#region FreonCold
-
-			FreonCold = new GasReactions(
-
-				reaction: new freonfreeze(),
-
-				gasReactionData: new Dictionary<GasSO, GasReactionData>()
-				{
-					{
-						Gas.Freon,
-						new GasReactionData()
-						{
-							minimumMolesToReact = 1
-						}
-					},
-				},
-
-				minimumTileTemperature: TemperatureUtils.ZERO_CELSIUS_IN_KELVIN + -45,
-				maximumTileTemperature: TemperatureUtils.ZERO_CELSIUS_IN_KELVIN + 40f,
-				minimumTilePressure: 0,
-				maximumTilePressure: 10000000000,
-
-				minimumTileMoles: 5,
-				maximumTileMoles: 10000000000,
-				addToBaseReactions: true
-			);
 
 			#endregion
 

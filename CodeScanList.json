@@ -551,7 +551,9 @@
             },
 			"Path" : {
 				"Methods": [
-					"string Combine(string, string)"
+					"string Combine(string, string)",
+                    "string Combine(string, string, string)",
+                    "string Combine(string, string, string, string)"
 				]
 			},
 			"StringReader" : {
@@ -3364,6 +3366,9 @@
 				"All": true
 			},
 			"UnprocessedData" : {
+				"All": true
+			},
+			"INewMappedOnSpawn" : {
 				"All": true
 			}
 		},

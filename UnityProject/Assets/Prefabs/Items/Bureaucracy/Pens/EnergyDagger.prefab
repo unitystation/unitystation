@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Color: {r: 1, g: 0.99181634, b: 0.9575472, a: 1}
+  InitialColour: {r: 1, g: 0.99181634, b: 0.9575472, a: 1}
   Sprite: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
@@ -226,6 +226,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 6670476953f4f0f4380fce65502b15af,
         type: 2}
+    - target: {fileID: 9212969941508220628, guid: 83442ea1bc97ef04db1f9962a2f7021d,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 6670476953f4f0f4380fce65502b15af,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -241,8 +247,44 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8734328976324889014, guid: 83442ea1bc97ef04db1f9962a2f7021d,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7733210150831827670}
+      addedObject: {fileID: -5569174200453983854}
+    - targetCorrespondingSourceObject: {fileID: 8734328976324889014, guid: 83442ea1bc97ef04db1f9962a2f7021d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8569978743193370301}
+    - targetCorrespondingSourceObject: {fileID: 8734328976324889014, guid: 83442ea1bc97ef04db1f9962a2f7021d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -5079434817952757290}
+    - targetCorrespondingSourceObject: {fileID: 8734328976324889014, guid: 83442ea1bc97ef04db1f9962a2f7021d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -2226448901143575360}
+    - targetCorrespondingSourceObject: {fileID: 8734328976324889014, guid: 83442ea1bc97ef04db1f9962a2f7021d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -4719605975691481284}
+    - targetCorrespondingSourceObject: {fileID: 8734328976324889014, guid: 83442ea1bc97ef04db1f9962a2f7021d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3932087828095525287}
+    - targetCorrespondingSourceObject: {fileID: 8734328976324889014, guid: 83442ea1bc97ef04db1f9962a2f7021d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7524183173055825683}
   m_SourcePrefab: {fileID: 100100000, guid: 83442ea1bc97ef04db1f9962a2f7021d, type: 3}
+--- !u!114 &1598019025178822646 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3202216405552181809, guid: 83442ea1bc97ef04db1f9962a2f7021d,
+    type: 3}
+  m_PrefabInstance: {fileID: 4205732087212553671}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4858067751920155761 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8734328976324889014, guid: 83442ea1bc97ef04db1f9962a2f7021d,
@@ -276,7 +318,7 @@ MonoBehaviour:
   weakenOnGround: 0
   revertToOldConsistencyBehavior: 0
   weakenStrength: 1.45
---- !u!114 &7733210150831827670
+--- !u!114 &-5569174200453983854
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -285,92 +327,134 @@ MonoBehaviour:
   m_GameObject: {fileID: 4858067751920155761}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 248d0e8833af4f35917b5fc3503b256c, type: 3}
+  m_Script: {fileID: 11500000, guid: 63f4ca8961a114575a87fdce0aac206e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  color: 1
-  activatedSize: 1
-  activatedHitSound:
+--- !u!114 &8569978743193370301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4858067751920155761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6557073ddc4870490a5bb7d6fb3ec5a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activatedSize: 2
+--- !u!114 &-5079434817952757290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4858067751920155761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1ed91baf2accc29384d2d5f14361e2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activatedHitsound:
     SetLoadSetting: 0
-    AssetAddress: null
+    AssetAddress: Assets/Prefabs/Effects/blade1.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  activatedHitDamage: 18
-  activatedThrowDamage: 35
-  activatedVerbs:
+  activatedAttackVerbs:
+  - attacked
   - slashed
   - stabbed
   - sliced
-  - torn
+  - tore
   - ripped
   - diced
   - cut
-  Sprites:
-    Blue:
-      SpriteInventoryIcon: {fileID: 0}
-      SpriteLeftHand: {fileID: 0}
-      SpriteRightHand: {fileID: 0}
-      Palette: []
-      IsPaletted: 0
-    Green:
-      SpriteInventoryIcon: {fileID: 0}
-      SpriteLeftHand: {fileID: 0}
-      SpriteRightHand: {fileID: 0}
-      Palette: []
-      IsPaletted: 0
-    Purple:
-      SpriteInventoryIcon: {fileID: 0}
-      SpriteLeftHand: {fileID: 0}
-      SpriteRightHand: {fileID: 0}
-      Palette: []
-      IsPaletted: 0
-    Rainbow:
-      SpriteInventoryIcon: {fileID: 0}
-      SpriteLeftHand: {fileID: 0}
-      SpriteRightHand: {fileID: 0}
-      Palette: []
-      IsPaletted: 0
-    Red:
-      SpriteInventoryIcon: {fileID: 11400000, guid: d1040624adcd4d5428f5903078adecc6,
-        type: 2}
-      SpriteLeftHand: {fileID: 11400000, guid: c5da46b5dae0ae34da0cdbc2f1a511e2, type: 2}
-      SpriteRightHand: {fileID: 11400000, guid: ecf1174e973677c45ade9b4705dc8b38,
-        type: 2}
-      Palette:
-      - {r: 0, g: 0, b: 0, a: 0}
-      - {r: 0, g: 0, b: 0, a: 0}
-      - {r: 0, g: 0, b: 0, a: 0}
-      - {r: 0, g: 0, b: 0, a: 0}
-      - {r: 0, g: 0, b: 0, a: 0}
-      - {r: 0, g: 0, b: 0, a: 0}
-      - {r: 0, g: 0, b: 0, a: 0}
-      - {r: 0, g: 0, b: 0, a: 0}
-      IsPaletted: 0
-    Off:
-      SpriteInventoryIcon: {fileID: 11400000, guid: 6670476953f4f0f4380fce65502b15af,
-        type: 2}
-      SpriteLeftHand: {fileID: 11400000, guid: 1242547b095a25d4b870d7c2e4868aff, type: 2}
-      SpriteRightHand: {fileID: 11400000, guid: 1549ce680737125459163cf36dcbc345,
-        type: 2}
-      Palette: []
-      IsPaletted: 0
-  saberon:
+--- !u!114 &-2226448901143575360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4858067751920155761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a0d6dc4e2ba96a0b8ef7764b23c9d92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activatedHitDamage: 18
+  activatedThrowDamage: 35
+  activatedDamageType: 0
+--- !u!114 &-4719605975691481284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4858067751920155761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76de6dadc1b3f5272865932c1a4151fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemIcon: {fileID: 1598019025178822646}
+  ActivatedSprites:
+    SpriteInventoryIcon: {fileID: 11400000, guid: d1040624adcd4d5428f5903078adecc6,
+      type: 2}
+    SpriteLeftHand: {fileID: 11400000, guid: c5da46b5dae0ae34da0cdbc2f1a511e2, type: 2}
+    SpriteRightHand: {fileID: 11400000, guid: ecf1174e973677c45ade9b4705dc8b38, type: 2}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
+--- !u!114 &3932087828095525287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4858067751920155761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 422bd67945f84036bb931100359a319f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightControl: {fileID: 7140864852053075427}
+  Color: {r: 0.98039216, g: 0.50980395, b: 0.50980395, a: 1}
+--- !u!114 &7524183173055825683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4858067751920155761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f965c2ce6d29c94399ea4147cd4df64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activateSound:
     SetLoadSetting: 0
-    AssetAddress: null
+    AssetAddress: Assets/Prefabs/Effects/saberon.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  saberoff:
+  deactivateSound:
     SetLoadSetting: 0
-    AssetAddress: null
+    AssetAddress: Assets/Prefabs/Effects/saberoff.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 

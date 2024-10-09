@@ -19,7 +19,7 @@ using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 ///	for Handling sprite animations
 ///	</summary>
 [ExecuteInEditMode]
-public class SpriteHandler : MonoBehaviour
+public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 {
 	[SerializeField] public bool NetworkThis = true;
 
@@ -72,6 +72,8 @@ public class SpriteHandler : MonoBehaviour
 	private bool isAnimation = false;
 
 	private bool animateOnce;
+
+	public Color InitialColour = Color.white;
 
 	protected Color? setColour = null;
 
@@ -258,6 +260,10 @@ public class SpriteHandler : MonoBehaviour
 			if (Application.isPlaying == false)
 			{
 				InitialPresentSpriteSet = newSpriteSO;
+				if (color != null)
+				{
+					InitialColour = color.Value;
+				}
 			}
 			// TODO: Network, change to network catalogue message
 			// See https://github.com/unitystation/unitystation/pull/5675#pullrequestreview-540239428
@@ -444,6 +450,19 @@ public class SpriteHandler : MonoBehaviour
 	public void PushTextureWithNetworking()
 	{
 		PushTexture(true);
+	}
+
+	void INewMappedOnSpawn.OnNewMappedOnSpawn()
+	{
+		PresentSpriteSet = InitialPresentSpriteSet;
+		PushTexture();
+
+		if (GetColor() == Color.white && InitialColour != Color.white)
+		{
+			setColour = InitialColour;
+			SetColor(setColour.Value);
+		}
+
 	}
 
 	//Used to set the sprite of the sprite renderer/Image
@@ -676,8 +695,8 @@ public class SpriteHandler : MonoBehaviour
 
 	protected virtual void Awake()
 	{
-		variantIndex = initialVariantIndex;
 		PresentSpriteSet = InitialPresentSpriteSet;
+		variantIndex = initialVariantIndex;
 #if UNITY_EDITOR
 		ValidateLate();
 #endif
@@ -718,6 +737,8 @@ public class SpriteHandler : MonoBehaviour
 		}
 
 		OnSpriteUpdated = null;
+		OnVariantUpdated = null;
+		OnSpriteDataSOChanged = null;
 	}
 
 	protected virtual void SetImageColor(Color value)

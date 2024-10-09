@@ -74,6 +74,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: ff575b93e3bbc4e4584e340eba81f372,
         type: 3}
+    - target: {fileID: 2902496963592891405, guid: f25010d606133144e891ff583654cfe2,
+        type: 3}
+      propertyPath: foreverID
+      value: f29df69b3b938f941b3064a2cb7dc4b6
+      objectReference: {fileID: 0}
     - target: {fileID: 3092770733469703801, guid: f25010d606133144e891ff583654cfe2,
         type: 3}
       propertyPath: m_AssetId
@@ -100,6 +105,12 @@ PrefabInstance:
       propertyPath: pushTextureOnStartUp
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4520368254274666827, guid: f25010d606133144e891ff583654cfe2,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c86b06a6cf9b1e24a9082e2293c8e787,
+        type: 2}
     - target: {fileID: 8139445808837525756, guid: f25010d606133144e891ff583654cfe2,
         type: 3}
       propertyPath: droppedObject

@@ -3,28 +3,42 @@ using Logs;
 using MiniGames;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using MiniGames.MiniGameModules;
+using Mirror;
 
 namespace Objects.Closets
 {
-	public class AbandonedCrates : MonoBehaviour, IServerSpawn, ICheckedInteractable<HandApply>
+	public class AbandonedCrates : NetworkBehaviour
 	{
 
 		[SerializeField] private MiniGameResultTracker miniGameTracker;
 		[SerializeField] private List<MiniGameModule> miniGameModules;
 		[SerializeField] private ClosetControl control;
+		[SerializeField] private HasNetworkTab netTab = null;
 
-		private int currentMiniGameIndex = -1;
+		[SyncVar(hook = nameof(SyncMiniGame))] private int currentMiniGameIndex = 0;
+		private bool hasCompletedPuzzle = false;
 
 
-		private void Awake()
+		private void Start()
 		{
 			if (control == null) control = GetComponent<ClosetControl>();
+
+			miniGameTracker.OnGameWon.AddListener(GameWin);
+			miniGameTracker.OnGameLoss.AddListener(GameLoss);
+
+			SetupMiniGames();
 		}
 
-
-		public void OnSpawnServer(SpawnInfo info)
+		public void SyncMiniGame(int oldValue, int newValue)
 		{
+			if (CustomNetworkManager.IsServer == true) return;
+			if (oldValue == newValue) return;
+
+			currentMiniGameIndex = newValue;
+
 			SetupMiniGames();
+
 		}
 
 		private void SetupMiniGames()
@@ -36,44 +50,47 @@ namespace Objects.Closets
 				return;
 			}
 
-			currentMiniGameIndex = Random.Range(0, miniGameModules.Count - 1);
-			miniGameModules[currentMiniGameIndex].Setup(miniGameTracker, gameObject);
-			control.SetLock(ClosetControl.Lock.Locked);
-		}
+			if (CustomNetworkManager.IsServer == true)
+			{
+				control.SetLock(ClosetControl.Lock.Locked);
+				currentMiniGameIndex = Random.Range(0, miniGameModules.Count - 1);
 
-		public void StartGame()
-		{
-			miniGameModules[currentMiniGameIndex].StartMiniGame();
+			}
+
+			if (currentMiniGameIndex < 0) return;
+
+			miniGameModules[currentMiniGameIndex].Setup(miniGameTracker, gameObject);
+
+			miniGameTracker.StartGame();
+
+			ReflectionGolfModule golf = miniGameModules[currentMiniGameIndex] as ReflectionGolfModule;
+			if (golf != null)
+			{
+				netTab.NetTabType = NetTabType.ReflectionGolf;
+				golf.RequestSync();
+			}
 		}
 
 		public void GameWin()
 		{
+			netTab.NetTabType = NetTabType.None;
+			hasCompletedPuzzle = true;
+			miniGameTracker.OnGameWon.RemoveListener(GameWin);
+
+			if (CustomNetworkManager.IsServer == false) return;
+
 			control.SetLock(ClosetControl.Lock.Unlocked);
-			control.SetDoor(ClosetControl.Door.Opened);
 		}
 
 		public void GameLoss()
 		{
+			netTab.NetTabType = NetTabType.None;
+			miniGameTracker.OnGameLoss.RemoveListener(GameLoss);
+
+			if (CustomNetworkManager.IsServer ==false) return;
+
 			_ = SoundManager.PlayNetworkedAtPosAsync(CommonSounds.Instance.AccessDenied,
 				gameObject.AssumedWorldPosServer());
-		}
-
-		public bool WillInteract(HandApply interaction, NetworkSide side)
-		{
-			if (miniGameTracker == null || control == null ||control.IsOpen) return false;
-			if (currentMiniGameIndex == -1)
-			{
-				Loggy.LogError("[MiniGames/AbandonedCrates] - Found MiniGameTracker but no minigame is assigned!");
-				return false;
-			}
-			if (DefaultWillInteract.Default(interaction, side) == false) return false;
-
-			return true;
-		}
-
-		public void ServerPerformInteraction(HandApply interaction)
-		{
-			miniGameTracker.OnStartGame?.Invoke();
 		}
 	}
 }

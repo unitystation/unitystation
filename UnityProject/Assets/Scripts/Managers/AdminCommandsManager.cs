@@ -111,7 +111,7 @@ namespace AdminCommands
 			if (newLimit < 0) return;
 
 			var currentLimit = GameManager.Instance.PlayerLimit;
-			if(currentLimit == newLimit) return;
+			if (currentLimit == newLimit) return;
 
 			LogAdminAction($"{player.Username}: Set PlayerLimit to {newLimit} from {currentLimit}");
 
@@ -129,7 +129,7 @@ namespace AdminCommands
 			if (newLimit < MINIUM_SERVER_FRAMERATE) return;
 
 			var currentLimit = Application.targetFrameRate;
-			if(currentLimit == newLimit) return;
+			if (currentLimit == newLimit) return;
 
 			LogAdminAction($"{player.Username}: Set MaxServerFrameRate to {newLimit} from {currentLimit}");
 
@@ -141,7 +141,8 @@ namespace AdminCommands
 		{
 			if (IsAdmin(sender, out var player) == false) return;
 
-			LogAdminAction($"{player.Username}: Set the Server Password to {newPassword} from {ServerData.ServerConfig.ConnectionPassword}");
+			LogAdminAction(
+				$"{player.Username}: Set the Server Password to {newPassword} from {ServerData.ServerConfig.ConnectionPassword}");
 
 			ServerData.ServerConfig.ConnectionPassword = newPassword;
 		}
@@ -174,7 +175,7 @@ namespace AdminCommands
 
 			Manager3D.Instance.ConvertTo3D();
 
-			if(message.Length == 0) return;
+			if (message.Length == 0) return;
 			LogAdminAction(message.ToString());
 		}
 
@@ -197,7 +198,7 @@ namespace AdminCommands
 				GameManager.Instance.SecretGameMode = isSecret;
 			}
 
-			if(message.Length == 0) return;
+			if (message.Length == 0) return;
 			LogAdminAction(message.ToString());
 		}
 
@@ -207,12 +208,12 @@ namespace AdminCommands
 
 		[Command(requiresAuthority = false)]
 		public void CmdTriggerGameEvent(int eventIndex, bool isFake, bool announceEvent,
-				InGameEventType eventType, string serializedEventParameters, NetworkConnectionToClient sender = null)
+			InGameEventType eventType, string serializedEventParameters, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var player) == false) return;
 
 			InGameEventsManager.Instance.TriggerSpecificEvent(
-					eventIndex, eventType, isFake, player.Username, announceEvent, serializedEventParameters);
+				eventIndex, eventType, isFake, player.Username, announceEvent, serializedEventParameters);
 		}
 
 		#endregion
@@ -226,16 +227,19 @@ namespace AdminCommands
 
 			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound && GameManager.Instance.waitForStart)
 			{
-				if (SubsystemMatrixQueueInit.InitializedAll == false || SubSceneManager.Instance.ServerInitialLoadingComplete == false)
+				if (SubsystemMatrixQueueInit.InitializedAll == false ||
+				    SubSceneManager.Instance.ServerInitialLoadingComplete == false)
 				{
-					Chat.AddGameWideSystemMsgToChat($"<color={AdminActionChatColor}> An Admin tried to start the game early but the server wasn't ready. **insert Walter White Breaks Down meme here** </color>");
+					Chat.AddGameWideSystemMsgToChat(
+						$"<color={AdminActionChatColor}> An Admin tried to start the game early but the server wasn't ready. **insert Walter White Breaks Down meme here** </color>");
 					return;
 				}
 
 
 				GameManager.Instance.StartRound();
 
-				Chat.AddGameWideSystemMsgToChat($"<color={AdminActionChatColor}>An admin started the round early.</color>");
+				Chat.AddGameWideSystemMsgToChat(
+					$"<color={AdminActionChatColor}>An admin started the round early.</color>");
 				LogAdminAction($"{player.Username}: Force STARTED the round.");
 			}
 		}
@@ -251,7 +255,8 @@ namespace AdminCommands
 				VideoPlayerMessage.Send(VideoType.RestartRound);
 				GameManager.Instance.EndRound();
 
-				Chat.AddGameWideSystemMsgToChat($"<color={AdminActionChatColor}>An admin ended the round early.</color>");
+				Chat.AddGameWideSystemMsgToChat(
+					$"<color={AdminActionChatColor}>An admin ended the round early.</color>");
 				LogAdminAction($"{player.Username}: Force ENDED the round.");
 			}
 		}
@@ -263,7 +268,8 @@ namespace AdminCommands
 
 			if (SubSceneManager.AdminForcedMainStation == nextMap) return;
 
-			LogAdminAction($"{player.Username}: Changed the next round map from {SubSceneManager.AdminForcedMainStation} to {nextMap}.");
+			LogAdminAction(
+				$"{player.Username}: Changed the next round map from {SubSceneManager.AdminForcedMainStation} to {nextMap}.");
 
 			SubSceneManager.AdminForcedMainStation = nextMap;
 		}
@@ -275,7 +281,8 @@ namespace AdminCommands
 
 			if (SubSceneManager.AdminForcedAwaySite == nextAwaySite) return;
 
-			LogAdminAction($"{player.Username}: Changed the next round away site from {SubSceneManager.AdminForcedAwaySite} to {nextAwaySite}.");
+			LogAdminAction(
+				$"{player.Username}: Changed the next round away site from {SubSceneManager.AdminForcedAwaySite} to {nextAwaySite}.");
 
 			SubSceneManager.AdminForcedAwaySite = nextAwaySite;
 		}
@@ -363,7 +370,7 @@ namespace AdminCommands
 		}
 
 		[Command(requiresAuthority = false)]
-		public void CmdSendBlockShuttleRecall( bool toggleBool, NetworkConnectionToClient sender = null)
+		public void CmdSendBlockShuttleRecall(bool toggleBool, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var player) == false) return;
 
@@ -404,7 +411,8 @@ namespace AdminCommands
 
 			if (PlayerList.Instance.TryGetByUserID(userToSmite, out var player) == false)
 			{
-				Loggy.LogError($"{admin.Username} tried to smite a player with user ID '{userToSmite}' but they couldn't be found.");
+				Loggy.LogError(
+					$"{admin.Username} tried to smite a player with user ID '{userToSmite}' but they couldn't be found.");
 				return;
 			}
 
@@ -449,6 +457,7 @@ namespace AdminCommands
 			{
 				message = $"{admin.Username}: Attempted healing {player.Username} but they had no body!";
 			}
+
 			//Log what we did.
 			LogAdminAction(message);
 		}
@@ -463,7 +472,8 @@ namespace AdminCommands
 
 			if (PlayerList.Instance.TryGetByUserID(userToMute, out var player) == false)
 			{
-				Loggy.LogError($"Could not find player with user ID '{userToMute}'. Unable to OOC mute.", Category.Admin);
+				Loggy.LogError($"Could not find player with user ID '{userToMute}'. Unable to OOC mute.",
+					Category.Admin);
 				return;
 			}
 
@@ -479,13 +489,15 @@ namespace AdminCommands
 		/// Gives item to player
 		/// </summary>
 		[Command(requiresAuthority = false)]
-		public void CmdGivePlayerItem(string userToGiveItem, string itemPrefabName, int count, string customMessage, NetworkConnectionToClient sender = null)
+		public void CmdGivePlayerItem(string userToGiveItem, string itemPrefabName, int count, string customMessage,
+			NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
 
 			if (PlayerList.Instance.TryGetByUserID(userToGiveItem, out var player) == false)
 			{
-				Loggy.LogError($"Could not find player with user ID '{userToGiveItem}'. Unable to give item.", Category.Admin);
+				Loggy.LogError($"Could not find player with user ID '{userToGiveItem}'. Unable to give item.",
+					Category.Admin);
 				return;
 			}
 
@@ -512,9 +524,11 @@ namespace AdminCommands
 				Chat.AddExamineMsg(player.GameObject, customMessage);
 			}
 
-			Chat.AddExamineMsg(admin.GameObject, $"You have given {player.Script.playerName} : {item.GameObject.ExpensiveName()}");
+			Chat.AddExamineMsg(admin.GameObject,
+				$"You have given {player.Script.playerName} : {item.GameObject.ExpensiveName()}");
 
-			var message = $"{admin.Username}: gave {player.Script.playerName} {count} {item.GameObject.ExpensiveName()}";
+			var message =
+				$"{admin.Username}: gave {player.Script.playerName} {count} {item.GameObject.ExpensiveName()}";
 
 			//Log what we did.
 			LogAdminAction(message);
@@ -537,15 +551,15 @@ namespace AdminCommands
 		}
 
 		[Command(requiresAuthority = false)]
-		public void CmdPlaySoundAtAdminGhost(string addressableAudioSource, AudioSourceParameters parameters, bool poloyphonic, NetworkConnectionToClient sender = null)
+		public void CmdPlaySoundAtAdminGhost(string addressableAudioSource, AudioSourceParameters parameters,
+			bool poloyphonic, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
 			AddressableAudioSource sound = new AddressableAudioSource();
 			sound.AssetAddress = addressableAudioSource;
 			GameObject location = admin.Mind.isGhosting ? admin.Mind.ghost.gameObject : admin.Mind.Body.gameObject;
-			SoundManager.PlayNetworkedAtPos(sound,  location.AssumedWorldPosServer(), parameters, poloyphonic);
+			SoundManager.PlayNetworkedAtPos(sound, location.AssumedWorldPosServer(), parameters, poloyphonic);
 		}
-
 
 		#endregion
 
@@ -641,11 +655,12 @@ namespace AdminCommands
 			if (PlayerList.Instance.TryGetByUserID(userToUpgrade, out var player) == false)
 			{
 				Loggy.LogWarning($"{admin.Username} has set user with ID '{userToUpgrade}' "
-						+ "as mentor but they could not be found!", Category.Admin);
+				                 + "as mentor but they could not be found!", Category.Admin);
 				return;
 			}
 
-			LogAdminAction($"{admin.Username}: Gave {player.Username} {(isPermanent ? "permanent" : "temporary")} Mentor");
+			LogAdminAction(
+				$"{admin.Username}: Gave {player.Username} {(isPermanent ? "permanent" : "temporary")} Mentor");
 		}
 
 		[Command(requiresAuthority = false)]
@@ -658,7 +673,7 @@ namespace AdminCommands
 			if (PlayerList.Instance.TryGetByUserID(userToDowngrade, out var player) == false)
 			{
 				Loggy.LogWarning($"{admin.Username} has unset user with ID '{userToDowngrade}' "
-						+ "as mentor but they could not be found!", Category.Admin);
+				                 + "as mentor but they could not be found!", Category.Admin);
 				return;
 			}
 
@@ -732,17 +747,20 @@ namespace AdminCommands
 				foundBounty.Index = i;
 				simpleData.Add(foundBounty);
 			}
+
 			TargetSendCargoData(sender, simpleData);
 			TargetUpdateBudgetForClient(sender, CargoManager.Instance.Credits);
 		}
 
 		[Command(requiresAuthority = false)]
-		public void CmdAddBounty(ItemTrait trait, int amount, string title, string description, int reward, bool announce, NetworkConnectionToClient sender = null)
+		public void CmdAddBounty(ItemTrait trait, int amount, string title, string description, int reward,
+			bool announce, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
 			CargoManager.Instance.AddBounty(trait, amount, title, description, reward, announce);
 			CargoManager.Instance.OnBountiesUpdate?.Invoke();
-			LogAdminAction($"{admin.Username} has added a new bounty -> Title : {title} || reward : {reward} || Announce : {announce}");
+			LogAdminAction(
+				$"{admin.Username} has added a new bounty -> Title : {title} || reward : {reward} || Announce : {announce}");
 		}
 
 		[Command(requiresAuthority = false)]
@@ -831,44 +849,60 @@ namespace AdminCommands
 		public void CmdOpenDoor(GameObject doorToOpen, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
-			if(doorToOpen == null) return;
+			try
+			{
+				if (doorToOpen == null) return;
 
-			if(doorToOpen.TryGetComponent<DoorMasterController>(out var doorMasterController) == false) return;
+				if (doorToOpen.TryGetComponent<DoorMasterController>(out var doorMasterController) == false) return;
 
-			//Open no matter what, even if welded or bolted closed
-			doorMasterController.Open();
+				//Open no matter what, even if welded or bolted closed
+				doorMasterController.Open();
 
-			LogAdminAction($"{admin.Username} forced {doorToOpen.ExpensiveName()} to open");
+				LogAdminAction($"{admin.Username} forced {doorToOpen.ExpensiveName()} to open");
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError(e.ToString());
+			}
 		}
 
 		[Command(requiresAuthority = false)]
 		public void CmdToggleBoltDoor(GameObject doorToToggle, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
-			if(doorToToggle == null) return;
+			try
+			{
+				if (doorToToggle == null) return;
 
-			if(doorToToggle.TryGetComponent<DoorMasterController>(out var doorMasterController) == false) return;
+				if (doorToToggle.TryGetComponent<DoorMasterController>(out var doorMasterController) == false) return;
 
-			//Toggle bolt state
-			var boltModule = doorMasterController.GetComponentInChildren<BoltsModule>();
-			boltModule.ToggleBolts();
+				//Toggle bolt state
+				var boltModule = doorMasterController.GetComponentInChildren<BoltsModule>();
+				boltModule.ToggleBolts();
 
-			LogAdminAction($"{admin.Username} toggled the bolts {(boltModule.BoltsDown ? "ON" : "OFF")} for: {doorToToggle.ExpensiveName()}");
+				LogAdminAction(
+					$"{admin.Username} toggled the bolts {(boltModule.BoltsDown ? "ON" : "OFF")} for: {doorToToggle.ExpensiveName()}");
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError(e.ToString());
+			}
 		}
 
 		[Command(requiresAuthority = false)]
 		public void CmdToggleElectrifiedDoor(GameObject doorToToggle, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
-			if(doorToToggle == null) return;
+			if (doorToToggle == null) return;
 
-			if(doorToToggle.TryGetComponent<DoorMasterController>(out var doorMasterController) == false) return;
+			if (doorToToggle.TryGetComponent<DoorMasterController>(out var doorMasterController) == false) return;
 
 			//Toggle electrify state
 			var electrify = doorMasterController.GetComponentInChildren<ElectrifiedDoorModule>();
 			electrify.ToggleElectrocution();
 
-			LogAdminAction($"{admin.Username} toggled electrify {(electrify.IsElectrified ? "ON" : "OFF")} for: {doorToToggle.ExpensiveName()}");
+			LogAdminAction(
+				$"{admin.Username} toggled electrify {(electrify.IsElectrified ? "ON" : "OFF")} for: {doorToToggle.ExpensiveName()}");
 		}
 
 		#endregion
@@ -879,18 +913,18 @@ namespace AdminCommands
 		public void CmdTeleportToObject(GameObject teleportTo, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
-			if(teleportTo == null) return;
+			if (teleportTo == null) return;
 
-			if(teleportTo.TryGetComponent<UniversalObjectPhysics>(out var uop) == false) return;
+			if (teleportTo.TryGetComponent<UniversalObjectPhysics>(out var uop) == false) return;
 
 			var adminScript = admin.Script;
-			if(adminScript == null) return;
+			if (adminScript == null) return;
 
 			if (adminScript.ObjectPhysics != null)
 			{
 				adminScript.ObjectPhysics.AppearAtWorldPositionServer(uop.OfficialPosition, false, false);
 			}
-			else if(adminScript.TryGetComponent<GhostMove>(out var ghostMove))
+			else if (adminScript.TryGetComponent<GhostMove>(out var ghostMove))
 			{
 				ghostMove.ForcePositionClient(uop.OfficialPosition, false);
 			}
@@ -902,13 +936,14 @@ namespace AdminCommands
 		public void CmdTogglePushable(GameObject gameObjectToToggle, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
-			if(gameObjectToToggle == null) return;
+			if (gameObjectToToggle == null) return;
 
-			if(gameObjectToToggle.TryGetComponent<UniversalObjectPhysics>(out var uop) == false) return;
+			if (gameObjectToToggle.TryGetComponent<UniversalObjectPhysics>(out var uop) == false) return;
 
 			uop.SetIsNotPushable(!uop.isNotPushable);
 
-			LogAdminAction($"{admin.Username} made {gameObjectToToggle.ExpensiveName()} {(uop.IsNotPushable ? "not" : "")} pushable");
+			LogAdminAction(
+				$"{admin.Username} made {gameObjectToToggle.ExpensiveName()} {(uop.IsNotPushable ? "not" : "")} pushable");
 		}
 
 		#endregion
@@ -919,9 +954,9 @@ namespace AdminCommands
 		public void CmdEarlyLaunch(GameObject shuttleConsole, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
-			if(shuttleConsole == null) return;
+			if (shuttleConsole == null) return;
 
-			if(shuttleConsole.TryGetComponent<EscapeShuttleConsole>(out var escapeShuttleConsole) == false) return;
+			if (shuttleConsole.TryGetComponent<EscapeShuttleConsole>(out var escapeShuttleConsole) == false) return;
 
 			escapeShuttleConsole.DepartShuttle();
 
@@ -936,7 +971,7 @@ namespace AdminCommands
 		public void CmdActivateButton(GameObject button, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
-			if(button == null) return;
+			if (button == null) return;
 
 			if (button.TryGetComponent<GeneralSwitch>(out var generalSwitch))
 			{
@@ -945,7 +980,7 @@ namespace AdminCommands
 				return;
 			}
 
-			if(button.TryGetComponent<DoorSwitch>(out var doorSwitch) == false) return;
+			if (button.TryGetComponent<DoorSwitch>(out var doorSwitch) == false) return;
 
 			doorSwitch.RunDoorController();
 
@@ -963,7 +998,7 @@ namespace AdminCommands
 		public void CmdHealMob(GameObject mobToHeal, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var admin) == false) return;
-			if(mobToHeal == null) return;
+			if (mobToHeal == null) return;
 
 			//Does this player have a body that can be healed?
 			if (mobToHeal.TryGetComponent<IFullyHealable>(out var fullyHealable) == false) return;
@@ -1098,7 +1133,7 @@ namespace AdminCommands
 			}
 			else
 			{
-				 matrixInfo.MetaTileMap.SetTile(localPos, tile, matrix4X4, colour);
+				matrixInfo.MetaTileMap.SetTile(localPos, tile, matrix4X4, colour);
 			}
 		}
 
@@ -1141,7 +1176,8 @@ namespace AdminCommands
 			}
 		}
 
-		private static void RemoveTile(LayerType layerType, MatrixInfo matrixInfo, Vector3Int startLocalPos, OverlayType overlayType)
+		private static void RemoveTile(LayerType layerType, MatrixInfo matrixInfo, Vector3Int startLocalPos,
+			OverlayType overlayType)
 		{
 			if (overlayType != OverlayType.None)
 			{
@@ -1208,13 +1244,15 @@ namespace AdminCommands
 
 			var currentIndex = 0;
 			var maximumIndexes = 20;
-			foreach (var stationObject in MatrixManager.MainStationMatrix.Objects.GetComponentsInChildren<LightSource>())
+			foreach (var stationObject in
+			         MatrixManager.MainStationMatrix.Objects.GetComponentsInChildren<LightSource>())
 			{
 				if (currentIndex >= maximumIndexes)
 				{
 					currentIndex = 0;
 					yield return WaitFor.EndOfFrame;
 				}
+
 				stationObject.Integrity.ForceDestroy();
 				currentIndex++;
 			}
@@ -1226,13 +1264,15 @@ namespace AdminCommands
 
 			var currentIndex = 0;
 			var maximumIndexes = 20;
-			foreach (var stationObject in MatrixManager.MainStationMatrix.Objects.GetComponentsInChildren<APCPoweredDevice>())
+			foreach (var stationObject in MatrixManager.MainStationMatrix.Objects
+				         .GetComponentsInChildren<APCPoweredDevice>())
 			{
 				if (currentIndex >= maximumIndexes)
 				{
 					currentIndex = 0;
 					yield return WaitFor.EndOfFrame;
 				}
+
 				stationObject.ChangeToSelfPowered();
 				currentIndex++;
 			}
@@ -1244,13 +1284,15 @@ namespace AdminCommands
 
 			var currentIndex = 0;
 			var maximumIndexes = 20;
-			foreach (var stationObject in MatrixManager.MainStationMatrix.Objects.GetComponentsInChildren<LightSource>())
+			foreach (var stationObject in
+			         MatrixManager.MainStationMatrix.Objects.GetComponentsInChildren<LightSource>())
 			{
 				if (currentIndex >= maximumIndexes)
 				{
 					currentIndex = 0;
 					yield return WaitFor.EndOfFrame;
 				}
+
 				stationObject.Animator.PlayAnimNetworked(0);
 				currentIndex++;
 			}
@@ -1294,7 +1336,8 @@ namespace AdminCommands
 			foreach (var faith in FaithManager.Instance.CurrentFaiths)
 			{
 				FaithManager.AwardPoints(500, faith.Faith.FaithName);
-				Chat.AddGameWideSystemMsgToChat($"<color=blue>An admin has given the '{faith.Faith.FaithName}' faith 500 points</color>");
+				Chat.AddGameWideSystemMsgToChat(
+					$"<color=blue>An admin has given the '{faith.Faith.FaithName}' faith 500 points</color>");
 			}
 		}
 

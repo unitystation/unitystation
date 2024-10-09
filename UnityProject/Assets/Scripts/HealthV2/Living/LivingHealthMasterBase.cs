@@ -1266,6 +1266,7 @@ namespace HealthV2
 
 			switch (bodyPartAim)
 			{
+				case BodyPartType.Ears:
 				case BodyPartType.Eyes:
 				case BodyPartType.Mouth:
 					foreach (var bodyPart in BodyPartList)
@@ -1318,6 +1319,7 @@ namespace HealthV2
 
 			switch (bodyPartAim)
 			{
+				case BodyPartType.Ears:
 				case BodyPartType.Eyes:
 				case BodyPartType.Mouth:
 					foreach (var bodyPart in BodyPartList)
@@ -1360,6 +1362,23 @@ namespace HealthV2
 			}
 
 			return didFlash;
+		}
+
+		public bool TryDeafen(float deafenDuration, bool checkForProtectiveCloth = true)
+		{
+			bool didDeafen = false;
+			var ears = GetBodyPartsInArea(BodyPartType.Ears, false);
+			foreach (var ear in ears)
+			{
+				var eyeFlash = ear.GetComponentCustom<EarDeafen>();
+				if (eyeFlash != null && eyeFlash.TryDeafen(deafenDuration, checkForProtectiveCloth))
+				{
+					didDeafen = true;
+					AdminLogsManager.AddNewLog(null, $"{playerScript.visibleName} has been deafened.", LogCategory.Interaction, Severity.SUSPICOUS);
+				}
+			}
+
+			return didDeafen;
 		}
 
 

@@ -3,6 +3,7 @@ using UI.Core.NetUI;
 using UnityEngine;
 using Systems.Research.Data;
 using Systems.Research;
+using System.Collections;
 
 namespace UI.Objects.Research
 {
@@ -28,26 +29,34 @@ namespace UI.Objects.Research
 			techName.MasterSetValue(GUI_TechwebPage.AppendNameAndTechType(technology));
 			techDescription.MasterSetValue(technology.Description);
 			techPrice.MasterSetValue(technology.ResearchCosts.ToString());
-			SetSprites();
+			StartCoroutine(SetSprites());
 		}
 
-		private void SetSprites()
+		private IEnumerator SetSprites()
 		{
 			int unlockCount = technologyToUnlock.DesignIDs.Count;
-			spriteList.SetItems(unlockCount);
 
-			for(int i = 0; i < unlockCount; i++)
+			yield return new WaitForEndOfFrame();
+			spriteList.SetItems(unlockCount);
+			yield return new WaitForEndOfFrame();
+
+			for (int i = 0; i < unlockCount; i++)
 			{
+				if (spriteList.Entries[i].TryGetComponent<SpriteEntry>(out var handler) == false) continue;
+				
 				string DesignID = technologyToUnlock.DesignIDs[i]; //Gets the designs this research will unlock
 				if (Designs.Globals.InternalIDSearch.ContainsKey(DesignID) == false) continue;
-
+				
 				Design designClass = Designs.Globals.InternalIDSearch[DesignID];
 
 				//Gets the sprite of the gameObject that design is for
-				SpriteDataSO sprite = networkManager.ForeverIDLookupSpawnablePrefabs[designClass.ItemID].GetComponentInChildren<SpriteHandler>().PresentSpritesSet;
+				GameObject designObject = networkManager.ForeverIDLookupSpawnablePrefabs[designClass.ItemID];
+				SpriteDataSO sprite = designObject.GetComponentInChildren<SpriteHandler>().initialPresentSpriteSet;
 
 				//Uses the sprite from above and sets the sprite of the list entry to that sprite
-				spriteList.Entries[i].GetComponentInChildren<NetSpriteHandler>().SetValue(sprite.SetID);
+				handler.Initialise(sprite, designObject.ExpensiveName());
+
+				yield return new WaitForEndOfFrame(); //Just slow down the number of updates
 			}
 		}
 

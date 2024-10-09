@@ -13,22 +13,22 @@ MonoBehaviour:
   m_Name: AdditionalSceneList
   m_EditorClassIdentifier: 
   AdditionalScenes:
-  - LavaLand
-  - AncientStation
+  - AdditionalScenes/LavaLand.json
+  - AdditionalScenes/AncientStation.json
   defaultCentComScenes:
-  - CentCom
+  - AdditionalScenes/CentCom.json
   CentComScenes:
-  - CentComSceneName: Fallstation Centcom
+  - CentComSceneName: AdditionalScenes/Fallstation Centcom.json
     DependentScene: FallStation
   defaultSyndicateScenes:
-  - SyndicateOutpost
+  - AdditionalScenes/Syndicate/SyndicateOutpost.json
   SyndicateScenes:
-  - SyndicateSceneName: Fallstation Syndicate
+  - SyndicateSceneName: AdditionalScenes/Syndicate/Fallstation Syndicate.json
     DependentScene: FallStation
-  - SyndicateSceneName: SyndicatePog
+  - SyndicateSceneName: AdditionalScenes/Syndicate/SyndicatePog.json
     DependentScene: PogStation
-  - SyndicateSceneName: Ministation Syndicate
+  - SyndicateSceneName: AdditionalScenes/Syndicate/Ministation Syndicate.json
     DependentScene: MiniStation
   WizardScenes:
-  - WizardAsteroid
-  - WizardShip
+  - AdditionalScenes/Wizard/WizardAsteroid.json
+  - AdditionalScenes/Wizard/WizardShip.json

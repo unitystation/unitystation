@@ -9,13 +9,15 @@ public class ExplosionTypes
 	{
 		Regular,
 		EMP,
-		PlayerFriendly
+		PlayerFriendly,
+		Harmless
 	}
 
 	public static readonly Dictionary<ExplosionType, ExplosionNode> NodeTypes = new Dictionary<ExplosionType, ExplosionNode>() //add your node type here
 	{
 			{ExplosionType.Regular, new ExplosionNode()},
 			{ExplosionType.EMP, new ExplosionEmpNode()},
-			{ExplosionType.PlayerFriendly, new PlayerFriendlyExplosionNode()}
+			{ExplosionType.PlayerFriendly, new PlayerFriendlyExplosionNode()},
+			{ExplosionType.Harmless, new HarmlessExplosionNode()}
 	};
 }

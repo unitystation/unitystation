@@ -54,6 +54,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3936668391451231998, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a3ec407f0fc55924b94ec88a58681c7d,
+        type: 2}
+    - target: {fileID: 3936668391451231998, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
       propertyPath: SubCatalogue.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -69,6 +75,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 852b56951cc62ce46abbd5fa22b1da78,
         type: 2}
+    - target: {fileID: 4832238780736107124, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
+      propertyPath: foreverID
+      value: 4667f892956407843ac96e3a95239df3
+      objectReference: {fileID: 0}
     - target: {fileID: 5880500897755811168, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
       propertyPath: m_LocalRotation.x

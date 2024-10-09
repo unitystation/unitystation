@@ -103,6 +103,11 @@ namespace Items
 		/// </summary>
 		public MultiInterestFloat ServerBlockChance = new( InSetFloatBehaviour: MultiInterestFloat.FloatBehaviour.AddBehaviour);
 
+		/// <summary>
+		/// Server only action for OnBlock effects, gameobject is the attacker and float is the amount of damage that was blocked
+		/// </summary>
+		public Action<GameObject, float, DamageType> OnBlock;
+
 		[Header("Sprites/Sounds/Flags/Misc.")]
 
 		[Tooltip("How many tiles to move per 0.1s when being thrown")]

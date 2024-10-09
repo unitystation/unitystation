@@ -95,6 +95,7 @@ namespace Chemistry
 
 		[SerializeField]
 		public  SerializableDictionary<Reagent, float> reagents;
+		public readonly List<CachedEffect> cachedEffects = new List<CachedEffect>();
 
 		//should only be accessed when locked so should be okay
 		private Dictionary<Reagent, float> TEMPReagents = new Dictionary<Reagent, float>();
@@ -104,6 +105,13 @@ namespace Chemistry
 		{
 			Temperature = temperature;
 			this.reagents = reagents;
+		}
+
+		public ReagentMix(List<CachedEffect> _cachedEffects, SerializableDictionary<Reagent, float> reagents, float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
+		{
+			Temperature = temperature;
+			this.reagents = reagents;
+			cachedEffects = new List<CachedEffect>(_cachedEffects);
 		}
 
 		public ReagentMix(Reagent reagent, float amount, float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
@@ -128,7 +136,7 @@ namespace Chemistry
 			get => temperature;
 			set
 			{
-				if (float.IsNormal(value) == false && value != 0)
+				if (value.IsUnreasonableNumber() && value != 0)
 				{
 					Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE Reagent mix temperature Invalid number!!!! {value}");
 					return;
@@ -169,7 +177,7 @@ namespace Chemistry
 
 			set
 			{
-				if (float.IsNormal(value) == false && value != 0)
+				if (value.IsUnreasonableNumber() && value != 0)
 				{
 					Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE Reagent mix InternalEnergy Invalid number!!!! {value}");
 					return;
@@ -307,7 +315,7 @@ namespace Chemistry
 				return;
 			}
 
-			if (float.IsNormal(amount) == false)
+			if (amount.IsUnreasonableNumber())
 			{
 				return;
 			}
@@ -328,6 +336,20 @@ namespace Chemistry
 			}
 		}
 
+		public void CacheReactionEffects(List<CachedEffect> _cachedEffects)
+		{
+			cachedEffects.AddRange(_cachedEffects);
+		}
+
+		public void ApplyEffectCache(MonoBehaviour sender)
+		{
+			foreach (var cachedEffect in cachedEffects)
+			{
+				cachedEffect.effectType.Apply(sender, cachedEffect.effectAmount);
+			}
+			cachedEffects.Clear();
+		}
+
 
 		public float Remove(Reagent reagent, float amount)
 		{
@@ -344,7 +366,7 @@ namespace Chemistry
 				return 0;
 			}
 
-			if (float.IsNormal(amount ) == false)
+			if (amount.IsUnreasonableNumber())
 			{
 				Loggy.LogError($"Trying to remove {amount} amount of {reagent}", Category.Chemistry);
 				return 0;
@@ -439,7 +461,7 @@ namespace Chemistry
 				return;
 			}
 
-			if (float.IsNormal(multiplier) == false && multiplier != 0)
+			if (multiplier.IsUnreasonableNumber() && multiplier != 0)
 			{
 				Loggy.LogError($"Trying to Multiply by {multiplier}", Category.Chemistry);
 				return;
@@ -487,7 +509,7 @@ namespace Chemistry
 				return;
 			}
 
-			if (float.IsNormal(Divider) == false)
+			if (Divider.IsUnreasonableNumber())
 			{
 				Loggy.LogError($"Trying to Divide by {Divider}", Category.Chemistry);
 				return;
@@ -675,6 +697,11 @@ namespace Chemistry
 		public ReagentMix Clone()
 		{
 			return new ReagentMix(new  SerializableDictionary<Reagent, float>(reagents.m_dict), Temperature);
+		}
+
+		public ReagentMix CloneWithCache()
+		{
+			return new ReagentMix(cachedEffects, new SerializableDictionary<Reagent, float>(reagents.m_dict), Temperature);
 		}
 
 		public bool ContentEquals (ReagentMix b)

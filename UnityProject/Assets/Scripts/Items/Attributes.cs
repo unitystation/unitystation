@@ -113,6 +113,8 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 	private string articleDescription;
 
 
+	[SyncVar(hook = nameof(SyncIsMapped))] public bool IsMapped = false;
+
 	/// <summary>
 	/// Sizes:
 	/// Tiny - pen, coin, pills. Anything you'd easily lose in a couch.
@@ -151,6 +153,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 
 	private const float MINIMUM_HIGHLIGHT_DISTANCE = 6f;
 
+
 	public override void OnStartClient()
 	{
 		SyncArticleName(articleName, articleName);
@@ -159,15 +162,9 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 		base.OnStartClient();
 	}
 
-	public override void OnStartServer()
-	{
-		SyncArticleName(articleName, initialName);
-		SyncArticleDescription(articleDescription, initialDescription);
-		base.OnStartServer();
-	}
-
 	private void Start()
 	{
+		SyncIsMapped(IsMapped, this.GetComponent<RuntimeSpawned>() == null);
 		ComponentsTracker<Attributes>.Instances.Add(this);
 	}
 
@@ -201,9 +198,25 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 		articleDescription = newDescription;
 	}
 
+	public void SyncIsMapped(bool oldIsMapped, bool NewIsMapped)
+	{
+		IsMapped = NewIsMapped;
+		if (NewIsMapped && this.GetComponent<RuntimeSpawned>() != null)
+		{
+			Destroy(this.GetComponent<RuntimeSpawned>());
+		}
+		else if (NewIsMapped == false && this.GetComponent<RuntimeSpawned>() == null)
+		{
+			gameObject.AddComponent<RuntimeSpawned>();
+		}
+	}
+
+
 	public void OnSpawnServer(SpawnInfo info)
 	{
 		size = initialSize;
+		SyncArticleName(articleName, initialName);
+		SyncArticleDescription(articleDescription, initialDescription);
 	}
 
 	/// <summary>
@@ -323,5 +336,10 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 		if (PlayerManager.LocalPlayerObject == null || gameObject.IsAtHiddenPos()) return;
 		if (Vector2.Distance(gameObject.AssumedWorldPosServer(), PlayerManager.LocalPlayerObject.AssumedWorldPosServer()) > MINIMUM_HIGHLIGHT_DISTANCE) return;
 		Instantiate(GlobalHighlighterManager.HighlightObject, this.transform, false);
+	}
+
+	public void SetInitialName(string Name)
+	{
+		initialName = Name;
 	}
 }

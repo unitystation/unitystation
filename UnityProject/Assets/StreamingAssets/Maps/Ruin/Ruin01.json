@@ -1,6 +1,6 @@
 {
   "Ver": "1.0.0",
-  "MapName": "Ruin1",
+  "MapName": "Asteroid_Bar",
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
@@ -428,6 +428,9 @@
             "Key": "X5Y12",
             "Value": [
               {
+                "Tel": "PlatingScorched"
+              },
+              {
                 "Tel": "Plating"
               }
             ]
@@ -816,6 +819,9 @@
             "Key": "X8Y10",
             "Value": [
               {
+                "Tel": "PlatingScorched"
+              },
+              {
                 "Tel": "Plating"
               }
             ]
@@ -1103,6 +1109,9 @@
           {
             "Key": "X10Y10",
             "Value": [
+              {
+                "Tel": "PlatingScorched"
+              },
               {
                 "Tel": "Plating"
               }
@@ -1556,6 +1565,9 @@
           {
             "Key": "X13Y9",
             "Value": [
+              {
+                "Tel": "PlatingScorched"
+              },
               {
                 "Tel": "Plating"
               }
@@ -2334,21 +2346,27 @@
         "CommonPrefabs": [],
         "PrefabData": [
           {
+            "GitID": "86f1fa4a01e7f0142a6e2ce35cce0930_-0.5┼-0.5┼0┼",
+            "PrefabID": "86f1fa4a01e7f0142a6e2ce35cce0930",
+            "Name": "MatrixGasSettings",
+            "LocalPRS": "-0.5┼-0.5┼0┼"
+          },
+          {
+            "GitID": "911f81eefba53574788e7659d9b3dbfe_-0.5┼-0.5┼0┼",
+            "PrefabID": "911f81eefba53574788e7659d9b3dbfe",
+            "Name": "AsteroidSystem",
+            "LocalPRS": "-0.5┼-0.5┼0┼"
+          },
+          {
+            "GitID": "e02a5954be8d94b4bbaaa0d63d813c71_-0.5┼-0.5┼0┼",
+            "PrefabID": "e02a5954be8d94b4bbaaa0d63d813c71",
+            "Name": "AI_ShouldNavigateAround",
+            "LocalPRS": "-0.5┼-0.5┼0┼"
+          },
+          {
             "GitID": "83b269ab1421fcf4a95ad3cf33935cff_0┼0┼0┼",
             "PrefabID": "83b269ab1421fcf4a95ad3cf33935cff",
             "Name": "OreGenerator",
-            "LocalPRS": "0┼0┼0┼"
-          },
-          {
-            "GitID": "911f81eefba53574788e7659d9b3dbfe_0┼0┼0┼",
-            "PrefabID": "911f81eefba53574788e7659d9b3dbfe",
-            "Name": "AsteroidSystem",
-            "LocalPRS": "0┼0┼0┼"
-          },
-          {
-            "GitID": "e02a5954be8d94b4bbaaa0d63d813c71_0┼0┼0┼",
-            "PrefabID": "e02a5954be8d94b4bbaaa0d63d813c71",
-            "Name": "AI_ShouldNavigateAround",
             "LocalPRS": "0┼0┼0┼"
           },
           {
@@ -2409,6 +2427,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           },
@@ -2416,7 +2441,17 @@
             "GitID": "cbae9a210d638ba4b9402e836c970fa2_5┼20┼0┼",
             "PrefabID": "cbae9a210d638ba4b9402e836c970fa2",
             "Name": "Microwave",
-            "LocalPRS": "5┼20┼0┼"
+            "LocalPRS": "5┼20┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "72a2e38244f1fd84cb5832e3c8f20553_6┼17┼0┼",
@@ -2447,7 +2482,17 @@
             "GitID": "9c3a6c9c953a49941aa32b5ad9400d89_7┼15┼0┼",
             "PrefabID": "9c3a6c9c953a49941aa32b5ad9400d89",
             "Name": "DepartmentBattery",
-            "LocalPRS": "7┼15┼0┼"
+            "LocalPRS": "7┼15┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_7┼16┼0┼",
@@ -2660,6 +2705,13 @@
                       "Data": "f2432d244a6b7774ea00ff013beb7dcb_8┼19┼0┼@0@LightSwitchV2@0"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -2989,6 +3041,13 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
               ]
             }
           }
@@ -2998,8 +3057,8 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "-410.5,383.5,0",
-          "Size": "17,21,0"
+          "Pos": "-425.8,371.2,0",
+          "Size": "17.5,21.5,0"
         }
       ]
     }

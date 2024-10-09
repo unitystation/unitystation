@@ -301,11 +301,11 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		if (hideState)
 		{
-			HandsController.Instance.HideHands(HiddenHandValue.bothHands);
+			HandsController.Instance.HideHands(HandsController.HiddenHandValue.bothHands);
 		}
 		else
 		{
-			HandsController.Instance.HideHands(HiddenHandValue.none);
+			HandsController.Instance.HideHands(HandsController.HiddenHandValue.none);
 		}
 	}
 
@@ -1255,10 +1255,13 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			if (causesSlipClient)
 			{
 				NewtonianPush(newMoveData.GlobalMoveDirection.ToVector(), CurrentTileMoveSpeed, Single.NaN, 4,
-					spinFactor: 35, doNotUpdateThisClient: byClient);
+					spinFactor: 35);
 
-				var player = registerTile as RegisterPlayer;
-				player.OrNull()?.ServerSlip(true);
+				if (isServer)
+				{
+					var player = registerTile as RegisterPlayer;
+					player.OrNull()?.ServerSlip(true);
+				}
 			}
 
 			if (toRemove != null)

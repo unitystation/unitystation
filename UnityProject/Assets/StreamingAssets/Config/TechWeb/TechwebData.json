@@ -63,31 +63,50 @@
   {
     "ID": "cyborgs",
     "DisplayName": "Advanced Cybernetics",
-    "Description": "The newest in artifical intelligence, and the technology needed to give them form.",
+    "Description": "Advanced actuators and components for constructing cyborgs.",
     "StartingNode": false,
     "RequiredTechnologies": [
       "synthorgan"
     ],
     "DesignIDs": [
       "cyborg_head",
-      "cyborg_chassis",
       "cyborg_torso",
+      "cyborg_chassis",
       "cyborg_leftarm",
       "cyborg_rightarm",
       "cyborg_leftleg",
       "cyborg_rightleg",
-      "mmi",
-      "mmi_posi",
-      "cyborg_lights",
-      "battery_pack"
+      "battery_pack",
+      "cyborg_lights"
     ],
-    "ResearchCosts": 30,
+    "ResearchCosts": 25,
     "ExportPrice": 0,
     "PotentialUnlocks": [],
     "prefabID": "cyborgs",
     "techType": 1,
     "Techweb": null,
     "Colour": "118, 17, 121"
+  },
+  {
+    "ID": "ais",
+    "DisplayName": "Robotic Intelligence",
+    "Description": "The newest in artifical intelligence, and the technology needed to give them form.",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "cyborgs"
+    ],
+    "DesignIDs": [
+      "mmi",
+      "mmi_posi",
+      "intellicard"
+    ],
+    "ResearchCosts": 25,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "ais",
+    "techType": 1,
+    "Techweb": null,
+    "Colour": "174, 84, 255"
   },
   {
     "ID": "cyborgtools",
@@ -109,43 +128,6 @@
     "techType": 1,
     "Techweb": null,
     "Colour": "237, 124, 62"
-  },
-  {
-    "ID": "bluespace",
-    "DisplayName": "Bluespace Technology",
-    "Description": "Allows for research into bluespace technology",
-    "StartingNode": false,
-    "RequiredTechnologies": [
-      "base"
-    ],
-    "DesignIDs": [],
-    "ResearchCosts": 30,
-    "ExportPrice": 0,
-    "PotentialUnlocks": [
-      "bluespacestorage"
-    ],
-    "prefabID": "bluespace",
-    "techType": 0,
-    "Techweb": null,
-    "Colour": "65, 145, 186"
-  },
-  {
-    "ID": "janitor",
-    "DisplayName": "Janitorial Science",
-    "Description": "New ways to keep the station clean.",
-    "StartingNode": false,
-    "RequiredTechnologies": [],
-    "DesignIDs": [
-      "adv_mop",
-      "adv_lightreplacer"
-    ],
-    "ResearchCosts": 10,
-    "ExportPrice": 0,
-    "PotentialUnlocks": [],
-    "prefabID": "janitor",
-    "techType": 3,
-    "Techweb": null,
-    "Colour": "78, 113, 37"
   },
   {
     "ID": "advstock",
@@ -259,6 +241,25 @@
     "Colour": "77, 181, 191"
   },
   {
+    "ID": "bluespace",
+    "DisplayName": "Bluespace Technology",
+    "Description": "Allows for research into bluespace technology",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "base"
+    ],
+    "DesignIDs": [],
+    "ResearchCosts": 25,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [
+      "bluespacestorage"
+    ],
+    "prefabID": "bluespace",
+    "techType": 4,
+    "Techweb": null,
+    "Colour": "65, 145, 186"
+  },
+  {
     "ID": "metamatter",
     "DisplayName": "Meta Materaial Storage",
     "Description": "High tech methods of storing even more material",
@@ -302,6 +303,131 @@
     "Colour": "195, 113, 133"
   },
   {
+    "ID": "janitor",
+    "DisplayName": "Janitorial Science",
+    "Description": "New ways to keep the station clean.",
+    "StartingNode": false,
+    "RequiredTechnologies": [],
+    "DesignIDs": [
+      "adv_mop",
+      "adv_lightreplacer"
+    ],
+    "ResearchCosts": 10,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "janitor",
+    "techType": 3,
+    "Techweb": null,
+    "Colour": "78, 113, 37"
+  },
+  {
+    "ID": "industry",
+    "DisplayName": "Industrial Tools",
+    "Description": "Industry standard tools for engineers.",
+    "StartingNode": false,
+    "RequiredTechnologies": [],
+    "DesignIDs": [
+      "welding_mask",
+      "jaws_of_life",
+      "mag_boots"
+    ],
+    "ResearchCosts": 15,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "industry",
+    "techType": 3,
+    "Techweb": null,
+    "Colour": "78, 28, 23"
+  },
+  {
+    "ID": "engielec",
+    "DisplayName": "Engineering Electronics",
+    "Description": "Electronic boards and devices for constructing more advanced devices.",
+    "StartingNode": false,
+    "RequiredTechnologies": [],
+    "DesignIDs": [
+      "remote_signalling_device",
+      "power_control_module",
+      "air_alarm_electronics",
+      "fire_alarm_electronics",
+      "airlock_electronics",
+      "firelock_electronics"
+    ],
+    "ResearchCosts": 15,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "engielec",
+    "techType": 3,
+    "Techweb": null,
+    "Colour": "228, 222, 66"
+  },
+  {
+    "ID": "civweap",
+    "DisplayName": "Civillian Weaponary",
+    "Description": "Simple self defence weaponary, weak but better than nothing.",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "engielec"
+    ],
+    "DesignIDs": [
+      "energymusket",
+      "smoothborepistol"
+    ],
+    "ResearchCosts": 25,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "civweap",
+    "techType": 3,
+    "Techweb": null,
+    "Colour": "255, 10, 0"
+  },
+  {
+    "ID": "mining",
+    "DisplayName": "Mining Technology",
+    "Description": "The necessities for mining in space.",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "industry",
+      "engielec"
+    ],
+    "DesignIDs": [
+      "drill",
+      "drill_diamond",
+      "plasma_cutter",
+      "plasma_cutter_adv",
+      "jackhammer"
+    ],
+    "ResearchCosts": 15,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "mining",
+    "techType": 3,
+    "Techweb": null,
+    "Colour": "209, 114, 46"
+  },
+  {
+    "ID": "protokinetic",
+    "DisplayName": "Advanced Protokinetics",
+    "Description": "Mining technology that walks the line of smashing rock and smashing heads.",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "mining"
+    ],
+    "DesignIDs": [
+      "pkc",
+      "pkm",
+      "pks",
+      "pkclaw"
+    ],
+    "ResearchCosts": 35,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "protokinetic",
+    "techType": 3,
+    "Techweb": null,
+    "Colour": "195, 107, 14"
+  },
+  {
     "ID": "holding",
     "DisplayName": "Bluespace Holding",
     "Description": "New methods of storage allowing container contents to be stored in large quantity in alternate dimensions.",
@@ -321,72 +447,5 @@
     "techType": 3,
     "Techweb": null,
     "Colour": "195, 15, 64"
-  },
-  {
-    "ID": "industry",
-    "DisplayName": "Industrial Tools",
-    "Description": "Industrial standard tools for engineers.",
-    "StartingNode": false,
-    "RequiredTechnologies": [],
-    "DesignIDs": [
-      "welding_mask",
-      "jaws_of_life",
-      "mag_boots"
-    ],
-    "ResearchCosts": 15,
-    "ExportPrice": 0,
-    "PotentialUnlocks": [],
-    "prefabID": "industry",
-    "techType": 3,
-    "Techweb": null,
-    "Colour": "78, 28, 23"
-  },
-  {
-    "ID": "anomaly",
-    "DisplayName": "Anomaly Science",
-    "Description": "Specialised suits and equipment for handling artifacts.",
-    "StartingNode": false,
-    "RequiredTechnologies": [
-      "industry"
-    ],
-    "DesignIDs": [
-      "ap_helm",
-      "ap_suit",
-      "anomaly_helm",
-      "anomaly_suit",
-      "hand_pick",
-      "sample_container"
-    ],
-    "ResearchCosts": 30,
-    "ExportPrice": 0,
-    "PotentialUnlocks": [],
-    "prefabID": "anomaly",
-    "techType": 3,
-    "Techweb": null,
-    "Colour": "93, 204, 182"
-  },
-  {
-    "ID": "mining",
-    "DisplayName": "Mining Technology",
-    "Description": "The necessities for mining in space.",
-    "StartingNode": false,
-    "RequiredTechnologies": [
-      "industry"
-    ],
-    "DesignIDs": [
-      "mining_helm",
-      "mining_suit",
-      "drill",
-      "drill_diamond",
-      "plasma_cutter",
-      "plasma_cutter_adv"
-    ],
-    "ResearchCosts": 40,
-    "ExportPrice": 0,
-    "PotentialUnlocks": [],
-    "prefabID": "mining",
-    "techType": 3,
-    "Techweb": null,
-    "Colour": "209, 114, 46"
   }
 ]

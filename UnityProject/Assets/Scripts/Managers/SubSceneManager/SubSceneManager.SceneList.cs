@@ -111,7 +111,7 @@ public partial class SubSceneManager
 		{
 			serverChosenMainStation = AdminForcedMainStation;
 		}
-		else if (prevEditorScene.Contains("Lobby") == false && (prevEditorScene != "") &&
+		else if (prevEditorScene.Contains("StartUp") == false && prevEditorScene.Contains("Lobby") == false && (prevEditorScene != "") &&
 		         prevEditorScene.Contains("Online") == false &&
 		         GameData.Instance.DoNotLoadEditorPreviousScene == false) //TODO Game data option!!!!
 		{
@@ -120,6 +120,8 @@ public partial class SubSceneManager
 		else
 		{
 			serverChosenMainStation = GameManager.Instance.GameMode.mainStations.GetRandomMainStation();
+			Loggy.Log($"[SubSceneManager.SceneList] - Server has choosen {serverChosenMainStation} as main station. " +
+			          $"Previous admin forced: {AdminForcedMainStation}", Category.Round);
 		}
 
 		//Reset map selector
@@ -270,12 +272,34 @@ public partial class SubSceneManager
 
 	public IEnumerator TryWaitClients(string SceneName)
 	{
-		int Clients = NetworkServer.connections.Values.Count();
-
 		float Seconds = 0;
-		while (ConnectionLoadedRecord[SceneName].Count < Clients &&
-		       Seconds < 10) //So hacked clients can't Mess up the round
+		bool OneClearFrame = false;
+		while (Seconds < 10) //So hacked clients can't Mess up the round
 		{
+			bool Loading = false;
+			foreach (var Info in MatrixManager.Instance.ActiveMatricesList)
+			{
+				lock (Info.Matrix.MetaTileMap.QueuedChanges)
+				{
+					if (Info.Matrix.MetaTileMap.QueuedChanges.Count > 0)
+					{
+						Loading = true;
+					}
+				}
+			}
+
+			if (Loading == false)
+			{
+				if (OneClearFrame == false)
+				{
+					OneClearFrame = true;
+				}
+				else
+				{
+					yield break;
+				}
+			}
+
 			yield return WaitFor.Seconds(0.25f);
 			Seconds += 0.25f;
 		}

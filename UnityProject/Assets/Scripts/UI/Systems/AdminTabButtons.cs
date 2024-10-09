@@ -89,5 +89,10 @@ namespace UI.AdminTools
 		{
 			CopyAndPaste.Instance.gameObject.SetActive(true);
 		}
+
+		public void BtnOpenDeviceRenamer()
+		{
+			DeviceAttributeEditor.Instance.gameObject.SetActive(true);
+		}
 	}
 }

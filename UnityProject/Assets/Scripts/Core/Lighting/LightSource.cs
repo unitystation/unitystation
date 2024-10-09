@@ -48,7 +48,7 @@ namespace Objects.Lighting
 		private EmergencyLightAnimator EmergencyLightAnimator;
 		[field: SerializeField] public LightAnimator Animator { get; private set; }
 		[SerializeField] private SpriteHandler spriteHandler;
-		[SerializeField] private SpriteRenderer spriteRendererLightOn;
+		[SerializeField] private SpriteHandler spriteRendererLightOn;
 		[SerializeField] private Integrity integrity = default;
 		public Integrity Integrity => integrity;
 		[SerializeField] private Rotatable directional;
@@ -268,10 +268,11 @@ namespace Objects.Lighting
 
 		public void SetSprites()
 		{
-			spriteHandler.SetSpriteSO(currentState.SpriteData, null);
-			spriteRendererLightOn.sprite = MountState == LightMountState.On
-				? spritesStateOnEffect.sprites[0]
-				: null;
+			if (isServer == false)return;
+
+			spriteHandler.SetSpriteSO(currentState.SpriteData);
+			spriteRendererLightOn.SetCatalogueIndexSprite((int)MountState);
+			spriteRendererLightOn.SetColor(CurrentOnColor);
 
 			itemInMount = currentState.Tube;
 

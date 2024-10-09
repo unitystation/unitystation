@@ -37,6 +37,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 6dcb681a6b764ca42baaf5bbb4266467,
         type: 2}
+    - target: {fileID: 3554597231095268504, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ac8ceecd2aad4d4090b65e6aa24092b,
+        type: 2}
+    - target: {fileID: 3554597231095268504, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 2edd5c8bb9629cc43a08308db3a99972,
+        type: 2}
+    - target: {fileID: 3554597231095268504, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 6dcb681a6b764ca42baaf5bbb4266467,
+        type: 2}
     - target: {fileID: 3839345559943878822, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
       propertyPath: m_Sprite
@@ -154,5 +172,141 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4015502146010655738, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 661199438301015469}
+    - targetCorrespondingSourceObject: {fileID: 4015502146010655738, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7643028602327106793}
+    - targetCorrespondingSourceObject: {fileID: 4015502146010655738, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4379329071598564009}
+    - targetCorrespondingSourceObject: {fileID: 4015502146010655738, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8808870186322716019}
+    - targetCorrespondingSourceObject: {fileID: 4015502146010655738, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3878697198197589517}
   m_SourcePrefab: {fileID: 100100000, guid: 5f9896c0cca80e14f8144be44d05e0a0, type: 3}
+--- !u!114 &2500274252498476326 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7133687355514949757, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 4633413420879711579}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &8643776680631510689 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4015502146010655738, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 4633413420879711579}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &661199438301015469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8643776680631510689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63f4ca8961a114575a87fdce0aac206e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+--- !u!114 &7643028602327106793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8643776680631510689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4260771755c043c3a258f5ae9f8371e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  maximumDistance: 12
+  flashRadius: 12
+  flashTime: 5
+  weakDuration: 6
+  stunExtraTime: 3
+  flashCooldown: 15
+  flashSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Effects/FlashbangBoom.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  stunsPlayers: 1
+--- !u!114 &4379329071598564009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8643776680631510689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8087ba08127dec04dbeeedff7789cec5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8808870186322716019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8643776680631510689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a190c5e462a24f16b9649957900b11e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delay: 0.5
+--- !u!114 &3878697198197589517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8643776680631510689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76de6dadc1b3f5272865932c1a4151fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemIcon: {fileID: 2500274252498476326}
+  ActivatedSprites:
+    SpriteInventoryIcon: {fileID: 11400000, guid: ec96b2a61b655f6468a5b260e7efeade,
+      type: 2}
+    SpriteLeftHand: {fileID: 11400000, guid: f81e3d6395c233140ba851bba46dfb7e, type: 2}
+    SpriteRightHand: {fileID: 11400000, guid: 614907c42d27b8641bc5e3c4708be9b2, type: 2}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
