@@ -2,14 +2,14 @@
 using Mirror;
 using UnityEngine;
 
-public interface IAction { }
+public interface IGameActionHolder { }
 
 ///Using both IActionGUI and IActionGUIMULTI on a script will not work!!!, USE ONLY ONE OF THE Interface Types!!!///
 
 /// <summary>
 /// Simply implement this to Implement your Screen action
 /// </summary>
-public interface IActionGUI : IAction
+public interface IActionGUI : IGameActionHolder
 {
 	ActionData ActionData { get; }
 
@@ -70,7 +70,7 @@ public class __ExampleIServerActionGUI__ : IServerActionGUI
 /// <summary>
 /// Simply implement this to Implement your Screen action
 /// </summary>
-public interface IActionGUIMulti : IAction
+public interface IActionGUIMulti : IGameActionHolder
 {
 	List<ActionData> ActionData { get; }
 

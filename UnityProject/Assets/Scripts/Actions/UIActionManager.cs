@@ -96,7 +96,7 @@ namespace UI.Core.Action
 		public UIAction UIAction;
 		public List<UIAction> PooledUIAction = new List<UIAction>();
 
-		public Dictionary<IAction, List<UIAction>> DicIActionGUI = new Dictionary<IAction, List<UIAction>>();
+		public Dictionary<IGameActionHolder, List<UIAction>> DicIActionGUI = new Dictionary<IGameActionHolder, List<UIAction>>();
 
 		public UIAction ActiveAction { get; set; }
 		public bool HasActiveAction => ActiveAction != null;
@@ -415,7 +415,7 @@ namespace UI.Core.Action
 		{
 			if (this == null)
 			{
-				Debug.LogError("damn hell");
+				Debug.LogError("UIActionManager set to null on round end.");
 			}
 
 			foreach (var _Actions in DicIActionGUI)
@@ -426,7 +426,7 @@ namespace UI.Core.Action
 				}
 			}
 
-			DicIActionGUI = new Dictionary<IAction, List<UIAction>>();
+			DicIActionGUI = new Dictionary<IGameActionHolder, List<UIAction>>();
 		}
 
 		public static void ClearAllActionsServer()
@@ -772,7 +772,7 @@ namespace UI.Core.Action
 			{
 				if (Instance.DicIActionGUI.ContainsKey(iActionGUIMulti))
 				{
-					var toRemove = new List<IAction>();
+					var toRemove = new List<IGameActionHolder>();
 					foreach (var actionButton in Instance.DicIActionGUI)
 					{
 						//Remove old button from list. Don't spawn the same button if it already exists!

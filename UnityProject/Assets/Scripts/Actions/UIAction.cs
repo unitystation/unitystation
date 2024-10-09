@@ -16,7 +16,7 @@ namespace UI.Action
 		public Transform CooldownOpacity;
 		public Text CooldownNumber;
 
-		public IAction iAction;
+		public IGameActionHolder iAction;
 		private ActionData actionData;
 		private static readonly Vector3 tooltipOffset = new Vector3(-40, -60);
 		private ActionTooltip Tooltip => UIActionManager.Instance.TooltipInstance;
