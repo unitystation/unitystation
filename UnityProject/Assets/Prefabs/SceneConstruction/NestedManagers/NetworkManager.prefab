@@ -3600,6 +3600,7 @@ MonoBehaviour:
   - {fileID: 3648832323169248661, guid: cc89dc3410ff4c84e9def3acc2c7ee83, type: 3}
   - {fileID: 7199460894698280385, guid: ca1dc74b2f8b3e94b8c60a119e98bd9d, type: 3}
   - {fileID: 8827572615313540334, guid: e33403c0371fc174aa03640734665a15, type: 3}
+  - {fileID: 3486841869076151784, guid: 58f98c105e5d4cc45b1e794b12b36ce0, type: 3}
   - {fileID: 8768365312501795813, guid: 6dbee7647a8546346ba9588198d8355f, type: 3}
   - {fileID: 540520718490223996, guid: 32ca8be4053e0b243b4d8309d3468d6d, type: 3}
   - {fileID: 2257486130601346070, guid: c3ae7a16a8146274e828fa7b0d12e3ea, type: 3}
@@ -5820,7 +5821,6 @@ MonoBehaviour:
     dynamicAdjustmentTolerance: 1
     deliveryTimeEmaDuration: 2
   timeInterpolationGui: 0
-  SpawnedByMappingTool: 0
   NetworkedManagersPrefabs:
   - {fileID: 6401940811625325638, guid: d3e6b8892ab5b5d42a41cdd379324029, type: 3}
   ActiveNetworkedManagersPrefabs: []
@@ -9425,6 +9425,7 @@ MonoBehaviour:
   - {fileID: 3648832323169248661, guid: cc89dc3410ff4c84e9def3acc2c7ee83, type: 3}
   - {fileID: 7199460894698280385, guid: ca1dc74b2f8b3e94b8c60a119e98bd9d, type: 3}
   - {fileID: 8827572615313540334, guid: e33403c0371fc174aa03640734665a15, type: 3}
+  - {fileID: 3486841869076151784, guid: 58f98c105e5d4cc45b1e794b12b36ce0, type: 3}
   - {fileID: 8768365312501795813, guid: 6dbee7647a8546346ba9588198d8355f, type: 3}
   - {fileID: 540520718490223996, guid: 32ca8be4053e0b243b4d8309d3468d6d, type: 3}
   - {fileID: 2257486130601346070, guid: c3ae7a16a8146274e828fa7b0d12e3ea, type: 3}
@@ -12090,6 +12091,7 @@ MonoBehaviour:
   - {fileID: 2017234413611192039, guid: 3485054107fb504479179df8b552c961, type: 3}
   - {fileID: 5322105462336844431, guid: 2cee823abaaaa4e4a853404330e4b8a1, type: 3}
   - {fileID: 1862726917171198, guid: 33f8568b70c917242b667cb2e5a3cac4, type: 3}
+  LoadedMapDatas: []
 --- !u!114 &5032898753073590648
 MonoBehaviour:
   m_ObjectHideFlags: 0

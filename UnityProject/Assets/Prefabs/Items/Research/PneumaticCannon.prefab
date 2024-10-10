@@ -458,7 +458,15 @@ MonoBehaviour:
   bindingSprite: {fileID: 3442314724718587194}
   firingSound:
     SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Weapons/Gun/Rifle/RifleShot.prefab
+    AssetAddress: Assets/Prefabs/LoopedSounds/AirHiss.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  dryFiringSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Weapons/Gun/General/GeneralDryFire.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
