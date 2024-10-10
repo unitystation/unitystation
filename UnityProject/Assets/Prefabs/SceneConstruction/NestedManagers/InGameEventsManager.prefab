@@ -2058,7 +2058,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8934140032923375002}
   - component: {fileID: 5415116575820819044}
-  - component: {fileID: -5876212902074320086}
   - component: {fileID: 5334957766221629614}
   m_Layer: 0
   m_Name: InGameEventsManager
@@ -2104,20 +2103,6 @@ MonoBehaviour:
   RandomEventsAllowed: 1
   minPlayersForRandomEventsToHappen: 2
   EnumListCache: []
---- !u!114 &-5876212902074320086
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8929341582706713524}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28709422bf1f16e4f8e69c97a8bc4e31, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  centcomDockingPos: {x: 0, y: 0, z: 0}
-  centcomDocking: {fileID: 0}
 --- !u!114 &5334957766221629614
 MonoBehaviour:
   m_ObjectHideFlags: 0

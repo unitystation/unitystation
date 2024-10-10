@@ -368,6 +368,8 @@ Use this setting to force lock assemblies via code."
                         {
                             ProductPreferenceBase.RenderGuiAndPersistInput(FastScriptReloadPreference.IsVisualHotReloadIndicationShownInProjectWindow);
                         }
+                        
+                        GUILayout.Space(sectionBreakHeight);
                     }),
                     (UserScriptRewriteOverrides = new ChangeMainViewButton("User Script\r\nRewrite Overrides", (screen) =>
                     {
@@ -441,6 +443,10 @@ BREAKPOINTS IN ORIGINAL FILE WON'T BE HIT!", MessageType.Error);
                         using (LayoutHelper.LabelWidth(350))
                         {
                             ProductPreferenceBase.RenderGuiAndPersistInput(FastScriptReloadPreference.IsAutoOpenGeneratedSourceFileOnChangeEnabled);
+                            if ((bool)FastScriptReloadPreference.IsAutoOpenGeneratedSourceFileOnChangeEnabled.GetEditorPersistedValueOrDefault())
+                            {
+                                EditorGUILayout.HelpBox(@"Do not edit debug file created. It'll be removed.", MessageType.Error);
+                            }
                         }
 
                         GUILayout.Space(20);
@@ -544,7 +550,15 @@ This is to ensure dynamically created and loaded assembles are cleared out prope
                             ProductPreferenceBase.RenderGuiAndPersistInput(FastScriptReloadPreference.TriggerDomainReloadIfOverNDynamicallyLoadedAssembles);
                         }
                         GUILayout.Space(10);
-                    }))
+                    })),
+                    new ChangeMainViewButton("Partial Class", (screen) =>
+                    {
+                        using (LayoutHelper.LabelWidth(350))
+                        {
+                            ProductPreferenceBase.RenderGuiAndPersistInput(FastScriptReloadPreference.IsPartialClassSupportEnabled);
+                        }
+                        EditorGUILayout.HelpBox("Partial class support can be file-read heavy which could make FSR slower.", MessageType.Warning);
+                    })
                 }),
                 new GuiSection("Advanced", new List<ClickableElement>
                 {
@@ -568,10 +582,12 @@ includeSubdirectories - whether child directories should be watched as well
 
                         using (LayoutHelper.LabelWidth(240))
                         {
-                            ProductPreferenceBase.RenderGuiAndPersistInput(FastScriptReloadPreference.EnableCustomFileWatcher);
+                            ProductPreferenceBase.RenderGuiAndPersistInput(FastScriptReloadPreference.FileWatcherImplementationInUse);
                         }
-                        EditorGUILayout.HelpBox(@"On some Unity verions FileWatcher API could be very slow or not trigger at all.
-Tick this box to use custom implementation.", MessageType.Info);
+                        EditorGUILayout.HelpBox(
+@"DefaultUnity - on some editor versions it could be slow or not trigger at all 
+DirectWindowsApi - (experimental) uses Windows API directly, faster (symlinks not supported)
+CustomPolling - (experimental) watches files by manual polling for changes, slowest. Make sure to narrow down watchers scope to script folders", MessageType.Info);
 
                         ProductPreferenceBase.RenderGuiAndPersistInput(FastScriptReloadPreference.FileWatcherSetupEntries);
                     }),
@@ -769,6 +785,9 @@ Tick this box to use custom implementation.", MessageType.Info);
         public static readonly ToggleProjectEditorPreferenceDefinition IsVisualHotReloadIndicationShownInProjectWindow = new ToggleProjectEditorPreferenceDefinition(
             "Show red / green bar in project window to indicate hot reload state for file", "IsVisualHotReloadIndicationShownInProjectWindow", true);
         
+        public static readonly ToggleProjectEditorPreferenceDefinition IsPartialClassSupportEnabled = new ToggleProjectEditorPreferenceDefinition(
+            "(Experimental) Partial class support", "IsPartialClassSupportEnabled", true);
+        
         public static readonly ToggleProjectEditorPreferenceDefinition IsForceLockAssembliesViaCode = new ToggleProjectEditorPreferenceDefinition(
             "Force prevent assembly reload during playmode", "IsForceLockAssembliesViaCode", false);
         
@@ -794,8 +813,12 @@ Tick this box to use custom implementation.", MessageType.Info);
         public static readonly ToggleProjectEditorPreferenceDefinition EnableExperimentalEditorHotReloadSupport = new ToggleProjectEditorPreferenceDefinition(
             "(Experimental) Enable Hot-Reload outside of play mode", "EnableExperimentalEditorHotReloadSupport", false);
         
+        [Obsolete("Use EnableExperimentalEditorHotReloadSupport instead")]
         public static readonly ToggleProjectEditorPreferenceDefinition EnableCustomFileWatcher = new ToggleProjectEditorPreferenceDefinition(
             "(Experimental) Use custom file watchers", "EnableCustomFileWatcher", false);
+        
+        public static readonly EnumProjectEditorPreferenceDefinition FileWatcherImplementationInUse = new EnumProjectEditorPreferenceDefinition(
+            "File Watcher implementation", "FileWatcherImplementationInUse", FileWatcherImplementation.UnityDefault, typeof(FileWatcherImplementation));
 
         //TODO: potentially that's just a normal settings (also in playmode) - but in playmode user is unlikely to make this many changes
         public static readonly IntProjectEditorPreferenceDefinition TriggerDomainReloadIfOverNDynamicallyLoadedAssembles = new IntProjectEditorPreferenceDefinition(
@@ -909,11 +932,22 @@ Tick this box to use custom implementation.", MessageType.Info);
                 new List<ProjectEditorPreferenceDefinitionBase>(),
                 (isFirstRun) =>
                 {
-                    AutoDetectAndSetShaderMode();
+                    MigrateObsoleteEnableCustomFileWatcherPreference();
                 }
             );
             
             InitCommon();
+        }
+
+        private static void MigrateObsoleteEnableCustomFileWatcherPreference()
+        {
+#pragma warning disable CS0618 // Type or member is obsolete
+            if ((bool)FastScriptReloadPreference.EnableCustomFileWatcher.GetEditorPersistedValueOrDefault())
+            {
+                FastScriptReloadPreference.FileWatcherImplementationInUse.SetEditorPersistedValue(FileWatcherImplementation.CustomPolling);
+                FastScriptReloadPreference.EnableCustomFileWatcher.SetEditorPersistedValue(false);
+            }
+#pragma warning restore CS0618 // Type or member is obsolete
         }
 #endif
         
@@ -933,6 +967,8 @@ Tick this box to use custom implementation.", MessageType.Info);
             BuildDefineSymbolManager.SetBuildDefineSymbolState(FastScriptReloadPreference.BuildSymbol_DetailedDebugLogging,
                 (bool)FastScriptReloadPreference.EnableDetailedDebugLogging.GetEditorPersistedValueOrDefault()
             );
+            
+            AutoDetectAndSetShaderMode();
         }
 
         private static void EnsureUserAwareOfAutoRefresh()

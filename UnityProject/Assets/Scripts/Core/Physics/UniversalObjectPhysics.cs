@@ -1110,7 +1110,7 @@ namespace Core.Physics
 
 			if (ObjectIsBuckling != null)
 			{
-				ObjectIsBuckling.SetTransform(position, world);
+				ObjectIsBuckling.SetTransform(position + BuckleOffset, world);
 			}
 		}
 
@@ -1528,7 +1528,7 @@ namespace Core.Physics
 				else
 				{
 					ObjectIsBuckling.Pulling.Component.ProcessNewtonianPull(NewtonianMovement,
-						newPosition);
+						newPosition + BuckleOffset);
 				}
 			}
 		}
@@ -1583,7 +1583,7 @@ namespace Core.Physics
 
 			if (ObjectIsBuckling != null && ObjectIsBuckling.Pulling.HasComponent)
 			{
-				ObjectIsBuckling.Pulling.Component.ProcessNewtonianPull(InNewtonianMovement, newPosition);
+				ObjectIsBuckling.Pulling.Component.ProcessNewtonianPull(InNewtonianMovement, newPosition + BuckleOffset);
 			}
 		}
 

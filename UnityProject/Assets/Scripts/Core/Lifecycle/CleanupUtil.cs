@@ -350,8 +350,6 @@ public static class CleanupUtil
 		SoundManager.Instance.NonplayingSounds.Clear();
 		GameManager.Instance.ResetStaticsOnNewRound();
 		SpriteHandlerManager.PresentSprites.Clear();
-		LandingZoneManager.Instance.landingZones.Clear();
-		LandingZoneManager.Instance.spaceTeleportPoints.Clear();
 		SpriteHandlerManager.PresentSprites = new Dictionary<Mirror.NetworkIdentity, Dictionary<string, SpriteHandler>>();
 		ChatBubbleManager.Instance.Clear();
 
@@ -390,7 +388,6 @@ public static class CleanupUtil
 		ClientSynchronisedEffectsManager.Instance.ClearData();
 		TileManager.Instance.Cleanup_between_rounds();
 		CleanupUtil.RidListOfDeadElements(GameManager.Instance.SpaceBodies);
-		RidDictionaryOfDeadElements(LandingZoneManager.Instance.landingZones, (u, k) => u != null);
 		ElectricalManager.Instance.InBetweenScenesCleanUp();
 	}
 
@@ -421,7 +418,6 @@ public static class CleanupUtil
 		SpriteHandlerManager.Instance.Clean();
 		Dictionary<UInt64, Mirror.NetworkIdentity > dict = Mirror.NetworkIdentity.sceneIds;
 		Debug.Log("removed " + RidDictionaryOfDeadElements(dict, (u, k) => k != null) + " dead elements from Mirror.NetworkIdentity.sceneIds");
-		RidDictionaryOfDeadElements(LandingZoneManager.Instance.landingZones, (u, k) => u != null);
 		SpriteHandlerManager.Instance.Clean();
 		Debug.Log("removed " + RidDictionaryOfDeadElements(SoundManager.Instance.NonplayingSounds, (u, k) => k != null) + " dead elements from SoundManager.Instance.NonplayingSounds");
 		RidDictionaryOfDeadElements(SpriteHandlerManager.PresentSprites, (u, k) => u != null && k != null);
