@@ -399,12 +399,12 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7888752668345882000}
+      insertIndex: 11
+      addedObject: {fileID: 2269116777698728545}
     - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2269116777698728545}
+      addedObject: {fileID: 7888752668345882000}
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &3486841869076151784 stripped
 GameObject:
@@ -412,6 +412,30 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3485882664482685266}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2269116777698728545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3486841869076151784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 927e0808eb5373b48a8f1e9275c34f98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canisterTrait: {fileID: 11400000, guid: a88f1555ca8abf643aea180c637f5329, type: 2}
+  maximumLoadableSize: 5
+  canisterSpriteHandler: {fileID: 9194805438524814221}
+  bindingSprite: {fileID: 3442314724718587194}
+  dryFiringSound:
+    SetLoadSetting: 0
+    AssetAddress: Assets/Prefabs/Weapons/Gun/General/GeneralDryFire.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
 --- !u!114 &7888752668345882000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -440,38 +464,6 @@ MonoBehaviour:
   initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}
---- !u!114 &2269116777698728545
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3486841869076151784}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 927e0808eb5373b48a8f1e9275c34f98, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canisterTrait: {fileID: 11400000, guid: a88f1555ca8abf643aea180c637f5329, type: 2}
-  maximumLoadableSize: 5
-  canisterSpriteHandler: {fileID: 9194805438524814221}
-  bindingSprite: {fileID: 3442314724718587194}
-  firingSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/LoopedSounds/AirHiss.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  dryFiringSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Weapons/Gun/General/GeneralDryFire.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
 --- !u!4 &3490362367766315164 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298,

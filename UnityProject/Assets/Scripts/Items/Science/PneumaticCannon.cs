@@ -1,11 +1,12 @@
 using System;
+using System.Text;
 using AddressableReferences;
 using Core.Physics;
 using Objects.Atmospherics;
 using Systems.Atmospherics;
 using UnityEngine;
 
-public class PneumaticCannon : MonoBehaviour, ICheckedInteractable<InventoryApply>, ICheckedInteractable<MouseDrop>, ICheckedInteractable<AimApply>, ICheckedInteractable<HandActivate>, IServerSpawn
+public class PneumaticCannon : MonoBehaviour, ICheckedInteractable<InventoryApply>, ICheckedInteractable<MouseDrop>, ICheckedInteractable<AimApply>, ICheckedInteractable<HandActivate>, IServerSpawn, IExaminable
 {
 	private enum PressureSetting
 	{
@@ -48,6 +49,15 @@ public class PneumaticCannon : MonoBehaviour, ICheckedInteractable<InventoryAppl
 		UpdateCanisterSprites(null);
 	}
 
+	public string Examine(Vector3 worldPos = default)
+	{
+		StringBuilder sb = new StringBuilder($"It's pressure valve is currently set to: {(int)pressureSetting * CANNON_MAX_PRESSURE}kPa");
+		if (canister == null) sb.AppendLine("\nThere is no canister inserted");
+		else sb.AppendLine($"\nIt has {canister.GasMixLocal.Pressure}kPa of pressure remaining.");
+
+		return sb.ToString();
+	}
+
 	private void UpdateCanisterSprites(GasContainer gasContainer)
 	{
 		if(gasContainer == null)
@@ -70,7 +80,6 @@ public class PneumaticCannon : MonoBehaviour, ICheckedInteractable<InventoryAppl
 
 	public bool WillInteract(InventoryApply interaction, NetworkSide side)
 	{
-		Debug.Log("Will Interact");
 		if (DefaultWillInteract.Default(interaction, side) == false) return false;
 		if (interaction.TargetObject == gameObject && interaction.IsFromHandSlot) return true;
 
@@ -240,7 +249,7 @@ public class PneumaticCannon : MonoBehaviour, ICheckedInteractable<InventoryAppl
 		if (physics == null) return;
 
 		Inventory.ServerDrop(itemSlot);
-		physics.NewtonianNewtonPush(interaction.TargetVector, pressureToDischarge * 0.05f, 0.5f, 0.5f, interaction.TargetBodyPart, gameObject, 0.1f);
+		physics.NewtonianNewtonPush(interaction.TargetVector, pressureToDischarge * 0.05f, 0.5f, 0.5f, interaction.TargetBodyPart, gameObject, 1f);
 	}
 
 	#endregion
