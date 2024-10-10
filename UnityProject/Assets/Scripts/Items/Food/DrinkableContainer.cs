@@ -39,7 +39,7 @@ public class DrinkableContainer : Consumable
 		item = GetComponent<RegisterItem>();
 	}
 
-	public override void TryConsume(GameObject feederGO, GameObject eaterGO)
+	public override void TryConsume(GameObject feederGO, GameObject eaterGO, bool projectileFed = false)
 	{
 		if (!container)
 			return;

@@ -14,7 +14,7 @@ namespace Items
 
 		public float HealingAmount = 25f;
 
-		public override void TryConsume(GameObject feeder, GameObject eater)
+		public override void TryConsume(GameObject feeder, GameObject eater, bool projectileFed = false)
 		{
 			var Health = eater.GetComponent<LivingHealthMasterBase>();
 			var Stomachs = Health.GetStomachs();

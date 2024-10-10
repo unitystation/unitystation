@@ -58,7 +58,7 @@ namespace Items
 			}
 		}
 
-		public override void TryConsume(GameObject feederGO, GameObject eaterGO)
+		public override void TryConsume(GameObject feederGO, GameObject eaterGO, bool projectileFed = false)
 		{
 			var eater = eaterGO.GetComponent<PlayerScript>();
 			if (eater == null)

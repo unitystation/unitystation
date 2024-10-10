@@ -100,7 +100,7 @@ namespace Items.Food
 			TryConsume(interaction.PerformerPlayerScript.gameObject);
 		}
 
-		public override void TryConsume(GameObject feederGO, GameObject eaterGO)
+		public override void TryConsume(GameObject feederGO, GameObject eaterGO, bool projectileFed = false)
 		{
 			var eater = eaterGO.GetComponent<PlayerScript>();
 			if (eater == null)
@@ -123,8 +123,6 @@ namespace Items.Food
 				return;
 			}
 
-			var feeder = feederGO.GetComponent<PlayerScript>();
-
 			// Check if player is wearing clothing that prevents eating or drinking
 			if (eater.Equipment.OrNull()?.CanConsume() == false)
 			{
@@ -142,9 +140,10 @@ namespace Items.Food
 				eaterHungerState = sys.CashedHungerState;
 			}
 
-			ConsumableTextUtils.SendGenericConsumeMessage(feeder, eater, eaterHungerState, Name, "eat");
+			var feeder = feederGO.GetComponent<PlayerScript>();
 
-			if (feeder != eater) //If you're feeding it to someone else.
+			if(feeder != null) ConsumableTextUtils.SendGenericConsumeMessage(feeder, eater, eaterHungerState, Name, "eat");
+			if (projectileFed == false && feeder != eater) //If you're feeding it to someone else.
 			{
 				StandardProgressAction.Create(ProgressConfig, () =>
 				{
@@ -153,6 +152,12 @@ namespace Items.Food
 				}).ServerStartProgress(eater.RegisterPlayer, forceFeedTime, feeder.gameObject);
 				return;
 			}
+			else if (projectileFed == true)
+			{
+				Eat(eater, feeder);
+				return;
+			}
+
 			StandardProgressAction.Create(ProgressConfig, () =>
 				{
 					Eat(eater, feeder);
@@ -178,17 +183,23 @@ namespace Items.Food
 
 			if (SpareSpace < 0.5f)
 			{
-				if (eater == feeder)
+				if (feeder != null && eater == feeder)
 				{
 					Chat.AddActionMsgToChat(feeder.gameObject,
 						"you try the stuff The food into your mouth but your stomach has no more room",
 						$"{feeder} Tries to stuff food into the mouth but is unable to");
 				}
-				else
+				else if(feeder == null)
 				{
 					Chat.AddActionMsgToChat(feeder.gameObject,
 						"You try and stuff more food into your targets mouth but no more seems to go in",
 						$"{feeder} Tries to stuff food into Their targets mouth but no more food is going in");
+				}
+				else
+				{
+					Chat.AddActionMsgToChat(this.gameObject,
+						$"You fly into {eater}'s mouth!",
+						$"The {gameObject.ExpensiveName()} flies into {eater}'s mouth"); //maybe at some point a player might be the burger?
 				}
 
 				return;
@@ -196,8 +207,17 @@ namespace Items.Food
 
 			if (SpareSpace < FoodContents.CurrentReagentMix.Total)
 			{
-				Chat.AddActionMsgToChat(feeder.gameObject, "You unwillingly eat the food",
+				if(feeder == null)
+				{
+					Chat.AddActionMsgToChat(this.gameObject, $"You unwillingly get eaten by {eater}",
 					$"{eater} Unwillingly force themselves to eat the food");
+
+				}
+				else
+				{
+					Chat.AddActionMsgToChat(feeder.gameObject, "You unwillingly eat the food",
+					$"{eater} Unwillingly force themselves to eat the food");
+				}
 			}
 
 			ReagentMix incomingFood = GetMixForBite(feeder);
