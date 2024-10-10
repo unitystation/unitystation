@@ -60,7 +60,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	/// </summary>
 	public Dictionary<Collider2D, Tilemap> wallsTileMaps = new Dictionary<Collider2D, Tilemap>();
 
-	public Matrix spaceMatrix { get; private set; }
+	public Matrix spaceMatrix { get; set; }
 	private Matrix mainStationMatrix = null;
 
 	public static MatrixInfo MainStationMatrix
@@ -77,7 +77,6 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 				{
 					return Instance.ActiveMatricesList[0];
 				}
-
 			}
 			else
 			{
@@ -116,7 +115,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		IsInitialized = false;
 	}
 
-	public static Matrix MakeNewMatrix(string Name = "Matrix")
+	public static Matrix MakeNewMatrix(string Name = "Matrix", bool IsSpace = false)
 	{
 
 		if (string.IsNullOrEmpty(Name))
@@ -138,13 +137,20 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 		if (Object == null)
 		{
-			Object = Spawn.ServerPrefab(MatrixPrefab).GameObject;
+			Object = Spawn.ServerPrefab(MatrixPrefab, parent: Instance.transform).GameObject;
 		}
 
 		var Synchronise = Object.transform.parent.GetComponentInChildren<MatrixSync>();
 		Synchronise.GetComponent<MatrixNamesSynchronise>().SyncMatrixName("Matrix",Name);
 		Object.transform.parent.GetComponentInChildren<NetworkedMatrix>().IsJsonLoaded = true;
-		return  Object.transform.parent.GetComponentInChildren<Matrix>();
+		var Matrix = Object.transform.parent.GetComponentInChildren<Matrix>();
+		if (IsSpace)
+		{
+			Matrix.NetworkedMatrix.MatrixSync.IsSpaceMatrix = true;
+			MatrixManager.Instance.spaceMatrix = Matrix;
+		}
+
+		return Matrix;
 	}
 
 

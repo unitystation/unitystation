@@ -62,10 +62,10 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	private int currentLocation = 0;
 
-	public Dictionary<uint, MapSaver.MapSaver.PrefabData> PrePayload =
-		new Dictionary<uint, MapSaver.MapSaver.PrefabData>();
+	public Dictionary<uint, Tuple<MapSaver.MapSaver.PrefabData, Matrix>> PrePayload =
+		new Dictionary<uint, Tuple<MapSaver.MapSaver.PrefabData, Matrix>>();
 
-	public List<string> LoadedMapDatas = new List<string>();
+	public List<Tuple<string, int>> LoadedMapDatas = new List<Tuple<string, int>>();
 
 	public static bool AllPrefabsLoadedSt => Instance.AllPrefabsLoaded;
 	public bool AllPrefabsLoaded => allSpawnablePrefabs.Count <= currentLocation;
@@ -92,9 +92,11 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	}
 
 
-	public void ReceiveMattOverrides(MapSaver.MapSaver.CompactObjectMapData data, bool DoStraightaway)
+	public void ReceiveMattOverrides(MapSaver.MapSaver.CompactObjectMapData data, bool DoStraightaway, int MatrixID)
 	{
 		if (data == null) return;
+		var Matrix = MatrixManager.Get(MatrixID);
+
 		foreach (var PD in data.PrefabData)
 		{
 			var id = PD.GitID;
@@ -104,7 +106,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			}
 
 
-			PrePayload[data.IDToNetIDClient[id]] = PD;
+			PrePayload[data.IDToNetIDClient[id]] = new Tuple<MapSaver.MapSaver.PrefabData, Matrix>(PD, Matrix.Matrix);
 		}
 
 		if (DoStraightaway)
@@ -129,15 +131,23 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	public override void ObjectBeforePayloadDataClient(NetworkIdentity identity) //NOTE : Won't handle object to object references,
                                                                               //However these should be synchronised By mirror since I can't Think of a state where they won't be
 	{
-		if (IsServer) return;
-		if (PrePayload.TryGetValue(identity.netId, out var prefabdata))
+		try
 		{
-			MapLoader.ProcessIndividualObject(null, prefabdata, null, Vector3Int.zero, Vector3Int.zero, identity.gameObject);
-			foreach (var Spawn in identity.GetComponentsInChildren<INewMappedOnSpawn>())
+			if (IsServer) return;
+			if (PrePayload.TryGetValue(identity.netId, out var prefabdata))
 			{
-				Spawn.OnNewMappedOnSpawn();
+				MapLoader.ProcessIndividualObject(null, prefabdata.Item1, prefabdata.Item2, Vector3Int.zero, Vector3Int.zero, identity.gameObject);
+				foreach (var Spawn in identity.GetComponentsInChildren<INewMappedOnSpawn>())
+				{
+					Spawn.OnNewMappedOnSpawn();
+				}
 			}
 		}
+		catch (Exception e)
+		{
+			Loggy.LogError(e.ToString());
+		}
+
 	}
 
 	public void Clear()
@@ -169,8 +179,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 #endif
 
-
-
+		EventManager.AddHandler(Event.SceneUnloading, RoundEndingClientNServer);
 		if (Instance == null || Instance == this || Maped)
 		{
 			Instance = this;
@@ -253,6 +262,11 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		}
 
 		ActiveNetworkedManagersPrefabs.Clear();
+
+	}
+
+	public void RoundEndingClientNServer()
+	{
 		PrePayload.Clear();
 		LoadedMapDatas.Clear();
 	}

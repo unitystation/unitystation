@@ -50,7 +50,7 @@ public class ClientRequestsSaveMessage : ClientMessage<ClientRequestsSaveMessage
 
 		var StringData = JsonConvert.SerializeObject(Data, settings);
 
-		ServerReturnMapData.Send(SentByPlayer.GameObject, StringData, ServerReturnMapData.MessageType.MapDataFromSave);
+		ServerReturnMapData.Send(SentByPlayer.GameObject, StringData, ServerReturnMapData.MessageType.MapDataFromSave, -1);
 	}
 
 	public static NetMessage Send(List<GameGizmoModel> PreviewGizmos, List<BetterBounds> Bounds, MatrixInfo Matrix,

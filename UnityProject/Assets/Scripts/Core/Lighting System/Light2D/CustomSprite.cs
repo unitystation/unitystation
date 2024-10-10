@@ -119,7 +119,7 @@ namespace Light2D
 	        {
 		        if (Material == null)
 		        {
-			        Material = Resources.GetBuiltinResource<Material>("Sprites-Default.mat");
+			        Material = Resources.GetBuiltinResource<Material>("Default Light Material.mat");
 		        }
 	        }
 	        catch (Exception e)

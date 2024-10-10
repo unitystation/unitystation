@@ -121,6 +121,7 @@ namespace Systems.Clothing
 
 		public ItemsSprites GenItemsSprites(ClothingDataV2 equippedData)
 		{
+			if (equippedData == null) return null;
 			var SpriteSOData = new ItemsSprites();
 			SpriteSOData.Palette = new List<Color>(equippedData.Palette);
 			SpriteSOData.SpriteLeftHand = (equippedData.SpriteInHandsLeft);

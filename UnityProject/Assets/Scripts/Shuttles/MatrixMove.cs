@@ -13,7 +13,10 @@ public class MatrixMove : MonoBehaviour
 		{
 			if (networkedMatrixMove == null)
 			{
-				networkedMatrixMove = transform.GetChild(1).GetComponent<NetworkedMatrixMove>();
+				if (transform.childCount > 1)
+				{
+					networkedMatrixMove = transform.GetChild(1).GetComponent<NetworkedMatrixMove>();
+				}
 			}
 			return networkedMatrixMove;
 		}

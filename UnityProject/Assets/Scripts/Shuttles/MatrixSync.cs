@@ -23,6 +23,8 @@ namespace Shuttles
 
 		#endregion
 
+		[SyncVar] public bool IsSpaceMatrix;
+
 		public static int matrixIDcounter;
 
 		private void Awake()

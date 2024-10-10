@@ -27,7 +27,7 @@ namespace TileManagement
 	[ExecuteInEditMode]
 	public class MetaTileMap : MonoBehaviour
 	{
-		public int TargetMSpreFrame = 5;
+		public int TargetMSpreFrame = 20;
 
 		private Stopwatch stopwatch = new Stopwatch();
 

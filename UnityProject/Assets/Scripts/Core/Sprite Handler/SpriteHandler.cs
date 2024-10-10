@@ -49,6 +49,9 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 	private int animationIndex = 0;
 	private bool isReversing;
 
+	private bool initialised = false;
+
+
 	[SerializeField] private bool pushTextureOnStartUp = true;
 
 	private int variantIndex = 0;
@@ -338,9 +341,15 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 
 	public Color GetColor()
 	{
+		Init();
 		if (setColour == null)
 		{
 			UpdateImageColor();
+		}
+
+		if (setColour == null)
+		{
+			Loggy.LogError("AAAAAAAAAAAA");
 		}
 
 		return setColour.Value;
@@ -454,6 +463,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 
 	void INewMappedOnSpawn.OnNewMappedOnSpawn()
 	{
+		Init();
 		PresentSpriteSet = InitialPresentSpriteSet;
 		PushTexture();
 
@@ -664,23 +674,50 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 
 	protected virtual void Init()
 	{
-		if (randomInitialSprite && CatalogueCount > 0)
+		if (initialised) return;
+		initialised = true;
+
+		PresentSpriteSet = InitialPresentSpriteSet;
+		variantIndex = initialVariantIndex;
+#if UNITY_EDITOR
+		ValidateLate();
+#endif
+
+		if (Application.isPlaying)
 		{
-			SetCatalogueIndexSprite(UnityEngine.Random.Range(0, CatalogueCount), NetworkThis);
-		}
-		else if (randomInitialSprite && PresentSpriteSet != null && PresentSpriteSet.Variance.Count > 0)
-		{
-			SetSpriteVariant(UnityEngine.Random.Range(0, PresentSpriteSet.Variance.Count), NetworkThis);
-		}
-		else if (PresentSpriteSet != null)
-		{
-			if (pushTextureOnStartUp)
+			ParentUniversalObjectPhysics = this.transform.parent.OrNull()?.GetComponent<UniversalObjectPhysics>();
+
+			spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
+			image = this.gameObject.GetComponent<Image>();
+			if (image != null)
 			{
-				PushTexture(false);
+				// unity doesn't support property blocks on ui renderers, so this is a workaround
+				image.material = Instantiate(image.material);
 			}
-			else
+
+			if (NetworkThis)
 			{
-				PushClear();
+				networkIdentity = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(gameObject);
+				SpriteHandlerManager.RegisterHandler(networkIdentity, this);
+			}
+			if (randomInitialSprite && CatalogueCount > 0)
+			{
+				SetCatalogueIndexSprite(UnityEngine.Random.Range(0, CatalogueCount), NetworkThis);
+			}
+			else if (randomInitialSprite && PresentSpriteSet != null && PresentSpriteSet.Variance.Count > 0)
+			{
+				SetSpriteVariant(UnityEngine.Random.Range(0, PresentSpriteSet.Variance.Count), NetworkThis);
+			}
+			else if (PresentSpriteSet != null)
+			{
+				if (pushTextureOnStartUp)
+				{
+					PushTexture(false);
+				}
+				else
+				{
+					PushClear();
+				}
 			}
 		}
 	}
@@ -695,32 +732,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 
 	protected virtual void Awake()
 	{
-		PresentSpriteSet = InitialPresentSpriteSet;
-		variantIndex = initialVariantIndex;
-#if UNITY_EDITOR
-		ValidateLate();
-#endif
-
-		if (Application.isPlaying)
-		{
-			ParentUniversalObjectPhysics = this.transform.parent.OrNull()?.GetComponent<UniversalObjectPhysics>();
-
-			spriteRenderer = GetComponent<SpriteRenderer>();
-			image = GetComponent<Image>();
-			if (image != null)
-			{
-				// unity doesn't support property blocks on ui renderers, so this is a workaround
-				image.material = Instantiate(image.material);
-			}
-
-			if (NetworkThis)
-			{
-				networkIdentity = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(gameObject);
-				SpriteHandlerManager.RegisterHandler(networkIdentity, this);
-			}
-
-			Init();
-		}
+		Init();
 	}
 
 	private void OnDestroy()
