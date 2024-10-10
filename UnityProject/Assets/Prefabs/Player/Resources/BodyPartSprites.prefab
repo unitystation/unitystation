@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5675696822478708226}
   - component: {fileID: 8495837738996047739}
+  - component: {fileID: 777447516416841867}
   m_Layer: 8
   m_Name: BodyPartSprites
   m_TagString: Untagged
@@ -53,6 +54,22 @@ MonoBehaviour:
   ClothingHide: 0
   Data: 
   referenceOffset: 0
+--- !u!114 &777447516416841867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2698320114865596327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f4629d03e356d64eb509d18a7450082, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentID: root
+  foreverID: YmccG5ZDBhsuVvWuDPSV
+  <AlternativePrefabName>k__BackingField: 
+  <CanBeSpawnedByAdmin>k__BackingField: 1
 --- !u!1 &5130866519076960480
 GameObject:
   m_ObjectHideFlags: 0
@@ -103,6 +120,8 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -152,12 +171,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 0
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []

@@ -99,7 +99,7 @@ public partial class SubSceneManager
 	IEnumerator ServerLoadSpaceScene(SubsceneLoadTimer loadTimer)
 	{
 		loadTimer.IncrementLoadBar($"Loading the void of time and space");
-		yield return StartCoroutine(LoadSubScene("SpaceScene", loadTimer, default, SceneType.Space));
+		yield return StartCoroutine(LoadSubScene("AdditionalScenes/EmptySpaceYesEmptySpace.json", loadTimer, default, SceneType.Space));
 	}
 
 	//Choose and load a main station on the server

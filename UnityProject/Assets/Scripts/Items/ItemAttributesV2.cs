@@ -346,6 +346,7 @@ namespace Items
 		/// <param name="newSprites">New sprites</param>
 		public void SetSprites(ItemsSprites newSprites)
 		{
+			if (newSprites == null) return;
 			itemSprites = newSprites;
 		}
 
