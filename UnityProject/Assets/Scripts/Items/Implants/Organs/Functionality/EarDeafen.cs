@@ -1,7 +1,7 @@
 using Items.Implants.Organs;
 using Mirror;
 using Player;
-using UnityEngine;
+using UnityEngine; 
 
 public class EarDeafen : NetworkBehaviour
 {
@@ -25,8 +25,9 @@ public class EarDeafen : NetworkBehaviour
 			}
 		}
 
-		connectedEars.RelatedPart.TakeDamage(null, deafenDuration*0.5f, AttackType.Internal, DamageType.Burn);
-		PlayerDeafenEffectsMessage.Send(connectedEars.RelatedPart.HealthMaster.gameObject, deafenDuration  * deafenMultiplier, connectedEars);
+		connectedEars.RelatedPart.TakeDamage(null, deafenDuration * 0.5f, AttackType.Internal, DamageType.Burn);
+		PlayerDeafenEffectsMessage.Send(connectedEars.RelatedPart.HealthMaster.gameObject, deafenDuration * deafenMultiplier, connectedEars.gameObject);
+
 		return true;
 	}
 

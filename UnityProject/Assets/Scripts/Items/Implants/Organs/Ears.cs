@@ -140,6 +140,11 @@ namespace Items.Implants.Organs
 			ApplyChangesDeafness(TotalMultiplier, PressureMultiplier * MutationMultiplier * EfficiencyMultiplier);
 		}
 
+		public void DeafenFromMsg(float deafenLength)
+		{
+			StartCoroutine(TemporaryDeafen(deafenLength));
+		}
+
 		public IEnumerator TemporaryDeafen(float deafenLength)
 		{
 			ApplyDeafness(false, 0);
