@@ -347,11 +347,6 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 			UpdateImageColor();
 		}
 
-		if (setColour == null)
-		{
-			Loggy.LogError("AAAAAAAAAAAA");
-		}
-
 		return setColour.Value;
 	}
 
