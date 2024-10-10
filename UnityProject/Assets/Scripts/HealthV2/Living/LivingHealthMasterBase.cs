@@ -1370,8 +1370,8 @@ namespace HealthV2
 			var ears = GetBodyPartsInArea(BodyPartType.Ears, false);
 			foreach (var ear in ears)
 			{
-				var eyeFlash = ear.GetComponentCustom<EarDeafen>();		
-				if (eyeFlash != null && eyeFlash.TryDeafen(deafenDuration, checkForProtectiveCloth))
+				var earDeafen = ear.GetComponentCustom<EarDeafen>();		
+				if (earDeafen != null && earDeafen.TryDeafen(deafenDuration, checkForProtectiveCloth))
 				{
 					didDeafen = true;
 					AdminLogsManager.AddNewLog(null, $"{playerScript.visibleName} has been deafened.", LogCategory.Interaction, Severity.SUSPICOUS);
