@@ -193,10 +193,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85f61ef9334eff448b907d2bf379cb03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  integrity: {fileID: 0}
   CookTime: 10
   CookedProduct: {fileID: 6880415347540399089, guid: c4d884c9f2e69424d8d72dca94257e05,
     type: 3}
   CookableBy: -1
+  OnCooked:
+    m_PersistentCalls:
+      m_Calls: []
+  minimumDamage: 2
+  cookingByDamageType: 1
+  cookingByAttackType: 6
 --- !u!114 &7146114630749491127
 MonoBehaviour:
   m_ObjectHideFlags: 0

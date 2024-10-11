@@ -140,31 +140,34 @@ namespace Items.Food
 				eaterHungerState = sys.CashedHungerState;
 			}
 
-			var feeder = feederGO.GetComponent<PlayerScript>();
+			bool hasFeeder = false;
+			PlayerScript feeder = null;
 
-			if(feeder != null) ConsumableTextUtils.SendGenericConsumeMessage(feeder, eater, eaterHungerState, Name, "eat");
+			if(feederGO != null) feederGO.TryGetComponent<PlayerScript>(out feeder);
+
+			if(hasFeeder == true) ConsumableTextUtils.SendGenericConsumeMessage(feeder, eater, eaterHungerState, Name, "eat");
 			if (projectileFed == false && feeder != eater) //If you're feeding it to someone else.
 			{
 				StandardProgressAction.Create(ProgressConfig, () =>
 				{
 					ConsumableTextUtils.SendGenericForceFeedMessage(feeder, eater, eaterHungerState, Name, "eat");
-					Eat(eater, feeder);
+					Eat(eater, feeder, projectileFed);
 				}).ServerStartProgress(eater.RegisterPlayer, forceFeedTime, feeder.gameObject);
 				return;
 			}
 			else if (projectileFed == true)
 			{
-				Eat(eater, feeder);
+				Eat(eater, feeder, projectileFed);
 				return;
 			}
 
 			StandardProgressAction.Create(ProgressConfig, () =>
 				{
-					Eat(eater, feeder);
+					Eat(eater, feeder, projectileFed);
 				}).ServerStartProgress(eater.RegisterPlayer, consumeTime, feeder.gameObject);
 		}
 
-		protected virtual void Eat(PlayerScript eater, PlayerScript feeder)
+		protected virtual void Eat(PlayerScript eater, PlayerScript feeder, bool projectileFed = false)
 		{
 			//TODO: Reimplement metabolism.
 			var stomachs = eater.playerHealth.GetStomachs();
@@ -173,7 +176,6 @@ namespace Items.Food
 				//No stomachs?!
 				return;
 			}
-
 			float SpareSpace = 0;
 
 			foreach (var stomach in stomachs)
@@ -220,7 +222,9 @@ namespace Items.Food
 				}
 			}
 
-			ReagentMix incomingFood = GetMixForBite(feeder);
+			ReagentMix incomingFood;
+			if (projectileFed == false) incomingFood = GetMixForBite(feeder);
+			else incomingFood = FullConsume(feeder);
 
 			foreach (var stomach in stomachs)
 			{
@@ -232,6 +236,36 @@ namespace Items.Food
 			ScoreMachine.AddToScoreInt(1, RoundEndScoreBuilder.COMMON_SCORE_FOODEATEN);
 		}
 
+		public ReagentMix FullConsume(PlayerScript feeder)
+		{
+			ReagentMix incomingFood = FoodContents.CurrentReagentMix.Clone();
+
+			if (leavings != null)
+			{
+				var leavingsInstance = Spawn.ServerPrefab(leavings).GameObject;
+				var pickupable = leavingsInstance.GetComponent<Pickupable>();
+				bool added = false;
+				var ToDropOn = gameObject;
+
+				if (feeder != null)
+				{
+					var feederSlot = feeder.DynamicItemStorage.GetActiveHandSlot();
+
+					ToDropOn = feeder.gameObject;
+					added = Inventory.ServerAdd(pickupable, feederSlot, ReplacementStrategy.DropOther);
+				}
+
+				if (added == false)
+				{
+					//If stackable has leavings and they couldn't go in the same slot, they should be dropped
+					pickupable.UniversalObjectPhysics.DropAtAndInheritMomentum(
+						ToDropOn.GetComponent<UniversalObjectPhysics>());
+				}
+			}
+			_ = Inventory.ServerDespawn(gameObject);
+
+			return incomingFood;
+		}
 
 		public ReagentMix GetMixForBite(PlayerScript feeder)
 		{

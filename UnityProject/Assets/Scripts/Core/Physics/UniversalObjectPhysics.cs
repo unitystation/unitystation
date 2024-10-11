@@ -54,7 +54,6 @@ namespace Core.Physics
 		//Reduced friction during this time, if stickyMovement Just has normal friction vs just grabbing
 		[PlayModeOnly, SyncVar] public NetworkIdentity thrownBy;
 		[PlayModeOnly, SyncVar] public NetworkIdentity thrownProtection;
-		[PlayModeOnly] public BodyPartType aim;
 		[PlayModeOnly] public int ForcedPushedFrame = 0;
 		[PlayModeOnly] public int TryPushedFrame = 0;
 		[PlayModeOnly] public int PushedFrame = 0;
@@ -957,7 +956,7 @@ namespace Core.Physics
 				return;
 			}
 
-			aim = inAim;
+			currentAim = inAim;
 			thrownBy = inThrownBy.NetWorkIdentity();
 			thrownProtection = thrownBy;
 			if (Random.Range(0, 2) == 1)
@@ -1292,9 +1291,7 @@ namespace Core.Physics
 				//TODO: Add the ability to catch thrown objects if the player has the "throw" state enabled on them.
 				if (hit.TryGetComponent<LivingHealthMasterBase>(out var livingHealthMasterBase) && isServer)
 				{
-					livingHealthMasterBase.ApplyDamageToBodyPart(thrownBy.gameObject, damage, AttackType.Melee,
-						DamageType.Brute,
-						currentAim);
+					livingHealthMasterBase.ApplyDamageToBodyPart(thrownBy.gameObject, damage, AttackType.Melee, DamageType.Brute, currentAim);
 					if (currentAim == BodyPartType.Mouth && TryGetComponent<Edible>(out var edible)) edible.TryConsume(null, hit.gameObject, true);
 
 					global::Chat.AddThrowHitMsgToChat(gameObject, livingHealthMasterBase.gameObject,
@@ -1399,7 +1396,7 @@ namespace Core.Physics
 								if (push == this) continue;
 								if (push.gameObject.NetWorkIdentity() == thrownProtection) continue;
 								push.NewtonianNewtonPush(NewtonianMovement, (NewtonianMovement.magnitude * GetWeight()),
-									Single.NaN, Single.NaN, aim, thrownBy?.gameObject, spinMagnitude);
+									Single.NaN, Single.NaN, currentAim, thrownBy?.gameObject, spinMagnitude);
 							}
 
 							var normal = (intPosition - intNewPosition).To3();

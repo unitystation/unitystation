@@ -20,8 +20,8 @@ public class IngredientMarker : MonoBehaviour, ICheckedInteractable<InventoryApp
 		if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 		//make sure both items are ingredients!
-		if (!Validations.HasItemTrait(interaction, CommonTraits.Instance.Ingredient)) return false;
 		if (!Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Ingredient)) return false;
+		if (!Validations.HasItemTrait(interaction.TargetObject, CommonTraits.Instance.Ingredient)) return false;
 
 		//make sure at least the target is in a hand slot
 		if (!interaction.IsToHandSlot) return false;

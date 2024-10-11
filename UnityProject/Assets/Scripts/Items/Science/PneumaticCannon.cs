@@ -31,6 +31,8 @@ public class PneumaticCannon : MonoBehaviour, ICheckedInteractable<InventoryAppl
 	[SerializeField] private SpriteHandler bindingSprite = null;
 
 	[SerializeField] private AddressableAudioSource dryFiringSound = null;
+	[SerializeField] private AddressableAudioSource firingSound = null;
+
 	private bool isOnCooldown => Time.time - lastShootTime < SHOOT_COOLDOWN_TIME;
 
 	private float lastShootTime = 0;
@@ -81,14 +83,14 @@ public class PneumaticCannon : MonoBehaviour, ICheckedInteractable<InventoryAppl
 	public bool WillInteract(InventoryApply interaction, NetworkSide side)
 	{
 		if (DefaultWillInteract.Default(interaction, side) == false) return false;
-		if (interaction.TargetObject == gameObject && interaction.IsFromHandSlot) return true;
+		if (interaction.TargetSlot.Item.OrNull()?.gameObject != gameObject) return false;
 
-		return false;
+		return true;
 	}
 
 	public void ServerPerformInteraction(InventoryApply interaction)
 	{
-		if (interaction.TargetObject != gameObject || interaction.IsFromHandSlot == false) return;
+		if (interaction.TargetSlot.Item.OrNull()?.gameObject != gameObject) return;
 
 		if (interaction.UsedObject != null) FullHandInteraction(interaction.FromSlot, interaction.Performer, interaction.UsedObject);
 		else EmptyHandInteraction(interaction.FromSlot);
@@ -187,6 +189,7 @@ public class PneumaticCannon : MonoBehaviour, ICheckedInteractable<InventoryAppl
 		}
 
 		Chat.AddExamineMsgFromServer(interaction.Performer, $"You adjust the {gameObject.ExpensiveName()}'s pressure regulator to {(int)pressureSetting * CANNON_MAX_PRESSURE}kPa");
+		SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Valve, transform.position, sourceObj: interaction.Performer);
 	}
 
 	#endregion
@@ -241,7 +244,7 @@ public class PneumaticCannon : MonoBehaviour, ICheckedInteractable<InventoryAppl
 		GasMix mixToEffect = metaNode.GasMixLocal;
 		GasMix.TransferGas(mixToEffect, canister.GasMixLocal, molesToTransfer);
 
-		SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Valve, transform.position, sourceObj: interaction.Performer);
+		SoundManager.PlayNetworkedAtPos(firingSound, transform.position, sourceObj: interaction.Performer);
 		if (pressureToDischarge >= (int)PressureSetting.High * CANNON_MAX_PRESSURE) interaction.PerformerPlayerScript.RegisterPlayer.ServerStun(dropItem: false);
 
 		//We assume a barrel area of 0.1 square meters applied for 1/10th of a second.
