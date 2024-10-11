@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using HealthV2;
 using Items;
+using Items.Food;
 using Logs;
 using Messages.Server.SoundMessages;
 using Mirror;
@@ -53,7 +54,6 @@ namespace Core.Physics
 		//Reduced friction during this time, if stickyMovement Just has normal friction vs just grabbing
 		[PlayModeOnly, SyncVar] public NetworkIdentity thrownBy;
 		[PlayModeOnly, SyncVar] public NetworkIdentity thrownProtection;
-		[PlayModeOnly] public BodyPartType aim;
 		[PlayModeOnly] public int ForcedPushedFrame = 0;
 		[PlayModeOnly] public int TryPushedFrame = 0;
 		[PlayModeOnly] public int PushedFrame = 0;
@@ -97,6 +97,7 @@ namespace Core.Physics
 		[SyncVar] protected int SetLastResetID = -1;
 		[SyncVar] public bool HasOwnGravity = false;
 		[SyncVar] private bool doNotApplyMomentumOnTarget = false;
+		[SyncVar] private BodyPartType currentAim = BodyPartType.Chest;
 
 		[SyncVar(hook = nameof(SynchroniseVisibility))]
 		private bool isVisible = true;
@@ -423,11 +424,11 @@ namespace Core.Physics
 		}
 
 		[ClientRpc]
-		public void UpdateClientMomentum(Vector3 resetToLocal, Vector2 newMomentum, float inairTime, float inslideTime,
+		public void UpdateClientMomentum(Vector3 resetToLocal, Vector2 newMomentum, float inairTime, float inslideTime, BodyPartType inAim,
 			int matrixID, float inSpinFactor, bool forceOverride, uint doNotUpdateThisClient, float timeSent)
 		{
 			if (isServer) return;
-
+			currentAim = inAim;
 			if (IDIsLocalPlayerObject(doNotUpdateThisClient)) return;
 
 			if (IsFlyingSliding && (TimeSpentFlying - timeSent) < 0)
@@ -955,7 +956,7 @@ namespace Core.Physics
 				return;
 			}
 
-			aim = inAim;
+			currentAim = inAim;
 			thrownBy = inThrownBy.NetWorkIdentity();
 			thrownProtection = thrownBy;
 			if (Random.Range(0, 2) == 1)
@@ -1003,7 +1004,7 @@ namespace Core.Physics
 			if (isServer)
 			{
 				LastUpdateClientFlying = NetworkTime.time;
-				;		UpdateClientMomentum(transform.localPosition, NewtonianMovement, airTime, this.slideTime,
+				;		UpdateClientMomentum(transform.localPosition, NewtonianMovement, airTime, this.slideTime, inAim,
 					registerTile.Matrix.Id, spinFactor, true, NetId.Empty, TimeSpentFlying);
 			}
 		}
@@ -1290,12 +1291,11 @@ namespace Core.Physics
 				//TODO: Add the ability to catch thrown objects if the player has the "throw" state enabled on them.
 				if (hit.TryGetComponent<LivingHealthMasterBase>(out var livingHealthMasterBase) && isServer)
 				{
-					var randomHitZone = aim.Randomize();
-					livingHealthMasterBase.ApplyDamageToBodyPart(thrownBy.gameObject, damage, AttackType.Melee,
-						DamageType.Brute,
-						randomHitZone);
+					livingHealthMasterBase.ApplyDamageToBodyPart(thrownBy.gameObject, damage, AttackType.Melee, DamageType.Brute, currentAim);
+					if (currentAim == BodyPartType.Mouth && TryGetComponent<Edible>(out var edible)) edible.TryConsume(null, hit.gameObject, true);
+
 					global::Chat.AddThrowHitMsgToChat(gameObject, livingHealthMasterBase.gameObject,
-						randomHitZone);
+						currentAim);
 				}
 
 				if (isServer) continue;
@@ -1396,7 +1396,7 @@ namespace Core.Physics
 								if (push == this) continue;
 								if (push.gameObject.NetWorkIdentity() == thrownProtection) continue;
 								push.NewtonianNewtonPush(NewtonianMovement, (NewtonianMovement.magnitude * GetWeight()),
-									Single.NaN, Single.NaN, aim, thrownBy?.gameObject, spinMagnitude);
+									Single.NaN, Single.NaN, currentAim, thrownBy?.gameObject, spinMagnitude);
 							}
 
 							var normal = (intPosition - intNewPosition).To3();
@@ -1433,7 +1433,7 @@ namespace Core.Physics
 			if (isServer && NetworkTime.time - LastUpdateClientFlying > 2) //We only need correction for that item
 			{
 				LastUpdateClientFlying = NetworkTime.time;
-				UpdateClientMomentum(transform.localPosition, NewtonianMovement, airTime, slideTime,
+				UpdateClientMomentum(transform.localPosition, NewtonianMovement, airTime, slideTime, currentAim,
 					registerTile.Matrix.Id, spinMagnitude, true, NetId.Empty, TimeSpentFlying);
 			}
 

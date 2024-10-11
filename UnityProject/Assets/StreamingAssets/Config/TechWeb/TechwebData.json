@@ -340,6 +340,25 @@
     "Colour": "78, 28, 23"
   },
   {
+    "ID": "pneumatic",
+    "DisplayName": "Research Pneumatics",
+    "Description": "Wether or not this is science is still up for debate",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "industry"
+    ],
+    "DesignIDs": [
+      "pneumatic_cannon"
+    ],
+    "ResearchCosts": 20,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "pneumatic",
+    "techType": 3,
+    "Techweb": null,
+    "Colour": "255, 170, 237"
+  },
+  {
     "ID": "engielec",
     "DisplayName": "Engineering Electronics",
     "Description": "Electronic boards and devices for constructing more advanced devices.",
