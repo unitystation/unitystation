@@ -108,5 +108,5 @@ public abstract class Consumable : NetworkBehaviour, ICheckedInteractable<HandAp
 	/// </summary>
 	/// <param name="feeder">Player that feed eater. Can be same as eater.</param>
 	/// <param name="eater">Player that is going to eat item</param>
-	public abstract void TryConsume(GameObject feeder, GameObject eater);
+	public abstract void TryConsume(GameObject feeder, GameObject eater, bool projectileFed = false);
 }
