@@ -351,7 +351,7 @@ namespace MapSaver
 			public List<ClassData> ClassDatas = new List<ClassData>();
 			public List<IndividualObject> Children = null;
 
-			public bool RemoveEmptys()
+			public bool RemoveEmptysAndProcess()
 			{
 				bool ISEmpty = true;
 
@@ -359,6 +359,7 @@ namespace MapSaver
 				{
 					ISEmpty = false;
 				}
+
 
 				if (Removed)
 				{
@@ -376,7 +377,7 @@ namespace MapSaver
 				{
 					foreach (var Child in Children)
 					{
-						if (Child.RemoveEmptys() == false)
+						if (Child.RemoveEmptysAndProcess() == false)
 						{
 							ISEmpty = false;
 						}
@@ -1659,7 +1660,7 @@ namespace MapSaver
 
 
 
-			if (Prefab.Object.RemoveEmptys())
+			if (Prefab.Object.RemoveEmptysAndProcess())
 			{
 				Prefab.Object = null;
 			}
@@ -2099,13 +2100,11 @@ namespace MapSaver
 					{
 						Waiting.Value.ReferencesNeeded.Remove(GitiD);
 
-
 						if (Waiting.Value.ReferencesNeeded.Count == 0)
 						{
 							try
 							{
-								foreach (var Unprocessed in
-								         Waiting.Value.FieldsToPopulate) //TODO Could potentially error? list modified
+								foreach (var Unprocessed in Waiting.Value.FieldsToPopulate) //TODO Could potentially error? list modified
 								{
 									ReuseSEt.Add(Unprocessed.FieldData);
 									SecureMapsSaver.LoadData(Unprocessed.ID, Unprocessed.Object, ReuseSEt,

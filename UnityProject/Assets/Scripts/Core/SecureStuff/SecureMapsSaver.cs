@@ -146,7 +146,8 @@ namespace SecureStuff
 			while (List.Count <= Index)
 				//TODO Could be exploited? well You could just have a map with a million objects so idk xD
 			{
-				if ((GameObject == false && Component == false && ScriptObject == false && IsClass) || ListType.IsValueType)
+				if ((GameObject == false && Component == false && ScriptObject == false && IsClass) ||
+				    ListType.IsValueType)
 				{
 					//NOTEE is dangerous
 					List.Add(Activator.CreateInstance(ListType));
@@ -918,7 +919,6 @@ namespace SecureStuff
 			}
 
 
-
 			if (string.IsNullOrEmpty(Id))
 			{
 				Loggy.LogError("Map has Empty references");
@@ -944,7 +944,7 @@ namespace SecureStuff
 			if (IDPath[1].Contains(
 				    ",")) //Technically it always has 0 , but we can ignore it so don't remove it technically
 			{
-				IDs = IDPath[1].Split().Select(x => int.Parse(x)).ToList();
+				IDs = IDPath[1].Split(",").Select(x => int.Parse(x)).ToList();
 				IDs.RemoveAt(0);
 			}
 
@@ -1092,7 +1092,7 @@ namespace SecureStuff
 
 				if (Field.FieldType.IsGenericType && typeof(IEnumerable).IsAssignableFrom(Field.FieldType) &&
 				    Field.FieldType.GetGenericTypeDefinition() != typeof(Dictionary<,>) &&
-					Field.FieldType.GetGenericTypeDefinition() != typeof(HashSet<>))
+				    Field.FieldType.GetGenericTypeDefinition() != typeof(HashSet<>))
 
 				{
 					ListHandleLoad(RootID, root, Field, Object, ModField, int.Parse(Index), IPopulateIDRelation,
@@ -1311,7 +1311,7 @@ namespace SecureStuff
 			{
 				if (Field.IsNotSerialized ||
 				    HasAttribute(Field, typeof(PlayModeOnlyAttribute)) ||
-				    HasAttribute(Field, typeof(HideInInspector)) ||
+				    HasAttribute(Field, typeof(HideInInspector))  ||
 				    HasAttribute(Field, typeof(NaughtyAttributes.ReadOnlyAttribute)) ||
 				    HasAttribute(Field, typeof(NonSerializedAttribute)
 				    ))
@@ -1333,7 +1333,6 @@ namespace SecureStuff
 			object SpawnedInstance,
 			bool UseInstance = false)
 		{
-
 			try
 			{
 				var TypeMono = SpawnedInstance.GetType();
@@ -1374,7 +1373,7 @@ namespace SecureStuff
 					    typeof(IEnumerable).IsAssignableFrom(Field.FieldType) &&
 					    Field.FieldType.GetGenericTypeDefinition() != typeof(Dictionary<,>) &&
 					    typeof(IDictionary).IsAssignableFrom(Field.FieldType) == false &&
-						Field.FieldType.GetGenericTypeDefinition() != typeof(HashSet<>))
+					    Field.FieldType.GetGenericTypeDefinition() != typeof(HashSet<>))
 
 					{
 						ListHandleSave(AMonoSet, APrefabDefault, Field, FieldDatas, Prefix, UseInstance,
@@ -1447,8 +1446,6 @@ namespace SecureStuff
 						if (CheckAreSame(PrefabDefault, MonoSet, OnGameObjectComponents,
 							    AllGameObjectOnObject) == false)
 						{
-
-
 							if (anyOfThem == false)
 							{
 								if (Field.FieldType.IsGenericType)
@@ -1459,7 +1456,7 @@ namespace SecureStuff
 								{
 									if (Field.FieldType.GetCustomAttributes(typeof(System.SerializableAttribute), true)
 										    .Length == 0) continue;
-									if (  Field.FieldType.IsSubclassOf(typeof(UnityEngine.Object))) continue;
+									if (Field.FieldType.IsSubclassOf(typeof(UnityEngine.Object))) continue;
 								}
 							}
 
@@ -1612,7 +1609,8 @@ namespace SecureStuff
 			Type Type, HashSet<FieldData> FieldDatas, bool UseInstance, IPopulateIDRelation IPopulateIDRelation,
 			bool MarkAsRemoved)
 		{
-			if (SpawnedInstance == null || (anyOfThem && (SpawnedInstance as UnityEngine.Object) == null)) //Weird Unity nullble
+			if (SpawnedInstance == null ||
+			    (anyOfThem && (SpawnedInstance as UnityEngine.Object) == null)) //Weird Unity nullble
 			{
 				if (MarkAsRemoved)
 				{
@@ -1674,7 +1672,9 @@ namespace SecureStuff
 							}
 							else
 							{
-								Loggy.LogError("Difference found however specified prefab did not have IHaveForeverID Prefab > " + GameObjectModified);
+								Loggy.LogError(
+									"Difference found however specified prefab did not have IHaveForeverID Prefab > " +
+									GameObjectModified);
 							}
 						}
 						else
@@ -1785,7 +1785,8 @@ namespace SecureStuff
 						{
 							if (MonoComponent.transform != (PrefabDefault as Component)?.transform)
 							{
-								Loggy.LogError($"Potential difference in prefabs however they are missing Forever ID for Original prefab {(PrefabDefault as Component)?.name} new Prefab {MonoComponent.name} ");
+								Loggy.LogError(
+									$"Potential difference in prefabs however they are missing Forever ID for Original prefab {(PrefabDefault as Component)?.name} new Prefab {MonoComponent.name} ");
 								return true;
 							}
 
@@ -1804,14 +1805,14 @@ namespace SecureStuff
 
 					if (MonoComponent.transform != (PrefabDefault as Component)?.transform)
 					{
-						Loggy.LogError($"Potential difference in prefabs however they are missing Forever ID for Original prefab {(PrefabDefault as Component)?.name} new Prefab {MonoComponent.name} ");
+						Loggy.LogError(
+							$"Potential difference in prefabs however they are missing Forever ID for Original prefab {(PrefabDefault as Component)?.name} new Prefab {MonoComponent.name} ");
 						return true;
 					}
 					else
 					{
 						return true;
 					}
-
 				}
 
 				return false; //Assumed to be external reference

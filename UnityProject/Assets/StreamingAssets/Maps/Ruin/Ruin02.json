@@ -2188,7 +2188,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.2.0",
+        "Ver": "1.3.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -2315,6 +2315,15 @@
             "Object": {
               "ClassDatas": [
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_12┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -2349,6 +2358,15 @@
             "LocalPRS": "8┼11┼0┼",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_12┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "LightSwitchV2@0",
                   "Data": [
@@ -2492,7 +2510,20 @@
             "GitID": "4d76ade90a370ca43ab3c9a765236a26_9┼11┼0┼",
             "PrefabID": "4d76ade90a370ca43ab3c9a765236a26",
             "Name": "AirlockEngineeringOpaque",
-            "LocalPRS": "9┼11┼0┼"
+            "LocalPRS": "9┼11┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_12┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "d38a25ea933e7a14c9c4c0134c741b6e_9┼15┼0┼",
@@ -2576,7 +2607,20 @@
             "GitID": "bc0cd2a586c78b846a43622b6ea5c953_11┼6┼0┼",
             "PrefabID": "bc0cd2a586c78b846a43622b6ea5c953",
             "Name": "Recharger",
-            "LocalPRS": "11┼6┼0┼"
+            "LocalPRS": "11┼6┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_12┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_11┼7┼0┼",
@@ -2585,6 +2629,15 @@
             "LocalPRS": "11┼7┼0┼0ø0ø270ø",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_12┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "Rotatable@0",
                   "Data": [
@@ -2617,7 +2670,20 @@
             "GitID": "f8db3418b6542874396d1eaa52946e19_11┼8┼0┼",
             "PrefabID": "f8db3418b6542874396d1eaa52946e19",
             "Name": "Photocopier",
-            "LocalPRS": "11┼8┼0┼"
+            "LocalPRS": "11┼8┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_12┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "b5e5d6463b96de0458a195cebc18a3e2_12┼5┼0┼",
@@ -2626,6 +2692,15 @@
             "LocalPRS": "12┼5┼0┼",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_12┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "Rotatable@0",
                   "Data": [
@@ -2648,7 +2723,20 @@
             "GitID": "9b59e4553ab9f7e4a8f46497d7cfd7bc_12┼9┼0┼",
             "PrefabID": "9b59e4553ab9f7e4a8f46497d7cfd7bc",
             "Name": "NanoMed",
-            "LocalPRS": "12┼9┼0┼"
+            "LocalPRS": "12┼9┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_12┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "ec35686c7084c93438b6f226712183d2_12┼10┼0┼",
@@ -2787,6 +2875,15 @@
             "Object": {
               "ClassDatas": [
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_12┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "LightSwitchV2@0",
                   "Data": [
                     {
@@ -2845,7 +2942,20 @@
             "GitID": "06f461555a8bd5947b6bfa4ecbc95627_15┼9┼0┼",
             "PrefabID": "06f461555a8bd5947b6bfa4ecbc95627",
             "Name": "AirlockCommandOpaque",
-            "LocalPRS": "15┼9┼0┼"
+            "LocalPRS": "15┼9┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_12┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "d19f068f30aed4d468cdba7a0e5824a0_15┼18┼0┼",
@@ -2860,6 +2970,15 @@
             "LocalPRS": "15┼20┼0┼0ø0ø180ø",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_12┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "Rotatable@0",
                   "Data": [
@@ -2923,7 +3042,20 @@
             "GitID": "7dea0790d26246447a9b881689c7dbdf_16┼21┼0┼",
             "PrefabID": "7dea0790d26246447a9b881689c7dbdf",
             "Name": "AirlockExternalWindowed",
-            "LocalPRS": "16┼21┼0┼"
+            "LocalPRS": "16┼21┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_12┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "f2432d244a6b7774ea00ff013beb7dcb_17┼21┼0┼",
@@ -2932,6 +3064,15 @@
             "LocalPRS": "17┼21┼0┼",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_12┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "LightSwitchV2@0",
                   "Data": [
@@ -3027,6 +3168,15 @@
             "Object": {
               "ClassDatas": [
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_12┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -3085,6 +3235,15 @@
             "LocalPRS": "20┼11┼0┼",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_12┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "Rotatable@0",
                   "Data": [
@@ -3219,6 +3378,15 @@
             "Object": {
               "ClassDatas": [
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_12┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "LightSource@0",
                   "Data": [
                     {
@@ -3267,7 +3435,17 @@
             "Name": "Microwave",
             "LocalPRS": "23┼12┼0┼",
             "Object": {
-              "ClassDatas": [],
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_12┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
               "Children": [
                 {
                   "ID": "0,2",
@@ -3284,6 +3462,15 @@
             "LocalPRS": "23┼13┼0┼0ø0ø90ø",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_12┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "Rotatable@0",
                   "Data": [

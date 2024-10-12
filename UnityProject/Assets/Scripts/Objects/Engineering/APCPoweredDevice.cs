@@ -77,7 +77,7 @@ namespace Systems.Electricity
 		[NonSerialized]
 		public float Resistance = 99999999;
 
-		[HideInInspector] public APC RelatedAPC;
+		public APC RelatedAPC;
 		private IAPCPowerable Powered;
 
 
