@@ -42,8 +42,8 @@
 				"All": true
 			},
 			"WebSocketServiceHost" :{
-				"All": true,
-			},
+				"All": true
+			}
 		},
 		"WebSocketSharp.Net.WebSockets" :{
 			"WebSocketContext":{
@@ -446,7 +446,7 @@
 					"System.Diagnostics.Process GetCurrentProcess()"
 				]
 				
-            },
+            }
         },
 		"System.CodeDom.Compiler" : {
 			"GeneratedCodeAttribute": {
@@ -567,7 +567,7 @@
             "ConstantExpression": {},
             "Expression": {
                 "Methods": [
-                    "System.Linq.Expressions.Expression`1<!!0> Lambda<>(System.Linq.Expressions.Expression, System.Linq.Expressions.ParameterExpression[])",
+                    "System.Linq.Expressions.Expression`1<!!0> Lambda<>(System.Linq.Expressions.Expression, System.Linq.Expressions.ParameterExpression[])"
                 ]
             },
             "Expression`1": {},
@@ -590,12 +590,9 @@
             "IPAddress": {
                 "All": true
             },
-            "HttpStatusCode": {
-				"All": true
-			},
 			"HttpStatusCode": {
 				"All": true
-			},
+			}
         },
 		"System.Net.Http" : {
 			"StringContent" : {
@@ -615,7 +612,7 @@
 			}, 
 			"HttpContent" : {
 				"All": true
-			},
+			}
 		},
 		"System.Net.Http.Headers" : {
 			"MediaTypeWithQualityHeaderValue" : {
@@ -706,14 +703,14 @@
                     "System.Reflection.MemberTypes get_MemberType()",
                     "System.Type get_DeclaringType()",
 					"System.Type get_ReturnType()",
-					"System.Type get_ReflectedType()",
+					"System.Type get_ReflectedType()"
                 ]
             },
             "MemberTypes": {},
             "MethodBase": {
 				"Methods": [
 					"System.Reflection.ParameterInfo[] GetParameters()",
-					"bool get_IsStatic()",
+					"bool get_IsStatic()"
 				]
             },
             "MethodInfo": {
@@ -725,18 +722,18 @@
             "TypeInfo": {},
 			"PropertyInfo": {
 				"Methods": [
-                    "bool op_Inequality(System.Reflection.PropertyInfo, System.Reflection.PropertyInfo)",
+                    "bool op_Inequality(System.Reflection.PropertyInfo, System.Reflection.PropertyInfo)"
                 ]
 			},
 			"FieldInfo" : {
 				"Methods": [
-                    "bool op_Inequality(System.Reflection.FieldInfo, System.Reflection.FieldInfo)",
+                    "bool op_Inequality(System.Reflection.FieldInfo, System.Reflection.FieldInfo)"
                 ]
 			},
 			"ParameterInfo" : {
 				"Methods": [
                     "System.Type get_ParameterType()",
-					"bool op_Inequality(System.Reflection.PropertyInfo, System.Reflection.PropertyInfo)",
+					"bool op_Inequality(System.Reflection.PropertyInfo, System.Reflection.PropertyInfo)"
                 ]
 			},
 			"CustomAttributeExtensions": {
@@ -838,7 +835,7 @@
 			},
 			"ConfiguredTaskAwaitable/ConfiguredTaskAwaiter" : {
 				"All": true
-			},
+			}
         },
         "System.Runtime.ExceptionServices": {
             "ExceptionDispatchInfo": {
@@ -3419,7 +3416,7 @@
 			},
 			"BsonReader" : {
 				"All": true
-			},
+			}
 		},
 		"Newtonsoft.Json.Linq" : {
 			"JToken" : {
@@ -3512,17 +3509,27 @@
         "UImGui" : {
 			"ImGuiUn" : {
 				"All": true
-			}
+			},
+            "UImGuiUtility" : {
+                "All": true
+                }
+            },
+            "UImGui.UImGuiUtility" : {
+                "All": true
+            }
 		},
         "ImGuiNET" : {
 			"ImGuiNET" : {
 				"All": true
 			}
 		},
-        "ImGuiNET.Unity" : {
-			"ImGuiNET.Unity" : {
+        "ImGui.NET" : {
+			"ImGui.NET" : {
 				"All": true
-			}
+			},
+            "ImGuiNET.ImGui" : {
+                "All" : true
+            }
 		}
     }
 }
