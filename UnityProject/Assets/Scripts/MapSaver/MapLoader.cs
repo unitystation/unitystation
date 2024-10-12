@@ -381,10 +381,11 @@ namespace MapSaver
 				return 0;
 			}
 
-			var Attributes = Component.GetType().GetCustomAttributes(typeof(RequireComponent), true);
 
 
-			return Attributes.Length;
+			var Attributes =	SecureStuff.AllowedReflection.GetNumberOfAttributeRequireComponent(Component.GetType());
+
+			return Attributes;
 		}
 
 		public static void ProcessClassData(MapSaver.PrefabData prefabData, GameObject Object,
