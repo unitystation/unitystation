@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Managers;
 using NUnit.Framework;
@@ -24,10 +25,21 @@ namespace Tests
 		{
 			get
 			{
-				return GUIDsToPaths(FindGUIDsOfType("Scene", "Scenes"),
+				List<string> fileNames = new List<string>();
+				var  folderPath = Path.Combine(Application.dataPath, "StreamingAssets/Maps");
+				if (!string.IsNullOrEmpty(folderPath) && Directory.Exists(folderPath))
+				{
+					// Get all files from the folder and its subfolders
+					fileNames.AddRange(Directory.GetFiles(folderPath, "*.*", SearchOption.AllDirectories)
+						.Where(x => x.Contains(".meta") == false));
+				}
+
+				fileNames.AddRange(GUIDsToPaths(FindGUIDsOfType("Scene", "Scenes"),
 					s => (s.Contains("ActiveScenes")
-						|| s.Contains("DevScenes")
-						|| s.StartsWith("Packages")) == false);
+					      || s.Contains("DevScenes")
+					      || s.StartsWith("Packages")
+					      || s.Contains("OBSOLETE")) == false).ToList());
+				return fileNames;
 			}
 		}
 

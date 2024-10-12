@@ -371,6 +371,23 @@ namespace MapSaver
 			}
 		}
 
+		public static int GetNumberOfRequireComponents(string ClassID,  GameObject Object )
+		{
+			var ClassComponents = ClassID.Split("@"); //TODO Multiple components?
+			var Component = Object.GetComponent(ClassComponents[0]);
+
+			if (Component == null)
+			{
+				return 0;
+			}
+
+
+
+			var Attributes =	SecureStuff.AllowedReflection.GetNumberOfAttributeRequireComponent(Component.GetType());
+
+			return Attributes;
+		}
+
 		public static void ProcessClassData(MapSaver.PrefabData prefabData, GameObject Object,
 			MapSaver.IndividualObject IndividualObject)
 		{
@@ -390,9 +407,33 @@ namespace MapSaver
 				MapSaver.StringToPRS(Object, IndividualObject.LocalPRS);
 			}
 
+			var Removals = IndividualObject.ClassDatas.Where(x => x.Removed).OrderByDescending(x => GetNumberOfRequireComponents(x.ClassID, Object)).ToList();
+
+			foreach (var Remove in Removals)
+			{
+				var ClassComponents = Remove.ClassID.Split("@"); //TODO Multiple components?
+				var Component = Object.GetComponent(ClassComponents[0]);
+				if (Component == null) continue;
+
+				if (Application.isPlaying)
+				{
+					UnityEngine.Object.Destroy(Component);
+				}
+				else
+				{
+					UnityEngine.Object.DestroyImmediate(Component);
+				}
+			}
+
 
 			foreach (var classData in IndividualObject.ClassDatas)
 			{
+
+				if (classData.Removed == true)
+				{
+					continue;
+				}
+
 				var ClassComponents = classData.ClassID.Split("@"); //TODO Multiple components?
 				var Component = Object.GetComponent(ClassComponents[0]);
 				if (Component == null && classData.Removed == false)
@@ -405,18 +446,6 @@ namespace MapSaver
 					{
 						Loggy.LogError(e.ToString());
 						continue;
-					}
-				}
-
-				if (classData.Removed == true)
-				{
-					if (Application.isPlaying)
-					{
-						UnityEngine.Object.Destroy(Component);
-					}
-					else
-					{
-						UnityEngine.Object.DestroyImmediate(Component);
 					}
 				}
 

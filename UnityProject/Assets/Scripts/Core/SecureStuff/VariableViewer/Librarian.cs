@@ -43,6 +43,7 @@ namespace SecureStuff
 			{
 				if (vvUIElementHandler == null)
 				{
+					bool BreakAll = false;
 					// Load all assemblies in the current application domain
 					Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
@@ -56,6 +57,8 @@ namespace SecureStuff
 						// Iterate through each type that implements the interface
 						foreach (var type in types)
 						{
+
+
 							// Create an instance of the type (assuming it has a parameterless constructor)
 							try
 							{
@@ -68,8 +71,14 @@ namespace SecureStuff
 
 							if (vvUIElementHandler != null)
 							{
+								BreakAll = true;
 								break;
 							}
+						}
+
+						if (BreakAll)
+						{
+							break;
 						}
 					}
 				}
