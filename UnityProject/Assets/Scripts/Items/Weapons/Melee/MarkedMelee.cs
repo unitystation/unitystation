@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using UnityEngine;
 using Items;
@@ -33,6 +34,11 @@ namespace Weapons
 			activatable = gameObject.GetComponent<ActivatableWeapon>();
 			avChangeDamage = gameObject.GetComponent<ChangeDamageOnActivate>();
 			attribs.OnMelee += OnHit;
+		}
+
+		private void OnDestroy()
+		{
+			attribs.OnMelee -= OnHit;
 		}
 
 		private void OnHit(GameObject attacker, GameObject target)
