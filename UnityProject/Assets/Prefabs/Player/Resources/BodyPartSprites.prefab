@@ -52,7 +52,7 @@ MonoBehaviour:
   SpriteOrder:
     Orders: 00000000000000000000000000000000
   ClothingHide: 0
-  Data: 
+  Data: '{"Orders":[0,0,0,0]}'
   referenceOffset: 0
 --- !u!114 &777447516416841867
 MonoBehaviour:
@@ -145,7 +145,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
-  m_SortingOrder: 4
+  m_SortingOrder: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

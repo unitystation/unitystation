@@ -121,7 +121,7 @@ PrefabInstance:
     - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
       propertyPath: BodyTypesSprites.BodyTypes.Array.size
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
@@ -150,9 +150,42 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[1].Sprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[2].Sprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[3].Sprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
       propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 4c3c1df9f574a1a47b31a06c67ce5052,
+        type: 2}
+    - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[1].Sprites.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 31b9c6c12663f084198036c0513931dc,
+        type: 2}
+    - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[2].Sprites.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: cb019a984f13df64585b2ef627b2d841,
+        type: 2}
+    - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[3].Sprites.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 8c11d8f3975a2ad4a83edf78058a652f,
         type: 2}
     - target: {fileID: 4083826922132060799, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}

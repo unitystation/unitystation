@@ -6,6 +6,8 @@ using Mirror;
 using UnityEngine.Events;
 using Chemistry.Components;
 using Items;
+using System.Linq;
+using Chemistry;
 
 [RequireComponent(typeof(Pickupable))]
 public class Welder : NetworkBehaviour, ICheckedInteractable<HandActivate>, IServerSpawn
@@ -16,6 +18,7 @@ public class Welder : NetworkBehaviour, ICheckedInteractable<HandActivate>, ISer
 	[Header("Place sprites in order from full gas to no gas 5 all up!")]
 	public Sprite[] welderSprites;
 
+	[SerializeField] private float fuelRegenerationPerSecond = 0f;
 	public Sprite[] flameSprites;
 
 	public SpriteRenderer welderRenderer;
@@ -23,6 +26,29 @@ public class Welder : NetworkBehaviour, ICheckedInteractable<HandActivate>, ISer
 	public SpriteRenderer flameRenderer;
 
 	public Chemistry.Reagent fuel;
+	private float fuelLevel;
+	public float FuelLevel
+	{
+		get
+		{
+			if (fuelRegenerationPerSecond <= 0f) return reagentContainer[fuel];
+
+			float timeDifference = Time.time - lastAccessTime;
+			float amountOfFuelToAdd = fuelRegenerationPerSecond * timeDifference;
+			amountOfFuelToAdd = Mathf.Min(amountOfFuelToAdd, reagentContainer.MaxCapacity - reagentContainer[fuel]);
+
+			reagentContainer.CurrentReagentMix.Add(fuel, amountOfFuelToAdd);
+			lastAccessTime = Time.time;
+
+			return reagentContainer[fuel];
+		}
+		set
+		{
+			float difference = fuelLevel - value;
+			reagentContainer.TakeReagents(difference);
+		}
+	}
+	private float lastAccessTime = 0f;
 
 	/// <summary>
 	/// Invoked server side when welder turns off for any reason.
@@ -59,8 +85,6 @@ public class Welder : NetworkBehaviour, ICheckedInteractable<HandActivate>, ISer
 
 	private ReagentContainer reagentContainer;
 	private FireSource fireSource;
-
-	private float FuelAmount => reagentContainer[fuel];
 
 	void Awake()
 	{
@@ -129,7 +153,7 @@ public class Welder : NetworkBehaviour, ICheckedInteractable<HandActivate>, ISer
 		EnsureInit();
 		if (isServer)
 		{
-			if (FuelAmount <= 0f)
+			if (FuelLevel <= 0f)
 			{
 				_isOn = false;
 			}
@@ -205,10 +229,10 @@ public class Welder : NetworkBehaviour, ICheckedInteractable<HandActivate>, ISer
 			{
 				//With the variable below, it takes about 3:40 minutes (or 220 seconds) for a emergency welding tool (starts with 10 fuel) to run dry. In /tg/ it would have taken about 4:30 minutes (or 270 seconds). - PM
 				//Original variable below was 0.041f (emergency welder ran out after about 25 seconds with it). - PM
-				reagentContainer.TakeReagents(0.005f);
+				FuelLevel -= 0.005f;
 
 				//Ran out of fuel
-				if (FuelAmount <= 0f)
+				if (FuelLevel <= 0f)
 				{
 					SyncIsOn(isOn, false);
 				}
