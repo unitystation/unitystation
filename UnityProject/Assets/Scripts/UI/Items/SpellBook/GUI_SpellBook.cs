@@ -62,7 +62,7 @@ namespace UI.SpellBook
 			else if (entry is SpellBookArtifact artifactEntry)
 			{
 				spellBook.SpawnArtifacts(artifactEntry);
-				ServerCloseTabFor(spellBook.GetLastReader()); // We close tab so that the player is aware of the dropping pod.
+				ServerCloseTabFor(spellBook.GetLastReader()); // We close tab so that the player is aware of the dropping pod. This should get converted to an equip func
 			}
 			else if (entry is SpellBookRitual ritualEntry)
 			{
