@@ -15,8 +15,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
+      propertyPath: isCybernetic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
       propertyPath: BodyTypesSprites.BodyTypes.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
@@ -60,6 +65,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[4].Sprites.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
       propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: ff39be31c4b095246a14e8316367cb30,
@@ -81,6 +91,18 @@ PrefabInstance:
       propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[3].Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: a31e85bec51ecc0449908af6a19ada79,
+        type: 2}
+    - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[4].Sprites.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 14e93bb467f8ed649bd366a6cef200b7,
+        type: 2}
+    - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[4].Sprites.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 39e8bd810cff8b042ba80636a74b3505,
         type: 2}
     - target: {fileID: 4083826922132060799, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
@@ -204,7 +226,23 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1578117042454498489}
+    - targetCorrespondingSourceObject: {fileID: 4089031872439371531, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8034745868323084276}
   m_SourcePrefab: {fileID: 100100000, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8, type: 3}
+--- !u!114 &6206376866756643944 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 947985715124805701, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+    type: 3}
+  m_PrefabInstance: {fileID: 6559089459425700909}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7185978976352611110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7185978976352611110 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4089031872439371531, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
@@ -236,3 +274,53 @@ MonoBehaviour:
   ArmDamageVerbs: []
   ArmTraumaticDamage: 0
   ArmTraumaticChance: 0
+--- !u!114 &8034745868323084276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7185978976352611110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe56a83532907c141b7592eead8f0641, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  relatedStorage: {fileID: 6206376866756643944}
+  storage:
+  - NotPresentOnUI: 0
+    SlotArea: 2
+    namedSlot: 8
+    hoverName: Right-hand
+    DropContents: 1
+    placeholderSprite: {fileID: 21300000, guid: e0ee395497afd79428fc1704fe4463b8,
+      type: 3}
+    Conditional: 0
+    Condition:
+      CategoryID: 
+      ConditionalParameter: 0
+      XAmountConditional: 0
+  - NotPresentOnUI: 0
+    SlotArea: 4
+    namedSlot: 11
+    hoverName: Gloves
+    DropContents: 1
+    placeholderSprite: {fileID: 21300000, guid: 6a3323a2fdeef3d49be11e00db272555,
+      type: 3}
+    Conditional: 1
+    Condition:
+      CategoryID: hands1
+      ConditionalParameter: 1
+      XAmountConditional: 2
+  - NotPresentOnUI: 1
+    SlotArea: 4
+    namedSlot: 14
+    hoverName: Handcuffs
+    DropContents: 1
+    placeholderSprite: {fileID: 21300000, guid: e0ee395497afd79428fc1704fe4463b8,
+      type: 3}
+    Conditional: 1
+    Condition:
+      CategoryID: Handcuffs1
+      ConditionalParameter: 1
+      XAmountConditional: 2

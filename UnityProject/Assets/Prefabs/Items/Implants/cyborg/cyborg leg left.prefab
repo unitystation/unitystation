@@ -16,7 +16,7 @@ PrefabInstance:
     - target: {fileID: 700298389688162691, guid: 2f8167654012aac4d83e586030d95284,
         type: 3}
       propertyPath: BodyTypesSprites.BodyTypes.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 700298389688162691, guid: 2f8167654012aac4d83e586030d95284,
         type: 3}
@@ -76,6 +76,12 @@ PrefabInstance:
       propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[3].Sprites.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: d1037e0ab3aa4114ba4256d2c93f5f1c,
+        type: 2}
+    - target: {fileID: 700298389688162691, guid: 2f8167654012aac4d83e586030d95284,
+        type: 3}
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[4].Sprites.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: d3e2b11fd1d41e240a572b58bb3c1258,
         type: 2}
     - target: {fileID: 4042259737824632747, guid: 2f8167654012aac4d83e586030d95284,
         type: 3}
@@ -161,13 +167,19 @@ PrefabInstance:
     - target: {fileID: 4567022741602258301, guid: 2f8167654012aac4d83e586030d95284,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4567022741602258301, guid: 2f8167654012aac4d83e586030d95284,
         type: 3}
       propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: da0ab02318f88644982d7ebec5a2c8c9,
+        type: 2}
+    - target: {fileID: 4567022741602258301, guid: 2f8167654012aac4d83e586030d95284,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 57eb2d1faf36d2040ade08046da48bfa,
         type: 2}
     - target: {fileID: 7004911256669990514, guid: 2f8167654012aac4d83e586030d95284,
         type: 3}
@@ -182,6 +194,12 @@ PrefabInstance:
     - target: {fileID: 7839315042414238104, guid: 2f8167654012aac4d83e586030d95284,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ccf916d1a46b2534395d0769e3fa43a9,
+        type: 2}
+    - target: {fileID: 7839315042414238104, guid: 2f8167654012aac4d83e586030d95284,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: ccf916d1a46b2534395d0769e3fa43a9,
         type: 2}

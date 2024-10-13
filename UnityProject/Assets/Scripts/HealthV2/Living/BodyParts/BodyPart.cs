@@ -264,9 +264,8 @@ namespace HealthV2
 
 			SetHealthMaster(livingHealth);
 			BodyType bodyType = BodyType.NonBinary;
-			if (playerSprites.ThisCharacter != null
-				&& (isCybernetic == false
-				|| (isCybernetic == true && playerSprites.ThisCharacter.Species == "Cyborg"))) //This check is important, otherwise cyborg limbs on humans will change role based on gender
+			if (isCybernetic == true && playerSprites.ThisCharacter.Species != "Cyborg") bodyType = BodyType.Other2; //Synthetic
+			else if (playerSprites.ThisCharacter != null) //This check is important, otherwise cyborg limbs on humans will change role based on gender
 			{
 				bodyType = playerSprites.ThisCharacter.BodyType;
 			}
