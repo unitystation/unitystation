@@ -14,7 +14,6 @@ namespace Weapons
 	{
 		[SerializeField] private Marked statusEffect;
 
-		[SerializeField] private float baseHitDamage;
 		[SerializeField] private float markedHitBonus;
 		[SerializeField] private float backstabBonus;
 		[SerializeField] private float pushForce;
@@ -66,7 +65,6 @@ namespace Weapons
 				if (activatable.IsActive == false)
 				{
 					Chat.AddExamineMsgFromServer(attacker, "You need to be wielding this to attack");
-					modStats.Damage = 0;
 					return modStats;
 				}
 			}
@@ -75,7 +73,7 @@ namespace Weapons
 			var mark = Instantiate(statusEffect);
 			if (targetPlayerScript != null && targetPlayerScript.StatusEffectManager.HasStatus(mark))
 			{
-				var damageTotal = markedHitBonus + baseHitDamage;
+				var damageTotal = markedHitBonus + stats.Damage;
 
 				var targetDir = targetPlayerScript.PlayerDirectional.CurrentDirection;
 				var attackerDir = attacker.GetComponent<PlayerScript>().PlayerDirectional.CurrentDirection;
