@@ -25,6 +25,8 @@ namespace HealthV2
 
 
 		[HideInInspector] private readonly List<BodyPart> containBodyParts = new List<BodyPart>();
+		public event Action<LivingHealthMasterBase> OnAddedToBody;
+
 		public List<BodyPart> ContainBodyParts => containBodyParts;
 
 
@@ -277,6 +279,8 @@ namespace HealthV2
 			}
 
 			livingHealth.BodyPartListChange();
+
+			OnAddedToBody?.Invoke(livingHealth);
 		}
 
 		/// <summary>

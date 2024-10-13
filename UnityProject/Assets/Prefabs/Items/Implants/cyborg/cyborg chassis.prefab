@@ -337,7 +337,7 @@ PrefabInstance:
         type: 3}
       propertyPath: itemStorageStructure
       value: 
-      objectReference: {fileID: 11400000, guid: 0480160aa55493d42b53c8d08da3be7c,
+      objectReference: {fileID: 11400000, guid: f040b5dae3721f542a7d43c31febfba8,
         type: 2}
     - target: {fileID: 2719098251223779414, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -411,6 +411,12 @@ PrefabInstance:
     - target: {fileID: 4999823976648774815, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 3237962f1f2e2fa489264f6fd2b35651,
+        type: 2}
+    - target: {fileID: 4999823976648774815, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 3237962f1f2e2fa489264f6fd2b35651,
         type: 2}

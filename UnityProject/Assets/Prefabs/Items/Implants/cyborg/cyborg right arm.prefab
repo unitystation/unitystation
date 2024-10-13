@@ -163,6 +163,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Standard cyborg arm. This one is a right arm.
       objectReference: {fileID: 0}
+    - target: {fileID: 4490847932940167273, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4490847932940167273, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 57eb2d1faf36d2040ade08046da48bfa,
+        type: 2}
     - target: {fileID: 6919096067490597734, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
       propertyPath: parentID
@@ -176,6 +187,12 @@ PrefabInstance:
     - target: {fileID: 7924426477701790860, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 0378a9ca5bc5ce945aac0e998962e216,
+        type: 2}
+    - target: {fileID: 7924426477701790860, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 0378a9ca5bc5ce945aac0e998962e216,
         type: 2}
@@ -210,5 +227,12 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   RelatedPart: {fileID: 0}
-  armEfficiency: 1
+  walkingSpeed: 1.5
+  runningSpeed: 3
   crawlingSpeed: 0.3
+  initialLimbEfficiency: 1
+  ArmMeleeDamage: 5
+  ArmDamageType: 0
+  ArmDamageVerbs: []
+  ArmTraumaticDamage: 0
+  ArmTraumaticChance: 0

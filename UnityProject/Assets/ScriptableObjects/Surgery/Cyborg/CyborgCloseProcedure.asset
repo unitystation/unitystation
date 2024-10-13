@@ -16,32 +16,32 @@ MonoBehaviour:
   ProcedureSprite: {fileID: 11400000, guid: cd76d4bb75118e5469a50db9670ceb10, type: 2}
   SurgerySteps:
   - RequiredTrait: {fileID: 11400000, guid: 024541a41c4ab42a499f8e49374496d4, type: 2}
-    Time: 0
-    FailChance: 0
-    StartSelf: 
-    StartOther: 
-    SuccessSelf: You fasten the bolts on {WhoOn}'s {OnPart}
+    Time: 1
+    FailChance: 1
+    StartSelf: you begin to fasten the bolts on {WhoOn}'s {OnPart}
+    StartOther: '{performer} begins to fasten the bolts on {WhoOn}''s {OnPart}'
+    SuccessSelf: you fasten the bolts on {WhoOn}'s {OnPart}
     SuccessOther: '{performer} fastens the bolts on {WhoOn}''s {OnPart}'
-    FailSelf: 
-    FailOther: 
+    FailSelf: you fail to fasten the bolts on {WhoOn}'s {OnPart}
+    FailOther: '{performer} fails to fasten the bolts on {WhoOn}''s {OnPart}'
     BleedStacksToAdd: -5
   - RequiredTrait: {fileID: 11400000, guid: 5524008e9372c468aacfb95c83179a91, type: 2}
-    Time: 0
-    FailChance: 0
-    StartSelf: 
-    StartOther: 
-    SuccessSelf: You successfully pry the cover closed on {WhoOn}'s {OnPart}
+    Time: 1
+    FailChance: 1
+    StartSelf: you begin to pry the cover closed on {WhoOn}'s {OnPart}
+    StartOther: '{performer} begins to pry the cover closed on {WhoOn}''s {OnPart}'
+    SuccessSelf: you successfully pry the cover closed on {WhoOn}'s {OnPart}
     SuccessOther: '{performer} successfully prys the cover closed on {WhoOn}''s {OnPart}'
-    FailSelf: 
-    FailOther: 
+    FailSelf: you fail to pry the cover closed on {WhoOn}'s {OnPart}
+    FailOther: '{performer} fails to pry the cover closed on {WhoOn}''s {OnPart}'
     BleedStacksToAdd: -5
   - RequiredTrait: {fileID: 11400000, guid: 98ad76bb152404a11aed28bf6fa703d6, type: 2}
-    Time: 0
-    FailChance: 0
-    StartSelf: 
-    StartOther: 
-    SuccessSelf: You screw in the cover on {WhoOn}'s {OnPart}
-    SuccessOther: '{performer} screws in the cover on {WhoOn}''s {OnPart}'
-    FailSelf: 
-    FailOther: 
+    Time: 1
+    FailChance: 1
+    StartSelf: you being to screw on the cover onto {WhoOn}'s {OnPart}
+    StartOther: '{performer} begins to screw on the cover onto {WhoOn}''s {OnPart}'
+    SuccessSelf: you screw on the cover onto {WhoOn}'s {OnPart}
+    SuccessOther: '{performer} screws on the cover onto {WhoOn}''s {OnPart}'
+    FailSelf: you fail to screw in the cover onto {WhoOn}'s {OnPart}
+    FailOther: '{performer} fails to screws on the cover onto {WhoOn}''s {OnPart}'
     BleedStacksToAdd: -5

@@ -166,13 +166,19 @@ PrefabInstance:
     - target: {fileID: 4490847932940167273, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4490847932940167273, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
       propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: da0ab02318f88644982d7ebec5a2c8c9,
+        type: 2}
+    - target: {fileID: 4490847932940167273, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 57eb2d1faf36d2040ade08046da48bfa,
         type: 2}
     - target: {fileID: 6919096067490597734, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
@@ -187,6 +193,12 @@ PrefabInstance:
     - target: {fileID: 7924426477701790860, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 340915af2988c77408fbe3b874e80582,
+        type: 2}
+    - target: {fileID: 7924426477701790860, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 340915af2988c77408fbe3b874e80582,
         type: 2}
@@ -223,4 +235,5 @@ MonoBehaviour:
   RelatedPart: {fileID: 0}
   walkingSpeed: 1.5
   runningSpeed: 3
-  legEfficiency: 1
+  crawlingSpeed: 0.5
+  initialLimbEfficiency: 1

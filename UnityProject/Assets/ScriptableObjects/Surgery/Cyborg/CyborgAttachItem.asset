@@ -12,38 +12,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07c2baaf060fc8f49bdd7d1dacbe5437, type: 3}
   m_Name: CyborgAttachItem
   m_EditorClassIdentifier: 
-  ProcedureName: Attach Item
+  ProcedureName: Attach procedure
   ProcedureSprite: {fileID: 11400000, guid: f14b95e131d73894da43dee1b93a3cf2, type: 2}
   SurgerySteps:
   - RequiredTrait: {fileID: 11400000, guid: 98ad76bb152404a11aed28bf6fa703d6, type: 2}
-    Time: 0
-    FailChance: 0
-    StartSelf: 
-    StartOther: 
-    SuccessSelf: You unscrew the cover on {WhoOn}'s {OnPart}
+    Time: 3
+    FailChance: 3
+    StartSelf: you begin to unscrew the cover on {WhoOn}'s {OnPart}
+    StartOther: '{performer} begins to unscrew the cover on {WhoOn}''s {OnPart}'
+    SuccessSelf: you unscrew the cover on {WhoOn}'s {OnPart}
     SuccessOther: '{performer} unscrews the cover on {WhoOn}''s {OnPart}'
-    FailSelf: 
-    FailOther: 
-    BleedStacksToAdd: 1
+    FailSelf: you fail to unscrew the cover on {WhoOn}'s {OnPart}
+    FailOther: '{performer} fails to unscrew the cover on {WhoOn}''s {OnPart}'
+    BleedStacksToAdd: 0
   - RequiredTrait: {fileID: 11400000, guid: 024541a41c4ab42a499f8e49374496d4, type: 2}
-    Time: 0
-    FailChance: 0
-    StartSelf: 
-    StartOther: 
-    SuccessSelf: You unfasten the bolts leaving {WhoOn}'s {OnPart} ready for attatchment
+    Time: 3
+    FailChance: 3
+    StartSelf: you begin to unfasten the bolts on {WhoOn}'s {OnPart}
+    StartOther: '{performer} begins to unfasten the bolts on {WhoOn}''s {OnPart}'
+    SuccessSelf: you unfasten the bolts leaving {WhoOn}'s {OnPart} ready for attatchment
     SuccessOther: '{performer} unfastens the bolts on {WhoOn}''s {OnPart}'
-    FailSelf: 
-    FailOther: 
-    BleedStacksToAdd: 1
-  - RequiredTrait: {fileID: 11400000, guid: d859938ed34564a4a932f3beb902e34c, type: 2}
-    Time: 0
-    FailChance: 0
-    StartSelf: 
-    StartOther: 
-    SuccessSelf: You attach the {Using} to {WhoOn}'s {OnPart}
-    SuccessOther: '{performer} attaches the {Using} to {WhoOn}''s {OnPart}'
-    FailSelf: 
-    FailOther: 
-    BleedStacksToAdd: -5
+    FailSelf: you fail to unfasten the bolts on {WhoOn}'s {OnPart}
+    FailOther: '{performer} fails to unfasten the bolts on {WhoOn}''s {OnPart}'
+    BleedStacksToAdd: 0
+  - RequiredTrait: {fileID: 0}
+    Time: 3
+    FailChance: 3
+    StartSelf: you try to insert {Using} into {WhoOn}'s {OnPart}
+    StartOther: '{performer} tries to insert {Using} into {WhoOn}''s {OnPart}'
+    SuccessSelf: you successfully insert {Using} into {WhoOn}'s {OnPart}
+    SuccessOther: '{performer} successfully inserts {Using} into {WhoOn}''s {OnPart}'
+    FailSelf: you fail to fit {Using} into {WhoOn}'s {OnPart}
+    FailOther: '{performer} fails to fit {Using} into {WhoOn}''s {OnPart}'
+    BleedStacksToAdd: 0
   RequiredImplantTrait: {fileID: 11400000, guid: d859938ed34564a4a932f3beb902e34c,
     type: 2}
