@@ -18,6 +18,7 @@ public class Knife : MonoBehaviour, ICheckedInteractable<InventoryApply>,  IChec
 
 		//if the item isn't a butcher knife, no go.
 		if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Knife) == false) return false;
+		if (Validations.HasItemTrait(interaction.TargetObject, CommonTraits.Instance.Ingredient) == false) return false;
 
 		if (interaction.TargetObject.TryGetComponent<ItemAttributesV2>(out var attr))
 		{
