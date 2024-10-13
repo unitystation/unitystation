@@ -29,6 +29,9 @@ namespace HealthV2
 
 		public List<BodyPart> ContainBodyParts => containBodyParts;
 
+		[Tooltip("If marked as cybernetic, unless the host body is a cyborg, the bodyPartType will not effect this parts sprites"),SerializeField]
+		private bool isCybernetic = false;
+
 
 		/// <summary>
 		/// Storage container for things (usually other body parts) held within this body part
@@ -261,7 +264,9 @@ namespace HealthV2
 
 			SetHealthMaster(livingHealth);
 			BodyType bodyType = BodyType.NonBinary;
-			if (playerSprites.ThisCharacter != null)
+			if (playerSprites.ThisCharacter != null
+				&& (isCybernetic == false
+				|| (isCybernetic == true && playerSprites.ThisCharacter.Species == "Cyborg"))) //This check is important, otherwise cyborg limbs on humans will change role based on gender
 			{
 				bodyType = playerSprites.ThisCharacter.BodyType;
 			}
