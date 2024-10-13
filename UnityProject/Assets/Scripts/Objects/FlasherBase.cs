@@ -14,6 +14,7 @@ namespace Objects
 		[SerializeField] protected float maximumDistance = 12f;
 		[SerializeField] protected float flashRadius = 12f;
 		[SerializeField] protected float flashTime = 12f;
+		public float FlashTime => flashTime;
 
 		[SerializeField, Tooltip("Duration used for when players are standing further away from the flash distance")]
 		protected float weakDuration  = 6f;
