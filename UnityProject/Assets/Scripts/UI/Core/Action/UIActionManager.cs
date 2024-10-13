@@ -166,7 +166,7 @@ namespace UI.Core.Action
 			}
 			else
 			{
-				if (ActivePlayerActions[Body].Contains(iActionGUI) == false)
+				if (ActivePlayerActions[Body].Contains(iActionGUI) == false || IActionGUIToID.ContainsKey(iActionGUI) == false)
 				{
 					Loggy.LogWarning($"iActionGUI {iActionGUI?.ActionData.OrNull()?.Name}, not present on mind", Category.UI);
 					return;
