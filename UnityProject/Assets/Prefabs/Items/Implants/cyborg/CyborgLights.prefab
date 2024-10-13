@@ -242,6 +242,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6219779074521071717}
+    - targetCorrespondingSourceObject: {fileID: 4089031872439371531, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6516074160899636983}
   m_SourcePrefab: {fileID: 100100000, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8, type: 3}
 --- !u!4 &219679713616371809 stripped
 Transform:
@@ -326,6 +330,33 @@ MonoBehaviour:
   allowedSlots: -1
   useSpriteHandler: 0
   spriteHandler: {fileID: 6222260128237774482}
+--- !u!114 &6516074160899636983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 225170811618778389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92a26da98f532de4d9524a6148599435, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  RelatedPart: {fileID: 0}
+  Pickupable: {fileID: 0}
+  BaseBlurryVision: 0
+  DimLightColour: {r: 1, g: 1, b: 1, a: 0.003921569}
+  OnBodyID: 0
+  PreventsBlindness: 1
+  DefaultPreventsBlindness_: 0
+  BadEyesight: 0
+  CurrentColourblindness: 0
+  DefaultColourblindness: 0
+  HasXray: 0
+  DefaultHasXray: 0
 --- !u!114 &6222260128237774482 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7924426477701790860, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
