@@ -539,9 +539,9 @@ namespace MapSaver
 			{
 				if (Matrix == null)
 				{
-					bool Space = sceneType == SceneType.Space;
 
-					aaMatrix = MatrixManager.MakeNewMatrix(MatrixName, Space);
+
+					aaMatrix = MatrixManager.MakeNewMatrix(MatrixName, sceneType);
 #if UNITY_EDITOR
 					if (Application.isPlaying == false)
 					{

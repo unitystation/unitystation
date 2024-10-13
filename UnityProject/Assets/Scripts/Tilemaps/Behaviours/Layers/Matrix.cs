@@ -60,7 +60,7 @@ public class Matrix : MonoBehaviour
 	public DisposalsLayer DisposalsLayer { get; private set; }
 
 	public bool IsSpaceMatrix => networkedMatrix.MatrixSync.IsSpaceMatrix;
-	public bool IsMainStation;
+	public bool IsMainStation => networkedMatrix.MatrixSync.IsMainStationMatrix;
 	public bool IsLavaLand => transform.parent.name == "LavaLand";
 
 	public bool IsMovable => true;

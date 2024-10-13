@@ -311,7 +311,12 @@ public partial class SubSceneManager
 	{
 		var prevEditorScene = string.Empty;
 #if UNITY_EDITOR
-		prevEditorScene = EditorPrefs.GetString("prevEditorScene", prevEditorScene);
+		prevEditorScene = EditorPrefs.GetString("SelectedMap", "");
+
+		if (string.IsNullOrEmpty(prevEditorScene))
+		{
+			prevEditorScene = EditorPrefs.GetString("prevEditorScene", prevEditorScene);
+		}
 #endif
 		return prevEditorScene;
 	}

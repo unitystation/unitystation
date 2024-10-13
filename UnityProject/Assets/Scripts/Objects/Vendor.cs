@@ -408,6 +408,11 @@ namespace Objects
 		public CurrencyType Currency = CurrencyType.Credits;
 		public int Price = 0;
 
+		public VendorItem()
+		{
+
+		}
+
 		public VendorItem(VendorItem item)
 		{
 			Item = item.Item;

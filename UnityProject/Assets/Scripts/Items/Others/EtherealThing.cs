@@ -14,7 +14,9 @@ public class EtherealThing : MonoBehaviour, IServerSpawn
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
+
 		Pickupable = this.GetComponent<Pickupable>();
+		if (this.gameObject.activeInHierarchy == false) return;
 		if (this.GetComponent<RuntimeSpawned>() == null)
 		{
 			StartCoroutine(WaitingFrame());

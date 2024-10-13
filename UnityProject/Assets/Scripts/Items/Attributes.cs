@@ -92,7 +92,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 
 	[SerializeField]
 	[Tooltip("Initial traits of this item on spawn.")]
-	protected List<ItemTrait> initialTraits = null;
+	protected List<ItemTrait> initialTraits = new List<ItemTrait>();
 	public List<ItemTrait> InitialTraits => initialTraits;
 
 

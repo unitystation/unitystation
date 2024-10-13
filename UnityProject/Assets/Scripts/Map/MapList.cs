@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Logs;
+using SecureStuff;
 using UnityEngine.SceneManagement;
 
 [Serializable]
@@ -37,7 +38,7 @@ public class MapList
 		}
 
 		// Check that we can actually load the scene.
-		mapsToChooseFrom = mapsToChooseFrom.Where(map => SceneUtility.GetBuildIndexByScenePath(map) > -1).ToList();
+		mapsToChooseFrom = mapsToChooseFrom.Where(map => SceneUtility.GetBuildIndexByScenePath(map) > -1 || 	AccessFile.Exists(map, true,FolderType.Maps)).ToList();
 
 		if (mapsToChooseFrom.Count == 0)
 		{
@@ -49,7 +50,7 @@ public class MapList
 			allMaps.AddRange(highPopMaps);
 
 			// Check that we can actually load the scene.
-			mapsToChooseFrom = allMaps.Where(map => SceneUtility.GetBuildIndexByScenePath(map) > -1).ToList();
+			mapsToChooseFrom = allMaps.Where(map => SceneUtility.GetBuildIndexByScenePath(map) > -1 ||	AccessFile.Exists(map, true,FolderType.Maps)).ToList();
 		}
 
 		if (mapsToChooseFrom.Count == 0)
