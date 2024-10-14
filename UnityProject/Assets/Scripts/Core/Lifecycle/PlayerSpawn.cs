@@ -94,7 +94,8 @@ public interface IClientPlayerTransferProcess
 /// </summary>
 public static class PlayerSpawn
 {
-	public static event Action<Mind> SpawnEvent;
+	public static event Action<Mind> OnNewMindSpawnEvent;
+	public static event Action<GameObject> OnBodySpawnedEvent;
 
 
 	//Time to start spawning players at arrivals
@@ -146,7 +147,7 @@ public static class PlayerSpawn
 
 			var mind = NewSpawnCharacterV2(requestedOccupation, character);
 			TransferAccountToSpawnedMind(account, mind);
-			SpawnEvent?.Invoke(mind);
+			OnNewMindSpawnEvent?.Invoke(mind);
 			return mind;
 		}
 		catch (Exception e)
@@ -274,6 +275,7 @@ public static class PlayerSpawn
 		{
 			mind.SetPossessingObject(body);
 			mind.StopGhosting();
+			OnBodySpawnedEvent?.Invoke(body);
 		}
 		catch (Exception e)
 		{

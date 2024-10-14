@@ -7,7 +7,7 @@ using Systems.Spawns;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace ScriptableObjects.TimedGameEvents
+namespace ScriptableObjects.TimedGameEvents.SeasonalEvents
 {
 	[CreateAssetMenu(fileName = "HalloweenGhostsTimedEvent", menuName = "ScriptableObjects/Events/TimedGameEvents/HalloweenGhosts")]
 	public class HalloweenGhosts : TimedGameEventSO
