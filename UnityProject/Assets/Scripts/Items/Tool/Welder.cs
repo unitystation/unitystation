@@ -26,7 +26,6 @@ public class Welder : NetworkBehaviour, ICheckedInteractable<HandActivate>, ISer
 	public SpriteRenderer flameRenderer;
 
 	public Chemistry.Reagent fuel;
-	private float fuelLevel;
 	public float FuelLevel
 	{
 		get
@@ -44,7 +43,7 @@ public class Welder : NetworkBehaviour, ICheckedInteractable<HandActivate>, ISer
 		}
 		set
 		{
-			float difference = fuelLevel - value;
+			float difference = reagentContainer[fuel] - value;
 			reagentContainer.TakeReagents(difference);
 		}
 	}
