@@ -30,13 +30,15 @@ public class Welder : NetworkBehaviour, ICheckedInteractable<HandActivate>, ISer
 	{
 		get
 		{
-			if (fuelRegenerationPerSecond <= 0f) return reagentContainer[fuel];
+			if (fuelRegenerationPerSecond <= 0f || isBurning || reagentContainer[fuel] >= reagentContainer.MaxCapacity) return reagentContainer[fuel];
 
 			float timeDifference = Time.time - lastAccessTime;
 			float amountOfFuelToAdd = fuelRegenerationPerSecond * timeDifference;
 			amountOfFuelToAdd = Mathf.Min(amountOfFuelToAdd, reagentContainer.MaxCapacity - reagentContainer[fuel]);
 
 			reagentContainer.CurrentReagentMix.Add(fuel, amountOfFuelToAdd);
+			reagentContainer.ReagentsChanged(true);
+
 			lastAccessTime = Time.time;
 
 			return reagentContainer[fuel];
