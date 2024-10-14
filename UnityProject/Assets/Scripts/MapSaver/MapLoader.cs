@@ -366,7 +366,7 @@ namespace MapSaver
 
 				if (SpawnResult != null)
 				{
-					Spawn._ServerFireClientServerSpawnHooks(SpawnResult, SpawnInfo.Mapped(SpawnResult.GameObject));
+					Spawn._ServerFireClientServerSpawnHooks(SpawnResult, SpawnInfo.IsJsonMapped(SpawnResult.GameObject));
 				}
 			}
 		}
