@@ -228,7 +228,7 @@ public class Welder : NetworkBehaviour, ICheckedInteractable<HandActivate>, ISer
 			{
 				//With the variable below, it takes about 3:40 minutes (or 220 seconds) for a emergency welding tool (starts with 10 fuel) to run dry. In /tg/ it would have taken about 4:30 minutes (or 270 seconds). - PM
 				//Original variable below was 0.041f (emergency welder ran out after about 25 seconds with it). - PM
-				FuelLevel -= 0.005f;
+				FuelLevel -= 0.01f;
 
 				//Ran out of fuel
 				if (FuelLevel <= 0f)
@@ -237,7 +237,7 @@ public class Welder : NetworkBehaviour, ICheckedInteractable<HandActivate>, ISer
 				}
 			}
 
-			yield return WaitFor.Seconds(.1f);
+			yield return WaitFor.Seconds(.2f);
 		}
 	}
 }
