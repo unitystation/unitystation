@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TileManagement;
@@ -8,9 +7,7 @@ using AddressableReferences;
 using HealthV2;
 using HealthV2.Limbs;
 using Items;
-using Logs;
 using Messages.Server.SoundMessages;
-using Player.Movement;
 using Systems.Interaction;
 using Tiles;
 using Random = UnityEngine.Random;
@@ -66,28 +63,16 @@ public class WeaponNetworkActions : NetworkBehaviour
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
-	[Server]
-	public void SetNewDamageValues(float newAttackSpeed, float newAttackDamage, DamageType newDamageType, uint newChanceToHit)
-	{
-		attackSpeed = newAttackSpeed;
-		handDamage = newAttackDamage;
-		damageType = newDamageType;
-		chanceToHit = newChanceToHit;
-		damageOverwritten = true;
-	}
-
 	/// <summary>
-	/// Perform a melee attack to be performed using the object in the player's active hand. Will be validated and performed if valid. Also handles punching
-	/// if weapon is null.
+	/// Perform a melee attack to be performed using the object in the player's active hand. Will be validated and performed if valid.
+	/// Also handles punching if weapon is null.
 	/// </summary>
 	/// <param name="victim"></param>
-	/// <param name="weapon">null for unarmed attack / punch</param>
 	/// <param name="attackDirection">vector pointing from attacker to the target</param>
 	/// <param name="damageZone">damage zone if attacking mob, otherwise use None</param>
 	/// <param name="layerType">layer being attacked if attacking tilemap, otherwise use None</param>
-	/// <param name="onHit">Use this for conditional behaviour you only want to apply when the melee attack hits</param>
 	[Server]
-	public void ServerPerformMeleeAttack(GameObject victim, Vector2 attackDirection, BodyPartType damageZone, LayerType layerType, Action onHit = null)
+	public void ServerPerformMeleeAttack(GameObject victim, Vector2 attackDirection, BodyPartType damageZone, LayerType layerType)
 	{
 		if (victim == null) return;
 		if (playerMove.ObjectIsBuckling.OrNull()?.gameObject != null && playerMove.ObjectIsBuckling is MovementSynchronisation)
@@ -112,35 +97,36 @@ public class WeaponNetworkActions : NetworkBehaviour
 				    apt: Validations.CheckState(x => x.CanMelee)) == false) return;
 		}
 
-		float damage = handDamage;
-		DamageType currentDamageType = damageType;
+		MeleeStats stats = new()
+		{
+			Damage = handDamage,
+			DamageType = damageType,
+			WeaponSound = playerScript.PlayerTypeSettings.EmptyMeleeAttackData.PickRandom().hitSound.PickRandom(),
+			WeaponVerb = playerScript.PlayerTypeSettings.EmptyMeleeAttackData.PickRandom().attackVerb,
+			TraumaDamageChance = traumaDamageChance,
+			TraumaticDamageType = tramuticDamageType,
+		};
+
 		GameObject weapon = playerScript.PlayerNetworkActions.GetActiveHandItem();
 		ItemAttributesV2 weaponAttributes = weapon == null ? null : weapon.GetComponent<ItemAttributesV2>();
-		var miss = playerScript.PlayerTypeSettings.EmptyMeleeAttackData.PickRandom();
-
-		var attackVerb = weapon == null ? miss.attackVerb : weaponAttributes.ServerAttackVerbs.PickRandom();
-		AddressableAudioSource weaponSound = miss.hitSound.PickRandom();
 
 		if (weaponAttributes != null)
 		{
-			damage = weaponAttributes.ServerHitDamage;
-			currentDamageType = weaponAttributes.ServerDamageType;
-			weaponSound = weaponAttributes.hitSoundSettings == SoundItemSettings.OnlyObject ? null : weaponAttributes.ServerHitSound;
-			tramuticDamageType = weaponAttributes.TraumaticDamageType;
-			traumaDamageChance = weaponAttributes.TraumaDamageChance;
+			stats = MeleeStats.Init(weaponAttributes);
+
+			if (weapon.TryGetComponent<ICustomMeleeBehaviour>(out var customMeleeBehaviour))
+			{
+				stats = customMeleeBehaviour.CustomMeleeBehaviour(gameObject, victim, damageZone, stats);
+			}
 		}
-		else if (damageOverwritten == false)
+		else
 		{
 			//weaponAttributes is null so we are punching
 			GameObject activeArm = playerScript.PlayerNetworkActions.activeHand;
 			HumanoidArm armStats = activeArm.GetComponent<HumanoidArm>();
 			if (armStats != null)
 			{
-				damage = armStats.ArmMeleeDamage;
-				currentDamageType = armStats.ArmDamageType;
-				attackVerb = armStats.ArmDamageVerbs.PickRandom();
-				tramuticDamageType = armStats.ArmTraumaticDamage;
-				traumaDamageChance = armStats.ArmTraumaticChance;
+				stats = MeleeStats.Init(armStats);
 			}
 		}
 
@@ -161,7 +147,7 @@ public class WeaponNetworkActions : NetworkBehaviour
 			attackedTile = tileChangeManager.InteractableTiles.LayerTileAt(worldPos, true);
 
 			// Tile itself is responsible for playing victim damage sound
-			tileMapDamage.ApplyDamage(damage, AttackType.Melee, worldPos);
+			tileMapDamage.ApplyDamage(stats.Damage, AttackType.Melee, worldPos);
 			didHit = true;
 		}
 		// Damaging an object
@@ -174,7 +160,7 @@ public class WeaponNetworkActions : NetworkBehaviour
 				SoundManager.PlayNetworkedAtPos(integrity.soundOnHit, gameObject.AssumedWorldPosServer(), audioSourceParameters, sourceObj: gameObject);
 			}
 
-			integrity.ApplyDamage(damage, AttackType.Melee, currentDamageType);
+			integrity.ApplyDamage(stats.Damage, AttackType.Melee, stats.DamageType);
 			didHit = true;
 		}
 		// must be a living thing
@@ -184,17 +170,18 @@ public class WeaponNetworkActions : NetworkBehaviour
 			// Punches have 90% chance to hit, otherwise it is a miss.
 			if (DMMath.Prob(chanceToHit))
 			{
-				if (BlockCheck(victim, damage, currentDamageType))
+				if (BlockCheck(victim, stats.Damage, stats.DamageType))
 				{
 					// The attack hit.
 					if (victim.TryGetComponent<LivingHealthMasterBase>(out var victimHealth))
 					{
-						victimHealth.ApplyDamageToBodyPart(gameObject, damage, AttackType.Melee, currentDamageType, damageZone, traumaDamageChance: traumaDamageChance, tramuticDamageType: tramuticDamageType);
+						victimHealth.ApplyDamageToBodyPart(gameObject, stats.Damage, AttackType.Melee, stats.DamageType, damageZone, traumaDamageChance: stats.TraumaDamageChance, tramuticDamageType: stats.TraumaticDamageType);
 						didHit = true;
 					}
+					//TODO: Remove this when HealthV1 is thrown out
 					else if (victim.TryGetComponent<LivingHealthBehaviour>(out var victimHealthOld))
 					{
-						victimHealthOld.ApplyDamageToBodyPart(gameObject, damage, AttackType.Melee, currentDamageType, damageZone);
+						victimHealthOld.ApplyDamageToBodyPart(gameObject, stats.Damage, AttackType.Melee, stats.DamageType, damageZone);
 						didHit = true;
 					}
 				}
@@ -203,6 +190,7 @@ public class WeaponNetworkActions : NetworkBehaviour
 			{
 				// The punch missed.
 				string victimName = victim.ExpensiveName();
+				var miss = playerScript.PlayerTypeSettings.EmptyMeleeAttackData.PickRandom();
 
 				if (miss.missSound.Count > 0)
 				{
@@ -225,15 +213,15 @@ public class WeaponNetworkActions : NetworkBehaviour
 		// common logic to do if we hit something
 		if (didHit)
 		{
-			if (weaponSound != null)
+			if (stats.WeaponSound != null)
 			{
-				SoundManager.PlayNetworkedAtPos(weaponSound, transform.position, sourceObj: gameObject);
+				SoundManager.PlayNetworkedAtPos(stats.WeaponSound, transform.position, sourceObj: gameObject);
 			}
 
-			if (damage > 0)
+			if (stats.Damage > 0)
 			{
 				Chat.AddAttackMsgToChat(gameObject, victim, damageZone, weapon,
-					attackedTile: attackedTile, customAttackVerb: weaponAttributes == null ? attackVerb : null);
+					attackedTile: attackedTile, customAttackVerb: weaponAttributes == null ? stats.WeaponVerb : null);
 			}
 
 			if (victim != gameObject)
@@ -241,10 +229,7 @@ public class WeaponNetworkActions : NetworkBehaviour
 				RpcMeleeAttackLerp(attackDirection, weapon);
 			}
 
-			if (onHit != null)
-			{
-				onHit.Invoke();
-			}
+			stats.HitAction?.Invoke(gameObject, victim);
 		}
 
 		Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Melee);
@@ -361,6 +346,47 @@ public class WeaponNetworkActions : NetworkBehaviour
 		spriteRendererSource = null;
 	}
 
+	//MeleeStats should contain all relevant data for handling melee attacks, just to make things a little more clean and sane
+	public struct MeleeStats
+	{
+		public float Damage;
+		public DamageType DamageType;
+		public AddressableAudioSource WeaponSound;
+		public String WeaponVerb;
+		public float TraumaDamageChance;
+		public TraumaticDamageTypes TraumaticDamageType;
+		public Action<GameObject, GameObject> HitAction;
+
+		public static MeleeStats Init(ItemAttributesV2 data)
+		{
+			return new MeleeStats
+			{
+				Damage = data.ServerHitDamage,
+				DamageType = data.ServerDamageType,
+				WeaponSound = data.hitSoundSettings == SoundItemSettings.OnlyObject ? null : data.ServerHitSound,
+				WeaponVerb = data.ServerAttackVerbs.PickRandom(),
+				TraumaDamageChance = data.TraumaDamageChance,
+				TraumaticDamageType = data.TraumaticDamageType,
+				HitAction = data.OnMelee,
+			};
+		}
+
+		public static MeleeStats Init(HumanoidArm data)
+		{
+			return new MeleeStats
+			{
+				Damage = data.ArmMeleeDamage,
+				DamageType = data.ArmDamageType,
+				WeaponSound = data.ArmHitSound.PickRandom(),
+				WeaponVerb = data.ArmDamageVerbs.PickRandom(),
+				TraumaDamageChance = data.ArmTraumaticChance,
+				TraumaticDamageType = data.ArmTraumaticDamage,
+				HitAction = null,
+			};
+		}
+	}
+
+	//NOTE: attackverbs and hitsounds for unarmed attacks will be sourced from HumanoidArm instead of this if possible.
 	[Serializable]
 	public class MeleeData
 	{

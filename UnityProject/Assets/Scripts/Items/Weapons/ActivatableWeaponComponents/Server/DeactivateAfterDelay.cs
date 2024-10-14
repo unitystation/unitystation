@@ -7,6 +7,16 @@ namespace Weapons.ActivatableWeapons
 	{
 		[SerializeField] private float delay = 1f;
 
+		private void Start()
+		{
+			av.canDeactivate.RecordPosition(this, false);
+		}
+
+		private void OnDestroy()
+		{
+			av.canDeactivate.RemovePosition(this);
+		}
+
 		public override void ServerActivateBehaviour(GameObject performer)
 		{
 			StartCoroutine(AfterDelay(performer));

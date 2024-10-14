@@ -197,14 +197,10 @@ namespace Weapons
 				coolDownMessage = true;
 				if(hasBattery)
 				{
-					if(Battery.Watts >= chargeUsage)
-					{
-						Chat.AddExamineMsg(performer, $"{gameObject.ExpensiveName()} is on cooldown.");
-					}
-					else
-					{
-						Chat.AddExamineMsg(performer, $"The {gameObject.ExpensiveName()} is out of power.");
-					}
+					Chat.AddExamineMsg(performer,
+						Battery.Watts >= chargeUsage
+							? $"{gameObject.ExpensiveName()} is on cooldown."
+							: $"The {gameObject.ExpensiveName()} is out of power.");
 				}
 				else
 				{

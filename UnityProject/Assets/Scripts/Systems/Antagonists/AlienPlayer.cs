@@ -481,8 +481,6 @@ namespace Systems.Antagonists
 			{
 				SetUpNewHealthValues();
 				ChangeAlienMode(AlienMode.Normal);
-				playerScript.WeaponNetworkActions.SetNewDamageValues(alienType.AttackSpeed,
-					alienType.AttackDamage, alienType.DamageType, alienType.ChanceToHit);
 				SetName(playerScript.Mind, changeName, old);
 				QueenCheck();
 			}

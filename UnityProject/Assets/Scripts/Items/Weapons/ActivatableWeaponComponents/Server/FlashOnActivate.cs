@@ -16,11 +16,13 @@ namespace Weapons.ActivatableWeapons
 			flashComp = GetComponent<FlasherBase>();
 			attribs = GetComponent<ItemAttributesV2>();
 			attribs.OnBlock += Flash;
+			attribs.OnMelee += TargetedFlash;
 		}
 
 		private void OnDestroy()
 		{
 			attribs.OnBlock -= Flash;
+			attribs.OnMelee -= TargetedFlash;
 		}
 
 		public override void ServerActivateBehaviour(GameObject performer)
@@ -36,6 +38,11 @@ namespace Weapons.ActivatableWeapons
 		public void Flash(GameObject attacker, float damage, DamageType damageType)
 		{
 			flashComp.FlashInRadius();
+		}
+
+		public void TargetedFlash(GameObject attacker, GameObject target)
+		{
+			flashComp.FlashTarget(target, flashComp.FlashTime, flashComp.FlashTime);
 		}
 	}
 }
