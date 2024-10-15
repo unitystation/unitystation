@@ -324,7 +324,7 @@ namespace Chemistry
 			{
 				lock (reagents)
 				{
-					reagents.m_dict.Add(reagent, (float)Math.Round(amount, 2));
+					reagents.m_dict.Add(reagent, (float)Math.Round(amount, 4));
 				}
 			}
 			else
@@ -333,7 +333,7 @@ namespace Chemistry
 				{
 					float newAmount = reagents.m_dict[reagent] + amount;
 
-					reagents.m_dict[reagent] = (float)Math.Round(newAmount, 2);
+					reagents.m_dict[reagent] = (float)Math.Round(newAmount, 4);
 				}
 			}
 		}
@@ -384,7 +384,7 @@ namespace Chemistry
 				lock (reagents)
 				{
 					amount = Math.Min(reagents.m_dict[reagent], amount);
-					float newAmount = (float)Math.Round(reagents.m_dict[reagent] - amount, 2);
+					float newAmount = (float)Math.Round(reagents.m_dict[reagent] - amount, 4);
 					reagents.m_dict[reagent] = newAmount;
 
 					if (reagents.m_dict[reagent] <= 0)
@@ -483,7 +483,7 @@ namespace Chemistry
 				foreach (var key in reagents.m_dict.Keys)
 				{
 					var nuber = reagents.m_dict[key];
-					nuber = (float)Math.Round(nuber * multiplier, 2);
+					nuber = (float)Math.Round(nuber * multiplier, 4);
 					TEMPReagents[key] = nuber;
 				}
 
@@ -524,7 +524,7 @@ namespace Chemistry
 				foreach (var key in reagents.m_dict.Keys)
 				{
 					var nuber = reagents.m_dict[key];
-					nuber = (float)Math.Round(nuber / Divider, 2);
+					nuber = (float)Math.Round(nuber / Divider, 4);
 					TEMPReagents[key] = nuber;
 				}
 				//man, I wish changing the value of the key didn't modify the order
