@@ -18,7 +18,7 @@ namespace Systems.Spells
 	/// </summary>
 	[Serializable]
 	[DisallowMultipleComponent]
-	public class Spell : NetworkBehaviour, UnattachedIActionGUI
+	public class Spell : NetworkBehaviour, IActionGUI
 	{
 		private SpellData spellData = null;
 		public SpellData SpellData {
@@ -54,28 +54,6 @@ namespace Systems.Spells
 			if (SpellData == null)
 			{
 				SpellData = SpellList.Instance.InvalidData;
-			}
-		}
-
-		private void OnDestroy()
-		{
-			SpellData.OwningUIAction.OnToggleOff -= OnActionToggleOff;
-		}
-
-		public void FinalSetup()
-		{
-			CooldownTime = SpellData.CooldownTime;
-			CastUses = SpellData.CastUses;
-			Loggy.LogError($"8 {SpellData.OwningUIAction}");
-		}
-
-		public virtual void OnAttachedPlayer()
-		{
-			FinalSetup();
-			if(CastUses > 1 && SpellData.OrNull()?.OwningUIAction)
-			{
-				SpellData.OwningUIAction.OnToggleOff += OnActionToggleOff;
-				Loggy.LogError($"HEHE {GetInstanceID()}");
 			}
 		}
 
@@ -135,20 +113,12 @@ namespace Systems.Spells
 
 			if (SpellData.ChargeType == SpellChargeType.FixedCharges && --ChargesLeft <= 0)
 			{
-				if(ActionData.StaySelectedOnUse)
-				{
-					ActionData.OwningUIAction.ToggleOff();
-				}
 				//remove it from spell list
 				UIActionManager.ToggleServer(sentByPlayer.Mind.gameObject, this, false); //might want to simply disable it so its possible to regain charges later
 			}
 			else if(castUsesLeft <= 0)
 			{
 				StartCooldown(sentByPlayer.GameObject);
-				if(ActionData.StaySelectedOnUse)
-				{
-					ActionData.OwningUIAction.ToggleOff();
-				}
 			}
 		}
 

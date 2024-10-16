@@ -25,24 +25,14 @@ namespace UI.Action
 		private Vector3 lastClickPosition = default;
 		public Vector3 LastClickPosition => lastClickPosition;
 
-		private void Awake()
-		{
-			Loggy.LogError($"MADE {GetInstanceID()}");
-		}
-
 		#region Lifecycle
 
 		public void SetUp(IActionGUI action)
 		{
 			gameObject.SetActive(true);
 			iAction = action;
-			if(iAction is Spell spell)
-			{
-				Loggy.LogError($"MADE {spell.Ugg()}"); //SEE IF iAction IS THE CLIENT SIDE OR SERVER SIDE INSTANCE, oh this is client side and we reg to this that might be the issue
-			}
 
 			actionData = action.ActionData;
-			actionData.OwningUIAction = this;
 			if (actionData == null)
 			{
 				Loggy.LogWarningFormat("UIAction {0}: action data is null!", Category.UserInput, iAction);
@@ -60,11 +50,6 @@ namespace UI.Action
 			{
 				IconBackground.SetCatalogue(actionData.Backgrounds, 0, networked: false);
 			}
-
-			if(iAction is UnattachedIActionGUI unattachedIActionGUI)
-			{
-				unattachedIActionGUI.OnAttachedPlayer();
-			}
 		}
 		//copy pasta funny but im too lazy to do anything about it right now
 		public void SetUpMulti(IActionGUIMulti action, ActionData newActionData)
@@ -73,7 +58,6 @@ namespace UI.Action
 			iAction = action;
 
 			actionData = newActionData;
-			actionData.OwningUIAction = this;
 			if (actionData == null)
 			{
 				Loggy.LogWarningFormat("UIAction {0}: action data is null!", Category.UserInput, iAction);

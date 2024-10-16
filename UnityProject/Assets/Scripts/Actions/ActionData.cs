@@ -69,8 +69,6 @@ public class ActionData : ScriptableObject
 	[Tooltip("Do we stay as the active action even after being used.")]
 	[SerializeField]
 	public bool StaySelectedOnUse = false;
-	[NonSerialized] public UI.Action.UIAction OwningUIAction = default;
-	public IActionGUI Test = default;
 
 	public override string ToString()
 	{
