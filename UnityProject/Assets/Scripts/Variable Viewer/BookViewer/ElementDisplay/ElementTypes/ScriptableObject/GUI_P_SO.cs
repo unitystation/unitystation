@@ -188,41 +188,49 @@ namespace AdminTools.VariableViewer
 
 		public void InitialiseIndividualDropDownOptions()
 		{
-			foreach (var SO in SOListTracker.Instance.SOTrackers)
+			try
 			{
-				if (SO == null) continue;
-				var Type = ((object) SO).GetType();
-
-				if (InheritsFrom(Type, typeof(SOTracker)))
+				foreach (var SO in SOListTracker.Instance.SOTrackers)
 				{
-					Type = GetImmediateBaseType(Type, typeof(SOTracker));
-				}
+					if (SO == null) continue;
+					var Type = ((object) SO).GetType();
 
-
-				if (IndividualDropDownOptions.ContainsKey(Type) == false)
-				{
-					IndividualDropDownOptions[Type] = new List<ISOTracker>();
-					OptimiseIndividualDropDownOptions[Type] = new Dictionary<string, ISOTracker>();
-				}
-
-				IndividualDropDownOptions[Type].Add(SO);
-				OptimiseIndividualDropDownOptions[Type][SO.ForeverID] = SO;
-			}
-
-			var TypeTile = typeof(LayerTile);
-			foreach (var TileType in TileManager.Instance.Tiles)
-			{
-				foreach (var Tile in TileType.Value)
-				{
-					if (IndividualDropDownOptions.ContainsKey(TypeTile) == false)
+					if (InheritsFrom(Type, typeof(SOTracker)))
 					{
-						IndividualDropDownOptions[TypeTile] = new List<ISOTracker>();
-						OptimiseIndividualDropDownOptions[TypeTile] = new Dictionary<string, ISOTracker>();
+						Type = GetImmediateBaseType(Type, typeof(SOTracker));
 					}
-					IndividualDropDownOptions[TypeTile].Add(Tile.Value);
-					OptimiseIndividualDropDownOptions[TypeTile][Tile.Value.ForeverID] = Tile.Value;
+
+
+					if (IndividualDropDownOptions.ContainsKey(Type) == false)
+					{
+						IndividualDropDownOptions[Type] = new List<ISOTracker>();
+						OptimiseIndividualDropDownOptions[Type] = new Dictionary<string, ISOTracker>();
+					}
+
+					IndividualDropDownOptions[Type].Add(SO);
+					OptimiseIndividualDropDownOptions[Type][SO.ForeverID] = SO;
+				}
+
+				var TypeTile = typeof(LayerTile);
+				foreach (var TileType in TileManager.Instance.Tiles)
+				{
+					foreach (var Tile in TileType.Value)
+					{
+						if (IndividualDropDownOptions.ContainsKey(TypeTile) == false)
+						{
+							IndividualDropDownOptions[TypeTile] = new List<ISOTracker>();
+							OptimiseIndividualDropDownOptions[TypeTile] = new Dictionary<string, ISOTracker>();
+						}
+						IndividualDropDownOptions[TypeTile].Add(Tile.Value);
+						OptimiseIndividualDropDownOptions[TypeTile][Tile.Value.ForeverID] = Tile.Value;
+					}
 				}
 			}
+			catch (Exception e)
+			{
+				Loggy.LogError(e.ToString());
+			}
+
 
 
 		}

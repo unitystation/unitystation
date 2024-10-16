@@ -12,9 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1234369d36f84bad8821b9a09e2ebcc5, type: 3}
   m_Name: HalloweenGhostsTimedEvent
   m_EditorClassIdentifier: 
-  Month: 10
-  DayOfMonthStart: 1
-  DayOfMonthEnd: 31
+  Months: 0a000000
+  MonthDayRanges:
+    m_keys: 0a000000
+    m_values:
+    - DayOfMonthStart: 1
+      DayOfMonthEnd: 31
   EventName: Halloween Ghosts
   EventDesc: Don't wander around the station alone and don't ask where those fruit
     baskets come from.
@@ -34,4 +37,5 @@ MonoBehaviour:
   - {fileID: 4955296975579916585, guid: 003bcc08bfd787c4c8e4d54d3e1aaed4, type: 3}
   - {fileID: 4955296975579916585, guid: 003bcc08bfd787c4c8e4d54d3e1aaed4, type: 3}
   spawnPointCategory: 37
+  spawnChance: 35
   randomSpawnCount: {x: 1, y: 5}

@@ -1,27 +1,27 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using HealthV2;
-using Player;
 using UnityEngine;
 
 public class SetBodyType : MonoBehaviour
 {
 	public BodyType ToSetTo;
-
-	public Pickupable Pickupable;
+	private BodyPart bodyPart;
 
 	public void Awake()
 	{
-		Pickupable = this.GetComponent<Pickupable>();
+		bodyPart = GetComponent<BodyPart>();
+		bodyPart.OnAddedToBody += UpdateBodyType;
 	}
 
 	public void Start()
 	{
-		if (Pickupable.ItemSlot?.Player != null)
-		{
-			var PlayerSprites = Pickupable.ItemSlot?.Player.GetComponent<PlayerSprites>();
-			PlayerSprites.SetAllBodyType(ToSetTo);
-		}
+		UpdateBodyType(bodyPart.HealthMaster);
+	}
+
+	public void UpdateBodyType(LivingHealthMasterBase livingHealth)
+	{
+		if (livingHealth == null) return;
+
+		var sprites = livingHealth.playerSprites;
+		sprites.SetAllBodyType(ToSetTo);
 	}
 }

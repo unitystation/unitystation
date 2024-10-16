@@ -1,14 +1,10 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-
+﻿using UnityEngine;
 
 /// <summary>
 /// Randomizes damage whenever a swing occurs.
 /// </summary>
-public class ExtradimBlade : MonoBehaviour, ICustomDamageCalculation
+public class ExtradimBlade : MonoBehaviour, ICustomMeleeBehaviour
 {
-
-
 	[SerializeField]
 	private int minDamage = 1;
 
@@ -17,8 +13,10 @@ public class ExtradimBlade : MonoBehaviour, ICustomDamageCalculation
 
 	private static System.Random rnd = new System.Random();
 
-	public int ServerPerformDamageCalculation()
+	public WeaponNetworkActions.MeleeStats CustomMeleeBehaviour(GameObject attacker, GameObject target, BodyPartType damageZone, WeaponNetworkActions.MeleeStats stats)
 	{
-		return rnd.Next(minDamage, maxDamage);
+		var modStats = stats;
+		modStats.Damage = rnd.Next(minDamage, maxDamage);
+		return modStats;
 	}
 }

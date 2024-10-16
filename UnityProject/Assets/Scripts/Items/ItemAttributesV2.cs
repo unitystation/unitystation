@@ -40,17 +40,7 @@ namespace Items
 		/// </summary>
 		public float ServerHitDamage
 		{
-			get
-			{
-				//If item has an ICustomDamageCalculation component, use that instead.
-				ICustomDamageCalculation part = GetComponent<ICustomDamageCalculation>();
-				if (part != null)
-				{
-					return part.ServerPerformDamageCalculation();
-				}
-
-				return hitDamage;
-			}
+			get => hitDamage;
 			set => hitDamage = value;
 		}
 
@@ -107,6 +97,13 @@ namespace Items
 		/// Server only action for OnBlock effects, gameobject is the attacker and float is the amount of damage that was blocked
 		/// </summary>
 		public Action<GameObject, float, DamageType> OnBlock;
+
+		/// <summary>
+		///	Server only action for OnMelee effects, similar to OnBlock
+		/// </summary>
+		/// <param name="attacker"> gameObject performing the attack</param>
+		/// <param name="target"> gameObject being attacked</param>
+		public Action<GameObject, GameObject> OnMelee;
 
 		[Header("Sprites/Sounds/Flags/Misc.")]
 
@@ -346,6 +343,7 @@ namespace Items
 		/// <param name="newSprites">New sprites</param>
 		public void SetSprites(ItemsSprites newSprites)
 		{
+			if (newSprites == null) return;
 			itemSprites = newSprites;
 		}
 

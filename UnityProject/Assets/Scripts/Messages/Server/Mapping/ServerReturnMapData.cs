@@ -22,6 +22,7 @@ public class ServerReturnMapData : ServerMessage<ServerReturnMapData.NetMessage>
 		public bool end;
 		public MessageType MessageType;
 		public bool DoStraightaway;
+		public int MatrixID;
 	}
 
 	public enum MessageType
@@ -52,7 +53,7 @@ public class ServerReturnMapData : ServerMessage<ServerReturnMapData.NetMessage>
 
 				case (MessageType.MapDataForClient):
 					CustomNetworkManager.Instance.ReceiveMattOverrides(
-						JsonConvert.DeserializeObject<MapSaver.MapSaver.CompactObjectMapData>(data), msg.DoStraightaway);
+						JsonConvert.DeserializeObject<MapSaver.MapSaver.CompactObjectMapData>(data), msg.DoStraightaway, msg.MatrixID);
 					break;
 			}
 		}
@@ -75,7 +76,7 @@ public class ServerReturnMapData : ServerMessage<ServerReturnMapData.NetMessage>
 		return chunks;
 	}
 
-	public static void Send(GameObject recipient, string data, MessageType Type)
+	public static void Send(GameObject recipient, string data, MessageType Type, int MatrixID)
 	{
 		 var stringChunks = ChunkString(data,5000);
 		 int id = GetNextAvailableID();
@@ -90,7 +91,8 @@ public class ServerReturnMapData : ServerMessage<ServerReturnMapData.NetMessage>
 				 Data = chunk,
 				 end = (i + 1) == chunkCount,
 				 MessageType = Type,
-				 DoStraightaway = true
+				 DoStraightaway = true,
+				 MatrixID = MatrixID
 			 };
 
 			 SendTo(recipient, msg);
@@ -105,7 +107,7 @@ public class ServerReturnMapData : ServerMessage<ServerReturnMapData.NetMessage>
 		return nextAvailableID++;
 	}
 
-	public static void SendAll(string data, MessageType Type, bool DoStraightaway)
+	public static void SendAll(string data, MessageType Type, bool DoStraightaway, int MatrixID)
 	{
 		var stringChunks = ChunkString(data,5000);
 
@@ -121,7 +123,8 @@ public class ServerReturnMapData : ServerMessage<ServerReturnMapData.NetMessage>
 				Data = new string(stringChunks[i].ToArray()),
 				end = (i + 1) >= stringChunks.Count,
 				MessageType = Type,
-				DoStraightaway = DoStraightaway
+				DoStraightaway = DoStraightaway,
+				MatrixID =  MatrixID
 			};
 
 			SendToAll(msg);

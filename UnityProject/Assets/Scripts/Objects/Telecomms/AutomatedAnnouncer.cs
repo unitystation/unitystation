@@ -46,7 +46,7 @@ namespace Objects.Telecomms
 		{
 			if (CustomNetworkManager.IsServer)
 			{
-				PlayerSpawn.SpawnEvent += ServerOnPlayerSpawned;
+				PlayerSpawn.OnNewMindSpawnEvent += ServerOnPlayerSpawned;
 			}
 		}
 
@@ -54,7 +54,7 @@ namespace Objects.Telecomms
 		{
 			if (CustomNetworkManager.IsServer)
 			{
-				PlayerSpawn.SpawnEvent -= ServerOnPlayerSpawned;
+				PlayerSpawn.OnNewMindSpawnEvent -= ServerOnPlayerSpawned;
 			}
 		}
 

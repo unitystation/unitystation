@@ -17,19 +17,23 @@ MonoBehaviour:
   SurgerySteps:
   - RequiredTrait: {fileID: 11400000, guid: 024541a41c4ab42a499f8e49374496d4, type: 2}
     Time: 1
-    FailChance: 0
-    StartSelf: 
-    StartOther: 
-    SuccessSelf: You successfully unfasten the bolts on {WhoOn}'s {OnPart}
+    FailChance: 1
+    StartSelf: you beign to unfasten the bolts on {WhoOn}'s {OnPart}
+    StartOther: '{performer} begins to unfasten the bolts on {WhoOn}''s {OnPart}'
+    SuccessSelf: you successfully unfasten the bolts on {WhoOn}'s {OnPart}
     SuccessOther: '{performer} successfully unfastens the bolts on {WhoOn}''s {OnPart}'
-    FailSelf: 
-    FailOther: 
+    FailSelf: you fail to unfasten the bolts on {WhoOn}'s {OnPart}
+    FailOther: '{performer} fails to unfasten the bolts on {WhoOn}''s {OnPart}'
+    BleedStacksToAdd: 0
   - RequiredTrait: {fileID: 11400000, guid: a78723f619e4a41f3ae170507ca20644, type: 2}
     Time: 1
-    FailChance: 0
-    StartSelf: 
-    StartOther: 
-    SuccessSelf: You disconnect the cables attached to {WhoOn}'s {OnPart}
+    FailChance: 1
+    StartSelf: you begin disconnect the cables attached to {WhoOn}'s {OnPart}
+    StartOther: '{performer} begins to disconnect the cables attached to {WhoOn}''s
+      {OnPart}'
+    SuccessSelf: you disconnect the cables attached to {WhoOn}'s {OnPart}
     SuccessOther: '{performer} disconnects the cables attached to {WhoOn}''s {OnPart}'
-    FailSelf: 
-    FailOther: 
+    FailSelf: you fail to disconnect the cables attached to {WhoOn}'s {OnPart}
+    FailOther: '{performer} fails to disconnect the cables attached to {WhoOn}''s
+      {OnPart}'
+    BleedStacksToAdd: 0

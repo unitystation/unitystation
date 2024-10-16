@@ -17,13 +17,18 @@ namespace Items.Weapons
 			{
 				if (explosiveStrength >= 750)
 				{
-					//Drop all the players stuff so that the explosion can destroy and trigger destruction events
-					Inventory.ServerDropAll(bodyPart.HealthMaster.playerScript.DynamicItemStorage);
+					LivingHealthMasterBase master = bodyPart.HealthMaster;
+					BodyPart containedIn = bodyPart.ContainedIn;
 
-					//Macrobombs and microbombs will gib their victim
-					bodyPart.HealthMaster.OnGib();
+					if(containedIn != null) Inventory.ServerDrop(containedIn.OrganStorage.GetSlotFromItem(this.gameObject));
+					if (master != null)
+					{
+						//Drop all the players stuff so that the explosion can destroy and trigger destruction events
+						Inventory.ServerDropAll(master.playerScript.DynamicItemStorage);
 
-					bodyPart.ContainedIn?.OrganStorage.ServerTryRemove(gameObject);
+						//Macrobombs and microbombs will gib their victim
+						master.OnGib();
+					}
 				}
 				else if (bodyPart.ContainedIn.BodyPartType != BodyPartType.Chest)
 				{
@@ -77,7 +82,7 @@ namespace Items.Weapons
 				yield return delay;
 			}
 
-			Detonate();
+			this.Detonate();
 		}
 
 		async Task PlayBeepAtPos() //async so doesn't effect how long countdown takes

@@ -59,7 +59,7 @@ public class Matrix : MonoBehaviour
 	public PipeLayer PipeLayer { get; private set; }
 	public DisposalsLayer DisposalsLayer { get; private set; }
 
-	public bool IsSpaceMatrix;
+	public bool IsSpaceMatrix => networkedMatrix.MatrixSync.IsSpaceMatrix;
 	public bool IsMainStation;
 	public bool IsLavaLand => transform.parent.name == "LavaLand";
 

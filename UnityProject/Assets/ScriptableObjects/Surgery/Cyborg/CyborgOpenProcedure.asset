@@ -17,28 +17,31 @@ MonoBehaviour:
   SurgerySteps:
   - RequiredTrait: {fileID: 11400000, guid: 98ad76bb152404a11aed28bf6fa703d6, type: 2}
     Time: 1
-    FailChance: 0
-    StartSelf: 
-    StartOther: 
-    SuccessSelf: You unscrew the cover on {WhoOn}'s {OnPart}
+    FailChance: 1
+    StartSelf: you begin to unscrew the cover on {WhoOn}'s {OnPart}
+    StartOther: '{performer} begins to unscrew the cover on {WhoOn}''s {OnPart}'
+    SuccessSelf: you unscrew the cover on {WhoOn}'s {OnPart}
     SuccessOther: '{performer} unscrews the cover on {WhoOn}''s {OnPart}'
-    FailSelf: 
-    FailOther: 
+    FailSelf: you fail to unscrew the cover on {WhoOn}'s {OnPart}
+    FailOther: '{performer} fails to unscrew the cover on {WhoOn}''s {OnPart}'
+    BleedStacksToAdd: 0
   - RequiredTrait: {fileID: 11400000, guid: 5524008e9372c468aacfb95c83179a91, type: 2}
-    Time: 1
-    FailChance: 0
-    StartSelf: 
-    StartOther: 
-    SuccessSelf: You successfully pry open the cover on {WhoOn}'s {OnPart}
+    Time: 3
+    FailChance: 1
+    StartSelf: you begin to pry open the cover on {WhoOn}'s {OnPart}
+    StartOther: '{performer} begins to pry open the cover on {WhoOn}''s {OnPart}'
+    SuccessSelf: you successfully pry open the cover on {WhoOn}'s {OnPart}
     SuccessOther: '{performer} successfully prys open the cover on {WhoOn}''s {OnPart}'
-    FailSelf: 
-    FailOther: 
+    FailSelf: you fail to pry open the cover on {WhoOn}'s {OnPart}
+    FailOther: '{performer} fails to pry open the cover on {WhoOn}''s {OnPart}'
+    BleedStacksToAdd: 0
   - RequiredTrait: {fileID: 11400000, guid: 024541a41c4ab42a499f8e49374496d4, type: 2}
     Time: 1
-    FailChance: 0
-    StartSelf: 
-    StartOther: 
-    SuccessSelf: You unfasten the bolts on {WhoOn}'s {OnPart}
+    FailChance: 1
+    StartSelf: you begin to unfasten the bolts on {WhoOn}'s {OnPart}
+    StartOther: '{performer} begins to unfasten the bolts on {WhoOn}''s {OnPart}'
+    SuccessSelf: you unfasten the bolts on {WhoOn}'s {OnPart}
     SuccessOther: '{performer} unfastens the bolts on {WhoOn}''s {OnPart}'
-    FailSelf: 
-    FailOther: 
+    FailSelf: you fail to unfasten the bolts on {WhoOn}'s {OnPart}
+    FailOther: '{performer} fails to unfasten the bolts on {WhoOn}''s {OnPart}'
+    BleedStacksToAdd: 0

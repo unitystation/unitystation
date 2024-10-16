@@ -283,7 +283,7 @@ public class AutopilotShipCargo : AutopilotShipMachine
 			 {
 				 pos = Location.LocalPosition.ToWorld(mm.NetworkedMatrixMove.MetaTileMap.matrix).RoundToInt();
 				 if ((MatrixManager.Instance.GetFirst<ClosetControl>(pos, true) == null) &&
-				     MatrixManager.IsFloorAt(pos, true))
+				     MatrixManager.IsFloorAt(pos, true) && MatrixManager.IsWallAt(pos, true) == false)
 				 {
 					 availableSpawnSlots.Add(pos);
 				 }

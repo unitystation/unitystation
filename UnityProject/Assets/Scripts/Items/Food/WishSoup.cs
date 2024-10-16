@@ -5,7 +5,7 @@ namespace Items.Food
 {
 	public class WishSoup : Edible
 	{
-		protected override void Eat(PlayerScript eater, PlayerScript feeder)
+		protected override void Eat(PlayerScript eater, PlayerScript feeder, bool projectileFed = false)
 		{
 			float wishChance = Random.value;
 			if (wishChance <= 0.25)
@@ -18,7 +18,7 @@ namespace Items.Food
 			}
 		}
 
-		private void Eat(PlayerScript eater, PlayerScript feeder, bool feedNutrients)
+		private void Eat(PlayerScript eater, PlayerScript feeder, bool feedNutrients, bool projectileFed = false)
 		{
 			// TODO: sound missing?
 			//SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);

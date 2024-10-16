@@ -100,7 +100,7 @@ namespace Items.Food
 			TryConsume(interaction.PerformerPlayerScript.gameObject);
 		}
 
-		public override void TryConsume(GameObject feederGO, GameObject eaterGO)
+		public override void TryConsume(GameObject feederGO, GameObject eaterGO, bool projectileFed = false)
 		{
 			var eater = eaterGO.GetComponent<PlayerScript>();
 			if (eater == null)
@@ -123,8 +123,6 @@ namespace Items.Food
 				return;
 			}
 
-			var feeder = feederGO.GetComponent<PlayerScript>();
-
 			// Check if player is wearing clothing that prevents eating or drinking
 			if (eater.Equipment.OrNull()?.CanConsume() == false)
 			{
@@ -142,24 +140,34 @@ namespace Items.Food
 				eaterHungerState = sys.CashedHungerState;
 			}
 
-			ConsumableTextUtils.SendGenericConsumeMessage(feeder, eater, eaterHungerState, Name, "eat");
+			bool hasFeeder = false;
+			PlayerScript feeder = null;
 
-			if (feeder != eater) //If you're feeding it to someone else.
+			if(feederGO != null) feederGO.TryGetComponent<PlayerScript>(out feeder);
+
+			if(hasFeeder == true) ConsumableTextUtils.SendGenericConsumeMessage(feeder, eater, eaterHungerState, Name, "eat");
+			if (projectileFed == false && feeder != eater) //If you're feeding it to someone else.
 			{
 				StandardProgressAction.Create(ProgressConfig, () =>
 				{
 					ConsumableTextUtils.SendGenericForceFeedMessage(feeder, eater, eaterHungerState, Name, "eat");
-					Eat(eater, feeder);
+					Eat(eater, feeder, projectileFed);
 				}).ServerStartProgress(eater.RegisterPlayer, forceFeedTime, feeder.gameObject);
 				return;
 			}
+			else if (projectileFed == true)
+			{
+				Eat(eater, feeder, projectileFed);
+				return;
+			}
+
 			StandardProgressAction.Create(ProgressConfig, () =>
 				{
-					Eat(eater, feeder);
+					Eat(eater, feeder, projectileFed);
 				}).ServerStartProgress(eater.RegisterPlayer, consumeTime, feeder.gameObject);
 		}
 
-		protected virtual void Eat(PlayerScript eater, PlayerScript feeder)
+		protected virtual void Eat(PlayerScript eater, PlayerScript feeder, bool projectileFed = false)
 		{
 			//TODO: Reimplement metabolism.
 			var stomachs = eater.playerHealth.GetStomachs();
@@ -168,7 +176,6 @@ namespace Items.Food
 				//No stomachs?!
 				return;
 			}
-
 			float SpareSpace = 0;
 
 			foreach (var stomach in stomachs)
@@ -178,17 +185,23 @@ namespace Items.Food
 
 			if (SpareSpace < 0.5f)
 			{
-				if (eater == feeder)
+				if (feeder != null && eater == feeder)
 				{
 					Chat.AddActionMsgToChat(feeder.gameObject,
 						"you try the stuff The food into your mouth but your stomach has no more room",
 						$"{feeder} Tries to stuff food into the mouth but is unable to");
 				}
-				else
+				else if(feeder == null)
 				{
 					Chat.AddActionMsgToChat(feeder.gameObject,
 						"You try and stuff more food into your targets mouth but no more seems to go in",
 						$"{feeder} Tries to stuff food into Their targets mouth but no more food is going in");
+				}
+				else
+				{
+					Chat.AddActionMsgToChat(this.gameObject,
+						$"You fly into {eater}'s mouth!",
+						$"The {gameObject.ExpensiveName()} flies into {eater}'s mouth"); //maybe at some point a player might be the burger?
 				}
 
 				return;
@@ -196,11 +209,22 @@ namespace Items.Food
 
 			if (SpareSpace < FoodContents.CurrentReagentMix.Total)
 			{
-				Chat.AddActionMsgToChat(feeder.gameObject, "You unwillingly eat the food",
+				if(feeder == null)
+				{
+					Chat.AddActionMsgToChat(this.gameObject, $"You unwillingly get eaten by {eater}",
 					$"{eater} Unwillingly force themselves to eat the food");
+
+				}
+				else
+				{
+					Chat.AddActionMsgToChat(feeder.gameObject, "You unwillingly eat the food",
+					$"{eater} Unwillingly force themselves to eat the food");
+				}
 			}
 
-			ReagentMix incomingFood = GetMixForBite(feeder);
+			ReagentMix incomingFood;
+			if (projectileFed == false) incomingFood = GetMixForBite(feeder);
+			else incomingFood = FullConsume(feeder);
 
 			foreach (var stomach in stomachs)
 			{
@@ -212,6 +236,36 @@ namespace Items.Food
 			ScoreMachine.AddToScoreInt(1, RoundEndScoreBuilder.COMMON_SCORE_FOODEATEN);
 		}
 
+		public ReagentMix FullConsume(PlayerScript feeder)
+		{
+			ReagentMix incomingFood = FoodContents.CurrentReagentMix.Clone();
+
+			if (leavings != null)
+			{
+				var leavingsInstance = Spawn.ServerPrefab(leavings).GameObject;
+				var pickupable = leavingsInstance.GetComponent<Pickupable>();
+				bool added = false;
+				var ToDropOn = gameObject;
+
+				if (feeder != null)
+				{
+					var feederSlot = feeder.DynamicItemStorage.GetActiveHandSlot();
+
+					ToDropOn = feeder.gameObject;
+					added = Inventory.ServerAdd(pickupable, feederSlot, ReplacementStrategy.DropOther);
+				}
+
+				if (added == false)
+				{
+					//If stackable has leavings and they couldn't go in the same slot, they should be dropped
+					pickupable.UniversalObjectPhysics.DropAtAndInheritMomentum(
+						ToDropOn.GetComponent<UniversalObjectPhysics>());
+				}
+			}
+			_ = Inventory.ServerDespawn(gameObject);
+
+			return incomingFood;
+		}
 
 		public ReagentMix GetMixForBite(PlayerScript feeder)
 		{

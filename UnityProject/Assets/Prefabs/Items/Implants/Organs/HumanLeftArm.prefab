@@ -246,9 +246,40 @@ PrefabInstance:
       propertyPath: walkingSpeed
       value: 0.024
       objectReference: {fileID: 0}
+    - target: {fileID: 3523244764140818517, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: ArmHitSound.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3523244764140818517, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: ArmHitSound.Array.data[0].AssetAddress
+      value: Assets/Prefabs/Effects/Punch1.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 3523244764140818517, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: ArmHitSound.Array.data[1].AssetAddress
+      value: Assets/Prefabs/Effects/Punch2.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 3523244764140818517, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: ArmHitSound.Array.data[2].AssetAddress
+      value: Assets/Prefabs/Effects/Punch3.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 3523244764140818517, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: ArmHitSound.Array.data[3].AssetAddress
+      value: Assets/Prefabs/Effects/Punch4.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 3666507880365142169, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c1a6b7603a812b34b908525796b891c5,
+        type: 2}
+    - target: {fileID: 3666507880365142169, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: c1a6b7603a812b34b908525796b891c5,
         type: 2}

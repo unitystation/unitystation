@@ -310,7 +310,8 @@ namespace MapSaver
 
 			if (string.IsNullOrEmpty(prefabData.SortPath) == false)
 			{
-				var Parent = Matrix.MetaTileMap.ObjectLayer.transform;
+				Transform Parent = null;
+				Parent = Matrix.MetaTileMap.ObjectLayer.transform;
 				Transform Child = null;
 				foreach (var step in prefabData.SortPath.Split("/"))
 				{
@@ -326,6 +327,7 @@ namespace MapSaver
 					// }
 					if (Child == null)
 					{
+
 						Child = new GameObject(step).transform;
 						Child.SetParent(Parent);
 						Child.localPosition = Vector3.zero;
@@ -369,6 +371,23 @@ namespace MapSaver
 			}
 		}
 
+		public static int GetNumberOfRequireComponents(string ClassID,  GameObject Object )
+		{
+			var ClassComponents = ClassID.Split("@"); //TODO Multiple components?
+			var Component = Object.GetComponent(ClassComponents[0]);
+
+			if (Component == null)
+			{
+				return 0;
+			}
+
+
+
+			var Attributes =	SecureStuff.AllowedReflection.GetNumberOfAttributeRequireComponent(Component.GetType());
+
+			return Attributes;
+		}
+
 		public static void ProcessClassData(MapSaver.PrefabData prefabData, GameObject Object,
 			MapSaver.IndividualObject IndividualObject)
 		{
@@ -388,9 +407,33 @@ namespace MapSaver
 				MapSaver.StringToPRS(Object, IndividualObject.LocalPRS);
 			}
 
+			var Removals = IndividualObject.ClassDatas.Where(x => x.Removed).OrderByDescending(x => GetNumberOfRequireComponents(x.ClassID, Object)).ToList();
+
+			foreach (var Remove in Removals)
+			{
+				var ClassComponents = Remove.ClassID.Split("@"); //TODO Multiple components?
+				var Component = Object.GetComponent(ClassComponents[0]);
+				if (Component == null) continue;
+
+				if (Application.isPlaying)
+				{
+					UnityEngine.Object.Destroy(Component);
+				}
+				else
+				{
+					UnityEngine.Object.DestroyImmediate(Component);
+				}
+			}
+
 
 			foreach (var classData in IndividualObject.ClassDatas)
 			{
+
+				if (classData.Removed == true)
+				{
+					continue;
+				}
+
 				var ClassComponents = classData.ClassID.Split("@"); //TODO Multiple components?
 				var Component = Object.GetComponent(ClassComponents[0]);
 				if (Component == null && classData.Removed == false)
@@ -403,18 +446,6 @@ namespace MapSaver
 					{
 						Loggy.LogError(e.ToString());
 						continue;
-					}
-				}
-
-				if (classData.Removed == true)
-				{
-					if (Application.isPlaying)
-					{
-						UnityEngine.Object.Destroy(Component);
-					}
-					else
-					{
-						UnityEngine.Object.DestroyImmediate(Component);
 					}
 				}
 
@@ -456,12 +487,12 @@ namespace MapSaver
 			}
 		}
 
-		public static IEnumerator ServerLoadMap(Vector3 Offset00, Vector3 Offset, MapSaver.MapData MapData)
+		public static IEnumerator ServerLoadMap(Vector3 Offset00, Vector3 Offset, MapSaver.MapData MapData, SceneType sceneType = SceneType.HiddenScene)
 		{
 			foreach (var ToMapMatrix in MapData.ContainedMatrices)
 			{
 				yield return ServerLoadSection(null, Offset00, Offset, ToMapMatrix, null,
-					MatrixName: ToMapMatrix.MatrixName, LoadingMultiple: true);
+					MatrixName: ToMapMatrix.MatrixName, LoadingMultiple: true, sceneType: sceneType);
 			}
 
 			MapSaver.CodeClass.ThisCodeClass.ReportStatus();
@@ -486,7 +517,7 @@ namespace MapSaver
 		//Offset to apply 0,0 to get the position you want
 		public static IEnumerator ServerLoadSection(MatrixInfo Matrix, Vector3 Offset00, Vector3 Offset,
 			MapSaver.MatrixData MatrixData, Action completeAction, HashSet<LayerType> LoadLayers = null,
-			bool LoadObjects = true, string MatrixName = null, bool LoadingMultiple = false)
+			bool LoadObjects = true, string MatrixName = null, bool LoadingMultiple = false, SceneType sceneType = SceneType.HiddenScene)
 		{
 #if UNITY_EDITOR
 			if (Application.isPlaying == false)
@@ -508,7 +539,9 @@ namespace MapSaver
 			{
 				if (Matrix == null)
 				{
-					aaMatrix = MatrixManager.MakeNewMatrix(MatrixName);
+					bool Space = sceneType == SceneType.Space;
+
+					aaMatrix = MatrixManager.MakeNewMatrix(MatrixName, Space);
 #if UNITY_EDITOR
 					if (Application.isPlaying == false)
 					{
@@ -594,8 +627,8 @@ namespace MapSaver
 				{
 					if (Application.isPlaying == false) yield break;
 					var newdata = JsonConvert.SerializeObject(MatrixData.CompactObjectMapData);
-					CustomNetworkManager.Instance.LoadedMapDatas.Add(newdata);
-					ServerReturnMapData.SendAll(newdata, ServerReturnMapData.MessageType.MapDataForClient, true);
+					CustomNetworkManager.Instance.LoadedMapDatas.Add(new Tuple<string, int>(newdata, aaMatrix.Id));
+					ServerReturnMapData.SendAll(newdata, ServerReturnMapData.MessageType.MapDataForClient, true, aaMatrix.Id);
 				}
 			}
 			catch (Exception e)

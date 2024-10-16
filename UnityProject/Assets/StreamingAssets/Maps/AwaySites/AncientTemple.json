@@ -85251,7 +85251,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.2.0",
+        "Ver": "1.3.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -86801,6 +86801,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_16┼-37┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -86838,7 +86847,20 @@
             "GitID": "SeedExtractor_9┼-35┼0┼",
             "PrefabID": "SeedExtractor",
             "Name": "SeedExtractor (1)",
-            "LocalPRS": "9┼-35┼0┼"
+            "LocalPRS": "9┼-35┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_16┼-37┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "c0d35a75ba9aa4c4fab141f0fac245f6_9┼-34┼0┼",
@@ -86872,6 +86894,15 @@
                     {
                       "Name": "initialDescription",
                       "Data": "A vending machine dispensing steaks and cookies."
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_16┼-37┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -87112,6 +87143,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_16┼-37┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -87263,6 +87303,15 @@
                       "Data": "A snack machine which does not sell chocolate."
                     }
                   ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_16┼-37┼0┼@0@APC@0"
+                    }
+                  ]
                 }
               ]
             }
@@ -87299,6 +87348,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_16┼-37┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -87423,13 +87481,39 @@
             "GitID": "5fd9d8acdd4f02849884dcddff5db286_16┼-36┼0┼",
             "PrefabID": "5fd9d8acdd4f02849884dcddff5db286",
             "Name": "AirlockStandardOpaque",
-            "LocalPRS": "16┼-36┼0┼"
+            "LocalPRS": "16┼-36┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_16┼-37┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "5fd9d8acdd4f02849884dcddff5db286_16┼-35┼0┼",
             "PrefabID": "5fd9d8acdd4f02849884dcddff5db286",
             "Name": "AirlockStandardOpaque",
-            "LocalPRS": "16┼-35┼0┼"
+            "LocalPRS": "16┼-35┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_16┼-37┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "c7f7aef1ae61b354db693ea3bb4e9b5f_17┼-32┼0┼",
@@ -87696,6 +87780,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_20┼-29┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "LightSource@0",
                   "Data": [
                     {
@@ -87776,7 +87869,20 @@
             "GitID": "4d76ade90a370ca43ab3c9a765236a26_25┼-33┼0┼",
             "PrefabID": "4d76ade90a370ca43ab3c9a765236a26",
             "Name": "AirlockEngineeringOpaque",
-            "LocalPRS": "25┼-33┼0┼"
+            "LocalPRS": "25┼-33┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_20┼-29┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "170e72b76e0da9645995a9bac3f49cb2_25┼-30┼0┼",
@@ -87807,7 +87913,20 @@
             "GitID": "4d76ade90a370ca43ab3c9a765236a26_26┼-33┼0┼",
             "PrefabID": "4d76ade90a370ca43ab3c9a765236a26",
             "Name": "AirlockEngineeringOpaque",
-            "LocalPRS": "26┼-33┼0┼"
+            "LocalPRS": "26┼-33┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_20┼-29┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "9da926c817a893b42bd85ef48a1aae72_26┼-12┼0┼",
@@ -87887,13 +88006,39 @@
             "GitID": "5fd9d8acdd4f02849884dcddff5db286_29┼-39┼0┼",
             "PrefabID": "5fd9d8acdd4f02849884dcddff5db286",
             "Name": "AirlockStandardOpaque",
-            "LocalPRS": "29┼-39┼0┼"
+            "LocalPRS": "29┼-39┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_34┼-37┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "5fd9d8acdd4f02849884dcddff5db286_29┼-38┼0┼",
             "PrefabID": "5fd9d8acdd4f02849884dcddff5db286",
             "Name": "AirlockStandardOpaque",
-            "LocalPRS": "29┼-38┼0┼"
+            "LocalPRS": "29┼-38┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_34┼-37┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "340757c52c1e3c040900e72e4d4fc9c0_29.23┼-4.88┼0┼",
@@ -88190,6 +88335,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_32┼-37┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -88230,6 +88384,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_38┼-31┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -88438,7 +88601,20 @@
             "GitID": "06f461555a8bd5947b6bfa4ecbc95627_35┼-36┼0┼",
             "PrefabID": "06f461555a8bd5947b6bfa4ecbc95627",
             "Name": "AirlockCommandOpaque",
-            "LocalPRS": "35┼-36┼0┼"
+            "LocalPRS": "35┼-36┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_32┼-37┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "1a00e842e154f7d43811c5d45328988c_36┼-39┼0┼",
@@ -88492,7 +88668,20 @@
             "GitID": "74c59d7cb720be945a7c5606d962c05a_36┼-33┼0┼",
             "PrefabID": "74c59d7cb720be945a7c5606d962c05a",
             "Name": "AirlockSecurityOpaque",
-            "LocalPRS": "36┼-33┼0┼"
+            "LocalPRS": "36┼-33┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_38┼-31┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "ed4e62dc12dca724ba1e5f374965096b_36┼-30┼0┼",
@@ -88542,6 +88731,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_34┼-37┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -88600,6 +88798,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_34┼-37┼0┼@0@APC@0"
                     }
                   ]
                 },

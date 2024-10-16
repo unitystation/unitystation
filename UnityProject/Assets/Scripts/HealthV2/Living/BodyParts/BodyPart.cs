@@ -25,7 +25,12 @@ namespace HealthV2
 
 
 		[HideInInspector] private readonly List<BodyPart> containBodyParts = new List<BodyPart>();
+		public event Action<LivingHealthMasterBase> OnAddedToBody;
+
 		public List<BodyPart> ContainBodyParts => containBodyParts;
+
+		[Tooltip("If marked as cybernetic, unless the host body is a cyborg, the bodyPartType will not effect this parts sprites"),SerializeField]
+		private bool isCybernetic = false;
 
 
 		/// <summary>
@@ -259,7 +264,8 @@ namespace HealthV2
 
 			SetHealthMaster(livingHealth);
 			BodyType bodyType = BodyType.NonBinary;
-			if (playerSprites.ThisCharacter != null)
+			if (isCybernetic == true && playerSprites.ThisCharacter.Species != "Cyborg") bodyType = BodyType.Other2; //Synthetic
+			else if (playerSprites.ThisCharacter != null) //This check is important, otherwise cyborg limbs on humans will change role based on gender
 			{
 				bodyType = playerSprites.ThisCharacter.BodyType;
 			}
@@ -277,6 +283,8 @@ namespace HealthV2
 			}
 
 			livingHealth.BodyPartListChange();
+
+			OnAddedToBody?.Invoke(livingHealth);
 		}
 
 		/// <summary>

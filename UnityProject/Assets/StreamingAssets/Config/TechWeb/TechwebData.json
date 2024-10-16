@@ -19,12 +19,39 @@
     "Colour": "55, 127, 242"
   },
   {
+    "ID": "cyborgs",
+    "DisplayName": "Cybernetics",
+    "Description": "Advanced actuators and components for constructing cyborgs.",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "base"
+    ],
+    "DesignIDs": [
+      "cyborg_head",
+      "cyborg_torso",
+      "cyborg_chassis",
+      "cyborg_leftarm",
+      "cyborg_rightarm",
+      "cyborg_leftleg",
+      "cyborg_rightleg",
+      "battery_pack",
+      "cyborg_lights"
+    ],
+    "ResearchCosts": 20,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "cyborgs",
+    "techType": 1,
+    "Techweb": null,
+    "Colour": "118, 17, 121"
+  },
+  {
     "ID": "synthorgan",
     "DisplayName": "Synthetic Organs",
     "Description": "Mechanical replacements for living organs. Improved and refined.",
     "StartingNode": true,
     "RequiredTechnologies": [
-      "base"
+      "cyborgs"
     ],
     "DesignIDs": [
       "cyber_heart",
@@ -52,40 +79,13 @@
       "ci_reviver",
       "ci_weldshield"
     ],
-    "ResearchCosts": 30,
+    "ResearchCosts": 25,
     "ExportPrice": 0,
     "PotentialUnlocks": [],
     "prefabID": "synth",
     "techType": 1,
     "Techweb": null,
     "Colour": "178, 227, 168"
-  },
-  {
-    "ID": "cyborgs",
-    "DisplayName": "Advanced Cybernetics",
-    "Description": "Advanced actuators and components for constructing cyborgs.",
-    "StartingNode": false,
-    "RequiredTechnologies": [
-      "synthorgan"
-    ],
-    "DesignIDs": [
-      "cyborg_head",
-      "cyborg_torso",
-      "cyborg_chassis",
-      "cyborg_leftarm",
-      "cyborg_rightarm",
-      "cyborg_leftleg",
-      "cyborg_rightleg",
-      "battery_pack",
-      "cyborg_lights"
-    ],
-    "ResearchCosts": 25,
-    "ExportPrice": 0,
-    "PotentialUnlocks": [],
-    "prefabID": "cyborgs",
-    "techType": 1,
-    "Techweb": null,
-    "Colour": "118, 17, 121"
   },
   {
     "ID": "ais",
@@ -338,6 +338,25 @@
     "techType": 3,
     "Techweb": null,
     "Colour": "78, 28, 23"
+  },
+  {
+    "ID": "pneumatic",
+    "DisplayName": "Research Pneumatics",
+    "Description": "Wether or not this is science is still up for debate",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "industry"
+    ],
+    "DesignIDs": [
+      "pneumatic_cannon"
+    ],
+    "ResearchCosts": 20,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "pneumatic",
+    "techType": 3,
+    "Techweb": null,
+    "Colour": "255, 170, 237"
   },
   {
     "ID": "engielec",

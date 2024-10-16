@@ -43226,6 +43226,15 @@
             "Object": {
               "ClassDatas": [
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_-12┼-22┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -43260,6 +43269,15 @@
             "LocalPRS": "-22┼-18┼0┼0ø0ø90ø",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_-12┼-22┼0┼@0@APC@0"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "Rotatable@0",
                   "Data": [
@@ -43296,6 +43314,15 @@
             "Object": {
               "ClassDatas": [
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_-12┼-22┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "ClearanceRestricted@0",
                   "Data": [
                     {
@@ -43323,6 +43350,15 @@
             "LocalPRS": "-20┼-21.01┼0┼",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_-12┼-22┼0┼@0@APC@0"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "Rotatable@0",
                   "Data": [
@@ -43357,7 +43393,20 @@
             "GitID": "79cea07a5f8e66f49a554df1a003ecba_-20┼-20┼0┼",
             "PrefabID": "79cea07a5f8e66f49a554df1a003ecba",
             "Name": "BlastDoorw",
-            "LocalPRS": "-20┼-20┼0┼"
+            "LocalPRS": "-20┼-20┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_-12┼-22┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "7dea0790d26246447a9b881689c7dbdf_-20┼-20┼0┼",
@@ -43365,7 +43414,17 @@
             "Name": "AirlockExternalWindowed",
             "LocalPRS": "-20┼-20┼0┼",
             "Object": {
-              "ClassDatas": [],
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_-12┼-22┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
               "Children": [
                 {
                   "ID": "0,1",
@@ -43391,6 +43450,15 @@
             "LocalPRS": "-20┼-19┼0┼",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_-12┼-22┼0┼@0@APC@0"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "Rotatable@0",
                   "Data": [
@@ -43423,6 +43491,15 @@
             "LocalPRS": "-18┼-22┼0┼0ø0ø90ø",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_-12┼-22┼0┼@0@APC@0"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "Rotatable@0",
                   "Data": [
@@ -43485,7 +43562,17 @@
             "Name": "AirlockExternalWindowed",
             "LocalPRS": "-17┼-20┼0┼",
             "Object": {
-              "ClassDatas": [],
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_-12┼-22┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
               "Children": [
                 {
                   "ID": "0,1",
@@ -43526,6 +43613,10 @@
                     {
                       "Name": "isSelfPowered",
                       "Data": "True"
+                    },
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_-12┼-22┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -43579,6 +43670,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_-12┼-22┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -43775,6 +43875,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_-12┼-22┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -43979,6 +44088,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_-5┼-6┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -44021,6 +44139,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_-5┼-6┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -44075,6 +44202,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_-5┼-6┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -44115,6 +44251,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_-12┼-22┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -44199,7 +44344,17 @@
             "Name": "AirlockExternalWindowed",
             "LocalPRS": "-3┼-4┼0┼",
             "Object": {
-              "ClassDatas": [],
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_-5┼-6┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
               "Children": [
                 {
                   "ID": "0,1",
@@ -44286,6 +44441,15 @@
                       "Data": "heavy metal door, built to withstand high yield explosions."
                     }
                   ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_-5┼-6┼0┼@0@APC@0"
+                    }
+                  ]
                 }
               ]
             }
@@ -44296,7 +44460,17 @@
             "Name": "AirlockExternalWindowed",
             "LocalPRS": "-3┼-1┼0┼",
             "Object": {
-              "ClassDatas": [],
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_-5┼-6┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
               "Children": [
                 {
                   "ID": "0,1",
@@ -44328,6 +44502,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_-5┼-6┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -44376,6 +44559,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_-5┼-6┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "LightSwitchV2@0",
                   "Data": [
                     {
@@ -44402,6 +44594,15 @@
             "LocalPRS": "-2┼-1┼0┼",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_-5┼-6┼0┼@0@APC@0"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "ClearanceRestricted@0",
                   "Data": [
@@ -44446,6 +44647,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_-12┼-22┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -44480,6 +44690,15 @@
             "LocalPRS": "2.98┼-20.99┼0┼",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_19┼-28┼0┼@0@APC@0"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "Rotatable@0",
                   "Data": [
@@ -44550,6 +44769,15 @@
                       "Data": "heavy metal door, built to withstand high yield explosions."
                     }
                   ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_-12┼-22┼0┼@0@APC@0"
+                    }
+                  ]
                 }
               ]
             }
@@ -44560,7 +44788,17 @@
             "Name": "AirlockExternalWindowed",
             "LocalPRS": "3┼-20┼0┼",
             "Object": {
-              "ClassDatas": [],
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_-12┼-22┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
               "Children": [
                 {
                   "ID": "0,1",
@@ -44608,6 +44846,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_-12┼-22┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -44644,6 +44891,15 @@
             "LocalPRS": "5┼-22┼0┼",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_19┼-28┼0┼@0@APC@0"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "LightSource@0",
                   "Data": [
@@ -44725,7 +44981,17 @@
             "Name": "AirlockExternalWindowed",
             "LocalPRS": "7┼-20┼0┼",
             "Object": {
-              "ClassDatas": [],
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_19┼-28┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
               "Children": [
                 {
                   "ID": "0,1",
@@ -44792,6 +45058,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_19┼-28┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -44869,6 +45144,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_19┼-28┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -44900,7 +45184,20 @@
             "GitID": "5f09f8a4e324bbd459af49387b93c750_11┼-28┼0┼",
             "PrefabID": "5f09f8a4e324bbd459af49387b93c750",
             "Name": "DonkPocketVendor",
-            "LocalPRS": "11┼-28┼0┼"
+            "LocalPRS": "11┼-28┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_19┼-28┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "177ff6e5fbec9d84bbda485c726757e8_11┼-25┼0┼",
@@ -44921,6 +45218,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_19┼-28┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -44956,7 +45262,20 @@
             "GitID": "16aeef193cef4574984596beeac8eb29_11┼-23┼0┼",
             "PrefabID": "16aeef193cef4574984596beeac8eb29",
             "Name": "SolarsBestHotDrinks",
-            "LocalPRS": "11┼-23┼0┼"
+            "LocalPRS": "11┼-23┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_19┼-28┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "f627f521648102c4eabde22aa64b7482_11┼-10┼0┼",
@@ -45021,6 +45340,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_19┼-28┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -45092,7 +45420,17 @@
             "Name": "Microwave",
             "LocalPRS": "13┼-28┼0┼",
             "Object": {
-              "ClassDatas": [],
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_19┼-28┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
               "Children": [
                 {
                   "ID": "0,2",
@@ -45149,6 +45487,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_19┼-28┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -45377,6 +45724,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_19┼-28┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -45522,6 +45878,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_19┼-28┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -45758,6 +46123,15 @@
             "Object": {
               "ClassDatas": [
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_19┼-28┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "LightSource@0",
                   "Data": [
                     {
@@ -45782,7 +46156,17 @@
             "Name": "AirlockGrunge",
             "LocalPRS": "17┼-29┼0┼",
             "Object": {
-              "ClassDatas": [],
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_19┼-28┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
               "Children": [
                 {
                   "ID": "0,1",
@@ -45808,6 +46192,15 @@
             "LocalPRS": "17┼-16┼0┼0ø0ø90ø",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_19┼-28┼0┼@0@APC@0"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "Rotatable@0",
                   "Data": [
@@ -45868,6 +46261,15 @@
             "LocalPRS": "18┼-29┼0┼",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_19┼-28┼0┼@0@APC@0"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "LightSwitchV2@0",
                   "Data": [
@@ -45933,6 +46335,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_19┼-28┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -46164,6 +46575,15 @@
                       "Data": "0"
                     }
                   ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_19┼-28┼0┼@0@APC@0"
+                    }
+                  ]
                 }
               ]
             }
@@ -46190,6 +46610,15 @@
                     {
                       "Name": "initialDescription",
                       "Data": "A snack machine which does not sell chocolate."
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_19┼-28┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -46269,6 +46698,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_19┼-28┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "LightSource@0",
                   "Data": [
                     {
@@ -46300,6 +46738,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_19┼-28┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -46350,6 +46797,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_29┼-23┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -46531,7 +46987,17 @@
             "Name": "AirlockGrunge",
             "LocalPRS": "22┼-25┼0┼",
             "Object": {
-              "ClassDatas": [],
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_19┼-28┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
               "Children": [
                 {
                   "ID": "0,1",
@@ -46642,6 +47108,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_30┼-27┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -46673,7 +47148,20 @@
             "GitID": "bc2878fc1e4346c41bf6bc3b53b91f6a_23┼-21┼0┼",
             "PrefabID": "bc2878fc1e4346c41bf6bc3b53b91f6a",
             "Name": "Vendomat",
-            "LocalPRS": "23┼-21┼0┼"
+            "LocalPRS": "23┼-21┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_29┼-23┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "ed4e62dc12dca724ba1e5f374965096b_23┼-18┼0┼",
@@ -46710,7 +47198,20 @@
             "GitID": "1f10fce737097ce44affadeeb9bea4da_24┼-19┼0┼",
             "PrefabID": "1f10fce737097ce44affadeeb9bea4da",
             "Name": "AirlockGrunge",
-            "LocalPRS": "24┼-19┼0┼"
+            "LocalPRS": "24┼-19┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_29┼-23┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "7e519f2e00da68f4db6a61b480f78d51_24┼-13┼0┼",
@@ -46785,6 +47286,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_30┼-27┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "LightSource@0",
                   "Data": [
                     {
@@ -46822,6 +47332,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_30┼-27┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -46870,6 +47389,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_29┼-27┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -46910,6 +47438,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_29┼-23┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -47036,6 +47573,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_29┼-23┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -47081,6 +47627,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_29┼-23┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -47120,7 +47675,17 @@
             "Name": "AirlockGrunge",
             "LocalPRS": "27┼-23┼0┼",
             "Object": {
-              "ClassDatas": [],
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_29┼-23┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
               "Children": [
                 {
                   "ID": "0,1",
@@ -47143,13 +47708,39 @@
             "GitID": "7dea0790d26246447a9b881689c7dbdf_27┼-15┼0┼",
             "PrefabID": "7dea0790d26246447a9b881689c7dbdf",
             "Name": "AirlockExternalWindowed",
-            "LocalPRS": "27┼-15┼0┼"
+            "LocalPRS": "27┼-15┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_29┼-23┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "7dea0790d26246447a9b881689c7dbdf_27┼-13┼0┼",
             "PrefabID": "7dea0790d26246447a9b881689c7dbdf",
             "Name": "AirlockExternalWindowed",
-            "LocalPRS": "27┼-13┼0┼"
+            "LocalPRS": "27┼-13┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_29┼-23┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "7e519f2e00da68f4db6a61b480f78d51_27┼-10┼0┼",
@@ -47230,6 +47821,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_29┼-23┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -47262,7 +47862,20 @@
             "GitID": "54a552cbe4002ac44ae29b958a90e545_28┼-19┼0┼",
             "PrefabID": "54a552cbe4002ac44ae29b958a90e545",
             "Name": "AirlockPublicWindowed",
-            "LocalPRS": "28┼-19┼0┼"
+            "LocalPRS": "28┼-19┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_29┼-23┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "f627f521648102c4eabde22aa64b7482_28┼-11┼0┼",
@@ -47320,7 +47933,17 @@
             "Name": "AirlockExternalWindowed",
             "LocalPRS": "29┼-36┼0┼",
             "Object": {
-              "ClassDatas": [],
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_29┼-27┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
               "Children": [
                 {
                   "ID": "0,1",
@@ -47803,6 +48426,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_29┼-27┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "LightSource@0",
                   "Data": [
                     {
@@ -47840,6 +48472,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_30┼-27┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -47885,6 +48526,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_30┼-27┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -47925,6 +48575,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_29┼-27┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -47987,7 +48646,17 @@
             "Name": "AirlockExternalWindowed",
             "LocalPRS": "32┼-36┼0┼",
             "Object": {
-              "ClassDatas": [],
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_29┼-27┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
               "Children": [
                 {
                   "ID": "0,1",
@@ -48068,6 +48737,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_29┼-23┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -48118,6 +48796,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_29┼-23┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -48153,6 +48840,15 @@
             "Object": {
               "ClassDatas": [
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_29┼-23┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -48172,6 +48868,15 @@
             "Object": {
               "ClassDatas": [
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_29┼-23┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -48190,6 +48895,15 @@
             "LocalPRS": "32┼-16┼0┼",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_29┼-23┼0┼@0@APC@0"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "Rotatable@0",
                   "Data": [
@@ -48215,6 +48929,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_29┼-23┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -48265,6 +48988,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_30┼-27┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -48337,6 +49069,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_29┼-27┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -48491,6 +49232,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_29┼-27┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -48535,6 +49285,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_29┼-27┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -48575,6 +49334,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_29┼-27┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -48629,6 +49397,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_29┼-27┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -48669,6 +49446,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_29┼-27┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -48813,7 +49599,17 @@
             "Name": "AirlockGrunge",
             "LocalPRS": "37┼-19┼0┼",
             "Object": {
-              "ClassDatas": [],
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_37┼-21┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
               "Children": [
                 {
                   "ID": "0,1",
@@ -48845,6 +49641,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_37┼-21┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -48961,6 +49766,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_38┼-30┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -49141,6 +49955,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_38┼-30┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -49397,6 +50220,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_37┼-21┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "LightSource@0",
                   "Data": [
                     {
@@ -49488,6 +50320,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_37┼-21┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -49532,6 +50373,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_38┼-30┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -49565,6 +50415,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_38┼-30┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -49609,6 +50468,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_38┼-30┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -49709,6 +50577,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_38┼-30┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -49781,6 +50658,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_38┼-30┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "LightSource@0",
                   "Data": [
                     {
@@ -49846,6 +50732,15 @@
                     {
                       "Name": "Resistances@AcidProof",
                       "Data": "False"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_37┼-21┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -50070,6 +50965,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_38┼-30┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -50103,6 +51007,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_38┼-30┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -50144,6 +51057,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_37┼-21┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "LightSource@0",
                   "Data": [
                     {
@@ -50175,6 +51097,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_37┼-21┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -50282,6 +51213,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_38┼-30┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -50326,6 +51266,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_38┼-30┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -50366,6 +51315,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_38┼-30┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -50631,6 +51589,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_38┼-30┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -50664,6 +51631,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_38┼-30┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -50716,6 +51692,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_38┼-30┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -50753,6 +51738,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_37┼-21┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "LightSource@0",
                   "Data": [
                     {
@@ -50784,6 +51778,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_37┼-21┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -50828,6 +51831,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_38┼-30┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -50891,6 +51903,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_38┼-30┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -50962,6 +51983,15 @@
                   ]
                 },
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_38┼-30┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "LightSource@0",
                   "Data": [
                     {
@@ -50993,6 +52023,15 @@
                     {
                       "Name": "Armor@Melee",
                       "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_38┼-30┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -51030,7 +52069,17 @@
             "Name": "AirlockHighSecurity",
             "LocalPRS": "53┼-28┼0┼",
             "Object": {
-              "ClassDatas": [],
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_38┼-30┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
               "Children": [
                 {
                   "ID": "0,1",

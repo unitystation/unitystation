@@ -1,6 +1,8 @@
 using System;
+using Core.Utils;
 using Mirror;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Weapons.ActivatableWeapons
 {
@@ -15,6 +17,14 @@ namespace Weapons.ActivatableWeapons
 
 		public Action ClientOnActivate;
 		public Action ClientOnDeactivate;
+
+		public MultiInterestBool canActivate = new(true,
+			MultiInterestBool.RegisterBehaviour.RegisterFalse,
+			MultiInterestBool.BoolBehaviour.ReturnOnFalse);
+
+		public MultiInterestBool canDeactivate = new(true,
+			MultiInterestBool.RegisterBehaviour.RegisterFalse,
+			MultiInterestBool.BoolBehaviour.ReturnOnFalse);
 
 		public void SyncState(bool oldState, bool newState)
 		{
@@ -38,16 +48,16 @@ namespace Weapons.ActivatableWeapons
 
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			if (isActive)
+			if (isActive && canDeactivate)
 			{
 				ServerOnDeactivate?.Invoke(interaction.Performer);
+				SyncState(isActive, !isActive);
 			}
-			else
+			else if (canActivate)
 			{
 				ServerOnActivate?.Invoke(interaction.Performer);
+				SyncState(isActive, !isActive);
 			}
-			SyncState(isActive, !isActive);
-
 		}
 	}
 }
