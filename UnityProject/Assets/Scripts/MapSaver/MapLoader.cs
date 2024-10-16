@@ -261,10 +261,8 @@ namespace MapSaver
 					if (CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab.ForeverIDLookupSpawnablePrefabs
 						    .Count == 0)
 					{
-						CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab.ForeverIDLookupSpawnablePrefabs
-							.Clear();
-						CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab
-							.SetUpSpawnablePrefabsForEverIDManual();
+						CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab.ForeverIDLookupSpawnablePrefabs.Clear();
+						CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab.SetUpSpawnablePrefabsForEverIDManual();
 						CustomNetworkManager.Instance = CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab;
 					}
 
