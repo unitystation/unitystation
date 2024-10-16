@@ -20,7 +20,7 @@ using UnityEngine;
 public class InteractableStorage : NetworkBehaviour, IClientInteractable<HandActivate>,
 	IClientInteractable<InventoryApply>,
 	ICheckedInteractable<InventoryApply>, ICheckedInteractable<PositionalHandApply>,
-	ICheckedInteractable<HandApply>, ICheckedInteractable<MouseDrop>, IActionGUI, IItemInOutMovedPlayer, IHoverTooltip
+	ICheckedInteractable<HandApply>, ICheckedInteractable<MouseDrop>, IGameActionHolder, IItemInOutMovedPlayer, IHoverTooltip
 {
 	/// <summary>
 	/// The click pickup mode.

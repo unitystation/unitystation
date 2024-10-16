@@ -21,19 +21,19 @@ public interface IGameActionHolder : IServerDespawn
 	}
 }
 
-///Using both IActionGUI and IActionGUIMULTI on a script will not work!!!, USE ONLY ONE OF THE Interface Types!!!///
+///Using both IGameActionHolder and IActionGUIMULTI on a script will not work!!!, USE ONLY ONE OF THE Interface Types!!!///
 
 /// <summary>
 /// Simply implement this to Implement your Networked screen action
 /// </summary>
-public interface IServerActionGUI : IActionGUI
+public interface IServerActionGUI : IGameActionHolder
 {
 	void CallActionServer(PlayerInfo playerInfo); //Requires validation in this
 }
 
 //some example classes
 /*
-public class __ExampleIActionGUI__ : IActionGUI
+public class __ExampleIActionGUI__ : IGameActionHolder
 {
 	[SerializeField]
 	private ActionData actionData = null;

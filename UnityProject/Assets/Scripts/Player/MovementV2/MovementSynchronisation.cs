@@ -30,7 +30,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
-public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable, IActionGUI, ICooldown,
+public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable, IGameActionHolder, ICooldown,
 	IBumpableObject, ICheckedInteractable<ContextMenuApply>
 {
 	public bool IsPressedCashed;
@@ -112,7 +112,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	}
 
 	public ActionData actionData;
-	ActionData IActionGUI.ActionData => actionData;
+	ActionData IGameActionHolder.ActionData => actionData;
 
 	public bool IsBumping = false;
 
