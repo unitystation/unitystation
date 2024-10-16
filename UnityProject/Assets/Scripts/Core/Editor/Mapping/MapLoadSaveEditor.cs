@@ -17,11 +17,11 @@ public class FileSelectorWindow : EditorWindow
 	private string folderPath = "";
 	private string[] fileNames;
 
-	[MenuItem("Mapping/MapLoader_Saver")]
+	[MenuItem("Mapping/𓃡𓃡 Map Loader Saver Selector 𓃡𓃡")]
 	public static void ShowWindow()
 	{
 		// Create and show the editor window
-		GetWindow<FileSelectorWindow>("File Selector");
+		GetWindow<FileSelectorWindow>("𓃡𓃡 Map Loader Saver Selector 𓃡𓃡");
 	}
 
 // Key to store the selected file name in EditorPrefs
