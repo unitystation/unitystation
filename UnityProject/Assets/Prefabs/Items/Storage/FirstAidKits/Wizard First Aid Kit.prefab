@@ -14,6 +14,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 003d7b17ba64d0043876779bd2e847e9,
         type: 2}
+    - target: {fileID: 2490630288303511261, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 003d7b17ba64d0043876779bd2e847e9,
+        type: 2}
     - target: {fileID: 3417345767468294455, guid: d0eb5dacbdcd4844e8c76aabde50434f,
         type: 3}
       propertyPath: parentID
@@ -24,6 +30,18 @@ PrefabInstance:
       propertyPath: foreverID
       value: c7b3e5dba3b250b469a1eba65c03fc82
       objectReference: {fileID: 0}
+    - target: {fileID: 4262289884360340554, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: 'craftItem.Array.data[0]'
+      value: 
+      objectReference: {fileID: 7029765293304545759, guid: 40e2b6f8f7fbcdb4cbe892093907ef91,
+        type: 3}
+    - target: {fileID: 4262289884360340554, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: 'craftItem.Array.data[1]'
+      value: 
+      objectReference: {fileID: 7185978976352611110, guid: 0af3fb6f8543f0b4b914da932bd18ea0,
+        type: 3}
     - target: {fileID: 5001233986007465718, guid: d0eb5dacbdcd4844e8c76aabde50434f,
         type: 3}
       propertyPath: BasePurity

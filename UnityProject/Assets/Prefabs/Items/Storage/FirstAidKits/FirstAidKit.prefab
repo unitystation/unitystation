@@ -126,6 +126,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 841ce8a44ce181947b4e673666d0a4b0,
         type: 2}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: c95fc724dabd6ad4aa081ca1df404665,
+        type: 2}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 841ce8a44ce181947b4e673666d0a4b0,
+        type: 2}
     - target: {fileID: 4421781600494999209, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
       propertyPath: itemStorageCapacity
@@ -146,6 +158,12 @@ PrefabInstance:
     - target: {fileID: 7482199438493803764, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 86bdd8fb62a1fba46917d9efe4dd19f6,
+        type: 2}
+    - target: {fileID: 7482199438493803764, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 86bdd8fb62a1fba46917d9efe4dd19f6,
         type: 2}
@@ -207,7 +225,7 @@ MonoBehaviour:
   materialCost: 0
   reagentContainer: 0
   craftItem:
-  - {fileID: 1964728513064046117, guid: 6288c623448564447ad3e18185754a58, type: 3}
-  - {fileID: 8800609691600052549, guid: 05849a8c832dadc4dbdbb0e5bbe37ec8, type: 3}
+  - {fileID: 7185978976352611110, guid: 0af3fb6f8543f0b4b914da932bd18ea0, type: 3}
+  - {fileID: 7029765293304545759, guid: 40e2b6f8f7fbcdb4cbe892093907ef91, type: 3}
   assembly: {fileID: 5914959498962467419, guid: 6c3917fe0f6cb4b4b912f686cbc05d7f,
     type: 3}

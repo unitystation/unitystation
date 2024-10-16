@@ -31,6 +31,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3871032415882939504, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 295dcd44e2fe7b049a64f84141a18b6f,
+        type: 2}
+    - target: {fileID: 3871032415882939504, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
       propertyPath: SubCatalogue.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -104,6 +110,11 @@ PrefabInstance:
         type: 3}
       propertyPath: welderSprites.Array.size
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4591132913751966026, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
+      propertyPath: fuelRegenerationPerSecond
+      value: 0.025
       objectReference: {fileID: 0}
     - target: {fileID: 4591132913751966026, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
@@ -255,9 +266,21 @@ PrefabInstance:
       objectReference: {fileID: 2800000, guid: a1e525df28e0fe0428a6fa08db9aa7a7, type: 3}
     - target: {fileID: 7355274273567987861, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ba3d2a2d9f7c8344a946fa411b385829,
+        type: 2}
+    - target: {fileID: 7355274273567987861, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
       propertyPath: itemSprites.LeftHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 247a744420f1fda4d8b52b4594927ed4, type: 3}
+    - target: {fileID: 7355274273567987861, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: b8951e7732642b349b57e0b66cf14762,
+        type: 2}
     - target: {fileID: 7355274273567987861, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
       propertyPath: itemSprites.RightHand.EquippedData
@@ -382,6 +405,12 @@ PrefabInstance:
     - target: {fileID: 9182518269629492315, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 295dcd44e2fe7b049a64f84141a18b6f,
+        type: 2}
+    - target: {fileID: 9182518269629492315, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 295dcd44e2fe7b049a64f84141a18b6f,
         type: 2}

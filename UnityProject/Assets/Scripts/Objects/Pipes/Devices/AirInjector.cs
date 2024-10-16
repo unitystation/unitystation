@@ -122,6 +122,7 @@ namespace Objects.Atmospherics
 
 			if (metaNode == null || metaNode.Exists == false)
 			{
+				if (metaDataLayer == null || registerTile == null) return;
 				metaNode = metaDataLayer.Get(registerTile.LocalPositionServer);
 			}
 

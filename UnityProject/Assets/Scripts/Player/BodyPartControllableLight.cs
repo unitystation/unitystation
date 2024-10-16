@@ -10,6 +10,10 @@ public class BodyPartControllableLight : BodyPartFunctionality
 	private ItemLightControl ItemLightControl;
 	private ItemActionButton actionButton;
 
+	[SerializeField] private SpriteDataSO baseEyeSprite;
+	[SerializeField] private SpriteDataSO litEyeSprite;
+
+
 	private void Awake()
 	{
 		ItemLightControl = GetComponent<ItemLightControl>();
@@ -54,11 +58,14 @@ public class BodyPartControllableLight : BodyPartFunctionality
 			ItemLightControl.Toggle(true);
 			ItemLightControl.SetColor(IntensityColours[ColourIndex].Color);
 			ItemLightControl.SetSize(IntensityColours[ColourIndex].Size);
+			RelatedPart.SpritePrefab.UpdateSpritesForImplant(RelatedPart, Systems.Clothing.ClothingHideFlags.HIDE_NONE, litEyeSprite, RelatedPart.SpritePrefab.SpriteOrder);
+			
 		}
 		else
 		{
 			Index = 0;
 			ItemLightControl.Toggle(false);
+			RelatedPart.SpritePrefab.UpdateSpritesForImplant(RelatedPart, Systems.Clothing.ClothingHideFlags.HIDE_NONE, baseEyeSprite, RelatedPart.SpritePrefab.SpriteOrder);
 		}
 	}
 

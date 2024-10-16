@@ -66,6 +66,42 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 8683e5618e6a7924a9756e98ce1369e3
       objectReference: {fileID: 0}
+    - target: {fileID: 114285118255153820, guid: c4494414d24d2f2468e74daa79468631,
+        type: 3}
+      propertyPath: RaceBodyparts
+      value: 
+      objectReference: {fileID: 11400000, guid: e9ff315a55db70441bed9631f79432e4,
+        type: 2}
+    - target: {fileID: 114285118255153820, guid: c4494414d24d2f2468e74daa79468631,
+        type: 3}
+      propertyPath: ThisCharacter.Species
+      value: Cyborg
+      objectReference: {fileID: 0}
+    - target: {fileID: 114285118255153820, guid: c4494414d24d2f2468e74daa79468631,
+        type: 3}
+      propertyPath: ThisCharacter.BodyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114285118255153820, guid: c4494414d24d2f2468e74daa79468631,
+        type: 3}
+      propertyPath: ThisCharacter.PlayerPronoun
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114617133355526680, guid: c4494414d24d2f2468e74daa79468631,
+        type: 3}
+      propertyPath: characterSettings.Species
+      value: Cyborg
+      objectReference: {fileID: 0}
+    - target: {fileID: 114617133355526680, guid: c4494414d24d2f2468e74daa79468631,
+        type: 3}
+      propertyPath: characterSettings.BodyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114617133355526680, guid: c4494414d24d2f2468e74daa79468631,
+        type: 3}
+      propertyPath: characterSettings.PlayerPronoun
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3160124018402396833, guid: c4494414d24d2f2468e74daa79468631,
         type: 3}
       propertyPath: Populater.DeprecatedContents.Array.size

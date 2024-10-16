@@ -28,12 +28,34 @@ MonoBehaviour:
     prefabID: base
     techType: 0
     ColourPublic: {r: 0.21568628, g: 0.49803922, b: 0.9490196, a: 1}
+  - ID: cyborgs
+    DisplayName: Cybernetics
+    Description: Advanced actuators and components for constructing cyborgs.
+    StartingNode: 0
+    RequiredTechnologies:
+    - base
+    DesignIDs:
+    - cyborg_head
+    - cyborg_torso
+    - cyborg_chassis
+    - cyborg_leftarm
+    - cyborg_rightarm
+    - cyborg_leftleg
+    - cyborg_rightleg
+    - battery_pack
+    - cyborg_lights
+    ResearchCosts: 20
+    ExportPrice: 0
+    PotentialUnlocks: []
+    prefabID: cyborgs
+    techType: 1
+    ColourPublic: {r: 0.4627451, g: 0.06666667, b: 0.4745098, a: 1}
   - ID: synthorgan
     DisplayName: Synthetic Organs
     Description: Mechanical replacements for living organs. Improved and refined.
     StartingNode: 1
     RequiredTechnologies:
-    - base
+    - cyborgs
     DesignIDs:
     - cyber_heart
     - cyber_lung
@@ -55,34 +77,12 @@ MonoBehaviour:
     - ci_breather
     - ci_reviver
     - ci_weldshield
-    ResearchCosts: 30
+    ResearchCosts: 25
     ExportPrice: 0
     PotentialUnlocks: []
     prefabID: synth
     techType: 1
     ColourPublic: {r: 0.69803923, g: 0.8901961, b: 0.65882355, a: 1}
-  - ID: cyborgs
-    DisplayName: Advanced Cybernetics
-    Description: Advanced actuators and components for constructing cyborgs.
-    StartingNode: 0
-    RequiredTechnologies:
-    - synthorgan
-    DesignIDs:
-    - cyborg_head
-    - cyborg_torso
-    - cyborg_chassis
-    - cyborg_leftarm
-    - cyborg_rightarm
-    - cyborg_leftleg
-    - cyborg_rightleg
-    - battery_pack
-    - cyborg_lights
-    ResearchCosts: 25
-    ExportPrice: 0
-    PotentialUnlocks: []
-    prefabID: cyborgs
-    techType: 1
-    ColourPublic: {r: 0.4627451, g: 0.06666667, b: 0.4745098, a: 1}
   - ID: ais
     DisplayName: Robotic Intelligence
     Description: The newest in artifical intelligence, and the technology needed

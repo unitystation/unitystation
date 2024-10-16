@@ -100,6 +100,17 @@ PrefabInstance:
       value: Structure that can hold five power cells, able to interface with cyborgs
         as a portable power supply.
       objectReference: {fileID: 0}
+    - target: {fileID: 4490847932940167273, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4490847932940167273, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 57eb2d1faf36d2040ade08046da48bfa,
+        type: 2}
     - target: {fileID: 6919096067490597734, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
       propertyPath: parentID
@@ -113,6 +124,12 @@ PrefabInstance:
     - target: {fileID: 7924426477701790860, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 436c360190de82d478b504bc06616f54,
+        type: 2}
+    - target: {fileID: 7924426477701790860, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 436c360190de82d478b504bc06616f54,
         type: 2}
@@ -227,6 +244,7 @@ MonoBehaviour:
       UseIndex: 1
       IndexSlot: 0
       NamedSlot: 0
+      AlternativeNamedSlots: 
       IfOccupiedFindEmptySlot: 1
       ReplacementStrategy: 1
       namedSlotPopulatorEntrys: []
@@ -236,6 +254,7 @@ MonoBehaviour:
       UseIndex: 1
       IndexSlot: 0
       NamedSlot: 0
+      AlternativeNamedSlots: 
       IfOccupiedFindEmptySlot: 1
       ReplacementStrategy: 1
       namedSlotPopulatorEntrys: []
@@ -245,6 +264,7 @@ MonoBehaviour:
       UseIndex: 1
       IndexSlot: 0
       NamedSlot: 0
+      AlternativeNamedSlots: 
       IfOccupiedFindEmptySlot: 1
       ReplacementStrategy: 1
       namedSlotPopulatorEntrys: []
@@ -254,6 +274,7 @@ MonoBehaviour:
       UseIndex: 1
       IndexSlot: 0
       NamedSlot: 0
+      AlternativeNamedSlots: 
       IfOccupiedFindEmptySlot: 1
       ReplacementStrategy: 1
       namedSlotPopulatorEntrys: []
@@ -263,10 +284,12 @@ MonoBehaviour:
       UseIndex: 1
       IndexSlot: 0
       NamedSlot: 0
+      AlternativeNamedSlots: 
       IfOccupiedFindEmptySlot: 1
       ReplacementStrategy: 1
       namedSlotPopulatorEntrys: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
+  initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}

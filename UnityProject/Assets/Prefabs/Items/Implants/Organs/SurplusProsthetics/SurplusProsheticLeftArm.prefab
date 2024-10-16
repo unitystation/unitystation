@@ -1,0 +1,125 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1612536782144914027
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 57122120254396483, guid: 585f7940006c103438a04d518e216aae,
+        type: 3}
+      propertyPath: m_Name
+      value: SurplusProsheticLeftArm
+      objectReference: {fileID: 0}
+    - target: {fileID: 61205844182754615, guid: 585f7940006c103438a04d518e216aae,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 61205844182754615, guid: 585f7940006c103438a04d518e216aae,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 61205844182754615, guid: 585f7940006c103438a04d518e216aae,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 61205844182754615, guid: 585f7940006c103438a04d518e216aae,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 61205844182754615, guid: 585f7940006c103438a04d518e216aae,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 61205844182754615, guid: 585f7940006c103438a04d518e216aae,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 61205844182754615, guid: 585f7940006c103438a04d518e216aae,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 61205844182754615, guid: 585f7940006c103438a04d518e216aae,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 61205844182754615, guid: 585f7940006c103438a04d518e216aae,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 61205844182754615, guid: 585f7940006c103438a04d518e216aae,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 98733790916683255, guid: 585f7940006c103438a04d518e216aae,
+        type: 3}
+      propertyPath: _assetId
+      value: 1836822258
+      objectReference: {fileID: 0}
+    - target: {fileID: 160728640583215903, guid: 585f7940006c103438a04d518e216aae,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 51f616a6dbd762c4ab21ccb3846bbc94,
+        type: 3}
+    - target: {fileID: 443440667450504993, guid: 585f7940006c103438a04d518e216aae,
+        type: 3}
+      propertyPath: initialName
+      value: prosthetic left arm
+      objectReference: {fileID: 0}
+    - target: {fileID: 443440667450504993, guid: 585f7940006c103438a04d518e216aae,
+        type: 3}
+      propertyPath: initialDescription
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2922050907592053435, guid: 585f7940006c103438a04d518e216aae,
+        type: 3}
+      propertyPath: itemStorageStructure
+      value: 
+      objectReference: {fileID: 11400000, guid: c98166b4cf3dbc946a89ac6356e48fdc,
+        type: 2}
+    - target: {fileID: 3526826071731741663, guid: 585f7940006c103438a04d518e216aae,
+        type: 3}
+      propertyPath: BodyPartType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3526826071731741663, guid: 585f7940006c103438a04d518e216aae,
+        type: 3}
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 75daacd150eb34b47bdf127f59b739a1,
+        type: 2}
+    - target: {fileID: 3526826071731741663, guid: 585f7940006c103438a04d518e216aae,
+        type: 3}
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 992d09f3670837845bec40346b8b7175,
+        type: 2}
+    - target: {fileID: 6164565269939626948, guid: 585f7940006c103438a04d518e216aae,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c2f1a6ee1af61794db1c95562c182758,
+        type: 2}
+    - target: {fileID: 6372674424893543470, guid: 585f7940006c103438a04d518e216aae,
+        type: 3}
+      propertyPath: foreverID
+      value: dc0ead402ebca3540984fe8107a9df93
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 585f7940006c103438a04d518e216aae, type: 3}

@@ -113,6 +113,7 @@ MonoBehaviour:
   exportMessage: 
   noMouseHighlight: 0
   initialTraits: []
+  IsMapped: 0
   initialSize: 3
   hitDamage: 0
   ShowHitDamage: 1
@@ -120,6 +121,7 @@ MonoBehaviour:
   throwDamage: 0
   traumaDamageChance: 0
   TraumaticDamageType: 0
+  blockChance: 0
   throwSpeed: 2
   throwRange: 7
   hitSound:
@@ -131,6 +133,14 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   hitSoundSettings: 0
+  blockSound:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
   inventoryMoveSound:
     SetLoadSetting: 0
     AssetAddress: 
@@ -151,7 +161,7 @@ MonoBehaviour:
   isEVACapable: 0
   attackVerbs: []
   CanBeUsedOnSelfOnHelpIntent: 0
-  itemSprites:
+  InitialitemSprites:
     SpriteInventoryIcon: {fileID: 0}
     SpriteLeftHand: {fileID: 0}
     SpriteRightHand: {fileID: 0}
@@ -303,6 +313,7 @@ MonoBehaviour:
   HeatResistance: 100
   ExplosionsDamage: 100
   doDamageMessage: 1
+  logDamage: 0
 --- !u!114 &8520176200339000472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,7 +349,7 @@ MonoBehaviour:
   armLast: 0
   stageParts:
   - {fileID: 6513434798660266608, guid: f5de4bfc8649c7a428e694010049af77, type: 3}
-  - {fileID: 8800609691600052549, guid: 05849a8c832dadc4dbdbb0e5bbe37ec8, type: 3}
+  - {fileID: 7185978976352611110, guid: 0af3fb6f8543f0b4b914da932bd18ea0, type: 3}
   stageSprite:
   - {fileID: 21300000, guid: 637acabec9cccee4ab43ba8edd1e2657, type: 3}
   - {fileID: 21300000, guid: 7da44ca2160b17549bbada5b5a140f67, type: 3}
@@ -372,7 +383,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  BuckledToObject: {fileID: 0}
+  BuckleOffset: {x: 0, y: 0, z: 0}
   LocalDifferenceNeeded: {x: 0, y: 0}
+  newtonianMovement: {x: 0, y: 0}
   LocalTargetPosition: {x: 0, y: 0, z: 0}
   CorrectingCourse: 0
   Animating: 0
@@ -382,7 +396,6 @@ MonoBehaviour:
   spinMagnitude: 0
   thrownBy: {fileID: 0}
   thrownProtection: {fileID: 0}
-  aim: 0
   ForcedPushedFrame: 0
   TryPushedFrame: 0
   PushedFrame: 0
@@ -391,12 +404,9 @@ MonoBehaviour:
   MappingIntangible: 0
   SnapToGridOnStart: 0
   IsPlayer: 0
-  DEBUG: 0
+  ObjectBouncyness: 0.75
   tileMoveSpeed: 1
   HasOwnGravity: 0
-  isNotPushable: 0
-  CanBeWindPushed: 1
-  rotationTarget: {fileID: 0}
   stickyMovement: 0
   OnThrowEndResetRotation: 0
   maximumStickSpeed: 1.5
@@ -406,14 +416,18 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   IsCurrentlyFloating: 0
-  Pushing: []
   Hits: []
   isFlyingSliding: 0
   IsMoving: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
   TimeSpentFlying: 0
-  BuckledToObject: {fileID: 0}
+  DEBUG: 0
+  isNotPushable: 0
+  Pushing: []
+  CanBeWindPushed: 1
+  canResetRotationFromRightClick: 0
+  rotationTarget: {fileID: 0}
 --- !u!1 &8624070390823707658
 GameObject:
   m_ObjectHideFlags: 0
@@ -515,12 +529,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 5279f6047c52ad649bce422031dc55aa, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 5279f6047c52ad649bce422031dc55aa,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []

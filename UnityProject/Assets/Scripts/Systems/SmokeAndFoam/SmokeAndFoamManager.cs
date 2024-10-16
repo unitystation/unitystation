@@ -40,6 +40,8 @@ public class SmokeAndFoamManager : SingletonManager<SmokeAndFoamManager>
 		SourceReservoir.PerTile.Multiply(SourceReservoir.ReagentPurity);
 		SourceReservoir.StacksLeft = AmountOfSmoke;
 
+		Container.Take(AmountOfSmoke - 1);
+
 		var Matrix = MatrixManager.AtPoint(PositionWorld, true);
 		if (Matrix == MatrixManager.Instance.spaceMatrix.MatrixInfo)
 		{
