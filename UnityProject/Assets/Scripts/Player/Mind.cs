@@ -25,7 +25,7 @@ using static Core.Physics.UniversalObjectPhysics;
 /// IC character information (job role, antag info, real name, etc). A body and their ghost link to the same mind
 /// SERVER SIDE VALID ONLY, is not sync'd
 /// </summary>
-public class Mind : NetworkBehaviour, IActionGUI
+public class Mind : NetworkBehaviour, IActionGUI, IGameActionContainer
 {
 	[SyncVar(hook = nameof(SyncActiveOn))] private uint IDActivelyControlling;
 
@@ -166,10 +166,10 @@ public class Mind : NetworkBehaviour, IActionGUI
 
 	public bool DenyCloning;
 	public int bodyMobID;
-	public FloorSounds StepSound; //Why is this on the mind!!!, Should be on the body
+	public FloorSounds StepSound; //Why is this on the mind!!!, Should be on the body, update 22 months later: WHY IS THIS STILL ON MIND
 	public FloorSounds SecondaryStepSound;
 
-	private string pdaUplinkCode = "";
+	private string pdaUplinkCode = ""; //this should be on uplinks, not minds
 
 	// Current way to check if it's not actually a ghost but a spectator, should set this not have it be the below.
 
@@ -186,6 +186,10 @@ public class Mind : NetworkBehaviour, IActionGUI
 
 	private ObservableCollection<Spell> spells = new ObservableCollection<Spell>();
 	public ObservableCollection<Spell> Spells => spells;
+
+	public Dictionary<string, IGameActionHolder> OwnedActions {get; set;} = new();
+
+	private Dictionary<string, IGameActionHolder> availableActions = new();
 
 	/// <summary>
 	/// General purpose properties storage for misc stuff like job-specific flags
@@ -226,6 +230,8 @@ public class Mind : NetworkBehaviour, IActionGUI
 	}
 
 	private GhostMove Move;
+
+	public string ActionGuid => UIActionManager.RegisterAction(this);
 
 	// use Create to create a mind.
 	public void Awake()

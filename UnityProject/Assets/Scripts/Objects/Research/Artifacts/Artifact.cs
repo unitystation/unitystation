@@ -13,7 +13,7 @@ using Mirror;
 using Systems.Atmospherics;
 using ScriptableObjects.Atmospherics;
 using CustomInspectors;
-using SecureStuff;
+//using SecureStuff;
 using Systems.Cargo;
 using Random = UnityEngine.Random;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
@@ -70,7 +70,7 @@ namespace Objects.Research
 
 		private Coroutine animationCoroutine = null;
 
-		[SyncVar, PlayModeOnly] public ArtifactData artifactData = new ArtifactData();
+		[SyncVar/*, PlayModeOnly*/] public ArtifactData artifactData = new ArtifactData();
 
 		public ArtifactDataSO ArtifactDataSO;
 
@@ -88,7 +88,7 @@ namespace Objects.Research
 		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
 
 
-		[SyncVar, PlayModeOnly] public string ID = "T376";
+		[SyncVar, /*PlayModeOnly*/] public string ID = "T376";
 
 
 		public bool UnderTimeoutTouch

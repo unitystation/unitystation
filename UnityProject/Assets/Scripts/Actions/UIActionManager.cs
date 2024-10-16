@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +18,12 @@ namespace UI.Core.Action
 	/// </summary>
 	public class UIActionManager : MonoBehaviour
 	{
-
-		public class ActionAndData
+		//might be unused
+		/*public class ActionAndData
 		{
 			public ActionData ActionData;
 			public string ID;
-		}
+		}*/
 
 
 		private Dictionary<GameObject, List<IActionGUI>> ActivePlayerActions = new Dictionary<GameObject, List<IActionGUI>>();
@@ -31,6 +32,10 @@ namespace UI.Core.Action
 		private Dictionary<IActionGUI, string> IActionGUIToID = new Dictionary<IActionGUI, string>();
 		private Dictionary<IActionGUI, string> ClientIActionGUIToID = new Dictionary<IActionGUI, string>();
 
+		/// <summary>
+		/// The dict of all actions keyed to their UUID
+		/// </summary>
+		private Dictionary<string, IGameActionHolder> AllActionsByKey = new();
 
 		public Dictionary<GameObject, Dictionary<IActionGUIMulti, List<ActionData>>> MultiActivePlayerActions = new Dictionary<GameObject, Dictionary<IActionGUIMulti, List<ActionData>>>();
 
@@ -88,6 +93,7 @@ namespace UI.Core.Action
 		private static UIActionManager uIActionManager;
 		public static UIActionManager Instance => FindUtils.LazyFindObject(ref uIActionManager);
 
+		#region Clientside vars
 		/// <summary>
 		/// Returns true if an action that is aimable is active.
 		/// </summary>
@@ -96,11 +102,11 @@ namespace UI.Core.Action
 		public UIAction UIAction;
 		public List<UIAction> PooledUIAction = new List<UIAction>();
 
-		public Dictionary<IAction, List<UIAction>> DicIActionGUI = new Dictionary<IAction, List<UIAction>>();
+		public Dictionary<IGameActionHolder, List<UIAction>> DicIActionGUI = new Dictionary<IGameActionHolder, List<UIAction>>();
 
 		public UIAction ActiveAction { get; set; }
 		public bool HasActiveAction => ActiveAction != null;
-
+		#endregion Clientside vars
 
 		public void UpdatePlayer(GameObject Body, NetworkConnection requestedBy)
 		{
@@ -128,7 +134,39 @@ namespace UI.Core.Action
 		}
 
 
-		#region IActionGUI
+		#region IGameActionHolder
+		public static IGameActionHolder GetActionFromGuid(string key)
+		{
+			return Instance.AllActionsByKey[key];
+		}
+
+		/// <summary>
+		/// public wrapper for _RegisterAction()
+		/// </summary>
+		public static string RegisterAction(IGameActionHolder registeredAction)
+		{
+			if(Convert.ToBoolean(registeredAction.ActionGuid))
+			{
+				Loggy.LogError("UIActionManager.RegisterAction() being called on an action that already has a key, aborting.", Category.Actions);
+				return registeredAction.ActionGuid;
+			}
+			return Instance._RegisterAction(registeredAction);
+		}
+
+		/// <summary>
+		/// register an action holder with us, ideally you should call this ASAP after holder creation, returns the generated ActionKey
+		/// </summary>
+		private string _RegisterAction(IGameActionHolder registeredAction) //due to being wrapped we assume this is called in a safe context
+		{
+			string generatedGuid = Guid.NewGuid().ToString();
+			AllActionsByKey[generatedGuid] = registeredAction;
+			return generatedGuid;
+		}
+
+		public static void UnregisterAction(IGameActionHolder unregisteredAction)
+		{
+			Instance.AllActionsByKey[unregisteredAction.ActionGuid] = null;
+		}
 
 		/// <summary>
 		/// Set the action button visibility
@@ -331,7 +369,6 @@ namespace UI.Core.Action
 
 		private static void Show(string ID ,IActionGUI iActionGUI, GameObject body)
 		{
-
 			if (CustomNetworkManager.IsServer && body != null)
 			{
 				//Send message
@@ -350,7 +387,6 @@ namespace UI.Core.Action
 						break;
 					}
 				}
-
 				UIAction _UIAction;
 				if (Instance.PooledUIAction.Count > 0)
 				{
@@ -362,16 +398,13 @@ namespace UI.Core.Action
 					_UIAction = Instantiate(Instance.UIAction);
 					_UIAction.transform.SetParent(Instance.Panel.transform, false);
 				}
-
 				Instance.ClientIActionGUIToID[iActionGUI] = ID;
 				SpriteHandlerManager.RegisterSpecialHandler(ID + "F", _UIAction.IconFront); //Front icon
 				SpriteHandlerManager.RegisterSpecialHandler(ID + "B", _UIAction.IconBackground); //back icon
-
 				if (Instance.DicIActionGUI.ContainsKey(iActionGUI) == false)
 				{
 					Instance.DicIActionGUI.Add(iActionGUI, new List<UIAction>());
 				}
-
 				Instance.DicIActionGUI[iActionGUI].Add(_UIAction);
 				_UIAction.SetUp(iActionGUI);
 			}
@@ -420,7 +453,7 @@ namespace UI.Core.Action
 		{
 			if (this == null)
 			{
-				Debug.LogError("damn hell");
+				Debug.LogError("UIActionManager set to null on round end.");
 			}
 
 			foreach (var _Actions in DicIActionGUI)
@@ -431,7 +464,7 @@ namespace UI.Core.Action
 				}
 			}
 
-			DicIActionGUI = new Dictionary<IAction, List<UIAction>>();
+			DicIActionGUI = new Dictionary<IGameActionHolder, List<UIAction>>();
 		}
 
 		public static void ClearAllActionsServer()
@@ -760,7 +793,7 @@ namespace UI.Core.Action
 				SpriteHandlerManager.RegisterSpecialHandler(ID+"F", _UIAction.IconFront); //Front icon
 				SpriteHandlerManager.RegisterSpecialHandler(ID+"B", _UIAction.IconBackground); //back icon
 
-				_UIAction.SetUp(iActionGUIMulti, actionData);
+				_UIAction.SetUpMulti(iActionGUIMulti, actionData);
 			}
 		}
 
@@ -777,7 +810,7 @@ namespace UI.Core.Action
 			{
 				if (Instance.DicIActionGUI.ContainsKey(iActionGUIMulti))
 				{
-					var toRemove = new List<IAction>();
+					var toRemove = new List<IGameActionHolder>();
 					foreach (var actionButton in Instance.DicIActionGUI)
 					{
 						//Remove old button from list. Don't spawn the same button if it already exists!

@@ -1,4 +1,6 @@
-﻿using Logs;
+﻿using System;
+using Logs;
+using Systems.Spells;
 using UI.Core.Action;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -14,7 +16,7 @@ namespace UI.Action
 		public Transform CooldownOpacity;
 		public Text CooldownNumber;
 
-		public IAction iAction;
+		public IGameActionHolder iAction;
 		private ActionData actionData;
 		private static readonly Vector3 tooltipOffset = new Vector3(-40, -60);
 		private ActionTooltip Tooltip => UIActionManager.Instance.TooltipInstance;
@@ -49,8 +51,8 @@ namespace UI.Action
 				IconBackground.SetCatalogue(actionData.Backgrounds, 0, networked: false);
 			}
 		}
-
-		public void SetUp(IActionGUIMulti action, ActionData newActionData)
+		//copy pasta funny but im too lazy to do anything about it right now
+		public void SetUpMulti(IActionGUIMulti action, ActionData newActionData)
 		{
 			gameObject.SetActive(true);
 			iAction = action;
@@ -98,7 +100,7 @@ namespace UI.Action
 
 			if (actionData.IsToggle)
 			{
-				Toggle();
+				Toggle(true);
 				return;
 			}
 
@@ -173,16 +175,17 @@ namespace UI.Action
 			}
 		}
 
-		private void Toggle()
+		public void Toggle(bool ForceDisable = false)
 		{
 			if (UIActionManager.Instance.HasActiveAction && UIActionManager.Instance.ActiveAction != this)
 			{
-				UIActionManager.Instance.ActiveAction.Toggle(); // Toggle off whatever other action was active.
+				UIActionManager.Instance.ActiveAction.Toggle(true); // Toggle off whatever other action was active.
 			}
 
 			// The currently active action is this, so toggle it off.
 			if (UIActionManager.Instance.HasActiveAction)
 			{
+				if(!ForceDisable && ActionData.StaySelectedOnUse) return;
 				ToggleOff();
 			}
 			else
@@ -191,8 +194,12 @@ namespace UI.Action
 			}
 		}
 
-		private void ToggleOff()
+		public event System.Action OnToggleOff;
+
+		public void ToggleOff()
 		{
+			OnToggleOff?.Invoke();
+			Loggy.LogError("THE");
 			IconFront.SetSpriteSO(actionData.Sprites[0], networked: false);
 			UIActionManager.Instance.ActiveAction = null;
 
@@ -202,7 +209,7 @@ namespace UI.Action
 			}
 		}
 
-		private void ToggleOn()
+		public void ToggleOn()
 		{
 			IconFront.SetSpriteSO(actionData.ActiveSprite, networked: false);
 			UIActionManager.Instance.ActiveAction = this;
@@ -223,6 +230,11 @@ namespace UI.Action
 				bool isCentered = actionData.OffsetType == CursorOffsetType.Centered;
 				MouseInputController.SetCursorTexture(actionData.CursorTexture, isCentered);
 			}
+		}
+
+		private void OnDestroy()
+		{
+			OnToggleOff = null;
 		}
 	}
 }

@@ -66,6 +66,9 @@ public class ActionData : ScriptableObject
 	public bool HasCustomCursorOffset => cursorOffsetType == CursorOffsetType.Custom;
 	public CursorOffsetType OffsetType => cursorOffsetType;
 	public Vector2 CursorOffset => cursorOffset;
+	[Tooltip("Do we stay as the active action even after being used.")]
+	[SerializeField]
+	public bool StaySelectedOnUse = false;
 
 	public override string ToString()
 	{

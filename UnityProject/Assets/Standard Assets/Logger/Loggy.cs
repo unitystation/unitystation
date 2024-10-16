@@ -451,6 +451,11 @@ namespace Logs
 		Antags,
 
 		/// <summary>
+		/// Logs relating to actions
+		/// </summary>
+		Actions, //might replace all instances of Spells logging with this
+
+		/// <summary>
 		/// Logs relating to Wizard spells
 		/// </summary>
 		Spells,
