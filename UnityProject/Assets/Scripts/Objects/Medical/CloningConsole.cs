@@ -7,6 +7,7 @@ using HealthV2;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using Health.Sickness;
+using Items.Others;
 using Mirror;
 using Newtonsoft.Json;
 using Systems.Character;

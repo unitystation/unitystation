@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Items.Others;
 using UnityEngine;
 using TMPro;
 

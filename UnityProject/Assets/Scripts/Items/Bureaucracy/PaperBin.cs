@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Core;
+using Items.Others;
 using Mirror;
 using UnityEngine;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
