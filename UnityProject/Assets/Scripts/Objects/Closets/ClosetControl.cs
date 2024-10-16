@@ -169,6 +169,17 @@ namespace Objects
 			}
 		}
 
+		public void Start()
+		{
+			if (CustomNetworkManager.IsServer)
+			{
+				if (GetComponent<RuntimeSpawned>() == null)
+				{
+					CollectObjects();
+				}
+			}
+		}
+
 		private void OnWillDestroyServer(DestructionInfo arg0)
 		{
 			if (matsDroppedOnDestroy > 0)
