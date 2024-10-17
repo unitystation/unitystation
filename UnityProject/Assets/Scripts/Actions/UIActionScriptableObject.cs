@@ -5,7 +5,7 @@ using UnityEngine;
 using Mirror;
 
 [CreateAssetMenu(fileName = "UIActionScriptableObject", menuName = "ScriptableObjects/UIActionSO")]
-public class UIActionScriptableObject : ScriptableObject, IServerActionGUI, IServerActionGUIMulti
+public class UIActionScriptableObject : ScriptableObject, IServerActionGUI, IServerActionGUIMulti //WHY DO WE EVEN HAVE THIS
 {
 	[SerializeField]
 	private ActionData actionData = null;

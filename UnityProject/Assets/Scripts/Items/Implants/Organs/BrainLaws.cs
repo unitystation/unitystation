@@ -23,6 +23,8 @@ public class BrainLaws : NetworkBehaviour, IGameActionHolderSingle, IClientInter
 
 	public ActionData ActionData => ActionDataLawDisplay;
 
+	public string ActionGuid => UIActionManager.RegisterAction(this);
+
 	// 	Law priority order is this:
 	//	0: Traitor/Malf/Onehuman-board Law
 	//  ##?$-##: HACKED LAW ##!£//#

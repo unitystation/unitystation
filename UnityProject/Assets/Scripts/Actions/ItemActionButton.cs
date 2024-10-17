@@ -30,6 +30,7 @@ namespace UI.Action
 		private Pickupable pickupable;
 
 		public ActionData ActionData => actionData;
+		public string ActionGuid => UIActionManager.RegisterAction(this);
 		public event System.Action ServerActionClicked;
 		public event System.Action ClientActionClicked;
 

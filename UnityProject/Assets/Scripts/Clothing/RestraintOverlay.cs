@@ -26,6 +26,8 @@ namespace UI.Items
 
 		public ActionData ActionData => actionData;
 
+		public string ActionGuid => UIActionManager.RegisterAction(this);
+
 		public override void SetReference(GameObject Item)
 		{
 			GameObjectReference = Item;

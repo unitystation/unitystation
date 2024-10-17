@@ -113,6 +113,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public ActionData actionData;
 	ActionData IGameActionHolderSingle.ActionData => actionData;
+	public string ActionGuid => UIActionManager.RegisterAction(this);
 
 	public bool IsBumping = false;
 

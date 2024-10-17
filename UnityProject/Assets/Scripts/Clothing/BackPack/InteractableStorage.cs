@@ -84,6 +84,7 @@ public class InteractableStorage : NetworkBehaviour, IClientInteractable<HandAct
 
 	[SerializeField] private ActionData actionData = null;
 	public ActionData ActionData => actionData;
+	public string ActionGuid => UIActionManager.RegisterAction(this);
 
 	private bool preventUIShowingAfterTrapTrigger = false;
 

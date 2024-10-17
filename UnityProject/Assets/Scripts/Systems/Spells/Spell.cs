@@ -26,6 +26,7 @@ namespace Systems.Spells
 			set => spellData = value;
 		}
 		public ActionData ActionData => SpellData;
+		public string ActionGuid => UIActionManager.RegisterAction(this);
 
 		public int CurrentTier { get; private set; } = 1;
 		public float CooldownTime { get; set; }

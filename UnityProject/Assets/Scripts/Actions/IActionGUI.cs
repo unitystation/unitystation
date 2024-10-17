@@ -67,7 +67,7 @@ public class __ExampleIServerActionGUI__ : IServerActionGUI
 /// <summary>
 /// Simply implement this to Implement your Screen action
 /// </summary>
-public interface IActionGUIMulti : IGameActionHolder
+public interface IActionGUIMulti : IGameActionHolder //GONNA NEED TO FIGURE OUT HOW TO HANDLE KEYS FOR THESE, SUB LISTS?
 {
 	List<ActionData> ActionData { get; }
 

@@ -21,6 +21,7 @@ namespace Systems.Faith
 		[field: SyncVar] public string FaithName { get; private set; } = "None";
 		[SerializeField] private ActionData ability;
 		public ActionData ActionData => ability;
+		public string ActionGuid => UIActionManager.RegisterAction(this);
 
 		public void CallActionClient()
 		{
