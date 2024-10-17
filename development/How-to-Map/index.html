@@ -1,0 +1,2024 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Project Design and Documentation for development">
+      
+      
+        <link rel="canonical" href="https://unitystation.github.io/unitystation/development/How-to-Map/">
+      
+      
+        <meta name="author" content="MrMepper">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.ico">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.1.0">
+    
+    
+      
+        <title>How to Map - UnityStation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.bc7e593a.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab28b872.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+      
+  
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#how-to-map" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://unitystation.github.io/unitystation/" title="UnityStation" class="md-header-nav__button md-logo" aria-label="UnityStation">
+      
+  <img src="../../assets/images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            UnityStation
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              How to Map
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header-nav__source">
+        
+<a href="https://github.com/unitystation/unitystation/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    unitystation/unitystation
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://unitystation.github.io/unitystation/" title="UnityStation" class="md-nav__button md-logo" aria-label="UnityStation">
+      
+  <img src="../../assets/images/logo.png" alt="logo">
+
+    </a>
+    UnityStation
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/unitystation/unitystation/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    unitystation/unitystation
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../CODE_OF_CONDUCT/" class="md-nav__link">
+      Code of Conduct
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../CONTRIBUTING/" class="md-nav__link">
+      Contribution and Review Guidelines
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../Documentation-Guide/" class="md-nav__link">
+      Documentation Guide
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../GPLv3/" class="md-nav__link">
+      Licensing
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Contribution guides
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Contribution guides" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        <span class="md-nav__icon md-icon"></span>
+        Contribution guides
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribution-guides/Building-And-Testing/" class="md-nav__link">
+      Building and Testing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribution-guides/Developing-for-UnityStation-on-Unix-Systems-with-the-Unity-Editor-and-JetBrains-Rider/" class="md-nav__link">
+      Developing On Linux
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribution-guides/Development-Standards-Guide/" class="md-nav__link">
+      Development Standards Guide
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribution-guides/Starting-contribution/" class="md-nav__link">
+      Starting Contribution
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7" checked>
+    
+    <label class="md-nav__link" for="nav-7">
+      Development
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Development" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        <span class="md-nav__icon md-icon"></span>
+        Development
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Addressables/" class="md-nav__link">
+      Overview of Addressable Sounds
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Component-Development-Checklist/" class="md-nav__link">
+      Component Development Checklist
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Crafting-System/" class="md-nav__link">
+      Crafting System
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Creating-Items-and-Objects/" class="md-nav__link">
+      Creating Items and Objects
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Creating-and-Using-Tile-Palettes/" class="md-nav__link">
+      Creating and Using Tile Pallettes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Development-Gotchas-and-Common-Mistakes/" class="md-nav__link">
+      Development Gotchas and Common Mistakes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Development-Protips/" class="md-nav__link">
+      Development Protips
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Directory-Structure/" class="md-nav__link">
+      Directory Structure
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Electricity-Development/" class="md-nav__link">
+      Electricity Development
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Emotes/" class="md-nav__link">
+      EmoteSO, and how to work with it.
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Helpful-Functions-Cheatsheet/" class="md-nav__link">
+      Helpful Functions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Hosting-a-Server/" class="md-nav__link">
+      Hosting a Server
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../How-To-User-Interface/" class="md-nav__link">
+      How To Create a User Interface
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        How to Map
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="./" class="md-nav__link md-nav__link--active">
+      How to Map
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#setting-up-your-workspace" class="md-nav__link">
+    Setting Up Your Workspace
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#introduction-to-maps" class="md-nav__link">
+    Introduction to Maps
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    Getting Started
+  </a>
+  
+    <nav class="md-nav" aria-label="Getting Started">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test-runner" class="md-nav__link">
+    Test Runner
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tile-palette" class="md-nav__link">
+    Tile Palette
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#matrix-check" class="md-nav__link">
+    Matrix Check
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loglevels" class="md-nav__link">
+    LogLevels
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-a-mainstation-map" class="md-nav__link">
+    Creating a MainStation Map
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating a MainStation Map">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#part-1-populating-underfloor-and-electrical-items" class="md-nav__link">
+    Part 1 - Populating Underfloor And Electrical Items
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 1 - Populating Underfloor And Electrical Items">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#electrical" class="md-nav__link">
+    Electrical
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#atmospherics" class="md-nav__link">
+    Atmospherics
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disposals" class="md-nav__link">
+    Disposals
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#part-2-placing-walls-and-prefabs" class="md-nav__link">
+    Part 2 - Placing Walls and Prefabs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#part-3-adding-and-linking-in-all-the-other-prefabs" class="md-nav__link">
+    Part 3 - Adding and linking in all the other Prefabs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#asteroids-and-ruins" class="md-nav__link">
+    Asteroids and Ruins
+  </a>
+  
+    <nav class="md-nav" aria-label="Asteroids and Ruins">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#asteroid-tips" class="md-nav__link">
+    Asteroid Tips
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ruin-tips" class="md-nav__link">
+    Ruin Tips
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#shuttles" class="md-nav__link">
+    Shuttles
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mapping-guidelines-and-pointers" class="md-nav__link">
+    Mapping Guidelines and Pointers
+  </a>
+  
+    <nav class="md-nav" aria-label="Mapping Guidelines and Pointers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#map-tips" class="md-nav__link">
+    Map Tips
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wallmounts" class="md-nav__link">
+    Wallmounts
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pull-request-a-new-map-scene-to-the-repo" class="md-nav__link">
+    Pull Request a New Map Scene to the Repo
+  </a>
+  
+    <nav class="md-nav" aria-label="Pull Request a New Map Scene to the Repo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#checklist" class="md-nav__link">
+    Checklist
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pull-requests-for-tile-palette-changes" class="md-nav__link">
+    Pull Requests for Tile Palette Changes
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../How-to-Random-Loot/" class="md-nav__link">
+      How to use random spawners
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../How-to-Sprite/" class="md-nav__link">
+      How to Sprite
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../How-to-use-ReplaceWithPrefab.cs/" class="md-nav__link">
+      How to use ReplaceWithPrefab.cs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../How-to-use-UIActions/" class="md-nav__link">
+      How to use UIActions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../How-to-use-the-in-game-debugger/" class="md-nav__link">
+      Using the In-game Debugger
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Implementing-Interactions/" class="md-nav__link">
+      Implementing Interactions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Inventory-System/" class="md-nav__link">
+      Inventory System
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Item-Traits-System/" class="md-nav__link">
+      Item Traits System
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Mirror-Upgrade-Customization-Notes/" class="md-nav__link">
+      Mirror Upgrade Customization Notes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Mirror/" class="md-nav__link">
+      Mirror (Networking library)
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Module-Structure/" class="md-nav__link">
+      Module Structure
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Multiplayer-PlayMode/" class="md-nav__link">
+      Introduction to [Multiplayer Playmode](https://docs.unity3d.com/Packages/com.unity.multiplayer.playmode@0.1/manual/index.html)
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Navigating-DM-codebases-%28like-tgstation%29/" class="md-nav__link">
+      Navigating DM codebases (like tgstation)
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Networking-%28Network-Messages%29/" class="md-nav__link">
+      Networking (Network Messages)
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Notes-on-SyncObject-and-SyncList/" class="md-nav__link">
+      Note SyncObject And SyncList Usage
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Occupations/" class="md-nav__link">
+      Occupations
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Physics-Layers/" class="md-nav__link">
+      Physics Layers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Projectiles/" class="md-nav__link">
+      Projectiles
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Proper-Spawning-and-Despawning-%28Object-Lifecycle%29/" class="md-nav__link">
+      Proper Spawning and Despawning
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../RPC-vs-Netmsg/" class="md-nav__link">
+      RPC vs Netmsg
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Right-Click-Menu/" class="md-nav__link">
+      Right Click Menu
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Simulating-Lag/" class="md-nav__link">
+      Simulating Lag
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Species-Notes/" class="md-nav__link">
+      Species Notes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Stripping-Scenes-For-Quick-Build/" class="md-nav__link">
+      Stripping Scenes For Quick Build
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../SyncVar-Best-Practices-for-Easy-Networking/" class="md-nav__link">
+      SyncVar Best Practices for Easy Networking
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../The-Clearance-System/" class="md-nav__link">
+      What is the Clearance System?
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Undo-RecordObject-vs-EditorUtility-SetDirty/" class="md-nav__link">
+      Undo RecordObject vs EditorUtility SetDirty
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../What-is-a-matrix/" class="md-nav__link">
+      What is a matrix
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Working-with-Speech-Modifiers/" class="md-nav__link">
+      Working with Speech Modifiers
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+    
+    <label class="md-nav__link" for="nav-8">
+      Faq
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Faq" data-md-level="1">
+      <label class="md-nav__title" for="nav-8">
+        <span class="md-nav__icon md-icon"></span>
+        Faq
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../faq/Building/" class="md-nav__link">
+      Building FAQ
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
+    
+    <label class="md-nav__link" for="nav-9">
+      Project goals
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Project goals" data-md-level="1">
+      <label class="md-nav__title" for="nav-9">
+        <span class="md-nav__icon md-icon"></span>
+        Project goals
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/roadmap/" class="md-nav__link">
+      RoadMap
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-9-2" type="checkbox" id="nav-9-2">
+    
+    <label class="md-nav__link" for="nav-9-2">
+      Current goal scope
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Current goal scope" data-md-level="2">
+      <label class="md-nav__title" for="nav-9-2">
+        <span class="md-nav__icon md-icon"></span>
+        Current goal scope
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/additional-job-role-developments/" class="md-nav__link">
+      Additional Job Role Developments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/antagonist-roles/" class="md-nav__link">
+      Antagonist roles
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/centcomm-missions/" class="md-nav__link">
+      Centcomm missions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/character-customization/" class="md-nav__link">
+      Character customization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/mapping-changes/" class="md-nav__link">
+      Mapping changes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/mining/" class="md-nav__link">
+      Mining
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/new-lobby-screen/" class="md-nav__link">
+      New lobby screen
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/npc-aliens/" class="md-nav__link">
+      Npc aliens
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/player-accounts/" class="md-nav__link">
+      Player accounts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/shuttles/" class="md-nav__link">
+      Shuttles
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/start-of-round/" class="md-nav__link">
+      Start of round
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/the-narrative/" class="md-nav__link">
+      The narrative
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#setting-up-your-workspace" class="md-nav__link">
+    Setting Up Your Workspace
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#introduction-to-maps" class="md-nav__link">
+    Introduction to Maps
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    Getting Started
+  </a>
+  
+    <nav class="md-nav" aria-label="Getting Started">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test-runner" class="md-nav__link">
+    Test Runner
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tile-palette" class="md-nav__link">
+    Tile Palette
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#matrix-check" class="md-nav__link">
+    Matrix Check
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loglevels" class="md-nav__link">
+    LogLevels
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-a-mainstation-map" class="md-nav__link">
+    Creating a MainStation Map
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating a MainStation Map">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#part-1-populating-underfloor-and-electrical-items" class="md-nav__link">
+    Part 1 - Populating Underfloor And Electrical Items
+  </a>
+  
+    <nav class="md-nav" aria-label="Part 1 - Populating Underfloor And Electrical Items">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#electrical" class="md-nav__link">
+    Electrical
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#atmospherics" class="md-nav__link">
+    Atmospherics
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disposals" class="md-nav__link">
+    Disposals
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#part-2-placing-walls-and-prefabs" class="md-nav__link">
+    Part 2 - Placing Walls and Prefabs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#part-3-adding-and-linking-in-all-the-other-prefabs" class="md-nav__link">
+    Part 3 - Adding and linking in all the other Prefabs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#asteroids-and-ruins" class="md-nav__link">
+    Asteroids and Ruins
+  </a>
+  
+    <nav class="md-nav" aria-label="Asteroids and Ruins">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#asteroid-tips" class="md-nav__link">
+    Asteroid Tips
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ruin-tips" class="md-nav__link">
+    Ruin Tips
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#shuttles" class="md-nav__link">
+    Shuttles
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mapping-guidelines-and-pointers" class="md-nav__link">
+    Mapping Guidelines and Pointers
+  </a>
+  
+    <nav class="md-nav" aria-label="Mapping Guidelines and Pointers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#map-tips" class="md-nav__link">
+    Map Tips
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wallmounts" class="md-nav__link">
+    Wallmounts
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pull-request-a-new-map-scene-to-the-repo" class="md-nav__link">
+    Pull Request a New Map Scene to the Repo
+  </a>
+  
+    <nav class="md-nav" aria-label="Pull Request a New Map Scene to the Repo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#checklist" class="md-nav__link">
+    Checklist
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pull-requests-for-tile-palette-changes" class="md-nav__link">
+    Pull Requests for Tile Palette Changes
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/unitystation/unitystation/edit/develop/docs/development/How-to-Map.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="how-to-map">How to Map<a class="headerlink" href="#how-to-map" title="Permanent link">&para;</a></h1>
+<p>This page explains the details of how to do mapping within unitystation.</p>
+<p>All mapping is done in Unity.</p>
+<h3 id="setting-up-your-workspace">Setting Up Your Workspace<a class="headerlink" href="#setting-up-your-workspace" title="Permanent link">&para;</a></h3>
+<p>You should have the following windows open. To open a window, to the <strong>Window</strong> tab at the top of Unity.</p>
+<ul>
+    <li>Window > General > <b>Scene</b></li>
+    <li>Window > General > <b>Project</b></li>
+    <li>Window > General > <b>Hierarchy</b></li>
+    <li>Window > General > <b>Inspector</b></li>
+    <li>Window > <b>Sidebar</b></li>
+    <li>Window > Mapping/ <b>𓃡𓃡 Map Loader Saver Selector 𓃡𓃡</b></li>
+</ul>
+
+<h3 id="introduction-to-maps">Introduction to Maps<a class="headerlink" href="#introduction-to-maps" title="Permanent link">&para;</a></h3>
+<p>so First of all in the project window/view
+go to Assets/Scenes/DevScenes/EmptyMap.unity or just search for EmptyMap this should open an empty scene,
+On the Map Loader Saver Selector select which map you would like to load,</p>
+<p>Wait a while it initialises and loads the map, Was it so did you can see the hierarchy of the
+Of all the different shuttles on the map, Commonly referred to as a matrix,</p>
+<p>The hierarchy is made of Main object, two children, the first one that stores the layers that stores each tile type
+and The object layer that all the objects live underneath</p>
+<p>And the other object handles any networked information you want about the Matrix</p>
+<h2 id="getting-started">Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h2>
+<p>The processing of mapping depending on what type of scene you are mapping. In UnityStation, scenes are divided into the
+following scriptable objects:</p>
+<p>Main Stations – where all the crew spawns at the start of the round</p>
+<p>Away Sites – on the MainStation there is a portal which connects to one of these scenes which the player then jumps
+through when the connection is established in the middle of the round.</p>
+<p>Additional Scenes – the scenes which the antagonists start on.</p>
+<p>Here is a handy diagram which you can use if you want to add a new antagonist or job and ensure that it updates across
+all the scenes.
+<img alt="" src="../../assets/images/HowToMap/adding_role_to_maps.png" /></p>
+<h3 id="test-runner">Test Runner<a class="headerlink" href="#test-runner" title="Permanent link">&para;</a></h3>
+<p>Can be accessed by ctrl + shift + T
+or Window &gt; General &gt; Test runner
+<img alt="" src="../../assets/images/HowToMap/test_runner.png" /></p>
+<p>Performs a variety of tests to check for Null references and other things. These tests are also used when you send a
+Pull Request. To run these tests, click <strong>Run All</strong> and then leave it for a while, it is not a quick process (use this
+opportunity to get something to eat/drink or some other professional/recreational activity of your choice).</p>
+<p>Errors will be denoted by a red cross, click on the individual test which has a red cross and read the error that
+appears in the bottom box to fix up the Scene. Be sure to click <strong>Rerun Failed</strong> to see if you now pass these tests.</p>
+<h3 id="tile-palette">Tile Palette<a class="headerlink" href="#tile-palette" title="Permanent link">&para;</a></h3>
+<p>Accessed by Window &gt; 2D &gt; Tile Palette</p>
+<p><img alt="" src="../../assets/images/HowToMap/tile_palette.gif" /></p>
+<ul>
+<li>The Tile Palette tab lets you place walls, floors, tables etc. into the Scene tab</li>
+<li>Make sure to select the right Active Tilemap in the Tile Palette when editing</li>
+</ul>
+<p>Keep in mind when editing a Tile Palette that tiles are added to the palettes as they are created. To create a new Tile
+follow this example:</p>
+<ul>
+<li>Choose a tile from /Tilemaps/Tiles</li>
+<li>Drag a tile to a palette</li>
+</ul>
+<h3 id="matrix-check">Matrix Check<a class="headerlink" href="#matrix-check" title="Permanent link">&para;</a></h3>
+<p>Accessed by Window &gt; Matrix Check</p>
+<p><img alt="" src="../../assets/images/HowToMap/matrix_check.gif" /></p>
+<p>This tool allows you to check out atmospherics details when you run the executable in the editor (temperature, pressure,
+etc. on each tile). Good for making sure you haven’t left a gap somewhere, <em>make sure that you have __Gizmos__ enabled</em>.</p>
+<h3 id="loglevels">LogLevels<a class="headerlink" href="#loglevels" title="Permanent link">&para;</a></h3>
+<p>Accessed by logger &gt;  adjust log Levels
+<img alt="" src="../../assets/images/HowToMap/log_levels.gif" /></p>
+<p>Monitors certain variables when you are in play mode editor, displays them in the <strong>Console</strong> tab if they aren't set to
+<em>Off</em>. Useful for debugging your map.</p>
+<h2 id="creating-a-mainstation-map">Creating a MainStation Map<a class="headerlink" href="#creating-a-mainstation-map" title="Permanent link">&para;</a></h2>
+<h3 id="part-1-populating-underfloor-and-electrical-items">Part 1 - Populating Underfloor And Electrical Items<a class="headerlink" href="#part-1-populating-underfloor-and-electrical-items" title="Permanent link">&para;</a></h3>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+</div>
+<p>Before you hook up your lights and light switches, be sure to read the Map Tips at the bottom to familiarise and it make
+it easier for yourself.</p>
+<h4 id="electrical">Electrical<a class="headerlink" href="#electrical" title="Permanent link">&para;</a></h4>
+<ol>
+<li>Make a json File in Assets/StreamingAssets/Maps/MainStations  You may need to right click on  one of the files and so on Explorer to make the json file or you can just copy One of the Other maps </li>
+<li>Open up EmptyMap Scene</li>
+<li>Load up one of the stations you want to copy stuff from, Delete all the objects and go through and right click each tile map you want to clear and click reset</li>
+<li>Next you will want to designate where the departments should go and how big they should be. Move the spawn points to
+   generally mark out the areas so you can keep track of where everything is going. How you approach the rest is up to
+   you, Part 2 and 3 below is a suggested method for you to use if you wish.
+   Consider then mapping in all the power cables, atmos pipes and disposal pipes. This is all the important life support
+   stuff that makes the station function. This step can be done at any time, however, a lot of <strong>LighTubeFixtures</strong>, *
+   <em>LightBulbFixtures</em><em>, </em><em>AirVents</em><em>, </em><em>Scrubbers</em><em>, </em><em>Pumps</em><em>, </em><em>Mixers</em><em>, </em><em>GasConnectors</em><em>, </em><em>Filters</em><em>, *
+   </em>UnaryVents<strong>, </strong>Metres<strong> and </strong>DisposalBins** prefabs are required for the station to run. See Part 2 step 2 for
+   details on how to add existing prefabs onto a map.</li>
+<li>For the meanwhile why your mapping you can save to the scene directly and when you want to save it properly click save in the  Map Loader Saver Selector You may need to open and close it again if your file isn't visible</li>
+</ol>
+<p>note</p>
+<p>To play in your scene, Simply check the checkmark next to the map on the Map Loader Saver Selector Window and Press play</p>
+<p>Assets/Prefabs/Items/ItemMatrixSystems/AI_ShouldNavigateAround.prefab
+That needs to be added to your matrix that you want AI shuttles to navigate around </p>
+<p>UnityStation’s Electrical Wiring differs from base SS13. Follow the guide below to make sure you correctly hook
+everything up.
+<img alt="" src="../../assets/images/HowToMap/wire_connections.png" />
+Make sure to always put a machine connector (white square in diagram) on the lower voltage side of the device. If you
+are still stuck, consult the wiring on SquareStation map and inspect the relevant
+prefabs.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+</div>
+<p>It is strongly encouraged to avoid mapping underfloor utilities (wires, atmos / disposal pipes) under walls, windows. doing this will allow players who are playing the engineer role the ability to debug
+the wire pathways to find a fault without ever having to deconstruct a wall or window in the way. If it is unavoidable,
+that's ok, but don't make a habit of it.</p>
+<h4 id="atmospherics">Atmospherics<a class="headerlink" href="#atmospherics" title="Permanent link">&para;</a></h4>
+<p><img alt="" src="../../assets/images/HowToMap/atmos_pipes.png" /></p>
+<p>The <strong>atmos pipes</strong> are colour coded to help keep track of a specific function, use the following convention:</p>
+<ul>
+<li>Silver/Purple Pipes – These pipes are the internal pipes for the department which connect up to GasConnectors, these
+  connectors allow an atmos tech to pump gas into/out of a gas canister into the pipes.</li>
+<li>Light Blue – These pipes connect up the canisters of nitrogen and oxygen that everyone will be breathing. They replace
+  the yellow pipes for the air canister and connect directly to the blue pipes.</li>
+<li>Blue – Exports Gas out into the Station to the AirVents</li>
+<li>Red – Imports Gas back into the Atmospherics Department from the Scrubbers</li>
+<li>Green – Connects to Red Pipes has Filter prefabs littered through is section to filter out each gas to its specific
+  canister chamber</li>
+<li>Orange/Yellow – Connects to pumps to pump out gas from a particular gas chamber, yellow pipes connect up to the end of
+  the Green and Blue pipes</li>
+</ul>
+<p>The atmos prefabs have been laid out so you do not need to tinker too much with them, be sure to select the right one
+for the job. Here is a general guide to explain what prefab does what.</p>
+<ul>
+<li><strong>GasFlowMeter</strong> to be attached to pipes inside the atmos department, <strong>GasFlowMeterAtmosWasteLoop</strong> to attach to red
+  pipes outside of the atmos department and <strong>GasFlowMeterDistrubutionLoop</strong> to attach to blue pipes outside of the
+  atmos department</li>
+<li><strong>GasFilter(GAS-NAME)</strong> and <strong>GasFilter(GAS-NAME)Flipped</strong> are filter prefabs which sit on an empty tile connected to
+  tiled pipes. They filter a particular gas out, usually into a designated atmos room.</li>
+<li><strong>GasMixerAirMixer</strong>, <strong>GasMixerOff</strong>, <strong>GasMixerOffFlipped</strong>, <strong>GasMixerOn</strong>, <strong>GasMixerOnFlipped</strong> are mixer prefabs
+  which mixes two gases together in a particular proportion. The "Air" that the crew breathes on the station has been
+  deliberately set in the AirMixer, make sure you use that one in the department.</li>
+<li><strong>GasPumpOn</strong>, <strong>GasPumpOff</strong> are the pump prefabs which are set to be on and off when the round starts.</li>
+</ul>
+<p><strong>ACUs</strong> (air alarms) allow atmospheric technicians to control the local room's atmopshere, but they're useful to
+everyone as it allows you to quickly gauge a room's atmospheric state. ACUs should be as similarly common as APCs.
+Consider placing these in high-traffic areas where they're easily observed. Any connected ACU device (scrubbers, vents)
+can act as a sensor for the ACU, optionally including the tile in front of the unit itself. If the ACU is not directly
+in the room that it monitors, such as SM core, server room or (at least temporarily, until we have atmospheric tank
+control consoles) atmospheric tanks, then be sure to turn off <code>Acu Samples Air</code> in the <code>AirController</code> component so as
+not to skew the monitoring. There are several AirController presets designed for particular rooms in mind, like cold
+rooms, server rooms etc - be sure to take a look for special usages.</p>
+<h4 id="disposals">Disposals<a class="headerlink" href="#disposals" title="Permanent link">&para;</a></h4>
+<p>The <strong>Disposal System</strong> is straightforward to map in if do the following steps. Be sure to connect the  <strong>ConveyorSwitch
+</strong> prefab to the relevant <strong>ConveyorBelt</strong> prefabs.</p>
+<ol>
+<li>Mark where you want your <strong>DisposalBins</strong> by click-and-dragging the prefab onto the scene, ensure that all bins are
+   on the object layer when you are done placing them.</li>
+<li>Designate the <em>Mail Room</em> in Cargo. Then add in a <strong>DisposalOutlet</strong> prefab connected a couple of <strong>ConveyorBelt</strong>
+   prefabs leading to a <strong>DisposalInlet</strong> prefab.</li>
+<li>Designate the <em>Disposals Room</em>, this room needs to be on the outer most part of the station to eject trash into
+   space. In this Room you need a <strong>DisposalOutlet</strong> prefab connected up to a couple of <strong>ConveyorBelt</strong> prefabs leading
+   to an opening in the wall to space, but stop one tile short. A <strong>BlastDoor</strong> prefab will over the opening and will
+   have a <strong>TinyFan</strong> underneath. A <strong>MassDriver</strong> prefab will go inbetween the ConveyorBelt and the BlastDoor, it is
+   responsible for launching the trash. Link up a <strong>ButtonDoor</strong> to operate the BlastDoor and a <strong>ButtonMassDriver</strong> to
+   operate the MassDriver.</li>
+<li>Open Tile Palette &gt; Disposals and place one receiving pipe (the tile with the circle) underneath all the
+   DisposalBins/DisposalInlets/DisposalOutlets, then map all the pipes taking care to orient all the pipes towards the
+   Mail Room's DisposalOutlet. Then connect the Mail Room's DisposalInlet to the Disposals Room's DisposalOutlet.</li>
+</ol>
+<h3 id="part-2-placing-walls-and-prefabs">Part 2 - Placing Walls and Prefabs<a class="headerlink" href="#part-2-placing-walls-and-prefabs" title="Permanent link">&para;</a></h3>
+<p>To help with completing Part 3, click and drag all prefabs onto the scene, select them all in the Hierarchy and drag
+them into the Matrix’s Object layer when you feel you are finished.</p>
+<ol>
+<li>Add in the Walls to designate the rooms, relevant floor tiles and tables to populate the rooms. Remember that floor
+   tiles are not present in maintenance areas, unless it is in a room coming from a corridor.</li>
+<li>To place objects into a scene search in the File manager with the prefab filter on, then click and drag the prefab
+   onto the scene. All objects you place will need to go on the Station Matrix’s Object layer in the Hierarchy. (To
+   avoid having to click and drag the list of prefabs into the object layer, highlight all the objects, click <em>cut</em> and
+   then right click on the <em>Object Layer</em> and select <strong>Paste as Child</strong>). IMPORTANT: make sure you keep consistent
+   unique number or attach an “_name” (e.g. APC_Kitchen), this will help a lot when you need to add in references to
+   other prefabs, as you can tell them apart.</li>
+</ol>
+<p><img alt="" src="../../assets/images/HowToMap/search_for_prefab.png" /></p>
+<h3 id="part-3-adding-and-linking-in-all-the-other-prefabs">Part 3 - Adding and linking in all the other Prefabs<a class="headerlink" href="#part-3-adding-and-linking-in-all-the-other-prefabs" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Add in all the other prefabs. Don’t worry if you aren’t getting the x,y co-ordinates close to the centre of a grid
+   square, the Custom Net Transform always has Snap To Grid enabled, so it will have perfect co-ordinates in-game. If
+   you like, you can also use the <code>Mapping &gt; Snap to Grid All Applicable Objects</code> tool to ensure this before runtime.</li>
+<li>As you progress placing the objects down onto the matrix, make sure you modify the relevant fields on the prefabs so
+   that they can be referred to by the other relevant prefabs. You can use the <code>Tools/Mapping/Device Linker</code> tool to
+   assist in linking certain objects together, like APC devices to APCs.
+   <img alt="Tools/Mapping/Device Linker" src="https://i.imgur.com/P3jANhA.png" />
+   Each device can also be linked via the controls on the relevant component. For example, on <code>APCPoweredDevice</code>.
+   <img alt="APCPoweredDevice" src="https://i.imgur.com/Qt1tY2v.png" />
+   You can see that the selected Fire Alarm is connected to the APC and to three firelocks, the quantum pad is not
+   connected to an APC and the console is not connected to some sort of device - these two need attention.<br>
+   The best way to see what prefabs relate to what is to open an existing map and turn on gizmos. Make sure all of the
+   gizmos are turned on and if a line exists between the prefab and another, then a relationship exists. As there are a
+   multitude of components that can exist on a prefab, it is best to read through them to understand what they are doing
+   and what they need, some have tooltips to help. Always remember you can look at existing maps to see how the prefabs
+   are connected.</li>
+<li>All Shuttles need plasma thrusters and a console to be palatable , you need to  hook up pipes to each plasma thrusters well + a connector to connect the plasma tank</li>
+<li>Use the <code>Tools &gt; Mapping &gt; Name Validator</code> tool to ensure certain objects have appropriate names.<br>
+   <img alt="Tools/Mapping/Name Validator" src="https://camo.githubusercontent.com/96a31100a53119d13b4131c6ead7e6b4dd9575c8fdb10420916e328701b164e1/68747470733a2f2f692e696d6775722e636f6d2f3642634a5458662e706e67" /></li>
+</ol>
+<h2 id="asteroids-and-ruins">Asteroids and Ruins<a class="headerlink" href="#asteroids-and-ruins" title="Permanent link">&para;</a></h2>
+<p>Asteroids and ruins are different obstacles Shaft Miners, Curators or Assistants can stumble upon on their travels.
+Asteroids primarily serve as Ore Deposits for Shaft Miners, sometimes they also have exotic plants or mobs to fight as
+well. Ruins are derelict stations or shuttles for the players to explore. Copy an existing asteroid or ruin scene inside
+the <strong>AsteroidScenes</strong> Scene Folder to get started, <strong>make sure you define the location of your scene to somewhere well
+away from (0,0) otherwise it will spawn inside the station.</strong></p>
+<p>and Include the corresponding stuff in
+Assets/Prefabs/Items/ItemMatrixSystems/
+Most importantly make sure to add the asteroid system as an object
+It also contains stuff like such as AI navigate around so the escape shuttle doesn't drive itself into the asteroid
+And there's other stuff for setting the default gas mix </p>
+<h3 id="asteroid-tips">Asteroid Tips<a class="headerlink" href="#asteroid-tips" title="Permanent link">&para;</a></h3>
+<ul>
+<li>If you want your asteroid to have exotic plant life, put in the <strong>random dirt pile</strong> prefab. The Potential Wild Plants
+  list can be adjusted so whatever plant you want can spawn there.</li>
+<li>If you want your asteroid to have mobs for players to encounter, use the <strong>RandomItemPool</strong> prefab and in the Random
+  Item Spot component increase the Pool List and select either CarpSpawner, Alien egg etc. from the list. 2%XenoEgg or
+  the NPCs can also survive on an Asteroid too. <strong>If you don't want your mobs to fly off your asteroid, make sure to
+  enclose them in rock.</strong></li>
+</ul>
+<h3 id="ruin-tips">Ruin Tips<a class="headerlink" href="#ruin-tips" title="Permanent link">&para;</a></h3>
+<ul>
+<li>You can wire up your ruin electrically as much as you want, make sure to use the damaged tiles and cracked windows in
+  the Tile Palette to give it a really rundown feel.</li>
+<li>You may want to include some lore about why this ruin exists, if you put in a <strong>Paper</strong> prefab into the scene and
+  select its Paper Component you can fill out its text field to your heart's content. A list of all available tags to
+  stylise it can be found
+  here (<a href="https://docs.unity3d.com/Packages/com.unity.ugui@1.0/manual/StyledText.html">Rich Text | Unity UI | 1.0.0 (unity3d.com)</a>.</li>
+</ul>
+<h2 id="shuttles">Shuttles<a class="headerlink" href="#shuttles" title="Permanent link">&para;</a></h2>
+<p><img alt="" src="../../assets/images/HowToMap/matrix_move_shuttle.png" /></p>
+<p>One thing to keep in mind is that it can be a bit fiddly with AI Movement, on determining which ways the front, 
+a good rule of thumb is that if there's no rotations applied to the shuttle the front should be facing up</p>
+<p><img alt="" src="../../assets/images/HowToMap/matrix_move_sub_menu.png" /></p>
+<p>To extend the shuttle matrix out select the correct matrix in the Tile Palette Window and paint some tiles, as long as
+you have gizmos turned on, you should see the bounds snap to accommodate the new tiles. Again, the shuttle matrix does not have a directional component, so you will need to
+make sure you orientate your shuttle correctly.</p>
+<p>A shuttle should have the following prefabs to make it function:</p>
+<ul>
+<li><strong>Shuttle Console</strong>, usually located at the front of the shuttle to pilot the matrix</li>
+<li><strong>CanisterPlasma</strong> and a <strong>Wrench</strong> to provide the fuel and means to secure it</li>
+<li><strong>Canister connector</strong> which the canister will need to be wrenched down onto to power the shuttle</li>
+<li><strong>Plasma thrusters</strong> in all four cardinal directions and set as so</li>
+<li><strong>Pipes connecting the canister connected to the thrusters</strong> which the canister will need to be wrenched down onto to power the shuttle</li>
+<li><strong>Shuttle Chairs</strong> for pilot and passengers, as well as <strong>Lighttubes</strong> and <strong>Doors</strong></li>
+</ul>
+<p>for Stuff like the escape shuttle and cargo shuttle you have to specify the path when approaching the station 
+with buoys That specify the chain of entering and entering out again, 
+The first in the chain needs to be referenced by for the cargo shuttle the cargo shuttle computer
+and escape shuttle escape shuttle consul, Advice do not have the approach path directly into the station without 
+many buoys, Since the server can have a lag spike and the shuttle can overshoot Crashing into the station,
+so ideally the cargo or sceptical should align itself alongside, so it overshoots It doesn't damage anything,
+If it Has to approach where it would overshoot and damage stuff, add a buoy A tile apart maybe 5 tiles away from the target point to make sure it comes in gently</p>
+<p><img alt="" src="../../assets/images/HowToMap/shuttle_specialities.png" /></p>
+<p>The Cargo shuttle must not have any live animals on board and have shutters which link to a <strong>door button</strong> in the Cargo
+Loading Bay.</p>
+<p>The Escape Shuttle must always have the following extra prefabs:</p>
+<ul>
+<li>An <strong>EscapeShuttleConsole</strong> for the antag objectives involving hijacking it</li>
+<li>At least three different areas, general access, command access and security access for prisoners</li>
+</ul>
+<h2 id="mapping-guidelines-and-pointers">Mapping Guidelines and Pointers<a class="headerlink" href="#mapping-guidelines-and-pointers" title="Permanent link">&para;</a></h2>
+<p>so, Objects can be rotated however  if they have the rotatable component it is best to use that instead since that handles game logic better 
+e.g sprites getting changed when pushed around</p>
+<p>Various objects which already have directional facing logic, such as wallmounts and chairs, can have their direction set
+by adjusting Directional's Initial Direction field.</p>
+<h3 id="map-tips">Map Tips<a class="headerlink" href="#map-tips" title="Permanent link">&para;</a></h3>
+<p>Here are some general tips to help you get when mapping in UnityStation:</p>
+<ul>
+<li>
+<p>Do not attempt to try and finish your map from scratch in one sitting, it is better if you break it down into
+  sections.</p>
+</li>
+<li>
+<p>If you find yourself unable to place tiles from the Tile Palette and are receiving a ton of warnings, it may be
+  because you are missing a layer in the matrix. Duplicate an existing layer in the matrix and perform the necessary
+  changes before trying to place anymore tiles.</p>
+</li>
+<li>
+<p>Attaching an APC can be quite tedious, but can be made a lot easier if you place the APC first, relabel it and then
+  attach the APCPoweredDevice by moving it close to the APC and hitting the Auto Connect Button.
+  <img alt="" src="../../assets/images/HowToMap/APC_autoconnect.gif" /></p>
+</li>
+<li>
+<p>If you have a lot of APCPowered Objects you need to connect, On each APC powered device there should be a button to find the nearest apc, make shorter term gizmos to see the full information it can display</p>
+</li>
+<li>
+<p>Make sure for jobs that will have 2 or more signing up to them that you have placed multiple spawn points in the
+  department – this ensures that players do not spawn ontop of each other. To do this, copy an existing spawn point
+  , alter its position and spawn name.</p>
+</li>
+</ul>
+<p><img alt="" src="../assets/images/HowToMap/spawn_points.PNG" /></p>
+<ul>
+<li>So you can see what you are placing tile-wise on a particular layer, you can select obstructing layers to hide in the
+  Hierarchy. You then can press the crossed-out eye above the scene view window to toggle the layers’ visibility.</li>
+</ul>
+<p><img alt="" src="../../assets/images/HowToMap/hireachy_hide.gif" /></p>
+<ul>
+<li>Walk around as an assistant in Play Mode to see what you can and can't access. This is important as a large majority
+  of first time players will be this and will go wherever they can.</li>
+</ul>
+<p>If you are ever stuck mapping in UnityStation first try looking at how the current maps work, what components make up an
+object. If all else fails, please message the mapper channel on Discord.</p>
+<h3 id="wallmounts">Wallmounts<a class="headerlink" href="#wallmounts" title="Permanent link">&para;</a></h3>
+<p>Wallmounts always appear upright, but you need to indicate which side of the wall they are on (they should only be
+visible from one side of a wall). To do this, simply set the Directional component's Initial Direction to the direction
+it should be facing.</p>
+<p>Enabling Gizmos for WallmountBehaviours will show helper arrows so that you wouldn't need to guess their direction:
+<img alt="how-to-enable" src="https://user-images.githubusercontent.com/10403536/58015542-0f0e2800-7aeb-11e9-8729-5a06fb88072e.png" /></p>
+<h2 id="pull-request-a-new-map-scene-to-the-repo">Pull Request a New Map Scene to the Repo<a class="headerlink" href="#pull-request-a-new-map-scene-to-the-repo" title="Permanent link">&para;</a></h2>
+<p>Once you have finished mapping a scene and it’s time to PR, follow the instructions below so it gets submitted first
+time without needed rework. If you are working on an existing map, you only need to commit and PR the .json file.</p>
+<ol>
+<li>
+<p>Make a new branch by opening GitHub Desktop and pressing Ctrl + Shift + N and typing the name of your map. Make sure
+   to bring your changes over from develop if you have already started making progress on a new Scene.</p>
+</li>
+<li>
+<p>Run the Unit tests. These can be accessed in editor by going into the sidebar menu or selecting the U logo on the
+   right bar.</p>
+</li>
+<li>
+<p>If the scene you have created is a Main Station, add its path (You can copy it in the map Saver window) into to the <em>map.json</em> file. This file keeps track of
+   what maps to randomly select from given the server population (low, medium, high pop).</p>
+</li>
+<li>
+<p>Next you will need to add the created scene into a Scriptable Object List. Search in the editor for the following.</p>
+<ul>
+<li>If it is a Station where the crew will spawn in, add it into the <strong>Main Station List SO</strong></li>
+<li>If the scene is a scene which connects to the Station Gateway, add it into the <strong>Away World List SO</strong></li>
+<li>If the scene is an asteroid (contains ores to mine), add it into the <strong>Asteroid List SO</strong></li>
+<li>If the scene is an antag spawn area or some other scene that doesn’t fit into the ones above, add it into the _
+  _Additional Scene List SO__</li>
+</ul>
+</li>
+</ol>
+<h3 id="checklist">Checklist<a class="headerlink" href="#checklist" title="Permanent link">&para;</a></h3>
+<p>Make sure you go through the checklist below to check you have gotten the following on the map. Players will have a hard
+time using your map if it doesn't have these items!</p>
+<ol>
+<li>In the Captain's Room, there should be a Nuke Disk, Nuke Pointer and a Captain's Spare ID</li>
+<li>Make sure that Security has Cell Timers and Secure Windoors to hold prisoners in the brig cells</li>
+<li>Fire alarms have been connected to the FireDoors</li>
+<li>AirVents and Scrubbers are rotated correctly to match the particular pipe outlets from adjacent tiles</li>
+<li>RCS thrusters are present on shuttle matrixes, test each shuttle in play mode to make sure they follow the directions
+   like the WASD keys.</li>
+<li>Multiple spawn points exist for the same job and that all jobs have a sensible spawn point</li>
+<li>Check that Canisters in Atmos that are part of the pipes are open (Tick <em>Valve is Initially Open</em> inside the Canister
+   Script)</li>
+<li>Ensure that no obvious extrusions will destroy or block the cargo and evac shuttle</li>
+<li>Directional Signs to help players navigate to each department (Prefabs are called SignDirectional)</li>
+<li>If it's a MainStation, include a picture of your map for the wiki</li>
+<li>Commit MainStation.unity, MainStation.unity.meta, MainStation.lighting, MainStation.lighting.meta, maps.json,
+   EditorBuildSettings.asset and the SO List (e.g. <strong>Main Station List SO</strong>). This is not an exhaustive list, so a
+   general rule of thumb is to only commit files you touched.</li>
+</ol>
+<h2 id="pull-requests-for-tile-palette-changes">Pull Requests for Tile Palette Changes<a class="headerlink" href="#pull-requests-for-tile-palette-changes" title="Permanent link">&para;</a></h2>
+<p>Almost never would you need to actually PR a palette change, if you do please make sure <strong>NOT</strong> to include anything
+other than the palette file and its .meta file.</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../How-To-User-Interface/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                How To Create a User Interface
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../How-to-Random-Loot/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                How to use random spawners
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/vendor.6a3d08fc.min.js"></script>
+      <script src="../../assets/javascripts/bundle.71201edf.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "../..",
+          features: [],
+          search: Object.assign({
+            worker: "../../assets/javascripts/worker/search.4ac00218.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>

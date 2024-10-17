@@ -1,0 +1,1730 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Project Design and Documentation for development">
+      
+      
+        <link rel="canonical" href="https://unitystation.github.io/unitystation/development/Creating-Items-and-Objects/">
+      
+      
+        <meta name="author" content="MrMepper">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.ico">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.1.0">
+    
+    
+      
+        <title>Creating Items and Objects - UnityStation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.bc7e593a.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab28b872.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+      
+  
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#creating-items-and-objects" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://unitystation.github.io/unitystation/" title="UnityStation" class="md-header-nav__button md-logo" aria-label="UnityStation">
+      
+  <img src="../../assets/images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            UnityStation
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              Creating Items and Objects
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header-nav__source">
+        
+<a href="https://github.com/unitystation/unitystation/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    unitystation/unitystation
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://unitystation.github.io/unitystation/" title="UnityStation" class="md-nav__button md-logo" aria-label="UnityStation">
+      
+  <img src="../../assets/images/logo.png" alt="logo">
+
+    </a>
+    UnityStation
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/unitystation/unitystation/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    unitystation/unitystation
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../CODE_OF_CONDUCT/" class="md-nav__link">
+      Code of Conduct
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../CONTRIBUTING/" class="md-nav__link">
+      Contribution and Review Guidelines
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../Documentation-Guide/" class="md-nav__link">
+      Documentation Guide
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../GPLv3/" class="md-nav__link">
+      Licensing
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Contribution guides
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Contribution guides" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        <span class="md-nav__icon md-icon"></span>
+        Contribution guides
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribution-guides/Building-And-Testing/" class="md-nav__link">
+      Building and Testing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribution-guides/Developing-for-UnityStation-on-Unix-Systems-with-the-Unity-Editor-and-JetBrains-Rider/" class="md-nav__link">
+      Developing On Linux
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribution-guides/Development-Standards-Guide/" class="md-nav__link">
+      Development Standards Guide
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribution-guides/Starting-contribution/" class="md-nav__link">
+      Starting Contribution
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7" checked>
+    
+    <label class="md-nav__link" for="nav-7">
+      Development
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Development" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        <span class="md-nav__icon md-icon"></span>
+        Development
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Addressables/" class="md-nav__link">
+      Overview of Addressable Sounds
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Component-Development-Checklist/" class="md-nav__link">
+      Component Development Checklist
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Crafting-System/" class="md-nav__link">
+      Crafting System
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Creating Items and Objects
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="./" class="md-nav__link md-nav__link--active">
+      Creating Items and Objects
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cheat-sheet" class="md-nav__link">
+    Cheat Sheet
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#items-and-objects" class="md-nav__link">
+    Items and Objects
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prefabs-prefab-variants-and-you" class="md-nav__link">
+    Prefabs, Prefab Variants, and you
+  </a>
+  
+    <nav class="md-nav" aria-label="Prefabs, Prefab Variants, and you">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#picking-the-best-parent-prefab" class="md-nav__link">
+    Picking the Best Parent Prefab
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#where-to-put-your-new-prefab" class="md-nav__link">
+    Where to Put Your New Prefab
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clothing" class="md-nav__link">
+    Clothing
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#non-clothing-hand-sprites" class="md-nav__link">
+    Non-clothing Hand Sprites
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#layers" class="md-nav__link">
+    Layers
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#working-with-components" class="md-nav__link">
+    Working with Components
+  </a>
+  
+    <nav class="md-nav" aria-label="Working with Components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#itemattributes" class="md-nav__link">
+    ItemAttributes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integrity" class="md-nav__link">
+    Integrity
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#itemstorage" class="md-nav__link">
+    ItemStorage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pickupable" class="md-nav__link">
+    Pickupable
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#untouchables" class="md-nav__link">
+    Untouchables
+  </a>
+  
+    <nav class="md-nav" aria-label="Untouchables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#network-identity" class="md-nav__link">
+    Network Identity
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-net-transform" class="md-nav__link">
+    Custom Net Transform
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#putting-your-object-in-the-game" class="md-nav__link">
+    Putting your object in the game
+  </a>
+  
+    <nav class="md-nav" aria-label="Putting your object in the game">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-note-about-changing-a-prefab" class="md-nav__link">
+    A note about changing a prefab
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    Testing
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Creating-and-Using-Tile-Palettes/" class="md-nav__link">
+      Creating and Using Tile Pallettes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Development-Gotchas-and-Common-Mistakes/" class="md-nav__link">
+      Development Gotchas and Common Mistakes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Development-Protips/" class="md-nav__link">
+      Development Protips
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Directory-Structure/" class="md-nav__link">
+      Directory Structure
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Electricity-Development/" class="md-nav__link">
+      Electricity Development
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Emotes/" class="md-nav__link">
+      EmoteSO, and how to work with it.
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Helpful-Functions-Cheatsheet/" class="md-nav__link">
+      Helpful Functions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Hosting-a-Server/" class="md-nav__link">
+      Hosting a Server
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../How-To-User-Interface/" class="md-nav__link">
+      How To Create a User Interface
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../How-to-Map/" class="md-nav__link">
+      How to Map
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../How-to-Random-Loot/" class="md-nav__link">
+      How to use random spawners
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../How-to-Sprite/" class="md-nav__link">
+      How to Sprite
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../How-to-use-ReplaceWithPrefab.cs/" class="md-nav__link">
+      How to use ReplaceWithPrefab.cs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../How-to-use-UIActions/" class="md-nav__link">
+      How to use UIActions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../How-to-use-the-in-game-debugger/" class="md-nav__link">
+      Using the In-game Debugger
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Implementing-Interactions/" class="md-nav__link">
+      Implementing Interactions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Inventory-System/" class="md-nav__link">
+      Inventory System
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Item-Traits-System/" class="md-nav__link">
+      Item Traits System
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Mirror-Upgrade-Customization-Notes/" class="md-nav__link">
+      Mirror Upgrade Customization Notes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Mirror/" class="md-nav__link">
+      Mirror (Networking library)
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Module-Structure/" class="md-nav__link">
+      Module Structure
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Multiplayer-PlayMode/" class="md-nav__link">
+      Introduction to [Multiplayer Playmode](https://docs.unity3d.com/Packages/com.unity.multiplayer.playmode@0.1/manual/index.html)
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Navigating-DM-codebases-%28like-tgstation%29/" class="md-nav__link">
+      Navigating DM codebases (like tgstation)
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Networking-%28Network-Messages%29/" class="md-nav__link">
+      Networking (Network Messages)
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Notes-on-SyncObject-and-SyncList/" class="md-nav__link">
+      Note SyncObject And SyncList Usage
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Occupations/" class="md-nav__link">
+      Occupations
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Physics-Layers/" class="md-nav__link">
+      Physics Layers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Projectiles/" class="md-nav__link">
+      Projectiles
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Proper-Spawning-and-Despawning-%28Object-Lifecycle%29/" class="md-nav__link">
+      Proper Spawning and Despawning
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../RPC-vs-Netmsg/" class="md-nav__link">
+      RPC vs Netmsg
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Right-Click-Menu/" class="md-nav__link">
+      Right Click Menu
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Simulating-Lag/" class="md-nav__link">
+      Simulating Lag
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Species-Notes/" class="md-nav__link">
+      Species Notes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Stripping-Scenes-For-Quick-Build/" class="md-nav__link">
+      Stripping Scenes For Quick Build
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../SyncVar-Best-Practices-for-Easy-Networking/" class="md-nav__link">
+      SyncVar Best Practices for Easy Networking
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../The-Clearance-System/" class="md-nav__link">
+      What is the Clearance System?
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Undo-RecordObject-vs-EditorUtility-SetDirty/" class="md-nav__link">
+      Undo RecordObject vs EditorUtility SetDirty
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../What-is-a-matrix/" class="md-nav__link">
+      What is a matrix
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Working-with-Speech-Modifiers/" class="md-nav__link">
+      Working with Speech Modifiers
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+    
+    <label class="md-nav__link" for="nav-8">
+      Faq
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Faq" data-md-level="1">
+      <label class="md-nav__title" for="nav-8">
+        <span class="md-nav__icon md-icon"></span>
+        Faq
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../faq/Building/" class="md-nav__link">
+      Building FAQ
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
+    
+    <label class="md-nav__link" for="nav-9">
+      Project goals
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Project goals" data-md-level="1">
+      <label class="md-nav__title" for="nav-9">
+        <span class="md-nav__icon md-icon"></span>
+        Project goals
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/roadmap/" class="md-nav__link">
+      RoadMap
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-9-2" type="checkbox" id="nav-9-2">
+    
+    <label class="md-nav__link" for="nav-9-2">
+      Current goal scope
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Current goal scope" data-md-level="2">
+      <label class="md-nav__title" for="nav-9-2">
+        <span class="md-nav__icon md-icon"></span>
+        Current goal scope
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/additional-job-role-developments/" class="md-nav__link">
+      Additional Job Role Developments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/antagonist-roles/" class="md-nav__link">
+      Antagonist roles
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/centcomm-missions/" class="md-nav__link">
+      Centcomm missions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/character-customization/" class="md-nav__link">
+      Character customization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/mapping-changes/" class="md-nav__link">
+      Mapping changes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/mining/" class="md-nav__link">
+      Mining
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/new-lobby-screen/" class="md-nav__link">
+      New lobby screen
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/npc-aliens/" class="md-nav__link">
+      Npc aliens
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/player-accounts/" class="md-nav__link">
+      Player accounts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/shuttles/" class="md-nav__link">
+      Shuttles
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/start-of-round/" class="md-nav__link">
+      Start of round
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/the-narrative/" class="md-nav__link">
+      The narrative
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cheat-sheet" class="md-nav__link">
+    Cheat Sheet
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#items-and-objects" class="md-nav__link">
+    Items and Objects
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prefabs-prefab-variants-and-you" class="md-nav__link">
+    Prefabs, Prefab Variants, and you
+  </a>
+  
+    <nav class="md-nav" aria-label="Prefabs, Prefab Variants, and you">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#picking-the-best-parent-prefab" class="md-nav__link">
+    Picking the Best Parent Prefab
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#where-to-put-your-new-prefab" class="md-nav__link">
+    Where to Put Your New Prefab
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clothing" class="md-nav__link">
+    Clothing
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#non-clothing-hand-sprites" class="md-nav__link">
+    Non-clothing Hand Sprites
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#layers" class="md-nav__link">
+    Layers
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#working-with-components" class="md-nav__link">
+    Working with Components
+  </a>
+  
+    <nav class="md-nav" aria-label="Working with Components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#itemattributes" class="md-nav__link">
+    ItemAttributes
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integrity" class="md-nav__link">
+    Integrity
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#itemstorage" class="md-nav__link">
+    ItemStorage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pickupable" class="md-nav__link">
+    Pickupable
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#untouchables" class="md-nav__link">
+    Untouchables
+  </a>
+  
+    <nav class="md-nav" aria-label="Untouchables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#network-identity" class="md-nav__link">
+    Network Identity
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-net-transform" class="md-nav__link">
+    Custom Net Transform
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#putting-your-object-in-the-game" class="md-nav__link">
+    Putting your object in the game
+  </a>
+  
+    <nav class="md-nav" aria-label="Putting your object in the game">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-note-about-changing-a-prefab" class="md-nav__link">
+    A note about changing a prefab
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    Testing
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/unitystation/unitystation/edit/develop/docs/development/Creating-Items-and-Objects.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="creating-items-and-objects">Creating Items and Objects<a class="headerlink" href="#creating-items-and-objects" title="Permanent link">&para;</a></h1>
+<p>Want to create a new item or object? Read on to find out how.</p>
+<h2 id="cheat-sheet">Cheat Sheet<a class="headerlink" href="#cheat-sheet" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Determine the best parent prefab for your object and create a prefab variant of it. See <a href="#picking-the-best-parent-prefab">Picking the Best Parent Prefab</a></li>
+<li>Find a good place to put it in the folder structure.</li>
+<li>Fill in its ItemAttributes and Integrity settings.</li>
+<li>If creating clothing, create the cloth data asset and select it in the Clothing component.</li>
+<li>If creating a non-clothing item, set up the inhand sprites in the SpriteDataHandler component.</li>
+<li>In the hierarchy for the prefab, select the Sprite child object and set the Sprite Renderer sprite to an icon representing the object. Make sure the SpriteRenderer's sorting layer and order in layer are correct.</li>
+<li>Ensure the object's physics layer is correct. The child Sprite's physics layer can be left at default (but NOT the SpriteRenderer sorting layer).</li>
+<li>Edit the fields on the other components as necessary.</li>
+<li>Develop new components or modify the code for existing ones as needed. See <a href="../Component-Development-Checklist/">Component Development Checklist</a></li>
+<li>Test! Don't forget to test the following common sources of issues:</li>
+<li>Test in multiplayer with at least 1 client and 1 server, trying to use the object as client and as server player.</li>
+<li><a href="../Proper-Spawning-and-Despawning-%28Object-Lifecycle%29/">Test using Respawn</a></li>
+<li>Test with round restarts.</li>
+<li>Test on moving / rotating / rotated-before-joining shuttles.</li>
+</ol>
+<h2 id="items-and-objects">Items and Objects<a class="headerlink" href="#items-and-objects" title="Permanent link">&para;</a></h2>
+<p>We usually call things "items" if they can be picked up, and "objects" if they can't.</p>
+<h2 id="prefabs-prefab-variants-and-you">Prefabs, Prefab Variants, and you<a class="headerlink" href="#prefabs-prefab-variants-and-you" title="Permanent link">&para;</a></h2>
+<p><a href="https://docs.unity3d.com/Manual/Prefabs.html"><strong>Prefabs</strong></a> are the Unity way of creating templates of objects that will be re-used several times in a scene or across several scenes, such as scenery, items or NPC's.</p>
+<p>Almost all prefabs in unitystation are (or eventually will be) <a href="https://docs.unity3d.com/Manual/PrefabVariants.html"><strong>prefab variants</strong></a>, which means they get their default settings / behavior from a parent prefab and have some of their own modifications on top of that.
+If you are familiar with DM, these work pretty much the same way as DM inheritance does.</p>
+<p>Any time the prefab variant's parents are changed, the variant will automatically update with those changes unless it has overridden the particular change with its own setting.</p>
+<p>Prefab variants are ESSENTIAL to unitystation because there are lots of objects and items in the game. If we had to edit each one individually every time there was a change to the way certain "kinds" of objects should function, it would be a huge time sink. They also naturally fit into the same structure as the DM inheritance in tgstation.</p>
+<p>For example, in the past we have had to make changes to how lockers work, which required manually going in and modifying the 30+ different locker prefabs that had been created. If we had instead set up lockers to be prefab variants of a common "Locker" parent, we would only have to modify the parent prefab and all of the 30+ variants would automatically receive these new changes. This can get very tedious and demotivating, so let's try to make sure we never have to do these sorts of things ever again.</p>
+<p>To create a prefab, you first need to determine the best parent prefab to use. You shouldn't create a parentless prefab unless you really know what you're doing.</p>
+<h3 id="picking-the-best-parent-prefab">Picking the Best Parent Prefab<a class="headerlink" href="#picking-the-best-parent-prefab" title="Permanent link">&para;</a></h3>
+<p>This is a bit of an art. The goal here is to pick a parent that  </p>
+<ol>
+<li>Has the stuff your prefab needs already, no more and no less.</li>
+<li>Logically makes sense as a child, so if the parent's configuration is updated you would want your prefab to gain those updates as well.</li>
+</ol>
+<p>Tips for how to find the best parent prefab:  </p>
+<ol>
+<li>Try to match the hier structure in the tgstation DM codebase. Each node in the hier string should roughly match up with a node in the prefab variant hierarchy. For example, plasteel tiles have a hier of /obj/item/stack/tile/plasteel, so the best place in the prefab variant hierarchy for this object would be something like Item.prefab &gt; Stackable.prefab &gt; Tile.prefab &gt; Plasteel.prefab.</li>
+<li>Find an existing prefab that is similar to what you want to create, then...</li>
+<li>Go to the top of the prefab to see its parent. If the parent makes sense for your prefab, you can create your prefab as a variant of the parent or simply duplicate the similar prefab and rename the duplicate.<ul>
+<li>If the parent doesn't make sense as a parent for your prefab, continue up the hierarchy, check its parent, its parent's parent, etc...until you find a good fit.</li>
+</ul>
+</li>
+<li>If your prefab is actually a special case of this existing prefab, use this existing prefab as the parent!</li>
+<li>If unsure, the safest option is to use one of the base prefabs:</li>
+<li>One of the "Clothing" prefabs, such as Beltwear, Earwear, Eyewear, etc... if your prefab will be something wearable.</li>
+<li>Item if your prefab can be picked up</li>
+<li>Object if your prefab can't be picked up</li>
+</ol>
+<p>It's usually best to err on the side of having a more "basic" parent. Don't choose a parent just because it has what you want. Keep in mind, <strong>if someone changes the parent, those changes will be applied to your variant</strong>!</p>
+<p>However, if you create a lot of prefabs under a top-level parent (like Item), <strong>it can make certain changes very tedious because none of them share any configuration</strong>! Therefore it's best to try to structure your prefabs
+so that similar prefabs have the same parent. </p>
+<p>If you find yourself in a situation where you need to edit a lot of prefabs all together, you should consider restructuring the prefabs to share a common parent or creating a shared
+configuration in the form of a <a href="https://docs.unity3d.com/Manual/class-ScriptableObject.html">ScriptableObject (advanced topic, not covered here)</a>. If you want to learn more about ScriptableObjects, <a href="https://youtu.be/raQ3iHhE_Kk">here's the video that got us all excited about them</a>.</p>
+<p>For example, I want to create a new belt. I found the "Toolbelt", see that its parent is "Belt", so I create a variant of that as demonstrated below.
+<img alt="New Belt" src="https://i.imgur.com/B2AVrBl.gif" /></p>
+<p>Here's a different example. I want to create a Janitor Belt that is populated with a clown horn. I found the "Janitor Belt", and I know I want mine to be exactly the same as this but with some initial items rather than nothing,
+ so I'll create a variant of the Toolbelt as shown below.
+<img alt="New Belt" src="https://i.imgur.com/RzVeVsp.gif" /></p>
+<h3 id="where-to-put-your-new-prefab">Where to Put Your New Prefab<a class="headerlink" href="#where-to-put-your-new-prefab" title="Permanent link">&para;</a></h3>
+<p>Use your best judgement, but in general your new prefab should usually go in the same folder as the other prefab variants of its parent.</p>
+<p>Your prefab will need to be somewhere under a folder called "Prefab", otherwise it won't be spawnable in game.</p>
+<h2 id="clothing">Clothing<a class="headerlink" href="#clothing" title="Permanent link">&para;</a></h2>
+<p>If your item is something that can be worn, it needs to have sprites defined for how it looks on the player. You do this by creating
+a clothing data asset. You can set this up like so:</p>
+<ol>
+<li>Find the corresponding sprite sheet for your item under Textures/clothing.</li>
+<li>Right click &gt; Create &gt; Scriptable Objects &gt; HeadsetData (for headsets), BeltData (for belts), ContainerData (for backpacks), or ClothData (for everything else).</li>
+<li>Fill in the fields under Base:</li>
+<li>Equipped - sprite sheet for how it looks when worn</li>
+<li>In Hands Left - sprite sheet for how it looks when in left hand </li>
+<li>In Hands Right - sprite sheet for how it looks when in right hand</li>
+<li>Item Icon - icon for this item when it's in inventory or dropped in the world.</li>
+<li>In your prefab's Clothing component, select this asset you just created.</li>
+<li>It's usually recommended to create a subfolder to hold your clothing asset and its associated sprites. 
+Make sure to move the corresponding json file for the sprite sheet along with the sprite sheet itself.</li>
+</ol>
+<p>For reference, see any of the assets created under Textures/clothing, such as Textures/clothing/head/beret/beret.asset</p>
+<h2 id="non-clothing-hand-sprites">Non-clothing Hand Sprites<a class="headerlink" href="#non-clothing-hand-sprites" title="Permanent link">&para;</a></h2>
+<p>If you're creating an item that isn't clothing, you still need to define what it looks like when in hand. You can leave this blank, but we strongly encourage you to set this up as it will still need to be done eventually.</p>
+<p>To do this, go to the SpriteDataHandler component, expand Sprite List, set element 0 to the left hand sprite sheet and element 1 to the right hand sprite sheet <strong>and press SetUpSheet button</strong>.</p>
+<p>For reference, see another prefab which already does this, such as the ID card prefab (search "ID t:Prefab").</p>
+<h2 id="layers">Layers<a class="headerlink" href="#layers" title="Permanent link">&para;</a></h2>
+<p>There are 2 kinds of layers - physics layers (used to determine what should collide with each other) and sorting layers (used to determine what should be drawn on top). Order in layer is a tiebreaker for things in the same sorting layer.</p>
+<p>When creating a new object, <strong>you must ensure the prefab's root object has the correct physics layer</strong> (top right in the Inspector) based on what that object is. If you know of an object which functions similarly, simply use the same physics layer as it. Otherwise, <a href="../Physics-Layers/">refer to the physics layer reference here.</a></p>
+<p>Additionally, <strong>you must ensure the Sprite's SpriteRenderer has the correct sorting layer and order in layer</strong>. Sorting layer should generally match the kind of object it is (check other similar objects if you aren't sure), and order in layer should just be an arbitrary value that doesn't match any other objects' order in layer within that sorting layer (otherwise the order will be arbitrary and the objects might flicker between each other). In the future we might make it automatic via a script, so just do your best to pick a random number for order in layer.</p>
+<h2 id="working-with-components">Working with Components<a class="headerlink" href="#working-with-components" title="Permanent link">&para;</a></h2>
+<p>Components define how the prefab will behave. We have a lot of them! If one doesn't suit your needs, you can <a href="../Component-Development-Checklist/">develop new functionality in it or even develop your own</a></p>
+<p>This section discusses some commonly used components to give you an idea of how to configure them and how components work in general.</p>
+<p><strong>If you aren't sure what a field does, mouse over its name to view its tooltip</strong> (if it has one). We try to be consistent about adding tooltips, but sometimes you might need to open up the component script or ask on Discord to better understand it.
+We are constantly working to make our components and prefabs more user-friendly!</p>
+<h3 id="itemattributes">ItemAttributes<a class="headerlink" href="#itemattributes" title="Permanent link">&para;</a></h3>
+<p>This defines the basic characteristics of an item (though it is also used on some objects at the moment).</p>
+<p>The component exposes the following fields, they're mostly self explanatory:
+* Item Description: A string describing the item.
+* Item Name: The name of the item.
+* Size: The size of the item.
+* Initial Traits: <a href="https://github.com/unitystation/unitystation/wiki/Item-Traits-System">Read about Traits</a>
+* Damage and throw stats, affect throw speed, range and damage in various scenarios</p>
+<h3 id="integrity">Integrity<a class="headerlink" href="#integrity" title="Permanent link">&para;</a></h3>
+<p>This defines an object's response to damage.</p>
+<p>Some fields:
+* Armor - an object's protection against different types of damage. Works the same as the DM codebase.
+* Resistances - an object's resistances or weaknesses to certain things. Works the same as ResistanceFlags in the DM codebase.
+* Heat Resistance - below this temperature object will take no damage from heat exposure.</p>
+<h3 id="itemstorage">ItemStorage<a class="headerlink" href="#itemstorage" title="Permanent link">&para;</a></h3>
+<p>This allows an object to store items. It defines what slots the storage has, what is allowed to fit, and what initial contents it spawns with. See the <a href="../Inventory-System/">Inventory System documentation</a> for details.</p>
+<h3 id="pickupable">Pickupable<a class="headerlink" href="#pickupable" title="Permanent link">&para;</a></h3>
+<p>The <strong>Pickupable</strong> component allows an item to be picked up. Contains some additional server-side functionality for predicting the success or failure of an attempt to grab the item.</p>
+<h3 id="untouchables">Untouchables<a class="headerlink" href="#untouchables" title="Permanent link">&para;</a></h3>
+<p>Some components should almost never be messed with! You will find these on almost all parent prefabs so you should never have to
+think about them.</p>
+<h4 id="network-identity">Network Identity<a class="headerlink" href="#network-identity" title="Permanent link">&para;</a></h4>
+<p>Don't touch this!</p>
+<p>This is an essential component for working with <a href="https://mirror-networking.com/docs/">Mirror Networking</a></p>
+<p>It ensures that the GameObject has a unique identity (called the Network Instance Id) and is synced across clients and servers, and as such most GameObject used in UnityStation will need a Network Identity component.</p>
+<p>The Network Identity component only has two toggleable properties: Server Only and Local Player Authority. </p>
+<p>References:
+* https://docs.unity3d.com/Manual/UNet.html
+* https://docs.unity3d.com/Manual/class-NetworkIdentity.html
+* https://docs.unity3d.com/Manual/UNetConcepts.html
+* https://docs.unity3d.com/Manual/UNetAuthority.html
+* https://docs.unity3d.com/Manual/UNetUsingHLAPI.html</p>
+<h4 id="custom-net-transform">Custom Net Transform<a class="headerlink" href="#custom-net-transform" title="Permanent link">&para;</a></h4>
+<p>Don't touch this!</p>
+<p>This allows items to be moved in various ways, such as being pushed, appear and disappear.</p>
+<p><img alt="Custom net transform" src="https://i.imgur.com/APfCmFX.png" /></p>
+<p>References:
+* https://docs.unity3d.com/Manual/class-NetworkBehaviour.html
+* https://docs.unity3d.com/ScriptReference/Networking.NetworkBehaviour.html</p>
+<h2 id="putting-your-object-in-the-game">Putting your object in the game<a class="headerlink" href="#putting-your-object-in-the-game" title="Permanent link">&para;</a></h2>
+<p>The easiest way to make your object show up is to create it using the Dev Spawner in game (top right, Dev, Dev Spawner, search for your prefab by name).</p>
+<p>You can also map your object into the scene. This requires <a href="../Creating-and-Using-Tile-Palettes/">adding it to the tile palette</a></p>
+<p>Once you've done that, you can <a href="../How-to-Map/">map it into the scene</a>.</p>
+<h3 id="a-note-about-changing-a-prefab">A note about changing a prefab<a class="headerlink" href="#a-note-about-changing-a-prefab" title="Permanent link">&para;</a></h3>
+<p>Prefabs in the scene (prefab instances) will be independent. This means that if you make any changes to it within the scene, no other prefab will be changed.</p>
+<p>However, you might want to apply a change to all prefabs in your scene. </p>
+<p>To assist you, the inspector will show an additional three buttons at the top of the inspector when you inspect a prefab: select, revert and apply.
+1. Select will select the prefab asset in your assets.
+2. Revert will revert any changes to that of the prefab in your assets.
+3. Apply will apply any changes to that prefab to all prefabs of the same type.</p>
+<p>Any changes made to the asset prefab will also apply to all prefabs instantiated from it.</p>
+<p>References:
+* https://docs.unity3d.com/Manual/Prefabs.html
+* https://docs.unity3d.com/Manual/InstantiatingPrefabs.html
+* https://unity3d.com/learn/tutorials/topics/interface-essentials/prefabs-concept-usage</p>
+<h2 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">&para;</a></h2>
+<p>Spawn your item and play around with it as client and server.</p>
+<p>Don't forget to test the following common sources of issues:
+  * Test in multiplayer with at least 1 client and 1 server, trying to use the object as client and as server player.
+  * <a href="../Proper-Spawning-and-Despawning-%28Object-Lifecycle%29/">Test using Respawn</a>
+  * Test with round restarts.
+  * Test on moving / rotating / rotated-before-joining shuttles.</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../Crafting-System/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Crafting System
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../Creating-and-Using-Tile-Palettes/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Creating and Using Tile Pallettes
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/vendor.6a3d08fc.min.js"></script>
+      <script src="../../assets/javascripts/bundle.71201edf.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "../..",
+          features: [],
+          search: Object.assign({
+            worker: "../../assets/javascripts/worker/search.4ac00218.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>

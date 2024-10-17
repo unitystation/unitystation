@@ -1,0 +1,1614 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Project Design and Documentation for development">
+      
+      
+        <link rel="canonical" href="https://unitystation.github.io/unitystation/development/How-to-Sprite/">
+      
+      
+        <meta name="author" content="MrMepper">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.ico">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.1.0">
+    
+    
+      
+        <title>How to Sprite - UnityStation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.bc7e593a.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab28b872.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+      
+  
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#how-to-sprite" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://unitystation.github.io/unitystation/" title="UnityStation" class="md-header-nav__button md-logo" aria-label="UnityStation">
+      
+  <img src="../../assets/images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            UnityStation
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              How to Sprite
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header-nav__source">
+        
+<a href="https://github.com/unitystation/unitystation/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    unitystation/unitystation
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://unitystation.github.io/unitystation/" title="UnityStation" class="md-nav__button md-logo" aria-label="UnityStation">
+      
+  <img src="../../assets/images/logo.png" alt="logo">
+
+    </a>
+    UnityStation
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/unitystation/unitystation/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    unitystation/unitystation
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../CODE_OF_CONDUCT/" class="md-nav__link">
+      Code of Conduct
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../CONTRIBUTING/" class="md-nav__link">
+      Contribution and Review Guidelines
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../Documentation-Guide/" class="md-nav__link">
+      Documentation Guide
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../GPLv3/" class="md-nav__link">
+      Licensing
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Contribution guides
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Contribution guides" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        <span class="md-nav__icon md-icon"></span>
+        Contribution guides
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribution-guides/Building-And-Testing/" class="md-nav__link">
+      Building and Testing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribution-guides/Developing-for-UnityStation-on-Unix-Systems-with-the-Unity-Editor-and-JetBrains-Rider/" class="md-nav__link">
+      Developing On Linux
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribution-guides/Development-Standards-Guide/" class="md-nav__link">
+      Development Standards Guide
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribution-guides/Starting-contribution/" class="md-nav__link">
+      Starting Contribution
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7" checked>
+    
+    <label class="md-nav__link" for="nav-7">
+      Development
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Development" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        <span class="md-nav__icon md-icon"></span>
+        Development
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Addressables/" class="md-nav__link">
+      Overview of Addressable Sounds
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Component-Development-Checklist/" class="md-nav__link">
+      Component Development Checklist
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Crafting-System/" class="md-nav__link">
+      Crafting System
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Creating-Items-and-Objects/" class="md-nav__link">
+      Creating Items and Objects
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Creating-and-Using-Tile-Palettes/" class="md-nav__link">
+      Creating and Using Tile Pallettes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Development-Gotchas-and-Common-Mistakes/" class="md-nav__link">
+      Development Gotchas and Common Mistakes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Development-Protips/" class="md-nav__link">
+      Development Protips
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Directory-Structure/" class="md-nav__link">
+      Directory Structure
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Electricity-Development/" class="md-nav__link">
+      Electricity Development
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Emotes/" class="md-nav__link">
+      EmoteSO, and how to work with it.
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Helpful-Functions-Cheatsheet/" class="md-nav__link">
+      Helpful Functions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Hosting-a-Server/" class="md-nav__link">
+      Hosting a Server
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../How-To-User-Interface/" class="md-nav__link">
+      How To Create a User Interface
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../How-to-Map/" class="md-nav__link">
+      How to Map
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../How-to-Random-Loot/" class="md-nav__link">
+      How to use random spawners
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        How to Sprite
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="./" class="md-nav__link md-nav__link--active">
+      How to Sprite
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-make-and-import-sprites-using-singleton-scriptable-objects" class="md-nav__link">
+    How to make and import sprites using Singleton Scriptable Objects
+  </a>
+  
+    <nav class="md-nav" aria-label="How to make and import sprites using Singleton Scriptable Objects">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#single-frame-sprite" class="md-nav__link">
+    Single Frame Sprite
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-frame-sprite" class="md-nav__link">
+    Multi Frame Sprite
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#changing-your-sprite" class="md-nav__link">
+    Changing your sprite
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-make-and-import-paletteable-sprites" class="md-nav__link">
+    How to make and import paletteable sprites
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-the-paletteable-sprite-texture" class="md-nav__link">
+    Creating the paletteable sprite texture
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating the paletteable sprite texture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features-of-the-tool" class="md-nav__link">
+    Features of the tool
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#typical-workflow-of-using-the-tool" class="md-nav__link">
+    Typical workflow of using the tool
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i-have-a-paletteable-sprite-texture-now-what" class="md-nav__link">
+    I have a paletteable sprite texture. Now what?
+  </a>
+  
+    <nav class="md-nav" aria-label="I have a paletteable sprite texture. Now what?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dev-notes" class="md-nav__link">
+    Dev notes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-the-shader-works" class="md-nav__link">
+    How the shader works
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../How-to-use-ReplaceWithPrefab.cs/" class="md-nav__link">
+      How to use ReplaceWithPrefab.cs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../How-to-use-UIActions/" class="md-nav__link">
+      How to use UIActions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../How-to-use-the-in-game-debugger/" class="md-nav__link">
+      Using the In-game Debugger
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Implementing-Interactions/" class="md-nav__link">
+      Implementing Interactions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Inventory-System/" class="md-nav__link">
+      Inventory System
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Item-Traits-System/" class="md-nav__link">
+      Item Traits System
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Mirror-Upgrade-Customization-Notes/" class="md-nav__link">
+      Mirror Upgrade Customization Notes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Mirror/" class="md-nav__link">
+      Mirror (Networking library)
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Module-Structure/" class="md-nav__link">
+      Module Structure
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Multiplayer-PlayMode/" class="md-nav__link">
+      Introduction to [Multiplayer Playmode](https://docs.unity3d.com/Packages/com.unity.multiplayer.playmode@0.1/manual/index.html)
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Navigating-DM-codebases-%28like-tgstation%29/" class="md-nav__link">
+      Navigating DM codebases (like tgstation)
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Networking-%28Network-Messages%29/" class="md-nav__link">
+      Networking (Network Messages)
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Notes-on-SyncObject-and-SyncList/" class="md-nav__link">
+      Note SyncObject And SyncList Usage
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Occupations/" class="md-nav__link">
+      Occupations
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Physics-Layers/" class="md-nav__link">
+      Physics Layers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Projectiles/" class="md-nav__link">
+      Projectiles
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Proper-Spawning-and-Despawning-%28Object-Lifecycle%29/" class="md-nav__link">
+      Proper Spawning and Despawning
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../RPC-vs-Netmsg/" class="md-nav__link">
+      RPC vs Netmsg
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Right-Click-Menu/" class="md-nav__link">
+      Right Click Menu
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Simulating-Lag/" class="md-nav__link">
+      Simulating Lag
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Species-Notes/" class="md-nav__link">
+      Species Notes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Stripping-Scenes-For-Quick-Build/" class="md-nav__link">
+      Stripping Scenes For Quick Build
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../SyncVar-Best-Practices-for-Easy-Networking/" class="md-nav__link">
+      SyncVar Best Practices for Easy Networking
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../The-Clearance-System/" class="md-nav__link">
+      What is the Clearance System?
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Undo-RecordObject-vs-EditorUtility-SetDirty/" class="md-nav__link">
+      Undo RecordObject vs EditorUtility SetDirty
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../What-is-a-matrix/" class="md-nav__link">
+      What is a matrix
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Working-with-Speech-Modifiers/" class="md-nav__link">
+      Working with Speech Modifiers
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+    
+    <label class="md-nav__link" for="nav-8">
+      Faq
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Faq" data-md-level="1">
+      <label class="md-nav__title" for="nav-8">
+        <span class="md-nav__icon md-icon"></span>
+        Faq
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../faq/Building/" class="md-nav__link">
+      Building FAQ
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
+    
+    <label class="md-nav__link" for="nav-9">
+      Project goals
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Project goals" data-md-level="1">
+      <label class="md-nav__title" for="nav-9">
+        <span class="md-nav__icon md-icon"></span>
+        Project goals
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/roadmap/" class="md-nav__link">
+      RoadMap
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-9-2" type="checkbox" id="nav-9-2">
+    
+    <label class="md-nav__link" for="nav-9-2">
+      Current goal scope
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Current goal scope" data-md-level="2">
+      <label class="md-nav__title" for="nav-9-2">
+        <span class="md-nav__icon md-icon"></span>
+        Current goal scope
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/additional-job-role-developments/" class="md-nav__link">
+      Additional Job Role Developments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/antagonist-roles/" class="md-nav__link">
+      Antagonist roles
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/centcomm-missions/" class="md-nav__link">
+      Centcomm missions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/character-customization/" class="md-nav__link">
+      Character customization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/mapping-changes/" class="md-nav__link">
+      Mapping changes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/mining/" class="md-nav__link">
+      Mining
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/new-lobby-screen/" class="md-nav__link">
+      New lobby screen
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/npc-aliens/" class="md-nav__link">
+      Npc aliens
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/player-accounts/" class="md-nav__link">
+      Player accounts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/shuttles/" class="md-nav__link">
+      Shuttles
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/start-of-round/" class="md-nav__link">
+      Start of round
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/the-narrative/" class="md-nav__link">
+      The narrative
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-make-and-import-sprites-using-singleton-scriptable-objects" class="md-nav__link">
+    How to make and import sprites using Singleton Scriptable Objects
+  </a>
+  
+    <nav class="md-nav" aria-label="How to make and import sprites using Singleton Scriptable Objects">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#single-frame-sprite" class="md-nav__link">
+    Single Frame Sprite
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-frame-sprite" class="md-nav__link">
+    Multi Frame Sprite
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#changing-your-sprite" class="md-nav__link">
+    Changing your sprite
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-make-and-import-paletteable-sprites" class="md-nav__link">
+    How to make and import paletteable sprites
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-the-paletteable-sprite-texture" class="md-nav__link">
+    Creating the paletteable sprite texture
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating the paletteable sprite texture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features-of-the-tool" class="md-nav__link">
+    Features of the tool
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#typical-workflow-of-using-the-tool" class="md-nav__link">
+    Typical workflow of using the tool
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i-have-a-paletteable-sprite-texture-now-what" class="md-nav__link">
+    I have a paletteable sprite texture. Now what?
+  </a>
+  
+    <nav class="md-nav" aria-label="I have a paletteable sprite texture. Now what?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dev-notes" class="md-nav__link">
+    Dev notes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-the-shader-works" class="md-nav__link">
+    How the shader works
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/unitystation/unitystation/edit/develop/docs/development/How-to-Sprite.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="how-to-sprite">How to Sprite<a class="headerlink" href="#how-to-sprite" title="Permanent link">&para;</a></h1>
+<h2 id="how-to-make-and-import-sprites-using-singleton-scriptable-objects">How to make and import sprites using Singleton Scriptable Objects<a class="headerlink" href="#how-to-make-and-import-sprites-using-singleton-scriptable-objects" title="Permanent link">&para;</a></h2>
+<p>Firstly, draw your image in a photoshop program and save it as a png file. Relocate the file to the particular sub Sprite Folder, then navigate to the folder location in the editor.</p>
+<p>For the purposes of this document, we are going to use a mock image, the steps will be the same as when you do it for your sprite.</p>
+<h3 id="single-frame-sprite">Single Frame Sprite<a class="headerlink" href="#single-frame-sprite" title="Permanent link">&para;</a></h3>
+<p><img alt="" src="../../assets/images/HowToSprite/tyler_in_file.png" /></p>
+<p>Here is Tyler, the Single Frame png file which has just been added into the project. His settings are not yet optimised, to optimise them open him up in the inspector, like so.</p>
+<p><img alt="" src="../../assets/images/HowToSprite/tyler_inspector_view.png" /></p>
+<p>Now make the following adjustments:</p>
+<ul>
+<li>Change <strong>Pixels Per Unit</strong> to <strong>32</strong></li>
+<li>Change <strong>Mesh Type</strong> to <strong>Full Rect</strong></li>
+<li>Tick <strong>Read/Write Enabled</strong> so it is true</li>
+<li>Set <strong>Filter Mode</strong> to <strong>Point (no filter)</strong></li>
+<li>Set the <strong>Format</strong> to <strong>RGBA 32 bit</strong> in the <strong>Default</strong> tab</li>
+</ul>
+<p>Now the image is ready to put into the Singleton Scriptable Object. Right Click up top on the white bar and go <strong>Create</strong> -&gt; <strong>Singleton Scriptable Object</strong> -&gt; <strong>SpriteData</strong>.</p>
+<p>Make sure the names between your sprite and SO match. Open up the newly created SO in the inspector like so:</p>
+<p><img alt="" src="../../assets/images/HowToSprite/tyler_sprite_data_so.png" /></p>
+<p>Now make the following adjustments (in order):</p>
+<ol>
+<li>Set <strong>Variance</strong> from 0 to 1</li>
+<li>Inside <strong>Element 0</strong> subtab in <strong>Frames</strong> set size from 0 to 1</li>
+<li>Now inside the <strong>Frame's</strong> <strong>Element 0</strong> there should be an entry called <strong>Sprite</strong>, click on the cricle to the right and search for your sprite. Click and hit enter to make sure you actually select it, it can be a bit temperamental.</li>
+</ol>
+<p><img alt="" src="../../assets/images/HowToSprite/tyler_select_sprite.png" /></p>
+<p>To add your sprite to the repository, commit and PR these files to git, make sure you are looking to commit your files and not any tyler images.</p>
+<ul>
+<li>tyler.asset</li>
+<li>tyler.asset.meta</li>
+<li>tyler.png</li>
+<li>tyler.png.meta</li>
+<li>SpriteCatalogueSingleton</li>
+</ul>
+<h3 id="multi-frame-sprite">Multi Frame Sprite<a class="headerlink" href="#multi-frame-sprite" title="Permanent link">&para;</a></h3>
+<p>This is for using a sprite sheet to make an animations or have different holding positions for in-hand item etc. All the usual adjustments from Single Frame Sprite above apply to the Durden image. However, make sure that the <strong>Sprite Mode</strong> set to <strong>Multiple</strong> instead of Single in the inspector.
+<img alt="" src="../../assets/images/HowToSprite/durden_sprite_mode_single_multiple.png" /></p>
+<p>Now click on the <strong>Sprite Editor</strong> button in the bottom right hand corner, it's time to slice the sprite sheet up. </p>
+<p><img alt="" src="../../assets/images/HowToSprite/durden_sprite_editor_slice.png" /></p>
+<p>In top left click <strong>Slice</strong>, then set <strong>Type</strong> to <strong>Grid by Cell Size</strong> and then make sure that <strong>Pixel Size</strong> is adjusted so that you get the dimensions you want for the sprite (e.g. if it's 32 by 32, then set both X and Y to 32). There should now be squares around each sprite, however it is not saved until you press the <strong>Apply</strong> button in the top right.</p>
+<p><img alt="" src="../../assets/images/HowToSprite/durden_sprite_so.png" /></p>
+<p>Now when you create the Singleton Scriptable Object for Sprite Data this time, put in the number of frames that you sliced up in <strong>Variance</strong> -&gt; <strong>Element0</strong> -&gt; <strong>Size</strong>. To set the delay between the frames, you need to add the total delay otherwise the frames will appear on top of each other - so if you want a 1 second delay between each frame you set each element to be 1, 2 (1+1), 3 (2+1) and 4 (3+1).</p>
+<h2 id="changing-your-sprite">Changing your sprite<a class="headerlink" href="#changing-your-sprite" title="Permanent link">&para;</a></h2>
+<p>To control your sprite in your code, you must first create the sprite object as a child of the object you want to use the sprite for. To demonstrate, we will go into the crowbar object and double click to bring up the prefab and all it's children.</p>
+<p><img alt="" src="../../assets/images/HowToSprite/crowbar_editor.png" /></p>
+<p>If you change the <strong>Present Sprite Set</strong> to durden</p>
+<p><img alt="" src="../../assets/images/HowToSprite/crowbar_change_durden.png" /></p>
+<p>It will now show your Durden sprite. From this point, you can change the present sprite by calling <code>baseSpriteHandler.ChangeSprite(Variable)</code>, where <strong>Variable</strong> is an enum state (e.g. SpriteState.Idle) to which will allow you to change your Multi-Frame sprite. You can also change variants if you need to modify its orientation by calling <code>baseSpriteHandler.ChangeSpriteVariant(Variable)</code>, where Variable is again a number.</p>
+<h2 id="how-to-make-and-import-paletteable-sprites">How to make and import paletteable sprites<a class="headerlink" href="#how-to-make-and-import-paletteable-sprites" title="Permanent link">&para;</a></h2>
+<p>This guide will help you make sprites that have their colors defined by a palette that can be altered at runtime. This guide was written earlier in development, it is still useable, but not recommended to be used if you are not yet comfortable with importing sprites. Please use the above method.</p>
+<p>Even if you are starting with an ordinary sprite sheet, the process is more of an art than a science. 
+That being said, with some practice the results are very neat:</p>
+<p><img alt="Early example of paletteable sprites" src="https://i.imgur.com/c4FGRPC.gif" /></p>
+<p>With this system it could be possible to code dyes, paints, spells, or other features that change the color of objects in the middle of the game!</p>
+<p>Note: At time of writing, this system is only confirmed to work with items which make use of the <code>ItemAttributesV2</code> script.</p>
+<h2 id="creating-the-paletteable-sprite-texture">Creating the paletteable sprite texture<a class="headerlink" href="#creating-the-paletteable-sprite-texture" title="Permanent link">&para;</a></h2>
+<p>The colors of a paletteable sprite indicate which swatches of the palette to blend together and how to blend them. 
+So, in their unshaded form, they look almost nothing like what the results might produce. 
+Understandably, it would be difficult to create something like this using an ordinary image editor. 
+With that in mind, a custom image editing tool has been made to work with this format. </p>
+<p>It is a web tool available in <code>Tools/paletteable sprite editor/</code>:</p>
+<p><img alt="Screenshot of the paletteable sprite editor" src="https://i.imgur.com/ywW5g8e.png" /></p>
+<h3 id="features-of-the-tool">Features of the tool<a class="headerlink" href="#features-of-the-tool" title="Permanent link">&para;</a></h3>
+<p>On the top is where a paletteable sprite can be loaded in for previewing or editing. In fact, any image can be loaded here and that is very useful for converting an ordinary sprite into a paletteable one.</p>
+<p>In the upper-left is the palette manager for the tool. </p>
+<ul>
+<li>
+<p>Select the palette colors by clicking on the colored boxes.</p>
+</li>
+<li>
+<p>Determine which palette swatches the cursor will draw from by selecting swatches for A and B.</p>
+</li>
+<li>
+<p>Determine how the A and B swatches are blended for drawing with the cursor by moving the slider left and right</p>
+</li>
+<li>
+<p>The color next to the slider provides a preview of the color that the cursor will draw</p>
+</li>
+<li>
+<p>Add and remove swatches </p>
+</li>
+</ul>
+<p>In the lower-left are some actual-size preview panes. </p>
+<ul>
+<li>
+<p>The top image under <strong>Preview</strong> shows what the paletteable sprite currently in the canvas will produce with the colors currently selected in the palette.</p>
+</li>
+<li>
+<p>The lower image under <strong>Paletted</strong> shows what the paletteable sprite looks like in its raw form. This is used to export the sprite from the tool by right-clicking and saving the image to disk.</p>
+</li>
+</ul>
+<h3 id="typical-workflow-of-using-the-tool">Typical workflow of using the tool<a class="headerlink" href="#typical-workflow-of-using-the-tool" title="Permanent link">&para;</a></h3>
+<p>Suppose we want to make this ordinary sprite sheet into being paletteable:</p>
+<p><img alt="ordinary sprite sheet" src="https://i.imgur.com/6ckpKah.png" /></p>
+<ol>
+<li>
+<p>Optional: Load a sprite into the editor by browsing for the sprite and clicking <code>Load Raw</code> at the top. </p>
+<ul>
+<li>
+<p>This can be an ordinary or a palettable sprite, although an ordinary sprite will not look as expected in the canvas of the tool. Loading an ordinary sprite can still be useful because you can trace the shape of the sprite, so if you choose that. You will want to open the original in another window.</p>
+</li>
+<li>
+<p>If loading in a paletteable sprite for editing, <strong>be sure to add or remove swatches so that the palette size is correct <em>before</em> loading the sprite!</strong></p>
+</li>
+</ul>
+</li>
+</ol>
+<p><img alt="ordinary sprite sheet loaded into the tool" src="https://i.imgur.com/xHvkmC7.png" /></p>
+<p>Note: In the case of large sprites, you may need to slice them up to get them to fit into the canvas of the tool.</p>
+<ol>
+<li>Add, remove and edit the colors in the palette to be ones that you think describe the object. 
+For the best effect, colors that should always a blend of two other colors should not be their own palette color, because the blending should take care of that. 
+For instance, in a grey jumpsuit, you might have a medium grey for the main color of the clothing, black for the shadows, black for the dark part of the belt, and white for the belt buckle.</li>
+</ol>
+<p>This step is very much up to artistic interpretation.</p>
+<p><img alt="selected palettes for grey jumpsuit" src="https://i.imgur.com/QKPFGT8.png" /></p>
+<ol>
+<li>Use the slider to mix the swatches to make the colors you'd like to paint. Left-click in the canvas to draw a pixel. Right-click in the canvas to remove a pixel. If a pixel refuses to paint when left-clicked try right-clicking first to remove it (known bug).</li>
+</ol>
+<p>For example, suppose swatch 0 is white and swatch 1 is black. 
+If you want to paint grey because it is a blend of those colors, you can set A to swatch 0 and B to swatch 1 and blend as appropriate. 
+If you want to paint white, you can set A or B (or both) to swatch 0 and set the blend level appropriately.</p>
+<p><img alt="example of paletted jumpsuit in tool" src="https://i.imgur.com/W1z5ob8.png" /></p>
+<ol>
+<li>When you want to check that your work is going well, it is recommended to change the palette colors to different values to 
+verify that the blending works as expected. 
+You might realize that it would make sense to combine two colors into one swatch or to make one swatch into two to allow for more control.</li>
+</ol>
+<p><img alt="example of trying different palette colors" src="https://i.imgur.com/LS7pVPr.png" /></p>
+<ol>
+<li>Once you are done editing the sprite, you can export it by right-clicking into the <strong>Paletted</strong> image pane in the lower-left and
+saving it to disk. </li>
+</ol>
+<p>Note: The editor does not support alpha editing, every pixel is either 0% or 100% opaque. 
+This is a quirk of the editor, the paletting shader fully supports alpha in the sprites. 
+Consider using an external image editor to apply alpha as needed. (Or, making a better editor 😉)</p>
+<h2 id="i-have-a-paletteable-sprite-texture-now-what">I have a paletteable sprite texture. Now what?<a class="headerlink" href="#i-have-a-paletteable-sprite-texture-now-what" title="Permanent link">&para;</a></h2>
+<p>It takes a few steps to import it, set the palette colors, and tell the various bits to use the palette.</p>
+<ol>
+<li>First, load the texture into unity and slice it into sprites as you would any sprite.</li>
+<li>Apply the new sprite to the SpriteDataSO(s) for the item you would like.</li>
+<li>Enable the checkbox(es) for <code>Is Palette</code> in the SpriteDataSO(s).</li>
+<li>If the item is clothing, find the item's Clothing Data and set the palette size and colors there and enable the checkbox for <code>Is Paletted</code>.</li>
+<li>Go into the prefab of the item with <code>Item Attributes V2</code> And set the palette size and colors there, and also check <code>Is Paletted</code>. </li>
+<li>In the <code>Sprite</code> child(ren) of the object, set the size and colors of <code>Palette</code>.</li>
+</ol>
+<h3 id="dev-notes">Dev notes<a class="headerlink" href="#dev-notes" title="Permanent link">&para;</a></h3>
+<ul>
+<li>The general idea is that each instance of an item can have a distict selection of colors for its palette. This is the rationale behind having a palette on <code>Item Attributes V2</code>. However, the sprite handler currently manages its own palette drawn in most cases from sprite SO. A good improvement would be to draw from the sprite SO or clothingData (or other sources of a "default" palette, and then allow the <code>ItemAttributes V2</code> palette to override it. </li>
+<li>Various rendering components need access to the palette to apply it to the shader they control. Search for <code>_ColorPalette</code> to see where this occurs.</li>
+<li>It would be convenient for changes to propagate from the <code>Item Attributes V2</code> of the instance to the spriteHandlers associated with the item. Currently, there is a right-click menu for <code>Item Attributes V2</code> which once used to propagate them starting in <code>PropagatePaletteChanges</code> but it has since broken (and even then, it only worked for Clothes). Making that work completely again may be a welcome fix.</li>
+</ul>
+<h2 id="how-the-shader-works">How the shader works<a class="headerlink" href="#how-the-shader-works" title="Permanent link">&para;</a></h2>
+<p>For each pixel:</p>
+<ul>
+<li>R component is used to select the index of swatch A. 0-31 =&gt; swatch 0, 32-63 =&gt; swatch 1, etc.</li>
+<li>G component is used to select the index of swatch B.</li>
+<li>B component is used to lerp from the color of A to the color of B in RGB color space. 0 =&gt; 100% A, 128 =&gt; 50% - 50%, 255 =&gt; 100% B.</li>
+<li>A component is used directly for the alpha of the output.</li>
+</ul>
+<p>The shader currently only works with a palette length of exactly 8 but it could in theory work with 256 colors. There are a few magic number 8s that would need to be changed as well to increase the palette size and/or make it dynamic.</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../How-to-Random-Loot/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                How to use random spawners
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../How-to-use-ReplaceWithPrefab.cs/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                How to use ReplaceWithPrefab.cs
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/vendor.6a3d08fc.min.js"></script>
+      <script src="../../assets/javascripts/bundle.71201edf.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "../..",
+          features: [],
+          search: Object.assign({
+            worker: "../../assets/javascripts/worker/search.4ac00218.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>

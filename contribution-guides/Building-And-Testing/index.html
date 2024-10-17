@@ -1,0 +1,1446 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Project Design and Documentation for development">
+      
+      
+        <link rel="canonical" href="https://unitystation.github.io/unitystation/contribution-guides/Building-And-Testing/">
+      
+      
+        <meta name="author" content="MrMepper">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.ico">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.1.0">
+    
+    
+      
+        <title>Building and Testing - UnityStation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.bc7e593a.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab28b872.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+      
+  
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#building-and-testing" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://unitystation.github.io/unitystation/" title="UnityStation" class="md-header-nav__button md-logo" aria-label="UnityStation">
+      
+  <img src="../../assets/images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            UnityStation
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              Building and Testing
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header-nav__source">
+        
+<a href="https://github.com/unitystation/unitystation/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    unitystation/unitystation
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://unitystation.github.io/unitystation/" title="UnityStation" class="md-nav__button md-logo" aria-label="UnityStation">
+      
+  <img src="../../assets/images/logo.png" alt="logo">
+
+    </a>
+    UnityStation
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/unitystation/unitystation/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    unitystation/unitystation
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../CODE_OF_CONDUCT/" class="md-nav__link">
+      Code of Conduct
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../CONTRIBUTING/" class="md-nav__link">
+      Contribution and Review Guidelines
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../Documentation-Guide/" class="md-nav__link">
+      Documentation Guide
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../GPLv3/" class="md-nav__link">
+      Licensing
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6" checked>
+    
+    <label class="md-nav__link" for="nav-6">
+      Contribution guides
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Contribution guides" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        <span class="md-nav__icon md-icon"></span>
+        Contribution guides
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Building and Testing
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="./" class="md-nav__link md-nav__link--active">
+      Building and Testing
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tldr-quickbuild" class="md-nav__link">
+    TLDR QuickBuild
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#initial-setup-build-settings" class="md-nav__link">
+    Initial setup: Build settings
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#set-up-ping-simulation" class="md-nav__link">
+    Set up ping simulation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#start-up" class="md-nav__link">
+    Start up
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-pre-release-test-sequence" class="md-nav__link">
+    Advanced Pre-Release Test sequence
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Pre-Release Test sequence">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#testing-custom-maps-in-multiplayer" class="md-nav__link">
+    Testing custom maps in Multiplayer
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Developing-for-UnityStation-on-Unix-Systems-with-the-Unity-Editor-and-JetBrains-Rider/" class="md-nav__link">
+      Developing On Linux
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Development-Standards-Guide/" class="md-nav__link">
+      Development Standards Guide
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Starting-contribution/" class="md-nav__link">
+      Starting Contribution
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      Development
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Development" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        <span class="md-nav__icon md-icon"></span>
+        Development
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Addressables/" class="md-nav__link">
+      Overview of Addressable Sounds
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Component-Development-Checklist/" class="md-nav__link">
+      Component Development Checklist
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Crafting-System/" class="md-nav__link">
+      Crafting System
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Creating-Items-and-Objects/" class="md-nav__link">
+      Creating Items and Objects
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Creating-and-Using-Tile-Palettes/" class="md-nav__link">
+      Creating and Using Tile Pallettes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Development-Gotchas-and-Common-Mistakes/" class="md-nav__link">
+      Development Gotchas and Common Mistakes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Development-Protips/" class="md-nav__link">
+      Development Protips
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Directory-Structure/" class="md-nav__link">
+      Directory Structure
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Electricity-Development/" class="md-nav__link">
+      Electricity Development
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Emotes/" class="md-nav__link">
+      EmoteSO, and how to work with it.
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Helpful-Functions-Cheatsheet/" class="md-nav__link">
+      Helpful Functions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Hosting-a-Server/" class="md-nav__link">
+      Hosting a Server
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/How-To-User-Interface/" class="md-nav__link">
+      How To Create a User Interface
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/How-to-Map/" class="md-nav__link">
+      How to Map
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/How-to-Random-Loot/" class="md-nav__link">
+      How to use random spawners
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/How-to-Sprite/" class="md-nav__link">
+      How to Sprite
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/How-to-use-ReplaceWithPrefab.cs/" class="md-nav__link">
+      How to use ReplaceWithPrefab.cs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/How-to-use-UIActions/" class="md-nav__link">
+      How to use UIActions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/How-to-use-the-in-game-debugger/" class="md-nav__link">
+      Using the In-game Debugger
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Implementing-Interactions/" class="md-nav__link">
+      Implementing Interactions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Inventory-System/" class="md-nav__link">
+      Inventory System
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Item-Traits-System/" class="md-nav__link">
+      Item Traits System
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Mirror-Upgrade-Customization-Notes/" class="md-nav__link">
+      Mirror Upgrade Customization Notes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Mirror/" class="md-nav__link">
+      Mirror (Networking library)
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Module-Structure/" class="md-nav__link">
+      Module Structure
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Multiplayer-PlayMode/" class="md-nav__link">
+      Introduction to [Multiplayer Playmode](https://docs.unity3d.com/Packages/com.unity.multiplayer.playmode@0.1/manual/index.html)
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Navigating-DM-codebases-%28like-tgstation%29/" class="md-nav__link">
+      Navigating DM codebases (like tgstation)
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Networking-%28Network-Messages%29/" class="md-nav__link">
+      Networking (Network Messages)
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Notes-on-SyncObject-and-SyncList/" class="md-nav__link">
+      Note SyncObject And SyncList Usage
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Occupations/" class="md-nav__link">
+      Occupations
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Physics-Layers/" class="md-nav__link">
+      Physics Layers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Projectiles/" class="md-nav__link">
+      Projectiles
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Proper-Spawning-and-Despawning-%28Object-Lifecycle%29/" class="md-nav__link">
+      Proper Spawning and Despawning
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/RPC-vs-Netmsg/" class="md-nav__link">
+      RPC vs Netmsg
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Right-Click-Menu/" class="md-nav__link">
+      Right Click Menu
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Simulating-Lag/" class="md-nav__link">
+      Simulating Lag
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Species-Notes/" class="md-nav__link">
+      Species Notes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Stripping-Scenes-For-Quick-Build/" class="md-nav__link">
+      Stripping Scenes For Quick Build
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/SyncVar-Best-Practices-for-Easy-Networking/" class="md-nav__link">
+      SyncVar Best Practices for Easy Networking
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/The-Clearance-System/" class="md-nav__link">
+      What is the Clearance System?
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Undo-RecordObject-vs-EditorUtility-SetDirty/" class="md-nav__link">
+      Undo RecordObject vs EditorUtility SetDirty
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/What-is-a-matrix/" class="md-nav__link">
+      What is a matrix
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Working-with-Speech-Modifiers/" class="md-nav__link">
+      Working with Speech Modifiers
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+    
+    <label class="md-nav__link" for="nav-8">
+      Faq
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Faq" data-md-level="1">
+      <label class="md-nav__title" for="nav-8">
+        <span class="md-nav__icon md-icon"></span>
+        Faq
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../faq/Building/" class="md-nav__link">
+      Building FAQ
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
+    
+    <label class="md-nav__link" for="nav-9">
+      Project goals
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Project goals" data-md-level="1">
+      <label class="md-nav__title" for="nav-9">
+        <span class="md-nav__icon md-icon"></span>
+        Project goals
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/roadmap/" class="md-nav__link">
+      RoadMap
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-9-2" type="checkbox" id="nav-9-2">
+    
+    <label class="md-nav__link" for="nav-9-2">
+      Current goal scope
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Current goal scope" data-md-level="2">
+      <label class="md-nav__title" for="nav-9-2">
+        <span class="md-nav__icon md-icon"></span>
+        Current goal scope
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/additional-job-role-developments/" class="md-nav__link">
+      Additional Job Role Developments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/antagonist-roles/" class="md-nav__link">
+      Antagonist roles
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/centcomm-missions/" class="md-nav__link">
+      Centcomm missions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/character-customization/" class="md-nav__link">
+      Character customization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/mapping-changes/" class="md-nav__link">
+      Mapping changes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/mining/" class="md-nav__link">
+      Mining
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/new-lobby-screen/" class="md-nav__link">
+      New lobby screen
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/npc-aliens/" class="md-nav__link">
+      Npc aliens
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/player-accounts/" class="md-nav__link">
+      Player accounts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/shuttles/" class="md-nav__link">
+      Shuttles
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/start-of-round/" class="md-nav__link">
+      Start of round
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/the-narrative/" class="md-nav__link">
+      The narrative
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tldr-quickbuild" class="md-nav__link">
+    TLDR QuickBuild
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#initial-setup-build-settings" class="md-nav__link">
+    Initial setup: Build settings
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#set-up-ping-simulation" class="md-nav__link">
+    Set up ping simulation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#start-up" class="md-nav__link">
+    Start up
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-pre-release-test-sequence" class="md-nav__link">
+    Advanced Pre-Release Test sequence
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Pre-Release Test sequence">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#testing-custom-maps-in-multiplayer" class="md-nav__link">
+    Testing custom maps in Multiplayer
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/unitystation/unitystation/edit/develop/docs/contribution-guides/Building-And-Testing.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="building-and-testing">Building and Testing<a class="headerlink" href="#building-and-testing" title="Permanent link">&para;</a></h1>
+<p>Before you PR for UnityStation, it would be helpful if you fully test your PR, read the contribution guidelines and read the <a href="../Starting-contribution/">Starting Contribution</a> article on the wiki.</p>
+<p>Below you can read our standardised multiplayer test-setup.</p>
+<p>To test network interactions, you should set up a realistic environment. 
+That means two instances: Client and Host (Server that's client, too).</p>
+<p>You can run one instance from editor by pressing play button, 
+but for another one you'll have to make a <strong>standalone build</strong>.</p>
+<p>You can launch the game directly into the current scene, if it is a MainStation scene, that is open.</p>
+<h3 id="tldr-quickbuild">TLDR QuickBuild<a class="headerlink" href="#tldr-quickbuild" title="Permanent link">&para;</a></h3>
+<p><code>Tools &gt; Quick Build</code></p>
+<p><img alt="quickbuild window" src="https://i.imgur.com/XQMuiAa.png" /></p>
+<ul>
+<li>Automatically sets build settings to get MVB (minimum viable build) by including only necessary scenes.</li>
+<li>Operates independently of the main build window.</li>
+<li>Settings are persistent and won't be picked up by git (except Quick Load which is handled externally, so be sure to not commit that change).</li>
+<li>The Disable Scenes tab is the old <code>DisableNonEssentialScenes</code> tool.</li>
+</ul>
+<h3 id="initial-setup-build-settings">Initial setup: Build settings<a class="headerlink" href="#initial-setup-build-settings" title="Permanent link">&para;</a></h3>
+<p>To make a proper standalone build, you should set up build settings (only once).</p>
+<ul>
+<li>Go to <code>File &gt; Build Settings</code>:</li>
+</ul>
+<p><img alt="" src="https://camo.githubusercontent.com/b2be111d41c3898d0efb0255e0878c5e3e2cc4ae/68747470733a2f2f696d6167652e70726e747363722e636f6d2f696d6167652f525554726f665a46517a79784d6851396a4d784779412e706e67" /></p>
+<ul>
+<li>Make sure that <strong>StartUp</strong>, <strong>Lobby</strong>, <strong>OnlineScene</strong> and all MainStation scenes possible for lowpop (<strong>Fallstation</strong>, <strong>SquareStation</strong>) are checked (screenshot is out of date):</li>
+</ul>
+<p><img alt="" src="https://camo.githubusercontent.com/8fb35c8c3a3c25b6fa3e59231a51aefb50e18f76/68747470733a2f2f696d6167652e70726e747363722e636f6d2f696d6167652f316d4a6f7041563652476d524c5f5034525a4b374f672e706e67" /></p>
+<p>(If you don't see your current scene in the list, press <code>Add Open Scenes</code> button)</p>
+<p>If you have <strong>Quick Load</strong> checked on <code>GameManager</code> prefab, you can uncheck all the asteroid and additional scenes, too.</p>
+<ul>
+<li>
+<p>Mark <code>Development Build</code> and <code>Script Debugging</code> checkboxes, that will show all Build's logs in Editor's console:
+<img alt="" src="https://camo.githubusercontent.com/ef278b53bbd024b95a20f07cb59cc015b03fee46/68747470733a2f2f696d6167652e70726e747363722e636f6d2f696d6167652f4c682d326c6542785377364148565f58636b384f64412e706e67" /></p>
+</li>
+<li>
+<p>Press <code>Build And Run</code>. </p>
+</li>
+</ul>
+<p><img alt="" src="https://camo.githubusercontent.com/59262f9c9d0e5f74fb378419d8ae5f0ebf36346d/68747470733a2f2f696d6167652e70726e747363722e636f6d2f696d6167652f7269496b4a4759325265367657477a5a6f444d6670412e706e67" /></p>
+<p>First time you'll get a folder selection dialog where the build files will be stored. 
+Create a separate folder outside of unitystation's project hierarchy. 
+Then building will start, Unity will freeze until it's finished. </p>
+<p><img alt="" src="https://camo.githubusercontent.com/fbe064882be6188ea8742a09f055725e5b010fbb/68747470733a2f2f696d6167652e70726e747363722e636f6d2f696d6167652f5f564445454758745448366c6c6e3447746d514746512e706e67" /></p>
+<p>When it's ready a game window will pop up. Now you can enjoy smooth framerates and drag window around, also launch several instances if required (that doesn't work for OSX).</p>
+<p>Notice how Build's logs appear in Editor's console:</p>
+<p><img alt="" src="https://camo.githubusercontent.com/18d5f7dbca42d8f758740655824fb7186b718e21/68747470733a2f2f696d6167652e70726e747363722e636f6d2f696d6167652f554e306f31307650545a65573679517071614d6746772e706e67" /></p>
+<p>Next time you'll just have to press <code>Ctrl+B</code>/<code>Cmd+B</code> to Build And Run.</p>
+<p>Important note:</p>
+<blockquote>
+<p>When you change stuff/recompile you'll need to <strong>rebuild</strong> to make Editor compatible with the Build.</p>
+</blockquote>
+<h3 id="set-up-ping-simulation">Set up ping simulation<a class="headerlink" href="#set-up-ping-simulation" title="Permanent link">&para;</a></h3>
+<p>To simulate network latency you need to select <code>Network Manager</code> in Hierarchy tab:</p>
+<p><img alt="" src="https://camo.githubusercontent.com/d1ad8c261e62e79959f45571a65a168a4a50652c/68747470733a2f2f696d6167652e70726e747363722e636f6d2f696d6167652f4572704e3378363253664b336263547a736a45355a772e706e67" /></p>
+<p>Then find <code>Custom Network Manager</code> script in Inspector tab and tick <code>Use network simulation</code>:</p>
+<p><img alt="" src="https://camo.githubusercontent.com/aae8a314f2a7e5f24328f2b7f951be27400fb168/68747470733a2f2f696d6167652e70726e747363722e636f6d2f696d6167652f396c6b6e415a6d6d523032316757387043654e6873512e706e67" /></p>
+<p>Set up desirable ping (200 is recommended) and save (so that you don't lose that setting next time Unity crashes)!</p>
+<p><img alt="" src="https://camo.githubusercontent.com/1c7484fe07642072e67e509965d399d0ca536ef2/68747470733a2f2f696d6167652e70726e747363722e636f6d2f696d6167652f5147583147736257547871784f6c454f504b733377672e706e67" /></p>
+<p>Note that actual ping will be more than expected, <code>200 ping</code> setting usually makes it 250-750</p>
+<h3 id="start-up">Start up<a class="headerlink" href="#start-up" title="Permanent link">&para;</a></h3>
+<p>In general it's usually like this: Build And Run, then start up game in Editor when it finishes building.
+Doesn't matter much who should host and who should join, but keep in mind that Build performs better.</p>
+<p><img alt="" src="https://camo.githubusercontent.com/9722206f5fb9f62610c9b2d0821efcdece9eb7fc/68747470733a2f2f696d6167652e70726e747363722e636f6d2f696d6167652f655f33674d706a4d517a5f63753830314138664878672e706e67" /></p>
+<h2 id="advanced-pre-release-test-sequence">Advanced Pre-Release Test sequence<a class="headerlink" href="#advanced-pre-release-test-sequence" title="Permanent link">&para;</a></h2>
+<p>With above testing method you can find most issues related to your code, without spending too much time building. However, before a release or when a stricter test regime is warranted, for ex. when handling sync vars and clients joining, we have an advanced test-sequence:</p>
+<ol>
+<li>Create 2 clients (one of which hosting) with a ping of 200.</li>
+<li>Play the game, chat a little, kill a little, drop things, open things and move things.</li>
+<li>(extra for release) Before a release, we should test all issues and PR's that are ready for quality assessment in the release project. Test the features and bugs in every one of them, with multiple clients.</li>
+<li>Join with a third 200Ping client</li>
+<li>Look if your view is the same as the other clients. if not, you have found a bug already!</li>
+<li>play for a while with all three</li>
+<li>(extra for release) Before a release, we should test all issues and PR's that are ready for quality assessment in the release project. Test the features and bugs in every one of them, with the third client.</li>
+<li>No errors or inconsistencies? great, your build just passed our Quality assessment.</li>
+</ol>
+<p>Happy spess testing!</p>
+<h3 id="testing-custom-maps-in-multiplayer">Testing custom maps in Multiplayer<a class="headerlink" href="#testing-custom-maps-in-multiplayer" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Make sure you are on Lobby scene</li>
+<li>Set Online scene in NetworkManager (under Managers prefab):</li>
+</ol>
+<p><img alt="" src="https://camo.githubusercontent.com/e66b9088e6b78ae3edc2b18787be4560c86fc263/68747470733a2f2f63646e2e646973636f72646170702e636f6d2f6174746163686d656e74732f3331323435343638343032313632303733362f3439373333393936333037313739313130342f756e6b6e6f776e2e706e67" /></p>
+<ol>
+<li>Don't forget to include the scene you are testing in build preferences as well:</li>
+</ol>
+<p><img alt="" src="https://camo.githubusercontent.com/b77b685b1eff9f9b12860435f367bcbff88d39db/68747470733a2f2f63646e2e646973636f72646170702e636f6d2f6174746163686d656e74732f3331323435343638343032313632303733362f3439373334303639303432333038373130342f756e6b6e6f776e2e706e67" /></p>
+<p>And then Build and Run + fire up game in editor</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../../GPLv3/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Licensing
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../Developing-for-UnityStation-on-Unix-Systems-with-the-Unity-Editor-and-JetBrains-Rider/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Developing On Linux
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/vendor.6a3d08fc.min.js"></script>
+      <script src="../../assets/javascripts/bundle.71201edf.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "../..",
+          features: [],
+          search: Object.assign({
+            worker: "../../assets/javascripts/worker/search.4ac00218.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>

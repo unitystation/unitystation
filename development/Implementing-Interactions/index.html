@@ -1,0 +1,1797 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Project Design and Documentation for development">
+      
+      
+        <link rel="canonical" href="https://unitystation.github.io/unitystation/development/Implementing-Interactions/">
+      
+      
+        <meta name="author" content="MrMepper">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.ico">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.1.0">
+    
+    
+      
+        <title>Implementing Interactions - UnityStation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.bc7e593a.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab28b872.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+      
+  
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#implementing-interactions" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://unitystation.github.io/unitystation/" title="UnityStation" class="md-header-nav__button md-logo" aria-label="UnityStation">
+      
+  <img src="../../assets/images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            UnityStation
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              Implementing Interactions
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header-nav__source">
+        
+<a href="https://github.com/unitystation/unitystation/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    unitystation/unitystation
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://unitystation.github.io/unitystation/" title="UnityStation" class="md-nav__button md-logo" aria-label="UnityStation">
+      
+  <img src="../../assets/images/logo.png" alt="logo">
+
+    </a>
+    UnityStation
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/unitystation/unitystation/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    unitystation/unitystation
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../CODE_OF_CONDUCT/" class="md-nav__link">
+      Code of Conduct
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../CONTRIBUTING/" class="md-nav__link">
+      Contribution and Review Guidelines
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../Documentation-Guide/" class="md-nav__link">
+      Documentation Guide
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../GPLv3/" class="md-nav__link">
+      Licensing
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Contribution guides
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Contribution guides" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        <span class="md-nav__icon md-icon"></span>
+        Contribution guides
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribution-guides/Building-And-Testing/" class="md-nav__link">
+      Building and Testing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribution-guides/Developing-for-UnityStation-on-Unix-Systems-with-the-Unity-Editor-and-JetBrains-Rider/" class="md-nav__link">
+      Developing On Linux
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribution-guides/Development-Standards-Guide/" class="md-nav__link">
+      Development Standards Guide
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribution-guides/Starting-contribution/" class="md-nav__link">
+      Starting Contribution
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7" checked>
+    
+    <label class="md-nav__link" for="nav-7">
+      Development
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Development" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        <span class="md-nav__icon md-icon"></span>
+        Development
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Addressables/" class="md-nav__link">
+      Overview of Addressable Sounds
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Component-Development-Checklist/" class="md-nav__link">
+      Component Development Checklist
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Crafting-System/" class="md-nav__link">
+      Crafting System
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Creating-Items-and-Objects/" class="md-nav__link">
+      Creating Items and Objects
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Creating-and-Using-Tile-Palettes/" class="md-nav__link">
+      Creating and Using Tile Pallettes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Development-Gotchas-and-Common-Mistakes/" class="md-nav__link">
+      Development Gotchas and Common Mistakes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Development-Protips/" class="md-nav__link">
+      Development Protips
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Directory-Structure/" class="md-nav__link">
+      Directory Structure
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Electricity-Development/" class="md-nav__link">
+      Electricity Development
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Emotes/" class="md-nav__link">
+      EmoteSO, and how to work with it.
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Helpful-Functions-Cheatsheet/" class="md-nav__link">
+      Helpful Functions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Hosting-a-Server/" class="md-nav__link">
+      Hosting a Server
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../How-To-User-Interface/" class="md-nav__link">
+      How To Create a User Interface
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../How-to-Map/" class="md-nav__link">
+      How to Map
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../How-to-Random-Loot/" class="md-nav__link">
+      How to use random spawners
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../How-to-Sprite/" class="md-nav__link">
+      How to Sprite
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../How-to-use-ReplaceWithPrefab.cs/" class="md-nav__link">
+      How to use ReplaceWithPrefab.cs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../How-to-use-UIActions/" class="md-nav__link">
+      How to use UIActions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../How-to-use-the-in-game-debugger/" class="md-nav__link">
+      Using the In-game Debugger
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Implementing Interactions
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="./" class="md-nav__link md-nav__link--active">
+      Implementing Interactions
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    Overview
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage-and-faqs" class="md-nav__link">
+    Usage and FAQs
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage and FAQs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-do-i-implement-an-interaction" class="md-nav__link">
+    How do I implement an interaction?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#can-i-have-multiple-interactable-components-on-an-object" class="md-nav__link">
+    Can I have multiple Interactable Components on an object?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-does-willinteract-work-my-client-does-not-have-enough-info-to-implement-it" class="md-nav__link">
+    How does WillInteract work? My client does not have enough info to implement it?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-do-i-inform-the-client-what-happened" class="md-nav__link">
+    How do I inform the client what happened?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#i-dont-need-any-networking-i-just-want-client-side-interaction-logic" class="md-nav__link">
+    I don't need any networking, I just want client-side interaction logic
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#i-implemented-an-interaction-but-my-component-isnt-getting-triggered-why" class="md-nav__link">
+    I implemented an interaction but my component isn't getting triggered, why?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-should-i-implement-icheckedinteractable-instead-of-just-iinteractable" class="md-nav__link">
+    Why should I implement ICheckedInteractable instead of just IInteractable?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-can-i-implement-client-side-prediction-and-rollback" class="md-nav__link">
+    How can I implement client side prediction and rollback?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-can-i-trigger-interactions-manually-such-as-for-right-click-options" class="md-nav__link">
+    How can I trigger interactions manually (such as for right click options)?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-can-i-create-tile-interactions" class="md-nav__link">
+    How can I create tile interactions?
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reference" class="md-nav__link">
+    Reference
+  </a>
+  
+    <nav class="md-nav" aria-label="Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interaction-types" class="md-nav__link">
+    Interaction Types
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#precedence-of-interaction-components" class="md-nav__link">
+    Precedence of Interaction Components
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interaction-logic-flow" class="md-nav__link">
+    Interaction Logic Flow
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Inventory-System/" class="md-nav__link">
+      Inventory System
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Item-Traits-System/" class="md-nav__link">
+      Item Traits System
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Mirror-Upgrade-Customization-Notes/" class="md-nav__link">
+      Mirror Upgrade Customization Notes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Mirror/" class="md-nav__link">
+      Mirror (Networking library)
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Module-Structure/" class="md-nav__link">
+      Module Structure
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Multiplayer-PlayMode/" class="md-nav__link">
+      Introduction to [Multiplayer Playmode](https://docs.unity3d.com/Packages/com.unity.multiplayer.playmode@0.1/manual/index.html)
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Navigating-DM-codebases-%28like-tgstation%29/" class="md-nav__link">
+      Navigating DM codebases (like tgstation)
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Networking-%28Network-Messages%29/" class="md-nav__link">
+      Networking (Network Messages)
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Notes-on-SyncObject-and-SyncList/" class="md-nav__link">
+      Note SyncObject And SyncList Usage
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Occupations/" class="md-nav__link">
+      Occupations
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Physics-Layers/" class="md-nav__link">
+      Physics Layers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Projectiles/" class="md-nav__link">
+      Projectiles
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Proper-Spawning-and-Despawning-%28Object-Lifecycle%29/" class="md-nav__link">
+      Proper Spawning and Despawning
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../RPC-vs-Netmsg/" class="md-nav__link">
+      RPC vs Netmsg
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Right-Click-Menu/" class="md-nav__link">
+      Right Click Menu
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Simulating-Lag/" class="md-nav__link">
+      Simulating Lag
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Species-Notes/" class="md-nav__link">
+      Species Notes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Stripping-Scenes-For-Quick-Build/" class="md-nav__link">
+      Stripping Scenes For Quick Build
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../SyncVar-Best-Practices-for-Easy-Networking/" class="md-nav__link">
+      SyncVar Best Practices for Easy Networking
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../The-Clearance-System/" class="md-nav__link">
+      What is the Clearance System?
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Undo-RecordObject-vs-EditorUtility-SetDirty/" class="md-nav__link">
+      Undo RecordObject vs EditorUtility SetDirty
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../What-is-a-matrix/" class="md-nav__link">
+      What is a matrix
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Working-with-Speech-Modifiers/" class="md-nav__link">
+      Working with Speech Modifiers
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+    
+    <label class="md-nav__link" for="nav-8">
+      Faq
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Faq" data-md-level="1">
+      <label class="md-nav__title" for="nav-8">
+        <span class="md-nav__icon md-icon"></span>
+        Faq
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../faq/Building/" class="md-nav__link">
+      Building FAQ
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
+    
+    <label class="md-nav__link" for="nav-9">
+      Project goals
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Project goals" data-md-level="1">
+      <label class="md-nav__title" for="nav-9">
+        <span class="md-nav__icon md-icon"></span>
+        Project goals
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/roadmap/" class="md-nav__link">
+      RoadMap
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-9-2" type="checkbox" id="nav-9-2">
+    
+    <label class="md-nav__link" for="nav-9-2">
+      Current goal scope
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Current goal scope" data-md-level="2">
+      <label class="md-nav__title" for="nav-9-2">
+        <span class="md-nav__icon md-icon"></span>
+        Current goal scope
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/additional-job-role-developments/" class="md-nav__link">
+      Additional Job Role Developments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/antagonist-roles/" class="md-nav__link">
+      Antagonist roles
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/centcomm-missions/" class="md-nav__link">
+      Centcomm missions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/character-customization/" class="md-nav__link">
+      Character customization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/mapping-changes/" class="md-nav__link">
+      Mapping changes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/mining/" class="md-nav__link">
+      Mining
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/new-lobby-screen/" class="md-nav__link">
+      New lobby screen
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/npc-aliens/" class="md-nav__link">
+      Npc aliens
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/player-accounts/" class="md-nav__link">
+      Player accounts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/shuttles/" class="md-nav__link">
+      Shuttles
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/start-of-round/" class="md-nav__link">
+      Start of round
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/the-narrative/" class="md-nav__link">
+      The narrative
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    Overview
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage-and-faqs" class="md-nav__link">
+    Usage and FAQs
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage and FAQs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-do-i-implement-an-interaction" class="md-nav__link">
+    How do I implement an interaction?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#can-i-have-multiple-interactable-components-on-an-object" class="md-nav__link">
+    Can I have multiple Interactable Components on an object?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-does-willinteract-work-my-client-does-not-have-enough-info-to-implement-it" class="md-nav__link">
+    How does WillInteract work? My client does not have enough info to implement it?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-do-i-inform-the-client-what-happened" class="md-nav__link">
+    How do I inform the client what happened?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#i-dont-need-any-networking-i-just-want-client-side-interaction-logic" class="md-nav__link">
+    I don't need any networking, I just want client-side interaction logic
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#i-implemented-an-interaction-but-my-component-isnt-getting-triggered-why" class="md-nav__link">
+    I implemented an interaction but my component isn't getting triggered, why?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-should-i-implement-icheckedinteractable-instead-of-just-iinteractable" class="md-nav__link">
+    Why should I implement ICheckedInteractable instead of just IInteractable?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-can-i-implement-client-side-prediction-and-rollback" class="md-nav__link">
+    How can I implement client side prediction and rollback?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-can-i-trigger-interactions-manually-such-as-for-right-click-options" class="md-nav__link">
+    How can I trigger interactions manually (such as for right click options)?
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-can-i-create-tile-interactions" class="md-nav__link">
+    How can I create tile interactions?
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reference" class="md-nav__link">
+    Reference
+  </a>
+  
+    <nav class="md-nav" aria-label="Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interaction-types" class="md-nav__link">
+    Interaction Types
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#precedence-of-interaction-components" class="md-nav__link">
+    Precedence of Interaction Components
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interaction-logic-flow" class="md-nav__link">
+    Interaction Logic Flow
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/unitystation/unitystation/edit/develop/docs/development/Implementing-Interactions.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="implementing-interactions">Implementing Interactions<a class="headerlink" href="#implementing-interactions" title="Permanent link">&para;</a></h1>
+<p>For info on the Right Click Menu, see <a href="../Right-Click-Menu/">Right Click Menu</a>.</p>
+<p>This page describes the interaction system for Unitystation, also called Interaction Framework 2 (IF2), due to being a replacement of the previous approach to interactions.</p>
+<p>All of the code lives in Scripts/Input System/InteractionV2 and is also heavily documented if you need further info.</p>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>Interactions are implemented by way of <strong>Interactable Components</strong>, or <strong>ICs</strong> for short. These are components which implement one or more of the IF2 interfaces defined in InteractionV2/Interfaces.</p>
+<p>Additionally, each component can support one or more different <strong>Interaction Types</strong>. These interaction types represent the different sorts of things a user can do to interact with the game.
+Here's a brief description of the current interaction types:</p>
+<ul>
+<li>HandApply - Click something in the game world. The item in the active hand (or empty hand) is applied to the thing that was clicked. Targets a specific object or tile.</li>
+<li>HandActivate - Triggers when using the Activate (defaults to "Z") key or clicking the item while it is in the active hand.</li>
+<li>InventoryApply - Triggered by clicking an inventory slot (in which case the active hand will be the from slot) or dragging from one slot to another.</li>
+<li>AimApply - like hand apply, but does not have a specific targeted object (it simply aims where the mouse is) and can occur at some interval while the mouse is being held down after being clicked in the game world. For things like shooting a semi-auto or automatic weapon, spraying fire extinguisher, etc...</li>
+<li>MouseDrop - Click and drag a MouseDraggable object in the game world or an item in inventory and release it to drop on something in the game world (not in inventory). Dragging between 2 slots is handled by InventoryApply.</li>
+<li>PositionalHandApply - like hand apply, but also fires when clicking empty space and also stores (and transmits) the specific position on the object that was clicked - useful for large objects which have different behavior based on where they are clicked (such as tilemaps). This is separate from HandApply so that the length of netmessages can be reduced (the vector of the position is only added to the message for PositionalHandApply but can be excluded for HandApply).</li>
+<li>TileApply - (special) used only for <a href="#how-can-i-create-tile-interactions">tile interactions</a>.</li>
+</ul>
+<p>For example, here's a simple IC, HasNetTab, which pops up a console tab (such as the shuttle console) when the component's object is clicked:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">public</span> <span class="k">class</span> <span class="nc">HasNetworkTab</span> <span class="p">:</span> <span class="n">IInteractable</span><span class="p">&lt;</span><span class="n">HandApply</span><span class="p">&gt;</span>
+<span class="p">{</span>
+<span class="na">    [Tooltip(&quot;Network tab to display.&quot;)]</span>
+    <span class="k">public</span> <span class="n">NetTabType</span> <span class="n">NetTabType</span> <span class="p">=</span> <span class="n">NetTabType</span><span class="p">.</span><span class="n">None</span><span class="p">;</span>
+
+    <span class="c1">//This is invoked server side when this component&#39;s object is clicked on the client</span>
+    <span class="k">public</span> <span class="k">void</span> <span class="nf">ServerPerformInteraction</span><span class="p">(</span><span class="n">HandApply</span> <span class="n">interaction</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">TabUpdateMessage</span><span class="p">.</span><span class="n">Send</span><span class="p">(</span> <span class="n">interaction</span><span class="p">.</span><span class="n">Performer</span><span class="p">,</span> <span class="n">gameObject</span><span class="p">,</span> <span class="n">NetTabType</span><span class="p">,</span> <span class="n">TabAction</span><span class="p">.</span><span class="n">Open</span> <span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>As shown above, by implementing IInteractable, the interactable component gains a few nice capabilities:
+  * Automatic networking - IF2 takes care of informing the server of the interaction. All you need to implement is the server-side logic of the interaction and a way to communicate the result back to the client (if needed).
+  * No mouse / keyboard logic - IF2 figures out when your component's interaction logic should be invoked.
+  * Interaction info object - the HandApply class contains all the info you should need in order to decide what should happen.
+  * Customization - if the default behavior doesn't meet your needs, you can override additional methods to customize how it works. This can be done to implement client side prediction, 
+    or to change the circumstances under which the interaction logic should fire (reducing the amount of messages sent to the server).</p>
+<h2 id="usage-and-faqs">Usage and FAQs<a class="headerlink" href="#usage-and-faqs" title="Permanent link">&para;</a></h2>
+<p>The following sections describe IF2 in more detail for various use cases.</p>
+<h3 id="how-do-i-implement-an-interaction">How do I implement an interaction?<a class="headerlink" href="#how-do-i-implement-an-interaction" title="Permanent link">&para;</a></h3>
+<p>If your interaction involves using one object on another, you should first decide which side of the interaction you want the component to live on. For example, if you have 
+a machine that starts emitting radiation when you use an Emag on it, you could put the component on the machine or the Emag object.</p>
+<p>Once you've decided, create a new component (or modify an existing one on that object) that implements one of the IF2 interfaces, such as IInteractable, ICheckedInteractable, etc... (see InteractionV2/Interfaces) corresponding to the interaction type you want to handle. In most cases, ICheckedInteractable is the best choice (explained later):</p>
+<div class="codehilite"><pre><span></span><code><span class="k">public</span> <span class="k">class</span> <span class="nc">MyInteractableComponent</span> <span class="p">:</span> <span class="n">IInteractable</span><span class="p">&lt;</span><span class="n">HandApply</span><span class="p">&gt;</span>
+</code></pre></div>
+
+<p>For example, you can implement IInteractable&lt;HandApply&gt; or IInteractable&lt;HandActivate&gt;. You can even implement both if you want your component to support both kinds of interactions.</p>
+<p>Now you need to implement the interaction logic. Here's an example interactable component ExplodeWhenWelded, which explodes when a player tries to weld it. This demonstrates all of IF2 interfaces (except IClientInteractable which is a client-side-only one) because IPredictedCheckedInteractable implements all of the IF2 interface methods:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">public</span> <span class="k">class</span> <span class="nc">ExplodeWhenWelded</span> <span class="p">:</span> <span class="n">IPredictedCheckedInteractable</span><span class="p">&lt;</span><span class="n">HandApply</span><span class="p">&gt;</span>
+<span class="p">{</span>
+
+  <span class="c1">//this method is invoked on the client side before informing the server of the interaction.</span>
+  <span class="c1">//If it returns false, no message is sent.</span>
+  <span class="c1">//If it returns true, the message is sent to the server. The server</span>
+  <span class="c1">//will perform its own checks to decide which interaction should trigger (which may not be this component) </span>
+  <span class="c1">//Then this is invoked on the server side, and if </span>
+  <span class="c1">//it returns true, the server finally performs the interaction.</span>
+  <span class="c1">//We don&#39;t NEED to implement this method, but by implementing it we can cut down on the amount of messages</span>
+  <span class="c1">//sent to the server.</span>
+  <span class="k">public</span> <span class="kt">bool</span> <span class="nf">WillInteract</span><span class="p">(</span><span class="n">HandApply</span> <span class="n">interaction</span><span class="p">,</span> <span class="n">NetworkSide</span> <span class="n">side</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="c1">//the Default method defines the &quot;default&quot; behavior for when a HandApply should occur, which currently</span>
+    <span class="c1">//checks if the player is conscious and standing next to the thing they are clicking.</span>
+    <span class="k">if</span> <span class="p">(!</span><span class="n">DefaultWillInteract</span><span class="p">.</span><span class="n">Default</span><span class="p">(</span><span class="n">interaction</span><span class="p">,</span> <span class="n">side</span><span class="p">))</span> <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+
+    <span class="c1">//we only want this interaction to happen when a lit welder is used</span>
+    <span class="kt">var</span> <span class="n">welder</span> <span class="p">=</span> <span class="n">interaction</span><span class="p">.</span><span class="n">HandObject</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">?</span> <span class="n">interaction</span><span class="p">.</span><span class="n">HandObject</span><span class="p">.</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">Welder</span><span class="p">&gt;()</span> <span class="p">:</span> <span class="k">null</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">welder</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span> <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(!</span><span class="n">welder</span><span class="p">.</span><span class="n">isOn</span><span class="p">)</span> <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+    <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">//this is invoked when WillInteract returns true on the client side.</span>
+  <span class="c1">//We can implement this to add client prediction logic to make the game feel more responsive.</span>
+  <span class="k">public</span> <span class="k">void</span> <span class="nf">ClientPredictInteraction</span><span class="p">(</span><span class="n">HandApply</span> <span class="n">interaction</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="c1">//display an explosion effect on this client that has no effect on their actual health</span>
+    <span class="n">DisplayExplosion</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="c1">//this is invoked on the server when client requests an interaction</span>
+  <span class="c1">//but the server&#39;s WillInteract method returns false. So the server may need to tell</span>
+  <span class="c1">// the client their prediction is wrong, depending on how client prediction works for this</span>
+  <span class="c1">// interaction.</span>
+  <span class="k">public</span> <span class="k">void</span> <span class="nf">ServerRollbackClient</span><span class="p">(</span><span class="n">HandApply</span> <span class="n">interaction</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="c1">//Server should send the client a message or invoke a ClientRpc telling it to</span>
+    <span class="c1">//undo its prediction or reset its state to sync with the server</span>
+    <span class="n">RollbackExplosion</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="c1">//invoked when the server recieves the interaction request and WIllinteract returns true</span>
+  <span class="k">public</span> <span class="k">void</span> <span class="nf">ServerPerformInteraction</span><span class="p">(</span><span class="n">HandApply</span> <span class="n">interaction</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="c1">//Server-side trigger the explosion and inform all clients of it</span>
+    <span class="n">Explode</span><span class="p">(</span><span class="n">interaction</span><span class="p">.</span><span class="n">TargetObject</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>An additional note about WillInteract - there are useful util methods you can use in Validations.cs which are designed to be used in WillInteract.</p>
+<h3 id="can-i-have-multiple-interactable-components-on-an-object">Can I have multiple Interactable Components on an object?<a class="headerlink" href="#can-i-have-multiple-interactable-components-on-an-object" title="Permanent link">&para;</a></h3>
+<p>Yes, and this is encouraged if the interaction logic makes sense as its own component. For example, all objects which can be picked up have a Pickupable component,
+yet some objects also have other interactable components for their object-specific interactions. You can also implement multiple IF2 interfaces on a single component.</p>
+<p>When there are multiple interactable components on an object for the same interaction type, IF2 checks the components in the reverse order (from the bottom up to the top) 
+they appear in the GameObject's component list in Unity (drag to rearrange them). It triggers the first component whose WillInteract method
+returns true.</p>
+<p>Additionally, if the interaction involves multiple objects (such as using an item on a machine), the components are checked
+on the used object first and the target object second. If ANY interactable component's WillInteract method returns true,
+that component's interaction logic is triggered and no further components are checked.</p>
+<p>To see detailed messages showing the order in which ICs are being checked, in Unity go to Logger &gt; Adjust Log Levels and change Interactions to TRACE. Now any time there is an interaction, you will see log messages showing exactly what IF2 is checking in the order it is checking.</p>
+<p>Refer to the section "Precedence of Interaction Components" for the full details.</p>
+<h3 id="how-does-willinteract-work-my-client-does-not-have-enough-info-to-implement-it">How does WillInteract work? My client does not have enough info to implement it?<a class="headerlink" href="#how-does-willinteract-work-my-client-does-not-have-enough-info-to-implement-it" title="Permanent link">&para;</a></h3>
+<p>When WillInteract runs on the clientside and returns true, a message will be sent to the server merely saying that
+an interaction should trigger of the indicated type (HandApply, AimApply, etc...). The server will run through the
+server-side version of WillInteract for all the possible components (on the used object and then the target object if there is one),
+and will trigger the appropriate component regardless of which component triggered on the clientside.</p>
+<p>Because of this, if you don't have enough info to decide if a given interaction should occur and don't want
+to block another component from triggering, you can simply do as much checking as you can on the clientside and
+then return true from WillInteract. Then you can add the appropriate server-side logic to WillInteract so it can properly check
+the interaction.</p>
+<h3 id="how-do-i-inform-the-client-what-happened">How do I inform the client what happened?<a class="headerlink" href="#how-do-i-inform-the-client-what-happened" title="Permanent link">&para;</a></h3>
+<p>In ServerPerformInteraction, if the server makes some change to the game state, usually they will need to ensure the client
+knows about the new state. This is currently not part of IF2, but there are various ways this can be done, many of which
+can be accomplished using already implemented methods...For the most part, you can update a SyncVar, broadcast a net message to all clients or just one,
+or invoke a ClientRpc. Refer to the other articles on this wiki which discuss networking for more information.</p>
+<h3 id="i-dont-need-any-networking-i-just-want-client-side-interaction-logic">I don't need any networking, I just want client-side interaction logic<a class="headerlink" href="#i-dont-need-any-networking-i-just-want-client-side-interaction-logic" title="Permanent link">&para;</a></h3>
+<p>Sometimes you may not need any of the networking features of Interactable (such as already having Cmds or other messages
+that handle it for you), or you have an interaction which only has an effect client-side. In this case, you can 
+instead implement IClientInteractable:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">public</span> <span class="k">class</span> <span class="nc">MyClientSideInteraction</span> <span class="p">:</span> <span class="n">MonoBehavior</span><span class="p">,</span> <span class="n">IClientInteractable</span><span class="p">&lt;</span><span class="n">HandApply</span><span class="p">&gt;</span>
+<span class="p">{</span>
+
+  <span class="c1">//invoked when this is clicked. </span>
+  <span class="c1">//Return value convention is the same as WillInteract, except this is only invoked on the client side.</span>
+  <span class="c1">//If it returns true, the interaction is &quot;consumed&quot; - no more components will recieve the current interaction.</span>
+  <span class="c1">//If it returns false, the interaction is &quot;passed on&quot; - additional components will recieve the interaction.</span>
+  <span class="k">public</span> <span class="kt">bool</span> <span class="nf">Interact</span><span class="p">(</span><span class="n">HandApply</span> <span class="n">interaction</span><span class="p">)</span>
+  <span class="p">{</span>
+     <span class="c1">//do something client side, or send a message to the server or invoke a Cmd</span>
+     <span class="c1">//if we did something</span>
+        <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+     <span class="c1">//if we didn&#39;t</span>
+        <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="i-implemented-an-interaction-but-my-component-isnt-getting-triggered-why">I implemented an interaction but my component isn't getting triggered, why?<a class="headerlink" href="#i-implemented-an-interaction-but-my-component-isnt-getting-triggered-why" title="Permanent link">&para;</a></h3>
+<p>First of all, in Unity go to Logger &gt; Adjust Log Levels and change Interaction to TRACE. Now you will see detailed log messages showing up explaining the order in which ICs are being checked.</p>
+<p>There's a few things to check:
+1. Does your component implement WillInteract? If so, check if it is returning true when you try to interact. If it returns false, your component's interaction will not be triggered.
+  If there is no Willinteract method, take a look at the DefaultWillInteract class to see what default logic
+  is being used.
+2. Are there any other interactable components on the object or the other object involved in the interaction? Remember that the server-side logic of WillInteract determines which components will trigger. 
+The client-side logic only tells the server to check for an interaction. So, use the TRACE logs on the server side to see if the component is being blocked by another.
+Some possible fixes:
+    * add more server-side logic to another component's WillInteract method to properly avoid the interaction.
+    * rearrange the components so your interaction is lower (thus is checked first) 
+    * move your interactable component to the other object involved in the interaction</p>
+<h3 id="why-should-i-implement-icheckedinteractable-instead-of-just-iinteractable">Why should I implement ICheckedInteractable instead of just IInteractable?<a class="headerlink" href="#why-should-i-implement-icheckedinteractable-instead-of-just-iinteractable" title="Permanent link">&para;</a></h3>
+<p>You don't HAVE to implement WillInteract - you could just put all of your validation logic and checks in ServerPerformInteraction. This will result in the 
+logic in DefaultWillInteract.cs being used for the WillInteract check. This is probably fine for many situations.</p>
+<p>However, this can cause some problems:
+  * Your component's interaction logic will always be triggered when it recieves an interaction, preventing other interactable components on the object from receiving the interaction.
+  * Your component will send interaction messages to the server more often, even when the ServerPerformInteraction logic would not end up doing anything. This increases the network 
+    load on the server.</p>
+<p>Instead, if you implement ICheckedInteractable.WillInteract so that it only returns true when your interaction logic acually has something to do, then you can avoid those problems and improve network performance.</p>
+<h3 id="how-can-i-implement-client-side-prediction-and-rollback">How can I implement client side prediction and rollback?<a class="headerlink" href="#how-can-i-implement-client-side-prediction-and-rollback" title="Permanent link">&para;</a></h3>
+<p>Client side prediction makes the game appear a lot more responsive to the user, even if they are having to wait for the server
+to process their action. Basically, the client predicts what the interaction will do and updates the game state accordingly for the user. However, if it later turns
+out that the server disagrees with that prediction, the client needs to "roll back" the prediction, resetting its state to whatever the server says is correct.</p>
+<p>To implement this, simply implement IPredictedInteractable or IPredictedCheckedInteractable.</p>
+<p>For client side prediction, you will implement ClientPredictInteraction. This is invoked when the client is sending the message to the server after WillInteract returns true.
+In that method, you can make your prediction and update the game state for the local client.</p>
+<p>For rollback, you will implement ServerRollbackClient. In this method, you can inform the client (sending a net message, updating a SyncVar, invoking ClientRpc, etc...) what to roll back to.</p>
+<h3 id="how-can-i-trigger-interactions-manually-such-as-for-right-click-options">How can I trigger interactions manually (such as for right click options)?<a class="headerlink" href="#how-can-i-trigger-interactions-manually-such-as-for-right-click-options" title="Permanent link">&para;</a></h3>
+<p>Simply call InteractionUtils.RequestInteract, providing the details of the interaction and the component you want to trigger. </p>
+<h3 id="how-can-i-create-tile-interactions">How can I create tile interactions?<a class="headerlink" href="#how-can-i-create-tile-interactions" title="Permanent link">&para;</a></h3>
+<p>Tile interactions can't be done using interactable components, because tiles are a separate kind of thing in Unity.</p>
+<p>Tile interactions are defined by creating Scriptable Objects which subclass TileInteraction. Some existing ones are already defined which may suit your needs (see Create &gt; Interaction &gt; Tile Interaction). If the existing scriptable objects don't support your needs, you can create a new subclass of TileInteraction following the example of the existing TileInteraction subclasses.</p>
+<p>To indicate that a given tile can have a particular interaction, you should locate that tile's asset (somewhere in Tilemaps/Resources/Tiles), and add your tile interaction asset to its Tile Interactions list. Interactions will be checked from top to bottom in the interactions list until one (if any) fires. As with interactable components, the client / server WillInteract logic works the same way - if any WIllInteract returns true on the client-side, the server will check all possible interactions on that tile using the server-side WillInteract logic, regardless of
+which interaction triggered on the clientside.</p>
+<p>For a thorough example of tile interactions, refer to the tile assets for ReinforcedWall and RWall in Tiles/Walls and examine their TileInteraction lists, and look at their TileInteraction assets. These define the logic for constructing and deconstructing reinforced walls (which are eventually turned into reinforced girders when deconstruction progresses far enough, which are actual prefabs instead of tiles).</p>
+<h2 id="reference">Reference<a class="headerlink" href="#reference" title="Permanent link">&para;</a></h2>
+<p>The remaining sections server as a reference for the details of IF2.</p>
+<h3 id="interaction-types">Interaction Types<a class="headerlink" href="#interaction-types" title="Permanent link">&para;</a></h3>
+<p>Here are the current interactions. More may be added as different objects require different use cases:
+* MouseDrop - Click and drag a MouseDraggable object in the world or an item in inventory and release it to drop on something in the world (not in inventory). Dragging between 2 slots is handled by InventoryApply.
+* HandApply - click something in the game world. The item in the active hand (or empty hand) is applied to the thing that was clicked. Targets a specific object or tile.
+* PositionalHandApply - like hand apply, but also fires on clicking empty space and stores (and transmits) the specific position on the object that was clicked - useful for large objects which have different behavior based on where they are clicked (such as tilemaps). This is separate from HandApply so that the length of netmessages can be reduced (the vector of the position is only added to the message for PositionalHandApply but can be excluded for HandApply).
+* AimApply - like hand apply, but does not have a specific targeted object (it simply aims where the mouse is) and can occur at some interval while the mouse is being held down after being clicked in the game world. For things like shooting a semi-auto or automatic weapon, spraying fire extinguisher, etc...
+* HandActivate - Triggers when using the "Z" key or clicking the item while it is in the active hand.
+* InventoryApply - Triggered by clicking an inventory slot (in which case the active hand will be the from slot) or dragging from one slot to another.</p>
+<h3 id="precedence-of-interaction-components">Precedence of Interaction Components<a class="headerlink" href="#precedence-of-interaction-components" title="Permanent link">&para;</a></h3>
+<p>This list indicates the current order of precedence for checking for an interaction on a given frame. Consider this an "abridged version" of the next section.</p>
+<p>Remember, you can always turn on TRACE level logging for the Interaction category to see a detailed log of each component in the order it is being checked during an interaction.</p>
+<p>Remember that there can be multiple components on the used object or the targeted object which implement IInteractable&lt;&gt;, for multiple interaction types, so this list can help you figure out which will be invoked first. Further checking of interactions will be stopped as soon as any of these components indicates that an interaction has occurred.</p>
+<ol>
+<li>alt click</li>
+<li>throw</li>
+<li>HandApply + PositionalHandApply<ol>
+<li>Components on used object (for the object in the active hand, if occupied), in reverse component order.</li>
+<li>Components on target object in reverse component order.</li>
+</ol>
+</li>
+<li>AimApply (this runs last so you can still melee / click things if adjacent when a gun is in hand)<ol>
+<li>Components on used object (object in the active hand), in reverse component order.</li>
+</ol>
+</li>
+</ol>
+<h3 id="interaction-logic-flow">Interaction Logic Flow<a class="headerlink" href="#interaction-logic-flow" title="Permanent link">&para;</a></h3>
+<p>Because the mouse can do so many things, the logic for interactions is a bit complicated. This section describes it in detail.</p>
+<p>Due to wanting to make guns more usable, there are 2 main different cases - when you have a loaded gun in the active hand vs. not.</p>
+<p>Alt click and throw are always checked first and have no special logic.</p>
+<p>When the active hand doesn't have a loaded gun:  </p>
+<ol>
+<li>Mouse Clicked Down<ol>
+<li>Is the mouse over an object with a MouseDraggable? We need to wait and see if we should drag it or click on it. 
+   Save the MouseDraggable and wait until mouse is dragged or mouse 
+   button is released.</li>
+<li>If mouse is not over a MouseDraggable...<ol>
+<li>IF2 - HandApply and PositionalHandApply - check interactions in the following order until one occurs.<ol>
+<li>IInteractable&lt;HandApply or PositionalHandApply&gt; components on used object (for the object in the active hand, if occupied), in reverse
+   component order.</li>
+<li>IInteractable&lt;HandApply or PositionalHandApply&gt; components on target object in reverse component order.</li>
+</ol>
+</li>
+<li>If no interactions have occurred, check IF2 AimApply interactions and stop as soon as one occurs. This runs 
+   last so you can still melee / click things if adjacent when a gun is in hand)</li>
+<li>Checks for IInteractable&lt;AimApply&gt; components on used object (object in the active hand), in reverse component 
+      order.</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>Mouse held down.<ol>
+<li>If we saved a MouseDraggable during the initial click and the mouse has been dragged far enough (past MouseDragDeadzone), initiate a drag and drop (show the drag shadow of the object being dragged).
+   Until the object is dropped, no further interactions will occur.</li>
+</ol>
+</li>
+<li>Mouse Button Released<ol>
+<li>If we are dragging something, drop it and trigger MouseDrop interactions in the following order... <ol>
+<li>IInteractable&lt;MouseDrop&gt; components on dropped object in reverse
+       component order.</li>
+<li>IInteractable&lt;MouseDrop &gt; components on target object in reverse component order.</li>
+</ol>
+</li>
+<li>If we saved a MouseDraggable during the initial click but the mouse never moved past the drag deadzone
+   and we have not held the mouse button down longer than MaxClickDuration...<ol>
+<li>IF2 - HandApply and PositionalHandApply - check interactions in the following order until one occurs.<ol>
+<li>IInteractable&lt;HandApply or PositionalHandApply &gt; components on used object (for the object in the active hand, if occupied), in reverse 
+   component order.</li>
+<li>IInteractable&lt;HandApply or PositionalHandApply &gt; components on target object in reverse component order.</li>
+</ol>
+</li>
+<li>If no HandApply or PositionalHandApply  interactions occurred, check the old system to see if a click interaction occurs - uses 
+   InputTrigger and stop as soon as one occurs.</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p>When there is a loaded gun in the active hand.  </p>
+<ol>
+<li>Mouse Clicked Down<ol>
+<li>Are we on Harm intent? If so, shoot (trigger IInteractable&lt;AimApply&gt; components on Gun).</li>
+<li>If not on Harm intent...<ol>
+<li>IF2 - HandApply and PositionalHandApply - check interactions in the following order until one occurs.<ol>
+<li>IInteractable&lt;HandApply or PositionalHandApply&gt; components on used object (for the object in the active hand, if occupied), in reverse 
+   component order.</li>
+<li>IInteractable&lt;HandApply or PositionalHandApply&gt; components on target object in reverse component order.</li>
+</ol>
+</li>
+<li>If no HandApply interactions occurred, check the old system to see if a click interaction occurs - uses 
+   InputTrigger and stop as soon as one occurs.</li>
+<li>If no interactions have occurred, check IF2 AimApply interactions and stop as soon as one occurs. This runs 
+   last so you can still melee / click things if adjacent when a gun is in hand)</li>
+<li>Checks for IInteractable&lt;AimApply&gt; components on used object (object in the active hand), in reverse component 
+      order.</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>Mouse held down - continue shooting if we have an automatic (keep triggering IInteractable&lt;AimApply&gt; components on Gun).</li>
+</ol>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../How-to-use-the-in-game-debugger/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Using the In-game Debugger
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../Inventory-System/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Inventory System
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/vendor.6a3d08fc.min.js"></script>
+      <script src="../../assets/javascripts/bundle.71201edf.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "../..",
+          features: [],
+          search: Object.assign({
+            worker: "../../assets/javascripts/worker/search.4ac00218.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1682 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Project Design and Documentation for development">
+      
+      
+        <link rel="canonical" href="https://unitystation.github.io/unitystation/development/Projectiles/">
+      
+      
+        <meta name="author" content="MrMepper">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.ico">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.1.0">
+    
+    
+      
+        <title>Projectiles - UnityStation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.bc7e593a.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab28b872.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+      
+  
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#projectiles" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://unitystation.github.io/unitystation/" title="UnityStation" class="md-header-nav__button md-logo" aria-label="UnityStation">
+      
+  <img src="../../assets/images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            UnityStation
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              Projectiles
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header-nav__source">
+        
+<a href="https://github.com/unitystation/unitystation/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    unitystation/unitystation
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://unitystation.github.io/unitystation/" title="UnityStation" class="md-nav__button md-logo" aria-label="UnityStation">
+      
+  <img src="../../assets/images/logo.png" alt="logo">
+
+    </a>
+    UnityStation
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/unitystation/unitystation/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    unitystation/unitystation
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../CODE_OF_CONDUCT/" class="md-nav__link">
+      Code of Conduct
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../CONTRIBUTING/" class="md-nav__link">
+      Contribution and Review Guidelines
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../Documentation-Guide/" class="md-nav__link">
+      Documentation Guide
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../GPLv3/" class="md-nav__link">
+      Licensing
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Contribution guides
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Contribution guides" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        <span class="md-nav__icon md-icon"></span>
+        Contribution guides
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribution-guides/Building-And-Testing/" class="md-nav__link">
+      Building and Testing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribution-guides/Developing-for-UnityStation-on-Unix-Systems-with-the-Unity-Editor-and-JetBrains-Rider/" class="md-nav__link">
+      Developing On Linux
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribution-guides/Development-Standards-Guide/" class="md-nav__link">
+      Development Standards Guide
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../contribution-guides/Starting-contribution/" class="md-nav__link">
+      Starting Contribution
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7" checked>
+    
+    <label class="md-nav__link" for="nav-7">
+      Development
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Development" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        <span class="md-nav__icon md-icon"></span>
+        Development
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Addressables/" class="md-nav__link">
+      Overview of Addressable Sounds
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Component-Development-Checklist/" class="md-nav__link">
+      Component Development Checklist
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Crafting-System/" class="md-nav__link">
+      Crafting System
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Creating-Items-and-Objects/" class="md-nav__link">
+      Creating Items and Objects
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Creating-and-Using-Tile-Palettes/" class="md-nav__link">
+      Creating and Using Tile Pallettes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Development-Gotchas-and-Common-Mistakes/" class="md-nav__link">
+      Development Gotchas and Common Mistakes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Development-Protips/" class="md-nav__link">
+      Development Protips
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Directory-Structure/" class="md-nav__link">
+      Directory Structure
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Electricity-Development/" class="md-nav__link">
+      Electricity Development
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Emotes/" class="md-nav__link">
+      EmoteSO, and how to work with it.
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Helpful-Functions-Cheatsheet/" class="md-nav__link">
+      Helpful Functions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Hosting-a-Server/" class="md-nav__link">
+      Hosting a Server
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../How-To-User-Interface/" class="md-nav__link">
+      How To Create a User Interface
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../How-to-Map/" class="md-nav__link">
+      How to Map
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../How-to-Random-Loot/" class="md-nav__link">
+      How to use random spawners
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../How-to-Sprite/" class="md-nav__link">
+      How to Sprite
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../How-to-use-ReplaceWithPrefab.cs/" class="md-nav__link">
+      How to use ReplaceWithPrefab.cs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../How-to-use-UIActions/" class="md-nav__link">
+      How to use UIActions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../How-to-use-the-in-game-debugger/" class="md-nav__link">
+      Using the In-game Debugger
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Implementing-Interactions/" class="md-nav__link">
+      Implementing Interactions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Inventory-System/" class="md-nav__link">
+      Inventory System
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Item-Traits-System/" class="md-nav__link">
+      Item Traits System
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Mirror-Upgrade-Customization-Notes/" class="md-nav__link">
+      Mirror Upgrade Customization Notes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Mirror/" class="md-nav__link">
+      Mirror (Networking library)
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Module-Structure/" class="md-nav__link">
+      Module Structure
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Multiplayer-PlayMode/" class="md-nav__link">
+      Introduction to [Multiplayer Playmode](https://docs.unity3d.com/Packages/com.unity.multiplayer.playmode@0.1/manual/index.html)
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Navigating-DM-codebases-%28like-tgstation%29/" class="md-nav__link">
+      Navigating DM codebases (like tgstation)
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Networking-%28Network-Messages%29/" class="md-nav__link">
+      Networking (Network Messages)
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Notes-on-SyncObject-and-SyncList/" class="md-nav__link">
+      Note SyncObject And SyncList Usage
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Occupations/" class="md-nav__link">
+      Occupations
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Physics-Layers/" class="md-nav__link">
+      Physics Layers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Projectiles
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="./" class="md-nav__link md-nav__link--active">
+      Projectiles
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction-to-bullets" class="md-nav__link">
+    Introduction to bullets
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#projectile-behaviours" class="md-nav__link">
+    Projectile behaviours
+  </a>
+  
+    <nav class="md-nav" aria-label="Projectile behaviours">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ionshoot" class="md-nav__link">
+    IOnShoot
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ionmove" class="md-nav__link">
+    IOnMove
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ionhit" class="md-nav__link">
+    IOnHit
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iondespawn" class="md-nav__link">
+    IOnDespawn
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-a-projectile" class="md-nav__link">
+    Creating a Projectile
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Proper-Spawning-and-Despawning-%28Object-Lifecycle%29/" class="md-nav__link">
+      Proper Spawning and Despawning
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../RPC-vs-Netmsg/" class="md-nav__link">
+      RPC vs Netmsg
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Right-Click-Menu/" class="md-nav__link">
+      Right Click Menu
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Simulating-Lag/" class="md-nav__link">
+      Simulating Lag
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Species-Notes/" class="md-nav__link">
+      Species Notes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Stripping-Scenes-For-Quick-Build/" class="md-nav__link">
+      Stripping Scenes For Quick Build
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../SyncVar-Best-Practices-for-Easy-Networking/" class="md-nav__link">
+      SyncVar Best Practices for Easy Networking
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../The-Clearance-System/" class="md-nav__link">
+      What is the Clearance System?
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Undo-RecordObject-vs-EditorUtility-SetDirty/" class="md-nav__link">
+      Undo RecordObject vs EditorUtility SetDirty
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../What-is-a-matrix/" class="md-nav__link">
+      What is a matrix
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Working-with-Speech-Modifiers/" class="md-nav__link">
+      Working with Speech Modifiers
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+    
+    <label class="md-nav__link" for="nav-8">
+      Faq
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Faq" data-md-level="1">
+      <label class="md-nav__title" for="nav-8">
+        <span class="md-nav__icon md-icon"></span>
+        Faq
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../faq/Building/" class="md-nav__link">
+      Building FAQ
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
+    
+    <label class="md-nav__link" for="nav-9">
+      Project goals
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Project goals" data-md-level="1">
+      <label class="md-nav__title" for="nav-9">
+        <span class="md-nav__icon md-icon"></span>
+        Project goals
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/roadmap/" class="md-nav__link">
+      RoadMap
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-9-2" type="checkbox" id="nav-9-2">
+    
+    <label class="md-nav__link" for="nav-9-2">
+      Current goal scope
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Current goal scope" data-md-level="2">
+      <label class="md-nav__title" for="nav-9-2">
+        <span class="md-nav__icon md-icon"></span>
+        Current goal scope
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/additional-job-role-developments/" class="md-nav__link">
+      Additional Job Role Developments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/antagonist-roles/" class="md-nav__link">
+      Antagonist roles
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/centcomm-missions/" class="md-nav__link">
+      Centcomm missions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/character-customization/" class="md-nav__link">
+      Character customization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/mapping-changes/" class="md-nav__link">
+      Mapping changes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/mining/" class="md-nav__link">
+      Mining
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/new-lobby-screen/" class="md-nav__link">
+      New lobby screen
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/npc-aliens/" class="md-nav__link">
+      Npc aliens
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/player-accounts/" class="md-nav__link">
+      Player accounts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/shuttles/" class="md-nav__link">
+      Shuttles
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/start-of-round/" class="md-nav__link">
+      Start of round
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/the-narrative/" class="md-nav__link">
+      The narrative
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction-to-bullets" class="md-nav__link">
+    Introduction to bullets
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#projectile-behaviours" class="md-nav__link">
+    Projectile behaviours
+  </a>
+  
+    <nav class="md-nav" aria-label="Projectile behaviours">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ionshoot" class="md-nav__link">
+    IOnShoot
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ionmove" class="md-nav__link">
+    IOnMove
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ionhit" class="md-nav__link">
+    IOnHit
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iondespawn" class="md-nav__link">
+    IOnDespawn
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-a-projectile" class="md-nav__link">
+    Creating a Projectile
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/unitystation/unitystation/edit/develop/docs/development/Projectiles.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="projectiles">Projectiles<a class="headerlink" href="#projectiles" title="Permanent link">&para;</a></h1>
+<h2 id="introduction-to-bullets">Introduction to bullets<a class="headerlink" href="#introduction-to-bullets" title="Permanent link">&para;</a></h2>
+<p>Find bullet folder:</p>
+<p><img alt="" src="../../assets/images/Projectiles/FindBullet.gif" /></p>
+<p>Click on a bullet prefab that's what you will see:</p>
+<p><img alt="" src="../../assets/images/Projectiles/BulletInspector.png" /></p>
+<p>Double click on prefab in the folder or press "Open prefab":</p>
+<p><img alt="" src="../../assets/images/Projectiles/BulletOpened.png" /></p>
+<p>"Bullet_9mm" with an arrow down is main game object that will have all behavior components on it.
+ "projectile_87" is an actual moving game object in the world. It moves in the local space of the "Bullet_9mm".</p>
+<p><img alt="" src="../../assets/images/Projectiles/BulletOpenedChilds.png" /></p>
+<p>Some bullets in the game emmit light or have a sprite. So if your new bullet requires a following light, you will need to add a new child game object to the moving game object.</p>
+<p><img alt="" src="../../assets/images/Projectiles/BulletPlasmaCutter.png" /></p>
+<p>"Bullet_9mm" does not have a sprite or a light attached to it, but it uses <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Behaviours/LocalTrailRenderer.cs"><strong>LocalTrailRenderer</strong></a> component and <code>LineRenderer</code>.</p>
+<p><a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Behaviours/LocalTrailRenderer.cs"><strong>LocalTrailRenderer</strong></a> controls drawing in local space.</p>
+<p><img alt="" src="../../assets/images/Projectiles/LocalTrailRenderer.png" /></p>
+<p><a href="https://docs.unity3d.com/Manual/class-LineRenderer.html"><strong>LineRenderer</strong></a> is unity built-in component which renders trail.</p>
+<p><img alt="" src="../../assets/images/Projectiles/LineRenderer.png" /></p>
+<p>Positions control how it will be drawn.</p>
+<p><img alt="" src="../../assets/images/Projectiles/Positions.png" /></p>
+<p>You can change values right there and see how it will look.</p>
+<p><img alt="" src="../../assets/images/Projectiles/PositionsChangeValue.png" /> <img alt="" src="../../assets/images/Projectiles/RenderedTrail.png" /></p>
+<h2 id="projectile-behaviours">Projectile behaviours<a class="headerlink" href="#projectile-behaviours" title="Permanent link">&para;</a></h2>
+<p>There are 4 interfaces currently which allow behaviours to control projectile.</p>
+<h3 id="ionshoot"><a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Behaviours/IOnShoot.cs"><strong>IOnShoot</strong></a><a class="headerlink" href="#ionshoot" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">/// Interface to gather shooter information</span>
+<span class="c1">/// Used for logs or chat messages</span>
+<span class="k">public</span> <span class="k">interface</span> <span class="n">IOnShoot</span>
+<span class="p">{</span>
+    <span class="k">void</span> <span class="nf">OnShoot</span><span class="p">(</span><span class="n">Vector2</span> <span class="n">direction</span><span class="p">,</span>
+                 <span class="n">GameObject</span> <span class="n">shooter</span><span class="p">,</span>
+                 <span class="n">Gun</span> <span class="n">weapon</span><span class="p">,</span>
+                 <span class="n">BodyPartType</span> <span class="n">targetZone</span> <span class="p">=</span> <span class="n">BodyPartType</span><span class="p">.</span><span class="n">Chest</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ul>
+<li>Example <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Behaviours/ProjectileDamageIntegrity.cs"><strong>ProjectileDamageIntegrity</strong></a>:</li>
+</ul>
+<p>This script damages collider if it has an <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Health/Objects/Integrity.cs"><strong>Integrity</strong></a> component.
+But the point is, it caches <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Gun.cs"><strong>Gun</strong></a> and the shooter by using <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Behaviours/IOnShoot.cs"><strong>OnShoot</strong></a> so it can print a chat message and log details.
+Also don't forget to clear references in <a href="https://docs.unity3d.com/ScriptReference/MonoBehaviour.OnDisable.html"><strong>OnDisable</strong></a>.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">public</span> <span class="k">class</span> <span class="nc">ProjectileDamageIntegrity</span> <span class="p">:</span> <span class="n">MonoBehaviour</span><span class="p">,</span> <span class="n">IOnShoot</span><span class="p">,</span> <span class="n">IOnHit</span>
+<span class="p">{</span>
+    <span class="k">private</span> <span class="n">GameObject</span> <span class="n">shooter</span><span class="p">;</span>
+    <span class="k">private</span> <span class="n">Gun</span> <span class="n">weapon</span><span class="p">;</span>
+
+<span class="na">    [SerializeField]</span> <span class="k">private</span> <span class="n">DamageData</span> <span class="n">damageData</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">void</span> <span class="nf">OnShoot</span><span class="p">(</span><span class="n">Vector2</span> <span class="n">direction</span><span class="p">,</span> <span class="n">GameObject</span> <span class="n">shooter</span><span class="p">,</span> <span class="n">Gun</span> <span class="n">weapon</span><span class="p">,</span> <span class="n">BodyPartType</span> <span class="n">targetZone</span> <span class="p">=</span> <span class="n">BodyPartType</span><span class="p">.</span><span class="n">Chest</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="n">shooter</span> <span class="p">=</span> <span class="n">shooter</span><span class="p">;</span>
+        <span class="k">this</span><span class="p">.</span><span class="n">weapon</span> <span class="p">=</span> <span class="n">weapon</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="kt">bool</span> <span class="nf">OnHit</span><span class="p">(</span><span class="n">RaycastHit2D</span> <span class="n">hit</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">TryDamage</span><span class="p">(</span><span class="n">hit</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">private</span> <span class="kt">bool</span> <span class="nf">TryDamage</span><span class="p">(</span><span class="n">RaycastHit2D</span> <span class="n">hit</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">var</span> <span class="n">coll</span> <span class="p">=</span> <span class="n">hit</span><span class="p">.</span><span class="n">collider</span><span class="p">;</span>
+        <span class="kt">var</span> <span class="n">integrity</span> <span class="p">=</span> <span class="n">coll</span><span class="p">.</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">Integrity</span><span class="p">&gt;();</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">integrity</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span> <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+
+        <span class="n">integrity</span><span class="p">.</span><span class="n">ApplyDamage</span><span class="p">(</span><span class="n">damageData</span><span class="p">.</span><span class="n">Damage</span><span class="p">,</span> <span class="n">damageData</span><span class="p">.</span><span class="n">AttackType</span><span class="p">,</span> <span class="n">damageData</span><span class="p">.</span><span class="n">DamageType</span><span class="p">);</span>
+
+        <span class="n">Chat</span><span class="p">.</span><span class="n">AddAttackMsgToChat</span><span class="p">(</span><span class="n">shooter</span><span class="p">,</span> <span class="n">coll</span><span class="p">.</span><span class="n">gameObject</span><span class="p">,</span> <span class="n">BodyPartType</span><span class="p">.</span><span class="n">None</span><span class="p">,</span> <span class="n">weapon</span><span class="p">.</span><span class="n">gameObject</span><span class="p">);</span>
+        <span class="n">Logger</span><span class="p">.</span><span class="n">LogTraceFormat</span><span class="p">(</span><span class="s">&quot;Hit {0} for {1} with HealthBehaviour! bullet absorbed&quot;</span><span class="p">,</span> <span class="n">Category</span><span class="p">.</span><span class="n">Firearms</span><span class="p">,</span>
+            <span class="n">integrity</span><span class="p">.</span><span class="n">gameObject</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="n">damageData</span><span class="p">.</span><span class="n">Damage</span><span class="p">);</span>
+
+        <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">private</span> <span class="k">void</span> <span class="nf">OnDisable</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">weapon</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>
+        <span class="n">shooter</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="ionmove"><a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Behaviours/IOnMove.cs"><strong>IOnMove</strong></a><a class="headerlink" href="#ionmove" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">/// Called every time projectile moved</span>
+<span class="c1">/// Basically allows to have behaviors</span>
+<span class="c1">/// which are called when projectile moves.</span>
+<span class="k">public</span> <span class="k">interface</span> <span class="n">IOnMove</span>
+<span class="p">{</span>
+    <span class="kt">bool</span> <span class="nf">OnMove</span><span class="p">(</span><span class="n">Vector2</span> <span class="n">traveledDistance</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ul>
+<li>Example is a script which limits projectiles travel distance <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Behaviours/ProjectileRangeLimited.cs"><strong>ProjectileRangeLimited</strong></a>:</li>
+</ul>
+<p>When maximum distance is reached, it returns <code>true</code> which requests <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Bullet.cs"><strong>Bullet</strong></a> to despawn itself.
+Don't forget to reset data(count in this case) in  <a href="https://docs.unity3d.com/ScriptReference/MonoBehaviour.OnDisable.html"><strong>OnDisable</strong></a>.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">/// Limits projectiles travel distance</span>
+<span class="k">public</span> <span class="k">class</span> <span class="nc">ProjectileRangeLimited</span> <span class="p">:</span> <span class="n">MonoBehaviour</span><span class="p">,</span> <span class="n">IOnMove</span>
+<span class="p">{</span>
+<span class="na">    [Tooltip(&quot;How many tiles it will travel.&quot;)]</span>
+<span class="na">    [SerializeField]</span> <span class="k">private</span> <span class="kt">float</span> <span class="n">maxDistance</span> <span class="p">=</span> <span class="m">15</span><span class="p">;</span>
+    <span class="k">private</span> <span class="kt">float</span> <span class="n">currentDistance</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="kt">bool</span> <span class="nf">OnMove</span><span class="p">(</span><span class="n">Vector2</span> <span class="n">traveledDistance</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nf">AddDistance</span><span class="p">(</span><span class="n">traveledDistance</span><span class="p">.</span><span class="n">magnitude</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">private</span> <span class="k">void</span> <span class="nf">OnDisable</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">currentDistance</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+    <span class="p">}</span>
+</code></pre></div>
+
+<h3 id="ionhit"><a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Behaviours/IOnHit.cs"><strong>IOnHit</strong></a><a class="headerlink" href="#ionhit" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1">/// Called when projectiles raycast collides with something</span>
+<span class="k">public</span> <span class="k">interface</span> <span class="n">IOnHit</span>
+<span class="p">{</span>
+    <span class="kt">bool</span> <span class="nf">OnHit</span><span class="p">(</span><span class="n">RaycastHit2D</span> <span class="n">hit</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ul>
+<li>Simple example <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Behaviours/ProjectileDecal.cs"><strong>ProjectileDecal</strong></a>:</li>
+</ul>
+<p>This script spawns a decal in the point where bullet hit something.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">public</span> <span class="k">class</span> <span class="nc">ProjectileDecal</span> <span class="p">:</span> <span class="n">MonoBehaviour</span><span class="p">,</span> <span class="n">IOnHit</span>
+<span class="p">{</span>
+<span class="na">    [SerializeField]</span> <span class="k">private</span> <span class="n">GameObject</span> <span class="n">decal</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>
+
+<span class="na">    [Tooltip(&quot;Living time of decal.&quot;)]</span>
+<span class="na">    [SerializeField]</span> <span class="k">private</span> <span class="kt">float</span> <span class="n">animationTime</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="kt">bool</span> <span class="nf">OnHit</span><span class="p">(</span><span class="n">RaycastHit2D</span> <span class="n">hit</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">var</span> <span class="n">newDecal</span> <span class="p">=</span> <span class="n">Spawn</span><span class="p">.</span><span class="n">ClientPrefab</span><span class="p">(</span><span class="n">decal</span><span class="p">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">hit</span><span class="p">.</span><span class="n">point</span><span class="p">).</span><span class="n">GameObject</span><span class="p">;</span>
+        <span class="kt">var</span> <span class="n">timeLimitedDecal</span> <span class="p">=</span> <span class="n">newDecal</span><span class="p">.</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">TimeLimitedDecal</span><span class="p">&gt;();</span>
+        <span class="n">timeLimitedDecal</span><span class="p">.</span><span class="n">SetUpDecal</span><span class="p">(</span><span class="n">animationTime</span><span class="p">);</span>
+        <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="iondespawn"><a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Behaviours/IOnDespawn.cs"><strong>IOnDespawn</strong></a><a class="headerlink" href="#iondespawn" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="k">public</span> <span class="k">interface</span> <span class="n">IOnDespawn</span>
+<span class="p">{</span>
+    <span class="c1">/// Interface for notifying components that</span>
+    <span class="c1">/// game object is about to be despawned</span>
+    <span class="c1">/// &quot;hit&quot; Collider responsible for despawn, new RaycastHit if nothing was hit</span>
+    <span class="c1">/// &quot;point&quot; Coordinate where object is about to despawn</span>
+    <span class="k">void</span> <span class="nf">OnDespawn</span><span class="p">(</span><span class="n">RaycastHit2D</span> <span class="n">hit</span><span class="p">,</span>
+                   <span class="n">Vector2</span> <span class="n">point</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ul>
+<li>Example <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Behaviours/ProjectileAnimateTile.cs"><strong>ProjectileAnimateTile</strong></a>:</li>
+</ul>
+<p>This script creates an animated tile.
+The behaviour needs to do it once, when bullet is about to be despawned.
+So if hit is <code>null</code> it will despawn on <code>point</code>.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">public</span> <span class="k">class</span> <span class="nc">ProjectileAnimateTile</span> <span class="p">:</span> <span class="n">MonoBehaviour</span><span class="p">,</span> <span class="n">IOnDespawn</span>
+<span class="p">{</span>
+<span class="na">    [SerializeField]</span> <span class="k">private</span> <span class="n">AnimatedTile</span> <span class="n">animatedTile</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>
+
+<span class="na">    [Tooltip(&quot;Living time of animated tile.&quot;)]</span>
+<span class="na">    [SerializeField]</span> <span class="k">private</span> <span class="kt">float</span> <span class="n">animationTime</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">void</span> <span class="nf">OnDespawn</span><span class="p">(</span><span class="n">RaycastHit2D</span> <span class="n">hit</span><span class="p">,</span> <span class="n">Vector2</span> <span class="n">point</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">hit</span><span class="p">.</span><span class="n">collider</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">OnBeamEnd</span><span class="p">(</span><span class="n">point</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">else</span>
+        <span class="p">{</span>
+            <span class="n">OnCollision</span><span class="p">(</span><span class="n">hit</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">private</span> <span class="k">void</span> <span class="nf">OnBeamEnd</span><span class="p">(</span><span class="n">Vector2</span> <span class="n">position</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">var</span> <span class="n">interactableTiles</span> <span class="p">=</span> <span class="n">GetComponentInParent</span><span class="p">&lt;</span><span class="n">InteractableTiles</span><span class="p">&gt;();</span>
+
+        <span class="n">interactableTiles</span><span class="p">.</span><span class="n">CreateAnimatedTile</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">animatedTile</span><span class="p">,</span> <span class="n">animationTime</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">private</span> <span class="k">void</span> <span class="nf">OnCollision</span><span class="p">(</span><span class="n">RaycastHit2D</span> <span class="n">hit</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">var</span> <span class="n">coll</span> <span class="p">=</span> <span class="n">hit</span><span class="p">.</span><span class="n">collider</span><span class="p">;</span>
+        <span class="kt">var</span> <span class="n">interactableTiles</span> <span class="p">=</span> <span class="n">coll</span><span class="p">.</span><span class="n">GetComponentInParent</span><span class="p">&lt;</span><span class="n">InteractableTiles</span><span class="p">&gt;();</span>
+
+        <span class="c1">// Off setting coordinate here is needed to get exactly what tile was hit</span>
+        <span class="kt">var</span> <span class="n">bulletHitTarget</span> <span class="p">=</span> <span class="n">Vector3</span><span class="p">.</span><span class="n">zero</span><span class="p">;</span>
+        <span class="n">bulletHitTarget</span><span class="p">.</span><span class="n">x</span> <span class="p">=</span> <span class="n">hit</span><span class="p">.</span><span class="n">point</span><span class="p">.</span><span class="n">x</span> <span class="p">-</span> <span class="m">0.01f</span> <span class="p">*</span> <span class="n">hit</span><span class="p">.</span><span class="n">normal</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+        <span class="n">bulletHitTarget</span><span class="p">.</span><span class="n">y</span> <span class="p">=</span> <span class="n">hit</span><span class="p">.</span><span class="n">point</span><span class="p">.</span><span class="n">y</span> <span class="p">-</span> <span class="m">0.01f</span> <span class="p">*</span> <span class="n">hit</span><span class="p">.</span><span class="n">normal</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+
+        <span class="n">interactableTiles</span><span class="p">.</span><span class="n">CreateAnimatedTile</span><span class="p">(</span><span class="n">bulletHitTarget</span><span class="p">,</span> <span class="n">animatedTile</span><span class="p">,</span> <span class="n">animationTime</span><span class="p">);</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div>
+
+<p>An example of getting those behaviours in <a href="https://github.com/unitystation/unitystation/blob/3f09f64ec56c92e00c37290667cedc42e73e524c/UnityProject/Assets/Scripts/Weapons/Projectiles/Bullet.cs#L25"><strong>Awake</strong></a>:</p>
+<p>Also we cache <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/MovingProjectile.cs"><strong>MovingProjectile</strong></a>. Its the child game object we talked about which moves in space.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">public</span> <span class="k">class</span> <span class="nc">Bullet</span> <span class="p">:</span> <span class="n">Projectile</span>
+<span class="p">{</span>
+    <span class="k">private</span> <span class="n">IOnShoot</span><span class="p">[]</span> <span class="n">behavioursOnShoot</span><span class="p">;</span>
+    <span class="k">private</span> <span class="n">IOnMove</span><span class="p">[]</span> <span class="n">behavioursOnMove</span><span class="p">;</span>
+    <span class="k">private</span> <span class="n">IOnHit</span><span class="p">[]</span> <span class="n">behavioursOnBulletHit</span><span class="p">;</span>
+    <span class="k">private</span> <span class="n">IOnDespawn</span><span class="p">[]</span> <span class="n">behavioursOnBulletDespawn</span><span class="p">;</span>
+
+    <span class="k">private</span> <span class="n">MovingProjectile</span> <span class="n">movingProjectile</span><span class="p">;</span>
+
+    <span class="k">private</span> <span class="k">void</span> <span class="nf">Awake</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">behavioursOnShoot</span> <span class="p">=</span> <span class="n">GetComponents</span><span class="p">&lt;</span><span class="n">IOnShoot</span><span class="p">&gt;();</span>
+        <span class="n">behavioursOnMove</span> <span class="p">=</span> <span class="n">GetComponentsInParent</span><span class="p">&lt;</span><span class="n">IOnMove</span><span class="p">&gt;();</span>
+        <span class="n">behavioursOnBulletHit</span> <span class="p">=</span> <span class="n">GetComponents</span><span class="p">&lt;</span><span class="n">IOnHit</span><span class="p">&gt;();</span>
+        <span class="n">behavioursOnBulletDespawn</span> <span class="p">=</span> <span class="n">GetComponents</span><span class="p">&lt;</span><span class="n">IOnDespawn</span><span class="p">&gt;();</span>
+
+        <span class="n">movingProjectile</span> <span class="p">=</span> <span class="n">GetComponentInChildren</span><span class="p">&lt;</span><span class="n">MovingProjectile</span><span class="p">&gt;();</span>
+    <span class="p">}</span>
+</code></pre></div>
+
+<p>So how they work and why should you use them?
+The behaviour pattern allows you to easily add new game mechanics without touching existing code.</p>
+<p>For example:</p>
+<p>I want my Bullet to <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Behaviours/ProjectileStun.cs"><strong>STUN</strong></a>!</p>
+<p><img alt="" src="../../assets/images/Projectiles/BulletAddStun.gif" /></p>
+<h2 id="creating-a-projectile">Creating a <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Projectile.cs"><strong>Projectile</strong></a><a class="headerlink" href="#creating-a-projectile" title="Permanent link">&para;</a></h2>
+<p>Check what bullet already has similar idea of what you want. Duplicate it with <code>ctrl + d</code>:</p>
+<p><img alt="" src="../../assets/images/Projectiles/BulletCreationTest.gif" /></p>
+<p>Remove game objects you won't need.</p>
+<p><img alt="" src="../../assets/images/Projectiles/BulletCreationRemoveLIghtSprite.gif" /></p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Make sure the bullet is in the same folder as other bullets.
+There is pooling system which does not despawn bullets but disables them to use later.
+It references this folder.</p>
+</div>
+<h1 id="pool">Pool<a class="headerlink" href="#pool" title="Permanent link">&para;</a></h1>
+<p>Find pool with bullets:</p>
+<p><img alt="" src="../../assets/images/Projectiles/FindPool.gif" /></p>
+<p>Open the pool SO. Extend elements count.</p>
+<p><img alt="" src="../../assets/images/Projectiles/OpenPooAndCreate.gif" /></p>
+<p>Search for bullet again and drag and drop the prefab into the new created element in the pool list.</p>
+<p><img alt="" src="../../assets/images/Projectiles/DragAndDropbulletToPool.gif" /></p>
+<h2 id="hit-processor">Hit Processor<a class="headerlink" href="#hit-processor" title="Permanent link">&para;</a></h2>
+<p>Open up the <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Bullet.cs"><strong>Bullet</strong></a> component in the editor.</p>
+<p>That's what you will see:</p>
+<p><img alt="" src="../../assets/images/Projectiles/BulletScript.png" /></p>
+<p>Hit processor is a <a href="https://docs.unity3d.com/Manual/class-ScriptableObject.html"><strong>Scriptable Objects</strong></a> which iterates through all components which are inheriting from <code>IOnHit</code> behaviour interface.</p>
+<p>Example <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/ScriptableObject/Gun/DespawnOnHit.cs"><strong>DespawnOnHit</strong></a>:</p>
+<p>This processor iterates through all behaviours and then always returns <code>true</code>. When it returns <code>true</code> <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Bullet.cs"><strong>Bullet</strong></a> despawns the game object.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">public</span> <span class="k">class</span> <span class="nc">DespawnOnHit</span> <span class="p">:</span> <span class="n">HitProcessor</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">override</span> <span class="kt">bool</span> <span class="nf">ProcessHit</span><span class="p">(</span><span class="n">RaycastHit2D</span> <span class="n">hit</span><span class="p">,</span> <span class="n">IOnHit</span><span class="p">[]</span> <span class="n">behavioursOnBulletHit</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">behaviour</span> <span class="k">in</span> <span class="n">behavioursOnBulletHit</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">behaviour</span><span class="p">.</span><span class="n">OnHit</span><span class="p">(</span><span class="n">hit</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>This is a simplest processor you will get.</p>
+<p>Another Example <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/ScriptableObject/Gun/DespawnOnRequest.cs"><strong>DespawnOnRequest</strong></a>:</p>
+<p>This one will only return <code>true</code> if any behaviour returns <code>true</code>.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">public</span> <span class="k">class</span> <span class="nc">DespawnOnRequest</span> <span class="p">:</span> <span class="n">HitProcessor</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">override</span> <span class="kt">bool</span> <span class="nf">ProcessHit</span><span class="p">(</span><span class="n">RaycastHit2D</span> <span class="n">hit</span><span class="p">,</span> <span class="n">IOnHit</span><span class="p">[]</span> <span class="n">behavioursOnBulletHit</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">var</span> <span class="n">isRequesting</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+        <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">behaviour</span> <span class="k">in</span> <span class="n">behavioursOnBulletHit</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">behaviour</span><span class="p">.</span><span class="n">OnHit</span><span class="p">(</span><span class="n">hit</span><span class="p">))</span>
+            <span class="p">{</span>
+                <span class="n">isRequesting</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">isRequesting</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>So if creating a new projectile you need to process your behaviours in a special way, you will need to
+create a <code>class</code> and inherit from <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/ScriptableObject/Gun/HitProcessor.cs"><strong>HitProcessor</strong></a>.Write up logic you need and return <code>true</code> when you want bullet to be despawned.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Make sure you write <code>[CreateAssetMenu(fileName = "DespawnOnRequest", menuName = "ScriptableObjects/Gun/DespawnOnRequest", order = 0)]</code> above your class.
+It will allow you to create this processor in unity so you can reference it in the <code>Bullet</code> component.</p>
+</div>
+<h2 id="mask-data">Mask Data<a class="headerlink" href="#mask-data" title="Permanent link">&para;</a></h2>
+<p>Contains layers which <code>Raycast</code> will hit. So if you don't have <code>Walls</code> layer specified for example, the bullets <code>Raycast</code> won't detect the that it hit the wall when colliding it which will result in returning <code>null</code> <code>RaycastHit</code>.</p>
+<p><img alt="" src="../../assets/images/Projectiles/BulletLayers.png" /></p>
+<p>If you need your own data for the bullet, right click in this folder:</p>
+<p><img alt="" src="../../assets/images/Projectiles/FolderWithLayerData.png" /></p>
+<p>And follow those steps:</p>
+<p><img alt="" src="../../assets/images/Projectiles/LayerSOCreation.png" /></p>
+<p>This will create <a href="https://docs.unity3d.com/Manual/class-ScriptableObject.html"><strong>Scriptable Objects</strong></a> with layer data which you can specify for your own needs and then reference in your bullet.</p>
+<p>Also using <a href="https://docs.unity3d.com/Manual/class-ScriptableObject.html"><strong>Scriptable Objects</strong></a> allows you to change layers right in play mode, so feel free to experiment right in game.</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../Physics-Layers/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Physics Layers
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../Proper-Spawning-and-Despawning-%28Object-Lifecycle%29/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Proper Spawning and Despawning
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/vendor.6a3d08fc.min.js"></script>
+      <script src="../../assets/javascripts/bundle.71201edf.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "../..",
+          features: [],
+          search: Object.assign({
+            worker: "../../assets/javascripts/worker/search.4ac00218.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>

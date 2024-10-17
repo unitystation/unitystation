@@ -1,0 +1,1860 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Project Design and Documentation for development">
+      
+      
+        <link rel="canonical" href="https://unitystation.github.io/unitystation/contribution-guides/Development-Standards-Guide/">
+      
+      
+        <meta name="author" content="MrMepper">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.ico">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.1.0">
+    
+    
+      
+        <title>Development Standards Guide - UnityStation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.bc7e593a.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab28b872.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+      
+  
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#development-standards-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://unitystation.github.io/unitystation/" title="UnityStation" class="md-header-nav__button md-logo" aria-label="UnityStation">
+      
+  <img src="../../assets/images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            UnityStation
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              Development Standards Guide
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header-nav__source">
+        
+<a href="https://github.com/unitystation/unitystation/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    unitystation/unitystation
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://unitystation.github.io/unitystation/" title="UnityStation" class="md-nav__button md-logo" aria-label="UnityStation">
+      
+  <img src="../../assets/images/logo.png" alt="logo">
+
+    </a>
+    UnityStation
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/unitystation/unitystation/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    unitystation/unitystation
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../.." class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../CODE_OF_CONDUCT/" class="md-nav__link">
+      Code of Conduct
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../CONTRIBUTING/" class="md-nav__link">
+      Contribution and Review Guidelines
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../Documentation-Guide/" class="md-nav__link">
+      Documentation Guide
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../../GPLv3/" class="md-nav__link">
+      Licensing
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6" checked>
+    
+    <label class="md-nav__link" for="nav-6">
+      Contribution guides
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Contribution guides" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        <span class="md-nav__icon md-icon"></span>
+        Contribution guides
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Building-And-Testing/" class="md-nav__link">
+      Building and Testing
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Developing-for-UnityStation-on-Unix-Systems-with-the-Unity-Editor-and-JetBrains-Rider/" class="md-nav__link">
+      Developing On Linux
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Development Standards Guide
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="./" class="md-nav__link md-nav__link--active">
+      Development Standards Guide
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#code-style" class="md-nav__link">
+    Code Style
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#component-and-scriptable-object-design" class="md-nav__link">
+    Component and Scriptable Object Design
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#code-design" class="md-nav__link">
+    Code Design
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Starting-contribution/" class="md-nav__link">
+      Starting Contribution
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-7" type="checkbox" id="nav-7">
+    
+    <label class="md-nav__link" for="nav-7">
+      Development
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Development" data-md-level="1">
+      <label class="md-nav__title" for="nav-7">
+        <span class="md-nav__icon md-icon"></span>
+        Development
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Addressables/" class="md-nav__link">
+      Overview of Addressable Sounds
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Component-Development-Checklist/" class="md-nav__link">
+      Component Development Checklist
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Crafting-System/" class="md-nav__link">
+      Crafting System
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Creating-Items-and-Objects/" class="md-nav__link">
+      Creating Items and Objects
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Creating-and-Using-Tile-Palettes/" class="md-nav__link">
+      Creating and Using Tile Pallettes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Development-Gotchas-and-Common-Mistakes/" class="md-nav__link">
+      Development Gotchas and Common Mistakes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Development-Protips/" class="md-nav__link">
+      Development Protips
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Directory-Structure/" class="md-nav__link">
+      Directory Structure
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Electricity-Development/" class="md-nav__link">
+      Electricity Development
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Emotes/" class="md-nav__link">
+      EmoteSO, and how to work with it.
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Helpful-Functions-Cheatsheet/" class="md-nav__link">
+      Helpful Functions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Hosting-a-Server/" class="md-nav__link">
+      Hosting a Server
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/How-To-User-Interface/" class="md-nav__link">
+      How To Create a User Interface
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/How-to-Map/" class="md-nav__link">
+      How to Map
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/How-to-Random-Loot/" class="md-nav__link">
+      How to use random spawners
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/How-to-Sprite/" class="md-nav__link">
+      How to Sprite
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/How-to-use-ReplaceWithPrefab.cs/" class="md-nav__link">
+      How to use ReplaceWithPrefab.cs
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/How-to-use-UIActions/" class="md-nav__link">
+      How to use UIActions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/How-to-use-the-in-game-debugger/" class="md-nav__link">
+      Using the In-game Debugger
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Implementing-Interactions/" class="md-nav__link">
+      Implementing Interactions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Inventory-System/" class="md-nav__link">
+      Inventory System
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Item-Traits-System/" class="md-nav__link">
+      Item Traits System
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Mirror-Upgrade-Customization-Notes/" class="md-nav__link">
+      Mirror Upgrade Customization Notes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Mirror/" class="md-nav__link">
+      Mirror (Networking library)
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Module-Structure/" class="md-nav__link">
+      Module Structure
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Multiplayer-PlayMode/" class="md-nav__link">
+      Introduction to [Multiplayer Playmode](https://docs.unity3d.com/Packages/com.unity.multiplayer.playmode@0.1/manual/index.html)
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Navigating-DM-codebases-%28like-tgstation%29/" class="md-nav__link">
+      Navigating DM codebases (like tgstation)
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Networking-%28Network-Messages%29/" class="md-nav__link">
+      Networking (Network Messages)
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Notes-on-SyncObject-and-SyncList/" class="md-nav__link">
+      Note SyncObject And SyncList Usage
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Occupations/" class="md-nav__link">
+      Occupations
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Physics-Layers/" class="md-nav__link">
+      Physics Layers
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Projectiles/" class="md-nav__link">
+      Projectiles
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Proper-Spawning-and-Despawning-%28Object-Lifecycle%29/" class="md-nav__link">
+      Proper Spawning and Despawning
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/RPC-vs-Netmsg/" class="md-nav__link">
+      RPC vs Netmsg
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Right-Click-Menu/" class="md-nav__link">
+      Right Click Menu
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Simulating-Lag/" class="md-nav__link">
+      Simulating Lag
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Species-Notes/" class="md-nav__link">
+      Species Notes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Stripping-Scenes-For-Quick-Build/" class="md-nav__link">
+      Stripping Scenes For Quick Build
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/SyncVar-Best-Practices-for-Easy-Networking/" class="md-nav__link">
+      SyncVar Best Practices for Easy Networking
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/The-Clearance-System/" class="md-nav__link">
+      What is the Clearance System?
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Undo-RecordObject-vs-EditorUtility-SetDirty/" class="md-nav__link">
+      Undo RecordObject vs EditorUtility SetDirty
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/What-is-a-matrix/" class="md-nav__link">
+      What is a matrix
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../development/Working-with-Speech-Modifiers/" class="md-nav__link">
+      Working with Speech Modifiers
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-8" type="checkbox" id="nav-8">
+    
+    <label class="md-nav__link" for="nav-8">
+      Faq
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Faq" data-md-level="1">
+      <label class="md-nav__title" for="nav-8">
+        <span class="md-nav__icon md-icon"></span>
+        Faq
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../faq/Building/" class="md-nav__link">
+      Building FAQ
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-9" type="checkbox" id="nav-9">
+    
+    <label class="md-nav__link" for="nav-9">
+      Project goals
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Project goals" data-md-level="1">
+      <label class="md-nav__title" for="nav-9">
+        <span class="md-nav__icon md-icon"></span>
+        Project goals
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/roadmap/" class="md-nav__link">
+      RoadMap
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-9-2" type="checkbox" id="nav-9-2">
+    
+    <label class="md-nav__link" for="nav-9-2">
+      Current goal scope
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Current goal scope" data-md-level="2">
+      <label class="md-nav__title" for="nav-9-2">
+        <span class="md-nav__icon md-icon"></span>
+        Current goal scope
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/additional-job-role-developments/" class="md-nav__link">
+      Additional Job Role Developments
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/antagonist-roles/" class="md-nav__link">
+      Antagonist roles
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/centcomm-missions/" class="md-nav__link">
+      Centcomm missions
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/character-customization/" class="md-nav__link">
+      Character customization
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/mapping-changes/" class="md-nav__link">
+      Mapping changes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/mining/" class="md-nav__link">
+      Mining
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/new-lobby-screen/" class="md-nav__link">
+      New lobby screen
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/npc-aliens/" class="md-nav__link">
+      Npc aliens
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/player-accounts/" class="md-nav__link">
+      Player accounts
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/shuttles/" class="md-nav__link">
+      Shuttles
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/start-of-round/" class="md-nav__link">
+      Start of round
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../project-goals/current-goal-scope/the-narrative/" class="md-nav__link">
+      The narrative
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#code-style" class="md-nav__link">
+    Code Style
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#component-and-scriptable-object-design" class="md-nav__link">
+    Component and Scriptable Object Design
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#code-design" class="md-nav__link">
+    Code Design
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/unitystation/unitystation/edit/develop/docs/contribution-guides/Development-Standards-Guide.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="development-standards-guide">Development Standards Guide<a class="headerlink" href="#development-standards-guide" title="Permanent link">&para;</a></h1>
+<p>Having a consistent code style and basic standards for code quality helps to keep our code "clean", making it easier to develop as our project grows. It would be awesome to build a game as complex as SS13 that is also easy to keep improving upon. Remember that each line of code you add now will be read by many other fellow developers in the future (including you!), so writing code that's easy to understand has a very positive impact on the project. </p>
+<p>These are not strict rules, and reviewers don't expect developers to be able to follow all of these suggestions, but we strive to adhere to them as much as possible. When a reviewer looks at your PR, part of their review will involve thinking about code cleanliness. They will work with you to figure out if / what changes can be made to the PR to help with code cleanliness. They might suggest some items from this list or something from their own experience. As you submit more and more PRs, the reviewers you collaborate with should help you develop a better sense of how to write clean code until it becomes second nature.</p>
+<p>As a supplement to this, you can check out some best practices for Unity development here: <a href="https://www.gamasutra.com/blogs/HermanTulleken/20160812/279100/50_Tips_and_Best_Practices_for_Unity_2016_Edition.php">50 Tips and Best Practices for Unity</a></p>
+<p>And we highly recommend that you watch this video as it covers a lot of common mistakes that developers do: <a href="https://youtu.be/dLCLqEkbGEQ">20 Advanced Coding Tips For Big Unity Projects</a></p>
+<h2 id="code-style">Code Style<a class="headerlink" href="#code-style" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>All classes, public methods and public fields should have XML <code>///</code> comments. Parameter and return value documentations should be descriptive. Class documentation should describe the purpose of the class. Also comment any code where it might not be obvious to someone else why it's doing something. You can read more about how to write XML comments <a href="https://docs.microsoft.com/en-us/dotnet/csharp/codedoc">here</a>.
+For example, here's a well-documented method: </p>
+<div class="codehilite"><pre><span></span><code><span class="c1">/// &lt;summary&gt;</span>
+<span class="c1">/// Trigger an interaction with the position set to this transform&#39;s position, with the specified originator and hand.</span>
+<span class="c1">/// &lt;/summary&gt;</span>
+<span class="c1">/// &lt;param name=&quot;originator&quot;&gt;GameObject of the player initiating the interaction&lt;/param&gt;</span>
+<span class="c1">/// &lt;param name=&quot;hand&quot;&gt;hand being used by the originator&lt;/param&gt;</span>
+<span class="c1">/// &lt;returns&gt;true if further interactions should be prevented for the current update&lt;/returns&gt;</span>
+<span class="k">public</span> <span class="kt">bool</span> <span class="nf">Interact</span><span class="p">(</span><span class="n">GameObject</span> <span class="n">originator</span><span class="p">,</span> <span class="kt">string</span> <span class="n">hand</span><span class="p">)</span>
+</code></pre></div>
+
+</li>
+<li>
+<p>Usually, use a separate .cs file for each public class or struct. It is sometimes preferable to have more than one in the same file, but if uncertain err on the side of using a separate file.</p>
+</li>
+<li>
+<p>Use <strong>P</strong>ascal<strong>C</strong>ase for all file names, functions and public variables. </p>
+</li>
+<li>
+<p>Use namespace declarations matching the script's folder path on all new or modified script files.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">namespace</span> <span class="nn">SampleNamespace</span>
+<span class="p">{</span>
+    <span class="k">class</span> <span class="nc">SampleClass</span>
+    <span class="p">{</span>
+        <span class="k">public</span> <span class="k">void</span> <span class="nf">SampleMethod</span><span class="p">()</span>
+        <span class="p">{</span>
+             <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="n">WriteLine</span><span class="p">(</span>
+                <span class="s">&quot;SampleMethod inside SampleNamespace&quot;</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+</li>
+<li>
+<p>All variables and non-public fields except for constants / constant-like ones should use camelCase (with no prefix letter).</p>
+<div class="codehilite"><pre><span></span><code><span class="k">public</span> <span class="k">class</span> <span class="nc">Greytider</span>
+<span class="p">{</span>
+    <span class="k">private</span> <span class="kt">float</span> <span class="n">rage</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="kt">bool</span> <span class="nf">Grief</span><span class="p">(</span><span class="n">Player</span> <span class="n">griefingVictim</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="kt">float</span> <span class="n">desireToGrief</span> <span class="p">=</span> <span class="n">griefingVictim</span><span class="p">.</span><span class="n">griefability</span> <span class="p">-</span> <span class="n">griefPoints</span> <span class="p">/</span> <span class="m">100</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+</li>
+<li>
+<p>All constants or constant-like variables should use uppercase snake case - "CONSTANT_NAME"</p>
+<div class="codehilite"><pre><span></span><code><span class="k">public</span> <span class="k">class</span> <span class="nc">ExplodeWhenShot</span>
+<span class="p">{</span>
+    <span class="k">private</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">EXPLOSION_SOUND</span> <span class="p">=</span> <span class="s">&quot;Explode01.wav&quot;</span><span class="p">;</span>
+
+    <span class="c1">//this is not an actual constant, but is initialized in Start() and never modified</span>
+    <span class="c1">//afterwards so it should still be named using this convention</span>
+    <span class="k">private</span> <span class="kt">int</span> <span class="n">DAMAGEABLE_MASK</span><span class="p">;</span>
+
+    <span class="k">private</span> <span class="k">void</span> <span class="nf">Start</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">DAMAGEABLE_MASK</span> <span class="p">=</span> <span class="n">LayerMask</span><span class="p">.</span><span class="n">GetMask</span><span class="p">(</span><span class="s">&quot;Players&quot;</span><span class="p">,</span> <span class="s">&quot;Machines&quot;</span><span class="p">,</span> <span class="s">&quot;Default&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+</li>
+<li>
+<p>Properties, public fields, classes, structs, enum constants, and methods should use PascalCase - "SomeName".</p>
+<div class="codehilite"><pre><span></span><code><span class="k">public</span> <span class="k">struct</span> <span class="nc">PlayerState</span>
+
+<span class="k">public</span> <span class="k">class</span> <span class="nc">PlayerSync</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="kt">bool</span> <span class="n">IsGhost</span><span class="p">;</span>
+    <span class="k">public</span> <span class="kt">bool</span> <span class="n">IsAlive</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">public</span> <span class="k">void</span> <span class="nf">Attack</span><span class="p">(</span><span class="n">GameObject</span> <span class="n">attacker</span><span class="p">)</span>
+    <span class="p">{</span>
+    <span class="p">...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">public</span> <span class="k">enum</span> <span class="n">DamageType</span>
+<span class="p">{</span>
+    <span class="n">Poison</span><span class="p">,</span>
+    <span class="n">Fire</span><span class="p">,</span>
+    <span class="n">Brute</span>
+<span class="p">}</span>
+</code></pre></div>
+
+</li>
+<li>
+<p>We tend to prefix variables and methods with underscores to indicate that you shouldn't use them unless you REALLY know what you are doing and understand the implications, like <code>Spawn._ServerFireClientServerSpawnHooks</code>.</p>
+</li>
+<li>Any TODO comments added in a PR should be accompanied by a corresponding issue in the issue tracker. A TODO comment means that there's something we need to remember to do, so we need to put it in the issue tracker to make sure we remember.</li>
+<li>Script folders should have no more than 10 scripts in a given folder. Reorganize, refactor, or add subfolders as needed to avoid folders getting too large.</li>
+<li>
+<p>Local variables should be declared near where they are used, not at the beginning of their containing block.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">public</span> <span class="kt">float</span> <span class="nf">LongMethod</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="c1">//Don&#39;t declare it here, it&#39;s not used until later!</span>
+<span class="c1">//float distance;</span>
+<span class="p">...</span><span class="k">do</span> <span class="n">a</span> <span class="n">bunch</span> <span class="n">of</span> <span class="n">stuff</span><span class="p">...</span>
+<span class="p">...</span><span class="k">do</span> <span class="n">a</span> <span class="n">bunch</span> <span class="n">of</span> <span class="n">stuff</span><span class="p">...</span>
+<span class="p">...</span><span class="k">do</span> <span class="n">a</span> <span class="n">bunch</span> <span class="n">of</span> <span class="n">stuff</span><span class="p">...</span>
+<span class="c1">//declare it here instead!</span>
+<span class="kt">float</span> <span class="n">distance</span> <span class="p">=</span> <span class="n">CalculateDistance</span><span class="p">();</span>
+<span class="kt">bool</span> <span class="n">isInRange</span> <span class="p">=</span> <span class="n">distance</span> <span class="p">&gt;</span> <span class="n">MAX_RANGE</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+</li>
+<li>
+<p>When checking if something is null, use <code>something == null</code> rather than <code>!something</code> - it's easier for newer devs to understand.</p>
+</li>
+<li>
+<p>When checking if a boolean is false, use <code>someBool == false</code> rather than <code>!someBool</code> - sometimes it's easy to miss that exclamation point.  </p>
+</li>
+<li>
+<p>Format code according to our standard formatting style. Your IDE will be able to apply some of these automatically by reading this from our .editorconfig file. For reference (or in case .editorconfig can't support these), here's the style conventions:  </p>
+<ul>
+<li>Indent using tabs rather than spaces.</li>
+<li>
+<p>When checking in code, try to ensure it uses Unix-style (LF) line endings. If you're on OSX or Linux, you don't need to do anything. If you are on Windows, ensure that you have configured git to check out Windows style but commit Unix-style line endings using the command <code>git config --global core.autocrlf true</code> or configuring this using your git GUI of choice.</p>
+</li>
+<li>
+<p>Avoid long lines. Break up lines of code that are longer than 120 characters. Alternatively, try to refactor the statement so it doesn't need to be so long!  </p>
+<div class="codehilite"><pre><span></span><code><span class="c1">//too long!</span>
+<span class="kt">float</span> <span class="n">distance</span> <span class="p">=</span> <span class="n">Vector3</span><span class="p">.</span><span class="n">Distance</span><span class="p">(</span><span class="n">Weapon</span><span class="p">.</span><span class="n">Owner</span><span class="p">.</span><span class="n">transform</span><span class="p">,</span> <span class="n">PlayerManager</span><span class="p">.</span><span class="n">LocalPlayer</span><span class="p">.</span><span class="n">gameObject</span><span class="p">.</span><span class="n">transform</span><span class="p">)</span> <span class="p">+</span> <span class="n">blah</span> <span class="n">blah</span> <span class="n">blah</span><span class="p">.</span>
+
+<span class="c1">//better!</span>
+<span class="kt">float</span> <span class="n">distance</span> <span class="p">=</span> <span class="n">Vector3</span><span class="p">.</span><span class="n">Distance</span><span class="p">(</span><span class="n">Weapon</span><span class="p">.</span><span class="n">Owner</span><span class="p">.</span><span class="n">transform</span><span class="p">,</span> 
+    <span class="n">PlayerManager</span><span class="p">.</span><span class="n">LocalPlayer</span><span class="p">.</span><span class="n">gameObject</span><span class="p">.</span><span class="n">transform</span><span class="p">)</span> <span class="p">+</span> <span class="n">blah</span> <span class="n">blah</span> <span class="n">blah</span><span class="p">.</span>
+
+<span class="c1">// best! Refactor into a private method</span>
+<span class="kt">float</span> <span class="n">distance</span> <span class="p">=</span> <span class="n">DistanceToLocalPlayer</span><span class="p">(</span><span class="n">Weapon</span><span class="p">)</span> <span class="p">+</span> <span class="n">blah</span> <span class="n">blah</span> <span class="n">blah</span>
+</code></pre></div>
+
+</li>
+<li>
+<p>Curly braces should always be on a line by themselves:  </p>
+<div class="codehilite"><pre><span></span><code><span class="k">if</span> <span class="p">(</span><span class="n">condition</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="p">....</span>
+<span class="p">}</span>
+<span class="k">else</span>
+<span class="p">{</span>
+    <span class="p">....</span>
+<span class="p">}</span>
+</code></pre></div>
+
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="component-and-scriptable-object-design">Component and Scriptable Object Design<a class="headerlink" href="#component-and-scriptable-object-design" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>If a field should be assignable in editor, make it private and add the <code>[SerializeField]</code> attribute and a <code>[Tooltip("&lt;description&gt;")]</code>. If other classes must be able to read the field, use a getter-only auto property. This improves the encapsulation of your class, preventing other components from potentially breaking your class. <strong>Don't trust that others will know they aren't supposed to modify your field!</strong>:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">public</span> <span class="k">class</span> <span class="nc">Health</span> <span class="p">:</span> <span class="n">MonoBehavior</span>
+<span class="p">{</span>
+<span class="na">    [Tooltip(&quot;initial HP of this character)]</span>
+<span class="na">    [SerializeField]</span> <span class="k">private</span> <span class="kt">float</span> <span class="n">initialHP</span><span class="p">;</span>
+    <span class="c1">///&lt;summary&gt;</span>
+    <span class="c1">///The initial HP of this character.</span>
+    <span class="c1">///&lt;/summary&gt;</span>
+    <span class="k">public</span> <span class="kt">float</span> <span class="n">InitialHP</span> <span class="p">=&gt;</span> <span class="n">initialHP</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+</li>
+<li>
+<p>If you are SURE that you want the field to be modifiable by other classes, you can turn the getter into a property so you can add logic to validate / react to when the value is changed by other classes. 
+<strong>You should usually not have a public field without any setter logic</strong>, as in most cases your component
+will need to perform some logic when the value is changed. If you really don't need any setter logic, it's okay
+to just leave it as a public field without a property. As always, make sure to document the effect of getting / setting.  </p>
+<div class="codehilite"><pre><span></span><code><span class="k">public</span> <span class="k">class</span> <span class="nc">Health</span> <span class="p">:</span> <span class="n">MonoBehavior</span>
+<span class="p">{</span> 
+<span class="na">    [SerializeField]</span> <span class="k">private</span> <span class="kt">float</span> <span class="n">initialHP</span><span class="p">;</span>
+    <span class="c1">///&lt;summary&gt;</span>
+    <span class="c1">///The initial HP of this character. Setting this</span>
+    <span class="c1">///will cause the character&#39;s HP to be higher upon respawn.</span>
+    <span class="c1">///&lt;/summary&gt;</span>
+    <span class="k">public</span> <span class="kt">float</span> <span class="n">InitialHP</span> 
+    <span class="p">{</span>
+        <span class="k">get</span> <span class="p">=&gt;</span> <span class="n">initialHP</span><span class="p">;</span>
+        <span class="k">set</span>
+        <span class="p">{</span>
+            <span class="c1">//custom setter logic here</span>
+            <span class="n">initialHP</span> <span class="p">=</span> <span class="k">value</span><span class="p">;</span>
+        <span class="p">}</span>    
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+</li>
+<li>
+<p>Public methods which only function correctly on the server must be prefixed with "Server" (or at least include Server somewhere in the name). It makes the name longer but it saves developers the trouble of wondering whether it's okay to call the method from the clientside, which can prevent quite nasty bugs. Do not rely on the <code>[Server]</code> attribute, since it's only available on NetworkBehavior components and is not visible in autocomplete. It's less vital but still recommended to follow this convention on private methods.</p>
+</li>
+</ol>
+<h2 id="code-design">Code Design<a class="headerlink" href="#code-design" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>Follow the philosophy "tell, don't ask". TELL a class to do something rather than ASKING it for some data and operating on that data. Treat a class as a folder for grouping together data and the logic that operates on that data.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">//bad - ASKing for health, modifying the health outside of the Player class</span>
+<span class="kt">var</span> <span class="n">health</span> <span class="p">=</span> <span class="n">player</span><span class="p">.</span><span class="n">Health</span><span class="p">;</span>    
+<span class="n">health</span> <span class="p">=</span> <span class="n">player</span><span class="p">.</span><span class="n">Invincible</span> <span class="p">?</span> <span class="n">health</span> <span class="p">:</span> <span class="n">health</span> <span class="p">-</span> <span class="n">weapon</span><span class="p">.</span><span class="n">damage</span><span class="p">;</span>
+<span class="n">Player</span><span class="p">.</span><span class="n">Health</span> <span class="p">=</span> <span class="n">health</span><span class="p">;</span>
+
+<span class="c1">//good - TELL the Player to handle an attack made against them</span>
+<span class="n">player</span><span class="p">.</span><span class="n">Attack</span><span class="p">(</span><span class="n">weapon</span><span class="p">);</span>
+</code></pre></div>
+
+</li>
+<li>
+<p>Avoid many levels of nested indentation, almost certainly no more than 7, preferably no more than 3. You can solve this by taking deeply-nested logic and putting it into a descriptively-named private method.</p>
+<div class="codehilite"><pre><span></span><code><span class="c1">//bad</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">test1</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">test2</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">test3</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">test4</span><span class="p">)</span>
+            <span class="p">{</span>
+            <span class="p">...</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">//better</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">test1</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">test2</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">AdditionalLogic</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">private</span> <span class="k">void</span> <span class="nf">AdditionalLogic</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">test3</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">test4</span><span class="p">)</span>
+        <span class="p">{</span>
+        <span class="p">...</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+</li>
+<li>
+<p>Try to keep individual .cs files small. Shoot for less than 500 actual lines of code (ignoring comments / blank lines). You can use refactoring, design patterns, and other techniques to try to make them small by splitting logic up into other .cs files / classes.</p>
+</li>
+<li>When deciding what type to use, strings should be used only as a last resort. Prefer other types, such as enums, numeric types, custom classes, etc...if they are more appropriate.</li>
+<li>Most string or numeric literals should be constants.</li>
+<li>Don't define constants that have the same value in multiple places. There should only ever be one place you need to change if you ever need to change a constant's value.</li>
+</ol>
+<h1 id="writing-efficent-and-maintainble-code">Writing efficent and maintainble code<a class="headerlink" href="#writing-efficent-and-maintainble-code" title="Permanent link">&para;</a></h1>
+<p>Unitystation is a gigantic and ambitious project that holds a lot of content and systems that can get tangled together, to avoid things tangling each other; we highly recommend that you write your code in a modular way that's easy for developers to maintain and and expand upon.</p>
+<p>Unity has a great talk on how to do just that in this video: <a href="https://youtu.be/nk3gHIZZ5Rg">How to adopt a modular code workflow for your team | Unite 2022</a></p>
+<p>Below are good practices and explainations on what to do, so you can avoid having your code refactored/reworked 5 months later and make the lives of other contributors much easier.</p>
+<h2 id="0-in-code-documentation-and-clarity">0. In-code documentation and clarity<a class="headerlink" href="#0-in-code-documentation-and-clarity" title="Permanent link">&para;</a></h2>
+<ul>
+<li>You can avoid confusing others (and even yourself) by naming your functions and variables in a clear and descriptive way.</li>
+</ul>
+<div class="codehilite"><pre><span></span><code>//bad code
+private void DoThing(bool b)
+{
+    state = b;
+}
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>//good code
+private void UpdateState(bool newState)
+{
+    state = newState;
+}
+</code></pre></div>
+
+<ul>
+<li>Avoid using extremely shortened names whenever possible.</li>
+</ul>
+<div class="codehilite"><pre><span></span><code>//bad name.
+var DIS = GetComponent&lt;DynamicInventorySystem&gt;();
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>//good name.
+var inventory = GetComponent&lt;DynamicInventorySystem&gt;();
+</code></pre></div>
+
+<ul>
+<li>Explain things like long LINQ expressions, uncommon C# syntax and RegEx.</li>
+</ul>
+<p>LINQ and Regex are extremely useful but they can slow down everyone sometimes whenever they have to work on/with it. Having comments in code that explains what it does can save a developer minutes (if not hours) of their life to be productive elsewhere.</p>
+<p>Reminder, just because your code might seem obvious to you; doesn't mean that it's obvious to everyone else.</p>
+<div class="codehilite"><pre><span></span><code>// Linq expression that handles grabbing multiple names from a prefab.
+// it grabs all prefabs in documents then loops through all prefabs and grabs all searchable names.
+// if the searchable name contains a substring that the user is searching it will return it.
+var docs = (from doc in documents from prefabNames in doc.SearchableName
+    where prefabNames.Contains(standardizedSearch) select doc).ToList();
+}
+</code></pre></div>
+
+<ul>
+<li>Make use of the <a href="https://unitystation.github.io/unitystation/Documentation-Guide/">Unitystation developer docs</a> and document features and systems there.</li>
+</ul>
+<p>It's widely agreed everywhere that excessive commenting inside of code can make it look ugly. As a result, we move all or in-depth explanations of how things work to the developer docs.</p>
+<p>Whenever you finish working on a new feature or system, always try your best to write/update a page that explains what your changes does in detail.</p>
+<ul>
+<li>Make proprer use of <code>Logger</code></li>
+</ul>
+<p>It's easy to debug problems when the game tells us that there is one. As a result, we use <code>Logger</code>; a logging system that allows us to store records of how the game has been behaving/misbehaving while it's running.</p>
+<p>Logger should only be used to report unintended behaviors, errors and backend system messages. Never spam logger and remove any debugging messages you have left once you're done using it to print testing values/results in the console.</p>
+<p>To make our lives easier as well, add the class/gameObject name and function in the log message so it's easier to tell ourselves what went wrong from a surface.</p>
+<p><em>Note: Avoid using unity's <code>Debug</code> class for logging as it doesn't store logs where we need them to be.</em></p>
+<div class="codehilite"><pre><span></span><code>//bad use of logger.
+
+Logger.Log(&quot;something happened&quot;);
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>//good use of logger.
+
+Logger.Log(&quot;[Manager/OnRoundEnd/Cleanup] - Manager cleaned references succesfully.&quot;, Category.DebugConsole);
+Logger.LogError($&quot;[Item/ServerPerformInteraction] - Tried applying item on {gameObject.name} but it was missing X!&quot;, Category.Interactions);
+Logger.LogWarning(&quot;[Object/OnEnable] - Integer values appear to be too high, unintended behavior may occur.&quot;, Category.Atmospherics);
+</code></pre></div>
+
+<h2 id="1-writing-modular-code-with-minimal-dependencies">1. Writing modular code with minimal dependencies<a class="headerlink" href="#1-writing-modular-code-with-minimal-dependencies" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Video games are event driven, you should use the <code>UpdateManager</code> as sparingly as possible and when it actually makes sense to constantly update a state of an object every frame.</li>
+<li>Make use of <code>Action&lt;&gt;</code> and <code>UnityEvent&lt;&gt;</code> whenever you want to tell an object to do something based on a change or function being called on something else.</li>
+</ul>
+<p><em>For more info about UnityEvents check: <a href="https://docs.unity3d.com/ScriptReference/Events.UnityEvent.html">The Offical Unity Docs</a></em></p>
+<p>Events can be used to reduce the likelyhood of bugs and <a href="https://learn.microsoft.com/en-us/dotnet/api/system.nullreferenceexception?view=net-7.0">NREs</a> occuring and makes our code much more maintainable and easy to expand upon due to how they're designed.</p>
+<p>With events, components don't have to constantly reference each other and only require a subscription to relevent functions that get invoked when things happen in the game.</p>
+<div class="codehilite"><pre><span></span><code>//example of bad code
+
+class Health : Monobehavior
+{
+    public bool StateChanged;
+    public int currentHealth = 5;
+
+    void stateChange(int damageTaken){
+        currentHealth -= damageTaken;
+        if(currentHealth &gt;= 0) return;
+        StateChanged = true;
+        Inventory.DropAll(); //How do we know that we have an inventory at all?
+    }
+}
+
+class DeathUI : Monobehavior
+{
+    public Health health; //&lt;- possibily null
+
+    void Awake(){
+        UpdateManager.Add(FIXED_UPDATE, myFunc);
+    }
+
+    void myFunc(){
+        if(health.StateChanged == false) return;
+        DoThing();
+    }
+}
+
+class PlayerInventory : Inventory{
+    public void DropAll();
+}
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>//example of good code
+
+class Health : Monobehavior
+{
+    public int CurrentHealth {private set; get;} = 5;
+    public Action OnDeath = new Action();
+
+    public void TakeDamage(int damageTaken)
+    {
+        currentHealth -= damageTaken;
+        if(currentHealth &gt;= 0) return;
+        OnDeath?.Invoke();
+    }
+}
+
+class DeathUI : Monobehavior
+{
+    void OnEnable()
+    {
+        if(gameObject.TryGetComponent&lt;Health&gt;(out var playerHealth) == false) 
+        {
+            // Always leave warnings and errors whenever possible instead of silently not reporting unintended behaviors.
+            Logger.LogWarning(&quot;[DeathUI/OnEnable] - No health found on this gameObject! DeathUI hasn&#39;t subscribed to any events when it got enabled!&quot;);
+            return;
+        }
+        // Subscribes to the OnDeath event which will trigger when this object&#39;s health reaches 0 or below.
+        playerHealth.OnDeath += myFunc;
+    }
+
+    void myFunc()
+    {
+        DoThing();
+    }
+}
+
+class PlayerInventory : Inventory
+{
+    //same thing as in DeathUI, just subscribe to the OnDeath event.
+}
+</code></pre></div>
+
+<p><em>Note: Events can leak! Always remember to unsubscribe your events on <code>OnDisable()</code>.</em></p>
+<ul>
+<li>Minimise inheritance, Embrace Interfaces.</li>
+</ul>
+<p><a href="https://www.w3schools.com/cs/cs_interface.php">Interface</a> in C# is a blueprint of a class. It is like abstract class because all the methods which are declared inside the interface are abstract methods. It cannot be instantiated, but it can hold optional default implamentations. It is used to achieve multiple inheritance which can't be achieved by class.</p>
+<p>Interfaces allows to share behaviour with classes in a horizontal manner, contrary to inheritance where the sharing is vertical (from parent to children). In horizontal, there is no need for a parental relationship between the classes. </p>
+<p><em>CodeMonkey has a great video on how to utilise interfaces for a modular workflow: <a href="https://youtu.be/mJRc9kLxFSk">Modular Character System in Unity</a></em></p>
+<p>That being said, Inheritance is not something to be afraid of. Inheritance makes sense to be used while in the right context, which is mostly going to be in ScriptableObjects and scanerios where you want to work with common data that will be shared around. </p>
+<p>So, use inheritance for data driven scenarios while keep systems and functionality bound to C# Interfaces.</p>
+<ul>
+<li>Reduce duplicate code.</li>
+</ul>
+<p>If you've seen something that has been done more than twice in the project, write a common class or class extension that allows us to reduce the likelyhood of having to maintain duplicate code that all do the same thing in multiple areas.</p>
+<div class="codehilite"><pre><span></span><code>// bad code.
+
+class ClassA : MonoBehavior
+{
+    public void DoX_InTransform();
+}
+
+class ClassB : MonoBehavior
+{
+    private void DoX_InTransform();
+}
+
+class ClassC : MonoBehavior
+{
+    public void DoX_InTransform();
+}
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>// good code.
+public static class TransformExtensions
+{
+    //can be called anywhere when they access Transform.
+    public static void DoX(this Transform t, float value)
+    {
+        //Common task here.
+    }
+}
+</code></pre></div>
+
+<h2 id="2-performance-gotchas">2. Performance gotchas!<a class="headerlink" href="#2-performance-gotchas" title="Permanent link">&para;</a></h2>
+<ul>
+<li>
+<p>Unity still uses Mono, which means we do not get the performance benefits of .NET 6 and 7. As a result, minimise the use of things like <a href="https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/">LINQ</a> unless you know what you're doing.</p>
+</li>
+<li>
+<p>As a general rule of thumb, avoid doing any performance intensive tasks or calculations on the game server. Your code may only take up 0.5% of CPU time but when 100 systems do this, it becomes inefficent and a glaring issue that someone has to deal with in the future.</p>
+</li>
+<li>
+<p>Avoid using the <code>UpdateManager</code> whenever possible and bind yourself to an event driven archticture/design for your code. Not only is it good for code quality; But it's also good for performance when your code is designed in a way that expects functions to be called every once and a while rather than every tick/frame.</p>
+</li>
+<li>
+<p><code>GetComponent&lt;&gt;</code>, <code>GetComponentInChildren()</code> and <code>TryGetComponent&lt;&gt;()</code> are largely inefficent and can be incredibly slow. Use <code>CommonComponents</code> whenever possible or cache references to components.</p>
+</li>
+</ul>
+<div class="codehilite"><pre><span></span><code>//How to cache references.
+[SerializeField] private SpriteHandler itemSprite;
+
+void Awake()
+{
+    if(itemSprite == null) itemSprite = GetComponentInChildren&lt;SpriteHandler&gt;();
+}
+</code></pre></div>
+
+<ul>
+<li><a href="https://docs.unity3d.com/Manual/Coroutines.html">Unity Coroutines</a> are great for moving tasks that require things to happen over time from the <code>Update()</code> loop into an asynchronous workflow that allows you to spread, pause and kill tasks freely over multiple frames. However, do be aware that it's a double edged sword as <code>IEnumerator</code> does allocate memory whenever <code>StartCoroutine</code> invokes a coroutine and you can only invoke them from inside Monobehaviors. Use them wisely.</li>
+</ul>
+<p><em>TLDR: Coroutines trades CPU performance for memory</em></p>
+<p><em>"It’s best practice to condense a series of operations down to the fewest number of individual coroutines possible. Nested coroutines are useful for code clarity and maintenance, but they impose a higher memory overhead because the coroutine tracks objects." - Unity Docs.</em></p>
+<ul>
+<li>Use Time-Splitting whenever your iterators/loops are attempting to go through a large amount of objects/tasks.</li>
+</ul>
+<div class="codehilite"><pre><span></span><code>//How to time split.
+
+var currentIndex = 0;
+var maximumIndexesPerFrame = 20;
+
+foreach(var item in LargeList)
+{
+    if(currentIndex &gt;= maximumIndexesPerFrame)
+    {
+        //Causes the IEnumerator to be paused until the next frame.
+        yield return WaitFor.EndOfFrame();
+        currentIndex = 0;
+    }
+    item.DoPossibilyHeavyTask();
+    currentIndex += 1;
+}
+</code></pre></div>
+
+<ul>
+<li>
+<p>If you're creating a custom data type, use <code>struct</code> instead of objects (aka <code>class</code>). Structs allocate less memory and are a better choice when your data does not require to be changed overtime or require bundled functions that self manage that data.</p>
+</li>
+<li>
+<p>Turn off raycast masks in UI whenever you're not using them! Not only does it prevent bugs where mouse inputs may appeared blocked for no reason; but they also tell Unity to not waste time updating UI elements when there are no mouse interactions made for that element.</p>
+</li>
+<li>
+<p>Prioritize using <code>Vector3.Distance()</code> rather than raycasts whenever you do not require checking for physical properties in the game world, as functions like <code>Physics2D.SphereOverlap()</code> and <code>MatrixManager.Linecast()</code> are generally slow and allocate a lot of memory.</p>
+</li>
+<li>
+<p>Always use <code>Stringbuilder</code> for String concatenation operations as it's much faster than manually editing the string variable directly.</p>
+</li>
+<li>
+<p><code>TryCatch</code> has a <a href="https://stackoverflow.com/questions/1308432/do-try-catch-blocks-hurt-performance-when-exceptions-are-not-thrown">very small performance hit</a> on the game. But it's generally recommended that you avoid using <code>TryCatch</code> all together especially on any function that runs on the <code>UpdateManager</code> and even more-so if it's on the game server; but if you do need it and have a <a href="https://learn.microsoft.com/en-us/dotnet/standard/exceptions/best-practices-for-exceptions">good reason</a> for its use case, always remember to <strong>never</strong> leave your catch methods empty and log your expectations.</p>
+</li>
+</ul>
+<div class="codehilite"><pre><span></span><code>//bad TryCatch code.
+try
+{
+    gameObject.pickupable.GetBestHandOrSlotFor(this);
+}
+catch
+{
+
+}
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>//good TryCatch code.
+try
+{
+    // Maximise the usecase of trycatch and report extra errors that may or may not happen.
+    if(gameObject.pickupable == null)
+    {
+        throw new ArgumentNullException(paramName: nameof(s), message: &quot;this gameObject has no pickupable components!&quot;);
+    }
+    gameObject.pickupable.GetBestHandOrSlotFor(this);
+}
+catch (Exception e)
+{
+    // Never leave your catch block empty, always report that something has went wrong here.
+    Logger.LogError($&quot;[ClassName/Function] - An error occured when trying to get the best slot for this item. \n {e}&quot;);
+}
+</code></pre></div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../Developing-for-UnityStation-on-Unix-Systems-with-the-Unity-Editor-and-JetBrains-Rider/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Developing On Linux
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../Starting-contribution/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Starting Contribution
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/vendor.6a3d08fc.min.js"></script>
+      <script src="../../assets/javascripts/bundle.71201edf.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "../..",
+          features: [],
+          search: Object.assign({
+            worker: "../../assets/javascripts/worker/search.4ac00218.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>
