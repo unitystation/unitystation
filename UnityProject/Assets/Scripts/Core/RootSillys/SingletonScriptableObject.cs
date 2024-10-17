@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
-using Debug = System.Diagnostics.Debug;
 
 namespace ScriptableObjects
 {
