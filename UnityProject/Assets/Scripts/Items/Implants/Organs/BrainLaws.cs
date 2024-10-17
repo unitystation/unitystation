@@ -13,7 +13,7 @@ using UI.Core.Action;
 using UI.Systems.MainHUD.UI_Bottom;
 using UnityEngine;
 
-public class BrainLaws : NetworkBehaviour, IGameActionHolder, IClientInteractable<HandActivate>
+public class BrainLaws : NetworkBehaviour, IActionGUI, IClientInteractable<HandActivate>
 {
 
 

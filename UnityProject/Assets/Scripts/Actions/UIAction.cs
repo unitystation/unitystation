@@ -27,7 +27,7 @@ namespace UI.Action
 
 		#region Lifecycle
 
-		public void SetUp(IGameActionHolder action)
+		public void SetUp(IActionGUI action)
 		{
 			gameObject.SetActive(true);
 			iAction = action;
@@ -136,7 +136,7 @@ namespace UI.Action
 			// The spell's server request can provide a click position.
 			if (actionData.CallOnClient)
 			{
-				if (iAction is IGameActionHolder iActionGUI)
+				if (iAction is IActionGUI iActionGUI)
 				{
 					iActionGUI.CallActionClient();
 				}
