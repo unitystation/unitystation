@@ -35,7 +35,11 @@ namespace UI.Core.Action
 		/// <summary>
 		/// The dict of all actions keyed to their UUID
 		/// </summary>
-		private Dictionary<string, IGameActionHolder> AllActionsByKey = new();
+		private Dictionary<string, IGameActionHolder> AllActionsByUUID = new();
+		/// <summary>
+		/// A dict of action UUIDs keyed to the GameObject they belong to
+		/// </summary>
+		private Dictionary<GameObject, string> AllActionUUIDsByGameObject = new();
 
 		public Dictionary<GameObject, Dictionary<IActionGUIMulti, List<ActionData>>> MultiActivePlayerActions = new Dictionary<GameObject, Dictionary<IActionGUIMulti, List<ActionData>>>();
 
@@ -137,7 +141,7 @@ namespace UI.Core.Action
 		#region IGameActionHolder
 		public static IGameActionHolder GetActionFromGuid(string key)
 		{
-			return Instance.AllActionsByKey[key];
+			return Instance.AllActionsByUUID[key];
 		}
 
 		/// <summary>
@@ -159,13 +163,24 @@ namespace UI.Core.Action
 		private string _RegisterAction(IGameActionHolder registeredAction) //due to being wrapped we assume this is called in a safe context
 		{
 			string generatedGuid = Guid.NewGuid().ToString();
-			AllActionsByKey[generatedGuid] = registeredAction;
+			AllActionsByUUID[generatedGuid] = registeredAction;
+			RegisterTile registerTile = registeredAction.gameObject.GetComponent<RegisterTile>();
+			if(!Convert.ToBoolean(registerTile))
+				registerTile = registeredAction.gameObject.AddComponent<RegisterTile>();
+
+			registerTile.OnDestroyed += onActionDestroyed;
+			AllActionUUIDsByGameObject[registeredAction.gameObject] = generatedGuid;
 			return generatedGuid;
 		}
 
+		private EventHandler<GameObject> onActionDestroyed = (object sender, GameObject gameObject) =>
+		{
+			UnregisterAction(Instance.AllActionsByUUID[Instance.AllActionUUIDsByGameObject[gameObject]]);
+		};
+
 		public static void UnregisterAction(IGameActionHolder unregisteredAction)
 		{
-			Instance.AllActionsByKey[unregisteredAction.ActionGuid] = null;
+			Instance.AllActionsByUUID.Remove(unregisteredAction.ActionGuid);
 		}
 
 		/// <summary>

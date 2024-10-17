@@ -4,21 +4,17 @@ using Mirror;
 using UI.Core.Action;
 using UnityEngine;
 
-public interface IGameActionHolder : IServerDespawn
+public interface IGameActionHolder
 {
+	GameObject gameObject { get; }
 	/// <summary>
 	/// The global key used for tracking an action, stored as a string for client communication, 2 ACTIONS SHOULD NEVER EVER SHARE THE SAME KEY
 	/// </summary>
-	public string ActionGuid {get;}
+	public string ActionGuid { get; }
 
 	ActionData ActionData { get; }
 
 	void CallActionClient();
-
-	void OnDespawnServer(DespawnInfo info)
-	{
-		UIActionManager.UnregisterAction(this);
-	}
 }
 
 ///Using both IGameActionHolder and IActionGUIMULTI on a script will not work!!!, USE ONLY ONE OF THE Interface Types!!!///

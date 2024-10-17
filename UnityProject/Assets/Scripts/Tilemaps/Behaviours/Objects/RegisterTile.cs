@@ -204,6 +204,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private ItemStorage ItemStorage;
 	private DynamicItemStorage DynamicItemStorage;
 
+	public event EventHandler<GameObject> OnDestroyed;
+
 
 	#region Lifecycle
 
@@ -306,6 +308,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	public virtual void OnDestroy()
 	{
+
 		if (objectLayer)
 		{
 			objectLayer.ServerObjects.Remove(LocalPositionServer, this);
@@ -322,7 +325,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			Matrix.MatrixMove.NetworkedMatrixMove.OnRotate90 -= (OnRotate90);
 		}
 
-
+		OnDestroyed?.Invoke(this, gameObject);
+		OnDestroyed = null;
 
 	}
 
@@ -351,7 +355,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			}
 		}
 
-		OnDespawnedServer.Invoke();
+		OnDespawnedServer?.Invoke();
 	}
 
 	public void ChangeActiveState(bool newState)
