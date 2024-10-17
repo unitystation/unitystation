@@ -11,13 +11,16 @@ public interface IGameActionHolder
 	/// The global key used for tracking an action, stored as a string for client communication, 2 ACTIONS SHOULD NEVER EVER SHARE THE SAME KEY
 	/// </summary>
 	public string ActionGuid { get; }
+}
 
+///Using both IActionGUI and IActionGUIMULTI on a script will not work!!!, USE ONLY ONE OF THE Interface Types!!!///
+
+public interface IGameActionHolderSingle
+{
 	ActionData ActionData { get; }
 
 	void CallActionClient();
 }
-
-///Using both IActionGUI and IActionGUIMULTI on a script will not work!!!, USE ONLY ONE OF THE Interface Types!!!///
 
 /// <summary>
 /// Simply implement this to Implement your Networked screen action
