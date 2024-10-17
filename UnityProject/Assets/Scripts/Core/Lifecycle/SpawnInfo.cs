@@ -69,9 +69,16 @@ public class SpawnInfo
 	/// </summary>
 	public readonly bool SpawnManualContents;
 
+	/// <summary>
+	/// Used to differentiate between mapped on a scene vs Loaded from Json maps
+	/// Since stuff like pipes act differently on Json maps vs scene maps
+	/// </summary>
+	public readonly bool JsonMapped;
+
+
 	private SpawnInfo(SpawnType spawnType, ISpawnable spawnable, SpawnDestination spawnDestination, float? scatterRadius, int count, Occupation occupation,
 		GameObject clonedFrom = null,
-		CharacterSheet characterSettings = null, bool spawnItems = true, bool mapspawn = false, bool spawnManualContents = false)
+		CharacterSheet characterSettings = null, bool spawnItems = true, bool mapspawn = false, bool spawnManualContents = false, bool _JsonMapped = false)
 	{
 		SpawnType = spawnType;
 		SpawnableToSpawn = spawnable;
@@ -84,6 +91,7 @@ public class SpawnInfo
 		SpawnItems = spawnItems;
 		Mapspawn = mapspawn;
 		SpawnManualContents = spawnManualContents;
+		JsonMapped = _JsonMapped;
 	}
 
 	/// <summary>
@@ -161,6 +169,20 @@ public class SpawnInfo
 		var prefab = Spawn.DeterminePrefab(mappedObject);
 		var spawnable = SpawnablePrefab.For(prefab);
 		return new SpawnInfo(SpawnType.Mapped, spawnable, destination, null, 1, null);
+	}
+
+	/// <summary>
+	/// Special type of spawn, performed on each object mapped in the scene once the scene is done loading.
+	/// </summary>
+	/// <param name="mappedObject">object which was mapped into the scene.</param>
+	/// <returns></returns>
+	public static SpawnInfo IsJsonMapped(GameObject mappedObject)
+	{
+		var destination = SpawnDestination.At(mappedObject);
+		//assume prefab
+		var prefab = Spawn.DeterminePrefab(mappedObject);
+		var spawnable = SpawnablePrefab.For(prefab);
+		return new SpawnInfo(SpawnType.Mapped, spawnable, destination, null, 1, null, _JsonMapped: true);
 
 	}
 

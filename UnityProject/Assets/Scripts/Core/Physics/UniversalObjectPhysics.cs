@@ -271,7 +271,7 @@ namespace Core.Physics
 
 		public void Start()
 		{
-			if (isServer)
+			if (CustomNetworkManager.IsServer)
 			{
 				SetLocalTarget = new Vector3WithData()
 				{

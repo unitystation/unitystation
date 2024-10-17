@@ -136,7 +136,7 @@ namespace Objects.Atmospherics
 				return;
 			}
 
-			foreach (var UnfilteredConnection in pipeData.Connections.Directions)
+			foreach (var UnfilteredConnection in pipeData.RotatedConnections.Directions)
 			{
 				if (UnfilteredConnection.flagLogic == FlagLogic.UnfilteredOutput)
 				{
@@ -162,7 +162,7 @@ namespace Objects.Atmospherics
 					TotalRemove.x = tomove.x > 1 ? 0 : TotalRemove.x;
 					TotalRemove.y = tomove.y > 1 ? 0 : TotalRemove.y;
 					pipeData.mixAndVolume.TransferTo(IntermediateMixAndVolume, TotalRemove);
-					foreach (var FilteredConnection in pipeData.Connections.Directions)
+					foreach (var FilteredConnection in pipeData.RotatedConnections.Directions)
 					{
 						if (FilteredConnection.flagLogic == FlagLogic.FilteredOutput)
 						{

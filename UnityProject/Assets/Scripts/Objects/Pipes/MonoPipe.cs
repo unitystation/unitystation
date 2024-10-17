@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Core.Editor.Attributes;
 using Systems.Interaction;
@@ -15,9 +16,9 @@ using Systems.Disposals;
 
 namespace Objects.Atmospherics
 {
-	public class MonoPipe : NetworkBehaviour, IServerLifecycle, ICheckedInteractable<HandApply>, ICheckedInteractable<AiActivate>
+	public class MonoPipe : NetworkBehaviour, IServerLifecycle, ICheckedInteractable<HandApply>,
+		ICheckedInteractable<AiActivate>
 	{
-
 		public SpriteHandler spritehandler;
 
 		public GameObject SpawnOnDeconstruct;
@@ -29,8 +30,7 @@ namespace Objects.Atmospherics
 
 		public Color Colour = Color.white;
 
-		[SerializeField]
-		private bool spawnedFromItem = true;
+		[SerializeField] private bool spawnedFromItem = true;
 		public bool SpawnedFromItem => spawnedFromItem;
 
 		public Rotatable directional;
@@ -48,7 +48,6 @@ namespace Objects.Atmospherics
 
 		public virtual void Awake()
 		{
-
 			registerTile = GetComponent<RegisterTile>();
 			directional = GetComponent<Rotatable>();
 			if (directional != null)
@@ -56,6 +55,7 @@ namespace Objects.Atmospherics
 				PreviousOrientation = directional.CurrentDirection;
 				directional.OnRotationChange.AddListener(PipeRotated);
 			}
+
 			if (CustomNetworkManager.IsServer == false) return;
 
 			pipeData.GetMixAndVolume.GetGasMix().Volume = InitialVolume;
@@ -76,19 +76,22 @@ namespace Objects.Atmospherics
 			//As the pipe will not be rotated correctly before setup
 
 			CanNowRotate = info.SpawnType == SpawnType.Mapped;
-			SetUpPipes(spawnedFromItem && info.SpawnType != SpawnType.Mapped);
+			SetUpPipes();
 		}
 
-		public void SetUpPipes(bool DoNotSetRotation = false, int? RotateOverride = null, bool? InCanNowRotate = null) //Warning this should only Called once!!! Since you get double rotations
+		public void SetUpPipes(bool DoNotSetRotation = false, int? RotateOverride = null,
+			bool? InCanNowRotate = null) //Warning this should only Called once!!! Since you get double rotations
 		{
 			if (InCanNowRotate != null)
 			{
 				CanNowRotate = InCanNowRotate.Value;
 			}
+
 			if (pipeData.PipeAction == null)
 			{
 				pipeData.PipeAction = new MonoActions();
 			}
+
 			registerTile.SetPipeData(pipeData);
 			pipeData.MonoPipe = this;
 			if (DoNotSetRotation == false && CanNowRotate)
@@ -96,19 +99,22 @@ namespace Objects.Atmospherics
 				int Offset = PipeFunctions.GetOffsetAngle(transform.localRotation.eulerAngles.z);
 				if (RotateOverride != null)
 				{
+					var ConnectionsCopy = pipeData.Connections.Copy();
+					pipeData.RotatedConnections = ConnectionsCopy;
+					pipeData.RotatedConnections.PipeOffset(RotateOverride.Value);
 					pipeData.Connections.PipeOffset(RotateOverride.Value);
 				}
 				else
 				{
-					pipeData.Connections.Rotate(Offset);
+					var ConnectionsCopy = pipeData.Connections.Copy();
+					pipeData.RotatedConnections = ConnectionsCopy;
+					pipeData.RotatedConnections.Rotate(Offset);
 				}
-
-
 			}
 
 
 			pipeData.OnEnable();
-			spritehandler.OrNull()?.gameObject.OrNull()?.SetActive( true);
+			spritehandler.OrNull()?.gameObject.OrNull()?.SetActive(true);
 			spritehandler.OrNull()?.SetColor(Colour);
 		}
 
@@ -127,6 +133,7 @@ namespace Objects.Atmospherics
 			{
 				directional.RotateBy(Offset);
 			}
+
 			SetUpPipes(false, (-Offset + 4));
 		}
 
@@ -146,7 +153,9 @@ namespace Objects.Atmospherics
 
 		#endregion
 
-		public virtual void TickUpdate() { }
+		public virtual void TickUpdate()
+		{
+		}
 
 		#region Interaction
 
@@ -175,8 +184,8 @@ namespace Objects.Atmospherics
 			if (registerTile.TileChangeManager.MetaTileMap.HasTile(registerTile.LocalPositionServer, LayerType.Floors))
 			{
 				Chat.AddExamineMsg(
-						interaction.Performer,
-						$"The floor plating must be exposed before you can disconnect the {gameObject.ExpensiveName()}!");
+					interaction.Performer,
+					$"The floor plating must be exposed before you can disconnect the {gameObject.ExpensiveName()}!");
 				return;
 			}
 
@@ -184,15 +193,16 @@ namespace Objects.Atmospherics
 			if (pipeData.mixAndVolume.GetGasMix().Pressure > AtmosConstants.ONE_ATMOSPHERE * 20)
 			{
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 3,
-						$"As you begin disconnecting the {gameObject.ExpensiveName()}, " +
-								"a jet of gas blasts into your face... maybe you should reconsider?",
-						string.Empty,
-						string.Empty, // $"The pressure sends you flying!"
-						string.Empty, // $"{interaction.Performer.ExpensiveName() is sent flying by pressure!"
-						() => {
-							Unwrench(interaction);
-							// TODO: Knock performer around.
-						});
+					$"As you begin disconnecting the {gameObject.ExpensiveName()}, " +
+					"a jet of gas blasts into your face... maybe you should reconsider?",
+					string.Empty,
+					string.Empty, // $"The pressure sends you flying!"
+					string.Empty, // $"{interaction.Performer.ExpensiveName() is sent flying by pressure!"
+					() =>
+					{
+						Unwrench(interaction);
+						// TODO: Knock performer around.
+					});
 			}
 			else
 			{
@@ -201,10 +211,7 @@ namespace Objects.Atmospherics
 					string.Empty,
 					$"You unfasten the {gameObject.ExpensiveName()}.",
 					$"{interaction.Performer} unfastens the {gameObject.ExpensiveName()}",
-					() =>
-					{
-						Unwrench(interaction);
-					});
+					() => { Unwrench(interaction); });
 			}
 		}
 
@@ -216,7 +223,8 @@ namespace Objects.Atmospherics
 				return;
 			}
 
-			var spawn = Spawn.ServerPrefab(SpawnOnDeconstruct, registerTile.WorldPositionServer, localRotation: directional.ByDegreesToQuaternion(directional.CurrentDirection));
+			var spawn = Spawn.ServerPrefab(SpawnOnDeconstruct, registerTile.WorldPositionServer,
+				localRotation: directional.ByDegreesToQuaternion(directional.CurrentDirection));
 			var PipeItem = spawn.GameObject.GetComponent<PipeItem>();
 			PipeItem.rotatable.FaceDirection(directional.CurrentDirection);
 			PipeItem.SetColour(Colour);
@@ -226,9 +234,13 @@ namespace Objects.Atmospherics
 			_ = Despawn.ServerSingle(gameObject);
 		}
 
-		public virtual void HandApplyInteraction(HandApply interaction) { }
+		public virtual void HandApplyInteraction(HandApply interaction)
+		{
+		}
 
-		public virtual void OnDisassembly(HandApply interaction) { }
+		public virtual void OnDisassembly(HandApply interaction)
+		{
+		}
 
 		//Ai interaction
 		public bool WillInteract(AiActivate interaction, NetworkSide side)
@@ -247,7 +259,9 @@ namespace Objects.Atmospherics
 			AiInteraction(interaction);
 		}
 
-		public virtual void AiInteraction(AiActivate interaction) { }
+		public virtual void AiInteraction(AiActivate interaction)
+		{
+		}
 
 		#endregion
 
@@ -273,7 +287,8 @@ namespace Objects.Atmospherics
 
 		private void FinishEnteringPipe(HandApply interaction, GasMix pipeMix)
 		{
-			var container = Spawn.ServerPrefab(DisposalsManager.Instance.CrawlingVirtualContainerPrefab, registerTile.ObjectPhysics.Component.OfficialPosition);
+			var container = Spawn.ServerPrefab(DisposalsManager.Instance.CrawlingVirtualContainerPrefab,
+				registerTile.ObjectPhysics.Component.OfficialPosition);
 			if (container.Successful == false)
 			{
 				Loggy.LogError("Failed to spawn crawling container!");
@@ -293,6 +308,7 @@ namespace Objects.Atmospherics
 			{
 				objectContainer.StoreObject(interaction.Performer);
 			}
+
 			if (container.GameObject.TryGetComponent<GasContainer>(out var gasContainer))
 			{
 				GasMix.TransferGas(gasContainer.GasMixLocal, pipeMix, pipeMix.Moles);
@@ -314,11 +330,11 @@ namespace Objects.Atmospherics
 			DebugGizmoUtils.DrawText(density.ToString(), transform.position, 10);
 			Gizmos.color = Color.magenta;
 
-			Connections InCopy = pipeData.Connections;
+			Connections InCopy = pipeData.RotatedConnections;
 
 			if (Application.isPlaying == false)
 			{
-				InCopy = pipeData.Connections.Copy();
+				InCopy = pipeData.RotatedConnections.Copy();
 				int offset = PipeFunctions.GetOffsetAngle(transform.localEulerAngles.z);
 				InCopy.Rotate(offset);
 			}
@@ -327,29 +343,28 @@ namespace Objects.Atmospherics
 			{
 				var Toues = transform.position;
 				Toues.y += 0.25f;
-				Gizmos.DrawCube(Toues, Vector3.one*0.08f );
+				Gizmos.DrawCube(Toues, Vector3.one * 0.08f);
 			}
 
 			if (InCopy.Directions[1].Bool)
 			{
 				var Toues = transform.position;
 				Toues.x += 0.25f;
-				Gizmos.DrawCube(Toues, Vector3.one*0.08f );
+				Gizmos.DrawCube(Toues, Vector3.one * 0.08f);
 			}
 
 			if (InCopy.Directions[2].Bool)
 			{
 				var Toues = transform.position;
 				Toues.y += -0.25f;
-				Gizmos.DrawCube(Toues, Vector3.one*0.08f );
+				Gizmos.DrawCube(Toues, Vector3.one * 0.08f);
 			}
 
 			if (InCopy.Directions[3].Bool)
 			{
-
 				var Toues = transform.position;
 				Toues.x += -0.25f;
-				Gizmos.DrawCube(Toues, Vector3.one*0.08f );
+				Gizmos.DrawCube(Toues, Vector3.one * 0.08f);
 			}
 		}
 

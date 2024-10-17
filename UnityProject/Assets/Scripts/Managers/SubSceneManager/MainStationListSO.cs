@@ -13,7 +13,6 @@ public class MainStationListSO : ScriptableObject
 	[Header("Provide the exact name of the scene in the fields below:")]
 	[InfoBox("Remember to also add your scene to " +
 	         "the build settings list",EInfoBoxType.Normal)]
-	[Scene]
 	public List<string> MainStations = new();
 
 	public string mapsConfig = "maps.json";
@@ -29,7 +28,7 @@ public class MainStationListSO : ScriptableObject
 		                                "Make sure that the gamemode has a maps config file set or is not missing!!!");
 
 		// Check that we can actually load the scene.
-		var mapSoList = MainStations.Where(scene => SceneUtility.GetBuildIndexByScenePath(scene) > -1).ToList();
+		var mapSoList = MainStations.Where(scene => SceneUtility.GetBuildIndexByScenePath(scene) > -1 ||	AccessFile.Exists(scene, true,FolderType.Maps)).ToList();
 
 		if (mapSoList.Count == 0)
 		{

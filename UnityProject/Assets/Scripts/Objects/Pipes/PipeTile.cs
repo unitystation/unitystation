@@ -34,7 +34,7 @@ namespace Objects.Atmospherics
 		{
 			foreach (var pipeNode in metaData.PipeData)
 			{
-				var existingConnection = pipeNode.pipeData.Connections;
+				var existingConnection = pipeNode.pipeData.RotatedConnections;
 				for (var i = 0; i < incomingConnection.Directions.Length; i++)
 				{
 					if (incomingConnection.Directions[i].Bool && existingConnection.Directions[i].Bool)

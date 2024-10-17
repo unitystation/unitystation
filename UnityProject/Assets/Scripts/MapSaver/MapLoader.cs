@@ -261,10 +261,8 @@ namespace MapSaver
 					if (CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab.ForeverIDLookupSpawnablePrefabs
 						    .Count == 0)
 					{
-						CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab.ForeverIDLookupSpawnablePrefabs
-							.Clear();
-						CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab
-							.SetUpSpawnablePrefabsForEverIDManual();
+						CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab.ForeverIDLookupSpawnablePrefabs.Clear();
+						CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab.SetUpSpawnablePrefabsForEverIDManual();
 						CustomNetworkManager.Instance = CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab;
 					}
 
@@ -366,7 +364,7 @@ namespace MapSaver
 
 				if (SpawnResult != null)
 				{
-					Spawn._ServerFireClientServerSpawnHooks(SpawnResult, SpawnInfo.Mapped(SpawnResult.GameObject));
+					Spawn._ServerFireClientServerSpawnHooks(SpawnResult, SpawnInfo.IsJsonMapped(SpawnResult.GameObject));
 				}
 			}
 		}
@@ -539,9 +537,9 @@ namespace MapSaver
 			{
 				if (Matrix == null)
 				{
-					bool Space = sceneType == SceneType.Space;
 
-					aaMatrix = MatrixManager.MakeNewMatrix(MatrixName, Space);
+
+					aaMatrix = MatrixManager.MakeNewMatrix(MatrixName, sceneType);
 #if UNITY_EDITOR
 					if (Application.isPlaying == false)
 					{

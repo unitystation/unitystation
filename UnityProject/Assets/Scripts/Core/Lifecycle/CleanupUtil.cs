@@ -381,7 +381,7 @@ public static class CleanupUtil
 	public static void CleanupInbetweenScenes()
 	{
 		MatrixManager.Instance.ResetMatrixManager();
-		MatrixManager.IsInitialized = false;
+		MatrixManager.IsInitialized = true;
 		GameManager.Instance.ResetStaticsOnNewRound();
 		Systems.Cargo.CargoManager.Instance.OnRoundRestart();
 		Systems.Scenes.LavaLandManager.Instance.Clean();

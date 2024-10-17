@@ -459,7 +459,11 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 	void INewMappedOnSpawn.OnNewMappedOnSpawn()
 	{
 		Init();
-		PresentSpriteSet = InitialPresentSpriteSet;
+		if (PresentSpriteSet == null)
+		{
+			PresentSpriteSet = InitialPresentSpriteSet;
+		}
+
 		PushTexture();
 
 		if (GetColor() == Color.white && InitialColour != Color.white)

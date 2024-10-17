@@ -23,7 +23,8 @@ namespace Objects.Shuttles
 	{
 		//TODO Swapping matrix
 
-		[NonSerialized] public MatrixMove ShuttleMatrixMove;
+		public MatrixMove ShuttleMatrixMove;
+
 
 		[NonSerialized] public RegisterTile registerTile;
 		private HasNetworkTab hasNetworkTab;
@@ -35,11 +36,14 @@ namespace Objects.Shuttles
 
 		public Rotatable Rotatable;
 
-
 		private void Awake()
 		{
-			registerTile = GetComponent<RegisterTile>();
 			hasNetworkTab = GetComponent<HasNetworkTab>();
+		}
+
+		private void Start()
+		{
+			registerTile = GetComponent<RegisterTile>();
 			Rotatable = this.GetComponentCustom<Rotatable>();
 			ShuttleMatrixMove = GetComponentInParent<MatrixMove>();
 		}

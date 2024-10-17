@@ -53,6 +53,8 @@ namespace ScriptableObjects
 
 		public CommonTiles CommonTiles;
 
+		public CommonMaterials CommonMaterials;
+
 		[FormerlySerializedAs("PlayerStatesSingleton")]
 		public PlayerTypeSingleton playerTypeSingleton;
 
