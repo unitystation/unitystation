@@ -60,7 +60,7 @@ public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 		}
 	}
 
-	public static void Send(IActionGUI iServerActionGUI)
+	public static void Send(IGameActionHolderSingle iServerActionGUI)
 	{
 		if (iServerActionGUI is Component)
 		{
@@ -69,7 +69,7 @@ public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 		//else not doing anything, implying custom sending
 	}
 
-	private static void SendToComponent(IActionGUI actionComponent)
+	private static void SendToComponent(IGameActionHolderSingle actionComponent)
 	{
 		var netObject = ((Component) actionComponent).GetComponent<NetworkIdentity>();
 		var componentType = actionComponent.GetType();

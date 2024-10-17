@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Systems.Faith
 {
-	public class PlayerFaith : NetworkBehaviour, IRightClickable, IActionGUI
+	public class PlayerFaith : NetworkBehaviour, IRightClickable, IGameActionHolderSingle
 	{
 		public PlayerScript player;
 		private Faith currentFaith = null;

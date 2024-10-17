@@ -18,7 +18,7 @@ namespace Systems.Spells
 	/// </summary>
 	[Serializable]
 	[DisallowMultipleComponent]
-	public class Spell : NetworkBehaviour, IActionGUI
+	public class Spell : NetworkBehaviour, IGameActionHolderSingle
 	{
 		private SpellData spellData = null;
 		public SpellData SpellData {

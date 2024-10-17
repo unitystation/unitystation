@@ -13,9 +13,9 @@ public interface IGameActionHolder
 	public string ActionGuid { get; }
 }
 
-///Using both IActionGUI and IActionGUIMULTI on a script will not work!!!, USE ONLY ONE OF THE Interface Types!!!///
+///Using both IGameActionHolderSingle and IActionGUIMULTI on a script will not work!!!, USE ONLY ONE OF THE Interface Types!!!///
 
-public interface IGameActionHolderSingle
+public interface IGameActionHolderSingle : IGameActionHolder
 {
 	ActionData ActionData { get; }
 
@@ -25,14 +25,14 @@ public interface IGameActionHolderSingle
 /// <summary>
 /// Simply implement this to Implement your Networked screen action
 /// </summary>
-public interface IServerActionGUI : IActionGUI
+public interface IServerActionGUI : IGameActionHolderSingle
 {
 	void CallActionServer(PlayerInfo playerInfo); //Requires validation in this
 }
 
 //some example classes
 /*
-public class __ExampleIActionGUI__ : IActionGUI
+public class __ExampleIActionGUI__ : IGameActionHolderSingle
 {
 	[SerializeField]
 	private ActionData actionData = null;

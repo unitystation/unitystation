@@ -25,7 +25,7 @@ using static Core.Physics.UniversalObjectPhysics;
 /// IC character information (job role, antag info, real name, etc). A body and their ghost link to the same mind
 /// SERVER SIDE VALID ONLY, is not sync'd
 /// </summary>
-public class Mind : NetworkBehaviour, IActionGUI, IGameActionContainer
+public class Mind : NetworkBehaviour, IGameActionHolderSingle, IGameActionContainer
 {
 	[SyncVar(hook = nameof(SyncActiveOn))] private uint IDActivelyControlling;
 

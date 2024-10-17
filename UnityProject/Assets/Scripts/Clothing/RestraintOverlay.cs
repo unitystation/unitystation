@@ -11,7 +11,7 @@ namespace UI.Items
 	/// <summary>
 	/// Handles the overlays for the handcuff sprites
 	/// </summary>
-	public class RestraintOverlay : ClothingItem, IActionGUI
+	public class RestraintOverlay : ClothingItem, IGameActionHolderSingle
 	{
 		// TODO Different colored overlays for different restraints
 		[SerializeField]

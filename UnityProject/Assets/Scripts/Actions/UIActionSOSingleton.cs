@@ -33,7 +33,7 @@ public class UIActionSOSingleton : SingletonScriptableObject<UIActionSOSingleton
 		Initialised = true;
 	}
 
-	public IActionGUI FromID(ushort ID)
+	public IGameActionHolderSingle FromID(ushort ID)
 	{
 		if (!Initialised)
 		{
