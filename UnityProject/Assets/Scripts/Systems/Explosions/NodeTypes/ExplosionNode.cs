@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -10,6 +11,7 @@ using TileManagement;
 using AddressableReferences;
 using Core;
 using Core.Lighting_System.Light2D;
+using Logs;
 using Player;
 using Scripts.Core.Transform;
 using Systems.Atmospherics;
@@ -113,7 +115,25 @@ namespace Systems.Explosions
 				// do damage
 				player.ApplyDamageAll(null, damageDealt, AttackType.Bomb, DamageType.Brute, default, TraumaticDamageTypes.NONE, 75);
 			}
+
+			ChangeNodeTemp(matrix, damageDealt, v3int);
+
 			return energyExpended;
+		}
+
+		private void ChangeNodeTemp(Matrix matrix, float damageDealt, Vector3Int v3int)
+		{
+			try
+			{
+				if (matrix.ReactionManager != null)
+				{
+					matrix.ReactionManager.ExposeHotspot(v3int, 350 * damageDealt, true);
+				}
+			}
+			catch (Exception e)
+			{
+				Loggy.Log("[ExplosionNode/DoDamage] - Something went wrong while trying to change tile temperature:\n "+ e.ToString());
+			}
 		}
 
 		protected void DamageLayers(float damageDealt, Vector3Int v3int)
