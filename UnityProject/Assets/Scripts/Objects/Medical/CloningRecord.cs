@@ -23,6 +23,14 @@ namespace Objects.Medical
 		public Mind mind;
 		public List<BodyPartRecord> surfaceBodyParts = new();
 		public List<string> sicknessList = new();
+		private ConversionMethod conversionMethod = ConversionMethod.PHAROH;
+
+		public enum ConversionMethod
+		{
+			PHAROH,
+			BRITISH,
+			AUSSIE
+		}
 
 		public CloningRecord()
 		{
@@ -55,6 +63,53 @@ namespace Objects.Medical
 
 		public string Copy()
 		{
+			// Use mindID as the seed for random
+			var random = new System.Random((int)mindID);
+			int randomValue = random.Next(0, 3);
+			// Select conversion method based on random value
+			conversionMethod = (ConversionMethod)randomValue;
+
+			switch (conversionMethod)
+			{
+				case ConversionMethod.PHAROH:
+					return "PHARO|" + ToCompactString();
+				case ConversionMethod.BRITISH:
+					return "BRIT|" + ToJSON();
+				case ConversionMethod.AUSSIE:
+					return "TERRA|" + ToBase64();
+			}
+			return null;
+		}
+
+
+		public static CloningRecord FromString(string recordData)
+		{
+			ConversionMethod method = DetectConversionMethod(recordData);
+			switch (method)
+			{
+				case ConversionMethod.PHAROH: return FromCompactString(recordData);
+				case ConversionMethod.BRITISH: return FromJSON(recordData);
+				case ConversionMethod.AUSSIE: return FromBase64(recordData);
+			}
+			return null;
+		}
+
+		public static ConversionMethod DetectConversionMethod(string recordData)
+		{
+			if (recordData.StartsWith("PHARO|"))
+				return ConversionMethod.PHAROH;
+			if (recordData.StartsWith("BRIT|"))
+				return ConversionMethod.BRITISH;
+			if (recordData.StartsWith("TERRA|"))
+				return ConversionMethod.AUSSIE;
+
+			throw new InvalidOperationException("Unknown conversion method in record data.");
+		}
+
+
+		// Method to serialize the object to a compact string
+		private string ToCompactString()
+		{
 			var sb = new StringBuilder();
 
 			// Serialize simple fields with delimiters, now includes mindID
@@ -78,10 +133,22 @@ namespace Objects.Medical
 			return sb.ToString();
 		}
 
-
-		public static CloningRecord FromString(string recordData)
+		private string ToBase64()
 		{
-			var parts = recordData.Split('|');
+			string readableString = ToCompactString();
+			byte[] bytes = Encoding.UTF8.GetBytes(readableString);
+			string base64String = Convert.ToBase64String(bytes);
+			return base64String;
+		}
+
+		private string ToJSON()
+		{
+			return JsonConvert.SerializeObject(this);
+		}
+
+		private static CloningRecord FromCompactString(string compactString)
+		{
+			var parts = compactString.Split('|');
 			var record = new CloningRecord();
 
 			// Deserialize simple fields, including mindID
@@ -105,7 +172,30 @@ namespace Objects.Medical
 
 			return record;
 		}
+
+		private static CloningRecord FromBase64(string base64Text)
+		{
+			if (base64Text.StartsWith("TERRA|"))
+			{
+				base64Text = base64Text.Substring(6);
+			}
+			byte[] bytes = Convert.FromBase64String(base64Text);
+			string decodedString = Encoding.UTF8.GetString(bytes);
+			return FromCompactString(decodedString);
+		}
+
+		private static CloningRecord FromJSON(string json)
+		{
+			// Remove the "BRIT|" prefix before deserializing
+			if (json.StartsWith("BRIT|"))
+			{
+				json = json.Substring(5); // Remove the first 5 characters ("BRIT|")
+			}
+
+			return JsonConvert.DeserializeObject<CloningRecord>(json);
+		}
 	}
+
 
 	public class BodyPartRecord
     {
