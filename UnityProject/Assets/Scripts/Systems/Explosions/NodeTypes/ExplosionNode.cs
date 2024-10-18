@@ -132,7 +132,7 @@ namespace Systems.Explosions
 			}
 			catch (Exception e)
 			{
-				Loggy.Log("[ExplosionNode/DoDamage] - Something went wrong while trying to change tile temperature:\n "+ e.ToString());
+				Loggy.LogError("[ExplosionNode/DoDamage] - Something went wrong while trying to change tile temperature:\n "+ e.ToString());
 			}
 		}
 
