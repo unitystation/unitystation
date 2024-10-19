@@ -52,11 +52,6 @@ public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 				IServerActionGUI.CallActionServer(SentByPlayer);
 				return;
 			}
-
-			if (IActionGUIs[msg.ComponentLocation] is IServerActionGUIMulti IServerActionGUIMulti)
-			{
-				IServerActionGUIMulti.CallActionServer(IServerActionGUIMulti.ActionData[msg.listIndex], SentByPlayer);
-			}
 		}
 	}
 
@@ -100,60 +95,5 @@ public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 		}
 
 		Loggy.LogError("Failed to find IServerActionGUI on NetworkIdentity", Category.UserInput);
-	}
-
-	public static void Send(IActionGUIMulti iServerActionGUIMulti, ActionData action)
-	{
-		if (iServerActionGUIMulti is Component)
-		{
-			SendToComponent(iServerActionGUIMulti, action);
-		}
-		//else not doing anything, implying custom sending
-	}
-
-	private static void SendToComponent(IActionGUIMulti actionComponent, ActionData actionChosen)
-	{
-		var netObject = ((Component) actionComponent).GetComponent<NetworkIdentity>();
-		var componentType = actionComponent.GetType();
-		var childActions = netObject.GetComponentsInChildren(componentType);
-		int componentLocation = 0;
-		bool found = false;
-
-		foreach (var action in childActions)
-		{
-			if ((action as IServerActionGUIMulti) == actionComponent)
-			{
-				found = true;
-				break;
-			}
-			componentLocation++;
-		}
-
-		if (found)
-		{
-			var msg = new NetMessage
-			{
-				NetObject = netObject.netId,
-				ComponentLocation = componentLocation,
-				ComponentID = componentTypeToComponentID[componentType],
-				listIndex = FindIndex(actionComponent, actionChosen)
-			};
-			Send(msg);
-			return;
-		}
-
-		Loggy.LogError("Failed to find IServerActionGUI on NetworkIdentity", Category.UserInput);
-	}
-
-	public static short FindIndex(IActionGUIMulti actionComponent, ActionData actionChosen)
-	{
-		for (int i = 0; i < actionComponent.ActionData.Count; i++)
-		{
-			if(actionComponent.ActionData[i] != actionChosen) continue;
-
-			return (short)i;
-		}
-
-		return 0;
 	}
 }

@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using Logs;
 using UnityEngine;
 using Mirror;
+using UI.Core.Action;
 
 [CreateAssetMenu(fileName = "UIActionScriptableObject", menuName = "ScriptableObjects/UIActionSO")]
-public class UIActionScriptableObject : ScriptableObject, IServerActionGUI, IServerActionGUIMulti //WHY DO WE EVEN HAVE THIS
+public class UIActionScriptableObject : ScriptableObject, IServerActionGUI //WHY DO WE EVEN HAVE THIS
 {
 	[SerializeField]
 	private ActionData actionData = null;
@@ -13,6 +14,8 @@ public class UIActionScriptableObject : ScriptableObject, IServerActionGUI, ISer
 	[SerializeField]
 	private List<ActionData> multiActionData = new List<ActionData>();
 	public ActionData ActionData => actionData;
+	public GameObject gameObject => null;
+	public string ActionGuid => UIActionManager.RegisterAction(this);
 
 	public void CallActionClient(ActionData data)
 	{
@@ -65,6 +68,4 @@ public class UIActionScriptableObject : ScriptableObject, IServerActionGUI, ISer
 		}
 #endif
 	}
-
-	List<ActionData> IActionGUIMulti.ActionData => multiActionData;
 }

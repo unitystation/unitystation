@@ -63,22 +63,3 @@ public class __ExampleIServerActionGUI__ : IServerActionGUI
 		do Action
 	}
 }*/
-
-/// <summary>
-/// Simply implement this to Implement your Screen action
-/// </summary>
-public interface IActionGUIMulti : IGameActionHolder //GONNA NEED TO FIGURE OUT HOW TO HANDLE KEYS FOR THESE, SUB LISTS?
-{
-	List<ActionData> ActionData { get; }
-
-	void CallActionClient(ActionData data);
-}
-
-
-/// <summary>
-/// Simply implement this to Implement your Networked screen action
-/// </summary>
-public interface IServerActionGUIMulti : IActionGUIMulti
-{
-	void CallActionServer(ActionData data, PlayerInfo playerInfo); //Requires validation in this
-}

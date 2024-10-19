@@ -51,28 +51,6 @@ namespace UI.Action
 				IconBackground.SetCatalogue(actionData.Backgrounds, 0, networked: false);
 			}
 		}
-		//copy pasta funny but im too lazy to do anything about it right now
-		public void SetUpMulti(IActionGUIMulti action, ActionData newActionData)
-		{
-			gameObject.SetActive(true);
-			iAction = action;
-
-			actionData = newActionData;
-			if (actionData == null)
-			{
-				Loggy.LogWarningFormat("UIAction {0}: action data is null!", Category.UserInput, iAction);
-				return;
-			}
-
-			if (actionData.Sprites.Count > 0)
-			{
-				IconFront.SetCatalogue(actionData.Sprites, 0, networked: false);
-			}
-			if (actionData.Backgrounds.Count > 0)
-			{
-				IconBackground.SetCatalogue(actionData.Backgrounds, 0, networked: false);
-			}
-		}
 
 		public void Pool()
 		{
@@ -140,10 +118,6 @@ namespace UI.Action
 				{
 					iActionGUI.CallActionClient();
 				}
-				else if (iAction is IActionGUIMulti iActionGUIMulti)
-				{
-					iActionGUIMulti.CallActionClient(actionData);
-				}
 			}
 
 			// Sending a message to server asking to run serverside code.
@@ -160,17 +134,6 @@ namespace UI.Action
 				else
 				{
 					RequestGameAction.Send(iAction as IServerActionGUI);
-				}
-			}
-			else if (iAction is IServerActionGUIMulti)
-			{
-				if (iAction is UIActionScriptableObject actionSO)
-				{
-					RequestGameActionSO.Send(actionSO);
-				}
-				else
-				{
-					RequestGameAction.Send(iAction as IServerActionGUIMulti, actionData);
 				}
 			}
 		}

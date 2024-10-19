@@ -35,20 +35,11 @@ namespace UI.Core.Action
 		/// <summary>
 		/// The dict of all actions keyed to their UUID
 		/// </summary>
-		private Dictionary<string, IGameActionHolder> AllActionsByUUID = new();
+		private Dictionary<string, IGameActionHolder> AllActionsByUUID = new(); //these need to be added to clear()
 		/// <summary>
 		/// A dict of action UUIDs keyed to the GameObject they belong to
 		/// </summary>
 		private Dictionary<GameObject, string> AllActionUUIDsByGameObject = new();
-
-		public Dictionary<GameObject, Dictionary<IActionGUIMulti, List<ActionData>>> MultiActivePlayerActions = new Dictionary<GameObject, Dictionary<IActionGUIMulti, List<ActionData>>>();
-
-		public Dictionary<IActionGUIMulti, GameObject> MultiIActionGUIToMind = new Dictionary<IActionGUIMulti, GameObject>();
-
-		public Dictionary<IActionGUIMulti, Dictionary<ActionData, string>> MultiIActionGUIToID = new Dictionary<IActionGUIMulti, Dictionary<ActionData, string>>();
-
-		public Dictionary<IActionGUIMulti, Dictionary<ActionData, string>> ClientMultiIActionGUIToID = new Dictionary<IActionGUIMulti, Dictionary<ActionData, string>>();
-
 
 		public GameObject Panel;
 		public GameObject TooltipPrefab;
@@ -57,9 +48,6 @@ namespace UI.Core.Action
 		{
 			Debug.Log("removed " + CleanupUtil.RidDictionaryOfDeadElements(IActionGUIToID, (u,k)=> u as MonoBehaviour != null) + " from UIActionManager.IActionGUIToID");
 			Debug.Log("removed " + CleanupUtil.RidDictionaryOfDeadElements(ClientIActionGUIToID, (u, k) => u as MonoBehaviour != null) + " from UIActionManager.ClientIActionGUIToID");
-			Debug.Log("removed " + CleanupUtil.RidDictionaryOfDeadElements(MultiIActionGUIToMind, (u, k) => u as MonoBehaviour != null) + " from UIActionManager.MultiIActionGUIToMind");
-			Debug.Log("removed " + CleanupUtil.RidDictionaryOfDeadElements(MultiIActionGUIToID, (u, k) => u as MonoBehaviour != null) + " from UIActionManager.MultiIActionGUIToID");
-			Debug.Log("removed " + CleanupUtil.RidDictionaryOfDeadElements(ClientMultiIActionGUIToID, (u, k) => u as MonoBehaviour != null) + " from UIActionManager.ClientMultiIActionGUIToID");
 			Debug.Log("removed " + CleanupUtil.RidDictionaryOfDeadElements(ActivePlayerActions, (u, k) => u != null) + " from UIActionManager.ActivePlayerActions");
 			Debug.Log("removed " + CleanupUtil.RidDictionaryOfDeadElements(Instance.DicIActionGUI, (u, k) => u as MonoBehaviour != null) + " from Instance.DicIActionGUI");
 			Debug.Log("removed " + CleanupUtil.RidDictionaryOfDeadElements(Instance.IActionGUIToMind, (u, k) => u as MonoBehaviour != null) + " from Instance.IActionGUIToMind");
@@ -121,19 +109,6 @@ namespace UI.Core.Action
 					Show("", IactionGUI, Body);
 				}
 			}
-
-
-			if (MultiActivePlayerActions.ContainsKey(Body))
-			{
-				foreach (var MultiIactionGUI in MultiActivePlayerActions[Body])
-				{
-					foreach (var AD in MultiIactionGUI.Value)
-					{
-						ShowMulti("",Body, MultiIactionGUI.Key, AD);
-					}
-				}
-			}
-
 			SpriteHandlerManager.Instance.UpdateSpecialNewPlayer(requestedBy);
 		}
 
@@ -486,11 +461,10 @@ namespace UI.Core.Action
 		{
 			Instance.IActionGUIToMind.Clear();
 			Instance.ActivePlayerActions.Clear();
-			Instance.MultiIActionGUIToMind.Clear();
-			Instance.MultiActivePlayerActions.Clear();
 
 			Instance.IActionGUIToID.Clear();
-			Instance.MultiIActionGUIToID.Clear();
+			Instance.AllActionsByUUID.Clear();
+			Instance.AllActionUUIDsByGameObject.Clear();
 		}
 
 		public static void ClearAllActionsClient()
@@ -503,14 +477,6 @@ namespace UI.Core.Action
 				{
 					Hide(iActionGui, null);
 					continue;
-				}
-
-				if (Instance.DicIActionGUI.ElementAt(i).Key is IActionGUIMulti iActionGuiMulti)
-				{
-					foreach (var actionData in iActionGuiMulti.ActionData)
-					{
-						HideMulti(null, iActionGuiMulti, actionData);
-					}
 				}
 			}
 		}
@@ -540,339 +506,5 @@ namespace UI.Core.Action
 
 			action.CooldownNumber.text = default;
 		}
-
-		#region IActionGUIMulti
-
-		/// <summary>
-		/// Set the action button visibility and syncs to client
-		/// </summary>
-		public static void ToggleMultiServer(GameObject body, IActionGUIMulti iActionGUIMulti, ActionData actionData,
-			bool show)
-		{
-			if(body == null) return;
-
-			Instance.InstantMultiToggleServer(body, iActionGUIMulti, actionData, show);
-		}
-
-		private void InstantMultiToggleServer(GameObject body, IActionGUIMulti iActionGUIMulti, ActionData actionData,
-			bool show)
-		{
-			if (CustomNetworkManager.IsServer == false) return;
-
-			if (MultiActivePlayerActions.ContainsKey(body) == false)
-			{
-				MultiActivePlayerActions[body] = new Dictionary<IActionGUIMulti, List<ActionData>>();
-			}
-
-			if (MultiActivePlayerActions[body].ContainsKey(iActionGUIMulti) == false)
-			{
-				MultiActivePlayerActions[body][iActionGUIMulti] = new List<ActionData>();
-			}
-
-			if (show)
-			{
-				if (MultiActivePlayerActions[body][iActionGUIMulti].Contains(actionData))
-				{
-					Loggy.LogWarning($"ActionData: {actionData.OrNull()?.Name}, already present on mind");
-					return;
-				}
-
-				var idString = $"{body.GetHashCode()}{iActionGUIMulti.GetHashCode()}{actionData.GetHashCode()}";
-
-				SpriteHandlerManager.RegisterSpecialHandler(idString+"F"); //Front icon
-				SpriteHandlerManager.RegisterSpecialHandler(idString+"B"); //back icon
-
-				if (MultiIActionGUIToID.ContainsKey(iActionGUIMulti) == false)
-				{
-					MultiIActionGUIToID[iActionGUIMulti] = new Dictionary<ActionData, string>();
-				}
-
-				MultiIActionGUIToID[iActionGUIMulti][actionData] = idString;
-
-				MultiIActionGUIToMind[iActionGUIMulti] = body;
-				MultiActivePlayerActions[body][iActionGUIMulti].Add(actionData);
-				ShowMulti(idString, body, iActionGUIMulti, actionData);
-			}
-			else
-			{
-				if (MultiActivePlayerActions[body].ContainsKey(iActionGUIMulti) == false)
-				{
-					Loggy.LogWarning("iActionGUIMulti Not present on mind");
-					return;
-				}
-
-				if (MultiActivePlayerActions[body][iActionGUIMulti].Contains(actionData) == false)
-				{
-					Loggy.LogWarning("actionData Not present on mind");
-					return;
-				}
-
-				var idString = MultiIActionGUIToID[iActionGUIMulti][actionData];
-				SpriteHandlerManager.UnRegisterSpecialHandler(idString+"F"); //Front icon
-				SpriteHandlerManager.UnRegisterSpecialHandler(idString+"B"); //back icon
-				MultiIActionGUIToID[iActionGUIMulti].Remove(actionData);
-
-				MultiActivePlayerActions[body][iActionGUIMulti].Remove(actionData);
-				MultiIActionGUIToMind.Remove(iActionGUIMulti);
-				HideMulti(body, iActionGUIMulti, actionData);
-			}
-		}
-
-
-		public static void MultiToggleClient(IActionGUIMulti iActionGUIMulti, ActionData actionData, bool show, string ID)
-		{
-			if (show)
-			{
-				ShowMulti(ID, null, iActionGUIMulti, actionData);
-			}
-			else
-			{
-				HideMulti( null, iActionGUIMulti, actionData);
-			}
-		}
-
-		/// <summary>
-		/// Sets the sprite of the action button.
-		/// </summary>
-		public static void SetClientMultiSpriteSO(IActionGUIMulti iActionGUIMulti, ActionData actionData,
-			SpriteDataSO sprite, List<Color> palette = null)
-		{
-			Debug.Assert(!(sprite.IsPalette && palette == null),
-				"Paletted sprites should never be set without a palette");
-
-			if (Instance.DicIActionGUI.ContainsKey(iActionGUIMulti))
-			{
-				var uiActions = Instance.DicIActionGUI[iActionGUIMulti];
-
-				foreach (var action in uiActions)
-				{
-					if (action.ActionData != actionData) continue;
-
-					action.IconFront.SetSpriteSO(sprite, networked: false);
-					action.IconFront.SetPaletteOfCurrentSprite(palette);
-				}
-			}
-			else
-			{
-				Loggy.Log("iActionGUIMulti Not present", Category.UI);
-			}
-		}
-
-		public static void SetServerMultiSpriteSO(IActionGUIMulti iActionGUIMulti, ActionData actionData,
-			SpriteDataSO sprite, List<Color> palette = null)
-		{
-			if (Instance.MultiIActionGUIToMind.ContainsKey(iActionGUIMulti) == false)
-			{
-				Loggy.LogError($"iActionGUI {iActionGUIMulti} Not present To any mind");
-				return;
-			}
-
-			SetActionUIMessage.SetMultiSpriteSO(Instance.MultiIActionGUIToID[iActionGUIMulti][actionData],Instance.MultiIActionGUIToMind[iActionGUIMulti],
-				iActionGUIMulti, actionData, sprite, palette);
-		}
-
-		public static void SetClientMultiSprite(IActionGUIMulti iActionGUIMulti, ActionData actionData, int Location)
-		{
-			if (Instance.DicIActionGUI.ContainsKey(iActionGUIMulti))
-			{
-				var uiActions = Instance.DicIActionGUI[iActionGUIMulti];
-
-				foreach (var action in uiActions)
-				{
-					if (action.ActionData != actionData) continue;
-
-					action.IconFront.SetCatalogueIndexSprite(Location);
-				}
-			}
-			else
-			{
-				Loggy.Log("iActionGUIMulti Not present", Category.UI);
-			}
-		}
-
-		public static void SetServerMultiSprite(IActionGUIMulti iActionGUIMulti, ActionData actionData, int Location)
-		{
-			if (Instance.MultiIActionGUIToMind.ContainsKey(iActionGUIMulti) == false)
-			{
-				Loggy.LogError($"iActionGUI {iActionGUIMulti} Not present To any mind");
-				return;
-			}
-
-			SetActionUIMessage.SetMultiSprite(Instance.MultiIActionGUIToID[iActionGUIMulti][actionData], Instance.MultiIActionGUIToMind[iActionGUIMulti],
-				iActionGUIMulti, actionData, Location);
-		}
-
-
-		public static void SetClientMultiBackground(IActionGUIMulti iActionGUIMulti, ActionData actionData,
-			int Location)
-		{
-			if (Instance.DicIActionGUI.ContainsKey(iActionGUIMulti))
-			{
-				var uiActions = Instance.DicIActionGUI[iActionGUIMulti];
-
-				foreach (var action in uiActions)
-				{
-					if (action.ActionData != actionData) continue;
-
-					action.IconBackground.SetCatalogueIndexSprite(Location);
-				}
-			}
-			else
-			{
-				Loggy.Log("iActionGUIMulti Not present", Category.UI);
-			}
-		}
-
-		public static void SetServerMultiBackground(IActionGUIMulti iActionGUIMulti, ActionData actionData,
-			int Location)
-		{
-			if (Instance.MultiIActionGUIToMind.ContainsKey(iActionGUIMulti) == false)
-			{
-				Loggy.LogError($"iActionGUI {iActionGUIMulti} Not present To any mind");
-				return;
-			}
-
-			SetActionUIMessage.SetMultiBackgroundSprite(Instance.MultiIActionGUIToID[iActionGUIMulti][actionData], Instance.MultiIActionGUIToMind[iActionGUIMulti],
-				iActionGUIMulti, actionData, Location);
-		}
-
-
-		public static void SetCooldownMultiLocal(IActionGUIMulti iActionGUIMulti, ActionData actionData, float cooldown)
-		{
-			if (Instance.DicIActionGUI.ContainsKey(iActionGUIMulti))
-			{
-				var uiActions = Instance.DicIActionGUI[iActionGUIMulti];
-
-				foreach (var action in uiActions)
-				{
-					if (action.ActionData != actionData) continue;
-
-					action.CooldownOpacity.LeanScaleY(0f, cooldown).setFrom(1f);
-
-					if (cooldown > 5)
-					{
-						Instance.StartCoroutine(Instance.CooldownCountdown(action, cooldown));
-					}
-				}
-			}
-			else
-			{
-				Loggy.Log("iActionGUIMulti not present!", Category.UI);
-			}
-		}
-
-		public static void SetMultiCooldown(IActionGUIMulti iActionGUIMulti, ActionData actionData, float cooldown,
-			GameObject recipient)
-		{
-			SetActionUIMessage.SetMultiAction(Instance.MultiIActionGUIToID[iActionGUIMulti][actionData],recipient, iActionGUIMulti, actionData, cooldown);
-		}
-
-		private static void ShowMulti(string ID, GameObject Body, IActionGUIMulti iActionGUIMulti, ActionData actionData)
-		{
-			if (CustomNetworkManager.IsServer && Body != null)
-			{
-				//Send message
-				SetActionUIMessage.SetMultiAction(Instance.MultiIActionGUIToID[iActionGUIMulti][actionData],Body, iActionGUIMulti, actionData,
-					true);
-			}
-
-			if (Body == null)
-			{
-				HideMulti(null, iActionGUIMulti, actionData);
-
-				UIAction _UIAction;
-				if (Instance.PooledUIAction.Count > 0)
-				{
-					_UIAction = Instance.PooledUIAction[0];
-					Instance.PooledUIAction.RemoveAt(0);
-				}
-				else
-				{
-					_UIAction = Instantiate(Instance.UIAction);
-					_UIAction.transform.SetParent(Instance.Panel.transform, false);
-				}
-
-				if (Instance.DicIActionGUI.ContainsKey(iActionGUIMulti) == false)
-				{
-					Instance.DicIActionGUI.Add(iActionGUIMulti, new List<UIAction>());
-				}
-
-				Instance.DicIActionGUI[iActionGUIMulti].Add(_UIAction);
-
-				if (Instance.ClientMultiIActionGUIToID.ContainsKey(iActionGUIMulti) == false)
-				{
-					Instance.ClientMultiIActionGUIToID[iActionGUIMulti] = new Dictionary<ActionData, string>();
-				}
-
-				Instance.ClientMultiIActionGUIToID[iActionGUIMulti][actionData] = ID;
-				SpriteHandlerManager.RegisterSpecialHandler(ID+"F", _UIAction.IconFront); //Front icon
-				SpriteHandlerManager.RegisterSpecialHandler(ID+"B", _UIAction.IconBackground); //back icon
-
-				_UIAction.SetUpMulti(iActionGUIMulti, actionData);
-			}
-		}
-
-		private static void HideMulti( GameObject Body, IActionGUIMulti iActionGUIMulti, ActionData actionData)
-		{
-			if (CustomNetworkManager.IsServer && Body != null)
-			{
-				//Send message
-				SetActionUIMessage.SetMultiAction("", Body, iActionGUIMulti, actionData,
-					false);
-			}
-
-			if (Body == null)
-			{
-				if (Instance.DicIActionGUI.ContainsKey(iActionGUIMulti))
-				{
-					var toRemove = new List<IGameActionHolder>();
-					foreach (var actionButton in Instance.DicIActionGUI)
-					{
-						//Remove old button from list. Don't spawn the same button if it already exists!
-						if (actionButton.Key is IActionGUIMulti keyI && keyI == iActionGUIMulti)
-						{
-							var count = 0;
-							foreach (var action in actionButton.Value)
-							{
-								if (actionData != action.ActionData) continue;
-								count++;
-
-								if (Instance.ClientMultiIActionGUIToID[iActionGUIMulti]
-								    .TryGetValue(actionData, out var id))
-								{
-									SpriteHandlerManager.UnRegisterSpecialHandler(id+"F"); //Front icon
-									SpriteHandlerManager.UnRegisterSpecialHandler(id+"B"); //back icon
-								}
-								else
-								{
-									Loggy.LogWarning("Failed to find ID", Category.UI);
-								}
-
-								Instance.ClientMultiIActionGUIToID[iActionGUIMulti].Remove(actionData);
-
-								action.Pool();
-								Instance.PooledUIAction.Add(action);
-							}
-
-							if (count == actionButton.Value.Count)
-							{
-								toRemove.Add(iActionGUIMulti);
-							}
-						}
-					}
-
-					foreach (var remove in toRemove)
-					{
-						Instance.DicIActionGUI.Remove(remove);
-					}
-				}
-				else
-				{
-					Loggy.Log("iActionGUI Not present", Category.UI);
-				}
-			}
-		}
-
-		#endregion
 	}
 }

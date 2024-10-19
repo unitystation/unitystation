@@ -60,8 +60,7 @@ namespace Doors.Modules
 
 			//TODO card coded not larva, maybe when moved to body parts larva has their doesnt have this ability on theirs
 			if (interaction.HandObject == null
-			    && interaction.PerformerPlayerScript.PlayerTypeSettings.CanPryDoorsWithHands &&
-			    (interaction.PerformerPlayerScript.TryGetComponent<AlienPlayer>(out var alienPlayer) == false || alienPlayer.IsLarva == false))
+			    && interaction.PerformerPlayerScript.PlayerTypeSettings.CanPryDoorsWithHands) //note we might need to just fully remove this
 			{
 				PryDoor(interaction, false);
 				States.Add(DoorProcessingStates.PhysicallyPrevented);

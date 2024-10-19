@@ -111,11 +111,6 @@ namespace UI
 
 		[SerializeField] private string fullHandNPocketMessage = "My pockets are full";
 
-		[Header("Misc")]
-		[SerializeField]
-		private UI_Alien alienUI = null;
-		public UI_Alien AlienUI => alienUI;
-
 		#region /=== KEYBINDS ===\
 
 		public void SetBackPackKeybindText(string key)
@@ -152,25 +147,12 @@ namespace UI
 
 		#region /=== EVENT LISTENERS ===\
 
-		private void OnEnable()
-		{
-			if (PlayerManager.LocalPlayerScript == null)
-			{
-				alienUI.gameObject.SetActive(false);
-				return;
-			}
-
-			alienUI.gameObject.SetActive(PlayerManager.LocalPlayerScript.PlayerType == PlayerTypes.Alien);
-		}
-
 		private void OnDisable()
 		{
 			if (PlayerManager.LocalPlayerScript != null)
 			{
 				RemoveListeners();
 			}
-
-			alienUI.gameObject.SetActive(false);
 		}
 
 		/// <summary>
