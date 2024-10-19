@@ -134,15 +134,6 @@ MonoBehaviour:
         - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
         m_values: d606000090010000
       productionTime: 4
-    - name: Cable Coil
-      product: {fileID: 5680136605834777345, guid: c3e6805b264a935428b0de415ea57943,
-        type: 3}
-      materialToAmounts:
-        m_keys:
-        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
-        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
-        m_values: 0a00000005000000
-      productionTime: 4
     - name: Toolbox
       product: {fileID: 8568672687853555390, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
         type: 3}
@@ -160,6 +151,33 @@ MonoBehaviour:
         - {fileID: 11400000, guid: aad81582143ba4f4fb4f4c99563f715f, type: 2}
         - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
         m_values: f4010000fa000000fa000000
+      productionTime: 4
+    - name: Cable Coil High
+      product: {fileID: 1431646644770877665, guid: 288980126acf5f441841169958c31630,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: 0a00000005000000
+      productionTime: 4
+    - name: Cable Coil
+      product: {fileID: 5680136605834777345, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: 0a00000005000000
+      productionTime: 4
+    - name: Cable Coil Low
+      product: {fileID: 7657921970005526780, guid: 7f32e42309899114b9c122f261161bc5,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: 0a00000005000000
       productionTime: 4
   - categoryName: Construction
     products:

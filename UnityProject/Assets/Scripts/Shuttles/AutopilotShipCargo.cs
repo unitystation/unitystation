@@ -171,7 +171,7 @@ public class AutopilotShipCargo : AutopilotShipMachine
 		if (pos == TransformState.HiddenPos)
 			return (false);
 
-		var crate = Spawn.ServerPrefab(order.Crate, pos).GameObject;
+		var crate = Spawn.ServerPrefab(order.Crate, pos.ToWorld(mm.NetworkedMatrixMove.MetaTileMap.matrix)).GameObject;
 		Dictionary<GameObject, Stackable> stackableItems = new Dictionary<GameObject, Stackable>();
 		//error occurred trying to spawn, just ignore this order.
 		if (crate == null) return true;
@@ -275,17 +275,20 @@ public class AutopilotShipCargo : AutopilotShipMachine
 		 availableSpawnSlots = new List<Vector3Int>();
 
 		 var PresentTiles = mm.NetworkedMatrixMove.MetaTileMap.PresentTilesNeedsLock;
+
+		 var Matrix = mm.NetworkedMatrixMove.MetaTileMap.matrix;
+
 		 lock (PresentTiles)
 		 {
 			 var ToLoop = PresentTiles[(int)LayerType.Base];
 
 			 foreach (var Location in ToLoop)
 			 {
-				 pos = Location.LocalPosition.ToWorld(mm.NetworkedMatrixMove.MetaTileMap.matrix).RoundToInt();
-				 if ((MatrixManager.Instance.GetFirst<ClosetControl>(pos, true) == null) &&
-				     MatrixManager.IsFloorAt(pos, true) && MatrixManager.IsWallAt(pos, true) == false)
+
+				 if ((Matrix.GetFirst<ClosetControl>(Location.LocalPosition, true) == null) &&
+				     Matrix.IsFloorAt(Location.LocalPosition, true) && Matrix.IsWallAt(Location.LocalPosition, true) == false)
 				 {
-					 availableSpawnSlots.Add(pos);
+					 availableSpawnSlots.Add(Location.LocalPosition);
 				 }
 			 }
 		 }
