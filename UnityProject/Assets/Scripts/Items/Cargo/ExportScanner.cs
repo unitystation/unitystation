@@ -1,6 +1,8 @@
 using System;
+using System.Text;
 using UnityEngine;
 using Objects;
+using Objects.Atmospherics;
 
 namespace Items.Cargo
 {
@@ -26,8 +28,8 @@ namespace Items.Cargo
 			var (containedContents, price) = GetPrice(interaction.TargetObject);
 			var exportName = interaction.TargetObject.ExpensiveName();
 			var message = price > 0
-				? $"Scanned { exportName }, value: { price } credits."
-				: $"Scanned { exportName }, no export value.";
+				? $"Scanned {exportName}, value: {price} credits."
+				: $"Scanned {exportName}, no export value.";
 
 			if (containedContents)
 			{
@@ -60,12 +62,27 @@ namespace Items.Cargo
 
 			if (pricedObject.TryGetComponent<ObjectContainer>(out var container))
 			{
+				container.TrySpawnInitialContents(true);
 				foreach (var obj in container.GetStoredObjects())
 				{
 					containedContents = true;
 					price += GetPrice(obj).Item2;
 				}
 			}
+
+			// Add value of mole inside gas container
+			if (pricedObject.TryGetComponent<GasContainer>(out var gasContainer) && gasContainer.CargoSealApproved)
+			{
+				lock (gasContainer.GasMixLocal.GasesArray) //no Double lock
+				{
+					foreach (var gas in gasContainer.GasMixLocal.GasesArray) //doesn't appear to modify list while iterating
+					{
+						int gasValue = (int) gas.Moles * gas.GasSO.ExportPrice;
+						price += gasValue;
+					}
+				}
+			}
+
 
 			return new Tuple<bool, int>(containedContents, price);
 		}
