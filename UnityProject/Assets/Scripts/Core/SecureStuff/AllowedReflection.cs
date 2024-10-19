@@ -377,5 +377,11 @@ namespace SecureStuff
 				fieldInfo.GetCustomAttributes(typeof(OrderAttribute), false).FirstOrDefault() as OrderAttribute;
 			return attribute == null ? -1 : attribute.Order;
 		}
+
+
+		public static int GetNumberOfAttributeRequireComponent(Type Type)
+		{
+			return Type.GetCustomAttributes(typeof(RequireComponent), true).Length;
+		}
 	}
 }

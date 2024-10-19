@@ -118,6 +118,10 @@ namespace Objects.Disposals
 			{
 				SetBinState(BinState.Disconnected);
 			}
+			else
+			{
+				SetBinState(BinState.Recharging);
+			}
 		}
 
 		public override void OnSpawnServer(SpawnInfo info)

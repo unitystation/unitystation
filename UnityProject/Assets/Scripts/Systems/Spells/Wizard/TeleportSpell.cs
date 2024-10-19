@@ -20,10 +20,18 @@ namespace Systems.Spells.Wizard
 		[SyncVar(hook = nameof(SyncPlayer))]
 		private NetworkIdentity IDteleportingPlayer;
 
-		private GameObject teleportingPlayer
+		private PlayerInfo teleportingPlayer;
+		private PlayerInfo TeleportingPlayer
 		{
-			get => IDteleportingPlayer.OrNull()?.gameObject;
-			set => SyncPlayer(IDteleportingPlayer, value.NetWorkIdentity());
+			get
+			{
+				return teleportingPlayer;
+			}
+			set
+			{
+				teleportingPlayer = value;
+				SyncPlayer(IDteleportingPlayer, value.GameObject.NetWorkIdentity());
+			}
 		}
 
 
@@ -39,26 +47,24 @@ namespace Systems.Spells.Wizard
 		[SyncVar(hook = nameof(SyncAnimation))]
 		private bool syncAnimation = false;
 
-		public void ServerTeleportWizard(GameObject playerToTeleport, Vector3Int toWorldPos)
+		public void ServerTeleportWizard(PlayerInfo playerToTeleport, Vector3Int toWorldPos)
 		{
-			teleportingPlayer = playerToTeleport;
+			TeleportingPlayer = playerToTeleport;
 
 			StartCoroutine(RunTeleportSequence(toWorldPos));
 		}
 
 		private IEnumerator RunTeleportSequence(Vector3Int toWorldPos)
 		{
-			PlayerInfo player = teleportingPlayer.Player();
-
 			IsBusy = true;
 			syncAnimation = true;
-			SoundManager.PlayNetworkedAtPos(TeleportDisappear, player.Script.WorldPos);
+			SoundManager.PlayNetworkedAtPos(TeleportDisappear, TeleportingPlayer.Script.WorldPos);
 			yield return WaitFor.Seconds(TELEPORT_ANIMATE_TIME + TELEPORT_TRAVEL_TIME);
 
-			player.Script.PlayerSync.AppearAtWorldPositionServer(toWorldPos);
+			TeleportingPlayer.Script.PlayerSync.AppearAtWorldPositionServer(toWorldPos);
 
 			syncAnimation = false;
-			SoundManager.PlayNetworkedAtPos(TeleportAppear, player.Script.WorldPos);
+			SoundManager.PlayNetworkedAtPos(TeleportAppear, TeleportingPlayer.Script.WorldPos);
 			yield return WaitFor.Seconds(TELEPORT_ANIMATE_TIME);
 			IsBusy = false;
 		}
@@ -67,7 +73,7 @@ namespace Systems.Spells.Wizard
 		{
 			IDteleportingPlayer = newPlayer;
 			if (teleportingPlayer == null) return; //might be setting to null idk
- 			playerSprite = teleportingPlayer.transform.Find("Sprites");
+ 			playerSprite = TeleportingPlayer.GameObject.transform.Find("Sprites");
 
 			if (playerSprite == null)
 			{
@@ -106,7 +112,7 @@ namespace Systems.Spells.Wizard
 
 		private void AnimateOpacity(float alpha, float time)
 		{
-			SpriteHandler[] spriteHandlers = teleportingPlayer.GetComponentsInChildren<SpriteHandler>();
+			SpriteHandler[] spriteHandlers = TeleportingPlayer.GameObject.GetComponentsInChildren<SpriteHandler>();
 
 			foreach (var handler in spriteHandlers)
 			{

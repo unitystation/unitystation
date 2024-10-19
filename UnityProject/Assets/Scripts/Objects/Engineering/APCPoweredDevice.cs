@@ -20,7 +20,7 @@ using UnityEditor;
 namespace Systems.Electricity
 {
 	[ExecuteInEditMode]
-	public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, IEmpAble, IMultitoolSlaveable
+	public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, IEmpAble, IMultitoolSlaveable, IServerSpawn
 	{
 		[SerializeField ]
 		[FormerlySerializedAs("MinimumWorkingVoltage")]
@@ -77,7 +77,7 @@ namespace Systems.Electricity
 		[NonSerialized]
 		public float Resistance = 99999999;
 
-		[HideInInspector] public APC RelatedAPC;
+		public APC RelatedAPC;
 		private IAPCPowerable Powered;
 
 
@@ -122,8 +122,6 @@ namespace Systems.Electricity
 		disconnectedImg = AssetDatabase.LoadAssetAtPath<Texture>("Assets/Textures/EditorAssets/disconnected.png");
 
 #endif
-			if (Application.isPlaying == false) return;
-			EnsureInit();
 		}
 
 		private void Start()
@@ -181,7 +179,7 @@ namespace Systems.Electricity
 			}
 		}
 
-		public override void OnStartServer()
+		public void OnSpawnServer(SpawnInfo info)
 		{
 			EnsureInit();
 			if (AdvancedControlToScript)

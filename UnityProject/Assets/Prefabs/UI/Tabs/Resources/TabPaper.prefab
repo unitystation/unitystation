@@ -37,7 +37,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -100}
+  m_AnchoredPosition: {x: 0, y: -19.672}
   m_SizeDelta: {x: -50, y: 675}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &222622871631726896
@@ -208,10 +208,13 @@ MonoBehaviour:
   m_GlobalFontAsset: {fileID: 0}
   m_OnFocusSelectAll: 1
   m_ResetOnDeActivation: 0
+  m_KeepTextSelectionVisible: 0
   m_RestoreOriginalTextOnEscape: 0
   m_isRichTextEditingAllowed: 1
   m_LineLimit: 22
+  isAlert: 0
   m_InputValidator: {fileID: 0}
+  m_ShouldActivateOnSelect: 1
 --- !u!114 &-7680168179186027334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332,15 +335,17 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 4
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
+  m_ActiveFontFeatures: 
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
+  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -390,13 +395,12 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 224046292090504698}
-  - {fileID: 224868005608327740}
   m_Father: {fileID: 224120160830574892}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -42.8284}
+  m_SizeDelta: {x: 0, y: -85.6568}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &222238763163298178
 CanvasRenderer:
@@ -625,6 +629,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 224950370593069080}
+  - {fileID: 224868005608327740}
   - {fileID: 224663602153563088}
   m_Father: {fileID: 224096793523660850}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -693,7 +698,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.083303675, g: 0.2708246, b: 0.4528302, a: 0.7372549}
+  m_Color: {r: 0.083303675, g: 0.2708246, b: 0.4528302, a: 0.53333336}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -715,8 +720,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'click to edit (requires pen)...
 
-    Papers have a 1750 character limit,
-    and cannot overflow beyond 22 lines.'
+'
 --- !u!114 &4860289198707671761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -796,7 +800,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9150943, g: 0.9150943, b: 0.9150943, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -859,11 +863,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 224663602153563088}
+  m_Father: {fileID: 224120160830574892}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -663, y: -39}
+  m_AnchoredPosition: {x: -663, y: -37}
   m_SizeDelta: {x: 30, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &222096006444898966

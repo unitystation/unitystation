@@ -39,6 +39,8 @@ namespace Tilemaps.Behaviours.Layers
 
 		public bool IsJsonLoaded = false;
 
+		public bool RequestInitialiseMapLoader = false;
+
 		/// <summary>
 		/// Gets a unity event that the caller can subscribe to which will be fired once
 		/// the networking for this matrix is initialized.

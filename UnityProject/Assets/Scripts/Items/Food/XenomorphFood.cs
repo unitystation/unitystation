@@ -19,7 +19,7 @@ namespace Items.Food
 		private static readonly StandardProgressActionConfig ProgressConfig
 			= new StandardProgressActionConfig(StandardProgressActionType.Restrain);
 
-		public override void TryConsume(GameObject feederGO, GameObject eaterGO)
+		public override void TryConsume(GameObject feederGO, GameObject eaterGO, bool projectileFed = false)
 		{
 			var eater = eaterGO.GetComponent<PlayerScript>();
 			if (eater == null)
@@ -59,7 +59,7 @@ namespace Items.Food
 			}
 		}
 
-		protected override void Eat(PlayerScript eater, PlayerScript feeder)
+		protected override void Eat(PlayerScript eater, PlayerScript feeder, bool projectileFed = false)
 		{
 			// TODO: missing sound?
 			//SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);

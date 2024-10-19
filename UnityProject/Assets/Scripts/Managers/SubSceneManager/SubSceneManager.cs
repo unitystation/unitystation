@@ -105,7 +105,7 @@ public partial class SubSceneManager : MonoBehaviour
 
 				// Deserialize the JSON content to a MapData object
 				MapSaver.MapSaver.MapData mapData = JsonConvert.DeserializeObject<MapSaver.MapSaver.MapData>(json);
-				yield return MapLoader.ServerLoadMap(Vector3.zero, Vector3.zero,mapData);
+				yield return MapLoader.ServerLoadMap(Vector3.zero, Vector3.zero,mapData, sceneType);
 			}
 		}
 		else

@@ -2342,7 +2342,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.2.0",
+        "Ver": "1.3.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -2373,7 +2373,20 @@
             "GitID": "74f1764f9ae8c6146a627626bfa4c6c0_3┼17┼0┼",
             "PrefabID": "74f1764f9ae8c6146a627626bfa4c6c0",
             "Name": "BarDrobe",
-            "LocalPRS": "3┼17┼0┼"
+            "LocalPRS": "3┼17┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_8┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "3da33d6eccc1bbe4cb49cdc7fd00662f_3┼20┼0┼",
@@ -2409,7 +2422,20 @@
             "GitID": "6bf5ba5b83af4b345b7cebcdc70b90f2_4┼20┼0┼",
             "PrefabID": "6bf5ba5b83af4b345b7cebcdc70b90f2",
             "Name": "BoozeOMatAllAccess",
-            "LocalPRS": "4┼20┼0┼"
+            "LocalPRS": "4┼20┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_8┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_5┼17┼0┼",
@@ -2418,6 +2444,15 @@
             "LocalPRS": "5┼17┼0┼",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_8┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "LightSource@0",
                   "Data": [
@@ -2443,7 +2478,17 @@
             "Name": "Microwave",
             "LocalPRS": "5┼20┼0┼",
             "Object": {
-              "ClassDatas": [],
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_8┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
               "Children": [
                 {
                   "ID": "0,2",
@@ -2522,7 +2567,20 @@
             "GitID": "4d76ade90a370ca43ab3c9a765236a26_8┼11┼0┼",
             "PrefabID": "4d76ade90a370ca43ab3c9a765236a26",
             "Name": "AirlockEngineeringOpaque",
-            "LocalPRS": "8┼11┼0┼"
+            "LocalPRS": "8┼11┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_8┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "cd57203a8d3f54f478446e9b0ced6cf9_8┼17┼0┼",
@@ -2628,7 +2686,20 @@
             "GitID": "5fd9d8acdd4f02849884dcddff5db286_8┼18┼0┼",
             "PrefabID": "5fd9d8acdd4f02849884dcddff5db286",
             "Name": "AirlockStandardOpaque",
-            "LocalPRS": "8┼18┼0┼"
+            "LocalPRS": "8┼18┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_8┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "f2432d244a6b7774ea00ff013beb7dcb_8┼19┼0┼",
@@ -2637,6 +2708,15 @@
             "LocalPRS": "8┼19┼0┼",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_8┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "Rotatable@0",
                   "Data": [
@@ -2670,6 +2750,15 @@
             "Object": {
               "ClassDatas": [
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_8┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -2698,6 +2787,15 @@
             "Object": {
               "ClassDatas": [
                 {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_8┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "LightSource@0",
                   "Data": [
                     {
@@ -2720,7 +2818,20 @@
             "GitID": "133b93fb7d8a5794bbfff599bea64863_9┼20┼0┼",
             "PrefabID": "133b93fb7d8a5794bbfff599bea64863",
             "Name": "BoozeDispenser",
-            "LocalPRS": "9┼20┼0┼"
+            "LocalPRS": "9┼20┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_8┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "8fb9b82aab871a54fb9bdb7e4a985821_10┼17┼0┼",
@@ -2732,7 +2843,20 @@
             "GitID": "c5aecb2f211bbae49916919ff6128733_10┼20┼0┼",
             "PrefabID": "c5aecb2f211bbae49916919ff6128733",
             "Name": "SodaDispenser",
-            "LocalPRS": "10┼20┼0┼"
+            "LocalPRS": "10┼20┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_8┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "1a00e842e154f7d43811c5d45328988c_11┼11┼0┼",
@@ -2750,7 +2874,20 @@
             "GitID": "c04905100b9b3d746ad50b5a62efe998_12┼14┼0┼",
             "PrefabID": "c04905100b9b3d746ad50b5a62efe998",
             "Name": "AirlockStandardWindowed",
-            "LocalPRS": "12┼14┼0┼"
+            "LocalPRS": "12┼14┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_8┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "9203bf917337c3e4db0a64a10ef0e50b_12┼16┼0┼",
@@ -2832,19 +2969,58 @@
             "GitID": "16aeef193cef4574984596beeac8eb29_12┼20┼0┼",
             "PrefabID": "16aeef193cef4574984596beeac8eb29",
             "Name": "SolarsBestHotDrinks",
-            "LocalPRS": "12┼20┼0┼"
+            "LocalPRS": "12┼20┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_8┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "c04905100b9b3d746ad50b5a62efe998_13┼14┼0┼",
             "PrefabID": "c04905100b9b3d746ad50b5a62efe998",
             "Name": "AirlockStandardWindowed",
-            "LocalPRS": "13┼14┼0┼"
+            "LocalPRS": "13┼14┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_8┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "7bb3f38189983e9468b4f3f16be75bed_13┼20┼0┼",
             "PrefabID": "7bb3f38189983e9468b4f3f16be75bed",
             "Name": "Jukebox",
-            "LocalPRS": "13┼20┼0┼"
+            "LocalPRS": "13┼20┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_8┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "ce971a77eb7c2894e8583efec1c56965_14┼15┼0┼",
@@ -2926,7 +3102,20 @@
             "GitID": "d25149ab428cce04fbf9a3206b2b690a_16┼13┼0┼",
             "PrefabID": "d25149ab428cce04fbf9a3206b2b690a",
             "Name": "RobustSoftdrinksBlack",
-            "LocalPRS": "16┼13┼0┼"
+            "LocalPRS": "16┼13┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_8┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "ce971a77eb7c2894e8583efec1c56965_16┼15┼0┼",
@@ -2970,13 +3159,39 @@
             "GitID": "413bafde4923c1b4783cf7b33153c6f3_16┼17┼0┼",
             "PrefabID": "413bafde4923c1b4783cf7b33153c6f3",
             "Name": "BODA",
-            "LocalPRS": "16┼17┼0┼"
+            "LocalPRS": "16┼17┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_8┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "2b347d12ef88b7e4faa2a8e0e3475b55_16┼18┼0┼",
             "PrefabID": "2b347d12ef88b7e4faa2a8e0e3475b55",
             "Name": "GetmoreChocolateCorp",
-            "LocalPRS": "16┼18┼0┼"
+            "LocalPRS": "16┼18┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_8┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "ce971a77eb7c2894e8583efec1c56965_16┼19┼0┼",
@@ -3023,6 +3238,15 @@
             "LocalPRS": "16┼20┼0┼0ø0ø180ø",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_8┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "Rotatable@0",
                   "Data": [

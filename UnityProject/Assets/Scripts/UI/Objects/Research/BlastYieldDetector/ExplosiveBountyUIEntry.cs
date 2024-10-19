@@ -1,8 +1,6 @@
 using UI.Core.NetUI;
 using UnityEngine;
 using Systems.Research;
-using System.Collections.Generic;
-using Chemistry;
 using System.Text;
 
 namespace UI.Objects.Research
@@ -14,11 +12,11 @@ namespace UI.Objects.Research
 
 		public void Initialise(ExplosiveBounty bountyData, int index)
 		{
-			StringBuilder label_text = new StringBuilder($"Required Yield: {bountyData.RequiredYield.RequiredAmount}\nRequired Reactions:");
+			StringBuilder label_text = new StringBuilder($"Required Yield: {bountyData.RequiredYield.RequiredAmount}\nRequired Effects:");
 
-			foreach (ReactionBountyEntry reaction in bountyData.RequiredReactions)
+			foreach (EffectBountyEntry effect in bountyData.RequiredEffects)
 			{
-				label_text.Append($"\n\t-{reaction.RequiredReaction.DisplayName}: {reaction.RequiredAmount}u");
+				label_text.Append($"\n\t-{effect.RequiredEffect.DisplayName}: {effect.RequiredAmount}u");
 			}
 
 			label_text.Append($"\nRequired Reagents:");

@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using MapSaver;
+using Newtonsoft.Json;
 using NUnit.Framework;
+using SecureStuff;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -38,7 +42,40 @@ namespace Tests.Scenes
 		[OneTimeSetUp]
 		public void Setup()
 		{
-			Scene = EditorSceneManager.OpenScene(Data.File);
+
+			if (Data.File.Contains("json"))
+			{
+				Scene = EditorSceneManager.OpenScene("Assets/Scenes/DevScenes/EmptyMap.unity");
+				MapSaver.MapSaver.CodeClass.ThisCodeClass.Reset();
+				MapSaver.MapSaver.MapData mapData = JsonConvert.DeserializeObject<MapSaver.MapSaver.MapData>(AccessFile.Load(Data.File, FolderType.Maps));
+				List<IEnumerator> PreviousLevels = new List<IEnumerator>();
+				var Imnum = MapLoader.ServerLoadMap(Vector3.zero, Vector3.zero, mapData);
+				bool Loop = true;
+				while (Loop && PreviousLevels.Count == 0)
+				{
+					if ( Imnum.Current is IEnumerator)
+					{
+						PreviousLevels.Add(Imnum);
+						Imnum = (IEnumerator) Imnum.Current;
+					}
+
+					Loop = Imnum.MoveNext();
+					if (Loop == false)
+					{
+						if (PreviousLevels.Count > 0)
+						{
+							Imnum = PreviousLevels[PreviousLevels.Count - 1];
+							PreviousLevels.RemoveAt(PreviousLevels.Count - 1);
+							Loop = Imnum.MoveNext();
+						}
+					}
+				}
+			}
+			else
+			{
+				Scene = EditorSceneManager.OpenScene(Data.File);
+			}
+
 			var objectsList = ListPool<GameObject>.Get();
 			Scene.GetRootGameObjects(objectsList);
 			rootObjects = objectsList;

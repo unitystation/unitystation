@@ -11,6 +11,7 @@ using Systems.Character;
 using Messages.Server;
 using Messages.Client;
 using Messages.Client.NewPlayer;
+using Messages.Client.SpriteMessages;
 using UI;
 
 namespace Player
@@ -189,7 +190,6 @@ namespace Player
 			}
 
 			UpdateConnectedPlayersMessage.Send();
-
 			IsValidPlayerAndWaitingOnLoad = true;
 			STUnverifiedClientId = authData.ClientId;
 			STVerifiedUserid = authData.Account.Id;
@@ -205,11 +205,10 @@ namespace Player
 		[Server]
 		public void SendDataToClient()
 		{
-			foreach (var MapData in CustomNetworkManager.LoadedMapDatas)
+			foreach (var MapData in CustomNetworkManager.Instance.LoadedMapDatas)
 			{
-				ServerReturnMapData.Send(this.gameObject, MapData, ServerReturnMapData.MessageType.MapDataForClient);
+				ServerReturnMapData.Send(this.gameObject, MapData.Item1, ServerReturnMapData.MessageType.MapDataForClient, MapData.Item2);
 			}
-
 		}
 
 		[Client]
@@ -217,6 +216,7 @@ namespace Player
 		{
 			FinishedValidating();
 			CmdFinishLoading();
+			SpriteRequestCurrentStateMessage.Send(SpriteHandlerManager.Instance.GetComponent<NetworkIdentity>().netId);
 		}
 
 

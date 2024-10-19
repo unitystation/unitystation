@@ -14,6 +14,13 @@
       "dependencies": {},
       "hash": "8a8fa5a9659a6d63f196391c71e06c4286c8acd7"
     },
+    "com.psydack.uimgui": {
+      "version": "https://github.com/psydack/uimgui.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "37eb192e70a45ee3e77b75303babcb279426b165"
+    },
     "com.sabresaurus.playerprefseditor": {
       "version": "https://github.com/sabresaurus/PlayerPrefsEditor.git",
       "depth": 0,
@@ -48,9 +55,9 @@
       "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.unity.modules.tilemap": "1.0.0",
-        "com.unity.2d.tilemap": "1.0.0",
         "com.unity.ugui": "1.0.0",
+        "com.unity.2d.tilemap": "1.0.0",
+        "com.unity.modules.tilemap": "1.0.0",
         "com.unity.modules.jsonserialize": "1.0.0"
       },
       "url": "https://packages.unity.com"
@@ -60,11 +67,11 @@
       "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.unity.scriptablebuildpipeline": "1.21.1",
         "com.unity.modules.assetbundle": "1.0.0",
-        "com.unity.modules.imageconversion": "1.0.0",
         "com.unity.modules.jsonserialize": "1.0.0",
+        "com.unity.modules.imageconversion": "1.0.0",
         "com.unity.modules.unitywebrequest": "1.0.0",
+        "com.unity.scriptablebuildpipeline": "1.21.1",
         "com.unity.modules.unitywebrequestassetbundle": "1.0.0"
       },
       "url": "https://packages.unity.com"
@@ -200,17 +207,17 @@
       "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.unity.2d.sprite": "1.0.0",
         "com.unity.ugui": "1.0.0",
-        "com.unity.modules.animation": "1.0.0",
-        "com.unity.modules.imageconversion": "1.0.0",
-        "com.unity.modules.physics": "1.0.0",
-        "com.unity.modules.physics2d": "1.0.0",
+        "com.unity.2d.sprite": "1.0.0",
         "com.unity.modules.ui": "1.0.0",
+        "com.unity.modules.physics": "1.0.0",
+        "com.unity.modules.animation": "1.0.0",
+        "com.unity.modules.physics2d": "1.0.0",
         "com.unity.modules.uielements": "1.0.0",
+        "com.unity.modules.imageconversion": "1.0.0",
         "com.unity.modules.unitywebrequest": "1.0.0",
-        "com.unity.modules.unitywebrequesttexture": "1.0.0",
-        "com.unity.modules.unitywebrequestwww": "1.0.0"
+        "com.unity.modules.unitywebrequestwww": "1.0.0",
+        "com.unity.modules.unitywebrequesttexture": "1.0.0"
       },
       "url": "https://packages.unity.com"
     },
@@ -219,7 +226,7 @@
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "a56ec780a651b962c45f3d1aa5388a687554e683"
+      "hash": "699a60bb578396ceee0ea07a31d8a3baf9d6a47b"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",

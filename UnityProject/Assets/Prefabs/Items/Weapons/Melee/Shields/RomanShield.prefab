@@ -8,6 +8,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3346008558528864777, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
+      propertyPath: allowRepair
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3346008558528864777, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
+      propertyPath: repairTrait
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3554597231095268504, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
       propertyPath: initialName
@@ -38,6 +48,24 @@ PrefabInstance:
     - target: {fileID: 3554597231095268504, guid: 5f9896c0cca80e14f8144be44d05e0a0,
         type: 3}
       propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 9b36b08421e896c498843be81439fcc8,
+        type: 2}
+    - target: {fileID: 3554597231095268504, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 0077de08a450c704cb7938826f2a9dae,
+        type: 2}
+    - target: {fileID: 3554597231095268504, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 77ecde85fd38d304fad66f46c37a34eb,
+        type: 2}
+    - target: {fileID: 3554597231095268504, guid: 5f9896c0cca80e14f8144be44d05e0a0,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteInventoryIcon
       value: 
       objectReference: {fileID: 11400000, guid: 9b36b08421e896c498843be81439fcc8,
         type: 2}

@@ -39,7 +39,7 @@ namespace Items.Scrolls.TeleportScroll
 			}
 
 			Transform spawnTransform = SpawnPoint.GetRandomPointForJob((JobType)destination);
-			teleport.ServerTeleportWizard(teleportingPlayer.GameObject, spawnTransform.position.CutToInt());
+			teleport.ServerTeleportWizard(teleportingPlayer, spawnTransform.position.CutToInt());
 
 			SpellData teleportSpell = SpellList.Instance.Spells.Find(spell => spell.Name == "Teleport");
 

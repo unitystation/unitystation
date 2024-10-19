@@ -30,12 +30,7 @@ namespace Managers
 
 		public static void Queue(Matrix Matrix)
 		{
-			if (InitializedAll)
-			{
-				//mid-round scene only
-				Matrix.StartCoroutine(Matrix.MatrixInitialization());
-				return;
-			}
+
 
 			if (Instance.Matrixs.Contains(Matrix))
 			{
@@ -44,6 +39,23 @@ namespace Managers
 			}
 
 			Instance.Matrixs.Add(Matrix);
+
+			if (InitializedAll)
+			{
+				if (Matrix.NetworkedMatrix.IsJsonLoaded == false)
+				{
+					//mid-round scene only
+					Matrix.StartCoroutine(Matrix.MatrixInitialization());
+					return;
+				}
+				else
+				{
+					Matrix.NetworkedMatrix.RequestInitialiseMapLoader = true;
+					return;
+				}
+			}
+
+
 		}
 
 		public static IEnumerator InitAllSystems()

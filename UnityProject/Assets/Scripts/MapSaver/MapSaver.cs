@@ -298,11 +298,12 @@ namespace MapSaver
 
 		public class CompactObjectMapData
 		{
-			public string Ver = "1.2.0";
+			public string Ver = "1.3.0";
 
 			//1.1.0 Added support for Dictionaries and change syntax for Removed Elements
 			//1.1.1 Lists now are specified in reversed order to Handle removed elements properly
 			//1.2.0 Added support for Sub-gameobjects to have rotation scale and offset
+			//1.3.0 Added paths To organise objects under
 			public List<string> CommonPrefabs = new List<string>();
 
 			public List<PrefabData> PrefabData;
@@ -328,7 +329,11 @@ namespace MapSaver
 			public string LocalPRS;
 			[DefaultValue(true)] public bool Active = true;
 
+			public string SortPath;
+
 			public IndividualObject Object;
+
+
 		}
 
 
@@ -346,7 +351,7 @@ namespace MapSaver
 			public List<ClassData> ClassDatas = new List<ClassData>();
 			public List<IndividualObject> Children = null;
 
-			public bool RemoveEmptys()
+			public bool RemoveEmptysAndProcess()
 			{
 				bool ISEmpty = true;
 
@@ -354,6 +359,7 @@ namespace MapSaver
 				{
 					ISEmpty = false;
 				}
+
 
 				if (Removed)
 				{
@@ -371,7 +377,7 @@ namespace MapSaver
 				{
 					foreach (var Child in Children)
 					{
-						if (Child.RemoveEmptys() == false)
+						if (Child.RemoveEmptysAndProcess() == false)
 						{
 							ISEmpty = false;
 						}
@@ -439,7 +445,12 @@ namespace MapSaver
 			}
 
 			FieldsToRefresh.Clear();
-
+#if UNITY_EDITOR
+			if (Application.isPlaying == false)
+			{
+				CustomNetworkManager.Instance.SpawnedByMappingTool = true;
+			}
+#endif
 			return OutMapData;
 		}
 
@@ -694,6 +705,12 @@ namespace MapSaver
 				});
 			}
 
+#if UNITY_EDITOR
+			if (Application.isPlaying == false)
+			{
+				CustomNetworkManager.Instance.SpawnedByMappingTool = true;
+			}
+#endif
 
 			return matrixData;
 		}
@@ -1582,7 +1599,12 @@ namespace MapSaver
 
 			Prefab.Active = Object.gameObject.activeInHierarchy;
 
+			var path = GetRelativePath<ObjectLayer>(Object);
 
+			if (string.IsNullOrEmpty(path) == false)
+			{
+				Prefab.SortPath = path;
+			}
 
 			Vector3 LocalPositionToUse = Object.transform.localPosition;
 
@@ -1638,7 +1660,7 @@ namespace MapSaver
 
 
 
-			if (Prefab.Object.RemoveEmptys())
+			if (Prefab.Object.RemoveEmptysAndProcess())
 			{
 				Prefab.Object = null;
 			}
@@ -1646,6 +1668,43 @@ namespace MapSaver
 			compactObjectMapData.PrefabData.Add(Prefab);
 		}
 
+
+		// Method to get the relative path from the parent ObjectLayer to the current object
+		public static string GetRelativePath<T>(GameObject obj) where T : Component
+		{
+			// Find the parent that has the ObjectLayer component
+			Component parentWithLayer = obj.GetComponentInParent<T>();
+
+			// If parent with ObjectLayer is found
+			if (parentWithLayer != null)
+			{
+				// Get full paths of parent and object's parent
+				string parentPath = GetFullPath(parentWithLayer.transform) + "/";
+				string objectParentPath = GetFullPath(obj.transform.parent); // Get the parent of the object
+
+				// If the object parent path starts with the parent path
+				if (objectParentPath.StartsWith(parentPath))
+				{
+					// Calculate and return the relative path without including the object's name
+					return objectParentPath.Substring(parentPath.Length);
+				}
+			}
+
+			return string.Empty; // Return an empty string if no path is found
+		}
+
+		// Helper method to get the full path of an object in the scene
+		private static string GetFullPath(Transform obj)
+		{
+
+			string path = "/" + obj.name;
+			while (obj.parent != null)
+			{
+				obj = obj.parent;
+				path = "/" + obj.name + path;
+			}
+			return path;
+		}
 
 		public static void RecursiveSaveObject(HashSet<Component> AllComponentsOnObject,
 			HashSet<GameObject> AllGameObjectOnObject, bool Compact, PrefabData PrefabData, string ID,
@@ -2041,13 +2100,11 @@ namespace MapSaver
 					{
 						Waiting.Value.ReferencesNeeded.Remove(GitiD);
 
-
 						if (Waiting.Value.ReferencesNeeded.Count == 0)
 						{
 							try
 							{
-								foreach (var Unprocessed in
-								         Waiting.Value.FieldsToPopulate) //TODO Could potentially error? list modified
+								foreach (var Unprocessed in Waiting.Value.FieldsToPopulate) //TODO Could potentially error? list modified
 								{
 									ReuseSEt.Add(Unprocessed.FieldData);
 									SecureMapsSaver.LoadData(Unprocessed.ID, Unprocessed.Object, ReuseSEt,
@@ -2066,7 +2123,7 @@ namespace MapSaver
 								if (Waiting.Value.SpawnResult != null)
 								{
 									Spawn._ServerFireClientServerSpawnHooks(Waiting.Value.SpawnResult,
-										SpawnInfo.Mapped(Waiting.Value.SpawnResult.GameObject));
+										SpawnInfo.IsJsonMapped(Waiting.Value.SpawnResult.GameObject));
 									Waiting.Value.SpawnResult = null;
 								}
 

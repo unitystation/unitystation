@@ -679,7 +679,7 @@ namespace Weapons
 					? $"It has a {FiringPin.gameObject.ExpensiveName()} installed"
 					: "It doesn't have a firing pin installed, it won't fire");
 			}
-			
+
 			exam.AppendLine(allowedAttachments != 0
 				? $"It is compatible with {FormatAttachmentString()} attachments"
 				: "It cannot use any attachments.");
@@ -881,15 +881,7 @@ namespace Weapons
 			//This is for shotgun spread and similar multi-projectile weapons
 			float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 			float angleVariance = iteration / 1f;
-			float angleDeviation;
-			if (iteration % 2 == 0)
-			{
-				angleDeviation = angleVariance; //even
-			}
-			else
-			{
-				angleDeviation = -angleVariance; //odd
-			}
+			float angleDeviation = iteration % 2 == 0 ? angleVariance : -angleVariance;
 
 			float newAngle = (angle + angleDeviation) * Mathf.Deg2Rad;
 			Vector2 vec2 = new Vector2(Mathf.Cos(newAngle), Mathf.Sin(newAngle)).normalized;
@@ -1031,12 +1023,7 @@ namespace Weapons
 				//get a random recoil
 				float randRecoil = RecoilVarianceRandomFloat(CurrentRecoilVariance, MaxRecoilVariance);
 				Loggy.LogTraceFormat("randRecoil {0}", Category.Firearms, randRecoil);
-				CurrentRecoilVariance += randRecoil;
-				//make sure the recoil is not too high
-				if (CurrentRecoilVariance > MaxRecoilVariance)
-				{
-					CurrentRecoilVariance = MaxRecoilVariance;
-				}
+				CurrentRecoilVariance = Math.Min(CurrentRecoilVariance + randRecoil, MaxRecoilVariance);
 			}
 		}
 

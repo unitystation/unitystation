@@ -64,12 +64,6 @@ public partial class GameManager
 
 		Vector3 newPos;
 
-		if (LandingZoneManager.Instance.centcomDocking == null)
-		{
-			Loggy.LogError("Centcom docking point is null, this should only happen if theres no centcom scene");
-			return;
-		}
-
 		beenToStation = false;
 	}
 

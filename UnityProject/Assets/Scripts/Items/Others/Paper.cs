@@ -1,74 +1,76 @@
-﻿using System;
-using Messages.Server;
-using UnityEngine;
+﻿using Messages.Server;
 using Mirror;
 using NaughtyAttributes;
+using UnityEngine;
 using WebSocketSharp;
 
-public class Paper : NetworkBehaviour, IServerSpawn
+namespace Items.Others
 {
-	[SerializeField]
-	[TextArea]
-	[Tooltip("Text that this paper will have on spawn, useful for mapping in little bits of " +
-	         "lore.")]
-	private string initialText;
-	public string ServerString { get; private set; }
-
-	///<Summary>
-	/// Synced individually via NetMsg for each client that has permission to view it
-	///</Summary>
-	public string PaperString { get; set; } = "";
-
-	private Pickupable pickupable;
-	private SpriteHandler spriteHandler;
-
-	[field: SerializeField, InfoBox("Only change this if you require more than 22 lines as a mapper!", EInfoBoxType.Warning)]
-	public int CustomLineLimit { get; private set; } = 22;
-	[field: SerializeField, InfoBox("Values higher than 1750 tend to be problematic without proper styling!", EInfoBoxType.Warning)]
-	public int CustomCharacterLimit { get; private set; } = 1750;
-
-	private enum SpriteState
+	public class Paper : NetworkBehaviour, IServerSpawn
 	{
-		Blank = 0,
-		WithText = 1,
-	}
+		[SerializeField]
+		[TextArea]
+		[Tooltip("Text that this paper will have on spawn, useful for mapping in little bits of " +
+		         "lore.")]
+		private string initialText;
+		public string ServerString { get; private set; }
 
-	private void Awake()
-	{
-		pickupable = GetComponent<Pickupable>();
-		spriteHandler = GetComponentInChildren<SpriteHandler>();
-	}
+		///<Summary>
+		/// Synced individually via NetMsg for each client that has permission to view it
+		///</Summary>
+		public string PaperString { get; set; } = "";
 
-	[Server]
-	public void SetServerString(string msg)
-	{
-		ServerString = msg;
-		if (string.IsNullOrWhiteSpace(msg))
+		private Pickupable pickupable;
+		private SpriteHandler spriteHandler;
+
+		[field: SerializeField, InfoBox("Only change this if you require more than 22 lines as a mapper!", EInfoBoxType.Warning)]
+		public int CustomLineLimit { get; private set; } = 22;
+		[field: SerializeField, InfoBox("Values higher than 1750 tend to be problematic without proper styling!", EInfoBoxType.Warning)]
+		public int CustomCharacterLimit { get; private set; } = 1750;
+
+		private enum SpriteState
 		{
-			UpdateState(SpriteState.Blank);
+			Blank = 0,
+			WithText = 1,
 		}
-		else
+
+		private void Awake()
 		{
-			UpdateState(SpriteState.WithText);
+			pickupable = GetComponent<Pickupable>();
+			spriteHandler = GetComponentInChildren<SpriteHandler>();
 		}
-	}
 
-	[Server]
-	public void UpdatePlayer(GameObject recipient)
-	{
-		PaperUpdateMessage.Send(recipient, gameObject, ServerString);
-	}
-
-	private void UpdateState(SpriteState state)
-	{
-		spriteHandler.SetCatalogueIndexSprite((int) state);
-	}
-
-	public void OnSpawnServer(SpawnInfo info)
-	{
-		if (initialText.IsNullOrEmpty() == false)
+		[Server]
+		public void SetServerString(string msg)
 		{
-			SetServerString(initialText);
+			ServerString = msg;
+			if (string.IsNullOrWhiteSpace(msg))
+			{
+				UpdateState(SpriteState.Blank);
+			}
+			else
+			{
+				UpdateState(SpriteState.WithText);
+			}
+		}
+
+		[Server]
+		public void UpdatePlayer(GameObject recipient)
+		{
+			PaperUpdateMessage.Send(recipient, gameObject, ServerString);
+		}
+
+		private void UpdateState(SpriteState state)
+		{
+			spriteHandler.SetCatalogueIndexSprite((int) state);
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			if (initialText.IsNullOrEmpty() == false)
+			{
+				SetServerString(initialText);
+			}
 		}
 	}
 }

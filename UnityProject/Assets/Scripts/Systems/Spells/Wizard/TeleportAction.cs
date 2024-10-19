@@ -43,7 +43,7 @@ namespace Systems.Spells.Wizard
 				return false;
 			}
 
-			teleport.ServerTeleportWizard(caster.GameObject, destination.CutToInt());
+			teleport.ServerTeleportWizard(caster, destination.CutToInt());
 
 			return true;
 		}

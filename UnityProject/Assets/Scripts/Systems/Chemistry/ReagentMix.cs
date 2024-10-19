@@ -95,6 +95,7 @@ namespace Chemistry
 
 		[SerializeField]
 		public  SerializableDictionary<Reagent, float> reagents;
+		public readonly List<CachedEffect> cachedEffects = new List<CachedEffect>();
 
 		//should only be accessed when locked so should be okay
 		private Dictionary<Reagent, float> TEMPReagents = new Dictionary<Reagent, float>();
@@ -104,6 +105,13 @@ namespace Chemistry
 		{
 			Temperature = temperature;
 			this.reagents = reagents;
+		}
+
+		public ReagentMix(List<CachedEffect> _cachedEffects, SerializableDictionary<Reagent, float> reagents, float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
+		{
+			Temperature = temperature;
+			this.reagents = reagents;
+			cachedEffects = new List<CachedEffect>(_cachedEffects);
 		}
 
 		public ReagentMix(Reagent reagent, float amount, float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
@@ -316,16 +324,32 @@ namespace Chemistry
 			{
 				lock (reagents)
 				{
-					reagents.m_dict.Add(reagent, amount);
+					reagents.m_dict.Add(reagent, (float)Math.Round(amount, 4));
 				}
 			}
 			else
 			{
 				lock (reagents)
 				{
-					reagents.m_dict[reagent] += amount;
+					float newAmount = reagents.m_dict[reagent] + amount;
+
+					reagents.m_dict[reagent] = (float)Math.Round(newAmount, 4);
 				}
 			}
+		}
+
+		public void CacheReactionEffects(List<CachedEffect> _cachedEffects)
+		{
+			cachedEffects.AddRange(_cachedEffects);
+		}
+
+		public void ApplyEffectCache(MonoBehaviour sender)
+		{
+			foreach (var cachedEffect in cachedEffects)
+			{
+				cachedEffect.effectType.Apply(sender, cachedEffect.effectAmount);
+			}
+			cachedEffects.Clear();
 		}
 
 
@@ -360,7 +384,8 @@ namespace Chemistry
 				lock (reagents)
 				{
 					amount = Math.Min(reagents.m_dict[reagent], amount);
-					reagents.m_dict[reagent] -= amount;
+					float newAmount = (float)Math.Round(reagents.m_dict[reagent] - amount, 4);
+					reagents.m_dict[reagent] = newAmount;
 
 					if (reagents.m_dict[reagent] <= 0)
 					{
@@ -458,7 +483,7 @@ namespace Chemistry
 				foreach (var key in reagents.m_dict.Keys)
 				{
 					var nuber = reagents.m_dict[key];
-					nuber = nuber * multiplier;
+					nuber = (float)Math.Round(nuber * multiplier, 4);
 					TEMPReagents[key] = nuber;
 				}
 
@@ -499,7 +524,7 @@ namespace Chemistry
 				foreach (var key in reagents.m_dict.Keys)
 				{
 					var nuber = reagents.m_dict[key];
-					nuber = nuber / Divider;
+					nuber = (float)Math.Round(nuber / Divider, 4);
 					TEMPReagents[key] = nuber;
 				}
 				//man, I wish changing the value of the key didn't modify the order
@@ -675,6 +700,11 @@ namespace Chemistry
 		public ReagentMix Clone()
 		{
 			return new ReagentMix(new  SerializableDictionary<Reagent, float>(reagents.m_dict), Temperature);
+		}
+
+		public ReagentMix CloneWithCache()
+		{
+			return new ReagentMix(cachedEffects, new SerializableDictionary<Reagent, float>(reagents.m_dict), Temperature);
 		}
 
 		public bool ContentEquals (ReagentMix b)

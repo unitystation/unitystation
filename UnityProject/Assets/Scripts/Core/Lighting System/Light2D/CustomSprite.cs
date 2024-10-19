@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Logs;
+using SecureStuff;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -15,7 +16,7 @@ namespace Light2D
     /// which gives much better performance for small meshes than StaticBatchingUtility.Combine.
     /// </summary>
     [ExecuteInEditMode]
-    public class CustomSprite : MonoBehaviour
+    public class CustomSprite : MonoBehaviour, INewMappedOnSpawn
     {
         /// <summary>
         /// Vertex color of mesh.
@@ -72,6 +73,13 @@ namespace Light2D
         }
 
 
+        public void OnNewMappedOnSpawn()
+        {
+	        if (Color == Color.white)
+	        {
+		        Color = InitialColour;
+	        }
+        }
 
         protected virtual void OnEnable()
         {
@@ -111,7 +119,7 @@ namespace Light2D
 	        {
 		        if (Material == null)
 		        {
-			        Material = Resources.GetBuiltinResource<Material>("Sprites-Default.mat");
+			        Material = CommonMaterials.Instance.DefaultLightMaterial;
 		        }
 	        }
 	        catch (Exception e)

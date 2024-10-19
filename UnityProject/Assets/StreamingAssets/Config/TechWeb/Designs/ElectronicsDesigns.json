@@ -3,7 +3,7 @@
         "Internal_ID": "intellicard",
         "Description": "Allows for the construction of an intellicard.",
         "Category": [
-            "Electronics"
+            "Research Designs"
         ],
         "Materials": {
             "Glass": 1000,
@@ -58,8 +58,8 @@
         "Item_ID": "/obj/item/weapon/disk/design_disk"
     },
     {
-        "Internal_ID": "tech_disk",
-        "Description": "Produce additional disks for storing technology data.",
+        "Internal_ID": "power_control_module",
+        "Description": "Board used for regulating and distributing power across the station.",
         "Category": [
             "Electronics"
         ],
@@ -72,9 +72,94 @@
             "AutoLathe"
         ],
         "Compatible_machinery": [
-            "Science"
+            "Science",
+            "Engineering"
         ],
-        "name": "Technology Data Storage Disk",
-        "Item_ID": "/obj/item/weapon/disk/tech_disk"
+        "name": "Power Control Module",
+        "Item_ID": "740edf7a0d4b9f84d8230c4c3ca7c91c"
+    },
+    {
+        "Internal_ID": "fire_alarm_electronics",
+        "Description": "Board used for regulating the control of firelocks.",
+        "Category": [
+            "Electronics"
+        ],
+        "Materials": {
+            "Metal": 300,
+            "Glass": 100
+        },
+        "Machinery_type": [
+            "ProtoLathe",
+            "AutoLathe"
+        ],
+        "Compatible_machinery": [
+            "Science",
+            "Engineering"
+        ],
+        "name": "Fire Alarm Electronics",
+        "Item_ID": "8787959bf2be63d40bbbd79ebeb4e150"
+    },
+    {
+        "Internal_ID": "air_alarm_electronics",
+        "Description": "Board used for regulating vents and scrubbers.",
+        "Category": [
+            "Electronics"
+        ],
+        "Materials": {
+            "Metal": 300,
+            "Glass": 100
+        },
+        "Machinery_type": [
+            "ProtoLathe",
+            "AutoLathe"
+        ],
+        "Compatible_machinery": [
+            "Science",
+            "Engineering"
+        ],
+        "name": "Air Alarm Electronics",
+        "Item_ID": "3a8d1660c70b1a04d9adb3f4f2016e27"
+    },
+    {
+        "Internal_ID": "airlock_electronics",
+        "Description": "Board used for controlling station airlocks",
+        "Category": [
+            "Electronics"
+        ],
+        "Materials": {
+            "Metal": 300,
+            "Glass": 100
+        },
+        "Machinery_type": [
+            "ProtoLathe",
+            "AutoLathe"
+        ],
+        "Compatible_machinery": [
+            "Science",
+            "Engineering"
+        ],
+        "name": "Airlock Electronics",
+        "Item_ID": "78421020f3046494d83a50667724ef36"
+    },
+    {
+        "Internal_ID": "firelock_electronics",
+        "Description": "Board used for controlling station firelocks.",
+        "Category": [
+            "Electronics"
+        ],
+        "Materials": {
+            "Metal": 300,
+            "Glass": 100
+        },
+        "Machinery_type": [
+            "ProtoLathe",
+            "AutoLathe"
+        ],
+        "Compatible_machinery": [
+            "Science",
+            "Engineering"
+        ],
+        "name": "Firelock Electronics",
+        "Item_ID": "b69e5187f8e6f85479c8e20a241fced9"
     }
 ]

@@ -6,7 +6,6 @@ using Systems.Research;
 using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
-using Chemistry;
 using Items.Weapons;
 
 namespace UI.Objects.Research
@@ -29,13 +28,9 @@ namespace UI.Objects.Research
 
 		[SerializeField]
 		private NetText_label smokeLabel;
-		[SerializeField]
-		private Reaction smokeReaction;
 
 		[SerializeField]
 		private NetText_label foamLabel;
-		[SerializeField]
-		private Reaction foamReaction;
 
 		[SerializeField]
 		private NetText_label yieldLabel;
@@ -62,7 +57,7 @@ namespace UI.Objects.Research
 
 		#region Initialization
 
-		protected override void InitServer()
+		protected void Awake()
 		{
 			if (CustomNetworkManager.Instance._isServer)
 			{
@@ -108,17 +103,13 @@ namespace UI.Objects.Research
 
 		#endregion
 
-		private void OnRecieveBlast(BlastData data)
+		private void OnRecieveBlast(BlastData data, float smokeAmount, float foamAmount)
 		{  
-			var mix = data.ReagentMix;
-			if (smokeReaction.IsReactionValid(mix)) smokeLabel.MasterSetValue(smokeReaction.GetReactionQuantity(mix).ToString());
-			else smokeLabel.MasterSetValue("0");
-
-			if (foamReaction.IsReactionValid(mix)) foamLabel.MasterSetValue(foamReaction.GetReactionQuantity(mix).ToString());
-			else foamLabel.MasterSetValue("0");
-
+			smokeLabel.MasterSetValue(smokeAmount.ToString());
+			foamLabel.MasterSetValue(foamAmount.ToString());
 			reagentLabel.MasterSetValue(data.ReagentMix.Total.ToString());
-			yieldLabel.MasterSetValue(blastYieldDetector.BlastYieldData[blastYieldDetector.BlastYieldData.Count - 1].ToString());
+
+			yieldLabel.MasterSetValue(data.BlastYield.ToString());
 
 			UpdateDataDisplay();
 

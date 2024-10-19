@@ -202,7 +202,8 @@ namespace MapSaver
 						Matrix4x4 = MapSaver.StringToMatrix4X4(Tile.Tf);
 					}
 
-					Matrix.MetaTileMap.SetTile(NewPos, Tel, Matrix4x4, Colour, Application.isPlaying, useExactForMultilayer : true);
+					Matrix.MetaTileMap.SetTile(NewPos, Tel, Matrix4x4, Colour, Application.isPlaying,
+						useExactForMultilayer: true);
 				}
 			}
 		}
@@ -257,7 +258,8 @@ namespace MapSaver
 #if UNITY_EDITOR
 				if (Application.isPlaying == false)
 				{
-					if (CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab.ForeverIDLookupSpawnablePrefabs.Count == 0)
+					if (CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab.ForeverIDLookupSpawnablePrefabs
+						    .Count == 0)
 					{
 						CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab.ForeverIDLookupSpawnablePrefabs.Clear();
 						CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab.SetUpSpawnablePrefabsForEverIDManual();
@@ -265,7 +267,7 @@ namespace MapSaver
 					}
 
 					ReddySpawned = true;
-					Object =  (GameObject)  UnityEditor.PrefabUtility.InstantiatePrefab(
+					Object = (GameObject) UnityEditor.PrefabUtility.InstantiatePrefab(
 						CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[PrefabID],
 						Matrix.MetaTileMap.ObjectLayer.transform);
 					Object.transform.localPosition = position;
@@ -278,7 +280,6 @@ namespace MapSaver
 						position.ToWorld(Matrix), AutoOnSpawnServerHook: false, mapspawn: true);
 
 					Object = SpawnResult.GameObject;
-
 				}
 
 				MapSaver.StringToPRS(Object, prefabData.LocalPRS);
@@ -299,14 +300,41 @@ namespace MapSaver
 			{
 				Object.transform.SetParent(Matrix.MetaTileMap.ObjectLayer.transform);
 			}
+
 			if (string.IsNullOrEmpty(prefabData.Name) == false)
 			{
 				Object.name = prefabData.Name;
 			}
 
-			if (string.IsNullOrEmpty(prefabData.Name) == false)
+			if (string.IsNullOrEmpty(prefabData.SortPath) == false)
 			{
-				Object.name = prefabData.Name;
+				Transform Parent = null;
+				Parent = Matrix.MetaTileMap.ObjectLayer.transform;
+				Transform Child = null;
+				foreach (var step in prefabData.SortPath.Split("/"))
+				{
+					Child = Parent.Find(step);
+					// for (int i = 0; i < Child.childCount; i++)
+					// {
+					// 	Transform pchild = Child.GetChild(i);
+					// 	if (pchild.name == step)
+					// 	{
+					// 		Child = pchild;
+					// 		break;
+					// 	}
+					// }
+					if (Child == null)
+					{
+
+						Child = new GameObject(step).transform;
+						Child.SetParent(Parent);
+						Child.localPosition = Vector3.zero;
+						Child.localScale = Vector3.one;
+						Child.rotation = Quaternion.identity;
+					}
+				}
+
+				Object.transform.SetParent(Child);
 			}
 
 			Object.gameObject.SetActive(prefabData.Active);
@@ -327,7 +355,7 @@ namespace MapSaver
 				CompactObjectMapData.IDToNetIDClient[ID] = Object.GetComponent<NetworkIdentity>().netId;
 			}
 
-			if (MapSaver.CodeClass.ThisCodeClass.FinishLoading(ID, SpawnResult, Object ))
+			if (MapSaver.CodeClass.ThisCodeClass.FinishLoading(ID, SpawnResult, Object))
 			{
 				foreach (var Spawn in Object.GetComponentsInChildren<INewMappedOnSpawn>())
 				{
@@ -336,11 +364,26 @@ namespace MapSaver
 
 				if (SpawnResult != null)
 				{
-					Spawn._ServerFireClientServerSpawnHooks(SpawnResult, SpawnInfo.Mapped(SpawnResult.GameObject));
-
+					Spawn._ServerFireClientServerSpawnHooks(SpawnResult, SpawnInfo.IsJsonMapped(SpawnResult.GameObject));
 				}
 			}
+		}
 
+		public static int GetNumberOfRequireComponents(string ClassID,  GameObject Object )
+		{
+			var ClassComponents = ClassID.Split("@"); //TODO Multiple components?
+			var Component = Object.GetComponent(ClassComponents[0]);
+
+			if (Component == null)
+			{
+				return 0;
+			}
+
+
+
+			var Attributes =	SecureStuff.AllowedReflection.GetNumberOfAttributeRequireComponent(Component.GetType());
+
+			return Attributes;
 		}
 
 		public static void ProcessClassData(MapSaver.PrefabData prefabData, GameObject Object,
@@ -356,14 +399,39 @@ namespace MapSaver
 				Object.name = IndividualObject.Name;
 			}
 
+
 			if (string.IsNullOrEmpty(IndividualObject.LocalPRS) == false)
 			{
 				MapSaver.StringToPRS(Object, IndividualObject.LocalPRS);
 			}
 
+			var Removals = IndividualObject.ClassDatas.Where(x => x.Removed).OrderByDescending(x => GetNumberOfRequireComponents(x.ClassID, Object)).ToList();
+
+			foreach (var Remove in Removals)
+			{
+				var ClassComponents = Remove.ClassID.Split("@"); //TODO Multiple components?
+				var Component = Object.GetComponent(ClassComponents[0]);
+				if (Component == null) continue;
+
+				if (Application.isPlaying)
+				{
+					UnityEngine.Object.Destroy(Component);
+				}
+				else
+				{
+					UnityEngine.Object.DestroyImmediate(Component);
+				}
+			}
+
 
 			foreach (var classData in IndividualObject.ClassDatas)
 			{
+
+				if (classData.Removed == true)
+				{
+					continue;
+				}
+
 				var ClassComponents = classData.ClassID.Split("@"); //TODO Multiple components?
 				var Component = Object.GetComponent(ClassComponents[0]);
 				if (Component == null && classData.Removed == false)
@@ -377,19 +445,6 @@ namespace MapSaver
 						Loggy.LogError(e.ToString());
 						continue;
 					}
-				}
-
-				if (classData.Removed == true)
-				{
-					if (Application.isPlaying)
-					{
-						UnityEngine.Object.Destroy(Component);
-					}
-					else
-					{
-						UnityEngine.Object.DestroyImmediate(Component);
-					}
-
 				}
 
 				var ID = prefabData.GitID;
@@ -430,12 +485,12 @@ namespace MapSaver
 			}
 		}
 
-		public static IEnumerator ServerLoadMap(Vector3 Offset00, Vector3 Offset, MapSaver.MapData MapData)
+		public static IEnumerator ServerLoadMap(Vector3 Offset00, Vector3 Offset, MapSaver.MapData MapData, SceneType sceneType = SceneType.HiddenScene)
 		{
 			foreach (var ToMapMatrix in MapData.ContainedMatrices)
 			{
 				yield return ServerLoadSection(null, Offset00, Offset, ToMapMatrix, null,
-					MatrixName: ToMapMatrix.MatrixName, LoadingMultiple: true);
+					MatrixName: ToMapMatrix.MatrixName, LoadingMultiple: true, sceneType: sceneType);
 			}
 
 			MapSaver.CodeClass.ThisCodeClass.ReportStatus();
@@ -460,19 +515,18 @@ namespace MapSaver
 		//Offset to apply 0,0 to get the position you want
 		public static IEnumerator ServerLoadSection(MatrixInfo Matrix, Vector3 Offset00, Vector3 Offset,
 			MapSaver.MatrixData MatrixData, Action completeAction, HashSet<LayerType> LoadLayers = null,
-			bool LoadObjects = true, string MatrixName = null, bool LoadingMultiple = false)
+			bool LoadObjects = true, string MatrixName = null, bool LoadingMultiple = false, SceneType sceneType = SceneType.HiddenScene)
 		{
 #if UNITY_EDITOR
 			if (Application.isPlaying == false)
 			{
 				(CommonManagerEditorOnly.Instance.VariableViewerManager as IInitialise).Initialise();
-				TileManager.Instance = 	CommonManagerEditorOnly.Instance.TileManager;
+				TileManager.Instance = CommonManagerEditorOnly.Instance.TileManager;
 				if (CommonManagerEditorOnly.Instance.TileManager.AllTiles.Count == 0)
 				{
 					var Load = CommonManagerEditorOnly.Instance.TileManager.LoadAllTiles();
 					while (Load.MoveNext())
 					{
-
 					}
 				}
 			}
@@ -483,7 +537,9 @@ namespace MapSaver
 			{
 				if (Matrix == null)
 				{
-					aaMatrix = MatrixManager.MakeNewMatrix(MatrixName);
+
+
+					aaMatrix = MatrixManager.MakeNewMatrix(MatrixName, sceneType);
 #if UNITY_EDITOR
 					if (Application.isPlaying == false)
 					{
@@ -500,17 +556,15 @@ namespace MapSaver
 					{
 						MapSaver.StringToPRS(aaMatrix.MatrixMove.NetworkedMatrixMove.TargetTransform.gameObject,
 							MatrixData.Location);
-						aaMatrix.MatrixMove.NetworkedMatrixMove.SetTransformPosition(aaMatrix.MatrixMove.NetworkedMatrixMove
+						aaMatrix.MatrixMove.NetworkedMatrixMove.SetTransformPosition(aaMatrix.MatrixMove
+							.NetworkedMatrixMove
 							.TargetTransform.position);
 					}
-
 				}
 				else
 				{
 					aaMatrix = Matrix.Matrix;
 				}
-
-
 
 
 				//TODO MapSaver.CodeClass.ThisCodeClass?? Clearing?
@@ -561,7 +615,6 @@ namespace MapSaver
 
 			try
 			{
-
 				if (MatrixData.CompactObjectMapData != null && LoadObjects)
 				{
 					ProcessorCompactObjectMapData(aaMatrix, Offset00.RoundToInt(), Offset.RoundToInt(),
@@ -572,10 +625,22 @@ namespace MapSaver
 				{
 					if (Application.isPlaying == false) yield break;
 					var newdata = JsonConvert.SerializeObject(MatrixData.CompactObjectMapData);
-					CustomNetworkManager.LoadedMapDatas.Add(newdata);
-					ServerReturnMapData.SendAll(newdata, ServerReturnMapData.MessageType.MapDataForClient, true);
+					CustomNetworkManager.Instance.LoadedMapDatas.Add(new Tuple<string, int>(newdata, aaMatrix.Id));
+					ServerReturnMapData.SendAll(newdata, ServerReturnMapData.MessageType.MapDataForClient, true, aaMatrix.Id);
 				}
+			}
+			catch (Exception e)
+			{
+				Loggy.LogError(e.ToString());
+			}
 
+			if (aaMatrix.NetworkedMatrix.RequestInitialiseMapLoader && Application.isPlaying)
+			{
+				yield return aaMatrix.MatrixInitialization();
+			}
+
+			try
+			{
 				completeAction?.Invoke();
 			}
 			catch (Exception e)

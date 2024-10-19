@@ -1023,7 +1023,6 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 		}
 
 		InitialisedWithOccupation = occupation; //Can't really think of anywhere better to put this
-		//
 		var NSP = occupation.InventoryPopulator as PlayerSlotStoragePopulator;
 		if (NSP != null)
 		{

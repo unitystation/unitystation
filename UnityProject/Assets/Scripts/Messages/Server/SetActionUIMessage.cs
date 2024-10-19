@@ -7,6 +7,9 @@ using ScriptableObjects.Systems.Spells;
 using UI.Core.Action;
 using Changeling;
 using Logs;
+using AdminTools;
+using Messages.Server.AdminTools;
+using Core.Admin.Logs;
 
 namespace Messages.Server
 {
@@ -183,6 +186,12 @@ namespace Messages.Server
 			// SpellList singleton index
 			else if (action is Spell spellAction)
 			{
+				if (spellAction.SpellData.Index == -1)
+				{
+					Loggy.LogError(
+						"spellAction.SpellData.Index is -1 Make sure you've added your spell to SpellList!!!!!!!!!!!");
+				}
+
 				NetMessage msg = new NetMessage
 				{
 					spellListIndex = spellAction.SpellData.Index,

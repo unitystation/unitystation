@@ -30,6 +30,8 @@ namespace Core.Admin.Logs
 
 		public static void AddNewLog(GameObject perp, string info, LogCategory category, Severity severity = Severity.MISC)
 		{
+			if (CustomNetworkManager.IsServer == false) return;
+
 			LogEntry entry = new LogEntry
 			{
 				AdminActions = new List<AdminActionToTake>(),

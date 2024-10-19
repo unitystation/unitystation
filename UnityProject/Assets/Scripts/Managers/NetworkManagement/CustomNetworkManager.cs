@@ -14,6 +14,7 @@ using Initialisation;
 using Logs;
 using MapSaver;
 using Messages.Server;
+using SecureStuff;
 using UnityEditor;
 using Util;
 using Object = UnityEngine.Object;
@@ -29,7 +30,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public static CustomNetworkManager Instance;
 
-	public bool SpawnedByMappingTool = false;
+	[NonSerialized] public bool SpawnedByMappingTool = false;
 
 	public List<GameObject> NetworkedManagersPrefabs;
 
@@ -61,10 +62,10 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	private int currentLocation = 0;
 
-	public static Dictionary<uint, MapSaver.MapSaver.PrefabData> PrePayload =
-		new Dictionary<uint, MapSaver.MapSaver.PrefabData>();
+	public Dictionary<uint, Tuple<MapSaver.MapSaver.PrefabData, Matrix>> PrePayload =
+		new Dictionary<uint, Tuple<MapSaver.MapSaver.PrefabData, Matrix>>();
 
-	public static List<string> LoadedMapDatas = new List<string>();
+	public List<Tuple<string, int>> LoadedMapDatas = new List<Tuple<string, int>>();
 
 	public static bool AllPrefabsLoadedSt => Instance.AllPrefabsLoaded;
 	public bool AllPrefabsLoaded => allSpawnablePrefabs.Count <= currentLocation;
@@ -91,9 +92,11 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	}
 
 
-	public void ReceiveMattOverrides(MapSaver.MapSaver.CompactObjectMapData data, bool DoStraightaway)
+	public void ReceiveMattOverrides(MapSaver.MapSaver.CompactObjectMapData data, bool DoStraightaway, int MatrixID)
 	{
 		if (data == null) return;
+		var Matrix = MatrixManager.Get(MatrixID);
+
 		foreach (var PD in data.PrefabData)
 		{
 			var id = PD.GitID;
@@ -103,7 +106,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			}
 
 
-			PrePayload[data.IDToNetIDClient[id]] = PD;
+			PrePayload[data.IDToNetIDClient[id]] = new Tuple<MapSaver.MapSaver.PrefabData, Matrix>(PD, Matrix.Matrix);
 		}
 
 		if (DoStraightaway)
@@ -115,7 +118,6 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 				{
 					id = PD.PrefabID;
 				}
-
 
 				if (Spawned.TryGetValue(data.IDToNetIDClient[id], out var networkIdentity ))
 				{
@@ -129,11 +131,23 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	public override void ObjectBeforePayloadDataClient(NetworkIdentity identity) //NOTE : Won't handle object to object references,
                                                                               //However these should be synchronised By mirror since I can't Think of a state where they won't be
 	{
-		if (IsServer) return;
-		if (PrePayload.TryGetValue(identity.netId, out var prefabdata))
+		try
 		{
-			MapLoader.ProcessIndividualObject(null, prefabdata, null, Vector3Int.zero, Vector3Int.zero, identity.gameObject);
+			if (IsServer) return;
+			if (PrePayload.TryGetValue(identity.netId, out var prefabdata))
+			{
+				MapLoader.ProcessIndividualObject(null, prefabdata.Item1, prefabdata.Item2, Vector3Int.zero, Vector3Int.zero, identity.gameObject);
+				foreach (var Spawn in identity.GetComponentsInChildren<INewMappedOnSpawn>())
+				{
+					Spawn.OnNewMappedOnSpawn();
+				}
+			}
 		}
+		catch (Exception e)
+		{
+			Loggy.LogError(e.ToString());
+		}
+
 	}
 
 	public void Clear()
@@ -156,19 +170,30 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public override void Awake()
 	{
-
-		if (IndexLookupSpawnablePrefabs.Count == 0)
+		bool Maped = false;
+#if UNITY_EDITOR
+		if (Instance != null)
 		{
-			new Task(SetUpSpawnablePrefabsIndex).Start();
+			Maped = Instance.SpawnedByMappingTool;
 		}
 
-		if (Instance == null || Instance == this || Instance.SpawnedByMappingTool)
+#endif
+
+		EventManager.AddHandler(Event.SceneUnloading, RoundEndingClientNServer);
+		if (Instance == null || Instance == this || Maped)
 		{
 			Instance = this;
 		}
 		else
 		{
 			Destroy(gameObject);
+			return;
+		}
+
+
+		if (IndexLookupSpawnablePrefabs.Count == 0)
+		{
+			new Task(SetUpSpawnablePrefabsIndex).Start();
 		}
 	}
 
@@ -237,6 +262,11 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		}
 
 		ActiveNetworkedManagersPrefabs.Clear();
+
+	}
+
+	public void RoundEndingClientNServer()
+	{
 		PrePayload.Clear();
 		LoadedMapDatas.Clear();
 	}

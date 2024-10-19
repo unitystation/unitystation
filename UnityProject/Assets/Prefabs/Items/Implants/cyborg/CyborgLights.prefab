@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Color: {r: 0.99215686, g: 0.96862745, b: 0.88235295, a: 0.4}
+  InitialColour: {r: 0.99215686, g: 0.96862745, b: 0.88235295, a: 0.4}
   Sprite: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
@@ -113,6 +113,80 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: isCybernetic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'BodyTypesSprites.SpriteOrder.Orders.Array.data[0]'
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'BodyTypesSprites.SpriteOrder.Orders.Array.data[1]'
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'BodyTypesSprites.SpriteOrder.Orders.Array.data[2]'
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'BodyTypesSprites.SpriteOrder.Orders.Array.data[3]'
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[1].Sprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[2].Sprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: BodyTypesSprites.BodyTypes.Array.data[3].Sprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4c3c1df9f574a1a47b31a06c67ce5052,
+        type: 2}
+    - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[1].Sprites.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 31b9c6c12663f084198036c0513931dc,
+        type: 2}
+    - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[2].Sprites.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: cb019a984f13df64585b2ef627b2d841,
+        type: 2}
+    - target: {fileID: 613638773439429783, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[3].Sprites.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 8c11d8f3975a2ad4a83edf78058a652f,
+        type: 2}
     - target: {fileID: 4083826922132060799, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
       propertyPath: m_RootOrder
@@ -186,6 +260,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4490847932940167273, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
+      propertyPath: initialName
+      value: cyborg lights
+      objectReference: {fileID: 0}
+    - target: {fileID: 4490847932940167273, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
       propertyPath: initialTraits.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -211,6 +290,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f106f24c0586f9e46b4c82647437a32e,
         type: 2}
+    - target: {fileID: 7924426477701790860, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f106f24c0586f9e46b4c82647437a32e,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -231,6 +316,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6219779074521071717}
+    - targetCorrespondingSourceObject: {fileID: 4089031872439371531, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6516074160899636983}
   m_SourcePrefab: {fileID: 100100000, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8, type: 3}
 --- !u!4 &219679713616371809 stripped
 Transform:
@@ -287,6 +376,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   RelatedPart: {fileID: 0}
+  baseEyeSprite: {fileID: 11400000, guid: 4c3c1df9f574a1a47b31a06c67ce5052, type: 2}
+  litEyeSprite: {fileID: 11400000, guid: d1dc64e4267e9f848ba13d538c950e89, type: 2}
   IntensityColours:
   - Color: {r: 0.9607844, g: 0.86666673, b: 0.5137255, a: 0.21960784}
     Size: 5
@@ -315,6 +406,33 @@ MonoBehaviour:
   allowedSlots: -1
   useSpriteHandler: 0
   spriteHandler: {fileID: 6222260128237774482}
+--- !u!114 &6516074160899636983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 225170811618778389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92a26da98f532de4d9524a6148599435, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  RelatedPart: {fileID: 0}
+  Pickupable: {fileID: 0}
+  BaseBlurryVision: 0
+  DimLightColour: {r: 1, g: 1, b: 1, a: 0.003921569}
+  OnBodyID: 0
+  PreventsBlindness: 1
+  DefaultPreventsBlindness_: 0
+  BadEyesight: 0
+  CurrentColourblindness: 0
+  DefaultColourblindness: 0
+  HasXray: 0
+  DefaultHasXray: 0
 --- !u!114 &6222260128237774482 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7924426477701790860, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,

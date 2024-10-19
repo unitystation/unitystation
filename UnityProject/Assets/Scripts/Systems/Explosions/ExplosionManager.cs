@@ -58,7 +58,7 @@ namespace Systems.Explosions
 
 		private void OnEnable()
 		{
-			if(Application.isEditor == false && NetworkServer.active == false) return;
+			if (Application.isEditor == false && NetworkServer.active == false) return;
 
 			UpdateManager.Add(Step, 0.4f);
 		}

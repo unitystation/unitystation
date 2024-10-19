@@ -421,13 +421,10 @@ namespace Objects.Engineering
 				//Sends all to rotation direction
 				case ReflectorType.Box:
 					return ReturnBox(InDirection);
-					break;
 				case ReflectorType.Double:
 					return ReturnTryAngleDouble(InDirection);
-					break;
 				case ReflectorType.Single:
 					return ReturnTryAngleSingle(InDirection);
-					break;
 			}
 
 			return float.NaN;

@@ -157,7 +157,7 @@ namespace Objects
 			SyncDoorState(doorState, doorState);
 		}
 
-		public virtual void OnSpawnServer(SpawnInfo info)
+		public void OnSpawnServer(SpawnInfo info)
 		{
 			// Always spawn closed
 			SyncDoorState(doorState, Door.Closed);
@@ -166,6 +166,17 @@ namespace Objects
 			if (info.SpawnType == SpawnType.Mapped)
 			{
 				CollectObjects();
+			}
+		}
+
+		public void Start()
+		{
+			if (CustomNetworkManager.IsServer)
+			{
+				if (GetComponent<RuntimeSpawned>() == null)
+				{
+					CollectObjects();
+				}
 			}
 		}
 

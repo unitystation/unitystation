@@ -48,7 +48,7 @@ namespace Objects.Lighting
 		private EmergencyLightAnimator EmergencyLightAnimator;
 		[field: SerializeField] public LightAnimator Animator { get; private set; }
 		[SerializeField] private SpriteHandler spriteHandler;
-		[SerializeField] private SpriteRenderer spriteRendererLightOn;
+		[SerializeField] private SpriteHandler spriteRendererLightOn;
 		[SerializeField] private Integrity integrity = default;
 		public Integrity Integrity => integrity;
 		[SerializeField] private Rotatable directional;
@@ -170,19 +170,34 @@ namespace Objects.Lighting
 
 		void IMultitoolSlaveable.SetMasterEditor(IMultitoolMasterable master)
 		{
-			SetMaster(master);
+			SetMaster(master, true);
 		}
 
-		private void SetMaster(IMultitoolMasterable master)
+		private void SetMaster(IMultitoolMasterable master, bool Editor = false)
 		{
-			if (master is LightSwitchV2 lightSwitch && lightSwitch != relatedLightSwitch)
+			if (Editor)
 			{
-				SubscribeToSwitchEvent(lightSwitch);
+				if (relatedLightSwitch != null)
+				{
+					relatedLightSwitch.listOfLights.Remove(this);
+				}
+
+				relatedLightSwitch = master as LightSwitchV2;
+
+				relatedLightSwitch?.listOfLights?.Add(this);
 			}
-			else if (relatedLightSwitch != null)
+			else
 			{
-				UnSubscribeFromSwitchEvent();
+				if (master is LightSwitchV2 lightSwitch && lightSwitch != relatedLightSwitch)
+				{
+					SubscribeToSwitchEvent(lightSwitch);
+				}
+				else if (relatedLightSwitch != null)
+				{
+					UnSubscribeFromSwitchEvent();
+				}
 			}
+
 		}
 
 		#endregion
@@ -268,10 +283,11 @@ namespace Objects.Lighting
 
 		public void SetSprites()
 		{
-			spriteHandler.SetSpriteSO(currentState.SpriteData, null);
-			spriteRendererLightOn.sprite = MountState == LightMountState.On
-				? spritesStateOnEffect.sprites[0]
-				: null;
+			if (isServer == false)return;
+
+			spriteHandler.SetSpriteSO(currentState.SpriteData);
+			spriteRendererLightOn.SetCatalogueIndexSprite((int)MountState);
+			spriteRendererLightOn.SetColor(CurrentOnColor);
 
 			itemInMount = currentState.Tube;
 

@@ -273,7 +273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7057467c2d5f453192febab43b5785cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TargetMSpreFrame: 5
+  TargetMSpreFrame: 20
   MassAndCentreLock: []
   LocalCentreOfMass: {x: 14.395047, y: 44.293633, z: 0}
   LocalTotalMasslocations: {x: 0, y: 0, z: 0}
@@ -292,9 +292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 718838aab2564798b53f1d245f55680e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsSpaceMatrix: 0
   IsMainStation: 1
-  IsLavaLand: 0
   MatrixMove: {fileID: 0}
   AIShuttleShouldAvoid: 0
   PresentPlayers: []
@@ -904,7 +902,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatrixSync: {fileID: 0}
   matrix: {fileID: 0}
-  IsJsonLoaded: 0
+  IsJsonLoaded: 1
+  RequestInitialiseMapLoader: 0
 --- !u!114 &7375737834013467137
 MonoBehaviour:
   m_ObjectHideFlags: 0

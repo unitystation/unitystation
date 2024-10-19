@@ -170,7 +170,7 @@ namespace AdminTools
 
 		private void SendTeleportAdminToPlayerAghost()
 		{
-			PlayerManager.LocalMindScript.CmdAGhost();
+			PlayerManager.LocalMindScript.CmdForceAGhost();
 
 			RequestAdminTeleport.Send(
 				null,

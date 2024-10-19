@@ -92,7 +92,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 
 	[SerializeField]
 	[Tooltip("Initial traits of this item on spawn.")]
-	protected List<ItemTrait> initialTraits = null;
+	protected List<ItemTrait> initialTraits = new List<ItemTrait>();
 	public List<ItemTrait> InitialTraits => initialTraits;
 
 
@@ -162,13 +162,6 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 		base.OnStartClient();
 	}
 
-	public override void OnStartServer()
-	{
-		SyncArticleName(articleName, initialName);
-		SyncArticleDescription(articleDescription, initialDescription);
-		base.OnStartServer();
-	}
-
 	private void Start()
 	{
 		SyncIsMapped(IsMapped, this.GetComponent<RuntimeSpawned>() == null);
@@ -222,6 +215,8 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 	public void OnSpawnServer(SpawnInfo info)
 	{
 		size = initialSize;
+		SyncArticleName(articleName, initialName);
+		SyncArticleDescription(articleDescription, initialDescription);
 	}
 
 	/// <summary>

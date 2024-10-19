@@ -1,94 +1,85 @@
 {
-    "AllowedVerifierErrors": [
-        "InitOnly",
-        "InterfaceMethodNotImplemented"
-    ],
-    "WhitelistedNamespaces": [
-    ],
-	"WhitelistedAssembliesDEBUG" : [
-	],
+    "AllowedVerifierErrors": ["InitOnly", "InterfaceMethodNotImplemented"],
+    "WhitelistedNamespaces": [],
+    "WhitelistedAssembliesDEBUG": [],
     "Types": {
-		"WebSocketSharp":{
-			"MessageEventArgs":{
-				"All": true
-			}, 
-			"Ext" :{
-				"All": true
-			},
-			"CloseEventArgs" :{
-				"All": true
-			},
-			"WebSocketState" :{
-				"All": true
-			},
-			"WebSocket":{
-				"All": true
-			}
-		},
-		"WebSocketSharp.Server":{
-			"HttpServer":{
-				"All": true
-			},
-			"WebSocketBehavior" :{
-				"All": true
-			},
-			"WebSocketSessionManager": {
-				"All": true
-			},
-			"IWebSocketSession" : {
-				"All": true
-			},
-			"WebSocketServiceManager" :{
-				"All": true
-			},
-			"WebSocketServiceHost" :{
-				"All": true,
-			},
-		},
-		"WebSocketSharp.Net.WebSockets" :{
-			"WebSocketContext":{
-				"All": true
-			}
-		},
-		"WebSocketSharp.Net" :{
-			"NetworkCredential":{
-				"All": true
-			},
-			"AuthenticationSchemes" :{
-				"All": true
-			}
-		},
-		"System.Collections.Specialized" : {
-			"NotifyCollectionChangedEventHandler" : {
-				"All": true
-			},
-			"NotifyCollectionChangedEventArgs" : {
-				"All": true
-			},
-		},
-		"System.Runtime.Serialization" : {
-			"SerializationInfo" : {
-				
-			},
-			"ISerializable" : {
-				"All": true
-			},
-			"IDeserializationCallback" : {
-				"All": true
-			},
-			"StreamingContext" : {
-				
-			}
-		},
-		"System.Security.Principal" :{
-			"IIdentity": {
+        "WebSocketSharp": {
+            "MessageEventArgs": {
                 "All": true
             },
-			"IPrincipal": {
+            "Ext": {
                 "All": true
             },
-		},
-		"System.Drawing": {
+            "CloseEventArgs": {
+                "All": true
+            },
+            "WebSocketState": {
+                "All": true
+            },
+            "WebSocket": {
+                "All": true
+            }
+        },
+        "WebSocketSharp.Server": {
+            "HttpServer": {
+                "All": true
+            },
+            "WebSocketBehavior": {
+                "All": true
+            },
+            "WebSocketSessionManager": {
+                "All": true
+            },
+            "IWebSocketSession": {
+                "All": true
+            },
+            "WebSocketServiceManager": {
+                "All": true
+            },
+            "WebSocketServiceHost": {
+                "All": true
+            }
+        },
+        "WebSocketSharp.Net.WebSockets": {
+            "WebSocketContext": {
+                "All": true
+            }
+        },
+        "WebSocketSharp.Net": {
+            "NetworkCredential": {
+                "All": true
+            },
+            "AuthenticationSchemes": {
+                "All": true
+            }
+        },
+        "System.Collections.Specialized": {
+            "NotifyCollectionChangedEventHandler": {
+                "All": true
+            },
+            "NotifyCollectionChangedEventArgs": {
+                "All": true
+            }
+        },
+        "System.Runtime.Serialization": {
+            "SerializationInfo": {},
+            "ISerializable": {
+                "All": true
+            },
+            "IDeserializationCallback": {
+                "All": true
+            },
+            "StreamingContext": {}
+        },
+        "System.Security.Principal": {
+            "IIdentity": {
+                "All": true
+            },
+            "IPrincipal": {
+                "All": true
+            }
+        },
+        "System.Drawing": {
             "Color": {
                 "All": true
             }
@@ -96,8 +87,7 @@
         "System.Buffers": {
             "SpanAction`2": {
                 "All": true
-            },
-			
+            }
         },
         "System.Buffers.Binary": {
             "BinaryPrimitives": {
@@ -268,24 +258,24 @@
             "NameValueCollection": {
                 "All": true
             },
-			"NotifyCollectionChangedEventHandler" : {
-				"All": true
-			},
-			"NotifyCollectionChangedEventArgs" : {
-				"All": true
-			}	
+            "NotifyCollectionChangedEventHandler": {
+                "All": true
+            },
+            "NotifyCollectionChangedEventArgs": {
+                "All": true
+            }
         },
-		"System.Collections.ObjectModel" : {
-			"ObservableCollection`1" : {
-				"All": true
-			},
-			"ReadOnlyCollection`1" : {
-				"All": true
-			},
-			"Collection`1" : {
-				"All": true
-			},
-		},
+        "System.Collections.ObjectModel": {
+            "ObservableCollection`1": {
+                "All": true
+            },
+            "ReadOnlyCollection`1": {
+                "All": true
+            },
+            "Collection`1": {
+                "All": true
+            }
+        },
         "System.Collections.Concurrent": {
             "ConcurrentBag`1": {
                 "All": true
@@ -313,24 +303,24 @@
             "Collection": {
                 "All": true
             },
-			"Collection`1": {
+            "Collection`1": {
                 "All": true
             },
-			"IList" : {
-			    "All": true
-			},
-			"IDictionary"  :{
-				"All": true
-			},
-			"IDictionaryEnumerator" : {
-				"All": true
-			},
-			"IDeserializationCallback" : {
-				"All": true
-			},
-			"ICollection" : {
-				"All": true
-			}
+            "IList": {
+                "All": true
+            },
+            "IDictionary": {
+                "All": true
+            },
+            "IDictionaryEnumerator": {
+                "All": true
+            },
+            "IDeserializationCallback": {
+                "All": true
+            },
+            "ICollection": {
+                "All": true
+            }
         },
         "System.ComponentModel": {
             "CancelEventArgs": {
@@ -349,23 +339,21 @@
             "ITypeDescriptorContext": {
                 "All": true
             },
-			"TypeDescriptor": {
-				"Methods": [
-					"string GetClassName(object)"
-				]	
+            "TypeDescriptor": {
+                "Methods": ["string GetClassName(object)"]
             },
-			"DescriptionAttribute" : {
-				"All": true
-			},
-			"EditorBrowsableAttribute":{
-				"All": true
-			},
-			"EditorBrowsableState" :{
-				"All": true
-			},
-			"DefaultValueAttribute" :{
-				"All": true
-			}
+            "DescriptionAttribute": {
+                "All": true
+            },
+            "EditorBrowsableAttribute": {
+                "All": true
+            },
+            "EditorBrowsableState": {
+                "All": true
+            },
+            "DefaultValueAttribute": {
+                "All": true
+            }
         },
         "System.Diagnostics.CodeAnalysis": {
             "AllowNullAttribute": {
@@ -440,19 +428,18 @@
             "Stopwatch": {
                 "All": true
             },
-			"Process": {
-				"Methods": [
-					"void Kill()",
-					"System.Diagnostics.Process GetCurrentProcess()"
-				]
-				
-            },
+            "Process": {
+                "Methods": [
+                    "void Kill()",
+                    "System.Diagnostics.Process GetCurrentProcess()"
+                ]
+            }
         },
-		"System.CodeDom.Compiler" : {
-			"GeneratedCodeAttribute": {
-				 "All": true
-			}
-		},
+        "System.CodeDom.Compiler": {
+            "GeneratedCodeAttribute": {
+                "All": true
+            }
+        },
         "System.Globalization": {
             "CompareOptions": {},
             "CultureInfo": {
@@ -516,9 +503,7 @@
                 "All": true
             },
             "StreamReader": {
-                "Fields": [
-                    "System.IO.StreamReader Null"
-                ],
+                "Fields": ["System.IO.StreamReader Null"],
                 "Methods": [
                     "System.IO.Stream get_BaseStream()",
                     "void .ctor(System.IO.Stream)",
@@ -530,9 +515,7 @@
                 ]
             },
             "StreamWriter": {
-                "Fields": [
-                    "System.IO.StreamWriter Null"
-                ],
+                "Fields": ["System.IO.StreamWriter Null"],
                 "Methods": [
                     "bool get_AutoFlush()",
                     "System.IO.Stream get_BaseStream()",
@@ -549,17 +532,17 @@
             "TextWriter": {
                 "All": true
             },
-			"Path" : {
-				"Methods": [
-					"string Combine(string, string)",
+            "Path": {
+                "Methods": [
+                    "string Combine(string, string)",
                     "string Combine(string, string, string)",
                     "string Combine(string, string, string, string)"
-				]
-			},
-			"StringReader" : {
-				"All": true
-			},
-            "PathTooLongException" : {
+                ]
+            },
+            "StringReader": {
+                "All": true
+            },
+            "PathTooLongException": {
                 "All": true
             }
         },
@@ -567,7 +550,7 @@
             "ConstantExpression": {},
             "Expression": {
                 "Methods": [
-                    "System.Linq.Expressions.Expression`1<!!0> Lambda<>(System.Linq.Expressions.Expression, System.Linq.Expressions.ParameterExpression[])",
+                    "System.Linq.Expressions.Expression`1<!!0> Lambda<>(System.Linq.Expressions.Expression, System.Linq.Expressions.ParameterExpression[])"
                 ]
             },
             "Expression`1": {},
@@ -591,63 +574,60 @@
                 "All": true
             },
             "HttpStatusCode": {
-				"All": true
-			},
-			"HttpStatusCode": {
-				"All": true
-			},
+                "All": true
+            }
         },
-		"System.Net.Http" : {
-			"StringContent" : {
-				"All": true
-			},
-			"HttpResponseMessage" : {
-				"All": true
-			},
-			"HttpRequestMessage" : {
-				"All": true
-			},
-			"HttpRequestException" : {
-				"All": true
-			},
-			"HttpMethod" : {
-				"All": true
-			}, 
-			"HttpContent" : {
-				"All": true
-			},
-		},
-		"System.Net.Http.Headers" : {
-			"MediaTypeWithQualityHeaderValue" : {
-				"All": true
-			},
-			"HttpResponseHeaders" : {
-				"All": true
-			},
-			"HttpHeaderValueCollection`1" : {
-				"All": true
-			},
-			"HttpHeaders" : {
-				"All": true
-			},
-			"HttpRequestHeaders" :{
-				"All": true
-			},
-			"AuthenticationHeaderValue" :{
-				"All": true
-			}
-		},
+        "System.Net.Http": {
+            "StringContent": {
+                "All": true
+            },
+            "HttpResponseMessage": {
+                "All": true
+            },
+            "HttpRequestMessage": {
+                "All": true
+            },
+            "HttpRequestException": {
+                "All": true
+            },
+            "HttpMethod": {
+                "All": true
+            },
+            "HttpContent": {
+                "All": true
+            }
+        },
+        "System.Net.Http.Headers": {
+            "MediaTypeWithQualityHeaderValue": {
+                "All": true
+            },
+            "HttpResponseHeaders": {
+                "All": true
+            },
+            "HttpHeaderValueCollection`1": {
+                "All": true
+            },
+            "HttpHeaders": {
+                "All": true
+            },
+            "HttpRequestHeaders": {
+                "All": true
+            },
+            "AuthenticationHeaderValue": {
+                "All": true
+            }
+        },
         "System.Net.Sockets": {
             "AddressFamily": {}
         },
-		"System.Net.NetworkInformation" : {
-			"PhysicalAddress" : {
-				"All": true
-			},
-			"NetworkInterface" : {
-				"All": true
-			}
-		},
+        "System.Net.NetworkInformation": {
+            "PhysicalAddress": {
+                "All": true
+            },
+            "NetworkInterface": {
+                "All": true
+            }
+        },
         "System.Numerics": {
             "BitOperations": {
                 "All": true
@@ -705,45 +685,43 @@
                     "string get_Name()",
                     "System.Reflection.MemberTypes get_MemberType()",
                     "System.Type get_DeclaringType()",
-					"System.Type get_ReturnType()",
-					"System.Type get_ReflectedType()",
+                    "System.Type get_ReturnType()",
+                    "System.Type get_ReflectedType()"
                 ]
             },
             "MemberTypes": {},
             "MethodBase": {
-				"Methods": [
-					"System.Reflection.ParameterInfo[] GetParameters()",
-					"bool get_IsStatic()",
-				]
+                "Methods": [
+                    "System.Reflection.ParameterInfo[] GetParameters()",
+                    "bool get_IsStatic()"
+                ]
             },
             "MethodInfo": {
-				"Methods": [
-                    "System.Type get_ReturnType()"
-                ]
-			},
+                "Methods": ["System.Type get_ReturnType()"]
+            },
             "TypeAttributes": {},
             "TypeInfo": {},
-			"PropertyInfo": {
-				"Methods": [
-                    "bool op_Inequality(System.Reflection.PropertyInfo, System.Reflection.PropertyInfo)",
+            "PropertyInfo": {
+                "Methods": [
+                    "bool op_Inequality(System.Reflection.PropertyInfo, System.Reflection.PropertyInfo)"
                 ]
-			},
-			"FieldInfo" : {
-				"Methods": [
-                    "bool op_Inequality(System.Reflection.FieldInfo, System.Reflection.FieldInfo)",
+            },
+            "FieldInfo": {
+                "Methods": [
+                    "bool op_Inequality(System.Reflection.FieldInfo, System.Reflection.FieldInfo)"
                 ]
-			},
-			"ParameterInfo" : {
-				"Methods": [
+            },
+            "ParameterInfo": {
+                "Methods": [
                     "System.Type get_ParameterType()",
-					"bool op_Inequality(System.Reflection.PropertyInfo, System.Reflection.PropertyInfo)",
+                    "bool op_Inequality(System.Reflection.PropertyInfo, System.Reflection.PropertyInfo)"
                 ]
-			},
-			"CustomAttributeExtensions": {
-				"Methods": [
-					"!!0 GetCustomAttribute(System.Reflection.MemberInfo, bool)"
-				]
-			}
+            },
+            "CustomAttributeExtensions": {
+                "Methods": [
+                    "!!0 GetCustomAttribute(System.Reflection.MemberInfo, bool)"
+                ]
+            }
         },
         "System.Runtime.CompilerServices": {
             "AsyncStateMachineAttribute": {
@@ -827,18 +805,18 @@
             "ValueTaskAwaiter`1": {
                 "All": true
             },
-			"DecimalConstantAttribute": {
+            "DecimalConstantAttribute": {
                 "All": true
             },
-			"ConfiguredTaskAwaitable" : {
-				 "All": true
-			},
-			"CallerMemberNameAttribute" : {
-				"All": true
-			},
-			"ConfiguredTaskAwaitable/ConfiguredTaskAwaiter" : {
-				"All": true
-			},
+            "ConfiguredTaskAwaitable": {
+                "All": true
+            },
+            "CallerMemberNameAttribute": {
+                "All": true
+            },
+            "ConfiguredTaskAwaitable/ConfiguredTaskAwaiter": {
+                "All": true
+            }
         },
         "System.Runtime.ExceptionServices": {
             "ExceptionDispatchInfo": {
@@ -997,9 +975,9 @@
                     "System.Text.Encoding get_BigEndianUnicode()",
                     "System.Text.Encoding get_Unicode()",
                     "System.Text.Encoding get_UTF7()",
-					"System.Text.Encoding get_UTF8()",
-					"System.Text.Encoding get_UTF32()",
-					"System.Text.Encoding GetEncoding(string)"
+                    "System.Text.Encoding get_UTF8()",
+                    "System.Text.Encoding get_UTF32()",
+                    "System.Text.Encoding GetEncoding(string)"
                 ]
             },
             "NormalizationForm": {},
@@ -1090,9 +1068,9 @@
                     "void .ctor(string, int, int, int)",
                     "void CopyTo(int, char[], int, int)",
                     "void CopyTo(int, System.Span`1<char>, int)",
-					"System.Text.StringBuilder Insert(int, string)",
-					"System.Text.StringBuilder Append(float)",
-					"void set_Length(int)"
+                    "System.Text.StringBuilder Insert(int, string)",
+                    "System.Text.StringBuilder Append(float)",
+                    "void set_Length(int)"
                 ],
                 "NestedTypes": {
                     "ChunkEnumerator": {
@@ -1129,11 +1107,11 @@
             "ValueTask`1": {
                 "All": true
             },
-			"TaskScheduler" : {
-				"Methods" :[
-					"System.Threading.Tasks.TaskScheduler FromCurrentSynchronizationContext()"
-				]
-			}
+            "TaskScheduler": {
+                "Methods": [
+                    "System.Threading.Tasks.TaskScheduler FromCurrentSynchronizationContext()"
+                ]
+            }
         },
         "System.Threading": {
             "CancellationToken": {
@@ -1148,34 +1126,32 @@
             "Monitor": {
                 "All": true
             },
-			"Thread": {
-				"Methods" :[
-					"void Start()",
-					"void Sleep(int)",
-					"System.Threading.Thread get_CurrentThread()",
-					"System.Globalization.CultureInfo CurrentCulture()",
-					"void Abort()",
-					"System.Globalization.CultureInfo get_CurrentCulture()",
-					"void .ctor(System.Threading.ThreadStart)"
-				]
-			},
-			"ThreadPool" : {
-				"Methods" :[
-				   "bool QueueUserWorkItem(System.Threading.WaitCallback)"
-				]
-			},
-			"ThreadStart" : {
-				"All": true
-			},
-			"WaitCallback" : {
-				"All": true
-			},
-			"WaitHandle" : {
-				"All": true
-			},
-			"Mutex" : {
-				"All": true
-			},
+            "Thread": {
+                "Methods": [
+                    "void Start()",
+                    "void Sleep(int)",
+                    "System.Threading.Thread get_CurrentThread()",
+                    "System.Globalization.CultureInfo CurrentCulture()",
+                    "void Abort()",
+                    "System.Globalization.CultureInfo get_CurrentCulture()",
+                    "void .ctor(System.Threading.ThreadStart)"
+                ]
+            },
+            "ThreadPool": {
+                "Methods": ["bool QueueUserWorkItem(System.Threading.WaitCallback)"]
+            },
+            "ThreadStart": {
+                "All": true
+            },
+            "WaitCallback": {
+                "All": true
+            },
+            "WaitHandle": {
+                "All": true
+            },
+            "Mutex": {
+                "All": true
+            }
         },
         "System.Web": {
             "HttpUtility": {
@@ -1191,9 +1167,9 @@
             }
         },
         "System": {
-			"Decimal" : {
-				"All": true
-			},
+            "Decimal": {
+                "All": true
+            },
             "IServiceProvider": {
                 "All": true
             },
@@ -1352,7 +1328,7 @@
                     "void Sort<>(!!0[], System.Collections.Generic.IComparer`1<!!0>)",
                     "void Sort<>(!!0[], System.Collections.Generic.IComparer`1<!!0>)",
                     "void Sort<>(!!0[], System.Comparison`1<!!0>)",
-					"void Resize<>(ref !!0[], int)"
+                    "void Resize<>(ref !!0[], int)"
                 ]
             },
             "ArraySegment`1": {
@@ -1386,9 +1362,7 @@
                 "All": true
             },
             "Convert": {
-                "Fields": [
-                    "object DBNull"
-                ],
+                "Fields": ["object DBNull"],
                 "Methods": [
                     "System.TypeCode GetTypeCode(object)",
                     "bool IsDBNull(object)",
@@ -1409,22 +1383,22 @@
                     "string ToHexString(byte[])",
                     "string ToHexString(byte[], int, int)",
                     "string ToHexString(System.ReadOnlySpan`1<byte>)",
-					"int ToInt32(string)",
-					"int ToInt32(Double)",
-					"int ToInt32(float)",
-					"int ToInt32(System.Decimal)",
-					"float ToSingle(Double)",
-					"ushort ToUInt16(int)",
-					"ushort ToUInt16(float)",
-					"float ToSingle(double)",
-					"int ToInt32(int)",
-					"int ToInt32(double)",
-					"short ToInt16(double)",
-					"double ToDouble(string)",
-					"System.Decimal ToDecimal(int)",
-					"char ToChar(int)",
-					"bool ToBoolean(string)",
-					"short ToInt16(float)",
+                    "int ToInt32(string)",
+                    "int ToInt32(Double)",
+                    "int ToInt32(float)",
+                    "int ToInt32(System.Decimal)",
+                    "float ToSingle(Double)",
+                    "ushort ToUInt16(int)",
+                    "ushort ToUInt16(float)",
+                    "float ToSingle(double)",
+                    "int ToInt32(int)",
+                    "int ToInt32(double)",
+                    "short ToInt16(double)",
+                    "double ToDouble(string)",
+                    "System.Decimal ToDecimal(int)",
+                    "char ToChar(int)",
+                    "bool ToBoolean(string)",
+                    "short ToInt16(float)"
                 ]
             },
             "Converter`2": {
@@ -1441,10 +1415,10 @@
                 "Methods": [
                     "System.Delegate Combine(System.Delegate, System.Delegate)",
                     "System.Delegate Remove(System.Delegate, System.Delegate)",
-					"System.Delegate[] GetInvocationList()",
-					"object get_Target()",
-					"System.Reflection.MethodInfo get_Method()",
-					"bool op_Equality(System.Delegate, System.Delegate)"
+                    "System.Delegate[] GetInvocationList()",
+                    "object get_Target()",
+                    "System.Reflection.MethodInfo get_Method()",
+                    "bool op_Equality(System.Delegate, System.Delegate)"
                 ]
             },
             "DivideByZeroException": {
@@ -1462,7 +1436,7 @@
                     "int get_ProcessorCount()",
                     "string get_NewLine()",
                     "string get_StackTrace()",
-					"string[] GetCommandLineArgs() "
+                    "string[] GetCommandLineArgs() "
                 ]
             },
             "EventArgs": {
@@ -1741,9 +1715,7 @@
                 }
             },
             "String": {
-                "Fields": [
-                    "string Empty"
-                ],
+                "Fields": ["string Empty"],
                 "Methods": [
                     "bool Contains(char)",
                     "bool Contains(char, System.StringComparison)",
@@ -1901,7 +1873,7 @@
                     "void .ctor(char[], int, int)",
                     "void .ctor(System.ReadOnlySpan`1<char>)",
                     "void CopyTo(int, char[], int, int)",
-					"string Copy(string)"
+                    "string Copy(string)"
                 ]
             },
             "StringComparison": {},
@@ -2075,1431 +2047,1419 @@
             "Void": {
                 "All": true
             },
-			"Tuple": {
+            "Tuple": {
                 "All": true
             },
-			"Tuple`1": {
+            "Tuple`1": {
                 "All": true
             },
-			"Tuple`2": {
+            "Tuple`2": {
                 "All": true
             },
-			"Tuple`3": {
+            "Tuple`3": {
                 "All": true
             },
-			"TupleExtensions": {
+            "TupleExtensions": {
                 "All": true
             },
-			"IConvertible": {
+            "IConvertible": {
                 "All": true
             },
-			"WeakReference" : {
-				 "All": true
-			},
-			"WeakReference`1" : {
-				 "All": true
-			},
-			"ArgumentNullException" : {
-				"All": true
-			},
-			"UriHostNameType" : {
-				"All": true
-			},
-			"Buffer" : {
-				"Methods" : [
-					"void BlockCopy (System.Array, int, System.Array, int, int)",
-				]
-			},
-			"AppDomain" : {
-				
-			},
-			"AggregateException" :{
-				"All": true
-			},
-			"Activator" : {
-				
-			},
-			"UriBuilder" : {
-				"All": true
-			},
-            "UnauthorizedAccessException" : {
+            "WeakReference": {
+                "All": true
+            },
+            "WeakReference`1": {
+                "All": true
+            },
+            "ArgumentNullException": {
+                "All": true
+            },
+            "UriHostNameType": {
+                "All": true
+            },
+            "Buffer": {
+                "Methods": [
+                    "void BlockCopy (System.Array, int, System.Array, int, int)"
+                ]
+            },
+            "AppDomain": {},
+            "AggregateException": {
+                "All": true
+            },
+            "Activator": {},
+            "UriBuilder": {
+                "All": true
+            },
+            "UnauthorizedAccessException": {
                 "All": true
             }
         },
         "UnityEngine": {
             "MonoBehaviour": {
-				"All": true,
+                "All": true,
                 "Inherit": "Allow"
             },
             "ScriptableObject": {
-				"All": true,
+                "All": true,
                 "Inherit": "Allow"
             },
-			"TooltipAttribute":{
-				"All": true
-			},
-			"SerializeField":{
-				"All": true
-			},
-			"GameObject":{
-				"All": true
-			},
-			"Component":{
-				"All": true
-			},
-			"Vector4":{
-				"All": true
-			},
-			"Vector3":{
-				"All": true
-			},
-			"Vector3Int":{
-				"All": true
-			},
-			"Vector2":{
-				"All": true
-			},
-			"Vector2Int":{
-				"All": true
-			},
-			"Coroutine":{
-			},
-			"Object":{
-				"All": true
-			},
-			"Debug":{
-				"All": true
-			},
-			"WaitForEndOfFrame":{
-				"All": true
-			},
-			"WaitForSeconds":{
-				"All": true
-			},
-			"CreateAssetMenuAttribute":{
-				"All": true
-			},
-			"Collider2D":{
-				"All": true
-			},
-			"LayerMask":{
-				"All": true
-			},
-			"Physics2D":{
-				"All": true
-			},
-			"Mathf":{
-				"All": true
-			},
-			"RangeAttribute":{
-				"All": true
-			},
-			"Quaternion":{
-				"All": true
-			},
-			"Transform":{
-				"All": true
-			},
-			"Random":{
-				"All": true
-			},
-			"Matrix4x4":{
-				"All": true
-			},
-			"Color":{
-				"All": true
-			},
-			"Color32":{
-				"All": true
-			},
-			"HideInInspector":{
-				"All": true
-			},
-			"Time":{
-				"All": true
-			},
-			"Behaviour":{
-				"All": true
-			},
-			"RuntimeInitializeOnLoadMethodAttribute":{
-				"All": true
-			},
-			"RuntimeInitializeLoadType":{
-				"All": true
-			},
-			"Rect":{
-				"All": true
-			},
-			"Plane":{
-				"All": true
-			},
-			"Ray":{
-				"All": true
-			},
-			"Texture2D":{
-				"All": true
-			},
-			"Sprite":{
-				"All": true
-			},
-			"SystemInfo":{
-				"All": true
-			},
-			"CanvasGroup":{
-				"All": true
-			},
-			"RaycastHit2D":{
-				"All": true
-			},
-			"CanvasGroup":{
-				"All": true
-			},
-			"RenderTexture":{
-				"All": true
-			},
-			"ColorUtility" :{
-				"All": true
-			},
-			"LineRenderer" :{
-				"All": true
-			},
-			"Bounds":{
-				"All": true
-			},
-			"BoundsInt":{
-				"All": true
-			},
-			"ColorSpace" :{
-				"All": true
-			},
-			"Canvas":{
-				"All": true
-			},
-			"PropertyAttribute":{
-				"All": true
-			},
-			"RectTransformUtility":{
-				"All": true
-			},
-			"ICanvasRaycastFilter":{
-				"All": true
-			},
-			"CanvasRenderer":{
-				"All": true
-			},
-			"AudioSource":{
-				"All": true
-			},
-			"TextGenerator" : {
-				"All": true
-			},
-			"HorizontalWrapMode" : {
-				"All": true
-			},
-			"Physics" :{
-				"All": true
-			},
-			"SimulationMode2D" :{
-				"All": true
-			},
-			"BoxCollider2D" : {
-				"All": true
-			},
-			"ParticleSystem":{
-				
-			},
-			"Touch":{
-				"All": true
-			},
-			"Input" : {
-				"All": true
-			},
-			"GUIUtility" : {
-				"Methods" : [
-					"void set_systemCopyBuffer(string)",
-					"void RotateAroundPivot(float, UnityEngine.Vector2)",
-					"string get_systemCopyBuffer()"
-					]
-			},
-			"GUI" : {
-				"All": true
-			},
-			"Event" : {
-				"All": true
-			},
-			"ImageConversion":{
-				"Methods" : [
-					"byte[] EncodeToPNG(UnityEngine.Texture2D)",
-					]
-				
-			},
-			"GridLayout":{
-				"All": true
-			},
-			"WaitForSecondsRealtime" : {
-				"All": true
-			},
-			"WaitForFixedUpdate" : {
-				"All": true
-			},
-			"TextureWrapMode" : {
-				"All": true
-			},
-			"TextureFormat" : {
-				"All": true
-			},
-			"Texture" : {
-				"All": true
-			},
-			"TextAsset" : {
-				"All": true
-			},
-			"TextAreaAttribute":{
-				"All": true
-			},
-			"SpriteRenderer":{
-				"All": true
-			},
-			"SpritePackingMode":{
-				"All": true
-			},
-			"SpriteMeshType":{
-				"All": true
-			},
-			"SpaceAttribute":{
-				"All": true
-			},
-			"SortingLayer":{
-				"All": true
-			},
-			"Skybox":{
-				"All": true
-			},
-			"Shader":{
-				"All": true
-			},
-			"Space":{
-				"All": true
-			},
-			"SerializeReference":{
-				"All": true
-			},
-			"Material":{
-				"All": true
-			},
-			"Camera" : {
-				"All": true
-			},
-			"AudioClip" : {
-				"All": true
-			},
-			"Screen" : {
-				"All": true
-			},
-			"RuntimePlatform" : {
-				"All": true
-			},
-			"Resolution" : {
-				"All": true
-			},
-			"RequireComponent" : {
-				"All": true
-			},
-			"RenderTextureFormat" : {
-				"All": true
-			},
-			"Renderer" : {
-				"All": true
-			},
-			"RectTransform" : {
-				"All": true
-			},
-			"RectOffset" : {
-				"All": true
-			},
-			"RectInt" : {
-				"All": true
-			},
-			"QualitySettings" : {
-				"All": true
-			},
-			"PlayerPrefs" : {
-				"All": true
-			},
-			"MinAttribute" : {
-				"All": true
-			},
-			"MeshRenderer" : {
-				"All": true
-			},
-			"MaterialPropertyBlock" : {
-				"All": true
-			},
-			"LogType" : {
-				"All": true
-			},
-			"Keyframe" : {
-				"All": true
-			},
-			"Keyframe" : {
-				"All": true
-			},
-			"KeyCode" : {
-				"All": true
-			},
-			"HideFlags" : {
-				"All": true
-			},
-			"HeaderAttribute" : {
-				"All": true
-			},
-			"Graphics" : {
-				"All": true
-			},
-			"GradientAlphaKey" : {
-				"All": true
-			},
-			"Gradient" : {
-				"All": true
-			},
-			"Gizmos" : {
-				"All": true
-			},
-			"FullScreenMode" : {
-				"All": true
-			},
-			"ExecuteInEditMode" : {
-				"All": true
-			},
-			"DrivenTransformProperties" : {
-				"All": true
-			},
-			"DrivenRectTransformTracker" : {
-				"All": true
-			},
-			"DisallowMultipleComponent" : {
-				"All": true
-			},
-			"CursorMode" : {
-				"All": true
-			},
-			"CursorLockMode" : {
-				"All": true
-			},
-			"Cursor" : {
-				"All": true
-			},
-			"ContextMenu" : {
-				"All": true
-			},
-			"ComputeShader" : {
-				"All": true
-			},
-			"CameraClearFlags" : {
-				"All": true
-			},
-			"AsyncOperation" : {
-				"All": true
-			},
-			"Application" : {
-				"Methods" : [
-					"bool get_isPlaying()",
-					"bool get_isMobilePlatform()",
-					"bool get_isFocused()",
-					"bool get_isEditor()",
-					"bool get_isBatchMode()",
-					"string get_version()",
-					"string get_temporaryCachePath()",
-					"string get_streamingAssetsPath()",
-					"string get_productName()",
-					"string get_persistentDataPath()",
-					"string get_dataPath()",
-					"void set_targetFrameRate(int)",
-					"int get_targetFrameRate()",
-					"void set_runInBackground(bool)",
-					"void Quit()",
-					"void remove_logMessageReceived(UnityEngine.Application/LogCallback)",
-					"void add_logMessageReceived(UnityEngine.Application/LogCallback)",
-				],
-				"NestedTypes" :{
-					"LogCallback" : {
-						"All": true
-					}
-				}
-			},
-			"AnimationCurve" : {
-				"All": true
-			},
-			"AddComponentMenu" : {
-				"All": true
-			},
-			"CanBeNullAttribute" : {
-				"All": true
-			},
-			"AudioSourceCurveType" : {
-				"All": true
-			},
-			"AudioRolloffMode" : {
-				"All": true
-			},
-			"AudioListener" : {
-				"All": true
-			},
-			"Animator" : {
-				"All": true
-			},
-			"SendMessageOptions" : {
-				"All": true
-			},
-			"SelectionBaseAttribute" : {
-				"All": true
-			},
-			"ScreenOrientation" : {
-				"All": true
-			},
-			"FilterMode" : {
-				"All": true
-			},
-			"Resources" : {
-				"All": true
-			},
-			"AnimatorControllerParameterType" : {
-				"All": true
-			},
-			"AnimatorControllerParameterType" : {
-				"All": true
-			},
-			"ParticleSystem" : {
-				"All": true
-			},
-			"RenderMode":{
-				"All": true
-			},
-			"ParticleSystemRenderer":{
-				"All": true
-			},
-			"GUIStyle":{
-				"All": true
-			},
-			"Mesh" : {
-				"All": true
-			},
-			"GUIStyleState" : {
-				"All": true
-			},
-			"GUISkin" : {
-				"All": true
-			},
-			"MeshFilter" : {
-				"All": true
-			},
-			"GL" : {
-				"All": true
-			},
-			"TextAnchor" : {
-				"All": true
-			},
-			"MultilineAttribute" :{
-				"All": true
-			},
-			"DeviceType" : {
-				"All": true
-			},
-			"FFTWindow" : {
-				"All": true
-			},
-			"TextEditor" : {
-				"All": true
-			},
-			"ISerializationCallbackReceiver" : {
-				"All": true
-			},
-			"UnassignedReferenceException" : {
-				"All": true
-			},
-            "Caching" : {
+            "TooltipAttribute": {
+                "All": true
+            },
+            "SerializeField": {
+                "All": true
+            },
+            "GameObject": {
+                "All": true
+            },
+            "Component": {
+                "All": true
+            },
+            "Vector4": {
+                "All": true
+            },
+            "Vector3": {
+                "All": true
+            },
+            "Vector3Int": {
+                "All": true
+            },
+            "Vector2": {
+                "All": true
+            },
+            "Vector2Int": {
+                "All": true
+            },
+            "Coroutine": {},
+            "Object": {
+                "All": true
+            },
+            "Debug": {
+                "All": true
+            },
+            "WaitForEndOfFrame": {
+                "All": true
+            },
+            "WaitForSeconds": {
+                "All": true
+            },
+            "CreateAssetMenuAttribute": {
+                "All": true
+            },
+            "Collider2D": {
+                "All": true
+            },
+            "LayerMask": {
+                "All": true
+            },
+            "Physics2D": {
+                "All": true
+            },
+            "Mathf": {
+                "All": true
+            },
+            "RangeAttribute": {
+                "All": true
+            },
+            "Quaternion": {
+                "All": true
+            },
+            "Transform": {
+                "All": true
+            },
+            "Random": {
+                "All": true
+            },
+            "Matrix4x4": {
+                "All": true
+            },
+            "Color": {
+                "All": true
+            },
+            "Color32": {
+                "All": true
+            },
+            "HideInInspector": {
+                "All": true
+            },
+            "Time": {
+                "All": true
+            },
+            "Behaviour": {
+                "All": true
+            },
+            "RuntimeInitializeOnLoadMethodAttribute": {
+                "All": true
+            },
+            "RuntimeInitializeLoadType": {
+                "All": true
+            },
+            "Rect": {
+                "All": true
+            },
+            "Plane": {
+                "All": true
+            },
+            "Ray": {
+                "All": true
+            },
+            "Texture2D": {
+                "All": true
+            },
+            "Sprite": {
+                "All": true
+            },
+            "SystemInfo": {
+                "All": true
+            },
+            "CanvasGroup": {
+                "All": true
+            },
+            "RaycastHit2D": {
+                "All": true
+            },
+            "CanvasGroup": {
+                "All": true
+            },
+            "RenderTexture": {
+                "All": true
+            },
+            "ColorUtility": {
+                "All": true
+            },
+            "LineRenderer": {
+                "All": true
+            },
+            "Bounds": {
+                "All": true
+            },
+            "BoundsInt": {
+                "All": true
+            },
+            "ColorSpace": {
+                "All": true
+            },
+            "Canvas": {
+                "All": true
+            },
+            "PropertyAttribute": {
+                "All": true
+            },
+            "RectTransformUtility": {
+                "All": true
+            },
+            "ICanvasRaycastFilter": {
+                "All": true
+            },
+            "CanvasRenderer": {
+                "All": true
+            },
+            "AudioSource": {
+                "All": true
+            },
+            "TextGenerator": {
+                "All": true
+            },
+            "HorizontalWrapMode": {
+                "All": true
+            },
+            "Physics": {
+                "All": true
+            },
+            "SimulationMode2D": {
+                "All": true
+            },
+            "BoxCollider2D": {
+                "All": true
+            },
+            "ParticleSystem": {},
+            "Touch": {
+                "All": true
+            },
+            "Input": {
+                "All": true
+            },
+            "GUIUtility": {
                 "Methods": [
-                    "bool ClearCache()"
+                    "void set_systemCopyBuffer(string)",
+                    "void RotateAroundPivot(float, UnityEngine.Vector2)",
+                    "string get_systemCopyBuffer()"
+                ]
+            },
+            "GUI": {
+                "All": true
+            },
+            "Event": {
+                "All": true
+            },
+            "ImageConversion": {
+                "Methods": ["byte[] EncodeToPNG(UnityEngine.Texture2D)"]
+            },
+            "GridLayout": {
+                "All": true
+            },
+            "WaitForSecondsRealtime": {
+                "All": true
+            },
+            "WaitForFixedUpdate": {
+                "All": true
+            },
+            "TextureWrapMode": {
+                "All": true
+            },
+            "TextureFormat": {
+                "All": true
+            },
+            "Texture": {
+                "All": true
+            },
+            "TextAsset": {
+                "All": true
+            },
+            "TextAreaAttribute": {
+                "All": true
+            },
+            "SpriteRenderer": {
+                "All": true
+            },
+            "SpritePackingMode": {
+                "All": true
+            },
+            "SpriteMeshType": {
+                "All": true
+            },
+            "SpaceAttribute": {
+                "All": true
+            },
+            "SortingLayer": {
+                "All": true
+            },
+            "Skybox": {
+                "All": true
+            },
+            "Shader": {
+                "All": true
+            },
+            "Space": {
+                "All": true
+            },
+            "SerializeReference": {
+                "All": true
+            },
+            "Material": {
+                "All": true
+            },
+            "Camera": {
+                "All": true
+            },
+            "AudioClip": {
+                "All": true
+            },
+            "Screen": {
+                "All": true
+            },
+            "RuntimePlatform": {
+                "All": true
+            },
+            "Resolution": {
+                "All": true
+            },
+            "RequireComponent": {
+                "All": true
+            },
+            "RenderTextureFormat": {
+                "All": true
+            },
+            "Renderer": {
+                "All": true
+            },
+            "RectTransform": {
+                "All": true
+            },
+            "RectOffset": {
+                "All": true
+            },
+            "RectInt": {
+                "All": true
+            },
+            "QualitySettings": {
+                "All": true
+            },
+            "PlayerPrefs": {
+                "All": true
+            },
+            "MinAttribute": {
+                "All": true
+            },
+            "MeshRenderer": {
+                "All": true
+            },
+            "MaterialPropertyBlock": {
+                "All": true
+            },
+            "LogType": {
+                "All": true
+            },
+            "Keyframe": {
+                "All": true
+            },
+            "Keyframe": {
+                "All": true
+            },
+            "KeyCode": {
+                "All": true
+            },
+            "HideFlags": {
+                "All": true
+            },
+            "HeaderAttribute": {
+                "All": true
+            },
+            "Graphics": {
+                "All": true
+            },
+            "GradientAlphaKey": {
+                "All": true
+            },
+            "Gradient": {
+                "All": true
+            },
+            "Gizmos": {
+                "All": true
+            },
+            "FullScreenMode": {
+                "All": true
+            },
+            "ExecuteInEditMode": {
+                "All": true
+            },
+            "DrivenTransformProperties": {
+                "All": true
+            },
+            "DrivenRectTransformTracker": {
+                "All": true
+            },
+            "DisallowMultipleComponent": {
+                "All": true
+            },
+            "CursorMode": {
+                "All": true
+            },
+            "CursorLockMode": {
+                "All": true
+            },
+            "Cursor": {
+                "All": true
+            },
+            "ContextMenu": {
+                "All": true
+            },
+            "ComputeShader": {
+                "All": true
+            },
+            "CameraClearFlags": {
+                "All": true
+            },
+            "AsyncOperation": {
+                "All": true
+            },
+            "Application": {
+                "Methods": [
+                    "bool get_isPlaying()",
+                    "bool get_isMobilePlatform()",
+                    "bool get_isFocused()",
+                    "bool get_isEditor()",
+                    "bool get_isBatchMode()",
+                    "string get_version()",
+                    "string get_temporaryCachePath()",
+                    "string get_streamingAssetsPath()",
+                    "string get_productName()",
+                    "string get_persistentDataPath()",
+                    "string get_dataPath()",
+                    "void set_targetFrameRate(int)",
+                    "int get_targetFrameRate()",
+                    "void set_runInBackground(bool)",
+                    "void Quit()",
+                    "void remove_logMessageReceived(UnityEngine.Application/LogCallback)",
+                    "void add_logMessageReceived(UnityEngine.Application/LogCallback)"
+                ],
+                "NestedTypes": {
+                    "LogCallback": {
+                        "All": true
+                    }
+                }
+            },
+            "AnimationCurve": {
+                "All": true
+            },
+            "AddComponentMenu": {
+                "All": true
+            },
+            "CanBeNullAttribute": {
+                "All": true
+            },
+            "AudioSourceCurveType": {
+                "All": true
+            },
+            "AudioRolloffMode": {
+                "All": true
+            },
+            "AudioListener": {
+                "All": true
+            },
+            "Animator": {
+                "All": true
+            },
+            "SendMessageOptions": {
+                "All": true
+            },
+            "SelectionBaseAttribute": {
+                "All": true
+            },
+            "ScreenOrientation": {
+                "All": true
+            },
+            "FilterMode": {
+                "All": true
+            },
+            "Resources": {
+                "All": true
+            },
+            "AnimatorControllerParameterType": {
+                "All": true
+            },
+            "AnimatorControllerParameterType": {
+                "All": true
+            },
+            "ParticleSystem": {
+                "All": true
+            },
+            "RenderMode": {
+                "All": true
+            },
+            "ParticleSystemRenderer": {
+                "All": true
+            },
+            "GUIStyle": {
+                "All": true
+            },
+            "Mesh": {
+                "All": true
+            },
+            "GUIStyleState": {
+                "All": true
+            },
+            "GUISkin": {
+                "All": true
+            },
+            "MeshFilter": {
+                "All": true
+            },
+            "GL": {
+                "All": true
+            },
+            "TextAnchor": {
+                "All": true
+            },
+            "MultilineAttribute": {
+                "All": true
+            },
+            "DeviceType": {
+                "All": true
+            },
+            "FFTWindow": {
+                "All": true
+            },
+            "TextEditor": {
+                "All": true
+            },
+            "ISerializationCallbackReceiver": {
+                "All": true
+            },
+            "UnassignedReferenceException": {
+                "All": true
+            },
+            "Caching": {
+                "Methods": ["bool ClearCache()"]
+            }
+        },
+        "UnityEngine.Events": {
+            "UnityEvent": {
+                "All": true
+            },
+            "UnityEvent`1": {
+                "All": true
+            },
+            "UnityEvent`2": {
+                "All": true
+            },
+            "UnityEvent`3": {
+                "All": true
+            },
+            "UnityEvent`4": {
+                "All": true
+            },
+            "UnityEvent`5": {
+                "All": true
+            },
+            "UnityEvent`6": {
+                "All": true
+            },
+            "UnityAction": {
+                "All": true
+            },
+            "UnityAction`1": {
+                "All": true
+            },
+            "UnityAction`2": {
+                "All": true
+            },
+            "UnityAction`3": {
+                "All": true
+            },
+            "UnityAction`4": {
+                "All": true
+            },
+            "UnityEventCallState": {
+                "All": true
+            },
+            "UnityEventBase": {
+                "All": true
+            }
+        },
+        "UnityEngine.UI": {
+            "Dropdown": {
+                "All": true
+            },
+            "InputField": {
+                "All": true
+            },
+            "Scrollbar": {
+                "All": true
+            },
+            "CanvasScaler": {
+                "All": true
+            },
+            "ColorBlock": {
+                "All": true
+            },
+            "Graphic": {
+                "All": true
+            },
+            "Button": {
+                "All": true
+            },
+            "LayoutGroup": {
+                "All": true
+            },
+            "VerticalLayoutGroup": {
+                "All": true
+            },
+            "ToggleGroup": {
+                "All": true
+            },
+            "Toggle": {
+                "All": true
+            },
+            "Text": {
+                "All": true
+            },
+            "Slider": {
+                "All": true
+            },
+            "Shadow": {
+                "All": true
+            },
+            "Selectable": {
+                "All": true
+            },
+            "ScrollRect": {
+                "All": true
+            },
+            "RawImage": {
+                "All": true
+            },
+            "LayoutRebuilder": {
+                "All": true
+            },
+            "Image": {
+                "All": true
+            },
+            "ICanvasElement": {
+                "All": true
+            },
+            "HorizontalOrVerticalLayoutGroup": {
+                "All": true
+            },
+            "GridLayoutGroup": {
+                "All": true
+            },
+            "GraphicRaycaster": {
+                "All": true
+            },
+            "ContentSizeFitter": {
+                "All": true
+            },
+            "CanvasUpdate": {
+                "All": true
+            },
+            "LayoutElement": {
+                "All": true
+            },
+            "MaskableGraphic": {
+                "All": true
+            }
+        },
+        "UnityEngine.EventSystems": {
+            "EventSystem": {
+                "All": true
+            },
+            "IPointerExitHandler": {
+                "All": true
+            },
+            "IDragHandler": {
+                "All": true
+            },
+            "IDragHandler": {
+                "All": true
+            },
+            "IPointerDownHandler": {
+                "All": true
+            },
+            "IEventSystemHandler": {
+                "All": true
+            },
+            "IPointerExitHandler": {
+                "All": true
+            },
+            "IPointerEnterHandler": {
+                "All": true
+            },
+            "IPointerUpHandler": {
+                "All": true
+            },
+            "IPointerClickHandler": {
+                "All": true
+            },
+            "IBeginDragHandler": {
+                "All": true
+            },
+            "IEndDragHandler": {
+                "All": true
+            },
+            "PointerEventData": {
+                "All": true
+            },
+            "IScrollHandler": {
+                "All": true
+            },
+            "UIBehaviour": {
+                "All": true
+            },
+            "RaycastResult": {
+                "All": true
+            },
+            "IDropHandler": {
+                "All": true
+            },
+            "ExecuteEvents": {
+                "All": true
+            },
+            "EventTriggerType": {
+                "All": true
+            },
+            "EventTrigger": {
+                "All": true
+            },
+            "IInitializePotentialDragHandler": {
+                "All": true
+            },
+            "BaseRaycaster": {
+                "All": true
+            },
+            "BaseEventData": {
+                "All": true
+            }
+        },
+        "UnityEngine.Tilemaps": {
+            "TileData": {
+                "All": true
+            },
+            "TileBase": {
+                "All": true
+            },
+            "Tilemap": {
+                "All": true
+            },
+            "Tilemap": {
+                "All": true
+            },
+            "ITilemap": {
+                "All": true
+            },
+            "TileFlags": {
+                "All": true
+            },
+            "TilemapRenderer": {
+                "All": true
+            },
+            "TileAnimationData": {
+                "All": true
+            },
+            "Tile": {
+                "All": true
+            }
+        },
+        "UnityEngine.Video": {
+            "VideoPlayer": {
+                "All": true
+            },
+            "VideoClip": {
+                "All": true
+            }
+        },
+        "UnityEngine.SceneManagement": {
+            "SceneUtility": {
+                "All": true
+            },
+            "SceneManager": {
+                "All": true
+            },
+            "Scene": {
+                "All": true
+            },
+            "LoadSceneMode": {
+                "All": true
+            }
+        },
+        "UnityEngine.Rendering": {
+            "SortingGroup": {
+                "All": true
+            },
+            "GraphicsDeviceType": {
+                "All": true
+            },
+            "AsyncGPUReadbackRequest": {
+                "All": true
+            },
+            "AsyncGPUReadback": {
+                "All": true
+            }
+        },
+        "UnityEngine.Profiling": {
+            "Profiler": {
+                "Methods": [
+                    "long GetTotalAllocatedMemoryLong()",
+                    "void EndThreadProfiling()",
+                    "void EndThreadProfiling()",
+                    "long GetTotalReservedMemoryLong()",
+                    "long GetMonoUsedSizeLong()",
+                    "void EndSample()",
+                    "void BeginSample(string)"
+                ]
+            },
+            "CustomSampler": {
+                "All": true
+            }
+        },
+        "UnityEngine.Pool": {
+            "PooledObject`1": {
+                "All": true
+            },
+            "CollectionPool`1": {
+                "All": true
+            },
+            "CollectionPool`2": {
+                "All": true
+            }
+        },
+        "UnityEngine.Audio": {
+            "AudioMixerGroup": {
+                "All": true
+            },
+            "AudioMixer": {
+                "All": true
+            }
+        },
+        "UnityEngine.Animations": {
+            "ParentConstraint": {
+                "All": true
+            },
+            "ConstraintSource": {
+                "All": true
+            }
+        },
+        "UnityEngine.Serialization": {
+            "FormerlySerializedAsAttribute": {
+                "All": true
+            }
+        },
+        "UnityEngine.ResourceManagement.ResourceLocations": {
+            "IResourceLocation": {
+                "All": true
+            }
+        },
+        "UnityEngine.ResourceManagement.AsyncOperations": {
+            "AsyncOperationStatus": {
+                "All": true
+            },
+            "AsyncOperationHandle": {
+                "All": true
+            },
+            "AsyncOperationHandle`1": {
+                "All": true
+            }
+        },
+        "UnityEngine.AddressableAssets": {
+            "ResourceLocators": {
+                "All": true
+            },
+            "AssetReference": {
+                "All": true
+            },
+            "Addressables": {
+                "All": true
+            }
+        },
+        "UnityEngine.AddressableAssets.ResourceLocators": {
+            "IResourceLocator": {
+                "All": true
+            },
+            "ResourceLocationMap": {
+                "All": true
+            }
+        },
+        "UnityEngine.U2D": {
+            "PixelPerfectCamera": {
+                "All": true
+            }
+        },
+        "Unity.Collections": {
+            "NativeArray`1": {
+                "Methods": [
+                    "int get_Length()",
+                    "!0 get_Item(int)",
+                    "void Dispose()",
+                    "void .ctor(Unity.Collections.NativeArray`1<!0>, Unity.Collections.Allocator)"
+                ]
+            },
+            "Allocator": {
+                "All": true
+            }
+        },
+        "UnityEngine.Experimental.Rendering": {
+            "GraphicsFormat": {
+                "All": true
+            }
+        },
+        "JetBrains.Annotations": {
+            "CanBeNullAttribute": {
+                "All": true
+            }
+        },
+        "Mirror": {
+            "Reader`1": {
+                "Fields": ["System.Func`2<Mirror.NetworkReader, !0> read"]
+            },
+            "Writer`1": {
+                "Fields": ["System.Action`2<Mirror.NetworkWriter, !0> write"]
+            },
+            "NetworkBehaviourSyncVar": {},
+            "NetworkPongMessage": {
+                "All": true
+            },
+            "NetworkPingMessage": {
+                "All": true
+            },
+            "EntityStateMessage": {
+                "All": true
+            },
+            "ObjectHideMessage": {
+                "All": true
+            },
+            "ObjectDestroyMessage": {
+                "All": true
+            },
+            "ObjectSpawnFinishedMessage": {
+                "All": true
+            },
+            "ObjectSpawnStartedMessage": {
+                "All": true
+            },
+            "ChangeOwnerMessage": {
+                "All": true
+            },
+            "SpawnMessage": {
+                "All": true
+            },
+            "RpcBufferMessage": {
+                "All": true
+            },
+            "RpcMessage": {
+                "All": true
+            },
+            "RpcMessage": {
+                "All": true
+            },
+            "CommandMessage": {
+                "All": true
+            },
+            "SceneOperation": {
+                "All": true
+            },
+            "SceneMessage": {
+                "All": true
+            },
+            "AddPlayerMessage": {
+                "All": true
+            },
+            "NotReadyMessage": {
+                "All": true
+            },
+            "ReadyMessage": {
+                "All": true
+            },
+            "TimeSnapshotMessage": {
+                "All": true
+            },
+            "ServerAttribute": {
+                "All": true
+            },
+            "CommandAttribute": {
+                "All": true
+            },
+            "SyncVarAttribute": {
+                "All": true
+            },
+            "TargetRpcAttribute": {
+                "All": true
+            },
+            "NetworkServer": {
+                "All": true
+            },
+            "NetworkClient": {
+                "All": true
+            },
+            "NetworkConnectionToClient": {
+                "All": true
+            },
+            "NetworkWriter": {
+                "Methods": ["void WriteByte(byte)", "void Write<>(!!0)"]
+            },
+            "NetworkWriterExtensions": {
+                "All": true
+            },
+            "NetworkReader": {
+                "Methods": ["!!0 Read<>()", "byte ReadByte()}"]
+            },
+            "NetworkReaderExtensions": {
+                "All": true
+            },
+            "NetworkWriterPooled": {
+                "All": true
+            },
+            "NetworkWriterPool": {
+                "All": true
+            },
+            "NetworkConnection": {
+                "All": true
+            },
+            "NetworkIdentity": {
+                "All": true
+            },
+            "NetworkBehaviour": {
+                "Inherit": "Allow",
+                "All": true
+            },
+            "NetworkMessage": {
+                "All": true
+            },
+            "SyncList`1": {
+                "All": true
+            },
+            "NetworkManager": {
+                "All": true
+            },
+            "TelepathyTransport": {
+                "Fields": ["ushort port"]
+            },
+            "SyncObject": {
+                "All": true
+            },
+            "Transport": {
+                "Fields": [
+                    "Mirror.Transport active",
+                    "System.Action`1<int> OnServerDisconnected",
+                    "System.Action`1<int> OnServerConnected",
+                    "System.Action OnClientDisconnected",
+                    "System.Action OnClientConnected"
+                ],
+                "Methods": ["void Shutdown()", "int GetMaxPacketSize(int)"]
+            },
+            "ServerCallbackAttribute": {
+                "All": true
+            },
+            "NetworkTime": {
+                "All": true
+            },
+            "ClientRpcAttribute": {
+                "All": true
+            },
+            "ClientAttribute": {
+                "All": true
+            },
+            "Extensions": {
+                "All": true
+            },
+            "InterestManagement": {
+                "All": true
+            },
+            "LocalConnectionToClient": {
+                "All": true
+            },
+            "NetworkAuthenticator": {
+                "All": true
+            },
+            "NetworkStartPosition": {
+                "All": true
+            },
+            "NetworkManagerMode": {
+                "All": true
+            }
+        },
+        "IgnoranceTransport": {
+            "Ignorance": {
+                "Fields": [
+                    "int port",
+                    "bool serverBindsAll",
+                    "string serverBindAddress"
                 ]
             }
         },
-		"UnityEngine.Events" :{
-			"UnityEvent":{
-				"All": true
-			},
-			"UnityEvent`1":{
-				"All": true
-			},
-			"UnityEvent`2":{
-				"All": true
-			},
-			"UnityEvent`3":{
-				"All": true
-			},
-			"UnityEvent`4":{
-				"All": true
-			},
-			"UnityEvent`5":{
-				"All": true
-			},
-			"UnityEvent`6":{
-				"All": true
-			},
-			"UnityAction":{
-				"All": true
-			},
-			"UnityAction`1":{
-				"All": true
-			},
-			"UnityAction`2":{
-				"All": true
-			},
-			"UnityAction`3":{
-				"All": true
-			},
-			"UnityAction`4":{
-				"All": true
-			},
-			"UnityEventCallState":{
-				"All": true
-			},
-			"UnityEventBase":{
-				"All": true
-			},
-		
-		},
-		"UnityEngine.UI":{
-			"Dropdown":{
-				"All": true
-			},
-			"InputField":{
-				"All": true
-			},
-			"Scrollbar":{
-				"All": true
-			},
-			"CanvasScaler":{
-				"All": true
-			},
-			"ColorBlock":{
-				"All": true
-			},
-			"Graphic":{
-				"All": true
-			},
-			"Button":{
-				"All": true
-			},
-			"LayoutGroup":{
-				"All": true
-			},
-			"VerticalLayoutGroup":{
-				"All": true
-			},
-			"ToggleGroup":{
-				"All": true
-			},
-			"Toggle":{
-				"All": true
-			},
-			"Text":{
-				"All": true
-			},
-			"Slider":{
-				"All": true
-			},
-			"Shadow":{
-				"All": true
-			},
-			"Selectable":{
-				"All": true
-			},
-			"ScrollRect":{
-				"All": true
-			},
-			"RawImage":{
-				"All": true
-			},
-			"LayoutRebuilder":{
-				"All": true
-			},
-			"Image":{
-				"All": true
-			},
-			"ICanvasElement":{
-				"All": true
-			},
-			"HorizontalOrVerticalLayoutGroup":{
-				"All": true
-			},
-			"GridLayoutGroup":{
-				"All": true
-			},
-			"GraphicRaycaster":{
-				"All": true
-			},
-			"ContentSizeFitter":{
-				"All": true
-			},
-			"CanvasUpdate":{
-				"All": true
-			},	
-			"LayoutElement":{
-				"All": true
-			},
-			"MaskableGraphic" : {
-				"All": true
-			},
-		},
-		"UnityEngine.EventSystems":{
-			"EventSystem":{
-				"All": true
-			},
-			"IPointerExitHandler":{
-				"All": true
-			},
-			"IDragHandler":{
-				"All": true
-			},
-			"IDragHandler":{
-				"All": true
-			},
-			"IPointerDownHandler":{
-				"All": true
-			},
-			"IEventSystemHandler":{
-				"All": true
-			},
-			"IPointerExitHandler":{
-				"All": true
-			},
-			"IPointerEnterHandler":{
-				"All": true
-			},
-			"IPointerUpHandler":{
-				"All": true
-			},
-			"IPointerClickHandler":{
-				"All": true
-			},
-			"IBeginDragHandler":{
-				"All": true
-			},
-			"IEndDragHandler":{
-				"All": true
-			},
-			"PointerEventData":{
-				"All": true
-			},
-			"IScrollHandler":{
-				"All": true
-			},
-			"UIBehaviour":{
-				"All": true
-			},
-			"RaycastResult":{
-				"All": true
-			},	
-			"IDropHandler":{
-				"All": true
-			},
-			"ExecuteEvents":{
-				"All": true
-			},
-			"EventTriggerType":{
-				"All": true
-			},
-			"EventTrigger":{
-				"All": true
-			},
-			"IInitializePotentialDragHandler":{
-				"All": true
-			},
-			"BaseRaycaster":{
-				"All": true
-			},
-			"BaseEventData":{
-				"All": true
-			},
-			
-			
-		},
-		"UnityEngine.Tilemaps":{
-			"TileData":{
-				"All": true
-			},
-			"TileBase":{
-				"All": true
-			},
-			"Tilemap":{
-				"All": true
-			},
-			"Tilemap":{
-				"All": true
-			},
-			"ITilemap":{
-				"All": true
-			},
-			"TileFlags":{
-				"All": true
-			},
-			"TilemapRenderer":{
-				"All": true
-			},
-			"TileAnimationData" : {
-				"All": true
-			},
-			"Tile" : {
-				"All": true
-			}	
-		},
-		"UnityEngine.Video":{
-			"VideoPlayer":{
-				"All": true
-			},
-			"VideoClip":{
-				"All": true
-			},
-			
-		},
-		"UnityEngine.SceneManagement":{
-			"SceneUtility":{
-				"All": true
-			},
-			"SceneManager":{
-				"All": true
-			},
-			"Scene":{
-				"All": true
-			},
-			"LoadSceneMode":{
-				"All": true
-			},
-
-		},
-		"UnityEngine.Rendering":{
-			"SortingGroup":{
-				"All": true
-			},
-			"GraphicsDeviceType":{
-				"All": true
-			},
-			"AsyncGPUReadbackRequest" : {
-				"All": true
-			},
-			"AsyncGPUReadback" : {
-				"All": true
-			}
-		},
-		"UnityEngine.Profiling" :{
-			
-			"Profiler":{
-				"Methods" : [
-					"long GetTotalAllocatedMemoryLong()",
-					"void EndThreadProfiling()",
-					"void EndThreadProfiling()",
-					"long GetTotalReservedMemoryLong()",
-					"long GetMonoUsedSizeLong()",
-					"void EndSample()",
-					"void BeginSample(string)"
-				]
-			},
-			"CustomSampler":{
-				"All": true
-			},
-		},
-		"UnityEngine.Pool" : {
-			"PooledObject`1":{
-				"All": true
-			},
-			"CollectionPool`1":{
-				"All": true
-			},
-			"CollectionPool`2":{
-				"All": true
-			},
-		},
-		"UnityEngine.Audio" : {
-			"AudioMixerGroup":{
-				"All": true
-			},
-			"AudioMixer":{
-				"All": true
-			}
-		},
-		"UnityEngine.Animations" : {
-			"ParentConstraint":{
-				"All": true
-			},
-			"ConstraintSource":{
-				"All": true
-			},
-		},
-		"UnityEngine.Serialization" : {
-			"FormerlySerializedAsAttribute":{
-				"All": true
-			},
-		},
-		"UnityEngine.ResourceManagement.ResourceLocations" : {
-			"IResourceLocation":{
-				"All": true
-			},
-		},
-		"UnityEngine.ResourceManagement.AsyncOperations" : {
-			"AsyncOperationStatus":{
-				"All": true
-			},
-			"AsyncOperationHandle":{
-				"All": true
-			},
-			"AsyncOperationHandle`1":{
-				"All": true
-			},
-			
-		},
-		"UnityEngine.AddressableAssets" :{
-			"ResourceLocators" :{
-				"All": true
-			},
-			"AssetReference" :{
-				"All": true
-			},
-			"Addressables" : {
-				"All": true
-			}
-		},
-		"UnityEngine.AddressableAssets.ResourceLocators" :{
-			"IResourceLocator" :{
-				"All": true
-			},
-			"ResourceLocationMap" : {
-				"All": true
-			}
-		},
-		"UnityEngine.U2D" : {
-			"PixelPerfectCamera" : {
-				"All": true
-			}
-		},
-		"Unity.Collections" : {
-			"NativeArray`1" : {
-				"Methods" : [	
-					"int get_Length()",
-					"!0 get_Item(int)",
-					"void Dispose()",
-					"void .ctor(Unity.Collections.NativeArray`1<!0>, Unity.Collections.Allocator)"
-				]
-			},
-			"Allocator" : {
-				"All": true
-			}
-		},
-		"UnityEngine.Experimental.Rendering" : {
-			"GraphicsFormat" : {
-				"All": true
-			}
-		},
-		"JetBrains.Annotations" : {
-			"CanBeNullAttribute":{
-				"All": true
-			},
-		},
-        "Mirror": {
-			"Reader`1":{
-				"Fields":[
-					"System.Func`2<Mirror.NetworkReader, !0> read"
-				]
-			},
-			"Writer`1":{
-				"Fields":[
-					"System.Action`2<Mirror.NetworkWriter, !0> write"
-				]
-			}, 
-			"NetworkBehaviourSyncVar": {
+        "Mirror.RemoteCalls": {
+            "RemoteCallDelegate": {
+                "Methods": ["void .ctor(object, nint)"]
             },
-			"NetworkPongMessage":{
-				"All": true
-			},
-			"NetworkPingMessage":{
-				"All": true
-			},
-			"EntityStateMessage":{
-				"All": true
-			},
-			"ObjectHideMessage":{
-				"All": true
-			},
-			"ObjectDestroyMessage":{
-				"All": true
-			},
-			"ObjectSpawnFinishedMessage":{
-				"All": true
-			},
-			"ObjectSpawnStartedMessage":{
-				"All": true
-			},
-			"ChangeOwnerMessage":{
-				"All": true
-			},
-			"SpawnMessage":{
-				"All": true
-			},
-			"RpcBufferMessage":{
-				"All": true
-			},
-			"RpcMessage":{
-				"All": true
-			},
-			"RpcMessage":{
-				"All": true
-			},
-			"CommandMessage":{
-				"All": true
-			},
-			"SceneOperation":{
-				"All": true
-			},
-			"SceneMessage":{
-				"All": true
-			},
-			"AddPlayerMessage":{
-				"All": true
-			},
-			"NotReadyMessage":{
-				"All": true
-			},
-			"ReadyMessage":{
-				"All": true
-			},
-			"TimeSnapshotMessage":{
-				"All": true
-			},
-			"ServerAttribute":{
-				"All": true
-			},
-			"CommandAttribute":{
-				"All": true
-			},
-			"SyncVarAttribute":{
-				"All": true
-			},
-			"TargetRpcAttribute":{
-				"All": true
-			},
-			"NetworkServer":{
-				"All": true
-			},
-			"NetworkClient":{
-				"All": true
-			},
-			"NetworkConnectionToClient":{
-				"All": true
-			},
-			"NetworkWriter":{
-				"Methods" : [
-					"void WriteByte(byte)",
-					"void Write<>(!!0)",
-				]
-			},
-			"NetworkWriterExtensions":{
-				"All": true
-			},
-			"NetworkReader":{
-				"Methods" : [
-					"!!0 Read<>()",
-					"byte ReadByte()}"
-				]
-			},
-			"NetworkReaderExtensions":{
-				"All": true
-			},
-			"NetworkWriterPooled":{
-				"All": true
-			},
-			"NetworkWriterPool":{
-				"All": true
-			},
-			"NetworkConnection":{
-				"All": true
-			},
-			"NetworkIdentity" :{
-				"All": true
-			},
-            "NetworkBehaviour": {
-                "Inherit": "Allow",
-				"All": true
+            "RemoteProcedureCalls": {
+                "Methods": [
+                    "void RemoteCallDelegate(Mirror.NetworkBehaviour, Mirror.NetworkReader , Mirror.NetworkConnectionToClient)",
+                    "void RegisterCommand(System.Type, string, Mirror.RemoteCalls.RemoteCallDelegate, bool)",
+                    "void RegisterRpc(System.Type, string, Mirror.RemoteCalls.RemoteCallDelegate)"
+                ],
+                "Fields": [
+                    "bool mirrorProcessingCMD",
+                    "Mirror.RemoteCalls.Invoker mirrorLastInvoker"
+                ]
             },
-            "NetworkMessage": {
-				"All": true
+            "Invoker": {
+                "All": true
+            }
+        },
+        "Logs": {
+            "Loggy": {
+                "All": true
             },
-			"SyncList`1": {
-				"All": true
+            "LogOverridePref": {
+                "All": true
             },
-			"NetworkManager":{
-				"All": true
-			},
-			"TelepathyTransport":{
-				"Fields":[
-					"ushort port"
-				]
-			},
-			"SyncObject" : {
-				"All": true
-			},
-			"Transport" :{
-				"Fields":[
-					"Mirror.Transport active",
-					"System.Action`1<int> OnServerDisconnected",
-					"System.Action`1<int> OnServerConnected",
-					"System.Action OnClientDisconnected",
-					"System.Action OnClientConnected"
-				],
-				"Methods" : [
-					"void Shutdown()",
-					"int GetMaxPacketSize(int)"
-				],
-				
-			},
-			"ServerCallbackAttribute" :{
-				"All": true
-			},
-			"NetworkTime" :{
-				"All": true
-			},
-			"ClientRpcAttribute" : {
-				"All": true
-			},
-			"ClientAttribute" : {
-				"All": true
-			},
-			"Extensions" : {
-				"All": true
-			},
-			"InterestManagement" : {
-				"All": true
-			},
-			"LocalConnectionToClient" : {
-				"All": true
-			},
-			"NetworkAuthenticator" : {
-				"All": true
-			},
-			"NetworkStartPosition" : {
-				"All": true
-			},
-			"NetworkManagerMode" : {
+            "LoggerPreferences": {
+                "All": true
+            },
+            "Category": {
+                "All": true
+            },
+            "LogLevel": {
+                "All": true
+            },
+            "ThreadLoggy": {
+                "All": true
+            }
+        },
+        "TMPro": {
+            "TMP_VertexDataUpdateFlags": {
+                "All": true
+            },
+            "TMP_TextUtilities": {
+                "All": true
+            },
+            "TMP_TextInfo": {
+                "All": true
+            },
+            "TMP_Text": {
+                "All": true
+            },
+            "TMP_SpriteAsset": {
+                "All": true
+            },
+            "TMP_MeshInfo": {
+                "All": true
+            },
+            "TMP_LinkInfo": {
+                "All": true
+            },
+            "TMP_InputField": {
+                "All": true
+            },
+            "TMP_FontAsset": {
+                "All": true
+            },
+            "TMP_Dropdown": {
+                "All": true
+            },
+            "TMP_CharacterInfo": {
+                "All": true
+            },
+            "TextMeshProUGUI": {
+                "All": true
+            },
+            "FontStyles": {
+                "All": true
+            }
+        },
+        "SecureStuff": {
+            "SafeURL": {
+                "All": true
+            },
+            "SafeProfileManager": {
+                "All": true
+            },
+            "SafeHttpRequest": {
+                "All": true
+            },
+            "SafeHttpRequest": {
+                "All": true
+            },
+            "AccessFile": {
+                "All": true
+            },
+            "FolderType": {
+                "All": true
+            },
+            "VVNote": {
+                "All": true
+            },
+            "VVNote": {
+                "All": true
+            },
+            "VVHighlight": {
+                "All": true
+            },
+            "Librarian": {
+                "All": true
+            },
+            "ICustomSerialisationSystem": {
+                "All": true
+            },
+            "BaseAttribute": {
+                "All": true
+            },
+            "AllowedReflection": {
+                "All": true
+            },
+            "MethodsAndAttributee`1": {
+                "All": true
+            },
+            "SecureMapsSaver": {
+                "All": true
+            },
+            "SceneObjectReference": {
+                "All": true
+            },
+            "IPopulateIDRelation": {
+                "All": true
+            },
+            "IAllowedReflection": {
+                "All": true
+            },
+            "FieldData": {
+                "All": true
+            },
+            "AllowedEnvironmentVariables": {
+                "All": true
+            },
+            "PlayModeOnlyAttribute": {
+                "All": true
+            },
+            "SpriteMetadata": {
+                "Methods": [
+                    "float get_Scale()",
+                    "UnityEngine.Vector2 get_Offset()",
+                    "SecureStuff.SpriteMetadata Create(UnityEngine.Texture2D, ref UnityEngine.Rect)"
+                ],
+                "Fields": ["SecureStuff.SpriteMetadata Default()"]
+            },
+            "EventConnection": {
+                "All": true
+            },
+            "IHaveForeverID": {
+                "All": true
+            },
+            "MicrophoneAccess": {
+                "All": true
+            },
+            "UnprocessedData": {
+                "All": true
+            },
+            "INewMappedOnSpawn": {
+                "All": true
+            }
+        },
+        "Newtonsoft.Json": {
+            "ReferenceLoopHandling": {
+                "All": true
+            },
+            "PreserveReferencesHandling": {
+                "All": true
+            },
+            "NullValueHandling": {
+                "All": true
+            },
+            "JsonWriter": {
+                "All": true
+            },
+            "JsonSerializerSettings": {
+                "All": true
+            },
+            "JsonSerializer": {
+                "All": true
+            },
+            "JsonReader": {
+                "All": true
+            },
+            "JsonPropertyAttribute": {
+                "All": true
+            },
+            "JsonIgnoreAttribute": {
+                "All": true
+            },
+            "JsonConvert": {
+                "All": true
+            },
+            "Formatting": {
+                "All": true
+            },
+            "DefaultValueHandling": {
+                "All": true
+            },
+            "MissingMemberHandling": {
+                "All": true
+            }
+        },
+        "Newtonsoft.Json.Bson": {
+            "BsonWriter": {
+                "All": true
+            },
+            "BsonReader": {
+                "All": true
+            }
+        },
+        "Newtonsoft.Json.Linq": {
+            "JToken": {
+                "All": true
+            },
+            "JObject": {
+                "All": true
+            },
+            "JValue": {
+                "All": true
+            },
+            "JProperty": {
+                "All": true
+            }
+        },
+        "Tomlyn": {
+            "Toml": {
+                "Methods": [
+                    "bool TryToModel<>(string, ref !!0, ref Tomlyn.Syntax.DiagnosticsBag, string, Tomlyn.TomlModelOptions)"
+                ]
+            },
+            "TomlModelOptions": {
+                "All": true
+            }
+        },
+        "Tomlyn.Syntax": {
+            "DiagnosticsBag": {
+                "All": true
+            },
+            "DiagnosticMessage": {
+                "All": true
+            }
+        },
+        "Tomlyn.Model": {
+            "TomlPropertiesMetadata": {
+                "All": true
+            },
+            "ITomlMetadataProvider": {
+                "All": true
+            }
+        },
+        "YamlDotNet.Serialization": {
+            "IDeserializer": {
+                "All": true
+            },
+            "DeserializerBuilder": {
+                "All": true
+            }
+        },
+        "YamlDotNet.RepresentationModel": {
+            "YamlStream": {
+                "All": true
+            },
+            "YamlScalarNode": {
+                "All": true
+            },
+            "YamlNode": {
+                "All": true
+            },
+            "YamlMappingNode": {
+                "All": true
+            },
+            "YamlDocument": {
+                "All": true
+            }
+        },
+        "YamlDotNet.Helpers": {
+            "IOrderedDictionary`2": {
+                "All": true
+            }
+        },
+        "C5": {
+            "IntervalHeap`1": {
+                "All": true
+            },
+            "CollectionValueBase`1": {
+                "All": true
+            }
+        },
+        "SunVox": {
+            "SunVox": {
+                "All": true
+            }
+        },
+        "ImGui": {
+            "ImGui": {
+                "All": true
+            }
+        },
+        "UImGui": {
+            "ImGuiUn": {
+                "All": true
+            },
+            "UImGuiUtility": {
+                "All": true
+            },
+			"UImGui" : {
 				"All": true
 			}
         },
-		"IgnoranceTransport":{
-			"Ignorance" :{
-				"Fields" : [
-					"int port",
-					"bool serverBindsAll",
-					"string serverBindAddress"
-				]
-			}
-		},
-		"Mirror.RemoteCalls" : {
-			"RemoteCallDelegate":{
-				"Methods" : [
-					"void .ctor(object, nint)",
-				]
-			},
-			"RemoteProcedureCalls":{
-				"Methods" : [
-					"void RemoteCallDelegate(Mirror.NetworkBehaviour, Mirror.NetworkReader , Mirror.NetworkConnectionToClient)",
-					"void RegisterCommand(System.Type, string, Mirror.RemoteCalls.RemoteCallDelegate, bool)",
-					"void RegisterRpc(System.Type, string, Mirror.RemoteCalls.RemoteCallDelegate)"
-				],
-				"Fields" : [
-					"bool mirrorProcessingCMD",
-					"Mirror.RemoteCalls.Invoker mirrorLastInvoker"
-				]
-			},
-			"Invoker" : {
-				"All": true
-			}
-		},
-		"Logs" :{
-			"Loggy" :{
-				"All": true
-			},
-			"LogOverridePref" :{
-				"All": true
-			},
-			"LoggerPreferences" :{
-				"All": true
-			},
-			"Category" :{
-				"All": true
-			},
-			"LogLevel" :{
-				"All": true
-			},
-			"ThreadLoggy" :{
-				"All": true
-			}
-		},
-		"TMPro" : {
-			"TMP_VertexDataUpdateFlags" : {
-				"All": true
-			},
-			"TMP_TextUtilities" : {
-				"All": true
-			},
-			"TMP_TextInfo" : {
-				"All": true
-			},
-			"TMP_Text" : {
-				"All": true
-			},
-			"TMP_SpriteAsset" : {
-				"All": true
-			},
-			"TMP_MeshInfo" :{
-				"All": true
-			},
-			"TMP_LinkInfo" :{
-				"All": true
-			},
-			"TMP_InputField" :{
-				"All": true
-			},
-			"TMP_FontAsset" :{
-				"All": true
-			},
-			"TMP_Dropdown" :{
-				"All": true
-			},
-			"TMP_CharacterInfo" :{
-				"All": true
-			},
-			"TextMeshProUGUI" :{
-				"All": true
-			},
-			"FontStyles" :{
-				"All": true
-			}
-		},
-		"SecureStuff" : {
-			"SafeURL" : {
-				"All": true
-			},
-			"SafeProfileManager" : {
-				"All": true
-			},
-			"SafeHttpRequest" : {
-				"All": true
-			},
-			"SafeHttpRequest" : {
-				"All": true
-			},
-			"AccessFile" : {
-				"All": true
-			},
-			"FolderType" : {
-				"All": true
-			},
-			"VVNote" : {
-				"All": true
-			},
-			"VVNote" : {
-				"All": true
-			},
-			"VVHighlight":{
-				"All": true
-			},
-			"Librarian" :{
-				"All": true
-			},
-			"ICustomSerialisationSystem" : {
-				"All": true
-			},
-			"BaseAttribute" : {
-				"All": true
-			},
-			"AllowedReflection" : {
-				"All": true
-			},
-			"MethodsAndAttributee`1" : {
-				"All": true
-			},
-			"SecureMapsSaver" : {
-				"All": true
-			},
-			"SceneObjectReference" : {
-				"All": true
-			},
-			"IPopulateIDRelation" : {
-				"All": true
-			},
-			"IAllowedReflection" : {
-				"All": true
-			},
-			"FieldData" : {
-				"All": true
-			},
-			"AllowedEnvironmentVariables" : {
-				"All": true
-			},
-			"PlayModeOnlyAttribute" : {
-				"All": true
-			},
-			"SpriteMetadata" : {
-				"Methods" : [
-					"float get_Scale()",
-					"UnityEngine.Vector2 get_Offset()",
-					"SecureStuff.SpriteMetadata Create(UnityEngine.Texture2D, ref UnityEngine.Rect)"
-				],
-				"Fields" : [
-					"SecureStuff.SpriteMetadata Default()"
-				]
-			},
-			"EventConnection" : {
-				"All": true
-			},
-			"IHaveForeverID" : {
-				"All": true
-			},
-			"MicrophoneAccess" : {
-				"All": true
-			},
-			"UnprocessedData" : {
-				"All": true
-			}
-		},
-		"Newtonsoft.Json" : {
-			"ReferenceLoopHandling" : {
-				"All": true
-			},
-			"PreserveReferencesHandling" : {
-				"All": true
-			},
-			"NullValueHandling" : {
-				"All": true
-			},
-			"JsonWriter" : {
-				"All": true
-			},
-			"JsonSerializerSettings" : {
-				"All": true
-			},
-			"JsonSerializer" : {
-				"All": true
-			},
-			"JsonReader" : {
-				"All": true
-			},
-			"JsonPropertyAttribute" : {
-				"All": true
-			},
-			"JsonIgnoreAttribute" : {
-				"All": true
-			},
-			"JsonConvert" : {
-				"All": true
-			},
-			"Formatting" : {
-				"All": true
-			},
-			"DefaultValueHandling" : {
-				"All": true
-			},
-            "MissingMemberHandling" : {
+        "ImGuiNET": {
+            "ImGuiNET": {
+                "All": true
+            },
+            "ImGui": {
                 "All": true
             }
-		},
-		"Newtonsoft.Json.Bson" : {
-			"BsonWriter" : {
-				"All": true
-			},
-			"BsonReader" : {
-				"All": true
-			},
-		},
-		"Newtonsoft.Json.Linq" : {
-			"JToken" : {
-				"All": true
-			},
-			"JObject" : {
-				"All": true
-			},
-			"JValue" : {
-				"All": true
-			},
-			"JProperty" : {
-				"All": true
-			}
-		},
-		"Tomlyn" : {
-			"Toml" : {
-				"Methods" : [
-					"bool TryToModel<>(string, ref !!0, ref Tomlyn.Syntax.DiagnosticsBag, string, Tomlyn.TomlModelOptions)"
-				]
-			},
-			"TomlModelOptions" : {
-				"All": true
-			}
-		},
-		"Tomlyn.Syntax" : {
-			"DiagnosticsBag"  : {
-				"All": true
-			},
-			"DiagnosticMessage" : {
-				"All": true
-			}
-		},
-		"Tomlyn.Model" : {
-			"TomlPropertiesMetadata" : {
-				"All": true
-			},
-			"ITomlMetadataProvider" : {
-				"All": true
-			}
-		},
-		"YamlDotNet.Serialization" :{
-			"IDeserializer" : {
-				"All": true
-			},
-			"DeserializerBuilder" : {
-				"All": true
-			}
-		},
-		"YamlDotNet.RepresentationModel" :{
-			"YamlStream" : {
-				"All": true
-			},
-			"YamlScalarNode" : {
-				"All": true
-			},
-			"YamlNode" : {
-				"All": true
-			},
-			"YamlMappingNode" : {
-				"All": true
-			},
-			"YamlDocument" : {
-				"All": true
-			}
-		},
-		"YamlDotNet.Helpers" :{
-			"IOrderedDictionary`2" : {
-				"All": true
-			}
-		},
-		"C5" :{
-			"IntervalHeap`1" : {
-				"All": true,
-			},
-			"CollectionValueBase`1" : {
-				"All": true,
-			}
-		},
-		"SunVox" : {
-			"SunVox" : {
-				"All": true
-			}
-		}
+
+        }
     }
 }

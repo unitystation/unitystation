@@ -17,7 +17,7 @@ namespace Items.Food
 		/// Checks if the player eating this item has a job that's in healableJobs.
 		/// If the player does not have one, nothing special will be triggered.
 		/// </summary>
-		protected override void Eat(PlayerScript eater, PlayerScript feeder)
+		protected override void Eat(PlayerScript eater, PlayerScript feeder, bool projectileFed = false)
 		{
 			if (CheckForJob(eater))
 			{
