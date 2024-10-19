@@ -18,10 +18,30 @@ PrefabInstance:
       propertyPath: foreverID
       value: b68ee93ea2f6b8661b270fa5b90a3426
       objectReference: {fileID: 0}
+    - target: {fileID: 4314556734836740737, guid: cc081247cce5d3aa6b775ebccb39d3f0,
+        type: 3}
+      propertyPath: initialVariantIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5593502202292737568, guid: cc081247cce5d3aa6b775ebccb39d3f0,
         type: 3}
       propertyPath: music.AssetAddress
       value: Assets/Prefabs/Music/Clown_Lore_Theme.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408651626788419843, guid: cc081247cce5d3aa6b775ebccb39d3f0,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408651626788419843, guid: cc081247cce5d3aa6b775ebccb39d3f0,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408651626788419843, guid: cc081247cce5d3aa6b775ebccb39d3f0,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7515355481374312036, guid: cc081247cce5d3aa6b775ebccb39d3f0,
         type: 3}
@@ -87,6 +107,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _assetId
       value: 2379441770
+      objectReference: {fileID: 0}
+    - target: {fileID: 8021462526406050965, guid: cc081247cce5d3aa6b775ebccb39d3f0,
+        type: 3}
+      propertyPath: initialVariantIndex
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -1,11 +1,12 @@
 ﻿using System;
 using Core;
+using Mirror;
 using UnityEngine;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects
 {
-	public class EnterTileBase : MonoBehaviour, IPlayerEntersTile, IObjectEntersTile
+	public class EnterTileBase : NetworkBehaviour, IPlayerEntersTile, IObjectEntersTile
 	{
 		public virtual bool WillAffectPlayer(PlayerScript playerScript)
 		{

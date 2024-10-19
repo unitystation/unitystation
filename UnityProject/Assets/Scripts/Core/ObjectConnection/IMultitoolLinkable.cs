@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Mirror;
+using Objects.Traps;
 using Shared.Systems.ObjectConnection;
 using UnityEngine;
 
@@ -25,6 +26,7 @@ namespace Shared.Systems.ObjectConnection
 		QuantumPad,
 		MaintGeneratorExclusionZone,
 		SolarPanel,
+		GenericTrigger,
 	}
 
 	public interface IMultitoolLinkable
@@ -48,6 +50,13 @@ namespace Shared.Systems.ObjectConnection
 		int MaxDistance { get; }
 
 		bool IgnoreMaxDistanceMapper { get; }
+
+		public bool CanBeMastered { get { return false; } }
+
+		public void SubscribeToController(GameObject potentialObject)
+		{
+			return;
+		}
 	}
 
 	/// <summary>
