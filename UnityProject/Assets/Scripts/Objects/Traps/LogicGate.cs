@@ -70,9 +70,10 @@ namespace Objects.Logic
 			outputHandler.SetSpriteVariant(state == !negateOutput ? 1 : 0);
 		}
 
-		public IGenericTrigger RetrieveTrigger()
+		public bool TryRetrieveTrigger(out IGenericTrigger trigger)
 		{
-			return currentInputInteractingWith == 0 ? inputA : inputB;
+			trigger = currentInputInteractingWith == 0 ? inputA : inputB;
+			return trigger != null;
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -88,8 +89,10 @@ namespace Objects.Logic
 		//With multiple possible inputs to connect with a multitool, we allow the player to switch between what one they want to connect to.
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			currentInputInteractingWith = currentInputInteractingWith == 0 ? 1 : 0; //Toggle active output
-			Chat.AddExamineMsgFromServer(interaction.Performer, $"You change the active input on the gate to {RetrieveTrigger().gameObject.name}");
+			currentInputInteractingWith = currentInputInteractingWith == 0 ? 1 : 0; //Toggle active input to interact with
+			if (TryRetrieveTrigger(out var trigger)) Chat.AddExamineMsgFromServer(interaction.Performer, $"You change the active input on the gate to {trigger.gameObject.name}");
+			else Loggy.LogError("[LogicGate/ServerPerformInteraction] Attempted to toggle active input but the trigger was NULL!");
+
 		}
 
 		#region Tooltips
@@ -118,12 +121,18 @@ namespace Objects.Logic
 		{
 			List<TextColor> interactions = new List<TextColor>();
 
-			TextColor text = new TextColor
+			if (TryRetrieveTrigger(out var trigger))
 			{
-				Text = $"Interact to change active input for multitool interaction.\nCurrently interacting with: {RetrieveTrigger().gameObject.name}",
-				Color = IntentColors.Help
-			};
-			interactions.Add(text);
+				TextColor text = new TextColor
+				{
+					Text = $"Interact to change active input for multitool interaction.\nCurrently interacting with: {trigger.gameObject.name}",
+					Color = IntentColors.Help
+				};
+
+				interactions.Add(text);
+			}
+			else Loggy.LogError("[LogicGate/InteractionsString] Attempted to display current input but the trigger was NULL!");
+
 			
 			return interactions;
 		}

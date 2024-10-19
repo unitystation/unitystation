@@ -115,8 +115,7 @@ namespace Objects.Traps
 			//We ask the gate to get the correct interface.
 			if (potentialObject.TryGetComponent<LogicGate>(out var gate)) 
 			{
-				IGenericTrigger trigger = gate.RetrieveTrigger();
-				if(trigger != null) AddGenericTrigger(trigger);
+				if(gate.TryRetrieveTrigger(out IGenericTrigger trigger)) AddGenericTrigger(trigger);
 				return;
 			}
 

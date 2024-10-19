@@ -1,5 +1,6 @@
 using UnityEngine;
 using Objects.Traps;
+using System.Text;
 using Mirror;
 using UI.Systems.Tooltips.HoverTooltips;
 using System.Collections.Generic;
@@ -78,7 +79,12 @@ namespace Objects.Logic
 
 		public string HoverTip()
 		{
-			return null;
+			StringBuilder sb = new StringBuilder();
+
+			if (state == true) sb.AppendLine("The timer is currently active");
+			else sb.AppendLine("The timer is currently inactive");
+
+			return sb.ToString();
 		}
 
 		public string CustomTitle()
@@ -98,27 +104,7 @@ namespace Objects.Logic
 
 		public List<TextColor> InteractionsStrings()
 		{
-			List<TextColor> interactions = new List<TextColor>();
-			TextColor text;
-			if (state == true)
-			{
-				text = new TextColor
-				{
-					Text = $"The timer is currently active",
-					Color = IntentColors.Help
-				};
-			}
-			else
-			{
-				text = new TextColor
-				{
-					Text = $"The timer is currently inactive",
-					Color = IntentColors.Harm
-				};
-			}
-			interactions.Add(text);
-			
-			return interactions;
+			return null;
 		}
 		#endregion
 	}
