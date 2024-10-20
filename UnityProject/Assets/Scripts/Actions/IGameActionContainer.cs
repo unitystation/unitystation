@@ -8,10 +8,10 @@ using UnityEngine;
 /// </summary>
 public interface IGameActionContainer
 {
-    public Dictionary<string, IGameActionHolder> OwnedActions {get; set;}
+    public Dictionary<string, IGameActionHolderBasic> OwnedActions {get; set;}
 
 
-	void SetUp(List<IGameActionHolder> gainedActions)
+	void SetUp(List<IGameActionHolderBasic> gainedActions)
 	{
 		foreach (var action in gainedActions)
 		{
@@ -19,7 +19,7 @@ public interface IGameActionContainer
 		}
 	}
 
-    void GainAction(IGameActionHolder addedHolder)
+    void GainAction(IGameActionHolderBasic addedHolder)
     {
 		OwnedActions[addedHolder.ActionGuid] = addedHolder;
     }

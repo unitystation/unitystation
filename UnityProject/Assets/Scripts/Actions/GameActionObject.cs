@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// Used for if an action needs to be a self contained object, EG spells
 /// </summary>
-public class GameActionObject : MonoBehaviour, IGameActionHolder
+public class GameActionObject : MonoBehaviour, IGameActionHolderSingle
 {
 	public string ActionGuid => UIActionManager.RegisterAction(this);
     // Start is called before the first frame update

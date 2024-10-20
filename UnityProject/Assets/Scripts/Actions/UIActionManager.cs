@@ -35,7 +35,7 @@ namespace UI.Core.Action
 		/// <summary>
 		/// The dict of all actions keyed to their UUID
 		/// </summary>
-		private Dictionary<string, IGameActionHolder> AllActionsByUUID = new(); //these need to be added to clear()
+		private Dictionary<string, IGameActionHolderBasic> AllActionsByUUID = new(); //these need to be added to clear()
 		/// <summary>
 		/// A dict of action UUIDs keyed to the GameObject they belong to
 		/// </summary>
@@ -94,7 +94,7 @@ namespace UI.Core.Action
 		public UIAction UIAction;
 		public List<UIAction> PooledUIAction = new List<UIAction>();
 
-		public Dictionary<IGameActionHolder, List<UIAction>> DicIActionGUI = new Dictionary<IGameActionHolder, List<UIAction>>();
+		public Dictionary<IGameActionHolderBasic, List<UIAction>> DicIActionGUI = new Dictionary<IGameActionHolderBasic, List<UIAction>>();
 
 		public UIAction ActiveAction { get; set; }
 		public bool HasActiveAction => ActiveAction != null;
@@ -113,8 +113,8 @@ namespace UI.Core.Action
 		}
 
 
-		#region IGameActionHolder
-		public static IGameActionHolder GetActionFromGuid(string key)
+		#region IGameActionHolderBasic
+		public static IGameActionHolderBasic GetActionFromGuid(string key)
 		{
 			return Instance.AllActionsByUUID[key];
 		}
@@ -122,7 +122,7 @@ namespace UI.Core.Action
 		/// <summary>
 		/// public wrapper for _RegisterAction()
 		/// </summary>
-		public static string RegisterAction(IGameActionHolder registeredAction)
+		public static string RegisterAction(IGameActionHolderBasic registeredAction)
 		{
 			if(Convert.ToBoolean(registeredAction.ActionGuid))
 			{
@@ -135,7 +135,7 @@ namespace UI.Core.Action
 		/// <summary>
 		/// register an action holder with us, ideally you should call this ASAP after holder creation, returns the generated ActionKey
 		/// </summary>
-		private string _RegisterAction(IGameActionHolder registeredAction) //due to being wrapped we assume this is called in a safe context
+		private string _RegisterAction(IGameActionHolderBasic registeredAction) //due to being wrapped we assume this is called in a safe context
 		{
 			string generatedGuid = Guid.NewGuid().ToString();
 			AllActionsByUUID[generatedGuid] = registeredAction;
@@ -153,7 +153,7 @@ namespace UI.Core.Action
 			UnregisterAction(Instance.AllActionsByUUID[Instance.AllActionUUIDsByGameObject[gameObject]]);
 		};
 
-		public static void UnregisterAction(IGameActionHolder unregisteredAction)
+		public static void UnregisterAction(IGameActionHolderBasic unregisteredAction)
 		{
 			Instance.AllActionsByUUID.Remove(unregisteredAction.ActionGuid);
 		}
@@ -167,7 +167,7 @@ namespace UI.Core.Action
 			return true;
 		}
 
-		#endregion IGameActionHolder
+		#endregion IGameActionHolderBasic
 
 		/// <summary>
 		/// Set the action button visibility
@@ -463,7 +463,7 @@ namespace UI.Core.Action
 				}
 			}
 
-			DicIActionGUI = new Dictionary<IGameActionHolder, List<UIAction>>();
+			DicIActionGUI = new Dictionary<IGameActionHolderBasic, List<UIAction>>();
 		}
 
 		public static void ClearAllActionsServer()

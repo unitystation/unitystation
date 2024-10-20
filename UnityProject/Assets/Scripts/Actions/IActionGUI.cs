@@ -4,7 +4,7 @@ using Mirror;
 using UI.Core.Action;
 using UnityEngine;
 
-public interface IGameActionHolder
+public interface IGameActionHolderBasic
 {
 	GameObject gameObject { get; }
 	/// <summary>
@@ -20,7 +20,7 @@ public interface IGameActionHolder
 
 ///Using both IGameActionHolderSingle and IActionGUIMULTI on a script will not work!!!, USE ONLY ONE OF THE Interface Types!!!///
 
-public interface IGameActionHolderSingle : IGameActionHolder
+public interface IGameActionHolderSingle : IGameActionHolderBasic
 {
 	ActionData ActionData { get; }
 

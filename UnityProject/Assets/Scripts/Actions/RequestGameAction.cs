@@ -24,8 +24,8 @@ public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 	{
 		//initialize id mappings
 		var alphabeticalComponentTypes =
-			typeof(IGameActionHolder).Assembly.GetTypes()
-				.Where(type => typeof(IGameActionHolder).IsAssignableFrom(type))
+			typeof(IGameActionHolderBasic).Assembly.GetTypes()
+				.Where(type => typeof(IGameActionHolderBasic).IsAssignableFrom(type))
 				.OrderBy(type => type.FullName);
 		ushort i = 0;
 		foreach (var componentType in alphabeticalComponentTypes)
