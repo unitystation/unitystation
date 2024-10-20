@@ -23,6 +23,7 @@ using Player;
 using Shuttles;
 using Tilemaps.Behaviours.Layers;
 using Tiles;
+using UnityEngine.Serialization;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 /// <summary>
@@ -61,13 +62,13 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	public Dictionary<Collider2D, Tilemap> wallsTileMaps = new Dictionary<Collider2D, Tilemap>();
 
 	public Matrix spaceMatrix { get; set; }
-	private Matrix mainStationMatrix = null;
+	public Matrix InternalMainStationMatrix = null;
 
 	public static MatrixInfo MainStationMatrix
 	{
 		get
 		{
-			if (Instance.mainStationMatrix == null)
+			if (Instance.InternalMainStationMatrix == null)
 			{
 				if (Instance.ActiveMatricesList.Count > 1)
 				{
@@ -80,7 +81,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			}
 			else
 			{
-				return Get(Instance.mainStationMatrix);
+				return Get(Instance.InternalMainStationMatrix);
 			}
 		}
 	}
@@ -149,12 +150,12 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			Matrix.NetworkedMatrix.MatrixSync.IsSpaceMatrix = true;
 			MatrixManager.Instance.spaceMatrix = Matrix;
 		}
-
-		if (SceneType == SceneType.MainStation)
-		{
-			Matrix.NetworkedMatrix.MatrixSync.IsMainStationMatrix = true;
-			MatrixManager.Instance.mainStationMatrix = Matrix;
-		}
+		//
+		// if (SceneType == SceneType.MainStation)
+		// {
+		// 	Matrix.NetworkedMatrix.MatrixSync.IsMainStationMatrix = true;
+		// 	MatrixManager.Instance.mainStationMatrix = Matrix;
+		// }
 
 		return Matrix;
 	}
@@ -183,7 +184,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		if (Instance != null)
 		{
 			Instance.spaceMatrix = null;
-			Instance.mainStationMatrix = null;
+			Instance.InternalMainStationMatrix = null;
 		}
 
 		MovableMatrices.Clear();
@@ -333,9 +334,9 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 		if (matrix.IsMainStation)
 		{
-			if (mainStationMatrix == null)
+			if (InternalMainStationMatrix == null)
 			{
-				mainStationMatrix = matrix;
+				InternalMainStationMatrix = matrix;
 			}
 			else
 			{
