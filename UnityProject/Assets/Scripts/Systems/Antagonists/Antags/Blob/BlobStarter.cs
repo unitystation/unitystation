@@ -265,12 +265,22 @@ namespace Blob
 				.magnitude > 600f) || MatrixManager.IsSpaceAt(gameObject.GetComponent<MovementSynchronisation>().registerTile.WorldPosition, true, matrixInfo) || matrixInfo != MatrixManager.MainStationMatrix)
 			{
 				Vector3 position = new Vector3(Random.Range(bound.xMin, bound.xMax), Random.Range(bound.yMin, bound.yMax), 0);
-				while (MatrixManager.IsSpaceAt(Vector3Int.FloorToInt(position), true, matrixInfo) || MatrixManager.IsWallAt(Vector3Int.FloorToInt(position), true))
+				int Tries = 0;
+
+				while (MatrixManager.IsSpaceAt(Vector3Int.FloorToInt(position), true, matrixInfo) || MatrixManager.IsWallAt(Vector3Int.FloorToInt(position), true) && Tries < 100)
 				{
 					position = new Vector3(Random.Range(bound.xMin, bound.xMax), Random.Range(bound.yMin, bound.yMax), 0);
+					Tries++;
 				}
 
-				gameObject.GetComponent<MovementSynchronisation>().AppearAtWorldPositionServer(position, true);
+				if (Tries >= 100)
+				{
+					gameObject.GetComponent<MovementSynchronisation>().AppearAtWorldPositionServer(bound.center, true);
+				}
+				else
+				{
+					gameObject.GetComponent<MovementSynchronisation>().AppearAtWorldPositionServer(position, true);
+				}
 			}
 
 			var spawnResult = Spawn.ServerPrefab(AntagManager.Instance.blobPlayerViewer, gameObject.RegisterTile().WorldPositionServer, gameObject.transform.parent);
