@@ -51,7 +51,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 	public List<MatrixInfo> MovableMatrices { get; private set; } = new List<MatrixInfo>();
 
-	public static bool IsInitialized;
+	public static bool IsInitialized = true;
 
 	public event Action OnActiveMatricesChange;
 
@@ -112,10 +112,10 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		}
 
 		ResetMatrixManager();
-		IsInitialized = false;
+		IsInitialized = true;
 	}
 
-	public static Matrix MakeNewMatrix(string Name = "Matrix", bool IsSpace = false)
+	public static Matrix MakeNewMatrix(string Name = "Matrix", SceneType SceneType = SceneType.AdditionalScenes)
 	{
 
 		if (string.IsNullOrEmpty(Name))
@@ -144,10 +144,16 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		Synchronise.GetComponent<MatrixNamesSynchronise>().SyncMatrixName("Matrix",Name);
 		Object.transform.parent.GetComponentInChildren<NetworkedMatrix>().IsJsonLoaded = true;
 		var Matrix = Object.transform.parent.GetComponentInChildren<Matrix>();
-		if (IsSpace)
+		if (SceneType == SceneType.Space)
 		{
 			Matrix.NetworkedMatrix.MatrixSync.IsSpaceMatrix = true;
 			MatrixManager.Instance.spaceMatrix = Matrix;
+		}
+
+		if (SceneType == SceneType.MainStation)
+		{
+			Matrix.NetworkedMatrix.MatrixSync.IsMainStationMatrix = true;
+			MatrixManager.Instance.mainStationMatrix = Matrix;
 		}
 
 		return Matrix;
@@ -159,7 +165,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		ResetMatrixManager();
 		if (newScene.name.Equals("Lobby") == false)
 		{
-			IsInitialized = false;
+			IsInitialized = true;
 		}
 	}
 
@@ -191,6 +197,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 	public void RegisterWhenReady(Matrix matrix)
 	{
+
 		RegisterMatrix(matrix);
 		matrix.Initialized = true;
 
@@ -205,6 +212,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 		if (CustomNetworkManager.IsServer == false)
 		{
+			IsInitialized = false;
 			if (matrix.NetworkedMatrix.IsJsonLoaded == false)
 			{
 				matrix.MetaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);

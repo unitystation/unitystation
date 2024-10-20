@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: traps_spike_generic
+  m_EditorClassIdentifier: 
+  foreverID: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: 5054576240521651893, guid: 2631d388c675f294cb7c03e40bcc9ceb,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 677711590, guid: 2631d388c675f294cb7c03e40bcc9ceb, type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 5054576240521651893, guid: 2631d388c675f294cb7c03e40bcc9ceb,
+        type: 3}
+      secondDelay: 0.05
+    - sprite: {fileID: 2017052000, guid: 2631d388c675f294cb7c03e40bcc9ceb, type: 3}
+      secondDelay: 0.05
+    - sprite: {fileID: 1497298576, guid: 2631d388c675f294cb7c03e40bcc9ceb, type: 3}
+      secondDelay: 0.05
+    - sprite: {fileID: 677711590, guid: 2631d388c675f294cb7c03e40bcc9ceb, type: 3}
+      secondDelay: 0.01
+  - Frames:
+    - sprite: {fileID: 677711590, guid: 2631d388c675f294cb7c03e40bcc9ceb, type: 3}
+      secondDelay: 0.05
+    - sprite: {fileID: 1497298576, guid: 2631d388c675f294cb7c03e40bcc9ceb, type: 3}
+      secondDelay: 0.05
+    - sprite: {fileID: 2017052000, guid: 2631d388c675f294cb7c03e40bcc9ceb, type: 3}
+      secondDelay: 0.05
+    - sprite: {fileID: 5054576240521651893, guid: 2631d388c675f294cb7c03e40bcc9ceb,
+        type: 3}
+      secondDelay: 0.05
+  IsPalette: 0
+  DisplayName: 

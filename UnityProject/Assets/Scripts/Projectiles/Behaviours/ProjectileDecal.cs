@@ -1,5 +1,4 @@
-﻿using System;
-using Detective;
+﻿using Detective;
 using Items;
 using Logs;
 using Mirror;
@@ -56,18 +55,8 @@ namespace Weapons.Projectiles.Behaviours
 		[ClientRpc]
 		public void RpcClientSpawn(Vector3 WorldPosition)
 		{
-			try
-			{
-				var newDecal = Spawn.ClientPrefab(decal,
-					WorldPosition).GameObject;
-				var timeLimitedDecal = newDecal.GetComponent<TimeLimitedDecal>();
-				timeLimitedDecal.SetUpDecal(animationTime);
-			}
-			catch (Exception e)
-			{
-				Loggy.LogError(e.ToString());
-			}
-
+			var newDecal = Spawn.ClientPrefab(decal, WorldPosition).GameObject;
+			if(newDecal != null && newDecal.TryGetComponent<TimeLimitedDecal>(out var timeLimitedDecal)) timeLimitedDecal.SetUpDecal(animationTime);
 		}
 	}
 }

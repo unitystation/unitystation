@@ -14,6 +14,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: db3959220dbdaca41a0b0eb468213501,
         type: 2}
+    - target: {fileID: 2490630288303511261, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: db3959220dbdaca41a0b0eb468213501,
+        type: 2}
     - target: {fileID: 3417345767468294455, guid: d0eb5dacbdcd4844e8c76aabde50434f,
         type: 3}
       propertyPath: parentID
@@ -24,6 +30,18 @@ PrefabInstance:
       propertyPath: foreverID
       value: 28e04200f63c4714f8608d921b156edd
       objectReference: {fileID: 0}
+    - target: {fileID: 4262289884360340554, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: 'craftItem.Array.data[0]'
+      value: 
+      objectReference: {fileID: 7029765293304545759, guid: 40e2b6f8f7fbcdb4cbe892093907ef91,
+        type: 3}
+    - target: {fileID: 4262289884360340554, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: 'craftItem.Array.data[1]'
+      value: 
+      objectReference: {fileID: 7185978976352611110, guid: 0af3fb6f8543f0b4b914da932bd18ea0,
+        type: 3}
     - target: {fileID: 8159390639885615672, guid: d0eb5dacbdcd4844e8c76aabde50434f,
         type: 3}
       propertyPath: initialName
@@ -43,6 +61,18 @@ PrefabInstance:
     - target: {fileID: 8159390639885615672, guid: d0eb5dacbdcd4844e8c76aabde50434f,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ed1368f15500def4893d1454c141cb02,
+        type: 2}
+    - target: {fileID: 8159390639885615672, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: a66651b9547ad064c88be9ee090f048b,
+        type: 2}
+    - target: {fileID: 8159390639885615672, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: ed1368f15500def4893d1454c141cb02,
         type: 2}

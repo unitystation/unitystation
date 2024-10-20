@@ -2,6 +2,7 @@
 using UnityEngine;
 using Antagonists;
 using AddressableReferences;
+using Items.Others;
 
 namespace Objects
 {

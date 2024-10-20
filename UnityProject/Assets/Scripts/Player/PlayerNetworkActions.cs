@@ -22,6 +22,7 @@ using UI.Core;
 using UI.Items;
 using Doors;
 using IngameDebugConsole;
+using Items.Others;
 using Logs;
 using Managers;
 using Objects;

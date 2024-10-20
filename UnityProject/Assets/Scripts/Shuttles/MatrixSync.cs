@@ -25,6 +25,8 @@ namespace Shuttles
 
 		[SyncVar] public bool IsSpaceMatrix;
 
+		[SyncVar] public bool IsMainStationMatrix;
+
 		public static int matrixIDcounter;
 
 		private void Awake()

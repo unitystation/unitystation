@@ -2123,7 +2123,7 @@ namespace MapSaver
 								if (Waiting.Value.SpawnResult != null)
 								{
 									Spawn._ServerFireClientServerSpawnHooks(Waiting.Value.SpawnResult,
-										SpawnInfo.Mapped(Waiting.Value.SpawnResult.GameObject));
+										SpawnInfo.IsJsonMapped(Waiting.Value.SpawnResult.GameObject));
 									Waiting.Value.SpawnResult = null;
 								}
 

@@ -45,7 +45,7 @@ namespace Items.Atmospherics
 		{
 			if (pipeObject != null)
 			{
-				return pipeObject.pipeData.Connections.Copy();
+				return pipeObject.pipeData.RotatedConnections.Copy();
 			}
 
 			return null;

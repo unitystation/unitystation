@@ -229,11 +229,20 @@ public class GUI_P_Component : PageElement
 		{
 			try
 			{
+				ulong id = 0;
+
+				var book = Librarian.Book.GenerateNonMonoBook((Data as MonoBehaviour));
+
+				if (book != null)
+				{
+					id = book.ID;
+				}
+
 				return JsonConvert.SerializeObject(new EditData()
 				{
 					IDType = IDType.Bookshelf,
-					BookID = Librarian.Book.GenerateNonMonoBook((Data as MonoBehaviour)).ID,
-					ClientGameObject = ClientObjectPath.GetPathForMessage((Data as MonoBehaviour).gameObject)
+					BookID = id,
+					ClientGameObject = ClientObjectPath.GetPathForMessage((Data as MonoBehaviour)?.gameObject)
 				});
 			}
 			catch (UnityEngine.UnassignedReferenceException e)
