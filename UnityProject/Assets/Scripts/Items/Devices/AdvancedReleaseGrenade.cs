@@ -28,7 +28,7 @@ namespace Items.Weapons
 				BlastData blastData = new BlastData();
 
 				ReagentMix mixA = ReagentContainer1.CurrentReagentMix.Take(mixAmount);
-				ReagentMix mixB = ReagentContainer1.CurrentReagentMix.Take(mixAmount);
+				ReagentMix mixB = ReagentContainer2.CurrentReagentMix.Take(mixAmount);
 
 				float internalEnergy = mixA.InternalEnergy + mixB.InternalEnergy;
 
@@ -37,6 +37,8 @@ namespace Items.Weapons
 				ReagentContainer2.ReagentsChanged(true);
 				ReagentContainer2.OnReagentMixChanged?.Invoke();
 
+				mixedReagentContainer.Add(mixA, false);
+				mixedReagentContainer.Add(mixB, false);
 				mixedReagentContainer.CurrentReagentMix.InternalEnergy = internalEnergy;
 				mixedReagentContainer.CurrentReagentMix.Temperature += TemperatureChange;
 				mixedReagentContainer.ReagentsChanged(false, true); //We mix the the two containers, but cache the effects of the mixed container.
@@ -60,7 +62,8 @@ namespace Items.Weapons
 		public override bool WillInteract(InventoryApply interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
-			if (interaction.TargetSlot.Item.OrNull()?.gameObject != gameObject) return false;
+			if (interaction.TargetObject != gameObject) return false;
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Multitool)) return true;
 			if (IsFullContainers && interaction.UsedObject != null)
 			{
 				if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver) == false) return false;
