@@ -28,7 +28,7 @@ namespace ScriptableObjects.TimedGameEvents.SeasonalEvents
 			if (player == null) return;
 			if (player.TryGetComponent<PlayerScript>(out var playerScript) == false) return;
 			if (player.TryGetComponent<DynamicItemStorage>(out var storage) == false) return;
-			var randomTitle = Random.Range(0, 1) >= 0.5 ? "Spooky" : "Evil";
+			var randomTitle = Random.Range(0f, 1f) >= 0.5 ? "Spooky" : "Evil";
 			playerScript.characterSettings.Name = randomTitle + " " + playerScript.characterSettings.Name;
 			storage.SetUpFromPopulator(outfits.PickRandom());
 		}
