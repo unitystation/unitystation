@@ -190,6 +190,7 @@ public class Mind : NetworkBehaviour, IGameActionHolderSingle, IGameActionContai
 	public Dictionary<string, IGameActionHolder> OwnedActions {get; set;} = new();
 
 	private Dictionary<string, IGameActionHolder> availableActions = new();
+	public Dictionary<string, IGameActionHolder> AvailableActions => availableActions;
 
 	/// <summary>
 	/// General purpose properties storage for misc stuff like job-specific flags
@@ -293,6 +294,16 @@ public class Mind : NetworkBehaviour, IGameActionHolderSingle, IGameActionContai
 
 	}
 
+	#region Action Control
+	/// <summary>
+	/// Returns a bool based on if an action is available to us or not
+	/// </summary>
+	public bool CheckActionAvailability(string actionID)
+	{
+		IGameActionHolder gameActionHolder = availableActions[actionID];
+		return Convert.ToBoolean(gameActionHolder) && gameActionHolder.IsActionAvailable();
+	}
+	#endregion Action Control
 
 	public void CheckNonImportantMind()
 	{

@@ -11,6 +11,11 @@ public interface IGameActionHolder
 	/// The global key used for tracking an action, stored as a string for client communication, 2 ACTIONS SHOULD NEVER EVER SHARE THE SAME KEY
 	/// </summary>
 	public string ActionGuid { get; }
+
+	bool IsActionAvailable()
+	{
+		return true;
+	}
 }
 
 ///Using both IGameActionHolderSingle and IActionGUIMULTI on a script will not work!!!, USE ONLY ONE OF THE Interface Types!!!///

@@ -159,6 +159,17 @@ namespace UI.Core.Action
 		}
 
 		/// <summary>
+		/// return true if we are able to execute the requested game action, otherwise return false
+		/// </summary>
+		public static bool RequestGameAction(string actionGUID, PlayerScript playerScript, Vector3 clickPosition)
+		{
+			if(!playerScript.Mind.CheckActionAvailability(actionGUID)) return false;
+			return true;
+		}
+
+		#endregion IGameActionHolder
+
+		/// <summary>
 		/// Set the action button visibility
 		/// </summary>
 		public static void ToggleServer(GameObject body, IGameActionHolderSingle iActionGUI, bool show)
@@ -428,8 +439,6 @@ namespace UI.Core.Action
 				}
 			}
 		}
-
-		#endregion
 
 		#region Events
 

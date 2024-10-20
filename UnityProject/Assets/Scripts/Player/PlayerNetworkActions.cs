@@ -32,6 +32,7 @@ using Tiles;
 using Util;
 using Random = UnityEngine.Random;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
+using UI.Core.Action;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -892,6 +893,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				return;
 			}
 		}
+	}
+
+	//effectively a command wapper for UIActionManager.RequestGameAction
+	[Command]
+	public void CmdRequestAction(string actionID, Vector3 clickPosition)
+	{
+		UIActionManager.RequestGameAction(actionID, playerScript, clickPosition);
 	}
 
 	[Command]
