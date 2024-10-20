@@ -11,7 +11,7 @@ using Shared.Systems.ObjectConnection;
 namespace Systems.Research.Objects
 {
 	[RequireComponent(typeof(MaterialStorageLink))]
-	public class RDProductionMachine: NetworkBehaviour, ICheckedInteractable<HandApply>, IAPCPowerable, IMultitoolSlaveable
+	public class RDProductionMachine: NetworkBehaviour, ICheckedInteractable<HandApply>, IAPCPowerable, IMultitoolSlaveable, INewMappedOnSpawn
 	{
 		[SyncVar(hook = nameof(SyncSprite))]
 		private RDProState stateSync;
@@ -148,7 +148,7 @@ namespace Systems.Research.Objects
 
 		#region Lifecycle
 
-		public void Awake()
+		void Awake()
 		{
 			networkManager = CustomNetworkManager.Instance;
 			registerObject = GetComponent<RegisterObject>();
@@ -165,11 +165,11 @@ namespace Systems.Research.Objects
 			}
 
 			OnRemoveTechweb();
+		}
 
-			if(researchServer != null)
-			{
-				researchServer.Techweb.TechWebDesignUpdateEvent += TechWebUpdate;
-			}
+		void INewMappedOnSpawn.OnNewMappedOnSpawn()
+		{ 
+			if(researchServer != null) researchServer.Techweb.TechWebDesignUpdateEvent += TechWebUpdate;		
 		}
 
 		public void OnSpawnServer(SpawnInfo info)

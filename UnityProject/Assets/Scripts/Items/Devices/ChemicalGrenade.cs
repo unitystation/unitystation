@@ -12,17 +12,17 @@ using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<HandActivate>, IServerDespawn, ITrapComponent,
 	ICheckedInteractable<InventoryApply>
 {
-	private ItemStorage containerStorage;
-	private Pickupable pickupable;
-	private UniversalObjectPhysics objectPhysics;
+	protected ItemStorage containerStorage;
+	protected Pickupable pickupable;
+	protected UniversalObjectPhysics objectPhysics;
 
-	[SerializeField] private SpriteHandler spriteHandler;
+	[SerializeField] protected SpriteHandler spriteHandler;
 
-	private const int UNLOCKED_SPRITE = 0;
-	private const int LOCKED_SPRITE = 1;
-	private const int ARMED_SPRITE = 2;
+	protected const int UNLOCKED_SPRITE = 0;
+	protected const int LOCKED_SPRITE = 1;
+	protected const int ARMED_SPRITE = 2;
 
-	private const int EMPTY_VARIANT = 0;
+	protected const int EMPTY_VARIANT = 0;
 
 	public ReagentContainer ReagentContainer1 =>
 		containerStorage.GetIndexedItemSlot(0)?.Item.OrNull()?.GetComponent<ReagentContainer>();
@@ -31,11 +31,11 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 		containerStorage.GetIndexedItemSlot(1)?.Item.OrNull()?.GetComponent<ReagentContainer>();
 
 
-	private ReagentContainer mixedReagentContainer;
+	protected ReagentContainer mixedReagentContainer;
 
-	[SerializeField] private bool InitiallyScrewed = false;
+	[SerializeField] protected bool InitiallyScrewed = false;
 
-	[field: SyncVar] public bool ScrewedClosed { get; private set; } = false;
+	[field: SyncVar] public bool ScrewedClosed { get; protected set; } = false;
 
 	public bool IsFullContainers
 	{
@@ -54,6 +54,7 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 	private float fuseLength = 3;
 
 	[SerializeField] private AddressableAudioSource armbomb = null;
+	[SerializeField] protected float TemperatureChange = 0f;
 
 	private bool hasExploded = false;
 
@@ -174,9 +175,9 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 		}
 	}
 
-	private const int DETONATE_SPILL_AMOUNT = 1000; //How much reagent to spill when detonating, designed to empty grenade contents if reactions did not do so.
+	protected const int DETONATE_SPILL_AMOUNT = 1000; //How much reagent to spill when detonating, designed to empty grenade contents if reactions did not do so.
 
-	public void MixReagents()
+	public virtual void MixReagents()
 	{
 		if (isServer)
 		{
@@ -193,6 +194,7 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 			ReagentContainer2.OnReagentMixChanged?.Invoke();
 
 			mixedReagentContainer.CurrentReagentMix.InternalEnergy = internalEnergy;
+			mixedReagentContainer.CurrentReagentMix.Temperature += TemperatureChange;
 			mixedReagentContainer.ReagentsChanged(false, true); //We mix the the two containers, but cache the effects of the mixed container.
 
 			blastData.ReagentMix = mixedReagentContainer.CurrentReagentMix.CloneWithCache();
@@ -287,7 +289,7 @@ public class ChemicalGrenade : NetworkBehaviour, IPredictedCheckedInteractable<H
 		UpdateSprite(UNLOCKED_SPRITE);
 	}
 
-	private void UpdateSprite(int index)
+	protected void UpdateSprite(int index)
 	{
 		spriteHandler?.SetCatalogueIndexSprite(index);
 

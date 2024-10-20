@@ -120,5 +120,63 @@
         ],
         "name": "Pneumatic Cannon",
         "Item_ID": "pneumaticcannon"
+    },
+    {
+        "Internal_ID": "pyro_grenade",
+        "Description": ".",
+        "Category": [
+            "Equipment"
+        ],
+        "Materials": {
+            "Metal": 1000,
+            "Glass": 350
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Science"
+        ],
+        "name": "Pyro-Chemical Grenade",
+        "Item_ID": "pyrogrenade"
+    },
+    {
+        "Internal_ID": "cyro_grenade",
+        "Description": "",
+        "Category": [
+            "Equipment"
+        ],
+        "Materials": {
+            "Metal": 1000,
+            "Glass": 350
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Science"
+        ],
+        "name": "Cyro Grenade",
+        "Item_ID": "cyrogrenade"
+    },
+    {
+        "Internal_ID": "adv_release_grenade",
+        "Description": "",
+        "Category": [
+            "Equipment"
+        ],
+        "Materials": {
+            "Metal": 1000,
+            "Gold": 250,
+            "Glass": 350
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Science"
+        ],
+        "name": "Advanced Release Grenade",
+        "Item_ID": "advreleasegrenade"
     }
 ]
