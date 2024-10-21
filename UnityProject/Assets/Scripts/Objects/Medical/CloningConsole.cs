@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using Health.Sickness;
 using Items.Others;
+using Logs;
 using Mirror;
 using Newtonsoft.Json;
 using Systems.Character;
@@ -60,13 +62,38 @@ namespace Objects.Medical
 
 			//TODO: Support persistance of this info somewhere, such as to a circuit board.
 			//scan for adjacent dna scanner and cloning pod
-			scanner = MatrixManager.GetAdjacent<DNAScanner>(registerTile.WorldPositionServer, true).FirstOrDefault();
-			cloningPod = MatrixManager.GetAdjacent<CloningPod>(registerTile.WorldPositionServer, true).FirstOrDefault();
+			StartCoroutine(CheckForAdjacentScanners());
 
 			if (cloningPod)
 			{
 				cloningPod.console = this;
 			}
+		}
+
+		private IEnumerator CheckForAdjacentScanners()
+		{
+			var checks = 0;
+			while (checks <= 4)
+			{
+				scanner = MatrixManager.GetAdjacent<DNAScanner>(registerTile.WorldPositionServer, true).FirstOrDefault();
+				cloningPod = MatrixManager.GetAdjacent<CloningPod>(registerTile.WorldPositionServer, true).FirstOrDefault();
+				if (scanner != null && cloningPod != null)
+				{
+					break;
+				}
+				yield return WaitFor.Seconds(0.5f);
+				checks++;
+			}
+
+			Chat.AddActionMsgToChat(gameObject,
+				scanner == null
+					? $"The {gameObject.ExpensiveName()} beeps an error code, indicating that it cannot find a nearby scanner to connect to."
+					: $"The {gameObject.ExpensiveName()} beeps a succes code, indicating that it connected to the {scanner.gameObject.ExpensiveName()} succesfully.");
+
+			Chat.AddActionMsgToChat(gameObject,
+				cloningPod == null
+					? $"The {gameObject.ExpensiveName()} beeps an error code, indicating that it cannot find a cloning pod nearby."
+					: $"The {gameObject.ExpensiveName()} beeps a succes code, indicating that it connected to the {cloningPod.gameObject.ExpensiveName()} succesfully.");
 		}
 
 		/// <summary>
@@ -128,6 +155,14 @@ namespace Objects.Medical
 
 		private void UpdateInoperableStatus()
 		{
+			if (scanner == null)
+			{
+				Loggy.LogError("[CloningConsole/UpdateInoperableStatus()] - The scanner is not connected to this console.");
+				Chat.AddActionMsgToChat(gameObject,
+					$"A {gameObject.ExpensiveName()} crashes momentarily before coming back to life with an error that says 'No scanner connected..'");
+				StartCoroutine(CheckForAdjacentScanners());
+				return;
+			}
 			if (scanner.RelatedAPC == null)
 			{
 				scanner.statusString = "Scanner not connected to APC!";
