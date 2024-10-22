@@ -573,7 +573,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 
 	public static IEnumerable<ItemSlot> SlotSubtree(ItemSlot slot)
 	{
-		if (slot.Item == null)
+		if (slot?.Item == null)
 		{
 			return new[] { slot };
 		}
