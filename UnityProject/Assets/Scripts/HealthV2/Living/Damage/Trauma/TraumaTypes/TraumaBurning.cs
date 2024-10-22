@@ -80,7 +80,7 @@ namespace HealthV2.TraumaTypes
 		/// </summary>
 		private void AshBodyPart()
 		{
-
+			if (bodyPart.BodyPartType == BodyPartType.Head) return;
 			if (bodyPart.BodyPartType == BodyPartType.Chest) return;
 			var internalItemList = bodyPart.OrganStorage.GetItemSlots();
 			foreach (var item in internalItemList)

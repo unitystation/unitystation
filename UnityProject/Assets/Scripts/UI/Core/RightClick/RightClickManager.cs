@@ -447,7 +447,13 @@ public class RightClickManager : SingletonManager<RightClickManager>
 					" on this object.", Category.UserInput, forObject.name);
 		}
 
-		return new RightClickMenuItem(sprite, spriteRenderer.color, null, ButtonColor,
+		var Colour = Color.white;
+		if (spriteRenderer != null)
+		{
+			Colour = spriteRenderer.color;
+		}
+
+		return new RightClickMenuItem(sprite, Colour, null, ButtonColor,
 			label, subMenus, action, null, palette, false);
 	}
 }

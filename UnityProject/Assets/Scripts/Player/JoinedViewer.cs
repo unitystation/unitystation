@@ -130,6 +130,7 @@ namespace Player
 				Category.Connections);
 
 
+			bool GennewID = false;
 			var Existingplayer = PlayerList.Instance.GetLoggedOffClient(authData.ClientId, authData.Account.Id);
 			if (Existingplayer == null || Existingplayer == PlayerInfo.Invalid)
 			{
@@ -143,10 +144,20 @@ namespace Player
 						Existingplayer.Connection?.Disconnect();
 					}
 				}
+				else
+				{
+					GennewID = true;
+
+				}
 			}
 
 			if (Existingplayer == null ||  Existingplayer == PlayerInfo.Invalid)
 			{
+				if (GennewID && GameData.Instance.DevBuild)
+				{
+					authData.Account.Id = authData.Account.Id + RNG.GetRandomNumber(0, 10000);
+				}
+
 				Existingplayer = new PlayerInfo
 				{
 					Connection = connectionToClient,

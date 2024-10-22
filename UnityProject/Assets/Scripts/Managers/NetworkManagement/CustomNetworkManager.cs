@@ -269,6 +269,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	{
 		PrePayload.Clear();
 		LoadedMapDatas.Clear();
+		MapSaver.MapSaver.CodeClass.ThisCodeClass.Reset();
 	}
 
 	void ApplyConfig()
