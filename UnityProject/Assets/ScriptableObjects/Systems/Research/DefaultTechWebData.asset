@@ -203,6 +203,22 @@ MonoBehaviour:
     prefabID: advmatter
     techType: 4
     ColourPublic: {r: 0.3019608, g: 0.70980394, b: 0.7490196, a: 1}
+  - ID: ordnance
+    DisplayName: Chemical Ordnance
+    Description: Specialised methods of delivering chemical payloads
+    StartingNode: 0
+    RequiredTechnologies:
+    - basechem
+    DesignIDs:
+    - pyro_grenade
+    - cyro_grenade
+    - adv_release_grenade
+    ResearchCosts: 20
+    ExportPrice: 0
+    PotentialUnlocks: []
+    prefabID: ordnance
+    techType: 4
+    ColourPublic: {r: 0.3627981, g: 0.8695201, b: 0.89433956, a: 1}
   - ID: bluespace
     DisplayName: Bluespace Technology
     Description: Allows for research into bluespace technology
