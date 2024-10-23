@@ -1066,7 +1066,7 @@ In the meantime, you can exclude any file from Hot-Reload by
         protected static void AutoDetectAndSetShaderMode()
         {
             var usedShaderMode = FastScriptReloadPreference.ShadersMode.Surface;
-            var renderPipelineAsset = GraphicsSettings.renderPipelineAsset;
+            var renderPipelineAsset = GraphicsSettings.defaultRenderPipeline;
             if (renderPipelineAsset == null)
             {
                 usedShaderMode = FastScriptReloadPreference.ShadersMode.Surface;
