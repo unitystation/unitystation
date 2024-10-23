@@ -11,12 +11,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
-    <ProjectGuid>{af109505-452a-9b82-229f-2ca5525ea30a}</ProjectGuid>
+    <RootNamespace>Unity.Multiplayer.Center</RootNamespace>
+    <ProjectGuid>{a1a924ec-5b2f-daaf-e6f9-76c5d0e42a17}</ProjectGuid>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Unity.AI.Navigation.Updater</AssemblyName>
+    <AssemblyName>Unity.Multiplayer.Center.Editor</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -25,7 +25,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>Temp\Bin\Debug\Unity.AI.Navigation.Updater\</OutputPath>
+    <OutputPath>Temp\Bin\Debug\Unity.Multiplayer.Center.Editor\</OutputPath>
     <DefineConstants>UNITY_6000_0_23;UNITY_6000_0;UNITY_6000;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_2020_2_OR_NEWER;UNITY_2020_3_OR_NEWER;UNITY_2021_1_OR_NEWER;UNITY_2021_2_OR_NEWER;UNITY_2021_3_OR_NEWER;UNITY_2022_1_OR_NEWER;UNITY_2022_2_OR_NEWER;UNITY_2022_3_OR_NEWER;UNITY_2023_1_OR_NEWER;UNITY_2023_2_OR_NEWER;UNITY_2023_3_OR_NEWER;UNITY_6000_0_OR_NEWER;PLATFORM_ARCH_64;UNITY_64;UNITY_INCLUDE_TESTS;ENABLE_AR;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_VIRTUALTEXTURING;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_EDITOR_GAME_SERVICES;ENABLE_UNITY_GAME_SERVICES_ANALYTICS_SUPPORT;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_GENERATE_NATIVE_PLUGINS_FOR_ASSEMBLIES_API;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;ENABLE_MANAGED_UNITYTLS;INCLUDE_DYNAMIC_GI;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_MARSHALLING_TESTS;ENABLE_VIDEO;ENABLE_NAVIGATION_OFFMESHLINK_TO_NAVMESHLINK;ENABLE_ACCELERATOR_CLIENT_DEBUGGING;TEXTCORE_1_0_OR_NEWER;EDITOR_ONLY_NAVMESH_BUILDER_DEPRECATED;PLATFORM_STANDALONE_WIN;PLATFORM_STANDALONE;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_NVIDIA;ENABLE_AMD;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_OUT_OF_PROCESS_CRASH_HANDLER;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP;GFXDEVICE_WAITFOREVENT_MESSAGEPUMP;PLATFORM_USES_EXPLICIT_MEMORY_MANAGER_INITIALIZER;PLATFORM_SUPPORTS_WAIT_FOR_PRESENTATION;PLATFORM_SUPPORTS_SPLIT_GRAPHICS_JOBS;ENABLE_MONO;NET_4_6;NET_UNITY_4_8;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_LEGACY_INPUT_MANAGER;TEXTCORE_FONT_ENGINE_1_5_OR_NEWER;TEXTCORE_TEXT_ENGINE_1_5_OR_NEWER;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER;UNITY_EDITOR_ONLY_COMPILATION</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -46,12 +46,50 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Library\PackageCache\com.unity.ai.navigation\Editor\Updater\NavMeshSceneConverter.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ai.navigation\Editor\Updater\BuiltInToNavMeshSurfaceConverterContainer.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ai.navigation\Editor\Updater\AssemblyInfo.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ai.navigation\Editor\Updater\NavMeshUpdaterEditor.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ai.navigation\Editor\Updater\NavMeshUpdaterUtility.cs" />
-    <None Include="Library\PackageCache\com.unity.ai.navigation\Editor\Updater\Unity.AI.Navigation.Updater.asmdef" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\Recommendations\RecommenderSystemDataObject.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\Features\PackageManagement.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\Recommendations\Scoring.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\Analytics\DebugAnalytics.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\Recommendations\RecommenderSystem.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\MultiplayerCenterWindow\UI\QuestionnaireView.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\MultiplayerCenterWindow\MultiplayerCenterWindow.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\MultiplayerCenterWindow\UI\RecommendationView\PackageSelectionView.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\Recommendations\RecommendationAuthoringData.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\Recommendations\RecommendationUtils.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\MultiplayerCenterWindow\UI\RecommendationView\RecommendationView.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\Recommendations\RecommendationViewData.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\Analytics\OnboardingSectionAnalyticsProvider.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\OnBoarding\SectionsFinder.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\Questionnaire\QuestionnaireData.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\MultiplayerCenterWindow\UI\RecommendationView\SectionHeader.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\Analytics\AnalyticsData.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\MultiplayerCenterWindow\RecommendationViewBottomBar.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\MultiplayerCenterWindow\UI\QuestionSection.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\Analytics\AnalyticsUtils.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\MultiplayerCenterWindow\UI\ViewUtils.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\MultiplayerCenterWindow\UI\RecommendationView\RecommendationItemView.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\MultiplayerCenterWindow\UI\RecommendationView\SolutionSelectionView.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\Questionnaire\Logic.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\OnBoarding\GettingStartedTabView.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\Analytics\MultiplayerCenterAnalytics.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\MultiplayerCenterWindow\RecommendationTabView.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\Recommendations\PreReleaseHandling.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\OnBoarding\QuickstartPackageHandling.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\AssemblyInfo.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\Questionnaire\UserChoicesObject.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\MultiplayerCenterWindow\TabGroup.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\Questionnaire\PresetData.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\Analytics\MultiplayerCenterAnalyticsFactory.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\Questionnaire\QuestionnaireEditor.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\MultiplayerCenterWindow\UI\StyleClasses.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\Recommendations\RecommendationType.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\Recommendations\RecommenderSystemData.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\Questionnaire\QuestionnaireObject.cs" />
+    <Compile Include="Library\PackageCache\com.unity.multiplayer.center\Editor\MultiplayerCenterWindow\UI\QuestionViewFactory.cs" />
+    <None Include="Library\PackageCache\com.unity.multiplayer.center\Editor\MultiplayerCenterWindow\UI\light.uss" />
+    <None Include="Library\PackageCache\com.unity.multiplayer.center\Editor\MultiplayerCenterWindow\UI\dark.uss" />
+    <None Include="Library\PackageCache\com.unity.multiplayer.center\Editor\MultiplayerCenterWindow\UI\MultiplayerCenterWindow.uss" />
+    <None Include="Library\PackageCache\com.unity.multiplayer.center\Editor\Unity.Multiplayer.Center.Editor.asmdef" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
@@ -804,17 +842,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Unity.AI.Navigation.csproj">
-      <Project>{72ade3a5-8690-1784-b72d-e3cd47b30538}</Project>
-      <Name>Unity.AI.Navigation</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.AI.Navigation.Editor.csproj">
-      <Project>{e8997eba-e280-9ef3-2abb-41bfafb0808d}</Project>
-      <Name>Unity.AI.Navigation.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.AI.Navigation.Editor.ConversionSystem.csproj">
-      <Project>{0b1b5730-1dfd-aaf1-d1a0-e5e6bbcc8ce7}</Project>
-      <Name>Unity.AI.Navigation.Editor.ConversionSystem</Name>
+    <ProjectReference Include="Unity.Multiplayer.Center.Common.csproj">
+      <Project>{046d3456-a87a-4785-60fd-9c7c83dc7ed7}</Project>
+      <Name>Unity.Multiplayer.Center.Common</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEditor.UI.csproj">
       <Project>{9818dfc5-3c37-f812-6460-1f6985c5c559}</Project>
