@@ -46,6 +46,11 @@ namespace Objects.Shuttles
 			registerTile = GetComponent<RegisterTile>();
 			Rotatable = this.GetComponentCustom<Rotatable>();
 			ShuttleMatrixMove = GetComponentInParent<MatrixMove>();
+
+			if (ShuttleMatrixMove.NetworkedMatrixMove.ShuttleConsuls.Contains(this) == false)
+			{
+				ShuttleMatrixMove.NetworkedMatrixMove.ShuttleConsuls.Add(this);
+			}
 		}
 
 		public void OnDisable()
@@ -56,6 +61,7 @@ namespace Objects.Shuttles
 		public void OnEnable()
 		{
 			ShuttleMatrixMove = GetComponentInParent<MatrixMove>();
+			if (ShuttleMatrixMove  == null) return;
 			ShuttleMatrixMove.NetworkedMatrixMove.ShuttleConsuls.Add(this);
 		}
 
