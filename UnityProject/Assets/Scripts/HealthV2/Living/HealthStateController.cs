@@ -105,8 +105,15 @@ namespace HealthV2
 			if (newHealth != overallHealthSync)
 			{
 				overallHealthSync = newHealth;
-				ServerOverallHealthChange?.Invoke(newHealth);
+				InvokeServerOverallHealthChange(newHealth);
 			}
+		}
+
+
+		[Server]
+		public void InvokeServerOverallHealthChange(float newHealth)
+		{
+			ServerOverallHealthChange?.Invoke(newHealth);
 		}
 
 		[Server]

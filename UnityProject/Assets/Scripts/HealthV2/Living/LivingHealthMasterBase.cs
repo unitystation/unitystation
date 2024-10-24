@@ -1370,7 +1370,7 @@ namespace HealthV2
 			var ears = GetBodyPartsInArea(BodyPartType.Ears, false);
 			foreach (var ear in ears)
 			{
-				var earDeafen = ear.GetComponentCustom<EarDeafen>();		
+				var earDeafen = ear.GetComponentCustom<EarDeafen>();
 				if (earDeafen != null && earDeafen.TryDeafen(deafenDuration, checkForProtectiveCloth))
 				{
 					didDeafen = true;
@@ -1452,12 +1452,13 @@ namespace HealthV2
 		{
 			Extinguish(); //Remove any fire on them.
 			ResetDamageAll(); //Bring their entire body parts that are on them in good shape.
-			healthStateController
-				.SetOverallHealth(MaxHealth); //Set the player's overall health to their race's maxHealth.
+			healthStateController.SetOverallHealth(MaxHealth); //Set the player's overall health to their race's maxHealth.
 			RestartHeart();
 			SetConsciousState(ConsciousState.CONSCIOUS);
 			playerScript.RegisterPlayer.ServerStandUp();
 			playerScript.Mind.OrNull()?.StopGhosting();
+			healthStateController.InvokeServerOverallHealthChange(MaxHealth);
+			// This is due to Health pop-up having the wrong state since it gets set before CONSCIOUS DoesSo this should fix it
 		}
 
 		public void RestartHeart()

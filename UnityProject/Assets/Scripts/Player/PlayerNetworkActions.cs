@@ -1048,11 +1048,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			traumaChance: 0);
 	}
 
-	[Command]
-	public void CmdDoEmote(string emoteName)
-	{
-		EmoteActionManager.DoEmote(emoteName, playerScript.gameObject);
-	}
 
 	[Command]
 	public void CmdResetMovementForSelf()

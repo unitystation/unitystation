@@ -176,8 +176,14 @@ public class ChatBubbleManager : MonoBehaviour, IInitialise, IDisposable
 		return obj.GetComponent<ChatBubble>();
 	}
 
-	void OnDisable()
+	private void OnEnable()
 	{
+		EventManager.AddHandler(Event.SceneUnloading, ChatBubbleManager.Instance.Clear);
+	}
+
+	private void OnDisable()
+	{
+		EventManager.RemoveHandler(Event.SceneUnloading, ChatBubbleManager.Instance.Clear);
 		SceneManager.activeSceneChanged -= OnSceneChange;
 	}
 
