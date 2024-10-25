@@ -71,10 +71,12 @@ namespace SecureStuff
 		/// <param name="newValue">The new value to set</param>
 		public void SetValue(object newValue)
 		{
-			if (fieldInfo != null)
+			// this check makes sure that the type of the value is the same as the type of the field,
+			// so no one can replace it with another naught object
+			if (fieldInfo != null && newValue.GetType() == fieldInfo.FieldType)
 			{
 				fieldInfo.SetValue(target, newValue);
-				Value = newValue; // Update the local value to reflect the change
+				Value = newValue;
 			}
 		}
 	}
