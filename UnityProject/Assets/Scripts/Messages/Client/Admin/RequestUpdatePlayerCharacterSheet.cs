@@ -85,25 +85,13 @@ namespace Messages.Client.Admin
 
 		public override void Process(NetMessage msg)
 		{
-			//(Max): This sucks massive balls for performance. but we can't use netid on UI.
-			// at least the client is the one that will handle this, not the server.
-			var obj = GameObject.FindObjectsByType<CharacterSheetEditor>(FindObjectsSortMode.InstanceID);
-			if (obj == null)
+			if (msg.IsSuccess)
 			{
-				Loggy.LogError("[UpdateTheRequestToCharacterSheetUpdateToRequests] Could not find editor to update.");
-				return;
+				CharacterSheetEditor.Instance.NetMessage_SuccessEvent();
 			}
-			if (obj.Length != 0)
+			else
 			{
-				if (msg.IsSuccess)
-				{
-					obj[0].NetMessage_SuccessEvent();
-					Debug.Log("Success");
-				}
-				else
-				{
-					obj[0].NetMessage_FailEvent();
-				}
+				CharacterSheetEditor.Instance.NetMessage_FailEvent();
 			}
 		}
 

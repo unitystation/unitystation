@@ -1,3 +1,4 @@
+using System;
 using AdminTools;
 using ImGuiNET;
 using Newtonsoft.Json;
@@ -5,12 +6,13 @@ using UImGui;
 using UnityEngine;
 using Logs;
 using Messages.Client.Admin;
+using Shared.Managers;
 using Systems.Character;
 using Util;
 
 namespace UI.Admin.DIMGUI.Characters
 {
-	public class CharacterSheetEditor : MonoBehaviour
+	public class CharacterSheetEditor : SingletonManager<CharacterSheetEditor>
 	{
 		[SerializeField] private PlayerManagePage playerManagePage;
 		private AdminPlayerEntry playerEntry => playerManagePage.PlayerEntry;
@@ -23,9 +25,15 @@ namespace UI.Admin.DIMGUI.Characters
 		private int savingWaitCount = 0;
 		private const int maxSavingWaitCount = 650;
 
-		private void OnDestroy()
+		private void OnDisable()
 		{
 			HideUI();
+		}
+
+		public override void OnDestroy()
+		{
+			HideUI();
+			base.OnDestroy();
 		}
 
 		public void NetMessage_SuccessEvent()
