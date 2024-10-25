@@ -8,15 +8,15 @@ namespace Util
 {
 	public static class IMGUIHelper
 	{
-		public static void DrawField(FieldInfo field, object target)
+		public static void DrawField(SafeFieldInfo field, object target)
 		{
-			var fieldType = field.FieldType;
-			var value = field.GetValue(target);
+			var fieldType = field.Type;
+			var value = field.Value;
 
 			if (fieldType == typeof(int))
 			{
 				var intValue = (int)value;
-				if (ImGui.InputInt(field.Name, ref intValue)) field.SetValue(target, intValue);
+				if (ImGui.InputInt(field.Name, ref intValue)) field.SetValue(intValue);
 			}
 			else if (fieldType.IsEnum)
 			{
@@ -27,7 +27,7 @@ namespace Util
 
 				if (ImGui.Combo(field.Name, ref currentEnumIndex, enumNames, enumNames.Length))
 					// Set the field to the newly selected enum value
-					field.SetValue(target, enumValues.GetValue(currentEnumIndex));
+					field.SetValue(enumValues.GetValue(currentEnumIndex));
 			}
 			else if (typeof(IList).IsAssignableFrom(fieldType) || fieldType.IsArray)
 			{
@@ -80,17 +80,17 @@ namespace Util
 			else if (fieldType == typeof(float))
 			{
 				var floatValue = (float)value;
-				if (ImGui.InputFloat(field.Name, ref floatValue)) field.SetValue(target, floatValue);
+				if (ImGui.InputFloat(field.Name, ref floatValue)) field.SetValue(floatValue);
 			}
 			else if (fieldType == typeof(bool))
 			{
 				var boolValue = (bool)value;
-				if (ImGui.Checkbox(field.Name, ref boolValue)) field.SetValue(target, boolValue);
+				if (ImGui.Checkbox(field.Name, ref boolValue)) field.SetValue(boolValue);
 			}
 			else if (fieldType == typeof(string))
 			{
 				var strValue = (string)value ?? string.Empty;
-				if (ImGui.InputText(field.Name, ref strValue, 100)) field.SetValue(target, strValue);
+				if (ImGui.InputText(field.Name, ref strValue, 100)) field.SetValue(strValue);
 			}
 			else
 			{
@@ -107,7 +107,7 @@ namespace Util
 			}
 
 			var type = obj.GetType();
-			var fields = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+			var fields = AllowedReflection.GetFieldsFromFieldsGrabbleAttribute(obj);
 
 			foreach (var field in fields) DrawField(field, obj); // Recursively draw fields of the object
 		}
@@ -131,7 +131,7 @@ namespace Util
 				return;
 			}
 
-			var fields = AllowedReflection.GetFieldsWithFieldsGrabbableAttribute(target);
+			var fields = AllowedReflection.GetFieldsFromFieldsGrabbleAttribute(target);
 			foreach (var field in fields)
 			{
 				DrawField(field, target);

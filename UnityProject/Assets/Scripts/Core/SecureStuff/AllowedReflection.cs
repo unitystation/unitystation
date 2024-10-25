@@ -28,7 +28,7 @@ namespace SecureStuff
 		public T Attribute;
 	}
 
-	public class FieldsGrabbable : BaseAttribute
+	public class SafeCanGrabFields : BaseAttribute
 	{
 	}
 
@@ -44,6 +44,39 @@ namespace SecureStuff
 
 		public MonoBehaviour SourceComponent;
 		public string SourceEvent;
+	}
+
+	public class SafeFieldInfo
+	{
+		public string Name;
+		public Type Type;
+		public object Value;
+
+		// Reference to the actual FieldInfo to allow setting values
+		private FieldInfo fieldInfo;
+		private object target;
+
+		public SafeFieldInfo(string name, Type type, object value, FieldInfo fieldInfo, object target)
+		{
+			Name = name;
+			Type = type;
+			Value = value;
+			this.fieldInfo = fieldInfo;
+			this.target = target;
+		}
+
+		/// <summary>
+		/// Set the value of the field on the target object.
+		/// </summary>
+		/// <param name="newValue">The new value to set</param>
+		public void SetValue(object newValue)
+		{
+			if (fieldInfo != null)
+			{
+				fieldInfo.SetValue(target, newValue);
+				Value = newValue; // Update the local value to reflect the change
+			}
+		}
 	}
 
 
@@ -389,17 +422,28 @@ namespace SecureStuff
 		}
 
 		/// <summary>
-		/// Get all fields with FieldsGrabbable attribute.
+		/// Get all fields with FieldsGrabbable attribute and return a list of SafeFieldInfo containing the field's name, type, and value.
 		/// </summary>
 		/// <param name="obj">The object to inspect</param>
-		/// <returns>List of FieldInfo for fields with FieldsGrabbable attribute</returns>
-		public static List<FieldInfo> GetFieldsWithFieldsGrabbableAttribute(object obj)
+		/// <returns>List of SafeFieldInfo for fields with FieldsGrabbable attribute</returns>
+		public static List<SafeFieldInfo> GetFieldsFromFieldsGrabbleAttribute(object obj)
 		{
 			var type = obj.GetType();
+
+			// Get all fields with the FieldsGrabbable attribute
 			var fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public)
-				.Where(field => field.GetCustomAttribute<FieldsGrabbable>(true) != null)
+				.Where(field => field.GetCustomAttribute<SafeCanGrabFields>(true) != null)
+				.Select(field => new SafeFieldInfo(
+					field.Name,
+					field.FieldType,
+					field.GetValue(obj),
+					field,
+					obj // Pass the object instance to allow SetValue to modify the correct field
+				))
 				.ToList();
+
 			return fields;
 		}
+
 	}
 }
