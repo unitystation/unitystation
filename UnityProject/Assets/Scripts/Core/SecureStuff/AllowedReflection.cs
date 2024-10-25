@@ -436,7 +436,7 @@ namespace SecureStuff
 			bool classHasFieldsGrabbableAttribute = type.GetCustomAttribute<SafeCanGrabFields>(true) != null;
 
 			// Get all instance, public, and non-public fields
-			var allFields = type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+			var allFields = type.GetFields(BindingFlags.Instance | BindingFlags.Public);
 
 			foreach (var field in allFields)
 			{
