@@ -422,28 +422,39 @@ namespace SecureStuff
 		}
 
 		/// <summary>
-		/// Get all fields with FieldsGrabbable attribute and return a list of SafeFieldInfo containing the field's name, type, and value.
+		/// Get all fields with FieldsGrabbable attribute either applied to the class or individual fields,
+		/// and return a list of SafeFieldInfo containing the field's name, type, and value.
 		/// </summary>
 		/// <param name="obj">The object to inspect</param>
 		/// <returns>List of SafeFieldInfo for fields with FieldsGrabbable attribute</returns>
 		public static List<SafeFieldInfo> GetFieldsFromFieldsGrabbleAttribute(object obj)
 		{
 			var type = obj.GetType();
+			var fields = new List<SafeFieldInfo>();
 
-			// Get all fields with the FieldsGrabbable attribute
-			var fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public)
-				.Where(field => field.GetCustomAttribute<SafeCanGrabFields>(true) != null)
-				.Select(field => new SafeFieldInfo(
-					field.Name,
-					field.FieldType,
-					field.GetValue(obj),
-					field,
-					obj // Pass the object instance to allow SetValue to modify the correct field
-				))
-				.ToList();
+			// Check if the class itself is marked with the FieldsGrabbable attribute
+			bool classHasFieldsGrabbableAttribute = type.GetCustomAttribute<SafeCanGrabFields>(true) != null;
+
+			// Get all instance, public, and non-public fields
+			var allFields = type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+
+			foreach (var field in allFields)
+			{
+				// Check if the field itself has the FieldsGrabbable attribute, or if the class has it
+				if (field.GetCustomAttribute<SafeCanGrabFields>(true) != null || classHasFieldsGrabbableAttribute)
+				{
+					// Add the field to the list of SafeFieldInfo
+					fields.Add(new SafeFieldInfo(
+						field.Name,
+						field.FieldType,
+						field.GetValue(obj),
+						field,
+						obj // Pass the object instance to allow SetValue to modify the correct field
+					));
+				}
+			}
 
 			return fields;
 		}
-
 	}
 }
