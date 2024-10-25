@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Reflection;
 using ImGuiNET;
+using SecureStuff;
 
 namespace Util
 {
@@ -130,9 +131,7 @@ namespace Util
 				return;
 			}
 
-			var type = target.GetType();
-			var fields = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-
+			var fields = AllowedReflection.GetFieldsWithFieldsGrabbableAttribute(target);
 			foreach (var field in fields)
 			{
 				DrawField(field, target);

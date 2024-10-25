@@ -28,6 +28,10 @@ namespace SecureStuff
 		public T Attribute;
 	}
 
+	public class FieldsGrabbable : BaseAttribute
+	{
+	}
+
 	public interface IAllowedReflection
 	{
 	}
@@ -382,6 +386,20 @@ namespace SecureStuff
 		public static int GetNumberOfAttributeRequireComponent(Type Type)
 		{
 			return Type.GetCustomAttributes(typeof(RequireComponent), true).Length;
+		}
+
+		/// <summary>
+		/// Get all fields with FieldsGrabbable attribute.
+		/// </summary>
+		/// <param name="obj">The object to inspect</param>
+		/// <returns>List of FieldInfo for fields with FieldsGrabbable attribute</returns>
+		public static List<FieldInfo> GetFieldsWithFieldsGrabbableAttribute(object obj)
+		{
+			var type = obj.GetType();
+			var fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public)
+				.Where(field => field.GetCustomAttribute<FieldsGrabbable>(true) != null)
+				.ToList();
+			return fields;
 		}
 	}
 }
