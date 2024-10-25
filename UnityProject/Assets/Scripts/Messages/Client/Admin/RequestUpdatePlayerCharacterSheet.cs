@@ -19,6 +19,13 @@ namespace Messages.Client.Admin
 
 		public override void Process(NetMessage msg)
 		{
+			if (IsFromAdmin() == false)
+			{
+				Loggy.LogError($"[RequestUpdatePlayerCharacterSheet] Lacking admin permissions on {SentByPlayer.Username}.");
+				UpdateTheRequestToCharacterSheetUpdateToRequests.SendSheetUpdate(SentByPlayer, false);
+				return;
+			}
+
 			PlayerInfo account = null;
 			foreach (var player in PlayerList.Instance.AllPlayers)
 			{
@@ -106,8 +113,6 @@ namespace Messages.Client.Admin
 			{
 				IsSuccess = isSuccess
 			};
-
-			Debug.Log(requester.AccountId + isSuccess);
 
 			SendTo(requester, msg);
 			return msg;
