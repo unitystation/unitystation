@@ -28,6 +28,10 @@ namespace SecureStuff
 		public T Attribute;
 	}
 
+	public class SafeCanGrabFields : BaseAttribute
+	{
+	}
+
 	public interface IAllowedReflection
 	{
 	}
@@ -40,6 +44,41 @@ namespace SecureStuff
 
 		public MonoBehaviour SourceComponent;
 		public string SourceEvent;
+	}
+
+	public class SafeFieldInfo
+	{
+		public string Name;
+		public Type Type;
+		public object Value;
+
+		// Reference to the actual FieldInfo to allow setting values
+		private FieldInfo fieldInfo;
+		private object target;
+
+		public SafeFieldInfo(string name, Type type, object value, FieldInfo fieldInfo, object target)
+		{
+			Name = name;
+			Type = type;
+			Value = value;
+			this.fieldInfo = fieldInfo;
+			this.target = target;
+		}
+
+		/// <summary>
+		/// Set the value of the field on the target object.
+		/// </summary>
+		/// <param name="newValue">The new value to set</param>
+		public void SetValue(object newValue)
+		{
+			// this check makes sure that the type of the value is the same as the type of the field,
+			// so no one can replace it with another naught object
+			if (fieldInfo != null && newValue.GetType() == fieldInfo.FieldType)
+			{
+				fieldInfo.SetValue(target, newValue);
+				Value = newValue;
+			}
+		}
 	}
 
 
@@ -382,6 +421,42 @@ namespace SecureStuff
 		public static int GetNumberOfAttributeRequireComponent(Type Type)
 		{
 			return Type.GetCustomAttributes(typeof(RequireComponent), true).Length;
+		}
+
+		/// <summary>
+		/// Get all fields with FieldsGrabbable attribute either applied to the class or individual fields,
+		/// and return a list of SafeFieldInfo containing the field's name, type, and value.
+		/// </summary>
+		/// <param name="obj">The object to inspect</param>
+		/// <returns>List of SafeFieldInfo for fields with FieldsGrabbable attribute</returns>
+		public static List<SafeFieldInfo> GetFieldsFromFieldsGrabbleAttribute(object obj)
+		{
+			var type = obj.GetType();
+			var fields = new List<SafeFieldInfo>();
+
+			// Check if the class itself is marked with the FieldsGrabbable attribute
+			bool classHasFieldsGrabbableAttribute = type.GetCustomAttribute<SafeCanGrabFields>(true) != null;
+
+			// Get all instance, public, and non-public fields
+			var allFields = type.GetFields(BindingFlags.Instance | BindingFlags.Public);
+
+			foreach (var field in allFields)
+			{
+				// Check if the field itself has the FieldsGrabbable attribute, or if the class has it
+				if (field.GetCustomAttribute<SafeCanGrabFields>(true) != null || classHasFieldsGrabbableAttribute)
+				{
+					// Add the field to the list of SafeFieldInfo
+					fields.Add(new SafeFieldInfo(
+						field.Name,
+						field.FieldType,
+						field.GetValue(obj),
+						field,
+						obj // Pass the object instance to allow SetValue to modify the correct field
+					));
+				}
+			}
+
+			return fields;
 		}
 	}
 }
