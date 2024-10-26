@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using DatabaseAPI;
 using IngameDebugConsole;
+using Initialisation;
 using Logs;
 using Managers;
 using Newtonsoft.Json;
@@ -81,7 +82,7 @@ public class RconManager : SingletonManager<RconManager>
 			}
 			else
 			{
-				StartServer();
+				LoadManager.RegisterActionDelayed(StartServer, 500); //Maybe giving it a little bit of time to fix a crash?
 			}
 		}
 	}
