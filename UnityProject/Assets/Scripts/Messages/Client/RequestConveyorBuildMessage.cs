@@ -60,14 +60,14 @@ namespace Messages.Client
 			if (entry.Prefab == null)
 			{
 				//requires immediate attention, show it regardless of log filter:
-				Loggy.Log($"Construction entry is missing prefab for {entry.Name}", Category.Construction);
+				Loggy.Info($"Construction entry is missing prefab for {entry.Name}", Category.Construction);
 				return;
 			}
 
 			var registerTile = entry.Prefab.GetComponent<RegisterTile>();
 			if (registerTile == null)
 			{
-				Loggy.LogWarningFormat("Buildable prefab {0} has no registerTile, no idea if it's passable", Category.Construction, entry.Prefab);
+				Loggy.Warning().Format("Buildable prefab {0} has no registerTile, no idea if it's passable", Category.Construction, entry.Prefab);
 			}
 			var builtObjectIsImpassable = registerTile == null || !registerTile.IsPassable(true);
 			foreach (var thingAtPosition in atPosition)

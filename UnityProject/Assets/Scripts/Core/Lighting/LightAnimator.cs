@@ -72,7 +72,7 @@ namespace Core.Lighting
 				activeAnimationID = animID;
 				return;
 			}
-			Loggy.LogError($"[PlayAnimNetworked] - animation with {animID} id not found.");
+			Loggy.Error($"[PlayAnimNetworked] - animation with {animID} id not found.");
 		}
 
 		public void StopAnims()

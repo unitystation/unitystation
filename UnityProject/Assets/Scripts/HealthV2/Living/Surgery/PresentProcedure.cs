@@ -22,7 +22,7 @@ namespace HealthV2.Living.Surgery
 		{
 			if (interaction == null)
 			{
-				Loggy.LogError("[PresentProcedure] - Interaction is null!");
+				Loggy.Error("[PresentProcedure] - Interaction is null!");
 				return;
 			}
 			Stored = interaction;

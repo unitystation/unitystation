@@ -325,7 +325,7 @@ public class ItemSlot
 			{
 				if (interactiveStorage.denyStorageOfStorageItems.HasFlag(storeIdentifier.StorageItemName))
 				{
-					Loggy.LogTrace($"Cannot fit {toStore} in slot {ToString()}, item was blacklisted.", Category.Inventory);
+					Loggy.Trace($"Cannot fit {toStore} in slot {ToString()}, item was blacklisted.", Category.Inventory);
 					if (examineRecipient)
 					{
 						Chat.AddExamineMsg(examineRecipient,
@@ -344,7 +344,7 @@ public class ItemSlot
 		{
 			if (storageToCheck.gameObject == toStore.gameObject)
 			{
-				Loggy.LogTraceFormat(
+				Loggy.Trace().Format(
 					"Cannot fit {0} in slot {1}, this would create an inventory hierarchy loop (putting the" +
 					" storage inside itself)", Category.Inventory, toStore, ToString());
 				if (examineRecipient)
@@ -367,7 +367,7 @@ public class ItemSlot
 			count++;
 			if (count > 5)
 			{
-				Loggy.LogTraceFormat(
+				Loggy.Trace().Format(
 					"Something went wrong when adding {0} in slot {1}, aborting!", Category.Inventory, toStore, ToString());
 				return false;
 			}
@@ -383,12 +383,12 @@ public class ItemSlot
 								thisStackable.CanAccommodate(otherStackable);
 			if (!stackResult)
 			{
-				Loggy.LogTraceFormat(
+				Loggy.Trace().Format(
 					"Cannot stack {0} in slot {1}", Category.Inventory, toStore, ToString());
 			}
 			else
 			{
-				Loggy.LogTraceFormat(
+				Loggy.Trace().Format(
 					"Can stack {0} in slot {1}", Category.Inventory, toStore, ToString());
 			}
 			return stackResult;
@@ -429,7 +429,7 @@ public class ItemSlot
 		var pu = pickupable.GetComponent<Pickupable>();
 		if (pu == null)
 		{
-			Loggy.LogWarningFormat("{0} has no pickupable, thus can't fit anywhere. It's probably a bug that" +
+			Loggy.Warning().Format("{0} has no pickupable, thus can't fit anywhere. It's probably a bug that" +
 								  " this was even attempted.", Category.Inventory, pickupable.name);
 			return false;
 		}

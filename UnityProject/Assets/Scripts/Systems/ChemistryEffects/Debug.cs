@@ -8,7 +8,7 @@ namespace Chemistry.Effects
 	{
 		public override void Apply(MonoBehaviour sender, float amount)
 		{
-			Loggy.LogFormat("Effect called, Sender: {0}, amount {1}", Category.Chemistry, sender, amount);
+			Loggy.Info().Format("Effect called, Sender: {0}, amount {1}", Category.Chemistry, sender, amount);
 		}
 	}
 }

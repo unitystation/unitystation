@@ -261,7 +261,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 			var trajectory = ((Vector3)ps.WorldPos - worldPosition) / Random.Range(10, 31);
 			uop.NewtonianPush(trajectory ,2 , spinFactor: 15 );
 
-			Loggy.LogTraceFormat( "Nudging! server pos:{0} player pos:{1}", Category.Movement,
+			Loggy.Trace().Format( "Nudging! server pos:{0} player pos:{1}", Category.Movement,
 				position, interaction.Performer.transform.position);
 			//client prediction doesn't handle nudging, so we need to roll them back
 			ServerRollbackClient(interaction);
@@ -272,7 +272,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 			//set ForceInform to false for simulation
 			if (Inventory.ServerAdd(this, interaction.HandSlot))
 			{
-				Loggy.LogTraceFormat("Pickup success! server pos:{0} player pos:{1} (floating={2})", Category.Movement,
+				Loggy.Trace().Format("Pickup success! server pos:{0} player pos:{1} (floating={2})", Category.Movement,
 					uop.transform.position, interaction.Performer.transform.position, uop.IsCurrentlyFloating);
 			}
 			else

@@ -73,7 +73,7 @@ namespace UI.Hacking
 				}
 				else
 				{
-					Loggy.LogError("Caught KeyNotFound Exception for hackProcess.DictionaryCurrentPorts[cable.PanelOutput] ln 76 GUI_Hacking.cs", Category.Interaction);
+					Loggy.Error("Caught KeyNotFound Exception for hackProcess.DictionaryCurrentPorts[cable.PanelOutput] ln 76 GUI_Hacking.cs", Category.Interaction);
 					continue;
 				}
 
@@ -83,7 +83,7 @@ namespace UI.Hacking
 				}
 				else
 				{
-					Loggy.LogError("Caught KeyNotFound Exception for hackProcess.DictionaryCurrentPorts[cable.PanelOutput] ln 86 GUI_Hacking.cs", Category.Interaction);
+					Loggy.Error("Caught KeyNotFound Exception for hackProcess.DictionaryCurrentPorts[cable.PanelOutput] ln 86 GUI_Hacking.cs", Category.Interaction);
 					continue;
 				}
 

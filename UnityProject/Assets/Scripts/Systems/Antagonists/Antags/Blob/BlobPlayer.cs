@@ -196,13 +196,13 @@ namespace Blob
 
 			if (playerScript == null && (!TryGetComponent(out playerScript) || playerScript == null))
 			{
-				Loggy.LogError("Playerscript was null on blob and couldnt be found.", Category.Blob);
+				Loggy.Error("Playerscript was null on blob and couldnt be found.", Category.Blob);
 				return;
 			}
 
 			if (mind == null)
 			{
-				Loggy.LogError("Mind was null on blob and couldnt be found.", Category.Blob);
+				Loggy.Error("Mind was null on blob and couldnt be found.", Category.Blob);
 				return;
 			}
 
@@ -217,7 +217,7 @@ namespace Blob
 
 			if (!result.Successful)
 			{
-				Loggy.LogError("Failed to spawn blob core for player!", Category.Blob);
+				Loggy.Error("Failed to spawn blob core for player!", Category.Blob);
 				return;
 			}
 
@@ -711,7 +711,7 @@ namespace Blob
 
 			if (matrix == null)
 			{
-				Loggy.LogError("matrix for blob click was null", Category.Blob);
+				Loggy.Error("matrix for blob click was null", Category.Blob);
 				return false;
 			}
 
@@ -1046,7 +1046,7 @@ namespace Blob
 					cost = resourceBlobCost;
 					break;
 				default:
-					Loggy.LogError("Switch has no correct case for blob structure!", Category.Blob);
+					Loggy.Error("Switch has no correct case for blob structure!", Category.Blob);
 					break;
 			}
 
@@ -1094,7 +1094,7 @@ namespace Blob
 							resourceBlobs.Add(structure);
 							break;
 						default:
-							Loggy.LogError("Switch has no correct case for blob structure!", Category.Blob);
+							Loggy.Error("Switch has no correct case for blob structure!", Category.Blob);
 							break;
 					}
 
@@ -1179,7 +1179,7 @@ namespace Blob
 						Chat.AddExamineMsgFromServer(gameObject, "This is a blob node. It cannot be removed");
 						return;
 					default:
-						Loggy.LogError("Switch has no correct case for blob structure!", Category.Blob);
+						Loggy.Error("Switch has no correct case for blob structure!", Category.Blob);
 						break;
 				}
 
@@ -1962,7 +1962,7 @@ namespace Blob
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError(e.ToString());
+				Loggy.Error(e.ToString());
 			}
 
 			pathSearch = false;

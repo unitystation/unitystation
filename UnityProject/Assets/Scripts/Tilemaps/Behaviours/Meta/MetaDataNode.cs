@@ -390,7 +390,7 @@ public class MetaDataNode : IGasMixContainer
 					SyncNeighbors();
 					return;
 				}
-				Loggy.LogErrorFormat("Failed adding neighbor {0} to node {1} at direction {2}", Category.Matrix, neighbor, this, direction);
+				Loggy.Error().Format("Failed adding neighbor {0} to node {1} at direction {2}", Category.Matrix, neighbor, this, direction);
 			}
 		}
 	}

@@ -13,7 +13,7 @@ namespace Core.Lighting
 		{
 			if (CustomNetworkManager.IsHeadless)
 			{
-				Loggy.LogError("Highlight scanner detected on headless server! Despawning self..");
+				Loggy.Error("Highlight scanner detected on headless server! Despawning self..");
 				Despawn.ClientSingle(this.gameObject);
 				return;
 			}

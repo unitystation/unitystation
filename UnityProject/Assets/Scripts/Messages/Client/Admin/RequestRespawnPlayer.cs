@@ -25,7 +25,7 @@ namespace Messages.Client.Admin
 
 			if (PlayerList.Instance.TryGetByUserID(msg.UserToRespawn, out var player) == false || player.Script == null)
 			{
-				Loggy.LogError($"Player with user ID '{msg.UserToRespawn}' not found or has no script. Cannot respawn player.", Category.Admin);
+				Loggy.Error($"Player with user ID '{msg.UserToRespawn}' not found or has no script. Cannot respawn player.", Category.Admin);
 				return;
 			}
 

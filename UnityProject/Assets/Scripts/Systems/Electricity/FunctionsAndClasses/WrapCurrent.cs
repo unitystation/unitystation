@@ -20,7 +20,7 @@ namespace Systems.Electricity
 			}
 			else
 			{
-				Loggy.Log("Tried to combine two currents, but they were not equal", Category.Electrical);
+				Loggy.Info("Tried to combine two currents, but they were not equal", Category.Electrical);
 			}
 		}
 

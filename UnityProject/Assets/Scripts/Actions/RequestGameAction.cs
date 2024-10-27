@@ -99,7 +99,7 @@ public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 			return;
 		}
 
-		Loggy.LogError("Failed to find IServerActionGUI on NetworkIdentity", Category.UserInput);
+		Loggy.Error("Failed to find IServerActionGUI on NetworkIdentity", Category.UserInput);
 	}
 
 	public static void Send(IActionGUIMulti iServerActionGUIMulti, ActionData action)
@@ -142,7 +142,7 @@ public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 			return;
 		}
 
-		Loggy.LogError("Failed to find IServerActionGUI on NetworkIdentity", Category.UserInput);
+		Loggy.Error("Failed to find IServerActionGUI on NetworkIdentity", Category.UserInput);
 	}
 
 	public static short FindIndex(IActionGUIMulti actionComponent, ActionData actionChosen)

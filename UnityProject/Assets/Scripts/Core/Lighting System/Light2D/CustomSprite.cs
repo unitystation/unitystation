@@ -124,7 +124,7 @@ namespace Light2D
 	        }
 	        catch (Exception e)
 	        {
-		        Loggy.LogError(e.ToString());
+		        Loggy.Error(e.ToString());
 	        }
 #endif
 

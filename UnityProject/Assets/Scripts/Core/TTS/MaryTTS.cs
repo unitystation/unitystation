@@ -50,7 +50,7 @@ public class MaryTTS : MonoBehaviour {
 
 			if (response.IsSuccessStatusCode == false)
 			{
-				Loggy.LogError("Err: " + response.ReasonPhrase);
+				Loggy.Error("Err: " + response.ReasonPhrase);
 			}
 			else
 			{
@@ -60,7 +60,7 @@ public class MaryTTS : MonoBehaviour {
 		}
 		catch (Exception e)
 		{
-			Loggy.LogError(e.ToString());
+			Loggy.Error(e.ToString());
 		}
 	}
 

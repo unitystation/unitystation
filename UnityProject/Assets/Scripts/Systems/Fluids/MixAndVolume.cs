@@ -25,7 +25,7 @@ namespace Systems.Pipes
 
 				if (value.IsUnreasonableNumber() && value != 0)
 				{
-					Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE MixAndVolume InternalEnergy Invalid number!!!! {value}");
+					Loggy.Error($"AAAAAAAAAAAAA REEEEEEEEE MixAndVolume InternalEnergy Invalid number!!!! {value}");
 					return;
 				}
 
@@ -62,7 +62,7 @@ namespace Systems.Pipes
 			{
 				if (value.IsUnreasonableNumber() && value != 0)
 				{
-					Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE MixAndVolume Temperature Invalid number!!!! {value}");
+					Loggy.Error($"AAAAAAAAAAAAA REEEEEEEEE MixAndVolume Temperature Invalid number!!!! {value}");
 					return;
 				}
 
@@ -158,7 +158,7 @@ namespace Systems.Pipes
 		{
 			if (MathUtils.IsEqual(Volume, 0))
 			{
-				Loggy.LogError("Tried to take from pipe but its volume was 0!", Category.Pipes);
+				Loggy.Error("Tried to take from pipe but its volume was 0!", Category.Pipes);
 			}
 
 			var percentage = inMixAndVolume.Volume / Volume;
@@ -198,13 +198,13 @@ namespace Systems.Pipes
 
 			if (divideAmount.IsUnreasonableNumber())
 			{
-				Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE MixAndVolume divideAmount Invalid number!!!! {divideAmount}");
+				Loggy.Error($"AAAAAAAAAAAAA REEEEEEEEE MixAndVolume divideAmount Invalid number!!!! {divideAmount}");
 				return;
 			}
 
 			if (MathUtils.IsEqual(divideAmount, 0))
 			{
-				Loggy.LogError("Tried to divide pipe contents, but the amount to divide by was 0!", Category.Pipes);
+				Loggy.Error("Tried to divide pipe contents, but the amount to divide by was 0!", Category.Pipes);
 			}
 
 			float gasVolume = gasMix.Volume;
@@ -235,7 +235,7 @@ namespace Systems.Pipes
 
 			if (multiplyAmount.IsUnreasonableNumber())
 			{
-				Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE MixAndVolume multiplyAmount Invalid number!!!! {multiplyAmount}");
+				Loggy.Error($"AAAAAAAAAAAAA REEEEEEEEE MixAndVolume multiplyAmount Invalid number!!!! {multiplyAmount}");
 				return;
 			}
 
@@ -368,7 +368,7 @@ namespace Systems.Pipes
 				float totalReagents = mix.Total + PipeFunctions.PipeOrNet(another).mix.Total;
 				if (MathUtils.IsEqual(totalVolume, 0))
 				{
-					Loggy.LogError("Tried to equalise two pipes, but their total volume was 0!", Category.Pipes);
+					Loggy.Error("Tried to equalise two pipes, but their total volume was 0!", Category.Pipes);
 				}
 
 				float targetDensity = totalReagents / totalVolume;
@@ -414,7 +414,7 @@ namespace Systems.Pipes
 
 				if (MathUtils.IsEqual(totalVolume, 0))
 				{
-					Loggy.LogError("Tried to equalise multiple pipes, but their total volume was 0!", Category.Pipes);
+					Loggy.Error("Tried to equalise multiple pipes, but their total volume was 0!", Category.Pipes);
 				}
 
 				var targetDensity = totalReagents / totalVolume;
@@ -506,7 +506,7 @@ namespace Systems.Pipes
 				}
 				else
 				{
-					Loggy.LogError("You tried passing in GasOrReagent With no Gas Or Reagent, silly Billy");
+					Loggy.Error("You tried passing in GasOrReagent With no Gas Or Reagent, silly Billy");
 					return 0;
 				}
 			}

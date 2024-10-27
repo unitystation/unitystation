@@ -20,7 +20,7 @@ namespace GameModes
 			var rebelDep = (Departments) rnd.Next(Enum.GetNames(typeof(Departments)).Length);
 			rebelJob = rebelJobs[rebelDep];
 			GameManager.Instance.Rebels = rebelJob;
-			Loggy.LogFormat("The using {0} as the rebel department!", Category.GameMode, rebelDep);
+			Loggy.Info().Format("The using {0} as the rebel department!", Category.GameMode, rebelDep);
 
 		}
 

@@ -52,7 +52,7 @@ namespace Systems.Faith.UI
 			if (faith == null)
 			{
 				gameObject.SetActive(false);
-				Loggy.LogError("[FaithInfoUI/UpdateData()] - No faith found with such name.");
+				Loggy.Error("[FaithInfoUI/UpdateData()] - No faith found with such name.");
 				return;
 			}
 
@@ -102,7 +102,7 @@ namespace Systems.Faith.UI
 					PageHowTo.SetActive(true);
 					break;
 				default:
-					Loggy.LogError("No such page exists");
+					Loggy.Error("No such page exists");
 					break;
 			}
 			Refresh();

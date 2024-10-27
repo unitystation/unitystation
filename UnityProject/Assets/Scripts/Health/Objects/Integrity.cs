@@ -205,7 +205,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 			if (logDamage)
 			{
 				string logMessage = $"{gameObject.ExpensiveName()} took {damage} {damageType} damage from an {attackType} attack (resistance {Armor.GetRating(attackType)}) (integrity now {integrity})";
-				Loggy.LogTraceFormat(logMessage, Category.Damage);
+				Loggy.Trace().Format(logMessage, Category.Damage);
 				AdminLogsManager.TrackDamage(attacker, this, logMessage);
 			}
 		}

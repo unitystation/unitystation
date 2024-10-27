@@ -32,7 +32,7 @@ namespace Systems.Faith
 		{
 			if (newFaith == null)
 			{
-				Loggy.LogError("[PlayerFaith] - Cannot join a null faith.");
+				Loggy.Error("[PlayerFaith] - Cannot join a null faith.");
 				return;
 			}
 			currentFaith = newFaith;

@@ -229,7 +229,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 
 		if (cataloguePage >= SubCatalogue.Count)
 		{
-			Loggy.LogError(
+			Loggy.Error(
 				$"Sprite catalogue index '{cataloguePage}' is out of bounds on {transform.parent.gameObject}.");
 			return;
 		}
@@ -549,7 +549,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 			var NetID = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(this.gameObject);
 			if (NetID == null)
 			{
-				Loggy.LogError("Was unable to find A NetworkBehaviour for ",
+				Loggy.Error("Was unable to find A NetworkBehaviour for ",
 					Category.Sprites);
 				return;
 			}
@@ -563,7 +563,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 					gamename = gameObject.name;
 				}
 
-				Loggy.LogError("Was unable to find A NetworkBehaviour for " + gamename,
+				Loggy.Error("Was unable to find A NetworkBehaviour for " + gamename,
 					Category.Sprites);
 			}
 		}
@@ -585,7 +585,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 		{
 			if (newSpriteSO.SetID == -1)
 			{
-				Loggy.Log("NewSpriteDataSO NO ID!" + newSpriteSO.name, Category.Sprites);
+				Loggy.Info("NewSpriteDataSO NO ID!" + newSpriteSO.name, Category.Sprites);
 			}
 
 			if (spriteChange.Empty) spriteChange.Empty = false;
@@ -659,7 +659,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 		yield return null;
 		if (networkIdentity.netId == 0)
 		{
-			Loggy.LogError($"ID hasn't been set for ${this.transform.parent}.", Category.Sprites);
+			Loggy.Error($"ID hasn't been set for ${this.transform.parent}.", Category.Sprites);
 			yield break;
 		}
 

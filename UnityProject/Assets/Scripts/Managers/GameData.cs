@@ -80,7 +80,7 @@ public class GameData : MonoBehaviour, IInitialise
 		}
 		catch (HttpRequestException e)
 		{
-			Loggy.LogError(" APITest Failed setting to off-line mode  " +e.ToString());
+			Loggy.Error(" APITest Failed setting to off-line mode  " +e.ToString());
 			forceOfflineMode = true;
 			return;
 		}
@@ -103,7 +103,7 @@ public class GameData : MonoBehaviour, IInitialise
 		BuildNumber = buildInfo.BuildNumber;
 		ForkName = buildInfo.ForkName;
 		forceOfflineMode = !string.IsNullOrEmpty(GetArgument("-offlinemode"));
-		Loggy.Log($"Build Version is: {BuildNumber}. " + (OfflineMode ? "Offline mode" : string.Empty));
+		Loggy.Info($"Build Version is: {BuildNumber}. " + (OfflineMode ? "Offline mode" : string.Empty));
 		CheckHeadlessState();
 		APITest();
 
@@ -173,7 +173,7 @@ public class GameData : MonoBehaviour, IInitialise
 			//			Loggy.Log($"Starting server in HEADLESS mode. Target framerate is {Application.targetFrameRate}",
 			//				Category.Server);
 
-			Loggy.Log($"FrameRate limiting has been disabled on Headless Server",
+			Loggy.Info($"FrameRate limiting has been disabled on Headless Server",
 				Category.Server);
 			IsHeadlessServer = true;
 			StartCoroutine(WaitToStartServer());
@@ -182,7 +182,7 @@ public class GameData : MonoBehaviour, IInitialise
 			{
 				GameObject rcon = Instantiate(Resources.Load("Rcon/RconManager") as GameObject, null) as GameObject;
 				rconManager = rcon.GetComponent<RconManager>();
-				Loggy.Log("Start rcon server", Category.Rcon);
+				Loggy.Info("Start rcon server", Category.Rcon);
 			}
 		}
 	}
@@ -200,7 +200,7 @@ public class GameData : MonoBehaviour, IInitialise
 
 		if (ushort.TryParse(portStr, out var port) == false)
 		{
-			Loggy.LogWarning("Invalid port provided in command line. Cannot join game via args.");
+			Loggy.Warning("Invalid port provided in command line. Cannot join game via args.");
 			return false;
 		}
 
@@ -209,18 +209,18 @@ public class GameData : MonoBehaviour, IInitialise
 
 	private async Task<bool> HubToServerConnect(string ip, ushort port, string uid, string token)
 	{
-		Loggy.Log($"HubToServerConnect Connecting to IP {ip}, port {port}, with uid {uid}");
+		Loggy.Info($"HubToServerConnect Connecting to IP {ip}, port {port}, with uid {uid}");
 		await Task.Delay(TimeSpan.FromSeconds(0.1));
 
 		if (string.IsNullOrEmpty(token) == false)
 		{
-			Loggy.Log("Logging in via hub account...");
+			Loggy.Info("Logging in via hub account...");
 			if (await LobbyManager.Instance.TryTokenLogin(token)) // TODO uid not needed anymore?
 			{
 				LobbyManager.Instance.JoinServer(ip, port);
 				return true;
 			}
-			Loggy.LogWarning("Logging in via hub account (via command line args) failed.");
+			Loggy.Warning("Logging in via hub account (via command line args) failed.");
 		}
 
 		if (await LobbyManager.Instance.TryAutoLogin())
@@ -229,7 +229,7 @@ public class GameData : MonoBehaviour, IInitialise
 			return true;
 		}
 
-		Loggy.LogWarning("Logging in via stored account token failed.");
+		Loggy.Warning("Logging in via stored account token failed.");
 		return false;
 	}
 

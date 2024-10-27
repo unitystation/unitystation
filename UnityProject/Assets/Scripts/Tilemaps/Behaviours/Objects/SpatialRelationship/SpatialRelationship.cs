@@ -30,7 +30,7 @@ public static class SpatialRelationship
 	/// <param name="relationship"></param>
 	public static void ServerActivate(BaseSpatialRelationship relationship)
 	{
-		Loggy.LogTraceFormat("Activating spatial relationship {0}", Category.SpatialRelationship, relationship);
+		Loggy.Trace().Format("Activating spatial relationship {0}", Category.SpatialRelationship, relationship);
 		relationship.obj1._AddSpatialRelationship(relationship);
 		relationship.obj2._AddSpatialRelationship(relationship);
 		//check the relationship immediately

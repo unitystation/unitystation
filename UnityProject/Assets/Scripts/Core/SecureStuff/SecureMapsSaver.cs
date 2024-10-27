@@ -167,7 +167,7 @@ namespace SecureStuff
 				}
 				else
 				{
-					Loggy.LogError("Needs to be added!!!");
+					Loggy.Error("Needs to be added!!!");
 					//TODO Implement!!
 				}
 			}
@@ -212,7 +212,7 @@ namespace SecureStuff
 					}
 					catch (Exception e)
 					{
-						Loggy.LogError(e.ToString());
+						Loggy.Error(e.ToString());
 					}
 				}
 			}
@@ -370,7 +370,7 @@ namespace SecureStuff
 				}
 				else
 				{
-					Loggy.LogError("Needs to be added!!!");
+					Loggy.Error("Needs to be added!!!");
 					//TODO Implement!!
 					return;
 				}
@@ -428,7 +428,7 @@ namespace SecureStuff
 				}
 				else
 				{
-					Loggy.LogError("Needs to be added!!!");
+					Loggy.Error("Needs to be added!!!");
 					//TODO Implement!!
 					return;
 				}
@@ -486,7 +486,7 @@ namespace SecureStuff
 						}
 						else
 						{
-							Loggy.LogError("Not compatible Component");
+							Loggy.Error("Not compatible Component");
 							//This is due PopulateIDRelation Not supporting it in line of name
 							//IPopulateIDRelation.PopulateIDRelation(FieldDatas, FieldData, Component,UseInstance); //Callout
 							data = ""; //Not compatible
@@ -510,7 +510,7 @@ namespace SecureStuff
 						else
 						{
 							data = ""; //Not compatible
-							Loggy.LogError("Not compatible GameObject");
+							Loggy.Error("Not compatible GameObject");
 							return false;
 						}
 					}
@@ -524,7 +524,7 @@ namespace SecureStuff
 				}
 			}
 
-			Loggy.LogError("Not compatible HELP");
+			Loggy.Error("Not compatible HELP");
 			data = ""; //Not compatible
 			return false;
 		}
@@ -908,7 +908,7 @@ namespace SecureStuff
 			if (Id == "MISSING")
 			{
 				Loaded = true;
-				Loggy.LogError("Map has missing references");
+				Loggy.Error("Map has missing references");
 				return null;
 			}
 
@@ -921,7 +921,7 @@ namespace SecureStuff
 
 			if (string.IsNullOrEmpty(Id))
 			{
-				Loggy.LogError("Map has Empty references");
+				Loggy.Error("Map has Empty references");
 				Loaded = true;
 				return null;
 			}
@@ -963,14 +963,14 @@ namespace SecureStuff
 		{
 			if (Id == "MISSING")
 			{
-				Loggy.LogError("Map has missing references");
+				Loggy.Error("Map has missing references");
 				Loaded = true;
 				return null;
 			}
 
 			if (string.IsNullOrEmpty(Id))
 			{
-				Loggy.LogError("Map has Empty references");
+				Loggy.Error("Map has Empty references");
 				Loaded = true;
 				return null;
 			}
@@ -1000,7 +1000,7 @@ namespace SecureStuff
 			}
 			catch (Exception ex)
 			{
-				Loggy.LogError(ex.ToString());
+				Loggy.Error(ex.ToString());
 				return;
 			}
 
@@ -1178,7 +1178,7 @@ namespace SecureStuff
 						}
 						catch (Exception e)
 						{
-							Loggy.LogError(e.ToString());
+							Loggy.Error(e.ToString());
 						}
 					}
 
@@ -1217,13 +1217,13 @@ namespace SecureStuff
 					}
 					catch (Exception e)
 					{
-						Loggy.LogError(e.ToString());
+						Loggy.Error(e.ToString());
 					}
 				}
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError(e.ToString());
+				Loggy.Error(e.ToString());
 			}
 		}
 
@@ -1598,7 +1598,7 @@ namespace SecureStuff
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError(e.ToString());
+				Loggy.Error(e.ToString());
 			}
 		}
 
@@ -1672,7 +1672,7 @@ namespace SecureStuff
 							}
 							else
 							{
-								Loggy.LogError(
+								Loggy.Error(
 									"Difference found however specified prefab did not have IHaveForeverID Prefab > " +
 									GameObjectModified);
 							}
@@ -1721,7 +1721,7 @@ namespace SecureStuff
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError(e.ToString());
+				Loggy.Error(e.ToString());
 			}
 
 
@@ -1785,7 +1785,7 @@ namespace SecureStuff
 						{
 							if (MonoComponent.transform != (PrefabDefault as Component)?.transform)
 							{
-								Loggy.LogError(
+								Loggy.Error(
 									$"Potential difference in prefabs however they are missing Forever ID for Original prefab {(PrefabDefault as Component)?.name} new Prefab {MonoComponent.name} ");
 								return true;
 							}
@@ -1805,7 +1805,7 @@ namespace SecureStuff
 
 					if (MonoComponent.transform != (PrefabDefault as Component)?.transform)
 					{
-						Loggy.LogError(
+						Loggy.Error(
 							$"Potential difference in prefabs however they are missing Forever ID for Original prefab {(PrefabDefault as Component)?.name} new Prefab {MonoComponent.name} ");
 						return true;
 					}

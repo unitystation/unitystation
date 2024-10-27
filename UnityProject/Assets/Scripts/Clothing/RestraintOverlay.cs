@@ -63,7 +63,7 @@ namespace UI.Items
 
 			if (GameObjectReference == null)
 			{
-				Loggy.LogError($"{thisPlayerScript.playerName} cuffed but no GameObjectReference to the cuffs, so uncuffing time set to 30");
+				Loggy.Error($"{thisPlayerScript.playerName} cuffed but no GameObjectReference to the cuffs, so uncuffing time set to 30");
 
 				//Default to 30 seconds
 				resistTime = 30;

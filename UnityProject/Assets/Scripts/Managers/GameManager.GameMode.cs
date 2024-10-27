@@ -48,7 +48,7 @@ public partial class GameManager
 		set
 		{
 			currentRoundState = value;
-			Loggy.LogFormat("CurrentRoundState is now {0}!", Category.Round, value);
+			Loggy.Info().Format("CurrentRoundState is now {0}!", Category.Round, value);
 		}
 	}
 
@@ -83,7 +83,7 @@ public partial class GameManager
 		{
 			target = Instantiate(gm);
 		}
-		Loggy.Log($"Set game mode to: {gm.Name}", Category.GameMode);
+		Loggy.Info($"Set game mode to: {gm.Name}", Category.GameMode);
 		GameMode = target;
 	}
 

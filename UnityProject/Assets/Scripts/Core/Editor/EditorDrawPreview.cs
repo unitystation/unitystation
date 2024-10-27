@@ -47,7 +47,7 @@ public class MyObjectEditor : Editor
 
 		if (texture.isReadable == false)
 		{
-			Loggy.LogError($"Sprite \"{sprite.name}\" is not read/write enabled. Please enable " +
+			Loggy.Error($"Sprite \"{sprite.name}\" is not read/write enabled. Please enable " +
 		                  "Read/Write in the texture's import settings.", Category.Editor);
 			return;
 		}
@@ -101,7 +101,7 @@ public class MyObjectEditor : Editor
 			{
 				// An empty entry will be added so we don't get spammed with the same message.
 				entry = SpriteDataEntry.Empty;
-				Loggy.LogWarning($"Could not load {nameof(SpriteDataSO)} at \"{assetPath}\". " +
+				Loggy.Warning($"Could not load {nameof(SpriteDataSO)} at \"{assetPath}\". " +
 				                 "Unable to render the sprite in the asset viewer.", Category.Editor);
 			}
 
@@ -146,7 +146,7 @@ public class MyObjectEditor : Editor
 
 		if (texture.isReadable == false)
 		{
-			Loggy.LogError($"Sprite \"{sprite.name}\" is not read/write enabled. Please enable " +
+			Loggy.Error($"Sprite \"{sprite.name}\" is not read/write enabled. Please enable " +
 			               "Read/Write in the texture's import settings.", Category.Editor);
 			return null;
 		}
@@ -246,7 +246,7 @@ public class MyObjectEditor : Editor
 
 		if (texture.isReadable == false)
 		{
-			Loggy.LogError($"Sprite \"{sprite.name}\" is not read/write enabled. Please enable " +
+			Loggy.Error($"Sprite \"{sprite.name}\" is not read/write enabled. Please enable " +
 			               "Read/Write in the texture's import settings.", Category.Editor);
 			return;
 		}

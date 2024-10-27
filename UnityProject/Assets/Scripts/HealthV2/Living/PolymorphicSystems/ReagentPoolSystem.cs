@@ -45,7 +45,7 @@ namespace HealthV2.Living.PolymorphicSystems
 			// Currently only does blood and required reagents, should at nutriments and other common gases
 			if (bloodPool == null || bloodReagent == null)
 			{
-				Loggy.LogError("[ReagentPoolSystem/AddFreshBlood] - Missing data detected. Make sure you're not spawning a bodyPart without its proper systems defined.");
+				Loggy.Error("[ReagentPoolSystem/AddFreshBlood] - Missing data detected. Make sure you're not spawning a bodyPart without its proper systems defined.");
 			}
 			try
 			{
@@ -59,7 +59,7 @@ namespace HealthV2.Living.PolymorphicSystems
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError(e.ToString());
+				Loggy.Error(e.ToString());
 			}
 		}
 		public override void StartFresh()

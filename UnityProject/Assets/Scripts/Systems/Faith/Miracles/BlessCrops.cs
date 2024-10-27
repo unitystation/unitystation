@@ -45,7 +45,7 @@ namespace Systems.Faith.Miracles
 						    collider.gameObject.AssumedWorldPosServer(), DEBUG: true).ItHit == false) continue;
 					if (collider.TryGetComponent<HydroponicsTray>(out var tray) == false)
 					{
-						Loggy.Log($"{collider} has no tray component");
+						Loggy.Info($"{collider} has no tray component");
 						continue;
 					}
 					BlessPlant(tray);

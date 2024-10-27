@@ -123,7 +123,7 @@ namespace ScriptableObjects.Systems.Spells
 			var spellComponent = spellObject.GetComponent<Spell>();
 			if (spellComponent == null)
 			{
-				Loggy.LogError($"No spell component found on {spellObject} for {this}!", Category.Spells);
+				Loggy.Error($"No spell component found on {spellObject} for {this}!", Category.Spells);
 				return default;
 			}
 			spellComponent.SpellData = this;

@@ -427,7 +427,7 @@ namespace Objects.Lighting
 			}
 			catch (NullReferenceException exception)
 			{
-				Loggy.LogError(
+				Loggy.Error(
 					$"A NRE was caught in LightSource.TryRemoveBulb(): {exception.Message} \n {exception.StackTrace}",
 					Category.Lighting);
 			}

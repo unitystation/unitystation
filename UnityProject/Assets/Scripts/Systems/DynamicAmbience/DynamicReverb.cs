@@ -35,7 +35,7 @@ namespace Systems.DynamicAmbience
 			if (CustomNetworkManager.IsHeadless) return;
 			if (transform.parent.gameObject.NetWorkIdentity()?.isOwned == false || isEnabled) return;
 
-			Loggy.Log("Enabling Dynamic Reverb system.");
+			Loggy.Info("Enabling Dynamic Reverb system.");
 			UpdateManager.Add(UpdateMe, updateTime);
 			isEnabled = true;
 		}
@@ -45,7 +45,7 @@ namespace Systems.DynamicAmbience
 			if (CustomNetworkManager.IsHeadless) return;
 			if (transform.parent.gameObject.NetWorkIdentity()?.isOwned == false || isEnabled == false) return;
 
-			Loggy.Log("Disabling Dynamic Reverb system.");
+			Loggy.Info("Disabling Dynamic Reverb system.");
 			AudioManager.Instance.GameplayMixer.audioMixer.ClearFloat(AUDIOMIXER_REVERB_KEY);
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 			isEnabled = false;

@@ -153,7 +153,7 @@ namespace Items.Others
 			var newHolosign = Spawn.ServerPrefab(holosignPrefabs[index], interaction.WorldPositionTarget.RoundToInt());
 			if (newHolosign.Successful == false)
 			{
-				Loggy.LogError("Failed to spawn holosign!");
+				Loggy.Error("Failed to spawn holosign!");
 				return;
 			}
 

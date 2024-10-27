@@ -34,7 +34,7 @@ namespace Systems.Storage
 
 				if (Validations.CanFit(ItemSlot, spawn.GameObject, NetworkSide.Server) == false)
 				{
-					Loggy.LogError($"Your initial contents spawn for Storage {ItemStorage.name} for {spawn.GameObject} Is bypassing the Can fit requirements");
+					Loggy.Error($"Your initial contents spawn for Storage {ItemStorage.name} for {spawn.GameObject} Is bypassing the Can fit requirements");
 				}
 
 				Inventory.ServerAdd(spawn.GameObject, ItemSlot, IgnoreRestraints: true);
@@ -80,7 +80,7 @@ namespace Systems.Storage
 
 				if (Validations.CanFit(ItemSlot, spawn.GameObject, NetworkSide.Server) == false)
 				{
-					Loggy.LogError($"Your initial contents spawn for ItemStorage {ItemStorage.name} for {spawn.GameObject} Is bypassing the Can fit requirements");
+					Loggy.Error($"Your initial contents spawn for ItemStorage {ItemStorage.name} for {spawn.GameObject} Is bypassing the Can fit requirements");
 				}
 
 

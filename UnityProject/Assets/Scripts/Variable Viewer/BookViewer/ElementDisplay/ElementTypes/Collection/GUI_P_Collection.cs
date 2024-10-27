@@ -97,7 +97,7 @@ public class GUI_P_Collection : PageElement
 		else {
 			if (Iskey)
 			{
-				Loggy.LogError("WHAT?, GenericType Dictionary key?", Category.VariableViewer);
+				Loggy.Error("WHAT?, GenericType Dictionary key?", Category.VariableViewer);
 			}
 			else {
 				Data = Sentence;

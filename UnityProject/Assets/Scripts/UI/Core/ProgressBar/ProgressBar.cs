@@ -172,7 +172,7 @@ public class ProgressBar : MonoBehaviour
 		// -1 sent from server means the crafting is complete. dismiss the progress bar:
 		if (newSpriteIndex == -1)
 		{
-			Loggy.LogTraceFormat("Client stopping progress bar {0} because server told us it's done", Category.ProgressAction, ID);
+			Loggy.Trace().Format("Client stopping progress bar {0} because server told us it's done", Category.ProgressAction, ID);
 			DestroyProgressBar();
 			return;
 		}
@@ -223,7 +223,7 @@ public class ProgressBar : MonoBehaviour
 			// Remove from FlyingUpdateMe before invoking action, lest action fails and so infinite loop.
 			ServerCloseProgressBar();
 			progressAction.OnServerEndProgress(new EndProgressInfo(false));
-			Loggy.LogTraceFormat("Server progress bar {0} interrupted.", Category.ProgressAction, ID);
+			Loggy.Trace().Format("Server progress bar {0} interrupted.", Category.ProgressAction, ID);
 		}
 
 		//Finished! Invoke the action and close the progress bar for the player
@@ -232,7 +232,7 @@ public class ProgressBar : MonoBehaviour
 			// Remove from FlyingUpdateMe before invoking action, lest action fails and so infinite loop.
 			ServerCloseProgressBar();
 			progressAction.OnServerEndProgress(new EndProgressInfo(true));
-			Loggy.LogTraceFormat("Server progress bar {0} completed.", Category.ProgressAction, ID);
+			Loggy.Trace().Format("Server progress bar {0} completed.", Category.ProgressAction, ID);
 		}
 	}
 
@@ -247,7 +247,7 @@ public class ProgressBar : MonoBehaviour
 
 		ServerCloseProgressBar();
 		progressAction.OnServerEndProgress(new EndProgressInfo(false));
-		Loggy.LogTraceFormat("Server progress bar {0} interrupted.", Category.ProgressAction, ID);
+		Loggy.Trace().Format("Server progress bar {0} interrupted.", Category.ProgressAction, ID);
 	}
 
 	private void ServerCloseProgressBar()
@@ -261,7 +261,7 @@ public class ProgressBar : MonoBehaviour
 		}
 		else
 		{
-			Loggy.LogTraceFormat("Server telling {0} to close progress bar {1}", Category.ProgressAction, registerPlayer.gameObject, ID);
+			Loggy.Trace().Format("Server telling {0} to close progress bar {1}", Category.ProgressAction, registerPlayer.gameObject, ID);
 			ProgressBarMessage.SendUpdate(registerPlayer.gameObject, COMPLETE_INDEX, id);
 
 			//destroy server's local copy

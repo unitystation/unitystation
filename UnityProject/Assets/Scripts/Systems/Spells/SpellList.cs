@@ -23,7 +23,7 @@ namespace ScriptableObjects.Systems.Spells
 		{
 			if (index < 0 || index > Spells.Count - 1)
 			{
-				Loggy.LogErrorFormat("SpellList: no spell found at index {0}", Category.Spells, index);
+				Loggy.Error().Format("SpellList: no spell found at index {0}", Category.Spells, index);
 				return InvalidData;
 			}
 

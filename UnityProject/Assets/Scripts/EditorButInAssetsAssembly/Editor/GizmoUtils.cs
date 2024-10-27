@@ -138,7 +138,7 @@ namespace Shared.Editor
 			GUISkin guiSkin = GUI.skin;
 			if (guiSkin == null)
 			{
-				Loggy.LogWarning("editor warning: guiSkin parameter is null", Category.UI);
+				Loggy.Warning("editor warning: guiSkin parameter is null", Category.UI);
 				return;
 			}
 

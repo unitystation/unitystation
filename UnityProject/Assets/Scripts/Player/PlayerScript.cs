@@ -404,7 +404,7 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 		var lighting = Camera.main.GetComponent<LightingSystem>();
 		if (!lighting)
 		{
-			Loggy.LogWarning("Local Player can't find lighting system on Camera.main", Category.Lighting);
+			Loggy.Warning("Local Player can't find lighting system on Camera.main", Category.Lighting);
 			return;
 		}
 
@@ -413,13 +413,13 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 
 	private void OnPlayerReturnedToBody()
 	{
-		Loggy.Log("Local player become Ghost", Category.Ghosts);
+		Loggy.Info("Local player become Ghost", Category.Ghosts);
 		EnableLighting(true);
 	}
 
 	private void OnPlayerBecomeGhost()
 	{
-		Loggy.Log("Local player returned to the body", Category.Ghosts);
+		Loggy.Info("Local player returned to the body", Category.Ghosts);
 		EnableLighting(false);
 		OnBodyUnPossesedByPlayer?.Invoke();
 	}
@@ -594,7 +594,7 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 		}
 		catch (Exception e)
 		{
-			Loggy.LogError(e.ToString());
+			Loggy.Error(e.ToString());
 		}
 
 	}

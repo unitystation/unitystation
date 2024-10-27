@@ -15,7 +15,7 @@ namespace Player
 		{
 			if (light == null)
 			{
-				Loggy.LogError("[DimPlayerLightController] - LightSprite is null!! NREs will occur!");
+				Loggy.Error("[DimPlayerLightController] - LightSprite is null!! NREs will occur!");
 				return;
 			}
 			defaultColor = light.Color;

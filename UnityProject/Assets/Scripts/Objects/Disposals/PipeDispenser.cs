@@ -73,7 +73,7 @@ namespace Objects.Atmospherics
 			SpawnResult spawnResult = Spawn.ServerPrefab(objectPrefab, objectPhysics.registerTile.WorldPosition);
 			if (spawnResult.Successful == false)
 			{
-				Loggy.LogError(
+				Loggy.Error(
 						$"Failed to spawn an object from {name}! " +
 						$"Is {nameof(UI.Objects.Atmospherics.GUI_PipeDispenser)} missing reference to object prefab?",
 						Category.Pipes);

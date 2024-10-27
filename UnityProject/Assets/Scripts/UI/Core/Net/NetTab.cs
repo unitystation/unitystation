@@ -200,7 +200,7 @@ public class NetTab : Tab
 			if (CachedElements.ContainsKey(element.name))
 			{
 				// Someone called InitElements in Init()
-				Loggy.LogError($"'{name}': rescan during '{element}' Init(), aborting initial scan", Category.NetUI);
+				Loggy.Error($"'{name}': rescan during '{element}' Init(), aborting initial scan", Category.NetUI);
 				return;
 			}
 
@@ -274,7 +274,7 @@ public class NetTab : Tab
 			}
 			else
 			{
-				Loggy.LogWarning(
+				Loggy.Warning(
 					$"'{name}' wonky value import: can't find '{elementValue.Id}'.\n Expected: {string.Join("/", CachedElements.Keys)}",
 					Category.NetUI);
 			}
@@ -340,7 +340,7 @@ public class NetTab : Tab
 	{
 		if (Provider == null)
 		{
-			Loggy.LogWarning($"Cannot play sound for {gameObject}; provider missing.");
+			Loggy.Warning($"Cannot play sound for {gameObject}; provider missing.");
 			return;
 		}
 

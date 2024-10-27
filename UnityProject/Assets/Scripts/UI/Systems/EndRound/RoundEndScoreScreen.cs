@@ -41,7 +41,7 @@ namespace UI.Systems.EndRound
 				var result = ScoreMachine.ScoreTypeResultAsString(entry);
 				if (result == null)
 				{
-					Loggy.LogError("[ScoreMachine] - Unidentified score entry type detected while building UI text for round end.");
+					Loggy.Error("[ScoreMachine] - Unidentified score entry type detected while building UI text for round end.");
 					continue;
 				}
 				if (result.ToLower().Contains("true")) result = $"<color=green>Success! ({entry.ScoreValue})</color>";
@@ -58,7 +58,7 @@ namespace UI.Systems.EndRound
 						theWeirdList.AppendLine($"<b>{entry.ScoreName}</b> : {result}");
 						break;
 					default:
-						Loggy.LogError("[RoundEndScoreScreen/ShowScore] - Undefined Alignment for score entry.");
+						Loggy.Error("[RoundEndScoreScreen/ShowScore] - Undefined Alignment for score entry.");
 						break;
 				}
 			}

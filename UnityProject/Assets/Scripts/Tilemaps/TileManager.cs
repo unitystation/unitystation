@@ -130,7 +130,7 @@ public class TileManager : SingletonManager<TileManager>, IInitialise
 			{
 				if (AllTiles.ContainsKey(t.name) && AllTiles[t.name]  != t)
 				{
-					Loggy.LogError("Duplicate names for " + t.name);
+					Loggy.Error("Duplicate names for " + t.name);
 				}
 
 				AllTiles[t.name] = t;
@@ -175,7 +175,7 @@ public class TileManager : SingletonManager<TileManager>, IInitialise
 			return tl;
 		}
 
-		Loggy.LogError( $"Could not find layerTile in dictionary with key: {key}");
+		Loggy.Error( $"Could not find layerTile in dictionary with key: {key}");
 
 		return null;
 	}

@@ -141,7 +141,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		var buckleInteract = BuckledToObject.GetComponent<BuckleInteract>();
 		if (buckleInteract == null)
 		{
-			Loggy.LogError($"{BuckledToObject.gameObject.ExpensiveName()} has no BuckleInteract!");
+			Loggy.Error($"{BuckledToObject.gameObject.ExpensiveName()} has no BuckleInteract!");
 			return;
 		}
 
@@ -793,7 +793,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 				if (DEBUG)
 				{
-					Loggy.LogError(" Is Animating:" + Animating
+					Loggy.Error(" Is Animating:" + Animating
 					                                 + "\n Is floating: " + IsFloating()
 					                                 + "\n move processed at" + transform.localPosition
 					                                 + "\n is flying:" + IsFlyingSliding);
@@ -846,7 +846,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 						{
 							//Reset Swapped thing
 							//TODO
-							Loggy.LogError("TODO Reset location of swapped Stuff on client ");
+							Loggy.Error("TODO Reset location of swapped Stuff on client ");
 						}
 
 						//Loggy.LogError("Move processed");
@@ -955,7 +955,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				{
 					if (DEBUG)
 					{
-						Loggy.LogError("Failed Can input", Category.Movement);
+						Loggy.Error("Failed Can input", Category.Movement);
 					}
 					if (fudged)
 					{
@@ -980,7 +980,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			if (dummyMind == null || dummyMind.Body == null ||
 			    dummyMind.Body.TryGetComponent<UniversalObjectPhysics>(out var physics) == false)
 			{
-				Loggy.LogError("Something went wrong while spawning a dummy player.");
+				Loggy.Error("Something went wrong while spawning a dummy player.");
 			}
 			else
 			{
@@ -1312,7 +1312,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		{
 			if (IsFlyingSliding == false)
 			{
-				Loggy.LogError("Error somehow have air Time while not IsFlyingSliding");
+				Loggy.Error("Error somehow have air Time while not IsFlyingSliding");
 				airTime = 0;
 			}
 			return false;
@@ -1322,7 +1322,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		{
 			if (IsFlyingSliding == false)
 			{
-				Loggy.LogError("Error somehow have Slide time while not IsFlyingSliding");
+				Loggy.Error("Error somehow have Slide time while not IsFlyingSliding");
 				slideTime = 0;
 			}
 			return false;

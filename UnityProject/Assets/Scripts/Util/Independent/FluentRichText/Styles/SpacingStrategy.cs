@@ -11,7 +11,7 @@ namespace Util.Independent.FluentRichText.Styles
 			if (CommonValidations.IsValidPixelValue(spacing) == false &&
 			    CommonValidations.IsValidFontUnitValue(spacing) == false)
 			{
-				Loggy.LogError(
+				Loggy.Error(
 					$"RichText received invalid spacing: {spacing}. Spacing must be a pixel value (e.g., \"1\", \"2.5\") or a font unit value (e.g., \"1em\", \"-0.5em\").");
 				this.spacing = null;
 				return;

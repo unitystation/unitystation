@@ -58,7 +58,7 @@ namespace Messages.Server.AdminTools
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError(e.ToString());
+				Loggy.Error(e.ToString());
 			}
 
 

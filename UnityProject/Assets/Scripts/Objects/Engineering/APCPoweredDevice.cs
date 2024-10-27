@@ -282,7 +282,7 @@ namespace Systems.Electricity
 			EnsureInit();
 			if (oldVoltage != newVoltage)
 			{
-				Loggy.LogTraceFormat("{0}({1}) state changing {2} to {3}", Category.Electrical, name, transform.position.RoundTo2Int(), oldVoltage, newVoltage);
+				Loggy.Trace().Format("{0}({1}) state changing {2} to {3}", Category.Electrical, name, transform.position.RoundTo2Int(), oldVoltage, newVoltage);
 			}
 
 			recordedVoltage = newVoltage;
@@ -311,7 +311,7 @@ namespace Systems.Electricity
 			{
 				if (newState != state)
 				{
-					Loggy.LogTraceFormat("{0}({1}) state changing {2} to {3}", Category.Electrical, name, transform.position.RoundTo2Int(), this.state, newState);
+					Loggy.Trace().Format("{0}({1}) state changing {2} to {3}", Category.Electrical, name, transform.position.RoundTo2Int(), this.state, newState);
 				}
 
 				state = newState;

@@ -46,7 +46,7 @@ public partial class Chat : MonoBehaviour
 	{
 		if (chatEvent == null)
 		{
-			Loggy.LogError("[Chat/InvokeChatEvent()] - Attempted to invoke a null event.");
+			Loggy.Error("[Chat/InvokeChatEvent()] - Attempted to invoke a null event.");
 			return;
 		}
 		var channels = chatEvent.channels;
@@ -186,7 +186,7 @@ public partial class Chat : MonoBehaviour
 		//Sanity check for null username
 		if (string.IsNullOrWhiteSpace(sentByPlayer.Username))
 		{
-			Loggy.Log($"Null/empty Username, Details: Username: {sentByPlayer.Username}, ClientID: {sentByPlayer.ClientId}, IP: {sentByPlayer.ConnectionIP}",
+			Loggy.Info($"Null/empty Username, Details: Username: {sentByPlayer.Username}, ClientID: {sentByPlayer.ClientId}, IP: {sentByPlayer.ConnectionIP}",
 				Category.Admin);
 			return;
 		}
@@ -889,7 +889,7 @@ public partial class Chat : MonoBehaviour
 	{
 		if (recipient == null || recipient.Equals(PlayerInfo.Invalid))
 		{
-			Loggy.LogError($"Can't send message \"{msg}\" to invalid player!", Category.Chat);
+			Loggy.Error($"Can't send message \"{msg}\" to invalid player!", Category.Chat);
 			return;
 		}
 

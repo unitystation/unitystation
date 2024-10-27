@@ -58,7 +58,7 @@ namespace Communications
 		{
 			if (emmitableSignalData == null || emmitableSignalData.Count == 0)
 			{
-				Loggy.LogError("[Singals] - No emmitable signal data detected!");
+				Loggy.Error("[Singals] - No emmitable signal data detected!");
 				return;
 			}
 			//if no signalData is given, always use the first signal SO in the list as it's considered the main signal.

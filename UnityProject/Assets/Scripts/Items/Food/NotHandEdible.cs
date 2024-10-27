@@ -54,7 +54,7 @@ namespace Items
 			}
 			else
 			{
-				Loggy.LogErrorFormat("{0} prefab is missing ItemAttributes", Category.Objects, name);
+				Loggy.Error().Format("{0} prefab is missing ItemAttributes", Category.Objects, name);
 			}
 		}
 

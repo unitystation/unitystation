@@ -60,7 +60,7 @@ namespace Audio.Managers
 		{
 			if(string.IsNullOrEmpty(assetAddress))
 			{
-				Loggy.LogError("Cannot play ambient noise because asset address is empty or null");
+				Loggy.Error("Cannot play ambient noise because asset address is empty or null");
 				return;
 			}
 			var audioSource = new AddressableAudioSource(assetAddress);

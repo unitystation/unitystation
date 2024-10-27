@@ -32,7 +32,7 @@ public class NetParentSetter : NetUIIntElement
 		if (gameObject.activeSelf == false) return;
 		if (ListLocation >= OrderedTargetParents.Count)
 		{
-			Loggy.LogError($"{ListLocation} Was out of bounds on {this.name} ");
+			Loggy.Error($"{ListLocation} Was out of bounds on {this.name} ");
 			return;
 		}
 
@@ -85,7 +85,7 @@ public class NetParentSetter : NetUIIntElement
 			{
 				if (DictionaryParents.ContainsKey(target.intID))
 				{
-					Loggy.LogError($"duplicate ID of {target.intID}  found on {target.name} please give unique ID");
+					Loggy.Error($"duplicate ID of {target.intID}  found on {target.name} please give unique ID");
 				}
 
 				DictionaryParents[target.intID] = target;
@@ -105,7 +105,7 @@ public class NetParentSetter : NetUIIntElement
 		}
 		else
 		{
-			Loggy.LogError($"ID {ID} not present on {this.name}");
+			Loggy.Error($"ID {ID} not present on {this.name}");
 		}
 
 	}
@@ -132,7 +132,7 @@ public class NetParentSetter : NetUIIntElement
 		}
 		else
 		{
-			Loggy.LogError($"NetParentSetterTarget {NetParentSetterTarget.name} not connected to {this.name}");
+			Loggy.Error($"NetParentSetterTarget {NetParentSetterTarget.name} not connected to {this.name}");
 		}
 	}
 

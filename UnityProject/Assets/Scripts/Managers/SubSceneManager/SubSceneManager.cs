@@ -113,7 +113,7 @@ public partial class SubSceneManager : MonoBehaviour
 			yield return LoadUnityScene(sceneName, loadTimer, HandlSynchronising, sceneType);
 		}
 
-		Loggy.Log($"Finished loading {sceneName}");
+		Loggy.Info($"Finished loading {sceneName}");
 	}
 
 	private IEnumerator LoadUnityScene(string sceneName, SubsceneLoadTimer loadTimer = null, bool HandlSynchronising = true, SceneType sceneType = SceneType.HiddenScene)
@@ -122,28 +122,28 @@ public partial class SubSceneManager : MonoBehaviour
 		{
 			if (clientLoadedSubScenes.Any(x => x.SceneName == sceneName))
 			{
-				Loggy.Log($"Scene already loaded client {sceneName}");
+				Loggy.Info($"Scene already loaded client {sceneName}");
 				yield break;
 			}
 		}
 		ConnectionLoadedRecord[sceneName] = new HashSet<int>();
 		AsyncOperation AO = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-		Loggy.Log($"AO Handle Generated for {sceneName}");
+		Loggy.Info($"AO Handle Generated for {sceneName}");
 		if (AO != null)
 		{
-			Loggy.Log($"Waiting for AO.isDone {sceneName}");
+			Loggy.Info($"Waiting for AO.isDone {sceneName}");
 			while (AO.isDone == false)
 			{
 				if (loadTimer != null) loadTimer.IncrementLoadBar();
-				Loggy.Log($"Percentage loaded {sceneName} {AO.progress}");
+				Loggy.Info($"Percentage loaded {sceneName} {AO.progress}");
 				yield return null;
 			}
 
-			Loggy.Log($"Finished waiting for AO.isDone {sceneName}");
+			Loggy.Info($"Finished waiting for AO.isDone {sceneName}");
 			if (loadTimer != null) loadTimer.IncrementLoadBar();
 			if (CustomNetworkManager.IsServer)
 			{
-				Loggy.Log($"SpawnObjects + RequestObserverRefresh {sceneName}");
+				Loggy.Info($"SpawnObjects + RequestObserverRefresh {sceneName}");
 				NetworkServer.SpawnObjects();
 
 				while (NetworkClient.connection.isAuthenticated == false) //Needed so that if Authentication takes time, server instance does not disconnect itself.
@@ -164,7 +164,7 @@ public partial class SubSceneManager : MonoBehaviour
 
 			if (CustomNetworkManager.IsServer)
 			{
-				Loggy.Log($"SloadedScenesList.add {sceneName}");
+				Loggy.Info($"SloadedScenesList.add {sceneName}");
 				loadedScenesList.Add(new SceneInfo
 				{
 					SceneName = sceneName,
@@ -176,7 +176,7 @@ public partial class SubSceneManager : MonoBehaviour
 		}
 		else
 		{
-			Loggy.LogError($"was unable to find scene for {sceneName} Skipping");
+			Loggy.Error($"was unable to find scene for {sceneName} Skipping");
 		}
 	}
 

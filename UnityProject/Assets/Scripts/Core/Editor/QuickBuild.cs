@@ -206,12 +206,12 @@ namespace Core.Editor
 
 			if (report.summary.result == BuildResult.Succeeded)
 			{
-				Loggy.Log($"Build complete. ({timeStr})");
+				Loggy.Info($"Build complete. ({timeStr})");
 			}
 
 			if (report.summary.result == BuildResult.Failed)
 			{
-				Loggy.LogError($"Build failed! ({timeStr})");
+				Loggy.Error($"Build failed! ({timeStr})");
 			}
 		}
 	}

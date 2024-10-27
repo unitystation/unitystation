@@ -271,7 +271,7 @@ public class GUI_P_Component : PageElement
 			{
 				if (data.IDType == IDType.Book)
 				{
-					Loggy.LogError("reeeeee");
+					Loggy.Error("reeeeee");
 					return null;
 				}
 
@@ -283,7 +283,7 @@ public class GUI_P_Component : PageElement
 
 				if (Librarian.IDToBookShelf.ContainsKey(data.ShelfID) == false)
 				{
-					Loggy.LogError("reeeeee");
+					Loggy.Error("reeeeee");
 					return null;
 				}
 
@@ -295,7 +295,7 @@ public class GUI_P_Component : PageElement
 				{
 					if (Librarian.IDToBookShelf.ContainsKey(data.ShelfID) == false)
 					{
-						Loggy.LogError("reeeeee");
+						Loggy.Error("reeeeee");
 						return null;
 					}
 
@@ -309,7 +309,7 @@ public class GUI_P_Component : PageElement
 				{
 					if (Librarian.IDToBook.ContainsKey(data.BookID) == false)
 					{
-						Loggy.LogError("reeeeee");
+						Loggy.Error("reeeeee");
 						return null;
 					}
 

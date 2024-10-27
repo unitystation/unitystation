@@ -37,7 +37,7 @@ namespace UI.Objects
 		{
 			if (product == null)
 			{
-				Loggy.Log("Machine Product not found", Category.Machines);
+				Loggy.Info("Machine Product not found", Category.Machines);
 				return;
 			}
 			foreach (var element in Elements)

@@ -22,7 +22,7 @@ namespace Systems.Interaction
 			{
 				if (isMeleeable == false)
 				{
-					Loggy.LogWarning($"Remove {nameof(Meleeable)} component from {this} if it isn't meleeable, " +
+					Loggy.Warning($"Remove {nameof(Meleeable)} component from {this} if it isn't meleeable, " +
 						$"instead of relying on the isMeleeable field.");
 				}
 				return isMeleeable;

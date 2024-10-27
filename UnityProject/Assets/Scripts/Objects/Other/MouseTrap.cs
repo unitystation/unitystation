@@ -28,7 +28,7 @@ namespace Objects.Other
 
 			if (trapPreview == null)
 			{
-				Loggy.LogError($"{gameObject} spawned with a null trapPreview. We can't get it on awake due to the existence of two SpriteHandlers!");
+				Loggy.Error($"{gameObject} spawned with a null trapPreview. We can't get it on awake due to the existence of two SpriteHandlers!");
 			}
 		}
 

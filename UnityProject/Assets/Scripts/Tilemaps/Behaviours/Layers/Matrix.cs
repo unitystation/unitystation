@@ -119,7 +119,7 @@ public class Matrix : MonoBehaviour
 		metaTileMap = GetComponent<MetaTileMap>();
 		if (metaTileMap == null)
 		{
-			Loggy.LogError($"MetaTileMap was null on {gameObject.name}");
+			Loggy.Error($"MetaTileMap was null on {gameObject.name}");
 		}
 
 		networkedMatrix = transform.parent.GetComponent<NetworkedMatrix>();
@@ -590,7 +590,7 @@ public class Matrix : MonoBehaviour
 	public static Vector3Int GetLocalPositionFromRootObject(UniversalObjectPhysics physics)
 	{
 		if (physics.GetRootObject.RegisterTile() != null) return physics.GetRootObject.RegisterTile().LocalPosition;
-		Loggy.LogError("[Matrix/GetLocalPosFromWorldPos] - Could not find RegisterTile.");
+		Loggy.Error("[Matrix/GetLocalPosFromWorldPos] - Could not find RegisterTile.");
 		return Vector3Int.zero;
 	}
 

@@ -175,7 +175,7 @@ namespace Changeling
 			}
 			catch
 			{
-				Loggy.LogError($"[ChangelingMain/SyncAbilityList]{ChangelingMind.CurrentPlayScript.playerName} can`t refresh abilities", Category.Changeling);
+				Loggy.Error($"[ChangelingMain/SyncAbilityList]{ChangelingMind.CurrentPlayScript.playerName} can`t refresh abilities", Category.Changeling);
 			}
 		}
 
@@ -195,7 +195,7 @@ namespace Changeling
 			}
 			catch
 			{
-				Loggy.LogError($"[ChangelingMain/SyncChemCount]{ChangelingMind.CurrentPlayScript.playerName} can`t set up UI", Category.Changeling);
+				Loggy.Error($"[ChangelingMain/SyncChemCount]{ChangelingMind.CurrentPlayScript.playerName} can`t set up UI", Category.Changeling);
 			}
 		}
 
@@ -214,7 +214,7 @@ namespace Changeling
 			}
 			catch
 			{
-				Loggy.LogError($"[ChangelingMain/SyncMindID]{ChangelingMind.CurrentPlayScript.playerName} can`t set up UI", Category.Changeling);
+				Loggy.Error($"[ChangelingMain/SyncMindID]{ChangelingMind.CurrentPlayScript.playerName} can`t set up UI", Category.Changeling);
 			}
 		}
 
@@ -233,7 +233,7 @@ namespace Changeling
 			}
 			catch
 			{
-				Loggy.LogError($"[ChangelingMain/SyncEPCount]{ChangelingMind.CurrentPlayScript.playerName} can`t set up UI", Category.Changeling);
+				Loggy.Error($"[ChangelingMain/SyncEPCount]{ChangelingMind.CurrentPlayScript.playerName} can`t set up UI", Category.Changeling);
 			}
 		}
 

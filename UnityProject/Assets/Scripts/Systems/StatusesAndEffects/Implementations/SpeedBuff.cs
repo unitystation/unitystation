@@ -25,7 +25,7 @@ namespace Systems.StatusesAndEffects.Implementations
 			UpdateManager.Add(CheckExpiration, 1f);
 			if (PlayerBase == null)
 			{
-				Loggy.LogWarning($"[SpeedBuff] - Oi govna, can't make an inanimate object ({target}) belt it.");
+				Loggy.Warning($"[SpeedBuff] - Oi govna, can't make an inanimate object ({target}) belt it.");
 				return;
 			}
 			foreach (var limb in PlayerBase.playerHealth.GetBodyFunctionsOfType<Limb>())

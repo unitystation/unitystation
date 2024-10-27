@@ -58,7 +58,7 @@ public class ReplaceWithPrefab : EditorWindow
 				// -- if for some reason Unity couldn't perform your request, print an error
 				if (newObject == null)
 				{
-					Loggy.LogError("Error instantiating prefab", Category.Editor);
+					Loggy.Error("Error instantiating prefab", Category.Editor);
 					break;
 				}
 
@@ -101,7 +101,7 @@ public class ReplaceWithPrefab : EditorWindow
 
 					if (Bright == null)
 					{
-						Loggy.LogError("AAAA > " + selectedLightSprite.Sprite + "selected > " + selected.name);
+						Loggy.Error("AAAA > " + selectedLightSprite.Sprite + "selected > " + selected.name);
 					}
 
 					Handler.SetSpriteSO(Bright);

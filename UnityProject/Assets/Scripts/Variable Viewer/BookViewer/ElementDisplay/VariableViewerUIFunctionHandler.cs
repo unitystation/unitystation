@@ -80,7 +80,7 @@ public static class VVUIElementHandler
 					}
 					catch (Exception e)
 					{
-						Loggy.LogError(e.ToString());
+						Loggy.Error(e.ToString());
 					}
 
 				}

@@ -23,7 +23,7 @@ namespace Systems.Permissions
 		{
 			if (AccessFile.Exists(configPath) == false)
 			{
-				Loggy.LogError("Permissions config file not found!", Category.Admin);
+				Loggy.Error("Permissions config file not found!", Category.Admin);
 				Config = new PermissionsConfig();
 				return;
 			}
@@ -37,11 +37,11 @@ namespace Systems.Permissions
 		{
 			if (Toml.TryToModel<PermissionsConfig>(fileContent, out var model, out var diagnostics) == false)
 			{
-				Loggy.LogError("Permissions config file is invalid! See next to find why.", Category.Admin);
+				Loggy.Error("Permissions config file is invalid! See next to find why.", Category.Admin);
 				var errors = diagnostics.GetEnumerator();
 				while (errors.MoveNext())
 				{
-					Loggy.LogError($"reason: {errors.Current?.Message}", Category.Admin);
+					Loggy.Error($"reason: {errors.Current?.Message}", Category.Admin);
 				}
 				errors.Dispose();
 				Config = new PermissionsConfig();

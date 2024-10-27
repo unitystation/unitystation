@@ -16,8 +16,8 @@ namespace Objects.Doors
 
 		private void Awake()
 		{
-			if (animatorV2 == null) Loggy.LogError("[Door] - AirlockCatalogueSync is not setup properly, issues may happen.");
-			if (paintOptions == null) Loggy.LogError("[Door] - AirlockCatalogueSync has its DoorsSO null. issues may happen.");
+			if (animatorV2 == null) Loggy.Error("[Door] - AirlockCatalogueSync is not setup properly, issues may happen.");
+			if (paintOptions == null) Loggy.Error("[Door] - AirlockCatalogueSync has its DoorsSO null. issues may happen.");
 		}
 
 		private void SyncAirlockSprites(int oldValue, int newValue)
@@ -35,7 +35,7 @@ namespace Objects.Doors
 		{
 			if (index >= paintOptions.Doors.Count)
 			{
-				Loggy.LogError($"[AirlockCatalgueSync] - Index out of bounds! New Index is {newVal} and number of options are {paintOptions.Doors.Count}");
+				Loggy.Error($"[AirlockCatalgueSync] - Index out of bounds! New Index is {newVal} and number of options are {paintOptions.Doors.Count}");
 				return;
 			}
 

@@ -70,7 +70,7 @@ namespace Systems.Faith.FaithProperties
 						break;
 					default:
 						Chat.AddExamineMsg(member.gameObject, "Food..");
-						Loggy.LogError("[FaithProperties/Gluttony/CheckHungerLevels()] - Unexpected case, did you add a new case and forget to update this code?");
+						Loggy.Error("[FaithProperties/Gluttony/CheckHungerLevels()] - Unexpected case, did you add a new case and forget to update this code?");
 						break;
 				}
 			}

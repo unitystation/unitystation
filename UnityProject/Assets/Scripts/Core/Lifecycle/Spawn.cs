@@ -53,7 +53,7 @@ public static class Spawn
 
 	public static void Clean()
 	{
-		Loggy.Log("Removed  " + CleanupUtil.RidDictionaryOfDeadElements(nameToSpawnablePrefab) + " elements from " + nameof(Spawn) + "." + nameof(nameToSpawnablePrefab), Category.MemoryCleanup);
+		Loggy.Info("Removed  " + CleanupUtil.RidDictionaryOfDeadElements(nameToSpawnablePrefab) + " elements from " + nameof(Spawn) + "." + nameof(nameToSpawnablePrefab), Category.MemoryCleanup);
 		_ClearPools();
 	}
 
@@ -95,7 +95,7 @@ public static class Spawn
 			var prefab = CustomNetworkManager.Instance.GetSpawnablePrefabFromName(prefabName);
 			if (prefab == null)
 			{
-				Loggy.LogErrorFormat("Could not find prefab with name {0}, please ensure it is correctly spelled.",
+				Loggy.Error().Format("Could not find prefab with name {0}, please ensure it is correctly spelled.",
 					Category.ItemSpawn,
 					prefabName);
 				return null;
@@ -280,12 +280,12 @@ public static class Spawn
 	{
 		if (info == null)
 		{
-			Loggy.LogError("Cannot spawn, info is null", Category.ItemSpawn);
+			Loggy.Error("Cannot spawn, info is null", Category.ItemSpawn);
 			return SpawnResult.Fail(info);
 		}
 
 		EnsureInit();
-		Loggy.LogTraceFormat("Server spawning {0}", Category.ItemSpawn, info);
+		Loggy.Trace().Format("Server spawning {0}", Category.ItemSpawn, info);
 
 		List<GameObject> spawnedObjects = new List<GameObject>();
 		for (int i = 0; i < info.Count; i++)
@@ -392,7 +392,7 @@ public static class Spawn
 	{
 		if (info == null)
 		{
-			Loggy.LogError("Cannot spawn, info is null", Category.ItemSpawn);
+			Loggy.Error("Cannot spawn, info is null", Category.ItemSpawn);
 			return SpawnResult.Fail(info);
 		}
 
@@ -417,7 +417,7 @@ public static class Spawn
 		}
 		else
 		{
-			Loggy.LogErrorFormat("Cannot spawn {0} client side, spawnable does not" +
+			Loggy.Error().Format("Cannot spawn {0} client side, spawnable does not" +
 			                      " implement IClientSpawnable", Category.ItemSpawn, info);
 			return SpawnResult.Fail(info);
 		}

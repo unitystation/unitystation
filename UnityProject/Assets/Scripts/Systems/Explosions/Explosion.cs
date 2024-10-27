@@ -118,7 +118,7 @@ namespace Systems.Explosions
 			if (result.ItHit)
 			{
 #if UNITY_EDITOR
-				Loggy.Log($"[Explosion/StunAndFlashPlayers()] - " +
+				Loggy.Info($"[Explosion/StunAndFlashPlayers()] - " +
 				          $"We hit {result.CollisionHit.GameObject?.ExpensiveName()} when using MatrixManger.Linecraft().", Category.TileMaps);
 #endif
 				return false;

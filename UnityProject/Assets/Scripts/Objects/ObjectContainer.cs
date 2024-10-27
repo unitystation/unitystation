@@ -157,7 +157,7 @@ namespace Objects
 		{
 			if (obj == null)
 			{
-				Loggy.LogError("[ObjectContainer/StoreObject] - HEY SHITASS, DON'T TRY ADDING NULL OBJECTS.");
+				Loggy.Error("[ObjectContainer/StoreObject] - HEY SHITASS, DON'T TRY ADDING NULL OBJECTS.");
 				return;
 			}
 			if (obj.TryGetComponent<UniversalObjectPhysics>(out var objectPhysics))

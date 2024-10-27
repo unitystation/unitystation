@@ -16,7 +16,7 @@ namespace Messages.Client.NewPlayer
 
 			if (NetworkObject == null)
 			{
-				Loggy.LogError("Failed to load matrix sync for new player", Category.Matrix);
+				Loggy.Error("Failed to load matrix sync for new player", Category.Matrix);
 				return;
 			}
 

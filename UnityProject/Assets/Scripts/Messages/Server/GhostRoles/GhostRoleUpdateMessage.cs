@@ -38,7 +38,7 @@ namespace Messages.Server.GhostRoles
 			{
 				if (GhostRoleManager.Instance.serverAvailableRoles.TryGetValue(key, out var role) == false)
 				{
-					Loggy.LogError($"Failed to find ghost role key: {key}");
+					Loggy.Error($"Failed to find ghost role key: {key}");
 					return new NetMessage();
 				}
 
@@ -46,7 +46,7 @@ namespace Messages.Server.GhostRoles
 				{
 					if (player?.Script == null)
 					{
-						Loggy.LogError("SendToClients, player?.Script == null", Category.Ghosts);
+						Loggy.Error("SendToClients, player?.Script == null", Category.Ghosts);
 						continue;
 					}
 
@@ -56,7 +56,7 @@ namespace Messages.Server.GhostRoles
 			}
 			else
 			{
-				Loggy.LogError("SendToClients, GhostRoleManager.Instance == null", Category.Ghosts);
+				Loggy.Error("SendToClients, GhostRoleManager.Instance == null", Category.Ghosts);
 			}
 
 			return new NetMessage();

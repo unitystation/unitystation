@@ -12,7 +12,7 @@ namespace Util.Independent.FluentRichText.Styles
 			    CommonValidations.IsValidFontUnitValue(amount) == false &&
 			    CommonValidations.IsValidPercentageValue(amount) == false)
 			{
-				Loggy.LogError($"RichText received invalid vertical offset amount: {amount}");
+				Loggy.Error($"RichText received invalid vertical offset amount: {amount}");
 				return;
 			}
 

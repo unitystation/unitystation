@@ -17,7 +17,7 @@ public class SmokeEffect : Chemistry.Effect
 		var Container = sender.gameObject.GetComponent<ReagentContainer>(); //Not the best thing but see how it Does
 		if (Container == null)
 		{
-			Loggy.LogError($"no ReagentContainer on {sender.gameObject} for smoke reaction");
+			Loggy.Error($"no ReagentContainer on {sender.gameObject} for smoke reaction");
 			return;
 		}
 

@@ -938,7 +938,7 @@ namespace TileManagement
 
 						if (found == false)
 						{
-							Loggy.LogError(
+							Loggy.Error(
 								$"Tile has reached maximum Meta data system depth {MaxDepth}, This could be from accidental placing of multiple tiles",
 								Category.Editor);
 						}
@@ -1084,7 +1084,7 @@ namespace TileManagement
 
 		private void LogMissingLayer(Vector3Int position, LayerType layerType)
 		{
-			Loggy.LogErrorFormat("Modifying tile at cellPos {0} for layer type {1} failed because matrix {2} " +
+			Loggy.Error().Format("Modifying tile at cellPos {0} for layer type {1} failed because matrix {2} " +
 			                     "has no layer of that type. Please add this layer to this matrix in" +
 			                     " the scene.", Category.TileMaps, position, layerType, name);
 		}
@@ -1610,7 +1610,7 @@ namespace TileManagement
 		{
 			if (layerType == LayerType.Objects)
 			{
-				Loggy.LogError("Please use get objects instead of get tile", Category.TileMaps);
+				Loggy.Error("Please use get objects instead of get tile", Category.TileMaps);
 				return false;
 			}
 
@@ -1655,7 +1655,7 @@ namespace TileManagement
 		{
 			if (layerType == LayerType.Objects)
 			{
-				Loggy.LogError("Please use get objects instead of get tile");
+				Loggy.Error("Please use get objects instead of get tile");
 				return null;
 			}
 
@@ -1734,7 +1734,7 @@ namespace TileManagement
 		{
 			if (layerType == LayerType.Objects)
 			{
-				Loggy.LogError("Please use get objects instead of get tile");
+				Loggy.Error("Please use get objects instead of get tile");
 				return null;
 			}
 
@@ -1828,7 +1828,7 @@ namespace TileManagement
 		{
 			if (layerType == LayerType.Objects)
 			{
-				Loggy.LogError("Please use get objects instead of get tile");
+				Loggy.Error("Please use get objects instead of get tile");
 				return null;
 			}
 
@@ -1924,7 +1924,7 @@ namespace TileManagement
 		{
 			if (layerType == LayerType.Objects)
 			{
-				Loggy.LogError("Please use get objects instead of get tile");
+				Loggy.Error("Please use get objects instead of get tile");
 				return null;
 			}
 
@@ -2015,7 +2015,7 @@ namespace TileManagement
 		{
 			if (layerType == LayerType.Objects)
 			{
-				Loggy.LogError("Please use get objects instead of get tile");
+				Loggy.Error("Please use get objects instead of get tile");
 				return false;
 			}
 
@@ -2047,7 +2047,7 @@ namespace TileManagement
 				}
 				else
 				{
-					Loggy.LogError("Overlay tiles are not supported for non-multilayered layers for " +
+					Loggy.Error("Overlay tiles are not supported for non-multilayered layers for " +
 					               overlayTileWanted?.name);
 					return true;
 				}
@@ -2088,7 +2088,7 @@ namespace TileManagement
 		{
 			if (layerType == LayerType.Objects)
 			{
-				Loggy.LogError("Please use get objects instead of get tile");
+				Loggy.Error("Please use get objects instead of get tile");
 				return false;
 			}
 
@@ -2389,7 +2389,7 @@ namespace TileManagement
 
 			if (localToWorldMatrix == null)
 			{
-				Loggy.LogError(
+				Loggy.Error(
 					"humm, localToWorldMatrix  tried to be excess before being set humm, Setting to identity matrix, Please fix this ");
 				localToWorldMatrix = Matrix4x4.identity;
 			}
@@ -2442,7 +2442,7 @@ namespace TileManagement
 
 			if (Layers.ContainsKey(tile.LayerType) == false)
 			{
-				Loggy.LogErrorFormat($"LAYER TYPE: {0} not found!", Category.TileMaps, tile.LayerType);
+				Loggy.Error().Format($"LAYER TYPE: {0} not found!", Category.TileMaps, tile.LayerType);
 				return;
 			}
 

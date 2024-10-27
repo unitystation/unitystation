@@ -29,7 +29,7 @@ namespace Messages.Client.VariableViewer
 			global::VariableViewer.RequestChangeVariable(
 					msg.PageID, msg.newValue, msg.SendToClient, SentByPlayer.GameObject, SentByPlayer.AccountId, msg.SentenceID, msg.ListModification);
 
-			Loggy.Log(
+			Loggy.Info(
 					$"Admin {SentByPlayer.Username} changed variable {msg.PageID} (in VV) with a new value of: {msg.newValue} ",
 					Category.Admin);
 		}

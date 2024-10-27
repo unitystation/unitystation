@@ -74,7 +74,7 @@ namespace Items.Magical
 			}
 			else
 			{
-				Loggy.LogWarning($"No punishment found for {this}!", Category.Spells);
+				Loggy.Warning($"No punishment found for {this}!", Category.Spells);
 			}
 		}
 	}

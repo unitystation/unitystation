@@ -432,7 +432,7 @@ namespace MapSaver
 				}
 				else
 				{
-					Loggy.LogError($"Missing money behaviour in MonoToID {MFD.Item1.name}");
+					Loggy.Error($"Missing money behaviour in MonoToID {MFD.Item1.name}");
 				}
 			}
 
@@ -566,7 +566,7 @@ namespace MapSaver
 					else
 					{
 						MFD.Item2.Data = "MISSING";
-						Loggy.LogError($"Missing money behaviour in MonoToID {MFD.Item1.name}");
+						Loggy.Error($"Missing money behaviour in MonoToID {MFD.Item1.name}");
 					}
 				}
 
@@ -1577,7 +1577,7 @@ namespace MapSaver
 			var Tracker = Object.GetComponent<PrefabTracker>();
 			if (Tracker == null)
 			{
-				Loggy.LogError(Object.name +
+				Loggy.Error(Object.name +
 				               " Is missing a PrefabTracker Please make it inherit from the base item/object prefab ");
 				return;
 			}
@@ -2029,7 +2029,7 @@ namespace MapSaver
 			{
 				if (Id == "MISSING")
 				{
-					Loggy.LogError("Map has missing references");
+					Loggy.Error("Map has missing references");
 					return null;
 				}
 
@@ -2040,7 +2040,7 @@ namespace MapSaver
 			{
 				if (Id == "MISSING")
 				{
-					Loggy.LogError("Map has missing references");
+					Loggy.Error("Map has missing references");
 					return null;
 				}
 
@@ -2114,7 +2114,7 @@ namespace MapSaver
 							}
 							catch (Exception e)
 							{
-								Loggy.LogError(e.ToString());
+								Loggy.Error(e.ToString());
 								throw e;
 							}
 
@@ -2211,7 +2211,7 @@ namespace MapSaver
 
 						var stringMissing =
 							$" {Process.Key} Is missing references {string.Join(", ", Process.Value.ReferencesNeeded)}, {data} ";
-						Loggy.LogError(stringMissing);
+						Loggy.Error(stringMissing);
 						Returning += "\n" + stringMissing;
 					}
 				}

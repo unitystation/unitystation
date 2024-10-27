@@ -236,7 +236,7 @@ namespace Chemistry.Components
 							transferTo = target;
 							break;
 						default:
-							Loggy.LogErrorFormat("Invalid transfer mode when attempting transfer {0}<->{1}",
+							Loggy.Error().Format("Invalid transfer mode when attempting transfer {0}<->{1}",
 								Category.Chemistry, objectInHands, target);
 							break;
 					}
@@ -255,7 +255,7 @@ namespace Chemistry.Components
 							transferTo = target;
 							break;
 						default:
-							Loggy.LogErrorFormat("Invalid transfer mode when attempting transfer {0}<->{1}",
+							Loggy.Error().Format("Invalid transfer mode when attempting transfer {0}<->{1}",
 								Category.Chemistry, objectInHands, target);
 							break;
 					}
@@ -274,7 +274,7 @@ namespace Chemistry.Components
 							transferTo = target;
 							break;
 						default:
-							Loggy.LogErrorFormat("Invalid transfer mode when attempting transfer {0}<->{1}",
+							Loggy.Error().Format("Invalid transfer mode when attempting transfer {0}<->{1}",
 								Category.Chemistry, objectInHands, target);
 							break;
 					}
@@ -293,14 +293,14 @@ namespace Chemistry.Components
 							Chat.AddExamineMsg(performer, "Both containers are input-only.");
 							break;
 						default:
-							Loggy.LogErrorFormat("Invalid transfer mode when attempting transfer {0}<->{1}",
+							Loggy.Error().Format("Invalid transfer mode when attempting transfer {0}<->{1}",
 								Category.Chemistry, objectInHands, target);
 							break;
 					}
 
 					break;
 				default:
-					Loggy.LogErrorFormat("Invalid transfer mode when attempting transfer {0}<->{1}", Category.Chemistry,
+					Loggy.Error().Format("Invalid transfer mode when attempting transfer {0}<->{1}", Category.Chemistry,
 						objectInHands,
 						target);
 					break;
@@ -313,7 +313,7 @@ namespace Chemistry.Components
 
 			var transferFrom = target == transferTo ? objectInHands : target;
 
-			Loggy.LogTraceFormat("Attempting transfer from {0} into {1}", Category.Chemistry, transferFrom, transferTo);
+			Loggy.Trace().Format("Attempting transfer from {0} into {1}", Category.Chemistry, transferFrom, transferTo);
 
 
 			if (transferFrom.IsEmpty)

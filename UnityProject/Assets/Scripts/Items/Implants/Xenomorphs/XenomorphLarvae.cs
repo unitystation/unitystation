@@ -109,7 +109,7 @@ namespace HealthV2
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError(e.ToString());
+				Loggy.Error(e.ToString());
 			}
 
 			_ = Despawn.ServerSingle(gameObject);

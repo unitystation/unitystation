@@ -115,8 +115,8 @@ public class MetaDataLayer : MonoBehaviour
 		}
 		catch (Exception e)
 		{
-			Loggy.LogError("THIS REALLY SHOULDN'T HAPPEN!");
-			Loggy.LogError(e.ToString());
+			Loggy.Error("THIS REALLY SHOULDN'T HAPPEN!");
+			Loggy.Error(e.ToString());
 
 			if (createIfNotExists)
 			{

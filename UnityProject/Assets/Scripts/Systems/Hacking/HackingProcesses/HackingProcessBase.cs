@@ -127,7 +127,7 @@ namespace Systems.Hacking
 
 			if (ColourDictionary == null)
 			{
-				Loggy.Log("Color dictionary wasn't found. RegisterPort has exited.", Category.Interaction);
+				Loggy.Info("Color dictionary wasn't found. RegisterPort has exited.", Category.Interaction);
 				return;
 			}
 
@@ -262,7 +262,7 @@ namespace Systems.Hacking
 
 					if (Cable == null)
 					{
-						Loggy.LogWarning("No cable was found for cutting", Category.Interaction);
+						Loggy.Warning("No cable was found for cutting", Category.Interaction);
 						return;
 					}
 

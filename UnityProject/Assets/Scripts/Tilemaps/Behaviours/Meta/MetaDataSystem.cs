@@ -81,13 +81,13 @@ public class MetaDataSystem : MatrixSystemBehaviour
 				matrix.MetaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);
 			}
 			Dsw.Stop();
-			Loggy.Log(
+			Loggy.Info(
 				$"Initialise {gameObject.name} Utilities (Power cables, Atmos pipes): " + Dsw.ElapsedMilliseconds +
 				" ms", Category.Matrix);
 		}
 
 		sw.Stop();
-		Loggy.Log($"{gameObject.name} MetaData init: " + sw.ElapsedMilliseconds + " ms", Category.Matrix);
+		Loggy.Info($"{gameObject.name} MetaData init: " + sw.ElapsedMilliseconds + " ms", Category.Matrix);
 	}
 
 	public override void UpdateAt(Vector3Int localPosition)
@@ -183,7 +183,7 @@ public class MetaDataSystem : MatrixSystemBehaviour
 		var positions = bounds.allPositionsWithin();
 		tested = new HashSet<Vector3Int>(positions.Count);
 
-		Loggy.LogFormat($"{matrixName}: {positions.Count} tiles need to be set up for atmos.", Category.TileMaps);
+		Loggy.Info().Format($"{matrixName}: {positions.Count} tiles need to be set up for atmos.", Category.TileMaps);
 
 		frameWatch.Start();
 
@@ -195,7 +195,7 @@ public class MetaDataSystem : MatrixSystemBehaviour
 			//Every 1000 tiles wait till next frame to continue
 			if (count % 1000 == 0)
 			{
-				Loggy.LogFormat($"{matrixName}: Created some rooms in {frameWatch.ElapsedMilliseconds}ms",
+				Loggy.Info().Format($"{matrixName}: Created some rooms in {frameWatch.ElapsedMilliseconds}ms",
 					Category.TileMaps);
 
 				frameWatch.Reset();
@@ -208,14 +208,14 @@ public class MetaDataSystem : MatrixSystemBehaviour
 
 		setUpDone = true;
 
-		Loggy.LogFormat($"{matrixName}: Created rooms in a total of {overallWatch.ElapsedMilliseconds}ms",
+		Loggy.Info().Format($"{matrixName}: Created rooms in a total of {overallWatch.ElapsedMilliseconds}ms",
 			Category.TileMaps);
 		overallWatch.Reset();
 		overallWatch.Restart();
 
 		atmosSystem.FillRoomGas();
 
-		Loggy.LogFormat($"{matrixName}: Filled rooms with gas in {overallWatch.ElapsedMilliseconds}ms",
+		Loggy.Info().Format($"{matrixName}: Filled rooms with gas in {overallWatch.ElapsedMilliseconds}ms",
 			Category.TileMaps);
 	}
 

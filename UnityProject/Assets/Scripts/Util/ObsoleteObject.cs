@@ -16,7 +16,7 @@ namespace Util
 
 		private void Start()
 		{
-			Loggy.LogError($"Obsolete object: {gameObject.ExpensiveName()} on matrix: {objectPhysics.registerTile.Matrix} at world coord: {objectPhysics.OfficialPosition}. Please remove from scene");
+			Loggy.Error($"Obsolete object: {gameObject.ExpensiveName()} on matrix: {objectPhysics.registerTile.Matrix} at world coord: {objectPhysics.OfficialPosition}. Please remove from scene");
 		}
 	}
 }

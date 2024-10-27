@@ -30,7 +30,7 @@ namespace Util
 
 			if (ModifiedScenes.Count == 0) EditorSceneManager.sceneOpened -= SaveAfterLoaded;
 
-			Loggy.Log($"{scene.name}: Scene was modified while loading and saved.", Category.Editor);
+			Loggy.Info($"{scene.name}: Scene was modified while loading and saved.", Category.Editor);
 			EditorSceneManager.SaveScene(scene);
 		}
 	}

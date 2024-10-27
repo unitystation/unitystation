@@ -35,7 +35,7 @@ namespace Objects.Traps
 				if(gobj.TryGetComponent<IGenericTrigger>(out var trigger) == false)
 				{
 					genericTriggerObjects.Remove(gobj);
-					Loggy.LogWarning($"[GenericTriggerOutput/SyncList] Gameobject {gobj.name} did not have IGenericTrigger interface. Removing from list...");
+					Loggy.Warning($"[GenericTriggerOutput/SyncList] Gameobject {gobj.name} did not have IGenericTrigger interface. Removing from list...");
 					continue;
 				}
 				genericTriggers.Add(trigger);
@@ -48,7 +48,7 @@ namespace Objects.Traps
 			{
 				if (trigger == null)
 				{
-					Loggy.LogWarning($"[GenericTriggerOutput/TriggerOutput] Trigger in genericTrigger list was null! Removing...");
+					Loggy.Warning($"[GenericTriggerOutput/TriggerOutput] Trigger in genericTrigger list was null! Removing...");
 					RemoveTrigger(trigger);
 				}
 				trigger.OnTrigger();
@@ -61,7 +61,7 @@ namespace Objects.Traps
 			{
 				if (trigger == null)
 				{
-					Loggy.LogWarning($"[GenericTriggerOutput/TriggerOutputWithClearance] Trigger in genericTrigger list was null! Removing...");
+					Loggy.Warning($"[GenericTriggerOutput/TriggerOutputWithClearance] Trigger in genericTrigger list was null! Removing...");
 					RemoveTrigger(trigger);
 				}
 				trigger.OnTriggerWithClearance(source);
@@ -74,7 +74,7 @@ namespace Objects.Traps
 			{
 				if (trigger == null)
 				{
-					Loggy.LogWarning($"[GenericTriggerOutput/ReleaseOutput] Trigger in genericTrigger list was null! Removing...");
+					Loggy.Warning($"[GenericTriggerOutput/ReleaseOutput] Trigger in genericTrigger list was null! Removing...");
 					RemoveTrigger(trigger);
 				}
 				trigger.OnTriggerEnd();
@@ -113,7 +113,7 @@ namespace Objects.Traps
 		{
 			//Logic Gates can have more than one IGenericTrigger per gameObject so GetComponent won't work.
 			//We ask the gate to get the correct interface.
-			if (potentialObject.TryGetComponent<LogicGate>(out var gate)) 
+			if (potentialObject.TryGetComponent<LogicGate>(out var gate))
 			{
 				if(gate.TryRetrieveTrigger(out IGenericTrigger trigger)) AddGenericTrigger(trigger);
 				return;

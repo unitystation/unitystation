@@ -21,7 +21,7 @@ namespace Changeling
 		{
 			if (index < 0 || index > Abilites.Count - 1)
 			{
-				Loggy.LogErrorFormat("ChangelingAbilityList: no ability found at index {0}", Category.Changeling, index);
+				Loggy.Error().Format("ChangelingAbilityList: no ability found at index {0}", Category.Changeling, index);
 				return InvalidData;
 			}
 

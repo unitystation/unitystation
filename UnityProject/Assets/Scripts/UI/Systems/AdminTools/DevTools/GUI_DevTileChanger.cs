@@ -381,7 +381,7 @@ namespace UI.Systems.AdminTools.DevTools
 						ChangeColour();
 						return true;
 					default:
-						Loggy.LogError($"Unknown case: {currentAction.ToString()} in switch!");
+						Loggy.Error($"Unknown case: {currentAction.ToString()} in switch!");
 						return true;
 				}
 			}
@@ -428,7 +428,7 @@ namespace UI.Systems.AdminTools.DevTools
 					ChangeColour();
 					break;
 				default:
-					Loggy.LogError($"Unknown case: {currentAction.ToString()} in switch!");
+					Loggy.Error($"Unknown case: {currentAction.ToString()} in switch!");
 					break;
 			}
 		}

@@ -807,7 +807,7 @@ namespace Core.Physics
 			if (movetoMatrix == null) return;
 			if (registerTile == null)
 			{
-				Loggy.LogError("null Register tile on " + this.name);
+				Loggy.Error("null Register tile on " + this.name);
 				return;
 			}
 
@@ -952,7 +952,7 @@ namespace Core.Physics
 
 			if (speed.IsUnreasonableNumber())
 			{
-				Loggy.LogError("Unreasonable number detected in NewtonianPush for" + this.gameObject);
+				Loggy.Error("Unreasonable number detected in NewtonianPush for" + this.gameObject);
 				return;
 			}
 
@@ -1171,7 +1171,7 @@ namespace Core.Physics
 		{
 			if (NewtonianMovement.x.IsUnreasonableNumber() || NewtonianMovement.y.IsUnreasonableNumber())
 			{
-				Loggy.LogError("Unreasonable number detected with NewtonianMovement" + transform.name);
+				Loggy.Error("Unreasonable number detected with NewtonianMovement" + transform.name);
 				var vec = NewtonianMovement;
 				vec.x = 0;
 				vec.y = 0;
@@ -1181,7 +1181,7 @@ namespace Core.Physics
 			if (transform.position.x.IsUnreasonableNumber() || transform.position.y.IsUnreasonableNumber() ||
 			    transform.position.z.IsUnreasonableNumber())
 			{
-				Loggy.LogError("Unreasonable number detected with transform.position with " + transform.name);
+				Loggy.Error("Unreasonable number detected with transform.position with " + transform.name);
 				var vec = transform.position;
 				vec.x = 0;
 				vec.y = 0;

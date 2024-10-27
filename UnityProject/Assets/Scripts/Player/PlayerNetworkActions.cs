@@ -104,7 +104,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (playerScript.OrNull()?.playerMove == null)
 		{
-			Loggy.LogError($"null playerScript/playerMove in {this.name} ");
+			Loggy.Error($"null playerScript/playerMove in {this.name} ");
 			return;
 		}
 		playerScript.playerMove.intent = intent;
@@ -703,7 +703,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return;
 		}
 
-		Loggy.LogWarning($"Antagonist string \"{antagonist}\" not found in {nameof(SOAdminJobsList)}!", Category.Antags);
+		Loggy.Warning($"Antagonist string \"{antagonist}\" not found in {nameof(SOAdminJobsList)}!", Category.Antags);
 	}
 
 	[Command]
@@ -1038,7 +1038,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var health = playerScript.playerHealth;
 		if (health.IsDead)
 		{
-			Loggy.LogError("[PlayerNetworkActions/HardSuicide()] - Player is already dead!");
+			Loggy.Error("[PlayerNetworkActions/HardSuicide()] - Player is already dead!");
 			return;
 		}
 		health.ApplyDamageAll(playerScript.gameObject,

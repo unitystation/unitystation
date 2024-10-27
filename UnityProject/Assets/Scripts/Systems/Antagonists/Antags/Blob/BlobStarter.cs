@@ -131,7 +131,7 @@ namespace Blob
 					EndState();
 					break;
 				default:
-					Loggy.LogError("Unused state", Category.Blob);
+					Loggy.Error("Unused state", Category.Blob);
 					break;
 			}
 		}
@@ -287,7 +287,7 @@ namespace Blob
 
 			if (spawnResult.Successful == false)
 			{
-				Loggy.LogError("Failed to spawn blob!", Category.Blob);
+				Loggy.Error("Failed to spawn blob!", Category.Blob);
 				Destroy(this);
 				return;
 			}

@@ -85,7 +85,7 @@ namespace AdminTools
 
 		public void CreateERTBtn()
 		{
-			Loggy.LogWarning("Create ERT is not implemented.", Category.Admin);
+			Loggy.Warning("Create ERT is not implemented.", Category.Admin);
 		}
 
 		public void CreateDeathSquadBtn()

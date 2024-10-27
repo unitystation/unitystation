@@ -90,7 +90,7 @@ namespace Objects.Disposals
 			}
 			if(disPipeNode == null)
 			{
-				Loggy.LogError($"Impossible to deconstruct the disposal pipe at {interaction.TargetCellPos} in {matrix.gameObject.scene.name} - {matrix.name}. Disposal pipe node wasn't found",
+				Loggy.Error($"Impossible to deconstruct the disposal pipe at {interaction.TargetCellPos} in {matrix.gameObject.scene.name} - {matrix.name}. Disposal pipe node wasn't found",
 					Category.Pipes);
 				return;
 			}
@@ -99,7 +99,7 @@ namespace Objects.Disposals
 
 			// Spawn pipe GameObject
 			if (interaction.BasicTile.SpawnOnDeconstruct == null) return;
-			
+
 		}
 
 		#endregion Deconstruction

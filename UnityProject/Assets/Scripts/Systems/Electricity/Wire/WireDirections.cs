@@ -57,7 +57,7 @@ public static class WireDirections
 
 		if (!LogicToIndexMap.TryGetValue(connectTuple, out int result))
 		{
-			Loggy.Log($"WIRE DIRECTION NOT FOUND: {connectTuple.Item1} -> {connectTuple.Item2}");
+			Loggy.Info($"WIRE DIRECTION NOT FOUND: {connectTuple.Item1} -> {connectTuple.Item2}");
 			return 0;
 		}
 

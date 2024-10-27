@@ -214,7 +214,7 @@ public class FileSelectorWindow : EditorWindow
 
 			if (MapMatrices.Count == 0)
 			{
-				Loggy.LogError($"No maps found for Save {filePath}");
+				Loggy.Error($"No maps found for Save {filePath}");
 				return;
 			}
 
@@ -232,7 +232,7 @@ public class FileSelectorWindow : EditorWindow
 		}
 		catch (Exception e)
 		{
-			Loggy.LogError(e.ToString());
+			Loggy.Error(e.ToString());
 		}
 	}
 }

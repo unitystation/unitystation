@@ -56,7 +56,7 @@ namespace Systems.Electricity
 					sync.NUStructureChangeReact.Add(thiswire.ControllingDevice);
 					sync.NUResistanceChange.Add(thiswire.ControllingDevice);
 					sync.NUCurrentChange.Add(thiswire.ControllingDevice);
-					Loggy.LogErrorFormat("Resistance isn't initialised on", Category.Electrical);
+					Loggy.Error().Format("Resistance isn't initialised on", Category.Electrical);
 					return;
 				}
 

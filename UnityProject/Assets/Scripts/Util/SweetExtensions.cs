@@ -214,7 +214,7 @@ public static class SweetExtensions
 	{
 		if (go == null)
 		{
-			Loggy.LogError("Null object passed into AssumedWorldPosServer");
+			Loggy.Error("Null object passed into AssumedWorldPosServer");
 			return TransformState.HiddenPos;
 		}
 
@@ -409,7 +409,7 @@ public static class SweetExtensions
 		float boost = (distance - NO_BOOST_THRESHOLD) * 2;
 		if (boost > 0)
 		{
-			Loggy.LogTraceFormat("Lerp speed boost exceeded by {0}", Category.Movement, boost);
+			Loggy.Trace().Format("Lerp speed boost exceeded by {0}", Category.Movement, boost);
 		}
 		return 1 + boost;
 	}
@@ -463,7 +463,7 @@ public static class SweetExtensions
 		{
 			return new Vector2(x, y);
 		}
-		Loggy.LogWarning($"Vector parse failed: what the hell is '{stringifiedVector}'?", Category.Unknown);
+		Loggy.Warning($"Vector parse failed: what the hell is '{stringifiedVector}'?", Category.Unknown);
 		return TransformState.HiddenPos;
 	}
 
@@ -793,7 +793,7 @@ public static class SweetExtensions
 			e = e.InnerException;
 		}
 
-		Loggy.LogError(e?.ToString(), category);
+		Loggy.Error(e?.ToString(), category);
 	}
 
 	/// <summary>

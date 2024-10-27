@@ -105,7 +105,7 @@ public class InGameDeviceLinker : SingletonManager<InGameDeviceLinker>
 				{
 					if (aSlave.Master is not IMultitoolMasterable)
 					{
-						Loggy.LogError(
+						Loggy.Error(
 							$"{aSlave.Master} Doesn't inherit from IMultitoolMasterable Please fix this or relink");
 						continue;
 					}
@@ -117,7 +117,7 @@ public class InGameDeviceLinker : SingletonManager<InGameDeviceLinker>
 					}
 					catch (Exception e)
 					{
-						Loggy.LogError(e.ToString());
+						Loggy.Error(e.ToString());
 					}
 				}
 			}

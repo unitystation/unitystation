@@ -62,7 +62,7 @@ public class RightClickableElement
 		}
 		else
 		{
-			Loggy.LogWarningFormat("Unable to find right click option with name {0}. Ensure" +
+			Loggy.Warning().Format("Unable to find right click option with name {0}. Ensure" +
 			                      " the RightClickOption scriptable object exists in the singleton folder." +
 			                      " A default option will be displayed instead with the same name.",
 									Category.UserInput, optionName);

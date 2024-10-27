@@ -346,7 +346,7 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 		}
 		catch (Exception e)
 		{
-			Loggy.LogWarning( GUIUtility.systemCopyBuffer + " " + e.ToString() );
+			Loggy.Warning( GUIUtility.systemCopyBuffer + " " + e.ToString() );
 		}
 
 

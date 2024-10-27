@@ -38,7 +38,7 @@ namespace Items.Implants.Organs.Vomit
 			var vomitReagent = vomitSplat.GameObject.GetComponent<ReagentContainer>();
 			if (vomitReagent == null)
 			{
-				Loggy.LogError($"Vomit prefab does not have a reagent container!!!");
+				Loggy.Error($"Vomit prefab does not have a reagent container!!!");
 				return;
 			}
 			stomach.StomachContents.TransferTo(amountToVomit, vomitReagent);

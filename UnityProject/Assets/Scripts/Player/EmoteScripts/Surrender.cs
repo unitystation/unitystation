@@ -15,7 +15,7 @@ namespace Player.EmoteScripts
 
 			if (registerPlayer == null)
 			{
-				Loggy.LogError("RegisterPlayer could not be found!");
+				Loggy.Error("RegisterPlayer could not be found!");
 				Chat.AddActionMsgToChat(actor, $"{failText}", "");
 				return;
 			}

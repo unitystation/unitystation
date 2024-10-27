@@ -703,7 +703,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 	{
 		if (ControlledBy?.Connection == null)
 		{
-			Loggy.LogError("oh god!, Somehow there's no connection to client when ReLog Code has Been called");
+			Loggy.Error("oh god!, Somehow there's no connection to client when ReLog Code has Been called");
 			return;
 		}
 

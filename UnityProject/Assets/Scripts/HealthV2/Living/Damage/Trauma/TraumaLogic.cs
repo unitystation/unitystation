@@ -61,7 +61,7 @@ namespace HealthV2
 		{
 			if (gameObject == null || bodyPart == null)
 			{
-				Loggy.LogWarning(
+				Loggy.Warning(
 					"[TraumaLogic/GenericStageProgression] - bodyPart might have been destroyed during other stage progressions. Skipping..");
 				return;
 			}

@@ -86,7 +86,7 @@ namespace Systems.Radiation
 		{
 			if (this == null)
 			{
-				Loggy.LogError(
+				Loggy.Error(
 					" The radioactive object has been destroyed but you're still trying to Produce radiation ",
 					Category.Radiation);
 				return;

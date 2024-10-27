@@ -43,7 +43,7 @@ namespace InGameEvents
 
 			if (spawnPoints.Count < 1)
 			{
-				Loggy.LogError($"No spawn points found for {spawnPointCategory} in " +
+				Loggy.Error($"No spawn points found for {spawnPointCategory} in " +
 					$"{SubSceneManager.ServerChosenMainStation}! Cannot start {this}.", Category.Event);
 				return false;
 			}

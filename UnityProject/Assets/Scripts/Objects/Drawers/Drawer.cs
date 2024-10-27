@@ -93,7 +93,7 @@ namespace Objects.Drawers
 			SpawnResult traySpawn = Spawn.ServerPrefab(trayPrefab, DrawerWorldPosition);
 			if (!traySpawn.Successful)
 			{
-				Loggy.LogError($"Failed to spawn tray! Is {name} prefab missing reference to {nameof(traySpawn)} prefab?",
+				Loggy.Error($"Failed to spawn tray! Is {name} prefab missing reference to {nameof(traySpawn)} prefab?",
 					Category.Machines);
 				return;
 			}

@@ -442,7 +442,7 @@ public class RightClickManager : SingletonManager<RightClickManager>
 		}
 		else
 		{
-			Loggy.LogWarningFormat("Could not determine sprite to use for right click menu" +
+			Loggy.Warning().Format("Could not determine sprite to use for right click menu" +
 					" for object {0}. Please manually configure a sprite in a RightClickAppearance component" +
 					" on this object.", Category.UserInput, forObject.name);
 		}

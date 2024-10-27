@@ -29,13 +29,13 @@ namespace Items.Devices
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			if (spriteHandler == null)
 			{
-				Loggy.LogError("[AccessRemote] - Cannot find sprite handler! did you accidentally remove it from this item's children?");
+				Loggy.Error("[AccessRemote] - Cannot find sprite handler! did you accidentally remove it from this item's children?");
 				return;
 			}
 
 			if (departmentSprite == null)
 			{
-				Loggy.LogWarning("[AccessRemote] - No department sprite found, using default sprite instead. (default sprite could be blank however!)");
+				Loggy.Warning("[AccessRemote] - No department sprite found, using default sprite instead. (default sprite could be blank however!)");
 				return;
 			}
 			spriteHandler.SetSpriteSO(departmentSprite);

@@ -23,7 +23,7 @@ namespace MiniGames.MiniGameModules
 		public static string PickLevel(Difficulty difficulty)
 		{
 			if (isInitialised == false && Import() == false) return "";
-			
+
 			int ran = 0;
 			switch (difficulty)
 			{
@@ -57,7 +57,7 @@ namespace MiniGames.MiniGameModules
 
 			if (AccessFile.Exists(path) == false)
 			{
-				Loggy.LogError($"[ReflectionGolfLevelImporter/Import] - Tried loading config file at path: {path}, but file did not exist!");
+				Loggy.Error($"[ReflectionGolfLevelImporter/Import] - Tried loading config file at path: {path}, but file did not exist!");
 				return false;
 			}
 

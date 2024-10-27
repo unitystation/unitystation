@@ -64,7 +64,7 @@ public static class ListExtensions
 
 		SceneModifiedOnLoad.RequestSaveScene(scene);
 
-		Loggy.Log($"\"{@object.name}\" contained a list that had elements removed.", Category.Editor);
+		Loggy.Info($"\"{@object.name}\" contained a list that had elements removed.", Category.Editor);
 #endif
 	}
 }

@@ -37,7 +37,7 @@ namespace Util
 
 			var objName = go.name.RemoveClone();
 			var description = MissingRefDescription(parent, objName, refName, refDescription, typeof(V));
-			Loggy.LogError($"{description} Functionality may be hindered or broken.", category);
+			Loggy.Error($"{description} Functionality may be hindered or broken.", category);
 
 			return component;
 		}
@@ -80,13 +80,13 @@ namespace Util
 			component = componentsFound.FirstOrDefault(c => c.name.ToLower() == childName?.ToLower());
 			if (component == null && componentsFound.Length > 1)
 			{
-				Loggy.LogError($"{description} Found multiple children with the required component. Check the object/prefab and add a reference to one of them.", category);
+				Loggy.Error($"{description} Found multiple children with the required component. Check the object/prefab and add a reference to one of them.", category);
 			}
 			else
 			{
 				component ??= componentsFound.FirstOrDefault();
 
-				Loggy.LogError(
+				Loggy.Error(
 					component == null
 						? $"{description} Unable to find a child object with a '{typeof(V)}' component. Functionality may be hindered or broken."
 						: $"{description} Found '{component.name}' as a child in the object. Check the object/prefab and add a reference to '{component.name}'.",

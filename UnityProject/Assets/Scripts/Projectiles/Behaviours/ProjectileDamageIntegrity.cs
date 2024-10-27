@@ -58,7 +58,7 @@ namespace Weapons.Projectiles.Behaviours
 				Chat.AddThrowHitMsgToChat(thisGameObject, coll.gameObject, targetZone);
 			}
 
-			Loggy.LogTraceFormat("Hit {0} for {1} with Integrity! bullet absorbed", Category.Firearms,
+			Loggy.Trace().Format("Hit {0} for {1} with Integrity! bullet absorbed", Category.Firearms,
 				integrity.gameObject.name, damageData.Damage);
 
 			foreach (var hitDetect in coll.GetComponents<IOnHitDetect>())

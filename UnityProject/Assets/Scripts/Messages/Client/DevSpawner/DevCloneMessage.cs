@@ -34,7 +34,7 @@ namespace Messages.Client.DevSpawner
 
 			if (msg.ToClone.Equals(NetId.Invalid))
 			{
-				Loggy.LogWarning("Attempted to clone an object with invalid netID, clone will not occur.", Category.Admin);
+				Loggy.Warning("Attempted to clone an object with invalid netID, clone will not occur.", Category.Admin);
 			}
 			else
 			{

@@ -421,7 +421,7 @@ namespace Systems.Antagonists
 			if (typeFound.Length <= 0)
 			{
 				Chat.AddExamineMsgFromServer(gameObject, $"Unable to evolve to {newAlien.ToString()}");
-				Loggy.LogError($"Could not find alien type: {newAlien.ToString()} in data list!");
+				Loggy.Error($"Could not find alien type: {newAlien.ToString()} in data list!");
 				return;
 			}
 
@@ -455,7 +455,7 @@ namespace Systems.Antagonists
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError(e.ToString());
+				Loggy.Error(e.ToString());
 			}
 
 			playerScript.playerHealth.BodyPartStorage.ServerDespawnOppressive();
@@ -486,7 +486,7 @@ namespace Systems.Antagonists
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError($"[AlienPlayer/SetUpFromPrefab] - Crital Error! Setting up an alien has failed:\n {e}");
+				Loggy.Error($"[AlienPlayer/SetUpFromPrefab] - Crital Error! Setting up an alien has failed:\n {e}");
 			}
 		}
 
@@ -516,7 +516,7 @@ namespace Systems.Antagonists
 		{
 			if (string.IsNullOrWhiteSpace(newName))
 			{
-				Loggy.LogError($"[AlienPlayer/DelayedSetNameToMind] - Name is empty! Cannot set the alien's new name.");
+				Loggy.Error($"[AlienPlayer/DelayedSetNameToMind] - Name is empty! Cannot set the alien's new name.");
 			}
 			if (playerScript != null && playerScript.Mind != null)
 			{
@@ -525,7 +525,7 @@ namespace Systems.Antagonists
 			}
 			else
 			{
-				Loggy.LogError($"[AlienPlayer/DelayedSetNameToMind] - Mind is null on {gameObject.name}! Cannot set the alien's new name.\n playerScript null: {playerScript == null}\n mind null: {playerScript?.Mind == null}");
+				Loggy.Error($"[AlienPlayer/DelayedSetNameToMind] - Mind is null on {gameObject.name}! Cannot set the alien's new name.\n playerScript null: {playerScript == null}\n mind null: {playerScript?.Mind == null}");
 			}
 			Chat.AddChatMsgToChatServer(
 				oldName != null
@@ -547,7 +547,7 @@ namespace Systems.Antagonists
 			if (typeFound.Length <= 0)
 			{
 				Chat.AddExamineMsgFromServer(gameObject, $"Unable to evolve to {newType.ToString()}");
-				Loggy.LogError($"Could not find alien type: {newType.ToString()} in data list!");
+				Loggy.Error($"Could not find alien type: {newType.ToString()} in data list!");
 				return;
 			}
 
@@ -959,7 +959,7 @@ namespace Systems.Antagonists
 					SetSpriteSO(alienType.Front, true, true);
 					return;
 				default:
-					Loggy.LogError($"Unexpected case: {newSprite.ToString()}");
+					Loggy.Error($"Unexpected case: {newSprite.ToString()}");
 					return;
 			}
 		}
@@ -1001,7 +1001,7 @@ namespace Systems.Antagonists
 					spriteVariant = 3;
 					break;
 				default:
-					Loggy.LogError($"Unexpected case: {newRotation.ToString()}");
+					Loggy.Error($"Unexpected case: {newRotation.ToString()}");
 					return;
 			}
 

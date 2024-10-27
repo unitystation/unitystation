@@ -56,19 +56,19 @@ namespace Util
 
 			if (managerPrefabPaths.Count != 1)
 			{
-				Loggy.LogError($"Couldn't find {managerName} prefab in specified path, or more than one {managerName} found at: {MANAGER_PATH}");
+				Loggy.Error($"Couldn't find {managerName} prefab in specified path, or more than one {managerName} found at: {MANAGER_PATH}");
 				return null;
 			}
 
 			var gameManagerPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(managerPrefabPaths.First());
 			if (gameManagerPrefab == null)
 			{
-				Loggy.LogError($"Couldn't find {managerName} prefab in specified path: {MANAGER_PATH}");
+				Loggy.Error($"Couldn't find {managerName} prefab in specified path: {MANAGER_PATH}");
 			}
 
 			if (gameManagerPrefab.TryGetComponent<T>(out var singletonManager) == false)
 			{
-				Loggy.LogError($"Couldn't get the component from the specified prefab: {MANAGER_PATH}");
+				Loggy.Error($"Couldn't get the component from the specified prefab: {MANAGER_PATH}");
 			}
 
 			return singletonManager;

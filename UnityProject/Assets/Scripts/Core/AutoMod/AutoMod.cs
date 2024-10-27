@@ -83,7 +83,7 @@ namespace AdminTools
 			{
 				var config = AccessFile.Load(AutoModConfigPath);
 				loadedConfig = JsonConvert.DeserializeObject<AutoModConfig>(config);
-				Loggy.Log("Successfully loaded Auto Mod config", Category.Admin);
+				Loggy.Info("Successfully loaded Auto Mod config", Category.Admin);
 			}
 
 		}

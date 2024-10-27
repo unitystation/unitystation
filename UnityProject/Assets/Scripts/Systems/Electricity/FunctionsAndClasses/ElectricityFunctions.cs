@@ -65,7 +65,7 @@ namespace Systems.Electricity
 						if ((OIinheritance.WireEndA == con.WireEndA && OIinheritance.WireEndB == con.WireEndB) ||
 						    (OIinheritance.WireEndA == con.WireEndB && OIinheritance.WireEndB == con.WireEndA))
 						{
-							Loggy.LogError($"{searchVecInt} < duplicate Please remove {OIinheritance.Categorytype}",
+							Loggy.Error($"{searchVecInt} < duplicate Please remove {OIinheritance.Categorytype}",
 								Category.Electrical);
 						}
 					}

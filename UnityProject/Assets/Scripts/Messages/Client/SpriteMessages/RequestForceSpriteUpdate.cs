@@ -33,7 +33,7 @@ public class RequestForceSpriteUpdate : ClientMessage<RequestForceSpriteUpdate.N
 		}
 		catch (Exception e)
 		{
-			Loggy.LogError("malformed Json from client " + SentByPlayer + "\n" + e);
+			Loggy.Error("malformed Json from client " + SentByPlayer + "\n" + e);
 			return;
 		}
 

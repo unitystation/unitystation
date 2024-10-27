@@ -131,7 +131,7 @@ public class EscapeShuttle : AutopilotShipMachine
 			internalStatus = value;
 			OnShuttleUpdate.Invoke(internalStatus);
 			GameManager.Instance.OnShuttleUpdate(internalStatus);
-			Loggy.LogTrace( gameObject.name + " EscapeShuttle status changed to " + internalStatus );
+			Loggy.Trace( gameObject.name + " EscapeShuttle status changed to " + internalStatus );
 		}
 	}
 
@@ -276,7 +276,7 @@ public class EscapeShuttle : AutopilotShipMachine
 			{
 				if ((matrixMove.NetworkedMatrixMove.IsMoving == false) && startedMovingToStation)
 				{
-					Loggy.LogTrace("Escape shuttle is blocked.", Category.Shuttles);
+					Loggy.Trace("Escape shuttle is blocked.", Category.Shuttles);
 					isBlocked = true;
 					escapeBlockedTime = 0f;
 				}
@@ -288,7 +288,7 @@ public class EscapeShuttle : AutopilotShipMachine
 			if (Status == EscapeShuttleStatus.DockedCentcom || Status == EscapeShuttleStatus.DockedStation ||
 			    (matrixMove.NetworkedMatrixMove.IsMoving))
 			{
-				Loggy.LogTrace("Escape shuttle is unblocked.", Category.Shuttles);
+				Loggy.Trace("Escape shuttle is unblocked.", Category.Shuttles);
 				isBlocked = false;
 				escapeBlockedTime = 0f;
 			}
@@ -298,7 +298,7 @@ public class EscapeShuttle : AutopilotShipMachine
 				escapeBlockedTime += Time.deltaTime;
 				if (escapeBlockedTime > escapeBlockTimeLimit)
 				{
-					Loggy.LogTraceFormat("Escape shuttle blocked for more than {0} seconds, stranded ending playing.", Category.Shuttles, escapeBlockTimeLimit);
+					Loggy.Trace().Format("Escape shuttle blocked for more than {0} seconds, stranded ending playing.", Category.Shuttles, escapeBlockTimeLimit);
 					//can't escape
 					ServerStartStrandedEnd();
 				}
@@ -455,7 +455,7 @@ public class EscapeShuttle : AutopilotShipMachine
 				}
 				if (CurrentTimerSeconds <= 0 && UnderflowFunnies.Count <= UnderflowIndex && GiveUpTime < 0)
 				{
-					Loggy.LogError("[GameManager.Escape/TickTimer()] - OH SHITTTT Shuttle got stuck on the Way to station AAAAAAAAAAAAAAAAAAAAAAAAAAAA emergency end round");
+					Loggy.Error("[GameManager.Escape/TickTimer()] - OH SHITTTT Shuttle got stuck on the Way to station AAAAAAAAAAAAAAAAAAAAAAAAAAAA emergency end round");
 					GameManager.Instance.EndRound();
 					centComm.UpdateStatusDisplay(StatusDisplayChannel.CachedChannel, null);
 					yield break;

@@ -386,7 +386,7 @@ namespace Objects.Construction
 
 				if (spawnedObject == null)
 				{
-					Loggy.LogWarning(machineParts.machine + " is missing the machine script!", Category.Construction);
+					Loggy.Warning(machineParts.machine + " is missing the machine script!", Category.Construction);
 					return;
 				}
 
@@ -684,7 +684,7 @@ namespace Objects.Construction
 
 			if (board == null)
 			{
-				Loggy.LogWarning("MachineBoardPrefab was null", Category.Construction);
+				Loggy.Warning("MachineBoardPrefab was null", Category.Construction);
 				return;
 			}
 
@@ -713,7 +713,7 @@ namespace Objects.Construction
 
 			if (machineParts == null || machineParts.machineParts == null)
 			{
-				Loggy.LogError($"Failed to find machine parts for {machineParts.OrNull()?.name ?? board.ExpensiveName()}");
+				Loggy.Error($"Failed to find machine parts for {machineParts.OrNull()?.name ?? board.ExpensiveName()}");
 			}
 			else
 			{

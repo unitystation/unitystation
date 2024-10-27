@@ -24,10 +24,10 @@ namespace Objects.Logic
 		{
 			if(inputA == null || inputB == null)
 			{
-				Loggy.LogError($"[LogicGate/Awake] Error during initialisation, missing logic input");
+				Loggy.Error($"[LogicGate/Awake] Error during initialisation, missing logic input");
 				return;
 			}
-	
+
 			inputA.OnStateChangeEvent += OnInputUpdate;
 			inputB.OnStateChangeEvent += OnInputUpdate;
 			currentInputInteractingWith = 0;
@@ -91,7 +91,7 @@ namespace Objects.Logic
 		{
 			currentInputInteractingWith = currentInputInteractingWith == 0 ? 1 : 0; //Toggle active input to interact with
 			if (TryRetrieveTrigger(out var trigger)) Chat.AddExamineMsgFromServer(interaction.Performer, $"You change the active input on the gate to {trigger.gameObject.name}");
-			else Loggy.LogError("[LogicGate/ServerPerformInteraction] Attempted to toggle active input but the trigger was NULL!");
+			else Loggy.Error("[LogicGate/ServerPerformInteraction] Attempted to toggle active input but the trigger was NULL!");
 
 		}
 
@@ -131,9 +131,9 @@ namespace Objects.Logic
 
 				interactions.Add(text);
 			}
-			else Loggy.LogError("[LogicGate/InteractionsString] Attempted to display current input but the trigger was NULL!");
+			else Loggy.Error("[LogicGate/InteractionsString] Attempted to display current input but the trigger was NULL!");
 
-			
+
 			return interactions;
 		}
 		#endregion

@@ -156,7 +156,7 @@ namespace Core.Lighting
 				lightSprite.GivenID = data.Id;
 				return;
 			}
-			Loggy.LogWarning("No id was given to lightSprite, assigning random one.", Category.Lighting);
+			Loggy.Warning("No id was given to lightSprite, assigning random one.", Category.Lighting);
 			var newId = Guid.NewGuid().GetHashCode();
 			data.Id = newId;
 			lightSprite.GivenID = newId;

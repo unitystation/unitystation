@@ -97,7 +97,7 @@ namespace Systems.Atmospherics
 				{
 					if (float.IsInfinity(value) || float.IsNaN(value))
 					{
-						Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE Moles Invalid number!!!! {value}");
+						Loggy.Error($"AAAAAAAAAAAAA REEEEEEEEE Moles Invalid number!!!! {value}");
 					}
 
 					return;

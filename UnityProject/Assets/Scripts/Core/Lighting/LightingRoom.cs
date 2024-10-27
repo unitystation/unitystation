@@ -49,7 +49,7 @@ namespace Core.Lighting
 
 		private void PrintBounds()
 		{
-			Loggy.Log("LIGHTING: Bounds calc for " + gameObject.name + ": " + Bounds, Category.Lighting);
+			Loggy.Info("LIGHTING: Bounds calc for " + gameObject.name + ": " + Bounds, Category.Lighting);
 		}
 
 		public void LightSwitchOff()

@@ -127,7 +127,7 @@ public static class PlayerSpawn
 
 		if (spawnTransform == null)
 		{
-			Loggy.LogErrorFormat(
+			Loggy.Error().Format(
 				"Unable to determine spawn position for  occupation {0}. Cannot spawn player.",
 				Category.EntitySpawn, occupation.DisplayName);
 			return Vector3Int.zero;
@@ -152,7 +152,7 @@ public static class PlayerSpawn
 		}
 		catch (Exception e)
 		{
-			Loggy.LogError(e.ToString());
+			Loggy.Error(e.ToString());
 			return null;
 		}
 	}
@@ -258,7 +258,7 @@ public static class PlayerSpawn
 		}
 		catch (Exception e)
 		{
-			Loggy.LogError(e.ToString());
+			Loggy.Error(e.ToString());
 		}
 
 		try
@@ -268,7 +268,7 @@ public static class PlayerSpawn
 		}
 		catch (Exception e)
 		{
-			Loggy.LogError(e.ToString());
+			Loggy.Error(e.ToString());
 		}
 
 		try
@@ -279,7 +279,7 @@ public static class PlayerSpawn
 		}
 		catch (Exception e)
 		{
-			Loggy.LogError(e.ToString());
+			Loggy.Error(e.ToString());
 		}
 
 		//get the old body if they have one.
@@ -380,7 +380,7 @@ public static class PlayerSpawn
 		}
 		catch (Exception e)
 		{
-			Loggy.LogError(e.ToString());
+			Loggy.Error(e.ToString());
 		}
 
 		try
@@ -390,7 +390,7 @@ public static class PlayerSpawn
 		}
 		catch (Exception e)
 		{
-			Loggy.LogError(e.ToString());
+			Loggy.Error(e.ToString());
 
 			physics.AppearAtWorldPositionServer(SpawnPoint.GetRandomPointForLateSpawn().transform.position);
 		}

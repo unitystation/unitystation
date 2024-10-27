@@ -450,7 +450,7 @@ namespace UI.Objects.Medical
 			}
 			else
 			{
-				Loggy.LogWarning("Attempted to eject from a ChemMaster without container", Category.Interaction);
+				Loggy.Warning("Attempted to eject from a ChemMaster without container", Category.Interaction);
 			}
 		}
 

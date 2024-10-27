@@ -33,7 +33,7 @@ namespace Messages.Client.DevSpawner
 
 			if (msg.ToDestroy.Equals(NetId.Invalid))
 			{
-				Loggy.LogWarning("Attempted to destroy an object with invalid netID, destroy will not occur.", Category.Admin);
+				Loggy.Warning("Attempted to destroy an object with invalid netID, destroy will not occur.", Category.Admin);
 			}
 			else
 			{

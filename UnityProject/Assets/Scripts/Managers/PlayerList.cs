@@ -200,7 +200,7 @@ public partial class PlayerList : NetworkBehaviour
 	{
 		if (player.Equals(PlayerInfo.Invalid))
 		{
-			Loggy.Log("Refused to add invalid connected player to this server's player list", Category.Connections);
+			Loggy.Info("Refused to add invalid connected player to this server's player list", Category.Connections);
 			return player;
 		}
 
@@ -214,10 +214,10 @@ public partial class PlayerList : NetworkBehaviour
 			return player;
 		}
 
-		Loggy.LogTrace($"Player {player.Username}'s client ID is: {player.ClientId} User ID: {player.Account.Id}.", Category.Connections);
+		Loggy.Trace($"Player {player.Username}'s client ID is: {player.ClientId} User ID: {player.Account.Id}.", Category.Connections);
 
 		loggedIn.Add(player);
-		Loggy.Log($"Player with account {player.AccountId} has joined the game. Player count: {loggedIn.Count}.", Category.Connections);
+		Loggy.Info($"Player with account {player.AccountId} has joined the game. Player count: {loggedIn.Count}.", Category.Connections);
 
 		CheckRcon();
 		return player;
@@ -228,13 +228,13 @@ public partial class PlayerList : NetworkBehaviour
 	{
 		if (!loggedIn.Contains(player))
 		{
-			Loggy.Log($"Player with name {player.Name} was not found in online player list. " +
+			Loggy.Info($"Player with name {player.Name} was not found in online player list. " +
 			           "Verifying player lists for integrity...", Category.Connections);
 			ValidatePlayerListRecords();
 			return;
 		}
 
-		Loggy.Log($"Added {player.Name} to offline player list.", Category.Connections);
+		Loggy.Info($"Added {player.Name} to offline player list.", Category.Connections);
 		loggedOff.Add(player);
 		loggedIn.Remove(player);
 		UpdateConnectedPlayersMessage.Send();
@@ -263,7 +263,7 @@ public partial class PlayerList : NetworkBehaviour
 		}
 		catch (Exception e)
 		{
-			Loggy.LogError(e.ToString());
+			Loggy.Error(e.ToString());
 			throw;
 		}
 
@@ -490,7 +490,7 @@ public partial class PlayerList : NetworkBehaviour
 			loggedIn.Remove(connectedPlayer);
 		}
 
-		Loggy.LogError($"Disconnecting player {connectedPlayer.Name} via Remove From playlist");
+		Loggy.Error($"Disconnecting player {connectedPlayer.Name} via Remove From playlist");
 		connectedPlayer.Connection.Disconnect();
 
 
@@ -501,7 +501,7 @@ public partial class PlayerList : NetworkBehaviour
 	{
 		if (connection?.identity?.connectionToClient?.address == null || connection.identity == null)
 		{
-			Loggy.Log($"Unknown player disconnected: verifying playerlists for integrity - connection, its address and identity was null.", Category.Connections);
+			Loggy.Info($"Unknown player disconnected: verifying playerlists for integrity - connection, its address and identity was null.", Category.Connections);
 			ValidatePlayerListRecords();
 			return;
 		}
@@ -509,7 +509,7 @@ public partial class PlayerList : NetworkBehaviour
 		var player = GetOnline(connection);
 		if (player.Equals(PlayerInfo.Invalid))
 		{
-			Loggy.Log($"Unknown player disconnected: verifying playerlists for integrity - connected player was invalid. " +
+			Loggy.Info($"Unknown player disconnected: verifying playerlists for integrity - connected player was invalid. " +
 			           $"IP: {connection?.identity?.connectionToClient?.address}. Name: {connection.identity.name}.", Category.Connections);
 			ValidatePlayerListRecords();
 			return;
@@ -565,10 +565,10 @@ public partial class PlayerList : NetworkBehaviour
 	[Server]
 	public GameObject TakeLoggedOffPlayerbyUserId(string userId)
 	{
-		Loggy.LogTraceFormat("Searching for logged off players with userId {0}", Category.Connections, userId);
+		Loggy.Trace().Format("Searching for logged off players with userId {0}", Category.Connections, userId);
 		foreach (var player in loggedOff)
 		{
-			Loggy.LogTraceFormat("Found logged off player with userId {0}", Category.Connections, player.AccountId);
+			Loggy.Trace().Format("Found logged off player with userId {0}", Category.Connections, player.AccountId);
 			if (player.AccountId == userId)
 			{
 				loggedOff.Remove(player);
@@ -582,12 +582,12 @@ public partial class PlayerList : NetworkBehaviour
 	[Server]
 	public PlayerInfo RemovePlayerbyUserId(string userId, PlayerInfo newPlayer)
 	{
-		Loggy.LogTraceFormat("Searching for players with userId: {0}", Category.Connections, userId);
+		Loggy.Trace().Format("Searching for players with userId: {0}", Category.Connections, userId);
 		foreach (var player in loggedOff)
 		{
 			if (player.Account.Id == userId)
 			{
-				Loggy.LogTraceFormat("Found player with userId {0} clientId: {1}", Category.Connections, player.Account.Id, player.ClientId);
+				Loggy.Trace().Format("Found player with userId {0} clientId: {1}", Category.Connections, player.Account.Id, player.ClientId);
 
 				loggedOff.Remove(player);
 				return player;
@@ -609,7 +609,7 @@ public partial class PlayerList : NetworkBehaviour
 
 			if (player.Account.Id == userId && newPlayer != player)
 			{
-				Loggy.LogError($"Disconnecting {player.Name} by RemovePlayerbyUserId ", Category.Connections);
+				Loggy.Error($"Disconnecting {player.Name} by RemovePlayerbyUserId ", Category.Connections);
 				player.Connection.Disconnect(); //new client while online or dc timer not triggering yet
 				loggedIn.Remove(player);
 				return player;
@@ -623,12 +623,12 @@ public partial class PlayerList : NetworkBehaviour
 	[Server]
 	public PlayerInfo RemovePlayerbyClientId(string clientId, string userId, PlayerInfo newPlayer)
 	{
-		Loggy.LogTraceFormat("Searching for players with userId: {0} clientId: {1}", Category.Connections, userId, clientId);
+		Loggy.Trace().Format("Searching for players with userId: {0} clientId: {1}", Category.Connections, userId, clientId);
 		foreach (var player in loggedOff)
 		{
 			if ((player.ClientId == clientId || player.AccountId == userId) && newPlayer != player)
 			{
-				Loggy.LogTraceFormat("Found player with userId {0} clientId: {1}", Category.Connections, player.AccountId, player.ClientId);
+				Loggy.Trace().Format("Found player with userId {0} clientId: {1}", Category.Connections, player.AccountId, player.ClientId);
 				loggedOff.Remove(player);
 				return player;
 			}
@@ -645,7 +645,7 @@ public partial class PlayerList : NetworkBehaviour
 
 			if ((player.ClientId == clientId || player.AccountId == userId) && newPlayer != player)
 			{
-				Loggy.LogError($"Disconnecting {player.Name} by RemovePlayerbyClientId ", Category.Connections);
+				Loggy.Error($"Disconnecting {player.Name} by RemovePlayerbyClientId ", Category.Connections);
 				player.Connection.Disconnect(); //new client while online or dc timer not triggering yet
 				loggedIn.Remove(player);
 				return player;
@@ -691,16 +691,16 @@ public partial class PlayerList : NetworkBehaviour
 			}
 			else
 			{
-				Loggy.LogError($"{player.Username} was set to ready with NULL character settings:\n{player}", Category.Round);
+				Loggy.Error($"{player.Username} was set to ready with NULL character settings:\n{player}", Category.Round);
 			}
 
 			ReadyPlayers.Add(player);
-			Loggy.Log($"Set {player.Username} to ready with these character settings:\n{charSettings}", Category.Round);
+			Loggy.Info($"Set {player.Username} to ready with these character settings:\n{charSettings}", Category.Round);
 		}
 		else
 		{
 			ReadyPlayers.Remove(player);
-			Loggy.Log($"Set {player.Username} to NOT ready!", Category.Round);
+			Loggy.Info($"Set {player.Username} to NOT ready!", Category.Round);
 		}
 	}
 

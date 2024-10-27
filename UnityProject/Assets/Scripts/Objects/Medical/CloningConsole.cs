@@ -157,7 +157,7 @@ namespace Objects.Medical
 		{
 			if (scanner == null)
 			{
-				Loggy.LogError("[CloningConsole/UpdateInoperableStatus()] - The scanner is not connected to this console.");
+				Loggy.Error("[CloningConsole/UpdateInoperableStatus()] - The scanner is not connected to this console.");
 				Chat.AddActionMsgToChat(gameObject,
 					$"A {gameObject.ExpensiveName()} crashes momentarily before coming back to life with an error that says 'No scanner connected..'");
 				StartCoroutine(CheckForAdjacentScanners());

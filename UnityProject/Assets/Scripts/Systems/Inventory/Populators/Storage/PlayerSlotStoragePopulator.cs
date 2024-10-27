@@ -25,7 +25,7 @@ namespace Systems.Storage
 
 		public override void PopulateItemStorage(ItemStorage toPopulate, PopulationContext context, SpawnInfo info)
 		{
-			Loggy.LogError("This shouldn't be used but  is required for inheritance", Category.EntitySpawn);
+			Loggy.Error("This shouldn't be used but  is required for inheritance", Category.EntitySpawn);
 		}
 
 		public virtual void PopulateDynamicItemStorage(DynamicItemStorage toPopulate, PlayerScript PlayerScript, bool useStandardPopulator = true)
@@ -37,7 +37,7 @@ namespace Systems.Storage
 
 			Entries = Entries.OrderBy(entry => entry.NamedSlot).ToList();
 
-			Loggy.LogTraceFormat("Populating item storage {0}", Category.EntitySpawn, toPopulate.name);
+			Loggy.Trace().Format("Populating item storage {0}", Category.EntitySpawn, toPopulate.name);
 			foreach (var entry in Entries)
 			{
 				var slots = toPopulate.GetNamedItemSlots(entry.NamedSlot);
@@ -54,7 +54,7 @@ namespace Systems.Storage
 
 					if (slots.Count == 0)
 					{
-						Loggy.LogTraceFormat("Skipping populating slot {0} because it doesn't exist in this itemstorage {1}.",
+						Loggy.Trace().Format("Skipping populating slot {0} because it doesn't exist in this itemstorage {1}.",
 							Category.EntitySpawn, entry.NamedSlot, toPopulate.name);
 						continue;
 					}
@@ -62,7 +62,7 @@ namespace Systems.Storage
 
 				if (entry.Prefab == null)
 				{
-					Loggy.LogTraceFormat("Skipping populating slot {0} because Prefab  Populator was empty for this entry.",
+					Loggy.Trace().Format("Skipping populating slot {0} because Prefab  Populator was empty for this entry.",
 						Category.EntitySpawn, entry.NamedSlot);
 					continue;
 				}
@@ -170,7 +170,7 @@ namespace Systems.Storage
 
 				if (Validations.CanFit(ItemSlot, spawn.GameObject, NetworkSide.Server) == false)
 				{
-					Loggy.LogError($"Your initial contents spawn for Storage {gameObject.name} for {spawn.GameObject} Is bypassing the Can fit requirements");
+					Loggy.Error($"Your initial contents spawn for Storage {gameObject.name} for {spawn.GameObject} Is bypassing the Can fit requirements");
 				}
 
 				Inventory.ServerAdd(spawn.GameObject, ItemSlot, namedSlotPopulatorEntry.ReplacementStrategy, true);

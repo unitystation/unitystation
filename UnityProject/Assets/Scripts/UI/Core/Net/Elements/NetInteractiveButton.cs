@@ -28,7 +28,7 @@ namespace UI.Core.NetUI
 				}
 				else
 				{
-					Loggy.Log("Interactable shouldn't be set to anything other than true or false.", Category.Machines);
+					Loggy.Info("Interactable shouldn't be set to anything other than true or false.", Category.Machines);
 				}
 			}
 		}

@@ -15,7 +15,7 @@ namespace UI.Systems.IngameMenu
 		[NaughtyAttributes.Button()]
 		public void Open()
 		{
-			Loggy.LogTrace($"Opening '{url}' in the user's internet browser...");
+			Loggy.Trace($"Opening '{url}' in the user's internet browser...");
 			SafeURL.Open(url);
 		}
 	}

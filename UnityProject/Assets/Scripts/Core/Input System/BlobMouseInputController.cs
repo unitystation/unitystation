@@ -110,7 +110,7 @@ public class BlobMouseInputController : MouseInputController
 					blobPlayer.CmdRally(MouseUtils.MouseToWorldPos().RoundToInt());
 					break;
 				default:
-					Loggy.LogError("Switch has no correct case for blob click!", Category.Blob);
+					Loggy.Error("Switch has no correct case for blob click!", Category.Blob);
 					break;
 			}
 

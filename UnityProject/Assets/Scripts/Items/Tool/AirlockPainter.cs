@@ -55,7 +55,7 @@ namespace Doors
 		{
 			if (tonerPrefab == null)
 			{
-				Loggy.LogError($"{gameObject.name} toner prefab was null, cannot auto-populate.", Category.ItemSpawn);
+				Loggy.Error($"{gameObject.name} toner prefab was null, cannot auto-populate.", Category.ItemSpawn);
 				return;
 			}
 			Inventory.ServerSpawnPrefab(tonerPrefab, tonerSlot);

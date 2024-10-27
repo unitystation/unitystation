@@ -109,8 +109,8 @@ namespace UI.Systems.ServerInfoPanel
 			}
 			else
 			{
-				Loggy.LogError($"Failed to fetch changelog from {url}", Category.UI);
-				Loggy.LogError($"Status: {response.StatusCode}. Reason: {response.ReasonPhrase}", Category.UI);
+				Loggy.Error($"Failed to fetch changelog from {url}", Category.UI);
+				Loggy.Error($"Status: {response.StatusCode}. Reason: {response.ReasonPhrase}", Category.UI);
 			}
 
 			return newData;

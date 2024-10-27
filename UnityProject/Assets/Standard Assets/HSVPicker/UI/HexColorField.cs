@@ -39,7 +39,7 @@ public class HexColorField : MonoBehaviour
         if (ColorUtility.TryParseHtmlString(newHex, out color))
             hsvpicker.CurrentColor = color;
         else
-            Loggy.Log("hex value is in the wrong format, valid formats are: #RGB, #RGBA, #RRGGBB and #RRGGBBAA (# is optional)",
+            Loggy.Info("hex value is in the wrong format, valid formats are: #RGB, #RGBA, #RRGGBB and #RRGGBBAA (# is optional)",
                 Category.UI);
     }
 

@@ -42,7 +42,7 @@ namespace UI.Core.NetUI
 				}
 				else
 				{
-					Loggy.LogErrorFormat("'{0}' page switcher: unknown index value {1}", Category.NetUI, gameObject.name, value);
+					Loggy.Error().Format("'{0}' page switcher: unknown index value {1}", Category.NetUI, gameObject.name, value);
 				}
 				externalChange = false;
 			}
@@ -53,7 +53,7 @@ namespace UI.Core.NetUI
 			if (Pages.Count == 0)
 			{
 				Pages = this.GetComponentsOnlyInChildren<NetPage>().ToList();
-				Loggy.LogFormat("'{0}' page switcher: dev didn't add any pages to the list, found {1} page(s)",
+				Loggy.Info().Format("'{0}' page switcher: dev didn't add any pages to the list, found {1} page(s)",
 					Category.NetUI, gameObject.name, Pages.Count);
 			}
 
@@ -62,7 +62,7 @@ namespace UI.Core.NetUI
 				if (!DefaultPage)
 				{
 					DefaultPage = Pages[0];
-					Loggy.LogFormat("'{0}' page switcher: Default Page not set explicitly, assuming it's {1}", Category.NetUI,
+					Loggy.Info().Format("'{0}' page switcher: Default Page not set explicitly, assuming it's {1}", Category.NetUI,
 						gameObject.name, DefaultPage);
 				}
 			}
@@ -124,7 +124,7 @@ namespace UI.Core.NetUI
 		{
 			if (!newPage)
 			{
-				Loggy.LogErrorFormat("'{0}' page switcher: trying to activate null page", Category.NetUI, gameObject.name);
+				Loggy.Error().Format("'{0}' page switcher: trying to activate null page", Category.NetUI, gameObject.name);
 				return;
 			}
 
@@ -136,7 +136,7 @@ namespace UI.Core.NetUI
 				}
 			}
 
-			Loggy.LogTraceFormat("'{0}' page switcher: activating page {1}", Category.NetUI, gameObject.name, newPage);
+			Loggy.Trace().Format("'{0}' page switcher: activating page {1}", Category.NetUI, gameObject.name, newPage);
 
 			newPage.gameObject.SetActive(true);
 
@@ -167,7 +167,7 @@ namespace UI.Core.NetUI
 			{
 				if (suggestedIndex >= pageCount)
 				{
-					Loggy.LogTraceFormat("'{0}' page switcher: no more >> pages to switch to (index={1})", Category.NetUI, gameObject.name, suggestedIndex);
+					Loggy.Trace().Format("'{0}' page switcher: no more >> pages to switch to (index={1})", Category.NetUI, gameObject.name, suggestedIndex);
 					return;
 				}
 				MasterSetValue(suggestedIndex.ToString());
@@ -190,7 +190,7 @@ namespace UI.Core.NetUI
 			{
 				if (suggestedIndex < 0)
 				{
-					Loggy.LogTraceFormat("'{0}' page switcher: no more << pages to switch to (index={1})", Category.NetUI, gameObject.name, suggestedIndex);
+					Loggy.Trace().Format("'{0}' page switcher: no more << pages to switch to (index={1})", Category.NetUI, gameObject.name, suggestedIndex);
 					return;
 				}
 				MasterSetValue(suggestedIndex.ToString());

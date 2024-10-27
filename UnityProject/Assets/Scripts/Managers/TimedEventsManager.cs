@@ -24,7 +24,7 @@ namespace Managers
 		{
 			base.Awake();
 			//Update on awake so the UI can see what events are there.
-			Loggy.Log("[Subsystems/TimedEvents] - Setting up event hooks.");
+			Loggy.Info("[Subsystems/TimedEvents] - Setting up event hooks.");
 			EventManager.AddHandler(Event.RoundStarted, StartActiveEvents);
 			EventManager.AddHandler(Event.ScenesLoadedServer, CleanAndUpdateActiveEvents);
 			EventManager.AddHandler(Event.RoundEnded, EndActiveEvents);
@@ -46,14 +46,14 @@ namespace Managers
 
 		private void CleanAndUpdateActiveEvents()
 		{
-			Loggy.Log("[SubSystems/TimedEvents] - Cleaning active events.");
+			Loggy.Info("[SubSystems/TimedEvents] - Cleaning active events.");
 			activeEvents.Clear();
 			UpdateActiveEvents();
 		}
 
 		private void StartActiveEvents()
 		{
-			Loggy.Log("[Subsystems/TimedEvents] - Starting timed events.");
+			Loggy.Info("[Subsystems/TimedEvents] - Starting timed events.");
 			foreach (var timedEvent in activeEvents)
 			{
 				StartCoroutine(timedEvent.EventStart());
@@ -62,7 +62,7 @@ namespace Managers
 
 		private void EndActiveEvents()
 		{
-			Loggy.Log("[Subsystems/TimedEvents] - Stopping timed events.");
+			Loggy.Info("[Subsystems/TimedEvents] - Stopping timed events.");
 			foreach (var timedEvent in activeEvents)
 			{
 				StartCoroutine(timedEvent.OnRoundEnd());
@@ -84,7 +84,7 @@ namespace Managers
 				}
 				else
 				{
-					Loggy.Log("[Subsystems/TimedEvents] - Event not active. "
+					Loggy.Info("[Subsystems/TimedEvents] - Event not active. "
 					          + eventSo.EventName + " is not active on " + DateTime.Now.ToString("MMMM"), Category.Event);
 				}
 			}

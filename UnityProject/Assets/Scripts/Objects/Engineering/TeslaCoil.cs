@@ -211,7 +211,7 @@ namespace Objects.Engineering
 					spriteHandler.SetCatalogueIndexSprite(IsWrenched ? 1 : 0);
 					break;
 				default:
-					Loggy.LogError("Tried to wrench Tesla Coil, but switch case was out of bounds", Category.Machines);
+					Loggy.Error("Tried to wrench Tesla Coil, but switch case was out of bounds", Category.Machines);
 					break;
 			}
 		}

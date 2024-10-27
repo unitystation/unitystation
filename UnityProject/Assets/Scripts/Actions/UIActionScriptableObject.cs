@@ -16,34 +16,34 @@ public class UIActionScriptableObject : ScriptableObject, IServerActionGUI, ISer
 
 	public void CallActionClient(ActionData data)
 	{
-		Loggy.Log("CallActionClient SO", Category.UserInput);
+		Loggy.Info("CallActionClient SO", Category.UserInput);
 		//Do whatever you want
 		//Remember if its networked do validationNot just
 	}
 
 	public void CallActionServer(ActionData data, PlayerInfo playerInfo)
 	{
-		Loggy.Log("CallActionServer SO", Category.UserInput);
+		Loggy.Info("CallActionServer SO", Category.UserInput);
 		//Validation
 		//do Action
 	}
 
 	public virtual void CallActionClient()
 	{
-		Loggy.Log("CallActionClient SO", Category.UserInput);
+		Loggy.Info("CallActionClient SO", Category.UserInput);
 		//Do whatever you want
 		//Remember if its networked do validationNot just
 	}
 
 	public virtual void CallActionServer(PlayerInfo playerInfo)
 	{
-		Loggy.Log("CallActionServer SO", Category.UserInput);
+		Loggy.Info("CallActionServer SO", Category.UserInput);
 		//Validation
 		//do Action
 	}
 	public NetworkIdentity GetNetworkIdentity()
 	{
-		Loggy.Log("GetNetworkIdentity SO", Category.UserInput);
+		Loggy.Info("GetNetworkIdentity SO", Category.UserInput);
 		//Return the network identity that its going to find it from,
 		//**Dont** ues stuff that could change across server and client E.G station matrix
 		return (null);

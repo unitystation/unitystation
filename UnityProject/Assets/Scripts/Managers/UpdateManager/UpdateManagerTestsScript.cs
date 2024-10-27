@@ -35,7 +35,7 @@ public class UpdateManagerTestsScript : MonoBehaviour
 		}
 		Stopwatch.Stop();
 
-		Loggy.Log(Stopwatch.ElapsedTicks.ToString() + " < ElapsedTicks for AddAlot ");
+		Loggy.Info(Stopwatch.ElapsedTicks.ToString() + " < ElapsedTicks for AddAlot ");
 		Stopwatch.Reset();
 
 	}
@@ -52,7 +52,7 @@ public class UpdateManagerTestsScript : MonoBehaviour
 			UpdateManager.Remove(CallbackType.UPDATE, Action);
 		}
 		Stopwatch.Stop();
-		Loggy.Log(Stopwatch.ElapsedMilliseconds.ToString() + " < ElapsedMilliseconds for RemoveAlot ");
+		Loggy.Info(Stopwatch.ElapsedMilliseconds.ToString() + " < ElapsedMilliseconds for RemoveAlot ");
 		Stopwatch.Reset();
 
 	}

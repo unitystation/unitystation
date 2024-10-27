@@ -46,7 +46,7 @@ namespace Shuttles
 
 			if (networkedMatrix == null)
 			{
-				Loggy.LogError($"{gameObject.name} had null networkedMatrix", Category.Matrix);
+				Loggy.Error($"{gameObject.name} had null networkedMatrix", Category.Matrix);
 			}
 
 			networkedMatrix.MatrixSync = this;

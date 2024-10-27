@@ -37,7 +37,7 @@ namespace Systems.Clearance
 
 			if (requiredClearance.Contains(Clearance.BasicPublicAccess))
 			{
-				Loggy.LogError($"{this.name} has null Clearance potentially letting anyone access at localPosition {this.transform.localPosition} on {this.gameObject.GetMatrixRoot()}");
+				Loggy.Error($"{this.name} has null Clearance potentially letting anyone access at localPosition {this.transform.localPosition} on {this.gameObject.GetMatrixRoot()}");
 				return true;
 			}
 

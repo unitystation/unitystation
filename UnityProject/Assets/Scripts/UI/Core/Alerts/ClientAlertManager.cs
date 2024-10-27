@@ -53,7 +53,7 @@ public class ClientAlertManager : MonoBehaviour
 
 		if (AlertUIElement == null)
 		{
-			Loggy.LogError($"you can find any actions associated with {AlertSO.name}");
+			Loggy.Error($"you can find any actions associated with {AlertSO.name}");
 			return;
 		}
 

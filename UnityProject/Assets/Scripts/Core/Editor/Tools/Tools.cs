@@ -44,7 +44,7 @@ namespace Core.Editor.Tools
 				directional.Refresh();
 			}
 
-			Loggy.Log($"Refreshed {rotatables.Length} rotatables", Category.Editor);
+			Loggy.Info($"Refreshed {rotatables.Length} rotatables", Category.Editor);
 		}
 
 		[MenuItem("Mapping/Set all sceneids to 0")]
@@ -58,7 +58,7 @@ namespace Core.Editor.Tools
 				EditorUtility.SetDirty(allNets[i]);
 			}
 
-			Loggy.Log($"Set {allNets.Length} scene ids", Category.Editor);
+			Loggy.Info($"Set {allNets.Length} scene ids", Category.Editor);
 		}
 
 		[MenuItem("Mapping/Monopipe Link Checker")]
@@ -66,7 +66,7 @@ namespace Core.Editor.Tools
 		{
 			if (Application.isPlaying == false)
 			{
-				Loggy.LogError($"This can only be run in playmode", Category.Editor);
+				Loggy.Error($"This can only be run in playmode", Category.Editor);
 				return;
 			}
 
@@ -102,7 +102,7 @@ namespace Core.Editor.Tools
 				}
 			}
 
-			Loggy.LogError(stringBuilder.ToString(), Category.Editor);
+			Loggy.Error(stringBuilder.ToString(), Category.Editor);
 		}
 
 
@@ -516,7 +516,7 @@ namespace Core.Editor.Tools
 
 				if (melees == null || melees.Length <= 1) continue;
 
-				Loggy.LogFormat("Removing duplicate Meleeables from {0}", Category.Editor, rootPrefabGO.name);
+				Loggy.Info().Format("Removing duplicate Meleeables from {0}", Category.Editor, rootPrefabGO.name);
 
 				//remove excess
 				for (int i = 1; i < melees.Length; i++)
@@ -565,7 +565,7 @@ namespace Core.Editor.Tools
 				}
 			}
 
-			Loggy.Log($"Centered {count} objects!");
+			Loggy.Info($"Centered {count} objects!");
 		}
 
 		public static List<GameObject> LoadAllPrefabsOfType(string path)
@@ -734,7 +734,7 @@ namespace Core.Editor.Tools
 				foundRecipe = true;
 				if (relatedRecipe.IngredientIndex != indexInRecipe)
 				{
-					Loggy.Log(
+					Loggy.Info(
 						$"A crafting ingredient ({requiredIngredient}) had a wrong related recipe index, " +
 						"but was fixed automatically. " +
 						$"Expected {indexInRecipe}, but found: {relatedRecipe.IngredientIndex}."
@@ -748,7 +748,7 @@ namespace Core.Editor.Tools
 
 			if (foundRecipe == false)
 			{
-				Loggy.Log(
+				Loggy.Info(
 					$"A crafting ingredient ({requiredIngredient}) didn't have a link to a recipe " +
 					$"({checkingRecipe}) in its RelatedRecipes list, since the recipe requires this " +
 					"ingredient (prefab), any of it's heirs (prefab variants) " +

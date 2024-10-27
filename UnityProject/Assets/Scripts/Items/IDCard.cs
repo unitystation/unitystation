@@ -86,7 +86,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 		initialized = false;
 		if (autoInitOnPickup && HasInitialNameOrTitle)
 		{
-			Loggy.LogWarning($"{gameObject.name} has autoInitOnPickup and initialName or initialJobTitle set. These values will be overriden when a player picks it up!", Category.Objects);
+			Loggy.Warning($"{gameObject.name} has autoInitOnPickup and initialName or initialJobTitle set. These values will be overriden when a player picks it up!", Category.Objects);
 		}
 
 		if (string.IsNullOrEmpty(initialName) == false)
@@ -161,7 +161,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IInt
 		SyncIDCardType(newIDCardType, newIDCardType);
 		if (ClearanceSource == null)
 		{
-			Loggy.LogError($"IDCard {gameObject.name} has no IClearanceSource component, cannot set clearance!", Category.Objects);
+			Loggy.Error($"IDCard {gameObject.name} has no IClearanceSource component, cannot set clearance!", Category.Objects);
 			return;
 		}
 

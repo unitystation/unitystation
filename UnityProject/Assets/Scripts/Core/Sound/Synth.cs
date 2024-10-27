@@ -36,7 +36,7 @@ public class Synth : MonoBehaviour, IInitialise
 				{
 					enabled = false;
 					Disabled = true;
-					Loggy.Log("Headless Detected: Disabling Synth", Category.Audio);
+					Loggy.Info("Headless Detected: Disabling Synth", Category.Audio);
 				}
 			}
 		} //else gets destroyed by parent
@@ -64,7 +64,7 @@ public class Synth : MonoBehaviour, IInitialise
 				int major = (ver >> 16) & 255;
 				int minor1 = (ver >> 8) & 255;
 				int minor2 = (ver) & 255;
-				Loggy.LogTrace($"SunVox lib version: {major}.{minor1}.{minor2}", Category.SunVox);
+				Loggy.Trace($"SunVox lib version: {major}.{minor1}.{minor2}", Category.SunVox);
 
 				InitAnnounce();
 				InitMusic();
@@ -73,12 +73,12 @@ public class Synth : MonoBehaviour, IInitialise
 			}
 			else
 			{
-				Loggy.LogWarning("sv_init() error " + ver, Category.SunVox);
+				Loggy.Warning("sv_init() error " + ver, Category.SunVox);
 			}
 		}
 		catch (Exception e)
 		{
-			Loggy.LogWarning("Exception: " + e, Category.SunVox);
+			Loggy.Warning("Exception: " + e, Category.SunVox);
 		}
 	}
 
@@ -88,7 +88,7 @@ public class Synth : MonoBehaviour, IInitialise
 
 		SunVox.SunVox.sv_open_slot((int) Slot.Announce);
 
-		Loggy.LogTrace("Loading Announce project from file", Category.SunVox);
+		Loggy.Trace("Loading Announce project from file", Category.SunVox);
 //		var path = "Assets/StreamingAssets/announcement2.sunvox";
 		var path = GetDataPath("announcement2.sunvox");
 		if (SunVox.SunVox.sv_load((int) Slot.Announce, path) == 0)
@@ -97,7 +97,7 @@ public class Synth : MonoBehaviour, IInitialise
 		}
 		else
 		{
-			Loggy.LogWarning($"Announce project load error: {path}", Category.SunVox);
+			Loggy.Warning($"Announce project load error: {path}", Category.SunVox);
 //			SunVox.SunVox.sv_volume( (int)Slot.Announce, 256 );
 		}
 	}
@@ -123,7 +123,7 @@ public class Synth : MonoBehaviour, IInitialise
 		int moduleId = SunVox.SunVox.sv_load_module((int) Slot.FX, path, 0, 0, 0);
 		if (moduleId >= 0)
 		{
-			Loggy.LogTraceFormat("Instrument {0} loaded as module #{1}", Category.SunVox, instrument, moduleId);
+			Loggy.Trace().Format("Instrument {0} loaded as module #{1}", Category.SunVox, instrument, moduleId);
 			//Connect the new module to the Main Output:
 			SunVox.SunVox.sv_lock_slot((int) Slot.FX);
 			SunVox.SunVox.sv_connect_module((int) Slot.FX, moduleId, 0);
@@ -131,7 +131,7 @@ public class Synth : MonoBehaviour, IInitialise
 		}
 		else
 		{
-			Loggy.LogWarning($"Can't load instrument {path}", Category.SunVox);
+			Loggy.Warning($"Can't load instrument {path}", Category.SunVox);
 		}
 
 		return moduleId;
@@ -157,7 +157,7 @@ public class Synth : MonoBehaviour, IInitialise
 
 //		var path = $"Assets/StreamingAssets/Tracker/{filename}";
 		var path = GetDataPath("Tracker/" + filename);
-		Loggy.Log($"Loading track {filename} from {path}", Category.SunVox);
+		Loggy.Info($"Loading track {filename} from {path}", Category.SunVox);
 		int loadResult = SunVox.SunVox.sv_load((int) Slot.Music, path);
 		if (loadResult == 0)
 		{
@@ -168,7 +168,7 @@ public class Synth : MonoBehaviour, IInitialise
 		}
 		else
 		{
-			Loggy.LogWarning($"Music load error: {path}", Category.SunVox);
+			Loggy.Warning($"Music load error: {path}", Category.SunVox);
 		}
 	}
 
@@ -195,7 +195,7 @@ public class Synth : MonoBehaviour, IInitialise
 		}
 		catch (Exception e)
 		{
-			Loggy.LogWarning("Exception: " + e, Category.SunVox);
+			Loggy.Warning("Exception: " + e, Category.SunVox);
 		}
 	}
 
@@ -258,7 +258,7 @@ public class Synth : MonoBehaviour, IInitialise
 		streamingAssetsPath = Application.streamingAssetsPath;
 #endif
 		var path = Path.Combine(streamingAssetsPath, fileName);
-		Loggy.LogTrace("getDataPath: " + path, Category.SunVox);
+		Loggy.Trace("getDataPath: " + path, Category.SunVox);
 		return path;
 	}
 

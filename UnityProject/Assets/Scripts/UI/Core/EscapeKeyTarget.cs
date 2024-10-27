@@ -68,13 +68,13 @@ public class EscapeKeyTarget : MonoBehaviour
 	void OnEnable()
 	{
 		// Add this object to the top of the stack so Esc will close it next
-		Loggy.Log("Adding escape key target: " + this.name, Category.UserInput);
+		Loggy.Info("Adding escape key target: " + this.name, Category.UserInput);
 		Targets.AddLast(this);
 	}
 	void OnDisable()
 	{
 		// Remove the escape key target
-		Loggy.Log("Removing escape key target: " + this.name, Category.UserInput);
+		Loggy.Info("Removing escape key target: " + this.name, Category.UserInput);
 		Targets.Remove(this);
 	}
 }

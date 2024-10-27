@@ -45,7 +45,7 @@ public class DefinedSlotCapacity : SlotCapacity
 		if (toCheck == null) return false;
 		bool hasRequiredTraits = true;
 
-		Loggy.LogTraceFormat("Checking if {0} can fit", Category.Inventory, toCheck.name);
+		Loggy.Trace().Format("Checking if {0} can fit", Category.Inventory, toCheck.name);
 		Size size = Size.Huge;
 		var itemAttrs = toCheck.GetComponent<ItemAttributesV2>();
 		if (itemAttrs != null)
@@ -54,30 +54,30 @@ public class DefinedSlotCapacity : SlotCapacity
 		}
 		else
 		{
-			Loggy.LogTraceFormat("{0} has no item attrs, defaulting to ItemSize.Huge", Category.Inventory, toCheck.name);
+			Loggy.Trace().Format("{0} has no item attrs, defaulting to ItemSize.Huge", Category.Inventory, toCheck.name);
 		}
 
 		var sizeLimit = maxSize;
 		if (sizeLimit == Size.None)
 		{
-			Loggy.LogTraceFormat("No size restriction defined, defaulting to ItemSize.Huge", Category.Inventory);
+			Loggy.Trace().Format("No size restriction defined, defaulting to ItemSize.Huge", Category.Inventory);
 			sizeLimit = Size.Huge;
 		}
 
 		if (size > sizeLimit)
 		{
-			Loggy.LogTraceFormat("{0} ({1}) exceeds max size of slot ({2})", Category.Inventory, toCheck.name, size, maxSize);
+			Loggy.Trace().Format("{0} ({1}) exceeds max size of slot ({2})", Category.Inventory, toCheck.name, size, maxSize);
 			return false;
 		}
 
 		//Item MUST have required traits or it will return false
 		if (Required != null && Required.Count > 0)
 		{
-			Loggy.LogTraceFormat("Requirements are {0}", Category.Inventory,
+			Loggy.Trace().Format("Requirements are {0}", Category.Inventory,
 				String.Join(", ", Required.Select(it => it.name)));
 			if (itemAttrs == null)
 			{
-				Loggy.LogTrace("Item has no ItemAttributes, thus cannot meet the requirements ", Category.Inventory);
+				Loggy.Trace("Item has no ItemAttributes, thus cannot meet the requirements ", Category.Inventory);
 				return false;
 			}
 			//requirements are defined, check them
@@ -85,7 +85,7 @@ public class DefinedSlotCapacity : SlotCapacity
 			{
 				if (!itemAttrs.HasTrait(requiredTrait))
 				{
-					Loggy.LogTraceFormat("Item doesn't have required trait {0}", Category.Inventory, requiredTrait.name);
+					Loggy.Trace().Format("Item doesn't have required trait {0}", Category.Inventory, requiredTrait.name);
 					return false;
 				}
 			}
@@ -95,18 +95,18 @@ public class DefinedSlotCapacity : SlotCapacity
 		if (Whitelist != null && Whitelist.Count > 0)
 		{
 			hasRequiredTraits = false;
-			Loggy.LogTraceFormat("Whitelist is {0}", Category.Inventory,
+			Loggy.Trace().Format("Whitelist is {0}", Category.Inventory,
 				String.Join(", ", Whitelist.Select(it => it == null ? "null" : it.name)));
 			if (itemAttrs == null)
 			{
-				Loggy.LogTrace("Item has no ItemAttributes, thus has no whitelisted traits", Category.Inventory);
+				Loggy.Trace("Item has no ItemAttributes, thus has no whitelisted traits", Category.Inventory);
 				hasRequiredTraits = false;
 			}
 			foreach (var whitelistTrait in Whitelist)
 			{
 				if (itemAttrs.HasTrait(whitelistTrait))
 				{
-					Loggy.LogTraceFormat("Item has whitelisted trait {0}", Category.Inventory, whitelistTrait.name);
+					Loggy.Trace().Format("Item has whitelisted trait {0}", Category.Inventory, whitelistTrait.name);
 					hasRequiredTraits = true;
 				}
 			}
@@ -115,11 +115,11 @@ public class DefinedSlotCapacity : SlotCapacity
 		//If the item has any blacklisted trait return false
 		if (Blacklist != null && Blacklist.Count > 0)
 		{
-			Loggy.LogTraceFormat("Blacklist is {0}", Category.Inventory,
+			Loggy.Trace().Format("Blacklist is {0}", Category.Inventory,
 				String.Join(", ", Blacklist.Select(it => it.name)));
 			if (itemAttrs == null)
 			{
-				Loggy.LogTrace("Item has no ItemAttributes, thus cannot be blacklisted", Category.Inventory);
+				Loggy.Trace("Item has no ItemAttributes, thus cannot be blacklisted", Category.Inventory);
 			}
 			else
 			{
@@ -127,7 +127,7 @@ public class DefinedSlotCapacity : SlotCapacity
 				{
 					if (itemAttrs.HasTrait(blacklistTrait))
 					{
-						Loggy.LogTraceFormat("Item has blacklisted trait {0}", Category.Inventory, blacklistTrait.name);
+						Loggy.Trace().Format("Item has blacklisted trait {0}", Category.Inventory, blacklistTrait.name);
 						hasRequiredTraits = false;
 					}
 				}

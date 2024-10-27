@@ -216,7 +216,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 #if UNITY_EDITOR
 			var editorLoadPref = EditorPrefs.GetBool("quickLoad", false);
 			QuickLoad = editorLoadPref;
-			Loggy.Log($"Currently using editor pref for quick-load checkup. Current value is {editorLoadPref}. To change this, please head to tools -> Enable QuickLoad.");
+			Loggy.Info($"Currently using editor pref for quick-load checkup. Current value is {editorLoadPref}. To change this, please head to tools -> Enable QuickLoad.");
 #endif
 		}
 		else
@@ -477,7 +477,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			}
 			catch (Exception e)
 			{
-				Loggy.LogErrorFormat("Exception message on map loading: {0}", Category.Server, e);
+				Loggy.Error().Format("Exception message on map loading: {0}", Category.Server, e);
 			}
 		}
 	}
@@ -525,7 +525,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		}
 		catch (Exception e)
 		{
-			Loggy.LogError("Failed to log Players antagonist preferences" + e.ToString());
+			Loggy.Error("Failed to log Players antagonist preferences" + e.ToString());
 		}
 
 		try
@@ -535,7 +535,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		}
 		catch (Exception e)
 		{
-			Loggy.LogError("Failed to GameMode.SetupRound(); " + e.ToString());
+			Loggy.Error("Failed to GameMode.SetupRound(); " + e.ToString());
 		}
 
 
@@ -627,11 +627,11 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		{
 			if (CurrentRoundState == RoundState.Ended)
 			{
-				Loggy.LogError("Cannot end round, round has already ended!", Category.Round);
+				Loggy.Error("Cannot end round, round has already ended!", Category.Round);
 			}
 			else
 			{
-				Loggy.LogError("Cannot end round, round has not started yet!", Category.Round);
+				Loggy.Error("Cannot end round, round has not started yet!", Category.Round);
 			}
 
 			return;
@@ -647,7 +647,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		}
 		catch (Exception e)
 		{
-			Loggy.LogError(e.ToString());
+			Loggy.Error(e.ToString());
 		}
 
 		counting = false;
@@ -661,7 +661,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		}
 		catch (Exception e)
 		{
-			Loggy.LogError(e.ToString());
+			Loggy.Error(e.ToString());
 		}
 
 		try
@@ -670,7 +670,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		}
 		catch (Exception e)
 		{
-			Loggy.LogError(e.ToString());
+			Loggy.Error(e.ToString());
 		}
 
 		StartCoroutine(WaitForRoundRestart());
@@ -684,7 +684,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// </summary>
 	private IEnumerator WaitForRoundRestart()
 	{
-		Loggy.LogError($"Waiting {RoundEndTime} seconds to restart...", Category.Round);
+		Loggy.Error($"Waiting {RoundEndTime} seconds to restart...", Category.Round);
 		yield return WaitFor.Seconds(RoundEndTime);
 		RoundEndTime = DefaultRoundEndTime;
 
@@ -768,7 +768,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		{
 			SendClientLogMessage.SendErrorToClient(spawnRequest.Player,
 				$"Occupation {spawnRequest.RequestedOccupation.JobType} is full. Cannot spawn you.");
-			Loggy.LogError($"Occupation {spawnRequest.RequestedOccupation.JobType} is full. Cannot spawn player.");
+			Loggy.Error($"Occupation {spawnRequest.RequestedOccupation.JobType} is full. Cannot spawn player.");
 			return false;
 		}
 
@@ -793,7 +793,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		if (count != 0)
 		{
-			Loggy.Log($"{jobType} count: {count}", Category.Jobs);
+			Loggy.Info($"{jobType} count: {count}", Category.Jobs);
 		}
 
 		return count;
@@ -850,7 +850,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		if (count != 0)
 		{
-			Loggy.Log($"{jobType} count: {count}", Category.Jobs);
+			Loggy.Info($"{jobType} count: {count}", Category.Jobs);
 		}
 
 		return count;
@@ -899,13 +899,13 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	{
 		if (CustomNetworkManager.Instance._isServer == false)
 		{
-			Loggy.LogError("Cannot restart round, Is not server!", Category.Round);
+			Loggy.Error("Cannot restart round, Is not server!", Category.Round);
 			return;
 		}
 
 		if (CurrentRoundState == RoundState.Restarting)
 		{
-			Loggy.LogError("Cannot restart round, round is already restarting!", Category.Round);
+			Loggy.Error("Cannot restart round, round is already restarting!", Category.Round);
 			return;
 		}
 
@@ -934,13 +934,13 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		}
 		catch (Exception e)
 		{
-			Loggy.LogError(" Failed to determine if the Server should restart , Restarting " + e.ToString());
+			Loggy.Error(" Failed to determine if the Server should restart , Restarting " + e.ToString());
 			reboot = true;
 		}
 
 		if (reboot == false)
 		{
-			Loggy.Log("Server restarting round now.", Category.Round);
+			Loggy.Info("Server restarting round now.", Category.Round);
 			Chat.AddGameWideSystemMsgToChat("<b>The round is now restarting...</b>");
 			// Notify all clients that the round has ended
 			EventManager.Broadcast(Event.RoundEnded, true);
@@ -952,7 +952,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError(e.ToString());
+				Loggy.Error(e.ToString());
 			}
 
 			EventManager.Broadcast(Event.CleanupEnd, true);
@@ -964,7 +964,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError(e.ToString());
+				Loggy.Error(e.ToString());
 			}
 
 			EventManager.Broadcast(Event.Cleanup, true);
@@ -976,7 +976,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		}
 		else
 		{
-			Loggy.LogError("Server is rebooting now. If you don't have a way to automatically restart the " +
+			Loggy.Error("Server is rebooting now. If you don't have a way to automatically restart the " +
 			               "Unitystation process such as systemctl the server won't be able to restart!",
 				Category.Round);
 			Chat.AddGameWideSystemMsgToChat("<size=72><b>The server is now restarting!</b></size>");

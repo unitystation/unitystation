@@ -211,7 +211,7 @@ namespace UI.Objects.Command
 			var idClearance = console.TargetCard.ClearanceSource;
 			if (idClearance == null)
 			{
-				Loggy.LogError($"ID card {gameObject.name} has no BasicClearanceSource component!", Category.Objects);
+				Loggy.Error($"ID card {gameObject.name} has no BasicClearanceSource component!", Category.Objects);
 				return;
 			}
 

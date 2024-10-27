@@ -482,7 +482,7 @@ public class KeybindManager : MonoBehaviour {
 
 		public void Set(KeyAction keyAction, KeyCombo keyCombo, bool isPrimary)
 		{
-			Loggy.Log("Setting " + (isPrimary ? "primary" : "secondary") + "keybind for " + keyAction + " to " + keyCombo, Category.Keybindings);
+			Loggy.Info("Setting " + (isPrimary ? "primary" : "secondary") + "keybind for " + keyAction + " to " + keyCombo, Category.Keybindings);
 			if (isPrimary)
 			{
 				this[keyAction].PrimaryCombo = keyCombo;
@@ -496,7 +496,7 @@ public class KeybindManager : MonoBehaviour {
 		}
 		public void Remove(KeyAction keyAction, bool isPrimary)
 		{
-			Loggy.Log("Removing " + (isPrimary ? "primary" : "secondary") + " keybind from " + keyAction, Category.Keybindings);
+			Loggy.Info("Removing " + (isPrimary ? "primary" : "secondary") + " keybind from " + keyAction, Category.Keybindings);
 			if (isPrimary)
 			{
 				this[keyAction].PrimaryCombo = KeyCombo.None;
@@ -513,13 +513,13 @@ public class KeybindManager : MonoBehaviour {
 				if (keyCombo == entry.Value.PrimaryCombo)
 				{
 					isPrimary = true;
-					Loggy.Log("Conflict found with primary key for " + entry.Key, Category.Keybindings);
+					Loggy.Info("Conflict found with primary key for " + entry.Key, Category.Keybindings);
 					return entry;
 				}
 				else if (keyCombo == entry.Value.SecondaryCombo)
 				{
 					isPrimary = false;
-					Loggy.Log("Conflict found with secondary key for " + entry.Key, Category.Keybindings);
+					Loggy.Info("Conflict found with secondary key for " + entry.Key, Category.Keybindings);
 					return entry;
 				}
 			}
@@ -602,7 +602,7 @@ public class KeybindManager : MonoBehaviour {
 
 	public void SaveKeybinds(KeybindDict newKeybinds)
 	{
-		Loggy.Log("Saving user keybinds", Category.Keybindings);
+		Loggy.Info("Saving user keybinds", Category.Keybindings);
 		// Make userKeybinds reference the new keybinds (since KeybindDict is reference type)
 		userKeybinds = newKeybinds;
 		// Turn the user's keybinds into JSON
@@ -614,13 +614,13 @@ public class KeybindManager : MonoBehaviour {
 
 	public void ResetKeybinds()
 	{
-		Loggy.Log("Resetting user keybinds", Category.Keybindings);
+		Loggy.Info("Resetting user keybinds", Category.Keybindings);
 		// Save a copy of the default keybinds as the user's keybinds
 		SaveKeybinds(defaultKeybinds.Clone());
 	}
 	public void LoadKeybinds()
 	{
-		Loggy.Log("Loading user keybinds", Category.Keybindings);
+		Loggy.Info("Loading user keybinds", Category.Keybindings);
 		// Get the user's saved keybinds from PlayerPrefs
 		string jsonKeybinds = PlayerPrefs.GetString("userKeybinds");
 		if (jsonKeybinds != "")
@@ -638,7 +638,7 @@ public class KeybindManager : MonoBehaviour {
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError("Couldn't deserialize userKeybind JSON: " + e, Category.Keybindings);
+				Loggy.Error("Couldn't deserialize userKeybind JSON: " + e, Category.Keybindings);
 				ResetKeybinds();
 				ModalPanelManager.Instance.Inform("Unable to read saved keybinds.\nThey were either corrupt or outdated, so they have been reset.");
 			}
@@ -653,7 +653,7 @@ public class KeybindManager : MonoBehaviour {
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError("Unable to add new keybind entries" + e, Category.Keybindings);
+				Loggy.Error("Unable to add new keybind entries" + e, Category.Keybindings);
 				ResetKeybinds();
 				ModalPanelManager.Instance.Inform("Unable to read saved keybinds.\nThey were either corrupt or outdated, so they have been reset.");
 			}
@@ -663,7 +663,7 @@ public class KeybindManager : MonoBehaviour {
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError("Unable to remove old keybind entries" + e, Category.Keybindings);
+				Loggy.Error("Unable to remove old keybind entries" + e, Category.Keybindings);
 				ResetKeybinds();
 				ModalPanelManager.Instance.Inform("Unable to read saved keybinds.\nThey were either corrupt or outdated, so they have been reset.");
 			}
@@ -672,7 +672,7 @@ public class KeybindManager : MonoBehaviour {
 		else
 		{
 			// Make a new copy of defaultKeybinds and make userKeybinds reference it
-			Loggy.Log("No saved keybinds found. Using default.", Category.Keybindings);
+			Loggy.Info("No saved keybinds found. Using default.", Category.Keybindings);
 			ResetKeybinds();
 		}
 	}

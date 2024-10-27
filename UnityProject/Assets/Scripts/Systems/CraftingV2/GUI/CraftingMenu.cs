@@ -144,7 +144,7 @@ namespace Systems.CraftingV2.GUI
 					initiatedCategoryButtonGameObject.GetComponent<CategoryButtonScript>();
 				if (GetRecipesInCategory(categoryButtonScript.CategoryAndIcon.RecipeCategory) != null)
 				{
-					Loggy.LogError("An attempt to create two same categories in a crafting menu. " +
+					Loggy.Error("An attempt to create two same categories in a crafting menu. " +
 					                $"The duplicated category: {categoryButtonScript.CategoryAndIcon.RecipeCategory}");
 					continue;
 				}
@@ -163,7 +163,7 @@ namespace Systems.CraftingV2.GUI
 			{
 				if (recipesInCategories[i] == null)
 				{
-					Loggy.LogError($"The crafting menu is missing the category: {(RecipeCategory) i}.");
+					Loggy.Error($"The crafting menu is missing the category: {(RecipeCategory) i}.");
 				}
 			}
 		}

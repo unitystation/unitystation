@@ -50,7 +50,7 @@ namespace Antagonists
 
 			if(AccessFile.Exists(filePath) == false)
 			{
-				Loggy.LogError($"Traitor Code Words: Could not find text file to read at: {filePath}");
+				Loggy.Error($"Traitor Code Words: Could not find text file to read at: {filePath}");
 				return;
 			}
 

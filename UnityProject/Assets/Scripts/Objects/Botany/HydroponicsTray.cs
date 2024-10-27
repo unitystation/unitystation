@@ -385,7 +385,7 @@ namespace Objects.Botany
 				case PlantSpriteStage.Growing:
 					if (growingPlantStage >= plantData.GrowthSpritesSOs.Count)
 					{
-						Loggy.Log(
+						Loggy.Info(
 							$"Plant data does not contain growthsprites for index: {growingPlantStage} in plantData.GrowthSprites. Plant: {plantData.PlantName}", Category.Botany);
 						return;
 					}
@@ -432,7 +432,7 @@ namespace Objects.Botany
 
 				if (produceObject == null)
 				{
-					Loggy.Log("plantData.ProduceObject returned an empty gameobject on spawn, skipping this crop produce",
+					Loggy.Info("plantData.ProduceObject returned an empty gameobject on spawn, skipping this crop produce",
 						Category.Botany);
 					continue;
 				}

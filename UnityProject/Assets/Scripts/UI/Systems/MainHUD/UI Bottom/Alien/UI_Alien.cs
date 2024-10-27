@@ -218,7 +218,7 @@ namespace UI.Systems.MainHUD.UI_Bottom
 					queenFinder.SetSpriteVariant(7, false);
 					return;
 				default:
-					Loggy.LogError($"Angle was: {angle} degrees, no case for it!");
+					Loggy.Error($"Angle was: {angle} degrees, no case for it!");
 					return;
 			}
 		}

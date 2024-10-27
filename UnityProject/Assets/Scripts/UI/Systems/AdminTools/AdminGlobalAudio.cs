@@ -46,12 +46,12 @@ namespace AdminTools
 			//ALS Ice Bucket Challenge, CIA style.
 			foreach (var serverCatalouge in serverCatalouges.Where(serverCatalouge => serverCatalouge != string.Empty))
 			{
-				Loggy.Log(serverCatalouge);
+				Loggy.Info(serverCatalouge);
 				AsyncOperationHandle<IResourceLocator> task;
 				if (serverCatalouge.Contains("http"))
 				{
 					string result = await SafeHttpRequest.GetStringAsync(serverCatalouge);
-					Loggy.Log(result);
+					Loggy.Info(result);
 					task = Addressables.LoadContentCatalogAsync(result);
 					await task.Task;
 				}
