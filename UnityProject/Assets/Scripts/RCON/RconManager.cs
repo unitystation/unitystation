@@ -82,7 +82,7 @@ public class RconManager : SingletonManager<RconManager>
 			}
 			else
 			{
-				LoadManager.RegisterActionDelayed(StartServer, 500); //Maybe giving it a little bit of time to fix a crash?
+				StartServer();
 			}
 		}
 	}

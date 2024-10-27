@@ -1,3 +1,4 @@
+using System;
 using ImGuiNET;
 using UImGui;
 using UnityEngine;
@@ -7,6 +8,18 @@ public class IMGUIDemo : MonoBehaviour
 	[SerializeField] private bool showDemo = false;
 	private void Update()
 	{
+		bool IsHeadless = Application.isBatchMode;
+
+#if UNITY_STANDALONE_LINUX_API
+		IsHeadless = true;
+#endif
+
+		if (IsHeadless)
+		{
+			DestroyImmediate(this);
+			DestroyImmediate(this.GetComponent<UImGui.UImGui>());
+			return;
+		}
 		if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Insert))
 		{
 			showDemo = !showDemo;
@@ -27,6 +40,18 @@ public class IMGUIDemo : MonoBehaviour
 
 	private void Start()
 	{
+		bool IsHeadless = Application.isBatchMode;
+
+#if UNITY_STANDALONE_LINUX_API
+		IsHeadless = true;
+#endif
+
+		if (IsHeadless)
+		{
+			DestroyImmediate(this.GetComponent<UImGui.UImGui>());
+			DestroyImmediate(this);
+			return;
+		}
 		if (showDemo)
 		{
 			UImGuiUtility.Layout += OnLayout;
@@ -52,8 +77,36 @@ public class IMGUIDemo : MonoBehaviour
 		UImGuiUtility.OnDeinitialize -= OnDeinitialize;
 	}
 
+	private void Awake()
+	{
+		bool IsHeadless = Application.isBatchMode;
+
+#if UNITY_STANDALONE_LINUX_API
+		IsHeadless = true;
+#endif
+
+		if (IsHeadless)
+		{
+			DestroyImmediate(this.GetComponent<UImGui.UImGui>());
+			DestroyImmediate(this);
+			return;
+		}
+	}
+
 	private void OnLayout(UImGui.UImGui obj)
 	{
+		bool IsHeadless = Application.isBatchMode;
+
+#if UNITY_STANDALONE_LINUX_API
+		IsHeadless = true;
+#endif
+
+		if (IsHeadless)
+		{
+			DestroyImmediate(this.GetComponent<UImGui.UImGui>());
+			DestroyImmediate(this);
+			return;
+		}
 		ImGui.ShowDemoWindow();
 	}
 }

@@ -316,6 +316,10 @@ public partial class SubSceneManager
 		if (string.IsNullOrEmpty(prevEditorScene))
 		{
 			prevEditorScene = EditorPrefs.GetString("prevEditorScene", prevEditorScene);
+			if (prevEditorScene == "OnlineScene")
+			{
+				prevEditorScene = string.Empty;
+			}
 		}
 #endif
 		return prevEditorScene;
