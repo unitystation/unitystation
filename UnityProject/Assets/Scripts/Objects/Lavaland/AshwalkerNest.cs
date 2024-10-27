@@ -278,7 +278,7 @@ namespace Objects
 			{
 				//Remove the player from all roles (as createdRoleKey will Error)
 				GhostRoleManager.Instance.ServerRemoveWaitingPlayer(player);
-				Loggy.LogError("Ghost role spawn called on null ashwalker, was the role not removed on destruction?");
+				Loggy.Error("Ghost role spawn called on null ashwalker, was the role not removed on destruction?");
 				return false;
 			}
 			return true;

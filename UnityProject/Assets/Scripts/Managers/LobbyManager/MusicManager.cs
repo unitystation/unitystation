@@ -74,7 +74,7 @@ namespace Audio.Containers
 			var audioSource = await AudioManager.GetAddressableAudioSourceFromCache(new List<AddressableAudioSource>{audioClips.GetRandomClip()});
 			if(audioSource == null)
 			{
-				Loggy.LogError("MusicManager failed to load a song, is Addressables loaded?", Category.Audio);
+				Loggy.Error("MusicManager failed to load a song, is Addressables loaded?", Category.Audio);
 				return null;
 			}
 			musicAudioSource.clip = audioSource.AudioSource.clip;
@@ -93,7 +93,7 @@ namespace Audio.Containers
 		{
 			if(addressableAudioSource == null)
 			{
-				Loggy.LogError("MusicManager failed to load a song, is Addressables loaded?", Category.Audio);
+				Loggy.Error("MusicManager failed to load a song, is Addressables loaded?", Category.Audio);
 				return null;
 			}
 

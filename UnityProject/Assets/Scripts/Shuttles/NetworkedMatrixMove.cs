@@ -276,7 +276,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 		if (this.GetComponent<MatrixSync>() == null)
 		{
-			Loggy.LogError($"Please remove this {this.name}");
+			Loggy.Error($"Please remove this {this.name}");
 			Destroy(this);
 			return;
 		}

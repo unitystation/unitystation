@@ -111,7 +111,7 @@ namespace Items.Cargo.Wrapping
 						Runs++;
 						if (Runs > 100)
 						{
-							Loggy.LogError("Unable to find prefab matching parameters from allSpawnablePrefabs Breaking loop");
+							Loggy.Error("Unable to find prefab matching parameters from allSpawnablePrefabs Breaking loop");
 							break;
 						}
 

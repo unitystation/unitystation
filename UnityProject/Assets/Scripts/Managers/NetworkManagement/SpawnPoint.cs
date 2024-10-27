@@ -33,7 +33,7 @@ namespace Systems.Spawns
 					}
 					else
 					{
-						Loggy.LogError("Was unable to find spawn Point Sprite for " + category);
+						Loggy.Error("Was unable to find spawn Point Sprite for " + category);
 					}
 
 				}
@@ -69,7 +69,7 @@ namespace Systems.Spawns
 				}
 				else
 				{
-					Loggy.LogError("Was unable to find spawn Point Sprite for " + category);
+					Loggy.Error("Was unable to find spawn Point Sprite for " + category);
 				}
 
 			}

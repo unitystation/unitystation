@@ -105,7 +105,7 @@ namespace Core.Editor
 			}
 			catch
 			{
-				Loggy.LogError($"Tried to autoload scene, but scene not found: {scenePath}", Category.Editor);
+				Loggy.Error($"Tried to autoload scene, but scene not found: {scenePath}", Category.Editor);
 			}
 		}
 	}

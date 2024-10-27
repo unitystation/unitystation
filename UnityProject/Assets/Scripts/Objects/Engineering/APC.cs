@@ -146,7 +146,7 @@ namespace Objects.Engineering
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError(e.ToString());
+				Loggy.Error(e.ToString());
 				connectedDepartmentBatteries.RemoveNulls();
 				foreach (var bat in connectedDepartmentBatteries.ToArray())
 				{
@@ -251,7 +251,7 @@ namespace Objects.Engineering
 			catch (Exception e)
 			{
 				connectedDevices.RemoveAll(item => item == null);
-				Loggy.LogError(e.ToString());
+				Loggy.Error(e.ToString());
 				// exit early because there seems to be null shinangins going on with this APC,
 				// which triggers causes GC to bubble up while creating lots Exceptions if left unchecked.
 				return;
@@ -586,7 +586,7 @@ namespace Objects.Engineering
 			SpawnResult frameSpawn = Spawn.ServerPrefab(APCFrameObj, SpawnDestination.At(gameObject));
 			if (frameSpawn.Successful == false)
 			{
-				Loggy.LogError($"Failed to spawn frame! Is {this} missing references in the inspector?", Category.Construction);
+				Loggy.Error($"Failed to spawn frame! Is {this} missing references in the inspector?", Category.Construction);
 				return;
 			}
 

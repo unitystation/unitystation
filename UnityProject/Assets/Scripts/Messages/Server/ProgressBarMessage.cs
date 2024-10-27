@@ -27,7 +27,7 @@ namespace Messages.Server
 			//bar not found, so create it unless we are the server (in which case it would already be created)
 			if (bar == null && !CustomNetworkManager.IsServer)
 			{
-				Loggy.LogTraceFormat("Client progress bar ID {0} not found, creating it.", Category.ProgressAction, msg.ProgressBarID);
+				Loggy.Trace().Format("Client progress bar ID {0} not found, creating it.", Category.ProgressAction, msg.ProgressBarID);
 				bar = UIManager.CreateProgressBar(msg.OffsetFromPlayer, msg.ProgressBarID);
 			}
 

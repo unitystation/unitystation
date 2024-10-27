@@ -124,7 +124,7 @@ public class InteractableStorage : NetworkBehaviour, IClientInteractable<HandAct
 				msg = $"The {gameObject.ExpensiveName()} now drops all items on the tile at once";
 				break;
 			default:
-				Loggy.LogError($"Unknown pickup mode set! Found: {pickupMode}", Category.Inventory);
+				Loggy.Error($"Unknown pickup mode set! Found: {pickupMode}", Category.Inventory);
 				break;
 		}
 

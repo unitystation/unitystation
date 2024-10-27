@@ -87,7 +87,7 @@ namespace Util
 			string aa = @"0​
 UnityEngine";
 			string Text = "0\u200b";
-			Loggy.LogError("Text > " + Text);
+			Loggy.Error("Text > " + Text);
 			var nub = float.Parse(Text);
 
 			var OldTileMap = new Dictionary<Vector3, coolClass>();
@@ -120,7 +120,7 @@ UnityEngine";
 				}
 			}
 			Stopwatch.Stop();
-			Loggy.LogError("ChunkedTileMap > " + Stopwatch.ElapsedTicks);
+			Loggy.Error("ChunkedTileMap > " + Stopwatch.ElapsedTicks);
 			Stopwatch.Reset();
 			Stopwatch.Start();
 			for (int i = 0; i < 1000; i++)
@@ -133,7 +133,7 @@ UnityEngine";
 			}
 			Stopwatch.Stop();
 
-			Loggy.LogError("OldTileMap > " + Stopwatch.ElapsedTicks);
+			Loggy.Error("OldTileMap > " + Stopwatch.ElapsedTicks);
 
 			return;
 			//
@@ -246,7 +246,7 @@ UnityEngine";
 				}
 				catch
 				{
-					Loggy.Log(GetRoot(SH.gameObject).name + "Not root apparently", Category.Editor);
+					Loggy.Info(GetRoot(SH.gameObject).name + "Not root apparently", Category.Editor);
 				}
 			}
 
@@ -429,7 +429,7 @@ UnityEngine";
 				if (string.IsNullOrEmpty(OLdv))
 				{
 					var PID = prefabTracker.ParentID;
-					Loggy.LogError($"{prefabTracker.name} or {prefabTracker.OrNull()?.name} NEEDS to be committed with it's Parent ID.");
+					Loggy.Error($"{prefabTracker.name} or {prefabTracker.OrNull()?.name} NEEDS to be committed with it's Parent ID.");
 					continue;
 				}
 
@@ -437,7 +437,7 @@ UnityEngine";
 
 				if (prefabTracker.ParentID != OLdv)
 				{
-					Loggy.LogError($"{prefabTracker.name} or {prefabTracker.OrNull()?.name} NEEDS to be committed with it's Parent ID.");
+					Loggy.Error($"{prefabTracker.name} or {prefabTracker.OrNull()?.name} NEEDS to be committed with it's Parent ID.");
 				}
 			}
 
@@ -618,12 +618,12 @@ UnityEngine";
 		{
 			var path = Application.dataPath.Remove(Application.dataPath.IndexOf("/Assets"));
 			path = path + "/AddressablePackingProjects/SoundAndMusic/ServerData"; //Make OS agnostic
-			Loggy.Log(path, Category.Editor);
+			Loggy.Info(path, Category.Editor);
 			var Files = Directory.GetFiles(path);
 			string FoundFile = "";
 			foreach (var File in Files)
 			{
-				Loggy.Log(File, Category.Editor);
+				Loggy.Info(File, Category.Editor);
 				if (File.EndsWith(".json"))
 				{
 					FoundFile = File;
@@ -632,7 +632,7 @@ UnityEngine";
 
 			if (FoundFile == "")
 			{
-				Loggy.LogWarning("missing json file", Category.Editor);
+				Loggy.Warning("missing json file", Category.Editor);
 				return;
 			}
 
@@ -641,7 +641,7 @@ UnityEngine";
 			var ListIDs = IDs.ToObject<List<string>>().Where(x => x.Contains(".bundle") == false);
 			foreach (var ListID in ListIDs)
 			{
-				Loggy.Log(ListID, Category.Editor);
+				Loggy.Info(ListID, Category.Editor);
 			}
 		}
 
@@ -735,7 +735,7 @@ UnityEngine";
 			var data = await HubValidation.RequestOpenURL(new Uri("https://old.reddit.com"), " because lol ", false);
 			data = await HubValidation.RequestAPIURL(new Uri("https://old.reddit.com"), " Because I needed ", false);
 			data = await HubValidation.RequestTrustedMode("AAAAAAAAAAAAAAAA");
-			Loggy.LogError(data.ToString());
+			Loggy.Error(data.ToString());
 		}
 
 		public class coolClass
@@ -992,7 +992,7 @@ UnityEngine";
 			{
 				if (Sprites.Length > 1)
 				{
-					Loggy.LogError("OH NO json File wasn't found for " + Sprites[0].name, Category.Editor);
+					Loggy.Error("OH NO json File wasn't found for " + Sprites[0].name, Category.Editor);
 				}
 
 				var Variant = new SpriteDataSO.Variant();

@@ -66,7 +66,7 @@ namespace Systems.Spells.Wizard
 				return true;
 			}
 
-			Loggy.LogError($"Failed to spawn {gunPrefab} for {this}!", Category.Spells);
+			Loggy.Error($"Failed to spawn {gunPrefab} for {this}!", Category.Spells);
 			return false;
 		}
 

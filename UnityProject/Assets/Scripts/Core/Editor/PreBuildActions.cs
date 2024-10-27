@@ -32,13 +32,13 @@ namespace Util
 
 			if (SpawnListBuild() == false)
 			{
-				Loggy.LogError("Could not cache prefabs for SpawnList. Unknown Error", Category.Editor);
+				Loggy.Error("Could not cache prefabs for SpawnList. Unknown Error", Category.Editor);
 				return;
 			}
 
 			if (CacheTiles() == false)
 			{
-				Loggy.LogError("Could not cache tiles for TileManager. Unknown Error", Category.Editor);
+				Loggy.Error("Could not cache tiles for TileManager. Unknown Error", Category.Editor);
 				return;
 			}
 

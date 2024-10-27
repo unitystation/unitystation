@@ -93,13 +93,13 @@ namespace Systems.Score
 		{
 			if (Instance.Scores.ContainsKey(ID) == false)
 			{
-				Loggy.LogError($"[ScoreMachine] - {ID} does not exist in the score machine!");
+				Loggy.Error($"[ScoreMachine] - {ID} does not exist in the score machine!");
 				return;
 			}
 
 			if (Instance.Scores[ID] is not ScoreEntryInt c)
 			{
-				Loggy.LogError($"[ScoreMachine] - Attempted to add an integer to {ID} but it's entry is not a ScoreEntryInt!");
+				Loggy.Error($"[ScoreMachine] - Attempted to add an integer to {ID} but it's entry is not a ScoreEntryInt!");
 				return;
 			}
 			c.Score += valueToAddOnTop;
@@ -113,13 +113,13 @@ namespace Systems.Score
 		{
 			if (Instance.Scores.ContainsKey(ID) == false)
 			{
-				Loggy.LogError($"[ScoreMachine] - {ID} does not exist in the score machine!");
+				Loggy.Error($"[ScoreMachine] - {ID} does not exist in the score machine!");
 				return;
 			}
 
 			if (Instance.Scores[ID] is not ScoreEntryBool c)
 			{
-				Loggy.LogError($"[ScoreMachine] - Attempted to change a bool in {ID} but it's entry is not a ScoreEntryBool!");
+				Loggy.Error($"[ScoreMachine] - Attempted to change a bool in {ID} but it's entry is not a ScoreEntryBool!");
 				return;
 			}
 			c.Score = newValue;
@@ -132,13 +132,13 @@ namespace Systems.Score
 		{
 			if (Instance.Scores.ContainsKey(ID) == false)
 			{
-				Loggy.LogError($"[ScoreMachine] - {ID} does not exist in the score machine!");
+				Loggy.Error($"[ScoreMachine] - {ID} does not exist in the score machine!");
 				return;
 			}
 
 			if (Instance.Scores[ID] is not ScoreEntryString c)
 			{
-				Loggy.LogError($"[ScoreMachine] - Attempted to change a string in {ID} but it's entry is not a ScoreEntryString!");
+				Loggy.Error($"[ScoreMachine] - Attempted to change a string in {ID} but it's entry is not a ScoreEntryString!");
 				return;
 			}
 			c.Score = newValue;
@@ -155,7 +155,7 @@ namespace Systems.Score
 			{
 				if (Scores.ContainsKey(id) == false)
 				{
-					Loggy.LogError($"[ScoreMachine] - {id} does not exist in the score machine!");
+					Loggy.Error($"[ScoreMachine] - {id} does not exist in the score machine!");
 					continue;
 				}
 				if (Scores[id] is not ScoreEntryInt c || c.Score <= highestScoreIndex) continue;

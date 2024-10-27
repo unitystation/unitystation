@@ -56,7 +56,7 @@ namespace Robotics
 
 			if (spriteHandler == null)
 			{
-				Loggy.LogWarning($"{nameof(SpriteHandler)} missing on {gameObject}!", Category.Mobs);
+				Loggy.Warning($"{nameof(SpriteHandler)} missing on {gameObject}!", Category.Mobs);
 				return;
 			}
 

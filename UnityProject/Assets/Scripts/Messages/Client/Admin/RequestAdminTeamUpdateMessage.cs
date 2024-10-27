@@ -26,7 +26,7 @@ namespace Messages.Client.Admin
 				}
 				catch (Exception ex)
 				{
-					Loggy.LogError($"[RequestAdminObjectiveUpdateMessage/Process] Failed to process teams update \n{msg.json}\n {ex}");
+					Loggy.Error($"[RequestAdminObjectiveUpdateMessage/Process] Failed to process teams update \n{msg.json}\n {ex}");
 				}
 			}
 		}

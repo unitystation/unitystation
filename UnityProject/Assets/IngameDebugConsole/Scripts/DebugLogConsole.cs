@@ -157,7 +157,7 @@ namespace IngameDebugConsole
 					stringBuilder.Append("\n- ").Append(entry.Value.signature);
 			}
 
-			Loggy.Log(stringBuilder.Append("\n").ToString(), Category.DebugConsole);
+			Loggy.Info(stringBuilder.Append("\n").ToString(), Category.DebugConsole);
 		}
 
 		/// <summary>
@@ -205,7 +205,7 @@ namespace IngameDebugConsole
 			stringBuilder.Append("Cubemap Array Textures: ")
 				.Append(SystemInfo.supportsCubemapArrayTextures ? "supported" : "not supported");
 
-			Loggy.Log(stringBuilder.Append("\n").ToString(), Category.DebugConsole);
+			Loggy.Info(stringBuilder.Append("\n").ToString(), Category.DebugConsole);
 		}
 
 		/// <summary>
@@ -368,22 +368,22 @@ namespace IngameDebugConsole
 			// Check if command exists
 			ConsoleMethodInfo methodInfo;
 			if (methods.TryGetValue(commandArguments[0], out methodInfo) == false)
-				Loggy.LogWarning("Can't find command: " + commandArguments[0], Category.DebugConsole);
+				Loggy.Warning("Can't find command: " + commandArguments[0], Category.DebugConsole);
 			else if (methodInfo.IsValid() == false)
-				Loggy.LogWarning("Method no longer valid (instance dead): " + commandArguments[0],
+				Loggy.Warning("Method no longer valid (instance dead): " + commandArguments[0],
 					Category.DebugConsole);
 			else
 			{
 				// Check if number of parameter match
 				if (methodInfo.parameterTypes.Length != commandArguments.Count - 1)
 				{
-					Loggy.LogWarning(
+					Loggy.Warning(
 						"Parameter count mismatch: " + methodInfo.parameterTypes.Length + " parameters are needed",
 						Category.DebugConsole);
 					return;
 				}
 
-				Loggy.LogTrace("Executing command: " + commandArguments[0], Category.DebugConsole);
+				Loggy.Trace("Executing command: " + commandArguments[0], Category.DebugConsole);
 
 				// Parse the parameters into objects
 				object[] parameters = new object[methodInfo.parameterTypes.Length];
@@ -395,14 +395,14 @@ namespace IngameDebugConsole
 					ParseFunction parseFunction;
 					if (parseFunctions.TryGetValue(parameterType, out parseFunction) == false)
 					{
-						Loggy.LogError("Unsupported parameter type: " + parameterType.Name, Category.DebugConsole);
+						Loggy.Error("Unsupported parameter type: " + parameterType.Name, Category.DebugConsole);
 						return;
 					}
 
 					object val;
 					if (parseFunction(argument, out val) == false)
 					{
-						Loggy.LogError("Couldn't parse " + argument + " to " + parameterType.Name,
+						Loggy.Error("Couldn't parse " + argument + " to " + parameterType.Name,
 							Category.DebugConsole);
 						return;
 					}
@@ -416,9 +416,9 @@ namespace IngameDebugConsole
 				{
 					// Print the returned value to the console
 					if (result == null || result.Equals(null))
-						Loggy.Log("Value returned: null", Category.DebugConsole);
+						Loggy.Info("Value returned: null", Category.DebugConsole);
 					else
-						Loggy.Log("Value returned: " + result.ToString(), Category.DebugConsole);
+						Loggy.Info("Value returned: " + result.ToString(), Category.DebugConsole);
 				}
 			}
 		}

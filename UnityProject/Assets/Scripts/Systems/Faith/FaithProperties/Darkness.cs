@@ -56,7 +56,7 @@ namespace Systems.Faith.FaithProperties
 						if (lightSource.CurrentOnColor.a <= minimumAlphaForDarkness)
 						{
 							FaithManager.AwardPoints(15, AssociatedFaith.Faith.FaithName);
-							if(Application.isEditor) Loggy.Log("Awarded points for having low darkness value.");
+							if(Application.isEditor) Loggy.Info("Awarded points for having low darkness value.");
 							continue;
 						}
 						else

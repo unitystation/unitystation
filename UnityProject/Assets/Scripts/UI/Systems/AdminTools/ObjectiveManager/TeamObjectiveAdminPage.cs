@@ -399,7 +399,7 @@ public class TeamObjectiveAdminPage : AdminPage
 					}
 					catch (Exception ex)
 					{
-						Loggy.LogError($"[TeamObjectiveAdminPage/ProcessServer] Failed to add objective to team\n {ex}");
+						Loggy.Error($"[TeamObjectiveAdminPage/ProcessServer] Failed to add objective to team\n {ex}");
 					}
 				} else if (objInfo.ToDelete)
 				{

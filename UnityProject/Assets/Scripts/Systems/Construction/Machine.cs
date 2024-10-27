@@ -80,7 +80,7 @@ namespace Objects.Machines
 
 			if (activeGameObjectpartsInFrame == null)
 			{
-				Loggy.LogError($"BasicPartsUsed was null on {gameObject.ExpensiveName()}");
+				Loggy.Error($"BasicPartsUsed was null on {gameObject.ExpensiveName()}");
 				return;
 			}
 			//Means we are mapped so use machine parts ist
@@ -90,7 +90,7 @@ namespace Objects.Machines
 				{
 					if (canNotBeDeconstructed == false)
 					{
-						Loggy.LogError($"MachineParts was null on {gameObject.ExpensiveName()}");
+						Loggy.Error($"MachineParts was null on {gameObject.ExpensiveName()}");
 					}
 
 					return;
@@ -224,7 +224,7 @@ namespace Objects.Machines
 			SpawnResult frameSpawn = Spawn.ServerPrefab(CommonPrefabs.Instance.MachineFrame, SpawnDestination.At(gameObject));
 			if (!frameSpawn.Successful)
 			{
-				Loggy.LogError($"Failed to spawn frame! Is {this} missing references in the inspector?",
+				Loggy.Error($"Failed to spawn frame! Is {this} missing references in the inspector?",
 					Category.Construction);
 				return;
 			}
@@ -248,7 +248,7 @@ namespace Objects.Machines
 
 			if (InActiveGameObjectpartsInFrame == null)
 			{
-				Loggy.LogError($"PartsInFrame was null on {gameObject.ExpensiveName()}");
+				Loggy.Error($"PartsInFrame was null on {gameObject.ExpensiveName()}");
 				return;
 			}
 
@@ -323,7 +323,7 @@ namespace Objects.Machines
 		{
 			if (ItemTrait == null)
 			{
-				Loggy.LogError($" null ItemTrait Tried to be passed into GetCertainPartMultiplier for {this.name} ");
+				Loggy.Error($" null ItemTrait Tried to be passed into GetCertainPartMultiplier for {this.name} ");
 				return 1;
 			}
 			float TotalParts = 0;
@@ -342,7 +342,7 @@ namespace Objects.Machines
 
 			if (TotalParts == 0)
 			{
-				Loggy.LogError($"Warning {ItemTrait.name} was not present on {this.name} somehow ");
+				Loggy.Error($"Warning {ItemTrait.name} was not present on {this.name} somehow ");
 				return 1;
 			}
 			return Alladded / TotalParts;

@@ -143,7 +143,7 @@ namespace UI
 		/// <param name="screen">The UI action to perform</param>
 		public void SetScreenFor(Screens screen)
 		{
-			Loggy.Log($"Setting screen for {screen}", Category.UI);
+			Loggy.Info($"Setting screen for {screen}", Category.UI);
 			switch (screen)
 			{
 				case Screens.SlotReset:

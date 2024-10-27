@@ -13,7 +13,7 @@ public class DamageMonitorListener : MonoBehaviour
 	private void Awake()
 	{
 		if(damageMaskImage == null)
-			Loggy.LogWarning($"Missing reference on {name}.DamageMonitorListener.{nameof(damageMaskImage)}", Category.UI);
+			Loggy.Warning($"Missing reference on {name}.DamageMonitorListener.{nameof(damageMaskImage)}", Category.UI);
 	}
 
 

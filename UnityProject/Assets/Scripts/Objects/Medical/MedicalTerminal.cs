@@ -84,7 +84,7 @@ namespace Objects.Medical
 		{
 			if (Vector3.Distance(gameObject.AssumedWorldPosServer(), player.AssumedWorldPos) > 3.5)
 			{
-				Loggy.LogWarning($"[MedicalTerminal/ToggleAlertSound] - Prevented possible cheating from player {player.playerName} who is far away from this option.");
+				Loggy.Warning($"[MedicalTerminal/ToggleAlertSound] - Prevented possible cheating from player {player.playerName} who is far away from this option.");
 				return;
 			}
 			muteWarn = !muteWarn;

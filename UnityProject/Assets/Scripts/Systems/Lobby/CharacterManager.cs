@@ -66,7 +66,7 @@ namespace Systems.Character
 		{
 			if (IsCharacterKeyValid(key) == false)
 			{
-				Loggy.LogError(
+				Loggy.Error(
 					"An attempt was made to set the active character with a key that doesn't exist. Ignoring.");
 				return;
 			}
@@ -97,7 +97,7 @@ namespace Systems.Character
 		{
 			if (IsCharacterKeyValid(key) == false)
 			{
-				Loggy.LogError(
+				Loggy.Error(
 					"An attempt was made to set the active character with a key that doesn't exist. Ignoring.");
 				return;
 			}
@@ -113,7 +113,7 @@ namespace Systems.Character
 		{
 			if (IsCharacterKeyValid(key) == false)
 			{
-				Loggy.LogError($"An attempt was made to fetch a character with an invalid key \"{key}\". Ignoring.");
+				Loggy.Error($"An attempt was made to fetch a character with an invalid key \"{key}\". Ignoring.");
 				if (Characters.Count > 0)
 				{
 					return default;
@@ -135,7 +135,7 @@ namespace Systems.Character
 		{
 			if (IsCharacterKeyValid(key) == false)
 			{
-				Loggy.LogWarning($"An attempt was made to set a character with an invalid key \"{key}\". Ignoring.");
+				Loggy.Warning($"An attempt was made to set a character with an invalid key \"{key}\". Ignoring.");
 				return;
 			}
 
@@ -150,7 +150,7 @@ namespace Systems.Character
 		{
 			LoadManager.DoInMainThread( () =>
 			{
-				Loggy.Log($"Updating character {character.Id} online.");
+				Loggy.Info($"Updating character {character.Id} online.");
 			});
 			ApiResult<SubAccountGetCharacterSheet> response = await PersistenceServer.PutAccountsCharacterByID(character.Id, character, PlayerManager.Account.Token);
 
@@ -158,7 +158,7 @@ namespace Systems.Character
 			{
 				LoadManager.DoInMainThread( ()=>
 				{
-					Loggy.LogError($"Failed to update character online. because: {response.Exception!.Message}");
+					Loggy.Error($"Failed to update character online. because: {response.Exception!.Message}");
 				});
 				//TODO: feedback to user
 				return;
@@ -179,7 +179,7 @@ namespace Systems.Character
 			{
 				LoadManager.DoInMainThread( ()=>
 				{
-					Loggy.LogError(
+					Loggy.Error(
 						"An attempt was made to add a character but character validation failed. Ignoring.");
 				});
 				return;
@@ -204,7 +204,7 @@ namespace Systems.Character
 			{
 				LoadManager.DoInMainThread( ()=>
 				{
-					Loggy.LogError(
+					Loggy.Error(
 						"An attempt was made to add a character but character validation failed. Ignoring.");
 				});
 				return;
@@ -227,7 +227,7 @@ namespace Systems.Character
 			{
 				LoadManager.DoInMainThread(() =>
 				{
-					Loggy.LogError($"Failed to save new character online. because: {response.Exception!.Message}");
+					Loggy.Error($"Failed to save new character online. because: {response.Exception!.Message}");
 				});
 				return;
 			}
@@ -244,7 +244,7 @@ namespace Systems.Character
 		{
 			if (IsCharacterKeyValid(key) == false)
 			{
-				Loggy.LogError($"An attempt was made to remove a character with an invalid key \"{key}\". Ignoring.");
+				Loggy.Error($"An attempt was made to remove a character with an invalid key \"{key}\". Ignoring.");
 				return;
 			}
 
@@ -270,7 +270,7 @@ namespace Systems.Character
 				{
 					LoadManager.DoInMainThread(()=>
 					{
-						Loggy.LogError(
+						Loggy.Error(
 							$"Failed to load characters online. because: {accountResponse.Exception!.Message}");
 					});
 					throw accountResponse.Exception;
@@ -286,7 +286,7 @@ namespace Systems.Character
 							{
 								loadedCharacters.AppendLine($"[CharacterManager/LoadOnlineCharacters] {sheet.Id} - {sheet.Data.Name}");
 							}
-							Loggy.Log($"{loadedCharacters}");
+							Loggy.Info($"{loadedCharacters}");
 						}
 					});
 				}
@@ -296,7 +296,7 @@ namespace Systems.Character
 			}
 			catch (Exception e)
 			{
-				LoadManager.DoInMainThread( ()=> Loggy.LogError(e.ToString()) );
+				LoadManager.DoInMainThread( ()=> Loggy.Error(e.ToString()) );
 			}
 		}
 
@@ -336,7 +336,7 @@ namespace Systems.Character
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError("OLD Characters detected porting");
+				Loggy.Error("OLD Characters detected porting");
 				old = true;
 			}
 

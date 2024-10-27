@@ -165,7 +165,7 @@ public class SlimeCore : BodyPartFunctionality
 			var core = Mind.Body.GetComponent<LivingHealthMasterBase>().brain.GetComponent<SlimeCore>();
 			if (core == null)
 			{
-				Loggy.LogError("[SlimeCore/SlimeSplit()] - No core found!");
+				Loggy.Error("[SlimeCore/SlimeSplit()] - No core found!");
 				continue;
 			}
 			core.InitialiseBabySlime();

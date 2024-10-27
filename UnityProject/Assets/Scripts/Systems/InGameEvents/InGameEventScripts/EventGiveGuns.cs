@@ -27,7 +27,7 @@ namespace InGameEvents
 		{
 			if (gunList == null || gunList.GameObjectPrefabs.Length == 0)
 			{
-				Loggy.LogError($"No guns in gun list! Cannot spawn guns for {nameof(EventGiveGuns)}.", Category.Event);
+				Loggy.Error($"No guns in gun list! Cannot spawn guns for {nameof(EventGiveGuns)}.", Category.Event);
 				return;
 			}
 

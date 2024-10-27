@@ -22,7 +22,7 @@ namespace Objects.Wallmounts.PublicTerminals.Modules
 			if (IsActive == false) return false;
 			if (poweredDevice == null || integrity == null)
 			{
-				Loggy.LogError("[PublicTerminals/Modules] - Missing components detected on a terminal.");
+				Loggy.Error("[PublicTerminals/Modules] - Missing components detected on a terminal.");
 				return false;
 			}
 			// Don't send anything if this terminal has no power

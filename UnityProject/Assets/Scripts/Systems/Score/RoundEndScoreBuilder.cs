@@ -128,7 +128,7 @@ namespace Systems.Score
 			if (MatrixManager.MainStationMatrix.SubsystemManager
 				    .TryGetComponent<FilthGenerator.FilthGenerator>(out var generator) == false)
 			{
-				Loggy.LogWarning("[RoundEndScoreBuilder] - Cannot find filth generator, skipping..", Category.Round);
+				Loggy.Warning("[RoundEndScoreBuilder] - Cannot find filth generator, skipping..", Category.Round);
 				return;
 			}
 			if (generator.FilthCleanGoal >= dirtyness)

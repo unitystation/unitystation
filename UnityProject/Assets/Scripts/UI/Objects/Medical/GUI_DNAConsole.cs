@@ -100,7 +100,7 @@ namespace UI.Objects.Medical
 
 			if (available.Count == 0)
 			{
-				Loggy.LogError("no mutations available for egg");
+				Loggy.Error("no mutations available for egg");
 			}
 
 			var RNGamount = Random.Range(4, 6);

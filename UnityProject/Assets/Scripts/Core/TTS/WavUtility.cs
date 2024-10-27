@@ -374,7 +374,7 @@ public class WavUtility {
 			case 65534:
 				return "WaveFormatExtensable";
 			default:
-				Loggy.LogWarning( "Unknown wav code format:" + code, Category.Audio );
+				Loggy.Warning( "Unknown wav code format:" + code, Category.Audio );
 				return "";
 		}
 	}

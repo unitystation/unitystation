@@ -104,7 +104,7 @@ namespace AdminTools
 		{
 			if (string.IsNullOrEmpty(kickReasonField.text))
 			{
-				Loggy.LogError("Kick reason field needs to be completed!", Category.Admin);
+				Loggy.Error("Kick reason field needs to be completed!", Category.Admin);
 				return;
 			}
 
@@ -117,13 +117,13 @@ namespace AdminTools
 		{
 			if (string.IsNullOrEmpty(banReasonField.text))
 			{
-				Loggy.LogError("Ban reason field needs to be completed!", Category.Admin);
+				Loggy.Error("Ban reason field needs to be completed!", Category.Admin);
 				return;
 			}
 
 			if (string.IsNullOrEmpty(minutesField.text))
 			{
-				Loggy.LogError("Duration field needs to be completed!", Category.Admin);
+				Loggy.Error("Duration field needs to be completed!", Category.Admin);
 				return;
 			}
 
@@ -136,13 +136,13 @@ namespace AdminTools
 		{
 			if (string.IsNullOrEmpty(jobBanReasonField.text))
 			{
-				Loggy.LogError("Job Ban reason field needs to be completed!", Category.Admin);
+				Loggy.Error("Job Ban reason field needs to be completed!", Category.Admin);
 				return;
 			}
 
 			if (string.IsNullOrEmpty(jobBanMinutesField.text) && jobBanPermaBanToggle.isOn == false)
 			{
-				Loggy.LogError("Duration field needs to be completed or Perma toggled!", Category.Admin);
+				Loggy.Error("Duration field needs to be completed or Perma toggled!", Category.Admin);
 				return;
 			}
 
@@ -156,7 +156,7 @@ namespace AdminTools
 
 			if (!outSuccess && jobBanPermaBanToggle.isOn == false)
 			{
-				Loggy.LogError("Minutes Field incorrectly configured", Category.Admin);
+				Loggy.Error("Minutes Field incorrectly configured", Category.Admin);
 				return;
 			}
 

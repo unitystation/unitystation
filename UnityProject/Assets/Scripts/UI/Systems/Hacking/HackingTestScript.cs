@@ -28,7 +28,7 @@ namespace Tests.Hacking
 
 		public void Bob2()
 		{
-			Loggy.Log("BOB");
+			Loggy.Info("BOB");
 		}
 
 		[Button]
@@ -39,7 +39,7 @@ namespace Tests.Hacking
 
 		public void Jane2()
 		{
-			Loggy.Log("Jane");
+			Loggy.Info("Jane");
 		}
 
 
@@ -51,7 +51,7 @@ namespace Tests.Hacking
 
 		public void Cat2()
 		{
-			Loggy.Log("Cat");
+			Loggy.Info("Cat");
 		}
 	}
 }

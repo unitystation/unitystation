@@ -35,7 +35,7 @@ namespace Objects.Atmospherics
 			device = GetComponent<IAcuControllable>();
 			if (device == null)
 			{
-				Loggy.LogError($"{this} has no component that implements {nameof(IAcuControllable)}!");
+				Loggy.Error($"{this} has no component that implements {nameof(IAcuControllable)}!");
 			}
 		}
 

@@ -64,7 +64,7 @@ namespace Changeling
 			}
 			catch (Exception ex)
 			{
-				Loggy.LogError($"[ChangelingAbility/AfterAbsorbSting] Failed to find target PlayerInfo or mind of {target.visibleName} {ex}", Category.Changeling);
+				Loggy.Error($"[ChangelingAbility/AfterAbsorbSting] Failed to find target PlayerInfo or mind of {target.visibleName} {ex}", Category.Changeling);
 			}
 
 			if (targetIsChangeling)

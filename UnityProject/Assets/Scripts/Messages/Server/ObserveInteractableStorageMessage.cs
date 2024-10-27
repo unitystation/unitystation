@@ -23,7 +23,7 @@ namespace Messages.Server
 			var storageObject = NetworkObject;
 			if (storageObject == null)
 			{
-				Loggy.LogWarningFormat("Client could not find observed storage with id {0}", Category.Inventory, msg.Storage);
+				Loggy.Warning().Format("Client could not find observed storage with id {0}", Category.Inventory, msg.Storage);
 				return;
 			}
 

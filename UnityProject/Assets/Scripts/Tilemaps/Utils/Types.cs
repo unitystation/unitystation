@@ -120,7 +120,7 @@ public static class LTSUtil
 			case LayerType.UnderObjectsEffects:
 				return LayerTypeSelection.UnderObjectsEffects;
 			default:
-				Loggy.LogError($"Failed to have case for: {Layer}");
+				Loggy.Error($"Failed to have case for: {Layer}");
 				break;
 		}
 

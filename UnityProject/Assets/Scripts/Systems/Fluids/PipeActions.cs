@@ -24,7 +24,7 @@ namespace Objects.Atmospherics
 				MonoPipe = pipeData.MonoPipe;
 				if (MonoPipe == null)
 				{
-					Loggy.Log("Tried to update MonoPipe, but it was null", Category.Pipes);
+					Loggy.Info("Tried to update MonoPipe, but it was null", Category.Pipes);
 				}
 			}
 

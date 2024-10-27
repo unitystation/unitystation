@@ -55,7 +55,7 @@ namespace Systems.Spells.Wizard
 			}
 			else
 			{
-				Loggy.LogError($"{nameof(PassableExclusionHolder)} not found on {caster}!", Category.Spells);
+				Loggy.Error($"{nameof(PassableExclusionHolder)} not found on {caster}!", Category.Spells);
 			}
 		}
 

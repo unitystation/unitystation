@@ -15,7 +15,7 @@ namespace Antagonists
 		{
 			if (Owner == null)
 			{
-				Loggy.LogError("[Objective/NotCuffed] - No owner found! Giving free objective.");
+				Loggy.Error("[Objective/NotCuffed] - No owner found! Giving free objective.");
 				return true;
 			}
 			//for whatever reason this is null, give the guy the greentext

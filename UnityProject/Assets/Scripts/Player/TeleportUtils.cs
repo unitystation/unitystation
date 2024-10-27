@@ -234,7 +234,7 @@ namespace Systems.Teleport
 			}
 			else
 			{
-				Loggy.LogError($"No transform on {objectToTeleport} - can't teleport!", Category.Movement);
+				Loggy.Error($"No transform on {objectToTeleport} - can't teleport!", Category.Movement);
 				return originalPosition;
 			}
 

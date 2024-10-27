@@ -133,7 +133,7 @@ public class MatrixInfo : IEquatable<MatrixInfo>
 
 		if (netId == NetId.Invalid)
 		{
-			Loggy.LogWarning($"Invalid NetID for matrix {matrix.gameObject.name}!", Category.Matrix);
+			Loggy.Warning($"Invalid NetID for matrix {matrix.gameObject.name}!", Category.Matrix);
 		}
 
 		return netId;

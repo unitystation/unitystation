@@ -69,7 +69,7 @@ namespace Tilemaps.Behaviours.Layers
 		{
 			if (networkedMatrixNetId == NetId.Empty || networkedMatrixNetId == NetId.Invalid)
 			{
-				Loggy.LogWarning("Attempted to wait on invalid / empty networked matrix net ID. This might be a bug.", Category.Matrix);
+				Loggy.Warning("Attempted to wait on invalid / empty networked matrix net ID. This might be a bug.", Category.Matrix);
 				return;
 			}
 
@@ -119,7 +119,7 @@ namespace Tilemaps.Behaviours.Layers
 			//Matrixes cannot be networked as a message to spawn an object beneath it can happen before the matrix has activated
 			if (GetComponent<NetworkIdentity>() != null)
 			{
-				Loggy.LogError($"{gameObject.name} has a network identity please remove it, matrixes cannot be networked objects");
+				Loggy.Error($"{gameObject.name} has a network identity please remove it, matrixes cannot be networked objects");
 			}
 		}
 
@@ -166,7 +166,7 @@ namespace Tilemaps.Behaviours.Layers
 				}
 			}
 
-			Loggy.LogError($"Failed to find matrix sync for {gameObject.name}");
+			Loggy.Error($"Failed to find matrix sync for {gameObject.name}");
 		}
 	}
 

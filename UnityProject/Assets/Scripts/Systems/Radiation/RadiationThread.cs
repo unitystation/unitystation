@@ -70,7 +70,7 @@ namespace Systems.Radiation
 			CircleArea.Clear();
 
 			StopWatchlog.Stop();
-			Loggy.Log("StopWatchlog ElapsedMilliseconds time " + StopWatchlog.ElapsedMilliseconds, Category.Radiation);
+			Loggy.Info("StopWatchlog ElapsedMilliseconds time " + StopWatchlog.ElapsedMilliseconds, Category.Radiation);
 		}
 
 

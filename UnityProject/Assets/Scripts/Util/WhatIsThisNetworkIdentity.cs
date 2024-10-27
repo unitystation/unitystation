@@ -14,6 +14,6 @@ public class WhatIsThisNetworkIdentity : MonoBehaviour
 		var spawned =
 			CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
 
-		Loggy.LogError(spawned[ID].gameObject.name);
+		Loggy.Error(spawned[ID].gameObject.name);
 	}
 }

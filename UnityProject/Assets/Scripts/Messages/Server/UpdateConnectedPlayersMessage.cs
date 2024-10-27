@@ -21,7 +21,7 @@ namespace Messages.Server
 
 			if (msg.Players != null)
 			{
-				Loggy.LogFormat("This client got an updated PlayerList state: {0}", Category.Connections, string.Join(",", msg.Players));
+				Loggy.Info().Format("This client got an updated PlayerList state: {0}", Category.Connections, string.Join(",", msg.Players));
 				PlayerList.Instance.ClientConnectedPlayers.Clear();
 				for (var i = 0; i < msg.Players.Length; i++)
 				{
@@ -37,7 +37,7 @@ namespace Messages.Server
 		{
 			//Performance issue with string.Join doing this at high player count
 			//If this is necessary in the future cache it when players leave/join?
-			//Loggy.LogFormat("This server informing all clients of the new PlayerList state: {0}", Category.Connections,
+			//Loggy.Info().Format("This server informing all clients of the new PlayerList state: {0}", Category.Connections,
 			//	string.Join(",", PlayerList.Instance.AllPlayers));
 
 			var prepareConnectedPlayers = new List<ClientConnectedPlayer>();

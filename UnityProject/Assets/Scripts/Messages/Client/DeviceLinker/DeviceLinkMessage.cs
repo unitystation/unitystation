@@ -54,7 +54,7 @@ namespace Messages.Client.DeviceLinkMessage
 					var masterObjectName = masterObject == null ? "null" : masterObject.OrNull()?.name;
 					if (masterObjectName == null)
 					{
-						Loggy.LogError("[DeviceLinKMessage] Master object is null");
+						Loggy.Error("[DeviceLinKMessage] Master object is null");
 						return;
 					}
 					AdminLogsManager.AddNewLog(SentByPlayer.GameObject, $"{SentByPlayer.Username} Set the master of {ImultitoolSlaveable as MonoBehaviour} at {((ImultitoolSlaveable as MonoBehaviour)!).transform.position} to {masterObjectName}", LogCategory.Admin);

@@ -21,12 +21,12 @@ namespace SecureStuff
 					var goodyURL = new System.Uri(goodURL);
 					if (await HubValidation.RequestOpenURL(goodyURL, justificationReason, AddToAllowList))
 					{
-						Loggy.Log($"Opening URL {goodURL}");
+						Loggy.Info($"Opening URL {goodURL}");
 						Application.OpenURL(goodURL);
 					}
 					else
 					{
-						Loggy.Log("Open URL failed from no user validation");
+						Loggy.Info("Open URL failed from no user validation");
 					}
 				}
 			}

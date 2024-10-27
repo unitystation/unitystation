@@ -222,7 +222,7 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 					{
 						if (FoundFile != "")
 						{
-							Loggy.LogError("two catalogues present please only ensure one", Category.Addressables);
+							Loggy.Error("two catalogues present please only ensure one", Category.Addressables);
 						}
 
 						FoundFile = File;
@@ -231,7 +231,7 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 
 				if (FoundFile == "")
 				{
-					Loggy.LogWarning("missing json file", Category.Addressables);
+					Loggy.Warning("missing json file", Category.Addressables);
 				}
 				else
 				{

@@ -81,7 +81,7 @@ namespace Objects.Kitchen
 					barrel.OpenClose();
 					break;
 				default:
-					Loggy.LogError("Unexpected interaction request occurred in barrel context menu.", Category.Interaction);
+					Loggy.Error("Unexpected interaction request occurred in barrel context menu.", Category.Interaction);
 					break;
 			}
 		}

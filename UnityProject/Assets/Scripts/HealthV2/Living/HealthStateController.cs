@@ -197,7 +197,7 @@ namespace HealthV2
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError(e.ToString()); //some weird ass serialisation error
+				Loggy.Error(e.ToString()); //some weird ass serialisation error
 				return;
 			}
 

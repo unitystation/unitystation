@@ -131,13 +131,13 @@ public class SpriteHandlerManager : NetworkBehaviour
 		{
 			if (spriteHandler?.transform?.parent != null)
 			{
-				Loggy.LogError(" RegisterHandler networkIdentity is null on  > " + spriteHandler.transform.parent.name,
+				Loggy.Error(" RegisterHandler networkIdentity is null on  > " + spriteHandler.transform.parent.name,
 					Category.Sprites);
 				return;
 			}
 			else
 			{
-				Loggy.LogError(" RegisterHandler networkIdentity is null on  ? ",
+				Loggy.Error(" RegisterHandler networkIdentity is null on  ? ",
 					Category.Sprites);
 			}
 
@@ -178,13 +178,13 @@ public class SpriteHandlerManager : NetworkBehaviour
 		{
 			if (spriteHandler?.transform?.parent != null)
 			{
-				Loggy.LogError(" RegisterHandler networkIdentity is null on  > " + spriteHandler.transform.parent.name,
+				Loggy.Error(" RegisterHandler networkIdentity is null on  > " + spriteHandler.transform.parent.name,
 					Category.Sprites);
 				return;
 			}
 			else
 			{
-				Loggy.LogError(" RegisterHandler networkIdentity is null on  ? ",
+				Loggy.Error(" RegisterHandler networkIdentity is null on  ? ",
 					Category.Sprites);
 			}
 		}
@@ -199,7 +199,7 @@ public class SpriteHandlerManager : NetworkBehaviour
 		{
 			if (PresentSprites[networkIdentity][spriteHandler.name] != spriteHandler)
 			{
-				Loggy.LogError(
+				Loggy.Error(
 					"SpriteHandler has the same name as another SpriteHandler on the game object > " + spriteHandler.name + " On parent > " +
 					spriteHandler.transform.parent.name + " with Net ID of " +  networkIdentity.netId , Category.Sprites);
 			}
@@ -314,7 +314,7 @@ public class SpriteHandlerManager : NetworkBehaviour
 			return GetRecursivelyANetworkBehaviour(gameObject.transform.parent.gameObject, startingGameObject);
 		}
 
-		Loggy.LogError($"Was unable to find A NetworkBehaviour for {startingGameObject.ExpensiveName()} Parent: {startingGameObject.transform.parent.OrNull()?.gameObject.ExpensiveName()}" +
+		Loggy.Error($"Was unable to find A NetworkBehaviour for {startingGameObject.ExpensiveName()} Parent: {startingGameObject.transform.parent.OrNull()?.gameObject.ExpensiveName()}" +
 		                $"Parent Parent: {startingGameObject.transform.parent.OrNull()?.parent.OrNull()?.gameObject.ExpensiveName()}",
 			Category.Sprites);
 		return null;

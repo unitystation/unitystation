@@ -26,13 +26,13 @@ namespace UI.Core.NetUI
 		{
 			if (!Prefab)
 			{
-				Loggy.Log("ItemEntry: no prefab found, not doing init", Category.NetUI);
+				Loggy.Info("ItemEntry: no prefab found, not doing init", Category.NetUI);
 				return;
 			}
 			var itemAttributes = Prefab.GetComponent<ItemAttributesV2>();
 			if (itemAttributes != null)
 			{
-				Loggy.LogWarning($"No attributes found for prefab {Prefab}", Category.NetUI);
+				Loggy.Warning($"No attributes found for prefab {Prefab}", Category.NetUI);
 				return;
 			}
 			foreach (var element in Elements.Cast<NetUIElement<string>>())
@@ -45,7 +45,7 @@ namespace UI.Core.NetUI
 					_ => string.Empty,
 				});
 			}
-			Loggy.Log(
+			Loggy.Info(
 					$"ItemEntry: Init success! Prefab={Prefab}, ItemName={itemAttributes.name}, ItemIcon={itemAttributes.gameObject.name}",
 					Category.NetUI);
 		}

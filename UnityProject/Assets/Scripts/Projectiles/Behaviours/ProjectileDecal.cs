@@ -17,7 +17,7 @@ namespace Weapons.Projectiles.Behaviours
 		{
 			if (decal == null)
 			{
-				Loggy.LogError($"{this} on {gameObject} decal field not set in inspector!", Category.Firearms);
+				Loggy.Error($"{this} on {gameObject} decal field not set in inspector!", Category.Firearms);
 				return false;
 			}
 

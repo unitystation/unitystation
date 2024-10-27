@@ -83,7 +83,7 @@ public class Layer : MonoBehaviour
 
 		if (MatrixManager.Instance == null)
 		{
-			Loggy.LogError("Matrix Manager is missing from the scene", Category.Matrix);
+			Loggy.Error("Matrix Manager is missing from the scene", Category.Matrix);
 		}
 
 		InitFromMatrix();
@@ -99,7 +99,7 @@ public class Layer : MonoBehaviour
 
 		if (matrixMove != null)
 		{
-			Loggy.LogTraceFormat("{0} layer initializing from matrix", Category.Matrix, matrixMove);
+			Loggy.Trace().Format("{0} layer initializing from matrix", Category.Matrix, matrixMove);
 			matrixMove.NetworkedMatrixMove.OnRotate90 += (OnRotate90);
 			//initialize from current rotation
 			OnRotate90();

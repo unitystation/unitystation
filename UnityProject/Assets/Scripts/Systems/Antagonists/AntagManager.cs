@@ -151,14 +151,14 @@ namespace Antagonists
 					objectives.AddRange(antagData.GenerateObjectives(Mind, chosenAntag));
 				} catch (Exception e)
 				{
-					Loggy.LogError($"failed to create antagonist objectives {chosenAntag.OrNull()?.AntagName} " + e.ToString());
+					Loggy.Error($"failed to create antagonist objectives {chosenAntag.OrNull()?.AntagName} " + e.ToString());
 				}
 				// Set the antag
 				return Mind.InitAntag(chosenAntag, objectives);
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError( $"failed to create antagonist {chosenAntag.OrNull()?.AntagName} "  + e.ToString());
+				Loggy.Error( $"failed to create antagonist {chosenAntag.OrNull()?.AntagName} "  + e.ToString());
 				return null;
 			}
 
@@ -177,12 +177,12 @@ namespace Antagonists
 					team.AddTeamObjectives(objectives);
 				} catch (Exception e)
 				{
-					Loggy.LogError($"failed to create team objectives {team.GetTeamName()} " + e.ToString());
+					Loggy.Error($"failed to create team objectives {team.GetTeamName()} " + e.ToString());
 				}
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError( $"failed to create team {team.GetTeamName()} "  + e.ToString());
+				Loggy.Error( $"failed to create team {team.GetTeamName()} "  + e.ToString());
 			}
 
 		}
@@ -201,7 +201,7 @@ namespace Antagonists
 
 			var msg =
 				$"Created new antag. Made {SpawnMind.name} a {chosenAntag.AntagName} with objectives:\n{spawnedAntag.GetObjectivesForLog()}";
-			Loggy.Log(msg, Category.Antags);
+			Loggy.Info(msg, Category.Antags);
 			AdminLogsManager.AddNewLog(null, $"{msg}", LogCategory.RoundFlow);
 		}
 

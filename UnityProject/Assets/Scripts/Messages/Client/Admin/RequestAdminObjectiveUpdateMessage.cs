@@ -27,7 +27,7 @@ namespace Messages.Client.Admin
 				}
 				catch (Exception ex)
 				{
-					Loggy.LogError($"[RequestAdminObjectiveUpdateMessage/Process] Failed to process objective update {ex}");
+					Loggy.Error($"[RequestAdminObjectiveUpdateMessage/Process] Failed to process objective update {ex}");
 				}
 			}
 		}

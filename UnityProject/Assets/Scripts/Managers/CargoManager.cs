@@ -387,7 +387,7 @@ namespace Systems.Cargo
 				{
 					if (itemTrait == null)
 					{
-						Loggy.LogError($"{itemAttributes.name} has null or empty item trait, please fix");
+						Loggy.Error($"{itemAttributes.name} has null or empty item trait, please fix");
 						continue;
 					}
 

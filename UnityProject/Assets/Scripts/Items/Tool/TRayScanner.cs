@@ -189,7 +189,7 @@ namespace Items.Tool
 						ChangeState(disposalsRenderer, true);
 						continue;
 					default:
-						Loggy.LogError($"Found no case for {newMode}");
+						Loggy.Error($"Found no case for {newMode}");
 						continue;
 				}
 			}

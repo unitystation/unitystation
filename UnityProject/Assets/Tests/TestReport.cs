@@ -133,7 +133,7 @@ namespace Tests
 		/// </summary>
 		public TestReport Log()
 		{
-			if (Failed && Builder.Length > 1) Loggy.Log(Builder.ToString(), Category.Tests);
+			if (Failed && Builder.Length > 1) Loggy.Info(Builder.ToString(), Category.Tests);
 			return this;
 		}
 	}

@@ -30,7 +30,7 @@ namespace Messages.Server
 
 			if (windEffect.Successful == false)
 			{
-				Loggy.LogWarning("Failed to spawn wind effect!", Category.Particles);
+				Loggy.Warning("Failed to spawn wind effect!", Category.Particles);
 				return;
 			}
 

@@ -42,7 +42,7 @@ public class MapList
 
 		if (mapsToChooseFrom.Count == 0)
 		{
-			Loggy.LogError($"No maps with playerCount: {playerCount} were found, trying to pick any map now.");
+			Loggy.Error($"No maps with playerCount: {playerCount} were found, trying to pick any map now.");
 
 			var allMaps = new List<string>();
 			allMaps.AddRange(lowPopMaps);
@@ -55,7 +55,7 @@ public class MapList
 
 		if (mapsToChooseFrom.Count == 0)
 		{
-			Loggy.LogError("No valid maps found! Make sure theres a map inside the Maps.json that is also in the build settings");
+			Loggy.Error("No valid maps found! Make sure theres a map inside the Maps.json that is also in the build settings");
 		}
 
 		return mapsToChooseFrom.PickRandom();

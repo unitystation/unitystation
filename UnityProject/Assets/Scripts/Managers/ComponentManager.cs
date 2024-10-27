@@ -67,7 +67,7 @@ public class ComponentManager : SingletonManager<ComponentManager>
 			{
 				if (IsInGameItem)
 				{
-					Loggy.LogError($"Unable to find UniversalObjectPhysics on {gameObject.name}");
+					Loggy.Error($"Unable to find UniversalObjectPhysics on {gameObject.name}");
 					return false;
 				}
 				else

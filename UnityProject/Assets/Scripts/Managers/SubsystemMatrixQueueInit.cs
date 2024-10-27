@@ -34,7 +34,7 @@ namespace Managers
 
 			if (Instance.Matrixs.Contains(Matrix))
 			{
-				Loggy.LogWarning($"{Matrix.gameObject} has the same exact behavior queued. Skipping");
+				Loggy.Warning($"{Matrix.gameObject} has the same exact behavior queued. Skipping");
 				return;
 			}
 

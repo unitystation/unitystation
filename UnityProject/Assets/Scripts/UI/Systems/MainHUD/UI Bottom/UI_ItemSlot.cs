@@ -332,7 +332,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IPointerEnterHandler, IPointerE
 		if (!PlayerManager.LocalPlayerScript.playerMove.AllowInput ||
 		    PlayerManager.LocalPlayerScript.IsGhost)
 		{
-			Loggy.Log("Invalid player, cannot perform action!", Category.Interaction);
+			Loggy.Info("Invalid player, cannot perform action!", Category.Interaction);
 			return false;
 		}
 
@@ -457,7 +457,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IPointerEnterHandler, IPointerE
 	[ContextMenu("Debug Slot")]
 	void DebugItem()
 	{
-		Loggy.Log(itemSlot.ToString(), Category.PlayerInventory);
+		Loggy.Info(itemSlot.ToString(), Category.PlayerInventory);
 	}
 
 	/// <summary>

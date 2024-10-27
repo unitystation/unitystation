@@ -154,7 +154,7 @@ namespace Systems.Scenes
 
 			SetQuantumPads();
 
-			Loggy.Log("Finished generating LavaLand", Category.Round);
+			Loggy.Info("Finished generating LavaLand", Category.Round);
 
 			yield break;
 		}

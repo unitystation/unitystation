@@ -139,7 +139,7 @@ namespace Items
 			{
 				if (interaction.PerformerPlayerScript.Mind is null)
 				{
-					Loggy.LogError("[HolyBook/HandActivate/WillInteract()] - player has no mind? what?");
+					Loggy.Error("[HolyBook/HandActivate/WillInteract()] - player has no mind? what?");
 					return false;
 				}
 
@@ -182,14 +182,14 @@ namespace Items
 
 			if (interactorFaith == null || interactorFaith.FaithMiracles.Count == 0)
 			{
-				Loggy.Log($"{interactorFaith == null}");
+				Loggy.Info($"{interactorFaith == null}");
 				Chat.AddExamineMsg(interaction.Performer, "There doesn't appear to be anything you can pray for using your faith.");
 				return;
 			}
 
 			if (bibleTab == null)
 			{
-				Loggy.LogError("[HolyBook] - the nettab component is missing on this, cannot access item shop.");
+				Loggy.Error("[HolyBook] - the nettab component is missing on this, cannot access item shop.");
 				return;
 			}
 

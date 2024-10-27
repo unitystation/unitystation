@@ -22,7 +22,7 @@ namespace Messages.Client
 			{
 				//Failfast
 
-				Loggy.LogWarning($"Headset invalid, processing stopped: {ToString()}",Category.Chat);
+				Loggy.Warning($"Headset invalid, processing stopped: {ToString()}",Category.Chat);
 				return;
 			}
 
@@ -74,7 +74,7 @@ namespace Messages.Client
 
 			if (encryptionKey.Successful == false)
 			{
-				Loggy.LogError($"Headset key instantiation for {player.Name} failed, spawn aborted",Category.Chat);
+				Loggy.Error($"Headset key instantiation for {player.Name} failed, spawn aborted",Category.Chat);
 				return;
 			}
 

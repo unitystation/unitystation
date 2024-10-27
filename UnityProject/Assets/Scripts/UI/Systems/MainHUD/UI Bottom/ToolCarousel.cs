@@ -42,7 +42,7 @@ public class ToolCarousel : MonoBehaviour, IUIHandAreasSelectable
 
 		if (slot == null)
 		{
-			Loggy.LogError($"Slot wasn't found for  {storageCharacteristics.namedSlot}");
+			Loggy.Error($"Slot wasn't found for  {storageCharacteristics.namedSlot}");
 			return;
 		}
 

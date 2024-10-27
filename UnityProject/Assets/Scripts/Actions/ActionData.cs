@@ -80,10 +80,10 @@ public class ActionData : ScriptableObject
 	{
 		if(Sprites.Count - 1 < 0)
 		{
-			Loggy.LogError("ScriptableObject.ActionData.activeSpriteIndex created without any set sprites, add some!");
+			Loggy.Error("ScriptableObject.ActionData.activeSpriteIndex created without any set sprites, add some!");
 			return false;
 		}
-		Loggy.LogError($"ScriptableObject.ActionData.activeSpriteIndex set to a value({activeSpriteIndex}) without a matching sprite, falling back to sprite 0.");
+		Loggy.Error($"ScriptableObject.ActionData.activeSpriteIndex set to a value({activeSpriteIndex}) without a matching sprite, falling back to sprite 0.");
 		activeSpriteIndex = 0;
 		return true;
 	}

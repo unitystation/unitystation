@@ -628,7 +628,7 @@ public partial class Chat
 	{
 		if (!CustomNetworkManager.Instance._isServer)
 		{
-			Loggy.LogError("A server only method was called on a client in chat.cs", Category.Chat);
+			Loggy.Error("A server only method was called on a client in chat.cs", Category.Chat);
 			return false;
 		}
 
@@ -748,7 +748,7 @@ public partial class Chat
 					}
 					else
 					{
-						Loggy.LogWarning("Chat context is null - can't resolve :h tag", Category.Chat);
+						Loggy.Warning("Chat context is null - can't resolve :h tag", Category.Chat);
 						extractedChanel = ChatChannel.None;
 					}
 

@@ -42,7 +42,7 @@ namespace Messages.Server.SoundMessages
 		{
 			if (string.IsNullOrEmpty(msg.SoundAddressablePath))
 			{
-				Loggy.LogError(ToString() + " has no Addressable Path!", Category.Audio);
+				Loggy.Error(ToString() + " has no Addressable Path!", Category.Audio);
 				return;
 			}
 

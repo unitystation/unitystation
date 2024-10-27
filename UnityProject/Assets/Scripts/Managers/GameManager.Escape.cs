@@ -40,10 +40,10 @@ public partial class GameManager
 			var shuttles = FindObjectsOfType<EscapeShuttle>();
 			if (shuttles.Length < 1)
 			{
-				Loggy.LogWarning("Primary escape shuttle is missing from GameManager!", Category.Round);
+				Loggy.Warning("Primary escape shuttle is missing from GameManager!", Category.Round);
 				return;
 			}
-			Loggy.LogWarning("Primary escape shuttle is missing from GameManager, but one was found on scene", Category.Round);
+			Loggy.Warning("Primary escape shuttle is missing from GameManager, but one was found on scene", Category.Round);
 			primaryEscapeShuttle = shuttles[0];
 		}
 
@@ -51,7 +51,7 @@ public partial class GameManager
 
 		if (primaryEscapeShuttle.MatrixInfo == null)
 		{
-			Loggy.LogError("Primary escape shuttle has no associated matrix!", Category.Round);
+			Loggy.Error("Primary escape shuttle has no associated matrix!", Category.Round);
 			return;
 		}
 
@@ -71,7 +71,7 @@ public partial class GameManager
 	{
 		if (status == EscapeShuttleStatus.DockedCentcom && beenToStation)
 		{
-			Loggy.Log("Shuttle arrived at Centcom", Category.Round);
+			Loggy.Info("Shuttle arrived at Centcom", Category.Round);
 			Chat.AddSystemMsgToChat(string.Format(ChatTemplates.PriorityAnnouncement, $"<color=white>Escape shuttle has docked at Centcomm! Round will restart in {TimeSpan.FromSeconds(RoundEndTime).Minutes} minute.</color>"), MatrixManager.MainStationMatrix);
 			StartCoroutine(WaitForRoundEnd());
 		}
@@ -94,7 +94,7 @@ public partial class GameManager
 
 	private IEnumerator WaitForRoundEnd()
 	{
-		Loggy.Log($"Shuttle docked to Centcom, Round will end in {TimeSpan.FromSeconds(RoundEndTime).Minutes} minute", Category.Round);
+		Loggy.Info($"Shuttle docked to Centcom, Round will end in {TimeSpan.FromSeconds(RoundEndTime).Minutes} minute", Category.Round);
 		yield return WaitFor.Seconds(1f);
 		EndRound();
 	}
@@ -144,7 +144,7 @@ public partial class GameManager
 			yield return WaitFor.Seconds(1);
 		}
 
-		Loggy.LogError("[GameManager.Escape/SendEscapeShuttle()] -  OH SHITTTT Shuttle got stuck on the Way to Centralcommand AAAAAAAAAAAAAAAAAAAAAAAAAAAA emergency end round");
+		Loggy.Error("[GameManager.Escape/SendEscapeShuttle()] -  OH SHITTTT Shuttle got stuck on the Way to Centralcommand AAAAAAAAAAAAAAAAAAAAAAAAAAAA emergency end round");
 		EndRound();
 	}
 

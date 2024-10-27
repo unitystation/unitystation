@@ -150,7 +150,7 @@ namespace UI.Core.Action
 			{
 				if (ActivePlayerActions[Body].Contains(iActionGUI))
 				{
-					Loggy.LogWarning($"[UIActionManager/InstantToggleServer()] - iActionGUI Already present on mind for {Body.name}");
+					Loggy.Warning($"[UIActionManager/InstantToggleServer()] - iActionGUI Already present on mind for {Body.name}");
 					return;
 				}
 
@@ -168,7 +168,7 @@ namespace UI.Core.Action
 			{
 				if (ActivePlayerActions[Body].Contains(iActionGUI) == false || IActionGUIToID.ContainsKey(iActionGUI) == false)
 				{
-					Loggy.LogWarning($"iActionGUI {iActionGUI?.ActionData.OrNull()?.Name}, not present on mind", Category.UI);
+					Loggy.Warning($"iActionGUI {iActionGUI?.ActionData.OrNull()?.Name}, not present on mind", Category.UI);
 					return;
 				}
 
@@ -192,7 +192,7 @@ namespace UI.Core.Action
 			{
 				if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
 				{
-					Loggy.Log("iActionGUI Already added", Category.UI);
+					Loggy.Info("iActionGUI Already added", Category.UI);
 					return;
 				}
 
@@ -234,7 +234,7 @@ namespace UI.Core.Action
 			}
 			else
 			{
-				Loggy.Log("iActionGUI Not present", Category.UI);
+				Loggy.Info("iActionGUI Not present", Category.UI);
 			}
 		}
 
@@ -246,7 +246,7 @@ namespace UI.Core.Action
 		{
 			if (Instance.IActionGUIToMind.ContainsKey(iActionGUI) == false)
 			{
-				Loggy.LogError($"iActionGUI {iActionGUI} Not present To any mind");
+				Loggy.Error($"iActionGUI {iActionGUI} Not present To any mind");
 				return;
 			}
 
@@ -264,7 +264,7 @@ namespace UI.Core.Action
 			}
 			else
 			{
-				Loggy.Log("iActionGUI Not present", Category.UI);
+				Loggy.Info("iActionGUI Not present", Category.UI);
 			}
 		}
 
@@ -272,7 +272,7 @@ namespace UI.Core.Action
 		{
 			if (Instance.IActionGUIToMind.ContainsKey(iActionGUI) == false)
 			{
-				Loggy.LogError($"iActionGUI {iActionGUI} Not present To any mind");
+				Loggy.Error($"iActionGUI {iActionGUI} Not present To any mind");
 				return;
 			}
 
@@ -289,7 +289,7 @@ namespace UI.Core.Action
 			}
 			else
 			{
-				Loggy.Log("iActionGUI Not present", Category.UI);
+				Loggy.Info("iActionGUI Not present", Category.UI);
 			}
 		}
 
@@ -297,7 +297,7 @@ namespace UI.Core.Action
 		{
 			if (Instance.IActionGUIToMind.ContainsKey(iActionGUI) == false)
 			{
-				Loggy.LogError($"iActionGUI {iActionGUI} Not present To any mind");
+				Loggy.Error($"iActionGUI {iActionGUI} Not present To any mind");
 				return;
 			}
 
@@ -320,7 +320,7 @@ namespace UI.Core.Action
 			}
 			else
 			{
-				Loggy.Log("iActionGUI not present!", Category.UI);
+				Loggy.Info("iActionGUI not present!", Category.UI);
 			}
 		}
 
@@ -401,7 +401,7 @@ namespace UI.Core.Action
 				}
 				else
 				{
-					Loggy.Log("iActionGUI Not present", Category.UI);
+					Loggy.Info("iActionGUI Not present", Category.UI);
 				}
 			}
 		}
@@ -525,7 +525,7 @@ namespace UI.Core.Action
 			{
 				if (MultiActivePlayerActions[body][iActionGUIMulti].Contains(actionData))
 				{
-					Loggy.LogWarning($"ActionData: {actionData.OrNull()?.Name}, already present on mind");
+					Loggy.Warning($"ActionData: {actionData.OrNull()?.Name}, already present on mind");
 					return;
 				}
 
@@ -549,13 +549,13 @@ namespace UI.Core.Action
 			{
 				if (MultiActivePlayerActions[body].ContainsKey(iActionGUIMulti) == false)
 				{
-					Loggy.LogWarning("iActionGUIMulti Not present on mind");
+					Loggy.Warning("iActionGUIMulti Not present on mind");
 					return;
 				}
 
 				if (MultiActivePlayerActions[body][iActionGUIMulti].Contains(actionData) == false)
 				{
-					Loggy.LogWarning("actionData Not present on mind");
+					Loggy.Warning("actionData Not present on mind");
 					return;
 				}
 
@@ -606,7 +606,7 @@ namespace UI.Core.Action
 			}
 			else
 			{
-				Loggy.Log("iActionGUIMulti Not present", Category.UI);
+				Loggy.Info("iActionGUIMulti Not present", Category.UI);
 			}
 		}
 
@@ -615,7 +615,7 @@ namespace UI.Core.Action
 		{
 			if (Instance.MultiIActionGUIToMind.ContainsKey(iActionGUIMulti) == false)
 			{
-				Loggy.LogError($"iActionGUI {iActionGUIMulti} Not present To any mind");
+				Loggy.Error($"iActionGUI {iActionGUIMulti} Not present To any mind");
 				return;
 			}
 
@@ -638,7 +638,7 @@ namespace UI.Core.Action
 			}
 			else
 			{
-				Loggy.Log("iActionGUIMulti Not present", Category.UI);
+				Loggy.Info("iActionGUIMulti Not present", Category.UI);
 			}
 		}
 
@@ -646,7 +646,7 @@ namespace UI.Core.Action
 		{
 			if (Instance.MultiIActionGUIToMind.ContainsKey(iActionGUIMulti) == false)
 			{
-				Loggy.LogError($"iActionGUI {iActionGUIMulti} Not present To any mind");
+				Loggy.Error($"iActionGUI {iActionGUIMulti} Not present To any mind");
 				return;
 			}
 
@@ -671,7 +671,7 @@ namespace UI.Core.Action
 			}
 			else
 			{
-				Loggy.Log("iActionGUIMulti Not present", Category.UI);
+				Loggy.Info("iActionGUIMulti Not present", Category.UI);
 			}
 		}
 
@@ -680,7 +680,7 @@ namespace UI.Core.Action
 		{
 			if (Instance.MultiIActionGUIToMind.ContainsKey(iActionGUIMulti) == false)
 			{
-				Loggy.LogError($"iActionGUI {iActionGUIMulti} Not present To any mind");
+				Loggy.Error($"iActionGUI {iActionGUIMulti} Not present To any mind");
 				return;
 			}
 
@@ -709,7 +709,7 @@ namespace UI.Core.Action
 			}
 			else
 			{
-				Loggy.Log("iActionGUIMulti not present!", Category.UI);
+				Loggy.Info("iActionGUIMulti not present!", Category.UI);
 			}
 		}
 
@@ -797,7 +797,7 @@ namespace UI.Core.Action
 								}
 								else
 								{
-									Loggy.LogWarning("Failed to find ID", Category.UI);
+									Loggy.Warning("Failed to find ID", Category.UI);
 								}
 
 								Instance.ClientMultiIActionGUIToID[iActionGUIMulti].Remove(actionData);
@@ -820,7 +820,7 @@ namespace UI.Core.Action
 				}
 				else
 				{
-					Loggy.Log("iActionGUI Not present", Category.UI);
+					Loggy.Info("iActionGUI Not present", Category.UI);
 				}
 			}
 		}

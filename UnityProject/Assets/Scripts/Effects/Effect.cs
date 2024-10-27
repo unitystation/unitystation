@@ -40,13 +40,13 @@ public class Effect
 	{
 		if (particleObject == null)
 		{
-			Loggy.LogError("Failed to load particle in PlayParticleMessage", Category.Particles);
+			Loggy.Error("Failed to load particle in PlayParticleMessage", Category.Particles);
 			return;
 		}
 
 		if (particleObject.activeInHierarchy == false)
 		{
-			Loggy.LogFormat("PlayParticle request ignored because gameobject {0} is inactive", Category.Particles,
+			Loggy.Info().Format("PlayParticle request ignored because gameobject {0} is inactive", Category.Particles,
 				particleObject);
 			return;
 		}
@@ -65,7 +65,7 @@ public class Effect
 
 		if (particleSystem == null)
 		{
-			Loggy.LogWarningFormat("ParticleSystem not found for gameobject {0}, PlayParticle request ignored",
+			Loggy.Warning().Format("ParticleSystem not found for gameobject {0}, PlayParticle request ignored",
 				Category.Particles, particleObject);
 			return;
 		}

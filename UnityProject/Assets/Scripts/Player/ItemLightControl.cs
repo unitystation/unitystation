@@ -57,13 +57,13 @@ public class ItemLightControl : BodyPartFunctionality, IItemInOutMovedPlayer
 	{
 		if (objectLightEmission == null)
 		{
-			Loggy.LogError($"{this} field objectLightEmission is null, please check {gameObject} prefab.", Category.Lighting);
+			Loggy.Error($"{this} field objectLightEmission is null, please check {gameObject} prefab.", Category.Lighting);
 			return;
 		}
 
 		if (netIdentity == null)
 		{
-			Loggy.LogError($"Mirror will not accept {this} while syncing in the LightsHolder syncList " +
+			Loggy.Error($"Mirror will not accept {this} while syncing in the LightsHolder syncList " +
 			                $"because it is missing a net identity component.");
 			return;
 		}
@@ -128,7 +128,7 @@ public class ItemLightControl : BodyPartFunctionality, IItemInOutMovedPlayer
 		if (IsOn == on) return;
 		if (LightEmission == null)
 		{
-			Loggy.LogError($"{this} field LightEmission is null, please check scripts.", Category.Lighting);
+			Loggy.Error($"{this} field LightEmission is null, please check scripts.", Category.Lighting);
 			return;
 		}
 

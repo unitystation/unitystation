@@ -97,10 +97,10 @@ public class HasCooldowns : MonoBehaviour
 
 	private IEnumerator DoCooldown(CooldownID cooldownId, float seconds)
 	{
-		Loggy.LogTraceFormat("Started cooldown {0}: {1} seconds", Category.Objects, cooldownId, seconds);
+		Loggy.Trace().Format("Started cooldown {0}: {1} seconds", Category.Objects, cooldownId, seconds);
 		onCooldowns.Add(cooldownId);
 		yield return WaitFor.Seconds(seconds);
 		onCooldowns.Remove(cooldownId);
-		Loggy.LogTraceFormat("Finished cooldown {0}: {1} seconds", Category.Objects, cooldownId, seconds);
+		Loggy.Trace().Format("Finished cooldown {0}: {1} seconds", Category.Objects, cooldownId, seconds);
 	}
 }

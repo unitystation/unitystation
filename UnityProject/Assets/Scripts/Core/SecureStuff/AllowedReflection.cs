@@ -52,7 +52,7 @@ namespace SecureStuff
 		{
 			if (messagebaseType.GetInterfaces().Contains(typeof(IAllowedReflection)) == false)
 			{
-				Loggy.LogError(
+				Loggy.Error(
 					"RegisterNetworkMessages Got a message type that didn't Implement IAllowedReflection Interface");
 				return;
 			}
@@ -65,7 +65,7 @@ namespace SecureStuff
 				var VVNote = methodInfo.GetCustomAttribute<VVNote>(true);
 				if (VVNote is not {variableHighlightl: VVHighlight.SafeToModify100})
 				{
-					Loggy.LogError(
+					Loggy.Error(
 						"registerMethod Wasn't marked with VVNote VVHighlight.SafeToModify100 or BaseAttribute Presumed unsafe");
 					return;
 				}
@@ -173,7 +173,7 @@ namespace SecureStuff
 			var val = NameToMonoBehaviour.GetValueOrDefault(className);
 			if (val == null)
 			{
-				Loggy.LogError($"Was unable to find class name of {className}");
+				Loggy.Error($"Was unable to find class name of {className}");
 			}
 
 			return val;

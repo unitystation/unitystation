@@ -298,7 +298,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 					}
 					catch (Exception e)
 					{
-						Loggy.LogError(e.ToString());
+						Loggy.Error(e.ToString());
 					}
 				}
 			}
@@ -357,7 +357,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		}
 		catch (NullReferenceException exception)
 		{
-			Loggy.LogError($"Caught NRE in ItemStorage: {exception.Message} \n {exception.StackTrace}",
+			Loggy.Error($"Caught NRE in ItemStorage: {exception.Message} \n {exception.StackTrace}",
 				Category.Inventory);
 			return null;
 		}
@@ -385,7 +385,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		}
 		catch (NullReferenceException exception)
 		{
-			Loggy.LogError($"Caught NRE in ItemStorage: {exception.Message} \n {exception.StackTrace}",
+			Loggy.Error($"Caught NRE in ItemStorage: {exception.Message} \n {exception.StackTrace}",
 				Category.Inventory);
 			return null;
 		}
@@ -416,7 +416,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	{
 		if (itemStorageStructure == null)
 		{
-			Loggy.LogErrorFormat(
+			Loggy.Error().Format(
 				"{0} has ItemStorage but no defined ItemStorageStructure. Item storage will not work." +
 				" Please define an ItemStorageStructure for this prefab.", Category.Inventory, name);
 			return;

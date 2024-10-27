@@ -57,13 +57,13 @@ namespace DatabaseAPI
 			}
 			catch (Exception e)
 			{
-				Loggy.Log($"[ServerData.ServerStatus/AttemptConfigLoad()] - Something went wrong while trying to load buildinfo \n {e}",
+				Loggy.Info($"[ServerData.ServerStatus/AttemptConfigLoad()] - Something went wrong while trying to load buildinfo \n {e}",
 					Category.DatabaseAPI);
 			}
 
 			if (AccessFile.Exists("config.json") == false)
 			{
-				Loggy.Log("No config found for Rcon and Server Hub connections", Category.DatabaseAPI);
+				Loggy.Info("No config found for Rcon and Server Hub connections", Category.DatabaseAPI);
 				return;
 			}
 			var configData = new ServerConfig();
@@ -73,7 +73,7 @@ namespace DatabaseAPI
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError($"[ServerData.ServerStatus/AttemptConfigLoad()] - Something went wrong while trying to load config.json. \n {e}");
+				Loggy.Error($"[ServerData.ServerStatus/AttemptConfigLoad()] - Something went wrong while trying to load config.json. \n {e}");
 			}
 			ignoranceTransport = FindObjectOfType<Ignorance>();
 			config = configData;
@@ -117,7 +117,7 @@ namespace DatabaseAPI
 			{
 				if (string.IsNullOrEmpty(config.HubUser) || string.IsNullOrEmpty(config.HubPass))
 				{
-					Loggy.LogWarning("Invalid Hub creds found, aborting HUB connection");
+					Loggy.Warning("Invalid Hub creds found, aborting HUB connection");
 					return;
 				}
 				var loginRequest = new HubLoginReq
@@ -164,7 +164,7 @@ namespace DatabaseAPI
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError(e.ToString());
+				Loggy.Error(e.ToString());
 				return;
 			}
 
@@ -205,21 +205,21 @@ namespace DatabaseAPI
 	                }
 	                else if (apiResponse.errorCode == 901)
 	                {
-	                    Loggy.LogError("Hub API returned unauthorized credentials, aborting HUB connection");
+	                    Loggy.Error("Hub API returned unauthorized credentials, aborting HUB connection");
 	                }
 	                else
 	                {
-	                    Loggy.LogError("Hub API returned error code " + apiResponse.errorCode + ", aborting HUB connection\n" + apiResponse.errorMsg);
+	                    Loggy.Error("Hub API returned error code " + apiResponse.errorCode + ", aborting HUB connection\n" + apiResponse.errorMsg);
 	                }
 	            }
 	            else
 	            {
-	                Loggy.LogError("Hub API returned error, aborting HUB connection");
+	                Loggy.Error("Hub API returned error, aborting HUB connection");
 	            }
 	        }
 	        catch (Exception ex)
 	        {
-	            Loggy.LogError("Error: " + ex.Message);
+	            Loggy.Error("Error: " + ex.Message);
 	        }
 
 			try
@@ -233,12 +233,12 @@ namespace DatabaseAPI
 
 				if (!response.IsSuccessStatusCode)
 				{
-					Loggy.LogError("Failed to update hub with server status. Error: " + response.ReasonPhrase);
+					Loggy.Error("Failed to update hub with server status. Error: " + response.ReasonPhrase);
 				}
 			}
 			catch (Exception ex)
 			{
-				Loggy.LogError("Error: " + ex.Message);
+				Loggy.Error("Error: " + ex.Message);
 			}
 		}
 

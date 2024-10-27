@@ -492,7 +492,7 @@ namespace Chemistry.Components
 			}
 			catch (NullReferenceException exception)
 			{
-				Loggy.LogError(
+				Loggy.Error(
 					$"Caught NRE in ReagentContainer SpillAll method: {exception.Message} \n {exception.StackTrace}",
 					Category.Chemistry);
 			}

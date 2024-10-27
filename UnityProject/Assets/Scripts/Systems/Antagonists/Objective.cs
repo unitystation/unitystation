@@ -133,7 +133,7 @@ namespace Antagonists
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError($"Failed to set up objectives for {this.name}" +e.ToString());
+				Loggy.Error($"Failed to set up objectives for {this.name}" +e.ToString());
 			}
 
 		}
@@ -155,7 +155,7 @@ namespace Antagonists
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError($"Failed to set up objectives for {this.name}" +e.ToString());
+				Loggy.Error($"Failed to set up objectives for {this.name}" +e.ToString());
 			}
 		}
 
@@ -205,7 +205,7 @@ namespace Antagonists
 		{
 			if (Owner.Body.DynamicItemStorage == null)
 			{
-				Loggy.LogError($"Unable to find dynamic storage for {Owner.Body} / {Owner.Body.PlayerInfo.Username}");
+				Loggy.Error($"Unable to find dynamic storage for {Owner.Body} / {Owner.Body.PlayerInfo.Username}");
 				//If they have no storage then fail, as they can't have the item
 				return false;
 			}

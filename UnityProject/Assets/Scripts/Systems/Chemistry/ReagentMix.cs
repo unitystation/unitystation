@@ -138,7 +138,7 @@ namespace Chemistry
 			{
 				if (value.IsUnreasonableNumber() && value != 0)
 				{
-					Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE Reagent mix temperature Invalid number!!!! {value}");
+					Loggy.Error($"AAAAAAAAAAAAA REEEEEEEEE Reagent mix temperature Invalid number!!!! {value}");
 					return;
 				}
 
@@ -179,7 +179,7 @@ namespace Chemistry
 			{
 				if (value.IsUnreasonableNumber() && value != 0)
 				{
-					Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE Reagent mix InternalEnergy Invalid number!!!! {value}");
+					Loggy.Error($"AAAAAAAAAAAAA REEEEEEEEE Reagent mix InternalEnergy Invalid number!!!! {value}");
 					return;
 				}
 
@@ -311,7 +311,7 @@ namespace Chemistry
 
 			if (amount < 0f)
 			{
-				Loggy.LogError($"Trying to add negative {amount} amount of {reagent}", Category.Chemistry);
+				Loggy.Error($"Trying to add negative {amount} amount of {reagent}", Category.Chemistry);
 				return;
 			}
 
@@ -370,7 +370,7 @@ namespace Chemistry
 
 			if (amount.IsUnreasonableNumber())
 			{
-				Loggy.LogError($"Trying to remove {amount} amount of {reagent}", Category.Chemistry);
+				Loggy.Error($"Trying to remove {amount} amount of {reagent}", Category.Chemistry);
 				return 0;
 			}
 
@@ -413,14 +413,14 @@ namespace Chemistry
 		{
 			if (subAmount < 0)
 			{
-				Loggy.LogErrorFormat("Trying to subtract negative {0} amount of {1}. Use positive amount instead.", Category.Chemistry,
+				Loggy.Error().Format("Trying to subtract negative {0} amount of {1}. Use positive amount instead.", Category.Chemistry,
 					subAmount, reagent);
 				return 0;
 			}
 
 			if (float.IsNaN(subAmount) || float.IsInfinity(subAmount))
 			{
-				Loggy.LogError($"Trying to subtract {subAmount} amount of {reagent}", Category.Chemistry);
+				Loggy.Error($"Trying to subtract {subAmount} amount of {reagent}", Category.Chemistry);
 				return 0;
 			}
 
@@ -460,13 +460,13 @@ namespace Chemistry
 		{
 			if (multiplier < 0f)
 			{
-				Loggy.LogError($"Trying to multiply reagentmix by {multiplier}", Category.Chemistry);
+				Loggy.Error($"Trying to multiply reagentmix by {multiplier}", Category.Chemistry);
 				return;
 			}
 
 			if (multiplier.IsUnreasonableNumber() && multiplier != 0)
 			{
-				Loggy.LogError($"Trying to Multiply by {multiplier}", Category.Chemistry);
+				Loggy.Error($"Trying to Multiply by {multiplier}", Category.Chemistry);
 				return;
 			}
 
@@ -502,7 +502,7 @@ namespace Chemistry
 		{
 			if (Divider < 0f)
 			{
-				Loggy.LogError($"Trying to Divide reagentmix by {Divider}", Category.Chemistry);
+				Loggy.Error($"Trying to Divide reagentmix by {Divider}", Category.Chemistry);
 				return;
 			}
 
@@ -514,7 +514,7 @@ namespace Chemistry
 
 			if (Divider.IsUnreasonableNumber())
 			{
-				Loggy.LogError($"Trying to Divide by {Divider}", Category.Chemistry);
+				Loggy.Error($"Trying to Divide by {Divider}", Category.Chemistry);
 				return;
 			}
 
@@ -546,7 +546,7 @@ namespace Chemistry
 
 			if (float.IsNaN(amount) || float.IsNegativeInfinity(amount) || float.IsPositiveInfinity(amount))
 			{
-				Loggy.LogError($"Trying to Transfer by {amount}", Category.Chemistry);
+				Loggy.Error($"Trying to Transfer by {amount}", Category.Chemistry);
 				return;
 			}
 
@@ -606,7 +606,7 @@ namespace Chemistry
 
 			if (float.IsNegativeInfinity(amount) || float.IsNaN(amount)  || float.IsPositiveInfinity(amount))
 			{
-				Loggy.LogError($"Trying to Take {amount}", Category.Chemistry);
+				Loggy.Error($"Trying to Take {amount}", Category.Chemistry);
 				return new ReagentMix();
 			}
 
@@ -624,7 +624,7 @@ namespace Chemistry
 
 			if (float.IsNegativeInfinity(amount) || float.IsNaN(amount)  || float.IsPositiveInfinity(amount))
 			{
-				Loggy.LogError($"Trying to RemoveVolume {amount}", Category.Chemistry);
+				Loggy.Error($"Trying to RemoveVolume {amount}", Category.Chemistry);
 				return;
 			}
 

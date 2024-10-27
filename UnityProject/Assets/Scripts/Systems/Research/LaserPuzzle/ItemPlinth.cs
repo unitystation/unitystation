@@ -67,7 +67,7 @@ public class ItemPlinth : NetworkBehaviour, ICheckedInteractable<PositionalHandA
 
 			Inventory.ServerTransfer(itemStorage.GetIndexedItemSlot(0), interaction.HandSlot);
 			DisplayedItem = null;
-			OnItemChange?.Invoke();					
+			OnItemChange?.Invoke();
 		}
 		else
 		{
@@ -82,7 +82,7 @@ public class ItemPlinth : NetworkBehaviour, ICheckedInteractable<PositionalHandA
 				DisplayedItem = interaction.HandSlot.Item;
 				Inventory.ServerTransfer(interaction.HandSlot, itemStorage.GetNextEmptySlot());
 				OnItemChange?.Invoke();
-			}		
+			}
 		}
 
 	}
@@ -122,7 +122,7 @@ public class ItemPlinth : NetworkBehaviour, ICheckedInteractable<PositionalHandA
 
 		if (Identifier == null)
 		{
-			Loggy.LogError($"aaa get rid of non-parented prefabs!, Missing PrefabTracker on item prefab for {DisplayedItem.name} " );
+			Loggy.Error($"aaa get rid of non-parented prefabs!, Missing PrefabTracker on item prefab for {DisplayedItem.name} " );
 			return;
 		}
 

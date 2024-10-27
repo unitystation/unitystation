@@ -82,7 +82,7 @@ namespace Antagonists
 			var antag = Antags[Random.Range(0, Antags.Count)];
 			if (antag == null)
 			{
-				Loggy.LogError("No antags available in AntagData! Ensure you added the ScriptableObjects to it.", Category.Antags);
+				Loggy.Error("No antags available in AntagData! Ensure you added the ScriptableObjects to it.", Category.Antags);
 			}
 			return Instantiate(antag);
 		}
@@ -117,7 +117,7 @@ namespace Antagonists
 			if (objPool.Count == 0)
 			{
 				amount = 0;
-				Loggy.LogWarning($"No objectives available, only assigning escape type objective", Category.Antags);
+				Loggy.Warning($"No objectives available, only assigning escape type objective", Category.Antags);
 			}
 
 			List<Objective> generatedObjs = new List<Objective>();
@@ -229,7 +229,7 @@ namespace Antagonists
 		{
 			if (index < 0 || index > Antags.Count - 1)
 			{
-				Loggy.LogErrorFormat("AntagData: no Antagonist found at index {0}", Category.Antags, index);
+				Loggy.Error().Format("AntagData: no Antagonist found at index {0}", Category.Antags, index);
 				return null;
 			}
 
@@ -245,7 +245,7 @@ namespace Antagonists
 		{
 			if (index < 0 || index > AllObjectives.Count - 1)
 			{
-				Loggy.LogErrorFormat("AntagData: no Objective found at index {0}", Category.Antags, index);
+				Loggy.Error().Format("AntagData: no Objective found at index {0}", Category.Antags, index);
 				return null;
 			}
 
@@ -266,7 +266,7 @@ namespace Antagonists
 		{
 			if (index < 0 || index > teamDatas.Count - 1)
 			{
-				Loggy.LogErrorFormat("TeamList: no TeamData found at index {0}", Category.Antags, index);
+				Loggy.Error().Format("TeamList: no TeamData found at index {0}", Category.Antags, index);
 				return null;
 			}
 

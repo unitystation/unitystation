@@ -36,7 +36,7 @@ namespace UI.Objects
 		{
 			if (product == null)
 			{
-				Loggy.Log("ExoFab Product not found", Category.Machines);
+				Loggy.Info("ExoFab Product not found", Category.Machines);
 				return;
 			}
 

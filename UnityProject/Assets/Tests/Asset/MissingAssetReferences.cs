@@ -90,7 +90,7 @@ namespace Tests.Asset
 			{
 				var fileName = Path.GetFileName(brokenAssetFilePath);
 				var msg = $"Can't load asset {fileName}. Maybe linked ScriptableObject script is missing?";
-				Loggy.Log(msg, Category.Tests);
+				Loggy.Info(msg, Category.Tests);
 				report.AppendLine(msg);
 			}
 

@@ -76,7 +76,7 @@ namespace Antagonists
 
 			if (possibleItems.Count == 0)
 			{
-				Loggy.LogWarning("Unable to find any suitable items to steal! Giving free objective", Category.Antags);
+				Loggy.Warning("Unable to find any suitable items to steal! Giving free objective", Category.Antags);
 				description = "Free objective";
 				Complete = true;
 				return;
@@ -86,7 +86,7 @@ namespace Antagonists
 			var itemEntry = possibleItems.PickRandom();
 			if (itemEntry.Key == null)
 			{
-				Loggy.LogError($"Objective steal item target failed because the item chosen is somehow destroyed." +
+				Loggy.Error($"Objective steal item target failed because the item chosen is somehow destroyed." +
 				                " Definitely a programming bug. ", Category.Antags);
 				return;
 			}
@@ -95,7 +95,7 @@ namespace Antagonists
 
 			if (string.IsNullOrEmpty(ItemName))
 			{
-				Loggy.LogError($"Objective steal item target failed because the InitialName has not been" +
+				Loggy.Error($"Objective steal item target failed because the InitialName has not been" +
 				                $" set on this objects ItemAttributes. " +
 				                $"Item: {itemEntry.Key.Item().gameObject.name}", Category.Antags);
 				return;
@@ -119,7 +119,7 @@ namespace Antagonists
 			if (item.Item().InitialName == null)
 			{
 				ItemName = "NULLNAME";
-				Loggy.LogError($"[Steal/SetupInGame] Can`t find name of item {item}");
+				Loggy.Error($"[Steal/SetupInGame] Can`t find name of item {item}");
 			} else
 			{
 				ItemName = item.Item().InitialName;

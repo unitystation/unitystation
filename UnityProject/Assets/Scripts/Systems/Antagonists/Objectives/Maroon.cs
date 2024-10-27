@@ -89,7 +89,7 @@ namespace Antagonists
 
 		private void FreeObjective()
 		{
-			Loggy.LogWarning("Unable to find any suitable maroon targets! Giving free objective", Category.Antags);
+			Loggy.Warning("Unable to find any suitable maroon targets! Giving free objective", Category.Antags);
 			description = "Free objective";
 			Complete = true;
 		}

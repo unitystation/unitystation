@@ -39,7 +39,7 @@ namespace Systems.Faith
 
 		public void SetupFaith()
 		{
-			Loggy.Log("[FaithData/SetupFaith] Setting up faith data for " + Faith.FaithName);
+			Loggy.Info("[FaithData/SetupFaith] Setting up faith data for " + Faith.FaithName);
 			foreach (var property in Faith.FaithProperties)
 			{
 				property.Setup(this);

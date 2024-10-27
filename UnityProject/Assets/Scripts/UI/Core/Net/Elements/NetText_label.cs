@@ -34,7 +34,7 @@ namespace UI.Core.NetUI
 				}
 				else
 				{
-					Loggy.LogError($"Both Text and TMPText were null on {gameObject.name}, check stacktrace to see exact location");
+					Loggy.Error($"Both Text and TMPText were null on {gameObject.name}, check stacktrace to see exact location");
 				}
 
 				externalChange = false;

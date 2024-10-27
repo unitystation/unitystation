@@ -74,13 +74,13 @@ namespace Objects.Shuttles
 				ShuttleMatrixMove = MatrixManager.Get(registerTile.Matrix).MatrixMove;
 				if (ShuttleMatrixMove == null)
 				{
-					Loggy.Log($"{this} is not on a movable matrix, so won't function.", Category.Shuttles);
+					Loggy.Info($"{this} is not on a movable matrix, so won't function.", Category.Shuttles);
 					hasNetworkTab.enabled = false;
 					return;
 				}
 				else
 				{
-					Loggy.Log($"No MatrixMove reference set to {this}, found {ShuttleMatrixMove} automatically",
+					Loggy.Info($"No MatrixMove reference set to {this}, found {ShuttleMatrixMove} automatically",
 						Category.Shuttles);
 				}
 			}

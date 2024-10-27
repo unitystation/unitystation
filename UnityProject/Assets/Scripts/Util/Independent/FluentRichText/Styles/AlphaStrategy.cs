@@ -11,7 +11,7 @@ namespace Util.Independent.FluentRichText.Styles
 		{
 			if (percentage is < 0 or > 100)
 			{
-				Loggy.LogError("RichText received invalid percentage for alpha. Percentage must be between 0 and 100.");
+				Loggy.Error("RichText received invalid percentage for alpha. Percentage must be between 0 and 100.");
 				this.percentage = -1;
 				return;
 			}

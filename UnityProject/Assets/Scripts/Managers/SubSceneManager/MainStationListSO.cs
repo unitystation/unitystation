@@ -32,7 +32,7 @@ public class MainStationListSO : ScriptableObject
 
 		if (mapSoList.Count == 0)
 		{
-			Loggy.LogError("No valid maps found! Make sure theres a map inside the MainStationList that is also in the build settings");
+			Loggy.Error("No valid maps found! Make sure theres a map inside the MainStationList that is also in the build settings");
 		}
 
 		return mapSoList.PickRandom();

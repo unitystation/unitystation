@@ -57,7 +57,7 @@ namespace Objects.Traps
 				if (reg.gameObject == gameObject) continue;
 				if (reg.ObjectPhysics.Component == null)
 				{
-					Loggy.LogError(reg.name + " Does not have object physics");
+					Loggy.Error(reg.name + " Does not have object physics");
 					continue;
 				}
 				if (reg.ObjectPhysics.Component.Intangible) continue;

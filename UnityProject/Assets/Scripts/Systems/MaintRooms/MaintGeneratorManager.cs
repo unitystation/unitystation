@@ -43,7 +43,7 @@ namespace Systems.Scenes
 				if (maintGenerator == null) continue;
 				maintGenerator.CreateTiles();
 			}
-			Loggy.Log("Finished generating maints tiles!", Category.Round);
+			Loggy.Info("Finished generating maints tiles!", Category.Round);
 		}
 
 		private void PostStart()
@@ -63,7 +63,7 @@ namespace Systems.Scenes
 				maintGenerator.PlaceObjects();
 			}
 			MaintGenerators.Clear();
-			Loggy.Log("Finished generating maints objects!", Category.Round);
+			Loggy.Info("Finished generating maints objects!", Category.Round);
 		}
 	}
 }

@@ -91,7 +91,7 @@ namespace AdminCommands
 					var message =
 						$"Failed Admin check with id: {player?.ClientId}, associated player with that id (null if not valid id): {player?.Username}," +
 						$"Possible hacked client with ip address: {sender?.identity?.connectionToClient?.address}, netIdentity object name: {sender?.identity.OrNull()?.name}]";
-					Loggy.LogError(message, Category.Exploits);
+					Loggy.Error(message, Category.Exploits);
 					LogAdminAction(message);
 				}
 
@@ -411,7 +411,7 @@ namespace AdminCommands
 
 			if (PlayerList.Instance.TryGetByUserID(userToSmite, out var player) == false)
 			{
-				Loggy.LogError(
+				Loggy.Error(
 					$"{admin.Username} tried to smite a player with user ID '{userToSmite}' but they couldn't be found.");
 				return;
 			}
@@ -437,7 +437,7 @@ namespace AdminCommands
 
 			if (PlayerList.Instance.TryGetByUserID(userToHeal, out var player) == false)
 			{
-				Loggy.LogError($"Could not find player with user ID '{userToHeal}'. Unable to heal.", Category.Admin);
+				Loggy.Error($"Could not find player with user ID '{userToHeal}'. Unable to heal.", Category.Admin);
 				return;
 			}
 
@@ -472,7 +472,7 @@ namespace AdminCommands
 
 			if (PlayerList.Instance.TryGetByUserID(userToMute, out var player) == false)
 			{
-				Loggy.LogError($"Could not find player with user ID '{userToMute}'. Unable to OOC mute.",
+				Loggy.Error($"Could not find player with user ID '{userToMute}'. Unable to OOC mute.",
 					Category.Admin);
 				return;
 			}
@@ -496,14 +496,14 @@ namespace AdminCommands
 
 			if (PlayerList.Instance.TryGetByUserID(userToGiveItem, out var player) == false)
 			{
-				Loggy.LogError($"Could not find player with user ID '{userToGiveItem}'. Unable to give item.",
+				Loggy.Error($"Could not find player with user ID '{userToGiveItem}'. Unable to give item.",
 					Category.Admin);
 				return;
 			}
 
 			if (player.Script.OrNull()?.DynamicItemStorage == null)
 			{
-				Loggy.LogError($"No DynamicItemStorage on '{player.Name}'. Unable to give item.", Category.Admin);
+				Loggy.Error($"No DynamicItemStorage on '{player.Name}'. Unable to give item.", Category.Admin);
 				return;
 			}
 
@@ -654,7 +654,7 @@ namespace AdminCommands
 
 			if (PlayerList.Instance.TryGetByUserID(userToUpgrade, out var player) == false)
 			{
-				Loggy.LogWarning($"{admin.Username} has set user with ID '{userToUpgrade}' "
+				Loggy.Warning($"{admin.Username} has set user with ID '{userToUpgrade}' "
 				                 + "as mentor but they could not be found!", Category.Admin);
 				return;
 			}
@@ -672,7 +672,7 @@ namespace AdminCommands
 
 			if (PlayerList.Instance.TryGetByUserID(userToDowngrade, out var player) == false)
 			{
-				Loggy.LogWarning($"{admin.Username} has unset user with ID '{userToDowngrade}' "
+				Loggy.Warning($"{admin.Username} has unset user with ID '{userToDowngrade}' "
 				                 + "as mentor but they could not be found!", Category.Admin);
 				return;
 			}
@@ -689,7 +689,7 @@ namespace AdminCommands
 			AdminLogsManager.AddNewLog(null, msg, LogCategory.Admin);
 			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg,
 				userName);
-			Loggy.Log(msg, Category.Admin);
+			Loggy.Info(msg, Category.Admin);
 		}
 
 		#endregion
@@ -862,7 +862,7 @@ namespace AdminCommands
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError(e.ToString());
+				Loggy.Error(e.ToString());
 			}
 		}
 
@@ -885,7 +885,7 @@ namespace AdminCommands
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError(e.ToString());
+				Loggy.Error(e.ToString());
 			}
 		}
 

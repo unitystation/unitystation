@@ -58,7 +58,7 @@ namespace CameraEffects
 				MinimalVisibilityScale = minimalVisibilitySprite.transform.localScale;
 				return;
 			}
-			Loggy.LogWarning("[CameraEffectControlScript] - visibilitySprite is null! please set it from the inspector.");
+			Loggy.Warning("[CameraEffectControlScript] - visibilitySprite is null! please set it from the inspector.");
 		}
 
 

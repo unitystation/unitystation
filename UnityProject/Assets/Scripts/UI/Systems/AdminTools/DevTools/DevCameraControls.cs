@@ -359,7 +359,7 @@ On";
 				{
 					if (layers.Value == null)
 					{
-						Loggy.LogError("[DevCameraControls/ToggleMatrixCheck] - Layer is null. Are we grabbing matrices before loading any?");
+						Loggy.Error("[DevCameraControls/ToggleMatrixCheck] - Layer is null. Are we grabbing matrices before loading any?");
 						continue;
 					}
 					var TM = layers.Value.GetComponent<Tilemap>();

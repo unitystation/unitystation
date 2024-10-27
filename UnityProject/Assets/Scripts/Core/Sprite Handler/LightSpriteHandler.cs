@@ -62,7 +62,7 @@ namespace Core.Sprite_Handler
 			base.SetPaletteOnSpriteRenderer();
 			if (lightSprite != null)
 			{
-				Loggy.LogError("SetPaletteOnSpriteRenderer Is not supported on lightSprite?");
+				Loggy.Error("SetPaletteOnSpriteRenderer Is not supported on lightSprite?");
 			}
 		}
 

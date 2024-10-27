@@ -159,7 +159,7 @@ public class GUI_DevSpawner : MonoBehaviour
 	public void Open()
 	{
 		_ = SoundManager.Play(CommonSounds.Instance.Click01);
-		Loggy.Log("Opening dev spawner menu", Category.NetUI);
+		Loggy.Info("Opening dev spawner menu", Category.NetUI);
 		Menu.gameObject.SetActive(true);
 		transform.SetAsLastSibling();
 	}
@@ -167,7 +167,7 @@ public class GUI_DevSpawner : MonoBehaviour
 	public void Close()
 	{
 		_ = SoundManager.Play(CommonSounds.Instance.Click01);
-		Loggy.Log("Closing dev spawner menu", Category.NetUI);
+		Loggy.Info("Closing dev spawner menu", Category.NetUI);
 		Menu.SetActive(false);
 	}
 }

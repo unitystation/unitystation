@@ -165,7 +165,7 @@ namespace Systems.Research
 				}
 
 			}
-			Loggy.Log("JsonImportInitialization for designs is done!", Category.Research);
+			Loggy.Info("JsonImportInitialization for designs is done!", Category.Research);
 			Globals.IsInitialised = true;
 		}
 

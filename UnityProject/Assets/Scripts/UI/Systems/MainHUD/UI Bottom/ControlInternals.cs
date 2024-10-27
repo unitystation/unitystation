@@ -61,7 +61,7 @@ namespace UI
 						mask.enabled = true;
 						break;
 					default:
-						Loggy.LogError("Internals state is out of range. <1; 5>", Category.PlayerInventory);
+						Loggy.Error("Internals state is out of range. <1; 5>", Category.PlayerInventory);
 						break;
 				}
 			}

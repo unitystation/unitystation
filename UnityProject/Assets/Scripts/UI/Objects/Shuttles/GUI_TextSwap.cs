@@ -25,7 +25,7 @@ namespace UI.Objects.Shuttles
 		{
 			if (shuttleControlScript == null || textToSet == null)
 			{
-				Loggy.LogError("TextSwap script reference failure!", Category.UI);
+				Loggy.Error("TextSwap script reference failure!", Category.UI);
 				enabled = false;
 				return;
 			}
@@ -37,7 +37,7 @@ namespace UI.Objects.Shuttles
 			}
 			else
 			{
-				Loggy.LogWarning("No Key for UIType found in TextSwap. Leaving Text alone", Category.UI);
+				Loggy.Warning("No Key for UIType found in TextSwap. Leaving Text alone", Category.UI);
 			}
 		}
 	}

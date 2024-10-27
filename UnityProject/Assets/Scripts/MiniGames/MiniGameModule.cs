@@ -39,7 +39,7 @@ namespace MiniGames
 		{
 			if (Tracker == null)
 			{
-				Loggy.LogError($"[Minigames] - Tracker missing on {gameObject}!");
+				Loggy.Error($"[Minigames] - Tracker missing on {gameObject}!");
 				return;
 			}
 			Tracker.OnGameEnd(t);

@@ -65,7 +65,7 @@ namespace Messages.Server
 
 			if (recipient == null)
 			{
-				Loggy.LogError("null recipient for Update chat message Please fix");
+				Loggy.Error("null recipient for Update chat message Please fix");
 				return new NetMessage();
 			}
 

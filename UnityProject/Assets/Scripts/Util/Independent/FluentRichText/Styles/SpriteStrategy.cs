@@ -25,7 +25,7 @@ namespace Util.Independent.FluentRichText.Styles
 		{
 			if (index < 0)
 			{
-				Loggy.LogError("Rich text sprite index must be greater than or equal to 0.");
+				Loggy.Error("Rich text sprite index must be greater than or equal to 0.");
 				return;
 			}
 
@@ -50,7 +50,7 @@ namespace Util.Independent.FluentRichText.Styles
 		{
 			if (index < 0)
 			{
-				Loggy.LogError("Rich text sprite index must be greater than or equal to 0.");
+				Loggy.Error("Rich text sprite index must be greater than or equal to 0.");
 				return;
 			}
 
@@ -73,7 +73,7 @@ namespace Util.Independent.FluentRichText.Styles
 		{
 			if (HasValidParameters == false)
 			{
-				Loggy.LogError("Rich text sprite must have either an index or a name, not both.");
+				Loggy.Error("Rich text sprite must have either an index or a name, not both.");
 				return text;
 			}
 

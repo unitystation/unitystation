@@ -102,7 +102,7 @@ namespace Core.Editor
 					("Assets/Prefabs/SceneConstruction/NestedManagers/GameManager.prefab");
 				if (gameManager == null)
 				{
-					Loggy.LogWarning(
+					Loggy.Warning(
 						$"{nameof(GameManager)} not found! Cannot set {nameof(GameManager.QuickLoad)} property.");
 					return;
 				}

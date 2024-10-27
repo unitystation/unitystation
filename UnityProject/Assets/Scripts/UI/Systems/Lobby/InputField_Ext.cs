@@ -44,7 +44,7 @@ using UnityEngine.UI;
 			}
 			else
 			{
-				Loggy.Log("Caret obj not found",Category.UI);
+				Loggy.Info("Caret obj not found",Category.UI);
 			}
 		}
 	}

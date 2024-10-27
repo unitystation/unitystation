@@ -233,7 +233,7 @@ namespace UI
 		{
 			if (!Instance.listedObjects.Contains(tileListItemObject))
 			{
-				Loggy.LogError("Attempted to remove tileListItem not on list", Category.NetUI);
+				Loggy.Error("Attempted to remove tileListItem not on list", Category.NetUI);
 				return;
 			}
 

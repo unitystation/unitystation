@@ -74,7 +74,7 @@ public class SpawnableResult
 		var gameObjects = spawned as GameObject[] ?? spawned.ToArray();
 		if (gameObjects.Length == 0)
 		{
-			Loggy.LogWarningFormat("SpawnableResult of Multiple objects has nothing to spawn at worldPos {0}", Category.ItemSpawn,
+			Loggy.Warning().Format("SpawnableResult of Multiple objects has nothing to spawn at worldPos {0}", Category.ItemSpawn,
 				destination.WorldPosition);
 			return Fail(destination);
 		}

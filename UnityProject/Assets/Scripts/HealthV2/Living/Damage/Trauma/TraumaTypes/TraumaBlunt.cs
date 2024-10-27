@@ -14,7 +14,7 @@ namespace HealthV2.TraumaTypes
 		{
 			if (stages.Count != internalDamagePerStage.Count)
 			{
-				Loggy.LogWarning("[Health/Trauma/TraumaBlunt] - Mismatched number of stages and damage info. " +
+				Loggy.Warning("[Health/Trauma/TraumaBlunt] - Mismatched number of stages and damage info. " +
 				                  "NREs have a high chance of happening.", Category.Health);
 			}
 		}

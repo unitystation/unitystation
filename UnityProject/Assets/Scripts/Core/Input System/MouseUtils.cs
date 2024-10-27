@@ -269,7 +269,7 @@ public static class MouseUtils
 		if (sprite.packed && sprite.packingMode == SpritePackingMode.Tight)
 		{
 			// Cannot use textureRect on tightly packed sprites
-			Loggy.LogError("SpritePackingMode.Tight atlas packing is not supported!", Category.Sprites);
+			Loggy.Error("SpritePackingMode.Tight atlas packing is not supported!", Category.Sprites);
 			// TODO: support tightly packed sprites
 			return false;
 		}

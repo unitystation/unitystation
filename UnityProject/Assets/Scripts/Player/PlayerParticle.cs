@@ -53,7 +53,7 @@ namespace Player
 				return;
 			}
 			netIdentity.isDirty = true;
-			Loggy.LogError($"[PlayerParticle/ToggleParticle] - no such object named {id}.");
+			Loggy.Error($"[PlayerParticle/ToggleParticle] - no such object named {id}.");
 		}
 
 		public void ChangeStateOfParticle(string id, bool state)

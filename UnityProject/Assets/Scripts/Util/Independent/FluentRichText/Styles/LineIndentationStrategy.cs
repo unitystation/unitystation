@@ -12,7 +12,7 @@ namespace Util.Independent.FluentRichText.Styles
 			    && CommonValidations.IsValidFontUnitValue(amount) == false
 			    && CommonValidations.IsValidPercentageValue(amount) == false)
 			{
-				Loggy.LogError("RichText received invalid line indentation. Line indentation must be a pixel value (e.g., \"1\", \"2.5\"), a font unit value (e.g., \"1em\", \"-0.5em\"), or a percentage value (e.g., \"10%\", \"2.5%\").");
+				Loggy.Error("RichText received invalid line indentation. Line indentation must be a pixel value (e.g., \"1\", \"2.5\"), a font unit value (e.g., \"1em\", \"-0.5em\"), or a percentage value (e.g., \"10%\", \"2.5%\").");
 				return;
 			}
 

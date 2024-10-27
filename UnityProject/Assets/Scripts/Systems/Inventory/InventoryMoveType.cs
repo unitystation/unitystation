@@ -132,13 +132,13 @@ public class InventoryMove
 	{
 		if (addedObject == null)
 		{
-			Loggy.LogErrorFormat("Attempted to create inventory move to slot {0} for null object", Category.Inventory, toSlot);
+			Loggy.Error().Format("Attempted to create inventory move to slot {0} for null object", Category.Inventory, toSlot);
 			return null;
 		}
 		var pu = addedObject.GetComponent<Pickupable>();
 		if (pu == null)
 		{
-			Loggy.LogErrorFormat("{0} has no pickupable, thus cannot be added to inventory", Category.Inventory, addedObject);
+			Loggy.Error().Format("{0} has no pickupable, thus cannot be added to inventory", Category.Inventory, addedObject);
 		}
 		return new InventoryMove(InventoryMoveType.Add, pu, null, toSlot, replacementStrategy: replacementStrategy, ignoreRestraints:IgnoreRestraints);
 	}

@@ -54,7 +54,7 @@ namespace Systems.MobAIs
 			else
 			{
 				//Wait until RTT/2 seconds?
-				Loggy.Log($"WAIT FOR ATTACK: {rtt / 2f}", Category.Mobs);
+				Loggy.Info($"WAIT FOR ATTACK: {rtt / 2f}", Category.Mobs);
 				await Task.Delay((int)(rtt * 500));
 			}
 

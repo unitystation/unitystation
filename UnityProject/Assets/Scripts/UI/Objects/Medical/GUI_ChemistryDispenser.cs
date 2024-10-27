@@ -110,7 +110,7 @@ namespace UI.Objects.Medical
 		{
 			ChemistryDispenser.HeaterOn = !ChemistryDispenser.HeaterOn;
 			ChemistryDispenser.UpdatePowerDraw();
-			Loggy.LogFormat("Heater turned {0}.", Category.Chemistry, ChemistryDispenser.HeaterOn ? "on" : "off");
+			Loggy.Info().Format("Heater turned {0}.", Category.Chemistry, ChemistryDispenser.HeaterOn ? "on" : "off");
 			UpdateAll();
 		}
 

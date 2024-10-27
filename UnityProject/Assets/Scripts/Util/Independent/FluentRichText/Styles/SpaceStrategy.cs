@@ -12,7 +12,7 @@ namespace Util.Independent.FluentRichText.Styles
 			    CommonValidations.IsValidFontUnitValue(amount) == false &&
 			    CommonValidations.IsValidPercentageValue(amount) == false)
 			{
-				Loggy.LogError($"RichText received invalid space amount value: {amount}");
+				Loggy.Error($"RichText received invalid space amount value: {amount}");
 				return;
 			}
 

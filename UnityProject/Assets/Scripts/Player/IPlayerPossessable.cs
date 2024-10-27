@@ -27,7 +27,7 @@ public interface IPlayerPossessable
 			{
 				if (CustomNetworkManager.IsServer)
 				{
-					Loggy.LogError(
+					Loggy.Error(
 						$"Destroyed Possessing  While PossessingID Still references it fixing, Please work out how it got a Destroyed ID {PossessingMind.OrNull()?.name}");
 					SyncPossessingID(PossessingID, NetId.Empty);
 				}

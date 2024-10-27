@@ -145,7 +145,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		}
 		catch (Exception e)
 		{
-			Loggy.LogError(e.ToString());
+			Loggy.Error(e.ToString());
 		}
 
 	}
@@ -277,7 +277,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		config = ServerData.ServerConfig;
 		if (config.ServerPort != 0 && config.ServerPort <= 65535)
 		{
-			Loggy.LogFormat("ServerPort defined in config: {0}", Category.Server, config.ServerPort);
+			Loggy.Info().Format("ServerPort defined in config: {0}", Category.Server, config.ServerPort);
 			// var booster = GetComponent<BoosterTransport>();
 			// if (booster != null)
 			// {
@@ -315,13 +315,13 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	[ContextMenu("Print network server")]
 	public void PrintNetworkServer()
 	{
-		Loggy.LogError(NetworkServer.spawned.Count.ToString());
+		Loggy.Error(NetworkServer.spawned.Count.ToString());
 	}
 
 	[ContextMenu("Print network client")]
 	public void PrintNetworkClient()
 	{
-		Loggy.LogError(NetworkClient.spawned.Count.ToString());
+		Loggy.Error(NetworkClient.spawned.Count.ToString());
 	}
 
 	public void SetSpawnableList()
@@ -369,7 +369,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 					if (preexisting.ForeverID != originalOldID &&
 					    prefabTracker.ForeverID != originalOldID)
 					{
-						Loggy.LogError("OH GOD What is the original I can't tell!! " +
+						Loggy.Error("OH GOD What is the original I can't tell!! " +
 						               "Manually edit the ForeverID For the newly created prefab to not be the same as " +
 						               "the prefab variant parent for " +
 						               preexisting.gameObject +
@@ -404,13 +404,13 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		{
 			if (prefab.Count > 1)
 			{
-				Loggy.LogError($"There is {prefab.Count} prefabs with the name: {prefabName}, please rename them");
+				Loggy.Error($"There is {prefab.Count} prefabs with the name: {prefabName}, please rename them");
 			}
 
 			return prefab[0];
 		}
 
-		Loggy.LogError(
+		Loggy.Error(
 			$"There is no prefab with the name: {prefabName} inside the AllSpawnablePrefabs list in the network manager," +
 			" all prefabs must be in this list if they need to be spawnable");
 
@@ -468,12 +468,12 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		{
 			if (conn == NetworkServer.localConnection)
 			{
-				Loggy.Log("Prevented headless server from spawning a player", Category.Connections);
+				Loggy.Info("Prevented headless server from spawning a player", Category.Connections);
 				return;
 			}
 		}
 
-		Loggy.LogTrace($"Spawning a GameObject for the client {conn}.", Category.Connections);
+		Loggy.Trace($"Spawning a GameObject for the client {conn}.", Category.Connections);
 		base.OnServerAddPlayer(conn);
 		SubSceneManager.Instance.AddNewObserverScenePermissions(conn);
 		UpdateRoundTimeMessage.Send(GameManager.Instance.RoundTime.ToString("O"),
@@ -491,7 +491,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public override void OnClientDisconnect()
 	{
-		Loggy.Log("Client disconnected from the server.");
+		Loggy.Info("Client disconnected from the server.");
 		base.OnClientDisconnect();
 		OnClientDisconnected.Invoke();
 	}
@@ -499,7 +499,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	public override void OnServerConnect(NetworkConnectionToClient conn)
 	{
 		// Connection has been authenticated via Authentication.cs
-		Loggy.LogTrace($"A client has been authenticated and has joined. Address: {conn.address}.");
+		Loggy.Trace($"A client has been authenticated and has joined. Address: {conn.address}.");
 
 		base.OnServerConnect(conn);
 	}
@@ -507,7 +507,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	/// server actions when client disconnects
 	public override void OnServerDisconnect(NetworkConnectionToClient conn)
 	{
-		Loggy.LogError($"Disconnecting {conn.address}");
+		Loggy.Error($"Disconnecting {conn.address}");
 		//register them as removed from our own player list
 		PlayerList.Instance.RemoveByConnection(conn);
 

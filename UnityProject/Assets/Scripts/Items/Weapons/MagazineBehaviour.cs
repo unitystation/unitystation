@@ -114,12 +114,12 @@ namespace Weapons
 		{
 			if (amount < 0)
 			{
-				Loggy.LogWarning("Attempted to expend a negitive amount of ammo", Category.Firearms); // dont use this method to replenish ammo
+				Loggy.Warning("Attempted to expend a negitive amount of ammo", Category.Firearms); // dont use this method to replenish ammo
 			}
 
 			if (ClientAmmoRemains < amount)
 			{
-				Loggy.LogWarning("Client ammo count is too low, cannot expend that much ammo. Make sure" +
+				Loggy.Warning("Client ammo count is too low, cannot expend that much ammo. Make sure" +
 								  " to check ammo count before expending it.", Category.Firearms);
 			}
 			else
@@ -131,7 +131,7 @@ namespace Weapons
 			{
 				if (ServerAmmoRemains < amount)
 				{
-					Loggy.LogWarning("Server ammo count is too low, cannot expend that much ammo. Make sure" +
+					Loggy.Warning("Server ammo count is too low, cannot expend that much ammo. Make sure" +
 									  " to check ammo count before expending it.", Category.Firearms);
 				}
 				else
@@ -152,7 +152,7 @@ namespace Weapons
 					}
 				}
 
-				Loggy.LogTraceFormat("Expended {0} shots, now serverAmmo {1} clientAmmo {2}", Category.Firearms, amount, serverAmmoRemains, clientAmmoRemains);
+				Loggy.Trace().Format("Expended {0} shots, now serverAmmo {1} clientAmmo {2}", Category.Firearms, amount, serverAmmoRemains, clientAmmoRemains);
 			}
 		}
 

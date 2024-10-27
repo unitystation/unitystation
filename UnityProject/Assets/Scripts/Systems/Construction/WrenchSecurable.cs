@@ -72,7 +72,7 @@ namespace Objects.Construction
 
 			if (objectBehaviour == null)
 			{
-				Loggy.LogWarning($"{nameof(objectBehaviour)} was not found on {this}!", Category.Construction);
+				Loggy.Warning($"{nameof(objectBehaviour)} was not found on {this}!", Category.Construction);
 			}
 		}
 

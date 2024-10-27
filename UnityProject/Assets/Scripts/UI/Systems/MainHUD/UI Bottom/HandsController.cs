@@ -138,7 +138,7 @@ public class HandsController : MonoBehaviour
 				uesToolCarousel.AddToCarousel(bodyPartUISlots,StorageCharacteristics );
 				break;
 			default:
-				Loggy.LogError("humm Tried to put non-hand into Hand Slot");
+				Loggy.Error("humm Tried to put non-hand into Hand Slot");
 				return;
 		}
 
@@ -277,7 +277,7 @@ public class HandsController : MonoBehaviour
 
 				if (uesToolCarousel == null)
 				{
-					Loggy.LogError($"Slot wasn't found for  {StorageCharacteristics.namedSlot}");
+					Loggy.Error($"Slot wasn't found for  {StorageCharacteristics.namedSlot}");
 					return;
 				}
 
@@ -294,7 +294,7 @@ public class HandsController : MonoBehaviour
 
 				break;
 			default:
-				Loggy.LogError("humm Tried to put non-hand into Hand Slot");
+				Loggy.Error("humm Tried to put non-hand into Hand Slot");
 				return;
 		}
 
@@ -319,7 +319,7 @@ public class HandsController : MonoBehaviour
 		}
 		catch (Exception e)
 		{
-			Loggy.LogError(e.ToString());
+			Loggy.Error(e.ToString());
 		}
 
 		activeDoubleHandController = doubleHandController;
@@ -431,7 +431,7 @@ public class HandsController : MonoBehaviour
 		if (!PlayerManager.LocalPlayerScript.playerMove.AllowInput ||
 		    PlayerManager.LocalPlayerScript.IsGhost)
 		{
-			Loggy.Log("Invalid player, cannot perform action!", Category.Interaction);
+			Loggy.Info("Invalid player, cannot perform action!", Category.Interaction);
 			return false;
 		}
 

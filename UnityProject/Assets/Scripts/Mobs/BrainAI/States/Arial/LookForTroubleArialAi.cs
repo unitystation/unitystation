@@ -27,7 +27,7 @@ namespace Mobs.BrainAI.States.Arial
 			pathfinder = LivingHealthMaster.playerScript.GetComponent<MobPathfinderV2>();
 			if (pathfinder == null)
 			{
-				Loggy.LogError("[LookForTroubleArialAi] - NO PATHFINDER DETECTED. ARIAL WILL BE STUCK.");
+				Loggy.Error("[LookForTroubleArialAi] - NO PATHFINDER DETECTED. ARIAL WILL BE STUCK.");
 			}
 		}
 
@@ -64,7 +64,7 @@ namespace Mobs.BrainAI.States.Arial
 				MatrixManager.WorldToLocal(LivingHealthMaster.playerScript.playerMove.OfficialPosition,
 					LivingHealthMaster.RegisterTile.Matrix).RoundTo2Int(),
 				target.gameObject.AssumedWorldPosServer().RoundTo2Int());
-			Loggy.Log($"{target} - {target.OrNull()?.AssumedWorldPosServer()}");
+			Loggy.Info($"{target} - {target.OrNull()?.AssumedWorldPosServer()}");
 			if (path != null)
 			{
 				pathfinder.FollowPath(path);

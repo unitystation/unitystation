@@ -14,7 +14,7 @@ namespace Core
 		{
 			if (Instances == null || Instances.Count == 0)
 			{
-				Loggy.Log($"No elements found for Type {nameof(T)}, are you sure you have ITrackableType<T> added to your class?");
+				Loggy.Info($"No elements found for Type {nameof(T)}, are you sure you have ITrackableType<T> added to your class?");
 				return null;
 			}
 #if UNITY_EDITOR
@@ -24,7 +24,7 @@ namespace Core
 			List<T> components = GetNearbyComponents(bypassInventories, target.AssumedWorldPosServer(), maximumDistance);
 #if UNITY_EDITOR
 			stopwatch.Stop();
-			Loggy.Log($"[GameObject/FindAllComponentsNearestToTarget<T>()] - Operation took {stopwatch.Elapsed.Milliseconds}ms");
+			Loggy.Info($"[GameObject/FindAllComponentsNearestToTarget<T>()] - Operation took {stopwatch.Elapsed.Milliseconds}ms");
 #endif
 			return components;
 		}
@@ -33,7 +33,7 @@ namespace Core
 		{
 			if (Instances == null || Instances.Count == 0)
 			{
-				Loggy.Log($"No elements found for Type {nameof(T)}, are you sure you have ITrackableType<T> added to your class?");
+				Loggy.Info($"No elements found for Type {nameof(T)}, are you sure you have ITrackableType<T> added to your class?");
 				return null;
 			}
 #if UNITY_EDITOR
@@ -43,7 +43,7 @@ namespace Core
 			List<T> components = GetNearbyComponents(bypassInventories, target, maximumDistance);
 #if UNITY_EDITOR
 			stopwatch.Stop();
-			Loggy.Log($"[GameObject/FindAllComponentsNearestToTarget<T>()] - Operation took {stopwatch.Elapsed.Milliseconds}ms");
+			Loggy.Info($"[GameObject/FindAllComponentsNearestToTarget<T>()] - Operation took {stopwatch.Elapsed.Milliseconds}ms");
 #endif
 			return components;
 		}

@@ -33,7 +33,7 @@ namespace InGameEvents
 		{
 			if (stationMatrix != null) return false;
 
-			Loggy.LogError($"Unable to start \"{nameof(EventImmovableRod)}\". Main station may not be initialized yet.", Category.Event);
+			Loggy.Error($"Unable to start \"{nameof(EventImmovableRod)}\". Main station may not be initialized yet.", Category.Event);
 			return true;
 		}
 

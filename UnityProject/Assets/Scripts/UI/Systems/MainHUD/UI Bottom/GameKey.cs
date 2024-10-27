@@ -44,7 +44,7 @@ public class GameKey : MonoBehaviour,
 	/// </summary>
 	public void OnPointerUp( PointerEventData eventData )
 	{
-		Loggy.LogTraceFormat( "OnPointerUp {0}", Category.UserInput, eventData );
+		Loggy.Trace().Format( "OnPointerUp {0}", Category.UserInput, eventData );
 		OnKeyRelease.Invoke();
 		Image.color = srcColor;
 	}
@@ -52,7 +52,7 @@ public class GameKey : MonoBehaviour,
 	public void OnPointerExit( PointerEventData eventData )
 	{
 		eventData.pointerPress = null;
-		Loggy.LogTraceFormat( "OnPointerExit {0}", Category.UserInput, eventData );
+		Loggy.Trace().Format( "OnPointerExit {0}", Category.UserInput, eventData );
 		if ( eventData.eligibleForClick )
 		{
 			ExecuteEvents.Execute( gameObject, eventData, ExecuteEvents.pointerUpHandler );
@@ -65,7 +65,7 @@ public class GameKey : MonoBehaviour,
 		{
 			return;
 		}
-		Loggy.LogTraceFormat( "OnPointerEnter {0}", Category.UserInput, eventData );
+		Loggy.Trace().Format( "OnPointerEnter {0}", Category.UserInput, eventData );
 		eventData.pointerPress = gameObject;
 		if ( eventData.eligibleForClick )
 		{
@@ -78,7 +78,7 @@ public class GameKey : MonoBehaviour,
 	/// </summary>
 	public void OnPointerDown( PointerEventData eventData )
 	{
-		Loggy.LogTraceFormat( "OnPointerDown {0}", Category.UserInput, eventData );
+		Loggy.Trace().Format( "OnPointerDown {0}", Category.UserInput, eventData );
 		OnKeyPress.Invoke();
 		Image.color = pressColor;
 	}

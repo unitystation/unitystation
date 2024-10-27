@@ -47,7 +47,7 @@ public class GameObjectToPrefab : EditorWindow
 		if ((childCount > 0) && createFolders)
 		{
 			newPath += "/" + parentObject.name;
-			Loggy.Log($"Creating folder {newPath}", Category.Editor);
+			Loggy.Info($"Creating folder {newPath}", Category.Editor);
 			Directory.CreateDirectory(newPath);
 		}
 
@@ -55,7 +55,7 @@ public class GameObjectToPrefab : EditorWindow
 		bool hasComponents = !((components.Length == 1) && (components[0].GetType() == typeof(Transform)));
 		if (createEmptyPrefabs || hasComponents)
 		{
-			Loggy.Log($"Saving Prefab {parentObject.name}", Category.Editor);
+			Loggy.Info($"Saving Prefab {parentObject.name}", Category.Editor);
 			PrefabUtility.SaveAsPrefabAsset(parentObject, $"{newPath}/{parentObject.name}.prefab");
 		}
 

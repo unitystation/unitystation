@@ -122,7 +122,7 @@ namespace Objects.Atmospherics
 		{
 			if (Offset > 4)
 			{
-				Loggy.LogError($"Larger than expected number put into RotatePipe {Offset}");
+				Loggy.Error($"Larger than expected number put into RotatePipe {Offset}");
 				return;
 			}
 
@@ -219,7 +219,7 @@ namespace Objects.Atmospherics
 		{
 			if (SpawnOnDeconstruct == null)
 			{
-				Loggy.LogError($"{this} is missing reference to {nameof(SpawnOnDeconstruct)}!", Category.Interaction);
+				Loggy.Error($"{this} is missing reference to {nameof(SpawnOnDeconstruct)}!", Category.Interaction);
 				return;
 			}
 
@@ -291,13 +291,13 @@ namespace Objects.Atmospherics
 				registerTile.ObjectPhysics.Component.OfficialPosition);
 			if (container.Successful == false)
 			{
-				Loggy.LogError("Failed to spawn crawling container!");
+				Loggy.Error("Failed to spawn crawling container!");
 				return;
 			}
 
 			if (container.GameObject.TryGetComponent<CrawlingVirtualContainer>(out var virtualContainer) == false)
 			{
-				Loggy.LogError("Failed to find CrawlingVirtualContainer script!");
+				Loggy.Error("Failed to find CrawlingVirtualContainer script!");
 				return;
 			}
 

@@ -114,7 +114,7 @@ public class StandardProgressAction : IProgressAction
 	{
 		if (used)
 		{
-			Loggy.LogError("Attempted to reuse a StandardProgressAction that has already been used." +
+			Loggy.Error("Attempted to reuse a StandardProgressAction that has already been used." +
 			                      " Please create a new StandardProgressAction each time you start a new action.",
 				Category.ProgressAction);
 			return false;
@@ -144,7 +144,7 @@ public class StandardProgressAction : IProgressAction
 
 				if (existingAction != null)
 				{
-					Loggy.LogTraceFormat(
+					Loggy.Trace().Format(
 						"Server cancelling progress bar {0} start because AllowMultiple=true and progress bar {1} " +
 						" has same progress type and is already in progress.", Category.ProgressAction,
 						info.ProgressBar.ID, existingAction.ID);
@@ -153,7 +153,7 @@ public class StandardProgressAction : IProgressAction
 			}
 			catch
 			{
-				Loggy.LogError(
+				Loggy.Error(
 					"Something terrible happened to ProgressBars but we have recovered.", Category.ProgressAction);
 				return false;
 			}
@@ -168,7 +168,7 @@ public class StandardProgressAction : IProgressAction
 		if (existingBar != null)
 		{
 			//progress already started by this player at this position
-			Loggy.LogTraceFormat("Server cancelling progress bar {0} start because progress bar {1} " +
+			Loggy.Trace().Format("Server cancelling progress bar {0} start because progress bar {1} " +
 			                      " has same progress type and is already in progress at the target location by this player.",
 				Category.ProgressAction, info.ProgressBar.ID, existingBar.ID);
 			return false;
@@ -183,7 +183,7 @@ public class StandardProgressAction : IProgressAction
 			if (crossMatrix && (performerMatrix.IsMovingServer || info.Target.TargetMatrixInfo.Matrix.IsMovingServer))
 			{
 				//progress already started by this player at this position
-				Loggy.LogTraceFormat("Server cancelling progress bar {0} start because it is cross matrix and one of" +
+				Loggy.Trace().Format("Server cancelling progress bar {0} start because it is cross matrix and one of" +
 				                      " the matrices is moving.",
 					Category.ProgressAction, info.ProgressBar.ID);
 				return false;
@@ -261,7 +261,7 @@ public class StandardProgressAction : IProgressAction
 
 			foreach (var existingBar in existingBars)
 			{
-				Loggy.LogTraceFormat("Server interrupting progress bar {0} because progress bar {1} finished " +
+				Loggy.Trace().Format("Server interrupting progress bar {0} because progress bar {1} finished " +
 				                      "on same tile", Category.ProgressAction, existingBar.ID, ProgressBar.ID);
 				existingBar.ServerInterruptProgress();
 			}
@@ -279,7 +279,7 @@ public class StandardProgressAction : IProgressAction
 	private void InterruptProgress(string reason, ActionInterruptionType interruptionType)
 	{
 		if(progressActionConfig.AllowMovement == true) return;
-		Loggy.LogTraceFormat("Server progress bar {0} interrupted: {1}.", Category.ProgressAction,
+		Loggy.Trace().Format("Server progress bar {0} interrupted: {1}.", Category.ProgressAction,
 			ProgressBar.ID, reason);
 		ProgressBar.ServerInterruptProgress();
 		onInterruption?.Invoke(interruptionType);

@@ -18,9 +18,9 @@ namespace Objects.Other
 			return;
 			if (reagentContainer.CurrentReagentMix.Total == 0)
 			{
-				Loggy.LogError("AAAA");
+				Loggy.Error("AAAA");
 			}
-			Loggy.LogError(reagentContainer.CurrentReagentMix.ToString() + "_" + name);
+			Loggy.Error(reagentContainer.CurrentReagentMix.ToString() + "_" + name);
 		}
 
 		public void GiveFootprints(MakesFootPrints print = null, int index = 0)

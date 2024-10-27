@@ -13,7 +13,7 @@ namespace Util.Independent.FluentRichText.Styles
 			    CommonValidations.IsValidFontUnitValue(position) == false &&
 			    CommonValidations.IsValidPercentageValue(position) == false)
 			{
-				Loggy.LogError($"RichText received invalid horizontal position value: {position}" );
+				Loggy.Error($"RichText received invalid horizontal position value: {position}" );
 				return;
 			}
 

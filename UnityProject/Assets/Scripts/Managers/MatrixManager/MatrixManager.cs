@@ -328,7 +328,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			}
 			else
 			{
-				Loggy.Log("There is already a space matrix registered", Category.Matrix);
+				Loggy.Info("There is already a space matrix registered", Category.Matrix);
 			}
 		}
 
@@ -340,7 +340,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			}
 			else
 			{
-				Loggy.Log("There is already a main station matrix registered", Category.Matrix);
+				Loggy.Info("There is already a main station matrix registered", Category.Matrix);
 			}
 		}
 
@@ -447,7 +447,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 		if (distance > 30)
 		{
-			Loggy.LogError(
+			Loggy.Error(
 				$" Limit exceeded on raycast, Look at stack trace for What caused it at {distance}"); //Meant to catch up stuff that's been naughty and doing stuff like 900 tile Ray casts
 			return new CustomPhysicsHit();
 		}

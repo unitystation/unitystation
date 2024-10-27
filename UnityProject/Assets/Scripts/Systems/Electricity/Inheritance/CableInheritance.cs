@@ -305,7 +305,7 @@ namespace Objects.Electrical
 		{
 			if (REWireEndA == REWireEndB)
 			{
-				Loggy.LogWarningFormat("Wire connection both starts ({0}) and ends ({1}) in the same place!", Category.Electrical, REWireEndA, REWireEndB);
+				Loggy.Warning().Format("Wire connection both starts ({0}) and ends ({1}) in the same place!", Category.Electrical, REWireEndA, REWireEndB);
 				return;
 			}
 			if (RECableType != WiringColor.unknown)
@@ -330,7 +330,7 @@ namespace Objects.Electrical
 			SR.sprite = CableSprites.Sprites[spriteIndex];
 			if (SR.sprite == null)
 			{
-				Loggy.LogError("SetSprite: Couldn't find wire sprite, sprite value didn't return anything!", Category.Electrical);
+				Loggy.Error("SetSprite: Couldn't find wire sprite, sprite value didn't return anything!", Category.Electrical);
 			}
 		}
 

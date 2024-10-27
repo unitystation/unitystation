@@ -87,7 +87,7 @@ namespace Systems.Pipes
 					return (MonoPipe.MatrixPos);
 				}
 
-				Loggy.Log("Vector3Int null!!", Category.Pipes);
+				Loggy.Info("Vector3Int null!!", Category.Pipes);
 				return (Vector3Int.zero);
 			}
 		}
@@ -105,7 +105,7 @@ namespace Systems.Pipes
 					return (MonoPipe.Matrix);
 				}
 
-				Loggy.Log("Matrix null!!", Category.Pipes);
+				Loggy.Info("Matrix null!!", Category.Pipes);
 				return (null);
 			}
 		}
@@ -201,7 +201,7 @@ namespace Systems.Pipes
 
 						// this one probably require more work than just null check
 						if(Pipe.OnNet == null)
-							Loggy.LogWarning("Pipe.OnNet == null", Category.Pipes);
+							Loggy.Warning("Pipe.OnNet == null", Category.Pipes);
 						else
 							Pipe.OnNet.RemoveEqualiseWith(this);
 					}

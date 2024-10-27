@@ -212,13 +212,13 @@ namespace Systems.Spells
 		{
 			if (SpellData == null)
 			{
-				Loggy.LogErrorFormat("Spell {0} initiated by {1}:\nSpellData is null!", Category.Spells, this, caster);
+				Loggy.Error().Format("Spell {0} initiated by {1}:\nSpellData is null!", Category.Spells, this, caster);
 				return false;
 			}
 
 			if (!caster.Script.Mind.Spells.Contains(this))
 			{
-				Loggy.LogWarningFormat("Illegal spell access: {0} tried to call spell they don't possess ({1})",
+				Loggy.Warning().Format("Illegal spell access: {0} tried to call spell they don't possess ({1})",
 					Category.Exploits, caster, this);
 				return false;
 			}

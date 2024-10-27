@@ -49,7 +49,7 @@ namespace Systems.Faith.UI
 				var newItem = shopListTransform.AddItem() as ShopItemButton;
 				if (newItem == null)
 				{
-					Loggy.LogError("[ChaplainPointShopScreen/RefreshShop()] -  Unexpected type detected.");
+					Loggy.Error("[ChaplainPointShopScreen/RefreshShop()] -  Unexpected type detected.");
 					return;
 				}
 				newItem.SetValues(miracle, this);

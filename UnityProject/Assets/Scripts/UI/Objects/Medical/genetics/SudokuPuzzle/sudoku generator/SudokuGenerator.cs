@@ -429,7 +429,7 @@ public class SudokuGenerator
 
 			if (ti == seq.Count)
 			{
-				Loggy.LogError("AAA");
+				Loggy.Error("AAA");
 			}
 
 			while(string.IsNullOrEmpty(shuffled[ti]) == false){

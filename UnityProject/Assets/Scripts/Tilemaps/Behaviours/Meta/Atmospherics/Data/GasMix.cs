@@ -35,7 +35,7 @@ namespace Systems.Atmospherics
 			{
 				if (value.IsUnreasonableNumber() && value != 0f)
 				{
-					Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE pressure Invalid number!!!! {value}");
+					Loggy.Error($"AAAAAAAAAAAAA REEEEEEEEE pressure Invalid number!!!! {value}");
 					return;
 				}
 
@@ -56,7 +56,7 @@ namespace Systems.Atmospherics
 			{
 				if (value.IsUnreasonableNumber() && value != 0)
 				{
-					Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE Temperature Invalid number!!!! {value}");
+					Loggy.Error($"AAAAAAAAAAAAA REEEEEEEEE Temperature Invalid number!!!! {value}");
 					return;
 				}
 
@@ -118,7 +118,7 @@ namespace Systems.Atmospherics
 			{
 				if (value.IsUnreasonableNumber() && value != 0)
 				{
-					Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE InternalEnergy Invalid number!!!! {value}");
+					Loggy.Error($"AAAAAAAAAAAAA REEEEEEEEE InternalEnergy Invalid number!!!! {value}");
 					return;
 				}
 
@@ -217,7 +217,7 @@ namespace Systems.Atmospherics
 
 			if (Mathf.Approximately(ActualMoles, 0))
 			{
-				Loggy.LogError("Inappropriate Input for FromTemperatureAndPressure ", Category.Atmos);
+				Loggy.Error("Inappropriate Input for FromTemperatureAndPressure ", Category.Atmos);
 				return GasMixesSingleton.Instance.air.BaseGasMix;
 			}
 
@@ -255,7 +255,7 @@ namespace Systems.Atmospherics
 		{
 			if (target == source)
 			{
-				Loggy.LogError("oh god You're transferring a gas mixture itself!!!");
+				Loggy.Error("oh god You're transferring a gas mixture itself!!!");
 				return;
 			}
 

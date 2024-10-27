@@ -95,7 +95,7 @@ namespace Objects.Research
 
 			if (researchServer == null)
 			{
-				Loggy.LogError("Server Not Set");
+				Loggy.Error("Server Not Set");
 				return;
 			}
 

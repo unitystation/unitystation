@@ -31,7 +31,7 @@ namespace Mobs
 			Movement ??= GetComponent<MovementSynchronisation>();
 			Pathfinder ??= GetComponent<MobPathfinderV2>();
 			AI ??= GetComponent<MobAI>();
-			if (Possession.playerSprites.RaceBodyparts is null) Loggy.LogError("[Mob/Awake] Possession.playerSprites.RaceBodyparts is null");
+			if (Possession.playerSprites.RaceBodyparts is null) Loggy.Error("[Mob/Awake] Possession.playerSprites.RaceBodyparts is null");
 		}
 
 		private void Start()

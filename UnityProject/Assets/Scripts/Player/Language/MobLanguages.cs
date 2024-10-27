@@ -268,7 +268,7 @@ namespace Player.Language
 					RemoveAddedLanguagesClient();
 					break;
 				default:
-					Loggy.LogError($"Failed to find case: {op}");
+					Loggy.Error($"Failed to find case: {op}");
 					return;
 			}
 		}

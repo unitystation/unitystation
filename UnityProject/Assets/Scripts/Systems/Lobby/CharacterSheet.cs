@@ -118,7 +118,7 @@ public class CharacterSheet : ICloneable
 		if (speciesToPick.Any(x => x.name == Species) == false)
 		{
 			Species = speciesToPick.PickRandom().name;
-			Loggy.LogWarning("[CharacterSheet/ValidateSpeciesCanBePlayerChosen] Species not valid, using " + Species + " instead.");
+			Loggy.Warning("[CharacterSheet/ValidateSpeciesCanBePlayerChosen] Species not valid, using " + Species + " instead.");
 		}
 	}
 
@@ -297,7 +297,7 @@ public class CharacterSheet : ICloneable
 		var toReturn = RaceSOSingleton.Instance.Races.FirstOrDefault(x => x.name == Species);
 		if (toReturn == null)
 		{
-			Loggy.LogError("[GetRaceSONoValidation] No race found for " + Species);
+			Loggy.Error("[GetRaceSONoValidation] No race found for " + Species);
 			return  RaceSOSingleton.Instance.Races.FirstOrDefault(x => x.name == "Human");
 		}
 		return toReturn;

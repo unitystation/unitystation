@@ -84,7 +84,7 @@ namespace Core.Lighting
 
 				if (this != null && gameObject != null)
 				{
-					Loggy.LogError($"{gameObject.name} had something null");
+					Loggy.Error($"{gameObject.name} had something null");
 				}
 
 				return;

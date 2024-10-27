@@ -48,7 +48,7 @@ namespace NPC.AI
 				case int n when n < 41:
 					return badMood.PickRandom();
 				default:
-					Loggy.LogError(
+					Loggy.Error(
 						$"Examinable Mood got unexpected range of mood level: {mood.LevelPercent}",
 						Category.Interaction);
 					break;

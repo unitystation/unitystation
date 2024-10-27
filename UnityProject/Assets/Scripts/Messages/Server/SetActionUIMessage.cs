@@ -118,7 +118,7 @@ namespace Messages.Server
 				}
 				catch (Exception e)
 				{
-					Loggy.LogError($"[SetActionUIMessage] {e}");
+					Loggy.Error($"[SetActionUIMessage] {e}");
 				}
 
 				if (actions.Length > msg.ComponentLocation)
@@ -188,7 +188,7 @@ namespace Messages.Server
 			{
 				if (spellAction.SpellData.Index == -1)
 				{
-					Loggy.LogError(
+					Loggy.Error(
 						"spellAction.SpellData.Index is -1 Make sure you've added your spell to SpellList!!!!!!!!!!!");
 				}
 
@@ -262,7 +262,7 @@ namespace Messages.Server
 				}
 				else
 				{
-					Loggy.LogError("Failed to find IActionGUI on NetworkIdentity", Category.UserInput);
+					Loggy.Error("Failed to find IActionGUI on NetworkIdentity", Category.UserInput);
 				}
 			}
 
@@ -507,7 +507,7 @@ namespace Messages.Server
 				}
 				else
 				{
-					Loggy.LogError("Failed to find IActionGUI on NetworkIdentity", Category.UserInput);
+					Loggy.Error("Failed to find IActionGUI on NetworkIdentity", Category.UserInput);
 				}
 			}
 

@@ -23,7 +23,7 @@ namespace Effects.FloorEffect
 		{
 			if (localOrientation == OrientationEnum.Default)
 			{
-				Loggy.LogError("Tried to pass OrientationEnum.Default to Footprints what are you thinking you numpty,  Defaulting to up");
+				Loggy.Error("Tried to pass OrientationEnum.Default to Footprints what are you thinking you numpty,  Defaulting to up");
 				localOrientation = OrientationEnum.Up_By0;
 			}
 			var colour = ReagentMix.CurrentReagentMix.MixColor;
@@ -37,7 +37,7 @@ namespace Effects.FloorEffect
 		{
 			if (localOrientation == OrientationEnum.Default)
 			{
-				Loggy.LogError("Tried to pass OrientationEnum.Default to Footprints what are you thinking you numpty,  Defaulting to up");
+				Loggy.Error("Tried to pass OrientationEnum.Default to Footprints what are you thinking you numpty,  Defaulting to up");
 				localOrientation = OrientationEnum.Up_By0;
 			}
 

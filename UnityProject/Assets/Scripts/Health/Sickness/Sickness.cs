@@ -41,7 +41,7 @@ namespace Health.Sickness
 			{
 				if (value > NumberOfStages)
 				{
-					Loggy.LogError("[Sickness] - Attempted setting stage for sickness that was bigger than the identified stages.");
+					Loggy.Error("[Sickness] - Attempted setting stage for sickness that was bigger than the identified stages.");
 					return;
 				}
 				currentStage = value;

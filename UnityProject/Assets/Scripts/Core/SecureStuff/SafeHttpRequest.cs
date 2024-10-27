@@ -82,20 +82,20 @@ namespace SecureStuff
 		{
 			if (requestUri.IsAbsoluteUri == false)
 			{
-				Loggy.LogError(
+				Loggy.Error(
 					$"URL For Request was not absolute e.g Was local such as /blahblahblah/thing {requestUri}");
 				return false;
 			}
 
 			if (requestUri.IsUnc)
 			{
-				Loggy.LogError($"why IsUnc? Not allowed {requestUri}");
+				Loggy.Error($"why IsUnc? Not allowed {requestUri}");
 				return false;
 			}
 
 			if (Uri.TryCreate(requestUri.GetLeftPart(UriPartial.Authority), UriKind.Absolute, out var baseUri) == false)
 			{
-				Loggy.LogError($"Somehow completely failed URL format check {requestUri}");
+				Loggy.Error($"Somehow completely failed URL format check {requestUri}");
 				// Invalid URI format
 				return false;
 			}
@@ -108,7 +108,7 @@ namespace SecureStuff
 				{
 					if (IsNotSafeIPv4(AddressToUse))
 					{
-						Loggy.LogError($"HEY BAD Not allowed, Private network IPv4 Address returned for {requestUri}");
+						Loggy.Error($"HEY BAD Not allowed, Private network IPv4 Address returned for {requestUri}");
 						return false;
 					}
 				}
@@ -116,13 +116,13 @@ namespace SecureStuff
 				{
 					if (IsNotSafeIPv6(AddressToUse))
 					{
-						Loggy.LogError($"HEY BAD Not allowed, Private network IPv6 Address returned for {requestUri}");
+						Loggy.Error($"HEY BAD Not allowed, Private network IPv6 Address returned for {requestUri}");
 						return false;
 					}
 				}
 				else
 				{
-					Loggy.LogError($"Invalid IP Address Return from DNS for {requestUri}");
+					Loggy.Error($"Invalid IP Address Return from DNS for {requestUri}");
 					return false;
 				}
 			}
@@ -133,7 +133,7 @@ namespace SecureStuff
 			}
 			else
 			{
-				Loggy.Log($"Hub validation failed for {requestUri}");
+				Loggy.Info($"Hub validation failed for {requestUri}");
 				return false;
 			}
 

@@ -355,7 +355,7 @@ public class UpdateManager : MonoBehaviour
             }
             catch (Exception e)
             {
-                Loggy.LogError(e.ToString());
+                Loggy.Error(e.ToString());
             }
 
             if (Profile)
@@ -384,7 +384,7 @@ public class UpdateManager : MonoBehaviour
 				}
 				catch (Exception e)
 				{
-					Loggy.LogError(e.ToString());
+					Loggy.Error(e.ToString());
 				}
 
 				if (Profile)
@@ -438,7 +438,7 @@ public class UpdateManager : MonoBehaviour
 				}
 				catch (Exception e)
 				{
-					Loggy.LogError(e.ToString());
+					Loggy.Error(e.ToString());
 				}
 			}
 		}
@@ -460,7 +460,7 @@ public class UpdateManager : MonoBehaviour
 				}
 				catch (Exception e)
 				{
-					Loggy.LogError(e.ToString());
+					Loggy.Error(e.ToString());
 				}
 			}
 		}
@@ -481,7 +481,7 @@ public class UpdateManager : MonoBehaviour
 				}
 				catch (Exception e)
 				{
-					Loggy.LogError(e.ToString());
+					Loggy.Error(e.ToString());
 				}
 			}
 		}
@@ -502,7 +502,7 @@ public class UpdateManager : MonoBehaviour
 				}
 				catch (Exception e)
 				{
-					Loggy.LogError(e.ToString());
+					Loggy.Error(e.ToString());
 				}
 			}
 		}

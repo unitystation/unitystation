@@ -117,7 +117,7 @@ namespace Objects.Atmospherics
 		{
 			if (sample == null)
 			{
-				Loggy.LogError("[AcuSample/AddSample] - Attempted to pass a null sample. If this happens outside the loading phase of a round, it is likely a bug.");
+				Loggy.Error("[AcuSample/AddSample] - Attempted to pass a null sample. If this happens outside the loading phase of a round, it is likely a bug.");
 				return;
 			}
 			pressureSum += sample.Pressure;

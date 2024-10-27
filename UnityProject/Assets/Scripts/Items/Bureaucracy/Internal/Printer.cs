@@ -118,7 +118,7 @@ namespace Items.Bureaucracy.Internal
 				var result = Spawn.ServerPrefab(paperPrefab, SpawnDestination.At(printerObj));
 				if (result.Successful == false)
 				{
-					Loggy.LogError("[Photocopier/Printer/MakePhotoCopy()] - Spawn paper failed!");
+					Loggy.Error("[Photocopier/Printer/MakePhotoCopy()] - Spawn paper failed!");
 					continue;
 				}
 				var paperObj = result.GameObject;

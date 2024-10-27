@@ -192,7 +192,7 @@ namespace Objects.Engineering.Reactor
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError(e.ToString());
+				Loggy.Error(e.ToString());
 			}
 
 		}

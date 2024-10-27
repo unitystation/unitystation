@@ -172,7 +172,7 @@ namespace HealthV2
 				{
 					if (playerSprites.ThisCharacter == null)
 					{
-						Loggy.LogError("playerSprites.ThisCharacter == null");
+						Loggy.Error("playerSprites.ThisCharacter == null");
 						return;
 					}
 

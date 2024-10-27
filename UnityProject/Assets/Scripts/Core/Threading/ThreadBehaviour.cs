@@ -67,7 +67,7 @@ namespace Core.Threading
 				}
 				catch (Exception e)
 				{
-					Loggy.LogError(e.ToString(), Category.Threading);
+					Loggy.Error(e.ToString(), Category.Threading);
 					midTick = false;
 				}
 
@@ -98,7 +98,7 @@ namespace Core.Threading
 				}
 				catch (Exception e)
 				{
-					ThreadLoggy.AddLog(e.ToString(), Category.Threading);
+					ThreadLoggy.QueueLog( LogLevel.Error, e.ToString(), Category.Threading);
 					midTick = false;
 					if (threadMode == ThreadMode.Threaded)
 					{
@@ -125,7 +125,7 @@ namespace Core.Threading
 				workingThread = new Thread (ThreadLoop);
 				workingThread.Start();
 				currentThreads.Add(this);
-				Loggy.LogFormat("<b>{0}</b> Started", Category.Threading, GetType().Name);
+				Loggy.Info().Format("<b>{0}</b> Started", Category.Threading, GetType().Name);
 			}
 			else if (threadMode == ThreadMode.MainThread)
 			{
@@ -148,7 +148,7 @@ namespace Core.Threading
 				workingThread = null;
 			}
 			currentThreads.Remove(this);
-			Loggy.LogFormat("<b>{0}</b> Stopped", Category.Threading, GetType().Name);
+			Loggy.Info().Format("<b>{0}</b> Stopped", Category.Threading, GetType().Name);
 			running = false;
 		}
 

@@ -64,7 +64,7 @@ namespace MapSaver
 				}
 				catch (Exception e)
 				{
-					Loggy.LogError(e.ToString());
+					Loggy.Error(e.ToString());
 					continue;
 				}
 
@@ -137,7 +137,7 @@ namespace MapSaver
 						}
 						catch (Exception e)
 						{
-							Loggy.LogError(e.ToString());
+							Loggy.Error(e.ToString());
 							return int.Parse("1");
 						}
 					}
@@ -225,7 +225,7 @@ namespace MapSaver
 				}
 				catch (Exception e)
 				{
-					Loggy.LogError(e.ToString());
+					Loggy.Error(e.ToString());
 				}
 			}
 
@@ -442,7 +442,7 @@ namespace MapSaver
 					}
 					catch (Exception e)
 					{
-						Loggy.LogError(e.ToString());
+						Loggy.Error(e.ToString());
 						continue;
 					}
 				}
@@ -583,7 +583,7 @@ namespace MapSaver
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError(e.ToString());
+				Loggy.Error(e.ToString());
 			}
 
 
@@ -631,7 +631,7 @@ namespace MapSaver
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError(e.ToString());
+				Loggy.Error(e.ToString());
 			}
 
 			if (aaMatrix.NetworkedMatrix.RequestInitialiseMapLoader && Application.isPlaying)
@@ -645,7 +645,7 @@ namespace MapSaver
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError(e.ToString());
+				Loggy.Error(e.ToString());
 			}
 		}
 	}

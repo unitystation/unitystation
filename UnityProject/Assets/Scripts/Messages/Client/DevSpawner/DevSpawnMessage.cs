@@ -83,7 +83,7 @@ namespace Messages.Client.DevSpawner
 			}
 			else
 			{
-				Loggy.LogWarningFormat("An admin attempted to spawn prefab with invalid asset ID {0}, which" +
+				Loggy.Warning().Format("An admin attempted to spawn prefab with invalid asset ID {0}, which" +
 				                        " is not found in Mirror.ClientScene. Spawn will not" +
 				                        " occur.", Category.Admin, msg.PrefabAssetID);
 			}
@@ -120,7 +120,7 @@ namespace Messages.Client.DevSpawner
 			}
 			else
 			{
-				Loggy.LogWarningFormat(
+				Loggy.Warning().Format(
 						"Prefab {0} which you are attempting to spawn has no NetworkIdentity, thus cannot be spawned.",
 						Category.Admin, prefab);
 			}

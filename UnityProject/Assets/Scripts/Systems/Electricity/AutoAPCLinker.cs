@@ -30,7 +30,7 @@ namespace Systems.Scenes.Electricity
 		{
 			if (targetDevice.RelatedAPC != null)
 			{
-				if (verboseDebugging) Loggy.LogWarning("[AutoAPCLinker] - " +
+				if (verboseDebugging) Loggy.Warning("[AutoAPCLinker] - " +
 				                                        "Device already has a related APC. Skipping..", Category.Electrical);
 				return;
 			}
@@ -41,7 +41,7 @@ namespace Systems.Scenes.Electricity
 				apc.AddDevice(targetDevice);
 				if (verboseDebugging)
 				{
-					Loggy.Log($"[AutoAPCLinker] - Found APC for {targetDevice.gameObject.ExpensiveName()} " +
+					Loggy.Info($"[AutoAPCLinker] - Found APC for {targetDevice.gameObject.ExpensiveName()} " +
 					           $"at {apc.gameObject.AssumedWorldPosServer()}", Category.Electrical);
 				}
 				break;

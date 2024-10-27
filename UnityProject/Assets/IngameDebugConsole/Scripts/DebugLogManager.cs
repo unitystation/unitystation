@@ -603,11 +603,11 @@ namespace IngameDebugConsole
 			if (Debug.isDebugBuild)
 			{
 				SafeProfileManager.Instance.StartProfile(30);
-				Loggy.Log("Running a local profile, saving on installation folder", Category.DebugConsole);
+				Loggy.Info("Running a local profile, saving on installation folder", Category.DebugConsole);
 			}
 			else
 			{
-				Loggy.Log("Unable to run local profile, the build needs to be in development mode", Category.DebugConsole);
+				Loggy.Info("Unable to run local profile, the build needs to be in development mode", Category.DebugConsole);
 			}
 		}
 
@@ -619,11 +619,11 @@ namespace IngameDebugConsole
 			if (Debug.isDebugBuild)
 			{
 				SafeProfileManager.Instance.RunMemoryProfile();
-				Loggy.Log("Running a local memory profile, saving on installation folder", Category.DebugConsole);
+				Loggy.Info("Running a local memory profile, saving on installation folder", Category.DebugConsole);
 			}
 			else
 			{
-				Loggy.Log("Unable to run local profile, the build needs to be in development mode", Category.DebugConsole);
+				Loggy.Info("Unable to run local profile, the build needs to be in development mode", Category.DebugConsole);
 			}
 		}
 

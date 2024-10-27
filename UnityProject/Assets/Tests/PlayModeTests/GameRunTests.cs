@@ -16,7 +16,7 @@ namespace GameRunTests
 
 			if (GameManager.Instance == null)
 			{
-				Loggy.LogError("Unable to load OnlineScene Properly returning");
+				Loggy.Error("Unable to load OnlineScene Properly returning");
 				yield break;
 			}
 			GameManager.Instance.QuickLoad = true;

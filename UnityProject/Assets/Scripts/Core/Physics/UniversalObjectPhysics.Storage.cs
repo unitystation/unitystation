@@ -66,7 +66,7 @@ namespace Core.Physics
 				global::Chat.AddGameWideSystemMsgToChat(
 					$"Anomoly Detected.. {gameObject.ExpensiveName()} has attempted to store itself within itself"
 						.Color(Color.red));
-				Loggy.LogError("Tried to store object within itself");
+				Loggy.Error("Tried to store object within itself");
 				return; //Storing something inside of itself, what?
 			}
 

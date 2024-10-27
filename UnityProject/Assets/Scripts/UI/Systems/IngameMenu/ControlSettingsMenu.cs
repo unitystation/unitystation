@@ -90,10 +90,10 @@ namespace UI
 		/// </summary>
 		public void PopulateKeybindScrollView()
 		{
-			Loggy.Log("Populating keybind scroll view", Category.Keybindings);
+			Loggy.Info("Populating keybind scroll view", Category.Keybindings);
 			if (KeybindItemList.Count > 0)
 			{
-				Loggy.Log("Removing old keybind objects", Category.Keybindings);
+				Loggy.Info("Removing old keybind objects", Category.Keybindings);
 				// Destroy all items in list if it already exists
 				foreach (GameObject item in KeybindItemList)
 				{
@@ -158,12 +158,12 @@ namespace UI
 			// If null stop the function (null is returned if Escape was captured)
 			if (capturedKeyCombo == null)
 			{
-				Loggy.Log("Captured Escape key, cancelling change", Category.Keybindings);
+				Loggy.Info("Captured Escape key, cancelling change", Category.Keybindings);
 				UIManager.IsInputFocus = false;
 				yield break;
 			}
 
-			Loggy.Log("Captured key combo: " + capturedKeyCombo.ToString(), Category.Keybindings);
+			Loggy.Info("Captured key combo: " + capturedKeyCombo.ToString(), Category.Keybindings);
 
 			conflictingKVP = tempKeybinds.CheckConflict(capturedKeyCombo, ref isConflictPrimary);
 			KeyAction conflictingAction = conflictingKVP.Key;

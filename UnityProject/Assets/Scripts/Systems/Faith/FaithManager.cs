@@ -22,7 +22,7 @@ namespace Systems.Faith
 			base.Awake();
 			EventManager.AddHandler(Event.RoundEnded, ResetReligion);
 			EventManager.AddHandler(Event.RoundStarted, SetupFaiths);
-			Loggy.Log("[FaithManager/Awake] - Setting stuff.");
+			Loggy.Info("[FaithManager/Awake] - Setting stuff.");
 		}
 
 		private void SetupFaiths()
@@ -40,7 +40,7 @@ namespace Systems.Faith
 
 		private void ResetReligion()
 		{
-			Loggy.Log("[FaithManager/ResetReligion] - Resetting faiths.");
+			Loggy.Info("[FaithManager/ResetReligion] - Resetting faiths.");
 			CurrentFaiths.Clear();
 			FaithPropertiesConstantUpdate.Clear();
 			FaithPropertiesEventUpdate.Clear();
@@ -51,7 +51,7 @@ namespace Systems.Faith
 
 		private void LongUpdate()
 		{
-			Loggy.Log($"[FaithManager/LongUpdate] - Events check.");
+			Loggy.Info($"[FaithManager/LongUpdate] - Events check.");
 			foreach (var update in FaithPropertiesEventUpdate)
 			{
 				update?.Invoke();
@@ -103,7 +103,7 @@ namespace Systems.Faith
 		{
 			if (CustomNetworkManager.IsServer == false)
 			{
-				Loggy.LogError("[FaithManager/AddFaithToActiveList] - Attempted to call a server function on the client.");
+				Loggy.Error("[FaithManager/AddFaithToActiveList] - Attempted to call a server function on the client.");
 				return;
 			}
 			FaithData data = new FaithData()

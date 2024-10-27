@@ -104,7 +104,7 @@ namespace Objects.Kitchen
 					grinder.SwitchMode();
 					break;
 				default:
-					Loggy.LogError("Unexpected interaction request occurred in grinder context menu.", Category.Interaction);
+					Loggy.Error("Unexpected interaction request occurred in grinder context menu.", Category.Interaction);
 					break;
 			}
 		}

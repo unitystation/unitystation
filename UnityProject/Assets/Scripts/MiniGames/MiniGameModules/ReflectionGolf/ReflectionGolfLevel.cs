@@ -16,7 +16,7 @@ namespace MiniGames.MiniGameModules
 
 		public short Height { get; private set; }
 
-		public CellData[] LevelData { get; private set; } = new CellData[0]; 
+		public CellData[] LevelData { get; private set; } = new CellData[0];
 
 		public Vector2Int GoalLocation { get; private set; }
 
@@ -59,7 +59,7 @@ namespace MiniGames.MiniGameModules
 
 			if (AccessFile.Exists(path) == false)
 			{
-				Loggy.LogError($"[ReflectionGolfLevel/LoadLevelFromFile] - Tried loading level at path: {path}, but file did not exist!");
+				Loggy.Error($"[ReflectionGolfLevel/LoadLevelFromFile] - Tried loading level at path: {path}, but file did not exist!");
 				return;
 			}
 
@@ -96,7 +96,7 @@ namespace MiniGames.MiniGameModules
 					LevelData[x + y*Width] = newCell;
 				}
 			}
-		
+
 			miniGameModule.UpdateCellsData(uniqueObjects);
 		}
 
@@ -104,7 +104,7 @@ namespace MiniGames.MiniGameModules
 		{
 			LevelData[x + y*Width] = newData;
 		}
-	
+
 
 		private void InitialiseLevelValues()
 		{

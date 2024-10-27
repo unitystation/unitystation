@@ -64,7 +64,7 @@ public static class GameObjectExtensions
 		var regTile = obj.GetComponent<RegisterTile>();
 		if (regTile == null)
 		{
-			Loggy.LogWarning("Attempting to get world position of object {0} which has no RegisterTile. " +
+			Loggy.Warning("Attempting to get world position of object {0} which has no RegisterTile. " +
 			                  "Transform.position will be used instead, which may cause unexpected behavior.", Category.Matrix);
 			return obj.transform.position.RoundTo2Int();
 		}
@@ -90,7 +90,7 @@ public static class GameObjectExtensions
 		var regTile = obj.GetComponent<RegisterTile>();
 		if (regTile == null)
 		{
-			Loggy.LogWarning("Attempting to get local position of object {0} which has no RegisterTile. " +
+			Loggy.Warning("Attempting to get local position of object {0} which has no RegisterTile. " +
 			                  "Transform.localposition will be used instead, which may cause unexpected behavior.", Category.Matrix);
 			return obj.transform.localPosition.RoundTo2Int();
 		}

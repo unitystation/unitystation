@@ -20,7 +20,7 @@ public class WindowFocus : MonoBehaviour
 
 		if (Searchtext == null)
 		{
-			Loggy.LogError($"{nameof(TMP_InputField)} not found / assigned to {this}.");
+			Loggy.Error($"{nameof(TMP_InputField)} not found / assigned to {this}.");
 			enabled = false;
 		}
 	}

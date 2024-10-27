@@ -32,7 +32,7 @@ public class MatrixSystemManager : MonoBehaviour
 			catch (Exception e)
 			{
 				Chat.AddGameWideSystemMsgToChat($"<color=red>Error when initialising  {nameof(system)} on {this.name}. Weird stuff might happen, check logs for error..</color>");
-				Loggy.LogError(e.ToString());
+				Loggy.Error(e.ToString());
 			}
 
 			yield return null;
@@ -48,7 +48,7 @@ public class MatrixSystemManager : MonoBehaviour
 			catch (Exception e)
 			{
 				Chat.AddGameWideSystemMsgToChat($"<color=red>Error when initialising {nameof(system)} on {this.name}. Weird stuff might happen, check logs for error..</color>");
-				Loggy.LogError(e.ToString());
+				Loggy.Error(e.ToString());
 			}
 
 			yield return null;

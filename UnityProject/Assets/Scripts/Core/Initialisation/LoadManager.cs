@@ -111,7 +111,7 @@ namespace Initialisation
 				}
 				catch (Exception e)
 				{
-					Loggy.LogError(e.ToString());
+					Loggy.Error(e.ToString());
 				}
 				IsExecuting = false;
 			}
@@ -140,7 +140,7 @@ namespace Initialisation
 							}
 							catch (Exception e)
 							{
-								Loggy.LogError(e.ToString());
+								Loggy.Error(e.ToString());
 							}
 						}
 
@@ -179,7 +179,7 @@ namespace Initialisation
 							}
 							catch (Exception e)
 							{
-								Loggy.LogError(e.ToString());
+								Loggy.Error(e.ToString());
 							}
 						}
 						else

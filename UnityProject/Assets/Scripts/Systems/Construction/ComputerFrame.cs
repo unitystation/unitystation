@@ -219,7 +219,7 @@ namespace Objects.Construction
 					var circuitBoard = circuitBoardSlot.ItemObject?.GetComponent<ComputerCircuitboard>();
 					if (circuitBoard == null)
 					{
-						Loggy.LogWarningFormat("Cannot complete computer, circuit board not in frame {0}. Probably a coding error.",
+						Loggy.Warning().Format("Cannot complete computer, circuit board not in frame {0}. Probably a coding error.",
 							Category.Construction, name);
 						return;
 					}

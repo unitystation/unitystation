@@ -45,7 +45,7 @@ public class GameModeData : ScriptableObject
 				return Instantiate(gm);
 			}
 		}
-		Loggy.Log($"Unable to get gamemode {gmName}, returning default: {DefaultGameMode.Name}", Category.GameMode);
+		Loggy.Info($"Unable to get gamemode {gmName}, returning default: {DefaultGameMode.Name}", Category.GameMode);
 		return GetDefaultGameMode();
 	}
 

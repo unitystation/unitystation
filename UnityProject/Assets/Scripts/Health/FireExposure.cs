@@ -100,7 +100,7 @@ public class FireExposure
 	{
 		if (!hotspotNode.HasHotspot)
 		{
-			Loggy.LogErrorFormat("MetaDataNode at local position {0} has no hotspot, so no fire exposure" +
+			Loggy.Error().Format("MetaDataNode at local position {0} has no hotspot, so no fire exposure" +
 			                      " will occur. This is likely a coding error.", Category.Atmos, hotspotNode.LocalPosition);
 			return;
 		}
@@ -120,7 +120,7 @@ public class FireExposure
 	{
 		if (!hotspotNode.HasHotspot)
 		{
-			Loggy.LogErrorFormat("MetaDataNode at local position {0} has no hotspot, so no fire exposure" +
+			Loggy.Error().Format("MetaDataNode at local position {0} has no hotspot, so no fire exposure" +
 			                      " will occur. This is likely a coding error.", Category.Atmos, hotspotNode.LocalPosition);
 			return null;
 		}

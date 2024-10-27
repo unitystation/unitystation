@@ -33,7 +33,7 @@ namespace Util.Independent.FluentRichText.Styles
 				return true;
 			}
 
-			Loggy.LogError(
+			Loggy.Error(
 				"RichText received invalid margin. Margin must be a pixel value (e.g., \"1\", \"2.5\"), a font unit value (e.g., \"1em\", \"-0.5em\"), or a percentage value (e.g., \"10%\", \"2.5%\").");
 			return false;
 		}

@@ -46,7 +46,7 @@ namespace Objects.Closets
 			if (miniGameTracker == null) return;
 			if (miniGameModules.Count == 0)
 			{
-				Loggy.LogError("[MiniGames/AbandonedCrates] - Found MiniGame tracker but no minigames found!");
+				Loggy.Error("[MiniGames/AbandonedCrates] - Found MiniGame tracker but no minigames found!");
 				return;
 			}
 

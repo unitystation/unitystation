@@ -94,7 +94,7 @@ namespace Changeling
 					newEntry.Icon = OccupationList.Instance.Get(x.Job).PreviewSprite;
 				} catch
 				{
-					Loggy.LogError("[UiChangeling/OpenTransformUI] Can`t pick preview sprite", Category.Changeling);
+					Loggy.Error("[UiChangeling/OpenTransformUI] Can`t pick preview sprite", Category.Changeling);
 				}
 				choise.Add(newEntry);
 			}

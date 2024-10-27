@@ -82,7 +82,7 @@ namespace AddressableReferences
 					}
 					else
 					{
-						Loggy.LogError("Address is invalid for " + AssetReference, Category.Addressables);
+						Loggy.Error("Address is invalid for " + AssetReference, Category.Addressables);
 					}
 				}
 			}
@@ -115,7 +115,7 @@ namespace AddressableReferences
 			}
 			else
 			{
-				Loggy.LogError($"Asset is not loaded with ID of {AssetAddress}", Category.Addressables);
+				Loggy.Error($"Asset is not loaded with ID of {AssetAddress}", Category.Addressables);
 				return null;
 			}
 		}
@@ -161,7 +161,7 @@ namespace AddressableReferences
 			if (IsReadyLoaded)
 			{
 				//Check manager To see if it's implemented
-				Loggy.Log($"Addressable Manager not implemented yet, can't unload {AssetAddress}", Category.Addressables);
+				Loggy.Info($"Addressable Manager not implemented yet, can't unload {AssetAddress}", Category.Addressables);
 			}
 		}
 
@@ -178,7 +178,7 @@ namespace AddressableReferences
 					   return true;
 				}
 			}
-			Loggy.LogWarning($"Addressable Address is invalid: {AssetAddress}", Category.Addressables);
+			Loggy.Warning($"Addressable Address is invalid: {AssetAddress}", Category.Addressables);
 			return false;
         }
 

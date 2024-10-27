@@ -31,7 +31,7 @@ public class GroupedAccess : MonoBehaviour, IClearanceSource
 	{
 		if (NewIClearanceSource.GetType() == typeof(GroupedAccess))
 		{
-			Loggy.LogError( "prevented adding of GroupedAccess to GroupedAccess,  I don't want no infinite loops, If you need it you can change it So it can catch the loops" );
+			Loggy.Error( "prevented adding of GroupedAccess to GroupedAccess,  I don't want no infinite loops, If you need it you can change it So it can catch the loops" );
 			return;
 		}
 

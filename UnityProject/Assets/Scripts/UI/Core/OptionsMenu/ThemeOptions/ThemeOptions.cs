@@ -89,7 +89,7 @@ namespace Unitystation.Options
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError($"[ThemeOptions/Refresh()] - Failed to Load themes.\n {e}");
+				Loggy.Error($"[ThemeOptions/Refresh()] - Failed to Load themes.\n {e}");
 			}
 
 			HighlightToggle.isOn = Highlight.HighlightEnabled;
@@ -114,7 +114,7 @@ namespace Unitystation.Options
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError(e.ToString());
+				Loggy.Error(e.ToString());
 			}
 
 			try
@@ -131,7 +131,7 @@ namespace Unitystation.Options
 			catch (Exception e)
 			{
 				var chatUIHasNoFonts = ChatUI.Instance.Fonts?.Count == 0;
-				Loggy.LogError($"[ThemeOptions/Refresh()] - Failed to setup font options. " +
+				Loggy.Error($"[ThemeOptions/Refresh()] - Failed to setup font options. " +
 				                $"\n chat has no fonts: {chatUIHasNoFonts} \n {e}");
 			}
 
@@ -147,7 +147,7 @@ namespace Unitystation.Options
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError($"[ThemeOptions/Refresh()] - Failed to setup RightClick options. " );
+				Loggy.Error($"[ThemeOptions/Refresh()] - Failed to setup RightClick options. " );
 			}
 
 			ThrowPreferenceToggle.isOn = ControlAction.GetHoldThrowPreference();
@@ -179,7 +179,7 @@ namespace Unitystation.Options
 			else
 			{
 				chatBubbleDropDown.interactable = false;
-				Loggy.LogError("No Options found for ChatBubbles", Category.Themes);
+				Loggy.Error("No Options found for ChatBubbles", Category.Themes);
 			}
 		}
 

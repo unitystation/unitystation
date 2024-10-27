@@ -37,7 +37,7 @@ namespace Learning.ProtipObjectTypes
 		{
 			healthState = GetComponentInParent<HealthStateController>();
 			if (healthState != null) return;
-			Loggy.LogError($"[Protips/HealthStateChangeTip/{gameObject} - Missing Health State controller.]");
+			Loggy.Error($"[Protips/HealthStateChangeTip/{gameObject} - Missing Health State controller.]");
 			Destroy(this);
 		}
 

@@ -68,7 +68,7 @@ namespace UI.Core.NetUI
 		{
 			if (id == NetId.Empty)
 			{
-				Loggy.LogWarningFormat("{0} tried to wait on an empty (0) id", Category.Server, this.GetType().Name);
+				Loggy.Warning().Format("{0} tried to wait on an empty (0) id", Category.Server, this.GetType().Name);
 				yield break;
 			}
 
@@ -80,7 +80,7 @@ namespace UI.Core.NetUI
 			{
 				if (tries++ > 10)
 				{
-					Loggy.LogWarningFormat("{0} could not find object with id {1}", Category.Server, this.GetType().Name, id);
+					Loggy.Warning().Format("{0} could not find object with id {1}", Category.Server, this.GetType().Name, id);
 					yield break;
 				}
 
