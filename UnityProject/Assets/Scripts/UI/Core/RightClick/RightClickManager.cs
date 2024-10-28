@@ -145,7 +145,10 @@ public class RightClickManager : SingletonManager<RightClickManager>
 		// cache all known usages of the RightClickMethod annotation
 		if (attributedTypes.Count == 0)
 		{
-			new Task(GetRightClickAttributedMethods).Start();
+			if (Application.isBatchMode == false)
+			{
+				new Task(GetRightClickAttributedMethods).Start();
+			}
 		}
 
 		// Will be enabled by ControlDisplays when needed
