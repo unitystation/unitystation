@@ -33,7 +33,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 #if UNITY_STANDALONE_LINUX_API
 			return true;
 #endif
-			return CustomNetworkManager.IsHeadless;
+			return Application.isBatchMode;
 		}
 	}
 
