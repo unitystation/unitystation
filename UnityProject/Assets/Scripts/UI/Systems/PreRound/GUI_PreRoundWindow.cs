@@ -245,7 +245,7 @@ namespace UI
 			if (isReady != ready)
 			{
 				// Ready status changed so tell the server
-				PlayerManager.LocalViewerScript.SetReady(ready);
+				PlayerManager.LocalViewerScript?.SetReady(ready);
 			}
 			isReady = ready;
 			characterButton.interactable = !ready;

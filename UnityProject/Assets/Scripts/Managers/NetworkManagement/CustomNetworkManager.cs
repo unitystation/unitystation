@@ -26,7 +26,16 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	// NetworkManager.isHeadless is removed in latest versions of Mirror,
 	// so we assume headless would be running in batch mode.
-	public static bool IsHeadless => Application.isBatchMode;
+	public static bool IsHeadless
+	{
+		get
+		{
+#if UNITY_STANDALONE_LINUX_API
+			return true;
+#endif
+			return CustomNetworkManager.IsHeadless;
+		}
+	}
 
 	public static CustomNetworkManager Instance;
 

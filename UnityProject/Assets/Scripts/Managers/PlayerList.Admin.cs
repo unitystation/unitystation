@@ -774,8 +774,9 @@ public partial class PlayerList
 	{
 		//full admin privs for local offline testing for host player
 		if (serverAdmins.Contains(player.AccountId)
-		    || (player.GameObject == PlayerManager.LocalViewerScript.gameObject)
-		    || Application.isEditor)
+		    || (player.GameObject == PlayerManager.LocalViewerScript?.gameObject)
+		    || Application.isEditor
+		    )
 		{
 			//This is an admin, send admin notify to the users client
 			Loggy.Info($"{player.Username} logged in as Admin. IP: {player.ConnectionIP}", Category.Admin);

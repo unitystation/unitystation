@@ -145,7 +145,7 @@ public class RightClickManager : SingletonManager<RightClickManager>
 		// cache all known usages of the RightClickMethod annotation
 		if (attributedTypes.Count == 0)
 		{
-			if (Application.isBatchMode == false)
+			if (CustomNetworkManager.IsHeadless == false)
 			{
 				new Task(GetRightClickAttributedMethods).Start();
 			}

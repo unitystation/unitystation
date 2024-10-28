@@ -480,7 +480,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation90
 
 	public void OnMatrixRotate90()
 	{
-		if (Application.isBatchMode) return;
+		if (CustomNetworkManager.IsHeadless) return;
 		if (MatrixRotateUpdate == false) return;
 		var NewRotation =  SynchroniseCurrentDirection.ToLocalVector3().DirectionLocalToWorld(RegisterTile.Matrix).ToOrientationEnum();
 		RotateObject(NewRotation);

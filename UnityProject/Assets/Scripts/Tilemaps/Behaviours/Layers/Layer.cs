@@ -119,7 +119,7 @@ public class Layer : MonoBehaviour
 	{
 		return;
 		//TODO look in to why tables don't Rotate for properly, Otherwise this doesn't seem to do anything and costs performance
-		// if (Application.isBatchMode) return;
+		// if (CustomNetworkManager.IsHeadless) return;
 		// RotationOffset = matrixMove.NetworkedMatrixMove.TargetTransform.rotation;
 		// if (tilemap != null)
 		// {

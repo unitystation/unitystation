@@ -91,13 +91,32 @@ namespace Logs
 			//2018-10-25 11:56:35,008 INFO: [Atmos] message [MethodName::h:\UnityProject\Scripts\MyScript.cs::13]
 			DateTime now = DateTime.Now;
 			string formattedDate = now.ToString("yyyy-MM-dd HH:mm:ss,fff");
-			const string messageFormat = "{0} {1}: [{2}] {3} [{4}::{5}]::{6}]";
-			msg = string.Format(messageFormat,
-				formattedDate,
-				level.ToString().ToUpper(),
-				category,
-				msg,
-				methodName, filePath, lineNumber);
+			string levelString = level.ToString().ToUpper();
+			string categoryString = category.ToString();
+
+			var File = Path.GetFileName(filePath);
+			if (Application.isEditor)
+			{
+				const string messageFormat = "{0} [{1}] {2}:{3}";
+				msg = string.Format(messageFormat,
+					msg,
+					methodName, File, lineNumber);
+
+			}
+			else
+			{
+				const string messageFormat = "{0} {1}: [{2}] {3} {4}::{5}:{6}";
+				msg = string.Format(messageFormat,
+					formattedDate,
+					levelString,
+					categoryString,
+					msg,
+					methodName, File, lineNumber);
+			}
+
+
+
+
 
 			if (Thread.CurrentThread != MainGameThread && MainGameThread != null)
 			{
