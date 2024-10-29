@@ -210,8 +210,18 @@ namespace Objects.Science
 				if(reg.gameObject == gameObject) continue;
 				if (reg.ObjectPhysics.Component == null)
 				{
-					Loggy.Error( reg.name + " Does not have object physics");
-					continue;
+					var Ghost = reg.GetComponent<GhostMove>();
+					if (Ghost != null)
+					{
+						Ghost.CMDSetServerPosition(travelCoord);
+						continue;
+					}
+					else
+					{
+						Loggy.Error( reg.name + " Does not have object physics");
+						continue;
+					}
+
 				}
 				if(reg.ObjectPhysics.Component.Intangible) continue;
 
