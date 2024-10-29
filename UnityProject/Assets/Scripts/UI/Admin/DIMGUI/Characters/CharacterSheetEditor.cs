@@ -52,7 +52,7 @@ namespace UI.Admin.DIMGUI.Characters
 		{
 			if (windowOpened)
 			{
-				Loggy.Log("[CharacterSheetEditor] UI already open");
+				Loggy.Info("[CharacterSheetEditor] UI already open");
 				return;
 			}
 			saving = false;
@@ -66,7 +66,7 @@ namespace UI.Admin.DIMGUI.Characters
 		{
 			if (windowOpened == false)
 			{
-				Loggy.Log("[CharacterSheetEditor] UI already closed");
+				Loggy.Info("[CharacterSheetEditor] UI already closed");
 				return;
 			}
 			windowOpened = false;
