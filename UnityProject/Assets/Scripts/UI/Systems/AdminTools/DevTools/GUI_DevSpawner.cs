@@ -120,13 +120,25 @@ public class GUI_DevSpawner : MonoBehaviour
 
     public void Search(string SearchOverride = null)
     {
+	    if (searchBox == null)
+	    {
+		    Loggy.Error("searchBox is null");
+	    }
+
 	    if (string.IsNullOrWhiteSpace(SearchOverride) && searchBox.text.Length < minCharactersForSearch) return;
+
+	    if (contentPanel == null)
+	    {
+		    Loggy.Error("contentPanel is null");
+	    }
 
 		// delete previous results
 	    foreach (Transform child in contentPanel.transform)
 	    {
 		    Destroy(child.gameObject);
 	    }
+
+
 
 	    string StringSearch = searchBox.text;
 
@@ -137,6 +149,17 @@ public class GUI_DevSpawner : MonoBehaviour
 		    searchWhileTyping = false;
 		    searchBox.text = SearchOverride;
 		    searchWhileTyping = Cashed;
+	    }
+
+
+	    if (spawnerSearch == null)
+	    {
+		    Loggy.Error("spawnerSearch is null");
+	    }
+
+	    if (DEBUGToggle == null)
+	    {
+		    Loggy.Error("DEBUGToggle is null");
 	    }
 
 	    var docs = spawnerSearch.Search(StringSearch, DEBUGToggle.isOn);

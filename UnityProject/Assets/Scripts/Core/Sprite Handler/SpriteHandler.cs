@@ -126,6 +126,8 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 	/// </summary>
 	public int CatalogueCount => SubCatalogue.Count;
 
+	private bool SpriteHasBeenCodeSet = false;
+
 	/// <summary>
 	/// Current sprite from SpriteRender or Image
 	/// Null if sprite is hidden
@@ -208,6 +210,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 	/// <param name="networked">Whether this change should be sent to clients, if server.</param>
 	public void SetCatalogueIndexSprite(int cataloguePage, bool networked = true)
 	{
+		SpriteHasBeenCodeSet = true;
 		InternalChangeSprite(cataloguePage, networked);
 	}
 
@@ -217,6 +220,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 	/// </summary>
 	public void AnimateOnce(int cataloguePage, bool networked = true)
 	{
+		SpriteHasBeenCodeSet = true;
 		InternalChangeSprite(cataloguePage, networked, true);
 	}
 
@@ -258,6 +262,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 		if (newSpriteSO == null) return;
 		if (newSpriteSO != PresentSpriteSet)
 		{
+			SpriteHasBeenCodeSet = true;
 			isPaletteSet = false;
 			PresentSpriteSet = newSpriteSO;
 			if (Application.isPlaying == false)
@@ -376,6 +381,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 
 	public void Empty(bool clearCatalogue = false, bool networked = true)
 	{
+		SpriteHasBeenCodeSet = true;
 		if (clearCatalogue)
 		{
 			SubCatalogue = new List<SpriteDataSO>();
@@ -459,7 +465,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 	void INewMappedOnSpawn.OnNewMappedOnSpawn()
 	{
 		Init();
-		if (PresentSpriteSet == null)
+		if (PresentSpriteSet == null || SpriteHasBeenCodeSet == false)
 		{
 			PresentSpriteSet = InitialPresentSpriteSet;
 		}

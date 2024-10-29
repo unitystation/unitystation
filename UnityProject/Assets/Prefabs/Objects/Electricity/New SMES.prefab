@@ -52,6 +52,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -103,11 +104,13 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: 099b545340b1ba449a6fa244256f1f97, type: 2}
   - {fileID: 11400000, guid: 76e1ddfdf021c5442a3571c4d9d1cfc7, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 099b545340b1ba449a6fa244256f1f97, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 099b545340b1ba449a6fa244256f1f97,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1 &4509073143283519027
 GameObject:
@@ -161,6 +164,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -212,11 +216,13 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: 04bdc709610a043459bc04e8a56cdd75, type: 2}
   - {fileID: 11400000, guid: f67f3880b2b405f418bce2e5aa83cad6, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 04bdc709610a043459bc04e8a56cdd75, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 04bdc709610a043459bc04e8a56cdd75,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 0
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1 &8847876275730697796
 GameObject:
@@ -270,6 +276,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -324,11 +331,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 445b1456e32bd354b807ecf157bd8c0e, type: 2}
   - {fileID: 11400000, guid: 9fae2a38755a8d74a89ef51015862930, type: 2}
   - {fileID: 11400000, guid: 4df32e0c22d2c0a4cb2cece53e2791f5, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: bd329062e4ba725438d3b6775fa20f6f, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: bd329062e4ba725438d3b6775fa20f6f,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1001 &3072407288100151715
 PrefabInstance:
@@ -494,6 +503,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6943869364395329275, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e4214d0cb98499d4c919e029794bcf5f,
+        type: 2}
+    - target: {fileID: 6943869364395329275, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
       propertyPath: SubCatalogue.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -623,23 +638,23 @@ MonoBehaviour:
   InternalResistance: 0
   PreviousProducingWatts: 0
   ProducingWatts: 0
-  MaximumCurrentSupport: 8
-  MinimumSupportVoltage: 2700
-  StandardSupplyingVoltage: 3000
-  CapacityMax: 18000000
-  CurrentCapacity: 18000000
-  ExtraChargeCutOff: 3000
-  IncreasedChargeVoltage: 3010
-  StandardChargeNumber: 1
-  MaxChargingDivider: 750
-  ChargingDivider: 10
-  InputLevel: 100
-  OutputLevel: 100
-  CanCharge: 1
-  Cansupport: 1
-  ToggleCanCharge: 1
-  ToggleCansupport: 1
-  SlowResponse: 0
+  InitialMaximumCurrentSupport: 8
+  InitialMinimumSupportVoltage: 2700
+  InitialStandardSupplyingVoltage: 3000
+  InitialCapacityMax: 18000000
+  InitialCurrentCapacity: 18000000
+  InitialExtraChargeCutOff: 3000
+  InitialIncreasedChargeVoltage: 3010
+  InitialStandardChargeNumber: 1
+  InitialMaxChargingDivider: 7500
+  InitialChargingDivider: 10
+  InitialInputLevel: 100
+  InitialOutputLevel: 100
+  InitialCanCharge: 1
+  InitialCanSupport: 1
+  InitialToggleCanCharge: 1
+  InitialToggleCanSupport: 1
+  InitialSlowResponse: 0
   PullingWatts: 0
   ChargingWatts: 0
 --- !u!114 &6201760952787026738
