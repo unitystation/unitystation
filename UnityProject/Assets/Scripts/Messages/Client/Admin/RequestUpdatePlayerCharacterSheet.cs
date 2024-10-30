@@ -21,7 +21,7 @@ namespace Messages.Client.Admin
 		{
 			if (IsFromAdmin() == false)
 			{
-				Loggy.Error($"Lacking admin permissions on {SentByPlayer.Username}.");
+				Loggy.Error().Format($"Lacking admin permissions on {SentByPlayer.Username}.");
 				UpdateTheRequestToCharacterSheetUpdateToRequests.SendSheetUpdate(SentByPlayer, false);
 				return;
 			}
