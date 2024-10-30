@@ -772,12 +772,14 @@ public partial class PlayerList
 
 	public void CheckAdminState(PlayerInfo player)
 	{
-		//full admin privs for local offline testing for host player
+		// (Max): Unity doesn't load server admins on MPM due to the library not copying the correct files over.
+		// This prevents the server from breaking if it ever gets an empty ServerAdmin list.
 		if (serverAdmins == null)
 		{
 			Loggy.Error("[PlayerList.Admin/CheckAdminState] -  Missing serverAdmins list.", Category.Admin);
 			return;
 		}
+		//full admin privs for local offline testing for host player
 		if (serverAdmins.Contains(player.AccountId)
 		    || (player.GameObject == PlayerManager.LocalViewerScript?.gameObject)
 		    || Application.isEditor
