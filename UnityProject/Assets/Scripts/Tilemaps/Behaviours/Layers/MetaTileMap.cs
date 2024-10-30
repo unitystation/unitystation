@@ -1330,7 +1330,7 @@ namespace TileManagement
 			{
 				if (layer.LayerType == LayerType.Objects) continue;
 
-				if (ignoreEffectsLayer && layer.LayerType == LayerType.Effects) continue;
+				if (ignoreEffectsLayer && (layer.LayerType is LayerType.Effects or LayerType.UnderObjectsEffects )) continue;
 
 				tileLocation = GetCorrectTileLocationForLayer(cellPosition, layer, useExactForMultilayer);
 
