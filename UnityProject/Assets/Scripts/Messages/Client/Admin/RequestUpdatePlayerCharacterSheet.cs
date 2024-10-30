@@ -21,7 +21,7 @@ namespace Messages.Client.Admin
 		{
 			if (IsFromAdmin() == false)
 			{
-				Loggy.Error($"[RequestUpdatePlayerCharacterSheet] Lacking admin permissions on {SentByPlayer.Username}.");
+				Loggy.Error($"Lacking admin permissions on {SentByPlayer.Username}.");
 				UpdateTheRequestToCharacterSheetUpdateToRequests.SendSheetUpdate(SentByPlayer, false);
 				return;
 			}
@@ -38,7 +38,7 @@ namespace Messages.Client.Admin
 
 			if (account == null)
 			{
-				Loggy.Error("[RequestUpdatePlayerCharacterSheet] Could not find account to update, or lacking admin permissions.");
+				Loggy.Error("Could not find account to update, or lacking admin permissions.");
 				UpdateTheRequestToCharacterSheetUpdateToRequests.SendSheetUpdate(SentByPlayer, false);
 				return;
 			}
@@ -53,7 +53,7 @@ namespace Messages.Client.Admin
 			{
 				if (account.Mind == null)
 				{
-					Loggy.Error("[RequestUpdatePlayerCharacterSheet] Could not find a mind to link sheet to.");
+					Loggy.Error("Could not find a mind to link sheet to.");
 				}
 				else
 				{
