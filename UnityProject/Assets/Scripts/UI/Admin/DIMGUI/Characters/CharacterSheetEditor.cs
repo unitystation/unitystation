@@ -16,10 +16,9 @@ namespace UI.Admin.DIMGUI.Characters
 	{
 		[SerializeField] private PlayerManagePage playerManagePage;
 		private AdminPlayerEntry playerEntry => playerManagePage.PlayerEntry;
-		private PlayerInfo currentSelectedPlayer;
-		private bool windowOpened = false;
 		private CharacterSheet characterSheet; // Save a local copy for reference
 
+		private bool windowOpened = false;
 		private bool errorOccuredWhileSaving = false;
 		private bool saving = false;
 		private int savingWaitCount = 0;
@@ -39,6 +38,7 @@ namespace UI.Admin.DIMGUI.Characters
 		public void NetMessage_SuccessEvent()
 		{
 			saving = false;
+			characterSheet = null;
 			HideUI();
 		}
 
@@ -95,7 +95,7 @@ namespace UI.Admin.DIMGUI.Characters
 				return;
 			}
 			GrabPlayerObject();
-			if (playerEntry == null || currentSelectedPlayer == null)
+			if (playerEntry == null)
 			{
 				ShowErrorPage();
 				ImGui.End();
@@ -110,13 +110,16 @@ namespace UI.Admin.DIMGUI.Characters
 		private void GrabPlayerObject()
 		{
 			if (playerEntry == null) return;
-			currentSelectedPlayer ??= PlayerList.Instance.GetPlayerByID(playerEntry.PlayerData.uid);
-			if (playerEntry.PlayerData.uid != currentSelectedPlayer.AccountId)
-			{
-				currentSelectedPlayer = PlayerList.Instance.GetPlayerByID(playerEntry.PlayerData.uid);
-				characterSheet = currentSelectedPlayer.Mind.CurrentCharacterSettings;
-			}
-			characterSheet ??= currentSelectedPlayer.Mind.CurrentCharacterSettings;
+			playerEntry.PlayerData.playerObject.NetIdToGameObject();
+			characterSheet ??= GetCharacterSheetFromPlayerNetId(playerEntry.PlayerData.playerObject);
+		}
+
+		private CharacterSheet GetCharacterSheetFromPlayerNetId(uint playerNetId)
+		{
+			var obj = playerNetId.NetIdToGameObject();
+			if (obj == null) return null;
+			if (obj.TryGetComponent<PlayerScript>(out var player) == false) return null;
+			return player.characterSettings;
 		}
 
 		private void EditPage()
@@ -124,11 +127,10 @@ namespace UI.Admin.DIMGUI.Characters
 			if (errorOccuredWhileSaving)
 			{
 				ImGui.TextColored(new Vector4(1, 0, 0, 1), "Error: Something went wrong while saving..");
-				ImGui.Text(gameObject.NetId().ToString());
 			}
 			GrabPlayerObject();
 			if (characterSheet == null) return;
-			ImGui.Text("Player Account ID: " + currentSelectedPlayer.AccountId);
+			ImGui.Text("Player Account ID: " + playerEntry.PlayerData.uid);
 			ImGui.Separator();
 			IMGUIHelper.DrawObjectFields(characterSheet);
 			// TODO: networking
@@ -157,7 +159,7 @@ namespace UI.Admin.DIMGUI.Characters
 			errorOccuredWhileSaving = false;
 			saving = true;
 			string updatedDataJson = JsonConvert.SerializeObject(characterSheet);
-			RequestUpdatePlayerCharacterSheet.SendSheetUpdate(currentSelectedPlayer.AccountId, updatedDataJson);
+			RequestUpdatePlayerCharacterSheet.SendSheetUpdate(playerEntry.PlayerData.uid, updatedDataJson);
 		}
 
 		private void ShowErrorPage()

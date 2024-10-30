@@ -79,6 +79,7 @@ namespace AdminTools
 		public bool isOnline;
 		public bool isOOCMuted;
 		public string ipAddress;
+		public uint playerObject;
 	}
 
 	[Serializable]
