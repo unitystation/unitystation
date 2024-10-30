@@ -15,9 +15,10 @@ MonoBehaviour:
   m_DefaultGroup: d42d843f0028d5348b7f74f253f08044
   m_currentHash:
     serializedVersion: 2
-    Hash: 00000000000000000000000000000000
+    Hash: b03bbfa6026d8e51a314611f04d92de9
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 1
+  m_BundleLocalCatalog: 0
   m_CatalogRequestsTimeout: 0
   m_DisableCatalogUpdateOnStart: 0
   m_InternalIdNamingMode: 0
@@ -83,19 +84,19 @@ MonoBehaviour:
         m_Value: ServerData
     m_ProfileEntryNames:
     - m_Id: 340c239cf01c02f47b3dc0ae2447dd7b
-      m_Name: LocalBuildPath
+      m_Name: Local.BuildPath
       m_InlineUsage: 0
     - m_Id: 6272eb2978f219b4d94e9479af3a5726
       m_Name: BuildTarget
       m_InlineUsage: 0
     - m_Id: ba4d21cb009387b41bd35618363a7daa
-      m_Name: RemoteLoadPath
+      m_Name: Remote.LoadPath
       m_InlineUsage: 0
     - m_Id: dcfac531f1d9ec24c806c87f159cfa53
-      m_Name: LocalLoadPath
+      m_Name: Local.LoadPath
       m_InlineUsage: 0
     - m_Id: e0eb545dc2d403542a493cce3b3a6f58
-      m_Name: RemoteBuildPath
+      m_Name: Remote.BuildPath
       m_InlineUsage: 0
     m_ProfileVersion: 1
   m_LabelTable:
