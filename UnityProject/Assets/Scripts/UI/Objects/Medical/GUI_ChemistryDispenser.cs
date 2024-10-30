@@ -37,7 +37,11 @@ namespace UI.Objects.Medical
 
 		private void Start()
 		{
-			((NetUIElement<string>)this["20"]).MasterSetValue("1");
+			if (IsMasterTab)
+			{
+				((NetUIElement<string>)this["20"]).MasterSetValue("1");
+			}
+
 			if (Provider != null)
 			{
 				// Makes sure it connects with the dispenser properly

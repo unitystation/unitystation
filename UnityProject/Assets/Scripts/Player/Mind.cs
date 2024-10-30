@@ -224,8 +224,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 		get => GetPropertyOrDefault("vowOfSilence", false);
 		set => SetProperty("vowOfSilence", value);
 	}
-
-	private GhostMove Move;
+	public GhostMove Move;
 
 	// use Create to create a mind.
 	public void Awake()
