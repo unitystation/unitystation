@@ -164,7 +164,7 @@ public partial class PlayerList
 		var collectionOfAdmins = AccessFile.ReadAllLines(Instance.adminsPath);
 		if (collectionOfAdmins == null)
 		{
-			Loggy.Error("[PlayerList.Admin/LoadAdmins] - The Admins file is null, empty or broken!", Category.Admin);
+			Loggy.Error("The Admins file is null, empty or broken!", Category.Admin);
 			yield break;
 		}
 		else
