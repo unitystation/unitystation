@@ -794,13 +794,13 @@ public partial class PlayerList
 		if (serverAdmins == null)
 		{
 			Instance.StartCoroutine(LoadAdmins());
-			Loggy.Error("[PlayerList.Admin/CheckAdminState] -  Missing serverAdmins list.", Category.Admin);
+			Loggy.Error("Missing serverAdmins list.", Category.Admin);
 			return;
 		}
 		//wtf?
 		if (player == null)
 		{
-			Loggy.Error("[PlayerList.Admin/CheckAdminState] - Attempting to access playerinfo that doesn't exist? MPM issue?", Category.Admin);
+			Loggy.Error("Attempting to access playerinfo that doesn't exist? MPM issue?", Category.Admin);
 			return;
 		}
 		//full admin privs for local offline testing for host player
