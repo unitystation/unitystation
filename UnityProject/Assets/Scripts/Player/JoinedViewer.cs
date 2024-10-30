@@ -282,8 +282,15 @@ namespace Player
 				}
 			}
 
-			PlayerList.Instance.CheckAdminState(STVerifiedConnPlayer);
-			PlayerList.Instance.CheckMentorState(STVerifiedConnPlayer, STVerifiedUserid);
+			try
+			{
+				PlayerList.Instance.CheckAdminState(STVerifiedConnPlayer);
+				PlayerList.Instance.CheckMentorState(STVerifiedConnPlayer, STVerifiedUserid);
+			}
+			catch (Exception e)
+			{
+				Loggy.Error(e.ToString());
+			}
 
 			// If there's a logged off player, we will force them to rejoin their body
 			if (STVerifiedConnPlayer.Mind == null) //TODO Handle when someone gets kicked out of their mind

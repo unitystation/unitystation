@@ -773,6 +773,11 @@ public partial class PlayerList
 	public void CheckAdminState(PlayerInfo player)
 	{
 		//full admin privs for local offline testing for host player
+		if (serverAdmins == null)
+		{
+			Loggy.Error("[PlayerList.Admin/CheckAdminState] -  Missing serverAdmins list.", Category.Admin);
+			return;
+		}
 		if (serverAdmins.Contains(player.AccountId)
 		    || (player.GameObject == PlayerManager.LocalViewerScript?.gameObject)
 		    || Application.isEditor
