@@ -173,7 +173,7 @@ namespace UI.Objects.Atmospherics
 
 		public string CustomTitle()
 		{
-			return currentHoverTarget.GetComponent<Attributes>().InitialName;
+			return currentHoverTarget.GetComponent<Attributes>().ArticleName;
 		}
 
 		public Sprite CustomIcon() => null;

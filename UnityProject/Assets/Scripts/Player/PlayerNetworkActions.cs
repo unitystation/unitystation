@@ -876,7 +876,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (handItem.gameObject != handLabeler) return;
 
 		Chat.AddExamineMsgFromServer(gameObject,
-			"You set the " + handLabeler.Item().InitialName.ToLower() + "s text to '" + label + "'.");
+			"You set the " + handLabeler.Item().ArticleName.ToLower() + "s text to '" + label + "'.");
 		handLabeler.GetComponent<HandLabeler>().SetLabel(label);
 	}
 

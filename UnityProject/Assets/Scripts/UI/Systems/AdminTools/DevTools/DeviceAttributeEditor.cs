@@ -131,7 +131,7 @@ public class DeviceAttributeEditor : SingletonManager<DeviceAttributeEditor>
 
 		SetNameUI();
 	}
-	
+
 	public void SetNameUI()
 	{
 		// Get the index of the selected option
@@ -150,7 +150,7 @@ public class DeviceAttributeEditor : SingletonManager<DeviceAttributeEditor>
 				}
 				else
 				{
-					InputField.text = Attributes.InitialName;
+					InputField.text = Attributes.ArticleName;
 				}
 				break;
 			case 2: //Player

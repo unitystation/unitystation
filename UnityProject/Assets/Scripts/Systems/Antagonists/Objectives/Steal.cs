@@ -91,7 +91,7 @@ namespace Antagonists
 				return;
 			}
 
-			ItemName = itemEntry.Key.Item().InitialName;
+			ItemName = itemEntry.Key.Item().ArticleName;
 
 			if (string.IsNullOrEmpty(ItemName))
 			{
@@ -116,7 +116,7 @@ namespace Antagonists
 			if (item == null)
 				return;
 
-			if (item.Item().InitialName == null)
+			if (item.Item().ArticleName == null)
 			{
 				ItemName = "NULLNAME";
 				Loggy.Error($"[Steal/SetupInGame] Can`t find name of item {item}");

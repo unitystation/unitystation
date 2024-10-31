@@ -187,7 +187,7 @@ namespace UI.Objects.Medical
 			PillproductChoice = Pillchoice;
 			productChoice = choice;
 
-			productTypeChoice.MasterSetValue($"{choice.GetComponent<ItemAttributesV2>().InitialName}s");
+			productTypeChoice.MasterSetValue($"{choice.GetComponent<ItemAttributesV2>().ArticleName}s");
 			productMaxAmount.MasterSetValue($"Max {choice.GetComponent<ReagentContainer>().MaxCapacity}u");
 			foreach(var entry in productList.Entries)
 			{

@@ -245,7 +245,7 @@ namespace Antagonists
 
 			//Check if current Item is the one we need
 			if ((component != null && slot.ItemObject.TryGetComponent(component, out _)) ||
-					slot.ItemObject.GetComponent<ItemAttributesV2>()?.InitialName == name)
+					slot.ItemObject.GetComponent<ItemAttributesV2>()?.ArticleName == name)
 			{
 				//If stackable count stack
 				if (slot.ItemObject.TryGetComponent<Stackable>(out var stackable))

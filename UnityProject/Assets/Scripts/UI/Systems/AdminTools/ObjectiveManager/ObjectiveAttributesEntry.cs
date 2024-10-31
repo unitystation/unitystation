@@ -105,7 +105,7 @@ namespace AdminTools
 				for (int i = 0; i < pool.Count; i++)
 				{
 					var item = pool.Keys.ElementAt(i);
-					newOptions.Add(new Dropdown.OptionData(item.GetComponent<ItemAttributesV2>().InitialName));
+					newOptions.Add(new Dropdown.OptionData(item.GetComponent<ItemAttributesV2>().ArticleName));
 					items.Add(i, item);
 				}
 				inputItem.ClearOptions();

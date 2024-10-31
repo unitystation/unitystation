@@ -58,7 +58,7 @@ namespace Items
 			// Checks if one of the items in the list is in active hand
 			foreach (var neededObject in craftItem)
 			{
-				if (hand.GetComponent<ItemAttributesV2>()?.InitialName == neededObject.GetComponent<ItemAttributesV2>().InitialName)
+				if (hand.GetComponent<ItemAttributesV2>()?.ArticleName == neededObject.GetComponent<ItemAttributesV2>().ArticleName)
 				{   // This will activate if the component has been set to use a stackable item
 					if (stackableMaterials)
 					{

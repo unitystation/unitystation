@@ -273,7 +273,7 @@ public class GeneratePlantSOs : EditorWindow
 				var itemAttr = prefabVariant.GetComponent<ItemAttributesV2>();
 
 				//Commented since this are normally private
-				//itemAttr.initialName = plat["produce_name"] as string;
+				//itemAttr.ArticleName = plat["produce_name"] as string;
 				//itemAttr.initialDescription = plat["description"] as string;
 				//itemAttr.itemSprites = (new ItemsSprites() { InventoryIcon = produceSprite });
 

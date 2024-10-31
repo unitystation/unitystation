@@ -159,7 +159,7 @@ namespace Objects.Disposals
 		{
 			if (MatrixManager.IsSpaceAt(registerObject.WorldPositionServer, true, registerObject.Matrix.MatrixInfo) == false) return true;
 
-			Chat.AddExamineMsg(currentInteraction.Performer, $"A floor must be present to secure the {objectAttributes.InitialName}!");
+			Chat.AddExamineMsg(currentInteraction.Performer, $"A floor must be present to secure the {objectAttributes.ArticleName}!");
 			return false;
 		}
 
@@ -169,7 +169,7 @@ namespace Objects.Disposals
 
 			Chat.AddExamineMsg(
 					currentInteraction.Performer,
-					$"The floor plating must be exposed before you can secure the {objectAttributes.InitialName} to the floor!");
+					$"The floor plating must be exposed before you can secure the {objectAttributes.ArticleName} to the floor!");
 			return false;
 		}
 
@@ -179,7 +179,7 @@ namespace Objects.Disposals
 
 			Chat.AddExamineMsg(
 					currentInteraction.Performer,
-					$"The {objectAttributes.InitialName} needs a {PIPE_TERMINAL_NAME} underneath!");
+					$"The {objectAttributes.ArticleName} needs a {PIPE_TERMINAL_NAME} underneath!");
 			return false;
 		}
 
@@ -189,9 +189,9 @@ namespace Objects.Disposals
 
 			if (MachineAnchored)
 			{
-				finishPerformerMsg = $"You unbolt the {objectAttributes.InitialName} from the {PIPE_TERMINAL_NAME}.";
+				finishPerformerMsg = $"You unbolt the {objectAttributes.ArticleName} from the {PIPE_TERMINAL_NAME}.";
 				finishOthersMsg = $"{currentInteraction.Performer.ExpensiveName()} unbolts the " +
-						$"{objectAttributes.InitialName} from the {PIPE_TERMINAL_NAME}.";
+						$"{objectAttributes.ArticleName} from the {PIPE_TERMINAL_NAME}.";
 			}
 			else
 			{
@@ -199,9 +199,9 @@ namespace Objects.Disposals
 				if (VerbosePlatingExposed() == false) return;
 				if (VerbosePipeTerminalExists() == false) return;
 
-				finishPerformerMsg = $"You bolt the {objectAttributes.InitialName} to the {PIPE_TERMINAL_NAME}.";
+				finishPerformerMsg = $"You bolt the {objectAttributes.ArticleName} to the {PIPE_TERMINAL_NAME}.";
 				finishOthersMsg = $"{currentInteraction.Performer.ExpensiveName()} bolts the " +
-							$"{objectAttributes.InitialName} to the {PIPE_TERMINAL_NAME}.";
+							$"{objectAttributes.ArticleName} to the {PIPE_TERMINAL_NAME}.";
 			}
 
 			ToolUtils.ServerUseToolWithActionMessages(currentInteraction, 0, "", "", finishPerformerMsg, finishOthersMsg, UseWrench);
@@ -228,12 +228,12 @@ namespace Objects.Disposals
 			if (MachineSecured)
 			{
 				startPerformerMsg = "You start cutting the welds between the " +
-						$"{objectAttributes.InitialName} and the {PIPE_TERMINAL_NAME}...";
+						$"{objectAttributes.ArticleName} and the {PIPE_TERMINAL_NAME}...";
 				startOthersMsg = $"{currentInteraction.Performer.ExpensiveName()} starts cutting the " +
-						$"{objectAttributes.InitialName} from the {PIPE_TERMINAL_NAME}...";
-				finishPerformerMsg = $"You cut the {objectAttributes.InitialName} free from the {PIPE_TERMINAL_NAME}.";
+						$"{objectAttributes.ArticleName} from the {PIPE_TERMINAL_NAME}...";
+				finishPerformerMsg = $"You cut the {objectAttributes.ArticleName} free from the {PIPE_TERMINAL_NAME}.";
 				finishOthersMsg = $"{currentInteraction.Performer.ExpensiveName()} cuts the " +
-						$"{objectAttributes.InitialName} free from the {PIPE_TERMINAL_NAME}.";
+						$"{objectAttributes.ArticleName} free from the {PIPE_TERMINAL_NAME}.";
 			}
 			else
 			{
@@ -242,12 +242,12 @@ namespace Objects.Disposals
 				if (VerbosePipeTerminalExists() == false) return;
 
 				startPerformerMsg = "You start welding the joints between the " +
-						$"{objectAttributes.InitialName} and the {PIPE_TERMINAL_NAME}...";
+						$"{objectAttributes.ArticleName} and the {PIPE_TERMINAL_NAME}...";
 				startOthersMsg = $"{currentInteraction.Performer.ExpensiveName()} starts welding the " +
-						$"{objectAttributes.InitialName} and the {PIPE_TERMINAL_NAME} together...";
-				finishPerformerMsg = $"You weld the {objectAttributes.InitialName} to the {PIPE_TERMINAL_NAME}.";
+						$"{objectAttributes.ArticleName} and the {PIPE_TERMINAL_NAME} together...";
+				finishPerformerMsg = $"You weld the {objectAttributes.ArticleName} to the {PIPE_TERMINAL_NAME}.";
 				finishOthersMsg = $"{currentInteraction.Performer.ExpensiveName()} welds the " +
-						$"{objectAttributes.InitialName} to the {PIPE_TERMINAL_NAME}.";
+						$"{objectAttributes.ArticleName} to the {PIPE_TERMINAL_NAME}.";
 			}
 
 			ToolUtils.ServerUseToolWithActionMessages(

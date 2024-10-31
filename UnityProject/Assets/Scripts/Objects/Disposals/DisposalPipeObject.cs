@@ -50,7 +50,7 @@ namespace Objects.Disposals
 			objectName = gameObject.ExpensiveName();
 			if (gameObject.TryGetComponent<ObjectAttributes>(out var attributes))
 			{
-				objectName = attributes.InitialName;
+				objectName = attributes.ArticleName;
 			}
 		}
 

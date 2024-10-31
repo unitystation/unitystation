@@ -46,9 +46,9 @@ namespace Objects.Disposals
 				{
 					string machineName = disposalMachine.name;
 					if (disposalMachine.TryGetComponent<ObjectAttributes>(out var attributes) &&
-						string.IsNullOrWhiteSpace(attributes.InitialName) == false)
+						string.IsNullOrWhiteSpace(attributes.ArticleName) == false)
 					{
-						machineName = attributes.InitialName;
+						machineName = attributes.ArticleName;
 					}
 
 					Chat.AddExamineMsgFromServer(

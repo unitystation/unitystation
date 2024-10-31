@@ -61,9 +61,9 @@ namespace Objects.Construction
 
 			// Try get the best name for the object, else default to object's prefab name.
 			if (TryGetComponent<ObjectAttributes>(out var attributes)
-			    && string.IsNullOrWhiteSpace(attributes.InitialName) == false)
+			    && string.IsNullOrWhiteSpace(attributes.ArticleName) == false)
 			{
-				objectName = attributes.InitialName;
+				objectName = attributes.ArticleName;
 			}
 			else
 			{

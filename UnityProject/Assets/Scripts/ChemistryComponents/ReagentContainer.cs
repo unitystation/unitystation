@@ -180,7 +180,7 @@ namespace Chemistry.Components
 			}
 		}
 
-		private string FancyContainerName => itemAttributes ? itemAttributes.InitialName : gameObject.ExpensiveName();
+		private string FancyContainerName => itemAttributes ? itemAttributes.ArticleName : gameObject.ExpensiveName();
 
 		/// <summary>
 		/// Server side only. Total reagent mix amount in units

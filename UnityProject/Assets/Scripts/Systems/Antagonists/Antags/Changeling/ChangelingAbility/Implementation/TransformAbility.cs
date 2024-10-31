@@ -268,7 +268,7 @@ namespace Changeling
 					ItemStorage itemStrg = MakeFakeItemUseless(fakeItem, health);
 
 
-					var itemName = fakeItem.GetComponent<ItemAttributesV2>().InitialName;
+					var itemName = fakeItem.GetComponent<ItemAttributesV2>().ArticleName;
 					// removing item anytime when item was moved or something
 					fakeItem.GetComponent<Pickupable>().OnInventoryMoveServerEvent.AddListener((GameObject item) =>
 					{
