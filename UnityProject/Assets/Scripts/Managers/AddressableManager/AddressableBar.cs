@@ -38,6 +38,7 @@ public class AddressableBar : MonoBehaviour
 		    {
 			    loadCounter.IncrementAndCheckLoad();
 		    }
+		    SetHandle.Release();
 		    Destroy(this.gameObject);
 	    }
     }
