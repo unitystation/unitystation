@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Learning;
 using TMPro;
 using UnityEngine;
@@ -32,6 +33,7 @@ namespace UI.Systems.Tooltips.HoverTooltips
 
 		private bool animating = false;
 		private bool showing = false;
+		private GameObject showingcurrently = null;
 		private RectTransform contentRect;
 
 		private void Awake()
@@ -73,7 +75,10 @@ namespace UI.Systems.Tooltips.HoverTooltips
 		{
 			var lastState = detailsModeEnabled;
 			detailsModeEnabled = Input.GetKeyDown(KeyCode.LeftShift);
-			if (lastState != detailsModeEnabled && detailsModeEnabled && targetObject != null) SetupTooltip(targetObject, true);
+			if (lastState != detailsModeEnabled && detailsModeEnabled && targetObject != null)
+			{
+				SetupTooltip(targetObject, true);
+			}
 		}
 
 		public void SetupTooltip(GameObject hoverObject, bool noWait = false)
@@ -82,8 +87,8 @@ namespace UI.Systems.Tooltips.HoverTooltips
 			// Clean up everything for the upcoming data.
 			ResetTool();
 			// Don't show if player experience is set to something high unless they are using detailed mode.
-			if(ProtipManager.Instance.PlayerExperienceLevel >= ProtipManager.ExperienceLevel.SomewhatExperienced
-			   && detailsModeEnabled == false) return;
+			if (ProtipManager.Instance.PlayerExperienceLevel >= ProtipManager.ExperienceLevel.SomewhatExperienced
+			    && detailsModeEnabled == false) return;
 			// Don't do anything if there's no object to start with.
 			if (hoverObject == null) return;
 			StartCoroutine(QueueTip(hoverObject, noWait));
@@ -135,12 +140,30 @@ namespace UI.Systems.Tooltips.HoverTooltips
 				{
 					// if description is empty, don't create extra lines.
 					// if description has text, separate new data away from the previous ones.
-					descText.text = string.IsNullOrWhiteSpace(descText.text) ?
-						descText.text += $"{data.HoverTip()}" : descText.text += $"\n \n{data.HoverTip()}";
+					descText.text = string.IsNullOrWhiteSpace(descText.text)
+						? descText.text += $"{data.HoverTip()}"
+						: descText.text += $"\n \n{data.HoverTip()}";
 				}
+
 				UpdateIconSprite(data);
 				// Only show interactions if there is a description or title in the tooltip.
 				if (IsDescOrTitleEmpty() == false) UpdateInteractionsView(data.InteractionsStrings());
+			}
+
+			var Examines = target.GetComponents<IExaminable>().OrderByDescending(x => x.ExaminablePriority);
+			foreach (var examinable in Examines)
+			{
+				var examinableMsg = examinable.Examine(); //TODO net msg?
+				// if description is empty, don't create extra lines.
+				// if description has text, separate new data away from the previous ones.
+				if (string.IsNullOrWhiteSpace(descText.text))
+				{
+					descText.text += $"{examinableMsg}";
+				}
+				else
+				{
+					descText.text += $"\n \n{examinableMsg}";
+				}
 			}
 		}
 
@@ -167,10 +190,9 @@ namespace UI.Systems.Tooltips.HoverTooltips
 
 		private void ResetTool()
 		{
-
 			ResetInteractionsList();
 			showing = false;
-
+			showingcurrently = null;
 			StartCoroutine(AnimateBackground());
 		}
 
@@ -186,7 +208,7 @@ namespace UI.Systems.Tooltips.HoverTooltips
 		{
 			UpdateMainInfo(target);
 			CaptureIconFromSpriteHandler(target);
-			if(detailsModeEnabled) UpdateDetailedView(target);
+			if (detailsModeEnabled) UpdateDetailedView(target);
 
 			// Don't show if the description/name is empty.
 			// (Max): It looks better and more intentional when there's no empty fields.
@@ -194,22 +216,29 @@ namespace UI.Systems.Tooltips.HoverTooltips
 			if (IsDescOrTitleEmpty()) return;
 			if (iconTarget.sprite == null) iconTarget.sprite = errorIconSprite;
 			showing = true;
+			showingcurrently = target;
 			StartCoroutine(AnimateBackground());
 		}
 
 		private IEnumerator AnimateBackground()
 		{
 			if (animating) yield break;
-			if (string.IsNullOrEmpty(descText.text)) showing = false;
+			if (string.IsNullOrEmpty(descText.text))
+			{
+				showing = false;
+				showingcurrently = null;
+			}
 
 			animating = true;
 
-			while((showing && content.alpha < FULLY_VISIBLE_ALPHA) || (showing == false && content.alpha > 0.0001f))
+			while ((showing && content.alpha < FULLY_VISIBLE_ALPHA) || (showing == false && content.alpha > 0.0001f))
 			{
 				yield return WaitFor.EndOfFrame;
-				content.alpha = Mathf.Lerp(content.alpha, showing ? FULLY_VISIBLE_ALPHA : 0f, ANIM_SPEED * Time.deltaTime);
+				content.alpha = Mathf.Lerp(content.alpha, showing ? FULLY_VISIBLE_ALPHA : 0f,
+					ANIM_SPEED * Time.deltaTime);
 				content.alpha = Mathf.Clamp(content.alpha, 0f, FULLY_VISIBLE_ALPHA);
 			}
+
 			animating = false;
 			if (showing == false)
 			{
@@ -221,8 +250,9 @@ namespace UI.Systems.Tooltips.HoverTooltips
 
 		private IEnumerator QueueTip(GameObject queuedObject, bool noWait = false)
 		{
-			if(noWait == false) yield return WaitFor.Seconds(HoverDelay);
-			if(targetObject == null || queuedObject != targetObject) yield break;
+			if (noWait == false) yield return WaitFor.Seconds(HoverDelay);
+			if (targetObject == null || queuedObject != targetObject) yield break;
+			if (noWait == false && showingcurrently == queuedObject) yield break;
 			Setup(queuedObject);
 		}
 	}

@@ -36,6 +36,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 7515355481374312036, guid: cc081247cce5d3aa6b775ebccb39d3f0,
         type: 3}
+      propertyPath: initialName
+      value: Silent Honk 2 Vinyl Record
+      objectReference: {fileID: 0}
+    - target: {fileID: 7515355481374312036, guid: cc081247cce5d3aa6b775ebccb39d3f0,
+        type: 3}
       propertyPath: initialDescription
       value: A Standard Issue Vinyl Record
       objectReference: {fileID: 0}
@@ -108,6 +113,11 @@ PrefabInstance:
     - target: {fileID: 8021462526406050965, guid: cc081247cce5d3aa6b775ebccb39d3f0,
         type: 3}
       propertyPath: variantIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8021462526406050965, guid: cc081247cce5d3aa6b775ebccb39d3f0,
+        type: 3}
+      propertyPath: initialVariantIndex
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

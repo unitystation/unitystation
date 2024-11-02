@@ -139,7 +139,7 @@ namespace Systems.Electricity.PowerSupplies
 
 		public string HoverTip()
 		{
-			return Examine();
+			return "";
 		}
 
 		public string CustomTitle()

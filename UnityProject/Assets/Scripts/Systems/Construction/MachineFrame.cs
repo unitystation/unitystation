@@ -34,7 +34,7 @@ namespace Objects.Construction
 	/// <summary>
 	/// Main Component for Machine Construction
 	/// </summary>
-	public class MachineFrame : NetworkBehaviour, ICheckedInteractable<HandApply>, IExaminable, IHoverTooltip
+	public class MachineFrame : NetworkBehaviour, ICheckedInteractable<HandApply>, IExaminable
 	{
 		[SerializeField] private StatefulState initialState = null;
 		[SerializeField] private StatefulState cablesAddedState = null;
@@ -822,31 +822,6 @@ namespace Objects.Construction
 			Box = 0,
 			BoxCable = 1,
 			BoxCircuit = 2
-		}
-
-		public string HoverTip()
-		{
-			return Examine(default);
-		}
-
-		public string CustomTitle()
-		{
-			return null;
-		}
-
-		public Sprite CustomIcon()
-		{
-			return null;
-		}
-
-		public List<Sprite> IconIndicators()
-		{
-			return null;
-		}
-
-		public List<TextColor> InteractionsStrings()
-		{
-			return null;
 		}
 	}
 }
