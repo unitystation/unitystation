@@ -190,7 +190,7 @@ public class AutopilotShipCargo : AutopilotShipMachine
 
 				if (!stackableItems.ContainsKey(entryPrefab))
 				{
-					var orderedItem = Spawn.ServerPrefab(order.Items[i], pos).GameObject;
+					var orderedItem = Spawn.ServerPrefab(order.Items[i], pos.ToWorld(mm.NetworkedMatrixMove.MetaTileMap.matrix)).GameObject;
 					if (orderedItem == null)
 					{
 						//let the shuttle still be able to complete the order empty otherwise it will be stuck permantly
