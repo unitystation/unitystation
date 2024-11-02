@@ -1594,7 +1594,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public override void AppearAtWorldPositionServer(Vector3 worldPos, bool smooth = false,
 		bool doStepInteractions = true,
-		Vector2? momentum = null, MatrixInfo  Matrixoveride = null)
+		Vector2? momentum = null, MatrixInfo  Matrixoveride = null, bool TeleportContainer = false )
 	{
 		var oldPos = gameObject.AssumedWorldPosServer();
 		base.AppearAtWorldPositionServer(worldPos, smooth, doStepInteractions, momentum, Matrixoveride);
