@@ -232,6 +232,7 @@ namespace Objects
 
 			if (obj.TryGetComponent<UniversalObjectPhysics>(out var uop))
 			{
+				uop.StoreTo(null);
 				if (worldPosition == null)
 				{
 					uop.DropAtAndInheritMomentum(ObjectPhysics);
@@ -241,7 +242,6 @@ namespace Objects
 				{
 					uop.AppearAtWorldPositionServer(worldPosition.Value + offset);
 				}
-				uop.StoreTo(null);
 			}
 
 			onDrop?.Invoke();

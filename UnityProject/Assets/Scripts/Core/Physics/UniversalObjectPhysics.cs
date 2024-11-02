@@ -529,6 +529,16 @@ namespace Core.Physics
 		{
 			this.doStepInteractions = doStepInteractions;
 
+			if (ContainedInObjectContainer)
+			{
+				ContainedInObjectContainer.RetrieveObject(this.gameObject);
+			}
+
+			if (pickupable.HasComponent && pickupable.Component.StoredInItemStorageNetworked != null)
+			{
+				Inventory.ServerDrop(this.gameObject);
+			}
+
 			SynchroniseVisibility(isVisible, true);
 			var matrix = MatrixManager.AtPoint(worldPos, isServer);
 			if (Matrixoveride != null)
