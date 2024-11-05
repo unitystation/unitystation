@@ -176,7 +176,7 @@ namespace MapSaver
 				foreach (var Tile in XY.Value)
 				{
 					var Tel = TileManager.GetTile(Tile.Tel);
-					
+
 					if (LoadLayers != null && LoadLayers.Contains(Tel.LayerType) == false)
 					{
 						continue;

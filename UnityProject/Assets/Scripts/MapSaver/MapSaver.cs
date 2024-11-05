@@ -473,13 +473,14 @@ namespace MapSaver
 
 		public class CompactObjectMapData
 		{
-			public string Ver = "1.4.0";
+			public string Ver = "1.4.1";
 
 			//1.1.0 Added support for Dictionaries and change syntax for Removed Elements
 			//1.1.1 Lists now are specified in reversed order to Handle removed elements properly
 			//1.2.0 Added support for Sub-gameobjects to have rotation scale and offset
 			//1.3.0 Added paths To organise objects under
 			//1.4.0 Added NameMatches on PrefabData to allow easy conversion from non-compact to compact mode
+			//1.4.1 Fixes gitid movements not being applied to position
 			public List<string> CommonPrefabs = new List<string>();
 
 			public List<PrefabData> PrefabData;
