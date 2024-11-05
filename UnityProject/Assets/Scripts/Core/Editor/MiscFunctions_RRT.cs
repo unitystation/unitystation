@@ -38,6 +38,20 @@ namespace Util
 
 		public static SpriteCatalogue spriteCatalogue;
 
+		[MenuItem("Tools/Delete All Root GameObjects ^#q")]
+		public static void DeleteAllRootGameObjects()
+		{
+			// Get all root GameObjects in the scene
+			var rootGameObjects = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
+
+			// Loop through each root GameObject and destroy it
+			foreach (GameObject rootObject in rootGameObjects)
+			{
+				DestroyImmediate(rootObject);
+			}
+
+			Debug.Log("All root GameObjects have been deleted.");
+		}
 
 
 		[MenuItem("Tools/Debug/------------ Debug function -----------")]

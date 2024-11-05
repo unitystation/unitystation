@@ -473,12 +473,13 @@ namespace MapSaver
 
 		public class CompactObjectMapData
 		{
-			public string Ver = "1.3.0";
+			public string Ver = "1.4.0";
 
 			//1.1.0 Added support for Dictionaries and change syntax for Removed Elements
 			//1.1.1 Lists now are specified in reversed order to Handle removed elements properly
 			//1.2.0 Added support for Sub-gameobjects to have rotation scale and offset
 			//1.3.0 Added paths To organise objects under
+			//1.4.0 Added NameMatches on PrefabData to allow easy conversion from non-compact to compact mode
 			public List<string> CommonPrefabs = new List<string>();
 
 			public List<PrefabData> PrefabData;
@@ -1787,19 +1788,19 @@ namespace MapSaver
 			OriginPrefab = CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[Tracker.ForeverID];
 			if (Compact == false)
 			{
-				if (Object.name != OriginPrefab.name)
-				{
-					Prefab.Name = Object.name;
-				}
-			}
-			else
-			{
 				if (Object.name == OriginPrefab.name)
 				{
 					Prefab.NameMatches = true;
 				}
 
 				Prefab.Name = Object.name;
+			}
+			else
+			{
+				if (Object.name != OriginPrefab.name)
+				{
+					Prefab.Name = Object.name;
+				}
 			}
 
 			Prefab.Active = Object.gameObject.activeInHierarchy;
