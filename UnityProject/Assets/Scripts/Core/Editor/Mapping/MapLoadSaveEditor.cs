@@ -39,7 +39,7 @@ public class FileSelectorWindow : EditorWindow
 		folderPath = Path.Combine(Application.dataPath, "StreamingAssets/Maps");
 
 		// Check if the default folder exists, if not, create it
-		if (!Directory.Exists(folderPath))
+		if (Directory.Exists(folderPath) == false)
 		{
 			Directory.CreateDirectory(folderPath);
 		}

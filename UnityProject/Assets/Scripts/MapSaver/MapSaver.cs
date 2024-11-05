@@ -76,6 +76,44 @@ namespace MapSaver
 
 				return Offset00.Value;
 			}
+
+			public bool ConvertToCompact()
+			{
+				bool AnyNonCompactFound = false;
+
+				IDStatic = 0;
+				var GitDItoIDs = new Dictionary<string, string>();
+				foreach (var Matrix in ContainedMatrices)
+				{
+					if (Matrix.ConvertToCompact(GitDItoIDs))
+					{
+						AnyNonCompactFound = true;
+					}
+				}
+
+				foreach (var Matrix in ContainedMatrices)
+				{
+					foreach (var Prefab in Matrix.CompactObjectMapData.PrefabData)
+					{
+						if (Prefab?.Object?.ClassDatas != null)
+						{
+							foreach (var Data in Prefab.Object.ClassDatas)
+							{
+								foreach (var Field in Data.Data)
+								{
+									foreach (var KVP in GitDItoIDs)
+									{
+										Field.Data = Field.Data.Replace(KVP.Key, KVP.Value);
+									}
+								}
+							}
+						}
+					}
+				}
+
+				return AnyNonCompactFound;
+			}
+
 		}
 
 		public class MatrixData
@@ -123,6 +161,15 @@ namespace MapSaver
 				Offset00Cash = new Vector3(-0.5f, -0.5f, 0f) - Offset00.Value;
 				return Offset00Cash.Value;
 			}
+
+			public bool ConvertToCompact(Dictionary<string, string> GitDItoID)
+			{
+				if (GitFriendlyTileMapData == null) return false;
+				CompactTileMapData = GitFriendlyTileMapData.ConvertToCompact();
+				GitFriendlyTileMapData = null;
+				CompactObjectMapData.ConvertToCompact(GitDItoID);
+				return true;
+			}
 		}
 
 		public class GitFriendlyTileMapData
@@ -144,6 +191,138 @@ namespace MapSaver
 			{
 				var Compare = new CustomKeyComparer();
 				XYs = InternalXYs.ToList().OrderBy(kvp => kvp.Key, Compare).ToList();
+			}
+
+			public CompactTileMapData ConvertToCompact()
+			{
+				var TileMapData = new CompactTileMapData();
+
+				TileMapData.CommonColours = new List<string>();
+				TileMapData.CommonMatrix4x4 = new List<string>();
+
+				TileMapData.CommonLayerTiles = new List<string>();
+
+				StringBuilder SB = new StringBuilder();
+
+				Dictionary<string, int> CommonColoursCount = new Dictionary<string, int>();
+				Dictionary<string, int> CommonLayerTilesCount = new Dictionary<string, int>();
+				Dictionary<string, int> CommonMatrix4x4Count = new Dictionary<string, int>();
+
+				foreach (var xy in XYs)
+				{
+
+					foreach (var Tile in xy.Value)
+					{
+						if (CommonLayerTilesCount.ContainsKey(Tile.Tel))
+						{
+							CommonLayerTilesCount[Tile.Tel]++;
+						}
+						else
+						{
+							CommonLayerTilesCount[Tile.Tel] = 1;
+						}
+
+						if (Tile.Col == null)
+						{
+							Tile.Col = "#FFFFFFFF";
+						}
+
+
+						if (CommonColoursCount.ContainsKey(Tile.Col))
+						{
+							CommonColoursCount[Tile.Col]++;
+						}
+						else
+						{
+							CommonColoursCount[Tile.Col] = 1;
+						}
+
+						if (Tile.Tf == null)
+						{
+							Tile.Tf = "1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1";
+						}
+
+
+						if (CommonMatrix4x4Count.ContainsKey(Tile.Tf))
+						{
+							CommonMatrix4x4Count[Tile.Tf]++;
+						}
+						else
+						{
+							CommonMatrix4x4Count[Tile.Tf] = 1;
+						}
+					}
+				}
+
+				List<string> CommonColours = CommonColoursCount.OrderByDescending(kp => kp.Value)
+					.Select(kp => kp.Key)
+					.ToList();
+
+				List<string> CommonLayerTiles = CommonLayerTilesCount.OrderByDescending(kp => kp.Value)
+					.Select(kp => kp.Key)
+					.ToList();
+
+				List<string> CommonMatrix4x4 = CommonMatrix4x4Count.OrderByDescending(kp => kp.Value)
+					.Select(kp => kp.Key)
+					.ToList();
+
+				foreach (var xy in XYs)
+				{
+
+					foreach (var Tile in xy.Value)
+					{
+						var Pos = MapSaver.GitFriendlyPositionToVectorInt(xy.Key);
+						var NewPos = Pos;
+
+						if (Tile.Z != null)
+						{
+							NewPos.z = Tile.Z.Value;
+						}
+
+						SB.Append(LocationChar);
+						SB.Append(Pos.x);
+						SB.Append(",");
+						SB.Append(Pos.y);
+						SB.Append(",");
+						SB.Append(NewPos.z);
+						SB.Append(",");
+						int Index = CommonLayerTiles.IndexOf(Tile.Tel);
+
+
+						if (Index != 0)
+						{
+							SB.Append(TileIDChar);
+							SB.Append(Index);
+						}
+
+						Index = CommonColours.IndexOf(Tile.Col);
+						if (Index != 0)
+						{
+							SB.Append(ColourChar);
+							SB.Append(Index);
+						}
+
+						Index = CommonMatrix4x4.IndexOf(Tile.Tf);
+						if (Index != 0)
+						{
+							SB.Append(Matrix4x4Char);
+							SB.Append(Index);
+						}
+					}
+				}
+
+				TileMapData.Data = SB.ToString();
+				TileMapData.CommonLayerTiles = CommonLayerTiles;
+				TileMapData.CommonColours = new List<string>();
+
+				foreach (var inColor in CommonColours)
+				{
+					TileMapData.CommonColours.Add(inColor.Replace("#", "")); //due to colour not having # on the Compact format
+				}
+
+				TileMapData.CommonMatrix4x4 = CommonMatrix4x4;
+
+				return TileMapData;
 			}
 
 
@@ -218,10 +397,11 @@ namespace MapSaver
 
 		public class GitFriendlyIndividualTile
 		{
-			public string Tel;
+
+			public string Tel; //tile
 			public int? Z;
-			public string Col;
-			public string Tf;
+			public string Col; //Colour
+			public string Tf; //Transform matrix
 
 			//public int? W;
 		}
@@ -232,7 +412,7 @@ namespace MapSaver
 			public string Ver = "1.1.0";
 
 			//1.1.0 Removed layer Variable
-			public List<string> CommonColours;
+			public List<string> CommonColours; //Does not have # before the colour
 			public List<string> CommonLayerTiles;
 			public List<string> CommonMatrix4x4;
 			public string Data;
@@ -274,11 +454,6 @@ namespace MapSaver
 
 		public static ulong IDStatic = 0;
 
-		public static uint IDmatrixStatic = 0;
-		//Floating reference
-		//Is floating reference can be left alone
-
-
 		//Cross matrix reference
 		//Lookup table
 		//saving,
@@ -317,6 +492,54 @@ namespace MapSaver
 				};
 				PrefabData = PrefabData.OrderBy(kvp => kvp.LocalPRS + "@" + kvp.PrefabID, Compare).ToList();
 			}
+
+
+			public void CalculatePrefabIDs()
+			{
+				Dictionary<string, int> PrefabIDCount = new Dictionary<string, int>();
+
+				foreach (var prefabData in this.PrefabData)
+				{
+					if (PrefabIDCount.ContainsKey(prefabData.PrefabID) == false)
+					{
+						PrefabIDCount[prefabData.PrefabID] = 0;
+					}
+
+					PrefabIDCount[prefabData.PrefabID]++;
+				}
+
+				List<string> CommonPrefabID = PrefabIDCount.OrderByDescending(kp => kp.Value)
+					.Select(kp => kp.Key)
+					.ToList();
+
+				this.CommonPrefabs = CommonPrefabID;
+
+				foreach (var prefabData in this.PrefabData)
+				{
+					prefabData.PrefabID = CommonPrefabID.IndexOf(prefabData.PrefabID).ToString(); //TODO Rethink ToString To save ""
+				}
+			}
+
+			public void ConvertToCompact(Dictionary<string, string> GitDItoID)
+			{
+				foreach (var Prefab in PrefabData)
+				{
+					GitDItoID[Prefab.GitID] = IDStatic.ToString();
+					Prefab.ID = IDStatic;
+					Prefab.GitID = null;
+					if (Prefab.NameMatches)
+					{
+						Prefab.Name = null;
+					}
+					Prefab.NameMatches = false;
+					IDStatic++;
+				}
+
+
+
+
+				CalculatePrefabIDs();
+			}
 		}
 
 		public class PrefabData
@@ -325,6 +548,7 @@ namespace MapSaver
 			public ulong ID; //is good
 
 			[DefaultValue("0")] public string PrefabID = "0";
+			[DefaultValue(false)] public bool NameMatches = false;
 			public string Name;
 			public string LocalPRS;
 			[DefaultValue(true)] public bool Active = true;
@@ -412,7 +636,6 @@ namespace MapSaver
 			ComponentToID.Clear();
 			FieldsToRefresh.Clear();
 			IDStatic = 0;
-			IDmatrixStatic = 0;
 			AlreadyReadySavedIDs.Clear();
 
 			OutMapData.MapName = MapName;
@@ -516,7 +739,6 @@ namespace MapSaver
 				ComponentToID.Clear();
 				FieldsToRefresh.Clear();
 				IDStatic = 0;
-				IDmatrixStatic = 0;
 				AlreadyReadySavedIDs.Clear();
 			}
 
@@ -553,7 +775,6 @@ namespace MapSaver
 
 			matrixData.Location = PRSToString(MetaTileMap.matrix.transform.parent.gameObject);
 
-			IDmatrixStatic++;
 
 			if (SingleSave)
 			{
@@ -1454,28 +1675,7 @@ namespace MapSaver
 
 			if (Compact)
 			{
-				Dictionary<string, int> PrefabIDCount = new Dictionary<string, int>();
-
-				foreach (var prefabData in compactObjectMapData.PrefabData)
-				{
-					if (PrefabIDCount.ContainsKey(prefabData.PrefabID) == false)
-					{
-						PrefabIDCount[prefabData.PrefabID] = 0;
-					}
-
-					PrefabIDCount[prefabData.PrefabID]++;
-				}
-
-				List<string> CommonPrefabID = PrefabIDCount.OrderByDescending(kp => kp.Value)
-					.Select(kp => kp.Key)
-					.ToList();
-
-				compactObjectMapData.CommonPrefabs = CommonPrefabID;
-
-				foreach (var prefabData in compactObjectMapData.PrefabData)
-				{
-					prefabData.PrefabID = CommonPrefabID.IndexOf(prefabData.PrefabID).ToString(); //TODO Rethink ToString To save ""
-				}
+				compactObjectMapData.CalculatePrefabIDs();
 			}
 
 
@@ -1585,7 +1785,7 @@ namespace MapSaver
 			GameObject OriginPrefab = null;
 
 			OriginPrefab = CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[Tracker.ForeverID];
-			if (Compact)
+			if (Compact == false)
 			{
 				if (Object.name != OriginPrefab.name)
 				{
@@ -1594,6 +1794,11 @@ namespace MapSaver
 			}
 			else
 			{
+				if (Object.name == OriginPrefab.name)
+				{
+					Prefab.NameMatches = true;
+				}
+
 				Prefab.Name = Object.name;
 			}
 
@@ -1987,7 +2192,6 @@ namespace MapSaver
 
 				if (Compact)
 				{
-
 
 					ComponentToID[gameObjectMono] = PrefabData.ID + "@" + individualObject.ID + "@" + OutClass.ClassID;
 				}

@@ -111,7 +111,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			var id = PD.GitID;
 			if (string.IsNullOrEmpty(id))
 			{
-				id = PD.PrefabID;
+				id = PD.ID.ToString();
 			}
 
 
@@ -125,10 +125,10 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 				var id = PD.GitID;
 				if (string.IsNullOrEmpty(id))
 				{
-					id = PD.PrefabID;
+					id = PD.ID.ToString();
 				}
 
-				if (Spawned.TryGetValue(data.IDToNetIDClient[id], out var networkIdentity ))
+				if (Spawned.TryGetValue(data.IDToNetIDClient[id], out var networkIdentity))
 				{
 					ObjectBeforePayloadDataClient(networkIdentity);
 				}
@@ -137,15 +137,17 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	}
 
 
-	public override void ObjectBeforePayloadDataClient(NetworkIdentity identity) //NOTE : Won't handle object to object references,
-                                                                              //However these should be synchronised By mirror since I can't Think of a state where they won't be
+	public override void
+		ObjectBeforePayloadDataClient(NetworkIdentity identity) //NOTE : Won't handle object to object references,
+		//However these should be synchronised By mirror since I can't Think of a state where they won't be
 	{
 		try
 		{
 			if (IsServer) return;
 			if (PrePayload.TryGetValue(identity.netId, out var prefabdata))
 			{
-				MapLoader.ProcessIndividualObject(null, prefabdata.Item1, prefabdata.Item2, Vector3Int.zero, Vector3Int.zero, identity.gameObject);
+				MapLoader.ProcessIndividualObject(null, prefabdata.Item1, prefabdata.Item2, Vector3Int.zero,
+					Vector3Int.zero, identity.gameObject);
 				foreach (var Spawn in identity.GetComponentsInChildren<INewMappedOnSpawn>())
 				{
 					Spawn.OnNewMappedOnSpawn();
@@ -156,7 +158,6 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		{
 			Loggy.Error(e.ToString());
 		}
-
 	}
 
 	public void Clear()
@@ -271,7 +272,6 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		}
 
 		ActiveNetworkedManagersPrefabs.Clear();
-
 	}
 
 	public void RoundEndingClientNServer()
@@ -342,7 +342,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 		var storedIDs = new Dictionary<string, PrefabTracker>();
 
-		var networkObjectsGUIDs = AssetDatabase.FindAssets("t:prefab", new string[] { "Assets/Prefabs" });
+		var networkObjectsGUIDs = AssetDatabase.FindAssets("t:prefab", new string[] {"Assets/Prefabs"});
 		var objectsPaths = networkObjectsGUIDs.Select(AssetDatabase.GUIDToAssetPath);
 		foreach (var objectsPath in objectsPaths)
 		{
@@ -379,10 +379,10 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 					    prefabTracker.ForeverID != originalOldID)
 					{
 						Loggy.Error("OH GOD What is the original I can't tell!! " +
-						               "Manually edit the ForeverID For the newly created prefab to not be the same as " +
-						               "the prefab variant parent for " +
-						               preexisting.gameObject +
-						               " and " + prefabTracker.gameObject);
+						            "Manually edit the ForeverID For the newly created prefab to not be the same as " +
+						            "the prefab variant parent for " +
+						            preexisting.gameObject +
+						            " and " + prefabTracker.gameObject);
 
 						prefabTracker.ForeverID = originalOldID;
 						preexisting.ForeverID = originalOldID;
@@ -462,9 +462,6 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public override void OnStartClient()
 	{
-
-
-
 		if (AddressableCatalogueManager.Instance == null) return;
 
 		AddressableCatalogueManager.Instance.LoadClientCatalogues();
