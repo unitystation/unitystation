@@ -1,6 +1,6 @@
 {
   "Ver": "1.0.0",
-  "MapName": "ShuttleRacetrack",
+  "MapName": "ShuttleRace",
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
@@ -120960,12 +120960,13 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.3.0",
+        "Ver": "1.4.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
             "GitID": "e02a5954be8d94b4bbaaa0d63d813c71_0┼0┼0┼",
             "PrefabID": "e02a5954be8d94b4bbaaa0d63d813c71",
+            "NameMatches": true,
             "Name": "AI_ShouldNavigateAround",
             "LocalPRS": "0┼0┼0┼"
           },
@@ -122716,6 +122717,7 @@
           {
             "GitID": "d59eb1943a8217d4ea472db967f2271e_29┼58┼0┼",
             "PrefabID": "d59eb1943a8217d4ea472db967f2271e",
+            "NameMatches": true,
             "Name": "metal plaque",
             "LocalPRS": "29┼58┼0┼",
             "Object": {
@@ -122796,6 +122798,7 @@
           {
             "GitID": "d59eb1943a8217d4ea472db967f2271e_29┼75┼0┼",
             "PrefabID": "d59eb1943a8217d4ea472db967f2271e",
+            "NameMatches": true,
             "Name": "metal plaque",
             "LocalPRS": "29┼75┼0┼",
             "Object": {
@@ -123429,6 +123432,7 @@
           {
             "GitID": "1a00e842e154f7d43811c5d45328988c_35┼59┼0┼",
             "PrefabID": "1a00e842e154f7d43811c5d45328988c",
+            "NameMatches": true,
             "Name": "Chair",
             "LocalPRS": "35┼59┼0┼",
             "Object": {
@@ -124085,6 +124089,7 @@
           {
             "GitID": "d59eb1943a8217d4ea472db967f2271e_37┼67┼0┼",
             "PrefabID": "d59eb1943a8217d4ea472db967f2271e",
+            "NameMatches": true,
             "Name": "metal plaque",
             "LocalPRS": "37┼67┼0┼",
             "Object": {
@@ -124258,6 +124263,7 @@
           {
             "GitID": "d59eb1943a8217d4ea472db967f2271e_38┼64┼0┼",
             "PrefabID": "d59eb1943a8217d4ea472db967f2271e",
+            "NameMatches": true,
             "Name": "metal plaque",
             "LocalPRS": "38┼64┼0┼",
             "Object": {
@@ -124490,12 +124496,6 @@
             "GitID": "83442ea1bc97ef04db1f9962a2f7021d_39┼59┼0┼",
             "PrefabID": "83442ea1bc97ef04db1f9962a2f7021d",
             "Name": "Pen (2)",
-            "LocalPRS": "39┼59┼0┼"
-          },
-          {
-            "GitID": "83442ea1bc97ef04db1f9962a2f7021d_39.001┼59┼0┼",
-            "PrefabID": "83442ea1bc97ef04db1f9962a2f7021d",
-            "Name": "Pen (3)",
             "LocalPRS": "39┼59┼0┼"
           },
           {
@@ -124841,10 +124841,35 @@
             }
           },
           {
+            "GitID": "d3c71176f32c1274b929f3a88695a795_39.0002┼62.9999┼0┼",
+            "PrefabID": "d3c71176f32c1274b929f3a88695a795",
+            "Name": "Paper (11)",
+            "LocalPRS": "39.0002┼62.9999┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Paper@0",
+                  "Data": [
+                    {
+                      "Name": "initialText",
+                      "Data": "Waiver of Liability\n\nI, the undersigned, hereby assert that anything that happens is my fault at the sole discretion of Ernest F. Time Capital Group. I waive all legal protections and human/humanoid rights. I hereby direct the dispensation of any and all life insurance funds to which my estate may be entitled to Ernest F. Time Capital Group for track repair and cleaning expenses.\n\nSignature: ________"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "83442ea1bc97ef04db1f9962a2f7021d_39.001┼59┼0┼",
+            "PrefabID": "83442ea1bc97ef04db1f9962a2f7021d",
+            "Name": "Pen (3)",
+            "LocalPRS": "39.001┼59┼0┼"
+          },
+          {
             "GitID": "d3c71176f32c1274b929f3a88695a795_39.0012┼58.9999┼0┼",
             "PrefabID": "d3c71176f32c1274b929f3a88695a795",
             "Name": "Paper (4)",
-            "LocalPRS": "39.0002┼58.9999┼0┼",
+            "LocalPRS": "39.0012┼58.9999┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -124863,7 +124888,7 @@
             "GitID": "d3c71176f32c1274b929f3a88695a795_39.0022┼58.9999┼0┼",
             "PrefabID": "d3c71176f32c1274b929f3a88695a795",
             "Name": "Paper (5)",
-            "LocalPRS": "39.0002┼58.9999┼0┼",
+            "LocalPRS": "39.0022┼58.9999┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -124882,7 +124907,7 @@
             "GitID": "d3c71176f32c1274b929f3a88695a795_39.0032┼58.9999┼0┼",
             "PrefabID": "d3c71176f32c1274b929f3a88695a795",
             "Name": "Paper (6)",
-            "LocalPRS": "39.0002┼58.9999┼0┼",
+            "LocalPRS": "39.0032┼58.9999┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -124901,7 +124926,7 @@
             "GitID": "d3c71176f32c1274b929f3a88695a795_39.0042┼58.9999┼0┼",
             "PrefabID": "d3c71176f32c1274b929f3a88695a795",
             "Name": "Paper (7)",
-            "LocalPRS": "39.0002┼58.9999┼0┼",
+            "LocalPRS": "39.0042┼58.9999┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -124920,7 +124945,7 @@
             "GitID": "d3c71176f32c1274b929f3a88695a795_39.0052┼58.9999┼0┼",
             "PrefabID": "d3c71176f32c1274b929f3a88695a795",
             "Name": "Paper (8)",
-            "LocalPRS": "39.0002┼58.9999┼0┼",
+            "LocalPRS": "39.0052┼58.9999┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -124939,26 +124964,7 @@
             "GitID": "d3c71176f32c1274b929f3a88695a795_39.0062┼58.9999┼0┼",
             "PrefabID": "d3c71176f32c1274b929f3a88695a795",
             "Name": "Paper (9)",
-            "LocalPRS": "39.0002┼58.9999┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Paper@0",
-                  "Data": [
-                    {
-                      "Name": "initialText",
-                      "Data": "Waiver of Liability\n\nI, the undersigned, hereby assert that anything that happens is my fault at the sole discretion of Ernest F. Time Capital Group. I waive all legal protections and human/humanoid rights. I hereby direct the dispensation of any and all life insurance funds to which my estate may be entitled to Ernest F. Time Capital Group for track repair and cleaning expenses.\n\nSignature: ________"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "d3c71176f32c1274b929f3a88695a795_39.0002┼62.9999┼0┼",
-            "PrefabID": "d3c71176f32c1274b929f3a88695a795",
-            "Name": "Paper (11)",
-            "LocalPRS": "39.0002┼62.9999┼0┼",
+            "LocalPRS": "39.0062┼58.9999┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -125371,6 +125377,7 @@
           {
             "GitID": "d59eb1943a8217d4ea472db967f2271e_41┼67┼0┼",
             "PrefabID": "d59eb1943a8217d4ea472db967f2271e",
+            "NameMatches": true,
             "Name": "metal plaque",
             "LocalPRS": "41┼67┼0┼",
             "Object": {
@@ -125579,6 +125586,7 @@
           {
             "GitID": "7ca27018ad6a1a04ab813ab2fbcc0236_42┼104┼0┼",
             "PrefabID": "7ca27018ad6a1a04ab813ab2fbcc0236",
+            "NameMatches": true,
             "Name": "NanoMedPlus",
             "LocalPRS": "42┼104┼0┼",
             "Object": {
@@ -126621,6 +126629,7 @@
           {
             "GitID": "d59eb1943a8217d4ea472db967f2271e_45┼67┼0┼",
             "PrefabID": "d59eb1943a8217d4ea472db967f2271e",
+            "NameMatches": true,
             "Name": "metal plaque",
             "LocalPRS": "45┼67┼0┼",
             "Object": {
@@ -126728,6 +126737,7 @@
           {
             "GitID": "468072fd130877c408f3a1950377560d_45┼113┼0┼",
             "PrefabID": "468072fd130877c408f3a1950377560d",
+            "NameMatches": true,
             "Name": "Defibrillator",
             "LocalPRS": "45┼113┼0┼"
           },
@@ -127480,6 +127490,7 @@
           {
             "GitID": "d59eb1943a8217d4ea472db967f2271e_49┼67┼0┼",
             "PrefabID": "d59eb1943a8217d4ea472db967f2271e",
+            "NameMatches": true,
             "Name": "metal plaque",
             "LocalPRS": "49┼67┼0┼",
             "Object": {
@@ -133914,7 +133925,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.3.0",
+        "Ver": "1.4.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -134088,7 +134099,7 @@
             "GitID": "422afccc119081a4fa895bc72e8ecd78_1.001┼-1┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (3)",
-            "LocalPRS": "1┼-1┼0┼",
+            "LocalPRS": "1.001┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -134107,7 +134118,7 @@
             "GitID": "422afccc119081a4fa895bc72e8ecd78_1.002┼-1┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (4)",
-            "LocalPRS": "1┼-1┼0┼",
+            "LocalPRS": "1.002┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -134128,7 +134139,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "8012,8081.5,0",
+          "Pos": "8013,8081.5,0",
           "Size": "2,1,0"
         }
       ]
@@ -134173,14 +134184,14 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.3.0",
+        "Ver": "1.4.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
             "GitID": "9bda2d5647088c74392285230ba38474_-0.999┼-1┼0┼",
             "PrefabID": "9bda2d5647088c74392285230ba38474",
             "Name": "Shuttle_engine_center (1)",
-            "LocalPRS": "-1┼-1┼0┼0ø0ø90ø",
+            "LocalPRS": "-0.999┼-1┼0┼0ø0ø90ø",
             "Object": {
               "ClassDatas": [
                 {
@@ -134212,19 +134223,19 @@
             "GitID": "422afccc119081a4fa895bc72e8ecd78_0.001┼-1┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (1)",
-            "LocalPRS": "0┼-1┼0┼"
+            "LocalPRS": "0.001┼-1┼0┼"
           },
           {
             "GitID": "5425ee650c49e0849b4bed132cfb588f_0.001┼-1┼0┼",
             "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
             "Name": "TinyFan (1)",
-            "LocalPRS": "0┼-1┼0┼"
+            "LocalPRS": "0.001┼-1┼0┼"
           },
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_0.001┼-1┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
             "Name": "ShuttleChair (1)",
-            "LocalPRS": "0┼-1┼0┼",
+            "LocalPRS": "0.001┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -134250,7 +134261,7 @@
             "GitID": "ddcfc3ab784dec1419565255774956c5_0.001┼-1┼0┼",
             "PrefabID": "ddcfc3ab784dec1419565255774956c5",
             "Name": "WinDoorLeft (1)",
-            "LocalPRS": "0┼-1┼0┼",
+            "LocalPRS": "0.001┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -134278,7 +134289,7 @@
             "GitID": "0a56d7747596df141be0aa6803f20980_1.001┼-1┼0┼",
             "PrefabID": "0a56d7747596df141be0aa6803f20980",
             "Name": "ShuttlePilotingConsole (3)",
-            "LocalPRS": "1┼-1┼0┼",
+            "LocalPRS": "1.001┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -134306,7 +134317,7 @@
             "GitID": "2304f6197e788654ebfe0cf0947a8b1a_1.001┼-1┼0┼",
             "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
             "Name": "headlight",
-            "LocalPRS": "1┼-1┼0┼0ø0ø270ø",
+            "LocalPRS": "1.001┼-1┼0┼0ø0ø270ø",
             "Object": {
               "ClassDatas": [],
               "Children": [
@@ -134341,13 +134352,13 @@
             "GitID": "422afccc119081a4fa895bc72e8ecd78_1.003┼-1┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (2)",
-            "LocalPRS": "1┼-1┼0┼"
+            "LocalPRS": "1.003┼-1┼0┼"
           },
           {
             "GitID": "422afccc119081a4fa895bc72e8ecd78_1.004┼-1┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (3)",
-            "LocalPRS": "1┼-1┼0┼",
+            "LocalPRS": "1.004┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -134366,7 +134377,7 @@
             "GitID": "422afccc119081a4fa895bc72e8ecd78_1.005┼-1┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (4)",
-            "LocalPRS": "1┼-1┼0┼",
+            "LocalPRS": "1.005┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -134387,7 +134398,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "8012,8085.5,0",
+          "Pos": "8013,8085.5,0",
           "Size": "2,1,0"
         }
       ]
@@ -134432,14 +134443,14 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.3.0",
+        "Ver": "1.4.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
             "GitID": "9bda2d5647088c74392285230ba38474_-0.998┼-1┼0┼",
             "PrefabID": "9bda2d5647088c74392285230ba38474",
             "Name": "Shuttle_engine_center (1)",
-            "LocalPRS": "-1┼-1┼0┼0ø0ø90ø",
+            "LocalPRS": "-0.998┼-1┼0┼0ø0ø90ø",
             "Object": {
               "ClassDatas": [
                 {
@@ -134471,19 +134482,19 @@
             "GitID": "422afccc119081a4fa895bc72e8ecd78_0.002┼-1┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (1)",
-            "LocalPRS": "0┼-1┼0┼"
+            "LocalPRS": "0.002┼-1┼0┼"
           },
           {
             "GitID": "5425ee650c49e0849b4bed132cfb588f_0.002┼-1┼0┼",
             "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
             "Name": "TinyFan (1)",
-            "LocalPRS": "0┼-1┼0┼"
+            "LocalPRS": "0.002┼-1┼0┼"
           },
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_0.002┼-1┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
             "Name": "ShuttleChair (1)",
-            "LocalPRS": "0┼-1┼0┼",
+            "LocalPRS": "0.002┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -134509,7 +134520,7 @@
             "GitID": "ddcfc3ab784dec1419565255774956c5_0.002┼-1┼0┼",
             "PrefabID": "ddcfc3ab784dec1419565255774956c5",
             "Name": "WinDoorLeft (1)",
-            "LocalPRS": "0┼-1┼0┼",
+            "LocalPRS": "0.002┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -134537,7 +134548,7 @@
             "GitID": "0a56d7747596df141be0aa6803f20980_1.002┼-1┼0┼",
             "PrefabID": "0a56d7747596df141be0aa6803f20980",
             "Name": "ShuttlePilotingConsole (3)",
-            "LocalPRS": "1┼-1┼0┼",
+            "LocalPRS": "1.002┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -134565,7 +134576,7 @@
             "GitID": "2304f6197e788654ebfe0cf0947a8b1a_1.002┼-1┼0┼",
             "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
             "Name": "headlight",
-            "LocalPRS": "1┼-1┼0┼0ø0ø270ø",
+            "LocalPRS": "1.002┼-1┼0┼0ø0ø270ø",
             "Object": {
               "ClassDatas": [],
               "Children": [
@@ -134600,13 +134611,13 @@
             "GitID": "422afccc119081a4fa895bc72e8ecd78_1.006┼-1┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (2)",
-            "LocalPRS": "1┼-1┼0┼"
+            "LocalPRS": "1.006┼-1┼0┼"
           },
           {
             "GitID": "422afccc119081a4fa895bc72e8ecd78_1.007┼-1┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (3)",
-            "LocalPRS": "1┼-1┼0┼",
+            "LocalPRS": "1.007┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -134625,7 +134636,7 @@
             "GitID": "422afccc119081a4fa895bc72e8ecd78_1.008┼-1┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (4)",
-            "LocalPRS": "1┼-1┼0┼",
+            "LocalPRS": "1.008┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -134646,7 +134657,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "8012,8089.5,0",
+          "Pos": "8013,8089.5,0",
           "Size": "2,1,0"
         }
       ]
@@ -134691,14 +134702,14 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.3.0",
+        "Ver": "1.4.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
             "GitID": "9bda2d5647088c74392285230ba38474_-0.997┼-1┼0┼",
             "PrefabID": "9bda2d5647088c74392285230ba38474",
             "Name": "Shuttle_engine_center (1)",
-            "LocalPRS": "-1┼-1┼0┼0ø0ø90ø",
+            "LocalPRS": "-0.997┼-1┼0┼0ø0ø90ø",
             "Object": {
               "ClassDatas": [
                 {
@@ -134730,19 +134741,19 @@
             "GitID": "422afccc119081a4fa895bc72e8ecd78_0.003┼-1┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (1)",
-            "LocalPRS": "0┼-1┼0┼"
+            "LocalPRS": "0.003┼-1┼0┼"
           },
           {
             "GitID": "5425ee650c49e0849b4bed132cfb588f_0.003┼-1┼0┼",
             "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
             "Name": "TinyFan (1)",
-            "LocalPRS": "0┼-1┼0┼"
+            "LocalPRS": "0.003┼-1┼0┼"
           },
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_0.003┼-1┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
             "Name": "ShuttleChair (1)",
-            "LocalPRS": "0┼-1┼0┼",
+            "LocalPRS": "0.003┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -134768,7 +134779,7 @@
             "GitID": "ddcfc3ab784dec1419565255774956c5_0.003┼-1┼0┼",
             "PrefabID": "ddcfc3ab784dec1419565255774956c5",
             "Name": "WinDoorLeft (1)",
-            "LocalPRS": "0┼-1┼0┼",
+            "LocalPRS": "0.003┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -134796,7 +134807,7 @@
             "GitID": "0a56d7747596df141be0aa6803f20980_1.003┼-1┼0┼",
             "PrefabID": "0a56d7747596df141be0aa6803f20980",
             "Name": "ShuttlePilotingConsole (3)",
-            "LocalPRS": "1┼-1┼0┼",
+            "LocalPRS": "1.003┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -134824,7 +134835,7 @@
             "GitID": "2304f6197e788654ebfe0cf0947a8b1a_1.003┼-1┼0┼",
             "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
             "Name": "headlight",
-            "LocalPRS": "1┼-1┼0┼0ø0ø270ø",
+            "LocalPRS": "1.003┼-1┼0┼0ø0ø270ø",
             "Object": {
               "ClassDatas": [],
               "Children": [
@@ -134859,13 +134870,13 @@
             "GitID": "422afccc119081a4fa895bc72e8ecd78_1.009┼-1┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (2)",
-            "LocalPRS": "1┼-1┼0┼"
+            "LocalPRS": "1.009┼-1┼0┼"
           },
           {
             "GitID": "422afccc119081a4fa895bc72e8ecd78_1.01┼-1┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (3)",
-            "LocalPRS": "1┼-1┼0┼",
+            "LocalPRS": "1.01┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -134884,7 +134895,7 @@
             "GitID": "422afccc119081a4fa895bc72e8ecd78_1.011┼-1┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (4)",
-            "LocalPRS": "1┼-1┼0┼",
+            "LocalPRS": "1.011┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -134905,7 +134916,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "8012,8093.5,0",
+          "Pos": "8013,8093.5,0",
           "Size": "2,1,0"
         }
       ]
@@ -134950,14 +134961,14 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.3.0",
+        "Ver": "1.4.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
             "GitID": "9bda2d5647088c74392285230ba38474_-0.996┼-1┼0┼",
             "PrefabID": "9bda2d5647088c74392285230ba38474",
             "Name": "Shuttle_engine_center (1)",
-            "LocalPRS": "-1┼-1┼0┼0ø0ø90ø",
+            "LocalPRS": "-0.996┼-1┼0┼0ø0ø90ø",
             "Object": {
               "ClassDatas": [
                 {
@@ -134989,19 +135000,19 @@
             "GitID": "422afccc119081a4fa895bc72e8ecd78_0.004┼-1┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (1)",
-            "LocalPRS": "0┼-1┼0┼"
+            "LocalPRS": "0.004┼-1┼0┼"
           },
           {
             "GitID": "5425ee650c49e0849b4bed132cfb588f_0.004┼-1┼0┼",
             "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
             "Name": "TinyFan (1)",
-            "LocalPRS": "0┼-1┼0┼"
+            "LocalPRS": "0.004┼-1┼0┼"
           },
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_0.004┼-1┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
             "Name": "ShuttleChair (1)",
-            "LocalPRS": "0┼-1┼0┼",
+            "LocalPRS": "0.004┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -135027,7 +135038,7 @@
             "GitID": "ddcfc3ab784dec1419565255774956c5_0.004┼-1┼0┼",
             "PrefabID": "ddcfc3ab784dec1419565255774956c5",
             "Name": "WinDoorLeft (1)",
-            "LocalPRS": "0┼-1┼0┼",
+            "LocalPRS": "0.004┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -135055,7 +135066,7 @@
             "GitID": "0a56d7747596df141be0aa6803f20980_1.004┼-1┼0┼",
             "PrefabID": "0a56d7747596df141be0aa6803f20980",
             "Name": "ShuttlePilotingConsole (3)",
-            "LocalPRS": "1┼-1┼0┼",
+            "LocalPRS": "1.004┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -135083,7 +135094,7 @@
             "GitID": "2304f6197e788654ebfe0cf0947a8b1a_1.004┼-1┼0┼",
             "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
             "Name": "headlight",
-            "LocalPRS": "1┼-1┼0┼0ø0ø270ø",
+            "LocalPRS": "1.004┼-1┼0┼0ø0ø270ø",
             "Object": {
               "ClassDatas": [],
               "Children": [
@@ -135118,13 +135129,13 @@
             "GitID": "422afccc119081a4fa895bc72e8ecd78_1.012┼-1┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (2)",
-            "LocalPRS": "1┼-1┼0┼"
+            "LocalPRS": "1.012┼-1┼0┼"
           },
           {
             "GitID": "422afccc119081a4fa895bc72e8ecd78_1.013┼-1┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (3)",
-            "LocalPRS": "1┼-1┼0┼",
+            "LocalPRS": "1.013┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -135143,7 +135154,7 @@
             "GitID": "422afccc119081a4fa895bc72e8ecd78_1.014┼-1┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (4)",
-            "LocalPRS": "1┼-1┼0┼",
+            "LocalPRS": "1.014┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -135164,7 +135175,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "8012,8097.5,0",
+          "Pos": "8013,8097.5,0",
           "Size": "2,1,0"
         }
       ]
@@ -135209,14 +135220,14 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.3.0",
+        "Ver": "1.4.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
             "GitID": "9bda2d5647088c74392285230ba38474_-0.995┼-1┼0┼",
             "PrefabID": "9bda2d5647088c74392285230ba38474",
             "Name": "Shuttle_engine_center (1)",
-            "LocalPRS": "-1┼-1┼0┼0ø0ø90ø",
+            "LocalPRS": "-0.995┼-1┼0┼0ø0ø90ø",
             "Object": {
               "ClassDatas": [
                 {
@@ -135248,19 +135259,19 @@
             "GitID": "422afccc119081a4fa895bc72e8ecd78_0.005┼-1┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (1)",
-            "LocalPRS": "0┼-1┼0┼"
+            "LocalPRS": "0.005┼-1┼0┼"
           },
           {
             "GitID": "5425ee650c49e0849b4bed132cfb588f_0.005┼-1┼0┼",
             "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
             "Name": "TinyFan (1)",
-            "LocalPRS": "0┼-1┼0┼"
+            "LocalPRS": "0.005┼-1┼0┼"
           },
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_0.005┼-1┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
             "Name": "ShuttleChair (1)",
-            "LocalPRS": "0┼-1┼0┼",
+            "LocalPRS": "0.005┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -135286,7 +135297,7 @@
             "GitID": "ddcfc3ab784dec1419565255774956c5_0.005┼-1┼0┼",
             "PrefabID": "ddcfc3ab784dec1419565255774956c5",
             "Name": "WinDoorLeft (1)",
-            "LocalPRS": "0┼-1┼0┼",
+            "LocalPRS": "0.005┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -135314,7 +135325,7 @@
             "GitID": "0a56d7747596df141be0aa6803f20980_1.005┼-1┼0┼",
             "PrefabID": "0a56d7747596df141be0aa6803f20980",
             "Name": "ShuttlePilotingConsole (3)",
-            "LocalPRS": "1┼-1┼0┼",
+            "LocalPRS": "1.005┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -135342,7 +135353,7 @@
             "GitID": "2304f6197e788654ebfe0cf0947a8b1a_1.005┼-1┼0┼",
             "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
             "Name": "headlight",
-            "LocalPRS": "1┼-1┼0┼0ø0ø270ø",
+            "LocalPRS": "1.005┼-1┼0┼0ø0ø270ø",
             "Object": {
               "ClassDatas": [],
               "Children": [
@@ -135377,13 +135388,13 @@
             "GitID": "422afccc119081a4fa895bc72e8ecd78_1.015┼-1┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (2)",
-            "LocalPRS": "1┼-1┼0┼"
+            "LocalPRS": "1.015┼-1┼0┼"
           },
           {
             "GitID": "422afccc119081a4fa895bc72e8ecd78_1.016┼-1┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (3)",
-            "LocalPRS": "1┼-1┼0┼",
+            "LocalPRS": "1.016┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -135402,7 +135413,7 @@
             "GitID": "422afccc119081a4fa895bc72e8ecd78_1.017┼-1┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (4)",
-            "LocalPRS": "1┼-1┼0┼",
+            "LocalPRS": "1.017┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -135423,7 +135434,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "8012,8101.5,0",
+          "Pos": "8013,8101.5,0",
           "Size": "2,1,0"
         }
       ]
@@ -135468,14 +135479,14 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.3.0",
+        "Ver": "1.4.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
             "GitID": "9bda2d5647088c74392285230ba38474_-0.994┼-1┼0┼",
             "PrefabID": "9bda2d5647088c74392285230ba38474",
             "Name": "Shuttle_engine_center (1)",
-            "LocalPRS": "-1┼-1┼0┼0ø0ø90ø",
+            "LocalPRS": "-0.994┼-1┼0┼0ø0ø90ø",
             "Object": {
               "ClassDatas": [
                 {
@@ -135507,19 +135518,19 @@
             "GitID": "422afccc119081a4fa895bc72e8ecd78_0.006┼-1┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (1)",
-            "LocalPRS": "0┼-1┼0┼"
+            "LocalPRS": "0.006┼-1┼0┼"
           },
           {
             "GitID": "5425ee650c49e0849b4bed132cfb588f_0.006┼-1┼0┼",
             "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
             "Name": "TinyFan (1)",
-            "LocalPRS": "0┼-1┼0┼"
+            "LocalPRS": "0.006┼-1┼0┼"
           },
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_0.006┼-1┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
             "Name": "ShuttleChair (1)",
-            "LocalPRS": "0┼-1┼0┼",
+            "LocalPRS": "0.006┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -135545,7 +135556,7 @@
             "GitID": "ddcfc3ab784dec1419565255774956c5_0.006┼-1┼0┼",
             "PrefabID": "ddcfc3ab784dec1419565255774956c5",
             "Name": "WinDoorLeft (1)",
-            "LocalPRS": "0┼-1┼0┼",
+            "LocalPRS": "0.006┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -135573,7 +135584,7 @@
             "GitID": "0a56d7747596df141be0aa6803f20980_1.006┼-1┼0┼",
             "PrefabID": "0a56d7747596df141be0aa6803f20980",
             "Name": "ShuttlePilotingConsole (3)",
-            "LocalPRS": "1┼-1┼0┼",
+            "LocalPRS": "1.006┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -135601,7 +135612,7 @@
             "GitID": "2304f6197e788654ebfe0cf0947a8b1a_1.006┼-1┼0┼",
             "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
             "Name": "headlight",
-            "LocalPRS": "1┼-1┼0┼0ø0ø270ø",
+            "LocalPRS": "1.006┼-1┼0┼0ø0ø270ø",
             "Object": {
               "ClassDatas": [],
               "Children": [
@@ -135636,13 +135647,13 @@
             "GitID": "422afccc119081a4fa895bc72e8ecd78_1.018┼-1┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (2)",
-            "LocalPRS": "1┼-1┼0┼"
+            "LocalPRS": "1.018┼-1┼0┼"
           },
           {
             "GitID": "422afccc119081a4fa895bc72e8ecd78_1.019┼-1┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (3)",
-            "LocalPRS": "1┼-1┼0┼",
+            "LocalPRS": "1.019┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -135661,7 +135672,7 @@
             "GitID": "422afccc119081a4fa895bc72e8ecd78_1.02┼-1┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (4)",
-            "LocalPRS": "1┼-1┼0┼",
+            "LocalPRS": "1.02┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -135682,7 +135693,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "8012,8105.5,0",
+          "Pos": "8013,8105.5,0",
           "Size": "2,1,0"
         }
       ]
@@ -135727,14 +135738,14 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.3.0",
+        "Ver": "1.4.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
             "GitID": "9bda2d5647088c74392285230ba38474_-0.993┼-1┼0┼",
             "PrefabID": "9bda2d5647088c74392285230ba38474",
             "Name": "Shuttle_engine_center (1)",
-            "LocalPRS": "-1┼-1┼0┼0ø0ø90ø",
+            "LocalPRS": "-0.993┼-1┼0┼0ø0ø90ø",
             "Object": {
               "ClassDatas": [
                 {
@@ -135766,19 +135777,19 @@
             "GitID": "422afccc119081a4fa895bc72e8ecd78_0.007┼-1┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (1)",
-            "LocalPRS": "0┼-1┼0┼"
+            "LocalPRS": "0.007┼-1┼0┼"
           },
           {
             "GitID": "5425ee650c49e0849b4bed132cfb588f_0.007┼-1┼0┼",
             "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
             "Name": "TinyFan (1)",
-            "LocalPRS": "0┼-1┼0┼"
+            "LocalPRS": "0.007┼-1┼0┼"
           },
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_0.007┼-1┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
             "Name": "ShuttleChair (1)",
-            "LocalPRS": "0┼-1┼0┼",
+            "LocalPRS": "0.007┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -135804,7 +135815,7 @@
             "GitID": "ddcfc3ab784dec1419565255774956c5_0.007┼-1┼0┼",
             "PrefabID": "ddcfc3ab784dec1419565255774956c5",
             "Name": "WinDoorLeft (1)",
-            "LocalPRS": "0┼-1┼0┼",
+            "LocalPRS": "0.007┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -135832,7 +135843,7 @@
             "GitID": "0a56d7747596df141be0aa6803f20980_1.007┼-1┼0┼",
             "PrefabID": "0a56d7747596df141be0aa6803f20980",
             "Name": "ShuttlePilotingConsole (3)",
-            "LocalPRS": "1┼-1┼0┼",
+            "LocalPRS": "1.007┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -135860,7 +135871,7 @@
             "GitID": "2304f6197e788654ebfe0cf0947a8b1a_1.007┼-1┼0┼",
             "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
             "Name": "headlight",
-            "LocalPRS": "1┼-1┼0┼0ø0ø270ø1↔1↔181↔",
+            "LocalPRS": "1.007┼-1┼0┼0ø0ø270ø1↔1↔181↔",
             "Object": {
               "ClassDatas": [],
               "Children": [
@@ -135895,13 +135906,13 @@
             "GitID": "422afccc119081a4fa895bc72e8ecd78_1.021┼-1┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (2)",
-            "LocalPRS": "1┼-1┼0┼"
+            "LocalPRS": "1.021┼-1┼0┼"
           },
           {
             "GitID": "422afccc119081a4fa895bc72e8ecd78_1.022┼-1┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (3)",
-            "LocalPRS": "1┼-1┼0┼",
+            "LocalPRS": "1.022┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -135920,7 +135931,7 @@
             "GitID": "422afccc119081a4fa895bc72e8ecd78_1.023┼-1┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (4)",
-            "LocalPRS": "1┼-1┼0┼",
+            "LocalPRS": "1.023┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -135941,7 +135952,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "8012,8109.5,0",
+          "Pos": "8013,8109.5,0",
           "Size": "2,1,0"
         }
       ]
@@ -135986,7 +135997,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.3.0",
+        "Ver": "1.4.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -136072,16 +136083,39 @@
             }
           },
           {
+            "GitID": "9bda2d5647088c74392285230ba38474_0┼0┼0┼",
+            "PrefabID": "9bda2d5647088c74392285230ba38474",
+            "Name": "Shuttle_engine_center (1)",
+            "LocalPRS": "0┼0┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Thruster@0",
+                  "Data": [
+                    {
+                      "Name": "SelfPowered",
+                      "Data": "True"
+                    },
+                    {
+                      "Name": "pipeData@SelfSufficient",
+                      "Data": "True"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "422afccc119081a4fa895bc72e8ecd78_0.001┼-2┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (3)",
-            "LocalPRS": "0┼-2┼0┼"
+            "LocalPRS": "0.001┼-2┼0┼"
           },
           {
             "GitID": "422afccc119081a4fa895bc72e8ecd78_0.002┼-2┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (4)",
-            "LocalPRS": "0┼-2┼0┼",
+            "LocalPRS": "0.002┼-2┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -136100,7 +136134,7 @@
             "GitID": "422afccc119081a4fa895bc72e8ecd78_0.008┼-1┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (1)",
-            "LocalPRS": "0┼-1┼0┼",
+            "LocalPRS": "0.008┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -136119,13 +136153,13 @@
             "GitID": "5425ee650c49e0849b4bed132cfb588f_0.008┼-1┼0┼",
             "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
             "Name": "TinyFan (1)",
-            "LocalPRS": "0┼-1┼0┼"
+            "LocalPRS": "0.008┼-1┼0┼"
           },
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_0.008┼-1┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
             "Name": "ShuttleChair (1)",
-            "LocalPRS": "0┼-1┼0┼",
+            "LocalPRS": "0.008┼-1┼0┼",
             "Object": {
               "ClassDatas": [],
               "Children": [
@@ -136141,7 +136175,7 @@
             "GitID": "ddcfc3ab784dec1419565255774956c5_0.008┼-1┼0┼",
             "PrefabID": "ddcfc3ab784dec1419565255774956c5",
             "Name": "WinDoorLeft (1)",
-            "LocalPRS": "0┼-1┼0┼",
+            "LocalPRS": "0.008┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -136164,29 +136198,6 @@
                 }
               ]
             }
-          },
-          {
-            "GitID": "9bda2d5647088c74392285230ba38474_0┼0┼0┼",
-            "PrefabID": "9bda2d5647088c74392285230ba38474",
-            "Name": "Shuttle_engine_center (1)",
-            "LocalPRS": "0┼0┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Thruster@0",
-                  "Data": [
-                    {
-                      "Name": "SelfPowered",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "pipeData@SelfSufficient",
-                      "Data": "True"
-                    }
-                  ]
-                }
-              ]
-            }
           }
         ],
         "IDToNetIDClient": {}
@@ -136194,7 +136205,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "8017,8103,0",
+          "Pos": "8018,8103,0",
           "Size": "0,2,0"
         }
       ]
@@ -136239,14 +136250,14 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.3.0",
+        "Ver": "1.4.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
             "GitID": "0a56d7747596df141be0aa6803f20980_0.001┼-2┼0┼",
             "PrefabID": "0a56d7747596df141be0aa6803f20980",
             "Name": "ShuttlePilotingConsole (3)",
-            "LocalPRS": "0┼-2┼0┼",
+            "LocalPRS": "0.001┼-2┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -136274,7 +136285,7 @@
             "GitID": "2304f6197e788654ebfe0cf0947a8b1a_0.001┼-2┼0┼",
             "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
             "Name": "headlight",
-            "LocalPRS": "0┼-2┼0┼0ø0ø180ø",
+            "LocalPRS": "0.001┼-2┼0┼0ø0ø180ø",
             "Object": {
               "ClassDatas": [],
               "Children": [
@@ -136306,10 +136317,33 @@
             }
           },
           {
+            "GitID": "9bda2d5647088c74392285230ba38474_0.001┼0┼0┼",
+            "PrefabID": "9bda2d5647088c74392285230ba38474",
+            "Name": "Shuttle_engine_center (1)",
+            "LocalPRS": "0.001┼0┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Thruster@0",
+                  "Data": [
+                    {
+                      "Name": "SelfPowered",
+                      "Data": "True"
+                    },
+                    {
+                      "Name": "pipeData@SelfSufficient",
+                      "Data": "True"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "422afccc119081a4fa895bc72e8ecd78_0.003┼-2┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (2)",
-            "LocalPRS": "0┼-2┼0┼",
+            "LocalPRS": "0.003┼-2┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -136328,13 +136362,13 @@
             "GitID": "422afccc119081a4fa895bc72e8ecd78_0.004┼-2┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (3)",
-            "LocalPRS": "0┼-2┼0┼"
+            "LocalPRS": "0.004┼-2┼0┼"
           },
           {
             "GitID": "422afccc119081a4fa895bc72e8ecd78_0.005┼-2┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (4)",
-            "LocalPRS": "0┼-2┼0┼",
+            "LocalPRS": "0.005┼-2┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -136353,7 +136387,7 @@
             "GitID": "422afccc119081a4fa895bc72e8ecd78_0.009┼-1┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (1)",
-            "LocalPRS": "0┼-1┼0┼",
+            "LocalPRS": "0.009┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -136372,13 +136406,13 @@
             "GitID": "5425ee650c49e0849b4bed132cfb588f_0.009┼-1┼0┼",
             "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
             "Name": "TinyFan (1)",
-            "LocalPRS": "0┼-1┼0┼"
+            "LocalPRS": "0.009┼-1┼0┼"
           },
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_0.009┼-1┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
             "Name": "ShuttleChair (1)",
-            "LocalPRS": "0┼-1┼0┼",
+            "LocalPRS": "0.009┼-1┼0┼",
             "Object": {
               "ClassDatas": [],
               "Children": [
@@ -136394,7 +136428,7 @@
             "GitID": "ddcfc3ab784dec1419565255774956c5_0.009┼-1┼0┼",
             "PrefabID": "ddcfc3ab784dec1419565255774956c5",
             "Name": "WinDoorLeft (1)",
-            "LocalPRS": "0┼-1┼0┼",
+            "LocalPRS": "0.009┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -136417,29 +136451,6 @@
                 }
               ]
             }
-          },
-          {
-            "GitID": "9bda2d5647088c74392285230ba38474_0.001┼0┼0┼",
-            "PrefabID": "9bda2d5647088c74392285230ba38474",
-            "Name": "Shuttle_engine_center (1)",
-            "LocalPRS": "0┼0┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Thruster@0",
-                  "Data": [
-                    {
-                      "Name": "SelfPowered",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "pipeData@SelfSufficient",
-                      "Data": "True"
-                    }
-                  ]
-                }
-              ]
-            }
           }
         ],
         "IDToNetIDClient": {}
@@ -136447,7 +136458,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "8021,8103,0",
+          "Pos": "8022,8103,0",
           "Size": "0,2,0"
         }
       ]
@@ -136561,7 +136572,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.3.0",
+        "Ver": "1.4.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -136582,12 +136593,6 @@
                 }
               ]
             }
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_-0.999┼-2┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (12)",
-            "LocalPRS": "-1┼-2┼0┼"
           },
           {
             "GitID": "0a56d7747596df141be0aa6803f20980_-1┼-1┼0┼",
@@ -136682,10 +136687,16 @@
             }
           },
           {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_-0.999┼-2┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (12)",
+            "LocalPRS": "-0.999┼-2┼0┼"
+          },
+          {
             "GitID": "422afccc119081a4fa895bc72e8ecd78_-0.999┼0┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (13)",
-            "LocalPRS": "-1┼0┼0┼",
+            "LocalPRS": "-0.999┼0┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -136726,32 +136737,6 @@
             }
           },
           {
-            "GitID": "67c1a2e93881ef1479a466ad4ee872eb_0.01┼-1┼0┼",
-            "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
-            "Name": "ShuttleChair (3)",
-            "LocalPRS": "0┼-1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Left_By90"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "Active": false,
-                  "ClassDatas": []
-                }
-              ]
-            }
-          },
-          {
             "GitID": "5425ee650c49e0849b4bed132cfb588f_0┼0┼0┼",
             "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
             "Name": "TinyFan (1)",
@@ -136786,10 +136771,10 @@
             }
           },
           {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_1┼-2┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (9)",
-            "LocalPRS": "1┼-2┼0┼",
+            "GitID": "67c1a2e93881ef1479a466ad4ee872eb_0.01┼-1┼0┼",
+            "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "Name": "ShuttleChair (3)",
+            "LocalPRS": "0.01┼-1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -136797,24 +136782,25 @@
                   "Data": [
                     {
                       "Name": "CurrentDirection",
-                      "Data": "Right_By270"
+                      "Data": "Left_By90"
                     }
                   ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
           },
           {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.001┼-2┼0┼",
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_1┼-2┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (7)",
-            "LocalPRS": "1┼-2┼0┼"
-          },
-          {
-            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.024┼-1┼0┼",
-            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
-            "Name": "DirectionalWindowPlastitanium (17)",
-            "LocalPRS": "1┼-1┼0┼",
+            "Name": "DirectionalWindowPlastitanium (9)",
+            "LocalPRS": "1┼-2┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -136881,10 +136867,22 @@
             }
           },
           {
+            "GitID": "e98cddcd13521604faf5044326a42bc5_1┼0┼0┼",
+            "PrefabID": "e98cddcd13521604faf5044326a42bc5",
+            "Name": "RollerBed (1)",
+            "LocalPRS": "1┼0┼0┼"
+          },
+          {
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.001┼-2┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (7)",
+            "LocalPRS": "1.001┼-2┼0┼"
+          },
+          {
             "GitID": "422afccc119081a4fa895bc72e8ecd78_1.001┼0┼0┼",
             "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
             "Name": "DirectionalWindowPlastitanium (10)",
-            "LocalPRS": "1┼0┼0┼",
+            "LocalPRS": "1.001┼0┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -136900,10 +136898,23 @@
             }
           },
           {
-            "GitID": "e98cddcd13521604faf5044326a42bc5_1┼0┼0┼",
-            "PrefabID": "e98cddcd13521604faf5044326a42bc5",
-            "Name": "RollerBed (1)",
-            "LocalPRS": "1┼0┼0┼"
+            "GitID": "422afccc119081a4fa895bc72e8ecd78_1.024┼-1┼0┼",
+            "PrefabID": "422afccc119081a4fa895bc72e8ecd78",
+            "Name": "DirectionalWindowPlastitanium (17)",
+            "LocalPRS": "1.024┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ]
+            }
           }
         ],
         "IDToNetIDClient": {}
@@ -136911,7 +136922,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "8041,8099,0",
+          "Pos": "8042,8099,0",
           "Size": "2,2,0"
         }
       ]

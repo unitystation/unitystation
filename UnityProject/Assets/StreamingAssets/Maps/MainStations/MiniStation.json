@@ -1,6 +1,6 @@
 {
   "Ver": "1.0.0",
-  "MapName": "Station",
+  "MapName": "MiniStation",
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
@@ -96651,24 +96651,27 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.3.0",
+        "Ver": "1.4.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
             "GitID": "CD2uUGXjPEuvXGheerXA_0┼0┼0┼",
             "PrefabID": "CD2uUGXjPEuvXGheerXA",
+            "NameMatches": true,
             "Name": "MainStation",
             "LocalPRS": "0┼0┼0┼"
           },
           {
             "GitID": "e02a5954be8d94b4bbaaa0d63d813c71_0┼0┼0┼",
             "PrefabID": "e02a5954be8d94b4bbaaa0d63d813c71",
+            "NameMatches": true,
             "Name": "AI_ShouldNavigateAround",
             "LocalPRS": "0┼0┼0┼"
           },
           {
             "GitID": "b42028d7d036f7343a6a7d3b157d8386_1.38┼0.09┼0┼",
             "PrefabID": "b42028d7d036f7343a6a7d3b157d8386",
+            "NameMatches": true,
             "Name": "FilthGenerator",
             "LocalPRS": "1.38┼0.09┼0┼"
           },
@@ -97908,6 +97911,7 @@
           {
             "GitID": "a6be4f14190d70d4ead5531b5e15d5f9_28.73┼67.22┼0┼",
             "PrefabID": "a6be4f14190d70d4ead5531b5e15d5f9",
+            "NameMatches": true,
             "Name": "JetpackCarbonDioxide",
             "LocalPRS": "28.73┼67.22┼0┼"
           },
@@ -98122,6 +98126,7 @@
           {
             "GitID": "a6be4f14190d70d4ead5531b5e15d5f9_29.17┼67.13┼0┼",
             "PrefabID": "a6be4f14190d70d4ead5531b5e15d5f9",
+            "NameMatches": true,
             "Name": "JetpackCarbonDioxide",
             "LocalPRS": "29.17┼67.13┼0┼"
           },
@@ -98672,12 +98677,6 @@
             "LocalPRS": "31.98┼96.19┼0┼"
           },
           {
-            "GitID": "f34863c357167e64983912660d22a4f6_31.988┼92.287┼0┼",
-            "PrefabID": "f34863c357167e64983912660d22a4f6",
-            "Name": "BoxOfBuckshotShells",
-            "LocalPRS": "31.988┼92.287┼0┼"
-          },
-          {
             "GitID": "ab8d1f5a3e841a043bc60cdf2f5d9495_31.99┼90.83┼0┼",
             "PrefabID": "ab8d1f5a3e841a043bc60cdf2f5d9495",
             "Name": "RiotShotgun (3)",
@@ -98698,8 +98697,16 @@
           {
             "GitID": "f34863c357167e64983912660d22a4f6_31.99┼92.29┼0┼",
             "PrefabID": "f34863c357167e64983912660d22a4f6",
+            "NameMatches": true,
             "Name": "BoxOfBuckshotShells",
             "LocalPRS": "31.99┼92.29┼0┼"
+          },
+          {
+            "GitID": "f34863c357167e64983912660d22a4f6_31.991┼92.29┼0┼",
+            "PrefabID": "f34863c357167e64983912660d22a4f6",
+            "NameMatches": true,
+            "Name": "BoxOfBuckshotShells",
+            "LocalPRS": "31.991┼92.29┼0┼"
           },
           {
             "GitID": "7dea0790d26246447a9b881689c7dbdf_32┼49┼0┼",
@@ -98849,6 +98856,7 @@
           {
             "GitID": "9363154ec4a288f41b8c9681e3531539_32┼89.04┼0┼",
             "PrefabID": "9363154ec4a288f41b8c9681e3531539",
+            "NameMatches": true,
             "Name": "OP70Handgun",
             "LocalPRS": "32┼89.04┼0┼",
             "Object": {
@@ -98870,6 +98878,7 @@
           {
             "GitID": "564217403e0444840b9190c5b2d0d861_32┼89.23┼0┼",
             "PrefabID": "564217403e0444840b9190c5b2d0d861",
+            "NameMatches": true,
             "Name": "BoxOfRubbershotShells",
             "LocalPRS": "32┼89.23┼0┼"
           },
@@ -99187,6 +99196,7 @@
           {
             "GitID": "9363154ec4a288f41b8c9681e3531539_32.03┼88.93┼0┼",
             "PrefabID": "9363154ec4a288f41b8c9681e3531539",
+            "NameMatches": true,
             "Name": "OP70Handgun",
             "LocalPRS": "32.03┼88.93┼0┼",
             "Object": {
@@ -99214,6 +99224,7 @@
           {
             "GitID": "9363154ec4a288f41b8c9681e3531539_32.11┼88.83┼0┼",
             "PrefabID": "9363154ec4a288f41b8c9681e3531539",
+            "NameMatches": true,
             "Name": "OP70Handgun",
             "LocalPRS": "32.11┼88.83┼0┼",
             "Object": {
@@ -99662,6 +99673,7 @@
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_33┼105┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "33┼105┼0┼"
           },
@@ -100024,6 +100036,7 @@
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_34┼64┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "34┼64┼0┼"
           },
@@ -100600,12 +100613,14 @@
           {
             "GitID": "c0d35a75ba9aa4c4fab141f0fac245f6_34┼120┼0┼",
             "PrefabID": "c0d35a75ba9aa4c4fab141f0fac245f6",
+            "NameMatches": true,
             "Name": "New HydroponicsTray",
             "LocalPRS": "34┼120┼0┼"
           },
           {
             "GitID": "c0d35a75ba9aa4c4fab141f0fac245f6_34┼122┼0┼",
             "PrefabID": "c0d35a75ba9aa4c4fab141f0fac245f6",
+            "NameMatches": true,
             "Name": "New HydroponicsTray",
             "LocalPRS": "34┼122┼0┼"
           },
@@ -100670,24 +100685,28 @@
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_35┼23┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "35┼23┼0┼"
           },
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_35┼24┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "35┼24┼0┼"
           },
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_35┼28┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "35┼28┼0┼"
           },
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_35┼29┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "35┼29┼0┼"
           },
@@ -101891,34 +101910,6 @@
             }
           },
           {
-            "GitID": "6fa1bf6a566af2f479f551f9bb604178_36.001┼89┼0┼",
-            "PrefabID": "6fa1bf6a566af2f479f551f9bb604178",
-            "Name": "SecureWinDoorLeft (3)",
-            "LocalPRS": "36┼89┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_50┼94┼0┼@0@APC@0"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Right_By270"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
             "GitID": "f2441585d37f1914395df59a57c5e925_36┼90┼0┼",
             "PrefabID": "f2441585d37f1914395df59a57c5e925",
             "Name": "Shutters (3)",
@@ -101997,50 +101988,6 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Right_By270"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "6fa1bf6a566af2f479f551f9bb604178_36.001┼96┼0┼",
-            "PrefabID": "6fa1bf6a566af2f479f551f9bb604178",
-            "Name": "SecureWinDoorLeft (2)",
-            "LocalPRS": "36┼96┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_50┼94┼0┼@0@APC@0"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Left_By90"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "Armory"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -102254,38 +102201,9 @@
             "LocalPRS": "36┼123┼0┼"
           },
           {
-            "GitID": "804e580ede9c55c44b6a974701f43d9b_36.001┼123┼0┼",
-            "PrefabID": "804e580ede9c55c44b6a974701f43d9b",
-            "Name": "Cultivator (2)",
-            "LocalPRS": "36┼123┼0┼"
-          },
-          {
             "GitID": "a7eeb10882fa2f042aa33b28946184a4_36┼123┼0┼",
             "PrefabID": "a7eeb10882fa2f042aa33b28946184a4",
             "Name": "Spade (1)",
-            "LocalPRS": "36┼123┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemAttributesV2@0",
-                  "Data": [
-                    {
-                      "Name": "inventoryMoveSound@AssetAddress",
-                      "Data": "null"
-                    },
-                    {
-                      "Name": "inventoryRemoveSound@AssetAddress",
-                      "Data": "null"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "a7eeb10882fa2f042aa33b28946184a4_36.001┼123┼0┼",
-            "PrefabID": "a7eeb10882fa2f042aa33b28946184a4",
-            "Name": "Spade (2)",
             "LocalPRS": "36┼123┼0┼",
             "Object": {
               "ClassDatas": [
@@ -102329,10 +102247,95 @@
             }
           },
           {
-            "GitID": "ba46a81cbd3cd9c4faea0e047fbae79f_36.001┼123┼0┼",
-            "PrefabID": "ba46a81cbd3cd9c4faea0e047fbae79f",
-            "Name": "Bucket (2)",
-            "LocalPRS": "36┼123┼0┼",
+            "GitID": "c78251c7c2182e34988023aca9b23d4b_36┼123┼0┼",
+            "PrefabID": "c78251c7c2182e34988023aca9b23d4b",
+            "NameMatches": true,
+            "Name": "New Hatchet",
+            "LocalPRS": "36┼123┼0┼"
+          },
+          {
+            "GitID": "6fa1bf6a566af2f479f551f9bb604178_36.001┼89┼0┼",
+            "PrefabID": "6fa1bf6a566af2f479f551f9bb604178",
+            "Name": "SecureWinDoorLeft (3)",
+            "LocalPRS": "36.001┼89┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_50┼94┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "6fa1bf6a566af2f479f551f9bb604178_36.001┼96┼0┼",
+            "PrefabID": "6fa1bf6a566af2f479f551f9bb604178",
+            "Name": "SecureWinDoorLeft (2)",
+            "LocalPRS": "36.001┼96┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_50┼94┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Armory"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "804e580ede9c55c44b6a974701f43d9b_36.001┼123┼0┼",
+            "PrefabID": "804e580ede9c55c44b6a974701f43d9b",
+            "Name": "Cultivator (2)",
+            "LocalPRS": "36.001┼123┼0┼"
+          },
+          {
+            "GitID": "a7eeb10882fa2f042aa33b28946184a4_36.001┼123┼0┼",
+            "PrefabID": "a7eeb10882fa2f042aa33b28946184a4",
+            "Name": "Spade (2)",
+            "LocalPRS": "36.001┼123┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -102352,10 +102355,27 @@
             }
           },
           {
-            "GitID": "c78251c7c2182e34988023aca9b23d4b_36┼123┼0┼",
-            "PrefabID": "c78251c7c2182e34988023aca9b23d4b",
-            "Name": "New Hatchet",
-            "LocalPRS": "36┼123┼0┼"
+            "GitID": "ba46a81cbd3cd9c4faea0e047fbae79f_36.001┼123┼0┼",
+            "PrefabID": "ba46a81cbd3cd9c4faea0e047fbae79f",
+            "Name": "Bucket (2)",
+            "LocalPRS": "36.001┼123┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ItemAttributesV2@0",
+                  "Data": [
+                    {
+                      "Name": "inventoryMoveSound@AssetAddress",
+                      "Data": "null"
+                    },
+                    {
+                      "Name": "inventoryRemoveSound@AssetAddress",
+                      "Data": "null"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "8a71098a8f2e20e4db54ab3857de8dc0_36.97┼84.93┼0┼",
@@ -102366,24 +102386,28 @@
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_37┼23┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "37┼23┼0┼"
           },
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_37┼24┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "37┼24┼0┼"
           },
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_37┼28┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "37┼28┼0┼"
           },
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_37┼29┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "37┼29┼0┼"
           },
@@ -102396,6 +102420,7 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_37┼54┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "37┼54┼0┼"
           },
@@ -103370,6 +103395,7 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_37┼111┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "37┼111┼0┼"
           },
@@ -103536,6 +103562,7 @@
           {
             "GitID": "3e091c8c2a970a74e915174840cd98bb_38┼44┼0┼",
             "PrefabID": "3e091c8c2a970a74e915174840cd98bb",
+            "NameMatches": true,
             "Name": "New Poster",
             "LocalPRS": "38┼44┼0┼",
             "Object": {
@@ -103555,6 +103582,7 @@
           {
             "GitID": "ed4e62dc12dca724ba1e5f374965096b_38┼52┼0┼",
             "PrefabID": "ed4e62dc12dca724ba1e5f374965096b",
+            "NameMatches": true,
             "Name": "Rack",
             "LocalPRS": "38┼52┼0┼"
           },
@@ -104237,12 +104265,14 @@
           {
             "GitID": "c0d35a75ba9aa4c4fab141f0fac245f6_38┼120┼0┼",
             "PrefabID": "c0d35a75ba9aa4c4fab141f0fac245f6",
+            "NameMatches": true,
             "Name": "New HydroponicsTray",
             "LocalPRS": "38┼120┼0┼"
           },
           {
             "GitID": "c0d35a75ba9aa4c4fab141f0fac245f6_38┼122┼0┼",
             "PrefabID": "c0d35a75ba9aa4c4fab141f0fac245f6",
+            "NameMatches": true,
             "Name": "New HydroponicsTray",
             "LocalPRS": "38┼122┼0┼"
           },
@@ -104316,54 +104346,63 @@
           {
             "GitID": "8edc1f3642b9f28429c21e6c30566791_38.03┼52.16┼0┼",
             "PrefabID": "8edc1f3642b9f28429c21e6c30566791",
+            "NameMatches": true,
             "Name": "BoxOfReplacementLights",
             "LocalPRS": "38.03┼52.16┼0┼"
           },
           {
             "GitID": "032e150131f53a64fbf6048aca6a879a_38.96┼79.96┼0.1┼",
             "PrefabID": "032e150131f53a64fbf6048aca6a879a",
+            "NameMatches": true,
             "Name": "RandomToolSpawner",
             "LocalPRS": "38.96┼79.96┼0.1┼"
           },
           {
             "GitID": "d6495a017b1b4634697738270d87d354_38.96┼80.05┼0.1┼",
             "PrefabID": "d6495a017b1b4634697738270d87d354",
+            "NameMatches": true,
             "Name": "RandomConstructionMatsSpawner",
             "LocalPRS": "38.96┼80.05┼0.1┼"
           },
           {
             "GitID": "0ffd76bb18fbbc8469a9e46bf83d1988_38.97┼56┼0┼",
             "PrefabID": "0ffd76bb18fbbc8469a9e46bf83d1988",
+            "NameMatches": true,
             "Name": "RandomFolder",
             "LocalPRS": "38.97┼56┼0┼"
           },
           {
             "GitID": "8fb9b82aab871a54fb9bdb7e4a985821_38.98┼82.01┼0.1┼",
             "PrefabID": "8fb9b82aab871a54fb9bdb7e4a985821",
+            "NameMatches": true,
             "Name": "MaintLoot",
             "LocalPRS": "38.98┼82.01┼0.1┼"
           },
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_39┼23┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "39┼23┼0┼"
           },
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_39┼24┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "39┼24┼0┼"
           },
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_39┼28┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "39┼28┼0┼"
           },
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_39┼29┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "39┼29┼0┼"
           },
@@ -104448,6 +104487,7 @@
           {
             "GitID": "zJyaf3Uy!rYaamX$9?Zq_39┼56┼0┼",
             "PrefabID": "zJyaf3Uy!rYaamX$9?Zq",
+            "NameMatches": true,
             "Name": "FileCabinet",
             "LocalPRS": "39┼56┼0┼"
           },
@@ -104501,12 +104541,14 @@
           {
             "GitID": "ed4e62dc12dca724ba1e5f374965096b_39┼80┼0┼",
             "PrefabID": "ed4e62dc12dca724ba1e5f374965096b",
+            "NameMatches": true,
             "Name": "Rack",
             "LocalPRS": "39┼80┼0┼"
           },
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_39┼84┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "39┼84┼0┼"
           },
@@ -105115,6 +105157,7 @@
           {
             "GitID": "419b53e1dfc68534c874d417a070b675_40┼56┼0┼",
             "PrefabID": "419b53e1dfc68534c874d417a070b675",
+            "NameMatches": true,
             "Name": "New Bookshelf",
             "LocalPRS": "40┼56┼0┼"
           },
@@ -105180,6 +105223,7 @@
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_40┼65┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "40┼65┼0┼"
           },
@@ -105270,6 +105314,7 @@
           {
             "GitID": "zJyaf3Uy!rYaamX$9?Zq_40┼84┼0┼",
             "PrefabID": "zJyaf3Uy!rYaamX$9?Zq",
+            "NameMatches": true,
             "Name": "FileCabinet",
             "LocalPRS": "40┼84┼0┼"
           },
@@ -105603,38 +105648,9 @@
             "LocalPRS": "40┼123┼0┼"
           },
           {
-            "GitID": "804e580ede9c55c44b6a974701f43d9b_40.001┼123┼0┼",
-            "PrefabID": "804e580ede9c55c44b6a974701f43d9b",
-            "Name": "Cultivator (4)",
-            "LocalPRS": "40┼123┼0┼"
-          },
-          {
             "GitID": "a7eeb10882fa2f042aa33b28946184a4_40┼123┼0┼",
             "PrefabID": "a7eeb10882fa2f042aa33b28946184a4",
             "Name": "Spade (3)",
-            "LocalPRS": "40┼123┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemAttributesV2@0",
-                  "Data": [
-                    {
-                      "Name": "inventoryMoveSound@AssetAddress",
-                      "Data": "null"
-                    },
-                    {
-                      "Name": "inventoryRemoveSound@AssetAddress",
-                      "Data": "null"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "a7eeb10882fa2f042aa33b28946184a4_40.001┼123┼0┼",
-            "PrefabID": "a7eeb10882fa2f042aa33b28946184a4",
-            "Name": "Spade (4)",
             "LocalPRS": "40┼123┼0┼",
             "Object": {
               "ClassDatas": [
@@ -105678,10 +105694,23 @@
             }
           },
           {
-            "GitID": "ba46a81cbd3cd9c4faea0e047fbae79f_40.001┼123┼0┼",
-            "PrefabID": "ba46a81cbd3cd9c4faea0e047fbae79f",
-            "Name": "Bucket (4)",
-            "LocalPRS": "40┼123┼0┼",
+            "GitID": "c78251c7c2182e34988023aca9b23d4b_40┼123┼0┼",
+            "PrefabID": "c78251c7c2182e34988023aca9b23d4b",
+            "NameMatches": true,
+            "Name": "New Hatchet",
+            "LocalPRS": "40┼123┼0┼"
+          },
+          {
+            "GitID": "804e580ede9c55c44b6a974701f43d9b_40.001┼123┼0┼",
+            "PrefabID": "804e580ede9c55c44b6a974701f43d9b",
+            "Name": "Cultivator (4)",
+            "LocalPRS": "40.001┼123┼0┼"
+          },
+          {
+            "GitID": "a7eeb10882fa2f042aa33b28946184a4_40.001┼123┼0┼",
+            "PrefabID": "a7eeb10882fa2f042aa33b28946184a4",
+            "Name": "Spade (4)",
+            "LocalPRS": "40.001┼123┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -105701,14 +105730,32 @@
             }
           },
           {
-            "GitID": "c78251c7c2182e34988023aca9b23d4b_40┼123┼0┼",
-            "PrefabID": "c78251c7c2182e34988023aca9b23d4b",
-            "Name": "New Hatchet",
-            "LocalPRS": "40┼123┼0┼"
+            "GitID": "ba46a81cbd3cd9c4faea0e047fbae79f_40.001┼123┼0┼",
+            "PrefabID": "ba46a81cbd3cd9c4faea0e047fbae79f",
+            "Name": "Bucket (4)",
+            "LocalPRS": "40.001┼123┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ItemAttributesV2@0",
+                  "Data": [
+                    {
+                      "Name": "inventoryMoveSound@AssetAddress",
+                      "Data": "null"
+                    },
+                    {
+                      "Name": "inventoryRemoveSound@AssetAddress",
+                      "Data": "null"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "0ffd76bb18fbbc8469a9e46bf83d1988_40.01┼84┼0┼",
             "PrefabID": "0ffd76bb18fbbc8469a9e46bf83d1988",
+            "NameMatches": true,
             "Name": "RandomFolder",
             "LocalPRS": "40.01┼84┼0┼"
           },
@@ -105721,30 +105768,35 @@
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_41┼23┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "41┼23┼0┼"
           },
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_41┼24┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "41┼24┼0┼"
           },
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_41┼28┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "41┼28┼0┼"
           },
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_41┼29┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "41┼29┼0┼"
           },
           {
             "GitID": "419b53e1dfc68534c874d417a070b675_41┼56┼0┼",
             "PrefabID": "419b53e1dfc68534c874d417a070b675",
+            "NameMatches": true,
             "Name": "New Bookshelf",
             "LocalPRS": "41┼56┼0┼"
           },
@@ -105861,6 +105913,7 @@
           {
             "GitID": "c4c22bdc7cdd546479ac1de5589b5617_41┼82┼0┼",
             "PrefabID": "c4c22bdc7cdd546479ac1de5589b5617",
+            "NameMatches": true,
             "Name": "MachineFrame",
             "LocalPRS": "41┼82┼0┼"
           },
@@ -106317,12 +106370,14 @@
           {
             "GitID": "8fb9b82aab871a54fb9bdb7e4a985821_41.98┼82.01┼0.1┼",
             "PrefabID": "8fb9b82aab871a54fb9bdb7e4a985821",
+            "NameMatches": true,
             "Name": "MaintLoot",
             "LocalPRS": "41.98┼82.01┼0.1┼"
           },
           {
             "GitID": "d6495a017b1b4634697738270d87d354_41.98┼82.01┼0.1┼",
             "PrefabID": "d6495a017b1b4634697738270d87d354",
+            "NameMatches": true,
             "Name": "RandomConstructionMatsSpawner",
             "LocalPRS": "41.98┼82.01┼0.1┼"
           },
@@ -106366,6 +106421,7 @@
           {
             "GitID": "8fb9b82aab871a54fb9bdb7e4a985821_42┼47┼0.1┼",
             "PrefabID": "8fb9b82aab871a54fb9bdb7e4a985821",
+            "NameMatches": true,
             "Name": "MaintLoot",
             "LocalPRS": "42┼47┼0.1┼"
           },
@@ -106378,12 +106434,14 @@
           {
             "GitID": "fa63846bcecd1d14b8644f96e78f9888_42┼50┼0.1┼",
             "PrefabID": "fa63846bcecd1d14b8644f96e78f9888",
+            "NameMatches": true,
             "Name": "MaintLootx3",
             "LocalPRS": "42┼50┼0.1┼"
           },
           {
             "GitID": "419b53e1dfc68534c874d417a070b675_42┼56┼0┼",
             "PrefabID": "419b53e1dfc68534c874d417a070b675",
+            "NameMatches": true,
             "Name": "New Bookshelf",
             "LocalPRS": "42┼56┼0┼"
           },
@@ -106441,6 +106499,7 @@
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_42┼65┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "42┼65┼0┼"
           },
@@ -106503,6 +106562,7 @@
           {
             "GitID": "68a3eee06f0a8cf4da5d8ab811ce1c73_42┼82┼0┼",
             "PrefabID": "68a3eee06f0a8cf4da5d8ab811ce1c73",
+            "NameMatches": true,
             "Name": "ClosetBase",
             "LocalPRS": "42┼82┼0┼"
           },
@@ -106744,12 +106804,14 @@
           {
             "GitID": "c0d35a75ba9aa4c4fab141f0fac245f6_42┼120┼0┼",
             "PrefabID": "c0d35a75ba9aa4c4fab141f0fac245f6",
+            "NameMatches": true,
             "Name": "New HydroponicsTray",
             "LocalPRS": "42┼120┼0┼"
           },
           {
             "GitID": "c0d35a75ba9aa4c4fab141f0fac245f6_42┼122┼0┼",
             "PrefabID": "c0d35a75ba9aa4c4fab141f0fac245f6",
+            "NameMatches": true,
             "Name": "New HydroponicsTray",
             "LocalPRS": "42┼122┼0┼"
           },
@@ -106779,24 +106841,28 @@
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_43┼23┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "43┼23┼0┼"
           },
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_43┼24┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "43┼24┼0┼"
           },
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_43┼28┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "43┼28┼0┼"
           },
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_43┼29┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "43┼29┼0┼"
           },
@@ -106844,6 +106910,7 @@
           {
             "GitID": "1442b4dd7f8a6714a914b861519721c1_43┼56┼0┼",
             "PrefabID": "1442b4dd7f8a6714a914b861519721c1",
+            "NameMatches": true,
             "Name": "New Empty Bookshelf",
             "LocalPRS": "43┼56┼0┼"
           },
@@ -106947,6 +107014,7 @@
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_43┼91┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "43┼91┼0┼"
           },
@@ -107018,18 +107086,21 @@
           {
             "GitID": "390fe18001db296458ff6e26a4b079a0_43.95┼48.06┼0┼",
             "PrefabID": "390fe18001db296458ff6e26a4b079a0",
+            "NameMatches": true,
             "Name": "TrashOrGrilleSpawner",
             "LocalPRS": "43.95┼48.06┼0┼"
           },
           {
             "GitID": "610dc78579806784da5f22405de2c07f_43.96┼79.03┼0┼",
             "PrefabID": "610dc78579806784da5f22405de2c07f",
+            "NameMatches": true,
             "Name": "RandomCigsSpawner",
             "LocalPRS": "43.96┼79.03┼0┼"
           },
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_44┼54┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "44┼54┼0┼"
           },
@@ -107095,6 +107166,7 @@
           {
             "GitID": "419b53e1dfc68534c874d417a070b675_44┼56┼0┼",
             "PrefabID": "419b53e1dfc68534c874d417a070b675",
+            "NameMatches": true,
             "Name": "New Bookshelf",
             "LocalPRS": "44┼56┼0┼"
           },
@@ -107224,12 +107296,14 @@
           {
             "GitID": "8f5ccb83cc0733748a9137c50f7049c7_44┼78.12┼0┼",
             "PrefabID": "8f5ccb83cc0733748a9137c50f7049c7",
+            "NameMatches": true,
             "Name": "randomsodaspawner",
             "LocalPRS": "44┼78.12┼0┼"
           },
           {
             "GitID": "890811c0505b6234b83cf48e7fb6c62f_44┼78.66┼0┼",
             "PrefabID": "890811c0505b6234b83cf48e7fb6c62f",
+            "NameMatches": true,
             "Name": "RandomCleanerSpawner",
             "LocalPRS": "44┼78.66┼0┼"
           },
@@ -107300,12 +107374,14 @@
           {
             "GitID": "b07f56e690bc4445bcddfb624c3fa181_44┼84┼0┼",
             "PrefabID": "b07f56e690bc4445bcddfb624c3fa181",
+            "NameMatches": true,
             "Name": "RandomMeatSpawner",
             "LocalPRS": "44┼84┼0┼"
           },
           {
             "GitID": "ca7d7da17781bf046abd652ffb41a611_44┼90┼0┼",
             "PrefabID": "ca7d7da17781bf046abd652ffb41a611",
+            "NameMatches": true,
             "Name": "ExtinguisherCabinet",
             "LocalPRS": "44┼90┼0┼",
             "Object": {
@@ -107482,36 +107558,42 @@
           {
             "GitID": "64d5c9ab8878bda40a88c82b3a0bc0a3_44.2┼79.03┼0┼",
             "PrefabID": "64d5c9ab8878bda40a88c82b3a0bc0a3",
+            "NameMatches": true,
             "Name": "RandomLighterSpawner",
             "LocalPRS": "44.2┼79.03┼0┼"
           },
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_45┼23┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "45┼23┼0┼"
           },
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_45┼24┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "45┼24┼0┼"
           },
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_45┼28┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "45┼28┼0┼"
           },
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_45┼29┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "45┼29┼0┼"
           },
           {
             "GitID": "c4c22bdc7cdd546479ac1de5589b5617_45┼43┼0┼",
             "PrefabID": "c4c22bdc7cdd546479ac1de5589b5617",
+            "NameMatches": true,
             "Name": "MachineFrame",
             "LocalPRS": "45┼43┼0┼"
           },
@@ -107556,6 +107638,7 @@
           {
             "GitID": "1442b4dd7f8a6714a914b861519721c1_45┼56┼0┼",
             "PrefabID": "1442b4dd7f8a6714a914b861519721c1",
+            "NameMatches": true,
             "Name": "New Empty Bookshelf",
             "LocalPRS": "45┼56┼0┼"
           },
@@ -107753,6 +107836,7 @@
           {
             "GitID": "9c3a6c9c953a49941aa32b5ad9400d89_45┼93┼0┼",
             "PrefabID": "9c3a6c9c953a49941aa32b5ad9400d89",
+            "NameMatches": true,
             "Name": "New Department Battery",
             "LocalPRS": "45┼93┼0┼",
             "Object": {
@@ -107872,6 +107956,7 @@
           {
             "GitID": "ae0ddf8ecb9708f4284f9ec28efc53ae_46┼46┼0┼",
             "PrefabID": "ae0ddf8ecb9708f4284f9ec28efc53ae",
+            "NameMatches": true,
             "Name": "Closet_Yellow",
             "LocalPRS": "46┼46┼0┼"
           },
@@ -107890,6 +107975,7 @@
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_46┼56┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "46┼56┼0┼"
           },
@@ -108331,6 +108417,7 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_46┼78┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "46┼78┼0┼"
           },
@@ -108359,6 +108446,7 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_46┼93┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "46┼93┼0┼"
           },
@@ -108472,14 +108560,9 @@
             }
           },
           {
-            "GitID": "b07f56e690bc4445bcddfb624c3fa181_46.019┼83┼0┼",
-            "PrefabID": "b07f56e690bc4445bcddfb624c3fa181",
-            "Name": "RandomMeatSpawner",
-            "LocalPRS": "46.019┼83┼0┼"
-          },
-          {
             "GitID": "b9c954894479b5146a8bf34dd8622f00_46.02┼46.06┼0┼",
             "PrefabID": "b9c954894479b5146a8bf34dd8622f00",
+            "NameMatches": true,
             "Name": "RandomHatSpawner",
             "LocalPRS": "46.02┼46.06┼0┼"
           },
@@ -108532,8 +108615,16 @@
           {
             "GitID": "b07f56e690bc4445bcddfb624c3fa181_46.02┼83┼0┼",
             "PrefabID": "b07f56e690bc4445bcddfb624c3fa181",
+            "NameMatches": true,
             "Name": "RandomMeatSpawner",
             "LocalPRS": "46.02┼83┼0┼"
+          },
+          {
+            "GitID": "b07f56e690bc4445bcddfb624c3fa181_46.021┼83┼0┼",
+            "PrefabID": "b07f56e690bc4445bcddfb624c3fa181",
+            "NameMatches": true,
+            "Name": "RandomMeatSpawner",
+            "LocalPRS": "46.021┼83┼0┼"
           },
           {
             "GitID": "8fb9b82aab871a54fb9bdb7e4a985821_46.08┼46.06┼0┼",
@@ -108544,36 +108635,42 @@
           {
             "GitID": "6e389ae8ca817234db9de402b4c17111_46.27┼68.75┼0┼",
             "PrefabID": "6e389ae8ca817234db9de402b4c17111",
+            "NameMatches": true,
             "Name": "ClownSprayCan2",
             "LocalPRS": "46.27┼68.75┼0┼"
           },
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_47┼23┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "47┼23┼0┼"
           },
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_47┼24┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "47┼24┼0┼"
           },
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_47┼28┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "47┼28┼0┼"
           },
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_47┼29┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "47┼29┼0┼"
           },
           {
             "GitID": "zJyaf3Uy!rYaamX$9?Zq_47┼43┼0┼",
             "PrefabID": "zJyaf3Uy!rYaamX$9?Zq",
+            "NameMatches": true,
             "Name": "FileCabinet",
             "LocalPRS": "47┼43┼0┼"
           },
@@ -108962,6 +109059,7 @@
           {
             "GitID": "032e150131f53a64fbf6048aca6a879a_47.94┼67.19┼0┼",
             "PrefabID": "032e150131f53a64fbf6048aca6a879a",
+            "NameMatches": true,
             "Name": "RandomToolSpawner",
             "LocalPRS": "47.94┼67.19┼0┼"
           },
@@ -109246,6 +109344,7 @@
           {
             "GitID": "12e1c77d42c790b45b786193dea1e6e7_48┼66.34┼0┼",
             "PrefabID": "12e1c77d42c790b45b786193dea1e6e7",
+            "NameMatches": true,
             "Name": "Randomtoolboxspawner",
             "LocalPRS": "48┼66.34┼0┼"
           },
@@ -109271,6 +109370,7 @@
           {
             "GitID": "bc2878fc1e4346c41bf6bc3b53b91f6a_48┼69┼0┼",
             "PrefabID": "bc2878fc1e4346c41bf6bc3b53b91f6a",
+            "NameMatches": true,
             "Name": "Vendomat",
             "LocalPRS": "48┼69┼0┼",
             "Object": {
@@ -109488,12 +109588,14 @@
           {
             "GitID": "032e150131f53a64fbf6048aca6a879a_48.09┼67.4┼0┼",
             "PrefabID": "032e150131f53a64fbf6048aca6a879a",
+            "NameMatches": true,
             "Name": "RandomToolSpawner",
             "LocalPRS": "48.09┼67.4┼0┼"
           },
           {
             "GitID": "d6495a017b1b4634697738270d87d354_48.09┼67.78┼0┼",
             "PrefabID": "d6495a017b1b4634697738270d87d354",
+            "NameMatches": true,
             "Name": "RandomConstructionMatsSpawner",
             "LocalPRS": "48.09┼67.78┼0┼"
           },
@@ -109512,24 +109614,28 @@
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_49┼23┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "49┼23┼0┼"
           },
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_49┼24┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "49┼24┼0┼"
           },
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_49┼28┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "49┼28┼0┼"
           },
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_49┼29┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "49┼29┼0┼"
           },
@@ -109936,12 +110042,14 @@
           {
             "GitID": "ff24082abd00ae449afc0b8a09657724_49.99┼90.08┼0┼",
             "PrefabID": "ff24082abd00ae449afc0b8a09657724",
+            "NameMatches": true,
             "Name": "RandomPlushieSpawner",
             "LocalPRS": "49.99┼90.08┼0┼"
           },
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_50┼46┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "50┼46┼0┼"
           },
@@ -110003,6 +110111,7 @@
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_50┼56┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "50┼56┼0┼"
           },
@@ -110135,6 +110244,7 @@
           {
             "GitID": "c04905100b9b3d746ad50b5a62efe998_50┼64┼0┼",
             "PrefabID": "c04905100b9b3d746ad50b5a62efe998",
+            "NameMatches": true,
             "Name": "AirlockStandardWindowed",
             "LocalPRS": "50┼64┼0┼",
             "Object": {
@@ -110273,6 +110383,7 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_50┼82┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "50┼82┼0┼"
           },
@@ -110582,6 +110693,7 @@
           {
             "GitID": "ff24082abd00ae449afc0b8a09657724_50┼84┼0┼",
             "PrefabID": "ff24082abd00ae449afc0b8a09657724",
+            "NameMatches": true,
             "Name": "RandomPlushieSpawner",
             "LocalPRS": "50┼84┼0┼"
           },
@@ -110594,6 +110706,7 @@
           {
             "GitID": "ff24082abd00ae449afc0b8a09657724_50┼85┼0┼",
             "PrefabID": "ff24082abd00ae449afc0b8a09657724",
+            "NameMatches": true,
             "Name": "RandomPlushieSpawner",
             "LocalPRS": "50┼85┼0┼"
           },
@@ -110700,6 +110813,7 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_50┼93┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "50┼93┼0┼"
           },
@@ -111462,6 +111576,7 @@
           {
             "GitID": "ff24082abd00ae449afc0b8a09657724_50.03┼87.11┼0┼",
             "PrefabID": "ff24082abd00ae449afc0b8a09657724",
+            "NameMatches": true,
             "Name": "RandomPlushieSpawner",
             "LocalPRS": "50.03┼87.11┼0┼"
           },
@@ -111474,24 +111589,28 @@
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_51┼23┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "51┼23┼0┼"
           },
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_51┼24┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "51┼24┼0┼"
           },
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_51┼28┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "51┼28┼0┼"
           },
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_51┼29┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
+            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "51┼29┼0┼"
           },
@@ -111510,6 +111629,7 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_51┼54┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "51┼54┼0┼"
           },
@@ -111726,12 +111846,14 @@
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_51┼69┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "51┼69┼0┼"
           },
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_51┼71┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "51┼71┼0┼"
           },
@@ -112183,6 +112305,7 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_51┼78┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "51┼78┼0┼"
           },
@@ -112547,6 +112670,7 @@
           {
             "GitID": "0ffd76bb18fbbc8469a9e46bf83d1988_52┼56.9┼0┼",
             "PrefabID": "0ffd76bb18fbbc8469a9e46bf83d1988",
+            "NameMatches": true,
             "Name": "RandomFolder",
             "LocalPRS": "52┼56.9┼0┼"
           },
@@ -112605,6 +112729,7 @@
           {
             "GitID": "zJyaf3Uy!rYaamX$9?Zq_52┼57┼0┼",
             "PrefabID": "zJyaf3Uy!rYaamX$9?Zq",
+            "NameMatches": true,
             "Name": "FileCabinet",
             "LocalPRS": "52┼57┼0┼"
           },
@@ -112962,6 +113087,7 @@
           {
             "GitID": "bcad3e35587ed35479fdbd92ea4352c8_52┼84┼0┼",
             "PrefabID": "bcad3e35587ed35479fdbd92ea4352c8",
+            "NameMatches": true,
             "Name": "RandomBedsheetSpawner",
             "LocalPRS": "52┼84┼0┼"
           },
@@ -113033,6 +113159,7 @@
           {
             "GitID": "bcad3e35587ed35479fdbd92ea4352c8_52┼87┼0┼",
             "PrefabID": "bcad3e35587ed35479fdbd92ea4352c8",
+            "NameMatches": true,
             "Name": "RandomBedsheetSpawner",
             "LocalPRS": "52┼87┼0┼"
           },
@@ -113076,6 +113203,7 @@
           {
             "GitID": "bcad3e35587ed35479fdbd92ea4352c8_52┼90┼0┼",
             "PrefabID": "bcad3e35587ed35479fdbd92ea4352c8",
+            "NameMatches": true,
             "Name": "RandomBedsheetSpawner",
             "LocalPRS": "52┼90┼0┼"
           },
@@ -113311,6 +113439,7 @@
           {
             "GitID": "HLC3owBBeLqKq_qStKku_53┼27┼0┼",
             "PrefabID": "HLC3owBBeLqKq_qStKku",
+            "NameMatches": true,
             "Name": "New SolarPanelController",
             "LocalPRS": "53┼27┼0┼"
           },
@@ -113724,6 +113853,7 @@
           {
             "GitID": "8D0W-BGDVb8469ufZ@aF_53┼95┼0┼",
             "PrefabID": "8D0W-BGDVb8469ufZ@aF",
+            "NameMatches": true,
             "Name": "SecBarrier",
             "LocalPRS": "53┼95┼0┼"
           },
@@ -113793,6 +113923,7 @@
           {
             "GitID": "7dea0790d26246447a9b881689c7dbdf_54┼38┼0┼",
             "PrefabID": "7dea0790d26246447a9b881689c7dbdf",
+            "NameMatches": true,
             "Name": "AirlockExternalWindowed",
             "LocalPRS": "54┼38┼0┼",
             "Object": {
@@ -113812,6 +113943,7 @@
           {
             "GitID": "cd57a2813ebc4ff4caf28b5fb793b3eb_54┼43┼0┼",
             "PrefabID": "cd57a2813ebc4ff4caf28b5fb793b3eb",
+            "NameMatches": true,
             "Name": "AirlockHatchMaintenance",
             "LocalPRS": "54┼43┼0┼",
             "Object": {
@@ -113831,12 +113963,14 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_54┼52┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "54┼52┼0┼"
           },
           {
             "GitID": "9c3a6c9c953a49941aa32b5ad9400d89_54┼53┼0┼",
             "PrefabID": "9c3a6c9c953a49941aa32b5ad9400d89",
+            "NameMatches": true,
             "Name": "New Department Battery",
             "LocalPRS": "54┼53┼0┼",
             "Object": {
@@ -114036,6 +114170,7 @@
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_54┼84┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "54┼84┼0┼"
           },
@@ -114156,6 +114291,7 @@
           {
             "GitID": "8D0W-BGDVb8469ufZ@aF_54┼95┼0┼",
             "PrefabID": "8D0W-BGDVb8469ufZ@aF",
+            "NameMatches": true,
             "Name": "SecBarrier",
             "LocalPRS": "54┼95┼0┼"
           },
@@ -114369,6 +114505,7 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_55┼54┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "55┼54┼0┼"
           },
@@ -114522,6 +114659,7 @@
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_55┼56┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "55┼56┼0┼"
           },
@@ -115036,6 +115174,7 @@
           {
             "GitID": "8D0W-BGDVb8469ufZ@aF_55┼95┼0┼",
             "PrefabID": "8D0W-BGDVb8469ufZ@aF",
+            "NameMatches": true,
             "Name": "SecBarrier",
             "LocalPRS": "55┼95┼0┼"
           },
@@ -115471,12 +115610,14 @@
           {
             "GitID": "39f11c8504eb6b7409e8dba3179a52ca_56┼56┼0┼",
             "PrefabID": "39f11c8504eb6b7409e8dba3179a52ca",
+            "NameMatches": true,
             "Name": "JanitorialCart",
             "LocalPRS": "56┼56┼0┼"
           },
           {
             "GitID": "c04905100b9b3d746ad50b5a62efe998_56┼60┼0┼",
             "PrefabID": "c04905100b9b3d746ad50b5a62efe998",
+            "NameMatches": true,
             "Name": "AirlockStandardWindowed",
             "LocalPRS": "56┼60┼0┼",
             "Object": {
@@ -115742,6 +115883,7 @@
           {
             "GitID": "ca7d7da17781bf046abd652ffb41a611_56┼83┼0┼",
             "PrefabID": "ca7d7da17781bf046abd652ffb41a611",
+            "NameMatches": true,
             "Name": "ExtinguisherCabinet",
             "LocalPRS": "56┼83┼0┼",
             "Object": {
@@ -116087,6 +116229,7 @@
           {
             "GitID": "7dea0790d26246447a9b881689c7dbdf_57┼38┼0┼",
             "PrefabID": "7dea0790d26246447a9b881689c7dbdf",
+            "NameMatches": true,
             "Name": "AirlockExternalWindowed",
             "LocalPRS": "57┼38┼0┼",
             "Object": {
@@ -116772,6 +116915,7 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_58┼45┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "58┼45┼0┼"
           },
@@ -117514,6 +117658,7 @@
           {
             "GitID": "890811c0505b6234b83cf48e7fb6c62f_58.12┼56.57┼0┼",
             "PrefabID": "890811c0505b6234b83cf48e7fb6c62f",
+            "NameMatches": true,
             "Name": "RandomCleanerSpawner",
             "LocalPRS": "58.12┼56.57┼0┼"
           },
@@ -118520,6 +118665,7 @@
           {
             "GitID": "93d1f95a33757fe4fa3e2771e3f5bd67_60┼31┼0┼",
             "PrefabID": "93d1f95a33757fe4fa3e2771e3f5bd67",
+            "NameMatches": true,
             "Name": "New PowerGeneratorPlasma",
             "LocalPRS": "60┼31┼0┼"
           },
@@ -118587,25 +118733,6 @@
             "GitID": "29ecbf5a1d918574cbcf5853927e0944_60┼32┼0┼",
             "PrefabID": "29ecbf5a1d918574cbcf5853927e0944",
             "Name": "PlasteelSheet (1)",
-            "LocalPRS": "60┼32┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Stackable@0",
-                  "Data": [
-                    {
-                      "Name": "initialAmount",
-                      "Data": "30"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "29ecbf5a1d918574cbcf5853927e0944_60.001┼32┼0┼",
-            "PrefabID": "29ecbf5a1d918574cbcf5853927e0944",
-            "Name": "PlasteelSheet (2)",
             "LocalPRS": "60┼32┼0┼",
             "Object": {
               "ClassDatas": [
@@ -118712,6 +118839,7 @@
           {
             "GitID": "7dea0790d26246447a9b881689c7dbdf_60┼38┼0┼",
             "PrefabID": "7dea0790d26246447a9b881689c7dbdf",
+            "NameMatches": true,
             "Name": "AirlockExternalWindowed",
             "LocalPRS": "60┼38┼0┼",
             "Object": {
@@ -119269,6 +119397,7 @@
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_60┼95┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "60┼95┼0┼"
           },
@@ -119427,6 +119556,25 @@
                   "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "29ecbf5a1d918574cbcf5853927e0944_60.001┼32┼0┼",
+            "PrefabID": "29ecbf5a1d918574cbcf5853927e0944",
+            "Name": "PlasteelSheet (2)",
+            "LocalPRS": "60.001┼32┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Stackable@0",
+                  "Data": [
+                    {
+                      "Name": "initialAmount",
+                      "Data": "30"
+                    }
+                  ]
                 }
               ]
             }
@@ -119763,6 +119911,7 @@
           {
             "GitID": "38246cd9491b4c248abb2e296cc6c76f_61┼40┼0┼",
             "PrefabID": "38246cd9491b4c248abb2e296cc6c76f",
+            "NameMatches": true,
             "Name": "AirlockMaintenanceOpaque",
             "LocalPRS": "61┼40┼0┼",
             "Object": {
@@ -119788,6 +119937,7 @@
           {
             "GitID": "9b5fc32f38f167840bd498978912f7fe_61┼49┼0.1┼",
             "PrefabID": "9b5fc32f38f167840bd498978912f7fe",
+            "NameMatches": true,
             "Name": "RandomIngredient",
             "LocalPRS": "61┼49┼0.1┼"
           },
@@ -119841,6 +119991,7 @@
           {
             "GitID": "b07f56e690bc4445bcddfb624c3fa181_61┼51┼0.1┼",
             "PrefabID": "b07f56e690bc4445bcddfb624c3fa181",
+            "NameMatches": true,
             "Name": "RandomMeatSpawner",
             "LocalPRS": "61┼51┼0.1┼"
           },
@@ -120050,6 +120201,7 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_61┼53┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "61┼53┼0┼"
           },
@@ -120128,25 +120280,6 @@
             "GitID": "SeedExtractor_61┼59┼0┼",
             "PrefabID": "SeedExtractor",
             "Name": "SeedExtractor (1)",
-            "LocalPRS": "61┼59┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_61┼52┼0┼@0@APC@0"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "SeedExtractor_61.001┼59┼0┼",
-            "PrefabID": "SeedExtractor",
-            "Name": "SeedExtractor (2)",
             "LocalPRS": "61┼59┼0┼",
             "Object": {
               "ClassDatas": [
@@ -120301,12 +120434,14 @@
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_61┼76┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "61┼76┼0┼"
           },
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_61┼78┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "61┼78┼0┼"
           },
@@ -120539,6 +120674,25 @@
             "LocalPRS": "61┼111┼0┼"
           },
           {
+            "GitID": "SeedExtractor_61.001┼59┼0┼",
+            "PrefabID": "SeedExtractor",
+            "Name": "SeedExtractor (2)",
+            "LocalPRS": "61.001┼59┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_61┼52┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "4ca04ad1f7f00f1469df5e974e97927d_61.98┼34.68┼0┼",
             "PrefabID": "4ca04ad1f7f00f1469df5e974e97927d",
             "Name": "TrackingBeaconTeleporter (1)",
@@ -120715,6 +120869,7 @@
           {
             "GitID": "9b5fc32f38f167840bd498978912f7fe_62┼49┼0.1┼",
             "PrefabID": "9b5fc32f38f167840bd498978912f7fe",
+            "NameMatches": true,
             "Name": "RandomIngredient",
             "LocalPRS": "62┼49┼0.1┼"
           },
@@ -121270,50 +121425,6 @@
             }
           },
           {
-            "GitID": "6fa1bf6a566af2f479f551f9bb604178_62.001┼96┼0┼",
-            "PrefabID": "6fa1bf6a566af2f479f551f9bb604178",
-            "Name": "SecureWinDoorLeft (5)",
-            "LocalPRS": "62┼96┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_50┼94┼0┼@0@APC@0"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Left_By90"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "Security"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
             "GitID": "74c59d7cb720be945a7c5606d962c05a_62┼99┼0┼",
             "PrefabID": "74c59d7cb720be945a7c5606d962c05a",
             "Name": "AirlockSecurityOpaque (1)",
@@ -121498,12 +121609,14 @@
           {
             "GitID": "4e067333d18d9724690055be203850b5_62┼112.99┼0┼",
             "PrefabID": "4e067333d18d9724690055be203850b5",
+            "NameMatches": true,
             "Name": "MaintLootx2",
             "LocalPRS": "62┼112.99┼0┼"
           },
           {
             "GitID": "d0665b639a1bfc340afe3b1fde2773dd_62┼113┼0┼",
             "PrefabID": "d0665b639a1bfc340afe3b1fde2773dd",
+            "NameMatches": true,
             "Name": "LargeCardboardBox",
             "LocalPRS": "62┼113┼0┼",
             "Object": {
@@ -121518,6 +121631,50 @@
                       "ID": "0,2,0",
                       "Active": false,
                       "ClassDatas": []
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "6fa1bf6a566af2f479f551f9bb604178_62.001┼96┼0┼",
+            "PrefabID": "6fa1bf6a566af2f479f551f9bb604178",
+            "Name": "SecureWinDoorLeft (5)",
+            "LocalPRS": "62.001┼96┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_50┼94┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Security"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -121614,12 +121771,6 @@
             "GitID": "c0cbb1853d350404685a523d617f3458_63┼30┼0┼",
             "PrefabID": "c0cbb1853d350404685a523d617f3458",
             "Name": "MachineBoardHydroponicsTray (1)",
-            "LocalPRS": "63┼30┼0┼"
-          },
-          {
-            "GitID": "c0cbb1853d350404685a523d617f3458_63.001┼30┼0┼",
-            "PrefabID": "c0cbb1853d350404685a523d617f3458",
-            "Name": "MachineBoardHydroponicsTray (2)",
             "LocalPRS": "63┼30┼0┼"
           },
           {
@@ -121856,6 +122007,7 @@
           {
             "GitID": "5fd9d8acdd4f02849884dcddff5db286_63┼50┼0┼",
             "PrefabID": "5fd9d8acdd4f02849884dcddff5db286",
+            "NameMatches": true,
             "Name": "AirlockStandardOpaque",
             "LocalPRS": "63┼50┼0┼",
             "Object": {
@@ -121875,6 +122027,7 @@
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_63┼56┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "63┼56┼0┼"
           },
@@ -122364,6 +122517,7 @@
           {
             "GitID": "d0665b639a1bfc340afe3b1fde2773dd_63┼110┼0┼",
             "PrefabID": "d0665b639a1bfc340afe3b1fde2773dd",
+            "NameMatches": true,
             "Name": "LargeCardboardBox",
             "LocalPRS": "63┼110┼0┼",
             "Object": {
@@ -122389,6 +122543,12 @@
             "PrefabID": "91d832be818283a4188516804e8d5ef0",
             "Name": "EmergencyCloset (1)",
             "LocalPRS": "63┼113┼0┼"
+          },
+          {
+            "GitID": "c0cbb1853d350404685a523d617f3458_63.001┼30┼0┼",
+            "PrefabID": "c0cbb1853d350404685a523d617f3458",
+            "Name": "MachineBoardHydroponicsTray (2)",
+            "LocalPRS": "63.001┼30┼0┼"
           },
           {
             "GitID": "1002c0247e412884e91c857ce6e51d9c_64┼30┼0┼",
@@ -122443,12 +122603,6 @@
             "LocalPRS": "64┼32┼0┼"
           },
           {
-            "GitID": "288980126acf5f441841169958c31630_64.001┼32┼0┼",
-            "PrefabID": "288980126acf5f441841169958c31630",
-            "Name": "HighCableCoil (2)",
-            "LocalPRS": "64┼32┼0┼"
-          },
-          {
             "GitID": "517c48fc4fc1cba48908d11ec58451ce_64┼32┼0┼",
             "PrefabID": "517c48fc4fc1cba48908d11ec58451ce",
             "Name": "EngineeringCrateElectrical (1)",
@@ -122471,26 +122625,15 @@
             "LocalPRS": "64┼32┼0┼"
           },
           {
-            "GitID": "7f32e42309899114b9c122f261161bc5_64.001┼32┼0┼",
-            "PrefabID": "7f32e42309899114b9c122f261161bc5",
-            "Name": "LowCableCoil (2)",
-            "LocalPRS": "64┼32┼0┼"
-          },
-          {
             "GitID": "c3e6805b264a935428b0de415ea57943_64┼32┼0┼",
             "PrefabID": "c3e6805b264a935428b0de415ea57943",
             "Name": "MediumCableCoil (1)",
             "LocalPRS": "64┼32┼0┼"
           },
           {
-            "GitID": "c3e6805b264a935428b0de415ea57943_64.001┼32┼0┼",
-            "PrefabID": "c3e6805b264a935428b0de415ea57943",
-            "Name": "MediumCableCoil (2)",
-            "LocalPRS": "64┼32┼0┼"
-          },
-          {
             "GitID": "9c3a6c9c953a49941aa32b5ad9400d89_64┼34┼0┼",
             "PrefabID": "9c3a6c9c953a49941aa32b5ad9400d89",
+            "NameMatches": true,
             "Name": "New Department Battery",
             "LocalPRS": "64┼34┼0┼",
             "Object": {
@@ -122507,6 +122650,7 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_64┼35┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "64┼35┼0┼"
           },
@@ -122714,6 +122858,7 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_64┼46┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "64┼46┼0┼"
           },
@@ -122879,6 +123024,7 @@
           {
             "GitID": "ab9dcb5010b8e354b83cc955b97b263f_64┼60┼0┼",
             "PrefabID": "ab9dcb5010b8e354b83cc955b97b263f",
+            "NameMatches": true,
             "Name": "AirlockHydroponicsWindowed",
             "LocalPRS": "64┼60┼0┼",
             "Object": {
@@ -123249,8 +123395,27 @@
             }
           },
           {
+            "GitID": "288980126acf5f441841169958c31630_64.001┼32┼0┼",
+            "PrefabID": "288980126acf5f441841169958c31630",
+            "Name": "HighCableCoil (2)",
+            "LocalPRS": "64.001┼32┼0┼"
+          },
+          {
+            "GitID": "7f32e42309899114b9c122f261161bc5_64.001┼32┼0┼",
+            "PrefabID": "7f32e42309899114b9c122f261161bc5",
+            "Name": "LowCableCoil (2)",
+            "LocalPRS": "64.001┼32┼0┼"
+          },
+          {
+            "GitID": "c3e6805b264a935428b0de415ea57943_64.001┼32┼0┼",
+            "PrefabID": "c3e6805b264a935428b0de415ea57943",
+            "Name": "MediumCableCoil (2)",
+            "LocalPRS": "64.001┼32┼0┼"
+          },
+          {
             "GitID": "c21551dd992a57349973e4b5af103ca6_64.01┼34.32┼0┼",
             "PrefabID": "c21551dd992a57349973e4b5af103ca6",
+            "NameMatches": true,
             "Name": "SecurityCamera",
             "LocalPRS": "64.01┼34.32┼0┼",
             "Object": {
@@ -123816,6 +123981,7 @@
           {
             "GitID": "c0d35a75ba9aa4c4fab141f0fac245f6_65┼56┼0┼",
             "PrefabID": "c0d35a75ba9aa4c4fab141f0fac245f6",
+            "NameMatches": true,
             "Name": "New HydroponicsTray",
             "LocalPRS": "65┼56┼0┼"
           },
@@ -123876,6 +124042,7 @@
           {
             "GitID": "c0d35a75ba9aa4c4fab141f0fac245f6_65┼59┼0┼",
             "PrefabID": "c0d35a75ba9aa4c4fab141f0fac245f6",
+            "NameMatches": true,
             "Name": "New HydroponicsTray",
             "LocalPRS": "65┼59┼0┼"
           },
@@ -124130,6 +124297,7 @@
           {
             "GitID": "97bce9583aaf2e3428c3c680b269f85f_65.96┼112.05┼0┼",
             "PrefabID": "97bce9583aaf2e3428c3c680b269f85f",
+            "NameMatches": true,
             "Name": "RandomMessSpawner",
             "LocalPRS": "65.96┼112.05┼0┼0ø0ø24ø"
           },
@@ -124332,6 +124500,7 @@
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_66┼30┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "66┼30┼0┼"
           },
@@ -124375,6 +124544,7 @@
           {
             "GitID": "ed4e62dc12dca724ba1e5f374965096b_66┼35┼0┼",
             "PrefabID": "ed4e62dc12dca724ba1e5f374965096b",
+            "NameMatches": true,
             "Name": "Rack",
             "LocalPRS": "66┼35┼0┼"
           },
@@ -124588,12 +124758,14 @@
           {
             "GitID": "c0d35a75ba9aa4c4fab141f0fac245f6_66┼56┼0┼",
             "PrefabID": "c0d35a75ba9aa4c4fab141f0fac245f6",
+            "NameMatches": true,
             "Name": "New HydroponicsTray",
             "LocalPRS": "66┼56┼0┼"
           },
           {
             "GitID": "c0d35a75ba9aa4c4fab141f0fac245f6_66┼59┼0┼",
             "PrefabID": "c0d35a75ba9aa4c4fab141f0fac245f6",
+            "NameMatches": true,
             "Name": "New HydroponicsTray",
             "LocalPRS": "66┼59┼0┼"
           },
@@ -124975,34 +125147,6 @@
             }
           },
           {
-            "GitID": "cbe919cf00f84254f83d474582798520_66.001┼94┼0┼",
-            "PrefabID": "cbe919cf00f84254f83d474582798520",
-            "Name": "SecureWinDoorRight (2)",
-            "LocalPRS": "66┼94┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_75┼91┼0┼@0@APC@0"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Left_By90"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
             "GitID": "f2441585d37f1914395df59a57c5e925_66┼94┼0┼",
             "PrefabID": "f2441585d37f1914395df59a57c5e925",
             "Name": "Shutters (2)",
@@ -125283,6 +125427,34 @@
             "LocalPRS": "66┼104.75┼0┼"
           },
           {
+            "GitID": "cbe919cf00f84254f83d474582798520_66.001┼94┼0┼",
+            "PrefabID": "cbe919cf00f84254f83d474582798520",
+            "Name": "SecureWinDoorRight (2)",
+            "LocalPRS": "66.001┼94┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_75┼91┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "3e81def4ec9dcac419a017125d9ce991_66.01┼35.04┼0┼",
             "PrefabID": "3e81def4ec9dcac419a017125d9ce991",
             "Name": "ToolbeltFullEngineering (1)",
@@ -125402,6 +125574,7 @@
           {
             "GitID": "032e150131f53a64fbf6048aca6a879a_67┼20┼0┼",
             "PrefabID": "032e150131f53a64fbf6048aca6a879a",
+            "NameMatches": true,
             "Name": "RandomToolSpawner",
             "LocalPRS": "67┼20┼0┼"
           },
@@ -125940,18 +126113,21 @@
           {
             "GitID": "c0d35a75ba9aa4c4fab141f0fac245f6_67┼56┼0┼",
             "PrefabID": "c0d35a75ba9aa4c4fab141f0fac245f6",
+            "NameMatches": true,
             "Name": "New HydroponicsTray",
             "LocalPRS": "67┼56┼0┼"
           },
           {
             "GitID": "c0d35a75ba9aa4c4fab141f0fac245f6_67┼59┼0┼",
             "PrefabID": "c0d35a75ba9aa4c4fab141f0fac245f6",
+            "NameMatches": true,
             "Name": "New HydroponicsTray",
             "LocalPRS": "67┼59┼0┼"
           },
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_67┼65┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "67┼65┼0┼"
           },
@@ -126354,6 +126530,7 @@
           {
             "GitID": "c4c1a5e556c58314eb690ee3272fb1cf_67┼111┼0┼",
             "PrefabID": "c4c1a5e556c58314eb690ee3272fb1cf",
+            "NameMatches": true,
             "Name": "OperatingTable",
             "LocalPRS": "67┼111┼0┼"
           },
@@ -126801,6 +126978,7 @@
           {
             "GitID": "38246cd9491b4c248abb2e296cc6c76f_68┼55┼0┼",
             "PrefabID": "38246cd9491b4c248abb2e296cc6c76f",
+            "NameMatches": true,
             "Name": "AirlockMaintenanceOpaque",
             "LocalPRS": "68┼55┼0┼",
             "Object": {
@@ -127275,6 +127453,7 @@
           {
             "GitID": "dd33a51f8c440da4cb4273b8954c03b3_68┼110┼0┼",
             "PrefabID": "dd33a51f8c440da4cb4273b8954c03b3",
+            "NameMatches": true,
             "Name": "RandomMedicalSuppliesSpawner",
             "LocalPRS": "68┼110┼0┼"
           },
@@ -127315,6 +127494,7 @@
           {
             "GitID": "8fb9b82aab871a54fb9bdb7e4a985821_68.04┼110┼0┼",
             "PrefabID": "8fb9b82aab871a54fb9bdb7e4a985821",
+            "NameMatches": true,
             "Name": "MaintLoot",
             "LocalPRS": "68.04┼110┼0┼"
           },
@@ -127423,6 +127603,7 @@
           {
             "GitID": "d6495a017b1b4634697738270d87d354_68.69┼65.1┼0┼",
             "PrefabID": "d6495a017b1b4634697738270d87d354",
+            "NameMatches": true,
             "Name": "RandomConstructionMatsSpawner",
             "LocalPRS": "68.69┼65.1┼0┼"
           },
@@ -127435,6 +127616,7 @@
           {
             "GitID": "71270ee865885154cb3d16d97e879cc8_69┼20┼0┼",
             "PrefabID": "71270ee865885154cb3d16d97e879cc8",
+            "NameMatches": true,
             "Name": "RandomEmergencyLight",
             "LocalPRS": "69┼20┼0┼"
           },
@@ -127621,31 +127803,6 @@
                 }
               ]
             }
-          },
-          {
-            "GitID": "157fcff274a3644448d1ff3bdc019619_69.001┼26┼0┼",
-            "PrefabID": "157fcff274a3644448d1ff3bdc019619",
-            "Name": "DirectionalWindow (2)",
-            "LocalPRS": "69┼26┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Up_By0"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "157fcff274a3644448d1ff3bdc019619_69.002┼26┼0┼",
-            "PrefabID": "157fcff274a3644448d1ff3bdc019619",
-            "Name": "DirectionalWindow (3)",
-            "LocalPRS": "69┼26┼0┼"
           },
           {
             "GitID": "f2441585d37f1914395df59a57c5e925_69┼26┼0┼",
@@ -127885,18 +128042,21 @@
           {
             "GitID": "All-In-One Grinder_69┼52┼0┼",
             "PrefabID": "All-In-One Grinder",
+            "NameMatches": true,
             "Name": "new All-In-One Grinder",
             "LocalPRS": "69┼52┼0┼"
           },
           {
             "GitID": "c0d35a75ba9aa4c4fab141f0fac245f6_69┼56┼0┼",
             "PrefabID": "c0d35a75ba9aa4c4fab141f0fac245f6",
+            "NameMatches": true,
             "Name": "New HydroponicsTray",
             "LocalPRS": "69┼56┼0┼"
           },
           {
             "GitID": "c0d35a75ba9aa4c4fab141f0fac245f6_69┼59┼0┼",
             "PrefabID": "c0d35a75ba9aa4c4fab141f0fac245f6",
+            "NameMatches": true,
             "Name": "New HydroponicsTray",
             "LocalPRS": "69┼59┼0┼"
           },
@@ -128128,12 +128288,14 @@
           {
             "GitID": "zJyaf3Uy!rYaamX$9?Zq_69┼86┼0┼",
             "PrefabID": "zJyaf3Uy!rYaamX$9?Zq",
+            "NameMatches": true,
             "Name": "FileCabinet",
             "LocalPRS": "69┼86┼0┼"
           },
           {
             "GitID": "0ffd76bb18fbbc8469a9e46bf83d1988_69┼91.94┼0┼",
             "PrefabID": "0ffd76bb18fbbc8469a9e46bf83d1988",
+            "NameMatches": true,
             "Name": "RandomFolder",
             "LocalPRS": "69┼91.94┼0┼"
           },
@@ -128180,6 +128342,7 @@
           {
             "GitID": "zJyaf3Uy!rYaamX$9?Zq_69┼92┼0┼",
             "PrefabID": "zJyaf3Uy!rYaamX$9?Zq",
+            "NameMatches": true,
             "Name": "FileCabinet",
             "LocalPRS": "69┼92┼0┼"
           },
@@ -128397,6 +128560,7 @@
           {
             "GitID": "ca7d7da17781bf046abd652ffb41a611_69┼99┼0┼",
             "PrefabID": "ca7d7da17781bf046abd652ffb41a611",
+            "NameMatches": true,
             "Name": "ExtinguisherCabinet",
             "LocalPRS": "69┼99┼0┼",
             "Object": {
@@ -128440,6 +128604,31 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "157fcff274a3644448d1ff3bdc019619_69.001┼26┼0┼",
+            "PrefabID": "157fcff274a3644448d1ff3bdc019619",
+            "Name": "DirectionalWindow (2)",
+            "LocalPRS": "69.001┼26┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "157fcff274a3644448d1ff3bdc019619_69.002┼26┼0┼",
+            "PrefabID": "157fcff274a3644448d1ff3bdc019619",
+            "Name": "DirectionalWindow (3)",
+            "LocalPRS": "69.002┼26┼0┼"
           },
           {
             "GitID": "q!o3gkH_4kORTKCfn85i_69.01┼41.25┼0┼",
@@ -128492,6 +128681,7 @@
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_70┼5┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "70┼5┼0┼"
           },
@@ -128876,12 +129066,14 @@
           {
             "GitID": "c0d35a75ba9aa4c4fab141f0fac245f6_70┼56┼0┼",
             "PrefabID": "c0d35a75ba9aa4c4fab141f0fac245f6",
+            "NameMatches": true,
             "Name": "New HydroponicsTray",
             "LocalPRS": "70┼56┼0┼"
           },
           {
             "GitID": "c0d35a75ba9aa4c4fab141f0fac245f6_70┼59┼0┼",
             "PrefabID": "c0d35a75ba9aa4c4fab141f0fac245f6",
+            "NameMatches": true,
             "Name": "New HydroponicsTray",
             "LocalPRS": "70┼59┼0┼"
           },
@@ -129113,6 +129305,7 @@
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_70┼92┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "70┼92┼0┼"
           },
@@ -129156,6 +129349,7 @@
           {
             "GitID": "f8db3418b6542874396d1eaa52946e19_70┼93┼0┼",
             "PrefabID": "f8db3418b6542874396d1eaa52946e19",
+            "NameMatches": true,
             "Name": "Photocopier",
             "LocalPRS": "70┼93┼0┼",
             "Object": {
@@ -129253,6 +129447,7 @@
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_70┼101┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "70┼101┼0┼"
           },
@@ -129396,6 +129591,7 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_71┼7┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "71┼7┼0┼"
           },
@@ -129782,6 +129978,7 @@
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_71┼50┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "71┼50┼0┼"
           },
@@ -129842,6 +130039,7 @@
           {
             "GitID": "c0d35a75ba9aa4c4fab141f0fac245f6_71┼56┼0┼",
             "PrefabID": "c0d35a75ba9aa4c4fab141f0fac245f6",
+            "NameMatches": true,
             "Name": "New HydroponicsTray",
             "LocalPRS": "71┼56┼0┼"
           },
@@ -129883,6 +130081,7 @@
           {
             "GitID": "c0d35a75ba9aa4c4fab141f0fac245f6_71┼59┼0┼",
             "PrefabID": "c0d35a75ba9aa4c4fab141f0fac245f6",
+            "NameMatches": true,
             "Name": "New HydroponicsTray",
             "LocalPRS": "71┼59┼0┼"
           },
@@ -131333,6 +131532,7 @@
           {
             "GitID": "bb684284e149a524d9f53b039e51b806_73┼18┼0┼",
             "PrefabID": "bb684284e149a524d9f53b039e51b806",
+            "NameMatches": true,
             "Name": "New Medium Machine Connector",
             "LocalPRS": "73┼18┼0┼"
           },
@@ -131928,6 +132128,7 @@
           {
             "GitID": "9c3a6c9c953a49941aa32b5ad9400d89_74┼8┼0┼",
             "PrefabID": "9c3a6c9c953a49941aa32b5ad9400d89",
+            "NameMatches": true,
             "Name": "New Department Battery",
             "LocalPRS": "74┼8┼0┼",
             "Object": {
@@ -131998,6 +132199,7 @@
           {
             "GitID": "93d1f95a33757fe4fa3e2771e3f5bd67_74┼18┼0┼",
             "PrefabID": "93d1f95a33757fe4fa3e2771e3f5bd67",
+            "NameMatches": true,
             "Name": "New PowerGeneratorPlasma",
             "LocalPRS": "74┼18┼0┼"
           },
@@ -132049,24 +132251,6 @@
             "GitID": "2c62bf4b8bd1b13409822a00ad8cb214_74┼24┼0┼",
             "PrefabID": "2c62bf4b8bd1b13409822a00ad8cb214",
             "Name": "FuelRod (1)",
-            "LocalPRS": "74┼24┼0┼"
-          },
-          {
-            "GitID": "2c62bf4b8bd1b13409822a00ad8cb214_74.001┼24┼0┼",
-            "PrefabID": "2c62bf4b8bd1b13409822a00ad8cb214",
-            "Name": "FuelRod (2)",
-            "LocalPRS": "74┼24┼0┼"
-          },
-          {
-            "GitID": "2c62bf4b8bd1b13409822a00ad8cb214_74.002┼24┼0┼",
-            "PrefabID": "2c62bf4b8bd1b13409822a00ad8cb214",
-            "Name": "FuelRod (3)",
-            "LocalPRS": "74┼24┼0┼"
-          },
-          {
-            "GitID": "2c62bf4b8bd1b13409822a00ad8cb214_74.003┼24┼0┼",
-            "PrefabID": "2c62bf4b8bd1b13409822a00ad8cb214",
-            "Name": "FuelRod (4)",
             "LocalPRS": "74┼24┼0┼"
           },
           {
@@ -133269,6 +133453,24 @@
             }
           },
           {
+            "GitID": "2c62bf4b8bd1b13409822a00ad8cb214_74.001┼24┼0┼",
+            "PrefabID": "2c62bf4b8bd1b13409822a00ad8cb214",
+            "Name": "FuelRod (2)",
+            "LocalPRS": "74.001┼24┼0┼"
+          },
+          {
+            "GitID": "2c62bf4b8bd1b13409822a00ad8cb214_74.002┼24┼0┼",
+            "PrefabID": "2c62bf4b8bd1b13409822a00ad8cb214",
+            "Name": "FuelRod (3)",
+            "LocalPRS": "74.002┼24┼0┼"
+          },
+          {
+            "GitID": "2c62bf4b8bd1b13409822a00ad8cb214_74.003┼24┼0┼",
+            "PrefabID": "2c62bf4b8bd1b13409822a00ad8cb214",
+            "Name": "FuelRod (4)",
+            "LocalPRS": "74.003┼24┼0┼"
+          },
+          {
             "GitID": "ca7d7da17781bf046abd652ffb41a611_75┼-3┼0┼",
             "PrefabID": "ca7d7da17781bf046abd652ffb41a611",
             "Name": "ExtinguisherCabinet (1)",
@@ -133359,6 +133561,7 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_75┼8┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "75┼8┼0┼"
           },
@@ -134047,6 +134250,7 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_75┼90┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "75┼90┼0┼"
           },
@@ -134793,6 +134997,7 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_76┼-2┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "76┼-2┼0┼"
           },
@@ -134975,6 +135180,7 @@
           {
             "GitID": "224479214b5ed414193fdcb20d96678f_76┼17┼0┼",
             "PrefabID": "224479214b5ed414193fdcb20d96678f",
+            "NameMatches": true,
             "Name": "New Transformer",
             "LocalPRS": "76┼17┼0┼"
           },
@@ -136203,6 +136409,7 @@
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_77┼76┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "77┼76┼0┼"
           },
@@ -136228,6 +136435,7 @@
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_77┼81┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "77┼81┼0┼"
           },
@@ -136596,6 +136804,7 @@
           {
             "GitID": "zJyaf3Uy!rYaamX$9?Zq_78┼5┼0┼",
             "PrefabID": "zJyaf3Uy!rYaamX$9?Zq",
+            "NameMatches": true,
             "Name": "FileCabinet",
             "LocalPRS": "78┼5┼0┼"
           },
@@ -136692,6 +136901,7 @@
           {
             "GitID": "170e72b76e0da9645995a9bac3f49cb2_78┼16┼0┼",
             "PrefabID": "170e72b76e0da9645995a9bac3f49cb2",
+            "NameMatches": true,
             "Name": "New SMES",
             "LocalPRS": "78┼16┼0┼"
           },
@@ -136733,6 +136943,7 @@
           {
             "GitID": "170e72b76e0da9645995a9bac3f49cb2_78┼18┼0┼",
             "PrefabID": "170e72b76e0da9645995a9bac3f49cb2",
+            "NameMatches": true,
             "Name": "New SMES",
             "LocalPRS": "78┼18┼0┼"
           },
@@ -136794,72 +137005,6 @@
             "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78┼24┼0┼",
             "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
             "Name": "ControlRod (1)",
-            "LocalPRS": "78┼24┼0┼"
-          },
-          {
-            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.001┼24┼0┼",
-            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (2)",
-            "LocalPRS": "78┼24┼0┼"
-          },
-          {
-            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.002┼24┼0┼",
-            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (3)",
-            "LocalPRS": "78┼24┼0┼"
-          },
-          {
-            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.003┼24┼0┼",
-            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (4)",
-            "LocalPRS": "78┼24┼0┼"
-          },
-          {
-            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.004┼24┼0┼",
-            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (5)",
-            "LocalPRS": "78┼24┼0┼"
-          },
-          {
-            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.005┼24┼0┼",
-            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (6)",
-            "LocalPRS": "78┼24┼0┼"
-          },
-          {
-            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.006┼24┼0┼",
-            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (7)",
-            "LocalPRS": "78┼24┼0┼"
-          },
-          {
-            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.007┼24┼0┼",
-            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (8)",
-            "LocalPRS": "78┼24┼0┼"
-          },
-          {
-            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.008┼24┼0┼",
-            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (9)",
-            "LocalPRS": "78┼24┼0┼"
-          },
-          {
-            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.009┼24┼0┼",
-            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (10)",
-            "LocalPRS": "78┼24┼0┼"
-          },
-          {
-            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.01┼24┼0┼",
-            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (11)",
-            "LocalPRS": "78┼24┼0┼"
-          },
-          {
-            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.011┼24┼0┼",
-            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (12)",
             "LocalPRS": "78┼24┼0┼"
           },
           {
@@ -137167,34 +137312,6 @@
                           "Data": "Chemistry"
                         }
                       ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "ddcfc3ab784dec1419565255774956c5_78.001┼53┼0┼",
-            "PrefabID": "ddcfc3ab784dec1419565255774956c5",
-            "Name": "WinDoorLeft (3)",
-            "LocalPRS": "78┼53┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_100┼42┼0┼@0@APC@0"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Left_By90"
                     }
                   ]
                 }
@@ -137751,6 +137868,100 @@
             }
           },
           {
+            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.001┼24┼0┼",
+            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
+            "Name": "ControlRod (2)",
+            "LocalPRS": "78.001┼24┼0┼"
+          },
+          {
+            "GitID": "ddcfc3ab784dec1419565255774956c5_78.001┼53┼0┼",
+            "PrefabID": "ddcfc3ab784dec1419565255774956c5",
+            "Name": "WinDoorLeft (3)",
+            "LocalPRS": "78.001┼53┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_100┼42┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.002┼24┼0┼",
+            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
+            "Name": "ControlRod (3)",
+            "LocalPRS": "78.002┼24┼0┼"
+          },
+          {
+            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.003┼24┼0┼",
+            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
+            "Name": "ControlRod (4)",
+            "LocalPRS": "78.003┼24┼0┼"
+          },
+          {
+            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.004┼24┼0┼",
+            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
+            "Name": "ControlRod (5)",
+            "LocalPRS": "78.004┼24┼0┼"
+          },
+          {
+            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.005┼24┼0┼",
+            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
+            "Name": "ControlRod (6)",
+            "LocalPRS": "78.005┼24┼0┼"
+          },
+          {
+            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.006┼24┼0┼",
+            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
+            "Name": "ControlRod (7)",
+            "LocalPRS": "78.006┼24┼0┼"
+          },
+          {
+            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.007┼24┼0┼",
+            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
+            "Name": "ControlRod (8)",
+            "LocalPRS": "78.007┼24┼0┼"
+          },
+          {
+            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.008┼24┼0┼",
+            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
+            "Name": "ControlRod (9)",
+            "LocalPRS": "78.008┼24┼0┼"
+          },
+          {
+            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.009┼24┼0┼",
+            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
+            "Name": "ControlRod (10)",
+            "LocalPRS": "78.009┼24┼0┼"
+          },
+          {
+            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.01┼24┼0┼",
+            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
+            "Name": "ControlRod (11)",
+            "LocalPRS": "78.01┼24┼0┼"
+          },
+          {
+            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.011┼24┼0┼",
+            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
+            "Name": "ControlRod (12)",
+            "LocalPRS": "78.011┼24┼0┼"
+          },
+          {
             "GitID": "e33403c0371fc174aa03640734665a15_78.65┼94.42┼0┼",
             "PrefabID": "e33403c0371fc174aa03640734665a15",
             "Name": "HandTele (1)",
@@ -137892,12 +138103,14 @@
           {
             "GitID": "bb684284e149a524d9f53b039e51b806_79┼16┼0┼",
             "PrefabID": "bb684284e149a524d9f53b039e51b806",
+            "NameMatches": true,
             "Name": "New Medium Machine Connector",
             "LocalPRS": "79┼16┼0┼"
           },
           {
             "GitID": "bb684284e149a524d9f53b039e51b806_79┼18┼0┼",
             "PrefabID": "bb684284e149a524d9f53b039e51b806",
+            "NameMatches": true,
             "Name": "New Medium Machine Connector",
             "LocalPRS": "79┼18┼0┼"
           },
@@ -138061,6 +138274,7 @@
           {
             "GitID": "c98a53d5a9352674c8d6b8146ea2979b_79┼50┼0┼",
             "PrefabID": "c98a53d5a9352674c8d6b8146ea2979b",
+            "NameMatches": true,
             "Name": "NanoDrugPlus",
             "LocalPRS": "79┼50┼0┼",
             "Object": {
@@ -138086,6 +138300,7 @@
           {
             "GitID": "ChemDispenser_79┼52┼0┼",
             "PrefabID": "ChemDispenser",
+            "NameMatches": true,
             "Name": "New ChemDispenser",
             "LocalPRS": "79┼52┼0┼",
             "Object": {
@@ -138124,6 +138339,7 @@
           {
             "GitID": "ChemMaster_79┼54┼0┼",
             "PrefabID": "ChemMaster",
+            "NameMatches": true,
             "Name": "New ChemMaster",
             "LocalPRS": "79┼54┼0┼"
           },
@@ -138204,6 +138420,7 @@
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_79┼68┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "79┼68┼0┼"
           },
@@ -138279,6 +138496,7 @@
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_79┼73┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "79┼73┼0┼"
           },
@@ -138349,6 +138567,7 @@
           {
             "GitID": "5425ee650c49e0849b4bed132cfb588f_79┼83┼0┼",
             "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
+            "NameMatches": true,
             "Name": "TinyFan",
             "LocalPRS": "79┼83┼0┼",
             "Object": {
@@ -139578,6 +139797,7 @@
           {
             "GitID": "ChemDispenser_80┼55┼0┼",
             "PrefabID": "ChemDispenser",
+            "NameMatches": true,
             "Name": "New ChemDispenser",
             "LocalPRS": "80┼55┼0┼",
             "Object": {
@@ -140048,6 +140268,7 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_81┼23┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "81┼23┼0┼"
           },
@@ -140147,6 +140368,7 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_81┼28┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "81┼28┼0┼"
           },
@@ -140159,6 +140381,7 @@
           {
             "GitID": "9c3a6c9c953a49941aa32b5ad9400d89_81┼29┼0┼",
             "PrefabID": "9c3a6c9c953a49941aa32b5ad9400d89",
+            "NameMatches": true,
             "Name": "New Department Battery",
             "LocalPRS": "81┼29┼0┼",
             "Object": {
@@ -140175,6 +140398,7 @@
           {
             "GitID": "9c3a6c9c953a49941aa32b5ad9400d89_81┼31┼0┼",
             "PrefabID": "9c3a6c9c953a49941aa32b5ad9400d89",
+            "NameMatches": true,
             "Name": "New Department Battery",
             "LocalPRS": "81┼31┼0┼",
             "Object": {
@@ -140238,6 +140462,7 @@
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_81┼41┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "81┼41┼0┼"
           },
@@ -140309,6 +140534,7 @@
           {
             "GitID": "9b59e4553ab9f7e4a8f46497d7cfd7bc_81┼49┼0┼",
             "PrefabID": "9b59e4553ab9f7e4a8f46497d7cfd7bc",
+            "NameMatches": true,
             "Name": "NanoMed",
             "LocalPRS": "81┼49┼0┼",
             "Object": {
@@ -140472,6 +140698,7 @@
           {
             "GitID": "ChemMaster_81┼55┼0┼",
             "PrefabID": "ChemMaster",
+            "NameMatches": true,
             "Name": "New ChemMaster",
             "LocalPRS": "81┼55┼0┼"
           },
@@ -140794,6 +141021,7 @@
           {
             "GitID": "5425ee650c49e0849b4bed132cfb588f_81┼82┼0┼",
             "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
+            "NameMatches": true,
             "Name": "TinyFan",
             "LocalPRS": "81┼82┼0┼",
             "Object": {
@@ -140873,6 +141101,7 @@
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_81┼95┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "81┼95┼0┼"
           },
@@ -141154,6 +141383,7 @@
           {
             "GitID": "d2f2400aac0da54468da76680579c29b_81.95┼23.43┼0┼",
             "PrefabID": "d2f2400aac0da54468da76680579c29b",
+            "NameMatches": true,
             "Name": "ReinforcedGlassSheet",
             "LocalPRS": "81.95┼23.43┼0┼",
             "Object": {
@@ -141390,6 +141620,7 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_82┼31┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "82┼31┼0┼"
           },
@@ -142423,6 +142654,7 @@
           {
             "GitID": "f8db3418b6542874396d1eaa52946e19_82┼97┼0┼",
             "PrefabID": "f8db3418b6542874396d1eaa52946e19",
+            "NameMatches": true,
             "Name": "Photocopier",
             "LocalPRS": "82┼97┼0┼",
             "Object": {
@@ -142648,6 +142880,7 @@
           {
             "GitID": "d6495a017b1b4634697738270d87d354_82.07┼24.72┼0┼",
             "PrefabID": "d6495a017b1b4634697738270d87d354",
+            "NameMatches": true,
             "Name": "RandomConstructionMatsSpawner",
             "LocalPRS": "82.07┼24.72┼0┼"
           },
@@ -142673,6 +142906,7 @@
           {
             "GitID": "5dce4d3e01518474bb9bb8085b718980_82.2┼23.33┼0┼",
             "PrefabID": "5dce4d3e01518474bb9bb8085b718980",
+            "NameMatches": true,
             "Name": "MetalRods",
             "LocalPRS": "82.2┼23.33┼0┼",
             "Object": {
@@ -143669,6 +143903,7 @@
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_84┼21┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "84┼21┼0┼"
           },
@@ -143826,6 +144061,7 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_84┼33┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "84┼33┼0┼"
           },
@@ -144646,6 +144882,7 @@
           {
             "GitID": "1a00e842e154f7d43811c5d45328988c_84┼61┼0┼",
             "PrefabID": "1a00e842e154f7d43811c5d45328988c",
+            "NameMatches": true,
             "Name": "Chair",
             "LocalPRS": "84┼61┼0┼"
           },
@@ -144689,6 +144926,7 @@
           {
             "GitID": "3e091c8c2a970a74e915174840cd98bb_84┼65┼0┼",
             "PrefabID": "3e091c8c2a970a74e915174840cd98bb",
+            "NameMatches": true,
             "Name": "New Poster",
             "LocalPRS": "84┼65┼0┼"
           },
@@ -145326,6 +145564,7 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_84┼94┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "84┼94┼0┼"
           },
@@ -145817,6 +146056,7 @@
           {
             "GitID": "1a00e842e154f7d43811c5d45328988c_85┼61┼0┼",
             "PrefabID": "1a00e842e154f7d43811c5d45328988c",
+            "NameMatches": true,
             "Name": "Chair",
             "LocalPRS": "85┼61┼0┼"
           },
@@ -145851,6 +146091,7 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_85┼68┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "85┼68┼0┼"
           },
@@ -145876,6 +146117,7 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_85┼74┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "85┼74┼0┼"
           },
@@ -145945,6 +146187,7 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_85┼79┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "85┼79┼0┼"
           },
@@ -146175,6 +146418,7 @@
           {
             "GitID": "9c3a6c9c953a49941aa32b5ad9400d89_85┼94┼0┼",
             "PrefabID": "9c3a6c9c953a49941aa32b5ad9400d89",
+            "NameMatches": true,
             "Name": "New Department Battery",
             "LocalPRS": "85┼94┼0┼",
             "Object": {
@@ -146674,12 +146918,14 @@
           {
             "GitID": "3e091c8c2a970a74e915174840cd98bb_86┼40┼0┼",
             "PrefabID": "3e091c8c2a970a74e915174840cd98bb",
+            "NameMatches": true,
             "Name": "New Poster",
             "LocalPRS": "86┼40┼0┼"
           },
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_86┼41┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "86┼41┼0┼"
           },
@@ -146838,6 +147084,7 @@
           {
             "GitID": "1a00e842e154f7d43811c5d45328988c_86┼61┼0┼",
             "PrefabID": "1a00e842e154f7d43811c5d45328988c",
+            "NameMatches": true,
             "Name": "Chair",
             "LocalPRS": "86┼61┼0┼"
           },
@@ -146863,6 +147110,7 @@
           {
             "GitID": "9c3a6c9c953a49941aa32b5ad9400d89_86┼68┼0┼",
             "PrefabID": "9c3a6c9c953a49941aa32b5ad9400d89",
+            "NameMatches": true,
             "Name": "New Department Battery",
             "LocalPRS": "86┼68┼0┼",
             "Object": {
@@ -148410,6 +148658,7 @@
           {
             "GitID": "dd33a51f8c440da4cb4273b8954c03b3_88┼45┼0┼",
             "PrefabID": "dd33a51f8c440da4cb4273b8954c03b3",
+            "NameMatches": true,
             "Name": "RandomMedicalSuppliesSpawner",
             "LocalPRS": "88┼45┼0┼"
           },
@@ -148473,6 +148722,7 @@
           {
             "GitID": "dd33a51f8c440da4cb4273b8954c03b3_88┼50┼0┼",
             "PrefabID": "dd33a51f8c440da4cb4273b8954c03b3",
+            "NameMatches": true,
             "Name": "RandomMedicalSuppliesSpawner",
             "LocalPRS": "88┼50┼0┼"
           },
@@ -148990,6 +149240,7 @@
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_89┼20┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "89┼20┼0┼"
           },
@@ -149115,6 +149366,7 @@
           {
             "GitID": "dd33a51f8c440da4cb4273b8954c03b3_89┼41┼0.1┼",
             "PrefabID": "dd33a51f8c440da4cb4273b8954c03b3",
+            "NameMatches": true,
             "Name": "RandomMedicalSuppliesSpawner",
             "LocalPRS": "89┼41┼0.1┼"
           },
@@ -149166,21 +149418,9 @@
             "LocalPRS": "89┼48┼0┼"
           },
           {
-            "GitID": "51a0e98912223fc41b22c9a8d9b0eb0f_89.001┼48┼0┼",
-            "PrefabID": "51a0e98912223fc41b22c9a8d9b0eb0f",
-            "Name": "Aloe (2)",
-            "LocalPRS": "89┼48┼0┼"
-          },
-          {
             "GitID": "5f53091e33430154a8c09054fdc91afa_89┼48┼0┼",
             "PrefabID": "5f53091e33430154a8c09054fdc91afa",
             "Name": "cabbage (1)",
-            "LocalPRS": "89┼48┼0┼"
-          },
-          {
-            "GitID": "5f53091e33430154a8c09054fdc91afa_89.001┼48┼0┼",
-            "PrefabID": "5f53091e33430154a8c09054fdc91afa",
-            "Name": "cabbage (2)",
             "LocalPRS": "89┼48┼0┼"
           },
           {
@@ -149190,14 +149430,9 @@
             "LocalPRS": "89┼48┼0┼"
           },
           {
-            "GitID": "854b3b81a89f12b40b192fd047793b7c_89.001┼48┼0┼",
-            "PrefabID": "854b3b81a89f12b40b192fd047793b7c",
-            "Name": "Watermelon (2)",
-            "LocalPRS": "89┼48┼0┼"
-          },
-          {
             "GitID": "d0665b639a1bfc340afe3b1fde2773dd_89┼48┼0┼",
             "PrefabID": "d0665b639a1bfc340afe3b1fde2773dd",
+            "NameMatches": true,
             "Name": "LargeCardboardBox",
             "LocalPRS": "89┼48┼0┼",
             "Object": {
@@ -149352,25 +149587,6 @@
             }
           },
           {
-            "GitID": "ddcfc3ab784dec1419565255774956c5_89.001┼65┼0┼",
-            "PrefabID": "ddcfc3ab784dec1419565255774956c5",
-            "Name": "WinDoorLeft (1)",
-            "LocalPRS": "89┼65┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_90┼60┼0┼@0@APC@0"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
             "GitID": "3edf81f4a32c4c348bad5bfe43e263fd_89┼65.07┼0┼",
             "PrefabID": "3edf81f4a32c4c348bad5bfe43e263fd",
             "Name": "Paper Bin1 (1)",
@@ -149421,41 +149637,6 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Up_By0"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "ddcfc3ab784dec1419565255774956c5_89.001┼69┼0┼",
-            "PrefabID": "ddcfc3ab784dec1419565255774956c5",
-            "Name": "WinDoorLeft (2)",
-            "LocalPRS": "89┼69┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_90┼60┼0┼@0@APC@0"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "Qm"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -150046,14 +150227,88 @@
             }
           },
           {
+            "GitID": "51a0e98912223fc41b22c9a8d9b0eb0f_89.001┼48┼0┼",
+            "PrefabID": "51a0e98912223fc41b22c9a8d9b0eb0f",
+            "Name": "Aloe (2)",
+            "LocalPRS": "89.001┼48┼0┼"
+          },
+          {
+            "GitID": "5f53091e33430154a8c09054fdc91afa_89.001┼48┼0┼",
+            "PrefabID": "5f53091e33430154a8c09054fdc91afa",
+            "Name": "cabbage (2)",
+            "LocalPRS": "89.001┼48┼0┼"
+          },
+          {
+            "GitID": "854b3b81a89f12b40b192fd047793b7c_89.001┼48┼0┼",
+            "PrefabID": "854b3b81a89f12b40b192fd047793b7c",
+            "Name": "Watermelon (2)",
+            "LocalPRS": "89.001┼48┼0┼"
+          },
+          {
+            "GitID": "ddcfc3ab784dec1419565255774956c5_89.001┼65┼0┼",
+            "PrefabID": "ddcfc3ab784dec1419565255774956c5",
+            "Name": "WinDoorLeft (1)",
+            "LocalPRS": "89.001┼65┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_90┼60┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "ddcfc3ab784dec1419565255774956c5_89.001┼69┼0┼",
+            "PrefabID": "ddcfc3ab784dec1419565255774956c5",
+            "Name": "WinDoorLeft (2)",
+            "LocalPRS": "89.001┼69┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_90┼60┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Qm"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "6fb42534b2735c348969af05374ac236_89.06┼101.27┼0┼",
             "PrefabID": "6fb42534b2735c348969af05374ac236",
+            "NameMatches": true,
             "Name": "RandomCash",
             "LocalPRS": "89.06┼101.27┼0┼"
           },
           {
             "GitID": "6fb42534b2735c348969af05374ac236_89.07┼101┼0┼",
             "PrefabID": "6fb42534b2735c348969af05374ac236",
+            "NameMatches": true,
             "Name": "RandomCash",
             "LocalPRS": "89.07┼101┼0┼"
           },
@@ -150304,6 +150559,7 @@
           {
             "GitID": "2c738f17e9ae43e1b2d89f0754034d71_90┼41.09┼0.1┼",
             "PrefabID": "2c738f17e9ae43e1b2d89f0754034d71",
+            "NameMatches": true,
             "Name": "BottleOfCharcoalPills",
             "LocalPRS": "90┼41.09┼0.1┼"
           },
@@ -150364,33 +150620,15 @@
             "LocalPRS": "90┼48┼0┼"
           },
           {
-            "GitID": "51a0e98912223fc41b22c9a8d9b0eb0f_90.001┼48┼0┼",
-            "PrefabID": "51a0e98912223fc41b22c9a8d9b0eb0f",
-            "Name": "Aloe (4)",
-            "LocalPRS": "90┼48┼0┼"
-          },
-          {
             "GitID": "5f53091e33430154a8c09054fdc91afa_90┼48┼0┼",
             "PrefabID": "5f53091e33430154a8c09054fdc91afa",
             "Name": "cabbage (3)",
             "LocalPRS": "90┼48┼0┼"
           },
           {
-            "GitID": "5f53091e33430154a8c09054fdc91afa_90.001┼48┼0┼",
-            "PrefabID": "5f53091e33430154a8c09054fdc91afa",
-            "Name": "cabbage (4)",
-            "LocalPRS": "90┼48┼0┼"
-          },
-          {
             "GitID": "854b3b81a89f12b40b192fd047793b7c_90┼48┼0┼",
             "PrefabID": "854b3b81a89f12b40b192fd047793b7c",
             "Name": "Watermelon (3)",
-            "LocalPRS": "90┼48┼0┼"
-          },
-          {
-            "GitID": "854b3b81a89f12b40b192fd047793b7c_90.001┼48┼0┼",
-            "PrefabID": "854b3b81a89f12b40b192fd047793b7c",
-            "Name": "Watermelon (4)",
             "LocalPRS": "90┼48┼0┼"
           },
           {
@@ -150528,6 +150766,7 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_90┼59┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "90┼59┼0┼"
           },
@@ -150950,6 +151189,7 @@
           {
             "GitID": "zJyaf3Uy!rYaamX$9?Zq_90┼68┼0┼",
             "PrefabID": "zJyaf3Uy!rYaamX$9?Zq",
+            "NameMatches": true,
             "Name": "FileCabinet",
             "LocalPRS": "90┼68┼0┼"
           },
@@ -151274,12 +151514,14 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_90┼112┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "90┼112┼0┼"
           },
           {
             "GitID": "9c3a6c9c953a49941aa32b5ad9400d89_90┼113┼0┼",
             "PrefabID": "9c3a6c9c953a49941aa32b5ad9400d89",
+            "NameMatches": true,
             "Name": "New Department Battery",
             "LocalPRS": "90┼113┼0┼",
             "Object": {
@@ -151473,6 +151715,24 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "51a0e98912223fc41b22c9a8d9b0eb0f_90.001┼48┼0┼",
+            "PrefabID": "51a0e98912223fc41b22c9a8d9b0eb0f",
+            "Name": "Aloe (4)",
+            "LocalPRS": "90.001┼48┼0┼"
+          },
+          {
+            "GitID": "5f53091e33430154a8c09054fdc91afa_90.001┼48┼0┼",
+            "PrefabID": "5f53091e33430154a8c09054fdc91afa",
+            "Name": "cabbage (4)",
+            "LocalPRS": "90.001┼48┼0┼"
+          },
+          {
+            "GitID": "854b3b81a89f12b40b192fd047793b7c_90.001┼48┼0┼",
+            "PrefabID": "854b3b81a89f12b40b192fd047793b7c",
+            "Name": "Watermelon (4)",
+            "LocalPRS": "90.001┼48┼0┼"
           },
           {
             "GitID": "3ce7c70f4f293004689a6e84fe5b861d_90.19┼41.03┼0┼",
@@ -152127,6 +152387,7 @@
           {
             "GitID": "zJyaf3Uy!rYaamX$9?Zq_91┼99┼0┼",
             "PrefabID": "zJyaf3Uy!rYaamX$9?Zq",
+            "NameMatches": true,
             "Name": "FileCabinet",
             "LocalPRS": "91┼99┼0┼"
           },
@@ -152645,6 +152906,7 @@
           {
             "GitID": "baeafe1b5e8214344a5acf3315766acc_92┼48┼0┼",
             "PrefabID": "baeafe1b5e8214344a5acf3315766acc",
+            "NameMatches": true,
             "Name": "New DNA Scanner",
             "LocalPRS": "92┼48┼0┼",
             "Object": {
@@ -152809,6 +153071,7 @@
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_92┼66┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "92┼66┼0┼"
           },
@@ -153554,6 +153817,7 @@
           {
             "GitID": "9c3a6c9c953a49941aa32b5ad9400d89_93┼57┼0┼",
             "PrefabID": "9c3a6c9c953a49941aa32b5ad9400d89",
+            "NameMatches": true,
             "Name": "New Department Battery",
             "LocalPRS": "93┼57┼0┼",
             "Object": {
@@ -154000,6 +154264,7 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_93┼113┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "93┼113┼0┼"
           },
@@ -154575,6 +154840,7 @@
           {
             "GitID": "4ca7e9a3bb55005418ddd62621ac8667_94┼48┼0┼",
             "PrefabID": "4ca7e9a3bb55005418ddd62621ac8667",
+            "NameMatches": true,
             "Name": "New Cloning Pod",
             "LocalPRS": "94┼48┼0┼",
             "Object": {
@@ -154625,6 +154891,7 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_94┼57┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "94┼57┼0┼"
           },
@@ -154904,6 +155171,7 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_94┼93┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "94┼93┼0┼"
           },
@@ -156077,30 +156345,35 @@
           {
             "GitID": "856296105f077014ca9e533266df237a_96┼54┼0┼",
             "PrefabID": "856296105f077014ca9e533266df237a",
+            "NameMatches": true,
             "Name": "New ConveyorBelt",
             "LocalPRS": "96┼54┼0┼"
           },
           {
             "GitID": "856296105f077014ca9e533266df237a_96┼55┼0┼",
             "PrefabID": "856296105f077014ca9e533266df237a",
+            "NameMatches": true,
             "Name": "New ConveyorBelt",
             "LocalPRS": "96┼55┼0┼"
           },
           {
             "GitID": "856296105f077014ca9e533266df237a_96┼56┼0┼",
             "PrefabID": "856296105f077014ca9e533266df237a",
+            "NameMatches": true,
             "Name": "New ConveyorBelt",
             "LocalPRS": "96┼56┼0┼"
           },
           {
             "GitID": "856296105f077014ca9e533266df237a_96┼57┼0┼",
             "PrefabID": "856296105f077014ca9e533266df237a",
+            "NameMatches": true,
             "Name": "New ConveyorBelt",
             "LocalPRS": "96┼57┼0┼"
           },
           {
             "GitID": "856296105f077014ca9e533266df237a_96┼58┼0┼",
             "PrefabID": "856296105f077014ca9e533266df237a",
+            "NameMatches": true,
             "Name": "New ConveyorBelt",
             "LocalPRS": "96┼58┼0┼"
           },
@@ -156201,6 +156474,7 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_96┼75┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "96┼75┼0┼"
           },
@@ -156460,6 +156734,7 @@
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_96┼87┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "96┼87┼0┼"
           },
@@ -156472,6 +156747,7 @@
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_96┼89┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "96┼89┼0┼"
           },
@@ -157767,6 +158043,7 @@
           {
             "GitID": "cab73e460ee8bf24e88988add17a2be5_98┼56┼0┼",
             "PrefabID": "cab73e460ee8bf24e88988add17a2be5",
+            "NameMatches": true,
             "Name": "New ConveyorSwitch",
             "LocalPRS": "98┼56┼0┼",
             "Object": {
@@ -158025,6 +158302,7 @@
           {
             "GitID": "ChemDispenser_98┼96┼0┼",
             "PrefabID": "ChemDispenser",
+            "NameMatches": true,
             "Name": "New ChemDispenser",
             "LocalPRS": "98┼96┼0┼",
             "Object": {
@@ -158122,6 +158400,7 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_99┼42┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "99┼42┼0┼"
           },
@@ -158156,6 +158435,7 @@
           {
             "GitID": "856296105f077014ca9e533266df237a_99┼52┼0┼",
             "PrefabID": "856296105f077014ca9e533266df237a",
+            "NameMatches": true,
             "Name": "New ConveyorBelt",
             "LocalPRS": "99┼52┼0┼",
             "Object": {
@@ -158194,12 +158474,14 @@
           {
             "GitID": "24acfe3e8c412064ab3e3aeab2759c1d_99┼53.98┼0┼",
             "PrefabID": "24acfe3e8c412064ab3e3aeab2759c1d",
+            "NameMatches": true,
             "Name": "WrappingPaper",
             "LocalPRS": "99┼53.98┼0┼"
           },
           {
             "GitID": "d0665b639a1bfc340afe3b1fde2773dd_99┼54┼0┼",
             "PrefabID": "d0665b639a1bfc340afe3b1fde2773dd",
+            "NameMatches": true,
             "Name": "LargeCardboardBox",
             "LocalPRS": "99┼54┼0┼",
             "Object": {
@@ -159435,6 +159717,7 @@
           {
             "GitID": "cab73e460ee8bf24e88988add17a2be5_100┼51┼0┼",
             "PrefabID": "cab73e460ee8bf24e88988add17a2be5",
+            "NameMatches": true,
             "Name": "New ConveyorSwitch",
             "LocalPRS": "100┼51┼0┼",
             "Object": {
@@ -159490,6 +159773,7 @@
           {
             "GitID": "856296105f077014ca9e533266df237a_100┼52┼0┼",
             "PrefabID": "856296105f077014ca9e533266df237a",
+            "NameMatches": true,
             "Name": "New ConveyorBelt",
             "LocalPRS": "100┼52┼0┼",
             "Object": {
@@ -159849,6 +160133,7 @@
           {
             "GitID": "All-In-One Grinder_100┼80┼0┼",
             "PrefabID": "All-In-One Grinder",
+            "NameMatches": true,
             "Name": "new All-In-One Grinder",
             "LocalPRS": "100┼80┼0┼"
           },
@@ -160084,6 +160369,7 @@
           {
             "GitID": "ChemDispenser_100┼96┼0┼",
             "PrefabID": "ChemDispenser",
+            "NameMatches": true,
             "Name": "New ChemDispenser",
             "LocalPRS": "100┼96┼0┼",
             "Object": {
@@ -160234,6 +160520,7 @@
           {
             "GitID": "9c3a6c9c953a49941aa32b5ad9400d89_101┼48┼0┼",
             "PrefabID": "9c3a6c9c953a49941aa32b5ad9400d89",
+            "NameMatches": true,
             "Name": "New Department Battery",
             "LocalPRS": "101┼48┼0┼",
             "Object": {
@@ -160278,6 +160565,7 @@
           {
             "GitID": "856296105f077014ca9e533266df237a_101┼52┼0┼",
             "PrefabID": "856296105f077014ca9e533266df237a",
+            "NameMatches": true,
             "Name": "New ConveyorBelt",
             "LocalPRS": "101┼52┼0┼",
             "Object": {
@@ -160506,6 +160794,7 @@
           {
             "GitID": "5425ee650c49e0849b4bed132cfb588f_101┼88┼0┼",
             "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
+            "NameMatches": true,
             "Name": "TinyFan",
             "LocalPRS": "101┼88┼0┼"
           },
@@ -160751,6 +161040,7 @@
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_102┼48┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
             "Name": "New Low Machine  Connector Variant",
             "LocalPRS": "102┼48┼0┼"
           },
@@ -161436,6 +161726,7 @@
           {
             "GitID": "68ef2c0235224f347b94384d5dcdae47_103┼41┼0┼",
             "PrefabID": "68ef2c0235224f347b94384d5dcdae47",
+            "NameMatches": true,
             "Name": "RandomMedkitSpawner",
             "LocalPRS": "103┼41┼0┼"
           },
@@ -161538,6 +161829,7 @@
           {
             "GitID": "5425ee650c49e0849b4bed132cfb588f_103┼52┼0┼",
             "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
+            "NameMatches": true,
             "Name": "TinyFan",
             "LocalPRS": "103┼52┼0┼"
           },
@@ -162203,6 +162495,7 @@
           {
             "GitID": "dd33a51f8c440da4cb4273b8954c03b3_104┼41┼0┼",
             "PrefabID": "dd33a51f8c440da4cb4273b8954c03b3",
+            "NameMatches": true,
             "Name": "RandomMedicalSuppliesSpawner",
             "LocalPRS": "104┼41┼0┼"
           },
@@ -162301,6 +162594,7 @@
           {
             "GitID": "68ef2c0235224f347b94384d5dcdae47_104┼58┼0┼",
             "PrefabID": "68ef2c0235224f347b94384d5dcdae47",
+            "NameMatches": true,
             "Name": "RandomMedkitSpawner",
             "LocalPRS": "104┼58┼0┼"
           },
@@ -162364,6 +162658,7 @@
           {
             "GitID": "cab73e460ee8bf24e88988add17a2be5_104┼62┼0┼",
             "PrefabID": "cab73e460ee8bf24e88988add17a2be5",
+            "NameMatches": true,
             "Name": "New ConveyorSwitch",
             "LocalPRS": "104┼62┼0┼",
             "Object": {
@@ -162407,6 +162702,7 @@
           {
             "GitID": "856296105f077014ca9e533266df237a_104┼63┼0┼",
             "PrefabID": "856296105f077014ca9e533266df237a",
+            "NameMatches": true,
             "Name": "New ConveyorBelt",
             "LocalPRS": "104┼63┼0┼",
             "Object": {
@@ -162426,6 +162722,7 @@
           {
             "GitID": "856296105f077014ca9e533266df237a_104┼65┼0┼",
             "PrefabID": "856296105f077014ca9e533266df237a",
+            "NameMatches": true,
             "Name": "New ConveyorBelt",
             "LocalPRS": "104┼65┼0┼",
             "Object": {
@@ -162445,6 +162742,7 @@
           {
             "GitID": "cab73e460ee8bf24e88988add17a2be5_104┼66┼0┼",
             "PrefabID": "cab73e460ee8bf24e88988add17a2be5",
+            "NameMatches": true,
             "Name": "New ConveyorSwitch",
             "LocalPRS": "104┼66┼0┼",
             "Object": {
@@ -162680,24 +162978,28 @@
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_104┼80┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "104┼80┼0┼"
           },
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_104┼83┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "104┼83┼0┼"
           },
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_104┼86┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "104┼86┼0┼"
           },
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_104┼89┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "104┼89┼0┼"
           },
@@ -162909,6 +163211,7 @@
           {
             "GitID": "397461e981e81df4c8983f127dbabae6_105┼57┼0┼",
             "PrefabID": "397461e981e81df4c8983f127dbabae6",
+            "NameMatches": true,
             "Name": "RandomSeedSpawner",
             "LocalPRS": "105┼57┼0┼"
           },
@@ -162947,6 +163250,7 @@
           {
             "GitID": "d6495a017b1b4634697738270d87d354_105┼58┼0┼",
             "PrefabID": "d6495a017b1b4634697738270d87d354",
+            "NameMatches": true,
             "Name": "RandomConstructionMatsSpawner",
             "LocalPRS": "105┼58┼0┼"
           },
@@ -162990,6 +163294,7 @@
           {
             "GitID": "856296105f077014ca9e533266df237a_105┼63┼0┼",
             "PrefabID": "856296105f077014ca9e533266df237a",
+            "NameMatches": true,
             "Name": "New ConveyorBelt",
             "LocalPRS": "105┼63┼0┼",
             "Object": {
@@ -163009,6 +163314,7 @@
           {
             "GitID": "856296105f077014ca9e533266df237a_105┼65┼0┼",
             "PrefabID": "856296105f077014ca9e533266df237a",
+            "NameMatches": true,
             "Name": "New ConveyorBelt",
             "LocalPRS": "105┼65┼0┼",
             "Object": {
@@ -163159,34 +163465,6 @@
             }
           },
           {
-            "GitID": "6fa1bf6a566af2f479f551f9bb604178_105.001┼81┼0┼",
-            "PrefabID": "6fa1bf6a566af2f479f551f9bb604178",
-            "Name": "SecureWinDoorLeft (13)",
-            "LocalPRS": "105┼81┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_95┼93┼0┼@0@APC@0"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Right_By270"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
             "GitID": "6a88e0c7977a3f84f878a2115752609e_105┼82┼0┼",
             "PrefabID": "6a88e0c7977a3f84f878a2115752609e",
             "Name": "SIgnXenobiology (1)",
@@ -163227,34 +163505,6 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Left_By90"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "6fa1bf6a566af2f479f551f9bb604178_105.001┼84┼0┼",
-            "PrefabID": "6fa1bf6a566af2f479f551f9bb604178",
-            "Name": "SecureWinDoorLeft (12)",
-            "LocalPRS": "105┼84┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_95┼93┼0┼@0@APC@0"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Right_By270"
                     }
                   ]
                 }
@@ -163309,34 +163559,6 @@
             }
           },
           {
-            "GitID": "6fa1bf6a566af2f479f551f9bb604178_105.001┼87┼0┼",
-            "PrefabID": "6fa1bf6a566af2f479f551f9bb604178",
-            "Name": "SecureWinDoorLeft (11)",
-            "LocalPRS": "105┼87┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_95┼93┼0┼@0@APC@0"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Right_By270"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
             "GitID": "6a88e0c7977a3f84f878a2115752609e_105┼88┼0┼",
             "PrefabID": "6a88e0c7977a3f84f878a2115752609e",
             "Name": "SIgnXenobiology (3)",
@@ -163384,34 +163606,6 @@
             }
           },
           {
-            "GitID": "6fa1bf6a566af2f479f551f9bb604178_105.001┼90┼0┼",
-            "PrefabID": "6fa1bf6a566af2f479f551f9bb604178",
-            "Name": "SecureWinDoorLeft (10)",
-            "LocalPRS": "105┼90┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_95┼93┼0┼@0@APC@0"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Right_By270"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
             "GitID": "ca7d7da17781bf046abd652ffb41a611_105┼91┼0┼",
             "PrefabID": "ca7d7da17781bf046abd652ffb41a611",
             "Name": "ExtinguisherCabinet (5)",
@@ -163450,6 +163644,118 @@
             }
           },
           {
+            "GitID": "6fa1bf6a566af2f479f551f9bb604178_105.001┼81┼0┼",
+            "PrefabID": "6fa1bf6a566af2f479f551f9bb604178",
+            "Name": "SecureWinDoorLeft (13)",
+            "LocalPRS": "105.001┼81┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_95┼93┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "6fa1bf6a566af2f479f551f9bb604178_105.001┼84┼0┼",
+            "PrefabID": "6fa1bf6a566af2f479f551f9bb604178",
+            "Name": "SecureWinDoorLeft (12)",
+            "LocalPRS": "105.001┼84┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_95┼93┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "6fa1bf6a566af2f479f551f9bb604178_105.001┼87┼0┼",
+            "PrefabID": "6fa1bf6a566af2f479f551f9bb604178",
+            "Name": "SecureWinDoorLeft (11)",
+            "LocalPRS": "105.001┼87┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_95┼93┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "6fa1bf6a566af2f479f551f9bb604178_105.001┼90┼0┼",
+            "PrefabID": "6fa1bf6a566af2f479f551f9bb604178",
+            "Name": "SecureWinDoorLeft (10)",
+            "LocalPRS": "105.001┼90┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_95┼93┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "7540880d4dc7c4d8c9e3d3cd83ccef06_105.91┼61.22┼0┼",
             "PrefabID": "7540880d4dc7c4d8c9e3d3cd83ccef06",
             "Name": "Export Scanner (1)",
@@ -163458,6 +163764,7 @@
           {
             "GitID": "b2d9e215b3fd72d41a5df489b5b86386_105.95┼36.92┼0┼",
             "PrefabID": "b2d9e215b3fd72d41a5df489b5b86386",
+            "NameMatches": true,
             "Name": "RandomCanisterSpawner",
             "LocalPRS": "105.95┼36.92┼0┼"
           },
@@ -163847,6 +164154,7 @@
           {
             "GitID": "185de036320d458499ea157f9966a162_106┼56┼0┼",
             "PrefabID": "185de036320d458499ea157f9966a162",
+            "NameMatches": true,
             "Name": "RandomBoxSpawner",
             "LocalPRS": "106┼56┼0┼"
           },
@@ -163869,6 +164177,7 @@
           {
             "GitID": "032e150131f53a64fbf6048aca6a879a_106┼57┼0┼",
             "PrefabID": "032e150131f53a64fbf6048aca6a879a",
+            "NameMatches": true,
             "Name": "RandomToolSpawner",
             "LocalPRS": "106┼57┼0┼"
           },
@@ -163951,6 +164260,7 @@
           {
             "GitID": "8fb9b82aab871a54fb9bdb7e4a985821_106┼58┼0┼",
             "PrefabID": "8fb9b82aab871a54fb9bdb7e4a985821",
+            "NameMatches": true,
             "Name": "MaintLoot",
             "LocalPRS": "106┼58┼0┼"
           },
@@ -163991,6 +164301,7 @@
           {
             "GitID": "856296105f077014ca9e533266df237a_106┼63┼0┼",
             "PrefabID": "856296105f077014ca9e533266df237a",
+            "NameMatches": true,
             "Name": "New ConveyorBelt",
             "LocalPRS": "106┼63┼0┼",
             "Object": {
@@ -164010,6 +164321,7 @@
           {
             "GitID": "856296105f077014ca9e533266df237a_106┼65┼0┼",
             "PrefabID": "856296105f077014ca9e533266df237a",
+            "NameMatches": true,
             "Name": "New ConveyorBelt",
             "LocalPRS": "106┼65┼0┼",
             "Object": {
@@ -164029,6 +164341,7 @@
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_106┼67┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
             "Name": "New Disposal Bin",
             "LocalPRS": "106┼67┼0┼"
           },
@@ -164284,6 +164597,7 @@
           {
             "GitID": "856296105f077014ca9e533266df237a_107┼63┼0┼",
             "PrefabID": "856296105f077014ca9e533266df237a",
+            "NameMatches": true,
             "Name": "New ConveyorBelt",
             "LocalPRS": "107┼63┼0┼",
             "Object": {
@@ -164430,6 +164744,7 @@
           {
             "GitID": "856296105f077014ca9e533266df237a_107┼65┼0┼",
             "PrefabID": "856296105f077014ca9e533266df237a",
+            "NameMatches": true,
             "Name": "New ConveyorBelt",
             "LocalPRS": "107┼65┼0┼",
             "Object": {
@@ -164988,6 +165303,7 @@
           {
             "GitID": "856296105f077014ca9e533266df237a_108┼63┼0┼",
             "PrefabID": "856296105f077014ca9e533266df237a",
+            "NameMatches": true,
             "Name": "New ConveyorBelt",
             "LocalPRS": "108┼63┼0┼",
             "Object": {
@@ -165007,6 +165323,7 @@
           {
             "GitID": "856296105f077014ca9e533266df237a_108┼65┼0┼",
             "PrefabID": "856296105f077014ca9e533266df237a",
+            "NameMatches": true,
             "Name": "New ConveyorBelt",
             "LocalPRS": "108┼65┼0┼",
             "Object": {
@@ -165026,6 +165343,7 @@
           {
             "GitID": "5425ee650c49e0849b4bed132cfb588f_108┼96┼0┼",
             "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
+            "NameMatches": true,
             "Name": "TinyFan",
             "LocalPRS": "108┼96┼0┼"
           },
@@ -165086,6 +165404,7 @@
           {
             "GitID": "856296105f077014ca9e533266df237a_109┼63┼0┼",
             "PrefabID": "856296105f077014ca9e533266df237a",
+            "NameMatches": true,
             "Name": "New ConveyorBelt",
             "LocalPRS": "109┼63┼0┼",
             "Object": {
@@ -165105,6 +165424,7 @@
           {
             "GitID": "856296105f077014ca9e533266df237a_109┼65┼0┼",
             "PrefabID": "856296105f077014ca9e533266df237a",
+            "NameMatches": true,
             "Name": "New ConveyorBelt",
             "LocalPRS": "109┼65┼0┼",
             "Object": {
@@ -165206,6 +165526,7 @@
           {
             "GitID": "856296105f077014ca9e533266df237a_110┼63┼0┼",
             "PrefabID": "856296105f077014ca9e533266df237a",
+            "NameMatches": true,
             "Name": "New ConveyorBelt",
             "LocalPRS": "110┼63┼0┼",
             "Object": {
@@ -165244,6 +165565,7 @@
           {
             "GitID": "856296105f077014ca9e533266df237a_110┼65┼0┼",
             "PrefabID": "856296105f077014ca9e533266df237a",
+            "NameMatches": true,
             "Name": "New ConveyorBelt",
             "LocalPRS": "110┼65┼0┼",
             "Object": {
@@ -167041,7 +167363,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.3.0",
+        "Ver": "1.4.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -167066,6 +167388,7 @@
           {
             "GitID": "5425ee650c49e0849b4bed132cfb588f_-2┼-2┼0┼",
             "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
+            "NameMatches": true,
             "Name": "TinyFan",
             "LocalPRS": "-2┼-2┼0┼",
             "Object": {
@@ -167085,6 +167408,7 @@
           {
             "GitID": "5425ee650c49e0849b4bed132cfb588f_-2┼-1┼0┼",
             "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
+            "NameMatches": true,
             "Name": "TinyFan",
             "LocalPRS": "-2┼-1┼0┼",
             "Object": {
@@ -167129,6 +167453,7 @@
           {
             "GitID": "5425ee650c49e0849b4bed132cfb588f_-2┼1┼0┼",
             "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
+            "NameMatches": true,
             "Name": "TinyFan",
             "LocalPRS": "-2┼1┼0┼",
             "Object": {
@@ -167186,6 +167511,7 @@
           {
             "GitID": "5425ee650c49e0849b4bed132cfb588f_-2┼2┼0┼",
             "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
+            "NameMatches": true,
             "Name": "TinyFan",
             "LocalPRS": "-2┼2┼0┼",
             "Object": {
@@ -167232,6 +167558,7 @@
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_1┼-2┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "1┼-2┼0┼",
             "Object": {
@@ -167276,6 +167603,7 @@
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_1┼2┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "1┼2┼0┼0ø0ø180ø",
             "Object": {
@@ -168043,7 +168371,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.3.0",
+        "Ver": "1.4.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -168061,6 +168389,7 @@
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_-3┼1┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "-3┼1┼0┼0ø0ø270ø",
             "Object": {
@@ -168192,6 +168521,7 @@
           {
             "GitID": "2a39aefa5aa903240b20a8b5a5185fbf_-1┼3┼0┼",
             "PrefabID": "2a39aefa5aa903240b20a8b5a5185fbf",
+            "NameMatches": true,
             "Name": "AirlockShuttleOpaque",
             "LocalPRS": "-1┼3┼0┼",
             "Object": {
@@ -168211,6 +168541,7 @@
           {
             "GitID": "5425ee650c49e0849b4bed132cfb588f_-1┼3┼0┼",
             "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
+            "NameMatches": true,
             "Name": "TinyFan",
             "LocalPRS": "-1┼3┼0┼",
             "Object": {
@@ -168308,6 +168639,7 @@
           {
             "GitID": "2a39aefa5aa903240b20a8b5a5185fbf_3┼3┼0┼",
             "PrefabID": "2a39aefa5aa903240b20a8b5a5185fbf",
+            "NameMatches": true,
             "Name": "AirlockShuttleOpaque",
             "LocalPRS": "3┼3┼0┼",
             "Object": {
@@ -168327,6 +168659,7 @@
           {
             "GitID": "5425ee650c49e0849b4bed132cfb588f_3┼3┼0┼",
             "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
+            "NameMatches": true,
             "Name": "TinyFan",
             "LocalPRS": "3┼3┼0┼",
             "Object": {
@@ -169296,7 +169629,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.3.0",
+        "Ver": "1.4.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -169397,6 +169730,7 @@
           {
             "GitID": "2a39aefa5aa903240b20a8b5a5185fbf_-1┼-1┼0┼",
             "PrefabID": "2a39aefa5aa903240b20a8b5a5185fbf",
+            "NameMatches": true,
             "Name": "AirlockShuttleOpaque",
             "LocalPRS": "-1┼-1┼0┼",
             "Object": {
@@ -169432,6 +169766,7 @@
           {
             "GitID": "5425ee650c49e0849b4bed132cfb588f_-1┼-1┼0┼",
             "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
+            "NameMatches": true,
             "Name": "TinyFan",
             "LocalPRS": "-1┼-1┼0┼",
             "Object": {
@@ -169451,6 +169786,7 @@
           {
             "GitID": "2a39aefa5aa903240b20a8b5a5185fbf_-1┼0┼0┼",
             "PrefabID": "2a39aefa5aa903240b20a8b5a5185fbf",
+            "NameMatches": true,
             "Name": "AirlockShuttleOpaque",
             "LocalPRS": "-1┼0┼0┼",
             "Object": {
@@ -169486,6 +169822,7 @@
           {
             "GitID": "5425ee650c49e0849b4bed132cfb588f_-1┼0┼0┼",
             "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
+            "NameMatches": true,
             "Name": "TinyFan",
             "LocalPRS": "-1┼0┼0┼",
             "Object": {
@@ -169647,6 +169984,7 @@
           {
             "GitID": "5425ee650c49e0849b4bed132cfb588f_2┼3┼0┼",
             "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
+            "NameMatches": true,
             "Name": "TinyFan",
             "LocalPRS": "2┼3┼0┼",
             "Object": {
@@ -169849,6 +170187,7 @@
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_5┼2┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "NameMatches": true,
             "Name": "ShuttleChair",
             "LocalPRS": "5┼2┼0┼",
             "Object": {
@@ -169926,7 +170265,7 @@
         {
           "Ver": "1.0.0",
           "Pos": "115.6,74,0",
-          "Size": "9,6.1,0"
+          "Size": "9,6,0"
         }
       ]
     },
@@ -170439,12 +170778,13 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.3.0",
+        "Ver": "1.4.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
             "GitID": "2a39aefa5aa903240b20a8b5a5185fbf_-2┼0┼0┼",
             "PrefabID": "2a39aefa5aa903240b20a8b5a5185fbf",
+            "NameMatches": true,
             "Name": "AirlockShuttleOpaque",
             "LocalPRS": "-2┼0┼0┼",
             "Object": {
@@ -170480,6 +170820,7 @@
           {
             "GitID": "5425ee650c49e0849b4bed132cfb588f_-2┼0┼0┼",
             "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
+            "NameMatches": true,
             "Name": "TinyFan",
             "LocalPRS": "-2┼0┼0┼",
             "Object": {
@@ -170588,6 +170929,7 @@
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_0┼-2┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "0┼-2┼0┼",
             "Object": {
@@ -170655,6 +170997,7 @@
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_0┼1┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "NameMatches": true,
             "Name": "ShuttleChair",
             "LocalPRS": "0┼1┼0┼",
             "Object": {
@@ -170706,6 +171049,7 @@
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_0┼2┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "0┼2┼0┼0ø0ø180ø",
             "Object": {
@@ -170787,6 +171131,7 @@
           {
             "GitID": "2a39aefa5aa903240b20a8b5a5185fbf_2┼0┼0┼",
             "PrefabID": "2a39aefa5aa903240b20a8b5a5185fbf",
+            "NameMatches": true,
             "Name": "AirlockShuttleOpaque",
             "LocalPRS": "2┼0┼0┼",
             "Object": {
@@ -170822,6 +171167,7 @@
           {
             "GitID": "5425ee650c49e0849b4bed132cfb588f_2┼0┼0┼",
             "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
+            "NameMatches": true,
             "Name": "TinyFan",
             "LocalPRS": "2┼0┼0┼",
             "Object": {
@@ -170873,7 +171219,7 @@
         {
           "Ver": "1.0.0",
           "Pos": "58,16.5,0",
-          "Size": "4,6.9,0"
+          "Size": "4,7,0"
         }
       ]
     },
@@ -172555,7 +172901,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.3.0",
+        "Ver": "1.4.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -172665,6 +173011,7 @@
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_-4┼14┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "NameMatches": true,
             "Name": "ShuttleChair",
             "LocalPRS": "-4┼14┼0┼",
             "Object": {
@@ -172860,6 +173207,7 @@
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_-2┼6┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "NameMatches": true,
             "Name": "ShuttleChair",
             "LocalPRS": "-2┼6┼0┼",
             "Object": {
@@ -172876,6 +173224,7 @@
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_-2┼8┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "NameMatches": true,
             "Name": "ShuttleChair",
             "LocalPRS": "-2┼8┼0┼",
             "Object": {
@@ -172892,6 +173241,7 @@
           {
             "GitID": "29107a3e6fd05d34c864ad077d34bafc_-2┼11┼0┼",
             "PrefabID": "29107a3e6fd05d34c864ad077d34bafc",
+            "NameMatches": true,
             "Name": "AirlockSecurityWindowed",
             "LocalPRS": "-2┼11┼0┼",
             "Object": {
@@ -172923,6 +173273,7 @@
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_-1┼5┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "-1┼5┼0┼0ø0ø270ø",
             "Object": {
@@ -172976,6 +173327,7 @@
           {
             "GitID": "2bb2787c427eb384ba89c9fd13ec823b_-1┼13┼0┼",
             "PrefabID": "2bb2787c427eb384ba89c9fd13ec823b",
+            "NameMatches": true,
             "Name": "AirlockCommandWindowed",
             "LocalPRS": "-1┼13┼0┼",
             "Object": {
@@ -172995,6 +173347,7 @@
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_-1┼15┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "NameMatches": true,
             "Name": "ShuttleChair",
             "LocalPRS": "-1┼15┼0┼",
             "Object": {
@@ -173057,6 +173410,7 @@
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_-1┼16┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "-1┼16┼0┼0ø0ø180ø",
             "Object": {
@@ -173153,6 +173507,7 @@
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_1┼3┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "NameMatches": true,
             "Name": "ShuttleChair",
             "LocalPRS": "1┼3┼0┼",
             "Object": {
@@ -173198,6 +173553,7 @@
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_1┼5┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "NameMatches": true,
             "Name": "ShuttleChair",
             "LocalPRS": "1┼5┼0┼",
             "Object": {
@@ -173243,6 +173599,7 @@
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_1┼7┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "NameMatches": true,
             "Name": "ShuttleChair",
             "LocalPRS": "1┼7┼0┼",
             "Object": {
@@ -173288,6 +173645,7 @@
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_1┼9┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "NameMatches": true,
             "Name": "ShuttleChair",
             "LocalPRS": "1┼9┼0┼",
             "Object": {
@@ -173333,6 +173691,7 @@
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_1┼11┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "NameMatches": true,
             "Name": "ShuttleChair",
             "LocalPRS": "1┼11┼0┼",
             "Object": {
@@ -173378,6 +173737,7 @@
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_2┼2┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "2┼2┼0┼0ø0ø90ø",
             "Object": {
@@ -173431,6 +173791,7 @@
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_2┼3┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "NameMatches": true,
             "Name": "ShuttleChair",
             "LocalPRS": "2┼3┼0┼",
             "Object": {
@@ -173476,6 +173837,7 @@
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_2┼5┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "NameMatches": true,
             "Name": "ShuttleChair",
             "LocalPRS": "2┼5┼0┼",
             "Object": {
@@ -173521,6 +173883,7 @@
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_2┼7┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "NameMatches": true,
             "Name": "ShuttleChair",
             "LocalPRS": "2┼7┼0┼",
             "Object": {
@@ -173566,6 +173929,7 @@
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_2┼9┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "NameMatches": true,
             "Name": "ShuttleChair",
             "LocalPRS": "2┼9┼0┼",
             "Object": {
@@ -173611,6 +173975,7 @@
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_2┼11┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "NameMatches": true,
             "Name": "ShuttleChair",
             "LocalPRS": "2┼11┼0┼",
             "Object": {
@@ -173637,6 +174002,7 @@
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_2┼11┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "2┼11┼0┼0ø0ø90ø",
             "Object": {
@@ -173690,6 +174056,7 @@
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_2┼14┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "NameMatches": true,
             "Name": "ShuttleChair",
             "LocalPRS": "2┼14┼0┼",
             "Object": {
@@ -173716,6 +174083,7 @@
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_2┼15┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "NameMatches": true,
             "Name": "ShuttleChair",
             "LocalPRS": "2┼15┼0┼",
             "Object": {
@@ -173742,6 +174110,7 @@
           {
             "GitID": "2a39aefa5aa903240b20a8b5a5185fbf_3┼4┼0┼",
             "PrefabID": "2a39aefa5aa903240b20a8b5a5185fbf",
+            "NameMatches": true,
             "Name": "AirlockShuttleOpaque",
             "LocalPRS": "3┼4┼0┼",
             "Object": {
@@ -173761,6 +174130,7 @@
           {
             "GitID": "2a39aefa5aa903240b20a8b5a5185fbf_3┼8┼0┼",
             "PrefabID": "2a39aefa5aa903240b20a8b5a5185fbf",
+            "NameMatches": true,
             "Name": "AirlockShuttleOpaque",
             "LocalPRS": "3┼8┼0┼",
             "Object": {

@@ -176,7 +176,7 @@ namespace MapSaver
 				foreach (var Tile in XY.Value)
 				{
 					var Tel = TileManager.GetTile(Tile.Tel);
-
+					
 					if (LoadLayers != null && LoadLayers.Contains(Tel.LayerType) == false)
 					{
 						continue;
@@ -311,6 +311,7 @@ namespace MapSaver
 				Transform Parent = null;
 				Parent = Matrix.MetaTileMap.ObjectLayer.transform;
 				Transform Child = null;
+
 				foreach (var step in prefabData.SortPath.Split("/"))
 				{
 					Child = Parent.Find(step);
@@ -331,7 +332,9 @@ namespace MapSaver
 						Child.localPosition = Vector3.zero;
 						Child.localScale = Vector3.one;
 						Child.rotation = Quaternion.identity;
+
 					}
+					Parent = Child;
 				}
 
 				Object.transform.SetParent(Child);

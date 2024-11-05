@@ -1841,11 +1841,13 @@ namespace MapSaver
 			{
 				int trys = 0;
 				Prefab.GitID = Prefab.PrefabID + "_" + VectorToString(LocalPositionToUse, true);
+				var Vectorbackup = LocalPositionToUse;
 				while (AlreadyReadySavedIDs.Contains(Prefab.GitID))
 				{
-					var vec = LocalPositionToUse;
+					var vec = Vectorbackup;
 					vec.x += (0.001f * trys); //TODO May cause issues if you resolve conflict
 					Prefab.GitID = Prefab.PrefabID + "_" + VectorToString(vec, false);
+					LocalPositionToUse = vec;
 					Round = false;
 					trys++;
 				}

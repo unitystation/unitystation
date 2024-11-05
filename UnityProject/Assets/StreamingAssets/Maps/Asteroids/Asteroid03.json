@@ -1,6 +1,6 @@
 {
   "Ver": "1.0.0",
-  "MapName": "AsteroidLarge",
+  "MapName": "Asteroid3",
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
@@ -12778,9 +12778,6 @@
                 "Tel": "Loose_Rock_wall"
               },
               {
-                "Tel": "ironsand10"
-              },
-              {
                 "Tel": "ironsand3"
               }
             ]
@@ -24497,7 +24494,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.3.0",
+        "Ver": "1.4.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -24509,6 +24506,7 @@
           {
             "GitID": "86f1fa4a01e7f0142a6e2ce35cce0930_-0.5┼-0.5┼0┼",
             "PrefabID": "86f1fa4a01e7f0142a6e2ce35cce0930",
+            "NameMatches": true,
             "Name": "MatrixGasSettings",
             "LocalPRS": "-0.5┼-0.5┼0┼",
             "Object": {
@@ -24544,6 +24542,7 @@
           {
             "GitID": "83b269ab1421fcf4a95ad3cf33935cff_0┼0┼0┼",
             "PrefabID": "83b269ab1421fcf4a95ad3cf33935cff",
+            "NameMatches": true,
             "Name": "OreGenerator",
             "LocalPRS": "0┼0┼0┼"
           },
@@ -24612,6 +24611,7 @@
           {
             "GitID": "00a84f751afb412428a586d23cf90b39_12┼19┼0┼",
             "PrefabID": "00a84f751afb412428a586d23cf90b39",
+            "NameMatches": true,
             "Name": "XenomorphHunterSimple",
             "LocalPRS": "12┼19┼0┼"
           },

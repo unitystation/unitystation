@@ -10,6 +10,7 @@ using MapSaver;
 using Newtonsoft.Json;
 using SecureStuff;
 using TileManagement;
+using Util;
 using Object = UnityEngine.Object;
 
 public class FileSelectorWindow : EditorWindow
@@ -27,6 +28,7 @@ public class FileSelectorWindow : EditorWindow
 // Key to store the selected file name in EditorPrefs
 	private const string SelectedMap = "SelectedMap";
 
+	private static bool DeleteMapAfterSave = false;
 	private void OnEnable()
 	{
 		// Retrieve the selected file name from EditorPrefs (if it exists)
@@ -55,6 +57,11 @@ public class FileSelectorWindow : EditorWindow
 
 	private void OnGUI()
 	{
+		GUILayout.Label("Delete Map After Save ", EditorStyles.boldLabel);
+		DeleteMapAfterSave = GUILayout.Toggle(DeleteMapAfterSave, "", GUILayout.Width(20)); // Add a checkbox with a width of 20
+
+
+
 		// Display the selected folder path
 		if (!string.IsNullOrEmpty(folderPath))
 		{
@@ -68,7 +75,7 @@ public class FileSelectorWindow : EditorWindow
 				// Add a scroll view to handle many files
 				scrollPosition =
 					EditorGUILayout.BeginScrollView(scrollPosition,
-						GUILayout.Height(700)); // Adjust the height as needed
+						GUILayout.Height(500)); // Adjust the height as needed
 
 				foreach (string fileName in fileNames)
 				{
@@ -101,6 +108,10 @@ public class FileSelectorWindow : EditorWindow
 					{
 						// Start a coroutine to perform the save function
 						Save(fileName);
+						if (DeleteMapAfterSave)
+						{
+							MiscFunctions_RRT.DeleteAllRootGameObjects();
+						}
 					}
 
 					if (GUILayout.Button("Load", GUILayout.Width(50)))

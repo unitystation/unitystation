@@ -1,6 +1,6 @@
 {
   "Ver": "1.0.0",
-  "MapName": "Asteroid_Bar",
+  "MapName": "Ruin1",
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
@@ -428,9 +428,6 @@
             "Key": "X5Y12",
             "Value": [
               {
-                "Tel": "PlatingScorched"
-              },
-              {
                 "Tel": "Plating"
               }
             ]
@@ -819,9 +816,6 @@
             "Key": "X8Y10",
             "Value": [
               {
-                "Tel": "PlatingScorched"
-              },
-              {
                 "Tel": "Plating"
               }
             ]
@@ -1109,9 +1103,6 @@
           {
             "Key": "X10Y10",
             "Value": [
-              {
-                "Tel": "PlatingScorched"
-              },
               {
                 "Tel": "Plating"
               }
@@ -1565,9 +1556,6 @@
           {
             "Key": "X13Y9",
             "Value": [
-              {
-                "Tel": "PlatingScorched"
-              },
               {
                 "Tel": "Plating"
               }
@@ -2342,36 +2330,41 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.3.0",
+        "Ver": "1.4.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
             "GitID": "86f1fa4a01e7f0142a6e2ce35cce0930_-0.5┼-0.5┼0┼",
             "PrefabID": "86f1fa4a01e7f0142a6e2ce35cce0930",
+            "NameMatches": true,
             "Name": "MatrixGasSettings",
             "LocalPRS": "-0.5┼-0.5┼0┼"
           },
           {
             "GitID": "911f81eefba53574788e7659d9b3dbfe_-0.5┼-0.5┼0┼",
             "PrefabID": "911f81eefba53574788e7659d9b3dbfe",
+            "NameMatches": true,
             "Name": "AsteroidSystem",
             "LocalPRS": "-0.5┼-0.5┼0┼"
           },
           {
             "GitID": "e02a5954be8d94b4bbaaa0d63d813c71_-0.5┼-0.5┼0┼",
             "PrefabID": "e02a5954be8d94b4bbaaa0d63d813c71",
+            "NameMatches": true,
             "Name": "AI_ShouldNavigateAround",
             "LocalPRS": "-0.5┼-0.5┼0┼"
           },
           {
             "GitID": "83b269ab1421fcf4a95ad3cf33935cff_0┼0┼0┼",
             "PrefabID": "83b269ab1421fcf4a95ad3cf33935cff",
+            "NameMatches": true,
             "Name": "OreGenerator",
             "LocalPRS": "0┼0┼0┼"
           },
           {
             "GitID": "74f1764f9ae8c6146a627626bfa4c6c0_3┼17┼0┼",
             "PrefabID": "74f1764f9ae8c6146a627626bfa4c6c0",
+            "NameMatches": true,
             "Name": "BarDrobe",
             "LocalPRS": "3┼17┼0┼",
             "Object": {
@@ -2391,36 +2384,42 @@
           {
             "GitID": "3da33d6eccc1bbe4cb49cdc7fd00662f_3┼20┼0┼",
             "PrefabID": "3da33d6eccc1bbe4cb49cdc7fd00662f",
+            "NameMatches": true,
             "Name": "S3HunterShotgun",
             "LocalPRS": "3┼20┼0┼"
           },
           {
             "GitID": "48bc65e3f41a48540af24bc4f96d2279_3┼20┼0┼",
             "PrefabID": "48bc65e3f41a48540af24bc4f96d2279",
+            "NameMatches": true,
             "Name": "BadminkaVodka",
             "LocalPRS": "3┼20┼0┼"
           },
           {
             "GitID": "4e067333d18d9724690055be203850b5_3┼20┼0┼",
             "PrefabID": "4e067333d18d9724690055be203850b5",
+            "NameMatches": true,
             "Name": "MaintLootx2",
             "LocalPRS": "3┼20┼0┼"
           },
           {
             "GitID": "b1454a2e97d8d0c43a2904bdf5a8335c_3┼20┼0┼",
             "PrefabID": "b1454a2e97d8d0c43a2904bdf5a8335c",
+            "NameMatches": true,
             "Name": "Cabinet",
             "LocalPRS": "3┼20┼0┼"
           },
           {
             "GitID": "5a7af30c589b41a449d0ba74c9e1771c_4┼17┼0┼",
             "PrefabID": "5a7af30c589b41a449d0ba74c9e1771c",
+            "NameMatches": true,
             "Name": "Bed",
             "LocalPRS": "4┼17┼0┼"
           },
           {
             "GitID": "6bf5ba5b83af4b345b7cebcdc70b90f2_4┼20┼0┼",
             "PrefabID": "6bf5ba5b83af4b345b7cebcdc70b90f2",
+            "NameMatches": true,
             "Name": "BoozeOMatAllAccess",
             "LocalPRS": "4┼20┼0┼",
             "Object": {
@@ -2475,6 +2474,7 @@
           {
             "GitID": "cbae9a210d638ba4b9402e836c970fa2_5┼20┼0┼",
             "PrefabID": "cbae9a210d638ba4b9402e836c970fa2",
+            "NameMatches": true,
             "Name": "Microwave",
             "LocalPRS": "5┼20┼0┼",
             "Object": {
@@ -2501,6 +2501,7 @@
           {
             "GitID": "72a2e38244f1fd84cb5832e3c8f20553_6┼17┼0┼",
             "PrefabID": "72a2e38244f1fd84cb5832e3c8f20553",
+            "NameMatches": true,
             "Name": "SpaceCash200",
             "LocalPRS": "6┼17┼0┼",
             "Object": {
@@ -2520,6 +2521,7 @@
           {
             "GitID": "dff99078cb2d2ef40a887b00485ca18b_6┼20┼0┼",
             "PrefabID": "dff99078cb2d2ef40a887b00485ca18b",
+            "NameMatches": true,
             "Name": "GromitMug",
             "LocalPRS": "6┼20┼0┼"
           },
@@ -2560,12 +2562,14 @@
           {
             "GitID": "903ca9514f710404c8c7311c5669f481_7┼20┼0┼",
             "PrefabID": "903ca9514f710404c8c7311c5669f481",
+            "NameMatches": true,
             "Name": "ComfyChairBrown",
             "LocalPRS": "7┼20┼0┼"
           },
           {
             "GitID": "4d76ade90a370ca43ab3c9a765236a26_8┼11┼0┼",
             "PrefabID": "4d76ade90a370ca43ab3c9a765236a26",
+            "NameMatches": true,
             "Name": "AirlockEngineeringOpaque",
             "LocalPRS": "8┼11┼0┼",
             "Object": {
@@ -2585,6 +2589,7 @@
           {
             "GitID": "cd57203a8d3f54f478446e9b0ced6cf9_8┼17┼0┼",
             "PrefabID": "cd57203a8d3f54f478446e9b0ced6cf9",
+            "NameMatches": true,
             "Name": "APC",
             "LocalPRS": "8┼17┼0┼",
             "Object": {
@@ -2685,6 +2690,7 @@
           {
             "GitID": "5fd9d8acdd4f02849884dcddff5db286_8┼18┼0┼",
             "PrefabID": "5fd9d8acdd4f02849884dcddff5db286",
+            "NameMatches": true,
             "Name": "AirlockStandardOpaque",
             "LocalPRS": "8┼18┼0┼",
             "Object": {
@@ -2704,6 +2710,7 @@
           {
             "GitID": "f2432d244a6b7774ea00ff013beb7dcb_8┼19┼0┼",
             "PrefabID": "f2432d244a6b7774ea00ff013beb7dcb",
+            "NameMatches": true,
             "Name": "LightSwitch",
             "LocalPRS": "8┼19┼0┼",
             "Object": {
@@ -2782,6 +2789,7 @@
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_9┼15┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "9┼15┼0┼",
             "Object": {
@@ -2817,6 +2825,7 @@
           {
             "GitID": "133b93fb7d8a5794bbfff599bea64863_9┼20┼0┼",
             "PrefabID": "133b93fb7d8a5794bbfff599bea64863",
+            "NameMatches": true,
             "Name": "BoozeDispenser",
             "LocalPRS": "9┼20┼0┼",
             "Object": {
@@ -2836,12 +2845,14 @@
           {
             "GitID": "8fb9b82aab871a54fb9bdb7e4a985821_10┼17┼0┼",
             "PrefabID": "8fb9b82aab871a54fb9bdb7e4a985821",
+            "NameMatches": true,
             "Name": "MaintLoot",
             "LocalPRS": "10┼17┼0┼"
           },
           {
             "GitID": "c5aecb2f211bbae49916919ff6128733_10┼20┼0┼",
             "PrefabID": "c5aecb2f211bbae49916919ff6128733",
+            "NameMatches": true,
             "Name": "SodaDispenser",
             "LocalPRS": "10┼20┼0┼",
             "Object": {
@@ -2867,12 +2878,14 @@
           {
             "GitID": "1a00e842e154f7d43811c5d45328988c_12┼11┼0┼",
             "PrefabID": "1a00e842e154f7d43811c5d45328988c",
+            "NameMatches": true,
             "Name": "Chair",
             "LocalPRS": "12┼11┼0┼"
           },
           {
             "GitID": "c04905100b9b3d746ad50b5a62efe998_12┼14┼0┼",
             "PrefabID": "c04905100b9b3d746ad50b5a62efe998",
+            "NameMatches": true,
             "Name": "AirlockStandardWindowed",
             "LocalPRS": "12┼14┼0┼",
             "Object": {
@@ -2892,6 +2905,7 @@
           {
             "GitID": "9203bf917337c3e4db0a64a10ef0e50b_12┼16┼0┼",
             "PrefabID": "9203bf917337c3e4db0a64a10ef0e50b",
+            "NameMatches": true,
             "Name": "BarStool",
             "LocalPRS": "12┼16┼0┼",
             "Object": {
@@ -2911,6 +2925,7 @@
           {
             "GitID": "9203bf917337c3e4db0a64a10ef0e50b_12┼17┼0┼",
             "PrefabID": "9203bf917337c3e4db0a64a10ef0e50b",
+            "NameMatches": true,
             "Name": "BarStool",
             "LocalPRS": "12┼17┼0┼",
             "Object": {
@@ -2930,6 +2945,7 @@
           {
             "GitID": "9203bf917337c3e4db0a64a10ef0e50b_12┼18┼0┼",
             "PrefabID": "9203bf917337c3e4db0a64a10ef0e50b",
+            "NameMatches": true,
             "Name": "BarStool",
             "LocalPRS": "12┼18┼0┼",
             "Object": {
@@ -2949,6 +2965,7 @@
           {
             "GitID": "9203bf917337c3e4db0a64a10ef0e50b_12┼19┼0┼",
             "PrefabID": "9203bf917337c3e4db0a64a10ef0e50b",
+            "NameMatches": true,
             "Name": "BarStool",
             "LocalPRS": "12┼19┼0┼",
             "Object": {
@@ -2968,6 +2985,7 @@
           {
             "GitID": "16aeef193cef4574984596beeac8eb29_12┼20┼0┼",
             "PrefabID": "16aeef193cef4574984596beeac8eb29",
+            "NameMatches": true,
             "Name": "SolarsBestHotDrinks",
             "LocalPRS": "12┼20┼0┼",
             "Object": {
@@ -2987,6 +3005,7 @@
           {
             "GitID": "c04905100b9b3d746ad50b5a62efe998_13┼14┼0┼",
             "PrefabID": "c04905100b9b3d746ad50b5a62efe998",
+            "NameMatches": true,
             "Name": "AirlockStandardWindowed",
             "LocalPRS": "13┼14┼0┼",
             "Object": {
@@ -3101,6 +3120,7 @@
           {
             "GitID": "d25149ab428cce04fbf9a3206b2b690a_16┼13┼0┼",
             "PrefabID": "d25149ab428cce04fbf9a3206b2b690a",
+            "NameMatches": true,
             "Name": "RobustSoftdrinksBlack",
             "LocalPRS": "16┼13┼0┼",
             "Object": {
@@ -3158,6 +3178,7 @@
           {
             "GitID": "413bafde4923c1b4783cf7b33153c6f3_16┼17┼0┼",
             "PrefabID": "413bafde4923c1b4783cf7b33153c6f3",
+            "NameMatches": true,
             "Name": "BODA",
             "LocalPRS": "16┼17┼0┼",
             "Object": {
@@ -3177,6 +3198,7 @@
           {
             "GitID": "2b347d12ef88b7e4faa2a8e0e3475b55_16┼18┼0┼",
             "PrefabID": "2b347d12ef88b7e4faa2a8e0e3475b55",
+            "NameMatches": true,
             "Name": "GetmoreChocolateCorp",
             "LocalPRS": "16┼18┼0┼",
             "Object": {
@@ -3215,6 +3237,7 @@
           {
             "GitID": "ce971a77eb7c2894e8583efec1c56965_16┼20┼0┼",
             "PrefabID": "ce971a77eb7c2894e8583efec1c56965",
+            "NameMatches": true,
             "Name": "WoodenChair",
             "LocalPRS": "16┼20┼0┼",
             "Object": {
@@ -3281,7 +3304,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "-425.8,371.2,0",
+          "Pos": "-410.8,383.2,0",
           "Size": "17.5,21.5,0"
         }
       ]

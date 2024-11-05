@@ -6346,9 +6346,6 @@
             "Key": "X12Y26",
             "Value": [
               {
-                "Tel": "PlatingScorched"
-              },
-              {
                 "Tel": "Plating"
               }
             ]
@@ -6934,9 +6931,6 @@
           {
             "Key": "X14Y2",
             "Value": [
-              {
-                "Tel": "PlatingScorched"
-              },
               {
                 "Tel": "Plating"
               }
@@ -9397,9 +9391,6 @@
           {
             "Key": "X19Y27",
             "Value": [
-              {
-                "Tel": "PlatingScorched"
-              },
               {
                 "Tel": "Plating"
               }
@@ -15211,9 +15202,6 @@
                 "Tel": "Loose_Rock_wall"
               },
               {
-                "Tel": "PlatingScorched"
-              },
-              {
                 "Tel": "Plating"
               }
             ]
@@ -16906,9 +16894,6 @@
           {
             "Key": "X32Y7",
             "Value": [
-              {
-                "Tel": "PlatingScorched"
-              },
               {
                 "Tel": "Plating"
               }
@@ -21283,9 +21268,6 @@
             "Key": "X38Y45",
             "Value": [
               {
-                "Tel": "PlatingScorched"
-              },
-              {
                 "Tel": "Plating"
               }
             ]
@@ -23473,9 +23455,6 @@
             "Key": "X41Y48",
             "Value": [
               {
-                "Tel": "PlatingScorched"
-              },
-              {
                 "Tel": "Plating"
               }
             ]
@@ -24379,9 +24358,6 @@
             "Value": [
               {
                 "Tel": "Wall"
-              },
-              {
-                "Tel": "PlatingScorched"
               },
               {
                 "Tel": "Plating"
@@ -29475,30 +29451,34 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.3.0",
+        "Ver": "1.4.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
             "GitID": "468072fd130877c408f3a1950377560d_-1.01┼1.03┼0┼",
             "PrefabID": "468072fd130877c408f3a1950377560d",
+            "NameMatches": true,
             "Name": "Defibrillator",
             "LocalPRS": "-1.01┼1.03┼0┼"
           },
           {
             "GitID": "f25a6f263584e6848819e145b53ee65b_-1.01┼9.9┼0┼",
             "PrefabID": "f25a6f263584e6848819e145b53ee65b",
+            "NameMatches": true,
             "Name": "BoxOfBeakers",
             "LocalPRS": "-1.01┼9.9┼0┼"
           },
           {
             "GitID": "largebeaker_-1┼9.05┼0┼",
             "PrefabID": "largebeaker",
+            "NameMatches": true,
             "Name": "LargeBeaker",
             "LocalPRS": "-1┼9.05┼0┼"
           },
           {
             "GitID": "7dea0790d26246447a9b881689c7dbdf_-1┼14┼0┼",
             "PrefabID": "7dea0790d26246447a9b881689c7dbdf",
+            "NameMatches": true,
             "Name": "AirlockExternalWindowed",
             "LocalPRS": "-1┼14┼0┼",
             "Object": {
@@ -29518,6 +29498,7 @@
           {
             "GitID": "7dea0790d26246447a9b881689c7dbdf_-1┼15┼0┼",
             "PrefabID": "7dea0790d26246447a9b881689c7dbdf",
+            "NameMatches": true,
             "Name": "AirlockExternalWindowed",
             "LocalPRS": "-1┼15┼0┼",
             "Object": {
@@ -29537,12 +29518,14 @@
           {
             "GitID": "3ce7c70f4f293004689a6e84fe5b861d_-0.16┼1.14┼0┼",
             "PrefabID": "3ce7c70f4f293004689a6e84fe5b861d",
+            "NameMatches": true,
             "Name": "Gauze",
             "LocalPRS": "-0.16┼1.14┼0┼"
           },
           {
             "GitID": "29ecbf5a1d918574cbcf5853927e0944_-0.01┼30.13┼0┼",
             "PrefabID": "29ecbf5a1d918574cbcf5853927e0944",
+            "NameMatches": true,
             "Name": "PlasteelSheet",
             "LocalPRS": "-0.01┼30.13┼0┼",
             "Object": {
@@ -29562,12 +29545,14 @@
           {
             "GitID": "83b269ab1421fcf4a95ad3cf33935cff_0┼0┼0┼",
             "PrefabID": "83b269ab1421fcf4a95ad3cf33935cff",
+            "NameMatches": true,
             "Name": "OreGenerator",
             "LocalPRS": "0┼0┼0┼"
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_0┼1┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "0┼1┼0┼",
             "Object": {
@@ -29603,12 +29588,14 @@
           {
             "GitID": "c4c1a5e556c58314eb690ee3272fb1cf_0┼2┼0┼",
             "PrefabID": "c4c1a5e556c58314eb690ee3272fb1cf",
+            "NameMatches": true,
             "Name": "OperatingTable",
             "LocalPRS": "0┼2┼0┼"
           },
           {
             "GitID": "54a552cbe4002ac44ae29b958a90e545_0┼4┼0┼",
             "PrefabID": "54a552cbe4002ac44ae29b958a90e545",
+            "NameMatches": true,
             "Name": "AirlockPublicWindowed",
             "LocalPRS": "0┼4┼0┼",
             "Object": {
@@ -29628,6 +29615,7 @@
           {
             "GitID": "54a552cbe4002ac44ae29b958a90e545_0┼7┼0┼",
             "PrefabID": "54a552cbe4002ac44ae29b958a90e545",
+            "NameMatches": true,
             "Name": "AirlockPublicWindowed",
             "LocalPRS": "0┼7┼0┼",
             "Object": {
@@ -29647,6 +29635,7 @@
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_0┼10┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "0┼10┼0┼0ø0ø180ø",
             "Object": {
@@ -29691,6 +29680,7 @@
           {
             "GitID": "1d35052f4fc2cad4d8226d1a63e4a1b3_0┼30┼0┼",
             "PrefabID": "1d35052f4fc2cad4d8226d1a63e4a1b3",
+            "NameMatches": true,
             "Name": "CrateBase",
             "LocalPRS": "0┼30┼0┼",
             "Object": {
@@ -29707,6 +29697,7 @@
           {
             "GitID": "4f841c65f76fe974880847c01e7a432d_0.04┼30.01┼0┼",
             "PrefabID": "4f841c65f76fe974880847c01e7a432d",
+            "NameMatches": true,
             "Name": "BananiumSheet",
             "LocalPRS": "0.04┼30.01┼0┼",
             "Object": {
@@ -29726,12 +29717,14 @@
           {
             "GitID": "d0eb5dacbdcd4844e8c76aabde50434f_0.3┼1┼0┼",
             "PrefabID": "d0eb5dacbdcd4844e8c76aabde50434f",
+            "NameMatches": true,
             "Name": "FirstAidKit",
             "LocalPRS": "0.3┼1┼0┼"
           },
           {
             "GitID": "06bafeeeafb276f41b4ac9c44857abd3_0.92┼1.11┼0┼",
             "PrefabID": "06bafeeeafb276f41b4ac9c44857abd3",
+            "NameMatches": true,
             "Name": "SurgicalDuffelBagFull",
             "LocalPRS": "0.92┼1.11┼0┼"
           },
@@ -29757,6 +29750,7 @@
           {
             "GitID": "48c055fcd2fc08c45a9f53310133aa8b_1┼9┼0┼",
             "PrefabID": "48c055fcd2fc08c45a9f53310133aa8b",
+            "NameMatches": true,
             "Name": "OfficeChairLight",
             "LocalPRS": "1┼9┼0┼",
             "Object": {
@@ -29782,12 +29776,14 @@
           {
             "GitID": "b42028d7d036f7343a6a7d3b157d8386_1.01┼-0.01┼0┼",
             "PrefabID": "b42028d7d036f7343a6a7d3b157d8386",
+            "NameMatches": true,
             "Name": "FilthGenerator",
             "LocalPRS": "1.01┼-0.01┼0┼"
           },
           {
             "GitID": "cf93667e32e15bc43b0347cd102fef98_2┼9┼0┼",
             "PrefabID": "cf93667e32e15bc43b0347cd102fef98",
+            "NameMatches": true,
             "Name": "WinDoorRight",
             "LocalPRS": "2┼9┼0┼",
             "Object": {
@@ -29816,6 +29812,7 @@
           {
             "GitID": "ddcfc3ab784dec1419565255774956c5_2┼9┼0┼",
             "PrefabID": "ddcfc3ab784dec1419565255774956c5",
+            "NameMatches": true,
             "Name": "WinDoorLeft",
             "LocalPRS": "2┼9┼0┼",
             "Object": {
@@ -29844,6 +29841,7 @@
           {
             "GitID": "7dea0790d26246447a9b881689c7dbdf_2┼14┼0┼",
             "PrefabID": "7dea0790d26246447a9b881689c7dbdf",
+            "NameMatches": true,
             "Name": "AirlockExternalWindowed",
             "LocalPRS": "2┼14┼0┼",
             "Object": {
@@ -29863,6 +29861,7 @@
           {
             "GitID": "7dea0790d26246447a9b881689c7dbdf_2┼15┼0┼",
             "PrefabID": "7dea0790d26246447a9b881689c7dbdf",
+            "NameMatches": true,
             "Name": "AirlockExternalWindowed",
             "LocalPRS": "2┼15┼0┼",
             "Object": {
@@ -29882,6 +29881,7 @@
           {
             "GitID": "c937e0abe85aca9499d09951de736ec6_2┼24┼0┼",
             "PrefabID": "c937e0abe85aca9499d09951de736ec6",
+            "NameMatches": true,
             "Name": "LightBulbFixture",
             "LocalPRS": "2┼24┼0┼",
             "Object": {
@@ -29936,12 +29936,14 @@
           {
             "GitID": "1bf5e2fee93f6714ba72903e7a0d6b3d_2┼25┼0┼",
             "PrefabID": "1bf5e2fee93f6714ba72903e7a0d6b3d",
+            "NameMatches": true,
             "Name": "GrassThick",
             "LocalPRS": "2┼25┼0┼"
           },
           {
             "GitID": "f3af7cf4578bcc048b9be1cb53d2f6d5_2┼27┼0┼",
             "PrefabID": "f3af7cf4578bcc048b9be1cb53d2f6d5",
+            "NameMatches": true,
             "Name": "GrassSparse",
             "LocalPRS": "2┼27┼0┼",
             "Object": {
@@ -29967,6 +29969,7 @@
           {
             "GitID": "b9e8f64232bf784459842889a55b0a8c_2┼28┼0┼",
             "PrefabID": "b9e8f64232bf784459842889a55b0a8c",
+            "NameMatches": true,
             "Name": "Grass8",
             "LocalPRS": "2┼28┼0┼"
           },
@@ -29979,6 +29982,7 @@
           {
             "GitID": "c937e0abe85aca9499d09951de736ec6_2┼29┼0┼",
             "PrefabID": "c937e0abe85aca9499d09951de736ec6",
+            "NameMatches": true,
             "Name": "LightBulbFixture",
             "LocalPRS": "2┼29┼0┼0ø0ø180ø",
             "Object": {
@@ -30023,12 +30027,14 @@
           {
             "GitID": "e98cddcd13521604faf5044326a42bc5_3┼4┼0┼",
             "PrefabID": "e98cddcd13521604faf5044326a42bc5",
+            "NameMatches": true,
             "Name": "RollerBed",
             "LocalPRS": "3┼4┼0┼"
           },
           {
             "GitID": "1a00e842e154f7d43811c5d45328988c_3┼11┼0┼",
             "PrefabID": "1a00e842e154f7d43811c5d45328988c",
+            "NameMatches": true,
             "Name": "Chair",
             "LocalPRS": "3┼11┼0┼"
           },
@@ -30041,6 +30047,7 @@
           {
             "GitID": "007d9f81d20c55d479d86a1d7d4343db_3┼18┼0┼",
             "PrefabID": "007d9f81d20c55d479d86a1d7d4343db",
+            "NameMatches": true,
             "Name": "EngineeringCrate",
             "LocalPRS": "3┼18┼0┼",
             "Object": {
@@ -30057,24 +30064,28 @@
           {
             "GitID": "4c38ee85ca3f4664f81d94e975c92fc7_3┼18.02┼0┼",
             "PrefabID": "4c38ee85ca3f4664f81d94e975c92fc7",
+            "NameMatches": true,
             "Name": "HighPowerEnergyBars",
             "LocalPRS": "3┼18.02┼0┼"
           },
           {
             "GitID": "ab54f64ed5f857a40ab2a2a8a58520af_3┼25┼0┼",
             "PrefabID": "ab54f64ed5f857a40ab2a2a8a58520af",
+            "NameMatches": true,
             "Name": "Grass7",
             "LocalPRS": "3┼25┼0┼"
           },
           {
             "GitID": "f366188e22a01984c8789be3304661c9_3┼26┼0┼",
             "PrefabID": "f366188e22a01984c8789be3304661c9",
+            "NameMatches": true,
             "Name": "JungleBrushA",
             "LocalPRS": "3┼26┼0┼"
           },
           {
             "GitID": "f627f521648102c4eabde22aa64b7482_3┼28┼0┼",
             "PrefabID": "f627f521648102c4eabde22aa64b7482",
+            "NameMatches": true,
             "Name": "JungleBrushC",
             "LocalPRS": "3┼28┼0┼"
           },
@@ -30087,6 +30098,7 @@
           {
             "GitID": "ad527ba4de069794796e314f236794f4_3.04┼18.02┼0┼",
             "PrefabID": "ad527ba4de069794796e314f236794f4",
+            "NameMatches": true,
             "Name": "ProtoKineticAccelerator",
             "LocalPRS": "3.04┼18.02┼0┼",
             "Object": {
@@ -30113,24 +30125,28 @@
           {
             "GitID": "381f8f36a2bad374a821a168f8e565b6_3.09┼18.1┼0┼",
             "PrefabID": "381f8f36a2bad374a821a168f8e565b6",
+            "NameMatches": true,
             "Name": "MicroLaser",
             "LocalPRS": "3.09┼18.1┼0┼"
           },
           {
             "GitID": "804e580ede9c55c44b6a974701f43d9b_3.92┼24┼0┼",
             "PrefabID": "804e580ede9c55c44b6a974701f43d9b",
+            "NameMatches": true,
             "Name": "Cultivator",
             "LocalPRS": "3.92┼24┼0┼"
           },
           {
             "GitID": "71270ee865885154cb3d16d97e879cc8_3.96┼13.02┼0┼",
             "PrefabID": "71270ee865885154cb3d16d97e879cc8",
+            "NameMatches": true,
             "Name": "RandomEmergencyLight",
             "LocalPRS": "3.96┼13.02┼0┼"
           },
           {
             "GitID": "1a00e842e154f7d43811c5d45328988c_4┼11┼0┼",
             "PrefabID": "1a00e842e154f7d43811c5d45328988c",
+            "NameMatches": true,
             "Name": "Chair",
             "LocalPRS": "4┼11┼0┼"
           },
@@ -30181,6 +30197,7 @@
           {
             "GitID": "24eaaeb286e2fbe48a16783af29e3c02_4┼13┼0┼",
             "PrefabID": "24eaaeb286e2fbe48a16783af29e3c02",
+            "NameMatches": true,
             "Name": "SuitStorageUnit",
             "LocalPRS": "4┼13┼0┼",
             "Object": {
@@ -30200,6 +30217,7 @@
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_4┼16┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "4┼16┼0┼0ø0ø180ø",
             "Object": {
@@ -30244,6 +30262,7 @@
           {
             "GitID": "871c3d9267933674894b9bfb2f956c56_4┼24┼0┼",
             "PrefabID": "871c3d9267933674894b9bfb2f956c56",
+            "NameMatches": true,
             "Name": "HydroponicsCrate",
             "LocalPRS": "4┼24┼0┼",
             "Object": {
@@ -30266,12 +30285,14 @@
           {
             "GitID": "80c0cb9e07a542b418358e6b153133fc_4┼25┼0┼",
             "PrefabID": "80c0cb9e07a542b418358e6b153133fc",
+            "NameMatches": true,
             "Name": "JungleBrushB",
             "LocalPRS": "4┼25┼0┼"
           },
           {
             "GitID": "db37df4b881fde44da69befbcd3e287e_4┼26┼0┼",
             "PrefabID": "db37df4b881fde44da69befbcd3e287e",
+            "NameMatches": true,
             "Name": "Grass6",
             "LocalPRS": "4┼26┼0┼"
           },
@@ -30284,24 +30305,28 @@
           {
             "GitID": "largebeaker_4.05┼18.05┼0┼",
             "PrefabID": "largebeaker",
+            "NameMatches": true,
             "Name": "LargeBeaker",
             "LocalPRS": "4.05┼18.05┼0┼"
           },
           {
             "GitID": "ba46a81cbd3cd9c4faea0e047fbae79f_4.05┼24┼0┼",
             "PrefabID": "ba46a81cbd3cd9c4faea0e047fbae79f",
+            "NameMatches": true,
             "Name": "Bucket",
             "LocalPRS": "4.05┼24┼0┼"
           },
           {
             "GitID": "a7eeb10882fa2f042aa33b28946184a4_4.08┼24┼0┼",
             "PrefabID": "a7eeb10882fa2f042aa33b28946184a4",
+            "NameMatches": true,
             "Name": "Spade",
             "LocalPRS": "4.08┼24┼0┼"
           },
           {
             "GitID": "a85bb77436de9574c8523fe45acffb14_5┼1┼0┼",
             "PrefabID": "a85bb77436de9574c8523fe45acffb14",
+            "NameMatches": true,
             "Name": "MedicalCrate",
             "LocalPRS": "5┼1┼0┼",
             "Object": {
@@ -30318,18 +30343,21 @@
           {
             "GitID": "dd33a51f8c440da4cb4273b8954c03b3_5┼1.01┼0┼",
             "PrefabID": "dd33a51f8c440da4cb4273b8954c03b3",
+            "NameMatches": true,
             "Name": "RandomMedicalSuppliesSpawner",
             "LocalPRS": "5┼1.01┼0┼"
           },
           {
             "GitID": "68ef2c0235224f347b94384d5dcdae47_5┼1.07┼0┼",
             "PrefabID": "68ef2c0235224f347b94384d5dcdae47",
+            "NameMatches": true,
             "Name": "RandomMedkitSpawner",
             "LocalPRS": "5┼1.07┼0┼"
           },
           {
             "GitID": "e89c616b1df1e724baef0e39ac0037f3_5┼1.07┼0┼",
             "PrefabID": "e89c616b1df1e724baef0e39ac0037f3",
+            "NameMatches": true,
             "Name": "MedicalBeltFull",
             "LocalPRS": "5┼1.07┼0┼"
           },
@@ -30380,96 +30408,112 @@
           {
             "GitID": "1a00e842e154f7d43811c5d45328988c_5┼11┼0┼",
             "PrefabID": "1a00e842e154f7d43811c5d45328988c",
+            "NameMatches": true,
             "Name": "Chair",
             "LocalPRS": "5┼11┼0┼"
           },
           {
             "GitID": "66f05879999b49141bbfc4e0fdc9903a_5┼22┼0┼",
             "PrefabID": "66f05879999b49141bbfc4e0fdc9903a",
+            "NameMatches": true,
             "Name": "WaterTankHighCapacity",
             "LocalPRS": "5┼22┼0┼"
           },
           {
             "GitID": "20a3d1857d5f66c4aa945129302471a7_5┼24┼0┼",
             "PrefabID": "20a3d1857d5f66c4aa945129302471a7",
+            "NameMatches": true,
             "Name": "BananaSeeds",
             "LocalPRS": "5┼24┼0┼"
           },
           {
             "GitID": "20a3d1857d5f66c4aa945129302471a7_5.001┼24┼0┼",
             "PrefabID": "20a3d1857d5f66c4aa945129302471a7",
+            "NameMatches": true,
             "Name": "BananaSeeds",
             "LocalPRS": "5┼24┼0┼"
           },
           {
             "GitID": "397461e981e81df4c8983f127dbabae6_5┼24┼0┼",
             "PrefabID": "397461e981e81df4c8983f127dbabae6",
+            "NameMatches": true,
             "Name": "RandomSeedSpawner",
             "LocalPRS": "5┼24┼0┼"
           },
           {
             "GitID": "397461e981e81df4c8983f127dbabae6_5.001┼24┼0┼",
             "PrefabID": "397461e981e81df4c8983f127dbabae6",
+            "NameMatches": true,
             "Name": "RandomSeedSpawner",
             "LocalPRS": "5┼24┼0┼"
           },
           {
             "GitID": "397461e981e81df4c8983f127dbabae6_5.002┼24┼0┼",
             "PrefabID": "397461e981e81df4c8983f127dbabae6",
+            "NameMatches": true,
             "Name": "RandomSeedSpawner",
             "LocalPRS": "5┼24┼0┼"
           },
           {
             "GitID": "397461e981e81df4c8983f127dbabae6_5.003┼24┼0┼",
             "PrefabID": "397461e981e81df4c8983f127dbabae6",
+            "NameMatches": true,
             "Name": "RandomSeedSpawner",
             "LocalPRS": "5┼24┼0┼"
           },
           {
             "GitID": "397461e981e81df4c8983f127dbabae6_5.004┼24┼0┼",
             "PrefabID": "397461e981e81df4c8983f127dbabae6",
+            "NameMatches": true,
             "Name": "RandomSeedSpawner",
             "LocalPRS": "5┼24┼0┼"
           },
           {
             "GitID": "4f7ce98391b8ec54493a831134aa65be_5┼24┼0┼",
             "PrefabID": "4f7ce98391b8ec54493a831134aa65be",
+            "NameMatches": true,
             "Name": "PotatoSeeds",
             "LocalPRS": "5┼24┼0┼"
           },
           {
             "GitID": "4f7ce98391b8ec54493a831134aa65be_5.001┼24┼0┼",
             "PrefabID": "4f7ce98391b8ec54493a831134aa65be",
+            "NameMatches": true,
             "Name": "PotatoSeeds",
             "LocalPRS": "5┼24┼0┼"
           },
           {
             "GitID": "4f7ce98391b8ec54493a831134aa65be_5.002┼24┼0┼",
             "PrefabID": "4f7ce98391b8ec54493a831134aa65be",
+            "NameMatches": true,
             "Name": "PotatoSeeds",
             "LocalPRS": "5┼24┼0┼"
           },
           {
             "GitID": "650450916815dfb4ba0aa087a3006beb_5┼24┼0┼",
             "PrefabID": "650450916815dfb4ba0aa087a3006beb",
+            "NameMatches": true,
             "Name": "TomatoSeeds",
             "LocalPRS": "5┼24┼0┼"
           },
           {
             "GitID": "650450916815dfb4ba0aa087a3006beb_5.001┼24┼0┼",
             "PrefabID": "650450916815dfb4ba0aa087a3006beb",
+            "NameMatches": true,
             "Name": "TomatoSeeds",
             "LocalPRS": "5┼24┼0┼"
           },
           {
             "GitID": "650450916815dfb4ba0aa087a3006beb_5.002┼24┼0┼",
             "PrefabID": "650450916815dfb4ba0aa087a3006beb",
+            "NameMatches": true,
             "Name": "TomatoSeeds",
             "LocalPRS": "5┼24┼0┼"
           },
           {
             "GitID": "871c3d9267933674894b9bfb2f956c56_5┼24┼0┼",
             "PrefabID": "871c3d9267933674894b9bfb2f956c56",
+            "NameMatches": true,
             "Name": "HydroponicsCrate",
             "LocalPRS": "5┼24┼0┼",
             "Object": {
@@ -30486,48 +30530,56 @@
           {
             "GitID": "a096b50447bc34448ab67474a463eaef_5┼24┼0┼",
             "PrefabID": "a096b50447bc34448ab67474a463eaef",
+            "NameMatches": true,
             "Name": "LemonSeeds",
             "LocalPRS": "5┼24┼0┼"
           },
           {
             "GitID": "a096b50447bc34448ab67474a463eaef_5.001┼24┼0┼",
             "PrefabID": "a096b50447bc34448ab67474a463eaef",
+            "NameMatches": true,
             "Name": "LemonSeeds",
             "LocalPRS": "5┼24┼0┼"
           },
           {
             "GitID": "a8b053482da561b4eba3bd81d8fe51ab_5┼24┼0┼",
             "PrefabID": "a8b053482da561b4eba3bd81d8fe51ab",
+            "NameMatches": true,
             "Name": "ChiliSeeds",
             "LocalPRS": "5┼24┼0┼"
           },
           {
             "GitID": "aea6ac6f49bb5e443ac179f2e10caae0_5┼24┼0┼",
             "PrefabID": "aea6ac6f49bb5e443ac179f2e10caae0",
+            "NameMatches": true,
             "Name": "AppleSeeds",
             "LocalPRS": "5┼24┼0┼"
           },
           {
             "GitID": "aea6ac6f49bb5e443ac179f2e10caae0_5.001┼24┼0┼",
             "PrefabID": "aea6ac6f49bb5e443ac179f2e10caae0",
+            "NameMatches": true,
             "Name": "AppleSeeds",
             "LocalPRS": "5┼24┼0┼"
           },
           {
             "GitID": "b35a262356250504fbfa735d183f9998_5┼24┼0┼",
             "PrefabID": "b35a262356250504fbfa735d183f9998",
+            "NameMatches": true,
             "Name": "SugarcaneSeeds",
             "LocalPRS": "5┼24┼0┼"
           },
           {
             "GitID": "b35a262356250504fbfa735d183f9998_5.001┼24┼0┼",
             "PrefabID": "b35a262356250504fbfa735d183f9998",
+            "NameMatches": true,
             "Name": "SugarcaneSeeds",
             "LocalPRS": "5┼24┼0┼"
           },
           {
             "GitID": "c937e0abe85aca9499d09951de736ec6_5┼24┼0┼",
             "PrefabID": "c937e0abe85aca9499d09951de736ec6",
+            "NameMatches": true,
             "Name": "LightBulbFixture",
             "LocalPRS": "5┼24┼0┼",
             "Object": {
@@ -30563,30 +30615,35 @@
           {
             "GitID": "e41afb7979b591443b008859f958eca6_5┼24┼0┼",
             "PrefabID": "e41afb7979b591443b008859f958eca6",
+            "NameMatches": true,
             "Name": "SoybeanSeeds",
             "LocalPRS": "5┼24┼0┼"
           },
           {
             "GitID": "e41afb7979b591443b008859f958eca6_5.001┼24┼0┼",
             "PrefabID": "e41afb7979b591443b008859f958eca6",
+            "NameMatches": true,
             "Name": "SoybeanSeeds",
             "LocalPRS": "5┼24┼0┼"
           },
           {
             "GitID": "e41afb7979b591443b008859f958eca6_5.002┼24┼0┼",
             "PrefabID": "e41afb7979b591443b008859f958eca6",
+            "NameMatches": true,
             "Name": "SoybeanSeeds",
             "LocalPRS": "5┼24┼0┼"
           },
           {
             "GitID": "f93f1ab0ed9820742b43e07cb9375aec_5┼24┼0┼",
             "PrefabID": "f93f1ab0ed9820742b43e07cb9375aec",
+            "NameMatches": true,
             "Name": "CottonSeeds",
             "LocalPRS": "5┼24┼0┼"
           },
           {
             "GitID": "2ffc1cddf899da54099116bd491880ce_5┼28┼0┼",
             "PrefabID": "2ffc1cddf899da54099116bd491880ce",
+            "NameMatches": true,
             "Name": "Grass10",
             "LocalPRS": "5┼28┼0┼"
           },
@@ -30599,6 +30656,7 @@
           {
             "GitID": "c937e0abe85aca9499d09951de736ec6_5┼29┼0┼",
             "PrefabID": "c937e0abe85aca9499d09951de736ec6",
+            "NameMatches": true,
             "Name": "LightBulbFixture",
             "LocalPRS": "5┼29┼0┼0ø0ø180ø",
             "Object": {
@@ -30643,12 +30701,14 @@
           {
             "GitID": "753e37602e1e0194cbe435fda83795c4_5.01┼1.21┼0┼",
             "PrefabID": "753e37602e1e0194cbe435fda83795c4",
+            "NameMatches": true,
             "Name": "RollerBedItem",
             "LocalPRS": "5.01┼1.21┼0┼"
           },
           {
             "GitID": "f2432d244a6b7774ea00ff013beb7dcb_6┼7┼0┼",
             "PrefabID": "f2432d244a6b7774ea00ff013beb7dcb",
+            "NameMatches": true,
             "Name": "LightSwitch",
             "LocalPRS": "6┼7┼0┼",
             "Object": {
@@ -30698,6 +30758,7 @@
           {
             "GitID": "1f10fce737097ce44affadeeb9bea4da_6┼8┼0┼",
             "PrefabID": "1f10fce737097ce44affadeeb9bea4da",
+            "NameMatches": true,
             "Name": "AirlockGrunge",
             "LocalPRS": "6┼8┼0┼",
             "Object": {
@@ -30717,6 +30778,7 @@
           {
             "GitID": "1f10fce737097ce44affadeeb9bea4da_6┼9┼0┼",
             "PrefabID": "1f10fce737097ce44affadeeb9bea4da",
+            "NameMatches": true,
             "Name": "AirlockGrunge",
             "LocalPRS": "6┼9┼0┼",
             "Object": {
@@ -30736,6 +30798,7 @@
           {
             "GitID": "1f10fce737097ce44affadeeb9bea4da_6┼14┼0┼",
             "PrefabID": "1f10fce737097ce44affadeeb9bea4da",
+            "NameMatches": true,
             "Name": "AirlockGrunge",
             "LocalPRS": "6┼14┼0┼",
             "Object": {
@@ -30755,6 +30818,7 @@
           {
             "GitID": "1f10fce737097ce44affadeeb9bea4da_6┼15┼0┼",
             "PrefabID": "1f10fce737097ce44affadeeb9bea4da",
+            "NameMatches": true,
             "Name": "AirlockGrunge",
             "LocalPRS": "6┼15┼0┼",
             "Object": {
@@ -30774,6 +30838,7 @@
           {
             "GitID": "1172c577b92e17940afd7e1729f184f6_6┼20┼0┼",
             "PrefabID": "1172c577b92e17940afd7e1729f184f6",
+            "NameMatches": true,
             "Name": "AirlockHatchGrunge",
             "LocalPRS": "6┼20┼0┼",
             "Object": {
@@ -30793,6 +30858,7 @@
           {
             "GitID": "54a552cbe4002ac44ae29b958a90e545_6┼26┼0┼",
             "PrefabID": "54a552cbe4002ac44ae29b958a90e545",
+            "NameMatches": true,
             "Name": "AirlockPublicWindowed",
             "LocalPRS": "6┼26┼0┼",
             "Object": {
@@ -30812,6 +30878,7 @@
           {
             "GitID": "54a552cbe4002ac44ae29b958a90e545_6┼27┼0┼",
             "PrefabID": "54a552cbe4002ac44ae29b958a90e545",
+            "NameMatches": true,
             "Name": "AirlockPublicWindowed",
             "LocalPRS": "6┼27┼0┼",
             "Object": {
@@ -30831,6 +30898,7 @@
           {
             "GitID": "f2432d244a6b7774ea00ff013beb7dcb_6┼28┼0┼",
             "PrefabID": "f2432d244a6b7774ea00ff013beb7dcb",
+            "NameMatches": true,
             "Name": "LightSwitch",
             "LocalPRS": "6┼28┼0┼",
             "Object": {
@@ -30880,6 +30948,7 @@
           {
             "GitID": "54a552cbe4002ac44ae29b958a90e545_7┼1┼0┼",
             "PrefabID": "54a552cbe4002ac44ae29b958a90e545",
+            "NameMatches": true,
             "Name": "AirlockPublicWindowed",
             "LocalPRS": "7┼1┼0┼",
             "Object": {
@@ -31050,6 +31119,7 @@
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_8┼-4┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "8┼-4┼0┼0ø0ø90ø",
             "Object": {
@@ -31094,6 +31164,7 @@
           {
             "GitID": "54a552cbe4002ac44ae29b958a90e545_8┼1┼0┼",
             "PrefabID": "54a552cbe4002ac44ae29b958a90e545",
+            "NameMatches": true,
             "Name": "AirlockPublicWindowed",
             "LocalPRS": "8┼1┼0┼",
             "Object": {
@@ -31113,6 +31184,7 @@
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_8┼4┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "8┼4┼0┼0ø0ø90ø",
             "Object": {
@@ -31176,6 +31248,7 @@
           {
             "GitID": "f2432d244a6b7774ea00ff013beb7dcb_9┼-3┼0┼",
             "PrefabID": "f2432d244a6b7774ea00ff013beb7dcb",
+            "NameMatches": true,
             "Name": "LightSwitch",
             "LocalPRS": "9┼-3┼0┼",
             "Object": {
@@ -31225,6 +31298,7 @@
           {
             "GitID": "1f10fce737097ce44affadeeb9bea4da_9┼-2┼0┼",
             "PrefabID": "1f10fce737097ce44affadeeb9bea4da",
+            "NameMatches": true,
             "Name": "AirlockGrunge",
             "LocalPRS": "9┼-2┼0┼",
             "Object": {
@@ -31244,6 +31318,7 @@
           {
             "GitID": "1f10fce737097ce44affadeeb9bea4da_9┼3┼0┼",
             "PrefabID": "1f10fce737097ce44affadeeb9bea4da",
+            "NameMatches": true,
             "Name": "AirlockGrunge",
             "LocalPRS": "9┼3┼0┼",
             "Object": {
@@ -31577,6 +31652,7 @@
           {
             "GitID": "6d8f04f09fd70254ead647566210cd74_9.94┼0.97┼0┼",
             "PrefabID": "6d8f04f09fd70254ead647566210cd74",
+            "NameMatches": true,
             "Name": "TitaniumGlassSheet",
             "LocalPRS": "9.94┼0.97┼0┼",
             "Object": {
@@ -31596,18 +31672,21 @@
           {
             "GitID": "48db417677699164e92ca8f233876e13_9.98┼5.05┼0┼",
             "PrefabID": "48db417677699164e92ca8f233876e13",
+            "NameMatches": true,
             "Name": "MaintLootx4",
             "LocalPRS": "9.98┼5.05┼0┼"
           },
           {
             "GitID": "8fb9b82aab871a54fb9bdb7e4a985821_9.99┼12.02┼0┼",
             "PrefabID": "8fb9b82aab871a54fb9bdb7e4a985821",
+            "NameMatches": true,
             "Name": "MaintLoot",
             "LocalPRS": "9.99┼12.02┼0┼"
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_10┼-7┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "10┼-7┼0┼0ø0ø180ø",
             "Object": {
@@ -31652,6 +31731,7 @@
           {
             "GitID": "7dea0790d26246447a9b881689c7dbdf_10┼-4┼0┼",
             "PrefabID": "7dea0790d26246447a9b881689c7dbdf",
+            "NameMatches": true,
             "Name": "AirlockExternalWindowed",
             "LocalPRS": "10┼-4┼0┼",
             "Object": {
@@ -31671,6 +31751,7 @@
           {
             "GitID": "1d35052f4fc2cad4d8226d1a63e4a1b3_10┼1┼0┼",
             "PrefabID": "1d35052f4fc2cad4d8226d1a63e4a1b3",
+            "NameMatches": true,
             "Name": "CrateBase",
             "LocalPRS": "10┼1┼0┼",
             "Object": {
@@ -31687,12 +31768,14 @@
           {
             "GitID": "68a3eee06f0a8cf4da5d8ab811ce1c73_10┼5┼0┼",
             "PrefabID": "68a3eee06f0a8cf4da5d8ab811ce1c73",
+            "NameMatches": true,
             "Name": "ClosetBase",
             "LocalPRS": "10┼5┼0┼"
           },
           {
             "GitID": "c84a09f09199afb48b0d8a0c5c2a5bea_10┼5.09┼0┼",
             "PrefabID": "c84a09f09199afb48b0d8a0c5c2a5bea",
+            "NameMatches": true,
             "Name": "MatterBin",
             "LocalPRS": "10┼5.09┼0┼"
           },
@@ -31705,18 +31788,21 @@
           {
             "GitID": "68a3eee06f0a8cf4da5d8ab811ce1c73_10┼12┼0┼",
             "PrefabID": "68a3eee06f0a8cf4da5d8ab811ce1c73",
+            "NameMatches": true,
             "Name": "ClosetBase",
             "LocalPRS": "10┼12┼0┼"
           },
           {
             "GitID": "a6a04b99723d3ae42958de4193b9920d_10┼12┼0┼",
             "PrefabID": "a6a04b99723d3ae42958de4193b9920d",
+            "NameMatches": true,
             "Name": "ScanningModule",
             "LocalPRS": "10┼12┼0┼"
           },
           {
             "GitID": "54a552cbe4002ac44ae29b958a90e545_10┼26┼0┼",
             "PrefabID": "54a552cbe4002ac44ae29b958a90e545",
+            "NameMatches": true,
             "Name": "AirlockPublicWindowed",
             "LocalPRS": "10┼26┼0┼",
             "Object": {
@@ -31736,6 +31822,7 @@
           {
             "GitID": "54a552cbe4002ac44ae29b958a90e545_10┼27┼0┼",
             "PrefabID": "54a552cbe4002ac44ae29b958a90e545",
+            "NameMatches": true,
             "Name": "AirlockPublicWindowed",
             "LocalPRS": "10┼27┼0┼",
             "Object": {
@@ -31755,6 +31842,7 @@
           {
             "GitID": "e85621ccf37627c47bb04b501d86fb83_10.03┼0.89┼0┼",
             "PrefabID": "e85621ccf37627c47bb04b501d86fb83",
+            "NameMatches": true,
             "Name": "UraniumSheet",
             "LocalPRS": "10.03┼0.89┼0┼",
             "Object": {
@@ -31780,6 +31868,7 @@
           {
             "GitID": "fa63846bcecd1d14b8644f96e78f9888_10.98┼1.02┼0┼",
             "PrefabID": "fa63846bcecd1d14b8644f96e78f9888",
+            "NameMatches": true,
             "Name": "MaintLootx3",
             "LocalPRS": "10.98┼1.02┼0┼"
           },
@@ -31855,6 +31944,7 @@
           {
             "GitID": "b087cae0f7059d946a59146ea8d0fb04_11┼5┼0┼",
             "PrefabID": "b087cae0f7059d946a59146ea8d0fb04",
+            "NameMatches": true,
             "Name": "WaterTank",
             "LocalPRS": "11┼5┼0┼",
             "Object": {
@@ -31939,6 +32029,7 @@
           {
             "GitID": "c937e0abe85aca9499d09951de736ec6_11┼12┼0┼",
             "PrefabID": "c937e0abe85aca9499d09951de736ec6",
+            "NameMatches": true,
             "Name": "LightBulbFixture",
             "LocalPRS": "11┼12┼0┼0ø0ø180ø",
             "Object": {
@@ -31983,6 +32074,7 @@
           {
             "GitID": "a223c02f818b8d74abd3e94371d523d4_11┼18┼0┼",
             "PrefabID": "a223c02f818b8d74abd3e94371d523d4",
+            "NameMatches": true,
             "Name": "Autolathe",
             "LocalPRS": "11┼18┼0┼",
             "Object": {
@@ -32046,6 +32138,7 @@
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_11.01┼1┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
+            "NameMatches": true,
             "Name": "SolidPlasmaSheet",
             "LocalPRS": "11.01┼1┼0┼",
             "Object": {
@@ -32065,18 +32158,21 @@
           {
             "GitID": "c9011cdae105db947b62a63d5934fec3_11.95┼4.94┼0┼",
             "PrefabID": "c9011cdae105db947b62a63d5934fec3",
+            "NameMatches": true,
             "Name": "TowerCapMycelium",
             "LocalPRS": "11.95┼4.94┼0┼"
           },
           {
             "GitID": "ce874e42e21343a429f39c4780a09059_12┼-2┼0┼",
             "PrefabID": "ce874e42e21343a429f39c4780a09059",
+            "NameMatches": true,
             "Name": "ComputerFrame",
             "LocalPRS": "12┼-2┼0┼"
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_12┼-1┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "12┼-1┼0┼0ø0ø180ø",
             "Object": {
@@ -32121,6 +32217,7 @@
           {
             "GitID": "517c48fc4fc1cba48908d11ec58451ce_12┼1┼0┼",
             "PrefabID": "517c48fc4fc1cba48908d11ec58451ce",
+            "NameMatches": true,
             "Name": "EngineeringCrateElectrical",
             "LocalPRS": "12┼1┼0┼",
             "Object": {
@@ -32137,30 +32234,35 @@
           {
             "GitID": "288980126acf5f441841169958c31630_12┼1.02┼0┼",
             "PrefabID": "288980126acf5f441841169958c31630",
+            "NameMatches": true,
             "Name": "HighCableCoil",
             "LocalPRS": "12┼1.02┼0┼"
           },
           {
             "GitID": "7f32e42309899114b9c122f261161bc5_12┼1.02┼0┼",
             "PrefabID": "7f32e42309899114b9c122f261161bc5",
+            "NameMatches": true,
             "Name": "LowCableCoil",
             "LocalPRS": "12┼1.02┼0┼"
           },
           {
             "GitID": "c3e6805b264a935428b0de415ea57943_12┼1.02┼0┼",
             "PrefabID": "c3e6805b264a935428b0de415ea57943",
+            "NameMatches": true,
             "Name": "MediumCableCoil",
             "LocalPRS": "12┼1.02┼0┼"
           },
           {
             "GitID": "1580d0511eb4e7f4ca8244aea4c99de9_12┼5┼0┼",
             "PrefabID": "1580d0511eb4e7f4ca8244aea4c99de9",
+            "NameMatches": true,
             "Name": "ToolCloset",
             "LocalPRS": "12┼5┼0┼"
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_12┼18┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "12┼18┼0┼0ø0ø90ø",
             "Object": {
@@ -32205,6 +32307,7 @@
           {
             "GitID": "7dea0790d26246447a9b881689c7dbdf_13┼-5┼0┼",
             "PrefabID": "7dea0790d26246447a9b881689c7dbdf",
+            "NameMatches": true,
             "Name": "AirlockExternalWindowed",
             "LocalPRS": "13┼-5┼0┼",
             "Object": {
@@ -32249,6 +32352,7 @@
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_13┼15┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "13┼15┼0┼0ø0ø180ø",
             "Object": {
@@ -32299,6 +32403,7 @@
           {
             "GitID": "fb2c1c5d5f027eb45bb342edeb5a3d8f_14┼0┼0┼",
             "PrefabID": "fb2c1c5d5f027eb45bb342edeb5a3d8f",
+            "NameMatches": true,
             "Name": "Emitter",
             "LocalPRS": "14┼0┼0┼"
           },
@@ -32430,6 +32535,7 @@
           {
             "GitID": "1172c577b92e17940afd7e1729f184f6_14┼13┼0┼",
             "PrefabID": "1172c577b92e17940afd7e1729f184f6",
+            "NameMatches": true,
             "Name": "AirlockHatchGrunge",
             "LocalPRS": "14┼13┼0┼",
             "Object": {
@@ -32465,6 +32571,7 @@
           {
             "GitID": "66a5287d0bf216847a2f4fe34228a0cf_14┼24┼0┼",
             "PrefabID": "66a5287d0bf216847a2f4fe34228a0cf",
+            "NameMatches": true,
             "Name": "GlassSheet",
             "LocalPRS": "14┼24┼0┼",
             "Object": {
@@ -32484,6 +32591,7 @@
           {
             "GitID": "b83b68cfa4a201748aeeece963a989c3_14┼24┼0┼",
             "PrefabID": "b83b68cfa4a201748aeeece963a989c3",
+            "NameMatches": true,
             "Name": "MetalSheet",
             "LocalPRS": "14┼24┼0┼",
             "Object": {
@@ -32503,12 +32611,14 @@
           {
             "GitID": "c1aebfea91112ef4a83ba10f37d3f437_15┼-14┼0┼",
             "PrefabID": "c1aebfea91112ef4a83ba10f37d3f437",
+            "NameMatches": true,
             "Name": "FireSafetyCloset",
             "LocalPRS": "15┼-14┼0┼"
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_15┼-9┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "15┼-9┼0┼0ø0ø270ø",
             "Object": {
@@ -32553,6 +32663,7 @@
           {
             "GitID": "fb2c1c5d5f027eb45bb342edeb5a3d8f_15┼0┼0┼",
             "PrefabID": "fb2c1c5d5f027eb45bb342edeb5a3d8f",
+            "NameMatches": true,
             "Name": "Emitter",
             "LocalPRS": "15┼0┼0┼"
           },
@@ -32588,18 +32699,21 @@
           {
             "GitID": "91d832be818283a4188516804e8d5ef0_16┼-14┼0┼",
             "PrefabID": "91d832be818283a4188516804e8d5ef0",
+            "NameMatches": true,
             "Name": "EmergencyCloset",
             "LocalPRS": "16┼-14┼0┼"
           },
           {
             "GitID": "fb2c1c5d5f027eb45bb342edeb5a3d8f_16┼0┼0┼",
             "PrefabID": "fb2c1c5d5f027eb45bb342edeb5a3d8f",
+            "NameMatches": true,
             "Name": "Emitter",
             "LocalPRS": "16┼0┼0┼"
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_16┼0┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "16┼0┼0┼0ø0ø180ø",
             "Object": {
@@ -32644,6 +32758,7 @@
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_16┼18┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "16┼18┼0┼0ø0ø90ø",
             "Object": {
@@ -32732,12 +32847,14 @@
           {
             "GitID": "fb2c1c5d5f027eb45bb342edeb5a3d8f_17┼0┼0┼",
             "PrefabID": "fb2c1c5d5f027eb45bb342edeb5a3d8f",
+            "NameMatches": true,
             "Name": "Emitter",
             "LocalPRS": "17┼0┼0┼"
           },
           {
             "GitID": "7dea0790d26246447a9b881689c7dbdf_18┼-9┼0┼",
             "PrefabID": "7dea0790d26246447a9b881689c7dbdf",
+            "NameMatches": true,
             "Name": "AirlockExternalWindowed",
             "LocalPRS": "18┼-9┼0┼",
             "Object": {
@@ -32789,18 +32906,21 @@
           {
             "GitID": "c4c22bdc7cdd546479ac1de5589b5617_18┼24┼0┼",
             "PrefabID": "c4c22bdc7cdd546479ac1de5589b5617",
+            "NameMatches": true,
             "Name": "MachineFrame",
             "LocalPRS": "18┼24┼0┼"
           },
           {
             "GitID": "6bd9037fbb19a79409aab54675bc363e_18.93┼23.99┼0┼",
             "PrefabID": "6bd9037fbb19a79409aab54675bc363e",
+            "NameMatches": true,
             "Name": "ComputerBoardShuttlePilotingConsole",
             "LocalPRS": "18.93┼23.99┼0┼"
           },
           {
             "GitID": "d2f2400aac0da54468da76680579c29b_18.96┼24┼0┼",
             "PrefabID": "d2f2400aac0da54468da76680579c29b",
+            "NameMatches": true,
             "Name": "ReinforcedGlassSheet",
             "LocalPRS": "18.96┼24┼0┼",
             "Object": {
@@ -32820,12 +32940,14 @@
           {
             "GitID": "af583b1807508a84cbd05b036e027d96_18.99┼21.04┼0┼",
             "PrefabID": "af583b1807508a84cbd05b036e027d96",
+            "NameMatches": true,
             "Name": "NPC_hivebot_Engineer",
             "LocalPRS": "18.99┼21.04┼0┼"
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_19┼-13┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "19┼-13┼0┼0ø0ø180ø",
             "Object": {
@@ -32870,6 +32992,7 @@
           {
             "GitID": "7dea0790d26246447a9b881689c7dbdf_19┼-7┼0┼",
             "PrefabID": "7dea0790d26246447a9b881689c7dbdf",
+            "NameMatches": true,
             "Name": "AirlockExternalWindowed",
             "LocalPRS": "19┼-7┼0┼",
             "Object": {
@@ -32889,6 +33012,7 @@
           {
             "GitID": "f2432d244a6b7774ea00ff013beb7dcb_19┼1┼0┼",
             "PrefabID": "f2432d244a6b7774ea00ff013beb7dcb",
+            "NameMatches": true,
             "Name": "LightSwitch",
             "LocalPRS": "19┼1┼0┼",
             "Object": {
@@ -32930,6 +33054,7 @@
           {
             "GitID": "1172c577b92e17940afd7e1729f184f6_19┼2┼0┼",
             "PrefabID": "1172c577b92e17940afd7e1729f184f6",
+            "NameMatches": true,
             "Name": "AirlockHatchGrunge",
             "LocalPRS": "19┼2┼0┼",
             "Object": {
@@ -32949,6 +33074,7 @@
           {
             "GitID": "1172c577b92e17940afd7e1729f184f6_19┼5┼0┼",
             "PrefabID": "1172c577b92e17940afd7e1729f184f6",
+            "NameMatches": true,
             "Name": "AirlockHatchGrunge",
             "LocalPRS": "19┼5┼0┼",
             "Object": {
@@ -32968,6 +33094,7 @@
           {
             "GitID": "1172c577b92e17940afd7e1729f184f6_19┼12┼0┼",
             "PrefabID": "1172c577b92e17940afd7e1729f184f6",
+            "NameMatches": true,
             "Name": "AirlockHatchGrunge",
             "LocalPRS": "19┼12┼0┼",
             "Object": {
@@ -32987,6 +33114,7 @@
           {
             "GitID": "e947d751522b07a4186cd276fb16eefe_19┼18┼0┼",
             "PrefabID": "e947d751522b07a4186cd276fb16eefe",
+            "NameMatches": true,
             "Name": "Exosuit Fabricator",
             "LocalPRS": "19┼18┼0┼",
             "Object": {
@@ -33006,6 +33134,7 @@
           {
             "GitID": "007d9f81d20c55d479d86a1d7d4343db_19┼24┼0┼",
             "PrefabID": "007d9f81d20c55d479d86a1d7d4343db",
+            "NameMatches": true,
             "Name": "EngineeringCrate",
             "LocalPRS": "19┼24┼0┼",
             "Object": {
@@ -33022,6 +33151,7 @@
           {
             "GitID": "5dce4d3e01518474bb9bb8085b718980_19┼24┼0┼",
             "PrefabID": "5dce4d3e01518474bb9bb8085b718980",
+            "NameMatches": true,
             "Name": "MetalRods",
             "LocalPRS": "19┼24┼0┼",
             "Object": {
@@ -33041,24 +33171,28 @@
           {
             "GitID": "381f8f36a2bad374a821a168f8e565b6_19.02┼24┼0┼",
             "PrefabID": "381f8f36a2bad374a821a168f8e565b6",
+            "NameMatches": true,
             "Name": "MicroLaser",
             "LocalPRS": "19.02┼24┼0┼"
           },
           {
             "GitID": "c9d03be44229a74469be1b6738941ec3_19.73┼24.05┼0┼",
             "PrefabID": "c9d03be44229a74469be1b6738941ec3",
+            "NameMatches": true,
             "Name": "RemoteSignaller",
             "LocalPRS": "19.73┼24.05┼0┼"
           },
           {
             "GitID": "f5de4bfc8649c7a428e694010049af77_19.89┼23.92┼0┼",
             "PrefabID": "f5de4bfc8649c7a428e694010049af77",
+            "NameMatches": true,
             "Name": "ProximitySensor",
             "LocalPRS": "19.89┼23.92┼0┼"
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_20┼-6┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "20┼-6┼0┼0ø0ø270ø",
             "Object": {
@@ -33103,6 +33237,7 @@
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_20┼3┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "20┼3┼0┼0ø0ø270ø",
             "Object": {
@@ -33147,6 +33282,7 @@
           {
             "GitID": "c937e0abe85aca9499d09951de736ec6_20┼8┼0┼",
             "PrefabID": "c937e0abe85aca9499d09951de736ec6",
+            "NameMatches": true,
             "Name": "LightBulbFixture",
             "LocalPRS": "20┼8┼0┼0ø0ø270ø",
             "Object": {
@@ -33219,6 +33355,7 @@
           {
             "GitID": "c937e0abe85aca9499d09951de736ec6_20┼10┼0┼",
             "PrefabID": "c937e0abe85aca9499d09951de736ec6",
+            "NameMatches": true,
             "Name": "LightBulbFixture",
             "LocalPRS": "20┼10┼0┼0ø0ø270ø",
             "Object": {
@@ -33263,6 +33400,7 @@
           {
             "GitID": "be26d178314bedc419e95cd4466da4e5_20┼11┼0┼",
             "PrefabID": "be26d178314bedc419e95cd4466da4e5",
+            "NameMatches": true,
             "Name": "Sleeper",
             "LocalPRS": "20┼11┼0┼",
             "Object": {
@@ -33376,30 +33514,35 @@
           {
             "GitID": "ed4e62dc12dca724ba1e5f374965096b_20┼24┼0┼",
             "PrefabID": "ed4e62dc12dca724ba1e5f374965096b",
+            "NameMatches": true,
             "Name": "Rack",
             "LocalPRS": "20┼24┼0┼"
           },
           {
             "GitID": "dd0556b2e76bfac48bfb3217e1177605_20.11┼23.85┼0┼",
             "PrefabID": "dd0556b2e76bfac48bfb3217e1177605",
+            "NameMatches": true,
             "Name": "MachineBoardJukebox",
             "LocalPRS": "20.11┼23.85┼0┼"
           },
           {
             "GitID": "c9d03be44229a74469be1b6738941ec3_20.11┼24.21┼0┼",
             "PrefabID": "c9d03be44229a74469be1b6738941ec3",
+            "NameMatches": true,
             "Name": "RemoteSignaller",
             "LocalPRS": "20.11┼24.21┼0┼"
           },
           {
             "GitID": "dd33a51f8c440da4cb4273b8954c03b3_20.37┼7.13┼0┼",
             "PrefabID": "dd33a51f8c440da4cb4273b8954c03b3",
+            "NameMatches": true,
             "Name": "RandomMedicalSuppliesSpawner",
             "LocalPRS": "20.37┼7.13┼0┼"
           },
           {
             "GitID": "7147422770216fc47b220e213ce8395c_20.82┼24.01┼0┼",
             "PrefabID": "7147422770216fc47b220e213ce8395c",
+            "NameMatches": true,
             "Name": "GoldBar",
             "LocalPRS": "20.82┼24.01┼0┼",
             "Object": {
@@ -33460,6 +33603,7 @@
           {
             "GitID": "af583b1807508a84cbd05b036e027d96_20.98┼2.02┼0┼",
             "PrefabID": "af583b1807508a84cbd05b036e027d96",
+            "NameMatches": true,
             "Name": "NPC_hivebot_Engineer",
             "LocalPRS": "20.98┼2.02┼0┼"
           },
@@ -33501,6 +33645,7 @@
           {
             "GitID": "1cbf5ea7cbc745545a7b382eeac3de03_21┼-9┼0┼",
             "PrefabID": "1cbf5ea7cbc745545a7b382eeac3de03",
+            "NameMatches": true,
             "Name": "FieldGenerator",
             "LocalPRS": "21┼-9┼0┼",
             "Object": {
@@ -33520,6 +33665,7 @@
           {
             "GitID": "1cbf5ea7cbc745545a7b382eeac3de03_21┼-3┼0┼",
             "PrefabID": "1cbf5ea7cbc745545a7b382eeac3de03",
+            "NameMatches": true,
             "Name": "FieldGenerator",
             "LocalPRS": "21┼-3┼0┼",
             "Object": {
@@ -33611,12 +33757,14 @@
           {
             "GitID": "12e1c77d42c790b45b786193dea1e6e7_21┼20.53┼0┼",
             "PrefabID": "12e1c77d42c790b45b786193dea1e6e7",
+            "NameMatches": true,
             "Name": "Randomtoolboxspawner",
             "LocalPRS": "21┼20.53┼0┼"
           },
           {
             "GitID": "032e150131f53a64fbf6048aca6a879a_21┼21.18┼0┼",
             "PrefabID": "032e150131f53a64fbf6048aca6a879a",
+            "NameMatches": true,
             "Name": "RandomToolSpawner",
             "LocalPRS": "21┼21.18┼0┼"
           },
@@ -33667,6 +33815,7 @@
           {
             "GitID": "ed4e62dc12dca724ba1e5f374965096b_21┼24┼0┼",
             "PrefabID": "ed4e62dc12dca724ba1e5f374965096b",
+            "NameMatches": true,
             "Name": "Rack",
             "LocalPRS": "21┼24┼0┼"
           },
@@ -33711,12 +33860,14 @@
           {
             "GitID": "xlbeaker_21.09┼22┼0┼",
             "PrefabID": "xlbeaker",
+            "NameMatches": true,
             "Name": "XLargeBeaker",
             "LocalPRS": "21.09┼22┼0┼"
           },
           {
             "GitID": "aca91ff2eea9cc64aa3bb9deb8964ab1_21.16┼23.96┼0┼",
             "PrefabID": "aca91ff2eea9cc64aa3bb9deb8964ab1",
+            "NameMatches": true,
             "Name": "SilverBar",
             "LocalPRS": "21.16┼23.96┼0┼",
             "Object": {
@@ -33736,12 +33887,14 @@
           {
             "GitID": "610dc78579806784da5f22405de2c07f_21.17┼20.02┼0┼",
             "PrefabID": "610dc78579806784da5f22405de2c07f",
+            "NameMatches": true,
             "Name": "RandomCigsSpawner",
             "LocalPRS": "21.17┼20.02┼0┼"
           },
           {
             "GitID": "b83b68cfa4a201748aeeece963a989c3_21.24┼24┼0┼",
             "PrefabID": "b83b68cfa4a201748aeeece963a989c3",
+            "NameMatches": true,
             "Name": "MetalSheet",
             "LocalPRS": "21.24┼24┼0┼",
             "Object": {
@@ -33819,6 +33972,7 @@
           {
             "GitID": "083cc5ef38feb934ba1d2d2511330190_23┼1┼0┼",
             "PrefabID": "083cc5ef38feb934ba1d2d2511330190",
+            "NameMatches": true,
             "Name": "ParticleAcceleratorFrontLeft",
             "LocalPRS": "23┼1┼0┼",
             "Object": {
@@ -33838,6 +33992,7 @@
           {
             "GitID": "3c17dd06c10d41546a933b249c71a1b4_23┼3┼0┼",
             "PrefabID": "3c17dd06c10d41546a933b249c71a1b4",
+            "NameMatches": true,
             "Name": "ParticleAcceleratorControlBox",
             "LocalPRS": "23┼3┼0┼",
             "Object": {
@@ -33857,6 +34012,7 @@
           {
             "GitID": "1f10fce737097ce44affadeeb9bea4da_23┼13┼0┼",
             "PrefabID": "1f10fce737097ce44affadeeb9bea4da",
+            "NameMatches": true,
             "Name": "AirlockGrunge",
             "LocalPRS": "23┼13┼0┼",
             "Object": {
@@ -33939,6 +34095,7 @@
           {
             "GitID": "54a552cbe4002ac44ae29b958a90e545_23┼34┼0┼",
             "PrefabID": "54a552cbe4002ac44ae29b958a90e545",
+            "NameMatches": true,
             "Name": "AirlockPublicWindowed",
             "LocalPRS": "23┼34┼0┼",
             "Object": {
@@ -33958,12 +34115,14 @@
           {
             "GitID": "f8286efb730db254eaba52139b874824_24┼-6┼0┼",
             "PrefabID": "f8286efb730db254eaba52139b874824",
+            "NameMatches": true,
             "Name": "GravitationalSingularityGenerator",
             "LocalPRS": "24┼-6┼0┼"
           },
           {
             "GitID": "fa0202b6d0eed884e97dae9581945714_24┼1┼0┼",
             "PrefabID": "fa0202b6d0eed884e97dae9581945714",
+            "NameMatches": true,
             "Name": "ParticleAcceleratorFront",
             "LocalPRS": "24┼1┼0┼",
             "Object": {
@@ -33983,6 +34142,7 @@
           {
             "GitID": "eecfad9cd6442d545abd06b18e530c70_24┼2┼0┼",
             "PrefabID": "eecfad9cd6442d545abd06b18e530c70",
+            "NameMatches": true,
             "Name": "ParticleAcceleratorPowerBox",
             "LocalPRS": "24┼2┼0┼",
             "Object": {
@@ -34002,6 +34162,7 @@
           {
             "GitID": "cbcc432a2edd69144b15e211d9952653_24┼3┼0┼",
             "PrefabID": "cbcc432a2edd69144b15e211d9952653",
+            "NameMatches": true,
             "Name": "ParticleAcceleratorFuelChamber",
             "LocalPRS": "24┼3┼0┼",
             "Object": {
@@ -34021,6 +34182,7 @@
           {
             "GitID": "70ae7aa3a24e47d47b73ff1d5e299334_24┼4┼0┼",
             "PrefabID": "70ae7aa3a24e47d47b73ff1d5e299334",
+            "NameMatches": true,
             "Name": "ParticleAcceleratorBack",
             "LocalPRS": "24┼4┼0┼",
             "Object": {
@@ -34040,6 +34202,7 @@
           {
             "GitID": "1f10fce737097ce44affadeeb9bea4da_24┼13┼0┼",
             "PrefabID": "1f10fce737097ce44affadeeb9bea4da",
+            "NameMatches": true,
             "Name": "AirlockGrunge",
             "LocalPRS": "24┼13┼0┼",
             "Object": {
@@ -34059,6 +34222,7 @@
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_24┼18┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "24┼18┼0┼0ø0ø90ø",
             "Object": {
@@ -34122,6 +34286,7 @@
           {
             "GitID": "54a552cbe4002ac44ae29b958a90e545_24┼34┼0┼",
             "PrefabID": "54a552cbe4002ac44ae29b958a90e545",
+            "NameMatches": true,
             "Name": "AirlockPublicWindowed",
             "LocalPRS": "24┼34┼0┼",
             "Object": {
@@ -34141,6 +34306,7 @@
           {
             "GitID": "ca2ad7d951ead6a4996aac36dd2f0174_25┼1┼0┼",
             "PrefabID": "ca2ad7d951ead6a4996aac36dd2f0174",
+            "NameMatches": true,
             "Name": "ParticleAcceleratorFrontRight",
             "LocalPRS": "25┼1┼0┼",
             "Object": {
@@ -34315,6 +34481,7 @@
           {
             "GitID": "12e1c77d42c790b45b786193dea1e6e7_26┼12.05┼0┼",
             "PrefabID": "12e1c77d42c790b45b786193dea1e6e7",
+            "NameMatches": true,
             "Name": "Randomtoolboxspawner",
             "LocalPRS": "26┼12.05┼0┼"
           },
@@ -34365,12 +34532,14 @@
           {
             "GitID": "71270ee865885154cb3d16d97e879cc8_26.64┼12.24┼0┼",
             "PrefabID": "71270ee865885154cb3d16d97e879cc8",
+            "NameMatches": true,
             "Name": "RandomEmergencyLight",
             "LocalPRS": "26.64┼12.24┼0┼"
           },
           {
             "GitID": "b83b68cfa4a201748aeeece963a989c3_26.95┼29.87┼0┼",
             "PrefabID": "b83b68cfa4a201748aeeece963a989c3",
+            "NameMatches": true,
             "Name": "MetalSheet",
             "LocalPRS": "26.95┼29.87┼0┼",
             "Object": {
@@ -34390,6 +34559,7 @@
           {
             "GitID": "1cbf5ea7cbc745545a7b382eeac3de03_27┼-9┼0┼",
             "PrefabID": "1cbf5ea7cbc745545a7b382eeac3de03",
+            "NameMatches": true,
             "Name": "FieldGenerator",
             "LocalPRS": "27┼-9┼0┼",
             "Object": {
@@ -34409,6 +34579,7 @@
           {
             "GitID": "1cbf5ea7cbc745545a7b382eeac3de03_27┼-3┼0┼",
             "PrefabID": "1cbf5ea7cbc745545a7b382eeac3de03",
+            "NameMatches": true,
             "Name": "FieldGenerator",
             "LocalPRS": "27┼-3┼0┼",
             "Object": {
@@ -34434,6 +34605,7 @@
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_27┼3┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "27┼3┼0┼0ø0ø90ø",
             "Object": {
@@ -34478,6 +34650,7 @@
           {
             "GitID": "be26d178314bedc419e95cd4466da4e5_27┼8┼0┼",
             "PrefabID": "be26d178314bedc419e95cd4466da4e5",
+            "NameMatches": true,
             "Name": "Sleeper",
             "LocalPRS": "27┼8┼0┼",
             "Object": {
@@ -34506,6 +34679,7 @@
           {
             "GitID": "c937e0abe85aca9499d09951de736ec6_27┼9┼0┼",
             "PrefabID": "c937e0abe85aca9499d09951de736ec6",
+            "NameMatches": true,
             "Name": "LightBulbFixture",
             "LocalPRS": "27┼9┼0┼0ø0ø90ø",
             "Object": {
@@ -34550,6 +34724,7 @@
           {
             "GitID": "be26d178314bedc419e95cd4466da4e5_27┼10┼0┼",
             "PrefabID": "be26d178314bedc419e95cd4466da4e5",
+            "NameMatches": true,
             "Name": "Sleeper",
             "LocalPRS": "27┼10┼0┼",
             "Object": {
@@ -34578,6 +34753,7 @@
           {
             "GitID": "c937e0abe85aca9499d09951de736ec6_27┼11┼0┼",
             "PrefabID": "c937e0abe85aca9499d09951de736ec6",
+            "NameMatches": true,
             "Name": "LightBulbFixture",
             "LocalPRS": "27┼11┼0┼0ø0ø90ø",
             "Object": {
@@ -34721,6 +34897,7 @@
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_28┼-6┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "28┼-6┼0┼0ø0ø90ø",
             "Object": {
@@ -34765,6 +34942,7 @@
           {
             "GitID": "1172c577b92e17940afd7e1729f184f6_28┼4┼0┼",
             "PrefabID": "1172c577b92e17940afd7e1729f184f6",
+            "NameMatches": true,
             "Name": "AirlockHatchGrunge",
             "LocalPRS": "28┼4┼0┼",
             "Object": {
@@ -34784,6 +34962,7 @@
           {
             "GitID": "1172c577b92e17940afd7e1729f184f6_28┼7┼0┼",
             "PrefabID": "1172c577b92e17940afd7e1729f184f6",
+            "NameMatches": true,
             "Name": "AirlockHatchGrunge",
             "LocalPRS": "28┼7┼0┼",
             "Object": {
@@ -34803,6 +34982,7 @@
           {
             "GitID": "5425ee650c49e0849b4bed132cfb588f_28┼7┼0┼",
             "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
+            "NameMatches": true,
             "Name": "TinyFan",
             "LocalPRS": "28┼7┼0┼"
           },
@@ -34853,6 +35033,7 @@
           {
             "GitID": "54a552cbe4002ac44ae29b958a90e545_28┼19┼0┼",
             "PrefabID": "54a552cbe4002ac44ae29b958a90e545",
+            "NameMatches": true,
             "Name": "AirlockPublicWindowed",
             "LocalPRS": "28┼19┼0┼",
             "Object": {
@@ -34872,6 +35053,7 @@
           {
             "GitID": "21bb3b22e17572f479870465dd940c9d_28┼22┼0┼",
             "PrefabID": "21bb3b22e17572f479870465dd940c9d",
+            "NameMatches": true,
             "Name": "OfficeChairDark",
             "LocalPRS": "28┼22┼0┼"
           },
@@ -34963,18 +35145,21 @@
           {
             "GitID": "ee778c3cb811c6f498c921308ac5e731_28┼32┼0┼",
             "PrefabID": "ee778c3cb811c6f498c921308ac5e731",
+            "NameMatches": true,
             "Name": "Hivebot Fabricator",
             "LocalPRS": "28┼32┼0┼"
           },
           {
             "GitID": "288980126acf5f441841169958c31630_28┼34┼0┼",
             "PrefabID": "288980126acf5f441841169958c31630",
+            "NameMatches": true,
             "Name": "HighCableCoil",
             "LocalPRS": "28┼34┼0┼"
           },
           {
             "GitID": "517c48fc4fc1cba48908d11ec58451ce_28┼34┼0┼",
             "PrefabID": "517c48fc4fc1cba48908d11ec58451ce",
+            "NameMatches": true,
             "Name": "EngineeringCrateElectrical",
             "LocalPRS": "28┼34┼0┼",
             "Object": {
@@ -34991,12 +35176,14 @@
           {
             "GitID": "7f32e42309899114b9c122f261161bc5_28┼34┼0┼",
             "PrefabID": "7f32e42309899114b9c122f261161bc5",
+            "NameMatches": true,
             "Name": "LowCableCoil",
             "LocalPRS": "28┼34┼0┼"
           },
           {
             "GitID": "c3e6805b264a935428b0de415ea57943_28┼34┼0┼",
             "PrefabID": "c3e6805b264a935428b0de415ea57943",
+            "NameMatches": true,
             "Name": "MediumCableCoil",
             "LocalPRS": "28┼34┼0┼"
           },
@@ -35047,18 +35234,21 @@
           {
             "GitID": "d6495a017b1b4634697738270d87d354_28┼34┼0┼",
             "PrefabID": "d6495a017b1b4634697738270d87d354",
+            "NameMatches": true,
             "Name": "RandomConstructionMatsSpawner",
             "LocalPRS": "28┼34┼0┼"
           },
           {
             "GitID": "4e067333d18d9724690055be203850b5_28.97┼5┼0┼",
             "PrefabID": "4e067333d18d9724690055be203850b5",
+            "NameMatches": true,
             "Name": "MaintLootx2",
             "LocalPRS": "28.97┼5┼0┼"
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_29┼-13┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "29┼-13┼0┼0ø0ø180ø",
             "Object": {
@@ -35103,6 +35293,7 @@
           {
             "GitID": "1f10fce737097ce44affadeeb9bea4da_29┼1┼0┼",
             "PrefabID": "1f10fce737097ce44affadeeb9bea4da",
+            "NameMatches": true,
             "Name": "AirlockGrunge",
             "LocalPRS": "29┼1┼0┼",
             "Object": {
@@ -35122,6 +35313,7 @@
           {
             "GitID": "1f10fce737097ce44affadeeb9bea4da_29┼2┼0┼",
             "PrefabID": "1f10fce737097ce44affadeeb9bea4da",
+            "NameMatches": true,
             "Name": "AirlockGrunge",
             "LocalPRS": "29┼2┼0┼",
             "Object": {
@@ -35141,12 +35333,14 @@
           {
             "GitID": "82cb1c39112974a498a9756981eb07d0_29┼5┼0┼",
             "PrefabID": "82cb1c39112974a498a9756981eb07d0",
+            "NameMatches": true,
             "Name": "Pickaxe",
             "LocalPRS": "29┼5┼0┼"
           },
           {
             "GitID": "ed4e62dc12dca724ba1e5f374965096b_29┼5┼0┼",
             "PrefabID": "ed4e62dc12dca724ba1e5f374965096b",
+            "NameMatches": true,
             "Name": "Rack",
             "LocalPRS": "29┼5┼0┼"
           },
@@ -35172,6 +35366,7 @@
           {
             "GitID": "1a00e842e154f7d43811c5d45328988c_29┼11┼0┼",
             "PrefabID": "1a00e842e154f7d43811c5d45328988c",
+            "NameMatches": true,
             "Name": "Chair",
             "LocalPRS": "29┼11┼0┼",
             "Object": {
@@ -35191,6 +35386,7 @@
           {
             "GitID": "423cab216aa4e354f8159742cc80d10a_29┼17┼0┼",
             "PrefabID": "423cab216aa4e354f8159742cc80d10a",
+            "NameMatches": true,
             "Name": "BedSheet",
             "LocalPRS": "29┼17┼0┼"
           },
@@ -35241,6 +35437,7 @@
           {
             "GitID": "8f5ccb83cc0733748a9137c50f7049c7_29.82┼10.59┼0┼",
             "PrefabID": "8f5ccb83cc0733748a9137c50f7049c7",
+            "NameMatches": true,
             "Name": "randomsodaspawner",
             "LocalPRS": "29.82┼10.59┼0┼"
           },
@@ -35294,6 +35491,7 @@
           {
             "GitID": "610dc78579806784da5f22405de2c07f_30┼10.99┼0┼",
             "PrefabID": "610dc78579806784da5f22405de2c07f",
+            "NameMatches": true,
             "Name": "RandomCigsSpawner",
             "LocalPRS": "30┼10.99┼0┼"
           },
@@ -35466,18 +35664,21 @@
           {
             "GitID": "b09e9d95fbf80594c8bbcf60be9b3f93_30.01┼10.06┼0┼",
             "PrefabID": "b09e9d95fbf80594c8bbcf60be9b3f93",
+            "NameMatches": true,
             "Name": "ChocolateBar",
             "LocalPRS": "30.01┼10.06┼0┼"
           },
           {
             "GitID": "64d5c9ab8878bda40a88c82b3a0bc0a3_30.2┼10.46┼0┼",
             "PrefabID": "64d5c9ab8878bda40a88c82b3a0bc0a3",
+            "NameMatches": true,
             "Name": "RandomLighterSpawner",
             "LocalPRS": "30.2┼10.46┼0┼"
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_31┼-9┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "31┼-9┼0┼0ø0ø90ø",
             "Object": {
@@ -35616,6 +35817,7 @@
           {
             "GitID": "10b4df308fde4ce4da5578a90de97c13_31┼25┼0┼",
             "PrefabID": "10b4df308fde4ce4da5578a90de97c13",
+            "NameMatches": true,
             "Name": "AirlockHighSecurity",
             "LocalPRS": "31┼25┼0┼",
             "Object": {
@@ -35703,12 +35905,14 @@
           {
             "GitID": "9b996da43261266449d4ad99b2ddac7f_31┼36┼0┼",
             "PrefabID": "9b996da43261266449d4ad99b2ddac7f",
+            "NameMatches": true,
             "Name": "ConnectorPort",
             "LocalPRS": "31┼36┼0┼"
           },
           {
             "GitID": "b83b68cfa4a201748aeeece963a989c3_31.22┼20.91┼0┼",
             "PrefabID": "b83b68cfa4a201748aeeece963a989c3",
+            "NameMatches": true,
             "Name": "MetalSheet",
             "LocalPRS": "31.22┼20.91┼0┼",
             "Object": {
@@ -35728,6 +35932,7 @@
           {
             "GitID": "1172c577b92e17940afd7e1729f184f6_32┼-13┼0┼",
             "PrefabID": "1172c577b92e17940afd7e1729f184f6",
+            "NameMatches": true,
             "Name": "AirlockHatchGrunge",
             "LocalPRS": "32┼-13┼0┼",
             "Object": {
@@ -35747,6 +35952,7 @@
           {
             "GitID": "1f10fce737097ce44affadeeb9bea4da_32┼-6┼0┼",
             "PrefabID": "1f10fce737097ce44affadeeb9bea4da",
+            "NameMatches": true,
             "Name": "AirlockGrunge",
             "LocalPRS": "32┼-6┼0┼",
             "Object": {
@@ -35829,6 +36035,7 @@
           {
             "GitID": "54a552cbe4002ac44ae29b958a90e545_32┼19┼0┼",
             "PrefabID": "54a552cbe4002ac44ae29b958a90e545",
+            "NameMatches": true,
             "Name": "AirlockPublicWindowed",
             "LocalPRS": "32┼19┼0┼",
             "Object": {
@@ -35848,12 +36055,14 @@
           {
             "GitID": "ee778c3cb811c6f498c921308ac5e731_32┼22┼0┼",
             "PrefabID": "ee778c3cb811c6f498c921308ac5e731",
+            "NameMatches": true,
             "Name": "Hivebot Fabricator",
             "LocalPRS": "32┼22┼0┼"
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_32┼24┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "32┼24┼0┼0ø0ø180ø",
             "Object": {
@@ -35942,6 +36151,7 @@
           {
             "GitID": "c0e96760c016b6140ba8c3979e9213f7_32┼29┼0┼",
             "PrefabID": "c0e96760c016b6140ba8c3979e9213f7",
+            "NameMatches": true,
             "Name": "CanisterBase",
             "LocalPRS": "32┼29┼0┼"
           },
@@ -35992,12 +36202,14 @@
           {
             "GitID": "64b0546c6b2243241846fced5f70f123_32┼31┼0┼",
             "PrefabID": "64b0546c6b2243241846fced5f70f123",
+            "NameMatches": true,
             "Name": "PipeDispenser",
             "LocalPRS": "32┼31┼0┼"
           },
           {
             "GitID": "9b996da43261266449d4ad99b2ddac7f_32┼33┼0┼",
             "PrefabID": "9b996da43261266449d4ad99b2ddac7f",
+            "NameMatches": true,
             "Name": "ConnectorPort",
             "LocalPRS": "32┼33┼0┼0ø0ø270ø",
             "Object": {
@@ -36061,12 +36273,14 @@
           {
             "GitID": "af583b1807508a84cbd05b036e027d96_32.99┼-3.02┼0┼",
             "PrefabID": "af583b1807508a84cbd05b036e027d96",
+            "NameMatches": true,
             "Name": "NPC_hivebot_Engineer",
             "LocalPRS": "32.99┼-3.02┼0┼"
           },
           {
             "GitID": "1f10fce737097ce44affadeeb9bea4da_33┼-6┼0┼",
             "PrefabID": "1f10fce737097ce44affadeeb9bea4da",
+            "NameMatches": true,
             "Name": "AirlockGrunge",
             "LocalPRS": "33┼-6┼0┼",
             "Object": {
@@ -36086,6 +36300,7 @@
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_33┼-2┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "33┼-2┼0┼0ø0ø90ø",
             "Object": {
@@ -36155,6 +36370,7 @@
           {
             "GitID": "10b4df308fde4ce4da5578a90de97c13_33┼25┼0┼",
             "PrefabID": "10b4df308fde4ce4da5578a90de97c13",
+            "NameMatches": true,
             "Name": "AirlockHighSecurity",
             "LocalPRS": "33┼25┼0┼",
             "Object": {
@@ -36174,6 +36390,7 @@
           {
             "GitID": "7dea0790d26246447a9b881689c7dbdf_33┼37┼0┼",
             "PrefabID": "7dea0790d26246447a9b881689c7dbdf",
+            "NameMatches": true,
             "Name": "AirlockExternalWindowed",
             "LocalPRS": "33┼37┼0┼",
             "Object": {
@@ -36209,6 +36426,7 @@
           {
             "GitID": "cb2f847ef3b8b754181a970a4032c552_33┼39┼0┼",
             "PrefabID": "cb2f847ef3b8b754181a970a4032c552",
+            "NameMatches": true,
             "Name": "AirScrubber",
             "LocalPRS": "33┼39┼0┼0ø0ø180ø",
             "Object": {
@@ -36281,12 +36499,14 @@
           {
             "GitID": "dbfef72a303adaa489b990c1ac8a96da_33.8┼16.95┼0┼",
             "PrefabID": "dbfef72a303adaa489b990c1ac8a96da",
+            "NameMatches": true,
             "Name": "BulletproofVest",
             "LocalPRS": "33.8┼16.95┼0┼"
           },
           {
             "GitID": "9363154ec4a288f41b8c9681e3531539_33.89┼18.24┼0┼",
             "PrefabID": "9363154ec4a288f41b8c9681e3531539",
+            "NameMatches": true,
             "Name": "OP70Handgun",
             "LocalPRS": "33.89┼18.24┼0┼",
             "Object": {
@@ -36308,12 +36528,14 @@
           {
             "GitID": "53f6552a4b56f2d49892b40149511a62_33.9┼11.5┼0┼",
             "PrefabID": "53f6552a4b56f2d49892b40149511a62",
+            "NameMatches": true,
             "Name": "BoxOfDrinkingGlasses",
             "LocalPRS": "33.9┼11.5┼0┼"
           },
           {
             "GitID": "b83b68cfa4a201748aeeece963a989c3_33.95┼5.93┼0┼",
             "PrefabID": "b83b68cfa4a201748aeeece963a989c3",
+            "NameMatches": true,
             "Name": "MetalSheet",
             "LocalPRS": "33.95┼5.93┼0┼",
             "Object": {
@@ -36339,18 +36561,21 @@
           {
             "GitID": "185de036320d458499ea157f9966a162_33.99┼-11.99┼0┼",
             "PrefabID": "185de036320d458499ea157f9966a162",
+            "NameMatches": true,
             "Name": "RandomBoxSpawner",
             "LocalPRS": "33.99┼-11.99┼0┼"
           },
           {
             "GitID": "8fb9b82aab871a54fb9bdb7e4a985821_33.99┼-11.99┼0┼",
             "PrefabID": "8fb9b82aab871a54fb9bdb7e4a985821",
+            "NameMatches": true,
             "Name": "MaintLoot",
             "LocalPRS": "33.99┼-11.99┼0┼"
           },
           {
             "GitID": "68a3eee06f0a8cf4da5d8ab811ce1c73_34┼-12┼0┼",
             "PrefabID": "68a3eee06f0a8cf4da5d8ab811ce1c73",
+            "NameMatches": true,
             "Name": "ClosetBase",
             "LocalPRS": "34┼-12┼0┼"
           },
@@ -36505,6 +36730,7 @@
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_34┼-1┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "34┼-1┼0┼",
             "Object": {
@@ -36559,6 +36785,7 @@
           {
             "GitID": "1d35052f4fc2cad4d8226d1a63e4a1b3_34┼6┼0┼",
             "PrefabID": "1d35052f4fc2cad4d8226d1a63e4a1b3",
+            "NameMatches": true,
             "Name": "CrateBase",
             "LocalPRS": "34┼6┼0┼",
             "Object": {
@@ -36575,18 +36802,21 @@
           {
             "GitID": "66f05879999b49141bbfc4e0fdc9903a_34┼8┼0┼",
             "PrefabID": "66f05879999b49141bbfc4e0fdc9903a",
+            "NameMatches": true,
             "Name": "WaterTankHighCapacity",
             "LocalPRS": "34┼8┼0┼"
           },
           {
             "GitID": "34894a7b128fef84588648dd03311de5_34┼10┼0┼",
             "PrefabID": "34894a7b128fef84588648dd03311de5",
+            "NameMatches": true,
             "Name": "RottenMeat",
             "LocalPRS": "34┼10┼0┼"
           },
           {
             "GitID": "fd2b975bb2d60fb429c193f9ef1d31b0_34┼10.5┼0┼",
             "PrefabID": "fd2b975bb2d60fb429c193f9ef1d31b0",
+            "NameMatches": true,
             "Name": "RollingPin",
             "LocalPRS": "34┼10.5┼0┼"
           },
@@ -36637,6 +36867,7 @@
           {
             "GitID": "fe66ec36f566be84a9ccbc5a90aacd6f_34┼12┼0┼",
             "PrefabID": "fe66ec36f566be84a9ccbc5a90aacd6f",
+            "NameMatches": true,
             "Name": "Bowl",
             "LocalPRS": "34┼12┼0┼"
           },
@@ -36687,12 +36918,14 @@
           {
             "GitID": "ed4e62dc12dca724ba1e5f374965096b_34┼17┼0┼",
             "PrefabID": "ed4e62dc12dca724ba1e5f374965096b",
+            "NameMatches": true,
             "Name": "Rack",
             "LocalPRS": "34┼17┼0┼"
           },
           {
             "GitID": "ed4e62dc12dca724ba1e5f374965096b_34┼18┼0┼",
             "PrefabID": "ed4e62dc12dca724ba1e5f374965096b",
+            "NameMatches": true,
             "Name": "Rack",
             "LocalPRS": "34┼18┼0┼"
           },
@@ -36758,12 +36991,14 @@
           {
             "GitID": "c27cb1a9c87d9c94abaaf3bd9df216df_34┼33┼0┼",
             "PrefabID": "c27cb1a9c87d9c94abaaf3bd9df216df",
+            "NameMatches": true,
             "Name": "GasFilterOffFlipped",
             "LocalPRS": "34┼33┼0┼"
           },
           {
             "GitID": "9363154ec4a288f41b8c9681e3531539_34.01┼18.05┼0┼",
             "PrefabID": "9363154ec4a288f41b8c9681e3531539",
+            "NameMatches": true,
             "Name": "OP70Handgun",
             "LocalPRS": "34.01┼18.05┼0┼",
             "Object": {
@@ -36785,18 +37020,21 @@
           {
             "GitID": "e66fdcdbf689d6f468a545c4069c6a93_34.03┼6.09┼0┼",
             "PrefabID": "e66fdcdbf689d6f468a545c4069c6a93",
+            "NameMatches": true,
             "Name": "MaintenancePeaches",
             "LocalPRS": "34.03┼6.09┼0┼"
           },
           {
             "GitID": "c05c071c51fbfec408e4c9f6240dc824_34.13┼16.99┼0┼",
             "PrefabID": "c05c071c51fbfec408e4c9f6240dc824",
+            "NameMatches": true,
             "Name": "ArmoryContrabandGunSpawner",
             "LocalPRS": "34.13┼16.99┼0┼"
           },
           {
             "GitID": "9363154ec4a288f41b8c9681e3531539_34.16┼17.91┼0┼",
             "PrefabID": "9363154ec4a288f41b8c9681e3531539",
+            "NameMatches": true,
             "Name": "OP70Handgun",
             "LocalPRS": "34.16┼17.91┼0┼",
             "Object": {
@@ -36818,6 +37056,7 @@
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_34.96┼24┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
+            "NameMatches": true,
             "Name": "SolidPlasmaSheet",
             "LocalPRS": "34.96┼24┼0┼",
             "Object": {
@@ -36837,6 +37076,7 @@
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_35┼-7┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "35┼-7┼0┼0ø0ø180ø",
             "Object": {
@@ -36913,6 +37153,7 @@
           {
             "GitID": "f2432d244a6b7774ea00ff013beb7dcb_35┼-2┼0┼",
             "PrefabID": "f2432d244a6b7774ea00ff013beb7dcb",
+            "NameMatches": true,
             "Name": "LightSwitch",
             "LocalPRS": "35┼-2┼0┼",
             "Object": {
@@ -37127,6 +37368,7 @@
           {
             "GitID": "7a167eaa044fd7142ad12de730b62846_35┼30┼0┼",
             "PrefabID": "7a167eaa044fd7142ad12de730b62846",
+            "NameMatches": true,
             "Name": "GasMixerOff",
             "LocalPRS": "35┼30┼0┼0ø0ø90ø",
             "Object": {
@@ -37152,18 +37394,21 @@
           {
             "GitID": "b2d9e215b3fd72d41a5df489b5b86386_35┼39.05┼0┼",
             "PrefabID": "b2d9e215b3fd72d41a5df489b5b86386",
+            "NameMatches": true,
             "Name": "RandomCanisterSpawner",
             "LocalPRS": "35┼39.05┼0┼"
           },
           {
             "GitID": "9759789a5180a46419c8a7e2e50748e2_35┼40┼0┼",
             "PrefabID": "9759789a5180a46419c8a7e2e50748e2",
+            "NameMatches": true,
             "Name": "CanisterCarbonDioxide",
             "LocalPRS": "35┼40┼0┼"
           },
           {
             "GitID": "1d35052f4fc2cad4d8226d1a63e4a1b3_35┼47┼0┼",
             "PrefabID": "1d35052f4fc2cad4d8226d1a63e4a1b3",
+            "NameMatches": true,
             "Name": "CrateBase",
             "LocalPRS": "35┼47┼0┼",
             "Object": {
@@ -37180,12 +37425,14 @@
           {
             "GitID": "d6495a017b1b4634697738270d87d354_35.02┼47.04┼0┼",
             "PrefabID": "d6495a017b1b4634697738270d87d354",
+            "NameMatches": true,
             "Name": "RandomConstructionMatsSpawner",
             "LocalPRS": "35.02┼47.04┼0┼"
           },
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_35.03┼47.02┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
+            "NameMatches": true,
             "Name": "SolidPlasmaSheet",
             "LocalPRS": "35.03┼47.02┼0┼",
             "Object": {
@@ -37205,6 +37452,7 @@
           {
             "GitID": "e85621ccf37627c47bb04b501d86fb83_35.03┼47.02┼0┼",
             "PrefabID": "e85621ccf37627c47bb04b501d86fb83",
+            "NameMatches": true,
             "Name": "UraniumSheet",
             "LocalPRS": "35.03┼47.02┼0┼",
             "Object": {
@@ -37224,12 +37472,14 @@
           {
             "GitID": "678d8623073f29f4cb23d4cb26359cd4_35.79┼18.18┼0┼",
             "PrefabID": "678d8623073f29f4cb23d4cb26359cd4",
+            "NameMatches": true,
             "Name": "PistolMagazine9mm",
             "LocalPRS": "35.79┼18.18┼0┼"
           },
           {
             "GitID": "678d8623073f29f4cb23d4cb26359cd4_35.85┼17.97┼0┼",
             "PrefabID": "678d8623073f29f4cb23d4cb26359cd4",
+            "NameMatches": true,
             "Name": "PistolMagazine9mm",
             "LocalPRS": "35.85┼17.97┼0┼"
           },
@@ -37242,12 +37492,14 @@
           {
             "GitID": "6bd9037fbb19a79409aab54675bc363e_35.96┼20.12┼0┼",
             "PrefabID": "6bd9037fbb19a79409aab54675bc363e",
+            "NameMatches": true,
             "Name": "ComputerBoardShuttlePilotingConsole",
             "LocalPRS": "35.96┼20.12┼0┼"
           },
           {
             "GitID": "1f10fce737097ce44affadeeb9bea4da_36┼-2┼0┼",
             "PrefabID": "1f10fce737097ce44affadeeb9bea4da",
+            "NameMatches": true,
             "Name": "AirlockGrunge",
             "LocalPRS": "36┼-2┼0┼",
             "Object": {
@@ -37267,6 +37519,7 @@
           {
             "GitID": "cbae9a210d638ba4b9402e836c970fa2_36┼9┼0┼",
             "PrefabID": "cbae9a210d638ba4b9402e836c970fa2",
+            "NameMatches": true,
             "Name": "Microwave",
             "LocalPRS": "36┼9┼0┼",
             "Object": {
@@ -37293,6 +37546,7 @@
           {
             "GitID": "c5aecb2f211bbae49916919ff6128733_36┼10┼0┼",
             "PrefabID": "c5aecb2f211bbae49916919ff6128733",
+            "NameMatches": true,
             "Name": "SodaDispenser",
             "LocalPRS": "36┼10┼0┼",
             "Object": {
@@ -37321,6 +37575,7 @@
           {
             "GitID": "133b93fb7d8a5794bbfff599bea64863_36┼11┼0┼",
             "PrefabID": "133b93fb7d8a5794bbfff599bea64863",
+            "NameMatches": true,
             "Name": "BoozeDispenser",
             "LocalPRS": "36┼11┼0┼",
             "Object": {
@@ -37349,18 +37604,21 @@
           {
             "GitID": "2e464f403424dbd409a91b0abbb4121c_36┼12┼0┼",
             "PrefabID": "2e464f403424dbd409a91b0abbb4121c",
+            "NameMatches": true,
             "Name": "MonkeyEnergy",
             "LocalPRS": "36┼12┼0┼"
           },
           {
             "GitID": "60badd0969907f044819febb546b443f_36┼12┼0┼",
             "PrefabID": "60badd0969907f044819febb546b443f",
+            "NameMatches": true,
             "Name": "FreezerRefridgerator",
             "LocalPRS": "36┼12┼0┼"
           },
           {
             "GitID": "8f5ccb83cc0733748a9137c50f7049c7_36┼12┼0┼",
             "PrefabID": "8f5ccb83cc0733748a9137c50f7049c7",
+            "NameMatches": true,
             "Name": "randomsodaspawner",
             "LocalPRS": "36┼12┼0┼"
           },
@@ -37408,6 +37666,7 @@
           {
             "GitID": "bc0cd2a586c78b846a43622b6ea5c953_36┼22┼0┼",
             "PrefabID": "bc0cd2a586c78b846a43622b6ea5c953",
+            "NameMatches": true,
             "Name": "Recharger",
             "LocalPRS": "36┼22┼0┼",
             "Object": {
@@ -37527,30 +37786,35 @@
           {
             "GitID": "9944313d68658b341966d43e2c218eaa_36┼40┼0┼",
             "PrefabID": "9944313d68658b341966d43e2c218eaa",
+            "NameMatches": true,
             "Name": "CanisterNitrogen",
             "LocalPRS": "36┼40┼0┼"
           },
           {
             "GitID": "7fd11f09765590540b2685a0dfa2b8ea_36.01┼16.88┼0┼",
             "PrefabID": "7fd11f09765590540b2685a0dfa2b8ea",
+            "NameMatches": true,
             "Name": "LaserCarbine",
             "LocalPRS": "36.01┼16.88┼0┼"
           },
           {
             "GitID": "7fd11f09765590540b2685a0dfa2b8ea_36.01┼17.08┼0┼",
             "PrefabID": "7fd11f09765590540b2685a0dfa2b8ea",
+            "NameMatches": true,
             "Name": "LaserCarbine",
             "LocalPRS": "36.01┼17.08┼0┼"
           },
           {
             "GitID": "7fd11f09765590540b2685a0dfa2b8ea_36.01┼17.25┼0┼",
             "PrefabID": "7fd11f09765590540b2685a0dfa2b8ea",
+            "NameMatches": true,
             "Name": "LaserCarbine",
             "LocalPRS": "36.01┼17.25┼0┼"
           },
           {
             "GitID": "160baf50e4a27c24a8c1f40b3232c886_36.02┼12┼0┼",
             "PrefabID": "160baf50e4a27c24a8c1f40b3232c886",
+            "NameMatches": true,
             "Name": "BoxOfDonkPockets",
             "LocalPRS": "36.02┼12┼0┼",
             "Object": {
@@ -37567,18 +37831,21 @@
           {
             "GitID": "678d8623073f29f4cb23d4cb26359cd4_36.02┼18.17┼0┼",
             "PrefabID": "678d8623073f29f4cb23d4cb26359cd4",
+            "NameMatches": true,
             "Name": "PistolMagazine9mm",
             "LocalPRS": "36.02┼18.17┼0┼"
           },
           {
             "GitID": "678d8623073f29f4cb23d4cb26359cd4_36.19┼18┼0┼",
             "PrefabID": "678d8623073f29f4cb23d4cb26359cd4",
+            "NameMatches": true,
             "Name": "PistolMagazine9mm",
             "LocalPRS": "36.19┼18┼0┼"
           },
           {
             "GitID": "796601fd29f46de47aea93cd84ab063f_36.25┼18.16┼0┼",
             "PrefabID": "796601fd29f46de47aea93cd84ab063f",
+            "NameMatches": true,
             "Name": "PistolMagazine9mmArmorPiercing",
             "LocalPRS": "36.25┼18.16┼0┼"
           },
@@ -37591,6 +37858,7 @@
           {
             "GitID": "1f10fce737097ce44affadeeb9bea4da_37┼-2┼0┼",
             "PrefabID": "1f10fce737097ce44affadeeb9bea4da",
+            "NameMatches": true,
             "Name": "AirlockGrunge",
             "LocalPRS": "37┼-2┼0┼",
             "Object": {
@@ -37610,6 +37878,7 @@
           {
             "GitID": "1172c577b92e17940afd7e1729f184f6_37┼2┼0┼",
             "PrefabID": "1172c577b92e17940afd7e1729f184f6",
+            "NameMatches": true,
             "Name": "AirlockHatchGrunge",
             "LocalPRS": "37┼2┼0┼",
             "Object": {
@@ -37648,12 +37917,14 @@
           {
             "GitID": "dd86caf1f673b7642be83819773021d8_37┼40┼0┼",
             "PrefabID": "dd86caf1f673b7642be83819773021d8",
+            "NameMatches": true,
             "Name": "CanisterOxygen",
             "LocalPRS": "37┼40┼0┼"
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_38┼-4┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "38┼-4┼0┼0ø0ø90ø",
             "Object": {
@@ -37698,6 +37969,7 @@
           {
             "GitID": "1172c577b92e17940afd7e1729f184f6_38┼13┼0┼",
             "PrefabID": "1172c577b92e17940afd7e1729f184f6",
+            "NameMatches": true,
             "Name": "AirlockHatchGrunge",
             "LocalPRS": "38┼13┼0┼",
             "Object": {
@@ -37887,6 +38159,7 @@
           {
             "GitID": "9b996da43261266449d4ad99b2ddac7f_38┼35┼0┼",
             "PrefabID": "9b996da43261266449d4ad99b2ddac7f",
+            "NameMatches": true,
             "Name": "ConnectorPort",
             "LocalPRS": "38┼35┼0┼0ø0ø90ø",
             "Object": {
@@ -37950,6 +38223,7 @@
           {
             "GitID": "151d489becc4ca64f878f37a991c138e_38┼38┼0┼",
             "PrefabID": "151d489becc4ca64f878f37a991c138e",
+            "NameMatches": true,
             "Name": "CanisterAir",
             "LocalPRS": "38┼38┼0┼"
           },
@@ -37962,12 +38236,14 @@
           {
             "GitID": "dd553da79275dac409d269c0d6ec571c_38┼40┼0┼",
             "PrefabID": "dd553da79275dac409d269c0d6ec571c",
+            "NameMatches": true,
             "Name": "CanisterPlasma",
             "LocalPRS": "38┼40┼0┼"
           },
           {
             "GitID": "1172c577b92e17940afd7e1729f184f6_39┼6┼0┼",
             "PrefabID": "1172c577b92e17940afd7e1729f184f6",
+            "NameMatches": true,
             "Name": "AirlockHatchGrunge",
             "LocalPRS": "39┼6┼0┼",
             "Object": {
@@ -37987,6 +38263,7 @@
           {
             "GitID": "f2432d244a6b7774ea00ff013beb7dcb_39┼34┼0┼",
             "PrefabID": "f2432d244a6b7774ea00ff013beb7dcb",
+            "NameMatches": true,
             "Name": "LightSwitch",
             "LocalPRS": "39┼34┼0┼",
             "Object": {
@@ -38040,6 +38317,7 @@
           {
             "GitID": "1172c577b92e17940afd7e1729f184f6_39┼45┼0┼",
             "PrefabID": "1172c577b92e17940afd7e1729f184f6",
+            "NameMatches": true,
             "Name": "AirlockHatchGrunge",
             "LocalPRS": "39┼45┼0┼",
             "Object": {
@@ -38059,6 +38337,7 @@
           {
             "GitID": "54a552cbe4002ac44ae29b958a90e545_40┼1┼0┼",
             "PrefabID": "54a552cbe4002ac44ae29b958a90e545",
+            "NameMatches": true,
             "Name": "AirlockPublicWindowed",
             "LocalPRS": "40┼1┼0┼",
             "Object": {
@@ -38078,6 +38357,7 @@
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_40┼4┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "40┼4┼0┼0ø0ø270ø",
             "Object": {
@@ -38248,6 +38528,7 @@
           {
             "GitID": "1f10fce737097ce44affadeeb9bea4da_40┼48┼0┼",
             "PrefabID": "1f10fce737097ce44affadeeb9bea4da",
+            "NameMatches": true,
             "Name": "AirlockGrunge",
             "LocalPRS": "40┼48┼0┼",
             "Object": {
@@ -38267,6 +38548,7 @@
           {
             "GitID": "1172c577b92e17940afd7e1729f184f6_41┼-9┼0┼",
             "PrefabID": "1172c577b92e17940afd7e1729f184f6",
+            "NameMatches": true,
             "Name": "AirlockHatchGrunge",
             "LocalPRS": "41┼-9┼0┼",
             "Object": {
@@ -38286,6 +38568,7 @@
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_41┼-5┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "41┼-5┼0┼0ø0ø90ø",
             "Object": {
@@ -38330,6 +38613,7 @@
           {
             "GitID": "54a552cbe4002ac44ae29b958a90e545_41┼1┼0┼",
             "PrefabID": "54a552cbe4002ac44ae29b958a90e545",
+            "NameMatches": true,
             "Name": "AirlockPublicWindowed",
             "LocalPRS": "41┼1┼0┼",
             "Object": {
@@ -38349,6 +38633,7 @@
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_41┼10┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "41┼10┼0┼0ø0ø90ø",
             "Object": {
@@ -38519,6 +38804,7 @@
           {
             "GitID": "1f10fce737097ce44affadeeb9bea4da_41┼48┼0┼",
             "PrefabID": "1f10fce737097ce44affadeeb9bea4da",
+            "NameMatches": true,
             "Name": "AirlockGrunge",
             "LocalPRS": "41┼48┼0┼",
             "Object": {
@@ -38538,6 +38824,7 @@
           {
             "GitID": "1f10fce737097ce44affadeeb9bea4da_42┼-3┼0┼",
             "PrefabID": "1f10fce737097ce44affadeeb9bea4da",
+            "NameMatches": true,
             "Name": "AirlockGrunge",
             "LocalPRS": "42┼-3┼0┼",
             "Object": {
@@ -38557,6 +38844,7 @@
           {
             "GitID": "1f10fce737097ce44affadeeb9bea4da_42┼-2┼0┼",
             "PrefabID": "1f10fce737097ce44affadeeb9bea4da",
+            "NameMatches": true,
             "Name": "AirlockGrunge",
             "LocalPRS": "42┼-2┼0┼",
             "Object": {
@@ -38576,6 +38864,7 @@
           {
             "GitID": "1172c577b92e17940afd7e1729f184f6_42┼6┼0┼",
             "PrefabID": "1172c577b92e17940afd7e1729f184f6",
+            "NameMatches": true,
             "Name": "AirlockHatchGrunge",
             "LocalPRS": "42┼6┼0┼",
             "Object": {
@@ -38744,6 +39033,7 @@
           {
             "GitID": "1172c577b92e17940afd7e1729f184f6_42┼26┼0┼",
             "PrefabID": "1172c577b92e17940afd7e1729f184f6",
+            "NameMatches": true,
             "Name": "AirlockHatchGrunge",
             "LocalPRS": "42┼26┼0┼",
             "Object": {
@@ -38782,18 +39072,21 @@
           {
             "GitID": "c0cbb1853d350404685a523d617f3458_42.87┼21.05┼0┼",
             "PrefabID": "c0cbb1853d350404685a523d617f3458",
+            "NameMatches": true,
             "Name": "MachineBoardHydroponicsTray",
             "LocalPRS": "42.87┼21.05┼0┼"
           },
           {
             "GitID": "c0cbb1853d350404685a523d617f3458_42.93┼20.84┼0┼",
             "PrefabID": "c0cbb1853d350404685a523d617f3458",
+            "NameMatches": true,
             "Name": "MachineBoardHydroponicsTray",
             "LocalPRS": "42.93┼20.84┼0┼"
           },
           {
             "GitID": "c937e0abe85aca9499d09951de736ec6_43┼10┼0┼",
             "PrefabID": "c937e0abe85aca9499d09951de736ec6",
+            "NameMatches": true,
             "Name": "LightBulbFixture",
             "LocalPRS": "43┼10┼0┼0ø0ø270ø",
             "Object": {
@@ -38844,12 +39137,14 @@
           {
             "GitID": "68a3eee06f0a8cf4da5d8ab811ce1c73_43┼17┼0┼",
             "PrefabID": "68a3eee06f0a8cf4da5d8ab811ce1c73",
+            "NameMatches": true,
             "Name": "ClosetBase",
             "LocalPRS": "43┼17┼0┼"
           },
           {
             "GitID": "fa63846bcecd1d14b8644f96e78f9888_43┼17┼0┼",
             "PrefabID": "fa63846bcecd1d14b8644f96e78f9888",
+            "NameMatches": true,
             "Name": "MaintLootx3",
             "LocalPRS": "43┼17┼0┼",
             "Object": {
@@ -38869,18 +39164,21 @@
           {
             "GitID": "68a3eee06f0a8cf4da5d8ab811ce1c73_43┼18┼0┼",
             "PrefabID": "68a3eee06f0a8cf4da5d8ab811ce1c73",
+            "NameMatches": true,
             "Name": "ClosetBase",
             "LocalPRS": "43┼18┼0┼"
           },
           {
             "GitID": "b9c954894479b5146a8bf34dd8622f00_43┼18┼0┼",
             "PrefabID": "b9c954894479b5146a8bf34dd8622f00",
+            "NameMatches": true,
             "Name": "RandomHatSpawner",
             "LocalPRS": "43┼18┼0┼"
           },
           {
             "GitID": "fa63846bcecd1d14b8644f96e78f9888_43┼18┼0┼",
             "PrefabID": "fa63846bcecd1d14b8644f96e78f9888",
+            "NameMatches": true,
             "Name": "MaintLootx3",
             "LocalPRS": "43┼18┼0┼",
             "Object": {
@@ -38900,12 +39198,14 @@
           {
             "GitID": "68a3eee06f0a8cf4da5d8ab811ce1c73_43┼19┼0┼",
             "PrefabID": "68a3eee06f0a8cf4da5d8ab811ce1c73",
+            "NameMatches": true,
             "Name": "ClosetBase",
             "LocalPRS": "43┼19┼0┼"
           },
           {
             "GitID": "fa63846bcecd1d14b8644f96e78f9888_43┼19┼0┼",
             "PrefabID": "fa63846bcecd1d14b8644f96e78f9888",
+            "NameMatches": true,
             "Name": "MaintLootx3",
             "LocalPRS": "43┼19┼0┼",
             "Object": {
@@ -38925,6 +39225,7 @@
           {
             "GitID": "ed4e62dc12dca724ba1e5f374965096b_43┼21┼0┼",
             "PrefabID": "ed4e62dc12dca724ba1e5f374965096b",
+            "NameMatches": true,
             "Name": "Rack",
             "LocalPRS": "43┼21┼0┼"
           },
@@ -38947,6 +39248,7 @@
           {
             "GitID": "b83b68cfa4a201748aeeece963a989c3_43┼24┼0┼",
             "PrefabID": "b83b68cfa4a201748aeeece963a989c3",
+            "NameMatches": true,
             "Name": "MetalSheet",
             "LocalPRS": "43┼24┼0┼",
             "Object": {
@@ -38966,6 +39268,7 @@
           {
             "GitID": "a12add7b219842843b678dec171704cb_43┼27.92┼0┼",
             "PrefabID": "a12add7b219842843b678dec171704cb",
+            "NameMatches": true,
             "Name": "PlasmaCutter",
             "LocalPRS": "43┼27.92┼0┼",
             "Object": {
@@ -38997,6 +39300,7 @@
           {
             "GitID": "1d35052f4fc2cad4d8226d1a63e4a1b3_43┼28┼0┼",
             "PrefabID": "1d35052f4fc2cad4d8226d1a63e4a1b3",
+            "NameMatches": true,
             "Name": "CrateBase",
             "LocalPRS": "43┼28┼0┼",
             "Object": {
@@ -39013,6 +39317,7 @@
           {
             "GitID": "7147422770216fc47b220e213ce8395c_43┼28┼0┼",
             "PrefabID": "7147422770216fc47b220e213ce8395c",
+            "NameMatches": true,
             "Name": "GoldBar",
             "LocalPRS": "43┼28┼0┼",
             "Object": {
@@ -39032,6 +39337,7 @@
           {
             "GitID": "b83b68cfa4a201748aeeece963a989c3_43┼28┼0┼",
             "PrefabID": "b83b68cfa4a201748aeeece963a989c3",
+            "NameMatches": true,
             "Name": "MetalSheet",
             "LocalPRS": "43┼28┼0┼",
             "Object": {
@@ -39091,6 +39397,7 @@
           {
             "GitID": "a6a04b99723d3ae42958de4193b9920d_43.01┼13.12┼0┼",
             "PrefabID": "a6a04b99723d3ae42958de4193b9920d",
+            "NameMatches": true,
             "Name": "ScanningModule",
             "LocalPRS": "43.01┼13.12┼0┼"
           },
@@ -39128,12 +39435,14 @@
           {
             "GitID": "7ba0f8027fae0b747803eabaf13523c7_43.91┼24┼0┼",
             "PrefabID": "7ba0f8027fae0b747803eabaf13523c7",
+            "NameMatches": true,
             "Name": "ManipulatorMicro",
             "LocalPRS": "43.91┼24┼0┼"
           },
           {
             "GitID": "d2f2400aac0da54468da76680579c29b_43.93┼24┼0┼",
             "PrefabID": "d2f2400aac0da54468da76680579c29b",
+            "NameMatches": true,
             "Name": "ReinforcedGlassSheet",
             "LocalPRS": "43.93┼24┼0┼",
             "Object": {
@@ -39153,12 +39462,14 @@
           {
             "GitID": "e007b4548279217449b704355d9e112b_43.98┼23┼0┼",
             "PrefabID": "e007b4548279217449b704355d9e112b",
+            "NameMatches": true,
             "Name": "NPC_hivebot_strong",
             "LocalPRS": "43.98┼23┼0┼"
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_44┼-4┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "44┼-4┼0┼",
             "Object": {
@@ -39194,6 +39505,7 @@
           {
             "GitID": "1172c577b92e17940afd7e1729f184f6_44┼0┼0┼",
             "PrefabID": "1172c577b92e17940afd7e1729f184f6",
+            "NameMatches": true,
             "Name": "AirlockHatchGrunge",
             "LocalPRS": "44┼0┼0┼",
             "Object": {
@@ -39219,12 +39531,14 @@
           {
             "GitID": "4a5b6baeb439ba249b1abfcd81f5d624_44┼21┼0┼",
             "PrefabID": "4a5b6baeb439ba249b1abfcd81f5d624",
+            "NameMatches": true,
             "Name": "ToolbeltFullAtmospherics",
             "LocalPRS": "44┼21┼0┼"
           },
           {
             "GitID": "6f371050bff8b32438f91c7c680900bb_44┼21┼0┼",
             "PrefabID": "6f371050bff8b32438f91c7c680900bb",
+            "NameMatches": true,
             "Name": "Flashlight",
             "LocalPRS": "44┼21┼0┼"
           },
@@ -39266,6 +39580,7 @@
           {
             "GitID": "ed4e62dc12dca724ba1e5f374965096b_44┼21┼0┼",
             "PrefabID": "ed4e62dc12dca724ba1e5f374965096b",
+            "NameMatches": true,
             "Name": "Rack",
             "LocalPRS": "44┼21┼0┼"
           },
@@ -39288,6 +39603,7 @@
           {
             "GitID": "c937e0abe85aca9499d09951de736ec6_44┼28┼0┼",
             "PrefabID": "c937e0abe85aca9499d09951de736ec6",
+            "NameMatches": true,
             "Name": "LightBulbFixture",
             "LocalPRS": "44┼28┼0┼",
             "Object": {
@@ -39342,6 +39658,7 @@
           {
             "GitID": "29ecbf5a1d918574cbcf5853927e0944_44.04┼24┼0┼",
             "PrefabID": "29ecbf5a1d918574cbcf5853927e0944",
+            "NameMatches": true,
             "Name": "PlasteelSheet",
             "LocalPRS": "44.04┼24┼0┼",
             "Object": {
@@ -39367,36 +39684,42 @@
           {
             "GitID": "8fb9b82aab871a54fb9bdb7e4a985821_44.98┼28┼0┼",
             "PrefabID": "8fb9b82aab871a54fb9bdb7e4a985821",
+            "NameMatches": true,
             "Name": "MaintLoot",
             "LocalPRS": "44.98┼28┼0┼"
           },
           {
             "GitID": "8fb9b82aab871a54fb9bdb7e4a985821_44.98┼30.05┼0┼",
             "PrefabID": "8fb9b82aab871a54fb9bdb7e4a985821",
+            "NameMatches": true,
             "Name": "MaintLoot",
             "LocalPRS": "44.98┼30.05┼0┼"
           },
           {
-            "GitID": "d6495a017b1b4634697738270d87d354_44.9858┼24┼0┼",
-            "PrefabID": "d6495a017b1b4634697738270d87d354",
-            "Name": "RandomConstructionMatsSpawner",
-            "LocalPRS": "44.9858┼24┼0┼"
-          },
-          {
             "GitID": "d6495a017b1b4634697738270d87d354_44.99┼24┼0┼",
             "PrefabID": "d6495a017b1b4634697738270d87d354",
+            "NameMatches": true,
+            "Name": "RandomConstructionMatsSpawner",
+            "LocalPRS": "44.99┼24┼0┼"
+          },
+          {
+            "GitID": "d6495a017b1b4634697738270d87d354_44.991┼24┼0┼",
+            "PrefabID": "d6495a017b1b4634697738270d87d354",
+            "NameMatches": true,
             "Name": "RandomConstructionMatsSpawner",
             "LocalPRS": "44.99┼24┼0┼"
           },
           {
             "GitID": "91d832be818283a4188516804e8d5ef0_45┼-1┼0┼",
             "PrefabID": "91d832be818283a4188516804e8d5ef0",
+            "NameMatches": true,
             "Name": "EmergencyCloset",
             "LocalPRS": "45┼-1┼0┼"
           },
           {
             "GitID": "54a552cbe4002ac44ae29b958a90e545_45┼12┼0┼",
             "PrefabID": "54a552cbe4002ac44ae29b958a90e545",
+            "NameMatches": true,
             "Name": "AirlockPublicWindowed",
             "LocalPRS": "45┼12┼0┼",
             "Object": {
@@ -39416,12 +39739,14 @@
           {
             "GitID": "5a7af30c589b41a449d0ba74c9e1771c_45┼17┼0┼",
             "PrefabID": "5a7af30c589b41a449d0ba74c9e1771c",
+            "NameMatches": true,
             "Name": "Bed",
             "LocalPRS": "45┼17┼0┼"
           },
           {
             "GitID": "bcad3e35587ed35479fdbd92ea4352c8_45┼17┼0┼",
             "PrefabID": "bcad3e35587ed35479fdbd92ea4352c8",
+            "NameMatches": true,
             "Name": "RandomBedsheetSpawner",
             "LocalPRS": "45┼17┼0┼"
           },
@@ -39434,12 +39759,14 @@
           {
             "GitID": "bcad3e35587ed35479fdbd92ea4352c8_45┼19┼0┼",
             "PrefabID": "bcad3e35587ed35479fdbd92ea4352c8",
+            "NameMatches": true,
             "Name": "RandomBedsheetSpawner",
             "LocalPRS": "45┼19┼0┼"
           },
           {
             "GitID": "ed4e62dc12dca724ba1e5f374965096b_45┼21┼0┼",
             "PrefabID": "ed4e62dc12dca724ba1e5f374965096b",
+            "NameMatches": true,
             "Name": "Rack",
             "LocalPRS": "45┼21┼0┼"
           },
@@ -39506,6 +39833,7 @@
           {
             "GitID": "24eaaeb286e2fbe48a16783af29e3c02_45┼28┼0┼",
             "PrefabID": "24eaaeb286e2fbe48a16783af29e3c02",
+            "NameMatches": true,
             "Name": "SuitStorageUnit",
             "LocalPRS": "45┼28┼0┼",
             "Object": {
@@ -39525,6 +39853,7 @@
           {
             "GitID": "24eaaeb286e2fbe48a16783af29e3c02_45┼30┼0┼",
             "PrefabID": "24eaaeb286e2fbe48a16783af29e3c02",
+            "NameMatches": true,
             "Name": "SuitStorageUnit",
             "LocalPRS": "45┼30┼0┼",
             "Object": {
@@ -39544,6 +39873,7 @@
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_45┼35┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "45┼35┼0┼0ø0ø180ø",
             "Object": {
@@ -39607,6 +39937,7 @@
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_45┼45┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "45┼45┼0┼",
             "Object": {
@@ -39642,30 +39973,35 @@
           {
             "GitID": "1488f67a55cb9b84098e095e65e5a2b3_45.1┼21┼0┼",
             "PrefabID": "1488f67a55cb9b84098e095e65e5a2b3",
+            "NameMatches": true,
             "Name": "Shovel",
             "LocalPRS": "45.1┼21┼0┼"
           },
           {
             "GitID": "a565b378d835ddf478bee7e52e6b95dd_45.86┼20.88┼0┼",
             "PrefabID": "a565b378d835ddf478bee7e52e6b95dd",
+            "NameMatches": true,
             "Name": "MachineBoardOreRedemption",
             "LocalPRS": "45.86┼20.88┼0┼"
           },
           {
             "GitID": "7f7934b263cb23040ade0147d14b39aa_45.99┼20.97┼0┼",
             "PrefabID": "7f7934b263cb23040ade0147d14b39aa",
+            "NameMatches": true,
             "Name": "MachineBoardSMES",
             "LocalPRS": "45.99┼20.97┼0┼"
           },
           {
             "GitID": "89f38936254ca964a85299ce289225ad_45.99┼21.07┼0┼",
             "PrefabID": "89f38936254ca964a85299ce289225ad",
+            "NameMatches": true,
             "Name": "MachineBoardSeedExtractor",
             "LocalPRS": "45.99┼21.07┼0┼"
           },
           {
             "GitID": "7dea0790d26246447a9b881689c7dbdf_46┼-3┼0┼",
             "PrefabID": "7dea0790d26246447a9b881689c7dbdf",
+            "NameMatches": true,
             "Name": "AirlockExternalWindowed",
             "LocalPRS": "46┼-3┼0┼",
             "Object": {
@@ -39685,6 +40021,7 @@
           {
             "GitID": "7dea0790d26246447a9b881689c7dbdf_46┼-2┼0┼",
             "PrefabID": "7dea0790d26246447a9b881689c7dbdf",
+            "NameMatches": true,
             "Name": "AirlockExternalWindowed",
             "LocalPRS": "46┼-2┼0┼",
             "Object": {
@@ -39704,6 +40041,7 @@
           {
             "GitID": "703ee43e84da301438311278f13a496f_46┼13┼0┼",
             "PrefabID": "703ee43e84da301438311278f13a496f",
+            "NameMatches": true,
             "Name": "LightTubeFixtureFrame",
             "LocalPRS": "46┼13┼0┼",
             "Object": {
@@ -39767,18 +40105,21 @@
           {
             "GitID": "ed4e62dc12dca724ba1e5f374965096b_46┼21┼0┼",
             "PrefabID": "ed4e62dc12dca724ba1e5f374965096b",
+            "NameMatches": true,
             "Name": "Rack",
             "LocalPRS": "46┼21┼0┼"
           },
           {
             "GitID": "288980126acf5f441841169958c31630_46┼24┼0┼",
             "PrefabID": "288980126acf5f441841169958c31630",
+            "NameMatches": true,
             "Name": "HighCableCoil",
             "LocalPRS": "46┼24┼0┼"
           },
           {
             "GitID": "517c48fc4fc1cba48908d11ec58451ce_46┼24┼0┼",
             "PrefabID": "517c48fc4fc1cba48908d11ec58451ce",
+            "NameMatches": true,
             "Name": "EngineeringCrateElectrical",
             "LocalPRS": "46┼24┼0┼",
             "Object": {
@@ -39795,30 +40136,35 @@
           {
             "GitID": "7f32e42309899114b9c122f261161bc5_46┼24┼0┼",
             "PrefabID": "7f32e42309899114b9c122f261161bc5",
+            "NameMatches": true,
             "Name": "LowCableCoil",
             "LocalPRS": "46┼24┼0┼"
           },
           {
             "GitID": "c3e6805b264a935428b0de415ea57943_46┼24┼0┼",
             "PrefabID": "c3e6805b264a935428b0de415ea57943",
+            "NameMatches": true,
             "Name": "MediumCableCoil",
             "LocalPRS": "46┼24┼0┼"
           },
           {
             "GitID": "8edc1f3642b9f28429c21e6c30566791_46.03┼24.01┼0┼",
             "PrefabID": "8edc1f3642b9f28429c21e6c30566791",
+            "NameMatches": true,
             "Name": "BoxOfReplacementLights",
             "LocalPRS": "46.03┼24.01┼0┼"
           },
           {
             "GitID": "08be734c1a459464f9c78d3b21384339_46.04┼24┼0┼",
             "PrefabID": "08be734c1a459464f9c78d3b21384339",
+            "NameMatches": true,
             "Name": "Capacitor",
             "LocalPRS": "46.04┼24┼0┼"
           },
           {
             "GitID": "1002c0247e412884e91c857ce6e51d9c_46.05┼20.89┼0┼",
             "PrefabID": "1002c0247e412884e91c857ce6e51d9c",
+            "NameMatches": true,
             "Name": "MachineBoardDepartmentBattery",
             "LocalPRS": "46.05┼20.89┼0┼"
           },
@@ -39850,30 +40196,35 @@
           {
             "GitID": "5a7af30c589b41a449d0ba74c9e1771c_47┼17┼0┼",
             "PrefabID": "5a7af30c589b41a449d0ba74c9e1771c",
+            "NameMatches": true,
             "Name": "Bed",
             "LocalPRS": "47┼17┼0┼"
           },
           {
             "GitID": "bcad3e35587ed35479fdbd92ea4352c8_47┼17┼0┼",
             "PrefabID": "bcad3e35587ed35479fdbd92ea4352c8",
+            "NameMatches": true,
             "Name": "RandomBedsheetSpawner",
             "LocalPRS": "47┼17┼0┼"
           },
           {
             "GitID": "5a7af30c589b41a449d0ba74c9e1771c_47┼19┼0┼",
             "PrefabID": "5a7af30c589b41a449d0ba74c9e1771c",
+            "NameMatches": true,
             "Name": "Bed",
             "LocalPRS": "47┼19┼0┼"
           },
           {
             "GitID": "bcad3e35587ed35479fdbd92ea4352c8_47┼19┼0┼",
             "PrefabID": "bcad3e35587ed35479fdbd92ea4352c8",
+            "NameMatches": true,
             "Name": "RandomBedsheetSpawner",
             "LocalPRS": "47┼19┼0┼"
           },
           {
             "GitID": "1172c577b92e17940afd7e1729f184f6_47┼32┼0┼",
             "PrefabID": "1172c577b92e17940afd7e1729f184f6",
+            "NameMatches": true,
             "Name": "AirlockHatchGrunge",
             "LocalPRS": "47┼32┼0┼",
             "Object": {
@@ -39905,6 +40256,7 @@
           {
             "GitID": "1172c577b92e17940afd7e1729f184f6_48┼20┼0┼",
             "PrefabID": "1172c577b92e17940afd7e1729f184f6",
+            "NameMatches": true,
             "Name": "AirlockHatchGrunge",
             "LocalPRS": "48┼20┼0┼",
             "Object": {
@@ -40166,6 +40518,7 @@
           {
             "GitID": "7dea0790d26246447a9b881689c7dbdf_49┼-3┼0┼",
             "PrefabID": "7dea0790d26246447a9b881689c7dbdf",
+            "NameMatches": true,
             "Name": "AirlockExternalWindowed",
             "LocalPRS": "49┼-3┼0┼",
             "Object": {
@@ -40185,6 +40538,7 @@
           {
             "GitID": "7dea0790d26246447a9b881689c7dbdf_49┼-2┼0┼",
             "PrefabID": "7dea0790d26246447a9b881689c7dbdf",
+            "NameMatches": true,
             "Name": "AirlockExternalWindowed",
             "LocalPRS": "49┼-2┼0┼",
             "Object": {
@@ -41325,7 +41679,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.3.0",
+        "Ver": "1.4.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -41350,6 +41704,7 @@
           {
             "GitID": "5425ee650c49e0849b4bed132cfb588f_-6┼0┼0┼",
             "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
+            "NameMatches": true,
             "Name": "TinyFan",
             "LocalPRS": "-6┼0┼0┼"
           },
@@ -41394,6 +41749,7 @@
           {
             "GitID": "c937e0abe85aca9499d09951de736ec6_-4┼0┼0┼",
             "PrefabID": "c937e0abe85aca9499d09951de736ec6",
+            "NameMatches": true,
             "Name": "LightBulbFixture",
             "LocalPRS": "-4┼0┼0┼",
             "Object": {
@@ -41454,12 +41810,14 @@
           {
             "GitID": "d4a3f41d96f2c4143b8556508db41c57_-2.01┼1.98┼0┼",
             "PrefabID": "d4a3f41d96f2c4143b8556508db41c57",
+            "NameMatches": true,
             "Name": "NPC_hivebot",
             "LocalPRS": "-2.01┼1.98┼0┼"
           },
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_1┼-2┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "NameMatches": true,
             "Name": "ShuttleChair",
             "LocalPRS": "1┼-2┼0┼",
             "Object": {
@@ -41486,6 +41844,7 @@
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_1┼-2┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "1┼-2┼0┼0ø0ø90ø",
             "Object": {
@@ -41530,6 +41889,7 @@
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_1┼-1┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "NameMatches": true,
             "Name": "ShuttleChair",
             "LocalPRS": "1┼-1┼0┼",
             "Object": {
@@ -41556,6 +41916,7 @@
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_1┼1┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "NameMatches": true,
             "Name": "ShuttleChair",
             "LocalPRS": "1┼1┼0┼",
             "Object": {
@@ -41582,6 +41943,7 @@
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_1┼2┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "NameMatches": true,
             "Name": "ShuttleChair",
             "LocalPRS": "1┼2┼0┼",
             "Object": {
@@ -41608,6 +41970,7 @@
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_1┼2┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "1┼2┼0┼0ø0ø90ø",
             "Object": {
@@ -41652,6 +42015,7 @@
           {
             "GitID": "f2432d244a6b7774ea00ff013beb7dcb_2┼-1┼0┼",
             "PrefabID": "f2432d244a6b7774ea00ff013beb7dcb",
+            "NameMatches": true,
             "Name": "LightSwitch",
             "LocalPRS": "2┼-1┼0┼",
             "Object": {
@@ -41716,6 +42080,7 @@
           {
             "GitID": "f2432d244a6b7774ea00ff013beb7dcb_2┼1┼0┼",
             "PrefabID": "f2432d244a6b7774ea00ff013beb7dcb",
+            "NameMatches": true,
             "Name": "LightSwitch",
             "LocalPRS": "2┼1┼0┼",
             "Object": {
@@ -41793,6 +42158,7 @@
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_4┼0┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "NameMatches": true,
             "Name": "ShuttleChair",
             "LocalPRS": "4┼0┼0┼",
             "Object": {
@@ -41882,12 +42248,14 @@
           {
             "GitID": "ce874e42e21343a429f39c4780a09059_5┼0┼0┼",
             "PrefabID": "ce874e42e21343a429f39c4780a09059",
+            "NameMatches": true,
             "Name": "ComputerFrame",
             "LocalPRS": "5┼0┼0┼"
           },
           {
             "GitID": "c3e6805b264a935428b0de415ea57943_5┼1┼0┼",
             "PrefabID": "c3e6805b264a935428b0de415ea57943",
+            "NameMatches": true,
             "Name": "MediumCableCoil",
             "LocalPRS": "5┼1┼0┼"
           }
@@ -41897,7 +42265,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "-4447,6541,0",
+          "Pos": "-4446,6541,0",
           "Size": "12,6,0"
         }
       ]
