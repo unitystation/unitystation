@@ -6,7 +6,7 @@ public interface IClientSynchronisedEffect : IClientPlayerLeaveBody, IClientPlay
 {
 	public uint OnPlayerID { get; }
 
-	public bool IsOnLocalPlayer => ClientSynchronisedEffectsManager.CurrentlyOn == OnPlayerID;
+	public bool IsOnLocalPlayer => ClientSynchronisedEffectsManager.CurrentlyOns.Contains(OnPlayerID);
 
 	void IClientPlayerLeaveBody.ClientOnPlayerLeaveBody()
 	{
