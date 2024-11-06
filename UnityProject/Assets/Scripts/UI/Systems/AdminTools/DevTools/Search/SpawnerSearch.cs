@@ -45,7 +45,7 @@ public class SpawnerSearch
 			if (prefab.GetComponent<NetworkIdentity>() == null)
 			{
 				Loggy.Trace().Format("{0} omitted from dev spawner because it has no network identity. Only" +
-				                      " networked prefabs can be spawned.", Category.Admin);
+				                      " networked prefabs can be spawned.", Category.Admin, prefab);
 				continue;
 			}
 
