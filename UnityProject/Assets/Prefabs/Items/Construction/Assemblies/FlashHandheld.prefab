@@ -38,6 +38,17 @@ PrefabInstance:
       propertyPath: exportCost
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 8788987313818766642, guid: e77ad8336ea71364c9ec01faad07f5f4,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8788987313818766642, guid: e77ad8336ea71364c9ec01faad07f5f4,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 36067bbe2de351a4f9607c3d73a9ffe7,
+        type: 2}
     - target: {fileID: 9115576831223235532, guid: e77ad8336ea71364c9ec01faad07f5f4,
         type: 3}
       propertyPath: customNetTransform
