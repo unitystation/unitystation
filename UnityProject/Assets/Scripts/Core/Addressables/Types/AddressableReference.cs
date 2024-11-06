@@ -16,9 +16,8 @@ namespace AddressableReferences
 	[Serializable]
 	public class AddressableReference<T> where T : UnityEngine.Object
 	{
-		public UnLoadSetting SetLoadSetting = UnLoadSetting.KeepLoaded;
 		[FormerlySerializedAs("Path")] public string AssetAddress = "";
-		public AssetReference AssetReference = null;
+		[HideInInspector] public AssetReference AssetReference = null;
 
 		public bool IsNotValidKey => NotValidKey();
 		public bool IsReadyLoaded => ReadyLoaded();
