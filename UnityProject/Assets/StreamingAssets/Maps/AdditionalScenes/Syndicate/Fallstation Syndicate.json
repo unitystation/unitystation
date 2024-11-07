@@ -1972,7 +1972,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.0",
+        "Ver": "1.4.1",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -7338,7 +7338,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.0",
+        "Ver": "1.4.1",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -7587,6 +7587,76 @@
                   "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "e58e1fd483fe772468ad2aab4259397d_6.08┼-32.17┼0┼",
+            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
+            "Name": "NuclearOperative at -2998 -261",
+            "LocalPRS": "6.08┼-32.17┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "SpawnPoint@0",
+                  "Data": [
+                    {
+                      "Name": "category",
+                      "Data": "NuclearOperative"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "4c7cb9ad35597ae4bb6824f2232ec36d"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "e58e1fd483fe772468ad2aab4259397d_6.08┼-28.18┼0┼",
+            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
+            "Name": "NuclearOperative at -2998 -257",
+            "LocalPRS": "6.08┼-28.18┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "SpawnPoint@0",
+                  "Data": [
+                    {
+                      "Name": "category",
+                      "Data": "NuclearOperative"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "4c7cb9ad35597ae4bb6824f2232ec36d"
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }
@@ -8197,6 +8267,76 @@
             "NameMatches": true,
             "Name": "BedSheet Syndicate",
             "LocalPRS": "12.03┼-27.99┼-0.5┼"
+          },
+          {
+            "GitID": "e58e1fd483fe772468ad2aab4259397d_12.06┼-32.17┼0┼",
+            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
+            "Name": "NuclearOperative at -2992 -261",
+            "LocalPRS": "12.06┼-32.17┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "SpawnPoint@0",
+                  "Data": [
+                    {
+                      "Name": "category",
+                      "Data": "NuclearOperative"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "4c7cb9ad35597ae4bb6824f2232ec36d"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "e58e1fd483fe772468ad2aab4259397d_12.06┼-28.2┼0┼",
+            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
+            "Name": "NuclearOperative at -2992 -257",
+            "LocalPRS": "12.06┼-28.2┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "SpawnPoint@0",
+                  "Data": [
+                    {
+                      "Name": "category",
+                      "Data": "NuclearOperative"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "4c7cb9ad35597ae4bb6824f2232ec36d"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_13┼-38┼0┼",
