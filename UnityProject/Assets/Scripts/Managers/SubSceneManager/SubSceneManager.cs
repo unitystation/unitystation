@@ -86,7 +86,7 @@ public partial class SubSceneManager : MonoBehaviour
 	/// </summary>
 	/// <param name="sceneName"></param>
 	/// <returns></returns>
-	IEnumerator LoadSubScene(string sceneName, SubsceneLoadTimer loadTimer = null, bool HandlSynchronising = true,
+	public IEnumerator LoadSubScene(string sceneName, SubsceneLoadTimer loadTimer = null, bool HandlSynchronising = true,
 		SceneType sceneType = SceneType.HiddenScene)
 	{
 		if (AccessFile.Exists(sceneName, true, FolderType.Maps, false))

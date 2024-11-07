@@ -31,6 +31,22 @@ namespace Util
 			}
 		}
 
+		public static void DrawEnumField<T>(ref T enumField, string label) where T : Enum
+		{
+			// Get the names and values of the enum
+			var enumValues = Enum.GetValues(typeof(T));
+			var enumNames = Enum.GetNames(typeof(T));
+			int currentEnumIndex = Array.IndexOf(enumValues, enumField);
+
+			// Create a combo box for selecting the enum value
+			if (ImGui.Combo(label, ref currentEnumIndex, enumNames, enumNames.Length))
+			{
+				// Update the enumField with the newly selected enum value
+				enumField = (T)enumValues.GetValue(currentEnumIndex);
+			}
+		}
+
+
 		public static void DrawListField(SafeFieldInfo field)
 		{
 			Type fieldType = field.Type;

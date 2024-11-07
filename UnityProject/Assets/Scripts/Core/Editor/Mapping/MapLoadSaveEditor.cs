@@ -177,6 +177,11 @@ public class FileSelectorWindow : EditorWindow
 
 	private void Load(string filePath)
 	{
+		LoadMapFile(filePath);
+	}
+
+	public static void LoadMapFile(string filePath)
+	{
 		MapSaver.MapSaver.CodeClass.ThisCodeClass.Reset();
 		MapSaver.MapSaver.MapData mapData =
 			JsonConvert.DeserializeObject<MapSaver.MapSaver.MapData>(AccessFile.Load(filePath, FolderType.Maps));

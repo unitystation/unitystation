@@ -371,8 +371,6 @@ public static class CleanupUtil
 		HUDHandler.Categorys.Clear();
 		HUDHandler.CategoryEnabled.Clear();
 		CrewManifestManager.Instance.OnRoundRestart();
-
-
 	}
 
 	/// <summary>
@@ -389,6 +387,18 @@ public static class CleanupUtil
 		TileManager.Instance.Cleanup_between_rounds();
 		CleanupUtil.RidListOfDeadElements(GameManager.Instance.SpaceBodies);
 		ElectricalManager.Instance.InBetweenScenesCleanUp();
+	}
+
+	public static void SoftCleanup()
+	{
+		TileManager.Instance.Cleanup_between_rounds();
+		TileManager.Instance.DeepCleanupTiles();
+		AdminTools.AdminOverlay.Instance?.Clear();
+		RidListOfDeadElements(GameManager.Instance.SpaceBodies);
+		ElectricalManager.Instance.InBetweenScenesCleanUp();
+		Systems.Cargo.CargoManager.Instance.OnRoundRestart();
+		GameManager.Instance.CentComm.Clear();
+		GameManager.Instance.SpaceBodies.Clear();
 	}
 
 	/// <summary>
