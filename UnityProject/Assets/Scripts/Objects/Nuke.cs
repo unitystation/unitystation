@@ -72,6 +72,8 @@ namespace Objects.Command
 		private int nukeCode;
 		public int NukeCode => nukeCode;
 
+		public bool UseSyndiNukeCode = false;
+
 		private const string ON_NUKE_SCORE_ENTRY = "nukedStation";
 		private const int ON_NUKE_SCORE_VALUE = -550000;
 
@@ -86,7 +88,7 @@ namespace Objects.Command
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			if (SubSceneManager.Instance.SyndicateScene == gameObject.scene)
+			if (UseSyndiNukeCode)
 			{
 				nukeCode = AntagManager.SyndiNukeCode;
 			}
@@ -306,7 +308,7 @@ namespace Objects.Command
 			//to the center of the matrix and gib them if they are within the bounds
 			//This is done instead of iterating over PresentPlayers on that matrix so that if a player is
 			//nearby but over a space tile or on a seperate matrix they still get gibbed
-			
+
 			var matrix = gameObject.GetMatrixRoot();
 
 			//Prevent shenanigans caused by removal of the tile below the nuke

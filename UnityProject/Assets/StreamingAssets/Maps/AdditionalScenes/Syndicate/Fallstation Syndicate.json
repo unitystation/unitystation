@@ -2951,7 +2951,20 @@
             "GitID": "a0435651e9a40f54ea02c119de299b0f_10┼-24┼0┼",
             "PrefabID": "a0435651e9a40f54ea02c119de299b0f",
             "Name": "nuke (1)",
-            "LocalPRS": "10┼-24┼0┼"
+            "LocalPRS": "10┼-24┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Nuke@0",
+                  "Data": [
+                    {
+                      "Name": "UseSyndiNukeCode",
+                      "Data": "True"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "9d6b51853ebd2564e9dcda80e0b0a841_10.02┼-22.33┼-0.5┼",
@@ -7607,22 +7620,6 @@
                     }
                   ]
                 }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "4c7cb9ad35597ae4bb6824f2232ec36d"
-                        }
-                      ]
-                    }
-                  ]
-                }
               ]
             }
           },
@@ -7639,22 +7636,6 @@
                     {
                       "Name": "category",
                       "Data": "NuclearOperative"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "4c7cb9ad35597ae4bb6824f2232ec36d"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -8284,22 +8265,6 @@
                     }
                   ]
                 }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "4c7cb9ad35597ae4bb6824f2232ec36d"
-                        }
-                      ]
-                    }
-                  ]
-                }
               ]
             }
           },
@@ -8316,22 +8281,6 @@
                     {
                       "Name": "category",
                       "Data": "NuclearOperative"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "4c7cb9ad35597ae4bb6824f2232ec36d"
-                        }
-                      ]
                     }
                   ]
                 }

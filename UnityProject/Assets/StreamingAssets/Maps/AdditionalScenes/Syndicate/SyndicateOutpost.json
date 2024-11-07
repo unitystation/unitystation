@@ -41268,7 +41268,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.0",
+        "Ver": "1.4.1",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -54393,7 +54393,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.0",
+        "Ver": "1.4.1",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -56231,7 +56231,20 @@
             "GitID": "a0435651e9a40f54ea02c119de299b0f_10┼-24┼0┼",
             "PrefabID": "a0435651e9a40f54ea02c119de299b0f",
             "Name": "nuke",
-            "LocalPRS": "10┼-24┼0┼"
+            "LocalPRS": "10┼-24┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Nuke@0",
+                  "Data": [
+                    {
+                      "Name": "UseSyndiNukeCode",
+                      "Data": "True"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "cb2f847ef3b8b754181a970a4032c552_10┼-20┼0┼",
