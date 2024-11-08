@@ -70,18 +70,6 @@ namespace Systems.Hacking
 			public Color Colour;
 		}
 
-		public void Awake()
-		{
-			if (HasRegisteredForRestart == false)
-			{
-				HasRegisteredForRestart = true;
-				if (CustomNetworkManager.IsServer)
-				{
-					EventManager.AddHandler(Event.RoundEnded, CleanData);
-				}
-			}
-		}
-
 		public static void CleanData()
 		{
 			MonoAvailableColours?.Clear();

@@ -25,6 +25,7 @@ using Player;
 using Systems.Cargo;
 using ScriptableObjects.Characters;
 using SecureStuff;
+using Systems.Hacking;
 using UnityEditor;
 using UnityEngine.Serialization;
 
@@ -658,6 +659,9 @@ public partial class GameManager : MonoBehaviour, IInitialise
 				VotingManager.Instance.SetupVote(VotingManager.VoteType.NextMap, VotingManager.VotePolicy.MajorityRules,
 					Mathf.FloorToInt(RoundEndTime - 1), this.gameObject, null);
 			}
+
+
+			HackingProcessBase.CleanData(); //yeah I know Is hardcoded but There's no static manager for HackingProcessBase And Doing some word stuff to add to event manager doesn't work
 		}
 		catch (Exception e)
 		{
