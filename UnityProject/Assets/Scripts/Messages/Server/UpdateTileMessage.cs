@@ -80,12 +80,12 @@ namespace Messages.Server
 			{
 				if (Change.TileType == TileType.None)
 				{
-					tileChangerManager.RemoveTileWithlayer(Change.Position, Change.layerType);
+					tileChangerManager.RemoveTileWithlayer(Change.Position, Change.layerType, true);
 				}
 				else
 				{
 					tileChangerManager.SetTile(Change.Position, Change.TileType, Change.TileName, Change.TransformMatrix,
-						Change.Colour);
+						Change.Colour, useExactForMultilayer:true);
 				}
 			}
 		}

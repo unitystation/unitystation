@@ -884,9 +884,10 @@ namespace TileManagement
 			Matrix4x4? matrixTransform = null,
 			Color? color = null,
 			bool isPlaying = true
-			, bool MapSaveRecord = false)
+			, bool MapSaveRecord = false,
+			bool useExactForMultilayer = false)
 		{
-			return SetTile(position, TileManager.GetTile(TileType, tileName), matrixTransform, color, isPlaying, MapSaveRecord : MapSaveRecord);
+			return SetTile(position, TileManager.GetTile(TileType, tileName), matrixTransform, color, isPlaying, useExactForMultilayer, MapSaveRecord : MapSaveRecord);
 		}
 
 		private const int MaxDepth = 50;
