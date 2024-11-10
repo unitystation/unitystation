@@ -34,7 +34,6 @@ MonoBehaviour:
   effectDict:
     m_keys: []
     m_values: 
-  effects: []
   overrideDisplayName: 
   ReagentMetabolismMultiplier: 4
   InternalAllRequired:
@@ -47,7 +46,7 @@ MonoBehaviour:
   AttackBodyPartPerOneU: 1
   CanOverdose: 0
   ConcentrationBloodOverdose: 20
-  OverdoseDamageMultiplier: 1
+  OverdoseDamageMultiplierNew: 1
   MultiEffect: 1
   Effects:
   - DamageEffect: 0
@@ -69,5 +68,5 @@ MonoBehaviour:
     AttackType: 10
     EffectPerOne: -20
   - DamageEffect: 6
-    AttackType: 9
+    AttackType: 10
     EffectPerOne: -20
