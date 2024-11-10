@@ -205,7 +205,7 @@ namespace HealthV2.Living.PolymorphicSystems
 				var old = GetAlertSOFromHunger(CashedHungerState);
 				if (old != null)
 				{
-					BodyAlertManager.UnRegisterAlert(old);
+					BodyAlertManager?.UnRegisterAlert(old);
 				}
 
 				CashedHungerState = State;
