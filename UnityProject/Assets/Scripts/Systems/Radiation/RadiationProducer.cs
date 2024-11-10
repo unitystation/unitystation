@@ -25,8 +25,6 @@ namespace Systems.Radiation
 		[SyncVar(hook = nameof(SynchStrength))]
 		[PlayModeOnly, NonSerialized] public float SynchroniseStrength = 0;
 
-		[FormerlySerializedAs("SynchroniseStrength")]
-		public float InitialStrength = 0;
 
 		private void SynchStrength(float old, float newv)
 		{
@@ -38,17 +36,18 @@ namespace Systems.Radiation
 		}
 
 
-		private void Awake()
+		private void Start()
 		{
-			OutPuttingRadiation = InitialOutPuttingRadiation;
-			InitialStrength = SynchroniseStrength;
-			Colour = InitialColour;
-
 			ObjectID = this.GetInstanceID();
+
+			if (CustomNetworkManager.IsServer == false) return;
+			OutPuttingRadiation = InitialOutPuttingRadiation;
+			Colour = InitialColour;
 
 
 			lightSprite.SetColor(Colour);
-			UpdateValues(SynchroniseStrength);
+
+			UpdateValues(InitialOutPuttingRadiation);
 		}
 
 
