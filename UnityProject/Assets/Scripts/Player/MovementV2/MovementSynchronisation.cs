@@ -911,7 +911,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 						{
 							if (FPSMonitor.Instance.Average < 10)
 							{
-								if ((entry.Timestamp + (CurrentTileMoveSpeed) < NetworkTime.time))
+								if ((entry.Timestamp + (1f /CurrentTileMoveSpeed) < NetworkTime.time))
 								{
 									transform.localPosition = LocalTargetPosition;
 									registerTile.ServerSetLocalPosition(LocalTargetPosition.RoundToInt());
