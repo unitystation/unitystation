@@ -49,7 +49,13 @@ namespace Messages.Client
 			}
 
 			int speed;
-			if (!targetSlot.IsEmpty)
+			if (targetSlot.NamedSlot is NamedSlot.leftHand or NamedSlot.rightHand && playerSlot.IsOccupied && targetSlot.IsEmpty)
+			{
+				Chat.AddActionMsgToChat(playerObject, $"You try to put the {playerSlot.ItemObject.ExpensiveName()} on {targetObject.ExpensiveName()}...",
+					$"{playerObject.ExpensiveName()} tries to put the {playerSlot.ItemObject.ExpensiveName()} on {targetObject.ExpensiveName()}.");
+				speed = 0;
+			}
+			else if (targetSlot.IsEmpty == false)
 			{
 				Chat.AddActionMsgToChat(playerObject, $"You try to remove {targetObject.ExpensiveName()}'s {targetSlot.ItemObject.ExpensiveName()}...",
 					$"{playerObject.ExpensiveName()} tries to remove {targetObject.ExpensiveName()}'s {targetSlot.ItemObject.ExpensiveName()}.");
