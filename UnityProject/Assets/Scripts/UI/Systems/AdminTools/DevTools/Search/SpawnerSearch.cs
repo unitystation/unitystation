@@ -128,6 +128,7 @@ public class SpawnerSearch
 	{
 		string result = raw.ToLower();
 		//convert non alphanumeric stuff to whitespace - we only care about letters and numbers
-		return SpawnerSearch.NON_ALPHANUMERIC.Replace(result, " ");
+		result = result.Replace(" ", "");
+		return SpawnerSearch.NON_ALPHANUMERIC.Replace(result, "");
 	}
 }
