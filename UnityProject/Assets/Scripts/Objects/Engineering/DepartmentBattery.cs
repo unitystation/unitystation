@@ -87,7 +87,10 @@ namespace Objects.Engineering
 			}
 
 			hasInit = true;
-			UpdateServerState();
+			if (isServer)
+			{
+				UpdateServerState();
+			}
 		}
 
 		public override void OnStartClient()
