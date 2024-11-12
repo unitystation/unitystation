@@ -46,9 +46,9 @@ namespace UI.Systems.AdminTools.DevTools.Search
 				RelatedPrefabsIDs = Array.Empty<string>();
 				return;
 			}
-			RelatedPrefabsIDsList.Add(tracker.ForeverID);
+			RelatedPrefabsIDsList.Add(SpawnerSearch.Standardize(tracker.ForeverID));
 			ForeverID = tracker.ForeverID;
-			if (string.IsNullOrWhiteSpace(tracker.AlternativePrefabName) == false) SearchableNameList.Add(tracker.AlternativePrefabName);
+			if (string.IsNullOrWhiteSpace(tracker.AlternativePrefabName) == false) SearchableNameList.Add(SpawnerSearch.Standardize(tracker.AlternativePrefabName));
 
 			while (tracker != null)
 			{
