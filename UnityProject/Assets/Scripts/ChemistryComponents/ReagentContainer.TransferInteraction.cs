@@ -318,9 +318,26 @@ namespace Chemistry.Components
 
 			if (transferFrom.IsEmpty)
 			{
+				if (transferFrom.transferMode == TransferMode.Syringe  && transferFrom.SyringePulling == false)
+				{
+					transferFrom.GetComponent<Syringe>().SetSyringeState(true);
+				}
+
 				//red msg
 				Chat.AddExamineMsg(performer, "The " + transferFrom.gameObject.ExpensiveName() + " is empty!");
 				return;
+			}
+
+			if (transferTo.IsFull)
+			{
+				if (transferTo.transferMode == TransferMode.Syringe && transferTo.SyringePulling)
+				{
+					transferTo.GetComponent<Syringe>().SetSyringeState(false);
+					//red msg
+					Chat.AddExamineMsg(performer, "The " + transferTo.gameObject.ExpensiveName() + " is full!");
+					return;
+				}
+
 			}
 
 			var transferAmount = objectInHands.TransferAmount;
