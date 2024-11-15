@@ -180,6 +180,7 @@ public partial class Chat : MonoBehaviour
 	public static void AddChatMsgToChatServer(PlayerInfo sentByPlayer, string message, ChatChannel channels,
 		Loudness loudness = Loudness.NORMAL, ushort languageId = 0)
 	{
+		message = message.Replace("\n", " ").Replace("\r", " ");  // We don't want users to spam chat vertically
 		message = AutoMod.ProcessChatServer(sentByPlayer, message);
 		if (string.IsNullOrWhiteSpace(message)) return;
 

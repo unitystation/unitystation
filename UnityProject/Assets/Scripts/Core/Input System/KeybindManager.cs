@@ -86,7 +86,8 @@ public enum KeyAction
 	HideUi,
 	PreventRadialQuickSelectOpen,
 	PushToTalk,
-	Mode3DKeyToggle
+	Mode3DKeyToggle,
+	PushToSTT
 }
 
 /// <summary>
@@ -427,6 +428,7 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.ToggleAHelp,    new DualKeyCombo(new KeyCombo(KeyCode.F2), null)},
 		{ KeyAction.ToggleMHelp,    new DualKeyCombo(new KeyCombo(KeyCode.F3), null)},
 		{ KeyAction.PushToTalk,    new DualKeyCombo(new KeyCombo(KeyCode.N), null)},
+		{ KeyAction.PushToSTT,    new DualKeyCombo(new KeyCombo(KeyCode.M), null)},
 
 		// Body part selection
 		{ KeyAction.TargetHead, 	new DualKeyCombo(new KeyCombo(KeyCode.Keypad8), null)},
