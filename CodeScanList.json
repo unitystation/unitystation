@@ -3446,7 +3446,7 @@
             },
             "WhisperManager": {
                 "Methods": [
-                    "System.Threading.Tasks.Task<Whisper.WhisperResult> GetTextAsync(float[], int, int)"
+                    "System.Threading.Tasks.Task`1<Whisper.WhisperResult> GetTextAsync(float[], int, int)"
                 ]
             }
         },
@@ -3455,7 +3455,11 @@
             "OnRecordStopDelegate": {
                 "All": true
             },
-            "MicrophoneRecord": {},
+            "MicrophoneRecord": {
+				"Methods": [
+                    "void add_OnRecordStop(Whisper.Utils.OnRecordStopDelegate)"
+                ]
+			},
             "AudioChunk": {
                 "All": true
             }
