@@ -46,7 +46,7 @@ namespace SecureStuff
 
 			if (State)
 			{
-				microphoneRecord.StopRecord();
+				microphoneRecord.StartRecord();
 			}
 			else
 			{
@@ -59,6 +59,7 @@ namespace SecureStuff
 			MicEnabled = await HubValidation.RequestMicrophoneAccess(JustificationReason);
 			if (MicEnabledPublic == false)
 			{
+				MicEnabled = true; //TODO TEMPPP
 				//TODO TEMP
 				//return null;
 			}
