@@ -31,7 +31,6 @@ public class WhisperMicrophoneHandler : SingletonManager<WhisperMicrophoneHandle
 
 		//Logic. Inside recording
 		//button.onClick.AddListener(OnButtonPressed);
-
 	}
 
 	public void OnDisable()
@@ -51,7 +50,6 @@ public class WhisperMicrophoneHandler : SingletonManager<WhisperMicrophoneHandle
 			_ = MicrophoneAccess.RequestMicrophone(" So Speech to text can work ");
 			this.gameObject.SetActive(false);
 		}
-
 	}
 
 
@@ -66,29 +64,29 @@ public class WhisperMicrophoneHandler : SingletonManager<WhisperMicrophoneHandle
 		var text = res.Result;
 
 		var parsedInput = Chat.ParsePlayerInput(text, null);
-		if (Chat.IsValidToSend(parsedInput.ClearMessage))
-		{
-			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+		if (Chat.IsValidToSend(parsedInput.ClearMessage) == false) return;
 
-			if (ChatUI.Instance.Showing)
-			{
-				ChatUI.Instance.InputFieldChat.text += text;
-			}
-			else
-			{
-				if (PlayerManager.LocalMindScript.isGhosting)
-				{
-					PostToChatMessage.Send(text, ChatChannel.Ghost, languageId: 0);
-				}
-				else if (PlayerManager.LocalMindScript.isGhosting== false)
-				{
-					PostToChatMessage.Send(text, ChatChannel.Local, languageId: 0); //Languages automatically Set from the server
-				}
-				else
-				{
-					PostToChatMessage.Send(text, ChatChannel.OOC, languageId: 0);
-				}
-			}
+
+		_ = SoundManager.Play(CommonSounds.Instance.Click01);
+
+		if (ChatUI.Instance.Showing)
+		{
+			ChatUI.Instance.InputFieldChat.text += text;
+			return;
+		}
+
+		if (PlayerManager.LocalMindScript.isGhosting)
+		{
+			PostToChatMessage.Send(text, ChatChannel.Ghost, languageId: 0);
+		}
+		else if (PlayerManager.LocalMindScript.isGhosting == false)
+		{
+			PostToChatMessage.Send(text, ChatChannel.Local,
+				languageId: 0); //Languages automatically Set from the server
+		}
+		else
+		{
+			PostToChatMessage.Send(text, ChatChannel.OOC, languageId: 0);
 		}
 	}
 }

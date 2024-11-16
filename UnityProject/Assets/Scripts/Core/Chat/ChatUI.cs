@@ -32,7 +32,7 @@ namespace UI.Chat_UI
 		private GameObject channelToggleTemplate = null;
 		[SerializeField]
 		private Image background = null;
-		[SerializeField]
+
 		public TMP_InputField InputFieldChat = null;
 		[SerializeField]
 		private RectTransform viewportTransform = null;
@@ -65,7 +65,7 @@ namespace UI.Chat_UI
 		private ChatChannel selectedChannels;
 		private int selectedVoiceLevel;
 
-		public Image STTImageText;
+		[FormerlySerializedAs("STTImageText")] public Image SpeechToTextImageText;
 
 		/// <summary>
 		/// Latest parsed input from input field
@@ -443,11 +443,11 @@ namespace UI.Chat_UI
 
 			if (WhisperMicrophoneHandler.Instance.gameObject.activeSelf)
 			{
-				STTImageText.color = Color.green;
+				SpeechToTextImageText.color = Color.green;
 			}
 			else
 			{
-				STTImageText.color = Color.white;
+				SpeechToTextImageText.color = Color.white;
 			}
 		}
 
@@ -554,7 +554,7 @@ namespace UI.Chat_UI
 			languagePanel.gameObject.SetActive(false);
 
 			EventManager.Broadcast(quickClose ? Event.ChatQuickUnfocus : Event.ChatUnfocused);
-			STTImageText.color = Color.white;
+			SpeechToTextImageText.color = Color.white;
 			Showing = false;
 
 			StartCoroutine(AnimateBackground());
@@ -625,7 +625,7 @@ namespace UI.Chat_UI
 		{
 			if (UIManager.IsInputFocus) return;
 			Showing = false;
-			STTImageText.color = Color.white;
+			SpeechToTextImageText.color = Color.white;
 			StartCoroutine(AnimateBackground());
 			CloseChatWindow(true);
 		}
