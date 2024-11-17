@@ -219,8 +219,48 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 169b4eaa1968e6d499893c8f33d00abc,
         type: 2}
+    - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 169b4eaa1968e6d499893c8f33d00abc,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7600017545650087553, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4931518198414108543}
   m_SourcePrefab: {fileID: 100100000, guid: 05a135eab68164d34bb02b82fff3cde0, type: 3}
+--- !u!1 &6404652678407139925 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7600017545650087553, guid: 05a135eab68164d34bb02b82fff3cde0,
+    type: 3}
+  m_PrefabInstance: {fileID: 3573969270142637268}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4931518198414108543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6404652678407139925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c33b98e5bab083242b34667c67cc03b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  modifier: 8192
+  slot: 5
