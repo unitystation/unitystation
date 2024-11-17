@@ -924,9 +924,12 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	private void ReorderSorting()
 	{
-		objectLayer.ClientObjects.ReorderObjects(LocalPositionClient);
-		if (CustomNetworkManager.IsServer == false) return;
-		objectLayer.ServerObjects.ReorderObjects(LocalPositionServer);
+		if (objectLayer)
+		{
+			objectLayer.ClientObjects.ReorderObjects(LocalPositionClient);
+			if (CustomNetworkManager.IsServer == false) return;
+			objectLayer.ServerObjects.ReorderObjects(LocalPositionServer);
+		}
 	}
 
 	public LayerTile GetCurrentStandingTile()

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -163,6 +164,18 @@ namespace Doors
 			HackingProcessBase.RegisterPort(TryBump, this.GetType());
 			HackingProcessBase.RegisterPort(TryClose, this.GetType());
 			HackingProcessBase.RegisterPort(ConfirmAIConnection, this.GetType());
+			if (CustomNetworkManager.IsServer)
+			{
+				if (IsClosed)
+				{
+					Close();
+				}
+				else
+				{
+					Open();
+				}
+
+			}
 		}
 		
 
@@ -494,12 +507,8 @@ namespace Doors
 			IsClosed = false;
 			UpdateGui();
 
-			if (!isPerformingAction)
-			{
-				doorAnimator.PanelOpen = ConstructibleDoor != null && ConstructibleDoor.Panelopen;
-				doorAnimator.SyncDoorStatus(doorAnimator.SyncDoorUpdateType,DoorAnimatorV2.DoorUpdateType.Open);
-			}
-
+			doorAnimator.PanelOpen = ConstructibleDoor != null && ConstructibleDoor.Panelopen;
+			doorAnimator.SyncDoorStatus(doorAnimator.SyncDoorUpdateType,DoorAnimatorV2.DoorUpdateType.Open);
 		}
 
 		public void BoxCollToggleOn()
