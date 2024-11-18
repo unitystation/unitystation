@@ -67,7 +67,7 @@ namespace HealthV2.TraumaTypes
 					{
 						currentStage = 3;
 						Chat.AddActionMsgToChat(bodyPart.HealthMaster.gameObject,
-							$"<color=red>Parts of the {bodyPart.gameObject.ExpensiveName()} crumble and ash away.</color");
+							$"<color=red>Parts of the {bodyPart.gameObject.ExpensiveName()} crumble and ash away.</color>");
 						return;
 					}
 					AshBodyPart();
