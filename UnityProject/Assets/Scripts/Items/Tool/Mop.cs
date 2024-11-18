@@ -41,12 +41,6 @@ public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IEx
 		//can only mop tiles
 		if (!Validations.HasComponent<InteractableTiles>(interaction.TargetObject)) return false;
 
-		//don't attempt to mop walls
-		if (MatrixManager.IsWallAt(interaction.WorldPositionTarget.RoundToInt(), isServer: side == NetworkSide.Server))
-		{
-			return false;
-		}
-
 		return true;
 	}
 

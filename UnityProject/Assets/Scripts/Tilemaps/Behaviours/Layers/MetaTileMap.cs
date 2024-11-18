@@ -2907,6 +2907,7 @@ namespace TileManagement
 			bool onlyIfCleanable = false)
 		{
 			RemoveOverlaysOfType(cellPosition, LayerType.Effects, overlayType, onlyIfCleanable);
+			RemoveOverlaysOfType(cellPosition, LayerType.UnderObjectsEffects, overlayType, onlyIfCleanable);
 		}
 
 		public void RemoveAllOverlays(Vector3Int cellPosition, LayerType layerType, bool onlyIfCleanable = false)
