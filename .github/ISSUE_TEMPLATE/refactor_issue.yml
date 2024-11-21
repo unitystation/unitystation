@@ -13,7 +13,7 @@ body:
        required: true
   - type: dropdown
     attributes:
-      label: What is the main area does this refactor effect?
+      label: What main areas does this refactor effect?
       description: Keep in mind that the larger the scope, the harder this refactor will be finished. Keep the affected areas to a minimum.
       multiple: true
       options:
