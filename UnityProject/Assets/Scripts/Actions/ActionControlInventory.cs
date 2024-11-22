@@ -9,7 +9,7 @@ namespace UI.Action
 	{
 		public ActionController ActionControllerType = ActionController.Inventory;
 
-		public List<IGameActionHolderSingle> ControllingActions = new List<IGameActionHolderSingle>();
+		public List<IGameActionHolder> ControllingActions = new List<IGameActionHolder>();
 
 		private GameObject previousOn;
 
@@ -59,7 +59,7 @@ namespace UI.Action
 
 		void Start()
 		{
-			var ActionGUIs = this.GetComponents<IGameActionHolderSingle>();
+			var ActionGUIs = this.GetComponents<IGameActionHolder>();
 			foreach (var ActionGUI in ActionGUIs)
 			{
 				if (ActionGUI.ActionData.PreventBeingControlledBy.Contains(ActionControllerType) == false)

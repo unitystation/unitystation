@@ -26,11 +26,11 @@ namespace UI.Core.Action
 		}*/
 
 
-		private Dictionary<GameObject, List<IGameActionHolderSingle>> ActivePlayerActions = new Dictionary<GameObject, List<IGameActionHolderSingle>>();
-		private Dictionary<IGameActionHolderSingle, GameObject> IActionGUIToMind = new Dictionary<IGameActionHolderSingle, GameObject>();
+		private Dictionary<GameObject, List<IGameActionHolder>> ActivePlayerActions = new Dictionary<GameObject, List<IGameActionHolder>>();
+		private Dictionary<IGameActionHolder, GameObject> IActionGUIToMind = new Dictionary<IGameActionHolder, GameObject>();
 
-		private Dictionary<IGameActionHolderSingle, string> IActionGUIToID = new Dictionary<IGameActionHolderSingle, string>();
-		private Dictionary<IGameActionHolderSingle, string> ClientIActionGUIToID = new Dictionary<IGameActionHolderSingle, string>();
+		private Dictionary<IGameActionHolder, string> IActionGUIToID = new Dictionary<IGameActionHolder, string>();
+		private Dictionary<IGameActionHolder, string> ClientIActionGUIToID = new Dictionary<IGameActionHolder, string>();
 
 		/// <summary>
 		/// The dict of all actions keyed to their UUID
@@ -172,17 +172,17 @@ namespace UI.Core.Action
 		/// <summary>
 		/// Set the action button visibility
 		/// </summary>
-		public static void ToggleServer(GameObject body, IGameActionHolderSingle iActionGUI, bool show)
+		public static void ToggleServer(GameObject body, IGameActionHolder iActionGUI, bool show)
 		{
 			Instance.InstantToggleServer(body, iActionGUI, show);
 		}
 
-		private void InstantToggleServer(GameObject Body, IGameActionHolderSingle iActionGUI, bool show)
+		private void InstantToggleServer(GameObject Body, IGameActionHolder iActionGUI, bool show)
 		{
 			if (CustomNetworkManager.IsServer == false || Body == null) return;
 			if (ActivePlayerActions.ContainsKey(Body) == false)
 			{
-				ActivePlayerActions[Body] = new List<IGameActionHolderSingle>();
+				ActivePlayerActions[Body] = new List<IGameActionHolder>();
 			}
 
 			if (show)
@@ -225,7 +225,7 @@ namespace UI.Core.Action
 		}
 
 
-		public static void ToggleClient(IGameActionHolderSingle iActionGUI, bool show, string ID) //Internal use only!! reeee
+		public static void ToggleClient(IGameActionHolder iActionGUI, bool show, string ID) //Internal use only!! reeee
 		{
 			if (show)
 			{
@@ -244,11 +244,11 @@ namespace UI.Core.Action
 		}
 
 
-		public static bool HasActionData(ActionData actionData, [CanBeNull] out IGameActionHolderSingle actionInstance)
+		public static bool HasActionData(ActionData actionData, [CanBeNull] out IGameActionHolder actionInstance)
 		{
 			foreach (var key in Instance.DicIActionGUI.Keys)
 			{
-				if (key is IGameActionHolderSingle keyI && keyI.ActionData == actionData)
+				if (key is IGameActionHolder keyI && keyI.ActionData == actionData)
 				{
 					actionInstance = keyI;
 					return true;
@@ -259,7 +259,7 @@ namespace UI.Core.Action
 			return false;
 		}
 
-		public static void SetClientSpriteSO(IGameActionHolderSingle iActionGUI, SpriteDataSO sprite,
+		public static void SetClientSpriteSO(IGameActionHolder iActionGUI, SpriteDataSO sprite,
 			List<Color> palette = null)
 		{
 			Debug.Assert(!(sprite.IsPalette && palette == null),
@@ -280,7 +280,7 @@ namespace UI.Core.Action
 		/// <summary>
 		/// Sets the sprite of the action button.
 		/// </summary>
-		public static void SetServerSpriteSO(IGameActionHolderSingle iActionGUI, SpriteDataSO sprite,
+		public static void SetServerSpriteSO(IGameActionHolder iActionGUI, SpriteDataSO sprite,
 			List<Color> palette = null)
 		{
 			if (Instance.IActionGUIToMind.ContainsKey(iActionGUI) == false)
@@ -294,7 +294,7 @@ namespace UI.Core.Action
 				palette);
 		}
 
-		public static void SetClientSprite(IGameActionHolderSingle iActionGUI, int Location)
+		public static void SetClientSprite(IGameActionHolder iActionGUI, int Location)
 		{
 			if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
 			{
@@ -307,7 +307,7 @@ namespace UI.Core.Action
 			}
 		}
 
-		public static void SetServerSprite(IGameActionHolderSingle iActionGUI, int Location)
+		public static void SetServerSprite(IGameActionHolder iActionGUI, int Location)
 		{
 			if (Instance.IActionGUIToMind.ContainsKey(iActionGUI) == false)
 			{
@@ -319,7 +319,7 @@ namespace UI.Core.Action
 		}
 
 
-		public static void SetClientBackground(IGameActionHolderSingle iActionGUI, int Location)
+		public static void SetClientBackground(IGameActionHolder iActionGUI, int Location)
 		{
 			if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
 			{
@@ -332,7 +332,7 @@ namespace UI.Core.Action
 			}
 		}
 
-		public static void SetServerBackground(IGameActionHolderSingle iActionGUI, int Location)
+		public static void SetServerBackground(IGameActionHolder iActionGUI, int Location)
 		{
 			if (Instance.IActionGUIToMind.ContainsKey(iActionGUI) == false)
 			{
@@ -345,7 +345,7 @@ namespace UI.Core.Action
 		}
 
 
-		public static void SetCooldownLocal(IGameActionHolderSingle iActionGUI, float cooldown)
+		public static void SetCooldownLocal(IGameActionHolder iActionGUI, float cooldown)
 		{
 			if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
 			{
@@ -363,12 +363,12 @@ namespace UI.Core.Action
 			}
 		}
 
-		public static void SetCooldown(IGameActionHolderSingle iActionGUI, float cooldown, GameObject recipient)
+		public static void SetCooldown(IGameActionHolder iActionGUI, float cooldown, GameObject recipient)
 		{
 			SetActionUIMessage.SetAction(Instance.IActionGUIToID[iActionGUI], recipient, iActionGUI, cooldown);
 		}
 
-		private static void Show(string ID ,IGameActionHolderSingle iActionGUI, GameObject body)
+		private static void Show(string ID ,IGameActionHolder iActionGUI, GameObject body)
 		{
 			if (CustomNetworkManager.IsServer && body != null)
 			{
@@ -381,7 +381,7 @@ namespace UI.Core.Action
 				foreach (var actionButton in Instance.DicIActionGUI)
 				{
 					//Remove old button from list. Don't spawn the same button if it already exists!
-					if (actionButton.Key is IGameActionHolderSingle keyI &&
+					if (actionButton.Key is IGameActionHolder keyI &&
 					    actionButton.Value[0].iAction == iActionGUI)
 					{
 						Hide(keyI, null);
@@ -411,7 +411,7 @@ namespace UI.Core.Action
 			}
 		}
 
-		private static void Hide( IGameActionHolderSingle iAction, GameObject Body)
+		private static void Hide( IGameActionHolder iAction, GameObject Body)
 		{
 			if (CustomNetworkManager.IsServer && Body != null)
 			{
@@ -482,7 +482,7 @@ namespace UI.Core.Action
 			if (Instance.DicIActionGUI.Count == 0) return;
 			for (int i = Instance.DicIActionGUI.Count - 1; i > -1; i--)
 			{
-				if (Instance.DicIActionGUI.ElementAt(i).Key is IGameActionHolderSingle iActionGui)
+				if (Instance.DicIActionGUI.ElementAt(i).Key is IGameActionHolder iActionGui)
 				{
 					Hide(iActionGui, null);
 					continue;

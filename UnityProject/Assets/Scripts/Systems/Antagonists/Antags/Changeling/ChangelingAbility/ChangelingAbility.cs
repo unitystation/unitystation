@@ -11,7 +11,7 @@ namespace Changeling
 {
 	[Serializable]
 	[DisallowMultipleComponent]
-	public class ChangelingAbility : NetworkBehaviour, IGameActionHolderSingle
+	public class ChangelingAbility : NetworkBehaviour, IGameActionHolder
 	{
 		public ChangelingBaseAbility ability;
 		public ChangelingBaseAbility AbilityData => ability;

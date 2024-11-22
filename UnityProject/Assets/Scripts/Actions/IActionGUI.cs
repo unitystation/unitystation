@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mirror;
+using UI.Action;
 using UI.Core.Action;
 using UnityEngine;
 
@@ -18,26 +19,30 @@ public interface IGameActionHolderBasic
 	}
 }
 
-///Using both IGameActionHolderSingle and IActionGUIMULTI on a script will not work!!!, USE ONLY ONE OF THE Interface Types!!!///
+///Using both IGameActionHolder and IActionGUIMULTI on a script will not work!!!, USE ONLY ONE OF THE Interface Types!!!///
 
-public interface IGameActionHolderSingle : IGameActionHolderBasic
+public interface IGameActionHolder : IGameActionHolderBasic
 {
 	ActionData ActionData { get; }
 
-	void CallActionClient();
+	void CallActionClient()
+	{
+		UIAction action = UIActionManager.Instance.DicIActionGUI[this][0];
+		PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestAction(ActionGuid, action.LastClickPosition);
+	}
 }
 
 /// <summary>
 /// Simply implement this to Implement your Networked screen action
 /// </summary>
-public interface IServerActionGUI : IGameActionHolderSingle
+public interface IServerActionGUI : IGameActionHolder
 {
 	void CallActionServer(PlayerInfo playerInfo); //Requires validation in this
 }
 
 //some example classes
 /*
-public class __ExampleIActionGUI__ : IGameActionHolderSingle
+public class __ExampleIActionGUI__ : IGameActionHolder
 {
 	[SerializeField]
 	private ActionData actionData = null;

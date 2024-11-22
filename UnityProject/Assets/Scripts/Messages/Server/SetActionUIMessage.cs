@@ -46,7 +46,7 @@ namespace Messages.Server
 
 		private void ProcessActionGUI(NetMessage msg)
 		{
-			IGameActionHolderSingle action = null;
+			IGameActionHolder action = null;
 			if (msg.actionListID != 0)
 			{
 				//SO action singleton ID
@@ -98,7 +98,7 @@ namespace Messages.Server
 
 				if (actions.Length > msg.ComponentLocation)
 				{
-					action = (actions[msg.ComponentLocation] as IGameActionHolderSingle);
+					action = (actions[msg.ComponentLocation] as IGameActionHolder);
 				}
 			}
 
@@ -119,7 +119,7 @@ namespace Messages.Server
 		private static NetMessage _Send(
 			GameObject recipient,
 			string ID,
-			IGameActionHolderSingle action,
+			IGameActionHolder action,
 			UpdateType ProposedAction,
 			bool show = false,
 			float cooldown = 0,
@@ -209,7 +209,7 @@ namespace Messages.Server
 					bool isFound = false;
 					foreach (var foundAction in foundActions)
 					{
-						if ((foundAction as IGameActionHolderSingle) == action)
+						if ((foundAction as IGameActionHolder) == action)
 						{
 							isFound = true;
 							break;
@@ -237,24 +237,24 @@ namespace Messages.Server
 				}
 				else
 				{
-					Loggy.LogError("Failed to find IGameActionHolderSingle on NetworkIdentity", Category.UserInput);
+					Loggy.LogError("Failed to find IGameActionHolder on NetworkIdentity", Category.UserInput);
 				}
 			}
 
 			return new NetMessage();
 		}
 
-		public static NetMessage SetAction(string ID , GameObject recipient, IGameActionHolderSingle iServerActionGUI, bool _showAlert)
+		public static NetMessage SetAction(string ID , GameObject recipient, IGameActionHolder iServerActionGUI, bool _showAlert)
 		{
 			return _Send(recipient, ID, iServerActionGUI, UpdateType.StateChange, _showAlert);
 		}
 
-		public static NetMessage SetAction(string ID , GameObject recipient, IGameActionHolderSingle iServerActionGUI, float cooldown)
+		public static NetMessage SetAction(string ID , GameObject recipient, IGameActionHolder iServerActionGUI, float cooldown)
 		{
 			return _Send( recipient,ID, iServerActionGUI, UpdateType.Cooldown, cooldown: cooldown);
 		}
 
-		public static NetMessage SetSprite(string ID,GameObject recipient, IGameActionHolderSingle iServerActionGUI, int FrontIconlocation)
+		public static NetMessage SetSprite(string ID,GameObject recipient, IGameActionHolder iServerActionGUI, int FrontIconlocation)
 		{
 			ID += "F";
 			var Change = new SpriteHandlerManager.SpriteChange()
@@ -270,7 +270,7 @@ namespace Messages.Server
 			return _Send(recipient, ID, iServerActionGUI, UpdateType.Invalid, Change:Change);
 		}
 
-		public static NetMessage SetSpriteSO(string ID, GameObject recipient, IGameActionHolderSingle iServerActionGUI, SpriteDataSO spriteDataSO, List<Color> palette = null)
+		public static NetMessage SetSpriteSO(string ID, GameObject recipient, IGameActionHolder iServerActionGUI, SpriteDataSO spriteDataSO, List<Color> palette = null)
 		{
 			ID += "F";
 			var Change = new SpriteHandlerManager.SpriteChange()
@@ -288,7 +288,7 @@ namespace Messages.Server
 			return _Send(recipient,ID , iServerActionGUI, UpdateType.Invalid, Change:Change );
 		}
 
-		public static NetMessage SetBackgroundSprite(string ID, GameObject recipient, IGameActionHolderSingle iServerActionGUI,
+		public static NetMessage SetBackgroundSprite(string ID, GameObject recipient, IGameActionHolder iServerActionGUI,
 			int BackIconlocation)
 		{
 			ID += "B";
