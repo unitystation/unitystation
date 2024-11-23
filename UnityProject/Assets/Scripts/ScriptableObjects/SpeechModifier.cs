@@ -58,11 +58,11 @@ namespace ScriptableObjects
 				char c = message[i];
 
 
-				if (!char.IsSeparator(c) && !char.IsPunctuation(c) && (i != message.Length -1) ) continue;
+				if (char.IsSeparator(c) == false && char.IsPunctuation(c) == false && (i != message.Length -1) ) continue;
 
 				string substring = "";
 
-				if ((i == message.Length - 1))
+				if (i == message.Length - 1)
 				{
 					substring = message.Substring(start, message.Length - start);
 				}
