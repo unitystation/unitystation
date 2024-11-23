@@ -88,9 +88,7 @@ GameObject:
   - component: {fileID: 6723696360663106323}
   - component: {fileID: 4666375109539239176}
   - component: {fileID: 8022816116320494562}
-  - component: {fileID: 1568582704148453837}
   - component: {fileID: 8664567221878969837}
-  - component: {fileID: 8083730085417261847}
   m_Layer: 5
   m_Name: STT in put
   m_TagString: Untagged
@@ -145,7 +143,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300002, guid: cb004264e7f38784aaeb890598d4f68e, type: 3}
+  m_Sprite: {fileID: 21300006, guid: cb004264e7f38784aaeb890598d4f68e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -177,38 +175,6 @@ MonoBehaviour:
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
---- !u!114 &1568582704148453837
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 758773469111492354}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9370225a2ca94276b870d5f87b0db55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  logLevel: 1
-  modelPath: Whisper/ggml-tiny.bin
-  isModelPathInStreamingAssets: 1
-  initOnAwake: 1
-  language: auto
-  translateToEnglish: 0
-  strategy: 0
-  noContext: 1
-  singleSegment: 1
-  enableTokens: 0
-  initialPrompt: 
-  stepSec: 3
-  keepSec: 0.2
-  lengthSec: 10
-  updatePrompt: 1
-  dropOldBuffer: 0
-  useVad: 1
-  tokensTimestamps: 0
-  speedUp: 0
-  audioCtx: 0
 --- !u!114 &8664567221878969837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,37 +187,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70905c3e931ba014a95051ef4e52d31a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  microphoneRecord: {fileID: 8083730085417261847}
-  whisper: {fileID: 1568582704148453837}
---- !u!114 &8083730085417261847
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 758773469111492354}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bc03a4c19604ea394e364f8fc632928, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxLengthSec: 60
-  loop: 1
-  frequency: 16000
-  chunksLengthSec: 0.5
-  echo: 1
-  useVad: 1
-  vadUpdateRateSec: 0.1
-  vadContextSec: 30
-  vadLastSec: 1.25
-  vadThd: 1
-  vadFreqThd: 100
-  vadIndicatorImage: {fileID: 0}
-  vadStop: 0
-  dropVadPart: 1
-  vadStopTime: 3
-  microphoneDropdown: {fileID: 0}
-  microphoneDefaultLabel: Default microphone
+  microphoneRecord: {fileID: 0}
+  whisper: {fileID: 0}
+  WhisperManagerPrefab: {fileID: 4451988510636130019, guid: 44733ec6312182e43b7c5588745c31ba,
+    type: 3}
 --- !u!1 &1533752697964315066
 GameObject:
   m_ObjectHideFlags: 0

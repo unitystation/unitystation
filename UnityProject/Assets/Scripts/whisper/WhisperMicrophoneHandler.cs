@@ -14,6 +14,9 @@ public class WhisperMicrophoneHandler : SingletonManager<WhisperMicrophoneHandle
 	private string _buffer;
 	public WhisperManager whisper;
 
+	public GameObject WhisperManagerPrefab;
+
+
 	private bool Started;
 
 	public override void Start()
@@ -22,20 +25,21 @@ public class WhisperMicrophoneHandler : SingletonManager<WhisperMicrophoneHandle
 		base.Start();
 		this.gameObject.SetActive(false);
 	}
-
-	public override void Awake()
+	
+	public void SetUpWhisper()
 	{
-		base.Awake();
+		Instantiate(WhisperManagerPrefab, this.gameObject.transform);
+		microphoneRecord = this.GetComponentInChildren<MicrophoneRecord>();
+		whisper  = this.GetComponentInChildren<WhisperManager>();
 		microphoneRecord.OnRecordStop += OnRecordStop;
-
-
-		//Logic. Inside recording
-		//button.onClick.AddListener(OnButtonPressed);
 	}
 
 	public void OnDisable()
 	{
-		MicrophoneAccess.ToggleRecordsState(microphoneRecord, false);
+		if (microphoneRecord != null)
+		{
+			MicrophoneAccess.ToggleRecordsState(microphoneRecord, false);
+		}
 	}
 
 	public void OnEnable()
@@ -43,6 +47,11 @@ public class WhisperMicrophoneHandler : SingletonManager<WhisperMicrophoneHandle
 		if (Started == false) return;
 		if (MicrophoneAccess.MicEnabledPublic)
 		{
+			if (microphoneRecord == null)
+			{
+				SetUpWhisper();
+			}
+
 			MicrophoneAccess.ToggleRecordsState(microphoneRecord, true);
 		}
 		else

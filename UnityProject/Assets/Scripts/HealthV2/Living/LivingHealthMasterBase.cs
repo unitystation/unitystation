@@ -620,7 +620,7 @@ namespace HealthV2
 				{
 					foreach (var surfaceReagent in SurfaceReagents)
 					{
-						ApplyReagentsToSurface(node.SmokeNode.Present.Clone(), surfaceReagent.Key);
+						ApplyReagentsToSurface(node.FoamNode.Present.Clone(), surfaceReagent.Key);
 					}
 				}
 			}
