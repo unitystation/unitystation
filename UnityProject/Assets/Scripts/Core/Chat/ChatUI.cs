@@ -309,19 +309,19 @@ namespace UI.Chat_UI
 				}
 			}
 
-			if (InputManagerWrapper.GetKey(KeyCode.F6) && Math.Abs((DateTimePressedf6ToggleSTT - DateTime.Now).TotalMilliseconds) > 200f)
-			{
-
-
-				DateTimePressedf6ToggleSTT = DateTime.Now;
-				OnToggleSTT();
-			}
 
 			if (!chatInputWindow.activeInHierarchy) return;
 			if (KeyboardInputManager.IsEscapePressed())
 			{
 				CloseChatWindow();
 			}
+
+			if (InputManagerWrapper.GetKey(KeyCode.F6) && Math.Abs((DateTimePressedf6ToggleSTT - DateTime.Now).TotalMilliseconds) > 200f)
+			{
+				DateTimePressedf6ToggleSTT = DateTime.Now;
+				OnToggleSTT();
+			}
+
 
 			if (InputFieldChat.isFocused) return;
 			if (KeyboardInputManager.IsMovementPressed() || KeyboardInputManager.IsEscapePressed())
