@@ -10,12 +10,11 @@ using Whisper.Utils;
 
 public class WhisperMicrophoneHandler : SingletonManager<WhisperMicrophoneHandler>
 {
-	public MicrophoneRecord microphoneRecord;
+	[HideInInspector] public MicrophoneRecord microphoneRecord;
 	private string _buffer;
-	public WhisperManager whisper;
+	[HideInInspector] public WhisperManager whisper;
 
 	public GameObject WhisperManagerPrefab;
-
 
 	private bool Started;
 
@@ -25,7 +24,7 @@ public class WhisperMicrophoneHandler : SingletonManager<WhisperMicrophoneHandle
 		base.Start();
 		this.gameObject.SetActive(false);
 	}
-	
+
 	public void SetUpWhisper()
 	{
 		Instantiate(WhisperManagerPrefab, this.gameObject.transform);
@@ -66,6 +65,20 @@ public class WhisperMicrophoneHandler : SingletonManager<WhisperMicrophoneHandle
 	{
 		_buffer = "";
 
+		var ToUesChatChannel = ChatChannel.Local;
+		if (InputManagerWrapper.GetKey(KeyCode.Semicolon)) ToUesChatChannel |= ChatChannel.Common;
+		if (InputManagerWrapper.GetKey(KeyCode.B)) ToUesChatChannel |= ChatChannel.Binary;
+		if (InputManagerWrapper.GetKey(KeyCode.U)) ToUesChatChannel |= ChatChannel.Supply;
+		//if (InputManagerWrapper.GetKey(KeyCode.Y)) ToUesChatChannel |= ChatChannel.CentComm; Conflicts with opening chat with Local Preselected
+		if (InputManagerWrapper.GetKey(KeyCode.C)) ToUesChatChannel |= ChatChannel.Command;
+		if (InputManagerWrapper.GetKey(KeyCode.E)) ToUesChatChannel |= ChatChannel.Engineering;
+		//if (InputManagerWrapper.GetKey(KeyCode.M)) ToUesChatChannel |= ChatChannel.Medical; //Conflicts with toggling STT (This very thing )
+		//if (InputManagerWrapper.GetKey(KeyCode.N)) ToUesChatChannel |= ChatChannel.Science; //Conflicts with toggle voice chat
+		//if (InputManagerWrapper.GetKey(KeyCode.S)) ToUesChatChannel |= ChatChannel.Security; //Conflicts with movement key
+		if (InputManagerWrapper.GetKey(KeyCode.V)) ToUesChatChannel |= ChatChannel.Service;
+		//if (InputManagerWrapper.GetKey(KeyCode.T)) ToUesChatChannel |= ChatChannel.Syndicate; //Conflicts with open chat Shortcut
+
+
 		var res = await whisper.GetTextAsync(recordedAudio.Data, recordedAudio.Frequency, recordedAudio.Channels);
 		if (res == null)
 			return;
@@ -90,7 +103,7 @@ public class WhisperMicrophoneHandler : SingletonManager<WhisperMicrophoneHandle
 		}
 		else if (PlayerManager.LocalMindScript.isGhosting == false)
 		{
-			PostToChatMessage.Send(text, ChatChannel.Local,
+			PostToChatMessage.Send(text, ToUesChatChannel,
 				languageId: 0); //Languages automatically Set from the server
 		}
 		else

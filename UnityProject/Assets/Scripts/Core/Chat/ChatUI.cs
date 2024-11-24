@@ -97,6 +97,9 @@ namespace UI.Chat_UI
 		private List<ChatEntry> allEntries = new List<ChatEntry>();
 		private int hiddenEntries = 0;
 		private bool scrollBarInteract = false;
+		private DateTime DateTimePressedf6ToggleSTT;
+
+
 		public event Action<bool> scrollBarEvent;
 		public event System.Action checkPositionEvent;
 
@@ -306,6 +309,14 @@ namespace UI.Chat_UI
 				}
 			}
 
+			if (InputManagerWrapper.GetKey(KeyCode.F6) && Math.Abs((DateTimePressedf6ToggleSTT - DateTime.Now).TotalMilliseconds) > 200f)
+			{
+
+
+				DateTimePressedf6ToggleSTT = DateTime.Now;
+				OnToggleSTT();
+			}
+
 			if (!chatInputWindow.activeInHierarchy) return;
 			if (KeyboardInputManager.IsEscapePressed())
 			{
@@ -317,6 +328,8 @@ namespace UI.Chat_UI
 			{
 				CloseChatWindow();
 			}
+
+
 		}
 
 		/// <summary>
@@ -436,6 +449,7 @@ namespace UI.Chat_UI
 		{
 			checkPositionEvent?.Invoke();
 		}
+
 
 		public void OnToggleSTT()
 		{
