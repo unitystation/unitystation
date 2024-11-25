@@ -34,7 +34,6 @@ namespace Systems.DynamicAmbience
 
 		public void PlayRandomClipLocally()
 		{
-			Debug.Log("playing random clip from" + name);
 			_ = SoundManager.Play(ambientClips.PickRandom(), new Guid().ToString());
 		}
 	}
