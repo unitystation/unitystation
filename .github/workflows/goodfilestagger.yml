@@ -71,6 +71,8 @@ jobs:
 
       - name: Determine the new version
         id: version_bump
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Set the GH_TOKEN for the gh CLI
         run: |
           # Get the latest tag, prefixed with "good file"
           LATEST_TAG=$(git tag --sort=-v:refname | grep -m 1 "^good file" || true)
