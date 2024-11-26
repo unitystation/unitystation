@@ -22,21 +22,31 @@ jobs:
       - name: Check for modified files
         id: check_changes
         run: |
-          MODIFIED_FILES=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }})
-          echo "Modified files: $MODIFIED_FILES"
-          echo "::set-output name=modified::$MODIFIED_FILES"
-          # Define folders/files to watch
-          WATCHED="UnityProject/Packages/ UnityProject/ProjectSettings/ UnityProject/Assets/Plugins/ UnityProject/Assets/Scripts/Core/SecureStuff/"
-          
-          for ITEM in $WATCHED; do
-            if echo "$MODIFIED_FILES" | grep -q "^$ITEM"; then
-              echo "Found changes in $ITEM"
-              echo "::set-output name=triggered::true"
-              exit 0
-            fi
-          done
-          echo "::set-output name=triggered::false"
+            # Ensure all commits are fetched for the PR
+            git fetch --prune --unshallow
 
+            # Get modified files between the base commit and the current commit
+            MODIFIED_FILES=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }})
+            
+            if [ $? -ne 0 ]; then
+              echo "Error: Could not fetch diff between commits"
+              exit 1
+            fi
+
+            echo "Modified files: $MODIFIED_FILES"
+            echo "::set-output name=modified::$MODIFIED_FILES"
+
+            # Define folders/files to watch
+            WATCHED="UnityProject/Packages/ UnityProject/ProjectSettings/ UnityProject/Assets/Plugins/ UnityProject/Assets/Scripts/Core/SecureStuff/"
+            
+            for ITEM in $WATCHED; do
+              if echo "$MODIFIED_FILES" | grep -q "^$ITEM"; then
+                echo "Found changes in $ITEM"
+                echo "::set-output name=triggered::true"
+                exit 0
+              fi
+            done
+            echo "::set-output name=triggered::false"
       - name: Check for version or ignore flag
         id: version_check
         if: steps.check_changes.outputs.triggered == 'true'
@@ -90,6 +100,7 @@ jobs:
           fi
           echo "New version: $NEW_VERSION"
           echo "::set-output name=new_version::$NEW_VERSION"
+
 
       - name: Tag the commit
         run: |
