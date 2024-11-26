@@ -9,8 +9,7 @@ on:
       - edited
   push:
     branches:
-      - main
-
+      - develop
 jobs:
   check-changes:
     if: github.event_name == 'pull_request'
