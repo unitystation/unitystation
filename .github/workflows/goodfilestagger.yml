@@ -11,8 +11,8 @@ on:
     branches:
       - develop
 jobs:
-  check-changes:
-    if: github.event_name == 'pull_request'
+  tag-commit:
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/develop')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -21,91 +21,61 @@ jobs:
       - name: Check for modified files
         id: check_changes
         run: |
-            # Ensure all commits are fetched for the PR
-            git fetch --prune --unshallow
+          git fetch --prune --unshallow
+          MODIFIED_FILES=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }})
+          echo "Modified files: $MODIFIED_FILES"
+          echo "::set-output name=modified::$MODIFIED_FILES"
 
-            # Get modified files between the base commit and the current commit
-            MODIFIED_FILES=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }})
-            
-            if [ $? -ne 0 ]; then
-              echo "Error: Could not fetch diff between commits"
-              exit 1
+          # Define folders/files to watch
+          WATCHED="UnityProject/Packages/ UnityProject/ProjectSettings/ UnityProject/Assets/Plugins/ UnityProject/Assets/Scripts/Core/SecureStuff/"
+          
+          # Check if any of the watched files/folders were modified
+          for ITEM in $WATCHED; do
+            if echo "$MODIFIED_FILES" | grep -q "^$ITEM"; then
+              echo "Found changes in $ITEM"
+              echo "::set-output name=triggered::true"
+              exit 0
             fi
+          done
 
-            echo "Modified files: $MODIFIED_FILES"
-            echo "::set-output name=modified::$MODIFIED_FILES"
+          # If no watched files were modified, do not trigger version increment
+          echo "::set-output name=triggered::false"
 
-            # Define folders/files to watch
-            WATCHED="UnityProject/Packages/ UnityProject/ProjectSettings/ UnityProject/Assets/Plugins/ UnityProject/Assets/Scripts/Core/SecureStuff/"
-            
-            for ITEM in $WATCHED; do
-              if echo "$MODIFIED_FILES" | grep -q "^$ITEM"; then
-                echo "Found changes in $ITEM"
-                echo "::set-output name=triggered::true"
-                exit 0
-              fi
-            done
-            echo "::set-output name=triggered::false"
-      - name: Check for version or ignore flag
-        id: version_check
-        if: steps.check_changes.outputs.triggered == 'true'
-        run: |
-          VERSION_INPUT=$(echo "${{ github.event.pull_request.body }}" | grep -oP '(?<=Good file version: )\d+\.\d+\.\d+')
-          IGNORE_VERSION=$(echo "${{ github.event.pull_request.body }}" | grep -oP '(?<=Good file version: )ignore' || true)
-          if [ -z "$VERSION_INPUT" ] && [ -z "$IGNORE_VERSION" ]; then
-            echo "Good file version not found. Add 'Good file version: x.y.z' or 'Good file version: ignore' to the PR description."
-            exit 1
-          fi
-          echo "Version Input: $VERSION_INPUT"
-          echo "Ignore Version: $IGNORE_VERSION"
-
-  tag-commit:
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/develop')
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Fetch tags
-        run: git fetch --tags
-
-      - name: Determine the new version
+      - name: Increment version and create tag
+        if: steps.check_changes.outputs.triggered == 'true'  # Only run if files were modified
         id: version_bump
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Set the GH_TOKEN for the gh CLI
         run: |
-          # Get the latest tag, prefixed with "good file"
+          # Get the latest tag, sorted by version
           LATEST_TAG=$(git tag --sort=-v:refname | grep -m 1 "^good file" || true)
-          # Extract version components from the latest "good file" tag
+          
           if [ -z "$LATEST_TAG" ]; then
+            # No tags found, start with version 0.1.0
             MAJOR=0
-            MINOR=0
+            MINOR=1
             PATCH=0
           else
-            # Remove "good file" prefix and extract version components
+            # Remove "good file " prefix and split into version components
             VERSION=${LATEST_TAG#"good file "}
             MAJOR=$(echo "$VERSION" | cut -d. -f1)
             MINOR=$(echo "$VERSION" | cut -d. -f2)
             PATCH=$(echo "$VERSION" | cut -d. -f3)
-          fi
-          # Check if a version was provided in the PR body
-          PR_NUMBER=$(gh pr list --base main --state merged --json number --jq '.[0].number')
-          PR_BODY=$(gh pr view $PR_NUMBER --json body --jq '.body')
-          VERSION_INPUT=$(echo "$PR_BODY" | grep -oP '(?<=Good file version: )\d+\.\d+\.\d+' || true)
-          if [ -n "$VERSION_INPUT" ]; then
-            # If a version is provided in the PR body, use it
-            NEW_VERSION="good file $VERSION_INPUT"
-          else
-            # If no version is provided, auto-bump the minor version
-            NEW_VERSION="good file $MAJOR.$((MINOR + 1)).0"
-          fi
-          echo "New version: $NEW_VERSION"
-          echo "::set-output name=new_version::$NEW_VERSION"
 
+            # Increment the minor version
+            MINOR=$((MINOR + 1))
+            PATCH=0  # Reset patch to 0 when incrementing the minor version
+          fi
+
+          # Construct the new version
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+          NEW_TAG="good file $NEW_VERSION"
+
+          echo "New version: $NEW_TAG"
+          echo "::set-output name=new_version::$NEW_TAG"
 
       - name: Tag the commit
+        if: steps.check_changes.outputs.triggered == 'true'  # Only tag if files were modified
         run: |
           NEW_VERSION=${{ steps.version_bump.outputs.new_version }}
-          TAG_NAME="good file $NEW_VERSION"
-          git tag "$TAG_NAME"
-          git push origin "$TAG_NAME"
+          # Create and push the new tag
+          git tag "$NEW_VERSION"
+          git push origin "$NEW_VERSION"
