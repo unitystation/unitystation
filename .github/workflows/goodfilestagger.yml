@@ -1,0 +1,107 @@
+name: Good file Check and Tag Semantic Version
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - edited
+  push:
+    branches:
+      - main
+
+jobs:
+  check-changes:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Check for modified files
+        id: check_changes
+        run: |
+          MODIFIED_FILES=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }})
+          echo "Modified files: $MODIFIED_FILES"
+          echo "::set-output name=modified::$MODIFIED_FILES"
+
+          # Define folders/files to watch
+          WATCHED="UnityProject/Packages/ UnityProject/ProjectSettings/ UnityProject/Assets/Plugins/ UnityProject/Assets/Scripts/Core/SecureStuff/"
+          
+          for ITEM in $WATCHED; do
+            if echo "$MODIFIED_FILES" | grep -q "^$ITEM"; then
+              echo "Found changes in $ITEM"
+              echo "::set-output name=triggered::true"
+              exit 0
+            fi
+          done
+          echo "::set-output name=triggered::false"
+
+      - name: Check for version or ignore flag
+        id: version_check
+        if: scggered == 'true'
+        run: |
+          VERSION_INPUT=$(echo "${{ github.event.pull_request.body }}" | grep -oP '(?<=Good file version: )\d+\.\d+\.\d+')
+          IGNORE_VERSION=$(echo "${{ github.event.pull_request.body }}" | grep -oP '(?<=Good file version: )ignore' || true)
+
+          if [ -z "$VERSION_INPUT" ] && [ -z "$IGNORE_VERSION" ]; then
+            echo "Good file version not found. Add 'Good file version: x.y.z' or 'Good file version: ignore' to the PR description."
+            exit 1
+          fi
+
+          echo "Version Input: $VERSION_INPUT"
+          echo "Ignore Version: $IGNORE_VERSION"
+
+tag-commit:
+  if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/main')
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Fetch tags
+      run: git fetch --tags
+
+    - name: Determine the new version
+      id: version_bump
+      run: |
+        # Get the latest tag, prefixed with "good file"
+        LATEST_TAG=$(git tag --sort=-v:refname | grep -m 1 "^good file" || true)
+
+        # Extract version components from the latest "good file" tag
+        if [ -z "$LATEST_TAG" ]; then
+          MAJOR=0
+          MINOR=0
+          PATCH=0
+        else
+          # Remove "good file" prefix and extract version components
+          VERSION=${LATEST_TAG#"good file "}
+          MAJOR=$(echo "$VERSION" | cut -d. -f1)
+          MINOR=$(echo "$VERSION" | cut -d. -f2)
+          PATCH=$(echo "$VERSION" | cut -d. -f3)
+        fi
+
+        # Check if a version was provided in the PR body
+        PR_NUMBER=$(gh pr list --base main --state merged --json number --jq '.[0].number')
+        PR_BODY=$(gh pr view $PR_NUMBER --json body --jq '.body')
+        VERSION_INPUT=$(echo "$PR_BODY" | grep -oP '(?<=Good file version: )\d+\.\d+\.\d+' || true)
+
+        if [ -n "$VERSION_INPUT" ]; then
+          # If a version is provided in the PR body, use it
+          NEW_VERSION="good file $VERSION_INPUT"
+        else
+          # If no version is provided, auto-bump the minor version
+          NEW_VERSION="good file $MAJOR.$((MINOR + 1)).0"
+        fi
+
+        echo "New version: $NEW_VERSION"
+        echo "::set-output name=new_version::$NEW_VERSION"
+
+
+    - name: Tag the commit
+      run: |
+          NEW_VERSION=${{ steps.version_bump.outputs.new_version }}
+          TAG_NAME="good file $NEW_VERSION"
+          git tag "$TAG_NAME"
+          git push origin "$TAG_NAME"
