@@ -60,7 +60,7 @@ jobs:
           echo "Ignore Version: $IGNORE_VERSION"
 
   tag-commit:
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/main')
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/develop')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
