@@ -17,16 +17,22 @@ jobs:
         id: check_changes
         run: |
           git fetch --prune --unshallow
-          MODIFIED_FILES=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }})
+          
+          # Get the previous commit on the current branch
+          BASE_COMMIT=$(git rev-parse HEAD^)
+          echo "Base commit: $BASE_COMMIT"
+          
+          # Get the current commit
+          CURRENT_COMMIT=${{ github.sha }}
+          echo "Current commit: $CURRENT_COMMIT"
+
+          # Get the list of modified files
+          MODIFIED_FILES=$(git diff --name-only $BASE_COMMIT $CURRENT_COMMIT)
           echo "Modified files: $MODIFIED_FILES"
           echo "MODIFIED_FILES=$MODIFIED_FILES" >> $GITHUB_ENV
 
           # Define folders/files to watch
           WATCHED="UnityProject/Packages/ UnityProject/ProjectSettings/ UnityProject/Assets/Plugins/ UnityProject/Assets/Scripts/Core/SecureStuff/"
-
-          echo "Base commit: ${{ github.event.pull_request.base.sha }}"
-          echo "Current commit: ${{ github.sha }}"
-
 
           # Check if any of the watched files/folders were modified
           for ITEM in $WATCHED; do
@@ -36,9 +42,7 @@ jobs:
               exit 0
             fi
           done
-          
 
-          echo "found no changes for good files"
           # If no watched files were modified, do not trigger version increment
           echo "TRIGGERED=false" >> $GITHUB_ENV
 
