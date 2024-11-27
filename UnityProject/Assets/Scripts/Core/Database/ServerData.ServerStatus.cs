@@ -130,6 +130,8 @@ namespace DatabaseAPI
 				status.ForkName = buildInfo.ForkName;
 				status.BuildVersion = buildInfo.BuildNumber;
 
+				status.GoodFileVersion = buildInfo.GoodFileVersion;
+
 				if (SubSceneManager.Instance == null)
 				{
 					status.CurrentMap = "loading";
@@ -294,6 +296,7 @@ namespace DatabaseAPI
 		public string OSXDownload;
 		public string LinuxDownload;
 		public int fps;
+		public string GoodFileVersion;
 	}
 
 	//Read from Streaming Assets/config/config.json on the server
@@ -364,5 +367,8 @@ namespace DatabaseAPI
 		public int BuildNumber;
 		//I.E. Unitystation, ColonialMarines, BeeStation
 		public string ForkName;
+
+		//What good file version does this build use
+		public string GoodFileVersion;
 	}
 }
