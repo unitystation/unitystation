@@ -58,14 +58,14 @@ jobs:
         id: version_bump
         run: |
           # Get the latest tag, sorted by version
-          LATEST_TAG=$(git tag --list "good file*" --sort=-v:refname | head -n 1)
+          LATEST_TAG=$(git tag --list "good-file*" --sort=-v:refname | head -n 1)
 
           if [ -z "$LATEST_TAG" ]; then
             MAJOR=0
             MINOR=1
             PATCH=0
           else
-            VERSION=${LATEST_TAG#"good file "}
+            VERSION=${LATEST_TAG#"good-file-"}
             MAJOR=$(echo "$VERSION" | cut -d. -f1)
             MINOR=$(echo "$VERSION" | cut -d. -f2)
             PATCH=$(echo "$VERSION" | cut -d. -f3)
@@ -74,7 +74,7 @@ jobs:
           fi
 
           NEW_VERSION="$MAJOR.$MINOR.$PATCH"
-          NEW_TAG="good file $NEW_VERSION"
+          NEW_TAG="good-file-$NEW_VERSION"
           echo "New version: $NEW_TAG"
           echo "NEW_VERSION=$NEW_TAG" >> $GITHUB_ENV
         env:
