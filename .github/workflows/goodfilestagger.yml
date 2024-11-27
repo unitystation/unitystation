@@ -34,17 +34,25 @@ jobs:
           # Define folders/files to watch
           WATCHED="UnityProject/Packages/ UnityProject/ProjectSettings/ UnityProject/Assets/Plugins/ UnityProject/Assets/Scripts/Core/SecureStuff/"
 
-          # Check if any of the watched files/folders were modified
+          TRIGGERED=false
           for ITEM in $WATCHED; do
-            if echo "$MODIFIED_FILES" | grep -q "^$ITEM"; then
-              echo "Found changes in $ITEM"
-              echo "TRIGGERED=true" >> $GITHUB_ENV
-              exit 0
+            for MOD_FILE in $MODIFIED_FILES; do
+              if [[ "$MOD_FILE" == $ITEM* ]]; then
+                echo "Found changes in $ITEM"
+                TRIGGERED=true
+                break
+              fi
+            done
+            if [ "$TRIGGERED" == true ]; then
+              break
             fi
           done
-
-          # If no watched files were modified, do not trigger version increment
-          echo "TRIGGERED=false" >> $GITHUB_ENV
+          
+          if [ "$TRIGGERED" == true ]; then
+            echo "TRIGGERED=true" >> $GITHUB_ENV
+          else
+            echo "TRIGGERED=false" >> $GITHUB_ENV
+          fi
 
       - name: Increment version and create tag
         if: env.TRIGGERED == 'true'  # Only run if files were modified
