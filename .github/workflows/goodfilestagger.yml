@@ -73,6 +73,7 @@ jobs:
             PATCH=0
           fi
 
+
           NEW_VERSION="$MAJOR.$MINOR.$PATCH"
           NEW_TAG="good-file-$NEW_VERSION"
           echo "New version: $NEW_TAG"
