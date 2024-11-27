@@ -1,96 +1,89 @@
-name: Good file Check and Tag Semantic Version
+name: Good File Check and Tag Semantic Version
 
-on:  
-  push:    
-    branches:      
+on:
+  push:
+    branches:
       - develop
 
-jobs:  
-  tag-commit:    
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/develop')    
-    runs-on: ubuntu-latest    
-    steps:      
-      - name: Checkout code        
-        uses: actions/checkout@v3      
+jobs:
+  tag-commit:
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/develop')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Check for modified files        
-        id: check_changes        
-        run: |          
-          git fetch --prune --unshallow          
-          
-          # Get the previous commit on the current branch          
-          BASE_COMMIT=$(git rev-parse HEAD^)          
-          echo "Base commit: $BASE_COMMIT"          
-          
-          # Get the current commit          
-          CURRENT_COMMIT=${{ github.sha }}          
-          echo "Current commit: $CURRENT_COMMIT"          
-          
-          # Get the list of modified files          
-          MODIFIED_FILES=$(git diff --name-only $BASE_COMMIT $CURRENT_COMMIT)          
-          echo "Modified files: $MODIFIED_FILES"          
-          
-          # Save the modified files in an output variable          
-          echo "MODIFIED_FILES=$MODIFIED_FILES" >> $GITHUB_OUTPUT          
-          
-          # Define folders/files to watch          
-          WATCHED=("UnityProject/Packages/" "UnityProject/ProjectSettings/" "UnityProject/Assets/Plugins/" "UnityProject/Assets/Scripts/Core/SecureStuff/")          
-          
-          # Check if any of the watched files/folders were modified          
-          TRIGGERED=false          
-          for ITEM in "${WATCHED[@]}"; do            
-            for MOD_FILE in $MODIFIED_FILES; do              
-              if [[ "$MOD_FILE" == "$ITEM"* ]]; then                
-                echo "Found changes in $ITEM"                
-                TRIGGERED=true                
-                break              
-              fi            
-            done            
-            if [ "$TRIGGERED" == true ]; then              
-              break            
-            fi          
-          done          
-          
-          # Set the trigger status as an output          
-          if [ "$TRIGGERED" == true ]; then            
-            echo "TRIGGERED=true" >> $GITHUB_OUTPUT          
-          else            
-            echo "TRIGGERED=false" >> $GITHUB_OUTPUT          
-          fi      
+      - name: Check for modified files
+        id: check_changes
+        run: |
+          git fetch --prune --unshallow || true
 
-      - name: Increment version and create tag        
-        if: steps.check_changes.outputs.TRIGGERED == 'true'        
-        id: version_bump        
-        run: |          
-          # Get the latest tag, sorted by version          
-          LATEST_TAG=$(git tag --list "good file*" --sort=-v:refname | head -n 1)          
-          
-          if [ -z "$LATEST_TAG" ]; then            
-            # No tags found, start with version 0.1.0            
-            MAJOR=0            
-            MINOR=1            
-            PATCH=0          
-          else            
-            # Remove "good file " prefix and split into version components            
-            VERSION=${LATEST_TAG#"good file "}            
-            MAJOR=$(echo "$VERSION" | cut -d. -f1)            
-            MINOR=$(echo "$VERSION" | cut -d. -f2)            
-            PATCH=$(echo "$VERSION" | cut -d. -f3)            
-            # Increment the minor version            
-            MINOR=$((MINOR + 1))            
-            PATCH=0  # Reset patch to 0 when incrementing the minor version          
-          fi          
-          
-          # Construct the new version          
-          NEW_VERSION="$MAJOR.$MINOR.$PATCH"          
-          NEW_TAG="good file $NEW_VERSION"          
-          echo "New version: $NEW_TAG"          
-          echo "NEW_VERSION=$NEW_TAG" >> $GITHUB_OUTPUT      
+          # Get the previous commit on the current branch
+          BASE_COMMIT=$(git rev-parse HEAD^)
+          echo "Base commit: $BASE_COMMIT"
 
-      - name: Tag the commit        
-        if: steps.check_changes.outputs.TRIGGERED == 'true'        
-        run: |          
-          NEW_VERSION=${{ steps.version_bump.outputs.NEW_VERSION }}          
-          # Create and push the new tag          
-          git tag "$NEW_VERSION"          
+          # Get the current commit
+          CURRENT_COMMIT=${{ github.sha }}
+          echo "Current commit: $CURRENT_COMMIT"
+
+          # Get the list of modified files and save them as a newline-separated string
+          MODIFIED_FILES=$(git diff --name-only "$BASE_COMMIT" "$CURRENT_COMMIT")
+          echo "Modified files:"
+          echo "$MODIFIED_FILES"
+
+          # Define folders/files to watch
+          WATCHED=("UnityProject/Packages/" "UnityProject/ProjectSettings/" "UnityProject/Assets/Plugins/" "UnityProject/Assets/Scripts/Core/SecureStuff/")
+
+          # Initialize the trigger status
+          TRIGGERED=false
+
+          # Check if any of the watched files/folders were modified
+          while IFS= read -r MOD_FILE; do
+            for ITEM in "${WATCHED[@]}"; do
+              if [[ "$MOD_FILE" == "$ITEM"* ]]; then
+                echo "Found changes in $ITEM"
+                TRIGGERED=true
+                break 2
+              fi
+            done
+          done <<< "$MODIFIED_FILES"
+
+          # Set the trigger status as an output
+          echo "TRIGGERED=$TRIGGERED" >> $GITHUB_ENV
+        env:
+          GITHUB_ENV: ${{ github.env }}
+
+      - name: Increment version and create tag
+        if: env.TRIGGERED == 'true'
+        id: version_bump
+        run: |
+          # Get the latest tag, sorted by version
+          LATEST_TAG=$(git tag --list "good file*" --sort=-v:refname | head -n 1)
+
+          if [ -z "$LATEST_TAG" ]; then
+            MAJOR=0
+            MINOR=1
+            PATCH=0
+          else
+            VERSION=${LATEST_TAG#"good file "}
+            MAJOR=$(echo "$VERSION" | cut -d. -f1)
+            MINOR=$(echo "$VERSION" | cut -d. -f2)
+            PATCH=$(echo "$VERSION" | cut -d. -f3)
+            MINOR=$((MINOR + 1))
+            PATCH=0
+          fi
+
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+          NEW_TAG="good file $NEW_VERSION"
+          echo "New version: $NEW_TAG"
+          echo "NEW_VERSION=$NEW_TAG" >> $GITHUB_ENV
+        env:
+          GITHUB_ENV: ${{ github.env }}
+
+      - name: Tag the commit
+        if: env.TRIGGERED == 'true'
+        run: |
+          NEW_VERSION=${{ env.NEW_VERSION }}
+          # Create and push the new tag
+          git tag "$NEW_VERSION"
           git push origin "$NEW_VERSION"
