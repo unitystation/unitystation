@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Initialisation;
 using Logs;
 using Shared.Managers;
 using Tiles;
 using UnityEngine;
-using Util.Independent.FluentRichText;
 using Debug = UnityEngine.Debug;
 
 public static class TilePaths
@@ -113,8 +111,6 @@ public class TileManager : SingletonManager<TileManager>, IInitialise
 
 	public IEnumerator LoadAllTiles(bool staggeredload = false)
 	{
-		Stopwatch sw = new Stopwatch();
-		sw.Start();
 		initialized = true;
 		tilesToLoad = 0;
 		tilesLoaded = 0;
@@ -168,11 +164,6 @@ public class TileManager : SingletonManager<TileManager>, IInitialise
 					yield return WaitFor.EndOfFrame;
 				}
 			}
-		}
-		sw.Stop();
-		if (CustomNetworkManager.IsServer)
-		{
-			Chat.AddGameWideSystemMsgToChat($"Preloaded {tilesToLoad} tiles in {sw.Elapsed.TotalMilliseconds}ms".Color(Color.green));
 		}
 	}
 
