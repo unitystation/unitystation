@@ -2968,6 +2968,7 @@ namespace TileManagement
 		EMP,
 		EMPCenter,
 		Foam,
-		Smoke
+		Smoke,
+		Liquid
 	}
 }

@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Initialisation;
 using Logs;
 using Shared.Managers;
 using Tiles;
 using UnityEngine;
+using Util.Independent.FluentRichText;
+using Debug = UnityEngine.Debug;
 
 public static class TilePaths
 {
@@ -65,7 +68,7 @@ public class TileManager : SingletonManager<TileManager>, IInitialise
 #if UNITY_EDITOR
 		CacheAllAssets();
 #endif
-		if (!GameData.IsInGame)
+		if (GameData.IsInGame == false)
 		{
 			if (!Instance.initialized) StartCoroutine(LoadAllTiles(true));
 		}
@@ -110,6 +113,8 @@ public class TileManager : SingletonManager<TileManager>, IInitialise
 
 	public IEnumerator LoadAllTiles(bool staggeredload = false)
 	{
+		Stopwatch sw = new Stopwatch();
+		sw.Start();
 		initialized = true;
 		tilesToLoad = 0;
 		tilesLoaded = 0;
@@ -164,8 +169,11 @@ public class TileManager : SingletonManager<TileManager>, IInitialise
 				}
 			}
 		}
-
-
+		sw.Stop();
+		if (CustomNetworkManager.IsServer)
+		{
+			Chat.AddGameWideSystemMsgToChat($"Preloaded {tilesToLoad} tiles in {sw.Elapsed.TotalMilliseconds}ms".Color(Color.green));
+		}
 	}
 
 	public static LayerTile GetTile( string key)

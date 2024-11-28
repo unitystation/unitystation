@@ -100,7 +100,6 @@ namespace Chemistry
 		//should only be accessed when locked so should be okay
 		private Dictionary<Reagent, float> TEMPReagents = new Dictionary<Reagent, float>();
 
-
 		public ReagentMix( SerializableDictionary<Reagent, float> reagents, float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
 		{
 			Temperature = temperature;
@@ -127,6 +126,9 @@ namespace Chemistry
 		}
 
 		public float this[Reagent reagent] => reagents.m_dict.TryGetValue(reagent, out var amount) ? amount : 0;
+
+		[HideInInspector]
+		public List<Reagent> reagentKeys = new List<Reagent>();
 
 		/// <summary>
 		/// Returns current temperature mix in Kelvin
@@ -535,8 +537,13 @@ namespace Chemistry
 			}
 		}
 
-		[HideInInspector]
-		public List<Reagent> reagentKeys = new List<Reagent>();
+		public ReagentMix Split(float amount)
+		{
+			ReagentMix split = new ReagentMix();
+			TransferTo(split, amount);
+			return split;
+		}
+
 		public void TransferTo(ReagentMix target, float amount)
 		{
 			if (amount == 0 || amount < 0)
@@ -684,6 +691,7 @@ namespace Chemistry
 			get
 			{
 				float total = 0;
+				if (reagents == null) return 0;
 				lock (reagents)
 				{
 					foreach (var reagent in reagents.m_dict)

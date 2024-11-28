@@ -519,7 +519,7 @@ namespace Chemistry.Components
 			var spilledReagents = TakeReagents(CurrentReagentMix.Total);
 			MatrixManager.ReagentReact(spilledReagents, worldPos);
 
-			OnSpillAllContents.Invoke();
+			OnSpillAllContents?.Invoke();
 		}
 
 		private void NotifyPlayersOfSpill(Vector3Int worldPos)
