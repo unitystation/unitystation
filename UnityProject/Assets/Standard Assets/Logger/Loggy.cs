@@ -94,29 +94,31 @@ namespace Logs
 			string levelString = level.ToString().ToUpper();
 			string categoryString = category.ToString();
 
-			var File = Path.GetFileName(filePath);
+			var file = Path.GetFileName(filePath);
 			if (Application.isEditor)
 			{
-				const string messageFormat = "{0} [{1}] {2}:{3}";
+				const string messageFormat = "[{0}/{1}:{2}] {3}";
 				msg = string.Format(messageFormat,
-					msg,
-					methodName, File, lineNumber);
+					file,
+					methodName,
+					lineNumber,
+					msg
+				);
 
 			}
 			else
 			{
-				const string messageFormat = "{0} {1}: [{2}] {3} {4}::{5}:{6}";
+				const string messageFormat = "{0} {1}: [{2}] [{3}/{4}:{5}] {6}";
 				msg = string.Format(messageFormat,
 					formattedDate,
 					levelString,
 					categoryString,
-					msg,
-					methodName, File, lineNumber);
+					file,
+					methodName,
+					lineNumber,
+					msg
+				);
 			}
-
-
-
-
 
 			if (Thread.CurrentThread != MainGameThread && MainGameThread != null)
 			{
