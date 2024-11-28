@@ -40,7 +40,7 @@ MonoBehaviour:
     one pays attention to. Believe me, it is more fun than it sounds.\r\n\r\nNot
     sure what to do? Point at your wet floor sign when someone inevitably slips.
     Answer all the cleaning emergencies on the radio. Learn the layout of the various
-    departments as you are invited in to clean them. Find illegal activity in maintenance.\r
+    departments as you are invited in to clean them. Find illegal activity in maintenance.\n\r
     <b>This is the premiere role for new players.</b>"
   customProperties:
     m_keys: []
@@ -49,11 +49,11 @@ MonoBehaviour:
   isTargeteable: 1
   playSound: 1
   spawnSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/AmbientTracks/SpawnSounds/departments/Service_Spawn.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   textColor: {r: 0.73333335, g: 0.8862746, b: 0.5686275, a: 1}
