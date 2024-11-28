@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using AddressableReferences;
 using Core.Editor.Attributes;
 using HealthV2;
+using Logs;
 using Messages.Server.SoundMessages;
 using NaughtyAttributes;
 using UnityEngine;
@@ -94,10 +95,18 @@ namespace ScriptableObjects.RP
 
 		protected void RunBehaviors(GameObject actor)
 		{
-			foreach (var behavior in Behaviors)
+			try
 			{
-				behavior.Behave(actor);
+				foreach (var behavior in Behaviors)
+				{
+					behavior.Behave(actor);
+				}
 			}
+			catch (Exception e)
+			{
+				Loggy.Error(e.ToString());
+			}
+
 		}
 
 		/// <summary>

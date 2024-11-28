@@ -348,7 +348,18 @@ namespace Objects
 
 		public void ServerPerformInteraction(MouseDrop interaction)
 		{
-			interaction.DroppedObject.GetUniversalObjectPhysics().AppearAtWorldPositionServer(gameObject.AssumedWorldPosServer());
+			var Pickupable =  interaction.DroppedObject.gameObject.GetComponent<Pickupable>();
+
+			if (Pickupable != null && Pickupable.ItemSlot != null)
+			{
+				Inventory.ServerDrop(Pickupable.ItemSlot, gameObject.AssumedWorldPosServer());
+			}
+			else
+			{
+				interaction.DroppedObject.GetUniversalObjectPhysics().AppearAtWorldPositionServer(gameObject.AssumedWorldPosServer());
+			}
+
+
 			if (objectContainer.IsAnotherContainerNear())
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, $"You cannot close {closetName} with another container in the way!");

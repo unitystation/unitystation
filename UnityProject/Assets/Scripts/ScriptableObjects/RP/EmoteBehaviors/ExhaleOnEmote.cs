@@ -2,6 +2,7 @@
 using Chemistry;
 using HealthV2;
 using Items.Implants.Organs;
+using Logs;
 using Systems.Atmospherics;
 using UnityEngine;
 
@@ -17,10 +18,24 @@ namespace ScriptableObjects.RP.EmoteBehaviors
 			var gas = GasMix.GetEnvironmentalGasMixForObject(actor.GetUniversalObjectPhysics());
 			var lungs = GetLungs(health);
 			if (lungs == null || gas == null) return;
-			ReagentMix availableBlood = health.reagentPoolSystem.BloodPool
-				.Take((health.reagentPoolSystem.BloodPool.Total * efficiency) / 2f);
+			if (health == null)
+			{
+				Loggy.Error("health is null");
+				return;
+			}
+
+
+			if (health.reagentPoolSystem == null)
+			{
+				Loggy.Error("health.reagentPoolSystem is null");
+				return;
+			}
+			
+ 			ReagentMix availableBlood = health.reagentPoolSystem.BloodPool.Take((health.reagentPoolSystem.BloodPool.Total * efficiency) / 2f);
+
 			lungs.PickRandom()?.BreatheOut(gas, availableBlood);
-			health.reagentPoolSystem.RegenBloodPool.Add(availableBlood.Take(availableBlood.Total));
+
+			health.reagentPoolSystem.TempBloodReservoir.Add(availableBlood.Take(availableBlood.Total));
 		}
 
 		public static List<Lungs> GetLungs(LivingHealthMasterBase health)
