@@ -87,6 +87,7 @@ public class MetaDataLayer : MonoBehaviour
 
 	public void EvaporationTick()
 	{
+		if (tileReagentMixes.Count <= 0) return;
 		lock (tileReagentMixes)
 		{
 			var toRemove = tileReagentMixes.First().Key;
@@ -367,6 +368,7 @@ public class MetaDataLayer : MonoBehaviour
 		var liquidColor = reagents.MixColor;
 		liquidColor.a = Mathf.Clamp(liquidColor.a, 0, 0.75f); //makes sure liquids don't completely hide everything behind it.
 		matrix.MetaTileMap.AddOverlay(localPosInt, TileType.Effects, "BaseLiquid", color: liquidColor);
+		SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Bubbles, localPosInt);
 	}
 
 	public void Paintsplat(Vector3Int worldPosInt, Vector3Int localPosInt, ReagentMix reagents)
