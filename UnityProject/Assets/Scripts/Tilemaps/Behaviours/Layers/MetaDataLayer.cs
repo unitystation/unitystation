@@ -90,8 +90,8 @@ public class MetaDataLayer : MonoBehaviour
 		if (tileReagentMixes.Count <= 0) return;
 		lock (tileReagentMixes)
 		{
-			var toRemove = tileReagentMixes.First().Key;
-			matrix.MetaTileMap.RemoveOverlaysOfType(toRemove, LayerType.Effects, OverlayType.Liquid);
+			var toRemove = tileReagentMixes.PickRandom().Key;
+			matrix.MetaTileMap.RemoveOverlaysOfType(toRemove, LayerType.UnderObjectsEffects, OverlayType.Liquid);
 			tileReagentMixes.Remove(toRemove);
 		}
 	}
@@ -366,8 +366,8 @@ public class MetaDataLayer : MonoBehaviour
 	public void CreateLiquidOverlay(Vector3Int localPosInt, ReagentMix reagents)
 	{
 		var liquidColor = reagents.MixColor;
-		liquidColor.a = Mathf.Clamp(liquidColor.a, 0, 0.75f); //makes sure liquids don't completely hide everything behind it.
-		matrix.MetaTileMap.AddOverlay(localPosInt, TileType.Effects, "BaseLiquid", color: liquidColor);
+		liquidColor.a = Mathf.Clamp(liquidColor.a, 0, 0.65f); //makes sure liquids don't completely hide everything behind it.
+		matrix.MetaTileMap.AddOverlay(localPosInt, TileType.UnderObjectsEffects, "BaseLiquid", color: liquidColor);
 		SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Bubbles, localPosInt);
 	}
 
@@ -506,7 +506,7 @@ public class MetaDataLayer : MonoBehaviour
 
 	private void DistributeExcessToNearbyCells(ReagentMix excess, Vector3Int origin)
 	{
-		const int MAX_ITERATIONS = 50;
+		const int MAX_ITERATIONS = 250;
 		var iterations = 0;
 		var cellsToProcess = new Queue<Vector3Int>();
 		cellsToProcess.Enqueue(origin);
