@@ -140,6 +140,12 @@ namespace Items.Weapons
 
 		private IEnumerator TimeExplode(GameObject originator)
 		{
+			if (ReagentContainer1.ReagentMixTotal == 0 && ReagentContainer2.ReagentMixTotal == 0)
+			{
+				Chat.AddExamineMsg(originator, "You try to activate the grenade, but the mechanism prevents you from doing so. " +
+				                               "It seems like both reagent containers are empty.");
+				yield break;
+			}
 			if (!timerRunning)
 			{
 				timerRunning = true;

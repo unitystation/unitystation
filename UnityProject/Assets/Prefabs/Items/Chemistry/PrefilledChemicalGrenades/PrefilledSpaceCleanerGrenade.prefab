@@ -1,0 +1,171 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &7861613540431834946
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 305845077257029104, guid: 05787e2f1fe67be439a463d6cc2fd304,
+        type: 3}
+      propertyPath: InitiallyScrewed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1475676057230298574, guid: 05787e2f1fe67be439a463d6cc2fd304,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1475676057230298574, guid: 05787e2f1fe67be439a463d6cc2fd304,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1475676057230298574, guid: 05787e2f1fe67be439a463d6cc2fd304,
+        type: 3}
+      propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 11dd09fc0e79f0391a03cea4eac8b16d,
+        type: 2}
+    - target: {fileID: 1475676057230298574, guid: 05787e2f1fe67be439a463d6cc2fd304,
+        type: 3}
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[0]'
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3876236519473505840, guid: 05787e2f1fe67be439a463d6cc2fd304,
+        type: 3}
+      propertyPath: parentID
+      value: advreleasegrenade
+      objectReference: {fileID: 0}
+    - target: {fileID: 3876236519473505840, guid: 05787e2f1fe67be439a463d6cc2fd304,
+        type: 3}
+      propertyPath: foreverID
+      value: 6QOnqT!8uFU_W0KWkPrf
+      objectReference: {fileID: 0}
+    - target: {fileID: 4050862796598170074, guid: 05787e2f1fe67be439a463d6cc2fd304,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 6fc4547c2b620f84486e7dac49b114d5,
+        type: 2}
+    - target: {fileID: 6531057722140503110, guid: 05787e2f1fe67be439a463d6cc2fd304,
+        type: 3}
+      propertyPath: UesAddlistPopulater
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6531057722140503110, guid: 05787e2f1fe67be439a463d6cc2fd304,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6531057722140503110, guid: 05787e2f1fe67be439a463d6cc2fd304,
+        type: 3}
+      propertyPath: Populater.DeprecatedContents.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6531057722140503110, guid: 05787e2f1fe67be439a463d6cc2fd304,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[0].Prefab
+      value: 
+      objectReference: {fileID: 8757147694328139899, guid: fc119ff3427177845a9f6b00860cb249,
+        type: 3}
+    - target: {fileID: 6531057722140503110, guid: 05787e2f1fe67be439a463d6cc2fd304,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[1].Prefab
+      value: 
+      objectReference: {fileID: 8757147694328139899, guid: fc119ff3427177845a9f6b00860cb249,
+        type: 3}
+    - target: {fileID: 7754085594501416255, guid: 05787e2f1fe67be439a463d6cc2fd304,
+        type: 3}
+      propertyPath: initialName
+      value: SpaceCleaner Grenade
+      objectReference: {fileID: 0}
+    - target: {fileID: 7754085594501416255, guid: 05787e2f1fe67be439a463d6cc2fd304,
+        type: 3}
+      propertyPath: initialDescription
+      value: 'A small metal casing able to be filled with reagent containers to be
+        mixed gradually over time once triggered.
+
+        Fill the casing with two
+        beakers and then use a screwdriver to secure the casing. Use a multitool
+        to adjust the mix amount;'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7846859276370368489, guid: 05787e2f1fe67be439a463d6cc2fd304,
+        type: 3}
+      propertyPath: _assetId
+      value: 3992589325
+      objectReference: {fileID: 0}
+    - target: {fileID: 7881883566342313769, guid: 05787e2f1fe67be439a463d6cc2fd304,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7881883566342313769, guid: 05787e2f1fe67be439a463d6cc2fd304,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7881883566342313769, guid: 05787e2f1fe67be439a463d6cc2fd304,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7881883566342313769, guid: 05787e2f1fe67be439a463d6cc2fd304,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7881883566342313769, guid: 05787e2f1fe67be439a463d6cc2fd304,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7881883566342313769, guid: 05787e2f1fe67be439a463d6cc2fd304,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7881883566342313769, guid: 05787e2f1fe67be439a463d6cc2fd304,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7881883566342313769, guid: 05787e2f1fe67be439a463d6cc2fd304,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7881883566342313769, guid: 05787e2f1fe67be439a463d6cc2fd304,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7881883566342313769, guid: 05787e2f1fe67be439a463d6cc2fd304,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7886244366731635293, guid: 05787e2f1fe67be439a463d6cc2fd304,
+        type: 3}
+      propertyPath: m_Name
+      value: PrefilledSpaceCleanerGrenade
+      objectReference: {fileID: 0}
+    - target: {fileID: 8034532696704407809, guid: 05787e2f1fe67be439a463d6cc2fd304,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9e33c5ac9bd9b5841ae5ab45b683b6ee,
+        type: 3}
+    - target: {fileID: 8416920482837635157, guid: 05787e2f1fe67be439a463d6cc2fd304,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 8416920482837635157, guid: 05787e2f1fe67be439a463d6cc2fd304, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 05787e2f1fe67be439a463d6cc2fd304, type: 3}

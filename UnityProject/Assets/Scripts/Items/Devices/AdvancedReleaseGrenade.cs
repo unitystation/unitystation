@@ -2,6 +2,7 @@ using System.Collections;
 using Chemistry;
 using Chemistry.Components;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Items.Weapons
 {
@@ -9,6 +10,8 @@ namespace Items.Weapons
 	{
 		private int mixAmount = 1;
 		private const int MAX_LOOP_COUNT = 30;
+
+		[SerializeField] private float gradualMixingTime = 0.5f;
 
 		public override void MixReagents()
 		{
@@ -55,7 +58,7 @@ namespace Items.Weapons
 				loopCount++;
 				if (loopCount >= MAX_LOOP_COUNT) break;
 
-				yield return WaitFor.Seconds(1f);
+				yield return WaitFor.Seconds(gradualMixingTime);
 			}
 		}
 
