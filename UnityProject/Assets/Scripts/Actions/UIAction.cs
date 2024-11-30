@@ -96,6 +96,11 @@ namespace UI.Action
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
+			if (actionData == null)
+			{
+				Loggy.Error("Missing action data detected.");
+				return;
+			}
 			if (actionData.IsToggle)
 			{
 				Toggle();
