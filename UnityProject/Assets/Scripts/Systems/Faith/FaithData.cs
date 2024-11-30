@@ -11,7 +11,7 @@ namespace Systems.Faith
 
 		public void AddMember(PlayerScript newMember)
 		{
-			RemoveMember(newMember);
+			if (FaithMembers.Contains(newMember)) return;
 			FaithMembers.Add(newMember);
 			foreach (var property in Faith.FaithProperties)
 			{
