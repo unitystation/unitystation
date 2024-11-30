@@ -117,7 +117,7 @@ namespace Systems.Faith
 
 		public static void LeaveFaith(PlayerScript playerScript)
 		{
-			foreach (var faith in Instance.CurrentFaiths.Where(faith => faith.FaithMembers.Contains(playerScript)))
+			foreach (var faith in Instance.CurrentFaiths.Where(f => f.FaithMembers.Contains(playerScript)))
 			{
 				faith.RemoveMember(playerScript);
 			}
