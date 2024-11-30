@@ -13,7 +13,7 @@ namespace Items
 	{
 		[SerializeField] private HasNetworkTabItem bibleTab;
 		[SerializeField] private LastTouch lastTouch;
-		public PlayerFaith lastTouchedBy => lastTouch.LastTouchedBy.Script.PlayerFaith;
+		public PlayerFaith lastTouchedBy => lastTouch.LastTouchedBy?.Script?.PlayerFaith;
 
 		//The amount a single thwack heals or damages.
 		public int healthModifier = 10;
@@ -177,6 +177,13 @@ namespace Items
 			{
 				Loggy.Info($"{interactorFaith == null}");
 				Chat.AddExamineMsg(interaction.Performer, "There doesn't appear to be anything you can pray for using your faith.");
+				return;
+			}
+
+			if (lastTouchedBy == null)
+			{
+				Chat.AddExamineMsg(interaction.Performer,
+					"The pages are filled with holographic words that shift as you move your hand, but none of it are legiable yet.");
 				return;
 			}
 
