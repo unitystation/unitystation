@@ -109,7 +109,7 @@ namespace Systems.Faith
 
 		public static void JoinFaith(Faith faith, PlayerScript player)
 		{
-			foreach (var faithData in Instance.CurrentFaiths.Where(x => x.FaithMembers.Contains(player)))
+			foreach (var faithData in Instance.CurrentFaiths.Where(x => x.Faith.FaithName == faith.FaithName))
 			{
 				faithData.AddMember(player);
 			}
