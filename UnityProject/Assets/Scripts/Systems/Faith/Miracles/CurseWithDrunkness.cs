@@ -32,25 +32,23 @@ namespace Systems.Faith.Miracles
 
 		public void DoMiracle(FaithData associatedFaith, PlayerScript invoker = null)
 		{
-			foreach (var leader in associatedFaith.FaithLeaders)
+			if (invoker == null) return;
+			Chat.AddLocalMsgToChat($"{invoker.visibleName}'s eyes become white as they start chanting some words loudly..", invoker.gameObject);
+			Chat.AddChatMsgToChatServer(invoker.PlayerInfo, "..Gin-La tok.. Ja-kra-ko..", ChatChannel.Local, Loudness.LOUD);
+			if (DMMath.Prob(50))
 			{
-				Chat.AddLocalMsgToChat($"{leader.visibleName}'s eyes become white as they start chanting some words loudly..", leader.gameObject);
-				Chat.AddChatMsgToChatServer(leader.PlayerInfo, "..Gin-La tok.. Ja-kra-ko..", ChatChannel.Local, Loudness.LOUD);
-				if (DMMath.Prob(50))
-				{
-					MakePersonDrunk(leader.playerHealth);
-					Chat.AddExamineMsg(leader.gameObject, "The curse misfires and affects you as well!");
-				}
-				var overlapBox =
-					Physics2D.OverlapBoxAll(leader.gameObject.AssumedWorldPosServer(), new Vector2(6, 6), 0);
-				foreach (var collider in overlapBox)
-				{
-					if (collider.TryGetComponent<LivingHealthMasterBase>(out var health) == false) continue;
-					if (MatrixManager.Linecast(leader.AssumedWorldPos,
-						    LayerTypeSelection.Walls, LayerMask.GetMask("Walls"),
-						    collider.gameObject.AssumedWorldPosServer()).ItHit == false) continue;
-					MakePersonDrunk(health);
-				}
+				MakePersonDrunk(invoker.playerHealth);
+				Chat.AddExamineMsg(invoker.gameObject, "The curse misfires and affects you as well!");
+			}
+			var overlapBox =
+				Physics2D.OverlapBoxAll(invoker.gameObject.AssumedWorldPosServer(), new Vector2(6, 6), 0);
+			foreach (var collider in overlapBox)
+			{
+				if (collider.TryGetComponent<LivingHealthMasterBase>(out var health) == false) continue;
+				if (MatrixManager.Linecast(invoker.AssumedWorldPos,
+					    LayerTypeSelection.Walls, LayerMask.GetMask("Walls"),
+					    collider.gameObject.AssumedWorldPosServer()).ItHit == false) continue;
+				MakePersonDrunk(health);
 			}
 		}
 

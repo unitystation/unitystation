@@ -90,15 +90,6 @@ namespace Systems.Faith
 			}
 		}
 
-		public static void AddLeaderToFaith(string targetFaith, PlayerScript newLeader)
-		{
-			foreach (var faith in Instance.CurrentFaiths.Where(faith => faith.Faith.FaithName == targetFaith))
-			{
-				faith.AddMember(newLeader);
-				faith.FaithLeaders.Add(newLeader);
-			}
-		}
-
 		public void AddFaithToActiveList(Faith faith)
 		{
 			if (CustomNetworkManager.IsServer == false)
@@ -110,7 +101,6 @@ namespace Systems.Faith
 			{
 				Faith = faith,
 				Points = 0,
-				FaithLeaders = new List<PlayerScript>(),
 				FaithMembers = new List<PlayerScript>(),
 			};
 			CurrentFaiths.Add(data);

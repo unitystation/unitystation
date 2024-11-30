@@ -30,28 +30,26 @@ namespace Systems.Faith.Miracles
 		public int MiracleCost { get; set; } = 300;
 		public void DoMiracle(FaithData associatedFaith, PlayerScript invoker = null)
 		{
-			foreach (var member in associatedFaith.FaithLeaders)
+			if (invoker == null) return;
+			Chat.AddLocalMsgToChat($"A red tether appears from {invoker.visibleName} to nearby objects..", invoker.gameObject);
+			var overlapBox =
+				Physics2D.OverlapBoxAll(invoker.gameObject.AssumedWorldPosServer(), new Vector2(5, 5), 0);
+			foreach (var collider in overlapBox)
 			{
-				Chat.AddLocalMsgToChat($"A red tether appears from {member.visibleName} to nearby objects..", member.gameObject);
-				var overlapBox =
-					Physics2D.OverlapBoxAll(member.gameObject.AssumedWorldPosServer(), new Vector2(5, 5), 0);
-				foreach (var collider in overlapBox)
+				if (MatrixManager.Linecast(invoker.AssumedWorldPos,
+					    LayerTypeSelection.All, LayerMask.GetMask("Walls"),
+					    collider.gameObject.AssumedWorldPosServer()).ItHit == false) continue;
+				if (collider.TryGetComponent<Integrity>(out var integrity) == false) continue;
+				SparkUtil.TrySpark(integrity.gameObject);
+				integrity.OnDamaged.AddListener( () =>
 				{
-					if (MatrixManager.Linecast(member.AssumedWorldPos,
-						    LayerTypeSelection.All, LayerMask.GetMask("Walls"),
-						    collider.gameObject.AssumedWorldPosServer()).ItHit == false) continue;
-					if (collider.TryGetComponent<Integrity>(out var integrity) == false) continue;
-					SparkUtil.TrySpark(integrity.gameObject);
-					integrity.OnDamaged.AddListener( () =>
+					Explosion.StartExplosion(integrity.gameObject.AssumedWorldPosServer().CutToInt(), 35f);
+					if (DMMath.Prob(35))
 					{
-						Explosion.StartExplosion(integrity.gameObject.AssumedWorldPosServer().CutToInt(), 35f);
-						if (DMMath.Prob(35))
-						{
-							integrity.OnDamaged.RemoveAllListeners();
-						}
-						SparkUtil.TrySpark(integrity.gameObject);
-					});
-				}
+						integrity.OnDamaged.RemoveAllListeners();
+					}
+					SparkUtil.TrySpark(integrity.gameObject);
+				});
 			}
 		}
 	}

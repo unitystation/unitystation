@@ -154,13 +154,6 @@ namespace Items
 
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			lastTouch.LastTouchedBy = interaction.PerformerPlayerScript.PlayerInfo;
-			if (interaction.PerformerPlayerScript.Mind.occupation.DisplayName != "Chaplain")
-			{
-				Chat.AddExamineMsg(interaction.Performer, "The text is too hard to decipher for most people.. " +
-				                                          "You need an experienced chaplain to properly make sense of this book.");
-				return;
-			}
 			if (interaction.PerformerPlayerScript.PlayerFaith.CurrentFaith == null)
 			{
 				interaction.PerformerPlayerScript.PlayerFaith.RpcShowFaithSelectScreen(interaction.PerformerPlayerScript.netIdentity.connectionToClient);

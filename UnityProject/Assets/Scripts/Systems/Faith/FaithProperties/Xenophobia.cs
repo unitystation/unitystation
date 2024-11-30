@@ -23,25 +23,7 @@ namespace Systems.Faith.FaithProperties
 
 		public void Setup(FaithData associatedFaith)
 		{
-			FaithManager.Instance.FaithPropertiesEventUpdate.Add(CheckForMemberRaces);
 			((IFaithProperty)this).AssociatedFaith = associatedFaith;
-		}
-
-		private void CheckForMemberRaces()
-		{
-			if (Faith.FaithLeaders.Count == 0) return;
-			var leaderRaces = Faith.FaithLeaders.Select(leader => leader.characterSettings.GetRaceSo().name).ToList();
-			foreach (var member in Faith.FaithMembers)
-			{
-				if (member.IsDeadOrGhost) continue;
-				if (leaderRaces.Contains(member.characterSettings.GetRaceSo().name) == false)
-				{
-					FaithManager.TakePoints(nonMemberTakePoints, Faith.Faith.FaithName);
-					Chat.AddExamineMsg(member.gameObject, "<i>You feel like you don't belong here..</i>");
-					continue;
-				}
-				FaithManager.AwardPoints(memberGivePoints, Faith.Faith.FaithName);
-			}
 		}
 
 		public void OnJoinFaith(PlayerScript newMember)

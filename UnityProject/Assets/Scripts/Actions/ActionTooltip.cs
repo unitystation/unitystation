@@ -1,4 +1,5 @@
 using System;
+using Logs;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,11 @@ public class ActionTooltip : MonoBehaviour
 
 	public void ApplyActionData(ActionData actionData)
 	{
+		if (actionData == null)
+		{
+			Loggy.Error("action data is missing when attempting to apply tooltip data.");
+			return;
+		}
 		if (string.IsNullOrEmpty(actionData.Name))
 		{
 			nameText.text = String.Empty;
