@@ -425,7 +425,7 @@ public class MetaDataLayer : MonoBehaviour
 	public void Clean(Vector3Int worldPosInt, Vector3Int localPosInt, bool makeSlippery)
 	{
 		Get(localPosInt, updateTileOnClient: true).IsSlippery = false;
-		var floorDecals = MatrixManager.GetAt<FloorDecal>(worldPosInt, isServer: true);
+		var floorDecals = GetFloorDecals(worldPosInt);
 
 		foreach (var floorDecal in floorDecals)
 		{
@@ -443,6 +443,37 @@ public class MetaDataLayer : MonoBehaviour
 			// Sets a tile to slippery
 			MakeSlipperyAt(localPosInt);
 		}
+	}
+
+	public void CleanAndMoveToExcess(Vector3Int worldPosInt, Vector3Int localPosInt, bool makeSlippery)
+	{
+		Get(localPosInt, updateTileOnClient: true).IsSlippery = false;
+		var floorDecals = GetFloorDecals(worldPosInt);
+		foreach (var floorDecal in floorDecals)
+		{
+			if (floorDecal.ReagentContainer?.IsEmpty == false)
+			{
+				tileReagentMixes[localPosInt].Add(floorDecal.ReagentContainer.CurrentReagentMix.Clone());
+				//update overlay to show color change.
+				matrix.MetaTileMap.RemoveOverlaysOfType(localPosInt, LayerType.UnderObjectsEffects, OverlayType.Liquid);
+				CreateLiquidOverlay(localPosInt, tileReagentMixes[localPosInt]);
+			}
+			floorDecal.TryClean();
+		}
+		//check for any moppable overlays
+		matrix.TileChangeManager.MetaTileMap.RemoveFloorWallOverlaysOfType(localPosInt, OverlayType.Cleanable);
+		if (MatrixManager.IsSpaceAt(worldPosInt, true, matrix.MatrixInfo) == false && makeSlippery)
+		{
+			// Create a WaterSplat Decal (visible slippery tile)
+			EffectsFactory.WaterSplat(worldPosInt);
+			// Sets a tile to slippery
+			MakeSlipperyAt(localPosInt);
+		}
+	}
+
+	private IEnumerable<FloorDecal> GetFloorDecals(Vector3Int worldPosInt)
+	{
+		return MatrixManager.GetAt<FloorDecal>(worldPosInt, isServer: true);
 	}
 
 	public void BloodDry(Vector3Int position)
@@ -574,7 +605,7 @@ public class MetaDataLayer : MonoBehaviour
 					var availableSpace = REAGENT_LIMIT_PER_CELL - neighborReagents.Item2.Total;
 					var transferMix = excess.Split(Math.Min(excess.Total, availableSpace));
 					neighborReagents.Item2.Add(transferMix);
-					Clean(neighbor.ToWorldInt(matrix), neighbor, false);
+					CleanAndMoveToExcess(neighbor.ToWorldInt(matrix), neighbor, false);
 				}
 				cellsToProcess.Enqueue(neighbor);
 			}

@@ -153,8 +153,10 @@ MonoBehaviour:
   initialReagentMix:
     temperature: 273.15
     reagents:
-      m_keys: []
-      m_values: []
+      m_keys:
+      - {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
+      m_values:
+      - 5
     reagentKeys: []
   destroyOnEmpty: 0
   ContentsSet: 0
@@ -185,7 +187,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  BuckledToObject: {fileID: 0}
+  BuckleOffset: {x: 0, y: 0, z: 0}
   LocalDifferenceNeeded: {x: 0, y: 0}
+  newtonianMovement: {x: 0, y: 0}
   LocalTargetPosition: {x: 0, y: 0, z: 0}
   CorrectingCourse: 0
   Animating: 0
@@ -195,7 +200,6 @@ MonoBehaviour:
   spinMagnitude: 0
   thrownBy: {fileID: 0}
   thrownProtection: {fileID: 0}
-  aim: 0
   ForcedPushedFrame: 0
   TryPushedFrame: 0
   PushedFrame: 0
@@ -204,12 +208,9 @@ MonoBehaviour:
   MappingIntangible: 0
   SnapToGridOnStart: 0
   IsPlayer: 0
-  DEBUG: 0
+  ObjectBouncyness: 0.75
   tileMoveSpeed: 1
   HasOwnGravity: 0
-  isNotPushable: 1
-  CanBeWindPushed: 1
-  rotationTarget: {fileID: 0}
   stickyMovement: 0
   OnThrowEndResetRotation: 0
   maximumStickSpeed: 1.5
@@ -219,14 +220,18 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   IsCurrentlyFloating: 0
-  Pushing: []
   Hits: []
   isFlyingSliding: 0
   IsMoving: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
   TimeSpentFlying: 0
-  BuckledToObject: {fileID: 0}
+  DEBUG: 0
+  isNotPushable: 1
+  Pushing: []
+  CanBeWindPushed: 1
+  canResetRotationFromRightClick: 0
+  rotationTarget: {fileID: 0}
 --- !u!114 &3942917955944046585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,6 +244,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 837060fa3ebf3e040916b39a97c42ae2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
   attackType: 0
   damageType: 0
   traumaType: 0
@@ -324,6 +332,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -378,9 +387,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5079b2d50806c01429b500c3505887ed, type: 2}
   - {fileID: 11400000, guid: 34255e0ae68afb04ba21fe082d96825c, type: 2}
   - {fileID: 11400000, guid: a20de0ea1ff19a044baee85b1b47971f, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 2e40f54b22cc0e14d9b4de3a0ed7e1a4, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 2e40f54b22cc0e14d9b4de3a0ed7e1a4,
+    type: 2}
   randomInitialSprite: 1
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
