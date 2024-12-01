@@ -547,7 +547,7 @@ public class MetaDataLayer : MonoBehaviour
 				if (excess.Total <= 0) return;
 
 				// Skip if the neighbor is not passable
-				if (matrix.IsWallAt(neighbor, true)) continue;
+				if (matrix.IsWallAt(neighbor, true) || matrix.IsWindowAt(neighbor, true)) continue;
 				var neighborReagents = HasReagentsAtTile(neighbor);
 
 				// If the neighboring cell is empty, add the excess and break up the amount
@@ -560,6 +560,11 @@ public class MetaDataLayer : MonoBehaviour
 #endif
 					// Add this neighbor to the queue for further distribution if needed
 					cellsToProcess.Enqueue(neighbor);
+					Clean(neighbor.ToWorldInt(matrix), neighbor, true);
+					if (excess.Total > 5)
+					{
+						matrix.ReactionManager.ExtinguishHotspot(neighbor);
+					}
 					continue;
 				}
 
@@ -569,6 +574,7 @@ public class MetaDataLayer : MonoBehaviour
 					var availableSpace = REAGENT_LIMIT_PER_CELL - neighborReagents.Item2.Total;
 					var transferMix = excess.Split(Math.Min(excess.Total, availableSpace));
 					neighborReagents.Item2.Add(transferMix);
+					Clean(neighbor.ToWorldInt(matrix), neighbor, false);
 				}
 				cellsToProcess.Enqueue(neighbor);
 			}

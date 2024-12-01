@@ -299,6 +299,11 @@ namespace Systems.Atmospherics
 			}
 		}
 
+		public bool HasHotspot(Vector3Int localPosition)
+		{
+			return hotspots.ContainsKey(localPosition) && hotspots[localPosition].Hotspot != null;
+		}
+
 		/// <summary>
 		/// Creates a hotspot if the tile is hot enough
 		/// </summary>
