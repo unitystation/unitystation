@@ -102,14 +102,19 @@ public class MetaDataLayer : MonoBehaviour
 			if (tileReagentMixes == null || tileReagentMixes.Count == 0) break;
 			var toRemove = safeList[i];
 			if (tileReagentMixes.ContainsKey(toRemove.Key) == false) continue;
+			var node = matrix.GetMetaDataNode(toRemove.Key);
+			if (TemperatureUtils.FromKelvin(node.GasMixLocal.Temperature, TemeratureUnits.C) >= 30f)
+			{
+				node.GasMixLocal.AddGas(CommonGasses.Instance.WaterVapor, toRemove.Value.Total * 2, toRemove.Value.InternalEnergy / 2);
+				RemoveLiquidOnTile(toRemove.Key);
+				continue;
+			}
 			TimeSpan timeDifference = DateTime.UtcNow - toRemove.Value.CreationTime;
-			if (timeDifference.TotalSeconds <= 35) continue;
-			matrix.MetaTileMap.RemoveOverlaysOfType(toRemove.Key, LayerType.UnderObjectsEffects, OverlayType.Liquid);
-			tileReagentMixes.Remove(toRemove.Key);
+			if (timeDifference.TotalSeconds + toRemove.Value.reagents.Count <= 35) continue;
+			RemoveLiquidOnTile(toRemove.Key);
 			yield return WaitFor.EndOfFrame;
 		}
 	}
-
 
 	[Server]
 	public void UpdateNewPlayer(NetworkConnection requestedBy)
@@ -383,6 +388,12 @@ public class MetaDataLayer : MonoBehaviour
 		liquidColor.a = Mathf.Clamp(liquidColor.a, 0, 0.65f); //makes sure liquids don't completely hide everything behind it.
 		matrix.MetaTileMap.AddOverlay(localPosInt, TileType.UnderObjectsEffects, "BaseLiquid", color: liquidColor);
 		SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Bubbles, localPosInt);
+	}
+
+	public void RemoveLiquidOnTile(Vector3Int localPosInt)
+	{
+		matrix.MetaTileMap.RemoveOverlaysOfType(localPosInt, LayerType.UnderObjectsEffects, OverlayType.Liquid);
+		tileReagentMixes.Remove(localPosInt);
 	}
 
 	public void Paintsplat(Vector3Int worldPosInt, Vector3Int localPosInt, ReagentMix reagents)
