@@ -51,6 +51,12 @@ public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IEx
 			Chat.AddExamineMsg(interaction.Performer, "Your mop is dry!");
 			return;
 		}
+		void CleanUpMess(bool slippery, MatrixInfo matrixInfo, Vector3Int localPos, Vector3Int worldPos)
+		{
+			matrixInfo.MetaDataLayer.Clean(worldPos, localPos, slippery);
+			reagentContainer.TakeReagents(reagentsPerUse);
+			matrixInfo.MetaDataLayer.RemoveLiquidOnTile(localPos);
+		}
 		//server is performing server-side logic for the interaction
 		//do the mopping
 		void CompleteProgress()
@@ -62,20 +68,17 @@ public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IEx
 			{
 				if (reagentContainer.MajorMixReagent == Water)
 				{
-					matrixInfo.MetaDataLayer.Clean(worldPos, localPos, true);
-					reagentContainer.TakeReagents(reagentsPerUse);
+					CleanUpMess(false, matrixInfo, localPos, worldPos);
 				}
-				else if (reagentContainer.MajorMixReagent ==  SpaceCleaner)
+				else if (reagentContainer.MajorMixReagent == SpaceCleaner)
 				{
-					matrixInfo.MetaDataLayer.Clean(worldPos, localPos, false);
-					reagentContainer.TakeReagents(reagentsPerUse);
+					CleanUpMess(false, matrixInfo, localPos, worldPos);
 				}
 				else
 				{
 					MatrixManager.ReagentReact(reagentContainer.TakeReagents(reagentsPerUse), worldPos);
 				}
 			}
-
 			Chat.AddExamineMsg(interaction.Performer, "You finish mopping.");
 		}
 

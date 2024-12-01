@@ -447,8 +447,9 @@ public class MetaDataLayer : MonoBehaviour
 
 	public void CleanAndMoveToExcess(Vector3Int worldPosInt, Vector3Int localPosInt, bool makeSlippery)
 	{
+		var floorDecals = GetFloorDecals(worldPosInt).ToList();
+		if (floorDecals.Count == 0) return;
 		Get(localPosInt, updateTileOnClient: true).IsSlippery = false;
-		var floorDecals = GetFloorDecals(worldPosInt);
 		foreach (var floorDecal in floorDecals)
 		{
 			if (floorDecal.ReagentContainer?.IsEmpty == false)
@@ -591,7 +592,7 @@ public class MetaDataLayer : MonoBehaviour
 #endif
 					// Add this neighbor to the queue for further distribution if needed
 					cellsToProcess.Enqueue(neighbor);
-					Clean(neighbor.ToWorldInt(matrix), neighbor, true);
+					CleanAndMoveToExcess(neighbor.ToWorldInt(matrix), neighbor, false);
 					if (excess.Total > 5)
 					{
 						matrix.ReactionManager.ExtinguishHotspot(neighbor);
