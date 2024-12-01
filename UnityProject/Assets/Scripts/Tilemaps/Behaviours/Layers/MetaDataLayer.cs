@@ -43,13 +43,14 @@ public class MetaDataLayer : MonoBehaviour
 
 	private Dictionary<Vector3Int, ReagentMix> tileReagentMixes = new Dictionary<Vector3Int, ReagentMix>();
 	private const float REAGENT_LIMIT_PER_CELL = 10f;
+	private const float EVAPORATE_TICK_DURATION = 25f;
 
 	public void OnEnable()
 	{
 		if (CustomNetworkManager.IsServer)
 		{
 			UpdateManager.Add(CallbackType.UPDATE, SynchroniseNodeChanges);
-			UpdateManager.Add(EvaporationTick, 35f);
+			UpdateManager.Add(EvaporationTick, EVAPORATE_TICK_DURATION);
 		}
 	}
 
@@ -88,11 +89,24 @@ public class MetaDataLayer : MonoBehaviour
 	public void EvaporationTick()
 	{
 		if (tileReagentMixes.Count <= 0) return;
-		lock (tileReagentMixes)
+		StartCoroutine(EvaporateCheck());
+	}
+
+	private IEnumerator EvaporateCheck()
+	{
+		var safeList = tileReagentMixes.Shuffle().ToList();
+		for (int i = 0; i < tileReagentMixes.Count - 1; i++)
 		{
-			var toRemove = tileReagentMixes.PickRandom().Key;
-			matrix.MetaTileMap.RemoveOverlaysOfType(toRemove, LayerType.UnderObjectsEffects, OverlayType.Liquid);
-			tileReagentMixes.Remove(toRemove);
+			yield return WaitFor.EndOfFrame;
+			if (safeList.Count <= 0) break;
+			if (tileReagentMixes == null || tileReagentMixes.Count == 0) break;
+			var toRemove = safeList[i];
+			if (tileReagentMixes.ContainsKey(toRemove.Key) == false) continue;
+			TimeSpan timeDifference = DateTime.UtcNow - toRemove.Value.CreationTime;
+			if (timeDifference.TotalSeconds <= 35) continue;
+			matrix.MetaTileMap.RemoveOverlaysOfType(toRemove.Key, LayerType.UnderObjectsEffects, OverlayType.Liquid);
+			tileReagentMixes.Remove(toRemove.Key);
+			yield return WaitFor.EndOfFrame;
 		}
 	}
 

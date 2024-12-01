@@ -100,6 +100,8 @@ namespace Chemistry
 		//should only be accessed when locked so should be okay
 		private Dictionary<Reagent, float> TEMPReagents = new Dictionary<Reagent, float>();
 
+		public DateTime CreationTime { get; private set; } = DateTime.UtcNow;
+
 		public ReagentMix( SerializableDictionary<Reagent, float> reagents, float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
 		{
 			Temperature = temperature;
