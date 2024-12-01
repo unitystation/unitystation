@@ -43,7 +43,7 @@ public class MetaDataLayer : MonoBehaviour
 
 	private Dictionary<Vector3Int, ReagentMix> tileReagentMixes = new Dictionary<Vector3Int, ReagentMix>();
 	private const float REAGENT_LIMIT_PER_CELL = 10f;
-	private const float EVAPORATE_TICK_DURATION = 25f;
+	private const float EVAPORATE_TICK_DURATION = 35f;
 
 	public void OnEnable()
 	{
@@ -103,7 +103,7 @@ public class MetaDataLayer : MonoBehaviour
 			var toRemove = safeList[i];
 			if (tileReagentMixes.ContainsKey(toRemove.Key) == false) continue;
 			var node = matrix.GetMetaDataNode(toRemove.Key);
-			if (TemperatureUtils.FromKelvin(node.GasMixLocal.Temperature, TemeratureUnits.C) >= 30f)
+			if (TemperatureUtils.FromKelvin(node.GasMixLocal.Temperature, TemeratureUnits.C) >= 60f)
 			{
 				node.GasMixLocal.AddGas(CommonGasses.Instance.WaterVapor, toRemove.Value.Total * 2, toRemove.Value.InternalEnergy / 2);
 				RemoveLiquidOnTile(toRemove.Key);
