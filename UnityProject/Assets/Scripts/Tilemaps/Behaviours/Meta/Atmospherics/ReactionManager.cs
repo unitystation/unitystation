@@ -293,7 +293,7 @@ namespace Systems.Atmospherics
 
 		public void ExtinguishHotspot(Vector3Int localPosition)
 		{
-			if (hotspots.ContainsKey(localPosition) && hotspots[localPosition].Hotspot != null)
+			if (HasHotspot(localPosition))
 			{
 				RemoveHotspot(hotspots[localPosition].Hotspot.node);
 			}
