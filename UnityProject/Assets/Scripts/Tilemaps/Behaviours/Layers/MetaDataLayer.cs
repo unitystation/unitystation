@@ -566,37 +566,37 @@ public class MetaDataLayer : MonoBehaviour
 	{
 		const int MAX_ITERATIONS = 450;
 		var iterations = 0;
-		var cellsToProcess = new Queue<Vector3Int>();
-		cellsToProcess.Enqueue(origin);
+		var cellsToProcess = new Queue<MetaDataNode>();
+		cellsToProcess.Enqueue(matrix.GetMetaDataNode(origin));
 		//(Max): This behavior for some reason breaks when the server is running at low FPS or heavily stuttring. (less than 20)
 		//I have no clue what's the cause, or how to mitgate this.
 		//You can emulate this issue by enabling gizmos in the editor and watching the FPS drop, then testing this.
 		while (cellsToProcess.Count > 0 && iterations < MAX_ITERATIONS)
 		{
 			var currentCell = cellsToProcess.Dequeue();
-			var neighbors = currentCell.GetNeighbors();
-			foreach (var neighbor in neighbors)
+			foreach (var neighbor in currentCell.Neighbors)
 			{
 				if (excess.Total <= 0) return;
 
 				// Skip if the neighbor is not passable
-				if (matrix.GetMetaDataNode(neighbor).IsOccupied) continue;
-				var neighborReagents = HasReagentsAtTile(neighbor);
+				if (neighbor.IsOccupied) continue;
+				var neighborReagents = HasReagentsAtTile(neighbor.LocalPosition);
 
 				// If the neighboring cell is empty, add the excess and break up the amount
 				if (neighborReagents.Item1 == false)
 				{
-					tileReagentMixes.Add(neighbor, excess.Split(excess.Total / 2));
-					CreateLiquidOverlay(neighbor, excess);
+					tileReagentMixes.Add(neighbor.LocalPosition, excess.Split(excess.Total / 2));
+					CreateLiquidOverlay(neighbor.LocalPosition, excess);
 #if UNITY_EDITOR
-					GameGizmomanager.AddNewLineStaticClient(null, currentCell.ToWorldInt(matrix), null, neighbor.ToWorldInt(matrix), Color.red);
+					GameGizmomanager.AddNewLineStaticClient(null,
+						currentCell.LocalPosition.ToWorldInt(matrix), null, neighbor.LocalPosition.ToWorldInt(matrix), Color.red);
 #endif
 					// Add this neighbor to the queue for further distribution if needed
 					cellsToProcess.Enqueue(neighbor);
-					CleanAndMoveToExcess(neighbor.ToWorldInt(matrix), neighbor, false);
+					CleanAndMoveToExcess(neighbor.LocalPosition.ToWorldInt(matrix), neighbor.LocalPosition, false);
 					if (excess.Total > 5)
 					{
-						matrix.ReactionManager.ExtinguishHotspot(neighbor);
+						matrix.ReactionManager.ExtinguishHotspot(neighbor.LocalPosition);
 					}
 					continue;
 				}
@@ -607,7 +607,7 @@ public class MetaDataLayer : MonoBehaviour
 					var availableSpace = REAGENT_LIMIT_PER_CELL - neighborReagents.Item2.Total;
 					var transferMix = excess.Split(Math.Min(excess.Total, availableSpace));
 					neighborReagents.Item2.Add(transferMix);
-					CleanAndMoveToExcess(neighbor.ToWorldInt(matrix), neighbor, false);
+					CleanAndMoveToExcess(neighbor.LocalPosition.ToWorldInt(matrix), neighbor.LocalPosition, false);
 				}
 				cellsToProcess.Enqueue(neighbor);
 			}
