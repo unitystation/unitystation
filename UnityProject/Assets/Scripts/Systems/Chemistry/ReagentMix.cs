@@ -100,7 +100,7 @@ namespace Chemistry
 		//should only be accessed when locked so should be okay
 		private Dictionary<Reagent, float> TEMPReagents = new Dictionary<Reagent, float>();
 
-		public DateTime CreationTime { get; private set; } = DateTime.UtcNow;
+		public DateTime LastModificationTime { get; private set; } = DateTime.UtcNow;
 
 		public ReagentMix( SerializableDictionary<Reagent, float> reagents, float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
 		{
@@ -308,6 +308,7 @@ namespace Chemistry
 
 		public void Add(Reagent reagent, float amount)
 		{
+			LastModificationTime = DateTime.UtcNow;
 			if (Mathf.Approximately(amount, 0f))
 			{
 				return;
@@ -360,7 +361,7 @@ namespace Chemistry
 		public float Remove(Reagent reagent, float amount)
 		{
 			if (amount == 0) return 0;
-
+			LastModificationTime = DateTime.UtcNow;
 			if (amount < 0f)
 			{
 				Debug.LogError($"Trying to remove Negative {amount} amount of {reagent}");
@@ -411,10 +412,12 @@ namespace Chemistry
 					Subtract(reagent.Key, reagent.Value);
 				}
 			}
+			LastModificationTime = DateTime.UtcNow;
 		}
 
 		public float Subtract(Reagent reagent, float subAmount)
 		{
+			LastModificationTime = DateTime.UtcNow;
 			if (subAmount < 0)
 			{
 				Loggy.Error().Format("Trying to subtract negative {0} amount of {1}. Use positive amount instead.", Category.Chemistry,
@@ -462,6 +465,7 @@ namespace Chemistry
 		/// </summary>
 		public void Multiply(float multiplier)
 		{
+			LastModificationTime = DateTime.UtcNow;
 			if (multiplier < 0f)
 			{
 				Loggy.Error($"Trying to multiply reagentmix by {multiplier}", Category.Chemistry);
@@ -504,6 +508,7 @@ namespace Chemistry
 		/// </summary>
 		public void Divide(float Divider)
 		{
+			LastModificationTime = DateTime.UtcNow;
 			if (Divider < 0f)
 			{
 				Loggy.Error($"Trying to Divide reagentmix by {Divider}", Category.Chemistry);
@@ -541,6 +546,7 @@ namespace Chemistry
 
 		public ReagentMix Split(float amount)
 		{
+			LastModificationTime = DateTime.UtcNow;
 			ReagentMix split = new ReagentMix();
 			TransferTo(split, amount);
 			return split;
@@ -608,6 +614,7 @@ namespace Chemistry
 
 		public ReagentMix Take(float amount)
 		{
+			LastModificationTime = DateTime.UtcNow;
 			if (amount == 0 || amount < 0)
 			{
 				return new ReagentMix();
@@ -631,6 +638,7 @@ namespace Chemistry
 				return;
 			}
 
+			LastModificationTime = DateTime.UtcNow;
 			if (float.IsNegativeInfinity(amount) || float.IsNaN(amount)  || float.IsPositiveInfinity(amount))
 			{
 				Loggy.Error($"Trying to RemoveVolume {amount}", Category.Chemistry);

@@ -109,7 +109,7 @@ public class MetaDataLayer : MonoBehaviour
 				RemoveLiquidOnTile(toRemove.LocalPosition, toRemove);
 				continue;
 			}
-			TimeSpan timeDifference = DateTime.UtcNow - toRemove.ReagentsOnTile.CreationTime;
+			TimeSpan timeDifference = DateTime.UtcNow - toRemove.ReagentsOnTile.LastModificationTime;
 			if (timeDifference.TotalSeconds + toRemove.ReagentsOnTile.reagents.Count <= 35) continue;
 			RemoveLiquidOnTile(toRemove.LocalPosition, toRemove);
 			yield return WaitFor.EndOfFrame;
