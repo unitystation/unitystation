@@ -580,9 +580,7 @@ public class MetaDataLayer : MonoBehaviour
 				if (excess.Total <= 0) return;
 
 				// Skip if the neighbor is not passable
-				if (matrix.IsWallAt(neighbor, true)
-				    || matrix.IsWindowAt(neighbor, true)
-				    || matrix.GetNoGC(neighbor, true, new List<DoorMasterController>()).Any()) continue;
+				if (matrix.GetMetaDataNode(neighbor).IsOccupied) continue;
 				var neighborReagents = HasReagentsAtTile(neighbor);
 
 				// If the neighboring cell is empty, add the excess and break up the amount
