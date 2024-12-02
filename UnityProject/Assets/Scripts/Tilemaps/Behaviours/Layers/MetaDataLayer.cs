@@ -6,6 +6,7 @@ using Systems.Atmospherics;
 using Chemistry;
 using Chemistry.Components;
 using Core.Factories;
+using Doors;
 using HealthV2;
 using InGameGizmos;
 using Items;
@@ -563,7 +564,7 @@ public class MetaDataLayer : MonoBehaviour
 
 	private void DistributeExcessToNearbyCells(ReagentMix excess, Vector3Int origin)
 	{
-		const int MAX_ITERATIONS = 250;
+		const int MAX_ITERATIONS = 450;
 		var iterations = 0;
 		var cellsToProcess = new Queue<Vector3Int>();
 		cellsToProcess.Enqueue(origin);
@@ -579,7 +580,9 @@ public class MetaDataLayer : MonoBehaviour
 				if (excess.Total <= 0) return;
 
 				// Skip if the neighbor is not passable
-				if (matrix.IsWallAt(neighbor, true) || matrix.IsWindowAt(neighbor, true)) continue;
+				if (matrix.IsWallAt(neighbor, true)
+				    || matrix.IsWindowAt(neighbor, true)
+				    || matrix.GetNoGC(neighbor, true, new List<DoorMasterController>()).Any()) continue;
 				var neighborReagents = HasReagentsAtTile(neighbor);
 
 				// If the neighboring cell is empty, add the excess and break up the amount
