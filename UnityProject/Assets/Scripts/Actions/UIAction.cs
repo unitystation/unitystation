@@ -35,7 +35,7 @@ namespace UI.Action
 			actionData = action.ActionData;
 			if (actionData == null)
 			{
-				Loggy.LogWarningFormat("UIAction {0}: action data is null!", Category.UserInput, iAction);
+				Loggy.Warning().Format("UIAction {0}: action data is null!", Category.UserInput, iAction);
 				return;
 			}
 

@@ -94,6 +94,6 @@ public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 			return;
 		}
 
-		Loggy.LogError("Failed to find IServerActionGUI on NetworkIdentity", Category.UserInput);
+		Loggy.Error("Failed to find IServerActionGUI on NetworkIdentity", Category.UserInput);
 	}
 }
