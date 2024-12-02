@@ -15,37 +15,97 @@ using UnityEngine.AddressableAssets;
 [CustomPropertyDrawer(typeof(AddressableAudioSource))]
 public class AddressableReferencePropertyDrawer : PropertyDrawer
 {
+	private AudioSource previewAudioSource;
+
 	public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 	{
 		EditorGUI.BeginProperty(position, label, property);
-		string addressableType = "SoundAndMusic";
+
+		float labelWidth = position.width * 0.6f;
+		float buttonWidth = position.width * 0.3f;
+		float previewButtonWidth = position.width * 0.1f;
+
+		Rect labelPosition = new Rect(position.x, position.y, labelWidth, position.height);
+		Rect buttonPosition = new Rect(position.x + labelWidth, position.y, buttonWidth, position.height);
+		Rect previewButtonPosition = new Rect(position.x + labelWidth + buttonWidth, position.y, previewButtonWidth, position.height);
+
+		// Properly handle indentation in lists
+		labelPosition = EditorGUI.IndentedRect(labelPosition);
+
 		var Path = property.FindPropertyRelative("AssetAddress");
-		string stringpath = Path.stringValue;
-		if (string.IsNullOrEmpty(stringpath))
+		string stringPath = Path.stringValue;
+		if (string.IsNullOrEmpty(stringPath))
 		{
-			stringpath = "Null";
+			stringPath = "Null";
 		}
 
-		Rect labelposition = position;
-		Rect buttonposition = position;
-		labelposition.xMax -= 150;
-		buttonposition.xMin += 150;
+		// Draw Label
+		EditorGUI.LabelField(labelPosition, $"{property.displayName}");
 
-		EditorGUI.LabelField(labelposition,$"{property.displayName}");
-		// EditorGUILayout.LabelField($"{property.displayName}", GUILayout.ExpandWidth(false), ;
-		if (GUI.Button( buttonposition, $"{stringpath}", EditorStyles.popup))
+		// Draw Select Button
+		if (GUI.Button(buttonPosition, $"{stringPath}", EditorStyles.popup))
 		{
 			SearchWindow.Open(
-				new SearchWindowContext(GUIUtility.GUIToScreenPoint((UnityEngine.Event.current.mousePosition))),
-				new StringSearchList(AddressablePicker.options[addressableType], s =>
+				new SearchWindowContext(GUIUtility.GUIToScreenPoint(UnityEngine.Event.current.mousePosition)),
+				new StringSearchList(AddressablePicker.options["SoundAndMusic"], s =>
 				{
 					Path.stringValue = s;
 					Path.serializedObject.ApplyModifiedProperties();
 				}));
+		}
 
+		// Draw Preview Button
+		if (GUI.Button(previewButtonPosition, "▶"))
+		{
+			PlayAudioPreview(stringPath);
 		}
 
 		EditorGUI.EndProperty();
+	}
+
+
+	/// <summary>
+	/// Plays the audio preview in the editor.
+	/// </summary>
+	/// <param name="address">The addressable asset path.</param>
+	private void PlayAudioPreview(string address)
+	{
+		if (string.IsNullOrEmpty(address) || address == "Null")
+		{
+			Debug.LogWarning("No valid addressable audio selected for preview.");
+			return;
+		}
+
+		// Load the audio clip
+		Addressables.LoadAssetAsync<GameObject>(address).Completed += handle =>
+		{
+			try
+			{
+				AudioSource clip = handle.Result.GetComponent<AudioSource>();
+				foreach (var compo in handle.Result.GetComponents<Component>())
+				{
+					Debug.Log($"{compo.GetType()} - {compo.name}");
+				}
+				if (clip == null)
+				{
+					Debug.LogError($"AudioClip not found at address: {address}");
+					return;
+				}
+
+				GameObject audioPreviewObject = new GameObject("SoundSpawn");
+				previewAudioSource = audioPreviewObject.AddComponent<AudioSource>();
+				previewAudioSource.clip = handle.Result.GetComponent<AudioSource>().clip;
+				previewAudioSource.loop = false;
+				previewAudioSource.spatialBlend = 0;
+				previewAudioSource.spatialize = false;
+				previewAudioSource.maxDistance = Single.MaxValue;
+				if (previewAudioSource.isPlaying == false) previewAudioSource.Play();
+			}
+			catch (Exception e)
+			{
+				Debug.LogError($"Failed to load AudioClip at address: {address}.\n {e}");
+			}
+		};
 	}
 
 	/// <summary>

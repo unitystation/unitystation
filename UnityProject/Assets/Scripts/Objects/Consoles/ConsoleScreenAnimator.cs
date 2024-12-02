@@ -33,7 +33,7 @@ namespace Objects
 			{
 				if (SpriteHandlerHere == null)
 				{
-					Loggy.Log($"{nameof(SpriteHandler)} is missing on {gameObject}.", Category.Sprites);
+					Loggy.Info($"{nameof(SpriteHandler)} is missing on {gameObject}.", Category.Sprites);
 					return;
 				}
 				SpriteHandlerHere.PushTexture();

@@ -25,15 +25,15 @@ namespace HealthV2.Living.PolymorphicSystems
 
 		[HideInInspector] public List<Heart> PumpingDevices = new List<Heart>();
 
-		public ReagentMix RegenBloodPool = new ReagentMix();
-		public float RegenEfficiency = 0.15f;
+		public ReagentMix TempBloodReservoir = new ReagentMix();
+		public float ReservoirReturnMultiplier = 0.15f;
 
 
 		public override void SystemUpdate()
 		{
 			base.SystemUpdate();
-			if (RegenBloodPool.Total <= 0) return;
-			BloodPool.Add(RegenBloodPool.Take(RegenBloodPool.Total * RegenEfficiency));
+			if (TempBloodReservoir.Total <= 0) return;
+			BloodPool.Add(TempBloodReservoir.Take(TempBloodReservoir.Total * ReservoirReturnMultiplier));
 		}
 
 
@@ -45,7 +45,7 @@ namespace HealthV2.Living.PolymorphicSystems
 			// Currently only does blood and required reagents, should at nutriments and other common gases
 			if (bloodPool == null || bloodReagent == null)
 			{
-				Loggy.LogError("[ReagentPoolSystem/AddFreshBlood] - Missing data detected. Make sure you're not spawning a bodyPart without its proper systems defined.");
+				Loggy.Error("[ReagentPoolSystem/AddFreshBlood] - Missing data detected. Make sure you're not spawning a bodyPart without its proper systems defined.");
 			}
 			try
 			{
@@ -59,7 +59,7 @@ namespace HealthV2.Living.PolymorphicSystems
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError(e.ToString());
+				Loggy.Error(e.ToString());
 			}
 		}
 		public override void StartFresh()

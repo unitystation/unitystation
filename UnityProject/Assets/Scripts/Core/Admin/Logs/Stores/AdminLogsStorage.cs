@@ -53,14 +53,14 @@ namespace Core.Admin.Logs.Stores
 				newLog = EntryConverter.Convert(entry);
 				if (newLog == null)
 				{
-					Loggy.LogError("[AdminLogsStorage/Store()] - Recevied a null entry when attempting to convert logs into a human readable version.");
+					Loggy.Error("[AdminLogsStorage/Store()] - Recevied a null entry when attempting to convert logs into a human readable version.");
 					readyForQueue = true;
 					return;
 				}
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError(e.ToString());
+				Loggy.Error(e.ToString());
 				readyForQueue = true;
 				return;
 			}
@@ -90,19 +90,19 @@ namespace Core.Admin.Logs.Stores
 			}
 			catch (UnauthorizedAccessException uae)
 			{
-				Loggy.Log("Access to the path is denied: " + uae);
+				Loggy.Info("Access to the path is denied: " + uae);
 			}
 			catch (PathTooLongException ptle) //windows reeeeeEEEEEEEEEEE
 			{
-				Loggy.Log("The specified path, file name, or both are too long: " + ptle);
+				Loggy.Info("The specified path, file name, or both are too long: " + ptle);
 			}
 			catch (IOException ioe)
 			{
-				Loggy.Log("An I/O error occurred while opening the file: " + ioe);
+				Loggy.Info("An I/O error occurred while opening the file: " + ioe);
 			}
 			catch (Exception ex)
 			{
-				Loggy.Log("An unexpected error occurred: " + ex);
+				Loggy.Info("An unexpected error occurred: " + ex);
 			}
 		}
 
@@ -115,7 +115,7 @@ namespace Core.Admin.Logs.Stores
 			}
 			else
 			{
-				Loggy.LogError($"[AdminLogsStorage/FetchLogsPaginated()] - Failed to convert log line to LogEntry: {logLine}");
+				Loggy.Error($"[AdminLogsStorage/FetchLogsPaginated()] - Failed to convert log line to LogEntry: {logLine}");
 			}
 		}
 
@@ -127,7 +127,7 @@ namespace Core.Admin.Logs.Stores
 			{
 				if (AccessFile.Exists(filePath, true, FolderType.Logs, false) == false)
 				{
-					Loggy.LogError($"[AdminLogsStorage/FetchLogs()] - File not found: {filePath}");
+					Loggy.Error($"[AdminLogsStorage/FetchLogs()] - File not found: {filePath}");
 				}
 				string fileContent = await Task.Run(() => AccessFile.Load(filePath, FolderType.Logs, false));
 				string[] logLines = fileContent.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
@@ -139,13 +139,13 @@ namespace Core.Admin.Logs.Stores
 					}
 					catch (Exception e)
 					{
-						Loggy.LogError($"[AdminLogsStorage/FetchLogs()] - Exception during log entry conversion: {e}");
+						Loggy.Error($"[AdminLogsStorage/FetchLogs()] - Exception during log entry conversion: {e}");
 					}
 				}
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError($"[AdminLogsStorage/FetchLogs()] - Exception during file read: {e}");
+				Loggy.Error($"[AdminLogsStorage/FetchLogs()] - Exception during file read: {e}");
 			}
 			return logEntries;
 		}
@@ -161,7 +161,7 @@ namespace Core.Admin.Logs.Stores
 				}
 				catch (Exception e)
 				{
-					Loggy.LogError($"[AdminLogsStorage/FetchLogsPaginated()] - Exception during file read: {e}");
+					Loggy.Error($"[AdminLogsStorage/FetchLogsPaginated()] - Exception during file read: {e}");
 				}
 				return data;
 			}
@@ -173,10 +173,10 @@ namespace Core.Admin.Logs.Stores
 			{
 				if (AccessFile.Exists(filePath, true, FolderType.Logs, false) == false)
 				{
-					Loggy.LogError($"[AdminLogsStorage/FetchLogsPaginated()] - File not found: {filePath}");
+					Loggy.Error($"[AdminLogsStorage/FetchLogsPaginated()] - File not found: {filePath}");
 				}
 				string fileContent = await LoadData(filePath);
-				LoadManager.DoInMainThread(() => Loggy.Log("Moving back to main thread."));
+				LoadManager.DoInMainThread(() => Loggy.Info("Moving back to main thread."));
 				if (string.IsNullOrEmpty(fileContent)) return logEntries;
 				string[] logLines = fileContent.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
 				int skip = (pageNumber - 1) * pageSize;
@@ -190,13 +190,13 @@ namespace Core.Admin.Logs.Stores
 					}
 					catch (Exception e)
 					{
-						Loggy.LogError($"[AdminLogsStorage/FetchLogsPaginated()] - Exception during log entry conversion: {e}");
+						Loggy.Error($"[AdminLogsStorage/FetchLogsPaginated()] - Exception during log entry conversion: {e}");
 					}
 				}
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError($"[AdminLogsStorage/FetchLogsPaginated()] - Exception during file read: {e}");
+				Loggy.Error($"[AdminLogsStorage/FetchLogsPaginated()] - Exception during file read: {e}");
 			}
 			return logEntries;
 		}
@@ -209,17 +209,17 @@ namespace Core.Admin.Logs.Stores
 			{
 				if (AccessFile.Exists(filePath, true, FolderType.Logs, false) == false)
 				{
-					Loggy.LogError($"[AdminLogsStorage/GetTotalPages()] - File not found: {filePath}");
+					Loggy.Error($"[AdminLogsStorage/GetTotalPages()] - File not found: {filePath}");
 					return totalEntries;
 				}
 				string fileContent = await Task.Run(() => AccessFile.Load(filePath, FolderType.Logs, false));
-				LoadManager.DoInMainThread(() => Loggy.Log("Moving back to main thread."));
+				LoadManager.DoInMainThread(() => Loggy.Info("Moving back to main thread."));
 				string[] logLines = fileContent.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
 				totalEntries = logLines.Length;
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError($"[AdminLogsStorage/GetTotalPages()] - Exception during file read: {e}");
+				Loggy.Error($"[AdminLogsStorage/GetTotalPages()] - Exception during file read: {e}");
 				return 0;
 			}
 			return (int)Math.Ceiling((double)totalEntries / pageSize);
@@ -230,7 +230,7 @@ namespace Core.Admin.Logs.Stores
 			List<string> totalEntries = new List<string>();
 			if (AccessFile.Exists("Admin", false, FolderType.Logs, false) == false)
 			{
-				Loggy.LogError($"[AdminLogsStorage/GetTotalPages()] - Logs folder not found.");
+				Loggy.Error($"[AdminLogsStorage/GetTotalPages()] - Logs folder not found.");
 				return totalEntries;
 			}
 			string[] files = AccessFile.DirectoriesOrFilesIn("Admin", FolderType.Logs, false);

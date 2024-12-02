@@ -70,18 +70,6 @@ namespace Systems.Hacking
 			public Color Colour;
 		}
 
-		public void Awake()
-		{
-			if (HasRegisteredForRestart == false)
-			{
-				HasRegisteredForRestart = true;
-				if (CustomNetworkManager.IsServer)
-				{
-					EventManager.AddHandler(Event.RoundEnded, CleanData);
-				}
-			}
-		}
-
 		public static void CleanData()
 		{
 			MonoAvailableColours?.Clear();
@@ -127,7 +115,7 @@ namespace Systems.Hacking
 
 			if (ColourDictionary == null)
 			{
-				Loggy.Log("Color dictionary wasn't found. RegisterPort has exited.", Category.Interaction);
+				Loggy.Info("Color dictionary wasn't found. RegisterPort has exited.", Category.Interaction);
 				return;
 			}
 
@@ -262,7 +250,7 @@ namespace Systems.Hacking
 
 					if (Cable == null)
 					{
-						Loggy.LogWarning("No cable was found for cutting", Category.Interaction);
+						Loggy.Warning("No cable was found for cutting", Category.Interaction);
 						return;
 					}
 

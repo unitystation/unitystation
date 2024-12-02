@@ -338,7 +338,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			for (int i = sameMatrixRelationships.Count - 1; i >= 0; i--)
 			{
 				var relationship = sameMatrixRelationships[i];
-				Loggy.LogTraceFormat("Cancelling spatial relationship {0} because {1} is despawning.",
+				Loggy.Trace().Format("Cancelling spatial relationship {0} because {1} is despawning.",
 					Category.SpatialRelationship, relationship, this);
 				SpatialRelationship.ServerEnd(relationship);
 			}
@@ -349,7 +349,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			for (int i = crossMatrixRelationships.Count - 1; i >= 0; i--)
 			{
 				var relationship = crossMatrixRelationships[i];
-				Loggy.LogTraceFormat("Cancelling spatial relationship {0} because {1} is despawning.",
+				Loggy.Trace().Format("Cancelling spatial relationship {0} because {1} is despawning.",
 					Category.SpatialRelationship, relationship, this);
 				SpatialRelationship.ServerEnd(relationship);
 			}
@@ -694,7 +694,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			{
 				foreach (var cancelled in toCancel)
 				{
-					Loggy.LogTraceFormat("Cancelling spatial relationship {0} because OnRelationshipChanged" +
+					Loggy.Trace().Format("Cancelling spatial relationship {0} because OnRelationshipChanged" +
 					                     " returned true.", Category.SpatialRelationship, cancelled);
 					SpatialRelationship.ServerEnd(cancelled);
 				}
@@ -704,7 +704,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			{
 				foreach (var switched in toSwitch)
 				{
-					Loggy.LogTraceFormat("Switching spatial relationship {0} to cross matrix because" +
+					Loggy.Trace().Format("Switching spatial relationship {0} to cross matrix because" +
 					                     " objects moved to different matrices.", Category.SpatialRelationship,
 						switched);
 					RemoveSameMatrixRelationship(switched);
@@ -721,7 +721,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			sameMatrixRelationships = new List<BaseSpatialRelationship>();
 		}
 
-		Loggy.LogTraceFormat("Adding same matrix relationship {0} on {1}",
+		Loggy.Trace().Format("Adding same matrix relationship {0} on {1}",
 			Category.SpatialRelationship, toAdd, this);
 		sameMatrixRelationships.Add(toAdd);
 	}
@@ -732,12 +732,12 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		//one side needs to poll.
 		if (!toAdd.IsLeader(this))
 		{
-			Loggy.LogTraceFormat("Not adding cross matrix relationship {0} on {1} because {1} is not the leader",
+			Loggy.Trace().Format("Not adding cross matrix relationship {0} on {1} because {1} is not the leader",
 				Category.SpatialRelationship, toAdd, this);
 			return;
 		}
 
-		Loggy.LogTraceFormat("Adding cross matrix relationship {0} on {1}",
+		Loggy.Trace().Format("Adding cross matrix relationship {0} on {1}",
 			Category.SpatialRelationship, toAdd, this);
 
 		if (crossMatrixRelationships == null)
@@ -752,7 +752,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private void RemoveSameMatrixRelationship(BaseSpatialRelationship toRemove)
 	{
 		if (sameMatrixRelationships == null) return;
-		Loggy.LogTraceFormat("Removing same matrix relationship {0} from {1}",
+		Loggy.Trace().Format("Removing same matrix relationship {0} from {1}",
 			Category.SpatialRelationship, toRemove, this);
 		sameMatrixRelationships.Remove(toRemove);
 		if (sameMatrixRelationships.Count == 0)
@@ -764,7 +764,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private void RemoveCrossMatrixRelationship(BaseSpatialRelationship toRemove)
 	{
 		if (crossMatrixRelationships == null) return;
-		Loggy.LogTraceFormat("Removing cross matrix relationship {0} from {1}",
+		Loggy.Trace().Format("Removing cross matrix relationship {0} from {1}",
 			Category.SpatialRelationship, toRemove, this);
 		crossMatrixRelationships.Remove(toRemove);
 		if (crossMatrixRelationships.Count == 0)
@@ -816,7 +816,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			{
 				foreach (var cancelled in toCancel)
 				{
-					Loggy.LogTraceFormat("Cancelling spatial relationship {0} because OnRelationshipChanged" +
+					Loggy.Trace().Format("Cancelling spatial relationship {0} because OnRelationshipChanged" +
 					                     " returned true.", Category.SpatialRelationship, cancelled);
 					SpatialRelationship.ServerEnd(cancelled);
 				}
@@ -826,7 +826,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			{
 				foreach (var switched in toSwitch)
 				{
-					Loggy.LogTraceFormat("Switching spatial relationship {0} to same matrix because" +
+					Loggy.Trace().Format("Switching spatial relationship {0} to same matrix because" +
 					                     " objects moved to the same matrix.", Category.SpatialRelationship, switched);
 					RemoveCrossMatrixRelationship(switched);
 					AddSameMatrixRelationship(switched);
@@ -891,7 +891,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	{
 		if (matrixDebugLogging)
 		{
-			Loggy.Log(log, Category.Matrix);
+			Loggy.Info(log, Category.Matrix);
 		}
 	}
 
@@ -928,9 +928,12 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	private void ReorderSorting()
 	{
-		objectLayer.ClientObjects.ReorderObjects(LocalPositionClient);
-		if (CustomNetworkManager.IsServer == false) return;
-		objectLayer.ServerObjects.ReorderObjects(LocalPositionServer);
+		if (objectLayer)
+		{
+			objectLayer.ClientObjects.ReorderObjects(LocalPositionClient);
+			if (CustomNetworkManager.IsServer == false) return;
+			objectLayer.ServerObjects.ReorderObjects(LocalPositionServer);
+		}
 	}
 
 	public LayerTile GetCurrentStandingTile()

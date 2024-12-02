@@ -26,7 +26,16 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	// NetworkManager.isHeadless is removed in latest versions of Mirror,
 	// so we assume headless would be running in batch mode.
-	public static bool IsHeadless => Application.isBatchMode;
+	public static bool IsHeadless
+	{
+		get
+		{
+#if UNITY_STANDALONE_LINUX_API
+			return true;
+#endif
+			return Application.isBatchMode;
+		}
+	}
 
 	public static CustomNetworkManager Instance;
 
@@ -102,7 +111,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 			var id = PD.GitID;
 			if (string.IsNullOrEmpty(id))
 			{
-				id = PD.PrefabID;
+				id = PD.ID.ToString();
 			}
 
 
@@ -116,10 +125,10 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 				var id = PD.GitID;
 				if (string.IsNullOrEmpty(id))
 				{
-					id = PD.PrefabID;
+					id = PD.ID.ToString();
 				}
 
-				if (Spawned.TryGetValue(data.IDToNetIDClient[id], out var networkIdentity ))
+				if (Spawned.TryGetValue(data.IDToNetIDClient[id], out var networkIdentity))
 				{
 					ObjectBeforePayloadDataClient(networkIdentity);
 				}
@@ -128,15 +137,17 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	}
 
 
-	public override void ObjectBeforePayloadDataClient(NetworkIdentity identity) //NOTE : Won't handle object to object references,
-                                                                              //However these should be synchronised By mirror since I can't Think of a state where they won't be
+	public override void
+		ObjectBeforePayloadDataClient(NetworkIdentity identity) //NOTE : Won't handle object to object references,
+		//However these should be synchronised By mirror since I can't Think of a state where they won't be
 	{
 		try
 		{
 			if (IsServer) return;
 			if (PrePayload.TryGetValue(identity.netId, out var prefabdata))
 			{
-				MapLoader.ProcessIndividualObject(null, prefabdata.Item1, prefabdata.Item2, Vector3Int.zero, Vector3Int.zero, identity.gameObject);
+				MapLoader.ProcessIndividualObject(null, prefabdata.Item1, prefabdata.Item2, Vector3Int.zero,
+					Vector3Int.zero, identity.gameObject);
 				foreach (var Spawn in identity.GetComponentsInChildren<INewMappedOnSpawn>())
 				{
 					Spawn.OnNewMappedOnSpawn();
@@ -145,9 +156,8 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		}
 		catch (Exception e)
 		{
-			Loggy.LogError(e.ToString());
+			Loggy.Error(e.ToString());
 		}
-
 	}
 
 	public void Clear()
@@ -262,13 +272,13 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		}
 
 		ActiveNetworkedManagersPrefabs.Clear();
-
 	}
 
 	public void RoundEndingClientNServer()
 	{
 		PrePayload.Clear();
 		LoadedMapDatas.Clear();
+		MapSaver.MapSaver.CodeClass.ThisCodeClass.Reset();
 	}
 
 	void ApplyConfig()
@@ -276,7 +286,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		config = ServerData.ServerConfig;
 		if (config.ServerPort != 0 && config.ServerPort <= 65535)
 		{
-			Loggy.LogFormat("ServerPort defined in config: {0}", Category.Server, config.ServerPort);
+			Loggy.Info().Format("ServerPort defined in config: {0}", Category.Server, config.ServerPort);
 			// var booster = GetComponent<BoosterTransport>();
 			// if (booster != null)
 			// {
@@ -314,13 +324,13 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	[ContextMenu("Print network server")]
 	public void PrintNetworkServer()
 	{
-		Loggy.LogError(NetworkServer.spawned.Count.ToString());
+		Loggy.Error(NetworkServer.spawned.Count.ToString());
 	}
 
 	[ContextMenu("Print network client")]
 	public void PrintNetworkClient()
 	{
-		Loggy.LogError(NetworkClient.spawned.Count.ToString());
+		Loggy.Error(NetworkClient.spawned.Count.ToString());
 	}
 
 	public void SetSpawnableList()
@@ -332,7 +342,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 		var storedIDs = new Dictionary<string, PrefabTracker>();
 
-		var networkObjectsGUIDs = AssetDatabase.FindAssets("t:prefab", new string[] { "Assets/Prefabs" });
+		var networkObjectsGUIDs = AssetDatabase.FindAssets("t:prefab", new string[] {"Assets/Prefabs"});
 		var objectsPaths = networkObjectsGUIDs.Select(AssetDatabase.GUIDToAssetPath);
 		foreach (var objectsPath in objectsPaths)
 		{
@@ -368,11 +378,11 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 					if (preexisting.ForeverID != originalOldID &&
 					    prefabTracker.ForeverID != originalOldID)
 					{
-						Loggy.LogError("OH GOD What is the original I can't tell!! " +
-						               "Manually edit the ForeverID For the newly created prefab to not be the same as " +
-						               "the prefab variant parent for " +
-						               preexisting.gameObject +
-						               " and " + prefabTracker.gameObject);
+						Loggy.Error("OH GOD What is the original I can't tell!! " +
+						            "Manually edit the ForeverID For the newly created prefab to not be the same as " +
+						            "the prefab variant parent for " +
+						            preexisting.gameObject +
+						            " and " + prefabTracker.gameObject);
 
 						prefabTracker.ForeverID = originalOldID;
 						preexisting.ForeverID = originalOldID;
@@ -403,13 +413,13 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		{
 			if (prefab.Count > 1)
 			{
-				Loggy.LogError($"There is {prefab.Count} prefabs with the name: {prefabName}, please rename them");
+				Loggy.Error($"There is {prefab.Count} prefabs with the name: {prefabName}, please rename them");
 			}
 
 			return prefab[0];
 		}
 
-		Loggy.LogError(
+		Loggy.Error(
 			$"There is no prefab with the name: {prefabName} inside the AllSpawnablePrefabs list in the network manager," +
 			" all prefabs must be in this list if they need to be spawnable");
 
@@ -452,9 +462,6 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public override void OnStartClient()
 	{
-
-
-
 		if (AddressableCatalogueManager.Instance == null) return;
 
 		AddressableCatalogueManager.Instance.LoadClientCatalogues();
@@ -467,12 +474,12 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		{
 			if (conn == NetworkServer.localConnection)
 			{
-				Loggy.Log("Prevented headless server from spawning a player", Category.Connections);
+				Loggy.Info("Prevented headless server from spawning a player", Category.Connections);
 				return;
 			}
 		}
 
-		Loggy.LogTrace($"Spawning a GameObject for the client {conn}.", Category.Connections);
+		Loggy.Trace($"Spawning a GameObject for the client {conn}.", Category.Connections);
 		base.OnServerAddPlayer(conn);
 		SubSceneManager.Instance.AddNewObserverScenePermissions(conn);
 		UpdateRoundTimeMessage.Send(GameManager.Instance.RoundTime.ToString("O"),
@@ -490,7 +497,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public override void OnClientDisconnect()
 	{
-		Loggy.Log("Client disconnected from the server.");
+		Loggy.Info("Client disconnected from the server.");
 		base.OnClientDisconnect();
 		OnClientDisconnected.Invoke();
 	}
@@ -498,7 +505,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	public override void OnServerConnect(NetworkConnectionToClient conn)
 	{
 		// Connection has been authenticated via Authentication.cs
-		Loggy.LogTrace($"A client has been authenticated and has joined. Address: {conn.address}.");
+		Loggy.Trace($"A client has been authenticated and has joined. Address: {conn.address}.");
 
 		base.OnServerConnect(conn);
 	}
@@ -506,7 +513,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	/// server actions when client disconnects
 	public override void OnServerDisconnect(NetworkConnectionToClient conn)
 	{
-		Loggy.LogError($"Disconnecting {conn.address}");
+		Loggy.Error($"Disconnecting {conn.address}");
 		//register them as removed from our own player list
 		PlayerList.Instance.RemoveByConnection(conn);
 

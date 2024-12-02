@@ -105,8 +105,15 @@ namespace HealthV2
 			if (newHealth != overallHealthSync)
 			{
 				overallHealthSync = newHealth;
-				ServerOverallHealthChange?.Invoke(newHealth);
+				InvokeServerOverallHealthChange(newHealth);
 			}
+		}
+
+
+		[Server]
+		public void InvokeServerOverallHealthChange(float newHealth)
+		{
+			ServerOverallHealthChange?.Invoke(newHealth);
 		}
 
 		[Server]
@@ -190,7 +197,7 @@ namespace HealthV2
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError(e.ToString()); //some weird ass serialisation error
+				Loggy.Error(e.ToString()); //some weird ass serialisation error
 				return;
 			}
 

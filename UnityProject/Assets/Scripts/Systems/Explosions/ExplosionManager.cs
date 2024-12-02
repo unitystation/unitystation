@@ -58,18 +58,14 @@ namespace Systems.Explosions
 
 		private void OnEnable()
 		{
-			if(Application.isEditor == false && NetworkServer.active == false) return;
+			if (Application.isEditor == false && NetworkServer.active == false) return;
 
-			if (CustomNetworkManager.IsServer == false) return;
-			
 			UpdateManager.Add(Step, 0.4f);
 		}
 
 		private void OnDisable()
 		{
 			if(Application.isEditor == false && NetworkServer.active == false) return;
-
-			if (CustomNetworkManager.IsServer == false) return;
 
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, Step);
 		}

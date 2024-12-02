@@ -97,7 +97,7 @@ namespace Objects.Kitchen
 					foodProcessor.RequestEjectContents();
 					break;
 				default:
-					Loggy.LogError("Unexpected interaction request occurred in food processor context menu.", Category.Interaction);
+					Loggy.Error("Unexpected interaction request occurred in food processor context menu.", Category.Interaction);
 					break;
 			}
 		}

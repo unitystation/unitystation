@@ -63,7 +63,7 @@ namespace Changeling
 			var abilityComponent = abilityObject.GetComponent<ChangelingAbility>();
 			if (abilityComponent == null)
 			{
-				Loggy.LogError($"No ability component found on {abilityObject} for {this}!", Category.Changeling);
+				Loggy.Error($"No ability component found on {abilityObject} for {this}!", Category.Changeling);
 				return default;
 			}
 			abilityComponent.ability = this;

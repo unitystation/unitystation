@@ -90,7 +90,7 @@ public struct PlayerAction
 		//TODO: Refactor diagonality into an extension
 		if (Math.Abs(direction.x) + Math.Abs(direction.y) >= 2)
 		{
-			Loggy.LogErrorFormat("MoveAction.GetMoveAction invoked on an invalid, non-cardinal direction {0}." +
+			Loggy.Error().Format("MoveAction.GetMoveAction invoked on an invalid, non-cardinal direction {0}." +
 			                      " This will cause undefined behavior. Please fix the code to only pass a valid cardinal direction.",
 				Category.Movement, direction);
 		}

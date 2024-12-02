@@ -71,8 +71,8 @@ namespace Objects.Atmospherics
 				return;
 			}
 
-			var InputOne = pipeData.Connections.GetFlagToDirection(FlagLogic.InputOne)?.Connected;
-			var InputTwo = pipeData.Connections.GetFlagToDirection(FlagLogic.InputTwo)?.Connected;
+			var InputOne = pipeData.RotatedConnections.GetFlagToDirection(FlagLogic.InputOne)?.Connected;
+			var InputTwo = pipeData.RotatedConnections.GetFlagToDirection(FlagLogic.InputTwo)?.Connected;
 
 			if (InputOne == null || InputTwo == null) return;
 

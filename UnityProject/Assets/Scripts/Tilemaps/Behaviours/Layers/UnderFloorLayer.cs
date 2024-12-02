@@ -27,19 +27,19 @@ public class UnderFloorLayer : Layer
 
 		if (electricalLayer == null)
 		{
-			Loggy.LogError($"Missing electrical layer!");
+			Loggy.Error($"Missing electrical layer!");
 			return;
 		}
 
 		if (pipeLayer == null)
 		{
-			Loggy.LogError($"Missing pipe layer!");
+			Loggy.Error($"Missing pipe layer!");
 			return;
 		}
 
 		if (disposalsLayer == null)
 		{
-			Loggy.LogError($"Missing disposals layer!");
+			Loggy.Error($"Missing disposals layer!");
 			return;
 		}
 

@@ -64,7 +64,7 @@ namespace MapSaver
 				}
 				catch (Exception e)
 				{
-					Loggy.LogError(e.ToString());
+					Loggy.Error(e.ToString());
 					continue;
 				}
 
@@ -137,7 +137,7 @@ namespace MapSaver
 						}
 						catch (Exception e)
 						{
-							Loggy.LogError(e.ToString());
+							Loggy.Error(e.ToString());
 							return int.Parse("1");
 						}
 					}
@@ -225,7 +225,7 @@ namespace MapSaver
 				}
 				catch (Exception e)
 				{
-					Loggy.LogError(e.ToString());
+					Loggy.Error(e.ToString());
 				}
 			}
 
@@ -261,10 +261,8 @@ namespace MapSaver
 					if (CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab.ForeverIDLookupSpawnablePrefabs
 						    .Count == 0)
 					{
-						CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab.ForeverIDLookupSpawnablePrefabs
-							.Clear();
-						CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab
-							.SetUpSpawnablePrefabsForEverIDManual();
+						CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab.ForeverIDLookupSpawnablePrefabs.Clear();
+						CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab.SetUpSpawnablePrefabsForEverIDManual();
 						CustomNetworkManager.Instance = CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab;
 					}
 
@@ -313,6 +311,7 @@ namespace MapSaver
 				Transform Parent = null;
 				Parent = Matrix.MetaTileMap.ObjectLayer.transform;
 				Transform Child = null;
+
 				foreach (var step in prefabData.SortPath.Split("/"))
 				{
 					Child = Parent.Find(step);
@@ -333,7 +332,9 @@ namespace MapSaver
 						Child.localPosition = Vector3.zero;
 						Child.localScale = Vector3.one;
 						Child.rotation = Quaternion.identity;
+
 					}
+					Parent = Child;
 				}
 
 				Object.transform.SetParent(Child);
@@ -366,7 +367,7 @@ namespace MapSaver
 
 				if (SpawnResult != null)
 				{
-					Spawn._ServerFireClientServerSpawnHooks(SpawnResult, SpawnInfo.Mapped(SpawnResult.GameObject));
+					Spawn._ServerFireClientServerSpawnHooks(SpawnResult, SpawnInfo.IsJsonMapped(SpawnResult.GameObject));
 				}
 			}
 		}
@@ -444,7 +445,7 @@ namespace MapSaver
 					}
 					catch (Exception e)
 					{
-						Loggy.LogError(e.ToString());
+						Loggy.Error(e.ToString());
 						continue;
 					}
 				}
@@ -453,7 +454,7 @@ namespace MapSaver
 
 				if (string.IsNullOrEmpty(ID))
 				{
-					ID = prefabData.PrefabID;
+					ID = prefabData.ID.ToString();
 				}
 
 				bool IsServer = CustomNetworkManager.IsServer;
@@ -539,9 +540,9 @@ namespace MapSaver
 			{
 				if (Matrix == null)
 				{
-					bool Space = sceneType == SceneType.Space;
 
-					aaMatrix = MatrixManager.MakeNewMatrix(MatrixName, Space);
+
+					aaMatrix = MatrixManager.MakeNewMatrix(MatrixName, sceneType);
 #if UNITY_EDITOR
 					if (Application.isPlaying == false)
 					{
@@ -585,7 +586,7 @@ namespace MapSaver
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError(e.ToString());
+				Loggy.Error(e.ToString());
 			}
 
 
@@ -633,7 +634,7 @@ namespace MapSaver
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError(e.ToString());
+				Loggy.Error(e.ToString());
 			}
 
 			if (aaMatrix.NetworkedMatrix.RequestInitialiseMapLoader && Application.isPlaying)
@@ -647,7 +648,7 @@ namespace MapSaver
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError(e.ToString());
+				Loggy.Error(e.ToString());
 			}
 		}
 	}

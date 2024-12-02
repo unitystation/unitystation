@@ -21,11 +21,12 @@ body:
   - type: textarea
     attributes:
       label: User Story
-      description: Write a list of user stories for this feature. A user story is a sentence that describes a feature from the perspective of the user. For example "As a player, I want to be able to hug the clown without it exploding."
+      description: Write a short green-text story for this feature. A green-text story is straight-forward multi-line story composed of single sentences that describes actions.
       value: |
-        - As a player, I want to be able to hug the clown without it exploding.
-        - As a clown player, I want to be able to hug the HOS without me exploding.
-        - As a developer, I want a clear hugging interface that can be used by other features
+        > Be security officer.
+        > Slip clown on a banana-flavored donut 
+        > Clown explodes.
+        > mfw
       render: markdown
     validations:
       required: true

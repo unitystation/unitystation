@@ -49,7 +49,7 @@ namespace Items
 			{
 				if (interactableTiles == null)
 				{
-					Loggy.LogError("No interactable tiles found, mining cannot be finished", Category.TileMaps);
+					Loggy.Error("No interactable tiles found, mining cannot be finished", Category.TileMaps);
 				}
 				else
 				{

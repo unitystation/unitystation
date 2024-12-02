@@ -32,7 +32,7 @@ namespace Items
 						return;
 					}
 
-					Loggy.LogError($"[{gameObject.name}/AddBackToStorageOnDropOrThrow] - Something went wrong while trying to re-add this item back to their item storage.");
+					Loggy.Error($"[{gameObject.name}/AddBackToStorageOnDropOrThrow] - Something went wrong while trying to re-add this item back to their item storage.");
 				}
 			}
 		}

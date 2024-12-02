@@ -46,7 +46,7 @@ public partial class Chat : MonoBehaviour
 	{
 		if (chatEvent == null)
 		{
-			Loggy.LogError("[Chat/InvokeChatEvent()] - Attempted to invoke a null event.");
+			Loggy.Error("[Chat/InvokeChatEvent()] - Attempted to invoke a null event.");
 			return;
 		}
 		var channels = chatEvent.channels;
@@ -180,13 +180,14 @@ public partial class Chat : MonoBehaviour
 	public static void AddChatMsgToChatServer(PlayerInfo sentByPlayer, string message, ChatChannel channels,
 		Loudness loudness = Loudness.NORMAL, ushort languageId = 0)
 	{
+		message = message.Replace("\n", " ").Replace("\r", " ");  // We don't want users to spam chat vertically
 		message = AutoMod.ProcessChatServer(sentByPlayer, message);
 		if (string.IsNullOrWhiteSpace(message)) return;
 
 		//Sanity check for null username
 		if (string.IsNullOrWhiteSpace(sentByPlayer.Username))
 		{
-			Loggy.Log($"Null/empty Username, Details: Username: {sentByPlayer.Username}, ClientID: {sentByPlayer.ClientId}, IP: {sentByPlayer.ConnectionIP}",
+			Loggy.Info($"Null/empty Username, Details: Username: {sentByPlayer.Username}, ClientID: {sentByPlayer.ClientId}, IP: {sentByPlayer.ConnectionIP}",
 				Category.Admin);
 			return;
 		}
@@ -889,7 +890,7 @@ public partial class Chat : MonoBehaviour
 	{
 		if (recipient == null || recipient.Equals(PlayerInfo.Invalid))
 		{
-			Loggy.LogError($"Can't send message \"{msg}\" to invalid player!", Category.Chat);
+			Loggy.Error($"Can't send message \"{msg}\" to invalid player!", Category.Chat);
 			return;
 		}
 

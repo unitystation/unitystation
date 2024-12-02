@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Util.Independent.FluentRichText;
 
 namespace HealthV2.TraumaTypes
 {
@@ -59,7 +60,7 @@ namespace HealthV2.TraumaTypes
 					bodyPart.ChangeBodyPartColor(bodyPartColorWhenCharred);
 					bodyPart.BodyPartItemSprite.OrNull()?.SetColor(bodyPartColorWhenCharred);
 					Chat.AddActionMsgToChat(bodyPart.HealthMaster.playerScript.gameObject,
-						"<size=+6><color=red>You feel your limb grow weaker as all senses start slowly disappearing from it.</color></size>",
+						"You feel your limb grow weaker as all senses start slowly disappearing from it.".Color(Color.red).FontSize("+6"),
 						$"{bodyPart.HealthMaster.playerScript.visibleName}'s limb turns chars from excessive burn damage..");
 					break;
 				case 4:
@@ -67,7 +68,7 @@ namespace HealthV2.TraumaTypes
 					{
 						currentStage = 3;
 						Chat.AddActionMsgToChat(bodyPart.HealthMaster.gameObject,
-							$"<color=red>Parts of the {bodyPart.gameObject.ExpensiveName()} crumble and ash away.</color");
+							$"Parts of the {bodyPart.gameObject.ExpensiveName()} crumble and ash away.".Color(Color.red));
 						return;
 					}
 					AshBodyPart();
@@ -80,7 +81,7 @@ namespace HealthV2.TraumaTypes
 		/// </summary>
 		private void AshBodyPart()
 		{
-
+			if (bodyPart.BodyPartType == BodyPartType.Head) return;
 			if (bodyPart.BodyPartType == BodyPartType.Chest) return;
 			var internalItemList = bodyPart.OrganStorage.GetItemSlots();
 			foreach (var item in internalItemList)

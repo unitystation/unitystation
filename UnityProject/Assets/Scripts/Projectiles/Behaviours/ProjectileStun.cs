@@ -47,7 +47,7 @@ namespace Weapons.Projectiles.Behaviours
 			{
 				Chat.AddThrowHitMsgToChat(gameObject, coll.gameObject, targetZone);
 			}
-			Loggy.LogTraceFormat($"{shooter} stunned {player.gameObject.name} for {stunTime} seconds with {weapon.OrNull()?.name}", Category.Firearms);
+			Loggy.Trace().Format($"{shooter} stunned {player.gameObject.name} for {stunTime} seconds with {weapon.OrNull()?.name}", Category.Firearms);
 
 			return true;
 		}

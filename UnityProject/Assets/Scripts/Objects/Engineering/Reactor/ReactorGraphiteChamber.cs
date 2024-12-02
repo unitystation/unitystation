@@ -275,7 +275,7 @@ namespace Objects.Engineering
 			var ExtraEnergyGained = (float) EnergyReleased;
 			if (ExtraEnergyGained.IsUnreasonableNumber() && ExtraEnergyGained != 0)
 			{
-				Loggy.LogError(
+				Loggy.Error(
 					$"PowerOutput Graphite chamber invalid number from EnergyReleased With Float of {ExtraEnergyGained} With decimal of {EnergyReleased}");
 				ExtraEnergyGained = 0;
 			}

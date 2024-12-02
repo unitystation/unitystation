@@ -173,7 +173,7 @@ namespace Objects.Wallmounts.Switches
 			{
 				if (turret == null)
 				{
-					Loggy.LogError($"null turrets in Turret switch at {transform.localPosition}");
+					Loggy.Error($"null turrets in Turret switch at {transform.localPosition}");
 					continue;
 				}
 

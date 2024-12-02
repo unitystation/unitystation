@@ -170,19 +170,34 @@ namespace Objects.Lighting
 
 		void IMultitoolSlaveable.SetMasterEditor(IMultitoolMasterable master)
 		{
-			SetMaster(master);
+			SetMaster(master, true);
 		}
 
-		private void SetMaster(IMultitoolMasterable master)
+		private void SetMaster(IMultitoolMasterable master, bool Editor = false)
 		{
-			if (master is LightSwitchV2 lightSwitch && lightSwitch != relatedLightSwitch)
+			if (Editor)
 			{
-				SubscribeToSwitchEvent(lightSwitch);
+				if (relatedLightSwitch != null)
+				{
+					relatedLightSwitch.listOfLights.Remove(this);
+				}
+
+				relatedLightSwitch = master as LightSwitchV2;
+
+				relatedLightSwitch?.listOfLights?.Add(this);
 			}
-			else if (relatedLightSwitch != null)
+			else
 			{
-				UnSubscribeFromSwitchEvent();
+				if (master is LightSwitchV2 lightSwitch && lightSwitch != relatedLightSwitch)
+				{
+					SubscribeToSwitchEvent(lightSwitch);
+				}
+				else if (relatedLightSwitch != null)
+				{
+					UnSubscribeFromSwitchEvent();
+				}
 			}
+
 		}
 
 		#endregion
@@ -412,7 +427,7 @@ namespace Objects.Lighting
 			}
 			catch (NullReferenceException exception)
 			{
-				Loggy.LogError(
+				Loggy.Error(
 					$"A NRE was caught in LightSource.TryRemoveBulb(): {exception.Message} \n {exception.StackTrace}",
 					Category.Lighting);
 			}

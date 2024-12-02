@@ -157,7 +157,7 @@ namespace Objects
 		{
 			if (obj == null)
 			{
-				Loggy.LogError("[ObjectContainer/StoreObject] - HEY SHITASS, DON'T TRY ADDING NULL OBJECTS.");
+				Loggy.Error("[ObjectContainer/StoreObject] - HEY SHITASS, DON'T TRY ADDING NULL OBJECTS.");
 				return;
 			}
 			if (obj.TryGetComponent<UniversalObjectPhysics>(out var objectPhysics))
@@ -232,6 +232,7 @@ namespace Objects
 
 			if (obj.TryGetComponent<UniversalObjectPhysics>(out var uop))
 			{
+				uop.StoreTo(null);
 				if (worldPosition == null)
 				{
 					uop.DropAtAndInheritMomentum(ObjectPhysics);
@@ -241,7 +242,6 @@ namespace Objects
 				{
 					uop.AppearAtWorldPositionServer(worldPosition.Value + offset);
 				}
-				uop.StoreTo(null);
 			}
 
 			onDrop?.Invoke();

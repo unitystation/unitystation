@@ -21,7 +21,7 @@ public class GUI_CoordReadout : MonoBehaviour
 	{
 		if (xText == null || yText == null)
 		{
-			Loggy.LogError("Coord Readout not setup correctly!", Category.Shuttles);
+			Loggy.Error("Coord Readout not setup correctly!", Category.Shuttles);
 			this.enabled = false;
 			return;
 		}

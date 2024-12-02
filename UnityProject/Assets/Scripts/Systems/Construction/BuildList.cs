@@ -97,7 +97,7 @@ namespace Construction
 				{
 					if (stackable.Amount < cost)
 					{
-						Loggy.LogWarningFormat("Server logic error. " +
+						Loggy.Warning().Format("Server logic error. " +
 						                        "Tried building {0} with insufficient materials in hand ({1})." +
 						                        " Build will not be performed.", Category.Construction, name,
 							buildingMaterial);
@@ -109,7 +109,7 @@ namespace Construction
 				{
 					if (cost > 1)
 					{
-						Loggy.LogWarningFormat("Server logic error. " +
+						Loggy.Warning().Format("Server logic error. " +
 						                        "Tried building {0} with insufficient materials in hand ({1})." +
 						                        " Build will not be performed.", Category.Construction, name,
 							buildingMaterial);

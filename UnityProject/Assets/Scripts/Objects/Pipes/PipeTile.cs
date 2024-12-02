@@ -34,7 +34,7 @@ namespace Objects.Atmospherics
 		{
 			foreach (var pipeNode in metaData.PipeData)
 			{
-				var existingConnection = pipeNode.pipeData.Connections;
+				var existingConnection = pipeNode.pipeData.RotatedConnections;
 				for (var i = 0; i < incomingConnection.Directions.Length; i++)
 				{
 					if (incomingConnection.Directions[i].Bool && existingConnection.Directions[i].Bool)
@@ -96,7 +96,7 @@ namespace Objects.Atmospherics
 				if (PipeDirCheck[d])
 				{
 					canInitializePipe = false;
-					Loggy.LogWarning(
+					Loggy.Warning(
 						$"A pipe is overlapping its connection at ({TileLocation.x}, {TileLocation.y}) in {AssociatedMatrix.gameObject.scene.name} - {LayerType.ToString()} with another pipe, removing one",
 						Category.Pipes);
 					AssociatedMatrix.MetaTileMap.Layers[LayerType].Tilemap.SetTile(TileLocation, null);

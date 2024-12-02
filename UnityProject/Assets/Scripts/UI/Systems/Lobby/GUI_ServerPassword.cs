@@ -16,7 +16,7 @@ namespace Lobby
 
 			if (authenticator == null)
 			{
-				Loggy.LogError("Authenticator wrong type?");
+				Loggy.Error("Authenticator wrong type?");
 				return;
 			}
 

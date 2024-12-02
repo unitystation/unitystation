@@ -52,6 +52,8 @@ namespace ScriptableObjects
 
 		public CommonTiles CommonTiles;
 
+		public CommonMaterials CommonMaterials;
+
 		[FormerlySerializedAs("PlayerStatesSingleton")]
 		public PlayerTypeSingleton playerTypeSingleton;
 
@@ -100,14 +102,14 @@ namespace ScriptableObjects
 			{
 				if (value == null)
 				{
-					Loggy.LogError($"{typeof(T).FullName} is not assigned to {gameObject.name} prefab.");
+					Loggy.Error($"{typeof(T).FullName} is not assigned to {gameObject.name} prefab.");
 					return null;
 				}
 
 				return value as T;
 			}
 
-			Loggy.LogWarning($"{nameof(SOs)} is missing entry for {typeof(T).FullName}.");
+			Loggy.Warning($"{nameof(SOs)} is missing entry for {typeof(T).FullName}.");
 			return default;
 		}
 	}

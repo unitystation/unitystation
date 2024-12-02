@@ -111,30 +111,30 @@ namespace Objects.Atmospherics
 			{
 				return;
 			}
-			
+
 			pipeData.mixAndVolume.EqualiseWithOutputs(pipeData.Outputs);
 
-			PipeData inputPipe = pipeData.Connections.GetFlagToDirection(FlagLogic.InputOne)?.Connected;
+			PipeData inputPipe = pipeData.RotatedConnections.GetFlagToDirection(FlagLogic.InputOne)?.Connected;
 
 			if (inputPipe == null) return;
-			
+
 			Vector2 pressureDensity = pipeData.mixAndVolume.Density();
-			
+
 			if (isOverclocked == false && pressureDensity.x < MinPressure && pressureDensity.y < MinPressure) return;
 			if (isOverclocked == false && pressureDensity.x > MaxPressure && pressureDensity.y > MaxPressure) return;
 
 			var inputMix = inputPipe.GetMixAndVolume;
 			var inputDensity = inputMix.Density();
-			
+
 			float chemVolumeRatio = Mathf.Min(TransferVolume / AtmosUtils.CalcVolume(inputDensity.x, inputMix.Total.x, inputMix.Temperature), 1);
 			float gasVolumeRatio = Mathf.Min(TransferVolume / AtmosUtils.CalcVolume(inputDensity.y, inputMix.Total.y, inputMix.Temperature), 1);
-			
+
 			Vector2 transferValue = new Vector2
 			{
 				x = (pressureDensity.x < MinPressure || pressureDensity.x > MaxPressure) && isOverclocked == false ? 0 : FiniteOrDefault(inputMix.Total.x * chemVolumeRatio),
 				y = (pressureDensity.y < MinPressure || pressureDensity.y > MaxPressure) && isOverclocked == false ? 0 : FiniteOrDefault(inputMix.Total.y * gasVolumeRatio)
 			};
-			
+
 			inputPipe.GetMixAndVolume.TransferTo(pipeData.mixAndVolume, transferValue);
 
 			if (isOverclocked)
@@ -146,7 +146,7 @@ namespace Objects.Atmospherics
 				GasMix.TransferGas(metaNode.GasMixLocal, pipeData.mixAndVolume.GetGasMix(), FiniteOrDefault(transferValue.y * 0.1f));
 			}
 		}
-		
+
 		public static float FiniteOrDefault(float value)
 		{
 		    return float.IsNaN(value) == false && float.IsInfinity(value) == false ? value : default;
@@ -187,5 +187,5 @@ namespace Objects.Atmospherics
 			};
 			return list;
 		}
-	}	
+	}
 }

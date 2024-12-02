@@ -44,8 +44,8 @@ public class SpawnerSearch
 		{
 			if (prefab.GetComponent<NetworkIdentity>() == null)
 			{
-				Loggy.LogTraceFormat("{0} omitted from dev spawner because it has no network identity. Only" +
-				                      " networked prefabs can be spawned.", Category.Admin);
+				Loggy.Trace().Format("{0} omitted from dev spawner because it has no network identity. Only" +
+				                      " networked prefabs can be spawned.", Category.Admin, prefab);
 				continue;
 			}
 
@@ -128,6 +128,7 @@ public class SpawnerSearch
 	{
 		string result = raw.ToLower();
 		//convert non alphanumeric stuff to whitespace - we only care about letters and numbers
-		return SpawnerSearch.NON_ALPHANUMERIC.Replace(result, " ");
+		result = result.Replace(" ", "");
+		return SpawnerSearch.NON_ALPHANUMERIC.Replace(result, "");
 	}
 }

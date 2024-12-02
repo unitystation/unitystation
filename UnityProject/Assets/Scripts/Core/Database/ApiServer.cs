@@ -88,8 +88,8 @@ namespace Core.Database
 			request.Headers.Add("Accept", "application/json");
 			HttpResponseMessage response = await SecureStuff.SafeHttpRequest.SendAsync(request);
 			string responseBody = await response.Content.ReadAsStringAsync();
-			LoadManager.DoInMainThread(() => Loggy.LogTrace($"{request}", Category.DatabaseAPI));
-			LoadManager.DoInMainThread(() => Loggy.LogTrace($"{response}", Category.DatabaseAPI));
+			LoadManager.DoInMainThread(() => Loggy.Trace($"{request}", Category.DatabaseAPI));
+			LoadManager.DoInMainThread(() => Loggy.Trace($"{response}", Category.DatabaseAPI));
 
 			if (response.IsSuccessStatusCode == false)
 			{

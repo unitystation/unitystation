@@ -229,8 +229,7 @@ public class Mind : NetworkBehaviour, IGameActionHolder, IGameActionContainer
 		get => GetPropertyOrDefault("vowOfSilence", false);
 		set => SetProperty("vowOfSilence", value);
 	}
-
-	private GhostMove Move;
+	public GhostMove Move;
 
 	public string ActionGuid => UIActionManager.RegisterAction(this);
 
@@ -720,7 +719,7 @@ public class Mind : NetworkBehaviour, IGameActionHolder, IGameActionContainer
 	{
 		if (ControlledBy?.Connection == null)
 		{
-			Loggy.LogError("oh god!, Somehow there's no connection to client when ReLog Code has Been called");
+			Loggy.Error("oh god!, Somehow there's no connection to client when ReLog Code has Been called");
 			return;
 		}
 

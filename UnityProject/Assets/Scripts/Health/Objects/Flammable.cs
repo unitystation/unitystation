@@ -164,7 +164,7 @@ namespace Health.Objects
 			PreheatSprites();
 			if (burningObjectOverlay == null)
 			{
-				Loggy.LogError("[Flammable/ToggleOverlay] - Failed to instantiate burning object overlay");
+				Loggy.Error("[Flammable/ToggleOverlay] - Failed to instantiate burning object overlay");
 				return;
 			}
 			burningObjectOverlay.SetActive(state);
@@ -246,7 +246,7 @@ namespace Health.Objects
 			registerTile = gameObject.RegisterTile();
 			if (LARGE_ASH == null || SMALL_ASH == null)
 			{
-				Loggy.LogError("[Flammable/DefaultBurnUp] - HEY SHITASS, Failed to find burning object overlay");
+				Loggy.Error("[Flammable/DefaultBurnUp] - HEY SHITASS, Failed to find burning object overlay");
 				return;
 			}
 			else
@@ -254,7 +254,7 @@ namespace Health.Objects
 				registerTile.TileChangeManager.MetaTileMap.AddOverlay(registerTile.LocalPosition, isLarge ? LARGE_ASH : SMALL_ASH);
 			}
 			Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " burnt to ash.", gameObject);
-			Loggy.LogTraceFormat("{0} burning up, onfire is {1} (burningObject enabled {2})", Category.Health, name, this.fireStacks, burningObjectOverlay?.enabled);
+			Loggy.Trace().Format("{0} burning up, onfire is {1} (burningObject enabled {2})", Category.Health, name, this.fireStacks, burningObjectOverlay?.enabled);
 			Profiler.EndSample();
 		}
 

@@ -145,7 +145,10 @@ public class RightClickManager : SingletonManager<RightClickManager>
 		// cache all known usages of the RightClickMethod annotation
 		if (attributedTypes.Count == 0)
 		{
-			new Task(GetRightClickAttributedMethods).Start();
+			if (CustomNetworkManager.IsHeadless == false)
+			{
+				new Task(GetRightClickAttributedMethods).Start();
+			}
 		}
 
 		// Will be enabled by ControlDisplays when needed
@@ -442,12 +445,18 @@ public class RightClickManager : SingletonManager<RightClickManager>
 		}
 		else
 		{
-			Loggy.LogWarningFormat("Could not determine sprite to use for right click menu" +
+			Loggy.Warning().Format("Could not determine sprite to use for right click menu" +
 					" for object {0}. Please manually configure a sprite in a RightClickAppearance component" +
 					" on this object.", Category.UserInput, forObject.name);
 		}
 
-		return new RightClickMenuItem(sprite, spriteRenderer.color, null, ButtonColor,
+		var Colour = Color.white;
+		if (spriteRenderer != null)
+		{
+			Colour = spriteRenderer.color;
+		}
+
+		return new RightClickMenuItem(sprite, Colour, null, ButtonColor,
 			label, subMenus, action, null, palette, false);
 	}
 }

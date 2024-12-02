@@ -128,7 +128,7 @@ namespace Chemistry.Components
 				item.ServerSetArticleDescription(item.InitialDescription);
 
 				// set default name
-				item.ServerSetArticleName(item.InitialName);
+				item.ServerSetArticleName(item.ArticleName);
 			}
 		}
 	}

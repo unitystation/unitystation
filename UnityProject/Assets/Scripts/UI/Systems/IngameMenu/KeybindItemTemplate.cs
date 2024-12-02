@@ -42,7 +42,7 @@ namespace UI
 
 		private void primary_onClick()
 		{
-			Loggy.Log("Changing primary " + ItemAction + " keybind", Category.Keybindings);
+			Loggy.Info("Changing primary " + ItemAction + " keybind", Category.Keybindings);
 			StartCoroutine(controlSettingsMenu.ChangeKeybind(ItemAction, true));
 		}
 
@@ -55,7 +55,7 @@ namespace UI
 
 		private void secondary_onClick()
 		{
-			Loggy.Log("Changing secondary " + ItemAction + " keybind", Category.Keybindings);
+			Loggy.Info("Changing secondary " + ItemAction + " keybind", Category.Keybindings);
 			StartCoroutine(controlSettingsMenu.ChangeKeybind(ItemAction, false));
 		}
 

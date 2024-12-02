@@ -6,7 +6,7 @@ using UnityEngine;
 public class MicrophoneIcon : SingletonManager<MicrophoneIcon>
 {
 
-	public void Start()
+	public override void Start()
 	{
 		base.Start();
 		this.gameObject.SetActive(false);

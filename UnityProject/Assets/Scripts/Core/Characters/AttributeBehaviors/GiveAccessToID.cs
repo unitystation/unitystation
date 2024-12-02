@@ -20,7 +20,7 @@ namespace Core.Characters.AttributeBehaviors
 			var inventory = characterBody.GetComponent<DynamicItemStorage>();
 			if (inventory == null)
 			{
-				Loggy.LogWarning("[Attributes/Behaviors/GiveAccessToID] - " +
+				Loggy.Warning("[Attributes/Behaviors/GiveAccessToID] - " +
 				                  "Attempted to access player inventory but could not find it!");
 				return;
 			}

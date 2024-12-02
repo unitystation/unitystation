@@ -251,7 +251,7 @@ namespace Systems.Electricity.NodeModules
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError(e.ToString());
+				Loggy.Error(e.ToString());
 			}
 
 			//Checks if the battery is actually on This is not needed in PowerUpdateCurrentChange Since having those updates Would mean it would be on
@@ -424,7 +424,7 @@ namespace Systems.Electricity.NodeModules
 
 				if (highSide && lowSide)
 				{
-					Loggy.LogError("Transformer 'high side' connected to its 'low side', and will not work.",
+					Loggy.Error("Transformer 'high side' connected to its 'low side', and will not work.",
 						Category.Electrical);
 				}
 
@@ -441,7 +441,7 @@ namespace Systems.Electricity.NodeModules
 					       < MinimumSupportVoltage;
 				}
 
-				Loggy.LogError("No side was found for Transformer battery combo, falling back to default",
+				Loggy.Error("No side was found for Transformer battery combo, falling back to default",
 					Category.Electrical);
 			}
 

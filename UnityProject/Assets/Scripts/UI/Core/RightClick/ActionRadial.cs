@@ -89,7 +89,7 @@ namespace UI.Core.RightClick
 			{
 				if (i >= Items.Count)
 				{
-					Loggy.LogError("Too many subentries on Right click menu");
+					Loggy.Error("Too many subentries on Right click menu");
 					continue;
 				}
 				Items[i].ChangeItem(actions[i]);

@@ -7,11 +7,12 @@ using AddressableReferences;
 using Audio.Managers;
 using Messages.Server;
 using Messages.Server.SoundMessages;
+using Mirror;
 
 
 namespace Doors
 {
-	public class DoorAnimatorV2 : MonoBehaviour
+	public class DoorAnimatorV2 : NetworkBehaviour
 	{
 		#region Sprite layers
 		[SerializeField, BoxGroup("Sprite Layers") ]
@@ -61,6 +62,9 @@ namespace Doors
 		private float warningAnimationTime = 0.6f;
 		#endregion
 
+		[SyncVar(hook = nameof(SyncDoorStatus))] public DoorUpdateType SyncDoorUpdateType;
+		[SyncVar] public bool PanelOpen;
+
 		[SerializeField, Tooltip("Sound that plays when opening this door")]
 		private AddressableAudioSource openingSFX;
 		[SerializeField, Tooltip("Sound that plays when closing this door")]
@@ -80,7 +84,7 @@ namespace Doors
 		private SpriteHandler overlayHackingHandler;
 
 		private int previousLightSprite = -1;
-
+		private DoorMasterController doorMasterController;
 
 		private void Awake()
 		{
@@ -90,12 +94,40 @@ namespace Doors
 			overlayFillHandler = overlayFill.GetComponent<SpriteHandler>();
 			overlayWeldHandler = overlayWeld.GetComponent<SpriteHandler>();
 			overlayHackingHandler = overlayHacking.GetComponent<SpriteHandler>();
+			doorMasterController= this.GetComponent<DoorMasterController>();
+		}
+
+		public enum DoorUpdateType
+		{
+			Open = 0,
+			Close = 1,
+			AccessDenied = 2,
+			PressureWarn = 3
+		}
+
+		public void SyncDoorStatus(DoorUpdateType old,DoorUpdateType newv )
+		{
+			SyncDoorUpdateType = newv;
+			PlayAnimation(newv, false, PanelOpen);
 		}
 
 		//Called on client and server
 		// panelExposed and lights not hooked up into the net message yet
 		public void PlayAnimation(DoorUpdateType type, bool skipAnimation, bool panelExposed = false, bool lights = true)
 		{
+			if (doorMasterController != null)
+			{
+				if (type == DoorUpdateType.Open)
+				{
+					doorMasterController.BoxCollToggleOff();
+				}
+				else if (type == DoorUpdateType.Close)
+				{
+					doorMasterController.BoxCollToggleOn();
+				}
+			}
+
+
 			if (type == DoorUpdateType.Open)
 			{
 				StartCoroutine(PlayOpeningAnimation(skipAnimation, panelExposed));

@@ -63,7 +63,7 @@ namespace Adrenak.UniVoice
 				{
 					_currentMode = value;
 					OnModeChanged?.Invoke(value);
-					Loggy.Log(TAG + "Current Mode set to " + value);
+					Loggy.Info(TAG + "Current Mode set to " + value);
 				}
 			}
 		}
@@ -138,7 +138,7 @@ namespace Adrenak.UniVoice
 			PeerSettings = new Dictionary<short, ChatroomPeerSettings>();
 			PeerOutputs = new Dictionary<short, IAudioOutput>();
 
-			Loggy.Log(TAG + "Created");
+			Loggy.Info(TAG + "Created");
 			SetupEventListeners();
 		}
 
@@ -150,7 +150,7 @@ namespace Adrenak.UniVoice
 		/// </summary>
 		public void Dispose()
 		{
-			Loggy.Log(TAG + "Disposing");
+			Loggy.Info(TAG + "Disposing");
 			AudioInput.Dispose();
 
 			RemoveAllPeers();
@@ -158,7 +158,7 @@ namespace Adrenak.UniVoice
 			PeerOutputs.Clear();
 
 			Network.Dispose();
-			Loggy.Log(TAG + "Disposed");
+			Loggy.Info(TAG + "Disposed");
 		}
 
 		#endregion
@@ -170,39 +170,39 @@ namespace Adrenak.UniVoice
 		// ====================================================================
 		void SetupEventListeners()
 		{
-			Loggy.Log(TAG + "Setting up events.");
+			Loggy.Info(TAG + "Setting up events.");
 
 			// Network events
 			Network.OnCreatedChatroom += () =>
 			{
-				Loggy.Log(TAG + "Chatroom created.");
+				Loggy.Info(TAG + "Chatroom created.");
 				CurrentMode = ChatroomAgentMode.Host;
 			};
 			Network.OnClosedChatroom += () =>
 			{
-				Loggy.Log(TAG + "Chatroom closed.");
+				Loggy.Info(TAG + "Chatroom closed.");
 				RemoveAllPeers();
 				CurrentMode = ChatroomAgentMode.Unconnected;
 			};
 			Network.OnJoinedChatroom += id =>
 			{
-				Loggy.Log(TAG + "Joined chatroom.");
+				Loggy.Info(TAG + "Joined chatroom.");
 				CurrentMode = ChatroomAgentMode.Guest;
 			};
 			Network.OnLeftChatroom += () =>
 			{
-				Loggy.Log(TAG + "Left chatroom.");
+				Loggy.Info(TAG + "Left chatroom.");
 				RemoveAllPeers();
 				CurrentMode = ChatroomAgentMode.Unconnected;
 			};
 			Network.OnPeerJoinedChatroom += id =>
 			{
-				Loggy.Log(TAG + "New peer joined: " + id);
+				Loggy.Info(TAG + "New peer joined: " + id);
 				AddPeer(id);
 			};
 			Network.OnPeerLeftChatroom += id =>
 			{
-				Loggy.Log(TAG + "Peer left: " + id);
+				Loggy.Info(TAG + "Peer left: " + id);
 				RemovePeer(id);
 			};
 
@@ -240,7 +240,7 @@ namespace Adrenak.UniVoice
 					samples = samples
 				});
 			};
-			Loggy.Log(TAG + "Event setup completed.");
+			Loggy.Info(TAG + "Event setup completed.");
 		}
 
 		void AddPeer(short id)
@@ -260,7 +260,7 @@ namespace Adrenak.UniVoice
 
 				output.ID = id.ToString();
 				PeerOutputs.Add(id, output);
-				Loggy.Log(TAG + "Added peer " + id);
+				Loggy.Info(TAG + "Added peer " + id);
 			}
 		}
 
@@ -269,14 +269,14 @@ namespace Adrenak.UniVoice
 			if (PeerSettings.ContainsKey(id))
 			{
 				PeerSettings.Remove(id);
-				Loggy.Log(TAG + "Removed peer settings for ID " + id);
+				Loggy.Info(TAG + "Removed peer settings for ID " + id);
 			}
 
 			if (PeerOutputs.ContainsKey(id))
 			{
 				PeerOutputs[id].Dispose();
 				PeerOutputs.Remove(id);
-				Loggy.Log(TAG + "Removed peer output for ID " + id);
+				Loggy.Info(TAG + "Removed peer output for ID " + id);
 			}
 		}
 
@@ -292,7 +292,7 @@ namespace Adrenak.UniVoice
 
 		void RemoveAllPeers()
 		{
-			Loggy.Log(TAG + "Removing all peers");
+			Loggy.Info(TAG + "Removing all peers");
 			foreach (var peer in Network.PeerIDs)
 				RemovePeer(peer);
 		}

@@ -22,6 +22,7 @@ using UI.Core;
 using UI.Items;
 using Doors;
 using IngameDebugConsole;
+using Items.Others;
 using Logs;
 using Managers;
 using Objects;
@@ -104,7 +105,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (playerScript.OrNull()?.playerMove == null)
 		{
-			Loggy.LogError($"null playerScript/playerMove in {this.name} ");
+			Loggy.Error($"null playerScript/playerMove in {this.name} ");
 			return;
 		}
 		playerScript.playerMove.intent = intent;
@@ -703,7 +704,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return;
 		}
 
-		Loggy.LogWarning($"Antagonist string \"{antagonist}\" not found in {nameof(SOAdminJobsList)}!", Category.Antags);
+		Loggy.Warning($"Antagonist string \"{antagonist}\" not found in {nameof(SOAdminJobsList)}!", Category.Antags);
 	}
 
 	[Command]
@@ -876,7 +877,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (handItem.gameObject != handLabeler) return;
 
 		Chat.AddExamineMsgFromServer(gameObject,
-			"You set the " + handLabeler.Item().InitialName.ToLower() + "s text to '" + label + "'.");
+			"You set the " + handLabeler.Item().ArticleName.ToLower() + "s text to '" + label + "'.");
 		handLabeler.GetComponent<HandLabeler>().SetLabel(label);
 	}
 
@@ -1045,7 +1046,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var health = playerScript.playerHealth;
 		if (health.IsDead)
 		{
-			Loggy.LogError("[PlayerNetworkActions/HardSuicide()] - Player is already dead!");
+			Loggy.Error("[PlayerNetworkActions/HardSuicide()] - Player is already dead!");
 			return;
 		}
 		health.ApplyDamageAll(playerScript.gameObject,
@@ -1055,11 +1056,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			traumaChance: 0);
 	}
 
-	[Command]
-	public void CmdDoEmote(string emoteName)
-	{
-		EmoteActionManager.DoEmote(emoteName, playerScript.gameObject);
-	}
 
 	[Command]
 	public void CmdResetMovementForSelf()

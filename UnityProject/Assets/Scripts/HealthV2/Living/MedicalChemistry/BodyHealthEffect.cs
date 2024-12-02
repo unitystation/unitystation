@@ -23,7 +23,7 @@ public class BodyHealthEffect : MetabolismReaction
 	public bool CanOverdose = true;
 
 	[ShowIf(nameof(CanOverdose))] public float ConcentrationBloodOverdose = 20f;
-	[ShowIf(nameof(CanOverdose))] public float OverdoseDamageMultiplier = 1;
+	[ShowIf(nameof(CanOverdose))] public float OverdoseDamageMultiplierNew = 1;
 
 	public bool MultiEffect = false;
 
@@ -46,9 +46,9 @@ public class BodyHealthEffect : MetabolismReaction
 	public override void PossibleReaction(List<MetabolismComponent> senders, ReagentMix reagentMix,
 		float reactionMultiple, float BodyReactionAmount, float TotalChemicalsProcessed, out bool overdose) //limitedReactionAmountPercentage = 0 to 1
 	{
-		overdose = false;
+		overdose = (CanOverdose && TotalChemicalsProcessed > ConcentrationBloodOverdose);
 		DamagedList.Clear(); //Why? So healing medicine is never wasted Is a pain in butt though to work out
-		if ((CanOverdose && TotalChemicalsProcessed > ConcentrationBloodOverdose) == false)
+		if (overdose == false)
 		{
 			foreach (var bodyPart in senders)
 			{
@@ -77,9 +77,15 @@ public class BodyHealthEffect : MetabolismReaction
 
 		var Toloop = senders;
 
-		if (DamagedList.Count > 0)
+		var DamageChecklist = DamagedList;
+		if (DamagedList.Count == 0)
 		{
-			Toloop = DamagedList;
+			DamageChecklist = Toloop;
+		}
+
+		if (DamageChecklist.Count > 0)
+		{
+			Toloop = DamageChecklist;
 			float ProcessingAmount = 0;
 			foreach (var bodyPart in Toloop)
 			{
@@ -110,7 +116,7 @@ public class BodyHealthEffect : MetabolismReaction
 
 			if (CanOverdose)
 			{
-				if (TotalChemicalsProcessed > ConcentrationBloodOverdose)
+				if (overdose)
 				{
 					overdose = true;
 					if (MultiEffect)
@@ -118,7 +124,7 @@ public class BodyHealthEffect : MetabolismReaction
 						foreach (var Effect in Effects)
 						{
 							bodyPart.RelatedPart.TakeDamage(null,
-								Effect.EffectPerOne * TotalChemicalsProcessedByBodyPart * -OverdoseDamageMultiplier,
+								Effect.EffectPerOne * TotalChemicalsProcessedByBodyPart * -OverdoseDamageMultiplierNew,
 								Effect.AttackType,
 								Effect.DamageEffect, DamageSubOrgans: false);
 						}
@@ -126,7 +132,7 @@ public class BodyHealthEffect : MetabolismReaction
 					else
 					{
 						bodyPart.RelatedPart.TakeDamage(null,
-							AttackBodyPartPerOneU * TotalChemicalsProcessedByBodyPart * -OverdoseDamageMultiplier,
+							AttackBodyPartPerOneU * TotalChemicalsProcessedByBodyPart * -OverdoseDamageMultiplierNew,
 							AttackType,
 							DamageEffect, DamageSubOrgans: false);
 					}

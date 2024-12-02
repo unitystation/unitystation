@@ -41,7 +41,7 @@ namespace Items.Science.Kitchen
 
 			if (randomDonationFromAcrossTheUniverse == null)
 			{
-				Loggy.LogError("[FoodDonationsPad/DonationsCheck] - You forget to fill the possible prefabs that could spawn.");
+				Loggy.Error("[FoodDonationsPad/DonationsCheck] - You forget to fill the possible prefabs that could spawn.");
 				return;
 			}
 

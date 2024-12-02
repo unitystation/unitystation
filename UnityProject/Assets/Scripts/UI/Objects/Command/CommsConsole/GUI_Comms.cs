@@ -100,7 +100,7 @@ namespace UI.Objects.Command
 
 			RefreshCallButtonText();
 
-			Loggy.Log(nameof(WaitForProvider), Category.Shuttles);
+			Loggy.Info(nameof(WaitForProvider), Category.Shuttles);
 		}
 
 		private void ProcessIdChange(IDCard newId = null)
@@ -121,7 +121,7 @@ namespace UI.Objects.Command
 		{
 			text = Chat.StripTags(text);
 
-			Loggy.Log(nameof(CallOrRecallShuttle), Category.Shuttles);
+			Loggy.Info(nameof(CallOrRecallShuttle), Category.Shuttles);
 
 			bool isRecall = shuttle.Status == EscapeShuttleStatus.OnRouteStation;
 
@@ -156,7 +156,7 @@ namespace UI.Objects.Command
 					}
 				}
 			}
-			Loggy.Log(callResult, Category.Round);
+			Loggy.Info(callResult, Category.Round);
 
 			this.RestartCoroutine(ShowSubmitResult(callResult), ref callResultHandle);
 
@@ -182,7 +182,7 @@ namespace UI.Objects.Command
 		{
 			text = Chat.StripTags(text);
 
-			Loggy.Log(nameof(SetStatusDisplay), Category.Shuttles);
+			Loggy.Info(nameof(SetStatusDisplay), Category.Shuttles);
 			GameManager.Instance.CentComm.UpdateStatusDisplay(StatusDisplayChannel.Command, text.Substring(0, Mathf.Min(text.Length, 50)));
 			OpenMenu();
 		}
@@ -192,7 +192,7 @@ namespace UI.Objects.Command
 			text = Chat.StripTags(text);
 			var language = Peepers.Count == 0 ? null : Peepers.ElementAt(0).Script.MobLanguages.CurrentLanguage;
 
-			Loggy.Log(nameof(MakeAnAnnouncement), Category.Shuttles);
+			Loggy.Info(nameof(MakeAnAnnouncement), Category.Shuttles);
 			if (text.Length > 200)
 			{
 				CentComm.MakeAnnouncement(ChatTemplates.CaptainAnnounce, text.Substring(0, 200), CentComm.UpdateSound.Announce, language);
@@ -219,7 +219,7 @@ namespace UI.Objects.Command
 				return;
 			}
 
-			Loggy.Log(nameof(ChangeAlertLevel), Category.Shuttles);
+			Loggy.Info(nameof(ChangeAlertLevel), Category.Shuttles);
 			GameManager.Instance.CentComm.lastAlertChange = GameManager.Instance.RoundTime;
 			GameManager.Instance.CentComm.ChangeAlertLevel(LocalAlertLevel);
 
@@ -250,7 +250,7 @@ namespace UI.Objects.Command
 		public void RequestNukeCodes()
 		{
 			//todo
-			Loggy.Log(nameof(RequestNukeCodes), Category.Shuttles);
+			Loggy.Info(nameof(RequestNukeCodes), Category.Shuttles);
 		}
 
 		public void RemoveId(PlayerInfo player)

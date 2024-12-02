@@ -527,7 +527,7 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 
 	public bool Interact(MouseDrop interaction)
 	{
-		Loggy.Log("Interaction detected on InteractableTiles.", Category.Interaction);
+		Loggy.Info("Interaction detected on InteractableTiles.", Category.Interaction);
 
 		LayerTile tile = LayerTileAt(interaction.ShadowWorldLocation, true);
 

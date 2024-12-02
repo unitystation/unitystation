@@ -75,7 +75,7 @@ namespace Adrenak.UniVoice.AudioSourceOutput {
             ctd.circularAudioClip = buffer;
             ctd.AudioSource = source;
 
-            Loggy.Log(TAG + $"Created with the following params:" +
+            Loggy.Info(TAG + $"Created with the following params:" +
             $"buffer SegCount: {buffer.SegCount}" +
             $"buffer SegDataLen: {buffer.SegDataLen}" +
             $"buffer MinSegCount: {ctd.MinSegCount}" +

@@ -34,7 +34,7 @@ namespace UI.Core.SpriteProcessing
 		{
 			if (texture.isReadable == false)
 			{
-				Loggy.LogWarning(
+				Loggy.Warning(
 					$"Texture \"{texture.name}\" is not read enabled. Using default sprite metadata",
 					Category.Sprites);
 				return SpriteMetadata.Default;

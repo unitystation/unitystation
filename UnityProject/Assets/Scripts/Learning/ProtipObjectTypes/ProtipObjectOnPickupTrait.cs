@@ -50,13 +50,13 @@ namespace Learning.ProtipObjectTypes
 			yield return WaitFor.Seconds(2f);
 			if (PlayerManager.LocalPlayerScript == null)
 			{
-				Loggy.LogError("[Protips] - Something went wrong accessing the player's local player script.. Are you sure everything is setup correctly?", Category.Character);
+				Loggy.Error("[Protips] - Something went wrong accessing the player's local player script.. Are you sure everything is setup correctly?", Category.Character);
 				yield break;
 			}
 
 			if (PlayerManager.LocalPlayerScript.DynamicItemStorage == null)
 			{
-				Loggy.LogError("To MAX Please fix");
+				Loggy.Error("To MAX Please fix");
 				yield break;
 			}
 
@@ -78,7 +78,7 @@ namespace Learning.ProtipObjectTypes
 			}
 			catch (Exception e)
 			{
-				Loggy.LogWarning("[Protips] - Attempted to unsubscribe an event while the player script is null, player might have become a ghost or deleted.");
+				Loggy.Warning("[Protips] - Attempted to unsubscribe an event while the player script is null, player might have become a ghost or deleted.");
 			}
 
 		}

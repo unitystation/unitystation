@@ -52,6 +52,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -108,11 +109,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ef6303a1b3b0ec4489e8f87ef315efd5, type: 2}
   - {fileID: 11400000, guid: bc54afa99f62d904c99dbc6717cebd88, type: 2}
   - {fileID: 11400000, guid: f198981ae0bd7c64d8071596aee94a88, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1 &404576362407937357
 GameObject:
@@ -171,6 +174,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -225,11 +229,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d9b3c05b8754e0443a5280487586cd6e, type: 2}
   - {fileID: 11400000, guid: 6ccaabd067e953b4bb15d6ef7d52bfb4, type: 2}
   - {fileID: 11400000, guid: b6d6f712350769a4d95a3f16a0bfff85, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!114 &7418526098909645323
 MonoBehaviour:
@@ -295,6 +301,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -348,11 +355,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 95f75e76d4e361b4cbcda43b8309c3e8, type: 2}
   - {fileID: 11400000, guid: ed2bceb5885409445b9a3003e6ca5974, type: 2}
   - {fileID: 11400000, guid: 86765f96f3bed7040b551fd59e73639a, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 83e7069aacdb7864587c92e14b75f560, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 83e7069aacdb7864587c92e14b75f560,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1 &512806237205393311
 GameObject:
@@ -406,6 +415,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -460,11 +470,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7a9c4e0369832fa4b9c3deca86e1bebf, type: 2}
   - {fileID: 11400000, guid: 419fe08d5f0fb3645a4a462a81d1790f, type: 2}
   - {fileID: 11400000, guid: 73deda64c14a4434b83b7c7fa7174574, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1 &773641709186510069
 GameObject:
@@ -518,6 +530,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -569,11 +582,13 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   - {fileID: 11400000, guid: c3c73697d5b82ab489b6fc447e168c0a, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1 &2233065044779290990
 GameObject:
@@ -632,6 +647,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -685,11 +701,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 74dbb0cbb7f7b3943836cc220b96faa2, type: 2}
   - {fileID: 11400000, guid: 33d529e39f8f7104ebbfc376e4cc7622, type: 2}
   - {fileID: 11400000, guid: 12139cf587da66641bc1724a279fff4a, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!114 &5292488675851686727
 MonoBehaviour:
@@ -770,11 +788,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pryTime: 4.5
   prySound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Doors/DoorPry.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   crowbarRequiresNoPower: 1
@@ -834,19 +852,19 @@ MonoBehaviour:
   IDToggleCard: {fileID: 11400000, guid: cf3b09017623921439e0c774d656f53f, type: 2}
   needsClosedToLight: 1
   boltsUpSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Doors/AirlockBoltUp.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   boltsDownSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Doors/AirlockBoltDown.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
 --- !u!114 &5426044163123208281
@@ -941,6 +959,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -992,11 +1011,13 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   - {fileID: 11400000, guid: 92b87829089599a40aaff8b6327b3f69, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1001 &3511082394880060143
 PrefabInstance:
@@ -1032,6 +1053,12 @@ PrefabInstance:
       propertyPath: pushTextureOnStartUp
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 44702923082529482, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d4876cebf57c42f4d925346f7a7005d5,
+        type: 2}
     - target: {fileID: 44702923082529482, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
       propertyPath: SubCatalogue.Array.size
@@ -1214,6 +1241,11 @@ PrefabInstance:
       propertyPath: deviceType
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8330720231993589308, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: initialwattusage
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 8484722225096306265, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
       propertyPath: parentID
@@ -1378,6 +1410,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac608c3ebbf07f1429f73d9149f89752, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
   doorBase: {fileID: 215518841633704133}
   overlaySparks: {fileID: 512806237205393311}
   overlayLights: {fileID: 46041202269146236}
@@ -1388,36 +1423,38 @@ MonoBehaviour:
   closingAnimationTime: 0.6
   deniedAnimationTime: 0.6
   warningAnimationTime: 0.6
+  SyncDoorUpdateType: 1
+  PanelOpen: 0
   openingSFX:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Doors/AirlockOpen.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   closingSFX:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Doors/AirlockClose.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   deniedSFX:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/AccessDenied.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   warningSFX:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Doors/TripleBeep.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
 --- !u!114 &2268823939221595730

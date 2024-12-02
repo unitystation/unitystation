@@ -10,14 +10,14 @@ namespace Util.Independent.FluentRichText.Styles
 		{
 			if (characterWidth.StartsWith("-"))
 			{
-				Loggy.LogError("RichText received a negative character width for monospace. This is not allowed.");
+				Loggy.Error("RichText received a negative character width for monospace. This is not allowed.");
 				return;
 			}
 
 			if (CommonValidations.IsValidPixelValue(characterWidth) == false &&
 			    CommonValidations.IsValidFontUnitValue(characterWidth) == false)
 			{
-				Loggy.LogError($"RichText received an invalid character width for monospace: {characterWidth}");
+				Loggy.Error($"RichText received an invalid character width for monospace: {characterWidth}");
 				return;
 			}
 

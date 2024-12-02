@@ -548,15 +548,15 @@ namespace Objects.Disposals
 		private void TryUseScrewdriver()
 		{
 			// Assume binState is Secured
-			string finishPerformerMsg = $"You connect the {objectAttributes.InitialName} to the power.";
+			string finishPerformerMsg = $"You connect the {objectAttributes.ArticleName} to the power.";
 			string finishOthersMsg = $"{currentInteraction.Performer.ExpensiveName()} connects the " +
-						$"{objectAttributes.InitialName} to the power.";
+						$"{objectAttributes.ArticleName} to the power.";
 
 			if (PowerDisconnected == false)
 			{
-				finishPerformerMsg = $"You disconnect the {objectAttributes.InitialName} from the power.";
+				finishPerformerMsg = $"You disconnect the {objectAttributes.ArticleName} from the power.";
 				finishOthersMsg = $"{currentInteraction.Performer.ExpensiveName()} disconnects the " +
-						$"{objectAttributes.InitialName} from the power.";
+						$"{objectAttributes.ArticleName} from the power.";
 			}
 
 			ToolUtils.ServerUseToolWithActionMessages(currentInteraction, 0, "", "", finishPerformerMsg, finishOthersMsg, () => UseScrewdriver());

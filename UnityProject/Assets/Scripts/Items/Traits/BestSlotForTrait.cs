@@ -58,7 +58,7 @@ public class BestSlotForTrait : SingletonScriptableObject<BestSlotForTrait>
 	{
 		if (toCheck == null || storage == null)
 		{
-			Loggy.LogTrace("Cannot get best slot, toCheck or storage was null", Category.PlayerInventory);
+			Loggy.Trace("Cannot get best slot, toCheck or storage was null", Category.PlayerInventory);
 			return null;
 		}
 
@@ -66,7 +66,7 @@ public class BestSlotForTrait : SingletonScriptableObject<BestSlotForTrait>
 		var itemAttrs = toCheck.GetComponent<ItemAttributesV2>();
 		if (itemAttrs == null)
 		{
-			Loggy.LogTraceFormat("Item {0} has no ItemAttributes, thus it will be put in the" +
+			Loggy.Trace().Format("Item {0} has no ItemAttributes, thus it will be put in the" +
 			                     " first available slot.", Category.PlayerInventory, toCheck);
 		}
 		else
@@ -79,7 +79,7 @@ public class BestSlotForTrait : SingletonScriptableObject<BestSlotForTrait>
 			if (best != null) return storage.GetNamedItemSlot(best.Slot);
 		}
 
-		Loggy.LogTraceFormat("Item {0} did not fit in any BestSlots, thus will" +
+		Loggy.Trace().Format("Item {0} did not fit in any BestSlots, thus will" +
 		                     " be placed in first available slot.", Category.PlayerInventory, toCheck);
 
 		// Get all slots
@@ -107,7 +107,7 @@ public class BestSlotForTrait : SingletonScriptableObject<BestSlotForTrait>
 	{
 		if (toCheck == null || storage == null)
 		{
-			Loggy.LogTrace("Cannot get best slot, toCheck or storage was null", Category.PlayerInventory);
+			Loggy.Trace("Cannot get best slot, toCheck or storage was null", Category.PlayerInventory);
 			return null;
 		}
 
@@ -115,7 +115,7 @@ public class BestSlotForTrait : SingletonScriptableObject<BestSlotForTrait>
 		var itemAttrs = toCheck.GetComponent<ItemAttributesV2>();
 		if (itemAttrs == null)
 		{
-			Loggy.LogTraceFormat("Item {0} has no ItemAttributes, thus it will be put in the" +
+			Loggy.Trace().Format("Item {0} has no ItemAttributes, thus it will be put in the" +
 			                     " first available slot.", Category.PlayerInventory, toCheck);
 		}
 		else
@@ -160,7 +160,7 @@ public class BestSlotForTrait : SingletonScriptableObject<BestSlotForTrait>
 			}
 		}
 
-		Loggy.LogTraceFormat("Item {0} did not fit in any BestSlots, thus will" +
+		Loggy.Trace().Format("Item {0} did not fit in any BestSlots, thus will" +
 		                     " be placed in first available slot.", Category.PlayerInventory, toCheck);
 
 		// Get all slots

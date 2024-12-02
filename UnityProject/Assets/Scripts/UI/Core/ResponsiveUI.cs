@@ -103,7 +103,7 @@ public class ResponsiveUI : MonoBehaviour, IInitialise
 		bool requiresChange = false;
 		if (width % 2 != 0)
 		{
-			Loggy.Log($"Odd width {width}->{width - 1}", Category.UI);
+			Loggy.Info($"Odd width {width}->{width - 1}", Category.UI);
 			width--;
 			requiresChange = true;
 		}
@@ -111,7 +111,7 @@ public class ResponsiveUI : MonoBehaviour, IInitialise
 		int height = Screen.height;
 		if (height % 2 != 0)
 		{
-			Loggy.Log($"Odd height {height}->{height - 1}", Category.UI);
+			Loggy.Info($"Odd height {height}->{height - 1}", Category.UI);
 			height--;
 			requiresChange = true;
 		}

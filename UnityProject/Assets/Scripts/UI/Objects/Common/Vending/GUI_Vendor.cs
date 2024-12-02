@@ -108,7 +108,7 @@ namespace UI.Objects
 			// check if found entry is valid
 			if (!vendorItemEntry)
 			{
-				Loggy.LogError($"Can't find {itemToUpdate} to update in {this.gameObject} vendor. " +
+				Loggy.Error($"Can't find {itemToUpdate} to update in {this.gameObject} vendor. " +
 								$"UpdateAllItems wasn't called before?", Category.Machines);
 				return;
 			}

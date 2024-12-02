@@ -86,7 +86,7 @@ namespace Doors.Editor
 
 			if (GUILayout.Button("Test emergency"))
 			{
-				Loggy.Log("Not implemented", Category.Doors);
+				Loggy.Info("Not implemented", Category.Doors);
 			}
 			GUILayout.EndHorizontal();
 

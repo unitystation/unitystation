@@ -37,18 +37,16 @@ namespace Systems.Faith.Miracles
 
 		public void DoMiracle(FaithData associatedFaith, PlayerScript invoker = null)
 		{
-			foreach (var foodGobbler in associatedFaith.FaithLeaders)
+			if (invoker == null) return;
+			Chat.AddLocalMsgToChat($"{invoker.visibleName}'s eyes become white as they start chanting some words loudly..", invoker.gameObject);
+			Chat.AddChatMsgToChatServer(invoker.PlayerInfo, "..Eathem.. Wish-ha-pig..", ChatChannel.Local, Loudness.LOUD);
+			foreach (var edible in ComponentsTracker<Edible>.GetAllNearbyTypesToTarget(invoker.GameObject, 6))
 			{
-				Chat.AddLocalMsgToChat($"{foodGobbler.visibleName}'s eyes become white as they start chanting some words loudly..", foodGobbler.gameObject);
-				Chat.AddChatMsgToChatServer(foodGobbler.PlayerInfo, "..Eathem.. Wish-ha-pig..", ChatChannel.Local, Loudness.LOUD);
-				foreach (var edible in ComponentsTracker<Edible>.GetAllNearbyTypesToTarget(foodGobbler.GameObject, 6))
-				{
-					edible.SetMaxBites(Random.Range(15, 35));
-					var randomScale = (int)Random.Range(2, 5);
-					if (edible.TryGetComponent<ScaleSync>(out var scale) == false) continue;
-					scale.SetScale(new Vector3(randomScale,randomScale, randomScale));
-					SparkUtil.TrySpark(edible.gameObject);
-				}
+				edible.SetMaxBites(Random.Range(15, 35));
+				var randomScale = (int)Random.Range(2, 5);
+				if (edible.TryGetComponent<ScaleSync>(out var scale) == false) continue;
+				scale.SetScale(new Vector3(randomScale,randomScale, randomScale));
+				SparkUtil.TrySpark(edible.gameObject);
 			}
 		}
 	}

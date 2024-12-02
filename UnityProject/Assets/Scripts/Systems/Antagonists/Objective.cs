@@ -133,7 +133,7 @@ namespace Antagonists
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError($"Failed to set up objectives for {this.name}" +e.ToString());
+				Loggy.Error($"Failed to set up objectives for {this.name}" +e.ToString());
 			}
 
 		}
@@ -155,7 +155,7 @@ namespace Antagonists
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError($"Failed to set up objectives for {this.name}" +e.ToString());
+				Loggy.Error($"Failed to set up objectives for {this.name}" +e.ToString());
 			}
 		}
 
@@ -205,7 +205,7 @@ namespace Antagonists
 		{
 			if (Owner.Body.DynamicItemStorage == null)
 			{
-				Loggy.LogError($"Unable to find dynamic storage for {Owner.Body} / {Owner.Body.PlayerInfo.Username}");
+				Loggy.Error($"Unable to find dynamic storage for {Owner.Body} / {Owner.Body.PlayerInfo.Username}");
 				//If they have no storage then fail, as they can't have the item
 				return false;
 			}
@@ -245,7 +245,7 @@ namespace Antagonists
 
 			//Check if current Item is the one we need
 			if ((component != null && slot.ItemObject.TryGetComponent(component, out _)) ||
-					slot.ItemObject.GetComponent<ItemAttributesV2>()?.InitialName == name)
+					slot.ItemObject.GetComponent<ItemAttributesV2>()?.ArticleName == name)
 			{
 				//If stackable count stack
 				if (slot.ItemObject.TryGetComponent<Stackable>(out var stackable))

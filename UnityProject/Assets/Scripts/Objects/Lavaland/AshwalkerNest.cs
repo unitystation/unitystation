@@ -17,7 +17,7 @@ using UnityEngine.Serialization;
 
 namespace Objects
 {
-	public class AshwalkerNest : NetworkBehaviour, IServerLifecycle, IExaminable, IHoverTooltip
+	public class AshwalkerNest : NetworkBehaviour, IServerLifecycle, IExaminable
 	{
 		[FormerlySerializedAs("ghostRole")] [SerializeField]
 		private GhostRoleData ashwalkerGhostRole = null;
@@ -278,7 +278,7 @@ namespace Objects
 			{
 				//Remove the player from all roles (as createdRoleKey will Error)
 				GhostRoleManager.Instance.ServerRemoveWaitingPlayer(player);
-				Loggy.LogError("Ghost role spawn called on null ashwalker, was the role not removed on destruction?");
+				Loggy.Error("Ghost role spawn called on null ashwalker, was the role not removed on destruction?");
 				return false;
 			}
 			return true;
@@ -352,25 +352,6 @@ namespace Objects
 			return msg;
 		}
 
-		public string HoverTip()
-		{
-			return Examine();
-		}
-
-		public string CustomTitle()
-		{
-			return null;
-		}
-
-		public Sprite CustomIcon()
-		{
-			return null;
-		}
-
-		public List<Sprite> IconIndicators()
-		{
-			return null;
-		}
 
 		public List<TextColor> InteractionsStrings()
 		{

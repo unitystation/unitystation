@@ -180,7 +180,7 @@ namespace Chemistry.Components
 			}
 		}
 
-		private string FancyContainerName => itemAttributes ? itemAttributes.InitialName : gameObject.ExpensiveName();
+		private string FancyContainerName => itemAttributes ? itemAttributes.ArticleName : gameObject.ExpensiveName();
 
 		/// <summary>
 		/// Server side only. Total reagent mix amount in units
@@ -492,7 +492,7 @@ namespace Chemistry.Components
 			}
 			catch (NullReferenceException exception)
 			{
-				Loggy.LogError(
+				Loggy.Error(
 					$"Caught NRE in ReagentContainer SpillAll method: {exception.Message} \n {exception.StackTrace}",
 					Category.Chemistry);
 			}
@@ -519,7 +519,7 @@ namespace Chemistry.Components
 			var spilledReagents = TakeReagents(CurrentReagentMix.Total);
 			MatrixManager.ReagentReact(spilledReagents, worldPos);
 
-			OnSpillAllContents.Invoke();
+			OnSpillAllContents?.Invoke();
 		}
 
 		private void NotifyPlayersOfSpill(Vector3Int worldPos)

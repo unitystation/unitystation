@@ -22,7 +22,7 @@ namespace Items.Magical
 			}
 			else
 			{
-				Loggy.LogError($"No explosion component found on {explosionObject}! Was the right prefab assigned?", Category.Spells);
+				Loggy.Error($"No explosion component found on {explosionObject}! Was the right prefab assigned?", Category.Spells);
 			}
 		}
 	}

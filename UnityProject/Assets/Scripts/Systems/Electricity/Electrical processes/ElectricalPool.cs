@@ -29,10 +29,10 @@ namespace Systems.Electricity
 
 		public static void PoolsStatuses()
 		{
-			Loggy.Log("PooledResistanceWraps" + PooledResistanceWraps.Count, Category.Electrical);
-			Loggy.Log("PooledVIRResistances" + PooledVIRResistances.Count, Category.Electrical);
-			Loggy.Log("PooledVIRCurrent" + PooledVIRCurrent.Count, Category.Electrical);
-			Loggy.Log("PooledWrapCurrent" + PooledWrapCurrent.Count, Category.Electrical);
+			Loggy.Info("PooledResistanceWraps" + PooledResistanceWraps.Count, Category.Electrical);
+			Loggy.Info("PooledVIRResistances" + PooledVIRResistances.Count, Category.Electrical);
+			Loggy.Info("PooledVIRCurrent" + PooledVIRCurrent.Count, Category.Electrical);
+			Loggy.Info("PooledWrapCurrent" + PooledWrapCurrent.Count, Category.Electrical);
 		}
 
 		public static ResistanceWrap GetResistanceWrap()

@@ -42,7 +42,7 @@ namespace Messages.Server
 
 		public override void Process(NetMessage msg)
 		{
-			Loggy.LogTraceFormat("Processed {0}", Category.NetUI, this);
+			Loggy.Trace().Format("Processed {0}", Category.NetUI, this);
 			LoadNetworkObject(msg.Provider);
 
 			// If start or middle of message add to cache then stop
@@ -58,7 +58,7 @@ namespace Messages.Server
 				// Sanity check to make sure this isnt the last message
 				if (msg.NumOfMessages == ElementValuesCache[msg.UniqueID].Item2 + 1)
 				{
-					Loggy.LogError("This message didnt arrive in time before the end message!", Category.NetUI);
+					Loggy.Error("This message didnt arrive in time before the end message!", Category.NetUI);
 					ElementValuesCache.Remove(msg.UniqueID);
 					return;
 				}
@@ -77,7 +77,7 @@ namespace Messages.Server
 				// Check to make sure its the last message
 				if (msg.NumOfMessages != ElementValuesCache[msg.UniqueID].Item2)
 				{
-					Loggy.LogError("Not all the messages arrived in time for the NetUI update.", Category.NetUI);
+					Loggy.Error("Not all the messages arrived in time for the NetUI update.", Category.NetUI);
 					return;
 				}
 
@@ -122,7 +122,7 @@ namespace Messages.Server
 					var instance = NetworkTabManager.Instance.Get(provider, type);
 					if (instance == null)
 					{
-						Loggy.LogError($"Couldn't find NetTab to send for {provider.OrNull()?.ExpensiveName()} " +
+						Loggy.Error($"Couldn't find NetTab to send for {provider.OrNull()?.ExpensiveName()} " +
 								$"Does the tab prefab match the type '{type}'? Make sure that 'Tab{type}' is listed inside the NetTabs SO.");
 						return default;
 					}
@@ -188,7 +188,7 @@ namespace Messages.Server
 					// If a single value is bigger than max packet size cannot proceed
 					if (size + 60 >= maxPacketSize)
 					{
-						Loggy.LogError($"This value is above the max mirror packet limit, and cannot be split. Is {size + 60} bytes", Category.NetUI);
+						Loggy.Error($"This value is above the max mirror packet limit, and cannot be split. Is {size + 60} bytes", Category.NetUI);
 						return null;
 					}
 
@@ -258,7 +258,7 @@ namespace Messages.Server
 				};
 
 				SendTo(recipient, msg);
-				Loggy.LogTraceFormat("{0}", Category.NetUI, msg);
+				Loggy.Trace().Format("{0}", Category.NetUI, msg);
 				return null;
 			}
 
@@ -277,7 +277,7 @@ namespace Messages.Server
 				};
 
 				SendTo(recipient, msg);
-				Loggy.LogTraceFormat("{0}", Category.NetUI, msg);
+				Loggy.Trace().Format("{0}", Category.NetUI, msg);
 			}
 
 			return null;

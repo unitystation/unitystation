@@ -16,6 +16,26 @@ namespace Systems.Pipes
 	{
 		public PipeLayer PipeLayer = PipeLayer.Second;
 		public Connections Connections;
+
+		public Connections RotatedConnections
+		{
+			get
+			{
+				if (_RotatedConnections == null)
+				{
+					_RotatedConnections = Connections;
+				}
+
+				return _RotatedConnections;
+			}
+			set
+			{
+				_RotatedConnections = value;
+			}
+		}
+
+		private Connections _RotatedConnections;
+
 		public CustomLogic CustomLogic;
 		public LiquidPipeNet OnNet;
 		[HideInInspector] public PipeActions PipeAction;
@@ -67,7 +87,7 @@ namespace Systems.Pipes
 					return (MonoPipe.MatrixPos);
 				}
 
-				Loggy.Log("Vector3Int null!!", Category.Pipes);
+				Loggy.Info("Vector3Int null!!", Category.Pipes);
 				return (Vector3Int.zero);
 			}
 		}
@@ -85,7 +105,7 @@ namespace Systems.Pipes
 					return (MonoPipe.Matrix);
 				}
 
-				Loggy.Log("Matrix null!!", Category.Pipes);
+				Loggy.Info("Matrix null!!", Category.Pipes);
 				return (null);
 			}
 		}
@@ -138,7 +158,7 @@ namespace Systems.Pipes
 						}
 
 						//Can it accept input?
-						if (this.Connections.Directions[(int) PipeFunctions.PipesToDirections(this, Pipe)].PortType
+						if (this.RotatedConnections.Directions[(int) PipeFunctions.PipesToDirections(this, Pipe)].PortType
 							.HasFlag(OutputType.Can_Equalise_With))
 						{
 							Pipe.OnNet.AddEqualiseWith(this);
@@ -159,7 +179,7 @@ namespace Systems.Pipes
 
 				Pipe.ConnectedRemove(this);
 
-				foreach (var Connection in Connections.Directions)
+				foreach (var Connection in RotatedConnections.Directions)
 				{
 					if (Connection.Connected == Pipe)
 					{
@@ -181,7 +201,7 @@ namespace Systems.Pipes
 
 						// this one probably require more work than just null check
 						if(Pipe.OnNet == null)
-							Loggy.LogWarning("Pipe.OnNet == null", Category.Pipes);
+							Loggy.Warning("Pipe.OnNet == null", Category.Pipes);
 						else
 							Pipe.OnNet.RemoveEqualiseWith(this);
 					}
@@ -255,7 +275,7 @@ namespace Systems.Pipes
 		{
 			ConnectedPipes.Add(NewConnection);
 			var pipe1Connection =
-				this.Connections.Directions[(int) PipeFunctions.PipesToDirections(this, NewConnection)];
+				this.RotatedConnections.Directions[(int) PipeFunctions.PipesToDirections(this, NewConnection)];
 			pipe1Connection.Connected = NewConnection;
 
 
@@ -281,7 +301,7 @@ namespace Systems.Pipes
 						Outputs.Add(NewConnection);
 					}
 
-					if (this.Connections.Directions[(int) PipeFunctions.PipesToDirections(this, NewConnection)].PortType
+					if (this.RotatedConnections.Directions[(int) PipeFunctions.PipesToDirections(this, NewConnection)].PortType
 						.HasFlag(OutputType.Can_Equalise_With))
 					{
 						NewConnection.OnNet.AddEqualiseWith(this);
@@ -299,7 +319,7 @@ namespace Systems.Pipes
 				Outputs.Remove(OldConnection);
 			}
 
-			foreach (var Connection in Connections.Directions)
+			foreach (var Connection in RotatedConnections.Directions)
 			{
 				if (Connection.Connected == OldConnection)
 				{
@@ -312,8 +332,9 @@ namespace Systems.Pipes
 
 		public void SetUp(PipeTile PipeTile, int RotationOffset)
 		{
-			Connections = PipeTile.Connections.Copy();
-			Connections.Rotate(RotationOffset);
+			var Connections = PipeTile.Connections.Copy();
+			RotatedConnections = Connections.Copy();
+			RotatedConnections.Rotate(RotationOffset);
 			PipeLayer = PipeTile.PipeLayer;
 			NetCompatible = PipeTile.NetCompatible;
 			mixAndVolume.SetVolume(PipeTile.Volume);

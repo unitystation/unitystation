@@ -33,6 +33,10 @@ namespace UI.Core
 		public DynamicItemStorage CurrentOpenStorage { get; private set; }
 		private Equipment currentEquipment;
 
+		private bool ReconstructUI = true;
+
+		private bool WaitingOnUI = false;
+
 		private void Start()
 		{
 
@@ -67,6 +71,7 @@ namespace UI.Core
 
 			gameObject.SetActive(false);
 			expandedView.SetActive(false);
+			this.StopAllCoroutines();
 		}
 
 		/// <summary>
@@ -121,6 +126,30 @@ namespace UI.Core
 			}
 		}
 
+		public void StripAll()
+		{
+			StartCoroutine(WaitForStrips());
+		}
+
+		private IEnumerator WaitForStrips()
+		{
+			for (int i = UISlots.Count - 1; i >= 0; i--)
+			{
+				var Slot = UISlots[i].GetComponent<PlayerExaminationWindowSlot>().UI_ItemSlot.ItemSlot;
+				if (Slot.IsOccupied)
+				{
+					WaitingOnUI = true;
+					InteractWithOtherPlayersSlot(Slot);
+					while (WaitingOnUI)
+					{
+						yield return null;
+					}
+				}
+
+			}
+		}
+
+
 		private void InteractWithOtherPlayersSlot(ItemSlot targetSlot)
 		{
 			ItemSlot playerSlot;
@@ -169,7 +198,7 @@ namespace UI.Core
 
 			// display additional informations
 			additionalInformationsText.text = additionalInformation;
-
+			ReconstructUI = false;
 			// add listeners
 			foreach (var slotUI in CurrentOpenStorage.ClientSlotCharacteristic)
 			{
@@ -180,7 +209,7 @@ namespace UI.Core
 				slot.GetComponent<PlayerExaminationWindowSlot>().SetUp(slotUI.Value, slotUI.Key, this);
 				UISlots.Add(slot);
 			}
-
+			ReconstructUI = true;
 			gameObject.SetActive(true);
 			OnSlotContentsChangeClient();
 		}
@@ -190,6 +219,36 @@ namespace UI.Core
 		/// </summary>
 		public void UpdateStorageUI()
 		{
+			WaitingOnUI = false;
+			if (ReconstructUI)
+			{
+				ReconstructUI = false;
+				if (CurrentOpenStorage != null)
+				{
+					foreach (var slotUI in UISlots)
+					{
+						// remove event listener
+						ItemSlot playerSlot = slotUI.GetComponent<PlayerExaminationWindowSlot>().UI_ItemSlot.ItemSlot;
+						playerSlot.OnSlotContentsChangeClient.RemoveListener(OnSlotContentsChangeClient);
+						Destroy(slotUI);
+					}
+				}
+				UISlots.Clear();
+
+				// add listeners
+				foreach (var slotUI in CurrentOpenStorage.ClientSlotCharacteristic)
+				{
+					ItemSlot playerSlot = slotUI.Key;
+					playerSlot.OnSlotContentsChangeClient.AddListener(OnSlotContentsChangeClient);
+					var slot = Instantiate(SlotPrefab, Vector3.zero, Quaternion.identity, AreaGameObject.transform);
+					slot.transform.localScale = Vector3.one;
+					slot.GetComponent<PlayerExaminationWindowSlot>().SetUp(slotUI.Value, slotUI.Key, this);
+					UISlots.Add(slot);
+				}
+
+				ReconstructUI = true;
+			}
+
 			foreach (var UISlot in UISlots)
 			{
 				var slotUI = UISlot.GetComponent<PlayerExaminationWindowSlot>();
@@ -226,7 +285,6 @@ namespace UI.Core
 		private IEnumerator WaitOneFrameForUpdate()
 		{
 			yield return null;
-
 			UpdateStorageUI();
 		}
 

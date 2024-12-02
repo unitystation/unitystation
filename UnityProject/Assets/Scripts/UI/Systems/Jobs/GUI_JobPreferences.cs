@@ -79,7 +79,7 @@ namespace UI.Character
 		{
 			if (force == false && jobsPopulated)
 			{
-				Loggy.Log("Jobs have already been populated!", Category.Jobs);
+				Loggy.Info("Jobs have already been populated!", Category.Jobs);
 				return;
 			}
 
@@ -161,7 +161,7 @@ namespace UI.Character
 		/// <param name="entry">Entry reference to change dropdown boxes</param>
 		public void OnPriorityChange(JobType job, Priority priority, JobListEntry entry)
 		{
-			Loggy.Log($"Changed priority for {job} to {priority}.", Category.Jobs);
+			Loggy.Info($"Changed priority for {job} to {priority}.", Category.Jobs);
 
 			if (priority == Priority.None)
 			{
@@ -191,7 +191,7 @@ namespace UI.Character
 				}
 			}
 
-			Loggy.Log("Current Job Preferences:\n" +
+			Loggy.Info("Current Job Preferences:\n" +
 				string.Join("\n", jobPreferences.Select(a => $"{a.Key}: {a.Value}")), Category.Jobs);
 		}
 

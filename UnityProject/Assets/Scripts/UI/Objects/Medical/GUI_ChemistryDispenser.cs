@@ -37,7 +37,11 @@ namespace UI.Objects.Medical
 
 		private void Start()
 		{
-			((NetUIElement<string>)this["20"]).MasterSetValue("1");
+			if (IsMasterTab)
+			{
+				((NetUIElement<string>)this["20"]).MasterSetValue("1");
+			}
+
 			if (Provider != null)
 			{
 				// Makes sure it connects with the dispenser properly
@@ -110,7 +114,7 @@ namespace UI.Objects.Medical
 		{
 			ChemistryDispenser.HeaterOn = !ChemistryDispenser.HeaterOn;
 			ChemistryDispenser.UpdatePowerDraw();
-			Loggy.LogFormat("Heater turned {0}.", Category.Chemistry, ChemistryDispenser.HeaterOn ? "on" : "off");
+			Loggy.Info().Format("Heater turned {0}.", Category.Chemistry, ChemistryDispenser.HeaterOn ? "on" : "off");
 			UpdateAll();
 		}
 

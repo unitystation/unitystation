@@ -19,7 +19,7 @@ public static class DefaultWillInteract
 			var positionalHandApply = interaction as PositionalHandApply;
 
 			var reachRange = ReachRange.Standard;
-			if (AllowTelekinesis && positionalHandApply.PerformerPlayerScript.playerHealth.brain != null && positionalHandApply.PerformerPlayerScript.playerHealth.brain.HasTelekinesis ) //Has telekinesis
+			if (AllowTelekinesis && positionalHandApply?.PerformerPlayerScript?.playerHealth?.brain != null && positionalHandApply.PerformerPlayerScript.playerHealth.brain.HasTelekinesis ) //Has telekinesis
 			{
 				if (positionalHandApply.HandObject == null)
 				{
@@ -87,7 +87,7 @@ public static class DefaultWillInteract
 			return Validations.CanApply(interaction as AiActivate, side);
 		}
 
-		Loggy.LogError("Unable to recognize interaction type.", Category.Interaction);
+		Loggy.Error("Unable to recognize interaction type.", Category.Interaction);
 		return false;
 	}
 

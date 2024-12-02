@@ -163,7 +163,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 					if (overFlowProtection > maxOverflowProtection)
 					{
-						Loggy.LogError($"Overflow protection triggered on {basicTile.name}, ToTileWhenDestroyed is spawning tiles in a loop", Category.TileMaps);
+						Loggy.Error($"Overflow protection triggered on {basicTile.name}, ToTileWhenDestroyed is spawning tiles in a loop", Category.TileMaps);
 						break;
 					}
 				}

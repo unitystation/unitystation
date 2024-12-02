@@ -27,7 +27,7 @@ namespace ScriptableObjects.TimedGameEvents.SeasonalEvents
 			if(SetSpawns() == false) yield break;
 			if (horrorsToSpawn.Count <= 0)
 			{
-				Loggy.LogError("[TimedEvent/Halloween/Ghosts] - No ghosts assigned to spawn them!!", Category.Event);
+				Loggy.Error("[TimedEvent/Halloween/Ghosts] - No ghosts assigned to spawn them!!", Category.Event);
 				yield break;
 			}
 
@@ -75,7 +75,7 @@ namespace ScriptableObjects.TimedGameEvents.SeasonalEvents
 			spawnPoints = SpawnPoint.GetPointsForCategory(spawnPointCategory).ToList();
 
 			if (spawnPoints.Count >= 1) return true;
-			Loggy.LogError($"No spawn points found for {spawnPointCategory} in " +
+			Loggy.Error($"No spawn points found for {spawnPointCategory} in " +
 			                $"{SubSceneManager.ServerChosenMainStation}! Cannot start {this}.", Category.Event);
 			return false;
 

@@ -76,7 +76,7 @@ namespace Items.Cargo.Wrapping
 					result = festivePackagePrefab;
 					break;
 				default:
-					Loggy.LogError($"Tried to wrap {gameObject} with unknown type of paper", Category.Cargo);
+					Loggy.Error($"Tried to wrap {gameObject} with unknown type of paper", Category.Cargo);
 					result = normalPackagePrefab;
 					break;
 			}

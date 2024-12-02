@@ -64,7 +64,7 @@ public class ChunkedTileMap<T> : IEnumerable<T> where T : class
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError(e.ToString());
+				Loggy.Error(e.ToString());
 			}
 
 		}

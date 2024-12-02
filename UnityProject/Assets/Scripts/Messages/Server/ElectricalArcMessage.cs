@@ -33,7 +33,7 @@ namespace Messages.Server
 
 			if (NetworkClient.prefabs.TryGetValue(msg.prefabAssetID, out var prefab) == false)
 			{
-				Loggy.LogError(
+				Loggy.Error(
 						$"Couldn't spawn {nameof(ElectricalArc)}; client doesn't know about this {nameof(msg.prefabAssetID)}: {msg.prefabAssetID}.",
 						Category.Firearms);
 				return;
@@ -52,7 +52,7 @@ namespace Messages.Server
 		{
 			if (arcSettings.arcEffectPrefab.TryGetComponent<NetworkIdentity>(out var identity) == false)
 			{
-				Loggy.LogError(
+				Loggy.Error(
 						$"No {nameof(NetworkIdentity)} found on {arcSettings.arcEffectPrefab}!",
 						Category.Electrical);
 				return default;

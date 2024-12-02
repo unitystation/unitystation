@@ -102,7 +102,7 @@ public class EventManager : MonoBehaviour
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError(e.ToString());
+				Loggy.Error(e.ToString());
 			}
 
 		}
@@ -116,7 +116,7 @@ public class EventManager : MonoBehaviour
 				}
 				catch (Exception e)
 				{
-					Loggy.LogError(e.ToString());
+					Loggy.Error(e.ToString());
 				}
 			}
 		}
@@ -198,7 +198,7 @@ public class EventManager : MonoBehaviour
 		}
 
 
-		Loggy.LogTrace(msg, category);
+		Loggy.Trace(msg, category);
 
 
 	}
@@ -212,6 +212,6 @@ public class EventManager : MonoBehaviour
 			removed_count += CleanupUtil.RidListOfDeadElements(a.Value);
 		}
 
-		Loggy.Log("removing " + removed_count + " dead elements from EventManager.eventTable", Category.MemoryCleanup);
+		Loggy.Info("removing " + removed_count + " dead elements from EventManager.eventTable", Category.MemoryCleanup);
 	}
 }

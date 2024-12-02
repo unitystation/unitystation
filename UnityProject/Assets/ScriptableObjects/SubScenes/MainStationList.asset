@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MainStationList
   m_EditorClassIdentifier: 
   MainStations:
-  - SquareStation
-  - MiniStation
-  - FallStation
+  - MainStations/SquareStation.json
+  - MainStations/MiniStation.json
+  - MainStations/FallStation.json
   mapsConfig: maps.json

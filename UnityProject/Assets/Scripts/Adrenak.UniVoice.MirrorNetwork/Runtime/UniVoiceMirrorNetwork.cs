@@ -134,7 +134,7 @@ namespace Adrenak.UniVoice.MirrorNetwork {
         }
 
         public void Client_OnConnected() {
-            Loggy.Log("Client connected to server. Awaiting initialization from server. " +
+            Loggy.Info("Client connected to server. Awaiting initialization from server. " +
             "Connection ID : " + NetworkClient.connection.connectionId);
         }
 
@@ -274,7 +274,7 @@ namespace Adrenak.UniVoice.MirrorNetwork {
                         PeerIDs = message.PeerIDs.ToList();
                         PeerIDs.ForEach(x => OnPeerJoinedChatroom?.Invoke(x));
 
-                        Loggy.Log($"Initialized self with ID {OwnID} and peers {string.Join(", ", PeerIDs)}");
+                        Loggy.Info($"Initialized self with ID {OwnID} and peers {string.Join(", ", PeerIDs)}");
                         break;
 
                     // When a new peer joins, the existing peers add it to their state
@@ -312,7 +312,7 @@ namespace Adrenak.UniVoice.MirrorNetwork {
                 }
             }
             catch (Exception e) {
-                Loggy.LogError(e.ToString());
+                Loggy.Error(e.ToString());
             }
         }
 
@@ -351,7 +351,7 @@ namespace Adrenak.UniVoice.MirrorNetwork {
 	                }
 	                catch (Exception e)
 	                {
-		                Loggy.LogError(e.ToString());
+		                Loggy.Error(e.ToString());
 	                }
                 }
             }
@@ -402,19 +402,19 @@ namespace Adrenak.UniVoice.MirrorNetwork {
 
 
         public void HostChatroom(object data = null) {
-            Loggy.Log("HostChatroom is not supported. To host a chatroom, start a Mirror server.");
+            Loggy.Info("HostChatroom is not supported. To host a chatroom, start a Mirror server.");
         }
 
         public void CloseChatroom(object data = null) {
-            Loggy.Log("CloseChatroom is not supported. To close a chatroom, stop your Mirror server.");
+            Loggy.Info("CloseChatroom is not supported. To close a chatroom, stop your Mirror server.");
         }
 
         public void JoinChatroom(object data = null) {
-            Loggy.Log("JoinChatroom is not supported. To join a  chatroom, connect to a Mirror server.");
+            Loggy.Info("JoinChatroom is not supported. To join a  chatroom, connect to a Mirror server.");
         }
 
         public void LeaveChatroom(object data = null) {
-            Loggy.Log("LeaveChatroom is not supported. To leave the chatroom, disconnect from your Mirror server.");
+            Loggy.Info("LeaveChatroom is not supported. To leave the chatroom, disconnect from your Mirror server.");
         }
 
         public void Dispose() {

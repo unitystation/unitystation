@@ -46,14 +46,14 @@ namespace ScriptableObjects
 
 					if (_instance == null)
 					{
-						Loggy.LogErrorFormat("SingletonScriptableObject instance for {0} not found!", Category.Unknown, typeof(T));
+						Loggy.Error().Format("SingletonScriptableObject instance for {0} not found!", Category.Unknown, typeof(T));
 					}
 
 					stopwatch.Stop();
 
 					if (stopwatch.ElapsedMilliseconds > 2)
 					{
-						Loggy.LogWarning($"{typeof(T).FullName} SO took {stopwatch.ElapsedMilliseconds} ms to find! " +
+						Loggy.Warning($"{typeof(T).FullName} SO took {stopwatch.ElapsedMilliseconds} ms to find! " +
 						                  $"Try to serialize a reference to this SO singleton instead!");
 					}
 

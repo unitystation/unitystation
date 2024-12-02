@@ -205,7 +205,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 			if (logDamage)
 			{
 				string logMessage = $"{gameObject.ExpensiveName()} took {damage} {damageType} damage from an {attackType} attack (resistance {Armor.GetRating(attackType)}) (integrity now {integrity})";
-				Loggy.LogTraceFormat(logMessage, Category.Damage);
+				Loggy.Trace().Format(logMessage, Category.Damage);
 				AdminLogsManager.TrackDamage(attacker, this, logMessage);
 			}
 		}
@@ -356,10 +356,10 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		// runtime, we'll only a null value. So simply just never compile this for regural players because it wont be used elsewhere.
 		if (lastDamageInfo != null && KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold))
 		{
-			return $"Last Damage Number: {lastDamageInfo.Damage}\n Damage Type: {lastDamageInfo.DamageType}\n Attack Type: {lastDamageInfo.AttackType}]\n Integrity: {integrity}";
+			return $"EDITOR ONLY DEBUG Last Damage Number: {lastDamageInfo.Damage}\n Damage Type: {lastDamageInfo.DamageType}\n Attack Type: {lastDamageInfo.AttackType}]\n Integrity: {integrity}";
 		}
 #endif
-		return GetDamageDesc();
+		return "";
 	}
 
 	public string CustomTitle()

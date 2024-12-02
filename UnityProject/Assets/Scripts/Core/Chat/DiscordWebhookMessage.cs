@@ -105,7 +105,7 @@ namespace DiscordWebhook
 				if (loggedWebKookError == false)
 				{
 					loggedWebKookError = true;
-					Loggy.LogError(e.ToString());
+					Loggy.Error(e.ToString());
 				}
 			}
 
@@ -135,7 +135,7 @@ namespace DiscordWebhook
 
 			if (response.IsSuccessStatusCode == false)
 			{
-				Loggy.LogError($"Request failed with status code: {response.StatusCode}, {response.ReasonPhrase}");
+				Loggy.Error($"Request failed with status code: {response.StatusCode}, {response.ReasonPhrase}");
 			}
 
 		}

@@ -10,7 +10,7 @@ namespace Util.Independent.FluentRichText.Styles
 		{
 			if (CommonValidations.IsValidHexColor(hexColor) == false)
 			{
-				Loggy.LogError($"RichText received invalid hexadecimal color: {hexColor}.");
+				Loggy.Error($"RichText received invalid hexadecimal color: {hexColor}.");
 				this.hexColor = null;
 				return;
 			}

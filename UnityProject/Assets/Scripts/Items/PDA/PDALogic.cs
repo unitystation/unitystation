@@ -213,7 +213,7 @@ namespace Items.PDA
 		private void RegisterTo(string playerName)
 		{
 			RegisteredPlayerName = playerName;
-			gameObject.name = playerName == default ? gameObject.Item().InitialName : $"{playerName}'s PDA";
+			gameObject.name = playerName == default ? gameObject.Item().ArticleName : $"{playerName}'s PDA";
 			gameObject.Item().ServerSetArticleName(gameObject.name);
 		}
 

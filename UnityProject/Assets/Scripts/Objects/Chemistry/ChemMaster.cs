@@ -57,12 +57,12 @@ namespace Chemistry
 
 			//math
 			float space = capacity - currentTotal;
-			Loggy.LogTrace($"Buffer| capacity:{capacity} total:{currentTotal} space:{space}", Category.Chemistry);
+			Loggy.Trace($"Buffer| capacity:{capacity} total:{currentTotal} space:{space}", Category.Chemistry);
 
 			//part one of transfer: isolate reagents, add to tempTransfer Mix
 			if (space > 0)
 			{
-				Loggy.LogTrace($"BEFORE| Mix:{Container.CurrentReagentMix}", Category.Chemistry);
+				Loggy.Trace($"BEFORE| Mix:{Container.CurrentReagentMix}", Category.Chemistry);
 				if (amount < space)
 				{
 					Container.CurrentReagentMix.Remove(reagent, amount);
@@ -74,7 +74,7 @@ namespace Chemistry
 					tempTransfer.Add(reagent, space);
 				}
 
-				Loggy.LogTrace($"AFTER|| Mix:{Container.CurrentReagentMix}", Category.Chemistry);
+				Loggy.Trace($"AFTER|| Mix:{Container.CurrentReagentMix}", Category.Chemistry);
 			}
 
 			//part two of transfer: fill Buffer from tempTransfer Mix
@@ -129,7 +129,7 @@ namespace Chemistry
 					overridingMix.TransferTo(BufferslotOne.CurrentReagentMix, BufferslotOne.MaxCapacity);
 				}
 
-				Loggy.LogTrace($"ChemMaster: {gameObject} " +
+				Loggy.Trace($"ChemMaster: {gameObject} " +
 				                $"Reagentmix buffer one after: {BufferslotOne.CurrentReagentMix}", Category.Chemistry);
 			}
 
@@ -139,7 +139,7 @@ namespace Chemistry
 				//Only two containers, and previous math confirms
 				// that tempTransfer amount won't be larger than last buffer
 				overridingMix.TransferTo(BufferslotTwo.CurrentReagentMix, overridingMix.Total);
-				Loggy.LogTrace($"ChemMaster: {gameObject} " +
+				Loggy.Trace($"ChemMaster: {gameObject} " +
 				                $"reagentmix buffer two after: {BufferslotTwo.CurrentReagentMix}", Category.Chemistry);
 			}
 		}
@@ -156,7 +156,7 @@ namespace Chemistry
 				BufferslotTwo.CurrentReagentMix.Clear();
 			}
 
-			Loggy.LogTrace($"The buffer for ChemMaster {gameObject} is cleared.", Category.Chemistry);
+			Loggy.Trace($"The buffer for ChemMaster {gameObject} is cleared.", Category.Chemistry);
 		}
 
 		public void DispenseProduct(GameObject productId, int numberOfProduct, string newName, int PillproductChoice)

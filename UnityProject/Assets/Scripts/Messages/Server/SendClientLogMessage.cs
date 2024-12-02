@@ -20,11 +20,11 @@ namespace Messages.Server
 		{
 			if (msg.IsError)
 			{
-				Loggy.LogError(msg.Message, msg.Category);
+				Loggy.Error(msg.Message, msg.Category);
 			}
 			else
 			{
-				Loggy.Log(msg.Message, msg.Category);
+				Loggy.Info(msg.Message, msg.Category);
 			}
 		}
 

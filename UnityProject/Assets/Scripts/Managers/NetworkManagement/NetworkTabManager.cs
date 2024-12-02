@@ -167,7 +167,7 @@ public struct NetTabDescriptor
 		this.type = type;
 		if (type == NetTabType.None && this.provider != null)
 		{
-			Loggy.LogError($"You forgot to set a proper NetTabType in your new tab on {this.provider.ExpensiveName()}!\n" +
+			Loggy.Error($"You forgot to set a proper NetTabType in your new tab on {this.provider.ExpensiveName()}!\n" +
 				"Go to Prefabs/GUI/Resources and see if any prefabs starting with Tab has Type=None",Category.NetUI);
 		}
 	}
@@ -183,7 +183,7 @@ public struct NetTabDescriptor
 
 		if(toInstantiate == null)
 		{
-			Loggy.LogWarning($"[NetworkTabManager.Spawn] - Couldn't load 'Tab{type}' from the netTab SO", Category.NetUI);
+			Loggy.Warning($"[NetworkTabManager.Spawn] - Couldn't load 'Tab{type}' from the netTab SO", Category.NetUI);
 			return null;
 		}
 

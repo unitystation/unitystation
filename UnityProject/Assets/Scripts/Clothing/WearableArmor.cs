@@ -12,7 +12,7 @@ namespace Clothing
 	/// allows clothing to add its armor values to the creature wearing it
 	/// </summary>
 	[RequireComponent(typeof(Integrity))]
-	public class WearableArmor : MonoBehaviour, IServerInventoryMove, IHoverTooltip, IExaminable
+	public class WearableArmor : MonoBehaviour, IServerInventoryMove, IExaminable
 	{
 		[SerializeField] [Tooltip("When wore in this slot, the armor values will be applied to player.")]
 		private NamedSlot slot = NamedSlot.outerwear;
@@ -186,32 +186,6 @@ namespace Clothing
 				text.AppendLine($"\nThis has an average heat resistance of <color=red>{averageHeat.ToString("F" + 2)}°C</color> and freeze resistance of <color=#5fcfdd>{averageFreeze.ToString("F" + 2)}°C</color>");
 			}
 			return text.ToString();
-		}
-
-		public string HoverTip()
-		{
-			if (armoredBodyParts.Count == 0) return null;
-			return GetInfo();
-		}
-
-		public string CustomTitle()
-		{
-			return null;
-		}
-
-		public Sprite CustomIcon()
-		{
-			return null;
-		}
-
-		public List<Sprite> IconIndicators()
-		{
-			return null;
-		}
-
-		public List<TextColor> InteractionsStrings()
-		{
-			return null;
 		}
 
 		public string Examine(Vector3 worldPos = default(Vector3))

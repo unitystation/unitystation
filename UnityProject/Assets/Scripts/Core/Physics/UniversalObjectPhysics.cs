@@ -271,7 +271,7 @@ namespace Core.Physics
 
 		public void Start()
 		{
-			if (isServer)
+			if (CustomNetworkManager.IsServer)
 			{
 				SetLocalTarget = new Vector3WithData()
 				{
@@ -525,9 +525,42 @@ namespace Core.Physics
 
 		public virtual void AppearAtWorldPositionServer(Vector3 worldPos, bool smooth = false,
 			bool doStepInteractions = true,
-			Vector2? momentum = null, MatrixInfo Matrixoveride = null)
+			Vector2? momentum = null, MatrixInfo Matrixoveride = null, bool TeleportContainer = false)
 		{
 			this.doStepInteractions = doStepInteractions;
+
+			if (ContainedInObjectContainer)
+			{
+				if (TeleportContainer)
+				{
+					ContainedInObjectContainer.registerTile.ObjectPhysics.Component.AppearAtWorldPositionServer(worldPos, smooth, doStepInteractions, momentum, Matrixoveride,TeleportContainer );
+				}
+				else
+				{
+					ContainedInObjectContainer.RetrieveObject(this.gameObject);
+				}
+
+			}
+
+			if (pickupable.HasComponent && pickupable.Component.StoredInItemStorageNetworked != null)
+			{
+
+				if (TeleportContainer)
+				{
+					pickupable.Component.UniversalObjectPhysics.AppearAtWorldPositionServer(worldPos, smooth, doStepInteractions, momentum, Matrixoveride,TeleportContainer );
+				}
+				else
+				{
+					if (pickupable.Component.ItemSlot.ItemNotRemovable)
+					{
+						Loggy.Error("Cannot remove item from container is ItemNotRemovable ");
+						return;
+					}
+					Inventory.ServerDrop(this.gameObject);
+				}
+
+
+			}
 
 			SynchroniseVisibility(isVisible, true);
 			var matrix = MatrixManager.AtPoint(worldPos, isServer);
@@ -807,7 +840,7 @@ namespace Core.Physics
 			if (movetoMatrix == null) return;
 			if (registerTile == null)
 			{
-				Loggy.LogError("null Register tile on " + this.name);
+				Loggy.Error("null Register tile on " + this.name);
 				return;
 			}
 
@@ -952,7 +985,7 @@ namespace Core.Physics
 
 			if (speed.IsUnreasonableNumber())
 			{
-				Loggy.LogError("Unreasonable number detected in NewtonianPush for" + this.gameObject);
+				Loggy.Error("Unreasonable number detected in NewtonianPush for" + this.gameObject);
 				return;
 			}
 
@@ -1171,7 +1204,7 @@ namespace Core.Physics
 		{
 			if (NewtonianMovement.x.IsUnreasonableNumber() || NewtonianMovement.y.IsUnreasonableNumber())
 			{
-				Loggy.LogError("Unreasonable number detected with NewtonianMovement" + transform.name);
+				Loggy.Error("Unreasonable number detected with NewtonianMovement" + transform.name);
 				var vec = NewtonianMovement;
 				vec.x = 0;
 				vec.y = 0;
@@ -1181,7 +1214,7 @@ namespace Core.Physics
 			if (transform.position.x.IsUnreasonableNumber() || transform.position.y.IsUnreasonableNumber() ||
 			    transform.position.z.IsUnreasonableNumber())
 			{
-				Loggy.LogError("Unreasonable number detected with transform.position with " + transform.name);
+				Loggy.Error("Unreasonable number detected with transform.position with " + transform.name);
 				var vec = transform.position;
 				vec.x = 0;
 				vec.y = 0;

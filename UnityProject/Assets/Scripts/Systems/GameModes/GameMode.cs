@@ -194,7 +194,7 @@ namespace GameModes
 		/// </summary>
 		public virtual void SetupRound()
 		{
-			Loggy.LogFormat("Setting up {0} round!", Category.GameMode, Name);
+			Loggy.Info().Format("Setting up {0} round!", Category.GameMode, Name);
 		}
 
 		/// <summary>
@@ -283,7 +283,7 @@ namespace GameModes
 		{
 			if (PossibleAntags.Count <= 0)
 			{
-				Loggy.LogError("PossibleAntags is empty! Game mode must have some if spawning antags.",
+				Loggy.Error("PossibleAntags is empty! Game mode must have some if spawning antags.",
 					Category.Antags);
 				return;
 			}
@@ -294,14 +294,14 @@ namespace GameModes
 
 			if (antagPool.Count < 1)
 			{
-				Loggy.LogErrorFormat("No possible antags! Either PossibleAntags is empty or this player hasn't enabled " +
+				Loggy.Error().Format("No possible antags! Either PossibleAntags is empty or this player hasn't enabled " +
 				                      "any antags and they were spawned as one anyways.", Category.Antags);
 			}
 
 			var antag = antagPool.PickRandom();
 			if (!AllocateJobsToAntags && antag.AntagOccupation == null)
 			{
-				Loggy.LogErrorFormat("AllocateJobsToAntags is false but {0} AntagOccupation is null! " +
+				Loggy.Error().Format("AllocateJobsToAntags is false but {0} AntagOccupation is null! " +
 				                      "Game mode must either set AllocateJobsToAntags or possible antags neeed an AntagOccupation.",
 					Category.Antags, antag.AntagName);
 				return;
@@ -370,7 +370,7 @@ namespace GameModes
 		/// </summary>
 		public virtual void StartRound()
 		{
-			Loggy.LogFormat("Starting {0} round!", Category.GameMode, Name);
+			Loggy.Info().Format("Starting {0} round!", Category.GameMode, Name);
 
 			List<PlayerSpawnRequest> playerSpawnRequests = new List<PlayerSpawnRequest>();
 			List<PlayerSpawnRequest> antagSpawnRequests = new List<PlayerSpawnRequest>();;
@@ -391,7 +391,7 @@ namespace GameModes
 				}
 				catch (Exception e)
 				{
-					Loggy.LogError($" Failed to spawn player {spawnReq?.Player?.Name} " + e.ToString());
+					Loggy.Error($" Failed to spawn player {spawnReq?.Player?.Name} " + e.ToString());
 				}
 			}
 
@@ -403,7 +403,7 @@ namespace GameModes
 				}
 				catch (Exception e)
 				{
-					Loggy.LogError($" Failed to SpawnAntag {spawnReq?.Player?.Name} Antag {spawnReq?.RequestedOccupation.OrNull()?.name}  " + e.ToString());
+					Loggy.Error($" Failed to SpawnAntag {spawnReq?.Player?.Name} Antag {spawnReq?.RequestedOccupation.OrNull()?.name}  " + e.ToString());
 				}
 			}
 
@@ -415,7 +415,7 @@ namespace GameModes
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError($" Failed to DiscordWebhookMessage Started round message " + e.ToString());
+				Loggy.Error($" Failed to DiscordWebhookMessage Started round message " + e.ToString());
 			}
 
 			GameManager.Instance.CurrentRoundState = RoundState.Started;
@@ -454,7 +454,7 @@ namespace GameModes
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError("Failed on Antag Job Allocation" + e.ToString());
+				Loggy.Error("Failed on Antag Job Allocation" + e.ToString());
 			}
 		}
 
@@ -474,7 +474,7 @@ namespace GameModes
 		/// </summary>
 		public virtual void CheckEndCondition()
 		{
-			Loggy.Log("Checking end round conditions!", Category.GameMode);
+			Loggy.Info("Checking end round conditions!", Category.GameMode);
 		}
 
 		/// <summary>
@@ -489,7 +489,7 @@ namespace GameModes
 			GameManager.Instance.errorCounter = 0;
 			GameManager.Instance.uniqueErrorCounter = 0;
 
-			Loggy.LogFormat("Ending {0} round!", Category.GameMode, Name);
+			Loggy.Info().Format("Ending {0} round!", Category.GameMode, Name);
 			StationObjectiveManager.Instance.ShowStationStatusReport();
 			AntagManager.Instance.ShowAntagStatusReport();
 

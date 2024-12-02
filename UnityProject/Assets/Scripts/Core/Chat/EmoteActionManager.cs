@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Messages.Client;
 using ScriptableObjects.RP;
 using Shared.Managers;
 using UI.Core;
@@ -28,7 +29,7 @@ namespace Core.Chat
 				newChoice.Text = emote.EmoteName;
 				newChoice.Icon = emote.EmoteIcon;
 				// Emotes can only be ran server side, so we have to invoke a command on the server.
-				newChoice.ChoiceAction = () => PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdDoEmote(emote.EmoteName);
+				newChoice.ChoiceAction = () => RequestEmote.Send(emote.EmoteName);
 				choices.Add(newChoice);
 			}
 			DynamicChoiceUI.ClientDisplayChoicesNotNetworked("Emotes", "Choose an emote you'd like to perform.", choices, true);

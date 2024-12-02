@@ -20,7 +20,7 @@ namespace UI.CharacterCreator
 		{
 			sprites = GetComponent<SpriteHandler>();
 			if(!sprites)
-				Loggy.LogWarning("SpriteHandler component is missing!", Category.Sprites);
+				Loggy.Warning("SpriteHandler component is missing!", Category.Sprites);
 		}
 
 		private void Start()

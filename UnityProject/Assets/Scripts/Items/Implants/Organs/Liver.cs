@@ -98,7 +98,7 @@ namespace Items.Implants.Organs
 
 						if (processingContainer.IsFull)
 						{
-							Loggy.LogTrace("Liver is full, please try again. or don't.", Category.Health);
+							Loggy.Trace("Liver is full, please try again. or don't.", Category.Health);
 							break;
 						}
 

@@ -52,7 +52,7 @@ namespace Changeling
 				image.sprite = OccupationList.Instance.Get(data.MemoriesJob).PreviewSprite;
 			} catch
 			{
-				Loggy.LogError("[ChangelingMemoriesEntry/Refresh] Can`t pick preview sprite", Category.Changeling);
+				Loggy.Error("[ChangelingMemoriesEntry/Refresh] Can`t pick preview sprite", Category.Changeling);
 				image.gameObject.SetActive(false);
 			}
 		}

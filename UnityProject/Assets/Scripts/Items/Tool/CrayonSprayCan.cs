@@ -191,8 +191,7 @@ namespace Items.Tool
 				return;
 			}
 
-			var graffitiAlreadyOnTile = registerItem.TileChangeManager.MetaTileMap.GetOverlayTilesByType(cellPos,
-					isWall ? LayerType.Walls : LayerType.Floors, OverlayType.Cleanable)
+			var graffitiAlreadyOnTile = registerItem.TileChangeManager.MetaTileMap.GetOverlayTilesByType(cellPos, isWall ? LayerType.Effects : LayerType.UnderObjectsEffects, OverlayType.Cleanable)
 				.Where(t => t.IsGraffiti).ToList();
 
 			foreach (var graffiti in graffitiAlreadyOnTile)
@@ -210,10 +209,8 @@ namespace Items.Tool
 						{
 							if (charges > 0 || charges == -1)
 							{
-								registerItem.TileChangeManager.MetaTileMap.RemoveOverlaysOfType(cellPos,
-									isWall ? LayerType.Walls : LayerType.Floors, OverlayType.Cleanable);
-								registerItem.TileChangeManager.MetaTileMap.AddOverlay(cellPos, tileToUse, chosenDirection,
-									chosenColour);
+								registerItem.TileChangeManager.MetaTileMap.RemoveOverlaysOfType(cellPos, isWall ? LayerType.Effects : LayerType.UnderObjectsEffects, OverlayType.Cleanable);
+								registerItem.TileChangeManager.MetaTileMap.AddOverlay(cellPos, tileToUse, chosenDirection, chosenColour);
 							}
 
 							UseAndCheckCharges(interaction);

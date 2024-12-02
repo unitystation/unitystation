@@ -85,7 +85,7 @@ namespace Core.Networking
 
 		public override void OnServerAuthenticate(NetworkConnectionToClient conn)
 		{
-			Loggy.LogTrace($"A client not yet authenticated is joining. Address: {conn.address}.", Category.Connections);
+			Loggy.Trace($"A client not yet authenticated is joining. Address: {conn.address}.", Category.Connections);
 		}
 
 		public void OnServerClientAuthRequest(NetworkConnectionToClient conn, ServerClientAuthRequestMessage msg)
@@ -112,7 +112,7 @@ namespace Core.Networking
 
 		public async void OnAuthRequest(NetworkConnectionToClient conn, AuthRequestMessage msg)
 		{
-			Loggy.LogTrace($"A client is requesting authentication. " +
+			Loggy.Trace($"A client is requesting authentication. " +
 			               $"Address: {conn.address}. Client Version: {msg.ClientVersion}. Account ID: {msg.AccountId}.",
 				Category.Connections);
 
@@ -181,7 +181,7 @@ namespace Core.Networking
 				// Cooldown on logging so we don't spam our logs.
 				if (logSecondsElapsed > MinCooldown)
 				{
-					Loggy.LogError($"Connection spam alert. Address {conn.address} is trying to spam connections.",
+					Loggy.Error($"Connection spam alert. Address {conn.address} is trying to spam connections.",
 						Category.Connections);
 				}
 
@@ -207,7 +207,7 @@ namespace Core.Networking
 
 				if (connSecondsElapsed < PasswordRequestTime) continue;
 
-				Loggy.LogError(
+				Loggy.Error(
 					$"A user ran out of time while sending a password. IP: '{connectionTimer.Key}'.",
 					Category.Connections);
 
@@ -231,7 +231,7 @@ namespace Core.Networking
 			// Check the client version is the same as the server
 			if (clientVersion != GameData.BuildNumber)
 			{
-				Loggy.LogTrace($"A client tried to connect with a different client version. Version: {clientVersion}.",
+				Loggy.Trace($"A client tried to connect with a different client version. Version: {clientVersion}.",
 					Category.Connections);
 				DisconnectClient(conn, ResponseCode.InvalidClientVersion,
 					$"Invalid Client Version! You need version {GameData.BuildNumber}. This can be acquired through the station hub.");
@@ -246,7 +246,7 @@ namespace Core.Networking
 			// Must have account ID and player token
 			if (string.IsNullOrEmpty(accountId) || string.IsNullOrEmpty(playerToken))
 			{
-				Loggy.LogError(
+				Loggy.Error(
 					"A user tried to connect with an invalid account ID and/or token."
 					+ $" Account ID: '{accountId}'. IP: '{conn.address}'.",
 					Category.Connections);
@@ -273,7 +273,7 @@ namespace Core.Networking
 			}
 			catch (ApiRequestException e)
 			{
-				Loggy.Log(
+				Loggy.Info(
 					$"The API server rejected the verification request for account with "
 					+ $"ID '{accountId}' at address '{conn.address}'. Error: {e.Message}",
 					Category.Connections);
@@ -289,7 +289,7 @@ namespace Core.Networking
 			}
 			catch (ApiHttpException e)
 			{
-				Loggy.LogError($"Http error when validating user account token. Error: {e.Message} - "
+				Loggy.Error($"Http error when validating user account token. Error: {e.Message} - "
 				               + $"Account ID: '{accountId}'. IP: '{conn.address}'.",
 					Category.Connections);
 				DisconnectClient(conn, ResponseCode.AccountValidationError,
@@ -305,7 +305,7 @@ namespace Core.Networking
 		{
 			if (account.IsLoggedIn == false)
 			{
-				Loggy.LogErrorFormat("log in attempt failed for account with ID {0} at address {1}.",
+				Loggy.Error().Format("log in attempt failed for account with ID {0} at address {1}.",
 					Category.Connections, account.Id, conn.address);
 				DisconnectClient(conn, ResponseCode.AccountNotVerified,
 					"Could not log in with these credentials. Make sure you typed them correctly and you have confirmed your email.");
@@ -335,7 +335,7 @@ namespace Core.Networking
 					return true;
 				}
 
-				Loggy.LogError(
+				Loggy.Error(
 					$"A user tried to connect with an invalid lobby password: {msg.LobbyPassword}."
 					+ $" Account ID: '{accountId}'. IP: '{conn.address}'.",
 					Category.Connections);
@@ -346,7 +346,7 @@ namespace Core.Networking
 			}
 
 			//Request client to send password
-			Loggy.Log($"Requesting password from user. Account ID: '{accountId}'. IP: '{conn.address}.",
+			Loggy.Info($"Requesting password from user. Account ID: '{accountId}'. IP: '{conn.address}.",
 				Category.Connections);
 
 			conn.Send(new AuthResponseMessage
@@ -385,7 +385,7 @@ namespace Core.Networking
 
 		public override void OnStartClient()
 		{
-			Loggy.LogTrace("Authenticator: client starting, preparing before sending authentication request.", Category.Connections);
+			Loggy.Trace("Authenticator: client starting, preparing before sending authentication request.", Category.Connections);
 			NetworkClient.RegisterHandler<AuthResponseMessage>(OnAuthResponse, false);
 			NetworkClient.RegisterHandler<ServerClientAuthResponseMessage>(OnServerClientAuthResponse, false);
 		}
@@ -432,7 +432,7 @@ namespace Core.Networking
 				return;
 			}
 
-			Loggy.Log($"Disconnecting from server. Reason: {msg.Code}.");
+			Loggy.Info($"Disconnecting from server. Reason: {msg.Code}.");
 			ClientReject(); // Gracefully handle rejection by disconnecting.
 
 			// Then shut down the client to return to the main menu.

@@ -46,7 +46,7 @@ namespace Weapons.Projectiles.Behaviours
 
 
 				Chat.AddThrowHitMsgToChat(gameObject, coll.gameObject, targetZone);
-				Loggy.LogTraceFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", Category.Firearms,
+				Loggy.Trace().Format("Hit {0} for {1} with HealthBehaviour! bullet absorbed", Category.Firearms,
 					livingHealth.gameObject.name, damageData.Damage);
 
 				return true;
@@ -61,7 +61,7 @@ namespace Weapons.Projectiles.Behaviours
 					TraumaticDamageTypes.PIERCE);
 
 				Chat.AddThrowHitMsgToChat(gameObject, coll.gameObject, targetZone);
-				Loggy.LogTraceFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", Category.Firearms,
+				Loggy.Trace().Format("Hit {0} for {1} with HealthBehaviour! bullet absorbed", Category.Firearms,
 					health.gameObject.name, damageData.Damage);
 
 				return true;

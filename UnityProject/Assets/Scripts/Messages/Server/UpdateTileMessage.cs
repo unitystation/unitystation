@@ -70,7 +70,7 @@ namespace Messages.Server
 			//client hasnt finished loading the scene, it'll ask for the bundle of changes aftewards
 			if (NetworkObject == null)
 			{
-				Loggy.LogError("client hasn't finished loading " + msg.MatrixSyncNetID);
+				Loggy.Error("client hasn't finished loading " + msg.MatrixSyncNetID);
 				return;
 			}
 
@@ -80,12 +80,12 @@ namespace Messages.Server
 			{
 				if (Change.TileType == TileType.None)
 				{
-					tileChangerManager.RemoveTileWithlayer(Change.Position, Change.layerType);
+					tileChangerManager.RemoveTileWithlayer(Change.Position, Change.layerType, true);
 				}
 				else
 				{
 					tileChangerManager.SetTile(Change.Position, Change.TileType, Change.TileName, Change.TransformMatrix,
-						Change.Colour);
+						Change.Colour, useExactForMultilayer:true);
 				}
 			}
 		}

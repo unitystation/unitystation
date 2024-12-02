@@ -48,7 +48,7 @@ namespace UI.Objects.Research
 				Technology technology = serverGUI.TechWeb.ResearchedTech[i];
 
 				if (ResearchedTechList.Entries[i].TryGetComponent<ResearchedTechEntry>(out var entry)) entry.Initialise(AppendNameAndTechType(technology), technology.Description);
-				else Loggy.LogError("GUI_ResearchServer.cs: Could not find ResearchTechEntry component on ResearchedTech Entry");
+				else Loggy.Error("GUI_ResearchServer.cs: Could not find ResearchTechEntry component on ResearchedTech Entry");
 			}
 		}
 
@@ -67,7 +67,7 @@ namespace UI.Objects.Research
 				}
 
 				if (FutureTechList.Entries[i].TryGetComponent<ResearchedTechEntry>(out var entry)) entry.Initialise(AppendNameAndTechType(technology), description);
-				else Loggy.LogError("GUI_ResearchServer.cs: Could not find ResearchTechEntry component on FutureTech Entry");
+				else Loggy.Error("GUI_ResearchServer.cs: Could not find ResearchTechEntry component on FutureTech Entry");
 			}
 		}
 
@@ -81,7 +81,7 @@ namespace UI.Objects.Research
 				Technology technology = serverGUI.TechWeb.AvailableTech[i];
 
 				if (AvailableTechList.Entries[i].TryGetComponent<AvailableTechEntry>(out var entry)) entry.Initialise(technology, serverGUI.TechWeb);
-				else Loggy.LogError("GUI_ResearchServer.cs: Could not find AvailableTechEntry component on AvailableTech Entry");
+				else Loggy.Error("GUI_ResearchServer.cs: Could not find AvailableTechEntry component on AvailableTech Entry");
 
 				yield return new WaitForEndOfFrame();
 			}

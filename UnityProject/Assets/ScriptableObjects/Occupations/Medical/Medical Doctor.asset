@@ -22,7 +22,7 @@ MonoBehaviour:
   limit: 5
   priority: 99
   issuedClearance: 1f0000000d000000050000000600000028000000
-  issuedLowPopClearance: 1f0000000d000000050000000600000028000000
+  issuedLowPopClearance: 1f0000000d00000005000000060000002800000020000000
   spells: []
   progress: 60
   choiceColor: {r: 0.086908154, g: 0.648544, b: 0.8773585, a: 1}
@@ -47,11 +47,11 @@ MonoBehaviour:
   isTargeteable: 1
   playSound: 1
   spawnSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/AmbientTracks/SpawnSounds/departments/Medical_Spawn.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   textColor: {r: 1, g: 0.9333334, b: 0.94117653, a: 1}

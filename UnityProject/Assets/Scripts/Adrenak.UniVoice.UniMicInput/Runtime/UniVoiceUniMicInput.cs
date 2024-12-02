@@ -38,14 +38,14 @@ namespace Adrenak.UniVoice.UniMicInput {
         public UniVoiceUniMicInput(int deviceIndex = 0, int frequency = 16000, int sampleLen = 100) {
 	        if (Mic.Instance.Devices.Count == 0)
 	        {
-		        Loggy.LogError("Must have recording devices for Microphone input");
+		        Loggy.Error("Must have recording devices for Microphone input");
 		        return;
 	        }
 
 
             Mic.Instance.SetDeviceIndex(deviceIndex);
             Mic.Instance.StartRecording(frequency, sampleLen);
-            Loggy.Log(TAG + "Start recording.");
+            Loggy.Info(TAG + "Start recording.");
             Mic.Instance.OnSampleReady += Mic_OnSampleReady;
         }
 

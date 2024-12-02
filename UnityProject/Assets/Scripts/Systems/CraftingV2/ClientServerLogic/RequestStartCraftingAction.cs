@@ -37,7 +37,7 @@ namespace Systems.CraftingV2.ClientServerLogic
 
 			if (netMessage.CraftingRecipeIndex < 0)
 			{
-				Loggy.LogError(
+				Loggy.Error(
 					$"Received the negative recipe index when {SentByPlayer.Name} " +
 					"had tried to craft something. Perhaps some recipe is missing from the singleton."
 				);
@@ -46,7 +46,7 @@ namespace Systems.CraftingV2.ClientServerLogic
 
 			if (netMessage.IsRecipeIndexWrong)
 			{
-				Loggy.LogError(
+				Loggy.Error(
 					$"Received the wrong recipe index when {SentByPlayer.Name} had tried to craft something. " +
 					"Perhaps some recipe has wrong indexInSingleton that doesn't match a real index in the singleton."
 				);

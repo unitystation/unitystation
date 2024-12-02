@@ -56,7 +56,7 @@ public class SoundManager : MonoBehaviour
 		{
 			if (sound.Value == null) //This probably doesn't happen anymore
 			{
-				Loggy.LogWarning($"Could not remove SoundSpawn {sound} because its value was null!", Category.Audio);
+				Loggy.Warning($"Could not remove SoundSpawn {sound} because its value was null!", Category.Audio);
 				continue;
 			}
 			sound.Value.AudioSource.Stop();
@@ -176,7 +176,7 @@ public class SoundManager : MonoBehaviour
 		if (addressableAudioSource == null || string.IsNullOrEmpty(addressableAudioSource.AssetAddress) ||
 			addressableAudioSource.AssetAddress == "null")
 		{
-			Loggy.LogWarning($"SoundManager received a null AudioSource to be played at World Position: {worldPos}",
+			Loggy.Warning($"SoundManager received a null AudioSource to be played at World Position: {worldPos}",
 				Category.Audio);
 			return null;
 		}
@@ -277,7 +277,7 @@ public class SoundManager : MonoBehaviour
 		if (addressableAudioSource == null || string.IsNullOrEmpty(addressableAudioSource.AssetAddress) ||
 			addressableAudioSource.AssetAddress == "null")
 		{
-			Loggy.LogWarning($"SoundManager received a null AudioSource to be played for: {recipient.name}",
+			Loggy.Warning($"SoundManager received a null AudioSource to be played for: {recipient.name}",
 				Category.Audio);
 			return;
 		}
@@ -323,7 +323,7 @@ public class SoundManager : MonoBehaviour
 		if (addressableAudioSource == null || string.IsNullOrEmpty(addressableAudioSource.AssetAddress) ||
 			addressableAudioSource.AssetAddress == "null")
 		{
-			Loggy.LogWarning($"SoundManager received a null AudioSource to be played for: {recipient.name} at position: {worldPos}",
+			Loggy.Warning($"SoundManager received a null AudioSource to be played for: {recipient.name} at position: {worldPos}",
 				Category.Audio);
 			return;
 		}
@@ -368,7 +368,7 @@ public class SoundManager : MonoBehaviour
 		addressableAudioSource = await AudioManager.GetAddressableAudioSourceFromCache(addressableAudioSource);
 		if(addressableAudioSource == null)
 		{
-			Loggy.LogError("Cannot play sound! Sound is null!");
+			Loggy.Error("Cannot play sound! Sound is null!");
 			return;
 		}
 		SoundSpawn soundSpawn = Instance.GetSoundSpawn(addressableAudioSource, addressableAudioSource.AudioSource, soundSpawnToken);
@@ -472,7 +472,7 @@ public class SoundManager : MonoBehaviour
 			netId = gameObject.NetId();
 			if (netId == NetId.Invalid)
 			{
-				Loggy.LogError("Provided Game object for PlayAtPosition  does not have a network identity " +
+				Loggy.Error("Provided Game object for PlayAtPosition  does not have a network identity " +
 				                addressableAudioSource.AssetAddress, Category.Audio);
 				return;
 			}

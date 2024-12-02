@@ -36,7 +36,7 @@ public class IdConsole : MonoBehaviour, ICheckedInteractable<HandApply>
 			return false;
 
 		//interaction only works if using an ID card on console
-		if (!Validations.HasComponent<IDCard>(interaction.HandObject))
+		if (!Validations.HasComponent<IDCard>(interaction.HandObject) && interaction.IsAltClick == false)
 			return false;
 
 		return true;
@@ -44,6 +44,19 @@ public class IdConsole : MonoBehaviour, ICheckedInteractable<HandApply>
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
+		if (interaction.IsAltClick)
+		{
+			if (TargetCard)
+			{
+				EjectCard(TargetCard, interaction.PerformerPlayerScript.PlayerInfo);
+			}
+			if (AccessCard)
+			{
+				EjectCard(AccessCard, interaction.PerformerPlayerScript.PlayerInfo);
+			}
+			return;
+		}
+
 		if (LoggedIn)
 		{
 			if (TargetCard)

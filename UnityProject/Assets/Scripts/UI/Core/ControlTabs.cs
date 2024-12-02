@@ -293,7 +293,7 @@ namespace UI
 
 			if (!tab)
 			{
-				Loggy.LogWarning($"No tab found with index {index}!", Category.NetUI);
+				Loggy.Warning($"No tab found with index {index}!", Category.NetUI);
 				return;
 			}
 			tab.gameObject.SetActive(true);

@@ -165,7 +165,7 @@ public class AlienMouseInputController : MouseInputController
 				alienPlayer.ClientTryNeurotoxinSpit(aimApplyInfo);
 				return true;
 			default:
-				Loggy.LogError($"Unexpected case: {currentClick.ToString()}");
+				Loggy.Error($"Unexpected case: {currentClick.ToString()}");
 				return false;
 		}
 

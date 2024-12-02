@@ -53,13 +53,13 @@ public class RangeRelationship : BaseSpatialRelationship
 		var reg1 = obj1.RegisterTile();
 		if (reg1 == null)
 		{
-			Loggy.LogErrorFormat("Cannot define relationship between {0} and {1} because {0} has no RegisterTile or subclass",
+			Loggy.Error().Format("Cannot define relationship between {0} and {1} because {0} has no RegisterTile or subclass",
 				Category.SpatialRelationship, obj1, obj2);
 		}
 		var reg2 = obj2.RegisterTile();
 		if (reg2 == null)
 		{
-			Loggy.LogErrorFormat("Cannot define relationship between {0} and {1} because {1} has no RegisterTile or subclass",
+			Loggy.Error().Format("Cannot define relationship between {0} and {1} because {1} has no RegisterTile or subclass",
 				Category.SpatialRelationship, obj1, obj2);
 		}
 		return new RangeRelationship(reg1, reg2, maxRange, onRangeExceeded);

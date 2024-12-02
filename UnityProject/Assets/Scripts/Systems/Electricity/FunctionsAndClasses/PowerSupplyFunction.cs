@@ -18,7 +18,7 @@ namespace Systems.Electricity.NodeModules
 		{
 			if (supply.ControllingNode == null)
 			{
-				Loggy.LogError("Supply.ControllingNode == null", Category.Electrical);
+				Loggy.Error("Supply.ControllingNode == null", Category.Electrical);
 				return;
 			}
 

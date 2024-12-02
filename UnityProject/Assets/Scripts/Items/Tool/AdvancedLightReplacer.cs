@@ -140,40 +140,58 @@ namespace Items.Tool
 				}
 
 
-				if (target?.ItemObject == null)
+				bool HasTrait = true;
+
+				if (target == null || target.ItemAttributes.GetTraits().Contains(source.TraitRequired) == false)
 				{
-					if (BulbsRecycled > 2)
+					HasTrait = false;
+					var Slots = storage.GetIndexedSlots();
+					foreach (var Slot in Slots)
 					{
-						if (target == null)
+						if (Slot.ItemAttributes == null) continue;
+
+						if (Slot.ItemAttributes.GetTraits().Contains(source.TraitRequired))
 						{
-							target = storage.GetNextFreeIndexedSlot();
-							if (target == null)
-							{
-								return;
-							}
+							HasTrait = true;
+							target = Slot;
+							break;
 						}
+					}
 
-						BulbsRecycled -= 3;
-
-						if (source.TraitRequired == CommonTraits.Instance.LightBulb)//yes i know Hardcoded but it's only two bulbs currently, If greater than 4 make something fancy
+					if (HasTrait == false)
+					{
+						if (BulbsRecycled > 2)
 						{
-							var Bulb = Spawn.ServerPrefab(LightBulb).GameObject;
-							Inventory.ServerAdd(Bulb, target);
+							if (target == null || target.ItemObject != null)
+							{
+								target = storage.GetNextFreeIndexedSlot();
+								if (target == null)
+								{
+									return;
+								}
+							}
+
+							BulbsRecycled -= 3;
+
+							if (source.TraitRequired == CommonTraits.Instance.LightBulb)//yes i know Hardcoded but it's only two bulbs currently, If greater than 4 make something fancy
+							{
+								var Bulb = Spawn.ServerPrefab(LightBulb).GameObject;
+								Inventory.ServerAdd(Bulb, target);
+							}
+							else
+							{
+								var Tube = Spawn.ServerPrefab(LightTube).GameObject;
+								Inventory.ServerAdd(Tube, target);
+							}
+
 						}
 						else
 						{
-							var Tube = Spawn.ServerPrefab(LightTube).GameObject;
-							Inventory.ServerAdd(Tube, target);
+							return;
 						}
 
 					}
-					else
-					{
-						return;
-					}
 				}
-
-				if (target.ItemAttributes.GetTraits().Contains(source.TraitRequired) == false) return;
 
 				if (IsAdvanced)
 				{

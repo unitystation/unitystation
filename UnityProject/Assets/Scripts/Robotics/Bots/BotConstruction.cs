@@ -39,20 +39,20 @@ namespace Items.Robotics
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			// Gets the component ItemAttributesV2 and grabs the InitalName from the object in the hand
-			string hand = interaction.HandObject != null ? interaction.HandObject.GetComponent<ItemAttributesV2>().InitialName : null;
+			string hand = interaction.HandObject != null ? interaction.HandObject.GetComponent<ItemAttributesV2>().ArticleName : null;
 			if (hand == null)
 			{
 				return false;
 			}
 			// Gets the component ItemAttributesV2 and grabs the InitalName from the object in the list according to the stageCounter
-			string checkItem = stageParts[stageCounter].GetComponent<ItemAttributesV2>().InitialName;
+			string checkItem = stageParts[stageCounter].GetComponent<ItemAttributesV2>().ArticleName;
 
 			// Checks if armLast is true, if so it will accept anything in the list no matter the order
 			if (armLast)
 			{
 				foreach (var part in stageParts)
 				{
-					if (hand == part.GetComponent<ItemAttributesV2>().InitialName) return true;
+					if (hand == part.GetComponent<ItemAttributesV2>().ArticleName) return true;
 				}
 				return false;
 			}

@@ -38,7 +38,7 @@ namespace Objects.ExecutionDevices
 		{
 			if (device == null)
 			{
-				Loggy.LogError($"[ExecutionDeviceController/ReleaseVictim] - There's no device interface on {gameObject.name}!");
+				Loggy.Error($"[ExecutionDeviceController/ReleaseVictim] - There's no device interface on {gameObject.name}!");
 				return;
 			}
 			device.OnLeaveDevice(Victim);

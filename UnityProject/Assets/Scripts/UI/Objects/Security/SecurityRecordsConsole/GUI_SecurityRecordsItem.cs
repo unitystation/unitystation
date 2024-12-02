@@ -31,7 +31,7 @@ namespace UI.Objects.Security
 		{
 			if (record == null)
 			{
-				Loggy.Log("SecurityRecordItem: no record found, not doing init", Category.Machines);
+				Loggy.Info("SecurityRecordItem: no record found, not doing init", Category.Machines);
 				return;
 			}
 			securityRecord = record;

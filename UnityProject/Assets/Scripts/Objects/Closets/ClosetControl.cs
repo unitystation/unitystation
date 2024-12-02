@@ -157,7 +157,7 @@ namespace Objects
 			SyncDoorState(doorState, doorState);
 		}
 
-		public virtual void OnSpawnServer(SpawnInfo info)
+		public void OnSpawnServer(SpawnInfo info)
 		{
 			// Always spawn closed
 			SyncDoorState(doorState, Door.Closed);
@@ -166,6 +166,17 @@ namespace Objects
 			if (info.SpawnType == SpawnType.Mapped)
 			{
 				CollectObjects();
+			}
+		}
+
+		public void Start()
+		{
+			if (CustomNetworkManager.IsServer)
+			{
+				if (GetComponent<RuntimeSpawned>() == null)
+				{
+					CollectObjects();
+				}
 			}
 		}
 
@@ -337,7 +348,18 @@ namespace Objects
 
 		public void ServerPerformInteraction(MouseDrop interaction)
 		{
-			interaction.DroppedObject.GetUniversalObjectPhysics().AppearAtWorldPositionServer(gameObject.AssumedWorldPosServer());
+			var Pickupable =  interaction.DroppedObject.gameObject.GetComponent<Pickupable>();
+
+			if (Pickupable != null && Pickupable.ItemSlot != null)
+			{
+				Inventory.ServerDrop(Pickupable.ItemSlot, gameObject.AssumedWorldPosServer());
+			}
+			else
+			{
+				interaction.DroppedObject.GetUniversalObjectPhysics().AppearAtWorldPositionServer(gameObject.AssumedWorldPosServer());
+			}
+
+
 			if (objectContainer.IsAnotherContainerNear())
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, $"You cannot close {closetName} with another container in the way!");

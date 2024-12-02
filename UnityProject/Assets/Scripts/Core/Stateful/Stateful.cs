@@ -41,14 +41,14 @@ public class Stateful : NetworkBehaviour, IServerSpawn
 		//start in initial state
 		if (initialState == null)
 		{
-			Loggy.LogErrorFormat("Initial State not defined for {0}. Please fix this component.", Category.ItemSpawn,
+			Loggy.Error().Format("Initial State not defined for {0}. Please fix this component.", Category.ItemSpawn,
 				this);
 			return;
 		}
 		var initialStateIndex = states.FindIndex(se => se == initialState);
 		if (initialStateIndex == -1)
 		{
-			Loggy.LogErrorFormat("Initial State doesn't exist in States defined for {0}. Please fix this component.", Category.ItemSpawn,
+			Loggy.Error().Format("Initial State doesn't exist in States defined for {0}. Please fix this component.", Category.ItemSpawn,
 				this);
 			return;
 		}
@@ -77,7 +77,7 @@ public class Stateful : NetworkBehaviour, IServerSpawn
 		var newStateIndex = states.FindIndex(se => se == newState);
 		if (newStateIndex == -1)
 		{
-			Loggy.LogErrorFormat("New state doesn't exist in States defined for {0}. State will not be changed.", Category.Objects,
+			Loggy.Error().Format("New state doesn't exist in States defined for {0}. State will not be changed.", Category.Objects,
 				this);
 			return;
 		}

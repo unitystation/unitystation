@@ -126,6 +126,8 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 	/// </summary>
 	public int CatalogueCount => SubCatalogue.Count;
 
+	private bool SpriteHasBeenCodeSet = false;
+
 	/// <summary>
 	/// Current sprite from SpriteRender or Image
 	/// Null if sprite is hidden
@@ -208,6 +210,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 	/// <param name="networked">Whether this change should be sent to clients, if server.</param>
 	public void SetCatalogueIndexSprite(int cataloguePage, bool networked = true)
 	{
+		SpriteHasBeenCodeSet = true;
 		InternalChangeSprite(cataloguePage, networked);
 	}
 
@@ -217,6 +220,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 	/// </summary>
 	public void AnimateOnce(int cataloguePage, bool networked = true)
 	{
+		SpriteHasBeenCodeSet = true;
 		InternalChangeSprite(cataloguePage, networked, true);
 	}
 
@@ -229,7 +233,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 
 		if (cataloguePage >= SubCatalogue.Count)
 		{
-			Loggy.LogError(
+			Loggy.Error(
 				$"Sprite catalogue index '{cataloguePage}' is out of bounds on {transform.parent.gameObject}.");
 			return;
 		}
@@ -258,6 +262,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 		if (newSpriteSO == null) return;
 		if (newSpriteSO != PresentSpriteSet)
 		{
+			SpriteHasBeenCodeSet = true;
 			isPaletteSet = false;
 			PresentSpriteSet = newSpriteSO;
 			if (Application.isPlaying == false)
@@ -376,6 +381,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 
 	public void Empty(bool clearCatalogue = false, bool networked = true)
 	{
+		SpriteHasBeenCodeSet = true;
 		if (clearCatalogue)
 		{
 			SubCatalogue = new List<SpriteDataSO>();
@@ -459,7 +465,11 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 	void INewMappedOnSpawn.OnNewMappedOnSpawn()
 	{
 		Init();
-		PresentSpriteSet = InitialPresentSpriteSet;
+		if (PresentSpriteSet == null || SpriteHasBeenCodeSet == false)
+		{
+			PresentSpriteSet = InitialPresentSpriteSet;
+		}
+
 		PushTexture();
 
 		if (GetColor() == Color.white && InitialColour != Color.white)
@@ -545,7 +555,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 			var NetID = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(this.gameObject);
 			if (NetID == null)
 			{
-				Loggy.LogError("Was unable to find A NetworkBehaviour for ",
+				Loggy.Error("Was unable to find A NetworkBehaviour for ",
 					Category.Sprites);
 				return;
 			}
@@ -559,7 +569,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 					gamename = gameObject.name;
 				}
 
-				Loggy.LogError("Was unable to find A NetworkBehaviour for " + gamename,
+				Loggy.Error("Was unable to find A NetworkBehaviour for " + gamename,
 					Category.Sprites);
 			}
 		}
@@ -581,7 +591,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 		{
 			if (newSpriteSO.SetID == -1)
 			{
-				Loggy.Log("NewSpriteDataSO NO ID!" + newSpriteSO.name, Category.Sprites);
+				Loggy.Info("NewSpriteDataSO NO ID!" + newSpriteSO.name, Category.Sprites);
 			}
 
 			if (spriteChange.Empty) spriteChange.Empty = false;
@@ -655,7 +665,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 		yield return null;
 		if (networkIdentity.netId == 0)
 		{
-			Loggy.LogError($"ID hasn't been set for ${this.transform.parent}.", Category.Sprites);
+			Loggy.Error($"ID hasn't been set for ${this.transform.parent}.", Category.Sprites);
 			yield break;
 		}
 

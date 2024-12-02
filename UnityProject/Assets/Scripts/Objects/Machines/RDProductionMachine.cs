@@ -148,7 +148,7 @@ namespace Systems.Research.Objects
 
 		#region Lifecycle
 
-		public void Awake()
+		void Awake()
 		{
 			networkManager = CustomNetworkManager.Instance;
 			registerObject = GetComponent<RegisterObject>();
@@ -166,15 +166,22 @@ namespace Systems.Research.Objects
 
 			OnRemoveTechweb();
 
-			if(researchServer != null)
-			{
-				researchServer.Techweb.TechWebDesignUpdateEvent += TechWebUpdate;
-			}
+			EventManager.AddHandler(Event.RoundStarted, SyncTechWebUpdates);
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
 			SyncSprite(RDProState.Idle, RDProState.Idle);
+		}
+
+		private void SyncTechWebUpdates()
+		{
+			if (researchServer != null) researchServer.Techweb.TechWebDesignUpdateEvent += TechWebUpdate;
+		}
+
+		private void OnDisable()
+		{
+			EventManager.RemoveHandler(Event.RoundStarted, SyncTechWebUpdates);
 		}
 
 		public void OnDespawnServer(DespawnInfo info)

@@ -148,7 +148,7 @@ public class EncryptionKey : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 			type = value;
 			if (type == EncryptionKeyType.None)
 			{
-				Loggy.LogError("Encryption keys cannot be None type!", Category.Chat);
+				Loggy.Error("Encryption keys cannot be None type!", Category.Chat);
 				type = EncryptionKeyType.Common;
 			}
 		}

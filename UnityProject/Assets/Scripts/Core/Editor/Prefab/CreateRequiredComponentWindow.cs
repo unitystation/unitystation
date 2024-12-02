@@ -200,7 +200,7 @@ public class CreateRequiredComponentWindow : EditorWindow
 
 	private void OnCreateRequiredComponents()
 	{
-		Loggy.Log("Performing modifications:", Category.Editor);
+		Loggy.Info("Performing modifications:", Category.Editor);
 		foreach (var prefabModification in prefabModifications)
 		{
 			if (prefabModification.Skip) continue;
@@ -211,7 +211,7 @@ public class CreateRequiredComponentWindow : EditorWindow
 
 				PrefabUtility.SavePrefabAsset(prefabModification.RootGO);
 
-				Loggy.LogFormat("Added {0} to game object {1} in prefab {2}", Category.Editor,
+				Loggy.Info().Format("Added {0} to game object {1} in prefab {2}", Category.Editor,
 					componentToAdd.Name, prefabModification.GOToModify, path);
 			}
 		}

@@ -50,7 +50,7 @@ namespace Objects.Disposals
 			objectName = gameObject.ExpensiveName();
 			if (gameObject.TryGetComponent<ObjectAttributes>(out var attributes))
 			{
-				objectName = attributes.InitialName;
+				objectName = attributes.ArticleName;
 			}
 		}
 
@@ -224,7 +224,7 @@ namespace Objects.Disposals
 			}
 			else
 			{
-				Loggy.LogError($"Failed to spawn disposal pipe tile! Is {name} missing reference to tile asset for {orientation}?",
+				Loggy.Error($"Failed to spawn disposal pipe tile! Is {name} missing reference to tile asset for {orientation}?",
 					Category.Pipes);
 			}
 		}

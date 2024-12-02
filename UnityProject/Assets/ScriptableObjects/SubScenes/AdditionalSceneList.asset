@@ -19,16 +19,16 @@ MonoBehaviour:
   - AdditionalScenes/CentCom.json
   CentComScenes:
   - CentComSceneName: AdditionalScenes/Fallstation Centcom.json
-    DependentScene: FallStation
+    DependentScene: MainStations/FallStation.json
   defaultSyndicateScenes:
   - AdditionalScenes/Syndicate/SyndicateOutpost.json
   SyndicateScenes:
   - SyndicateSceneName: AdditionalScenes/Syndicate/Fallstation Syndicate.json
-    DependentScene: FallStation
+    DependentScene: MainStations/FallStation.json
   - SyndicateSceneName: AdditionalScenes/Syndicate/SyndicatePog.json
-    DependentScene: PogStation
+    DependentScene: MainStations/PogStation.json
   - SyndicateSceneName: AdditionalScenes/Syndicate/Ministation Syndicate.json
-    DependentScene: MiniStation
+    DependentScene: MainStations/MiniStation.json
   WizardScenes:
   - AdditionalScenes/Wizard/WizardAsteroid.json
   - AdditionalScenes/Wizard/WizardShip.json

@@ -10,6 +10,7 @@ using MapSaver;
 using Newtonsoft.Json;
 using SecureStuff;
 using TileManagement;
+using Util;
 using Object = UnityEngine.Object;
 
 public class FileSelectorWindow : EditorWindow
@@ -17,21 +18,30 @@ public class FileSelectorWindow : EditorWindow
 	private string folderPath = "";
 	private string[] fileNames;
 
-	[MenuItem("Mapping/MapLoader_Saver")]
+	[MenuItem("Mapping/𓃡𓃡 Map Loader Saver Selector 𓃡𓃡")]
 	public static void ShowWindow()
 	{
 		// Create and show the editor window
-		GetWindow<FileSelectorWindow>("File Selector");
+		GetWindow<FileSelectorWindow>("𓃡𓃡 Map Loader Saver Selector 𓃡𓃡");
 	}
 
+// Key to store the selected file name in EditorPrefs
+	private const string SelectedMap = "SelectedMap";
 
+	private static bool DeleteMapAfterSave = false;
 	private void OnEnable()
 	{
+		// Retrieve the selected file name from EditorPrefs (if it exists)
+		if (EditorPrefs.HasKey(SelectedMap))
+		{
+			SubSceneManager.AdminForcedMainStation = EditorPrefs.GetString(SelectedMap);
+		}
+
 		// Set the default folder path to "Assets/StreamingAssets/Maps"
 		folderPath = Path.Combine(Application.dataPath, "StreamingAssets/Maps");
 
 		// Check if the default folder exists, if not, create it
-		if (!Directory.Exists(folderPath))
+		if (Directory.Exists(folderPath) == false)
 		{
 			Directory.CreateDirectory(folderPath);
 		}
@@ -43,8 +53,15 @@ public class FileSelectorWindow : EditorWindow
 	private Vector2 scrollPosition = Vector2.zero; // Scroll position variable
 	private Color separatorColor = Color.gray; // Define the separator color
 
+
+
 	private void OnGUI()
 	{
+		GUILayout.Label("Delete Map After Save ", EditorStyles.boldLabel);
+		DeleteMapAfterSave = GUILayout.Toggle(DeleteMapAfterSave, "", GUILayout.Width(20)); // Add a checkbox with a width of 20
+
+
+
 		// Display the selected folder path
 		if (!string.IsNullOrEmpty(folderPath))
 		{
@@ -56,18 +73,45 @@ public class FileSelectorWindow : EditorWindow
 				GUILayout.Label("Files in Folder:", EditorStyles.boldLabel);
 
 				// Add a scroll view to handle many files
-				scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition, GUILayout.Height(1000)); // Adjust the height as needed
+				scrollPosition =
+					EditorGUILayout.BeginScrollView(scrollPosition,
+						GUILayout.Height(500)); // Adjust the height as needed
 
 				foreach (string fileName in fileNames)
 				{
 					GUILayout.BeginHorizontal();
 
-					GUILayout.Label(GetRelativePath(folderPath, fileName), GUILayout.Width(400));
+					var RelativePath = GetRelativePath(folderPath, fileName);
+
+					// Create a checkbox that is checked if the fileName matches the selectedFileName
+					bool isSelected = (RelativePath == EditorPrefs.GetString(SelectedMap, ""));
+					bool newIsSelected =
+						GUILayout.Toggle(isSelected, "", GUILayout.Width(20)); // Add a checkbox with a width of 20
+
+					// If the checkbox state changed, update the static variable
+					if (newIsSelected != isSelected)
+					{
+						if (newIsSelected)
+						{
+							EditorPrefs.SetString(SelectedMap, RelativePath); // Save the selected file name
+						}
+						else
+						{
+							EditorPrefs.DeleteKey(SelectedMap); // Remove the saved file name when unselected
+						}
+					}
+
+					// Display the file name label
+					GUILayout.Label(RelativePath, GUILayout.Width(380));
 
 					if (GUILayout.Button("Save", GUILayout.Width(50)))
 					{
 						// Start a coroutine to perform the save function
 						Save(fileName);
+						if (DeleteMapAfterSave)
+						{
+							MiscFunctions_RRT.DeleteAllRootGameObjects();
+						}
 					}
 
 					if (GUILayout.Button("Load", GUILayout.Width(50)))
@@ -134,13 +178,14 @@ public class FileSelectorWindow : EditorWindow
 	private void Load(string filePath)
 	{
 		MapSaver.MapSaver.CodeClass.ThisCodeClass.Reset();
-		MapSaver.MapSaver.MapData mapData = JsonConvert.DeserializeObject<MapSaver.MapSaver.MapData>(AccessFile.Load(filePath, FolderType.Maps));
+		MapSaver.MapSaver.MapData mapData =
+			JsonConvert.DeserializeObject<MapSaver.MapSaver.MapData>(AccessFile.Load(filePath, FolderType.Maps));
 		var Imnum = MapLoader.ServerLoadMap(Vector3.zero, Vector3.zero, mapData);
 		List<IEnumerator> PreviousLevels = new List<IEnumerator>();
 		bool Loop = true;
 		while (Loop && PreviousLevels.Count == 0)
 		{
-			if ( Imnum.Current is IEnumerator)
+			if (Imnum.Current is IEnumerator)
 			{
 				PreviousLevels.Add(Imnum);
 				Imnum = (IEnumerator) Imnum.Current;
@@ -180,7 +225,7 @@ public class FileSelectorWindow : EditorWindow
 
 			if (MapMatrices.Count == 0)
 			{
-				Loggy.LogError($"No maps found for Save {filePath}");
+				Loggy.Error($"No maps found for Save {filePath}");
 				return;
 			}
 
@@ -198,7 +243,7 @@ public class FileSelectorWindow : EditorWindow
 		}
 		catch (Exception e)
 		{
-			Loggy.LogError(e.ToString());
+			Loggy.Error(e.ToString());
 		}
 	}
 }

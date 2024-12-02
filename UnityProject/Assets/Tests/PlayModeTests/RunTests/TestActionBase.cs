@@ -64,7 +64,7 @@ public partial class TestAction
 			case ActionType.ManipulatePlayersInventory:
 				return InManipulatePlayersInventory.Initiate(TestRunSO);
 			default:
-				Loggy.LogError($"Unset {SpecifiedAction}");
+				Loggy.Error($"Unset {SpecifiedAction}");
 				return false;
 		}
 

@@ -884,9 +884,10 @@ namespace TileManagement
 			Matrix4x4? matrixTransform = null,
 			Color? color = null,
 			bool isPlaying = true
-			, bool MapSaveRecord = false)
+			, bool MapSaveRecord = false,
+			bool useExactForMultilayer = false)
 		{
-			return SetTile(position, TileManager.GetTile(TileType, tileName), matrixTransform, color, isPlaying, MapSaveRecord : MapSaveRecord);
+			return SetTile(position, TileManager.GetTile(TileType, tileName), matrixTransform, color, isPlaying, useExactForMultilayer, MapSaveRecord : MapSaveRecord);
 		}
 
 		private const int MaxDepth = 50;
@@ -938,7 +939,7 @@ namespace TileManagement
 
 						if (found == false)
 						{
-							Loggy.LogError(
+							Loggy.Error(
 								$"Tile has reached maximum Meta data system depth {MaxDepth}, This could be from accidental placing of multiple tiles",
 								Category.Editor);
 						}
@@ -1084,7 +1085,7 @@ namespace TileManagement
 
 		private void LogMissingLayer(Vector3Int position, LayerType layerType)
 		{
-			Loggy.LogErrorFormat("Modifying tile at cellPos {0} for layer type {1} failed because matrix {2} " +
+			Loggy.Error().Format("Modifying tile at cellPos {0} for layer type {1} failed because matrix {2} " +
 			                     "has no layer of that type. Please add this layer to this matrix in" +
 			                     " the scene.", Category.TileMaps, position, layerType, name);
 		}
@@ -1330,7 +1331,7 @@ namespace TileManagement
 			{
 				if (layer.LayerType == LayerType.Objects) continue;
 
-				if (ignoreEffectsLayer && layer.LayerType == LayerType.Effects) continue;
+				if (ignoreEffectsLayer && (layer.LayerType is LayerType.Effects or LayerType.UnderObjectsEffects )) continue;
 
 				tileLocation = GetCorrectTileLocationForLayer(cellPosition, layer, useExactForMultilayer);
 
@@ -1610,7 +1611,7 @@ namespace TileManagement
 		{
 			if (layerType == LayerType.Objects)
 			{
-				Loggy.LogError("Please use get objects instead of get tile", Category.TileMaps);
+				Loggy.Error("Please use get objects instead of get tile", Category.TileMaps);
 				return false;
 			}
 
@@ -1655,7 +1656,7 @@ namespace TileManagement
 		{
 			if (layerType == LayerType.Objects)
 			{
-				Loggy.LogError("Please use get objects instead of get tile");
+				Loggy.Error("Please use get objects instead of get tile");
 				return null;
 			}
 
@@ -1734,7 +1735,7 @@ namespace TileManagement
 		{
 			if (layerType == LayerType.Objects)
 			{
-				Loggy.LogError("Please use get objects instead of get tile");
+				Loggy.Error("Please use get objects instead of get tile");
 				return null;
 			}
 
@@ -1828,7 +1829,7 @@ namespace TileManagement
 		{
 			if (layerType == LayerType.Objects)
 			{
-				Loggy.LogError("Please use get objects instead of get tile");
+				Loggy.Error("Please use get objects instead of get tile");
 				return null;
 			}
 
@@ -1924,7 +1925,7 @@ namespace TileManagement
 		{
 			if (layerType == LayerType.Objects)
 			{
-				Loggy.LogError("Please use get objects instead of get tile");
+				Loggy.Error("Please use get objects instead of get tile");
 				return null;
 			}
 
@@ -2015,7 +2016,7 @@ namespace TileManagement
 		{
 			if (layerType == LayerType.Objects)
 			{
-				Loggy.LogError("Please use get objects instead of get tile");
+				Loggy.Error("Please use get objects instead of get tile");
 				return false;
 			}
 
@@ -2047,7 +2048,7 @@ namespace TileManagement
 				}
 				else
 				{
-					Loggy.LogError("Overlay tiles are not supported for non-multilayered layers for " +
+					Loggy.Error("Overlay tiles are not supported for non-multilayered layers for " +
 					               overlayTileWanted?.name);
 					return true;
 				}
@@ -2088,7 +2089,7 @@ namespace TileManagement
 		{
 			if (layerType == LayerType.Objects)
 			{
-				Loggy.LogError("Please use get objects instead of get tile");
+				Loggy.Error("Please use get objects instead of get tile");
 				return false;
 			}
 
@@ -2389,7 +2390,7 @@ namespace TileManagement
 
 			if (localToWorldMatrix == null)
 			{
-				Loggy.LogError(
+				Loggy.Error(
 					"humm, localToWorldMatrix  tried to be excess before being set humm, Setting to identity matrix, Please fix this ");
 				localToWorldMatrix = Matrix4x4.identity;
 			}
@@ -2442,7 +2443,7 @@ namespace TileManagement
 
 			if (Layers.ContainsKey(tile.LayerType) == false)
 			{
-				Loggy.LogErrorFormat($"LAYER TYPE: {0} not found!", Category.TileMaps, tile.LayerType);
+				Loggy.Error().Format($"LAYER TYPE: {0} not found!", Category.TileMaps, tile.LayerType);
 				return;
 			}
 
@@ -2906,6 +2907,7 @@ namespace TileManagement
 			bool onlyIfCleanable = false)
 		{
 			RemoveOverlaysOfType(cellPosition, LayerType.Effects, overlayType, onlyIfCleanable);
+			RemoveOverlaysOfType(cellPosition, LayerType.UnderObjectsEffects, overlayType, onlyIfCleanable);
 		}
 
 		public void RemoveAllOverlays(Vector3Int cellPosition, LayerType layerType, bool onlyIfCleanable = false)
@@ -2966,6 +2968,7 @@ namespace TileManagement
 		EMP,
 		EMPCenter,
 		Foam,
-		Smoke
+		Smoke,
+		Liquid
 	}
 }

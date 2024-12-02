@@ -66,7 +66,7 @@ namespace Messages.Client
 
 		private void HandleFail(ItemSlot fromSlot, ItemSlot toSlot)
 		{
-			Loggy.LogWarningFormat(
+			Loggy.Warning().Format(
 				"Possible hacking attempt (or bad clientside logic), {0} tried to transfer from slot {1} to {2} when they" +
 				" are not allowed.", Category.Exploits, SentByPlayer.GameObject.name, fromSlot, toSlot);
 

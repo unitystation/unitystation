@@ -73,7 +73,7 @@ namespace UI.Objects.Command
 			InfoTimerDisplay.MasterSetValue(FormatTime(nuke.CurrentTimerSeconds));
 			nuke.OnTimerUpdate.AddListener(timerSeconds => { InfoTimerDisplay.MasterSetValue(FormatTime(timerSeconds)); });
 
-			Loggy.Log(nameof(WaitForProvider), Category.Machines);
+			Loggy.Info(nameof(WaitForProvider), Category.Machines);
 		}
 
 		private void Start()

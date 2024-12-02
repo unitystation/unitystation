@@ -35,7 +35,7 @@ public class GamePad : MonoBehaviour
 
 	private void PressKey( GameKey gameKey )
 	{
-		Loggy.LogTrace($"Pressed key {gameKey}", Category.UserInput);
+		Loggy.Trace($"Pressed key {gameKey}", Category.UserInput);
 		foreach ( var key in gameKey.Keys )
 		{
 			pressedKeys.Add( key );
@@ -47,7 +47,7 @@ public class GamePad : MonoBehaviour
 
 	private void ReleaseKey( GameKey gameKey )
 	{
-		Loggy.LogTrace($"Released key {gameKey}", Category.UserInput);
+		Loggy.Trace($"Released key {gameKey}", Category.UserInput);
 		foreach ( var key in gameKey.Keys )
 		{
 			pressedKeys.Remove( key );

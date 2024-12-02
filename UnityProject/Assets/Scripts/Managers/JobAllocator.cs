@@ -165,7 +165,7 @@ namespace Managers
 		{
 			if (playersLeft.Any())
 			{
-				Loggy.LogFormat("These people were not allocated a job, assigning them to {0}: {1}", Category.Jobs,
+				Loggy.Info().Format("These people were not allocated a job, assigning them to {0}: {1}", Category.Jobs,
 					DefaultJob.DisplayName, string.Join("\n", playersLeft));
 
 				// Update determined players and players left
@@ -174,7 +174,7 @@ namespace Managers
 
 			if (missedOutPlayers.Any() || playersLeft.Any())
 			{
-				Loggy.LogError("There are still unallocated players, something has gone wrong in the JobAllocator!",
+				Loggy.Error("There are still unallocated players, something has gone wrong in the JobAllocator!",
 					Category.Jobs);
 			}
 		}

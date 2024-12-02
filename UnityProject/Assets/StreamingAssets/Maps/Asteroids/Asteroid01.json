@@ -1,6 +1,6 @@
 {
   "Ver": "1.0.0",
-  "MapName": "AsteroidMedium",
+  "MapName": "Asteroid",
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
@@ -9771,7 +9771,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.3.0",
+        "Ver": "1.4.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -9850,6 +9850,7 @@
           {
             "GitID": "86f1fa4a01e7f0142a6e2ce35cce0930_0┼0┼0┼",
             "PrefabID": "86f1fa4a01e7f0142a6e2ce35cce0930",
+            "NameMatches": true,
             "Name": "MatrixGasSettings",
             "LocalPRS": "0┼0┼0┼",
             "Object": {
@@ -9873,12 +9874,14 @@
           {
             "GitID": "911f81eefba53574788e7659d9b3dbfe_0┼0┼0┼",
             "PrefabID": "911f81eefba53574788e7659d9b3dbfe",
+            "NameMatches": true,
             "Name": "AsteroidSystem",
             "LocalPRS": "0┼0┼0┼"
           },
           {
             "GitID": "e02a5954be8d94b4bbaaa0d63d813c71_0┼0┼0┼",
             "PrefabID": "e02a5954be8d94b4bbaaa0d63d813c71",
+            "NameMatches": true,
             "Name": "AI_ShouldNavigateAround",
             "LocalPRS": "0┼0┼0┼"
           },

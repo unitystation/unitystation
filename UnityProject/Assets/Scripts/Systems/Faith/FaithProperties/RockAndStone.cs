@@ -13,8 +13,9 @@ namespace Systems.Faith.FaithProperties
 			get => propertyIcon;
 			set => propertyIcon = value;
 		}
-
 		public FaithData AssociatedFaith { get; set; }
+
+		[SerializeField] private float pointsMultiplier = 1.35f;
 
 		public void Setup(FaithData associatedFaith)
 		{
@@ -25,7 +26,7 @@ namespace Systems.Faith.FaithProperties
 		private void UpdatePoints(string ID, int points)
 		{
 			if (ID != RoundEndScoreBuilder.COMMON_SCORE_LABORPOINTS) return;
-			FaithManager.AwardPoints(points, AssociatedFaith.Faith.FaithName);
+			FaithManager.AwardPoints((int)(points * pointsMultiplier), AssociatedFaith.Faith.FaithName);
 		}
 
 		public void OnJoinFaith(PlayerScript newMember)

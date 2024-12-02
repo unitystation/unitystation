@@ -42,7 +42,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 		{
 			if (logFileName == null)
 			{
-				Loggy.LogError("HEY SHITASS, NO FUCKING FILE NAME.");
+				Loggy.Error("HEY SHITASS, NO FUCKING FILE NAME.");
 				return;
 			}
 			RequestLogFilePagesNumber.Send(logFileName);
@@ -55,7 +55,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 
 		public void UpdateLogFileDropdown(List<string> logFileNames)
 		{
-			Loggy.Log(logFileNames.Count.ToString());
+			Loggy.Info(logFileNames.Count.ToString());
 			logFilesDropdown.ClearOptions();
 			logFilesDropdown.AddOptions(logFileNames);
 			logFilesDropdown.value = logFilesDropdown.options.Count - 1;

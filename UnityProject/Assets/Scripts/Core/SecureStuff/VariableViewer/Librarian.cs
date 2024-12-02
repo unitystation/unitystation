@@ -66,7 +66,7 @@ namespace SecureStuff
 							}
 							catch (Exception e)
 							{
-								Loggy.LogError(e.ToString());
+								Loggy.Error(e.ToString());
 							}
 
 							if (vvUIElementHandler != null)
@@ -690,7 +690,7 @@ namespace SecureStuff
 				{
 					if (UnGenerated)
 					{
-						Loggy.LogWarning("USE GetBindedPages()!,since these books are ungenerated ",
+						Loggy.Warning("USE GetBindedPages()!,since these books are ungenerated ",
 							Category.VariableViewer);
 					}
 
@@ -712,7 +712,7 @@ namespace SecureStuff
 					}
 					else
 					{
-						Loggy.LogError("Book has been destroyed!" + ID, Category.VariableViewer);
+						Loggy.Error("Book has been destroyed!" + ID, Category.VariableViewer);
 					}
 
 					UnGenerated = false;
@@ -816,7 +816,7 @@ namespace SecureStuff
 							}
 							catch (Exception e)
 							{
-								Loggy.LogError(e.ToString());
+								Loggy.Error(e.ToString());
 								return "null";
 							}
 
@@ -829,7 +829,7 @@ namespace SecureStuff
 							}
 							catch (Exception e)
 							{
-								Loggy.LogError(e.ToString());
+								Loggy.Error(e.ToString());
 								return "null";
 							}
 						}
@@ -837,7 +837,7 @@ namespace SecureStuff
 					}
 					catch (Exception e)
 					{
-						Loggy.LogError(e.ToString());
+						Loggy.Error(e.ToString());
 					}
 					return "null";
 				}
@@ -973,7 +973,7 @@ namespace SecureStuff
 				}
 				catch (ArgumentException exception)
 				{
-					Loggy.LogError(
+					Loggy.Error(
 						$"Catch Argument Exception for Variable Viewer {exception.Message} \n {exception.StackTrace}",
 						Category.VariableViewer);
 				}
@@ -1003,7 +1003,7 @@ namespace SecureStuff
 				}
 				catch (ArgumentException exception)
 				{
-					Loggy.LogError(
+					Loggy.Error(
 						$"Catch Argument Exception for Variable Viewer {exception.Message} \n {exception.StackTrace}",
 						Category.VariableViewer);
 				}
@@ -1022,7 +1022,7 @@ namespace SecureStuff
 					}
 					catch (Exception e)
 					{
-						Loggy.LogError(e.ToString());
+						Loggy.Error(e.ToString());
 					}
 				}
 			}
@@ -1056,7 +1056,7 @@ namespace SecureStuff
 					}
 					catch (Exception e)
 					{
-						Loggy.LogError(e.ToString());
+						Loggy.Error(e.ToString());
 					}
 
 					return null;

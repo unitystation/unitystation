@@ -78,11 +78,11 @@ namespace Items
 
 			var item = interaction.TargetObject.AttributesOrNull();
 
-			item.ServerSetArticleName(item.InitialName + " '" + currentLabel + "'");
+			item.ServerSetArticleName(item.ArticleName + " '" + currentLabel + "'");
 
 			labelAmount--;
 
-			Chat.AddActionMsgToChat(interaction, "You labeled " + item.InitialName + " as '" + currentLabel + "'.", interaction.Performer.Player().Name + " labeled " + item.InitialName + " as '" + currentLabel + "'.");
+			Chat.AddActionMsgToChat(interaction, "You labeled " + item.ArticleName + " as '" + currentLabel + "'.", interaction.Performer.Player().Name + " labeled " + item.ArticleName + " as '" + currentLabel + "'.");
 		}
 
 		public bool WillInteract(InventoryApply interaction, NetworkSide side)
@@ -99,7 +99,7 @@ namespace Items
 		{
 			labelAmount = LABEL_CAPACITY;
 			_ = Despawn.ServerSingle(interaction.UsedObject);
-			Chat.AddExamineMsg(interaction.Performer, $"You insert the {interaction.UsedObject.AttributesOrNull().ArticleName.ToLower()} into the {gameObject.AttributesOrNull().InitialName.ToLower()}.");
+			Chat.AddExamineMsg(interaction.Performer, $"You insert the {interaction.UsedObject.AttributesOrNull().ArticleName.ToLower()} into the {gameObject.AttributesOrNull().ArticleName.ToLower()}.");
 		}
 
 		public bool Interact(HandActivate interaction)

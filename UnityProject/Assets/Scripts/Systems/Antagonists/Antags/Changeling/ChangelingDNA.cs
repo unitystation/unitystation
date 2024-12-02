@@ -32,7 +32,7 @@ namespace Changeling
 				}
 			} catch
 			{
-				Loggy.LogError($"[ChangelingDNA/FormDNA] When creating DNA can`t find {playerDataForDna.playerName} Body", Category.Changeling);
+				Loggy.Error($"[ChangelingDNA/FormDNA] When creating DNA can`t find {playerDataForDna.playerName} Body", Category.Changeling);
 				BodyClothesPrefabID = new ();
 			}
 
@@ -61,7 +61,7 @@ namespace Changeling
 			catch
 			{
 				Job = JobType.ASSISTANT;
-				Loggy.LogError($"[ChangelingDNA/FormDNA] When creating DNA can`t find {playerDataForDna.playerName} job", Category.Changeling);
+				Loggy.Error($"[ChangelingDNA/FormDNA] When creating DNA can`t find {playerDataForDna.playerName} job", Category.Changeling);
 			}
 		}
 

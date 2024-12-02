@@ -487,7 +487,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 		}
 		catch (NullReferenceException exception)
 		{
-			Loggy.LogError($"Caught NRE in DynamicItemStorage.Remove: {exception.Message} \n {exception.StackTrace}",
+			Loggy.Error($"Caught NRE in DynamicItemStorage.Remove: {exception.Message} \n {exception.StackTrace}",
 				Category.Inventory);
 			return;
 		}
@@ -539,7 +539,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 			}
 			else
 			{
-				Loggy.LogWarning("Key was not found for Body Part UI Slot Object", Category.Inventory);
+				Loggy.Warning("Key was not found for Body Part UI Slot Object", Category.Inventory);
 				continue;
 			}
 
@@ -783,7 +783,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 				{
 					if (tries > 25)
 					{
-						Loggy.LogError($"Failed to find object in spawned objects, might have not spawned yet? netId: {IntIn}");
+						Loggy.Error($"Failed to find object in spawned objects, might have not spawned yet? netId: {IntIn}");
 						continue;
 					}
 					WeakReference<DynamicItemStorage> wptr = new WeakReference<DynamicItemStorage>(this);
@@ -845,7 +845,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 			{
 				if (spawnedList.TryGetValue(addInt.ID, out var spawned) == false) //TODO Cash!
 				{
-					Loggy.LogError(
+					Loggy.Error(
 						$"Failed to find object in spawned objects, might have not spawned yet? netId: {addInt}");
 					continue;
 				}
@@ -869,7 +869,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 		{
 			if (spawnedList.TryGetValue(addInt.ID, out var spawned) == false)
 			{
-				Loggy.LogError(
+				Loggy.Error(
 					$"Failed to find object in spawned objects, might have not spawned yet? netId: {addInt}");
 				continue;
 			}
@@ -1018,7 +1018,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 		if (occupation == null)
 		{
 			//TODO: Disable this warning after attributes has completely replaced occupations.
-			Loggy.LogWarning($"[DynamicInventory] - Attempted to use a null occupation!");
+			Loggy.Warning($"[DynamicInventory] - Attempted to use a null occupation!");
 			return;
 		}
 
@@ -1194,7 +1194,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 		{
 			if (objt == null)
 			{
-				Loggy.LogError($"ServerObjectToSlots had null key on {gameObject.ExpensiveName()}");
+				Loggy.Error($"ServerObjectToSlots had null key on {gameObject.ExpensiveName()}");
 				continue;
 			}
 

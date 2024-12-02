@@ -159,14 +159,14 @@ namespace Lobby
 
 		public async Task<bool> TryAutoLogin()
 		{
-			Loggy.Log("Attempting automatic login by token...");
+			Loggy.Info("Attempting automatic login by token...");
 
 			if (PlayerPrefs.GetInt(PlayerPrefKeys.AccountAutoLogin) == 1 && PlayerPrefs.HasKey(PlayerPrefKeys.AccountToken))
 			{
 				return await TryTokenLogin(PlayerPrefs.GetString(PlayerPrefKeys.AccountToken));
 			}
 
-			Loggy.Log("Couldn't log in via PlayerPrefs token: automatic login not enabled or no token.");
+			Loggy.Info("Couldn't log in via PlayerPrefs token: automatic login not enabled or no token.");
 
 			return false;
 		}
@@ -176,7 +176,7 @@ namespace Lobby
 		{
 			if (task.IsCanceled)
 			{
-				Loggy.LogWarning("Login cancelled.");
+				Loggy.Warning("Login cancelled.");
 				lobbyDialogue.ShowLoginPanel();
 			}
 			else if (task.IsFaulted)
@@ -191,7 +191,7 @@ namespace Lobby
 				}
 				else
 				{
-					Loggy.LogError("Fault while logging in.");
+					Loggy.Error("Fault while logging in.");
 					task.LogFaultedTask();
 					lobbyDialogue.ShowLoginError("Cannot communicate with the account server. Check your console (F5).");
 				}
@@ -220,7 +220,7 @@ namespace Lobby
 			{
 				if (task.IsCanceled)
 				{
-					Loggy.LogWarning("Account creation cancelled.");
+					Loggy.Warning("Account creation cancelled.");
 					lobbyDialogue.ShowAccountCreatePanel();
 				}
 				else if (task.IsFaulted)
@@ -279,12 +279,12 @@ namespace Lobby
 			{
 				if (task.IsCanceled)
 				{
-					Loggy.Log("Request for a new verification email cancelled.");
+					Loggy.Info("Request for a new verification email cancelled.");
 					lobbyDialogue.ShowLoginPanel();
 				}
 				else if (task.IsFaulted)
 				{
-					Loggy.LogError($"Couldn't request a new verification email. {task.Exception.GetBaseException()}");
+					Loggy.Error($"Couldn't request a new verification email. {task.Exception.GetBaseException()}");
 					lobbyDialogue.ShowInfoPanel(new InfoPanelArgs
 					{
 						Heading = "Account Creation Failed",
@@ -325,7 +325,7 @@ namespace Lobby
 			LoadingScreenManager.LoadFromLobby(() =>
 			{
 				// Init network client
-				Loggy.LogFormat("Client trying to connect to {0}:{1}", Category.Connections, address, port);
+				Loggy.Info().Format("Client trying to connect to {0}:{1}", Category.Connections, address, port);
 				LogServerConnHistory(address, port);
 
 				CustomNetworkManager.Instance.networkAddress = address;

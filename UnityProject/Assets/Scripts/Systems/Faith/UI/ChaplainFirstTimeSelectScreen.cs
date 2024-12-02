@@ -16,6 +16,7 @@ namespace Systems.Faith.UI
 		[SerializeField] private Transform FaithList;
 		[SerializeField] private Transform FaithButtonTemplate;
 		private Faith currentSelectedFaith;
+		public string UnfocusedText { get; set; }
 
 		private void Awake()
 		{
@@ -26,8 +27,6 @@ namespace Systems.Faith.UI
 			}
 			SetFaith(FaithManager.Instance.AllFaiths[0].Faith);
 		}
-
-		public string UnfocusedText { get; set; }
 
 		public void SetDesc(string text)
 		{
@@ -57,7 +56,6 @@ namespace Systems.Faith.UI
 			gameObject.SetActive(false);
 			PlayerManager.LocalPlayerScript.PlayerFaith.CreateNewFaith(currentSelectedFaith.FaithName);
 			PlayerManager.LocalPlayerScript.PlayerFaith.JoinReligion(currentSelectedFaith.FaithName);
-			PlayerManager.LocalPlayerScript.PlayerFaith.AddNewFaithLeader();
 		}
 	}
 }

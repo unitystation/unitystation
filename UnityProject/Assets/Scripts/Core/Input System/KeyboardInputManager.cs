@@ -243,6 +243,7 @@ public class KeyboardInputManager : MonoBehaviour
 		{ KeyAction.ToggleAHelp,    () => { ChatUI.Instance.OnAdminHelpButton(); }},
 		{ KeyAction.ToggleMHelp,    () => { ChatUI.Instance.OnMentorHelpButton(); }},
 		{ KeyAction.PushToTalk,     () => { VoiceChatManager.Instance.ClientPushToTalkPressed = !VoiceChatManager.Instance.ClientPushToTalkPressed; }},
+		{ KeyAction.PushToSTT,     () => { WhisperMicrophoneHandler.Instance.gameObject.SetActive(!WhisperMicrophoneHandler.Instance.gameObject.activeSelf); }},
 
 		// Body part selection
 		{ KeyAction.TargetHead,		() => { UIManager.ZoneSelector.CycleZones(BodyPartType.Head, BodyPartType.Eyes, BodyPartType.Mouth); }},

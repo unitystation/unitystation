@@ -196,7 +196,7 @@ namespace UI
 			{
 				return entryCatalog[index] as ItemEntry;
 			}
-			Loggy.LogErrorFormat("'{0}' spawner tab: item with index {1} not found in the list, might be hidden/destroyed", Category.NetUI, gameObject.name, index);
+			Loggy.Error().Format("'{0}' spawner tab: item with index {1} not found in the list, might be hidden/destroyed", Category.NetUI, gameObject.name, index);
 			return null;
 		}
 

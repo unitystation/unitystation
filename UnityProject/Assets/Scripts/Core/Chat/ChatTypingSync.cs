@@ -83,7 +83,7 @@ public class ChatTypingSync : MonoBehaviour
 
 		ClientTypingMessage.Send(TypingState.TYPING);
 
-		Loggy.Log("Client starts typping to chat", Category.Chat);
+		Loggy.Info("Client starts typping to chat", Category.Chat);
 	}
 
 	private void StopTyping()
@@ -95,6 +95,6 @@ public class ChatTypingSync : MonoBehaviour
 
 		ClientTypingMessage.Send(TypingState.STOP_TYPING);
 
-		Loggy.Log("Client stopped typping to chat", Category.Chat);
+		Loggy.Info("Client stopped typping to chat", Category.Chat);
 	}
 }

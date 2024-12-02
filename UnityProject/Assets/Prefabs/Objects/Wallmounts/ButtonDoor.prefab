@@ -92,6 +92,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 7470765398914834986}
+    - targetCorrespondingSourceObject: {fileID: 9063366402093685405, guid: 7ff56f8e13078c1419de4821c2b5ecfd,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 505554980376659120}
   m_SourcePrefab: {fileID: 100100000, guid: 7ff56f8e13078c1419de4821c2b5ecfd, type: 3}
 --- !u!1 &2690072642478446657 stripped
 GameObject:
@@ -114,11 +118,27 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  runningInterfaces: []
+  runningInterfaces:
+  - {fileID: 0}
+  - {fileID: 0}
   greenSprite: {fileID: 21300000, guid: acf88d35ee6536c4fb4bfe32fd85ab99, type: 3}
   offSprite: {fileID: 21300000, guid: 30fdc2d451617c44e80f6ebd3a2dea54, type: 3}
   redSprite: {fileID: 21300002, guid: a139d46eda53f454ba131993ab7ea47e, type: 3}
-  doorControllers: []
   <CanRelink>k__BackingField: 1
   <IgnoreMaxDistanceMapper>k__BackingField: 0
   conType: 7
+--- !u!114 &505554980376659120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2690072642478446657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b45f1e6b5cac9741bc7a27df600d8a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  conType: 17
+  <CanRelink>k__BackingField: 1
+  <IgnoreMaxDistanceMapper>k__BackingField: 1

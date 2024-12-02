@@ -118,7 +118,7 @@ namespace UI.CharacterCreator
 			}
 			else
 			{
-				Loggy.LogWarning($"Unable to find index of {currentSetting}! Using default", Category.Character);
+				Loggy.Warning($"Unable to find index of {currentSetting}! Using default", Category.Character);
 				Dropdown.value = 0;
 			}
 		}

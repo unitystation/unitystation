@@ -44,7 +44,7 @@ namespace UI.Core.NetUI
 				SpawnedObjectEntry newEntry = Add() as SpawnedObjectEntry;
 				if (!newEntry)
 				{
-					Loggy.LogWarning($"SpawnedObjectList: Added {newEntry} is not an SpawnedObjectEntry!", Category.NetUI);
+					Loggy.Warning($"SpawnedObjectList: Added {newEntry} is not an SpawnedObjectEntry!", Category.NetUI);
 					return false;
 				}
 

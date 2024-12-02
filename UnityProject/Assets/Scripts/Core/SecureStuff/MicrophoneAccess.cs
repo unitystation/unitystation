@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SecureStuff;
 using UnityEngine;
+using Whisper.Utils;
 
 namespace SecureStuff
 {
@@ -38,11 +39,27 @@ namespace SecureStuff
 			return Microphone.GetPosition(deviceName);
 		}
 
+
+		public static void ToggleRecordsState(MicrophoneRecord microphoneRecord, bool State)
+		{
+			if (MicEnabledPublic == false) return;
+
+			if (State)
+			{
+				microphoneRecord.StartRecord();
+			}
+			else
+			{
+				microphoneRecord.StopRecord();
+			}
+		}
+
 		public static async Task<bool> RequestMicrophone(string JustificationReason)
 		{
 			MicEnabled = await HubValidation.RequestMicrophoneAccess(JustificationReason);
 			if (MicEnabledPublic == false)
 			{
+				MicEnabled = true; //TODO TEMPPP
 				//TODO TEMP
 				//return null;
 			}

@@ -102,7 +102,7 @@ public class MatrixCash
 		}
 		else
 		{
-			Loggy.LogError($"[MatrixCash/ResetNewPosition] - A property has been detected as null when attempting to reset positions. " +
+			Loggy.Error($"[MatrixCash/ResetNewPosition] - A property has been detected as null when attempting to reset positions. " +
 			               $"This usually happens when the game is first loading for clients, but if it persists; something has gone wrong.\n" +
 			               $"Positions Null: {Positions is null}\n" +
 			               $"Inon Null: {Inon is null}\n");

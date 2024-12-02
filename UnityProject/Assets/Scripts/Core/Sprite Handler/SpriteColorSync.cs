@@ -53,7 +53,7 @@ public class SpriteColorSync : NetworkBehaviour
 		{
 			return;
 		}
-		Loggy.LogFormat("Color changed to {0}", Category.Sprites, newColor.ToString());
+		Loggy.Info().Format("Color changed to {0}", Category.Sprites, newColor.ToString());
 		ColorChanged(newColor,newColor);
 	}
 

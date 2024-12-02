@@ -21,6 +21,10 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 	[SerializeField]
 	private string initialName = null;
 
+	[Tooltip("Display name of this item when spawned. Randomly chosen from this list")]
+	[SerializeField]
+	private List<string> initialNames = new List<string>();
+
 	[SyncVar(hook = nameof(SyncArticleName))]
 	private string articleName;
 	/// <summary>
@@ -92,7 +96,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 
 	[SerializeField]
 	[Tooltip("Initial traits of this item on spawn.")]
-	protected List<ItemTrait> initialTraits = null;
+	protected List<ItemTrait> initialTraits = new List<ItemTrait>();
 	public List<ItemTrait> InitialTraits => initialTraits;
 
 
@@ -215,7 +219,16 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 	public void OnSpawnServer(SpawnInfo info)
 	{
 		size = initialSize;
-		SyncArticleName(articleName, initialName);
+		if (initialNames.Count > 0)
+		{
+			SyncArticleName(articleName, initialNames.PickRandom());
+		}
+		else
+		{
+			SyncArticleName(articleName, initialName);
+		}
+
+
 		SyncArticleDescription(articleDescription, initialDescription);
 	}
 

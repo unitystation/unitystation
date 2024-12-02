@@ -19,7 +19,7 @@ namespace Systems.Electricity
 			Resistance = InData.ControllingDevice.ModifyResistanceInput(Resistance, SourceInstance, ComingFrom);
 			if (Logall)
 			{
-				Loggy.Log("this > " + this + "ResistanceInput, Resistance > " + Resistance + " SourceInstance  > " + SourceInstance + " ComingFrom > " + ComingFrom, Category.Electrical);
+				Loggy.Info("this > " + this + "ResistanceInput, Resistance > " + Resistance + " SourceInstance  > " + SourceInstance + " ComingFrom > " + ComingFrom, Category.Electrical);
 			}
 			InputOutputFunctions.ResistanceInput(Resistance, SourceInstance, ComingFrom, InData);
 		}
@@ -29,7 +29,7 @@ namespace Systems.Electricity
 			Resistance = InData.ControllingDevice.ModifyResistancyOutput(Resistance, SourceInstance);
 			if (Logall)
 			{
-				Loggy.Log("this > " + this + "ResistancyOutput, Resistance > " + Resistance + " SourceInstance  > " + SourceInstance, Category.Electrical);
+				Loggy.Info("this > " + this + "ResistancyOutput, Resistance > " + Resistance + " SourceInstance  > " + SourceInstance, Category.Electrical);
 			}
 			InputOutputFunctions.ResistancyOutput(Resistance, SourceInstance, InData);
 		}
@@ -42,7 +42,7 @@ namespace Systems.Electricity
 
 			if (Logall)
 			{
-				Loggy.Log("this > " + this + "ElectricityInput, Current > " + Current + " SourceInstance  > " + SourceInstance + " ComingFrom > " + ComingFrom, Category.Electrical);
+				Loggy.Info("this > " + this + "ElectricityInput, Current > " + Current + " SourceInstance  > " + SourceInstance + " ComingFrom > " + ComingFrom, Category.Electrical);
 			}
 			InputOutputFunctions.ElectricityInput(Current, SourceInstance, ComingFrom, InData);
 		}
@@ -53,7 +53,7 @@ namespace Systems.Electricity
 			Current = InData.ControllingDevice.ModifyElectricityOutput(Current, SourceInstance);
 			if (Logall)
 			{
-				Loggy.Log("this > " + this + "ElectricityOutput, Current > " + Current + " SourceInstance  > " + SourceInstance, Category.Electrical);
+				Loggy.Info("this > " + this + "ElectricityOutput, Current > " + Current + " SourceInstance  > " + SourceInstance, Category.Electrical);
 			}
 			InputOutputFunctions.ElectricityOutput(Current, SourceInstance, InData);
 		}

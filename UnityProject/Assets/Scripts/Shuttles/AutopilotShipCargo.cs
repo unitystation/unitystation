@@ -171,7 +171,7 @@ public class AutopilotShipCargo : AutopilotShipMachine
 		if (pos == TransformState.HiddenPos)
 			return (false);
 
-		var crate = Spawn.ServerPrefab(order.Crate, pos).GameObject;
+		var crate = Spawn.ServerPrefab(order.Crate, pos.ToWorld(mm.NetworkedMatrixMove.MetaTileMap.matrix)).GameObject;
 		Dictionary<GameObject, Stackable> stackableItems = new Dictionary<GameObject, Stackable>();
 		//error occurred trying to spawn, just ignore this order.
 		if (crate == null) return true;
@@ -182,7 +182,7 @@ public class AutopilotShipCargo : AutopilotShipMachine
 				var entryPrefab = order.Items[i];
 				if (entryPrefab == null)
 				{
-					Loggy.Log(
+					Loggy.Info(
 						$"Error with order fulfilment. Can't add items index: {i} for {order.OrderName} as the prefab is null. Skipping..",
 						Category.Cargo);
 					continue;
@@ -190,11 +190,11 @@ public class AutopilotShipCargo : AutopilotShipMachine
 
 				if (!stackableItems.ContainsKey(entryPrefab))
 				{
-					var orderedItem = Spawn.ServerPrefab(order.Items[i], pos).GameObject;
+					var orderedItem = Spawn.ServerPrefab(order.Items[i], pos.ToWorld(mm.NetworkedMatrixMove.MetaTileMap.matrix)).GameObject;
 					if (orderedItem == null)
 					{
 						//let the shuttle still be able to complete the order empty otherwise it will be stuck permantly
-						Loggy.Log($"Can't add ordered item to create because it doesn't have a GameObject",
+						Loggy.Info($"Can't add ordered item to create because it doesn't have a GameObject",
 							Category.Cargo);
 						continue;
 					}
@@ -220,7 +220,7 @@ public class AutopilotShipCargo : AutopilotShipMachine
 						if (orderedItem == null)
 						{
 							//let the shuttle still be able to complete the order empty otherwise it will be stuck permantly
-							Loggy.Log($"Can't add ordered item to create because it doesn't have a GameObject",
+							Loggy.Info($"Can't add ordered item to create because it doesn't have a GameObject",
 								Category.Cargo);
 							continue;
 						}
@@ -235,7 +235,7 @@ public class AutopilotShipCargo : AutopilotShipMachine
 		}
 		else
 		{
-			Loggy.LogWarning(
+			Loggy.Warning(
 				$"{crate.ExpensiveName()} does not have {nameof(UniversalObjectPhysics)}. Please fix CargoData" +
 				$" to ensure that the crate prefab is actually a crate (with {nameof(UniversalObjectPhysics)} component)." +
 				$" This order will be ignored.", Category.Cargo);
@@ -275,17 +275,20 @@ public class AutopilotShipCargo : AutopilotShipMachine
 		 availableSpawnSlots = new List<Vector3Int>();
 
 		 var PresentTiles = mm.NetworkedMatrixMove.MetaTileMap.PresentTilesNeedsLock;
+
+		 var Matrix = mm.NetworkedMatrixMove.MetaTileMap.matrix;
+
 		 lock (PresentTiles)
 		 {
 			 var ToLoop = PresentTiles[(int)LayerType.Base];
 
 			 foreach (var Location in ToLoop)
 			 {
-				 pos = Location.LocalPosition.ToWorld(mm.NetworkedMatrixMove.MetaTileMap.matrix).RoundToInt();
-				 if ((MatrixManager.Instance.GetFirst<ClosetControl>(pos, true) == null) &&
-				     MatrixManager.IsFloorAt(pos, true) && MatrixManager.IsWallAt(pos, true) == false)
+
+				 if ((Matrix.GetFirst<ClosetControl>(Location.LocalPosition, true) == null) &&
+				     Matrix.IsFloorAt(Location.LocalPosition, true) && Matrix.IsWallAt(Location.LocalPosition, true) == false)
 				 {
-					 availableSpawnSlots.Add(pos);
+					 availableSpawnSlots.Add(Location.LocalPosition);
 				 }
 			 }
 		 }

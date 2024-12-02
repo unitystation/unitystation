@@ -305,7 +305,7 @@ public static class Validations
 				}
 			}
 
-			Loggy.LogTraceFormat($"Not in reach! Target: {targetName} server pos:{worldPosition} "+
+			Loggy.Trace().Format($"Not in reach! Target: {targetName} server pos:{worldPosition} "+
 				                  $"Player Name: {playerScript.playerName} Player pos:{playerScript.RegisterPlayer.WorldPositionServer} " +
 								  $"(floating={isFloating})", Category.Exploits);
 		}
@@ -658,17 +658,17 @@ public static class Validations
 	{
 		if (toCheck == null)
 		{
-			Loggy.LogError("Cannot put item to slot because the item is null playerScript > " +  playerScript + " itemSlot > " + itemSlot, Category.Inventory);
+			Loggy.Error("Cannot put item to slot because the item is null playerScript > " +  playerScript + " itemSlot > " + itemSlot, Category.Inventory);
 			return false;
 		}
 		if (CanInteract(playerScript, side, true) == false)
 		{
-			Loggy.LogTrace("Cannot put item to slot because the player cannot interact", Category.Inventory);
+			Loggy.Trace("Cannot put item to slot because the player cannot interact", Category.Inventory);
 			return false;
 		}
 		if (CanFit(itemSlot, toCheck, side, ignoreOccupied, examineRecipient) == false)
 		{
-			Loggy.LogTraceFormat("Cannot put item to slot because the item {0} doesn't fit in the slot {1}", Category.Inventory,
+			Loggy.Trace().Format("Cannot put item to slot because the item {0} doesn't fit in the slot {1}", Category.Inventory,
 				toCheck.name, itemSlot);
 			return false;
 		}

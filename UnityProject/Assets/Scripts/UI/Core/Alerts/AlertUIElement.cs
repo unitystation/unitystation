@@ -87,7 +87,7 @@ public class AlertUIElement : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 	{
 		if (StateChangeThisUpdate)
 		{
-			Loggy.LogError($"state changed too many times in one frame, potential infinite loop with {AlertSO.name} settings");
+			Loggy.Error($"state changed too many times in one frame, potential infinite loop with {AlertSO.name} settings");
 		}
 		StateChangeThisUpdate = true;
 		UIManager.Instance.ClientAlertManager.HidingAction(this);
@@ -106,7 +106,7 @@ public class AlertUIElement : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 	{
 		if (StateChangeThisUpdate)
 		{
-			Loggy.LogError($"state changed too many times in one frame, potential infinite loop with {AlertSO.name} settings");
+			Loggy.Error($"state changed too many times in one frame, potential infinite loop with {AlertSO.name} settings");
 		}
 		StateChangeThisUpdate = true;
 

@@ -45,7 +45,7 @@ namespace UI.Core.NetUI
 				int newVal = Convert.ToInt32(value);
 				if (newVal == DisplayedValue) return;
 				externalChange = true;
-				Loggy.LogTraceFormat("NumberSpinner current value {0} New Value {1}", Category.Atmos, syncedValue, newVal);
+				Loggy.Trace().Format("NumberSpinner current value {0} New Value {1}", Category.Atmos, syncedValue, newVal);
 				if (!IgnoreServerUpdates)
 				{
 					DisplaySpinTo(newVal);
@@ -113,7 +113,7 @@ namespace UI.Core.NetUI
 		{
 			if (newValue > MaxValue || newValue < 0)
 			{
-				Loggy.LogErrorFormat("New value {0} is out of range, should be between 0 and {1} inclusive",
+				Loggy.Error().Format("New value {0} is out of range, should be between 0 and {1} inclusive",
 					Category.Atmos, newValue, MaxValue);
 			}
 			//set the new value, to be propagated to clients.
@@ -135,7 +135,7 @@ namespace UI.Core.NetUI
 
 			if (newValue > MaxValue || newValue < 0)
 			{
-				Loggy.LogWarningFormat("New value {0} is out of range, should be between 0 and {1} inclusive",
+				Loggy.Warning().Format("New value {0} is out of range, should be between 0 and {1} inclusive",
 					Category.Atmos, newValue, MaxValue);
 			}
 

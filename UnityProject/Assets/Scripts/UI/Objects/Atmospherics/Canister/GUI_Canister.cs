@@ -176,7 +176,7 @@ namespace UI.Objects.Atmospherics
 
 			if (externalExists)
 			{
-				externalTankStatus.MasterSetValue(insertedContainer.Item().InitialName);
+				externalTankStatus.MasterSetValue(insertedContainer.Item().ArticleName);
 				externalTankImage.SetSprite((int) ExternalTank.TankInserted);
 				GasContainer externalTank = insertedContainer.GetComponent<GasContainer>();
 				ExternalPressureDial.ServerSpinTo(Mathf.RoundToInt(externalTank.ServerInternalPressure));
@@ -470,7 +470,7 @@ namespace UI.Objects.Atmospherics
 
 			if (canister.InsertedContainer != null)
 			{
-				externalTankStatus.MasterSetValue($"{canister.InsertedContainer.Item().InitialName}");
+				externalTankStatus.MasterSetValue($"{canister.InsertedContainer.Item().ArticleName}");
 			}
 			else
 			{

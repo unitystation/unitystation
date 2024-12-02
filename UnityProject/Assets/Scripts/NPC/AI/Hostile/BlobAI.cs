@@ -16,7 +16,7 @@ namespace Systems.MobAIs
 		[ContextMenu("Log world target")]
 		public void LogTarget()
 		{
-			Loggy.LogError(worldTargetPosition.ToString());
+			Loggy.Error(worldTargetPosition.ToString());
 		}
 
 		protected override void Awake()

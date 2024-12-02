@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Logs;
+using SecureStuff;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -15,6 +17,8 @@ namespace Objects.Machines
 		private ItemTrait InsertedMaterialType;
 		public MaterialStorage materialStorage;
 
+		private bool MapSpawned = false;
+
 		private void Awake()
 		{
 			linkedStorages.AddRange(InitiallinkedStorages);
@@ -22,8 +26,12 @@ namespace Objects.Machines
 			CraftingManager.RoundstartStationSilo = this;
 		}
 
-		public void OnSpawnServer(SpawnInfo info)
+		public void Start()
 		{
+			if (CustomNetworkManager.IsServer == false) return;
+			if (MapSpawned == false) return;
+
+
 			var registerTile = GetComponent<RegisterTile>();
 			var array = registerTile.Matrix.GetComponentsInChildren<MaterialStorageLink>();
 			foreach (var otherStorage in array)
@@ -35,6 +43,11 @@ namespace Objects.Machines
 					linkedStorages.Add(otherStorage);
 				}
 			}
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			MapSpawned = info.JsonMapped || info.Mapspawn;
 
 		}
 

@@ -76,25 +76,25 @@ namespace Objects.Atmospherics
 			{
 				return;
 			}
-			
+
 			pipeData.mixAndVolume.EqualiseWithOutputs(pipeData.Outputs);
-			
-			PipeData inputPipe = pipeData.Connections.GetFlagToDirection(FlagLogic.InputOne)?.Connected;
+
+			PipeData inputPipe = pipeData.RotatedConnections.GetFlagToDirection(FlagLogic.InputOne)?.Connected;
 			if (inputPipe == null) return;
-			
+
 			Vector2 pressureDensity = pipeData.mixAndVolume.Density();
-			
+
 			if (pressureDensity.x > TargetPressure && pressureDensity.y > TargetPressure) return;
-			
+
 			float chemDelta = TargetPressure - pressureDensity.x;
 			float gasDelta =  TargetPressure - pressureDensity.y;
-				
+
 			Vector2 transferValue = new Vector2
 			{
 				x = chemDelta,
 				y = gasDelta
 			};
-			
+
 			inputPipe.GetMixAndVolume.TransferTo(pipeData.mixAndVolume, transferValue);
 		}
 

@@ -59,7 +59,7 @@ namespace Items.Food
 			}
 			else
 			{
-				Loggy.LogErrorFormat("{0} prefab is missing ItemAttributes", Category.Objects, name);
+				Loggy.Error().Format("{0} prefab is missing ItemAttributes", Category.Objects, name);
 			}
 
 			ComponentsTracker<Edible>.Instances.Add(this);

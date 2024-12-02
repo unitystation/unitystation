@@ -258,7 +258,7 @@ namespace AdminTools
 					}
 					catch (Exception ex)
 					{
-						Loggy.LogError($"[ObjectiveManagerPage/ProceedServerObjectivesUpdate] Failed to add objective {x.ID}\n {x.Description}\n {ex}");
+						Loggy.Error($"[ObjectiveManagerPage/ProceedServerObjectivesUpdate] Failed to add objective {x.ID}\n {x.Description}\n {ex}");
 					}
 				}
 				else
@@ -285,7 +285,7 @@ namespace AdminTools
 					}
 					catch (Exception ex)
 					{
-						Loggy.LogError($"[ObjectiveManagerPage/ProceedServerObjectivesUpdate] Failed to update objective {x.ID}\n {x.Description}\n {ex}");
+						Loggy.Error($"[ObjectiveManagerPage/ProceedServerObjectivesUpdate] Failed to update objective {x.ID}\n {x.Description}\n {ex}");
 					}
 				}
 			}

@@ -194,7 +194,7 @@ namespace Objects
 
 			if (randomWorld == null)
 			{
-				Loggy.Log("StationGateway failed to connect to an away world", Category.Machines);
+				Loggy.Info("StationGateway failed to connect to an away world", Category.Machines);
 				SetOffline();
 				return;
 			}
@@ -227,7 +227,7 @@ namespace Objects
 			if (SpawnedMobs == false && selectedWorld != null && playersFound.Count() > 0)
 			{
 				selectedWorld.SetUp(this);
-				Loggy.Log("Gateway Spawned Mobs", Category.Machines);
+				Loggy.Info("Gateway Spawned Mobs", Category.Machines);
 				if (selectedWorld.GetComponent<MobSpawnControlScript>() != null)
 				{
 					selectedWorld.GetComponent<MobSpawnControlScript>().SpawnMobs();

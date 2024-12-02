@@ -208,7 +208,7 @@ namespace Player
 			if (!PlayerManager.LocalPlayerScript.playerMove.AllowInput ||
 					PlayerManager.LocalPlayerScript.IsNormal == false)
 			{
-				Loggy.Log("Invalid player, cannot perform action!", Category.Interaction);
+				Loggy.Info("Invalid player, cannot perform action!", Category.Interaction);
 				return false;
 			}
 

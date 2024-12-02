@@ -61,7 +61,7 @@ namespace Objects
 			}
 			else
 			{
-				Loggy.LogError(
+				Loggy.Error(
 						$"Failed to spawn {name}'s flipped version! " +
 						$"Is {name} missing reference to {nameof(flippedObject)} prefab?", Category.Interaction);
 			}

@@ -23,6 +23,7 @@ using Player;
 using Shuttles;
 using Tilemaps.Behaviours.Layers;
 using Tiles;
+using UnityEngine.Serialization;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 /// <summary>
@@ -51,7 +52,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 	public List<MatrixInfo> MovableMatrices { get; private set; } = new List<MatrixInfo>();
 
-	public static bool IsInitialized;
+	public static bool IsInitialized = true;
 
 	public event Action OnActiveMatricesChange;
 
@@ -61,13 +62,13 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	public Dictionary<Collider2D, Tilemap> wallsTileMaps = new Dictionary<Collider2D, Tilemap>();
 
 	public Matrix spaceMatrix { get; set; }
-	private Matrix mainStationMatrix = null;
+	public Matrix InternalMainStationMatrix = null;
 
 	public static MatrixInfo MainStationMatrix
 	{
 		get
 		{
-			if (Instance.mainStationMatrix == null)
+			if (Instance.InternalMainStationMatrix == null)
 			{
 				if (Instance.ActiveMatricesList.Count > 1)
 				{
@@ -80,7 +81,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			}
 			else
 			{
-				return Get(Instance.mainStationMatrix);
+				return Get(Instance.InternalMainStationMatrix);
 			}
 		}
 	}
@@ -112,10 +113,10 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		}
 
 		ResetMatrixManager();
-		IsInitialized = false;
+		IsInitialized = true;
 	}
 
-	public static Matrix MakeNewMatrix(string Name = "Matrix", bool IsSpace = false)
+	public static Matrix MakeNewMatrix(string Name = "Matrix", SceneType SceneType = SceneType.AdditionalScenes)
 	{
 
 		if (string.IsNullOrEmpty(Name))
@@ -144,11 +145,17 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		Synchronise.GetComponent<MatrixNamesSynchronise>().SyncMatrixName("Matrix",Name);
 		Object.transform.parent.GetComponentInChildren<NetworkedMatrix>().IsJsonLoaded = true;
 		var Matrix = Object.transform.parent.GetComponentInChildren<Matrix>();
-		if (IsSpace)
+		if (SceneType == SceneType.Space)
 		{
 			Matrix.NetworkedMatrix.MatrixSync.IsSpaceMatrix = true;
 			MatrixManager.Instance.spaceMatrix = Matrix;
 		}
+		//
+		// if (SceneType == SceneType.MainStation)
+		// {
+		// 	Matrix.NetworkedMatrix.MatrixSync.IsMainStationMatrix = true;
+		// 	MatrixManager.Instance.mainStationMatrix = Matrix;
+		// }
 
 		return Matrix;
 	}
@@ -159,7 +166,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		ResetMatrixManager();
 		if (newScene.name.Equals("Lobby") == false)
 		{
-			IsInitialized = false;
+			IsInitialized = true;
 		}
 	}
 
@@ -177,7 +184,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		if (Instance != null)
 		{
 			Instance.spaceMatrix = null;
-			Instance.mainStationMatrix = null;
+			Instance.InternalMainStationMatrix = null;
 		}
 
 		MovableMatrices.Clear();
@@ -191,6 +198,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 	public void RegisterWhenReady(Matrix matrix)
 	{
+
 		RegisterMatrix(matrix);
 		matrix.Initialized = true;
 
@@ -205,6 +213,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 		if (CustomNetworkManager.IsServer == false)
 		{
+			IsInitialized = false;
 			if (matrix.NetworkedMatrix.IsJsonLoaded == false)
 			{
 				matrix.MetaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);
@@ -319,19 +328,19 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			}
 			else
 			{
-				Loggy.Log("There is already a space matrix registered", Category.Matrix);
+				Loggy.Info("There is already a space matrix registered", Category.Matrix);
 			}
 		}
 
 		if (matrix.IsMainStation)
 		{
-			if (mainStationMatrix == null)
+			if (InternalMainStationMatrix == null)
 			{
-				mainStationMatrix = matrix;
+				InternalMainStationMatrix = matrix;
 			}
 			else
 			{
-				Loggy.Log("There is already a main station matrix registered", Category.Matrix);
+				Loggy.Info("There is already a main station matrix registered", Category.Matrix);
 			}
 		}
 
@@ -438,7 +447,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 		if (distance > 30)
 		{
-			Loggy.LogError(
+			Loggy.Error(
 				$" Limit exceeded on raycast, Look at stack trace for What caused it at {distance}"); //Meant to catch up stuff that's been naughty and doing stuff like 900 tile Ray casts
 			return new CustomPhysicsHit();
 		}

@@ -51,7 +51,7 @@ namespace Weapons.Projectiles.Behaviours
 
 				Chat.AddThrowHitMsgToChat(gameObject, coll.gameObject, targetZone);
 
-				Loggy.LogTraceFormat(
+				Loggy.Trace().Format(
 					"Hit {0} for {1} with HealthBehaviour! bullet absorbed",
 					Category.Firearms,
 					livingHealth.gameObject.name,
@@ -64,7 +64,7 @@ namespace Weapons.Projectiles.Behaviours
 
 			Chat.AddThrowHitMsgToChat(gameObject, coll.gameObject, targetZone);
 
-			Loggy.LogTraceFormat(
+			Loggy.Trace().Format(
 				"Hit {0} for {1} with HealthBehaviour! bullet absorbed",
 				Category.Firearms,
 				health.gameObject.name,

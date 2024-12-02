@@ -57,9 +57,20 @@ namespace ScriptableObjects
 			{
 				char c = message[i];
 
-				if (!char.IsSeparator(c) && !char.IsPunctuation(c)) continue;
 
-				string substring = message.Substring(start, i - start);
+				if (char.IsSeparator(c) == false && char.IsPunctuation(c) == false && (i != message.Length -1) ) continue;
+
+				string substring = "";
+
+				if (i == message.Length - 1)
+				{
+					substring = message.Substring(start, message.Length - start);
+				}
+				else
+				{
+					substring = message.Substring(start, i - start);
+				}
+
 				if (wordLookup.TryGetValue(substring, out var replacements))
 				{
 					string replacement = replacements.PickRandom();

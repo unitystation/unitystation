@@ -111,6 +111,10 @@ namespace Messages.Server.AdminTools
 				entry.isMentor = PlayerList.Instance.IsMentor(player.AccountId);
 				entry.isOnline = player.Connection != null;
 				entry.isOOCMuted = player.IsOOCMuted;
+				if (player?.Script != null)
+				{
+					if (player.Script.gameObject != null) entry.playerObject = player.Script.gameObject.NetId();
+				}
 
 				playerList.Add(entry);
 			}

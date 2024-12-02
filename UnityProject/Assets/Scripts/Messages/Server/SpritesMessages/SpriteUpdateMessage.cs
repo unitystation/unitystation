@@ -314,7 +314,7 @@ namespace Messages.Server.SpritesMessages
 							}
 							catch (Exception e)
 							{
-								Loggy.Log(e.ToString());
+								Loggy.Info(e.ToString());
 							}
 						}
 						else
@@ -336,7 +336,7 @@ namespace Messages.Server.SpritesMessages
 							}
 							catch (Exception e)
 							{
-								Loggy.Log(e.ToString());
+								Loggy.Info(e.ToString());
 							}
 
 						}
@@ -358,7 +358,7 @@ namespace Messages.Server.SpritesMessages
 							}
 							catch (Exception e)
 							{
-								Loggy.Log(e.ToString());
+								Loggy.Info(e.ToString());
 							}
 
 						}
@@ -380,7 +380,7 @@ namespace Messages.Server.SpritesMessages
 							}
 							catch (Exception e)
 							{
-								Loggy.Log(e.ToString());
+								Loggy.Info(e.ToString());
 							}
 						}
 						else
@@ -400,7 +400,7 @@ namespace Messages.Server.SpritesMessages
 							}
 							catch (Exception e)
 							{
-								Loggy.Log(e.ToString());
+								Loggy.Info(e.ToString());
 							}
 						}
 						else
@@ -419,7 +419,7 @@ namespace Messages.Server.SpritesMessages
 							}
 							catch (Exception e)
 							{
-								Loggy.Log(e.ToString());
+								Loggy.Info(e.ToString());
 							}
 
 						}
@@ -440,7 +440,7 @@ namespace Messages.Server.SpritesMessages
 							}
 							catch (Exception e)
 							{
-								Loggy.Log(e.ToString());
+								Loggy.Info(e.ToString());
 							}
 						}
 						else
@@ -459,7 +459,7 @@ namespace Messages.Server.SpritesMessages
 							}
 							catch (Exception e)
 							{
-								Loggy.Log(e.ToString());
+								Loggy.Info(e.ToString());
 							}
 						}
 						else
@@ -484,7 +484,7 @@ namespace Messages.Server.SpritesMessages
 								}
 								catch (Exception e)
 								{
-									Loggy.Log(e.ToString());
+									Loggy.Info(e.ToString());
 								}
 
 							}
@@ -517,7 +517,7 @@ namespace Messages.Server.SpritesMessages
 							}
 							catch (Exception e)
 							{
-								Loggy.Log(e.ToString());
+								Loggy.Info(e.ToString());
 							}
 						}
 						else

@@ -31,7 +31,7 @@ namespace Core.Lighting
 				}
 				else
 				{
-					Loggy.LogError("No LightSource component found!", Category.Lighting);
+					Loggy.Error("No LightSource component found!", Category.Lighting);
 				}
 			}
 		}

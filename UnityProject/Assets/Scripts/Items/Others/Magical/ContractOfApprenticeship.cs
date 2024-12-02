@@ -47,12 +47,12 @@ namespace Items.Magical
 		{
 			if (GhostRoleManager.Instance.serverAvailableRoles.ContainsKey(createdRoleKey))
 			{
-				Loggy.LogWarning("A wizard apprentice ghost role already exists.", Category.Spells);
+				Loggy.Warning("A wizard apprentice ghost role already exists.", Category.Spells);
 				return;
 			}
 			else if (WasUsed)
 			{
-				Loggy.LogWarning("This contract has already been used. Cannot spawn another apprentice.", Category.Spells);
+				Loggy.Warning("This contract has already been used. Cannot spawn another apprentice.", Category.Spells);
 				return;
 			}
 

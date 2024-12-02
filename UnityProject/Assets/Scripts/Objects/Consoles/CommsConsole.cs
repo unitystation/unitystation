@@ -40,10 +40,10 @@ namespace Objects.Command
 				return false;
 
 			//interaction only works if using an ID card on console
-			if (!Validations.HasComponent<IDCard>(interaction.HandObject))
+			if (!Validations.HasComponent<IDCard>(interaction.HandObject) && interaction.IsAltClick == false)
 				return false;
 
-			if (!Validations.CanFit(itemSlot, interaction.HandObject, side, true))
+			if (!Validations.CanFit(itemSlot, interaction.HandObject, side, true) && interaction.IsAltClick == false)
 				return false;
 
 			return true;
@@ -56,6 +56,8 @@ namespace Objects.Command
 			{
 				ServerRemoveIDCard(interaction.PerformerPlayerScript.PlayerInfo);
 			}
+
+			if (interaction.IsAltClick) return;
 
 			Inventory.ServerTransfer(interaction.HandSlot, itemSlot);
 		}

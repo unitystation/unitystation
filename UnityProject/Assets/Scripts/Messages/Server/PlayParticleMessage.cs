@@ -28,7 +28,7 @@ namespace Messages.Server
 		{
 			if (msg.ParticleObject.Equals(NetId.Invalid)) {
 				//Failfast
-				Loggy.LogWarning("PlayParticle NetId invalid, processing stopped", Category.Particles);
+				Loggy.Warning("PlayParticle NetId invalid, processing stopped", Category.Particles);
 				return;
 			}
 
@@ -61,7 +61,7 @@ namespace Messages.Server
 			}
 			catch (Exception ignored)
 			{
-				Loggy.LogError($"PlayParticleMessage threw an exception {ignored} which has been ignored.", Category.Particles);
+				Loggy.Error($"PlayParticleMessage threw an exception {ignored} which has been ignored.", Category.Particles);
 			}
 
 			SendToAll(msg);

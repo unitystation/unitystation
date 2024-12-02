@@ -437,7 +437,7 @@ namespace Objects.Engineering
 				case Direction.Right:
 					return horizontal;
 				default:
-					Loggy.LogError($"Somehow got a wrong direction for {gameObject.ExpensiveName()} tile setting", Category.Machines);
+					Loggy.Error($"Somehow got a wrong direction for {gameObject.ExpensiveName()} tile setting", Category.Machines);
 					return vertical;
 			}
 		}
@@ -455,7 +455,7 @@ namespace Objects.Engineering
 				case Direction.Right:
 					return Vector3Int.right;
 				default:
-					Loggy.LogError($"Somehow got a wrong direction for {gameObject.ExpensiveName()}", Category.Machines);
+					Loggy.Error($"Somehow got a wrong direction for {gameObject.ExpensiveName()}", Category.Machines);
 					return Vector3Int.zero;
 			}
 		}
@@ -473,7 +473,7 @@ namespace Objects.Engineering
 				case Direction.Right:
 					return Direction.Left;
 				default:
-					Loggy.LogError($"Somehow got wrong opposite direction for {gameObject.ExpensiveName()}", Category.Machines);
+					Loggy.Error($"Somehow got wrong opposite direction for {gameObject.ExpensiveName()}", Category.Machines);
 					return Direction.Up;
 			}
 		}

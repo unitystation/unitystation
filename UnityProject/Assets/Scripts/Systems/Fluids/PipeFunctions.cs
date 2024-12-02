@@ -35,9 +35,9 @@ namespace Systems.Pipes
 		public static List<PipeData> GetConnectedPipes(List<PipeData> toPutInto, PipeData pipeData, Vector3Int location,
 			Matrix locatedOn)
 		{
-			for (var i = 0; i < pipeData.Connections.Directions.Length; i++)
+			for (var i = 0; i < pipeData.RotatedConnections.Directions.Length; i++)
 			{
-				if (pipeData.Connections.Directions[i].Bool)
+				if (pipeData.RotatedConnections.Directions[i].Bool)
 				{
 					Vector3Int searchVector = Vector3Int.zero;
 					switch (i)
@@ -102,12 +102,12 @@ namespace Systems.Pipes
 					pipe2Direction -= 4;
 				}
 
-				if (pipe2.Connections.Directions[pipe2Direction].Bool)
+				if (pipe2.RotatedConnections.Directions[pipe2Direction].Bool)
 				{
-					if (pipe2.Connections.Directions[pipe2Direction].pipeType
-						.HasFlag(pipe1.Connections.Directions[Direction].pipeType))
+					if (pipe2.RotatedConnections.Directions[pipe2Direction].pipeType
+						.HasFlag(pipe1.RotatedConnections.Directions[Direction].pipeType))
 					{
-						ConnectAndType = pipe1.Connections.Directions[Direction];
+						ConnectAndType = pipe1.RotatedConnections.Directions[Direction];
 						return true;
 					}
 				}
@@ -119,13 +119,13 @@ namespace Systems.Pipes
 
 		public static bool IsPipePortFlagTo(PipeData pipe1, PipeData pipe2, OutputType typeToCheckFor)
 		{
-			var data = pipe1.Connections.Directions[(int) PipesToDirections(pipe1, pipe2)];
+			var data = pipe1.RotatedConnections.Directions[(int) PipesToDirections(pipe1, pipe2)];
 			return data.Bool && data.PortType.HasFlag(typeToCheckFor);
 		}
 
 		public static bool IsPipeTypeFlagTo(PipeData pipe1, PipeData pipe2, PipeType typeToCheckFor)
 		{
-			var data = pipe1.Connections.Directions[(int) PipesToDirections(pipe1, pipe2)];
+			var data = pipe1.RotatedConnections.Directions[(int) PipesToDirections(pipe1, pipe2)];
 			return data.Bool && data.pipeType.HasFlag(typeToCheckFor);
 		}
 
@@ -148,7 +148,7 @@ namespace Systems.Pipes
 				pipe2Direction -= 4;
 			}
 
-			return pipe2.Connections.Directions[pipe2Direction].PortType.HasFlag(OutputType.Can_Equalise_With);
+			return pipe2.RotatedConnections.Directions[pipe2Direction].PortType.HasFlag(OutputType.Can_Equalise_With);
 		}
 
 		public static PipeDirection PipesToDirections(PipeData pipe1, PipeData pipe2)

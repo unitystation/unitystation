@@ -64,7 +64,7 @@ namespace Items
 			}
 			if (spawnAmount == 0)
 			{
-				Loggy.LogError($"[RandomItemSpot/SpawnRandomItems] - " +
+				Loggy.Error($"[RandomItemSpot/SpawnRandomItems] - " +
 				               $"No items spawned, expected {lootCount} on {gameObject.name} items but received 0", Category.ItemSpawn);
 			}
 		}
@@ -102,7 +102,7 @@ namespace Items
 
 			if (itemPool == null)
 			{
-				Loggy.LogError($"Item pool was null in {gameObject.name}", Category.ItemSpawn);
+				Loggy.Error($"Item pool was null in {gameObject.name}", Category.ItemSpawn);
 				return;
 			}
 

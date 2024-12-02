@@ -59,7 +59,7 @@ namespace Systems.Research.Objects
 			diskStorage = GetComponent<ItemStorage>();
 			if (diskStorage == null || (diskStorage.GetIndexedItemSlot(0).Item == null && techWebDisk == null))
 			{
-				Loggy.LogError("Research server spawned without a disk to hold data!");
+				Loggy.Error("Research server spawned without a disk to hold data!");
 				return;
 			}
 			if(techWebDisk != null) diskStorage.ServerTrySpawnAndAdd(techWebDisk);
@@ -76,7 +76,7 @@ namespace Systems.Research.Objects
 			}
 			else
 			{
-				Loggy.LogError("Could not find correct disk to hold Techweb data!!");
+				Loggy.Error("Could not find correct disk to hold Techweb data!!");
 				return;
 			}
 

@@ -33,7 +33,7 @@ namespace Learning
 		{
 			if (TipSO == null)
 			{
-				Loggy.LogError("[ProtipObject] - Component missing tip data.");
+				Loggy.Error("[ProtipObject] - Component missing tip data.");
 				RemoveThisComponent();
 				return;
 			}
@@ -69,7 +69,7 @@ namespace Learning
 		{
 			if (ProtipManager.Instance == null)
 			{
-				Loggy.LogError("[Protips] - UNABLE TO FIND PROTIP MANAGER!!!");
+				Loggy.Error("[Protips] - UNABLE TO FIND PROTIP MANAGER!!!");
 				return false;
 			}
 			if (isOnCooldown) return false;
@@ -101,7 +101,7 @@ namespace Learning
 			if (TriggerConditions(triggeredBy, protipSo) == false && CheckSaveStatus(protipSo)) return;
 			if (protipSo == null)
 			{
-				Loggy.LogError("Passed ProtipSO is null. Cannot trigger tip.");
+				Loggy.Error("Passed ProtipSO is null. Cannot trigger tip.");
 				return;
 			}
 			ProtipManager.Instance.QueueTip(protipSo, highlightableObjectNames);

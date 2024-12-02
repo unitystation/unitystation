@@ -34,7 +34,7 @@ namespace Objects.Construction
 	/// <summary>
 	/// Main Component for Machine Construction
 	/// </summary>
-	public class MachineFrame : NetworkBehaviour, ICheckedInteractable<HandApply>, IExaminable, IHoverTooltip
+	public class MachineFrame : NetworkBehaviour, ICheckedInteractable<HandApply>, IExaminable
 	{
 		[SerializeField] private StatefulState initialState = null;
 		[SerializeField] private StatefulState cablesAddedState = null;
@@ -386,7 +386,7 @@ namespace Objects.Construction
 
 				if (spawnedObject == null)
 				{
-					Loggy.LogWarning(machineParts.machine + " is missing the machine script!", Category.Construction);
+					Loggy.Warning(machineParts.machine + " is missing the machine script!", Category.Construction);
 					return;
 				}
 
@@ -684,7 +684,7 @@ namespace Objects.Construction
 
 			if (board == null)
 			{
-				Loggy.LogWarning("MachineBoardPrefab was null", Category.Construction);
+				Loggy.Warning("MachineBoardPrefab was null", Category.Construction);
 				return;
 			}
 
@@ -713,7 +713,7 @@ namespace Objects.Construction
 
 			if (machineParts == null || machineParts.machineParts == null)
 			{
-				Loggy.LogError($"Failed to find machine parts for {machineParts.OrNull()?.name ?? board.ExpensiveName()}");
+				Loggy.Error($"Failed to find machine parts for {machineParts.OrNull()?.name ?? board.ExpensiveName()}");
 			}
 			else
 			{
@@ -822,31 +822,6 @@ namespace Objects.Construction
 			Box = 0,
 			BoxCable = 1,
 			BoxCircuit = 2
-		}
-
-		public string HoverTip()
-		{
-			return Examine(default);
-		}
-
-		public string CustomTitle()
-		{
-			return null;
-		}
-
-		public Sprite CustomIcon()
-		{
-			return null;
-		}
-
-		public List<Sprite> IconIndicators()
-		{
-			return null;
-		}
-
-		public List<TextColor> InteractionsStrings()
-		{
-			return null;
 		}
 	}
 }

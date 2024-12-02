@@ -75,7 +75,7 @@ namespace Systems.Disposals
 			SpawnResult virtualContainerSpawn = Spawn.ServerPrefab(Instance.VirtualContainerPrefab, worldPosition);
 			if (virtualContainerSpawn.Successful == false)
 			{
-				Loggy.LogError(
+				Loggy.Error(
 						"Failed to spawn disposal virtual container! " +
 						$"Is {nameof(DisposalsManager)} missing reference to {nameof(Instance.VirtualContainerPrefab)}?",
 						Category.Machines);

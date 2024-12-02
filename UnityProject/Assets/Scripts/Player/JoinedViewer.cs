@@ -11,6 +11,7 @@ using Systems.Character;
 using Messages.Server;
 using Messages.Client;
 using Messages.Client.NewPlayer;
+using Messages.Client.SpriteMessages;
 using UI;
 
 namespace Player
@@ -55,7 +56,7 @@ namespace Player
 				}
 				catch (Exception e)
 				{
-					Loggy.LogError(e.ToString());
+					Loggy.Error(e.ToString());
 				}
 			}
 		}
@@ -118,17 +119,18 @@ namespace Player
 			// Sanity check in case Mirror does a surprising thing and allows commands from unauthenticated clients.
 			if (connectionToClient.isAuthenticated == false)
 			{
-				Loggy.LogError(
+				Loggy.Error(
 					$"A client attempted to set up their server player object but they haven't authenticated yet! Address: {connectionToClient.address}.");
 				ClearCache();
 				return;
 			}
 
-			Loggy.LogTrace(
+			Loggy.Trace(
 				$"{authData.Account.Username}'s {nameof(JoinedViewer)} called CmdServerSetupPlayer. ClientId: {authData.ClientId}.",
 				Category.Connections);
 
 
+			bool GennewID = false;
 			var Existingplayer = PlayerList.Instance.GetLoggedOffClient(authData.ClientId, authData.Account.Id);
 			if (Existingplayer == null || Existingplayer == PlayerInfo.Invalid)
 			{
@@ -138,14 +140,24 @@ namespace Player
 
 					if (Existingplayer != null && Existingplayer.Connection != connectionToClient)
 					{
-						Loggy.LogError($"Disconnecting player {Existingplayer?.Name} via Disconnect previous Using account/mac Address ");
+						Loggy.Error($"Disconnecting player {Existingplayer?.Name} via Disconnect previous Using account/mac Address ");
 						Existingplayer.Connection?.Disconnect();
 					}
+				}
+				else
+				{
+					GennewID = true;
+
 				}
 			}
 
 			if (Existingplayer == null ||  Existingplayer == PlayerInfo.Invalid)
 			{
+				if (GennewID && GameData.Instance.DevBuild)
+				{
+					authData.Account.Id = authData.Account.Id + RNG.GetRandomNumber(0, 10000);
+				}
+
 				Existingplayer = new PlayerInfo
 				{
 					Connection = connectionToClient,
@@ -169,7 +181,7 @@ namespace Player
 			{
 				// Any actions, including logging, done in CanPlayerJoin.
 				PlayerList.Instance.Remove(player);
-				Loggy.LogWarning($"Set up new player: invalid player. For {authData.Account.Username}", Category.Connections);
+				Loggy.Warning($"Set up new player: invalid player. For {authData.Account.Username}", Category.Connections);
 				ClearCache();
 
 				return;
@@ -189,7 +201,6 @@ namespace Player
 			}
 
 			UpdateConnectedPlayersMessage.Send();
-
 			IsValidPlayerAndWaitingOnLoad = true;
 			STUnverifiedClientId = authData.ClientId;
 			STVerifiedUserid = authData.Account.Id;
@@ -209,7 +220,6 @@ namespace Player
 			{
 				ServerReturnMapData.Send(this.gameObject, MapData.Item1, ServerReturnMapData.MessageType.MapDataForClient, MapData.Item2);
 			}
-
 		}
 
 		[Client]
@@ -217,6 +227,7 @@ namespace Player
 		{
 			FinishedValidating();
 			CmdFinishLoading();
+			SpriteRequestCurrentStateMessage.Send(SpriteHandlerManager.Instance.GetComponent<NetworkIdentity>().netId);
 		}
 
 
@@ -225,7 +236,7 @@ namespace Player
 		{
 			if (IsValidPlayerAndWaitingOnLoad == false)
 			{
-				Loggy.LogError($"Disconnecting {this.STVerifiedUserid} by Trying to call CMDFinishLoading When server wasn't expecting player to be loading  ", Category.Connections);
+				Loggy.Error($"Disconnecting {this.STVerifiedUserid} by Trying to call CMDFinishLoading When server wasn't expecting player to be loading  ", Category.Connections);
 				connectionToClient.Disconnect();
 				ClearCache();
 				return;
@@ -233,7 +244,7 @@ namespace Player
 
 			if (STVerifiedConnPlayer.Connection != connectionToClient)
 			{
-				Loggy.LogError($"Disconnecting {this.STVerifiedConnPlayer.Name} by Authenticated user connection matching The game objects connection ", Category.Connections);
+				Loggy.Error($"Disconnecting {this.STVerifiedConnPlayer.Name} by Authenticated user connection matching The game objects connection ", Category.Connections);
 				connectionToClient.Disconnect();
 				ClearCache();
 				return;
@@ -271,8 +282,15 @@ namespace Player
 				}
 			}
 
-			PlayerList.Instance.CheckAdminState(STVerifiedConnPlayer);
-			PlayerList.Instance.CheckMentorState(STVerifiedConnPlayer, STVerifiedUserid);
+			try
+			{
+				PlayerList.Instance.CheckAdminState(STVerifiedConnPlayer);
+				PlayerList.Instance.CheckMentorState(STVerifiedConnPlayer, STVerifiedUserid);
+			}
+			catch (Exception e)
+			{
+				Loggy.Error(e.ToString());
+			}
 
 			// If there's a logged off player, we will force them to rejoin their body
 			if (STVerifiedConnPlayer.Mind == null) //TODO Handle when someone gets kicked out of their mind
@@ -298,7 +316,7 @@ namespace Player
 			var netIdentity = loggedOffPlayer.GetComponent<NetworkIdentity>();
 			if (netIdentity == null)
 			{
-				Loggy.LogError($"No {nameof(NetworkIdentity)} component on {loggedOffPlayer}! " +
+				Loggy.Error($"No {nameof(NetworkIdentity)} component on {loggedOffPlayer}! " +
 				                "Cannot rejoin that player. Was original player object improperly created? " +
 				                "Did we get runtime error while creating it?", Category.Connections);
 				// TODO: if this issue persists, should probably send the poor player a message about failing to rejoin.
@@ -372,7 +390,7 @@ namespace Player
 
 			if (PlayerList.Instance.ClientJobBanCheck(job) == false)
 			{
-				Loggy.LogWarning($"Client failed local job-ban check for {job}.", Category.Jobs);
+				Loggy.Warning($"Client failed local job-ban check for {job}.", Category.Jobs);
 				UIManager.Display.jobSelectWindow.GetComponent<GUI_PlayerJobs>()
 					.ShowFailMessage(JobRequestError.JobBanned);
 				return;
@@ -399,7 +417,7 @@ namespace Player
 		[TargetRpc]
 		private void TargetSyncCountdown(NetworkConnection target, bool started, double endTime)
 		{
-			Loggy.Log("Syncing countdown!", Category.Round);
+			Loggy.Info("Syncing countdown!", Category.Round);
 			UIManager.Display.preRoundWindow.GetComponent<GUI_PreRoundWindow>().SyncCountdown(started, endTime);
 		}
 

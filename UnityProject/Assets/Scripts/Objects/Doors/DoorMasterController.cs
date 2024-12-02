@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -163,24 +164,20 @@ namespace Doors
 			HackingProcessBase.RegisterPort(TryBump, this.GetType());
 			HackingProcessBase.RegisterPort(TryClose, this.GetType());
 			HackingProcessBase.RegisterPort(ConfirmAIConnection, this.GetType());
-		}
+			if (CustomNetworkManager.IsServer)
+			{
+				if (IsClosed)
+				{
+					Close();
+				}
+				else
+				{
+					Open();
+				}
 
-		public override void OnStartClient()
-		{
-			DoorNewPlayer.Send(netId);
+			}
 		}
-
-		/// <summary>
-		/// Used when player is joining, tells player to open the door if it is opened.
-		/// </summary>
-		public void UpdateNewPlayer(NetworkConnection playerConn)
-		{
-			DoorUpdateMessage.Send(playerConn, gameObject,
-				IsClosed ? DoorUpdateType.Close : DoorUpdateType.Open,
-				true,
-				ConstructibleDoor != null && ConstructibleDoor.Panelopen);
-		}
-
+		
 
 		private bool CheckPower()
 		{
@@ -474,8 +471,10 @@ namespace Doors
 				return;
 			}
 
+			doorAnimator.PanelOpen = ConstructibleDoor != null && ConstructibleDoor.Panelopen;
 
-			DoorUpdateMessage.SendToAll(gameObject, DoorUpdateType.Close, ConstructibleDoor != null && ConstructibleDoor.Panelopen);
+			doorAnimator.SyncDoorStatus(doorAnimator.SyncDoorUpdateType,DoorAnimatorV2.DoorUpdateType.Close );
+
 
 			if (damageOnClose)
 			{
@@ -508,11 +507,8 @@ namespace Doors
 			IsClosed = false;
 			UpdateGui();
 
-			if (!isPerformingAction)
-			{
-				DoorUpdateMessage.SendToAll(gameObject, DoorUpdateType.Open, ConstructibleDoor != null && ConstructibleDoor.Panelopen);
-			}
-
+			doorAnimator.PanelOpen = ConstructibleDoor != null && ConstructibleDoor.Panelopen;
+			doorAnimator.SyncDoorStatus(doorAnimator.SyncDoorUpdateType,DoorAnimatorV2.DoorUpdateType.Open);
 		}
 
 		public void BoxCollToggleOn()

@@ -119,12 +119,12 @@ namespace Light2D
 	        {
 		        if (Material == null)
 		        {
-			        Material = Resources.GetBuiltinResource<Material>("Default Light Material.mat");
+			        Material = CommonMaterials.Instance.DefaultLightMaterial;
 		        }
 	        }
 	        catch (Exception e)
 	        {
-		        Loggy.LogError(e.ToString());
+		        Loggy.Error(e.ToString());
 	        }
 #endif
 

@@ -195,7 +195,7 @@ namespace UI.Systems.MainHUD.UI_Bottom
 
 			if (aiPlayer == null)
 			{
-				Loggy.LogError("Failed to find AiPlayer for player");
+				Loggy.Error("Failed to find AiPlayer for player");
 				return;
 			}
 

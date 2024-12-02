@@ -82,7 +82,7 @@ namespace AdminTools
 		{
 			if (PlayerList.Instance.TryGetByUserID(playerId, out var player) == false)
 			{
-				Loggy.LogError($"Could not find player with ID '{playerId}'. Unable to record mentor dialogue.");
+				Loggy.Error($"Could not find player with ID '{playerId}'. Unable to record mentor dialogue.");
 				return;
 			}
 

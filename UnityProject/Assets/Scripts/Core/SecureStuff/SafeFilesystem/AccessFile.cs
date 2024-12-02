@@ -90,7 +90,7 @@ namespace SecureStuff
 				resolvedPath = Path.GetFullPath(Path.Combine(Application.persistentDataPath, ForkName , folderType.ToString(), relativePath + extension));
 				if (resolvedPath.StartsWith(Path.GetFullPath(Path.Combine(Application.persistentDataPath, ForkName, folderType.ToString()))) == false)
 				{
-					Loggy.LogError($"Persistent data Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
+					Loggy.Error($"Persistent data Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
 					throw new Exception($"Persistent data  Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
 				}
 			}
@@ -99,7 +99,7 @@ namespace SecureStuff
 				resolvedPath = Path.GetFullPath(Path.Combine(Application.streamingAssetsPath,folderType.ToString(), relativePath + extension));
 				if (resolvedPath.StartsWith(Path.GetFullPath(Path.Combine(Application.streamingAssetsPath,  folderType.ToString()))) == false)
 				{
-					Loggy.LogError($"Streaming assets Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
+					Loggy.Error($"Streaming assets Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
 					throw new Exception($"Streaming assets Malicious PATH was passed into File access, HEY NO! Stop being naughty with the PATH! {resolvedPath}");
 				}
 			}
@@ -310,7 +310,7 @@ namespace SecureStuff
 			}
 			else
 			{
-				Loggy.LogError($"Unable to load Data {relativePath} It might be missing Used {resolvedPath} to try to find it ");
+				Loggy.Error($"Unable to load Data {relativePath} It might be missing Used {resolvedPath} to try to find it ");
 				return null;
 			}
 		}
@@ -361,7 +361,7 @@ namespace SecureStuff
 				}
 				catch (Exception e)
 				{
-					Loggy.LogError($"Exception when triggering file change for {path}, Exception > " + e.ToString());
+					Loggy.Error($"Exception when triggering file change for {path}, Exception > " + e.ToString());
 				}
 			}
 		}

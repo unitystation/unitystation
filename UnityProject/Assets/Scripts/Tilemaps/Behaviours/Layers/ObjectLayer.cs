@@ -100,7 +100,7 @@ public class ObjectLayer : Layer
 	{
 		if (o.ObjectPhysics.HasComponent == false)
 		{
-			Loggy.LogError(o.name + " Is missing UniversalObjectPhysics");
+			Loggy.Error(o.name + " Is missing UniversalObjectPhysics");
 		}
 		if (PushObjectSet == false)
 		{

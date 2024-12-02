@@ -95,8 +95,7 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 		ForcePositionClient(WorldPosition, false);
 	}
 
-	[Command]
-	public void CMDSetServerPosition(Vector3 WorldPosition, int matrixID, OrientationEnum direction)
+	public void SetServerPosition(Vector3 WorldPosition, int matrixID, OrientationEnum direction)
 	{
 		ForcePositionClient(WorldPosition, matrixID, direction, false);
 	}
@@ -173,7 +172,8 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 
 			registerTile.ServerSetLocalPosition(localPosition.RoundToInt());
 			registerTile.ClientSetLocalPosition(localPosition.RoundToInt());
-			CMDSetServerPosition(localPosition, movetoMatrix.Id, orientation);
+
+			RequestGhostMove.Send(localPosition, movetoMatrix.Id, orientation);
 		}
 	}
 

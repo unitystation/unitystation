@@ -241,6 +241,27 @@
     "Colour": "77, 181, 191"
   },
   {
+    "ID": "ordnance",
+    "DisplayName": "Chemical Ordnance",
+    "Description": "Specialised methods of delivering chemical payloads",
+    "StartingNode": false,
+    "RequiredTechnologies": [
+      "basechem"
+    ],
+    "DesignIDs": [
+      "pyro_grenade",
+      "cyro_grenade",
+      "adv_release_grenade"
+    ],
+    "ResearchCosts": 20,
+    "ExportPrice": 0,
+    "PotentialUnlocks": [],
+    "prefabID": "ordnance",
+    "techType": 4,
+    "Techweb": null,
+    "Colour": "92, 221, 228"
+  },
+  {
     "ID": "bluespace",
     "DisplayName": "Bluespace Technology",
     "Description": "Allows for research into bluespace technology",

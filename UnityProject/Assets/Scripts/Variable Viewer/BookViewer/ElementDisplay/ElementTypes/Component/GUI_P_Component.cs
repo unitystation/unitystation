@@ -229,11 +229,20 @@ public class GUI_P_Component : PageElement
 		{
 			try
 			{
+				ulong id = 0;
+
+				var book = Librarian.Book.GenerateNonMonoBook((Data as MonoBehaviour));
+
+				if (book != null)
+				{
+					id = book.ID;
+				}
+
 				return JsonConvert.SerializeObject(new EditData()
 				{
 					IDType = IDType.Bookshelf,
-					BookID = Librarian.Book.GenerateNonMonoBook((Data as MonoBehaviour)).ID,
-					ClientGameObject = ClientObjectPath.GetPathForMessage((Data as MonoBehaviour).gameObject)
+					BookID = id,
+					ClientGameObject = ClientObjectPath.GetPathForMessage((Data as MonoBehaviour)?.gameObject)
 				});
 			}
 			catch (UnityEngine.UnassignedReferenceException e)
@@ -262,7 +271,7 @@ public class GUI_P_Component : PageElement
 			{
 				if (data.IDType == IDType.Book)
 				{
-					Loggy.LogError("reeeeee");
+					Loggy.Error("reeeeee");
 					return null;
 				}
 
@@ -274,7 +283,7 @@ public class GUI_P_Component : PageElement
 
 				if (Librarian.IDToBookShelf.ContainsKey(data.ShelfID) == false)
 				{
-					Loggy.LogError("reeeeee");
+					Loggy.Error("reeeeee");
 					return null;
 				}
 
@@ -286,7 +295,7 @@ public class GUI_P_Component : PageElement
 				{
 					if (Librarian.IDToBookShelf.ContainsKey(data.ShelfID) == false)
 					{
-						Loggy.LogError("reeeeee");
+						Loggy.Error("reeeeee");
 						return null;
 					}
 
@@ -300,7 +309,7 @@ public class GUI_P_Component : PageElement
 				{
 					if (Librarian.IDToBook.ContainsKey(data.BookID) == false)
 					{
-						Loggy.LogError("reeeeee");
+						Loggy.Error("reeeeee");
 						return null;
 					}
 

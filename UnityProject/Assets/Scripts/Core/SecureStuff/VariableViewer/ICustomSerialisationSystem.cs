@@ -12,6 +12,7 @@ namespace SecureStuff
 		public object DeSerialiseValue(string StringData, Type InType);
 		public string Serialise(object InObject, Type TypeOf);
 
+		
 	}
 }
 

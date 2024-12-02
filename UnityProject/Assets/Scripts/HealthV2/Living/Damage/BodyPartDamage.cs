@@ -220,7 +220,7 @@ namespace HealthV2
 
 			if (float.IsNaN(damage) || float.IsInfinity(damage)  )
 			{
-				Loggy.LogError("oh no/..!!!! NAN /Abnormal number as damage > " + damage );
+				Loggy.Error("oh no/..!!!! NAN /Abnormal number as damage > " + damage );
 				return;
 			}
 			float toDamage = Damages[damageType] + damage;

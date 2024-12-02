@@ -1,32 +1,66 @@
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using UnityEngine;
 
 namespace Logs
 {
 	public sealed class ThreadLoggy : MonoBehaviour
 	{
-		public static List<string> otherThreadLogs = new List<string>();
-
-		// Update is called once per frame
-		void Update()
+		public record LogMessageData(LogLevel Level, string Msg, Category Category)
 		{
-			lock (otherThreadLogs)
-			{
-				foreach (var log in otherThreadLogs)
-				{
-					Loggy.LogError(log);
-				}
+			public LogLevel Level { get; } = Level;
+			public string Msg { get; } = Msg;
 
-				otherThreadLogs.Clear();
+			public Category Category { get; } = Category;
+			public string StackTrace { get; set; } = "";
+		}
+
+		private static readonly ConcurrentQueue<LogMessageData> LogQueue = new();
+
+		private static void ProcessLog(LogMessageData log)
+		{
+			switch (log.Level)
+			{
+				case LogLevel.Error:
+					string msg = $"{log.Msg}{log.StackTrace}";
+					Loggy.Error(msg, log.Category);
+					break;
+				case LogLevel.Warning:
+					Loggy.Warning(log.Msg, log.Category);
+					break;
+				case LogLevel.Info:
+					Loggy.Info(log.Msg, log.Category);
+					break;
+				case LogLevel.Off:
+					break;
+				case LogLevel.Trace:
+				default:
+					Loggy.Trace(log.Msg, log.Category);
+					break;
 			}
 		}
 
-		public static void AddLog(string msg, Category category = Category.Unknown)
+
+		private void Update()
 		{
-			lock (otherThreadLogs)
+			lock (LogQueue)
 			{
-				otherThreadLogs.Add(msg + " on the thread " + category.ToString()  + "\n" + Environment.StackTrace);
+				if (LogQueue.TryDequeue(out LogMessageData log) == false) return;
+				ProcessLog(log);
+			}
+		}
+
+		public static void QueueLog(LogLevel level, string msg, Category category = Category.Unknown)
+		{
+			lock (LogQueue)
+			{
+				LogMessageData log = new(level, msg, category);
+				if (level == LogLevel.Error)
+				{
+					string stackTrace = $"\n{Environment.StackTrace}";
+					log.StackTrace = stackTrace;
+				}
+				LogQueue.Enqueue(log);
 			}
 		}
 	}

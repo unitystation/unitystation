@@ -26,7 +26,7 @@ namespace Systems.MobAIs
 				return (health.IsDead || health.IsCrit || health.IsSoftCrit) == false;
 			}
 
-			Loggy.LogError($"{this} is missing a health component. Cannot pet this mob.");
+			Loggy.Error($"{this} is missing a health component. Cannot pet this mob.");
 			return false;
 		}
 

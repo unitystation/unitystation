@@ -30,11 +30,13 @@ namespace Objects.Wallmounts
 		[SerializeField] [Tooltip("List of doors that this switch can control")]
 
 		private List<DoorMasterController> NewdoorControllers = new List<DoorMasterController>();
+		public int NewDoorCount => NewdoorControllers.Count;
 
 		private bool buttonCoolDown = false;
 		private ClearanceRestricted clearanceRestricted;
 
-		private APCPoweredDevice thisAPCPoweredDevice;
+		public APCPoweredDevice thisAPCPoweredDevice { get; private set; }
+
 		[field: SerializeField] public bool CanRelink { get; set; } = true;
 		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
 		public void OnSpawnServer(SpawnInfo info)
@@ -63,10 +65,7 @@ namespace Objects.Wallmounts
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (buttonCoolDown)
-				return;
-			buttonCoolDown = true;
-			StartCoroutine(CoolDown());
+			if(TestCoolDown() == false) return;
 
 
 			var Storage = interaction.Performer.OrNull()?.GetComponent<DynamicItemStorage>();
@@ -127,12 +126,51 @@ namespace Objects.Wallmounts
 			}
 		}
 
+		public void OpenDoors()
+		{
+			foreach (var door in NewdoorControllers)
+			{
+				// Door doesn't exist anymore - shuttle crash, admin smash, etc.
+				if (door == null) continue;
+
+				if (door.IsClosed)
+				{
+					door.TryOpen(null);
+				}
+			}
+		}
+
+		public void CloseDoors()
+		{
+			foreach (var door in NewdoorControllers)
+			{
+				// Door doesn't exist anymore - shuttle crash, admin smash, etc.
+				if (door == null) continue;
+
+				if (door.IsClosed == false)
+				{
+					door.TryClose();
+				}
+			}
+		}
+
 		//Stops spamming from players
 		IEnumerator CoolDown()
 		{
 			yield return WaitFor.Seconds(1.2f);
 			buttonCoolDown = false;
 		}
+
+		public bool TestCoolDown()
+		{
+			if (buttonCoolDown)
+				return false;
+			buttonCoolDown = true;
+			StartCoroutine(CoolDown());
+
+			return true;
+		}
+
 
 		[ClientRpc]
 		public void RpcPlayButtonAnim(bool status)

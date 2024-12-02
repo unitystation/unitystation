@@ -48,7 +48,7 @@ public class BodyPartBehaviour : MonoBehaviour
 	public virtual void ReceiveDamage(DamageType damageType, float damage)
 	{
 		UpdateDamage(damage, damageType);
-		Loggy.LogTraceFormat("{0} received {1} {2} damage. Total {3}/{4}, limb condition is {5}", Category.Damage, Type, damage, damageType, damage, MaxDamage, Severity);
+		Loggy.Trace().Format("{0} received {1} {2} damage. Total {3}/{4}, limb condition is {5}", Category.Damage, Type, damage, damageType, damage, MaxDamage, Severity);
 	}
 
 	private void UpdateDamage(float damage, DamageType type)

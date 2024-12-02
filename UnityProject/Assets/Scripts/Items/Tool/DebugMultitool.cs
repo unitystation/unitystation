@@ -32,7 +32,7 @@ namespace Items.Engineering
 			}
 			MetaDataNode.Pool();
 			Chat.AddExamineMsgFromServer(interaction.Performer, SB.ToString());
-			Loggy.Log(SB.ToString());
+			Loggy.Info(SB.ToString());
 		}
 	}
 }

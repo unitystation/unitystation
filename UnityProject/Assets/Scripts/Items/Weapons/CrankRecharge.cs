@@ -9,15 +9,15 @@ namespace Weapons
 	{
 
 		[SerializeField] private float crankTime = 2f;
-		
+
 		[SerializeField] private string rechargeVerb = "recharging";
-		
+
 		[SerializeField] private AddressableAudioSource rechargeSound;
-		
+
 		private Gun gunComp;
-		
+
 		private GameObject serverHolder;
-		
+
 		private void Awake()
 		{
 			gunComp = GetComponent<Gun>();
@@ -34,10 +34,10 @@ namespace Weapons
 			Chat.AddActionMsgToChat(serverHolder,
 				$"You start {rechargeVerb} the {gameObject.ExpensiveName()}.",
 				$"{serverHolder.ExpensiveName()} starts {rechargeVerb} the {gameObject.ExpensiveName()}.");
-			
+
 			StartCoroutine(Recharging());
 		}
-		
+
 		public void OnInventoryMoveServer(InventoryMove info)
 		{
 			if (gameObject != info.MovedObject.gameObject) return;
@@ -45,14 +45,14 @@ namespace Weapons
 			StopAllCoroutines();
 			serverHolder = info.ToPlayer != null ? info.ToPlayer.gameObject : null;
 		}
-		
+
 		private IEnumerator Recharging()
 		{
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Wrench, gameObject.AssumedWorldPosServer(), sourceObj: serverHolder);
 			yield return WaitFor.Seconds(crankTime);
 			AddCharge();
 		}
-		
+
 		private void AddCharge()
 		{
 			if (serverHolder == null) return;
@@ -65,19 +65,25 @@ namespace Weapons
 				{
 					battery.Watts = battery.MaxWatts;
 				}
-				
+
 				var electricalMagazine = mag.GetComponent<ElectricalMagazine>();
 				if (electricalMagazine != null)
 				{
 					electricalMagazine.AddCharge();
 				}
+
+				var GunElectrical = gameObject.GetComponent<GunElectrical>();
+				if (GunElectrical != null)
+				{
+					GunElectrical.UpdateChargeSprite();
+				}
 			}
-			
+
 			if (rechargeSound != null)
 			{
 				SoundManager.PlayNetworkedAtPos(rechargeSound, gameObject.AssumedWorldPosServer(), sourceObj: serverHolder);
 			}
-			
+
 			Chat.AddActionMsgToChat(serverHolder,
 				$"You finish {rechargeVerb} the {gameObject.ExpensiveName()}.",
 				$"{serverHolder.ExpensiveName()} finishes {rechargeVerb} the {gameObject.ExpensiveName()}.");

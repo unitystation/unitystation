@@ -22,7 +22,7 @@ namespace Systems.Faith
 			base.Awake();
 			EventManager.AddHandler(Event.RoundEnded, ResetReligion);
 			EventManager.AddHandler(Event.RoundStarted, SetupFaiths);
-			Loggy.Log("[FaithManager/Awake] - Setting stuff.");
+			Loggy.Info("[FaithManager/Awake] - Setting stuff.");
 		}
 
 		private void SetupFaiths()
@@ -40,7 +40,7 @@ namespace Systems.Faith
 
 		private void ResetReligion()
 		{
-			Loggy.Log("[FaithManager/ResetReligion] - Resetting faiths.");
+			Loggy.Info("[FaithManager/ResetReligion] - Resetting faiths.");
 			CurrentFaiths.Clear();
 			FaithPropertiesConstantUpdate.Clear();
 			FaithPropertiesEventUpdate.Clear();
@@ -51,7 +51,7 @@ namespace Systems.Faith
 
 		private void LongUpdate()
 		{
-			Loggy.Log($"[FaithManager/LongUpdate] - Events check.");
+			Loggy.Info($"[FaithManager/LongUpdate] - Events check.");
 			foreach (var update in FaithPropertiesEventUpdate)
 			{
 				update?.Invoke();
@@ -90,27 +90,17 @@ namespace Systems.Faith
 			}
 		}
 
-		public static void AddLeaderToFaith(string targetFaith, PlayerScript newLeader)
-		{
-			foreach (var faith in Instance.CurrentFaiths.Where(faith => faith.Faith.FaithName == targetFaith))
-			{
-				faith.AddMember(newLeader);
-				faith.FaithLeaders.Add(newLeader);
-			}
-		}
-
 		public void AddFaithToActiveList(Faith faith)
 		{
 			if (CustomNetworkManager.IsServer == false)
 			{
-				Loggy.LogError("[FaithManager/AddFaithToActiveList] - Attempted to call a server function on the client.");
+				Loggy.Error("[FaithManager/AddFaithToActiveList] - Attempted to call a server function on the client.");
 				return;
 			}
 			FaithData data = new FaithData()
 			{
 				Faith = faith,
 				Points = 0,
-				FaithLeaders = new List<PlayerScript>(),
 				FaithMembers = new List<PlayerScript>(),
 			};
 			CurrentFaiths.Add(data);
@@ -119,7 +109,7 @@ namespace Systems.Faith
 
 		public static void JoinFaith(Faith faith, PlayerScript player)
 		{
-			foreach (var faithData in Instance.CurrentFaiths.Where(x => x.FaithMembers.Contains(player)))
+			foreach (var faithData in Instance.CurrentFaiths.Where(x => x.Faith.FaithName == faith.FaithName))
 			{
 				faithData.AddMember(player);
 			}
@@ -127,7 +117,7 @@ namespace Systems.Faith
 
 		public static void LeaveFaith(PlayerScript playerScript)
 		{
-			foreach (var faith in Instance.CurrentFaiths.Where(faith => faith.FaithMembers.Contains(playerScript)))
+			foreach (var faith in Instance.CurrentFaiths.Where(f => f.FaithMembers.Contains(playerScript)))
 			{
 				faith.RemoveMember(playerScript);
 			}

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0c8fd537387459c95edf35f9c5dd2c3, type: 3}
+  m_Name: Replacement Jukebox
+  m_EditorClassIdentifier: 
+  OrderName: Crate with replacement jukebox n records
+  CreditCost: 4000
+  Crate: {fileID: 6264972350131591085, guid: dde361d656542f048bdeebf4e87dd7d3, type: 3}
+  Items:
+  - {fileID: 1538287900822802099, guid: 7bb3f38189983e9468b4f3f16be75bed, type: 3}
+  - {fileID: 149138795711509353, guid: 91d00e4ca936dac95853fc53712bca22, type: 3}
+  - {fileID: 1118828147225129194, guid: 49bec81fa6741b542b8f0245e0885d58, type: 3}
+  EmagOnly: 0
+  SuggestedCargoPrice: 666
+  ContentSellPrice: 555
+  WillFailUnitTests: 0

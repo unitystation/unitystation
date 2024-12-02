@@ -51,6 +51,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -137,6 +138,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -223,6 +225,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -391,8 +394,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5631655566716459771, guid: 170e72b76e0da9645995a9bac3f49cb2,
         type: 3}
+      propertyPath: InitialCapacityMax
+      value: 3456000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5631655566716459771, guid: 170e72b76e0da9645995a9bac3f49cb2,
+        type: 3}
       propertyPath: MaxChargingDivider
       value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 5631655566716459771, guid: 170e72b76e0da9645995a9bac3f49cb2,
+        type: 3}
+      propertyPath: InitialSlowResponse
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5631655566716459771, guid: 170e72b76e0da9645995a9bac3f49cb2,
         type: 3}
@@ -416,7 +429,47 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5631655566716459771, guid: 170e72b76e0da9645995a9bac3f49cb2,
         type: 3}
+      propertyPath: InitialCurrentCapacity
+      value: 3456000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5631655566716459771, guid: 170e72b76e0da9645995a9bac3f49cb2,
+        type: 3}
+      propertyPath: InitialExtraChargeCutOff
+      value: 240
+      objectReference: {fileID: 0}
+    - target: {fileID: 5631655566716459771, guid: 170e72b76e0da9645995a9bac3f49cb2,
+        type: 3}
       propertyPath: StandardSupplyingVoltage
+      value: 240
+      objectReference: {fileID: 0}
+    - target: {fileID: 5631655566716459771, guid: 170e72b76e0da9645995a9bac3f49cb2,
+        type: 3}
+      propertyPath: InitialMaxChargingDivider
+      value: 1200
+      objectReference: {fileID: 0}
+    - target: {fileID: 5631655566716459771, guid: 170e72b76e0da9645995a9bac3f49cb2,
+        type: 3}
+      propertyPath: InitialStandardChargeNumber
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5631655566716459771, guid: 170e72b76e0da9645995a9bac3f49cb2,
+        type: 3}
+      propertyPath: InitialMaximumCurrentSupport
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5631655566716459771, guid: 170e72b76e0da9645995a9bac3f49cb2,
+        type: 3}
+      propertyPath: InitialMinimumSupportVoltage
+      value: 216
+      objectReference: {fileID: 0}
+    - target: {fileID: 5631655566716459771, guid: 170e72b76e0da9645995a9bac3f49cb2,
+        type: 3}
+      propertyPath: InitialIncreasedChargeVoltage
+      value: 241
+      objectReference: {fileID: 0}
+    - target: {fileID: 5631655566716459771, guid: 170e72b76e0da9645995a9bac3f49cb2,
+        type: 3}
+      propertyPath: InitialStandardSupplyingVoltage
       value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 5775084745562061001, guid: 170e72b76e0da9645995a9bac3f49cb2,

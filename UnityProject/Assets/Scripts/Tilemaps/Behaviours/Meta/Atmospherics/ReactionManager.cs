@@ -293,10 +293,15 @@ namespace Systems.Atmospherics
 
 		public void ExtinguishHotspot(Vector3Int localPosition)
 		{
-			if (hotspots.ContainsKey(localPosition) && hotspots[localPosition].Hotspot != null)
+			if (HasHotspot(localPosition))
 			{
 				RemoveHotspot(hotspots[localPosition].Hotspot.node);
 			}
+		}
+
+		public bool HasHotspot(Vector3Int localPosition)
+		{
+			return hotspots.ContainsKey(localPosition) && hotspots[localPosition].Hotspot != null;
 		}
 
 		/// <summary>
@@ -391,7 +396,7 @@ namespace Systems.Atmospherics
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError(e.ToString());
+				Loggy.Error(e.ToString());
 			}
 		}
 
@@ -401,7 +406,7 @@ namespace Systems.Atmospherics
 
 			if (hotspots.ContainsKey(hotspotPosition) == false)
 			{
-				Loggy.LogError("Hotspot position key was not found in the hotspots dictionary", Category.Atmos);
+				Loggy.Error("Hotspot position key was not found in the hotspots dictionary", Category.Atmos);
 				return;
 			}
 

@@ -23,7 +23,8 @@ namespace Objects.Shuttles
 	{
 		//TODO Swapping matrix
 
-		[NonSerialized] public MatrixMove ShuttleMatrixMove;
+		public MatrixMove ShuttleMatrixMove;
+
 
 		[NonSerialized] public RegisterTile registerTile;
 		private HasNetworkTab hasNetworkTab;
@@ -35,13 +36,21 @@ namespace Objects.Shuttles
 
 		public Rotatable Rotatable;
 
-
 		private void Awake()
 		{
-			registerTile = GetComponent<RegisterTile>();
 			hasNetworkTab = GetComponent<HasNetworkTab>();
+		}
+
+		private void Start()
+		{
+			registerTile = GetComponent<RegisterTile>();
 			Rotatable = this.GetComponentCustom<Rotatable>();
 			ShuttleMatrixMove = GetComponentInParent<MatrixMove>();
+
+			if (ShuttleMatrixMove.NetworkedMatrixMove.ShuttleConsuls.Contains(this) == false)
+			{
+				ShuttleMatrixMove.NetworkedMatrixMove.ShuttleConsuls.Add(this);
+			}
 		}
 
 		public void OnDisable()
@@ -52,6 +61,7 @@ namespace Objects.Shuttles
 		public void OnEnable()
 		{
 			ShuttleMatrixMove = GetComponentInParent<MatrixMove>();
+			if (ShuttleMatrixMove  == null) return;
 			ShuttleMatrixMove.NetworkedMatrixMove.ShuttleConsuls.Add(this);
 		}
 
@@ -64,13 +74,13 @@ namespace Objects.Shuttles
 				ShuttleMatrixMove = MatrixManager.Get(registerTile.Matrix).MatrixMove;
 				if (ShuttleMatrixMove == null)
 				{
-					Loggy.Log($"{this} is not on a movable matrix, so won't function.", Category.Shuttles);
+					Loggy.Info($"{this} is not on a movable matrix, so won't function.", Category.Shuttles);
 					hasNetworkTab.enabled = false;
 					return;
 				}
 				else
 				{
-					Loggy.Log($"No MatrixMove reference set to {this}, found {ShuttleMatrixMove} automatically",
+					Loggy.Info($"No MatrixMove reference set to {this}, found {ShuttleMatrixMove} automatically",
 						Category.Shuttles);
 				}
 			}

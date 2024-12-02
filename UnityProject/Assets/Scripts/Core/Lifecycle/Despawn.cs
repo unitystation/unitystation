@@ -44,7 +44,7 @@ public static class Despawn
 	{
 		if (info == null)
 		{
-			Loggy.LogError("Cannot despawn - info is null", Category.ItemSpawn);
+			Loggy.Error("Cannot despawn - info is null", Category.ItemSpawn);
 			return DespawnResult.Fail(info);
 		}
 
@@ -81,7 +81,7 @@ public static class Despawn
 		}
 		catch (Exception e)
 		{
-			Loggy.LogError(e.ToString());
+			Loggy.Error(e.ToString());
 		}
 
 
@@ -128,7 +128,7 @@ public static class Despawn
 	{
 		if (info == null)
 		{
-			Loggy.LogError("Cannot despawn - info is null", Category.ItemSpawn);
+			Loggy.Error("Cannot despawn - info is null", Category.ItemSpawn);
 			return DespawnResult.Fail(info);
 		}
 

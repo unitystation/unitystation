@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Chemistry.Components;
 using UnityEngine;
 using Mirror;
 
@@ -42,6 +43,9 @@ namespace Objects.Construction
 
 		public bool DontTouchSpriteRenderer = false;
 
+		private ReagentContainer reagentContainer;
+		public ReagentContainer ReagentContainer => reagentContainer;
+
 
 		private void Awake()
 		{
@@ -50,6 +54,7 @@ namespace Objects.Construction
 
 		private void EnsureInit()
 		{
+			reagentContainer ??= GetComponent<ReagentContainer>();
 			if (spriteRenderer != null) return;
 			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 		}

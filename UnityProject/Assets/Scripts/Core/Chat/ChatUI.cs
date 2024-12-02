@@ -32,8 +32,8 @@ namespace UI.Chat_UI
 		private GameObject channelToggleTemplate = null;
 		[SerializeField]
 		private Image background = null;
-		[SerializeField]
-		private TMP_InputField InputFieldChat = null;
+
+		public TMP_InputField InputFieldChat = null;
 		[SerializeField]
 		private RectTransform viewportTransform = null;
 
@@ -65,6 +65,8 @@ namespace UI.Chat_UI
 		private ChatChannel selectedChannels;
 		private int selectedVoiceLevel;
 
+		[FormerlySerializedAs("STTImageText")] public Image SpeechToTextImageText;
+
 		/// <summary>
 		/// Latest parsed input from input field
 		/// </summary>
@@ -95,6 +97,9 @@ namespace UI.Chat_UI
 		private List<ChatEntry> allEntries = new List<ChatEntry>();
 		private int hiddenEntries = 0;
 		private bool scrollBarInteract = false;
+		private DateTime DateTimePressedf6ToggleSTT;
+
+
 		public event Action<bool> scrollBarEvent;
 		public event System.Action checkPositionEvent;
 
@@ -286,7 +291,7 @@ namespace UI.Chat_UI
 			// TODO add events to inventory slot changes to trigger channel refresh
 			if (chatInputWindow.activeInHierarchy && !isChannelListUpToDate())
 			{
-				Loggy.Log("Channel list is outdated!", Category.Chat);
+				Loggy.Info("Channel list is outdated!", Category.Chat);
 				RefreshChannelPanel();
 			}
 
@@ -304,17 +309,27 @@ namespace UI.Chat_UI
 				}
 			}
 
+
 			if (!chatInputWindow.activeInHierarchy) return;
 			if (KeyboardInputManager.IsEscapePressed())
 			{
 				CloseChatWindow();
 			}
 
+			if (InputManagerWrapper.GetKey(KeyCode.F6) && Math.Abs((DateTimePressedf6ToggleSTT - DateTime.Now).TotalMilliseconds) > 200f)
+			{
+				DateTimePressedf6ToggleSTT = DateTime.Now;
+				OnToggleSTT();
+			}
+
+
 			if (InputFieldChat.isFocused) return;
 			if (KeyboardInputManager.IsMovementPressed() || KeyboardInputManager.IsEscapePressed())
 			{
 				CloseChatWindow();
 			}
+
+
 		}
 
 		/// <summary>
@@ -435,6 +450,21 @@ namespace UI.Chat_UI
 			checkPositionEvent?.Invoke();
 		}
 
+
+		public void OnToggleSTT()
+		{
+			WhisperMicrophoneHandler.Instance.gameObject.SetActive(!WhisperMicrophoneHandler.Instance.gameObject.activeSelf);
+
+			if (WhisperMicrophoneHandler.Instance.gameObject.activeSelf)
+			{
+				SpeechToTextImageText.color = Color.green;
+			}
+			else
+			{
+				SpeechToTextImageText.color = Color.white;
+			}
+		}
+
 		//This is an editor interface trigger event, do not delete
 		public void OnScrollBarInteractEnd()
 		{
@@ -467,6 +497,7 @@ namespace UI.Chat_UI
 
 		private void PlayerSendChat(ParsedChatInput parsedChat)
 		{
+			//.Replace("\n" is done on server too
 			parsedChat.ClearMessage = parsedChat.ClearMessage.Replace("\n", " ").Replace("\r", " ");  // We don't want users to spam chat vertically
 			if (selectedVoiceLevel == -1)
 				parsedChat.ClearMessage = "#" + parsedChat.ClearMessage;
@@ -537,8 +568,9 @@ namespace UI.Chat_UI
 			languagePanel.gameObject.SetActive(false);
 
 			EventManager.Broadcast(quickClose ? Event.ChatQuickUnfocus : Event.ChatUnfocused);
-
+			SpeechToTextImageText.color = Color.white;
 			Showing = false;
+
 			StartCoroutine(AnimateBackground());
 
 			UIManager.PreventChatInput = false;
@@ -607,6 +639,7 @@ namespace UI.Chat_UI
 		{
 			if (UIManager.IsInputFocus) return;
 			Showing = false;
+			SpeechToTextImageText.color = Color.white;
 			StartCoroutine(AnimateBackground());
 			CloseChatWindow(true);
 		}
@@ -616,8 +649,8 @@ namespace UI.Chat_UI
 		/// </summary>
 		private void RefreshChannelPanel()
 		{
-			Loggy.LogTrace("Refreshing channel panel!", Category.Chat);
-			Loggy.Log("Selected channels: " + ListChannels(SelectedChannels), Category.Chat);
+			Loggy.Trace("Refreshing channel panel!", Category.Chat);
+			Loggy.Info("Selected channels: " + ListChannels(SelectedChannels), Category.Chat);
 			RefreshToggles();
 			UpdateInputLabel();
 		}
@@ -674,7 +707,7 @@ namespace UI.Chat_UI
 			// Check a channel toggle doesn't already exist
 			if (ChannelToggles.ContainsKey(channel))
 			{
-				Loggy.LogWarning($"Channel toggle already exists for {channel}!", Category.Chat);
+				Loggy.Warning($"Channel toggle already exists for {channel}!", Category.Chat);
 				return;
 			}
 
@@ -823,7 +856,7 @@ namespace UI.Chat_UI
 		/// </summary>
 		public void EnableChannel(ChatChannel channel)
 		{
-			Loggy.Log($"Enabling {channel}", Category.Chat);
+			Loggy.Info($"Enabling {channel}", Category.Chat);
 
 			if (ChannelToggles.ContainsKey(channel))
 			{
@@ -831,7 +864,7 @@ namespace UI.Chat_UI
 			}
 			else
 			{
-				Loggy.LogWarning($"Can't enable {channel} because it isn't in ChannelToggles!", Category.Chat);
+				Loggy.Warning($"Can't enable {channel} because it isn't in ChannelToggles!", Category.Chat);
 			}
 
 			//Deselect all other channels in UI if it's a main channel
@@ -868,7 +901,7 @@ namespace UI.Chat_UI
 		/// </summary>
 		public void DisableChannel(ChatChannel channel)
 		{
-			Loggy.Log($"Disabling {channel}", Category.Chat);
+			Loggy.Info($"Disabling {channel}", Category.Chat);
 
 			// Special behaviour for main channels
 			if (MainChannels.Contains(channel))
@@ -930,7 +963,7 @@ namespace UI.Chat_UI
 				else
 				{
 					// TODO: need some addition UX indication that channel is not avaliable
-					Loggy.Log($"Player trying to write message to channel {inputChannel}, but there are only {availChannels} avaliable;", Category.Chat);
+					Loggy.Info($"Player trying to write message to channel {inputChannel}, but there are only {availChannels} avaliable;", Category.Chat);
 				}
 
 				// delete all tags from input

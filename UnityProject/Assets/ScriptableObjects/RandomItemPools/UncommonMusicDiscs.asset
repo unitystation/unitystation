@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce108c02d022d1940bc023ceca025d81, type: 3}
+  m_Name: UncommonMusicDiscs
+  m_EditorClassIdentifier: 
+  foreverID: de22cc2c47ecec844aec7fec1546eed1
+  pool:
+  - prefab: {fileID: 1317294304646802032, guid: ca8b4ae0e72e25c7fba27a4d7097dddb,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 4457563955665547910, guid: b68ee93ea2f6b8661b270fa5b90a3426,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 4457563955665547910, guid: 1138588a42e29b342ac4a72515e36c6e,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 4457563955665547910, guid: 5bdd2d2e0c126c84b887ee0ea971cb10,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 4457563955665547910, guid: 20423ee419e9b404da4882e4a6adcc84,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 4457563955665547910, guid: aa64645ddf8533e479cf67fb15cd38a5,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 4369499483188861459, guid: 68a9a7632c422011db2419f0b6f803f6,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 2713976021669731098, guid: 10d0bf16dbe79d0d3b3de223907d8112,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 4457563955665547910, guid: c4791bda218956341a187c9287d9642e,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 4457563955665547910, guid: 3e26f1d7b56178a49bc3fbce1a26c8a1,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 4457563955665547910, guid: 4d30687703f12b8499a0b449bd6d81bf,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 4457563955665547910, guid: 99527ad0cf6a2ad4d95609058f34e5cf,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 4457563955665547910, guid: 20be4fe8e01757649b1ada1c2d6436c9,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  RequiredTrait: {fileID: 0}

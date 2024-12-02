@@ -30,13 +30,11 @@ namespace Systems.Faith.Miracles
 		public int MiracleCost { get; set; } = 100;
 		public void DoMiracle(FaithData associatedFaith, PlayerScript invoker = null)
 		{
-			foreach (var leader in associatedFaith.FaithLeaders)
-			{
-				if (leader.TryGetComponent<ScaleSync>(out var scale) == false) continue;
-				int scaleNew = Random.Range(2, 3);
-				scale.SetScale(new Vector3(scaleNew,scaleNew,scaleNew));
-				Chat.AddLocalMsgToChat($"{leader.visibleName} inflates and becomes bigger", leader.GameObject);
-			}
+			if (invoker == null) return;
+			if (invoker.TryGetComponent<ScaleSync>(out var scale) == false) return;
+			int scaleNew = Random.Range(2, 3);
+			scale.SetScale(new Vector3(scaleNew,scaleNew,scaleNew));
+			Chat.AddLocalMsgToChat($"{invoker.visibleName} inflates and becomes bigger", invoker.GameObject);
 		}
 	}
 }

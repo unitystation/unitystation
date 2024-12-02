@@ -87,6 +87,7 @@ public enum NetTabType
 	PressureValve = 69,
 	TemperatureGate = 70,
 	ReflectionGolf = 71,
+	PaperHolographic = 72,
 	// add new entres to the bottom
 	// the enum name must match that of the prefab except the prefab has the word tab infront of the enum name
 	// i.e TabJukeBox
@@ -199,7 +200,7 @@ public class NetTab : Tab
 			if (CachedElements.ContainsKey(element.name))
 			{
 				// Someone called InitElements in Init()
-				Loggy.LogError($"'{name}': rescan during '{element}' Init(), aborting initial scan", Category.NetUI);
+				Loggy.Error($"'{name}': rescan during '{element}' Init(), aborting initial scan", Category.NetUI);
 				return;
 			}
 
@@ -273,7 +274,7 @@ public class NetTab : Tab
 			}
 			else
 			{
-				Loggy.LogWarning(
+				Loggy.Warning(
 					$"'{name}' wonky value import: can't find '{elementValue.Id}'.\n Expected: {string.Join("/", CachedElements.Keys)}",
 					Category.NetUI);
 			}
@@ -339,7 +340,7 @@ public class NetTab : Tab
 	{
 		if (Provider == null)
 		{
-			Loggy.LogWarning($"Cannot play sound for {gameObject}; provider missing.");
+			Loggy.Warning($"Cannot play sound for {gameObject}; provider missing.");
 			return;
 		}
 

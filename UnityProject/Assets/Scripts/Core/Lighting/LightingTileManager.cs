@@ -31,7 +31,7 @@ using UnityEngine;
 				}
 				else
 				{
-					Loggy.LogError("No LightTile component found!",Category.Lighting);
+					Loggy.Error("No LightTile component found!",Category.Lighting);
 				}
 			}
 

@@ -1,0 +1,84 @@
+name: Refactor
+description: (Dev Only) Refactor an existing feature to improve performance, usability, and/or stability.
+title: "[Refactor]"
+labels: ['Type: Refactor']
+body:
+  - type: checkboxes
+    attributes:
+      label: There are no current discussions or in-progress issues related to this issue.
+      description: Please take some time and try to find another issue with the goals.
+      options:
+        - label:  I have searched the existing issues, and found no other discussions related to this. 
+    validations:
+       required: true
+  - type: dropdown
+    attributes:
+      label: What main areas does this refactor effect?
+      description: Keep in mind that the larger the scope, the harder this refactor will be finished. Keep the affected areas to a minimum.
+      multiple: true
+      options:
+        - Lifecycles
+        - Client Security
+        - (Networking) Client
+        - (Networking) Server
+        - (Networking) Client and Server
+        - Mapping System
+        - Prefabs, Scriptable Objects, and Serialization
+        - Core Gameplay systems/features
+        - Roles/Occupations/Antagonists
+        - UI (Unity UI/NetUI)
+        - UI (UI Toolkit)
+        - Admin Tools
+        - Balance
+        - Mobs/HealthV2
+        - Chemistry
+        - Cargo
+        - Food, Drinks and Botany
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Describe the problem with the current implementation.
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Why is a refactor required?
+      description: A clear and concise description of why this refactor is needed. Ideally, refactors should only be reserved to fix issues or give more power to Unitystation forks to easily create content for the game.
+      placeholder: NetUI made me bald before 30, and I'd like a proper UI system that can be used by other contributors that is properly documented and easy to get up and running.
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Explain the goals of your suggested refactor, and what will be changed from the current implementation.
+      render: markdown
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: To-do checklist
+      description: THIS PART IS IMPORTANT!! You must create a clear checklist of what must be done. Do your research, and keep the list up to date with any new tasks required to finish this refactor.
+      value: |
+        - [] Install the UI Toolkit package.
+        - [] Create a manager for UI docs.
+        - [] Create a script like "Has NetTab" to easily tell the doc manager which UI doc to display.
+        - - [] "Has UIDoc" should check if the player has walked away from an object that contains the using.
+        - [] Add a helper to easily hook networked variable bindings to UI docs.
+        - [] Argue with Bod for the 71th time why NetUI and Unity UI sucks.
+      render: markdown
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Describe current workarounds or bandage solutions until a refactor is in motion.
+      description: Refactors are large, and daunting tasks that could take months to complete. Until someone picks up the hammer, describe temporary solutions or notes that could aid developers with the current implementation.
+      render: markdown
+    validations:
+      required: true

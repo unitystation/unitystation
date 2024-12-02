@@ -43,7 +43,7 @@ public class RightClickAppearance : MonoBehaviour
 				return RightClickMenuItem.CreateObjectMenuItem(backgroundColor, firstSprite.sprite, backgroundSprite, label, subMenus, firstSprite.color);
 			}
 
-			Loggy.LogWarningFormat("Could not determine sprite to use for right click menu" +
+			Loggy.Warning().Format("Could not determine sprite to use for right click menu" +
 			                        " for object {0}. Please specify a sprite in the RightClickMenu component" +
 			                        " for this object.", Category.UserInput, gameObject.name);
 		}

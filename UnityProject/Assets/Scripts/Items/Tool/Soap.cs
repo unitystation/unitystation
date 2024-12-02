@@ -37,14 +37,6 @@ namespace Items
 			//can only scrub tiles, for now
 			if (!Validations.HasComponent<InteractableTiles>(interaction.TargetObject)) return false;
 
-            // Get position of interaction as Vector3Int
-            Vector3 position = interaction.WorldPositionTarget;
-            Vector3Int positionInt = Vector3Int.RoundToInt(position);
-
-            // Check if there is an object in the way of scrubbing the tile
-			var atPosition = MatrixManager.GetAt<FloorDecal>(positionInt, side == NetworkSide.Server) as List<FloorDecal>;
-            if(atPosition == null || atPosition.Count == 0) return false;
-
             return true;
 		}
 

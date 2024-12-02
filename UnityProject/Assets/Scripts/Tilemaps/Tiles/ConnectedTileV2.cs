@@ -124,7 +124,7 @@ namespace Tiles
 			//Can't find correct direction so default to none
 			if (SetSprite(ref tileData, ConnectionDirections.None, rotation) == false)
 			{
-				Loggy.LogError($"No None direction for {name}");
+				Loggy.Error($"No None direction for {name}");
 			}
 		}
 

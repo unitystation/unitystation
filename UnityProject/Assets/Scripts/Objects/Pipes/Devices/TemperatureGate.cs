@@ -16,7 +16,7 @@ namespace Objects.Atmospherics
 		[NonSerialized] public float MinTemperature = 2.7f;
 		[NonSerialized] public float TargetTemperature = 273.15f;
 		[NonSerialized] public float ThresholdPressure = 10f;
-		
+
 		public bool IsOn = false;
 		private bool isInverted;
 
@@ -82,12 +82,12 @@ namespace Objects.Atmospherics
 			{
 				return;
 			}
-			
-			PipeData inputPipe = pipeData.Connections.GetFlagToDirection(FlagLogic.InputOne)?.Connected;
+
+			PipeData inputPipe = pipeData.RotatedConnections.GetFlagToDirection(FlagLogic.InputOne)?.Connected;
 			if (inputPipe == null) return;
-			
+
 			float inputTemp = inputPipe.GetMixAndVolume.Temperature;
-			
+
 			if (isInverted ? inputTemp < TargetTemperature : inputTemp > TargetTemperature) return;
 
 			Vector2 inputDensity = inputPipe.GetMixAndVolume.Density();

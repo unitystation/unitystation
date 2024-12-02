@@ -21,7 +21,7 @@ namespace UI.Objects.Shuttles
 		{
 			if (fuelGaugeTransform == null || colourBarTransform == null || pointerTransform == null)
 			{
-				Loggy.LogError("No Fuel Gauge Set on Shuttle!", Category.Shuttles);
+				Loggy.Error("No Fuel Gauge Set on Shuttle!", Category.Shuttles);
 				this.enabled = false;
 				return;
 			}
@@ -37,7 +37,7 @@ namespace UI.Objects.Shuttles
 			PercentageFuel = percentageFuel;
 			if (percentageFuel < 0f || percentageFuel > 100f)
 			{
-				Loggy.LogWarning("Can't set fuel to a non-percent value", Category.Shuttles);
+				Loggy.Warning("Can't set fuel to a non-percent value", Category.Shuttles);
 				return;
 			}
 			float fuelGaugeWidth = (fuelGaugeMaxWidth) / 100 * percentageFuel;

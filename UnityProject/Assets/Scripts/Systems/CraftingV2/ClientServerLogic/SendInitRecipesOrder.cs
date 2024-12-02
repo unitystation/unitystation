@@ -39,7 +39,7 @@ namespace Systems.CraftingV2.ClientServerLogic
 				{
 					if (craftingRecipe.IndexInSingleton < 0)
 					{
-						Loggy.LogError(
+						Loggy.Error(
 							"The server tried to send the negative recipe index when the server was initiating " +
 							$"the recipes of the player: {recipient.Name}. The recipe: {craftingRecipe}. " +
 							"Perhaps this recipe is missing from the singleton."
@@ -53,7 +53,7 @@ namespace Systems.CraftingV2.ClientServerLogic
 							!= craftingRecipe
 					)
 					{
-						Loggy.LogError(
+						Loggy.Error(
 							"The server tried to send the wrong recipe index when the server was initiating " +
 							$"the recipes of the player: {recipient.Name}. The recipe: {craftingRecipe}. " +
 							"Perhaps this recipe has wrong indexInSingleton that doesn't match a real index in " +

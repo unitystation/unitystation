@@ -114,7 +114,7 @@ namespace Messages.Server
 			}
 			catch (NullReferenceException exception)
 			{
-				Loggy.LogError($"An NRE was caught in UpdateItemSlotMessage: {exception.Message} \n {exception.StackTrace}", Category.Inventory);
+				Loggy.Error($"An NRE was caught in UpdateItemSlotMessage: {exception.Message} \n {exception.StackTrace}", Category.Inventory);
 			}
 		}
 

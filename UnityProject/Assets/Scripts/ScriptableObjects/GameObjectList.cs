@@ -38,7 +38,7 @@ namespace ScriptableObjects
 			{
 				if (gameObjectFromList.Count > 1)
 				{
-					Loggy.LogError($"There is {gameObjectFromList.Count} prefabs with the name: {gameObjectName}, please rename them");
+					Loggy.Error($"There is {gameObjectFromList.Count} prefabs with the name: {gameObjectName}, please rename them");
 				}
 
 				return gameObjectFromList[0];

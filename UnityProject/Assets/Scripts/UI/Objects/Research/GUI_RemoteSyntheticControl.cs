@@ -37,7 +37,7 @@ namespace UI.Objects.Research
 			if (IsMasterTab == false) return;
 			if (AssociatedConsole == null)
 			{
-				Loggy.LogError("AssociatedConsole Was missing or destroyed but GUI_RemoteSyntheticControl Is still alive!!!");
+				Loggy.Error("AssociatedConsole Was missing or destroyed but GUI_RemoteSyntheticControl Is still alive!!!");
 				return;
 			}
 

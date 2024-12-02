@@ -34,7 +34,7 @@ namespace Core.Characters.AttributeBehaviors
 
 			if (spawnTransform == null)
 			{
-				Loggy.LogErrorFormat(
+				Loggy.Error().Format(
 					"Unable to determine spawn position for  occupation {0}. Cannot spawn player.",
 					Category.EntitySpawn, jobType);
 				return;

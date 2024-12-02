@@ -22,7 +22,7 @@ MonoBehaviour:
   limit: 5
   priority: 99
   issuedClearance: 020000001f000000270000000c0000003700000001000000040000000d000000
-  issuedLowPopClearance: 020000001f000000270000000c0000003700000001000000040000000d000000
+  issuedLowPopClearance: 020000001f000000270000000c0000003700000001000000040000000d000000030000003a000000
   spells: []
   progress: 80
   choiceColor: {r: 0.91764706, g: 0.26666668, b: 0.3211101, a: 1}
@@ -50,11 +50,11 @@ MonoBehaviour:
   isTargeteable: 1
   playSound: 1
   spawnSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/AmbientTracks/SpawnSounds/departments/Security_Spawn.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   textColor: {r: 1, g: 0.9333334, b: 0.9333334, a: 1}

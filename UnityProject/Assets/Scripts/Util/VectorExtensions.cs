@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using Player;
 using UnityEngine;
 
 public static class VectorExtensions
@@ -62,5 +64,52 @@ public static class VectorExtensions
 		v.x = (cos * tx) - (sin * ty);
 		v.y = (sin * tx) + (cos * ty);
 		return v;
+	}
+
+	public static List<Vector3Int> GetNeighbors(this Vector3Int v)
+	{
+		return new List<Vector3Int>
+		{
+			v + new Vector3Int(1, 0, 0),
+			v + new Vector3Int(-1, 0, 0),
+			v + new Vector3Int(0, 1, 0),
+			v + new Vector3Int(0, -1, 0)
+		};
+	}
+
+	public static Vector3 GetRandomScatteredDirection(this Vector3 v)
+	{
+		Vector3 offset= Vector3.zero;
+		switch (RNG.GetRandomNumber(1,9))
+		{
+			case 1:
+				offset= Vector3.zero;
+				break;
+			case 2:
+				offset= new Vector3(1,0,0);
+				break;
+			case 3:
+				offset= new Vector3(-1,0,0);
+				break;
+			case 4:
+				offset= new Vector3(0,1,0);
+				break;
+			case 5:
+				offset= new Vector3(0,-1,0);
+				break;
+			case 6:
+				offset= new Vector3(1,-1,0);
+				break;
+			case 7:
+				offset= new Vector3(-1,-1,0);
+				break;
+			case 8:
+				offset= new Vector3(-1,1,0);
+				break;
+			case 9:
+				offset= new Vector3(1,1,0);
+				break;
+		}
+		return offset;
 	}
 }

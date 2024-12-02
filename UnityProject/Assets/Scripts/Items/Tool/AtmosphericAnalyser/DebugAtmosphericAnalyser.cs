@@ -27,7 +27,7 @@ namespace Items.Atmospherics
 			}
 
 			Chat.AddExamineMsgFromServer(interaction.Performer, toShow);
-			Loggy.Log(toShow);
+			Loggy.Info(toShow);
 		}
 	}
 }

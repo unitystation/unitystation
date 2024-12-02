@@ -8,11 +8,10 @@ namespace Systems.Faith
 		public Faith Faith { get; set; }
 		public int Points { get; set; }
 		public List<PlayerScript> FaithMembers { get; set; }
-		public List<PlayerScript> FaithLeaders { get; set; }
 
 		public void AddMember(PlayerScript newMember)
 		{
-			RemoveMember(newMember);
+			if (FaithMembers.Contains(newMember)) return;
 			FaithMembers.Add(newMember);
 			foreach (var property in Faith.FaithProperties)
 			{
@@ -22,11 +21,11 @@ namespace Systems.Faith
 
 		public void RemoveMember(PlayerScript member)
 		{
-			FaithMembers.Remove(member);
 			foreach (var property in Faith.FaithProperties)
 			{
 				property.OnLeaveFaith(member);
 			}
+			FaithMembers.Remove(member);
 		}
 
 		public void RemoveAllMembers()
@@ -39,7 +38,7 @@ namespace Systems.Faith
 
 		public void SetupFaith()
 		{
-			Loggy.Log("[FaithData/SetupFaith] Setting up faith data for " + Faith.FaithName);
+			Loggy.Info("[FaithData/SetupFaith] Setting up faith data for " + Faith.FaithName);
 			foreach (var property in Faith.FaithProperties)
 			{
 				property.Setup(this);

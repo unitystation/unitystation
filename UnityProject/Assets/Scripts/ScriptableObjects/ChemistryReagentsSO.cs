@@ -34,13 +34,13 @@ namespace ScriptableObjects
 			{
 				if (allChemistryReagents[i] == null)
 				{
-					Loggy.LogError($"The ChemistryReagentsSO singleton has null at the index: {i}.");
+					Loggy.Error($"The ChemistryReagentsSO singleton has null at the index: {i}.");
 					continue;
 				}
 
 				if (allChemistryReagents[i].IndexInSingleton != i)
 				{
-					Loggy.LogError($"The reagent {allChemistryReagents[i]} has the wrong singleton index. " +
+					Loggy.Error($"The reagent {allChemistryReagents[i]} has the wrong singleton index. " +
 					                $"Expected: {i}. Found: {allChemistryReagents[i].IndexInSingleton}.");
 				}
 			}
@@ -75,7 +75,7 @@ namespace ScriptableObjects
 			}
 			catch (Exception e)
 			{
-				Loggy.LogError(e.ToString());
+				Loggy.Error(e.ToString());
 			}
 		}
 	}

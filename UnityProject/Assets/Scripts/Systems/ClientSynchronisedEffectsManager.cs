@@ -11,6 +11,8 @@ public class ClientSynchronisedEffectsManager : SingletonManager<ClientSynchroni
 	public Dictionary<uint, List<IClientSynchronisedEffect>> Data =
 		new Dictionary<uint, List<IClientSynchronisedEffect>>();
 
+	public static HashSet<uint>  CurrentlyOns =  new HashSet<uint>();
+
 	private void OnEnable()
 	{
 		EventManager.AddHandler(Event.RoundEnded, ClearData);
@@ -24,6 +26,7 @@ public class ClientSynchronisedEffectsManager : SingletonManager<ClientSynchroni
 
 	public void ClearData()
 	{
+		CurrentlyOns.Clear();
 		Data.Clear();
 	}
 
@@ -52,6 +55,11 @@ public class ClientSynchronisedEffectsManager : SingletonManager<ClientSynchroni
 
 	public void LeavingBody(uint BodyID)
 	{
+		if (CurrentlyOns.Contains(BodyID))
+		{
+			CurrentlyOns.Remove(BodyID);
+		}
+
 		if (Data.ContainsKey(BodyID))
 		{
 			foreach (var BodyValues in Data[BodyID])
@@ -63,6 +71,7 @@ public class ClientSynchronisedEffectsManager : SingletonManager<ClientSynchroni
 
 	public void EnterBody(uint BodyID)
 	{
+		CurrentlyOns.Add(BodyID);
 		if (Data.ContainsKey(BodyID))
 		{
 			foreach (var BodyValues in Data[BodyID])

@@ -122,7 +122,7 @@ public class UprightSprites : MonoBehaviour, IMatrixRotation
 
 	public void OnMatrixRotate()
 	{
-		if (Application.isBatchMode) return;
+		if (CustomNetworkManager.IsHeadless) return;
 		if (spriteMatrixRotationBehavior == SpriteMatrixRotationBehavior.RotateUprightAtEndOfMatrixRotation)
 		{
 			if (RotateParent == null)

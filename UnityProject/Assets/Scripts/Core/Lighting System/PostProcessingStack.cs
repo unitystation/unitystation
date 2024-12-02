@@ -222,7 +222,7 @@ public class PostProcessingStack
 
 		if (iBlurMaterial == null)
 		{
-			Loggy.LogError($"PostProcessingStack: Unable to do a blur pass. Provided material is null.",
+			Loggy.Error($"PostProcessingStack: Unable to do a blur pass. Provided material is null.",
 				Category.Lighting);
 			return false;
 		}

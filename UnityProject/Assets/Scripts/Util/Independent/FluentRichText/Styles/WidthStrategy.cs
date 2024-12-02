@@ -12,7 +12,7 @@ namespace Util.Independent.FluentRichText.Styles
 			    CommonValidations.IsValidFontUnitValue(amount) == false &&
 			    CommonValidations.IsValidPercentageValue(amount) == false)
 			{
-				Loggy.LogError($"RichText received invalid width amount: {amount}");
+				Loggy.Error($"RichText received invalid width amount: {amount}");
 				return;
 			}
 

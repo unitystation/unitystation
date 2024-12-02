@@ -100,6 +100,7 @@ namespace Chemistry
 		//should only be accessed when locked so should be okay
 		private Dictionary<Reagent, float> TEMPReagents = new Dictionary<Reagent, float>();
 
+		public DateTime LastModificationTime { get; private set; } = DateTime.UtcNow;
 
 		public ReagentMix( SerializableDictionary<Reagent, float> reagents, float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
 		{
@@ -128,6 +129,9 @@ namespace Chemistry
 
 		public float this[Reagent reagent] => reagents.m_dict.TryGetValue(reagent, out var amount) ? amount : 0;
 
+		[HideInInspector]
+		public List<Reagent> reagentKeys = new List<Reagent>();
+
 		/// <summary>
 		/// Returns current temperature mix in Kelvin
 		/// </summary>
@@ -138,7 +142,7 @@ namespace Chemistry
 			{
 				if (value.IsUnreasonableNumber() && value != 0)
 				{
-					Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE Reagent mix temperature Invalid number!!!! {value}");
+					Loggy.Error($"AAAAAAAAAAAAA REEEEEEEEE Reagent mix temperature Invalid number!!!! {value}");
 					return;
 				}
 
@@ -179,7 +183,7 @@ namespace Chemistry
 			{
 				if (value.IsUnreasonableNumber() && value != 0)
 				{
-					Loggy.LogError($"AAAAAAAAAAAAA REEEEEEEEE Reagent mix InternalEnergy Invalid number!!!! {value}");
+					Loggy.Error($"AAAAAAAAAAAAA REEEEEEEEE Reagent mix InternalEnergy Invalid number!!!! {value}");
 					return;
 				}
 
@@ -304,6 +308,7 @@ namespace Chemistry
 
 		public void Add(Reagent reagent, float amount)
 		{
+			LastModificationTime = DateTime.UtcNow;
 			if (Mathf.Approximately(amount, 0f))
 			{
 				return;
@@ -311,7 +316,7 @@ namespace Chemistry
 
 			if (amount < 0f)
 			{
-				Loggy.LogError($"Trying to add negative {amount} amount of {reagent}", Category.Chemistry);
+				Loggy.Error($"Trying to add negative {amount} amount of {reagent}", Category.Chemistry);
 				return;
 			}
 
@@ -356,7 +361,7 @@ namespace Chemistry
 		public float Remove(Reagent reagent, float amount)
 		{
 			if (amount == 0) return 0;
-
+			LastModificationTime = DateTime.UtcNow;
 			if (amount < 0f)
 			{
 				Debug.LogError($"Trying to remove Negative {amount} amount of {reagent}");
@@ -370,7 +375,7 @@ namespace Chemistry
 
 			if (amount.IsUnreasonableNumber())
 			{
-				Loggy.LogError($"Trying to remove {amount} amount of {reagent}", Category.Chemistry);
+				Loggy.Error($"Trying to remove {amount} amount of {reagent}", Category.Chemistry);
 				return 0;
 			}
 
@@ -407,20 +412,22 @@ namespace Chemistry
 					Subtract(reagent.Key, reagent.Value);
 				}
 			}
+			LastModificationTime = DateTime.UtcNow;
 		}
 
 		public float Subtract(Reagent reagent, float subAmount)
 		{
+			LastModificationTime = DateTime.UtcNow;
 			if (subAmount < 0)
 			{
-				Loggy.LogErrorFormat("Trying to subtract negative {0} amount of {1}. Use positive amount instead.", Category.Chemistry,
+				Loggy.Error().Format("Trying to subtract negative {0} amount of {1}. Use positive amount instead.", Category.Chemistry,
 					subAmount, reagent);
 				return 0;
 			}
 
 			if (float.IsNaN(subAmount) || float.IsInfinity(subAmount))
 			{
-				Loggy.LogError($"Trying to subtract {subAmount} amount of {reagent}", Category.Chemistry);
+				Loggy.Error($"Trying to subtract {subAmount} amount of {reagent}", Category.Chemistry);
 				return 0;
 			}
 
@@ -458,15 +465,16 @@ namespace Chemistry
 		/// </summary>
 		public void Multiply(float multiplier)
 		{
+			LastModificationTime = DateTime.UtcNow;
 			if (multiplier < 0f)
 			{
-				Loggy.LogError($"Trying to multiply reagentmix by {multiplier}", Category.Chemistry);
+				Loggy.Error($"Trying to multiply reagentmix by {multiplier}", Category.Chemistry);
 				return;
 			}
 
 			if (multiplier.IsUnreasonableNumber() && multiplier != 0)
 			{
-				Loggy.LogError($"Trying to Multiply by {multiplier}", Category.Chemistry);
+				Loggy.Error($"Trying to Multiply by {multiplier}", Category.Chemistry);
 				return;
 			}
 
@@ -500,9 +508,10 @@ namespace Chemistry
 		/// </summary>
 		public void Divide(float Divider)
 		{
+			LastModificationTime = DateTime.UtcNow;
 			if (Divider < 0f)
 			{
-				Loggy.LogError($"Trying to Divide reagentmix by {Divider}", Category.Chemistry);
+				Loggy.Error($"Trying to Divide reagentmix by {Divider}", Category.Chemistry);
 				return;
 			}
 
@@ -514,7 +523,7 @@ namespace Chemistry
 
 			if (Divider.IsUnreasonableNumber())
 			{
-				Loggy.LogError($"Trying to Divide by {Divider}", Category.Chemistry);
+				Loggy.Error($"Trying to Divide by {Divider}", Category.Chemistry);
 				return;
 			}
 
@@ -535,8 +544,14 @@ namespace Chemistry
 			}
 		}
 
-		[HideInInspector]
-		public List<Reagent> reagentKeys = new List<Reagent>();
+		public ReagentMix Split(float amount)
+		{
+			LastModificationTime = DateTime.UtcNow;
+			ReagentMix split = new ReagentMix();
+			TransferTo(split, amount);
+			return split;
+		}
+
 		public void TransferTo(ReagentMix target, float amount)
 		{
 			if (amount == 0 || amount < 0)
@@ -546,7 +561,7 @@ namespace Chemistry
 
 			if (float.IsNaN(amount) || float.IsNegativeInfinity(amount) || float.IsPositiveInfinity(amount))
 			{
-				Loggy.LogError($"Trying to Transfer by {amount}", Category.Chemistry);
+				Loggy.Error($"Trying to Transfer by {amount}", Category.Chemistry);
 				return;
 			}
 
@@ -599,6 +614,7 @@ namespace Chemistry
 
 		public ReagentMix Take(float amount)
 		{
+			LastModificationTime = DateTime.UtcNow;
 			if (amount == 0 || amount < 0)
 			{
 				return new ReagentMix();
@@ -606,7 +622,7 @@ namespace Chemistry
 
 			if (float.IsNegativeInfinity(amount) || float.IsNaN(amount)  || float.IsPositiveInfinity(amount))
 			{
-				Loggy.LogError($"Trying to Take {amount}", Category.Chemistry);
+				Loggy.Error($"Trying to Take {amount}", Category.Chemistry);
 				return new ReagentMix();
 			}
 
@@ -622,9 +638,10 @@ namespace Chemistry
 				return;
 			}
 
+			LastModificationTime = DateTime.UtcNow;
 			if (float.IsNegativeInfinity(amount) || float.IsNaN(amount)  || float.IsPositiveInfinity(amount))
 			{
-				Loggy.LogError($"Trying to RemoveVolume {amount}", Category.Chemistry);
+				Loggy.Error($"Trying to RemoveVolume {amount}", Category.Chemistry);
 				return;
 			}
 
@@ -684,6 +701,7 @@ namespace Chemistry
 			get
 			{
 				float total = 0;
+				if (reagents == null) return 0;
 				lock (reagents)
 				{
 					foreach (var reagent in reagents.m_dict)

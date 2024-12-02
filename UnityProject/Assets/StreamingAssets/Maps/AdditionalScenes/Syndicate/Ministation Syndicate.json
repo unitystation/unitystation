@@ -1,6 +1,6 @@
 {
   "Ver": "1.0.0",
-  "MapName": "SyndiShuttle",
+  "MapName": "SyndicateShuttle",
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
@@ -2460,18 +2460,20 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.3.0",
+        "Ver": "1.4.1",
         "CommonPrefabs": [],
         "PrefabData": [
           {
             "GitID": "5425ee650c49e0849b4bed132cfb588f_4┼-20┼0┼",
             "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
+            "NameMatches": true,
             "Name": "TinyFan",
             "LocalPRS": "4┼-20┼0┼"
           },
           {
             "GitID": "7dea0790d26246447a9b881689c7dbdf_4┼-20┼0┼",
             "PrefabID": "7dea0790d26246447a9b881689c7dbdf",
+            "NameMatches": true,
             "Name": "AirlockExternalWindowed",
             "LocalPRS": "4┼-20┼0┼",
             "Object": {
@@ -2513,18 +2515,21 @@
           {
             "GitID": "0469b3922aa40e04d9c576979353df72_5┼-18┼0┼",
             "PrefabID": "0469b3922aa40e04d9c576979353df72",
+            "NameMatches": true,
             "Name": "SyndicateMinibomb",
             "LocalPRS": "5┼-18┼0┼"
           },
           {
             "GitID": "ed4e62dc12dca724ba1e5f374965096b_5┼-18┼0┼",
             "PrefabID": "ed4e62dc12dca724ba1e5f374965096b",
+            "NameMatches": true,
             "Name": "Rack",
             "LocalPRS": "5┼-18┼0┼"
           },
           {
             "GitID": "0469b3922aa40e04d9c576979353df72_5.25┼-18┼0┼",
             "PrefabID": "0469b3922aa40e04d9c576979353df72",
+            "NameMatches": true,
             "Name": "SyndicateMinibomb",
             "LocalPRS": "5.25┼-18┼0┼"
           },
@@ -2537,6 +2542,7 @@
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_6┼-22┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "6┼-22┼0┼",
             "Object": {
@@ -2622,6 +2628,7 @@
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_6┼-18┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "6┼-18┼0┼0ø0ø180ø",
             "Object": {
@@ -2721,12 +2728,14 @@
           {
             "GitID": "f2ed8a6f4dbced449ad66a9f9be5c957_7┼-22┼0┼",
             "PrefabID": "f2ed8a6f4dbced449ad66a9f9be5c957",
+            "NameMatches": true,
             "Name": "SyndicateArmoryCloset",
             "LocalPRS": "7┼-22┼0┼"
           },
           {
             "GitID": "da5c775edced9c242be7c64d8f159b8f_7┼-18┼0┼",
             "PrefabID": "da5c775edced9c242be7c64d8f159b8f",
+            "NameMatches": true,
             "Name": "SyndicateToolbox",
             "LocalPRS": "7┼-18┼0┼",
             "Object": {
@@ -2752,6 +2761,7 @@
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_7┼-15┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "7┼-15┼0┼0ø0ø270ø",
             "Object": {
@@ -2927,7 +2937,20 @@
             "GitID": "a0435651e9a40f54ea02c119de299b0f_11┼-21┼0┼",
             "PrefabID": "a0435651e9a40f54ea02c119de299b0f",
             "Name": "nuke (1)",
-            "LocalPRS": "11┼-21┼0┼"
+            "LocalPRS": "11┼-21┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Nuke@0",
+                  "Data": [
+                    {
+                      "Name": "UseSyndiNukeCode",
+                      "Data": "True"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_11┼-21┼0┼",
@@ -3039,6 +3062,7 @@
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_11┼-15┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
+            "NameMatches": true,
             "Name": "ShuttleChair",
             "LocalPRS": "11┼-15┼0┼",
             "Object": {
@@ -3065,6 +3089,7 @@
           {
             "GitID": "0a56d7747596df141be0aa6803f20980_11┼-14┼0┼",
             "PrefabID": "0a56d7747596df141be0aa6803f20980",
+            "NameMatches": true,
             "Name": "ShuttlePilotingConsole",
             "LocalPRS": "11┼-14┼0┼"
           },
@@ -3206,12 +3231,14 @@
           {
             "GitID": "e456d62fc63bc3344a513208fbc3018a_15┼-18┼0┼",
             "PrefabID": "e456d62fc63bc3344a513208fbc3018a",
+            "NameMatches": true,
             "Name": "CombatAidKit",
             "LocalPRS": "15┼-18┼0┼"
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_15┼-15┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "15┼-15┼0┼0ø0ø90ø",
             "Object": {
@@ -3335,6 +3362,7 @@
           {
             "GitID": "c4c1a5e556c58314eb690ee3272fb1cf_16┼-21┼0┼",
             "PrefabID": "c4c1a5e556c58314eb690ee3272fb1cf",
+            "NameMatches": true,
             "Name": "OperatingTable",
             "LocalPRS": "16┼-21┼0┼"
           },
@@ -3376,12 +3404,14 @@
           {
             "GitID": "3d393b5fdb309324684880087c7bb13b_16┼-18┼0┼",
             "PrefabID": "3d393b5fdb309324684880087c7bb13b",
+            "NameMatches": true,
             "Name": "Combat Defibrillator Syndie",
             "LocalPRS": "16┼-18┼0┼"
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_16┼-18┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
             "Name": "LightTubeFixture",
             "LocalPRS": "16┼-18┼0┼0ø0ø180ø",
             "Object": {
@@ -3435,18 +3465,21 @@
           {
             "GitID": "c5e4fb0ddbc648a5ac21f3a49a9178a6_17┼-18┼0┼",
             "PrefabID": "c5e4fb0ddbc648a5ac21f3a49a9178a6",
+            "NameMatches": true,
             "Name": "SyndicateSurgicalDuffelBag",
             "LocalPRS": "17┼-18┼0┼"
           },
           {
             "GitID": "5425ee650c49e0849b4bed132cfb588f_18┼-20┼0┼",
             "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
+            "NameMatches": true,
             "Name": "TinyFan",
             "LocalPRS": "18┼-20┼0┼"
           },
           {
             "GitID": "7dea0790d26246447a9b881689c7dbdf_18┼-20┼0┼",
             "PrefabID": "7dea0790d26246447a9b881689c7dbdf",
+            "NameMatches": true,
             "Name": "AirlockExternalWindowed",
             "LocalPRS": "18┼-20┼0┼",
             "Object": {
@@ -3485,7 +3518,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "-2978.5,-228.5,0",
+          "Pos": "-2966.5,-245.5,0",
           "Size": "19,29,0"
         }
       ]
@@ -12700,7 +12733,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.3.0",
+        "Ver": "1.4.1",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -14860,7 +14893,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "-3005,-231,0",
+          "Pos": "-2994,-251,0",
           "Size": "40,44,0"
         }
       ]

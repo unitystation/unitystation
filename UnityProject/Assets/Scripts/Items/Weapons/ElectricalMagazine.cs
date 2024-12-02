@@ -39,7 +39,7 @@ namespace Weapons
 
 		public override void ExpendAmmo(int amount = 1)
 		{
-			if (toRemove > battery.Watts) 
+			if (toRemove > battery.Watts)
 			{
 				return;
 			}
@@ -53,6 +53,7 @@ namespace Weapons
 			int Ammo = Mathf.RoundToInt(magazineSize * ((float) battery.Watts / (float) battery.MaxWatts));
 			Ammo = Mathf.Clamp(Ammo, 0, magazineSize);
 			ServerSetAmmoRemains(Ammo);
+
 		}
 
 		public override String Examine(Vector3 pos)

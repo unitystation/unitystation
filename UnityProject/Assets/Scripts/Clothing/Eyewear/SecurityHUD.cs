@@ -116,6 +116,7 @@ public class SecurityHUD : NetworkBehaviour, IHUD
 	{
 		var NewJobType = JobType.NULL;
 
+
 		foreach (var itemSlot in PlayerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.id))
 		{
 			if (itemSlot.Item == null) continue;
@@ -130,6 +131,26 @@ public class SecurityHUD : NetworkBehaviour, IHUD
 				if (idCard == null) continue;
 				NewJobType = idCard.JobType;
 				break;
+			}
+		}
+
+		if (NewJobType == JobType.NULL)
+		{
+			foreach (var itemSlot in PlayerScript.DynamicItemStorage.GetItemSlots())
+			{
+				if (itemSlot.Item == null) continue;
+				if (itemSlot.Item.TryGetComponent<IDCard>(out var idCard))
+				{
+					NewJobType = idCard.JobType;
+					break;
+				}
+				else if (itemSlot.Item.TryGetComponent<Items.PDA.PDALogic>(out var pda))
+				{
+					idCard = pda.GetIDCard();
+					if (idCard == null) continue;
+					NewJobType = idCard.JobType;
+					break;
+				}
 			}
 		}
 
