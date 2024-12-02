@@ -55,7 +55,7 @@ public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IEx
 		{
 			matrixInfo.MetaDataLayer.Clean(worldPos, localPos, slippery);
 			reagentContainer.TakeReagents(reagentsPerUse);
-			matrixInfo.MetaDataLayer.RemoveLiquidOnTile(localPos);
+			matrixInfo.MetaDataLayer.RemoveLiquidOnTile(localPos, matrixInfo.Matrix.GetMetaDataNode(localPos));
 		}
 		//server is performing server-side logic for the interaction
 		//do the mopping

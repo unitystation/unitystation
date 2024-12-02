@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Chemistry;
 using Detective;
 using Logs;
 using UnityEngine;
@@ -178,6 +179,8 @@ public class MetaDataNode : IGasMixContainer
 	//How long since the last wind spot particle was spawned
 	//This is here as dictionaries are a pain and for performance but costs more memory
 	public float windEffectTime = 0;
+
+	public ReagentMix ReagentsOnTile = new ReagentMix();
 
 	public void AddGasOverlay(GasSO gas)
 	{
