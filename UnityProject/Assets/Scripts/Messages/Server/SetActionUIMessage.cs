@@ -21,7 +21,6 @@ namespace Messages.Server
 		public struct NetMessage : NetworkMessage
 		{
 			public string SpriteName;
-			public ushort actionListID;
 			public short spellListIndex;
 			public short changelingAbilityListIndex;
 			public bool isMulti;
@@ -47,12 +46,7 @@ namespace Messages.Server
 		private void ProcessActionGUI(NetMessage msg)
 		{
 			IGameActionHolder action = null;
-			if (msg.actionListID != 0)
-			{
-				//SO action singleton ID
-				action = UIActionSOSingleton.Instance.FromID(msg.actionListID);
-			}
-			else if (msg.spellListIndex >= 0)
+			if (msg.spellListIndex >= 0)
 			{
 				//SpellList singleton index
 				var spellData = SpellList.Instance.FromIndex(msg.spellListIndex);
@@ -140,26 +134,8 @@ namespace Messages.Server
 
 			if (ProposedAction == UpdateType.Invalid) return new NetMessage();
 
-			// SO action singleton ID
-			if (action is UIActionScriptableObject actionFromSO)
-			{
-				NetMessage msg = new NetMessage
-				{
-					actionListID = UIActionSOSingleton.ActionsTOID[actionFromSO],
-					showAlert = show,
-					cooldown = cooldown,
-					ProposedAction = ProposedAction,
-					ComponentID = SerializeType(actionFromSO.GetType()),
-					spellListIndex = -1,
-					changelingAbilityListIndex = -1,
-					SpriteName = ID,
-					NetObjectOn = recipient.NetId()
-				};
-				SendTo(recipient, msg);
-				return msg;
-			}
 			// SpellList singleton index
-			else if (action is Spell spellAction)
+			if (action is Spell spellAction)
 			{
 				if (spellAction.SpellData.Index == -1)
 				{

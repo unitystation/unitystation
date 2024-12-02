@@ -127,14 +127,7 @@ namespace UI.Action
 
 			if (iAction is IServerActionGUI)
 			{
-				if (iAction is UIActionScriptableObject actionSO)
-				{
-					RequestGameActionSO.Send(actionSO);
-				}
-				else
-				{
 					RequestGameAction.Send(iAction as IServerActionGUI);
-				}
 			}
 		}
 
