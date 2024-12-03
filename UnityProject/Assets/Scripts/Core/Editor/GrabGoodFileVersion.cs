@@ -17,8 +17,7 @@ public class GrabGoodFileVersion : IPreprocessBuild
 
 	public void OnPreprocessBuild(BuildTarget target, string path)
 	{
-		var Gamedata = AssetDatabase.LoadAssetAtPath<GameObject>(
-			"Assets/Prefabs/SceneConstruction/NestedManagers/GameData.prefab");
+		var Gamedata = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/SceneConstruction/NestedManagers/GameData.prefab");
 		if (Gamedata.GetComponent<GameData>().DevBuild)
 		{
 			return;
@@ -30,6 +29,10 @@ public class GrabGoodFileVersion : IPreprocessBuild
 			string latestTag = GetLatestGoodFileVersion();
 
 			var BuildInfo = JsonConvert.DeserializeObject<BuildInfo>(AccessFile.Load("buildinfo.json"));
+			Loggy.Info("latestTag Unmodified > " + latestTag);
+
+			latestTag = latestTag.Replace("good-file-", "");
+			Loggy.Info("latestTag modified > " + latestTag);
 			BuildInfo.GoodFileVersion = latestTag.Replace("good-file-", "");
 			BuildInfo.GoodFileVersion =  BuildInfo.GoodFileVersion.Replace("good-file-", "");
 			AccessFile.Save("buildinfo.json", JsonConvert.SerializeObject(BuildInfo));
@@ -62,9 +65,9 @@ public class GrabGoodFileVersion : IPreprocessBuild
 				}
 			};
 
-			UnityEngine.Debug.Log("[GrabGoodFileVersion] Running Git command to fetch tags...");
-			UnityEngine.Debug.Log($"[GrabGoodFileVersion] Command: git {gitProcess.StartInfo.Arguments}");
-			UnityEngine.Debug.Log(
+			Loggy.Info("[GrabGoodFileVersion] Running Git command to fetch tags...");
+			Loggy.Info($"[GrabGoodFileVersion] Command: git {gitProcess.StartInfo.Arguments}");
+			Loggy.Info(
 				$"[GrabGoodFileVersion] Current Working Directory: {gitProcess.StartInfo.WorkingDirectory}");
 
 			// Start the process and capture the output
@@ -73,13 +76,13 @@ public class GrabGoodFileVersion : IPreprocessBuild
 			string error = gitProcess.StandardError.ReadToEnd();
 			gitProcess.WaitForExit();
 
-			UnityEngine.Debug.Log($"[GrabGoodFileVersion] Git process exited with code {gitProcess.ExitCode}.");
-			UnityEngine.Debug.Log($"[GrabGoodFileVersion] Standard Output:\n{output}");
-			UnityEngine.Debug.Log($"[GrabGoodFileVersion] Standard Error:\n{error}");
+			Loggy.Info($"[GrabGoodFileVersion] Git process exited with code {gitProcess.ExitCode}.");
+			Loggy.Info($"[GrabGoodFileVersion] Standard Output:\n{output}");
+			Loggy.Info($"[GrabGoodFileVersion] Standard Error:\n{error}");
 
 			if (gitProcess.ExitCode != 0)
 			{
-				UnityEngine.Debug.LogError(
+				Loggy.Warning(
 					$"[GrabGoodFileVersion] Git process failed with exit code {gitProcess.ExitCode}.");
 				return null;
 			}
