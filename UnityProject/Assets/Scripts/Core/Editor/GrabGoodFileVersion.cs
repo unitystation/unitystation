@@ -31,6 +31,7 @@ public class GrabGoodFileVersion : IPreprocessBuild
 
 			var BuildInfo = JsonConvert.DeserializeObject<BuildInfo>(AccessFile.Load("buildinfo.json"));
 			BuildInfo.GoodFileVersion = latestTag.Replace("good-file-", "");
+			BuildInfo.GoodFileVersion =  BuildInfo.GoodFileVersion.Replace("good-file-", "");
 			AccessFile.Save("buildinfo.json", JsonConvert.SerializeObject(BuildInfo));
 		}
 		catch (Exception ex)
