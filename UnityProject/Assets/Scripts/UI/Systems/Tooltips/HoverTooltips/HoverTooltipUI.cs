@@ -161,7 +161,16 @@ namespace UI.Systems.Tooltips.HoverTooltips
 				}
 				UpdateIconSprite(data);
 				// Only show interactions if there is a description or title in the tooltip.
-				if (IsDescOrTitleEmpty() == false) UpdateInteractionsView(data.InteractionsStrings());
+				if (IsDescOrTitleEmpty() == false)
+				{
+					UpdateInteractionsView(data.InteractionsStrings());
+				}
+			}
+			var examines = target.GetComponents<IExaminable>().Length;
+			if (examines >= 3)
+			{
+				List<TextColor> e = new List<TextColor> {new TextColor() { Text = "Shift+Click to examine closely", Color = Color.green }, };
+				UpdateInteractionsView(e);
 			}
 		}
 
