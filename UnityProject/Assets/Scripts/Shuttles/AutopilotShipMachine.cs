@@ -94,7 +94,7 @@ public class AutopilotShipMachine : MonoBehaviour
 				}
 				else
 				{
-					mm.NetworkedMatrixMove.TargetFaceDirectionOverride = DirectionOverride;
+					mm.NetworkedMatrixMove.TargetFaceDirectionOverride =  CurrentTarget.MatrixMove.NetworkedMatrixMove.CurrentOrientation.AddDirectionsTogether(DirectionOverride);
 				}
 			}
 		}
@@ -121,7 +121,7 @@ public class AutopilotShipMachine : MonoBehaviour
 				}
 				else
 				{
-					mm.NetworkedMatrixMove.TargetFaceDirectionOverride = DirectionOverride;
+					mm.NetworkedMatrixMove.TargetFaceDirectionOverride =  CurrentTarget.MatrixMove.NetworkedMatrixMove.CurrentOrientation.AddDirectionsTogether(DirectionOverride);
 				}
 			}
 		}
