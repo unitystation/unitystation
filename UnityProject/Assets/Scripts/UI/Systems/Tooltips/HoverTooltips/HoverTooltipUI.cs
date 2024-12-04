@@ -20,7 +20,7 @@ namespace UI.Systems.Tooltips.HoverTooltips
 		[SerializeField] private Image iconTarget;
 		[SerializeField] private Sprite errorIconSprite;
 
-		public float HoverDelay { get; set; } = 0.25f;
+		public float HoverDelay { get; set; } = 0.08f;
 
 
 		private GameObject targetObject;
@@ -74,15 +74,14 @@ namespace UI.Systems.Tooltips.HoverTooltips
 
 		private void CheckForInput()
 		{
-			var lastState = detailsModeEnabled;
 			detailsModeEnabled = Input.GetKeyDown(KeyCode.LeftShift);
-			if (lastState != detailsModeEnabled && detailsModeEnabled && targetObject != null)
+			if (detailsModeEnabled && targetObject != null)
 			{
-				SetupTooltip(targetObject, true);
+				SetupTooltip(targetObject);
 			}
 		}
 
-		public void SetupTooltip(GameObject hoverObject, bool noWait = false)
+		public void SetupTooltip(GameObject hoverObject)
 		{
 			targetObject = hoverObject;
 			// Clean up everything for the upcoming data.
@@ -91,8 +90,11 @@ namespace UI.Systems.Tooltips.HoverTooltips
 			if (ProtipManager.Instance.PlayerExperienceLevel >= ProtipManager.ExperienceLevel.SomewhatExperienced
 			    && detailsModeEnabled == false) return;
 			// Don't do anything if there's no object to start with.
-			if (hoverObject == null) return;
-			StartCoroutine(QueueTip(hoverObject, noWait));
+			if (hoverObject == null)
+			{
+				return;
+			}
+			QueueTip(hoverObject);
 		}
 
 		/// <summary>
@@ -127,9 +129,16 @@ namespace UI.Systems.Tooltips.HoverTooltips
 		/// </summary>
 		private void UpdateMainInfo(GameObject target)
 		{
-			if (target.TryGetComponent<Attributes>(out var attribute) == false) return;
-			nameText.text = attribute.ArticleName;
-			descText.text = attribute.ArticleDescription;
+			if (target.TryGetComponent<Attributes>(out var attribute))
+			{
+				nameText.text = attribute.ArticleName;
+				descText.text = attribute.ArticleDescription;
+			}
+			if (target.TryGetComponent<PlayerScript>(out var playerScript))
+			{
+				nameText.text = playerScript.visibleName;
+				detailsModeEnabled = true;
+			}
 		}
 
 		/// <summary>
@@ -153,17 +162,6 @@ namespace UI.Systems.Tooltips.HoverTooltips
 				UpdateIconSprite(data);
 				// Only show interactions if there is a description or title in the tooltip.
 				if (IsDescOrTitleEmpty() == false) UpdateInteractionsView(data.InteractionsStrings());
-			}
-
-			var examines = target.GetComponents<IExaminable>().OrderByDescending(x => x.ExaminablePriority).ToList();
-			if (examines.Any()) descText.text += "\n";
-			foreach (var examinable in examines)
-			{
-				var examinableMsg = examinable.Examine(); //TODO net msg?
-				if (string.IsNullOrWhiteSpace(descText.text) == false)
-				{
-					descText.text += $"\n{examinableMsg}";
-				}
 			}
 		}
 
@@ -248,11 +246,10 @@ namespace UI.Systems.Tooltips.HoverTooltips
 			}
 		}
 
-		private IEnumerator QueueTip(GameObject queuedObject, bool noWait = false)
+		private void QueueTip(GameObject queuedObject)
 		{
-			if (noWait == false) yield return WaitFor.Seconds(HoverDelay);
-			if (targetObject == null || queuedObject != targetObject) yield break;
-			if (noWait == false && showingcurrently == queuedObject) yield break;
+			if (targetObject == null || queuedObject != targetObject) return;
+			if (showingcurrently == queuedObject) return;
 			Setup(queuedObject);
 		}
 	}
