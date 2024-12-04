@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Learning;
+using Player;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -105,6 +106,11 @@ namespace UI.Systems.Tooltips.HoverTooltips
 			{
 				iconTarget.sprite = imageObj.CurrentSprite;
 			}
+			var playerSprites = target.GetComponent<PlayerSprites>();
+			if (playerSprites != null)
+			{
+				iconTarget.sprite = playerSprites.ThisCharacter.GetRaceSo()?.Base.PreviewSprite?.Variance?.First().Frames?.First().sprite;
+			}
 		}
 
 		/// <summary>
@@ -144,25 +150,19 @@ namespace UI.Systems.Tooltips.HoverTooltips
 						? descText.text += $"{data.HoverTip()}"
 						: descText.text += $"\n \n{data.HoverTip()}";
 				}
-
 				UpdateIconSprite(data);
 				// Only show interactions if there is a description or title in the tooltip.
 				if (IsDescOrTitleEmpty() == false) UpdateInteractionsView(data.InteractionsStrings());
 			}
 
-			var Examines = target.GetComponents<IExaminable>().OrderByDescending(x => x.ExaminablePriority);
-			foreach (var examinable in Examines)
+			var examines = target.GetComponents<IExaminable>().OrderByDescending(x => x.ExaminablePriority).ToList();
+			if (examines.Any()) descText.text += "\n";
+			foreach (var examinable in examines)
 			{
 				var examinableMsg = examinable.Examine(); //TODO net msg?
-				// if description is empty, don't create extra lines.
-				// if description has text, separate new data away from the previous ones.
-				if (string.IsNullOrWhiteSpace(descText.text))
+				if (string.IsNullOrWhiteSpace(descText.text) == false)
 				{
-					descText.text += $"{examinableMsg}";
-				}
-				else
-				{
-					descText.text += $"\n \n{examinableMsg}";
+					descText.text += $"\n{examinableMsg}";
 				}
 			}
 		}
