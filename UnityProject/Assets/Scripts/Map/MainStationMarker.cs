@@ -10,8 +10,8 @@ public class MainStationMarker : ItemMatrixSystemInit
 		base.Start();
 		if (CustomNetworkManager.IsServer)
 		{
-			MatrixManager.Instance.InternalMainStationMatrix = MetaTileMap.matrix;
-			MetaTileMap.matrix.NetworkedMatrix.MatrixSync.IsMainStationMatrix = true;
+			MatrixManager.Instance.InternalMainStationMatrix = metaTileMap.matrix;
+			metaTileMap.matrix.NetworkedMatrix.MatrixSync.IsMainStationMatrix = true;
 		}
 	}
 }

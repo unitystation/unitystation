@@ -54,15 +54,15 @@ public class OreGenerator : ItemMatrixSystemInit
 	{
 		if (isServer == false) return;
 		GeneratedLocations.Clear();
-		wallTilemap = MetaTileMap.Layers[LayerType.Walls].GetComponent<Tilemap>();
+		wallTilemap = metaTileMap.Layers[LayerType.Walls].GetComponent<Tilemap>();
 
-		if (NetworkedMatrix.MatrixSync == null)
+		if (networkedMatrix.MatrixSync == null)
 		{
-			NetworkedMatrix.BackUpSetMatrixSync();
+			networkedMatrix.BackUpSetMatrixSync();
 
-			if (NetworkedMatrix.MatrixSync.netId == 0)
+			if (networkedMatrix.MatrixSync.netId == 0)
 			{
-				StartCoroutine(WaitForNetId(NetworkedMatrix.MatrixSync));
+				StartCoroutine(WaitForNetId(networkedMatrix.MatrixSync));
 				return;
 			}
 		}
@@ -77,7 +77,7 @@ public class OreGenerator : ItemMatrixSystemInit
 		}
 
 		//TODO move BoundsInt bounds = wallTilemap.cellBounds to metaTileMap
-		BetterBoundsInt bounds = MetaTileMap.GetLocalBounds();
+		BetterBoundsInt bounds = metaTileMap.GetLocalBounds();
 		List<Vector3Int> miningTiles = new List<Vector3Int>();
 
 		for (int n = bounds.xMin; n < bounds.xMax; n++)
@@ -86,9 +86,9 @@ public class OreGenerator : ItemMatrixSystemInit
 			{
 				Vector3Int localPlace = (new Vector3Int(n, p, 0));
 
-				if (MetaTileMap.HasTile(localPlace))
+				if (metaTileMap.HasTile(localPlace))
 				{
-					BasicTile tile = MetaTileMap.GetTile(localPlace, LayerType.Walls) as BasicTile;
+					BasicTile tile = metaTileMap.GetTile(localPlace, LayerType.Walls) as BasicTile;
 					if (tile != null && tile.Mineable) miningTiles.Add(localPlace);
 				}
 			}
@@ -124,7 +124,7 @@ public class OreGenerator : ItemMatrixSystemInit
 		{
 			var chosenLocation = locations[RANDOM.Next(locations.Count)];
 			var ranLocation = chosenLocation + DIRECTIONS[RANDOM.Next(DIRECTIONS.Count)];
-			var tile = MetaTileMap.GetTile(ranLocation, ignoreEffectsLayer: true);
+			var tile = metaTileMap.GetTile(ranLocation, ignoreEffectsLayer: true);
 
 			if (tile != null && ((BasicTile) tile).Mineable && GeneratedLocations.Contains(ranLocation) == false)
 			{

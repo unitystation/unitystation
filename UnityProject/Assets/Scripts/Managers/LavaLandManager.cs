@@ -126,9 +126,9 @@ namespace Systems.Scenes
 
 			while (CheckState)
 			{
-				lock (MetaTileMap.QueuedChanges)
+				lock (metaTileMap.QueuedChanges)
 				{
-					if (MetaTileMap.QueuedChanges.Count > 0)
+					if (metaTileMap.QueuedChanges.Count > 0)
 					{
 						CheckState = true;
 					}
@@ -148,7 +148,7 @@ namespace Systems.Scenes
 				}
 			}
 
-			var data = MetaTileMap.matrix.transform.parent.GetComponentInChildren<OreGenerator>();
+			var data = metaTileMap.matrix.transform.parent.GetComponentInChildren<OreGenerator>();
 
 			data.RunOreGenerator();
 

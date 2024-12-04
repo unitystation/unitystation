@@ -32,7 +32,7 @@ namespace Map
 		public void SpawnNearStation()
 		{
 			//Request a position from GameManager and cache the object in SpaceBodies List
-			GameManager.Instance.ServerSetSpaceBody(MatrixMove);
+			GameManager.Instance.ServerSetSpaceBody(matrixMove);
 		}
 
 		[Server] //Asigns random rotation to each asteroid at startup for variety.
@@ -43,16 +43,16 @@ namespace Map
 			 switch (rand)
 			 {
 			 	case 0:
-				    MatrixMove.NetworkedMatrixMove.TargetOrientation = OrientationEnum.Up_By0;
+				    matrixMove.NetworkedMatrixMove.TargetOrientation = OrientationEnum.Up_By0;
 			 		break;
 			 	case 1:
-				    MatrixMove.NetworkedMatrixMove.TargetOrientation = OrientationEnum.Down_By180;
+				    matrixMove.NetworkedMatrixMove.TargetOrientation = OrientationEnum.Down_By180;
 			 		break;
 			 	case 2:
-				    MatrixMove.NetworkedMatrixMove.TargetOrientation = OrientationEnum.Right_By270;
+				    matrixMove.NetworkedMatrixMove.TargetOrientation = OrientationEnum.Right_By270;
 			 		break;
 			 	case 3:
-				    MatrixMove.NetworkedMatrixMove.TargetOrientation = OrientationEnum.Left_By90;
+				    matrixMove.NetworkedMatrixMove.TargetOrientation = OrientationEnum.Left_By90;
 			 		break;
 			 }
 		}
