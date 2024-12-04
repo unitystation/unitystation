@@ -61,9 +61,27 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 5646e28f0cbf603479727f6a7a0af86d,
+        type: 2}
+    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
       propertyPath: inventoryRemoveSound.AssetAddress
       value: null
       objectReference: {fileID: 0}
+    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 12ae0e2e1f5168b4dae74afaba78a069,
+        type: 2}
+    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: f54389019059b69498d228cf92bebf89,
+        type: 2}
     - target: {fileID: 2067487341669760131, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
       propertyPath: m_Sprite
@@ -422,48 +440,51 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   SetClothingSprite: 1
+  SetdisallowConsume: 1
   initialStateIndex: 0
   states:
   - ExamineMessage: closed
     changeMessage: you flip down the welding mask
     changeSound:
-      SetLoadSetting: 0
       AssetAddress: 
       AssetReference:
         m_AssetGUID: 
         m_SubObjectName: 
+        m_SubObjectGUID: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
     spriteIndex: 0
     traits:
     - {fileID: 11400000, guid: 4f5b7ce1cca0a644cba934af14ea4b2c, type: 2}
     usingSound:
-      SetLoadSetting: 0
       AssetAddress: 
       AssetReference:
         m_AssetGUID: 
         m_SubObjectName: 
+        m_SubObjectGUID: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
     clothingV2Index: 0
+    disallowConsumeState: 1
   - ExamineMessage: open
     changeMessage: you flip up  the welding mask
     changeSound:
-      SetLoadSetting: 0
       AssetAddress: 
       AssetReference:
         m_AssetGUID: 
         m_SubObjectName: 
+        m_SubObjectGUID: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
     spriteIndex: 1
     traits: []
     usingSound:
-      SetLoadSetting: 0
       AssetAddress: 
       AssetReference:
         m_AssetGUID: 
         m_SubObjectName: 
+        m_SubObjectGUID: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
     clothingV2Index: 1
+    disallowConsumeState: 0
