@@ -41,6 +41,8 @@ public class CharacterSheet : ICloneable
 	public JobPrefsDict JobPreferences = new JobPrefsDict();
 	public AntagPrefsDict AntagPreferences = new AntagPrefsDict();
 
+	public string Voice = "Male 01";
+
 	[Serializable]
 	public class CustomisationClass
 	{
@@ -59,6 +61,7 @@ public class CharacterSheet : ICloneable
 		sb.AppendLine($"Age: {Age}");
 		sb.AppendLine($"Speech: {Speech}");
 		sb.AppendLine($"SkinTone: {SkinTone}");
+		sb.AppendLine($"Voice: {Voice}");
 		sb.AppendLine($"JobPreferences: \n\t{string.Join("\n\t", JobPreferences)}");
 		sb.AppendLine($"AntagPreferences: \n\t{string.Join("\n\t", AntagPreferences)}");
 		return sb.ToString();
@@ -341,6 +344,7 @@ public class CharacterSheet : ICloneable
 
 		character.SerialisedBodyPartCustom = new List<CustomisationStorage>(); // things like beards etc, TODO ask bod
 		character.SerialisedExternalCustom = GetRandomUnderwear(race); // socks, t-shirts etc
+		character.Voice = TTSVoices.Voices.PickRandom();
 
 		return character;
 	}

@@ -53,9 +53,12 @@ namespace UI.CharacterCreator
 		[SerializeField] private TMP_Dropdown skinColorChoice;
 		[SerializeField] private TMP_Dropdown backpackChoice;
 		[SerializeField] private TMP_Dropdown clothChoice;
+		[SerializeField] private TMP_Dropdown voicesTTS;
 		[SerializeField] private Button skinColorPicker;
 		[SerializeField] private BagStyleIcons iconsForBags;
 		[SerializeField] private ClothingSyleIcons iconsForCloth;
+
+		[SerializeField] private TMP_InputField TestText;
 
 		[Header("Play Mode Only")]
 
@@ -498,6 +501,7 @@ namespace UI.CharacterCreator
 			RefreshBodyType();
 			RefreshBackpack();
 			RefreshClothing();
+			RefreshVoice();
 			RefreshPronoun();
 			RefreshRace();
 			StartCoroutine(RefreshRotation());
@@ -555,6 +559,7 @@ namespace UI.CharacterCreator
 			accentChoice.ClearOptions();
 			backpackChoice.ClearOptions();
 			clothChoice.ClearOptions();
+			voicesTTS.ClearOptions();
 			foreach (var bodyType in ThisSetRace.Base.bodyTypeSettings.AvailableBodyTypes)
 			{
 				TMP_Dropdown.OptionData data = new TMP_Dropdown.OptionData();
@@ -613,6 +618,13 @@ namespace UI.CharacterCreator
 					}
 				}
 				clothChoice.options.Add(data);
+			}
+
+			foreach (var Voice in TTSVoices.Voices)
+			{
+				TMP_Dropdown.OptionData data = new TMP_Dropdown.OptionData();
+				data.text = Voice;
+				voicesTTS.options.Add(data);
 			}
 		}
 
@@ -1121,6 +1133,32 @@ namespace UI.CharacterCreator
 		{
 			clothChoice.SetValueWithoutNotify((int) currentCharacter.ClothingStyle);
 			clothChoice.captionImage.sprite = clothChoice.options[clothChoice.value].image;
+		}
+
+
+		#endregion
+
+
+		#region Voice Preference
+
+		public void OnVoiceChange()
+		{
+			currentCharacter.Voice =  voicesTTS.options[voicesTTS.value].text;
+			RefreshVoice();
+		}
+
+
+		private void RefreshVoice()
+		{
+			voicesTTS.SetValueWithoutNotify(voicesTTS.options.Select((item, i) => new { Item = item, Index = i })
+				.Where(x => x.Item.text == currentCharacter.Voice)
+				.Select(x => x.Index)
+				.FirstOrDefault());
+		}
+
+		public void TryTTS()
+		{
+			MaryTTS.Instance.Synthesize(TestText.text, voicesTTS.options[voicesTTS.value].text);
 		}
 
 		#endregion

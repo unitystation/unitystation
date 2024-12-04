@@ -284,7 +284,7 @@ public class ChatRelay : NetworkBehaviour
 		if (string.IsNullOrWhiteSpace(chatEvent.message)) return;
 
 		UpdateChatMessage.Send(playerToSend, channel, chatEvent.modifiers, copiedString, chatEvent.VoiceLevel,
-			chatEvent.messageOthers, chatEvent.originator, chatEvent.speaker, chatEvent.stripTags, languageId, chatEvent.IsWhispering);
+			chatEvent.messageOthers, chatEvent.originator, chatEvent.speaker, chatEvent.stripTags, languageId, chatEvent.IsWhispering, chatEvent.Voice);
 		ShowChatBubbleToPlayer( playerToSend, ref chatEvent, copiedString);
 	}
 
@@ -367,7 +367,7 @@ public class ChatRelay : NetworkBehaviour
 	[Client]
 	public void AddAdminPrivMessageToClient(string message)
 	{
-		trySendingTTS(message);
+		trySendingTTS(message, "");
 
 		ChatUI.Instance.AddAdminPrivEntry(message);
 	}
@@ -375,7 +375,7 @@ public class ChatRelay : NetworkBehaviour
 	[Client]
 	public void AddPrayerPrivMessageToClient(string message)
 	{
-		trySendingTTS(message);
+		trySendingTTS(message, "");
 
 		ChatUI.Instance.AddChatEntry(message);
 	}
@@ -383,18 +383,18 @@ public class ChatRelay : NetworkBehaviour
 	[Client]
 	public void AddMentorPrivMessageToClient(string message)
 	{
-		trySendingTTS(message);
+		trySendingTTS(message, "");
 
 		ChatUI.Instance.AddMentorPrivEntry(message);
 	}
 
 	[Client]
 	public void UpdateClientChat(string message, ChatChannel channels, bool isOriginator, GameObject recipient,
-		Loudness loudness, ChatModifier modifiers, ushort languageId = 0, bool isWhispering = false)
+		Loudness loudness, ChatModifier modifiers, ushort languageId = 0, bool isWhispering = false, string Voice = "")
 	{
 		if (string.IsNullOrWhiteSpace(message)) return;
 
-		trySendingTTS(message);
+		trySendingTTS(message, Voice);
 
 		if (PlayerManager.LocalPlayerScript == null)
 		{
@@ -481,7 +481,7 @@ public class ChatRelay : NetworkBehaviour
 	/// Messages must also contain at least one letter from the alphabet.
 	/// </summary>
 	/// <param name="message">The message to try to vocalize.</param>
-	private void trySendingTTS(string message)
+	private void trySendingTTS(string message, string Voice)
 	{
 		if (UIManager.Instance.ttsToggle)
 		{
@@ -492,7 +492,7 @@ public class ChatRelay : NetworkBehaviour
 				string messageAfterSaysChar = message.Substring(message.IndexOf(saysChar) + 1);
 				if (messageAfterSaysChar.Length > 0 && messageAfterSaysChar.Any(char.IsLetter))
 				{
-					MaryTTS.Instance.Synthesize(messageAfterSaysChar);
+					MaryTTS.Instance.Synthesize(messageAfterSaysChar, Voice);
 				}
 			}
 		}

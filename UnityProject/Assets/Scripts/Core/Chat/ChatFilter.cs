@@ -138,7 +138,7 @@ public class ChatFilter : MonoBehaviour
 		if (0 < numCharsOverLimit && numCharsOverLimit < cpmMinCharacters) return;
 
 		// Send message, which might have been shortened because of the character limit per minute.
-		PostToChatMessage.Send(parsedChat.ClearMessage, selectedChannels, languageId: parsedChat.LanguageId);
+		PostToChatMessage.Send(parsedChat.ClearMessage, selectedChannels, languageId: parsedChat.LanguageId,Voice:  PlayerManager.LocalMindScript.CurrentCharacterSettings.Voice);
 
 		// Notify player that their message got cut short.
 		if (numCharsOverLimit > 0)

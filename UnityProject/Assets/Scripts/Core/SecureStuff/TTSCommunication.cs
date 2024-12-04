@@ -1,37 +1,63 @@
+using System;
 using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using Logs;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace SecureStuff
 {
 	public static class TTSCommunication
 	{
-
-		private HttpClient Client = new HttpClient();
-
-		public static byte[] GenTTS(string Input, string voice)
+		private class DataTSS
 		{
-			try
-			{
-				HttpResponseMessage response = await SafeHttpRequest.GetAsync(GetURL(textToSynth));
-
-				if (response.IsSuccessStatusCode == false)
-				{
-					Loggy.Error("Err: " + response.ReasonPhrase);
-				}
-				else
-				{
-					byte[] responseData = await response.Content.ReadAsByteArrayAsync();
-					LoadManager.DoInMainThread(() => { callback.Invoke(responseData); });
-				}
-			}
-			catch (Exception e)
-			{
-				Loggy.Error(e.ToString());
-			}
+			public string input_string { get; set; }
+			public string voice { get; set; }
 		}
 
+		public static async Task<byte[]> GenTTS(string Input, string voice)
+		{
+			// URL of the API endpoint
+			string url = "http://127.0.0.1:5234/generate-audio";
 
+			// Create the JSON payload
+			DataTSS payload = new DataTSS()
+			{
+				input_string = Input,
+				voice = voice
+			};
 
+			// Serialize payload to JSON
+			string jsonPayload = JsonConvert.SerializeObject(payload);
+
+			// Initialize HttpClient
+			using (HttpClient client = new HttpClient())
+			{
+				try
+				{
+					// Create content with JSON payload
+					var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+
+					// Send POST request
+					HttpResponseMessage response = await client.PostAsync(url, content);
+
+					// Ensure the request was successful
+					response.EnsureSuccessStatusCode();
+
+					// Read the audio file from the response
+					byte[] audioData = await response.Content.ReadAsByteArrayAsync();
+
+					return audioData;
+				}
+				catch (Exception ex)
+				{
+					Loggy.Error($"Error: {ex.Message}");
+				}
+			}
+
+			return null;
+		}
 
 	}
 }

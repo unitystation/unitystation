@@ -186,6 +186,7 @@ public partial class Chat
 
 		//TODO Assign racial speech mods
 
+		//TODO Move chat Modifier stuff into its own script
 		// Assign inventory speech mods
 		chatModifiers |= sentByPlayer.Script.inventorySpeechModifiers;
 
@@ -557,7 +558,7 @@ public partial class Chat
 	/// </summary>
 	public static void ProcessUpdateChatMessage(uint recipientUint, uint originatorUint, string message,
 		string messageOthers, ChatChannel channels, ChatModifier modifiers, string speaker, GameObject recipient,
-		Loudness loudness, bool stripTags = true, ushort languageId = 0, bool isWhispering = false)
+		Loudness loudness, bool stripTags = true, ushort languageId = 0, bool isWhispering = false, string Voice = "")
 	{
 
 		var isOriginator = true;
@@ -583,7 +584,7 @@ public partial class Chat
 		}
 
 		var msg = ProcessMessageFurther(message, speaker, channels, modifiers, loudness, isWhispering, originatorUint, stripTags);
-		ChatRelay.Instance.UpdateClientChat(msg, channels, isOriginator, recipient, loudness, modifiers, languageId, isWhispering);
+		ChatRelay.Instance.UpdateClientChat(msg, channels, isOriginator, recipient, loudness, modifiers, languageId, isWhispering, Voice : Voice);
 	}
 
 	private static bool GhostValidationRejection(uint originator, ChatChannel channels)

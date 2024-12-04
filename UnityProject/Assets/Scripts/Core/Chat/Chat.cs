@@ -178,7 +178,7 @@ public partial class Chat : MonoBehaviour
 	/// Server only
 	/// </summary>
 	public static void AddChatMsgToChatServer(PlayerInfo sentByPlayer, string message, ChatChannel channels,
-		Loudness loudness = Loudness.NORMAL, ushort languageId = 0)
+		Loudness loudness = Loudness.NORMAL, ushort languageId = 0, string voice = "")
 	{
 		message = message.Replace("\n", " ").Replace("\r", " ");  // We don't want users to spam chat vertically
 		message = AutoMod.ProcessChatServer(sentByPlayer, message);
@@ -228,7 +228,7 @@ public partial class Chat : MonoBehaviour
 			channels = channels,
 			originator = sentByPlayer.GameObject,
 			VoiceLevel = loudness,
-
+			Voice = voice
 		};
 
 		//This is to make sure OOC doesn't break

@@ -27,6 +27,7 @@ namespace Messages.Server
 			public Loudness Loudness;
 			public ushort LanguageId;
 			public bool IsWhispering;
+			public string Voice;
 		}
 
 		public override void Process(NetMessage msg)
@@ -45,7 +46,7 @@ namespace Messages.Server
 
 			Chat.ProcessUpdateChatMessage(msg.Recipient, msg.Originator,
 				msg.Message, msg.OthersMessage, msg.Channels, msg.ChatModifiers, msg.Speaker, recipientObject,
-				msg.Loudness, msg.StripTags, msg.LanguageId, msg.IsWhispering);
+				msg.Loudness, msg.StripTags, msg.LanguageId, msg.IsWhispering, msg.Voice);
 		}
 
 		/// <summary>
@@ -55,7 +56,7 @@ namespace Messages.Server
 		/// </summary>
 		public static NetMessage Send(GameObject recipient, ChatChannel channels, ChatModifier chatMods, string chatMessage,
 			Loudness loudness = Loudness.NORMAL, string othersMsg = "",
-			GameObject originator = null, string speaker = "", bool stripTags = true, ushort languageId = 0, bool isWhispering = false)
+			GameObject originator = null, string speaker = "", bool stripTags = true, ushort languageId = 0, bool isWhispering = false, string Voice = "")
 		{
 			uint origin = NetId.Empty;
 			if (originator != null)
@@ -81,6 +82,7 @@ namespace Messages.Server
 					Loudness = loudness,
 					LanguageId = languageId,
 					IsWhispering = isWhispering,
+					Voice = Voice
 				};
 
 			SendTo(recipient, msg, Category.Chat, 2);
