@@ -52,7 +52,7 @@ namespace SecureStuff
 				}
 				catch (Exception ex)
 				{
-					Loggy.Error($"Error: {ex.Message}");
+					Loggy.Warning($"Error: {ex.Message}");
 				}
 			}
 

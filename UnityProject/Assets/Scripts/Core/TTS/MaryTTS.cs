@@ -16,6 +16,8 @@ public class MaryTTS : MonoBehaviour
 
 	public AudioSource audioSource;
 
+	public static int Fails = 0;
+
 	private void Awake()
 	{
 		if (Instance == null)
@@ -31,6 +33,11 @@ public class MaryTTS : MonoBehaviour
 
 	public void Synthesize(string textToSynth, string voice = "")
 	{
+		if (Fails > 10)
+		{
+			return;
+		}
+
 		_ = RequestSynth(textToSynth, voice, bytes => audioSource.PlayOneShot(WavUtility.ToAudioClip(bytes, 0, "TTS_Clip")));
 	}
 
@@ -41,6 +48,18 @@ public class MaryTTS : MonoBehaviour
 			voice = "Male 01";
 		}
 		byte[] responseData = await TTSCommunication.GenTTS(textToSynth, voice);
+
+		if (responseData == null)
+		{
+			Fails++;
+			return;
+		}
+		else
+		{
+			Fails = 0;
+		}
+
+
 		LoadManager.DoInMainThread(() => { callback.Invoke(responseData); });
 	}
 }
