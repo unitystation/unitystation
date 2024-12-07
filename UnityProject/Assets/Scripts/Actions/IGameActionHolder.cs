@@ -5,7 +5,7 @@ using UI.Action;
 using UI.Core.Action;
 using UnityEngine;
 
-public interface IGameActionHolderBasic
+public interface IGameActionHolder
 {
 	GameObject gameObject { get; }
 	/// <summary>
@@ -24,14 +24,9 @@ public interface IGameActionHolderBasic
 	{
 		return true;
 	}
-}
-
-///Using both IGameActionHolder and IActionGUIMulti on a script will not work!!!, USE ONLY ONE OF THE Interface Types!!!///
-public interface IGameActionHolder : IGameActionHolderBasic
-{
 	ActionData ActionData { get; }
 
-	void CallActionClient()
+	void CallActionClient() //this gets called when the UI button gets clicked by a player
 	{
 		UIAction action = UIActionManager.Instance.DicIActionGUI[this][0];
 		PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestAction(ActionGuid, action.LastClickPosition);

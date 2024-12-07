@@ -187,10 +187,10 @@ public class Mind : NetworkBehaviour, IGameActionHolder, IGameActionContainer
 	private ObservableCollection<Spell> spells = new ObservableCollection<Spell>();
 	public ObservableCollection<Spell> Spells => spells;
 
-	public Dictionary<string, IGameActionHolderBasic> OwnedActions {get; set;} = new();
+	public Dictionary<string, IGameActionHolder> OwnedActions {get; set;} = new();
 
-	private Dictionary<string, IGameActionHolderBasic> availableActions = new();
-	public Dictionary<string, IGameActionHolderBasic> AvailableActions => availableActions;
+	private Dictionary<string, IGameActionHolder> availableActions = new();
+	public Dictionary<string, IGameActionHolder> AvailableActions => availableActions;
 
 	/// <summary>
 	/// General purpose properties storage for misc stuff like job-specific flags
@@ -299,7 +299,7 @@ public class Mind : NetworkBehaviour, IGameActionHolder, IGameActionContainer
 	/// </summary>
 	public bool CheckActionAvailability(string actionID)
 	{
-		IGameActionHolderBasic gameActionHolder = availableActions[actionID];
+		IGameActionHolder gameActionHolder = availableActions[actionID];
 		return Convert.ToBoolean(gameActionHolder) && gameActionHolder.IsActionAvailable();
 	}
 	#endregion Action Control
