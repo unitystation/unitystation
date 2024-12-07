@@ -155,7 +155,6 @@ namespace UI.Action
 		public void ToggleOff()
 		{
 			OnToggleOff?.Invoke();
-			Loggy.LogError("THE");
 			IconFront.SetSpriteSO(actionData.Sprites[0], networked: false);
 			UIActionManager.Instance.ActiveAction = null;
 

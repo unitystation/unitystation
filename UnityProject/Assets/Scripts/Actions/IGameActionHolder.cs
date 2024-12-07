@@ -12,15 +12,21 @@ public interface IGameActionHolderBasic
 	/// The global key used for tracking an action, stored as a string for client communication, 2 ACTIONS SHOULD NEVER EVER SHARE THE SAME KEY
 	/// </summary>
 	public string ActionGuid { get; }
-
+	/// <summary>
+	/// The container this action is inside
+	/// </summary>
+//	public IGameActionContainer ActionContainer { get; set; }
+	/// <summary>
+	/// The mind that owns this action
+	/// </summary>
+//	public Mind ActionOwner { get; set; }
 	bool IsActionAvailable()
 	{
 		return true;
 	}
 }
 
-///Using both IGameActionHolder and IActionGUIMULTI on a script will not work!!!, USE ONLY ONE OF THE Interface Types!!!///
-
+///Using both IGameActionHolder and IActionGUIMulti on a script will not work!!!, USE ONLY ONE OF THE Interface Types!!!///
 public interface IGameActionHolder : IGameActionHolderBasic
 {
 	ActionData ActionData { get; }
