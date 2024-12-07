@@ -24,9 +24,8 @@ namespace Items.Atmospherics
 
 
 			monoPipe.SetColour(Colour);
-			monoPipe.CanNowRotate = false;
 			monoPipe.directional.FaceDirection(this.rotatable.CurrentDirection);
-			monoPipe.SetUpPipes(InCanNowRotate: true);
+			monoPipe.SetUpPipes();
 
 
 			_ = Despawn.ServerSingle(gameObject);
