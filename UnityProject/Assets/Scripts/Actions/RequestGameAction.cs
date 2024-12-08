@@ -47,9 +47,9 @@ public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 		var IActionGUIs = NetworkObject.GetComponentsInChildren(type);
 		if (IActionGUIs.Length > msg.ComponentLocation)
 		{
-			if (IActionGUIs[msg.ComponentLocation] is IServerActionGUI IServerActionGUI)
+			if (IActionGUIs[msg.ComponentLocation] is IServerGameActionHolder IServerGameAction)
 			{
-				IServerActionGUI.CallActionServer(SentByPlayer);
+				IServerGameAction.CallActionServer(SentByPlayer);
 				return;
 			}
 		}
@@ -74,7 +74,7 @@ public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 
 		foreach (var action in childActions)
 		{
-			if ((action as IServerActionGUI) == actionComponent)
+			if ((action as IServerGameActionHolder) == actionComponent)
 			{
 				found = true;
 				break;
@@ -94,6 +94,6 @@ public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 			return;
 		}
 
-		Loggy.Error("Failed to find IServerActionGUI on NetworkIdentity", Category.UserInput);
+		Loggy.Error("Failed to find IServerGameActionHolder on NetworkIdentity", Category.UserInput);
 	}
 }

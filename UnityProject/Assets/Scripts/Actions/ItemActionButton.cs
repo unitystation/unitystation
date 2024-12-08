@@ -9,7 +9,7 @@ using UI.Core.Action;
 
 namespace UI.Action
 {
-	public class ItemActionButton : BodyPartFunctionality, IServerActionGUI, IItemInOutMovedPlayer
+	public class ItemActionButton : BodyPartFunctionality, IServerGameActionHolder, IItemInOutMovedPlayer
 	{
 		[Tooltip("The button action data SO this component should use.")]
 		[SerializeField]

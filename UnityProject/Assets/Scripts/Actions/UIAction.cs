@@ -125,9 +125,9 @@ namespace UI.Action
 			// Once it does, consider moving the spell's server request to rely on this here instead, if possible.
 			if (actionData.CallOnServer == false) return;
 
-			if (iAction is IServerActionGUI)
+			if (iAction is IServerGameActionHolder)
 			{
-					RequestGameAction.Send(iAction as IServerActionGUI);
+					RequestGameAction.Send(iAction as IServerGameActionHolder);
 			}
 		}
 

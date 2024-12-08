@@ -36,7 +36,7 @@ public interface IGameActionHolder
 /// <summary>
 /// Simply implement this to Implement your Networked screen action
 /// </summary>
-public interface IServerActionGUI : IGameActionHolder
+public interface IServerGameActionHolder : IGameActionHolder
 {
 	void CallActionServer(PlayerInfo playerInfo); //Requires validation in this
 }
@@ -56,7 +56,7 @@ public class __ExampleIActionGUI__ : IGameActionHolder
 	}
 }
 
-public class __ExampleIServerActionGUI__ : IServerActionGUI
+public class __ExampleIServerActionGUI__ : IServerGameActionHolder
 {
 	[SerializeField]
 	private ActionData actionData = null;
