@@ -15,11 +15,19 @@ public interface IGameActionHolder
 	/// <summary>
 	/// The container this action is inside
 	/// </summary>
-//	public IGameActionContainer ActionContainer { get; set; }
+//	public IGameActionContainer ActionContainer { get; protected set; }
 	/// <summary>
 	/// The mind that owns this action
 	/// </summary>
-//	public Mind ActionOwner { get; set; }
+//	public Mind ActionOwner { get; protected set; }
+	/// <summary>
+	/// The name of this action
+	/// </summary>
+//	public string ActionName { get; protected set; }
+	/// <summary>
+	/// The description of this action
+	/// </summary>
+//	public string ActionDesc { get; protected set; }
 	bool IsActionAvailable()
 	{
 		return true;
