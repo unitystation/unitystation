@@ -17,8 +17,7 @@ public class GrabGoodFileVersion : IPreprocessBuild
 
 	public void OnPreprocessBuild(BuildTarget target, string path)
 	{
-		var Gamedata = AssetDatabase.LoadAssetAtPath<GameObject>(
-			"Assets/Prefabs/SceneConstruction/NestedManagers/GameData.prefab");
+		var Gamedata = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/SceneConstruction/NestedManagers/GameData.prefab");
 		if (Gamedata.GetComponent<GameData>().DevBuild)
 		{
 			return;
@@ -29,14 +28,18 @@ public class GrabGoodFileVersion : IPreprocessBuild
 			// Get the latest good-file version tag
 			string latestTag = GetLatestGoodFileVersion();
 
-			var BuildInfo =   JsonConvert.DeserializeObject<BuildInfo>(AccessFile.Load("buildinfo.json"));
+			var BuildInfo = JsonConvert.DeserializeObject<BuildInfo>(AccessFile.Load("buildinfo.json"));
+			Loggy.Info("latestTag Unmodified > " + latestTag);
+
+			latestTag = latestTag.Replace("good-file-", "");
+			Loggy.Info("latestTag modified > " + latestTag);
 			BuildInfo.GoodFileVersion = latestTag.Replace("good-file-", "");
+			BuildInfo.GoodFileVersion =  BuildInfo.GoodFileVersion.Replace("good-file-", "");
 			AccessFile.Save("buildinfo.json", JsonConvert.SerializeObject(BuildInfo));
 		}
-		catch ( Exception  ex)
+		catch (Exception ex)
 		{
-			Loggy.Warning( "Not able to set good file version " + ex.ToString());
-
+			Loggy.Warning("Not able to set good file version " + ex.ToString());
 		}
 	}
 
@@ -44,6 +47,9 @@ public class GrabGoodFileVersion : IPreprocessBuild
 	{
 		try
 		{
+			// Get the StreamingAssets path
+			string streamingAssetsPath = Application.streamingAssetsPath;
+
 			// Set up the Git process to get tags
 			Process gitProcess = new Process
 			{
@@ -54,12 +60,15 @@ public class GrabGoodFileVersion : IPreprocessBuild
 					RedirectStandardOutput = true,
 					RedirectStandardError = true,
 					UseShellExecute = false,
-					CreateNoWindow = true
+					CreateNoWindow = true,
+					WorkingDirectory = streamingAssetsPath // Use StreamingAssets as the working directory
 				}
 			};
 
-			UnityEngine.Debug.Log("[GrabGoodFileVersion] Running Git command to fetch tags...");
-			UnityEngine.Debug.Log($"[GrabGoodFileVersion] Command: git {gitProcess.StartInfo.Arguments}");
+			Loggy.Info("[GrabGoodFileVersion] Running Git command to fetch tags...");
+			Loggy.Info($"[GrabGoodFileVersion] Command: git {gitProcess.StartInfo.Arguments}");
+			Loggy.Info(
+				$"[GrabGoodFileVersion] Current Working Directory: {gitProcess.StartInfo.WorkingDirectory}");
 
 			// Start the process and capture the output
 			gitProcess.Start();
@@ -67,19 +76,20 @@ public class GrabGoodFileVersion : IPreprocessBuild
 			string error = gitProcess.StandardError.ReadToEnd();
 			gitProcess.WaitForExit();
 
-			UnityEngine.Debug.Log($"[GrabGoodFileVersion] Git process exited with code {gitProcess.ExitCode}.");
-			UnityEngine.Debug.Log($"[GrabGoodFileVersion] Standard Output:\n{output}");
-			UnityEngine.Debug.Log($"[GrabGoodFileVersion] Standard Error:\n{error}");
+			Loggy.Info($"[GrabGoodFileVersion] Git process exited with code {gitProcess.ExitCode}.");
+			Loggy.Info($"[GrabGoodFileVersion] Standard Output:\n{output}");
+			Loggy.Info($"[GrabGoodFileVersion] Standard Error:\n{error}");
 
 			if (gitProcess.ExitCode != 0)
 			{
-				UnityEngine.Debug.LogError($"[GrabGoodFileVersion] Git process failed with exit code {gitProcess.ExitCode}.");
+				Loggy.Warning(
+					$"[GrabGoodFileVersion] Git process failed with exit code {gitProcess.ExitCode}.");
 				return null;
 			}
 
 			// Split the output into lines and take the first line as the latest tag
 			string[] tags = output.Split('\n');
-			return tags.Length > 0 ? tags[0] : null;;
+			return tags.Length > 0 ? tags[0] : null;
 		}
 		catch (System.Exception ex)
 		{

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Learning;
+using Player;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,7 +20,7 @@ namespace UI.Systems.Tooltips.HoverTooltips
 		[SerializeField] private Image iconTarget;
 		[SerializeField] private Sprite errorIconSprite;
 
-		public float HoverDelay { get; set; } = 0.25f;
+		public float HoverDelay { get; set; } = 0.08f;
 
 
 		private GameObject targetObject;
@@ -73,15 +74,14 @@ namespace UI.Systems.Tooltips.HoverTooltips
 
 		private void CheckForInput()
 		{
-			var lastState = detailsModeEnabled;
 			detailsModeEnabled = Input.GetKeyDown(KeyCode.LeftShift);
-			if (lastState != detailsModeEnabled && detailsModeEnabled && targetObject != null)
+			if (detailsModeEnabled && targetObject != null)
 			{
-				SetupTooltip(targetObject, true);
+				SetupTooltip(targetObject);
 			}
 		}
 
-		public void SetupTooltip(GameObject hoverObject, bool noWait = false)
+		public void SetupTooltip(GameObject hoverObject)
 		{
 			targetObject = hoverObject;
 			// Clean up everything for the upcoming data.
@@ -90,8 +90,11 @@ namespace UI.Systems.Tooltips.HoverTooltips
 			if (ProtipManager.Instance.PlayerExperienceLevel >= ProtipManager.ExperienceLevel.SomewhatExperienced
 			    && detailsModeEnabled == false) return;
 			// Don't do anything if there's no object to start with.
-			if (hoverObject == null) return;
-			StartCoroutine(QueueTip(hoverObject, noWait));
+			if (hoverObject == null)
+			{
+				return;
+			}
+			QueueTip(hoverObject);
 		}
 
 		/// <summary>
@@ -104,6 +107,11 @@ namespace UI.Systems.Tooltips.HoverTooltips
 			if (imageObj != null)
 			{
 				iconTarget.sprite = imageObj.CurrentSprite;
+			}
+			var playerSprites = target.GetComponent<PlayerSprites>();
+			if (playerSprites != null)
+			{
+				iconTarget.sprite = playerSprites.ThisCharacter.GetRaceSo()?.Base.PreviewSprite?.Variance?.First().Frames?.First().sprite;
 			}
 		}
 
@@ -121,9 +129,16 @@ namespace UI.Systems.Tooltips.HoverTooltips
 		/// </summary>
 		private void UpdateMainInfo(GameObject target)
 		{
-			if (target.TryGetComponent<Attributes>(out var attribute) == false) return;
-			nameText.text = attribute.ArticleName;
-			descText.text = attribute.ArticleDescription;
+			if (target.TryGetComponent<Attributes>(out var attribute))
+			{
+				nameText.text = attribute.ArticleName;
+				descText.text = attribute.ArticleDescription;
+			}
+			if (target.TryGetComponent<PlayerScript>(out var playerScript))
+			{
+				nameText.text = playerScript.visibleName;
+				detailsModeEnabled = true;
+			}
 		}
 
 		/// <summary>
@@ -144,26 +159,18 @@ namespace UI.Systems.Tooltips.HoverTooltips
 						? descText.text += $"{data.HoverTip()}"
 						: descText.text += $"\n \n{data.HoverTip()}";
 				}
-
 				UpdateIconSprite(data);
 				// Only show interactions if there is a description or title in the tooltip.
-				if (IsDescOrTitleEmpty() == false) UpdateInteractionsView(data.InteractionsStrings());
+				if (IsDescOrTitleEmpty() == false)
+				{
+					UpdateInteractionsView(data.InteractionsStrings());
+				}
 			}
-
-			var Examines = target.GetComponents<IExaminable>().OrderByDescending(x => x.ExaminablePriority);
-			foreach (var examinable in Examines)
+			var examines = target.GetComponents<IExaminable>().Length;
+			if (examines >= 3)
 			{
-				var examinableMsg = examinable.Examine(); //TODO net msg?
-				// if description is empty, don't create extra lines.
-				// if description has text, separate new data away from the previous ones.
-				if (string.IsNullOrWhiteSpace(descText.text))
-				{
-					descText.text += $"{examinableMsg}";
-				}
-				else
-				{
-					descText.text += $"\n \n{examinableMsg}";
-				}
+				List<TextColor> e = new List<TextColor> {new TextColor() { Text = "Shift+Click to examine closely", Color = Color.green }, };
+				UpdateInteractionsView(e);
 			}
 		}
 
@@ -248,11 +255,10 @@ namespace UI.Systems.Tooltips.HoverTooltips
 			}
 		}
 
-		private IEnumerator QueueTip(GameObject queuedObject, bool noWait = false)
+		private void QueueTip(GameObject queuedObject)
 		{
-			if (noWait == false) yield return WaitFor.Seconds(HoverDelay);
-			if (targetObject == null || queuedObject != targetObject) yield break;
-			if (noWait == false && showingcurrently == queuedObject) yield break;
+			if (targetObject == null || queuedObject != targetObject) return;
+			if (showingcurrently == queuedObject) return;
 			Setup(queuedObject);
 		}
 	}
