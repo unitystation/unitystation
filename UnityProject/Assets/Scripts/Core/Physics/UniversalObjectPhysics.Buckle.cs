@@ -84,9 +84,16 @@ namespace Core.Physics
 				Unbuckle();
 				return;
 			}
+
+			if (newBuckledTo.Pulling.HasComponent && newBuckledTo.Pulling.Component == this)
+			{
+				newBuckledTo.PullSet(null, false);
+			}
+
 			newBuckledTo.SetTransform(transform.localPosition + BuckleOffset, false);
 			SyncObjectIsBuckling(ObjectIsBuckling, newBuckledTo);
 			BuckleToChange(ObjectIsBuckling);
+
 			ObjectIsBuckling.AppearAtWorldPositionServer((transform.localPosition + BuckleOffset).ToWorld(registerTile.Matrix));
 		}
 	}
