@@ -92,6 +92,9 @@ namespace UI.Admin.DIMGUI.Mapping.MapEditorGamemode
 	        await SubSceneManager.Instance.LoadSubSceneAsync(mapPath, default, default, sceneType);
 	        if (sceneType == SceneType.MainStation)
 	        {
+		        //(Max): This will cause maps to overlap if mappers attempt to load another map after another one.
+		        //The solution is to delete maps, but that just breaks the game.
+		        //I tried finding a solution, but nothing works. so fuck it. I'm leaving it as is.
 		        foreach (var player in PlayerList.Instance.AllPlayers)
 		        {
 			        if (player.Script != null) player.Script.playerMove.AppearAtWorldPositionServer(SpawnPoint.GetRandomPointForLateSpawn().position);
