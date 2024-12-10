@@ -57,7 +57,7 @@ namespace Systems.FilthGenerator
 		public void RunFilthGenerator()
 		{
 			if (generateFilthReagent == false && filthDecalsAndObjects.Count == 0) return;
-			floorTilemap = MetaTileMap.Layers[LayerType.Floors].GetComponent<Tilemap>();
+			floorTilemap = metaTileMap.Layers[LayerType.Floors].GetComponent<Tilemap>();
 
 			BoundsInt bounds = floorTilemap.cellBounds;
 			List<Vector3Int> EmptyTiled = new List<Vector3Int>();
@@ -67,8 +67,8 @@ namespace Systems.FilthGenerator
 				for (int p = bounds.yMin; p < bounds.yMax; p++)
 				{
 					Vector3Int localPlace = (new Vector3Int(n, p, 0));
-					if (MetaTileMap.HasTile(localPlace) == false) continue;
-					if (MetaTileMap.GetTile(localPlace, LayerType.Floors) is BasicTile) EmptyTiled.Add(localPlace);
+					if (metaTileMap.HasTile(localPlace) == false) continue;
+					if (metaTileMap.GetTile(localPlace, LayerType.Floors) is BasicTile) EmptyTiled.Add(localPlace);
 				}
 			}
 

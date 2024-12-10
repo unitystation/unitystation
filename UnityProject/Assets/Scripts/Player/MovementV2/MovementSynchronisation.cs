@@ -523,7 +523,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 		if (CanSwap(bumpedBy, out var move))
 		{
-			if (MatrixManager.IsPassableAtAllMatricesV2(bumpedBy.AssumedWorldPosServer(), this.gameObject.AssumedWorldPosServer(), SetMatrixCache, this, Pushing, Bumps) == false) return;
+			if (MatrixManager.IsPassableAtAllMatricesV2(this.gameObject.AssumedWorldPosServer(), bumpedBy.AssumedWorldPosServer(), SetMatrixCache, this, Pushing, Bumps) == false) return;
 			var pushVector = (move.transform.position - this.transform.position).RoundToInt().To2Int();
 			if (Mathf.Abs(pushVector.x) > 1 || Mathf.Abs(pushVector.y) > 1) return;
 			Pushing.Clear();

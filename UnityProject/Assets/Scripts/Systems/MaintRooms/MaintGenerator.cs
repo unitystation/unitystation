@@ -214,7 +214,7 @@ namespace Systems.Scenes
 
 					if (mazeArray[x + y*width] == (short)MazeState.FullCell)
 					{
-						MetaTileMap.SetTile(pos, wallTile);
+						metaTileMap.SetTile(pos, wallTile);
 					}
 				}
 			}
@@ -301,7 +301,7 @@ namespace Systems.Scenes
 
 				if (obj.TileToSpawn != null)
 				{
-					MetaTileMap.SetTile(pos.ToLocalInt(MetaTileMap.matrix), obj.TileToSpawn);
+					metaTileMap.SetTile(pos.ToLocalInt(metaTileMap.matrix), obj.TileToSpawn);
 				}
 
 				break;

@@ -3,9 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using Shared.Systems.ObjectConnection;
+using TileMap.Behaviours;
 using UnityEngine;
 
-public class GuidanceBuoy : NetworkBehaviour, IMultitoolMasterable
+public class GuidanceBuoy : ItemMatrixSystemInit, IMultitoolMasterable
 {
 	public GuidanceBuoyMoveStep Out;
 	public GuidanceBuoyMoveStep In;

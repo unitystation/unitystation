@@ -205,6 +205,8 @@ public class NetworkedMatrixMove : NetworkBehaviour
 	public List<ShuttleConsole> ShuttleConsuls = new List<ShuttleConsole>();
 
 	public float AITravelSpeed = 10;
+	public float AITravelSpeedFast = 30;
+
 
 	public Vector3 TravelToWorldPOS
 	{
@@ -1224,13 +1226,21 @@ public class NetworkedMatrixMove : NetworkBehaviour
 			{
 				if (Mathf.Abs(Different.x) > 1)
 				{
+					bool fast = Mathf.Abs(Different.x) > 100;
+
+					var TravelSpeed = AITravelSpeed;
+					if (fast)
+					{
+						TravelSpeed = AITravelSpeedFast;
+					}
+
 					if (Different.x > 0)
 					{
-						WorldCurrentVelocity = new Vector3(AITravelSpeed, 0, 0);
+						WorldCurrentVelocity = new Vector3(TravelSpeed, 0, 0);
 					}
 					else
 					{
-						WorldCurrentVelocity = new Vector3(-AITravelSpeed, 0, 0);
+						WorldCurrentVelocity = new Vector3(-TravelSpeed, 0, 0);
 					}
 
 					if (TargetOrientation == OrientationEnum.Default)
@@ -1292,13 +1302,21 @@ public class NetworkedMatrixMove : NetworkBehaviour
 			{
 				if (Mathf.Abs(Different.y) > 1)
 				{
+					bool fast = Mathf.Abs(Different.y) > 100;
+
+					var TravelSpeed = AITravelSpeed;
+					if (fast)
+					{
+						TravelSpeed = AITravelSpeedFast;
+					}
+
 					if (Different.y > 0)
 					{
-						WorldCurrentVelocity = new Vector3(0, AITravelSpeed, 0);
+						WorldCurrentVelocity = new Vector3(0, TravelSpeed, 0);
 					}
 					else
 					{
-						WorldCurrentVelocity = new Vector3(0, -AITravelSpeed, 0);
+						WorldCurrentVelocity = new Vector3(0, -TravelSpeed, 0);
 					}
 
 					if (TargetOrientation == OrientationEnum.Default)

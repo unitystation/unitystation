@@ -10,7 +10,7 @@ public class AIShouldNavigateAround : ItemMatrixSystemInit
 	public override void Start()
     {
 	    base.Start();
-	    MetaTileMap.matrix.AIShuttleShouldAvoid = ShouldNavigateAround;
+	    metaTileMap.matrix.AIShuttleShouldAvoid = ShouldNavigateAround;
     }
 
 }

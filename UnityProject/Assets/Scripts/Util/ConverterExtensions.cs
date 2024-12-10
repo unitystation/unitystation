@@ -350,9 +350,9 @@ public static class ConverterExtensions
 		@in switch
 		{
 			OrientationEnum.Up_By0 => 0,
-			OrientationEnum.Right_By270 => 3,
+			OrientationEnum.Right_By270 => 1,
 			OrientationEnum.Down_By180 => 2,
-			OrientationEnum.Left_By90 => 1,
+			OrientationEnum.Left_By90 => 3,
 			_ => 0
 		};
 

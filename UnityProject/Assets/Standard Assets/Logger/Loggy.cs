@@ -99,8 +99,8 @@ namespace Logs
 			{
 				const string messageFormat = "[{0}/{1}:{2}] {3}";
 				msg = string.Format(messageFormat,
-					file,
 					methodName,
+					file,
 					lineNumber,
 					msg
 				);
@@ -113,8 +113,8 @@ namespace Logs
 					formattedDate,
 					levelString,
 					categoryString,
-					file,
 					methodName,
+					file,
 					lineNumber,
 					msg
 				);

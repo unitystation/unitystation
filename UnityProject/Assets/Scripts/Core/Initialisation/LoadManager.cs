@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Threading;
 using Logs;
 using NaughtyAttributes;
@@ -53,10 +54,14 @@ namespace Initialisation
 		//call Manager with function and what to Load before
 
 
-		public virtual void Start()
+		public override void Start()
 		{
 			base.Start();
 			Loggy.MainGameThread = Thread.CurrentThread; //Initialises logger
+
+			// Set the global culture to InvariantCulture
+			CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
+			CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
 		}
 
 

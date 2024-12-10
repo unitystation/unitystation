@@ -1131,8 +1131,17 @@ namespace Core.Physics
 			}
 		}
 
-		public void SetTransform(Vector3 position, bool world)
+		public void SetTransform(Vector3 position, bool world, UniversalObjectPhysics Origin = null)
 		{
+			if (Origin == null)
+			{
+				Origin = this;
+			}
+			else if (Origin == this)
+			{
+				return;
+			}
+
 			if (world)
 			{
 				transform.position = position;
@@ -1144,7 +1153,7 @@ namespace Core.Physics
 
 			if (ObjectIsBuckling != null)
 			{
-				ObjectIsBuckling.SetTransform(position + BuckleOffset, world);
+				ObjectIsBuckling.SetTransform(position + BuckleOffset, world, Origin);
 			}
 		}
 
@@ -1567,8 +1576,17 @@ namespace Core.Physics
 		}
 
 
-		public void ProcessNewtonianPull(Vector2 InNewtonianMovement, Vector2 PullerPosition)
+		public void ProcessNewtonianPull(Vector2 InNewtonianMovement, Vector2 PullerPosition, UniversalObjectPhysics Origin = null )
 		{
+			if (Origin == null)
+			{
+				Origin = this;
+			}
+			else if (Origin == this)
+			{
+				return;
+			}
+
 			if (Animating)
 			{
 				localTileMoveSpeedOverride = 0;
@@ -1611,12 +1629,12 @@ namespace Core.Physics
 
 			if (Pulling.HasComponent)
 			{
-				Pulling.Component.ProcessNewtonianPull(InNewtonianMovement, newPosition);
+				Pulling.Component.ProcessNewtonianPull(InNewtonianMovement, newPosition, Origin);
 			}
 
 			if (ObjectIsBuckling != null && ObjectIsBuckling.Pulling.HasComponent)
 			{
-				ObjectIsBuckling.Pulling.Component.ProcessNewtonianPull(InNewtonianMovement, newPosition + BuckleOffset);
+				ObjectIsBuckling.Pulling.Component.ProcessNewtonianPull(InNewtonianMovement, newPosition + BuckleOffset, Origin);
 			}
 		}
 

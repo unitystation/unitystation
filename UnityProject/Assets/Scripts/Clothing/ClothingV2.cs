@@ -41,7 +41,7 @@ namespace Systems.Clothing
 
 		[Tooltip("Determines if this article of clothing prevents consuming food or drink.")]
 		[SerializeField]
-		private bool disallowConsume = false;
+		public bool disallowConsume = false;
 
 		private ItemAttributesV2 myItem;
 		private Pickupable pickupable;

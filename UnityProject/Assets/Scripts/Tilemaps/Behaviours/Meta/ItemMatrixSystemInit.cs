@@ -16,26 +16,29 @@ namespace TileMap.Behaviours
 
 		public virtual void Initialize() { }
 
-		[NonSerialized] protected MetaTileMap MetaTileMap;
+		[NonSerialized] protected MetaTileMap metaTileMap;
 		[NonSerialized] protected MatrixSystemManager subsystemManager;
 		[NonSerialized] protected TileChangeManager tileChangeManager;
-		[NonSerialized] protected NetworkedMatrix NetworkedMatrix;
-		[NonSerialized] protected MatrixMove MatrixMove;
+		[NonSerialized] protected NetworkedMatrix networkedMatrix;
+		[NonSerialized] protected MatrixMove matrixMove;
+
+		public MatrixMove MatrixMove => matrixMove;
+
 		public virtual void Start()
 		{
-			MetaTileMap = GetComponentInParent<MetaTileMap>();
+			metaTileMap = GetComponentInParent<MetaTileMap>();
 			tileChangeManager = GetComponentInParent<TileChangeManager>();
 			subsystemManager = GetComponentInParent<MatrixSystemManager>();
-			MatrixMove = GetComponentInParent<MatrixMove>();
-			NetworkedMatrix = GetComponentInParent<NetworkedMatrix>();
+			matrixMove = GetComponentInParent<MatrixMove>();
+			networkedMatrix = GetComponentInParent<NetworkedMatrix>();
 			subsystemManager.Register(this);
 		}
 
 		public virtual void OnDestroy()
 		{
-			MetaTileMap = null;
+			metaTileMap = null;
 			tileChangeManager = null;
-			NetworkedMatrix = null;
+			networkedMatrix = null;
 			subsystemManager = null;
 
 		}

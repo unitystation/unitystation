@@ -17,6 +17,10 @@ namespace Items
 		[SerializeField]
 		private bool SetClothingSprite = false;
 
+		[Tooltip("Set the clothing sprite")]
+		[SerializeField]
+		private bool SetdisallowConsume = false;
+
 		[Tooltip("The initial state the tool is in.")]
 		[SerializeField]
 		private int initialStateIndex = 0;
@@ -75,6 +79,11 @@ namespace Items
 				ClothingV2.ChangeSprite(states[currentStateIndex].clothingV2Index);
 			}
 
+			if (SetdisallowConsume)
+			{
+				ClothingV2.disallowConsume = states[currentStateIndex].disallowConsumeState;
+			}
+
 			SoundManager.PlayNetworkedAtPos(CurrentState.changeSound, interaction.PerformerPlayerScript.WorldPos);
 			Chat.AddExamineMsgFromServer(interaction.Performer, CurrentState.changeMessage);
 		}
@@ -111,7 +120,7 @@ namespace Items
 			public ItemTrait[] traits;
 			public AddressableAudioSource usingSound;
 			public int clothingV2Index;
-
+			public bool disallowConsumeState;
 		}
 	}
 }

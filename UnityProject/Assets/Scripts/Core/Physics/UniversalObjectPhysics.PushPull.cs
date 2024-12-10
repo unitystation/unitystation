@@ -45,6 +45,8 @@ namespace Core.Physics
 		{
 			if (toPull != null && ContainedInObjectContainer != null) return; //Can't pull stuff inside of objects)
 
+			if (toPull != null && BuckledToObject == toPull) return; //Can't pull stuff That you are buckle to
+
 			if (isServer && synced == false)
 				SynchroniseUpdatePulling(ThisPullData,
 					new PullData() {NewPulling = toPull, WasCausedByClient = byClient});
@@ -310,14 +312,16 @@ namespace Core.Physics
 				{
 					Pulling.Component.SetMatrixCache.ResetNewPosition(Pulling.Component.transform.position);
 					Pulling.Component.Pushing.Clear();
-					Pulling.Component.ForceTilePush(inDirection.NormalizeTo2Int(), Pulling.Component.Pushing, byClient,
+					Pulling.Component.ForceTilePush(inDirection.RoundToInt().To2Int(), Pulling.Component.Pushing, byClient,
 						speed, pulledBy: this);
 				}
 			}
 
 			if (ObjectIsBuckling != null && ObjectIsBuckling.Pulling.HasComponent)
+				//so, If you have an object buckled to you
+				//You want to pull what they are pulling
 			{
-				var inDirection = cachedPosition;
+				var inDirection = cachedPosition - ObjectIsBuckling.Pulling.Component.transform.position;
 				if (inDirection.magnitude > 2f && (isServer || isOwned))
 				{
 					ObjectIsBuckling.PullSet(null, false); //TODO maybe remove
@@ -328,9 +332,9 @@ namespace Core.Physics
 				}
 				else
 				{
-					ObjectIsBuckling.Pulling.Component.SetMatrixCache.ResetNewPosition(
-						ObjectIsBuckling.Pulling.Component.transform.position);
+					ObjectIsBuckling.Pulling.Component.SetMatrixCache.ResetNewPosition(ObjectIsBuckling.Pulling.Component.transform.position);
 					ObjectIsBuckling.Pulling.Component.Pushing.Clear();
+
 					ObjectIsBuckling.Pulling.Component.ForceTilePush(inDirection.NormalizeTo2Int(),
 						ObjectIsBuckling.Pulling.Component.Pushing, byClient, speed, pulledBy: this);
 				}

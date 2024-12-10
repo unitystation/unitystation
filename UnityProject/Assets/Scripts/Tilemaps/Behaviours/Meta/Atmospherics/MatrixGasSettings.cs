@@ -18,7 +18,7 @@ public class MatrixGasSettings : ItemMatrixSystemInit
     public override void Start()
     {
         base.Start();
-        var AS = MatrixMove.GetComponent<AtmosSystem>();
+        var AS = matrixMove.GetComponent<AtmosSystem>();
         AS.defaultRoomGasMixOverride = defaultRoomGasMixOverride;
         AS.overriderTileSpawnWithNoAir = overriderTileSpawnWithNoAir;
 

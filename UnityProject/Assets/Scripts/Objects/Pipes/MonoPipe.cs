@@ -42,8 +42,6 @@ namespace Objects.Atmospherics
 
 		public static float MaxInternalPressure { get; } = AtmosConstants.ONE_ATMOSPHERE * 50;
 
-		[PlayModeOnly] public bool CanNowRotate = false;
-
 		#region Lifecycle
 
 		public virtual void Awake()
@@ -65,27 +63,17 @@ namespace Objects.Atmospherics
 		{
 			if (Matrix == null) return;
 			pipeData.OnDisable();
-			SetUpPipes(false, PreviousOrientation.RemoveDirectionsTogether(newDirection).ToPipeRotate());
-			PreviousOrientation = newDirection;
+			SetUpPipes(false, newDirection.ToPipeRotate());
 		}
 
 
 		public virtual void OnSpawnServer(SpawnInfo info)
 		{
-			//Only run SetUpPipes for mapped, otherwise the item being used to place it will have the wrong pipe data
-			//As the pipe will not be rotated correctly before setup
-
-			CanNowRotate = info.SpawnType == SpawnType.Mapped;
 			SetUpPipes();
 		}
 
-		public void SetUpPipes(bool DoNotSetRotation = false, int? RotateOverride = null,
-			bool? InCanNowRotate = null) //Warning this should only Called once!!! Since you get double rotations
+		public void SetUpPipes(bool DoNotSetRotation = false, int? RotateOverride = null)
 		{
-			if (InCanNowRotate != null)
-			{
-				CanNowRotate = InCanNowRotate.Value;
-			}
 
 			if (pipeData.PipeAction == null)
 			{
@@ -94,7 +82,7 @@ namespace Objects.Atmospherics
 
 			registerTile.SetPipeData(pipeData);
 			pipeData.MonoPipe = this;
-			if (DoNotSetRotation == false && CanNowRotate)
+			if (DoNotSetRotation == false)
 			{
 				int Offset = PipeFunctions.GetOffsetAngle(transform.localRotation.eulerAngles.z);
 				if (RotateOverride != null)
@@ -102,7 +90,6 @@ namespace Objects.Atmospherics
 					var ConnectionsCopy = pipeData.Connections.Copy();
 					pipeData.RotatedConnections = ConnectionsCopy;
 					pipeData.RotatedConnections.PipeOffset(RotateOverride.Value);
-					pipeData.Connections.PipeOffset(RotateOverride.Value);
 				}
 				else
 				{
@@ -134,7 +121,7 @@ namespace Objects.Atmospherics
 				directional.RotateBy(Offset);
 			}
 
-			SetUpPipes(false, (-Offset + 4));
+			SetUpPipes(false, directional.CurrentDirection.ToPipeRotate());
 		}
 
 		/// <summary>
