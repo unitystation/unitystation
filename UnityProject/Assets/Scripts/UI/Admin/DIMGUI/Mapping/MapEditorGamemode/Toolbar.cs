@@ -64,7 +64,7 @@ namespace UI.Admin.DIMGUI.Mapping.MapEditorGamemode
 				ImGui.SeparatorText("Loading");
 				if (ImGui.MenuItem("Load Map"))
 				{
-					LoadMapsWindow window = new LoadMapsWindow(gameObject);
+					LoadMapsWindow window = new LoadMapsWindow(this);
 					SetupWindow(window);
 				}
 				ImGui.MenuItem("Load Blueprint");
@@ -100,6 +100,14 @@ namespace UI.Admin.DIMGUI.Mapping.MapEditorGamemode
 			if (win is not IBlueprintDimgui blueprint) return;
 			blueprint.Setup();
 			blueprints.Add(blueprint);
+		}
+
+		public void KillWindow(object win)
+		{
+			if (win is not IBlueprintDimgui blueprint) return;
+			if (blueprints.Contains(blueprint) == false) return;
+			blueprints.Remove(blueprint);
+			blueprint.Kill();
 		}
 
 		private void DrawInfoMenu()

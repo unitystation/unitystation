@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Core;
+using Cysharp.Threading.Tasks;
 using Doors;
 using UnityEngine;
 using UnityEngine.Events;
@@ -172,8 +173,6 @@ public class Matrix : MonoBehaviour
 			}
 		});
 	}
-
-
 
 
 	public void CompressAllBounds()
@@ -495,10 +494,10 @@ public class Matrix : MonoBehaviour
 		return (list);
 	}
 
-	public IEnumerator MatrixInitialization()
+	public async UniTask MatrixInitialization()
 	{
 		var subsystemManager = this.GetComponentInParent<MatrixSystemManager>();
-		yield return subsystemManager.Initialize();
+		await subsystemManager.Initialize();
 
 		if (CustomNetworkManager.IsServer && NetworkedMatrix.IsJsonLoaded == false)
 		{
@@ -506,6 +505,8 @@ public class Matrix : MonoBehaviour
 			GameManager.Instance.MappedOnSpawnServer(iServerSpawnList);
 		}
 	}
+
+
 
 	public void AddElectricalNode(Vector3Int position, WireConnect wireConnect)
 	{

@@ -125,6 +125,6 @@ public class TestMapSaverScript : MonoBehaviour
 		MapSaver.MapSaver.CodeClass.ThisCodeClass.Reset();
 		// Deserialize the JSON content to a MapData object
 		MapSaver.MapSaver.MapData mapData = JsonConvert.DeserializeObject<MapSaver.MapSaver.MapData>(json);
-		StartCoroutine(MapLoader.ServerLoadMap(Vector3.zero, Vector3.zero, mapData));
+		_ = MapLoader.ServerLoadMap(Vector3.zero, Vector3.zero, mapData);
 	}
 }

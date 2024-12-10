@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -185,28 +184,7 @@ public class FileSelectorWindow : EditorWindow
 		MapSaver.MapSaver.CodeClass.ThisCodeClass.Reset();
 		MapSaver.MapSaver.MapData mapData =
 			JsonConvert.DeserializeObject<MapSaver.MapSaver.MapData>(AccessFile.Load(filePath, FolderType.Maps));
-		var Imnum = MapLoader.ServerLoadMap(Vector3.zero, Vector3.zero, mapData);
-		List<IEnumerator> PreviousLevels = new List<IEnumerator>();
-		bool Loop = true;
-		while (Loop && PreviousLevels.Count == 0)
-		{
-			if (Imnum.Current is IEnumerator)
-			{
-				PreviousLevels.Add(Imnum);
-				Imnum = (IEnumerator) Imnum.Current;
-			}
-
-			Loop = Imnum.MoveNext();
-			if (Loop == false)
-			{
-				if (PreviousLevels.Count > 0)
-				{
-					Imnum = PreviousLevels[PreviousLevels.Count - 1];
-					PreviousLevels.RemoveAt(PreviousLevels.Count - 1);
-					Loop = Imnum.MoveNext();
-				}
-			}
-		}
+		_ = MapLoader.ServerLoadMap(Vector3.zero, Vector3.zero, mapData);
 	}
 
 

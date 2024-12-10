@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using Logs;
 using MapSaver;
 using Messages.Client;
@@ -100,12 +101,15 @@ public partial class SubSceneManager : MonoBehaviour
 				}
 
 				// Read the file content
-				//string json = File.ReadAllText("J:/SuperFast Programs/ss13 development/unitystation/SaveMapCompare.txt");
 				string json = AccessFile.Load(sceneName, FolderType.Maps);
 
 				// Deserialize the JSON content to a MapData object
 				MapSaver.MapSaver.MapData mapData = JsonConvert.DeserializeObject<MapSaver.MapSaver.MapData>(json);
-				yield return MapLoader.ServerLoadMap(Vector3.zero, Vector3.zero,mapData, sceneType);
+				var scene = MapLoader.ServerLoadMap(Vector3.zero, Vector3.zero, mapData, sceneType);
+				while (scene.Status == UniTaskStatus.Pending)
+				{
+					yield return WaitFor.EndOfFrame;
+				}
 			}
 		}
 		else
@@ -115,6 +119,36 @@ public partial class SubSceneManager : MonoBehaviour
 
 		Loggy.Info($"Finished loading {sceneName}");
 	}
+
+	public async UniTask LoadSubSceneAsync(string sceneName, SubsceneLoadTimer loadTimer = null, bool HandlSynchronising = true,
+		SceneType sceneType = SceneType.HiddenScene)
+	{
+		if (AccessFile.Exists(sceneName, true, FolderType.Maps, false))
+		{
+			if (CustomNetworkManager.IsServer) //Client loading is handled automatically
+			{
+
+				while (CustomNetworkManager.AllPrefabsLoadedSt == false)
+				{
+					await UniTask.DelayFrame(1);
+				}
+
+				// Read the file content
+				string json = AccessFile.Load(sceneName, FolderType.Maps);
+
+				// Deserialize the JSON content to a MapData object
+				MapSaver.MapSaver.MapData mapData = JsonConvert.DeserializeObject<MapSaver.MapSaver.MapData>(json);
+				await MapLoader.ServerLoadMap(Vector3.zero, Vector3.zero, mapData, sceneType);
+			}
+		}
+		else
+		{
+			StartCoroutine(LoadUnityScene(sceneName, loadTimer, HandlSynchronising, sceneType));
+		}
+		Loggy.Info($"Finished loading {sceneName}");
+	}
+
+
 
 	private IEnumerator LoadUnityScene(string sceneName, SubsceneLoadTimer loadTimer = null, bool HandlSynchronising = true, SceneType sceneType = SceneType.HiddenScene)
 	{

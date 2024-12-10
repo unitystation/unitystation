@@ -1,9 +1,10 @@
 ﻿using UI.DIMGUI;
 using System.Collections.Generic;
-using System.IO;
+using Cysharp.Threading.Tasks;
 using ImGuiNET;
 using Logs;
 using SecureStuff;
+using Systems.Spawns;
 using UnityEngine;
 using Util;
 
@@ -11,7 +12,7 @@ namespace UI.Admin.DIMGUI.Mapping.MapEditorGamemode
 {
     public class LoadMapsWindow : IBlueprintDimgui
     {
-	    private GameObject father;
+	    private Toolbar father;
         private List<string> availableMapNames;      // Stores only the map names
         private List<string> availableMapPaths;      // Stores the corresponding paths
         private int selectedMapIndex = -1;           // -1 means no selection
@@ -19,7 +20,7 @@ namespace UI.Admin.DIMGUI.Mapping.MapEditorGamemode
         private string selectedMapPath = "";         // Full path of the selected map
         private SceneType sceneType = SceneType.AdditionalScenes;
 
-        public LoadMapsWindow(GameObject fatherLinkedTo)
+        public LoadMapsWindow(Toolbar fatherLinkedTo)
         {
 	        father = fatherLinkedTo;
             availableMapNames = new List<string>();
@@ -62,7 +63,7 @@ namespace UI.Admin.DIMGUI.Mapping.MapEditorGamemode
 
                         if (ImGui.Button("Load Selected Map"))
                         {
-                            LoadMap(selectedMapPath);  // Pass full path for loading
+	                        LoadMap(selectedMapPath);  // Pass full path for loading
                         }
                     }
                 }
@@ -85,29 +86,19 @@ namespace UI.Admin.DIMGUI.Mapping.MapEditorGamemode
             }
         }
 
-        private void LoadMap(string mapPath)
+        private async UniTask LoadMap(string mapPath)
         {
+	        Loggy.Info("loading map: " + mapPath + "... - " + sceneType);
+	        await SubSceneManager.Instance.LoadSubSceneAsync(mapPath, default, default, sceneType);
 	        if (sceneType == SceneType.MainStation)
 	        {
-		        var orginalPos = Vector3.zero;
-		        if (PlayerManager.LocalPlayerObject != null)
+		        foreach (var player in PlayerList.Instance.AllPlayers)
 		        {
-			        PlayerManager.LocalPlayerScript.playerMove.AppearAtWorldPositionServer(new Vector3(9000000,9000000));
-		        }
-		        foreach (var matrix in MatrixManager.Instance.ActiveMatricesList)
-		        {
-			        if (matrix.Name == "Space") continue;
-			        Loggy.Info($"deleting {matrix.Name}");
-			        Despawn.ServerSingle(matrix.GameObject);
-		        }
-		        CleanupUtil.SoftCleanup();
-		        if (PlayerManager.LocalPlayerObject != null)
-		        {
-			        PlayerManager.LocalPlayerScript.playerMove.AppearAtWorldPositionServer(orginalPos);
+			        if (player.Script != null) player.Script.playerMove.AppearAtWorldPositionServer(SpawnPoint.GetRandomPointForLateSpawn().position);
 		        }
 	        }
-	        father.GetComponent<Toolbar>().StartCoroutine(SubSceneManager.Instance.LoadSubScene(mapPath, default, default, sceneType));
-	        Loggy.Info("loading map: " + mapPath + "... - " + sceneType);
+
+	        father.KillWindow(this);
         }
 
         public void OnCreateLayout(UImGui.UImGui obj)

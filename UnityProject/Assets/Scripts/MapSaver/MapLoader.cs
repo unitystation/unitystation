@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Core;
+using Cysharp.Threading.Tasks;
 using Initialisation;
 using Logs;
 using Mirror;
@@ -488,11 +489,11 @@ namespace MapSaver
 			}
 		}
 
-		public static IEnumerator ServerLoadMap(Vector3 Offset00, Vector3 Offset, MapSaver.MapData MapData, SceneType sceneType = SceneType.HiddenScene)
+		public static async UniTask<bool> ServerLoadMap(Vector3 Offset00, Vector3 Offset, MapSaver.MapData MapData, SceneType sceneType = SceneType.HiddenScene)
 		{
 			foreach (var ToMapMatrix in MapData.ContainedMatrices)
 			{
-				yield return ServerLoadSection(null, Offset00, Offset, ToMapMatrix, null,
+				await ServerLoadSectionAsync(null, Offset00, Offset, ToMapMatrix, null,
 					MatrixName: ToMapMatrix.MatrixName, LoadingMultiple: true, sceneType: sceneType);
 			}
 
@@ -504,19 +505,20 @@ namespace MapSaver
 				CustomNetworkManager.Instance.SpawnedByMappingTool = true;
 			}
 #endif
+			return true;
 		}
 
 		public static void ServerLoadSectionNoCoRoutine(MatrixInfo Matrix, Vector3 Offset00, Vector3 Offset,
 			MapSaver.MatrixData MatrixData, Action completeAction, HashSet<LayerType> LoadLayers = null,
 			bool LoadObjects = true, string MatrixName = null)
 		{
-			GameManager.Instance.StartCoroutine(ServerLoadSection(Matrix, Offset00, Offset, MatrixData, completeAction,
-				LoadLayers, LoadObjects, MatrixName, false));
+			_ = ServerLoadSectionAsync(Matrix, Offset00, Offset, MatrixData, completeAction,
+				LoadLayers, LoadObjects, MatrixName, false);
 		}
 
 		//Offset00 the off set In the data so objects will appear at 0,0
 		//Offset to apply 0,0 to get the position you want
-		public static IEnumerator ServerLoadSection(MatrixInfo Matrix, Vector3 Offset00, Vector3 Offset,
+		public static async UniTask ServerLoadSectionAsync(MatrixInfo Matrix, Vector3 Offset00, Vector3 Offset,
 			MapSaver.MatrixData MatrixData, Action completeAction, HashSet<LayerType> LoadLayers = null,
 			bool LoadObjects = true, string MatrixName = null, bool LoadingMultiple = false, SceneType sceneType = SceneType.HiddenScene)
 		{
@@ -611,10 +613,9 @@ namespace MapSaver
 				}
 				else
 				{
-					yield return null;
+					await UniTask.DelayFrame(2);
 				}
 			}
-
 
 			try
 			{
@@ -626,7 +627,7 @@ namespace MapSaver
 
 				if (LoadObjects)
 				{
-					if (Application.isPlaying == false) yield break;
+					if (Application.isPlaying == false) return;
 					var newdata = JsonConvert.SerializeObject(MatrixData.CompactObjectMapData);
 					CustomNetworkManager.Instance.LoadedMapDatas.Add(new Tuple<string, int>(newdata, aaMatrix.Id));
 					ServerReturnMapData.SendAll(newdata, ServerReturnMapData.MessageType.MapDataForClient, true, aaMatrix.Id);
@@ -639,7 +640,7 @@ namespace MapSaver
 
 			if (aaMatrix.NetworkedMatrix.RequestInitialiseMapLoader && Application.isPlaying)
 			{
-				yield return aaMatrix.MatrixInitialization();
+				await aaMatrix.MatrixInitialization();
 			}
 
 			try

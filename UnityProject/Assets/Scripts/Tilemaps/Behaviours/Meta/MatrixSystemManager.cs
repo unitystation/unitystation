@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using Logs;
 using UnityEngine;
 using Mirror;
@@ -15,12 +16,10 @@ public class MatrixSystemManager : MonoBehaviour
 
 	public void SelfInitialize()
 	{
-		StartCoroutine(Initialize());
+		_ = Initialize();
 	}
 
-
-
-	public IEnumerator Initialize()
+	public async UniTask<bool> Initialize()
 	{
 		systems = systems.OrderByDescending(s => s.Priority).ToList();
 		foreach (var system in systems)
@@ -35,7 +34,7 @@ public class MatrixSystemManager : MonoBehaviour
 				Loggy.Error(e.ToString());
 			}
 
-			yield return null;
+			await UniTask.Delay(1);
 		}
 
 		InitSystems = InitSystems.OrderByDescending(s => s.Priority).ToList();
@@ -51,9 +50,10 @@ public class MatrixSystemManager : MonoBehaviour
 				Loggy.Error(e.ToString());
 			}
 
-			yield return null;
+			await UniTask.Delay(1);
 		}
 		initialized = true;
+		return true;
 	}
 
 	public void Register(MatrixSystemBehaviour system)

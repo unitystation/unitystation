@@ -45,7 +45,7 @@ namespace Managers
 				if (Matrix.NetworkedMatrix.IsJsonLoaded == false)
 				{
 					//mid-round scene only
-					Matrix.StartCoroutine(Matrix.MatrixInitialization());
+					_ = Matrix.MatrixInitialization();
 					return;
 				}
 				else

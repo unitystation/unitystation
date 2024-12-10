@@ -178,4 +178,27 @@ public static class GameObjectExtensions
 			Object.Destroy(gameObject.transform.GetChild(i).gameObject);
 		}
 	}
+
+	/// <summary>
+	/// Removes this gameobject from the game via the Despawn API.
+	/// </summary>
+	/// <param name="gameObject">the target object</param>
+	/// <param name="networked">If true, the server will notify everyone that this object has been despawned. Do not network this if you're using it on client objects.</param>
+	public static void DestroySelf(this GameObject gameObject, bool networked)
+	{
+		if (networked)
+		{
+			_ = Despawn.ServerSingle(gameObject);
+		}
+		else
+		{
+			DespawnResult result = Despawn.ClientSingle(gameObject);
+			if (result.Successful == false)
+			{
+				Loggy.Error($"Attempted to despawn object {gameObject.name} via the despawn API, but failed. Going nuke mode.", Category.EntitySpawn);
+				if (gameObject == null) return;
+				Object.Destroy(gameObject);
+			}
+		}
+	}
 }
