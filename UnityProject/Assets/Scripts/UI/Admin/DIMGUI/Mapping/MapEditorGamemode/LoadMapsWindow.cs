@@ -89,7 +89,8 @@ namespace UI.Admin.DIMGUI.Mapping.MapEditorGamemode
         private async UniTask LoadMap(string mapPath)
         {
 	        Loggy.Info("loading map: " + mapPath + "... - " + sceneType);
-	        await SubSceneManager.Instance.LoadSubSceneAsync(mapPath, default, default, sceneType);
+	        await SubSceneManager.Instance.LoadSubSceneAsync(mapPath, default, default, sceneType)
+		        .AsTask().Then(x => SubSceneManager.Instance.BroadcastScenesToInitialiseMatriciesEvent());
 	        if (sceneType == SceneType.MainStation)
 	        {
 		        //(Max): This will cause maps to overlap if mappers attempt to load another map after another one.

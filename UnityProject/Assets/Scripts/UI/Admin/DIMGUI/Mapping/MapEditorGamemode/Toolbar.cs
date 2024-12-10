@@ -60,35 +60,35 @@ namespace UI.Admin.DIMGUI.Mapping.MapEditorGamemode
 		{
 			if (ImGui.BeginMenu("File"))
 			{
-				ImGui.MenuItem("New");
+				ImGui.MenuItem("New", false);
 				ImGui.SeparatorText("Loading");
 				if (ImGui.MenuItem("Load Map"))
 				{
 					LoadMapsWindow window = new LoadMapsWindow(this);
 					SetupWindow(window);
 				}
-				ImGui.MenuItem("Load Blueprint");
+				ImGui.MenuItem("Load Blueprint", false);
 				ImGui.SeparatorText("Saving");
-				ImGui.MenuItem("Save Current Loaded Map");
+				ImGui.MenuItem("Save Current Loaded Map", false);
 				if (ImGui.BeginMenu("Save As"))
 				{
-					ImGui.MenuItem("Map");
-					ImGui.MenuItem("Blueprint");
+					ImGui.MenuItem("Map", false);
+					ImGui.MenuItem("Blueprint", false);
 					ImGui.EndMenu();
 				}
 				ImGui.EndMenu();
 			}
 			if (ImGui.BeginMenu("Tools"))
 			{
-				ImGui.MenuItem("History");
-				ImGui.MenuItem("Action/Event Editor");
-				ImGui.MenuItem("Light Editor");
+				ImGui.MenuItem("History", false);
+				ImGui.MenuItem("Action/Event Editor", false);
+				ImGui.MenuItem("Light Editor", false);
 				ImGui.EndMenu();
 			}
 			if (ImGui.BeginMenu("Tests"))
 			{
-				ImGui.MenuItem("Spawns");
-				ImGui.MenuItem("Shuttle Navigation");
+				ImGui.MenuItem("Spawns", false);
+				ImGui.MenuItem("Shuttle Navigation", false);
 				ImGui.EndMenu();
 			}
 

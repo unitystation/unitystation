@@ -34,7 +34,7 @@ public partial class SubSceneManager
 		ConnectionLoadedRecord.Clear(); //New round
 		var loadTimer = new SubsceneLoadTimer();
 		//calculate load time:
-		loadTimer.MaxLoadTime = 20f + (asteroidList.Asteroids.Count * 10f);
+		loadTimer.MaxLoadTime = 30f + (asteroidList.Asteroids.Count * 10f);
 		loadTimer.IncrementLoadBar("Preparing..");
 
 		Loggy.Info(" waiting for addressables To load ");
@@ -68,9 +68,7 @@ public partial class SubSceneManager
 			yield return StartCoroutine(ServerLoadAdditionalScenes(loadTimer));
 		}
 
-		SubSceneManagerNetworked.netIdentity.isDirty = true;
-		EventManager.Broadcast(Event.ReadyToInitialiseMatrices, false);
-		SubSceneManagerNetworked.ScenesInitialLoadingComplete = true;
+		BroadcastScenesToInitialiseMatriciesEvent();
 
 		Loggy.Info(" waiting for MatrixManager.IsInitialized");
 		while (MatrixManager.IsInitialized == false)
@@ -93,6 +91,13 @@ public partial class SubSceneManager
 		EventManager.Broadcast(Event.ScenesLoadedServer, false);
 		Loggy.Info($"Server has loaded {serverChosenAwaySite} away site", Category.Round);
 		ServerInitialLoadingComplete = true;
+	}
+
+	public void BroadcastScenesToInitialiseMatriciesEvent()
+	{
+		SubSceneManagerNetworked.netIdentity.isDirty = true;
+		EventManager.Broadcast(Event.ReadyToInitialiseMatrices, false);
+		SubSceneManagerNetworked.ScenesInitialLoadingComplete = true;
 	}
 
 	//Load the space scene on the server
