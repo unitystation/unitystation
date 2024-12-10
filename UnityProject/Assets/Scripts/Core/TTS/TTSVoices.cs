@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class TTSVoices
@@ -71,4 +72,47 @@ public static class TTSVoices
 		"Female 31",
 		"Female 32"
 	};
+
+	public static string CurrentDefaultVoice
+	{
+
+		get
+		{
+			if (currentDefaultVoice == "")
+			{
+				currentDefaultVoice = GetDefaultPreference(true);
+			}
+
+			return currentDefaultVoice;
+		}
+
+	}
+
+	private static string currentDefaultVoice = "";
+
+	public static string GetDefaultPreference(bool save = false)
+	{
+		var Prefere=  PlayerPrefs.GetString(PlayerPrefKeys.DefaultVoice, Voices.First());
+		if (Voices.Contains(Prefere) == false)
+		{
+			Prefere = Voices.First();
+			SetSystemTTS(Prefere);
+		}
+
+		if (save)
+		{
+			SetSystemTTS(Prefere);
+		}
+
+		return Prefere;
+	}
+
+	public static void SetSystemTTS(string Preference)
+	{
+		PlayerPrefs.SetString(PlayerPrefKeys.DefaultVoice, Preference);
+		currentDefaultVoice = Preference;
+	}
+
+
+
 }

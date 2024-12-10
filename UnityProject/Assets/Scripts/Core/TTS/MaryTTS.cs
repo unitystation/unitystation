@@ -45,7 +45,7 @@ public class MaryTTS : MonoBehaviour
 	{
 		if (string.IsNullOrWhiteSpace(voice))
 		{
-			voice = "Male 01";
+			voice =TTSVoices.GetDefaultPreference();
 		}
 		byte[] responseData = await TTSCommunication.GenTTS(textToSynth, voice);
 

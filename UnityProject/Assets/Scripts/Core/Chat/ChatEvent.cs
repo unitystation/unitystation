@@ -105,7 +105,7 @@ public class ChatEvent
 	public LanguageSO language;
 	public bool IsWhispering = false;
 	public bool ShowChatBubble = false;
-	public string Voice = "Male 01";
+	public string Voice = "";
 
 	/// <summary>
 	/// Send chat message only to those on this matrix

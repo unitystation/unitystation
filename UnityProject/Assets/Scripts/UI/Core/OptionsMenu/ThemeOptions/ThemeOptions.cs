@@ -8,6 +8,7 @@ using TMPro;
 using UI;
 using UI.Chat_UI;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Unitystation.Options
@@ -72,6 +73,9 @@ namespace Unitystation.Options
 
 		[SerializeField]
 		private Slider NumberOfBubblesSlider;
+
+		[SerializeField]
+		private Dropdown TTSSystemVoice = null;
 
 		void OnEnable()
 		{
@@ -156,6 +160,21 @@ namespace Unitystation.Options
 			chatContentAlphaFadeMinimum.value =  UI.Chat_UI.ChatUI.Instance.GetPreferenceChatContent();
 			hoverTooltipDelaySlider.value = UIManager.Instance.HoverTooltipUI.GetSavedTooltipDelay();
 			hoverTooltipDelaySliderValueText.text = UIManager.Instance.HoverTooltipUI.GetSavedTooltipDelay().ToString();
+
+			try
+			{
+				TTSSystemVoice.ClearOptions();
+				var Options = TTSVoices.Voices.ToList();
+				TTSSystemVoice.AddOptions(Options);
+				var value = TTSVoices.GetDefaultPreference();
+				TTSSystemVoice.SetValueByName(value);
+			}
+			catch (Exception e)
+			{
+				Loggy.Error($"[ThemeOptions/Refresh()] - Failed to setup RightClick options. " );
+			}
+
+
 		}
 
 		void ConstructChatBubbleOptions()
@@ -267,6 +286,12 @@ namespace Unitystation.Options
 		{
 			RightClickManager.SetRightClickPreference(RightClickropdown.GetValueName());
 		}
+
+		public void OnTTSSystemVoice()
+		{
+			TTSVoices.SetSystemTTS(TTSSystemVoice.GetValueName());
+		}
+
 
 		public void OnThrowHoldPreferenceChange()
 		{
