@@ -48,7 +48,7 @@ public class GrabGoodFileVersion : IPreprocessBuild
 		try
 		{
 			// Get the StreamingAssets path
-			string streamingAssetsPath = Application.streamingAssetsPath;
+			string dataPath = Application.dataPath;
 
 			// Set up the Git process to get tags
 			Process gitProcess = new Process
@@ -61,7 +61,7 @@ public class GrabGoodFileVersion : IPreprocessBuild
 					RedirectStandardError = true,
 					UseShellExecute = false,
 					CreateNoWindow = true,
-					WorkingDirectory = streamingAssetsPath // Use StreamingAssets as the working directory
+					WorkingDirectory = dataPath // Use StreamingAssets as the working directory
 				}
 			};
 
