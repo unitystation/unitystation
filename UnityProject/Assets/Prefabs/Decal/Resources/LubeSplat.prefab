@@ -1,0 +1,127 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1710341960378663062
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 309974533761271649, guid: 7178630252013ba41832aa94eb53d12c,
+        type: 3}
+      propertyPath: foreverID
+      value: 783bd176f77f4074d985fd2f3fb14cc4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3484824036945616191, guid: 7178630252013ba41832aa94eb53d12c,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: eae4d7d8fcd89174aaaee672d582e474,
+        type: 3}
+    - target: {fileID: 3686510605102170098, guid: 7178630252013ba41832aa94eb53d12c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3686510605102170098, guid: 7178630252013ba41832aa94eb53d12c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3686510605102170098, guid: 7178630252013ba41832aa94eb53d12c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3686510605102170098, guid: 7178630252013ba41832aa94eb53d12c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3686510605102170098, guid: 7178630252013ba41832aa94eb53d12c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3686510605102170098, guid: 7178630252013ba41832aa94eb53d12c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3686510605102170098, guid: 7178630252013ba41832aa94eb53d12c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3686510605102170098, guid: 7178630252013ba41832aa94eb53d12c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3686510605102170098, guid: 7178630252013ba41832aa94eb53d12c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3686510605102170098, guid: 7178630252013ba41832aa94eb53d12c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3692010612478114088, guid: 7178630252013ba41832aa94eb53d12c,
+        type: 3}
+      propertyPath: m_Name
+      value: LubeSplat
+      objectReference: {fileID: 0}
+    - target: {fileID: 5107497442604895306, guid: 7178630252013ba41832aa94eb53d12c,
+        type: 3}
+      propertyPath: _assetId
+      value: 3556643567
+      objectReference: {fileID: 0}
+    - target: {fileID: 8173005042072769522, guid: 7178630252013ba41832aa94eb53d12c,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 9e3a059323d5b2b4e98294bf1b7c227c,
+        type: 2}
+    m_RemovedComponents:
+    - {fileID: 7981006051446285362, guid: 7178630252013ba41832aa94eb53d12c, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3692010612478114088, guid: 7178630252013ba41832aa94eb53d12c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3824253197186270980}
+  m_SourcePrefab: {fileID: 100100000, guid: 7178630252013ba41832aa94eb53d12c, type: 3}
+--- !u!1 &2630369246796462526 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3692010612478114088, guid: 7178630252013ba41832aa94eb53d12c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1710341960378663062}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3824253197186270980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2630369246796462526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c77080d7d322e0d46b715644eb4b0ab9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  Cleanable: 1
+  CanDryUp: 0
+  isBlood: 0
+  IsFootprint: 0
+  IsSlippery: 0
+  IsSuperSlippery: 1
+  color: {r: 0, g: 0, b: 0, a: 0}
+  PossibleSprites: []
+  DontTouchSpriteRenderer: 0

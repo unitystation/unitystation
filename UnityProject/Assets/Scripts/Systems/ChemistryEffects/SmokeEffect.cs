@@ -21,6 +21,6 @@ public class SmokeEffect : Chemistry.Effect
 			return;
 		}
 
-		SmokeAndFoamManager.StartSmokeAt(senderPosition,Container.CurrentReagentMix, (int)amount);
+		SmokeAndFoamManager.StartSmokeAt(senderPosition, Container.CurrentReagentMix, (int)amount);
 	}
 }

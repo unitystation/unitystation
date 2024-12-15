@@ -323,7 +323,23 @@ public class MetaDataNode : IGasMixContainer
 		}
 	}
 
-	public bool Allslippery => IsSlippery || IsIceSlippy;
+
+	private bool isSuperSlippery = false;
+
+	public bool IsSuperSlippery
+	{
+		get
+		{
+			return isSuperSlippery;
+		}
+		set
+		{
+			isSuperSlippery = value;
+			ForceUpdateClient();
+		}
+	}
+
+	public bool Allslippery => IsSlippery || IsIceSlippy || IsSuperSlippery;
 
 	public bool Exists => this != None;
 

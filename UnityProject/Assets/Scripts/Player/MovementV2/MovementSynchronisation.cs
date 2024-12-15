@@ -1403,12 +1403,25 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			.ToLocal(toMatrix)
 			.RoundToInt();
 
-		if (toMatrix.MetaDataLayer.IsSlipperyAt(localTo))
+		if (CurrentMovementType is MovementType.Running or MovementType.Walking)
 		{
-			if (CurrentMovementType != MovementType.Running) return false;
-			if (isServer == false && hasAuthority && UIManager.Instance.intentControl.Running == false) return false;
-			return true;
+			var isSlip = false;
+			if (CurrentMovementType == MovementType.Running)
+			{
+				isSlip = toMatrix.MetaDataLayer.IsSlipperyAt(localTo);
+			}
+			else if (CurrentMovementType == MovementType.Walking)
+			{
+				isSlip = toMatrix.MetaDataLayer.IsSuperSlipperyAt(localTo);
+			}
+
+			if (isSlip)
+			{
+				if (isServer == false && hasAuthority && UIManager.Instance.intentControl.Running == false) return false;
+				return true;
+			}
 		}
+
 
 		var crossedItems = toMatrix.Get<ItemAttributesV2>(localTo, isServer);
 		foreach (var crossedItem in crossedItems)

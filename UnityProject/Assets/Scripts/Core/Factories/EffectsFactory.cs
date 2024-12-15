@@ -12,6 +12,7 @@ namespace Core.Factories
 		private static GameObject mediumBloodTile;
 		private static GameObject largeBloodTile;
 		private static GameObject waterTile;
+		private static GameObject lubeTile;
 		private static GameObject chemTile;
 		private static GameObject powderTile;
 
@@ -49,6 +50,7 @@ namespace Core.Factories
 				smallXenoBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("SmallXenoBloodSplat");
 				medXenoBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("MedXenoBloodSplat");
 				largeXenoBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("LargeXenoBloodSplat");
+				lubeTile= CustomNetworkManager.Instance.GetSpawnablePrefabFromName("LubeSplat");
 			}
 		}
 
@@ -97,7 +99,7 @@ namespace Core.Factories
 			}
 		}
 
-		public static void WaterSplat(Vector3Int worldPos)
+		public static void WaterSplat(Vector3Int worldPos, bool wasLube = false)
 		{
 			if (MatrixManager.IsSpaceAt(worldPos, true))
 			{
@@ -109,7 +111,15 @@ namespace Core.Factories
 				return;
 			}
 			EnsureInit();
-			Spawn.ServerPrefab(waterTile, worldPos,	MatrixManager.AtPoint(worldPos, true).Objects, Quaternion.identity);
+			if (wasLube)
+			{
+				Spawn.ServerPrefab(lubeTile, worldPos,	MatrixManager.AtPoint(worldPos, true).Objects, Quaternion.identity);
+			}
+			else
+			{
+				Spawn.ServerPrefab(waterTile, worldPos,	MatrixManager.AtPoint(worldPos, true).Objects, Quaternion.identity);
+			}
+
 		}
 
 		public static void ChemSplat(Vector3Int worldPos, Color color, ReagentMix reagents)

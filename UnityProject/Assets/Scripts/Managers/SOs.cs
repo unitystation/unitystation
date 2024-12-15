@@ -55,6 +55,8 @@ namespace ScriptableObjects
 
 		public CommonMaterials CommonMaterials;
 
+		public CommonReagents CommonReagents;
+
 		[FormerlySerializedAs("PlayerStatesSingleton")]
 		public PlayerTypeSingleton playerTypeSingleton;
 
@@ -94,7 +96,8 @@ namespace ScriptableObjects
 				{ typeof(ThrusterFuelReactions), ThrusterFuelReactions },
 				{ typeof(SpawnPointSpritesSingleton), SpawnPointSpritesSingleton },
 				{ typeof(CommonTiles), CommonTiles },
-
+				{ typeof(CommonMaterials), CommonMaterials },
+				{ typeof(CommonReagents), CommonReagents },
 			};
 		}
 

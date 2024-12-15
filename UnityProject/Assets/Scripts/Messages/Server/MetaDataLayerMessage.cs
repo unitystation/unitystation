@@ -28,6 +28,7 @@ public class MetaDataLayerMessage : ServerMessage<MetaDataLayerMessage.NetMessag
 			var node = MetaDataLayer.Get(Change.Position);
 			node.IsSlippery = Change.IsSlippy;
 			node.IsIceSlippy = Change.IsIceSlippy;
+			node.IsSuperSlippery = Change.IsSuperSlippy;
 		}
 	}
 
@@ -46,7 +47,8 @@ public class MetaDataLayerMessage : ServerMessage<MetaDataLayerMessage.NetMessag
 				{
 					Position = metaData.Key,
 					IsSlippy = metaData.Value.IsSlippery,
-					IsIceSlippy = metaData.Value.IsIceSlippy
+					IsIceSlippy = metaData.Value.IsIceSlippy,
+					IsSuperSlippy = metaData.Value.IsSuperSlippery
 				});
 			}
 
@@ -92,6 +94,7 @@ public class MetaDataLayerMessage : ServerMessage<MetaDataLayerMessage.NetMessag
 		public Vector3Int Position;
 		public bool IsSlippy;
 		public bool IsIceSlippy;
+		public bool IsSuperSlippy;
 	}
 }
 

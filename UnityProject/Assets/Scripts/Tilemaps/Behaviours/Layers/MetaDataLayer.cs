@@ -64,6 +64,7 @@ public class MetaDataLayer : MonoBehaviour
 			UpdateManager.Remove(CallbackType.UPDATE, SynchroniseNodeChanges);
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, EvaporationTick);
 		}
+
 		nodes.Clear();
 		ChangedNodes.Clear();
 		nodesToUpdate.Clear();
@@ -105,10 +106,12 @@ public class MetaDataLayer : MonoBehaviour
 			if (trackedTilesWithReagentsOnThem.Contains(toRemove) == false) continue;
 			if (TemperatureUtils.FromKelvin(toRemove.GasMixLocal.Temperature, TemeratureUnits.C) >= 32f)
 			{
-				toRemove.GasMixLocal.AddGas(CommonGasses.Instance.WaterVapor, toRemove.ReagentsOnTile.Total * 2, toRemove.ReagentsOnTile.InternalEnergy / 2);
+				toRemove.GasMixLocal.AddGas(CommonGasses.Instance.WaterVapor, toRemove.ReagentsOnTile.Total * 2,
+					toRemove.ReagentsOnTile.InternalEnergy / 2);
 				RemoveLiquidOnTile(toRemove.LocalPosition, toRemove);
 				continue;
 			}
+
 			TimeSpan timeDifference = DateTime.UtcNow - toRemove.ReagentsOnTile.LastModificationTime;
 			if (timeDifference.TotalSeconds + toRemove.ReagentsOnTile.reagents.Count <= 35) continue;
 			RemoveLiquidOnTile(toRemove.LocalPosition, toRemove);
@@ -173,7 +176,7 @@ public class MetaDataLayer : MonoBehaviour
 		return node;
 	}
 
-	public void AddNetworkChange(Vector3Int localPosition, MetaDataNode  node)
+	public void AddNetworkChange(Vector3Int localPosition, MetaDataNode node)
 	{
 		nodesToUpdate.Add(node);
 		ChangedNodes[localPosition] = node;
@@ -210,14 +213,29 @@ public class MetaDataLayer : MonoBehaviour
 		return node.Allslippery;
 	}
 
-	public void MakeSlipperyAt(Vector3Int position, bool canDryUp = true)
+	public bool IsSuperSlipperyAt(Vector3Int position)
 	{
-		var tile = Get(position, false,true);
+		var node = Get(position, false);
+		return node.IsSuperSlippery;
+	}
+
+
+	public void MakeSlipperyAt(Vector3Int position, bool canDryUp = true, bool SuperSlippery = false)
+	{
+		var tile = Get(position, false, true);
 		if (tile == MetaDataNode.None || tile.IsSpace)
 		{
 			return;
 		}
-		tile.IsSlippery = true;
+
+		if (SuperSlippery == false)
+		{
+			tile.IsSlippery = true;
+		}
+		else
+		{
+			tile.IsSuperSlippery = true;
+		}
 
 		if (canDryUp)
 		{
@@ -225,6 +243,7 @@ public class MetaDataLayer : MonoBehaviour
 			{
 				StopCoroutine(tile.CurrentDrying);
 			}
+
 			tile.CurrentDrying = DryUp(tile);
 			StartCoroutine(tile.CurrentDrying);
 		}
@@ -234,7 +253,8 @@ public class MetaDataLayer : MonoBehaviour
 	/// Release reagents at provided coordinates, making them react with world + decide what it should look like
 	/// </summary>
 	public void ReagentReact(ReagentMix reagents, Vector3Int worldPosInt, Vector3Int localPosInt,
-		bool spawnPrefabEffect = true, OrientationEnum direction = OrientationEnum.Up_By0, bool Scatter = false,LivingHealthMasterBase from = null )
+		bool spawnPrefabEffect = true, OrientationEnum direction = OrientationEnum.Up_By0, bool Scatter = false,
+		LivingHealthMasterBase from = null)
 	{
 		var mobs = MatrixManager.GetAt<LivingHealthMasterBase>(worldPosInt, true);
 
@@ -251,7 +271,7 @@ public class MetaDataLayer : MonoBehaviour
 		}
 
 		Vector3 Position = worldPosInt;
-		Vector3 Offset= Vector3.zero;
+		Vector3 Offset = Vector3.zero;
 		Vector3 PositionLocal = localPosInt;
 
 		if (Scatter)
@@ -262,7 +282,7 @@ public class MetaDataLayer : MonoBehaviour
 			//lurking deep in every place.
 			Offset = Offset.GetRandomScatteredDirection() +
 			         new Vector3(Random.Range(-0.1875f, 0.1875f), Random.Range(-0.1875f, 0.1875f));
-			Position = worldPosInt +Offset ;
+			Position = worldPosInt + Offset;
 			PositionLocal = PositionLocal + Offset;
 		}
 
@@ -306,7 +326,8 @@ public class MetaDataLayer : MonoBehaviour
 		{
 			try
 			{
-				HandleSplats(ref reagents, ref paintBlood, ref didSplat, ref existingSplat, Position, worldPosInt, localPosInt, spawnPrefabEffect);
+				HandleSplats(ref reagents, ref paintBlood, ref didSplat, ref existingSplat, Position, worldPosInt,
+					localPosInt, spawnPrefabEffect);
 			}
 			catch (Exception e)
 			{
@@ -320,48 +341,49 @@ public class MetaDataLayer : MonoBehaviour
 	{
 		lock (reagents.reagents)
 		{
-			foreach (var reagent in reagents.reagents.m_dict)
+			//reagents.MajorMixReagent
+
+			if (reagents.MajorMixReagent.state == ReagentState.Liquid && reagents.Total > 20)
 			{
-				if (reagent.Key.state == ReagentState.Liquid && reagent.Value > 5)
+				if (reagents.reagents.ContainsKey(CommonReagents.Instance.SmokePowder) == false &&
+				    reagents.reagents.ContainsKey(CommonReagents.Instance.Fluorosurfactant) == false)
 				{
 					StoreReagentsAtTile(reagents, localPosInt);
 				}
-				//(Max): Whoever hardcoded this, I hope you step on lego.
-				//TODO: Move this beavior on regeants using interface selectors.
-				switch (reagent.Key.name)
-				{
-					case "HumanBlood":
-					{
-						paintBlood = true;
-						break;
-					}
-					case "Water":
-					{
-						MakeSlipperyAt(localPosInt);
-						matrix.ReactionManager.ExtinguishHotspot(localPosInt);
-						foreach (var livingHealthBehaviour in matrix.Get<LivingHealthMasterBase>(localPosInt, true))
-						{
-							livingHealthBehaviour.Extinguish();
-						}
-						break;
-					}
-					case "SpaceCleaner":
+			}
 
-						Clean(worldPosInt, localPosInt, false);
-						didSplat = true;
-						break;
-					case "SpaceLube":
-					{
-						// ( ͡° ͜ʖ ͡°)
-						if (Get(worldPosInt).IsSlippery == false)
-						{
-							EffectsFactory.WaterSplat(worldPosInt);
-							MakeSlipperyAt(localPosInt, false);
-						}
-						break;
-					}
-					default:
-						break;
+			//(Max): Whoever hardcoded this, I hope you step on lego.
+			//TODO: Move this beavior on regeants using interface selectors.
+
+			if (reagents.MajorMixReagent == CommonReagents.Instance.Blood)
+			{
+				paintBlood = true;
+			}
+			else if (reagents.MajorMixReagent == CommonReagents.Instance.Water)
+			{
+				MakeSlipperyAt(localPosInt, false);
+				matrix.ReactionManager.ExtinguishHotspot(localPosInt);
+				foreach (var livingHealthBehaviour in matrix.Get<LivingHealthMasterBase>(localPosInt, true))
+				{
+					livingHealthBehaviour.Extinguish();
+				}
+
+				didSplat = true;
+				EffectsFactory.WaterSplat(worldPosInt);
+			}
+			else if (reagents.MajorMixReagent == CommonReagents.Instance.SpaceCleaner)
+			{
+				Clean(worldPosInt, localPosInt, false);
+				didSplat = true;
+			}
+			else if (reagents.MajorMixReagent == CommonReagents.Instance.SpaceLube)
+			{
+				// ( ͡° ͜ʖ ͡°)
+				if (Get(localPosInt).IsSuperSlippery == false)
+				{
+					didSplat = true;
+					EffectsFactory.WaterSplat(worldPosInt, wasLube : true);
+					MakeSlipperyAt(localPosInt, false, true);
 				}
 			}
 		}
@@ -391,7 +413,8 @@ public class MetaDataLayer : MonoBehaviour
 	public void CreateLiquidOverlay(Vector3Int localPosInt, ReagentMix reagents)
 	{
 		var liquidColor = reagents.MixColor;
-		liquidColor.a = Mathf.Clamp(liquidColor.a, 0, 0.65f); //makes sure liquids don't completely hide everything behind it.
+		liquidColor.a =
+			Mathf.Clamp(liquidColor.a, 0, 0.65f); //makes sure liquids don't completely hide everything behind it.
 		matrix.MetaTileMap.AddOverlay(localPosInt, TileType.UnderObjectsEffects, "BaseLiquid", color: liquidColor);
 		SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Bubbles, localPosInt);
 	}
@@ -435,7 +458,10 @@ public class MetaDataLayer : MonoBehaviour
 
 	public void Clean(Vector3Int worldPosInt, Vector3Int localPosInt, bool makeSlippery)
 	{
-		Get(localPosInt, updateTileOnClient: true).IsSlippery = false;
+		var node = Get(localPosInt, updateTileOnClient: true);
+		node.IsSlippery = makeSlippery;
+		node.IsSuperSlippery = false;
+
 		var floorDecals = GetFloorDecals(worldPosInt);
 
 		foreach (var floorDecal in floorDecals)
@@ -471,8 +497,10 @@ public class MetaDataLayer : MonoBehaviour
 				matrix.MetaTileMap.RemoveOverlaysOfType(localPosInt, LayerType.UnderObjectsEffects, OverlayType.Liquid);
 				CreateLiquidOverlay(localPosInt, node.ReagentsOnTile);
 			}
+
 			floorDecal.TryClean();
 		}
+
 		//check for any moppable overlays
 		matrix.TileChangeManager.MetaTileMap.RemoveFloorWallOverlaysOfType(localPosInt, OverlayType.Cleanable);
 		if (MatrixManager.IsSpaceAt(worldPosInt, true, matrix.MatrixInfo) == false && makeSlippery)
@@ -501,9 +529,9 @@ public class MetaDataLayer : MonoBehaviour
 		{
 			StopCoroutine(tile.CurrentDrying);
 		}
+
 		tile.CurrentDrying = BloodDryUp(tile);
 		StartCoroutine(tile.CurrentDrying);
-
 	}
 
 	private IEnumerator BloodDryUp(MetaDataNode tile)
@@ -525,7 +553,7 @@ public class MetaDataLayer : MonoBehaviour
 
 	private IEnumerator DryUp(MetaDataNode tile)
 	{
-		yield return WaitFor.Seconds(Random.Range(10,21));
+		yield return WaitFor.Seconds(Random.Range(10, 21));
 		tile.IsSlippery = false;
 		tile.ForceUpdateClient();
 		var floorDecals = matrix.Get<FloorDecal>(tile.LocalPosition, isServer: true);
@@ -557,6 +585,7 @@ public class MetaDataLayer : MonoBehaviour
 			{
 				excess = cell.ReagentsOnTile.Split(reagents.Total / 2);
 			}
+
 			CreateLiquidOverlay(localPosInt, cell.ReagentsOnTile);
 			if (DebugGizmos)
 			{
@@ -569,6 +598,7 @@ public class MetaDataLayer : MonoBehaviour
 			{
 				excess = reagentsToUse.Split(reagentsToUse.Total / 2);
 			}
+
 			cell.ReagentsOnTile.Add(reagentsToUse);
 		}
 
@@ -602,8 +632,10 @@ public class MetaDataLayer : MonoBehaviour
 					if (DebugGizmos)
 					{
 						GameGizmomanager.AddNewLineStaticClient(null,
-							currentCell.LocalPosition.ToWorldInt(matrix), null, neighbor.LocalPosition.ToWorldInt(matrix), Color.red);
+							currentCell.LocalPosition.ToWorldInt(matrix), null,
+							neighbor.LocalPosition.ToWorldInt(matrix), Color.red);
 					}
+
 					// Add this neighbor to the queue for further distribution if needed
 					cellsToProcess.Enqueue(neighbor);
 					CleanAndMoveToExcess(neighbor.LocalPosition.ToWorldInt(matrix), neighbor.LocalPosition, false);
@@ -611,6 +643,7 @@ public class MetaDataLayer : MonoBehaviour
 					{
 						matrix.ReactionManager.ExtinguishHotspot(neighbor.LocalPosition);
 					}
+
 					continue;
 				}
 				else
@@ -620,8 +653,10 @@ public class MetaDataLayer : MonoBehaviour
 					neighbor.ReagentsOnTile.Add(transferMix);
 					CleanAndMoveToExcess(neighbor.LocalPosition.ToWorldInt(matrix), neighbor.LocalPosition, false);
 				}
+
 				cellsToProcess.Enqueue(neighbor);
 			}
+
 			iterations++;
 		}
 	}

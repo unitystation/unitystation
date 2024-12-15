@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 325f0867c3e49a144b6c7137a397c4ee, type: 3}
+  m_Name: CommonReagents
+  m_EditorClassIdentifier: 
+  SmokePowder: {fileID: 11400000, guid: 2fe711bafe5c109f8b44185374a5071d, type: 2}
+  Fluorosurfactant: {fileID: 11400000, guid: 61965072f426692ab9f3f996eedfd500, type: 2}
+  Water: {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
+  Blood: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
+  SpaceCleaner: {fileID: 11400000, guid: 11dd09fc0e79f0391a03cea4eac8b16d, type: 2}
+  SpaceLube: {fileID: 11400000, guid: e165b9d67b5163a9ea82a4c4fed31f7d, type: 2}
