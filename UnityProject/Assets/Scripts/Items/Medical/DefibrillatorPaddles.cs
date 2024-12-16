@@ -70,13 +70,13 @@ namespace Items.Medical
 				var objectPos = gameObject.AssumedWorldPosServer();
 				if (CanDefibrillate(livingHealthMaster, interaction.Performer) == false)
 				{
-					_ = SoundManager.PlayNetworkedAtPosAsync(soundFailed, objectPos, new AudioSourceParameters(spatialBlend:3));
+					_ = SoundManager.PlayNetworkedAtPosAsync(soundFailed, objectPos, new AudioSourceParameters(spatialBlend:2));
 					StartCoroutine(Cooldown());
 					return;
 				}
 
 				livingHealthMaster.RestartHeart();
-				_ = SoundManager.PlayNetworkedAtPosAsync(soundZap, objectPos, new AudioSourceParameters(spatialBlend:3));
+				_ = SoundManager.PlayNetworkedAtPosAsync(soundZap, objectPos, new AudioSourceParameters(spatialBlend:2));
 				if (livingHealthMaster.IsDead == false)
 				{
 					livingHealthMaster.playerScript.Mind.OrNull()?.StopGhosting();
@@ -85,7 +85,7 @@ namespace Items.Medical
 					return;
 				}
 
-				_ = SoundManager.PlayNetworkedAtPosAsync(soundFailed, objectPos, new AudioSourceParameters(spatialBlend:3));
+				_ = SoundManager.PlayNetworkedAtPosAsync(soundFailed, objectPos, new AudioSourceParameters(spatialBlend:2));
 				StartCoroutine(Cooldown());
 			}
 
@@ -106,7 +106,7 @@ namespace Items.Medical
 			onCooldown = true;
 			yield return WaitFor.Seconds(cooldown);
 			onCooldown = false;
-			SoundManager.PlayNetworkedAtPos(soundCharged, gameObject.AssumedWorldPosServer(), new AudioSourceParameters(spatialBlend:3));
+			SoundManager.PlayNetworkedAtPos(soundCharged, gameObject.AssumedWorldPosServer(), new AudioSourceParameters(spatialBlend:2));
 		}
 
 		public void ServerPerformInteraction(HandActivate interaction)
@@ -121,7 +121,7 @@ namespace Items.Medical
 			{
 				Chat.AddExamineMsg(interaction.Performer, $"You prepare the {gameObject.ExpensiveName()}");
 				isReady = true;
-				_ = SoundManager.PlayNetworkedAtPosAsync(soundReady, gameObject.AssumedWorldPosServer(), new AudioSourceParameters(spatialBlend:3));
+				_ = SoundManager.PlayNetworkedAtPosAsync(soundReady, gameObject.AssumedWorldPosServer(), new AudioSourceParameters(spatialBlend:2));
 				return;
 			}
 
