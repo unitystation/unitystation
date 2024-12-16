@@ -204,8 +204,8 @@ public class NetworkedMatrixMove : NetworkBehaviour
 	public bool RCSRequiresThrusters = true;
 	public List<ShuttleConsole> ShuttleConsuls = new List<ShuttleConsole>();
 
-	public float AITravelSpeed = 10;
-	public float AITravelSpeedFast = 30;
+	public float AITravelSpeed = 20;
+	public float AITravelSpeedFast = 90;
 
 
 	public Vector3 TravelToWorldPOS
@@ -232,7 +232,8 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 	public Vector3 travelToWorldPOS;
 
-	public bool HasMoveToTarget = false;
+	[SyncVar] public bool HasMoveToTarget = false;
+
 	public bool ISMovingX = false;
 	public OrientationEnum TargetFaceDirectionOverride;
 	public bool FullAISpeed = false;
@@ -727,91 +728,10 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 		bool DoUpdateLocalPosition = false;
 
-		if (WorldCurrentVelocity.magnitude > 0 && ApplyDrag)
-		{
-			DoUpdateLocalPosition = true;
-			WorldCurrentVelocity = ApplyDragTo(WorldCurrentVelocity, Drag, DeltaTimeSeconds);
-		}
+		//HasMoveToTarget
 
-		if (WorldCurrentVelocity.magnitude > 0 && WorldCurrentVelocity.magnitude < LowSpeedDragThreshold)
-		{
-			DoUpdateLocalPosition = true;
-			WorldCurrentVelocity = ApplyDragTo(WorldCurrentVelocity, LowSpeedDrag, DeltaTimeSeconds);
-		}
-
-
-		if (Mathf.Abs(WorldCurrentVelocity.x) > HighSpeedDragMinimumThreshold && ApplyDrag)
-		{
-			var MomentumDifference = Mathf.Abs(WorldCurrentVelocity.x) - HighSpeedDragMinimumThreshold;
-			var DragMultiplier = MomentumDifference / (HighSpeedDrag100Threshold - HighSpeedDragMinimumThreshold);
-			WorldCurrentVelocity.x =
-				ApplyDragTo(WorldCurrentVelocity.x, (HighSpeedDrag * DragMultiplier), DeltaTimeSeconds);
-		}
-
-
-		if (Mathf.Abs(WorldCurrentVelocity.y) > HighSpeedDragMinimumThreshold && ApplyDrag)
-		{
-			var MomentumDifference = Mathf.Abs(WorldCurrentVelocity.y) - HighSpeedDragMinimumThreshold;
-			var DragMultiplier = MomentumDifference / (HighSpeedDrag100Threshold - HighSpeedDragMinimumThreshold);
-			WorldCurrentVelocity.y =
-				ApplyDragTo(WorldCurrentVelocity.y, (HighSpeedDrag * DragMultiplier), DeltaTimeSeconds);
-		}
-
-
-		if (SpinneyMode == false && TargetOrientation == OrientationEnum.Default)
-		{
-			if (Mathf.Abs(WorldCurrentVelocity.x) < 0.50f)
-			{
-				var Position = TargetTransform.position;
-				if (WorldCurrentVelocity.x > 0f)
-				{
-					Position.x += 0.45f;
-				}
-				else
-				{
-					Position.x -= 0.45f;
-				}
-
-				Position.x = Mathf.Round(Position.x);
-
-				SetTransformPosition(
-					Vector3.Lerp(TargetTransform.position, Position, 2 * TileAlignmentSpeed * DeltaTimeSeconds), false,
-					Matrixes);
-			}
-
-			if (Mathf.Abs(WorldCurrentVelocity.y) < 0.50f)
-			{
-				var Position = TargetTransform.position;
-				if (WorldCurrentVelocity.y > 0)
-				{
-					Position.y += 0.45f;
-				}
-				else
-				{
-					Position.y -= 0.45f;
-				}
-
-				Position.y = Mathf.Round(Position.y);
-
-				SetTransformPosition(
-					Vector3.Lerp(TargetTransform.position, Position, 2 * TileAlignmentSpeed * DeltaTimeSeconds), false,
-					Matrixes);
-			}
-		}
-
-
-		if (Mathf.Abs(CurrentTorque) > 0 && ApplyDrag)
-		{
-			DoUpdateLocalPosition = true;
-			CurrentTorque = ApplyDragTo(CurrentTorque, DragTorque, DeltaTimeSeconds);
-		}
-
-		if (SpinneyMode == false && AllRCSModeActive == false && TargetFaceDirectionOverride == OrientationEnum.Default)
-		{
-			var dotProduct = Vector3.Dot(WorldCurrentVelocity.normalized, ForwardsDirection.normalized);
-			WorldCurrentVelocity = ForwardsDirection * (dotProduct * WorldCurrentVelocity.magnitude);
-		}
-
+		DoUpdateLocalPosition = DragCalculations(DeltaTimeSeconds, AllRCSModeActive);
+		AligneToTiles(DeltaTimeSeconds, Matrixes);
 
 		SetTransformPosition(TargetTransform.position + (Vector3)
 			((Vector3) (WorldCurrentVelocity) * DeltaTimeSeconds), false, Matrixes);
@@ -954,6 +874,101 @@ public class NetworkedMatrixMove : NetworkBehaviour
 				Matrixe.UpdateHandled = true;
 			}
 		}
+	}
+
+	public void AligneToTiles(float DeltaTimeSeconds, HashSet<NetworkedMatrixMove> Matrixes)
+	{
+		if (SpinneyMode == false && TargetOrientation == OrientationEnum.Default)
+		{
+			if (Mathf.Abs(WorldCurrentVelocity.x) < 0.50f)
+			{
+				var Position = TargetTransform.position;
+				if (WorldCurrentVelocity.x > 0f)
+				{
+					Position.x += 0.45f;
+				}
+				else
+				{
+					Position.x -= 0.45f;
+				}
+
+				Position.x = Mathf.Round(Position.x);
+
+				SetTransformPosition(
+					Vector3.Lerp(TargetTransform.position, Position, 2 * TileAlignmentSpeed * DeltaTimeSeconds), false,
+					Matrixes);
+			}
+
+			if (Mathf.Abs(WorldCurrentVelocity.y) < 0.50f)
+			{
+				var Position = TargetTransform.position;
+				if (WorldCurrentVelocity.y > 0)
+				{
+					Position.y += 0.45f;
+				}
+				else
+				{
+					Position.y -= 0.45f;
+				}
+
+				Position.y = Mathf.Round(Position.y);
+
+				SetTransformPosition(
+					Vector3.Lerp(TargetTransform.position, Position, 2 * TileAlignmentSpeed * DeltaTimeSeconds), false,
+					Matrixes);
+			}
+		}
+	}
+
+	public bool DragCalculations(float DeltaTimeSeconds, bool AllRCSModeActive)
+	{
+
+		bool DoUpdateLocalPosition = false;
+		bool AINoDrag = HasMoveToTarget && WorldCurrentVelocity.magnitude > 2;
+
+		if (WorldCurrentVelocity.magnitude > 0 && ApplyDrag && AINoDrag == false)
+		{
+			DoUpdateLocalPosition = true;
+			WorldCurrentVelocity = ApplyDragTo(WorldCurrentVelocity, Drag, DeltaTimeSeconds);
+		}
+
+		if (WorldCurrentVelocity.magnitude > 0 && WorldCurrentVelocity.magnitude < LowSpeedDragThreshold && AINoDrag == false)
+		{
+			DoUpdateLocalPosition = true;
+			WorldCurrentVelocity = ApplyDragTo(WorldCurrentVelocity, LowSpeedDrag, DeltaTimeSeconds);
+		}
+
+
+		if (Mathf.Abs(WorldCurrentVelocity.x) > HighSpeedDragMinimumThreshold && ApplyDrag && AINoDrag == false)
+		{
+			var MomentumDifference = Mathf.Abs(WorldCurrentVelocity.x) - HighSpeedDragMinimumThreshold;
+			var DragMultiplier = MomentumDifference / (HighSpeedDrag100Threshold - HighSpeedDragMinimumThreshold);
+			WorldCurrentVelocity.x =
+				ApplyDragTo(WorldCurrentVelocity.x, (HighSpeedDrag * DragMultiplier), DeltaTimeSeconds);
+		}
+
+
+		if (Mathf.Abs(WorldCurrentVelocity.y) > HighSpeedDragMinimumThreshold && ApplyDrag && AINoDrag == false)
+		{
+			var MomentumDifference = Mathf.Abs(WorldCurrentVelocity.y) - HighSpeedDragMinimumThreshold;
+			var DragMultiplier = MomentumDifference / (HighSpeedDrag100Threshold - HighSpeedDragMinimumThreshold);
+			WorldCurrentVelocity.y =
+				ApplyDragTo(WorldCurrentVelocity.y, (HighSpeedDrag * DragMultiplier), DeltaTimeSeconds);
+		}
+
+		if (Mathf.Abs(CurrentTorque) > 0 && ApplyDrag && AINoDrag == false)
+		{
+			DoUpdateLocalPosition = true;
+			CurrentTorque = ApplyDragTo(CurrentTorque, DragTorque, DeltaTimeSeconds);
+		}
+
+		if (SpinneyMode == false && AllRCSModeActive == false && TargetFaceDirectionOverride == OrientationEnum.Default && AINoDrag == false)
+		{
+			var dotProduct = Vector3.Dot(WorldCurrentVelocity.normalized, ForwardsDirection.normalized);
+			WorldCurrentVelocity = ForwardsDirection * (dotProduct * WorldCurrentVelocity.magnitude);
+		}
+
+		return DoUpdateLocalPosition;
 	}
 
 	public Vector3 ApplyDragTo(Vector3 CurrentMomentum, float Drag, float deltaTimeSeconds)

@@ -69,6 +69,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   matrixID: 0
+  IsSpaceMatrix: 0
+  IsMainStationMatrix: 0
 --- !u!114 &5805040026845563395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,7 +142,8 @@ MonoBehaviour:
   TheReusingConnectedThrusters: []
   RCSRequiresThrusters: 1
   ShuttleConsuls: []
-  AITravelSpeed: 10
+  AITravelSpeed: 20
+  AITravelSpeedFast: 90
   TravelToObject: {fileID: 0}
   travelToWorldPOS: {x: 0, y: 0, z: 0}
   HasMoveToTarget: 0

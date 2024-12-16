@@ -396,7 +396,6 @@ public class EscapeShuttle : AutopilotShipMachine
 
 		HasShuttleDockedToStation = false;
 
-		matrixMove.NetworkedMatrixMove.AITravelSpeed = (90);
 		MoveToTargetBuoy(TargetDestinationBuoy);
 
 		callResult = "Shuttle has been recalled.";
@@ -423,8 +422,6 @@ public class EscapeShuttle : AutopilotShipMachine
 
 		Status = EscapeShuttleStatus.OnRouteToStationTeleport;
 
-		matrixMove.NetworkedMatrixMove.AITravelSpeed = 100f;
-
 		MoveToTargetBuoy( TargetDestinationBuoy );
 	}
 
@@ -449,7 +446,6 @@ public class EscapeShuttle : AutopilotShipMachine
 				if (startedMovingToStation == false && CurrentTimerSeconds <= Vector2.Distance(matrixMove.NetworkedMatrixMove.TargetTransform.position, StationStartBuoy.transform.position) / matrixMove.NetworkedMatrixMove.AITravelSpeed + 10f)
 				{
 					startedMovingToStation = true;
-					matrixMove.NetworkedMatrixMove.AITravelSpeed = 100;
 					MoveToTargetBuoy( StationStartBuoy );
 					Status = EscapeShuttleStatus.OnRouteStation;
 				}

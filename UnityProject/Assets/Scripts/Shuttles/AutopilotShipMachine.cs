@@ -198,12 +198,7 @@ public class AutopilotShipMachine : MonoBehaviour
 
 	public virtual void UpdateMe()
 	{
-		if (mm.NetworkedMatrixMove.IsMoving)
-		{
-			mm.NetworkedMatrixMove.AITravelSpeed =
-				(mm.NetworkedMatrixMove.CentreOfAIMovementWorld - mm.NetworkedMatrixMove.TravelToWorldPOS).magnitude < 100 ? 20 : 80;
-		}
-		else
+		if (mm.NetworkedMatrixMove.IsMoving == false)
 		{
 			if (CurrentTarget == null) return;
 			var Difference = (mm.NetworkedMatrixMove.CentreOfAIMovementWorld.RoundToInt() - CurrentTarget.transform.position).magnitude;
