@@ -81,7 +81,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			}
 			else
 			{
-				return Get(Instance.InternalMainStationMatrix);
+				return Instance.InternalMainStationMatrix.MatrixInfo;
 			}
 		}
 	}
@@ -196,6 +196,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		InitializingMatrixes.Clear();
 	}
 
+
 	public void RegisterWhenReady(Matrix matrix)
 	{
 
@@ -306,6 +307,30 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 		EventManager.Broadcast(Event.MatrixManagerInit);
 	}
+
+	public void UnRegister(Matrix matrix)
+	{
+		var MetaData = ActiveMatrices[matrix.Id];
+
+		ActiveMatrices.Remove(matrix.Id);
+		ActiveMatricesList.Remove(MetaData);
+
+		if (MovableMatrices.Contains(MetaData))
+		{
+			MovableMatrices.Remove(MetaData);
+		}
+
+		if (spaceMatrix == matrix)
+		{
+			spaceMatrix = null;
+		}
+
+		if (InternalMainStationMatrix == matrix)
+		{
+			InternalMainStationMatrix = null;
+		}
+	}
+
 
 	private void RegisterMatrix(Matrix matrix)
 	{
@@ -1221,17 +1246,6 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		return Instance.ActiveMatrices[id];
 	}
 
-	/// Get MatrixInfo by gameObject containing Matrix component
-	public static MatrixInfo Get(GameObject go)
-	{
-		return getInternal(mat => mat != null && mat.GameObject == go);
-	}
-
-	/// Get MatrixInfo by Objects layer transform
-	public static MatrixInfo Get(Transform objectParent)
-	{
-		return getInternal(mat => mat != null && mat.ObjectParent == objectParent);
-	}
 
 	/// Get MatrixInfo by Matrix component
 	public static MatrixInfo Get(Matrix matrix)
@@ -1239,18 +1253,6 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		return matrix == null ? MatrixInfo.Invalid : Get(matrix.Id);
 	}
 
-	private static MatrixInfo getInternal(Func<MatrixInfo, bool> condition)
-	{
-		foreach (var matrixInfo in Instance.ActiveMatricesList)
-		{
-			if (condition(matrixInfo))
-			{
-				return matrixInfo;
-			}
-		}
-
-		return MatrixInfo.Invalid;
-	}
 
 	/// <summary>
 	/// <inheritdoc cref="LocalToWorld(Vector3, Matrix)"/>

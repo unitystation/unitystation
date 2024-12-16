@@ -215,6 +215,9 @@ namespace UI
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			EventManager.Broadcast(Event.RoundEnded);
+			EventManager.Broadcast(Event.PostRoundStarted);
+			EventManager.Broadcast(Event.SceneUnloading);
+
 			HideAllMenus();
 			GameManager.Instance.DisconnectExpected = true;
 			StopNetworking();
