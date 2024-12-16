@@ -197,6 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isCybernetic: 0
   OrganStorage: {fileID: 2719098251223779414}
   isOpenAir: 0
   CommonComponents: {fileID: 0}
@@ -284,12 +285,13 @@ MonoBehaviour:
   itemStoragePopulator: {fileID: 0}
   forceSpawnContents: 1
   ManuallySpawnContent: 1
-  dropItemsOnDespawn: 0
+  dropItemsOnDespawn: 1
   UesAddlistPopulater: 0
   Populater:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
+  initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}
 --- !u!114 &8113072997116454967

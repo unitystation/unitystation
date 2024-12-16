@@ -103,12 +103,7 @@ namespace Objects.Construction
 			{
 				Node.IsSlippery = false;
 			}
-
-
-			if (CanDryUp)
-			{
-
-			}
+			
 			_ = Despawn.ServerSingle(this.gameObject);
 		}
 

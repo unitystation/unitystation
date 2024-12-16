@@ -449,9 +449,18 @@ public class ItemSlot
 			// destroy all items in the slots
 			foreach (var slot in storageToFree.GetItemSlots())
 			{
-				if (slot.Item != null)
+				if (slot.Item != null )
 				{
-					Inventory.ServerDespawn(slot);
+					var Integrity = slot.Item.GetComponent<Integrity>();
+					if (Integrity?.Resistances?.Indestructable == true)
+					{
+						Inventory.ServerDrop(slot);
+					}
+					else
+					{
+						Inventory.ServerDespawn(slot);
+					}
+
 				}
 			}
 		}

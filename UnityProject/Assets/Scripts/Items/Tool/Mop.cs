@@ -51,7 +51,7 @@ public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IEx
 			if (reagentContainer.IsFull)
 			{
 				Chat.AddExamineMsg(interaction.Performer,
-					"your mob is too wet to soak up any of the liquid on the floor");
+					"your mop is too wet to soak up any of the liquid on the floor");
 				return;
 			}
 		}
@@ -61,7 +61,7 @@ public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IEx
 			{
 				if (matrixInfo.MetaDataLayer.Get(localPos).ReagentsOnTile.Total == 0)
 				{
-					Chat.AddExamineMsg(interaction.Performer, "Your mop is dry and so is the floor!");
+					Chat.AddExamineMsg(interaction.Performer, "Your mop is dry, and so is the floor!");
 					return;
 				}
 			}
@@ -97,7 +97,7 @@ public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IEx
 				{
 					if (matrixInfo.MetaDataLayer.Get(localPos).ReagentsOnTile.Total == 0)
 					{
-						Chat.AddExamineMsg(interaction.Performer, "Your mop is dry and so is the floor!");
+						Chat.AddExamineMsg(interaction.Performer, "Your mop is dry, and so is the floor!");
 						return;
 					}
 				}
