@@ -53,6 +53,10 @@ namespace Lobby
 
 			DetermineUIScale();
 			UIManager.Display.SetScreenForLobby();
+
+			EventManager.Broadcast(Event.RoundEnded);
+			EventManager.Broadcast(Event.PostRoundStarted);
+			EventManager.Broadcast(Event.SceneUnloading);
 		}
 
 		#endregion
