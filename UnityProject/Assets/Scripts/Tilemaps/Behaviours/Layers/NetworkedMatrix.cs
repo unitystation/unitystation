@@ -173,7 +173,7 @@ namespace Tilemaps.Behaviours.Layers
 		{
 			if (Initialized)
 			{
-				MatrixManager.Instance.UnRegister(matrix);
+				MatrixManager.Instance?.UnRegister(matrix);
 			}
 		}
 	}

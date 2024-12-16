@@ -310,6 +310,10 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 	public void UnRegister(Matrix matrix)
 	{
+		if (ActiveMatrices.ContainsKey(matrix.Id) == false)
+		{
+			return;
+		}
 		var MetaData = ActiveMatrices[matrix.Id];
 
 		ActiveMatrices.Remove(matrix.Id);

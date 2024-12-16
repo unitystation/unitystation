@@ -8,14 +8,12 @@ namespace Doors.Modules
 {
 	public class CrowbarModule : DoorModuleBase
 	{
-		[SerializeField][Tooltip("Base time it takes to pry this door.")]
+		[SerializeField] [Tooltip("Base time it takes to pry this door.")]
 		private float pryTime = 4.5f; //TODO calculate time with a multiplier from the tool itself
 
-		[SerializeField]
-		private AddressableAudioSource prySound = null;
+		[SerializeField] private AddressableAudioSource prySound = null;
 
-		[SerializeField]
-		[Tooltip("Can you crowbar pry the door when there no power")]
+		[SerializeField] [Tooltip("Can you crowbar pry the door when there no power")]
 		private bool crowbarRequiresNoPower = true;
 
 		private string soundGuid = "";
@@ -31,12 +29,14 @@ namespace Doors.Modules
 
 		public override void OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
-			if (interaction is not { Intent: Intent.Help }) return;
+			if (interaction is not {Intent: Intent.Help}) return;
 			//If the door is powered, only allow things that are made to pry doors. If it isn't powered, we let crowbars work.
 
-			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) || Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar))
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) ||
+			    Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar))
 			{
-				if ((crowbarRequiresNoPower && master.HasPower) && (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) == false) )
+				if ((crowbarRequiresNoPower && master.HasPower) &&
+				    (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) == false))
 				{
 					return;
 				}
@@ -47,6 +47,8 @@ namespace Doors.Modules
 					$"",
 					$"",
 					() => TryPry(interaction));
+
+
 				States.Add(DoorProcessingStates.PhysicallyPrevented);
 			}
 
@@ -56,12 +58,13 @@ namespace Doors.Modules
 
 		public override void ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
-			if (interaction is not { Intent: Intent.Help }) return;
+			if (interaction is not {Intent: Intent.Help}) return;
 
 			//TODO card coded not larva, maybe when moved to body parts larva has their doesnt have this ability on theirs
 			if (interaction.HandObject == null
 			    && interaction.PerformerPlayerScript.PlayerTypeSettings.CanPryDoorsWithHands &&
-			    (interaction.PerformerPlayerScript.TryGetComponent<AlienPlayer>(out var alienPlayer) == false || alienPlayer.IsLarva == false))
+			    (interaction.PerformerPlayerScript.TryGetComponent<AlienPlayer>(out var alienPlayer) == false ||
+			     alienPlayer.IsLarva == false))
 			{
 				PryDoor(interaction, false);
 				States.Add(DoorProcessingStates.PhysicallyPrevented);
@@ -70,7 +73,8 @@ namespace Doors.Modules
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) ||
 			    Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar))
 			{
-				if ((crowbarRequiresNoPower && master.HasPower) && (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) == false))
+				if ((crowbarRequiresNoPower && master.HasPower) &&
+				    (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) == false))
 				{
 					return;
 				}
@@ -88,7 +92,8 @@ namespace Doors.Modules
 			}
 
 			soundGuid = Guid.NewGuid().ToString();
-			_ = SoundManager.PlayNetworkedAtPosAsync(prySound, master.RegisterTile.WorldPositionServer, gameObject, soundGuid);
+			_ = SoundManager.PlayNetworkedAtPosAsync(prySound, master.RegisterTile.WorldPositionServer, gameObject,
+				soundGuid);
 
 			if (useTool)
 			{
@@ -127,9 +132,9 @@ namespace Doors.Modules
 			{
 				if (master.TryForceOpen())
 				{
-					Chat.AddActionMsgToChat(interaction.Performer, $"You force the {doorName} open with your {interaction.HandObject.ExpensiveName()}!",
+					Chat.AddActionMsgToChat(interaction.Performer,
+						$"You force the {doorName} open with your {interaction.HandObject.ExpensiveName()}!",
 						$"{interaction.Performer.ExpensiveName()} forces the {doorName} open!");
-
 				}
 				else
 				{
@@ -139,7 +144,13 @@ namespace Doors.Modules
 			}
 			else if (!master.IsClosed && !master.IsPerformingAction)
 			{
-				master.PulseTryClose(inforce: true);
+				if ((crowbarRequiresNoPower && master.HasPower) &&
+				    (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) == false))
+				{
+					return;
+				}
+
+				master.Close();
 			}
 		}
 
@@ -159,7 +170,6 @@ namespace Doors.Modules
 			{
 				Chat.AddActionMsgToChat(interaction.Performer, $"You force the {doorName} open with your {handName}!",
 					$"{interaction.Performer.ExpensiveName()} forces the {doorName} open with its {handName}!");
-
 			}
 			else
 			{

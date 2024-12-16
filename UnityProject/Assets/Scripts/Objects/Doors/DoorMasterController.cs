@@ -90,7 +90,7 @@ namespace Doors
 		public RegisterDoor RegisterTile => registerTile;
 		private SpriteRenderer spriteRenderer;
 
-		private Matrix matrix => registerTile.Matrix;
+		public Matrix matrix => registerTile.Matrix;
 
 		private List<DoorModuleBase> modulesList;
 		public List<DoorModuleBase> ModulesList => modulesList;
@@ -177,7 +177,7 @@ namespace Doors
 
 			}
 		}
-		
+
 
 		private bool CheckPower()
 		{
