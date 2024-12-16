@@ -417,6 +417,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f84a1624ec0edd640992da46c6e6adc3,
         type: 2}
+    - target: {fileID: 8234622556944347693, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f84a1624ec0edd640992da46c6e6adc3,
+        type: 2}
     - target: {fileID: 9204204549946934727, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: parentID
@@ -465,12 +471,13 @@ MonoBehaviour:
   itemStoragePopulator: {fileID: 0}
   forceSpawnContents: 0
   ManuallySpawnContent: 0
-  dropItemsOnDespawn: 0
+  dropItemsOnDespawn: 1
   UesAddlistPopulater: 0
   Populater:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
+  initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 0}
 --- !u!114 &8043249252883093520
 MonoBehaviour:
