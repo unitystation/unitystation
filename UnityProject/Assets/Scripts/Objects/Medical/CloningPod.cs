@@ -21,7 +21,7 @@ namespace Objects.Medical
 
 		[FormerlySerializedAs("LimbCloningDamage"), SerializeField] private float internalLimbCloningDamage = 25;
 
-		[SerializeField] private float internalCloningTime = 60;
+		[SerializeField] private float internalCloningTime = 180;
 
 
 		private float LimbCloningDamage = 25;
