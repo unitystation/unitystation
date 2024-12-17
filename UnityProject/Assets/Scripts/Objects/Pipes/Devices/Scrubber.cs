@@ -76,7 +76,7 @@ namespace Objects.Atmospherics
 		{
 			metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
 			metaNode = metaDataLayer.Get(registerTile.LocalPositionServer);
-			pipeMix = selfSufficient ? GasMix.NewGasMix(GasMixes.BaseEmptyMix) : pipeData.GetMixAndVolume.GetGasMix();
+			pipeData.GetMixAndVolume.SetGasMix(selfSufficient ? GasMix.NewGasMix(GasMixes.BaseEmptyMix) : pipeData.GetMixAndVolume.GetGasMix());
 
 			MetaNodes.Add(metaNode);
 			MetaNodes.Add(metaDataLayer.Get(registerTile.LocalPositionServer+new Vector3Int(1,0,0)));
@@ -118,7 +118,8 @@ namespace Objects.Atmospherics
 
 			if (selfSufficient)
 			{
-				pipeMix.CopyFrom(GasMixes.BaseEmptyMix); // We don't need to do this, just void the gas
+				pipeData.GetMixAndVolume.GetGasMix()
+					.CopyFrom(GasMixes.BaseEmptyMix); // We don't need to do this, just void the gas
 			}
 		}
 
@@ -144,8 +145,6 @@ namespace Objects.Atmospherics
 		private float Effectiveness => voltageMultiplier;
 		public float nominalMolesTransferCap = 50;
 		private float[] scrubbingGasMoles;
-
-		private GasMix pipeMix;
 
 		private bool CanTransfer()
 		{
@@ -202,7 +201,7 @@ namespace Objects.Atmospherics
 				metaNode.GasMixLocal.RemoveGas(gas, transferAmount);
 				if (selfSufficient == false)
 				{
-					pipeMix.AddGasWithTemperature(gas, transferAmount, StartingTemperature );
+					pipeData.GetMixAndVolume.GetGasMix().AddGasWithTemperature(gas, transferAmount, StartingTemperature );
 				}
 			}
 
@@ -231,7 +230,7 @@ namespace Objects.Atmospherics
 
 			if (moles.Approx(0)) return;
 
-			GasMix.TransferGas(pipeMix, metaNode.GasMixLocal, moles);
+			GasMix.TransferGas(pipeData.GetMixAndVolume.GetGasMix(), metaNode.GasMixLocal, moles);
 		}
 
 		private void ModeSiphon()
@@ -289,7 +288,7 @@ namespace Objects.Atmospherics
 			if (isWelded == false)
 			{
 				//Do vent crawl
-				DoVentCrawl(interaction, pipeMix);
+				DoVentCrawl(interaction, pipeData.GetMixAndVolume.GetGasMix());
 			}
 		}
 
