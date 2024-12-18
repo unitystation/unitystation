@@ -1206,6 +1206,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 	public void MonitorAutopilot()
 	{
 		if (HasMoveToTarget == false) return;
+		if (CustomNetworkManager.IsServer == false) return;
 
 
 		CheckMatrixRoute();

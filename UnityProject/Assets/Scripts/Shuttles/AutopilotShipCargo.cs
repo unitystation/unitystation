@@ -285,8 +285,10 @@ public class AutopilotShipCargo : AutopilotShipMachine
 			 foreach (var Location in ToLoop)
 			 {
 
-				 if ((Matrix.GetFirst<ClosetControl>(Location.LocalPosition, true) == null) &&
-				     Matrix.IsFloorAt(Location.LocalPosition, true) && Matrix.IsWallAt(Location.LocalPosition, true) == false)
+				 if ((Matrix.GetFirst<ClosetControl>(Location.LocalPosition, true) == null)
+				     && Matrix.IsFloorAt(Location.LocalPosition, true)
+				     && Matrix.IsWallAt(Location.LocalPosition, true) == false
+					 && Matrix.IsWindowAt(Location.LocalPosition, true) == false)
 				 {
 					 availableSpawnSlots.Add(Location.LocalPosition);
 				 }
