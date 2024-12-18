@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BloodPacks
   m_EditorClassIdentifier: 
   OrderName: Blood Packs
-  CreditCost: 1
+  CreditCost: 3000
   Crate: {fileID: 2395943996647778371, guid: a85bb77436de9574c8523fe45acffb14, type: 3}
   Items:
   - {fileID: 175755116826495342, guid: d11369a9825828947a3d54cc46d63b9f, type: 3}
@@ -24,4 +24,4 @@ MonoBehaviour:
   EmagOnly: 0
   SuggestedCargoPrice: 600
   ContentSellPrice: 500
-  WillFailUnitTests: 1
+  WillFailUnitTests: 0
