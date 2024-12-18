@@ -52,6 +52,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -101,11 +102,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1001 &898424324795836677
 PrefabInstance:
@@ -128,6 +130,12 @@ PrefabInstance:
     - target: {fileID: 4128362409855863911, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 3cf85e147fc70b9488dc45ddcdd66a78,
+        type: 2}
+    - target: {fileID: 4128362409855863911, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 3cf85e147fc70b9488dc45ddcdd66a78,
         type: 2}
