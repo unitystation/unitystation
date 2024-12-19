@@ -227,6 +227,7 @@ namespace Player
 		{
 			FinishedValidating();
 			CmdFinishLoading();
+			UIManager.Display.preRoundWindow.ShowRejoiningPanel();
 			SpriteRequestCurrentStateMessage.Send(SpriteHandlerManager.Instance.GetComponent<NetworkIdentity>().netId);
 		}
 
@@ -418,6 +419,7 @@ namespace Player
 		private void TargetSyncCountdown(NetworkConnection target, bool started, double endTime)
 		{
 			Loggy.Info("Syncing countdown!", Category.Round);
+			UIManager.Display.preRoundWindow.SetUIForJoining();
 			UIManager.Display.preRoundWindow.GetComponent<GUI_PreRoundWindow>().SyncCountdown(started, endTime);
 		}
 

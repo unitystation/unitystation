@@ -304,6 +304,9 @@ namespace UI
 		/// </summary>
 		public void SetUIForJoining()
 		{
+			normalWindows.SetActive(true);
+			mapLoadingPanel.SetActive(false);
+			rejoiningRoundPanel.SetActive(false);
 			notEnoughReady.SetActive(false);
 			warnText.SetActive(false);
 			joinPanel.SetActive(true);
