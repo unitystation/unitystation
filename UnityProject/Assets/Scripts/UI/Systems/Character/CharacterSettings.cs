@@ -63,6 +63,7 @@ namespace UI.Character
 			ShowCharacterPreviewOnCharacterSelector();
 			characterEditor.SetActive(false);
 			characterSelector.SetActive(true);
+			UIManager.Instance.isInputFocus = false;
 		}
 
 		public void EditCharacter(int key)
@@ -71,6 +72,7 @@ namespace UI.Character
 			// Use a copy in case changes are discarded
 			EditedCharacter = (CharacterSheet) CharacterManager.Get(key).Clone();
 			ShowCharacterEditor(EditedCharacter);
+			UIManager.Instance.isInputFocus = true;
 		}
 
 		public void ShowCharacterEditor(CharacterSheet character)
@@ -79,6 +81,7 @@ namespace UI.Character
 			characterSelector.SetActive(false);
 			characterEditor.SetActive(true);
 			characterEditorScript.LoadCharacter(character);
+			UIManager.Instance.isInputFocus = true;
 		}
 
 		public void SaveCharacter(CharacterSheet character)
