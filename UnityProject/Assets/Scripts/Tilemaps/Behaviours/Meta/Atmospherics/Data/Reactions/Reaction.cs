@@ -36,7 +36,9 @@ namespace Systems.Atmospherics
 		private static GasReactions MiasmaDecomp;
 		private static GasReactions MetalHydrogenForm;
 		private static GasReactions HydrogenForm;
+		private static GasReactions SmokeDissipation;
 
+		private static GasReactions TobaccoDissipation;
 		public static void SetUpReactions()
 		{
 			gasReactions.Clear();
@@ -153,6 +155,64 @@ namespace Systems.Atmospherics
 				addToBaseReactions: true
 			);
 
+			#endregion
+
+
+			#region SmokeDissipation
+
+			SmokeDissipation = new GasReactions(
+
+				reaction: new SmokeDissipation(),
+
+				gasReactionData: new Dictionary<GasSO, GasReactionData>()
+				{
+					{
+						Gas.Smoke,
+						new GasReactionData()
+						{
+							minimumMolesToReact = 0.01f
+						}
+					}
+				},
+
+				minimumTileTemperature: 0,
+				maximumTileTemperature: 10000000000,
+				minimumTilePressure: 0,
+				maximumTilePressure: 10000000000,
+
+				minimumTileMoles: 0.02f,
+				maximumTileMoles: 10000000000,
+				addToBaseReactions: true
+			);
+			#endregion
+
+
+			#region TobaccoDissipation
+
+			TobaccoDissipation = new GasReactions(
+
+				reaction: new TobaccoDissipation(),
+
+				gasReactionData: new Dictionary<GasSO, GasReactionData>()
+				{
+					{
+						Gas.Tobacco,
+						new GasReactionData()
+						{
+							minimumMolesToReact = 0.01f
+						}
+					}
+				},
+
+				minimumTileTemperature: 0,
+				maximumTileTemperature: 10000000000,
+				minimumTilePressure: 0,
+				maximumTilePressure: 10000000000,
+
+				minimumTileMoles: 0.02f,
+				maximumTileMoles: 10000000000,
+				addToBaseReactions: true
+			);
 			#endregion
 
 			#region MetalHydrogenFormation

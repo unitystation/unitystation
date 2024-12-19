@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Chemistry.Components;
+using Logs;
 using UnityEngine;
 using Mirror;
 using ScriptableObjects.Atmospherics;
@@ -171,8 +172,9 @@ namespace Items
 		private void CigBurnLogic()
 		{
 			reagentContainer.Temperature = 300;
-			var bigHit = DMMath.Prob(50) ? 0.5f : 0.25f;
+			var bigHit = (DMMath.Prob(50) ? 0.5f : 0.25f) * 10;
 			var burnReagent = reagentContainer.TakeReagents(bigHit);
+			Loggy.Error(reagentContainer.ReagentMixTotal.ToString());
 			if (smoker != null)
 			{
 				smoker.PlayerScript.playerHealth.reagentPoolSystem.BloodPool.Add(burnReagent);
@@ -187,7 +189,7 @@ namespace Items
 				var node = gasNode.GasMixLocal;
 				foreach (var gas in gasProduct)
 				{
-					node.AddGas(gas, burnReagent.Total * 2, 0);
+					node.AddGasWithTemperature(gas, burnReagent.Total , Kelvin.FromC(30));
 				}
 			}
 			if (reagentContainer.ReagentMixTotal.Approx(0)) Burn();

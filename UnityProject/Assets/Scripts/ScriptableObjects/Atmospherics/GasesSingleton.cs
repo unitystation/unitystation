@@ -74,6 +74,9 @@ namespace ScriptableObjects.Atmospherics
 		[field: SerializeField]
 		public GasSO CarbonMonoxide { get; private set; }
 
+		[field: SerializeField]
+		public GasSO Tobacco { get; private set; }
+
 		private void OnEnable()
 		{
 			SetUpGases();
