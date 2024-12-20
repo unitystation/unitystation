@@ -52,6 +52,11 @@ namespace UI.Character
 			ShowCharacterSelector();
 		}
 
+		private void OnDisable()
+		{
+			UIManager.Instance.isInputFocus = false;
+		}
+
 		public void SetWindowTitle(string title)
 		{
 			windowName.text = title;
