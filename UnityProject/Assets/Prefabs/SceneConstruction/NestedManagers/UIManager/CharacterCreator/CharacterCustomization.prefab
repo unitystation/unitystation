@@ -834,7 +834,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -83, y: -12.673809}
+  m_AnchoredPosition: {x: -83, y: -12.673798}
   m_SizeDelta: {x: 85.1286, y: 76.6524}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &3347391786031316687
@@ -10893,8 +10893,8 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
+    m_Top: 8
+    m_Bottom: 8
   m_ChildAlignment: 1
   m_Spacing: 5
   m_ChildForceExpandWidth: 1
@@ -11922,7 +11922,7 @@ MonoBehaviour:
   m_LineType: 0
   m_HideMobileInput: 0
   m_CharacterValidation: 0
-  m_CharacterLimit: 26
+  m_CharacterLimit: 28
   m_OnSubmit:
     m_PersistentCalls:
       m_Calls: []

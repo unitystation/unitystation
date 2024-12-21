@@ -14,7 +14,6 @@ using Systems.Character;
 using TMPro;
 using UI.Character;
 using UI.Systems.Lobby;
-using Util.Independent.FluentRichText;
 
 namespace UI.CharacterCreator
 {

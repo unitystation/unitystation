@@ -100,6 +100,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1496a006616a3674db8a141e28d71e33,
         type: 2}
+    - target: {fileID: 6236086576208570426, guid: 75421751b31ee7f49b1adb8b70cd2375,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 1496a006616a3674db8a141e28d71e33,
+        type: 2}
     - target: {fileID: 6590914017311023056, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
       propertyPath: parentID
@@ -174,11 +180,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   petSounds:
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/NPC/Arial/ArialScream.prefab
+  - AssetAddress: Assets/Prefabs/NPC/Arial/ArialScream.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   supriseStrength: 15
