@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Logs;
 using NaughtyAttributes;
 using SecureStuff;
 using UnityEngine;
@@ -27,6 +28,31 @@ public class EventRouter : MonoBehaviour
 		{
 			AllowedReflection.PopulateEventRouter(eventLink);
 		}
+	}
+
+	public void RegisterEvent(MonoBehaviour sourceComponent, string sourceEvent, MonoBehaviour targetComponent, string targetFunction)
+	{
+		EventLinks.Add(new EventConnection()
+		{
+			SourceComponent = sourceComponent,
+			SourceEvent = sourceEvent,
+			TargetComponent = targetComponent,
+			TargetFunction = targetFunction
+		});
+	}
+
+	public void RegisterEvent(MonoBehaviour sourceComponent, Delegate sourceEvent, MonoBehaviour targetComponent, Delegate targetFunction)
+	{
+		string sourceEventName = sourceEvent.Method.Name;
+		string targetFunctionName = targetFunction.Method.Name;
+
+		EventLinks.Add(new EventConnection()
+		{
+			SourceComponent = sourceComponent,
+			SourceEvent = sourceEventName,
+			TargetComponent = targetComponent,
+			TargetFunction = targetFunctionName
+		});
 	}
 }
 
