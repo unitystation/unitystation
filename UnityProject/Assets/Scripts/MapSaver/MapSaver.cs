@@ -2330,15 +2330,30 @@ namespace MapSaver
 							{
 								if (Waiting.Value.SpawnResult != null)
 								{
-									Spawn._ServerFireClientServerSpawnHooks(Waiting.Value.SpawnResult,
-										SpawnInfo.IsJsonMapped(Waiting.Value.SpawnResult.GameObject));
+									try
+									{
+										Spawn._ServerFireClientServerSpawnHooks(Waiting.Value.SpawnResult,
+											SpawnInfo.IsJsonMapped(Waiting.Value.SpawnResult.GameObject));
+
+									}
+									catch (Exception e)
+									{
+										Loggy.Error(e.ToString());
+									}
+
+									try
+									{
+										var Spawns = Waiting.Value.SpawnResult.GameObject.GetComponentsInChildren<INewMappedOnSpawn>();
+										foreach (var Spawn in Spawns)
+										{
+											Spawn.OnNewMappedOnSpawn();
+										}
+									}
+									catch (Exception e)
+									{
+										Loggy.Error(e.ToString());
+									}
 									Waiting.Value.SpawnResult = null;
-								}
-
-
-								foreach (var Spawn in Object.GetComponentsInChildren<INewMappedOnSpawn>())
-								{
-									Spawn.OnNewMappedOnSpawn();
 								}
 							}
 						}

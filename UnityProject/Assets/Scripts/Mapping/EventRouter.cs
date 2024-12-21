@@ -6,13 +6,13 @@ using SecureStuff;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class EventRouter : MonoBehaviour
+public class EventRouter : MonoBehaviour, INewMappedOnSpawn
 {
 	//TODO Specifying data sometime
 	public List<EventConnection> EventLinks = new List<EventConnection>();
 
-	// Start is called before the first frame update
-	void Start()
+
+	public void OnNewMappedOnSpawn()
 	{
 		foreach (var EventLink in EventLinks)
 		{

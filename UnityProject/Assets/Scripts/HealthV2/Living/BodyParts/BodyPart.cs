@@ -274,6 +274,14 @@ namespace HealthV2
 
 			foreach (var organ in OrganList)
 			{
+
+				var Type = organ.GetType();
+				while (Type != typeof(BodyPartFunctionality) && Type != typeof(NetworkBehaviour))
+				{
+					livingHealth.AddOrgan(Type,organ);
+					Type = Type.BaseType;
+				}
+
 				organ.OnAddedToBody(HealthMaster); //Only add Body parts
 			}
 
@@ -294,6 +302,13 @@ namespace HealthV2
 		{
 			foreach (var organ in OrganList)
 			{
+				var Type = organ.GetType();
+				while (Type != typeof(BodyPartFunctionality) && Type != typeof(NetworkBehaviour))
+				{
+					HealthMaster.RemoveOrgan(Type,organ);
+					Type = Type.BaseType;
+				}
+
 				organ.OnRemovedFromBody(HealthMaster);
 			}
 

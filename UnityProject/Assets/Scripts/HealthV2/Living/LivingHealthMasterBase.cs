@@ -113,6 +113,10 @@ namespace HealthV2
 
 		public ReagentPoolSystem reagentPoolSystem => ActiveSystems.OfType<ReagentPoolSystem>().FirstOrDefault();
 
+		public Dictionary<Type, List<BodyPartFunctionality>> BodyOrganLookup = new Dictionary<Type, List<BodyPartFunctionality>>();
+
+
+
 		///<summary>
 		/// Fetch first or default system by type from the active systems on this living thing.
 		///</summary>
@@ -512,6 +516,46 @@ namespace HealthV2
 			{
 				SurfaceBodyParts.Remove(BodyPart);
 			}
+		}
+
+
+		public void AddOrgan(Type OrganType, BodyPartFunctionality BodyPartFunctionality)
+		{
+
+			if (BodyOrganLookup.ContainsKey(OrganType) == false)
+			{
+				BodyOrganLookup[OrganType] = new List<BodyPartFunctionality>();
+			}
+
+			var List = BodyOrganLookup[OrganType];
+			if (List.Contains(BodyPartFunctionality) == false)
+			{
+				List.Add(BodyPartFunctionality);
+			}
+		}
+
+		public void RemoveOrgan(Type OrganType, BodyPartFunctionality Organ)
+		{
+			if (BodyOrganLookup.ContainsKey(OrganType) == false)
+			{
+				BodyOrganLookup[OrganType] = new List<BodyPartFunctionality>();
+			}
+
+			var List = BodyOrganLookup[OrganType];
+			if (List.Contains(Organ))
+			{
+				List.Remove(Organ);
+			}
+		}
+
+		public List<BodyPartFunctionality> GetOrgans(Type OrganType)
+		{
+			if (BodyOrganLookup.ContainsKey(OrganType) == false)
+			{
+				BodyOrganLookup[OrganType] = new List<BodyPartFunctionality>();
+			}
+
+			return BodyOrganLookup[OrganType];
 		}
 
 		public void BodyPartListChange()

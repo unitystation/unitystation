@@ -9,10 +9,12 @@ using Communications;
 using Core.Chat;
 using DiscordWebhook;
 using DatabaseAPI;
+using HealthV2;
 using Systems.Communications;
 using Systems.MobAIs;
 using Messages.Server;
 using Items;
+using Items.Implants.Organs;
 using Logs;
 using Managers;
 using Objects.Machines.ServerMachines.Communications;
@@ -219,11 +221,26 @@ public partial class Chat : MonoBehaviour
 			if (string.IsNullOrWhiteSpace(processedMessage.message)) return;
 		}
 
+		var Health = sentByPlayer.GameObject.GetComponentCustom<LivingHealthMasterBase>();
+
+		var speaker = (player == null) ? sentByPlayer.Username : sentByPlayer.Mind.name;
+
+		if (Health != null)
+		{
+			var Tongues = Health.GetOrgans(typeof(Tongue));
+			var Tongue = Tongues.FirstOrDefault() as Tongue; //TODO User selects which tongue they want to use
+			if (Tongue != null) //if null Technically shouldn't be talking but will leave it for now
+			{
+				voice = Tongue.Voice;
+				speaker = Tongue.VoicesName;
+			}
+		}
+
 		var chatEvent = new ChatEvent
 		{
 			message = isOOC ? message : processedMessage.message,
 			modifiers = (player == null) ? ChatModifier.None : processedMessage.chatModifiers,
-			speaker = (player == null) ? sentByPlayer.Username : sentByPlayer.Mind.name,
+			speaker = speaker,
 			position = (player == null) ? TransformState.HiddenPos : player.PlayerChatLocation.AssumedWorldPosServer(),
 			channels = channels,
 			originator = sentByPlayer.GameObject,

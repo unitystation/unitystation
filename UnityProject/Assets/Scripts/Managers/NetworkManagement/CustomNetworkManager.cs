@@ -137,8 +137,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	}
 
 
-	public override void
-		ObjectBeforePayloadDataClient(NetworkIdentity identity) //NOTE : Won't handle object to object references,
+	public override void ObjectBeforePayloadDataClient(NetworkIdentity identity) //NOTE : Won't handle object to object references,
 		//However these should be synchronised By mirror since I can't Think of a state where they won't be
 	{
 		try
