@@ -1062,4 +1062,11 @@ public static class SweetExtensions
 	{
 		return new Vector2((int)Random.Range(-1, 1), (int)Random.Range(-1, 1));
 	}
+
+	public static bool IsHiddenPosition(this Vector3 vector3)
+	{
+		return vector3.z <= (TransformState.HiddenPos.z + 10);;
+	}
+
+
 }

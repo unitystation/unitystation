@@ -39,7 +39,9 @@ namespace Mobs.BrainAI.States.Arial
 				//enter wander state.
 				master.AddRemoveState(null, wanderState);
 			}
-			SoundManager.PlayNetworkedAtPos(stateEnterSounds.PickRandom(), LivingHealthMaster.gameObject.AssumedWorldPosServer());
+
+			SoundManager.PlayNetworkedAtPos(stateEnterSounds.PickRandom(),
+				LivingHealthMaster.gameObject.AssumedWorldPosServer());
 		}
 
 		public override void OnExitState()
@@ -58,8 +60,10 @@ namespace Mobs.BrainAI.States.Arial
 				{
 					master.AddRemoveState(wanderState, null);
 				}
+
 				return;
 			}
+
 			path = pathfinder.FindNewPath(
 				MatrixManager.WorldToLocal(LivingHealthMaster.playerScript.playerMove.OfficialPosition,
 					LivingHealthMaster.RegisterTile.Matrix).RoundTo2Int(),
@@ -86,12 +90,17 @@ namespace Mobs.BrainAI.States.Arial
 					{
 						points.AddRange(SpawnPoint.GetPointsForCategory(point).ToList());
 					}
-					LivingHealthMaster.playerScript.playerMove.SetTransform(points.PickRandom().gameObject.AssumedWorldPosServer(), true);
-					SoundManager.PlayNetworkedAtPos(stateEnterSounds.PickRandom(), LivingHealthMaster.gameObject.AssumedWorldPosServer());
+
+					LivingHealthMaster.playerScript.playerMove.SetTransform(
+						points.PickRandom().gameObject.AssumedWorldPosServer(), true);
+					SoundManager.PlayNetworkedAtPos(stateEnterSounds.PickRandom(),
+						LivingHealthMaster.gameObject.AssumedWorldPosServer());
 				}
+
 				target = DecideTarget();
 				return;
 			}
+
 			if (Vector3.Distance(target.AssumedWorldPosServer(), master.gameObject.AssumedWorldPosServer()) < 3.75f)
 			{
 				troubelState.Target = target;
@@ -106,13 +115,15 @@ namespace Mobs.BrainAI.States.Arial
 
 		private GameObject DecideTarget()
 		{
-			foreach (var player in PlayerList.Instance.GetAlivePlayers())
+			foreach (var player in LivingHealthMaster.RegisterTile.Matrix.PresentPlayers)
 			{
-				if (Vector3.Distance(player.Script.gameObject.AssumedWorldPosServer(), master.gameObject.AssumedWorldPosServer()) < 12)
+				if (Vector3.Distance(player.gameObject.AssumedWorldPosServer(),
+					    master.gameObject.AssumedWorldPosServer()) < 12)
 				{
-					return player.Script.gameObject;
+					return player.gameObject;
 				}
 			}
+
 			var edibles = ComponentsTracker<Edible>.GetAllNearbyTypesToTarget(master.gameObject, 20, false);
 			return edibles?.Count > 5 ? edibles.PickRandom().gameObject : null;
 		}

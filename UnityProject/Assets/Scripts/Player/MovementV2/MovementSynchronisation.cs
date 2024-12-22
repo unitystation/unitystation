@@ -362,13 +362,11 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		SyncInput(allowInput, NewValue);
 	}
 
-	public void Update()
-	{
-		if (isServer)
-		{
-			ServerCheckQueueingAndMove();
-		}
 
+
+
+	public void UpdateMeProper()
+	{
 		if (hasAuthority == false) return;
 		bool inputDetected = KeyboardInputManager.IsMovementPressed(KeyboardInputManager.KeyEventType.Hold);
 		if (inputDetected != IsPressedCashed)
@@ -488,6 +486,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	public override void OnEnable()
 	{
 		base.OnEnable();
+
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMeProper);
 		if (isServer == false)
 		{
 			UpdateManager.Add(CallbackType.EARLY_UPDATE, ClientCheckLocationFlight);
@@ -500,6 +500,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	public override void OnDisable()
 	{
 		base.OnDisable();
+
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMeProper);
 		if (isServer == false)
 		{
 			UpdateManager.Remove(CallbackType.EARLY_UPDATE, ClientCheckLocationFlight);
