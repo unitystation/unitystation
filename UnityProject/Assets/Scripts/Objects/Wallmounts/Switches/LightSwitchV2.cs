@@ -16,7 +16,6 @@ namespace Objects.Lighting
 	public class LightSwitchV2 : ImnterfaceMultitoolGUI, ISubscriptionController, ICheckedInteractable<HandApply>, IAPCPowerable, IMultitoolMasterable, ICheckedInteractable<AiActivate>
 	{
 		public List<LightSource> listOfLights;
-		private EventRouter switchTriggerEvents;
 		public UnityEvent OnButtonPressed = new UnityEvent();
 
 		[SyncVar(hook = nameof(SyncState))]
@@ -48,7 +47,6 @@ namespace Objects.Lighting
 					lightSource.SubscribeToSwitchEvent(this);
 				}
 			}
-			switchTriggerEvents ??= GetComponent<EventRouter>();
 		}
 
 		public override void OnStartClient()
