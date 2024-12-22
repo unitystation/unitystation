@@ -138978,13 +138978,32 @@
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
+                      "Name": "MethodRotation",
+                      "Data": "Sprites"
+                    },
+                    {
                       "Name": "CurrentDirection",
-                      "Data": "Left_By90"
+                      "Data": "Right_By270"
                     }
                   ]
                 }
               ],
               "Children": [
+                {
+                  "LocalPRS": "0┼0┼0┼0ø0ø270ø",
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "fdf36b612a3a56e419736ba884a6c48e"
+                        }
+                      ]
+                    }
+                  ]
+                },
                 {
                   "ID": "0,1",
                   "Active": false,
@@ -140537,6 +140556,12 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "90ef38b11ffed4e4d8cb4d8dc682885c_96.98┼71.01┼0┼",
+            "PrefabID": "90ef38b11ffed4e4d8cb4d8dc682885c",
+            "Name": "Loading area decal (1)",
+            "LocalPRS": "96.98┼71.01┼0┼"
           },
           {
             "GitID": "6889368ca37503245b8aee273cc97b03_96.99┼92┼0┼",
@@ -143395,8 +143420,12 @@
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
+                      "Name": "MethodRotation",
+                      "Data": "Sprites"
+                    },
+                    {
                       "Name": "CurrentDirection",
-                      "Data": "Left_By90"
+                      "Data": "Right_By270"
                     }
                   ]
                 }
@@ -144181,10 +144210,38 @@
             }
           },
           {
+            "GitID": "691781456e2e39c429a197375cc4ba76_101┼66┼0┼",
+            "PrefabID": "691781456e2e39c429a197375cc4ba76",
+            "Name": "PressurePlateSmallL",
+            "LocalPRS": "101┼66┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "a8840441fb78d2e4780e68f375424360"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿm"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "9f6a082ba93c5684b808b09619c08044_101┼67┼0┼",
             "PrefabID": "9f6a082ba93c5684b808b09619c08044",
-            "NameMatches": true,
-            "Name": "AirlockMedicalWindowed",
+            "Name": "AirlockMedicalWindowedR",
             "LocalPRS": "101┼67┼0┼",
             "Object": {
               "ClassDatas": [
@@ -144841,10 +144898,102 @@
             "LocalPRS": "101.24┼61.05┼0┼"
           },
           {
+            "GitID": "6d04235bcbbde8349a6a46d46d8f8ae8_101.45┼65.08┼0┼",
+            "PrefabID": "6d04235bcbbde8349a6a46d46d8f8ae8",
+            "Name": "AutomaticMedicalDoorEventHandler",
+            "LocalPRS": "101.45┼65.08┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "NetworkIdentity@0",
+                  "Data": [
+                    {
+                      "Name": "_assetId",
+                      "Data": "565880673"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "EventRouter@0",
+                  "Data": [
+                    {
+                      "Name": "EventLinks#1@TargetComponent",
+                      "Data": "9f6a082ba93c5684b808b09619c08044_102┼67┼0┼@0@DoorMasterController@0"
+                    },
+                    {
+                      "Name": "EventLinks#1@TargetFunction",
+                      "Data": "Open"
+                    },
+                    {
+                      "Name": "EventLinks#1@SourceComponent",
+                      "Data": "691781456e2e39c429a197375cc4ba76_101┼66┼0┼@0@PressurePlate@0"
+                    },
+                    {
+                      "Name": "EventLinks#1@SourceEvent",
+                      "Data": "OnPlayerStepEvent"
+                    },
+                    {
+                      "Name": "EventLinks#0@TargetComponent",
+                      "Data": "9f6a082ba93c5684b808b09619c08044_101┼67┼0┼@0@DoorMasterController@0"
+                    },
+                    {
+                      "Name": "EventLinks#0@TargetFunction",
+                      "Data": "Open"
+                    },
+                    {
+                      "Name": "EventLinks#0@SourceComponent",
+                      "Data": "691781456e2e39c429a197375cc4ba76_102┼66┼0┼@0@PressurePlate@0"
+                    },
+                    {
+                      "Name": "EventLinks#0@SourceEvent",
+                      "Data": "OnPlayerStepEvent"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "LocalPRS": "-0.0028┼-0.0014┼0┼0.38↔0.44↔1↔",
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "87623b1919c4a5c4b98b89217c08195f"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "e33403c0371fc174aa03640734665a15_101.82┼91.14┼0┼",
             "PrefabID": "e33403c0371fc174aa03640734665a15",
             "Name": "HandTele (1)",
             "LocalPRS": "101.82┼91.14┼0┼"
+          },
+          {
+            "GitID": "90ef38b11ffed4e4d8cb4d8dc682885c_101.98┼71┼0┼",
+            "PrefabID": "90ef38b11ffed4e4d8cb4d8dc682885c",
+            "Name": "Loading area decal (3)",
+            "LocalPRS": "101.98┼71┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Down_By180"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "9b996da43261266449d4ad99b2ddac7f_102┼39┼0┼",
@@ -144985,10 +145134,38 @@
             "LocalPRS": "102┼63┼0┼"
           },
           {
+            "GitID": "691781456e2e39c429a197375cc4ba76_102┼66┼0┼",
+            "PrefabID": "691781456e2e39c429a197375cc4ba76",
+            "Name": "PressurePlateSmallR",
+            "LocalPRS": "102┼66┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "a8840441fb78d2e4780e68f375424360"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿm"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "9f6a082ba93c5684b808b09619c08044_102┼67┼0┼",
             "PrefabID": "9f6a082ba93c5684b808b09619c08044",
-            "NameMatches": true,
-            "Name": "AirlockMedicalWindowed",
+            "Name": "AirlockMedicalWindowedL",
             "LocalPRS": "102┼67┼0┼",
             "Object": {
               "ClassDatas": [

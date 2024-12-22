@@ -21,7 +21,7 @@ public class EventRouter : MonoBehaviour
 		PopulateEventRouter();
 	}
 
-	[Button]
+	[Button("Populate Event Router")]
 	public void PopulateEventRouter()
 	{
 		foreach (var eventLink in EventLinks)

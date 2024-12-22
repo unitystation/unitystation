@@ -140,6 +140,11 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: -391668011
       objectReference: {fileID: 0}
+    - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -176,6 +181,9 @@ MonoBehaviour:
   syncInterval: 0.1
   pressDuration: 2
   spriteHandler: {fileID: 6272269837728864028}
+  OnPlayerStepEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1081722252504774331
 MonoBehaviour:
   m_ObjectHideFlags: 0
