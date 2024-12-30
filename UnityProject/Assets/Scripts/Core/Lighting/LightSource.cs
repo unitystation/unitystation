@@ -540,13 +540,11 @@ namespace Objects.Lighting
 		{
 			UnSubscribeFromSwitchEvent();
 			relatedLightSwitch = lightSwitch;
-			lightSwitch.SwitchTriggerEvent += Trigger;
 		}
 
 		public void UnSubscribeFromSwitchEvent()
 		{
 			if (relatedLightSwitch == null) return;
-			relatedLightSwitch.SwitchTriggerEvent -= Trigger;
 			relatedLightSwitch = null;
 		}
 
@@ -556,6 +554,11 @@ namespace Objects.Lighting
 			switchState = newState;
 			if (MountState == LightMountState.On || MountState == LightMountState.Off)
 				ServerChangeLightState(newState ? LightMountState.On : LightMountState.Off);
+		}
+
+		public void FlipState()
+		{
+			Trigger(switchState = !switchState);
 		}
 
 		#endregion

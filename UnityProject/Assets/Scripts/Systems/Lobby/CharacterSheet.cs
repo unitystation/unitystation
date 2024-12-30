@@ -23,7 +23,7 @@ public class CharacterSheet : ICloneable
 
 	// IMPORTANT: these fields use primitive types (int, string... etc) so they can be sent  over the network with
 	// RPCs and Commands without needing to serialise them to JSON!
-	public const int MAX_NAME_LENGTH = 26; // Arbitrary limit, but 26 is the max the current UI can fit
+	public const int MAX_NAME_LENGTH = 28; // Arbitrary limit, but 26 is the max the current UI can fit
 
 	public string Name = "Cuban Pete";
 	public string AiName = "R.O.B.O.T.";

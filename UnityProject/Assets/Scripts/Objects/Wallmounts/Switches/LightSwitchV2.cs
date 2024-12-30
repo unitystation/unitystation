@@ -7,6 +7,7 @@ using Systems.Electricity;
 using Systems.Interaction;
 using CustomInspectors;
 using Shared.Systems.ObjectConnection;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 
@@ -15,8 +16,7 @@ namespace Objects.Lighting
 	public class LightSwitchV2 : ImnterfaceMultitoolGUI, ISubscriptionController, ICheckedInteractable<HandApply>, IAPCPowerable, IMultitoolMasterable, ICheckedInteractable<AiActivate>
 	{
 		public List<LightSource> listOfLights;
-
-		[NonSerialized] public Action<bool> SwitchTriggerEvent;
+		public UnityEvent OnButtonPressed = new UnityEvent();
 
 		[SyncVar(hook = nameof(SyncState))]
 		public bool isOn = true;
@@ -73,11 +73,10 @@ namespace Objects.Lighting
 
 		private IEnumerator SlowInvoke()
 		{
-			foreach (var thingToInvoke in SwitchTriggerEvent.GetInvocationList())
+			foreach (var thingToInvoke in listOfLights)
 			{
 				yield return WaitFor.Seconds(Random.Range(0.09f, 0.5f));
-				var convertedThing = (Action<bool>)thingToInvoke;
-				convertedThing?.Invoke(isOn);
+				thingToInvoke.Trigger(isOn);
 			}
 		}
 
@@ -105,6 +104,7 @@ namespace Objects.Lighting
 				Chat.AddExamineMsg(gameObject, "You flip the switch... But nothing happens.");
 				return;
 			}
+			OnButtonPressed?.Invoke();
 			string state = isOn ? "on" : "off";
 			Chat.AddExamineMsg(gameObject, $"You flip the switch back {state}.");
 		}

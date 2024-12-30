@@ -52,7 +52,7 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialPresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: e229bc76cf28cc2439b6394b5a0f5769,
+      objectReference: {fileID: 11400000, guid: 837cdcc9dce4e29428e72391d5ac6d11,
         type: 2}
     - target: {fileID: 4848496751115757459, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -128,7 +128,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -6680247040371517499, guid: d48c607143b86914580cf693098c3870,
+      objectReference: {fileID: 7019847136113764816, guid: 65561cb6cf3c119468c15c54d98319e5,
         type: 3}
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -139,6 +139,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SortingLayerID
       value: -391668011
+      objectReference: {fileID: 0}
+    - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -176,6 +181,9 @@ MonoBehaviour:
   syncInterval: 0.1
   pressDuration: 2
   spriteHandler: {fileID: 6272269837728864028}
+  OnPlayerStepEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1081722252504774331
 MonoBehaviour:
   m_ObjectHideFlags: 0

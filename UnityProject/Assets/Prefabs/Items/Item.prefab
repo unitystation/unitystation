@@ -66,6 +66,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialName: Unnamed
+  initialNames: []
   initialDescription: Oops, someone spawned something they shouldn't!
   willHighlight: 1
   exportCost: 0
@@ -74,6 +75,7 @@ MonoBehaviour:
   exportMessage: 
   noMouseHighlight: 0
   initialTraits: []
+  IsMapped: 0
   initialSize: 3
   hitDamage: 0
   ShowHitDamage: 1
@@ -85,36 +87,36 @@ MonoBehaviour:
   throwSpeed: 2
   throwRange: 7
   hitSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/GenericHit.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   hitSoundSettings: 0
   blockSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/smash.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   inventoryMoveSound:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   inventoryRemoveSound:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   canConnectToTank: 0
@@ -224,11 +226,11 @@ MonoBehaviour:
       m_Calls: []
   initialIntegrity: 100
   soundOnHit:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/Tap.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   damageDeflection: 0
@@ -393,7 +395,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   BuckledToObject: {fileID: 0}
+  BuckleOffset: {x: 0, y: 0, z: 0}
   LocalDifferenceNeeded: {x: 0, y: 0}
+  newtonianMovement: {x: 0, y: 0}
   LocalTargetPosition: {x: 0, y: 0, z: 0}
   CorrectingCourse: 0
   Animating: 0
@@ -403,7 +407,6 @@ MonoBehaviour:
   spinMagnitude: 0
   thrownBy: {fileID: 0}
   thrownProtection: {fileID: 0}
-  aim: 0
   ForcedPushedFrame: 0
   TryPushedFrame: 0
   PushedFrame: 0
@@ -555,6 +558,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -610,4 +614,5 @@ MonoBehaviour:
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []

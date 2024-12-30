@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -159,16 +158,16 @@ namespace SecureStuff
 
 		public static MethodInfo GetMethodInfo(Component NetworkObject, string MethodName)
 		{
-			var methodInfo = NetworkObject.GetType().GetMethod(MethodName);
-
-			if (ValidateMethodInfo(methodInfo))
+			//(Max): We have to manually go through all methods instead of relying on GetMethod()
+			//to avoid an error that would break map loading.
+			var methods = NetworkObject.GetType().GetMethods();
+			foreach (var info in methods)
 			{
-				return methodInfo;
+				if (info.Name != MethodName) continue;
+				if (info.GetParameters().Length > 0) continue;
+				if (ValidateMethodInfo(info)) return info;
 			}
-			else
-			{
-				return null;
-			}
+			return null;
 		}
 
 
@@ -229,19 +228,19 @@ namespace SecureStuff
 			var method = AllowedReflection.GetMethodInfo(Connection.TargetComponent, Connection.TargetFunction);
 			if (method == null) return;
 
-			var ActionListenerField = Connection.SourceComponent.GetType().GetField(Connection.SourceEvent);
+			var actionListenerField = Connection.SourceComponent.GetType().GetField(Connection.SourceEvent);
 
-			if (ActionListenerField != null)
+			if (actionListenerField != null)
 			{
-				if (ActionListenerField.GetCustomAttribute<BaseAttribute>(true) == null)
+				if (actionListenerField.GetCustomAttribute<BaseAttribute>(true) == null)
 				{
-					var VVNote = ActionListenerField.GetCustomAttribute<VVNote>(true);
+					var VVNote = actionListenerField.GetCustomAttribute<VVNote>(true);
 					if (VVNote is not {variableHighlightl: VVHighlight.SafeToModify100})
 					{
-						if (ActionListenerField.IsStatic) return;
-						if (ActionListenerField.IsPrivate) return;
+						if (actionListenerField.IsStatic) return;
+						if (actionListenerField.IsPrivate) return;
 
-						Type declaringType = ActionListenerField.DeclaringType;
+						Type declaringType = actionListenerField.DeclaringType;
 
 						if (declaringType == null || declaringType.IsSubclassOf(typeof(Component)) == false)
 						{
@@ -251,11 +250,10 @@ namespace SecureStuff
 				}
 
 
-				var ActionListenerObject = ActionListenerField.GetValue(Connection.SourceComponent);
+				var ActionListenerObject = actionListenerField.GetValue(Connection.SourceComponent);
 				if (ActionListenerObject is UnityEvent UnityEvent)
 				{
-					var UnityAction =
-						(UnityAction) Delegate.CreateDelegate(typeof(UnityAction), Connection.TargetComponent, method);
+					var UnityAction = (UnityAction) Delegate.CreateDelegate(typeof(UnityAction), Connection.TargetComponent, method);
 					UnityEvent.AddListener(UnityAction);
 					return;
 				}
