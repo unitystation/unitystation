@@ -151,8 +151,8 @@ namespace Antagonists
 				message.AppendLine($"{GetTeamName()} had following objectives: ");
 			for (int i = 0; i < objectiveList.Count; i++)
 			{
-				message.AppendLine($"{i + 1}. {objectiveList[i].Description}: ");
-				message.AppendLine(objectiveList[i].IsComplete() ? "<color=green><b>Completed</b></color>" : "<color=red><b>Failed</b></color>");
+				message.AppendLine($"{i + 1}. {objectiveList[i].GetDescription()}: ");
+				message.AppendLine(objectiveList[i].GetCompleteText(true));
 			}
 			return message.ToString();
 		}
@@ -187,8 +187,8 @@ namespace Antagonists
 				message.AppendLine($"{GetTeamName()} had following objectives: ");
 			for (int i = 0; i < objectiveList.Count; i++)
 			{
-				message.AppendLine($"{i + 1}. {objectiveList[i].Description}: ");
-				message.AppendLine(objectiveList[i].IsComplete() ? "Completed" : "Failed");
+				message.AppendLine($"{i + 1}. {objectiveList[i].GetDescription()}: ");
+				message.AppendLine(objectiveList[i].GetStatusText(false));
 			}
 			return message.ToString();
 		}

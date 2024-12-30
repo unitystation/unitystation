@@ -51,6 +51,9 @@ namespace Antagonists
 
 		public GameObject blobPlayerViewer = null;
 
+		public HashSet<MultiAntagonistGameMode.AntagonistData> TriedAntagonists =
+			new HashSet<MultiAntagonistGameMode.AntagonistData>();
+
 		private void Awake()
 		{
 			if ( Instance == null )
@@ -258,8 +261,20 @@ namespace Antagonists
 		/// <summary>
 		/// Show the end of round antag status report with their objectives, grouped by antag type.
 		/// </summary>
-		public void ShowAntagStatusReport()
+		public void ObjectiveEndAndShowAntagStatusReport()
 		{
+			foreach (var x in PlayerList.Instance.AllPlayers)
+			{
+				if (x.Mind.AntagPublic.Antagonist != null && x.Mind.AntagPublic.Objectives.Any())
+				{
+					foreach (var Objective in x.Mind.AntagPublic.Objectives)
+					{
+						Objective.OnRoundEnd();
+					}
+				}
+			}
+
+
 			StringBuilder statusSB = new StringBuilder();
 
 			var message = new StringBuilder();
@@ -288,7 +303,7 @@ namespace Antagonists
 
 			foreach (var x in PlayerList.Instance.AllPlayers)
 			{
-				if (x.Mind.AntagPublic.Antagonist == null && x.Mind.AntagPublic.CurTeam == null && x.Mind.AntagPublic.Objectives.Count() > 0)
+				if (x.Mind.AntagPublic.Antagonist != null && x.Mind.AntagPublic.CurTeam == null && x.Mind.AntagPublic.Objectives.Any())
 				{
 					statusSB.AppendLine($"<size={ChatTemplates.LargeText}>The <b>{x.Name} objectives</b> were:\n</size>");
 					message.AppendLine($"\n{x.Mind.AntagPublic.GetObjectiveStatusNonRich()}\n");
@@ -329,6 +344,7 @@ namespace Antagonists
 			TargetedPlayers.Clear();
 			TargetedItems.Clear();
 			teams.Clear();
+			TriedAntagonists.Clear();
 		}
 
 		public void RemoveTeam(uint index)

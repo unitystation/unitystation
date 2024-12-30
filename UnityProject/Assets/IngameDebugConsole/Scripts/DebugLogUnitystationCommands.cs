@@ -564,7 +564,7 @@ namespace IngameDebugConsole
 				return;
 			}
 
-			Antagonists.AntagManager.Instance.ShowAntagStatusReport();
+			Antagonists.AntagManager.Instance.ObjectiveEndAndShowAntagStatusReport();
 		}
 
 		[ConsoleMethod("antag-remind", "Remind all antags of their own objectives. Server only command")]

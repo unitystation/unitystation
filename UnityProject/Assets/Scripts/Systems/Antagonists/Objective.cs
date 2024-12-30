@@ -172,12 +172,43 @@ namespace Antagonists
 
 		}
 
+		public virtual void OnRoundEnd()
+		{
+
+		}
 		/// <summary>
 		/// Shows if this objective is complete or not
 		/// </summary>
 		public bool IsComplete()
 		{
 			return (Complete || CheckCompletion());
+		}
+
+		public virtual string GetStatusText(bool RichText)
+		{
+			if (RichText)
+			{
+				return IsComplete() ? "<color=green>Completed\n" : "In progress/Failed\n";
+			}
+			else
+			{
+				return IsComplete() ? "Completed" : "In progress/Failed";
+			}
+		}
+
+		public virtual string GetCompleteText(bool RichText)
+		{
+			if (RichText)
+			{
+				return this.IsComplete()
+					? "<color=green><b>Completed</b></color>"
+					: "<color=red><b>Failed</b></color>";
+			}
+			else
+			{
+				return this.IsComplete() ? "Completed\n" : "Failed\n";
+			}
+
 		}
 
 		public virtual string GetShortDescription()

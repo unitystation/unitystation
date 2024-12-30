@@ -9,7 +9,7 @@ namespace Systems.Spells.Swapper
 {
 	public class BodySwap : Spell
 	{
-		private List<LivingHealthMasterBase> PreviouslyJumpedTo = new List<LivingHealthMasterBase>();
+		public List<LivingHealthMasterBase> PreviouslyJumpedTo = new List<LivingHealthMasterBase>();
 
 		public bool PreventJumpingBack = true;
 

@@ -132,7 +132,7 @@ namespace Antagonists
 				if (IsAntagCanSeeObjectivesStatus == true)
 				{
 					objSB.AppendLine($"{i + 1}. {objectiveList[i].Description}:");
-					objSB.AppendLine(objectiveList[i].IsComplete() ? "<color=green>Completed\n" : "In progress/Failed");
+					objSB.AppendLine(objectiveList[i].GetStatusText(true));
 				} else
 				{
 					objSB.AppendLine($"{i + 1}. {objectiveList[i].Description}");
@@ -177,8 +177,8 @@ namespace Antagonists
 			var objectiveList = Objectives.ToList();
 			for (int i = 0; i < objectiveList.Count; i++)
 			{
-				objSB.Append($"{i+1}. {objectiveList[i].Description}: ");
-				objSB.AppendLine(objectiveList[i].IsComplete() ? "<color=green><b>Completed</b></color>" : "<color=red><b>Failed</b></color>");
+				objSB.Append($"{i+1}. {objectiveList[i].GetDescription()}: ");
+				objSB.AppendLine(objectiveList[i].GetCompleteText(true));
 			}
 			return objSB.ToString();
 		}
@@ -189,8 +189,8 @@ namespace Antagonists
 			var objectiveList = Objectives.ToList();
 			for (int i = 0; i < objectiveList.Count; i++)
 			{
-				message += $"{i + 1}. {objectiveList[i].Description}: ";
-				message += objectiveList[i].IsComplete() ? "Completed\n" : "Failed\n";
+				message += $"{i + 1}. {objectiveList[i].GetDescription()}: ";
+				message += objectiveList[i].GetCompleteText(false);
 			}
 			return message;
 		}
