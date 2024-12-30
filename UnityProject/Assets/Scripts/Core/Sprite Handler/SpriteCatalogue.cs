@@ -1,7 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ScriptableObjects;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 [CreateAssetMenu(fileName = "SpriteCatalogueSingleton", menuName = "Singleton/SpriteCatalogueSingleton")]
 public class SpriteCatalogue : SingletonScriptableObject<SpriteCatalogue>
 {
@@ -48,3 +51,27 @@ public class SpriteCatalogue : SingletonScriptableObject<SpriteCatalogue>
 		}
 	}
 }
+
+#if UNITY_EDITOR
+[CustomEditor(typeof(SpriteCatalogue))]
+public class SpriteCatalogueEditor : Editor
+{
+	public override void OnInspectorGUI()
+	{
+		DrawDefaultInspector();
+
+		SpriteCatalogue spriteCatalogue = (SpriteCatalogue)target;
+
+		if (GUILayout.Button("Remove Null Items"))
+		{
+			RemoveNullItems(spriteCatalogue);
+		}
+	}
+
+	private void RemoveNullItems(SpriteCatalogue spriteCatalogue)
+	{
+		spriteCatalogue.Catalogue.RemoveAll(item => item == null);
+		EditorUtility.SetDirty(spriteCatalogue);
+	}
+}
+#endif
