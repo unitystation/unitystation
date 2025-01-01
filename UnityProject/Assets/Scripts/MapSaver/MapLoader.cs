@@ -554,6 +554,14 @@ namespace MapSaver
 					{
 						MapSaver.StringToPRS(aaMatrix.MatrixMove.NetworkedMatrixMove.transform.parent.gameObject,
 							MatrixData.Location);
+
+						if (Offset.magnitude > 0)
+						{
+							aaMatrix.MatrixMove.NetworkedMatrixMove.transform.parent.gameObject.transform
+								.localPosition = Offset;
+							Offset = Vector3.zero;
+						}
+
 					}
 					else
 					{
@@ -562,6 +570,13 @@ namespace MapSaver
 						aaMatrix.MatrixMove.NetworkedMatrixMove.SetTransformPosition(aaMatrix.MatrixMove
 							.NetworkedMatrixMove
 							.TargetTransform.position);
+
+						if (Offset.magnitude > 0)
+						{
+							aaMatrix.MatrixMove.NetworkedMatrixMove.transform.parent.gameObject.transform
+								.localPosition = Offset;
+							Offset = Vector3.zero;
+						}
 					}
 				}
 				else

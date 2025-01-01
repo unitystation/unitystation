@@ -199,6 +199,8 @@ public class NetworkedMatrixMove : NetworkBehaviour
 	public bool UpdateHandled = false;
 
 	public HashSet<NetworkedMatrixMove> TheReusingSet = new HashSet<NetworkedMatrixMove>();
+	public HashSet<NetworkedMatrixMove> TheReusingSetVisited = new HashSet<NetworkedMatrixMove>();
+
 
 	public List<Thruster> TheReusingConnectedThrusters = new List<Thruster>();
 	public bool RCSRequiresThrusters = true;
@@ -294,7 +296,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 		ObjectLayer = TargetTransform.GetComponentInChildren<ObjectLayer>();
 
 
-		UpdateManager.Add(CallbackType.EARLY_UPDATE, UpdateLoop);
+		UpdateManager.Add(CallbackType.EARLY_UPDATE, UpdateMe);
 		ElapsedTimeSinceLastUpdate.Reset();
 		ElapsedTimeSinceLastUpdate.Start();
 		OnRotate?.Invoke();
@@ -314,21 +316,22 @@ public class NetworkedMatrixMove : NetworkBehaviour
 		OnRotate90 = null;
 		OnStartMovement = null;
 		OnStopMovement = null;
-		UpdateManager.Remove(CallbackType.EARLY_UPDATE, UpdateLoop);
+		UpdateManager.Remove(CallbackType.EARLY_UPDATE, UpdateMe);
 		ElapsedTimeSinceLastUpdate.Stop();
 	}
 
 	public bool IsConnectedToShuttle(NetworkedMatrixMove NetMove)
 	{
 		TheReusingSet.Clear();
-		var Matrixes = GetAllNetworkedMatrixMove(TheReusingSet);
+		TheReusingSetVisited.Clear();
+		var Matrixes = GetAllNetworkedMatrixMove(TheReusingSet, false, this, TheReusingSetVisited);
 		return Matrixes.Contains(NetMove);
 	}
 
 	[NaughtyAttributes.Button]
 	public void StartUpdating()
 	{
-		UpdateManager.Add(CallbackType.EARLY_UPDATE, UpdateLoop);
+		UpdateManager.Add(CallbackType.EARLY_UPDATE, UpdateMe);
 		ElapsedTimeSinceLastUpdate.Reset();
 		ElapsedTimeSinceLastUpdate.Start();
 	}
@@ -336,7 +339,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 	[NaughtyAttributes.Button]
 	public void StopUpdating()
 	{
-		UpdateManager.Remove(CallbackType.EARLY_UPDATE, UpdateLoop);
+		UpdateManager.Remove(CallbackType.EARLY_UPDATE, UpdateMe);
 		ElapsedTimeSinceLastUpdate.Stop();
 	}
 
@@ -360,16 +363,39 @@ public class NetworkedMatrixMove : NetworkBehaviour
 	}
 
 
-	public HashSet<NetworkedMatrixMove> GetAllNetworkedMatrixMove(HashSet<NetworkedMatrixMove> ToUse)
+	public HashSet<NetworkedMatrixMove> GetAllNetworkedMatrixMove(HashSet<NetworkedMatrixMove> ToUse,
+		bool RespectConsuls, NetworkedMatrixMove OriginMove,HashSet<NetworkedMatrixMove> Visited)
 	{
-		if (ToUse.Contains(this)) return ToUse;
+		if (Visited.Contains(this)) return ToUse;
 
-		ToUse.Add(this);
+		bool AddThisMatrix = true;
+
+		if (OriginMove != this)
+		{
+			if (RespectConsuls)
+			{
+				foreach (var Consul in ShuttleConsuls)
+				{
+					if (Consul.EngineSupport == false)
+					{
+						AddThisMatrix = false;
+					}
+				}
+			}
+		}
+
+
+		if (AddThisMatrix)
+		{
+			ToUse.Add(this);
+		}
+
+		Visited.Add(this);
+
 		foreach (var ConnectedShuttleConnector in ConnectedShuttleConnectors)
 		{
 			if (ConnectedShuttleConnector.ConnectedToConnector?.RelatedMove?.NetworkedMatrixMove == null) continue;
-			ConnectedShuttleConnector.ConnectedToConnector.RelatedMove.NetworkedMatrixMove
-				.GetAllNetworkedMatrixMove(ToUse);
+			ConnectedShuttleConnector.ConnectedToConnector.RelatedMove.NetworkedMatrixMove.GetAllNetworkedMatrixMove(ToUse, RespectConsuls, OriginMove, Visited);
 		}
 
 		return ToUse;
@@ -484,10 +510,12 @@ public class NetworkedMatrixMove : NetworkBehaviour
 		}
 	}
 
-	public void SetThrusterStrength(Thruster.ThrusterDirectionClassification Direction, float Multiplier)
+	public void SetThrusterStrength(Thruster.ThrusterDirectionClassification Direction, float Multiplier,
+		bool RespectConsuls)
 	{
 		TheReusingSet.Clear();
-		var Matrixes = GetAllNetworkedMatrixMove(TheReusingSet);
+		TheReusingSetVisited.Clear();
+		var Matrixes = GetAllNetworkedMatrixMove(TheReusingSet, RespectConsuls, this, TheReusingSetVisited);
 		foreach (var move in Matrixes)
 		{
 			move.InternalSetThrusterStrength(Direction, Multiplier);
@@ -540,7 +568,8 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 		bool HasThrusterDirection = false;
 		TheReusingSet.Clear();
-		var Matrixes = GetAllNetworkedMatrixMove(TheReusingSet);
+		TheReusingSetVisited.Clear();
+		var Matrixes = GetAllNetworkedMatrixMove(TheReusingSet, true, this, TheReusingSetVisited);
 		var Thrusters = GetThrusters(Matrixes, TheReusingConnectedThrusters);
 		if (RCSRequiresThrusters)
 		{
@@ -562,8 +591,6 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 		if (HasThrusterDirection)
 		{
-
-
 			foreach (var Matrix in Matrixes)
 			{
 				Matrix.WorldCurrentVelocity += GlobalMoveDirection.ToLocalVector3();
@@ -572,7 +599,14 @@ public class NetworkedMatrixMove : NetworkBehaviour
 	}
 
 
-	public void UpdateLoop()
+
+	public void UpdateMe()
+	{
+		UpdateLoop();
+	}
+
+
+	public void UpdateLoop(bool DoneMasterAlready = false)
 	{
 		ElapsedTimeSinceLastUpdate.Stop();
 		float DeltaTimeSeconds = (float) ElapsedTimeSinceLastUpdate.Elapsed.TotalSeconds;
@@ -589,7 +623,76 @@ public class NetworkedMatrixMove : NetworkBehaviour
 		MonitorAutopilot();
 
 		TheReusingSet.Clear();
-		var Matrixes = GetAllNetworkedMatrixMove(TheReusingSet);
+		TheReusingSetVisited.Clear();
+		var Matrixes = GetAllNetworkedMatrixMove(TheReusingSet, false, this, TheReusingSetVisited);
+
+		if (DoneMasterAlready == false)
+		{
+			NetworkedMatrixMove ControllingMatrix = null;
+			bool hasActiveConsulToo = false;
+
+
+			foreach (var Matrix in Matrixes) //Find the biggest  in control matrix
+			{
+				if (ControllingMatrix == null)
+				{
+					ControllingMatrix = Matrix;
+					foreach (var Consul in Matrix.ShuttleConsuls)
+					{
+						if (Consul.EngineOn)
+						{
+							hasActiveConsulToo = true;
+						}
+					}
+				}
+
+
+				if (hasActiveConsulToo)
+				{
+					if (Matrix.Mass > ControllingMatrix.Mass)
+					{
+						foreach (var Consul in Matrix.ShuttleConsuls)
+						{
+							if (Consul.EngineOn)
+							{
+								ControllingMatrix = Matrix;
+							}
+						}
+					}
+				}
+				else
+				{
+					if (Matrix.Mass > ControllingMatrix.Mass)
+					{
+						ControllingMatrix = Matrix;
+					}
+					else
+					{
+						foreach (var Consul in Matrix.ShuttleConsuls)
+						{
+							if (Consul.EngineOn)
+							{
+								hasActiveConsulToo = true;
+								ControllingMatrix = Matrix;
+							}
+						}
+					}
+				}
+
+
+			}
+
+			if (ControllingMatrix != this)
+			{
+				//Basically quit out since this matrix here should be the one doing the updates
+				ControllingMatrix.UpdateLoop(true); //note Technically recursive And a bit messy
+				//But it's better than each matrix going through the update and then finally reaching the biggest one
+				return;
+			}
+		}
+
+
+
 		TheReusingConnectedThrusters.Clear();
 		var Thrusters = GetThrusters(Matrixes, TheReusingConnectedThrusters);
 		var AllMass = GetAllMass(Matrixes);
@@ -922,7 +1025,6 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 	public bool DragCalculations(float DeltaTimeSeconds, bool AllRCSModeActive)
 	{
-
 		bool DoUpdateLocalPosition = false;
 		bool AINoDrag = HasMoveToTarget && WorldCurrentVelocity.magnitude > 2;
 
@@ -932,7 +1034,8 @@ public class NetworkedMatrixMove : NetworkBehaviour
 			WorldCurrentVelocity = ApplyDragTo(WorldCurrentVelocity, Drag, DeltaTimeSeconds);
 		}
 
-		if (WorldCurrentVelocity.magnitude > 0 && WorldCurrentVelocity.magnitude < LowSpeedDragThreshold && AINoDrag == false)
+		if (WorldCurrentVelocity.magnitude > 0 && WorldCurrentVelocity.magnitude < LowSpeedDragThreshold &&
+		    AINoDrag == false)
 		{
 			DoUpdateLocalPosition = true;
 			WorldCurrentVelocity = ApplyDragTo(WorldCurrentVelocity, LowSpeedDrag, DeltaTimeSeconds);
@@ -962,7 +1065,9 @@ public class NetworkedMatrixMove : NetworkBehaviour
 			CurrentTorque = ApplyDragTo(CurrentTorque, DragTorque, DeltaTimeSeconds);
 		}
 
-		if (SpinneyMode == false && AllRCSModeActive == false && TargetFaceDirectionOverride == OrientationEnum.Default && AINoDrag == false)
+		//No drifting drag at slow Speed
+		if (SpinneyMode == false && AllRCSModeActive == false &&
+		    TargetFaceDirectionOverride == OrientationEnum.Default && AINoDrag == false)
 		{
 			var dotProduct = Vector3.Dot(WorldCurrentVelocity.normalized, ForwardsDirection.normalized);
 			WorldCurrentVelocity = ForwardsDirection * (dotProduct * WorldCurrentVelocity.magnitude);
@@ -978,6 +1083,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 		{
 			Multiplier = 1;
 		}
+
 		CurrentMomentum -= (CurrentMomentum * Multiplier);
 		return CurrentMomentum;
 	}
@@ -989,6 +1095,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 		{
 			Multiplier = 1;
 		}
+
 		CurrentMomentum -= (CurrentMomentum * Multiplier);
 		return CurrentMomentum;
 	}

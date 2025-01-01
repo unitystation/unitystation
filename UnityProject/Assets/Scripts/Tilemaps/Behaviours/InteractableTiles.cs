@@ -406,8 +406,6 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 			if (severity > LivingShockResponse.Mild) return;
 
 			ElectricalData.InData.DestroyThisPlease();
-			Spawn.ServerPrefab(electricalCable.SpawnOnDeconstruct, message.targetWorldPosition,
-				count: electricalCable.SpawnAmountOnDeconstruct);
 
 			return;
 		}
