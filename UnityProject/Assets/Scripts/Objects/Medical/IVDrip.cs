@@ -92,6 +92,7 @@ public class IVDrip : MonoBehaviour, ICheckedInteractable<HandApply>, ICheckedIn
 				currentStemState = StemState.Idle;
 				UpdateBagSprite();
 				UpdateBagLevel();
+				StemsSprite.SetCatalogueIndexSprite((int) currentStemState);
 				return;
 			}
 		}
