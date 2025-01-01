@@ -773,7 +773,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public void ServerCheckQueueingAndMove()
 	{
-		if (hasAuthority) return;
+		if (isServer == false) return;
 		if (MoveQueue.Count > 0)
 		{
 			if (CanInPutMove()) //TODO potential issue with messages building up

@@ -17,6 +17,7 @@ namespace Mapping
 	/// </summary>
 	public class EventRouter : MonoBehaviour, INewMappedOnSpawn
 	{
+		//note Doesn't get populated and client due to limitation of how objects are loaded on client
 		//TODO Specifying data sometime
 		public List<EventConnection> EventLinks = new List<EventConnection>();
 
