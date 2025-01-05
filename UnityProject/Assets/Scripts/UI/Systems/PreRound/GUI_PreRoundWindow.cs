@@ -279,6 +279,7 @@ namespace UI
 		/// </summary>
 		public void SetUIForWaiting()
 		{
+			Loggy.Error("SetUIForWaiting");
 			timerPanel.SetActive(false);
 			joinPanel.SetActive(false);
 			playerWaitPanel.SetActive(true);
@@ -291,6 +292,7 @@ namespace UI
 		/// </summary>
 		public void SetUIForCountdown()
 		{
+			Loggy.Error("SetUIForCountdown");
 			SetReady(isReady);
 			timerPanel.SetActive(true);
 			joinPanel.SetActive(false);
@@ -304,6 +306,7 @@ namespace UI
 		/// </summary>
 		public void SetUIForJoining()
 		{
+			Loggy.Error("SetUIForJoining");
 			normalWindows.SetActive(true);
 			mapLoadingPanel.SetActive(false);
 			rejoiningRoundPanel.SetActive(false);
@@ -318,6 +321,7 @@ namespace UI
 
 		public void ShowRejoiningPanel()
 		{
+			Loggy.Error("ShowRejoiningPanel");
 			normalWindows.SetActive(false);
 			mapLoadingPanel.SetActive(false);
 			rejoiningRoundPanel.SetActive(true);
@@ -325,6 +329,7 @@ namespace UI
 
 		public void CloseRejoiningPanel()
 		{
+			Loggy.Error("CloseRejoiningPanel");
 			normalWindows.SetActive(false);
 			mapLoadingPanel.SetActive(false);
 			rejoiningRoundPanel.SetActive(false);
@@ -332,6 +337,7 @@ namespace UI
 
 		public void SetUIForMapLoading()
 		{
+			Loggy.Error("SetUIForMapLoading");
 			rejoiningRoundPanel.SetActive(false);
 			normalWindows.SetActive(false);
 			mapLoadingPanel.SetActive(true);

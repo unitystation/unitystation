@@ -12,10 +12,8 @@ namespace Objects.Medical
 {
 	public class CloningPod : NetworkBehaviour, IRefreshParts
 	{
-		[SyncVar(hook = nameof(SyncSprite))] public CloningPodStatus statusSync;
-		public SpriteRenderer spriteRenderer;
-		public Sprite cloningSprite;
-		public Sprite emptySprite;
+		public CloningPodStatus statusSync;
+		public SpriteHandler SpriteHandler;
 		[PlayModeOnly] public string statusString;
 		public CloningConsole console;
 
@@ -43,14 +41,11 @@ namespace Objects.Medical
 			statusString = "Inactive.";
 		}
 
-		public override void OnStartClient()
-		{
-			SyncSprite(statusSync, statusSync);
-		}
 
 		public void ServerStartCloning(CloningRecord record)
 		{
 			statusSync = CloningPodStatus.Cloning;
+			SpriteHandler.SetCatalogueIndexSprite(1);
 			statusString = "Cloning cycle in progress.";
 			StartCoroutine(ServerProcessCloning(record));
 		}
@@ -59,6 +54,7 @@ namespace Objects.Medical
 		{
 			yield return WaitFor.Seconds(CloningTime);
 			statusSync = CloningPodStatus.Empty;
+			SpriteHandler.SetCatalogueIndexSprite(0);
 			statusString = "Cloning process complete.";
 			if (console)
 			{
@@ -95,18 +91,6 @@ namespace Objects.Medical
 			{ CloneableStatus.Offline, "Spirit cannot be found." }
 			};
 
-		public void SyncSprite(CloningPodStatus oldValue, CloningPodStatus value)
-		{
-			statusSync = value;
-			if (value == CloningPodStatus.Empty)
-			{
-				spriteRenderer.sprite = emptySprite;
-			}
-			else
-			{
-				spriteRenderer.sprite = cloningSprite;
-			}
-		}
 
 		public void RefreshParts(IDictionary<PartReference, int> partsInFrame, Machine Frame)
 		{

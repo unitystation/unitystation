@@ -67,6 +67,7 @@ namespace Systems.Electricity
 						{
 							Loggy.Error($"{searchVecInt} < duplicate Please remove {OIinheritance.Categorytype}",
 								Category.Electrical);
+							con.DestroyThisPlease();
 						}
 					}
 				}

@@ -65,9 +65,6 @@ namespace Tiles.Electrical
 				if (severity > LivingShockResponse.Mild) return;
 
 				electricalData.InData.DestroyThisPlease();
-				Spawn.ServerPrefab(electricalCable.SpawnOnDeconstruct, interaction.WorldPositionTarget,
-					count: electricalCable.SpawnAmountOnDeconstruct);
-
 				return;
 			}
 		}

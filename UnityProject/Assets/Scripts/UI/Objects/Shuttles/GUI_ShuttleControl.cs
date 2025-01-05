@@ -22,7 +22,9 @@ namespace UI.Objects.Shuttles
 		public GUI_CoordReadout CoordReadout;
 
 		private NetUIElement<string> SafetyText => (NetUIElement<string>) this[nameof(SafetyText)];
-		public NetUIElement<string> StartButton => (NetUIElement<string>) this[nameof(StartButton)];
+		public bool StartButton => shuttleConsole.EngineOn;
+		public NetUIElement<string> GUIStartButton => (NetUIElement<string>) this["StartButton"];
+
 		private NetColorChanger OffOverlay => (NetColorChanger) this[nameof(OffOverlay)];
 
 		private ShuttleConsole shuttleConsole;
@@ -59,10 +61,6 @@ namespace UI.Objects.Shuttles
 		public void OnDestroy()
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
-			if (IsMasterTab)
-			{
-				matrixMove.NetworkedMatrixMove.OnStartMovement -= (OnStartMovementServer); ;
-			}
 		}
 
 		private IEnumerator WaitForProvider()
@@ -80,9 +78,6 @@ namespace UI.Objects.Shuttles
 			if (IsMasterTab)
 			{
 				shuttleConsole.GUItab = this;
-
-				//Init listeners
-				matrixMove.NetworkedMatrixMove.OnStartMovement += (OnStartMovementServer); ;
 				OnStateChange(shuttleConsole.shuttleConsoleState);
 			}
 		}
@@ -110,6 +105,11 @@ namespace UI.Objects.Shuttles
 
 		private void UpdateMe()
 		{
+			if (shuttleConsole == null)
+			{
+				Destroy(this.gameObject);
+				return;
+			}
 			CoordReadout.SetCoords(shuttleConsole.transform.position);
 
 			var fuelGauge = (NetUIElement<string>) this["FuelGauge"];
@@ -196,15 +196,6 @@ namespace UI.Objects.Shuttles
 		}
 
 
-		private void OnStartMovementServer()
-		{
-			 //dont enable button when moving with RCS
-			if (!matrixMove.NetworkedMatrixMove.RCSModeActive)
-			{
-				StartButton.MasterSetValue("1");
-			 }
-		}
-
 		public void ToggleAutopilot(bool on)
 		{
 			Autopilot = on;
@@ -232,6 +223,11 @@ namespace UI.Objects.Shuttles
 		}
 
 
+		public void ToggleEngineSupport(bool EngineSupport)
+		{
+			shuttleConsole.EngineSupport = EngineSupport;
+		}
+
 
 		/// <summary>
 		/// Starts or stops the shuttle.
@@ -239,6 +235,7 @@ namespace UI.Objects.Shuttles
 		/// <param name="off">Toggle parameter</param>
 		public void ToggleEngine(bool engineState)
 		{
+			shuttleConsole.EngineOn = engineState;
 			if (engineState && shuttleConsole.shuttleConsoleState != ShuttleConsoleState.Off && !matrixMove.NetworkedMatrixMove.RCSModeActive)
 			{
 
@@ -256,9 +253,9 @@ namespace UI.Objects.Shuttles
 		{
 			if (shuttleConsole.shuttleConsoleState == ShuttleConsoleState.Off) return;
 
-			if (StartButton.Value == "0") return;
+			if (shuttleConsole.EngineOn == false) return;
 
-			matrixMove.NetworkedMatrixMove.SetThrusterStrength(Thruster.ThrusterDirectionClassification.Right ,1);
+			matrixMove.NetworkedMatrixMove.SetThrusterStrength(Thruster.ThrusterDirectionClassification.Right ,1, true);
 		}
 
 		/// <summary>
@@ -267,29 +264,29 @@ namespace UI.Objects.Shuttles
 		public void TurnLeft()
 		{
 			if (shuttleConsole.shuttleConsoleState == ShuttleConsoleState.Off) return;
-			if (StartButton.Value == "0") return;
+			if (shuttleConsole.EngineOn == false) return;
 
-			matrixMove.NetworkedMatrixMove.SetThrusterStrength(Thruster.ThrusterDirectionClassification.Left ,1);
+			matrixMove.NetworkedMatrixMove.SetThrusterStrength(Thruster.ThrusterDirectionClassification.Left ,1, true);
 		}
 
 		public void SetLeftAndRightThrusters(float LeftAndRightMultiplier)
 		{
-			if (StartButton.Value == "0") return;
+			if (shuttleConsole.EngineOn == false) return;
 			if (LeftAndRightMultiplier is < 95 and > 85)
 			{
-				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Right,  0);
-				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Left,  0);
+				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Right,  0, true);
+				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Left,  0, true);
 				return;
 			}
 			else if (LeftAndRightMultiplier > 95)
 			{
-				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Right,  0);
-				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Left ,(LeftAndRightMultiplier - 90f) / 90f);
+				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Right,  0, true);
+				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Left ,(LeftAndRightMultiplier - 90f) / 90, true);
 			}
 			else
 			{
-				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Left,  0);
-				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Right ,(90f - LeftAndRightMultiplier) / 90f);
+				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Left,  0, true);
+				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Right ,(90f - LeftAndRightMultiplier) / 90f, true);
 			}
 
 		}
@@ -301,16 +298,16 @@ namespace UI.Objects.Shuttles
 		/// <param name="speedMultiplier"></param>
 		public void SetSpeed(float speedMultiplier)
 		{
-			if (StartButton.Value == "0") return;
+			if (shuttleConsole.EngineOn == false) return;
 			if (ReverseButton.Value == "1")
 			{
-				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Down ,speedMultiplier);
-				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Up ,0);
+				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Down ,speedMultiplier, true);
+				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Up ,0, true);
 			}
 			else
 			{
-				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Up ,speedMultiplier);
-				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Down ,0);
+				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Up ,speedMultiplier, true);
+				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Down ,0, true);
 			}
 
 		}

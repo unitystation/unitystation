@@ -158,7 +158,9 @@ namespace MapSaver
 					}
 				}
 
-				Offset00Cash = new Vector3(-0.5f, -0.5f, 0f) - Offset00.Value;
+				//StringToVector(Location, out Vector3 position);
+
+				Offset00Cash = new Vector3(-0.5f, -0.5f, 0f) - Offset00.Value;// - position;
 				return Offset00Cash.Value;
 			}
 
@@ -911,20 +913,10 @@ namespace MapSaver
 
 			if (PreviewGizmos == null)
 			{
-				var WorldBounds = LocalGizmoBound.ConvertToWorld(MetaTileMap.matrix.MatrixInfo);
-#if UNITY_EDITOR
-				if (Application.isPlaying == false)
-				{
-					var mat = MetaTileMap.GetComponentInChildren<ObjectLayer>().transform.localToWorldMatrix;
-					WorldBounds = new BetterBounds(mat.MultiplyPoint(LocalGizmoBound.Minimum),
-						mat.MultiplyPoint(LocalGizmoBound.Maximum));
-				}
-
-#endif
 				matrixData.PreviewGizmos.Add(new GameGizmoModel()
 				{
-					Pos = WorldBounds.center.RoundToArbitraryDepth(1).ToSerialiseString(),
-					Size = WorldBounds.size.RoundToArbitraryDepth(1).ToSerialiseString()
+					Pos = LocalGizmoBound.center.RoundToArbitraryDepth(1).ToSerialiseString(),
+					Size = LocalGizmoBound.size.RoundToArbitraryDepth(1).ToSerialiseString()
 				});
 			}
 

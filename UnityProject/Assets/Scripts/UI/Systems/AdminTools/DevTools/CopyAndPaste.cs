@@ -400,11 +400,14 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 			var ID = (TMP_Dropdown.options[TMP_Dropdown.value] as CustomOption).ID;
 			var MatrixName = TMP_InputField.text;
 			if (ID != null)
-			if (ID != null)
 			{
 				Matrix = MatrixManager.Get(ID.Value);
 				MatrixName = Matrix.Name;
 				Offset = ActiveMouseGrabber.gameObject.transform.position.ToLocal(Matrix);
+			}
+			else
+			{
+				Offset = ActiveMouseGrabber.gameObject.transform.position - new Vector3(1f, 1f,0);
 			}
 
 
@@ -424,6 +427,12 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 			Chat.AddExamineMsg( PlayerManager.LocalPlayerObject, $" Loading map Data onto {MatrixName} " );
 
+			var name = TMP_InputField.text;
+			if (string.IsNullOrEmpty(name))
+			{
+				name = currentlyActivePaste.MatrixName;
+			}
+
 			ClientRequestLoadMap.Send(
 				JsonConvert.SerializeObject(currentlyActivePaste,settings),
 				Matrix?.Matrix,
@@ -431,7 +440,7 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 				Offset,
 				Layers,
 				ObjectsVisible,
-				TMP_InputField.text
+				name
 				);
 
 			if (KeyboardInputManager.IsAltActionKeyPressed() == false)

@@ -36,6 +36,9 @@ namespace Objects.Shuttles
 
 		public Rotatable Rotatable;
 
+		public bool EngineOn;
+		public bool EngineSupport;
+
 		private void Awake()
 		{
 			hasNetworkTab = GetComponent<HasNetworkTab>();
@@ -145,7 +148,7 @@ namespace Objects.Shuttles
 		{
 			if (sender == null) return;
 			if (Validations.CanApply(PlayerList.Instance.Get(sender).Script, this.gameObject, NetworkSide.Server, false, ReachRange.Standard) == false) return;
-			if (GUItab.StartButton.Value == "0") return;
+			if (EngineOn == false) return;
 			registerTile.Matrix.MatrixMove.NetworkedMatrixMove.RcsMove(GlobalMoveDirection);
 		}
 
