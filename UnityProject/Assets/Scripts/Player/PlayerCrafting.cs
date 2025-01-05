@@ -56,7 +56,7 @@ namespace Player
 
 		public void PlayerEnterBody()
 		{
-			if (hasAuthority == false) return;
+			if (isOwned == false) return;
 			RequestInitRecipes.Send(new RequestInitRecipes.NetMessage());
 		}
 

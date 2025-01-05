@@ -645,7 +645,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 
 
 		SerialisedNetIDs = JsonConvert.SerializeObject(UIBodyPartsToSerialise);
-		// if (hasAuthority)
+		// if (isOwned)
 		// {
 		// UpdateSlots(SerialisedNetIDs, SerialisedNetIDs);
 		// }
@@ -683,7 +683,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 		ClientSlotCharacteristic[Slot] = storageCharacteristicse;
 		ClientTotal.Add(Slot);
 
-		if (hasAuthority && storageCharacteristicse.NotPresentOnUI == false)
+		if (isOwned && storageCharacteristicse.NotPresentOnUI == false)
 		{
 			UIManager.Instance.UI_SlotManager.SetActive(true);
 			UIManager.Instance.UI_SlotManager.UpdateUI();
@@ -730,7 +730,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 		}
 
 		ClientTotal.Remove(slot);
-		if (hasAuthority)
+		if (isOwned)
 		{
 			UIManager.Instance.UI_SlotManager.UpdateUI();
 		}

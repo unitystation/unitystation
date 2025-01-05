@@ -64,6 +64,7 @@ namespace Mobs.BrainAI.States.Arial
 				return;
 			}
 
+			if (pathfinder == null) return;
 			path = pathfinder.FindNewPath(
 				MatrixManager.WorldToLocal(LivingHealthMaster.playerScript.playerMove.OfficialPosition,
 					LivingHealthMaster.RegisterTile.Matrix).RoundTo2Int(),

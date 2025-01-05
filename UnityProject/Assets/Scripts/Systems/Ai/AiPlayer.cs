@@ -248,7 +248,7 @@ namespace Systems.Ai
 
 		public void PlayerEnterBody()
 		{
-			if (hasAuthority == false) return;
+			if (isOwned == false) return;
 			playerScript.Mind.SetPermanentName(playerScript.characterSettings.AiName);
 			Init();
 
@@ -285,7 +285,7 @@ namespace Systems.Ai
 			if(vesselObject == null) return;
 
 			//Something weird with headless and local host triggering the sync even though its set to owner
-			if (CustomNetworkManager.IsHeadless || hasAuthority == false) return;
+			if (CustomNetworkManager.IsHeadless || isOwned == false) return;
 
 			Init();
 			aiUi.OrNull()?.SetUp(this);

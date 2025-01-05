@@ -60,7 +60,7 @@ namespace Items.Weapons
 
 		public UnityEvent OnExpload = new UnityEvent();
 
-		[ReadOnly] public ItemSlot TriggerSlot;
+		[NaughtyAttributes.ReadOnly] public ItemSlot TriggerSlot;
 
 		private void Start()
 		{

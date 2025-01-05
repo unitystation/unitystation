@@ -103,7 +103,7 @@ namespace UI.Systems.MainHUD.UI_Bottom
 		private void OnUpdate()
 		{
 			if(alienPlayer == null) return;
-			if(alienPlayer.hasAuthority == false) return;
+			if(alienPlayer.isOwned == false) return;
 
 			HealthCheck();
 

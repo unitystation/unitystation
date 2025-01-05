@@ -145,7 +145,7 @@ public class PlayerHealthUI : MonoBehaviour
 						damageColor = destroyedBodyPartColor;
 						break;
 				}
-				if (HasAuthority(bodyPart))
+				if (IsOwned(bodyPart))
 				{
 					bodyPartListeners[i].SetDamageColor(damageColor);
 					bodyPartListeners[i].SetBodyPartColor(bodyPartColor);
@@ -159,9 +159,9 @@ public class PlayerHealthUI : MonoBehaviour
 				}
 			}
 		}
-		bool HasAuthority(BodyPart bbodyPart)
+		bool IsOwned(BodyPart bbodyPart)
 		{
-			return bbodyPart.HealthMaster.hasAuthority;
+			return bbodyPart.HealthMaster.isOwned;
 		}
 	}
 }

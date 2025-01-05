@@ -174,8 +174,8 @@ namespace Weapons
 		/// </summary>
 		[NonSerialized] public bool ShotCooldown = false;
 
-		[ReadOnly] public ItemSlot magSlot;
-		[ReadOnly] private ItemSlot pinSlot;
+		[NaughtyAttributes.ReadOnly] public ItemSlot magSlot;
+		[NaughtyAttributes.ReadOnly] private ItemSlot pinSlot;
 
 		private ItemStorage itemStorage;
 

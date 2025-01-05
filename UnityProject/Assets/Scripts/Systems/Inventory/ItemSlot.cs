@@ -205,7 +205,7 @@ public class ItemSlot
 	{
 		if (CustomNetworkManager.IsServer == false) return;
 		serverObserverPlayers.Add(observerPlayer);
-		UpdateItemSlotMessage.Send(observerPlayer, this);
+		UpdateItemNSlotMessage.Send(observerPlayer, this);
 	}
 
 	/// <summary>
@@ -217,7 +217,7 @@ public class ItemSlot
 		if (CustomNetworkManager.IsServer == false) return;
 		serverObserverPlayers.Remove(observerPlayer);
 		// tell the client the slot is now empty
-		UpdateItemSlotMessage.Send(observerPlayer, this, true);
+		UpdateItemNSlotMessage.Send(observerPlayer, this, true);
 	}
 
 	/// <summary>
@@ -280,7 +280,7 @@ public class ItemSlot
 			}
 		}
 
-		UpdateItemSlotMessage.Send(serverObserverPlayers, this);
+		UpdateItemNSlotMessage.Send(serverObserverPlayers, this);
 	}
 
 	/// <summary>

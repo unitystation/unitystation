@@ -190,7 +190,7 @@ namespace HealthV2
 		{
 			healthDollData = newDollData;
 			if (isServer) return;
-			if (hasAuthority == false) return;
+			if (isOwned == false) return;
 			try
 			{
 				CurrentHealthDollStorage = JsonConvert.DeserializeObject<HealthDollStorage>(healthDollData);

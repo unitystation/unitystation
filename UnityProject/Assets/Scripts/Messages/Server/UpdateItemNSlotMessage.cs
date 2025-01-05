@@ -10,20 +10,21 @@ namespace Messages.Server
 	/// <summary>
 	/// Server tells client the current status of a particular item slot.
 	/// </summary>
-	public class UpdateItemSlotMessage : ServerMessage<UpdateItemSlotMessage.NetMessage>
+	public class UpdateItemNSlotMessage : ServerMessage<UpdateItemNSlotMessage.NetMessage>
 	{
 		public struct NetMessage : NetworkMessage
 		{
+			public NamedSlot NamedSlot;
+			public bool ItemNotRemovable;
+			public int SlotIndex;
 			public uint Storage;
 			public uint StorageIndexOnGameObject;
 			public uint Item;
-			public int SlotIndex;
-			public NamedSlot NamedSlot;
-			public bool ItemNotRemovable;
 		}
 
 		public override void Process(NetMessage msg)
 		{
+
 			//server calls their own client side hooks, so server doesn't do anything here.
 			//It's necessary for it to be this way because by the time the server reaches this point,
 			//the change to this slot has already occurred so it can't figure out what the previous

@@ -942,7 +942,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdSetCrayon(GameObject crayon, uint category, uint index, uint colourIndex, OrientationEnum direction)
+	public void CmdSetCrayonTile(GameObject crayon, uint category, uint index, uint colourIndex, OrientationEnum direction)
 	{
 		if(crayon == null || crayon.TryGetComponent<CrayonSprayCan>(out var crayonScript) ==  false) return;
 

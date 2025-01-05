@@ -83,6 +83,7 @@ namespace AdminCommands
 		/// put in the parameters when calling the commands</param>
 		public static bool IsAdmin(NetworkConnection sender, out PlayerInfo player, bool logFailure = true)
 		{
+
 			player = PlayerList.Instance.GetOnline(sender);
 			if (player.IsAdmin == false)
 			{
@@ -275,7 +276,7 @@ namespace AdminCommands
 		}
 
 		[Command(requiresAuthority = false)]
-		public void CmdChangeAwaySite(string nextAwaySite, NetworkConnectionToClient sender = null)
+		public void CmdAdminChangeAwaySite(string nextAwaySite, NetworkConnectionToClient sender = null)
 		{
 			if (IsAdmin(sender, out var player) == false) return;
 

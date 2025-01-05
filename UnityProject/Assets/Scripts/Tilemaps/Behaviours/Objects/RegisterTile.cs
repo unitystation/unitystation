@@ -437,7 +437,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private void SyncNetworkedMatrixNetId(uint oldNetworkMatrixId, uint newNetworkedMatrixNetID)
 	{
 		networkedMatrixNetId = newNetworkedMatrixNetID;
-		if (hasAuthority && isServer == false) return;
+		if (isOwned && isServer == false) return;
 		NetworkedMatrix.InvokeWhenInitialized(networkedMatrixNetId,
 			FinishNetworkedMatrixRegistration); //note: we dont actually wait for init here anymore
 	}

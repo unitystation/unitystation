@@ -287,7 +287,7 @@ namespace Player.Language
 
 		private void SyncCurrentLanguage(ushort oldLanguage, ushort newLanguage)
 		{
-			if(hasAuthority == false) return;
+			if(isOwned == false) return;
 
 			currentLanguageId = newLanguage;
 

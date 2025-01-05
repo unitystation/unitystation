@@ -227,7 +227,7 @@ public interface IPlayerPossessable
 			//SO The problem is it is recursive so it doesn't know which one is the last one!!! AAAAAAAAAA I'm going to bed
 		}
 
-		if (GameObject.GetComponent<NetworkIdentity>().hasAuthority || mind == PlayerManager.LocalMindScript)
+		if (GameObject.GetComponent<NetworkIdentity>().isOwned || mind == PlayerManager.LocalMindScript)
 		{
 			ClientInternalOnControlPlayer(mind, isServer);
 		}

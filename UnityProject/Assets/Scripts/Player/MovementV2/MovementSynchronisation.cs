@@ -367,7 +367,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public void UpdateMeProper()
 	{
-		if (hasAuthority == false) return;
+		if (isOwned == false) return;
 		bool inputDetected = KeyboardInputManager.IsMovementPressed(KeyboardInputManager.KeyEventType.Hold);
 		if (inputDetected != IsPressedCashed)
 		{
@@ -488,13 +488,17 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		base.OnEnable();
 
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMeProper);
-		if (isServer == false)
+		if (CustomNetworkManager.IsServer == false)
 		{
 			UpdateManager.Add(CallbackType.EARLY_UPDATE, ClientCheckLocationFlight);
 			return;
 		}
+		else
+		{
+			UpdateManager.Add(CallbackType.EARLY_UPDATE, ServerCheckQueueingAndMove);
+		}
 
-		UpdateManager.Add(CallbackType.EARLY_UPDATE, ServerCheckQueueingAndMove);
+
 	}
 
 	public override void OnDisable()
@@ -502,13 +506,17 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		base.OnDisable();
 
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMeProper);
-		if (isServer == false)
+		if (CustomNetworkManager.IsServer == false)
 		{
 			UpdateManager.Remove(CallbackType.EARLY_UPDATE, ClientCheckLocationFlight);
 			return;
 		}
+		else
+		{
+			UpdateManager.Remove(CallbackType.EARLY_UPDATE, ServerCheckQueueingAndMove);
+		}
 
-		UpdateManager.Remove(CallbackType.EARLY_UPDATE, ServerCheckQueueingAndMove);
+
 	}
 
 	public override void OnDestroy()
@@ -657,7 +665,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public void ClientCheckLocationFlight()
 	{
-		if (hasAuthority == false || IsFloating() == false ) return;
+		if (isOwned == false || IsFloating() == false ) return;
 		if (NetworkTime.time - LastUpdatedFlyingPosition > 2)
 		{
 			LastUpdatedFlyingPosition = NetworkTime.time;
@@ -773,7 +781,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public void ServerCheckQueueingAndMove()
 	{
-		if (hasAuthority) return;
 		if (MoveQueue.Count > 0)
 		{
 			if (CanInPutMove()) //TODO potential issue with messages building up
@@ -1127,7 +1134,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	{
 		if (isServer)
 		{
-			if (hasAuthority && this.playerScript.OrNull()?.Equipment.OrNull()?.ItemStorage != null)
+			if (isOwned && this.playerScript.OrNull()?.Equipment.OrNull()?.ItemStorage != null)
 			{
 				HandleFootstepLogic();
 			}
@@ -1331,7 +1338,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		}
 		if (allowInput == false) return false;
 		if (BuckledToObject) return false;
-		if (hasAuthority && UIManager.IsInputFocus) return false;
+		if (isOwned && UIManager.IsInputFocus) return false;
 		if (IsCuffed && PulledBy.HasComponent) return false;
 		if (ContainedInObjectContainer != null) return false;
 
@@ -1419,7 +1426,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 			if (isSlip)
 			{
-				if (isServer == false && hasAuthority && UIManager.Instance.intentControl.Running == false) return false;
+				if (isServer == false && isOwned && UIManager.Instance.intentControl.Running == false) return false;
 				return true;
 			}
 		}
@@ -1570,7 +1577,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public override void ClientTileReached(Vector3Int localPos)
 	{
-		if (hasAuthority == false) return;
+		if (isOwned == false) return;
 
 		//Client side check for invalid tabs still open
 		//(Don't need to do this server side as the interactions are validated)
@@ -1600,7 +1607,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			enterTileBase.OnPlayerStep(playerScript);
 		}
 
-		if (hasAuthority == false) return;
+		if (isOwned == false) return;
 
 		//Client side check for invalid tabs still open
 		//(Don't need to do this server side as the interactions are validated)

@@ -528,7 +528,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		NetworkServer.ReplacePlayerForConnection(conn, disconnectedViewer,
 			BitConverter.ToUInt32(System.Guid.NewGuid().ToByteArray(), 0), false);
 
-		foreach (var ownedObject in conn.clientOwnedObjects.ToArray())
+		foreach (var ownedObject in conn.owned.ToArray())
 		{
 			if (disconnectedViewer == ownedObject.gameObject) continue;
 			ownedObject.RemoveClientAuthority();

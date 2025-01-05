@@ -329,7 +329,7 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 	//Client Side Only
 	private void UpdateMe()
 	{
-		if (isUpdateRTT && hasAuthority)
+		if (isUpdateRTT && isOwned)
 		{
 			RTTUpdate();
 		}

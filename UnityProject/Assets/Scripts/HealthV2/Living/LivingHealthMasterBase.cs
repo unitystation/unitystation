@@ -293,7 +293,8 @@ namespace HealthV2
 		public UnityEvent OnCrit;
 		public UnityEvent OnCritExit;
 
-		[SyncVar] public bool CannotRecognizeNames = false;
+		[field: SyncVar]
+		public bool CannotRecognizeNames { get; set; } = false;
 
 
 		public Dictionary<BodyPartType, ReagentMix> SurfaceReagents = new Dictionary<BodyPartType, ReagentMix>()
