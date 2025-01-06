@@ -398,9 +398,9 @@ public static class CleanupUtil
 	{
 		foreach (var a in UnityEngine.GameObject.FindObjectsOfType<UIAction>(true))
 		{
-			if ((a.iAction is UI.Action.ItemActionButton) && (a.iAction as UI.Action.ItemActionButton == null || (a.iAction as UI.Action.ItemActionButton).CurrentlyOn == null))
+			if ((a.iActionHolder is UI.Action.ItemActionButton) && (a.iActionHolder as UI.Action.ItemActionButton == null || (a.iActionHolder as UI.Action.ItemActionButton).CurrentlyOn == null))
 			{
-				a.iAction = null;
+				a.iActionHolder = null;
 				UnityEngine.GameObject.Destroy(a.gameObject);
 			}
 		}

@@ -299,8 +299,9 @@ public class Mind : NetworkBehaviour, IGameActionHolder, IGameActionContainer
 	/// </summary>
 	public bool CheckActionAvailability(string actionID)
 	{
+		if (!availableActions.ContainsKey(actionID)) return false;
 		IGameActionHolder gameActionHolder = availableActions[actionID];
-		return Convert.ToBoolean(gameActionHolder) && gameActionHolder.IsActionAvailable();
+		return gameActionHolder.IsAvailable();
 	}
 	#endregion Action Control
 

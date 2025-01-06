@@ -28,25 +28,53 @@ public interface IGameActionHolder
 	/// The description of this action
 	/// </summary>
 //	public string ActionDesc { get; protected set; }
-	bool IsActionAvailable()
-	{
-		return true;
-	}
+	/// <summary>
+	/// The list of sprites that go inside our background
+	/// </summary>
+//	public List<SpriteDataSO> ActionSprites { get; protected set; }
+	/// <summary>
+	/// Our list of backgrounds
+	/// </summary>
+//	public List<SpriteDataSO> ActionBackgrounds { get; protected set; }
 	ActionData ActionData { get; }
 
-	void CallActionClient() //this gets called when the UI button gets clicked by a player
+	virtual void CallActionClient() //clientside, this gets called when the UI button gets clicked by a player
 	{
 		UIAction action = UIActionManager.Instance.DicIActionGUI[this][0];
 		PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestAction(ActionGuid, action.LastClickPosition);
 	}
+
+	/// <summary>
+	/// First in the action chain, return false to stop the action from activating
+	/// </summary>
+	virtual bool IsAvailable()
+	{
+		return true;
+	}
+
+	/// <summary>
+	/// Second in the action chain, still able to return false to stop activation
+	/// </summary>
+	virtual bool PreActivate()
+	{
+		return true;
+	}
 }
 
 /// <summary>
-/// Simply implement this to Implement your Networked screen action
+/// Actions using this also execute some kind of server side logic, AKA most actions
 /// </summary>
 public interface IServerGameActionHolder : IGameActionHolder
 {
 	void CallActionServer(PlayerInfo playerInfo); //Requires validation in this
+}
+
+public interface ICooldownGameActionHolder : IServerGameActionHolder
+{
+	virtual void CallActionClient(PlayerInfo playerInfo)
+	{
+
+	}
 }
 
 //some example classes

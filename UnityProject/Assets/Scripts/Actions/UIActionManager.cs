@@ -35,11 +35,15 @@ namespace UI.Core.Action
 		/// <summary>
 		/// The dict of all actions keyed to their UUID
 		/// </summary>
-		private Dictionary<string, IGameActionHolder> AllActionsByUUID = new(); //these need to be added to clear()
+		private Dictionary<string, IGameActionHolder> allActionsByUUID = new(); //these need to be added to clear()
 		/// <summary>
 		/// A dict of action UUIDs keyed to the GameObject they belong to
 		/// </summary>
-		private Dictionary<GameObject, string> AllActionUUIDsByGameObject = new();
+		private Dictionary<GameObject, string> allActionUUIDsByGameObject = new();
+		/// <summary>
+		/// A dict of minds and their currently selected actions, used for if things need to run logic on deselection
+		/// </summary>
+		private Dictionary<Mind, IGameActionHolder> selectedActionHolders = new();
 
 		public GameObject Panel;
 		public GameObject TooltipPrefab;
@@ -116,7 +120,7 @@ namespace UI.Core.Action
 		#region IGameActionHolder
 		public static IGameActionHolder GetActionFromGuid(string key)
 		{
-			return Instance.AllActionsByUUID[key];
+			return Instance.allActionsByUUID[key];
 		}
 
 		/// <summary>
@@ -138,32 +142,41 @@ namespace UI.Core.Action
 		private string _RegisterAction(IGameActionHolder registeredAction) //due to being wrapped we assume this is called in a safe context
 		{
 			string generatedGuid = Guid.NewGuid().ToString();
-			AllActionsByUUID[generatedGuid] = registeredAction;
+			allActionsByUUID[generatedGuid] = registeredAction;
 			RegisterTile registerTile = registeredAction.gameObject.GetComponent<RegisterTile>();
 			if(!Convert.ToBoolean(registerTile))
 				registerTile = registeredAction.gameObject.AddComponent<RegisterTile>();
 
 			registerTile.OnDestroyed += onActionDestroyed;
-			AllActionUUIDsByGameObject[registeredAction.gameObject] = generatedGuid;
+			allActionUUIDsByGameObject[registeredAction.gameObject] = generatedGuid;
 			return generatedGuid;
 		}
 
 		private EventHandler<GameObject> onActionDestroyed = (object sender, GameObject gameObject) =>
 		{
-			UnregisterAction(Instance.AllActionsByUUID[Instance.AllActionUUIDsByGameObject[gameObject]]);
+			UnregisterAction(Instance.allActionsByUUID[Instance.allActionUUIDsByGameObject[gameObject]]);
 		};
 
 		public static void UnregisterAction(IGameActionHolder unregisteredAction)
 		{
-			Instance.AllActionsByUUID.Remove(unregisteredAction.ActionGuid);
+			Instance.allActionsByUUID.Remove(unregisteredAction.ActionGuid);
 		}
 
 		/// <summary>
 		/// return true if we are able to execute the requested game action, otherwise return false
 		/// </summary>
-		public static bool RequestGameAction(string actionGUID, PlayerScript playerScript, Vector3 clickPosition)
+		public static bool RequestGameAction(string actionGUID, IGameActionContainer requester, Vector3 clickPosition)
 		{
-			if(!playerScript.Mind.CheckActionAvailability(actionGUID)) return false;
+			if(!requester.CheckActionAvailability(actionGUID)) return false;
+			return true;
+		}
+
+		/// <summary>
+		/// Same as above but instead for toggling actions
+		/// </summary>
+		public static bool RequestActionToggle(string actionGUID, IGameActionContainer requester)
+		{
+			if(!requester.CheckActionAvailability(actionGUID)) return false;
 			return true;
 		}
 
@@ -382,7 +395,7 @@ namespace UI.Core.Action
 				{
 					//Remove old button from list. Don't spawn the same button if it already exists!
 					if (actionButton.Key is IGameActionHolder keyI &&
-					    actionButton.Value[0].iAction == iActionGUI)
+					    actionButton.Value[0].iActionHolder == iActionGUI)
 					{
 						Hide(keyI, null);
 						break;
@@ -411,27 +424,27 @@ namespace UI.Core.Action
 			}
 		}
 
-		private static void Hide( IGameActionHolder iAction, GameObject Body)
+		private static void Hide( IGameActionHolder iActionHolder, GameObject Body)
 		{
 			if (CustomNetworkManager.IsServer && Body != null)
 			{
 				//Send message
-				SetActionUIMessage.SetAction("", Body, iAction, false);
+				SetActionUIMessage.SetAction("", Body, iActionHolder, false);
 			}
 
 			if (Body == null)
 			{
 				//Client stuff
-				if (Instance.DicIActionGUI.ContainsKey(iAction) && Instance.ClientIActionGUIToID.ContainsKey(iAction))
+				if (Instance.DicIActionGUI.ContainsKey(iActionHolder) && Instance.ClientIActionGUIToID.ContainsKey(iActionHolder))
 				{
-					var _UIAction = Instance.DicIActionGUI[iAction][0];
-					var ID = Instance.ClientIActionGUIToID[iAction];
+					var _UIAction = Instance.DicIActionGUI[iActionHolder][0];
+					var ID = Instance.ClientIActionGUIToID[iActionHolder];
 					SpriteHandlerManager.UnRegisterSpecialHandler(ID+"F"); //Front icon
 					SpriteHandlerManager.UnRegisterSpecialHandler(ID+"B"); //back icon
 
 					_UIAction.Pool();
 					Instance.PooledUIAction.Add(_UIAction);
-					Instance.DicIActionGUI.Remove(iAction);
+					Instance.DicIActionGUI.Remove(iActionHolder);
 				}
 				else
 				{
@@ -472,8 +485,8 @@ namespace UI.Core.Action
 			Instance.ActivePlayerActions.Clear();
 
 			Instance.IActionGUIToID.Clear();
-			Instance.AllActionsByUUID.Clear();
-			Instance.AllActionUUIDsByGameObject.Clear();
+			Instance.allActionsByUUID.Clear();
+			Instance.allActionUUIDsByGameObject.Clear();
 		}
 
 		public static void ClearAllActionsClient()

@@ -16,7 +16,7 @@ namespace UI.Action
 		public Transform CooldownOpacity;
 		public Text CooldownNumber;
 
-		public IGameActionHolder iAction;
+		public IGameActionHolder iActionHolder;
 		private ActionData actionData;
 		private static readonly Vector3 tooltipOffset = new Vector3(-40, -60);
 		private ActionTooltip Tooltip => UIActionManager.Instance.TooltipInstance;
@@ -30,12 +30,12 @@ namespace UI.Action
 		public void SetUp(IGameActionHolder action)
 		{
 			gameObject.SetActive(true);
-			iAction = action;
+			iActionHolder = action;
 
 			actionData = action.ActionData;
 			if (actionData == null)
 			{
-				Loggy.Warning().Format("UIAction {0}: action data is null!", Category.UserInput, iAction);
+				Loggy.Warning().Format("UIAction {0}: action data is null!", Category.UserInput, iActionHolder);
 				return;
 			}
 
@@ -114,7 +114,7 @@ namespace UI.Action
 			// The spell's server request can provide a click position.
 			if (actionData.CallOnClient)
 			{
-				if (iAction is IGameActionHolder iActionGUI)
+				if (iActionHolder is IGameActionHolder iActionGUI)
 				{
 					iActionGUI.CallActionClient();
 				}
@@ -125,9 +125,9 @@ namespace UI.Action
 			// Once it does, consider moving the spell's server request to rely on this here instead, if possible.
 			if (actionData.CallOnServer == false) return;
 
-			if (iAction is IServerGameActionHolder)
+			if (iActionHolder is IServerGameActionHolder)
 			{
-					RequestGameAction.Send(iAction as IServerGameActionHolder);
+					RequestGameAction.Send(iActionHolder as IServerGameActionHolder);
 			}
 		}
 

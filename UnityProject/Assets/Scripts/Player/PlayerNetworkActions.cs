@@ -900,7 +900,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdRequestAction(string actionID, Vector3 clickPosition)
 	{
-		UIActionManager.RequestGameAction(actionID, playerScript, clickPosition);
+		UIActionManager.RequestGameAction(actionID, playerScript.Mind, clickPosition);
+	}
+
+	//same as above but for UIActionManager.RequestActionToggle
+	[Command]
+	public void CmdRequestAction(string actionID)
+	{
+		UIActionManager.RequestActionToggle(actionID, playerScript.Mind);
 	}
 
 	[Command]
