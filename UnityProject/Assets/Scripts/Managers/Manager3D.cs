@@ -268,5 +268,12 @@ public class Manager3D : MonoBehaviour
 		Camera.main.orthographic = false;
 		Camera.main.fieldOfView = 90;
 		Camera.main.nearClipPlane = 0.1f;
+		Camera.main.useOcclusionCulling = true;
+		UnityEngine.RenderSettings.fog = true;
+		UnityEngine.RenderSettings.fogDensity = 0.25f;
+		UnityEngine.RenderSettings.fogMode = FogMode.Linear;
+		UnityEngine.RenderSettings.fogStartDistance = 1;
+		UnityEngine.RenderSettings.fogEndDistance = 12;
+		UnityEngine.RenderSettings.fogColor = Color.black;
 	}
 }
