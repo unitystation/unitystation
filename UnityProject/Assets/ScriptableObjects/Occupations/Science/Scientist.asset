@@ -22,7 +22,7 @@ MonoBehaviour:
   limit: 5
   priority: 99
   issuedClearance: 0d0000002f000000070000002a0000003e000000
-  issuedLowPopClearance: 0d0000002f000000070000002a0000003e000000
+  issuedLowPopClearance: 0d0000002f000000070000002a0000003e0000001c000000
   spells: []
   progress: 5
   choiceColor: {r: 0.7686275, g: 0.46274513, b: 0.7686275, a: 1}
@@ -39,11 +39,11 @@ MonoBehaviour:
   isTargeteable: 1
   playSound: 1
   spawnSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/AmbientTracks/SpawnSounds/departments/Research_Spawn.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   textColor: {r: 1, g: 0.9333334, b: 1, a: 1}
