@@ -249,7 +249,7 @@ public class UIManager : MonoBehaviour, IInitialise
 		set
 		{
 			if (Instance.HoverTooltipUI == null) return;
-			Instance.hoverTooltipUI.SetupTooltip(value);
+			Instance.hoverTooltipUI.SetupTooltip(value, false);
 		}
 	}
 

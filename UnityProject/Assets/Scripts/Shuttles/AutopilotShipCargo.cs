@@ -288,7 +288,8 @@ public class AutopilotShipCargo : AutopilotShipMachine
 				 if ((Matrix.GetFirst<ClosetControl>(Location.LocalPosition, true) == null)
 				     && Matrix.IsFloorAt(Location.LocalPosition, true)
 				     && Matrix.IsWallAt(Location.LocalPosition, true) == false
-					 && Matrix.IsWindowAt(Location.LocalPosition, true) == false)
+					 && Matrix.IsWindowAt(Location.LocalPosition, true) == false
+				     && Matrix.IsPassableAtOneMatrixOneTile(Location.LocalPosition, true) )
 				 {
 					 availableSpawnSlots.Add(Location.LocalPosition);
 				 }

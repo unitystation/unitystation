@@ -24,6 +24,7 @@ namespace UI.Systems.Tooltips.HoverTooltips
 
 
 		private GameObject targetObject;
+		private GameObject CurrentlyOverObject;
 		private bool detailsModeEnabled = false;
 
 		private const float MOUSE_OFFSET_Y = -105f;
@@ -75,26 +76,37 @@ namespace UI.Systems.Tooltips.HoverTooltips
 		private void CheckForInput()
 		{
 			detailsModeEnabled = Input.GetKeyDown(KeyCode.LeftShift);
-			if (detailsModeEnabled && targetObject != null)
+			if (detailsModeEnabled && CurrentlyOverObject != null)
 			{
-				SetupTooltip(targetObject);
+				SetupTooltip(CurrentlyOverObject, true);
 			}
 		}
 
-		public void SetupTooltip(GameObject hoverObject)
+		public void SetupTooltip(GameObject hoverObject, bool SkipWaiting)
 		{
-			targetObject = hoverObject;
-			// Clean up everything for the upcoming data.
-			ResetTool();
+			CurrentlyOverObject = hoverObject;
+
 			// Don't show if player experience is set to something high unless they are using detailed mode.
 			if (ProtipManager.Instance.PlayerExperienceLevel >= ProtipManager.ExperienceLevel.SomewhatExperienced
 			    && detailsModeEnabled == false) return;
-			// Don't do anything if there's no object to start with.
-			if (hoverObject == null)
+
+			if (CurrentlyOverObject == null)
 			{
+				showing = false;
 				return;
 			}
-			QueueTip(hoverObject);
+
+
+			if (SkipWaiting)
+			{
+				QueueTip(hoverObject);
+			}
+			else
+			{
+				StartCoroutine(WaitShowTooltip(hoverObject));
+			}
+
+
 		}
 
 		/// <summary>
@@ -211,8 +223,19 @@ namespace UI.Systems.Tooltips.HoverTooltips
 			}
 		}
 
+
 		private void Setup(GameObject target)
 		{
+			targetObject = target;
+			// Clean up everything for the upcoming data.
+			ResetTool();
+
+			// Don't do anything if there's no object to start with.
+			if (target == null)
+			{
+				return;
+			}
+
 			UpdateMainInfo(target);
 			CaptureIconFromSpriteHandler(target);
 			if (detailsModeEnabled) UpdateDetailedView(target);
@@ -249,15 +272,23 @@ namespace UI.Systems.Tooltips.HoverTooltips
 			animating = false;
 			if (showing == false)
 			{
+				showingcurrently = null;
 				iconTarget.sprite = errorIconSprite;
 				nameText.text = string.Empty;
 				descText.text = string.Empty;
 			}
 		}
 
+		private IEnumerator WaitShowTooltip(GameObject queuedObject)
+		{
+			yield return WaitFor.Seconds(HoverDelay);
+			if (showing) yield break;
+			if (queuedObject != CurrentlyOverObject) yield break;
+			QueueTip(queuedObject);
+		}
+
 		private void QueueTip(GameObject queuedObject)
 		{
-			if (targetObject == null || queuedObject != targetObject) return;
 			if (showingcurrently == queuedObject) return;
 			Setup(queuedObject);
 		}
