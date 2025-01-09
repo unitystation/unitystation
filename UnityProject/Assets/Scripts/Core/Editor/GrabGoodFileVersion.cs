@@ -28,6 +28,11 @@ public class GrabGoodFileVersion : IPreprocessBuild
 			// Get the latest good-file version tag
 			string latestTag = GetLatestGoodFileVersion();
 
+			if (string.IsNullOrEmpty(latestTag))
+			{
+				latestTag = GetLatestGoodFileVersion("/root/local_repo");
+			}
+
 			var BuildInfo = JsonConvert.DeserializeObject<BuildInfo>(AccessFile.Load("buildinfo.json"));
 			Loggy.Info("latestTag Unmodified > " + latestTag);
 
@@ -43,12 +48,15 @@ public class GrabGoodFileVersion : IPreprocessBuild
 		}
 	}
 
-	private string GetLatestGoodFileVersion()
+	private string GetLatestGoodFileVersion(string WorkingDirectoryOverride = "")
 	{
 		try
 		{
-			// Get the StreamingAssets path
-			string dataPath = Application.dataPath;
+			string dataPath = WorkingDirectoryOverride;
+			if (string.IsNullOrEmpty(WorkingDirectoryOverride))
+			{
+				dataPath = Application.dataPath;
+			}
 
 			// Set up the Git process to get tags
 			Process gitProcess = new Process
