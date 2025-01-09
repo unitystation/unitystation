@@ -475,7 +475,7 @@ namespace MapSaver
 
 		public class CompactObjectMapData
 		{
-			public string Ver = "1.4.1";
+			public string Ver = "1.4.2";
 
 			//1.1.0 Added support for Dictionaries and change syntax for Removed Elements
 			//1.1.1 Lists now are specified in reversed order to Handle removed elements properly
@@ -483,6 +483,7 @@ namespace MapSaver
 			//1.3.0 Added paths To organise objects under
 			//1.4.0 Added NameMatches on PrefabData to allow easy conversion from non-compact to compact mode
 			//1.4.1 Fixes gitid movements not being applied to position
+			//1.4.2 Runtime spawned will no longer be saved as added Component
 			public List<string> CommonPrefabs = new List<string>();
 
 			public List<PrefabData> PrefabData;
@@ -2129,7 +2130,12 @@ namespace MapSaver
 				if (gameObjectMono == null)
 				{
 					//idk how it can be null but it can
-					return;
+					continue;
+				}
+
+				if (gameObjectMono.GetType() == typeof(RuntimeSpawned))
+				{
+					continue;
 				}
 
 				if (Application.isPlaying) //Is in edit mode you can't have stuff inside of inventories in this mode
