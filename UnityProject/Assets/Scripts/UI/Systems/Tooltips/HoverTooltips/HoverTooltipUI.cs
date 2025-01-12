@@ -86,16 +86,16 @@ namespace UI.Systems.Tooltips.HoverTooltips
 		{
 			CurrentlyOverObject = hoverObject;
 
-			// Don't show if player experience is set to something high unless they are using detailed mode.
-			if (ProtipManager.Instance.PlayerExperienceLevel >= ProtipManager.ExperienceLevel.SomewhatExperienced
-			    && detailsModeEnabled == false) return;
-
 			if (CurrentlyOverObject == null)
 			{
 				showing = false;
 				return;
 			}
 
+			// Don't show if player experience is set to something high unless they are using detailed mode.
+			if (ProtipManager.Instance.PlayerExperienceLevel >= ProtipManager.ExperienceLevel.SomewhatExperienced
+			    && detailsModeEnabled == false) return;
+			
 
 			if (SkipWaiting)
 			{
