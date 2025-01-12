@@ -19,20 +19,31 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d2543c5c42b32c54c8d128c45f219c22,
         type: 2}
+    - target: {fileID: 4297281311582415504, guid: 2d5ef1e4279414f4798d5cf1542d9388,
+        type: 3}
+      propertyPath: pushTextureOnStartUp
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4297281311582415504, guid: 2d5ef1e4279414f4798d5cf1542d9388,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d2543c5c42b32c54c8d128c45f219c22,
+        type: 2}
     - target: {fileID: 4798169871898643449, guid: 2d5ef1e4279414f4798d5cf1542d9388,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4798169871898643449, guid: 2d5ef1e4279414f4798d5cf1542d9388,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4798169871898643449, guid: 2d5ef1e4279414f4798d5cf1542d9388,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5657113146019560963, guid: 2d5ef1e4279414f4798d5cf1542d9388,
         type: 3}
@@ -109,12 +120,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 4094347796094793092}
   m_SourcePrefab: {fileID: 100100000, guid: 2d5ef1e4279414f4798d5cf1542d9388, type: 3}
---- !u!212 &1561806253598406103 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 8832630492572476509, guid: 2d5ef1e4279414f4798d5cf1542d9388,
-    type: 3}
-  m_PrefabInstance: {fileID: 8016240356840935818}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1642857750665843136 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8787633699505619018, guid: 2d5ef1e4279414f4798d5cf1542d9388,
@@ -136,15 +141,16 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  sprite: {fileID: 1561806253598406103}
+  sprite: {fileID: 6096865318144899866}
   rolledPosterPrefab: {fileID: 522969193494093943, guid: 9eaebd66cb3e3d145a9bb373c42925e7,
     type: 3}
+  Attributes: {fileID: 8244234517208551152}
   RipSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/PosterRipped.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   posterVariant: 85
@@ -153,90 +159,105 @@ MonoBehaviour:
     Description: A poster glorifying the station's security force.
     Icon: poster1_legit
     sprite: {fileID: 21300000, guid: cbe0600a00e84644b85d61b2e7432749, type: 3}
+    spriteSo: {fileID: 11400000, guid: 2545f1631ef5e354d9482ba4e5c0a76e, type: 2}
     PosterName: 4
     Type: 0
   - Name: Nanotrasen Logo
     Description: A poster depicting the Nanotrasen logo.
     Icon: poster2_legit
     sprite: {fileID: 21300000, guid: 0f5e695af727248489b24e49ff8f5d8c, type: 3}
+    spriteSo: {fileID: 11400000, guid: 7050b005f1c6d0b418e79f92341914eb, type: 2}
     PosterName: 5
     Type: 0
   - Name: Cleanliness
     Description: A poster warning of the dangers of poor hygiene.
     Icon: poster3_legit
     sprite: {fileID: 21300000, guid: 25fcd46371c369a4ea2752fef052bc7d, type: 3}
+    spriteSo: {fileID: 11400000, guid: af2de61c3b7688841ad35b55ee581be1, type: 2}
     PosterName: 6
     Type: 0
   - Name: Help Others
     Description: A poster encouraging you to help fellow crewmembers.
     Icon: poster4_legit
     sprite: {fileID: 21300000, guid: 7390023b43bf9104aa2a30925a237555, type: 3}
+    spriteSo: {fileID: 11400000, guid: 9c328bf2cd9558e4b926c12e1f584dd3, type: 2}
     PosterName: 7
     Type: 0
   - Name: Build
     Description: A poster glorifying the engineering team.
     Icon: poster5_legit
     sprite: {fileID: 21300000, guid: f057bfd7ebc03c6498b30d9cfc36aecf, type: 3}
+    spriteSo: {fileID: 11400000, guid: fd888bd631d526146bb9dee848689890, type: 2}
     PosterName: 8
     Type: 0
   - Name: Bless This Spess
     Description: A poster blessing this area.
     Icon: poster6_legit
     sprite: {fileID: 21300000, guid: 418218fc236baf24b954de84e47c6fa2, type: 3}
+    spriteSo: {fileID: 11400000, guid: 5b3e106e1887a6943a1cbab8c0421b74, type: 2}
     PosterName: 9
     Type: 0
   - Name: Science
     Description: A poster depicting an atom.
     Icon: poster7_legit
     sprite: {fileID: 21300000, guid: b0e0593fa3ce0ab4687e0f25cde41664, type: 3}
+    spriteSo: {fileID: 11400000, guid: 036b846ba1921d049a4ebfe282112afa, type: 2}
     PosterName: 10
     Type: 0
   - Name: Ian
     Description: Arf arf. Yap.
     Icon: poster8_legit
     sprite: {fileID: 21300000, guid: ccea40663b910a14c8995f452e74f107, type: 3}
+    spriteSo: {fileID: 11400000, guid: 109e68a7f876f0449b923a6c05411981, type: 2}
     PosterName: 11
     Type: 0
   - Name: Obey
     Description: A poster instructing the viewer to obey authority.
     Icon: poster9_legit
     sprite: {fileID: 21300000, guid: b6aae61dd07e2644db7b71c87b1ead29, type: 3}
+    spriteSo: {fileID: 11400000, guid: 9bde466b2afb7c94e9a13fd363a27e0e, type: 2}
     PosterName: 12
     Type: 0
   - Name: Walk
     Description: A poster instructing the viewer to walk instead of running.
     Icon: poster10_legit
     sprite: {fileID: 21300000, guid: 2c929a52242ec9f46858037a288692e2, type: 3}
+    spriteSo: {fileID: 11400000, guid: 9c290704b9f8e624b8d85b5c517f79e9, type: 2}
     PosterName: 13
     Type: 0
   - Name: State Laws
     Description: A poster instructing cyborgs to state their laws.
     Icon: poster11_legit
     sprite: {fileID: 21300000, guid: 85453e86a68c91e489ca801aebfe5301, type: 3}
+    spriteSo: {fileID: 11400000, guid: df26c8adcfa50b54d8d8e12ca540ed4e, type: 2}
     PosterName: 14
     Type: 0
   - Name: Love Ian
     Description: Ian is love, Ian is life.
     Icon: poster12_legit
     sprite: {fileID: 21300000, guid: 24c358555fa57fd4e879fbbf0ab58919, type: 3}
+    spriteSo: {fileID: 11400000, guid: 65846c0a0a321294684a4f9a173c1bea, type: 2}
     PosterName: 15
     Type: 0
   - Name: Space Cops.
     Description: A poster advertising the television show Space Cops.
     Icon: poster13_legit
     sprite: {fileID: 21300000, guid: df421de19c115f447852cb18cbc7e9fa, type: 3}
+    spriteSo: {fileID: 11400000, guid: 390d93e6470e7554390c08e049bf5f93, type: 2}
     PosterName: 16
     Type: 0
   - Name: Ue No.
     Description: This thing is all in Japanese.
     Icon: poster14_legit
     sprite: {fileID: 21300000, guid: 7086a8cd84e54174ab33edddcee06635, type: 3}
+    spriteSo: {fileID: 11400000, guid: 4f3c0154d3934d94d830e64acb6a1bf4, type: 2}
     PosterName: 17
     Type: 0
   - Name: Get Your LEGS
     Description: 'LEGS: Leadership, Experience, Genius, Subordination.'
     Icon: poster15_legit
     sprite: {fileID: 21300000, guid: fd3dac031df779449a34b17f403581d7, type: 3}
+    spriteSo: {fileID: 11400000, guid: e9481d47afe0325459c142b4e9580ff5, type: 2}
     PosterName: 18
     Type: 0
   - Name: Do Not Question
@@ -244,18 +265,21 @@ MonoBehaviour:
       meant to know.
     Icon: poster16_legit
     sprite: {fileID: 21300000, guid: 2518beb78340ad440b86672c7d0d3507, type: 3}
+    spriteSo: {fileID: 11400000, guid: 5b0f42742b66ff94fba47f6b3dce881b, type: 2}
     PosterName: 19
     Type: 0
   - Name: Work For A Future
     Description: ' A poster encouraging you to work for your future.'
     Icon: poster17_legit
     sprite: {fileID: 21300000, guid: e8ff72ad7dcb79244aeff004e1a6cf3c, type: 3}
+    spriteSo: {fileID: 11400000, guid: 69bf4a9286b6c7c42ac518cb4418d897, type: 2}
     PosterName: 20
     Type: 0
   - Name: Soft Cap Pop Art
     Description: A poster reprint of some cheap pop art.
     Icon: poster18_legit
     sprite: {fileID: 21300000, guid: 3ca0ccca753ca054fa4e85b89b6d5561, type: 3}
+    spriteSo: {fileID: 11400000, guid: 93efd26ce90c4a8499370ba2d2752bae, type: 2}
     PosterName: 21
     Type: 0
   - Name: 'Safety: Internals'
@@ -263,6 +287,7 @@ MonoBehaviour:
       where there is no oxygen or the air has been rendered toxic.
     Icon: poster19_legit
     sprite: {fileID: 21300000, guid: 18a4fd229236fe14abd2c26c6b13b7bd, type: 3}
+    spriteSo: {fileID: 11400000, guid: b9e2052dc03f9b04abc10c70dbbea32f, type: 2}
     PosterName: 22
     Type: 0
   - Name: 'Safety: Eye Protection'
@@ -270,6 +295,7 @@ MonoBehaviour:
       with chemicals, smoke, or bright lights.
     Icon: poster20_legit
     sprite: {fileID: 21300000, guid: f7c93867c6857de46b55635b9e1b748f, type: 3}
+    spriteSo: {fileID: 11400000, guid: 6f070e8569b11aa4aabc9ea9d446e486, type: 2}
     PosterName: 23
     Type: 0
   - Name: 'Safety: Report'
@@ -277,6 +303,7 @@ MonoBehaviour:
       the security force.
     Icon: poster21_legit
     sprite: {fileID: 21300000, guid: 1e91bc27fdded0549a123fdf66640202, type: 3}
+    spriteSo: {fileID: 11400000, guid: f00c8ab5631505d489d50f093734b7d1, type: 2}
     PosterName: 24
     Type: 0
   - Name: Report Crimes
@@ -284,24 +311,28 @@ MonoBehaviour:
       to station security.
     Icon: poster22_legit
     sprite: {fileID: 21300000, guid: fdcf7463a1d88cc49aecd40890aa0722, type: 3}
+    spriteSo: {fileID: 11400000, guid: 810e7efbe0d74624dbeaed0b303fba04, type: 2}
     PosterName: 25
     Type: 0
   - Name: Ion Rifle
     Description: A poster displaying an Ion Rifle.
     Icon: poster23_legit
     sprite: {fileID: 21300000, guid: 0f3ed2ca0789c324e989d119f587b1bd, type: 3}
+    spriteSo: {fileID: 11400000, guid: d648476327fb1754f84f8e4c25b1174d, type: 2}
     PosterName: 26
     Type: 0
   - Name: Foam Force Ad
     Description: Foam Force, it's Foam or be Foamed!
     Icon: poster24_legit
     sprite: {fileID: 21300000, guid: 9a4b2e2024af2a749936aeb5f82f41b8, type: 3}
+    spriteSo: {fileID: 11400000, guid: b7e19e2c0eeb0844f89cc0c43b5a92b3, type: 2}
     PosterName: 27
     Type: 0
   - Name: Cohiba Robusto Ad
     Description: Cohiba Robusto, the classy cigar.
     Icon: poster25_legit
     sprite: {fileID: 21300000, guid: 9215f7476fd2f0849ae107cd182821dd, type: 3}
+    spriteSo: {fileID: 11400000, guid: 5e2d94f65d8f9df4c8ea7bc92e5edf3f, type: 2}
     PosterName: 28
     Type: 0
   - Name: 50th Anniversary Vintage Reprint
@@ -309,48 +340,56 @@ MonoBehaviour:
       of Nanoposters Manufacturing, a subsidiary of Nanotrasen.
     Icon: poster26_legit
     sprite: {fileID: 21300000, guid: 3bddae21b2fee274790eeb62e9c568d6, type: 3}
+    spriteSo: {fileID: 11400000, guid: b4d3bd91f5bbac144a2e350a62eb9977, type: 2}
     PosterName: 29
     Type: 0
   - Name: Fruit Bowl
     Description: ' Simple, yet awe-inspiring.'
     Icon: poster27_legit
     sprite: {fileID: 21300000, guid: 6b68c059763546e4eabccb5f8ebb7ff4, type: 3}
+    spriteSo: {fileID: 11400000, guid: 56cc73af1de137b44881c2aa31f59aaa, type: 2}
     PosterName: 30
     Type: 0
   - Name: PDA Ad
     Description: A poster advertising the latest PDA from Nanotrasen suppliers.
     Icon: poster28_legit
     sprite: {fileID: 21300000, guid: 5159ba75725176543b7e7cc9358bbf8b, type: 3}
+    spriteSo: {fileID: 11400000, guid: 8338c4acefb91a94e88ee67cb94be70d, type: 2}
     PosterName: 31
     Type: 0
   - Name: Enlist
     Description: Enlist in the Nanotrasen Deathsquadron reserves today!
     Icon: poster29_legit
     sprite: {fileID: 21300000, guid: 898e2293eea96b64b94eb5082a0e9f8e, type: 3}
+    spriteSo: {fileID: 11400000, guid: a4e5ab166c5dba04f957b5598328dabb, type: 2}
     PosterName: 32
     Type: 0
   - Name: Nanomichi Ad
     Description: ' A poster advertising Nanomichi brand audio cassettes.'
     Icon: poster30_legit
     sprite: {fileID: 21300000, guid: 1c78a1fc74c3d104ebe756b2837c1ae6, type: 3}
+    spriteSo: {fileID: 11400000, guid: 35b0e21bde1ef09488b8ac0991d00798, type: 2}
     PosterName: 33
     Type: 0
   - Name: 12 Gauge
     Description: A poster boasting about the superiority of 12 gauge shotgun shells.
     Icon: poster31_legit
     sprite: {fileID: 21300000, guid: 89edc361539858e488834ccd0cd1d8aa, type: 3}
+    spriteSo: {fileID: 11400000, guid: 52b42a6f3bed68d409b0afe13ca444ba, type: 2}
     PosterName: 34
     Type: 0
   - Name: High-Class Martini
     Description: I told you to shake it, no stirring.
     Icon: poster32_legit
     sprite: {fileID: 21300000, guid: 4818a76fae4e93a4ea93774a37242418, type: 3}
+    spriteSo: {fileID: 11400000, guid: d463a04e36bd5d742a9a840f21b5170f, type: 2}
     PosterName: 35
     Type: 0
   - Name: The Owl
     Description: The Owl would do his best to protect the station. Will you?
     Icon: poster33_legit
     sprite: {fileID: 21300000, guid: b743315fcb6eb1746a7882ff9fc6ed79, type: 3}
+    spriteSo: {fileID: 11400000, guid: f23f468afdb7b51459c540495c7b4914, type: 2}
     PosterName: 36
     Type: 0
   - Name: No ERP
@@ -358,6 +397,7 @@ MonoBehaviour:
       are banned on Nanotrasen stations.
     Icon: poster34_legit
     sprite: {fileID: 21300000, guid: ffae759fb2d1249429c202c626eeb355, type: 3}
+    spriteSo: {fileID: 11400000, guid: cad6cf3f7a822864c89d2951d262c7c9, type: 2}
     PosterName: 37
     Type: 0
   - Name: Carbon Dioxide
@@ -365,18 +405,21 @@ MonoBehaviour:
       is.
     Icon: poster35_legit
     sprite: {fileID: 21300000, guid: 2a5fea2feff921f42bf348af821bb608, type: 3}
+    spriteSo: {fileID: 11400000, guid: f4c3e9d7783e53145a69a059176e26d7, type: 2}
     PosterName: 38
     Type: 0
   - Name: Unite Today
     Description: This poster inspires crew to unite under a new common codebase.
     Icon: unity_poster1
     sprite: {fileID: 21300000, guid: bbcac2fc148dc4c56836c755377537d3, type: 3}
+    spriteSo: {fileID: 11400000, guid: 9c699f52ee4ae714ca07905a32a640c2, type: 2}
     PosterName: 85
     Type: 0
   - Name: Unitystation Poster
     Description: A poster displaying a large 'U'.
     Icon: unity_poster2
     sprite: {fileID: 21300000, guid: 370b536cc781c4205873df2f055e3e6d, type: 3}
+    spriteSo: {fileID: 11400000, guid: 797256e2802433f43bbf5de2f8c19832, type: 2}
     PosterName: 86
     Type: 0
   ContrabandPosters:
@@ -385,18 +428,21 @@ MonoBehaviour:
       faded from age.
     Icon: poster1
     sprite: {fileID: 21300000, guid: e32821336d8c9ea4cbecc2af1a1ba752, type: 3}
+    spriteSo: {fileID: 11400000, guid: a8e7b795914648f4e87256a1ae40f7fe, type: 2}
     PosterName: 39
     Type: 1
   - Name: Atmosia Declaration of Independence
     Description: A relic of a failed rebellion.
     Icon: poster2
     sprite: {fileID: 21300000, guid: 745420e0b6a81f9429f6678b1857d438, type: 3}
+    spriteSo: {fileID: 11400000, guid: 22385ffc65e45654e9d320cb427f19da, type: 2}
     PosterName: 40
     Type: 1
   - Name: Fun Police
     Description: A poster condemning the station's security forces.
     Icon: poster3
     sprite: {fileID: 21300000, guid: cceaacfdc5e8e5e4784dec935ebb2186, type: 3}
+    spriteSo: {fileID: 11400000, guid: 905196688ae46dd4c9e13e5100ef8900, type: 2}
     PosterName: 41
     Type: 1
   - Name: Lusty Xenomorph
@@ -404,30 +450,35 @@ MonoBehaviour:
       book.
     Icon: poster4
     sprite: {fileID: 21300000, guid: 9c6c10e4fbeeaa5419fb14583c6c9d28, type: 3}
+    spriteSo: {fileID: 11400000, guid: 842d85c1f29e6be4e8496a65f6ee54bc, type: 2}
     PosterName: 42
     Type: 1
   - Name: Syndicate Recruitment
     Description: See the galaxy! Shatter corrupt megacorporations! Join today!
     Icon: poster5
     sprite: {fileID: 21300000, guid: 6d1f88cb1fde9f1448e6208e9faeab2c, type: 3}
+    spriteSo: {fileID: 11400000, guid: 18d6de0132d396a4a9aa38419a47c73f, type: 2}
     PosterName: 43
     Type: 1
   - Name: Clown
     Description: Honk.
     Icon: poster6
     sprite: {fileID: 21300000, guid: fd6afc24d5bf7224bbf0ff547463067a, type: 3}
+    spriteSo: {fileID: 11400000, guid: 358ac519ee2dd0642978c28101a428f4, type: 2}
     PosterName: 44
     Type: 1
   - Name: Smoke
     Description: A poster advertising a rival corporate brand of cigarettes.
     Icon: poster7
     sprite: {fileID: 21300000, guid: abfe562407f87244980a9348da5818f1, type: 3}
+    spriteSo: {fileID: 11400000, guid: 0763106d73fcb804786c3fad4eb10005, type: 2}
     PosterName: 45
     Type: 1
   - Name: Grey Tide
     Description: A rebellious poster symbolizing assistant solidarity.
     Icon: poster8
     sprite: {fileID: 21300000, guid: daf8d7c74689a5a42beeb56911ed71e0, type: 3}
+    spriteSo: {fileID: 11400000, guid: be54748b9d96ae144bcee2b6490c10e4, type: 2}
     PosterName: 46
     Type: 1
   - Name: Missing Gloves
@@ -435,6 +486,7 @@ MonoBehaviour:
       cuts toward insulated-glove purchases.
     Icon: poster9
     sprite: {fileID: 21300000, guid: fa6d5ff051e093a4ebad2e0ab1ea1e8a, type: 3}
+    spriteSo: {fileID: 11400000, guid: fb656cbb73e69d6439565b6d2f655325, type: 2}
     PosterName: 47
     Type: 1
   - Name: Hacking Guide
@@ -442,6 +494,7 @@ MonoBehaviour:
       airlock. Sadly, it appears out of date.
     Icon: poster10
     sprite: {fileID: 21300000, guid: b19c98ff0fcab49429b261c116e8bd54, type: 3}
+    spriteSo: {fileID: 11400000, guid: 53b111e085a4bdc40b9626dcdc751119, type: 2}
     PosterName: 48
     Type: 1
   - Name: RIP Badger
@@ -449,24 +502,28 @@ MonoBehaviour:
       station full of badgers.
     Icon: poster11
     sprite: {fileID: 21300000, guid: 799e4094ce43f1741a9f3ae3fa1de629, type: 3}
+    spriteSo: {fileID: 11400000, guid: a8329941b81228345bccce9faa17e3fc, type: 2}
     PosterName: 49
     Type: 1
   - Name: Ambrosia Vulgaris
     Description: This poster is lookin' pretty trippy man.
     Icon: poster12
     sprite: {fileID: 21300000, guid: fff52baf72a828f47a88b4df3a65e08e, type: 3}
+    spriteSo: {fileID: 11400000, guid: 8811de708bda1804b842886c18c04a7c, type: 2}
     PosterName: 50
     Type: 1
   - Name: Donut Corp.
     Description: This poster is an unauthorized advertisement for Donut Corp.
     Icon: poster13
     sprite: {fileID: 21300000, guid: 3f3a44abc211d1f478d0e1c48dbc39ab, type: 3}
+    spriteSo: {fileID: 11400000, guid: 2c401e62f7d2b7543b5f7c5e7141ab38, type: 2}
     PosterName: 51
     Type: 1
   - Name: EAT.
     Description: This poster promotes rank gluttony.
     Icon: poster14
     sprite: {fileID: 21300000, guid: 24c3f41ed7784ee4c8625a957b1900fc, type: 3}
+    spriteSo: {fileID: 11400000, guid: 575acd58cb7627d47be854cc3557eda9, type: 2}
     PosterName: 52
     Type: 1
   - Name: Tools
@@ -474,12 +531,14 @@ MonoBehaviour:
       a subliminal jab at the tools at CentCom.
     Icon: poster15
     sprite: {fileID: 21300000, guid: 9bbf5cc3b4b06e3489f989f48ea8b7e6, type: 3}
+    spriteSo: {fileID: 0}
     PosterName: 53
     Type: 1
   - Name: Power
     Description: A poster that positions the seat of power outside Nanotrasen.
     Icon: poster16
     sprite: {fileID: 21300000, guid: 6df359c3f165507499d9ad1594ec921b, type: 3}
+    spriteSo: {fileID: 11400000, guid: deb4927d33cbb094a913a4fe27a6d1f5, type: 2}
     PosterName: 54
     Type: 1
   - Name: Space Cube
@@ -487,12 +546,14 @@ MonoBehaviour:
       are Dumb, Educated Singularity Stupid and Evil.
     Icon: poster17
     sprite: {fileID: 21300000, guid: cdd4fccc4d9778e4fa980f03bd945fb6, type: 3}
+    spriteSo: {fileID: 11400000, guid: de920363f58300f4b9a8c26b40bb319d, type: 2}
     PosterName: 55
     Type: 1
   - Name: Communist State
     Description: All hail the Communist party!
     Icon: poster18
     sprite: {fileID: 21300000, guid: 0a9c68d02ac656343821ac024ee2abc6, type: 3}
+    spriteSo: {fileID: 11400000, guid: 05aef42b6ffa8c541ac60a12cb03f2f9, type: 2}
     PosterName: 56
     Type: 1
   - Name: Lamarr
@@ -500,18 +561,21 @@ MonoBehaviour:
       Director.
     Icon: poster19
     sprite: {fileID: 21300000, guid: c89da4c16e2c6834eab94304db33c0f6, type: 3}
+    spriteSo: {fileID: 11400000, guid: f4f1072d13eb31e4db709f0765bc25fa, type: 2}
     PosterName: 57
     Type: 1
   - Name: Borg Fancy
     Description: Being fancy can be for any borg, just need a suit.
     Icon: poster20
     sprite: {fileID: 21300000, guid: 689b3163aa085cb45b4201698054c5fa, type: 3}
+    spriteSo: {fileID: 11400000, guid: c2bf8578adacb564a8cb80c0839dcfe2, type: 2}
     PosterName: 58
     Type: 1
   - Name: Borg Fancy v2
     Description: Borg Fancy, Now only taking the most fancy.
     Icon: poster21
     sprite: {fileID: 21300000, guid: f138792f0d8c9a444be6a88ac4191e68, type: 3}
+    spriteSo: {fileID: 11400000, guid: 9024085897f7c7e499983b3d8e151c3c, type: 2}
     PosterName: 59
     Type: 1
   - Name: Kosmicheskaya Stantsiya 13 Does Not Exist
@@ -519,36 +583,42 @@ MonoBehaviour:
       station near Space Station 13.
     Icon: poster22
     sprite: {fileID: 21300000, guid: f9314ba3f0ab0a14caa80c4ced02ffb8, type: 3}
+    spriteSo: {fileID: 11400000, guid: eebe059890479554ca6146d5de458794, type: 2}
     PosterName: 60
     Type: 1
   - Name: Rebels Unite
     Description: A poster urging the viewer to rebel against Nanotrasen.
     Icon: poster23
     sprite: {fileID: 21300000, guid: b9210ea10c9e44e4a954a37c0253c478, type: 3}
+    spriteSo: {fileID: 11400000, guid: 14ce7b179a2e7204c978c32164bab7e4, type: 2}
     PosterName: 61
     Type: 1
   - Name: C-20r
     Description: A poster advertising the Scarborough Arms C-20r.
     Icon: poster24
     sprite: {fileID: 21300000, guid: 775c1e6859a02c9489b934383330b6f3, type: 3}
+    spriteSo: {fileID: 11400000, guid: 6001bed9e4a0c634ab8e1bd2f5d754d5, type: 2}
     PosterName: 62
     Type: 1
   - Name: Have a Puff
     Description: Who cares about lung cancer when you're high as a kite?
     Icon: poster25
     sprite: {fileID: 21300000, guid: 1863d40450ef2da4b9658e4891a9c2f6, type: 3}
+    spriteSo: {fileID: 11400000, guid: 71fa86e8a1774a1448d237fbec05ea04, type: 2}
     PosterName: 63
     Type: 1
   - Name: Revolver
     Description: Because seven shots are all you need.
     Icon: poster26
     sprite: {fileID: 21300000, guid: 3d6e5322b54edea4aa6db214dcb75f2e, type: 3}
+    spriteSo: {fileID: 11400000, guid: 44d4ee5c24ad5ae488142d702006c78a, type: 2}
     PosterName: 64
     Type: 1
   - Name: D-Day Promo
     Description: A promotional poster for some rapper.
     Icon: poster27
     sprite: {fileID: 21300000, guid: d0433396ca83a114792c6b281bb106bb, type: 3}
+    spriteSo: {fileID: 11400000, guid: 56072ef4a8b2f6e4f9cafc669ddff757, type: 2}
     PosterName: 65
     Type: 1
   - Name: Syndicate Pistol
@@ -556,18 +626,21 @@ MonoBehaviour:
       It is covered in faded gang tags.
     Icon: poster28
     sprite: {fileID: 21300000, guid: d0829fb9e1587b24ea34abcfd3874fd2, type: 3}
+    spriteSo: {fileID: 11400000, guid: 1ca3b725da2dc3f4683768cc655759ed, type: 2}
     PosterName: 66
     Type: 1
   - Name: Energy Swords
     Description: All the colors of the bloody murder rainbow.
     Icon: poster29
     sprite: {fileID: 21300000, guid: 80c7e028bedb29f4fb08c19074a92c5f, type: 3}
+    spriteSo: {fileID: 11400000, guid: 4511f850045a4984297ce434edfbc07f, type: 2}
     PosterName: 67
     Type: 1
   - Name: Red Rum
     Description: Looking at this poster makes you want to kill.
     Icon: poster30
     sprite: {fileID: 21300000, guid: 7a0ec619d902d6343b897daff77fb44e, type: 3}
+    spriteSo: {fileID: 11400000, guid: f1f64c9fc459fae47a795b1300f7dc97, type: 2}
     PosterName: 68
     Type: 1
   - Name: CC 64K Ad
@@ -575,24 +648,28 @@ MonoBehaviour:
       64kB of ram!
     Icon: poster31
     sprite: {fileID: 21300000, guid: 6c3be5035d4ad5945a3404ff2ad35002, type: 3}
+    spriteSo: {fileID: 11400000, guid: 9e40482e54e1ff440988128c3f952b81, type: 2}
     PosterName: 69
     Type: 1
   - Name: Punch Shit
     Description: Fight things for no reason, like a man!
     Icon: poster32
     sprite: {fileID: 21300000, guid: 40d6cdc4665cbdb498ef43dd92db4ca3, type: 3}
+    spriteSo: {fileID: 11400000, guid: ac88c48c8d19ed943ada5a92281905ab, type: 2}
     PosterName: 70
     Type: 1
   - Name: The Griffin
     Description: The Griffin commands you to be the worst you can be. Will you?
     Icon: poster33
     sprite: {fileID: 21300000, guid: 232bd00bb76b87a4f9db329c8a6bedae, type: 3}
+    spriteSo: {fileID: 11400000, guid: 82983b6090e923f46a7b65127449df12, type: 2}
     PosterName: 71
     Type: 1
   - Name: Lizard
     Description: This lewd poster depicts a lizard preparing to mate.
     Icon: poster34
     sprite: {fileID: 21300000, guid: f6706854cd6af894391123a264f0a184, type: 3}
+    spriteSo: {fileID: 11400000, guid: e00d8450967ce4f418e1435b058163bd, type: 2}
     PosterName: 72
     Type: 1
   - Name: Free Drone
@@ -600,48 +677,56 @@ MonoBehaviour:
       and then ultimately destroyed by CentCom.
     Icon: poster35
     sprite: {fileID: 21300000, guid: e592369a1f066c745a1bd6241c3fc78b, type: 3}
+    spriteSo: {fileID: 11400000, guid: 1bc00481c9c947b47b170c2681add23c, type: 2}
     PosterName: 73
     Type: 1
   - Name: Busty Backdoor Xeno Babes 6
     Description: Get a load, or give, of these all natural Xenos!
     Icon: poster36
     sprite: {fileID: 21300000, guid: 9a00af3d2e894224ea687e728f1d1205, type: 3}
+    spriteSo: {fileID: 11400000, guid: f1f4a87b8e747b143bd5e90738906c2f, type: 2}
     PosterName: 74
     Type: 1
   - Name: Robust Softdrinks
     Description: 'Robust Softdrinks: More robust than a toolbox to the head!'
     Icon: poster37
     sprite: {fileID: 21300000, guid: 979edb55eadad6c418dd91e433aa53a3, type: 3}
+    spriteSo: {fileID: 11400000, guid: 26b280e58a0724749852d6835a1449f0, type: 2}
     PosterName: 75
     Type: 1
   - Name: Shambler's Juice
     Description: ~Shake me up some of that Shambler's Juice!~
     Icon: poster38
     sprite: {fileID: 21300000, guid: 2f4ae5183eecc5841afb7d6adfa5d183, type: 3}
+    spriteSo: {fileID: 11400000, guid: 7f036a25e29a90e4ab2ab38cf048b198, type: 2}
     PosterName: 76
     Type: 1
   - Name: Pwr Game
     Description: The POWER that gamers CRAVE! In partnership with Vlad's Salad.
     Icon: poster39
     sprite: {fileID: 21300000, guid: 2e8c2e0e0eb2bb54eb8f16c9ff779bbc, type: 3}
+    spriteSo: {fileID: 11400000, guid: d6efbe38e4e6de04abfbf40908394c39, type: 2}
     PosterName: 77
     Type: 1
   - Name: Sun-kist
     Description: Drink the stars!
     Icon: poster40
     sprite: {fileID: 21300000, guid: 9ebbb3c2fa222d64686f6f55d332cb23, type: 3}
+    spriteSo: {fileID: 11400000, guid: c4fa911ed66fb1a47a49c197aff7df46, type: 2}
     PosterName: 78
     Type: 1
   - Name: Space Cola
     Description: Your favorite cola, in space.
     Icon: poster41
     sprite: {fileID: 21300000, guid: dee08319b9110544c849419df7b1860f, type: 3}
+    spriteSo: {fileID: 11400000, guid: 00d52a23aa5ca7741bc05a1c465672eb, type: 2}
     PosterName: 79
     Type: 1
   - Name: Space-Up!
     Description: Sucked out into space by the FLAVOR!
     Icon: poster42
     sprite: {fileID: 21300000, guid: b241cea6dbfc5734cbf930b33484907c, type: 3}
+    spriteSo: {fileID: 11400000, guid: 1ee060ec7f1a9ba40aeee7605cdaec81, type: 2}
     PosterName: 80
     Type: 1
   - Name: Kudzu
@@ -649,18 +734,21 @@ MonoBehaviour:
       possibly be?
     Icon: poster43
     sprite: {fileID: 21300000, guid: a6503976a2445b04c814313ba0a99692, type: 3}
+    spriteSo: {fileID: 11400000, guid: 6a5bf533951011d4f84557ee12eed43f, type: 2}
     PosterName: 81
     Type: 1
   - Name: Masked Men
     Description: A poster advertising a movie about some masked men.
     Icon: poster44
     sprite: {fileID: 21300000, guid: 74f43f4cf7698a449bb32e2e42f2a5bd, type: 3}
+    spriteSo: {fileID: 11400000, guid: 18850c2751dd40c42acef61be44f0e0b, type: 2}
     PosterName: 82
     Type: 1
   - Name: Free Syndicate Encryption Key
     Description: A poster about traitors begging for more.
     Icon: poster46
     sprite: {fileID: 0}
+    spriteSo: {fileID: 0}
     PosterName: 83
     Type: 1
   - Name: Bounty Hunters
@@ -668,6 +756,7 @@ MonoBehaviour:
       problem."
     Icon: poster47
     sprite: {fileID: 0}
+    spriteSo: {fileID: 0}
     PosterName: 84
     Type: 1
   OtherPosters:
@@ -676,5 +765,30 @@ MonoBehaviour:
       ruined.
     Icon: poster_ripped
     sprite: {fileID: 21300000, guid: ce1a5a40bb07b71459d0b6eac14a7a26, type: 3}
+    spriteSo: {fileID: 11400000, guid: ef3b84280e9bcfa4787855de97a2cf5f, type: 2}
     PosterName: 0
     Type: -1
+--- !u!114 &6096865318144899866 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4297281311582415504, guid: 2d5ef1e4279414f4798d5cf1542d9388,
+    type: 3}
+  m_PrefabInstance: {fileID: 8016240356840935818}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8244234517208551152 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2113894379060813690, guid: 2d5ef1e4279414f4798d5cf1542d9388,
+    type: 3}
+  m_PrefabInstance: {fileID: 8016240356840935818}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1642857750665843136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

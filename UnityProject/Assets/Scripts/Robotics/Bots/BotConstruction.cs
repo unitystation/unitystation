@@ -30,7 +30,7 @@ namespace Items.Robotics
 			// Syncs sprite with client
 			if (stageSprite[stageCounter] != null)
 			{
-				spriteHandler.SetSprite(stageSprite[newValue]);
+				spriteHandler.SetSpriteNonNetworked(stageSprite[newValue]);
 			}
 		}
 

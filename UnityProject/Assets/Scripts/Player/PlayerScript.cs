@@ -212,12 +212,6 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 		BodyAlerts = GetComponent<BodyAlertManager>();
 	}
 
-	public override void OnStartClient()
-	{
-		base.OnStartClient();
-		SyncPlayerName(name, name);
-	}
-
 	private void OnEnable()
 	{
 		EventManager.AddHandler(Event.GhostSpawned, OnPlayerBecomeGhost);
@@ -250,13 +244,16 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 	{
 		if (isServer)
 		{
-			if (mind.CurrentCharacterSettings != null)
+			if (string.IsNullOrWhiteSpace(playerName))
 			{
-				SyncPlayerName(mind.name, mind.CurrentCharacterSettings.Name);
-			}
-			else
-			{
-				SyncPlayerName(mind.name, mind.name);
+				if (mind.CurrentCharacterSettings != null)
+				{
+					SyncPlayerName(mind.name, mind.CurrentCharacterSettings.Name);
+				}
+				else
+				{
+					SyncPlayerName(mind.name, mind.name);
+				}
 			}
 		}
 

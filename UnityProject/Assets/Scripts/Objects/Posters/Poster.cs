@@ -10,6 +10,7 @@ namespace Objects
 		public string Description;
 		public string Icon;
 		public Sprite sprite;
+		public SpriteDataSO spriteSo;
 		public Posters PosterName;
 		public PosterType Type = PosterType.None;
 	}

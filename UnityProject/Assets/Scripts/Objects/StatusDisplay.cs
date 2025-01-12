@@ -467,7 +467,7 @@ namespace Objects.Wallmounts
 			stateSync = stateNew;
 			if (stateNew == MountedMonitorState.Off)
 			{
-				MonitorSpriteHandler.SetSprite(closedOff);
+				MonitorSpriteHandler.SetSpriteNonNetworked(closedOff);
 				DisplaySpriteHandler.Empty(networked: false);
 				this.TryStopCoroutine(ref blinkHandle);
 				textField.text = "";
@@ -486,18 +486,18 @@ namespace Objects.Wallmounts
 			}
 			else if (stateNew == MountedMonitorState.OpenCabled)
 			{
-				MonitorSpriteHandler.SetSprite(openCabled);
+				MonitorSpriteHandler.SetSpriteNonNetworked(openCabled);
 			}
 			else if (stateNew == MountedMonitorState.NonScrewedPanel)
 			{
-				MonitorSpriteHandler.SetSprite(closedOff);
+				MonitorSpriteHandler.SetSpriteNonNetworked(closedOff);
 				DisplaySpriteHandler.Empty(networked: false);
 				this.TryStopCoroutine(ref blinkHandle);
 				textField.text = "";
 			}
 			else if (stateNew == MountedMonitorState.OpenEmpty)
 			{
-				MonitorSpriteHandler.SetSprite(openEmpty);
+				MonitorSpriteHandler.SetSpriteNonNetworked(openEmpty);
 			}
 		}
 

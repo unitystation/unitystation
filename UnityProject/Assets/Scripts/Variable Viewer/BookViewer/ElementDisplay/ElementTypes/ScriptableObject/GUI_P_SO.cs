@@ -117,7 +117,7 @@ namespace AdminTools.VariableViewer
 			{
 				if (ISearchSpritePreview.Sprite == null)
 				{
-					Preview.SetSprite(ISearchSpritePreview.OldSprite);
+					Preview.SetSpriteNonNetworked(ISearchSpritePreview.OldSprite);
 				}
 				else
 				{

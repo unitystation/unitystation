@@ -117,7 +117,7 @@ namespace Chemistry.Components
 		[Client]
 		private void DisableVisualisation()
 		{
-			mainSpriteHandler.SetSprite(defaultSprite);
+			mainSpriteHandler.SetSpriteNonNetworked(defaultSprite);
 			if (fillVisual && fillVisual.fillSpriteRender)
 				fillVisual.fillSpriteRender.gameObject.SetActive(true);
 

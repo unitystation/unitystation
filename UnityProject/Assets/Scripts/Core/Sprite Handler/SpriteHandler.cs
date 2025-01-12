@@ -311,7 +311,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 	/// Used to set a singular sprite NOTE: This will not be networked
 	/// </summary>
 	/// <param name="_sprite">Sprite.</param>
-	public void SetSprite(Sprite _sprite)
+	public void SetSpriteNonNetworked(Sprite _sprite)
 	{
 		SetImageSprite(_sprite);
 		TryToggleAnimationState(false);
