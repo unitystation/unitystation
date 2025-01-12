@@ -26,6 +26,7 @@ namespace Effects
 
 		public void StartShake(float duration, float distance, float delay)
 		{
+			if (isServer == false) return;
 			StoreShakeData(duration, distance, delay);
 			StartCoroutine(Shaking(shakeDuration, shakeDistance, delayBetweenShakes));
 		}
