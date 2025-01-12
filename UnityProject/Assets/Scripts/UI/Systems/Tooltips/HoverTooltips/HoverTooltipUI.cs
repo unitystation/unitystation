@@ -95,7 +95,7 @@ namespace UI.Systems.Tooltips.HoverTooltips
 			// Don't show if player experience is set to something high unless they are using detailed mode.
 			if (ProtipManager.Instance.PlayerExperienceLevel >= ProtipManager.ExperienceLevel.SomewhatExperienced
 			    && detailsModeEnabled == false) return;
-			
+
 
 			if (SkipWaiting)
 			{

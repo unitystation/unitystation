@@ -281,7 +281,7 @@ namespace Objects.Atmospherics
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
-			return interaction.HandObject != null;
+			return interaction.HandObject != null && interaction.IsAltClick == false;
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
