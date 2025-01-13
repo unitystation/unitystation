@@ -896,16 +896,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
-	//effectively a command wapper for UIActionManager.RequestGameAction
+	//effectively a command wapper for UIActionManager.RequestGameAction()
 	[Command]
 	public void CmdRequestAction(string actionID, Vector3 clickPosition)
 	{
 		UIActionManager.RequestGameAction(actionID, playerScript.Mind, clickPosition);
 	}
 
-	//same as above but for UIActionManager.RequestActionToggle
+	//same as above but for UIActionManager.RequestActionToggle()
 	[Command]
-	public void CmdRequestAction(string actionID)
+	public void CmdRequestActionToggle(string actionID)
 	{
 		UIActionManager.RequestActionToggle(actionID, playerScript.Mind);
 	}

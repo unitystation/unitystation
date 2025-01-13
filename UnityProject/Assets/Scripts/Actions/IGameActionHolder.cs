@@ -59,17 +59,17 @@ public interface IGameActionHolder
 	{
 		return true;
 	}
+
+	/// <summary>
+	/// This is where you should put most of the logic to execute when your action is called
+	/// </summary>
+	virtual bool Activate()
+	{
+		return true;
+	}
 }
 
-/// <summary>
-/// Actions using this also execute some kind of server side logic, AKA most actions
-/// </summary>
-public interface IServerGameActionHolder : IGameActionHolder
-{
-	void CallActionServer(PlayerInfo playerInfo); //Requires validation in this
-}
-
-public interface ICooldownGameActionHolder : IServerGameActionHolder
+public interface ICooldownGameActionHolder : IGameActionHolder
 {
 	virtual void CallActionClient(PlayerInfo playerInfo)
 	{

@@ -163,7 +163,7 @@ namespace UI.Core.Action
 		}
 
 		/// <summary>
-		/// return true if we are able to execute the requested game action, otherwise return false
+		/// Return true if we successfully trigger the requested game action, otherwise return false
 		/// </summary>
 		public static bool RequestGameAction(string actionGUID, IGameActionContainer requester, Vector3 clickPosition)
 		{
@@ -172,7 +172,7 @@ namespace UI.Core.Action
 		}
 
 		/// <summary>
-		/// Same as above but instead for toggling actions
+		/// Return true if we successfully toggle the requested game action, otherwise return false
 		/// </summary>
 		public static bool RequestActionToggle(string actionGUID, IGameActionContainer requester)
 		{
