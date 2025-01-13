@@ -505,8 +505,24 @@ namespace GameModes
 			GameManager.Instance.uniqueErrorCounter = 0;
 
 			Loggy.Info().Format("Ending {0} round!", Category.GameMode, Name);
-			StationObjectiveManager.Instance.ShowStationStatusReport();
-			AntagManager.Instance.ObjectiveEndAndShowAntagStatusReport();
+			try
+			{
+				AntagManager.Instance.ObjectiveEndAndShowAntagStatusReport();
+			}
+			catch (Exception e)
+			{
+				Loggy.Error(e.ToString());
+			}
+
+			try
+			{
+				StationObjectiveManager.Instance.ShowStationStatusReport();
+			}
+			catch (Exception e)
+			{
+				Loggy.Error(e.ToString());
+			}
+
 
 			var msg = $"The round will restart in {GameManager.Instance.RoundEndTime} seconds.";
 			Chat.AddGameWideSystemMsgToChat(msg);

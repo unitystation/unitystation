@@ -623,8 +623,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		if (CustomNetworkManager.Instance._isServer == false) return;
 
 		if (CurrentRoundState != RoundState.Started &&
-		    CurrentRoundState !=
-		    RoundState.PreRound) //PreRound If the round didn't even start at all and because of an error
+		    CurrentRoundState != RoundState.PreRound)
+			//PreRound If the round didn't even start at all and because of an error
 		{
 			if (CurrentRoundState == RoundState.Ended)
 			{

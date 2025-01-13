@@ -275,6 +275,8 @@ namespace Antagonists
 			}
 
 
+			List<SpawnedAntag> AlreadyPrinted = new List<SpawnedAntag>();
+
 			StringBuilder statusSB = new StringBuilder();
 
 			var message = new StringBuilder();
@@ -290,6 +292,7 @@ namespace Antagonists
 					message.Append($"The {antagType.First().Antagonist.AntagName}s were:\n");
 					foreach (var antag in antagType)
 					{
+						AlreadyPrinted.Add(antag);
 						message.AppendLine($"{antag.GetObjectiveStatusNonRich()}\n");
 						statusSB.AppendLine(antag.GetObjectiveStatus());
 					}
@@ -303,7 +306,10 @@ namespace Antagonists
 
 			foreach (var x in PlayerList.Instance.AllPlayers)
 			{
-				if (x.Mind.AntagPublic.Antagonist != null && x.Mind.AntagPublic.CurTeam == null && x.Mind.AntagPublic.Objectives.Any())
+				if (x.Mind.AntagPublic.Antagonist != null
+				    && x.Mind.AntagPublic.CurTeam == null
+				    && x.Mind.AntagPublic.Objectives.Any()
+				    && AlreadyPrinted.Contains(x.Mind.AntagPublic) == false)
 				{
 					statusSB.AppendLine($"<size={ChatTemplates.LargeText}>The <b>{x.Name} objectives</b> were:\n</size>");
 					message.AppendLine($"\n{x.Mind.AntagPublic.GetObjectiveStatusNonRich()}\n");
