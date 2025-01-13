@@ -67,7 +67,7 @@ public static class MouseUtils
 	/// be the "root" of the gameobject this renderer lives on.</param>
 	/// <returns>the ordered game objects that were under the mouse, top first</returns>
 	public static IEnumerable<GameObject> GetOrderedObjectsAtPoint(Vector3 worldPoint, LayerMask? layerMask = null,
-		Func<GameObject, bool> gameObjectFilter = null, bool useMappedItems = false)
+		Func<GameObject, bool> gameObjectFilter = null, bool useMappedItems = false, bool InteractWithIntangible = false)
 	{
 		var matrix = MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPoint), CustomNetworkManager.Instance._isServer)
 			.Matrix;
@@ -119,10 +119,15 @@ public static class MouseUtils
 			result = result.Where(gameObjectFilter);
 		}
 
+		if (InteractWithIntangible == false)
+		{
+			result = result.Where(x => x.GetUniversalObjectPhysics()?.Intangible is null or false && (useMappedItems || x.GetUniversalObjectPhysics()?.MappingIntangible is null or false));
+		}
+
 		return result
 			//check for a pixel hit
 			.Select(go => IsPixelHit(go.transform))
-			.Where(r => r != null)
+			.Where(r => r != null && (InteractWithIntangible || r.sortingLayerName != "Ghosts")) //Probably need a better system but ghosts don't have object physics
 			//order by sort layer
 			.OrderByDescending(r =>
 				SortingLayer.GetLayerValueFromID(r.GetComponentInParent<SortingGroup>().OrNull()?.sortingLayerID == null
