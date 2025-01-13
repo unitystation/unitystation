@@ -147,7 +147,13 @@ namespace Antagonists
 		public virtual Mind ServerSpawn(PlayerSpawnRequest spawnRequest)
 		{
 			// spawn them normally but override the player-requested occupation with the antagonist occupation
-			return PlayerSpawn.NewSpawnPlayerV2(spawnRequest.Player, AntagOccupation, spawnRequest.CharacterSettings);
+			var ChosenOccupation = AntagOccupation;
+			if (ChosenOccupation == null)
+			{
+				ChosenOccupation = spawnRequest.RequestedOccupation;
+			}
+
+			return PlayerSpawn.NewSpawnPlayerV2(spawnRequest.Player, ChosenOccupation, spawnRequest.CharacterSettings);
 		}
 
 		/// <summary>

@@ -90,6 +90,7 @@ public class MultiAntagonistGameMode : GameMode
 				if (randomValue <= cumulative)
 				{
 					Antagonist = item;
+					break;
 				}
 			}
 		}

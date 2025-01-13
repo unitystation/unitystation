@@ -13,14 +13,16 @@ MonoBehaviour:
   m_Name: BloodBrother
   m_EditorClassIdentifier: 
   antagName: Blood Brother
-  antagJobType: 0
-  playSound: 0
+  team: {fileID: 0}
+  addTeamAtInit: 0
+  antagJobType: 48
+  playSound: 1
   spawnSound:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   textColor: {r: 1, g: 0, b: 0, a: 1}
