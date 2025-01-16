@@ -137,7 +137,7 @@ public class DNASpeciesElement : DynamicEntry
 				var  button =  newOb.GetComponent<DNAButtonData>();
 				button.BodyPartName = StoredBodyPart.name;
 				button.RelatedDNASpeciesElement = this;
-				img.SetSpriteSO(StoredBodyPart.GetComponentInChildren<SpriteHandler>().PresentSpritesSet);
+				img.SetSpriteSO(StoredBodyPart.GetComponentInChildren<SpriteHandler>().initialPresentSpriteSet);
 				SpawnedBodyParts.Add(newOb);
 			}
 		}

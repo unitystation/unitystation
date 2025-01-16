@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Core.Utils;
 using InGameGizmos;
 using Logs;
 using MapSaver;
@@ -12,6 +13,7 @@ using TileManagement;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(EscapeKeyTarget))]
@@ -69,12 +71,76 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 	private bool DelayCut = false;
 
+	private MatrixInfo PreviouslySelectedMatrix = null;
+
+	public void UnselectMatrix()
+	{
+		if (PreviouslySelectedMatrix != null)
+		{
+			foreach (var layers in PreviouslySelectedMatrix.MetaTileMap.Layers)
+			{
+				if (layers.Value == null)
+				{
+					Loggy.Error("[DevCameraControls/ToggleMatrixCheck] - Layer is null. Are we grabbing matrices before loading any?");
+					continue;
+				}
+				var TM = layers.Value.GetComponent<Tilemap>();
+				if (TM != null)
+				{
+					TM.color = Color.white;
+				}
+			}
+
+			PreviouslySelectedMatrix = null;
+		}
+	}
+
+	public void UpdateSelectedMatrix(int val)
+	{
+		UnselectMatrix();
+		var ID = (TMP_Dropdown.options[TMP_Dropdown.value] as CustomOption).ID;
+		MatrixInfo Matrix = null;
+		if (ID == null)
+		{
+			if (PositionsToCopy.Count > 0)
+			{
+				Matrix =  MatrixManager.AtPoint(PositionsToCopy[0].BetterBounds.Min, CustomNetworkManager.IsServer);
+			}
+		}
+		else
+		{
+			Matrix = MatrixManager.Get(ID.Value);
+		}
+
+		if (Matrix != null)
+		{
+			PreviouslySelectedMatrix = Matrix;
+			var colour = Colour.Orange;
+			foreach (var Layers in Matrix.MetaTileMap.Layers)
+			{
+				var TM = Layers.Value.GetComponent<Tilemap>();
+				if (TM != null)
+				{
+					TM.color = colour;
+				}
+			}
+		}
+
+	}
+
 	private void OnEnable()
 	{
-		escapeKeyTarget = GetComponent<EscapeKeyTarget>();
-		MatrixManager.Instance.OnActiveMatricesChange += UpdateDropDown;
+
 		UpdateDropDown();
 		UpdateSelected(0);
+	}
+
+	public override void Awake()
+	{
+		TMP_Dropdown.onValueChanged.AddListener(UpdateSelectedMatrix);
+		escapeKeyTarget = GetComponent<EscapeKeyTarget>();
+		MatrixManager.Instance.OnActiveMatricesChange += UpdateDropDown;
+		base.Awake();
 	}
 
 	public class CustomOption : TMP_Dropdown.OptionData
@@ -173,6 +239,7 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 			Gizmo.Remove();
 		}
 		NotGoingToBeSavedGizmos.Clear();
+		UnselectMatrix();
 
 	}
 
@@ -537,6 +604,8 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 			Square.Remove();
 		}
 		NotGoingToBeSavedGizmos.Clear();
+
+		UpdateSelectedMatrix(0);
 
 		if (NonmappedItems.isOn) return; //Everything is going to be saved
 		if (PositionsToCopy.Count == 0) return; //Nothing selected
