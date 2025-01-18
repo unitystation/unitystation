@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using Systems.Permissions;
 
 namespace Messages.Client
 {
@@ -32,11 +33,22 @@ namespace Messages.Client
 			NetworkClient.Send(msg, 1);
 		}
 
-		internal bool IsFromAdmin()
+		internal bool IsFromAdmin(string PermissionCode)
 		{
-			return CustomNetworkManager.IsServer
+			if (string.IsNullOrEmpty(PermissionCode))
+			{
+				return CustomNetworkManager.IsServer
 					? SentByPlayer.IsAdmin
 					: PlayerList.Instance.IsClientAdmin;
+			}
+			else
+			{
+				//TODO System to handle hosts and dev scenarios
+				return PermissionsManager.Instance.HasPermission(SentByPlayer.AccountId, PermissionCode);
+			}
+
+
+
 		}
 
 		private static uint LocalPlayerId()

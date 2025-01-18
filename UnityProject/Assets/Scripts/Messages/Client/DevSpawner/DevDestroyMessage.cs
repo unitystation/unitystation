@@ -29,7 +29,7 @@ namespace Messages.Client.DevSpawner
 
 		private void ValidateAdmin(NetMessage msg)
 		{
-			if (IsFromAdmin() == false) return;
+			if (IsFromAdmin("MAP_DESTROY") == false) return;
 
 			if (msg.ToDestroy.Equals(NetId.Invalid))
 			{

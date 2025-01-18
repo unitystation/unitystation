@@ -16,7 +16,7 @@ namespace Messages.Client.Admin
 
 		public override void Process(NetMessage msg)
 		{
-			if (IsFromAdmin())
+			if (IsFromAdmin("MANAGE_ANTAGONISTS"))
 			{
 				var info = JsonConvert.DeserializeObject<AntagonistInfo>(msg.json);
 				try

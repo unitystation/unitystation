@@ -24,7 +24,7 @@ namespace Messages.Client.VariableViewer
 
 		private void ValidateAdmin(NetMessage msg)
 		{
-			if (IsFromAdmin() == false) return;
+			if (IsFromAdmin("VV_EDIT") == false) return;
 
 			global::VariableViewer.RequestChangeVariable(
 					msg.PageID, msg.newValue, msg.SendToClient, SentByPlayer.GameObject, SentByPlayer.AccountId, msg.SentenceID, msg.ListModification);

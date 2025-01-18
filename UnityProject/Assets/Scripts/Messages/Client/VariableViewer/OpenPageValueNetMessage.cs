@@ -19,7 +19,7 @@ namespace Messages.Client.VariableViewer
 
 		void ValidateAdmin(NetMessage msg)
 		{
-			if (IsFromAdmin() == false) return;
+			if (IsFromAdmin("VV") == false) return;
 
 			global::VariableViewer.RequestOpenPageValue(msg.PageID, msg.SentenceID, msg.ISSentence, msg.iskey, SentByPlayer.GameObject);
 		}

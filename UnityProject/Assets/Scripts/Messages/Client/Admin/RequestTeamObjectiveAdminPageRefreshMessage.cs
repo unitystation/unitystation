@@ -15,7 +15,7 @@ namespace Messages.Client.Admin
 
 		public override void Process(NetMessage msg)
 		{
-			if (IsFromAdmin())
+			if (IsFromAdmin("MANAGE_ANTAGONISTS"))
 			{
 				TeamObjectiveAdminPageRefreshMessage.Send(SentByPlayer.GameObject, SentByPlayer.AccountId);
 			}

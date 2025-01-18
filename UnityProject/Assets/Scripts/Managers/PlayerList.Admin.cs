@@ -751,7 +751,7 @@ public partial class PlayerList
 		{
 			// Server Stuff here
 
-			if (IsFromAdmin() == false) return;
+			if (IsFromAdmin("PLAYER_JOB_BAN") == false) return;
 
 			if (PlayerList.Instance.TryGetByUserID(msg.PlayerID, out var player) == false)
 			{

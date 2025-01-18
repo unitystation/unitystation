@@ -16,7 +16,7 @@ namespace Messages.Client.VariableViewer
 
 		private void ValidateAdmin(NetMessage msg)
 		{
-			if (IsFromAdmin() == false) return;
+			if (IsFromAdmin("VV") == false) return;
 
 			global::VariableViewer.RequestSendBook(msg.BookID, SentByPlayer.GameObject);
 		}

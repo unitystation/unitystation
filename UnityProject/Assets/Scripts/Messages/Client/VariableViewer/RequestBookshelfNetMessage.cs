@@ -21,7 +21,7 @@ namespace Messages.Client.VariableViewer
 
 		private void ValidateAdmin(NetMessage msg)
 		{
-			if (IsFromAdmin() == false) return;
+			if (IsFromAdmin("VV") == false) return;
 
 			if (msg.TheObjectToView != 0)
 			{
