@@ -53,7 +53,6 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	public List<MatrixInfo> MovableMatrices { get; private set; } = new List<MatrixInfo>();
 
 	public static bool IsInitialized = true;
-
 	public event Action OnActiveMatricesChange;
 
 	/// <summary>

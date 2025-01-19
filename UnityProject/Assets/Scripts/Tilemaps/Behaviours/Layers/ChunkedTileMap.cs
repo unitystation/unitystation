@@ -40,35 +40,46 @@ public class ChunkedTileMap<T> : IEnumerable<T> where T : class
 		return Value != null;
 	}
 
+	public T this[Vector2Int position]
+	{
+		get => GetTile(position.To3Int());
+		set => VectorSetter(position.To3Int(), value);
+	}
 
 	public T this[Vector3Int position]
 	{
-		get
+		get => GetTile(position);
+		set => VectorSetter(position, value);
+	}
+
+	public T this[int x, int y]
+	{
+		get => GetTile(new Vector3Int(x, y));
+		set => VectorSetter(new Vector3Int(x, y), value);
+	}
+
+	private void VectorSetter(Vector3Int position, T value)
+	{
+		if (Mathf.Abs(position.x) > MaxChunkTileRange || Mathf.Abs(position.y) > MaxChunkTileRange)
 		{
-			return GetTile(position);
+			OverflowDictionary[position] = value;
+			return;
 		}
-		set
+
+		var chunk = GetChunkAtAndIgnoreDictionaryRecords(position, true);
+		int localX = Mathf.Abs(Mathf.FloorToInt(position.x) % ChunkSize);
+		int localY = Mathf.Abs(Mathf.FloorToInt(position.y) % ChunkSize);
+		try
 		{
-			if (Mathf.Abs(position.x) > MaxChunkTileRange || Mathf.Abs(position.y) > MaxChunkTileRange)
-			{
-				OverflowDictionary[position] = value;
-				return;
-			}
-
-			var Chunk = GetChunkAtAndIgnoreDictionaryRecords(position, true);
-			int localX = Mathf.Abs(Mathf.FloorToInt(position.x) % ChunkSize);
-			int localY = Mathf.Abs(Mathf.FloorToInt(position.y) % ChunkSize);
-			try
-			{
-				Chunk[localX, localY] = value;
-			}
-			catch (Exception e)
-			{
-				Loggy.Error(e.ToString());
-			}
-
+			chunk[localX, localY] = value;
+		}
+		catch (Exception e)
+		{
+			Loggy.Error(e.ToString());
 		}
 	}
+
+
 	private T[,] GetChunkFromList2D(List<List<T[,]>> List2D, Vector3Int position, bool Expand = false)
 	{
 		int chunkX = Mathf.Abs(Mathf.FloorToInt( (float)position.x / ChunkSize));
@@ -181,6 +192,58 @@ public class ChunkedTileMap<T> : IEnumerable<T> where T : class
 		{
 			return null;
 		}
+	}
+
+	public int GetMaxX()
+	{
+		int maxX = int.MinValue;
+
+		foreach (var chunkList in new[] { chunksXY, chunksXnY, chunksnXY, chunksnXnY })
+		{
+			for (int i = 0; i < chunkList.Count; i++)
+			{
+				if (chunkList[i] != null)
+				{
+					maxX = Math.Max(maxX, i * ChunkSize + ChunkSize - 1);
+				}
+			}
+		}
+
+		foreach (var kv in OverflowDictionary)
+		{
+			maxX = Math.Max(maxX, kv.Key.x);
+		}
+
+		return maxX;
+	}
+
+	public int GetMaxY()
+	{
+		int maxY = int.MinValue;
+
+		foreach (var chunkList in new[] { chunksXY, chunksXnY, chunksnXY, chunksnXnY })
+		{
+			foreach (var chunk in chunkList)
+			{
+				if (chunk != null)
+				{
+					for (int j = 0; j < chunk.Count; j++)
+					{
+						if (chunk[j] != null)
+						{
+							maxY = Math.Max(maxY, j * ChunkSize + ChunkSize - 1);
+						}
+					}
+				}
+			}
+		}
+
+		foreach (var kv in OverflowDictionary)
+		{
+			maxY = Math.Max(maxY, kv.Key.y);
+		}
+
+		return maxY;
 	}
 
 
