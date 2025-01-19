@@ -90,7 +90,7 @@ namespace Messages.Client.Admin
 
 		private void DoAdminToPlayerTeleport(NetMessage msg)
 		{
-			if (IsFromAdmin("PLAYER_MOVE_ADMIN") == false) return;
+			if (IsFromAdmin("ADMIN_TP") == false) return;
 
 			PlayerScript userToTeleportTo = null;
 

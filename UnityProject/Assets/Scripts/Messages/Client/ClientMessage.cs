@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using AdminCommands;
+using Mirror;
 using Systems.Permissions;
 
 namespace Messages.Client
@@ -35,20 +36,7 @@ namespace Messages.Client
 
 		internal bool IsFromAdmin(string PermissionCode)
 		{
-			if (string.IsNullOrEmpty(PermissionCode))
-			{
-				return CustomNetworkManager.IsServer
-					? SentByPlayer.IsAdmin
-					: PlayerList.Instance.IsClientAdmin;
-			}
-			else
-			{
-				//TODO System to handle hosts and dev scenarios
-				return PermissionsManager.Instance.HasPermission(SentByPlayer.AccountId, PermissionCode);
-			}
-
-
-
+			return AdminCommandsManager.IsAdmin(SentByPlayer, PermissionCode, true);
 		}
 
 		private static uint LocalPlayerId()

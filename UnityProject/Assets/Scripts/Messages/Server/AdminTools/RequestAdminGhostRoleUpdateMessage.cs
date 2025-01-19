@@ -15,7 +15,7 @@ namespace Messages.Server.AdminTools
 
 		public override void Process(NetMessage msg)
 		{
-			if (IsFromAdmin())
+			if (IsFromAdmin("MANAGE_GHOST_ROLES"))
 			{
 				var information = JsonConvert.DeserializeObject<GhostRolesInfo>(msg.json);
 

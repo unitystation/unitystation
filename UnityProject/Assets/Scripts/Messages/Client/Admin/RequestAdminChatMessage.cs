@@ -12,7 +12,7 @@ namespace Messages.Client.Admin
 
 		public override void Process(NetMessage msg)
 		{
-			if (IsFromAdmin())
+			if (IsFromAdmin("ADMIN_CHAT"))
 			{
 				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg.Message, SentByPlayer);
 			}

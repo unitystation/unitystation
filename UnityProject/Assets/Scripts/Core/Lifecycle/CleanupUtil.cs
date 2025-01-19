@@ -408,14 +408,14 @@ public static class CleanupUtil
 		ComponentManager.ObjectToPhysics.Clear();
 		Spawn.Clean();
 		MatrixManager.Instance.PostRoundStartCleanup();
-		SpriteHandlerManager.Instance.Clean();
+		SpriteHandlerManager.Instance?.Clean();
 		Debug.Log("removed " + RidDictionaryOfDeadElements(Mirror.NetworkClient.spawned, (u,k)=> k != null) + " dead elements from Mirror.NetworkClient.spawned");
 		Debug.Log("removed " + RidDictionaryOfDeadElements(SoundManager.Instance.SoundSpawns, (u, k) => k != null) + " dead elements from SoundManager.Instance.SoundSpawns");
 		AdminTools.AdminOverlay.Instance?.Clear();
 		TileManager.Instance.DeepCleanupTiles();
 		CleanupUtil.RidListOfDeadElements(GameManager.Instance.SpaceBodies);
 		UI.Core.Action.UIActionManager.Instance.Clear();//maybe it'l work second time?
-		SpriteHandlerManager.Instance.Clean();
+		SpriteHandlerManager.Instance?.Clean();
 		Dictionary<UInt64, Mirror.NetworkIdentity > dict = Mirror.NetworkIdentity.sceneIds;
 		Debug.Log("removed " + RidDictionaryOfDeadElements(dict, (u, k) => k != null) + " dead elements from Mirror.NetworkIdentity.sceneIds");
 		SpriteHandlerManager.Instance.Clean();
