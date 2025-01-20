@@ -49,7 +49,7 @@ namespace Antagonists
 			get
 			{
 				if (curOwner == null)
-					curOwner = gameObject.GetComponent<Mind>();
+					curOwner = gameObject?.GetComponent<Mind>();
 				return curOwner;
 			}
 		}
@@ -173,19 +173,19 @@ namespace Antagonists
 		/// </summary>
 		public string GetObjectiveStatus()
 		{
-			StringBuilder objSB = new StringBuilder($"<b>{Owner.Body.playerName}</b>, {Owner.occupation.DisplayName}\n", 200);
+			StringBuilder objSB = new StringBuilder($"<b>{Owner?.Body?.playerName}</b>, {Owner?.occupation?.DisplayName}\n", 200);
 			var objectiveList = Objectives.ToList();
 			for (int i = 0; i < objectiveList.Count; i++)
 			{
-				objSB.Append($"{i+1}. {objectiveList[i].GetDescription()}: ");
-				objSB.AppendLine(objectiveList[i].GetCompleteText(true));
+				objSB.Append($"{i+1}. {objectiveList[i]?.GetDescription()}: ");
+				objSB.AppendLine(objectiveList[i]?.GetCompleteText(true));
 			}
 			return objSB.ToString();
 		}
 
 		public string GetObjectiveStatusNonRich()
 		{
-			var message = $"{Owner.OrNull()?.Body.OrNull()?.playerName}, {Owner.OrNull()?.occupation.OrNull()?.DisplayName}\n";
+			var message = $"{Owner?.Body?.playerName}, {Owner?.occupation?.DisplayName}\n";
 			var objectiveList = Objectives.ToList();
 			for (int i = 0; i < objectiveList.Count; i++)
 			{

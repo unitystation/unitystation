@@ -72,7 +72,7 @@ namespace Systems.Score
 				//We can get away with using expensive LINQ methods here at round end.
 				foreach (var player in PlayerList.Instance.NonAntagPlayers.Where(player => player.Mind != null && player.Script != null))
 				{
-					if (player.Script.playerHealth.IsDead) ScoreMachine.AddToScoreInt(DEAD_CREW_SCORE * negativeModifer, "deadCrew");
+					if (player?.Script?.playerHealth?.IsDead == true) ScoreMachine.AddToScoreInt(DEAD_CREW_SCORE * negativeModifer, "deadCrew");
 				}
 			}
 			//Who's the crew member with the worst overall health?
@@ -125,8 +125,11 @@ namespace Systems.Score
 				if (decal.Cleanable) dirtyness++;
 			}
 
-			if (MatrixManager.MainStationMatrix.SubsystemManager
-				    .TryGetComponent<FilthGenerator.FilthGenerator>(out var generator) == false)
+
+			var generator = MatrixManager.MainStationMatrix.GameObject
+				.GetComponentInChildren<FilthGenerator.FilthGenerator>();
+
+			if (generator == null)
 			{
 				Loggy.Warning("[RoundEndScoreBuilder] - Cannot find filth generator, skipping..", Category.Round);
 				return;

@@ -33,7 +33,7 @@ namespace Antagonists
 		public List<SpawnedAntag> ActiveAntags => activeAntags;
 
 		private readonly Dictionary<uint, Team> teams = new Dictionary<uint, Team>();
-		public Dictionary<uint, Team> Teams => new (teams);
+		public Dictionary<uint, Team> Teams => new(teams);
 
 		private static uint teamIndex = 0;
 
@@ -56,7 +56,7 @@ namespace Antagonists
 
 		private void Awake()
 		{
-			if ( Instance == null )
+			if (Instance == null)
 			{
 				Instance = this;
 			}
@@ -125,24 +125,26 @@ namespace Antagonists
 			Occupation Occupation = connectedPlayer.Mind.occupation;
 			CharacterSheet CharacterSettings = connectedPlayer.Mind.CurrentCharacterSettings;
 
-			if(antagonist.RandomizeCharacterForGhostRole == true)
+			if (antagonist.RandomizeCharacterForGhostRole == true)
 			{
 				CharacterSettings = CharacterSheet.GenerateRandomCharacter();
 			}
 
-			if (antagonist.AntagOccupation != null) // means it as a modifier such as a traitor Traitor CMO, traitor assistant for example
+			if (antagonist.AntagOccupation !=
+			    null) // means it as a modifier such as a traitor Traitor CMO, traitor assistant for example
 			{
 				Occupation = antagonist.AntagOccupation;
 			}
-			else if(antagonist.GhostRoleOccupation != null)
+			else if (antagonist.GhostRoleOccupation != null)
 			{
 				Occupation = antagonist.GhostRoleOccupation;
 			}
-			var AntagonistsMind  = PlayerSpawn.NewSpawnPlayerV2(connectedPlayer,Occupation, CharacterSettings);
+
+			var AntagonistsMind = PlayerSpawn.NewSpawnPlayerV2(connectedPlayer, Occupation, CharacterSettings);
 			ServerFinishAntag(antagonist, AntagonistsMind);
 		}
 
-		private SpawnedAntag SetAntagDetails(Antagonist chosenAntag, Mind Mind )
+		private SpawnedAntag SetAntagDetails(Antagonist chosenAntag, Mind Mind)
 		{
 			try
 			{
@@ -152,19 +154,21 @@ namespace Antagonists
 				try
 				{
 					objectives.AddRange(antagData.GenerateObjectives(Mind, chosenAntag));
-				} catch (Exception e)
-				{
-					Loggy.Error($"failed to create antagonist objectives {chosenAntag.OrNull()?.AntagName} " + e.ToString());
 				}
+				catch (Exception e)
+				{
+					Loggy.Error($"failed to create antagonist objectives {chosenAntag.OrNull()?.AntagName} " +
+					            e.ToString());
+				}
+
 				// Set the antag
 				return Mind.InitAntag(chosenAntag, objectives);
 			}
 			catch (Exception e)
 			{
-				Loggy.Error( $"failed to create antagonist {chosenAntag.OrNull()?.AntagName} "  + e.ToString());
+				Loggy.Error($"failed to create antagonist {chosenAntag.OrNull()?.AntagName} " + e.ToString());
 				return null;
 			}
-
 		}
 
 		private void SetTeamDetails(Team team)
@@ -178,19 +182,19 @@ namespace Antagonists
 				{
 					objectives.AddRange(team.Data.GenerateObjectives());
 					team.AddTeamObjectives(objectives);
-				} catch (Exception e)
+				}
+				catch (Exception e)
 				{
 					Loggy.Error($"failed to create team objectives {team.GetTeamName()} " + e.ToString());
 				}
 			}
 			catch (Exception e)
 			{
-				Loggy.Error( $"failed to create team {team.GetTeamName()} "  + e.ToString());
+				Loggy.Error($"failed to create team {team.GetTeamName()} " + e.ToString());
 			}
-
 		}
 
-		public void ServerFinishAntag(Antagonist chosenAntag, Mind SpawnMind )
+		public void ServerFinishAntag(Antagonist chosenAntag, Mind SpawnMind)
 		{
 			var spawnedAntag = SetAntagDetails(chosenAntag, SpawnMind);
 			if (spawnedAntag == null) return;
@@ -265,11 +269,18 @@ namespace Antagonists
 		{
 			foreach (var x in PlayerList.Instance.AllPlayers)
 			{
-				if (x.Mind.AntagPublic.Antagonist != null && x.Mind.AntagPublic.Objectives.Any())
+				if (x?.Mind?.AntagPublic?.Antagonist != null && x?.Mind?.AntagPublic?.Objectives?.Any() == true)
 				{
 					foreach (var Objective in x.Mind.AntagPublic.Objectives)
 					{
-						Objective.OnRoundEnd();
+						try
+						{
+							Objective.OnRoundEnd();
+						}
+						catch (Exception e)
+						{
+							Loggy.Error(e.ToString());
+						}
 					}
 				}
 			}
@@ -286,15 +297,26 @@ namespace Antagonists
 				// Group all the antags by type and list them together
 				foreach (var antagType in activeAntags.GroupBy(t => t.GetType()))
 				{
-					if (antagType.First().CurTeam != null && antagType.First().CurTeam.Data.NeedToBeShownAtRoundEnd == true)
-						continue;
-					statusSB.AppendLine($"<size={ChatTemplates.LargeText}>The <b>{antagType.First().Antagonist.AntagName}s</b> were:\n</size>");
-					message.Append($"The {antagType.First().Antagonist.AntagName}s were:\n");
-					foreach (var antag in antagType)
+					try
 					{
-						AlreadyPrinted.Add(antag);
-						message.AppendLine($"{antag.GetObjectiveStatusNonRich()}\n");
-						statusSB.AppendLine(antag.GetObjectiveStatus());
+						if (antagType.First().CurTeam != null &&
+						    antagType.First().CurTeam.Data.NeedToBeShownAtRoundEnd == true)
+							continue;
+
+						statusSB.AppendLine(
+							$"<size={ChatTemplates.LargeText}>The <b>{antagType.First().Antagonist.AntagName}s</b> were:\n</size>");
+						message.Append($"The {antagType.First().Antagonist.AntagName}s were:\n");
+
+						foreach (var antag in antagType)
+						{
+							AlreadyPrinted.Add(antag);
+							message.AppendLine($"{antag.GetObjectiveStatusNonRich()}\n");
+							statusSB.AppendLine(antag.GetObjectiveStatus());
+						}
+					}
+					catch (Exception e)
+					{
+						Loggy.Error(e.ToString());
 					}
 				}
 			}
@@ -306,23 +328,38 @@ namespace Antagonists
 
 			foreach (var x in PlayerList.Instance.AllPlayers)
 			{
-				if (x.Mind.AntagPublic.Antagonist != null
-				    && x.Mind.AntagPublic.CurTeam == null
-				    && x.Mind.AntagPublic.Objectives.Any()
-				    && AlreadyPrinted.Contains(x.Mind.AntagPublic) == false)
+				try
 				{
-					statusSB.AppendLine($"<size={ChatTemplates.LargeText}>The <b>{x.Name} objectives</b> were:\n</size>");
-					message.AppendLine($"\n{x.Mind.AntagPublic.GetObjectiveStatusNonRich()}\n");
-					statusSB.AppendLine(x.Mind.AntagPublic.GetObjectiveStatus());
+					if (x.Mind?.AntagPublic?.Antagonist != null
+					    && x.Mind?.AntagPublic?.CurTeam == null
+					    && x.Mind?.AntagPublic?.Objectives.Any() == true
+					    && AlreadyPrinted.Contains(x?.Mind?.AntagPublic) == false)
+					{
+						statusSB.AppendLine(
+							$"<size={ChatTemplates.LargeText}>The <b>{x.Name} objectives</b> were:\n</size>");
+						message.AppendLine($"\n{x?.Mind?.AntagPublic.GetObjectiveStatusNonRich()}\n");
+						statusSB.AppendLine(x?.Mind?.AntagPublic.GetObjectiveStatus());
+					}
+				}
+				catch (Exception e)
+				{
+					Loggy.Error(e.ToString());
 				}
 			}
 
 			foreach (var x in teams)
 			{
-				if (x.Value.TeamMembers.Count > 0 && x.Value.Data.NeedToBeShownAtRoundEnd == true)
+				try
 				{
-					message.AppendLine(x.Value.GetObjectiveStatusNonRich());
-					statusSB.AppendLine(x.Value.GetObjectiveStatus());
+					if (x.Value.TeamMembers.Count > 0 && x.Value.Data.NeedToBeShownAtRoundEnd == true)
+					{
+						message.AppendLine(x.Value.GetObjectiveStatusNonRich());
+						statusSB.AppendLine(x.Value.GetObjectiveStatus());
+					}
+				}
+				catch (Exception e)
+				{
+					Loggy.Error(e.ToString());
 				}
 			}
 
@@ -335,7 +372,8 @@ namespace Antagonists
 				message.AppendLine($" There are {PlayerList.Instance.ConnectionCount} players online.\n");
 			}
 
-			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAnnouncementURL, message.ToString(), "");
+			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAnnouncementURL,
+				message.ToString(), "");
 
 			// Send the message
 			Chat.AddGameWideSystemMsgToChat(statusSB.ToString());
@@ -383,7 +421,8 @@ namespace Antagonists
 			if (teamsWithData.Count > 0)
 			{
 				return teamsWithData.First();
-			} else
+			}
+			else
 			{
 				return CreateTeam(teamToGet);
 			}
