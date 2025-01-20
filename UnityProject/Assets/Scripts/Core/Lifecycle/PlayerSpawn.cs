@@ -603,7 +603,7 @@ public static class PlayerSpawn
 					account.Connection.observing
 						.Add(to); //TODO because sometimes it cannot be a Observing for some reason , And that causes the ownership message to fail
 				}
-
+				to.RemoveClientAuthority();
 				to.AssignClientAuthority(account.Connection);
 			}
 		}

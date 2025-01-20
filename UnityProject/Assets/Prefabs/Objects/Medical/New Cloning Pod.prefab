@@ -139,6 +139,18 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: -4041461489100680715}
   m_SourcePrefab: {fileID: 100100000, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
+--- !u!114 &4522061973788634291 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+    type: 3}
+  m_PrefabInstance: {fileID: 7641446966458876885}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8976069573111088745 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
@@ -161,7 +173,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   statusSync: 0
-  SpriteHandler: {fileID: 0}
+  SpriteHandler: {fileID: 4522061973788634291}
   statusString: 
   console: {fileID: 0}
   internalLimbCloningDamage: 25
