@@ -16,7 +16,7 @@ namespace Messages.Client
 
 		public override void Process(NetMessage msg)
 		{
-			if (IsFromAdmin("ADMIN_INVENTORY_TRANSFER") == false) return;
+			if (HasPermission(TAG.ADMIN_INVENTORY_TRANSFER) == false) return;
 
 			LoadMultipleObjects(new uint[]{msg.FromStorage, msg.ToStorage});
 			if (NetworkObjects[0] == null || NetworkObjects[1] == null) return;

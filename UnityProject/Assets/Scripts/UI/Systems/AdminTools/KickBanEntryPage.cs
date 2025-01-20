@@ -202,7 +202,7 @@ namespace AdminTools
 
 			public override void Process(NetMessage msg)
 			{
-				if (IsFromAdmin("PLAYER_GET_JOB_BANS") == false) return;
+				if (HasPermission(TAG.PLAYER_GET_JOB_BANS) == false) return;
 
 				//Server Stuff here
 

@@ -34,9 +34,14 @@ namespace Messages.Client
 			NetworkClient.Send(msg, 1);
 		}
 
-		internal bool IsFromAdmin(string PermissionCode)
+		internal bool HasPermission(string PermissionCode)
 		{
-			return AdminCommandsManager.IsAdmin(SentByPlayer, PermissionCode, true);
+			return AdminCommandsManager.HasPermission(SentByPlayer, PermissionCode, true);
+		}
+
+		internal bool HasPermissions( string[] PermissionCodes)
+		{
+			return AdminCommandsManager.HasPermissions(SentByPlayer, PermissionCodes, true);
 		}
 
 		private static uint LocalPlayerId()

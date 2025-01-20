@@ -388,7 +388,7 @@ public partial class PlayerList
 
 		if (ConnectionCount > GameManager.Instance.PlayerLimit
 		    && roundPlayers.Contains(player) == false
-		    && AdminCommandsManager.IsAdmin(player,"ADMIN_BYPASS_PLAYER_LIMIT") == false)
+		    && AdminCommandsManager.HasPermission(player,TAG.ADMIN_BYPASS_PLAYER_LIMIT) == false)
 		{
 			ServerKickPlayer(player, $"Server Error: The server is full, player limit: {playerLimit}.");
 			Loggy.Info($"{player.Username} tried to log in but PlayerLimit ({playerLimit}) was reached. IP: {player.ConnectionIP}", Category.Admin);
@@ -400,7 +400,7 @@ public partial class PlayerList
 		//Whitelist only activates if whitelist is populated.
 		var lines = AccessFile.ReadAllLines(whiteListPath);
 		if (lines.Length > 0 && !whiteListUsers.Contains(player.AccountId)
-		    && AdminCommandsManager.IsAdmin(player,"ADMIN_BYPASS_WHITE_LIST") == false)
+		    && AdminCommandsManager.HasPermission(player,TAG.ADMIN_BYPASS_WHITE_LIST) == false)
 		{
 			ServerKickPlayer(player, $"This server uses a whitelist. This account is not whitelisted.");
 			Loggy.Info($"{player.Username} tried to log in but the account is not whitelisted. IP: {player.ConnectionIP}", Category.Admin);
@@ -756,7 +756,7 @@ public partial class PlayerList
 		{
 			// Server Stuff here
 
-			if (IsFromAdmin("PLAYER_JOB_BAN") == false) return;
+			if (HasPermission(TAG.PLAYER_JOB_BAN) == false) return;
 
 			if (PlayerList.Instance.TryGetByUserID(msg.PlayerID, out var player) == false)
 			{

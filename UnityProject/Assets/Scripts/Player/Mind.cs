@@ -277,7 +277,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 	[Command]
 	public void CmdRequestPossess(uint ID)
 	{
-		if (AdminCommandsManager.IsAdmin(this.connectionToClient, out var _, "ADMIN_POSSESS_BODY"))
+		if (AdminCommandsManager.HasPermission(this.connectionToClient, out var _, "ADMIN_POSSESS_BODY"))
 		{
 			SetPossessingObject(CustomNetworkManager.Spawned[ID].gameObject);
 		}
@@ -489,7 +489,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 	[Command]
 	public void CmdAGhost()
 	{
-		if (AdminCommandsManager.IsAdmin(connectionToClient, out _, "ADMIN_AGHOST"))
+		if (AdminCommandsManager.HasPermission(connectionToClient, out _, "ADMIN_AGHOST"))
 		{
 			if (IsGhosting)
 			{
@@ -505,7 +505,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 	[Command]
 	public void CmdForceAGhost()
 	{
-		if (AdminCommandsManager.IsAdmin(connectionToClient, out _,"ADMIN_AGHOST"))
+		if (AdminCommandsManager.HasPermission(connectionToClient, out _,"ADMIN_AGHOST"))
 		{
 			if (IsGhosting == false) Ghost();
 		}
