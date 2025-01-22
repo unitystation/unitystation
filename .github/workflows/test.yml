@@ -96,7 +96,7 @@ jobs:
         if: always()
         uses: actions/setup-dotnet@v4.2.0
         with:
-          dotnet-version: "6.0.2"
+          dotnet-version: "3.1.0"
 
       # Do the report magic
       - name: Generate .html report
