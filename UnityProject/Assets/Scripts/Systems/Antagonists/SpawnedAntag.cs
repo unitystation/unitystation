@@ -107,7 +107,7 @@ namespace Antagonists
 			var objectiveList = Objectives.ToList();
 			for (int i = 0; i < objectiveList.Count; i++)
 			{
-				objSB.AppendLine($"{i+1}. {objectiveList[i].Description}");
+				objSB.AppendLine($"{i+1}. {objectiveList[i].GetDescription()}");
 			}
 			return objSB.ToString();
 		}
@@ -131,11 +131,11 @@ namespace Antagonists
 			{
 				if (IsAntagCanSeeObjectivesStatus == true)
 				{
-					objSB.AppendLine($"{i + 1}. {objectiveList[i].Description}:");
+					objSB.AppendLine($"{i + 1}. {objectiveList[i].GetDescription()}:");
 					objSB.AppendLine(objectiveList[i].GetStatusText(true));
 				} else
 				{
-					objSB.AppendLine($"{i + 1}. {objectiveList[i].Description}");
+					objSB.AppendLine($"{i + 1}. {objectiveList[i].GetDescription()}");
 				}
 			}
 			if (CurTeam != null)
@@ -149,7 +149,7 @@ namespace Antagonists
 				{
 					var obj = CurTeam.TeamObjectives[i];
 
-					objSB.AppendLine($"{i + 1}. {obj.Description}");
+					objSB.AppendLine($"{i + 1}. {obj.GetDescription()}");
 				}
 			}
 			// Adding back italic tag so rich text doesn't break
@@ -163,7 +163,7 @@ namespace Antagonists
 			var objectiveList = Objectives.ToList();
 			for (int i = 0; i < objectiveList.Count; i++)
 			{
-				objSB.AppendLine($"{i+1}. {objectiveList[i].Description}");
+				objSB.AppendLine($"{i+1}. {objectiveList[i].GetDescription()}");
 			}
 			return objSB.ToString();
 		}

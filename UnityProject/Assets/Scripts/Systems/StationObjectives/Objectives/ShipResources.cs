@@ -56,7 +56,7 @@ namespace StationObjectives
 		public override void OnCanceling()
 		{
 			description = $"The order to locate and mine local {itemTrait.name} deposits in order of {requiredAmount} was <color=red>CANCELED</color>";
-			GameManager.Instance.CentComm.MakeCommandReport(Description, false);
+			GameManager.Instance.CentComm.MakeCommandReport(GetDescription(), false);
 		}
 
 		protected override void SetupInGame()
@@ -91,7 +91,7 @@ namespace StationObjectives
 			}
 			description = report.ToString();
 
-			GameManager.Instance.CentComm.MakeCommandReport(Description, false);
+			GameManager.Instance.CentComm.MakeCommandReport(GetDescription(), false);
 		}
 
 		public override string GetDescription()

@@ -15,7 +15,7 @@ public class ObjectiveInfo
 
 	public bool IsDifferent(CustomObjective objective)
 	{
-		return (objective.Description != Description || objective.Compleated != Status);
+		return (objective.GetDescription() != Description || objective.Compleated != Status);
 	}
 }
 
