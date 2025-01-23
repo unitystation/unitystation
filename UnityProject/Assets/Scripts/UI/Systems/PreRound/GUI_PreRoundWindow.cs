@@ -320,7 +320,6 @@ namespace UI
 
 		public void ShowRejoiningPanel()
 		{
-			Loggy.Error("ShowRejoiningPanel");
 			normalWindows.SetActive(false);
 			mapLoadingPanel.SetActive(false);
 			rejoiningRoundPanel.SetActive(true);
@@ -328,7 +327,6 @@ namespace UI
 
 		public void CloseRejoiningPanel()
 		{
-			Loggy.Error("CloseRejoiningPanel");
 			normalWindows.SetActive(false);
 			mapLoadingPanel.SetActive(false);
 			rejoiningRoundPanel.SetActive(false);
@@ -336,7 +334,6 @@ namespace UI
 
 		public void SetUIForMapLoading()
 		{
-			Loggy.Error("SetUIForMapLoading");
 			rejoiningRoundPanel.SetActive(false);
 			normalWindows.SetActive(false);
 			mapLoadingPanel.SetActive(true);

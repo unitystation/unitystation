@@ -91,7 +91,7 @@ namespace Antagonists
 				return;
 			}
 
-			ItemName = itemEntry.Key.Item().ArticleName;
+			ItemName = itemEntry.Key.Item().InitialName;
 
 			if (string.IsNullOrEmpty(ItemName))
 			{
@@ -131,7 +131,7 @@ namespace Antagonists
 
 		public override string GetDescription()
 		{
-			return $"Steal";
+			return description;
 		}
 
 		protected override bool CheckCompletion()
