@@ -95,9 +95,8 @@ jobs:
       - name: Copy ExtentReports
         if: always()
         run: |
-          # Copy contents of ExtentReports to the target folder
-          mkdir -p testReports/${{ matrix.targetPlatform }}/
-          cp -r ./Tools/ExtentReports/* testReports/${{ matrix.targetPlatform }}/
+          sudo mkdir -p testReports/${{ matrix.targetPlatform }}/
+          sudo cp -r ./Tools/ExtentReports/* testReports/${{ matrix.targetPlatform }}/
           
       # Upload test results
       - name: Upload Test Results
