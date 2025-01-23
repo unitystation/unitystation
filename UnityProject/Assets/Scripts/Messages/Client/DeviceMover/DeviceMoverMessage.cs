@@ -32,7 +32,7 @@ public class DeviceMoverMessage : ClientMessage<DeviceMoverMessage.NetMessage>
 
 	public override void Process(NetMessage msg)
 	{
-		if (IsFromAdmin() == false) return;
+		if (HasPermission(TAG.MAP_MOVE) == false) return;
 
 
 		if (msg.ObjectID !=  NetId.Empty &&  msg.ObjectID != NetId.Invalid)

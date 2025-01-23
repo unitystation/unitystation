@@ -22,8 +22,6 @@ namespace Messages.Client.Admin
 
 		public override void Process(NetMessage msg)
 		{
-			if (IsFromAdmin() == false) return;
-
 
 			switch (msg.OpperationNumber)
 			{
@@ -44,6 +42,8 @@ namespace Messages.Client.Admin
 
 		private void AdminTeleport(NetMessage msg)
 		{
+			if (HasPermission(TAG.PLAYER_MOVE) == false) return;
+
 			var coord = new Vector3 {x = msg.vectorX, y = msg.vectorY, z = msg.vectorZ };
 
 			var Physics = SentByPlayer.GameObject.GetComponent<UniversalObjectPhysics>();
@@ -60,6 +60,7 @@ namespace Messages.Client.Admin
 
 		private void DoPlayerToAdminTeleport(NetMessage msg)
 		{
+			if (HasPermission(TAG.PLAYER_MOVE) == false) return;
 			PlayerScript userToTeleport = null;
 
 			foreach (var player in PlayerList.Instance.AllPlayers)
@@ -89,7 +90,7 @@ namespace Messages.Client.Admin
 
 		private void DoAdminToPlayerTeleport(NetMessage msg)
 		{
-			if (IsFromAdmin() == false) return;
+			if (HasPermission(TAG.ADMIN_TP) == false) return;
 
 			PlayerScript userToTeleportTo = null;
 
@@ -134,7 +135,7 @@ namespace Messages.Client.Admin
 
 		private void DoAllPlayersToPlayerTeleport(NetMessage msg)
 		{
-			if (IsFromAdmin() == false) return;
+			if (HasPermission(TAG.PLAYER_MOVE_ALL) == false) return;
 
 			PlayerScript destinationPlayer = null;
 

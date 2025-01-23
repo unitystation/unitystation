@@ -14,7 +14,7 @@ namespace Messages.Client.Admin
 
 		public override void Process(NetMessage netMsg)
 		{
-			if (IsFromAdmin() == false) return;
+			if (HasPermission(TAG.ROUND_LAVALAND) == false) return;
 
 			if (SubSceneManager.AdminAllowLavaland == netMsg.LavaLandAllowed) return;
 

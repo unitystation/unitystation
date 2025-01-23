@@ -1,0 +1,15 @@
+.dropzone {
+    border: 2px dashed #dedede;
+    border-radius: 5px;
+    background: #f5f5f5;
+    margin-top: 20px;
+    text-align: center;
+    cursor: pointer;
+}
+  
+.dropzone .dz-message {
+    color: rgba(0,0,0,.54);
+    font-weight: 500;
+    font-size: initial;
+    text-transform: uppercase;
+}

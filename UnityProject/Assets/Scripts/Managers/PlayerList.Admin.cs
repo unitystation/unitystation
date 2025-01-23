@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using AdminCommands;
 using SecureStuff;
 using DatabaseAPI;
 using Mirror;
@@ -379,12 +380,15 @@ public partial class PlayerList
 
 	private bool CanRegularPlayerJoin(PlayerInfo player)
 	{
-		if (player.IsAdmin) return true;
-
 		//PlayerLimit Checking:
 		//Deny player joining if limit reached and this player wasn't already in the round (in case of disconnect)
 		var playerLimit = GameManager.Instance.PlayerLimit;
-		if (ConnectionCount > GameManager.Instance.PlayerLimit && roundPlayers.Contains(player) == false)
+
+
+
+		if (ConnectionCount > GameManager.Instance.PlayerLimit
+		    && roundPlayers.Contains(player) == false
+		    && AdminCommandsManager.HasPermission(player,TAG.ADMIN_BYPASS_PLAYER_LIMIT) == false)
 		{
 			ServerKickPlayer(player, $"Server Error: The server is full, player limit: {playerLimit}.");
 			Loggy.Info($"{player.Username} tried to log in but PlayerLimit ({playerLimit}) was reached. IP: {player.ConnectionIP}", Category.Admin);
@@ -395,7 +399,8 @@ public partial class PlayerList
 		//Checks whether the userid is in either the Admins or whitelist AND that the whitelist file has something in it.
 		//Whitelist only activates if whitelist is populated.
 		var lines = AccessFile.ReadAllLines(whiteListPath);
-		if (lines.Length > 0 && !whiteListUsers.Contains(player.AccountId))
+		if (lines.Length > 0 && !whiteListUsers.Contains(player.AccountId)
+		    && AdminCommandsManager.HasPermission(player,TAG.ADMIN_BYPASS_WHITE_LIST) == false)
 		{
 			ServerKickPlayer(player, $"This server uses a whitelist. This account is not whitelisted.");
 			Loggy.Info($"{player.Username} tried to log in but the account is not whitelisted. IP: {player.ConnectionIP}", Category.Admin);
@@ -751,7 +756,7 @@ public partial class PlayerList
 		{
 			// Server Stuff here
 
-			if (IsFromAdmin() == false) return;
+			if (HasPermission(TAG.PLAYER_JOB_BAN) == false) return;
 
 			if (PlayerList.Instance.TryGetByUserID(msg.PlayerID, out var player) == false)
 			{
@@ -997,8 +1002,6 @@ public partial class PlayerList
 
 	public void ProcessJobBanRequest(PlayerInfo admin, PlayerInfo player, string reason, bool isPerma, int banMinutes, JobType jobType, bool kickAfter = false, bool ghostAfter = false)
 	{
-		if (admin.IsAdmin == false) return;
-
 		string message;
 
 		if (isPerma)

@@ -21,7 +21,7 @@ namespace Messages.Client.Admin
 
 		private void VerifyAdminStatus(NetMessage msg)
 		{
-			if (IsFromAdmin() == false) return;
+			if (HasPermission(TAG.PLAYER_RESPAWN) == false) return;
 
 			if (PlayerList.Instance.TryGetByUserID(msg.UserToRespawn, out var player) == false || player.Script == null)
 			{

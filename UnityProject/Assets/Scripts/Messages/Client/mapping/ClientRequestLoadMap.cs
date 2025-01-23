@@ -27,7 +27,7 @@ public class ClientRequestLoadMap : ClientMessage<ClientRequestLoadMap.NetMessag
 
 	public override void Process(NetMessage msg)
 	{
-		if (IsFromAdmin() == false) return;
+		if (HasPermission(TAG.MAP_LOAD) == false) return;
 
 		if (SaveDatas.ContainsKey(SentByPlayer) == false)
 		{

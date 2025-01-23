@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using AdminCommands;
 using Core;
 using Logs;
 using UnityEngine;
@@ -467,7 +468,7 @@ public static class PlayerSpawn
 	/// <param name="newMind"></param>
 	public static void TransferAccountToSpawnedMind(PlayerInfo account, Mind newMind)
 	{
-		var isAdmin = account.IsAdmin;
+		var isAdmin = AdminCommandsManager.HasPermission(account, TAG.ADMIN_GHOST_INVENTORY, true);;
 		if (account.Mind != null && isAdmin) //Has old mind
 		{
 			var adminItemStorage = AdminManager.Instance.GetItemSlotStorage(account);

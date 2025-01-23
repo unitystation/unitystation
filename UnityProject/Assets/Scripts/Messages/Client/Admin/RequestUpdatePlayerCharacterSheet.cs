@@ -19,7 +19,7 @@ namespace Messages.Client.Admin
 
 		public override void Process(NetMessage msg)
 		{
-			if (IsFromAdmin() == false)
+			if (HasPermission(TAG.EDIT_PLAYER) == false)
 			{
 				Loggy.Error().Format("Lacking admin permissions on {}.", Category.Admin, SentByPlayer.Username);
 				UpdateTheRequestToCharacterSheetUpdateToRequests.SendSheetUpdate(SentByPlayer, false);

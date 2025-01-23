@@ -13,7 +13,8 @@ namespace Messages.Client.Admin
 
 		public override void Process(NetMessage msg)
 		{
-			if (IsFromAdmin())
+			//TODO Show different information depending on permissions
+			if (HasPermission(TAG.ADMIN_INFO))
 			{
 				AdminToolRefreshMessage.Send(SentByPlayer.GameObject, SentByPlayer.AccountId);
 			}

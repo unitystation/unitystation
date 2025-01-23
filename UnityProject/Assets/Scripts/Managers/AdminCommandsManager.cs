@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using AddressableReferences;
 using UnityEngine;
@@ -33,6 +34,7 @@ using Systems.Atmospherics;
 using Systems.Cargo;
 using Systems.Electricity;
 using Systems.Faith;
+using Systems.Permissions;
 using Systems.Pipes;
 using TileManagement;
 using Tiles;
@@ -81,25 +83,58 @@ namespace AdminCommands
 		/// </summary>
 		/// <param name="sender">The client which sends the command, this is populated by mirror so doesnt need to be manually
 		/// put in the parameters when calling the commands</param>
-		public static bool IsAdmin(NetworkConnection sender, out PlayerInfo player, bool logFailure = true)
+		public static bool HasPermission(NetworkConnection sender, out PlayerInfo player,string PermissionCode, bool logFailure = true)
+		{
+			player = PlayerList.Instance.GetOnline(sender);
+			return HasPermission(player, PermissionCode, logFailure);
+		}
+
+		public static bool HasPermissions(PlayerInfo player, string[] PermissionCodes,
+			bool logFailure = true)
 		{
 
-			player = PlayerList.Instance.GetOnline(sender);
-			if (player.IsAdmin == false)
+			bool Valid = PermissionCodes.All(x => HasPermission(player, x, false));
+			if (Valid == false && logFailure)
 			{
-				if (logFailure)
-				{
-					var message =
-						$"Failed Admin check with id: {player?.ClientId}, associated player with that id (null if not valid id): {player?.Username}," +
-						$"Possible hacked client with ip address: {sender?.identity?.connectionToClient?.address}, netIdentity object name: {sender?.identity.OrNull()?.name}]";
-					Loggy.Error(message, Category.Exploits);
-					LogAdminAction(message);
-				}
-
-				return false;
+				var message =
+					$"Failed Admin check with id: {player?.ClientId}, associated player with that id (null if not valid id): {player?.Username}," +
+					$"Possible hacked client with ip address: {player?.Connection?.address}, netIdentity object name: {player?.Connection?.identity.OrNull()?.name}]";
+				Loggy.Error(message, Category.Exploits);
+				LogAdminAction(message);
 			}
 
-			return true;
+			return Valid;
+		}
+
+		public static bool HasPermission(PlayerInfo player, string PermissionCode,
+			bool logFailure = true)
+		{
+			bool Valid = false;
+
+			if (string.IsNullOrEmpty(PermissionCode))
+			{
+				Valid = CustomNetworkManager.IsServer
+					? player.IsAdmin
+					: PlayerList.Instance.IsClientAdmin;
+			}
+			else
+			{
+				Valid = CustomNetworkManager.IsServer ? player.IsAdmin : PlayerList.Instance.IsClientAdmin;
+				//TODO System to handle hosts and dev scenarios
+				//TODO Handle local UI + Local stuff
+				//Valid = PermissionsManager.Instance.HasPermission(player.AccountId, PermissionCode);
+			}
+
+			if (Valid == false && logFailure)
+			{
+				var message =
+					$"Failed Admin check with id: {player?.ClientId}, associated player with that id (null if not valid id): {player?.Username}," +
+					$"Possible hacked client with ip address: {player?.Connection?.address}, netIdentity object name: {player?.Connection?.identity.OrNull()?.name}]";
+				Loggy.Error(message, Category.Exploits);
+				LogAdminAction(message);
+			}
+
+			return Valid;
 		}
 
 		#region Server Settings
@@ -107,7 +142,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdChangePlayerLimit(int newLimit, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var player) == false) return;
+			if (HasPermission(sender, out var player,  TAG.MANAGE_SERVER_PLAYERCAP) == false) return;
 
 			if (newLimit < 0) return;
 
@@ -125,7 +160,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdChangeFrameRate(int newLimit, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var player) == false) return;
+			if (HasPermission(sender, out var player,  TAG.MANAGE_SERVER_FPS) == false) return;
 
 			if (newLimit < MINIUM_SERVER_FRAMERATE) return;
 
@@ -140,7 +175,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdChangeServerPassword(string newPassword, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var player) == false) return;
+			if (HasPermission(sender, out var player,  TAG.MANAGE_SERVER_PASSWORD) == false) return;
 
 			LogAdminAction(
 				$"{player.Username}: Set the Server Password to {newPassword} from {ServerData.ServerConfig.ConnectionPassword}");
@@ -155,7 +190,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdToggleOOCMute(NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var player) == false) return;
+			if (HasPermission(sender, out var player,  TAG.MANAGE_SERVER_OOCMUTE) == false) return;
 
 			Chat.Instance.OOCMute = !Chat.Instance.OOCMute;
 
@@ -170,7 +205,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdMake3D(NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var player) == false) return;
+			if (HasPermission(sender, out var player,  TAG.MANAGE_ROUND_3D) == false) return;
 			var message = new StringBuilder();
 			message.AppendLine($"{player.Username}: Change the server to 3D");
 
@@ -183,7 +218,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdChangeGameMode(string nextGameMode, bool isSecret, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var player) == false) return;
+			if (HasPermission(sender, out var player,  TAG.MANAGE_ROUND_NEXT_GAMEMODE) == false) return;
 
 			var message = new StringBuilder();
 
@@ -211,7 +246,7 @@ namespace AdminCommands
 		public void CmdTriggerGameEvent(int eventIndex, bool isFake, bool announceEvent,
 			InGameEventType eventType, string serializedEventParameters, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var player) == false) return;
+			if (HasPermission(sender, out var player,  TAG.MANAGE_ROUND_GAME_EVENT) == false) return;
 
 			InGameEventsManager.Instance.TriggerSpecificEvent(
 				eventIndex, eventType, isFake, player.Username, announceEvent, serializedEventParameters);
@@ -224,7 +259,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdStartRound(NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var player) == false) return;
+			if (HasPermission(sender, out var player,TAG.MANAGE_ROUND_START) == false) return;
 
 			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound && GameManager.Instance.waitForStart)
 			{
@@ -248,7 +283,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdEndRound(NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var player) == false) return;
+			if (HasPermission(sender, out var player,TAG.MANAGE_ROUND_END) == false) return;
 			if (GameManager.Instance.CurrentRoundState == RoundState.Started)
 			{
 				GameManager.Instance.RoundEndTime = 5; // Quick round end when triggered by admin.
@@ -265,7 +300,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdChangeNextMap(string nextMap, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var player) == false) return;
+			if (HasPermission(sender, out var player,TAG.MANAGE_ROUND_NEXT_MAP) == false) return;
 
 			if (SubSceneManager.AdminForcedMainStation == nextMap) return;
 
@@ -278,7 +313,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdAdminChangeAwaySite(string nextAwaySite, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var player) == false) return;
+			if (HasPermission(sender, out var player, TAG.MANAGE_ROUND_NEXT_AWAY_SITE) == false) return;
 
 			if (SubSceneManager.AdminForcedAwaySite == nextAwaySite) return;
 
@@ -291,7 +326,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdChangeAlertLevel(CentComm.AlertLevel alertLevel, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var player) == false) return;
+			if (HasPermission(sender, out var player, TAG.MANAGE_ROUND_ALERT_LEVEL) == false) return;
 
 			var currentLevel = GameManager.Instance.CentComm.CurrentAlertLevel;
 
@@ -309,7 +344,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdCallShuttle(string text, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var player) == false) return;
+			if (HasPermission(sender, out var player, TAG.MANAGE_ROUND_CALL_SHUTTLE) == false) return;
 
 			var shuttle = GameManager.Instance.PrimaryEscapeShuttle;
 
@@ -325,7 +360,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdRecallShuttle(string text, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var player) == false) return;
+			if (HasPermission(sender, out var player, TAG.MANAGE_ROUND_RECALL_SHUTTLE) == false) return;
 
 			var success = GameManager.Instance.PrimaryEscapeShuttle.RecallShuttle(out var result, true);
 
@@ -339,7 +374,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdSendCentCommAnnouncement(string text, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var player) == false) return;
+			if (HasPermission(sender, out var player, TAG.MANAGE_ROUND_CENTCOMM_ANNOUNCEMENT) == false) return;
 
 			CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.CentComAnnounce);
 
@@ -349,7 +384,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdSendCentCommReport(string text, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var player) == false) return;
+			if (HasPermission(sender, out var player, TAG.MANAGE_ROUND_CENTCOMM_REPORT) == false) return;
 
 			GameManager.Instance.CentComm.MakeCommandReport(text);
 
@@ -359,7 +394,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdSendBlockShuttleCall(bool toggleBool, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var player) == false) return;
+			if (HasPermission(sender, out var player, TAG.MANAGE_ROUND_BLOCK_SHUTTLE_CALL) == false) return;
 
 			var shuttle = GameManager.Instance.PrimaryEscapeShuttle;
 
@@ -373,7 +408,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdSendBlockShuttleRecall(bool toggleBool, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var player) == false) return;
+			if (HasPermission(sender, out var player, TAG.MANAGE_ROUND_BLOCK_SHUTTLE_RECALL) == false) return;
 
 			var shuttle = GameManager.Instance.PrimaryEscapeShuttle;
 
@@ -387,7 +422,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdCreateDeathSquad(NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var player) == false) return;
+			if (HasPermission(sender, out var player, TAG.MANAGE_ROUND_MK_DEATH_SQUAD) == false) return;
 
 			Systems.GhostRoles.GhostRoleManager.Instance.ServerCreateRole(deathsquadRole);
 
@@ -408,7 +443,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdSmitePlayer(string userToSmite, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var admin) == false) return;
+			if (HasPermission(sender, out var admin, TAG.PLAYER_SMITE) == false) return;
 
 			if (PlayerList.Instance.TryGetByUserID(userToSmite, out var player) == false)
 			{
@@ -434,7 +469,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdHealUpPlayer(string userToHeal, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var admin) == false) return;
+			if (HasPermission(sender, out var admin, TAG.PLAYER_HEAL) == false) return;
 
 			if (PlayerList.Instance.TryGetByUserID(userToHeal, out var player) == false)
 			{
@@ -469,7 +504,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdOOCMutePlayer(string userToMute, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var admin) == false) return;
+			if (HasPermission(sender, out var admin, TAG.PLAYER_OOC_Mute_T) == false) return;
 
 			if (PlayerList.Instance.TryGetByUserID(userToMute, out var player) == false)
 			{
@@ -493,7 +528,7 @@ namespace AdminCommands
 		public void CmdGivePlayerItem(string userToGiveItem, string itemPrefabName, int count, string customMessage,
 			NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var admin) == false) return;
+			if (HasPermission(sender, out var admin, TAG.PLAYER_SPAWN_ITEM) == false) return;
 
 			if (PlayerList.Instance.TryGetByUserID(userToGiveItem, out var player) == false)
 			{
@@ -545,7 +580,7 @@ namespace AdminCommands
 		public void CmdPlaySound(string addressableAudioSource, AudioSourceParameters parameters,
 			bool poloyphonic, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var admin) == false) return;
+			if (HasPermission(sender, out var admin, TAG. ADMIN_ADDRESSABLE_SOUND) == false) return;
 			AddressableAudioSource sound = new AddressableAudioSource();
 			sound.AssetAddress = addressableAudioSource;
 			SoundManager.PlayNetworked(sound, parameters);
@@ -555,7 +590,7 @@ namespace AdminCommands
 		public void CmdPlaySoundAtAdminGhost(string addressableAudioSource, AudioSourceParameters parameters,
 			bool poloyphonic, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var admin) == false) return;
+			if (HasPermission(sender, out var admin, TAG.ADMIN_ADDRESSABLE_SOUND_AT_POS) == false) return;
 			AddressableAudioSource sound = new AddressableAudioSource();
 			sound.AssetAddress = addressableAudioSource;
 			GameObject location = admin.Mind.isGhosting ? admin.Mind.ghost.gameObject : admin.Mind.Body.gameObject;
@@ -569,7 +604,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdPlayMusic(string addressableAudioSource, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var admin) == false) return;
+			if (HasPermission(sender, out var admin, TAG.ADMIN_ADDRESSABLE_MUSIC) == false) return;
 			AddressableAudioSource sound = new AddressableAudioSource();
 			sound.AssetAddress = addressableAudioSource;
 			MusicManager.PlayNetworked(sound);
@@ -582,7 +617,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdStartProfile(int frameCount, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out _) == false) return;
+			if (HasPermission(sender, out _, TAG.DEBUG_FRAME_PROFILE) == false) return;
 
 			SafeProfileManager.Instance.StartProfile(frameCount);
 		}
@@ -590,7 +625,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdRequestProfiles(NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var player))
+			if (HasPermission(sender, out var player, TAG.DEBUG_FRAME_VIEW_PROFILE))
 			{
 				ProfileMessage.Send(player.GameObject);
 			}
@@ -599,7 +634,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdDeleteProfile(string profileName, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out _) == false) return;
+			if (HasPermission(sender, out _, TAG.DEBUG_FRAME_REMOVE_PROFILE) == false) return;
 			if (SafeProfileManager.runningProfile || SafeProfileManager.runningMemoryProfile) return;
 
 			SafeProfileManager.Instance.RemoveProfile(profileName);
@@ -610,7 +645,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdStartMemoryProfile(bool full, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out _) == false) return;
+			if (HasPermission(sender, out _, TAG.DEBUG_DO_MEMORY_PROFILE) == false) return;
 
 			SafeProfileManager.Instance.RunMemoryProfile(full);
 		}
@@ -622,7 +657,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdAdminGhostDropItem(NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var player) == false) return;
+			if (HasPermission(sender, out var player, TAG.ADMIN_GHOST_DROP_ITEM) == false) return;
 
 			var itemStorage = AdminManager.Instance.GetItemSlotStorage(player);
 			var slot = itemStorage.GetNamedItemSlot(NamedSlot.ghostStorage01);
@@ -633,7 +668,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdAdminGhostSmashItem(NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var player) == false) return;
+			if (HasPermission(sender, out var player, TAG.ADMIN_SMASH) == false) return;
 
 			var itemStorage = AdminManager.Instance.GetItemSlotStorage(player);
 			var slot = itemStorage.GetNamedItemSlot(NamedSlot.ghostStorage01);
@@ -647,7 +682,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdAddMentor(string userToUpgrade, bool isPermanent, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var admin) == false) return;
+			if (HasPermission(sender, out var admin, TAG.ADMIN_ADD_MENTOR) == false) return;
 
 			if (PlayerList.Instance.IsMentor(userToUpgrade)) return;
 
@@ -667,7 +702,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdRemoveMentor(string userToDowngrade, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var admin) == false) return;
+			if (HasPermission(sender, out var admin, TAG.ADMIN_REMOVE_MENTOR) == false) return;
 
 			PlayerList.Instance.TryRemoveMentor(userToDowngrade);
 
@@ -700,7 +735,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdRemoveBounty(int index, bool completeBounty, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var admin) == false) return;
+			if (HasPermission(sender, out var admin, TAG.ROUND_REMOVE_BOUNTY) == false) return;
 			if (CargoManager.Instance.ActiveBounties.Count <= index) return;
 			if (completeBounty)
 			{
@@ -717,7 +752,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdAdjustBountyRewards(int index, int newReward, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var admin) == false) return;
+			if (HasPermission(sender, out var admin, TAG. ROUND_MODIFY_BOUNTY) == false) return;
 			CargoManager.Instance.ActiveBounties[index].Reward = newReward;
 			CargoManager.Instance.OnBountiesUpdate?.Invoke();
 		}
@@ -737,7 +772,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdRequestCargoServerData(NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var admin) == false) return;
+			if (HasPermission(sender, out var admin, TAG.ROUND_GET_CARGO_STATS) == false) return;
 			List<CargoManager.BountySyncData> simpleData = new List<CargoManager.BountySyncData>();
 			for (int i = 0; i < CargoManager.Instance.ActiveBounties.Count; i++)
 			{
@@ -757,7 +792,7 @@ namespace AdminCommands
 		public void CmdAddBounty(ItemTrait trait, int amount, string title, string description, int reward,
 			bool announce, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var admin) == false) return;
+			if (HasPermission(sender, out var admin, TAG.ROUND_ADD_BOUNTY) == false) return;
 			CargoManager.Instance.AddBounty(trait, amount, title, description, reward, announce);
 			CargoManager.Instance.OnBountiesUpdate?.Invoke();
 			LogAdminAction(
@@ -767,7 +802,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdChangeBudget(int budget, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var admin) == false) return;
+			if (HasPermission(sender, out var admin, TAG. ROUND_SET_CARGO_CREDITS) == false) return;
 			CargoManager.Instance.Credits = budget;
 			CargoManager.Instance.OnCreditsUpdate?.Invoke();
 			LogAdminAction($"{admin.Username} has changed the cargo budget to -> {budget}");
@@ -776,7 +811,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdChangeCargoConnectionStatus(bool online, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var admin) == false) return;
+			if (HasPermission(sender, out var admin, TAG. ROUND_SET_CARGO_STATUS) == false) return;
 			CargoManager.Instance.CargoOffline = online;
 			CargoManager.Instance.OnConnectionChangeToCentComm?.Invoke();
 			LogAdminAction($"{admin.Username} has changed the cargo online status to -> {online}");
@@ -785,7 +820,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdToggleCargoRandomBounty(bool state, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var admin) == false) return;
+			if (HasPermission(sender, out var admin, TAG. ROUND_RNG_CARGO_BOUNTIES) == false) return;
 			CargoManager.Instance.CargoOffline = state;
 			CargoManager.Instance.OnConnectionChangeToCentComm?.Invoke();
 			LogAdminAction($"{admin.Username} has changed the cargo random bounties status to -> {state}");
@@ -800,7 +835,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdAdminMakeHotspot(GameObject onObject, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var admin) == false) return;
+			if (HasPermission(sender, out var admin, TAG. DEBUG_MAKE_HOTSPOT) == false) return;
 			if (onObject == null) return;
 
 			var reactionManager = onObject.GetComponentInParent<ReactionManager>();
@@ -818,7 +853,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdAdminSmash(GameObject toSmash, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var admin) == false) return;
+			if (HasPermission(sender, out var admin, TAG.ADMIN_SMASH) == false) return;
 
 			if (toSmash == null) return;
 
@@ -837,7 +872,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdGetAdminOverlayFullUpdate(NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var admin) == false) return;
+			if (HasPermission(sender, out var admin, TAG. ADMIN_OVERLAY_INFO) == false) return;
 
 			AdminOverlay.RequestFullUpdate(admin);
 		}
@@ -849,7 +884,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdOpenDoor(GameObject doorToOpen, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var admin) == false) return;
+			if (HasPermission(sender, out var admin, TAG. ADMIN_OPEN_DOORS) == false) return;
 			try
 			{
 				if (doorToOpen == null) return;
@@ -870,7 +905,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdToggleBoltDoor(GameObject doorToToggle, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var admin) == false) return;
+			if (HasPermission(sender, out var admin, TAG. ADMIN_TOGGLE_BOLTS) == false) return;
 			try
 			{
 				if (doorToToggle == null) return;
@@ -893,7 +928,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdToggleElectrifiedDoor(GameObject doorToToggle, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var admin) == false) return;
+			if (HasPermission(sender, out var admin, TAG. ADMIN_ELECTRIFIE_DOOR) == false) return;
 			if (doorToToggle == null) return;
 
 			if (doorToToggle.TryGetComponent<DoorMasterController>(out var doorMasterController) == false) return;
@@ -913,7 +948,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdTeleportToObject(GameObject teleportTo, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var admin) == false) return;
+			if (HasPermission(sender, out var admin, TAG. ADMIN_TP) == false) return;
 			if (teleportTo == null) return;
 
 			if (teleportTo.TryGetComponent<UniversalObjectPhysics>(out var uop) == false) return;
@@ -936,7 +971,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdTogglePushable(GameObject gameObjectToToggle, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var admin) == false) return;
+			if (HasPermission(sender, out var admin, TAG. ADMIN_CHANGE_PUSHBLE) == false) return;
 			if (gameObjectToToggle == null) return;
 
 			if (gameObjectToToggle.TryGetComponent<UniversalObjectPhysics>(out var uop) == false) return;
@@ -954,7 +989,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdEarlyLaunch(GameObject shuttleConsole, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var admin) == false) return;
+			if (HasPermission(sender, out var admin, TAG. ROUND_EARLY_LAUNCH) == false) return;
 			if (shuttleConsole == null) return;
 
 			if (shuttleConsole.TryGetComponent<EscapeShuttleConsole>(out var escapeShuttleConsole) == false) return;
@@ -971,7 +1006,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdActivateButton(GameObject button, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var admin) == false) return;
+			if (HasPermission(sender, out var admin, TAG.ADMIN_PRESS_BUTTON) == false) return;
 			if (button == null) return;
 
 			if (button.TryGetComponent<GeneralSwitch>(out var generalSwitch))
@@ -998,7 +1033,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdHealMob(GameObject mobToHeal, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var admin) == false) return;
+			if (HasPermission(sender, out var admin, TAG. PLAYER_HEAL) == false) return;
 			if (mobToHeal == null) return;
 
 			//Does this player have a body that can be healed?
@@ -1019,7 +1054,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdPlaceTile(GUI_DevTileChanger.PlaceStruct data, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var admin) == false) return;
+			if (HasPermission(sender, out var admin, TAG. MAP_PLACE_TILE) == false) return;
 
 			var matrixInfo = MatrixManager.Get(data.matrixId);
 			if (matrixInfo == null || matrixInfo == MatrixInfo.Invalid)
@@ -1141,7 +1176,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdRemoveTile(GUI_DevTileChanger.RemoveStruct data, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var admin) == false) return;
+			if (HasPermission(sender, out var admin, TAG. MAP_REMOVE_TILE) == false) return;
 
 			var matrixInfo = MatrixManager.Get(data.matrixId);
 			if (matrixInfo == null || matrixInfo == MatrixInfo.Invalid)
@@ -1192,7 +1227,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdColourTile(GUI_DevTileChanger.ColourStruct data, NetworkConnectionToClient sender = null)
 		{
-			if (IsAdmin(sender, out var admin) == false) return;
+			if (HasPermission(sender, out var admin, TAG. MAP_COLOUR_TILE) == false) return;
 
 			var matrixInfo = MatrixManager.Get(data.matrixId);
 			if (matrixInfo == null || matrixInfo == MatrixInfo.Invalid)
@@ -1303,7 +1338,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void DestroyAllLights(NetworkConnectionToClient conn = null)
 		{
-			if (IsAdmin(conn, out var player) == false) return;
+			if (HasPermission(conn, out var player, TAG.DEBUG_DESTROY_LIGHTS) == false) return;
 			StartCoroutine(KillLights());
 			Chat.AddSystemMsgToChat(
 				"<color=blue>Lights are being destroyed to save energy and spice up the crew-members' working experience.</color>",
@@ -1313,7 +1348,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void SelfSuficeAllMachines(NetworkConnectionToClient conn = null)
 		{
-			if (IsAdmin(conn, out var player) == false) return;
+			if (HasPermission(conn, out var player, TAG.DEBUG_SELF_SUFFICIENT) == false) return;
 			StartCoroutine(SelfPowerEverything());
 			Chat.AddSystemMsgToChat(
 				"<color=blue>An admin is updating all machines on the station to not require APCs.</color>",
@@ -1323,7 +1358,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void TurnOnEmergencyLightsStationWide(NetworkConnectionToClient conn = null)
 		{
-			if (IsAdmin(conn, out var player) == false) return;
+			if (HasPermission(conn, out var player, TAG.DEBUG_EMERGENCY_LIGHTS) == false) return;
 			StartCoroutine(TurnOnAllEmergancyLights());
 			Chat.AddSystemMsgToChat(
 				"<color=red>Emergency Lights active.</color>",
@@ -1333,7 +1368,7 @@ namespace AdminCommands
 		[ConsoleMethod("free-faith-points", "Awards 500 free faith points."), Command(requiresAuthority = false)]
 		public void CmdFreeFaithPoints(NetworkConnectionToClient conn = null)
 		{
-			if (IsAdmin(conn, out var player) == false) return;
+			if (HasPermission(conn, out var player, TAG.DEBUG_ADD_FAITH_POINTS) == false) return;
 			foreach (var faith in FaithManager.Instance.CurrentFaiths)
 			{
 				FaithManager.AwardPoints(500, faith.Faith.FaithName);

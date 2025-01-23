@@ -16,16 +16,15 @@ namespace Messages.Client
 
 		public override void Process(NetMessage msg)
 		{
+			if (HasPermission(TAG.ADMIN_INVENTORY_TRANSFER) == false) return;
+
 			LoadMultipleObjects(new uint[]{msg.FromStorage, msg.ToStorage});
 			if (NetworkObjects[0] == null || NetworkObjects[1] == null) return;
 
 			var fromSlot = ItemSlot.Get(NetworkObjects[0].GetComponent<ItemStorage>(), msg.FromNamedSlot, msg.FromSlotIndex);
 			var toSlot = ItemSlot.Get(NetworkObjects[1].GetComponent<ItemStorage>(), msg.ToNamedSlot, msg.ToSlotIndex);
 
-			if (SentByPlayer.IsAdmin)
-			{
-				Inventory.ServerTransfer(fromSlot, toSlot);
-			}
+			Inventory.ServerTransfer(fromSlot, toSlot);
 		}
 
 		public static void Send(ItemSlot fromSlot, ItemSlot toSlot)

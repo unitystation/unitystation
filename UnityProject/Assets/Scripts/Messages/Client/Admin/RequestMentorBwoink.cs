@@ -14,7 +14,7 @@ namespace Messages.Client.Admin
 
 		public override void Process(NetMessage msg)
 		{
-			if (IsFromAdmin() == false && PlayerList.Instance.IsMentor(SentByPlayer.AccountId) == false) return;
+			if (HasPermission(TAG.MENTOR_MESSAGE) == false && PlayerList.Instance.IsMentor(SentByPlayer.AccountId) == false) return;
 
 			if (PlayerList.Instance.TryGetByUserID(msg.UserToBwoink, out var recipient) == false) return;
 

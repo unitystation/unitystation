@@ -28,7 +28,7 @@ public class DeviceRenamerMessage : ClientMessage<DeviceRenamerMessage.NetMessag
 
 	public override void Process(NetMessage msg)
 	{
-		if (IsFromAdmin() == false) return;
+		if (HasPermission(TAG.MAP_RENAME) == false) return;
 
 
 		if (msg.ObjectID !=  NetId.Empty &&  msg.ObjectID != NetId.Invalid)

@@ -14,7 +14,7 @@ namespace Messages.Client.Admin
 
 		public override void Process(NetMessage msg)
 		{
-			if (IsFromAdmin())
+			if (HasPermission(TAG.SETTING_VOICE_CHAT))
 			{
 				VoiceChatManager.Instance.SyncEnabled(VoiceChatManager.Instance.Enabled, msg.Enabled);
 			}

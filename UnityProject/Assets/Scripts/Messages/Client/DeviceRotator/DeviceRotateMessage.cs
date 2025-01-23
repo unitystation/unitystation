@@ -29,7 +29,7 @@ public class DeviceRotateMessage : ClientMessage<DeviceRotateMessage.NetMessage>
 
 	public override void Process(NetMessage msg)
 	{
-		if (IsFromAdmin() == false) return;
+		if (HasPermission(TAG.MAP_ROTATE) == false) return;
 		var Master = msg.ToRotate.NetworkIdentity().GetComponent<Rotatable>();
 		Master.FaceDirection(msg.RotateTo);
 	}

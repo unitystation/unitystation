@@ -24,7 +24,7 @@ public class ClientRequestsSaveMessage : ClientMessage<ClientRequestsSaveMessage
 
 	public override void Process(NetMessage msg)
 	{
-		if (IsFromAdmin() == false) return;
+		if (HasPermission(TAG.MAP_SAVE) == false) return;
 		var Matrix = MatrixManager.Get(msg.MatrixID);
 
 		HashSet<LayerType> Layers = null;

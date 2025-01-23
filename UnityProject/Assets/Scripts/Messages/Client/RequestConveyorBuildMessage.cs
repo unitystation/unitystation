@@ -24,7 +24,7 @@ namespace Messages.Client
 		public override void Process(NetMessage msg)
 		{
 			var playerScript = SentByPlayer.Script;
-			if (msg.Sandboxing && AdminCommands.AdminCommandsManager.IsAdmin(playerScript.connectionToClient, out var _))
+			if (msg.Sandboxing && AdminCommands.AdminCommandsManager.HasPermission(playerScript.connectionToClient, out var _, "MAP_SPAWN"))
 			{
 				var spawnedObj = Spawn.ServerPrefab(UIManager.BuildMenu.ConveyorBuildMenu.ConveyorBeltPrefab.Prefab, playerScript.RegisterPlayer.WorldPosition)?.GameObject;
 				if (spawnedObj)

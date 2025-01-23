@@ -18,7 +18,7 @@ namespace Messages.Client.Admin
 
 		private void VerifyAdminStatus(NetMessage msg)
 		{
-			if (IsFromAdmin() == false && PlayerList.Instance.IsMentor(SentByPlayer.AccountId) == false) return;
+			if (HasPermission(TAG.PLAYER_INFO) == false && PlayerList.Instance.IsMentor(SentByPlayer.AccountId) == false) return;
 
 			AdminPlayerListRefreshMessage.Send(SentByPlayer.GameObject, SentByPlayer.AccountId);
 		}

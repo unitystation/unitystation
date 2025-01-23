@@ -506,7 +506,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdVetoRestartVote()
 	{
-		if (AdminCommandsManager.IsAdmin(connectionToClient, out var player))
+		if (AdminCommandsManager.HasPermission(connectionToClient, out var player, "ADMIN_VETO_VOTE"))
 		{
 			if (VotingManager.Instance == null) return;
 
@@ -644,7 +644,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdRespawnPlayer()
 	{
-		if (AdminCommandsManager.IsAdmin(connectionToClient, out _, false) || GameManager.Instance.RespawnCurrentlyAllowed)
+		if (AdminCommandsManager.HasPermission(connectionToClient, out _,  "ADMIN_RESPAWN_SELF",false) || GameManager.Instance.RespawnCurrentlyAllowed)
 		{
 			ServerRespawnPlayer();
 		}

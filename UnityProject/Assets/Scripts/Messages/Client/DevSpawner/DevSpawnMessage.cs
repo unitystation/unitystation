@@ -52,7 +52,7 @@ namespace Messages.Client.DevSpawner
 
 		private void ValidateAdmin(NetMessage msg)
 		{
-			if (IsFromAdmin() == false) return;
+			if (HasPermission(TAG.MAP_SPAWN) == false) return;
 
 			//no longer checks impassability, spawn anywhere, go hog wild.
 			if (NetworkClient.prefabs.TryGetValue(msg.PrefabAssetID, out var prefab))
