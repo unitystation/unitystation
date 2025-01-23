@@ -33,8 +33,6 @@ public class MatrixCash
 		if (Positions[Location] == null)
 		{
 			Positions[Location] = MatrixManager.AtPoint(WorldPOS + DIR, CustomNetworkManager.IsServer, Positions[6]);
-			if ()#
-				//TODO Check if adjacent to Matrix efficiently Basically is floating, Because should be attached to matrix
 		}
 
 		return Positions[Location];
