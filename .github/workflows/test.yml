@@ -61,7 +61,7 @@ jobs:
           printf "\nLICENSE-EOF" >> "$GITHUB_ENV"
 
       - name: Installs dotnet and restores packages
-        uses: actions/setup-dotnet@v4.2.0
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '7.0.x'
       - run: dotnet tool install --global NuGetForUnity.Cli
@@ -96,7 +96,7 @@ jobs:
         if: always()
         uses: actions/setup-dotnet@v4.2.0
         with:
-          dotnet-version: "8.0.2"
+          dotnet-version: "6.0.428"
 
       # Do the report magic
       - name: Generate .html report
