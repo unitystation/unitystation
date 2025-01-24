@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core.GameGizmos;
 using InGameGizmos;
 using UnityEngine;
 
@@ -85,16 +86,6 @@ public class GameGizmoLine : GameGizmo
 
 	public void UpdateMe()
 	{
-		if (SecondsToLive > 0)
-		{
-			SecondsToLive -= Time.deltaTime;
-			if (SecondsToLive <= 0 || SecondsToLive.Approx(0))
-			{
-				UnRegisterUpdateCallbacks();
-				GameGizmomanager.Instance.OrNull()?.ActiveGizmos?.Remove(this);
-				return;
-			}
-		}
 		if (TrackingFrom != null)
 		{
 			Renderer.SetPosition(0, TrackingFrom.transform.TransformPoint( From));
