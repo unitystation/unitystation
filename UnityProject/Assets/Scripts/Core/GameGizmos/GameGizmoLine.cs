@@ -15,8 +15,6 @@ public class GameGizmoLine : GameGizmo
 
 	public GameObject TrackingTo;
 	public Vector3 To;
-
-	public float SecondsToLive = 0;
 	private bool callbackRegistered = false;
 
 
@@ -58,7 +56,7 @@ public class GameGizmoLine : GameGizmo
 	private void RegisterUpdateCallbacks()
 	{
 		if (callbackRegistered) return;
-		if (TrackingFrom != null || TrackingTo != null || SecondsToLive > 0)
+		if (TrackingFrom != null || TrackingTo != null)
 		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 			callbackRegistered = true;
@@ -67,7 +65,7 @@ public class GameGizmoLine : GameGizmo
 
 	private void UnRegisterUpdateCallbacks()
 	{
-		if (TrackingFrom != null || TrackingTo != null || SecondsToLive > 0)
+		if (TrackingFrom != null || TrackingTo != null)
 		{
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
