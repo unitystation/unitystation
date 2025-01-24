@@ -137,6 +137,13 @@ namespace Tilemaps.Behaviours.Pathfinding
 			    terrain[neighbor4.x, neighbor4.y] != null) positionsToVisit.Add(neighbor4);
 		}
 
+		/// <summary>
+		/// Gets the most efficent path from point A to B.
+		/// </summary>
+		/// <param name="terrain">the tilemap that will be used to treverse</param>
+		/// <param name="start">starting position of the path</param>
+		/// <param name="end">end of path</param>
+		/// <returns>a list of vector3s that create a path from `start` to `end`</returns>
 		public List<Vector3Int> FromTo(ChunkedTileMap<MetaDataNode> terrain, Vector3Int start, Vector3Int end)
         {
             if (PositionIsOutOfBounds(terrain, start) || PositionIsOutOfBounds(terrain, end))
