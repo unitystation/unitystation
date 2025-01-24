@@ -342,6 +342,10 @@ public class ChunkedTileMap<T> : IEnumerable<T> where T : class
 		return GetEnumerator();
 	}
 
+
+	/// <summary>
+	/// Grabs all tile positions on a tilemap (Extremely slow, don't overuse it)
+	/// </summary>
 	public Vector3Int[,] GetAllPositions()
 	{
 	    List<Vector3Int> positions = new List<Vector3Int>();
