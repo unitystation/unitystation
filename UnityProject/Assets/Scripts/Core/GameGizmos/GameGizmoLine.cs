@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using InGameGizmos;
 using UnityEngine;
 
 public class GameGizmoLine : GameGizmo
@@ -14,8 +15,11 @@ public class GameGizmoLine : GameGizmo
 	public GameObject TrackingTo;
 	public Vector3 To;
 
+	public float SecondsToLive = 0;
+	private bool callbackRegistered = false;
 
-	public void SetUp(GameObject InTrackingFrom, Vector3 InFrom,   GameObject InTrackingTo, Vector3 InTo, Color color, float LineThickness)
+
+	public void SetUp(GameObject InTrackingFrom, Vector3 InFrom,   GameObject InTrackingTo, Vector3 InTo, Color color, float LineThickness, float time = -1)
 	{
 		TrackingFrom = InTrackingFrom;
 		From = InFrom;
@@ -27,12 +31,9 @@ public class GameGizmoLine : GameGizmo
 
 		Renderer.startWidth = LineThickness;
 		Renderer.endWidth = LineThickness;
+		SecondsToLive = time;
 
-		if (TrackingFrom != null || TrackingTo != null)
-		{
-			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-		}
-
+		RegisterUpdateCallbacks();
 
 		if (TrackingFrom != null)
 		{
@@ -53,26 +54,47 @@ public class GameGizmoLine : GameGizmo
 		}
 	}
 
-	public void OnEnable()
+	private void RegisterUpdateCallbacks()
 	{
-		if (TrackingFrom != null || TrackingTo != null)
+		if (callbackRegistered) return;
+		if (TrackingFrom != null || TrackingTo != null || SecondsToLive > 0)
 		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			callbackRegistered = true;
 		}
-
 	}
 
-
-	public void OnDisable()
+	private void UnRegisterUpdateCallbacks()
 	{
-		if (TrackingFrom != null || TrackingTo != null)
+		if (TrackingFrom != null || TrackingTo != null || SecondsToLive > 0)
 		{
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
+		callbackRegistered = false;
+	}
+
+	public void OnEnable()
+	{
+		RegisterUpdateCallbacks();
+	}
+
+	public void OnDisable()
+	{
+		UnRegisterUpdateCallbacks();
 	}
 
 	public void UpdateMe()
 	{
+		if (SecondsToLive > 0)
+		{
+			SecondsToLive -= Time.deltaTime;
+			if (SecondsToLive <= 0 || SecondsToLive.Approx(0))
+			{
+				UnRegisterUpdateCallbacks();
+				GameGizmomanager.Instance.OrNull()?.ActiveGizmos?.Remove(this);
+				return;
+			}
+		}
 		if (TrackingFrom != null)
 		{
 			Renderer.SetPosition(0, TrackingFrom.transform.TransformPoint( From));
@@ -91,6 +113,4 @@ public class GameGizmoLine : GameGizmo
 			Renderer.SetPosition(1, To);
 		}
 	}
-
-
 }

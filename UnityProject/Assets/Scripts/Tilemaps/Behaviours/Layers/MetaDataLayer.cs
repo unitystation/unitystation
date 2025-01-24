@@ -52,8 +52,6 @@ public class MetaDataLayer : MonoBehaviour
 	private const float REAGENT_LIMIT_PER_CELL = 10f;
 	private const float EVAPORATE_TICK_DURATION = 64f;
 
-	private Vector3Int[,] debug_pathVectors = null;
-
 	public void OnEnable()
 	{
 		if (CustomNetworkManager.IsServer)
@@ -84,35 +82,6 @@ public class MetaDataLayer : MonoBehaviour
 		matrix = GetComponent<Matrix>();
 		MetaDataSystem = subsystemManager.GetComponent<MetaDataSystem>();
 	}
-
-	private void Update()
-	{
-		if (Input.GetKeyDown(KeyCode.B))
-		{
-			debug_pathVectors = new Vector3Int[nodes.GetMaxX(), nodes.GetMaxY()];
-
-			Pathfinder.PropogatePaths(nodes,
-				PlayerManager.LocalPlayerObject.TileLocalPosition().To3Int(), ref debug_pathVectors);
-			StopCoroutine(Visualize());
-			StartCoroutine(Visualize());
-		}
-	}
-
-	private IEnumerator Visualize()
-	{
-		var startingVector = PlayerManager.LocalPlayerObject.TileLocalPosition().To3Int();
-		Color color = new Color(0,0,0);
-		foreach (var p in debug_pathVectors)
-		{
-			if (startingVector == p || p == Vector3Int.zero) yield break;
-			Debug.Log(p);
-			GameGizmomanager.AddNewLineStaticClient(null, startingVector, null, p, color);
-			color = new Color(Random.Range(0, 1),Random.Range(0, 1),Random.Range(0, 1));
-			startingVector = p;
-			yield return WaitFor.Seconds(0.25f);
-		}
-	}
-
 
 	public void SynchroniseNodeChanges()
 	{

@@ -342,6 +342,121 @@ public class ChunkedTileMap<T> : IEnumerable<T> where T : class
 		return GetEnumerator();
 	}
 
+	public Vector3Int[,] GetAllPositions()
+	{
+	    List<Vector3Int> positions = new List<Vector3Int>();
+
+	    foreach (var chunkList in chunksXY)
+	    {
+	        if (chunkList != null)
+	        {
+	            for (int chunkX = 0; chunkX < chunkList.Count; chunkX++)
+	            {
+	                var chunk = chunkList[chunkX];
+	                if (chunk != null)
+	                {
+	                    for (int localX = 0; localX < ChunkSize; localX++)
+	                    {
+	                        for (int localY = 0; localY < ChunkSize; localY++)
+	                        {
+	                            if (chunk[localX, localY] != null)
+	                            {
+	                                positions.Add(new Vector3Int(chunkX * ChunkSize + localX, chunkX * ChunkSize + localY, 0));
+	                            }
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	    }
+
+	    foreach (var chunkList in chunksXnY)
+	    {
+	        if (chunkList != null)
+	        {
+	            for (int chunkX = 0; chunkX < chunkList.Count; chunkX++)
+	            {
+	                var chunk = chunkList[chunkX];
+	                if (chunk != null)
+	                {
+	                    for (int localX = 0; localX < ChunkSize; localX++)
+	                    {
+	                        for (int localY = 0; localY < ChunkSize; localY++)
+	                        {
+	                            if (chunk[localX, localY] != null)
+	                            {
+	                                positions.Add(new Vector3Int(chunkX * ChunkSize + localX, -(chunkX * ChunkSize + localY), 0));
+	                            }
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	    }
+
+	    foreach (var chunkList in chunksnXY)
+	    {
+	        if (chunkList != null)
+	        {
+	            for (int chunkX = 0; chunkX < chunkList.Count; chunkX++)
+	            {
+	                var chunk = chunkList[chunkX];
+	                if (chunk != null)
+	                {
+	                    for (int localX = 0; localX < ChunkSize; localX++)
+	                    {
+	                        for (int localY = 0; localY < ChunkSize; localY++)
+	                        {
+	                            if (chunk[localX, localY] != null)
+	                            {
+	                                positions.Add(new Vector3Int(-(chunkX * ChunkSize + localX), chunkX * ChunkSize + localY, 0));
+	                            }
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	    }
+
+	    foreach (var chunkList in chunksnXnY)
+	    {
+	        if (chunkList != null)
+	        {
+	            for (int chunkX = 0; chunkX < chunkList.Count; chunkX++)
+	            {
+	                var chunk = chunkList[chunkX];
+	                if (chunk != null)
+	                {
+	                    for (int localX = 0; localX < ChunkSize; localX++)
+	                    {
+	                        for (int localY = 0; localY < ChunkSize; localY++)
+	                        {
+	                            if (chunk[localX, localY] != null)
+	                            {
+	                                positions.Add(new Vector3Int(-(chunkX * ChunkSize + localX), -(chunkX * ChunkSize + localY), 0));
+	                            }
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	    }
+
+	    foreach (var kv in OverflowDictionary)
+	    {
+	        positions.Add(kv.Key);
+	    }
+
+	    int size = positions.Count;
+	    Vector3Int[,] result = new Vector3Int[size, 1];
+	    for (int i = 0; i < size; i++)
+	    {
+	        result[i, 0] = positions[i];
+	    }
+
+	    return result;
+	}
+
 	public void Clear()
 	{
 		chunksXY.Clear();

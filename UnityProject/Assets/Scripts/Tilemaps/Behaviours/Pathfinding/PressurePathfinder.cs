@@ -136,5 +136,66 @@ namespace Tilemaps.Behaviours.Pathfinding
 			if (!PositionIsOutOfBounds(terrain, neighbor4) && !positionsToVisit.Contains(neighbor4) &&
 			    terrain[neighbor4.x, neighbor4.y] != null) positionsToVisit.Add(neighbor4);
 		}
-	}
+
+		public List<Vector3Int> FromTo(ChunkedTileMap<MetaDataNode> terrain, Vector3Int start, Vector3Int end)
+        {
+            if (PositionIsOutOfBounds(terrain, start) || PositionIsOutOfBounds(terrain, end))
+                return null;
+
+            var queue = new Queue<Vector3Int>();
+            var cameFrom = new Dictionary<Vector3Int, Vector3Int>();
+            var path = new List<Vector3Int>();
+
+            queue.Enqueue(start);
+            cameFrom[start] = start;
+
+            while (queue.Count > 0)
+            {
+                var current = queue.Dequeue();
+
+                if (current == end)
+                {
+                    while (current != start)
+                    {
+                        path.Add(current);
+                        current = cameFrom[current];
+                    }
+                    path.Add(start);
+                    path.Reverse();
+                    return path;
+                }
+
+                foreach (var neighbor in GetNeighbors(terrain, current))
+                {
+                    if (!cameFrom.ContainsKey(neighbor))
+                    {
+                        queue.Enqueue(neighbor);
+                        cameFrom[neighbor] = current;
+                    }
+                }
+            }
+
+            return null; // No path found
+        }
+
+        private IEnumerable<Vector3Int> GetNeighbors(ChunkedTileMap<MetaDataNode> terrain, Vector3Int position)
+        {
+            var directions = new List<Vector3Int>
+            {
+                new Vector3Int(1, 0, 0),
+                new Vector3Int(-1, 0, 0),
+                new Vector3Int(0, 1, 0),
+                new Vector3Int(0, -1, 0)
+            };
+
+            foreach (var direction in directions)
+            {
+                var neighbor = position + direction;
+                if (!PositionIsOutOfBounds(terrain, neighbor) && terrain.GetTile(neighbor) != null && !terrain.GetTile(neighbor).IsOccupied)
+                {
+                    yield return neighbor;
+                }
+            }
+        }
+    }
 }

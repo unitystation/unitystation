@@ -54,9 +54,9 @@ namespace InGameGizmos
 		}
 	}
 
-	public static GameGizmoLine AddNewLineStaticClient(GameObject TrackingFrom, Vector3 From,   GameObject TrackingTo, Vector3 To, Color color, float LineThickness =  0.03125f)
+	public static GameGizmoLine AddNewLineStaticClient(GameObject TrackingFrom, Vector3 From,   GameObject TrackingTo, Vector3 To, Color color, float LineThickness =  0.03125f, float time = -1)
 	{
-		return Instance.AddNewLine(TrackingFrom, From,TrackingTo, To, color, LineThickness);
+		return Instance.AddNewLine(TrackingFrom, From,TrackingTo, To, color, LineThickness, time);
 	}
 
 	public static GameGizmoSprite AddNewSpriteStaticClient(GameObject Tracking, Vector3 position,  Color color, SpriteDataSO Sprite)
@@ -81,11 +81,11 @@ namespace InGameGizmos
 	}
 
 
-	public GameGizmoLine AddNewLine(GameObject TrackingFrom, Vector3 From,   GameObject TrackingTo, Vector3 To, Color color, float LineThickness)
+	public GameGizmoLine AddNewLine(GameObject TrackingFrom, Vector3 From,   GameObject TrackingTo, Vector3 To, Color color, float LineThickness, float time = -1)
 	{
-		var Line =  Instantiate(PrefabLineRenderer, Instance.transform);
+		var Line = Instantiate(PrefabLineRenderer, Instance.transform);
 		ActiveGizmos.Add(Line);
-		Line.SetUp(TrackingFrom,From,TrackingTo,  To,color, LineThickness );
+		Line.SetUp(TrackingFrom,From,TrackingTo,  To,color, LineThickness, time);
 		return Line;
 	}
 
