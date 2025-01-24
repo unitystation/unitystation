@@ -18,6 +18,8 @@ public class ChunkedTileMap<T> : IEnumerable<T> where T : class
 	public List<List<T[,]>> chunksnXnY = new List<List<T[,]>>();
 	public List<List<T[,]>> chunksnXY = new List<List<T[,]>>();
 
+	private readonly List<List<T[,]>>[] allChunks;
+
 	public Dictionary<Vector3Int, T> OverflowDictionary = new Dictionary<Vector3Int, T>();
 	//This is for any silly values that happen to end up in here, so it doesn't consume all the RAM in the universe
 
@@ -25,9 +27,8 @@ public class ChunkedTileMap<T> : IEnumerable<T> where T : class
 	{
 		MaxChunkRangeBeforeDictionaryBackup = InMaxChunkRangeBeforeDictionaryBackup;
 		MaxChunkTileRange = MaxChunkRangeBeforeDictionaryBackup * ChunkSize;
+		allChunks = new[] { chunksXY, chunksXnY, chunksnXY, chunksnXnY };
 	}
-
-
 
 	public bool ContainsKey(Vector3Int position)
 	{
@@ -174,19 +175,19 @@ public class ChunkedTileMap<T> : IEnumerable<T> where T : class
 
 
 
-	public T GetTile(Vector3Int position, bool Expand = false)
+	public T GetTile(Vector3Int position, bool expand = false)
 	{
 		if (Mathf.Abs(position.x) > MaxChunkTileRange || Mathf.Abs(position.y) > MaxChunkTileRange)
 		{
 			return OverflowDictionary.GetValueOrDefault(position);
 		}
 
-		var Chunk = GetChunkAtAndIgnoreDictionaryRecords(position, Expand);
+		var chunk = GetChunkAtAndIgnoreDictionaryRecords(position, expand);
 		int localX = Mathf.Abs(Mathf.FloorToInt(position.x) % ChunkSize);
 		int localY = Mathf.Abs(Mathf.FloorToInt(position.y) % ChunkSize);
-		if (Chunk != null)
+		if (chunk != null)
 		{
-			return Chunk[localX, localY];
+			return chunk[localX, localY];
 		}
 		else
 		{
@@ -198,7 +199,7 @@ public class ChunkedTileMap<T> : IEnumerable<T> where T : class
 	{
 		int maxX = int.MinValue;
 
-		foreach (var chunkList in new[] { chunksXY, chunksXnY, chunksnXY, chunksnXnY })
+		foreach (var chunkList in allChunks)
 		{
 			for (int i = 0; i < chunkList.Count; i++)
 			{
@@ -221,7 +222,7 @@ public class ChunkedTileMap<T> : IEnumerable<T> where T : class
 	{
 		int maxY = int.MinValue;
 
-		foreach (var chunkList in new[] { chunksXY, chunksXnY, chunksnXY, chunksnXnY })
+		foreach (var chunkList in allChunks)
 		{
 			foreach (var chunk in chunkList)
 			{
@@ -308,7 +309,6 @@ public class ChunkedTileMap<T> : IEnumerable<T> where T : class
 					}
 				}
 			}
-
 		}
 
 		foreach (var chunkList in chunksnXY)
