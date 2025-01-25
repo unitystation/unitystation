@@ -5,7 +5,7 @@
 
 # Understanding Unitystation's pathfinding solution.
 
-- Unitystation uses a slightly modified version of Dijkstra, which is based on the work of [Thomas Wald](https://www.youtube.com/watch?v=09HTNGlkS0s).
+- Unitystation uses a slightly modified version of BFS.
 
 - Each matrix comes with a `Pathfinder` object attached to their MetaDataLayer, and is designed to automatically use the cached chunk data that tilemaps hold. We don't need to generate a secondary grid, as we already reuse data that exists.
 
