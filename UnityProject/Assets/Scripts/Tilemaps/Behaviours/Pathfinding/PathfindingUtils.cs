@@ -10,6 +10,7 @@ namespace Tilemaps.Behaviours.Pathfinding
 	{
 		public static IEnumerator Visualize(List<Vector3Int> traversalPath, Vector3Int start)
 		{
+			if (traversalPath == null || traversalPath.Count == 0) yield break;
 			var startingVector = start;
 			Color color = new Color(0,0,0);
 			foreach (var p in traversalPath)
