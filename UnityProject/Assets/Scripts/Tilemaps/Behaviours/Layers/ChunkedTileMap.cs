@@ -46,23 +46,26 @@ public class ChunkedTileMap<T> : IEnumerable<T> where T : class
 	public T this[Vector2Int position]
 	{
 		get => GetTile(position.To3Int());
-		set => VectorSetter(position.To3Int(), value);
+		set => PositionSet(position.To3Int(), value);
 	}
 
 	public T this[Vector3Int position]
 	{
 		get => GetTile(position);
-		set => VectorSetter(position, value);
+		set => PositionSet(position, value);
 	}
 
 	public T this[int x, int y]
 	{
 		get => GetTile(new Vector3Int(x, y));
-		set => VectorSetter(new Vector3Int(x, y), value);
+		set => PositionSet(new Vector3Int(x, y), value);
 	}
 
-	private void VectorSetter(Vector3Int position, T value)
+	private void PositionSet(Vector3Int position, T value)
 	{
+
+		if (MaxX < position.x) MaxX = position.x;
+		if (MaxY < position.y) MaxY = position.y;
 		if (Mathf.Abs(position.x) > MaxChunkTileRange || Mathf.Abs(position.y) > MaxChunkTileRange)
 		{
 			OverflowDictionary[position] = value;

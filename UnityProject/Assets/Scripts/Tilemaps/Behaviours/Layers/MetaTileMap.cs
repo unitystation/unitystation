@@ -914,7 +914,6 @@ namespace TileManagement
 				}
 			}
 
-			CheckIfBoundsChanged(position);
 			if (Layers.TryGetValue(tile.LayerType, out var layer))
 			{
 				if (isPlaying == false) //is the game playing or is this the levelbrush?
@@ -1072,12 +1071,6 @@ namespace TileManagement
 			}
 
 			return position;
-		}
-
-		public void CheckIfBoundsChanged(Vector3Int newTilePosition)
-		{
-			if (matrix.MetaDataLayer.Nodes.MaxX < newTilePosition.x) matrix.MetaDataLayer.Nodes.MaxX = newTilePosition.x;
-			if (matrix.MetaDataLayer.Nodes.MaxY < newTilePosition.y) matrix.MetaDataLayer.Nodes.MaxY = newTilePosition.y;
 		}
 
 		public void ClearAtPos(Vector3Int position)
