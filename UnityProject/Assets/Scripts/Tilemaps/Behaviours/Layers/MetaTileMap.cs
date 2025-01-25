@@ -912,10 +912,9 @@ namespace TileManagement
 
 					TileSaveRollbacks[position] = TileSaveRollback;
 				}
-
-
 			}
 
+			CheckIfBoundsChanged(position);
 			if (Layers.TryGetValue(tile.LayerType, out var layer))
 			{
 				if (isPlaying == false) //is the game playing or is this the levelbrush?
@@ -1015,13 +1014,13 @@ namespace TileManagement
 				}
 
 
-				LayerTile PreExistingTile = tileLocation.layerTile;
+				LayerTile preExistingTile = tileLocation.layerTile;
 
 				tileLocation.layerTile = tile;
 				tileLocation.transformMatrix = matrixTransform.GetValueOrDefault(Matrix4x4.identity);
 				tileLocation.Colour = color.GetValueOrDefault(Color.white);
 
-				if (PreExistingTile != null)
+				if (preExistingTile != null)
 				{
 					if (tileLocation.layer.LayerType is LayerType.Base or LayerType.Walls)
 					{
@@ -1029,8 +1028,8 @@ namespace TileManagement
 						{
 							if (Mass != 0)
 							{
-								LocalTotalMasslocations -= (PreExistingTile.Mass * position.To3());
-								Mass -= PreExistingTile.Mass;
+								LocalTotalMasslocations -= (preExistingTile.Mass * position.To3());
+								Mass -= preExistingTile.Mass;
 								LocalCentreOfMass = LocalTotalMasslocations / Mass;
 							}
 						}
@@ -1052,9 +1051,9 @@ namespace TileManagement
 				{
 					if (LocalCachedBounds.Value.Contains(tileLocation.LocalPosition) == false)
 					{
-						var Bounds = LocalCachedBounds.Value; // struct funnies With references
-						Bounds.ExpandToPoint2D(tileLocation.LocalPosition);
-						LocalCachedBounds = Bounds;
+						var bounds = LocalCachedBounds.Value; // struct funnies With references
+						bounds.ExpandToPoint2D(tileLocation.LocalPosition);
+						LocalCachedBounds = bounds;
 
 						lock (matrix)
 						{
@@ -1073,6 +1072,12 @@ namespace TileManagement
 			}
 
 			return position;
+		}
+
+		public void CheckIfBoundsChanged(Vector3Int newTilePosition)
+		{
+			if (matrix.MetaDataLayer.Nodes.MaxX < newTilePosition.x) matrix.MetaDataLayer.Nodes.MaxX = newTilePosition.x;
+			if (matrix.MetaDataLayer.Nodes.MaxY < newTilePosition.y) matrix.MetaDataLayer.Nodes.MaxY = newTilePosition.y;
 		}
 
 		public void ClearAtPos(Vector3Int position)

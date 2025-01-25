@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 namespace Tilemaps.Behaviours.Pathfinding
 {
@@ -7,14 +8,13 @@ namespace Tilemaps.Behaviours.Pathfinding
 	{
 		/// <summary>
 		///     Returns whether or not the given position is out of bounds of the pathfinding array.
-		///     See <see cref="PropogatePaths" />
 		/// </summary>
 		/// <param name="terrain">the tilemap/grid used</param>
 		/// <param name="gridPosition">The location to check.</param>
 		private bool PositionIsOutOfBounds(ChunkedTileMap<MetaDataNode> terrain, Vector3Int gridPosition)
 		{
 			if (gridPosition.x < 0 || gridPosition.y < 0 ||
-			    gridPosition.x >= terrain.GetMaxX() || gridPosition.y >= terrain.GetMaxY()) return true;
+			    gridPosition.x >= terrain.MaxX || gridPosition.y >= terrain.MaxY) return true;
 			return false;
 		}
 

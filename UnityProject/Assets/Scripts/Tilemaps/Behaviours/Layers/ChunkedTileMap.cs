@@ -19,6 +19,8 @@ public class ChunkedTileMap<T> : IEnumerable<T> where T : class
 	public List<List<T[,]>> chunksnXY = new List<List<T[,]>>();
 
 	private readonly List<List<T[,]>>[] allChunks;
+	public int MaxX = 0;
+	public int MaxY = 0;
 
 	public Dictionary<Vector3Int, T> OverflowDictionary = new Dictionary<Vector3Int, T>();
 	//This is for any silly values that happen to end up in here, so it doesn't consume all the RAM in the universe
@@ -195,60 +197,8 @@ public class ChunkedTileMap<T> : IEnumerable<T> where T : class
 		}
 	}
 
-	public int GetMaxX()
-	{
-		int maxX = int.MinValue;
 
-		foreach (var chunkList in allChunks)
-		{
-			for (int i = 0; i < chunkList.Count; i++)
-			{
-				if (chunkList[i] != null)
-				{
-					maxX = Math.Max(maxX, i * ChunkSize + ChunkSize - 1);
-				}
-			}
-		}
-
-		foreach (var kv in OverflowDictionary)
-		{
-			maxX = Math.Max(maxX, kv.Key.x);
-		}
-
-		return maxX;
-	}
-
-	public int GetMaxY()
-	{
-		int maxY = int.MinValue;
-
-		foreach (var chunkList in allChunks)
-		{
-			foreach (var chunk in chunkList)
-			{
-				if (chunk != null)
-				{
-					for (int j = 0; j < chunk.Count; j++)
-					{
-						if (chunk[j] != null)
-						{
-							maxY = Math.Max(maxY, j * ChunkSize + ChunkSize - 1);
-						}
-					}
-				}
-			}
-		}
-
-		foreach (var kv in OverflowDictionary)
-		{
-			maxY = Math.Max(maxY, kv.Key.y);
-		}
-
-		return maxY;
-	}
-
-
-// IEnumerable<T> implementation for foreach
+	// IEnumerable<T> implementation for foreach
 	public IEnumerator<T> GetEnumerator()
 	{
 		foreach (var chunkList in chunksXY)
@@ -346,7 +296,7 @@ public class ChunkedTileMap<T> : IEnumerable<T> where T : class
 	/// <summary>
 	/// Grabs all tile positions on a tilemap (Extremely slow, don't overuse it)
 	/// </summary>
-	public Vector3Int[,] GetAllPositions()
+	public Vector3Int[,] GetAllPositionsSlow()
 	{
 	    List<Vector3Int> positions = new List<Vector3Int>();
 
