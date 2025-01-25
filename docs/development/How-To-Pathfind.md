@@ -31,13 +31,13 @@ after finding the pathfinder, you can generate a path using `FromTo()`.
 
 ```c#
 
-List<Vector3Int> path = Pathfinder.FromTo(matrix, from, to);
+List<Vector3Int> path = Pathfinder.FromTo(terrain, from, to);
 
 ```
 
 Let's break down the arguments.
 
-- Matrix: The matrix the traversing game object will be moving on. (Both must be on the same one)
+- Terrain (ChunkedTileMap<MetaDataNode>): The tilemap the traversing game object will be moving on. (Both must be on the same one)
 - From / To(Vector3Int): Must be in local coordinates!! World coordinates will not work.
 
 the returning path will be a list of vector3s that will find the most optimal path to where you're trying to go. This list will be null/empty if no viable path is ever found.
@@ -54,7 +54,7 @@ Example:
 
 ```c#
 
-List<Vector3Int> path = Pathfinder.FromTo(matrix, mob.gameObject.GetLocalTilePosition(), MouseUtils.MouseToWorldPos().ToLocal());
+List<Vector3Int> path = Pathfinder.FromTo(matrix.MetaDataLayer.Nodes, mob.gameObject.GetLocalTilePosition(), MouseUtils.MouseToWorldPos().ToLocal());
 
 foreach(var point in path)
 {
