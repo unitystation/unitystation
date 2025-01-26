@@ -15,7 +15,7 @@ namespace Items.Atmospherics
 			var pipe = GetPipeObject();
 			if (pipe == null) return;
 
-			var spawn = Spawn.ServerPrefab(pipe.gameObject, registerItem.WorldPositionServer, localRotation: this.rotatable.ByDegreesToQuaternion(this.rotatable.CurrentDirection));
+			var spawn = Spawn.ServerPrefab(pipe.gameObject, registerItem.WorldPositionServer, localRotation: this.rotatable.ByDegreesToQuaternion(this.rotatable.CurrentDirection, Quaternion.identity));
 
 			var monoPipe = spawn.GameObject.GetComponent<MonoPipe>();
 

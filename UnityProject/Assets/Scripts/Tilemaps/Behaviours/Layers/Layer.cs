@@ -102,7 +102,7 @@ public class Layer : MonoBehaviour
 			Loggy.Trace().Format("{0} layer initializing from matrix", Category.Matrix, matrixMove);
 			matrixMove.NetworkedMatrixMove.OnRotate90 += (OnRotate90);
 			//initialize from current rotation
-			OnRotate90();
+			OnRotate90(matrixMove.NetworkedMatrixMove.previousDirectionFacing);
 		}
 	}
 
@@ -115,7 +115,7 @@ public class Layer : MonoBehaviour
 
 	}
 
-	private void OnRotate90()
+	private void OnRotate90(OrientationEnum OrientationEnum)
 	{
 		return;
 		//TODO look in to why tables don't Rotate for properly, Otherwise this doesn't seem to do anything and costs performance

@@ -211,7 +211,7 @@ namespace Objects.Atmospherics
 			}
 
 			var spawn = Spawn.ServerPrefab(SpawnOnDeconstruct, registerTile.WorldPositionServer,
-				localRotation: directional.ByDegreesToQuaternion(directional.CurrentDirection));
+				localRotation: directional.ByDegreesToQuaternion(directional.CurrentDirection, Quaternion.identity));
 			var PipeItem = spawn.GameObject.GetComponent<PipeItem>();
 			PipeItem.rotatable.FaceDirection(directional.CurrentDirection);
 			PipeItem.SetColour(Colour);

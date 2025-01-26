@@ -189,7 +189,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 	public event Action OnStartMovement;
 	public event Action OnStopMovement;
 	public event Action OnRotate;
-	public event Action OnRotate90;
+	public event Action<OrientationEnum> OnRotate90;
 
 
 	public bool RCSModeActive = false; //TODO Check With other stuff
@@ -272,6 +272,9 @@ public class NetworkedMatrixMove : NetworkBehaviour
 	//Used to tell if rotatable need an update
 	private OrientationEnum PreviousDirectionFacing;
 
+	public OrientationEnum previousDirectionFacing => PreviousDirectionFacing;
+
+
 	public void Awake()
 	{
 		if (TargetTransform == null)
@@ -304,7 +307,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 		if (PreviousDirectionFacing != FacedDirection)
 		{
 			PreviousDirectionFacing = FacedDirection;
-			OnRotate90?.Invoke();
+			OnRotate90?.Invoke(this.TargetTransform.localToWorldMatrix.MultiplyVector(Vector3.up).ToOrientationEnum());
 		}
 
 		SetGizmoPosition(currentLocalPivot);
@@ -1226,7 +1229,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 		if (PreviousDirectionFacing != facedDirection)
 		{
 			PreviousDirectionFacing = facedDirection;
-			OnRotate90?.Invoke();
+			OnRotate90?.Invoke(this.TargetTransform.localToWorldMatrix.MultiplyVector(Vector3.up).ToOrientationEnum());
 		}
 
 		if (UpdateConversion)
@@ -1269,7 +1272,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 		if (PreviousDirectionFacing != FacedDirection)
 		{
 			PreviousDirectionFacing = FacedDirection;
-			OnRotate90?.Invoke();
+			OnRotate90?.Invoke(this.TargetTransform.localToWorldMatrix.MultiplyVector(Vector3.up).ToOrientationEnum());
 		}
 
 

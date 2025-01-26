@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 499351249353511896}
   - component: {fileID: 114734890905785284}
   - component: {fileID: 114776788309089574}
-  - component: {fileID: 114577415631634126}
   - component: {fileID: 114883521337486670}
   - component: {fileID: 657520313027932809}
   - component: {fileID: 114738972662350094}
@@ -188,21 +187,6 @@ MonoBehaviour:
   LiesFlat3D: 0
   prefabTracker: {fileID: 6393191727481188567}
   CurrentsortingGroup: {fileID: 6104600676241079028}
---- !u!114 &114577415631634126
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1011433845357754}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteMatrixRotationBehavior: 1
-  ignoreExtraRotation: []
-  RotateParent: {fileID: 0}
 --- !u!114 &114883521337486670
 MonoBehaviour:
   m_ObjectHideFlags: 0

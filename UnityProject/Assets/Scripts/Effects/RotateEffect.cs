@@ -49,7 +49,7 @@ namespace Effects
 			{
 				LeanTween.rotate(spriteReference.gameObject, rot, time);
 			}
-			tween.RpcRotateGameObject(rot, time);
+			tween.RpcLocalRotateGameObject(rot, time);
 		}
 
 		private float PickRandomRotation(Vector3 rotation, float target, float result)

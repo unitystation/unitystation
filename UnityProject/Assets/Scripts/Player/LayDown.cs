@@ -47,7 +47,10 @@ namespace Player
 
 		private void CorrectState()
 		{
-			gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+
+			var Euler = gameObject.transform.localRotation.eulerAngles;
+			Euler.z = 0;
+			gameObject.transform.localRotation = Quaternion.Euler(Euler);
 			if (disabled) return;
 			var state = IsLayingDown;
 			if (health != null)
@@ -120,17 +123,13 @@ namespace Player
 			{
 				if (UprightSprites == null) yield break;
 
-				networkedLean.RotateGameObject(new Vector3(0, 0, -90), 0.15f, sprites.gameObject);
-				yield return WaitFor.Seconds(0.15f);
-				UprightSprites.ExtraRotation = Quaternion.Euler(new Vector3(0, 0, -90));
+				networkedLean.LocalRotateGameObject(new Vector3(0, 0, -90), 0.15f, sprites.gameObject);
 			}
 			else if (getUp && networkedLean.Target.rotation.z < 90)
 			{
 				if (UprightSprites == null) yield break;
 
-				networkedLean.RotateGameObject(new Vector3(0, 0, 0), 0.19f, sprites.gameObject);
-				yield return WaitFor.Seconds(0.19f);
-				UprightSprites.ExtraRotation = Quaternion.Euler(new Vector3(0, 0, 0));
+				networkedLean.LocalRotateGameObject(new Vector3(0, 0, 0), 0.19f, sprites.gameObject);
 			}
 		}
 	}

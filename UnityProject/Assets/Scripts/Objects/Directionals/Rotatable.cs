@@ -249,27 +249,26 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation90
 		SortingGroup = this.GetComponent<SortingGroup>();
 	}
 
-	public Quaternion ByDegreesToQuaternion(OrientationEnum dir)
+	public Quaternion ByDegreesToQuaternion(OrientationEnum dir, Quaternion Quant)
 	{
-		var outQuaternion = new Quaternion();
-
+		var eulerAngles = Quant.eulerAngles;
 		switch (dir)
 		{
 			case OrientationEnum.Up_By0:
-				outQuaternion.eulerAngles = new Vector3(0, 0, 0f);
+				eulerAngles.z = 0;
 				break;
 			case OrientationEnum.Right_By270:
-				outQuaternion.eulerAngles = new Vector3(0, 0, -90f);
+				eulerAngles.z = -90f;
 				break;
 			case OrientationEnum.Down_By180:
-				outQuaternion.eulerAngles = new Vector3(0, 0, -180f);
+				eulerAngles.z =  -180f;
 				break;
 			case OrientationEnum.Left_By90:
-				outQuaternion.eulerAngles = new Vector3(0, 0, -270f);
+				eulerAngles.z =  -270f;
 				break;
 		}
 
-		return outQuaternion;
+		return Quaternion.Euler(eulerAngles);
 	}
 
 	public void RotateObject(OrientationEnum dir)
@@ -335,11 +334,11 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation90
 
 		if (MethodRotation is RotationMethod.Parent or RotationMethod.ParentLockSprite)
 		{
-			transform.localRotation = ByDegreesToQuaternion(dir);
+			transform.localRotation = ByDegreesToQuaternion(dir,transform.localRotation);
 		}
 		else if (MethodRotation == RotationMethod.Sprites)
 		{
-			var toQuaternion = ByDegreesToQuaternion(dir);
+			var toQuaternion = ByDegreesToQuaternion(dir,transform.localRotation);
 
 			foreach (var spriteRenderer in spriteRenderers)
 			{
@@ -349,7 +348,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation90
 
 		if (MethodRotation == RotationMethod.ParentLockSprite)
 		{
-			var toQuaternion = ByDegreesToQuaternion(dir);
+			var toQuaternion = ByDegreesToQuaternion(dir,transform.localRotation);
 			toQuaternion = Quaternion.Inverse(toQuaternion);
 
 			foreach (var spriteRenderer in spriteRenderers)
@@ -402,12 +401,12 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation90
 
 		if (MethodRotation != RotationMethod.Parent && MethodRotation != RotationMethod.ParentLockSprite)
 		{
-			transform.localRotation = ByDegreesToQuaternion(dir);
+			transform.localRotation = ByDegreesToQuaternion(dir,transform.localRotation);
 		}
 
 		if (MethodRotation != RotationMethod.Sprites && MethodRotation != RotationMethod.ParentLockSprite)
 		{
-			var quaternion = ByDegreesToQuaternion(dir);
+			var quaternion = ByDegreesToQuaternion(dir,transform.localRotation);
 
 			foreach (var spriteRenderer in spriteRenderers)
 			{
@@ -478,11 +477,13 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation90
 #endif
 	}
 
-	public void OnMatrixRotate90()
+	public void OnMatrixRotate90(OrientationEnum orientation)
 	{
 		if (CustomNetworkManager.IsHeadless) return;
 		if (MatrixRotateUpdate == false) return;
-		var NewRotation =  SynchroniseCurrentDirection.ToLocalVector3().DirectionLocalToWorld(RegisterTile.Matrix).ToOrientationEnum();
+
+		var NewRotation =  SynchroniseCurrentDirection.AddDirectionsTogether(orientation);
+
 		RotateObject(NewRotation);
 	}
 

@@ -1536,7 +1536,9 @@ namespace Core.Physics
 				thrownProtection = null;
 				if (OnThrowEndResetRotation)
 				{
-					rotationTarget.rotation = Quaternion.Euler(0, 0, 0);
+					var euler = rotationTarget.localRotation.eulerAngles;
+					euler.z = 0;
+					rotationTarget.localRotation = Quaternion.Euler(euler);
 					if (this is MovementSynchronisation c)
 						c.playerScript.RegisterPlayer.LayDownBehavior.EnsureCorrectState();
 				}

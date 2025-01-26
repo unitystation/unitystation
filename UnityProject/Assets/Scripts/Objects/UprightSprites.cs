@@ -13,7 +13,6 @@ using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 /// </summary>
 public class UprightSprites : MonoBehaviour, IMatrixRotation
 {
-
 	[Tooltip("Defines how this object's sprites should behave during a matrix rotation")]
 	public SpriteMatrixRotationBehavior spriteMatrixRotationBehavior =
 		SpriteMatrixRotationBehavior.RotateUprightAtEndOfMatrixRotation;
@@ -25,26 +24,13 @@ public class UprightSprites : MonoBehaviour, IMatrixRotation
 
 	public GameObject RotateParent = null;
 
-	/// <summary>
-	/// Client side only! additional rotation to apply to the sprites. Can be used to give the object an appearance
-	/// of being knocked down by, for example, setting this to Quaternion.Euler(0,0,-90).
-	/// </summary>
-	public Quaternion ExtraRotation
-	{
-		get => extraRotation;
-		set
-		{
-			extraRotation = value;
-			//need to update sprite the moment this is set
-			SetSpritesUpright();
-		}
-	}
 
 	private Quaternion extraRotation = Quaternion.identity;
 
 	private SpriteRenderer[] spriteRenderers;
 	private RegisterTile registerTile;
 	private UniversalObjectPhysics uop;
+
 	private void Awake()
 	{
 		registerTile = GetComponent<RegisterTile>();
@@ -90,34 +76,9 @@ public class UprightSprites : MonoBehaviour, IMatrixRotation
 	private void SetSpritesUpright()
 	{
 		if (Manager3D.Is3D) return;
-		if (RotateParent == null)
-		{
-			if (spriteRenderers == null) return;
-		}
-
-		//if the object has rotation (due to spinning), don't set sprites upright, this
-		//avoids it suddenly flicking upright when it crosses a matrix or matrix rotates
-		//note only uopS can have spin rotation
-		if (uop != null && Quaternion.Angle(transform.localRotation, Quaternion.identity) > 5) return;
-
-		if (RotateParent != null)
-		{
-			RotateParent.transform.rotation = ExtraRotation;
-			return;
-		}
-
-		foreach (var rend in spriteRenderers)
-		{
-			if (rend == null) continue;
-			rend.transform.rotation = ExtraRotation;
-		}
-
-		foreach (var rend in ignoreExtraRotation)
-		{
-			if (rend == null) continue;
-
-			rend.transform.rotation = Quaternion.identity;
-		}
+		var Rotation = transform.rotation.eulerAngles;
+		Rotation.z = 0;
+		transform.rotation = Quaternion.Euler(Rotation);
 	}
 
 	public void OnMatrixRotate()
@@ -125,60 +86,35 @@ public class UprightSprites : MonoBehaviour, IMatrixRotation
 		if (CustomNetworkManager.IsHeadless) return;
 		if (spriteMatrixRotationBehavior == SpriteMatrixRotationBehavior.RotateUprightAtEndOfMatrixRotation)
 		{
-			if (RotateParent == null)
-			{
-				if (spriteRenderers == null) return;
-			}
+			var up = new Vector3(0, 1, 0).DirectionLocalToWorld(registerTile.Matrix).ToOrientationEnum();
 
-			//if the object has rotation (due to spinning), don't set sprites upright, this
-			//avoids it suddenly flicking upright when it crosses a matrix or matrix rotates
-			//note only uopS can have spin rotation
-			if (uop != null && Quaternion.Angle(transform.localRotation, Quaternion.identity) > 5) return;
-
-			var up = new Vector3(0, 1, 0)
-				.DirectionLocalToWorld(registerTile.Matrix).ToOrientationEnum();
-
-			var outQuaternion = new Quaternion();
+			var zSet = 0f;
 			switch (up)
 			{
 				case OrientationEnum.Up_By0:
-					outQuaternion.eulerAngles = new Vector3(0, 0, 0f);
+					zSet = 0;
 					break;
 				case OrientationEnum.Right_By270:
-					outQuaternion.eulerAngles = new Vector3(0, 0, -270f  );
+					zSet = -270f;
 					break;
 				case OrientationEnum.Down_By180:
-					outQuaternion.eulerAngles = new Vector3(0, 0, -180f);
+					zSet = -180f;
 					break;
 				case OrientationEnum.Left_By90:
-					outQuaternion.eulerAngles = new Vector3(0, 0, -90f);
+					zSet = -90f;
 					break;
 			}
 
-			if (RotateParent != null)
-			{
-				RotateParent.transform.localRotation = outQuaternion;
-				return;
-			}
 
-			foreach (var rend in spriteRenderers)
-			{
-				if (rend == null) continue;
-				rend.transform.localRotation = outQuaternion;
-			}
-
-			foreach (var rend in ignoreExtraRotation)
-			{
-				if (rend == null) continue;
-
-				rend.transform.localRotation = Quaternion.identity;
-			}
+			var elu = transform.localRotation.eulerAngles;
+			elu.z = zSet;
+			transform.localRotation = Quaternion.Euler(elu);
+			return;
 		}
 		else
 		{
 			SetSpritesUpright();
 		}
-
 	}
 }
 
@@ -192,10 +128,10 @@ public enum SpriteMatrixRotationBehavior
 	/// Object always remains upright, top of the sprite pointing at the top of the screen
 	/// </summary>
 	RemainUpright = 0,
+
 	/// <summary>
 	/// Object rotates with matrix until the end of a matrix rotation, at which point
 	/// it rotates so its top is pointing at the top of the screen (this is how most objects in the game behave).
 	/// </summary>
 	RotateUprightAtEndOfMatrixRotation = 1
-
 }

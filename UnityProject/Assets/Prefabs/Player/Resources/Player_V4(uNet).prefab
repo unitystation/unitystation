@@ -53,6 +53,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -119,11 +120,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1 &1051931730128558
 GameObject:
@@ -212,6 +214,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -278,11 +281,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1 &1106181757792460
 GameObject:
@@ -337,6 +341,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -403,11 +408,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1 &1133514949248654
 GameObject:
@@ -593,12 +599,14 @@ MonoBehaviour:
     SerialisedBodyPartCustom: []
     SerialisedExternalCustom: []
     Species: Human
+    Voice: Male 01
   playerName: ' '
   visibleName: ' '
   PlayerSync: {fileID: 0}
   <PlayerFaith>k__BackingField: {fileID: 6182295504772674896}
   <Particles>k__BackingField: {fileID: 6835177244151955954}
   <DimPlayerLightController>k__BackingField: {fileID: 0}
+  <BodyAlerts>k__BackingField: {fileID: 0}
   RTT: 0
   playerChatLocation: {fileID: 1133514949248654}
   canVentCrawl: 0
@@ -727,6 +735,7 @@ MonoBehaviour:
     SerialisedBodyPartCustom: []
     SerialisedExternalCustom: []
     Species: Human
+    Voice: Male 01
   ToInstantiateSpriteCustomisation: {fileID: 7987984179268195915, guid: 8e0d016d897a86947a17dcc45971c4c1,
     type: 3}
   CustomisationSprites: {fileID: 975496025995574624}
@@ -865,7 +874,7 @@ MonoBehaviour:
   doNotResetOtherSpriteOptions: 0
 --- !u!50 &50851566022184656
 Rigidbody2D:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -876,8 +885,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -1145,7 +1154,6 @@ MonoBehaviour:
   OnCritExit:
     m_PersistentCalls:
       m_Calls: []
-  CannotRecognizeNames: 0
   UsedZones: 000000000100000003000000020000000500000004000000
   meatProduce: {fileID: 0}
   skinProduce: {fileID: 0}
@@ -1426,6 +1434,7 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
+  initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}
 --- !u!114 &5123748548063984441
@@ -1476,7 +1485,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  BuckledToObject: {fileID: 0}
+  BuckleOffset: {x: 0, y: 0, z: 0}
   LocalDifferenceNeeded: {x: 0, y: 0}
+  newtonianMovement: {x: 0, y: 0}
   LocalTargetPosition: {x: 0, y: 0, z: 0}
   CorrectingCourse: 0
   Animating: 0
@@ -1486,7 +1498,6 @@ MonoBehaviour:
   spinMagnitude: 0
   thrownBy: {fileID: 0}
   thrownProtection: {fileID: 0}
-  aim: 0
   ForcedPushedFrame: 0
   TryPushedFrame: 0
   PushedFrame: 0
@@ -1496,14 +1507,10 @@ MonoBehaviour:
   SnapToGridOnStart: 0
   IsPlayer: 1
   ObjectBouncyness: 0.75
-  DEBUG: 0
   tileMoveSpeed: 1
   HasOwnGravity: 0
-  isNotPushable: 0
-  CanBeWindPushed: 1
-  rotationTarget: {fileID: 4962232741225816}
   stickyMovement: 1
-  OnThrowEndResetRotation: 0
+  OnThrowEndResetRotation: 1
   maximumStickSpeed: 10
   onStationMovementsRound: 1
   registerTile: {fileID: 0}
@@ -1511,14 +1518,18 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   IsCurrentlyFloating: 0
-  Pushing: []
   Hits: []
   isFlyingSliding: 0
   IsMoving: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
   TimeSpentFlying: 0
-  BuckledToObject: {fileID: 0}
+  DEBUG: 0
+  isNotPushable: 0
+  Pushing: []
+  CanBeWindPushed: 1
+  canResetRotationFromRightClick: 0
+  rotationTarget: {fileID: 4962232741225816}
   IsPressedCashed: 0
   IsPressedServer: 0
   HardcodedSpeed: 0
@@ -1848,11 +1859,11 @@ MonoBehaviour:
   skinnableMob: {fileID: 3794334480808639130}
   mob: {fileID: 114617133355526680}
   defaultGibSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/bigsplash.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
 --- !u!114 &3794334480808639130
@@ -1872,11 +1883,11 @@ MonoBehaviour:
   syncInterval: 0.1
   gibbableMob: {fileID: 8039750332941386657}
   defaultSkinningSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/BladeSlice.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
 --- !u!114 &3483459317486548442
@@ -1947,6 +1958,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -2013,11 +2025,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1 &1332325770335918
 GameObject:
@@ -2072,6 +2085,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -2138,11 +2152,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1 &1392646042361530
 GameObject:
@@ -2197,6 +2212,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -2263,11 +2279,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1 &1442926995363424
 GameObject:
@@ -2322,6 +2339,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -2388,11 +2406,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1 &1456517064699986
 GameObject:
@@ -2447,6 +2466,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -2513,11 +2533,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1 &1562215114468348
 GameObject:
@@ -2572,6 +2593,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -2638,11 +2660,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1 &1626073062007556
 GameObject:
@@ -2697,6 +2720,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -2763,11 +2787,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1 &1653009388007362
 GameObject:
@@ -2822,6 +2847,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -2888,11 +2914,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1 &1660669868818532
 GameObject:
@@ -2947,6 +2974,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -3013,11 +3041,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1 &1889549945948160
 GameObject:
@@ -3072,6 +3101,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -3138,11 +3168,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1 &1894933337466704
 GameObject:
@@ -3190,7 +3221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Color: {r: 1, g: 0.9754564, b: 0.83823526, a: 0.359}
+  InitialColour: {r: 1, g: 0.9754564, b: 0.83823526, a: 0.359}
   Sprite: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: 5d8645bc2e5501a4ebd138db5aa609bd, type: 2}
@@ -3216,6 +3247,7 @@ MeshRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -3410,6 +3442,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -3497,6 +3530,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -3553,11 +3587,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2da0979a6c42f5d47808c3a63c976742, type: 2}
   - {fileID: 11400000, guid: 6cc276bb7bbb6ed498e792511484622f, type: 2}
   - {fileID: 11400000, guid: 5258734285a19ac41838dbc1bbc67d32, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1 &1243472505666966351
 GameObject:
@@ -8536,6 +8572,7 @@ ParticleSystemRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -13368,6 +13405,7 @@ ParticleSystemRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -13477,6 +13515,7 @@ TrailRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -13697,6 +13736,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -13751,11 +13791,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 79f732890684fdf47ac6f64ae00bb8f6, type: 2}
   - {fileID: 11400000, guid: d91c579b8bd73404fb1676ba7bf20c5d, type: 2}
   - {fileID: 11400000, guid: 3cc58aaaccdf34c499544ffeac4e7a56, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 0ae7d83d6d2e07041a08b251e147d876, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 0ae7d83d6d2e07041a08b251e147d876,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1 &4006269813396621170
 GameObject:
@@ -13810,6 +13852,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -13876,11 +13919,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1 &4560473325844253165
 GameObject:
@@ -13934,6 +13978,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -14045,6 +14090,7 @@ TrailRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -14513,6 +14559,11 @@ PrefabInstance:
     - target: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
         type: 3}
       propertyPath: Color.a
+      value: 0.003921569
+      objectReference: {fileID: 0}
+    - target: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
+        type: 3}
+      propertyPath: InitialColour.a
       value: 0.003921569
       objectReference: {fileID: 0}
     m_RemovedComponents: []
