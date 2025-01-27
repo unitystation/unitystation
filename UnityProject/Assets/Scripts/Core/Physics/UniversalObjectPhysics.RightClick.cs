@@ -39,7 +39,23 @@ namespace Core.Physics
 				}
 			}
 
+			if (canResetRotationFromRightClick && rotationTarget != null)
+			{
+				if (Validations.IsReachableByRegisterTiles(initiator.registerTile, registerTile, false,
+					    context: gameObject) &&
+				    rotationTarget.eulerAngles.z != 0)
+				{
+					options.AddElement("Reset Rotation", ClientRequestResetRotation);
+				}
+			}
+
+
 			return options;
+		}
+
+		public void ClientRequestResetRotation()
+		{
+			CmdResetTransformRotationForAll();
 		}
 	}
 }
