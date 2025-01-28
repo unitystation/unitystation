@@ -1333,7 +1333,7 @@ namespace Core.Physics
 				//TODO: Add the ability to catch thrown objects if the player has the "throw" state enabled on them.
 				if (hit.TryGetComponent<LivingHealthMasterBase>(out var livingHealthMasterBase) && isServer)
 				{
-					livingHealthMasterBase.ApplyDamageToBodyPart(thrownBy.gameObject, damage, AttackType.Melee, DamageType.Brute, currentAim);
+					livingHealthMasterBase.ApplyDamageToBodyPart(thrownBy?.gameObject, damage, AttackType.Melee, DamageType.Brute, currentAim);
 					if (currentAim == BodyPartType.Mouth && TryGetComponent<Edible>(out var edible)) edible.TryConsume(null, hit.gameObject, true);
 
 					global::Chat.AddThrowHitMsgToChat(gameObject, livingHealthMasterBase.gameObject,

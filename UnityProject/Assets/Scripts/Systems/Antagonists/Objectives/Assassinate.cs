@@ -76,7 +76,7 @@ namespace Antagonists
 
 		public override string GetDescription()
 		{
-			return $"Assassinate";
+			return $"Assassinate {Target?.name}, the {Target?.occupation?.DisplayName}";
 		}
 
 		private void FreeObjective()

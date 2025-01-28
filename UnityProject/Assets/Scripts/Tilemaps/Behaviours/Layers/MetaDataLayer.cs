@@ -116,7 +116,7 @@ public class MetaDataLayer : MonoBehaviour
 			}
 
 			TimeSpan timeDifference = DateTime.UtcNow - toRemove.ReagentsOnTile.LastModificationTime;
-			if (timeDifference.TotalSeconds + toRemove.ReagentsOnTile.reagents.Count <= 35) continue;
+			if (timeDifference.TotalSeconds + toRemove.ReagentsOnTile.reagents.Count <= 200) continue;
 			RemoveLiquidOnTile(toRemove.LocalPosition, toRemove);
 			yield return WaitFor.EndOfFrame;
 		}
@@ -416,8 +416,7 @@ public class MetaDataLayer : MonoBehaviour
 	public void CreateLiquidOverlay(Vector3Int localPosInt, ReagentMix reagents)
 	{
 		var liquidColor = reagents.MixColor;
-		liquidColor.a =
-			Mathf.Clamp(liquidColor.a, 0, 0.65f); //makes sure liquids don't completely hide everything behind it.
+		liquidColor.a = Mathf.Clamp(liquidColor.a, 0, 0.65f); //makes sure liquids don't completely hide everything behind it.
 		matrix.MetaTileMap.AddOverlay(localPosInt, TileType.UnderObjectsEffects, "BaseLiquid", color: liquidColor);
 		SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Bubbles, localPosInt);
 	}
