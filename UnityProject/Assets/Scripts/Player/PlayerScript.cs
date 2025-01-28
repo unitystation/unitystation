@@ -50,7 +50,7 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 	/// <summary>
 	/// Current character settings for this player.
 	/// </summary>
-	[SyncVar] public CharacterSheet characterSettings = new CharacterSheet();
+	[SyncVar, NonSerialized] public CharacterSheet characterSettings = new CharacterSheet();
 
 	[HideInInspector, SyncVar(hook = nameof(SyncPlayerName))]
 	public string playerName = " ";
@@ -234,7 +234,7 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 
 	public void InitPossess(Mind mind)
 	{
-		if (mind.CurrentCharacterSettings != null)
+		if (mind.CurrentCharacterSettings != null && characterSettings == null)
 		{
 			characterSettings = mind.CurrentCharacterSettings;
 		}
