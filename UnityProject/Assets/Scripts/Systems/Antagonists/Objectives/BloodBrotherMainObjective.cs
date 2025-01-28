@@ -70,7 +70,7 @@ namespace Antagonists
 			foreach (var possibleBrother in AntagManager.Instance.ActiveAntags)
 			{
 				if (possibleBrother.Antagonist is not BloodBrother) continue;
-				if (possibleBrother.Owner.CurrentPlayScript.playerHealth.IsDead == false) continue;
+				if (possibleBrother?.Owner?.CurrentPlayScript?.playerHealth?.IsDead == false) continue;
 				return false;
 			}
 			return true;
