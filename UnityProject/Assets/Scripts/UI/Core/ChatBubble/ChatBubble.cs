@@ -274,7 +274,7 @@ public class ChatBubble : MonoBehaviour, IDisposable
     {
 	    if (target != null)
 	    {
-		    Vector3 viewPos = manualWorldToScreenPoint(target.position);
+		    Vector3 viewPos = manualWorldToScreenPoint(target.gameObject.AssumedWorldPosServer());
 		    transform.position = viewPos;
 	    }
     }
