@@ -10,6 +10,7 @@ using HealthV2;
 using Messages.Server.SoundMessages;
 using System.Threading.Tasks;
 using Systems.Score;
+using UnityEngine.Serialization;
 
 
 namespace Systems.MobAIs
@@ -23,23 +24,18 @@ namespace Systems.MobAIs
 	[RequireComponent(typeof(ConeOfSight))]
 	public class GenericHostileAI : MobAI
 	{
-		[SerializeField]
-		[Tooltip("Sounds played when this mob dies")]
+		[SerializeField] [Tooltip("Sounds played when this mob dies")]
 		protected List<AddressableAudioSource> deathSounds = default;
 
-		[SerializeField]
-		[Tooltip("Sounds played randomly while this mob is alive")]
+		[SerializeField] [Tooltip("Sounds played randomly while this mob is alive")]
 		protected List<AddressableAudioSource> randomSounds = default;
 
 		[Tooltip("Amount of time to wait between each random sound. Decreasing this value could affect performance!")]
 		[SerializeField]
 		protected int playRandomSoundTimer = 3;
 
-		[SerializeField]
-		[Range(0,100)]
-		protected int randomSoundProbability = 20;
-		[SerializeField]
-		protected float searchTickRate = 0.5f;
+		[SerializeField] [Range(0, 100)] protected int randomSoundProbability = 20;
+		[SerializeField] protected float searchTickRaten = 3f;
 		protected float searchWaitTime = 0f;
 
 		protected float movementTickRate = 1f;
@@ -65,7 +61,7 @@ namespace Systems.MobAIs
 
 		protected override void Awake()
 		{
-			hitMask = LayerMask.GetMask( "Players");
+			hitMask = LayerMask.GetMask("Players");
 			playersLayer = LayerMask.NameToLayer("Players");
 			mobMeleeAction = GetComponent<MobMeleeAction>();
 			coneOfSight = GetComponent<ConeOfSight>();
@@ -84,6 +80,7 @@ namespace Systems.MobAIs
 		}
 
 		#endregion
+
 		public override void ContemplatePriority()
 		{
 			base.ContemplatePriority();
@@ -105,7 +102,7 @@ namespace Systems.MobAIs
 					HandleSearch();
 					break;
 				case MobStatus.Attacking:
-					if(mobMeleeAction.isOnCooldown) break;
+					if (mobMeleeAction.isOnCooldown) break;
 					MonitorIdleness();
 					break;
 				case MobStatus.None:
@@ -161,6 +158,7 @@ namespace Systems.MobAIs
 				}
 			}
 		}
+
 		/// <summary>
 		/// Looks around and tries to find players to target
 		/// </summary>
@@ -174,21 +172,22 @@ namespace Systems.MobAIs
 				return null;
 			}
 
-			foreach (var coll in player)
+			var coll = player.PickRandom();
+
+			if (MatrixManager.Linecast(
+				    gameObject.AssumedWorldPosServer(),
+				    LayerTypeSelection.Walls,
+				    null,
+				    coll.gameObject.AssumedWorldPosServer(),
+				    true
+			    ).ItHit == false)
 			{
-				if (MatrixManager.Linecast(
-					gameObject.AssumedWorldPosServer(),
-					LayerTypeSelection.Walls,
-					null,
-					coll.gameObject.AssumedWorldPosServer()).ItHit == false)
-				{
-					if(coll.gameObject.TryGetComponent<LivingHealthMasterBase>(out var health) == false ||
-					   health.IsDead) continue;
+				if (coll.gameObject.TryGetComponent<LivingHealthMasterBase>(out var health) == false ||
+				    health.IsDead) return null;
 
-					return coll.gameObject;
-				}
-
+				return coll.gameObject;
 			}
+
 
 			return null;
 		}
@@ -211,6 +210,7 @@ namespace Systems.MobAIs
 					{
 						continue;
 					}
+
 					if (registerObject.Matrix.IsPassableAtOneMatrixOneTile(checkTile, true, context: gameObject))
 					{
 						nudgeDir = testDir;
@@ -221,6 +221,7 @@ namespace Systems.MobAIs
 					{
 						continue;
 					}
+
 					nudgeDir = testDir;
 					break;
 				}
@@ -232,14 +233,15 @@ namespace Systems.MobAIs
 
 		protected virtual IEnumerator PlayRandomSound(bool force = false)
 		{
-			while(!IsDead && !IsUnconscious && randomSounds.Count > 0 && this != null)
+			while (!IsDead && !IsUnconscious && randomSounds.Count > 0 && this != null)
 			{
 				yield return WaitFor.Seconds(playRandomSoundTimer);
 				if (force || DMMath.Prob(randomSoundProbability))
 				{
-					AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
+					AudioSourceParameters audioSourceParameters =
+						new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
 					SoundManager.PlayNetworkedAtPos(randomSounds, transform.position,
-					audioSourceParameters, sourceObj: gameObject);
+						audioSourceParameters, sourceObj: gameObject);
 				}
 			}
 		}
@@ -267,7 +269,7 @@ namespace Systems.MobAIs
 			if (this == null) return;
 			moveWaitTime += MobController.UpdateTimeInterval;
 			searchWaitTime += MobController.UpdateTimeInterval;
-			if (!(searchWaitTime >= searchTickRate)) return;
+			if (!(searchWaitTime >= searchTickRaten)) return;
 			searchWaitTime = 0f;
 			var findTarget = SearchForTarget();
 			if (findTarget != null)

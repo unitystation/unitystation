@@ -2541,11 +2541,11 @@ namespace TileManagement
 			var vexinvX = (1d / (direction.x)); //Editions need to be done here for Working offset
 			var vexinvY = (1d / (direction.y)); //Needs to be conditional
 
-
 			double calculationFloat = 0;
 
 			bool LeftFaceHit = true;
 
+			var Layers = LTSUtil.GetLayersBack(layerMask, new List<LayerType>());
 
 			while (Math.Abs((xSteps + gridOffsetx + stepX) * vexinvX) < distance ||
 			       Math.Abs((ySteps + gridOffsety + stepY) * vexinvY) < distance)
@@ -2581,14 +2581,13 @@ namespace TileManagement
 				vecHit.y = origin.y + (float) RelativeY; // + offsetY;
 				//Check point here
 
-				for (var i = 0; i < LayersValues.Length; i++)
+				for (var i = 0; i < Layers.Count; i++)
 				{
-					if (LayersValues[i].LayerType == LayerType.Objects) continue;
-					if (LTSUtil.IsLayerIn(layerMask, LayersValues[i].LayerType))
+					if (LTSUtil.IsLayerIn(layerMask, Layers[i]))
 					{
 						lock (PresentTiles)
 						{
-							PresentTiles[(int) LayersValues[i].LayerType].TryGetValue(vec, out tileLocation);
+							PresentTiles[(int) Layers[i]].TryGetValue(vec, out tileLocation);
 						}
 
 #if UNITY_EDITOR

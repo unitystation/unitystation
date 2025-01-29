@@ -494,6 +494,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			for (int i = 0; i < Count; i++)
 			{
 				var Info = loc[i];
+				if (Info.Matrix.IsSpaceMatrix) continue;
 				if (Info.WorldBounds.LineIntersectsRect(Worldorigin, WorldTo.Value))
 				{
 					var localOrigin = WorldToLocal(Worldorigin, Info).To2();

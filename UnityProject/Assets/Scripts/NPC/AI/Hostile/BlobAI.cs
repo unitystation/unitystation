@@ -79,7 +79,7 @@ namespace Systems.MobAIs
 				}
 
 				searchWaitTime += MobController.UpdateTimeInterval;
-				if (searchWaitTime >= searchTickRate)
+				if (searchWaitTime >= searchTickRaten)
 				{
 					searchWaitTime = 0f;
 					var findTarget = SearchForTarget();
