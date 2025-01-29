@@ -27,6 +27,8 @@ namespace Audio.Containers
         public AudioMixerGroup SFXMuffledMixer;
         public AudioMixerGroup AmbientMixer;
         public AudioMixerGroup TTSMixer;
+        public AudioMixerGroup TTSMixerRadio;
+        public AudioMixerGroup TTSMixerRobot;
         public AudioMixerGroup GameplayMixer; //Affected by deafness and air pressure and all that stuff
 
         public event Action<bool> AudioReflectionsToggled;

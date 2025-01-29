@@ -15,8 +15,18 @@ public class MaryTTS : MonoBehaviour
 	public static MaryTTS Instance;
 
 	public AudioSource audioSource;
+	public AudioSource AudioSourceRadio;
+	public AudioSource AudioSourceRobot;
 
 	public static int Fails = 0;
+	private string lastMessage = "";
+
+	public enum AudioSynthType
+	{
+		NormalSpeech,
+		Radio,
+		Robot
+	}
 
 	private void Awake()
 	{
@@ -29,23 +39,51 @@ public class MaryTTS : MonoBehaviour
 	private void Start()
 	{
 		audioSource.outputAudioMixerGroup = AudioManager.Instance.TTSMixer;
+		AudioSourceRadio.outputAudioMixerGroup = AudioManager.Instance.TTSMixerRadio;
+		AudioSourceRobot.outputAudioMixerGroup = AudioManager.Instance.TTSMixerRobot;
 	}
 
-	public void Synthesize(string textToSynth, string voice = "")
+	public void Synthesize(string textToSynth, AudioSynthType type, string voice = "", uint originator = UInt32.MinValue)
 	{
-		if (Fails > 10)
+		if (Fails > 10 || textToSynth == lastMessage)
 		{
 			return;
 		}
+		lastMessage = textToSynth;
 
-		_ = RequestSynth(textToSynth, voice, bytes => audioSource.PlayOneShot(WavUtility.ToAudioClip(bytes, 0, "TTS_Clip")));
+		var source = audioSource;
+		if (originator != uint.MinValue && type == AudioSynthType.NormalSpeech)
+		{
+			var originObject = originator.NetIdToGameObject();
+			if (originObject != null && originObject.TryGetComponent<AudioSource>(out var speechSource)) source = speechSource;
+		}
+		else
+		{
+			switch (type)
+			{
+				case AudioSynthType.NormalSpeech:
+					source = audioSource;
+					break;
+				case AudioSynthType.Radio:
+					source = AudioSourceRadio;
+					break;
+				case AudioSynthType.Robot:
+					source = AudioSourceRobot;
+					break;
+				default:
+					source = audioSource;
+					break;
+			}
+		}
+
+		_ = RequestSynth(textToSynth, voice, bytes => source.PlayOneShot(WavUtility.ToAudioClip(bytes, 0, "TTS_Clip")));
 	}
 
 	async Task RequestSynth(string textToSynth, string voice, Action<byte[]> callback)
 	{
 		if (string.IsNullOrWhiteSpace(voice))
 		{
-			voice =TTSVoices.GetDefaultPreference();
+			voice = TTSVoices.GetDefaultPreference();
 		}
 		byte[] responseData = await TTSCommunication.GenTTS(textToSynth, voice);
 
@@ -58,7 +96,6 @@ public class MaryTTS : MonoBehaviour
 		{
 			Fails = 0;
 		}
-
 
 		LoadManager.DoInMainThread(() => { callback.Invoke(responseData); });
 	}

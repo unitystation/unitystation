@@ -367,7 +367,7 @@ public class ChatRelay : NetworkBehaviour
 	[Client]
 	public void AddAdminPrivMessageToClient(string message)
 	{
-		trySendingTTS(message, "");
+		trySendingTTS(message, "", MaryTTS.AudioSynthType.NormalSpeech);
 
 		ChatUI.Instance.AddAdminPrivEntry(message);
 	}
@@ -375,7 +375,7 @@ public class ChatRelay : NetworkBehaviour
 	[Client]
 	public void AddPrayerPrivMessageToClient(string message)
 	{
-		trySendingTTS(message, "");
+		trySendingTTS(message, "", MaryTTS.AudioSynthType.NormalSpeech);
 
 		ChatUI.Instance.AddChatEntry(message);
 	}
@@ -383,18 +383,20 @@ public class ChatRelay : NetworkBehaviour
 	[Client]
 	public void AddMentorPrivMessageToClient(string message)
 	{
-		trySendingTTS(message, "");
+		trySendingTTS(message, "", MaryTTS.AudioSynthType.NormalSpeech);
 
 		ChatUI.Instance.AddMentorPrivEntry(message);
 	}
 
 	[Client]
 	public void UpdateClientChat(string message, ChatChannel channels, bool isOriginator, GameObject recipient,
-		Loudness loudness, ChatModifier modifiers, ushort languageId = 0, bool isWhispering = false, string Voice = "")
+		Loudness loudness, ChatModifier modifiers, ushort languageId = 0, bool isWhispering = false, string Voice = "", uint originatorNetId = UInt32.MinValue)
 	{
 		if (string.IsNullOrWhiteSpace(message)) return;
+		MaryTTS.AudioSynthType synthType = MaryTTS.AudioSynthType.NormalSpeech;
+		if (Channels.RadioChannels.HasFlag(channels)) synthType = MaryTTS.AudioSynthType.Radio;
 
-		trySendingTTS(message, Voice);
+		trySendingTTS(message, Voice, synthType, isOriginator ? UInt32.MinValue : originatorNetId);
 
 		if (PlayerManager.LocalPlayerScript == null)
 		{
@@ -481,7 +483,7 @@ public class ChatRelay : NetworkBehaviour
 	/// Messages must also contain at least one letter from the alphabet.
 	/// </summary>
 	/// <param name="message">The message to try to vocalize.</param>
-	private void trySendingTTS(string message, string Voice)
+	private void trySendingTTS(string message, string Voice, MaryTTS.AudioSynthType type, uint originNetId = uint.MinValue)
 	{
 		if (UIManager.Instance.ttsToggle)
 		{
@@ -492,7 +494,7 @@ public class ChatRelay : NetworkBehaviour
 				string messageAfterSaysChar = message.Substring(message.IndexOf(saysChar) + 1);
 				if (messageAfterSaysChar.Length > 0 && messageAfterSaysChar.Any(char.IsLetter))
 				{
-					MaryTTS.Instance.Synthesize(messageAfterSaysChar, Voice);
+					MaryTTS.Instance.Synthesize(messageAfterSaysChar, type, Voice, originNetId);
 				}
 			}
 		}

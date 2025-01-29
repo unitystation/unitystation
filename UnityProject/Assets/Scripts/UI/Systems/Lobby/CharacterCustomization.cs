@@ -1157,7 +1157,7 @@ namespace UI.CharacterCreator
 
 		public void TryTTS()
 		{
-			MaryTTS.Instance.Synthesize(TestText.text, voicesTTS.options[voicesTTS.value].text);
+			MaryTTS.Instance.Synthesize(TestText.text, MaryTTS.AudioSynthType.NormalSpeech, voicesTTS.options[voicesTTS.value].text);
 		}
 
 		#endregion
