@@ -30,12 +30,12 @@ namespace Messages.Server.AdminTools
 			}
 		}
 
-		public static NetMessage Send(GameObject recipient, string adminID)
+		public static NetMessage Send(GameObject recipient, string adminID, bool ShowIp )
 		{
 			AdminPlayersList playerList = new AdminPlayersList
 			{
 				//Player list info:
-				players = AdminToolRefreshMessage.GetAllPlayerStates(adminID, true)
+				players = AdminToolRefreshMessage.GetAllPlayerStates(adminID, true,ShowIp)
 			};
 
 			var data = JsonConvert.SerializeObject(playerList);

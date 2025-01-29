@@ -20,7 +20,9 @@ namespace Messages.Client.Admin
 		{
 			if (HasPermission(TAG.PLAYER_INFO) == false && PlayerList.Instance.IsMentor(SentByPlayer.AccountId) == false) return;
 
-			AdminPlayerListRefreshMessage.Send(SentByPlayer.GameObject, SentByPlayer.AccountId);
+			var ShowIP = HasPermission(TAG.PLAYER_INFO_IP);
+
+			AdminPlayerListRefreshMessage.Send(SentByPlayer.GameObject, SentByPlayer.AccountId, ShowIP);
 		}
 
 		public static NetMessage Send()

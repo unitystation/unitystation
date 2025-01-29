@@ -6,6 +6,8 @@ public static class TAG
 	public const string MANAGE_SERVER_PLAYERCAP = "MANAGE_SERVER_PLAYERCAP";
 	public const string SETTING_VOICE_CHAT = "SETTING_VOICE_CHAT";
 	public const string PLAYER_INFO = "PLAYER_INFO";
+	public const string PLAYER_INFO_IP = "PLAYER_INFO_IP";
+
 	public const string MANAGE_SERVER_FPS = "MANAGE_SERVER_FPS";
 	public const string ADMIN_BYPASS_PLAYER_LIMIT = "ADMIN_BYPASS_PLAYER_LIMIT";
 	public const string ADMIN_BYPASS_WHITE_LIST = "ADMIN_BYPASS_WHITE_LIST";
@@ -138,5 +140,6 @@ public static class TAG
 	public const string ADMIN_GHOST_INVENTORY = "ADMIN_GHOST_INVENTORY";
 	public const string DEBUG_ADD_FAITH_POINTS = "DEBUG_ADD_FAITH_POINTS";
 
+	public const string RCON_ACCESS = "RCON_ACCESS";
 
 }

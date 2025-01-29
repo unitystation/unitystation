@@ -77,7 +77,7 @@ namespace Messages.Server.AdminTools
 			return msg;
 		}
 
-		public static List<AdminPlayerEntryData> GetAllPlayerStates(string adminID, bool onlineOnly = false)
+		public static List<AdminPlayerEntryData> GetAllPlayerStates(string adminID, bool onlineOnly = false, bool showIp = true)
 		{
 			var playerList = new List<AdminPlayerEntryData>();
 			if (string.IsNullOrEmpty(adminID)) return playerList;
@@ -99,7 +99,11 @@ namespace Messages.Server.AdminTools
 				entry.currentJob = player.Job.ToString();
 				entry.accountName = player.Username;
 
-				entry.ipAddress = player.ConnectionIP;
+				if (showIp)
+				{
+					entry.ipAddress = player.ConnectionIP;
+				}
+
 
 				if (player.Script != null && player.Script.playerHealth != null)
 				{
