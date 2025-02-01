@@ -9,8 +9,6 @@ namespace HealthV2
 	{
 		[SerializeField] private BodyPart bodyPart;
 		[SerializeField] private float minimumDamageRequired = 8;
-		[SerializeField] private List<GameObject> bloodSplats = new List<GameObject>();
-
 		private void Awake()
 		{
 			if (bodyPart == null) bodyPart = GetComponentInParent<BodyPart>();
