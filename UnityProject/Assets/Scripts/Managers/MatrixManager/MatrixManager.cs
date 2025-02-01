@@ -449,6 +449,18 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		return RayCast(Worldorigin, Vector2.zero, 0, layerMask, Layermask2D, WorldTo, DEBUG: DEBUG);
 	}
 
+	/// <summary>
+	/// Ignores space matrix
+	/// </summary>
+	/// <param name="Worldorigin"></param>
+	/// <param name="direction"></param>
+	/// <param name="distance"></param>
+	/// <param name="layerMask"></param>
+	/// <param name="Layermask2D"></param>
+	/// <param name="WorldTo"></param>
+	/// <param name="tileNamesToIgnore"></param>
+	/// <param name="DEBUG"></param>
+	/// <returns></returns>
 	public static CustomPhysicsHit RayCast(Vector3 Worldorigin,
 		Vector2 direction,
 		float distance,
