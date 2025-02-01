@@ -2375,7 +2375,7 @@ namespace HealthV2
 
 		public RightClickableResult GenerateRightClickOptions()
 		{
-			if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) ||
+			if (PlayerList.HasTAGClient(TAG.PLAYER_HEAL) == false ||
 			    KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions,
 				    KeyboardInputManager.KeyEventType.Hold) == false)
 			{

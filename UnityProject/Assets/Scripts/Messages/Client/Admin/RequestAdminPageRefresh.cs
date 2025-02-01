@@ -13,10 +13,9 @@ namespace Messages.Client.Admin
 
 		public override void Process(NetMessage msg)
 		{
-			//TODO Show different information depending on permissions
 			if (HasPermission(TAG.ADMIN_INFO))
 			{
-				AdminToolRefreshMessage.Send(SentByPlayer.GameObject, SentByPlayer.AccountId);
+				AdminToolRefreshMessage.Send(SentByPlayer.GameObject, SentByPlayer.AccountId, HasPermission(TAG.PLAYER_INFO_IP, false));
 			}
 		}
 

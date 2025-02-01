@@ -260,22 +260,18 @@ public partial class Chat : MonoBehaviour
 			chatEvent.speaker = StripAll(sentByPlayer.Username);
 
 			//Show admin tag for ghosts
-			var isAdmin = PlayerList.Instance.IsAdmin(sentByPlayer.AccountId);
-			if (isAdmin)
+			var rank = PlayerList.GetRank(sentByPlayer.AccountId, out _);
+
+			if (rank?.ShowInChat == true)
 			{
-				chatEvent.speaker = "<color=red>[A]</color> " + chatEvent.speaker;
+				chatEvent.speaker =  $"<color={rank.Color}>[{rank.Abbreviation}]</color> " + chatEvent.speaker;
 				chatEvent.VoiceLevel = Loudness.LOUD;
+
 			}
 
 			//Handle OOC messages
 			if (isOOC)
 			{
-				//Add mentor tag for non-admin mentors for OOC
-				if (isAdmin == false && PlayerList.Instance.IsMentor(sentByPlayer.AccountId))
-				{
-					chatEvent.speaker = "<color=#6400ff>[M]</color> " + chatEvent.speaker;
-				}
-
 				AddOOCChatMessage(sentByPlayer, message, chatEvent);
 				return;
 			}
@@ -446,13 +442,11 @@ public partial class Chat : MonoBehaviour
 			return;
 		}
 
-		var isAdmin = PlayerList.Instance.IsAdmin(sentByPlayer.AccountId);
-
 		//If global OOCMute don't allow anyone but admins to talk on OOC
-		if (Instance.OOCMute && isAdmin == false) return;
+		if (Instance.OOCMute && PlayerList.HasTAGServer(TAG.ADMIN_BYPASS_GLOBAL_OOC_MUTE, sentByPlayer.AccountId) == false) return;
 
 		//http/https links in OOC chat
-		if (isAdmin || GameManager.Instance.AdminOnlyHtml == false)
+		if (GameManager.Instance.AdminOnlyHtml == false || PlayerList.HasTAGServer(TAG.ADMIN_CHAT_HTML, sentByPlayer.AccountId))
 		{
 			if (htmlRegex.IsMatch(chatEvent.message))
 			{

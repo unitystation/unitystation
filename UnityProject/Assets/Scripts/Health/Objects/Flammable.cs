@@ -305,7 +305,8 @@ namespace Health.Objects
 		public string HoverTip()
 		{
 			if (IsOnFire == false) return null;
-			if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) == false && KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold))
+
+			if (PlayerList.HasTAGClient(TAG.OBJECT_INFO) == false  && KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold))
 			{
 				long currentTickTime = DateTime.UtcNow.Ticks;
 				long timeElapsed = currentTickTime - lastBurnStackTickTime;

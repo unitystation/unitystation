@@ -34,9 +34,9 @@ namespace Messages.Client
 			NetworkClient.Send(msg, 1);
 		}
 
-		internal bool HasPermission(string PermissionCode)
+		internal bool HasPermission(string PermissionCode, bool Logfailure = true)
 		{
-			return AdminCommandsManager.HasPermission(SentByPlayer, PermissionCode, true);
+			return AdminCommandsManager.HasPermission(SentByPlayer, PermissionCode, Logfailure);
 		}
 
 		internal bool HasPermissions( string[] PermissionCodes)

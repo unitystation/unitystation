@@ -141,5 +141,18 @@ public static class TAG
 	public const string DEBUG_ADD_FAITH_POINTS = "DEBUG_ADD_FAITH_POINTS";
 
 	public const string RCON_ACCESS = "RCON_ACCESS";
+	public const string ADMIN_VOTE_VETO = "ADMIN_VOTE_VETO";
+	public const string ADMIN_LOGS = "ADMIN_LOGS";
+	public const string OFFLINE_MODE_MULTIKEY = "OFFLINE_MODE_MULTIKEY";
+	public const string OBJECT_INFO = "OBJECT_INFO";
+
+	public const string ADMIN_BYPASS_GLOBAL_OOC_MUTE = "ADMIN_BYPASS_GLOBAL_OOC_MUTE";
+	public const string ADMIN_CHAT_HTML = "ADMIN_CHAT_HTML";
+
+
+	public const string ADMIN_POSSESS_BODY = "ADMIN_POSSESS_BODY";
+	public const string ADMIN_AGHOST = "ADMIN_AGHOST";
+	public const string ADMIN_RESPAWN_SELF = "ADMIN_RESPAWN_SELF";
+
 
 }

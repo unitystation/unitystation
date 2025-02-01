@@ -32,7 +32,7 @@ namespace Messages.Server.AdminTools
 			}
 		}
 
-		public static NetMessage Send(GameObject recipient, string adminID)
+		public static NetMessage Send(GameObject recipient, string adminID, bool ShowIP =  true)
 		{
 			//Gather the data:
 			var pageData = new AdminPageRefreshData();
@@ -61,7 +61,7 @@ namespace Messages.Server.AdminTools
 
 
 			//Player list info:
-			pageData.players = GetAllPlayerStates(adminID);
+			pageData.players = GetAllPlayerStates(adminID, false, ShowIP);
 
 			//Server Setting
 			pageData.playerLimit = GameManager.Instance.PlayerLimit;
@@ -110,9 +110,14 @@ namespace Messages.Server.AdminTools
 					entry.isAlive = player.Script.playerHealth.ConsciousState != ConsciousState.DEAD;
 				}
 
+				var Rank= PlayerList.GetRank(player.AccountId, out var rankName);
+
 				entry.isAntag = PlayerList.Instance.AntagPlayers.Contains(player);
-				entry.isAdmin = PlayerList.Instance.IsAdmin(player.AccountId);
-				entry.isMentor = PlayerList.Instance.IsMentor(player.AccountId);
+				entry.hasAChat = PlayerList.HasTAGServer(TAG.ADMIN_CHAT, player.AccountId);
+				entry.roleSmall = Rank?.Abbreviation;
+				entry.roleColour = Rank?.Color;
+
+				entry.hasMentorRole = rankName == "mentor";
 				entry.isOnline = player.Connection != null;
 				entry.isOOCMuted = player.IsOOCMuted;
 				if (player?.Script != null)

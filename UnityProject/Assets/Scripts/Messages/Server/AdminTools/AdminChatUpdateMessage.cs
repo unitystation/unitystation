@@ -24,7 +24,7 @@ namespace Messages.Server.AdminTools
 			NetMessage  msg =
 				new NetMessage  {JsonData = JsonConvert.SerializeObject(update) };
 
-			SendToAdmins(msg);
+			SendToAdmins(msg, TAG.ADMIN_CHAT);
 			return msg;
 		}
 

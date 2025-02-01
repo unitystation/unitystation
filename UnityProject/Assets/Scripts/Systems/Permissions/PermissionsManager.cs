@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
 using Logs;
 using SecureStuff;
 using Shared.Managers;
@@ -13,6 +16,8 @@ namespace Systems.Permissions
 
 		public PermissionsConfig Config { get; private set; }
 
+
+
 		/// <summary>
 		/// Tries to read the permissions config file and load it in memory. If for whatever reason it fails,
 		/// there will be no permissions config and thus, no one will have any permissions.
@@ -21,6 +26,14 @@ namespace Systems.Permissions
 		/// </summary>
 		public void LoadPermissionsConfig()
 		{
+
+			//TODO!!!
+			/*/
+			 		AccessFile.Watch(adminsPath, ThreadLoadCurrentAdmins);
+			/*/
+
+
+
 			if (AccessFile.Exists(configPath) == false)
 			{
 				Loggy.Error("Permissions config file not found!", Category.Admin);
@@ -49,6 +62,14 @@ namespace Systems.Permissions
 			}
 
 			Config = model;
+
+			var names = new StringBuilder();
+			names.Append("Admins Loaded: ");
+			foreach (var adminName in Config.Players)
+			{
+				names.AppendLine("Rank > " + adminName.Rank + " ID > " + adminName.Identifier);
+			}
+			Loggy.Info(names.ToString());
 		}
 
 		/// <summary>
@@ -77,6 +98,74 @@ namespace Systems.Permissions
 			//wildcard permission means they have all permissions
 			return rank.Permissions.Contains("*") ||
 			       rank.Permissions.Contains(permission);
+		}
+
+
+		/// <summary>
+		/// Returns a list of the permissions a player has, returns an empty list if they don't have any or Player is not found
+		/// </summary>
+		/// <param name="identifier">UUID from firebase or player identifier after we migrate to django.</param>
+		/// <returns></returns>
+		public List<string> GetPermissions(string identifier, out string rankType)
+		{
+			rankType = "";
+
+			List<string> Returning = new List<string>();
+
+			var rank = GetRank(identifier, out rankType);
+
+			//wildcard permission means they have all permissions
+			Returning.AddRange(rank.Permissions);
+			return Returning;
+		}
+
+		public Rank GetRank(string identifier, out string rankType)
+		{
+			rankType = "";
+			var player = Config.Players.Find(p => p.Identifier == identifier);
+			if (player == null)
+			{
+				//Player not found, so they don't have any permissions
+				return null;
+			}
+			var rankName = player.Rank;
+			rankType = rankName;
+			//Rank not found, so they don't have any permissions
+			return Config.Ranks.GetValueOrDefault(rankName);
+		}
+
+
+		public void AddRoleTo(string userID, string rankType, bool saveFile = false)
+		{
+			var data = GetRank(userID, out var Rank);
+
+			if (data != null) return;
+
+
+			Config.Players.Add(new Player(){Identifier = userID, Rank = rankType});
+
+			if (saveFile)
+			{
+				AccessFile.Save(configPath, Toml.FromModel(Config));
+			}
+		}
+
+		public void RemoveRoleFrom(string userID, string rankType, bool saveFile = false)
+		{
+			var data = GetRank(userID, out var Rank);
+
+			if (data == null) return;
+
+			if (Rank != rankType) return;
+
+			var player = Config.Players.FirstOrDefault(x => x.Identifier == userID);
+
+			Config.Players.Remove(player);
+
+			if (saveFile)
+			{
+				AccessFile.Save(configPath, Toml.FromModel(Config));
+			}
 		}
 	}
 }

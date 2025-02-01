@@ -111,19 +111,8 @@ namespace AdminCommands
 		{
 			bool Valid = false;
 
-			if (string.IsNullOrEmpty(PermissionCode))
-			{
-				Valid = CustomNetworkManager.IsServer
-					? player.IsAdmin
-					: PlayerList.Instance.IsClientAdmin;
-			}
-			else
-			{
-				Valid = CustomNetworkManager.IsServer ? player.IsAdmin : PlayerList.Instance.IsClientAdmin;
-				//TODO System to handle hosts and dev scenarios
-				//TODO Handle local UI + Local stuff
-				//Valid = PermissionsManager.Instance.HasPermission(player.AccountId, PermissionCode);
-			}
+			//TODO Handle local UI + Local stuff
+			Valid = PermissionsManager.Instance.HasPermission(player.AccountId, PermissionCode);
 
 			if (Valid == false && logFailure)
 			{
@@ -684,8 +673,6 @@ namespace AdminCommands
 		{
 			if (HasPermission(sender, out var admin, TAG.ADMIN_ADD_MENTOR) == false) return;
 
-			if (PlayerList.Instance.IsMentor(userToUpgrade)) return;
-
 			PlayerList.Instance.TryAddMentor(userToUpgrade, isPermanent);
 
 			if (PlayerList.Instance.TryGetByUserID(userToUpgrade, out var player) == false)
@@ -905,7 +892,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdToggleBoltDoor(GameObject doorToToggle, NetworkConnectionToClient sender = null)
 		{
-			if (HasPermission(sender, out var admin, TAG. ADMIN_TOGGLE_BOLTS) == false) return;
+			if (HasPermission(sender, out var admin, TAG.ADMIN_TOGGLE_BOLTS) == false) return;
 			try
 			{
 				if (doorToToggle == null) return;
@@ -989,7 +976,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdEarlyLaunch(GameObject shuttleConsole, NetworkConnectionToClient sender = null)
 		{
-			if (HasPermission(sender, out var admin, TAG. ROUND_EARLY_LAUNCH) == false) return;
+			if (HasPermission(sender, out var admin, TAG.ROUND_EARLY_LAUNCH) == false) return;
 			if (shuttleConsole == null) return;
 
 			if (shuttleConsole.TryGetComponent<EscapeShuttleConsole>(out var escapeShuttleConsole) == false) return;

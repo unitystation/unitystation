@@ -25,7 +25,7 @@ namespace Messages.Server.AdminTools
 			NetMessage  msg =
 				new NetMessage  {JsonData = JsonConvert.SerializeObject(update), PlayerId = playerId};
 
-			SendToAdmins(msg);
+			SendToAdmins(msg, TAG.PLAYER_AHELP);
 			return msg;
 		}
 

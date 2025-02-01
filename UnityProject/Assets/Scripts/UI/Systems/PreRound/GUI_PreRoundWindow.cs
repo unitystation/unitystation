@@ -117,7 +117,7 @@ namespace UI
 
 		private void TryShowAdminPanel()
 		{
-			if (PlayerList.Instance.AdminToken != null)
+			if (PlayerList.HasTAGClient(TAG.MANAGE_ROUND_START))
 			{
 				adminPanel.SetActive(true);
 			}

@@ -74,15 +74,9 @@ namespace AdminTools
 
 		private void AppendAdminMentorStatus(StringBuilder builder, AdminPlayerEntryData playerEntryData)
 		{
-			if (playerEntryData.isAdmin)
+			if (string.IsNullOrWhiteSpace(playerEntryData.roleColour) == false )
 			{
-				builder.Append("<color=red>[A]</color>");
-
-			}
-
-			if (playerEntryData.isMentor)
-			{
-				builder.Append("<color=#6400ff>[M]</color>");
+				builder.Append($"<color={playerEntryData.roleColour}>[{playerEntryData.roleSmall}]</color>");
 			}
 		}
 

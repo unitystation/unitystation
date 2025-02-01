@@ -33,7 +33,7 @@ namespace Messages.Client
 
 			if (msg.IsGhost)
 			{
-				if (playerScript.IsGhost && PlayerList.Instance.IsAdmin(playerScript.PlayerInfo.AccountId))
+				if (playerScript.IsGhost &&  PlayerList.HasTAGServer(TAG.ADMIN_GHOST_INVENTORY, playerScript.PlayerInfo.AccountId))
 				{
 					FinishTransfer();
 				}

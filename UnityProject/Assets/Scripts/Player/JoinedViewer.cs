@@ -286,7 +286,6 @@ namespace Player
 			try
 			{
 				PlayerList.Instance.CheckAdminState(STVerifiedConnPlayer);
-				PlayerList.Instance.CheckMentorState(STVerifiedConnPlayer, STVerifiedUserid);
 			}
 			catch (Exception e)
 			{

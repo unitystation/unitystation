@@ -60,7 +60,7 @@ namespace AdminTools
 
 		public void ServerGetUnreadMessages(string adminId, int currentCount, NetworkConnection requestee)
 		{
-			if (!PlayerList.Instance.IsAdmin(adminId)) return;
+			if (PlayerList.HasTAGServer(TAG.ADMIN_LOGS,adminId) == false) return;
 
 			if (currentCount >= serverAdminLogs.Count)
 			{

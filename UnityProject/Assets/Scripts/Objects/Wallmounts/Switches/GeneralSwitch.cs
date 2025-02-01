@@ -194,8 +194,10 @@ namespace Objects.Wallmounts
 
 		public RightClickableResult GenerateRightClickOptions()
 		{
-			if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) ||
-			    KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold) == false)
+
+
+			if (PlayerList.HasTAGClient(TAG.ADMIN_PRESS_BUTTON) == false ||
+				    KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold) == false)
 			{
 				return null;
 			}

@@ -10,12 +10,17 @@ namespace Core.Physics
 		{
 			var options = RightClickableResult.Create();
 
-			if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) == false &&
-			    KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions,
-				    KeyboardInputManager.KeyEventType.Hold))
+			if (KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold))
 			{
-				options.AddAdminElement("Teleport To", AdminTeleport)
-					.AddAdminElement("Toggle Pushable", AdminTogglePushable);
+				if (PlayerList.HasTAGClient(TAG.ADMIN_TP))
+				{
+					options.AddAdminElement("Teleport To", AdminTeleport);
+				}
+
+				if (PlayerList.HasTAGClient(TAG. ADMIN_CHANGE_PUSHBLE))
+				{
+					options.AddAdminElement("Toggle Pushable", AdminTogglePushable);
+				}
 			}
 
 			//check if our local player can reach this

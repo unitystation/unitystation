@@ -29,7 +29,7 @@ namespace Messages.Server.AdminTools
 				PlayerId = playerId
 			};
 
-			SendToAdmins(msg);
+			SendToAdmins(msg, TAG.PLAYER_PRAYER);
 			return msg;
 		}
 

@@ -68,7 +68,7 @@ namespace AdminTools
 				{
 					if (showAdminsOnly)
 					{
-						if(!p.isAdmin) continue;
+						if(p.hasAChat == false) continue;
 					}
 					var e = Instantiate(playerEntryPrefab, playerListContent);
 					var entry = e.GetComponent<AdminPlayerEntry>();

@@ -468,7 +468,7 @@ public static class PlayerSpawn
 	/// <param name="newMind"></param>
 	public static void TransferAccountToSpawnedMind(PlayerInfo account, Mind newMind)
 	{
-		var isAdmin = AdminCommandsManager.HasPermission(account, TAG.ADMIN_GHOST_INVENTORY, true);;
+		var isAdmin = AdminCommandsManager.HasPermission(account, TAG.ADMIN_GHOST_INVENTORY, false);
 		if (account.Mind != null && isAdmin) //Has old mind
 		{
 			var adminItemStorage = AdminManager.Instance.GetItemSlotStorage(account);

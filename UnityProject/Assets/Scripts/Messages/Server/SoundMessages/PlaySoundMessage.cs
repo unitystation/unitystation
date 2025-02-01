@@ -196,7 +196,7 @@ namespace Messages.Server.SoundMessages
 				AttachedToSource = attachedToSource
 			};
 
-			SendToAdmins(msg);
+			SendToAdmins(msg, tag: TAG.PLAYER_AHELP);
 			return soundSpawnToken;
 		}
 

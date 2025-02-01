@@ -32,8 +32,8 @@ namespace AdminTools
 		{
 			PlayerEntry = entry;
 
-			mentorButtonText.text = entry.PlayerData.isMentor ? "REMOVE MENTOR" : "MAKE MENTOR";
-			mentorToggle.gameObject.SetActive(entry.PlayerData.isMentor == false);
+			mentorButtonText.text = entry.PlayerData.hasMentorRole ? "REMOVE MENTOR" : "MAKE MENTOR";
+			mentorToggle.gameObject.SetActive(entry.PlayerData.hasMentorRole == false);
 
 			oocMuteButtonText.text = entry.PlayerData.isOOCMuted ? "Unmute OOC" : "Mute OOC";
 		}
@@ -62,7 +62,7 @@ namespace AdminTools
 
 		public void OnDeputiseBtn()
 		{
-			if (PlayerEntry.PlayerData.isMentor == false)
+			if (PlayerEntry.PlayerData.hasMentorRole == false)
 			{
 				adminTools.areYouSurePage.SetAreYouSurePage(
 					$"Are you sure you want to make {PlayerEntry.PlayerData.accountName} a {(mentorToggle.isOn ? "temporary" : "permanent")} mentor?",

@@ -49,9 +49,6 @@ public class PlayerInfo
 	public string ConnectionIP { get; set; }
 
 	public bool IsOnline { get; private set; }
-	public PlayerRole PlayerRoles { get; set; }
-
-	public bool IsAdmin => (PlayerRoles & PlayerRole.Admin) != 0;
 
 	public bool IsOOCMuted = false;
 

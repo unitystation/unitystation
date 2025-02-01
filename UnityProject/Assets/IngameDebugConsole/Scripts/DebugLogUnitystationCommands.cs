@@ -643,19 +643,6 @@ namespace IngameDebugConsole
 			Chat.Instance.StartCoroutine(SpamChatCoroutine());
 		}
 
-
-		[ConsoleMethod("add-admin", "Promotes a user to admin using a user's account ID\nUsage: add-admin <account-id>")]
-		public static void AddAdmin(string userIDToPromote)
-		{
-			if (CustomNetworkManager.Instance._isServer == false)
-			{
-				Loggy.Info("Can only execute command from server.", Category.DebugConsole);
-				return;
-			}
-
-			PlayerList.Instance.ProcessAdminEnableRequest(PlayerManager.Account.Id, userIDToPromote);
-		}
-
 		[ConsoleMethod("destroy-all-lights", "destroys all lights on the main station.")]
 		public static void DestroyAllLights()
 		{

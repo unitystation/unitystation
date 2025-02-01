@@ -878,25 +878,46 @@ namespace Doors
 
 		public RightClickableResult GenerateRightClickOptions()
 		{
-			if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) || !KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold))
+			if (KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold) == false)
 			{
 				return null;
 			}
 
-			var options = RightClickableResult.Create()
-				.AddAdminElement("Force Open", AdminOpen);
+			bool add = false;
 
-			if (GetComponentInChildren<BoltsModule>() != null)
+			var options = RightClickableResult.Create();
+			if (PlayerList.HasTAGClient(TAG.ADMIN_OPEN_DOORS))
 			{
-				options.AddAdminElement("Toggle Bolts", AdminToggleBolt);
+				add = true;
+				options.AddAdminElement("Force Open", AdminOpen);
 			}
 
-			if (GetComponentInChildren<ElectrifiedDoorModule>() != null)
+			if (PlayerList.HasTAGClient(TAG.ADMIN_TOGGLE_BOLTS))
 			{
-				options.AddAdminElement("Toggle Electrify", AdminToggleElectrify);
+				add = true;
+				if (GetComponentInChildren<BoltsModule>() != null)
+				{
+					options.AddAdminElement("Toggle Bolts", AdminToggleBolt);
+				}
 			}
 
-			return options;
+			if (PlayerList.HasTAGClient(TAG.ADMIN_ELECTRIFIE_DOOR))
+			{
+				add = true;
+				if (GetComponentInChildren<ElectrifiedDoorModule>() != null)
+				{
+					options.AddAdminElement("Toggle Electrify", AdminToggleElectrify);
+				}
+			}
+
+			if (add)
+			{
+				return options;
+			}
+			else
+			{
+				return null;
+			}
 		}
 
 		private void AdminOpen()

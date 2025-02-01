@@ -46,13 +46,11 @@ namespace Messages.Server
 			{
 				var tag = "";
 
-				if (PlayerList.Instance.IsAdmin(c.AccountId))
+				var Rank = PlayerList.GetRank(c.AccountId, out var RankName);
+
+				if (Rank?.ShowInChat == true)
 				{
-					tag = "<color=red>[Admin]</color>";
-				}
-				else if (PlayerList.Instance.IsMentor(c.AccountId))
-				{
-					tag = "<color=#6400ff>[Mentor]</color>";
+					tag = $"<color={Rank.Color}>[{RankName}]</color>";
 				}
 
 				prepareConnectedPlayers.Add(new ClientConnectedPlayer
