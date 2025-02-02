@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 752180679074368365}
   - component: {fileID: 1404376226815865619}
   - component: {fileID: 1670478699794476422}
+  - component: {fileID: 6315295771918704203}
+  - component: {fileID: 8081295461890813951}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: NetworkManager
@@ -50,17 +52,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
   runInBackground: 1
-  headlessStartMode: 0
-  editorAutoStart: 0
+  autoStartServerBuild: 1
+  autoConnectClientBuild: 0
   sendRate: 100
   offlineScene: Assets/Scenes/ActiveScenes/Lobby.unity
   onlineScene: Assets/Scenes/ActiveScenes/OnlineScene.unity
-  offlineSceneLoadDelay: 0
-  transport: {fileID: 752180679074368365}
+  transport: {fileID: 6315295771918704203}
   networkAddress: localhost
   maxConnections: 100
-  disconnectInactiveConnections: 0
-  disconnectInactiveTimeout: 60
   authenticator: {fileID: 1670478699794476422}
   playerPrefab: {fileID: 2821122072132512938, guid: 70fd2614e91344280b501ff52714aaa4,
     type: 3}
@@ -5843,10 +5842,8 @@ MonoBehaviour:
   - {fileID: 7469762742606550612, guid: 744b0cb256b76454bb452aa847daf921, type: 3}
   - {fileID: 7469762742606550612, guid: 041da926944070b4a9056013727394ae, type: 3}
   - {fileID: 7469762742606550612, guid: 400c9a3ef18ca344ba6745843a4e5f15, type: 3}
-  exceptionsDisconnect: 1
   snapshotSettings:
     bufferTimeMultiplier: 2
-    bufferLimit: 32
     catchupNegativeThreshold: -1
     catchupPositiveThreshold: 1
     catchupSpeed: 0.009999999776482582
@@ -5855,8 +5852,6 @@ MonoBehaviour:
     dynamicAdjustment: 1
     dynamicAdjustmentTolerance: 1
     deliveryTimeEmaDuration: 2
-  evaluationMethod: 0
-  evaluationInterval: 3
   timeInterpolationGui: 0
   NetworkedManagersPrefabs:
   - {fileID: 6401940811625325638, guid: d3e6b8892ab5b5d42a41cdd379324029, type: 3}
@@ -12186,7 +12181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   port: 7777
   DebugDisplay: 0
-  LogType: 0
+  LogType: 2
   serverBindsAll: 1
   serverBindAddress: 
   serverMaxPeerCapacity: 100
@@ -12231,3 +12226,45 @@ MonoBehaviour:
   OnClientAuthenticated:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6315295771918704203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2920527550438430692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 929e3234c7db540b899f00183fc2b1fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transports:
+  - {fileID: 752180679074368365}
+  - {fileID: 8081295461890813951}
+--- !u!114 &8081295461890813951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2920527550438430692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0110f245bfcfc7d459681f7bd9ebc590, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  port: 7778
+  maxMessageSize: 16384
+  handshakeMaxSize: 3000
+  noDelay: 1
+  sendTimeout: 5000
+  receiveTimeout: 20000
+  serverMaxMessagesPerTick: 10000
+  clientMaxMessagesPerTick: 1000
+  batchSend: 1
+  waitBeforeSend: 0
+  clientUseWss: 0
+  sslEnabled: 0
+  sslCertJson: ./cert.json
+  sslProtocols: 3072
+  _logLevels: 1
