@@ -406,6 +406,15 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public GameObject GetSpawnablePrefabFromName(string prefabName)
 	{
+#if UNITY_EDITOR
+		//Opening closing shenanigans
+		if (allSpawnablePrefabs == null)
+		{
+
+			Instance = FindObjectsByType<CustomNetworkManager>(FindObjectsSortMode.None)[0];
+			return	Instance.GetSpawnablePrefabFromName(prefabName);
+		}
+#endif
 		var prefab = allSpawnablePrefabs?.Where(o => o.name == prefabName).ToList();
 
 		if (prefab != null && prefab.Any())

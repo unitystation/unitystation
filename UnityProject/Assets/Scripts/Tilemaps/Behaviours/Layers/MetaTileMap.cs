@@ -2253,7 +2253,7 @@ namespace TileManagement
 			}
 		}
 
-		public void RemoveTileWithlayer(Vector3Int position, LayerType refLayer, bool exactPosition = true, bool DropItems = true)
+		public void RemoveTileWithlayer(Vector3Int position, LayerType refLayer, bool exactPosition = true, bool DropItems = true, bool removeAllMulti = false)
 		{
 			if (refLayer == LayerType.Objects) return;
 
@@ -2269,24 +2269,30 @@ namespace TileManagement
 					}
 					else
 					{
-						var positionNew = position;
-						for (int i = 0; i < 50; i++)
+
+						lock (MultilayerPresentTiles)
 						{
-							positionNew.z = 1 - i;
+							var tileLocations = GetTileLocationsNeedLockSurrounding(position, layer);
 
-							tileLocation = GetTileExactLocationMultilayer(positionNew, layer, true);
-
-							if (tileLocation != null)
+							foreach (var Location in tileLocations)
 							{
-								tileLocation.layerTile = null;
-								ApplyTileChange(tileLocation);
-								if (refLayer != LayerType.Effects)
-								{
-									RemoveOverlaysOfType(tileLocation.LocalPosition, LayerType.Effects,
-										OverlayType.Damage);
-								}
+								tileLocation = Location;
 
-								return;
+								if (tileLocation != null && tileLocation.layerTile != null)
+								{
+									tileLocation.layerTile = null;
+									ApplyTileChange(tileLocation);
+									if (refLayer != LayerType.Effects)
+									{
+										RemoveOverlaysOfType(tileLocation.LocalPosition, LayerType.Effects,
+											OverlayType.Damage);
+									}
+
+									if (removeAllMulti == false)
+									{
+										return;
+									}
+								}
 							}
 						}
 					}

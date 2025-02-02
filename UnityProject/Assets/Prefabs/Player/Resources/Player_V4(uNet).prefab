@@ -587,20 +587,6 @@ MonoBehaviour:
   syncInterval: 0.1
   playerTypeSettings: {fileID: 11400000, guid: f1ddb9807767eb342a542c93328653f0, type: 2}
   inventorySpeechModifiers: 0
-  characterSettings:
-    Name: Cuban Pete
-    AiName: R.O.B.O.T.
-    BodyType: 1
-    ClothingStyle: 0
-    BagStyle: 0
-    PlayerPronoun: 1
-    Age: 22
-    Speech: 0
-    SkinTone: '#ffe0d1'
-    SerialisedBodyPartCustom: []
-    SerialisedExternalCustom: []
-    Species: Human
-    Voice: Male 01
   playerName: ' '
   visibleName: ' '
   PlayerSync: {fileID: 0}
@@ -1926,7 +1912,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 256
+  Priority: 13
   DopplerLevel: 1
   MinDistance: 0.5
   MaxDistance: 9

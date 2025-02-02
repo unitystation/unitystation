@@ -29,11 +29,13 @@ public class AutopilotShipMachine : MonoBehaviour
 	public OrientationEnum DirectionOverride = OrientationEnum.Default;
 	private void OnEnable()
 	{
+		if (CustomNetworkManager.IsServer == false) return;
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()
 	{
+		if (CustomNetworkManager.IsServer == false) return;
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 

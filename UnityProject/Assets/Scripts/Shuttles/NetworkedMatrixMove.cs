@@ -813,6 +813,16 @@ public class NetworkedMatrixMove : NetworkBehaviour
 				// Calculate the vector from center of mass to force position
 				Vector3 r = (Vector3) thruster.transform.position - WoldCentreOfMass;
 
+				// Prevent issues with extremely small r values
+				var mag = r.magnitude;
+				if (mag < 1e-6)
+				{  // Use a small threshold to check near-zero values
+					r = new Vector3(1, 0, 0); // Assign a reasonable default direction (arbitrary but consistent)
+				} else if (mag < 1)
+				{
+					r = r.normalized; // Normalize if it's not zero
+				}
+
 				// Calculate the component of force along the line connecting force position to center of mass
 				Vector3 forceComponent = Vector3.Dot(thruster.WorldThrustDirectionAndMagnitude, r) / r.sqrMagnitude * r;
 				forceComponent.z = 0;
