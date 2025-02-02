@@ -50,13 +50,13 @@ namespace Learning.ProtipObjectTypes
 			yield return WaitFor.Seconds(2f);
 			if (PlayerManager.LocalPlayerScript == null)
 			{
-				Loggy.Error("[Protips] - Something went wrong accessing the player's local player script.. Are you sure everything is setup correctly?", Category.Character);
+				Loggy.Warning("[Protips] - Something went wrong accessing the player's local player script.. Are you sure everything is setup correctly?", Category.Character);
 				yield break;
 			}
 
 			if (PlayerManager.LocalPlayerScript.DynamicItemStorage == null)
 			{
-				Loggy.Error("To MAX Please fix");
+				Loggy.Error("To MAX Please fix"); // (Max): This error hasn't happened in ages, so I have no idea what to fix here.
 				yield break;
 			}
 
