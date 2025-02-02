@@ -44,13 +44,11 @@ namespace Learning.ProtipObjectTypes
 
 		private IEnumerator SetupEvents()
 		{
-			//(Max): For some reason, the spawning times will become inconsistent between frames.
-			//To play it say, we intentionally await 2 full seconds until everything has run its course.
-			// Await a frame for everything to be initialised properly
-			yield return WaitFor.Seconds(2f);
+			//(Max): Wait until players join the round, since this is a client reference.
+			yield return WaitFor.Seconds(80f);
 			if (PlayerManager.LocalPlayerScript == null)
 			{
-				Loggy.Warning("[Protips] - Something went wrong accessing the player's local player script.. Are you sure everything is setup correctly?", Category.Character);
+				Loggy.Warning("[Protips] - Something went wrong accessing the player's local player script.. Are you sure that the player is in the round?", Category.Character);
 				yield break;
 			}
 
