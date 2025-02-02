@@ -272,8 +272,18 @@ namespace Systems.Character
 					{
 						Loggy.Error(
 							$"Failed to load characters online. because: {accountResponse.Exception!.Message}");
+						UIManager.InfoWindow.Show("Failed to load characters online" +
+						                          $"{accountResponse.Exception!.Message}",
+							false, "Error");
 					});
-					throw accountResponse.Exception;
+					if (accountResponse.Exception != null)
+					{
+						throw accountResponse.Exception;
+					}
+					else
+					{
+						throw new Exception("Failed to load characters online");
+					}
 				}
 				else
 				{
@@ -296,7 +306,13 @@ namespace Systems.Character
 			}
 			catch (Exception e)
 			{
-				LoadManager.DoInMainThread( ()=> Loggy.Error(e.ToString()) );
+				LoadManager.DoInMainThread( ()=>
+				{
+					Loggy.Error(e.ToString());
+					UIManager.InfoWindow.Show("Something went wrong while attempting to fetch your characters." +
+					                          " Make sure you're online and you have a valid account tokne.",
+						false, "Error");
+				});
 			}
 		}
 
@@ -402,13 +418,6 @@ namespace Systems.Character
 			}
 
 			return true;
-		}
-
-		public struct ToUpdateLocal
-		{
-			public SubAccountGetCharacterSheet online;
-			public SubAccountGetCharacterSheet local;
-
 		}
 	}
 }
