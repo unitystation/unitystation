@@ -177,7 +177,7 @@ namespace IngameDebugConsole
 			Loggy.Info("Triggered round restart from DebugConsole.", Category.DebugConsole);
 			VideoPlayerMessage.Send(VideoType.RestartRound);
 			GameManager.Instance.RoundEndTime = 5f;
-			GameManager.Instance.EndRound();
+			GameManager.Instance.EndRound(GameManager.RoundID);
 		}
 
 #if UNITY_EDITOR
@@ -194,7 +194,7 @@ namespace IngameDebugConsole
 
 			Loggy.Info("Triggered round end from DebugConsole.", Category.DebugConsole);
 			VideoPlayerMessage.Send(VideoType.RestartRound);
-			GameManager.Instance.EndRound();
+			GameManager.Instance.EndRound(GameManager.RoundID);
 		}
 
 #if UNITY_EDITOR

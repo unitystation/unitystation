@@ -185,6 +185,8 @@ namespace Blob
 
 		private Collider2D[] sporesArray = new Collider2D[40];
 
+		private int RoundID = GameManager.RoundID;
+
 		/// <summary>
 		/// The start function of the script called from BlobStarter when player turns into blob, sets up core.
 		/// </summary>
@@ -269,7 +271,7 @@ namespace Blob
 			playerSync = GetComponent<MovementSynchronisation>();
 			registerPlayer = GetComponent<RegisterPlayer>();
 			playerScript = GetComponent<PlayerScript>();
-
+			RoundID = GameManager.RoundID;
 			layerMask = LayerMask.GetMask("Objects", "Players", "NPC", "Machines", "Windows", "Door Closed");
 			sporeLayerMask = LayerMask.GetMask("NPC");
 		}
@@ -1249,7 +1251,7 @@ namespace Blob
 			if (endRoundWhenKilled)
 			{
 				GameManager.Instance.RoundEndTime = 60;
-				GameManager.Instance.EndRound();
+				GameManager.Instance.EndRound(RoundID);
 			}
 
 			_ = Despawn.ServerSingle(gameObject);
@@ -1294,7 +1296,7 @@ namespace Blob
 				                                $" but only had {maxNonSpaceCount} non-space tiles which counted to victory.");
 
 				GameManager.Instance.RoundEndTime = 60;
-				GameManager.Instance.EndRound();
+				GameManager.Instance.EndRound(RoundID);
 			}
 		}
 

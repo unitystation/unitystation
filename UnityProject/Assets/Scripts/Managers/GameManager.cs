@@ -225,6 +225,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			Destroy(this);
 		}
 		RoundID = LoadRoundID();
+		RoundID++;
+		SaveRoundID();
 	}
 
 
@@ -507,7 +509,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// </summary>
 	public void StartRound()
 	{
-		RoundID++;
 		SaveRoundID();
 		waitForStart = false;
 
@@ -618,8 +619,13 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// <summary>
 	/// Calls the end of the round which plays a sound and shows the round report. Server only
 	/// </summary>
-	public void EndRound()
+	public void EndRound( int TriggeredOnID)
 	{
+		if (TriggeredOnID != GameManager.RoundID)
+		{
+			return;
+		}
+
 		if (CustomNetworkManager.Instance._isServer == false) return;
 
 		if (CurrentRoundState != RoundState.Started &&
@@ -915,6 +921,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		CurrentRoundState = RoundState.Restarting;
 
+		RoundID++;
 		StartCoroutine(ServerRoundRestart());
 	}
 

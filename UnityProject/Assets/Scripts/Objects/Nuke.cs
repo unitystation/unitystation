@@ -77,6 +77,8 @@ namespace Objects.Command
 		private const string ON_NUKE_SCORE_ENTRY = "nukedStation";
 		private const int ON_NUKE_SCORE_VALUE = -550000;
 
+		public int loadedOnRoundID = 0;
+
 		private void Awake()
 		{
 			currentTimerSeconds = minTimer;
@@ -84,10 +86,12 @@ namespace Objects.Command
 			itemNuke = GetComponent<ItemStorage>();
 			nukeSlot = itemNuke.GetIndexedItemSlot(0);
 			Detonated = false;
+			loadedOnRoundID = GameManager.RoundID;
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
+
 			if (UseSyndiNukeCode)
 			{
 				nukeCode = AntagManager.SyndiNukeCode;
@@ -151,7 +155,7 @@ namespace Objects.Command
 			}
 			else
 			{
-				GameManager.Instance.EndRound();
+				GameManager.Instance.EndRound(loadedOnRoundID);
 			}
 		}
 
@@ -331,7 +335,7 @@ namespace Objects.Command
 			yield return WaitFor.Seconds(10f);
 			// Trigger end of round
 			GameManager.Instance.RoundEndTime = 10;
-			GameManager.Instance.EndRound();
+			GameManager.Instance.EndRound(loadedOnRoundID);
 		}
 
 		IEnumerator TickTimer()

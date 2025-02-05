@@ -43,10 +43,10 @@ namespace InGameEvents
 				yield return WaitFor.Seconds(1f);
 				if (Round != GameManager.RoundID)
 				{
-					yield break; 
+					yield break;
 				}
 			}
-			GameManager.Instance.EndRound();
+			GameManager.Instance.EndRound(Round);
 		}
 
 		private void OnShuttleCalled()

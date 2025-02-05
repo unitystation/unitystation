@@ -73,7 +73,16 @@ public partial class GameManager
 		{
 			Loggy.Info("Shuttle arrived at Centcom", Category.Round);
 			Chat.AddSystemMsgToChat(string.Format(ChatTemplates.PriorityAnnouncement, $"<color=white>Escape shuttle has docked at Centcomm! Round will restart in {TimeSpan.FromSeconds(RoundEndTime).Minutes} minute.</color>"), MatrixManager.MainStationMatrix);
-			StartCoroutine(WaitForRoundEnd());
+			if (PrimaryEscapeShuttle == null)
+			{
+				//Panic
+				EndRound(GameManager.RoundID);
+			}
+			else
+			{
+				EndRound(PrimaryEscapeShuttle.loadedOnRoundID);
+			}
+
 		}
 
 		if (status == EscapeShuttleStatus.DockedStation && !primaryEscapeShuttle.hostileEnvironment)
@@ -92,12 +101,7 @@ public partial class GameManager
 		}
 	}
 
-	private IEnumerator WaitForRoundEnd()
-	{
-		Loggy.Info($"Shuttle docked to Centcom, Round will end in {TimeSpan.FromSeconds(RoundEndTime).Minutes} minute", Category.Round);
-		yield return WaitFor.Seconds(1f);
-		EndRound();
-	}
+
 
 	public void ForceSendEscapeShuttleFromStation(int departTime)
 	{
@@ -118,6 +122,12 @@ public partial class GameManager
 
 	private IEnumerator SendEscapeShuttle(int seconds)
 	{
+		int RoundID = GameManager.RoundID;
+		if (CurrentRoundState != RoundState.Started)
+		{
+			yield break;
+		}
+
 		// departure countdown
 		for (int i = seconds; i >= 0; i--)
 		{
@@ -145,7 +155,7 @@ public partial class GameManager
 		}
 
 		Loggy.Error("[GameManager.Escape/SendEscapeShuttle()] -  OH SHITTTT Shuttle got stuck on the Way to Centralcommand AAAAAAAAAAAAAAAAAAAAAAAAAAAA emergency end round");
-		EndRound();
+		EndRound(RoundID);
 	}
 
 	private IEnumerator WaitToInitEscape()

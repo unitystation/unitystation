@@ -289,7 +289,7 @@ namespace AdminCommands
 				GameManager.Instance.RoundEndTime = 5; // Quick round end when triggered by admin.
 
 				VideoPlayerMessage.Send(VideoType.RestartRound);
-				GameManager.Instance.EndRound();
+				GameManager.Instance.EndRound(GameManager.RoundID);
 
 				Chat.AddGameWideSystemMsgToChat(
 					$"<color={AdminActionChatColor}>An admin ended the round early.</color>");

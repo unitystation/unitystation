@@ -29,7 +29,7 @@ namespace Systems.Antagonists.Antags
 			var Objective = SpawnMind.AntagPublic.Objectives.FirstOrDefault(x => x is BloodBrotherMainObjective) as BloodBrotherMainObjective;
 			if (Objective != null)
 			{
-				SpawnMind.Body.playerHealth.OnDeath +=  Objective.OnBrotherDeath;
+				SpawnMind.Body.playerHealth.OnDeath +=  Objective.OnBrotherDeathNotEnd;
 			}
 
 			SpawnMind.Body.playerHealth.SetMaxHealth(SpawnMind.Body.playerHealth.MaxHealth + extraHealthForBrothers);

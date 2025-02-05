@@ -40,10 +40,15 @@ namespace Antagonists
 
 		public override void OnRoundEnd()
 		{
-			if (BrothersEarnedTheirFreedom() == false) OnBrotherDeath();
+			if (BrothersEarnedTheirFreedom() == false) OnBrotherDeath(true);
 		}
 
-		public void OnBrotherDeath()
+		public void OnBrotherDeathNotEnd()
+		{
+			OnBrotherDeath(false);
+		}
+
+		public void OnBrotherDeath(bool Isending)
 		{
 			foreach (var possibleBrother in AntagManager.Instance.ActiveAntags)
 			{
@@ -58,10 +63,13 @@ namespace Antagonists
 				}
 			}
 
-			if (GameManager.Instance.CurrentRoundState == RoundState.Ended) return;
-			if (GameManager.Instance.GameMode is BloodBrothers)
+			if (Isending == false)
 			{
-				GameManager.Instance.EndRound();
+				if (GameManager.Instance.CurrentRoundState != RoundState.Started) return;
+				if (GameManager.Instance.GameMode is BloodBrothers)
+				{
+					GameManager.Instance.EndRound(GameManager.RoundID);
+				}
 			}
 		}
 
