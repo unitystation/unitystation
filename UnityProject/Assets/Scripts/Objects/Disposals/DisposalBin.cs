@@ -225,6 +225,7 @@ namespace Objects.Disposals
 				storage.ItemStorage.ServerDropAllAtWorld(gameObject.AssumedWorldPosServer());
 				objectContainer.GatherObjects();
 				Chat.AddExamineMsg(interaction.Performer, "You throw all of the bag's contents into the disposal bin.");
+				this.RestartCoroutine(AutoFlush(), ref autoFlushCoroutine);
 				return;
 			}
 
