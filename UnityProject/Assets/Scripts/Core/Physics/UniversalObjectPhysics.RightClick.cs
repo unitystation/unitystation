@@ -55,6 +55,9 @@ namespace Core.Physics
 
 		public void ClientRequestResetRotation()
 		{
+			var Euler = transform.localRotation.eulerAngles;
+			Euler.z = 0;
+			transform.localRotation = Quaternion.Euler(Euler);
 			CmdResetTransformRotationForAll();
 		}
 	}
