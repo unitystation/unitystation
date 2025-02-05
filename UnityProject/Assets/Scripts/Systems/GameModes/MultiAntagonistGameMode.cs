@@ -31,7 +31,7 @@ public class MultiAntagonistGameMode : GameMode
 	{
 		ReuseList.Clear();
 
-		int players = PlayerList.Instance.ReadyPlayers.Count;
+		int players = PlayerList.Instance.loggedIn.Count;
 
 		double cumulativeTotal = 0.0;
 

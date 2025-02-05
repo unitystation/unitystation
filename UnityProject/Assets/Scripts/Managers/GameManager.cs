@@ -561,6 +561,10 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		{
 			SetRandomGameMode();
 		}
+		else if (NextGameMode == "Carousel")
+		{
+			PickFromCarouselGameMode();
+		}
 		else
 		{
 			//Set game mode to the selected game mode

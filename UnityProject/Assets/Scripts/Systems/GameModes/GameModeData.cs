@@ -20,6 +20,10 @@ public class GameModeData : ScriptableObject
 	[SerializeField]
 	private GameMode DefaultGameMode = null;
 
+	private List<GameMode> ShuffledList = new List<GameMode>();
+
+	private int ShuffledListIndex = 0;
+
 	/// <summary>
 	/// Returns a list of game mode names available in the
 	/// codebase
@@ -61,6 +65,39 @@ public class GameModeData : ScriptableObject
 		}
 
 		return Instantiate(possibleGMs.PickRandom());
+	}
+
+	public void IncrementCarouselIndex()
+	{
+		ShuffledListIndex++;
+		if (ShuffledListIndex >= ShuffledList.Count)
+		{
+			ShuffledListIndex = 0;
+		}
+	}
+
+	public GameMode PickFromCarouselGameMode()
+	{
+		if (ShuffledList.Count == 0)
+		{
+			ShuffledList = GameModes.Shuffle().ToList();
+		}
+
+		var InitialIndex = ShuffledListIndex;
+		IncrementCarouselIndex();
+		var NextGameMode = ShuffledList[ShuffledListIndex];
+		while (NextGameMode.IsPossible() == false)
+		{
+			bool Dobreak = InitialIndex == ShuffledListIndex;
+			IncrementCarouselIndex();
+			NextGameMode = ShuffledList[ShuffledListIndex];
+			if (Dobreak)
+			{
+				return GetDefaultGameMode();
+			}
+		}
+
+		return Instantiate(NextGameMode);
 	}
 
 	/// <summary>

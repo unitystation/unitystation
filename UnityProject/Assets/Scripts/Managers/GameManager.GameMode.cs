@@ -88,11 +88,19 @@ public partial class GameManager
 	}
 
 	/// <summary>
+	/// Shuffles a list of game modes then iterate through by round ( If not possible skips)
+	/// </summary>
+	public void PickFromCarouselGameMode()
+	{
+		GameMode randomGM = GameModeData.PickFromCarouselGameMode();
+		SetGameMode(randomGM);
+	}
+
+	/// <summary>
 	/// Sets a random gamemode which is currently possible
 	/// </summary>
 	public void SetRandomGameMode()
 	{
-		// TODO add precondition checks
 		GameMode randomGM = GameModeData.ChooseGameMode();
 		SetGameMode(randomGM);
 	}

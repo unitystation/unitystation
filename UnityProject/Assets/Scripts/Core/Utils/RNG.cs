@@ -15,7 +15,7 @@ public static class RNG
 
 	public static bool FlipACoin()
 	{
-		return Random.Next() >= 0.5f;
+		return Random.NextDouble() >= 0.5f;
 	}
 
 	/// <summary>
@@ -25,7 +25,8 @@ public static class RNG
 	/// <returns></returns>
 	public static bool RoleChance(float Chance)
 	{
-		return Chance >= Random.Next();
+		var value = Random.NextDouble();
+		return Chance >= value;
 	}
 
 }

@@ -184,7 +184,7 @@ namespace GameModes
 		/// </summary>
 		public virtual bool IsPossible()
 		{
-			int players = PlayerList.Instance.ReadyPlayers.Count;
+			int players = PlayerList.Instance.loggedIn.Count;
 			return players >= MinPlayers && (!ForceMinAntags ||
 			                                 (Math.Floor(players * antagRatio) >= MinAntags));
 		}
