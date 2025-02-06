@@ -117,7 +117,7 @@ namespace AdminCommands
 			if (Valid == false && logFailure)
 			{
 				var message =
-					$"Failed Admin check with id: {player?.ClientId}, associated player with that id (null if not valid id): {player?.Username}," +
+					$"Failed Admin check with id: {player?.ClientId}, for {PermissionCode} associated player with that id (null if not valid id): {player?.Username}," +
 					$"Possible hacked client with ip address: {player?.Connection?.address}, netIdentity object name: {player?.Connection?.identity.OrNull()?.name}]";
 				Loggy.Error(message, Category.Exploits);
 				LogAdminAction(message);

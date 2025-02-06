@@ -418,7 +418,7 @@ public static class CleanupUtil
 		SpriteHandlerManager.Instance?.Clean();
 		Dictionary<UInt64, Mirror.NetworkIdentity > dict = Mirror.NetworkIdentity.sceneIds;
 		Debug.Log("removed " + RidDictionaryOfDeadElements(dict, (u, k) => k != null) + " dead elements from Mirror.NetworkIdentity.sceneIds");
-		SpriteHandlerManager.Instance.Clean();
+		SpriteHandlerManager.Instance?.Clean();
 		Debug.Log("removed " + RidDictionaryOfDeadElements(SoundManager.Instance.NonplayingSounds, (u, k) => k != null) + " dead elements from SoundManager.Instance.NonplayingSounds");
 		RidDictionaryOfDeadElements(SpriteHandlerManager.PresentSprites, (u, k) => u != null && k != null);
 		Debug.Log("Finished RoundStartCleanup!");

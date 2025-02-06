@@ -47,6 +47,8 @@ public partial class PlayerList
 	public List<JobBanEntry> clientSideBanEntries = new List<JobBanEntry>();
 
 
+	public static event Action OnPermissionsChange;
+
 	//does the client think he's an admin
 	public bool IsClientAdmin;
 	public string MentorToken { get; private set; }
@@ -164,6 +166,7 @@ public partial class PlayerList
 
 	public static bool HasTAGClient(string TAG)
 	{
+		if (Instance == null) return false;
 		if (Instance.AdminTAGS.Contains("*"))
 		{
 			return true;
@@ -707,7 +710,7 @@ public partial class PlayerList
 
 		if ((player.GameObject == PlayerManager.LocalViewerScript?.gameObject) || Application.isEditor || GameData.Instance.DevBuild)
 		{
-			TryAddRank( player.AccountId,"mentor");
+			TryAddRank( player.AccountId,"host", false);
 		}
 
 		var Permissions = PermissionsManager.Instance.GetPermissions(player.AccountId, out var Rank );
@@ -736,6 +739,7 @@ public partial class PlayerList
 		IsClientAdmin = true;
 		ControlTabs.Instance.ToggleOnAdminTab();
 		Loggy.Info("You have logged in as an admin. Admin tools are now available.", Category.Admin);
+		OnPermissionsChange?.Invoke();
 	}
 
 	#endregion

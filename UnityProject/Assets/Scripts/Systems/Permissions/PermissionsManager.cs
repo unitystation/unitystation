@@ -108,11 +108,17 @@ namespace Systems.Permissions
 		/// <returns></returns>
 		public List<string> GetPermissions(string identifier, out string rankType)
 		{
+
 			rankType = "";
 
 			List<string> Returning = new List<string>();
 
 			var rank = GetRank(identifier, out rankType);
+
+			if (rank == null)
+			{
+				return Returning;
+			}
 
 			//wildcard permission means they have all permissions
 			Returning.AddRange(rank.Permissions);

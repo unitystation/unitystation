@@ -153,6 +153,6 @@ public static class TAG
 	public const string ADMIN_POSSESS_BODY = "ADMIN_POSSESS_BODY";
 	public const string ADMIN_AGHOST = "ADMIN_AGHOST";
 	public const string ADMIN_RESPAWN_SELF = "ADMIN_RESPAWN_SELF";
-
+	public const string MAP_CAMERA_OPTIONS = "MAP_CAMERA_OPTIONS";
 
 }
