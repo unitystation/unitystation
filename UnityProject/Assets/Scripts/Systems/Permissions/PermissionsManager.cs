@@ -12,7 +12,7 @@ namespace Systems.Permissions
 {
 	public class PermissionsManager: SingletonManager<PermissionsManager>
 	{
-		private readonly string configPath = Path.Combine(AccessFile.AdminFolder, "permissions.toml");
+		public readonly string configPath = Path.Combine(AccessFile.AdminFolder, "permissions.toml");
 
 		public PermissionsConfig Config { get; private set; }
 
@@ -26,13 +26,6 @@ namespace Systems.Permissions
 		/// </summary>
 		public void LoadPermissionsConfig()
 		{
-
-			//TODO!!!
-			/*/
-			 		AccessFile.Watch(adminsPath, ThreadLoadCurrentAdmins);
-			/*/
-
-
 
 			if (AccessFile.Exists(configPath) == false)
 			{

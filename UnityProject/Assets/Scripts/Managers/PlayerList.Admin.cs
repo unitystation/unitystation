@@ -71,9 +71,11 @@ public partial class PlayerList
 		}
 
 		AccessFile.Watch(whiteListPath, ThreadLoadWhiteList);
-
+		AccessFile.Watch(PermissionsManager.Instance.configPath, LoadCurrentAdmins);
+		
 		LoadBanList();
 		LoadCurrentAdmins();
+
 		LoadWhiteList();
 		LoadJobBanList();
 	}
@@ -132,6 +134,12 @@ public partial class PlayerList
 	static void LoadAdmins()
 	{
 		PermissionsManager.Instance.LoadPermissionsConfig();
+		Instance.LoggedInWithTag.Clear();
+		foreach (var Info in PlayerList.Instance.loggedIn)
+		{
+			Instance.CheckAdminState(Info);
+		}
+
 	}
 
 	[Server]
