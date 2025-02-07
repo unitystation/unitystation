@@ -72,7 +72,7 @@ public partial class PlayerList
 
 		AccessFile.Watch(whiteListPath, ThreadLoadWhiteList);
 		AccessFile.Watch(PermissionsManager.Instance.configPath, LoadCurrentAdmins);
-		
+
 		LoadBanList();
 		LoadCurrentAdmins();
 
@@ -402,7 +402,7 @@ public partial class PlayerList
 		//jobbanlist checking:
 		var jobBanPlayerEntry = jobBanList?.CheckForEntry(connPlayer.AccountId, connPlayer.ConnectionIP, connPlayer.ClientId);
 
-		if (jobBanPlayerEntry.Value.Item1 == null)
+		if (jobBanPlayerEntry?.Item1 == null)
 		{
 			//No job bans at all
 			return null;
@@ -736,9 +736,8 @@ public partial class PlayerList
 				}
 				LoggedInWithTag[tag].Add(player.AccountId);
 			}
-			AdminEnableMessage.SendMessage(player, Permissions);
 		}
-
+		AdminEnableMessage.SendMessage(player, Permissions);
 	}
 
 	public void SetClientTAGS(string[] tags)
