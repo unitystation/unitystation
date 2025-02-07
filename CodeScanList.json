@@ -3131,6 +3131,17 @@
                 "All": true
             }
         },
+        "Mirror.Transports": {
+            "Mirror.MultiplexTransport": {
+                "All": true
+            },
+            "kcp2k.KcpTransport":{
+                "All": true
+            },
+            "Mirror.SimpleWeb.SimpleWeb":{
+                "All": true
+            }
+        },
         "Logs": {
             "Loggy": {
                 "All": true
