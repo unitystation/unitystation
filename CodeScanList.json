@@ -3101,6 +3101,16 @@
             },
             "NetworkManagerMode": {
                 "All": true
+            },
+            "kcp2k": {
+            "KcpTransport": {
+                "All": true
+            }
+            },
+            "Mirror.SimpleWeb": {
+                "SimpleWebTransport": {
+                    "All": true
+                }
             }
         },
         "IgnoranceTransport": {
@@ -3110,16 +3120,6 @@
                     "bool serverBindsAll",
                     "string serverBindAddress"
                 ]
-            }
-        },
-        "kcp2k": {
-            "KcpTransport": {
-                "All": true
-            }
-        },
-        "Mirror.SimpleWeb": {
-            "SimpleWebTransport": {
-                "All": true
             }
         },
         "Mirror.RemoteCalls": {
