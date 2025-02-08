@@ -3112,6 +3112,16 @@
                 ]
             }
         },
+        "kcp2k": {
+            "KcpTransport": {
+                "All": true
+            }
+        },
+        "Mirror.SimpleWeb": {
+            "SimpleWebTransport": {
+                "All": true
+            }
+        },
         "Mirror.RemoteCalls": {
             "RemoteCallDelegate": {
                 "Methods": ["void .ctor(object, nint)"]
@@ -3129,17 +3139,6 @@
             },
             "Invoker": {
                 "All": true
-            }
-        },
-        "Mirror.Transports": {
-            "Mirror.MultiplexTransport": {
-                
-            },
-            "kcp2k.KcpTransport":{
-                
-            },
-            "Mirror.SimpleWeb.SimpleWeb":{
-                
             }
         },
         "Logs": {
