@@ -111,21 +111,36 @@ namespace Systems.Character
 		/// <returns><see cref="CharacterSheet"/> or default.</returns>
 		public CharacterSheet Get(int key)
 		{
-			if (IsCharacterKeyValid(key) == false)
+			CharacterSheet GenerateRandomSheet()
 			{
-				Loggy.Error($"An attempt was made to fetch a character with an invalid key \"{key}\". Ignoring.");
-				if (Characters.Count > 0)
+				var sheet = CharacterSheet.GenerateRandomCharacter();
+				Characters.Add(new SubAccountGetCharacterSheet()
 				{
-					return default;
-				}
-				else
-				{
-					return new CharacterSheet();
-				}
+					Account = PlayerManager.Account.Id,
+					ForkCompatibility = CharacterSheetForkCompatibility,
+					CharacterSheetVersion = CharacterSheetVersion,
+					Data = sheet,
+					LastUpdated = DateTime.Now
+				});
+				return sheet;
 			}
 
-			var Character = Characters[key];
-			return Character.Data;
+			if (Characters.Count == 0)
+			{
+				Loggy.Info("No character sheets found. Generating a new one..");
+				return GenerateRandomSheet();
+			}
+			if (IsCharacterKeyValid(key) == false)
+			{
+				var msg = $"An attempt was made to fetch a character with an invalid key \"{key}\". " +
+				          $"The game will attempt to fill this data for you with a randomly generated character sheet.";
+				Loggy.Error(msg);
+				UIManager.InfoWindow.Show(msg, false, "Error");
+				return GenerateRandomSheet();
+			}
+
+			var character = Characters[key];
+			return character.Data;
 		}
 
 		/// <summary>Set the <see cref="CharacterSheet"/> associated with the given key.</summary>
