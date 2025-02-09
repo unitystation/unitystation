@@ -78,7 +78,7 @@ namespace Systems.Faith
 		{
 			//This is client trickery, anything we want to check on the client itself is from PlayerManager
 			//while things on the other player is done directly from within this class
-			if (PlayerManager.LocalPlayerScript.PlayerFaith.currentFaith == null) return "";
+			if (PlayerManager.LocalPlayerScript?.PlayerFaith?.currentFaith == null) return "";
 			string finalText = "";
 			if (FaithName == "None")
 			{
