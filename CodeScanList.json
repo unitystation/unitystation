@@ -3102,16 +3102,9 @@
             "NetworkManagerMode": {
                 "All": true
             },
-            "kcp2k": {
-            "KcpTransport": {
-                "All": true
-            }
-            },
-            "Mirror.SimpleWeb": {
-                "SimpleWebTransport": {
-                    "All": true
-                }
-            }
+			"MultiplexTransport" : {
+				
+			},
         },
 		"kcp2k" : {
 			"KcpTransport" : {
