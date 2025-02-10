@@ -415,14 +415,13 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	{
 #if UNITY_EDITOR
 		//Opening closing shenanigans
-		if (allSpawnablePrefabs == null)
+		if (allSpawnablePrefabs == null || this == null)
 		{
-
 			Instance = FindObjectsByType<CustomNetworkManager>(FindObjectsSortMode.None)[0];
 			return	Instance.GetSpawnablePrefabFromName(prefabName);
 		}
 #endif
-		var prefab = allSpawnablePrefabs?.Where(o => o.name == prefabName).ToList();
+		var prefab = allSpawnablePrefabs?.Where(o => o?.name == prefabName).ToList();
 
 		if (prefab != null && prefab.Any())
 		{
