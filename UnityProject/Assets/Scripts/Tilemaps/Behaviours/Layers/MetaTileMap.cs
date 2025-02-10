@@ -2171,14 +2171,14 @@ namespace TileManagement
 		}
 
 		//Use TileChangeManager Instead if you want to me networked
-		public void RemoveTile(Vector3Int position, bool DropItems = true)
+		public void RemoveTile(Vector3Int position, bool DropItems = true, bool isPlaying = true)
 		{
 			TileLocation tileLocation = null;
 			foreach (var layer in LayersValues)
 			{
 				if (layer.LayerType == LayerType.Objects) continue;
 
-				if (Application.isPlaying == false)
+				if (isPlaying == false)
 				{
 					if (layer.gameObject.activeInHierarchy == false) continue;
 					if (layer.LayerType.IsMultilayer())
@@ -2193,7 +2193,7 @@ namespace TileManagement
 							positionnew.z = 1 - i;
 							if (layer.RemoveTile(positionnew))
 							{
-								return;
+								break;
 							}
 						}
 					}
@@ -2201,11 +2201,10 @@ namespace TileManagement
 					{
 						if (layer.RemoveTile(position))
 						{
-							return;
+
 						}
 					}
 
-					continue;
 				}
 
 				if (layer.LayerType.IsMultilayer()) //TODO Tile map upgrade
