@@ -696,7 +696,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	/// <returns></returns>
 	public static IReadOnlyList<TilemapDamage> GetDamageableTilemapsAt(Vector3Int worldTarget)
 	{
-		var Matrix = MatrixManager.AtPoint(worldTarget, CustomNetworkManager.Instance._isServer);
+		var Matrix = MatrixManager.AtPoint(worldTarget, CustomNetworkManager.IsServer);
 		return Matrix.Matrix.TilemapsDamage;
 	}
 
@@ -741,7 +741,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	/// <returns>MetaDataNode at the position. If no Node that isn't space is found, MetaDataNode.Node will be returned.</returns>
 	public static MetaDataNode GetMetaDataAt(Vector3Int worldPosition)
 	{
-		var mat = AtPoint(worldPosition, CustomNetworkManager.Instance._isServer, MainStationMatrix);
+		var mat = AtPoint(worldPosition, CustomNetworkManager.IsServer, MainStationMatrix);
 		Vector3Int position = WorldToLocalInt(worldPosition, mat);
 		MetaDataNode node = mat.MetaDataLayer.Get(position, false);
 

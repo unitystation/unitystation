@@ -627,7 +627,7 @@ public partial class Chat
 
 	private static bool IsServer()
 	{
-		if (!CustomNetworkManager.Instance._isServer)
+		if (!CustomNetworkManager.IsServer)
 		{
 			Loggy.Error("A server only method was called on a client in chat.cs", Category.Chat);
 			return false;

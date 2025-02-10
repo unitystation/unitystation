@@ -153,7 +153,7 @@ namespace Clothing
 		public void OnInventoryMoveClient(ClientInventoryMove info)
 		{
 			var playerScript = PlayerManager.LocalPlayerScript;
-			if ((CustomNetworkManager.Instance._isServer && GameData.IsHeadlessServer)
+			if ((CustomNetworkManager.IsServer && GameData.IsHeadlessServer)
 			    || playerScript == null
 			    || playerScript.PlayerNetworkActions == null
 			    || playerScript.playerHealth == null)

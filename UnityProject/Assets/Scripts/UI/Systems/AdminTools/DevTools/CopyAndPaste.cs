@@ -638,7 +638,7 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 			}
 		}
 
-		var Objects = Matrix.MetaTileMap.ObjectLayer.GetTileList(CustomNetworkManager.Instance._isServer)
+		var Objects = Matrix.MetaTileMap.ObjectLayer.GetTileList(CustomNetworkManager.IsServer)
 			.AllObjects;
 
 

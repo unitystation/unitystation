@@ -204,7 +204,7 @@ public class LaserProjection : MonoBehaviour
 			Destroy(Line.gameObject);
 		}
 
-		if (CustomNetworkManager.Instance._isServer)
+		if (CustomNetworkManager.IsServer)
 		{
 			LaserLines.Clear();
 			this.ResearchLaserProjector.SynchroniseLaser(LaserLines);

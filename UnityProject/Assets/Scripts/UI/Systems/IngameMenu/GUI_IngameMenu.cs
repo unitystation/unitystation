@@ -253,7 +253,7 @@ namespace UI
 		private void StopNetworking()
 		{
 			// Check if a host or regular client is shutting down
-			if (NetworkManager._isServer)
+			if (CustomNetworkManager.IsServer)
 			{
 				NetworkManager.StopHost();
 				Loggy.Info("Stopping host", Category.Connections);

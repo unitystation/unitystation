@@ -882,7 +882,7 @@ namespace MapSaver
 				IEnumerable<RegisterTile> Objects = null;
 				if (Application.isPlaying)
 				{
-					Objects = MetaTileMap.ObjectLayer.GetTileList(CustomNetworkManager.Instance._isServer)
+					Objects = MetaTileMap.ObjectLayer.GetTileList(CustomNetworkManager.IsServer)
 						.AllObjects; //TODO Disabled objectsxz
 				}
 				else
@@ -1615,7 +1615,7 @@ namespace MapSaver
 			IEnumerable<RegisterTile> Objects = null;
 			if (Application.isPlaying)
 			{
-				Objects = MetaTileMap.ObjectLayer.GetTileList(CustomNetworkManager.Instance._isServer)
+				Objects = MetaTileMap.ObjectLayer.GetTileList(CustomNetworkManager.IsServer)
 					.AllObjects; //TODO Disabled objectsxz???
 			}
 			else

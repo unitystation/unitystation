@@ -45,7 +45,7 @@ namespace Objects
 		private bool initialContentsSpawned = false;
 
 		public RegisterTile registerTile;
-		private UniversalObjectPhysics ObjectPhysics;
+		public UniversalObjectPhysics ObjectPhysics;
 
 		[HideInInspector]
 		public List<IEscapable> IEscapables;

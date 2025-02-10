@@ -44,7 +44,7 @@ namespace UI.Objects.Research
 
 		protected override void InitServer()
 		{
-			if (CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.IsServer)
 			{
 				StartCoroutine(WaitForProvider());
 			}
@@ -87,7 +87,7 @@ namespace UI.Objects.Research
 		private void UpdateServerConnectionImage()
 		{
 			if (artifactAnalyser.researchServer == null) connection.SetSprite(0);
-			else connection.SetSprite(1);	
+			else connection.SetSprite(1);
 		}
 
 		private void UpdateRPDisplay()

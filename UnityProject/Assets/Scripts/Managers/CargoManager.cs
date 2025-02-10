@@ -492,7 +492,7 @@ namespace Systems.Cargo
 
 		public void AddToCart(CargoOrderSO orderToAdd)
 		{
-			if (!CustomNetworkManager.Instance._isServer)
+			if (!CustomNetworkManager.IsServer)
 			{
 				return;
 			}
@@ -508,7 +508,7 @@ namespace Systems.Cargo
 
 		public void RemoveFromCart(CargoOrderSO orderToRemove)
 		{
-			if (!CustomNetworkManager.Instance._isServer)
+			if (!CustomNetworkManager.IsServer)
 			{
 				return;
 			}
@@ -529,7 +529,7 @@ namespace Systems.Cargo
 
 		public void ConfirmCart()
 		{
-			if (!CustomNetworkManager.Instance._isServer)
+			if (!CustomNetworkManager.IsServer)
 			{
 				return;
 			}

@@ -16,7 +16,7 @@ public static class ConverterExtensions
 	public static Vector3 ToLocal(this Vector3 worldPos)
 	{
 		return MatrixManager.WorldToLocal(worldPos,
-			MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), CustomNetworkManager.Instance._isServer));
+			MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), CustomNetworkManager.IsServer));
 	}
 
 	public static Vector3 DirectionLocalToWorld(this Vector3 localDirection, Matrix matrix)
@@ -85,7 +85,7 @@ public static class ConverterExtensions
 	public static Vector3 ToLocal(this Vector3Int worldPos)
 	{
 		return MatrixManager.WorldToLocal(worldPos,
-			MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), CustomNetworkManager.Instance._isServer));
+			MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), CustomNetworkManager.IsServer));
 	}
 
 	public static Vector3Int ToWorldInt(this Vector3Int worldPos, Matrix matrix)
@@ -96,7 +96,7 @@ public static class ConverterExtensions
 
 	public static MatrixInfo GetMatrixAtWorld(this Vector3 World)
 	{
-		return MatrixManager.AtPoint(Vector3Int.RoundToInt(World), CustomNetworkManager.Instance._isServer);
+		return MatrixManager.AtPoint(Vector3Int.RoundToInt(World), CustomNetworkManager.IsServer);
 	}
 
 

@@ -336,7 +336,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 
 			if (Application.isPlaying == false)
 			{
-				variantIndex = initialVariantIndex;
+				initialVariantIndex = variantIndex;
 			}
 			var Frame = PresentSpriteSet.Variance[variantIndex].Frames[animationIndex];
 			SetSprite(Frame);
@@ -588,7 +588,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 			}
 		}
 
-		if (CustomNetworkManager.Instance._isServer == false) return;
+		if (CustomNetworkManager.IsServer == false) return;
 
 		SpriteHandlerManager.SpriteChange spriteChange = null;
 

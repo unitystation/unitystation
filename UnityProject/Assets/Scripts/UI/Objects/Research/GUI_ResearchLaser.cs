@@ -24,7 +24,7 @@ namespace UI.Objects.Research
 
 		protected override void InitServer()
 		{
-			if (CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.IsServer)
 			{
 				StartCoroutine(WaitForProvider());
 			}
@@ -138,6 +138,6 @@ namespace UI.Objects.Research
 			technologyProgressLabel.SetValue(sb.ToString());
 		}
 
-		
+
 	}
 }

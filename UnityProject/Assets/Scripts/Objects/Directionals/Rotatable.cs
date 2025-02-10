@@ -319,6 +319,8 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation90
 		{
 			foreach (var spriteHandler in spriteHandlers)
 			{
+				if (spriteHandler.SpriteRenderer == null) continue;
+
 				if (SetOrder)
 				{
 					spriteHandler.SpriteRenderer.sortingOrder = Orders[spriteVariant];

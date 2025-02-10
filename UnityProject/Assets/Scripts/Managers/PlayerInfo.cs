@@ -212,7 +212,7 @@ public class PlayerInfo
 	private static void TrySendUpdate()
 	{
 		if ( CustomNetworkManager.Instance != null
-		     && CustomNetworkManager.Instance._isServer
+		     && CustomNetworkManager.IsServer
 		     && PlayerList.Instance != null )
 		{
 			UpdateConnectedPlayersMessage.Send();

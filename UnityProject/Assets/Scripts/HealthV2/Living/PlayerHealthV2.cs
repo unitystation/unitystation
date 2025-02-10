@@ -126,7 +126,7 @@ namespace HealthV2
 		/// </summary>
 		private void OnDeathActions()
 		{
-			if (CustomNetworkManager.Instance._isServer == false) return;
+			if (CustomNetworkManager.IsServer == false) return;
 			AnnounceDeathNearby();
 			registerPlayer.ServerLayDown();
 			TriggerEventMessage.SendTo(gameObject, Event.PlayerDied);

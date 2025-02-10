@@ -62,7 +62,7 @@ public class RequestForceSpriteUpdate : ClientMessage<RequestForceSpriteUpdate.N
 
 	public static NetMessage Send(SpriteHandlerManager spriteHandlerManager, List<SpriteHandler> toUpdate)
 	{
-		if (CustomNetworkManager.Instance._isServer == true) return new NetMessage();
+		if (CustomNetworkManager.IsServer == true) return new NetMessage();
 		var toSend = new List<SpriteHandlerIdentifier>();
 		foreach (var sh in toUpdate)
 		{

@@ -27,7 +27,7 @@ namespace Objects.Engineering
 
 		private void OnEnable()
 		{
-			if (CustomNetworkManager.Instance._isServer == false) return;
+			if (CustomNetworkManager.IsServer == false) return;
 
 			UpdateManager.Add(CycleUpdate, 1);
 			//moduleSupplyingDevice = this.GetComponent<ModuleSupplyingDevice>();
@@ -36,7 +36,7 @@ namespace Objects.Engineering
 
 		private void OnDisable()
 		{
-			if (CustomNetworkManager.Instance._isServer == false) return;
+			if (CustomNetworkManager.IsServer == false) return;
 
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CycleUpdate);
 			moduleSupplyingDevice?.TurnOffSupply();

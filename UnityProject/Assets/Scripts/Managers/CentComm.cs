@@ -102,7 +102,7 @@ namespace Managers
 		{
 			yield return WaitFor.EndOfFrame; //OnStartServer starts one frame after OnRoundStart
 			//Server only:
-			if (!CustomNetworkManager.Instance._isServer)
+			if (!CustomNetworkManager.IsServer)
 			{
 				yield break;
 			}

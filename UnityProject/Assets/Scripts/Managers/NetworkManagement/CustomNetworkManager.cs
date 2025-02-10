@@ -22,7 +22,6 @@ using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public class CustomNetworkManager : NetworkManager, IInitialise
 {
-	public static bool IsServer => Instance._isServer;
 
 	// NetworkManager.isHeadless is removed in latest versions of Mirror,
 	// so we assume headless would be running in batch mode.
@@ -45,7 +44,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public List<GameObject> ActiveNetworkedManagersPrefabs;
 
-	[HideInInspector] public bool _isServer;
+	public static bool IsServer;
 	[HideInInspector] private ServerConfig config;
 	public GameObject humanPlayerPrefab;
 	public GameObject ghostPrefab;
@@ -262,6 +261,14 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		}
 	}
 
+	public override void OnDestroy()
+	{
+		base.OnDestroy();
+		if (Instance == this)
+		{
+			Instance = null;
+		}
+	}
 
 	public void RoundEnding()
 	{
@@ -448,7 +455,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public override void OnStartServer()
 	{
-		_isServer = true;
+		IsServer = true;
 		base.OnStartServer();
 		NetworkManagerExtensions.RegisterServerHandlers();
 		// Fixes loading directly into the station scene
@@ -573,7 +580,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		{
 			//Set up for headless mode stuff here
 			//Useful for turning on and off components
-			_isServer = true;
+			IsServer = true;
 		}
 	}
 

@@ -378,7 +378,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 	private void OnSceneChange(Scene oldScene, Scene newScene)
 	{
-		if (CustomNetworkManager.Instance._isServer && newScene.name != "Lobby")
+		if (CustomNetworkManager.IsServer && newScene.name != "Lobby")
 		{
 			PreRoundStart();
 		}
@@ -405,7 +405,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	{
 		if (string.IsNullOrEmpty(currentTime)) return;
 
-		if (!CustomNetworkManager.Instance._isServer)
+		if (!CustomNetworkManager.IsServer)
 		{
 			RoundTime = DateTime.ParseExact(currentTime, "O", CultureInfo.InvariantCulture,
 				DateTimeStyles.RoundtripKind);
@@ -457,7 +457,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// </summary>
 	public void PreRoundStart()
 	{
-		if (CustomNetworkManager.Instance._isServer == false) return;
+		if (CustomNetworkManager.IsServer == false) return;
 
 		// Clear up any space bodies
 		SpaceBodies.Clear();
@@ -513,7 +513,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		waitForStart = false;
 
 		// Only do this stuff on the server
-		if (CustomNetworkManager.Instance._isServer == false) return;
+		if (CustomNetworkManager.IsServer == false) return;
 
 		//Clear jobs for next round
 		if (CrewManifestManager.Instance != null)
@@ -630,7 +630,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			return;
 		}
 
-		if (CustomNetworkManager.Instance._isServer == false) return;
+		if (CustomNetworkManager.IsServer == false) return;
 
 		if (CurrentRoundState != RoundState.Started &&
 		    CurrentRoundState != RoundState.PreRound)
@@ -726,7 +726,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	[Server]
 	public void CheckPlayerCount()
 	{
-		if (CustomNetworkManager.Instance._isServer && PlayerList.Instance.ConnectionCount >= MinPlayersForCountdown)
+		if (CustomNetworkManager.IsServer && PlayerList.Instance.ConnectionCount >= MinPlayersForCountdown)
 		{
 			StartCountdown();
 		}
@@ -911,7 +911,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// </summary>
 	public void RestartRound()
 	{
-		if (CustomNetworkManager.Instance._isServer == false)
+		if (CustomNetworkManager.IsServer == false)
 		{
 			Loggy.Error("Cannot restart round, Is not server!", Category.Round);
 			return;

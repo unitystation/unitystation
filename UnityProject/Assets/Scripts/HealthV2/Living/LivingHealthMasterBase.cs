@@ -1697,7 +1697,7 @@ namespace HealthV2
 		private void LogDeath()
 		{
 			PlayerInfo player = playerScript?.PlayerInfo;
-			if (CustomNetworkManager.Instance._isServer == false && playerScript != null && player != null) return;
+			if (CustomNetworkManager.IsServer == false && playerScript != null && player != null) return;
 
 			string killerName = null;
 			if (LastDamagedBy != null)
@@ -2322,7 +2322,7 @@ namespace HealthV2
 
 		public void SetUpCharacter(PlayerHealthData raceBodyparts)
 		{
-			if (CustomNetworkManager.Instance._isServer == false) return;
+			if (CustomNetworkManager.IsServer == false) return;
 			InstantiateAndSetUp(raceBodyparts.Base.Head);
 			InstantiateAndSetUp(raceBodyparts.Base.Torso);
 			InstantiateAndSetUp(raceBodyparts.Base.ArmLeft);

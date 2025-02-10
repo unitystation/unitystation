@@ -538,7 +538,7 @@ public class InteractableStorage : NetworkBehaviour, IClientInteractable<HandAct
 							    PlayerManager.LocalPlayerScript.RegisterPlayer.WorldPosition,
 							    interaction.WorldPositionTarget) == false) return;
 						if (MatrixManager.IsPassableAtAllMatricesOneTile(interaction.WorldPositionTarget.RoundToInt(),
-							    CustomNetworkManager.Instance._isServer) == false) return;
+							    CustomNetworkManager.IsServer) == false) return;
 
 						PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdDropAllItems(itemStorage
 							.GetIndexedItemSlot(0)
@@ -564,7 +564,7 @@ public class InteractableStorage : NetworkBehaviour, IClientInteractable<HandAct
 
 			if (slots == null)
 			{
-				if (!CustomNetworkManager.Instance._isServer)
+				if (!CustomNetworkManager.IsServer)
 				{
 					Chat.AddExamineMsgToClient("It's already empty!");
 				}
@@ -577,7 +577,7 @@ public class InteractableStorage : NetworkBehaviour, IClientInteractable<HandAct
 			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdDropAllItems(itemStorage.GetIndexedItemSlot(0)
 				.ItemStorageNetID, TransformState.HiddenPos);
 
-			if (CustomNetworkManager.Instance._isServer == false)
+			if (CustomNetworkManager.IsServer == false)
 			{
 				Chat.AddExamineMsgToClient($"You start dumping out the {gameObject.ExpensiveName()}.");
 			}

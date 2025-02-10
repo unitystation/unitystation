@@ -79,7 +79,7 @@ namespace UI.Objects.Security
 
 		public void UpdateEntry()
 		{
-			if (!CustomNetworkManager.Instance._isServer)
+			if (!CustomNetworkManager.IsServer)
 			{
 				return;
 			}

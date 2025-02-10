@@ -51,7 +51,7 @@ namespace Objects.Wallmounts.PublicTerminals
 		//For displaying what the console's department is for
 		[field: SerializeField]
 		public DepartmentToInt Department {get; private set;}
-		
+
 		// for the UI
 		private float currentVoltage;
 
@@ -195,7 +195,7 @@ namespace Objects.Wallmounts.PublicTerminals
 
 			SendMessageData = testSendMessageData;
 
-			if (CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.IsServer)
 				TrySendSignal();
 			else
 				CmdSetSentData(testSendMessageData);

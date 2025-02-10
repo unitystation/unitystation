@@ -295,7 +295,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			if (Validations.IsReachableByPositions(PlayerManager.LocalPlayerScript.RegisterPlayer.WorldPosition, Target, false))
 			{
-				if (MatrixManager.IsPassableAtAllMatricesOneTile(Target.RoundToInt(), CustomNetworkManager.Instance._isServer))
+				if (MatrixManager.IsPassableAtAllMatricesOneTile(Target.RoundToInt(), CustomNetworkManager.IsServer))
 				{
 					possibleTarget = (Target - PlayerManager.LocalPlayerScript.RegisterPlayer.WorldPosition);
 				}
