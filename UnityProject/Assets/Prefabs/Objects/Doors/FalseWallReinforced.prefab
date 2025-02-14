@@ -12,7 +12,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -4348920143209673882, guid: 3b1a1c70dbb12644dbe8293427536165,
+      objectReference: {fileID: 21300000, guid: 27d54a29e39ae9448ac7c4c7559f5f07,
         type: 3}
     - target: {fileID: 1581140313371191937, guid: e3fb07aeead92a74091216ef8df2c338,
         type: 3}
@@ -104,6 +104,12 @@ PrefabInstance:
       propertyPath: spritePath
       value: icons/obj/doors/reinf_fwall_closing
       objectReference: {fileID: 0}
+    - target: {fileID: 6107332495178572876, guid: e3fb07aeead92a74091216ef8df2c338,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 17ca891626ee90c42aa19c644f13593f,
+        type: 2}
     - target: {fileID: 6107332495178572876, guid: e3fb07aeead92a74091216ef8df2c338,
         type: 3}
       propertyPath: 'SubCatalogue.Array.data[0]'

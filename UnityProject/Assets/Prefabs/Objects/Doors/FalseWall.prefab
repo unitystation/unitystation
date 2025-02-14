@@ -88,6 +88,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -142,11 +143,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d9b3c05b8754e0443a5280487586cd6e, type: 2}
   - {fileID: 11400000, guid: 6ccaabd067e953b4bb15d6ef7d52bfb4, type: 2}
   - {fileID: 11400000, guid: b6d6f712350769a4d95a3f16a0bfff85, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!114 &4966897602236780545
 MonoBehaviour:
@@ -217,6 +220,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -270,11 +274,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 74dbb0cbb7f7b3943836cc220b96faa2, type: 2}
   - {fileID: 11400000, guid: 33d529e39f8f7104ebbfc376e4cc7622, type: 2}
   - {fileID: 11400000, guid: 12139cf587da66641bc1724a279fff4a, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!114 &7492727395406265142
 MonoBehaviour:
@@ -340,6 +346,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -394,11 +401,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7a9c4e0369832fa4b9c3deca86e1bebf, type: 2}
   - {fileID: 11400000, guid: 419fe08d5f0fb3645a4a462a81d1790f, type: 2}
   - {fileID: 11400000, guid: 73deda64c14a4434b83b7c7fa7174574, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1 &5821065072093624389
 GameObject:
@@ -452,6 +461,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -503,11 +513,13 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   - {fileID: 11400000, guid: c3c73697d5b82ab489b6fc447e168c0a, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1 &6892139865194474319
 GameObject:
@@ -561,6 +573,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -617,11 +630,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   - {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   - {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1 &7837979025980665679
 GameObject:
@@ -675,6 +690,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -728,11 +744,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   - {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   - {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1001 &7109442641318188876
 PrefabInstance:
@@ -787,6 +805,12 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A huge chunk of metal used to separate rooms.
       objectReference: {fileID: 0}
+    - target: {fileID: 3920465809857098496, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ea1b82a0c4d9ea44d813a8395053ee7e,
+        type: 2}
     - target: {fileID: 3920465809857098496, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: SubCatalogue.Array.size
@@ -925,7 +949,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -2110864004724914001, guid: 8f6fb134bac41a043808e4a0643c2bf4,
+      objectReference: {fileID: 21300000, guid: 19d808f3d1be90c43a3b389c2fb812ce,
         type: 3}
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -1117,6 +1141,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac608c3ebbf07f1429f73d9149f89752, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
   doorBase: {fileID: 7357536482554281132}
   overlaySparks: {fileID: 5582988759282538080}
   overlayLights: {fileID: 6892139865194474319}
@@ -1127,36 +1154,38 @@ MonoBehaviour:
   closingAnimationTime: 0.6
   deniedAnimationTime: 0.6
   warningAnimationTime: 0.6
+  SyncDoorUpdateType: 0
+  PanelOpen: 0
   openingSFX:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   closingSFX:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   deniedSFX:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   warningSFX:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
 --- !u!114 &6739358326816350604
@@ -1201,7 +1230,7 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
-  ignoreRoundstartGrabObjects: 0
+  initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}
 --- !u!114 &3363448639085241135

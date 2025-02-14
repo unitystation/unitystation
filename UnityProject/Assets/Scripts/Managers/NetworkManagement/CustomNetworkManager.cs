@@ -246,6 +246,16 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public void InitNetworkedManagers()
 	{
+#if UNITY_EDITOR
+		//Opening closing shenanigans
+		if ( this == null)
+		{
+			Instance = FindObjectsByType<CustomNetworkManager>(FindObjectsSortMode.None)[0];
+			Instance.InitNetworkedManagers();
+			return;
+		}
+#endif
+
 		StartCoroutine(WaitForInit());
 	}
 
