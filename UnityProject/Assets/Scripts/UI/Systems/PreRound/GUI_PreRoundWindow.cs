@@ -55,7 +55,7 @@ namespace UI
 
 		// Character objects
 		[SerializeField]
-		private GameObject characterCustomization = null;
+		public GameObject characterCustomization = null;
 
 		[SerializeField]
 		private GUI_JobPreferences localJobPref = null;
