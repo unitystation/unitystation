@@ -508,6 +508,8 @@ namespace UI.CharacterCreator
 				GUI_PreRoundWindow.Instance.characterCustomization.SetActive(true);
 			}
 
+			this.gameObject.SetActive(true);
+			enabled = true;
 			StartCoroutine(RefreshRotation());
 		}
 
