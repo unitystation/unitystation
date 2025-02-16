@@ -8,7 +8,10 @@ using UnityEngine.UI;
 
 namespace UI.Action
 {
-	public class UIAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+	/// <summary>
+	/// The button to trigger an action that is shown to players clientside
+	/// </summary>
+	public class UIActionButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 	{
 		public SpriteDataSO DefaultIconBackground;
 		public SpriteHandler IconBackground;
@@ -35,7 +38,7 @@ namespace UI.Action
 			actionData = action.ActionData;
 			if (actionData == null)
 			{
-				Loggy.Warning().Format("UIAction {0}: action data is null!", Category.UserInput, iActionHolder);
+				Loggy.Warning().Format("UIActionButton {0}: action data is null!", Category.UserInput, iActionHolder);
 				return;
 			}
 

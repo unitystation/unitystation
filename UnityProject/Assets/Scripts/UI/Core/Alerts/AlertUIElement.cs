@@ -23,7 +23,7 @@ public class AlertUIElement : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 		// Subscribe to the OnActionAdded and OnActionRemoved events of the UIActionManager
 		UIManager.Instance.ClientAlertManager.OnActionShown += HandleActionShown;
 		UIManager.Instance.ClientAlertManager.OnActionHidden += HandleActionHidden;
-		// Check if this UIAction should be hidden at start
+		// Check if this UIActionButton should be hidden at start
 		SpriteHandler.SetSpriteSO(AlertSO.AssociatedSprite);
 		UI_HoverTooltip.hoverName = AlertSO.HoverToolTip;
 		CheckIfHidden();
@@ -31,7 +31,7 @@ public class AlertUIElement : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
 	private void OnDestroy()
 	{
-		// Unsubscribe from the OnActionAdded and OnActionRemoved events when this UIAction is destroyed
+		// Unsubscribe from the OnActionAdded and OnActionRemoved events when this UIActionButton is destroyed
 		UIManager.Instance.ClientAlertManager.OnActionShown -= HandleActionShown;
 		UIManager.Instance.ClientAlertManager.OnActionHidden -= HandleActionHidden;
 	}
@@ -41,7 +41,7 @@ public class AlertUIElement : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 		// Check if the added action is in the hiddenByActions list
 		if (AlertSO.DoNotShowIfPresent.Contains(addedAction.AlertSO))
 		{
-			// If it is, hide this UIAction
+			// If it is, hide this UIActionButton
 			HiddenByAction.Add(addedAction);
 			Hide();
 		}
@@ -52,7 +52,7 @@ public class AlertUIElement : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 		// Check if the removed action is in the hiddenActions list
 		if (HiddenByAction.Contains(removedAction))
 		{
-			// If it is, remove it from the list and show this UIAction
+			// If it is, remove it from the list and show this UIActionButton
 			HiddenByAction.Remove(removedAction);
 			if (HiddenByAction.Count == 0)
 			{
@@ -70,7 +70,7 @@ public class AlertUIElement : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 			// Check if the added action is in the hiddenByActions list
 			if (AlertSO.DoNotShowIfPresent.Contains(addedAction.AlertSO))
 			{
-				// If it is, hide this UIAction
+				// If it is, hide this UIActionButton
 				HiddenByAction.Add(addedAction);
 				hide = true;
 				Hide();
@@ -98,7 +98,7 @@ public class AlertUIElement : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 			TriggerTip(AlertSO.PlayerProtip);
 		}
 
-		// Set this UIAction to be active and visible
+		// Set this UIActionButton to be active and visible
 		gameObject.SetActive(true);
 	}
 
@@ -112,7 +112,7 @@ public class AlertUIElement : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
 		UIManager.Instance.ClientAlertManager.ShowingAction(this);
 
-		// Set this UIAction to be inactive and invisible
+		// Set this UIActionButton to be inactive and invisible
 		gameObject.SetActive(false);
 	}
 

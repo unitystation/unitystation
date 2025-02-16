@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// This is used for the highest level object that an action would be held by(ex: item actions go to mob and spells go to mind), actual access to actions is only controlled by mind
+/// This is used for the highest level object that an action would be held by
+/// (ex: item actions go to mob and spells go to mind), actual access to actions is only controlled by mind
 /// </summary>
 public interface IGameActionContainer
 {

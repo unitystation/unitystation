@@ -5,11 +5,14 @@ using UI.Action;
 using UI.Core.Action;
 using UnityEngine;
 
+//You should only be implementing these interfaces on GameActionObject unless you have a very good reason not to
+
 public interface IGameActionHolder
 {
-	GameObject gameObject { get; }
+	//GameObject gameObject { get; }
 	/// <summary>
-	/// The global key used for tracking an action, stored as a string for client communication, 2 ACTIONS SHOULD NEVER EVER SHARE THE SAME KEY
+	/// The global key used for tracking an action, stored as a string for client communication
+	/// 2 ACTIONS SHOULD NEVER EVER SHARE THE SAME KEY
 	/// </summary>
 	public string ActionGuid { get; }
 	/// <summary>
@@ -40,12 +43,12 @@ public interface IGameActionHolder
 
 	virtual void CallActionClient() //clientside, this gets called when the UI button gets clicked by a player
 	{
-		UIAction action = UIActionManager.Instance.DicIActionGUI[this][0];
+		UIActionButton action = UIActionManager.Instance.DicIActionGUI[this][0];
 		PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestAction(ActionGuid, action.LastClickPosition);
 	}
 
 	/// <summary>
-	/// First in the action chain, return false to stop the action from activating
+	/// Generally checked before TriggerAction(), if your calling TriggerAction() you should probably check it too
 	/// </summary>
 	virtual bool IsAvailable()
 	{
@@ -53,7 +56,18 @@ public interface IGameActionHolder
 	}
 
 	/// <summary>
-	/// Second in the action chain, still able to return false to stop activation
+	/// Do the action chain, returns false if PreActivate() or Activate() fail
+	/// </summary>
+	virtual bool TriggerAction(RequestGameAction attatchedData, bool forced = false)
+	{
+		if(!PreActivate() && !forced) return false;
+		if(!Activate() && !forced) return false;
+		PostActivate();
+		return true;
+	}
+
+	/// <summary>
+	/// First in the action chain
 	/// </summary>
 	virtual bool PreActivate()
 	{
@@ -61,21 +75,86 @@ public interface IGameActionHolder
 	}
 
 	/// <summary>
-	/// This is where you should put most of the logic to execute when your action is called
+	/// Second in the action chain, this is where you should put most of the logic to execute when your action is triggered
 	/// </summary>
 	virtual bool Activate()
 	{
 		return true;
 	}
-}
 
-public interface ICooldownGameActionHolder : IGameActionHolder
-{
-	virtual void CallActionClient(PlayerInfo playerInfo)
+	/// <summary>
+	/// Third in the action chain, the action will have counted as succeeded if it reaches this point
+	/// generally you put things like starting cooldown here
+	/// </summary>
+	virtual void PostActivate() {}
+
+	virtual RequestGameAction GetRequestData()
 	{
-
+		return null;
 	}
 }
+
+/// <summary>
+/// Actions with this interface have some kind of cooldown associated with their use
+/// </summary>
+public interface ICooldownGameActionHolder : IGameActionHolder, ICooldown
+{
+	/// <summary>
+	/// How long is the cooldown of this action
+	/// </summary>
+	int CooldownTime { get; set; }
+
+	virtual bool StartCooldown()
+	{
+		Cooldowns.TryStartServer(sentByPlayer.Script, this, CooldownTime);
+		return true;
+	}
+}
+
+/// <summary>
+/// Actions with this interface have an on and an off state they can swap between
+/// </summary>
+public interface IToggleGameActionHolder : IGameActionHolder
+{
+	/// <summary>
+	/// The current toggle state of this action
+	/// </summary>
+	bool Active { get; set; }
+
+	/// <summary>
+	/// Does our owner select a target for us by clicking on something
+	/// </summary>
+	bool Targeted { get; set; }
+
+	/// <summary>
+	/// What happens when we are toggled on
+	/// </summary>
+	virtual void ToggleOn(){}
+
+	/// <summary>
+	/// What happens when we are toggled off
+	/// </summary>
+	virtual void ToggleOff(){}
+}
+
+/// <summary>
+/// Actions with this interface have a limited number of charges
+/// </summary>
+public interface IChargeGameActionHolder : IGameActionHolder
+{
+	/// <summary>
+	/// How many charges do we currently have
+	/// </summary>
+	int Charges { get; set; }
+
+	/// <summary>
+	/// What is the maximum amount of charges we can have
+	/// if you don't have a way to regenerate charges you likely don't care about this
+	/// </summary>
+	int MaxCharges { get; set; }
+}
+
+//public interface IComplexRequestGameActionHolder : IGameActionHolder
 
 //some example classes
 /*

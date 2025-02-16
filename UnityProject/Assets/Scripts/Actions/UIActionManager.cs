@@ -95,12 +95,12 @@ namespace UI.Core.Action
 		/// </summary>
 		public bool IsAiming => HasActiveAction && ActiveAction.ActionData.IsAimable;
 
-		public UIAction UIAction;
-		public List<UIAction> PooledUIAction = new List<UIAction>();
+		public UIActionButton UIAction;
+		public List<UIActionButton> PooledUIAction = new List<UIActionButton>();
 
-		public Dictionary<IGameActionHolder, List<UIAction>> DicIActionGUI = new Dictionary<IGameActionHolder, List<UIAction>>();
+		public Dictionary<IGameActionHolder, List<UIActionButton>> DicIActionGUI = new Dictionary<IGameActionHolder, List<UIActionButton>>();
 
-		public UIAction ActiveAction { get; set; }
+		public UIActionButton ActiveAction { get; set; }
 		public bool HasActiveAction => ActiveAction != null;
 		#endregion Clientside vars
 
@@ -163,13 +163,36 @@ namespace UI.Core.Action
 		}
 
 		/// <summary>
+		/// Return the holder registered to a key if it exists, otherwise return null
+		/// </summary>
+		public static IGameActionHolder GetHolderFromKey(string key)
+		{
+			return Instance.allActionsByUUID.ContainsKey(key) ? Instance.allActionsByUUID[key] : null;
+		}
+
+		/// <summary>
 		/// Return true if we successfully trigger the requested game action, otherwise return false
 		/// </summary>
 		public static bool RequestGameAction(string actionGUID, IGameActionContainer requester, Vector3 clickPosition)
 		{
+
+			if (!Convert.ToBoolean(actionGUID))
+			{
+				Loggy.Error($"{requester} calling RequestGameAction() without passing a GUID.", Category.Actions);
+				return false;
+			}
 			if(!requester.CheckActionAvailability(actionGUID)) return false;
+			IGameActionHolder holder = Instance.allActionsByUUID[actionGUID];
 			return true;
 		}
+
+		/// <summary>
+		///
+		/// </summary>
+		/// <param name="actionGUID"></param>
+		/// <returns></returns>
+		public static bool AttemptActionTrigger(string actionGUID)
+		{}
 
 		/// <summary>
 		/// Return true if we successfully toggle the requested game action, otherwise return false
@@ -401,7 +424,7 @@ namespace UI.Core.Action
 						break;
 					}
 				}
-				UIAction _UIAction;
+				UIActionButton _UIAction;
 				if (Instance.PooledUIAction.Count > 0)
 				{
 					_UIAction = Instance.PooledUIAction[0];
@@ -409,7 +432,7 @@ namespace UI.Core.Action
 				}
 				else
 				{
-					_UIAction = Instantiate(Instance.UIAction);
+					_UIAction = Instantiate(Instance.UIActionButton);
 					_UIAction.transform.SetParent(Instance.Panel.transform, false);
 				}
 				Instance.ClientIActionGUIToID[iActionGUI] = ID;
@@ -417,7 +440,7 @@ namespace UI.Core.Action
 				SpriteHandlerManager.RegisterSpecialHandler(ID + "B", _UIAction.IconBackground); //back icon
 				if (Instance.DicIActionGUI.ContainsKey(iActionGUI) == false)
 				{
-					Instance.DicIActionGUI.Add(iActionGUI, new List<UIAction>());
+					Instance.DicIActionGUI.Add(iActionGUI, new List<UIActionButton>());
 				}
 				Instance.DicIActionGUI[iActionGUI].Add(_UIAction);
 				_UIAction.SetUp(iActionGUI);
@@ -476,7 +499,7 @@ namespace UI.Core.Action
 				}
 			}
 
-			DicIActionGUI = new Dictionary<IGameActionHolder, List<UIAction>>();
+			DicIActionGUI = new Dictionary<IGameActionHolder, List<UIActionButton>>();
 		}
 
 		public static void ClearAllActionsServer()
@@ -516,7 +539,7 @@ namespace UI.Core.Action
 
 		#endregion Events
 
-		private IEnumerator CooldownCountdown(UIAction action, float cooldown)
+		private IEnumerator CooldownCountdown(UIActionButton action, float cooldown)
 		{
 			while ((cooldown -= Time.deltaTime) > 0)
 			{

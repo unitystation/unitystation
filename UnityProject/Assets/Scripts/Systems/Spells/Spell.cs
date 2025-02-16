@@ -60,7 +60,7 @@ namespace Systems.Spells
 
 		public virtual void CallActionClient()
 		{
-			UIAction action = UIActionManager.Instance.DicIActionGUI[this][0];
+			UIActionButton action = UIActionManager.Instance.DicIActionGUI[this][0];
 			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestSpell(SpellData.Index, action.LastClickPosition);
 		}
 
@@ -78,7 +78,6 @@ namespace Systems.Spells
 			if(castUsesLeft == 0)
 				castUsesLeft = CastUses;
 
-			Loggy.LogError($"USES {castUsesLeft} r {GetInstanceID()}");
 			castUsesLeft--;
 			if(castUsesLeft <= 0)
 				{
@@ -125,7 +124,6 @@ namespace Systems.Spells
 
 		private void OnActionToggleOff()
 		{
-			Loggy.LogError($"HOHO {castUsesLeft} e {CastUses} a {GetInstanceID()}");
 			/*if(castUsesLeft > 0 && castUsesLeft != CastUses)
 				Loggy.LogError($"AAAAA");
 				StartCooldown();*/

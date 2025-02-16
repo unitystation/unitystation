@@ -7,6 +7,7 @@ using System.Linq;
 using Logs;
 using Messages.Client;
 
+//MAKE A UIActionButtonDataPacket CLASS TO REPLACE THIS
 public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 {
 	public struct NetMessage : NetworkMessage

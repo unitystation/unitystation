@@ -517,7 +517,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	/// <summary>
 	/// Switches the pickup mode for the InteractableStorage in the players hands
-	/// TODO should probably be turned into some kind of UIAction component which can hold all these functions
+	/// TODO should probably be turned into some kind of UIActionButton component which can hold all these functions
 	/// </summary>
 	[Command]
 	public void CmdSwitchPickupMode()
@@ -896,7 +896,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
-	//effectively a command wapper for UIActionManager.RequestGameAction()
+	//effectively a command wrapper for UIActionManager.RequestGameAction()
 	[Command]
 	public void CmdRequestAction(string actionID, Vector3 clickPosition)
 	{

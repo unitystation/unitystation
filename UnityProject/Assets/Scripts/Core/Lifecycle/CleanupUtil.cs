@@ -396,7 +396,7 @@ public static class CleanupUtil
 	/// </summary>
 	public static void RoundStartCleanup()
 	{
-		foreach (var a in UnityEngine.GameObject.FindObjectsOfType<UIAction>(true))
+		foreach (var a in UnityEngine.GameObject.FindObjectsOfType<UIActionButton>(true))
 		{
 			if ((a.iActionHolder is UI.Action.ItemActionButton) && (a.iActionHolder as UI.Action.ItemActionButton == null || (a.iActionHolder as UI.Action.ItemActionButton).CurrentlyOn == null))
 			{
