@@ -88806,7 +88806,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.4.2",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -88834,10 +88834,6 @@
                   "ClassID": "GuidanceBuoy@0",
                   "Data": [
                     {
-                      "Name": "Out@IsEnd",
-                      "Data": "True"
-                    },
-                    {
                       "Name": "In@NextInLine",
                       "Data": "69ffc1053dc39a24fb870b2248780be4_27┼281┼0┼@0@GuidanceBuoy@0"
                     }
@@ -88859,10 +88855,6 @@
                     {
                       "Name": "Out@NextInLine",
                       "Data": "69ffc1053dc39a24fb870b2248780be4_27┼251┼0┼@0@GuidanceBuoy@0"
-                    },
-                    {
-                      "Name": "In@IsEnd",
-                      "Data": "True"
                     }
                   ]
                 }
@@ -88975,10 +88967,6 @@
                     {
                       "Name": "In@DesiredFaceDirection",
                       "Data": "Up_By0"
-                    },
-                    {
-                      "Name": "In@IsEnd",
-                      "Data": "True"
                     }
                   ]
                 }
@@ -89034,10 +89022,6 @@
                 {
                   "ClassID": "GuidanceBuoy@0",
                   "Data": [
-                    {
-                      "Name": "Out@IsEnd",
-                      "Data": "True"
-                    },
                     {
                       "Name": "In@NextInLine",
                       "Data": "69ffc1053dc39a24fb870b2248780be4_28┼131┼0┼@0@GuidanceBuoy@0"
@@ -144905,15 +144889,6 @@
             "Object": {
               "ClassDatas": [
                 {
-                  "ClassID": "NetworkIdentity@0",
-                  "Data": [
-                    {
-                      "Name": "_assetId",
-                      "Data": "565880673"
-                    }
-                  ]
-                },
-                {
                   "ClassID": "EventRouter@0",
                   "Data": [
                     {
@@ -154245,10 +154220,6 @@
                     {
                       "Name": "In@DesiredFaceDirection",
                       "Data": "Up_By0"
-                    },
-                    {
-                      "Name": "In@IsEnd",
-                      "Data": "True"
                     }
                   ]
                 }
@@ -154305,10 +154276,6 @@
                   "ClassID": "GuidanceBuoy@0",
                   "Data": [
                     {
-                      "Name": "Out@IsEnd",
-                      "Data": "True"
-                    },
-                    {
                       "Name": "In@NextInLine",
                       "Data": "69ffc1053dc39a24fb870b2248780be4_122┼145┼0┼@0@GuidanceBuoy@0"
                     }
@@ -154323,8 +154290,8 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "62,141.5,0",
-          "Size": "122,281,0"
+          "Pos": "61,140.5,-14",
+          "Size": "122,281,30"
         }
       ]
     },
@@ -155034,7 +155001,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.4.2",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -155470,7 +155437,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "28,240,0",
+          "Pos": "0,0,0",
           "Size": "4,12,0"
         }
       ]
@@ -155812,7 +155779,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.4.2",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -156105,7 +156072,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "40,45,0",
+          "Pos": "-2,1,0",
           "Size": "6,4,0"
         }
       ]
@@ -156552,7 +156519,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.4.2",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -156939,8 +156906,8 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "32,51.5,0",
-          "Size": "4,7,0"
+          "Pos": "1,-1.5,0.5",
+          "Size": "4,7,1"
         }
       ]
     },
@@ -157391,7 +157358,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.4.2",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -157769,8 +157736,8 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "83.5,18,0",
-          "Size": "7,4,0"
+          "Pos": "-0.5,-1,0.5",
+          "Size": "7,4,1"
         }
       ]
     },
@@ -160940,7 +160907,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.4.2",
         "CommonPrefabs": [],
         "PrefabData": [],
         "IDToNetIDClient": {}
@@ -160948,7 +160915,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "10003,305.5,0",
+          "Pos": "2,4.5,0",
           "Size": "28,9,0"
         }
       ]
@@ -170233,7 +170200,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.4.2",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -172831,14 +172798,14 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "-8955.5,2020.5,0",
+          "Pos": "43.5,19.5,0",
           "Size": "87,47,0"
         }
       ]
     },
     {
       "Ver": "1.1.1",
-      "Location": "126┼130┼0┼",
+      "Location": "125┼72┼0┼",
       "MatrixName": "EMS",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -174461,7 +174428,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.4.2",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -176059,7 +176026,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "127,138,0",
+          "Pos": "0,7,0",
           "Size": "6,20,0"
         }
       ]

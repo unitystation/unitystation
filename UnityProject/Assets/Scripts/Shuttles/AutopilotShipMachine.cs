@@ -50,6 +50,19 @@ public class AutopilotShipMachine : MonoBehaviour
 
 	}
 
+	public void InItAsIfDockedTo(GuidanceBuoy Buoy)
+	{
+		if (CustomNetworkManager.IsServer == false) return;
+		StartOfChain = Buoy;
+		CurrentTarget = Buoy;
+
+		while (CurrentTarget.In.NextInLine != null)
+		{
+			CurrentTarget = CurrentTarget.In.NextInLine;
+		}
+		MoveToInternal(CurrentTarget);
+	}
+
 
 	public void MoveToTargetBuoy(GuidanceBuoy Buoy)
 	{
@@ -136,7 +149,7 @@ public class AutopilotShipMachine : MonoBehaviour
 	{
 		if (MoveDirectionIn)
 		{
-			if (CurrentTarget.In.IsEnd)
+			if (CurrentTarget.In.NextInLine == null)
 			{
 				if (PreviouslyReached == pos) return;
 				PreviouslyReached = pos;
@@ -144,7 +157,6 @@ public class AutopilotShipMachine : MonoBehaviour
 				{
 					ShuttlesMainConnector.TryConnectAdjacent();
 				}
-
 
 				ReachedEndOfInBuoyChain(CurrentTarget, StartOfChain);
 			}
@@ -157,7 +169,7 @@ public class AutopilotShipMachine : MonoBehaviour
 		}
 		else
 		{
-			if (CurrentTarget.Out.IsEnd)
+			if (CurrentTarget.Out.NextInLine == null)
 			{
 
 				if (PreviouslyReached == pos) return;
