@@ -11,6 +11,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using NaughtyAttributes;
 using Managers;
+using Mirror;
 using StationObjectives;
 using Player;
 
@@ -184,9 +185,25 @@ namespace GameModes
 		/// </summary>
 		public virtual bool IsPossible()
 		{
-			int players = PlayerList.Instance.loggedIn.Count;
-			return players >= MinPlayers && (!ForceMinAntags ||
-			                                 (Math.Floor(players * antagRatio) >= MinAntags));
+			int players = NetworkServer.connections.Count;
+
+			if ((players >= MinPlayers) == false )
+			{
+				Loggy.Info($"Failed MinPlayers with Current {players} Needed {MinPlayers} for {name}", Category.GameMode);
+				return false;
+			}
+
+			if (ForceMinAntags)
+			{
+				if ((Math.Floor(players * antagRatio) >= MinAntags) == false)
+				{
+					Loggy.Info($"Failed ForceMinAntags with Current {players * antagRatio} Needed {MinAntags} for {name}", Category.GameMode);
+					return false;
+				}
+			}
+
+			return true;
+
 		}
 
 		/// <summary>
@@ -246,7 +263,7 @@ namespace GameModes
 
 
 			// Are there enough antags already?
-			int newPlayerCount = PlayerList.Instance.loggedIn.Count + 1;
+			int newPlayerCount = NetworkServer.connections.Count + 1;
 			var expectedAntagCount = Math.Min((int)Math.Round(newPlayerCount * AntagRatio), maxAntags);
 
 			if (AntagManager.Instance.AntagCount < expectedAntagCount)

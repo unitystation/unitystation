@@ -4,6 +4,7 @@ using Antagonists;
 using GameModes;
 using JetBrains.Annotations;
 using Logs;
+using Mirror;
 using NaughtyAttributes;
 using Player;
 using UnityEngine;
@@ -31,7 +32,7 @@ public class MultiAntagonistGameMode : GameMode
 	{
 		ReuseList.Clear();
 
-		int players = PlayerList.Instance.loggedIn.Count;
+		int players = NetworkServer.connections.Count;
 
 		double cumulativeTotal = 0.0;
 
