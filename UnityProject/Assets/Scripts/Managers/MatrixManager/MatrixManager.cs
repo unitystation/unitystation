@@ -131,7 +131,9 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		{
 			MatrixPrefab = CommonManagerEditorOnly.Instance.Matrix;
 			Object =  (GameObject)  UnityEditor.PrefabUtility.InstantiatePrefab(MatrixPrefab);
+			UnityEditor.PrefabUtility.UnpackPrefabInstance(Object, UnityEditor.PrefabUnpackMode.OutermostRoot, UnityEditor.InteractionMode.AutomatedAction);
 			Object = (GameObject)  UnityEditor.PrefabUtility.InstantiatePrefab(CommonManagerEditorOnly.Instance.MatrixSync, Object.transform);
+
 		}
 #endif
 
