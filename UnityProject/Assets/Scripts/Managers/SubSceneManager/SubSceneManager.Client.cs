@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Messages.Client;
 using Mirror;
+using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -89,9 +90,12 @@ public partial class SubSceneManager
 		//calculate load time:
 		SubsceneLoadTimer.MaxLoadTime = Scenes.Count;
 
+		var loadCount = 0;
 		clientIsLoadingSubscene = true;
 		foreach (var Scene in Scenes)
 		{
+			loadCount++;
+			GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke($"Loading scenes.. ({loadCount}/{Scenes.Count})");
 			yield return LoadClientSubScene(Scene, false, SubsceneLoadTimer, true );
 			if (KillClientLoadingCoroutine)
 			{
@@ -102,11 +106,16 @@ public partial class SubSceneManager
 			}
 		}
 
+		loadCount = 0;
+
+		GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke($"Preparing to spawn objects..");
 		NetworkClient.PrepareToSpawnSceneObjects();
 		RequestObserverRefresh.Send(OriginalScene);
 
-		foreach (var Scene in Scenes)
+		foreach (var scene in Scenes)
 		{
+			loadCount++;
+			GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke($"Requesting Object Observers.. ({loadCount}/{Scenes.Count})");
 			yield return WaitFor.Seconds(0.1f); //For smooth FPS not necessary technically, but causes freeze For a little bit
 			if (KillClientLoadingCoroutine)
 			{
@@ -114,8 +123,8 @@ public partial class SubSceneManager
 				clientIsLoadingSubscene = false;
 				yield break;
 			}
-			RequestObserverRefresh.Send(Scene.SceneName);
-			ClientObserver[Scene.SceneName] = false;
+			RequestObserverRefresh.Send(scene.SceneName);
+			ClientObserver[scene.SceneName] = false;
 		}
 
 		clientIsLoadingSubscene = false;
@@ -137,6 +146,7 @@ public partial class SubSceneManager
 		ClientObserver.Clear();
 		UIManager.Display.preRoundWindow.CloseMapLoadingPanel();
 		ClientSideFinishAction = null;
+		GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke($"Client Finished Loading.");
 		OnFinish.Invoke();
 	}
 

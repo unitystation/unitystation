@@ -721,14 +721,14 @@ public partial class PlayerList
 			TryAddRank( player.AccountId,"host", false);
 		}
 
-		var Permissions = PermissionsManager.Instance.GetPermissions(player.AccountId, out var Rank );
+		var permissions = PermissionsManager.Instance.GetPermissions(player.AccountId, out var Rank );
 
 		//full admin privs for local offline testing for host player
-		if (Permissions.Count > 0)
+		if (permissions.Count > 0)
 		{
 			//This is an admin, send admin notify to the users client
 			Loggy.Info($"{player.Username} logged in with tags. IP: {player.ConnectionIP} and Rank {Rank} ", Category.Admin);
-			foreach (var tag in Permissions)
+			foreach (var tag in permissions)
 			{
 				if (LoggedInWithTag.ContainsKey(tag) == false)
 				{
@@ -737,7 +737,7 @@ public partial class PlayerList
 				LoggedInWithTag[tag].Add(player.AccountId);
 			}
 		}
-		AdminEnableMessage.SendMessage(player, Permissions);
+		AdminEnableMessage.SendMessage(player, permissions);
 	}
 
 	public void SetClientTAGS(string[] tags)

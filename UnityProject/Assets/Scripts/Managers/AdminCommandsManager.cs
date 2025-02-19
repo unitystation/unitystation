@@ -259,8 +259,6 @@ namespace AdminCommands
 						$"<color={AdminActionChatColor}> An Admin tried to start the game early but the server wasn't ready. **insert Walter White Breaks Down meme here** </color>");
 					return;
 				}
-
-
 				GameManager.Instance.StartRound();
 
 				Chat.AddGameWideSystemMsgToChat(
