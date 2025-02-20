@@ -13,6 +13,8 @@ using Messages.Client;
 using Messages.Client.NewPlayer;
 using Messages.Client.SpriteMessages;
 using UI;
+using UnityEngine;
+using Util.Independent.FluentRichText;
 
 namespace Player
 {
@@ -330,7 +332,7 @@ namespace Player
 			var netIdentity = loggedOffPlayer.GetComponent<NetworkIdentity>();
 			if (netIdentity == null)
 			{
-				GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("<color=red>An error occurred. Press F5 to check for what error had occured.</color>");
+				GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("An error occurred. Press F5 to check for what error had occured.".Color(Color.red));
 				Loggy.Error($"No {nameof(NetworkIdentity)} component on {loggedOffPlayer}! " +
 				                "Cannot rejoin that player. Was original player object improperly created? " +
 				                "Did we get runtime error while creating it?", Category.Connections);
