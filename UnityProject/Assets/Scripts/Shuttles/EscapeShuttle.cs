@@ -282,7 +282,7 @@ public class EscapeShuttle : AutopilotShipMachine
 		}
 
 		//check if we're trying to move but are unable to
-		if (!isBlocked)
+		if (isBlocked == false)
 		{
 			if (Status != EscapeShuttleStatus.DockedCentcom && Status != EscapeShuttleStatus.DockedStation)
 			{
@@ -466,7 +466,7 @@ public class EscapeShuttle : AutopilotShipMachine
 				}
 				if (CurrentTimerSeconds <= 0 && UnderflowFunnies.Count <= UnderflowIndex && GiveUpTime < 0)
 				{
-					Loggy.Error("[GameManager.Escape/TickTimer()] - OH SHITTTT Shuttle got stuck on the Way to station AAAAAAAAAAAAAAAAAAAAAAAAAAAA emergency end round");
+					Loggy.Error("OH SHITTTT Shuttle got stuck on the Way to station AAAAAAAAAAAAAAAAAAAAAAAAAAAA emergency end round");
 					GameManager.Instance.EndRound(loadedOnRoundID);
 					centComm.UpdateStatusDisplay(StatusDisplayChannel.CachedChannel, null);
 					yield break;

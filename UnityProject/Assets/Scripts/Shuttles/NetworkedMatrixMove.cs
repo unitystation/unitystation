@@ -1559,9 +1559,9 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 		if (isMovingAroundMatrix)
 		{
-			var Difference = (CentreOfAIMovementWorld.RoundToInt() - TravelToWorldPOS).magnitude;
+			var difference = (CentreOfAIMovementWorld.RoundToInt() - TravelToWorldPOS).magnitude;
 
-			if (Difference < 0.5f)
+			if (difference < 0.5f)
 			{
 				MatrixMoveAroundCurrentTargetCorner++;
 				if (MatrixMoveAroundCurrentTargetCorner > 3)
