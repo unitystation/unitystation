@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AddressableReferences;
 using Core;
+using HealthV2;
 using Items.Food;
 using Logs;
 using Mobs.AI;
+using Mobs.Traversal;
+using Mobs.Traversal.Strategies;
 using PathFinding;
 using Systems.Spawns;
 using UnityEngine;
@@ -14,45 +18,57 @@ namespace Mobs.BrainAI.States.Arial
 	public class LookForTroubleArialAi : BrainMobState
 	{
 		private GameObject target;
+		private MobTraversal pathfinder => master.Traversal;
 		[SerializeField] private BrainWanderState wanderState;
 		[SerializeField] private CauseTroubleArialAi troubelState;
-		[SerializeField] private MobPathfinderV2 pathfinder;
 		[SerializeField] private List<AddressableAudioSource> stateEnterSounds = new List<AddressableAudioSource>();
 
-		private List<Node> path = new List<Node>();
+		public List<TraversalStrat> TraversalStrategies = new List<TraversalStrat>();
 
-		public void Start()
+		private bool isTraversing = false;
+
+
+		private void Start()
 		{
-			base.Awake();
-			pathfinder = LivingHealthMaster.playerScript.GetComponent<MobPathfinderV2>();
-			if (pathfinder == null)
-			{
-				Loggy.Error("[LookForTroubleArialAi] - NO PATHFINDER DETECTED. ARIAL WILL BE STUCK.");
-			}
+			TraversalStrategies.Add(new OpenDoor());
+		}
+
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
+		{
+			UnsubscribeToPathfinderEvents();
+			base.OnRemovedFromBody(livingHealth, source);
 		}
 
 		public override void OnEnterState()
 		{
+			SubscribeToPathfinderEvents();
+			target = null;
+			isTraversing = false;
 			target = DecideTarget();
 			if (target == null)
 			{
 				//enter wander state.
 				master.AddRemoveState(null, wanderState);
 			}
-
 			SoundManager.PlayNetworkedAtPos(stateEnterSounds.PickRandom(),
 				LivingHealthMaster.gameObject.AssumedWorldPosServer());
 		}
 
 		public override void OnExitState()
 		{
+			UnsubscribeToPathfinderEvents();
 			target = null;
-			path = null;
 		}
 
 		public override void OnUpdateTick()
 		{
-			if (LivingHealthMaster.IsSoftCrit || LivingHealthMaster.IsCrit || LivingHealthMaster.IsDead) return;
+			if (IsStillTraversing()) return;
+			if (LivingHealthMaster.IsSoftCrit || LivingHealthMaster.IsCrit || LivingHealthMaster.IsDead)
+			{
+				isTraversing = false;
+				return;
+			}
+
 			if (target == null)
 			{
 				target = DecideTarget();
@@ -60,45 +76,18 @@ namespace Mobs.BrainAI.States.Arial
 				{
 					master.AddRemoveState(wanderState, null);
 				}
-
 				return;
 			}
 
-			if (pathfinder == null) return;
-			path = pathfinder.FindNewPath(
-				MatrixManager.WorldToLocal(LivingHealthMaster.playerScript.playerMove.OfficialPosition,
-					LivingHealthMaster.RegisterTile.Matrix).RoundTo2Int(),
-				target.gameObject.AssumedWorldPosServer().RoundTo2Int());
-			Loggy.Info($"{target} - {target.OrNull()?.AssumedWorldPosServer()}");
-			if (path != null)
+			if (pathfinder.QueueMovementGoal(target.gameObject.TileLocalPosition().To3Int(),
+				    () => OnDoneTraversalToLocation(Vector3Int.zero),
+				    null, TraversalStrategies, true))
 			{
-				pathfinder.FollowPath(path);
+				isTraversing = true;
 			}
 			else
 			{
-				if (DMMath.Prob(5))
-				{
-					List<SpawnPointCategory> spawnPointCategory = new List<SpawnPointCategory>
-					{
-						SpawnPointCategory.Bartender,
-						SpawnPointCategory.Assistant,
-						SpawnPointCategory.Botanist,
-						SpawnPointCategory.Chaplain,
-						SpawnPointCategory.Cook,
-					};
-					List<Transform> points = new List<Transform>();
-					foreach (var point in spawnPointCategory)
-					{
-						points.AddRange(SpawnPoint.GetPointsForCategory(point).ToList());
-					}
-
-					LivingHealthMaster.playerScript.playerMove.SetTransform(
-						points.PickRandom().gameObject.AssumedWorldPosServer(), true);
-					SoundManager.PlayNetworkedAtPos(stateEnterSounds.PickRandom(),
-						LivingHealthMaster.gameObject.AssumedWorldPosServer());
-				}
-
-				target = DecideTarget();
+				TeleportToRandomPlaceOnStation();
 				return;
 			}
 
@@ -107,6 +96,33 @@ namespace Mobs.BrainAI.States.Arial
 				troubelState.Target = target;
 				master.AddRemoveState(this, troubelState);
 			}
+		}
+
+		private void TeleportToRandomPlaceOnStation()
+		{
+			if (DMMath.Prob(9))
+			{
+				List<SpawnPointCategory> spawnPointCategory = new List<SpawnPointCategory>
+				{
+					SpawnPointCategory.Bartender,
+					SpawnPointCategory.Assistant,
+					SpawnPointCategory.Botanist,
+					SpawnPointCategory.Chaplain,
+					SpawnPointCategory.Cook,
+				};
+				List<Transform> points = new List<Transform>();
+				foreach (var point in spawnPointCategory)
+				{
+					points.AddRange(SpawnPoint.GetPointsForCategory(point).ToList());
+				}
+
+				LivingHealthMaster.playerScript.playerMove.SetTransform(
+					points.PickRandom().gameObject.AssumedWorldPosServer(), true);
+				SoundManager.PlayNetworkedAtPos(stateEnterSounds.PickRandom(),
+					LivingHealthMaster.gameObject.AssumedWorldPosServer());
+			}
+
+			target = DecideTarget();
 		}
 
 		public override bool HasGoal()
@@ -118,6 +134,7 @@ namespace Mobs.BrainAI.States.Arial
 		{
 			foreach (var player in LivingHealthMaster.RegisterTile.Matrix.PresentPlayers)
 			{
+				if (player == master.Traversal.Mob.RegisterPlayer) continue;
 				if (Vector3.Distance(player.gameObject.AssumedWorldPosServer(),
 					    master.gameObject.AssumedWorldPosServer()) < 12)
 				{
@@ -127,6 +144,35 @@ namespace Mobs.BrainAI.States.Arial
 
 			var edibles = ComponentsTracker<Edible>.GetAllNearbyTypesToTarget(master.gameObject, 20, false);
 			return edibles?.Count > 5 ? edibles.PickRandom().gameObject : null;
+		}
+
+		private bool IsStillTraversing()
+		{
+			if (pathfinder == null || isTraversing == false) return false;
+			if (pathfinder.QueuedTargets != 0) return true;
+			isTraversing = false;
+			return false;
+		}
+
+		private void SubscribeToPathfinderEvents()
+		{
+			isTraversing = false;
+			if (pathfinder == null) return;
+			pathfinder.OnDoneTraversalToLocation += OnDoneTraversalToLocation;
+			pathfinder.OnTraversalFailedCompletely += OnDoneTraversalToLocation;
+		}
+
+		private void UnsubscribeToPathfinderEvents()
+		{
+			isTraversing = false;
+			if (pathfinder == null) return;
+			pathfinder.OnDoneTraversalToLocation -= OnDoneTraversalToLocation;
+			pathfinder.OnTraversalFailedCompletely -= OnDoneTraversalToLocation;
+		}
+
+		private void OnDoneTraversalToLocation(Vector3Int pos)
+		{
+			isTraversing = false;
 		}
 	}
 }

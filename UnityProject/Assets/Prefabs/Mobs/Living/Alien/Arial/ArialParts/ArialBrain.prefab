@@ -165,24 +165,23 @@ MonoBehaviour:
   RelatedPart: {fileID: 0}
   <Blacklist>k__BackingField: []
   <UpdateType>k__BackingField: 3
-  <PeriodicUpdateInterval>k__BackingField: 1
+  <PeriodicUpdateInterval>k__BackingField: 4
   <master>k__BackingField: {fileID: 4361687565459908576}
   wanderState: {fileID: 2808876780756977429}
   troubelState: {fileID: 6289005881020540733}
-  pathfinder: {fileID: 0}
   stateEnterSounds:
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/NPC/Arial/ArialPurr.prefab
+  - AssetAddress: Assets/Prefabs/NPC/Arial/ArialPurr.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/NPC/Arial/ArialTalk.prefab
+  - AssetAddress: Assets/Prefabs/NPC/Arial/ArialTalk.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
 --- !u!114 &6289005881020540733
@@ -208,19 +207,19 @@ MonoBehaviour:
   Target: {fileID: 0}
   troubleState: {fileID: 6222196209030829027}
   stateEnter:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/NPC/Arial/ArialPrankIn.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   stateExit:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/NPC/Arial/ArialPrankIOut.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
 --- !u!114 &2808876780756977429

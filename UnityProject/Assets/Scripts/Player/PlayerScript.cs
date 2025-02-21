@@ -21,6 +21,7 @@ using UnityEngine.Serialization;
 using Changeling;
 using Core;
 using Logs;
+using Mobs.Traversal;
 using Systems.Faith;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
@@ -104,6 +105,8 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 
 	[field: SerializeField] public DimPlayerLightController DimPlayerLightController { get; private set; }
 	[field: SerializeField] public BodyAlertManager BodyAlerts { get; private set; }
+	[field: SerializeField] public MobTraversal Traversal { get; private set; }
+	[field: SerializeField] public GroupedAccess Access { get; private set; }
 
 	public PlayerStats PlayerStats { get; private set; }
 
@@ -210,6 +213,8 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 		DimPlayerLightController ??= GetComponent<DimPlayerLightController>();
 		PlayerStats = GetComponent<PlayerStats>();
 		BodyAlerts = GetComponent<BodyAlertManager>();
+		Traversal ??= GetComponent<MobTraversal>();
+		Access ??= GetComponent<GroupedAccess>();
 	}
 
 	private void OnEnable()

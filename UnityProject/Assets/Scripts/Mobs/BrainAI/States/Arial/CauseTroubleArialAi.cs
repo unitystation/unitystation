@@ -36,7 +36,7 @@ namespace Mobs.BrainAI.States.Arial
 				master.AddRemoveState(this, troubleState);
 				return;
 			}
-			thingToThrow.SetTransform(LivingHealthMaster.gameObject.AssumedWorldPosServer(), true);
+			thingToThrow.SetTransform(LivingHealthMaster.playerScript.playerMove.OfficialPosition, false);
 			if (troubleEnterTime.TotalSeconds + 5 > DateTime.Now.TimeOfDay.TotalSeconds) return;
 			thingToThrow.NewtonianPush((Target.AssumedWorldPosServer() - thingToThrow.gameObject.AssumedWorldPosServer()).normalized, 35);
 			master.AddRemoveState(this, troubleState);

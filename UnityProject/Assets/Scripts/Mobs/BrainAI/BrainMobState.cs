@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using HealthV2;
+using Logs;
 using Mobs.BrainAI;
 using UnityEngine;
 
@@ -14,6 +15,8 @@ public abstract class BrainMobState : BodyPartFunctionality
 
 	public void OnEnterStateInternal()
 	{
+		if (CustomNetworkManager.IsServer == false) return;
+		Loggy.Info($"Registering periodic update for {GetType().Name} with update type: {UpdateType}", Category.Mobs);
 		if (UpdateType == CallbackType.PERIODIC_UPDATE)
 		{
 			UpdateManager.Add(InternalOnUpdateTick, PeriodicUpdateInterval);
@@ -22,7 +25,6 @@ public abstract class BrainMobState : BodyPartFunctionality
 		{
 			UpdateManager.Add(UpdateType, InternalOnUpdateTick);
 		}
-
 		OnEnterState();
 	}
 
@@ -43,7 +45,6 @@ public abstract class BrainMobState : BodyPartFunctionality
 		if (master.Body.LivingHealth.IsDead) return;
 		if (master.Body.UniversalObjectPhysics.IsVisible == false) return;
 		OnUpdateTick();
-
 	}
 
 	public abstract void OnUpdateTick();

@@ -6,6 +6,7 @@ using Core.Utils;
 using HealthV2;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Mirror;
+using Mobs.Traversal;
 using SecureStuff;
 using UnityEngine;
 using UnityEngine.Events;
@@ -15,7 +16,6 @@ namespace Items.Implants.Organs
 {
 	public class Brain : BodyPartFunctionality, IItemInOutMovedPlayer, IClientSynchronisedEffect, IPlayerPossessable
 	{
-
 		public IPlayerPossessable Itself => this as IPlayerPossessable;
 		private IClientSynchronisedEffect Preimplemented => (IClientSynchronisedEffect)this;
 
@@ -30,20 +30,18 @@ namespace Items.Implants.Organs
 		public uint PossessingID => possessingID;
 
 		[FormerlySerializedAs("hasInbuiltSite")][SerializeField] private bool hasInbuiltSight = false;
+
 		[SerializeField] private bool hasInbuiltHearing = false;
-
-
 		[SerializeField] private bool CannotSpeak = false;
-
-
 		[SerializeField] private bool hasInbuiltSpeech = false;
 		//stuff in here?
 		//nah
 
-
 		[SyncVar(hook = nameof(SyncTelekinesis))] private bool hasTelekinesis = false;
 
 		[SyncVar(hook = nameof(SyncDrunkenness))] private float drunkAmount = 0;
+
+		public MobTraversal Traversal => LivingHealthMaster?.playerScript.Traversal;
 
 		public float DrunkAmount => drunkAmount;
 

@@ -170,6 +170,7 @@ namespace Player
 
 		public void SubSetBodyPart(BodyPart Body_Part, string path, bool Randomised = false)
 		{
+			if (Body_Part == null) return;
 			path = path + "/" + Body_Part.name;
 
 			CustomisationStorage customisationStorage = null;

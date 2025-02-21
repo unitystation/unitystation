@@ -59,7 +59,7 @@ PrefabInstance:
     - target: {fileID: 1004512810223432937, guid: a8da88c970bc5a14ea73e9cd51e2aaef,
         type: 3}
       propertyPath: BodyTypesSprites.BodyTypes.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1004512810223432937, guid: a8da88c970bc5a14ea73e9cd51e2aaef,
         type: 3}
@@ -80,7 +80,7 @@ PrefabInstance:
         type: 3}
       propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: 8538e6a992447fb4190cf4023ab272ac,
+      objectReference: {fileID: 11400000, guid: aa2a3a3936fce084b83023b00e18394f,
         type: 2}
     - target: {fileID: 4262120779732426775, guid: a8da88c970bc5a14ea73e9cd51e2aaef,
         type: 3}
@@ -220,6 +220,12 @@ PrefabInstance:
     - target: {fileID: 7533851233357690098, guid: a8da88c970bc5a14ea73e9cd51e2aaef,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 1496a006616a3674db8a141e28d71e33,
+        type: 2}
+    - target: {fileID: 7533851233357690098, guid: a8da88c970bc5a14ea73e9cd51e2aaef,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 1496a006616a3674db8a141e28d71e33,
         type: 2}

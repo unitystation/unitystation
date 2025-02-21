@@ -814,7 +814,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 				if (CanInPutMove())
 				{
-					var Newmove = new MoveData()
+					var newmove = new MoveData()
 					{
 						LocalPosition = entry.LocalPosition,
 						Timestamp = entry.Timestamp,
@@ -828,20 +828,20 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 						IsNotMove =  entry.IsNotMove
 					};
 
-					if (TryMove(ref Newmove, gameObject, true, out var slip))
+					if (TryMove(ref newmove, gameObject, true, out var slip))
 					{
 						if (reset)
 						{
 							ResetLocationOnClients(smooth);
 						}
 
-						if (Newmove.SwappedOnMove && entry.SwappedOnMove) //Both agree
+						if (newmove.SwappedOnMove && entry.SwappedOnMove) //Both agree
 						{
 							//TODO  some time it could There could be a Scenario with desynchronised If someone is changing the intenses
 						}
-						else if (Newmove.SwappedOnMove && entry.SwappedOnMove == false) //Client didn't predict a swap
+						else if (newmove.SwappedOnMove && entry.SwappedOnMove == false) //Client didn't predict a swap
 						{
-							var ServerSwapped = JsonConvert.DeserializeObject<List<uint>>(Newmove.SwappedWithIDs);
+							var ServerSwapped = JsonConvert.DeserializeObject<List<uint>>(newmove.SwappedWithIDs);
 
 							//Send push to The person who was swapped,  Possible from here
 							foreach (var Body in ServerSwapped)
@@ -852,7 +852,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 									SetTimestampID, true);
 							}
 						}
-						else if (Newmove.SwappedOnMove == false && entry.SwappedOnMove)
+						else if (newmove.SwappedOnMove == false && entry.SwappedOnMove)
 						{
 							//Reset Swapped thing
 							//TODO
@@ -934,7 +934,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 					else
 					{
 
-						if (Newmove.IsNotMove) //they didn't on their end so
+						if (newmove.IsNotMove) //they didn't on their end so
 						{
 							return;
 						}
@@ -1647,6 +1647,29 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			default:
 				return;
 		}
+	}
+
+	public MoveData GenerateMoveData(Vector3 localPosition, PlayerMoveDirection globalMoveDirection,
+		bool causesSlip = false,
+		bool bump = false,
+		bool isNotMove = false,
+		int lastPushId = -1,
+		int lastResetId = 0,
+		uint pulling = 0)
+	{
+		return new MoveData()
+		{
+			LocalPosition = localPosition,
+			Timestamp = NetworkTime.time, // Automatically use the current network time
+			MatrixID = playerScript.RegisterPlayer.Matrix.Id, // Automatically use the player's current matrix ID
+			GlobalMoveDirection = globalMoveDirection,
+			CausesSlip = causesSlip,
+			Bump = bump,
+			LastPushID = lastPushId,
+			Pulling = pulling,
+			LastResetID = lastResetId,
+			IsNotMove = isNotMove
+		};
 	}
 }
 
