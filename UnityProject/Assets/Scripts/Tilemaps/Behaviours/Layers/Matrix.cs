@@ -70,7 +70,7 @@ public class Matrix : MonoBehaviour
 	private TileChangeManager tileChangeManager;
 	public TileChangeManager TileChangeManager => tileChangeManager;
 
-	public bool AIShuttleShouldAvoid = true;
+	public bool AIShuttleShouldAvoid = false;
 
 	public Color Color => colors.Wrap(Id).WithAlpha(0.7f);
 
@@ -116,6 +116,7 @@ public class Matrix : MonoBehaviour
 
 	public void Awake()
 	{
+		AIShuttleShouldAvoid = true;
 		metaTileMap = GetComponent<MetaTileMap>();
 		if (metaTileMap == null)
 		{
