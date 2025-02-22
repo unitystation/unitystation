@@ -46,8 +46,6 @@ public class AutopilotShipMachine : MonoBehaviour
 		mm.NetworkedMatrixMove.SpinneyThreshold = 9999;
 		mm.NetworkedMatrixMove.rotationSpeed = 90;
 		mm.NetworkedMatrixMove.ShuttleNonSpinneyModeRounding = 90;
-
-
 	}
 
 	public void InItAsIfDockedTo(GuidanceBuoy Buoy)
@@ -215,9 +213,8 @@ public class AutopilotShipMachine : MonoBehaviour
 		if (mm.NetworkedMatrixMove.IsMoving == false)
 		{
 			if (CurrentTarget == null) return;
-			var Difference = (mm.NetworkedMatrixMove.CentreOfAIMovementWorld.RoundToInt() - CurrentTarget.transform.position).magnitude;
-
-			if (Difference < 0.5f)
+			var difference = (mm.NetworkedMatrixMove.CentreOfAIMovementWorld.RoundToInt() - CurrentTarget.transform.position).magnitude;
+			if (difference < 0.5f)
 			{
 				Reached(CurrentTarget);
 			}
