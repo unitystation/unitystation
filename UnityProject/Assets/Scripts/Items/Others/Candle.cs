@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Logs;
 using UnityEngine;
 using Mirror;
 using Systems.Clothing;
@@ -15,12 +14,10 @@ namespace Items.Others
 
 		[SerializeField]
 		private SpriteHandler spriteHandler = default;
-		[SyncVar] public int InitialLifeSpan = 120;
+
 		[SyncVar] public int LifeSpan = 120; //10 minutes
 		[SyncVar] public int DecayStage = 0;
 		[SyncVar] private bool IsOn = false;
-
-		private bool Updating = false;
 
 		protected int SpriteIndex => IsOn ? 1 : 0;
 
@@ -29,21 +26,10 @@ namespace Items.Others
 			lightControl = GetComponent<ItemLightControl>();
 		}
 
-		public void Start()
-		{
-			LifeSpan = InitialLifeSpan;
-		}
-
 		public void OnDespawnServer(DespawnInfo info)
 		{
 			ToggleLight(false);
-			if (Updating)
-			{
-				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, Degrade);
-				Updating = false;
-			}
-
-
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, Degrade);
 		}
 
 		#region Interaction
@@ -120,56 +106,21 @@ namespace Items.Others
 			}
 			if(IsOn)
 			{
-				if (Updating ==false)
-				{
-					UpdateManager.Add(Degrade, 5f);
-					Updating = true;
-
-				}
-
+				UpdateManager.Add(Degrade, 5f);
 			}
 			else
 			{
-				if (Updating)
-				{
-					UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, Degrade);
-					Updating = false;
-				}
-
+				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, Degrade);
 			}
 		}
 
 		void Degrade()
 		{
+			if (LifeSpan == -1) return;
+
 			LifeSpan--;
-
-			if (LifeSpan < 0)
-			{
-				LifeSpan = 0;
-			}
-
-			var  Percentage = (float) LifeSpan / (float) InitialLifeSpan;
-
-
-			//0 == full
-			//1 = A bit dead
-			//2 = Nearly dead
-			//3 = dead
-			switch (Percentage)
-			{
-				case > 0.666f:
-					DecayStage = 0;
-					break;
-				case > 0.3333f:
-					DecayStage = 1;
-					break;
-				case > 0:
-					DecayStage = 2;
-					break;
-				default:
-					DecayStage = 3;
-					break;
-			}
+			DecayStage = 4 - Mathf.CeilToInt((LifeSpan / 30f));
+			DecayStage = Mathf.Max(3, DecayStage);
 			if (DecayStage == 3) ToggleLight(false);
 			UpdateSprite();
 		}

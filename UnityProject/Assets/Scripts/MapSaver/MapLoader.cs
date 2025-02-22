@@ -310,6 +310,7 @@ namespace MapSaver
 				}
 			}
 
+
 			Object.GetComponent<UniversalObjectPhysics>()?.ResetEverything();
 			if (Matrix != null)
 			{
@@ -363,6 +364,7 @@ namespace MapSaver
 			{
 				ID = prefabData.ID.ToString();
 			}
+
 
 			MapSaver.CodeClass.ThisCodeClass.Objects[ID] = Object;
 			ProcessClassData(prefabData, Object, prefabData.Object);

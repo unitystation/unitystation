@@ -105,9 +105,6 @@ namespace Core.Physics
 		[SyncVar(hook = nameof(SyncLocalTarget))]
 		private Vector3WithData synchLocalTargetPosition;
 
-		[SyncVar]
-		private float ZRotation;
-
 		protected bool doStepInteractions = true;
 
 		[NonSerialized] public bool DoImpactVomit = true;
@@ -283,16 +280,11 @@ namespace Core.Physics
 					Matrix = -1,
 					Speed = tileMoveSpeed
 				};
-				ZRotation = transform.localRotation.eulerAngles.z;
 			}
 			else
 			{
 				InternalTriggerOnLocalTileReached(synchLocalTargetPosition.Vector3.RoundToInt());
 				SetTransform(synchLocalTargetPosition.Vector3, false);
-
-				var Euler = transform.localRotation.eulerAngles;
-				Euler.z = ZRotation;
-				transform.localRotation = Quaternion.Euler(Euler);
 			}
 
 			CheckNSnapToGrid(isServer);
@@ -367,6 +359,7 @@ namespace Core.Physics
 			if (isServer) return;
 			if (LocalTargetPosition == newLocalTarget.Vector3) return;
 			if (isOwned && PulledBy.HasComponent == false) return;
+
 
 			var spawned = CustomNetworkManager.Spawned;
 
@@ -930,6 +923,7 @@ namespace Core.Physics
 				};
 			}
 
+
 			NewtonianMovement = Vector2.zero;
 			airTime = 0;
 			slideTime = 0;
@@ -1083,11 +1077,6 @@ namespace Core.Physics
 				IsMoving = false;
 				Animating = false;
 				UpdateManager.Remove(CallbackType.EARLY_UPDATE, AnimationUpdateMe);
-			}
-
-			if (ZRotation != transform.rotation.eulerAngles.z)
-			{
-				ZRotation = transform.rotation.eulerAngles.z;
 			}
 
 			Animating = true;
@@ -1377,12 +1366,6 @@ namespace Core.Physics
 				UpdateManager.Remove(CallbackType.EARLY_UPDATE, FlyingUpdateMe);
 				return;
 			}
-
-			if (ZRotation != transform.rotation.eulerAngles.z)
-			{
-				ZRotation = transform.rotation.eulerAngles.z;
-			}
-
 
 			if (IsMoving) return;
 			isFlyingSliding = true;

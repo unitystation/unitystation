@@ -48,19 +48,6 @@ public class AutopilotShipMachine : MonoBehaviour
 		mm.NetworkedMatrixMove.ShuttleNonSpinneyModeRounding = 90;
 	}
 
-	public void InItAsIfDockedTo(GuidanceBuoy Buoy)
-	{
-		if (CustomNetworkManager.IsServer == false) return;
-		StartOfChain = Buoy;
-		CurrentTarget = Buoy;
-
-		while (CurrentTarget.In.NextInLine != null)
-		{
-			CurrentTarget = CurrentTarget.In.NextInLine;
-		}
-		MoveToInternal(CurrentTarget);
-	}
-
 
 	public void MoveToTargetBuoy(GuidanceBuoy Buoy)
 	{
@@ -147,7 +134,7 @@ public class AutopilotShipMachine : MonoBehaviour
 	{
 		if (MoveDirectionIn)
 		{
-			if (CurrentTarget.In.NextInLine == null)
+			if (CurrentTarget.In.IsEnd)
 			{
 				if (PreviouslyReached == pos) return;
 				PreviouslyReached = pos;
@@ -155,6 +142,7 @@ public class AutopilotShipMachine : MonoBehaviour
 				{
 					ShuttlesMainConnector.TryConnectAdjacent();
 				}
+
 
 				ReachedEndOfInBuoyChain(CurrentTarget, StartOfChain);
 			}
@@ -167,7 +155,7 @@ public class AutopilotShipMachine : MonoBehaviour
 		}
 		else
 		{
-			if (CurrentTarget.Out.NextInLine == null)
+			if (CurrentTarget.Out.IsEnd)
 			{
 
 				if (PreviouslyReached == pos) return;

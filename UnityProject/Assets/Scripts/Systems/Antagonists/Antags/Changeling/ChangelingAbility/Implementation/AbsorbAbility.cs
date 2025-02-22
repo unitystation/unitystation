@@ -25,7 +25,7 @@ namespace Changeling
 			{
 				return false;
 			}
-			if (target.playerHealth.IsDead)
+			if (target.IsDeadOrGhost)
 			{
 				Chat.AddExamineMsg(changeling.ChangelingMind.gameObject, "<color=red>You cannot absorb a dead body!</color>");
 				return false;

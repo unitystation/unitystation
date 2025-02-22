@@ -83,7 +83,6 @@ public partial class GameManager
 				EndRound(PrimaryEscapeShuttle.loadedOnRoundID);
 			}
 
-			beenToStation = false;
 		}
 
 		if (status == EscapeShuttleStatus.DockedStation && !primaryEscapeShuttle.hostileEnvironment)

@@ -1036,7 +1036,6 @@ namespace SecureStuff
 			var Recursivetype = TypeMono;
 
 			FieldInfo FieldInfo = null;
-			PropertyInfo PropertyInfo = null;
 
 			// Loop through type and its base types
 			while (Recursivetype != null && FieldInfo == null)
@@ -1054,24 +1053,6 @@ namespace SecureStuff
 						break;
 					}
 				}
-
-				if (FieldInfo != null && HasAttribute(FieldInfo, typeof(SyncVarAttribute)))
-				{
-					var SyncName = "Network" + AppropriateName;
-
-					var Properties = Recursivetype.GetProperties(
-						BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
-
-					foreach (var Property in Properties)
-					{
-						if (Property.Name.Equals(SyncName, StringComparison.OrdinalIgnoreCase))
-						{
-							PropertyInfo = Property;
-							break;
-						}
-					}
-				}
-
 
 				// Move to the base type
 				Recursivetype = Recursivetype.BaseType;
@@ -1135,10 +1116,8 @@ namespace SecureStuff
 							IPopulateIDRelation.ObjectsFromForeverID(PrefabComponent.ForeverId,
 								Field.FieldType);
 
-						PropertyInfo?.SetValue(Object, ((GameObject) Prefab)?.GetComponent(PrefabComponent.ComponentName));
-						Field.SetValue(Object, ((GameObject) Prefab)?.GetComponent(PrefabComponent.ComponentName));
-
-
+						Field.SetValue(Object,
+							((GameObject) Prefab)?.GetComponent(PrefabComponent.ComponentName));
 					}
 					else
 					{
@@ -1148,9 +1127,7 @@ namespace SecureStuff
 							IPopulateIDRelation.FlagSaveKey(RootID, root, ModField);
 						}
 
-						PropertyInfo?.SetValue(Object, data);
 						Field.SetValue(Object, data);
-
 						return;
 					}
 				}
@@ -1160,9 +1137,7 @@ namespace SecureStuff
 					if (ModField.IsPrefabID == true)
 					{
 						var Prefab = IPopulateIDRelation.ObjectsFromForeverID(ModField.Data, Field.FieldType);
-						PropertyInfo?.SetValue(Object, ((GameObject) Prefab));
 						Field.SetValue(Object, ((GameObject) Prefab));
-
 					}
 					else
 					{
@@ -1171,9 +1146,8 @@ namespace SecureStuff
 						{
 							IPopulateIDRelation.FlagSaveKey(RootID, root, ModField);
 						}
-						PropertyInfo?.SetValue(Object, data);
-						Field.SetValue(Object, data);
 
+						Field.SetValue(Object, data);
 						return;
 					}
 				}
@@ -1181,9 +1155,7 @@ namespace SecureStuff
 				if (Field.FieldType.IsSubclassOf(typeof(ScriptableObject)))
 				{
 					var SO = IPopulateIDRelation.ObjectsFromForeverID(ModField.Data, Field.FieldType);
-					PropertyInfo?.SetValue(Object, SO);
 					Field.SetValue(Object, SO);
-
 					return;
 				}
 
@@ -1202,10 +1174,7 @@ namespace SecureStuff
 						//NOTE Dangerous
 						try
 						{
-							var valss = Activator.CreateInstance(Field.FieldType);
-							PropertyInfo?.SetValue(Object, valss);
-							Field.SetValue(Object,valss );
-
+							Field.SetValue(Object, Activator.CreateInstance(Field.FieldType));
 						}
 						catch (Exception e)
 						{
@@ -1230,7 +1199,6 @@ namespace SecureStuff
 
 			if (Field.FieldType.IsGenericType) return; //Unity editor can't handle this currently so same Functionality
 			var Value = Librarian.Page.DeSerialiseValue(ModField.Data, Field.FieldType);
-			PropertyInfo?.SetValue(Object, Value);
 			Field.SetValue(Object, Value);
 		}
 
@@ -1840,7 +1808,7 @@ namespace SecureStuff
 						{
 							Loggy.Error(e.ToString());
 						}
-
+						
 					}
 
 					if (MonoComponent.transform != (PrefabDefault as Component)?.transform)

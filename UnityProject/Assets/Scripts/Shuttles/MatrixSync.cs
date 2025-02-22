@@ -23,22 +23,11 @@ namespace Shuttles
 
 		#endregion
 
-		[SyncVar(hook = nameof(SyncIsSpaceMatrix))] public bool IsSpaceMatrix;
+		[SyncVar] public bool IsSpaceMatrix;
 
 		[SyncVar] public bool IsMainStationMatrix;
 
 		public static int matrixIDcounter;
-
-		private void SyncIsSpaceMatrix(bool oldState, bool newState)
-		{
-			IsSpaceMatrix = newState;
-			if (IsSpaceMatrix)
-			{
-				MatrixManager.Instance.spaceMatrix = this.networkedMatrix.matrix;
-			}
-		}
-
-
 
 		private void Awake()
 		{
