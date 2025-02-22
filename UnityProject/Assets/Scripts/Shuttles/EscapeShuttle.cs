@@ -164,15 +164,12 @@ public class EscapeShuttle : AutopilotShipMachine
 
 	public int loadedOnRoundID = 0;
 
-	public float timeSpentTravellingToCC;
-
 	private void Start()
 	{
 		base.Start();
 		centComm = GameManager.Instance.GetComponent<CentComm>();
 		initialTimerSecondsCache = initialTimerSeconds;
 		loadedOnRoundID = GameManager.RoundID;
-		InItAsIfDockedTo(StationStartBuoy);
 	}
 
 
@@ -187,6 +184,9 @@ public class EscapeShuttle : AutopilotShipMachine
 			var integrity = thruster.GetComponent<Integrity>();
 			integrity.OnWillDestroyServer.AddListener(OnWillDestroyThruster);
 		}
+
+
+
 	}
 
 
@@ -260,15 +260,6 @@ public class EscapeShuttle : AutopilotShipMachine
 	public override void UpdateMe()
 	{
 		base.UpdateMe();
-		if (Status == EscapeShuttleStatus.OnRouteToCentCom)
-		{
-			timeSpentTravellingToCC += Time.deltaTime;
-		}
-		else if (startedMovingToStation && Status == EscapeShuttleStatus.OnRouteStation)
-		{
-			timeSpentTravellingToCC -= Time.deltaTime;
-		}
-
 		if (Initialised == false)
 		{
 			if (TargetDestinationBuoy != null)
@@ -342,25 +333,22 @@ public class EscapeShuttle : AutopilotShipMachine
 
 		var Alert = centComm.CurrentAlertLevel;
 
-
-		var Achievable = Mathf.RoundToInt(timeSpentTravellingToCC * 2);
-
-
 		//Changes EscapeShuttle time depending on Alert Level
+
 		if (Alert == CentComm.AlertLevel.Green)
 		{
 			//Double the Time
-			InitialTimerSeconds = Achievable * 2;
+			InitialTimerSeconds = initialTimerSecondsCache * 2;
 		}
 		else if (Alert == CentComm.AlertLevel.Blue)
         {
 			//Default values set in inspector
-			InitialTimerSeconds = Achievable;
+			InitialTimerSeconds = initialTimerSecondsCache;
         }
 		else if (Alert == CentComm.AlertLevel.Red || Alert == CentComm.AlertLevel.Delta)
 		{
 			//Half the Time
-			InitialTimerSeconds = Achievable / 2;
+			InitialTimerSeconds = initialTimerSecondsCache / 2;
 		}
 
 		TooLateToRecallSeconds = InitialTimerSeconds / 2;
@@ -458,7 +446,7 @@ public class EscapeShuttle : AutopilotShipMachine
 				}
 				AddToTime(-1);
 				//Time = Distance/Speed
-				if (startedMovingToStation == false && CurrentTimerSeconds <= timeSpentTravellingToCC)
+				if (startedMovingToStation == false && CurrentTimerSeconds <= Vector2.Distance(matrixMove.NetworkedMatrixMove.TargetTransform.position, StationStartBuoy.transform.position) / matrixMove.NetworkedMatrixMove.AITravelSpeed + 10f)
 				{
 					startedMovingToStation = true;
 					MoveToTargetBuoy( StationStartBuoy );

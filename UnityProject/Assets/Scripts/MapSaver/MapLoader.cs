@@ -202,8 +202,24 @@ namespace MapSaver
 						Matrix4x4 = MapSaver.StringToMatrix4X4(Tile.Tf);
 					}
 
-					Matrix.MetaTileMap.SetTile(NewPos, Tel, Matrix4x4, Colour, Application.isPlaying,
-						useExactForMultilayer: true);
+					try
+					{
+						Matrix.MetaTileMap.SetTile(NewPos, Tel, Matrix4x4, Colour, Application.isPlaying,
+							useExactForMultilayer: true);
+					}
+					catch (Exception e)
+					{
+						Loggy.Error(e.ToString());
+						try
+						{
+							Matrix.MetaTileMap.SetTile(NewPos, TileManager.ErrorTile, Matrix4x4, Colour, Application.isPlaying,
+								useExactForMultilayer: true);
+						}
+						catch (Exception exception)
+						{
+							Loggy.Trace($"Something is incredibly fucked. Unable to place tile AND error placeholder.\n {exception}");
+						}
+					}
 				}
 			}
 		}
@@ -294,6 +310,7 @@ namespace MapSaver
 				}
 			}
 
+
 			Object.GetComponent<UniversalObjectPhysics>()?.ResetEverything();
 			if (Matrix != null)
 			{
@@ -347,6 +364,7 @@ namespace MapSaver
 			{
 				ID = prefabData.ID.ToString();
 			}
+
 
 			MapSaver.CodeClass.ThisCodeClass.Objects[ID] = Object;
 			ProcessClassData(prefabData, Object, prefabData.Object);
@@ -488,16 +506,26 @@ namespace MapSaver
 
 		public static IEnumerator ServerLoadMap(Vector3 Offset00, Vector3 Offset, MapSaver.MapData MapData, SceneType sceneType = SceneType.HiddenScene)
 		{
-			foreach (var ToMapMatrix in MapData.ContainedMatrices)
+			if (MapData == null)
 			{
-				yield return ServerLoadSection(null, Offset00, Offset, ToMapMatrix, null,
-					MatrixName: ToMapMatrix.MatrixName, LoadingMultiple: true, sceneType: sceneType);
+				Loggy.Error("Failed to load map data due to it being null.");
+				yield break;
+			}
+			if (MapData.ContainedMatrices == null || MapData.ContainedMatrices.Count == 0)
+			{
+				Loggy.Error($"Attempted to load map ({MapData.MapName}/{MapData.Ver}) with no matrices.");
+				yield break;
+			}
+			foreach (var toMapMatrix in MapData.ContainedMatrices)
+			{
+				yield return ServerLoadSection(null, Offset00, Offset, toMapMatrix, null,
+					MatrixName: toMapMatrix.MatrixName, LoadingMultiple: true, sceneType: sceneType);
 			}
 
 			MapSaver.CodeClass.ThisCodeClass.ReportStatus();
 			MapSaver.CodeClass.ThisCodeClass.Reset();
 #if UNITY_EDITOR
-			if (Application.isPlaying == false)
+			if (Application.isPlaying == false && CustomNetworkManager.Instance != null)
 			{
 				CustomNetworkManager.Instance.SpawnedByMappingTool = true;
 			}

@@ -46,21 +46,6 @@ public class AutopilotShipMachine : MonoBehaviour
 		mm.NetworkedMatrixMove.SpinneyThreshold = 9999;
 		mm.NetworkedMatrixMove.rotationSpeed = 90;
 		mm.NetworkedMatrixMove.ShuttleNonSpinneyModeRounding = 90;
-
-
-	}
-
-	public void InItAsIfDockedTo(GuidanceBuoy Buoy)
-	{
-		if (CustomNetworkManager.IsServer == false) return;
-		StartOfChain = Buoy;
-		CurrentTarget = Buoy;
-
-		while (CurrentTarget.In.NextInLine != null)
-		{
-			CurrentTarget = CurrentTarget.In.NextInLine;
-		}
-		MoveToInternal(CurrentTarget);
 	}
 
 
@@ -149,7 +134,7 @@ public class AutopilotShipMachine : MonoBehaviour
 	{
 		if (MoveDirectionIn)
 		{
-			if (CurrentTarget.In.NextInLine == null)
+			if (CurrentTarget.In.IsEnd)
 			{
 				if (PreviouslyReached == pos) return;
 				PreviouslyReached = pos;
@@ -157,6 +142,7 @@ public class AutopilotShipMachine : MonoBehaviour
 				{
 					ShuttlesMainConnector.TryConnectAdjacent();
 				}
+
 
 				ReachedEndOfInBuoyChain(CurrentTarget, StartOfChain);
 			}
@@ -169,7 +155,7 @@ public class AutopilotShipMachine : MonoBehaviour
 		}
 		else
 		{
-			if (CurrentTarget.Out.NextInLine == null)
+			if (CurrentTarget.Out.IsEnd)
 			{
 
 				if (PreviouslyReached == pos) return;
@@ -215,9 +201,8 @@ public class AutopilotShipMachine : MonoBehaviour
 		if (mm.NetworkedMatrixMove.IsMoving == false)
 		{
 			if (CurrentTarget == null) return;
-			var Difference = (mm.NetworkedMatrixMove.CentreOfAIMovementWorld.RoundToInt() - CurrentTarget.transform.position).magnitude;
-
-			if (Difference < 0.5f)
+			var difference = (mm.NetworkedMatrixMove.CentreOfAIMovementWorld.RoundToInt() - CurrentTarget.transform.position).magnitude;
+			if (difference < 0.5f)
 			{
 				Reached(CurrentTarget);
 			}

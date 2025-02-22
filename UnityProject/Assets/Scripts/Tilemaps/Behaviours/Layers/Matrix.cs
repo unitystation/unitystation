@@ -116,6 +116,7 @@ public class Matrix : MonoBehaviour
 
 	public void Awake()
 	{
+		AIShuttleShouldAvoid = true;
 		metaTileMap = GetComponent<MetaTileMap>();
 		if (metaTileMap == null)
 		{
