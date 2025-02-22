@@ -12,6 +12,7 @@ using DatabaseAPI;
 using Logs;
 using System.Threading.Tasks;
 using Initialisation;
+using UI;
 using Task = System.Threading.Tasks.Task;
 
 namespace Systems.Character
@@ -350,6 +351,7 @@ namespace Systems.Character
 				}
 			}
 			DetermineActiveCharacter();
+			GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("");
 		}
 
 		private void LoadOfflineCharacterSheets(ref List<SubAccountGetCharacterSheet> characters)

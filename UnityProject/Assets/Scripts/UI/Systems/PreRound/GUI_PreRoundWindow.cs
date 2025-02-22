@@ -7,6 +7,7 @@ using Mirror;
 using TMPro;
 using AdminCommands;
 using Logs;
+using Managers;
 using Messages.Client.Lobby;
 using Systems.Character;
 using UI.Character;
@@ -63,6 +64,9 @@ namespace UI
 		[SerializeField]
 		private Button characterButton = null;
 
+		[SerializeField]
+		private TMP_Text loadingTextDetailed = null;
+
 		// Internal variables
 		private bool doCountdown;
 		private double countdownEndTime;
@@ -72,12 +76,15 @@ namespace UI
 
 		private bool startedAlready = false;
 
+		public Action<string> OnClientLoadUpdateStatus;
+
 		private void Awake()
 		{
 			//localJobPref = null;
 			if (Instance == null)
 			{
 				Instance = this;
+				OnClientLoadUpdateStatus += UpdateDetailedLoadingText;
 			}
 			else
 			{
@@ -160,14 +167,19 @@ namespace UI
 
 		private IEnumerator WaitForInitialisation()
 		{
-			yield return null;
+			var maxWaitTime = 0;
+			yield return WaitFor.EndOfFrame;
 
 			if (GameManager.Instance.QuickJoinLoad)
 			{
+				while (SubsystemMatrixQueueInit.InitializedAll == false || maxWaitTime < 150)
+				{
+					yield return WaitFor.Seconds(0.55f);
+					maxWaitTime++;
+				}
 				SetReady(true);
+				StartNowButton();
 			}
-
-			StartNowButton();
 		}
 
 		public void UpdatePlayerCount(int count)
@@ -316,6 +328,7 @@ namespace UI
 			playerWaitPanel.SetActive(false);
 			mainPanel.SetActive(true);
 			rejoiningRoundPanel.SetActive(false);
+			OnClientLoadUpdateStatus?.Invoke("");
 		}
 
 		public void ShowRejoiningPanel()
@@ -354,6 +367,11 @@ namespace UI
 			{
 				characterCustomization.SetActive(true);
 			}
+		}
+
+		private void UpdateDetailedLoadingText(string newText)
+		{
+			loadingTextDetailed.text = newText;
 		}
 	}
 }

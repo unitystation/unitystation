@@ -13,6 +13,8 @@ using Messages.Client;
 using Messages.Client.NewPlayer;
 using Messages.Client.SpriteMessages;
 using UI;
+using UnityEngine;
+using Util.Independent.FluentRichText;
 
 namespace Player
 {
@@ -79,6 +81,16 @@ namespace Player
 			{
 				CmdServerSetupPlayer(SceneManager.GetActiveScene().name);
 			}
+
+			try
+			{
+				GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("Prefetching character sheets..");
+				_ = PlayerManager.CharacterManager.LoadCharacters();
+			}
+			catch (Exception e)
+			{
+				Loggy.Error(e.ToString());
+			}
 		}
 
 		[Command]
@@ -98,7 +110,6 @@ namespace Player
 				if (AlreadyLoaded == Scene.SceneName) continue;
 				SceneS.Add(Scene);
 			}
-
 			RpcLoadScenes(JsonConvert.SerializeObject(SceneS), AlreadyLoaded);
 		}
 
@@ -106,7 +117,7 @@ namespace Player
 		private void RpcLoadScenes(string Data, string OriginalScene)
 		{
 			if (isServer) return;
-
+			GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("Loading Scenes from server.");
 			SubSceneManager.Instance.LoadScenesFromServer(JsonConvert.DeserializeObject<List<SceneInfo>>(Data),
 				OriginalScene, ClientFinishedLoading);
 		}
@@ -264,6 +275,7 @@ namespace Player
 			{
 				_ = Despawn.ServerSingle(this.gameObject);
 			}
+			GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("");
 		}
 
 		public void ClientFinishLoading()
@@ -274,6 +286,7 @@ namespace Player
 			{
 				if (GameManager.Instance.waitForStart)
 				{
+					GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("Syncing countdown end time.");
 					TargetSyncCountdown(connectionToClient, GameManager.Instance.waitForStart,
 						GameManager.Instance.CountdownEndTime);
 				}
@@ -285,6 +298,7 @@ namespace Player
 
 			try
 			{
+				GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("Checking admin state.");
 				PlayerList.Instance.CheckAdminState(STVerifiedConnPlayer);
 			}
 			catch (Exception e)
@@ -295,12 +309,14 @@ namespace Player
 			// If there's a logged off player, we will force them to rejoin their body
 			if (STVerifiedConnPlayer.Mind == null) //TODO Handle when someone gets kicked out of their mind
 			{
+				GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("");
 				TargetLocalPlayerSetupNewPlayer(connectionToClient, GameManager.Instance.CurrentRoundState);
 				GameManager.Instance.OrNull()?.PlayerLoadedIn(connectionToClient);
 				ClearCache(true);
 			}
 			else
 			{
+				GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("Found previous mind. Rejoining.");
 				StartCoroutine(WaitForLoggedOffObserver(STVerifiedConnPlayer.Mind));
 			}
 		}
@@ -316,6 +332,7 @@ namespace Player
 			var netIdentity = loggedOffPlayer.GetComponent<NetworkIdentity>();
 			if (netIdentity == null)
 			{
+				GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("An error occurred. Press F5 to check for what error had occured.".Color(Color.red));
 				Loggy.Error($"No {nameof(NetworkIdentity)} component on {loggedOffPlayer}! " +
 				                "Cannot rejoin that player. Was original player object improperly created? " +
 				                "Did we get runtime error while creating it?", Category.Connections);
@@ -335,12 +352,9 @@ namespace Player
 				}
 			}
 
-
-
 			TargetLocalPlayerRejoinUI(connectionToClient);
 			GameManager.Instance.OrNull()?.PlayerLoadedIn(connectionToClient);
 			STVerifiedConnPlayer.Mind.OrNull()?.ReLog();
-
 
 			ClearCache();
 		}
