@@ -9,7 +9,7 @@ using UnityEngine;
 
 public interface IGameActionHolder
 {
-	//GameObject gameObject { get; }
+	GameObject gameObject { get; }
 	/// <summary>
 	/// The global key used for tracking an action, stored as a string for client communication
 	/// 2 ACTIONS SHOULD NEVER EVER SHARE THE SAME KEY
@@ -39,6 +39,7 @@ public interface IGameActionHolder
 	/// Our list of backgrounds
 	/// </summary>
 //	public List<SpriteDataSO> ActionBackgrounds { get; protected set; }
+	public Type ActionRequestType { get; }
 	ActionData ActionData { get; }
 
 	virtual void CallActionClient() //clientside, this gets called when the UI button gets clicked by a player
@@ -88,8 +89,18 @@ public interface IGameActionHolder
 	/// </summary>
 	virtual void PostActivate() {}
 
-	virtual RequestGameAction GetRequestData()
+	virtual GameActionRequest.ActionRequestMessage GetRequestData<TRT>() where TRT : new()
 	{
+		var msg = new TRT();
+		if(msg is GameActionRequest.ActionRequestMessage request)
+			request.RequestedActionUUID = ActionGuid;
+		GameActionRequest.ActionRequestMessage ourStruct = msg as GameActionRequest.ActionRequestMessage;
+		{
+			NetObject = netObject.netId,
+			ComponentLocation = componentLocation,
+			ComponentID = componentTypeToComponentID[componentType],
+		};
+		Send(msg);
 		return null;
 	}
 }
@@ -106,7 +117,7 @@ public interface ICooldownGameActionHolder : IGameActionHolder, ICooldown
 
 	virtual bool StartCooldown()
 	{
-		Cooldowns.TryStartServer(sentByPlayer.Script, this, CooldownTime);
+		//Cooldowns.TryStartServer(sentByPlayer.Script, this, CooldownTime);
 		return true;
 	}
 }
@@ -171,7 +182,7 @@ public class __ExampleIActionGUI__ : IGameActionHolder
 	}
 }
 
-public class __ExampleIServerActionGUI__ : IServerGameActionHolder
+public class __ExampleIServerActionGUI__ : IGameActionHolder
 {
 	[SerializeField]
 	private ActionData actionData = null;

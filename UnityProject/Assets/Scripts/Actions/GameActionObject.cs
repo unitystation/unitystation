@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
@@ -14,4 +15,15 @@ public class GameActionObject : NetworkBehaviour, IGameActionHolder
     [SerializeField]
 	private ActionData actionData = null;
 	public ActionData ActionData => actionData;
+
+	public event EventHandler<GameObject> OnDestroyed;
+
+	public void OnDestroy()
+	{
+		OnActionDestroy();
+		OnDestroyed?.Invoke(this, gameObject);
+		OnDestroyed = null;
+	}
+
+	protected virtual void OnActionDestroy() {}
 }

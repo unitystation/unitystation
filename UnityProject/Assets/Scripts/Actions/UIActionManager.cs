@@ -118,8 +118,12 @@ namespace UI.Core.Action
 
 
 		#region IGameActionHolder
-		public static IGameActionHolder GetActionFromGuid(string key)
+		/// <summary>
+		///
+		/// </summary>
+		public static IGameActionHolder GetActionFromUuid(string key)
 		{
+			if (!Instance.allActionsByUUID.ContainsKey(key)) return null;
 			return Instance.allActionsByUUID[key];
 		}
 
@@ -143,11 +147,6 @@ namespace UI.Core.Action
 		{
 			string generatedGuid = Guid.NewGuid().ToString();
 			allActionsByUUID[generatedGuid] = registeredAction;
-			RegisterTile registerTile = registeredAction.gameObject.GetComponent<RegisterTile>();
-			if(!Convert.ToBoolean(registerTile))
-				registerTile = registeredAction.gameObject.AddComponent<RegisterTile>();
-
-			registerTile.OnDestroyed += onActionDestroyed;
 			allActionUUIDsByGameObject[registeredAction.gameObject] = generatedGuid;
 			return generatedGuid;
 		}
@@ -157,9 +156,18 @@ namespace UI.Core.Action
 			UnregisterAction(Instance.allActionsByUUID[Instance.allActionUUIDsByGameObject[gameObject]]);
 		};
 
-		public static void UnregisterAction(IGameActionHolder unregisteredAction)
+		public static void UnregisterAction(IGameActionHolder unregisteredAction, bool IsSafeCall = false)
 		{
+			if (!IsSafeCall) Loggy.Warning("UIActionManager.UnregisterAction() being called unsafely, " +
+			                               "dont do this unless you know what your doing.(set IsSafeCall = true to hide.");
 			Instance.allActionsByUUID.Remove(unregisteredAction.ActionGuid);
+			Instance.allActionUUIDsByGameObject.Remove(unregisteredAction.gameObject);
+		}
+
+		private void _UnregisterAction(IGameActionHolder unregisteredAction)
+		{
+			allActionsByUUID.Remove(unregisteredAction.ActionGuid);
+			allActionUUIDsByGameObject.Remove(unregisteredAction.gameObject);
 		}
 
 		/// <summary>
@@ -175,7 +183,6 @@ namespace UI.Core.Action
 		/// </summary>
 		public static bool RequestGameAction(string actionGUID, IGameActionContainer requester, Vector3 clickPosition)
 		{
-
 			if (!Convert.ToBoolean(actionGUID))
 			{
 				Loggy.Error($"{requester} calling RequestGameAction() without passing a GUID.", Category.Actions);
@@ -192,7 +199,9 @@ namespace UI.Core.Action
 		/// <param name="actionGUID"></param>
 		/// <returns></returns>
 		public static bool AttemptActionTrigger(string actionGUID)
-		{}
+		{
+			return true;
+		}
 
 		/// <summary>
 		/// Return true if we successfully toggle the requested game action, otherwise return false
@@ -430,7 +439,7 @@ namespace UI.Core.Action
 					_UIAction = Instance.PooledUIAction[0];
 					Instance.PooledUIAction.RemoveAt(0);
 				}
-				else
+				/*else
 				{
 					_UIAction = Instantiate(Instance.UIActionButton);
 					_UIAction.transform.SetParent(Instance.Panel.transform, false);
@@ -443,7 +452,7 @@ namespace UI.Core.Action
 					Instance.DicIActionGUI.Add(iActionGUI, new List<UIActionButton>());
 				}
 				Instance.DicIActionGUI[iActionGUI].Add(_UIAction);
-				_UIAction.SetUp(iActionGUI);
+				_UIAction.SetUp(iActionGUI);*/
 			}
 		}
 

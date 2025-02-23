@@ -6,8 +6,20 @@ using System.Collections.Generic;
 using System.Linq;
 using Logs;
 using Messages.Client;
+using SecureStuff;
 
 //MAKE A UIActionButtonDataPacket CLASS TO REPLACE THIS
+
+
+public class GameActionRequest//<TMT> : IAllowedReflection where TMT : struct
+{
+	public struct ActionRequestMessage : IActionRequestMessage
+	{
+		public string RequestedActionUUID { get; set; }
+		public bool AttemptTrigger  { get; set; }
+	}
+}
+
 public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 {
 	public struct NetMessage : NetworkMessage
@@ -48,9 +60,9 @@ public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 		var IActionGUIs = NetworkObject.GetComponentsInChildren(type);
 		if (IActionGUIs.Length > msg.ComponentLocation)
 		{
-			if (IActionGUIs[msg.ComponentLocation] is IServerGameActionHolder IServerGameAction)
+			if (IActionGUIs[msg.ComponentLocation] is IGameActionHolder IServerGameAction)
 			{
-				IServerGameAction.CallActionServer(SentByPlayer);
+				//IServerGameAction.CallActionServer(SentByPlayer);
 				return;
 			}
 		}
@@ -75,7 +87,7 @@ public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 
 		foreach (var action in childActions)
 		{
-			if ((action as IServerGameActionHolder) == actionComponent)
+			if ((action as IGameActionHolder) == actionComponent)
 			{
 				found = true;
 				break;
@@ -95,6 +107,6 @@ public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 			return;
 		}
 
-		Loggy.Error("Failed to find IServerGameActionHolder on NetworkIdentity", Category.UserInput);
+		Loggy.Error("Failed to find IGameActionHolder on NetworkIdentity", Category.UserInput);
 	}
 }
