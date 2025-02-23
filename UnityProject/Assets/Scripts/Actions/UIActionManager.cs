@@ -35,7 +35,7 @@ namespace UI.Core.Action
 		/// <summary>
 		/// The dict of all actions keyed to their UUID
 		/// </summary>
-		private Dictionary<string, IGameActionHolder> allActionsByUUID = new(); //these need to be added to clear()
+		private Dictionary<string, IGameActionHolder> allActionsByGuid = new(); //these need to be added to clear()
 		/// <summary>
 		/// A dict of action UUIDs keyed to the GameObject they belong to
 		/// </summary>
@@ -123,8 +123,8 @@ namespace UI.Core.Action
 		/// </summary>
 		public static IGameActionHolder GetActionFromUuid(string key)
 		{
-			if (!Instance.allActionsByUUID.ContainsKey(key)) return null;
-			return Instance.allActionsByUUID[key];
+			if (!Instance.allActionsByGuid.ContainsKey(key)) return null;
+			return Instance.allActionsByGuid[key];
 		}
 
 		/// <summary>
@@ -146,27 +146,27 @@ namespace UI.Core.Action
 		private string _RegisterAction(IGameActionHolder registeredAction) //due to being wrapped we assume this is called in a safe context
 		{
 			string generatedGuid = Guid.NewGuid().ToString();
-			allActionsByUUID[generatedGuid] = registeredAction;
+			allActionsByGuid[generatedGuid] = registeredAction;
 			allActionUUIDsByGameObject[registeredAction.gameObject] = generatedGuid;
 			return generatedGuid;
 		}
 
 		private EventHandler<GameObject> onActionDestroyed = (object sender, GameObject gameObject) =>
 		{
-			UnregisterAction(Instance.allActionsByUUID[Instance.allActionUUIDsByGameObject[gameObject]]);
+			UnregisterAction(Instance.allActionsByGuid[Instance.allActionUUIDsByGameObject[gameObject]]);
 		};
 
 		public static void UnregisterAction(IGameActionHolder unregisteredAction, bool IsSafeCall = false)
 		{
 			if (!IsSafeCall) Loggy.Warning("UIActionManager.UnregisterAction() being called unsafely, " +
 			                               "dont do this unless you know what your doing.(set IsSafeCall = true to hide.");
-			Instance.allActionsByUUID.Remove(unregisteredAction.ActionGuid);
+			Instance.allActionsByGuid.Remove(unregisteredAction.ActionGuid);
 			Instance.allActionUUIDsByGameObject.Remove(unregisteredAction.gameObject);
 		}
 
 		private void _UnregisterAction(IGameActionHolder unregisteredAction)
 		{
-			allActionsByUUID.Remove(unregisteredAction.ActionGuid);
+			allActionsByGuid.Remove(unregisteredAction.ActionGuid);
 			allActionUUIDsByGameObject.Remove(unregisteredAction.gameObject);
 		}
 
@@ -175,7 +175,7 @@ namespace UI.Core.Action
 		/// </summary>
 		public static IGameActionHolder GetHolderFromKey(string key)
 		{
-			return Instance.allActionsByUUID.ContainsKey(key) ? Instance.allActionsByUUID[key] : null;
+			return Instance.allActionsByGuid.ContainsKey(key) ? Instance.allActionsByGuid[key] : null;
 		}
 
 		/// <summary>
@@ -189,7 +189,7 @@ namespace UI.Core.Action
 				return false;
 			}
 			if(!requester.CheckActionAvailability(actionGUID)) return false;
-			IGameActionHolder holder = Instance.allActionsByUUID[actionGUID];
+			IGameActionHolder holder = Instance.allActionsByGuid[actionGUID];
 			return true;
 		}
 
@@ -517,7 +517,7 @@ namespace UI.Core.Action
 			Instance.ActivePlayerActions.Clear();
 
 			Instance.IActionGUIToID.Clear();
-			Instance.allActionsByUUID.Clear();
+			Instance.allActionsByGuid.Clear();
 			Instance.allActionUUIDsByGameObject.Clear();
 		}
 
