@@ -9,6 +9,9 @@ using UnityEngine;
 
 namespace Mobs.Traversal
 {
+	/// <summary>
+	/// The main component responsible for automatically pathfidnign and moving mobs around the map.
+	/// </summary>
 	public class MobTraversal : MonoBehaviour
 	{
 		public PlayerScript Mob;
@@ -20,8 +23,6 @@ namespace Mobs.Traversal
 		public Action<Vector3Int> OnDoneTraversalToLocation;
 		public Action<Vector3Int> OnTraversalFailedCompletely;
 		public Action<Vector3Int> OnTraversalFailedAndRetrying;
-
-		public const int TENTH_OF_A_SECOND = 135;
 
 		public int QueuedTargets => _targetQueue.Count;
 
@@ -38,6 +39,8 @@ namespace Mobs.Traversal
 		private List<Vector3Int> path = new List<Vector3Int>();
 		private MovementSynchronisation.MoveData _moveData = new MovementSynchronisation.MoveData();
 		private int timeoutRequestTicks = 0;
+
+		private const int TENTH_OF_A_SECOND = 135;
 
 
 		private void Awake()
@@ -57,7 +60,7 @@ namespace Mobs.Traversal
 
 		public bool QueueMovementGoal(Vector3Int newTarget,
 			Action onTraversalFinalStep = null,
-			Action onRetryMoveToDirection = null, List<TraversalStrat> strategies = null, bool cancelOnSlip = false)
+			Action onRetryMoveToDirection = null, List<ITraversalStrat> strategies = null, bool cancelOnSlip = false)
 		{
 			if (health.IsDead) return false;
 			if (_targetQueue.Count >= MaxQueuedTargets) return false;
@@ -183,7 +186,7 @@ namespace Mobs.Traversal
 			return result;
 		}
 
-		private void AttemptStrategies(List<TraversalStrat> strategies, Vector3Int target)
+		private void AttemptStrategies(List<ITraversalStrat> strategies, Vector3Int target)
 		{
 			foreach (var strat in strategies)
 			{
@@ -248,7 +251,7 @@ namespace Mobs.Traversal
 			public Vector3Int TargetPosition;
 			public Action OnTraversalFinalStep;
 			public Action OnRetryMoveToDirection;
-			public List<TraversalStrat> Strats;
+			public List<ITraversalStrat> Strats;
 			public bool CancelOnSlip;
 		}
 	}

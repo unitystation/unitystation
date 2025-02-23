@@ -184,6 +184,18 @@ MonoBehaviour:
       m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+  TraversalStrategies:
+  - rid: 7329959675784331319
+  - rid: 7329959675784331321
+  references:
+    version: 2
+    RefIds:
+    - rid: 7329959675784331319
+      type: {class: ClimbTable, ns: Mobs.Traversal.Strategies, asm: Assets}
+      data: 
+    - rid: 7329959675784331321
+      type: {class: OpenDoor, ns: Mobs.Traversal.Strategies, asm: Assets}
+      data: 
 --- !u!114 &6289005881020540733
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -9,7 +9,7 @@ namespace Mobs.Traversal.Strategies
 	/// Traversal strategy for opening doors.
 	/// Does not force open doors, and will check mob's clearance.
 	/// </summary>
-	public class OpenDoor : TraversalStrat
+	public class OpenDoor : ITraversalStrat
 	{
 		public Tuple<bool, Component, LayerTile> ObsticalCheck(Vector3Int obsticalPosition, PlayerScript mob)
 		{

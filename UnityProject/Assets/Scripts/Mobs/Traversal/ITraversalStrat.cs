@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Mobs.Traversal
 {
-	public interface TraversalStrat
+	public interface ITraversalStrat
 	{
 		/// <summary>
 		/// Check if we can use this strategy.

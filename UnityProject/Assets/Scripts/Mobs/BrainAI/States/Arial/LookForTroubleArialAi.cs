@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AddressableReferences;
 using Core;
+using Core.Editor.Attributes;
 using HealthV2;
 using Items.Food;
 using Logs;
@@ -10,6 +11,7 @@ using Mobs.AI;
 using Mobs.Traversal;
 using Mobs.Traversal.Strategies;
 using PathFinding;
+using Systems.Faith;
 using Systems.Spawns;
 using UnityEngine;
 
@@ -23,16 +25,10 @@ namespace Mobs.BrainAI.States.Arial
 		[SerializeField] private CauseTroubleArialAi troubelState;
 		[SerializeField] private List<AddressableAudioSource> stateEnterSounds = new List<AddressableAudioSource>();
 
-		public List<TraversalStrat> TraversalStrategies = new List<TraversalStrat>();
+		[SerializeReference, SelectImplementation(typeof(ITraversalStrat))]
+		public List<ITraversalStrat> TraversalStrategies = new List<ITraversalStrat>();
 
 		private bool isTraversing = false;
-
-
-		private void Start()
-		{
-			TraversalStrategies.Add(new OpenDoor());
-			TraversalStrategies.Add(new ClimbTable());
-		}
 
 		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
 		{
