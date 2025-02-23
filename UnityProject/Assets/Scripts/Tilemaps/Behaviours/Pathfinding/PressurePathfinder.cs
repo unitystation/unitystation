@@ -191,9 +191,10 @@ namespace Tilemaps.Behaviours.Pathfinding
 				var neighbor = position + direction;
 				if (PositionIsOutOfBounds(terrain, neighbor)) continue;
 				var tile = terrain.GetTile(neighbor);
+				if (tile == null) continue;
 				if (checkForDoors)
 				{
-					if (tile.PositionMatrix.GetFirst<DoorMasterController>(tile.LocalPosition, CustomNetworkManager.IsServer) != null)
+					if (tile.PositionMatrix?.GetFirst<DoorMasterController>(tile.LocalPosition, CustomNetworkManager.IsServer) != null)
 					{
 						yield return neighbor;
 					}
