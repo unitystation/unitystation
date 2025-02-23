@@ -59,9 +59,6 @@ public class TileManager : SingletonManager<TileManager>, IInitialise
 
 	[SerializeField] private List<TilePathEntry> layerTileCollections = new List<TilePathEntry>();
 
-	public LayerTile ErrorLayerTile;
-	public static LayerTile ErrorTile => Instance.ErrorLayerTile;
-
 	public InitialisationSystems Subsystem => InitialisationSystems.TileManager;
 
 	void IInitialise.Initialise()
@@ -170,17 +167,14 @@ public class TileManager : SingletonManager<TileManager>, IInitialise
 		}
 	}
 
-	public static LayerTile GetTile(string key, bool returnErrorTileOnFail = true)
+	public static LayerTile GetTile( string key)
 	{
 		if (Instance.AllTiles.TryGetValue(key, out var tl))
 		{
 			return tl;
 		}
-		Loggy.Error($"Could not find layerTile in dictionary with key: {key}");
-		if (returnErrorTileOnFail)
-		{
-			return Instance.ErrorLayerTile;
-		}
+
+		Loggy.Error( $"Could not find layerTile in dictionary with key: {key}");
 
 		return null;
 	}

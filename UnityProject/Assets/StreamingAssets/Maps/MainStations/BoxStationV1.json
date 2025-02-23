@@ -213863,7 +213863,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.4.2",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -213879,10 +213879,6 @@
                     {
                       "Name": "Out@NextInLine",
                       "Data": "69ffc1053dc39a24fb870b2248780be4_-526┼42┼0┼@0@GuidanceBuoy@0"
-                    },
-                    {
-                      "Name": "In@IsEnd",
-                      "Data": "True"
                     }
                   ]
                 }
@@ -213899,10 +213895,6 @@
                 {
                   "ClassID": "GuidanceBuoy@0",
                   "Data": [
-                    {
-                      "Name": "Out@IsEnd",
-                      "Data": "True"
-                    },
                     {
                       "Name": "In@NextInLine",
                       "Data": "69ffc1053dc39a24fb870b2248780be4_-554┼42┼0┼@0@GuidanceBuoy@0"
@@ -213929,10 +213921,6 @@
                     {
                       "Name": "Out@DesiredFaceDirection",
                       "Data": "Up_By0"
-                    },
-                    {
-                      "Name": "Out@IsEnd",
-                      "Data": "True"
                     },
                     {
                       "Name": "In@NextInLine",
@@ -224103,10 +224091,6 @@
                     {
                       "Name": "In@DesiredFaceDirection",
                       "Data": "Up_By0"
-                    },
-                    {
-                      "Name": "In@IsEnd",
-                      "Data": "True"
                     }
                   ]
                 }
@@ -288098,15 +288082,9 @@
             "LocalPRS": "-208.996┼-11┼0┼"
           },
           {
-            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_-208.994┼-12┼0┼",
-            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (1)",
-            "LocalPRS": "-208.994┼-12┼0┼"
-          },
-          {
             "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_-208.99┼-12┼0┼",
             "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (8)",
+            "Name": "ControlRod (1)",
             "LocalPRS": "-208.99┼-12┼0┼"
           },
           {
@@ -288114,6 +288092,12 @@
             "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
             "Name": "ControlRod (14)",
             "LocalPRS": "-208.99┼-11┼0┼"
+          },
+          {
+            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_-208.989┼-12┼0┼",
+            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
+            "Name": "ControlRod (8)",
+            "LocalPRS": "-208.989┼-12┼0┼"
           },
           {
             "GitID": "3252edce30bbb4749a17af748afbaecc_-208┼-8┼0┼",
@@ -365528,10 +365512,6 @@
                     {
                       "Name": "In@DesiredFaceDirection",
                       "Data": "Left_By90"
-                    },
-                    {
-                      "Name": "In@IsEnd",
-                      "Data": "True"
                     }
                   ]
                 }
@@ -365721,10 +365701,6 @@
                       "Data": "Left_By90"
                     },
                     {
-                      "Name": "Out@IsEnd",
-                      "Data": "True"
-                    },
-                    {
                       "Name": "In@NextInLine",
                       "Data": "69ffc1053dc39a24fb870b2248780be4_-124┼64┼0┼@0@GuidanceBuoy@0"
                     }
@@ -365760,14 +365736,14 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "-275.6,32.8,0",
-          "Size": "554.8,183.5,0"
+          "Pos": "-276.6,31.8,-1",
+          "Size": "554.8,183.5,4"
         }
       ]
     },
     {
       "Ver": "1.1.1",
-      "Location": "0┼63┼0┼",
+      "Location": "-126┼14┼0┼0ø0ø90ø",
       "MatrixName": "EscapeShuttle",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -368371,7 +368347,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.4.2",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -370800,7 +370776,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "30.5,57,0",
+          "Pos": "29.5,-7,0",
           "Size": "59,14,0"
         }
       ]
@@ -370971,7 +370947,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.4.2",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -371146,7 +371122,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "-299.5,80.1,0",
+          "Pos": "0.5,-2,0",
           "Size": "3,4,0"
         }
       ]
@@ -371987,7 +371963,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.4.2",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -372584,7 +372560,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "-350,38.5,0",
+          "Pos": "-1,-0.5,0",
           "Size": "6,11,0"
         }
       ]
@@ -373039,7 +373015,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.4.2",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -373541,8 +373517,8 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "-130,73.5,0",
-          "Size": "4,7,0"
+          "Pos": "0,-0.5,0.5",
+          "Size": "4,7,1"
         }
       ]
     },
@@ -373996,7 +373972,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.4.2",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -374511,8 +374487,8 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "-305,85.6,0",
-          "Size": "4,7,0"
+          "Pos": "0,-0.5,0.5",
+          "Size": "4,7,1"
         }
       ]
     },
@@ -374966,7 +374942,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.4.2",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -375480,8 +375456,8 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "-295.5,96,0",
-          "Size": "7,4,0"
+          "Pos": "0,-0.5,0.5",
+          "Size": "4,7,1"
         }
       ]
     },
@@ -375935,7 +375911,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.4.2",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -376443,8 +376419,8 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "-253,31.5,0",
-          "Size": "4,7,0"
+          "Pos": "0,-0.5,0.5",
+          "Size": "4,7,1"
         }
       ]
     },
@@ -377600,7 +377576,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.4.2",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -379110,7 +379086,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "-292,72,0",
+          "Pos": "3,0,0",
           "Size": "16,6,0"
         }
       ]

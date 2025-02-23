@@ -175,50 +175,46 @@ namespace MapSaver
 
 				foreach (var Tile in XY.Value)
 				{
-					var Tel = TileManager.GetTile(Tile.Tel);
-
-					if (LoadLayers != null && LoadLayers.Contains(Tel.LayerType) == false)
-					{
-						continue;
-					}
-
-					var NewPos = Pos;
-
-					if (Tile.Z != null)
-					{
-						NewPos.z = Tile.Z.Value;
-					}
-
-					Color? Colour = null;
-					if (string.IsNullOrEmpty(Tile.Col) == false)
-					{
-						ColorUtility.TryParseHtmlString(Tile.Col, out var NonNullbleColour);
-						Colour = NonNullbleColour;
-					}
-
-					Matrix4x4? Matrix4x4 = null;
-					if (string.IsNullOrEmpty(Tile.Tf) == false)
-					{
-						Matrix4x4 = MapSaver.StringToMatrix4X4(Tile.Tf);
-					}
-
 					try
 					{
+						var Tel = TileManager.GetTile(Tile.Tel);
+
+						if (Tel == null)
+						{
+							Loggy.Error($"Unable to find tile with name > {Tile.Tel}");
+						}
+
+						if (LoadLayers != null && LoadLayers.Contains(Tel.LayerType) == false)
+						{
+							continue;
+						}
+
+						var NewPos = Pos;
+
+						if (Tile.Z != null)
+						{
+							NewPos.z = Tile.Z.Value;
+						}
+
+						Color? Colour = null;
+						if (string.IsNullOrEmpty(Tile.Col) == false)
+						{
+							ColorUtility.TryParseHtmlString(Tile.Col, out var NonNullbleColour);
+							Colour = NonNullbleColour;
+						}
+
+						Matrix4x4? Matrix4x4 = null;
+						if (string.IsNullOrEmpty(Tile.Tf) == false)
+						{
+							Matrix4x4 = MapSaver.StringToMatrix4X4(Tile.Tf);
+						}
+
 						Matrix.MetaTileMap.SetTile(NewPos, Tel, Matrix4x4, Colour, Application.isPlaying,
 							useExactForMultilayer: true);
 					}
 					catch (Exception e)
 					{
 						Loggy.Error(e.ToString());
-						try
-						{
-							Matrix.MetaTileMap.SetTile(NewPos, TileManager.ErrorTile, Matrix4x4, Colour, Application.isPlaying,
-								useExactForMultilayer: true);
-						}
-						catch (Exception exception)
-						{
-							Loggy.Trace($"Something is incredibly fucked. Unable to place tile AND error placeholder.\n {exception}");
-						}
 					}
 				}
 			}
@@ -277,8 +273,10 @@ namespace MapSaver
 					if (CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab.ForeverIDLookupSpawnablePrefabs
 						    .Count == 0)
 					{
-						CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab.ForeverIDLookupSpawnablePrefabs.Clear();
-						CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab.SetUpSpawnablePrefabsForEverIDManual();
+						CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab.ForeverIDLookupSpawnablePrefabs
+							.Clear();
+						CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab
+							.SetUpSpawnablePrefabsForEverIDManual();
 						CustomNetworkManager.Instance = CommonManagerEditorOnly.Instance.CustomNetworkManagerPrefab;
 					}
 
@@ -309,7 +307,6 @@ namespace MapSaver
 					Object.GetComponent<UniversalObjectPhysics>()?.SetMatrix(Matrix);
 				}
 			}
-
 
 			Object.GetComponent<UniversalObjectPhysics>()?.ResetEverything();
 			if (Matrix != null)
@@ -342,14 +339,13 @@ namespace MapSaver
 					// }
 					if (Child == null)
 					{
-
 						Child = new GameObject(step).transform;
 						Child.SetParent(Parent);
 						Child.localPosition = Vector3.zero;
 						Child.localScale = Vector3.one;
 						Child.rotation = Quaternion.identity;
-
 					}
+
 					Parent = Child;
 				}
 
@@ -364,7 +360,6 @@ namespace MapSaver
 			{
 				ID = prefabData.ID.ToString();
 			}
-
 
 			MapSaver.CodeClass.ThisCodeClass.Objects[ID] = Object;
 			ProcessClassData(prefabData, Object, prefabData.Object);
@@ -383,12 +378,13 @@ namespace MapSaver
 
 				if (SpawnResult != null)
 				{
-					Spawn._ServerFireClientServerSpawnHooks(SpawnResult, SpawnInfo.IsJsonMapped(SpawnResult.GameObject));
+					Spawn._ServerFireClientServerSpawnHooks(SpawnResult,
+						SpawnInfo.IsJsonMapped(SpawnResult.GameObject));
 				}
 			}
 		}
 
-		public static int GetNumberOfRequireComponents(string ClassID,  GameObject Object )
+		public static int GetNumberOfRequireComponents(string ClassID, GameObject Object)
 		{
 			var ClassComponents = ClassID.Split("@"); //TODO Multiple components?
 			var Component = Object.GetComponent(ClassComponents[0]);
@@ -399,8 +395,7 @@ namespace MapSaver
 			}
 
 
-
-			var Attributes =	SecureStuff.AllowedReflection.GetNumberOfAttributeRequireComponent(Component.GetType());
+			var Attributes = SecureStuff.AllowedReflection.GetNumberOfAttributeRequireComponent(Component.GetType());
 
 			return Attributes;
 		}
@@ -424,7 +419,8 @@ namespace MapSaver
 				MapSaver.StringToPRS(Object, IndividualObject.LocalPRS);
 			}
 
-			var Removals = IndividualObject.ClassDatas.Where(x => x.Removed).OrderByDescending(x => GetNumberOfRequireComponents(x.ClassID, Object)).ToList();
+			var Removals = IndividualObject.ClassDatas.Where(x => x.Removed)
+				.OrderByDescending(x => GetNumberOfRequireComponents(x.ClassID, Object)).ToList();
 
 			foreach (var Remove in Removals)
 			{
@@ -445,7 +441,6 @@ namespace MapSaver
 
 			foreach (var classData in IndividualObject.ClassDatas)
 			{
-
 				if (classData.Removed == true)
 				{
 					continue;
@@ -504,28 +499,19 @@ namespace MapSaver
 			}
 		}
 
-		public static IEnumerator ServerLoadMap(Vector3 Offset00, Vector3 Offset, MapSaver.MapData MapData, SceneType sceneType = SceneType.HiddenScene)
+		public static IEnumerator ServerLoadMap(Vector3 Offset00, Vector3 Offset, MapSaver.MapData MapData,
+			SceneType sceneType = SceneType.HiddenScene)
 		{
-			if (MapData == null)
+			foreach (var ToMapMatrix in MapData.ContainedMatrices)
 			{
-				Loggy.Error("Failed to load map data due to it being null.");
-				yield break;
-			}
-			if (MapData.ContainedMatrices == null || MapData.ContainedMatrices.Count == 0)
-			{
-				Loggy.Error($"Attempted to load map ({MapData.MapName}/{MapData.Ver}) with no matrices.");
-				yield break;
-			}
-			foreach (var toMapMatrix in MapData.ContainedMatrices)
-			{
-				yield return ServerLoadSection(null, Offset00, Offset, toMapMatrix, null,
-					MatrixName: toMapMatrix.MatrixName, LoadingMultiple: true, sceneType: sceneType);
+				yield return ServerLoadSection(null, Offset00, Offset, ToMapMatrix, null,
+					MatrixName: ToMapMatrix.MatrixName, LoadingMultiple: true, sceneType: sceneType);
 			}
 
 			MapSaver.CodeClass.ThisCodeClass.ReportStatus();
 			MapSaver.CodeClass.ThisCodeClass.Reset();
 #if UNITY_EDITOR
-			if (Application.isPlaying == false && CustomNetworkManager.Instance != null)
+			if (Application.isPlaying == false)
 			{
 				CustomNetworkManager.Instance.SpawnedByMappingTool = true;
 			}
@@ -544,7 +530,8 @@ namespace MapSaver
 		//Offset to apply 0,0 to get the position you want
 		public static IEnumerator ServerLoadSection(MatrixInfo Matrix, Vector3 Offset00, Vector3 Offset,
 			MapSaver.MatrixData MatrixData, Action completeAction, HashSet<LayerType> LoadLayers = null,
-			bool LoadObjects = true, string MatrixName = null, bool LoadingMultiple = false, SceneType sceneType = SceneType.HiddenScene)
+			bool LoadObjects = true, string MatrixName = null, bool LoadingMultiple = false,
+			SceneType sceneType = SceneType.HiddenScene)
 		{
 #if UNITY_EDITOR
 			if (Application.isPlaying == false)
@@ -566,8 +553,6 @@ namespace MapSaver
 			{
 				if (Matrix == null)
 				{
-
-
 					aaMatrix = MatrixManager.MakeNewMatrix(MatrixName, sceneType);
 #if UNITY_EDITOR
 					if (Application.isPlaying == false)
@@ -587,7 +572,6 @@ namespace MapSaver
 								.localPosition = Offset;
 							Offset = Vector3.zero;
 						}
-
 					}
 					else
 					{
@@ -670,7 +654,8 @@ namespace MapSaver
 					if (Application.isPlaying == false) yield break;
 					var newdata = JsonConvert.SerializeObject(MatrixData.CompactObjectMapData);
 					CustomNetworkManager.Instance.LoadedMapDatas.Add(new Tuple<string, int>(newdata, aaMatrix.Id));
-					ServerReturnMapData.SendAll(newdata, ServerReturnMapData.MessageType.MapDataForClient, true, aaMatrix.Id);
+					ServerReturnMapData.SendAll(newdata, ServerReturnMapData.MessageType.MapDataForClient, true,
+						aaMatrix.Id);
 				}
 			}
 			catch (Exception e)

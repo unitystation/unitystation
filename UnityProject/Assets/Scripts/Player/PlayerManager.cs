@@ -105,6 +105,7 @@ public class PlayerManager : SingletonManager<PlayerManager>
 		var move = GetMovementAction();
 		if (ShuttleConsole != null)
 		{
+			if (UIManager.IsInputFocus) return;
 			if (move.moveActions.Length > 0)
 			{
 				ShuttleConsole.CmdMove(Orientation.From(GetMovementAction().ToPlayerMoveDirection().ToVector()));

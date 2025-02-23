@@ -539,31 +539,18 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	{
 		Loggy.Error($"Disconnecting {conn.address}");
 		//register them as removed from our own player list
+
 		PlayerList.Instance.RemoveByConnection(conn);
-
-		//NOTE: We don't call the base.OnServerDisconnect method because it destroys the player object -
-		//we want to keep the object around so player can rejoin and reenter their body.
-
-		//note that we can't remove authority from player owned objects, the workaround is to transfer authority to
-		//a different temporary object, remove authority from the original, and then run the normal disconnect logic
-
-
-		//transfer to a temporary object
-		GameObject disconnectedViewer = Instantiate(CustomNetworkManager.Instance.disconnectedViewerPrefab);
-		NetworkServer.ReplacePlayerForConnection(conn, disconnectedViewer,
-			BitConverter.ToUInt32(System.Guid.NewGuid().ToByteArray(), 0), false);
 
 		foreach (var ownedObject in conn.owned.ToArray())
 		{
-			if (disconnectedViewer == ownedObject.gameObject) continue;
+			if (ownedObject.connectionToClient?.identity == ownedObject) continue;
 			ownedObject.RemoveClientAuthority();
 		}
 
 		//now we can call mirror's normal disconnect logic, which will destroy all the player's owned objects
-		//which will preserve their actual body because they no longer own it
 		base.OnServerDisconnect(conn);
 		SubSceneManager.Instance.RemoveSceneObserver(conn);
-		_ = Despawn.ServerSingle(disconnectedViewer);
 	}
 
 	private void OnLevelFinishedLoading(Scene oldScene, Scene newScene)

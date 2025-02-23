@@ -126,11 +126,6 @@ public class ItemLightControl : BodyPartFunctionality, IItemInOutMovedPlayer
 	public void Toggle(bool on)
 	{
 		if (IsOn == on) return;
-		if (LightEmission == null)
-		{
-			Loggy.Error($"{this} field LightEmission is null, please check scripts.", Category.Lighting);
-			return;
-		}
 
 		IsOn = on; // Will trigger SyncState.
 		UpdateLights();
@@ -180,12 +175,12 @@ public class ItemLightControl : BodyPartFunctionality, IItemInOutMovedPlayer
 	{
 		if (IsOn)
 		{
-			LightEmission.AddLight(playerLightData);
+			LightEmission?.AddLight(playerLightData);
 			objectLightEmission.SetActive(true);
 		}
 		else
 		{
-			LightEmission.RemoveLight(playerLightData);
+			LightEmission?.RemoveLight(playerLightData);
 			objectLightEmission.SetActive(false);
 		}
 	}
