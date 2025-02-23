@@ -13,10 +13,11 @@ namespace Mobs.Traversal.Strategies
 			return new Tuple<bool, Component, LayerTile>(door != null, door, null);
 		}
 
-		public void TraverseObstical(Vector3Int direction, Component obsticalObject, LayerTile obsticalTile, PlayerScript mob)
+		public int TraverseObstical(Vector3Int direction, Component obsticalObject, LayerTile obsticalTile, PlayerScript mob)
 		{
 			var door = obsticalObject as DoorMasterController;
 			door?.TryOpen(mob.gameObject);
+			return 0;
 		}
 	}
 }

@@ -12,7 +12,7 @@ namespace Mobs.Traversal.Strategies
 			return new Tuple<bool, Component, LayerTile>(table != null, null, table);
 		}
 
-		public void TraverseObstical(Vector3Int direction, Component obsticalObject, LayerTile obsticalTile, PlayerScript mob)
+		public int TraverseObstical(Vector3Int direction, Component obsticalObject, LayerTile obsticalTile, PlayerScript mob)
 		{
 			if (obsticalTile is BasicTile table)
 			{
@@ -20,12 +20,13 @@ namespace Mobs.Traversal.Strategies
 				{
 					if (interaction is TableInteractionClimb climbInteraction)
 					{
-						climbInteraction.StartClimbing(mob, direction, direction, table,
+						climbInteraction.StartClimbing(false, mob, direction, direction, table,
 							mob.ObjectPhysics, mob.RegisterPlayer.Matrix.TileChangeManager);
-						break;
+						return 3135;
 					}
 				}
 			}
+			return 0;
 		}
 	}
 }

@@ -35,6 +35,7 @@ namespace Mobs.Traversal
 		private int waitTicks = 0;
 		private List<Vector3Int> path = new List<Vector3Int>();
 		private MovementSynchronisation.MoveData _moveData = new MovementSynchronisation.MoveData();
+		private int timeoutRequestTicks = 0;
 
 		public const int TENTH_OF_A_SECOND = 135;
 
@@ -122,6 +123,11 @@ namespace Mobs.Traversal
 			for (int i = 0; i < MaxRetries; i++)
 			{
 				waitTicks = 0;
+				if (timeoutRequestTicks > 0)
+				{
+					await UniTask.Delay(timeoutRequestTicks);
+					timeoutRequestTicks = 0;
+				}
 				if (health.IsDead) break; // Incase we died while moving.
 				if (Movement.IsMoving)
 				{
@@ -185,7 +191,7 @@ namespace Mobs.Traversal
 					var check = strat.ObsticalCheck(target, Mob);
 					if (check.Item1)
 					{
-						strat.TraverseObstical(target, check.Item2, check.Item3, Mob);
+						timeoutRequestTicks += strat.TraverseObstical(target, check.Item2, check.Item3, Mob);
 						return;
 					}
 				}
@@ -210,6 +216,7 @@ namespace Mobs.Traversal
 			_isMoving = false;
 			_movingFromFirstTile = false;
 			waitTicks = 0;
+			timeoutRequestTicks = 0;
 			if (clearPath) path.Clear();
 		}
 
