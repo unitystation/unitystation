@@ -30,7 +30,7 @@ namespace Mobs.Traversal
 
 		private readonly Queue<TraversalDetails> _targetQueue = new Queue<TraversalDetails>();
 		private bool _isMoving = false;
-		private bool _movingFromTile = false;
+		private bool _movingFromFirstTile = false;
 		private int waitTicks = 0;
 		private List<Vector3Int> path = new List<Vector3Int>();
 
@@ -41,17 +41,25 @@ namespace Mobs.Traversal
 			Mob ??= GetComponent<PlayerScript>();
 			Movement ??= GetComponent<MovementSynchronisation>();
 			Movement.OnLocalTileReached.AddListener(SetMovingToTileToFalse);
+			Movement.OnBumpedIntoSomething.AddListener(OnBumpedIntoSomething);
 			if (MaxRetries < 2) MaxRetries = 2;
+		}
+
+		private void OnDestroy()
+		{
+			Movement.OnLocalTileReached.RemoveListener(SetMovingToTileToFalse);
+			Movement.OnBumpedIntoSomething.RemoveListener(OnBumpedIntoSomething);
 		}
 
 		public bool QueueMovementGoal(Vector3Int newTarget,
 			Action onTraversalFinalStep = null,
-			Action onRetryMoveToDirection = null, List<TraversalStrat> strategies = null, bool allowIncompletePaths = false)
+			Action onRetryMoveToDirection = null, List<TraversalStrat> strategies = null, bool cancelOnSlip = false)
 		{
 			if (health.IsDead) return false;
 			if (_targetQueue.Count >= MaxQueuedTargets) return false;
+
 			path = matrix.MetaDataLayer.Pathfinder.AStarFromTo(matrix.MetaDataLayer.Nodes,
-				gameObject.TileLocalPosition().To3Int(), newTarget, false);
+				gameObject.TileLocalPosition().To3Int(), newTarget);
 			if (path == null || path.Count == 0)
 			{
 				if (DebugGizmos) Loggy.Info("Attempted to move to a location that is not reachable.");
@@ -62,8 +70,10 @@ namespace Mobs.Traversal
 				TargetPosition = newTarget,
 				OnTraversalFinalStep = onTraversalFinalStep,
 				OnRetryMoveToDirection = onRetryMoveToDirection,
-				Strats = strategies
+				Strats = strategies,
+				CancelOnSlip = cancelOnSlip
 			};
+
 			if (_isMoving == false)
 			{
 				CleanSlate(false);
@@ -90,34 +100,7 @@ namespace Mobs.Traversal
 			foreach (var pos in path)
 			{
 				if (Movement.registerTile.LocalPosition == pos) continue;
-				for (int i = 0; i < MaxRetries; i++)
-				{
-					waitTicks = 0;
-					if (health.IsDead) break;
-					if (Movement.IsMoving) continue;
-					if (i > 1 && details.Strats != null)
-					{
-						AttemptStrategies(details.Strats, pos);
-						await UniTask.Delay(50);
-					}
-					//PathfindingUtils.ShoveMobToPosition(Mob, pos, 12f);
-					_moveData = Movement.GenerateMoveData(
-						Movement.registerTile.LocalPosition,
-						MovementSynchronisation.VectorToPlayerMoveDirection(PathfindingUtils.GetDirectionToPosition(Mob, pos).To2Int()));
-					Movement.TryMove(ref _moveData, gameObject, CustomNetworkManager.IsServer, out var slip);
-					_movingFromTile = true;
-					while (_movingFromTile && waitTicks <= 35)
-					{
-						waitTicks++;
-						await UniTask.Delay(135);
-					}
-					if (registerPlayer.LocalPositionServer == pos)
-					{
-						_movingFromTile = false;
-						break;
-					}
-					OnTraversalFailedAndRetrying?.Invoke(details.TargetPosition);
-				}
+				await ProcessMovement(details, pos);
 			}
 
 			if (localPosition == path[^1])
@@ -130,6 +113,60 @@ namespace Mobs.Traversal
 			}
 			MoveOnToTheNextQueuedTarget();
 			details.OnTraversalFinalStep?.Invoke();
+		}
+
+		private async UniTask ProcessMovement(TraversalDetails details, Vector3Int pos)
+		{
+			for (int i = 0; i < MaxRetries; i++)
+			{
+				waitTicks = 0;
+				if (health.IsDead) break; // Incase we died while moving.
+				if (Movement.IsMoving)
+				{
+					await UniTask.Delay(50 + (i * 10)); // If we're already moving, wait until the next retry.
+					continue;
+                }
+				var attemptMovement = Move(pos);
+				if (attemptMovement.Item1 == false || (attemptMovement.Item2 && details.CancelOnSlip))
+				{
+					if (DebugGizmos) Loggy.Info($"Failed to move to {pos}. Retrying with stratagies. Attempt: {i} | move:{attemptMovement.Item2} | slipping:{attemptMovement.Item1}");
+					_movingFromFirstTile = false;
+					if (i > 1 && details.Strats != null)
+					{
+						AttemptStrategies(details.Strats, pos);
+						await UniTask.Delay(50 + (i * 10));
+					}
+					continue;
+				}
+				_movingFromFirstTile = true;
+				while (_movingFromFirstTile && waitTicks <= 35)
+				{
+					waitTicks++;
+					// 135ms + 10ms per retry.
+					// We add 10ms to the delay for each retry incase there's something holding back a succesful tile move.
+					await UniTask.Delay(135 + (i * 10)); //TODO: Calculate movement speed as a delay factor.
+				}
+				if (registerPlayer.LocalPositionServer == pos)
+				{
+					_movingFromFirstTile = false;
+					break; // we reached the next tile.
+				}
+				OnTraversalFailedAndRetrying?.Invoke(details.TargetPosition);
+			}
+		}
+
+		/// <summary>
+		/// Moves the mob to the direction of a target position.
+		/// </summary>
+		/// <param name="targetPosition">Local Position used to determine the direction of the next step. World Positions will be buggy.</param>
+		/// <returns>Item1 is if we are moving. Item2 is if we slipped.</returns>
+		public Tuple<bool, bool> Move(Vector3Int targetPosition)
+		{
+			_moveData = Movement.GenerateMoveData(
+				Movement.registerTile.LocalPosition,
+				MovementSynchronisation.VectorToPlayerMoveDirection(PathfindingUtils.GetDirectionToPosition(Mob, targetPosition).To2Int()));
+			Tuple<bool, bool> result = new Tuple<bool, bool>(Movement.TryMove(ref _moveData, gameObject, CustomNetworkManager.IsServer, out var slip), slip);
+			return result;
 		}
 
 		private void AttemptStrategies(List<TraversalStrat> strategies, Vector3Int target)
@@ -157,14 +194,19 @@ namespace Mobs.Traversal
 		private void CleanSlate(bool clearPath)
 		{
 			_isMoving = false;
-			_movingFromTile = false;
+			_movingFromFirstTile = false;
 			waitTicks = 0;
 			if (clearPath) path.Clear();
 		}
 
 		private void SetMovingToTileToFalse(Vector3Int arg0, Vector3Int vector3Int)
 		{
-			_movingFromTile = false;
+			_movingFromFirstTile = false;
+		}
+
+		private void OnBumpedIntoSomething()
+		{
+			_movingFromFirstTile = false;
 		}
 
 		private void DebugGizmos_HighlightTargetArea(Vector3Int pos)
@@ -185,6 +227,7 @@ namespace Mobs.Traversal
 			public Action OnTraversalFinalStep;
 			public Action OnRetryMoveToDirection;
 			public List<TraversalStrat> Strats;
+			public bool CancelOnSlip;
 		}
 	}
 }
