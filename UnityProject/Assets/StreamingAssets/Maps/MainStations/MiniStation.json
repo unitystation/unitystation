@@ -96660,7 +96660,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.4.2",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -96713,10 +96713,6 @@
                     {
                       "Name": "In@DesiredFaceDirection",
                       "Data": "Up_By0"
-                    },
-                    {
-                      "Name": "In@IsEnd",
-                      "Data": "True"
                     }
                   ]
                 }
@@ -96772,10 +96768,6 @@
                 {
                   "ClassID": "GuidanceBuoy@0",
                   "Data": [
-                    {
-                      "Name": "Out@IsEnd",
-                      "Data": "True"
-                    },
                     {
                       "Name": "In@NextInLine",
                       "Data": "69ffc1053dc39a24fb870b2248780be4_21┼131┼0┼@0@GuidanceBuoy@0"
@@ -124262,20 +124254,7 @@
             "GitID": "cajcKzj41Rgh!X$LAkMi_65┼110┼0┼",
             "PrefabID": "cajcKzj41Rgh!X$LAkMi",
             "Name": "SmallBloodSplat (1)",
-            "LocalPRS": "65┼110┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "FloorDecal@0",
-                  "Data": [
-                    {
-                      "Name": "CanDryUp",
-                      "Data": "False"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "65┼110┼0┼"
           },
           {
             "GitID": "42bdfe2e83a9b184385867c7ccc527c2_65┼112┼0┼",
@@ -125492,20 +125471,7 @@
             "GitID": "cajcKzj41Rgh!X$LAkMi_66.25┼111.75┼0┼",
             "PrefabID": "cajcKzj41Rgh!X$LAkMi",
             "Name": "SmallBloodSplat (2)",
-            "LocalPRS": "66.25┼111.75┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "FloorDecal@0",
-                  "Data": [
-                    {
-                      "Name": "CanDryUp",
-                      "Data": "False"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "66.25┼111.75┼0┼"
           },
           {
             "GitID": "a9dfc8bf04d4e4b47aeaeb5193efa5d6_66.27┼52.06┼0┼",
@@ -137931,40 +137897,40 @@
             "LocalPRS": "78.005┼24┼0┼"
           },
           {
-            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.009┼24┼0┼",
-            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (10)",
-            "LocalPRS": "78.009┼24┼0┼"
-          },
-          {
             "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.01┼24┼0┼",
             "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (9)",
+            "Name": "ControlRod (10)",
             "LocalPRS": "78.01┼24┼0┼"
           },
           {
             "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.011┼24┼0┼",
             "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (8)",
+            "Name": "ControlRod (9)",
             "LocalPRS": "78.011┼24┼0┼"
           },
           {
             "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.012┼24┼0┼",
             "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (7)",
+            "Name": "ControlRod (8)",
             "LocalPRS": "78.012┼24┼0┼"
           },
           {
             "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.013┼24┼0┼",
             "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (11)",
+            "Name": "ControlRod (7)",
             "LocalPRS": "78.013┼24┼0┼"
           },
           {
             "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.014┼24┼0┼",
             "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (12)",
+            "Name": "ControlRod (11)",
             "LocalPRS": "78.014┼24┼0┼"
+          },
+          {
+            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.015┼24┼0┼",
+            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
+            "Name": "ControlRod (12)",
+            "LocalPRS": "78.015┼24┼0┼"
           },
           {
             "GitID": "e33403c0371fc174aa03640734665a15_78.65┼94.42┼0┼",
@@ -165851,10 +165817,6 @@
                     {
                       "Name": "In@DesiredFaceDirection",
                       "Data": "Up_By0"
-                    },
-                    {
-                      "Name": "In@IsEnd",
-                      "Data": "True"
                     }
                   ]
                 }
@@ -166287,10 +166249,6 @@
                       "Data": "Up_By0"
                     },
                     {
-                      "Name": "Out@IsEnd",
-                      "Data": "True"
-                    },
-                    {
                       "Name": "In@NextInLine",
                       "Data": "69ffc1053dc39a24fb870b2248780be4_140┼64┼0┼@0@GuidanceBuoy@0"
                     }
@@ -166309,10 +166267,6 @@
                 {
                   "ClassID": "GuidanceBuoy@0",
                   "Data": [
-                    {
-                      "Name": "Out@IsEnd",
-                      "Data": "True"
-                    },
                     {
                       "Name": "In@NextInLine",
                       "Data": "69ffc1053dc39a24fb870b2248780be4_730┼64┼0┼@0@GuidanceBuoy@0"
@@ -166335,10 +166289,6 @@
                     {
                       "Name": "Out@NextInLine",
                       "Data": "69ffc1053dc39a24fb870b2248780be4_698┼64┼0┼@0@GuidanceBuoy@0"
-                    },
-                    {
-                      "Name": "In@IsEnd",
-                      "Data": "True"
                     }
                   ]
                 }
@@ -166351,8 +166301,8 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "366,72,0",
-          "Size": "730,152,0"
+          "Pos": "365,71,-23.5",
+          "Size": "730,152,49"
         }
       ]
     },
@@ -167404,7 +167354,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.4.2",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -167798,7 +167748,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "277.5,66,0",
+          "Pos": "3.5,0,0",
           "Size": "11,8,0"
         }
       ]
@@ -168412,7 +168362,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.4.2",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -168788,7 +168738,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "30.5,47,0",
+          "Pos": "0.5,1,0",
           "Size": "11,4,0"
         }
       ]
@@ -169670,7 +169620,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.4.2",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -170305,8 +170255,8 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "115.6,74,0",
-          "Size": "9,6,0"
+          "Pos": "2.5,0,0.5",
+          "Size": "9,6,1"
         }
       ]
     },
@@ -170819,7 +170769,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.4.2",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -171259,14 +171209,14 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "58,16.5,0",
-          "Size": "4,7,0"
+          "Pos": "0,-0.5,0.5",
+          "Size": "4,7,1"
         }
       ]
     },
     {
       "Ver": "1.1.1",
-      "Location": "18┼164┼0┼",
+      "Location": "18┼52┼0┼",
       "MatrixName": "EMS",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -172942,7 +172892,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.4.2",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -174219,7 +174169,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "18,173.5,0",
+          "Pos": "-1,8.5,0",
           "Size": "8,17,0"
         }
       ]

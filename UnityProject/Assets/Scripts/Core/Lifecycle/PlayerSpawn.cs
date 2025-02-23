@@ -487,10 +487,6 @@ public static class PlayerSpawn
 		}
 
 		newMind.GetComponent<GhostSprites>().SetGhostSprite(isAdmin);
-		if (account.ViewerScript != null)
-		{
-			_ = Despawn.ServerSingle(account.ViewerScript.gameObject);
-		}
 	}
 
 	private static void TransferAccountOccupyingMind(PlayerInfo account, Mind from, Mind to)
@@ -522,30 +518,10 @@ public static class PlayerSpawn
 
 		if (to)
 		{
-			if (account.ViewerScript != null)
-			{
-				_ = Despawn.ServerSingle(account.ViewerScript.gameObject);
-				account.ViewerScript = null;
-			}
-
-
 			var netIdentity = to.GetComponent<NetworkIdentity>();
 			if (netIdentity.connectionToClient != null && to.connectionToClient != account.Connection)
 			{
 				CustomNetworkManager.Instance.OnServerDisconnect(netIdentity.connectionToClient);
-			}
-
-			if (account.Connection != null && to.connectionToClient != account.Connection)
-			{
-				NetworkServer.ReplacePlayerForConnection(account.Connection, to.gameObject);
-
-				if (account.ViewerScript != null)
-				{
-					_ = Despawn.ServerSingle(account.ViewerScript.gameObject);
-					account.GameObject = null;
-				}
-
-				//TriggerEventMessage.SendTo(To, Event.); //TODO Call this manually
 			}
 
 			//can observe their new inventory
@@ -594,7 +570,6 @@ public static class PlayerSpawn
 				from.RemoveClientAuthority();
 			}
 		}
-
 		if (to)
 		{
 			if (account.Connection != null)

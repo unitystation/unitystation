@@ -1779,6 +1779,11 @@ namespace MapSaver
 
 			GameObject OriginPrefab = null;
 
+			if (CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs.ContainsKey(Tracker.ForeverID) == false)
+			{
+				Loggy.Error($"missing ID for {Tracker.name} for ID {Tracker.ForeverID}");
+			}
+
 			OriginPrefab = CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[Tracker.ForeverID];
 			if (Compact == false)
 			{

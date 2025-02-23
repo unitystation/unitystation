@@ -110,6 +110,7 @@ namespace Objects.Lighting
 
 		private void Start()
 		{
+			SetColor(CurrentOnColor, CurrentOnColor);
 			LightSpriteUsed.Color = CurrentOnColor;
 			CheckAudioState();
 		}

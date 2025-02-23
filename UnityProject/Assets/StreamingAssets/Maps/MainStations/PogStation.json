@@ -191521,7 +191521,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.4.2",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -207078,14 +207078,6 @@
                     {
                       "Name": "Out@NextInLine",
                       "Data": "69ffc1053dc39a24fb870b2248780be4_11┼-12┼0┼@0@GuidanceBuoy@0"
-                    },
-                    {
-                      "Name": "Out@IsEnd",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "In@IsEnd",
-                      "Data": "True"
                     }
                   ]
                 }
@@ -207424,10 +207416,6 @@
                   "ClassID": "GuidanceBuoy@0",
                   "Data": [
                     {
-                      "Name": "Out@IsEnd",
-                      "Data": "True"
-                    },
-                    {
                       "Name": "In@NextInLine",
                       "Data": "69ffc1053dc39a24fb870b2248780be4_10┼-35┼0┼@0@GuidanceBuoy@0"
                     }
@@ -207453,10 +207441,6 @@
                     {
                       "Name": "Out@DesiredFaceDirection",
                       "Data": "Up_By0"
-                    },
-                    {
-                      "Name": "Out@IsEnd",
-                      "Data": "True"
                     },
                     {
                       "Name": "In@NextInLine",
@@ -265384,12 +265368,6 @@
             "LocalPRS": "56.004┼257┼0┼"
           },
           {
-            "GitID": "25108e21a69d52c46a538e66eb85db0a_56.006┼257┼0┼",
-            "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (22)",
-            "LocalPRS": "56.006┼257┼0┼"
-          },
-          {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_56.007┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
             "Name": "SolidPlasmaSheet (23)",
@@ -265410,38 +265388,44 @@
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_56.01┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (21)",
+            "Name": "SolidPlasmaSheet (22)",
             "LocalPRS": "56.01┼257┼0┼"
           },
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_56.011┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (26)",
+            "Name": "SolidPlasmaSheet (21)",
             "LocalPRS": "56.011┼257┼0┼"
           },
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_56.012┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (27)",
+            "Name": "SolidPlasmaSheet (26)",
             "LocalPRS": "56.012┼257┼0┼"
           },
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_56.013┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (28)",
+            "Name": "SolidPlasmaSheet (27)",
             "LocalPRS": "56.013┼257┼0┼"
           },
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_56.014┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (29)",
+            "Name": "SolidPlasmaSheet (28)",
             "LocalPRS": "56.014┼257┼0┼"
           },
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_56.015┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (30)",
+            "Name": "SolidPlasmaSheet (29)",
             "LocalPRS": "56.015┼257┼0┼"
+          },
+          {
+            "GitID": "25108e21a69d52c46a538e66eb85db0a_56.016┼257┼0┼",
+            "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
+            "Name": "SolidPlasmaSheet (30)",
+            "LocalPRS": "56.016┼257┼0┼"
           },
           {
             "GitID": "8f1ce2b118c25334fa660be931e62dbf_56.14┼218.28┼0┼",
@@ -266892,12 +266876,6 @@
             "LocalPRS": "57.004┼257┼0┼"
           },
           {
-            "GitID": "25108e21a69d52c46a538e66eb85db0a_57.006┼257┼0┼",
-            "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (7)",
-            "LocalPRS": "57.006┼257┼0┼"
-          },
-          {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_57.007┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
             "Name": "SolidPlasmaSheet (8)",
@@ -266918,38 +266896,44 @@
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_57.01┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (6)",
+            "Name": "SolidPlasmaSheet (7)",
             "LocalPRS": "57.01┼257┼0┼"
           },
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_57.011┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (11)",
+            "Name": "SolidPlasmaSheet (6)",
             "LocalPRS": "57.011┼257┼0┼"
           },
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_57.012┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (12)",
+            "Name": "SolidPlasmaSheet (11)",
             "LocalPRS": "57.012┼257┼0┼"
           },
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_57.013┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (13)",
+            "Name": "SolidPlasmaSheet (12)",
             "LocalPRS": "57.013┼257┼0┼"
           },
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_57.014┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (14)",
+            "Name": "SolidPlasmaSheet (13)",
             "LocalPRS": "57.014┼257┼0┼"
           },
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_57.015┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (15)",
+            "Name": "SolidPlasmaSheet (14)",
             "LocalPRS": "57.015┼257┼0┼"
+          },
+          {
+            "GitID": "25108e21a69d52c46a538e66eb85db0a_57.016┼257┼0┼",
+            "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
+            "Name": "SolidPlasmaSheet (15)",
+            "LocalPRS": "57.016┼257┼0┼"
           },
           {
             "GitID": "6015d5ca578d27b43b1c649384760954_57.05┼210.09┼0┼",
@@ -271462,18 +271446,6 @@
             "LocalPRS": "60.004┼268┼0┼"
           },
           {
-            "GitID": "2c62bf4b8bd1b13409822a00ad8cb214_60.006┼268┼0┼",
-            "PrefabID": "2c62bf4b8bd1b13409822a00ad8cb214",
-            "Name": "FuelRod (2)",
-            "LocalPRS": "60.006┼268┼0┼"
-          },
-          {
-            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_60.006┼268┼0┼",
-            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (8)",
-            "LocalPRS": "60.006┼268┼0┼"
-          },
-          {
             "GitID": "2c62bf4b8bd1b13409822a00ad8cb214_60.007┼268┼0┼",
             "PrefabID": "2c62bf4b8bd1b13409822a00ad8cb214",
             "Name": "FuelRod (1)",
@@ -271500,14 +271472,26 @@
           {
             "GitID": "2c62bf4b8bd1b13409822a00ad8cb214_60.01┼268┼0┼",
             "PrefabID": "2c62bf4b8bd1b13409822a00ad8cb214",
-            "Name": "FuelRod (3)",
+            "Name": "FuelRod (2)",
             "LocalPRS": "60.01┼268┼0┼"
           },
           {
             "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_60.01┼268┼0┼",
             "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (7)",
+            "Name": "ControlRod (8)",
             "LocalPRS": "60.01┼268┼0┼"
+          },
+          {
+            "GitID": "2c62bf4b8bd1b13409822a00ad8cb214_60.011┼268┼0┼",
+            "PrefabID": "2c62bf4b8bd1b13409822a00ad8cb214",
+            "Name": "FuelRod (3)",
+            "LocalPRS": "60.011┼268┼0┼"
+          },
+          {
+            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_60.011┼268┼0┼",
+            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
+            "Name": "ControlRod (7)",
+            "LocalPRS": "60.011┼268┼0┼"
           },
           {
             "GitID": "3edf81f4a32c4c348bad5bfe43e263fd_60.13┼204.08┼0┼",
@@ -297603,16 +297587,16 @@
             "LocalPRS": "79.005┼165┼0┼"
           },
           {
-            "GitID": "d3c71176f32c1274b929f3a88695a795_79.007┼165┼0┼",
-            "PrefabID": "d3c71176f32c1274b929f3a88695a795",
-            "Name": "Paper (16)",
-            "LocalPRS": "79.007┼165┼0┼"
-          },
-          {
             "GitID": "d3c71176f32c1274b929f3a88695a795_79.01┼165┼0┼",
             "PrefabID": "d3c71176f32c1274b929f3a88695a795",
-            "Name": "Paper (15)",
+            "Name": "Paper (16)",
             "LocalPRS": "79.01┼165┼0┼"
+          },
+          {
+            "GitID": "d3c71176f32c1274b929f3a88695a795_79.011┼165┼0┼",
+            "PrefabID": "d3c71176f32c1274b929f3a88695a795",
+            "Name": "Paper (15)",
+            "LocalPRS": "79.011┼165┼0┼"
           },
           {
             "GitID": "5059deed2ffb32a439249dcb385321f4_79.2┼223.25┼0┼",
@@ -305044,16 +305028,16 @@
             "LocalPRS": "87.005┼246┼0┼"
           },
           {
-            "GitID": "908afbc5b9f871148b5ccd0b81bd147f_87.007┼246┼0┼",
-            "PrefabID": "908afbc5b9f871148b5ccd0b81bd147f",
-            "Name": "FireExtinguisher (8)",
-            "LocalPRS": "87.007┼246┼0┼"
-          },
-          {
             "GitID": "908afbc5b9f871148b5ccd0b81bd147f_87.01┼246┼0┼",
             "PrefabID": "908afbc5b9f871148b5ccd0b81bd147f",
-            "Name": "FireExtinguisher (7)",
+            "Name": "FireExtinguisher (8)",
             "LocalPRS": "87.01┼246┼0┼"
+          },
+          {
+            "GitID": "908afbc5b9f871148b5ccd0b81bd147f_87.011┼246┼0┼",
+            "PrefabID": "908afbc5b9f871148b5ccd0b81bd147f",
+            "Name": "FireExtinguisher (7)",
+            "LocalPRS": "87.011┼246┼0┼"
           },
           {
             "GitID": "753e37602e1e0194cbe435fda83795c4_87.79┼229.28┼0┼",
@@ -314531,10 +314515,6 @@
                     {
                       "Name": "In@DesiredFaceDirection",
                       "Data": "Right_By270"
-                    },
-                    {
-                      "Name": "In@IsEnd",
-                      "Data": "True"
                     }
                   ]
                 }
@@ -314590,10 +314570,6 @@
                 {
                   "ClassID": "GuidanceBuoy@0",
                   "Data": [
-                    {
-                      "Name": "Out@IsEnd",
-                      "Data": "True"
-                    },
                     {
                       "Name": "In@NextInLine",
                       "Data": "69ffc1053dc39a24fb870b2248780be4_105┼277┼0┼@0@GuidanceBuoy@0"
@@ -316700,8 +316676,8 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "86.5,359.5,0",
-          "Size": "179,331,0"
+          "Pos": "35.5,130.5,-8",
+          "Size": "179,331,18"
         }
       ]
     },
@@ -317532,7 +317508,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.4.2",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -318478,7 +318454,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "9,74,0",
+          "Pos": "-1,0,0",
           "Size": "6,12,0"
         }
       ]
@@ -319303,7 +319279,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.4.2",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -320131,14 +320107,14 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "80.5,384,0",
-          "Size": "9,6,0"
+          "Pos": "0.5,-1,0.5",
+          "Size": "9,6,1"
         }
       ]
     },
     {
       "Ver": "1.1.1",
-      "Location": "111┼317.25┼0┼",
+      "Location": "153┼424┼0┼0ø0ø90ø",
       "MatrixName": "EscapeShuttle",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -323127,7 +323103,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.4.2",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -327909,7 +327885,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "142,311.2,0",
+          "Pos": "30,-7,0",
           "Size": "60,14,0"
         }
       ]
@@ -328491,7 +328467,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.4.2",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -329163,8 +329139,8 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "44.9,440,0",
-          "Size": "22,106,0"
+          "Pos": "6,-52,0.5",
+          "Size": "22,106,1"
         }
       ]
     },
@@ -330159,7 +330135,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.4.2",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -331392,7 +331368,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "140.5,422.4,0",
+          "Pos": "-0.5,-0.5,0",
           "Size": "11,7,0"
         }
       ]
