@@ -31,10 +31,12 @@ namespace Mobs.Traversal
 		private readonly Queue<TraversalDetails> _targetQueue = new Queue<TraversalDetails>();
 		private bool _isMoving = false;
 		private bool _movingFromFirstTile = false;
+		private Vector3Int _movingFromFirstTilePosition = Vector3Int.zero;
 		private int waitTicks = 0;
 		private List<Vector3Int> path = new List<Vector3Int>();
-
 		private MovementSynchronisation.MoveData _moveData = new MovementSynchronisation.MoveData();
+
+		public const int TENTH_OF_A_SECOND = 135;
 
 		private void Awake()
 		{
@@ -123,28 +125,33 @@ namespace Mobs.Traversal
 				if (health.IsDead) break; // Incase we died while moving.
 				if (Movement.IsMoving)
 				{
-					await UniTask.Delay(50 + (i * 10)); // If we're already moving, wait until the next retry.
+					await UniTask.Delay(TENTH_OF_A_SECOND + (i * 10)); // If we're already moving, wait until the next retry.
 					continue;
                 }
 				var attemptMovement = Move(pos);
 				if (attemptMovement.Item1 == false || (attemptMovement.Item2 && details.CancelOnSlip))
 				{
-					if (DebugGizmos) Loggy.Info($"Failed to move to {pos}. Retrying with stratagies. Attempt: {i} | move:{attemptMovement.Item2} | slipping:{attemptMovement.Item1}");
 					_movingFromFirstTile = false;
 					if (i > 1 && details.Strats != null)
 					{
 						AttemptStrategies(details.Strats, pos);
-						await UniTask.Delay(50 + (i * 10));
+						await UniTask.Delay(TENTH_OF_A_SECOND + (i * 10));
 					}
 					continue;
 				}
 				_movingFromFirstTile = true;
-				while (_movingFromFirstTile && waitTicks <= 35)
+				_movingFromFirstTilePosition = registerPlayer.LocalPositionServer;
+				while (_movingFromFirstTile && waitTicks <= 25)
 				{
 					waitTicks++;
 					// 135ms + 10ms per retry.
 					// We add 10ms to the delay for each retry incase there's something holding back a succesful tile move.
-					await UniTask.Delay(135 + (i * 10)); //TODO: Calculate movement speed as a delay factor.
+					await UniTask.Delay(TENTH_OF_A_SECOND + (i * 10)); //TODO: Calculate movement speed as a delay factor.
+					if (_movingFromFirstTilePosition == registerPlayer.LocalPositionServer && waitTicks > 10)
+					{
+						// We're def stuck if 10 ticks passed and we're still standing in the same place.
+						break; // Maybe we hit a door?
+					}
 				}
 				if (registerPlayer.LocalPositionServer == pos)
 				{

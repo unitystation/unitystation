@@ -523,9 +523,9 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public override void OnDestroy()
 	{
-		base.OnDestroy();
 		OnBumpedIntoSomething.RemoveAllListeners();
 		UpdateManager.Remove(CallbackType.EARLY_UPDATE, ClientCheckLocationFlight);
+		base.OnDestroy();
 	}
 
 
@@ -542,6 +542,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			Pushing.Clear();
 			ForceTilePush(pushVector, Pushing, client, move.CurrentTileMoveSpeed, SendWorld: false);
 		}
+		OnBumpedIntoSomething?.Invoke();
 	}
 
 	public bool CanSwap(GameObject bumpedBy, out MovementSynchronisation move)
