@@ -191,7 +191,7 @@ namespace Tilemaps.Behaviours.Pathfinding
 				var neighbor = position + direction;
 				if (PositionIsOutOfBounds(terrain, neighbor)) continue;
 				var tile = terrain.GetTile(neighbor);
-				if (tile == null) continue;
+				if (tile == null) continue; // No tile at this position. Probably space.
 				if (checkForDoors)
 				{
 					if (tile.PositionMatrix?.GetFirst<DoorMasterController>(tile.LocalPosition, CustomNetworkManager.IsServer) != null)
