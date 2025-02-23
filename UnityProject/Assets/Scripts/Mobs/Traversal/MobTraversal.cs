@@ -180,11 +180,18 @@ namespace Mobs.Traversal
 		{
 			foreach (var strat in strategies)
 			{
-				var check = strat.ObsticalCheck(target, Mob);
-				if (check.Item1)
+				try
 				{
-					strat.TraverseObstical(target, check.Item2, check.Item3, Mob);
-					return;
+					var check = strat.ObsticalCheck(target, Mob);
+					if (check.Item1)
+					{
+						strat.TraverseObstical(target, check.Item2, check.Item3, Mob);
+						return;
+					}
+				}
+				catch (Exception e)
+				{
+					Loggy.Error(e.ToString());
 				}
 			}
 		}

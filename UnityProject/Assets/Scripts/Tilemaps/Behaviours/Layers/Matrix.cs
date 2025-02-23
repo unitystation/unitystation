@@ -259,6 +259,12 @@ public class Matrix : MonoBehaviour
 		return MetaTileMap.IsTableAt(position);
 	}
 
+	public LayerTile IsTableAt(Vector3Int position)
+	{
+		if (MetaTileMap.IsTableAt(position, out var table) == false) return null;
+		return table;
+	}
+
 	public bool IsWallAt(Vector3Int position, bool isServer)
 	{
 		return MetaTileMap.HasTile(position, LayerType.Walls);

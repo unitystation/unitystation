@@ -31,6 +31,7 @@ namespace Mobs.BrainAI.States.Arial
 		private void Start()
 		{
 			TraversalStrategies.Add(new OpenDoor());
+			TraversalStrategies.Add(new ClimbTable());
 		}
 
 		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)

@@ -880,6 +880,22 @@ namespace TileManagement
 			return false;
 		}
 
+		public bool IsTableAt(Vector3Int position, out LayerTile table)
+		{
+			table = null;
+			if (Layers.TryGetValue(LayerType.Tables, out var layer))
+			{
+				TileLocation tileLocation = null;
+				lock (PresentTiles)
+				{
+					PresentTiles[(int) layer.LayerType].TryGetValue(position, out tileLocation);
+				}
+				table = tileLocation?.layerTile;
+				return tileLocation?.layerTile;
+			}
+			return false;
+		}
+
 		public Vector3Int SetTile(Vector3Int position, TileType TileType, string tileName,
 			Matrix4x4? matrixTransform = null,
 			Color? color = null,

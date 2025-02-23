@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using AddressableReferences;
 using Core;
+using Tiles;
 using UnityEngine;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
@@ -56,54 +57,63 @@ public class TableInteractionClimb : TileInteraction
 
 	public override void ServerPerformInteraction(TileApply interaction)
 	{
+		if (interaction.UsedObject == null || interaction.UsedObject.TryGetComponent(out UniversalObjectPhysics objectPhysics) == false)
+		{
+			return;
+		}
 		if (!interaction.UsedObject.RegisterTile().Matrix.IsPassableAtOneMatrixOneTile(interaction.TargetCellPos, true, true, null, excludeTiles))
 		{
 			return;
 		}
+		StartClimbing(interaction.PerformerPlayerScript,
+			interaction.WorldPositionTarget, interaction.TargetCellPos, interaction.BasicTile, objectPhysics, interaction.TileChangeManager);
+	}
 
+	public void StartClimbing(PlayerScript climber, Vector3 worldPositionTarget, Vector3Int cellPosition,
+		BasicTile climbingTile, UniversalObjectPhysics objectPhysics, TileChangeManager tileChangeManager)
+	{
 		StandardProgressActionConfig cfg = new StandardProgressActionConfig(StandardProgressActionType.Construction, false, false, false);
-		var x = StandardProgressAction.Create(cfg, () =>
+		StandardProgressAction.Create(cfg, () =>
 		{
-			PlayerScript playerScript;
-			if (interaction.UsedObject.TryGetComponent(out playerScript))
+			if (climber != null)
 			{
 				List<TileType> excludeTiles = new List<TileType>() { TileType.Table };
 
-				if (playerScript.RegisterPlayer.Matrix.IsPassableAtOneMatrixOneTile(interaction.TargetCellPos, true, true, null, excludeTiles))
+				if (climber.RegisterPlayer.Matrix.IsPassableAtOneMatrixOneTile(cellPosition, true, true, null, excludeTiles))
 				{
-					playerScript.PlayerSync.AppearAtWorldPositionServer(interaction.WorldPositionTarget);
+					climber.PlayerSync.AppearAtWorldPositionServer(worldPositionTarget);
 				}
 			}
 			else
 			{
-				var transformComp = interaction.UsedObject.GetComponent<UniversalObjectPhysics>();
+				var transformComp = climber.GetComponent<UniversalObjectPhysics>();
 				if (transformComp != null)
 				{
-					transformComp.AppearAtWorldPositionServer(interaction.WorldPositionTarget);
+					transformComp.AppearAtWorldPositionServer(worldPositionTarget);
 				}
 			}
 
-			var Matrix = MatrixManager.AtPoint(interaction.WorldPositionTarget, CustomNetworkManager.IsServer);
-			var Tile = Matrix.TileChangeManager.MetaTileMap.GetTile(interaction.TargetCellPos, LayerType.Tables);
-			if (Tile != null && interaction.BasicTile == Tile)
+			var matrix = MatrixManager.AtPoint(worldPositionTarget, CustomNetworkManager.IsServer);
+			var tile = matrix.TileChangeManager.MetaTileMap.GetTile(cellPosition, LayerType.Tables);
+			if (tile != null && climbingTile == tile)
 			{
-				if(canBreakOnClimb == false) return;
-				if (DMMath.Prob(breakChance) && interaction.UsedObject.TryGetComponent<RegisterPlayer>(out var victim))
+				if (canBreakOnClimb == false) return;
+				if (DMMath.Prob(breakChance) && objectPhysics.TryGetComponent<RegisterPlayer>(out var victim))
 				{
-					interaction.BasicTile.SpawnOnDestroy.SpawnAt(SpawnDestination.At(interaction.WorldPositionTarget));
+					climbingTile.SpawnOnDestroy.SpawnAt(SpawnDestination.At(worldPositionTarget));
 					victim.ServerStun(stunTimeOnBreak);
-					_ = SoundManager.PlayNetworkedAtPosAsync(soundOnBreak, interaction.WorldPositionTarget);
-					Chat.AddActionMsgToChat(interaction.UsedObject,
-						$"Your weight pushes onto the {interaction.BasicTile.DisplayName} and you break it and fall through it",
-						$"{interaction.UsedObject.ExpensiveName()} falls through the {interaction.BasicTile.DisplayName} as it breaks from their weight.");
-					victim.PlayerScript.playerHealth.ApplyDamageAll(interaction.Performer, damageOnBreak, AttackType.Melee, DamageType.Brute);
-					interaction.TileChangeManager.MetaTileMap.RemoveTileWithlayer(interaction.TargetCellPos, interaction.BasicTile.LayerType);
+					_ = SoundManager.PlayNetworkedAtPosAsync(soundOnBreak, worldPositionTarget);
+					Chat.AddActionMsgToChat(objectPhysics.gameObject,
+						$"Your weight pushes onto the {climbingTile.DisplayName} and you break it and fall through it",
+						$"{objectPhysics.gameObject.ExpensiveName()} falls through the {climbingTile.DisplayName} as it breaks from their weight.");
+					victim.PlayerScript.playerHealth.ApplyDamageAll(climber.gameObject, damageOnBreak, AttackType.Melee, DamageType.Brute);
+					tileChangeManager.MetaTileMap.RemoveTileWithlayer(cellPosition, climbingTile.LayerType);
 				}
 			}
-		}).ServerStartProgress(interaction.UsedObject.RegisterTile(), 3.0f, interaction.Performer);
+		}).ServerStartProgress(objectPhysics.registerTile, 3.0f, climber.gameObject);
 
-		Chat.AddActionMsgToChat(interaction.Performer,
+		Chat.AddActionMsgToChat(climber.gameObject,
 			"You begin climbing onto the table...",
-			$"{interaction.Performer.ExpensiveName()} begins climbing onto the table...");
+			$"{climber.gameObject.ExpensiveName()} begins climbing onto the table...");
 	}
 }
