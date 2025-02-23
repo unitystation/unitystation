@@ -9,6 +9,8 @@ namespace Mobs.Traversal.Strategies
 	/// </summary>
 	public class ClimbTable : ITraversalStrat
 	{
+		public int ClimbSpeedInMilliseconds = 3135;
+
 		public Tuple<bool, Component, LayerTile> ObsticalCheck(Vector3Int obsticalPosition, PlayerScript mob)
 		{
 			var table = mob.RegisterPlayer.Matrix.IsTableAt(obsticalPosition);
@@ -23,9 +25,9 @@ namespace Mobs.Traversal.Strategies
 				{
 					if (interaction is TableInteractionClimb climbInteraction)
 					{
-						climbInteraction.StartClimbing(false, mob, direction, direction, table,
+						climbInteraction.StartClimbing(false, mob, direction.ToWorld(mob.RegisterPlayer.Matrix), direction, table,
 							mob.ObjectPhysics, mob.RegisterPlayer.Matrix.TileChangeManager);
-						return 3135;
+						return ClimbSpeedInMilliseconds;
 					}
 				}
 			}

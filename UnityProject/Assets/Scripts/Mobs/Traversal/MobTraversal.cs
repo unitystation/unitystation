@@ -107,6 +107,7 @@ namespace Mobs.Traversal
 			foreach (var pos in path)
 			{
 				if (Movement.registerTile.LocalPosition == pos) continue;
+				if (health.IsDead || registerPlayer.IsSlippingServer) break; // Incase we died or stunned while moving.
 				await ProcessMovement(details, pos);
 			}
 
@@ -132,7 +133,7 @@ namespace Mobs.Traversal
 					await UniTask.Delay(timeoutRequestTicks);
 					timeoutRequestTicks = 0;
 				}
-				if (health.IsDead) break; // Incase we died while moving.
+				if (health.IsDead || registerPlayer.IsSlippingServer) break; // Incase we died or stunned while moving.
 				if (Movement.IsMoving)
 				{
 					await UniTask.Delay(TENTH_OF_A_SECOND + (i * 10)); // If we're already moving, wait until the next retry.

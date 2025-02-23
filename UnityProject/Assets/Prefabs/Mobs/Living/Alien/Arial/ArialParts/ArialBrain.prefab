@@ -192,7 +192,8 @@ MonoBehaviour:
     RefIds:
     - rid: 7329959675784331319
       type: {class: ClimbTable, ns: Mobs.Traversal.Strategies, asm: Assets}
-      data: 
+      data:
+        ClimbSpeedInMilliseconds: 3135
     - rid: 7329959675784331321
       type: {class: OpenDoor, ns: Mobs.Traversal.Strategies, asm: Assets}
       data: 
@@ -252,7 +253,7 @@ MonoBehaviour:
   RelatedPart: {fileID: 0}
   <Blacklist>k__BackingField: []
   <UpdateType>k__BackingField: 3
-  <PeriodicUpdateInterval>k__BackingField: 0.75
+  <PeriodicUpdateInterval>k__BackingField: 1
   <master>k__BackingField: {fileID: 4361687565459908576}
 --- !u!114 &3169105340071869467 stripped
 MonoBehaviour:
