@@ -21,6 +21,8 @@ namespace Mobs.Traversal
 		public Action<Vector3Int> OnTraversalFailedCompletely;
 		public Action<Vector3Int> OnTraversalFailedAndRetrying;
 
+		public const int TENTH_OF_A_SECOND = 135;
+
 		public int QueuedTargets => _targetQueue.Count;
 
 		private LivingHealthMasterBase health => Mob.playerHealth;
@@ -37,7 +39,6 @@ namespace Mobs.Traversal
 		private MovementSynchronisation.MoveData _moveData = new MovementSynchronisation.MoveData();
 		private int timeoutRequestTicks = 0;
 
-		public const int TENTH_OF_A_SECOND = 135;
 
 		private void Awake()
 		{

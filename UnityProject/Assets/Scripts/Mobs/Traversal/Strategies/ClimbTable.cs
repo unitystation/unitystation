@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Mobs.Traversal.Strategies
 {
+	/// <summary>
+	/// Traversal strategy for climbing tables.
+	/// </summary>
 	public class ClimbTable : TraversalStrat
 	{
 		public Tuple<bool, Component, LayerTile> ObsticalCheck(Vector3Int obsticalPosition, PlayerScript mob)
