@@ -62,6 +62,8 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	/// </summary>
 	[NonSerialized] public CuffEvent OnCuffChangeServer = new CuffEvent();
 
+	public UnityEvent OnBumpedIntoSomething;
+
 	[field: SyncVar(hook = nameof(SyncCuffed))]
 	public bool IsCuffed { get; private set; }
 
@@ -522,6 +524,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	public override void OnDestroy()
 	{
 		base.OnDestroy();
+		OnBumpedIntoSomething.RemoveAllListeners();
 		UpdateManager.Remove(CallbackType.EARLY_UPDATE, ClientCheckLocationFlight);
 	}
 
@@ -1294,6 +1297,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 					Bumps[i].OnBump(this.gameObject, byClient);
 					bumpedSomething = true;
+					OnBumpedIntoSomething?.Invoke();
 				}
 			}
 
