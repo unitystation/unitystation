@@ -3486,7 +3486,16 @@
             "AudioChunk": {
                 "All": true
             }
-
+        },
+        "UniTask": {
+            "Cysharp.Threading.Tasks": {
+                "All": true
+            }
+        },
+        "netstandard": {
+            "System.Numerics": {
+                "All": true
+            }
         }
     }
 }
