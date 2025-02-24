@@ -16,7 +16,7 @@ namespace TileMap.Behaviours
 
 		public virtual void Initialize() { }
 
-		[NonSerialized] protected MetaTileMap metaTileMap;
+		[NonSerialized] public MetaTileMap metaTileMap;
 		[NonSerialized] protected MatrixSystemManager subsystemManager;
 		[NonSerialized] protected TileChangeManager tileChangeManager;
 		[NonSerialized] protected NetworkedMatrix networkedMatrix;
