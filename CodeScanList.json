@@ -3491,8 +3491,27 @@
             }
         },
         "Cysharp": {
-            "Threading.Tasks": {
-                "All": true
+            "Threading": {
+                "Tasks": {
+                    "UniTask": {
+                        "All": true
+                    },
+                    "UniTask/Awaiter": {
+                        "All": true
+                    },
+                    "Awaiter": { 
+                        "All": true
+                    },
+                    "UniTaskVoid": {
+                        "All": true
+                    },
+                    "PlayerLoopTiming": {
+                        "All": true
+                    },
+                    "CompilerServices":{
+                        
+                    }
+                }
             }
         }
     }
