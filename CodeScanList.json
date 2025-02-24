@@ -635,6 +635,9 @@
             },
             "Vector2": {
                 "All": true
+            },
+            "Vector3": {
+                "All": true
             }
         },
         "System.Reflection": {
@@ -3490,13 +3493,6 @@
         "UniTask": {
             "Cysharp.Threading.Tasks": {
                 "All": true
-            }
-        },
-        "netstandard": {
-            "System.Numerics": {
-                "Vector3": {
-                    "All": true
-                }
             }
         }
     }
