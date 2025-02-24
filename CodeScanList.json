@@ -635,6 +635,9 @@
             },
             "Vector2": {
                 "All": true
+            },
+            "Vector3": {
+                "All": true
             }
         },
         "System.Reflection": {
@@ -3486,7 +3489,11 @@
             "AudioChunk": {
                 "All": true
             }
-
+        },
+        "Cysharp": {
+            "Threading.Tasks": {
+                "All": true
+            }
         }
     }
 }
