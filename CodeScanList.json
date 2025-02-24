@@ -3490,55 +3490,26 @@
                 "All": true
             }
         },
-        "Cysharp": {
-            "Threading.Tasks": {
-                "UniTask": {
-                    "All": true
-                },
-                "UniTask/Awaiter": {
-                    "All": true
-                },
-                "Awaiter": { 
-                    "All": true
-                },
-                "UniTaskVoid": {
-                    "All": true
-                },
-                "CompilerServices":{
-                    "AsyncUniTaskVoidMethodBuilder": {
-                        "All": true
-                    },
-                    "AsyncUniTaskMethodBuilder": {
-                        "All": true
-                    }
-                }
-            },
-            "Threading.Tasks.UniTask": {
+        "Cysharp.Threading.Tasks": {
+            "UniTask": {
                 "All": true
             },
-            "Threading.Tasks.UniTaskVoid": {
+            "UniTaskVoid": {
                 "All": true
             },
-            "Threading.Tasks.Awaiter": {
+            "Awaiter": {
                 "All": true
             },
-            "Threading.Tasks.PlayerLoopTiming": {
+            "PlayerLoopTiming": {
+                "All": true
+            }
+        },
+        "Cysharp.Threading.Tasks.CompilerServices": {
+            "AsyncUniTaskMethodBuilder": {
                 "All": true
             },
-            "Threading.Tasks.CompilerServices.AsyncUniTaskVoidMethodBuilder": {
-                    "All": true
-            },
-            "Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder": {
-                    "All": true
-            },
-            "Threading.Tasks.CompilerServices":
-            {
-                "AsyncUniTaskVoidMethodBuilder": {
-                    "All": true
-                },
-                "AsyncUniTaskMethodBuilder": {
-                    "All": true
-                }
+            "AsyncUniTaskVoidMethodBuilder": {
+                "All": true
             }
         }
     }
