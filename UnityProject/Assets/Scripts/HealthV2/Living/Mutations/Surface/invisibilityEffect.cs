@@ -33,7 +33,7 @@ namespace HealthV2.Living.Mutations.Surface
 
 			private void OnDamageTaken(BodyPartDamageData obj)
 			{
-				invisibility.Alpha = GetInvertedNormalizedValue(relatedPart.Health, relatedPart.MaxHealth);
+				invisibility.Alpha = GetInvertedNormalizedValue(relatedPart.HealthMaster.OverallHealth, relatedPart.HealthMaster.MaxHealth);
 			}
 
 			public float GetInvertedNormalizedValue(float currentValue, float maxValue)
