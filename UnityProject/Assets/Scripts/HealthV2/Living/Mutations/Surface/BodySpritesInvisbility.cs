@@ -21,7 +21,6 @@ namespace HealthV2.Living.Mutations.Surface
 				newAlpha = 1f;
 			}
 			if (bodyPartSprites == null) return;
-			Loggy.Info($"setting alpha to {newAlpha}");
 			foreach (SpriteRenderer spriteRenderer in bodyPartSprites.GetComponentsInChildren<SpriteRenderer>())
 			{
 				spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, newAlpha);
