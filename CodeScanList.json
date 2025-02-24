@@ -3491,30 +3491,28 @@
             }
         },
         "Cysharp": {
-            "Threading": {
-                "Tasks": {
-                    "UniTask": {
+            "Threading.Tasks": {
+                "UniTask": {
+                    "All": true
+                },
+                "UniTask/Awaiter": {
+                    "All": true
+                },
+                "Awaiter": { 
+                    "All": true
+                },
+                "UniTaskVoid": {
+                    "All": true
+                },
+                "PlayerLoopTiming": {
+                    "All": true
+                },
+                "CompilerServices":{
+                    "AsyncUniTaskVoidMethodBuilder": {
                         "All": true
                     },
-                    "UniTask/Awaiter": {
+                    "AsyncUniTaskMethodBuilder": {
                         "All": true
-                    },
-                    "Awaiter": { 
-                        "All": true
-                    },
-                    "UniTaskVoid": {
-                        "All": true
-                    },
-                    "PlayerLoopTiming": {
-                        "All": true
-                    },
-                    "CompilerServices":{
-                        "AsyncUniTaskVoidMethodBuilder": {
-                            "All": true
-                        },
-                        "AsyncUniTaskMethodBuilder": {
-                            "All": true
-                        }
                     }
                 }
             }
