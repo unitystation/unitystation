@@ -12,10 +12,7 @@ namespace Systems.Explosions
 	public class HarmlessExplosionNode : ExplosionNode
 	{
 
-		public override void Process()
-		{
-			return;
-		}
+		public override void Process() { }
 
 		public override float DoDamage(Matrix matrix, float damageDealt, Vector3Int v3int)
 		{

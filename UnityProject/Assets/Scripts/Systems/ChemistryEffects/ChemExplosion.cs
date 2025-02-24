@@ -96,7 +96,7 @@ namespace Chemistry.Effects
 			}
 
 			// If sender is a pickupable item not inside the body, destroy it.
-			if (picked != null && !insideBody)
+			if (explosionType != ExplosionTypes.ExplosionType.Harmless && picked != null && !insideBody)
 			{
 				_ = Despawn.ServerSingle(sender.gameObject);
 			}

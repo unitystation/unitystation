@@ -60,7 +60,7 @@ namespace Objects.Research
 		public event Action UpdateGUI;
 
 		public readonly List<string> OutputLogs = new List<string>();
-		private const int MAX_OUTPUT_LENGTH = 10;
+		private const int MAX_OUTPUT_LENGTH = 6;
 
 		[field: SyncVar] public LaserProjectorState ProjectorState { get; private set; } = LaserProjectorState.Visual;
 		[field: SyncVar] public bool IsVisualOn { get; private set; } = false;
@@ -145,6 +145,8 @@ namespace Objects.Research
 		{
 			if (researchServer == null) return;
 
+			if (researchServer.Techweb.ResearchedTech.Contains(data.Technology)) return;
+
 			if(GroupedData.ContainsKey(data.Technology) == true)
 			{
 				GroupedData[data.Technology] += data.ResearchPower;
@@ -153,21 +155,14 @@ namespace Objects.Research
 
 			if (GroupedData[data.Technology] >= data.Technology.ResearchCosts)
 			{
-				if(OutputLogs.Count >= MAX_OUTPUT_LENGTH)
 				if (researchServer.Techweb.ResearchedTech.Contains(data.Technology) == false)
 				{
 					OutputLogs.Add($">{data.Technology.DisplayName} Research Complete!");
 					researchServer.Techweb.UnlockTechnology(data.Technology);
-				}
-				else
-				{
-					OutputLogs.Add($">{(int)GroupedData[data.Technology]} RP Uploaded!");
-					AddResearchPoints(this, (int)GroupedData[data.Technology]);
+					GroupedData.Remove(data.Technology);
 				}
 
-				if(OutputLogs.Count >= MAX_OUTPUT_LENGTH) OutputLogs.RemoveAt(0);
-
-				GroupedData.Remove(data.Technology);
+				if(OutputLogs.Count > MAX_OUTPUT_LENGTH) OutputLogs.RemoveAt(0);
 			}
 
 			UpdateGUI?.Invoke();

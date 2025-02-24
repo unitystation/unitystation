@@ -12,6 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dcdd86e87cc447d94b99df8b1a383b3, type: 3}
   m_Name: ResearchServer
   m_EditorClassIdentifier: 
-  SlotContents: []
-  DeprecatedContents:
-  - {fileID: 577098253553543881, guid: 3a892d56aceb2d24d8c917409cce08c5, type: 3}
+  SlotContents:
+  - DoNotGetFirstEmptySlot: 0
+    Prefab: {fileID: 577098253553543881, guid: 3a892d56aceb2d24d8c917409cce08c5, type: 3}
+    UseIndex: 1
+    IndexSlot: 0
+    NamedSlot: 2048
+    AlternativeNamedSlots: 
+    IfOccupiedFindEmptySlot: 1
+    ReplacementStrategy: 0
+    namedSlotPopulatorEntrys: []
+  DeprecatedContents: []

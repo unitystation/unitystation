@@ -32,7 +32,7 @@ namespace UI.Objects.Research
 
 			UpdateResearchTechList();
 			UpdateFutureTechList();
-			if(gameObject.activeSelf) StartCoroutine(UpdateAvailiableTechList());
+			if(gameObject.activeInHierarchy) StartCoroutine(UpdateAvailiableTechList());
 			PointLabel.MasterSetValue($"Available Points: {serverGUI.TechWeb.researchPoints} (+{serverGUI.Server.ResearchPointsTrickle} / minute)");
 
 			FocusLabel.MasterSetValue(serverGUI.TechWeb.ResearchFocus.ToString());
