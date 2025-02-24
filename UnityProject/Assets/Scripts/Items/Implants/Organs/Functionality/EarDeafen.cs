@@ -1,7 +1,7 @@
 using Items.Implants.Organs;
 using Mirror;
 using Player;
-using UnityEngine; 
+using UnityEngine;
 
 public class EarDeafen : NetworkBehaviour
 {
@@ -26,7 +26,7 @@ public class EarDeafen : NetworkBehaviour
 		}
 
 		connectedEars.RelatedPart.TakeDamage(null, deafenDuration * 0.5f, AttackType.Internal, DamageType.Burn);
-		PlayerDeafenEffectsMessage.Send(connectedEars.RelatedPart.HealthMaster.gameObject, deafenDuration * deafenMultiplier, connectedEars.gameObject);
+		PlayerDeafenEffectsMessage.Send(connectedEars.RelatedPart.HealthMaster.gameObject, deafenDuration * deafenMultiplier, connectedEars.netIdentity.netId);
 
 		return true;
 	}
@@ -37,7 +37,6 @@ public class EarDeafen : NetworkBehaviour
 
 		foreach (var slots in playerStorage.ServerContents)
 		{
-			//TODO Might be better for a script where you ask it if it's blocking Flash but this is good enough for now
 			if (slots.Key != NamedSlot.ear && slots.Key != NamedSlot.head) continue;
 			foreach (ItemSlot onSlots in slots.Value)
 			{

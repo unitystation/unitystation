@@ -51,7 +51,7 @@ namespace Systems.Explosions
 			matrix = Inmatrix;
 		}
 
-		public void Process()
+		public virtual void Process()
 		{
 			float DamageDealt = AngleAndIntensity.magnitude;
 			float EnergyExpended = 0;
