@@ -65,8 +65,10 @@ namespace Mobs.Traversal
 			if (health.IsDead) return false;
 			if (_targetQueue.Count >= MaxQueuedTargets) return false;
 
+			//TODO: Add a check to switch between using BFS and A*.
 			path = matrix.MetaDataLayer.Pathfinder.AStarFromTo(matrix.MetaDataLayer.Nodes,
-				gameObject.TileLocalPosition().To3Int(), newTarget);
+				gameObject.TileLocalPosition().To3Int(), newTarget, false,
+				Vector3Int.Distance(Movement.OfficialPosition.RoundToInt(), newTarget) > 2);
 			if (path == null || path.Count == 0)
 			{
 				if (DebugGizmos) Loggy.Info("Attempted to move to a location that is not reachable.");
