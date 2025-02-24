@@ -57,7 +57,7 @@ namespace Objects.Wallmounts
 
 		void OnDrawGizmos()
 		{
-			if (Application.isEditor && Application.isPlaying)
+			if (Application.isEditor && Application.isPlaying && directional != null)
 			{
 				//shows calcualted facing, even during matrix rotations
 				Gizmos.color = Color.red;

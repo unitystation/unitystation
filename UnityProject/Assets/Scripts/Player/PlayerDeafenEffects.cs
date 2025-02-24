@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Mirror;
 using Messages.Server;
 using Items.Implants.Organs;
 using HealthV2;
+using Logs;
 
 namespace Player
 {
@@ -11,12 +13,24 @@ namespace Player
 		public struct NetMessage : NetworkMessage
 		{
 			public float DeafenValue;
-			public GameObject Target;
+			public uint Target;
 		}
 
 		public override void Process(NetMessage msg)
 		{
-			if(msg.Target.TryGetComponent<Ears>(out var earsToEffect) == false) return;
+			if (NetworkClient.spawned.TryGetValue(msg.Target, out NetworkIdentity identity) == false)
+			{
+				Loggy.Warning($"Attempted to deafen {msg.Target} but it doesn't exist.");
+				return;
+			}
+			GameObject targetObject = identity.gameObject;
+
+			if (targetObject.TryGetComponent<Ears>(out var earsToEffect) == false)
+			{
+				Loggy.Warning($"Attempted to deafen {targetObject.name}, but no Ear component was attached.");
+				return;
+			}
+
 			earsToEffect.StopAllCoroutines();
 			earsToEffect.DeafenFromMsg(msg.DeafenValue);
 		}
@@ -24,7 +38,7 @@ namespace Player
 		/// <summary>
 		/// Send full update to a client
 		/// </summary>
-		public static NetMessage Send(GameObject clientConn, float newDeafenValue, GameObject target)
+		public static NetMessage Send(GameObject clientConn, float newDeafenValue, uint target)
 		{
 			NetMessage msg = new NetMessage
 			{

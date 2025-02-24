@@ -176,6 +176,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 880655b3e42a904498f687cc7d8c5190,
         type: 2}
+    - target: {fileID: 4987756423560292299, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 880655b3e42a904498f687cc7d8c5190,
+        type: 2}
     - target: {fileID: 5243514714527551521, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: parentID
@@ -213,6 +219,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 4768935822710236466}
+    - targetCorrespondingSourceObject: {fileID: 1188401911067925580, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2782517646729712355}
   m_SourcePrefab: {fileID: 100100000, guid: 27208d0fc3f7c3544a8d1a7861253b52, type: 3}
 --- !u!1 &341381325081849216 stripped
 GameObject:
@@ -268,3 +278,19 @@ MonoBehaviour:
     m_keys:
     - {fileID: 11400000, guid: 8d1468f2ac5202e65af28854a30b9c55, type: 2}
     m_values: 00000000
+--- !u!114 &2782517646729712355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 341381325081849216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8688576ed720a4f40b3583f62adeeb23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundReagents:
+    m_keys:
+    - {fileID: 11400000, guid: 3dc3f81736a407fda8141be714d3e47f, type: 2}
+    m_values: 06000000

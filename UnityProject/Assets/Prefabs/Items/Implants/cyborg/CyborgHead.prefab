@@ -202,7 +202,7 @@ PrefabInstance:
     - target: {fileID: 4089031872439371531, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
       propertyPath: m_Name
-      value: Cyborg Head
+      value: CyborgHead
       objectReference: {fileID: 0}
     - target: {fileID: 4119418491440855743, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
@@ -225,6 +225,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: The standard head of a cyborg.
       objectReference: {fileID: 0}
+    - target: {fileID: 4490847932940167273, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4490847932940167273, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 57eb2d1faf36d2040ade08046da48bfa,
+        type: 2}
     - target: {fileID: 6919096067490597734, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
       propertyPath: parentID
