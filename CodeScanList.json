@@ -3506,7 +3506,15 @@
         },
         "Cysharp.Threading.Tasks.CompilerServices": {
             "AsyncUniTaskMethodBuilder": {
-                "All": true
+                "Methods": [
+                    "void Start(ref TStateMachine)",
+                    "void SetStateMachine(IAsyncStateMachine)",
+                    "void SetResult(T)",
+                    "void SetException(Exception)",
+                    "UniTask get_Task()",
+                    "AsyncUniTaskMethodBuilder Create()",
+                    "void AwaitUnsafeOnCompleted(ref TAwaiter, ref TStateMachine)"
+                ]
             },
             "AsyncUniTaskVoidMethodBuilder": {
                 "All": true
