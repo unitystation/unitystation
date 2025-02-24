@@ -26,6 +26,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: aa188067080aaec42946935a7411dc5c,
         type: 2}
+    - target: {fileID: 3666507880365142169, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: aa188067080aaec42946935a7411dc5c,
+        type: 2}
     - target: {fileID: 4548261438558078835, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: parentID
@@ -94,6 +100,17 @@ PrefabInstance:
       propertyPath: hitSound.AssetAddress
       value: Assets/Prefabs/Effects/Tap.prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 7012736517293872473, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: StartingMutations.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7012736517293872473, guid: ba9a875c31908af4ab3749cd127a2edb,
+        type: 3}
+      propertyPath: 'StartingMutations.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 7263dbc1b5288a14e9a7cf00e530b0f8,
+        type: 2}
     - target: {fileID: 7301997280600668226, guid: ba9a875c31908af4ab3749cd127a2edb,
         type: 3}
       propertyPath: m_Sprite

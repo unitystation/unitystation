@@ -492,6 +492,7 @@ GameObject:
   - component: {fileID: 3483459317486548442}
   - component: {fileID: 5740277750894326107}
   - component: {fileID: 2122636020811656725}
+  - component: {fileID: 5004798331138800037}
   m_Layer: 8
   m_Name: Player_V4(uNet)
   m_TagString: Untagged
@@ -595,6 +596,8 @@ MonoBehaviour:
   <Particles>k__BackingField: {fileID: 6835177244151955954}
   <DimPlayerLightController>k__BackingField: {fileID: 0}
   <BodyAlerts>k__BackingField: {fileID: 0}
+  <Traversal>k__BackingField: {fileID: 0}
+  <Access>k__BackingField: {fileID: 0}
   RTT: 0
   playerChatLocation: {fileID: 1133514949248654}
   canVentCrawl: 0
@@ -1524,6 +1527,9 @@ MonoBehaviour:
   LastUpdatedFlyingPosition: 0
   playerScript: {fileID: 0}
   Step: 0
+  OnBumpedIntoSomething:
+    m_PersistentCalls:
+      m_Calls: []
   CanMoveThroughObstructions: 0
   RunSpeed: 0
   WalkSpeed: 0
@@ -2008,6 +2014,23 @@ MonoBehaviour:
   MaxQueuedTargets: 12
   MaxRetries: 6
   DebugGizmos: 1
+--- !u!114 &5004798331138800037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d031f00966a45b2bd2f51790e31bce7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  Alpha: 1
+  bodyPartSprites: {fileID: 193028258071297994}
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0
@@ -13864,7 +13887,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: -1841058614580174146, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: -4549444404219585148, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

@@ -24,6 +24,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8d214081751072649812e7a7c271409e,
         type: 2}
+    - target: {fileID: 1110343267396133870, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8d214081751072649812e7a7c271409e,
+        type: 2}
     - target: {fileID: 1270195432486377817, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
       propertyPath: playTraumaNoise
@@ -141,6 +147,17 @@ PrefabInstance:
       propertyPath: hitSound.AssetAddress
       value: Assets/Prefabs/Effects/Tap.prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 6690247438110230062, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: StartingMutations.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6690247438110230062, guid: 51326f2264a075148a8aaa6bf95604c7,
+        type: 3}
+      propertyPath: 'StartingMutations.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 7263dbc1b5288a14e9a7cf00e530b0f8,
+        type: 2}
     - target: {fileID: 7644184727980254197, guid: 51326f2264a075148a8aaa6bf95604c7,
         type: 3}
       propertyPath: SelfArmor.Fire

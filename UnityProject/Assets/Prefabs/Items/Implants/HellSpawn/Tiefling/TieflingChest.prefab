@@ -29,6 +29,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: cc27f89cb664f1d4b9c5efc09cdeda5f,
         type: 2}
+    - target: {fileID: 3382038559166527774, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: cc27f89cb664f1d4b9c5efc09cdeda5f,
+        type: 2}
     - target: {fileID: 4519562690006591075, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: 'traumaTypesOnBodyPart.Array.data[0]'
@@ -356,6 +362,17 @@ PrefabInstance:
       propertyPath: hitSound.AssetAddress
       value: Assets/Prefabs/Effects/Tap.prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 9034038257073577182, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: StartingMutations.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9034038257073577182, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: 'StartingMutations.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 7263dbc1b5288a14e9a7cf00e530b0f8,
+        type: 2}
     m_RemovedComponents:
     - {fileID: 8752116952277910969, guid: cc032f91cda505e44b066c36db32760d, type: 3}
     m_RemovedGameObjects: []

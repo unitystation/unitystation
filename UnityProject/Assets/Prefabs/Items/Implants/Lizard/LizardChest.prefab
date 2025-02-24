@@ -29,6 +29,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 3db174c06777e8a4d97f02d0ebf8b335,
         type: 2}
+    - target: {fileID: 3382038559166527774, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 3db174c06777e8a4d97f02d0ebf8b335,
+        type: 2}
     - target: {fileID: 5445495118236055813, guid: cc032f91cda505e44b066c36db32760d,
         type: 3}
       propertyPath: cutChance
@@ -233,6 +239,17 @@ PrefabInstance:
       propertyPath: hitSound.AssetAddress
       value: Assets/Prefabs/Effects/Tap.prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 9034038257073577182, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: StartingMutations.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9034038257073577182, guid: cc032f91cda505e44b066c36db32760d,
+        type: 3}
+      propertyPath: 'StartingMutations.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 7263dbc1b5288a14e9a7cf00e530b0f8,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
