@@ -54,6 +54,7 @@ MeshRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -92,7 +93,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
-  Sprite: {fileID: 21300000, guid: 9e9f6c63bf3334c8791e01efff5c16fb, type: 3}
+  Sprite: {fileID: 0}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
@@ -157,6 +158,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4fb9fdcd14ab0c748b969d9023602795, type: 2}
   - {fileID: 11400000, guid: 54f00872c0db5d043ab67b7f96af72b5, type: 2}
   - {fileID: 11400000, guid: f9a49a9cc01c8754bbdb629c745d2fdc, type: 2}
+  - {fileID: 11400000, guid: 005654d195a93350d8365dc2ab6a7772, type: 2}
+  - {fileID: 11400000, guid: cbc8584e88fdc9940977466fab70cd06, type: 2}
+  - {fileID: 11400000, guid: 5b9e43fcfba83694b8a633782b33d2c1, type: 2}
+  - {fileID: 11400000, guid: db0f93ccfdb32454ebd8652216ecf3b4, type: 2}
+  - {fileID: 11400000, guid: 1c5634ade123e2543afaa807c01a0ffb, type: 2}
+  - {fileID: 11400000, guid: 4308782497813cd4bbd8d5acec692d14, type: 2}
+  - {fileID: 11400000, guid: fc22d71c1c3167245ad53699c82a0a3f, type: 2}
+  - {fileID: 11400000, guid: 34bdd256c153bb04daf3c4a233428230, type: 2}
+  - {fileID: 11400000, guid: c395172dd2a83f7409ddb1cf6756f579, type: 2}
+  - {fileID: 11400000, guid: 3c3f3b0e8b6f78e4497dbd51ed1936fa, type: 2}
   InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
   doReverseAnimation: 0
