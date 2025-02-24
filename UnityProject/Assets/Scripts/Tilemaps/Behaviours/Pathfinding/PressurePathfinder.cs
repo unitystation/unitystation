@@ -198,13 +198,17 @@ namespace Tilemaps.Behaviours.Pathfinding
 				}
 				else
 				{
-					//(Max): This is a performance killer.
-					//We need to find a way to update tiles to register if their occupied type is made by something like a door/window/etc.
+					//(Max): This is maybe be a performance killer.
 					if (checkForDoors)
 					{
-						if (tile.PositionMatrix?.GetFirst<DoorMasterController>(tile.LocalPosition, CustomNetworkManager.IsServer) != null)
+						var regTiles =
+							tile.PositionMatrix.GetRegisterTile(tile.LocalPosition, CustomNetworkManager.IsServer);
+						if (regTiles.Count > 0)
 						{
-							yield return neighbor;
+							foreach (var r in regTiles)
+							{
+								if (r is RegisterDoor) yield return neighbor;
+							}
 						}
 					}
 				}
