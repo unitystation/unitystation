@@ -91,7 +91,7 @@ namespace Tilemaps.Behaviours.Pathfinding
 		/// <param name="start"></param>
 		/// <param name="end"></param>
 		/// <param name="checkForDoors">This guts performance when enabled!!!! be careful!!</param>
-		/// <param name="allowIncompletePath"></param>
+		/// <param name="allowIncompletePath">Returns a path until the last valid point when a target is unreachable. (Chaotic)</param>
 		/// <returns></returns>
 		public List<Vector3Int> AStarFromTo(ChunkedTileMap<MetaDataNode> terrain, Vector3Int start, Vector3Int end, bool allowIncompletePath = false, bool checkForDoors = true)
 		{
@@ -192,16 +192,21 @@ namespace Tilemaps.Behaviours.Pathfinding
 				if (PositionIsOutOfBounds(terrain, neighbor)) continue;
 				var tile = terrain.GetTile(neighbor);
 				if (tile == null) continue; // No tile at this position. Probably space.
-				if (checkForDoors)
-				{
-					if (tile.PositionMatrix?.GetFirst<DoorMasterController>(tile.LocalPosition, CustomNetworkManager.IsServer) != null)
-					{
-						yield return neighbor;
-					}
-				}
 				if (tile is { IsOccupied: false })
 				{
 					yield return neighbor;
+				}
+				else
+				{
+					//(Max): This is a performance killer.
+					//We need to find a way to update tiles to register if their occupied type is made by something like a door/window/etc.
+					if (checkForDoors)
+					{
+						if (tile.PositionMatrix?.GetFirst<DoorMasterController>(tile.LocalPosition, CustomNetworkManager.IsServer) != null)
+						{
+							yield return neighbor;
+						}
+					}
 				}
 			}
 		}
