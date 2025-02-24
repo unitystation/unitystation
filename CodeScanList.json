@@ -3504,9 +3504,6 @@
                 "UniTaskVoid": {
                     "All": true
                 },
-                "PlayerLoopTiming": {
-                    "All": true
-                },
                 "CompilerServices":{
                     "AsyncUniTaskVoidMethodBuilder": {
                         "All": true
@@ -3514,6 +3511,18 @@
                     "AsyncUniTaskMethodBuilder": {
                         "All": true
                     }
+                }
+            },
+            "Threading.Tasks.PlayerLoopTiming": {
+                "All": true
+            },
+            "Threading.Tasks.CompilerServices":
+            {
+                "AsyncUniTaskVoidMethodBuilder": {
+                    "All": true
+                },
+                "AsyncUniTaskMethodBuilder": {
+                    "All": true
                 }
             }
         }
