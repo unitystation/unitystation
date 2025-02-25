@@ -33,14 +33,14 @@ namespace Player
 		/// <summary>
 		/// Send full update to a client
 		/// </summary>
-		public static NetMessage Send(GameObject clientConn, float newDeafenValue)
+		public static NetMessage Send(PlayerInfo toDeafen, float newDeafenValue)
 		{
 			NetMessage msg = new NetMessage
 			{
 				DeafenValue = newDeafenValue,
 			};
 
-			SendTo(clientConn, msg);
+			SendTo(toDeafen, msg);
 			return msg;
 		}
 	}

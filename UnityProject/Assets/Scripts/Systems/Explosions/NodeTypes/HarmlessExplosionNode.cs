@@ -12,7 +12,10 @@ namespace Systems.Explosions
 	public class HarmlessExplosionNode : ExplosionNode
 	{
 
-		public override void Process() { }
+		public override void Process()
+		{
+			//Harmless explosives can't affect the environment at all, so no checks and/or additional methods are required
+		}
 
 		public override float DoDamage(Matrix matrix, float damageDealt, Vector3Int v3int)
 		{

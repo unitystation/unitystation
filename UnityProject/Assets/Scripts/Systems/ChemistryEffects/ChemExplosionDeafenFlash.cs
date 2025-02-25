@@ -111,7 +111,7 @@ namespace Chemistry.Effects
 				}
 				if (deafenPlayers == true && duration > 0)
 				{
-					if(livingHealthMasterBase.TryDeafen(duration) && stunPlayers == true) successfulTrigger = true;
+					if(livingHealthMasterBase.TryDeafen(duration * 8) && stunPlayers == true) successfulTrigger = true;
 				}
 
 				if(successfulTrigger == true) livingHealthMasterBase.GetComponent<RegisterPlayer>()?.ServerStun(duration);

@@ -83,8 +83,12 @@ namespace Items.Implants.Organs
 				}
 			}
 
-			RelatedPart.TakeDamage(null, deafenDuration * 0.5f, AttackType.Internal, DamageType.Burn);
-			PlayerDeafenEffectsMessage.Send(RelatedPart.HealthMaster.gameObject, deafenDuration * deafenMultiplier);
+			RelatedPart.TakeDamage(null, deafenDuration * 0.5f, AttackType.Energy, DamageType.Burn);
+
+			var playerToDeafen = CurrentlyOn.PlayerScript.PlayerInfo;
+			if (playerToDeafen == null) return false;
+
+			PlayerDeafenEffectsMessage.Send(playerToDeafen, deafenDuration * deafenMultiplier);
 
 			return true;
 		}
