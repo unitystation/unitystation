@@ -101,7 +101,7 @@ namespace Chemistry.Effects
 				var duration = strength * STUN_DURATION_PER_YIELD;
 				duration = result.Distance < afflictionRadius * 0.65f ? duration : duration / 2;
 
-				if (target.gameObject.TryGetComponentCustom<LivingHealthMasterBase>(out var livingHealthMasterBase) == false) return;
+				if (target.gameObject.TryGetComponentCustom<LivingHealthMasterBase>(out var livingHealthMasterBase) == false) continue;
 
 				bool successfulTrigger = false;
 
