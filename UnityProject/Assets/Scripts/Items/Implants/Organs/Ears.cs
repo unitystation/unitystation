@@ -28,6 +28,10 @@ namespace Items.Implants.Organs
 		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
 
 		private IClientSynchronisedEffect Preimplemented => (IClientSynchronisedEffect) this;
+		public ItemTrait DeafenProtection;
+
+		[SerializeField] private float deafenMultiplier = 1;
+
 
 		[SyncVar(hook = nameof(SyncOnPlayer))] public uint OnBodyID;
 
@@ -62,6 +66,46 @@ namespace Items.Implants.Organs
 
 			//Loggy.LogError("IsValidSetup");
 			return true;
+		}
+
+		public bool TryDeafen(float deafenDuration, bool checkForProtectiveCloth = true)
+		{
+			if (RelatedPart.ItemAttributes.HasTrait(DeafenProtection))
+			{
+				return false;
+			}
+
+			if (checkForProtectiveCloth)
+			{
+				if (HasProtectiveCloth())
+				{
+					return false;
+				}
+			}
+
+			RelatedPart.TakeDamage(null, deafenDuration * 0.5f, AttackType.Internal, DamageType.Burn);
+			PlayerDeafenEffectsMessage.Send(RelatedPart.HealthMaster.gameObject, deafenDuration * deafenMultiplier);
+
+			return true;
+		}
+
+		public bool HasProtectiveCloth()
+		{
+			if (RelatedPart.HealthMaster.TryGetComponent<DynamicItemStorage>(out var playerStorage) == false) return false;
+
+			foreach (var slots in playerStorage.ServerContents)
+			{
+				if (slots.Key != NamedSlot.ear && slots.Key != NamedSlot.head) continue;
+				foreach (ItemSlot onSlots in slots.Value)
+				{
+					if (onSlots.IsEmpty) continue;
+					if (onSlots.ItemAttributes.HasTrait(DeafenProtection))
+					{
+						return true;
+					}
+				}
+			}
+			return false;
 		}
 
 		void IItemInOutMovedPlayer.ChangingPlayer(RegisterPlayer HideForPlayer, RegisterPlayer ShowForPlayer)

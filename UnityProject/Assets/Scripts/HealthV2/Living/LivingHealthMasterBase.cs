@@ -1415,11 +1415,12 @@ namespace HealthV2
 			var ears = GetBodyPartsInArea(BodyPartType.Ears, false);
 			foreach (var ear in ears)
 			{
-				var earDeafen = ear.GetComponentCustom<EarDeafen>();
+				var earDeafen = ear.GetComponentCustom<Ears>();
 				if (earDeafen != null && earDeafen.TryDeafen(deafenDuration, checkForProtectiveCloth))
 				{
 					didDeafen = true;
 					AdminLogsManager.AddNewLog(null, $"{playerScript.visibleName} has been deafened.", LogCategory.Interaction, Severity.SUSPICOUS);
+					break;
 				}
 			}
 

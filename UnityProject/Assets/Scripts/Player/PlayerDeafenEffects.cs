@@ -13,37 +13,32 @@ namespace Player
 		public struct NetMessage : NetworkMessage
 		{
 			public float DeafenValue;
-			public uint Target;
 		}
 
 		public override void Process(NetMessage msg)
 		{
-			if (NetworkClient.spawned.TryGetValue(msg.Target, out NetworkIdentity identity) == false)
-			{
-				Loggy.Warning($"Attempted to deafen {msg.Target} but it doesn't exist.");
-				return;
-			}
-			GameObject targetObject = identity.gameObject;
+			var health = PlayerManager.LocalPlayerScript.playerHealth;
+			if (health == null) return;
 
-			if (targetObject.TryGetComponent<Ears>(out var earsToEffect) == false)
+			var ears = health.GetBodyPartsInArea(BodyPartType.Ears, false);
+			foreach (var ear in ears)
 			{
-				Loggy.Warning($"Attempted to deafen {targetObject.name}, but no Ear component was attached.");
-				return;
-			}
+				var earScript = ear.GetComponentCustom<Ears>();
+				if (earScript == null) continue;
 
-			earsToEffect.StopAllCoroutines();
-			earsToEffect.DeafenFromMsg(msg.DeafenValue);
+				earScript.StopAllCoroutines();
+				earScript.DeafenFromMsg(msg.DeafenValue);
+			}
 		}
 
 		/// <summary>
 		/// Send full update to a client
 		/// </summary>
-		public static NetMessage Send(GameObject clientConn, float newDeafenValue, uint target)
+		public static NetMessage Send(GameObject clientConn, float newDeafenValue)
 		{
 			NetMessage msg = new NetMessage
 			{
 				DeafenValue = newDeafenValue,
-				Target = target
 			};
 
 			SendTo(clientConn, msg);
