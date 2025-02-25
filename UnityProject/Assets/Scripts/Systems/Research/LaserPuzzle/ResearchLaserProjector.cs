@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Core;
 using Logs;
 using Mirror;
 using Newtonsoft.Json;
@@ -145,6 +144,7 @@ namespace Objects.Research
 		{
 			if (researchServer == null) return;
 
+			TrimResearchedTech();
 			if (researchServer.Techweb.ResearchedTech.Contains(data.Technology)) return;
 
 			if(GroupedData.ContainsKey(data.Technology) == true)
@@ -180,6 +180,8 @@ namespace Objects.Research
 			GroupedData.Clear();
 
 			OutputLogs.Add($">{(int)(totalResearch * UPLOAD_EFFICIENCY)} RP Uploaded!");
+			if(OutputLogs.Count > MAX_OUTPUT_LENGTH) OutputLogs.RemoveAt(0);
+
 			AddResearchPoints(this, (int)(totalResearch * UPLOAD_EFFICIENCY));
 		}
 
@@ -202,6 +204,23 @@ namespace Objects.Research
 				return false;
 			}
 			return true;
+		}
+
+		//Sometimes other players might use the techweb to research a technology node thats already in progress
+		//On the projector, if this is the case it needs to be removed.
+		private void TrimResearchedTech()
+		{
+			var groupedDataCopy = new Dictionary<Technology, float>(GroupedData);
+			foreach (var tech in groupedDataCopy)
+			{
+				if (researchServer.Techweb.ResearchedTech.Contains(tech.Key))
+				{
+					GroupedData.Remove(tech.Key);
+
+					OutputLogs.Add($">{data.Technology.DisplayName} has been researched externally!");
+					if(OutputLogs.Count > MAX_OUTPUT_LENGTH) OutputLogs.RemoveAt(0);
+				}
+			}
 		}
 
 		public void UpdateState(LaserProjectorState state)

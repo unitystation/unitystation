@@ -176,7 +176,7 @@ public class Highlight : MonoBehaviour, IInitialise
 			SH.OnSpriteUpdated += (UpdateCurrentHighlight);
 		}
 
-		SpriteRenderers = SpriteRenderers.Where(x => x.sprite != null && x != instance.spriteRenderer && x.CompareTag("DontHighlightSpecial")).ToArray();
+		SpriteRenderers = SpriteRenderers.Where(x => x.sprite != null && x != instance.spriteRenderer && x.CompareTag("DontHighlightSpecial") == false).ToArray();
 
 		if (ignoreHandApply || CheckHandApply(Highlightobject))
 		{
