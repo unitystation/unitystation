@@ -217,7 +217,7 @@ namespace Objects.Research
 				{
 					GroupedData.Remove(tech.Key);
 
-					OutputLogs.Add($">{data.Technology.DisplayName} has been researched externally!");
+					OutputLogs.Add($">{tech.Key.DisplayName} has been researched externally!");
 					if(OutputLogs.Count > MAX_OUTPUT_LENGTH) OutputLogs.RemoveAt(0);
 				}
 			}
