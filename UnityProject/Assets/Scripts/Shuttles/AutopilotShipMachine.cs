@@ -46,6 +46,8 @@ public class AutopilotShipMachine : MonoBehaviour
 		mm.NetworkedMatrixMove.SpinneyThreshold = 9999;
 		mm.NetworkedMatrixMove.rotationSpeed = 90;
 		mm.NetworkedMatrixMove.ShuttleNonSpinneyModeRounding = 90;
+
+
 	}
 
 	public void InItAsIfDockedTo(GuidanceBuoy Buoy)
@@ -54,11 +56,9 @@ public class AutopilotShipMachine : MonoBehaviour
 		StartOfChain = Buoy;
 		CurrentTarget = Buoy;
 
-		var whileCount = 0;
-		while (CurrentTarget.In.NextInLine != null && whileCount < 5500) // (Max): STOP FUCKING PUTTING WHILE LOOPS WITHOUT GUARD RAILS. THIS WAS A CRASH WAITING TO HAPPEN.
+		while (CurrentTarget.In.NextInLine != null)
 		{
 			CurrentTarget = CurrentTarget.In.NextInLine;
-			whileCount++;
 		}
 		MoveToInternal(CurrentTarget);
 	}
@@ -77,16 +77,7 @@ public class AutopilotShipMachine : MonoBehaviour
 		{
 			MoveToInternal(Buoy);
 		}
-	}
 
-	public void TeleportToTargetBuoy(GuidanceBuoy Buoy)
-	{
-		PreviouslyReached = null;
-		StartOfChain = Buoy;
-		MovedToAfterFinishingChain = Buoy;
-		MoveDirectionIn = false;
-		mm.NetworkedMatrixMove.SetTransformPosition(Buoy.transform.position);
-		Reached(Buoy);
 	}
 
 	protected void MoveToInternal(GuidanceBuoy pos)
