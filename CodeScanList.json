@@ -3506,15 +3506,8 @@
         },
         "Cysharp.Threading.Tasks.CompilerServices": {
             "AsyncUniTaskMethodBuilder": {
-                "Methods": [
-                    "void Start(!!0&)",
-                    "void SetStateMachine(System.Runtime.CompilerServices.IAsyncStateMachine)",
-                    "void SetResult(T)",
-                    "void SetException(System.Exception)",
-                    "Cysharp.Threading.Tasks.UniTask get_Task()",
-                    "Cysharp.Threading.Tasks.CompilerServices.AsyncUniTaskMethodBuilder Create()",
-                    "void AwaitUnsafeOnCompleted(!!0&, !!1&)"
-                ]
+                "All": true,
+                "Inherit": "Block"
             },
             "AsyncUniTaskVoidMethodBuilder": {
                 "All": true
