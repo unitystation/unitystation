@@ -11,9 +11,10 @@ namespace Tilemaps.Behaviours.Pathfinding
 		public static IEnumerator Visualize(List<Vector3Int> traversalPath, Vector3Int start)
 		{
 			if (traversalPath == null || traversalPath.Count == 0) yield break;
+			var copy = new List<Vector3Int>(traversalPath);
 			var startingVector = start;
 			Color color = new Color(0,0,0);
-			foreach (var p in traversalPath)
+			foreach (var p in copy)
 			{
 				GameGizmomanager.AddNewLineStaticClient(null, startingVector, null,
 					p, color, LineThickness: 0.03125f, 5f);
@@ -26,14 +27,17 @@ namespace Tilemaps.Behaviours.Pathfinding
 
 		public static void ShoveMobToPosition(PlayerScript mob, Vector3Int position, float force)
 		{
+			mob.playerMove.TryTilePush(GetDirectionToPosition(mob, position).To2Int(), mob.gameObject, force);
+		}
+
+		public static Vector3Int GetDirectionToPosition(PlayerScript mob, Vector3Int position)
+		{
 			Vector3Int direction = position - mob.gameObject.TileLocalPosition().To3Int();
-			direction = new Vector3Int(
+			return new Vector3Int(
 				Mathf.RoundToInt(direction.Normalize().x),
 				Mathf.RoundToInt(direction.Normalize().y),
 				Mathf.RoundToInt(direction.Normalize().z)
 			);
-			Debug.Log(direction);
-			mob.playerMove.TryTilePush(direction.To2Int(), mob.gameObject, force);
 		}
 	}
 }

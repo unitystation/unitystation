@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Mobs;
-using Mobs.BrainAI;
 using UnityEngine;
 
 public class BrainWanderState : BrainMobState
@@ -27,13 +24,23 @@ public class BrainWanderState : BrainMobState
 
 	public override void OnUpdateTick()
 	{
-		if ( HasGoal() == false) return;
+		if (HasGoal()) return;
 		Move(Directions.PickRandom(), master.Body);
 	}
 
 	public override bool HasGoal()
 	{
-		return master.CurrentActiveStates.Any(x => x.Blacklist.Contains(this)) == false;
+		foreach (var state in master.CurrentActiveStates)
+		{
+			if (state == this) continue;
+			if (state.Blacklist.Contains(this)) return false;
+			if (state.HasGoal())
+			{
+				master.AddRemoveState(this, state);
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private void Move(Vector3Int dirToMove, CommonComponents mob)

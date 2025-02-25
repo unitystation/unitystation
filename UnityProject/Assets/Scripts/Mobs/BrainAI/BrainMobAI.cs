@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using HealthV2;
 using Items.Implants.Organs;
+using Logs;
+using Mobs.Traversal;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -13,8 +15,8 @@ namespace Mobs.BrainAI
 		[field: SerializeField] public List<BrainMobState> MobStates { get; private set; } = new List<BrainMobState>();
 		[SerializeField] private BrainMobState thinkingState;
 
-
 		public Brain Brain;
+		public MobTraversal Traversal => Brain.Traversal;
 
 		public bool DEBUGoverride = false;
 
@@ -83,6 +85,11 @@ namespace Mobs.BrainAI
 
 		private void AddState(BrainMobState newState)
 		{
+			if (CurrentActiveStates.Contains(newState))
+			{
+				Loggy.Warning($"Can't add state {newState.GetType().Name} to {gameObject.name} because it's already in the list.");
+				return;
+			}
 			CurrentActiveStates.Add(newState);
 			newState.OnEnterStateInternal();
 		}

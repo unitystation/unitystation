@@ -22,6 +22,7 @@ public class BodyPartMutations : BodyPartFunctionality
 
 	public List<MutationSO> CapableMutations = new List<MutationSO>();
 	public List<Mutation> ActiveMutations = new List<Mutation>();
+	public List<MutationSO> StartingMutations = new List<MutationSO>();
 	public List<MutationSO> ActiveMutationsSO = new List<MutationSO>();
 
 
@@ -48,6 +49,14 @@ public class BodyPartMutations : BodyPartFunctionality
 	{
 		base.Awake();
 		RelatedPart.OnDamageTaken += OnDMGMutationCheck;
+	}
+
+	private void Start()
+	{
+		foreach (var mutationSo in StartingMutations)
+		{
+			AddMutation(mutationSo);
+		}
 	}
 
 

@@ -165,26 +165,38 @@ MonoBehaviour:
   RelatedPart: {fileID: 0}
   <Blacklist>k__BackingField: []
   <UpdateType>k__BackingField: 3
-  <PeriodicUpdateInterval>k__BackingField: 1
+  <PeriodicUpdateInterval>k__BackingField: 4
   <master>k__BackingField: {fileID: 4361687565459908576}
   wanderState: {fileID: 2808876780756977429}
   troubelState: {fileID: 6289005881020540733}
-  pathfinder: {fileID: 0}
   stateEnterSounds:
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/NPC/Arial/ArialPurr.prefab
+  - AssetAddress: Assets/Prefabs/NPC/Arial/ArialPurr.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/NPC/Arial/ArialTalk.prefab
+  - AssetAddress: Assets/Prefabs/NPC/Arial/ArialTalk.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+  TraversalStrategies:
+  - rid: 7329959675784331319
+  - rid: 7329959675784331321
+  references:
+    version: 2
+    RefIds:
+    - rid: 7329959675784331319
+      type: {class: ClimbTable, ns: Mobs.Traversal.Strategies, asm: Assets}
+      data:
+        ClimbSpeedInMilliseconds: 3135
+    - rid: 7329959675784331321
+      type: {class: OpenDoor, ns: Mobs.Traversal.Strategies, asm: Assets}
+      data: 
 --- !u!114 &6289005881020540733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,19 +220,19 @@ MonoBehaviour:
   Target: {fileID: 0}
   troubleState: {fileID: 6222196209030829027}
   stateEnter:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/NPC/Arial/ArialPrankIn.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   stateExit:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/NPC/Arial/ArialPrankIOut.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
 --- !u!114 &2808876780756977429
@@ -241,7 +253,7 @@ MonoBehaviour:
   RelatedPart: {fileID: 0}
   <Blacklist>k__BackingField: []
   <UpdateType>k__BackingField: 3
-  <PeriodicUpdateInterval>k__BackingField: 0.75
+  <PeriodicUpdateInterval>k__BackingField: 1
   <master>k__BackingField: {fileID: 4361687565459908576}
 --- !u!114 &3169105340071869467 stripped
 MonoBehaviour:

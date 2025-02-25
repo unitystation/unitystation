@@ -128,7 +128,6 @@ public class MetaDataNode : IGasMixContainer
 
 	public AppliedDetails AppliedDetails = new AppliedDetails();
 
-
 	private SmokeNode smokeNode;
 	public SmokeNode SmokeNode
 	{
@@ -292,7 +291,6 @@ public class MetaDataNode : IGasMixContainer
 	/// Is this tile occupied by something impassable (airtight!)
 	/// </summary>
 	public bool IsOccupied => Type == NodeType.Occupied;
-
 
 	private bool isSlippery = false;
 
