@@ -60,6 +60,8 @@ public class AutopilotShipMachine : MonoBehaviour
 		{
 			CurrentTarget = CurrentTarget.In.NextInLine;
 		}
+
+		mm.NetworkedMatrixMove.IgnoreMatrix = CurrentTarget.metaTileMap.matrix.MatrixInfo;
 		MoveToInternal(CurrentTarget);
 	}
 

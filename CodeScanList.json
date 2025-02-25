@@ -635,6 +635,9 @@
             },
             "Vector2": {
                 "All": true
+            },
+            "Vector3": {
+                "All": true
             }
         },
         "System.Reflection": {
@@ -3486,7 +3489,27 @@
             "AudioChunk": {
                 "All": true
             }
-
+        },
+        "Cysharp.Threading.Tasks": {
+            "UniTask": {
+                "All": true
+            },
+            "UniTaskVoid": {
+                "All": true
+            },
+            "Awaiter": {
+                "All": true
+            },
+            "PlayerLoopTiming": {
+                "All": true
+            }
+        },
+        "Cysharp.Threading.Tasks.CompilerServices": {
+            "AsyncUniTaskMethodBuilder": {
+            },
+            "AsyncUniTaskVoidMethodBuilder": {
+                "All": true
+            }
         }
     }
 }
