@@ -26,7 +26,6 @@ namespace Player
 				var earScript = ear.GetComponentCustom<Ears>();
 				if (earScript == null) continue;
 
-				earScript.StopAllCoroutines();
 				earScript.DeafenFromMsg(msg.DeafenValue);
 			}
 		}

@@ -30,8 +30,8 @@ namespace Items.Implants.Organs
 		private IClientSynchronisedEffect Preimplemented => (IClientSynchronisedEffect) this;
 		public ItemTrait DeafenProtection;
 
-		[SerializeField] private float deafenMultiplier = 1;
-
+		private float deafenMultiplier = 1;
+		private Coroutine deafenCoroutine;
 
 		[SyncVar(hook = nameof(SyncOnPlayer))] public uint OnBodyID;
 
@@ -181,19 +181,22 @@ namespace Items.Implants.Organs
 
 		public void UpDateTotalValue()
 		{
-			ApplyChangesDeafness(TotalMultiplier, PressureMultiplier * MutationMultiplier * EfficiencyMultiplier);
+			ApplyChangesDeafness(TotalMultiplier, PressureMultiplier * MutationMultiplier * EfficiencyMultiplier * deafenMultiplier);
 		}
 
 		public void DeafenFromMsg(float deafenLength)
 		{
-			StartCoroutine(TemporaryDeafen(deafenLength));
+			if (deafenCoroutine != null) StopCoroutine(deafenCoroutine);
+			deafenCoroutine = StartCoroutine(TemporaryDeafen(deafenLength));
 		}
 
-		public IEnumerator TemporaryDeafen(float deafenLength)
+		private IEnumerator TemporaryDeafen(float deafenLength)
 		{
-			ApplyDeafness(false, 0);
+			deafenMultiplier = 0;
+			UpDateTotalValue();
 			yield return new WaitForSeconds(deafenLength);
-			ApplyDeafness(false, TotalMultiplier);
+			deafenMultiplier = 1;
+			UpDateTotalValue();
 		}
 
 		public void ApplyDeafness(bool Default, float Value)
