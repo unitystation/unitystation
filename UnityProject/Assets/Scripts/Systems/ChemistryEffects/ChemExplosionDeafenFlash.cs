@@ -104,10 +104,9 @@ namespace Chemistry.Effects
 				if (duration <= 0) continue;
 				if (target.gameObject.TryGetComponentCustom<LivingHealthMasterBase>(out var livingHealthMasterBase) == false) continue;
 
-				bool successfulTrigger = false;
+				bool successfulTrigger = flashPlayers == true && livingHealthMasterBase.TryFlash(duration) && stunPlayers == true;
 
-				if (flashPlayers == true && livingHealthMasterBase.TryFlash(duration) && stunPlayers == true) successfulTrigger = true;
-				if (deafenPlayers == true && livingHealthMasterBase.TryDeafen(duration * 8) && deafenPlayers == true) successfulTrigger = true;
+				if (deafenPlayers == true && livingHealthMasterBase.TryDeafen(duration * 8) && stunPlayers == true) successfulTrigger = true;
 
 				if(successfulTrigger == true) livingHealthMasterBase.GetComponent<RegisterPlayer>()?.ServerStun(duration);
 			}
