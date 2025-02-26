@@ -85,11 +85,7 @@ namespace Items.Implants.Organs
 
 			RelatedPart.TakeDamage(null, deafenDuration * 0.5f, AttackType.Energy, DamageType.Burn);
 
-			var playerToDeafen = CurrentlyOn.PlayerScript.PlayerInfo;
-			if (playerToDeafen == null) return false;
-
-			PlayerDeafenEffectsMessage.Send(playerToDeafen, deafenDuration * deafenMultiplier);
-
+			TargetDeafenPlayer(CurrentlyOn.netIdentity.connectionToClient, deafenDuration);
 			return true;
 		}
 
@@ -188,7 +184,8 @@ namespace Items.Implants.Organs
 			ApplyChangesDeafness(TotalMultiplier, PressureMultiplier * MutationMultiplier * EfficiencyMultiplier * deafenMultiplier);
 		}
 
-		public void DeafenFromMsg(float deafenLength)
+		[TargetRpc]
+		public void TargetDeafenPlayer(NetworkConnectionToClient target, float deafenLength)
 		{
 			if (deafenCoroutine != null) StopCoroutine(deafenCoroutine);
 			deafenCoroutine = StartCoroutine(TemporaryDeafen(deafenLength));

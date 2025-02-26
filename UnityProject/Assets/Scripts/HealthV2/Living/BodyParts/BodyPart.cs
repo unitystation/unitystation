@@ -16,7 +16,7 @@ namespace HealthV2
 {
 	/// <summary>
 	/// A part of a body. Can be external, such as a limb, or internal like an organ.
-	/// Body parts can also contain other body parts, eg the 'brain body part' contained in the 'head body part'.
+	/// Body parts can also contain other body parts, e.g. the 'brain body part' contained in the 'head body part'.
 	/// BodyPart is a partial class split into BodyPart, BodyPartDamage, BodyPartBlood, BodyPartSurgery, and BodyPartModifiers.
 	/// </summary>
 	public partial class BodyPart : MonoBehaviour, IBodyPartDropDownOrgans
@@ -275,11 +275,11 @@ namespace HealthV2
 			foreach (var organ in OrganList)
 			{
 
-				var Type = organ.GetType();
-				while (Type != typeof(BodyPartFunctionality) && Type != typeof(NetworkBehaviour))
+				var organType = organ.GetType();
+				while (organType != typeof(BodyPartFunctionality) && organType != typeof(NetworkBehaviour))
 				{
-					livingHealth.AddOrgan(Type,organ);
-					Type = Type.BaseType;
+					livingHealth.AddOrgan(organType,organ);
+					organType = organType.BaseType;
 				}
 
 				organ.OnAddedToBody(HealthMaster); //Only add Body parts
