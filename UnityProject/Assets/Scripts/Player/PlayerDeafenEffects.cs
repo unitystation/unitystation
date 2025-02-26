@@ -17,17 +17,14 @@ namespace Player
 
 		public override void Process(NetMessage msg)
 		{
-			var health = PlayerManager.LocalPlayerScript.playerHealth;
+			var health = PlayerManager.LocalMindScript.Body.playerHealth;
 			if (health == null) return;
 
 			var ears = health.GetBodyPartsInArea(BodyPartType.Ears, false);
-			Debug.LogError("Searching for ears");
 			foreach (var ear in ears)
 			{
-				Debug.LogError("Found Ear");
 				if(ear.gameObject.TryGetComponent<Ears>(out var earScript) == false) continue;
 				earScript.DeafenFromMsg(msg.DeafenValue);
-				Debug.LogError("Deafened Ear");
 			}
 		}
 
