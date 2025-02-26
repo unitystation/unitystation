@@ -101,18 +101,13 @@ namespace Chemistry.Effects
 				var duration = strength * STUN_DURATION_PER_YIELD;
 				duration = result.Distance < afflictionRadius * 0.65f ? duration : duration / 2;
 
+				if (duration <= 0) continue;
 				if (target.gameObject.TryGetComponentCustom<LivingHealthMasterBase>(out var livingHealthMasterBase) == false) continue;
 
 				bool successfulTrigger = false;
 
-				if (flashPlayers == true && duration > 0)
-				{
-					if (livingHealthMasterBase.TryFlash(duration) && stunPlayers == true) successfulTrigger = true;
-				}
-				if (deafenPlayers == true && duration > 0)
-				{
-					if(livingHealthMasterBase.TryDeafen(duration * 8) && stunPlayers == true) successfulTrigger = true;
-				}
+				if (flashPlayers == true && livingHealthMasterBase.TryFlash(duration) && stunPlayers == true) successfulTrigger = true;
+				if (deafenPlayers == true && livingHealthMasterBase.TryDeafen(duration * 8) && deafenPlayers == true) successfulTrigger = true;
 
 				if(successfulTrigger == true) livingHealthMasterBase.GetComponent<RegisterPlayer>()?.ServerStun(duration);
 			}
