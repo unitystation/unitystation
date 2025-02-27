@@ -438,7 +438,7 @@ namespace Objects.Research
 				{
 					Origin = LaserLine.VOrigin.ToSerialiseString(),
 					Target = LaserLine.VTarget.ToSerialiseString(),
-					Colour = LaserLine.Sprite.color.ToStringCompressed()
+					Colour = LaserLine.Sprite.Color.ToStringCompressed()
 				});
 			}
 			SynchronisedData = JsonConvert.SerializeObject(data);
