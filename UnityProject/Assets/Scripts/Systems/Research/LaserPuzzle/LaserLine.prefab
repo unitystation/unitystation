@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 25, y: 15, z: 1}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4664813114326260710}
@@ -96,7 +96,7 @@ MonoBehaviour:
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
-  Shape: 0
+  Shape: 1
   GivenID: 0
 --- !u!33 &8798806693015559868
 MeshFilter:
@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 4144209882598054088}
   m_Layer: 0
   m_Name: LaserLine
-  m_TagString: Untagged
+  m_TagString: DontHighlightSpecial
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -157,6 +157,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -205,6 +208,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RelatedLaserProjection: {fileID: 0}
-  Sprite: {fileID: 2944065988726344009}
+  Sprite: {fileID: 5325394343940265986}
   VOrigin: {x: 0, y: 0, z: 0}
   VTarget: {x: 0, y: 0, z: 0}

@@ -78,13 +78,16 @@ namespace Objects.Research
 			spriteHandler = this.GetComponentInChildren<SpriteHandler>();
 			registerTile = this.GetComponent<RegisterTile>();
 			objectPhysics = this.GetComponent<UniversalObjectPhysics>();
+		}
 
+		public void Start()
+		{
 			if (startSetUp)
 			{
 				isWelded = true;
 				isWrenched = true;
-				rotatable.LockDirectionTo(true, rotatable.CurrentDirection);
 				objectPhysics.SetIsNotPushable(true);
+				rotatable.LockDirectionTo(true, rotatable.CurrentDirection);
 			}
 		}
 

@@ -97,7 +97,7 @@ public class LaserLine : MonoBehaviour
 
 		RelatedLaserProjection = _RelatedLaserProjection;
 		var Colour = TechnologyAndBeams.Colour;
-		Colour.a = 0.65f;
+		Colour.a = 0.9f;
 		Sprite.Color = Colour;
 
 
