@@ -64,19 +64,19 @@ namespace Chemistry.Effects
 					//If not, we need to check if the item is a bodypart inside of a player
 					if (insideBody)
 					{
-						AfflictRadius(bodyPart.HealthMaster.RegisterTile.WorldPosition, strength / 3); //Reduced flash when inside an object
+						AfflictRadius(bodyPart.HealthMaster.RegisterTile.WorldPosition, sender.gameObject, strength / 3); //Reduced flash when inside an object
 						Explosion.StartExplosion(bodyPart.HealthMaster.RegisterTile.WorldPosition, strength, node, radiusMultiplier: 3);
 					}
 					else
 					{
-						AfflictRadius(objectBehaviour.registerTile.WorldPosition, strength / 3); //Reduced flash when inside an object
+						AfflictRadius(objectBehaviour.registerTile.WorldPosition, sender.gameObject, strength / 3); //Reduced flash when inside an object
 						//Otherwise, if it's not inside of a player, we consider it just an item
 						Explosion.StartExplosion(objectBehaviour.registerTile.WorldPosition, strength, node, stunNearbyPlayers: false, radiusMultiplier: 3);
 					}
 				}
 				else
 				{
-					AfflictRadius(registerObject.WorldPosition, strength);
+					AfflictRadius(registerObject.WorldPosition, sender.gameObject, strength);
 					Explosion.StartExplosion(registerObject.WorldPosition, strength, node, stunNearbyPlayers: false, radiusMultiplier: 3);
 				}
 			}
@@ -88,7 +88,7 @@ namespace Chemistry.Effects
 			}
 		}
 
-		private void AfflictRadius(Vector3 worldPosition, float strength)
+		private void AfflictRadius(Vector3 worldPosition, GameObject sender, float strength)
 		{
 			var afflictionRadius = (int)(Math.Round(strength / (Math.PI * 15)) + 5);
 
@@ -106,7 +106,7 @@ namespace Chemistry.Effects
 
 				bool successfulTrigger = flashPlayers == true && livingHealthMasterBase.TryFlash(duration) && stunPlayers == true;
 
-				if (deafenPlayers == true && livingHealthMasterBase.TryDeafen(duration * 8) && stunPlayers == true) successfulTrigger = true;
+				if (deafenPlayers == true && livingHealthMasterBase.TryDeafen(sender, duration * 8) && stunPlayers == true) successfulTrigger = true;
 
 				if(successfulTrigger == true) livingHealthMasterBase.GetComponent<RegisterPlayer>()?.ServerStun(duration);
 			}

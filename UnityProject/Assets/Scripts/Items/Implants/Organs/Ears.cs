@@ -68,7 +68,7 @@ namespace Items.Implants.Organs
 			return true;
 		}
 
-		public bool TryDeafen(float deafenDuration, bool checkForProtectiveCloth = true)
+		public bool TryDeafen(GameObject sender, float deafenDuration, bool checkForProtectiveCloth = true)
 		{
 			if (RelatedPart.ItemAttributes.HasTrait(DeafenProtection))
 			{
@@ -83,7 +83,7 @@ namespace Items.Implants.Organs
 				}
 			}
 
-			RelatedPart.TakeDamage(null, deafenDuration * 0.5f, AttackType.Energy, DamageType.Burn);
+			RelatedPart.TakeDamage(sender, deafenDuration * 0.5f, AttackType.Energy, DamageType.Burn);
 
 			TargetDeafenPlayer(CurrentlyOn.netIdentity.connectionToClient, deafenDuration);
 			return true;
@@ -91,7 +91,8 @@ namespace Items.Implants.Organs
 
 		public bool HasProtectiveCloth()
 		{
-			if (RelatedPart.HealthMaster.TryGetComponent<DynamicItemStorage>(out var playerStorage) == false) return false;
+			var playerStorage = RelatedPart.HealthMaster.playerScript.DynamicItemStorage;
+			if (playerStorage == false) return false;
 
 			foreach (var slots in playerStorage.ServerContents)
 			{
