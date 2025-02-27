@@ -126,6 +126,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation90
 			}
 
 			OnRotationChange?.Invoke(dir);
+			Highlight.UpdateCurrentHighlight();
 		}
 	}
 

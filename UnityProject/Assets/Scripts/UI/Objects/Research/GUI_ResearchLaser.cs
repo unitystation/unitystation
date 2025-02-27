@@ -20,8 +20,6 @@ namespace UI.Objects.Research
 		private ResearchLaserProjector projector;
 		private bool isUpdating = false;
 
-		private int clearInterval = 0;
-
 		protected override void InitServer()
 		{
 			if (CustomNetworkManager.IsServer)
@@ -116,13 +114,6 @@ namespace UI.Objects.Research
 			}
 			sb.AppendLine(">_");
 			outputLabel.SetValue(sb.ToString());
-
-			clearInterval++;
-			if (projector.OutputLogs.Count > 0 && clearInterval >= 3)
-			{
-				projector.OutputLogs.RemoveAt(0); //Gradually clear logs
-				clearInterval = 0;
-			}
 		}
 
 		private void UpdateTechnologyList()

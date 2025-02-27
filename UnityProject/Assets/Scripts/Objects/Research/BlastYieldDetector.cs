@@ -40,7 +40,7 @@ namespace Systems.Research.Objects
 		[SerializeField]
 		private SpriteHandler spriteHandler;
 
-		private const float EFFECT_TOLERABLE_THRESHOLD = 0.1f;
+		private const float EFFECT_TOLERABLE_THRESHOLD = 0.25f;
 
 		public enum BlastYieldDetectorState
 		{
@@ -184,11 +184,7 @@ namespace Systems.Research.Objects
 
 		private bool MeetsYieldTarget(ExplosiveBounty bounty, float yield)
 		{
-			if (bounty.RequiredYield.RequiredAmount <= 1) return true;
-
-			float yieldDiff = Math.Abs(bounty.RequiredYield.RequiredAmount - yield);
-
-			return yieldDiff / bounty.RequiredYield.RequiredAmount <= ALLOWED_ERROR_PERCENT;
+			return yield >= bounty.RequiredYield.RequiredAmount;
 		}
 
 		private bool MeetsReagentTargets(ExplosiveBounty bounty, ReagentMix mix)
@@ -196,7 +192,7 @@ namespace Systems.Research.Objects
 			foreach (ReagentBountyEntry reagent in bounty.RequiredReagents)
 			{
 				mix.reagents.m_dict.TryGetValue(reagent.RequiredReagent, out float reagentAmount);
-				if (reagentAmount != reagent.RequiredAmount)
+				if (Mathf.Approximately(reagentAmount, reagent.RequiredAmount) == false)
 				{
 					return false;
 				}

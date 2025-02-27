@@ -623,6 +623,8 @@ public class MetaDataLayer : MonoBehaviour
 			{
 				if (excess.Total <= 0) return;
 
+				// Skip neighbour spread if they are null => Implies matrix might not yet be initialised
+				if (neighbor == null) break;
 				// Skip if the neighbor is not passable
 				if (neighbor.IsOccupied) continue;
 				// If the neighboring cell is empty, add the excess and break up the amount
