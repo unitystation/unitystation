@@ -78,13 +78,16 @@ namespace Objects.Research
 			spriteHandler = this.GetComponentInChildren<SpriteHandler>();
 			registerTile = this.GetComponent<RegisterTile>();
 			objectPhysics = this.GetComponent<UniversalObjectPhysics>();
+		}
 
+		public void Start()
+		{
 			if (startSetUp)
 			{
 				isWelded = true;
 				isWrenched = true;
-				rotatable.LockDirectionTo(true, rotatable.CurrentDirection);
 				objectPhysics.SetIsNotPushable(true);
+				rotatable.LockDirectionTo(true, rotatable.CurrentDirection);
 			}
 		}
 
@@ -456,7 +459,7 @@ namespace Objects.Research
 				{
 					Origin = LaserLine.VOrigin.ToSerialiseString(),
 					Target = LaserLine.VTarget.ToSerialiseString(),
-					Colour = LaserLine.Sprite.color.ToStringCompressed()
+					Colour = LaserLine.Sprite.Color.ToStringCompressed()
 				});
 			}
 			SynchronisedData = JsonConvert.SerializeObject(data);
