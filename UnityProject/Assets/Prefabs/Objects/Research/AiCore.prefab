@@ -52,6 +52,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -101,11 +102,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 36be84c14c5687848b616989d859c55c, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 36be84c14c5687848b616989d859c55c,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1 &2252006090964192169
 GameObject:
@@ -159,6 +162,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -213,11 +217,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 79f732890684fdf47ac6f64ae00bb8f6, type: 2}
   - {fileID: 11400000, guid: d91c579b8bd73404fb1676ba7bf20c5d, type: 2}
   - {fileID: 11400000, guid: 3cc58aaaccdf34c499544ffeac4e7a56, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 0ae7d83d6d2e07041a08b251e147d876, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 0ae7d83d6d2e07041a08b251e147d876,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1 &2574361578264524978
 GameObject:
@@ -303,6 +309,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -390,6 +397,7 @@ MeshRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -427,7 +435,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Color: {r: 0.9176471, g: 0.9176471, b: 0.9176471, a: 0.39215687}
+  InitialColour: {r: 0.9176471, g: 0.9176471, b: 0.9176471, a: 0.39215687}
   Sprite: {fileID: 21300000, guid: 9e9f6c63bf3334c8791e01efff5c16fb, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
@@ -551,6 +559,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ea4250c045aa6e74ca8a1aa89fa081c0,
+        type: 2}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
       propertyPath: SubCatalogue.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -575,12 +589,12 @@ PrefabInstance:
     - target: {fileID: 7971921043980192432, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: initialName
-      value: Ai Core
+      value: AI Core
       objectReference: {fileID: 0}
     - target: {fileID: 7971921043980192432, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: initialDescription
-      value: The Ai's body
+      value: The AI's body.
       objectReference: {fileID: 0}
     - target: {fileID: 8208024911721290269, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
@@ -706,7 +720,8 @@ MonoBehaviour:
   maximumWorkingVoltage: 300
   deviceType: 0
   isSelfPowered: 0
-  wattusage: 0.01
+  mappingNotNeedToLink: 0
+  initialwattusage: 0.01
   InitialResistance: 100000000
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
@@ -747,6 +762,7 @@ MonoBehaviour:
       UseIndex: 0
       IndexSlot: 0
       NamedSlot: 12
+      AlternativeNamedSlots: 
       IfOccupiedFindEmptySlot: 1
       ReplacementStrategy: 1
       namedSlotPopulatorEntrys:
@@ -756,11 +772,13 @@ MonoBehaviour:
         UseIndex: 0
         IndexSlot: 0
         NamedSlot: 12
+        AlternativeNamedSlots: 
         IfOccupiedFindEmptySlot: 0
         ReplacementStrategy: 0
     DeprecatedContents:
     - {fileID: 4887315118910892487, guid: 18829f9c177e97545abf088656129c6e, type: 3}
   SetSlotItemNotRemovableOnStartUp: 0
+  initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}
 --- !u!4 &1709540627035095788 stripped
