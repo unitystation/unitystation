@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 4664813114326260710}
   - component: {fileID: 2944065988726344009}
   - component: {fileID: 4144209882598054088}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: LaserLine
-  m_TagString: Untagged
+  m_TagString: DontHighlightSpecial
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -50,6 +50,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

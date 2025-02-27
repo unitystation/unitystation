@@ -1409,17 +1409,18 @@ namespace HealthV2
 			return didFlash;
 		}
 
-		public bool TryDeafen(float deafenDuration, bool checkForProtectiveCloth = true)
+		public bool TryDeafen(GameObject sender, float deafenDuration, bool checkForProtectiveCloth = true)
 		{
 			bool didDeafen = false;
 			var ears = GetBodyPartsInArea(BodyPartType.Ears, false);
 			foreach (var ear in ears)
 			{
-				var earDeafen = ear.GetComponentCustom<EarDeafen>();
-				if (earDeafen != null && earDeafen.TryDeafen(deafenDuration, checkForProtectiveCloth))
+				var earDeafen = ear.GetComponentCustom<Ears>();
+				if (earDeafen != null && earDeafen.TryDeafen(sender, deafenDuration, checkForProtectiveCloth))
 				{
 					didDeafen = true;
 					AdminLogsManager.AddNewLog(null, $"{playerScript.visibleName} has been deafened.", LogCategory.Interaction, Severity.SUSPICOUS);
+					break;
 				}
 			}
 

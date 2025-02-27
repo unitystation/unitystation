@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96e73ad475d1d24158bd2935f105cf3d, type: 3}
-  m_Name: Methamphetamine
+  m_Name: FluorosulfuricAcid
   m_EditorClassIdentifier: 
   ingredients:
     m_keys:
-    - {fileID: 11400000, guid: 7c6605ee5a68cffa084b76c1fe66f73f, type: 2}
-    - {fileID: 11400000, guid: 1802a0454e6530d84bd66a47751602f2, type: 2}
-    - {fileID: 11400000, guid: 05a7d0a1d347f6c21a6bace25e4e03ff, type: 2}
+    - {fileID: 11400000, guid: 4d51ff2b81592dadcb334ae9640eeca3, type: 2}
+    - {fileID: 11400000, guid: 43a6ef917538f898ca86fa22a81babd4, type: 2}
     - {fileID: 11400000, guid: b96ae222601db3faca1e9f832716f776, type: 2}
+    - {fileID: 11400000, guid: 7b6a18c45b96273d39d6db9ebb2830ac, type: 2}
     m_values: 01000000010000000100000001000000
   useExactAmounts: 0
   MinimumReactionMultiple: 0
@@ -28,12 +28,12 @@ MonoBehaviour:
     m_keys: []
     m_values: 
   hasMinTemp: 1
-  serializableTempMin: 372
+  serializableTempMin: 380
   hasMaxTemp: 0
   serializableTempMax: 0
   results:
     m_keys:
-    - {fileID: 11400000, guid: c1c1162029a8855d794898ad9e74410d, type: 2}
+    - {fileID: 11400000, guid: 5b255694ed5e8945790b893c1975d7cc, type: 2}
     m_values: 04000000
   effectDict:
     m_keys: []

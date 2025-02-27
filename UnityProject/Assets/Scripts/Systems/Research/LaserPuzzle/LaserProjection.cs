@@ -52,11 +52,7 @@ public class LaserProjection : MonoBehaviour
 			return;
 		}
 
-
 		var ItemResearchPotential = Plinth.DisplayedItem.GetComponent<ItemResearchPotential>();
-
-
-
 		foreach (var Design in ItemResearchPotential.TechWebDesigns)
 		{
 			if (Design.Technology == null)
@@ -67,7 +63,6 @@ public class LaserProjection : MonoBehaviour
 		}
 
 		Plinth.gameObject.GetComponent<Collider2D>().enabled = false;
-
 		foreach (var Design in ItemResearchPotential.TechWebDesigns)
 		{
 
@@ -100,7 +95,6 @@ public class LaserProjection : MonoBehaviour
 		Plinth.gameObject.GetComponent<Collider2D>().enabled = true;
 
 		_ResearchLaserProjector.SynchroniseLaser(LaserLines);
-
 	}
 
 
@@ -144,10 +138,9 @@ public class LaserProjection : MonoBehaviour
 
 			return;
 		}
-		else
+
+		if (hit.CollisionHit.GameObject != null)
 		{
-			if (hit.CollisionHit.GameObject != null)
-			{
 				var line = Instantiate(LaserLinePrefab, this.transform);
 				line.SetUpLine(Origin,  OriginPosition,hit.CollisionHit.GameObject, hit.HitWorld, TechnologyAndBeams, this );
 				LaserLines.Add(line);
@@ -164,26 +157,14 @@ public class LaserProjection : MonoBehaviour
 					if (float.IsNaN(NewDirection)) return;
 
 					TraverseLaser(	VectorExtensions.DegreeToVector2(NewDirection), Reflector.gameObject, TechnologyAndBeams, Bounces, hit.HitWorld);
-
-					return;
 				}
+		}
+		else
+		{
 
-				var ResearchCollector = hit.CollisionHit.GameObject.GetComponent<ResearchCollector>();
-				if (ResearchCollector != null)
-				{
-					return;
-				}
-
-			}
-			else
-			{
-
-				var line = Instantiate(LaserLinePrefab, this.transform);
-				line.SetUpLine(Origin,  OriginPosition ,null,hit.HitWorld, TechnologyAndBeams, this );
-				LaserLines.Add(line);
-
-				return;
-			}
+			var line = Instantiate(LaserLinePrefab, this.transform);
+			line.SetUpLine(Origin,  OriginPosition ,null,hit.HitWorld, TechnologyAndBeams, this );
+			LaserLines.Add(line);
 		}
 	}
 

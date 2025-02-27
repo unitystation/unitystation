@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Core;
 using Logs;
 using Mirror;
 using Newtonsoft.Json;
@@ -60,6 +59,7 @@ namespace Objects.Research
 		public event Action UpdateGUI;
 
 		public readonly List<string> OutputLogs = new List<string>();
+		private const int MAX_OUTPUT_LENGTH = 6;
 
 		[field: SyncVar] public LaserProjectorState ProjectorState { get; private set; } = LaserProjectorState.Visual;
 		[field: SyncVar] public bool IsVisualOn { get; private set; } = false;
@@ -144,6 +144,9 @@ namespace Objects.Research
 		{
 			if (researchServer == null) return;
 
+			TrimResearchedTech();
+			if (researchServer.Techweb.ResearchedTech.Contains(data.Technology)) return;
+
 			if(GroupedData.ContainsKey(data.Technology) == true)
 			{
 				GroupedData[data.Technology] += data.ResearchPower;
@@ -156,14 +159,10 @@ namespace Objects.Research
 				{
 					OutputLogs.Add($">{data.Technology.DisplayName} Research Complete!");
 					researchServer.Techweb.UnlockTechnology(data.Technology);
-				}
-				else
-				{
-					OutputLogs.Add($">{(int)GroupedData[data.Technology]} RP Uploaded!");
-					AddResearchPoints(this, (int)GroupedData[data.Technology]);
+					GroupedData.Remove(data.Technology);
 				}
 
-				GroupedData.Remove(data.Technology);
+				if(OutputLogs.Count > MAX_OUTPUT_LENGTH) OutputLogs.RemoveAt(0);
 			}
 
 			UpdateGUI?.Invoke();
@@ -181,6 +180,8 @@ namespace Objects.Research
 			GroupedData.Clear();
 
 			OutputLogs.Add($">{(int)(totalResearch * UPLOAD_EFFICIENCY)} RP Uploaded!");
+			if(OutputLogs.Count > MAX_OUTPUT_LENGTH) OutputLogs.RemoveAt(0);
+
 			AddResearchPoints(this, (int)(totalResearch * UPLOAD_EFFICIENCY));
 		}
 
@@ -203,6 +204,23 @@ namespace Objects.Research
 				return false;
 			}
 			return true;
+		}
+
+		//Sometimes other players might use the techweb to research a technology node thats already in progress
+		//On the projector, if this is the case it needs to be removed.
+		private void TrimResearchedTech()
+		{
+			var groupedDataCopy = new Dictionary<Technology, float>(GroupedData);
+			foreach (var tech in groupedDataCopy)
+			{
+				if (researchServer.Techweb.ResearchedTech.Contains(tech.Key))
+				{
+					GroupedData.Remove(tech.Key);
+
+					OutputLogs.Add($">{tech.Key.DisplayName} has been researched externally!");
+					if(OutputLogs.Count > MAX_OUTPUT_LENGTH) OutputLogs.RemoveAt(0);
+				}
+			}
 		}
 
 		public void UpdateState(LaserProjectorState state)

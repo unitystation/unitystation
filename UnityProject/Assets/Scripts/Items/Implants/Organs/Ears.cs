@@ -28,6 +28,10 @@ namespace Items.Implants.Organs
 		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
 
 		private IClientSynchronisedEffect Preimplemented => (IClientSynchronisedEffect) this;
+		public ItemTrait DeafenProtection;
+
+		private float deafenMultiplier = 1;
+		private Coroutine deafenCoroutine;
 
 		[SyncVar(hook = nameof(SyncOnPlayer))] public uint OnBodyID;
 
@@ -62,6 +66,47 @@ namespace Items.Implants.Organs
 
 			//Loggy.LogError("IsValidSetup");
 			return true;
+		}
+
+		public bool TryDeafen(GameObject sender, float deafenDuration, bool checkForProtectiveCloth = true)
+		{
+			if (RelatedPart.ItemAttributes.HasTrait(DeafenProtection))
+			{
+				return false;
+			}
+
+			if (checkForProtectiveCloth)
+			{
+				if (HasProtectiveCloth())
+				{
+					return false;
+				}
+			}
+
+			RelatedPart.TakeDamage(sender, deafenDuration * 0.5f, AttackType.Energy, DamageType.Burn);
+
+			TargetDeafenPlayer(CurrentlyOn.netIdentity.connectionToClient, deafenDuration);
+			return true;
+		}
+
+		public bool HasProtectiveCloth()
+		{
+			var playerStorage = RelatedPart.HealthMaster.playerScript.DynamicItemStorage;
+			if (playerStorage == false) return false;
+
+			foreach (var slots in playerStorage.ServerContents)
+			{
+				if (slots.Key != NamedSlot.ear && slots.Key != NamedSlot.head) continue;
+				foreach (ItemSlot onSlots in slots.Value)
+				{
+					if (onSlots.IsEmpty) continue;
+					if (onSlots.ItemAttributes.HasTrait(DeafenProtection))
+					{
+						return true;
+					}
+				}
+			}
+			return false;
 		}
 
 		void IItemInOutMovedPlayer.ChangingPlayer(RegisterPlayer HideForPlayer, RegisterPlayer ShowForPlayer)
@@ -137,19 +182,23 @@ namespace Items.Implants.Organs
 
 		public void UpDateTotalValue()
 		{
-			ApplyChangesDeafness(TotalMultiplier, PressureMultiplier * MutationMultiplier * EfficiencyMultiplier);
+			ApplyChangesDeafness(TotalMultiplier, PressureMultiplier * MutationMultiplier * EfficiencyMultiplier * deafenMultiplier);
 		}
 
-		public void DeafenFromMsg(float deafenLength)
+		[TargetRpc]
+		public void TargetDeafenPlayer(NetworkConnectionToClient target, float deafenLength)
 		{
-			StartCoroutine(TemporaryDeafen(deafenLength));
+			if (deafenCoroutine != null) StopCoroutine(deafenCoroutine);
+			deafenCoroutine = StartCoroutine(TemporaryDeafen(deafenLength));
 		}
 
-		public IEnumerator TemporaryDeafen(float deafenLength)
+		private IEnumerator TemporaryDeafen(float deafenLength)
 		{
-			ApplyDeafness(false, 0);
+			deafenMultiplier = 0;
+			UpDateTotalValue();
 			yield return new WaitForSeconds(deafenLength);
-			ApplyDeafness(false, TotalMultiplier);
+			deafenMultiplier = 1;
+			UpDateTotalValue();
 		}
 
 		public void ApplyDeafness(bool Default, float Value)

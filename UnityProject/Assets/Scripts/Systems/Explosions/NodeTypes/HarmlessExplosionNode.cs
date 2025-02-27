@@ -14,7 +14,7 @@ namespace Systems.Explosions
 
 		public override void Process()
 		{
-			return;
+			//Harmless explosives can't affect the environment at all, so no checks and/or additional methods are required
 		}
 
 		public override float DoDamage(Matrix matrix, float damageDealt, Vector3Int v3int)
