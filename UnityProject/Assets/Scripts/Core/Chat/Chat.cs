@@ -213,7 +213,7 @@ public partial class Chat : MonoBehaviour
 		// This step is skipped when speaking in the OOC channel.
 		(string message, ChatModifier chatModifiers) processedMessage = (string.Empty, ChatModifier.None); // Placeholder values
 
-		bool isOOC = channels.HasFlag(ChatChannel.OOC);
+		bool isOOC = channels.HasFlagFast(ChatChannel.OOC);
 		if (isOOC == false)
 		{
 			processedMessage = ProcessMessage(sentByPlayer, message);
@@ -409,7 +409,7 @@ public partial class Chat : MonoBehaviour
 
 		processedMessage.message = message;
 
-		bool isOOC = channels.HasFlag(ChatChannel.OOC);
+		bool isOOC = channels.HasFlagFast(ChatChannel.OOC);
 
 		var chatEvent = new ChatEvent
 		{
@@ -514,11 +514,11 @@ public partial class Chat : MonoBehaviour
 
 	private static bool IsOnCorrectChannels(ChatChannel channels)
 	{
-		if (channels.HasFlag(ChatChannel.Common) ||
-		    channels.HasFlag(ChatChannel.Command) || channels.HasFlag(ChatChannel.Security)
-		    || channels.HasFlag(ChatChannel.Engineering) || channels.HasFlag(ChatChannel.Medical)
-		    || channels.HasFlag(ChatChannel.Science)
-		    || channels.HasFlag(ChatChannel.Syndicate) || channels.HasFlag(ChatChannel.Supply))
+		if (channels.HasFlagFast(ChatChannel.Common) ||
+		    channels.HasFlagFast(ChatChannel.Command) || channels.HasFlagFast(ChatChannel.Security)
+		    || channels.HasFlagFast(ChatChannel.Engineering) || channels.HasFlagFast(ChatChannel.Medical)
+		    || channels.HasFlagFast(ChatChannel.Science)
+		    || channels.HasFlagFast(ChatChannel.Syndicate) || channels.HasFlagFast(ChatChannel.Supply))
 		{
 			return true;
 		}
