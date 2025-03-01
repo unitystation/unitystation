@@ -57,6 +57,40 @@ namespace Util
 		[MenuItem("Tools/Debug/------------ Debug function -----------")]
 		public static void Generate()
 		{
+			System.Diagnostics.Stopwatch t1 = new Stopwatch();
+			t1.Start();
+			for (int i = 0; i < 1000; i++)
+			{
+				var randomChatEnum = ChatChannel.Action | ChatChannel.Admin;
+				if (randomChatEnum.HasFlagFast(ChatChannel.Action))
+				{
+					continue;
+				}
+				else
+				{
+					break;
+				}
+			}
+			t1.Stop();
+			Debug.Log($"[HasFlagFast] - Ticks taken: {t1.ElapsedTicks}");
+
+			System.Diagnostics.Stopwatch t2 = new Stopwatch();
+			t2.Start();
+			for (int i = 0; i < 1000; i++)
+			{
+				var randomChatEnum = ChatChannel.Action | ChatChannel.Admin;
+				if (randomChatEnum.HasFlag(ChatChannel.Action))
+				{
+					continue;
+				}
+				else
+				{
+					break;
+				}
+			}
+			t2.Stop();
+			Debug.Log($"[HasFlag] - Ticks taken: {t2.ElapsedTicks}");
+
 			// AssetDatabase.StartAssetEditing();
 			// var AAAa = FindAssetsByType<Chemistry.Reaction>();
 			// foreach (var a in AAAa)

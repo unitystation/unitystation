@@ -121,4 +121,17 @@ public class ChatEvent
 	public ChatEvent() {
 		timestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
 	}
+
+
+}
+
+public static class ChatEventExtensions
+{
+	/// <summary>
+	/// Checks if a ChatChannel has a specific flag. Does not do boxxing, which makes it faster than Enum.HasFlag.
+	/// </summary>
+	public static bool HasFlagFast(this ChatChannel value, ChatChannel flag)
+	{
+		return ((int)value & (int)flag) == (int)flag;
+	}
 }

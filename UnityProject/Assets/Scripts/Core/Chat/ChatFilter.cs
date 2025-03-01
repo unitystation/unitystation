@@ -107,7 +107,7 @@ public class ChatFilter : MonoBehaviour
 		// Limit number of messages
 		if (numMessages + 1 > numMessageMax || cpm + 1 > cpmMax)
 		{
-			if (selectedChannels.HasFlag(ChatChannel.OOC) || selectedChannels.HasFlag(ChatChannel.Ghost))
+			if (selectedChannels.HasFlagFast(ChatChannel.OOC) || selectedChannels.HasFlagFast(ChatChannel.Ghost))
 			{
 				Chat.AddExamineMsgToClient(numMessagesWarningOOC);
 			}
@@ -143,7 +143,7 @@ public class ChatFilter : MonoBehaviour
 		// Notify player that their message got cut short.
 		if (numCharsOverLimit > 0)
 		{
-			if (selectedChannels.HasFlag(ChatChannel.OOC) || selectedChannels.HasFlag(ChatChannel.Ghost))
+			if (selectedChannels.HasFlagFast(ChatChannel.OOC) || selectedChannels.HasFlagFast(ChatChannel.Ghost))
 			{
 				Chat.AddExamineMsgToClient(cpmWarningOOC);
 			}

@@ -99,9 +99,9 @@ public class ChatRelay : NetworkBehaviour
 		}
 
 		//Local chat range checks:
-		if (chatEvent.channels.HasFlag(ChatChannel.Local)
-		    || chatEvent.channels.HasFlag(ChatChannel.Combat)
-		    || chatEvent.channels.HasFlag(ChatChannel.Action))
+		if (chatEvent.channels.HasFlagFast(ChatChannel.Local)
+		    || chatEvent.channels.HasFlagFast(ChatChannel.Combat)
+		    || chatEvent.channels.HasFlagFast(ChatChannel.Action))
 		{
 			for (int i = players.Count - 1; i >= 0; i--)
 			{
@@ -141,7 +141,7 @@ public class ChatRelay : NetworkBehaviour
 				{
 					//Distance check failed so if we are Ai, then try send action and combat messages to their camera location
 					//as well as if possible
-					if (chatEvent.channels.HasFlag(ChatChannel.Local) == false &&
+					if (chatEvent.channels.HasFlagFast(ChatChannel.Local) == false &&
 					    players[i].Script.PlayerType == PlayerTypes.Ai &&
 					    players[i].Script.TryGetComponent<AiPlayer>(out var aiPlayer) &&
 					    aiPlayer.IsCarded == false)
@@ -189,14 +189,14 @@ public class ChatRelay : NetworkBehaviour
 
 		ChatChannel channel = chatEvent.channels;
 
-		if (channel.HasFlag(ChatChannel.Combat) || channel.HasFlag(ChatChannel.Local) ||
-		    channel.HasFlag(ChatChannel.System) || channel.HasFlag(ChatChannel.Examine) ||
-		    channel.HasFlag(ChatChannel.Action))
+		if (channel.HasFlagFast(ChatChannel.Combat) || channel.HasFlagFast(ChatChannel.Local) ||
+		    channel.HasFlagFast(ChatChannel.System) || channel.HasFlagFast(ChatChannel.Examine) ||
+		    channel.HasFlagFast(ChatChannel.Action))
 		{
 
 			//Check here to avoid speaking in local when speaking on non verbal channels
 			//If local chat check for any Chat.NonVerbalChannels in all the channels sent and don't do local
-			var doNotDoLocal = channel.HasFlag(ChatChannel.Local) &&
+			var doNotDoLocal = channel.HasFlagFast(ChatChannel.Local) &&
 			                   (chatEvent.allChannels & Chat.NonVerbalChannels) != 0;
 
 			if (doNotDoLocal)
@@ -334,7 +334,7 @@ public class ChatRelay : NetworkBehaviour
 		HandleRadioCheckCooldown();
 
 		// Only spoken messages should be forwarded
-		if (chatEvent.channels.HasFlag(ChatChannel.Local) == false)
+		if (chatEvent.channels.HasFlagFast(ChatChannel.Local) == false)
 		{
 			return chatEvent;
 		}
@@ -406,8 +406,8 @@ public class ChatRelay : NetworkBehaviour
 		if (channels != ChatChannel.None)
 		{
 			// replace action messages with chat bubble
-			if (channels.HasFlag(ChatChannel.Combat) || channels.HasFlag(ChatChannel.Action) ||
-			    channels.HasFlag(ChatChannel.Examine) || modifiers.HasFlag(ChatModifier.Emote))
+			if (channels.HasFlagFast(ChatChannel.Combat) || channels.HasFlagFast(ChatChannel.Action) ||
+			    channels.HasFlagFast(ChatChannel.Examine) || modifiers.HasFlag(ChatModifier.Emote))
 			{
 				if (isOriginator)
 				{

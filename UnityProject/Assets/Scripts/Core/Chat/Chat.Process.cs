@@ -216,29 +216,29 @@ public partial class Chat
 		message = HighlightInGameName(message, false);
 
 		//Skip everything if system message
-		if (channels.HasFlag(ChatChannel.System))
+		if (channels.HasFlagFast(ChatChannel.System))
 		{
 			return message;
 		}
 
 		//Skip everything in case of combat channel
-		if (channels.HasFlag(ChatChannel.Combat))
+		if (channels.HasFlagFast(ChatChannel.Combat))
 		{
 			return AddMsgColor(channels, $"<i>{message}</i>"); //POC
 		}
 
 		//Skip everything if it is an action or examine message or if it is a local message
 		//without a speaker (which is used by machines)
-		if (channels.HasFlag(ChatChannel.Examine) ||
-		    channels.HasFlag(ChatChannel.Action) ||
-		    channels.HasFlag(ChatChannel.Local)
+		if (channels.HasFlagFast(ChatChannel.Examine) ||
+		    channels.HasFlagFast(ChatChannel.Action) ||
+		    channels.HasFlagFast(ChatChannel.Local)
 		    && string.IsNullOrEmpty(speaker))
 		{
 			return AddMsgColor(channels, $"<i>{message}</i>");
 		}
 
 		// Skip everything if the message is a local warning
-		if (channels.HasFlag(ChatChannel.Warning))
+		if (channels.HasFlagFast(ChatChannel.Warning))
 		{
 			return AddMsgColor(channels, $"<i>{message}</i>");
 		}
@@ -262,7 +262,7 @@ public partial class Chat
 		}
 
 		//Check for OOC. If selected, remove all other channels and modifiers (could happen if UI fucks up or someone tampers with it)
-		if (channels.HasFlag(ChatChannel.OOC))
+		if (channels.HasFlagFast(ChatChannel.OOC))
 		{
 			//ooc name quick fix
 			var name = Regex.Replace(speaker, @"\t\n\r", "");
@@ -279,7 +279,7 @@ public partial class Chat
 		}
 
 		//Ghosts don't get modifiers
-		if (channels.HasFlag(ChatChannel.Ghost))
+		if (channels.HasFlagFast(ChatChannel.Ghost))
 		{
 			string[] _ghostVerbs = {"cries", "moans"};
 			return AddMsgColor(channels, $"[dead] <b>{speaker}</b> {_ghostVerbs.PickRandom()}: {message}");
@@ -338,12 +338,12 @@ public partial class Chat
 
 		var chan = $"[{channels.ToString().ToLower().Substring(0, 3)}] ";
 
-		if (channels.HasFlag(ChatChannel.Command))
+		if (channels.HasFlagFast(ChatChannel.Command))
 		{
 			chan = "[cmd] ";
 		}
 
-		if (channels.HasFlag(ChatChannel.Local))
+		if (channels.HasFlagFast(ChatChannel.Local))
 		{
 			chan = "";
 		}
@@ -638,33 +638,33 @@ public partial class Chat
 
 	private static string GetChannelColor(ChatChannel channel)
 	{
-		if (channel.HasFlag(ChatChannel.OOC)) return ColorUtility.ToHtmlStringRGBA(Instance.oocColor);
-		if (channel.HasFlag(ChatChannel.Ghost)) return ColorUtility.ToHtmlStringRGBA(Instance.ghostColor);
-		if (channel.HasFlag(ChatChannel.Binary)) return ColorUtility.ToHtmlStringRGBA(Instance.binaryColor);
-		if (channel.HasFlag(ChatChannel.Supply)) return ColorUtility.ToHtmlStringRGBA(Instance.supplyColor);
-		if (channel.HasFlag(ChatChannel.CentComm)) return ColorUtility.ToHtmlStringRGBA(Instance.centComColor);
-		if (channel.HasFlag(ChatChannel.Command)) return ColorUtility.ToHtmlStringRGBA(Instance.commandColor);
-		if (channel.HasFlag(ChatChannel.Common)) return ColorUtility.ToHtmlStringRGBA(Instance.commonColor);
-		if (channel.HasFlag(ChatChannel.Engineering)) return ColorUtility.ToHtmlStringRGBA(Instance.engineeringColor);
-		if (channel.HasFlag(ChatChannel.Medical)) return ColorUtility.ToHtmlStringRGBA(Instance.medicalColor);
-		if (channel.HasFlag(ChatChannel.Science)) return ColorUtility.ToHtmlStringRGBA(Instance.scienceColor);
-		if (channel.HasFlag(ChatChannel.Security)) return ColorUtility.ToHtmlStringRGBA(Instance.securityColor);
-		if (channel.HasFlag(ChatChannel.Service)) return ColorUtility.ToHtmlStringRGBA(Instance.serviceColor);
-		if (channel.HasFlag(ChatChannel.Syndicate)) return ColorUtility.ToHtmlStringRGBA(Instance.syndicateColor);
-		if (channel.HasFlag(ChatChannel.Local)) return ColorUtility.ToHtmlStringRGBA(Instance.localColor);
-		if (channel.HasFlag(ChatChannel.Combat)) return ColorUtility.ToHtmlStringRGBA(Instance.combatColor);
-		if (channel.HasFlag(ChatChannel.Warning)) return ColorUtility.ToHtmlStringRGBA(Instance.warningColor);
-		if (channel.HasFlag(ChatChannel.Blob)) return ColorUtility.ToHtmlStringRGBA(Instance.blobColor);
-		if (channel.HasFlag(ChatChannel.Alien)) return ColorUtility.ToHtmlStringRGBA(Instance.alienColor);
+		if (channel.HasFlagFast(ChatChannel.OOC)) return ColorUtility.ToHtmlStringRGBA(Instance.oocColor);
+		if (channel.HasFlagFast(ChatChannel.Ghost)) return ColorUtility.ToHtmlStringRGBA(Instance.ghostColor);
+		if (channel.HasFlagFast(ChatChannel.Binary)) return ColorUtility.ToHtmlStringRGBA(Instance.binaryColor);
+		if (channel.HasFlagFast(ChatChannel.Supply)) return ColorUtility.ToHtmlStringRGBA(Instance.supplyColor);
+		if (channel.HasFlagFast(ChatChannel.CentComm)) return ColorUtility.ToHtmlStringRGBA(Instance.centComColor);
+		if (channel.HasFlagFast(ChatChannel.Command)) return ColorUtility.ToHtmlStringRGBA(Instance.commandColor);
+		if (channel.HasFlagFast(ChatChannel.Common)) return ColorUtility.ToHtmlStringRGBA(Instance.commonColor);
+		if (channel.HasFlagFast(ChatChannel.Engineering)) return ColorUtility.ToHtmlStringRGBA(Instance.engineeringColor);
+		if (channel.HasFlagFast(ChatChannel.Medical)) return ColorUtility.ToHtmlStringRGBA(Instance.medicalColor);
+		if (channel.HasFlagFast(ChatChannel.Science)) return ColorUtility.ToHtmlStringRGBA(Instance.scienceColor);
+		if (channel.HasFlagFast(ChatChannel.Security)) return ColorUtility.ToHtmlStringRGBA(Instance.securityColor);
+		if (channel.HasFlagFast(ChatChannel.Service)) return ColorUtility.ToHtmlStringRGBA(Instance.serviceColor);
+		if (channel.HasFlagFast(ChatChannel.Syndicate)) return ColorUtility.ToHtmlStringRGBA(Instance.syndicateColor);
+		if (channel.HasFlagFast(ChatChannel.Local)) return ColorUtility.ToHtmlStringRGBA(Instance.localColor);
+		if (channel.HasFlagFast(ChatChannel.Combat)) return ColorUtility.ToHtmlStringRGBA(Instance.combatColor);
+		if (channel.HasFlagFast(ChatChannel.Warning)) return ColorUtility.ToHtmlStringRGBA(Instance.warningColor);
+		if (channel.HasFlagFast(ChatChannel.Blob)) return ColorUtility.ToHtmlStringRGBA(Instance.blobColor);
+		if (channel.HasFlagFast(ChatChannel.Alien)) return ColorUtility.ToHtmlStringRGBA(Instance.alienColor);
 		return ColorUtility.ToHtmlStringRGBA(Instance.defaultColor);
 	}
 
 	private static bool IsNamelessChan(ChatChannel channel)
 	{
-		if (channel.HasFlag(ChatChannel.System) ||
-		    channel.HasFlag(ChatChannel.Combat) ||
-		    channel.HasFlag(ChatChannel.Action) ||
-		    channel.HasFlag(ChatChannel.Examine))
+		if (channel.HasFlagFast(ChatChannel.System) ||
+		    channel.HasFlagFast(ChatChannel.Combat) ||
+		    channel.HasFlagFast(ChatChannel.Action) ||
+		    channel.HasFlagFast(ChatChannel.Examine))
 		{
 			return true;
 		}
