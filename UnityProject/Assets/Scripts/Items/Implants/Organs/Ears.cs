@@ -186,7 +186,7 @@ namespace Items.Implants.Organs
 		}
 
 		[TargetRpc]
-		public void TargetDeafenPlayer(NetworkConnectionToClient target, float deafenLength)
+		public void TargetDeafenPlayer(NetworkConnection target, float deafenLength)
 		{
 			if (deafenCoroutine != null) StopCoroutine(deafenCoroutine);
 			deafenCoroutine = StartCoroutine(TemporaryDeafen(deafenLength));
