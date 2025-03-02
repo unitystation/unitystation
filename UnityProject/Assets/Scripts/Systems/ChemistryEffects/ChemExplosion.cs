@@ -20,7 +20,7 @@ namespace Chemistry.Effects
 		[Tooltip("Explosion type")]
 		[field: SerializeField] public ExplosionTypes.ExplosionType explosionType { get; private set; } = ExplosionTypes.ExplosionType.Regular;
 
-		private const int CHEM_EXPLOSIONS_RADIUS_MULTIPLIER = 5;
+		private const int CHEM_EXPLOSIONS_RADIUS_MULTIPLIER = 4;
 		//Chem explosions are often lower potency than standard explosives like syndi bombs.
 		//But as a result they often have tiny radii, looking at most 1-2 tiles.
 		//We give chemical ordnance a radius boost so they cover an area and not just 1-2 tiles.
