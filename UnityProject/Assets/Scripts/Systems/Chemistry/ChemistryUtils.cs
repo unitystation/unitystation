@@ -52,7 +52,7 @@ namespace Chemistry
 
 		public static float CalculateYieldFromReaction(float reactionAmount, float reactionPotency)
 		{
-			return 32 * Mathf.Pow(reactionAmount, 0.65f) * reactionPotency;
+			return 32 * Mathf.Pow(reactionAmount, 0.7f) * reactionPotency;
 		}
 
 	}
