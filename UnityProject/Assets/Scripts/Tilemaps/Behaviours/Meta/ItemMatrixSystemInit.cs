@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core.Networking;
+using Cysharp.Threading.Tasks;
 using Mirror;
 using TileManagement;
 using Tilemaps.Behaviours.Layers;
@@ -9,12 +11,15 @@ using UnityEngine;
 namespace TileMap.Behaviours
 {
 
-	public abstract class ItemMatrixSystemInit : NetworkBehaviour, IInitialiseSystem
+	public abstract class ItemMatrixSystemInit : NaughtyNetworkBehaviour, IInitialiseSystem
 	{
 
 		public virtual int Priority => 0;
 
-		public virtual void Initialize() { }
+		public async virtual UniTask Initialize()
+		{
+
+		}
 
 		[NonSerialized] public MetaTileMap metaTileMap;
 		[NonSerialized] protected MatrixSystemManager subsystemManager;

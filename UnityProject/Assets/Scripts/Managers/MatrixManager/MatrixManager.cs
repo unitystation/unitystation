@@ -250,8 +250,8 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		var subsystemManager = matrix.GetComponentInParent<MatrixSystemManager>();
 		subsystemManager.SelfInitialize();
 	}
-	[Client]
 
+	[Client]
 	private IEnumerator ClientWaitForAllMatrices()
 	{
 		while (AreAllMatrixReady() == false)

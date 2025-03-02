@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using Chemistry;
-using Logs;
+using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
 using ScriptableObjects;
 using TileMap.Behaviours;
@@ -36,13 +36,13 @@ namespace Systems.FilthGenerator
 		private int filthGenerated = 0;
 		public int FilthCleanGoal { get; private set; } = 0;
 
-		public override void Initialize()
+		public override async UniTask Initialize()
 		{
 			if (CustomNetworkManager.IsServer == false) return;
 
 			Stopwatch sw = new Stopwatch();
 			sw.Start();
-			RunFilthGenerator();
+			await RunFilthGenerator();
 			sw.Stop();
 			Chat.AddGameWideSystemMsgToChat($"<color=yellow>Initialised {gameObject.name} FilthGen: " + sw.ElapsedMilliseconds + " ms</color>");
 		}
@@ -54,13 +54,13 @@ namespace Systems.FilthGenerator
 		}
 
 		[Button]
-		public void RunFilthGenerator()
+		public async UniTask RunFilthGenerator()
 		{
 			if (generateFilthReagent == false && filthDecalsAndObjects.Count == 0) return;
 			floorTilemap = metaTileMap.Layers[LayerType.Floors].GetComponent<Tilemap>();
 
 			BoundsInt bounds = floorTilemap.cellBounds;
-			List<Vector3Int> EmptyTiled = new List<Vector3Int>();
+			List<Vector3Int> emptyTiled = new List<Vector3Int>();
 
 			for (int n = bounds.xMin; n < bounds.xMax; n++)
 			{
@@ -68,16 +68,15 @@ namespace Systems.FilthGenerator
 				{
 					Vector3Int localPlace = (new Vector3Int(n, p, 0));
 					if (metaTileMap.HasTile(localPlace) == false) continue;
-					if (metaTileMap.GetTile(localPlace, LayerType.Floors) is BasicTile) EmptyTiled.Add(localPlace);
+					if (metaTileMap.GetTile(localPlace, LayerType.Floors) is BasicTile) emptyTiled.Add(localPlace);
 				}
 			}
 
-			SpawnOnTiles(ref EmptyTiled);
-
+			await SpawnOnTiles(ref emptyTiled);
 			FilthCleanGoal = filthGenerated / Random.Next(3, 8);
 		}
 
-		private void SpawnOnTiles(ref List<Vector3Int> emptyTiled)
+		private UniTask SpawnOnTiles(ref List<Vector3Int> emptyTiled)
 		{
 			int numberOfPlayers = Mathf.Max(PlayerList.Instance.AllPlayers.Count, 5);
 
@@ -97,6 +96,7 @@ namespace Systems.FilthGenerator
 				var chosenLocation = emptyTiled[Random.Next(emptyTiled.Count)];
 				DetermineFilthToSpawn(chosenLocation);
 			}
+			return UniTask.CompletedTask;
 		}
 
 		private void DetermineFilthToSpawn(Vector3Int chosenLocation)

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using Logs;
 using UnityEngine;
 using Mirror;
@@ -15,12 +16,10 @@ public class MatrixSystemManager : MonoBehaviour
 
 	public void SelfInitialize()
 	{
-		StartCoroutine(Initialize());
+		_ = Initialize();
 	}
 
-
-
-	public IEnumerator Initialize()
+	public async UniTaskVoid Initialize()
 	{
 		systems = systems.OrderByDescending(s => s.Priority).ToList();
 		foreach (var system in systems)
@@ -34,8 +33,6 @@ public class MatrixSystemManager : MonoBehaviour
 				Chat.AddGameWideSystemMsgToChat($"<color=red>Error when initialising  {nameof(system)} on {this.name}. Weird stuff might happen, check logs for error..</color>");
 				Loggy.Error(e.ToString());
 			}
-
-			yield return null;
 		}
 
 		InitSystems = InitSystems.OrderByDescending(s => s.Priority).ToList();
@@ -43,15 +40,13 @@ public class MatrixSystemManager : MonoBehaviour
 		{
 			try
 			{
-				system.Initialize();
+				await system.Initialize();
 			}
 			catch (Exception e)
 			{
 				Chat.AddGameWideSystemMsgToChat($"<color=red>Error when initialising {nameof(system)} on {this.name}. Weird stuff might happen, check logs for error..</color>");
 				Loggy.Error(e.ToString());
 			}
-
-			yield return null;
 		}
 		initialized = true;
 	}

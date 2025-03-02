@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System;
+using Cysharp.Threading.Tasks;
 using Initialisation;
 using Mirror;
 using Shuttles;
@@ -42,17 +43,17 @@ public class OreGenerator : ItemMatrixSystemInit
 
 	public bool RunAutomatic = true;
 
-	public override void Initialize()
+	public override async UniTask Initialize()
 	{
 		if (RunAutomatic)
 		{
-			RunOreGenerator();
+			await RunOreGenerator();
 		}
 	}
 
-	public void RunOreGenerator()
+	public UniTask RunOreGenerator()
 	{
-		if (isServer == false) return;
+		if (isServer == false) return UniTask.CompletedTask;
 		GeneratedLocations.Clear();
 		wallTilemap = metaTileMap.Layers[LayerType.Walls].GetComponent<Tilemap>();
 
@@ -63,7 +64,7 @@ public class OreGenerator : ItemMatrixSystemInit
 			if (networkedMatrix.MatrixSync.netId == 0)
 			{
 				StartCoroutine(WaitForNetId(networkedMatrix.MatrixSync));
-				return;
+				return UniTask.CompletedTask;
 			}
 		}
 
@@ -110,6 +111,8 @@ public class OreGenerator : ItemMatrixSystemInit
 				NodeScatter(oreTile, oreCategory);
 			}
 		}
+
+		return UniTask.CompletedTask;
 	}
 
 	private void NodeScatter(Vector3Int location, OreProbability materialSpecified)
