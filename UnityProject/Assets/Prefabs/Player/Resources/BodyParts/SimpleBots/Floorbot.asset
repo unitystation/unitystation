@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e3145566f967d4e9706a88c0917052, type: 3}
+  m_Name: Floorbot
+  m_EditorClassIdentifier: 
+  Base:
+    Head:
+      Elements:
+      - {fileID: 112421141507975957, guid: b6b606388cb517144a21d93415c57401, type: 3}
+    Torso:
+      Elements:
+      - {fileID: 960852636360704351, guid: a2b54580e9de99a4d9edfba6814ad865, type: 3}
+    ArmRight:
+      Elements: []
+    ArmLeft:
+      Elements: []
+    LegRight:
+      Elements: []
+    LegLeft:
+      Elements: []
+    allowedToChangeling: 0
+    CustomisationSettings: []
+    bodyTypeSettings:
+      AvailableBodyTypes:
+      - bodyType: 0
+        Name: Standard
+      - bodyType: 0
+        Name: Emagged
+    SkinColours: []
+    RootImplantProcedure: {fileID: 11400000, guid: f76dfadb9e74d2c4a85ad57a19384808,
+      type: 2}
+    BodyPartsThatShareTheSkinTone: []
+    ClueString: 
+    MeatProduce: {fileID: 0}
+    SkinProduce: {fileID: 0}
+    SkinningItemTrait: {fileID: 0}
+    CanBePlayerChosen: 0
+    PreviewSprite: {fileID: 11400000, guid: 721ecc7a3b346db4886ee0f07f65515c, type: 2}
+    SystemSettings: []
+  references:
+    version: 2
+    RefIds: []
