@@ -231,6 +231,8 @@ public partial class PlayerList
 
 		if (data != null) return;
 
+		Loggy.Warning($"Adding rank of {inRank} To userID > {userID} addToFile > {addToFile} ");
+
 		PermissionsManager.Instance.AddRoleTo(userID, inRank, addToFile);
 
 		if (TryGetOnlineByUserID(userID, out var player))
