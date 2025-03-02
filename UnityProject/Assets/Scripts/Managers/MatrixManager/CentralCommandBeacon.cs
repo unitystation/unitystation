@@ -10,7 +10,7 @@ public class CentralCommandBeacon : MonoBehaviour
 
 	void Start()
 	{
-		CentComm = GameManager.Instance.GetComponent<CentComm>();
+		CentComm = Managers.GameManager.Instance.GetComponent<CentComm>();
 		CentComm.CentCommGuidanceBuoy = CentCommGuidanceBuoy;
 	}
 }

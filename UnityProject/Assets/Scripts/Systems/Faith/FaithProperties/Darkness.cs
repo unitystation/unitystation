@@ -88,7 +88,7 @@ namespace Systems.Faith.FaithProperties
 			if (DMMath.Prob(15))
 			{
 				Chat.AddGameWideSystemMsgToChat("<color=red>An entity is lashing out on station lights..");
-				GameManager.Instance.StartCoroutine(KillAllLights());
+				Managers.GameManager.Instance.StartCoroutine(KillAllLights());
 			}
 		}
 

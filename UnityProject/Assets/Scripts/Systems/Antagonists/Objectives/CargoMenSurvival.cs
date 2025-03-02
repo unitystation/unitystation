@@ -26,7 +26,7 @@ namespace Antagonists
 			{
 				if (p.Script == null) continue;
 
-				foreach (JobType rebeljob in GameManager.Instance.Rebels)
+				foreach (JobType rebeljob in Managers.GameManager.Instance.Rebels)
 				{
 					if (p.Job == rebeljob)
 					{

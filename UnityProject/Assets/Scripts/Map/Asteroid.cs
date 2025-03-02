@@ -32,7 +32,7 @@ namespace Map
 		public void SpawnNearStation()
 		{
 			//Request a position from GameManager and cache the object in SpaceBodies List
-			GameManager.Instance.ServerSetSpaceBody(matrixMove);
+			Managers.GameManager.Instance.ServerSetSpaceBody(matrixMove);
 		}
 
 		[Server] //Asigns random rotation to each asteroid at startup for variety.

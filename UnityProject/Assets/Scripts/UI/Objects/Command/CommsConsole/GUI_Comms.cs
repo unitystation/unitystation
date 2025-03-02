@@ -82,7 +82,7 @@ namespace UI.Objects.Command
 			//starting up, setting appropriate labels
 			ProcessIdChange(console.IdCard);
 			console.OnServerIDCardChanged.AddListener(ProcessIdChange);
-			shuttle = GameManager.Instance.PrimaryEscapeShuttle;
+			shuttle = Managers.GameManager.Instance.PrimaryEscapeShuttle;
 
 			shuttleStatusLabel.MasterSetValue(shuttle.Status.ToString());
 			statusImage.SetSprite((int)shuttle.Status);
@@ -183,7 +183,7 @@ namespace UI.Objects.Command
 			text = Chat.StripTags(text);
 
 			Loggy.Info(nameof(SetStatusDisplay), Category.Shuttles);
-			GameManager.Instance.CentComm.UpdateStatusDisplay(StatusDisplayChannel.Command, text.Substring(0, Mathf.Min(text.Length, 50)));
+			Managers.GameManager.Instance.CentComm.UpdateStatusDisplay(StatusDisplayChannel.Command, text.Substring(0, Mathf.Min(text.Length, 50)));
 			OpenMenu();
 		}
 
@@ -206,22 +206,22 @@ namespace UI.Objects.Command
 
 		public void UpdateAlertLevelLabels()
 		{
-			CurrentAlertLevelLabel.MasterSetValue(GameManager.Instance.CentComm.CurrentAlertLevel.ToString().ToUpper());
+			CurrentAlertLevelLabel.MasterSetValue(Managers.GameManager.Instance.CentComm.CurrentAlertLevel.ToString().ToUpper());
 			NewAlertLevelLabel.MasterSetValue(LocalAlertLevel.ToString().ToUpper());
 		}
 
 		public void ChangeAlertLevel()
 		{
-			if (GameManager.Instance.RoundTime < GameManager.Instance.CentComm.lastAlertChange.AddMinutes(
-				GameManager.Instance.CentComm.coolDownAlertChange))
+			if (Managers.GameManager.Instance.RoundTime < Managers.GameManager.Instance.CentComm.lastAlertChange.AddMinutes(
+				Managers.GameManager.Instance.CentComm.coolDownAlertChange))
 			{
 				StartCoroutine(DisplayAlertErrorMessage("Error: recent alert level change detected!"));
 				return;
 			}
 
 			Loggy.Info(nameof(ChangeAlertLevel), Category.Shuttles);
-			GameManager.Instance.CentComm.lastAlertChange = GameManager.Instance.RoundTime;
-			GameManager.Instance.CentComm.ChangeAlertLevel(LocalAlertLevel);
+			Managers.GameManager.Instance.CentComm.lastAlertChange = Managers.GameManager.Instance.RoundTime;
+			Managers.GameManager.Instance.CentComm.ChangeAlertLevel(LocalAlertLevel);
 
 			OpenMenu();
 		}

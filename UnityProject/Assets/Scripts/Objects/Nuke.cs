@@ -86,7 +86,7 @@ namespace Objects.Command
 			itemNuke = GetComponent<ItemStorage>();
 			nukeSlot = itemNuke.GetIndexedItemSlot(0);
 			Detonated = false;
-			loadedOnRoundID = GameManager.RoundID;
+			loadedOnRoundID = Managers.GameManager.RoundID;
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -147,7 +147,7 @@ namespace Objects.Command
 				RpcDetonate();
 				//Kills everyone on the matrix the nuke is currently on
 				StartCoroutine(WaitForDeath());
-				GameManager.Instance.RespawnCurrentlyAllowed = false;
+				Managers.GameManager.Instance.RespawnCurrentlyAllowed = false;
 				DetonateVideo();
 				ScoreMachine.AddNewScoreEntry(ON_NUKE_SCORE_ENTRY, "Station Nuked",
 					ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Bad);
@@ -155,7 +155,7 @@ namespace Objects.Command
 			}
 			else
 			{
-				GameManager.Instance.EndRound(loadedOnRoundID);
+				Managers.GameManager.Instance.EndRound(loadedOnRoundID);
 			}
 		}
 
@@ -209,8 +209,8 @@ namespace Objects.Command
 				{
 					if (isTimerTicking)
 					{
-						GameManager.Instance.CentComm.lastAlertChange = GameManager.Instance.RoundTime;
-						GameManager.Instance.CentComm.ChangeAlertLevel(CurrentAlertLevel);
+						Managers.GameManager.Instance.CentComm.lastAlertChange = Managers.GameManager.Instance.RoundTime;
+						Managers.GameManager.Instance.CentComm.ChangeAlertLevel(CurrentAlertLevel);
 						this.TryStopCoroutine(ref timerHandle);
 						isTimerTicking = false;
 					}
@@ -246,8 +246,8 @@ namespace Objects.Command
 				if (isTimer && isTimerTicking)
 				{
 					isTimerTicking = false;
-					GameManager.Instance.CentComm.lastAlertChange = GameManager.Instance.RoundTime;
-					GameManager.Instance.CentComm.ChangeAlertLevel(CurrentAlertLevel);
+					Managers.GameManager.Instance.CentComm.lastAlertChange = Managers.GameManager.Instance.RoundTime;
+					Managers.GameManager.Instance.CentComm.ChangeAlertLevel(CurrentAlertLevel);
 					this.TryStopCoroutine(ref timerHandle);
 				}
 				isTimer = !isTimer;
@@ -273,9 +273,9 @@ namespace Objects.Command
 				}
 				isTimerTicking = true;
 				CurrentTimerSeconds = digit;
-				CurrentAlertLevel = GameManager.Instance.CentComm.CurrentAlertLevel;
-				GameManager.Instance.CentComm.lastAlertChange = GameManager.Instance.RoundTime;
-				GameManager.Instance.CentComm.ChangeAlertLevel(CentComm.AlertLevel.Delta);
+				CurrentAlertLevel = Managers.GameManager.Instance.CentComm.CurrentAlertLevel;
+				Managers.GameManager.Instance.CentComm.lastAlertChange = Managers.GameManager.Instance.RoundTime;
+				Managers.GameManager.Instance.CentComm.ChangeAlertLevel(CentComm.AlertLevel.Delta);
 				this.StartCoroutine(TickTimer(), ref timerHandle);
 				return true;
 			}
@@ -334,8 +334,8 @@ namespace Objects.Command
 			}
 			yield return WaitFor.Seconds(10f);
 			// Trigger end of round
-			GameManager.Instance.RoundEndTime = 10;
-			GameManager.Instance.EndRound(loadedOnRoundID);
+			Managers.GameManager.Instance.RoundEndTime = 10;
+			Managers.GameManager.Instance.EndRound(loadedOnRoundID);
 		}
 
 		IEnumerator TickTimer()

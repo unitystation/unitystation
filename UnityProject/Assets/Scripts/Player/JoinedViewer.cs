@@ -282,17 +282,17 @@ namespace Player
 		{
 			IsValidPlayerAndWaitingOnLoad = false;
 			// Only sync the pre-round countdown if it's already started.
-			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound)
+			if (Managers.GameManager.Instance.CurrentRoundState == RoundState.PreRound)
 			{
-				if (GameManager.Instance.waitForStart)
+				if (Managers.GameManager.Instance.waitForStart)
 				{
 					GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("Syncing countdown end time.");
-					TargetSyncCountdown(connectionToClient, GameManager.Instance.waitForStart,
-						GameManager.Instance.CountdownEndTime);
+					TargetSyncCountdown(connectionToClient, Managers.GameManager.Instance.waitForStart,
+						Managers.GameManager.Instance.CountdownEndTime);
 				}
 				else
 				{
-					GameManager.Instance.CheckPlayerCount();
+					Managers.GameManager.Instance.CheckPlayerCount();
 				}
 			}
 
@@ -310,8 +310,8 @@ namespace Player
 			if (STVerifiedConnPlayer.Mind == null) //TODO Handle when someone gets kicked out of their mind
 			{
 				GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("");
-				TargetLocalPlayerSetupNewPlayer(connectionToClient, GameManager.Instance.CurrentRoundState);
-				GameManager.Instance.OrNull()?.PlayerLoadedIn(connectionToClient);
+				TargetLocalPlayerSetupNewPlayer(connectionToClient, Managers.GameManager.Instance.CurrentRoundState);
+				Managers.GameManager.Instance.OrNull()?.PlayerLoadedIn(connectionToClient);
 				ClearCache(true);
 			}
 			else
@@ -353,7 +353,7 @@ namespace Player
 			}
 
 			TargetLocalPlayerRejoinUI(connectionToClient);
-			GameManager.Instance.OrNull()?.PlayerLoadedIn(connectionToClient);
+			Managers.GameManager.Instance.OrNull()?.PlayerLoadedIn(connectionToClient);
 			STVerifiedConnPlayer.Mind.OrNull()?.ReLog();
 
 			ClearCache();

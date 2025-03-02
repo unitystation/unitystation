@@ -185,7 +185,7 @@ namespace Blob
 
 		private Collider2D[] sporesArray = new Collider2D[40];
 
-		private int RoundID = GameManager.RoundID;
+		private int RoundID = Managers.GameManager.RoundID;
 
 		/// <summary>
 		/// The start function of the script called from BlobStarter when player turns into blob, sets up core.
@@ -253,7 +253,7 @@ namespace Blob
 			SubscribeToDamage(blobCore);
 
 			//Block escape shuttle from leaving station when it arrives
-			GameManager.Instance.PrimaryEscapeShuttle.SetHostileEnvironment(true);
+			Managers.GameManager.Instance.PrimaryEscapeShuttle.SetHostileEnvironment(true);
 		}
 
 		private void OnEnable()
@@ -271,7 +271,7 @@ namespace Blob
 			playerSync = GetComponent<MovementSynchronisation>();
 			registerPlayer = GetComponent<RegisterPlayer>();
 			playerScript = GetComponent<PlayerScript>();
-			RoundID = GameManager.RoundID;
+			RoundID = Managers.GameManager.RoundID;
 			layerMask = LayerMask.GetMask("Objects", "Players", "NPC", "Machines", "Windows", "Door Closed");
 			sporeLayerMask = LayerMask.GetMask("NPC");
 		}
@@ -1231,7 +1231,7 @@ namespace Blob
 
 			blobTiles = new ConcurrentDictionary<Vector3Int, BlobStructure>();
 
-			GameManager.Instance.PrimaryEscapeShuttle.SetHostileEnvironment(false);
+			Managers.GameManager.Instance.PrimaryEscapeShuttle.SetHostileEnvironment(false);
 
 			Chat.AddSystemMsgToChat(
 				string.Format(ReportTemplates.BioHazard,
@@ -1250,8 +1250,8 @@ namespace Blob
 
 			if (endRoundWhenKilled)
 			{
-				GameManager.Instance.RoundEndTime = 60;
-				GameManager.Instance.EndRound(RoundID);
+				Managers.GameManager.Instance.RoundEndTime = 60;
+				Managers.GameManager.Instance.EndRound(RoundID);
 			}
 
 			_ = Despawn.ServerSingle(gameObject);
@@ -1268,7 +1268,7 @@ namespace Blob
 
 		private void BlobWins()
 		{
-			GameManager.Instance.CentComm.ChangeAlertLevel(CentComm.AlertLevel.Delta);
+			Managers.GameManager.Instance.CentComm.ChangeAlertLevel(CentComm.AlertLevel.Delta);
 
 			Chat.AddSystemMsgToChat(
 				string.Format(ReportTemplates.BioHazard,
@@ -1295,8 +1295,8 @@ namespace Blob
 				Chat.AddGameWideSystemMsgToChat($"At its biggest the blob had {maxCount} tiles controlled" +
 				                                $" but only had {maxNonSpaceCount} non-space tiles which counted to victory.");
 
-				GameManager.Instance.RoundEndTime = 60;
-				GameManager.Instance.EndRound(RoundID);
+				Managers.GameManager.Instance.RoundEndTime = 60;
+				Managers.GameManager.Instance.EndRound(RoundID);
 			}
 		}
 

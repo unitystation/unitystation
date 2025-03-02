@@ -32,12 +32,12 @@ namespace Objects.Machines.ServerMachines.Communications
 
 		private void OnEnable()
 		{
-			GameManager.Instance.CommsServers.Add(this);
+			Managers.GameManager.Instance.CommsServers.Add(this);
 		}
 
 		private void OnDisable()
 		{
-			GameManager.Instance.CommsServers.Remove(this);
+			Managers.GameManager.Instance.CommsServers.Remove(this);
 			integrity.OnApplyDamage.RemoveListener(OnDamageReceived);
 		}
 

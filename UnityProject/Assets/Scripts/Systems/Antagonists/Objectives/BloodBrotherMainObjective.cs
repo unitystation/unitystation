@@ -65,10 +65,10 @@ namespace Antagonists
 
 			if (Isending == false)
 			{
-				if (GameManager.Instance.CurrentRoundState != RoundState.Started) return;
-				if (GameManager.Instance.GameMode is BloodBrothers)
+				if (Managers.GameManager.Instance.CurrentRoundState != RoundState.Started) return;
+				if (Managers.GameManager.Instance.GameMode is BloodBrothers)
 				{
-					GameManager.Instance.EndRound(GameManager.RoundID);
+					Managers.GameManager.Instance.EndRound(Managers.GameManager.RoundID);
 				}
 			}
 		}

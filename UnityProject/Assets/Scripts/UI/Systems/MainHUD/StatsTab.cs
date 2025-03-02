@@ -38,7 +38,7 @@ public class StatsTab : SingletonManager<StatsTab>
 
 	public void UpdateMe()
 	{
-		serverFPS.text = $"{GameManager.Instance.ServerCurrentFPS} - avg: {GameManager.Instance.ServerAverageFPS}";
+		serverFPS.text = $"{Managers.GameManager.Instance.ServerCurrentFPS} - avg: {Managers.GameManager.Instance.ServerAverageFPS}";
 	}
 
 	private void OnPreRoundStarted()
@@ -80,12 +80,12 @@ public class StatsTab : SingletonManager<StatsTab>
 	{
 		if (roundStatus == null) return;
 
-		gameMode.text = GameManager.Instance.GetGameModeName();
+		gameMode.text = Managers.GameManager.Instance.GetGameModeName();
 	}
 
 	public void UpdateRoundTime()
 	{
 		if(roundTimer == null) return;
-		roundTimer.text = GameManager.Instance.RoundTime.ToShortTimeString();
+		roundTimer.text = Managers.GameManager.Instance.RoundTime.ToShortTimeString();
 	}
 }

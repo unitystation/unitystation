@@ -130,7 +130,7 @@ public class EscapeShuttle : AutopilotShipMachine
 		{
 			internalStatus = value;
 			OnShuttleUpdate.Invoke(internalStatus);
-			GameManager.Instance.OnShuttleUpdate(internalStatus);
+			Managers.GameManager.Instance.OnShuttleUpdate(internalStatus);
 			Loggy.Trace( gameObject.name + " EscapeShuttle status changed to " + internalStatus );
 		}
 	}
@@ -169,9 +169,9 @@ public class EscapeShuttle : AutopilotShipMachine
 	private void Start()
 	{
 		base.Start();
-		centComm = GameManager.Instance.GetComponent<CentComm>();
+		centComm = Managers.GameManager.Instance.GetComponent<CentComm>();
 		initialTimerSecondsCache = initialTimerSeconds;
-		loadedOnRoundID = GameManager.RoundID;
+		loadedOnRoundID = Managers.GameManager.RoundID;
 		InItAsIfDockedTo(StationStartBuoy);
 	}
 
@@ -181,7 +181,7 @@ public class EscapeShuttle : AutopilotShipMachine
 		matrixMove = GetComponentInParent<MatrixMove>();
 		networkedMatrix = GetComponentInParent<NetworkedMatrix>();
 		thrusters = GetComponentsInChildren<ShipThruster>().ToList();
-		GameManager.Instance.SetEscapeShuttle(this);
+		Managers.GameManager.Instance.SetEscapeShuttle(this);
 		foreach (var thruster in thrusters)
 		{
 			var integrity = thruster.GetComponent<Integrity>();
@@ -221,7 +221,7 @@ public class EscapeShuttle : AutopilotShipMachine
 		//game over! escape shuttle has no thrusters so it's not possible to reach centcomm.
 		networkedMatrix.MatrixSync.RpcStrandedEnd();
 		StartCoroutine(WaitForGameOver());
-		GameManager.Instance.RespawnCurrentlyAllowed = false;
+		Managers.GameManager.Instance.RespawnCurrentlyAllowed = false;
 	}
 
 	IEnumerator WaitForGameOver()
@@ -230,7 +230,7 @@ public class EscapeShuttle : AutopilotShipMachine
 		//we disabled the zoom out
 		yield return WaitFor.Seconds(15f);
 		// Trigger end of round
-		GameManager.Instance.EndRound(loadedOnRoundID);
+		Managers.GameManager.Instance.EndRound(loadedOnRoundID);
 	}
 
 	public override void ReachedEndOfOutBuoyChain(GuidanceBuoy GuidanceBuoy)
@@ -467,7 +467,7 @@ public class EscapeShuttle : AutopilotShipMachine
 				if (CurrentTimerSeconds <= 0 && UnderflowFunnies.Count <= UnderflowIndex && GiveUpTime < 0)
 				{
 					Loggy.Error("[GameManager.Escape/TickTimer()] - OH SHITTTT Shuttle got stuck on the Way to station AAAAAAAAAAAAAAAAAAAAAAAAAAAA emergency end round");
-					GameManager.Instance.EndRound(loadedOnRoundID);
+					Managers.GameManager.Instance.EndRound(loadedOnRoundID);
 					centComm.UpdateStatusDisplay(StatusDisplayChannel.CachedChannel, null);
 					yield break;
 				}
@@ -537,8 +537,8 @@ public class EscapeShuttle : AutopilotShipMachine
 
 		if(Status != EscapeShuttleStatus.DockedStation) return;
 
-		Chat.AddSystemMsgToChat($"<color=white>Hostile Environment has been removed! Crew has {TimeSpan.FromSeconds(GameManager.Instance.ShuttleDepartTime).Minutes} minutes to get on it.</color>", MatrixManager.MainStationMatrix, LanguageManager.Common);
-		GameManager.Instance.ForceSendEscapeShuttleFromStation(GameManager.Instance.ShuttleDepartTime);
+		Chat.AddSystemMsgToChat($"<color=white>Hostile Environment has been removed! Crew has {TimeSpan.FromSeconds(Managers.GameManager.Instance.ShuttleDepartTime).Minutes} minutes to get on it.</color>", MatrixManager.MainStationMatrix, LanguageManager.Common);
+		Managers.GameManager.Instance.ForceSendEscapeShuttleFromStation(Managers.GameManager.Instance.ShuttleDepartTime);
 	}
 }
 

@@ -221,7 +221,7 @@ namespace UI.Objects.Command
 			{
 				case false when alreadyHasClearance:
 				{
-					if (GameManager.Instance.CentComm.IsLowPop)
+					if (Managers.GameManager.Instance.CentComm.IsLowPop)
 					{
 						idClearance.ServerRemoveLowPopClearance(accessToModify);
 						return;
@@ -232,7 +232,7 @@ namespace UI.Objects.Command
 				}
 				case true when alreadyHasClearance == false:
 				{
-					if (GameManager.Instance.CentComm.IsLowPop)
+					if (Managers.GameManager.Instance.CentComm.IsLowPop)
 					{
 						idClearance.ServerAddLowPopClearance(accessToModify);
 						return;

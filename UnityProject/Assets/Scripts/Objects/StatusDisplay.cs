@@ -105,7 +105,7 @@ namespace Objects.Wallmounts
 			{
 				hasCables = false;
 				stateSync = MountedMonitorState.OpenEmpty;
-				statusText = GameManager.Instance.CentComm.CommandStatusString;
+				statusText = Managers.GameManager.Instance.CentComm.CommandStatusString;
 			}
 
 			if (NewdoorControllers.Count > 0  )
@@ -114,7 +114,7 @@ namespace Objects.Wallmounts
 			}
 
 			SyncSprite(stateSync, stateSync);
-			centComm = GameManager.Instance.CentComm;
+			centComm = Managers.GameManager.Instance.CentComm;
 			centComm.OnStatusDisplayUpdate.AddListener(OnTextBroadcastReceived);
 			centComm.OnAlertLevelChange += ServerUpdateCurrentColor;
 		}
@@ -125,7 +125,7 @@ namespace Objects.Wallmounts
 			// Chances are we are trying to edit or test a scene and the managers aren't loaded.
 			if (Application.isPlaying == false) return;
 			#endif
-			centComm = GameManager.Instance.CentComm;
+			centComm = Managers.GameManager.Instance.CentComm;
 
 		}
 

@@ -98,12 +98,12 @@ namespace Core.Editor
 
 			private static void UpdateGameManager(bool isQuickLoad)
 			{
-				var gameManager = AssetDatabase.LoadAssetAtPath<GameManager>
+				var gameManager = AssetDatabase.LoadAssetAtPath<Managers.GameManager>
 					("Assets/Prefabs/SceneConstruction/NestedManagers/GameManager.prefab");
 				if (gameManager == null)
 				{
 					Loggy.Warning(
-						$"{nameof(GameManager)} not found! Cannot set {nameof(GameManager.QuickLoad)} property.");
+						$"{nameof(Managers.GameManager)} not found! Cannot set {nameof(Managers.GameManager.QuickLoad)} property.");
 					return;
 				}
 

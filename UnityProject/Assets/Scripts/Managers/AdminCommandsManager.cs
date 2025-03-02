@@ -135,12 +135,12 @@ namespace AdminCommands
 
 			if (newLimit < 0) return;
 
-			var currentLimit = GameManager.Instance.PlayerLimit;
+			var currentLimit = Managers.GameManager.Instance.PlayerLimit;
 			if (currentLimit == newLimit) return;
 
 			LogAdminAction($"{player.Username}: Set PlayerLimit to {newLimit} from {currentLimit}");
 
-			GameManager.Instance.PlayerLimit = newLimit;
+			Managers.GameManager.Instance.PlayerLimit = newLimit;
 		}
 
 		//Limit to 5 fps minimum
@@ -211,16 +211,16 @@ namespace AdminCommands
 
 			var message = new StringBuilder();
 
-			if (GameManager.Instance.NextGameMode != nextGameMode)
+			if (Managers.GameManager.Instance.NextGameMode != nextGameMode)
 			{
 				message.AppendLine($"{player.Username}: Updated the next game mode with {nextGameMode}");
-				GameManager.Instance.NextGameMode = nextGameMode;
+				Managers.GameManager.Instance.NextGameMode = nextGameMode;
 			}
 
-			if (GameManager.Instance.SecretGameMode != isSecret)
+			if (Managers.GameManager.Instance.SecretGameMode != isSecret)
 			{
 				message.AppendLine($"{player.Username}: Set the IsSecret GameMode flag to {isSecret}");
-				GameManager.Instance.SecretGameMode = isSecret;
+				Managers.GameManager.Instance.SecretGameMode = isSecret;
 			}
 
 			if (message.Length == 0) return;
@@ -250,7 +250,7 @@ namespace AdminCommands
 		{
 			if (HasPermission(sender, out var player,TAG.MANAGE_ROUND_START) == false) return;
 
-			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound && GameManager.Instance.waitForStart)
+			if (Managers.GameManager.Instance.CurrentRoundState == RoundState.PreRound && Managers.GameManager.Instance.waitForStart)
 			{
 				if (SubsystemMatrixQueueInit.InitializedAll == false ||
 				    SubSceneManager.Instance.ServerInitialLoadingComplete == false)
@@ -259,7 +259,7 @@ namespace AdminCommands
 						$"<color={AdminActionChatColor}> An Admin tried to start the game early but the server wasn't ready. **insert Walter White Breaks Down meme here** </color>");
 					return;
 				}
-				GameManager.Instance.StartRound();
+				Managers.GameManager.Instance.StartRound();
 
 				Chat.AddGameWideSystemMsgToChat(
 					$"<color={AdminActionChatColor}>An admin started the round early.</color>");
@@ -271,12 +271,12 @@ namespace AdminCommands
 		public void CmdEndRound(NetworkConnectionToClient sender = null)
 		{
 			if (HasPermission(sender, out var player,TAG.MANAGE_ROUND_END) == false) return;
-			if (GameManager.Instance.CurrentRoundState == RoundState.Started)
+			if (Managers.GameManager.Instance.CurrentRoundState == RoundState.Started)
 			{
-				GameManager.Instance.RoundEndTime = 5; // Quick round end when triggered by admin.
+				Managers.GameManager.Instance.RoundEndTime = 5; // Quick round end when triggered by admin.
 
 				VideoPlayerMessage.Send(VideoType.RestartRound);
-				GameManager.Instance.EndRound(GameManager.RoundID);
+				Managers.GameManager.Instance.EndRound(Managers.GameManager.RoundID);
 
 				Chat.AddGameWideSystemMsgToChat(
 					$"<color={AdminActionChatColor}>An admin ended the round early.</color>");
@@ -315,13 +315,13 @@ namespace AdminCommands
 		{
 			if (HasPermission(sender, out var player, TAG.MANAGE_ROUND_ALERT_LEVEL) == false) return;
 
-			var currentLevel = GameManager.Instance.CentComm.CurrentAlertLevel;
+			var currentLevel = Managers.GameManager.Instance.CentComm.CurrentAlertLevel;
 
 			if (currentLevel == alertLevel) return;
 
 			LogAdminAction($"{player.Username}: Changed the alert level from {currentLevel} to {alertLevel}.");
 
-			GameManager.Instance.CentComm.ChangeAlertLevel(alertLevel);
+			Managers.GameManager.Instance.CentComm.ChangeAlertLevel(alertLevel);
 		}
 
 		#endregion
@@ -333,7 +333,7 @@ namespace AdminCommands
 		{
 			if (HasPermission(sender, out var player, TAG.MANAGE_ROUND_CALL_SHUTTLE) == false) return;
 
-			var shuttle = GameManager.Instance.PrimaryEscapeShuttle;
+			var shuttle = Managers.GameManager.Instance.PrimaryEscapeShuttle;
 
 			if (shuttle.Status == EscapeShuttleStatus.DockedCentcom)
 			{
@@ -349,7 +349,7 @@ namespace AdminCommands
 		{
 			if (HasPermission(sender, out var player, TAG.MANAGE_ROUND_RECALL_SHUTTLE) == false) return;
 
-			var success = GameManager.Instance.PrimaryEscapeShuttle.RecallShuttle(out var result, true);
+			var success = Managers.GameManager.Instance.PrimaryEscapeShuttle.RecallShuttle(out var result, true);
 
 			if (success == false) return;
 
@@ -373,7 +373,7 @@ namespace AdminCommands
 		{
 			if (HasPermission(sender, out var player, TAG.MANAGE_ROUND_CENTCOMM_REPORT) == false) return;
 
-			GameManager.Instance.CentComm.MakeCommandReport(text);
+			Managers.GameManager.Instance.CentComm.MakeCommandReport(text);
 
 			LogAdminAction($"{player.Username}: made a central command REPORT. \n {text}");
 		}
@@ -383,7 +383,7 @@ namespace AdminCommands
 		{
 			if (HasPermission(sender, out var player, TAG.MANAGE_ROUND_BLOCK_SHUTTLE_CALL) == false) return;
 
-			var shuttle = GameManager.Instance.PrimaryEscapeShuttle;
+			var shuttle = Managers.GameManager.Instance.PrimaryEscapeShuttle;
 
 			if (shuttle.blockCall == toggleBool) return;
 
@@ -397,7 +397,7 @@ namespace AdminCommands
 		{
 			if (HasPermission(sender, out var player, TAG.MANAGE_ROUND_BLOCK_SHUTTLE_RECALL) == false) return;
 
-			var shuttle = GameManager.Instance.PrimaryEscapeShuttle;
+			var shuttle = Managers.GameManager.Instance.PrimaryEscapeShuttle;
 
 			if (shuttle.blockRecall == toggleBool) return;
 

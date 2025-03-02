@@ -24,7 +24,7 @@ namespace InGameEvents
 			if (FakeEvent) return;
 			base.OnEventStart();
 			AntagManager.Instance.ActiveAntags.Clear();
-			GameManager.Instance.PrimaryEscapeShuttle.OnShuttleCalled += OnShuttleCalled;
+			Managers.GameManager.Instance.PrimaryEscapeShuttle.OnShuttleCalled += OnShuttleCalled;
 			StartCoroutine(StartRoundTimer());
 			foreach (var player in PlayerList.Instance.GetAlivePlayers())
 			{
@@ -35,25 +35,25 @@ namespace InGameEvents
 
 		private IEnumerator StartRoundTimer()
 		{
-			int Round = GameManager.RoundID;
+			int Round = Managers.GameManager.RoundID;
 			remainingTime = eventTime;
 			while (remainingTime > 0f)
 			{
 				remainingTime -= 1f;
 				yield return WaitFor.Seconds(1f);
-				if (Round != GameManager.RoundID)
+				if (Round != Managers.GameManager.RoundID)
 				{
 					yield break;
 				}
 			}
-			GameManager.Instance.EndRound(Round);
+			Managers.GameManager.Instance.EndRound(Round);
 		}
 
 		private void OnShuttleCalled()
 		{
 			StopCoroutine(StartRoundTimer());
-			GameManager.Instance.PrimaryEscapeShuttle.blockCall = true;
-			GameManager.Instance.PrimaryEscapeShuttle.blockRecall = true;
+			Managers.GameManager.Instance.PrimaryEscapeShuttle.blockCall = true;
+			Managers.GameManager.Instance.PrimaryEscapeShuttle.blockRecall = true;
 		}
 	}
 }

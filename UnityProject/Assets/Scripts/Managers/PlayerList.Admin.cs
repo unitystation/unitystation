@@ -278,11 +278,11 @@ public partial class PlayerList
 	{
 		//PlayerLimit Checking:
 		//Deny player joining if limit reached and this player wasn't already in the round (in case of disconnect)
-		var playerLimit = GameManager.Instance.PlayerLimit;
+		var playerLimit = Managers.GameManager.Instance.PlayerLimit;
 
 
 
-		if (ConnectionCount > GameManager.Instance.PlayerLimit
+		if (ConnectionCount > Managers.GameManager.Instance.PlayerLimit
 		    && roundPlayers.Contains(player) == false
 		    && AdminCommandsManager.HasPermission(player,TAG.ADMIN_BYPASS_PLAYER_LIMIT) == false)
 		{

@@ -50,7 +50,7 @@ public partial class SubSceneManager
 		Loggy.Info(" Loading main station ");
 		yield return StartCoroutine(ServerLoadMainStation(loadTimer));
 
-		if (GameManager.Instance.QuickLoad == false)
+		if (Managers.GameManager.Instance.QuickLoad == false)
 		{
 			Loggy.Info(" Loading Asteroids ");
 			//Load Asteroids:
@@ -119,7 +119,7 @@ public partial class SubSceneManager
 		}
 		else
 		{
-			serverChosenMainStation = GameManager.Instance.GameMode.mainStations.GetRandomMainStation();
+			serverChosenMainStation = Managers.GameManager.Instance.GameMode.mainStations.GetRandomMainStation();
 			Loggy.Info($"[SubSceneManager.SceneList] - Server has choosen {serverChosenMainStation} as main station. " +
 			          $"Previous admin forced: {AdminForcedMainStation}", Category.Round);
 		}
@@ -147,7 +147,7 @@ public partial class SubSceneManager
 
 	IEnumerator ServerLoadCentCom(SubsceneLoadTimer loadTimer)
 	{
-		if (GameManager.Instance.QuickLoad)
+		if (Managers.GameManager.Instance.QuickLoad)
 		{
 			yield break;
 		}
@@ -175,7 +175,7 @@ public partial class SubSceneManager
 	//Load all the asteroids on the server
 	IEnumerator ServerLoadAdditionalScenes(SubsceneLoadTimer loadTimer)
 	{
-		if (GameManager.Instance.QuickLoad)
+		if (Managers.GameManager.Instance.QuickLoad)
 		{
 			yield break;
 		}
@@ -208,7 +208,7 @@ public partial class SubSceneManager
 	//Load the away site on the server
 	IEnumerator ServerLoadAwaySite(SubsceneLoadTimer loadTimer)
 	{
-		if (GameManager.Instance.QuickLoad)
+		if (Managers.GameManager.Instance.QuickLoad)
 		{
 			yield break;
 		}

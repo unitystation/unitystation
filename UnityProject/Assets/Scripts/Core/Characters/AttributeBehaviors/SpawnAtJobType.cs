@@ -18,7 +18,7 @@ namespace Core.Characters.AttributeBehaviors
 			Transform spawnTransform;
 			var physics = characterBody.GetComponent<Physics.UniversalObjectPhysics>();
 			// Spawn normal location for special jobs or if less than 2 minutes passed
-			if (GameManager.Instance.RoundTime < ARRIVALS_SPAWN_TIME)
+			if (Managers.GameManager.Instance.RoundTime < ARRIVALS_SPAWN_TIME)
 			{
 				spawnTransform = SpawnPoint.GetRandomPointForJob(jobType);
 			}

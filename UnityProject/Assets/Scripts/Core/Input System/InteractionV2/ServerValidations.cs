@@ -85,7 +85,7 @@ public static class ServerValidations
 	public static bool HasIllegalCharacterName(String characterName)
 	{
 		if(characterName.Any(char.IsDigit) || characterName.Any(char.IsSymbol)
-		|| characterName.Count() > GameManager.Instance.CharacterNameLimit || characterName.Contains("\n")
+		|| characterName.Count() > Managers.GameManager.Instance.CharacterNameLimit || characterName.Contains("\n")
 		|| characterName.All(char.IsUpper))
 		{
 			return true;

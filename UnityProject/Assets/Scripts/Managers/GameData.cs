@@ -66,7 +66,7 @@ public class GameData : MonoBehaviour, IInitialise
 
 	public async void APITest()
 	{
-		var url = $"{GameManager.Instance.AccountAPIHost}/validatetoken?data=";
+		var url = $"{Managers.GameManager.Instance.AccountAPIHost}/validatetoken?data=";
 
 		HttpRequestMessage r = new HttpRequestMessage(HttpMethod.Get,
 			url + JsonConvert.SerializeObject(""));
@@ -157,9 +157,9 @@ public class GameData : MonoBehaviour, IInitialise
 			//Reset stuff
 			CheckHeadlessState();
 
-			if (IsInGame && GameManager.Instance != null && CustomNetworkManager.IsServer)
+			if (IsInGame && Managers.GameManager.Instance != null && CustomNetworkManager.IsServer)
 			{
-				GameManager.Instance.ResetRoundTime();
+				Managers.GameManager.Instance.ResetRoundTime();
 			}
 
 			return;

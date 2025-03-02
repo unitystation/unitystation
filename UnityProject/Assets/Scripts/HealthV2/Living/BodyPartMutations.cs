@@ -458,7 +458,7 @@ public class BodyPartMutations : BodyPartFunctionality
 
 		public void CheckValidity()
 		{
-			if (RoundID != GameManager.RoundID)
+			if (RoundID != Managers.GameManager.RoundID)
 			{
 				RerollDifficulty();
 			}
@@ -576,7 +576,7 @@ public class BodyPartMutations : BodyPartFunctionality
 		public void RerollDifficulty()
 		{
 
-			this.RoundID = GameManager.RoundID;
+			this.RoundID = Managers.GameManager.RoundID;
 			if (MutationSO != null)
 			{
 				this.ResearchDifficult =

@@ -218,7 +218,7 @@ namespace Objects.Engineering.Reactor
 
 		protected override bool SendSignalLogic()
 		{
-			return WillInfluenceChat() && GameManager.Instance.CommsServers.Count != 0;
+			return WillInfluenceChat() && Managers.GameManager.Instance.CommsServers.Count != 0;
 		}
 
 		public override void SignalFailed() { }

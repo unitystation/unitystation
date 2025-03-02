@@ -15,7 +15,7 @@ namespace Messages.Server
 
 		public override void Process(NetMessage msg)
 		{
-			GameManager.Instance.SyncTime(msg.Time, msg.Minutes);
+			Managers.GameManager.Instance.SyncTime(msg.Time, msg.Minutes);
 		}
 
 		public static NetMessage Send(string time, int minutes)

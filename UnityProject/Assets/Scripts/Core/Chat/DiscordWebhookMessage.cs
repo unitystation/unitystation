@@ -270,12 +270,12 @@ namespace DiscordWebhook
 			{
 				bool isUnique = ErrorMessageHashSet.Contains(stackTrace) == false;
 
-				if (GameManager.Instance != null)
+				if (Managers.GameManager.Instance != null)
 				{
-					GameManager.Instance.errorCounter++;
+					Managers.GameManager.Instance.errorCounter++;
 					if (isUnique)
 					{
-						GameManager.Instance.uniqueErrorCounter++;
+						Managers.GameManager.Instance.uniqueErrorCounter++;
 					}
 				}
 

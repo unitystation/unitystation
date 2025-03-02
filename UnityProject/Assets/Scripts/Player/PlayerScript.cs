@@ -359,7 +359,7 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 		StatsTab.Instance.UpdateCurrentMap();
 		StatsTab.Instance.UpdateGameMode();
 		StatsTab.Instance.UpdateRoundTime();
-		switch (GameManager.Instance.CurrentRoundState)
+		switch (Managers.GameManager.Instance.CurrentRoundState)
 		{
 			case (RoundState.Started):
 				StatsTab.Instance.UpdateRoundStatus("Started");

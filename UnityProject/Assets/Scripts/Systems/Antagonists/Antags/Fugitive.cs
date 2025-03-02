@@ -53,7 +53,7 @@ namespace Antagonists
 			int fugitiveNumber = Random.Range(1111, 9999);
 			warnMessage = string.Format(warnMessage, fugitiveName, fugitiveNumber);
 
-			GameManager.Instance.CentComm.MakeCommandReport(warnMessage);
+			Managers.GameManager.Instance.CentComm.MakeCommandReport(warnMessage);
 		}
 	}
 }

@@ -219,7 +219,7 @@ namespace UI
 			EventManager.Broadcast(Event.SceneUnloading);
 
 			HideAllMenus();
-			GameManager.Instance.DisconnectExpected = true;
+			Managers.GameManager.Instance.DisconnectExpected = true;
 			StopNetworking();
 			SceneManager.LoadScene("Lobby");
 		}

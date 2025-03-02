@@ -142,12 +142,12 @@ namespace DatabaseAPI
 				}
 
 				status.Passworded = string.IsNullOrEmpty(config.ConnectionPassword) == false;
-				status.RoundTime = GameManager.Instance.RoundTimeInMinutes.ToString();
-				status.PlayerCountMax = GameManager.Instance.PlayerLimit;
+				status.RoundTime = Managers.GameManager.Instance.RoundTimeInMinutes.ToString();
+				status.PlayerCountMax = Managers.GameManager.Instance.PlayerLimit;
 
 
-				status.GameMode = GameManager.Instance.GetGameModeName();
-				status.IngameTime = GameManager.Instance.roundTimer.text;
+				status.GameMode = Managers.GameManager.Instance.GetGameModeName();
+				status.IngameTime = Managers.GameManager.Instance.roundTimer.text;
 				if (PlayerList.Instance != null)
 				{
 					status.PlayerCount = PlayerList.Instance.ConnectionCount;

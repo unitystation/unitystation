@@ -262,7 +262,7 @@ public class ChatScroll : MonoBehaviour
 			{
 				AddNewChatEntry(new ChatEntryData
 				{
-					Message = $"You: { GameManager.Instance.RoundTime.ToString(@"hh\:mm\:ss") + " - " + inputField.text}"
+					Message = $"You: { Managers.GameManager.Instance.RoundTime.ToString(@"hh\:mm\:ss") + " - " + inputField.text}"
 				});
 			}
 
@@ -280,7 +280,7 @@ public class ChatScroll : MonoBehaviour
 			{
 				AddNewChatEntry(new ChatEntryData
 				{
-					Message = $"You: { GameManager.Instance.RoundTime.ToString(@"hh\:mm\:ss") + " - " + TMPinputField.text}"
+					Message = $"You: { Managers.GameManager.Instance.RoundTime.ToString(@"hh\:mm\:ss") + " - " + TMPinputField.text}"
 				});
 			}
 

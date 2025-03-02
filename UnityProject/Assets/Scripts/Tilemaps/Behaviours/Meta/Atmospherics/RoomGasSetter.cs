@@ -27,7 +27,7 @@ namespace Systems.Atmospherics
 
 			if (metaDataNode == null) return;
 
-			if (GameManager.Instance.CurrentRoundState != RoundState.Started) return;
+			if (Managers.GameManager.Instance.CurrentRoundState != RoundState.Started) return;
 
 			if (gasMixToSpawn == null)
 			{

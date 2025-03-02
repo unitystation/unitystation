@@ -13,7 +13,7 @@ namespace Systems.Clearance
 		/// if the round is currently a lowpop round or not.
 		/// </summary>
 		/// <returns>Current relevant clearance</returns>
-		IEnumerable<Clearance> GetCurrentClearance => GameManager.Instance.CentComm.IsLowPop ? IssuedClearance.Concat(LowPopIssuedClearance).Distinct() : IssuedClearance;
+		IEnumerable<Clearance> GetCurrentClearance => Managers.GameManager.Instance.CentComm.IsLowPop ? IssuedClearance.Concat(LowPopIssuedClearance).Distinct() : IssuedClearance;
 
 		/// <summary>
 		/// Issued clearance for this clearance source. This list is consulted when the current round has a normal amount of population.

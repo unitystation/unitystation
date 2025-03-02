@@ -30,7 +30,7 @@ public class ItemResearchPotential : MonoBehaviour
 
 	public void Awake()
 	{
-		int Round = GameManager.RoundID;
+		int Round = Managers.GameManager.RoundID;
 		if (Round != RoundID)
 		{
 			ItemResearchRandomisedData.Clear();

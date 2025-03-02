@@ -230,7 +230,7 @@ namespace Systems.Pipes
 
 		public void SpillContent(Tuple<ReagentMix, GasMix> ToSpill)
 		{
-			if (GameManager.Instance.CurrentRoundState is RoundState.Restarting) return;
+			if (Managers.GameManager.Instance.CurrentRoundState is RoundState.Restarting) return;
 			if (MatrixManager.Instance == null) return;
 			if (pipeNode == null && MonoPipe == null ) return;
 

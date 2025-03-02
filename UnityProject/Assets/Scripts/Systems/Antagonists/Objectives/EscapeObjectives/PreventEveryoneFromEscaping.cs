@@ -19,7 +19,7 @@ namespace Antagonists
 		/// </summary>
 		protected override void Setup()
 		{
-			ValidShuttles.Add(GameManager.Instance.PrimaryEscapeShuttle);
+			ValidShuttles.Add(Managers.GameManager.Instance.PrimaryEscapeShuttle);
 		}
 
 		/// <summary>

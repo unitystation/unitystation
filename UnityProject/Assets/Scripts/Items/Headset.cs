@@ -33,7 +33,7 @@ public class Headset : SignalEmitter, IInteractable<HandActivate>, IExaminable, 
 
 	protected override bool SendSignalLogic()
 	{
-		if (GameManager.Instance.CommsServers.Count == 0) return false;
+		if (Managers.GameManager.Instance.CommsServers.Count == 0) return false;
 		return isEMPed == false;
 	}
 

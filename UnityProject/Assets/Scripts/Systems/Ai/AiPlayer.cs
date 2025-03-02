@@ -1157,9 +1157,9 @@ namespace Systems.Ai
 				return;
 			}
 
-			if (GameManager.Instance.PrimaryEscapeShuttle.CallShuttle(out var result))
+			if (Managers.GameManager.Instance.PrimaryEscapeShuttle.CallShuttle(out var result))
 			{
-				CentComm.MakeShuttleCallAnnouncement(GameManager.Instance.PrimaryEscapeShuttle.InitialTimerSeconds, reason);
+				CentComm.MakeShuttleCallAnnouncement(Managers.GameManager.Instance.PrimaryEscapeShuttle.InitialTimerSeconds, reason);
 			}
 
 			Chat.AddExamineMsgFromServer(gameObject, result);

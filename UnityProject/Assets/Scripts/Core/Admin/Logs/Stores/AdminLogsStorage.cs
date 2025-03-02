@@ -40,7 +40,7 @@ namespace Core.Admin.Logs.Stores
 
 		private void QueueLog(LogEntry newEntry)
 		{
-			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound) return;
+			if (Managers.GameManager.Instance.CurrentRoundState == RoundState.PreRound) return;
 			entries.Enqueue(new HumanLogEntry(newEntry));
 		}
 
@@ -65,7 +65,7 @@ namespace Core.Admin.Logs.Stores
 				return;
 			}
 			//TODO: Update this to have operations be IAdminLogEntryConverter specific to allow for things like easy SQLite integretions
-			string filePath = Path.Combine("Admin", $"{DateTime.Now:yyyy-MM-dd} - {GameManager.RoundID}.txt");
+			string filePath = Path.Combine("Admin", $"{DateTime.Now:yyyy-MM-dd} - {Managers.GameManager.RoundID}.txt");
 			CheckForDirectory(filePath);
 			await Task.Run(() =>
 			{

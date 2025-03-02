@@ -616,7 +616,7 @@ namespace Objects.Disposals
 		{
 			//Power updates take at least two seconds to update properly; especially when the round starts.
 			//This isn't an issue when connecting APCs using multi-tools or during normal gameplay. But for other cases at the start of the round, this delay is needed.
-			if (GameManager.Instance.RoundTimeInMinutes < 2) await Task.Delay(2500);
+			if (Managers.GameManager.Instance.RoundTimeInMinutes < 2) await Task.Delay(2500);
 			StateUpdate(PoweredDevice.State);
 		}
 

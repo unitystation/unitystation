@@ -27,7 +27,7 @@ namespace Tests.Config
 				Assert.Fail($"Couldn't find GameManager prefab in specified path: {GAMEMANAGER_PATH}");
 			}
 
-			if (gameManagerPrefab.TryGetComponent<GameManager>(out var gameManager) == false)
+			if (gameManagerPrefab.TryGetComponent<Managers.GameManager>(out var gameManager) == false)
 			{
 				Assert.Fail($"Couldn't get the component from the specified prefab: {GAMEMANAGER_PATH}");
 			}

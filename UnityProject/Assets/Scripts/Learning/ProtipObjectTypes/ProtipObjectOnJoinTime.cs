@@ -11,12 +11,12 @@ namespace Learning.ProtipObjectTypes
 
 		private void Start()
 		{
-			TriggerTip(GameManager.Instance.RoundTimeInMinutes >= LATE_TIME ? lateTip : TipSO);
+			TriggerTip(Managers.GameManager.Instance.RoundTimeInMinutes >= LATE_TIME ? lateTip : TipSO);
 		}
 
 		protected override bool TriggerConditions(GameObject triggeredBy, ProtipSO protipSo)
 		{
-			if (GameManager.Instance.CurrentRoundState is RoundState.Ended or RoundState.Restarting) return false;
+			if (Managers.GameManager.Instance.CurrentRoundState is RoundState.Ended or RoundState.Restarting) return false;
 			return base.TriggerConditions(triggeredBy, protipSo);
 		}
 	}

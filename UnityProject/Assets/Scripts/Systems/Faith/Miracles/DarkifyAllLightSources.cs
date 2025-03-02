@@ -36,7 +36,7 @@ namespace Systems.Faith.Miracles
 		public int MiracleCost { get; set; } = 180;
 		public void DoMiracle(FaithData associatedFaith, PlayerScript invoker = null)
 		{
-			GameManager.Instance.StartCoroutine(ChangeLights());
+			Managers.GameManager.Instance.StartCoroutine(ChangeLights());
 			string msg = new RichText().Italic().Color(RichTextColor.Red)
 				.Add("An ominous hum is heard from nearby light sources..");
 			Chat.AddGameWideSystemMsgToChat(msg);

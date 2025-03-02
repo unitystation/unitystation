@@ -188,7 +188,7 @@ namespace Lobby
 			{
 				ShowAlphaPanel();
 			}
-			else if (LobbyManager.Instance.WasDisconnected && GameManager.Instance.DisconnectExpected == false)
+			else if (LobbyManager.Instance.WasDisconnected && Managers.GameManager.Instance.DisconnectExpected == false)
 			{
 				ShowInfoPanel(new InfoPanelArgs
 				{
@@ -208,7 +208,7 @@ namespace Lobby
 
 			// reset
 			LobbyManager.Instance.WasDisconnected = false;
-			GameManager.Instance.DisconnectExpected = false;
+			Managers.GameManager.Instance.DisconnectExpected = false;
 		}
 	}
 }

@@ -60,7 +60,7 @@ namespace Objects.Telecomms
 
 		private void ServerOnPlayerSpawned(Mind player)
 		{
-			if (GameManager.Instance.RoundTime < TIME_BEFORE_JOIN_ANNOUNCEMENTS)
+			if (Managers.GameManager.Instance.RoundTime < TIME_BEFORE_JOIN_ANNOUNCEMENTS)
 			{
 				return;
 			}
@@ -69,7 +69,7 @@ namespace Objects.Telecomms
 
 		protected override bool SendSignalLogic()
 		{
-			if (GameManager.Instance.CommsServers.Count == 0) return false;
+			if (Managers.GameManager.Instance.CommsServers.Count == 0) return false;
 			return true;
 		}
 

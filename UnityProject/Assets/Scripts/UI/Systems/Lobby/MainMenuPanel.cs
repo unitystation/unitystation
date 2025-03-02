@@ -82,8 +82,8 @@ namespace Lobby
 		public void OnStartMapMode()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			GameManager.Instance.SetGameMode(mapMode, true);
-			GameManager.Instance.SecretGameMode = false;
+			Managers.GameManager.Instance.SetGameMode(mapMode, true);
+			Managers.GameManager.Instance.SecretGameMode = false;
 			LobbyManager.Instance.HostServer();
 		}
 	}

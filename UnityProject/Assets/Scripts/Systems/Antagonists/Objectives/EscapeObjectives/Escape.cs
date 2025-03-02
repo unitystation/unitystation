@@ -21,7 +21,7 @@ namespace Antagonists
 		/// </summary>
 		protected override void Setup()
 		{
-			ValidShuttles.Add(GameManager.Instance.PrimaryEscapeShuttle);
+			ValidShuttles.Add(Managers.GameManager.Instance.PrimaryEscapeShuttle);
 		}
 
 		private bool CheckOnShip(RegisterPlayer antagTile, Matrix shuttleMatrix)

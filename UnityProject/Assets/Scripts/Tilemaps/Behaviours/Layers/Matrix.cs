@@ -509,7 +509,7 @@ public class Matrix : MonoBehaviour
 		if (CustomNetworkManager.IsServer && NetworkedMatrix.IsJsonLoaded == false)
 		{
 			var iServerSpawnList = this.GetComponentsInChildren<IServerSpawn>();
-			GameManager.Instance.MappedOnSpawnServer(iServerSpawnList);
+			Managers.GameManager.Instance.MappedOnSpawnServer(iServerSpawnList);
 		}
 	}
 

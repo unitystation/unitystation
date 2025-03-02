@@ -18,7 +18,7 @@ namespace Antagonists
 		protected override bool CheckCompletion()
 		{
 			int playersFound = 0;
-			var primaryEscape = GameManager.Instance.PrimaryEscapeShuttle;
+			var primaryEscape = Managers.GameManager.Instance.PrimaryEscapeShuttle;
 			var objects = primaryEscape.OrNull()?.MatrixInfo?.Objects;
 			var objectsTransform = objects.OrNull()?.transform;
 

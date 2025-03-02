@@ -522,7 +522,7 @@ namespace MapSaver
 			MapSaver.MatrixData MatrixData, Action completeAction, HashSet<LayerType> LoadLayers = null,
 			bool LoadObjects = true, string MatrixName = null)
 		{
-			GameManager.Instance.StartCoroutine(ServerLoadSection(Matrix, Offset00, Offset, MatrixData, completeAction,
+			Managers.GameManager.Instance.StartCoroutine(ServerLoadSection(Matrix, Offset00, Offset, MatrixData, completeAction,
 				LoadLayers, LoadObjects, MatrixName, false));
 		}
 

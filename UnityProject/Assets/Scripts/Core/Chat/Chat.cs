@@ -446,7 +446,7 @@ public partial class Chat : MonoBehaviour
 		if (Instance.OOCMute && PlayerList.HasTAGServer(TAG.ADMIN_BYPASS_GLOBAL_OOC_MUTE, sentByPlayer.AccountId) == false) return;
 
 		//http/https links in OOC chat
-		if (GameManager.Instance.AdminOnlyHtml == false || PlayerList.HasTAGServer(TAG.ADMIN_CHAT_HTML, sentByPlayer.AccountId))
+		if (Managers.GameManager.Instance.AdminOnlyHtml == false || PlayerList.HasTAGServer(TAG.ADMIN_CHAT_HTML, sentByPlayer.AccountId))
 		{
 			if (htmlRegex.IsMatch(chatEvent.message))
 			{

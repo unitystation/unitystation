@@ -23,7 +23,7 @@ namespace HealthV2.Living
 			PlayAudio();
 			if (ignoreNoGibRule == false)
 			{
-				if (IsEnabled == false || GameManager.Instance.GibbingAllowed == false)
+				if (IsEnabled == false || Managers.GameManager.Instance.GibbingAllowed == false)
 				{
 					Chat.AddActionMsgToChat(gameObject,
 						$"{mob.visibleName}'s body stretches violently before falling to the ground.".Color(Color.red));

@@ -8,7 +8,7 @@ namespace Core.Database
 {
 	public static class PersistenceServer
 	{
-		public static string Host = GameManager.Instance.AccountAPIHost;
+		public static string Host = Managers.GameManager.Instance.AccountAPIHost;
 		public static UriBuilder UriBuilder = new("https", Host);
 
 		public static Uri GetUri(string endpoint, string queries = null)

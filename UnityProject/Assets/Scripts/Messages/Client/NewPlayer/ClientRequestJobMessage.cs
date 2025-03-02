@@ -60,7 +60,7 @@ namespace Messages.Client.NewPlayer
 
 		private bool ValidateRequest(NetMessage msg)
 		{
-			if (GameManager.Instance.CurrentRoundState != RoundState.Started)
+			if (Managers.GameManager.Instance.CurrentRoundState != RoundState.Started)
 			{
 				NotifyRequestRejected(JobRequestError.RoundNotReady, "round hasn't started yet");
 				return false;
@@ -74,8 +74,8 @@ namespace Messages.Client.NewPlayer
 
 			if (msg.JobType != JobType.NULL)
 			{
-				int slotsTaken = GameManager.Instance.ServerGetOccupationsCount(msg.JobType);
-				int slotsMax = GameManager.Instance.GetOccupationMaxCount(msg.JobType);
+				int slotsTaken = Managers.GameManager.Instance.ServerGetOccupationsCount(msg.JobType);
+				int slotsMax = Managers.GameManager.Instance.GetOccupationMaxCount(msg.JobType);
 				if (slotsTaken >= slotsMax)
 				{
 					NotifyRequestRejected(JobRequestError.PositionsFilled, $"no empty positions for {msg.JobType}");
@@ -97,9 +97,9 @@ namespace Messages.Client.NewPlayer
 			}
 			else
 			{
-				var spawnRequest = new PlayerSpawnRequest(SentByPlayer, GameManager.Instance.GetRandomFreeOccupation(msg.JobType), character);
+				var spawnRequest = new PlayerSpawnRequest(SentByPlayer, Managers.GameManager.Instance.GetRandomFreeOccupation(msg.JobType), character);
 				character.ValidateSpeciesCanBePlayerChosen();
-				if (GameManager.Instance.TrySpawnPlayer(spawnRequest) == false)
+				if (Managers.GameManager.Instance.TrySpawnPlayer(spawnRequest) == false)
 				{
 					SendClientLogMessage.SendErrorToClient(SentByPlayer, "Server couldn't spawn you.");
 				}

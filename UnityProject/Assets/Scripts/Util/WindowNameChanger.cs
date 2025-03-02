@@ -21,7 +21,7 @@ namespace Util
 		{
 			var serverName = ServerData.ServerConfig.ServerName;
 			var cool = $"{Application.productName} Build v{Application.version} - {serverName} ||" +
-			                               $" {GameManager.Instance.GetGameModeName()} on {SubSceneManager.ServerChosenMainStation}";
+			                               $" {Managers.GameManager.Instance.GetGameModeName()} on {SubSceneManager.ServerChosenMainStation}";
 
 			//TODO Think of some good way of supporting multiple systems without multiple DLLS for secure stuff
 		}

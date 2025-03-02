@@ -12,8 +12,8 @@ namespace Messages.Server
 
 		public override void Process(NetMessage msg)
 		{
-			GameManager.Instance.ServerCurrentFPS = msg.CurrentFPS;
-			GameManager.Instance.ServerAverageFPS = msg.AverageFPS;
+			Managers.GameManager.Instance.ServerCurrentFPS = msg.CurrentFPS;
+			Managers.GameManager.Instance.ServerAverageFPS = msg.AverageFPS;
 		}
 
 		public static NetMessage Send(float currentFPS, float averageFPS)

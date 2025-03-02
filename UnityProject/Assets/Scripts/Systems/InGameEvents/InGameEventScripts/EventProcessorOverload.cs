@@ -30,9 +30,9 @@ namespace InGameEvents
 
 		public override void OnEventStartTimed()
 		{
-			var numberOfServersToAffect = Random.Range(0, GameManager.Instance.CommsServers.Count);
-			GameManager.Instance.CommsServers.Shuffle();
-			foreach (var server in GameManager.Instance.CommsServers.PickRandom(numberOfServersToAffect))
+			var numberOfServersToAffect = Random.Range(0, Managers.GameManager.Instance.CommsServers.Count);
+			Managers.GameManager.Instance.CommsServers.Shuffle();
+			foreach (var server in Managers.GameManager.Instance.CommsServers.PickRandom(numberOfServersToAffect))
 			{
 				server.OnEmp(Random.Range(MINIMUM_EMP_STRENGTH, server.EmpResistance * DOUBLE));
 			}

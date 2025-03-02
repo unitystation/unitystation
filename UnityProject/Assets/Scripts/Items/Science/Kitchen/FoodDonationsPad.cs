@@ -32,7 +32,7 @@ namespace Items.Science.Kitchen
 		private void DonationCheck()
 		{
 			if (CargoManager.Instance.Credits > balanceCheckCargoCredits && CargoManager.Instance.CargoOffline == false
-			    || GameManager.Instance.CentComm.CurrentAlertLevel == CentComm.AlertLevel.Green)
+			    || Managers.GameManager.Instance.CentComm.CurrentAlertLevel == CentComm.AlertLevel.Green)
 			{
 				if(DMMath.Prob(DONATION_CHANCE_CHECK)) return;
 			}

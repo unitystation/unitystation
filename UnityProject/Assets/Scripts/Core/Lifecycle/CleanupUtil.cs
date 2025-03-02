@@ -338,8 +338,9 @@ public static class CleanupUtil
 	public static void EndRoundCleanup()
 	{
 		PlayerManager.Reset();
-		GameManager.Instance.CentComm.Clear();
-		GameManager.Instance.SpaceBodies.Clear();
+		Managers.GameManager.Instance.CentComm.Clear();
+		Managers.GameManager.Instance.SpaceBodies.Clear();
+		Managers.GameManager.Instance.LocationMarkers.Clear();
 		Items.Weapons.ExplosiveBase.ExplosionEvent = new UnityEngine.Events.UnityEvent<Vector3Int, Items.Weapons.BlastData>();
 		Items.TrackingBeacon.Clear();
 		SoundManager.Instance.Clear();
@@ -348,7 +349,7 @@ public static class CleanupUtil
 		AudioManager.Instance.MultiInterestFloat.InterestedParties.Clear();
 		SoundManager.Instance.SoundSpawns.Clear();
 		SoundManager.Instance.NonplayingSounds.Clear();
-		GameManager.Instance.ResetStaticsOnNewRound();
+		Managers.GameManager.Instance.ResetStaticsOnNewRound();
 		SpriteHandlerManager.PresentSprites.Clear();
 		SpriteHandlerManager.PresentSprites = new Dictionary<Mirror.NetworkIdentity, Dictionary<string, SpriteHandler>>();
 		ChatBubbleManager.Instance.Clear();
@@ -371,8 +372,6 @@ public static class CleanupUtil
 		HUDHandler.Categorys.Clear();
 		HUDHandler.CategoryEnabled.Clear();
 		CrewManifestManager.Instance.OnRoundRestart();
-
-
 	}
 
 	/// <summary>
@@ -382,12 +381,12 @@ public static class CleanupUtil
 	{
 		MatrixManager.Instance.ResetMatrixManager();
 		MatrixManager.IsInitialized = true;
-		GameManager.Instance.ResetStaticsOnNewRound();
+		Managers.GameManager.Instance.ResetStaticsOnNewRound();
 		Systems.Cargo.CargoManager.Instance.OnRoundRestart();
 		Systems.Scenes.LavaLandManager.Instance.Clean();
 		ClientSynchronisedEffectsManager.Instance.ClearData();
 		TileManager.Instance.Cleanup_between_rounds();
-		CleanupUtil.RidListOfDeadElements(GameManager.Instance.SpaceBodies);
+		CleanupUtil.RidListOfDeadElements(Managers.GameManager.Instance.SpaceBodies);
 		ElectricalManager.Instance.InBetweenScenesCleanUp();
 	}
 
@@ -413,7 +412,7 @@ public static class CleanupUtil
 		Debug.Log("removed " + RidDictionaryOfDeadElements(SoundManager.Instance.SoundSpawns, (u, k) => k != null) + " dead elements from SoundManager.Instance.SoundSpawns");
 		AdminTools.AdminOverlay.Instance?.Clear();
 		TileManager.Instance.DeepCleanupTiles();
-		CleanupUtil.RidListOfDeadElements(GameManager.Instance.SpaceBodies);
+		CleanupUtil.RidListOfDeadElements(Managers.GameManager.Instance.SpaceBodies);
 		UI.Core.Action.UIActionManager.Instance.Clear();//maybe it'l work second time?
 		SpriteHandlerManager.Instance?.Clean();
 		Dictionary<UInt64, Mirror.NetworkIdentity > dict = Mirror.NetworkIdentity.sceneIds;

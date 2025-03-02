@@ -157,7 +157,7 @@ namespace UI
 
 			timer.text = TimeSpan.FromSeconds(countdownEndTime - NetworkTime.time).ToString(@"mm\:ss");
 
-			if (GameManager.Instance.QuickLoad && mapLoadingPanel.activeSelf == false)
+			if (Managers.GameManager.Instance.QuickLoad && mapLoadingPanel.activeSelf == false)
 			{
 				if (startedAlready == true || this.isActiveAndEnabled == false) return;
 				startedAlready = true;
@@ -170,7 +170,7 @@ namespace UI
 			var maxWaitTime = 0;
 			yield return WaitFor.EndOfFrame;
 
-			if (GameManager.Instance.QuickJoinLoad)
+			if (Managers.GameManager.Instance.QuickJoinLoad)
 			{
 				while (SubsystemMatrixQueueInit.InitializedAll == false || maxWaitTime < 150)
 				{
@@ -185,7 +185,7 @@ namespace UI
 		public void UpdatePlayerCount(int count)
 		{
 			playerCount.text = count.ToString();
-			currentGameMode.text = GameManager.Instance.GetGameModeName();
+			currentGameMode.text = Managers.GameManager.Instance.GetGameModeName();
 		}
 
 		public void StartNowButton()

@@ -176,8 +176,8 @@ namespace IngameDebugConsole
 
 			Loggy.Info("Triggered round restart from DebugConsole.", Category.DebugConsole);
 			VideoPlayerMessage.Send(VideoType.RestartRound);
-			GameManager.Instance.RoundEndTime = 5f;
-			GameManager.Instance.EndRound(GameManager.RoundID);
+			Managers.GameManager.Instance.RoundEndTime = 5f;
+			Managers.GameManager.Instance.EndRound(Managers.GameManager.RoundID);
 		}
 
 #if UNITY_EDITOR
@@ -194,7 +194,7 @@ namespace IngameDebugConsole
 
 			Loggy.Info("Triggered round end from DebugConsole.", Category.DebugConsole);
 			VideoPlayerMessage.Send(VideoType.RestartRound);
-			GameManager.Instance.EndRound(GameManager.RoundID);
+			Managers.GameManager.Instance.EndRound(Managers.GameManager.RoundID);
 		}
 
 #if UNITY_EDITOR
@@ -209,10 +209,10 @@ namespace IngameDebugConsole
 				return;
 			}
 
-			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound && GameManager.Instance.waitForStart)
+			if (Managers.GameManager.Instance.CurrentRoundState == RoundState.PreRound && Managers.GameManager.Instance.waitForStart)
 			{
 				Loggy.Info("Triggered round countdown skip (start now) from DebugConsole.", Category.DebugConsole);
-				GameManager.Instance.StartRound();
+				Managers.GameManager.Instance.StartRound();
 			}
 			else
 			{
@@ -234,9 +234,9 @@ namespace IngameDebugConsole
 				return;
 			}
 
-			if (GameManager.Instance.PrimaryEscapeShuttle.Status == EscapeShuttleStatus.DockedCentcom)
+			if (Managers.GameManager.Instance.PrimaryEscapeShuttle.Status == EscapeShuttleStatus.DockedCentcom)
 			{
-				GameManager.Instance.PrimaryEscapeShuttle.CallShuttle(out var result, 40);
+				Managers.GameManager.Instance.PrimaryEscapeShuttle.CallShuttle(out var result, 40);
 				Loggy.Info("Called Escape shuttle from DebugConsole: "+result, Category.DebugConsole);
 			}
 			else
@@ -376,7 +376,7 @@ namespace IngameDebugConsole
 		[ConsoleMethod("reset-time", "Reset round time")]
 		private static void ExtendRoundTime()
 		{
-			GameManager.Instance.ResetRoundTime();
+			Managers.GameManager.Instance.ResetRoundTime();
 		}
 #if UNITY_EDITOR
 		[MenuItem("Networking/Kill local player (Server only)")]

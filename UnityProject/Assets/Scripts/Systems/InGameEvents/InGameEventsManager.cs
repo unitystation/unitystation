@@ -68,7 +68,7 @@ namespace InGameEvents
 
 			if (!RandomEventsAllowed) return;
 
-			if(GameManager.Instance.CurrentRoundState != RoundState.Started) return;
+			if(Managers.GameManager.Instance.CurrentRoundState != RoundState.Started) return;
 
 			if(PlayerList.Instance.InGamePlayers.Count < minPlayersForRandomEventsToHappen) return;
 

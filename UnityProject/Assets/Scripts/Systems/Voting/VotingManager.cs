@@ -83,7 +83,7 @@ public class VotingManager : NetworkBehaviour
 	{
 		MapList = SubSceneManager.Instance.MainStationList.GetMaps();
 		awaySiteList = SubSceneManager.Instance.awayWorldList.AwayWorlds;
-		GameModeList = GameManager.Instance.GetAvailableGameModeNames();
+		GameModeList = Managers.GameManager.Instance.GetAvailableGameModeNames();
 		yesNoList.Add("Yes");
 		yesNoList.Add("No");
 		if (Application.isEditor) RoundStartCooldownTime = 5f;
@@ -281,16 +281,16 @@ public class VotingManager : NetworkBehaviour
 						Chat.AddGameWideSystemMsgToChat($"<color=blue>Voting failed! Not enough people voted to restart");
 						return;
 					}
-					if (GameManager.Instance.CurrentRoundState != RoundState.Started) return;
+					if (Managers.GameManager.Instance.CurrentRoundState != RoundState.Started) return;
 					Loggy.Info("Vote to restart server was successful. Restarting now.....", Category.Admin);
 					VideoPlayerMessage.Send(VideoType.RestartRound);
-					GameManager.Instance.RoundEndTime = 5; // Quick round end when triggered by Players.
-					GameManager.Instance.EndRound(GameManager.RoundID);
+					Managers.GameManager.Instance.RoundEndTime = 5; // Quick round end when triggered by Players.
+					Managers.GameManager.Instance.EndRound(Managers.GameManager.RoundID);
 					break;
 				case VoteType.NextGameMode:
 					Chat.AddGameWideSystemMsgToChat($"<color=blue>Vote passed! Next GameMode has been chosen</color>");
-					GameManager.Instance.NextGameMode = winner;
-					GameManager.Instance.SecretGameMode = true;
+					Managers.GameManager.Instance.NextGameMode = winner;
+					Managers.GameManager.Instance.SecretGameMode = true;
 					break;
 				case VoteType.NextMap:
 					Chat.AddGameWideSystemMsgToChat($"<color=blue>Vote passed! Next map will be {winner}</color>");

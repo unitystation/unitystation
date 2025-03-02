@@ -11,7 +11,7 @@ namespace Antagonists
 
 		protected override bool CheckCompletion()
 		{
-			var transform = GameManager.Instance.PrimaryEscapeShuttle.OrNull()?.MatrixInfo?.Objects.OrNull()?.transform;
+			var transform = Managers.GameManager.Instance.PrimaryEscapeShuttle.OrNull()?.MatrixInfo?.Objects.OrNull()?.transform;
 
 			// If the primary shuttle doesn't exist in some form, should this return true?
 			if (transform == null) return true;

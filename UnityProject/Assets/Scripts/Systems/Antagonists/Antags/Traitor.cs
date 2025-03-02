@@ -30,7 +30,7 @@ namespace Antagonists
 
 		private void AIObjectives()
 		{
-			if (DMMath.Prob(GameManager.Instance.MalfAIRecieveTheirIntendedObjectiveChance))
+			if (DMMath.Prob(Managers.GameManager.Instance.MalfAIRecieveTheirIntendedObjectiveChance))
 			{
 				AddObjective(aiTraitorObjective);
 			}

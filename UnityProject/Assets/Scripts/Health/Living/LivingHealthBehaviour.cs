@@ -403,7 +403,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		afterDeathDamage += damage;
 
 		// if damage IS OVER NINE THOUSAND!!!11!!!1 it means it is coming from a shuttle collision.
-		if (damage > 9000f && GameManager.Instance.ShuttleGibbingAllowed)
+		if (damage > 9000f && Managers.GameManager.Instance.ShuttleGibbingAllowed)
 		{
 			Harvest();
 			return;
@@ -554,7 +554,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 			return;
 		}
 
-		timeOfDeath = GameManager.Instance.RoundTime;
+		timeOfDeath = Managers.GameManager.Instance.RoundTime;
 
 		OnDeathNotifyEvent?.Invoke();
 		afterDeathDamage = 0;
@@ -627,7 +627,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	private void MiasmaCreation()
 	{
 		//Don't produce miasma until 2 minutes after death
-		if (GameManager.Instance.RoundTime.Subtract(timeOfDeath).TotalMinutes < 2) return;
+		if (Managers.GameManager.Instance.RoundTime.Subtract(timeOfDeath).TotalMinutes < 2) return;
 
 		MetaDataNode node = registerTile.Matrix.MetaDataLayer.Get(registerTile.LocalPositionClient);
 

@@ -436,9 +436,9 @@ namespace GameModes
 				Loggy.Error($" Failed to DiscordWebhookMessage Started round message " + e.ToString());
 			}
 
-			GameManager.Instance.CurrentRoundState = RoundState.Started;
+			Managers.GameManager.Instance.CurrentRoundState = RoundState.Started;
 			EventManager.Broadcast(Event.RoundStarted, true);
-			AdminLogsManager.AddNewLog(null, $"Round {GameManager.RoundID} has started. GameMode: {gameModeName}. {msg}.", LogCategory.RoundFlow);
+			AdminLogsManager.AddNewLog(null, $"Round {Managers.GameManager.RoundID} has started. GameMode: {gameModeName}. {msg}.", LogCategory.RoundFlow);
 		}
 
 		protected void AntagJobAllocation(JobAllocator jobAllocator, List<PlayerInfo> playerPool,
@@ -514,12 +514,12 @@ namespace GameModes
 		/// </summary>
 		public virtual void EndRoundReport()
 		{
-			var roundDuration = GameManager.Instance.RoundTime.AddHours(-12);
+			var roundDuration = Managers.GameManager.Instance.RoundTime.AddHours(-12);
 			var output = $"A round has ended. Round duration: {roundDuration.ToString("HH:mm")}.";
 			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, $"`{output}`", "");
-			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookErrorLogURL, $"```{output} Total errors: {GameManager.Instance.errorCounter}. Unique errors: {GameManager.Instance.uniqueErrorCounter}```", "");
-			GameManager.Instance.errorCounter = 0;
-			GameManager.Instance.uniqueErrorCounter = 0;
+			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookErrorLogURL, $"```{output} Total errors: {Managers.GameManager.Instance.errorCounter}. Unique errors: {Managers.GameManager.Instance.uniqueErrorCounter}```", "");
+			Managers.GameManager.Instance.errorCounter = 0;
+			Managers.GameManager.Instance.uniqueErrorCounter = 0;
 
 			Loggy.Info().Format("Ending {0} round!", Category.GameMode, Name);
 			try
@@ -541,7 +541,7 @@ namespace GameModes
 			}
 
 
-			var msg = $"The round will restart in {GameManager.Instance.RoundEndTime} seconds.";
+			var msg = $"The round will restart in {Managers.GameManager.Instance.RoundEndTime} seconds.";
 			Chat.AddGameWideSystemMsgToChat(msg);
 		}
 

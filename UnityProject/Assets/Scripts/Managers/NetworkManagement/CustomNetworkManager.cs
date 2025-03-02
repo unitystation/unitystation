@@ -468,7 +468,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		base.OnStartServer();
 		NetworkManagerExtensions.RegisterServerHandlers();
 		// Fixes loading directly into the station scene
-		GameManager.Instance.PreRoundStart();
+		Managers.GameManager.Instance.PreRoundStart();
 	}
 
 	public override void OnStartHost()
@@ -506,8 +506,8 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		Loggy.Trace($"Spawning a GameObject for the client {conn}.", Category.Connections);
 		base.OnServerAddPlayer(conn);
 		SubSceneManager.Instance.AddNewObserverScenePermissions(conn);
-		UpdateRoundTimeMessage.Send(GameManager.Instance.RoundTime.ToString("O"),
-			GameManager.Instance.RoundTimeInMinutes);
+		UpdateRoundTimeMessage.Send(Managers.GameManager.Instance.RoundTime.ToString("O"),
+			Managers.GameManager.Instance.RoundTimeInMinutes);
 	}
 
 	//called on client side when client first connects to the server

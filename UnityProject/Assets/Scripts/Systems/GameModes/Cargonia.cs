@@ -21,7 +21,7 @@ namespace GameModes
 			var rnd = new System.Random();
 			var rebelDep = (Departments) rnd.Next(Enum.GetNames(typeof(Departments)).Length);
 			rebelJob = rebelJobs[rebelDep];
-			GameManager.Instance.Rebels = rebelJob;
+			Managers.GameManager.Instance.Rebels = rebelJob;
 			Loggy.Info().Format("The using {0} as the rebel department!", Category.GameMode, rebelDep);
 
 		}

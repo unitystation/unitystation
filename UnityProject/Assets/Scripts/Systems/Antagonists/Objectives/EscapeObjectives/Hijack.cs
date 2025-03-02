@@ -26,7 +26,7 @@ namespace Antagonists
 		/// </summary>
 		protected override bool IsPossibleInternal(Mind candidate)
 		{
-			if ((GameManager.Instance.CurrentRoundState == RoundState.PreRound ?
+			if ((Managers.GameManager.Instance.CurrentRoundState == RoundState.PreRound ?
 				    PlayerList.Instance.ReadyPlayers.Count : PlayerList.Instance.InGamePlayers.Count)
 			    >= numberOfPlayersRequired)
 			{
@@ -41,7 +41,7 @@ namespace Antagonists
 		/// </summary>
 		protected override void Setup()
 		{
-			ValidShuttles.Add(GameManager.Instance.PrimaryEscapeShuttle);
+			ValidShuttles.Add(Managers.GameManager.Instance.PrimaryEscapeShuttle);
 		}
 
 		/// <summary>

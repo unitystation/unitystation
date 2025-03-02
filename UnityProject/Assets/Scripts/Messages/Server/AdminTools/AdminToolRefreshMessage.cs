@@ -38,10 +38,10 @@ namespace Messages.Server.AdminTools
 			var pageData = new AdminPageRefreshData();
 
 			//Game Mode Information:
-			pageData.availableGameModes = GameManager.Instance.GetAvailableGameModeNames();
-			pageData.isSecret = GameManager.Instance.SecretGameMode;
-			pageData.currentGameMode = GameManager.Instance.GetGameModeName(true);
-			pageData.nextGameMode = GameManager.Instance.NextGameMode;
+			pageData.availableGameModes = Managers.GameManager.Instance.GetAvailableGameModeNames();
+			pageData.isSecret = Managers.GameManager.Instance.SecretGameMode;
+			pageData.currentGameMode = Managers.GameManager.Instance.GetGameModeName(true);
+			pageData.nextGameMode = Managers.GameManager.Instance.NextGameMode;
 
 			//Event Manager
 			pageData.randomEventsAllowed = InGameEventsManager.Instance.RandomEventsAllowed;
@@ -50,13 +50,13 @@ namespace Messages.Server.AdminTools
 			pageData.nextMap = SubSceneManager.AdminForcedMainStation;
 			pageData.nextAwaySite = SubSceneManager.AdminForcedAwaySite;
 			pageData.allowLavaLand = SubSceneManager.AdminAllowLavaland;
-			pageData.alertLevel = GameManager.Instance.CentComm.CurrentAlertLevel.ToString();
+			pageData.alertLevel = Managers.GameManager.Instance.CentComm.CurrentAlertLevel.ToString();
 
-			if (GameManager.Instance.PrimaryEscapeShuttle != null)
+			if (Managers.GameManager.Instance.PrimaryEscapeShuttle != null)
 			{
 				//Centcom
-				pageData.blockCall = GameManager.Instance.PrimaryEscapeShuttle.blockCall;
-				pageData.blockRecall = GameManager.Instance.PrimaryEscapeShuttle.blockRecall;
+				pageData.blockCall = Managers.GameManager.Instance.PrimaryEscapeShuttle.blockCall;
+				pageData.blockRecall = Managers.GameManager.Instance.PrimaryEscapeShuttle.blockRecall;
 			}
 
 
@@ -64,7 +64,7 @@ namespace Messages.Server.AdminTools
 			pageData.players = GetAllPlayerStates(adminID, false, ShowIP);
 
 			//Server Setting
-			pageData.playerLimit = GameManager.Instance.PlayerLimit;
+			pageData.playerLimit = Managers.GameManager.Instance.PlayerLimit;
 			pageData.maxFrameRate = Application.targetFrameRate;
 			pageData.serverPassword = ServerData.ServerConfig.ConnectionPassword;
 

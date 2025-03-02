@@ -28,7 +28,7 @@ namespace Objects
 		private HashSet<IDCard> registeredIDs = new();
 		private ClearanceRestricted restricted;
 
-		private int requiredSwipesEarlyLaunch => GameManager.Instance.CentComm.CurrentAlertLevel is CentComm.AlertLevel.Red or CentComm.AlertLevel.Delta ? 2 : 4;
+		private int requiredSwipesEarlyLaunch => Managers.GameManager.Instance.CentComm.CurrentAlertLevel is CentComm.AlertLevel.Red or CentComm.AlertLevel.Delta ? 2 : 4;
 
 		private void Awake()
 		{
@@ -114,13 +114,13 @@ namespace Objects
 
 		private void RegisterEarlyShuttleLaunch(IDCard card, PlayerScript performer)
 		{
-			if (GameManager.Instance.PrimaryEscapeShuttle.hostileEnvironment)
+			if (Managers.GameManager.Instance.PrimaryEscapeShuttle.hostileEnvironment)
 			{
 				Chat.AddExamineMsg(performer.gameObject, "There is a hostile environment on the station, you're not permitted to leave");
 				return;
 			}
 
-			if (GameManager.Instance.ShuttleSent)
+			if (Managers.GameManager.Instance.ShuttleSent)
 			{
 				Chat.AddExamineMsg(performer.gameObject, "The shuttle is already moving!");
 				return;
@@ -148,22 +148,22 @@ namespace Objects
 				$"\n\n<color=#FF151F><size={ChatTemplates.LargeText}><b>Escape Shuttle Emergency Launch has been request! need {remainingSwipes} more votes.</b></size></color>\n\n";
 			Chat.AddSystemMsgToChat(announcemnt, MatrixManager.MainStationMatrix, LanguageManager.Common);
 
-			Chat.AddSystemMsgToChat(announcemnt, GameManager.Instance.PrimaryEscapeShuttle.MatrixInfo, LanguageManager.Common);
+			Chat.AddSystemMsgToChat(announcemnt, Managers.GameManager.Instance.PrimaryEscapeShuttle.MatrixInfo, LanguageManager.Common);
 			_ = SoundManager.PlayNetworked(CommonSounds.Instance.Notice1);
 		}
 
 		public void DepartShuttle()
 		{
-			if (GameManager.Instance.ShuttleSent) return;
+			if (Managers.GameManager.Instance.ShuttleSent) return;
 			var departTime = beenEmagged ? 5 : 10;
 			string announcement =
 				$"\n\n<color=#FF151F><size={ChatTemplates.LargeText}><b>Escape Shuttle Emergency Launch Triggered! Launching in {departTime} seconds..</b></size></color>\n\n";
 			Chat.AddSystemMsgToChat(announcement, MatrixManager.MainStationMatrix, LanguageManager.Common);
 
-			Chat.AddSystemMsgToChat(announcement, GameManager.Instance.PrimaryEscapeShuttle.MatrixInfo, LanguageManager.Common);
+			Chat.AddSystemMsgToChat(announcement, Managers.GameManager.Instance.PrimaryEscapeShuttle.MatrixInfo, LanguageManager.Common);
 
 			_ = SoundManager.PlayNetworked(CommonSounds.Instance.Notice1);
-			GameManager.Instance.ForceSendEscapeShuttleFromStation(departTime);
+			Managers.GameManager.Instance.ForceSendEscapeShuttleFromStation(departTime);
 		}
 
 		public RightClickableResult GenerateRightClickOptions()

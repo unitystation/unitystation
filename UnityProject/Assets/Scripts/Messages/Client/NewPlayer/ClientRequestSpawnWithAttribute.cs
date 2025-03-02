@@ -19,7 +19,7 @@ namespace Messages.Client.NewPlayer
 		{
 			var character = JsonConvert.DeserializeObject<CharacterSheet>(msg.JsonCharSettings);
 			List<CharacterAttribute> newList = new List<CharacterAttribute>();
-			newList.Add(GameManager.Instance.RoundJoinAttributes.AttributesToUse[msg.JoinAttributeID]);
+			newList.Add(Managers.GameManager.Instance.RoundJoinAttributes.AttributesToUse[msg.JoinAttributeID]);
 			//TODO: load extra attributes from character settings
 			//TODO  reimplement!!!
 			// if (PlayerSpawn.SpawnPlayerV2(character, newList, SentByPlayer.ViewerScript) == false)

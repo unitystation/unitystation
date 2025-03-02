@@ -14,22 +14,22 @@ namespace GameRunTests
 		{
 			yield return SceneManager.LoadSceneAsync("OnlineScene");
 
-			if (GameManager.Instance == null)
+			if (Managers.GameManager.Instance == null)
 			{
 				Loggy.Error("Unable to load OnlineScene Properly returning");
 				yield break;
 			}
-			GameManager.Instance.QuickLoad = true;
+			Managers.GameManager.Instance.QuickLoad = true;
 
 			yield return TestSingleton.Instance.RunTests();
 
-			GameManager.Instance.QuickLoad = false;
+			Managers.GameManager.Instance.QuickLoad = false;
 		}
 
 		public static void RunRestartRound()
 		{
-			GameManager.Instance.RoundEndTime = 0f;
-			GameManager.Instance.EndRound(GameManager.RoundID);
+			Managers.GameManager.Instance.RoundEndTime = 0f;
+			Managers.GameManager.Instance.EndRound(Managers.GameManager.RoundID);
 		}
 
 		// public void RunRestartRound()

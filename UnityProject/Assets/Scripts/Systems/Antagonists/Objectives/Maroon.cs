@@ -62,7 +62,7 @@ namespace Antagonists
 			AntagManager.Instance.TargetedPlayers.Add(Target);
 			description = $"Prevent {Target.name}, the {Target.occupation.DisplayName} from leaving the station";
 
-			ValidShuttles.Add(GameManager.Instance.PrimaryEscapeShuttle);
+			ValidShuttles.Add(Managers.GameManager.Instance.PrimaryEscapeShuttle);
 		}
 
 		protected override void SetupInGame()
@@ -79,7 +79,7 @@ namespace Antagonists
 			AntagManager.Instance.TargetedPlayers.Add(Target);
 			description = $"Prevent {Target.name}, the {Target.occupation.DisplayName} from leaving the station";
 
-			ValidShuttles.Add(GameManager.Instance.PrimaryEscapeShuttle);
+			ValidShuttles.Add(Managers.GameManager.Instance.PrimaryEscapeShuttle);
 		}
 
 		public override string GetDescription()
