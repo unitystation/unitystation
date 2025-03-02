@@ -96,7 +96,7 @@ namespace UI.Core.NetUI
 		{
 			foreach (var entry in Entries)
 			{
-				DestroyImmediate(entry.gameObject);
+				Destroy(entry.gameObject);
 			}
 			Entries.Clear();
 			entryCount = 0;
