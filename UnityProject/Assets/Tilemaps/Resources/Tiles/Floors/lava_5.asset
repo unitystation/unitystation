@@ -61,7 +61,9 @@ MonoBehaviour:
   tileInteractions: []
   <OnTileStartMining>k__BackingField: []
   <OnTileFinishMining>k__BackingField: []
-  tileStepInteractions: []
+  tileStepInteractions:
+  - {fileID: 11400000, guid: af1b08e02e3401445874c87a2ca3e546, type: 2}
+  - {fileID: 11400000, guid: d6e823d468fafa349a68094e225caa83, type: 2}
   spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 1
   lootOnDespawn: {fileID: 0}
@@ -69,11 +71,11 @@ MonoBehaviour:
   spawnOnDestroy: {fileID: 0}
   damageOverlayList: {fileID: 0}
   soundOnHit:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   SoundOnDestroy: []
