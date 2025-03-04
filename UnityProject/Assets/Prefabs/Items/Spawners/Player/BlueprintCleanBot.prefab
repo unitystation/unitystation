@@ -16,7 +16,7 @@ PrefabInstance:
     - target: {fileID: -1729072835972511318, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}
       propertyPath: CharacterSheet.Name
-      value: Floorbot
+      value: Cleanbot
       objectReference: {fileID: 0}
     - target: {fileID: -1729072835972511318, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}
@@ -51,12 +51,12 @@ PrefabInstance:
     - target: {fileID: -1729072835972511318, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}
       propertyPath: CharacterSheet.SerialisedBodyPartCustom.Array.size
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -1729072835972511318, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}
       propertyPath: CharacterSheet.SerialisedBodyPartCustom.Array.data[0].Data
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -1729072835972511318, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}
@@ -66,7 +66,7 @@ PrefabInstance:
     - target: {fileID: -1729072835972511318, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}
       propertyPath: CharacterSheet.SerialisedBodyPartCustom.Array.data[1].Data
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -1729072835972511318, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}
@@ -77,12 +77,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 217874afca46cdf43b523338886a7053,
+      objectReference: {fileID: 21300000, guid: 0780c4ed6d62a6d4792f45ae36d4429b,
         type: 3}
     - target: {fileID: 775991059901622511, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}
       propertyPath: foreverID
-      value: 452495acc61e3224e94d03d051202ade
+      value: Kubc3P5H6D2GbfNwrkxY
       objectReference: {fileID: 0}
     - target: {fileID: 5805020867509229534, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}
@@ -143,18 +143,28 @@ PrefabInstance:
     - target: {fileID: 5944300870768993410, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}
       propertyPath: m_Name
-      value: BlueprintFloorBot
+      value: BlueprintCleanBot
       objectReference: {fileID: 0}
     - target: {fileID: 6046737524137990454, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}
       propertyPath: _assetId
-      value: 2032745994
+      value: 425552548
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964805003572023560, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.095
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964805003572023560, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.188
       objectReference: {fileID: 0}
     - target: {fileID: 9166297599979345829, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}
       propertyPath: InitialPresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 721ecc7a3b346db4886ee0f07f65515c,
+      objectReference: {fileID: 11400000, guid: 03dfe5b183bb53c42bc38c702e7e8ca3,
         type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

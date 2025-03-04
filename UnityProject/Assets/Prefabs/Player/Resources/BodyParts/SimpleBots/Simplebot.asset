@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4e3145566f967d4e9706a88c0917052, type: 3}
-  m_Name: Floorbot
+  m_Name: Simplebot
   m_EditorClassIdentifier: 
   Base:
     Head:
@@ -38,7 +38,8 @@ MonoBehaviour:
     SkinColours: []
     RootImplantProcedure: {fileID: 11400000, guid: f76dfadb9e74d2c4a85ad57a19384808,
       type: 2}
-    BodyPartsThatShareTheSkinTone: []
+    BodyPartsThatShareTheSkinTone:
+    - {fileID: 4426650879872711363, guid: a2b54580e9de99a4d9edfba6814ad865, type: 3}
     ClueString: 
     MeatProduce: {fileID: 0}
     SkinProduce: {fileID: 0}

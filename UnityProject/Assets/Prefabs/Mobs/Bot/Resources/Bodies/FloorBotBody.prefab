@@ -142,7 +142,12 @@ PrefabInstance:
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: isCybernetic
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SelfArmor.Bio
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -164,9 +169,56 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
+      propertyPath: CanNotBeHealedByExternalHealingPack
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: OptionalReplacementOrgan.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SelfArmor.PressureProtectionInKpa.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SelfArmor.PressureProtectionInKpa.y
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SelfArmor.TemperatureProtectionInK.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SelfArmor.TemperatureProtectionInK.y
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
       propertyPath: BodyTypesSprites.BodyTypes.Array.size
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'OptionalReplacementOrgan.Array.data[0]'
+      value: 
+      objectReference: {fileID: 4426650879872711363}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'OptionalReplacementOrgan.Array.data[1]'
+      value: 
+      objectReference: {fileID: 7302023824597901388, guid: a2a4f98b8ece22f4cbb245023eaab3b6,
+        type: 3}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'OptionalReplacementOrgan.Array.data[2]'
+      value: 
+      objectReference: {fileID: 7302023824597901388, guid: a2a4f98b8ece22f4cbb245023eaab3b6,
+        type: 3}
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: 'BodyTypesSprites.SpriteOrder.Orders.Array.data[0]'
@@ -201,18 +253,18 @@ PrefabInstance:
     - target: {fileID: 2719098251223779414, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: UesAddlistPopulater
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2719098251223779414, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: itemStorageCapacity
       value: 
-      objectReference: {fileID: 11400000, guid: 15095c5e789d4b4408d8ca389eab47d8,
+      objectReference: {fileID: 11400000, guid: d826281b4a2314b558681d69d7e7f5d2,
         type: 2}
     - target: {fileID: 2719098251223779414, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: Populater.SlotContents.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2719098251223779414, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -273,7 +325,19 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   RelatedPart: {fileID: 0}
-  walkingSpeed: 2
-  runningSpeed: 5
+  walkingSpeed: 1
+  runningSpeed: 1
   crawlingSpeed: 0.5
   initialLimbEfficiency: 1
+--- !u!114 &4426650879872711363 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+    type: 3}
+  m_PrefabInstance: {fileID: 2121560723397291591}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 960852636360704351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

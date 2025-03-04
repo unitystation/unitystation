@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6893317791433521094}
   - component: {fileID: -8783735085176250840}
   - component: {fileID: 6796567467707120711}
-  m_Layer: 0
+  m_Layer: 22
   m_Name: SmallXenoBloodSplat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,6 +57,8 @@ MonoBehaviour:
   CanDryUp: 0
   isBlood: 0
   IsFootprint: 0
+  IsSlippery: 0
+  IsSuperSlippery: 0
   color: {r: 0, g: 0, b: 0, a: 0}
   PossibleSprites:
   - {fileID: 21300000, guid: f863ee7dde503bd4d99151e8b8194b26, type: 3}
@@ -143,7 +145,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  BuckledToObject: {fileID: 0}
+  BuckleOffset: {x: 0, y: 0, z: 0}
   LocalDifferenceNeeded: {x: 0, y: 0}
+  newtonianMovement: {x: 0, y: 0}
   LocalTargetPosition: {x: 0, y: 0, z: 0}
   CorrectingCourse: 0
   Animating: 0
@@ -152,21 +157,18 @@ MonoBehaviour:
   slideTime: 0
   spinMagnitude: 0
   thrownBy: {fileID: 0}
-  aim: 0
+  thrownProtection: {fileID: 0}
   ForcedPushedFrame: 0
   TryPushedFrame: 0
   PushedFrame: 0
   ChangesDirectionPush: 0
   Intangible: 0
+  MappingIntangible: 0
   SnapToGridOnStart: 0
   IsPlayer: 0
-  DEBUG: 0
+  ObjectBouncyness: 0.75
   tileMoveSpeed: 1
   HasOwnGravity: 0
-  isNotPushable: 1
-  CanBeWindPushed: 1
-  rotationTarget: {fileID: 0}
-  FramePushDecision: 1
   stickyMovement: 0
   OnThrowEndResetRotation: 0
   maximumStickSpeed: 1.5
@@ -176,13 +178,18 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   IsCurrentlyFloating: 0
-  Pushing: []
   Hits: []
   isFlyingSliding: 0
   IsMoving: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
-  BuckledToObject: {fileID: 0}
+  TimeSpentFlying: 0
+  DEBUG: 0
+  isNotPushable: 1
+  Pushing: []
+  CanBeWindPushed: 1
+  canResetRotationFromRightClick: 0
+  rotationTarget: {fileID: 0}
 --- !u!1 &1230737790073880
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,7 +201,7 @@ GameObject:
   - component: {fileID: 4477121353083166}
   - component: {fileID: 212268240904160500}
   - component: {fileID: 9210502312941713246}
-  m_Layer: 0
+  m_Layer: 22
   m_Name: sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -233,6 +240,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -286,12 +296,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c864df416df975b4ea1456d62509fdff, type: 2}
   - {fileID: 11400000, guid: c43590c4661762340804df03b047c9be, type: 2}
   - {fileID: 11400000, guid: b06cb4ceae46f9d4ebbd0859c370b802, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 829544adb1e043844be8da24c1296502, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 829544adb1e043844be8da24c1296502,
+    type: 2}
   randomInitialSprite: 1
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []

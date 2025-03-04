@@ -1,129 +1,98 @@
 ﻿using System.Collections;
-using System.Linq;
-using AddressableReferences;
 using Chemistry;
 using Logs;
 using Objects.Construction;
-using Tiles;
 using UnityEngine;
-using Reagent = Systems.Botany.Reagent;
 
 namespace Mobs.BrainAI.States.SimpleBot
 {
 	public class CleanBotTaskAi : SimpleBotTaskAi
 	{
-		private RegisterTile tileToClean = null;
-		[SerializeField] private float timeToClean = 2.0f;
-		[SerializeField] private Chemistry.Reagent reagentToSpill = null;
-
-		private Matrix targetMatrix;
-		private Vector3Int targetCell;
-		private int searchRange = 5;
+		private FloorDecal decalToClean = null;
+		[SerializeField] private Reagent reagentToSpill = null;
 
 		public override void OnEnterState()
 		{
-			if (tileToClean == null)
+			if (decalToClean == false)
 			{
-				Loggy.Error("CleanBotTaskAi: Attemped to enter state but tileToClean was null!");
+				Loggy.Error("CleanBotTaskAi: Attempted to enter state but decalToClean was null!");
 				master.AddRemoveState(this, findSimpleTaskAi);
 			}
-		}
 
-		public override void OnExitState()
-		{
-			tileToClean = null;
+			searchRadius = 5;
 			taskPerformCoroutine = null;
+
+			DoTask();
 		}
 
-		public override void OnUpdateTick()
-		{
-			if (IsTaskValid() == false)
-			{
-				master.AddRemoveState(this, findSimpleTaskAi);
-				return;
-			}
-
-			if (taskPerformCoroutine is not null) return;
-			taskPerformCoroutine = StartCoroutine(CleanMessTile());
-
-		}
-
-		private IEnumerator CleanMessTile()
+		protected override IEnumerator PerformTask()
 		{
 			SoundManager.PlayNetworkedAtPos(isEmagged ? emaggedPerformSound : taskPerformSound, LivingHealthMaster.gameObject.AssumedWorldPosServer());
-			yield return WaitFor.Seconds(timeToClean);
+			yield return WaitFor.Seconds(taskPerformDuration);
+
+			if (IsCurrentTaskValid() == true)
+			{
+				Vector3Int worldPos = targetCell.ToWorldInt(targetMatrix);
+
+				if (isEmagged)
+				{
+					var mix = new ReagentMix(reagentToSpill, 5f, 273.15f);
+					targetMatrix.MatrixInfo.MetaDataLayer.ReagentReact(mix,worldPos,targetCell);
+				}
+				else targetMatrix.MatrixInfo.MetaDataLayer.Clean(worldPos, targetCell, false);
+
+			}
 
 			taskPerformCoroutine = null;
-			master.AddRemoveState(this, findSimpleTaskAi);
 
-			if (IsTaskValid() == false)
-			{
-				FindNewTarget(out targetCell, out targetMatrix);
-				yield break;
-			}
+			searchRadius = 1; //Search nearby tiles to see if it can continue to clean without moving
+			bool found = FindTarget(out targetCell, out targetMatrix);
+			searchRadius = 5;
 
-			var matrixInfo = master.Body.RegisterTile.Matrix.MatrixInfo;
-			Vector3Int worldPos = master.RelatedPart.HealthMaster.gameObject.AssumedWorldPosServer().CutToInt();
-
-			if (isEmagged)
-			{
-				var mix = new ReagentMix(reagentToSpill, 5f, 273.15f);
-				matrixInfo.MetaDataLayer.ReagentReact(mix,worldPos,tileToClean.LocalPosition);
-			}
-			else matrixInfo.MetaDataLayer.Clean(worldPos, tileToClean.LocalPosition, false);
-
-			FindNewTarget(out targetCell, out targetMatrix);
+			if (found == false) master.AddRemoveState(this, findSimpleTaskAi); //If cant clean without moving, return to search state
+			else DoTask();
 		}
 
-		private bool DoesTileNeedCleaning(Vector3Int positionToCheck)
+		/// <summary>
+		/// Checks to see if the target decal exists, is cleanable and is still at the recorded position
+		/// </summary>
+		/// <param name="positionToCheck">The assumed world position of the decal</param>
+		/// <returns></returns>
+		private bool IsDecalValid(Vector3 positionToCheck)
 		{
-			return targetMatrix.Get<FloorDecal>(positionToCheck, true).Any(p => p.Cleanable);
+			return decalToClean && decalToClean.Cleanable && Vector3.Distance(decalToClean.gameObject.AssumedWorldPosServer(), positionToCheck) < 0.1f;
 		}
 
-		protected override bool IsTaskValid()
+		protected override bool IsCurrentTaskValid()
 		{
-			return Vector3.Distance(targetCell.ToWorld(targetMatrix), LivingHealthMaster.gameObject.AssumedWorldPosServer()) <= 1.1f
-			       && DoesTileNeedCleaning(targetCell);
+			Vector3 worldPos = targetCell.ToWorld(targetMatrix);
+
+			return Vector3.Distance(worldPos, LivingHealthMaster.gameObject.AssumedWorldPosServer()) <= 1.1f
+			       && IsDecalValid(worldPos);
 		}
-
-		private void FindNewTarget(out Vector3Int targetCell, out Matrix matrix)
-		{
-			bool found = FindTarget(out targetCell, out matrix);
-
-			if (found == false) master.AddRemoveState(this, findSimpleTaskAi);
-		}
-
 
 		public override bool FindTarget(out Vector3Int targetPosition, out Matrix targetMatrix)
 		{
-			int bound = (int)(searchRange / 2);
-			targetPosition = Vector3Int.zero;
+			this.targetMatrix = LivingHealthMaster.playerScript.RegisterPlayer.Matrix;
+			var currentPosition = LivingHealthMaster.playerScript.RegisterPlayer.LocalPosition;
 
-			this.targetMatrix = LivingHealthMaster.RegisterTile.Matrix;
 			targetMatrix = this.targetMatrix;
+			targetPosition = currentPosition;
+			decalToClean = null;
 
-			var currentPosition = LivingHealthMaster.RegisterTile.LocalPosition;
-			for (int y = bound; y > -1 - bound; y--)
+			var possibleTargets = Physics2D.OverlapCircleAll(currentPosition.ToWorld(targetMatrix), searchRadius, LayerMask.GetMask("Floor"));
+			foreach (var possibleDecal in possibleTargets)
 			{
-				for (int x = -bound; x < 1 + bound; x++)
-				{
-					var checkPos = currentPosition;
-					checkPos.x += x;
-					checkPos.y += y;
+				FloorDecal decal = possibleDecal.GetComponentCustom<FloorDecal>();
+				if (decal == false || decal.Cleanable == false) continue;
 
-					if (DoesTileNeedCleaning(checkPos))
-					{
-						targetPosition = checkPos;
-						targetCell = checkPos;
-						return true;
-					}
-				}
+				var worldPos = decal.gameObject.AssumedWorldPosServer();
+				targetPosition = worldPos.ToLocalInt(targetMatrix);
+
+				this.decalToClean = decal;
+				return true;
 			}
 			return false;
-		}
-		public override bool HasGoal()
-		{
-			return true;
 		}
 	}
 }

@@ -8,30 +8,64 @@ namespace Mobs.BrainAI.States.SimpleBot
 {
 	public class SimpleBotTaskAi : BrainMobState
 	{
+
 		[SerializeField] protected FindSimpleTaskAi findSimpleTaskAi = null;
 		[SerializeField] protected AddressableAudioSource taskPerformSound;
 		[SerializeField] protected AddressableAudioSource emaggedPerformSound;
+
+		[SerializeField] protected float taskPerformDuration = 2f;
+
+		//How far should this bot search for a target? Consider using lower values for less performant checks
+		protected int searchRadius = 5;
+
+		protected Matrix targetMatrix;
+		protected Vector3Int targetCell;
+
 		protected bool isEmagged = false;
 		protected Coroutine taskPerformCoroutine = null;
 
 		public override void OnEnterState()
 		{
-			//SimpleBotTaskAi implements no AI behaviour by default. See subclasses for behaviours
+			DoTask();
 		}
 
 		public override void OnExitState()
 		{
-			//SimpleBotTaskAi implements no AI behaviour by default. See subclasses for behaviours
+			targetMatrix = null;
+			targetCell = Vector3Int.zero;
+			taskPerformCoroutine = null;
+		}
+
+		public void DoTask()
+		{
+			if (taskPerformCoroutine == null && IsCurrentTaskValid() == false)
+			{
+				master.AddRemoveState(this, findSimpleTaskAi);
+				return;
+			}
+
+			if (taskPerformCoroutine is not null) return;
+
+			taskPerformCoroutine = StartCoroutine(PerformTask());
 		}
 
 		public override void OnUpdateTick()
 		{
-			master.AddRemoveState(this, findSimpleTaskAi); //Exit on first update
+			//Do nothing
 		}
 
-		protected virtual bool IsTaskValid()
+		protected virtual IEnumerator PerformTask()
 		{
-			return true;
+			yield return WaitFor.Seconds(taskPerformDuration);
+
+			taskPerformCoroutine = null;
+
+			DoTask();
+		}
+
+		protected virtual bool IsCurrentTaskValid()
+		{
+			return false;
 		}
 
 		public virtual bool FindTarget(out Vector3Int targetPosition, out Matrix targetMatrix)
@@ -44,7 +78,7 @@ namespace Mobs.BrainAI.States.SimpleBot
 
 		public override bool HasGoal()
 		{
-			return true;
+			return targetMatrix;
 		}
 	}
 }

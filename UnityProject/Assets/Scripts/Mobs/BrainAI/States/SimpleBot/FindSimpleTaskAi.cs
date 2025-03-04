@@ -1,34 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using AddressableReferences;
-using Core;
+﻿using System.Collections.Generic;
 using Core.Editor.Attributes;
 using HealthV2;
-using Items.Food;
 using Logs;
-using Mobs.AI;
 using Mobs.Traversal;
-using Mobs.Traversal.Strategies;
-using NUnit.Framework.Constraints;
-using PathFinding;
-using Systems.Faith;
-using Systems.Spawns;
 using UnityEngine;
+using Systems.Character;
+using UI.CharacterCreator;
 
 namespace Mobs.BrainAI.States.SimpleBot
 {
 	public class FindSimpleTaskAi : BrainMobState
 	{
-		private enum BotType
-		{
-			FloorBot = 0,
-			CleanBot = 1,
-			Medibot = 2,
-		}
-
-		[SerializeField] private BotType botType = BotType.FloorBot;
-
 		private Vector3Int targetCell;
 		private Matrix targetMatrix;
 
@@ -44,27 +26,16 @@ namespace Mobs.BrainAI.States.SimpleBot
 
 		private bool isTraversing = false;
 
-		private void Awake()
+		private void Start()
 		{
-			switch (botType)
-			{
-				case BotType.Medibot:
-					taskState = GetComponent<FloorBotTaskAi>();
-					break;
-				case BotType.CleanBot:
-					taskState = GetComponent<CleanBotTaskAi>();
-					break;
-				case BotType.FloorBot:
-				default:
-					taskState = GetComponent<FloorBotTaskAi>();
-					break;
-			}
+			taskState = GetComponent<SimpleBotTaskAi>();
 			if (taskState == null)
 			{
 				Loggy.Error(
-					$"FindSimpleTaskAi: Tried to find task state for {gameObject.name} of type {botType}, but the taskState component could not be found.");
+					$"FindSimpleTaskAi: Tried to find task state for {gameObject.name}, but the taskState component could not be found.");
 			}
 		}
+
 		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
 		{
 			UnsubscribeToPathfinderEvents();
@@ -76,9 +47,8 @@ namespace Mobs.BrainAI.States.SimpleBot
 			SubscribeToPathfinderEvents();
 
 			isTraversing = false;
-			foundTarget = taskState.FindTarget(out targetCell, out targetMatrix);
-			if (foundTarget == false) master.AddRemoveState(null, wanderState);
-			else OnUpdateTick();
+
+			if(foundTarget) OnUpdateTick();
 		}
 
 		public override void OnExitState()
@@ -86,30 +56,28 @@ namespace Mobs.BrainAI.States.SimpleBot
 			UnsubscribeToPathfinderEvents();
 			targetCell = Vector3Int.zero;
 			targetMatrix = null;
-			foundTarget = false;
 		}
 
 		public override void OnUpdateTick()
 		{
+			Loggy.Error("Enter Tick Update");
+			if (taskState == false) return;
+			Loggy.Error("Has Task State");
 			if (IsStillTraversing()) return;
+			Loggy.Error("Is not traversing");
 			if (LivingHealthMaster.IsSoftCrit || LivingHealthMaster.IsCrit || LivingHealthMaster.IsDead)
 			{
 				isTraversing = false;
 				return;
 			}
-
-			if (foundTarget == false)
+			Loggy.Error("Is Alive");
+			if (foundTarget == false && HasGoal() == false)
 			{
-				foundTarget = taskState.FindTarget(out targetCell, out targetMatrix);
-				if (foundTarget) master.AddRemoveState(wanderState, null);
+				Loggy.Error("No target, wandering");
+				master.AddRemoveState(this, wanderState);
 				return;
 			}
-
-			if (Vector3.Distance(targetCell.ToWorld(targetMatrix), LivingHealthMaster.gameObject.AssumedWorldPosServer()) <= 1.1f)
-			{
-				master.AddRemoveState(this, taskState);
-			}
-
+		    Loggy.Error("Pathfinding to target");
 			isTraversing = pathfinder.QueueMovementGoal(targetCell, () => OnDoneTraversalToLocation(Vector3Int.zero), null, TraversalStrategies, true);
 		}
 
@@ -141,11 +109,17 @@ namespace Mobs.BrainAI.States.SimpleBot
 		private void OnDoneTraversalToLocation(Vector3Int pos)
 		{
 			isTraversing = false;
-			OnUpdateTick();
+
+			if (Vector3.Distance(targetCell.ToWorld(targetMatrix), master.gameObject.AssumedWorldPosServer()) <= 1.1f)
+			{
+				master.AddRemoveState(this, taskState);
+			}
+			else OnUpdateTick();
 		}
 
 		public override bool HasGoal()
 		{
+			foundTarget = taskState.FindTarget(out targetCell, out targetMatrix);
 			return foundTarget;
 		}
 	}

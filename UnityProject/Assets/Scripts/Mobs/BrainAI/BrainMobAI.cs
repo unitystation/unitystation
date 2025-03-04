@@ -13,7 +13,11 @@ namespace Mobs.BrainAI
 	{
 		[field: ReadOnly, SerializeField] public List<BrainMobState> CurrentActiveStates { get; private set; } = new List<BrainMobState>();
 		[field: SerializeField] public List<BrainMobState> MobStates { get; private set; } = new List<BrainMobState>();
-		[SerializeField] private BrainMobState thinkingState;
+		[field: SerializeField] public BrainMobState thinkingState { get; private set; }
+
+		//Inelegant to set these on start instead of using properties, but was the least clunky way to get these fields editable in the inspector
+		[field: SerializeField] private PathfinderType InitialPathfindingMethod = PathfinderType.AStar;
+		[field: SerializeField] private bool InitialDontCheckForDoorsOverride = false;
 
 		public Brain Brain;
 		public MobTraversal Traversal => Brain.Traversal;
@@ -52,6 +56,9 @@ namespace Mobs.BrainAI
 			Brain = this.GetComponent<Brain>();
 			GatherAllStates();
 			AddRemoveState(null, thinkingState);
+
+			Traversal.PathfindingMethod = InitialPathfindingMethod;
+			Traversal.DontCheckForDoorsOverride = InitialDontCheckForDoorsOverride;
 		}
 
 		private void GatherAllStates()

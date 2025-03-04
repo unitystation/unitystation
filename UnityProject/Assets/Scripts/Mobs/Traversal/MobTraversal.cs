@@ -20,6 +20,9 @@ namespace Mobs.Traversal
 		public int MaxRetries = 6;
 		public bool DebugGizmos = false;
 
+		public bool DontCheckForDoorsOverride = false;
+		public PathfinderType PathfindingMethod = PathfinderType.AStar;
+
 		public Action<Vector3Int> OnDoneTraversalToLocation;
 		public Action<Vector3Int> OnTraversalFailedCompletely;
 		public Action<Vector3Int> OnTraversalFailedAndRetrying;
@@ -41,6 +44,7 @@ namespace Mobs.Traversal
 		private int timeoutRequestTicks = 0;
 
 		private const int TENTH_OF_A_SECOND = 135;
+		private const int A_SECOND = 1350;
 
 
 		private void Awake()
@@ -65,10 +69,24 @@ namespace Mobs.Traversal
 			if (health.IsDead) return false;
 			if (_targetQueue.Count >= MaxQueuedTargets) return false;
 
-			//TODO: Add a check to switch between using BFS and A*.
-			path = matrix.MetaDataLayer.Pathfinder.AStarFromTo(matrix.MetaDataLayer.Nodes,
-				gameObject.TileLocalPosition().To3Int(), newTarget, false,
-				Vector3Int.Distance(Movement.OfficialPosition.RoundToInt(), newTarget) > 2);
+
+			switch (PathfindingMethod)
+			{
+				case PathfinderType.BFS:
+					path = matrix.MetaDataLayer.Pathfinder.FromTo(matrix.MetaDataLayer.Nodes,
+						gameObject.TileLocalPosition().To3Int(), newTarget, false,
+						DontCheckForDoorsOverride == false &&
+						Vector3Int.Distance(Movement.OfficialPosition.RoundToInt(), newTarget) > 2);
+					break;
+				case PathfinderType.AStar:
+				default:
+					path = matrix.MetaDataLayer.Pathfinder.AStarFromTo(matrix.MetaDataLayer.Nodes,
+						gameObject.TileLocalPosition().To3Int(), newTarget, false,
+						DontCheckForDoorsOverride == false &&
+						Vector3Int.Distance(Movement.OfficialPosition.RoundToInt(), newTarget) > 2);
+					break;
+			}
+
 			if (path == null || path.Count == 0)
 			{
 				if (DebugGizmos) Loggy.Info("Attempted to move to a location that is not reachable.");
@@ -138,7 +156,8 @@ namespace Mobs.Traversal
 				if (health.IsDead || registerPlayer.IsSlippingServer) break; // Incase we died or stunned while moving.
 				if (Movement.IsMoving)
 				{
-					await UniTask.Delay(TENTH_OF_A_SECOND + (i * 10)); // If we're already moving, wait until the next retry.
+
+					await UniTask.Delay((int)(A_SECOND / Movement.CurrentTileMoveSpeed)  + (i * 10)); // If we're already moving, wait until the next retry.
 					continue;
                 }
 				var attemptMovement = Move(pos);
@@ -148,7 +167,7 @@ namespace Mobs.Traversal
 					if (i > 1 && details.Strats != null)
 					{
 						AttemptStrategies(details.Strats, pos);
-						await UniTask.Delay(TENTH_OF_A_SECOND + (i * 10));
+						await UniTask.Delay((int)(A_SECOND / Movement.CurrentTileMoveSpeed) + (i * 10));
 					}
 					continue;
 				}
@@ -159,7 +178,7 @@ namespace Mobs.Traversal
 					waitTicks++;
 					// 135ms + 10ms per retry.
 					// We add 10ms to the delay for each retry incase there's something holding back a succesful tile move.
-					await UniTask.Delay(TENTH_OF_A_SECOND + (i * 10)); //TODO: Calculate movement speed as a delay factor.
+					await UniTask.Delay((int)(A_SECOND / Movement.CurrentTileMoveSpeed) + (i * 10));
 					if (_movingFromFirstTilePosition == registerPlayer.LocalPositionServer && waitTicks > 10)
 					{
 						// We're def stuck if 10 ticks passed and we're still standing in the same place.
@@ -224,7 +243,7 @@ namespace Mobs.Traversal
 			_movingFromFirstTile = false;
 			waitTicks = 0;
 			timeoutRequestTicks = 0;
-			if (clearPath) path.Clear();
+			if (clearPath && path != null) path.Clear();
 		}
 
 		private void SetMovingToTileToFalse(Vector3Int arg0, Vector3Int vector3Int)
@@ -257,5 +276,11 @@ namespace Mobs.Traversal
 			public List<ITraversalStrat> Strats;
 			public bool CancelOnSlip;
 		}
+	}
+
+	public enum PathfinderType
+	{
+		AStar = 0,
+		BFS = 1,
 	}
 }

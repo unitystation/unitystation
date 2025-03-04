@@ -1,0 +1,175 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3574591345980634731
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7692143295305377, guid: b6b606388cb517144a21d93415c57401, type: 3}
+      propertyPath: _assetId
+      value: 3216969526
+      objectReference: {fileID: 0}
+    - target: {fileID: 112421141507975957, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: m_Name
+      value: CleanBotController
+      objectReference: {fileID: 0}
+    - target: {fileID: 116218716797523553, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 116218716797523553, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 116218716797523553, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 116218716797523553, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 116218716797523553, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 116218716797523553, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 116218716797523553, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 116218716797523553, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 116218716797523553, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 116218716797523553, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: botType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3581588255896703113, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: 'OptionalReplacementOrgan.Array.data[1]'
+      value: 
+      objectReference: {fileID: 13269357533816546}
+    - target: {fileID: 6428289829602600824, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: foreverID
+      value: afwjHynkv9rA!6WycWh4
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 1588973984930370205, guid: b6b606388cb517144a21d93415c57401, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 112421141507975957, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5214317460679534111}
+  m_SourcePrefab: {fileID: 100100000, guid: b6b606388cb517144a21d93415c57401, type: 3}
+--- !u!114 &13269357533816546 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3581588255896703113, guid: b6b606388cb517144a21d93415c57401,
+    type: 3}
+  m_PrefabInstance: {fileID: 3574591345980634731}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3464422108322323838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &944819518652649867 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4361687565459908576, guid: b6b606388cb517144a21d93415c57401,
+    type: 3}
+  m_PrefabInstance: {fileID: 3574591345980634731}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3464422108322323838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f14e9b5b4498704cb98ada2d5271d86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3005122257450022204 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+    type: 3}
+  m_PrefabInstance: {fileID: 3574591345980634731}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3464422108322323838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18d38ca4cab17f544a95f2d3600c2045, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &3464422108322323838 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 112421141507975957, guid: b6b606388cb517144a21d93415c57401,
+    type: 3}
+  m_PrefabInstance: {fileID: 3574591345980634731}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5214317460679534111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3464422108322323838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b15f4f7720173f4f9745a2592728743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  RelatedPart: {fileID: 13269357533816546}
+  <Blacklist>k__BackingField: []
+  <UpdateType>k__BackingField: 3
+  <PeriodicUpdateInterval>k__BackingField: 2
+  <master>k__BackingField: {fileID: 944819518652649867}
+  findSimpleTaskAi: {fileID: 3005122257450022204}
+  taskPerformSound:
+    AssetAddress: Assets/Prefabs/Effects/splat.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  emaggedPerformSound:
+    AssetAddress: Assets/Prefabs/Effects/splash.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  taskPerformDuration: 2
+  reagentToSpill: {fileID: 11400000, guid: e165b9d67b5163a9ea82a4c4fed31f7d, type: 2}
