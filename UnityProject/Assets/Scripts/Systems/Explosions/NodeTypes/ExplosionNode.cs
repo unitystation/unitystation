@@ -136,7 +136,7 @@ namespace Systems.Explosions
 			foreach (var player in matrix.Get<LivingHealthMasterBase>(v3int, ObjectType.Player, true))
 			{
 				//Player damage is relatively fine performance wise, and doesn't generate any GC.
-				//However, it is still a bit too complex; and it's complexity shows when several mobs are recieving damage at once.
+				//However, it is still a bit too complex; and its complexity shows when several mobs are recieving damage at once.
 				//Processing one at a time each frame should give the game plenty of breathing room.
 				await UniTask.WaitForEndOfFrame();
 				try
