@@ -105,7 +105,7 @@ namespace Objects.Lighting
 			traitRequired = currentState.TraitRequired;
 			RefreshBoxCollider();
 			loopKey = Guid.NewGuid().ToString();
-			ComponentsTracker<LightSource>.Instances.Add(this);
+			ComponentsTracker<LightSource>.RegisterInstance(this);
 		}
 
 		private void Start()
@@ -152,7 +152,7 @@ namespace Objects.Lighting
 
 		private void OnDestroy()
 		{
-			ComponentsTracker<LightSource>.Instances.Remove(this);
+			ComponentsTracker<LightSource>.UnregisterInstance(this);
 		}
 
 		#endregion

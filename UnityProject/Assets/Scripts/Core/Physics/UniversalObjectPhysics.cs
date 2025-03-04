@@ -8,6 +8,7 @@ using Messages.Server.SoundMessages;
 using Mirror;
 using Objects;
 using Objects.Construction;
+using Scripts.Core.Transform;
 using SecureStuff;
 using Tiles;
 using UnityEngine;
@@ -230,6 +231,8 @@ namespace Core.Physics
 		[PlayModeOnly] public float TimeSpentFlying = 0;
 		[PlayModeOnly] private float SecondsFlying;
 
+		[field: SerializeField] public ScaleSync Scale { get; protected set; }
+
 		public bool IsFlyingSliding
 		{
 			get
@@ -268,8 +271,9 @@ namespace Core.Physics
 			registerTile = GetComponent<RegisterTile>();
 			rotatable = GetComponent<Rotatable>();
 			pickupable.DirectSetComponent(GetComponent<Pickupable>());
-
+			Scale = GetComponent<ScaleSync>();
 			SetRotationTarget();
+			ComponentsTracker<UniversalObjectPhysics>.RegisterInstance(this);
 		}
 
 		public void Start()
@@ -314,6 +318,7 @@ namespace Core.Physics
 			if (CorrectingCourse) UpdateManager.Remove(CallbackType.EARLY_UPDATE, FloatingCourseCorrection);
 			if (BuckledToObject != null) Unbuckle();
 			if (ObjectIsBuckling != null) ObjectIsBuckling.Unbuckle();
+			ComponentsTracker<UniversalObjectPhysics>.UnregisterInstance(this);
 		}
 
 		public virtual void OnEnable()
