@@ -91,7 +91,7 @@ PrefabInstance:
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialName
-      value: Book
+      value: book
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -101,6 +101,12 @@ PrefabInstance:
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2dfc2e01f30cd454bb5d1bb62a347323,
+        type: 2}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 2dfc2e01f30cd454bb5d1bb62a347323,
         type: 2}
@@ -157,25 +163,25 @@ MonoBehaviour:
   tab: {fileID: 3412994045706313074}
   spriteHandler: {fileID: 8521522517916990633}
   pageTurnSounds:
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/PageTurn1.prefab
+  - AssetAddress: Assets/Prefabs/Effects/PageTurn1.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/PageTurn2.prefab
+  - AssetAddress: Assets/Prefabs/Effects/PageTurn2.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/PageTurn3.prefab
+  - AssetAddress: Assets/Prefabs/Effects/PageTurn3.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   <Pages>k__BackingField: []
@@ -204,6 +210,7 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 1
+  initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}
 --- !u!114 &3412994045706313074
