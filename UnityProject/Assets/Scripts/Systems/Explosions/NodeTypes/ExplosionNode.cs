@@ -236,7 +236,7 @@ namespace Systems.Explosions
 			if (tileChangeManager.MetaTileMap.HasOverlay(position, TileType.Effects, effectName)) return UniTask.CompletedTask;
 			tileChangeManager.MetaTileMap.AddOverlay(position, TileType.Effects, effectName);
 			var Position = position.ToWorld(tileChangeManager.MetaTileMap.matrix);
-			//TODO: Pool this because it's ruining performance heavily when multiple explosions occur.
+			//TODO: Pool this because it's ruining performance when multiple explosions occur.
 			var fireLightSpawn = Spawn.ServerPrefab(tileChangeManager.MetaTileMap.matrix.ReactionManager.FireLightPrefab, Position);
 			var physics =
 				ComponentsTracker<UniversalObjectPhysics>.GetComponentFromGameObject(fireLightSpawn.GameObject);
