@@ -16,6 +16,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2450954382432651964, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 1ea1b2edd277e374c8cb6a83a1b12d3c,
+        type: 2}
+    - target: {fileID: 2450954382432651964, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
       propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 1ea1b2edd277e374c8cb6a83a1b12d3c,
@@ -44,12 +50,12 @@ PrefabInstance:
     - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
       propertyPath: initialName
-      value: syndicate minibomb
+      value: Syndicate minibomb
       objectReference: {fileID: 0}
     - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
       propertyPath: initialDescription
-      value: A syndicate manufactured explosive used to sow destruction and chaos.
+      value: A Syndicate-manufactured explosive used to sow destruction and chaos.
       objectReference: {fileID: 0}
     - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
@@ -60,6 +66,18 @@ PrefabInstance:
     - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: a643748f5a00ca847baab9001f8c0391,
+        type: 2}
+    - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 51cb6b2e3ac072f42bb6ebca5c6dc94d,
+        type: 2}
+    - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: a643748f5a00ca847baab9001f8c0391,
         type: 2}

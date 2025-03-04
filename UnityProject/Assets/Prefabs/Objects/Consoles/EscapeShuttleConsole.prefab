@@ -235,7 +235,7 @@ PrefabInstance:
     - target: {fileID: 1083807778969337673, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: initialDescription
-      value: Used to control the emergency shuttle
+      value: Used to control the emergency shuttle.
       objectReference: {fileID: 0}
     - target: {fileID: 1171856977225543652, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -265,6 +265,12 @@ PrefabInstance:
     - target: {fileID: 3806105522999988684, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c7793c0d3928d26449b770bee6e6c055,
+        type: 2}
+    - target: {fileID: 3806105522999988684, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: c7793c0d3928d26449b770bee6e6c055,
         type: 2}
@@ -374,6 +380,21 @@ PrefabInstance:
     - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: Color.r
+      value: 0.526
+      objectReference: {fileID: 0}
+    - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 0.694
+      objectReference: {fileID: 0}
+    - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.642
+      objectReference: {fileID: 0}
+    - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.r
       value: 0.526
       objectReference: {fileID: 0}
     - target: {fileID: 6691892461727964720, guid: b46887a995abc224aab70e21b9e53697,
@@ -615,6 +636,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: dccfff9f4fb95f14481d23fd37d7556f,
         type: 2}
+    - target: {fileID: 8201155816690774842, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: dccfff9f4fb95f14481d23fd37d7556f,
+        type: 2}
     m_RemovedComponents:
     - {fileID: -4343989174440723700, guid: b46887a995abc224aab70e21b9e53697, type: 3}
     - {fileID: 3509344053301837447, guid: b46887a995abc224aab70e21b9e53697, type: 3}
@@ -724,3 +751,5 @@ MonoBehaviour:
   internalStatus: 4
   blockCall: 0
   blockRecall: 0
+  loadedOnRoundID: 0
+  timeSpentTravellingToCC: 0
