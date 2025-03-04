@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: stairs_standard
+  m_EditorClassIdentifier: 
+  foreverID: aad5d5b741b589affa9ffab4ee10cf94
+  Variance:
+  - Frames:
+    - sprite: {fileID: -3821777026937811026, guid: 6a30749ea46d5bd75abe8aa2594e9b7e,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -1218909528, guid: 6a30749ea46d5bd75abe8aa2594e9b7e, type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -132472855, guid: 6a30749ea46d5bd75abe8aa2594e9b7e, type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 2110409580, guid: 6a30749ea46d5bd75abe8aa2594e9b7e, type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  DisplayName: 

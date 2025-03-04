@@ -26,7 +26,7 @@ PrefabInstance:
     - target: {fileID: 1197192003336439530, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: exportCost
-      value: 500
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1197192003336439530, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -36,7 +36,7 @@ PrefabInstance:
     - target: {fileID: 1197192003336439530, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: initialDescription
-      value: Placeholder. Yell at Firecage if you SOMEHOW see this.
+      value: A statue.
       objectReference: {fileID: 0}
     - target: {fileID: 4848496751115757459, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -138,6 +138,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  objectBehaviour: {fileID: 0}
   isSecuredStateExaminable: 1
   isExposedFloorPlatingRequired: 0
   secondsToSecure: 4

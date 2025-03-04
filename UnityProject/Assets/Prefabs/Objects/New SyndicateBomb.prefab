@@ -92,26 +92,32 @@ PrefabInstance:
     - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: exportName
-      value: Syndicate Bomb
+      value: Syndicate bomb
       objectReference: {fileID: 0}
     - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: initialName
-      value: Syndicate Bomb
+      value: Syndicate bomb
       objectReference: {fileID: 0}
     - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: exportMessage
-      value: Time to Oga some Bogas
+      value: Time to Ooga some Boogas!
       objectReference: {fileID: 0}
     - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: initialDescription
-      value: looks too dangerous
+      value: Looks too dangerous.
       objectReference: {fileID: 0}
     - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 6d8a820415981d548993c81123514e1c,
+        type: 2}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 6d8a820415981d548993c81123514e1c,
         type: 2}
@@ -163,11 +169,11 @@ MonoBehaviour:
   explosiveRadius: 25
   activeSpriteSO: {fileID: 11400000, guid: 17eb29bb46caa9044adc12a3e0afcd77, type: 2}
   beepSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/Beep.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   progressTime: 3

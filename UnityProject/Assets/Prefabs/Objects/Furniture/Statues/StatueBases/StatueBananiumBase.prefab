@@ -95,8 +95,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7761092484002456033, guid: ba5045d716084034ab5a9b712f8ce559,
         type: 3}
+      propertyPath: exportCost
+      value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7761092484002456033, guid: ba5045d716084034ab5a9b712f8ce559,
+        type: 3}
       propertyPath: initialDescription
-      value: A bananium statue with a small engraving:'HOOOOOOONK'.
+      value: 'A bananium statue with a small engraving: ''HOOOOOOONK''.'
       objectReference: {fileID: 0}
     - target: {fileID: 8430105896716693836, guid: ba5045d716084034ab5a9b712f8ce559,
         type: 3}

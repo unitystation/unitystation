@@ -14,6 +14,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: d3ae255c27f0cd142a3c8bda62a9d16c,
         type: 3}
+    - target: {fileID: 717017699282204641, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2750215698149839610, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
         type: 3}
       propertyPath: parentID
@@ -30,20 +35,31 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: cb9ac36cfb96d3e49870636cd69a3839,
         type: 2}
+    - target: {fileID: 3465797894728902041, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: initialVariantIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3465797894728902041, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: cb9ac36cfb96d3e49870636cd69a3839,
+        type: 2}
     - target: {fileID: 4556520481471461753, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.32
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4556520481471461753, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.32
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4556520481471461753, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.32
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4556520481471461753, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
         type: 3}
@@ -147,9 +163,6 @@ MonoBehaviour:
   height: 20
   wallTile: {fileID: 0}
   objectChance: 50
-  matrix: {fileID: 0}
   possibleSpawns: []
   containers: []
-  exclusionZones: []
   exclusionZonesMono: []
-  GameGizmoSquare: {fileID: 0}

@@ -93,7 +93,7 @@ PrefabInstance:
     - target: {fileID: 6536606663306582548, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
         type: 3}
       propertyPath: _assetId
-      value: 2066723306
+      value: 1222765164
       objectReference: {fileID: 0}
     - target: {fileID: 6536606663306582548, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
         type: 3}
@@ -103,6 +103,12 @@ PrefabInstance:
     - target: {fileID: 7871043331994682796, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 0e5523042f814d74a83ae19c6f1cfc5c,
+        type: 2}
+    - target: {fileID: 7871043331994682796, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 0e5523042f814d74a83ae19c6f1cfc5c,
         type: 2}
@@ -143,5 +149,13 @@ MonoBehaviour:
   SynchroniseCurrentDirection: 0
   IgnoreServerUpdatesIfLocalPlayer: 0
   MatrixRotateUpdate: 1
+  SetOrder: 0
+  Orders: 00000000000000000000000000000000
+  SetLayer: 0
+  Layers:
+  - Rename me 1
+  - Rename me 2
+  - Rename me 3
+  - Rename me 4
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0

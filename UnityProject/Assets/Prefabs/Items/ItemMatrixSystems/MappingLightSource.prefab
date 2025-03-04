@@ -30,8 +30,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 15, y: 15, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 16, y: 16, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8269360996142131638}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -188,12 +188,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 84770c8e79df73b4b8f1bd6d61e042e5,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 717017699282204641, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
         type: 3}
       propertyPath: m_Color.a
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 717017699282204641, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2750215698149839610, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
         type: 3}
@@ -240,6 +244,17 @@ PrefabInstance:
       propertyPath: InitialColour.r
       value: 0.7735849
       objectReference: {fileID: 0}
+    - target: {fileID: 3158743287136101648, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: initialVariantIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3158743287136101648, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f1112686b80a7b9ccbedb3815e83c2b0,
+        type: 2}
     - target: {fileID: 3465797894728902041, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
         type: 3}
       propertyPath: InitialPresentSpriteSet
@@ -278,8 +293,44 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8962716191955234251, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
         type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1888856480059077069, guid: 132575ce68516d586af60f71668889d9,
+        type: 3}
+    - target: {fileID: 8962716191955234251, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
       propertyPath: m_Color.a
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8962716191955234251, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9116101919774051691, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9116101919774051691, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9116101919774051691, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9116101919774051691, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9116101919774051691, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9116272316079367139, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
         type: 3}
@@ -343,7 +394,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
-    - {fileID: 8937081536070910719, guid: 6d04235bcbbde8349a6a46d46d8f8ae8, type: 3}
+    - {fileID: 0}
+    - {fileID: 8151410467544744473, guid: 6d04235bcbbde8349a6a46d46d8f8ae8, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 9116272316079367139, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
         type: 3}
