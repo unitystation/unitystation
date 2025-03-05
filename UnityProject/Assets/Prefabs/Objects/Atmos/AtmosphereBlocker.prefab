@@ -61,7 +61,7 @@ PrefabInstance:
     - target: {fileID: 2113956301253640539, guid: 5425ee650c49e0849b4bed132cfb588f,
         type: 3}
       propertyPath: m_Name
-      value: AtmosBlockerInvis
+      value: AtmosphereBlocker
       objectReference: {fileID: 0}
     - target: {fileID: 2177056003415352652, guid: 5425ee650c49e0849b4bed132cfb588f,
         type: 3}
@@ -89,6 +89,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3037572581152849682, guid: 5425ee650c49e0849b4bed132cfb588f,
+        type: 3}
+      propertyPath: foreverID
+      value: a8420ff8d1aef86898542dcd9cc91a60
+      objectReference: {fileID: 0}
     - target: {fileID: 6847363493556890497, guid: 5425ee650c49e0849b4bed132cfb588f,
         type: 3}
       propertyPath: initialVariantIndex
@@ -104,6 +109,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _assetId
       value: 4246553426
+      objectReference: {fileID: 0}
+    - target: {fileID: 7916231006890357601, guid: 5425ee650c49e0849b4bed132cfb588f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 28
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
