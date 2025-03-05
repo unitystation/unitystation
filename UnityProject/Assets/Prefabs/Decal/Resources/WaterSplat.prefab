@@ -15,7 +15,9 @@ GameObject:
   - component: {fileID: 6905794213313038048}
   - component: {fileID: -8250776762379421101}
   - component: {fileID: 4162735706630436505}
-  m_Layer: 22
+  - component: {fileID: 4631906379187228167}
+  - component: {fileID: -5505866042081964179}
+  m_Layer: 7
   m_Name: WaterSplat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -194,6 +196,64 @@ MonoBehaviour:
   CanBeWindPushed: 0
   canResetRotationFromRightClick: 0
   rotationTarget: {fileID: 0}
+--- !u!61 &4631906379187228167
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3880655971207283372}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 128
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 4160749367
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 128
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4160749367
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!114 &-5505866042081964179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3880655971207283372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b3f20d3b30cb24fb70b1f35524c360, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3880655971395685414
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,7 +264,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3880655971395685413}
   - component: {fileID: 3880655971395685412}
-  m_Layer: 22
+  m_Layer: 7
   m_Name: sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

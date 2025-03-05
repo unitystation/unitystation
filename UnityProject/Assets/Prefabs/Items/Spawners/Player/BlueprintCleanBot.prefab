@@ -56,12 +56,12 @@ PrefabInstance:
     - target: {fileID: -1729072835972511318, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}
       propertyPath: CharacterSheet.SerialisedBodyPartCustom.Array.data[0].Data
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -1729072835972511318, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}
       propertyPath: CharacterSheet.SerialisedBodyPartCustom.Array.data[0].path
-      value: /SimpleBotController
+      value: /FloorBotBody
       objectReference: {fileID: 0}
     - target: {fileID: -1729072835972511318, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}
@@ -71,7 +71,7 @@ PrefabInstance:
     - target: {fileID: -1729072835972511318, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}
       propertyPath: CharacterSheet.SerialisedBodyPartCustom.Array.data[1].path
-      value: /FloorBotBody
+      value: /SimpleBotController
       objectReference: {fileID: 0}
     - target: {fileID: 660552017190180179, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}

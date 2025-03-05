@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using UnityEngine;
 using HealthV2;
+using Logs;
 using Systems.Character;
 using Systems.Clothing;
 
@@ -45,11 +46,14 @@ public class BodyPartSprites : MonoBehaviour
 
 	public virtual void UpdateSpritesForImplant(BodyPart implant,ClothingHideFlags INClothingHide, SpriteDataSO Sprite, SpriteOrder _SpriteOrder = null)
 	{
+		Loggy.Warning("Updating sprites for implant...");
 		if (baseSpriteHandler == null) return;
+		Loggy.Warning("Has baseSpriteHandler");
 		ClothingHide = INClothingHide;
 		UpdateData( JsonConvert.SerializeObject(_SpriteOrder));
 		//baseSpriteHandler.name = baseSpriteHandler.name + implant.name;
 		baseSpriteHandler.SetSpriteSO(Sprite, Color.white);
+		Loggy.Warning("Set sprite");
 		SpriteOrder = _SpriteOrder;
 		if (SpriteOrder != null)
 		{
@@ -59,6 +63,7 @@ public class BodyPartSprites : MonoBehaviour
 			}
 		}
 		baseSpriteHandler.SetSpriteVariant(referenceOffset, false);
+		Loggy.Warning($"Set variant to: {referenceOffset}");
 	}
 
 

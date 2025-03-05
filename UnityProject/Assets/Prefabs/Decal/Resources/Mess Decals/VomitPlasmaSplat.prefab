@@ -85,6 +85,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2789537394278642046, guid: dde8d9bf0726b3140971ecd9d5ddcb87,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: b9c27a0834fb4b542af73ec0568a4b1e,
+        type: 2}
+    - target: {fileID: 2789537394278642046, guid: dde8d9bf0726b3140971ecd9d5ddcb87,
+        type: 3}
       propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: b9c27a0834fb4b542af73ec0568a4b1e,
@@ -184,6 +190,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 837060fa3ebf3e040916b39a97c42ae2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
   attackType: 0
   damageType: 0
   traumaType: 0
@@ -196,6 +205,10 @@ MonoBehaviour:
   canCauseTrauma: 0
   protectiveItemTraits: []
   limbsToHurt: 
+  OnStepEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  MaxDamage: 0
   reagentContainer: {fileID: 3947696094908125058}
 --- !u!114 &3947696094908125058 stripped
 MonoBehaviour:

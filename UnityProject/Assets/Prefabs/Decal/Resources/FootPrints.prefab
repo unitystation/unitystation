@@ -19,7 +19,8 @@ GameObject:
   - component: {fileID: 2784834567204722147}
   - component: {fileID: 2128560979510487873}
   - component: {fileID: 5279946445485126567}
-  m_Layer: 22
+  - component: {fileID: 5642772728976905861}
+  m_Layer: 7
   m_Name: FootPrints
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -338,6 +339,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13b3f20d3b30cb24fb70b1f35524c360, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!61 &5642772728976905861
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1069497300762596}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 128
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 4160749367
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 128
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4160749367
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &1230737790073880
 GameObject:
   m_ObjectHideFlags: 0
@@ -349,7 +396,7 @@ GameObject:
   - component: {fileID: 4477121353083166}
   - component: {fileID: 212268240904160500}
   - component: {fileID: 3368985760070711650}
-  m_Layer: 22
+  m_Layer: 7
   m_Name: down_enter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -460,7 +507,7 @@ GameObject:
   - component: {fileID: 8946829796915848664}
   - component: {fileID: 4437260082810115537}
   - component: {fileID: 1387438567462107603}
-  m_Layer: 22
+  m_Layer: 7
   m_Name: down_exit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -571,7 +618,7 @@ GameObject:
   - component: {fileID: 4738997761069886288}
   - component: {fileID: 2763370082768734084}
   - component: {fileID: 7319040472285673665}
-  m_Layer: 22
+  m_Layer: 7
   m_Name: up_exit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -682,7 +729,7 @@ GameObject:
   - component: {fileID: 3522857292098566603}
   - component: {fileID: 4808829902545770342}
   - component: {fileID: 4857973704584816479}
-  m_Layer: 22
+  m_Layer: 7
   m_Name: Right_enter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -793,7 +840,7 @@ GameObject:
   - component: {fileID: 4474372832806358850}
   - component: {fileID: 522706510445969823}
   - component: {fileID: 4278129763644235436}
-  m_Layer: 22
+  m_Layer: 7
   m_Name: left_exit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -902,7 +949,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6202073598313314995}
-  m_Layer: 22
+  m_Layer: 7
   m_Name: exit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -939,7 +986,7 @@ GameObject:
   - component: {fileID: 4737569298377018183}
   - component: {fileID: 4171558428640784888}
   - component: {fileID: 4773132645662489833}
-  m_Layer: 22
+  m_Layer: 7
   m_Name: up_enter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1048,7 +1095,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2549024701624720526}
-  m_Layer: 22
+  m_Layer: 7
   m_Name: enter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1085,7 +1132,7 @@ GameObject:
   - component: {fileID: 335517861972585955}
   - component: {fileID: 2173571829448659553}
   - component: {fileID: 3419442763363532459}
-  m_Layer: 22
+  m_Layer: 7
   m_Name: left_enter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1196,7 +1243,7 @@ GameObject:
   - component: {fileID: 8075912329362048202}
   - component: {fileID: 2734525222837591567}
   - component: {fileID: 6041313694393775279}
-  m_Layer: 22
+  m_Layer: 7
   m_Name: Right_exit
   m_TagString: Untagged
   m_Icon: {fileID: 0}

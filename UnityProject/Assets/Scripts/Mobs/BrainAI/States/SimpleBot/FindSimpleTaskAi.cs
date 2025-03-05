@@ -9,7 +9,7 @@ using UI.CharacterCreator;
 
 namespace Mobs.BrainAI.States.SimpleBot
 {
-	public class FindSimpleTaskAi : BrainMobState
+	public class FindSimpleTaskAi : BrainMobState, ICanBeEmaggedMob
 	{
 		private Vector3Int targetCell;
 		private Matrix targetMatrix;
@@ -25,6 +25,7 @@ namespace Mobs.BrainAI.States.SimpleBot
 		public List<ITraversalStrat> TraversalStrategies = new List<ITraversalStrat>();
 
 		private bool isTraversing = false;
+		private int refuseReturn = 0;
 
 		private void Start()
 		{
@@ -47,38 +48,39 @@ namespace Mobs.BrainAI.States.SimpleBot
 			SubscribeToPathfinderEvents();
 
 			isTraversing = false;
-
-			if(foundTarget) OnUpdateTick();
 		}
 
 		public override void OnExitState()
 		{
 			UnsubscribeToPathfinderEvents();
-			targetCell = Vector3Int.zero;
-			targetMatrix = null;
+			foundTarget = false;
 		}
 
 		public override void OnUpdateTick()
 		{
-			Loggy.Error("Enter Tick Update");
 			if (taskState == false) return;
-			Loggy.Error("Has Task State");
+
 			if (IsStillTraversing()) return;
-			Loggy.Error("Is not traversing");
+
 			if (LivingHealthMaster.IsSoftCrit || LivingHealthMaster.IsCrit || LivingHealthMaster.IsDead)
 			{
 				isTraversing = false;
 				return;
 			}
-			Loggy.Error("Is Alive");
+
 			if (foundTarget == false && HasGoal() == false)
 			{
-				Loggy.Error("No target, wandering");
 				master.AddRemoveState(this, wanderState);
 				return;
 			}
-		    Loggy.Error("Pathfinding to target");
+
 			isTraversing = pathfinder.QueueMovementGoal(targetCell, () => OnDoneTraversalToLocation(Vector3Int.zero), null, TraversalStrategies, true);
+
+			if (isTraversing == false)
+			{
+				master.AddRemoveState(this, wanderState);
+				refuseReturn = 7;
+			}
 		}
 
 
@@ -109,18 +111,32 @@ namespace Mobs.BrainAI.States.SimpleBot
 		private void OnDoneTraversalToLocation(Vector3Int pos)
 		{
 			isTraversing = false;
+			if(master.CurrentActiveStates.Contains(this) == false) return;
 
-			if (Vector3.Distance(targetCell.ToWorld(targetMatrix), master.gameObject.AssumedWorldPosServer()) <= 1.1f)
+			if (Vector3.Distance(targetCell.ToWorld(targetMatrix), master.gameObject.AssumedWorldPosServer()) <= 1.5f)
 			{
 				master.AddRemoveState(this, taskState);
 			}
-			else OnUpdateTick();
 		}
 
 		public override bool HasGoal()
 		{
+			//If the bot was unable to path find to a target, we force it to wander for awhile so it doesn't get stuck
+			//repeatedly trying to reach an unreachable target
+			if (refuseReturn-- > 0) return false;
+
 			foundTarget = taskState.FindTarget(out targetCell, out targetMatrix);
 			return foundTarget;
 		}
+
+		public void EmagMob()
+		{
+			taskState?.SetEmagState(true);
+		}
+	}
+
+	public interface ICanBeEmaggedMob
+	{
+		public void EmagMob();
 	}
 }

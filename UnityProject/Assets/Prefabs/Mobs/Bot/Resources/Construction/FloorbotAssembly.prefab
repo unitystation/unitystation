@@ -105,6 +105,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialName: Floorbot Assembly
+  initialNames: []
   initialDescription: A bizarre assembly of parts resembling a robot
   willHighlight: 1
   exportCost: 75
@@ -125,36 +126,36 @@ MonoBehaviour:
   throwSpeed: 2
   throwRange: 7
   hitSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/GenericHit.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   hitSoundSettings: 0
   blockSound:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   inventoryMoveSound:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   inventoryRemoveSound:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   canConnectToTank: 0
@@ -277,11 +278,11 @@ MonoBehaviour:
       m_Calls: []
   initialIntegrity: 100
   soundOnHit:
-    SetLoadSetting: 0
     AssetAddress: null
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   damageDeflection: 0
@@ -353,7 +354,7 @@ MonoBehaviour:
   stageSprite:
   - {fileID: 21300000, guid: 637acabec9cccee4ab43ba8edd1e2657, type: 3}
   - {fileID: 21300000, guid: 7da44ca2160b17549bbada5b5a140f67, type: 3}
-  botPrefab: {fileID: 2293724657804988958, guid: 2171b7b3a60b67c4c992116a448f523e,
+  botPrefab: {fileID: 8017834079190008690, guid: 452495acc61e3224e94d03d051202ade,
     type: 3}
   spriteHandler: {fileID: 2517395314758716075}
 --- !u!114 &-5743939338661801347
@@ -480,6 +481,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

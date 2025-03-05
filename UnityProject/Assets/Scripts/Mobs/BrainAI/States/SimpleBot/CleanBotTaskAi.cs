@@ -17,9 +17,10 @@ namespace Mobs.BrainAI.States.SimpleBot
 			{
 				Loggy.Error("CleanBotTaskAi: Attempted to enter state but decalToClean was null!");
 				master.AddRemoveState(this, findSimpleTaskAi);
+				return;
 			}
 
-			searchRadius = 5;
+			searchRadius = 3;
 			taskPerformCoroutine = null;
 
 			DoTask();
@@ -60,38 +61,49 @@ namespace Mobs.BrainAI.States.SimpleBot
 		/// <returns></returns>
 		private bool IsDecalValid(Vector3 positionToCheck)
 		{
-			return decalToClean && decalToClean.Cleanable && Vector3.Distance(decalToClean.gameObject.AssumedWorldPosServer(), positionToCheck) < 0.1f;
+			return decalToClean && decalToClean.Cleanable && Vector3.Distance(decalToClean.gameObject.AssumedWorldPosServer(), positionToCheck) < 1.1f;
+		}
+
+		private static bool IsAccessableAt(Vector3Int position, Matrix matrix)
+		{
+			return matrix.MetaDataLayer.IsOccupiedAt(position) == false;
 		}
 
 		protected override bool IsCurrentTaskValid()
 		{
 			Vector3 worldPos = targetCell.ToWorld(targetMatrix);
 
-			return Vector3.Distance(worldPos, LivingHealthMaster.gameObject.AssumedWorldPosServer()) <= 1.1f
+			return Vector3.Distance(worldPos, LivingHealthMaster.gameObject.AssumedWorldPosServer()) <= 1.5f
 			       && IsDecalValid(worldPos);
 		}
 
-		public override bool FindTarget(out Vector3Int targetPosition, out Matrix targetMatrix)
+		public override bool FindTarget(out Vector3Int targetPosition, out Matrix targetMatrixLocal)
 		{
-			this.targetMatrix = LivingHealthMaster.playerScript.RegisterPlayer.Matrix;
-			var currentPosition = LivingHealthMaster.playerScript.RegisterPlayer.LocalPosition;
+			targetMatrixLocal = master.Body.UniversalObjectPhysics.registerTile.Matrix;
+			var currentPosition = master.Body.gameObject.AssumedWorldPosServer().ToLocalInt(targetMatrixLocal);
 
-			targetMatrix = this.targetMatrix;
 			targetPosition = currentPosition;
 			decalToClean = null;
 
-			var possibleTargets = Physics2D.OverlapCircleAll(currentPosition.ToWorld(targetMatrix), searchRadius, LayerMask.GetMask("Floor"));
+			var possibleTargets = Physics2D.OverlapCircleAll(currentPosition.ToWorld(targetMatrixLocal), searchRadius, LayerMask.GetMask("Overfloor"));
 			foreach (var possibleDecal in possibleTargets)
 			{
 				FloorDecal decal = possibleDecal.GetComponentCustom<FloorDecal>();
 				if (decal == false || decal.Cleanable == false) continue;
 
 				var worldPos = decal.gameObject.AssumedWorldPosServer();
-				targetPosition = worldPos.ToLocalInt(targetMatrix);
+				targetPosition = worldPos.ToLocalInt(targetMatrixLocal);
+
+				if(IsAccessableAt(targetPosition, targetMatrixLocal) == false) continue;
 
 				this.decalToClean = decal;
+				targetMatrix = targetMatrixLocal;
+				targetCell = targetPosition;
 				return true;
 			}
+
+			targetMatrix = null;
+			targetMatrixLocal = null;
 			return false;
 		}
 	}

@@ -215,12 +215,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
-      propertyPath: 'OptionalReplacementOrgan.Array.data[2]'
-      value: 
-      objectReference: {fileID: 7302023824597901388, guid: a2a4f98b8ece22f4cbb245023eaab3b6,
-        type: 3}
-    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
-        type: 3}
       propertyPath: 'BodyTypesSprites.SpriteOrder.Orders.Array.data[0]'
       value: 90
       objectReference: {fileID: 0}
@@ -302,6 +296,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 5062934451910240119}
+    - targetCorrespondingSourceObject: {fileID: 1163316686972202776, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6401966648937089307}
   m_SourcePrefab: {fileID: 100100000, guid: 1162a9966a460f940a18b4d183b04c30, type: 3}
 --- !u!1 &960852636360704351 stripped
 GameObject:
@@ -329,6 +327,27 @@ MonoBehaviour:
   runningSpeed: 1
   crawlingSpeed: 0.5
   initialLimbEfficiency: 1
+--- !u!114 &6401966648937089307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 960852636360704351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38b339eeb8ce94c40a18e403cf1afcc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  RelatedPart: {fileID: 4426650879872711363}
+  possibleSprites:
+  - {fileID: 11400000, guid: 721ecc7a3b346db4886ee0f07f65515c, type: 2}
+  - {fileID: 11400000, guid: 0c542316839b3f94e957287bc0ebb098, type: 2}
+  - {fileID: 11400000, guid: 8d9aaab2d62887741b582f1afa6f5897, type: 2}
+  - {fileID: 11400000, guid: 8d9aaab2d62887741b582f1afa6f5897, type: 2}
 --- !u!114 &4426650879872711363 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,

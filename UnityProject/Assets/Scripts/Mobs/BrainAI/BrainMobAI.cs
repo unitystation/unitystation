@@ -48,6 +48,9 @@ namespace Mobs.BrainAI
 		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
 			Body = livingHealth.GetComponent<CommonComponents>();
+
+			Traversal.PathfindingMethod = InitialPathfindingMethod;
+			Traversal.DontCheckForDoorsOverride = InitialDontCheckForDoorsOverride;
 		} //Warning only add body parts do not remove body parts in this
 
 
@@ -56,9 +59,6 @@ namespace Mobs.BrainAI
 			Brain = this.GetComponent<Brain>();
 			GatherAllStates();
 			AddRemoveState(null, thinkingState);
-
-			Traversal.PathfindingMethod = InitialPathfindingMethod;
-			Traversal.DontCheckForDoorsOverride = InitialDontCheckForDoorsOverride;
 		}
 
 		private void GatherAllStates()

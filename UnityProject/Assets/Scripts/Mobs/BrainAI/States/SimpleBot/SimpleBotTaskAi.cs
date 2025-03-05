@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using AddressableReferences;
 using Logs;
+using NaughtyAttributes;
 using Tiles;
 using UnityEngine;
 
@@ -24,6 +25,23 @@ namespace Mobs.BrainAI.States.SimpleBot
 		protected bool isEmagged = false;
 		protected Coroutine taskPerformCoroutine = null;
 
+		public delegate void SpriteChangeEvent(bool isEmagged, bool isPerformingTask);
+		public SpriteChangeEvent OnSpriteChange = null;
+
+
+		[Button()]
+		public void ToggleEmagState()
+		{
+			isEmagged = !isEmagged;
+			OnSpriteChange?.Invoke(isEmagged, false);
+		}
+
+		public void SetEmagState(bool state)
+		{
+			isEmagged = state;
+			OnSpriteChange?.Invoke(isEmagged, false);
+		}
+
 		public override void OnEnterState()
 		{
 			DoTask();
@@ -34,6 +52,8 @@ namespace Mobs.BrainAI.States.SimpleBot
 			targetMatrix = null;
 			targetCell = Vector3Int.zero;
 			taskPerformCoroutine = null;
+
+			OnSpriteChange?.Invoke(isEmagged, false);
 		}
 
 		public void DoTask()
@@ -46,6 +66,7 @@ namespace Mobs.BrainAI.States.SimpleBot
 
 			if (taskPerformCoroutine is not null) return;
 
+			OnSpriteChange?.Invoke(isEmagged, true);
 			taskPerformCoroutine = StartCoroutine(PerformTask());
 		}
 

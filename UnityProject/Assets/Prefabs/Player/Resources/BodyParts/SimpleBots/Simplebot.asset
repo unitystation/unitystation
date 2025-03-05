@@ -46,7 +46,12 @@ MonoBehaviour:
     SkinningItemTrait: {fileID: 0}
     CanBePlayerChosen: 0
     PreviewSprite: {fileID: 11400000, guid: 721ecc7a3b346db4886ee0f07f65515c, type: 2}
-    SystemSettings: []
+    SystemSettings:
+    - rid: 7370525740278480951
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 7370525740278480951
+      type: {class: EmaggableMob, ns: HealthV2.Living, asm: Assets}
+      data:
+        Base: {fileID: 0}

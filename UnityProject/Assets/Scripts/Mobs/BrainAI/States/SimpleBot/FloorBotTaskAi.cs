@@ -16,12 +16,6 @@ namespace Mobs.BrainAI.States.SimpleBot
 			DoTask();
 		}
 
-		[Button()]
-		public void ToggleEmagState()
-		{
-			isEmagged = !isEmagged;
-		}
-
 		protected override IEnumerator PerformTask()
 		{
 			SoundManager.PlayNetworkedAtPos(isEmagged ? emaggedPerformSound : taskPerformSound, LivingHealthMaster.gameObject.AssumedWorldPosServer());
@@ -47,19 +41,18 @@ namespace Mobs.BrainAI.States.SimpleBot
 		{
 			if (isEmagged)
 			{
-				return Vector3.Distance(targetCell.ToWorld(targetMatrix), master.Body.gameObject.AssumedWorldPosServer()) <= 1.1f
+				return Vector3.Distance(targetCell.ToWorld(targetMatrix), master.Body.gameObject.AssumedWorldPosServer()) <= 1.5f
 					&& IsExposedFloorTile(targetCell, targetMatrix);
 			}
-			return Vector3.Distance(targetCell.ToWorld(targetMatrix), master.Body.gameObject.AssumedWorldPosServer()) <= 1.1f
+			return Vector3.Distance(targetCell.ToWorld(targetMatrix), master.Body.gameObject.AssumedWorldPosServer()) <= 1.5f
 			       && IsExposedBaseTile(targetCell, targetMatrix);
 		}
 
 		public override bool FindTarget(out Vector3Int targetPosition, out Matrix targetMatrixLocal)
 		{
-			this.targetMatrix = master.Body.UniversalObjectPhysics.registerTile.Matrix;
-			var currentPosition = master.Body.gameObject.AssumedWorldPosServer().ToLocalInt(this.targetMatrix);
+			targetMatrixLocal = master.Body.UniversalObjectPhysics.registerTile.Matrix;
+			var currentPosition = master.Body.gameObject.AssumedWorldPosServer().ToLocalInt(targetMatrixLocal);
 
-			targetMatrixLocal = this.targetMatrix;
 			targetPosition = currentPosition;
 
 			for (int y = -searchRadius; y <= searchRadius; y++)
@@ -70,15 +63,19 @@ namespace Mobs.BrainAI.States.SimpleBot
 					checkPos.x += x;
 					checkPos.y += y;
 
-					if ((isEmagged == false && IsExposedBaseTile(checkPos, this.targetMatrix))
-					    || (isEmagged == true && IsExposedFloorTile(checkPos, this.targetMatrix)))
+					if ((isEmagged == false && IsExposedBaseTile(checkPos, targetMatrixLocal))
+					    || (isEmagged == true && IsExposedFloorTile(checkPos, targetMatrixLocal)))
 					{
+						targetMatrix = targetMatrixLocal;
 						targetPosition = checkPos;
 						targetCell = checkPos;
 						return true;
 					}
 				}
 			}
+
+			targetMatrix = null;
+			targetMatrixLocal = null;
 			return false;
 		}
 
