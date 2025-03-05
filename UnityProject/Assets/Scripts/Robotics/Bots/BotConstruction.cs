@@ -1,5 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using Logs;
+using UnityEngine;
 using Mirror;
+using Util;
 
 namespace Items.Robotics
 {
@@ -8,11 +11,10 @@ namespace Items.Robotics
 	/// </summary>
 	public class BotConstruction : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
-		[Tooltip("Check this if the cyborg arm goes in last or if you need only one of the things in the list to be true")]
-		public bool armLast;// A bool used if the bot should use the cyborg arm last
-
 		[Tooltip("Place the parts used in each stage, the first part will be element 0")]
 		public GameObject[] stageParts;// A list containing item prefabs set in the editor, the parts should go in the order you want
+
+		private string[] stagePartIDs;
 
 		[Tooltip("Place each sprite for each stage here, if the sprite should stay the same just leave it blank")]
 		public Sprite[] stageSprite; // This list contains sprites for each stage, if left null sprite will not change
@@ -24,6 +26,23 @@ namespace Items.Robotics
 		private int stageCounter = 0; // A counter used to track what stage the bot is on and hooked to SpriteSync to sync the sprite with client
 
 		public SpriteHandler spriteHandler;
+
+		private void Awake()
+		{
+			stagePartIDs = new string[stageParts.Length];
+			int i = 0;
+			foreach (var part in stageParts)
+			{
+				if (part.TryGetComponent<PrefabTracker>(out var prefabTracker) == false)
+				{
+					Loggy.Error($"BotConstruction/Awake(): Could not find prefab tracker on construction step: {part.name}");
+					stagePartIDs[i++] = "";
+					continue;
+				}
+
+				stagePartIDs[i++] = prefabTracker.ForeverID;
+			}
+		}
 
 		private void SpriteSync(int oldValue, int newValue)
 		{
@@ -38,60 +57,25 @@ namespace Items.Robotics
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
-			// Gets the component ItemAttributesV2 and grabs the InitalName from the object in the hand
-			string hand = interaction.HandObject != null ? interaction.HandObject.GetComponent<ItemAttributesV2>().ArticleName : null;
-			if (hand == null)
+			if(interaction.HandObject == false) return false;
+			if (interaction.HandObject.TryGetComponent<PrefabTracker>(out var tracker))
 			{
-				return false;
-			}
-			// Gets the component ItemAttributesV2 and grabs the InitalName from the object in the list according to the stageCounter
-			string checkItem = stageParts[stageCounter].GetComponent<ItemAttributesV2>().ArticleName;
-
-			// Checks if armLast is true, if so it will accept anything in the list no matter the order
-			if (armLast)
-			{
-				foreach (var part in stageParts)
-				{
-					if (hand == part.GetComponent<ItemAttributesV2>().ArticleName) return true;
-				}
-				return false;
+				if (stagePartIDs[stageCounter].Equals(tracker.ForeverID)) return true;
 			}
 
-			// Goes through list of items and checks them against the stageParts list and stageCounter
-			for (int x = 0; x <= stageParts.Length - 1; x++)
-			{
-				if (hand == checkItem && x == stageCounter)
-				{
-					return true;
-				}
-			}
 			return false;
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			// Despawns item in hand, might cause problems later if it's stackable
-			_ = Inventory.ServerDespawn(interaction.HandObject);
+			Inventory.ServerConsume(interaction.HandSlot, 1);
 
-			if (armLast)
-			{
-				Spawn.ServerPrefab(botPrefab, gameObject.RegisterTile().WorldPosition, transform.parent, count: 1);
-				stageCounter = 0;
-				_ = Despawn.ServerSingle(gameObject);
-			}
+			if (stageCounter++ < stageParts.Length) return;
 
-			// Checks to see if the stagecounter is greater than or equal to the length of stageParts list, if not ups the counter by 1
-			if (stageCounter >= stageParts.Length - 1)
-			{
-				// Will spawn the simplebot, set stageCounter to 0 (sometimes causes problems with many instances) and despawns the assembly
-				Spawn.ServerPrefab(botPrefab, gameObject.RegisterTile().WorldPosition, transform.parent, count: 1);
-				stageCounter = 0;
-				_ = Despawn.ServerSingle(gameObject);
-			}
-			else
-			{
-				stageCounter++;
-			}
+			// Will spawn the simple bot and despawn the assembly
+			Spawn.ServerPrefab(botPrefab, gameObject.RegisterTile().WorldPosition, transform.parent, count: 1);
+			_ = Despawn.ServerSingle(gameObject);
 		}
 	}
 }

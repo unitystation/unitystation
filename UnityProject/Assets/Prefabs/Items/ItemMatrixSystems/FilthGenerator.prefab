@@ -143,9 +143,10 @@ MonoBehaviour:
   syncInterval: 0.1
   priority: 99
   generateFilthReagent: 1
-  filthDensityPercentage: 2
-  filthReagentChance: 10
-  maxFilthPercentageForMatrix: 35
+  FilthDensityPercentage: 6
+  FilthReagentChance: 40
+  NewMaxFilthPercentageForMatrix: 35
+  NewMinFilthPercentageForMatrix: 2
   filthDecalsAndObjects:
   - {fileID: 5018465924633598080, guid: 3c33de6530042374eaf54a98d52d5745, type: 3}
   - {fileID: 5018465924633598080, guid: 3c33de6530042374eaf54a98d52d5745, type: 3}
@@ -153,8 +154,8 @@ MonoBehaviour:
   - {fileID: 5018465924633598080, guid: 3c33de6530042374eaf54a98d52d5745, type: 3}
   - {fileID: 5018465924633598080, guid: 3c33de6530042374eaf54a98d52d5745, type: 3}
   - {fileID: 5018465924633598080, guid: 3c33de6530042374eaf54a98d52d5745, type: 3}
-  - {fileID: 1069497300762596, guid: e4b5330dc21e94b0494056c5ef239d49, type: 3}
-  - {fileID: 1069497300762596, guid: 5db3183353b72014cbe89d0622f0b732, type: 3}
+  - {fileID: 1069497300762596, guid: 07ae9a1b034f5124498e550fffcea7e8, type: 3}
+  - {fileID: 8713756383681309133, guid: ffad4a126b8745f46ac82b8e1faf478c, type: 3}
   - {fileID: 5018465924633598080, guid: 3c33de6530042374eaf54a98d52d5745, type: 3}
   - {fileID: 5018465924633598080, guid: 3c33de6530042374eaf54a98d52d5745, type: 3}
   - {fileID: 5018465924633598080, guid: 3c33de6530042374eaf54a98d52d5745, type: 3}
