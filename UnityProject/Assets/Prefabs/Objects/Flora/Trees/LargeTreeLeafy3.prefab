@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3100126667420598394}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -77,7 +77,8 @@ SpriteRenderer:
   m_SortingLayerID: -1919284671
   m_SortingLayer: 26
   m_SortingOrder: 1
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 2071009296968952967, guid: d2b8654d7ebf786928ac7eab02b54d2d,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -85,7 +86,7 @@ SpriteRenderer:
   m_Size: {x: 5, y: 5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &1498195119323858790
@@ -137,7 +138,7 @@ Transform:
   m_GameObject: {fileID: 6322773223830686632}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -4, z: 0}
+  m_LocalPosition: {x: 0, y: -2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -247,13 +248,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5528487893959470437, guid: d8a238d784db4594c9fef5a84fa22c0d,
         type: 3}
-      propertyPath: m_Sprite
-      value: 
+      propertyPath: m_Size.x
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5528487893959470437, guid: d8a238d784db4594c9fef5a84fa22c0d,
         type: 3}
+      propertyPath: m_Size.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5528487893959470437, guid: d8a238d784db4594c9fef5a84fa22c0d,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 6804814652595837873, guid: fc732ab29b13e13ba9fb0b9a365c07ee,
+        type: 3}
+    - target: {fileID: 5528487893959470437, guid: d8a238d784db4594c9fef5a84fa22c0d,
+        type: 3}
       propertyPath: m_WasSpriteAssigned
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5750159185533833128, guid: d8a238d784db4594c9fef5a84fa22c0d,
         type: 3}
