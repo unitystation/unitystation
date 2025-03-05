@@ -296,15 +296,6 @@ namespace Player
 				}
 			}
 
-			try
-			{
-				GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("Checking admin state.");
-				PlayerList.Instance.CheckAdminState(STVerifiedConnPlayer);
-			}
-			catch (Exception e)
-			{
-				Loggy.Error(e.ToString());
-			}
 
 			// If there's a logged off player, we will force them to rejoin their body
 			if (STVerifiedConnPlayer.Mind == null) //TODO Handle when someone gets kicked out of their mind

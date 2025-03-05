@@ -475,7 +475,7 @@ namespace MapSaver
 
 		public class CompactObjectMapData
 		{
-			public string Ver = "1.4.2";
+			public string Ver = "1.5.0";
 
 			//1.1.0 Added support for Dictionaries and change syntax for Removed Elements
 			//1.1.1 Lists now are specified in reversed order to Handle removed elements properly
@@ -484,6 +484,7 @@ namespace MapSaver
 			//1.4.0 Added NameMatches on PrefabData to allow easy conversion from non-compact to compact mode
 			//1.4.1 Fixes gitid movements not being applied to position
 			//1.4.2 Runtime spawned will no longer be saved as added Component
+			//1.5.0 Add support for game objects layer saving and Tweaks IDs for Scenarios where you rename a subObject ( removing and adding something )
 			public List<string> CommonPrefabs = new List<string>();
 
 			public List<PrefabData> PrefabData;
@@ -572,6 +573,7 @@ namespace MapSaver
 			public bool Removed = false;
 			public uint ChildLocation;
 			public string LocalPRS;
+			public int? ObjectLayer;
 
 			[DefaultValue("0")]
 			public string ID = "0"; //Child index, Child index,  Child index, NOTE Always has a Zero for root
@@ -585,6 +587,11 @@ namespace MapSaver
 				bool ISEmpty = true;
 
 				if (ClassDatas != null && ClassDatas.Count > 0)
+				{
+					ISEmpty = false;
+				}
+
+				if (ObjectLayer != null)
 				{
 					ISEmpty = false;
 				}
@@ -1925,6 +1932,12 @@ namespace MapSaver
 			individualObject.ID =
 				ID; //NOTE The zero is technically redundant for the First layer, But it's built into the saver
 
+
+			if (PrefabEquivalent?.layer != gameObject.layer)
+			{
+				individualObject.ObjectLayer = gameObject.layer;
+			}
+
 			if (ID != "0")
 			{
 				if (PrefabEquivalent?.name != gameObject.name)
@@ -2005,7 +2018,6 @@ namespace MapSaver
 
 							individualObject.Children.Add(AnewindividualObject);
 							PrefabIndex++;
-							IDLocation++;
 						}
 						else
 						{

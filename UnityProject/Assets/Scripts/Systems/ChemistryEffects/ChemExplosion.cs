@@ -20,6 +20,11 @@ namespace Chemistry.Effects
 		[Tooltip("Explosion type")]
 		[field: SerializeField] public ExplosionTypes.ExplosionType explosionType { get; private set; } = ExplosionTypes.ExplosionType.Regular;
 
+		private const int CHEM_EXPLOSIONS_RADIUS_MULTIPLIER = 5;
+		//Chem explosions are often lower potency than standard explosives like syndi bombs.
+		//But as a result they often have tiny radii, looking at most 1-2 tiles.
+		//We give chemical ordnance a radius boost so they cover an area and not just 1-2 tiles.
+
 		public float Delay = 0;
 
 		public override void Apply(MonoBehaviour sender, float amount)
@@ -45,19 +50,11 @@ namespace Chemistry.Effects
 			BodyPart bodyPart = sender.GetComponent<BodyPart>();
 			ExplosionNode node = ExplosionTypes.NodeTypes[explosionType];
 
-			bool insideBody = false;
-			if (bodyPart != null && bodyPart.HealthMaster != null)
-			{
-				insideBody = true;
-			}
+			bool insideBody = bodyPart && bodyPart.HealthMaster;
 
 			float strength = ChemistryUtils.CalculateYieldFromReaction(amount, potency);
 
-
-			if (insideBody && strength > 0)
-			{
-				node.DoInternalDamage(strength, bodyPart);
-			}
+			if (insideBody && strength > 0) node.DoInternalDamage(strength, bodyPart);
 
 			// Explosion here
 			var picked = sender.GetComponent<Pickupable>();
@@ -81,17 +78,17 @@ namespace Chemistry.Effects
 					//If not, we need to check if the item is a bodypart inside of a player
 					if (insideBody)
 					{
-						Explosion.StartExplosion(bodyPart.HealthMaster.RegisterTile.WorldPosition, strength, node, radiusMultiplier: 3);
+						Explosion.StartExplosion(bodyPart.HealthMaster.RegisterTile.WorldPosition, strength, node, radiusMultiplier: CHEM_EXPLOSIONS_RADIUS_MULTIPLIER);
 					}
 					else
 					{
 						//Otherwise, if it's not inside of a player, we consider it just an item
-						Explosion.StartExplosion(objectBehaviour.registerTile.WorldPosition, strength, node, stunNearbyPlayers: strength > 400, radiusMultiplier: 3);
+						Explosion.StartExplosion(objectBehaviour.registerTile.WorldPosition, strength, node, stunNearbyPlayers: strength > 400, radiusMultiplier: CHEM_EXPLOSIONS_RADIUS_MULTIPLIER);
 					}
 				}
 				else
 				{
-					Explosion.StartExplosion(registerObject.WorldPosition, strength, node, stunNearbyPlayers: strength > 400, radiusMultiplier: 3);
+					Explosion.StartExplosion(registerObject.WorldPosition, strength, node, stunNearbyPlayers: strength > 400, radiusMultiplier: CHEM_EXPLOSIONS_RADIUS_MULTIPLIER);
 				}
 			}
 
