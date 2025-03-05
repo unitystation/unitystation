@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 2455190284669254087, guid: 0c841b17402cd3141a40ce714474a94c,
         type: 3}
       propertyPath: initialName
-      value: syndicate balloon
+      value: Syndicate balloon
       objectReference: {fileID: 0}
     - target: {fileID: 2455190284669254087, guid: 0c841b17402cd3141a40ce714474a94c,
         type: 3}
@@ -33,6 +33,24 @@ PrefabInstance:
     - target: {fileID: 2455190284669254087, guid: 0c841b17402cd3141a40ce714474a94c,
         type: 3}
       propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 8a7de26b36d623f4d82aa02ee11e598e,
+        type: 2}
+    - target: {fileID: 2455190284669254087, guid: 0c841b17402cd3141a40ce714474a94c,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 8fdbe59e66a5d164f866e7f668f0aa2c,
+        type: 2}
+    - target: {fileID: 2455190284669254087, guid: 0c841b17402cd3141a40ce714474a94c,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: cb6767f082e49fa4c94f9b437ff972aa,
+        type: 2}
+    - target: {fileID: 2455190284669254087, guid: 0c841b17402cd3141a40ce714474a94c,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteInventoryIcon
       value: 
       objectReference: {fileID: 11400000, guid: 8a7de26b36d623f4d82aa02ee11e598e,
         type: 2}
@@ -115,6 +133,12 @@ PrefabInstance:
     - target: {fileID: 8194601947401825570, guid: 0c841b17402cd3141a40ce714474a94c,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8a7de26b36d623f4d82aa02ee11e598e,
+        type: 2}
+    - target: {fileID: 8194601947401825570, guid: 0c841b17402cd3141a40ce714474a94c,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 8a7de26b36d623f4d82aa02ee11e598e,
         type: 2}

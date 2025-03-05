@@ -10,14 +10,34 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 717017699282204641, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
         type: 3}
+      propertyPath: m_Size.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 717017699282204641, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 717017699282204641, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 67b621859403073489b292a63f2f7b2b,
         type: 3}
+    - target: {fileID: 717017699282204641, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2750215698149839610, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
         type: 3}
       propertyPath: foreverID
       value: 3211ecf8a300fc14a9a1608238321f15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3465797894728902041, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: initialVariantIndex
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3465797894728902041, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
         type: 3}
@@ -28,17 +48,42 @@ PrefabInstance:
     - target: {fileID: 4556520481471461753, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.11
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 4556520481471461753, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.11
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 4556520481471461753, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.11
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556520481471461753, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556520481471461753, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556520481471461753, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556520481471461753, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556520481471461753, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4556520481471461753, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
         type: 3}
@@ -142,7 +187,3 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 643649e4a9a532746aa7cea048e5106a, type: 2}
   - {fileID: 11400000, guid: 29b6a3039adeb8a468372af57a8d0ee0, type: 2}
   randomGenScripts: []
-  LavaLandBase2: {fileID: 0}
-  LavaLandBase1: {fileID: 0}
-  LavaLandBase1Connector: {fileID: 0}
-  LavaLandBase2Connector: {fileID: 0}

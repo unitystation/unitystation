@@ -16,7 +16,7 @@ PrefabInstance:
     - target: {fileID: 1736851031246721343, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
         type: 3}
       propertyPath: foreverID
-      value: b7ea76039e473464aa1fd9fc04467804
+      value: feb9d6fcdf52ff040a33966fc9819a74
       objectReference: {fileID: 0}
     - target: {fileID: 3173731526971722593, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
         type: 3}
@@ -32,7 +32,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -8795488844603353011, guid: 49094227a9d90c74a9ca1fab0e18b75a,
+      objectReference: {fileID: 21300000, guid: 72d58d493efa6e34ba781cf371677976,
         type: 3}
     - target: {fileID: 3173731526971722593, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
         type: 3}
@@ -42,7 +42,7 @@ PrefabInstance:
     - target: {fileID: 3416931304602840950, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
         type: 3}
       propertyPath: m_Name
-      value: CollosalRib
+      value: ColossalSkull
       objectReference: {fileID: 0}
     - target: {fileID: 3422407103395555756, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
         type: 3}
@@ -66,6 +66,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3422407103395555756, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3422407103395555756, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3422407103395555756, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3422407103395555756, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3422407103395555756, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
+        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -82,66 +102,37 @@ PrefabInstance:
     - target: {fileID: 5462476143495360582, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
         type: 3}
       propertyPath: initialName
-      value: collosal rib
+      value: colossal skull
       objectReference: {fileID: 0}
     - target: {fileID: 5462476143495360582, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
         type: 3}
       propertyPath: initialDescription
-      value: It's staggering to think that something this big could have lived, let
-        alone died.
+      value: The gaping maw of a dead, titanic monster.
       objectReference: {fileID: 0}
     - target: {fileID: 6536606663306582548, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
         type: 3}
       propertyPath: _assetId
-      value: 2066723306
+      value: 447855469
       objectReference: {fileID: 0}
     - target: {fileID: 6536606663306582548, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
         type: 3}
       propertyPath: m_AssetId
-      value: b7ea76039e473464aa1fd9fc04467804
+      value: feb9d6fcdf52ff040a33966fc9819a74
       objectReference: {fileID: 0}
     - target: {fileID: 7871043331994682796, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 0e5523042f814d74a83ae19c6f1cfc5c,
+      objectReference: {fileID: 11400000, guid: 34355072f2858894fa5aadeeeef48773,
+        type: 2}
+    - target: {fileID: 7871043331994682796, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 34355072f2858894fa5aadeeeef48773,
         type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3416931304602840950, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4446784773932742665}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d150f8654b6a3d743a2d2baaf2ebdeec, type: 3}
---- !u!1 &2163924611188555319 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3416931304602840950, guid: d150f8654b6a3d743a2d2baaf2ebdeec,
-    type: 3}
-  m_PrefabInstance: {fileID: 3561411702230470977}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &4446784773932742665
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2163924611188555319}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  MethodRotation: 0
-  ChangeSprites: 1
-  isChangingSO: 0
-  CurrentDirection: 3
-  SynchroniseCurrentDirection: 0
-  IgnoreServerUpdatesIfLocalPlayer: 0
-  MatrixRotateUpdate: 1
-  IsAtmosphericDevice: 0
-  doNotResetOtherSpriteOptions: 0

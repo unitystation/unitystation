@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Color: {r: 0, g: 0.5019608, b: 0, a: 0.8666667}
+  InitialColour: {r: 0, g: 0.5019608, b: 0, a: 0.8666667}
   Sprite: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
@@ -72,6 +72,7 @@ MeshRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -197,6 +198,16 @@ PrefabInstance:
         type: 3}
       propertyPath: foreverID
       value: fb724c28353cf2243a02df332dc09209
+      objectReference: {fileID: 0}
+    - target: {fileID: 7761092484002456033, guid: ba5045d716084034ab5a9b712f8ce559,
+        type: 3}
+      propertyPath: exportCost
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 7761092484002456033, guid: ba5045d716084034ab5a9b712f8ce559,
+        type: 3}
+      propertyPath: initialDescription
+      value: A statue made of uranium.
       objectReference: {fileID: 0}
     - target: {fileID: 8430105896716693836, guid: ba5045d716084034ab5a9b712f8ce559,
         type: 3}

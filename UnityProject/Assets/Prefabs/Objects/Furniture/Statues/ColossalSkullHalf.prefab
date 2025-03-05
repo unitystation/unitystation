@@ -17,7 +17,7 @@ PrefabInstance:
     - target: {fileID: 2163924611188555319, guid: feb9d6fcdf52ff040a33966fc9819a74,
         type: 3}
       propertyPath: m_Name
-      value: CollosalSkullHalf
+      value: ColossalSkullHalf
       objectReference: {fileID: 0}
     - target: {fileID: 2166926528086522093, guid: feb9d6fcdf52ff040a33966fc9819a74,
         type: 3}
@@ -67,6 +67,12 @@ PrefabInstance:
     - target: {fileID: 6653854215483282669, guid: feb9d6fcdf52ff040a33966fc9819a74,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 512bf0f50873d4f4abb91b4bb0ffa667,
+        type: 2}
+    - target: {fileID: 6653854215483282669, guid: feb9d6fcdf52ff040a33966fc9819a74,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 512bf0f50873d4f4abb91b4bb0ffa667,
         type: 2}
@@ -122,5 +128,13 @@ MonoBehaviour:
   SynchroniseCurrentDirection: 0
   IgnoreServerUpdatesIfLocalPlayer: 0
   MatrixRotateUpdate: 1
+  SetOrder: 0
+  Orders: 00000000000000000000000000000000
+  SetLayer: 0
+  Layers:
+  - Rename me 1
+  - Rename me 2
+  - Rename me 3
+  - Rename me 4
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0

@@ -14,6 +14,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 70e3e025001172e41bce0181bedfadf5,
         type: 2}
+    - target: {fileID: 2570452983208277305, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 70e3e025001172e41bce0181bedfadf5,
+        type: 2}
     - target: {fileID: 3337364742295634643, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
         type: 3}
       propertyPath: parentID
@@ -32,7 +38,7 @@ PrefabInstance:
     - target: {fileID: 8072580136699404764, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
         type: 3}
       propertyPath: initialName
-      value: suspicious looking toolbox
+      value: suspicious-looking toolbox
       objectReference: {fileID: 0}
     - target: {fileID: 8072580136699404764, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
         type: 3}
@@ -48,6 +54,18 @@ PrefabInstance:
     - target: {fileID: 8072580136699404764, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ba8e7823eb4ebb047a7385baca9ab0b2,
+        type: 2}
+    - target: {fileID: 8072580136699404764, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 9cfd0db082ccb9445ac19155646ff4a1,
+        type: 2}
+    - target: {fileID: 8072580136699404764, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: ba8e7823eb4ebb047a7385baca9ab0b2,
         type: 2}

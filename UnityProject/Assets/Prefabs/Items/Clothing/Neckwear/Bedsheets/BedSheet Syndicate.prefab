@@ -11,16 +11,22 @@ PrefabInstance:
     - target: {fileID: 3465284675447965665, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
       propertyPath: initialName
-      value: syndicate bedsheet
+      value: Syndicate bedsheet
       objectReference: {fileID: 0}
     - target: {fileID: 3465284675447965665, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
       propertyPath: initialDescription
-      value: It has a syndicate emblem and it has an aura of evil.
+      value: It has a Syndicate emblem and exudes an aura of evil.
       objectReference: {fileID: 0}
     - target: {fileID: 3465284675447965665, guid: 423cab216aa4e354f8159742cc80d10a,
         type: 3}
       propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 2560887d40378d741ba85b0ff4b443ab,
+        type: 2}
+    - target: {fileID: 3465284675447965665, guid: 423cab216aa4e354f8159742cc80d10a,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteInventoryIcon
       value: 
       objectReference: {fileID: 11400000, guid: 2560887d40378d741ba85b0ff4b443ab,
         type: 2}
