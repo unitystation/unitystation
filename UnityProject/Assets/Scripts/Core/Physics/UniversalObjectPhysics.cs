@@ -271,9 +271,8 @@ namespace Core.Physics
 			registerTile = GetComponent<RegisterTile>();
 			rotatable = GetComponent<Rotatable>();
 			pickupable.DirectSetComponent(GetComponent<Pickupable>());
-			Scale = GetComponent<ScaleSync>();
+			Scale ??= GetComponent<ScaleSync>();
 			SetRotationTarget();
-			ComponentsTracker<UniversalObjectPhysics>.RegisterInstance(this);
 		}
 
 		public void Start()
@@ -318,7 +317,6 @@ namespace Core.Physics
 			if (CorrectingCourse) UpdateManager.Remove(CallbackType.EARLY_UPDATE, FloatingCourseCorrection);
 			if (BuckledToObject != null) Unbuckle();
 			if (ObjectIsBuckling != null) ObjectIsBuckling.Unbuckle();
-			ComponentsTracker<UniversalObjectPhysics>.UnregisterInstance(this);
 		}
 
 		public virtual void OnEnable()

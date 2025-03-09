@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 2910449130835195783}
   - component: {fileID: 5369051684285136003}
   - component: {fileID: 4811951289892001390}
+  - component: {fileID: 1180428793869839989}
   m_Layer: 21
   m_Name: FireLight2D
   m_TagString: Untagged
@@ -53,7 +54,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Color: {r: 0.7735849, g: 0.20882004, b: 0, a: 0.8}
+  InitialColour: {r: 0.7735849, g: 0.20882004, b: 0, a: 0.8}
   Sprite: {fileID: 21300000, guid: 3cd49c29477fa8648bd693e5a51d3c51, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
@@ -79,6 +80,7 @@ MeshRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -163,18 +165,20 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1762630675659964}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a6510c9b95b6fa3498b97083dcdd5e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   NetworkThis: 0
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 54f00872c0db5d043ab67b7f96af72b5, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 54f00872c0db5d043ab67b7f96af72b5,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!114 &2910449130835195783
 MonoBehaviour:
@@ -191,7 +195,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  BuckledToObject: {fileID: 0}
+  BuckleOffset: {x: 0, y: 0, z: 0}
   LocalDifferenceNeeded: {x: 0, y: 0}
+  newtonianMovement: {x: 0, y: 0}
   LocalTargetPosition: {x: 0, y: 0, z: 0}
   CorrectingCourse: 0
   Animating: 0
@@ -201,7 +208,6 @@ MonoBehaviour:
   spinMagnitude: 0
   thrownBy: {fileID: 0}
   thrownProtection: {fileID: 0}
-  aim: 0
   ForcedPushedFrame: 0
   TryPushedFrame: 0
   PushedFrame: 0
@@ -210,12 +216,9 @@ MonoBehaviour:
   MappingIntangible: 0
   SnapToGridOnStart: 1
   IsPlayer: 0
-  DEBUG: 0
+  ObjectBouncyness: 0.75
   tileMoveSpeed: 1
   HasOwnGravity: 0
-  isNotPushable: 1
-  CanBeWindPushed: 0
-  rotationTarget: {fileID: 0}
   stickyMovement: 0
   OnThrowEndResetRotation: 0
   maximumStickSpeed: 1.5
@@ -225,14 +228,19 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   IsCurrentlyFloating: 0
-  Pushing: []
   Hits: []
   isFlyingSliding: 0
   IsMoving: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
   TimeSpentFlying: 0
-  BuckledToObject: {fileID: 0}
+  <Scale>k__BackingField: {fileID: 0}
+  DEBUG: 0
+  isNotPushable: 1
+  Pushing: []
+  CanBeWindPushed: 0
+  canResetRotationFromRightClick: 0
+  rotationTarget: {fileID: 0}
 --- !u!114 &5369051684285136003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,3 +277,19 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   scaleTransform: {x: 1, y: 1, z: 1}
+--- !u!114 &1180428793869839989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1762630675659964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b3f20d3b30cb24fb70b1f35524c360, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  commonComponentsToRegister:
+  - {fileID: 4811951289892001390}
+  - {fileID: 2910449130835195783}
+  - {fileID: 5369051684285136003}

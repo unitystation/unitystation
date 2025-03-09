@@ -65,10 +65,9 @@ namespace Systems.Explosions
 				return;
 			}
 
-
 			if (damageDealt > 0)
 			{
-				//(Max): This is a terrible name. Whoever named it this way should be ashamed.
+				//(Max): v3int is a terrible name. Whoever named it this way should be ashamed.
 				//I have no clue what's the context of this vector. Is it local position? Is it world position? Is it a direction? Who knows!
 				//Keep gatekeeping the codebase, it's not like there are other people working on this project..
 				var v3int = new Vector3Int(Location.x, Location.y, 0);
@@ -82,7 +81,7 @@ namespace Systems.Explosions
 			var tileManager = matrix.TileChangeManager;
 			if (EffectName != null && EffectOverlayType != null && tileManager != null)
 			{
-				await TimedEffect(v3int, damageDealt * 10, EffectName, EffectOverlayType, tileManager);
+				if (damageDealt >= 2) await TimedEffect(v3int, damageDealt * 10, EffectName, EffectOverlayType, tileManager);
 			}
 			var metaTileMap = matrix.MetaTileMap;
 			var energyExpended = DoDamageToTiles(matrix, damageDealt, v3int, metaTileMap);
@@ -107,33 +106,28 @@ namespace Systems.Explosions
 
 		public virtual async UniTask DoDamageToObjects(Matrix matrix, float damageDealt, Vector3Int v3int)
 		{
-			foreach (var integrity in matrix.Get<Integrity>(v3int, true))
+			var stuffOnTile = matrix.Get<CommonComponents>(v3int, true);
+			var playersOnTile = matrix.Get<LivingHealthMasterBase>(v3int, ObjectType.Player, true);
+			var spliceCounter = 0;
+			foreach (var something in stuffOnTile)
 			{
+				if (spliceCounter > 30)
+				{
+					spliceCounter = 0;
+					await UniTask.WaitForEndOfFrame();
+				}
+				spliceCounter++;
 				// Incase of multiple explosions occuring at once (i.e: multiple Gibtonites)
 				// trycatch this to avoid trying to destroy stuff that is already destroyed by other damage sources.
-				try
+				if (something == null || something.gameObject == null) continue;
+				if (something.TrySafeGetComponent<Integrity>(out var integrity))
 				{
-					integrity.Physics.NewtonianNewtonPush(AngleAndIntensity.Rotate90(), AngleAndIntensity.magnitude * 0.1f , 1, 3,
-						BodyPartType.Chest, integrity.gameObject, 15);
-
-					if (IgnoreAttributes != null)
-					{
-						await UniTask.WaitForEndOfFrame();
-						if (integrity.TryGetComponent<ItemAttributesV2>(out var traits) &&
-						    traits.HasAnyTraitZeroAlloc(IgnoreAttributes)) continue;
-					}
-
-					// And do damage to objects
-					integrity.ApplyDamage(damageDealt, AttackType.Bomb, DamageType.Brute);
-				}
-				catch (Exception e)
-				{
-					Loggy.Error($"An error occured while trying to damage an object. Maybe it's no longer avaliable?\n {e}");
+					DamageObjects(something, integrity, damageDealt);
 				}
 			}
 
 			// Damage mobs
-			foreach (var player in matrix.Get<LivingHealthMasterBase>(v3int, ObjectType.Player, true))
+			foreach (var player in playersOnTile)
 			{
 				//Player damage is relatively fine performance wise, and doesn't generate any GC.
 				//However, it is still a bit too complex; and its complexity shows when several mobs are recieving damage at once.
@@ -150,6 +144,27 @@ namespace Systems.Explosions
 					Loggy.Error(
 						$"An issue occured while trying to damage players during an explosion. Maybe they got gibbed?\n {e}");
 				}
+			}
+		}
+
+		private void DamageObjects(CommonComponents components, Integrity integrity, float damageDealt)
+		{
+			try
+			{
+				integrity.Physics.NewtonianNewtonPush(AngleAndIntensity.Rotate90(), AngleAndIntensity.magnitude * 0.1f , 1, 3,
+					BodyPartType.Chest, integrity.gameObject, 15);
+
+				if (IgnoreAttributes != null)
+				{
+					if (components.TrySafeGetComponent<ItemAttributesV2>(out var traits) &&
+					    traits.HasAnyTraitZeroAlloc(IgnoreAttributes)) return;
+				}
+				// And do damage to objects
+				integrity.ApplyDamage(damageDealt, AttackType.Bomb, DamageType.Brute);
+			}
+			catch (Exception e)
+			{
+				Loggy.Error($"An error occured while trying to damage an object in an explosion.\n {e}");
 			}
 		}
 
@@ -230,24 +245,32 @@ namespace Systems.Explosions
 			}
 		}
 
-		public UniTask TimedEffect(Vector3Int position, float time, string effectName, OverlayType effectOverlayType, TileChangeManager tileChangeManager)
+		public async UniTask TimedEffect(Vector3Int position, float time, string effectName, OverlayType effectOverlayType, TileChangeManager tileChangeManager)
 		{
 			//Dont add effect if it is already there
-			if (tileChangeManager.MetaTileMap.HasOverlay(position, TileType.Effects, effectName)) return UniTask.CompletedTask;
+			if (tileChangeManager.MetaTileMap.HasOverlay(position, TileType.Effects, effectName)) return;
 			tileChangeManager.MetaTileMap.AddOverlay(position, TileType.Effects, effectName);
 			var Position = position.ToWorld(tileChangeManager.MetaTileMap.matrix);
 			//TODO: Pool this because it's ruining performance when multiple explosions occur.
 			var fireLightSpawn = Spawn.ServerPrefab(tileChangeManager.MetaTileMap.matrix.ReactionManager.FireLightPrefab, Position);
-			var physics =
-				ComponentsTracker<UniversalObjectPhysics>.GetComponentFromGameObject(fireLightSpawn.GameObject);
-			if (physics != null)
+			await UniTask.Delay(75);
+			var components =
+				ComponentsTracker<CommonComponents>.GetComponentFromGameObject(fireLightSpawn.GameObject);
+			if (components != null)
 			{
-				physics.AppearAtWorldPositionServer(Position);
-				physics.Scale.SetScale(Vector3.one * 30);
+				if (components.TrySafeGetComponent<UniversalObjectPhysics>(out var physics))
+				{
+					physics.AppearAtWorldPositionServer(Position);
+					physics.Scale.SetScale(Vector3.one * 30);
+				}
+			}
+			else
+			{
+				Loggy.Error("Attempted to acces CommonComponents on a FireLight object, but couldn't find one!");
 			}
 			ExplosionManager.CleanupEffectLater(time * 0.001f, tileChangeManager.MetaTileMap,
 				position, effectOverlayType, fireLightSpawn.GameObject);
-			return UniTask.CompletedTask;
+			return;
 		}
 
 		public virtual ExplosionNode GenInstance()
