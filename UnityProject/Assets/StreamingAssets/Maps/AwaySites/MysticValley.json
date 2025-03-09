@@ -1,6 +1,6 @@
 {
   "Ver": "1.0.0",
-  "MapName": "Teh Mystic Valley",
+  "MapName": "Mystic Valley",
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
@@ -625874,7 +625874,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.2",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -626315,10 +626315,6 @@
                   "ClassID": "Turret@0",
                   "Data": [
                     {
-                      "Name": "spawnGun",
-                      "Data": "NULL"
-                    },
-                    {
                       "Name": "range",
                       "Data": "17"
                     },
@@ -626364,10 +626360,6 @@
                 {
                   "ClassID": "Turret@0",
                   "Data": [
-                    {
-                      "Name": "spawnGun",
-                      "Data": "NULL"
-                    },
                     {
                       "Name": "range",
                       "Data": "27"
@@ -626642,6 +626634,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -626985,6 +626978,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -629449,10 +629443,10 @@
             }
           },
           {
-            "GitID": "1gVVwsp$tC6EF8VO_69n_-143.997┼24┼0┼",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-143.9971┼24┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner lizard",
-            "LocalPRS": "-143.997┼24┼0┼",
+            "LocalPRS": "-143.9971┼24┼0┼",
             "SortPath": "MapObjects/MobSpawners",
             "Object": {
               "ClassDatas": [
@@ -629470,10 +629464,10 @@
             }
           },
           {
-            "GitID": "1gVVwsp$tC6EF8VO_69n_-143.996┼24┼0┼",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-143.9961┼24┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner god endgamevisit",
-            "LocalPRS": "-143.996┼24┼0┼",
+            "LocalPRS": "-143.9961┼24┼0┼",
             "SortPath": "MapObjects/MobSpawners",
             "Object": {
               "ClassDatas": [
@@ -629491,10 +629485,10 @@
             }
           },
           {
-            "GitID": "1gVVwsp$tC6EF8VO_69n_-143.995┼24┼0┼",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-143.9951┼24┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner gondola (2)",
-            "LocalPRS": "-143.995┼24┼0┼",
+            "LocalPRS": "-143.9951┼24┼0┼",
             "SortPath": "MapObjects/MobSpawners",
             "Object": {
               "ClassDatas": [
@@ -629512,31 +629506,10 @@
             }
           },
           {
-            "GitID": "1gVVwsp$tC6EF8VO_69n_-143.994┼24┼0┼",
-            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
-            "Name": "MobSpawner CatCak",
-            "LocalPRS": "-143.994┼24┼0┼",
-            "SortPath": "MapObjects/MobSpawners",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "LegacyMobSpawnScript@0",
-                  "Data": [
-                    {
-                      "Name": "MobToSpawn",
-                      "Data": "3f2f2704988bd9346901595057b7513d",
-                      "IsPrefabID": true
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "1gVVwsp$tC6EF8VO_69n_-143.993┼24┼0┼",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-143.9932┼24┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner fox",
-            "LocalPRS": "-143.993┼24┼0┼",
+            "LocalPRS": "-143.9932┼24┼0┼",
             "SortPath": "MapObjects/MobSpawners",
             "Object": {
               "ClassDatas": [
@@ -629554,10 +629527,10 @@
             }
           },
           {
-            "GitID": "1gVVwsp$tC6EF8VO_69n_-143.992┼24┼0┼",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-143.9922┼24┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner sneknice",
-            "LocalPRS": "-143.992┼24┼0┼",
+            "LocalPRS": "-143.9922┼24┼0┼",
             "SortPath": "MapObjects/MobSpawners",
             "Object": {
               "ClassDatas": [
@@ -629567,6 +629540,27 @@
                     {
                       "Name": "MobToSpawn",
                       "Data": "a842771eff0d78e42bb2686d82094c96",
+                      "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-143.99┼24┼0┼",
+            "PrefabID": "1gVVwsp$tC6EF8VO_69n",
+            "Name": "MobSpawner CatCak",
+            "LocalPRS": "-143.99┼24┼0┼",
+            "SortPath": "MapObjects/MobSpawners",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "LegacyMobSpawnScript@0",
+                  "Data": [
+                    {
+                      "Name": "MobToSpawn",
+                      "Data": "3f2f2704988bd9346901595057b7513d",
                       "IsPrefabID": true
                     }
                   ]
@@ -630041,6 +630035,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -630317,6 +630312,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -631611,6 +631607,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø270ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -633140,6 +633137,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -633667,6 +633665,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -633765,10 +633764,6 @@
                       "Data": "2000"
                     },
                     {
-                      "Name": "SpawnOnDeconstruct",
-                      "Data": "NULL"
-                    },
-                    {
                       "Name": "pipeData@NetCompatible",
                       "Data": "True"
                     }
@@ -633841,6 +633836,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -634000,6 +633996,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -634528,6 +634525,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -637029,10 +637027,6 @@
                       "Data": "2000"
                     },
                     {
-                      "Name": "SpawnOnDeconstruct",
-                      "Data": "NULL"
-                    },
-                    {
                       "Name": "pipeData@NetCompatible",
                       "Data": "True"
                     }
@@ -637105,6 +637099,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -639372,6 +639367,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -639578,6 +639574,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -640110,6 +640107,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -641582,6 +641580,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -641763,6 +641762,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -641915,6 +641915,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -642082,6 +642083,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -643569,6 +643571,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -643648,8 +643651,8 @@
             "SortPath": "MapObjects/Other"
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_-109.96┼-39.95┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_-109.96┼-39.95┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (1)",
             "LocalPRS": "-109.96┼-39.95┼0┼",
             "SortPath": "MapObjects/Furniture"
@@ -644095,6 +644098,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -644270,6 +644274,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -644665,6 +644670,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -644815,8 +644821,8 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_-108┼75┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_-108┼75┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (11)",
             "LocalPRS": "-108┼75┼0┼",
             "SortPath": "MapObjects/Furniture"
@@ -645114,6 +645120,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -645322,10 +645329,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼0ø0ø270ø1.64↔1.64↔2.81↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -645354,10 +645366,6 @@
                       ]
                     },
                     {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
-                    },
-                    {
                       "ClassID": "MeshFilter@0",
                       "Data": []
                     }
@@ -645367,8 +645375,8 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_-106.01┼87.13┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_-106.01┼87.13┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (10)",
             "LocalPRS": "-106.01┼87.13┼0┼",
             "SortPath": "MapObjects/Furniture"
@@ -645858,8 +645866,8 @@
             "SortPath": "MapObjects/Furniture"
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_-105┼75┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_-105┼75┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (13)",
             "LocalPRS": "-105┼75┼0┼",
             "SortPath": "MapObjects/Furniture"
@@ -645912,10 +645920,6 @@
                     {
                       "Name": "nominalMolesTransferCap",
                       "Data": "2000"
-                    },
-                    {
-                      "Name": "SpawnOnDeconstruct",
-                      "Data": "NULL"
                     },
                     {
                       "Name": "pipeData@NetCompatible",
@@ -645990,6 +645994,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -646188,10 +646193,6 @@
                       "Data": "2000"
                     },
                     {
-                      "Name": "SpawnOnDeconstruct",
-                      "Data": "NULL"
-                    },
-                    {
                       "Name": "pipeData@NetCompatible",
                       "Data": "True"
                     }
@@ -646264,6 +646265,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -646636,6 +646638,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -646804,6 +646807,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -646964,6 +646968,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -648393,6 +648398,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -649157,6 +649163,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -649275,6 +649282,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -649393,6 +649401,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -649511,6 +649520,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -649629,6 +649639,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -649747,6 +649758,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -649865,6 +649877,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -650143,6 +650156,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -650261,6 +650275,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -650379,6 +650394,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -650777,6 +650793,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -650895,6 +650912,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -651013,6 +651031,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -651207,6 +651226,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -651312,10 +651332,6 @@
                       "Data": "2000"
                     },
                     {
-                      "Name": "SpawnOnDeconstruct",
-                      "Data": "NULL"
-                    },
-                    {
                       "Name": "pipeData@NetCompatible",
                       "Data": "True"
                     }
@@ -651388,6 +651404,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -651555,6 +651572,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -651715,6 +651733,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -651956,6 +651975,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -652074,6 +652094,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -652416,6 +652437,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -652534,6 +652556,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -652747,6 +652770,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -652960,6 +652984,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -653157,6 +653182,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -653387,6 +653413,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -653664,6 +653691,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -653782,6 +653810,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -654012,6 +654041,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -654130,6 +654160,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -654297,6 +654328,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -654590,6 +654622,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -654880,6 +654913,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -655203,6 +655237,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -655519,6 +655554,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -655719,6 +655755,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -655919,6 +655956,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -656119,6 +656157,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -656319,6 +656358,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -656639,6 +656679,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -656986,6 +657027,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -657794,6 +657836,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -658045,6 +658088,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -658180,10 +658224,6 @@
                       "Data": "2000"
                     },
                     {
-                      "Name": "SpawnOnDeconstruct",
-                      "Data": "NULL"
-                    },
-                    {
                       "Name": "pipeData@NetCompatible",
                       "Data": "True"
                     }
@@ -658256,6 +658296,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -658395,13 +658436,6 @@
                     }
                   ]
                 }
-              ],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "Active": false,
-                  "ClassDatas": []
-                }
               ]
             }
           },
@@ -658479,10 +658513,6 @@
                       "Data": "2000"
                     },
                     {
-                      "Name": "SpawnOnDeconstruct",
-                      "Data": "NULL"
-                    },
-                    {
                       "Name": "pipeData@NetCompatible",
                       "Data": "True"
                     }
@@ -658555,6 +658585,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -658903,6 +658934,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -659153,6 +659185,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -659353,6 +659386,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -659553,6 +659587,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -659753,6 +659788,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -659953,6 +659989,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -660262,6 +660299,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -660552,6 +660590,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -660939,6 +660978,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -661057,6 +661097,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -661287,6 +661328,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -661405,6 +661447,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -661593,6 +661636,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -661837,6 +661881,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -662067,6 +662112,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -662702,6 +662748,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -662820,6 +662867,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -663162,6 +663210,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -663280,6 +663329,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -663735,6 +663785,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -663853,6 +663904,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -663971,6 +664023,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -664369,6 +664422,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -664487,6 +664541,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -664605,6 +664660,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -664942,10 +664998,6 @@
                       "Data": "2000"
                     },
                     {
-                      "Name": "SpawnOnDeconstruct",
-                      "Data": "NULL"
-                    },
-                    {
                       "Name": "pipeData@NetCompatible",
                       "Data": "True"
                     }
@@ -665018,6 +665070,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -665185,6 +665238,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -665303,6 +665357,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -665421,6 +665476,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -665539,6 +665595,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -665657,6 +665714,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -665775,6 +665833,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -665893,6 +665952,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -666675,6 +666735,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -667074,7 +667135,7 @@
                     },
                     {
                       "Name": "MobSpawners#194",
-                      "Data": "1gVVwsp$tC6EF8VO_69n_-143.992┼24┼0┼@0@LegacyMobSpawnScript@0"
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-143.9922┼24┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
                       "Name": "MobSpawners#193",
@@ -667102,7 +667163,7 @@
                     },
                     {
                       "Name": "MobSpawners#187",
-                      "Data": "1gVVwsp$tC6EF8VO_69n_-34.996┼-86┼0┼@0@LegacyMobSpawnScript@0"
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-34.9961┼-86┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
                       "Name": "MobSpawners#186",
@@ -667134,7 +667195,7 @@
                     },
                     {
                       "Name": "MobSpawners#179",
-                      "Data": "1gVVwsp$tC6EF8VO_69n_-143.997┼24┼0┼@0@LegacyMobSpawnScript@0"
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-143.9971┼24┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
                       "Name": "MobSpawners#178",
@@ -667330,11 +667391,11 @@
                     },
                     {
                       "Name": "MobSpawners#130",
-                      "Data": "1gVVwsp$tC6EF8VO_69n_-143.995┼24┼0┼@0@LegacyMobSpawnScript@0"
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-143.9951┼24┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
                       "Name": "MobSpawners#129",
-                      "Data": "1gVVwsp$tC6EF8VO_69n_-143.996┼24┼0┼@0@LegacyMobSpawnScript@0"
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-143.9961┼24┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
                       "Name": "MobSpawners#128",
@@ -667362,7 +667423,7 @@
                     },
                     {
                       "Name": "MobSpawners#122",
-                      "Data": "1gVVwsp$tC6EF8VO_69n_-143.993┼24┼0┼@0@LegacyMobSpawnScript@0"
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-143.9932┼24┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
                       "Name": "MobSpawners#121",
@@ -667654,7 +667715,7 @@
                     },
                     {
                       "Name": "MobSpawners#49",
-                      "Data": "1gVVwsp$tC6EF8VO_69n_-34.997┼-86┼0┼@0@LegacyMobSpawnScript@0"
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-34.9971┼-86┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
                       "Name": "MobSpawners#48",
@@ -667694,7 +667755,7 @@
                     },
                     {
                       "Name": "MobSpawners#39",
-                      "Data": "1gVVwsp$tC6EF8VO_69n_-26.997┼-86┼0┼@0@LegacyMobSpawnScript@0"
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-26.9971┼-86┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
                       "Name": "MobSpawners#38",
@@ -667738,7 +667799,7 @@
                     },
                     {
                       "Name": "MobSpawners#28",
-                      "Data": "1gVVwsp$tC6EF8VO_69n_-143.994┼24┼0┼@0@LegacyMobSpawnScript@0"
+                      "Data": "1gVVwsp$tC6EF8VO_69n_-143.99┼24┼0┼@0@LegacyMobSpawnScript@0"
                     },
                     {
                       "Name": "MobSpawners#27",
@@ -669299,6 +669360,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -670579,10 +670641,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼2↔2↔2↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -670609,10 +670676,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -671263,10 +671326,6 @@
                       "Data": "2000"
                     },
                     {
-                      "Name": "SpawnOnDeconstruct",
-                      "Data": "NULL"
-                    },
-                    {
                       "Name": "pipeData@NetCompatible",
                       "Data": "True"
                     }
@@ -671339,6 +671398,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -671605,6 +671665,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -671945,6 +672006,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -672172,10 +672234,6 @@
                       "Data": "2000"
                     },
                     {
-                      "Name": "SpawnOnDeconstruct",
-                      "Data": "NULL"
-                    },
-                    {
                       "Name": "pipeData@NetCompatible",
                       "Data": "True"
                     }
@@ -672248,6 +672306,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -672438,10 +672497,6 @@
                       "Data": "2000"
                     },
                     {
-                      "Name": "SpawnOnDeconstruct",
-                      "Data": "NULL"
-                    },
-                    {
                       "Name": "pipeData@NetCompatible",
                       "Data": "True"
                     }
@@ -672514,6 +672569,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -673179,6 +673235,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -673665,6 +673722,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -673734,8 +673792,8 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_-72.98┼-28.98┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_-72.98┼-28.98┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (9)",
             "LocalPRS": "-72.98┼-28.98┼0┼",
             "SortPath": "MapObjects/Furniture"
@@ -675933,6 +675991,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -676500,6 +676559,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -676549,8 +676609,8 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_-67┼50.03┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_-67┼50.03┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (8)",
             "LocalPRS": "-67┼50.03┼0┼",
             "SortPath": "MapObjects/Furniture"
@@ -678073,6 +678133,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -678196,8 +678257,8 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_-62.99┼48.04┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_-62.99┼48.04┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (7)",
             "LocalPRS": "-62.99┼48.04┼0┼",
             "SortPath": "MapObjects/Furniture"
@@ -678530,10 +678591,6 @@
                       "Data": "2000"
                     },
                     {
-                      "Name": "SpawnOnDeconstruct",
-                      "Data": "NULL"
-                    },
-                    {
                       "Name": "pipeData@NetCompatible",
                       "Data": "True"
                     }
@@ -678606,6 +678663,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -678786,6 +678844,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -680874,6 +680933,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -681036,6 +681096,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -682135,6 +682196,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -683547,6 +683609,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -683706,6 +683769,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -683873,6 +683937,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -684575,6 +684640,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -684693,8 +684759,8 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_-53┼78┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_-53┼78┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (6)",
             "LocalPRS": "-53┼78┼0┼",
             "SortPath": "MapObjects/Furniture"
@@ -685128,10 +685194,6 @@
                       "Data": "2000"
                     },
                     {
-                      "Name": "SpawnOnDeconstruct",
-                      "Data": "NULL"
-                    },
-                    {
                       "Name": "pipeData@NetCompatible",
                       "Data": "True"
                     }
@@ -685204,6 +685266,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -685768,8 +685831,8 @@
             "SortPath": "MapObjects/Flora&Rocks"
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_-51┼74.01┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_-51┼74.01┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (5)",
             "LocalPRS": "-51┼74.01┼0┼",
             "SortPath": "MapObjects/Furniture"
@@ -687428,1761 +687491,6 @@
                       "Data": "Observers"
                     }
                   ]
-                },
-                {
-                  "ClassID": "WearableArmor@0",
-                  "Data": [
-                    {
-                      "Name": "slot",
-                      "Data": "leftHand"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armoringBodyPartType",
-                      "Data": "RightFoot"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@Melee",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@Bullet",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@Laser",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@Energy",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@Bomb",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@Rad",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@Bio",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@TemperatureProtectionInK",
-                      "Data": "0,313.15"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@PressureProtectionInKpa",
-                      "Data": "0,50000"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armoringBodyPartType",
-                      "Data": "RightLeg"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@Melee",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@Bullet",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@Laser",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@Energy",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@Bomb",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@Rad",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@Bio",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@TemperatureProtectionInK",
-                      "Data": "0,313.15"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@PressureProtectionInKpa",
-                      "Data": "0,50000"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armoringBodyPartType",
-                      "Data": "LeftLeg"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@Melee",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@Bullet",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@Laser",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@Energy",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@Bomb",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@Rad",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@Bio",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@TemperatureProtectionInK",
-                      "Data": "0,313.15"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@PressureProtectionInKpa",
-                      "Data": "0,50000"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armoringBodyPartType",
-                      "Data": "RightArm"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@Melee",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@Bullet",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@Laser",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@Energy",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@Bomb",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@Rad",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@Bio",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@TemperatureProtectionInK",
-                      "Data": "0,313.15"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@PressureProtectionInKpa",
-                      "Data": "0,50000"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armoringBodyPartType",
-                      "Data": "LeftArm"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@Melee",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@Bullet",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@Laser",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@Energy",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@Bomb",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@Rad",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@Bio",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@TemperatureProtectionInK",
-                      "Data": "0,313.15"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@PressureProtectionInKpa",
-                      "Data": "0,50000"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armoringBodyPartType",
-                      "Data": "Chest"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@Melee",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@Bullet",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@Laser",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@Energy",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@Bomb",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@Rad",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@Bio",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@TemperatureProtectionInK",
-                      "Data": "0,313.15"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@PressureProtectionInKpa",
-                      "Data": "0,50000"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armoringBodyPartType",
-                      "Data": "Mouth"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@Melee",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@Bullet",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@Laser",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@Energy",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@Bomb",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@Rad",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@Bio",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@TemperatureProtectionInK",
-                      "Data": "0,313.15"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@PressureProtectionInKpa",
-                      "Data": "0,50000"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armoringBodyPartType",
-                      "Data": "Eyes"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@Melee",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@Bullet",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@Laser",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@Energy",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@Bomb",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@Rad",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@Bio",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@TemperatureProtectionInK",
-                      "Data": "0,313.15"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@PressureProtectionInKpa",
-                      "Data": "0,50000"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armoringBodyPartType",
-                      "Data": "Head"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@Melee",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@Bullet",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@Laser",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@Energy",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@Bomb",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@Rad",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@Bio",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@TemperatureProtectionInK",
-                      "Data": "0,313.15"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@PressureProtectionInKpa",
-                      "Data": "0,50000"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "WearableArmor@1",
-                  "Data": [
-                    {
-                      "Name": "slot",
-                      "Data": "belt"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armoringBodyPartType",
-                      "Data": "RightFoot"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@Melee",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@Bullet",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@Laser",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@Energy",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@Bomb",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@Rad",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@Bio",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@TemperatureProtectionInK",
-                      "Data": "0,313.15"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@PressureProtectionInKpa",
-                      "Data": "0,50000"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armoringBodyPartType",
-                      "Data": "RightLeg"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@Melee",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@Bullet",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@Laser",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@Energy",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@Bomb",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@Rad",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@Bio",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@TemperatureProtectionInK",
-                      "Data": "0,313.15"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@PressureProtectionInKpa",
-                      "Data": "0,50000"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armoringBodyPartType",
-                      "Data": "LeftLeg"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@Melee",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@Bullet",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@Laser",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@Energy",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@Bomb",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@Rad",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@Bio",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@TemperatureProtectionInK",
-                      "Data": "0,313.15"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@PressureProtectionInKpa",
-                      "Data": "0,50000"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armoringBodyPartType",
-                      "Data": "RightArm"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@Melee",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@Bullet",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@Laser",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@Energy",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@Bomb",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@Rad",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@Bio",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@TemperatureProtectionInK",
-                      "Data": "0,313.15"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@PressureProtectionInKpa",
-                      "Data": "0,50000"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armoringBodyPartType",
-                      "Data": "LeftArm"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@Melee",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@Bullet",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@Laser",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@Energy",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@Bomb",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@Rad",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@Bio",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@TemperatureProtectionInK",
-                      "Data": "0,313.15"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@PressureProtectionInKpa",
-                      "Data": "0,50000"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armoringBodyPartType",
-                      "Data": "Chest"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@Melee",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@Bullet",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@Laser",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@Energy",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@Bomb",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@Rad",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@Bio",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@TemperatureProtectionInK",
-                      "Data": "0,313.15"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@PressureProtectionInKpa",
-                      "Data": "0,50000"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armoringBodyPartType",
-                      "Data": "Mouth"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@Melee",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@Bullet",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@Laser",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@Energy",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@Bomb",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@Rad",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@Bio",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@TemperatureProtectionInK",
-                      "Data": "0,313.15"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@PressureProtectionInKpa",
-                      "Data": "0,50000"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armoringBodyPartType",
-                      "Data": "Eyes"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@Melee",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@Bullet",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@Laser",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@Energy",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@Bomb",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@Rad",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@Bio",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@TemperatureProtectionInK",
-                      "Data": "0,313.15"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@PressureProtectionInKpa",
-                      "Data": "0,50000"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armoringBodyPartType",
-                      "Data": "Head"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@Melee",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@Bullet",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@Laser",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@Energy",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@Bomb",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@Rad",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@Bio",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@TemperatureProtectionInK",
-                      "Data": "0,313.15"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@PressureProtectionInKpa",
-                      "Data": "0,50000"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "WearableArmor@2",
-                  "Data": [
-                    {
-                      "Name": "slot",
-                      "Data": "rightHand"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armoringBodyPartType",
-                      "Data": "RightFoot"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@Melee",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@Bullet",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@Laser",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@Energy",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@Bomb",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@Rad",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@Bio",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@TemperatureProtectionInK",
-                      "Data": "0,313.15"
-                    },
-                    {
-                      "Name": "armoredBodyParts#8@armor@PressureProtectionInKpa",
-                      "Data": "0,50000"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armoringBodyPartType",
-                      "Data": "RightLeg"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@Melee",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@Bullet",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@Laser",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@Energy",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@Bomb",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@Rad",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@Bio",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@TemperatureProtectionInK",
-                      "Data": "0,313.15"
-                    },
-                    {
-                      "Name": "armoredBodyParts#7@armor@PressureProtectionInKpa",
-                      "Data": "0,50000"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armoringBodyPartType",
-                      "Data": "LeftLeg"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@Melee",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@Bullet",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@Laser",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@Energy",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@Bomb",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@Rad",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@Bio",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@TemperatureProtectionInK",
-                      "Data": "0,313.15"
-                    },
-                    {
-                      "Name": "armoredBodyParts#6@armor@PressureProtectionInKpa",
-                      "Data": "0,50000"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armoringBodyPartType",
-                      "Data": "RightArm"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@Melee",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@Bullet",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@Laser",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@Energy",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@Bomb",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@Rad",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@Bio",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@TemperatureProtectionInK",
-                      "Data": "0,313.15"
-                    },
-                    {
-                      "Name": "armoredBodyParts#5@armor@PressureProtectionInKpa",
-                      "Data": "0,50000"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armoringBodyPartType",
-                      "Data": "LeftArm"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@Melee",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@Bullet",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@Laser",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@Energy",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@Bomb",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@Rad",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@Bio",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@TemperatureProtectionInK",
-                      "Data": "0,313.15"
-                    },
-                    {
-                      "Name": "armoredBodyParts#4@armor@PressureProtectionInKpa",
-                      "Data": "0,50000"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armoringBodyPartType",
-                      "Data": "Chest"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@Melee",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@Bullet",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@Laser",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@Energy",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@Bomb",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@Rad",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@Bio",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@TemperatureProtectionInK",
-                      "Data": "0,313.15"
-                    },
-                    {
-                      "Name": "armoredBodyParts#3@armor@PressureProtectionInKpa",
-                      "Data": "0,50000"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armoringBodyPartType",
-                      "Data": "Mouth"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@Melee",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@Bullet",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@Laser",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@Energy",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@Bomb",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@Rad",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@Bio",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@TemperatureProtectionInK",
-                      "Data": "0,313.15"
-                    },
-                    {
-                      "Name": "armoredBodyParts#2@armor@PressureProtectionInKpa",
-                      "Data": "0,50000"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armoringBodyPartType",
-                      "Data": "Eyes"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@Melee",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@Bullet",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@Laser",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@Energy",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@Bomb",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@Rad",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@Bio",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@TemperatureProtectionInK",
-                      "Data": "0,313.15"
-                    },
-                    {
-                      "Name": "armoredBodyParts#1@armor@PressureProtectionInKpa",
-                      "Data": "0,50000"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armoringBodyPartType",
-                      "Data": "Head"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@Melee",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@Bullet",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@Laser",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@Energy",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@Bomb",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@Rad",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@Fire",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@Acid",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@Magic",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@Bio",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@Anomaly",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@DismembermentProtectionChance",
-                      "Data": "0"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@StunImmunity",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@TemperatureProtectionInK",
-                      "Data": "0,313.15"
-                    },
-                    {
-                      "Name": "armoredBodyParts#0@armor@PressureProtectionInKpa",
-                      "Data": "0,50000"
-                    }
-                  ]
                 }
               ],
               "Children": [
@@ -689195,23 +687503,6 @@
                         {
                           "Name": "InitialPresentSpriteSet",
                           "Data": "26abc55eeab731c4092b89161e558078"
-                        }
-                      ]
-                    },
-                    {
-                      "ClassID": "Pickupable@0",
-                      "Data": [
-                        {
-                          "Name": "pickupAnimSpeed",
-                          "Data": "0.2"
-                        },
-                        {
-                          "Name": "syncDirection",
-                          "Data": "ServerToClient"
-                        },
-                        {
-                          "Name": "syncMode",
-                          "Data": "Observers"
                         }
                       ]
                     },
@@ -689229,6 +687520,23 @@
                         {
                           "Name": "visible",
                           "Data": "Default"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "Pickupable@0",
+                      "Data": [
+                        {
+                          "Name": "pickupAnimSpeed",
+                          "Data": "0.2"
+                        },
+                        {
+                          "Name": "syncDirection",
+                          "Data": "ServerToClient"
+                        },
+                        {
+                          "Name": "syncMode",
+                          "Data": "Observers"
                         }
                       ]
                     }
@@ -689257,10 +687565,15 @@
                 {
                   "Name": "Light2D (1)",
                   "LocalPRS": "0┼0┼0┼0ø0ø270ø12↔12↔12↔",
+                  "ObjectLayer": 0,
                   "ID": "0,5",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -689287,10 +687600,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -689566,6 +687875,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -690604,10 +688914,6 @@
                   "ClassID": "Turret@0",
                   "Data": [
                     {
-                      "Name": "spawnGun",
-                      "Data": "NULL"
-                    },
-                    {
                       "Name": "range",
                       "Data": "15"
                     },
@@ -690712,10 +689018,6 @@
                 {
                   "ClassID": "Turret@0",
                   "Data": [
-                    {
-                      "Name": "spawnGun",
-                      "Data": "NULL"
-                    },
                     {
                       "Name": "range",
                       "Data": "16"
@@ -691021,8 +689323,8 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_-44┼76.28┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_-44┼76.28┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (3)",
             "LocalPRS": "-44┼76.28┼0┼",
             "SortPath": "MapObjects/Furniture"
@@ -691082,8 +689384,8 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_-44┼80┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_-44┼80┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (1)",
             "LocalPRS": "-44┼80┼0┼",
             "SortPath": "MapObjects/Furniture"
@@ -691568,6 +689870,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -692973,6 +691276,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -693132,6 +691436,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -693305,6 +691610,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -693762,6 +692068,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -693900,8 +692207,8 @@
             "SortPath": "MapObjects/Flora&Rocks"
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_-38┼76.28┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_-38┼76.28┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (4)",
             "LocalPRS": "-38┼76.28┼0┼",
             "SortPath": "MapObjects/Furniture"
@@ -695321,10 +693628,6 @@
                       "Data": "200"
                     },
                     {
-                      "Name": "SpawnOnDeconstruct",
-                      "Data": "NULL"
-                    },
-                    {
                       "Name": "pipeData@NetCompatible",
                       "Data": "True"
                     }
@@ -695397,6 +693700,7 @@
                 {
                   "Name": "Variable Sprite Indicator",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -695847,10 +694151,10 @@
             }
           },
           {
-            "GitID": "1gVVwsp$tC6EF8VO_69n_-34.997┼-86┼0┼",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-34.9971┼-86┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner clown (16)c",
-            "LocalPRS": "-34.997┼-86┼0┼",
+            "LocalPRS": "-34.9971┼-86┼0┼",
             "SortPath": "MapObjects/MobSpawners",
             "Object": {
               "ClassDatas": [
@@ -695868,10 +694172,10 @@
             }
           },
           {
-            "GitID": "1gVVwsp$tC6EF8VO_69n_-34.996┼-86┼0┼",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-34.9961┼-86┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner naked clown (16)",
-            "LocalPRS": "-34.996┼-86┼0┼",
+            "LocalPRS": "-34.9961┼-86┼0┼",
             "SortPath": "MapObjects/MobSpawners",
             "Object": {
               "ClassDatas": [
@@ -698651,10 +696955,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼0ø0ø270ø1.64↔1.64↔2.81↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -698681,10 +696990,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -700401,10 +698706,10 @@
             }
           },
           {
-            "GitID": "1gVVwsp$tC6EF8VO_69n_-26.997┼-86┼0┼",
+            "GitID": "1gVVwsp$tC6EF8VO_69n_-26.9971┼-86┼0┼",
             "PrefabID": "1gVVwsp$tC6EF8VO_69n",
             "Name": "MobSpawner clown (6)",
-            "LocalPRS": "-26.997┼-86┼0┼",
+            "LocalPRS": "-26.9971┼-86┼0┼",
             "SortPath": "MapObjects/MobSpawners",
             "Object": {
               "ClassDatas": [
@@ -700726,6 +699031,7 @@
                 {
                   "Name": "wallframe_newscaster (1)",
                   "LocalPRS": "0.0313┼0.25┼0┼",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -700758,6 +699064,7 @@
                 {
                   "Name": "wallframe_newscaster (6)",
                   "LocalPRS": "0.0312┼-0.0313┼0┼",
+                  "ObjectLayer": 0,
                   "ID": "0,2",
                   "ClassDatas": [
                     {
@@ -700790,6 +699097,7 @@
                 {
                   "Name": "wallframe_newscaster (3)",
                   "LocalPRS": "0.1881┼0.0936┼0┼",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -700805,6 +699113,7 @@
                 {
                   "Name": "wallframe_newscaster (7)",
                   "LocalPRS": "0.2104┼-0.024┼0┼0.41↔0.12↔0.41↔",
+                  "ObjectLayer": 0,
                   "ID": "0,4",
                   "ClassDatas": [
                     {
@@ -700820,6 +699129,7 @@
                 {
                   "Name": "wallframe_newscaster (8)",
                   "LocalPRS": "0.205┼0.0468┼0┼0.41↔0.15↔0.41↔",
+                  "ObjectLayer": 0,
                   "ID": "0,5",
                   "ClassDatas": [
                     {
@@ -701216,6 +699526,7 @@
                 {
                   "Name": "wallframe_newscaster (1)",
                   "LocalPRS": "0.0313┼0.25┼0┼",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -701248,6 +699559,7 @@
                 {
                   "Name": "wallframe_newscaster (6)",
                   "LocalPRS": "0.0312┼-0.0313┼0┼",
+                  "ObjectLayer": 0,
                   "ID": "0,2",
                   "ClassDatas": [
                     {
@@ -701280,6 +699592,7 @@
                 {
                   "Name": "wallframe_newscaster (3)",
                   "LocalPRS": "0.1881┼0.0936┼0┼",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -701295,6 +699608,7 @@
                 {
                   "Name": "wallframe_newscaster (7)",
                   "LocalPRS": "0.2104┼-0.024┼0┼0.41↔0.12↔0.41↔",
+                  "ObjectLayer": 0,
                   "ID": "0,4",
                   "ClassDatas": [
                     {
@@ -701310,6 +699624,7 @@
                 {
                   "Name": "wallframe_newscaster (8)",
                   "LocalPRS": "0.205┼0.0468┼0┼0.41↔0.15↔0.41↔",
+                  "ObjectLayer": 0,
                   "ID": "0,5",
                   "ClassDatas": [
                     {
@@ -701767,8 +700082,8 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_-22.04┼35.05┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_-22.04┼35.05┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (1)",
             "LocalPRS": "-22.04┼35.05┼0┼",
             "SortPath": "MapObjects/Furniture"
@@ -702369,10 +700684,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -702399,10 +700719,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -702868,10 +701184,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -702898,10 +701219,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -702985,10 +701302,6 @@
                 {
                   "ClassID": "Turret@0",
                   "Data": [
-                    {
-                      "Name": "spawnGun",
-                      "Data": "NULL"
-                    },
                     {
                       "Name": "range",
                       "Data": "15"
@@ -703445,10 +701758,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -703475,10 +701793,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -703647,10 +701961,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -703677,10 +701996,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -703953,10 +702268,6 @@
                 {
                   "ClassID": "Turret@0",
                   "Data": [
-                    {
-                      "Name": "spawnGun",
-                      "Data": "NULL"
-                    },
                     {
                       "Name": "range",
                       "Data": "19"
@@ -704393,10 +702704,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -704423,10 +702739,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -704595,10 +702907,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -704625,10 +702942,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -704978,10 +703291,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -705008,10 +703326,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -705180,10 +703494,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -705210,10 +703529,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -705608,10 +703923,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -705638,10 +703958,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -705810,10 +704126,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -705840,10 +704161,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -706012,10 +704329,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -706042,10 +704364,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -706323,6 +704641,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -706911,10 +705230,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -706941,10 +705265,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -709123,10 +707443,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -709153,10 +707478,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -709644,10 +707965,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -709674,10 +708000,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -710440,10 +708762,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -710470,10 +708797,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -710909,10 +709232,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -710939,10 +709267,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -711895,10 +710219,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -711925,10 +710254,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -712394,10 +710719,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -712424,10 +710754,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -713017,10 +711343,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -713047,10 +711378,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -713196,6 +711523,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -713307,10 +711635,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼16↔16↔16↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -713337,10 +711670,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -714125,6 +712454,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -714392,10 +712722,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -714422,10 +712757,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -714705,10 +713036,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -714735,10 +713071,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -714907,10 +713239,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -714937,10 +713274,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -715613,10 +713946,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -715643,10 +713981,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -716190,10 +714524,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -716220,10 +714559,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -716392,10 +714727,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -716422,10 +714762,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -716594,10 +714930,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -716624,10 +714965,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -717003,10 +715340,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -717033,10 +715375,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -717205,10 +715543,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -717235,10 +715578,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -717407,10 +715746,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -717437,10 +715781,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -718597,10 +716937,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -718627,10 +716972,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -719945,10 +718286,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -719975,10 +718321,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -720658,6 +719000,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -720776,6 +719119,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -720967,15 +719311,11 @@
                   ]
                 },
                 {
-                  "ClassID": "ClearanceRestricted@1",
+                  "ClassID": "ClearanceRestricted@0",
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
                       "Data": "AwayGeneric1"
-                    },
-                    {
-                      "Name": "type",
-                      "Data": "Any"
                     }
                   ]
                 }
@@ -721419,10 +719759,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -721449,10 +719794,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -722100,10 +720441,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -722130,10 +720476,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -722491,10 +720833,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -722521,10 +720868,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -722693,10 +721036,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -722723,10 +721071,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -722895,10 +721239,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -722925,10 +721274,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -723097,10 +721442,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -723127,10 +721477,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -723276,6 +721622,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -723540,10 +721887,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -723570,10 +721922,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -723742,10 +722090,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -723772,10 +722125,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -723944,10 +722293,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -723974,10 +722328,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -724146,10 +722496,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -724176,10 +722531,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -724348,10 +722699,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -724378,10 +722734,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -724692,10 +723044,15 @@
                 {
                   "Name": "Light2D",
                   "LocalPRS": "0┼0┼0┼4↔4↔4↔",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
                       "Data": []
                     },
                     {
@@ -724722,10 +723079,6 @@
                           "Data": "0"
                         }
                       ]
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
                     },
                     {
                       "ClassID": "MeshFilter@0",
@@ -737522,6 +735875,7 @@
                 },
                 {
                   "Name": "Variable Sprite Indicator",
+                  "ObjectLayer": 0,
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -738290,11 +736644,6 @@
                       ]
                     }
                   ]
-                },
-                {
-                  "ID": "0,8",
-                  "Active": false,
-                  "ClassDatas": []
                 }
               ]
             }
@@ -739077,11 +737426,6 @@
                       ]
                     }
                   ]
-                },
-                {
-                  "ID": "0,8",
-                  "Active": false,
-                  "ClassDatas": []
                 }
               ]
             }
@@ -739667,11 +738011,6 @@
                       ]
                     }
                   ]
-                },
-                {
-                  "ID": "0,8",
-                  "Active": false,
-                  "ClassDatas": []
                 }
               ]
             }
@@ -740296,11 +738635,6 @@
                       ]
                     }
                   ]
-                },
-                {
-                  "ID": "0,8",
-                  "Active": false,
-                  "ClassDatas": []
                 }
               ]
             }
@@ -740341,11 +738675,6 @@
                       ]
                     }
                   ]
-                },
-                {
-                  "ID": "0,8",
-                  "Active": false,
-                  "ClassDatas": []
                 }
               ]
             }
@@ -740406,11 +738735,6 @@
                       ]
                     }
                   ]
-                },
-                {
-                  "ID": "0,8",
-                  "Active": false,
-                  "ClassDatas": []
                 }
               ]
             }
@@ -741287,10 +739611,6 @@
                       "Data": "0"
                     },
                     {
-                      "Name": "cellPrefab",
-                      "Data": "NULL"
-                    },
-                    {
                       "Name": "allowScrewdriver",
                       "Data": "True"
                     }
@@ -741488,11 +739808,6 @@
                       ]
                     }
                   ]
-                },
-                {
-                  "ID": "0,8",
-                  "Active": false,
-                  "ClassDatas": []
                 }
               ]
             }
@@ -741990,11 +740305,6 @@
                       ]
                     }
                   ]
-                },
-                {
-                  "ID": "0,8",
-                  "Active": false,
-                  "ClassDatas": []
                 }
               ]
             }
@@ -742082,11 +740392,6 @@
                       ]
                     }
                   ]
-                },
-                {
-                  "ID": "0,8",
-                  "Active": false,
-                  "ClassDatas": []
                 }
               ]
             }
@@ -742480,11 +740785,6 @@
                       ]
                     }
                   ]
-                },
-                {
-                  "ID": "0,8",
-                  "Active": false,
-                  "ClassDatas": []
                 }
               ]
             }
@@ -742506,13 +740806,6 @@
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_34┼-51┼0┼@0@APC@0"
                     }
                   ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,8",
-                  "Active": false,
-                  "ClassDatas": []
                 }
               ]
             }
@@ -743056,11 +741349,6 @@
                       ]
                     }
                   ]
-                },
-                {
-                  "ID": "0,8",
-                  "Active": false,
-                  "ClassDatas": []
                 }
               ]
             }
@@ -743130,11 +741418,6 @@
                       ]
                     }
                   ]
-                },
-                {
-                  "ID": "0,8",
-                  "Active": false,
-                  "ClassDatas": []
                 }
               ]
             }
@@ -743175,11 +741458,6 @@
                       ]
                     }
                   ]
-                },
-                {
-                  "ID": "0,8",
-                  "Active": false,
-                  "ClassDatas": []
                 }
               ]
             }
@@ -760415,15 +758693,15 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_95┼-65┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_95┼-65┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (12)",
             "LocalPRS": "95┼-65┼0┼",
             "SortPath": "MapObjects/Furniture"
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_95┼-62┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_95┼-62┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (1)",
             "LocalPRS": "95┼-62┼0┼",
             "SortPath": "MapObjects/Furniture"
@@ -760939,8 +759217,8 @@
             "SortPath": "MapObjects/Other"
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_97┼-55┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_97┼-55┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (2)",
             "LocalPRS": "97┼-55┼0┼",
             "SortPath": "MapObjects/Furniture"
