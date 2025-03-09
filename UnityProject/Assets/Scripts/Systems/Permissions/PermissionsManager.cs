@@ -16,8 +16,6 @@ namespace Systems.Permissions
 
 		public PermissionsConfig Config { get; private set; }
 
-
-
 		/// <summary>
 		/// Tries to read the permissions config file and load it in memory. If for whatever reason it fails,
 		/// there will be no permissions config and thus, no one will have any permissions.
@@ -26,7 +24,6 @@ namespace Systems.Permissions
 		/// </summary>
 		public void LoadPermissionsConfig()
 		{
-
 			if (AccessFile.Exists(configPath) == false)
 			{
 				Loggy.Error("Permissions config file not found!", Category.Admin);
@@ -165,6 +162,27 @@ namespace Systems.Permissions
 			{
 				AccessFile.Save(configPath, Toml.FromModel(Config));
 			}
+		}
+
+		public bool HasRank(string identifier, string rankType)
+		{
+			var player = Config.Players.Find(p => p.Identifier == identifier);
+			if (player == null)
+			{
+				// Player not found, so they don't have any rank
+				return false;
+			}
+			return player.Rank == rankType;
+		}
+
+		public bool HasAnyRank(string identifier)
+		{
+			var player = Config.Players.Find(p => p.Identifier == identifier);
+			if (player == null)
+			{
+				return false;
+			}
+			return true;
 		}
 	}
 }
