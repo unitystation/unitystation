@@ -721,7 +721,7 @@ public partial class PlayerList
 		}
 
 
-		if (Application.isEditor || GameData.Instance.DevBuild || player.ConnectionIP == "localhost")
+		if (Application.isEditor || GameData.Instance.DevBuild || player.Connection.address == "localhost")
 		{
 			//full admin privs for local offline testing for host player
 			LocalAdminSetup(player);
@@ -733,7 +733,7 @@ public partial class PlayerList
 	private void LocalAdminSetup(PlayerInfo player)
 	{
 		TryAddRank(player.AccountId,"host", false);
-		Loggy.Info($"Found local host ({player.AccountId}/{player.ConnectionIP}). Assigning 'host' perms to them.");
+		Loggy.Info($"Found local host ({player.AccountId}/{player.Connection.address}). Assigning 'host' perms to them.");
 		EnableAdmin(player);
 	}
 
