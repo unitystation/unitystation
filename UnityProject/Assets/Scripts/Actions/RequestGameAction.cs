@@ -13,9 +13,9 @@ using SecureStuff;
 
 public class GameActionRequest//<TMT> : IAllowedReflection where TMT : struct
 {
-	public struct ActionRequestMessage : IActionRequestMessage
+	public struct ActionRequestMessage : IActionRequestMessage, NetworkMessage
 	{
-		public string RequestedActionUUID { get; set; }
+		public string RequestedActionGuid { get; set; }
 		public bool AttemptTrigger  { get; set; }
 	}
 }

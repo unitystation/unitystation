@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Logs;
 using Mirror;
 using UI.Action;
 using UI.Core.Action;
@@ -24,6 +25,10 @@ public interface IGameActionHolder
 	/// </summary>
 //	public Mind ActionOwner { get; protected set; }
 	/// <summary>
+	/// A ref to our UI button
+	/// </summary>
+	//public UIActionButton ActionButton { get; }
+	/// <summary>
 	/// The name of this action
 	/// </summary>
 //	public string ActionName { get; protected set; }
@@ -42,12 +47,31 @@ public interface IGameActionHolder
 	public Type ActionRequestType { get; }
 	ActionData ActionData { get; }
 
+	virtual void SetUp()
+	{
+		if (CustomNetworkManager.IsServer)
+		{
+			NetworkServer.RegisterHandler<>();
+		}
+		/*else
+		{
+			NetworkClient.RegisterHandler();
+		}*/
+	}
+
 	virtual void CallActionClient() //clientside, this gets called when the UI button gets clicked by a player
 	{
 		UIActionButton action = UIActionManager.Instance.DicIActionGUI[this][0];
 		PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestAction(ActionGuid, action.LastClickPosition);
 	}
 
+	/// <summary>
+	/// Called whenever our UI button is clicked
+	/// </summary>
+	virtual void OnButtonClicked()
+	{}
+
+	#region Trigger Chain
 	/// <summary>
 	/// Generally checked before TriggerAction(), if your calling TriggerAction() you should probably check it too
 	/// </summary>
@@ -88,21 +112,67 @@ public interface IGameActionHolder
 	/// generally you put things like starting cooldown here
 	/// </summary>
 	virtual void PostActivate() {}
+	#endregion Trigger Chain
 
-	virtual GameActionRequest.ActionRequestMessage GetRequestData<TRT>() where TRT : new()
+	#region Networking
+	virtual void SendTriggerRequest()
 	{
-		var msg = new TRT();
-		if(msg is GameActionRequest.ActionRequestMessage request)
-			request.RequestedActionUUID = ActionGuid;
-		GameActionRequest.ActionRequestMessage ourStruct = msg as GameActionRequest.ActionRequestMessage;
+		try
 		{
-			NetObject = netObject.netId,
-			ComponentLocation = componentLocation,
-			ComponentID = componentTypeToComponentID[componentType],
-		};
-		Send(msg);
-		return null;
+			return;
+		}
+		catch (Exception e)
+		{
+			Debug.LogError(e);
+		}
 	}
+
+	virtual T GetRequestData<T>(T passedMessage) where T : IActionRequestMessage, new()
+	{
+		var request = Convert.ToBoolean(passedMessage) ? passedMessage : new T();
+		request.RequestedActionGuid = ActionGuid;
+		request.AttemptTrigger = true;
+		return request;
+	}
+
+	/// <summary>
+	/// An error catching wrapper for HandleReceivedMessage(), to prevent client kicks
+	/// </summary>
+	void ReceiveNetMessage(NetworkMessage msg)
+	{
+		try
+		{
+			HandleReceivedMessage(msg);
+		}
+		catch (Exception e)
+		{
+			Debug.LogError(e);
+		}
+	}
+
+	/// <summary>
+	///
+	/// </summary>
+	/// <param name="allowTypeFailure">Should only be set to true when being used in overrides.
+	/// Set to true to silence the output error upon not having a handler method for msg.</param>
+	virtual bool HandleReceivedMessage(NetworkMessage msg, bool allowTypeFailure = false)
+	{
+		if (msg is IActionRequestMessage)
+		{
+			HandleTriggerRequest((IActionRequestMessage)msg);
+			return true;
+		}
+		else if (allowTypeFailure) return false;
+		Loggy.Error($":IGameActionHolder::HandleReceivedMessage: was passed a NetworkMessage[{msg}] type it does not have a handler for.",
+					Category.Actions);
+		return false;
+	}
+
+	virtual bool HandleTriggerRequest(IActionRequestMessage msg)
+	{
+		return true;
+	}
+	#endregion Networking
 }
 
 /// <summary>
