@@ -12,7 +12,7 @@ using Objects.Wallmounts;
 using Player.Movement;
 using Tilemaps.Behaviours.Layers;
 using UI;
-using UI.Action;
+using GameActions;
 using Tiles;
 using UI.Core.Action;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;

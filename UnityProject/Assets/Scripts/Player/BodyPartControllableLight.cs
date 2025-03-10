@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using HealthV2;
-using UI.Action;
+using GameActions;
 using UnityEngine;
 
 public class BodyPartControllableLight : BodyPartFunctionality

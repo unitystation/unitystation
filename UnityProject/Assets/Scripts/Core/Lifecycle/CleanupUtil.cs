@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System;
-using UI.Action;
+using GameActions;
 using Audio.Containers;
 using Logs;
 using Objects.Security;
@@ -398,7 +398,7 @@ public static class CleanupUtil
 	{
 		foreach (var a in UnityEngine.GameObject.FindObjectsOfType<UIActionButton>(true))
 		{
-			if ((a.iActionHolder is UI.Action.ItemActionButton) && (a.iActionHolder as UI.Action.ItemActionButton == null || (a.iActionHolder as UI.Action.ItemActionButton).CurrentlyOn == null))
+			if ((a.iActionHolder is GameActions.ItemActionButton) && (a.iActionHolder as GameActions.ItemActionButton == null || (a.iActionHolder as GameActions.ItemActionButton).CurrentlyOn == null))
 			{
 				a.iActionHolder = null;
 				UnityEngine.GameObject.Destroy(a.gameObject);

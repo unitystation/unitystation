@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using HealthV2;
 using Logs;
 using UnityEngine;
-using UI.Action;
+using GameActions;
 using UI.Core.Action;
 
 namespace UI.Items

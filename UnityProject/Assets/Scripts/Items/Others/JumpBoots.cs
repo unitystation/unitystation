@@ -2,7 +2,7 @@ using System.Collections;
 using AddressableReferences;
 using Core;
 using Mirror;
-using UI.Action;
+using GameActions;
 using UnityEngine;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 

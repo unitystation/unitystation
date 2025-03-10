@@ -8,7 +8,7 @@ using Logs;
 using UnityEngine;
 using Mirror;
 using ScriptableObjects.Systems.Spells;
-using UI.Action;
+using GameActions;
 using UI.Core.Action;
 
 namespace Systems.Spells

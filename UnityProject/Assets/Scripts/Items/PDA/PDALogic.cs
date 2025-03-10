@@ -7,7 +7,7 @@ using UnityEngine;
 using Mirror;
 using NaughtyAttributes;
 using Random = UnityEngine.Random;
-using UI.Action;
+using GameActions;
 using AddressableReferences;
 using UI.Items.PDA;
 

@@ -7,7 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Core;
 using Systems.Character;
-using UI.Action;
+using GameActions;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;

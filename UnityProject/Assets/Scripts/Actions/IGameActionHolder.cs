@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Logs;
 using Mirror;
-using UI.Action;
+using GameActions;
 using UI.Core.Action;
 using UnityEngine;
 

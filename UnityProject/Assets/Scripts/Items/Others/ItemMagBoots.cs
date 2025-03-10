@@ -1,6 +1,6 @@
 ﻿using Mirror;
 using Player.Movement;
-using UI.Action;
+using GameActions;
 using UnityEngine;
 
 namespace Items.Others

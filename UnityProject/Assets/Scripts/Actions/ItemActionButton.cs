@@ -7,7 +7,7 @@ using Mirror;
 using NaughtyAttributes;
 using UI.Core.Action;
 
-namespace UI.Action
+namespace GameActions
 {
 	public class ItemActionButton : BodyPartFunctionality, IGameActionHolder, IItemInOutMovedPlayer
 	{

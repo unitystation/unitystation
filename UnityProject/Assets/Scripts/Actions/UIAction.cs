@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace UI.Action
+namespace GameActions
 {
 	/// <summary>
 	/// The button to trigger an action that is shown to players clientside

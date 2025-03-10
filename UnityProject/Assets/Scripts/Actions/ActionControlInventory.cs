@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UI.Core.Action;
 using UnityEngine;
 
-namespace UI.Action
+namespace GameActions
 {
 	public class ActionControlInventory : MonoBehaviour, IServerInventoryMove
 	{

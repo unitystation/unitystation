@@ -2,7 +2,7 @@
 using System.Collections;
 using NaughtyAttributes;
 using Systems.Explosions;
-using UI.Action;
+using GameActions;
 using UnityEngine;
 
 namespace Items.Others

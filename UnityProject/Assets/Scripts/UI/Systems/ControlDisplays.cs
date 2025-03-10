@@ -6,7 +6,7 @@ using Blob;
 using JetBrains.Annotations;
 using Messages.Client.Lobby;
 using UI.Systems.Ghost;
-using UI.Action;
+using GameActions;
 using UI.Core.Action;
 using Changeling;
 using Logs;

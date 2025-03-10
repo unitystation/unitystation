@@ -7,7 +7,7 @@ using Logs;
 using Messages.Server;
 using Mirror;
 using Shared.Util;
-using UI.Action;
+using GameActions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

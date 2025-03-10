@@ -5,7 +5,7 @@ using UnityEngine;
 using Mirror;
 using Systems.Clothing;
 using Systems.Explosions;
-using UI.Action;
+using GameActions;
 
 namespace Items.Others
 {
