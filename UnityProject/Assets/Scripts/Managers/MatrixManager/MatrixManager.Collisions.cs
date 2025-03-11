@@ -282,7 +282,6 @@ public partial class MatrixManager
 			return;
 		}
 
-
 		byte collisions = 0;
 		foreach ( var worldPos in i.Rect.allPositionsWithin() )
 		{
@@ -430,10 +429,8 @@ public partial class MatrixManager
 
 		void ApplyTilemapDamage( MatrixInfo matrix, Vector3Int cellPos, float damage, Vector3Int worldPos )
 		{
-			if (matrix == null) return;
-
-			matrix.MetaTileMap.ApplyDamage( cellPos, damage, worldPos );
-			if ( damage > 9000 )
+			if ( matrix == null ) return;
+			if ( matrix.MetaTileMap.ApplyDamage( cellPos, damage, worldPos ) <= 9000 )
 			{
 				foreach ( var damageableLayer in matrix.MetaTileMap.LayersValues )
 				{
