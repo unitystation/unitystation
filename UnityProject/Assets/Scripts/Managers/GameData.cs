@@ -3,6 +3,7 @@ using System.Collections;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using SecureStuff;
 using DatabaseAPI;
 using Initialisation;
@@ -61,6 +62,24 @@ public class GameData : MonoBehaviour, IInitialise
 	public static GameData Instance => FindUtils.LazyFindObject(ref gameData);
 
 	public bool DevBuild = false;
+
+	public HubJoinArgs JoinArgs = null;
+
+	public class HubJoinArgs
+	{
+		public string ServerIP;
+		public string Port;
+		public string Token;
+		public string UID;
+
+		public HubJoinArgs(string IP, string p, string t, string uuid)
+		{
+			ServerIP = IP;
+			Port = p;
+			Token = t;
+			UID = uuid;
+		}
+	}
 
 	#region Lifecycle
 
@@ -196,6 +215,8 @@ public class GameData : MonoBehaviour, IInitialise
 		string token = GetArgument("-refreshtoken");
 		string uid = GetArgument("-uid");
 
+		JoinArgs = new HubJoinArgs(serverIp, portStr, token, uid);
+
 		if (string.IsNullOrEmpty(serverIp) || string.IsNullOrEmpty(portStr)) return false;
 
 		if (ushort.TryParse(portStr, out var port) == false)
@@ -205,6 +226,13 @@ public class GameData : MonoBehaviour, IInitialise
 		}
 
 		return await HubToServerConnect(serverIp, port, uid, token);
+	}
+
+	public async Task TryLoginThenServerConnectFromJoinArgs()
+	{
+		await Task.Delay(TimeSpan.FromSeconds(0.1));
+		LobbyManager.Instance.JoinServer(JoinArgs.ServerIP, ushort.Parse(JoinArgs.Port));
+		LoadManager.DoInMainThread(() => Loggy.Info($"HubToServerConnect Connecting to IP {JoinArgs.ServerIP}, port {JoinArgs.Port}"));
 	}
 
 	private async Task<bool> HubToServerConnect(string ip, ushort port, string uid, string token)

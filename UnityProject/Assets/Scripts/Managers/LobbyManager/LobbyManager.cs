@@ -82,7 +82,7 @@ namespace Lobby
 			"Howdy {0}!",
 		};
 
-		public async Task<bool> TryLogin(string emailAddress, string password)
+		public async Task<bool> TryLogin(string emailAddress, string password, bool autoConnect = false)
 		{
 			lobbyDialogue.ShowLoadingPanel("Signing in...");
 
@@ -90,7 +90,7 @@ namespace Lobby
 
 			await PlayerManager.Account.Login(emailAddress, password).Then(task =>
 			{
-				HandleLoginTask(task);
+				HandleLoginTask(task, autoConnect);
 			});
 
 			return PlayerManager.Account.IsAvailable;
@@ -176,7 +176,7 @@ namespace Lobby
 		}
 
 
-		private void HandleLoginTask(Task<Account> task)
+		private void HandleLoginTask(Task<Account> task, bool autoConnectToArgServer = false)
 		{
 			if (task.IsCanceled)
 			{
@@ -204,8 +204,11 @@ namespace Lobby
 			{
 				var account = task.Result;
 				PlayerManager.Instance.SetAccount(account);
-
 				lobbyDialogue.ShowMainPanel();
+				if (autoConnectToArgServer && GameData.Instance.JoinArgs != null)
+				{
+					_ = GameData.Instance.TryLoginThenServerConnectFromJoinArgs();
+				}
 			}
 		}
 
