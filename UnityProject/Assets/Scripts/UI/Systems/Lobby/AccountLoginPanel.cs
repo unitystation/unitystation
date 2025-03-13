@@ -2,6 +2,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Core.Utils;
+using Initialisation;
+using Logs;
 
 namespace Lobby
 {
@@ -87,8 +89,8 @@ namespace Lobby
 			if (ValidateLogin() == false) return;
 
 			LobbyManager.Instance.SetAutoLogin(autoLoginControl.isOn);
-
-			_ = LobbyManager.Instance.TryLogin(emailControl.text, passwordControl.text);
+			_ = LobbyManager.Instance.TryLogin(emailControl.text, passwordControl.text, true);
+			LoadManager.DoInMainThread(() => Loggy.Info($"Manually logging in with email: {emailControl.text}"));
 			passwordControl.text = string.Empty;
 		}
 
