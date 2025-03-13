@@ -113,7 +113,22 @@ namespace MapSaver
 					Matrix4x4 = CommonMatrix4x4[0];
 				}
 
-				Matrix.MetaTileMap.SetTile(Position, Tel, Matrix4x4, Colour, Application.isPlaying, true);
+				try
+				{
+					Matrix.MetaTileMap.SetTile(Position, Tel, Matrix4x4, Colour, Application.isPlaying, true);
+				}
+				catch (Exception e)
+				{
+					try
+					{
+						Matrix.MetaTileMap.SetTile(Position, TileManager.Instance.ErrorTile, Matrix4x4, Colour, Application.isPlaying, true);
+					}
+					catch (Exception exception)
+					{
+						Loggy.Error(exception.ToString());
+					}
+					Loggy.Error(e.ToString());
+				}
 			}
 		}
 

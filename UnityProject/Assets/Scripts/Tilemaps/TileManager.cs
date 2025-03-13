@@ -59,6 +59,8 @@ public class TileManager : SingletonManager<TileManager>, IInitialise
 
 	[SerializeField] private List<TilePathEntry> layerTileCollections = new List<TilePathEntry>();
 
+	[field:SerializeField] public AnimatedTile ErrorTile { get; private set; }
+
 	public InitialisationSystems Subsystem => InitialisationSystems.TileManager;
 
 	void IInitialise.Initialise()
