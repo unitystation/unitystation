@@ -13,6 +13,16 @@ PrefabInstance:
       propertyPath: _assetId
       value: 3532701901
       objectReference: {fileID: 0}
+    - target: {fileID: 1199642580682626506, guid: 3877ffa8e067d124ba52802dde6f2d34,
+        type: 3}
+      propertyPath: initialName
+      value: engine heater
+      objectReference: {fileID: 0}
+    - target: {fileID: 1199642580682626506, guid: 3877ffa8e067d124ba52802dde6f2d34,
+        type: 3}
+      propertyPath: initialDescription
+      value: Directs energy into compressed particles in order to power engines.
+      objectReference: {fileID: 0}
     - target: {fileID: 3913893863513874464, guid: 3877ffa8e067d124ba52802dde6f2d34,
         type: 3}
       propertyPath: variantIndex
@@ -21,6 +31,12 @@ PrefabInstance:
     - target: {fileID: 3913893863513874464, guid: 3877ffa8e067d124ba52802dde6f2d34,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c668a239ab417394d99432c214a1a076,
+        type: 2}
+    - target: {fileID: 3913893863513874464, guid: 3877ffa8e067d124ba52802dde6f2d34,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: c668a239ab417394d99432c214a1a076,
         type: 2}

@@ -52,6 +52,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -101,11 +102,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: b2bcc48cd1fe1224fa63b46854d61731, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: b2bcc48cd1fe1224fa63b46854d61731,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 0
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1 &3082331666574725315
 GameObject:
@@ -159,6 +162,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -208,11 +212,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 7dfddd849e928f440aa8bd921b643aec, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 7dfddd849e928f440aa8bd921b643aec,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1 &4917922173255508279
 GameObject:
@@ -266,6 +272,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -315,11 +322,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 9149d3bede9fd2240a3af3f95752d5b1, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 9149d3bede9fd2240a3af3f95752d5b1,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 0
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1 &5430930471584037686
 GameObject:
@@ -373,6 +382,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -422,11 +432,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: df36fe710569d8b45ad564d6fa3a1a98, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: df36fe710569d8b45ad564d6fa3a1a98,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 0
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1 &9214199404805826064
 GameObject:
@@ -480,6 +492,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -529,11 +542,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: de4912c9ed032ce498ce529b2ba9b1f9, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: de4912c9ed032ce498ce529b2ba9b1f9,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 0
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1001 &8190553207634783115
 PrefabInstance:
@@ -628,10 +643,20 @@ PrefabInstance:
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7971921043980192432, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: initialName
       value: hydroponics tray
+      objectReference: {fileID: 0}
+    - target: {fileID: 7971921043980192432, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: initialDescription
+      value: A basin used to grow plants in.
       objectReference: {fileID: 0}
     - target: {fileID: 9212640593017544930, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
@@ -729,6 +754,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UseStandardExamine: 1
+  ExamineAmount: 0
+  ExamineContent: 0
+  traitWhitelist: []
+  reagentWhitelist: []
+  transferMode: 0
+  SyringePulling: 0
+  possibleTransferAmounts: []
+  transferAmount: 20
+  transferSound: []
   ReactionSounds: 1
   maxCapacity: 200
   DEBUGReagent: {fileID: 0}
@@ -749,16 +784,6 @@ MonoBehaviour:
   ContentsSet: 0
   menuOptions: -1
   spriteHandler: {fileID: 0}
-  UseStandardExamine: 1
-  ExamineAmount: 0
-  ExamineContent: 0
-  traitWhitelist: []
-  reagentWhitelist: []
-  transferMode: 0
-  SyringePulling: 0
-  possibleTransferAmounts: []
-  transferAmount: 20
-  transferSound: []
 --- !u!114 &-5346589654271022037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -823,37 +848,6 @@ MonoBehaviour:
   waterNotifier: {fileID: 6485752293267675454}
   nutrimentNotifier: {fileID: 6019309559584754933}
   tickRate: 1
-  plantData:
-    ProduceObject: {fileID: 0}
-    PlantName: 
-    DeadSpriteSO: {fileID: 0}
-    FullyGrownSpriteSO: {fileID: 0}
-    GrowthSpritesSOs: []
-    WeedResistance: 50
-    WeedGrowthRate: 10
-    GrowthSpeed: 60
-    Potency: 15
-    Endurance: 15
-    Yield: 40
-    Lifespan: 25
-    PlantTrays: 
-    ReagentProduction: []
-    MutatesInToGameObject: []
-    plantEvolveStats:
-      WeedResistanceChange: 0
-      WeedGrowthRateChange: 0
-      GrowthSpeedChange: 0
-      PotencyChange: 0
-      EnduranceChange: 0
-      YieldChange: 0
-      LifespanChange: 0
-      PlantTrays: 
-      ReagentProduction: []
-      RemovePlantTrays: 
-      RemoveReagentProduction: []
-    Age: 0
-    NextGrowthStageProgress: 0
-    Health: 0
 --- !u!114 &-7608530819517167522
 MonoBehaviour:
   m_ObjectHideFlags: 0

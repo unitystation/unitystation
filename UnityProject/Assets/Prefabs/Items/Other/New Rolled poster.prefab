@@ -71,7 +71,7 @@ PrefabInstance:
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialName
-      value: Poster
+      value: poster
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -91,6 +91,12 @@ PrefabInstance:
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 3958995083ffaf54fa3a479b1eda2976,
+        type: 2}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 3958995083ffaf54fa3a479b1eda2976,
         type: 2}
@@ -137,7 +143,7 @@ MonoBehaviour:
   syncInterval: 0.1
   wallPrefab: {fileID: 1642857750665843136, guid: 3e091c8c2a970a74e915174840cd98bb,
     type: 3}
-  posterVariant: 1
+  InitialPoster: 1
   spriteRend: {fileID: 409827743242720043}
   legitSprite: {fileID: 21300000, guid: e3686f4fd49b3da478b3e180a674bd37, type: 3}
   contrabandSprite: {fileID: 21300000, guid: 18ac39b3a4c2e6347bb4431b95103a1a, type: 3}

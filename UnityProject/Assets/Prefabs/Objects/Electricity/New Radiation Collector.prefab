@@ -104,7 +104,7 @@ PrefabInstance:
     - target: {fileID: 5091487934060065553, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
       propertyPath: initialDescription
-      value: generates power from radiation
+      value: Generates power from radiation.
       objectReference: {fileID: 0}
     - target: {fileID: 6327756969131596099, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
@@ -114,6 +114,12 @@ PrefabInstance:
     - target: {fileID: 6943869364395329275, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d7874798bfaf4ac4491ec0b7c3c88171,
+        type: 2}
+    - target: {fileID: 6943869364395329275, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: d7874798bfaf4ac4491ec0b7c3c88171,
         type: 2}
