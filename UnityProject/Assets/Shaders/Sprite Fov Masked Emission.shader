@@ -73,7 +73,7 @@ Shader "Stencil/Unlit background masked emission" {
 		float additionalEmission = i.color.g;
 		fixed4 final = (textureSample * intencity);
 
-		float maskChennel =  maskSample.r;
+		float maskChennel = maskSample.g + maskSample.r;
 
 		//0.70 to Because 1 = blown out
 		//additionalEmission+1 , Because it goes between 0 and 1, and it should be default on its 0
