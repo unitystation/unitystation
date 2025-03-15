@@ -97,6 +97,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5666735912054379986, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 685ad63ad497a884091a906925a2e525,
+        type: 2}
+    - target: {fileID: 5666735912054379986, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
       propertyPath: SubCatalogue.Array.size
       value: 6
       objectReference: {fileID: 0}
@@ -144,7 +150,7 @@ PrefabInstance:
     - target: {fileID: 7516867733009817656, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
       propertyPath: initialName
-      value: DNA Scanner
+      value: DNA scanner
       objectReference: {fileID: 0}
     - target: {fileID: 7516867733009817656, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
@@ -204,7 +210,7 @@ MonoBehaviour:
   deviceType: 3
   isSelfPowered: 0
   mappingNotNeedToLink: 0
-  wattusage: 0.01
+  initialwattusage: 0.01
   InitialResistance: 100000000
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0

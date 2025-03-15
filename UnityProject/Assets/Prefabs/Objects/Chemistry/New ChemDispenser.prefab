@@ -18,6 +18,11 @@ PrefabInstance:
       propertyPath: deviceType
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -6356777978426299504, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: initialwattusage
+      value: 400
+      objectReference: {fileID: 0}
     - target: {fileID: 768889878625444157, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: MachineParts
@@ -102,10 +107,26 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 126766663bd8096409e1c42f532aebd8,
         type: 2}
+    - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 126766663bd8096409e1c42f532aebd8,
+        type: 2}
     - target: {fileID: 7153803037707514078, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: _assetId
       value: 1813363408
+      objectReference: {fileID: 0}
+    - target: {fileID: 8232375373487905420, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: initialName
+      value: chem dispenser
+      objectReference: {fileID: 0}
+    - target: {fileID: 8232375373487905420, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: initialDescription
+      value: Creates and dispenses chemicals.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -191,5 +212,5 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
-  ignoreRoundstartGrabObjects: 0
+  initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 0}

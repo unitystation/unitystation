@@ -87,7 +87,7 @@ PrefabInstance:
     - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: initialName
-      value: Solar Panel
+      value: solar panel
       objectReference: {fileID: 0}
     - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -103,6 +103,12 @@ PrefabInstance:
     - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 246b242be15501d40968bd8d28edbb92,
+        type: 2}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 246b242be15501d40968bd8d28edbb92,
         type: 2}
@@ -213,19 +219,19 @@ MonoBehaviour:
   productionPowerPointsPerFreeAvaliableSide: 150
   isOn: 1
   warningBeeper:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/beep.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   wrenchSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/Wrench.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   Controller: {fileID: 0}

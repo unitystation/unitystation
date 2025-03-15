@@ -97,6 +97,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 191cc3cd5cd7cc048846d7331f22f9eb,
         type: 2}
+    - target: {fileID: 6661890231997542495, guid: c85b38a32cd1e7f4c986496e0f11223f,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 191cc3cd5cd7cc048846d7331f22f9eb,
+        type: 2}
     - target: {fileID: 7202499757115405119, guid: c85b38a32cd1e7f4c986496e0f11223f,
         type: 3}
       propertyPath: NetTabType
@@ -106,6 +112,16 @@ PrefabInstance:
         type: 3}
       propertyPath: _assetId
       value: 3358186170
+      objectReference: {fileID: 0}
+    - target: {fileID: 8828960688711763381, guid: c85b38a32cd1e7f4c986496e0f11223f,
+        type: 3}
+      propertyPath: initialName
+      value: CondiMaster 3000
+      objectReference: {fileID: 0}
+    - target: {fileID: 8828960688711763381, guid: c85b38a32cd1e7f4c986496e0f11223f,
+        type: 3}
+      propertyPath: initialDescription
+      value: Used to create condiments and other cooking supplies.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

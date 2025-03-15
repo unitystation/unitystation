@@ -94,6 +94,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 823bd884c474d50428f66da1cb36e0dc,
+        type: 2}
+    - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
       propertyPath: SubCatalogue.Array.size
       value: 6
       objectReference: {fileID: 0}
@@ -146,17 +152,17 @@ PrefabInstance:
     - target: {fileID: 8232375373487905420, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: exportName
-      value: tesla coil
+      value: Tesla coil
       objectReference: {fileID: 0}
     - target: {fileID: 8232375373487905420, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: initialName
-      value: tesla coil
+      value: Tesla coil
       objectReference: {fileID: 0}
     - target: {fileID: 8232375373487905420, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: initialDescription
-      value: generates power from electric arcs
+      value: Generates power from electric arcs.
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -6356777978426299504, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}

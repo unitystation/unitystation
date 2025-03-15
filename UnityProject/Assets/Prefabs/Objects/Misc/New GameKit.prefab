@@ -79,9 +79,20 @@ PrefabInstance:
       propertyPath: _assetId
       value: 4130696730
       objectReference: {fileID: 0}
+    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: initialName
+      value: game kit
+      objectReference: {fileID: 0}
     - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c35f5245f1743bb4b9ac438b03734e8f,
+        type: 2}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: c35f5245f1743bb4b9ac438b03734e8f,
         type: 2}
