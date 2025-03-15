@@ -29,20 +29,16 @@ namespace Systems.Spells.Swapper
 				return false;
 			}
 
-			var Being = creatures.First();
-
-			Loggy.Error("Being > " + Being.name);
-
-			if (Being == caster.Script.GetComponent<LivingHealthMasterBase>())
+			var being = creatures.First();
+			if (being == caster.Script.playerHealth)
 			{
 				Chat.AddExamineMsg(caster.GameObject, "you can't swap with yourself");
 				return false;
 			}
 
-
 			if (PreventJumpingBack)
 			{
-				if (PreviouslyJumpedTo.Contains(Being)) //TODO Maybe make it mind based idk
+				if (PreviouslyJumpedTo.Contains(being)) //TODO Maybe make it mind based idk
 				{
 					Chat.AddExamineMsg(caster.GameObject, "You have already swapped with the target");
 					return false;
@@ -51,22 +47,19 @@ namespace Systems.Spells.Swapper
 
 			if (PreviouslyJumpedTo.Any() == false)
 			{
-				PreviouslyJumpedTo.Add(caster.Script.GetComponent<LivingHealthMasterBase>());
+				PreviouslyJumpedTo.Add(caster.Script.playerHealth);
 			}
 
-			PreviouslyJumpedTo.Add(Being);
+			PreviouslyJumpedTo.Add(being);
 
-			if (Being?.brain?.PossessingMind == null)
+			if (being?.brain?.PossessingMind == null)
 			{
 				Chat.AddExamineMsg(caster.GameObject, "The target does not have a mind");
 				return false;
 			}
-
 			var casterMind = caster.Mind;
-
-			Being.brain.PossessingMind.SetPossessingObject( caster.Script.GameObject);
-
-			casterMind.SetPossessingObject(Being.gameObject);
+			being.brain.PossessingMind.SetPossessingObject(caster.Script.GameObject);
+			casterMind.SetPossessingObject(being.gameObject);
 
 			return true;
 		}

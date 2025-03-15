@@ -563,25 +563,52 @@ public static class PlayerSpawn
 	/// <param name="to"></param>
 	public static void TransferOwnershipFromToConnection(PlayerInfo account, NetworkIdentity from, NetworkIdentity to)
 	{
-		if (from)
+		if (account != null)
 		{
-			if (account.Connection != null && from.connectionToClient == account.Connection)
+			Loggy.Info($"Attempting to transfer ownership for {account.Username}.");
+		}
+		else
+		{
+			Loggy.Error("What are you doing? Why is PlayerInfo null?");
+			return;
+		}
+
+		try
+		{
+			if (from)
 			{
-				from.RemoveClientAuthority();
+				if (account.Connection != null && from.connectionToClient == account.Connection)
+				{
+					Loggy.Info($"[{account.Username}] - Removing client authority from {from.netId}.");
+					from.RemoveClientAuthority();
+				}
 			}
 		}
-		if (to)
+		catch (Exception e)
 		{
-			if (account.Connection != null)
+			Loggy.Error(e.ToString());
+		}
+
+		try
+		{
+			if (to)
 			{
-				if (account.Connection.observing.Contains(to) == false)
+				if (account.Connection == null)
 				{
-					account.Connection.observing
-						.Add(to); //TODO because sometimes it cannot be a Observing for some reason , And that causes the ownership message to fail
+					Loggy.Error($"Attempted to transfer an account ({account.Username}) with a null connection!!!");
+					return;
 				}
+				account.Connection.observing.Add(to);
+				//TODO because sometimes it cannot be a Observing for some reason , And that causes the ownership message to fail
+				Loggy.Info($"[{account.Username}] - Removing client authority from {to.netId}.");
 				to.RemoveClientAuthority();
 				to.AssignClientAuthority(account.Connection);
+				Loggy.Info($"[{account.Username}] - Adding client authority to {to.netId}.");
 			}
+		}
+		catch (Exception e)
+		{
+			Loggy.Error(e.ToString());
 		}
 	}
 }
