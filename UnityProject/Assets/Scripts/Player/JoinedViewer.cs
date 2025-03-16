@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core.Admin.Logs;
 using Newtonsoft.Json;
 using UnityEngine.SceneManagement;
 using Mirror;
@@ -75,7 +76,7 @@ namespace Player
 			{
 				RequestObserverRefresh.Send(SceneManager.GetActiveScene().name);
 				ServerSetUpPlayer(string.Empty);
-				ClientFinishLoading();
+				_ = ClientFinishLoading();
 				FinishedValidating();
 			}
 			else
@@ -250,6 +251,7 @@ namespace Player
 			if (IsValidPlayerAndWaitingOnLoad == false)
 			{
 				Loggy.Error($"Disconnecting {this.STVerifiedUserid} by Trying to call CMDFinishLoading When server wasn't expecting player to be loading  ", Category.Connections);
+				AdminLogsManager.AddNewLog(null, $"Disconnecting {this.STVerifiedUserid} by Trying to call CMDFinishLoading When server wasn't expecting player to be loading", LogCategory.Connections, Severity.IMMEDIATE_ATTENTION);
 				connectionToClient.Disconnect();
 				ClearCache();
 				return;
@@ -258,12 +260,13 @@ namespace Player
 			if (STVerifiedConnPlayer.Connection != connectionToClient)
 			{
 				Loggy.Error($"Disconnecting {this.STVerifiedConnPlayer.Name} by Authenticated user connection matching The game objects connection ", Category.Connections);
+				AdminLogsManager.AddNewLog(null, $"Disconnecting {this.STVerifiedConnPlayer.Name} by Authenticated user connection matching The game objects connection", LogCategory.Connections, Severity.IMMEDIATE_ATTENTION);
 				connectionToClient.Disconnect();
 				ClearCache();
 				return;
 			}
 
-			ClientFinishLoading();
+			_ = ClientFinishLoading();
 		}
 
 		public void ClearCache(bool bNew = false)
@@ -279,9 +282,8 @@ namespace Player
 			GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("");
 		}
 
-		private void ClientFinishLoading()
+		private async UniTask ClientFinishLoading()
 		{
-			IsValidPlayerAndWaitingOnLoad = false;
 			// Only sync the pre-round countdown if it's already started.
 			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound)
 			{
@@ -308,8 +310,9 @@ namespace Player
 			else
 			{
 				GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("Found previous mind. Rejoining.");
-				_ = WaitForLoggedOffObserver(STVerifiedConnPlayer.Mind);
+				await WaitForLoggedOffObserver(STVerifiedConnPlayer.Mind);
 			}
+			IsValidPlayerAndWaitingOnLoad = false;
 		}
 
 		/// <summary>
@@ -371,6 +374,11 @@ namespace Player
 			{
 				if (player.Mind == null || player.Mind.ControlledBy == null) continue;
 				if (player.Mind.ControlledBy.Mind == loggedOffPlayer) continue;
+				if (player.ViewerScript.IsValidPlayerAndWaitingOnLoad == false)
+				{
+					Loggy.Error($"{player.Username} detected while attempting to fallback to mind checks, but IsValidPlayerAndWaitingOnLoad is set to false?!");
+					return;
+				}
 				TellClientTheySuccesfullyLoggedIn(conn);
 				break;
 			}
