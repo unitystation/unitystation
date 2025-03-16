@@ -9,6 +9,25 @@ namespace Core
 	public static class ComponentsTracker<T>
 	{
 		public static HashSet<T> Instances { get; } = new HashSet<T>();
+		private static Dictionary<GameObject, T> instanceLookup = new Dictionary<GameObject, T>();
+
+		public static void RegisterInstance(T instance)
+		{
+			if (instance is Component component)
+			{
+				Instances.Add(instance);
+				instanceLookup[component.gameObject] = instance;
+			}
+		}
+
+		public static void UnregisterInstance(T instance)
+		{
+			if (instance is Component component)
+			{
+				Instances.Remove(instance);
+				instanceLookup.Remove(component.gameObject);
+			}
+		}
 
 		public static List<T> GetAllNearbyTypesToTarget(GameObject target, float maximumDistance, bool bypassInventories = true)
 		{
@@ -83,6 +102,11 @@ namespace Core
 				components.Add(stationObject);
 			}
 			return components;
+		}
+
+		public static T GetComponentFromGameObject(GameObject obj)
+		{
+			return instanceLookup.GetValueOrDefault(obj);
 		}
 	}
 }

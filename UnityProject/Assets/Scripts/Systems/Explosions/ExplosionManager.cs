@@ -74,16 +74,16 @@ namespace Systems.Explosions
 		{
 			SubCheckLines.UnionWith(CheckLines);
 			CheckLines.Clear();
-			foreach (var CheckLine in SubCheckLines)
+			foreach (var checkLine in SubCheckLines)
 			{
-				CheckLine.Step();
+				checkLine.Step();
 			}
 			SubCheckLines.Clear();
 
 			foreach (ExplosionNode explosionNode in CheckLocations.ToArray())
 			{
 				CheckLocations.Remove(explosionNode); //lets not create infinite explosions in the case of a runtime
-				explosionNode.Process();
+				_ = explosionNode.Process();
 			}
 
 			for (int i = DelayedEffectsToRemove.Count - 1; i >= 0; i--)
