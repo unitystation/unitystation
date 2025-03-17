@@ -373,7 +373,7 @@ namespace Player
 			foreach (var player in PlayerList.Instance.AllPlayers)
 			{
 				if (player.Mind == null || player.Mind.ControlledBy == null) continue;
-				if (player.Mind.ControlledBy.Mind == loggedOffPlayer) continue;
+				if (player.Mind.ControlledBy.Mind != loggedOffPlayer) continue;
 				if (player.ViewerScript.IsValidPlayerAndWaitingOnLoad == false)
 				{
 					Loggy.Error($"{player.Username} detected while attempting to fallback to mind checks, but IsValidPlayerAndWaitingOnLoad is set to false?!");
