@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: stairs-l
   m_EditorClassIdentifier: 
   <ForeverID>k__BackingField: 10595e91964b64044bcbb9d694adcee3
-  displayName: 
+  displayName: stairs
   description: 
   LayerType: 3
   TileType: 3
@@ -69,11 +69,11 @@ MonoBehaviour:
   spawnOnDestroy: {fileID: 0}
   damageOverlayList: {fileID: 0}
   soundOnHit:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   SoundOnDestroy: []
