@@ -348,7 +348,7 @@ namespace Player
 				}
 				if (antiFreezeCheckCount > 5500)
 				{
-					GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("A problem occurred while attempting to check for a valid connection ID." +
+					GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("A problem occurred while ing to check for a valid connection ID." +
 						"No valid connection found after 55000 frames. Press F5 to check for if an error had occured.".Color(Color.red));
 					Loggy.Error($"ID {connectionToClient.connectionId} not found in observers dictionary!" +
 					            "Cannot rejoin that player. Was original player object improperly created? " +
@@ -366,7 +366,6 @@ namespace Player
 			SuccesfullyRejoin();
 		}
 
-		[Command]
 		private void AttemptFallback(Mind loggedOffPlayer, NetworkConnectionToClient conn = null)
 		{
 			if (conn == null) return; //weaver requirement
