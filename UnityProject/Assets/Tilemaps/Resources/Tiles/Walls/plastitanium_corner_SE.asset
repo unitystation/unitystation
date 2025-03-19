@@ -1,0 +1,133 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad263680d73c8c54ba53262044a57d04, type: 3}
+  m_Name: plastitanium_corner_SE
+  m_EditorClassIdentifier: 
+  <ForeverID>k__BackingField: d3050dddb3b30d36699a9e77993696e2
+  displayName: plastitanium wall
+  description: A durable wall made of an alloy of plasma and titanium.
+  LayerType: 0
+  TileType: 1
+  RequiredTiles: []
+  Mass: 1
+  floorTileSounds: {fileID: 0}
+  CanSoundOverride: 0
+  atmosPassable: 0
+  isSealed: 0
+  SpawnWithNoAir: 0
+  passable: 0
+  mineable: 0
+  miningTime: 5
+  miningHardness: 1
+  constructable: 0
+  RadiationPassability: 0.75
+  ThermalConductivity: 0
+  HeatCapacity: 312500
+  doesReflectBullet: 0
+  indestructible: 0
+  ExplosionImpassable: 1
+  BlocksTileInteractionsUnder: 1
+  passableException:
+    m_keys: 
+    m_values: 
+  maxHealth: 400
+  damageDeflection: 11
+  armor:
+    Melee: 90
+    Bullet: 90
+    Laser: 90
+    Energy: 90
+    Bomb: 90
+    Rad: 100
+    Fire: 100
+    Acid: 90
+    Magic: 0
+    Bio: 100
+    Anomaly: 0
+    DismembermentProtectionChance: 0
+    StunImmunity: 0
+    TemperatureProtectionInK: {x: 268.15, y: 313.15}
+    PressureProtectionInKpa: {x: 30, y: 300}
+  tileInteractions: []
+  <OnTileStartMining>k__BackingField: []
+  <OnTileFinishMining>k__BackingField: []
+  tileStepInteractions: []
+  spawnOnDeconstruct: {fileID: 0}
+  spawnAmountOnDeconstruct: 1
+  lootOnDespawn: {fileID: 0}
+  toTileWhenDestroyed: {fileID: 0}
+  spawnOnDestroy: {fileID: 0}
+  damageOverlayList: {fileID: 0}
+  soundOnHit:
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  SoundOnDestroy: []
+  connectCategory: 0
+  connectType: 1
+  spriteSheet:
+    Texture: {fileID: 2800000, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    Sprites:
+    - {fileID: -6091448522981028096, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: -921335049, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: 494900619, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: 270429237, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: -2032845057, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: 1805228744, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: -1872536306, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: 157644421, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: -421887288, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: -2078906182, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: 1543498491, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: -583946097, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: 2003490692, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: -1479398511, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: 12004566, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: -1544570508, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: 1057644775, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: -1672344445, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: 117783366, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: 356525963, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: 1224928471, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: -148733242, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: -963166321, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: 1518822928, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: -577750195, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: 151381135, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: -2538919, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: 1983221957, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: 883229037, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: -1564071530, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: -894374699, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: 1511707460, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: -484740616, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: -550037039, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: 1790220279, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: -703236948, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: -26009470, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: 73044818, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: -1342322133, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: -973481584, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: 490859388, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: -269497113, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: 34505376, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: 1791397177, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: -665428025, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: 1590464987, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: 1760448386, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    - {fileID: 911747008, guid: d09a36747f6f525e699cac982e3f48ba, type: 3}
+    EquippedData: {fileID: 0}
+  texturePath: Walls
