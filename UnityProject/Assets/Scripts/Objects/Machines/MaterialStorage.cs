@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -52,7 +49,7 @@ namespace Objects.Machines
 			if (infiniteStorage || totalSum <= maximumResources)
 			{
 				AddMaterial(material, quantity);
-				UpdateGUIs.Invoke();
+				UpdateGUIs?.Invoke();
 				return true;
 			}
 			return false;
@@ -63,7 +60,7 @@ namespace Objects.Machines
 			quantity = Mathf.Min(quantity, MaterialList[material] / Cm3PerSheet);
 			var Cm3Used = Cm3PerSheet * quantity;
 			ConsumeMaterial(material, Cm3Used);
-			UpdateGUIs.Invoke();
+			UpdateGUIs?.Invoke();
 			return quantity;
 		}
 
@@ -86,7 +83,7 @@ namespace Objects.Machines
 				ConsumeMaterial(materialSheet.materialTrait, consume[materialSheet]);
 			}
 
-			UpdateGUIs.Invoke();
+			UpdateGUIs?.Invoke();
 			return true;
 		}
 
