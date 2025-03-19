@@ -19,15 +19,18 @@ namespace UI.Objects.Cargo
 		{
 			var materialRecords = materialStorageLink.usedStorage.MaterialList;
 			materialList.Clear();
-			await UniTask.WaitForEndOfFrame();
+			await UniTask.WaitForEndOfFrame(); // wait for the list to clear correctly.
 			materialList.AddItems(materialRecords.Count);
 			var i = 0;
-			await UniTask.WaitForEndOfFrame();
+			await UniTask.WaitForEndOfFrame(); // wait for the list populate.
 			foreach (var material in materialRecords.Keys)
 			{
 				var item = materialList.Entries[i] as GUI_MaterialEntry;
 				item?.SetValues(material, materialRecords[material], this);
 				i++;
+				//(Max): This shit fucking sucks major balls. NetUI is ass.
+				//At least we have a fun looking update effect from this workaround to make sure that NetUI doesn't shit itself
+				//when updating entries.
 				await UniTask.WaitForEndOfFrame();
 			}
 		}
