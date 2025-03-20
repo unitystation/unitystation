@@ -89,7 +89,7 @@ namespace Core.Sound
 
 			if (CustomNetworkManager.IsServer == false && AudioSource.loop)
 			{
-				if (ClientTooFarFromLoopingSoundSource()) return;
+				if (ClientTooFarFromLoopingSoundSource()) return; // return so we don't pool the sound prematurally for looping sounds
 			}
 
 			if (AudioSource.isPlaying == false)
@@ -100,7 +100,7 @@ namespace Core.Sound
 
 		private bool ClientTooFarFromLoopingSoundSource()
 		{
-			if (PlayerManager.LocalPlayerObject != null)
+			if (PlayerManager.LocalPlayerObject != null) // we don't want to do checks while the player is not spawned yet
 			{
 				//(Max): AssumedWorldPosServer seems to be generating garbage. Maybe we should use another instance that's cached?
 				if (Vector3.Distance(RegisterTile.WorldPosition,
