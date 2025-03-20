@@ -327,16 +327,16 @@ namespace Player
 
 		public void SetSurfaceColour()
 		{
-			Color CurrentSurfaceColour = Color.white;
+			Color currentSurfaceColour = Color.white;
 			if (RaceBodyparts.Base.SkinColours.Count > 0)
 			{
-				ColorUtility.TryParseHtmlString(ThisCharacter.SkinTone, out CurrentSurfaceColour);
+				ColorUtility.TryParseHtmlString(ThisCharacter.SkinTone, out currentSurfaceColour);
 
 				var hasColour = false;
 
-				foreach (var color in RaceBodyparts.Base.SkinColours)
+				foreach (Color color in RaceBodyparts.Base.SkinColours)
 				{
-					if (color.ColorApprox(CurrentSurfaceColour))
+					if (color.ColorApprox(currentSurfaceColour))
 					{
 						hasColour = true;
 						break;
@@ -345,19 +345,21 @@ namespace Player
 
 				if (hasColour == false)
 				{
-					CurrentSurfaceColour = RaceBodyparts.Base.SkinColours[0];
+					Loggy.Error($"None-matching skin tone colors found on {gameObject.name}. Using closest skin tone.\n " +
+					            $"parsed SurfaceColor: {currentSurfaceColour}\n ThisCharacter skintone: {ThisCharacter.SkinTone}]");
+					currentSurfaceColour = currentSurfaceColour.ClosestColor(RaceBodyparts.Base.SkinColours.ToArray());
 				}
 			}
 			else
 			{
-				ColorUtility.TryParseHtmlString(ThisCharacter.SkinTone, out CurrentSurfaceColour);
+				ColorUtility.TryParseHtmlString(ThisCharacter.SkinTone, out currentSurfaceColour);
 			}
 
-			CurrentSurfaceColour.a = 1;
+			currentSurfaceColour.a = 1;
 
 			foreach (var sp in SurfaceSprite)
 			{
-				sp.baseSpriteHandler.SetColor(CurrentSurfaceColour);
+				sp.baseSpriteHandler.SetColor(currentSurfaceColour);
 			}
 		}
 

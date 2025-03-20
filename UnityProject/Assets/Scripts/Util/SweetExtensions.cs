@@ -701,22 +701,35 @@ public static class SweetExtensions
 	}
 
 	/// <summary>
-	/// See if two colours are approximately the same
+	/// See if two colors are approximately the same within a small tolerance.
 	/// </summary>
-	public static bool ColorApprox(this Color a, Color b, bool checkAlpha = true)
+	public static bool ColorApprox(this Color a, Color b, bool checkAlpha = true, float tolerance = 0.0001f)
 	{
+		bool CloseEnough(float x, float y) => Mathf.Abs(x - y) <= tolerance;
+
 		if (checkAlpha)
 		{
-			return Mathf.Approximately(a.b, b.b) &&
-			       Mathf.Approximately(a.r, b.r) &&
-			       Mathf.Approximately(a.g, b.g) &&
-			       Mathf.Approximately(a.a, b.a);
+			return CloseEnough(a.r, b.r) &&
+			       CloseEnough(a.g, b.g) &&
+			       CloseEnough(a.b, b.b) &&
+			       CloseEnough(a.a, b.a);
 		}
 
-		return Mathf.Approximately(a.b, b.b) &&
-		       Mathf.Approximately(a.r, b.r) &&
-		       Mathf.Approximately(a.g, b.g);
+		return CloseEnough(a.r, b.r) &&
+		       CloseEnough(a.g, b.g) &&
+		       CloseEnough(a.b, b.b);
 	}
+
+	public static Color ClosestColor(this Color targetColor, Color[] colorPalette)
+	{
+		return colorPalette.OrderBy(c => ColorDifference(targetColor, c)).FirstOrDefault();
+	}
+
+	public static float ColorDifference(Color a, Color b)
+	{
+		return Mathf.Pow(a.r - b.r, 2) + Mathf.Pow(a.g - b.g, 2) + Mathf.Pow(a.b - b.b, 2);
+	}
+
 	public static string Truncate(this string value, int maxLength)
 	{
 		if (string.IsNullOrEmpty(value)) return value;
