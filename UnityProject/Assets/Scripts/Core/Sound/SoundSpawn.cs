@@ -102,6 +102,7 @@ namespace Core.Sound
 		{
 			if (PlayerManager.LocalPlayerObject != null)
 			{
+				//(Max): AssumedWorldPosServer seems to be generating garbage. Maybe we should use another instance that's cached?
 				if (Vector3.Distance(RegisterTile.WorldPosition,
 					    PlayerManager.LocalPlayerObject.AssumedWorldPosServer()) > AudioSource.maxDistance)
 				{
