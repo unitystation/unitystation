@@ -378,15 +378,9 @@ namespace Player
 					Loggy.Error($"{player.Username} detected while attempting to fallback to mind checks, but IsValidPlayerAndWaitingOnLoad is set to false?!");
 					return;
 				}
-				TellClientTheySuccesfullyLoggedIn(conn);
+				SuccesfullyRejoin();
 				break;
 			}
-		}
-
-		[TargetRpc]
-		private void TellClientTheySuccesfullyLoggedIn(NetworkConnection target)
-		{
-			SuccesfullyRejoin();
 		}
 
 		private void SuccesfullyRejoin()
