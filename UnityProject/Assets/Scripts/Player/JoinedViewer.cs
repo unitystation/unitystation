@@ -348,13 +348,13 @@ namespace Player
 				}
 				if (antiFreezeCheckCount > 5500)
 				{
-					GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("A problem occurred while ing to check for a valid connection ID." +
+					GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("A problem occurred while attempting to check for a valid connection ID." +
 						"No valid connection found after 55000 frames. Press F5 to check for if an error had occured.".Color(Color.red));
 					Loggy.Error($"ID {connectionToClient.connectionId} not found in observers dictionary!" +
 					            "Cannot rejoin that player. Was original player object improperly created? " +
 					            "Did we get runtime error while creating it?");
 					//FIXME: This is a temporary banadge for a game breaking issue.
-					//(Max): I can't figure out why the observers dictionary isn't getting updated accordingly, what is responsible for it.
+					//(Max): I can't figure out why the observers dictionary isn't getting updated accordingly, or what is responsible for it.
 					//This way of checking possesion IDs directly should at least stop players from getting stuck on round-rejoins,
 					//but it isn't encourged to be the main way of handling this.
 					AttemptFallback(loggedOffPlayer, connectionToClient);
