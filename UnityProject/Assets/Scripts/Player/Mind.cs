@@ -53,7 +53,9 @@ public class Mind : NetworkBehaviour, IActionGUI
 	}
 
 	[SyncVar(hook = nameof(SyncPossessing))]
-	private uint IDPossessing;
+	private uint _idPossessing;
+
+	public uint IDPoessing => _idPossessing;
 
 	//TODO ondatesiss
 
@@ -119,9 +121,9 @@ public class Mind : NetworkBehaviour, IActionGUI
 		get
 		{
 			var Spawned = SweetExtensions.GetSpawned();
-			if (Spawned.TryGetValue(IDPossessing, out var Returning))
+			if (Spawned.TryGetValue(_idPossessing, out var returning))
 			{
-				return Returning.gameObject;
+				return returning.gameObject;
 			}
 
 			return null;
@@ -400,17 +402,17 @@ public class Mind : NetworkBehaviour, IActionGUI
 			gaining.Add(obj.NetWorkIdentity());
 		}
 
-		List<NetworkIdentity> Losing = new List<NetworkIdentity>();
+		List<NetworkIdentity> losing = new List<NetworkIdentity>();
 		if (PlayerPossessable != null)
 		{
-			PlayerPossessable.GetRelatedBodies(Losing);
+			PlayerPossessable.GetRelatedBodies(losing);
 		}
 		else if (PossessingObject != null)
 		{
-			Losing.Add(PossessingObject.NetWorkIdentity());
+			losing.Add(PossessingObject.NetWorkIdentity());
 		}
 
-		HandleOwnershipChangeMulti(Losing, gaining);
+		HandleOwnershipChangeMulti(losing, gaining);
 
 		var intID = this.netId;
 		if (obj != null)
@@ -418,7 +420,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 			intID = obj.NetId();
 		}
 
-		SyncPossessing(IDPossessing, intID);
+		SyncPossessing(_idPossessing, intID);
 		AdminLogsManager.AddNewLog(null, $"{gameObject} has possesed {obj.ExpensiveName()}.", LogCategory.Ghost);
 	}
 
@@ -609,7 +611,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 
 	private void SyncPossessing(uint oldID, uint newID)
 	{
-		IDPossessing = newID;
+		_idPossessing = newID;
 		LoadManager.RegisterActionDelayed(() => { HandlePossessingChange(oldID, newID); },
 			2);
 		//This is to handle The game object being spawned in and data being provided before Owner message
@@ -691,7 +693,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 			PlayerPossessable.PlayerRejoin();
 		}
 
-		SyncPossessing(IDPossessing, IDPossessing);
+		SyncPossessing(_idPossessing, _idPossessing);
 		SyncActiveOn(IDActivelyControlling, IDActivelyControlling);
 	}
 
@@ -704,8 +706,6 @@ public class Mind : NetworkBehaviour, IActionGUI
 		}
 
 		PlayerSpawn.TransferAccountToSpawnedMind(ControlledBy, this);
-
-
 	}
 
 	public void HandleOwnershipChangeMulti(List<NetworkIdentity> Losing, List<NetworkIdentity> Gaining)
@@ -715,16 +715,16 @@ public class Mind : NetworkBehaviour, IActionGUI
 		{
 			PlayerSpawn.TransferOwnershipFromToConnection(ControlledBy, Lost, null);
 
-			var PlayerPositionable = Lost.GetComponent<IPlayerPossessable>();
-			if (PlayerPositionable != null)
+			var playerPositionable = Lost.GetComponent<IPlayerPossessable>();
+			if (playerPositionable != null)
 			{
-				PlayerPositionable.InternalOnLosePossess();
+				playerPositionable.InternalOnLosePossess();
 			}
 		}
 
-		foreach (var Gained in Gaining)
+		foreach (var gained in Gaining)
 		{
-			PlayerSpawn.TransferOwnershipFromToConnection(ControlledBy, null, Gained);
+			PlayerSpawn.TransferOwnershipFromToConnection(ControlledBy, null, gained);
 		}
 	}
 

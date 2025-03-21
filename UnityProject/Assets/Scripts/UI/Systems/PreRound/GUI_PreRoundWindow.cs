@@ -177,7 +177,7 @@ namespace UI
 					yield return WaitFor.Seconds(0.55f);
 					maxWaitTime++;
 				}
-				SetReady(true);
+				SetReady(true, false);
 				StartNowButton();
 			}
 		}
@@ -228,7 +228,7 @@ namespace UI
 				warnText.SetActive(true);
 				return;
 			}
-			SetReady(!isReady);
+			SetReady(!isReady, true);
 			TryShowAdminPanel();
 		}
 
@@ -251,9 +251,15 @@ namespace UI
 		/// Sets the new ready status. Will tell the server about the new ready state if it has changed.
 		/// </summary>
 		/// <param name="ready"></param>
-		private void SetReady(bool ready)
+		private void SetReady(bool ready, bool isManuallyDoneByPlayer)
 		{
-			NoJobWarn(localJobPref.JobPreferences.Count == 0);
+			var noJob = localJobPref.JobPreferences.Count == 0;
+			NoJobWarn(noJob);
+			if (isManuallyDoneByPlayer && PlayerManager.CharacterManager.Characters.Count == 0)
+			{
+				characterCustomization.SetActive(true);
+				return;
+			}
 			if (isReady != ready)
 			{
 				// Ready status changed so tell the server
@@ -305,7 +311,7 @@ namespace UI
 		{
 			normalWindows.SetActive(true);
 			mapLoadingPanel.SetActive(false);
-			SetReady(isReady);
+			SetReady(isReady, false);
 			timerPanel.SetActive(true);
 			joinPanel.SetActive(false);
 			playerWaitPanel.SetActive(false);
@@ -363,10 +369,6 @@ namespace UI
 			normalWindows.SetActive(true);
 			mapLoadingPanel.SetActive(false);
 			UpdateLoadingBar("Preparing..", 0.1f);
-			if (PlayerManager.CharacterManager.Characters.Any() == false)
-			{
-				characterCustomization.SetActive(true);
-			}
 		}
 
 		private void UpdateDetailedLoadingText(string newText)

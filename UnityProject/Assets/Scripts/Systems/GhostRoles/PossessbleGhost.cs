@@ -41,8 +41,6 @@ public class PossessbleGhost : MonoBehaviour
 		}
 
 		Possessedble.OnActionPossess += OnPlayerPossessing;
-
-
 	}
 
 	public void OnDestroy()

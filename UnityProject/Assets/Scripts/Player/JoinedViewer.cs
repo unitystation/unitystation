@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core.Admin.Logs;
 using Newtonsoft.Json;
 using UnityEngine.SceneManagement;
 using Mirror;
 using Core.Networking;
+using Cysharp.Threading.Tasks;
 using Logs;
 using Systems;
 using Systems.Character;
@@ -74,7 +76,7 @@ namespace Player
 			{
 				RequestObserverRefresh.Send(SceneManager.GetActiveScene().name);
 				ServerSetUpPlayer(string.Empty);
-				ClientFinishLoading();
+				_ = ClientFinishLoading();
 				FinishedValidating();
 			}
 			else
@@ -105,10 +107,10 @@ namespace Player
 		{
 			List<SceneInfo> SceneS = new List<SceneInfo>();
 
-			foreach (var Scene in SubSceneManager.Instance.loadedScenesList)
+			foreach (var scene in SubSceneManager.Instance.loadedScenesList)
 			{
-				if (AlreadyLoaded == Scene.SceneName) continue;
-				SceneS.Add(Scene);
+				if (AlreadyLoaded == scene.SceneName) continue;
+				SceneS.Add(scene);
 			}
 			RpcLoadScenes(JsonConvert.SerializeObject(SceneS), AlreadyLoaded);
 		}
@@ -249,6 +251,7 @@ namespace Player
 			if (IsValidPlayerAndWaitingOnLoad == false)
 			{
 				Loggy.Error($"Disconnecting {this.STVerifiedUserid} by Trying to call CMDFinishLoading When server wasn't expecting player to be loading  ", Category.Connections);
+				AdminLogsManager.AddNewLog(null, $"Disconnecting {this.STVerifiedUserid} by Trying to call CMDFinishLoading When server wasn't expecting player to be loading", LogCategory.Connections, Severity.IMMEDIATE_ATTENTION);
 				connectionToClient.Disconnect();
 				ClearCache();
 				return;
@@ -257,12 +260,13 @@ namespace Player
 			if (STVerifiedConnPlayer.Connection != connectionToClient)
 			{
 				Loggy.Error($"Disconnecting {this.STVerifiedConnPlayer.Name} by Authenticated user connection matching The game objects connection ", Category.Connections);
+				AdminLogsManager.AddNewLog(null, $"Disconnecting {this.STVerifiedConnPlayer.Name} by Authenticated user connection matching The game objects connection", LogCategory.Connections, Severity.IMMEDIATE_ATTENTION);
 				connectionToClient.Disconnect();
 				ClearCache();
 				return;
 			}
 
-			ClientFinishLoading();
+			_ = ClientFinishLoading();
 		}
 
 		public void ClearCache(bool bNew = false)
@@ -278,9 +282,8 @@ namespace Player
 			GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("");
 		}
 
-		public void ClientFinishLoading()
+		private async UniTask ClientFinishLoading()
 		{
-			IsValidPlayerAndWaitingOnLoad = false;
 			// Only sync the pre-round countdown if it's already started.
 			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound)
 			{
@@ -296,7 +299,6 @@ namespace Player
 				}
 			}
 
-
 			// If there's a logged off player, we will force them to rejoin their body
 			if (STVerifiedConnPlayer.Mind == null) //TODO Handle when someone gets kicked out of their mind
 			{
@@ -308,20 +310,21 @@ namespace Player
 			else
 			{
 				GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("Found previous mind. Rejoining.");
-				StartCoroutine(WaitForLoggedOffObserver(STVerifiedConnPlayer.Mind));
+				await WaitForLoggedOffObserver(STVerifiedConnPlayer.Mind);
 			}
+			IsValidPlayerAndWaitingOnLoad = false;
 		}
 
 		/// <summary>
 		/// Waits for the client to be an observer of the player before continuing
 		/// </summary>
-		private IEnumerator WaitForLoggedOffObserver(Mind loggedOffPlayer)
+		private async UniTask WaitForLoggedOffObserver(Mind loggedOffPlayer)
 		{
 			TargetLocalPlayerRejoinUI(connectionToClient);
 			// TODO: When we have scene network culling we will need to allow observers
 			// for the whole specific scene and the body before doing the logic below:
-			var netIdentity = loggedOffPlayer.GetComponent<NetworkIdentity>();
-			if (netIdentity == null)
+			var identity = loggedOffPlayer.GetComponent<NetworkIdentity>();
+			if (identity == null)
 			{
 				GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("An error occurred. Press F5 to check for what error had occured.".Color(Color.red));
 				Loggy.Error($"No {nameof(NetworkIdentity)} component on {loggedOffPlayer}! " +
@@ -329,24 +332,62 @@ namespace Player
 				                "Did we get runtime error while creating it?", Category.Connections);
 				// TODO: if this issue persists, should probably send the poor player a message about failing to rejoin.
 				ClearCache();
-				yield break;
+				return;
 			}
 
-			while (!netIdentity.observers.ContainsKey(connectionToClient.connectionId))
+			var antiFreezeCheckCount = 0;
+			while (identity.observers.ContainsKey(connectionToClient.connectionId) == false)
 			{
-				yield return WaitFor.EndOfFrame;
+				antiFreezeCheckCount++;
+				await UniTask.WaitForEndOfFrame();
 				if (connectionToClient == null)
 				{
 					//disconnected while we were waiting
 					ClearCache();
-					yield break;
+					break;
+				}
+				if (antiFreezeCheckCount > 5500)
+				{
+					GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("A problem occurred while attempting to check for a valid connection ID." +
+						"No valid connection found after 55000 frames. Press F5 to check for if an error had occured.".Color(Color.red));
+					Loggy.Error($"ID {connectionToClient.connectionId} not found in observers dictionary!" +
+					            "Cannot rejoin that player. Was original player object improperly created? " +
+					            "Did we get runtime error while creating it?");
+					//FIXME: This is a temporary banadge for a game breaking issue.
+					//(Max): I can't figure out why the observers dictionary isn't getting updated accordingly, or what is responsible for it.
+					//This way of checking possesion IDs directly should at least stop players from getting stuck on round-rejoins,
+					//but it isn't encourged to be the main way of handling this.
+					AttemptFallback(loggedOffPlayer, connectionToClient);
+					ClearCache();
+					return;
 				}
 			}
 
+			SuccesfullyRejoin();
+		}
+
+		private void AttemptFallback(Mind loggedOffPlayer, NetworkConnectionToClient conn = null)
+		{
+			if (conn == null) return; //weaver requirement
+			foreach (var player in PlayerList.Instance.AllPlayers)
+			{
+				if (player.Mind == null || player.Mind.ControlledBy == null) continue;
+				if (player.Mind.ControlledBy.Mind != loggedOffPlayer) continue;
+				if (player.ViewerScript.IsValidPlayerAndWaitingOnLoad == false)
+				{
+					Loggy.Error($"{player.Username} detected while attempting to fallback to mind checks, but IsValidPlayerAndWaitingOnLoad is set to false?!");
+					return;
+				}
+				SuccesfullyRejoin();
+				break;
+			}
+		}
+
+		private void SuccesfullyRejoin()
+		{
 			TargetLocalPlayerRejoinUI(connectionToClient);
 			GameManager.Instance.OrNull()?.PlayerLoadedIn(connectionToClient);
 			STVerifiedConnPlayer.Mind.OrNull()?.ReLog();
-
 			ClearCache();
 		}
 
@@ -423,7 +464,6 @@ namespace Player
 		private void TargetSyncCountdown(NetworkConnection target, bool started, double endTime)
 		{
 			Loggy.Info("Syncing countdown!", Category.Round);
-			UIManager.Display.preRoundWindow.SetUIForJoining();
 			UIManager.Display.preRoundWindow.GetComponent<GUI_PreRoundWindow>().SyncCountdown(started, endTime);
 		}
 
