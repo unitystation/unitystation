@@ -135,7 +135,7 @@ namespace Adrenak.UniVoice.MirrorNetwork {
 
         public void Client_OnConnected() {
             Loggy.Info("Client connected to server. Awaiting initialization from server. " +
-            "Connection ID : " + NetworkClient.connection.connectionId);
+            "Connection ID : " + NetworkClient.connection.identity.netId);
         }
 
         public void Client_OnDisconnected() {
