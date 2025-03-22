@@ -175,7 +175,7 @@ namespace Logs
 
 		public static FluentFormatter Error(string msg = null, Category category = Category.Unknown, [CallerMemberName] string methodName = null, [CallerFilePath] string fileName = null, [CallerLineNumber] int lineNo = -1)
 		{
-			FluentFormatter formatter = new(LogLevel.Info, methodName, fileName, lineNo);
+			FluentFormatter formatter = new(LogLevel.Error, methodName, fileName, lineNo);
 			if (string.IsNullOrEmpty(msg) == false)
 			{
 				LogMessage(LogLevel.Error, msg, methodName, fileName, lineNo, category);
