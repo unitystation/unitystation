@@ -323,7 +323,7 @@ namespace Player
 			TargetLocalPlayerRejoinUI(connectionToClient);
 			// TODO: When we have scene network culling we will need to allow observers
 			// for the whole specific scene and the body before doing the logic below:
-			var identity = loggedOffPlayer.GetComponent<NetworkIdentity>();
+			var identity = this.GetComponent<NetworkIdentity>();
 			if (identity == null)
 			{
 				GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("An error occurred. Press F5 to check for what error had occured.".Color(Color.red));
