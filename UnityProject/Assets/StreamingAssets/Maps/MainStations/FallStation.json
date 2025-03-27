@@ -140081,7 +140081,7 @@
                     },
                     {
                       "Name": "connectedDevices#0",
-                      "Data": "9f6a082ba93c5684b808b09619c08044_101┼67┼0┼@0@APCPoweredDevice@0"
+                      "Data": "9f6a082ba93c5684b808b09619c08044_102┼67┼0┼@0@APCPoweredDevice@0"
                     }
                   ]
                 }
@@ -143038,6 +143038,70 @@
             }
           },
           {
+            "GitID": "6d04235bcbbde8349a6a46d46d8f8ae8_100┼67┼0┼",
+            "PrefabID": "6d04235bcbbde8349a6a46d46d8f8ae8",
+            "Name": "AutomaticMedicalDoorEventHandler",
+            "LocalPRS": "100┼67┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "EventRouter@0",
+                  "Data": [
+                    {
+                      "Name": "EventLinks#1@TargetComponent",
+                      "Data": "9f6a082ba93c5684b808b09619c08044_101┼67┼0┼@0@DoorMasterController@0"
+                    },
+                    {
+                      "Name": "EventLinks#1@TargetFunction",
+                      "Data": "Open"
+                    },
+                    {
+                      "Name": "EventLinks#1@SourceComponent",
+                      "Data": "691781456e2e39c429a197375cc4ba76_101┼66┼0┼@0@PressurePlate@0"
+                    },
+                    {
+                      "Name": "EventLinks#1@SourceEvent",
+                      "Data": "OnPlayerStepEvent"
+                    },
+                    {
+                      "Name": "EventLinks#0@TargetComponent",
+                      "Data": "9f6a082ba93c5684b808b09619c08044_102┼67┼0┼@0@DoorMasterController@0"
+                    },
+                    {
+                      "Name": "EventLinks#0@TargetFunction",
+                      "Data": "Open"
+                    },
+                    {
+                      "Name": "EventLinks#0@SourceComponent",
+                      "Data": "691781456e2e39c429a197375cc4ba76_102┼66┼0┼@0@PressurePlate@0"
+                    },
+                    {
+                      "Name": "EventLinks#0@SourceEvent",
+                      "Data": "OnPlayerStepEvent"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "LocalPRS": "-0.0028┼-0.0014┼0┼0.38↔0.44↔1↔",
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "87623b1919c4a5c4b98b89217c08195f"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "48c055fcd2fc08c45a9f53310133aa8b_100┼71┼0┼",
             "PrefabID": "48c055fcd2fc08c45a9f53310133aa8b",
             "NameMatches": true,
@@ -144047,7 +144111,8 @@
           {
             "GitID": "9f6a082ba93c5684b808b09619c08044_101┼67┼0┼",
             "PrefabID": "9f6a082ba93c5684b808b09619c08044",
-            "Name": "AirlockMedicalWindowedR",
+            "NameMatches": true,
+            "Name": "AirlockMedicalWindowed",
             "LocalPRS": "101┼67┼0┼",
             "Object": {
               "ClassDatas": [
@@ -144056,7 +144121,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_96┼70┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_107┼71┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -144704,70 +144769,6 @@
             "LocalPRS": "101.24┼61.05┼0┼"
           },
           {
-            "GitID": "6d04235bcbbde8349a6a46d46d8f8ae8_101.45┼65.08┼0┼",
-            "PrefabID": "6d04235bcbbde8349a6a46d46d8f8ae8",
-            "Name": "AutomaticMedicalDoorEventHandler",
-            "LocalPRS": "101.45┼65.08┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "EventRouter@0",
-                  "Data": [
-                    {
-                      "Name": "EventLinks#1@TargetComponent",
-                      "Data": "9f6a082ba93c5684b808b09619c08044_102┼67┼0┼@0@DoorMasterController@0"
-                    },
-                    {
-                      "Name": "EventLinks#1@TargetFunction",
-                      "Data": "Open"
-                    },
-                    {
-                      "Name": "EventLinks#1@SourceComponent",
-                      "Data": "691781456e2e39c429a197375cc4ba76_101┼66┼0┼@0@PressurePlate@0"
-                    },
-                    {
-                      "Name": "EventLinks#1@SourceEvent",
-                      "Data": "OnPlayerStepEvent"
-                    },
-                    {
-                      "Name": "EventLinks#0@TargetComponent",
-                      "Data": "9f6a082ba93c5684b808b09619c08044_101┼67┼0┼@0@DoorMasterController@0"
-                    },
-                    {
-                      "Name": "EventLinks#0@TargetFunction",
-                      "Data": "Open"
-                    },
-                    {
-                      "Name": "EventLinks#0@SourceComponent",
-                      "Data": "691781456e2e39c429a197375cc4ba76_102┼66┼0┼@0@PressurePlate@0"
-                    },
-                    {
-                      "Name": "EventLinks#0@SourceEvent",
-                      "Data": "OnPlayerStepEvent"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "LocalPRS": "-0.0028┼-0.0014┼0┼0.38↔0.44↔1↔",
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "87623b1919c4a5c4b98b89217c08195f"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
             "GitID": "e33403c0371fc174aa03640734665a15_101.82┼91.14┼0┼",
             "PrefabID": "e33403c0371fc174aa03640734665a15",
             "Name": "HandTele (1)",
@@ -144962,7 +144963,8 @@
           {
             "GitID": "9f6a082ba93c5684b808b09619c08044_102┼67┼0┼",
             "PrefabID": "9f6a082ba93c5684b808b09619c08044",
-            "Name": "AirlockMedicalWindowedL",
+            "NameMatches": true,
+            "Name": "AirlockMedicalWindowed",
             "LocalPRS": "102┼67┼0┼",
             "Object": {
               "ClassDatas": [
@@ -144971,7 +144973,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_107┼71┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_96┼70┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -149069,7 +149071,7 @@
                     },
                     {
                       "Name": "connectedDevices#2",
-                      "Data": "9f6a082ba93c5684b808b09619c08044_102┼67┼0┼@0@APCPoweredDevice@0"
+                      "Data": "9f6a082ba93c5684b808b09619c08044_101┼67┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#1",
