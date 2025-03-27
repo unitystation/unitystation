@@ -14,6 +14,7 @@ namespace Core.Networking
 		public override bool OnCheckObserver(NetworkIdentity identity, NetworkConnectionToClient conn)
 		{
 			return true;
+			/*/  When we had scenes idea to bubble the scene itself, Not needed now
 			if (NetworkServer.observerSceneList.ContainsKey(conn) &&
 				NetworkServer.observerSceneList[conn].Contains(identity.gameObject.scene))
 			{
@@ -21,6 +22,7 @@ namespace Core.Networking
 			}
 
 			return SceneManager.GetActiveScene() == identity.gameObject.scene;
+				/*/
 		}
 
 		public override void OnRebuildObservers(NetworkIdentity identity, HashSet<NetworkConnectionToClient> newObservers)
@@ -30,6 +32,7 @@ namespace Core.Networking
 				if (obs.Key == null) continue;
 				newObservers.Add(obs.Key);
 				continue;
+					/*/ When we had scenes idea to bubble the scene itself, Not needed now
 				if (identity.gameObject.scene == SceneManager.GetActiveScene())
 				{
 					newObservers.Add(obs.Key);
@@ -41,6 +44,7 @@ namespace Core.Networking
 						newObservers.Add(obs.Key);
 					}
 				}
+					/*/
 			}
 		}
 
