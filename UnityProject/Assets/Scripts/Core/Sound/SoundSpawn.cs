@@ -29,6 +29,8 @@ namespace Core.Sound
 		/// </remarks>
 		public string Token;
 
+		private float pauseLocation = 0;
+
 		private void Awake()
 		{
 			AudioSource = GetComponent<AudioSource>();
@@ -102,15 +104,23 @@ namespace Core.Sound
 		{
 			if (PlayerManager.LocalPlayerScript == null || RegisterTile == null) return false; // player hasn't spawned yet or world hasn't fully loaded.
 			if (PlayerManager.LocalPlayerScript.playerMove == null) return false; // player hasn't fully initialized yet.
-			if (Vector3.Distance(RegisterTile.WorldPosition,
+			if (Vector3.Distance(transform.position,
 				    PlayerManager.LocalPlayerScript.playerMove.OfficialPosition) > AudioSource.maxDistance)
 			{
-				if (AudioSource.isPlaying) AudioSource.Stop();
+				if (AudioSource.isPlaying)
+				{
+					pauseLocation = AudioSource.time;
+					AudioSource.Stop();
+				}
 				return true;
 			}
 			else
 			{
-				if (AudioSource.isPlaying == false) AudioSource.Play();
+				if (AudioSource.isPlaying == false)
+				{
+					AudioSource.Play();
+					AudioSource.time = pauseLocation;
+				}
 			}
 			return false;
 		}
