@@ -111,6 +111,8 @@ namespace HealthV2
 		         "Leave empty if it shouldn't change this.")]
 		private BodyTypesWithOrder BodyTypesSprites = new BodyTypesWithOrder();
 
+		public BodyTypesWithOrder GetBodyTypesSprites => BodyTypesSprites;
+
 		/// <summary>
 		/// The list of sprites associated with this body part
 		/// </summary>

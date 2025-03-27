@@ -39,7 +39,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 	[SerializeField]
 	private bool randomInitialSprite = false;
 
-	private SpriteRenderer spriteRenderer;
+	[SerializeField] private SpriteRenderer spriteRenderer;
 
 	public SpriteRenderer SpriteRenderer => spriteRenderer;
 	private Image image;
