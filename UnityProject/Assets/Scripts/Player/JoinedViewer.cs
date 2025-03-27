@@ -321,9 +321,10 @@ namespace Player
 		private async UniTask WaitForLoggedOffObserver(Mind loggedOffPlayer)
 		{
 			TargetLocalPlayerRejoinUI(connectionToClient);
+
 			// TODO: When we have scene network culling we will need to allow observers
 			// for the whole specific scene and the body before doing the logic below:
-			var identity = this.GetComponent<NetworkIdentity>();
+			var identity = loggedOffPlayer.GetComponent<NetworkIdentity>();
 			if (identity == null)
 			{
 				GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("An error occurred. Press F5 to check for what error had occured.".Color(Color.red));
@@ -388,7 +389,7 @@ namespace Player
 			TargetLocalPlayerRejoinUI(connectionToClient);
 			GameManager.Instance.OrNull()?.PlayerLoadedIn(connectionToClient);
 			STVerifiedConnPlayer.Mind.OrNull()?.ReLog();
-			ClearCache();
+			ClearCache(true);
 		}
 
 		[TargetRpc]

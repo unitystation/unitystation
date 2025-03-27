@@ -499,6 +499,10 @@ public static class PlayerSpawn
 				oldPlayerNetworkActions.RpcBeforeBodyTransfer();
 			}
 
+			var netIdentity = from.GetComponent<NetworkIdentity>();
+			PlayerSpawn.TransferOwnershipFromToConnection(account, netIdentity, null);
+
+
 			//no longer can observe their inventory
 			from.GetComponent<DynamicItemStorage>()?.ServerRemoveObserverPlayer(from.gameObject);
 
@@ -523,6 +527,8 @@ public static class PlayerSpawn
 			{
 				CustomNetworkManager.Instance.OnServerDisconnect(netIdentity.connectionToClient);
 			}
+
+			PlayerSpawn.TransferOwnershipFromToConnection(account, null, netIdentity);
 
 			//can observe their new inventory
 			var dynamicItemStorage = to.GetComponent<DynamicItemStorage>();
@@ -603,6 +609,9 @@ public static class PlayerSpawn
 				Loggy.Info($"[{account.Username}] - Removing client authority from {to.netId}.");
 				to.RemoveClientAuthority();
 				to.AssignClientAuthority(account.Connection);
+				// Because it doesn't want to send the unique ownership data to the client so Have to force it to regenerate
+				to.observers.Remove(account.Connection.connectionId);
+				to.AddPlayerObserver(account.Connection);
 				Loggy.Info($"[{account.Username}] - Adding client authority to {to.netId}.");
 			}
 		}
