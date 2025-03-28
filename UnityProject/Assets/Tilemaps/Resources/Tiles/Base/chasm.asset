@@ -10,64 +10,62 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c576ac449c2d45d99890dcfa21598645, type: 3}
-  m_Name: grillefloor_3
+  m_Name: chasm
   m_EditorClassIdentifier: 
-  <ForeverID>k__BackingField: ed26b9ed82c649357930ad6b16fe7f2d
-  displayName: 
+  <ForeverID>k__BackingField: dee72de42a1009711baef9c95f3e08d0
+  displayName: chasm
   description: 
-  LayerType: 3
-  TileType: 3
+  LayerType: 4
+  TileType: 7
   RequiredTiles: []
   Mass: 1
   floorTileSounds: {fileID: 0}
   CanSoundOverride: 0
   atmosPassable: 1
-  isSealed: 0
+  isSealed: 1
   SpawnWithNoAir: 0
   passable: 1
   mineable: 0
   miningTime: 5
   miningHardness: 1
-  constructable: 1
+  constructable: 0
   RadiationPassability: 1
   ThermalConductivity: 0.05
   HeatCapacity: 10000
   doesReflectBullet: 0
-  indestructible: 0
+  indestructible: 1
   ExplosionImpassable: 0
   BlocksTileInteractionsUnder: 1
   passableException:
-    m_keys: 01000000
-    m_values: 00
-  maxHealth: 75
-  damageDeflection: 0
+    m_keys: 
+    m_values: 
+  maxHealth: 10000
+  damageDeflection: 10000
   armor:
-    Melee: 50
-    Bullet: 50
-    Laser: 50
-    Energy: 50
-    Bomb: 10
+    Melee: 100
+    Bullet: 100
+    Laser: 100
+    Energy: 100
+    Bomb: 100
     Rad: 100
-    Fire: 0
-    Acid: 0
-    Magic: 0
+    Fire: 100
+    Acid: 100
+    Magic: 100
     Bio: 100
-    Anomaly: 0
-    DismembermentProtectionChance: 0
+    Anomaly: 100
+    DismembermentProtectionChance: 100
     StunImmunity: 0
     TemperatureProtectionInK: {x: 268.15, y: 313.15}
     PressureProtectionInKpa: {x: 30, y: 300}
-  tileInteractions:
-  - {fileID: 11400000, guid: 7b6820d9f95c544a8bf274f9125b4941, type: 2}
+  tileInteractions: []
   <OnTileStartMining>k__BackingField: []
   <OnTileFinishMining>k__BackingField: []
   tileStepInteractions: []
-  spawnOnDeconstruct: {fileID: 7198241665461443898, guid: 5dce4d3e01518474bb9bb8085b718980,
-    type: 3}
+  spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 1
-  lootOnDespawn: {fileID: 11400000, guid: 1a4a35c7013779a469d67421e3cb501d, type: 2}
+  lootOnDespawn: {fileID: 0}
   toTileWhenDestroyed: {fileID: 0}
-  spawnOnDestroy: {fileID: 11400000, guid: 23e18374069b6f64e9074e7fd4327b71, type: 2}
+  spawnOnDestroy: {fileID: 0}
   damageOverlayList: {fileID: 0}
   soundOnHit:
     AssetAddress: 
@@ -78,6 +76,6 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   SoundOnDestroy: []
-  sprite: {fileID: 530072400, guid: d84ba76eff9e270de9d6b6da5ac0cfdb, type: 3}
+  sprite: {fileID: 21300000, guid: 185abaede1e596243a6f4224baae534e, type: 3}
   CanBeHighlightedThroughScanners: 0
   HighlightObject: {fileID: 0}
