@@ -28,6 +28,7 @@ public class ActionText : MonoBehaviour
 	public void SetUp(string InString, GameObject recipient)
 	{
 		transform.SetParent(recipient.transform);
+		transform.localRotation  = Quaternion.Euler(Vector3.zero);
 		var canvas = GetComponent<Canvas>();
 		transform.localScale = new Vector3(0.014f, 0.014f, 0);
 		//canvas.sortingLayerID = SortingLayer.NameToID("UI");
