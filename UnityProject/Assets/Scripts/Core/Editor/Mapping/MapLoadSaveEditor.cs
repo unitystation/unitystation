@@ -28,6 +28,7 @@ public class FileSelectorWindow : EditorWindow
 
     private const string SelectedMap = "SelectedMap";
     private static bool DeleteMapAfterSave = false;
+    private static bool reCentrePositions = false;
     private Vector2 scrollPosition = Vector2.zero;
     private Color separatorColor = Color.gray;
 
@@ -48,8 +49,8 @@ public class FileSelectorWindow : EditorWindow
     private void OnGUI()
     {
         GUILayout.Label("Delete Map After Save ", EditorStyles.boldLabel);
-        DeleteMapAfterSave = GUILayout.Toggle(DeleteMapAfterSave, "", GUILayout.Width(20));
-
+        DeleteMapAfterSave = GUILayout.Toggle(DeleteMapAfterSave, "Delete Map After Save", GUILayout.Width(200));
+        reCentrePositions = GUILayout.Toggle(reCentrePositions, "Recentre positions (Will cause git conflicts if someone else is working on the map) ", GUILayout.Width(600));
         GUILayout.Space(10);
         GUILayout.Label("Standalone Save As", EditorStyles.boldLabel);
         GUILayout.BeginHorizontal();
@@ -117,11 +118,14 @@ public class FileSelectorWindow : EditorWindow
                     GUILayout.Label(relativePath, GUILayout.Width(380));
                     if (GUILayout.Button("Save", GUILayout.Width(50)))
                     {
-                        Save(fileName);
-                        if (DeleteMapAfterSave)
-                        {
-                            MiscFunctions_RRT.DeleteAllRootGameObjects();
-                        }
+	                    if (Save(fileName))
+	                    {
+		                    if (DeleteMapAfterSave)
+		                    {
+			                    MiscFunctions_RRT.DeleteAllRootGameObjects();
+		                    }
+	                    }
+
                     }
                     if (GUILayout.Button("Load", GUILayout.Width(50)))
                     {
@@ -203,7 +207,7 @@ public class FileSelectorWindow : EditorWindow
             : new string[0];
     }
 
-    private void Save(string filePath)
+    private bool Save(string filePath)
     {
         try
         {
@@ -214,7 +218,7 @@ public class FileSelectorWindow : EditorWindow
 		        if (mapMatrices.Count == 0)
 		        {
 			        Loggy.Error($"No maps found for Save {filePath}");
-			        return;
+			        return false;
 		        }
 		        mapMatrices.Reverse();
 		        JsonSerializerSettings settings = new JsonSerializerSettings
@@ -223,7 +227,7 @@ public class FileSelectorWindow : EditorWindow
 			        DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate,
 			        Formatting = Formatting.Indented
 		        };
-		        var map = MapSaver.MapSaver.SaveMap(mapMatrices, false, mapMatrices[0].name);
+		        var map = MapSaver.MapSaver.SaveMap(mapMatrices, false, mapMatrices[0].name, ReadjustCentre : reCentrePositions);
 		        string jsonToSave = JsonConvert.SerializeObject(map, settings);
 		        AccessFile.Save(filePath, jsonToSave, FolderType.Maps);
 		        EditorUtility.DisplayDialog("Save Complete", $"Map saved successfully to {filePath}.", "OK");
@@ -242,6 +246,9 @@ public class FileSelectorWindow : EditorWindow
         catch (Exception e)
         {
             Loggy.Error(e.ToString());
+            return false;
         }
+
+        return true;
     }
 }

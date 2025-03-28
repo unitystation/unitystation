@@ -113,7 +113,6 @@ namespace MapSaver
 
 				return AnyNonCompactFound;
 			}
-
 		}
 
 		public class MatrixData
@@ -160,7 +159,7 @@ namespace MapSaver
 
 				//StringToVector(Location, out Vector3 position);
 
-				Offset00Cash = new Vector3(-0.5f, -0.5f, 0f) - Offset00.Value;// - position;
+				Offset00Cash = new Vector3(-0.5f, -0.5f, 0f) - Offset00.Value; // - position;
 				return Offset00Cash.Value;
 			}
 
@@ -212,7 +211,6 @@ namespace MapSaver
 
 				foreach (var xy in XYs)
 				{
-
 					foreach (var Tile in xy.Value)
 					{
 						if (CommonLayerTilesCount.ContainsKey(Tile.Tel))
@@ -270,7 +268,6 @@ namespace MapSaver
 
 				foreach (var xy in XYs)
 				{
-
 					foreach (var Tile in xy.Value)
 					{
 						var Pos = MapSaver.GitFriendlyPositionToVectorInt(xy.Key);
@@ -319,7 +316,8 @@ namespace MapSaver
 
 				foreach (var inColor in CommonColours)
 				{
-					TileMapData.CommonColours.Add(inColor.Replace("#", "")); //due to colour not having # on the Compact format
+					TileMapData.CommonColours.Add(inColor.Replace("#",
+						"")); //due to colour not having # on the Compact format
 				}
 
 				TileMapData.CommonMatrix4x4 = CommonMatrix4x4;
@@ -399,7 +397,6 @@ namespace MapSaver
 
 		public class GitFriendlyIndividualTile
 		{
-
 			public string Tel; //tile
 			public int? Z;
 			public string Col; //Colour
@@ -522,7 +519,8 @@ namespace MapSaver
 
 				foreach (var prefabData in this.PrefabData)
 				{
-					prefabData.PrefabID = CommonPrefabID.IndexOf(prefabData.PrefabID).ToString(); //TODO Rethink ToString To save ""
+					prefabData.PrefabID =
+						CommonPrefabID.IndexOf(prefabData.PrefabID).ToString(); //TODO Rethink ToString To save ""
 				}
 			}
 
@@ -537,11 +535,10 @@ namespace MapSaver
 					{
 						Prefab.Name = null;
 					}
+
 					Prefab.NameMatches = false;
 					IDStatic++;
 				}
-
-
 
 
 				CalculatePrefabIDs();
@@ -562,8 +559,6 @@ namespace MapSaver
 			public string SortPath;
 
 			public IndividualObject Object;
-
-
 		}
 
 
@@ -640,7 +635,7 @@ namespace MapSaver
 		}
 
 		public static MapData SaveMap(List<MetaTileMap> MetaTileMaps, bool Compact,
-			string MapName = "Unknown map name your maps dam it")
+			string MapName = "Unknown map name your maps dam it", bool ReadjustCentre = false)
 		{
 			var OutMapData = new MapData();
 
@@ -653,7 +648,7 @@ namespace MapSaver
 			OutMapData.MapName = MapName;
 			foreach (var MetaTileMap in MetaTileMaps)
 			{
-				OutMapData.ContainedMatrices.Add(SaveMatrix(Compact, MetaTileMap, false));
+				OutMapData.ContainedMatrices.Add(SaveMatrix(Compact, MetaTileMap, false, ReadjustCentre : ReadjustCentre));
 			}
 
 
@@ -735,7 +730,7 @@ namespace MapSaver
 
 		public static MatrixData SaveMatrix(bool Compact, MetaTileMap MetaTileMap, bool SingleSave = true,
 			List<BetterBounds> LocalArea = null, bool NonmappedItems = false, HashSet<LayerType> LayersToProcess = null,
-			bool DoSaveObjects = true, bool Cut = false, List<GameGizmoModel> PreviewGizmos = null)
+			bool DoSaveObjects = true, bool Cut = false, List<GameGizmoModel> PreviewGizmos = null, bool ReadjustCentre = false)
 		{
 			VariableViewerManager VariableViewerManager = null;
 #if UNITY_EDITOR
@@ -773,19 +768,33 @@ namespace MapSaver
 				matrixData.PreviewGizmos = PreviewGizmos;
 			}
 
+			var OffsetToRemove = Vector3Int.zero;
+			if (ReadjustCentre)
+			{
+				GetBound(Compact, MetaTileMap, ref LocalGizmoBound, AllowedPoints, LayersToProcess,
+					NonmappedItems);
 
+				OffsetToRemove =  LocalGizmoBound.center.RoundToInt();
+			}
+
+
+			LocalGizmoBound = new BetterBounds();
 			if (DoSaveObjects)
 			{
-				matrixData.CompactObjectMapData = SaveObjects(Compact, MetaTileMap, ref LocalGizmoBound, AllowedPoints,
+				matrixData.CompactObjectMapData = SaveObjects(OffsetToRemove, Compact, MetaTileMap, ref LocalGizmoBound,
+					AllowedPoints,
 					NonmappedItems);
 			}
 
-			SaveTileMap(Compact, matrixData, MetaTileMap, ref LocalGizmoBound, AllowedPoints, LayersToProcess);
+
+			SaveTileMap(OffsetToRemove, Compact, matrixData, MetaTileMap, ref LocalGizmoBound, AllowedPoints, LayersToProcess);
 
 			//matrixData.MatrixName = MetaTileMap.matrix.NetworkedMatrix.gameObject.name;
 			matrixData.MatrixName = MetaTileMap.matrix.transform.parent.name;
 
+			MetaTileMap.matrix.transform.parent.gameObject.transform.position =MetaTileMap.matrix.transform.parent.gameObject.transform.position +  OffsetToRemove;
 			matrixData.Location = PRSToString(MetaTileMap.matrix.transform.parent.gameObject);
+			MetaTileMap.matrix.transform.parent.gameObject.transform.position = MetaTileMap.matrix.transform.parent.gameObject.transform.position - OffsetToRemove;
 
 
 			if (SingleSave)
@@ -938,7 +947,96 @@ namespace MapSaver
 			return matrixData;
 		}
 
-		public static void SaveTileMap(bool Compact, MatrixData ToSaveTo, MetaTileMap metaTileMap,
+		public static void GetBound(bool Compact, MetaTileMap metaTileMap,
+			ref BetterBounds Bounds,
+			HashSet<Vector3Int> AllowedPoints = null, HashSet<LayerType> LayersToProcess = null,
+			bool NonmappedItems = false)
+		{
+			SaveObjects(Vector3.zero, Compact, metaTileMap, ref Bounds, AllowedPoints,
+				NonmappedItems, CheckingBounds: true);
+
+			var PresentTilesShape = metaTileMap.PresentTilesNeedsLock;
+
+			bool UseBoundary = AllowedPoints != null;
+			lock (PresentTilesShape)
+			{
+				foreach (var Layer in PresentTilesShape)
+				{
+					foreach (var TileAndLocation in Layer)
+					{
+						if (UseBoundary)
+						{
+							var pos = TileAndLocation.LocalPosition;
+							pos.z = 0;
+							if (AllowedPoints.Contains(pos) == false)
+							{
+								continue;
+							}
+						}
+
+
+						if (TileAndLocation?.layerTile == null) continue;
+
+
+						if (LayersToProcess != null)
+						{
+							if (LayersToProcess.Contains(TileAndLocation.layer.LayerType) == false)
+							{
+								continue;
+							}
+						}
+
+
+						if (TileAndLocation.layer.LayerType.IsMultilayer())
+						{
+							break;
+						}
+
+						Bounds.ExpandToPoint2D(TileAndLocation.LocalPosition);
+					}
+				}
+			}
+
+			var MultilayerPresentTilesShape = metaTileMap.MultilayerPresentTilesNeedsLock;
+
+
+			lock (MultilayerPresentTilesShape)
+			{
+				foreach (var Layer in MultilayerPresentTilesShape)
+				{
+					foreach (var TileAndLocations in Layer)
+					{
+						foreach (var TileAndLocation in TileAndLocations)
+						{
+							if (TileAndLocation == null) continue;
+							if (UseBoundary)
+							{
+								var pos = TileAndLocation.LocalPosition;
+								pos.z = 0;
+								if (AllowedPoints.Contains(pos) == false)
+								{
+									continue;
+								}
+							}
+
+							if (LayersToProcess != null)
+							{
+								if (LayersToProcess.Contains(TileAndLocation.layer.LayerType) == false)
+								{
+									continue;
+								}
+							}
+
+							Bounds.ExpandToPoint2D(TileAndLocation.LocalPosition);
+						}
+					}
+				}
+			}
+		}
+
+
+		public static void SaveTileMap(Vector3Int OffsetToRemove, bool Compact, MatrixData ToSaveTo,
+			MetaTileMap metaTileMap,
 			ref BetterBounds Bounds,
 			HashSet<Vector3Int> AllowedPoints = null, HashSet<LayerType> LayersToProcess = null,
 			bool NonmappedItems = false)
@@ -952,12 +1050,12 @@ namespace MapSaver
 
 			if (Compact)
 			{
-				CompactTileMapSave(ToSaveTo, metaTileMap, ref Bounds, AllowedPoints, LayersToProcess,
+				CompactTileMapSave(OffsetToRemove, ToSaveTo, metaTileMap, ref Bounds, AllowedPoints, LayersToProcess,
 					NonmappedItems: NonmappedItems);
 			}
 			else
 			{
-				GitFriendlyTileMapSave(ToSaveTo, metaTileMap, ref Bounds, AllowedPoints, LayersToProcess,
+				GitFriendlyTileMapSave(OffsetToRemove, ToSaveTo, metaTileMap, ref Bounds, AllowedPoints, LayersToProcess,
 					NonmappedItems: NonmappedItems);
 			}
 		}
@@ -1075,7 +1173,8 @@ namespace MapSaver
 		}
 
 
-		public static void GitFriendlyTileMapSave(MatrixData ToSaveTo, MetaTileMap metaTileMap, ref BetterBounds Bounds,
+		public static void GitFriendlyTileMapSave(Vector3Int OffsetToRemove, MatrixData ToSaveTo,
+			MetaTileMap metaTileMap, ref BetterBounds Bounds,
 			HashSet<Vector3Int> AllowedPoints = null, HashSet<LayerType> LayersToProcess = null,
 			bool NonmappedItems = false)
 		{
@@ -1142,18 +1241,20 @@ namespace MapSaver
 							if (layerTile.LayerType == LayerType.Effects) continue;
 						}
 
-						Bounds.ExpandToPoint2D(TileAndLocation.LocalPosition);
+						var Localposition = TileAndLocation.LocalPosition - OffsetToRemove;
 
-						string pos = VectorIntToGitFriendlyPosition(TileAndLocation.LocalPosition);
+						Bounds.ExpandToPoint2D(Localposition);
+
+						string pos = VectorIntToGitFriendlyPosition(Localposition);
 						if (XYs.ContainsKey(pos) == false)
 						{
 							XYs[pos] = new List<GitFriendlyIndividualTile>();
 						}
 
 						GitFriendlyIndividualTile Tile = new GitFriendlyIndividualTile();
-						if (TileAndLocation.LocalPosition.z != 0)
+						if (Localposition.z != 0)
 						{
-							Tile.Z = TileAndLocation.LocalPosition.z;
+							Tile.Z = Localposition.z;
 						}
 
 						Tile.Tel = TileToString(layerTile);
@@ -1222,9 +1323,12 @@ namespace MapSaver
 							}
 
 
-							Bounds.ExpandToPoint2D(TileAndLocation.LocalPosition);
+							var Localposition = TileAndLocation.LocalPosition - OffsetToRemove;
 
-							string pos = VectorIntToGitFriendlyPosition(TileAndLocation.LocalPosition);
+							Bounds.ExpandToPoint2D(Localposition);
+
+
+							string pos = VectorIntToGitFriendlyPosition(Localposition);
 							if (XYs.ContainsKey(pos) == false)
 							{
 								XYs[pos] = new List<GitFriendlyIndividualTile>();
@@ -1232,9 +1336,9 @@ namespace MapSaver
 
 							GitFriendlyIndividualTile Tile = new GitFriendlyIndividualTile();
 							//TODO Tile map upgrade , Change to vector 4
-							if (TileAndLocation.LocalPosition.z != 0)
+							if (Localposition.z != 0)
 							{
-								Tile.Z = TileAndLocation.LocalPosition.z;
+								Tile.Z = Localposition.z;
 							}
 
 							Tile.Tel = TileToString(layerTile);
@@ -1261,7 +1365,8 @@ namespace MapSaver
 			ToSaveTo.GitFriendlyTileMapData = TileMapData;
 		}
 
-		public static void CompactTileMapSave(MatrixData ToSaveTo, MetaTileMap metaTileMap, ref BetterBounds Bounds,
+		public static void CompactTileMapSave(Vector3Int OffsetToRemove, MatrixData ToSaveTo, MetaTileMap metaTileMap,
+			ref BetterBounds Bounds,
 			HashSet<Vector3Int> AllowedPoints = null, HashSet<LayerType> LayersToProcess = null,
 			bool NonmappedItems = false)
 		{
@@ -1472,14 +1577,17 @@ namespace MapSaver
 							if (TileAndLocation.layer.LayerType == LayerType.Effects) continue;
 						}
 
-						Bounds.ExpandToPoint2D(TileAndLocation.LocalPosition);
+
+						var LocalPosition = TileAndLocation.LocalPosition - OffsetToRemove;
+						Bounds.ExpandToPoint2D(LocalPosition);
+
 
 						SB.Append(LocationChar);
-						SB.Append(TileAndLocation.LocalPosition.x);
+						SB.Append(LocalPosition.x);
 						SB.Append(",");
-						SB.Append(TileAndLocation.LocalPosition.y);
+						SB.Append(LocalPosition.y);
 						SB.Append(",");
-						SB.Append(TileAndLocation.LocalPosition.z);
+						SB.Append(LocalPosition.z);
 						SB.Append(",");
 						int Index = CommonLayerTiles.IndexOf(layerTile);
 
@@ -1552,16 +1660,16 @@ namespace MapSaver
 								if (TileAndLocation.layer.LayerType == LayerType.Effects) continue;
 							}
 
-
-							Bounds.ExpandToPoint2D(TileAndLocation.LocalPosition);
+							var LocalPosition = TileAndLocation.LocalPosition - OffsetToRemove;
+							Bounds.ExpandToPoint2D(LocalPosition);
 
 							//TODO Tile map upgrade , Change to vector 4
 							SB.Append(LocationChar);
-							SB.Append(TileAndLocation.LocalPosition.x);
+							SB.Append(LocalPosition.x);
 							SB.Append(",");
-							SB.Append(TileAndLocation.LocalPosition.y);
+							SB.Append(LocalPosition.y);
 							SB.Append(",");
-							SB.Append(TileAndLocation.LocalPosition.z);
+							SB.Append(LocalPosition.z);
 							SB.Append(",");
 
 							int Index = CommonLayerTiles.IndexOf(layerTile);
@@ -1612,8 +1720,9 @@ namespace MapSaver
 		}
 
 
-		public static CompactObjectMapData SaveObjects(bool Compact, MetaTileMap MetaTileMap, ref BetterBounds Bounds,
-			HashSet<Vector3Int> AllowedPoints = null, bool NonmappedItems = false)
+		public static CompactObjectMapData SaveObjects(Vector3 OffsetToremove, bool Compact, MetaTileMap MetaTileMap,
+			ref BetterBounds Bounds,
+			HashSet<Vector3Int> AllowedPoints = null, bool NonmappedItems = false, bool CheckingBounds = false)
 		{
 			bool UseBoundary = AllowedPoints != null;
 			CompactObjectMapData compactObjectMapData = new CompactObjectMapData();
@@ -1649,9 +1758,12 @@ namespace MapSaver
 						}
 					}
 
-					Bounds.ExpandToPoint2D(EtherealThing.transform.localPosition);
-					ProcessIndividualObject(Compact, EtherealThing.gameObject, compactObjectMapData,
-						NonmappedItems: NonmappedItems);
+					Bounds.ExpandToPoint2D(EtherealThing.transform.localPosition - OffsetToremove);
+					if (CheckingBounds == false)
+					{
+						ProcessIndividualObject(OffsetToremove, Compact, EtherealThing.gameObject, compactObjectMapData,
+							NonmappedItems: NonmappedItems);
+					}
 				}
 			}
 
@@ -1668,12 +1780,16 @@ namespace MapSaver
 					}
 				}
 
-				Bounds.ExpandToPoint2D(Object.transform.localPosition);
-				ProcessIndividualObject(Compact, Object.gameObject, compactObjectMapData,
-					NonmappedItems: NonmappedItems);
+				Bounds.ExpandToPoint2D(Object.transform.localPosition - OffsetToremove);
+				if (CheckingBounds == false)
+				{
+					ProcessIndividualObject(OffsetToremove, Compact, Object.gameObject, compactObjectMapData,
+						NonmappedItems: NonmappedItems);
+				}
 			}
 
-			compactObjectMapData.SortXYs(); //It's here so if you Saving compact or non Compactly order will still be the same
+			compactObjectMapData
+				.SortXYs(); //It's here so if you Saving compact or non Compactly order will still be the same
 
 			if (Compact)
 			{
@@ -1764,7 +1880,7 @@ namespace MapSaver
 			return data;
 		}
 
-		public static void ProcessIndividualObject(bool Compact, GameObject Object,
+		public static void ProcessIndividualObject(Vector3 OffsetToremove, bool Compact, GameObject Object,
 			CompactObjectMapData compactObjectMapData, bool NonmappedItems = false)
 		{
 			if (NonmappedItems == false)
@@ -1780,7 +1896,7 @@ namespace MapSaver
 			if (Tracker == null)
 			{
 				Loggy.Error(Object.name +
-				               " Is missing a PrefabTracker Please make it inherit from the base item/object prefab ");
+				            " Is missing a PrefabTracker Please make it inherit from the base item/object prefab ");
 				return;
 			}
 
@@ -1835,6 +1951,8 @@ namespace MapSaver
 				}
 			}
 
+			LocalPositionToUse = LocalPositionToUse - OffsetToremove;
+
 			bool Round = true;
 
 			Prefab.PrefabID = Tracker.ForeverID; //so Gets overwritten Later on but is useful for SortXYs sorting
@@ -1868,10 +1986,10 @@ namespace MapSaver
 			var OnGmaeObjectComplete = Object.GetComponentsInChildren<Transform>(true).Select(x => x.gameObject)
 				.ToHashSet();
 
-			RecursiveSaveObject(OnObjectComplete, OnGmaeObjectComplete, Compact, Prefab, "0", Prefab.Object,
+			RecursiveSaveObject(OffsetToremove, OnObjectComplete, OnGmaeObjectComplete, Compact, Prefab, "0",
+				Prefab.Object,
 				OriginPrefab,
 				Object.gameObject, compactObjectMapData, NonmappedItems: NonmappedItems);
-
 
 
 			if (Prefab.Object.RemoveEmptysAndProcess())
@@ -1910,17 +2028,17 @@ namespace MapSaver
 		// Helper method to get the full path of an object in the scene
 		private static string GetFullPath(Transform obj)
 		{
-
 			string path = "/" + obj.name;
 			while (obj.parent != null)
 			{
 				obj = obj.parent;
 				path = "/" + obj.name + path;
 			}
+
 			return path;
 		}
 
-		public static void RecursiveSaveObject(HashSet<Component> AllComponentsOnObject,
+		public static void RecursiveSaveObject(Vector3 ObjecctOffsetRemove, HashSet<Component> AllComponentsOnObject,
 			HashSet<GameObject> AllGameObjectOnObject, bool Compact, PrefabData PrefabData, string ID,
 			IndividualObject individualObject,
 			GameObject PrefabEquivalent, GameObject gameObject, CompactObjectMapData compactObjectMapData,
@@ -1971,7 +2089,8 @@ namespace MapSaver
 
 
 			//Compare classes here
-			FillOutClassData(AllComponentsOnObject, AllGameObjectOnObject, Compact, PrefabData, individualObject,
+			FillOutClassData(ObjecctOffsetRemove, AllComponentsOnObject, AllGameObjectOnObject, Compact, PrefabData,
+				individualObject,
 				PrefabEquivalent, gameObject, compactObjectMapData,
 				CoordinateOverride, UseInstance, NonmappedItems);
 
@@ -2042,7 +2161,8 @@ namespace MapSaver
 					individualObject.Children.Add(newindividualObject);
 
 					// Only access gameObject.transform.GetChild(GameObjectIndex) if it's within bounds
-					RecursiveSaveObject(AllComponentsOnObject, AllGameObjectOnObject, Compact, PrefabData,
+					RecursiveSaveObject(ObjecctOffsetRemove, AllComponentsOnObject, AllGameObjectOnObject, Compact,
+						PrefabData,
 						ID + "," + IDLocation,
 						newindividualObject,
 						PrefabChild,
@@ -2058,7 +2178,7 @@ namespace MapSaver
 			}
 		}
 
-		public static void FillOutClassData(HashSet<Component> AllComponentsOnObject,
+		public static void FillOutClassData(Vector3 ObjectOffsetRemove, HashSet<Component> AllComponentsOnObject,
 			HashSet<GameObject> AllGameObjectOnObject, bool Compact, PrefabData PrefabData,
 			IndividualObject individualObject,
 			GameObject PrefabEquivalent, GameObject gameObject, CompactObjectMapData compactObjectMapData,
@@ -2131,8 +2251,6 @@ namespace MapSaver
 				}
 
 
-
-
 				Component PrefabMono = null;
 				if (PrefabComponents.Count > PrefabIndex)
 				{
@@ -2167,12 +2285,14 @@ namespace MapSaver
 							{
 								if (CoordinateOverride == null)
 								{
-									ProcessIndividualObject(Compact, objectBehaviour.gameObject, compactObjectMapData,
+									ProcessIndividualObject(ObjectOffsetRemove, Compact, objectBehaviour.gameObject,
+										compactObjectMapData,
 										NonmappedItems: NonmappedItems);
 								}
 								else
 								{
-									ProcessIndividualObject(Compact, objectBehaviour.gameObject, compactObjectMapData,
+									ProcessIndividualObject(ObjectOffsetRemove, Compact, objectBehaviour.gameObject,
+										compactObjectMapData,
 										NonmappedItems: NonmappedItems);
 								}
 							}
@@ -2188,12 +2308,14 @@ namespace MapSaver
 							if (objectBehaviour.Item == null) continue;
 							if (CoordinateOverride == null)
 							{
-								ProcessIndividualObject(Compact, objectBehaviour.Item.gameObject, compactObjectMapData,
+								ProcessIndividualObject(ObjectOffsetRemove, Compact, objectBehaviour.Item.gameObject,
+									compactObjectMapData,
 									NonmappedItems: NonmappedItems);
 							}
 							else
 							{
-								ProcessIndividualObject(Compact, objectBehaviour.Item.gameObject, compactObjectMapData,
+								ProcessIndividualObject(ObjectOffsetRemove, Compact, objectBehaviour.Item.gameObject,
+									compactObjectMapData,
 									NonmappedItems: NonmappedItems);
 							}
 						}
@@ -2211,12 +2333,10 @@ namespace MapSaver
 
 				if (Compact)
 				{
-
 					ComponentToID[gameObjectMono] = PrefabData.ID + "@" + individualObject.ID + "@" + OutClass.ClassID;
 				}
 				else
 				{
-
 					ComponentToID[gameObjectMono] =
 						PrefabData.GitID + "@" + individualObject.ID + "@" + OutClass.ClassID;
 				}
@@ -2327,7 +2447,8 @@ namespace MapSaver
 						{
 							try
 							{
-								foreach (var Unprocessed in Waiting.Value.FieldsToPopulate) //TODO Could potentially error? list modified
+								foreach (var Unprocessed in
+								         Waiting.Value.FieldsToPopulate) //TODO Could potentially error? list modified
 								{
 									ReuseSEt.Add(Unprocessed.FieldData);
 									SecureMapsSaver.LoadData(Unprocessed.ID, Unprocessed.Object, ReuseSEt,
@@ -2349,7 +2470,6 @@ namespace MapSaver
 									{
 										Spawn._ServerFireClientServerSpawnHooks(Waiting.Value.SpawnResult,
 											SpawnInfo.IsJsonMapped(Waiting.Value.SpawnResult.GameObject));
-
 									}
 									catch (Exception e)
 									{
@@ -2358,7 +2478,8 @@ namespace MapSaver
 
 									try
 									{
-										var Spawns = Waiting.Value.SpawnResult.GameObject.GetComponentsInChildren<INewMappedOnSpawn>();
+										var Spawns = Waiting.Value.SpawnResult.GameObject
+											.GetComponentsInChildren<INewMappedOnSpawn>();
 										foreach (var Spawn in Spawns)
 										{
 											Spawn.OnNewMappedOnSpawn();
@@ -2368,6 +2489,7 @@ namespace MapSaver
 									{
 										Loggy.Error(e.ToString());
 									}
+
 									Waiting.Value.SpawnResult = null;
 								}
 							}
