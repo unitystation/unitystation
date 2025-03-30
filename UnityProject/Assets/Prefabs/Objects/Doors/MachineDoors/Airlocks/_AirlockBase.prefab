@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1409280515635118615}
   - component: {fileID: 1684877350854915770}
   - component: {fileID: 8542447127197164955}
+  - component: {fileID: 7210397487269927506}
   m_Layer: 18
   m_Name: overlayLights
   m_TagString: Untagged
@@ -117,6 +118,21 @@ MonoBehaviour:
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+--- !u!114 &7210397487269927506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 46041202269146236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 967620e59e52cc14c89c22c4176bac09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mIntensity: 0.5
+  mAdditionalEmission: 0
+  mScale: 1
 --- !u!1 &404576362407937357
 GameObject:
   m_ObjectHideFlags: 0
