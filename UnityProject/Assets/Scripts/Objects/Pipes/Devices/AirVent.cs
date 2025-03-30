@@ -161,6 +161,8 @@ namespace Objects.Atmospherics
 
 			if (Validations.HasUsedActiveWelder(interaction)) return true;
 
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wrench)) return true;
+
 			if (interaction.PerformerPlayerScript.CanVentCrawl && interaction.HandObject == null) return true;
 
 			return false;
