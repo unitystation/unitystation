@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 83e3bc049a54424fb1dbe8ab97e16284, type: 3}
   m_Name: FelinePurr
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier:
   emoteName: Purr
   EmoteIcon: {fileID: 21300000, guid: 6f701209a50de094195443208b304ceb, type: 3}
   requiresHands: 0
@@ -20,7 +20,7 @@ MonoBehaviour:
   allowEmoteWhileCrawling: 1
   viewText: purrs.
   youText: you purr.. calming yourself down.
-  failText: You were unable to preform this action!
+  failText: You were unable to perform this action!
   mouthBlockedText: You are unable to make a sound!
   critViewText: attempts to calm themselves down by purring.
   soundsAreTyped: 0
@@ -28,9 +28,9 @@ MonoBehaviour:
   - SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/NPC/Purr.prefab
     AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
+      m_AssetGUID:
+      m_SubObjectName:
+      m_SubObjectType:
       m_EditorAssetChanged: 0
   TypedSounds: []
   pitchRange: {x: 0.7, y: 1}

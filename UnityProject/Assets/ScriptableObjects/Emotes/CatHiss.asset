@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f3e38728e23446d99e555381ee6a4d1f, type: 3}
   m_Name: CatHiss
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier:
   emoteName: Feline Hiss
   EmoteIcon: {fileID: 21300000, guid: 629b81f53ed09dd45835f4e2a0ab1aeb, type: 3}
   requiresHands: 0
@@ -19,8 +19,8 @@ MonoBehaviour:
   isAudibleEmote: 1
   allowEmoteWhileCrawling: 1
   viewText: hisses!
-  youText: 
-  failText: You were unable to preform this action!
+  youText:
+  failText: You were unable to perform this action!
   mouthBlockedText: You are unable to make a sound!
   critViewText: hisses in distress.
   soundsAreTyped: 0
@@ -28,9 +28,9 @@ MonoBehaviour:
   - SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/NPC/CatHiss.prefab
     AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
+      m_AssetGUID:
+      m_SubObjectName:
+      m_SubObjectType:
       m_EditorAssetChanged: 0
   TypedSounds: []
   pitchRange: {x: 0.7, y: 1}

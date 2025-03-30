@@ -48,7 +48,7 @@ namespace ScriptableObjects.RP
 
 		[Tooltip("If the emote has a special requirment and fails to meet it.")]
 		[SerializeField]
-		protected string failText = "You were unable to preform this action!";
+		protected string failText = "You were unable to perform this action!";
 
 		[SerializeField, ShowIf(nameof(isAudibleEmote))]
 		protected string mouthBlockedText = "You are unable to make a sound!";
