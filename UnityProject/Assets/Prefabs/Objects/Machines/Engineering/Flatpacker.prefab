@@ -319,7 +319,7 @@ MonoBehaviour:
   designProductionData: {fileID: 11400000, guid: 3613c36f8a638594ab6b2486c79bee91,
     type: 2}
   beginSound:
-    AssetAddress: Assets/Prefabs/Machines/beep.prefab
+    AssetAddress: Assets/Prefabs/Machines/Click.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -327,7 +327,7 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   processingSound:
-    AssetAddress: Assets/Prefabs/Machines/GeneratorRun.prefab
+    AssetAddress: Assets/Prefabs/Machines/JuicerRunningLoop.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -335,7 +335,7 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   finishSound:
-    AssetAddress: Assets/Prefabs/Doors/TripleBeep.prefab
+    AssetAddress: Assets/Prefabs/Machines/Click.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 

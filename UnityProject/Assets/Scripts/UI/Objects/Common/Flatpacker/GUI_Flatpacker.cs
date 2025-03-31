@@ -21,6 +21,11 @@ namespace UI.Objects
 		private bool isUpdating = false;
 		public bool hasFunds = false;
 
+		private void Start()
+		{
+			machinePage.SetMaster(this);
+		}
+
 		protected override void InitServer()
 		{
 			StartCoroutine(WaitForProvider());
@@ -35,9 +40,12 @@ namespace UI.Objects
 			provider = Provider.GetComponentInChildren<Flatpacker>();
 
 			Flatpacker.MaterialsManipulated += UpdateMaterialsPage;
+			provider.OnMachineChange += UpdateGUI;
 
 			materialsPage.InitMaterialList(provider.MaterialStorage);
 			OnTabOpened.AddListener(UpdateGUIForPeepers);
+
+			provider.UpdateGUI();
 		}
 
 		public void UpdateGUIForPeepers(PlayerInfo notUsed)
@@ -56,19 +64,18 @@ namespace UI.Objects
 			isUpdating = false;
 		}
 
-		public void UpdateGUI(string machineName, Dictionary<MaterialSheet, int> neededMaterials,
+		public void UpdateGUI(string machineName, SerializableDictionary<MaterialSheet, int> neededMaterials,
 			Dictionary<ItemTrait, int> currentMaterials)
 		{
 			if (machineName == null)
 			{
 				hasFunds = false;
-				pageSwitcher.SetActivePage(0);
+				pageSwitcher.SetActivePage(emptyPage);
 			}
 			else
 			{
 				hasFunds = true;
-				if(pageSwitcher.CurrentPage != machinePage) pageSwitcher.SetActivePage(1);
-				machinePage.SetMaster(this);
+				if(pageSwitcher.CurrentPage != machinePage) pageSwitcher.SetActivePage(machinePage);
 				machinePage.UpdateText(machineName, neededMaterials, currentMaterials, ref hasFunds);
 			}
 		}
@@ -86,6 +93,7 @@ namespace UI.Objects
 		private void OnDestroy()
 		{
 			Flatpacker.MaterialsManipulated -= UpdateMaterialsPage;
+			provider.OnMachineChange -= UpdateGUI;
 		}
 	}
 }

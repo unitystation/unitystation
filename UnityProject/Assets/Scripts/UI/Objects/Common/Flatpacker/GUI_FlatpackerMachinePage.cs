@@ -33,7 +33,7 @@ namespace UI.Objects
 			this.master = master;
 		}
 
-		public void UpdateText(string machineName, Dictionary<MaterialSheet, int> neededMats, Dictionary<ItemTrait, int> currentMats, ref bool hasFunds)
+		public void UpdateText(string machineName, SerializableDictionary<MaterialSheet, int> neededMats, Dictionary<ItemTrait, int> currentMats, ref bool hasFunds)
 		{
 			machineNameLabel.MasterSetValue(machineName);
 			materiallabelB.MasterSetValue("");

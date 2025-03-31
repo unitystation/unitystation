@@ -16,7 +16,7 @@ using YamlDotNet.Serialization.NodeTypeResolvers;
 namespace Objects.Machines
 {
 	[RequireComponent(typeof(MaterialStorageLink))]
-	public class Flatpacker : MonoBehaviour, IAPCPowerable, ICheckedInteractable<HandApply>, IRefreshParts
+	public class Flatpacker : MonoBehaviour, IAPCPowerable, ICheckedInteractable<HandApply>, IRefreshParts, IServerDespawn
 	{
 		[SerializeField] private SpriteHandler primarySpriteHandler;
 		[SerializeField] private SpriteHandler overlaySpriteHandler;
@@ -97,7 +97,7 @@ namespace Objects.Machines
 
 			if(interaction.HandObject == false) return true; //Open UI
 
-			if(_loadedMachineBoardSlot.IsEmpty && Validations.HasItemTrait(interaction.UsedObject, machineBoardTrait)); //Load Board
+			if(_loadedMachineBoardSlot.IsEmpty && Validations.HasItemTrait(interaction.UsedObject, machineBoardTrait)) return true; //Load Board
 
 			_insertedMaterialType = materialStorageLink.usedStorage.FindMaterial(interaction.HandObject); //Load mats
 			return _insertedMaterialType == true;
@@ -281,7 +281,7 @@ namespace Objects.Machines
 		{
 			var sheet = designProductionData.MaterialSheets["Metal"]; //Add base metal and glass costs for the metal and cables needed in frame
 			neededMaterials.TryAdd(sheet, 0);
-			neededMaterials[sheet] += 5500; //We don't discount this, as discounting raw mats can lead to dupes
+			neededMaterials[sheet] += (5 * 2000) + 500; //We don't discount this, as discounting raw mats can lead to dupes
 
 			sheet = designProductionData.MaterialSheets["Glass"];
 			neededMaterials.TryAdd(sheet, 0);

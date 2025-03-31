@@ -21,6 +21,6 @@ public class GUI_FlatpackerMaterialsEntry : DynamicEntry
 	public void ReInit(ItemTrait material, int amount)
 	{
 		materialType = material;
-		materialLabel.MasterSetValue($"{material}: {amount}");
+		materialLabel.MasterSetValue($"{material.Name}: {amount}");
 	}
 }
