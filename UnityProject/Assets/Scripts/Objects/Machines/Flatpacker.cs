@@ -49,20 +49,20 @@ namespace Objects.Machines
 		private ItemTrait _insertedMaterialType;
 
 		private MachineCircuitBoard _loadedMachineBoard = null;
-		private List<string> partsToSpawn = new List<string>();
-		private SerializableDictionary<MaterialSheet, int> neededMaterials = new SerializableDictionary<MaterialSheet, int>();
+		private readonly List<string> _partsToSpawn = new List<string>();
+		private readonly SerializableDictionary<MaterialSheet, int> _neededMaterials = new SerializableDictionary<MaterialSheet, int>();
 
 		private PowerState _currentPowerState = PowerState.Off;
 
 		public MaterialStorage MaterialStorage => materialStorageLink.usedStorage;
 
 		private int _maniTier = 1;
-		private float productionTime => Math.Max(0f, productionTimeBase - ((_maniTier-1) * 3f)); //From 10s to 1s
+		private float ProductionTime => Math.Max(0f, productionTimeBase - ((_maniTier-1) * 3f)); //From 10s to 1s
 
 		private int _binTier = 1;
-		private float discount => Math.Max(0.5f, 1 - ((_binTier - 1) * 0.15f)); //From 100% to 55% resource usage
+		private float Discount => Math.Max(0.5f, 1 - ((_binTier - 1) * 0.15f)); //From 100% to 55% resource usage
 
-		private bool isProducing = false;
+		private bool _isProducing = false;
 
 		[SerializeField, Tooltip("The time to produce a flatpack in seconds with basic lasers")] private float productionTimeBase = 10f;
 
@@ -85,12 +85,12 @@ namespace Objects.Machines
 			// Delegate calls method in all subscribers when material is changed
 			MaterialsManipulated?.Invoke();
 			if(_loadedMachineBoard == null) OnMachineChange?.Invoke(null,null,null );
-			else OnMachineChange?.Invoke(_loadedMachineBoard.MachinePartsUsed.machine.ExpensiveName(), neededMaterials, MaterialStorage.MaterialList);
+			else OnMachineChange?.Invoke(_loadedMachineBoard.MachinePartsUsed.machine.ExpensiveName(), _neededMaterials, MaterialStorage.MaterialList);
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (isProducing) return false;
+			if (_isProducing) return false;
 
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (interaction.TargetObject != gameObject) return false;
@@ -106,7 +106,7 @@ namespace Objects.Machines
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			if (_currentPowerState == PowerState.Off) Chat.AddExamineMsgFromServer(interaction.Performer, $"{gameObject.ExpensiveName()} is unpowered!");
-			if (isProducing || _currentPowerState != PowerState.On) return;
+			if (_isProducing || _currentPowerState != PowerState.On) return;
 
 			if (interaction.HandObject == false) TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType.Flatpacker, TabAction.Open );
 			else if (_loadedMachineBoardSlot.IsEmpty && Validations.HasItemTrait(interaction.UsedObject, machineBoardTrait))
@@ -151,7 +151,7 @@ namespace Objects.Machines
 		private const int EJECTING_PRIMARY_VARIANT = 1;
 		private const int NETURAL_PRIMARY_VARIANT = 0;
 
-		private Coroutine productionCoroutine = null;
+		private Coroutine _productionCoroutine = null;
 
 		private void EjectFlatpack()
 		{
@@ -165,13 +165,15 @@ namespace Objects.Machines
 			SpawnRawMaterials(flatpack);
 			PackMachineBoard(flatpack);
 
-			materialStorageLink.usedStorage.TryConsumeList(neededMaterials);
+			materialStorageLink.usedStorage.TryConsumeList(_neededMaterials);
+
+			UpdateGUI();
 		}
 
 		private void SpawnParts(Flatpack flatpack)
 		{
 			List<GameObject> objectsToStore = new List<GameObject>();
-			foreach (var toSpawn in partsToSpawn)
+			foreach (var toSpawn in _partsToSpawn)
 			{
 				objectsToStore.Add(Spawn
 					.ServerPrefab(CustomNetworkManager.Instance.ForeverIDLookupSpawnablePrefabs[toSpawn],
@@ -201,24 +203,24 @@ namespace Objects.Machines
 			primarySpriteHandler.SetSpriteVariant(NETURAL_PRIMARY_VARIANT);
 			overlaySpriteHandler.SetSpriteVariant(OFF_OVERLAY_VARIANT);
 
-			if(productionCoroutine != null) StopCoroutine(productionCoroutine);
-			productionCoroutine = null;
+			if(_productionCoroutine != null) StopCoroutine(_productionCoroutine);
+			_productionCoroutine = null;
 		}
 
 		public void BeginProduction()
 		{
-			if (productionCoroutine != null) return;
-			productionCoroutine = StartCoroutine(AnimateProduction());
+			if (_productionCoroutine != null) return;
+			_productionCoroutine = StartCoroutine(AnimateProduction());
 		}
 
 		private IEnumerator AnimateProduction()
 		{
-			isProducing = true;
+			_isProducing = true;
 			_ = SoundManager.PlayNetworkedAtPosAsync(beginSound, objectPhysics.OfficialPosition);
 			_ = SoundManager.PlayNetworkedAtPosAsync(processingSound, objectPhysics.OfficialPosition);
 			overlaySpriteHandler.SetSpriteVariant(ON_OVERLAY_VARIANT);
 
-			yield return WaitFor.Seconds(productionTime);
+			yield return WaitFor.Seconds(ProductionTime);
 
 			primarySpriteHandler.SetSpriteVariant(EJECTING_PRIMARY_VARIANT);
 			overlaySpriteHandler.SetSpriteVariant(OFF_OVERLAY_VARIANT);
@@ -228,8 +230,8 @@ namespace Objects.Machines
 
 			primarySpriteHandler.SetSpriteVariant(NETURAL_PRIMARY_VARIANT);
 			EjectFlatpack();
-			isProducing = false;
-			productionCoroutine = null;
+			_isProducing = false;
+			_productionCoroutine = null;
 		}
 
 		#endregion
@@ -246,8 +248,8 @@ namespace Objects.Machines
 
 		private void UpdateCurrentMachine(GameObject performer = null)
 		{
-			neededMaterials.Clear();
-			partsToSpawn.Clear();
+			_neededMaterials.Clear();
+			_partsToSpawn.Clear();
 
 			if (_loadedMachineBoard == null)
 			{
@@ -271,7 +273,7 @@ namespace Objects.Machines
 				}
 
 				AddCostsForDesign(designToAdd.Materials, part.amountOfThisPart);
-				for(int i = 0; i < part.amountOfThisPart; i++) partsToSpawn.Add(designToAdd.ItemID);
+				for(int i = 0; i < part.amountOfThisPart; i++) _partsToSpawn.Add(designToAdd.ItemID);
 			}
 
 			UpdateGUI();
@@ -280,18 +282,18 @@ namespace Objects.Machines
 		private void AddCostsForDesign(Dictionary<string, int> materialCosts, int amountOfParts)
 		{
 			var sheet = designProductionData.MaterialSheets["Metal"]; //Add base metal and glass costs for the metal and cables needed in frame
-			neededMaterials.TryAdd(sheet, 0);
-			neededMaterials[sheet] += (5 * 2000) + 500; //We don't discount this, as discounting raw mats can lead to dupes
+			_neededMaterials.TryAdd(sheet, 0);
+			_neededMaterials[sheet] += (5 * 2000) + 500; //We don't discount this, as discounting raw mats can lead to dupes
 
 			sheet = designProductionData.MaterialSheets["Glass"];
-			neededMaterials.TryAdd(sheet, 0);
-			neededMaterials[sheet] += 200;
+			_neededMaterials.TryAdd(sheet, 0);
+			_neededMaterials[sheet] += 200;
 
 			foreach (var material in materialCosts) //Add design costs
 			{
 				sheet = designProductionData.MaterialSheets[material.Key];
-				neededMaterials.TryAdd(sheet, 0);
-				neededMaterials[sheet] += (int)(material.Value * amountOfParts * discount);
+				_neededMaterials.TryAdd(sheet, 0);
+				_neededMaterials[sheet] += (int)(material.Value * amountOfParts * Discount);
 			}
 
 

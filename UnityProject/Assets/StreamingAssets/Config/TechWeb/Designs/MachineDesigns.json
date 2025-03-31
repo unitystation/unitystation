@@ -6,7 +6,7 @@
             "NonProducable"
         ],
         "Materials": {
-            "Metal": 1000
+            "Metal": 2000
         },
         "Machinery_type": [
             "Protolathe"
@@ -18,13 +18,32 @@
         "Item_ID": "b83b68cfa4a201748aeeece963a989c3"
     },
     {
+        "Internal_ID": "rein_plasma_glass",
+        "Description": "A simple sheet of plasma glass. This one has been reinforced",
+        "Category": [
+            "NonProducable"
+        ],
+        "Materials": {
+            "Metal": 1000,
+            "Plasma": 2000
+        },
+        "Machinery_type": [
+            "Protolathe"
+        ],
+        "Compatible_machinery": [
+            "Engineering"
+        ],
+        "name": "Reinforced Plasma Glass Sheet",
+        "Item_ID": "b6a0d928019a24a4f9cee04a1d06b3b1"
+    },
+    {
         "Internal_ID": "glass_sheet",
         "Description": "A simple glass sheet.",
         "Category": [
             "NonProducable"
         ],
         "Materials": {
-            "Glass": 1000
+            "Glass": 2000
         },
         "Machinery_type": [
             "Protolathe"
