@@ -6005,7 +6005,6 @@
               {
                 "Tel": "FluidStraightPipe",
                 "Z": 1,
-                "Col": "#5D19B9FF",
                 "Tf": "5.960464E-08,-0.9999999,0,0,0.9999999,5.960464E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
@@ -6902,7 +6901,6 @@
               {
                 "Tel": "FluidBentPipe",
                 "Z": 1,
-                "Col": "#5D19B9FF",
                 "Tf": "-1,8.742278E-08,0,0,-8.742278E-08,-1,0,0,0,0,1,0,0,0,0,1"
               }
             ]
@@ -6918,8 +6916,7 @@
               },
               {
                 "Tel": "FluidStraightPipe",
-                "Z": 1,
-                "Col": "#5D19B9FF"
+                "Z": 1
               }
             ]
           },
@@ -6933,9 +6930,11 @@
                 "Tel": "Plating"
               },
               {
+                "Tel": "table_glass"
+              },
+              {
                 "Tel": "FluidBentPipe",
                 "Z": 1,
-                "Col": "#5D19B9FF",
                 "Tf": "5.960464E-08,0.9999999,0,0,-0.9999999,5.960464E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
@@ -6948,6 +6947,9 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "table_glass"
               }
             ]
           },
@@ -6959,6 +6961,9 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "table_glass"
               }
             ]
           },
@@ -6976,6 +6981,10 @@
                 "Z": 1,
                 "Col": "#FF0031FF",
                 "Tf": "5.960464E-08,-0.9999999,0,0,0.9999999,5.960464E-08,0,0,0,0,1,0,0,0,0,1"
+              },
+              {
+                "Tel": "DisposalPipeTerminal-E",
+                "Z": 1
               }
             ]
           },
@@ -8053,9 +8062,10 @@
                 "Tel": "Plating"
               },
               {
-                "Tel": "FluidStraightPipe",
+                "Tel": "3WayManifold",
                 "Z": 1,
-                "Col": "#0057FFFF"
+                "Col": "#0057FFFF",
+                "Tf": "5.960464E-08,0.9999999,0,0,-0.9999999,5.960464E-08,0,0,0,0,1,0,0,0,0,1"
               },
               {
                 "Tel": "DisposalPipeStraight-NS",
@@ -8115,15 +8125,15 @@
               {
                 "Tel": "FluidStraightPipe",
                 "Z": 1,
-                "Col": "#0057FFFF"
-              },
-              {
-                "Tel": "FluidStraightPipe",
                 "Col": "#FF0031FF",
                 "Tf": "5.960464E-08,-0.9999999,0,0,0.9999999,5.960464E-08,0,0,0,0,1,0,0,0,0,1"
               },
               {
-                "Tel": "DisposalPipeStraight-NS",
+                "Tel": "FluidStraightPipe",
+                "Col": "#0057FFFF"
+              },
+              {
+                "Tel": "DisposalPipeMergerA-S",
                 "Z": 1
               }
             ]
@@ -9246,9 +9256,10 @@
                 "Tel": "NS-Low_Voltage_Cable"
               },
               {
-                "Tel": "FluidStraightPipe",
+                "Tel": "3WayManifold",
                 "Z": 1,
-                "Col": "#FF0031FF"
+                "Col": "#FF0031FF",
+                "Tf": "5.960464E-08,0.9999999,0,0,-0.9999999,5.960464E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -9269,6 +9280,11 @@
                 "Tel": "FluidStraightPipe",
                 "Z": 1,
                 "Col": "#FF0031FF"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Col": "#0057FFFF",
+                "Tf": "5.960464E-08,-0.9999999,0,0,0.9999999,5.960464E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -10344,6 +10360,12 @@
               {
                 "Tel": "WE-Low_Voltage_Cable",
                 "Z": 1
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.960464E-08,-0.9999999,0,0,0.9999999,5.960464E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -10355,6 +10377,12 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#0057FFFF",
+                "Tf": "5.960464E-08,-0.9999999,0,0,0.9999999,5.960464E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -94448,6 +94476,15 @@
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_33┼102┼0┼@0@APC@0"
                     }
                   ]
+                },
+                {
+                  "ClassID": "AirController@0",
+                  "Data": [
+                    {
+                      "Name": "initialOperatingMode",
+                      "Data": "Contaminated"
+                    }
+                  ]
                 }
               ]
             }
@@ -95694,6 +95731,26 @@
             }
           },
           {
+            "GitID": "90ef38b11ffed4e4d8cb4d8dc682885c_37┼103┼0┼",
+            "PrefabID": "90ef38b11ffed4e4d8cb4d8dc682885c",
+            "NameMatches": true,
+            "Name": "Loading area decal",
+            "LocalPRS": "37┼103┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "9b996da43261266449d4ad99b2ddac7f_37┼103┼0┼",
             "PrefabID": "9b996da43261266449d4ad99b2ddac7f",
             "NameMatches": true,
@@ -95716,7 +95773,8 @@
           {
             "GitID": "9f9ee7218e29057428d789e482e3477d_37┼103┼0┼",
             "PrefabID": "9f9ee7218e29057428d789e482e3477d",
-            "Name": "CanisterNitrousOxide (1)",
+            "NameMatches": true,
+            "Name": "CanisterNitrousOxide",
             "LocalPRS": "37┼103┼0┼"
           },
           {
@@ -95896,6 +95954,13 @@
             "PrefabID": "7540880d4dc7c4d8c9e3d3cd83ccef06",
             "Name": "Export Scanner (1)",
             "LocalPRS": "37.89┼57.08┼0┼"
+          },
+          {
+            "GitID": "7976a84ef9209f14697cdd941b913e2a_37.95┼105.09┼0┼",
+            "PrefabID": "7976a84ef9209f14697cdd941b913e2a",
+            "NameMatches": true,
+            "Name": "Wrench",
+            "LocalPRS": "37.95┼105.09┼0┼"
           },
           {
             "GitID": "0d553281bdfc0fd438b3f6c7db58688c_38┼51┼0┼",
@@ -96155,6 +96220,27 @@
             }
           },
           {
+            "GitID": "3edf81f4a32c4c348bad5bfe43e263fd_38┼107┼0┼",
+            "PrefabID": "3edf81f4a32c4c348bad5bfe43e263fd",
+            "NameMatches": true,
+            "Name": "Paper Bin1",
+            "LocalPRS": "38┼107┼0┼"
+          },
+          {
+            "GitID": "83442ea1bc97ef04db1f9962a2f7021d_38┼107┼0┼",
+            "PrefabID": "83442ea1bc97ef04db1f9962a2f7021d",
+            "NameMatches": true,
+            "Name": "Pen",
+            "LocalPRS": "38┼107┼0┼"
+          },
+          {
+            "GitID": "c73942e301ad48a4c87343bc6f8b20f7_38┼108┼0┼",
+            "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "NameMatches": true,
+            "Name": "New Disposal Bin",
+            "LocalPRS": "38┼108┼0┼"
+          },
+          {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_38┼108┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
             "NameMatches": true,
@@ -96228,6 +96314,10 @@
                 {
                   "ClassID": "LightSwitchV2@0",
                   "Data": [
+                    {
+                      "Name": "listOfLights#3",
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_38┼113┼0┼@0@LightSource@0"
+                    },
                     {
                       "Name": "listOfLights#2",
                       "Data": "fde32c02abddc814f9366ff1fb21f234_33┼110┼0┼@0@LightSource@0"
@@ -96351,6 +96441,51 @@
             }
           },
           {
+            "GitID": "fde32c02abddc814f9366ff1fb21f234_38┼113┼0┼",
+            "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
+            "Name": "LightTubeFixture",
+            "LocalPRS": "38┼113┼0┼0ø0ø180ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_42┼111┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Down_By180"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "LightSource@0",
+                  "Data": [
+                    {
+                      "Name": "relatedLightSwitch",
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_38┼109┼0┼@0@LightSwitchV2@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
             "GitID": "ea7280b49083dfa469fb176f6a7e4772_38┼114┼0┼",
             "PrefabID": "ea7280b49083dfa469fb176f6a7e4772",
             "NameMatches": true,
@@ -96387,6 +96522,20 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "6a72b953bd878cc44a21a966d9425be0_38.01┼106.04┼0┼",
+            "PrefabID": "6a72b953bd878cc44a21a966d9425be0",
+            "NameMatches": true,
+            "Name": "CaptainPetesCubanSpicedRum",
+            "LocalPRS": "38.01┼106.04┼0┼"
+          },
+          {
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_38.06┼102.11┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
+            "NameMatches": true,
+            "Name": "RandomPottedPlant",
+            "LocalPRS": "38.06┼102.11┼0┼"
           },
           {
             "GitID": "f5de2b6011113f0469b27cd8289f2d8b_39┼53┼0┼",
@@ -96857,6 +97006,35 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_42┼111┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "RKA8pQ8LhxutPBc7Wp4C_39┼114┼0┼",
+            "PrefabID": "RKA8pQ8LhxutPBc7Wp4C",
+            "Name": "Stand Clear",
+            "LocalPRS": "39┼114┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "6ebc8af027b13904e9712d1e99717ba9"
+                        },
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -98925,6 +99103,10 @@
                 {
                   "ClassID": "APC@0",
                   "Data": [
+                    {
+                      "Name": "connectedDevices#17",
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_38┼113┼0┼@0@APCPoweredDevice@0"
+                    },
                     {
                       "Name": "connectedDevices#16",
                       "Data": "fde32c02abddc814f9366ff1fb21f234_33┼110┼0┼@0@APCPoweredDevice@0"
