@@ -1,5 +1,6 @@
 using Core.Physics;
 using Items;
+using Messages.Client.Interaction;
 using UnityEngine;
 
 namespace Objects
@@ -14,7 +15,7 @@ namespace Objects
 		Security = 5,
 	}
 
-	public class Flatpack : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedInteractable<HandApply>
+	public class Flatpack : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedInteractable<ContextMenuApply>, IRightClickable
 	{
 		[field: SerializeField] public ObjectContainer objectContainer { get; private set; }
 		[SerializeField] private SpriteHandler spriteHander = null;
@@ -54,24 +55,42 @@ namespace Objects
 				});
 		}
 
-		public bool WillInteract(HandApply interaction, NetworkSide side)
-        {
-        		return DefaultWillInteract.Default(interaction, side) && interaction.IsAltClick;
-        }
+		public RightClickableResult GenerateRightClickOptions()
+		{
+			var options = RightClickableResult.Create();
 
-        public void ServerPerformInteraction(HandApply interaction)
-        {
-        	ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
-        				$"You begin unpacking the {gameObject.ExpensiveName()}..",
-        				$"{interaction.Performer.ExpensiveName()} begins unpacking the {gameObject.ExpensiveName()}...",
-        				$"You unpack the {gameObject.ExpensiveName()}.",
-        				$"{interaction.Performer.ExpensiveName()} unpacks the {gameObject.ExpensiveName()}.",
-        				() =>
-        				{
-        					objectContainer.DropObjects();
-        					Spawn.ServerPrefab(cardBoardPrefab, objectPhysics.OfficialPosition, count: amountToSpawn);
-        					_ = Despawn.ServerSingle(this.gameObject);
-				        });
-        }
+			options.AddElement("Open", OnOpenClicked);
+
+			return options;
+		}
+
+		public void OnOpenClicked()
+		{
+			RequestInteractMessage.Send(ContextMenuApply.ByLocalPlayer(gameObject, "Open"), this);
+		}
+
+		public bool WillInteract(ContextMenuApply interaction, NetworkSide side)
+		{
+			return DefaultWillInteract.Default(interaction, side);
+		}
+
+		public void ServerPerformInteraction(ContextMenuApply interaction)
+		{
+			if (interaction.RequestedOption != "Open") return;
+
+			Chat.AddActionMsgToChat(interaction.Performer, $"You begin unpacking the {gameObject.ExpensiveName()}..",
+				$"{interaction.Performer.ExpensiveName()} begins unpacking the {gameObject.ExpensiveName()}...");
+
+			ToolUtils.ServerUseTool(interaction.Performer, null, ActionTarget.Object(gameObject.RegisterTile()), 2f,
+				() =>
+				{
+					Chat.AddActionMsgToChat(interaction.Performer, $"You unpack the {gameObject.ExpensiveName()}.",
+						$"{interaction.Performer.ExpensiveName()} unpacks the {gameObject.ExpensiveName()}.");
+
+					objectContainer.DropObjects();
+					Spawn.ServerPrefab(cardBoardPrefab, objectPhysics.OfficialPosition, count: amountToSpawn);
+					_ = Despawn.ServerSingle(this.gameObject);
+				});
+		}
 	}
 }
