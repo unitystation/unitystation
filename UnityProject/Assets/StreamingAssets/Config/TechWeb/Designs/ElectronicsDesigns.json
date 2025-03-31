@@ -58,6 +58,27 @@
         "Item_ID": "/obj/item/weapon/disk/design_disk"
     },
     {
+        "Internal_ID": "geiger_counter",
+        "Description": "Measures local radiation.",
+        "Category": [
+            "Electronics"
+        ],
+        "Materials": {
+            "Metal": 200,
+            "Glass": 200
+        },
+        "Machinery_type": [
+            "ProtoLathe",
+            "AutoLathe"
+        ],
+        "Compatible_machinery": [
+            "Science",
+            "Engineering"
+        ],
+        "name": "Geiger Counter",
+        "Item_ID": "46cceb9511b6bba4cb747e67a7f2b70d"
+    },
+    {
         "Internal_ID": "power_control_module",
         "Description": "Board used for regulating and distributing power across the station.",
         "Category": [
@@ -140,6 +161,25 @@
         ],
         "name": "Airlock Electronics",
         "Item_ID": "78421020f3046494d83a50667724ef36"
+    },
+    {
+        "Internal_ID": "cable_coil",
+        "Description": "Simple MV cabling",
+        "Category": [
+            "Electronics"
+        ],
+        "Materials": {
+            "Metal": 1000
+        },
+        "Machinery_type": [
+            "ProtoLathe",
+            "AutoLathe"
+        ],
+        "Compatible_machinery": [
+            "Engineering"
+        ],
+        "name": "Cable Coil",
+        "Item_ID": "c567e6c3b003a2b488534a8766866cb0"
     },
     {
         "Internal_ID": "firelock_electronics",

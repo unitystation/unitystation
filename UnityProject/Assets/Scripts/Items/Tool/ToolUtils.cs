@@ -41,7 +41,7 @@ public static class ToolUtils
 	{
 		void ProgressComplete()
 		{
-			var Tooltool = tool.GetComponent<Tool>();
+			var Tooltool = tool?.GetComponent<Tool>();
 			if (Tooltool != null)
 			{
 				if (Tooltool.PercentageChance < 100)
@@ -56,6 +56,7 @@ public static class ToolUtils
 					}
 				}
 			}
+
 
 			Chat.AddActionMsgToChat(performer, performerFinishActionMessage,
 				othersFinishActionMessage);
@@ -92,6 +93,33 @@ public static class ToolUtils
 	{
 		ServerUseToolWithActionMessages(handApply.Performer, handApply.HandObject,
 			ActionTarget.Object(handApply.TargetObject.RegisterTile()), seconds, performerStartActionMessage,
+			othersStartActionMessage,
+			performerFinishActionMessage, othersFinishActionMessage, onSuccessfulCompletion, performerFailMessage,
+			othersFailMessage, onFailComplete, playSound);
+	}
+
+	/// <summary>
+	/// Performs common tool usage logic and also sends start / end action messages, and invokes a callback on success.
+	/// </summary>
+	/// <param name="handActivate">interaction causing the tool use</param>
+	/// <param name="seconds">seconds taken to perform the action, 0 if it should be instant</param>
+	/// <param name="performerStartActionMessage">message to show performer when action begins.</param>
+	/// <param name="othersStartActionMessage">message to show others when action begins.</param>
+	/// <param name="performerFinishActionMessage">message to show performer when action completes successfully.</param>
+	/// <param name="othersFinishActionMessage">message to show others when action completes successfully.</param>
+	/// <param name="onSuccessfulCompletion">called when action is completed</param>
+	/// <param name="performerFailMessage">message to show performer when action completes unsuccessfully.</param>
+	/// <param name="othersFailMessage">message to show others when action completes unsuccessfully.</param>
+	/// <param name="onFailComplete">called when action is completed unsuccessfully.</param>
+	/// <param name="playSound">Whether to play default tool sound</param>
+	public static void ServerUseToolWithActionMessages(HandActivate handActivate,
+		float seconds, string performerStartActionMessage, string othersStartActionMessage,
+		string performerFinishActionMessage,
+		string othersFinishActionMessage, Action onSuccessfulCompletion, string performerFailMessage = "",
+		string othersFailMessage = "", Action onFailComplete = null, bool playSound = true)
+	{
+		ServerUseToolWithActionMessages(handActivate.Performer, handActivate.UsedObject,
+			ActionTarget.Object(handActivate.UsedObject.RegisterTile()), seconds, performerStartActionMessage,
 			othersStartActionMessage,
 			performerFinishActionMessage, othersFinishActionMessage, onSuccessfulCompletion, performerFailMessage,
 			othersFailMessage, onFailComplete, playSound);
@@ -164,7 +192,7 @@ public static class ToolUtils
 		float seconds, Action progressCompleteAction, bool playSound = true)
 	{
 		//check tool stats
-		var toolStats = tool.GetComponent<Tool>();
+		var toolStats = tool?.GetComponent<Tool>();
 		if (toolStats != null)
 		{
 			seconds /= toolStats.SpeedMultiplier;
@@ -183,7 +211,7 @@ public static class ToolUtils
 		}
 		else
 		{
-			var welder = tool.GetComponent<Welder>();
+			var welder = tool?.GetComponent<Welder>();
 			ProgressBar bar;
 			if (welder != null)
 			{
