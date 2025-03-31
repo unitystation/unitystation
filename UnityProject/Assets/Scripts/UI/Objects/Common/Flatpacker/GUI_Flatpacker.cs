@@ -62,12 +62,13 @@ namespace UI.Objects
 			if (machineName == null)
 			{
 				hasFunds = false;
-				pageSwitcher.SetActivePage(emptyPage);
+				pageSwitcher.SetActivePage(0);
 			}
 			else
 			{
 				hasFunds = true;
-				if(pageSwitcher.CurrentPage != machinePage) pageSwitcher.SetActivePage(machinePage);
+				if(pageSwitcher.CurrentPage != machinePage) pageSwitcher.SetActivePage(1);
+				machinePage.SetMaster(this);
 				machinePage.UpdateText(machineName, neededMaterials, currentMaterials, ref hasFunds);
 			}
 		}

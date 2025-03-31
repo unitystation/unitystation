@@ -105,6 +105,7 @@ namespace Objects.Machines
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+			if (_currentPowerState == PowerState.Off) Chat.AddExamineMsgFromServer(interaction.Performer, $"{gameObject.ExpensiveName()} is unpowered!");
 			if (isProducing || _currentPowerState != PowerState.On) return;
 
 			if (interaction.HandObject == false) TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType.Flatpacker, TabAction.Open );

@@ -28,6 +28,11 @@ namespace UI.Objects
 			master.CloseTab();
 		}
 
+		public void SetMaster(GUI_Flatpacker master)
+		{
+			this.master = master;
+		}
+
 		public void UpdateText(string machineName, Dictionary<MaterialSheet, int> neededMats, Dictionary<ItemTrait, int> currentMats, ref bool hasFunds)
 		{
 			machineNameLabel.MasterSetValue(machineName);
