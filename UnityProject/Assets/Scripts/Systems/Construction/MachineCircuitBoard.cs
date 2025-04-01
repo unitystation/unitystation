@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UI.Core.NetUI;
+using Objects;
 using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine;
 using Util.Independent.FluentRichText;
@@ -21,6 +22,8 @@ namespace Machines
 		/// What machine parts are needed
 		/// </summary>
 		public MachineParts MachinePartsUsed => machineParts;
+
+		[field: SerializeField] public Objects.Department relevantDepartment { get; private set; }
 
 		public void SetMachineParts(MachineParts MachineParts)
 		{

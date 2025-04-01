@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: engineering_flatpacker_lights
+  m_EditorClassIdentifier: 
+  foreverID: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: -7124774881238604288, guid: 962f9a347d865ed4fb4108b9646338d4,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 4242495516558884450, guid: 962f9a347d865ed4fb4108b9646338d4,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 1665799921621543687, guid: 962f9a347d865ed4fb4108b9646338d4,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 1812034071202187746, guid: 962f9a347d865ed4fb4108b9646338d4,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: -1999193994039759173, guid: 962f9a347d865ed4fb4108b9646338d4,
+        type: 3}
+      secondDelay: 0.1
+  IsPalette: 0
+  DisplayName: 
