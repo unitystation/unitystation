@@ -32,7 +32,7 @@ public class MutationSO : ScriptableObject
 	public int Stability = 0;
 
 
-	[Tooltip(" Description of the Mutation ")]
+	[Tooltip(" console")]
 	public string Description;
 
 	[Tooltip("for the Slider mini game puzzle old implementation, makes it so the slide puzzle is not necessarily solvable without using Locks")]

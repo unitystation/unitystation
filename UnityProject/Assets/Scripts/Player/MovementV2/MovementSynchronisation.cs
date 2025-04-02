@@ -28,6 +28,7 @@ using UI;
 using UI.Core.Action;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllable, IActionGUI, ICooldown,
@@ -42,6 +43,13 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 	[PlayModeOnly] public List<MoveData> MoveQueue = new List<MoveData>();
 
 	private const float MOVE_MAX_DELAY_QUEUE = 4f; //Only matters when low FPS mode
+
+	public MultiInterestBool ServerSillyWalk = new MultiInterestBool(
+		false
+		, MultiInterestBool.RegisterBehaviour.RemoveFalse
+		, MultiInterestBool.BoolBehaviour.ReturnOnTrue);
+
+	[SyncVar] public bool HasSillyWalk;
 
 	public float DefaultTime { get; } = 0.5f;
 
@@ -69,7 +77,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 	public bool IsTrapped => IsCuffed || ContainedInObjectContainer != null;
 
-	  public bool CanMoveThroughObstructions = false;
+	public bool CanMoveThroughObstructions = false;
 
 	//Sync vars commented out as only the current speed is sync'd
 	//[SyncVar(hook = nameof(SyncRunSpeed))]
@@ -347,7 +355,17 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 		ServerAllowInput.OnBoolChange.AddListener(BoolServerAllowInputChange);
 		OnImpact.AddListener(ImpactVomit);
+
+		ServerSillyWalk.OnBoolChange.AddListener(SetSillyWalk);
+
+
+
 		base.Awake();
+	}
+
+	public void SetSillyWalk(bool val)
+	{
+		HasSillyWalk = val;
 	}
 
 	public void ImpactVomit(UniversalObjectPhysics ob, Vector2 Newtonian)

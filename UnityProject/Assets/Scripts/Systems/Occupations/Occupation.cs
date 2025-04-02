@@ -190,4 +190,6 @@ public class Occupation : ScriptableObject
 	public GameObject SpecialPlayerPrefab => specialPlayerPrefab;
 
 
+	public List<MutationSO> StartingMutations = new List<MutationSO>();
+
 }
