@@ -257,6 +257,14 @@ namespace Objects.Machines
 				return;
 			}
 
+			var sheet = designProductionData.MaterialSheets["Metal"]; //Add base metal and glass costs for the metal and cables needed in frame
+			_neededMaterials.TryAdd(sheet, 0);
+			_neededMaterials[sheet] += (5 * 2000) + 500; //We don't discount this, as discounting raw mats can lead to dupes
+
+			sheet = designProductionData.MaterialSheets["Glass"];
+			_neededMaterials.TryAdd(sheet, 0);
+			_neededMaterials[sheet] += 200;
+
 			foreach (var part in _loadedMachineBoard.MachinePartsUsed.machineParts)
 			{
 				Design designToAdd = null;
@@ -281,17 +289,9 @@ namespace Objects.Machines
 
 		private void AddCostsForDesign(Dictionary<string, int> materialCosts, int amountOfParts)
 		{
-			var sheet = designProductionData.MaterialSheets["Metal"]; //Add base metal and glass costs for the metal and cables needed in frame
-			_neededMaterials.TryAdd(sheet, 0);
-			_neededMaterials[sheet] += (5 * 2000) + 500; //We don't discount this, as discounting raw mats can lead to dupes
-
-			sheet = designProductionData.MaterialSheets["Glass"];
-			_neededMaterials.TryAdd(sheet, 0);
-			_neededMaterials[sheet] += 200;
-
 			foreach (var material in materialCosts) //Add design costs
 			{
-				sheet = designProductionData.MaterialSheets[material.Key];
+				var sheet = designProductionData.MaterialSheets[material.Key];
 				_neededMaterials.TryAdd(sheet, 0);
 				_neededMaterials[sheet] += (int)(material.Value * amountOfParts * Discount);
 			}
