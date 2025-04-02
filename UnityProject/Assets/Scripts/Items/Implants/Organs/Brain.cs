@@ -54,6 +54,9 @@ namespace Items.Implants.Organs
 		public UnityEvent OnDeath = new UnityEvent();
 		public UnityEvent OnRevival = new UnityEvent();
 
+		public bool hasSillyWalk;
+		public bool HasSillyWalk => hasSillyWalk;
+
 		[RightClickMethod]
 		public void Possess()
 		{
@@ -65,6 +68,21 @@ namespace Items.Implants.Organs
 
 					PlayerManager.LocalMindScript.CmdRequestPossess(this.gameObject.NetId());
 				}
+			}
+		}
+
+		public void SetSillyWalk(bool State)
+		{
+			hasSillyWalk = State;
+			RecordPositionSillyWalk(hasSillyWalk);
+		}
+
+
+		public void RecordPositionSillyWalk(bool State)
+		{
+			if (LivingHealthMaster != null)
+			{
+				(LivingHealthMaster.ObjectBehaviour as MovementSynchronisation).ServerSillyWalk.RecordPosition(this, State);
 			}
 		}
 
@@ -112,6 +130,8 @@ namespace Items.Implants.Organs
 				livingHealth.IsMute.RecordPosition(this, CannotSpeak);
 			}
 
+			RecordPositionSillyWalk(hasSillyWalk);
+
 			UpdateChatModifier(true);
 			livingHealth.OnDeath += DeathEvent;
 			livingHealth.OnRevive.AddListener(ReviveEvent);
@@ -126,6 +146,8 @@ namespace Items.Implants.Organs
 			{
 				livingHealth.SetBrain(null);
 			}
+
+			(LivingHealthMaster.ObjectBehaviour as MovementSynchronisation).ServerSillyWalk.RemovePosition(this);
 
 			livingHealth.IsMute.RemovePosition(this);
 			Itself.SetPossessingObject(null);
