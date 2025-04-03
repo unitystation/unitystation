@@ -19,7 +19,6 @@ namespace Objects.Machines
 	public class Flatpacker : MonoBehaviour, IAPCPowerable, ICheckedInteractable<HandApply>, IRefreshParts, IServerDespawn
 	{
 		[SerializeField] private SpriteHandler primarySpriteHandler;
-		[SerializeField] private SpriteHandler overlaySpriteHandler;
 
 		[SerializeField] private APCPoweredDevice apcPoweredDevice;
 		[SerializeField] private ItemStorage loadedItemStorage = null;
@@ -145,11 +144,10 @@ namespace Objects.Machines
 
 		#region Production
 
-		private const int ON_OVERLAY_VARIANT = 1;
-		private const int OFF_OVERLAY_VARIANT = 0;
-
-		private const int EJECTING_PRIMARY_VARIANT = 1;
-		private const int NETURAL_PRIMARY_VARIANT = 0;
+		private const int OFFLINE_VARIANT = 0;
+		private const int IDLE_VARIANT = 1;
+		private const int EJECTING_VARIANT = 2;
+		private const int PRODUCING_VARIANT = 3;
 
 		private Coroutine _productionCoroutine = null;
 
@@ -200,8 +198,8 @@ namespace Objects.Machines
 
 		private void CancelProduction()
 		{
-			primarySpriteHandler.SetSpriteVariant(NETURAL_PRIMARY_VARIANT);
-			overlaySpriteHandler.SetSpriteVariant(OFF_OVERLAY_VARIANT);
+			if(_currentPowerState == PowerState.On) primarySpriteHandler.SetSpriteVariant(IDLE_VARIANT);
+			else primarySpriteHandler.SetSpriteVariant(OFFLINE_VARIANT);
 
 			if(_productionCoroutine != null) StopCoroutine(_productionCoroutine);
 			_productionCoroutine = null;
@@ -218,17 +216,16 @@ namespace Objects.Machines
 			_isProducing = true;
 			_ = SoundManager.PlayNetworkedAtPosAsync(beginSound, objectPhysics.OfficialPosition);
 			_ = SoundManager.PlayNetworkedAtPosAsync(processingSound, objectPhysics.OfficialPosition);
-			overlaySpriteHandler.SetSpriteVariant(ON_OVERLAY_VARIANT);
+			primarySpriteHandler.SetSpriteVariant(PRODUCING_VARIANT);
 
 			yield return WaitFor.Seconds(ProductionTime);
 
-			primarySpriteHandler.SetSpriteVariant(EJECTING_PRIMARY_VARIANT);
-			overlaySpriteHandler.SetSpriteVariant(OFF_OVERLAY_VARIANT);
+			primarySpriteHandler.SetSpriteVariant(EJECTING_VARIANT);
 			_ = SoundManager.PlayNetworkedAtPosAsync(finishSound, objectPhysics.OfficialPosition);
 
-			yield return WaitFor.Seconds(0.5f);
+			yield return WaitFor.Seconds(0.6f);
 
-			primarySpriteHandler.SetSpriteVariant(NETURAL_PRIMARY_VARIANT);
+			primarySpriteHandler.SetSpriteVariant(IDLE_VARIANT);
 			EjectFlatpack();
 			_isProducing = false;
 			_productionCoroutine = null;
@@ -327,15 +324,13 @@ namespace Objects.Machines
 		public void StateUpdate(PowerState State)
 		{
 			_currentPowerState = State;
-			if (overlaySpriteHandler == null || primarySpriteHandler == null) return;
 
 			if (State != PowerState.On)
 			{
-				overlaySpriteHandler.SetCatalogueIndexSprite(1);
+				CancelProduction();
 				TabUpdateMessage.SendToPeepers(gameObject, NetTabType.Flatpacker, TabAction.Close);
 
-				CancelProduction();
-			} else overlaySpriteHandler.SetCatalogueIndexSprite(0);
+			} else if(_isProducing == false) primarySpriteHandler.SetSpriteVariant(IDLE_VARIANT);
 		}
 
 		#endregion
