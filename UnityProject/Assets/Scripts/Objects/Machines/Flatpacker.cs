@@ -223,7 +223,7 @@ namespace Objects.Machines
 			primarySpriteHandler.SetSpriteVariant(EJECTING_VARIANT);
 			_ = SoundManager.PlayNetworkedAtPosAsync(finishSound, objectPhysics.OfficialPosition);
 
-			yield return WaitFor.Seconds(0.6f);
+			yield return WaitFor.Seconds(0.5f);
 
 			primarySpriteHandler.SetSpriteVariant(IDLE_VARIANT);
 			EjectFlatpack();
