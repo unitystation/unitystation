@@ -38,7 +38,7 @@ namespace Core.GameGizmos
 			SecondsToLive -= Time.deltaTime;
 			if (SecondsToLive <= 0 || SecondsToLive.Approx(0))
 			{
-				GameGizmomanager.Instance.OrNull()?.ActiveGizmos?.Remove(this);
+				Remove();
 			}
 		}
 

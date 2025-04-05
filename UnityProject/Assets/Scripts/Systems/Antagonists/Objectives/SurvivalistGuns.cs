@@ -26,7 +26,7 @@ namespace Antagonists
 
 		protected override bool CheckCompletion()
 		{
-			return CheckStorageFor(typeof(Gun), minimumGunsNeeded);
+			return CheckStorageFor(typeof(Gun), minimumGunsNeeded, null);
 		}
 	}
 }

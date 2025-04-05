@@ -400,14 +400,17 @@ public static class PlayerSpawn
 		try
 		{
 			var Health = body.GetComponentCustom<LivingHealthMasterBase>();
-			foreach (var Mutation in  requestedOccupation.StartingMutations)
+			if (requestedOccupation != null)
 			{
-				foreach (var Bodypart in Health.BodyPartList)
+				foreach (var Mutation in  requestedOccupation.StartingMutations)
 				{
-					var BodyPartMutations = Bodypart.GetComponentCustom<BodyPartMutations>();
-					if (BodyPartMutations.CapableMutations.Contains(Mutation))
+					foreach (var Bodypart in Health.BodyPartList)
 					{
-						BodyPartMutations.AddMutation(Mutation);
+						var BodyPartMutations = Bodypart.GetComponentCustom<BodyPartMutations>();
+						if (BodyPartMutations.CapableMutations.Contains(Mutation))
+						{
+							BodyPartMutations.AddMutation(Mutation);
+						}
 					}
 				}
 			}
@@ -424,7 +427,12 @@ public static class PlayerSpawn
 			{
 				case SpawnType.NewSpawn:
 					body.GetComponent<DynamicItemStorage>().OrNull()?.SetUpOccupation(requestedOccupation);
-					CrewManifestManager.Instance.AddMember(body.GetComponent<PlayerScript>(), requestedOccupation.JobType);
+
+					if (requestedOccupation.IsCrewmember)
+					{
+						CrewManifestManager.Instance.AddMember(body.GetComponent<PlayerScript>(), requestedOccupation.JobType);
+					}
+
 					SpawnBannerMessage.Send(
 						body,
 						requestedOccupation.DisplayName,
@@ -535,11 +543,6 @@ public static class PlayerSpawn
 			}
 
 			from.AccountLeavingMind(account);
-
-			if (account.Connection != null)
-			{
-				NetworkServer.RemovePlayerForConnection(account.Connection, to.gameObject);
-			}
 		}
 
 		if (to)
