@@ -73,17 +73,19 @@ public class TableInteractionClimb : TileInteraction
 	public void StartClimbing(bool useProgressBar, PlayerScript climber, Vector3 worldPositionTarget, Vector3Int cellPosition,
 		BasicTile climbingTile, UniversalObjectPhysics objectPhysics, TileChangeManager tileChangeManager)
 	{
+		var Local = worldPositionTarget.ToLocal(tileChangeManager.MetaTileMap.matrix);
+
 		if (useProgressBar)
 		{
 			StandardProgressActionConfig cfg = new StandardProgressActionConfig(StandardProgressActionType.Construction, false, false, false);
 			StandardProgressAction.Create(cfg, () =>
 			{
-				ClimbBehavior(climber, worldPositionTarget, cellPosition, climbingTile, objectPhysics, tileChangeManager);
+				ClimbBehavior(climber, Local, cellPosition, climbingTile, objectPhysics, tileChangeManager);
 			}).ServerStartProgress(objectPhysics.registerTile, 3.0f, climber.gameObject);
 		}
 		else
 		{
-			_ = AsyncClimbBehavior(climber, worldPositionTarget, cellPosition, climbingTile, objectPhysics,
+			_ = AsyncClimbBehavior(climber, Local, cellPosition, climbingTile, objectPhysics,
 				tileChangeManager);
 		}
 
@@ -92,14 +94,14 @@ public class TableInteractionClimb : TileInteraction
 			$"{climber.gameObject.ExpensiveName()} begins climbing onto the table...");
 	}
 
-	private async UniTaskVoid AsyncClimbBehavior(PlayerScript climber, Vector3 worldPositionTarget, Vector3Int cellPosition,
+	private async UniTaskVoid AsyncClimbBehavior(PlayerScript climber, Vector3 LocalPositionTarget, Vector3Int cellPosition,
 		BasicTile climbingTile, UniversalObjectPhysics objectPhysics, TileChangeManager tileChangeManager)
 	{
 		await UniTask.Delay(3000);
-		ClimbBehavior(climber, worldPositionTarget, cellPosition, climbingTile, objectPhysics, tileChangeManager);
+		ClimbBehavior(climber, LocalPositionTarget, cellPosition, climbingTile, objectPhysics, tileChangeManager);
 	}
 
-	private void ClimbBehavior(PlayerScript climber, Vector3 worldPositionTarget, Vector3Int cellPosition,
+	private void ClimbBehavior(PlayerScript climber, Vector3 LocalPositionTarget, Vector3Int cellPosition,
 		BasicTile climbingTile, UniversalObjectPhysics objectPhysics, TileChangeManager tileChangeManager)
 	{
 		if (climber != null)
@@ -108,7 +110,7 @@ public class TableInteractionClimb : TileInteraction
 
 			if (climber.RegisterPlayer.Matrix.IsPassableAtOneMatrixOneTile(cellPosition, true, true, null, excludeTiles))
 			{
-				climber.PlayerSync.AppearAtWorldPositionServer(worldPositionTarget);
+				climber.PlayerSync.AppearAtWorldPositionServer(LocalPositionTarget.ToWorld(tileChangeManager.MetaTileMap.matrix));
 			}
 		}
 		else
@@ -116,20 +118,20 @@ public class TableInteractionClimb : TileInteraction
 			var transformComp = climber.GetComponent<UniversalObjectPhysics>();
 			if (transformComp != null)
 			{
-				transformComp.AppearAtWorldPositionServer(worldPositionTarget);
+				transformComp.AppearAtWorldPositionServer(LocalPositionTarget.ToWorld(tileChangeManager.MetaTileMap.matrix));
 			}
 		}
 
-		var matrix = MatrixManager.AtPoint(worldPositionTarget, CustomNetworkManager.IsServer);
+		var matrix = tileChangeManager.MetaTileMap.matrix;
 		var tile = matrix.TileChangeManager.MetaTileMap.GetTile(cellPosition, LayerType.Tables);
 		if (tile != null && climbingTile == tile)
 		{
 			if (canBreakOnClimb == false) return;
 			if (DMMath.Prob(breakChance) && objectPhysics.TryGetComponent<RegisterPlayer>(out var victim))
 			{
-				climbingTile.SpawnOnDestroy.SpawnAt(SpawnDestination.At(worldPositionTarget));
+				climbingTile.SpawnOnDestroy.SpawnAt(SpawnDestination.At(LocalPositionTarget.ToWorld(tileChangeManager.MetaTileMap.matrix)));
 				victim.ServerStun(stunTimeOnBreak);
-				_ = SoundManager.PlayNetworkedAtPosAsync(soundOnBreak, worldPositionTarget);
+				_ = SoundManager.PlayNetworkedAtPosAsync(soundOnBreak, LocalPositionTarget.ToWorld(tileChangeManager.MetaTileMap.matrix));
 				Chat.AddActionMsgToChat(objectPhysics.gameObject,
 					$"Your weight pushes onto the {climbingTile.DisplayName} and you break it and fall through it",
 					$"{objectPhysics.gameObject.ExpensiveName()} falls through the {climbingTile.DisplayName} as it breaks from their weight.");
