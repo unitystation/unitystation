@@ -18,6 +18,11 @@ PrefabInstance:
       propertyPath: deviceType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -6356777978426299504, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: initialwattusage
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_Size.x
@@ -156,7 +161,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 5201104623901103339}
+    - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: fa797ac5f2c4f724b8be835f30a4e3e6,
+        type: 2}
+    - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: fa797ac5f2c4f724b8be835f30a4e3e6,
         type: 2}
@@ -222,7 +238,32 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 7058477730988012185}
+    - targetCorrespondingSourceObject: {fileID: 7354635586586802054, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5921885860447707703}
   m_SourcePrefab: {fileID: 100100000, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
+--- !u!1 &4306681318488507078 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7354635586586802054, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+    type: 3}
+  m_PrefabInstance: {fileID: 6761184856822150464}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5921885860447707703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4306681318488507078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 967620e59e52cc14c89c22c4176bac09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mIntensity: 0.5
+  mAdditionalEmission: 0
+  mScale: 1
 --- !u!212 &5201104623901103339 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
@@ -257,6 +298,14 @@ MonoBehaviour:
   SynchroniseCurrentDirection: 3
   IgnoreServerUpdatesIfLocalPlayer: 0
   MatrixRotateUpdate: 1
+  SetOrder: 0
+  Orders: 00000000000000000000000000000000
+  SetLayer: 0
+  Layers:
+  - Rename me 1
+  - Rename me 2
+  - Rename me 3
+  - Rename me 4
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
 --- !u!114 &5448639519452539588
@@ -278,6 +327,9 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   listOfLights: []
+  OnButtonPressed:
+    m_PersistentCalls:
+      m_Calls: []
   isOn: 1
   coolDownTime: 2
   sprites:
