@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using AdminCommands;
 using Core;
+using HealthV2;
 using Logs;
 using UnityEngine;
 using Mirror;
@@ -394,6 +395,27 @@ public static class PlayerSpawn
 			Loggy.Error(e.ToString());
 
 			physics.AppearAtWorldPositionServer(SpawnPoint.GetRandomPointForLateSpawn().transform.position);
+		}
+
+		try
+		{
+			var Health = body.GetComponentCustom<LivingHealthMasterBase>();
+			foreach (var Mutation in  requestedOccupation.StartingMutations)
+			{
+				foreach (var Bodypart in Health.BodyPartList)
+				{
+					var BodyPartMutations = Bodypart.GetComponentCustom<BodyPartMutations>();
+					if (BodyPartMutations.CapableMutations.Contains(Mutation))
+					{
+						BodyPartMutations.AddMutation(Mutation);
+					}
+				}
+			}
+		}
+		catch (Exception e)
+		{
+			Loggy.Error(e.ToString());
+
 		}
 
 		if (requestedOccupation != null)

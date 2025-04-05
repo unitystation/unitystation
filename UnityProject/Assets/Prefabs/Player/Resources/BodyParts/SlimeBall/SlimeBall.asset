@@ -39,10 +39,13 @@ MonoBehaviour:
     ClueString: Sticky substance
     MeatProduce: {fileID: 0}
     SkinProduce: {fileID: 0}
+    SkinningItemTrait: {fileID: 0}
     CanBePlayerChosen: 0
     PreviewSprite: {fileID: 11400000, guid: 7f7189ad0070b714b9c3b5f85fd0d2a3, type: 2}
     SystemSettings:
     - rid: 7896866275939057665
+    StartingMutations:
+    - {fileID: 11400000, guid: 37836285d262552459c7aa1a562ccce8, type: 2}
   references:
     version: 2
     RefIds:
@@ -60,3 +63,10 @@ MonoBehaviour:
         NormalBlood: 100
         bloodReagent: {fileID: 11400000, guid: 00d9a9827ebcc49ab8b0df647c4f7da5, type: 2}
         PumpingDevices: []
+        TempBloodReservoir:
+          temperature: 273.15
+          reagents:
+            m_keys: []
+            m_values: []
+          reagentKeys: []
+        ReservoirReturnMultiplier: 0.15

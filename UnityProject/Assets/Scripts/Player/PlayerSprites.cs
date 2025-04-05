@@ -499,6 +499,18 @@ namespace Player
 			livingHealthMasterBase.SetUpCharacter(RaceBodyparts);
 			SetupSprites();
 			livingHealthMasterBase.StartFresh();
+
+			foreach (var Mutation in RaceBodyparts.Base.StartingMutations)
+			{
+				foreach (var Bodypart in livingHealthMasterBase.BodyPartList)
+				{
+					var BodyPartMutations = Bodypart.GetComponentCustom<BodyPartMutations>();
+					if (BodyPartMutations.CapableMutations.Contains(Mutation))
+					{
+						BodyPartMutations.AddMutation(Mutation);
+					}
+				}
+			}
 		}
 
 		public void NotifyPlayer(NetworkConnection recipient, bool clothItems = false)

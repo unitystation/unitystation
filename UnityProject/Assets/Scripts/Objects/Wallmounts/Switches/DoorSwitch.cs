@@ -11,6 +11,7 @@ using CustomInspectors;
 using Items;
 using Shared.Systems.ObjectConnection;
 using Systems.Electricity;
+using Util.Independent.FluentRichText;
 
 namespace Objects.Wallmounts
 {
@@ -65,19 +66,18 @@ namespace Objects.Wallmounts
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if(TestCoolDown() == false) return;
+			if (TestCoolDown() == false) return;
 
+			var storage = interaction.Performer.OrNull()?.GetComponent<DynamicItemStorage>();
 
-			var Storage = interaction.Performer.OrNull()?.GetComponent<DynamicItemStorage>();
-
-			if (Storage != null)
+			if (storage != null)
 			{
-				var emag = Emag.GetEmagInDynamicItemStorage(Storage);
+				var emag = Emag.GetEmagInDynamicItemStorage(storage);
 				if (emag != null)
 				{
 					if (emag.UseCharge(interaction))
 					{
-						RunDoorController();
+						RunDoorController(interaction);
 						RpcPlayButtonAnim(false);
 						return;
 					}
@@ -87,16 +87,18 @@ namespace Objects.Wallmounts
 			if (clearanceRestricted.HasClearance(interaction.Performer) == false)
 			{
 				RpcPlayButtonAnim(false);
+				Chat.AddActionMsgToChat(interaction.Performer,
+					$"The {gameObject.ExpensiveName()} makes a loud buzz as it denies {interaction.PerformerPlayerScript.visibleName}'s clearance.");
 				return;
 			}
-
-			RunDoorController();
+			RunDoorController(interaction);
 		}
 
-		public void RunDoorController()
+		public void RunDoorController(HandApply interaction = null)
 		{
 			if (NewdoorControllers.Count == 0)
 			{
+				if (interaction != null) Chat.AddExamineMsg(interaction.Performer, "There doesn't seem to be anything connected to this button.");
 				return;
 			}
 
@@ -104,11 +106,19 @@ namespace Objects.Wallmounts
 			{
 				if (APCPoweredDevice.IsOn(thisAPCPoweredDevice.State) == false)
 				{
+					if (interaction != null) Chat.AddExamineMsg(interaction.Performer, "There doesn't seem to be power connected to this button.".Color(Color.red));
 					return;
 				}
 			}
 
 			RpcPlayButtonAnim(true);
+
+			if (interaction != null)
+			{
+				Chat.AddActionMsgToChat(interaction.Performer,
+					$"{interaction.PerformerPlayerScript.visibleName} interacts with the {gameObject.ExpensiveName()}, " +
+					$"and a small chirp can be heard as it approves {interaction.PerformerPlayerScript.characterSettings.TheirPronoun(interaction.PerformerPlayerScript)} clearance.");
+			}
 
 			foreach (var door in NewdoorControllers)
 			{
