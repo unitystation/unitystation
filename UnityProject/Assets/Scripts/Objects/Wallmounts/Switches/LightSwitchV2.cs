@@ -183,7 +183,7 @@ namespace Objects.Lighting
 		private async UniTask SwitchCoolDown()
 		{
 			isInCoolDown = true;
-			await UniTask.WaitForSeconds(coolDownTime); // unitask has zero allocations compared to IEnumrators.
+			await UniTask.WaitForSeconds(coolDownTime); // unitask has zero allocations compared to IEnumerators.
 			isInCoolDown = false;
 		}
 
