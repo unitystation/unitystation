@@ -18,6 +18,11 @@ PrefabInstance:
       propertyPath: deviceType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -6356777978426299504, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: initialwattusage
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_Size.x
@@ -156,7 +161,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 5201104623901103339}
+    - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: fa797ac5f2c4f724b8be835f30a4e3e6,
+        type: 2}
+    - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: fa797ac5f2c4f724b8be835f30a4e3e6,
         type: 2}
@@ -257,6 +273,14 @@ MonoBehaviour:
   SynchroniseCurrentDirection: 3
   IgnoreServerUpdatesIfLocalPlayer: 0
   MatrixRotateUpdate: 1
+  SetOrder: 0
+  Orders: 00000000000000000000000000000000
+  SetLayer: 0
+  Layers:
+  - Rename me 1
+  - Rename me 2
+  - Rename me 3
+  - Rename me 4
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
 --- !u!114 &5448639519452539588
@@ -278,8 +302,11 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   listOfLights: []
+  OnButtonPressed:
+    m_PersistentCalls:
+      m_Calls: []
   isOn: 1
-  coolDownTime: 2
+  coolDownTime: 2.5
   sprites:
   - {fileID: 21300000, guid: e5190e92b1300c449b22db8ea3f4f37d, type: 3}
   - {fileID: 21300000, guid: 78c7a580cdf74bc4a8f85b744365253a, type: 3}
