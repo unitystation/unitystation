@@ -402,7 +402,12 @@ public static class PlayerSpawn
 			{
 				case SpawnType.NewSpawn:
 					body.GetComponent<DynamicItemStorage>().OrNull()?.SetUpOccupation(requestedOccupation);
-					CrewManifestManager.Instance.AddMember(body.GetComponent<PlayerScript>(), requestedOccupation.JobType);
+					
+					if (requestedOccupation.IsCrewmember)
+					{
+						CrewManifestManager.Instance.AddMember(body.GetComponent<PlayerScript>(), requestedOccupation.JobType);
+					}
+
 					SpawnBannerMessage.Send(
 						body,
 						requestedOccupation.DisplayName,
