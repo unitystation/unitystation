@@ -24,10 +24,7 @@ namespace Objects
 
 		public Battery GetBattery()
 		{
-			if (battery == null)
-			{
-				battery = InternalBatterySlot.Item.GetComponent<Battery>();
-			}
+			battery = InternalBatterySlot.Item.GetComponent<Battery>();
 			return battery;
 		}
 	}
