@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1794370304958652886}
   - component: {fileID: 7350750687590710805}
   - component: {fileID: 4726032200846863242}
+  - component: {fileID: 417212735603451187}
   m_Layer: 0
   m_Name: ChargingIndicator
   m_TagString: Untagged
@@ -107,11 +108,27 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: 099b545340b1ba449a6fa244256f1f97,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 7350750687590710805}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+--- !u!114 &417212735603451187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3425267132702079008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 967620e59e52cc14c89c22c4176bac09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mIntensity: 0.5
+  mAdditionalEmission: 0
+  mScale: 1
 --- !u!1 &4509073143283519027
 GameObject:
   m_ObjectHideFlags: 0
@@ -123,6 +140,7 @@ GameObject:
   - component: {fileID: 5450679070343288313}
   - component: {fileID: 7588772316711615928}
   - component: {fileID: 7259404621587963769}
+  - component: {fileID: 6628407259827267574}
   m_Layer: 0
   m_Name: OutputEnabledIndicator
   m_TagString: Untagged
@@ -219,11 +237,27 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: 04bdc709610a043459bc04e8a56cdd75,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 7588772316711615928}
   doReverseAnimation: 0
   pushTextureOnStartUp: 0
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+--- !u!114 &6628407259827267574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4509073143283519027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 967620e59e52cc14c89c22c4176bac09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mIntensity: 0.5
+  mAdditionalEmission: 0
+  mScale: 1
 --- !u!1 &8847876275730697796
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,6 +269,7 @@ GameObject:
   - component: {fileID: 3392900991078493301}
   - component: {fileID: 3347804810445769688}
   - component: {fileID: 5256832807861122745}
+  - component: {fileID: 4110758120424339495}
   m_Layer: 0
   m_Name: ChargeLevelIndicator
   m_TagString: Untagged
@@ -301,7 +336,7 @@ SpriteRenderer:
   m_SortingLayerID: -24161425
   m_SortingLayer: 8
   m_SortingOrder: 12
-  m_Sprite: {fileID: 21300000, guid: 2cea459d2cb20ee43b38e0d85f1e6420, type: 3}
+  m_Sprite: {fileID: 21300002, guid: 2cea459d2cb20ee43b38e0d85f1e6420, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -334,11 +369,27 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: bd329062e4ba725438d3b6775fa20f6f,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 3347804810445769688}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+--- !u!114 &4110758120424339495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8847876275730697796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 967620e59e52cc14c89c22c4176bac09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mIntensity: 0.5
+  mAdditionalEmission: 0
+  mScale: 1
 --- !u!1001 &3072407288100151715
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -495,6 +546,11 @@ PrefabInstance:
       propertyPath: _assetId
       value: 3059711264
       objectReference: {fileID: 0}
+    - target: {fileID: 6943869364395329275, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 850681653702175125}
     - target: {fileID: 6943869364395329275, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -676,6 +732,12 @@ MonoBehaviour:
 --- !u!4 &629293756892171096 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2456943875737660155, guid: f9025da3beb40304cb15babfc0a6cafa,
+    type: 3}
+  m_PrefabInstance: {fileID: 3072407288100151715}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &850681653702175125 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2408678487295248438, guid: f9025da3beb40304cb15babfc0a6cafa,
     type: 3}
   m_PrefabInstance: {fileID: 3072407288100151715}
   m_PrefabAsset: {fileID: 0}

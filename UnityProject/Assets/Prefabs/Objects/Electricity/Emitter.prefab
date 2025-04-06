@@ -167,7 +167,7 @@ PrefabInstance:
     - target: {fileID: 5091487934060065553, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
       propertyPath: initialDescription
-      value: Emitter a high power laser beam when powered
+      value: Emits a high-power laser beam when powered.
       objectReference: {fileID: 0}
     - target: {fileID: 5372848449603833305, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
@@ -201,7 +201,18 @@ PrefabInstance:
       objectReference: {fileID: 1511291056692446084}
     - target: {fileID: 6943869364395329275, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 4131257631443374883}
+    - target: {fileID: 6943869364395329275, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f761bdcfae971bc41ae9298a15c79f9c,
+        type: 2}
+    - target: {fileID: 6943869364395329275, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: f761bdcfae971bc41ae9298a15c79f9c,
         type: 2}
@@ -346,6 +357,12 @@ SortingGroup:
     type: 3}
   m_PrefabInstance: {fileID: 1745273223061576469}
   m_PrefabAsset: {fileID: 0}
+--- !u!212 &4131257631443374883 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2408678487295248438, guid: f9025da3beb40304cb15babfc0a6cafa,
+    type: 3}
+  m_PrefabInstance: {fileID: 1745273223061576469}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4194276244320548660 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2453728123087481889, guid: f9025da3beb40304cb15babfc0a6cafa,
@@ -385,11 +402,11 @@ MonoBehaviour:
   alwaysShoot: 0
   minVoltage: 1500
   sound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Weapons/Emitter1.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   DoesNotShoot: 0
