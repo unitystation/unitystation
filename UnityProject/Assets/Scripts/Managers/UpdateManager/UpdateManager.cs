@@ -5,6 +5,8 @@ using UnityEngine.Profiling;
 using System.Linq;
 using System.Text;
 using Logs;
+using NSubstitute.Core;
+using Random = UnityEngine.Random;
 
 /// <summary>
 ///     Handles the update methods for in game objects
@@ -32,10 +34,9 @@ public class UpdateManager : MonoBehaviour
 
 	private Action cameraFollowUpate = null;
 
-
-
 	private List<TimedUpdate> periodicUpdateActions = new List<TimedUpdate>();
 	private List<TimedUpdate> soundUpdates = new List<TimedUpdate>();
+	private readonly List<TimedUpdate> thinkShotActions = new List<TimedUpdate>();
 
 	private Queue<Tuple<CallbackType, Action>> threadSafeAddQueue = new Queue<Tuple<CallbackType, Action>>();
 	private Queue<Tuple<Action, float>> threadSafeAddPeriodicQueue = new Queue<Tuple<Action, float>>();
@@ -91,8 +92,6 @@ public class UpdateManager : MonoBehaviour
 		Debug.Log("removed " + (CleanupUtil.RidListOfSoonToBeDeadElements(pooledTimedUpdates, u => u?.Action?.Target as MonoBehaviour) + CleanupUtil.RidListOfDeadElements(pooledTimedUpdates, u => (MonoBehaviour)u?.Action?.Target)) + " messed up events in UpdateManager.pooledTimedUpdates");
 		Debug.Log("removed " + CleanupUtil.RidListOfSoonToBeDeadElements(preCameraUpdateActions, u => u.Target as MonoBehaviour) + " messed up events in UpdateManager.postCameraUpdateActions");
 		Debug.Log("removed " + (CleanupUtil.RidListOfSoonToBeDeadElements(soundUpdates, u => u?.Action?.Target as MonoBehaviour) + CleanupUtil.RidListOfDeadElements(soundUpdates, u => (MonoBehaviour)u?.Action?.Target)) + " messed up events in UpdateManager.soundUpdates");
-
-
 	}
 
 	private void Awake()
@@ -112,7 +111,6 @@ public class UpdateManager : MonoBehaviour
 		instance = this;
 	}
 
-	List<(CallbackType, Action)> survivors_list = new List<(CallbackType, Action)>();
 	public static void Add(CallbackType type, Action action)
 	{
 		instance.AddCallbackInternal(type, action);
@@ -123,25 +121,46 @@ public class UpdateManager : MonoBehaviour
 		instance.threadSafeAddQueue.Enqueue(new Tuple<CallbackType, Action>(type, action));
 	}
 
+	/// <summary>
+	/// A variant of the Add method that allows you to add a periodic update action with a time interval. Also used for sound updates.
+	/// Functions will be invoked every {timeInterval} seconds when added through here.
+	/// If you one to add a function that runs once after {timeInterval} seconds, use the ThinkShot method.
+	/// </summary>
+	/// <param name="action">the function that will be invoked after some time.</param>
+	/// <param name="timeInterval">time in seconds until action is invoked. This time is slightly offset by 0.01 seconds to spread functions across multiple frames, instead of spamming all functions at once.</param>
+	/// <param name="offsetUpdate">Does this contribute to the time update offset? Setting this to false is not recommended.</param>
+	/// <param name="CallbackType">Default: PeriodicUpdate. Setting this to anything other than PERIODIC_UPDATE or Think will turn the action into a sound update.</param>
 	public static void Add(Action action, float timeInterval, bool offsetUpdate = true, CallbackType CallbackType = CallbackType.PERIODIC_UPDATE)
 	{
+		if (action == null || Instance == null)
+		{
+			Loggy.Error("Trying to add a null action to the update manager, or Instance is not avaliable.");
+			return;
+		}
+		if (CallbackType == CallbackType.THINK)
+		{
+			ThinkShot(action, timeInterval);
+			return;
+		}
 		if (CallbackType == CallbackType.PERIODIC_UPDATE)
 		{
 			if (Instance.periodicUpdateActions.Any(x => x.Action == action)) return;
 			TimedUpdate timedUpdate = Instance.GetTimedUpdates();
-			timedUpdate.SetUp(action, timeInterval);
+			timedUpdate.SetUp(action, timeInterval, false);
+			//Bod: It has a delay that it adds when first updating so,
+			//if there's a bunch of objects Spawned on the first Frame they don't all update the same time
+			//It should be fine if we skip this, but it needs this offset so it doesn't invoke all functions on the same frame, and cause stuttering.
 			if (offsetUpdate)
 			{
 				timedUpdate.TimeTitleNext += NumberOfUpdatesAdded * 0.01f;
 			}
-
 			Instance.periodicUpdateActions.Add(timedUpdate);
 		}
 		else
 		{
 			if (Instance.soundUpdates.Any(x => x.Action == action)) return;
 			TimedUpdate timedUpdate = Instance.GetTimedUpdates();
-			timedUpdate.SetUp(action, timeInterval);
+			timedUpdate.SetUp(action, timeInterval, false);
 			if (offsetUpdate)
 			{
 				timedUpdate.TimeTitleNext += NumberOfUpdatesAdded * 0.01f;
@@ -149,11 +168,52 @@ public class UpdateManager : MonoBehaviour
 
 			Instance.soundUpdates.Add(timedUpdate);
 		}
+		TickUpNumberOfUpdatesAdded();
+	}
+
+	private static void TickUpNumberOfUpdatesAdded()
+	{
 		NumberOfUpdatesAdded++;
 		if (NumberOfUpdatesAdded > 500)
 		{
 			NumberOfUpdatesAdded = 0; //So the delay can't be too big
 		}
+	}
+
+	/// <summary>
+	/// Calls an action only once after a certain time interval. No update time offset is applied here.
+	/// </summary>
+	/// <param name="action">The function that will be invoked after a set period of time defined in time interval.</param>
+	/// <param name="timeInterval">Time until action is invoked in seconds. Setting this below or equals 0 will cause timeInterval to run randomly between 0.1 and 1 seconds.</param>
+	public static void ThinkShot(Action action, float timeInterval)
+	{
+		if (Instance.thinkShotActions.Any(x => x.Action == action)) return;
+		if (timeInterval <= 0)
+		{
+			timeInterval = Random.Range(0.1f, 1f);
+		}
+		TimedUpdate timedUpdate = Instance.GetTimedUpdates();
+		timedUpdate.SetUp(action, timeInterval, true);
+		Instance.thinkShotActions.Add(timedUpdate);
+	}
+
+	/// <summary>
+	/// Calls an action only once after a random amount of time in seconds. No update time offset is applied here.
+	/// </summary>
+	/// <param name="action">The function that will be invoked after a set period of time defined in time interval.</param>
+	/// <param name="minTimeInterval">The minimum Time before an action is invoked. Setting this below or equals 0 will cause timeInterval to be at a minimum of 1 second.</param>
+	/// <param name="maxTimeInterval">The maximum Time before an action is invoked. Setting this below or equals 0 will cause timeInterval to be at a minimum of 2 seconds.</param>
+	public static void ThinkShotRandomTime(Action action, float minTimeInterval = 0, float maxTimeInterval = 0)
+	{
+		if (Instance.thinkShotActions.Any(x => x.Action == action)) return;
+		if (minTimeInterval <= 0 || maxTimeInterval <= 0)
+		{
+			minTimeInterval = 1f;
+			maxTimeInterval = 2f;
+		}
+		TimedUpdate timedUpdate = Instance.GetTimedUpdates();
+		timedUpdate.SetUp(action, Random.Range(minTimeInterval, maxTimeInterval), true);
+		Instance.thinkShotActions.Add(timedUpdate);
 	}
 
 	public static void SetCameraUpdate(Action CameraFollowUpate)
@@ -207,21 +267,20 @@ public class UpdateManager : MonoBehaviour
 
 		if (type == CallbackType.PERIODIC_UPDATE)
 		{
-			TimedUpdate RemovingAction = null;
+			TimedUpdate removingAction = null;
 			foreach (var periodicUpdateAction in Instance.periodicUpdateActions)
 			{
 				if (periodicUpdateAction.Action == action)
 				{
-					RemovingAction = periodicUpdateAction;
+					removingAction = periodicUpdateAction;
 				}
 			}
-			if (RemovingAction != null)
+			if (removingAction != null)
 			{
-				RemovingAction.Pool();
-				Instance.periodicUpdateActions.Remove(RemovingAction);
+				removingAction.Pool();
+				Instance.periodicUpdateActions.Remove(removingAction);
 
 			}
-
 			return;
 		}
 
@@ -250,7 +309,10 @@ public class UpdateManager : MonoBehaviour
 			return;
 		}
 
-
+		if (type == CallbackType.THINK)
+		{
+			Loggy.Error("Cannot remove think shot actions manually. Let them die naturally when their time is up to process.");
+		}
 	}
 
 	public static void Remove(ManagedNetworkBehaviour networkBehaviour)
@@ -292,6 +354,11 @@ public class UpdateManager : MonoBehaviour
 			Instance.preCameraUpdateActions.Add(action);
 			return;
 		}
+
+		if (type == CallbackType.THINK)
+		{
+			ThinkShot(action, 0);
+		}
 	}
 
 	private void RemoveCallbackInternal(CallbackCollection collection, Action callback)
@@ -307,7 +374,6 @@ public class UpdateManager : MonoBehaviour
 	private void Update()
 	{
 		CurrentFrameCashed = Time.frameCount;
-
 
 		if (threadSafeAddQueue.Count > 0)
 		{
@@ -403,7 +469,6 @@ public class UpdateManager : MonoBehaviour
 
 		ProcessDelayUpdate();
 
-
 		if (Profile)
 		{
 			Profiler.EndSample();
@@ -465,6 +530,30 @@ public class UpdateManager : MonoBehaviour
 			}
 		}
 		MidInvokeCalls = false;
+		MidInvokeCalls = true;
+		n = 0;
+		for (int i = 0; i < thinkShotActions.Count; i++)
+		{
+			var thinkShotAction = thinkShotActions[i];
+			thinkShotAction.TimeTitleNext -= CashedDeltaTime;
+			if (thinkShotAction.TimeTitleNext <= 0)
+			{
+				n++;
+				LastInvokedAction = thinkShotAction.Action;
+				try
+				{
+					thinkShotAction.Action();
+				}
+				catch (Exception e)
+				{
+					Loggy.Error(e.ToString());
+				}
+				thinkShotAction.Pool();
+				thinkShotActions.RemoveAt(i);
+				i--;
+			}
+		}
+		MidInvokeCalls = false;
 	}
 
 	private void FixedUpdate()
@@ -518,15 +607,17 @@ public class UpdateManager : MonoBehaviour
 
 	public class TimedUpdate
 	{
+		public bool OneShot = false;
 		public float TimeDelayPreUpdate = 0;
 		public float TimeTitleNext = 0;
 		public Action Action;
 
-		public void SetUp(Action InAction, float InTimeDelayPreUpdate)
+		public void SetUp(Action inAction, float inTimeDelayPreUpdate, bool isOneShot)
 		{
-			Action = InAction;
-			TimeDelayPreUpdate = InTimeDelayPreUpdate;
-			TimeTitleNext = InTimeDelayPreUpdate;
+			Action = inAction;
+			TimeDelayPreUpdate = inTimeDelayPreUpdate;
+			TimeTitleNext = inTimeDelayPreUpdate;
+			OneShot = isOneShot;
 		}
 
 		public void Pool()
@@ -534,6 +625,7 @@ public class UpdateManager : MonoBehaviour
 			TimeDelayPreUpdate = 0;
 			TimeTitleNext = 0;
 			Action = null;
+			OneShot = false;
 			UpdateManager.instance.pooledTimedUpdates.Add(this);
 		}
 	}
@@ -621,7 +713,8 @@ public enum CallbackType : byte
 	LATE_UPDATE,
 	PERIODIC_UPDATE,
 	SOUND_UPDATE,
-	EARLY_UPDATE
+	EARLY_UPDATE,
+	THINK,
 }
 
 /// <summary>
