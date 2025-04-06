@@ -124,7 +124,7 @@ public class UpdateManager : MonoBehaviour
 	/// <summary>
 	/// A variant of the Add method that allows you to add a periodic update action with a time interval. Also used for sound updates.
 	/// Functions will be invoked every {timeInterval} seconds when added through here.
-	/// If you one to add a function that runs once after {timeInterval} seconds, use the ThinkShot method.
+	/// If you want to add a function that runs once after {timeInterval} seconds, use the ThinkShot method.
 	/// </summary>
 	/// <param name="action">the function that will be invoked after some time.</param>
 	/// <param name="timeInterval">time in seconds until action is invoked. This time is slightly offset by 0.01 seconds to spread functions across multiple frames, instead of spamming all functions at once.</param>
