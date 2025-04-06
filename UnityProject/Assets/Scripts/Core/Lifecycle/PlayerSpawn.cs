@@ -232,7 +232,8 @@ public static class PlayerSpawn
 		}
 
 
-		if (requestedOccupation.OrNull()?.BetterCustomProperties.FirstOrDefault(x => x is IGetPlayerPrefab) is IGetPlayerPrefab overwriteBody)
+		if (requestedOccupation.OrNull()?.BetterCustomProperties.FirstOrDefault(x => x is IGetPlayerPrefab) is
+		    IGetPlayerPrefab overwriteBody)
 		{
 			bodyPrefab = overwriteBody.GetPlayerPrefab();
 			if (bodyPrefab == null)
@@ -374,7 +375,6 @@ public static class PlayerSpawn
 							playerSprites.CharacterSheetOverride = requestedOccupation.UseCharacterSettings;
 						}
 					}
-
 				}
 
 				playerSprites.OnCharacterSettingsChange(toUseCharacterSettings);
@@ -402,7 +402,7 @@ public static class PlayerSpawn
 			var Health = body.GetComponentCustom<LivingHealthMasterBase>();
 			if (requestedOccupation != null)
 			{
-				foreach (var Mutation in  requestedOccupation.StartingMutations)
+				foreach (var Mutation in requestedOccupation.StartingMutations)
 				{
 					foreach (var Bodypart in Health.BodyPartList)
 					{
@@ -418,7 +418,6 @@ public static class PlayerSpawn
 		catch (Exception e)
 		{
 			Loggy.Error(e.ToString());
-
 		}
 
 		if (requestedOccupation != null)
@@ -430,7 +429,8 @@ public static class PlayerSpawn
 
 					if (requestedOccupation.IsCrewmember)
 					{
-						CrewManifestManager.Instance.AddMember(body.GetComponent<PlayerScript>(), requestedOccupation.JobType);
+						CrewManifestManager.Instance.AddMember(body.GetComponent<PlayerScript>(),
+							requestedOccupation.JobType);
 					}
 
 					SpawnBannerMessage.Send(
@@ -506,10 +506,8 @@ public static class PlayerSpawn
 			account.Mind.GetComponent<GhostSprites>().SetGhostSprite(false);
 		}
 
-
 		TransferAccountOccupyingMind(account, account.Mind, newMind);
-
-
+		
 		if (isAdmin)
 		{
 			var adminItemStorage = AdminManager.Instance.GetItemSlotStorage(account);
@@ -523,6 +521,8 @@ public static class PlayerSpawn
 	{
 		if (from != null && from != to)
 		{
+			from.InternalSetControllingObject(null);
+
 			var oldPlayerNetworkActions = from.GetComponent<PlayerNetworkActions>();
 			if (oldPlayerNetworkActions)
 			{
@@ -572,7 +572,7 @@ public static class PlayerSpawn
 				FollowCameraMessage.Send(to.gameObject, playerObjectBehavior.ContainedInObjectContainer.gameObject);
 			}
 
-			PossessAndUnpossessMessage.Send(to.gameObject, to.gameObject, from.OrNull()?.gameObject);
+			ControlAndLoseControlMessage.Send(to.gameObject, to.gameObject, from.OrNull()?.gameObject);
 			var transfers = to.GetComponents<IOnControlPlayer>();
 
 			foreach (var transfer in transfers)
@@ -581,6 +581,11 @@ public static class PlayerSpawn
 			}
 
 			to.AccountEnteringMind(account);
+		}
+
+		if (account.Connection is LocalConnectionToClient) //Server host  client
+		{
+			PlayerManager.SetMind(to?.GetComponent<Mind>());
 		}
 
 		UpdateMind.SendTo(account.Connection, to);
@@ -592,6 +597,7 @@ public static class PlayerSpawn
 	/// <param name="account"></param>
 	/// <param name="from"></param>
 	/// <param name="to"></param>
+	[Server]
 	public static void TransferOwnershipFromToConnection(PlayerInfo account, NetworkIdentity from, NetworkIdentity to)
 	{
 		if (account != null)
@@ -629,11 +635,14 @@ public static class PlayerSpawn
 					Loggy.Error($"Attempted to transfer an account ({account.Username}) with a null connection!!!");
 					return;
 				}
+
 				account.Connection.observing.Add(to);
 				//TODO because sometimes it cannot be a Observing for some reason , And that causes the ownership message to fail
 				Loggy.Info($"[{account.Username}] - Removing client authority from {to.netId}.");
 				to.RemoveClientAuthority();
 				to.AssignClientAuthority(account.Connection);
+
+
 				// Because it doesn't want to send the unique ownership data to the client so Have to force it to regenerate
 				to.observers.Remove(account.Connection.connectionId);
 				to.AddPlayerObserver(account.Connection);

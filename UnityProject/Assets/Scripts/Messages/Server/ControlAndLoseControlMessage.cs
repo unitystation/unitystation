@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using Mirror;
 using UnityEngine;
 
 namespace Messages.Server
 {
-	public class PossessAndUnpossessMessage : ServerMessage<PossessAndUnpossessMessage.NetMessage>
+	public class ControlAndLoseControlMessage : ServerMessage<ControlAndLoseControlMessage.NetMessage>
 	{
 		public struct NetMessage : NetworkMessage
 		{
@@ -28,6 +29,7 @@ namespace Messages.Server
 				{
 					Component.ClientOnPlayerLeaveBody();
 				}
+
 				ClientSynchronisedEffectsManager.Instance.LeavingBody(msg.UnPossessingObject);
 
 			}
