@@ -72,6 +72,7 @@ MeshRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -198,6 +199,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -460,7 +462,7 @@ MonoBehaviour:
     fovBlurInterpolation: 8
     fovOcclusionSpread: 0
     fovHorizonSmooth: 23
-    lightBlurIterations: 3
+    lightBlurIterations: 0
     lightBlurInterpolation: 0.56
     occlusionBlurIterations: 3
     occlusionBlurInterpolation: 3.75
@@ -469,8 +471,8 @@ MonoBehaviour:
     occlusionMaskSizeAdd: {x: 6, y: 9}
     rotationBlurInterpolation: 0.2
     rotationBlurIterations: 1
-    occlusionDetail: 14
-    lightResample: 1
+    occlusionDetail: 16
+    lightResample: 2
     doubleFrameRenderingMode: 0
     disableAsyncGPUReadback: 0
   materialContainer:
@@ -807,6 +809,7 @@ MeshRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -984,6 +987,7 @@ MeshRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -1072,6 +1076,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -1191,6 +1196,7 @@ MeshRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
