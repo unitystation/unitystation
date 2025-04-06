@@ -8,6 +8,7 @@ using HealthV2;
 using Items.Food;
 using Logs;
 using Mobs.AI;
+using Mobs.BrainAI.States.GenericStates;
 using Mobs.Traversal;
 using Mobs.Traversal.Strategies;
 using PathFinding;
@@ -23,12 +24,17 @@ namespace Mobs.BrainAI.States.Arial
 		private MobTraversal pathfinder => master.Traversal;
 		[SerializeField] private BrainWanderState wanderState;
 		[SerializeField] private CauseTroubleArialAi troubelState;
+		[SerializeField] private GenericAiStateFollowMob stalkState;
 		[SerializeField] private List<AddressableAudioSource> stateEnterSounds = new List<AddressableAudioSource>();
 
 		[SerializeReference, SelectImplementation(typeof(ITraversalStrat))]
 		public List<ITraversalStrat> TraversalStrategies = new List<ITraversalStrat>();
 
 		private bool isTraversing = false;
+		private bool isStalking = true;
+		private bool isPranking = false;
+
+		private int ticksElapsed = 0;
 
 		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
 		{
@@ -45,7 +51,7 @@ namespace Mobs.BrainAI.States.Arial
 			if (target == null)
 			{
 				//enter wander state.
-				master.AddRemoveState(null, wanderState);
+				master.RemoveAddState(null, wanderState);
 			}
 			SoundManager.PlayNetworkedAtPos(stateEnterSounds.PickRandom(),
 				LivingHealthMaster.gameObject.AssumedWorldPosServer());
@@ -66,16 +72,48 @@ namespace Mobs.BrainAI.States.Arial
 				return;
 			}
 
+			ticksElapsed++;
+			if (ticksElapsed > 50)
+			{
+				ticksElapsed = 0;
+				isStalking = DMMath.Prob(50);
+				isPranking = !isStalking;
+			}
+
 			if (target == null)
 			{
 				target = DecideTarget();
 				if (target != null)
 				{
-					master.AddRemoveState(wanderState, null);
+					master.RemoveAddState(wanderState, null);
 				}
 				return;
 			}
 
+			StalkBehavior();
+			PrankBehavior();
+		}
+
+		/// <summary>
+		/// Makes Arials follow a target until they decide to prank them.
+		/// </summary>
+		private void StalkBehavior()
+		{
+			//(Max): List checks maybe not optimal? Find better way to check if stalkState is active without asking a list if needed.
+			if (isPranking && master.CurrentActiveStates.Contains(stalkState))
+			{
+				master.RemoveAddState(stalkState, null);
+				return;
+			}
+			else if (master.CurrentActiveStates.Contains(stalkState) == false)
+			{
+				master.RemoveAddState(null, stalkState);
+			}
+		}
+
+		private void PrankBehavior()
+		{
+			if (isStalking) return;
 			if (pathfinder.QueueMovementGoal(target.gameObject.TileLocalPosition().To3Int(),
 				    () => OnDoneTraversalToLocation(Vector3Int.zero),
 				    null, TraversalStrategies, true))
@@ -91,7 +129,7 @@ namespace Mobs.BrainAI.States.Arial
 			if (Vector3.Distance(target.AssumedWorldPosServer(), master.gameObject.AssumedWorldPosServer()) < 3.75f)
 			{
 				troubelState.Target = target;
-				master.AddRemoveState(this, troubelState);
+				master.RemoveAddState(this, troubelState);
 			}
 		}
 
@@ -135,12 +173,13 @@ namespace Mobs.BrainAI.States.Arial
 				if (Vector3.Distance(player.gameObject.AssumedWorldPosServer(),
 					    master.gameObject.AssumedWorldPosServer()) < 12)
 				{
+					stalkState.MobToFollow = player.PlayerScript.playerHealth;
 					return player.gameObject;
 				}
 			}
-
+			stalkState.MobToFollow = null;
 			var edibles = ComponentsTracker<Edible>.GetAllNearbyTypesToTarget(master.gameObject, 20, false);
-			return edibles?.Count > 5 ? edibles.PickRandom().gameObject : null;
+			return edibles?.Count > 5 ? edibles.PickRandom()?.gameObject : null;
 		}
 
 		private bool IsStillTraversing()

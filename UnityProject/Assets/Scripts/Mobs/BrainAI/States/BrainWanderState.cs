@@ -36,7 +36,7 @@ public class BrainWanderState : BrainMobState
 			if (state.Blacklist.Contains(this)) return false;
 			if (state.HasGoal())
 			{
-				master.AddRemoveState(this, state);
+				master.RemoveAddState(this, state);
 				return false;
 			}
 		}

@@ -51,7 +51,7 @@ namespace Mobs.BrainAI
 		{
 			Brain = this.GetComponent<Brain>();
 			GatherAllStates();
-			AddRemoveState(null, thinkingState);
+			RemoveAddState(null, thinkingState);
 		}
 
 		private void GatherAllStates()
@@ -65,7 +65,7 @@ namespace Mobs.BrainAI
 			}
 		}
 
-		public void AddRemoveState(BrainMobState oldState, BrainMobState newState)
+		public void RemoveAddState(BrainMobState oldState, BrainMobState newState)
 		{
 			if (newState is null) return;
 			if (CurrentActiveStates.Any(x => x.Blacklist.Contains(newState))) return;

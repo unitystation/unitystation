@@ -33,13 +33,13 @@ namespace Mobs.BrainAI.States.Arial
 		{
 			if (thingToThrow == null)
 			{
-				master.AddRemoveState(this, troubleState);
+				master.RemoveAddState(this, troubleState);
 				return;
 			}
 			thingToThrow.SetTransform(LivingHealthMaster.gameObject.AssumedWorldPosServer(), true);
 			if (troubleEnterTime.TotalSeconds + 5 > DateTime.Now.TimeOfDay.TotalSeconds) return;
 			thingToThrow.NewtonianPush((Target.AssumedWorldPosServer() - thingToThrow.gameObject.AssumedWorldPosServer()).normalized, 35);
-			master.AddRemoveState(this, troubleState);
+			master.RemoveAddState(this, troubleState);
 		}
 
 		public override bool HasGoal()
