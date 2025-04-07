@@ -1,0 +1,151 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5217324220553770533
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1510413460253250866, guid: f7fc46cd9fc472a4b96ad181a215ccfa,
+        type: 3}
+      propertyPath: _assetId
+      value: 846553431
+      objectReference: {fileID: 0}
+    - target: {fileID: 1929526283198197709, guid: f7fc46cd9fc472a4b96ad181a215ccfa,
+        type: 3}
+      propertyPath: Armor.Bio
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1929526283198197709, guid: f7fc46cd9fc472a4b96ad181a215ccfa,
+        type: 3}
+      propertyPath: Armor.Rad
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1929526283198197709, guid: f7fc46cd9fc472a4b96ad181a215ccfa,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1929526283198197709, guid: f7fc46cd9fc472a4b96ad181a215ccfa,
+        type: 3}
+      propertyPath: Armor.Bomb
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1929526283198197709, guid: f7fc46cd9fc472a4b96ad181a215ccfa,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1929526283198197709, guid: f7fc46cd9fc472a4b96ad181a215ccfa,
+        type: 3}
+      propertyPath: Armor.Laser
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1929526283198197709, guid: f7fc46cd9fc472a4b96ad181a215ccfa,
+        type: 3}
+      propertyPath: Armor.Magic
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1929526283198197709, guid: f7fc46cd9fc472a4b96ad181a215ccfa,
+        type: 3}
+      propertyPath: Armor.Melee
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1929526283198197709, guid: f7fc46cd9fc472a4b96ad181a215ccfa,
+        type: 3}
+      propertyPath: Armor.Bullet
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1929526283198197709, guid: f7fc46cd9fc472a4b96ad181a215ccfa,
+        type: 3}
+      propertyPath: Armor.Energy
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1929526283198197709, guid: f7fc46cd9fc472a4b96ad181a215ccfa,
+        type: 3}
+      propertyPath: Armor.Anomaly
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1929526283198197709, guid: f7fc46cd9fc472a4b96ad181a215ccfa,
+        type: 3}
+      propertyPath: damageDeflection
+      value: 90000000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1929526283198197709, guid: f7fc46cd9fc472a4b96ad181a215ccfa,
+        type: 3}
+      propertyPath: Armor.DismembermentProtectionChance
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6222330799475219993, guid: f7fc46cd9fc472a4b96ad181a215ccfa,
+        type: 3}
+      propertyPath: parentID
+      value: f7fc46cd9fc472a4b96ad181a215ccfa
+      objectReference: {fileID: 0}
+    - target: {fileID: 6222330799475219993, guid: f7fc46cd9fc472a4b96ad181a215ccfa,
+        type: 3}
+      propertyPath: foreverID
+      value: kEKGObGBLag_L6F8X$s3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7001901978159259728, guid: f7fc46cd9fc472a4b96ad181a215ccfa,
+        type: 3}
+      propertyPath: m_Name
+      value: ShuttleConnector AI
+      objectReference: {fileID: 0}
+    - target: {fileID: 7007166756617741962, guid: f7fc46cd9fc472a4b96ad181a215ccfa,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7007166756617741962, guid: f7fc46cd9fc472a4b96ad181a215ccfa,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7007166756617741962, guid: f7fc46cd9fc472a4b96ad181a215ccfa,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7007166756617741962, guid: f7fc46cd9fc472a4b96ad181a215ccfa,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7007166756617741962, guid: f7fc46cd9fc472a4b96ad181a215ccfa,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7007166756617741962, guid: f7fc46cd9fc472a4b96ad181a215ccfa,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7007166756617741962, guid: f7fc46cd9fc472a4b96ad181a215ccfa,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7007166756617741962, guid: f7fc46cd9fc472a4b96ad181a215ccfa,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7007166756617741962, guid: f7fc46cd9fc472a4b96ad181a215ccfa,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7007166756617741962, guid: f7fc46cd9fc472a4b96ad181a215ccfa,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 8336125349189676892, guid: f7fc46cd9fc472a4b96ad181a215ccfa, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f7fc46cd9fc472a4b96ad181a215ccfa, type: 3}
