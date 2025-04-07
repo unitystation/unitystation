@@ -48,16 +48,14 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 
 	public ChatModifier inventorySpeechModifiers = ChatModifier.None;
 
-	/// <summary>
-	/// Current character settings for this player.
-	/// </summary>
-	[SyncVar, NonSerialized] public CharacterSheet characterSettings = new CharacterSheet();
 
-	[HideInInspector, SyncVar(hook = nameof(SyncPlayerName))]
-	public string playerName = " ";
+	public CharacterSheet characterSettings => PlayerScriptVisible.characterSettings;
 
-	[HideInInspector, SyncVar(hook = nameof(SyncVisibleName))]
-	public string visibleName = " ";
+
+	public string playerName => PlayerScriptVisible.playerName;
+
+
+	public string visibleName => PlayerScriptVisible.visibleName;
 
 	public PlayerNetworkActions PlayerNetworkActions { get; private set; }
 
@@ -72,6 +70,8 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 
 	public MovementSynchronisation playerMove { get; private set; }
 	public PlayerSprites playerSprites { get; private set; }
+
+	public PlayerScriptVisible PlayerScriptVisible;
 
 	/// <summary>
 	/// Will be null if player is a ghost.
@@ -215,6 +215,7 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 		BodyAlerts = GetComponent<BodyAlertManager>();
 		Traversal ??= GetComponent<MobTraversal>();
 		Access ??= GetComponent<GroupedAccess>();
+		PlayerScriptVisible ??= GetComponent<PlayerScriptVisible>();
 	}
 
 	private void OnEnable()
@@ -241,7 +242,7 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 	{
 		if (mind.CurrentCharacterSettings != null && characterSettings == null)
 		{
-			characterSettings = mind.CurrentCharacterSettings;
+			PlayerScriptVisible.SetcharacterSettings(mind.CurrentCharacterSettings);
 		}
 	}
 
@@ -253,11 +254,11 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 			{
 				if (mind.CurrentCharacterSettings != null)
 				{
-					SyncPlayerName(mind.name, mind.CurrentCharacterSettings.Name);
+					PlayerScriptVisible.SyncPlayerName(mind.name, mind.CurrentCharacterSettings.Name);
 				}
 				else
 				{
-					SyncPlayerName(mind.name, mind.name);
+					PlayerScriptVisible.SyncPlayerName(mind.name, mind.name);
 				}
 			}
 		}
@@ -426,12 +427,6 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 		OnBodyUnPossesedByPlayer?.Invoke();
 	}
 
-	public void SyncPlayerName(string oldValue, string value)
-	{
-		playerName = value;
-		gameObject.name = value;
-		RefreshVisibleName();
-	}
 
 	[RightClickMethod]
 	public void Possess()
@@ -586,10 +581,9 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 		return transmitChannels | receiveChannels;
 	}
 
-	// Syncvisiblename
-	public void SyncVisibleName(string oldValue, string value)
+
+	public void SetVisibleName()
 	{
-		visibleName = value;
 		try
 		{
 			OnVisibleNameChange?.Invoke();
@@ -616,7 +610,7 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 			newVisibleName = Equipment.GetPlayerNameByEquipment();
 		}
 
-		SyncVisibleName(newVisibleName, newVisibleName);
+		PlayerScriptVisible.SyncVisibleName(newVisibleName, newVisibleName);
 	}
 
 	// Tooltips inspector bar

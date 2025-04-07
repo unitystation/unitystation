@@ -51,7 +51,7 @@ public class DeviceRenamerMessage : ClientMessage<DeviceRenamerMessage.NetMessag
 					msg.ObjectID.NetIdToGameObject()?.Player()?.Mind?.SetPermanentName(msg.NewName);
 					if (msg.ObjectID.NetIdToGameObject()?.Player()?.Script != null)
 					{
-						msg.ObjectID.NetIdToGameObject().Player().Script.playerName = msg.NewName;
+						msg.ObjectID.NetIdToGameObject().Player().Script.PlayerScriptVisible.playerName = msg.NewName;
 					}
 					break;
 			}

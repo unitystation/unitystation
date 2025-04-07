@@ -346,7 +346,7 @@ public static class PlayerSpawn
 		var PlayerScript = body.GetComponent<PlayerScript>();
 		if (PlayerScript)
 		{
-			PlayerScript.characterSettings = character;
+			PlayerScript.PlayerScriptVisible.SetcharacterSettings(character);
 		}
 
 		try
@@ -507,7 +507,7 @@ public static class PlayerSpawn
 		}
 
 		TransferAccountOccupyingMind(account, account.Mind, newMind);
-		
+
 		if (isAdmin)
 		{
 			var adminItemStorage = AdminManager.Instance.GetItemSlotStorage(account);
