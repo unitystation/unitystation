@@ -33,6 +33,7 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 	public IPlayerPossessable PossessedBy { get; set; }
 	public MindNIPossessingEvent OnPossessedBy { get; set; } = new MindNIPossessingEvent();
 
+	//NOTE SyncVar Only visible to owner
 	[SyncVar(hook = nameof(SyncPossessingID))] private uint possessingID;
 
 	public IPlayerPossessable Itself => this as IPlayerPossessable;
