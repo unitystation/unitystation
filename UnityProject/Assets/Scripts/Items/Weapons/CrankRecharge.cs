@@ -18,6 +18,8 @@ namespace Weapons
 
 		private GameObject serverHolder;
 
+		private bool isCharging = false;
+
 		private void Awake()
 		{
 			gunComp = GetComponent<Gun>();
@@ -31,11 +33,14 @@ namespace Weapons
 
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
+			if (isCharging) return;
+
 			Chat.AddActionMsgToChat(serverHolder,
 				$"You start {rechargeVerb} the {gameObject.ExpensiveName()}.",
 				$"{serverHolder.ExpensiveName()} starts {rechargeVerb} the {gameObject.ExpensiveName()}.");
 
 			StartCoroutine(Recharging());
+			isCharging = true;
 		}
 
 		public void OnInventoryMoveServer(InventoryMove info)
@@ -43,6 +48,7 @@ namespace Weapons
 			if (gameObject != info.MovedObject.gameObject) return;
 
 			StopAllCoroutines();
+			isCharging = false;
 			serverHolder = info.ToPlayer != null ? info.ToPlayer.gameObject : null;
 		}
 
@@ -87,6 +93,8 @@ namespace Weapons
 			Chat.AddActionMsgToChat(serverHolder,
 				$"You finish {rechargeVerb} the {gameObject.ExpensiveName()}.",
 				$"{serverHolder.ExpensiveName()} finishes {rechargeVerb} the {gameObject.ExpensiveName()}.");
+
+			isCharging = false;
 		}
 	}
 }

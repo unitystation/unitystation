@@ -42,7 +42,7 @@ namespace Mobs
 		private void MobInit()
 		{
 			GenerateCharacterSheet();
-			Possession.SyncVisibleName("", MobName);
+			Possession.PlayerScriptVisible.SyncVisibleName("", MobName);
 		}
 
 		private void GenerateCharacterSheet()
@@ -53,7 +53,7 @@ namespace Mobs
 				Species = Possession.playerSprites.RaceBodyparts.name,
 				PlayerPronoun = MobPronouns
 			};
-			Possession.characterSettings = sheet;
+			Possession.PlayerScriptVisible.SetcharacterSettings(sheet);
 			Possession.playerSprites.OnCharacterSettingsChange(sheet);
 		}
 	}

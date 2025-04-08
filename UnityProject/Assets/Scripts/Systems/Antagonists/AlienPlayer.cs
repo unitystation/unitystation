@@ -521,7 +521,7 @@ namespace Systems.Antagonists
 			if (playerScript != null && playerScript.Mind != null)
 			{
 				playerScript.Mind.SetPermanentName(newName);
-				playerScript.SyncPlayerName("", newName);
+				playerScript.PlayerScriptVisible.SyncPlayerName("", newName);
 			}
 			else
 			{
@@ -1678,7 +1678,7 @@ namespace Systems.Antagonists
 		{
 			RemoveGhostRole();
 
-			playerScript.playerName = $"{alienType.Name} {nameNumber}";
+			playerScript.PlayerScriptVisible.playerName = $"{alienType.Name} {nameNumber}";
 		}
 
 		public void OnPlayerLeaveBody(PlayerInfo Account)

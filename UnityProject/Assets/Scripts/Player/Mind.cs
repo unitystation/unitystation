@@ -314,6 +314,8 @@ public class Mind : NetworkBehaviour, IActionGUI
 		{
 			SetPermanentName(CurrentCharacterSettings.AiName ?? "H.A.L.E");
 		}
+
+
 	}
 
 
@@ -602,18 +604,13 @@ public class Mind : NetworkBehaviour, IActionGUI
 	{
 		AllClientsObservableMind.IDActivelyControlling = newID;
 		IDActivelyControlling = newID;
-		if (isClient)
-		{
-			LoadManager.RegisterActionDelayed(() => { HandleActiveOnChange(oldID, newID); },
-				2);
-		}
+		HandleActiveOnChange(oldID, newID);
 	}
 
 	private void SyncPossessing(uint oldID, uint newID)
 	{
 		_idPossessing = newID;
-		LoadManager.RegisterActionDelayed(() => { HandlePossessingChange(oldID, newID); },
-			2);
+		HandlePossessingChange(oldID, newID);
 		//This is to handle The game object being spawned in and data being provided before Owner message
 		//s sent owner, This means the game object it's told it's in charge of is not actually in charge of Until later on in that frame is Dumb,
 		//Plus this handles server player funnies with the same thing Just stretched over another frame so that's why it's 2
@@ -640,6 +637,18 @@ public class Mind : NetworkBehaviour, IActionGUI
 	private void HandleActiveOnChange(uint oldID, uint newID)
 	{
 		var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+		if ((oldID is NetId.Invalid or NetId.Empty) == false )
+		{
+			if (spawned.ContainsKey(oldID))
+			{
+				var possessableOld = spawned[oldID].GetComponent<IPlayerPossessable>();
+				if (possessableOld != null)
+				{
+					possessableOld.InternalOnPlayerLeave(this);
+				}
+			};
+		}
+
 		if (spawned.ContainsKey(newID) == false) return;
 
 		if (ControlledBy != null) //TODO Remove
@@ -653,20 +662,11 @@ public class Mind : NetworkBehaviour, IActionGUI
 		{
 			possessable.InternalOnControlPlayer(this, isServer);
 		}
-		else
-		{
-			if (isServer && spawned[newID].gameObject == gameObject) //Has ghosted
-			{
-				PossessAndUnpossessMessage.Send(this.gameObject, gameObject, null); //TODO rethink this
-			}
-
-			//TODO For objects
-		}
-
 	}
 
 	public void AccountLeavingMind(PlayerInfo account)
 	{
+		ControlAndLoseControlMessage.Send(account.GameObject, null, gameObject);
 		account.SetMind(null);
 		// Remove account from being observer of ghost and stuff
 		var relatedBodies = GetRelatedBodies();
@@ -674,6 +674,8 @@ public class Mind : NetworkBehaviour, IActionGUI
 		{
 			PlayerSpawn.TransferOwnershipFromToConnection(account, body, null);
 		}
+
+
 	}
 
 	public void AccountEnteringMind(PlayerInfo account)
@@ -686,13 +688,18 @@ public class Mind : NetworkBehaviour, IActionGUI
 			PlayerSpawn.TransferOwnershipFromToConnection(ControlledBy, null, Body);
 		}
 
+
+		if (ControlledBy?.Connection is LocalConnectionToClient) //Server host  client
+		{
+			PlayerManager.SetMind(this);
+		}
+
 		UpdateMind.SendTo(ControlledBy?.Connection, this);
 
 		if (PlayerPossessable != null)
 		{
 			PlayerPossessable.PlayerRejoin();
 		}
-
 		SyncPossessing(_idPossessing, _idPossessing);
 		SyncActiveOn(IDActivelyControlling, IDActivelyControlling);
 	}

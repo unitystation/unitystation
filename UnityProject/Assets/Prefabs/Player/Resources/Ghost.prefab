@@ -31,6 +31,7 @@ GameObject:
   - component: {fileID: 2874802121839058501}
   - component: {fileID: 6580243241134518793}
   - component: {fileID: 1636046715642142906}
+  - component: {fileID: 8691451924884689576}
   m_Layer: 31
   m_Name: Ghost
   m_TagString: Untagged
@@ -111,25 +112,14 @@ MonoBehaviour:
   syncInterval: 0.1
   playerTypeSettings: {fileID: 11400000, guid: f3010aaf40d515547b1fbd815268ca20, type: 2}
   inventorySpeechModifiers: 0
-  characterSettings:
-    Name: Cuban Pete
-    AiName: R.O.B.O.T.
-    BodyType: 1
-    ClothingStyle: 0
-    BagStyle: 0
-    PlayerPronoun: 1
-    Age: 22
-    Speech: 0
-    SkinTone: '#ffe0d1'
-    SerialisedBodyPartCustom: []
-    SerialisedExternalCustom: []
-    Species: Human
-  playerName: ' '
-  visibleName: ' '
+  PlayerScriptVisible: {fileID: 8691451924884689576}
   PlayerSync: {fileID: 0}
   <PlayerFaith>k__BackingField: {fileID: 0}
   <Particles>k__BackingField: {fileID: 0}
   <DimPlayerLightController>k__BackingField: {fileID: 0}
+  <BodyAlerts>k__BackingField: {fileID: 0}
+  <Traversal>k__BackingField: {fileID: 0}
+  <Access>k__BackingField: {fileID: 0}
   RTT: 0
   playerChatLocation: {fileID: 4390267312333422610}
   canVentCrawl: 0
@@ -226,6 +216,14 @@ MonoBehaviour:
   SynchroniseCurrentDirection: 0
   IgnoreServerUpdatesIfLocalPlayer: 0
   MatrixRotateUpdate: 1
+  SetOrder: 0
+  Orders: 00000000000000000000000000000000
+  SetLayer: 0
+  Layers:
+  - Rename me 1
+  - Rename me 2
+  - Rename me 3
+  - Rename me 4
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
 --- !u!114 &1105258743114886135
@@ -258,7 +256,7 @@ MonoBehaviour:
   sceneId: 0
   _assetId: 2346838544
   serverOnly: 0
-  visible: 0
+  visibility: 0
   hasSpawned: 0
 --- !u!114 &8224268276445300722
 MonoBehaviour:
@@ -436,7 +434,9 @@ MonoBehaviour:
     SerialisedBodyPartCustom: []
     SerialisedExternalCustom: []
     Species: Human
+    Voice: Male 01
   ghostLocked: 0
+  Move: {fileID: 0}
   actionData: {fileID: 11400000, guid: 288088e3bb7768d41a2fe1b2c170fbce, type: 2}
 --- !u!114 &8715673610173069278
 MonoBehaviour:
@@ -502,6 +502,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91a1389b8ed1bed4ab758fc79677b6b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8691451924884689576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4390267312333422610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2b2f750919e8ae4589de91e78abefba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  PlayerScript: {fileID: 5316147545403001103}
+  playerName: ' '
+  visibleName: ' '
 --- !u!1 &7113893953078827476
 GameObject:
   m_ObjectHideFlags: 0
@@ -587,6 +605,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -636,11 +655,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 920c286f89116144f9dc93553e3c8282, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 920c286f89116144f9dc93553e3c8282,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 8982399715002782878}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!114 &3704879063443130025
 MonoBehaviour:
@@ -708,6 +730,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -795,6 +818,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -849,9 +873,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 79f732890684fdf47ac6f64ae00bb8f6, type: 2}
   - {fileID: 11400000, guid: d91c579b8bd73404fb1676ba7bf20c5d, type: 2}
   - {fileID: 11400000, guid: 3cc58aaaccdf34c499544ffeac4e7a56, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 0ae7d83d6d2e07041a08b251e147d876, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 0ae7d83d6d2e07041a08b251e147d876,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []

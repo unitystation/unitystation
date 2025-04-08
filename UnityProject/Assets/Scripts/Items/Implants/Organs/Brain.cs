@@ -14,6 +14,7 @@ using UnityEngine.Serialization;
 
 namespace Items.Implants.Organs
 {
+	//NOTE SyncVar Only visible to owner!!!
 	public class Brain : BodyPartFunctionality, IItemInOutMovedPlayer, IClientSynchronisedEffect, IPlayerPossessable
 	{
 		public IPlayerPossessable Itself => this as IPlayerPossessable;
