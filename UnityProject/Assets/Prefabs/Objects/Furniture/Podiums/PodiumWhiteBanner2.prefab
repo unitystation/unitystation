@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 1951549307202327254, guid: d9b124d8873fbcf45a481f8bbe51f901,
         type: 3}
       propertyPath: initialVariantIndex
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3213435796600343918, guid: d9b124d8873fbcf45a481f8bbe51f901,
         type: 3}
@@ -83,6 +83,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7070879320150848447, guid: d9b124d8873fbcf45a481f8bbe51f901,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7070879320150848447, guid: d9b124d8873fbcf45a481f8bbe51f901,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7070879320150848447, guid: d9b124d8873fbcf45a481f8bbe51f901,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7941063559839942213, guid: d9b124d8873fbcf45a481f8bbe51f901,
         type: 3}
