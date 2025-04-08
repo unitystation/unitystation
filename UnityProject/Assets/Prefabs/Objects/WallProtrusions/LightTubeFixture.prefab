@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5173863171863889205}
   - component: {fileID: 1689274832931870787}
   - component: {fileID: 1952478272362544665}
-  - component: {fileID: 5654744772247092005}
   m_Layer: 19
   m_Name: LightOn
   m_TagString: Untagged
@@ -118,21 +117,6 @@ MonoBehaviour:
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
---- !u!114 &5654744772247092005
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2161202133596991296}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 967620e59e52cc14c89c22c4176bac09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mIntensity: 0.5
-  mAdditionalEmission: 0
-  mScale: 1
 --- !u!1 &8582599332015320669
 GameObject:
   m_ObjectHideFlags: 0

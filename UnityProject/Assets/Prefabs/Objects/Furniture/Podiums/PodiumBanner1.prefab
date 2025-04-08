@@ -69,6 +69,31 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 234983893, guid: 4856036fd48136fb794b2ec8e252b1af,
         type: 3}
+    - target: {fileID: 2485368455509880589, guid: fff4be697c28f15eba72fd24618f8476,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485368455509880589, guid: fff4be697c28f15eba72fd24618f8476,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485368455509880589, guid: fff4be697c28f15eba72fd24618f8476,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485368455509880589, guid: fff4be697c28f15eba72fd24618f8476,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2485368455509880589, guid: fff4be697c28f15eba72fd24618f8476,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3344293317101787895, guid: fff4be697c28f15eba72fd24618f8476,
         type: 3}
       propertyPath: foreverID
@@ -76,8 +101,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6577588581666901604, guid: fff4be697c28f15eba72fd24618f8476,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 2966636686878432610}
+    - target: {fileID: 6577588581666901604, guid: fff4be697c28f15eba72fd24618f8476,
+        type: 3}
       propertyPath: initialVariantIndex
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7837786049156534748, guid: fff4be697c28f15eba72fd24618f8476,
         type: 3}
@@ -89,3 +119,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fff4be697c28f15eba72fd24618f8476, type: 3}
+--- !u!212 &2966636686878432610 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1907421502579425449, guid: fff4be697c28f15eba72fd24618f8476,
+    type: 3}
+  m_PrefabInstance: {fileID: 3698327865553034699}
+  m_PrefabAsset: {fileID: 0}
