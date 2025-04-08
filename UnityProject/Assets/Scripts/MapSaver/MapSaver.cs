@@ -2194,7 +2194,7 @@ namespace MapSaver
 
 			var gameObjectComponents = gameObject.GetComponents<Component>().ToList();
 
-			var loopMax = Mathf.Max(PrefabComponents.Count, gameObjectComponents.Count);
+			var loopMax = Mathf.Max(PrefabComponents.Count, gameObjectComponents.Count) + 1;
 			int PrefabIndex = 0;
 			int GameObjectIndex = 0;
 
@@ -2270,6 +2270,7 @@ namespace MapSaver
 
 				if (gameObjectMono.GetType() == typeof(RuntimeSpawned))
 				{
+					GameObjectIndex++;
 					continue;
 				}
 
