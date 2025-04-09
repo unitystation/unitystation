@@ -7,6 +7,7 @@ using InGameGizmos;
 using Logs;
 using Tilemaps.Behaviours.Pathfinding;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Mobs.Traversal
 {
@@ -19,7 +20,7 @@ namespace Mobs.Traversal
 		public MovementSynchronisation Movement;
 		public int MaxQueuedTargets = 12;
 		public int MaxRetries = 6;
-		public int MaxTicksForCancelitionWait = 6;
+		public int MaxTicksForCancellationWait = 6;
 		public bool DebugGizmos = false;
 
 		public Action<Vector3Int> OnDoneTraversalToLocation;
@@ -141,7 +142,7 @@ namespace Mobs.Traversal
 				cancellationToken.Cancel();
 				path.Clear();
 				var cancelWaitTicks = 0;
-				while (_isMoving && cancelWaitTicks < MaxTicksForCancelitionWait)
+				while (_isMoving && cancelWaitTicks < MaxTicksForCancellationWait)
 				{
 					cancelWaitTicks++;
 					await UniTask.WaitForEndOfFrame(); // wait for the cancellation to finish.
