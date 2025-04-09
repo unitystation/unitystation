@@ -266,6 +266,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		}
 		SpriteRequestCurrentStateMessage.Send(SpriteHandlerManager.Instance.GetComponent<NetworkIdentity>().netId);
 		ClientWaitingRoutine = false;
+		IsInitialized = true;
 	}
 	private bool AreAllMatrixReady()
 	{
