@@ -265,7 +265,8 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 		}
 
 
-		if (isOwned)
+
+		if ((CustomNetworkManager.IsServer == false) || isOwned)
 		{
 			EnableLighting(true);
 			UIManager.ResetAllUI();
@@ -405,7 +406,7 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 	private void EnableLighting(bool enable)
 	{
 		// Get the lighting system
-		var lighting = Camera.main.GetComponent<LightingSystem>();
+		var lighting = Camera.main?.GetComponent<LightingSystem>();
 		if (!lighting)
 		{
 			Loggy.Warning("Local Player can't find lighting system on Camera.main", Category.Lighting);

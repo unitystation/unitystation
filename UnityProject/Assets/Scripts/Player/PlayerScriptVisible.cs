@@ -18,10 +18,9 @@ public class PlayerScriptVisible : NetworkBehaviour
 	/// </summary>
 	[SyncVar, NonSerialized] public CharacterSheet characterSettings = new CharacterSheet();
 
-	[HideInInspector, SyncVar(hook = nameof(SyncPlayerName))]
+	[SyncVar(hook = nameof(SyncPlayerName))]
 	public string playerName = " ";
-
-	[HideInInspector, SyncVar(hook = nameof(SyncVisibleName))]
+	[SyncVar(hook = nameof(SyncVisibleName))]
 	public string visibleName = " ";
 
 	public void SyncPlayerName(string oldValue, string value)

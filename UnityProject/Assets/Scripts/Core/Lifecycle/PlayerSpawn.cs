@@ -487,6 +487,9 @@ public static class PlayerSpawn
 		mind.Ghost();
 		mind.SetGhost(ghosty);
 		mind.CurrentCharacterSettings = character;
+		ghosty.PlayerScriptVisible.SetcharacterSettings(character);
+		ghosty.PlayerScriptVisible.SyncPlayerName(character.Name, character.Name);
+		ghosty.PlayerScriptVisible.SyncVisibleName(character.Name, character.Name);
 
 		return mind;
 	}

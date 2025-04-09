@@ -19,7 +19,8 @@ namespace Player
 		private readonly Quaternion layingDownRotation = Quaternion.Euler(0, 0, -90);
 		private readonly Quaternion standingUp = Quaternion.Euler(0, 0, 0);
 
-		[SyncVar(hook = nameof(SyncLayDownState))] private bool isLayingDown= false;
+		[SyncVar(hook = nameof(SyncLayDownState))]
+		private bool isLayingDown = false;
 
 		public bool IsLayingDown => isLayingDown;
 
@@ -47,7 +48,6 @@ namespace Player
 
 		private void CorrectState()
 		{
-
 			var Euler = gameObject.transform.localRotation.eulerAngles;
 			Euler.z = 0;
 			gameObject.transform.localRotation = Quaternion.Euler(Euler);
@@ -60,6 +60,7 @@ namespace Player
 					state = true;
 				}
 			}
+
 			if (state)
 			{
 				LayingDownLogic(true);
@@ -81,6 +82,7 @@ namespace Player
 			{
 				UpLogic();
 			}
+
 			StartCoroutine(HandleGetupAnimation(NewState == false));
 		}
 
@@ -90,13 +92,15 @@ namespace Player
 			{
 				sprites.localRotation = layingDownRotation;
 			}
+
 			foreach (SpriteRenderer spriteRenderer in GetComponentsInChildren<SpriteRenderer>())
 			{
 				spriteRenderer.sortingLayerName = "Bodies";
 			}
+
 			if (playerScript == null || playerScript.PlayerSync == null) return;
 			if (CustomNetworkManager.IsServer == false) return;
-			playerScript.PlayerSync.CurrentMovementType  = MovementType.Crawling;
+			playerScript.PlayerSync.CurrentMovementType = MovementType.Crawling;
 			playerDirectional.LockDirectionTo(true, playerDirectional.CurrentDirection);
 			playerScript.OnLayDown?.Invoke();
 		}
@@ -107,10 +111,12 @@ namespace Player
 			{
 				sprites.localRotation = standingUp;
 			}
+
 			foreach (SpriteRenderer spriteRenderer in GetComponentsInChildren<SpriteRenderer>())
 			{
 				spriteRenderer.sortingLayerName = "Players";
 			}
+
 			if (playerScript == null || playerScript.PlayerSync == null) return;
 			if (CustomNetworkManager.IsServer == false) return;
 			playerDirectional.LockDirectionTo(false, playerDirectional.CurrentDirection);
@@ -119,6 +125,7 @@ namespace Player
 
 		private IEnumerator HandleGetupAnimation(bool getUp)
 		{
+			if (networkedLean?.Target?.rotation == null) yield break;
 			if (getUp == false && networkedLean.Target.rotation.z > -90)
 			{
 				if (UprightSprites == null) yield break;

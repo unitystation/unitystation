@@ -103,8 +103,8 @@ public class Mind : NetworkBehaviour, IActionGUI
 		{
 			if (isOwned || isServer)
 			{
-				if (IsGhosting) return this.gameObject;
 				if (IDActivelyControlling is NetId.Invalid or NetId.Empty) return this.gameObject;
+				if (CustomNetworkManager.Spawned.ContainsKey(IDActivelyControlling) == false) return this.gameObject;
 				var Possessable = CustomNetworkManager.Spawned[IDActivelyControlling].GetComponent<IPlayerPossessable>();
 
 				return 	Possessable.ControllingObject;
@@ -602,9 +602,20 @@ public class Mind : NetworkBehaviour, IActionGUI
 
 	private void SyncActiveOn(uint oldID, uint newID)
 	{
+
+
 		AllClientsObservableMind.IDActivelyControlling = newID;
 		IDActivelyControlling = newID;
+		if (isOwned)
+		{
+			PlayerManager.SetMind(this);
+		}
+
 		HandleActiveOnChange(oldID, newID);
+		if (isServer == false)
+		{
+			UIManager.Display.DetermineUI();
+		}
 	}
 
 	private void SyncPossessing(uint oldID, uint newID)

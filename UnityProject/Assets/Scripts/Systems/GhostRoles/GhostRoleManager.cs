@@ -49,16 +49,19 @@ namespace Systems.GhostRoles
 			{
 				Destroy(this);
 			}
-		}
-
-		private void OnEnable()
-		{
 			EventManager.AddHandler(Event.RoundStarted, OnRoundRestart);
+			EventManager.AddHandler(Event.SceneUnloading, CleanUI);
 		}
 
-		private void OnDisable()
+		public void OnDestroy()
 		{
+			EventManager.RemoveHandler(Event.SceneUnloading, CleanUI);
 			EventManager.RemoveHandler(Event.RoundStarted, OnRoundRestart);
+		}
+
+		private void CleanUI()
+		{
+			UIManager.GhostRoleWindow.Cleanup();
 		}
 
 		private void OnRoundRestart()

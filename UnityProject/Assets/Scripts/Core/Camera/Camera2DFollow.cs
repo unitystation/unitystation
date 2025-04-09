@@ -193,6 +193,7 @@ public class Camera2DFollow : MonoBehaviour
 	}
 
 	public void ZeroStars(){
+		if (starsBackground == null) return;
 		starsBackground.transform.position = transform.position;
 	}
 

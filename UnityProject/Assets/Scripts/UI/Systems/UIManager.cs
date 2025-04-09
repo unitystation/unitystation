@@ -450,6 +450,7 @@ public class UIManager : MonoBehaviour, IInitialise
 
 	public static void ResetAllUI()
 	{
+		if (StorageHandler == null) return;
 		StorageHandler.CloseStorageUI();
 		Camera2DFollow.followControl.ZeroStars();
 		IsOxygen = false;
