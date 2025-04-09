@@ -42,6 +42,7 @@ public interface IPlayerPossessable
 		get
 		{
 			if (PossessingID is NetId.Invalid or NetId.Empty) return this.GameObject;
+			if (CustomNetworkManager.Spawned.ContainsKey(PossessingID) == false) return this.GameObject;
 			var Possessable = CustomNetworkManager.Spawned[PossessingID].GetComponent<IPlayerPossessable>();
 			return Possessable.ControllingObject;
 		}

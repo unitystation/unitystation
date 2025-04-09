@@ -188,8 +188,16 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IPointerEnterHandler, IPointerE
 	/// </summary>
 	public void RefreshImage()
 	{
-		if (itemSlot != null)
-			UpdateImage(ItemObject);
+		try
+		{
+			if (itemSlot != null)
+				UpdateImage(ItemObject);
+		}
+		catch (Exception e)
+		{
+			Loggy.Error(e.ToString());
+		}
+
 	}
 
 	/// <summary>

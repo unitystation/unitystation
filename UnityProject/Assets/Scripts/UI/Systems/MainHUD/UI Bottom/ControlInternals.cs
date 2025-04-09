@@ -119,7 +119,7 @@ namespace UI
 		public void SetupListeners()
 		{
 			UpdateState();
-			PlayerManager.LocalPlayerObject.GetComponent<DynamicItemStorage>().OnContentsChangeClient.AddListener(InventoryChange);
+			PlayerManager.LocalPlayerObject?.GetComponent<DynamicItemStorage>()?.OnContentsChangeClient?.AddListener(InventoryChange);
 		}
 
 		public void InventoryChange()
@@ -195,6 +195,7 @@ namespace UI
 
 		private void UpdateState()
 		{
+			if (PlayerManager.LocalPlayerScript?.playerHealth?.RespiratorySystem?.CurrentBreathingTubes == null) return;
 			if (PlayerManager.LocalPlayerScript.playerHealth.RespiratorySystem.CurrentBreathingTubes.Count > 0) isWearingMask = true;
 
 			// Player is wearing neither a tank nor a mask

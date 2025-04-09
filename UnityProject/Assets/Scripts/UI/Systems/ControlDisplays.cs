@@ -87,16 +87,16 @@ namespace UI
 		{
 			// TODO: make better system for handling lots of different UIs
 			if (PlayerManager.LocalPlayerObject == null) return;
-			if (PlayerManager.LocalPlayerObject.GetComponent<PlayerScript>().PlayerType == PlayerTypes.Blob)
+			if (PlayerManager.LocalPlayerObject?.GetComponent<PlayerScript>()?.PlayerType == PlayerTypes.Blob)
 			{
 				SetUi(hudBottomBlob);
-				PlayerManager.LocalPlayerObject.GetComponent<BlobPlayer>()?.TurnOnClientLight();
+				PlayerManager.LocalPlayerObject?.GetComponent<BlobPlayer>()?.TurnOnClientLight();
 			}
-			else if (PlayerManager.LocalPlayerScript.PlayerType == PlayerTypes.Ai)
+			else if (PlayerManager.LocalPlayerScript?.PlayerType == PlayerTypes.Ai)
 			{
 				SetUi(hudBottomAi);
 			}
-			else if (PlayerManager.LocalPlayerObject.GetComponent<PlayerScript>().IsGhost)
+			else if (PlayerManager.LocalPlayerObject?.GetComponent<PlayerScript>()?.IsGhost == true)
 			{
 				SetUi(hudBottomGhost.gameObject);
 			}
