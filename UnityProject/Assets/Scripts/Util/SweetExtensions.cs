@@ -221,6 +221,21 @@ public static class SweetExtensions
 		return GetRootGameObject(go, IsInGameItem).transform.position;
 	}
 
+	public static void AppearAtWorldPositionServer(this GameObject go, Vector3 WorldPositioon)
+	{
+		if (go == null)
+		{
+			Loggy.Error("Null object passed into AssumedWorldPosServer");
+			return;
+		}
+
+		if (ComponentManager.TryGetUniversalObjectPhysics(go, out var UOP))
+		{
+			UOP.AppearAtWorldPositionServer(WorldPositioon);
+		}
+
+	}
+
 
 	public static Matrix GetMatrixRoot(this GameObject go)
 	{
