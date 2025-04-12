@@ -28,19 +28,79 @@ namespace Core.Admin.Logs
 			OnNewLog?.Invoke(entry);
 		}
 
-		public static void AddNewLog(GameObject perp, string info, LogCategory category, Severity severity = Severity.MISC)
+		public static void AddNewLog(GameObject Tracking1, string info1, GameObject Tracking2,string info2, GameObject Tracking3,string info3 ,LogCategory category,
+			Severity severity = Severity.MISC)
+		{
+		}
+
+		public static void AddNewLog(GameObject Tracking1, string info1, GameObject Tracking2,string info2, GameObject Tracking3,LogCategory category,
+			Severity severity = Severity.MISC)
+		{
+		}
+
+
+		public static void AddNewLog(GameObject Tracking1, string info1, GameObject Tracking2,string info2,LogCategory category,
+			Severity severity = Severity.MISC)
+		{
+		}
+
+
+		public static void AddNewLog(GameObject Tracking1, string info1, GameObject Tracking2,LogCategory category,
+			Severity severity = Severity.MISC)
+		{
+		}
+
+		public static void AddNewLog(string info1, GameObject Tracking1,string info2, GameObject Tracking2,string info3, GameObject Tracking3, LogCategory category,
+			Severity severity = Severity.MISC)
+		{
+		}
+
+
+		public static void AddNewLog(string info1, GameObject Tracking1,string info2, GameObject Tracking2,string info3, LogCategory category,
+			Severity severity = Severity.MISC)
+		{
+		}
+
+		public static void AddNewLog(string info1, GameObject Tracking1,string info2, GameObject Tracking2, LogCategory category,
+			Severity severity = Severity.MISC)
+		{
+		}
+
+
+		public static void AddNewLog(string info1, GameObject Tracking1,string info2, LogCategory category,
+			Severity severity = Severity.MISC)
+		{
+		}
+
+
+		public static void AddNewLog(string info1, GameObject Tracking1, LogCategory category,
+			Severity severity = Severity.MISC)
+		{
+		}
+
+
+		public static void AddNewLog(string info1, LogCategory category,
+			Severity severity = Severity.MISC)
+		{
+		}
+
+		public static void AddNewLog(GameObject Tracking1, string info1, LogCategory category, Severity severity = Severity.MISC)
+		{
+			AddNewLogInternal(Tracking1.AssumedWorldPosServer())
+		}
+		private static void AddNewLogInternal(List<LogInfo> Info,  LogCategory category, Severity severity = Severity.MISC)
 		{
 			if (CustomNetworkManager.IsServer == false) return;
 
 			LogEntry entry = new LogEntry
 			{
 				AdminActions = new List<AdminActionToTake>(),
-				Log = info,
+				Log = Info,
 				LogImportance = severity,
-				Perpetrator = GetPerpString(perp),
 			};
 			AddNewLog(entry);
 		}
+
 
 		public static void TrackKill(GameObject perp, LivingHealthMasterBase victim)
 		{

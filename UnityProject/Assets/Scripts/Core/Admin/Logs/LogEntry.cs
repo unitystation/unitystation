@@ -7,11 +7,46 @@ namespace Core.Admin.Logs
 	public class LogEntry
 	{
 		public DateTime LogTime { get; } = DateTime.UtcNow;
-		public string Log;
-		public List<AdminActionToTake> AdminActions = new List<AdminActionToTake>();
+		public List<LogInfo> Log = new List<LogInfo>();
+		public List<AdminActionToTake> AdminActions = null;
 		public Severity LogImportance;
-		public string Perpetrator;
 		public LogCategory Category;
+	}
+
+	public static class LogUtilities
+	{
+
+		public static LogInfo GetLogInfo(this GameObject go)
+		{
+
+			var StoredIn = go.GetRootGameObject();
+
+			PlayerInfo WasControlledByPlayer = null;
+			if (go == StoredIn)
+			{
+				StoredIn = null;
+			}
+			else
+			{
+				WasControlledByPlayer = StoredIn.GetComponentCustom<PlayerScript>()?.PlayerInfo;
+			}
+
+
+
+			return GetRootGameObject(go, IsInGameItem).transform.position;
+		}
+
+	}
+
+
+	public struct LogInfo
+	{
+		public GameObject CoreObject;
+		public GameObject WasStoredInObject;
+		public PlayerInfo WasControlledByPlayer;
+		public Vector3 WasAtPositionWorld;
+		public string Info;
+		public string SerialisedInfo;
 	}
 
 	public class HumanLogEntry
