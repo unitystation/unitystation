@@ -10,6 +10,8 @@ namespace HealthV2.Living.Mutations.Surface
 		[SyncVar(hook = nameof(OnAlphaChanged))] public float Alpha = 1f;
 		public GameObject bodyPartSprites;
 
+		public GameObject Customisation;
+
 		public void OnAlphaChanged(float oldAlpha, float newAlpha)
 		{
 			if (newAlpha < 0.05f)
@@ -22,6 +24,11 @@ namespace HealthV2.Living.Mutations.Surface
 			}
 			if (bodyPartSprites == null) return;
 			foreach (SpriteRenderer spriteRenderer in bodyPartSprites.GetComponentsInChildren<SpriteRenderer>())
+			{
+				spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, newAlpha);
+			}
+			if (Customisation == null)return;
+			foreach (SpriteRenderer spriteRenderer in Customisation.GetComponentsInChildren<SpriteRenderer>())
 			{
 				spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, newAlpha);
 			}
