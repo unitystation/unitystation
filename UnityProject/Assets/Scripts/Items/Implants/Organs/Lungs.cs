@@ -323,6 +323,7 @@ namespace Items.Implants.Organs
 				suffocating = true;
 				if (DMMath.Prob(20))
 				{
+					if (LivingHealthMaster == null || LivingHealthMaster.gameObject == null) return false; //how does this even happen midway? this isn't async
 					EmoteActionManager.DoEmote("gasp-air", LivingHealthMaster.gameObject);
 				}
 			}
@@ -348,11 +349,12 @@ namespace Items.Implants.Organs
 		/// </summary>
 		public void BreatheIn(GasMix breathGasMix, float efficiency)
 		{
+			if (LivingHealthMaster == null || LivingHealthMaster.gameObject == null) return;
 			ReagentMix availableBlood =
-				LivingHealthMaster.reagentPoolSystem.BloodPool.Take(
+				LivingHealthMaster.reagentPoolSystem?.BloodPool.Take(
 					(LivingHealthMaster.reagentPoolSystem.BloodPool.Total * efficiency) / 2f);
 			BreatheIn(breathGasMix, availableBlood, efficiency);
-			LivingHealthMaster.reagentPoolSystem.BloodPool.Add(availableBlood);
+			LivingHealthMaster.reagentPoolSystem?.BloodPool.Add(availableBlood);
 		}
 
 		/// <summary>
@@ -361,8 +363,10 @@ namespace Items.Implants.Organs
 		/// <param name="gasMix">the gases the character is breathing in</param>
 		public virtual void ToxinBreathinCheck(GasMix gasMix)
 		{
-			if (RelatedPart.HealthMaster.RespiratorySystem.CanBreatheAnywhere ||
-				RelatedPart.HealthMaster.playerScript == null) return;
+			if (RelatedPart == null || RelatedPart.HealthMaster == null
+			                        || RelatedPart.HealthMaster.RespiratorySystem == null
+			                        || RelatedPart.HealthMaster.playerScript == null) return;
+			if (RelatedPart.HealthMaster.RespiratorySystem.CanBreatheAnywhere) return;
 
 			var hasToxins = false;
 

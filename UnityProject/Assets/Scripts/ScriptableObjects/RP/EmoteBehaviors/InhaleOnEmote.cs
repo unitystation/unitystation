@@ -16,7 +16,7 @@ namespace ScriptableObjects.RP.EmoteBehaviors
 			if (actor == null || actor.TryGetComponent<LivingHealthMasterBase>(out var health) == false) return;
 			var gas = GasMix.GetEnvironmentalGasMixForObject(actor.GetUniversalObjectPhysics());
 			var lungs = GetLungs(health);
-			if (lungs == null || gas == null) return;
+			if (lungs.Count == 0 || gas == null) return;
 			foreach (var lung in lungs)
 			{
 				lung.BreatheIn(gas, Efficiency);
