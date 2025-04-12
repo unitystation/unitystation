@@ -2724,7 +2724,7 @@ namespace TileManagement
 							Tile.Colour = layer.Tilemap.GetColor(localPlace);
 							Tile.transformMatrix = layer.Tilemap.GetTransformMatrix(localPlace);
 
-							if (isServer)
+							if (isServer && Application.isPlaying)
 							{
 								var Functional = getTile as FuncPlaceRemoveTile;
 								if (Functional != null)

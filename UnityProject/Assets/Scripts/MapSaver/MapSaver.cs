@@ -1983,7 +1983,7 @@ namespace MapSaver
 			{
 				Loggy.Error(Prefab.Name + " Prefab Has a bad forever ID please remove the @ From Forever ID of " + Prefab.GitID);
 			}
-			
+
 			Prefab.Object = new IndividualObject();
 			Prefab.LocalPRS = PRSToString(Object, LocalPositionToUse, Round);
 

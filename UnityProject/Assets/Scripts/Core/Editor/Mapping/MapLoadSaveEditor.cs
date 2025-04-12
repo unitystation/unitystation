@@ -114,6 +114,7 @@ public class FileSelectorWindow : EditorWindow
                         {
                             EditorPrefs.DeleteKey(SelectedMap);
                         }
+                        SubSceneManager.AdminForcedMainStation = EditorPrefs.GetString(SelectedMap);
                     }
                     GUILayout.Label(relativePath, GUILayout.Width(380));
                     if (GUILayout.Button("Save", GUILayout.Width(50)))

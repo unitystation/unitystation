@@ -34,7 +34,7 @@ public class CommonComponents : MonoBehaviour
 		{
 			if (c == null) continue;
 			var type = c.GetType();
-			dictionary.Add(type, c);
+			dictionary.TryAdd(type, c);
 		}
 	}
 
