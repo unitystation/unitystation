@@ -434,29 +434,37 @@ namespace MapSaver
 			}
 
 
-
 			if (string.IsNullOrEmpty(IndividualObject.LocalPRS) == false)
 			{
 				MapSaver.StringToPRS(Object, IndividualObject.LocalPRS);
 			}
 
-			var Removals = IndividualObject.ClassDatas.Where(x => x.Removed)
+			var removals = IndividualObject.ClassDatas.Where(x => x.Removed)
+				.OrderByDescending(x => GetNumberOfRequireComponents(x.ClassID, Object)).ToList();
+			var disables = IndividualObject.ClassDatas.Where(x => x.Disabled)
 				.OrderByDescending(x => GetNumberOfRequireComponents(x.ClassID, Object)).ToList();
 
-			foreach (var Remove in Removals)
+			foreach (var Remove in removals)
 			{
-				var ClassComponents = Remove.ClassID.Split("@"); //TODO Multiple components?
-				var Component = Object.GetComponent(ClassComponents[0]);
-				if (Component == null) continue;
-
+				var classComponents = Remove.ClassID.Split("@"); //TODO Multiple components?
+				var component = Object.GetComponent(classComponents[0]) as MonoBehaviour;
+				if (component == null) continue;
 				if (Application.isPlaying)
 				{
-					UnityEngine.Object.Destroy(Component);
+					UnityEngine.Object.Destroy(component);
 				}
 				else
 				{
-					UnityEngine.Object.DestroyImmediate(Component);
+					UnityEngine.Object.DestroyImmediate(component);
 				}
+			}
+			
+			foreach (var d in disables)
+			{
+				var classComponents = d.ClassID.Split("@"); //TODO Multiple components?
+				var component = Object.GetComponent(classComponents[0]) as MonoBehaviour;
+				if (component == null) continue;
+				component.enabled = false;
 			}
 
 
