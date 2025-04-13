@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Logs;
 using Mirror;
 using NaughtyAttributes;
+using SecureStuff;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -12,7 +13,7 @@ using UnityEngine.Events;
 using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 
-public class Rotatable : NetworkBehaviour, IMatrixRotation90
+public class Rotatable : NetworkBehaviour, IMatrixRotation90, INewMappedOnSpawn
 {
 	public enum RotationMethod
 	{
@@ -127,6 +128,14 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation90
 
 			OnRotationChange?.Invoke(dir);
 			Highlight.UpdateCurrentHighlight();
+		}
+	}
+
+	public void OnNewMappedOnSpawn()
+	{
+		if (Application.isPlaying == false)
+		{
+			OnValidate();
 		}
 	}
 

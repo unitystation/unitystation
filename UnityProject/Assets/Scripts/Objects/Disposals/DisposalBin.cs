@@ -114,6 +114,11 @@ namespace Objects.Disposals
 			netTab = GetComponent<HasNetworkTab>();
 			overlaysSpriteHandler = transform.GetChild(1).GetComponent<SpriteHandler>();
 			PoweredDevice = GetComponent<APCPoweredDevice>();
+
+		}
+
+		public void Start()
+		{
 			if (PoweredDevice.RelatedAPC == null)
 			{
 				SetBinState(BinState.Disconnected);

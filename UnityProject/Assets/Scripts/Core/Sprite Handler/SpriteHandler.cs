@@ -128,6 +128,8 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 
 	private bool SpriteHasBeenCodeSet = false;
 
+	private bool IndexHasBeenCodeSet = false;
+
 	/// <summary>
 	/// Current sprite from SpriteRender or Image
 	/// Null if sprite is hidden
@@ -323,6 +325,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 
 	public void SetSpriteVariant(int spriteVariant, bool networked = true)
 	{
+		IndexHasBeenCodeSet = true;
 		Init();
 		if (PresentSpriteSet == null) return;
 		if (spriteVariant < PresentSpriteSet.Variance.Count)
@@ -480,6 +483,11 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 		if (PresentSpriteSet == null || SpriteHasBeenCodeSet == false)
 		{
 			PresentSpriteSet = InitialPresentSpriteSet;
+		}
+
+		if (IndexHasBeenCodeSet == false)
+		{
+			variantIndex = initialVariantIndex;
 		}
 
 		PushTexture();

@@ -204,6 +204,9 @@ public class TileManager : SingletonManager<TileManager>, IInitialise
 
 	public void Cleanup_between_rounds()
 	{
+#if UNITY_EDITOR
+		return;
+#endif
 		layerTileCollections = new List<TilePathEntry>();
 	}
 }
