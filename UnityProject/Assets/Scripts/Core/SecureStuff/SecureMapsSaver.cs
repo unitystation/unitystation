@@ -1331,22 +1331,14 @@ namespace SecureStuff
 		{
 			if (Field.IsPrivate || Field.IsAssembly || Field.IsFamily)
 			{
-				if (!HasAttribute(Field, typeof(SerializeField)) ||
-				    HasAttribute(Field, typeof(HideInInspector)) ||
-				    HasAttribute(Field, typeof(NaughtyAttributes.ReadOnlyAttribute)) ||
-				    HasAttribute(Field, typeof(PlayModeOnlyAttribute)))
+				if (!HasAttribute(Field, typeof(SerializeField)))
 				{
 					return false;
 				}
 			}
 			else if (Field.IsPublic)
 			{
-				if (Field.IsNotSerialized ||
-				    HasAttribute(Field, typeof(PlayModeOnlyAttribute)) ||
-				    HasAttribute(Field, typeof(HideInInspector))  ||
-				    HasAttribute(Field, typeof(NaughtyAttributes.ReadOnlyAttribute)) ||
-				    HasAttribute(Field, typeof(NonSerializedAttribute)
-				    ))
+				if (Field.IsNotSerialized || HasAttribute(Field, typeof(PlayModeOnlyAttribute)))
 				{
 					return false;
 				}
