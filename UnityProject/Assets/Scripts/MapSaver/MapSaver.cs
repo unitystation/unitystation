@@ -372,15 +372,15 @@ namespace MapSaver
 							z2 = float.Parse(partsY[2]);
 						}
 
-						if (x1 != x2)
+						if (Mathf.Approximately(x1, x2) == false)
 						{
 							return x1.CompareTo(x2);
 						}
-						else if (y1 != y2 || (z1 == null && z2 == null))
+						else if (Mathf.Approximately(y1, y2) == false || (z1 == null && z2 == null))
 						{
 							return y1.CompareTo(y2);
 						}
-						else if (z1 != z2)
+						else if (Mathf.Approximately(z1.Value, z2.Value) == false)
 						{
 							return z1.Value.CompareTo(z2.Value);
 						}
@@ -388,7 +388,7 @@ namespace MapSaver
 						{
 							var guidx = x.Split('@')[1];
 							var guidy = y.Split('@')[1];
-							return guidx.CompareTo(guidy);
+							return String.Compare(guidx, guidy, StringComparison.Ordinal);
 						}
 					}
 				}
@@ -503,11 +503,7 @@ namespace MapSaver
 
 				foreach (var prefabData in this.PrefabData)
 				{
-					if (PrefabIDCount.ContainsKey(prefabData.PrefabID) == false)
-					{
-						PrefabIDCount[prefabData.PrefabID] = 0;
-					}
-
+					PrefabIDCount.TryAdd(prefabData.PrefabID, 0);
 					PrefabIDCount[prefabData.PrefabID]++;
 				}
 
@@ -579,27 +575,21 @@ namespace MapSaver
 
 			public bool RemoveEmptysAndProcess()
 			{
-				bool ISEmpty = true;
-
-				if (ClassDatas != null && ClassDatas.Count > 0)
-				{
-					ISEmpty = false;
-				}
+				bool isEmpty = !(ClassDatas is { Count: > 0 });
 
 				if (ObjectLayer != null)
 				{
-					ISEmpty = false;
+					isEmpty = false;
 				}
-
 
 				if (Removed)
 				{
-					ISEmpty = false;
+					isEmpty = false;
 				}
 
 				if (Active == false)
 				{
-					ISEmpty = false;
+					isEmpty = false;
 				}
 
 				List<IndividualObject> Toremove = new List<IndividualObject>();
@@ -610,7 +600,7 @@ namespace MapSaver
 					{
 						if (Child.RemoveEmptysAndProcess() == false)
 						{
-							ISEmpty = false;
+							isEmpty = false;
 						}
 						else
 						{
@@ -629,8 +619,7 @@ namespace MapSaver
 					}
 				}
 
-
-				return ISEmpty;
+				return isEmpty;
 			}
 		}
 
@@ -646,11 +635,10 @@ namespace MapSaver
 			AlreadyReadySavedIDs.Clear();
 
 			OutMapData.MapName = MapName;
-			foreach (var MetaTileMap in MetaTileMaps)
+			foreach (var metaTileMap in MetaTileMaps)
 			{
-				OutMapData.ContainedMatrices.Add(SaveMatrix(Compact, MetaTileMap, false, ReadjustCentre : ReadjustCentre));
+				OutMapData.ContainedMatrices.Add(SaveMatrix(Compact, metaTileMap, false, ReadjustCentre : ReadjustCentre));
 			}
-
 
 			//move outside if multiple  matrices
 			foreach (var MFD in UnserialisedObjectReferences)
@@ -1987,11 +1975,11 @@ namespace MapSaver
 			Prefab.Object = new IndividualObject();
 			Prefab.LocalPRS = PRSToString(Object, LocalPositionToUse, Round);
 
-			var OnObjectComplete = Object.GetComponentsInChildren<Component>(true).ToHashSet();
-			var OnGmaeObjectComplete = Object.GetComponentsInChildren<Transform>(true).Select(x => x.gameObject)
+			var onObjectComplete = Object.GetComponentsInChildren<Component>(true).ToHashSet();
+			var onGmaeObjectComplete = Object.GetComponentsInChildren<Transform>(true).Select(x => x.gameObject)
 				.ToHashSet();
 
-			RecursiveSaveObject(OffsetToremove, OnObjectComplete, OnGmaeObjectComplete, Compact, Prefab, "0",
+			RecursiveSaveObject(OffsetToremove, onObjectComplete, onGmaeObjectComplete, Compact, Prefab, "0",
 				Prefab.Object,
 				OriginPrefab,
 				Object.gameObject, compactObjectMapData, NonmappedItems: NonmappedItems);
@@ -2175,7 +2163,6 @@ namespace MapSaver
 						UseInstance: UseInstance, NonmappedItems: NonmappedItems,
 						IgnoreMapSaverIgnoreObject: IgnoreMapSaverIgnoreObject);
 				}
-
 
 				GameObjectIndex++;
 				PrefabIndex++;
