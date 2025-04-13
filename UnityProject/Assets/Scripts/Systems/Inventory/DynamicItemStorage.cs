@@ -788,19 +788,27 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 					}
 					WeakReference<DynamicItemStorage> wptr = new WeakReference<DynamicItemStorage>(this);
 
-					LoadManager.RegisterActionDelayed(() =>
+					try
 					{
-						DynamicItemStorage DIS;
-
-						int LocalTries = tries;
-						LocalTries++;
-
-						if (wptr.TryGetTarget(out DIS))
+						LoadManager.RegisterActionDelayed(() =>
 						{
-							DIS.ProcessChangeClient(newSt, LocalTries);
-						}
-					}, 60);
-					return;
+							DynamicItemStorage DIS;
+
+							int LocalTries = tries;
+							LocalTries++;
+
+							if (wptr.TryGetTarget(out DIS))
+							{
+								DIS.ProcessChangeClient(newSt, LocalTries);
+							}
+						}, 60);
+						return;
+					}
+					catch (Exception e)
+					{
+						Loggy.Error(e.ToString());
+						return;
+					}
 				}
 
 				bool Contain = false;
