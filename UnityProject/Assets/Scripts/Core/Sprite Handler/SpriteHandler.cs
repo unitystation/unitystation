@@ -86,6 +86,14 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 
 	public List<Color> Palette => palette;
 
+	//TODO Network
+	[SerializeField]
+	private int initialSortingOrder = -1;
+
+	//TODO Network
+	[SerializeField]
+	private string initialSortingLayerName = "";
+
 	/// <summary>
 	/// false if the palette has not been configured for the current spriteSO. true otherwise
 	/// </summary>
@@ -494,8 +502,19 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 
 		if (GetColor() == Color.white && InitialColour != Color.white)
 		{
-			setColour = InitialColour;
-			SetColor(setColour.Value);
+			SetColor(InitialColour);
+		}
+
+		//TODO Network
+		if (string.IsNullOrWhiteSpace(initialSortingLayerName) == false)
+		{
+			SetSpriteRendererSortingLayer(initialSortingLayerName);
+		}
+
+		//TODO Network
+		if (initialSortingOrder >= 0)
+		{
+			SetSpriteRendererSortingOrder(initialSortingOrder);
 		}
 
 	}
@@ -778,6 +797,32 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 		OnSpriteUpdated = null;
 		OnVariantUpdated = null;
 		OnSpriteDataSOChanged = null;
+	}
+
+
+	/// <summary>
+	/// Currently only used for mapping TODO Network
+	/// </summary>
+	/// <param name="value"></param>
+	protected virtual void SetSpriteRendererSortingLayer(string value)
+	{
+		if (spriteRenderer != null)
+		{
+			spriteRenderer.sortingLayerName = value;
+		}
+	}
+
+
+	/// <summary>
+	/// Currently only used for mapping TODO Network
+	/// </summary>
+	/// <param name="value"></param>
+	protected virtual void SetSpriteRendererSortingOrder(int value)
+	{
+		if (spriteRenderer != null)
+		{
+			spriteRenderer.sortingOrder = value;
+		}
 	}
 
 	protected virtual void SetImageColor(Color value)
