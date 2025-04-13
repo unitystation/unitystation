@@ -90,8 +90,7 @@ namespace UI
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			Loggy.Info($"Opening {menuWindow.name} menu", Category.UI);
 			menuWindow.SetActive(true);
-			//InfoPanelMessageClient.Send();
-			//if (UIManager.Instance.ServerInfoPanelWindow != null) UIManager.Instance.ServerInfoPanelWindow.SetActive(true);
+			UIManager.Instance.RefreshAndShowServerInfoUI();
 		}
 
 		/// <summary>
@@ -270,7 +269,11 @@ namespace UI
 			menuWindow.SetActive(false);
 			votingWindow.SetActive(false);
 			helpWindow.SetActive(false);
-			if (UIManager.Display.disclaimer != null) UIManager.Display.disclaimer.SetActive(false);
+			if (UIManager.Display.disclaimer != null)
+			{
+				UIManager.Display.disclaimer.SetActive(false);
+				UIManager.Instance.ServerInfoPanelWindow.SetActive(false);
+			}
 		}
 
 		#endregion
