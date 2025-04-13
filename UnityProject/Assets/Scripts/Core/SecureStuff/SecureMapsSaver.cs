@@ -1338,7 +1338,7 @@ namespace SecureStuff
 			}
 			else if (Field.IsPublic)
 			{
-				if (Field.IsNotSerialized || HasAttribute(Field, typeof(PlayModeOnlyAttribute)))
+				if (Field.IsNotSerialized)
 				{
 					return false;
 				}
