@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
@@ -8,7 +9,7 @@ using UnityEngine.Serialization;
 /// Defines how ores will be generated.
 /// </summary>
 [CreateAssetMenu(fileName = "OreGeneratorConfig", menuName = "ScriptableObjects/OreGeneratorConfig")]
-public class OreGeneratorConfig : ScriptableObject
+public class OreGeneratorConfig : SOTracker
 {
 	[Tooltip("0 to 100. Defines what percentage of mineable tiles will spawn ores.")]
 	[FormerlySerializedAs("Density")] [SerializeField]

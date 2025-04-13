@@ -13,7 +13,6 @@ namespace Tests.Asset
 		[Test]
 		public void SOTrackerInList()
 		{
-			bool Fail = false;
 			var report = new TestReport();
 			var trackers = Utils.FindAssetsByType<SOTracker>();
 
@@ -21,25 +20,16 @@ namespace Tests.Asset
 			{
 				if (SOListTracker.Instance.SOTrackers.Contains(tracker) == false)
 				{
-					Fail = true;
-					report.AppendLine($" Tracker {tracker.name} is not in SOListTracker");
+					report.Fail().AppendLine($" Tracker {tracker.name} is not in SOListTracker");
 				}
 			}
 
-			if (Fail)
-			{
-				report.Fail();
-			}
-			else
-			{
-				report.AssertPassed();
-			}
+			report.AssertPassed();
 		}
 
 		[Test]
 		public void SOTrackerTestHaveID()
 		{
-			bool Fail = false;
 			var report = new TestReport();
 			var trackers = Utils.FindAssetsByType<SOTracker>();
 
@@ -49,8 +39,7 @@ namespace Tests.Asset
 			{
 				if (string.IsNullOrEmpty(tracker.ForeverID) || PreviousTakenIDs.Contains(tracker.ForeverID))
 				{
-					Fail = true;
-					report.AppendLine($" Tracker {tracker.name} Has been updated with a new ID, Please commit");
+					report.Fail().AppendLine($" Tracker {tracker.name} Has been updated with a new ID, Please commit");
 					tracker.ForceSetID();
 				}
 
@@ -63,8 +52,7 @@ namespace Tests.Asset
 			{
 				if (string.IsNullOrEmpty(tracker.ForeverID) || PreviousTakenIDs.Contains(tracker.ForeverID))
 				{
-					Fail = true;
-					report.AppendLine($" Tracker {tracker.name} Has been updated with a new ID, Please commit");
+					report.Fail().AppendLine($" Tracker {tracker.name} Has been updated with a new ID, Please commit");
 					tracker.ForceSetID();
 				}
 
@@ -72,14 +60,7 @@ namespace Tests.Asset
 			}
 
 
-			if (Fail)
-			{
-				report.Fail();
-			}
-			else
-			{
-				report.AssertPassed();
-			}
+			report.AssertPassed();
 		}
 	}
 }
