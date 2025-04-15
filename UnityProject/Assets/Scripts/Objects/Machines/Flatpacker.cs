@@ -214,14 +214,14 @@ namespace Objects.Machines
 		private IEnumerator AnimateProduction()
 		{
 			_isProducing = true;
-			_ = SoundManager.PlayNetworkedAtPosAsync(beginSound, objectPhysics.OfficialPosition);
-			_ = SoundManager.PlayNetworkedAtPosAsync(processingSound, objectPhysics.OfficialPosition);
+			_ = SoundManager.PlayNetworkedAtPosAsync(beginSound, objectPhysics.OfficialPosition, global: false);
+			_ = SoundManager.PlayNetworkedAtPosAsync(processingSound, objectPhysics.OfficialPosition, global: false);
 			primarySpriteHandler.SetSpriteVariant(PRODUCING_VARIANT);
 
 			yield return WaitFor.Seconds(ProductionTime);
 
 			primarySpriteHandler.SetSpriteVariant(EJECTING_VARIANT);
-			_ = SoundManager.PlayNetworkedAtPosAsync(finishSound, objectPhysics.OfficialPosition);
+			_ = SoundManager.PlayNetworkedAtPosAsync(finishSound, objectPhysics.OfficialPosition, global: false);
 
 			yield return WaitFor.Seconds(0.5f);
 

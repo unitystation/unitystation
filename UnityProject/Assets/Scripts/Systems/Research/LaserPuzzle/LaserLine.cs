@@ -29,6 +29,7 @@ public class LaserLine : MonoBehaviour
 
 
 	public LightSprite Sprite;
+	[SerializeField]  SpriteRenderer subSprite = null;
 
 	public Vector3 VOrigin;
 	public Vector3 VTarget;
@@ -99,7 +100,7 @@ public class LaserLine : MonoBehaviour
 		var Colour = TechnologyAndBeams.Colour;
 		Colour.a = 0.9f;
 		Sprite.Color = Colour;
-
+		subSprite.color = Colour;
 
 		HookInto();
 		if (WorldTarget == null)
