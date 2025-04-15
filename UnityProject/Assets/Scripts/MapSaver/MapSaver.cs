@@ -372,11 +372,11 @@ namespace MapSaver
 							z2 = float.Parse(partsY[2]);
 						}
 
-						if (Mathf.Approximately(x1, x2) == false)
+						if (x1 != x2)
 						{
 							return x1.CompareTo(x2);
 						}
-						else if (Mathf.Approximately(y1, y2) == false || (z1 == null && z2 == null))
+						else if (y1 != y2 || (z1 == null && z2 == null))
 						{
 							return y1.CompareTo(y2);
 						}
