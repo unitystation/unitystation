@@ -575,7 +575,7 @@ namespace MapSaver
 
 			public bool RemoveEmptysAndProcess()
 			{
-				bool isEmpty = !(ClassDatas is { Count: > 0 });
+				bool isEmpty = ClassDatas is { Count: <= 0 };
 
 				if (ObjectLayer != null)
 				{
