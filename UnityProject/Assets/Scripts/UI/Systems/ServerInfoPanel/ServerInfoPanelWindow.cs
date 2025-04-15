@@ -34,7 +34,6 @@ namespace UI.Systems.ServerInfoPanel
 
 		private void OnEnable()
 		{
-
 			RefreshWindow();
 		}
 
