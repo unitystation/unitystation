@@ -20,10 +20,10 @@ public class LaserProjection : MonoBehaviour
 	private bool Destroyed = false;
 
 
-	public void Initialise(GameObject Source, Vector2 WorldDirection, ResearchLaserProjector _ResearchLaserProjector )
+	public void Initialise(GameObject Source, Vector2 WorldDirection, ResearchLaserProjector _ResearchLaserProjector, Vector3 offset)
 	{
 		ResearchLaserProjector = _ResearchLaserProjector;
-		var hits = MatrixManager.RayCast(Source.transform.position, WorldDirection, 15,  ProjectionLayerTypeSelection, LayerMask);
+		var hits = MatrixManager.RayCast(Source.transform.position + offset, WorldDirection, 15,  ProjectionLayerTypeSelection, LayerMask);
 
 
 		if (hits.ItHit == false) return;
@@ -34,7 +34,7 @@ public class LaserProjection : MonoBehaviour
 
 
 		var line = Instantiate(LaserLinePrefab, this.transform);
-		line.SetUpLine(Source, Source.transform.position  ,Plinth.gameObject,Plinth.transform.position, new TechnologyAndBeams(), this );
+		line.SetUpLine(Source, Source.transform.position + offset ,Plinth.gameObject,Plinth.transform.position, new TechnologyAndBeams(), this );
 		LaserLines.Add(line);
 
 
