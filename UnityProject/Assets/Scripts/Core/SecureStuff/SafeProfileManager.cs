@@ -10,7 +10,7 @@ namespace SecureStuff
 {
 	public sealed class SafeProfileManager : MonoBehaviour
 	{
-		
+
 		private static SafeProfileManager _safeProfileManager;
 		public static SafeProfileManager Instance => LazyFindObject(ref _safeProfileManager);
 

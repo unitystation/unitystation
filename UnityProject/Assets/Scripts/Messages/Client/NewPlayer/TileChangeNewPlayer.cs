@@ -19,13 +19,12 @@ namespace Messages.Client.NewPlayer
 				//Loggy.Error("Failed to load matrix sync for new player", Category.Matrix);
 				return;
 			}
+			if (SentByPlayer?.Connection == null) return;
 
 			var parent = NetworkObject.transform.parent;
-			parent.GetComponent<TileChangeManager>().UpdateNewPlayer(
-				SentByPlayer.Connection);
 
-			parent.GetComponentInChildren<MetaDataLayer>().UpdateNewPlayer(
-				SentByPlayer.Connection);
+			parent?.GetComponent<TileChangeManager>()?.UpdateNewPlayer(SentByPlayer.Connection);
+			parent?.GetComponentInChildren<MetaDataLayer>()?.UpdateNewPlayer(SentByPlayer.Connection);
 		}
 
 		public static NetMessage Send(uint matrixSyncNetId)

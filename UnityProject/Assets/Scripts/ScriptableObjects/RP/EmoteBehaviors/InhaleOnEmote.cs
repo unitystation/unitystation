@@ -19,7 +19,7 @@ namespace ScriptableObjects.RP.EmoteBehaviors
 			if (lungs == null || gas == null) return;
 			foreach (var lung in lungs)
 			{
-				lung.BreatheIn(gas, Efficiency);
+				lung.BreatheIn(gas, Efficiency, false);
 			}
 		}
 
