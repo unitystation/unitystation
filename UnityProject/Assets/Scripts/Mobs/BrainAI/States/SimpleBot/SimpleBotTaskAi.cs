@@ -76,7 +76,7 @@ namespace Mobs.BrainAI.States.SimpleBot
 
 		public void Speak(string text)
 		{
-			Chat.AddLocalMsgToChat(text, gameObject, botLanguage, LivingHealthMaster.playerScript.visibleName, true);
+			Chat.AddLocalMsgToChat(text, gameObject, botLanguage, LivingHealthMaster.playerScript.playerName, true);
 		}
 
 

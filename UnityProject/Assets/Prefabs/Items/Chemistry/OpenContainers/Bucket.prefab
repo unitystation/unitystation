@@ -203,14 +203,32 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5682190628715771268, guid: 364841a08150e9345b119e71191c8dcf,
         type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: c782bccf4653c38448e0e3c9f8e816a3,
+        type: 2}
+    - target: {fileID: 5682190628715771268, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
       propertyPath: itemSprites.LeftHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 2c32e4e535f27af48a0a9218eefd033f, type: 3}
     - target: {fileID: 5682190628715771268, guid: 364841a08150e9345b119e71191c8dcf,
         type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 437395b32b52d534c805d0fa33d1d2ce,
+        type: 2}
+    - target: {fileID: 5682190628715771268, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
       propertyPath: itemSprites.RightHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 30d68f409e334624a94432014698a12d, type: 3}
+    - target: {fileID: 5682190628715771268, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 02c9f0bce16549c49b1c39bf7a01b06a,
+        type: 2}
     - target: {fileID: 5682190628715771268, guid: 364841a08150e9345b119e71191c8dcf,
         type: 3}
       propertyPath: 'itemSprites.LeftHand.Sprites.Array.data[0]'
@@ -400,10 +418,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccbb5729ffc2e0b4f89279dcaf8110ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stackableMaterials: 0
-  materialCost: 0
-  reagentContainer: 1
   craftItem:
   - {fileID: 6513434798660266608, guid: f5de4bfc8649c7a428e694010049af77, type: 3}
-  assembly: {fileID: 5914959498962467419, guid: 487e0ccc7184595408fc207296ee20d9,
+  amount: 1
+  prefabToSpawn: {fileID: 5914959498962467419, guid: 487e0ccc7184595408fc207296ee20d9,
     type: 3}

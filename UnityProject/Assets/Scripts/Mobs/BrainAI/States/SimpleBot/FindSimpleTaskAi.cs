@@ -53,6 +53,17 @@ namespace Mobs.BrainAI.States.SimpleBot
 			SubscribeToPathfinderEvents();
 
 			isTraversing = false;
+
+			if (taskState == false) return;
+
+			if (DMMath.Prob(dialogueChancePercent))
+			{
+				BotDialogue toSay = taskState.IsEmagged ? idleEmaggedDialogue.PickRandom() : idleDialogue.PickRandom();
+				taskState.Speak(toSay.Transcription);
+
+				if(toSay.audioSource != null) SoundManager.PlayNetworkedAtPosAsync(toSay.audioSource,
+					LivingHealthMaster.gameObject.AssumedWorldPosServer(), global: false);
+			}
 		}
 
 		public override void OnExitState()
@@ -64,15 +75,6 @@ namespace Mobs.BrainAI.States.SimpleBot
 		public override void OnUpdateTick()
 		{
 			if (taskState == false) return;
-
-			if (DMMath.Prob(dialogueChancePercent))
-			{
-				BotDialogue toSay = taskState.IsEmagged ? idleEmaggedDialogue.PickRandom() : idleDialogue.PickRandom();
-				taskState.Speak(toSay.Transcription);
-
-				if(toSay.audioSource != null) SoundManager.PlayNetworkedAtPosAsync(toSay.audioSource,
-					LivingHealthMaster.gameObject.AssumedWorldPosServer(), global: false);
-			}
 
 			if (IsStillTraversing()) return;
 
