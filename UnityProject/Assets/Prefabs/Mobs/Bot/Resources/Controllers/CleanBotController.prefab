@@ -72,6 +72,47 @@ PrefabInstance:
       propertyPath: botType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleEmaggedDialogue.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.data[0].Transcription
+      value: Clean my mission is to clean.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.data[1].Transcription
+      value: I clean the floors, to clean the floors is what I do.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.data[2].Transcription
+      value: Did you know a mop makes a fashionable wig?
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleEmaggedDialogue.Array.data[0].Transcription
+      value: I clean the floors, but who will clean away your sins?
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleEmaggedDialogue.Array.data[1].Transcription
+      value: To watch them slip is what brings me joy.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleEmaggedDialogue.Array.data[2].Transcription
+      value: Cleaning tip of the day; To keep your insides clean, remember to drink
+        bleach!
+      objectReference: {fileID: 0}
     - target: {fileID: 3581588255896703113, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
       propertyPath: 'OptionalReplacementOrgan.Array.data[1]'

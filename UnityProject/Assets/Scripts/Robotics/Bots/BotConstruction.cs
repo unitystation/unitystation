@@ -7,20 +7,19 @@ using Util;
 namespace Items.Robotics
 {
 	/// <summary>
-	/// The component used in the botassembly prefabs that keeps track of the "stage" the bot is on before spawning the actual simplebot prefab
+	/// The component used in the bot assembly prefabs that keeps track of the "stage" the bot is on before spawning the actual simplebot mob
 	/// </summary>
 	public class BotConstruction : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		[Tooltip("Place the parts used in each stage, the first part will be element 0")]
 		public GameObject[] stageParts;// A list containing item prefabs set in the editor, the parts should go in the order you want
-
-		private string[] stagePartIDs;
+		private string[] stagePartIDs; //The prefab ID of the assigned stage parts
 
 		[Tooltip("Place each sprite for each stage here, if the sprite should stay the same just leave it blank")]
 		public Sprite[] stageSprite; // This list contains sprites for each stage, if left null sprite will not change
 
 		[Tooltip("The bot that spawns when assembly is complete")]
-		public GameObject botPrefab; // The simplebot prefab that will spawn when all stages are done
+		public GameObject botBlueprint; // The simplebot prefab that will spawn when all stages are done
 
 		[SyncVar(hook = nameof(SpriteSync))]
 		private int stageCounter = 0; // A counter used to track what stage the bot is on and hooked to SpriteSync to sync the sprite with client
@@ -74,7 +73,7 @@ namespace Items.Robotics
 			if (stageCounter++ < stageParts.Length) return;
 
 			// Will spawn the simple bot and despawn the assembly
-			Spawn.ServerPrefab(botPrefab, gameObject.RegisterTile().WorldPosition, transform.parent, count: 1);
+			Spawn.ServerPrefab(botBlueprint, gameObject.RegisterTile().WorldPosition, transform.parent, count: 1);
 			_ = Despawn.ServerSingle(gameObject);
 		}
 	}

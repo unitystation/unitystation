@@ -23,9 +23,6 @@ namespace Mobs.Traversal
 		public int MaxTicksForCancellationWait = 6;
 		public bool DebugGizmos = false;
 
-		public bool DontCheckForDoorsOverride = false;
-		public PathfinderType PathfindingMethod = PathfinderType.AStar;
-
 		public Action<Vector3Int> OnDoneTraversalToLocation;
 		public Action<Vector3Int> OnTraversalFailedCompletely;
 		public Action<Vector3Int> OnTraversalFailedAndRetrying;

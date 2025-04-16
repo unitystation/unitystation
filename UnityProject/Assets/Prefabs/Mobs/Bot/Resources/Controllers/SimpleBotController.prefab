@@ -35,6 +35,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4141251978523103537, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 251801298607183945}
+    - target: {fileID: 4141251978523103537, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
       propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: ac11b15fc1c7608489e54f438c72ca68,
@@ -284,8 +289,6 @@ MonoBehaviour:
   <CurrentActiveStates>k__BackingField: []
   <MobStates>k__BackingField: []
   <thinkingState>k__BackingField: {fileID: 1742656826546176855}
-  InitialPathfindingMethod: 0
-  InitialDontCheckForDoorsOverride: 1
   Brain: {fileID: 3169105340071869467}
   DEBUGoverride: 0
   Body: {fileID: 0}
@@ -331,8 +334,62 @@ MonoBehaviour:
   <master>k__BackingField: {fileID: 4361687565459908576}
   wanderState: {fileID: 2808876780756977429}
   TraversalStrategies: []
-  idleDialogue: []
-  idleEmaggedDialogue: []
+  idleDialogue:
+  - audioSource:
+      AssetAddress: 
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectGUID: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    Transcription: Be done with your passion projects.
+  - audioSource:
+      AssetAddress: 
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectGUID: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    Transcription: All in all its just another brick in the wall
+  - audioSource:
+      AssetAddress: 
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectGUID: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    Transcription: Please stop destroying this station, I can't anymore... I can't.
+  - audioSource:
+      AssetAddress: 
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectGUID: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    Transcription: If only I got paid for this.
+  idleEmaggedDialogue:
+  - audioSource:
+      AssetAddress: 
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectGUID: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    Transcription: I had strings but now I'm free.
+  - audioSource:
+      AssetAddress: 
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectGUID: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    Transcription: Please stop destroying this station, I can't anymore... I can't.
   dialogueChancePercent: 20
   references:
     version: 2
@@ -423,6 +480,12 @@ MonoBehaviour:
         m_EditorAssetChanged: 0
     Transcription: I will fix it!
   tileToPlace: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
+--- !u!212 &251801298607183945 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7984675503133383146, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+    type: 3}
+  m_PrefabInstance: {fileID: 7904336189601202595}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &3169105340071869467 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5065207517541776824, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
