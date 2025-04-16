@@ -128,7 +128,7 @@ namespace Objects.Research
 			lastActivationTime = Time.time;
 			connectedPortal.lastActivationTime = Time.time;
 
-			TransportUtility.TransportObject(uop, connectedPortal.ObjectPhysics.OfficialPosition, false);
+			TransportUtility.TransportObjectAndPulled(uop, connectedPortal.ObjectPhysics.OfficialPosition, false);
 		}
 
 

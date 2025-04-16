@@ -24,7 +24,7 @@ namespace Gateway
 		/// <param name="transportTo">Destination to transport <paramref name="objectPhysics"/> to.</param>
 		/// <param name="doTileStep">Whether step interactions should trigger on teleport</param>
 		[Server]
-		public static void TransportObject(UniversalObjectPhysics objectPhysics, Vector3 transportTo, bool doTileStep = true, float maintRoomChanceModifier = 1)
+		private static void TransportObject(UniversalObjectPhysics objectPhysics, Vector3 transportTo, bool doTileStep = true, float maintRoomChanceModifier = 1)
 		{
 			if (objectPhysics == null) return; //Don't even bother...
 
