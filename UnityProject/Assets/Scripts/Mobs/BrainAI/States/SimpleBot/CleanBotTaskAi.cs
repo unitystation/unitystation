@@ -16,7 +16,7 @@ namespace Mobs.BrainAI.States.SimpleBot
 			if (decalToClean == false)
 			{
 				Loggy.Error("CleanBotTaskAi: Attempted to enter state but decalToClean was null!");
-				master.AddRemoveState(this, findSimpleTaskAi);
+				master.RemoveAddState(this, findSimpleTaskAi);
 				return;
 			}
 
@@ -28,14 +28,14 @@ namespace Mobs.BrainAI.States.SimpleBot
 
 		protected override IEnumerator PerformTask()
 		{
-			SoundManager.PlayNetworkedAtPos(isEmagged ? emaggedPerformSound : taskPerformSound, LivingHealthMaster.gameObject.AssumedWorldPosServer());
+			SoundManager.PlayNetworkedAtPos(IsEmagged ? emaggedPerformSound : taskPerformSound, LivingHealthMaster.gameObject.AssumedWorldPosServer());
 			yield return WaitFor.Seconds(taskPerformDuration);
 
 			if (IsCurrentTaskValid() == true)
 			{
 				Vector3Int worldPos = targetCell.ToWorldInt(targetMatrix);
 
-				if (isEmagged)
+				if (IsEmagged)
 				{
 					var mix = new ReagentMix(reagentToSpill, 5f, 273.15f);
 					targetMatrix.MatrixInfo.MetaDataLayer.ReagentReact(mix,worldPos,targetCell);
@@ -50,7 +50,7 @@ namespace Mobs.BrainAI.States.SimpleBot
 			bool found = FindTarget(out targetCell, out targetMatrix);
 			searchRadius = 5;
 
-			if (found == false) master.AddRemoveState(this, findSimpleTaskAi); //If cant clean without moving, return to search state
+			if (found == false) master.RemoveAddState(this, findSimpleTaskAi); //If cant clean without moving, return to search state
 			else DoTask();
 		}
 

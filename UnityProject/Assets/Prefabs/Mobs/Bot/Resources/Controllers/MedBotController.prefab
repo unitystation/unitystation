@@ -72,6 +72,11 @@ PrefabInstance:
       propertyPath: 'OptionalReplacementOrgan.Array.data[2]'
       value: 
       objectReference: {fileID: 6488881776525976744}
+    - target: {fileID: 6109547793187147922, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 7550262648123665512}
     - target: {fileID: 6428289829602600824, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
       propertyPath: foreverID
@@ -111,6 +116,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!212 &7550262648123665512 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 251801298607183945, guid: b6b606388cb517144a21d93415c57401,
+    type: 3}
+  m_PrefabInstance: {fileID: 7762367453387633697}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7653338138175774516 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 112421141507975957, guid: b6b606388cb517144a21d93415c57401,
@@ -155,6 +166,44 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   taskPerformDuration: 2
+  botLanguage: {fileID: 11400000, guid: 90699dd78f8cfad4e983185c4f67ae72, type: 2}
+  stateExitDialogue:
+  - audioSource:
+      AssetAddress: 
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectGUID: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    Transcription: An apple a day keeps me away!
+  - audioSource:
+      AssetAddress: 
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectGUID: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    Transcription: Feel better soon!
+  - audioSource:
+      AssetAddress: 
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectGUID: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    Transcription: You are a good person!
+  - audioSource:
+      AssetAddress: 
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectGUID: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    Transcription: Thank you!
 --- !u!114 &8328933848482641782 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,

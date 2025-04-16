@@ -1,5 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using AddressableReferences;
 using Chemistry;
+using Core.Utils;
 using HealthV2;
 using Logs;
 using Objects.Construction;
@@ -7,16 +11,16 @@ using UnityEngine;
 
 namespace Mobs.BrainAI.States.SimpleBot
 {
+
 	public class MedBotTaskAi : SimpleBotTaskAi
 	{
 		private LivingHealthMasterBase creatureToHeal = null;
-
 		public override void OnEnterState()
 		{
 			if (creatureToHeal == false)
 			{
 				Loggy.Error("MedBotTaskAi: Attempted to enter state but creatureToHeal was null!");
-				master.AddRemoveState(this, findSimpleTaskAi);
+				master.RemoveAddState(this, findSimpleTaskAi);
 				return;
 			}
 
@@ -28,12 +32,12 @@ namespace Mobs.BrainAI.States.SimpleBot
 
 		protected override IEnumerator PerformTask()
 		{
-			SoundManager.PlayNetworkedAtPos(isEmagged ? emaggedPerformSound : taskPerformSound, LivingHealthMaster.gameObject.AssumedWorldPosServer());
+			SoundManager.PlayNetworkedAtPos(IsEmagged ? emaggedPerformSound : taskPerformSound, LivingHealthMaster.gameObject.AssumedWorldPosServer(), global: false);
 			yield return WaitFor.Seconds(taskPerformDuration);
 
 			if (IsCurrentTaskValid() == true)
 			{
-				if (isEmagged) creatureToHeal.ApplyDamageToRandomBodyPart(master.Body.gameObject, 5f, AttackType.Melee, DamageType.Brute);
+				if (IsEmagged) creatureToHeal.ApplyDamageToRandomBodyPart(master.Body.gameObject, 5f, AttackType.Melee, DamageType.Brute);
 				else
 				{
 					creatureToHeal.HealDamageOnAll(master.Body.gameObject, 5f, DamageType.Brute);
@@ -48,7 +52,7 @@ namespace Mobs.BrainAI.States.SimpleBot
 			bool found = FindTarget(out targetCell, out targetMatrix);
 			searchRadius = 5;
 
-			if (found == false) master.AddRemoveState(this, findSimpleTaskAi); //If cant heal without moving, return to search state
+			if (found == false) master.RemoveAddState(this, findSimpleTaskAi); //If cant heal without moving, return to search state
 			else DoTask();
 		}
 		protected override bool IsCurrentTaskValid()

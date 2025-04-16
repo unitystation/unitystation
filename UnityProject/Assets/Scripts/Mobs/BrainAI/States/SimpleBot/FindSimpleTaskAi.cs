@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Core.Editor.Attributes;
+using Core.Utils;
 using HealthV2;
 using Logs;
 using Mobs.Traversal;
@@ -26,6 +27,10 @@ namespace Mobs.BrainAI.States.SimpleBot
 
 		private bool isTraversing = false;
 		private int refuseReturn = 0;
+
+		[SerializeField] private List<BotDialogue> idleDialogue = new List<BotDialogue>();
+		[SerializeField] List<BotDialogue> idleEmaggedDialogue = new List<BotDialogue>();
+		[SerializeField] private float dialogueChancePercent = 20;
 
 		private void Start()
 		{
@@ -60,6 +65,15 @@ namespace Mobs.BrainAI.States.SimpleBot
 		{
 			if (taskState == false) return;
 
+			if (DMMath.Prob(dialogueChancePercent))
+			{
+				BotDialogue toSay = taskState.IsEmagged ? idleEmaggedDialogue.PickRandom() : idleDialogue.PickRandom();
+				taskState.Speak(toSay.Transcription);
+
+				if(toSay.audioSource != null) SoundManager.PlayNetworkedAtPosAsync(toSay.audioSource,
+					LivingHealthMaster.gameObject.AssumedWorldPosServer(), global: false);
+			}
+
 			if (IsStillTraversing()) return;
 
 			if (LivingHealthMaster.IsSoftCrit || LivingHealthMaster.IsCrit || LivingHealthMaster.IsDead)
@@ -70,7 +84,7 @@ namespace Mobs.BrainAI.States.SimpleBot
 
 			if (foundTarget == false && HasGoal() == false)
 			{
-				master.AddRemoveState(this, wanderState);
+				master.RemoveAddState(this, wanderState);
 				return;
 			}
 
@@ -78,7 +92,7 @@ namespace Mobs.BrainAI.States.SimpleBot
 
 			if (isTraversing == false)
 			{
-				master.AddRemoveState(this, wanderState);
+				master.RemoveAddState(this, wanderState);
 				refuseReturn = 7;
 			}
 		}
@@ -115,7 +129,7 @@ namespace Mobs.BrainAI.States.SimpleBot
 
 			if (Vector3.Distance(targetCell.ToWorld(targetMatrix), master.gameObject.AssumedWorldPosServer()) <= 1.5f)
 			{
-				master.AddRemoveState(this, taskState);
+				master.RemoveAddState(this, taskState);
 			}
 		}
 

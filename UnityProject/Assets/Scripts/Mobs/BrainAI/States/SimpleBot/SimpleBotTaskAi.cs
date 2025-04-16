@@ -1,12 +1,21 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using AddressableReferences;
 using Logs;
 using NaughtyAttributes;
+using Player.Language;
 using Tiles;
 using UnityEngine;
 
 namespace Mobs.BrainAI.States.SimpleBot
 {
+	[System.Serializable]
+	public struct BotDialogue
+	{
+		public AddressableAudioSource audioSource;
+		public string Transcription;
+	}
+
 	public class SimpleBotTaskAi : BrainMobState
 	{
 
@@ -22,24 +31,27 @@ namespace Mobs.BrainAI.States.SimpleBot
 		protected Matrix targetMatrix;
 		protected Vector3Int targetCell;
 
-		protected bool isEmagged = false;
+		public bool IsEmagged { get; private set; } = false;
 		protected Coroutine taskPerformCoroutine = null;
 
 		public delegate void SpriteChangeEvent(bool isEmagged, bool isPerformingTask);
 		public SpriteChangeEvent OnSpriteChange = null;
 
+		[SerializeField] protected LanguageSO botLanguage = null;
+		[SerializeField] protected List<BotDialogue> stateExitDialogue = new List<BotDialogue>();
+
 
 		[Button()]
 		public void ToggleEmagState()
 		{
-			isEmagged = !isEmagged;
-			OnSpriteChange?.Invoke(isEmagged, false);
+			IsEmagged = !IsEmagged;
+			OnSpriteChange?.Invoke(IsEmagged, false);
 		}
 
 		public void SetEmagState(bool state)
 		{
-			isEmagged = state;
-			OnSpriteChange?.Invoke(isEmagged, false);
+			IsEmagged = state;
+			OnSpriteChange?.Invoke(IsEmagged, false);
 		}
 
 		public override void OnEnterState()
@@ -49,24 +61,36 @@ namespace Mobs.BrainAI.States.SimpleBot
 
 		public override void OnExitState()
 		{
+			BotDialogue toSay = stateExitDialogue.PickRandom();
+			Speak(toSay.Transcription);
+
+			if(toSay.audioSource != null) SoundManager.PlayNetworkedAtPosAsync(toSay.audioSource,
+				LivingHealthMaster.gameObject.AssumedWorldPosServer(), global: false);
+
 			targetMatrix = null;
 			targetCell = Vector3Int.zero;
 			taskPerformCoroutine = null;
 
-			OnSpriteChange?.Invoke(isEmagged, false);
+			OnSpriteChange?.Invoke(IsEmagged, false);
 		}
+
+		public void Speak(string text)
+		{
+			Chat.AddLocalMsgToChat(text, gameObject, botLanguage, LivingHealthMaster.playerScript.visibleName, true);
+		}
+
 
 		public void DoTask()
 		{
 			if (taskPerformCoroutine == null && IsCurrentTaskValid() == false)
 			{
-				master.AddRemoveState(this, findSimpleTaskAi);
+				master.RemoveAddState(this, findSimpleTaskAi);
 				return;
 			}
 
 			if (taskPerformCoroutine is not null) return;
 
-			OnSpriteChange?.Invoke(isEmagged, true);
+			OnSpriteChange?.Invoke(IsEmagged, true);
 			taskPerformCoroutine = StartCoroutine(PerformTask());
 		}
 

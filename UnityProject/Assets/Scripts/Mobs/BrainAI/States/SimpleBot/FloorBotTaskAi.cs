@@ -18,12 +18,12 @@ namespace Mobs.BrainAI.States.SimpleBot
 
 		protected override IEnumerator PerformTask()
 		{
-			SoundManager.PlayNetworkedAtPos(isEmagged ? emaggedPerformSound : taskPerformSound, LivingHealthMaster.gameObject.AssumedWorldPosServer());
+			SoundManager.PlayNetworkedAtPos(IsEmagged ? emaggedPerformSound : taskPerformSound, LivingHealthMaster.gameObject.AssumedWorldPosServer());
 			yield return WaitFor.Seconds(taskPerformDuration);
 
 			if (IsCurrentTaskValid() == true)
 			{
-				if(isEmagged) targetMatrix.MetaTileMap.RemoveTileWithlayer(targetCell, LayerType.Floors);
+				if(IsEmagged) targetMatrix.MetaTileMap.RemoveTileWithlayer(targetCell, LayerType.Floors);
 				else targetMatrix.MetaTileMap.SetTile(targetCell, tileToPlace);
 			}
 
@@ -33,13 +33,13 @@ namespace Mobs.BrainAI.States.SimpleBot
 			bool found = FindTarget(out targetCell, out targetMatrix);
 			searchRadius = 2;
 
-			if (found == false) master.AddRemoveState(this, findSimpleTaskAi); //If no nearby tiles, return to search state.
+			if (found == false) master.RemoveAddState(this, findSimpleTaskAi); //If no nearby tiles, return to search state.
 			else DoTask();
 		}
 
 		protected override bool IsCurrentTaskValid()
 		{
-			if (isEmagged)
+			if (IsEmagged)
 			{
 				return Vector3.Distance(targetCell.ToWorld(targetMatrix), master.Body.gameObject.AssumedWorldPosServer()) <= 1.5f
 					&& IsExposedFloorTile(targetCell, targetMatrix);
@@ -63,8 +63,8 @@ namespace Mobs.BrainAI.States.SimpleBot
 					checkPos.x += x;
 					checkPos.y += y;
 
-					if ((isEmagged == false && IsExposedBaseTile(checkPos, targetMatrixLocal))
-					    || (isEmagged == true && IsExposedFloorTile(checkPos, targetMatrixLocal)))
+					if ((IsEmagged == false && IsExposedBaseTile(checkPos, targetMatrixLocal))
+					    || (IsEmagged == true && IsExposedFloorTile(checkPos, targetMatrixLocal)))
 					{
 						targetMatrix = targetMatrixLocal;
 						targetPosition = checkPos;
