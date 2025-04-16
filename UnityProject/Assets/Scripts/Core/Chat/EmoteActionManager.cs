@@ -51,6 +51,7 @@ namespace Core.Chat
 
 		public static void DoEmote(string emote, GameObject player)
 		{
+			if (player == null) return;
 			foreach (var e in Instance.emoteList.Emotes)
 			{
 				if(emote.Equals(e.EmoteName, StringComparison.CurrentCultureIgnoreCase))
