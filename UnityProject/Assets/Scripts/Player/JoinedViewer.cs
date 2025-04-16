@@ -15,6 +15,7 @@ using Messages.Client;
 using Messages.Client.NewPlayer;
 using Messages.Client.SpriteMessages;
 using UI;
+using UI.Systems.PreRound;
 using UnityEngine;
 using Util.Independent.FluentRichText;
 
@@ -240,7 +241,7 @@ namespace Player
 		{
 			FinishedValidating();
 			CmdFinishLoading();
-			UIManager.Display.preRoundWindow.ShowRejoiningPanel();
+			//UIManager.Display.preRoundWindow.ShowRejoiningPanel();
 			SpriteRequestCurrentStateMessage.Send(SpriteHandlerManager.Instance.GetComponent<NetworkIdentity>().netId);
 		}
 
@@ -320,7 +321,7 @@ namespace Player
 		/// </summary>
 		private async UniTask WaitForLoggedOffObserver(Mind loggedOffPlayer)
 		{
-			TargetLocalPlayerRejoinUI(connectionToClient);
+			TargetLocalPlayerRejoinUI(connectionToClient, 0.1f, "Rejoining", "Waiting for logged off observer..");
 
 			// TODO: When we have scene network culling we will need to allow observers
 			// for the whole specific scene and the body before doing the logic below:
@@ -386,16 +387,16 @@ namespace Player
 
 		private void SuccesfullyRejoin()
 		{
-			TargetLocalPlayerRejoinUI(connectionToClient);
+			TargetLocalPlayerRejoinUI(connectionToClient, 0.9f, "Rejoining", "Successfully rejoined. Alerting Mind..");
 			GameManager.Instance.OrNull()?.PlayerLoadedIn(connectionToClient);
 			STVerifiedConnPlayer.Mind.OrNull()?.ReLog();
 			ClearCache(true);
 		}
 
 		[TargetRpc]
-		private void TargetLocalPlayerRejoinUI(NetworkConnection target)
+		private void TargetLocalPlayerRejoinUI(NetworkConnection target, float amount, string loadingTitle, string loadingSubject)
 		{
-			UIManager.Display.preRoundWindow.ShowRejoiningPanel();
+			UIManager.Display.preRoundWindow.LoadingArea.UpdateLoadingBar(loadingTitle, loadingSubject, amount);
 		}
 
 		/// <summary>
@@ -465,7 +466,7 @@ namespace Player
 		private void TargetSyncCountdown(NetworkConnection target, bool started, double endTime)
 		{
 			Loggy.Info("Syncing countdown!", Category.Round);
-			UIManager.Display.preRoundWindow.GetComponent<GUI_PreRoundWindow>().SyncCountdown(started, endTime);
+			UIManager.Display.preRoundWindow.GetComponent<GUI_PreRoundWindow>().CountdownArea.SyncCountdown(started, endTime);
 		}
 
 		/// <summary>

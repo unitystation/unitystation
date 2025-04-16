@@ -1,5 +1,6 @@
 ﻿using Mirror;
 using UI;
+using UI.Systems.PreRound;
 
 namespace Messages.Server
 {
@@ -16,7 +17,7 @@ namespace Messages.Server
 
 		public override void Process(NetMessage msg)
 		{
-			UIManager.Display.preRoundWindow.GetComponent<GUI_PreRoundWindow>().SyncCountdown(msg.Started, msg.EndTime);
+			UIManager.Display.preRoundWindow.GetComponent<GUI_PreRoundWindow>().CountdownArea.SyncCountdown(msg.Started, msg.EndTime);
 		}
 
 		/// <summary>
