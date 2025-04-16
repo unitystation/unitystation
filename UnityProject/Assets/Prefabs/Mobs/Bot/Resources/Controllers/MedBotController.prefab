@@ -112,6 +112,41 @@ PrefabInstance:
       propertyPath: idleEmaggedDialogue.Array.data[2].Transcription
       value: There's always a catch. And then the best there is.
       objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.data[0].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/medbot/i_am_chicken.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.data[1].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/medbot/surgeon.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.data[2].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/medbot/apple.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.data[3].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/medbot/youre_good.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleEmaggedDialogue.Array.data[0].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/medbot/pain_is_real.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleEmaggedDialogue.Array.data[1].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/medbot/i_require_asst.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleEmaggedDialogue.Array.data[2].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/medbot/catch.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 3581588255896703113, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
       propertyPath: 'OptionalReplacementOrgan.Array.data[2]'
@@ -214,7 +249,7 @@ MonoBehaviour:
   botLanguage: {fileID: 11400000, guid: 90699dd78f8cfad4e983185c4f67ae72, type: 2}
   stateExitDialogue:
   - audioSource:
-      AssetAddress: 
+      AssetAddress: Assets/Prefabs/NPC/Bots/medbot/apple.prefab
       AssetReference:
         m_AssetGUID: 
         m_SubObjectName: 
@@ -223,7 +258,7 @@ MonoBehaviour:
         m_EditorAssetChanged: 0
     Transcription: An apple a day keeps me away!
   - audioSource:
-      AssetAddress: 
+      AssetAddress: Assets/Prefabs/NPC/Bots/medbot/feelbetter.prefab
       AssetReference:
         m_AssetGUID: 
         m_SubObjectName: 
@@ -232,7 +267,7 @@ MonoBehaviour:
         m_EditorAssetChanged: 0
     Transcription: Feel better soon!
   - audioSource:
-      AssetAddress: 
+      AssetAddress: Assets/Prefabs/NPC/Bots/medbot/youre_good.prefab
       AssetReference:
         m_AssetGUID: 
         m_SubObjectName: 
@@ -241,7 +276,7 @@ MonoBehaviour:
         m_EditorAssetChanged: 0
     Transcription: You are a good person!
   - audioSource:
-      AssetAddress: 
+      AssetAddress: Assets/Prefabs/NPC/Bots/medbot/thank_you.prefab
       AssetReference:
         m_AssetGUID: 
         m_SubObjectName: 
@@ -249,6 +284,11 @@ MonoBehaviour:
         m_SubObjectType: 
         m_EditorAssetChanged: 0
     Transcription: Thank you!
+  blackListedSpecies:
+  - {fileID: 11400000, guid: 878d88bc2a64d75429f00a1208902607, type: 2}
+  - {fileID: 11400000, guid: e9ff315a55db70441bed9631f79432e4, type: 2}
+  - {fileID: 11400000, guid: f0297cb2a01ba64408e02a2944608937, type: 2}
+  - {fileID: 11400000, guid: 60f6168d2ada0a34ea579eb77f1fd6b0, type: 2}
 --- !u!114 &8328933848482641782 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
