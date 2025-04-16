@@ -266,6 +266,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		}
 		SpriteRequestCurrentStateMessage.Send(SpriteHandlerManager.Instance.GetComponent<NetworkIdentity>().netId);
 		ClientWaitingRoutine = false;
+		IsInitialized = true;
 	}
 	private bool AreAllMatrixReady()
 	{
@@ -857,6 +858,31 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	{
 		List<T> result = new List<T>();
 
+		result.AddRange(GetAt<T>(worldPos + Vector3Int.right, isServer));
+		result.AddRange(GetAt<T>(worldPos + Vector3Int.right + Vector3Int.up, isServer));
+		result.AddRange(GetAt<T>(worldPos + Vector3Int.up, isServer));
+		result.AddRange(GetAt<T>(worldPos + Vector3Int.up + Vector3Int.left, isServer));
+		result.AddRange(GetAt<T>(worldPos + Vector3Int.left, isServer));
+		result.AddRange(GetAt<T>(worldPos + Vector3Int.left + Vector3Int.down, isServer));
+		result.AddRange(GetAt<T>(worldPos + Vector3Int.down, isServer));
+		result.AddRange(GetAt<T>(worldPos + Vector3Int.down + Vector3Int.right, isServer));
+
+		return result;
+	}
+
+	/// <summary>
+	/// checks all tiles adjacent to the indicated world position for objects with the indicated component.
+	/// Probably pretty expensive.
+	/// </summary>
+	/// <param name="worldPos">Position on the map using world (global) cordinates.</param>
+	/// <param name="isServer"></param>
+	/// <param name="withCenter">Get items on the center of the tile you want to check as well if true.</param>
+	/// <typeparam name="T"></typeparam>
+	/// <returns></returns>
+	public static List<T> GetAdjacent<T>(Vector3Int worldPos, bool isServer, bool withCenter) where T : MonoBehaviour
+	{
+		List<T> result = new List<T>();
+		if (withCenter) result.AddRange(GetAt<T>(worldPos, isServer));
 		result.AddRange(GetAt<T>(worldPos + Vector3Int.right, isServer));
 		result.AddRange(GetAt<T>(worldPos + Vector3Int.right + Vector3Int.up, isServer));
 		result.AddRange(GetAt<T>(worldPos + Vector3Int.up, isServer));

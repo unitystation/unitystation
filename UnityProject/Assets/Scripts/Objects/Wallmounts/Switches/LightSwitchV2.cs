@@ -1,19 +1,25 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Mirror;
 using UnityEngine;
 using Systems.Electricity;
 using Systems.Interaction;
 using CustomInspectors;
+using Cysharp.Threading.Tasks;
+using NUnit.Framework;
 using Shared.Systems.ObjectConnection;
+using Systems.Ai;
+using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 
 namespace Objects.Lighting
 {
-	public class LightSwitchV2 : ImnterfaceMultitoolGUI, ISubscriptionController, ICheckedInteractable<HandApply>, IAPCPowerable, IMultitoolMasterable, ICheckedInteractable<AiActivate>
+	public class LightSwitchV2 : ImnterfaceMultitoolGUI, ISubscriptionController,
+		ICheckedInteractable<HandApply>, IAPCPowerable, IMultitoolMasterable, ICheckedInteractable<AiActivate>, IHoverTooltip
 	{
 		public List<LightSource> listOfLights;
 		public UnityEvent OnButtonPressed = new UnityEvent();
@@ -22,7 +28,7 @@ namespace Objects.Lighting
 		public bool isOn = true;
 
 		[SerializeField]
-		private float coolDownTime = 1.0f;
+		private float coolDownTime = 2f;
 
 		private bool isInCoolDown;
 
@@ -86,27 +92,32 @@ namespace Objects.Lighting
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (interaction.HandObject != null && interaction.Intent == Intent.Harm) return false;
-
-			if (side == NetworkSide.Server)
-			{
-				if (isInCoolDown) return false;
-				StartCoroutine(SwitchCoolDown());
-			}
-
 			return true;
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+			if (isInCoolDown)
+			{
+				Chat.AddExamineMsg(interaction.Performer, "You can't use the switch yet.");
+				return;
+			}
 			TryInteraction();
 			if (powerState == PowerState.Off || powerState == PowerState.LowVoltage)
 			{
-				Chat.AddExamineMsg(gameObject, "You flip the switch... But nothing happens.");
+				Chat.AddExamineMsg(interaction.Performer, "You flip the switch... But nothing happens.");
 				return;
 			}
 			OnButtonPressed?.Invoke();
-			string state = isOn ? "on" : "off";
-			Chat.AddExamineMsg(gameObject, $"You flip the switch back {state}.");
+			if (interaction.IsAltClick)
+			{
+				Chat.AddExamineMsg(interaction.Performer, $"You quietly flip the switch back {IsOnOffString()}.");
+			}
+			else
+			{
+				Chat.AddActionMsgToChat(interaction.Performer, $"{interaction.PerformerPlayerScript.visibleName} flips the switch back {IsOnOffString()}.");
+			}
+			_ = SwitchCoolDown();
 		}
 
 		#endregion
@@ -130,7 +141,7 @@ namespace Objects.Lighting
 			//Trigger client cooldown only, or else it will break for local host
 			if (CustomNetworkManager.IsServer == false)
 			{
-				StartCoroutine(SwitchCoolDown());
+				_ = SwitchCoolDown();
 			}
 
 			return true;
@@ -139,7 +150,7 @@ namespace Objects.Lighting
 		public void ServerPerformInteraction(AiActivate interaction)
 		{
 			//Start server cooldown
-			StartCoroutine(SwitchCoolDown());
+			_ = SwitchCoolDown();
 			TryInteraction();
 		}
 
@@ -169,10 +180,10 @@ namespace Objects.Lighting
 
 		#endregion
 
-		private IEnumerator SwitchCoolDown()
+		private async UniTask SwitchCoolDown()
 		{
 			isInCoolDown = true;
-			yield return WaitFor.Seconds(coolDownTime);
+			await UniTask.WaitForSeconds(coolDownTime); // unitask has zero allocations compared to IEnumerators.
 			isInCoolDown = false;
 		}
 
@@ -219,5 +230,74 @@ namespace Objects.Lighting
 		}
 
 		#endregion
+
+		#region Hover ToolTips
+
+		public string HoverTip()
+		{
+			return $"The switch seems to be {IsOnOffString()}.";
+		}
+
+		public string CustomTitle()
+		{
+			return null;
+		}
+
+		public Sprite CustomIcon()
+		{
+			return null;
+		}
+
+		public List<Sprite> IconIndicators()
+		{
+			return null;
+		}
+
+		public List<TextColor> InteractionsStrings()
+		{
+			var interactions = new List<TextColor>
+			{
+				new TextColor
+				{
+					Text = $"Click to Flip the switch {IsOnOffString()}.",
+					Color = IntentColors.Help
+				},
+				new TextColor
+				{
+					Text = $"Alt+Click to quietly Flip the switch {IsOnOffString()}.",
+					Color = IntentColors.Help
+				},
+			};
+
+			if (LocalPlayerHasMultiTool())
+			{
+				interactions.Add(new TextColor
+				{
+					Text = "Use the Multitool to rewire the switch.",
+					Color = IntentColors.Help
+				});
+			}
+
+			return interactions;
+		}
+
+		private bool LocalPlayerHasMultiTool()
+		{
+			if (PlayerManager.LocalPlayerScript == null) return false;
+			if (PlayerManager.LocalPlayerScript.DynamicItemStorage == null) return false;
+			foreach (var slot in PlayerManager.LocalPlayerScript.DynamicItemStorage.GetHandSlots())
+			{
+				if (slot.IsEmpty) continue;
+				if (slot.ItemAttributes.GetTraits().Contains(CommonTraits.Instance.Multitool)) return true;
+			}
+
+			return false;
+		}
+		#endregion
+
+		private string IsOnOffString()
+		{
+			return isOn ? "on" : "off";
+		}
 	}
 }

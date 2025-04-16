@@ -78,26 +78,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: _FloraFlowersBase
       objectReference: {fileID: 0}
-    - target: {fileID: 3430066335556137592, guid: bf1232ff5948494499fb98f10c1c1ef6,
-        type: 3}
-      propertyPath: m_Size.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3430066335556137592, guid: bf1232ff5948494499fb98f10c1c1ef6,
-        type: 3}
-      propertyPath: m_Size.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3430066335556137592, guid: bf1232ff5948494499fb98f10c1c1ef6,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3430066335556137592, guid: bf1232ff5948494499fb98f10c1c1ef6,
-        type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4929016382402049943, guid: bf1232ff5948494499fb98f10c1c1ef6,
         type: 3}
       propertyPath: isMeleeable
@@ -122,11 +102,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: ba5cb6282c4fa6349878dd867411610c
-      objectReference: {fileID: 0}
-    - target: {fileID: 7974405029056674997, guid: bf1232ff5948494499fb98f10c1c1ef6,
-        type: 3}
-      propertyPath: randomInitialSprite
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8143815861460355957, guid: bf1232ff5948494499fb98f10c1c1ef6, type: 3}

@@ -27,8 +27,6 @@ public interface IPlayerPossessable
 			{
 				if (CustomNetworkManager.IsServer)
 				{
-					Loggy.Error(
-						$"Destroyed Possessing  While PossessingID Still references it fixing, Please work out how it got a Destroyed ID {PossessingMind.OrNull()?.name}");
 					SyncPossessingID(PossessingID, NetId.Empty);
 				}
 
@@ -44,6 +42,7 @@ public interface IPlayerPossessable
 		get
 		{
 			if (PossessingID is NetId.Invalid or NetId.Empty) return this.GameObject;
+			if (CustomNetworkManager.Spawned.ContainsKey(PossessingID) == false) return this.GameObject;
 			var Possessable = CustomNetworkManager.Spawned[PossessingID].GetComponent<IPlayerPossessable>();
 			return Possessable.ControllingObject;
 		}
@@ -227,7 +226,8 @@ public interface IPlayerPossessable
 			//SO The problem is it is recursive so it doesn't know which one is the last one!!! AAAAAAAAAA I'm going to bed
 		}
 
-		if (GameObject.GetComponent<NetworkIdentity>().isOwned || mind == PlayerManager.LocalMindScript)
+
+		if (isServer == false || mind == PlayerManager.LocalMindScript)
 		{
 			ClientInternalOnControlPlayer(mind, isServer);
 		}
@@ -258,7 +258,8 @@ public interface IPlayerPossessable
 				GameObject); //TODO should we be using the players body as game object???
 		}
 
-		PossessAndUnpossessMessage.Send(GameObject, GameObject, null);
+
+		ControlAndLoseControlMessage.Send(GameObject, GameObject, null);
 
 		if (mind != null)
 		{
@@ -299,7 +300,7 @@ public interface IPlayerPossessable
 	public void InternalOnPlayerLeave(Mind mind)
 	{
 		if (GameObject == null) return;
-		if (GameObject.GetComponent<NetworkIdentity>().isOwned || mind == PlayerManager.LocalMindScript)
+		if (CustomNetworkManager.IsServer == false || mind == PlayerManager.LocalMindScript)
 		{
 			var leaveInterfaces = GameObject.GetComponents<IOnPlayerLeaveBody>();
 			foreach (var leaveInterface in leaveInterfaces)
@@ -310,7 +311,7 @@ public interface IPlayerPossessable
 
 		if (CustomNetworkManager.IsServer)
 		{
-			PossessAndUnpossessMessage.Send(mind?.gameObject, null, GameObject);
+			ControlAndLoseControlMessage.Send(mind?.gameObject, null, GameObject);
 		}
 
 		var possessing = GetPossessing();

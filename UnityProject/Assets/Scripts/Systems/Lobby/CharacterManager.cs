@@ -326,7 +326,7 @@ namespace Systems.Character
 				{
 					Loggy.Error(e.ToString());
 					UIManager.InfoWindow.Show("Something went wrong while attempting to fetch your characters." +
-					                          " Make sure you're online and you have a valid account tokne.",
+					                          " Make sure you're online and you have a valid account token.",
 						false, "Error");
 				});
 			}

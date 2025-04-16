@@ -16,7 +16,7 @@ namespace Mobs.BrainAI.States
 		{
 			foreach (var possibleNewState in master.MobStates)
 			{
-				if(possibleNewState.HasGoal()) master.AddRemoveState(null, possibleNewState);
+				if(possibleNewState.HasGoal()) master.RemoveAddState(null, possibleNewState);
 			}
 		}
 

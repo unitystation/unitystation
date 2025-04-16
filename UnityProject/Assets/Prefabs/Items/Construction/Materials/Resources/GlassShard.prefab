@@ -188,9 +188,21 @@ PrefabInstance:
       objectReference: {fileID: 2800000, guid: 497cdca2f81e8ac46992a07d86815479, type: 3}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: a13a642263a2c6a43804b11b9ae18e7a,
+        type: 2}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: itemSprites.LeftHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 8acde32fab2b916499d59e850c6a3434, type: 3}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 87e384017bd8b1f4da115fea644c7ffd,
+        type: 2}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: itemSprites.RightHand.EquippedData
@@ -264,6 +276,17 @@ PrefabInstance:
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: b0fd576be5ff7f348aaa8389d156e9a7,
+        type: 2}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: randomInitialSprite
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: b0fd576be5ff7f348aaa8389d156e9a7,
         type: 2}
@@ -358,6 +381,8 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  AppearWithRandomOffset: 1
+  AppearWithRandomRotation: 1
 --- !u!114 &3832299256199899869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -370,6 +395,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 615eb111e382a344f9deba8fdcb5ee32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
   attackType: 0
   damageType: 0
   traumaType: 0
@@ -377,11 +405,11 @@ MonoBehaviour:
   armorPentration: 0
   traumaChance: 0
   onStepSounds:
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/GlassStep.prefab
+  - AssetAddress: Assets/Prefabs/Effects/GlassStep.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   hurtsOneFootOnly: 0

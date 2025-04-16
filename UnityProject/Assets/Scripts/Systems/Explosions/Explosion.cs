@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Core;
 using Core.Admin.Logs;
+using Cysharp.Threading.Tasks;
 using HealthV2;
 using Logs;
 using Systems.Score;
@@ -32,72 +33,73 @@ namespace Systems.Explosions
 			nodeType ??= new ExplosionNode();
 			nodeType.IgnoreAttributes = damageIgnoreAttributes;
 
-			int Radius = 0;
+			int radius = 0;
 			if (fixedRadius <= 0)
 			{
-				Radius = (int)(Math.Round(strength / (Math.PI * 75)) + 5) * radiusMultiplier;
+				radius = (int)(Math.Round(strength / (Math.PI * 75)) + 5) * radiusMultiplier;
 			}
 			else
 			{
-				Radius = fixedRadius;
+				radius = fixedRadius;
 			}
-			if (Radius > 150)
+			if (radius > 150)
 			{
-				Radius = 150;
+				radius = 150;
 			}
 
-			byte ShakingStrength = 0;
+			byte shakingStrength = 0;
 			if (fixedShakingStrength <= 0 || fixedShakingStrength > 255)
 			{
-				ShakingStrength = 25;
+				shakingStrength = 25;
 				if (strength > EXPLOSION_STRENGTH_LOW)
 				{
-					ShakingStrength = 75;
+					shakingStrength = 75;
 				}
 				else if (strength > EXPLOSION_STRENGTH_MEDIUM)
 				{
-					ShakingStrength = 125;
+					shakingStrength = 125;
 				}
 				else if (strength > EXPLOSION_STRENGTH_HIGH)
 				{
-					ShakingStrength = 255;
+					shakingStrength = 255;
 				}
 			}
 			else
 			{
-				ShakingStrength = (byte)fixedShakingStrength;
+				shakingStrength = (byte)fixedShakingStrength;
 			}
 
 			float volumeMultiplier = Mathf.Clamp(strength / EXPLOSION_STRENGTH_LOW, 0.25f, 1);
-			ExplosionUtils.PlaySoundAndShake(WorldPOS, ShakingStrength, Radius / 20, nodeType.CustomSound, volumeMultiplier);
+			ExplosionUtils.PlaySoundAndShake(WorldPOS, shakingStrength, radius / 20, nodeType.CustomSound, volumeMultiplier);
 
 			//Generates the conference
 			var explosionData = new ExplosionData();
-			circleBres(explosionData, WorldPOS.x, WorldPOS.y, Radius);
-			float InitialStrength = strength / explosionData.CircleCircumference.Count;
+			circleBres(explosionData, WorldPOS.x, WorldPOS.y, radius);
+			float initialStrength = strength / explosionData.CircleCircumference.Count;
 
-			foreach (var ToPoint in explosionData.CircleCircumference)
+			foreach (var toPoint in explosionData.CircleCircumference)
 			{
-				var Line = ExplosionPropagationLine.Getline();
-				Line.SetUp(WorldPOS.x, WorldPOS.y, ToPoint.x, ToPoint.y, InitialStrength, nodeType);
-				Line.Step();
+				var line = ExplosionPropagationLine.Getline();
+				line.SetUp(WorldPOS.x, WorldPOS.y, toPoint.x, toPoint.y, initialStrength, nodeType);
+				line.Step();
 			}
 
 			// we assume that the explosion isn't something small like an EMP gernade or
 			if (stunNearbyPlayers || strength > EXPLOSION_STRENGTH_HIGH)
 			{
-				StunAndFlashPlayers(WorldPOS.To2Int(), strength);
+				_ = StunAndFlashPlayers(WorldPOS.To2Int(), strength);
 			}
 
 			ScoreMachine.AddToScoreInt(1, RoundEndScoreBuilder.COMMON_SCORE_EXPLOSION);
 		}
 
-		public static void StunAndFlashPlayers(Vector2Int startingPos, float strength)
+		public static async UniTask StunAndFlashPlayers(Vector2Int startingPos, float strength)
 		{
 			var distance = GetDistanceFromStrength(strength);;
 			var s = ComponentsTracker<LivingHealthMasterBase>.GetAllNearbyTypesToLocation(startingPos.To3(), distance);
 			foreach (var obj in s)
 			{
+				await UniTask.Delay(25);
 				// for performance reasons, if we have a big enough explosion: skip physics line checks as they're expensive.
 				// large explosions are slow enough as is because it has to damage/check hundreds of objects which all trigger
 				// different behaviors and events. We shouldn't strain the server with extra physics check ontop of that.

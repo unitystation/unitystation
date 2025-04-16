@@ -14,11 +14,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 01cc93d540bbb404c9daeaa93ee1768b,
         type: 2}
-    - target: {fileID: 3121672499629588273, guid: 586e4c629584b404d8595aa0691ed07f,
+    - target: {fileID: 983866850289961691, guid: 586e4c629584b404d8595aa0691ed07f,
         type: 3}
-      propertyPath: exportCost
-      value: 2000
-      objectReference: {fileID: 0}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 01cc93d540bbb404c9daeaa93ee1768b,
+        type: 2}
     - target: {fileID: 3121672499629588273, guid: 586e4c629584b404d8595aa0691ed07f,
         type: 3}
       propertyPath: initialName

@@ -96660,7 +96660,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.2",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -133624,6 +133624,10 @@
                   "ClassID": "ReagentContainer@0",
                   "Data": [
                     {
+                      "Name": "possibleTransferAmounts#0",
+                      "Data": "#removed#"
+                    },
+                    {
                       "Name": "maxCapacity",
                       "Data": "100"
                     },
@@ -133633,10 +133637,6 @@
                     },
                     {
                       "Name": "initialReagentMix@reagents#Water",
-                      "Data": "#removed#"
-                    },
-                    {
-                      "Name": "possibleTransferAmounts#0",
                       "Data": "#removed#"
                     }
                   ]
@@ -153470,6 +153470,15 @@
             "Object": {
               "ClassDatas": [
                 {
+                  "ClassID": "UniversalObjectPhysics@0",
+                  "Data": [
+                    {
+                      "Name": "CanBeWindPushed",
+                      "Data": "False"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "GasContainer@0",
                   "Data": [
                     {
@@ -156861,6 +156870,15 @@
             "LocalPRS": "97┼14┼0┼",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "UniversalObjectPhysics@0",
+                  "Data": [
+                    {
+                      "Name": "CanBeWindPushed",
+                      "Data": "False"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "GasContainer@0",
                   "Data": [
@@ -161353,6 +161371,15 @@
             "Object": {
               "ClassDatas": [
                 {
+                  "ClassID": "UniversalObjectPhysics@0",
+                  "Data": [
+                    {
+                      "Name": "CanBeWindPushed",
+                      "Data": "False"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "GasContainer@0",
                   "Data": [
                     {
@@ -165744,6 +165771,15 @@
             "Object": {
               "ClassDatas": [
                 {
+                  "ClassID": "UniversalObjectPhysics@0",
+                  "Data": [
+                    {
+                      "Name": "CanBeWindPushed",
+                      "Data": "False"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "GasContainer@0",
                   "Data": [
                     {
@@ -165802,6 +165838,15 @@
             "LocalPRS": "112┼29┼0┼",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "UniversalObjectPhysics@0",
+                  "Data": [
+                    {
+                      "Name": "CanBeWindPushed",
+                      "Data": "False"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "GasContainer@0",
                   "Data": [
@@ -167248,7 +167293,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.2",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -167330,7 +167375,7 @@
             }
           },
           {
-            "GitID": "f7fc46cd9fc472a4b96ad181a215ccfa_-2┼0┼0┼",
+            "GitID": "kEKGObGBLag_L6F8X$s3_-2┼0┼0┼",
             "PrefabID": "f7fc46cd9fc472a4b96ad181a215ccfa",
             "Name": "ShuttleConnector (1)",
             "LocalPRS": "-2┼0┼0┼"
@@ -167433,7 +167478,7 @@
                     },
                     {
                       "Name": "ShuttlesMainConnector",
-                      "Data": "f7fc46cd9fc472a4b96ad181a215ccfa_-2┼0┼0┼@0@ShuttleConnector@0"
+                      "Data": "kEKGObGBLag_L6F8X$s3_-2┼0┼0┼@0@ShuttleConnector@0"
                     }
                   ]
                 }
@@ -168256,7 +168301,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.2",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -169514,7 +169559,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.2",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -170663,7 +170708,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.2",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -172786,7 +172831,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.2",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -173285,7 +173330,7 @@
                     },
                     {
                       "Name": "ShuttlesMainConnector",
-                      "Data": "f7fc46cd9fc472a4b96ad181a215ccfa_3┼13┼0┼@0@ShuttleConnector@0"
+                      "Data": "kEKGObGBLag_L6F8X$s3_3┼13┼0┼@0@ShuttleConnector@0"
                     }
                   ]
                 }
@@ -174052,7 +174097,7 @@
             }
           },
           {
-            "GitID": "f7fc46cd9fc472a4b96ad181a215ccfa_3┼13┼0┼",
+            "GitID": "kEKGObGBLag_L6F8X$s3_3┼13┼0┼",
             "PrefabID": "f7fc46cd9fc472a4b96ad181a215ccfa",
             "Name": "ShuttleConnector (1)",
             "LocalPRS": "3┼13┼0┼"

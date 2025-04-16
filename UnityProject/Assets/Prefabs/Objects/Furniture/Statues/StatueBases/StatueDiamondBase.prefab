@@ -80,8 +80,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7761092484002456033, guid: ba5045d716084034ab5a9b712f8ce559,
         type: 3}
+      propertyPath: exportCost
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7761092484002456033, guid: ba5045d716084034ab5a9b712f8ce559,
+        type: 3}
       propertyPath: initialDescription
-      value: This is a very expensive diamond statue.
+      value: A very expensive diamond statue.
       objectReference: {fileID: 0}
     - target: {fileID: 8430105896716693836, guid: ba5045d716084034ab5a9b712f8ce559,
         type: 3}

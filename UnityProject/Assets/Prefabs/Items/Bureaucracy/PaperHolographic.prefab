@@ -93,6 +93,16 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 5914262e25c7d4141bc85184273b64a3, type: 2}
+    - target: {fileID: 9212969941508220628, guid: d3c71176f32c1274b929f3a88695a795,
+        type: 3}
+      propertyPath: initialName
+      value: holographic paper
+      objectReference: {fileID: 0}
+    - target: {fileID: 9212969941508220628, guid: d3c71176f32c1274b929f3a88695a795,
+        type: 3}
+      propertyPath: initialDescription
+      value: A holographic piece of paper.
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

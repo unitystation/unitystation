@@ -14,6 +14,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 321127c0b723f2b4dab542736a42d31a,
         type: 2}
+    - target: {fileID: -9144785475698281503, guid: f8fbe534e67ffd048b68ffb59a80c10f,
+        type: 3}
+      propertyPath: <relevantDepartment>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1498670208897307956, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
       propertyPath: machineParts
@@ -145,6 +150,12 @@ PrefabInstance:
     - target: {fileID: 5620221405395738328, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ad91303937b50f478a6f5396532e6a8,
+        type: 2}
+    - target: {fileID: 5620221405395738328, guid: f8fbe534e67ffd048b68ffb59a80c10f,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 4ad91303937b50f478a6f5396532e6a8,
         type: 2}

@@ -8,6 +8,7 @@ using Items.Others;
 using Objects.Machines;
 using Doors;
 using AddressableReferences;
+using Cysharp.Threading.Tasks;
 using TileManagement;
 
 namespace Systems.Explosions
@@ -27,9 +28,32 @@ namespace Systems.Explosions
 			get { return CommonSounds.Instance.Empulse; }
 		}
 
-		public override float DoDamage(Matrix matrix, float DamageDealt, Vector3Int v3int)
+		public override async UniTask Process()
 		{
-			EmpThings(v3int, (int)DamageDealt);
+			float damageDealt = AngleAndIntensity.magnitude;
+			if (damageDealt <= 0)
+			{
+				return;
+			}
+
+			if (matrix.MetaTileMap == null)
+			{
+				return;
+			}
+
+			if (damageDealt > 0)
+			{
+				//(Max): This is a terrible name. Whoever named it this way should be ashamed.
+				//I have no clue what's the context of this vector. Is it local position? Is it world position? Is it a direction? Who knows!
+				//Keep gatekeeping the codebase, it's not like there are other people working on this project..
+				var v3int = new Vector3Int(Location.x, Location.y, 0);
+				await ReguralProcessingToTilesOnly(damageDealt, v3int);
+			}
+		}
+
+		public override float DoDamageToTiles(Matrix matrix, float damageDealt, Vector3Int v3int, MetaTileMap tileMap)
+		{
+			EmpThings(v3int, (int)damageDealt);
 			return 10.0f; //magic number
 		}
 

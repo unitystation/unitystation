@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1804940198129431406}
   - component: {fileID: 7232157366715067483}
   - component: {fileID: 5209756025746196324}
+  - component: {fileID: 7686288889611336097}
   m_Layer: 10
   m_Name: Charge
   m_TagString: Untagged
@@ -52,6 +53,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -103,12 +105,30 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: ce21b73b5871e53458c587d56498f940, type: 2}
   - {fileID: 11400000, guid: 017f48424060c3e40ad9f951b6b7262b, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: ce21b73b5871e53458c587d56498f940, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: ce21b73b5871e53458c587d56498f940,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 7232157366715067483}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+--- !u!114 &7686288889611336097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9156308078107356587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 967620e59e52cc14c89c22c4176bac09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mIntensity: 0.5
+  mAdditionalEmission: 0
+  mScale: 1
 --- !u!1001 &2685493019566052597
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -305,7 +325,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9159554893325135702, guid: 792079a5e2a75f94fab3174a3bcd7033,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 1003851514769634168}
+    - target: {fileID: 9159554893325135702, guid: 792079a5e2a75f94fab3174a3bcd7033,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: df6b539dc32d1f24a9891da9462fd0c4,
+        type: 2}
+    - target: {fileID: 9159554893325135702, guid: 792079a5e2a75f94fab3174a3bcd7033,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: df6b539dc32d1f24a9891da9462fd0c4,
         type: 2}
@@ -326,6 +357,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 3754805696864176165}
   m_SourcePrefab: {fileID: 100100000, guid: 792079a5e2a75f94fab3174a3bcd7033, type: 3}
+--- !u!212 &1003851514769634168 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2930343684074530701, guid: 792079a5e2a75f94fab3174a3bcd7033,
+    type: 3}
+  m_PrefabInstance: {fileID: 2685493019566052597}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1084261533008379216 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3046926709100325285, guid: 792079a5e2a75f94fab3174a3bcd7033,

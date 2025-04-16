@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using AdminCommands;
 using Core;
+using HealthV2;
 using Logs;
 using UnityEngine;
 using Mirror;
@@ -231,7 +232,8 @@ public static class PlayerSpawn
 		}
 
 
-		if (requestedOccupation.OrNull()?.BetterCustomProperties.FirstOrDefault(x => x is IGetPlayerPrefab) is IGetPlayerPrefab overwriteBody)
+		if (requestedOccupation.OrNull()?.BetterCustomProperties.FirstOrDefault(x => x is IGetPlayerPrefab) is
+		    IGetPlayerPrefab overwriteBody)
 		{
 			bodyPrefab = overwriteBody.GetPlayerPrefab();
 			if (bodyPrefab == null)
@@ -344,7 +346,7 @@ public static class PlayerSpawn
 		var PlayerScript = body.GetComponent<PlayerScript>();
 		if (PlayerScript)
 		{
-			PlayerScript.characterSettings = character;
+			PlayerScript.PlayerScriptVisible.SetcharacterSettings(character);
 		}
 
 		try
@@ -373,7 +375,6 @@ public static class PlayerSpawn
 							playerSprites.CharacterSheetOverride = requestedOccupation.UseCharacterSettings;
 						}
 					}
-
 				}
 
 				playerSprites.OnCharacterSettingsChange(toUseCharacterSettings);
@@ -396,13 +397,42 @@ public static class PlayerSpawn
 			physics.AppearAtWorldPositionServer(SpawnPoint.GetRandomPointForLateSpawn().transform.position);
 		}
 
+		try
+		{
+			var Health = body.GetComponentCustom<LivingHealthMasterBase>();
+			if (requestedOccupation != null)
+			{
+				foreach (var Mutation in requestedOccupation.StartingMutations)
+				{
+					foreach (var Bodypart in Health.BodyPartList)
+					{
+						var BodyPartMutations = Bodypart.GetComponentCustom<BodyPartMutations>();
+						if (BodyPartMutations.CapableMutations.Contains(Mutation))
+						{
+							BodyPartMutations.AddMutation(Mutation);
+						}
+					}
+				}
+			}
+		}
+		catch (Exception e)
+		{
+			Loggy.Error(e.ToString());
+		}
+
 		if (requestedOccupation != null)
 		{
 			switch (spawnType)
 			{
 				case SpawnType.NewSpawn:
 					body.GetComponent<DynamicItemStorage>().OrNull()?.SetUpOccupation(requestedOccupation);
-					CrewManifestManager.Instance.AddMember(body.GetComponent<PlayerScript>(), requestedOccupation.JobType);
+
+					if (requestedOccupation.IsCrewmember)
+					{
+						CrewManifestManager.Instance.AddMember(body.GetComponent<PlayerScript>(),
+							requestedOccupation.JobType);
+					}
+
 					SpawnBannerMessage.Send(
 						body,
 						requestedOccupation.DisplayName,
@@ -457,6 +487,9 @@ public static class PlayerSpawn
 		mind.Ghost();
 		mind.SetGhost(ghosty);
 		mind.CurrentCharacterSettings = character;
+		ghosty.PlayerScriptVisible.SetcharacterSettings(character);
+		ghosty.PlayerScriptVisible.SyncPlayerName(character.Name, character.Name);
+		ghosty.PlayerScriptVisible.SyncVisibleName(character.Name, character.Name);
 
 		return mind;
 	}
@@ -476,9 +509,7 @@ public static class PlayerSpawn
 			account.Mind.GetComponent<GhostSprites>().SetGhostSprite(false);
 		}
 
-
 		TransferAccountOccupyingMind(account, account.Mind, newMind);
-
 
 		if (isAdmin)
 		{
@@ -493,11 +524,17 @@ public static class PlayerSpawn
 	{
 		if (from != null && from != to)
 		{
+			from.InternalSetControllingObject(null);
+
 			var oldPlayerNetworkActions = from.GetComponent<PlayerNetworkActions>();
 			if (oldPlayerNetworkActions)
 			{
 				oldPlayerNetworkActions.RpcBeforeBodyTransfer();
 			}
+
+			var netIdentity = from.GetComponent<NetworkIdentity>();
+			PlayerSpawn.TransferOwnershipFromToConnection(account, netIdentity, null);
+
 
 			//no longer can observe their inventory
 			from.GetComponent<DynamicItemStorage>()?.ServerRemoveObserverPlayer(from.gameObject);
@@ -509,11 +546,6 @@ public static class PlayerSpawn
 			}
 
 			from.AccountLeavingMind(account);
-
-			if (account.Connection != null)
-			{
-				NetworkServer.RemovePlayerForConnection(account.Connection, to.gameObject);
-			}
 		}
 
 		if (to)
@@ -523,6 +555,8 @@ public static class PlayerSpawn
 			{
 				CustomNetworkManager.Instance.OnServerDisconnect(netIdentity.connectionToClient);
 			}
+
+			PlayerSpawn.TransferOwnershipFromToConnection(account, null, netIdentity);
 
 			//can observe their new inventory
 			var dynamicItemStorage = to.GetComponent<DynamicItemStorage>();
@@ -541,7 +575,7 @@ public static class PlayerSpawn
 				FollowCameraMessage.Send(to.gameObject, playerObjectBehavior.ContainedInObjectContainer.gameObject);
 			}
 
-			PossessAndUnpossessMessage.Send(to.gameObject, to.gameObject, from.OrNull()?.gameObject);
+			ControlAndLoseControlMessage.Send(to.gameObject, to.gameObject, from.OrNull()?.gameObject);
 			var transfers = to.GetComponents<IOnControlPlayer>();
 
 			foreach (var transfer in transfers)
@@ -550,6 +584,11 @@ public static class PlayerSpawn
 			}
 
 			to.AccountEnteringMind(account);
+		}
+
+		if (account.Connection is LocalConnectionToClient) //Server host  client
+		{
+			PlayerManager.SetMind(to?.GetComponent<Mind>());
 		}
 
 		UpdateMind.SendTo(account.Connection, to);
@@ -561,27 +600,61 @@ public static class PlayerSpawn
 	/// <param name="account"></param>
 	/// <param name="from"></param>
 	/// <param name="to"></param>
+	[Server]
 	public static void TransferOwnershipFromToConnection(PlayerInfo account, NetworkIdentity from, NetworkIdentity to)
 	{
-		if (from)
+		if (account != null)
 		{
-			if (account.Connection != null && from.connectionToClient == account.Connection)
+			Loggy.Info($"Attempting to transfer ownership for {account.Username}.");
+		}
+		else
+		{
+			Loggy.Error("What are you doing? Why is PlayerInfo null?");
+			return;
+		}
+
+		try
+		{
+			if (from)
 			{
-				from.RemoveClientAuthority();
+				if (account.Connection != null && from.connectionToClient == account.Connection)
+				{
+					Loggy.Info($"[{account.Username}] - Removing client authority from {from.netId}.");
+					from.RemoveClientAuthority();
+				}
 			}
 		}
-		if (to)
+		catch (Exception e)
 		{
-			if (account.Connection != null)
+			Loggy.Error(e.ToString());
+		}
+
+		try
+		{
+			if (to)
 			{
-				if (account.Connection.observing.Contains(to) == false)
+				if (account.Connection == null)
 				{
-					account.Connection.observing
-						.Add(to); //TODO because sometimes it cannot be a Observing for some reason , And that causes the ownership message to fail
+					Loggy.Error($"Attempted to transfer an account ({account.Username}) with a null connection!!!");
+					return;
 				}
+
+				account.Connection.observing.Add(to);
+				//TODO because sometimes it cannot be a Observing for some reason , And that causes the ownership message to fail
+				Loggy.Info($"[{account.Username}] - Removing client authority from {to.netId}.");
 				to.RemoveClientAuthority();
 				to.AssignClientAuthority(account.Connection);
+
+
+				// Because it doesn't want to send the unique ownership data to the client so Have to force it to regenerate
+				to.observers.Remove(account.Connection.connectionId);
+				to.AddPlayerObserver(account.Connection);
+				Loggy.Info($"[{account.Username}] - Adding client authority to {to.netId}.");
 			}
+		}
+		catch (Exception e)
+		{
+			Loggy.Error(e.ToString());
 		}
 	}
 }

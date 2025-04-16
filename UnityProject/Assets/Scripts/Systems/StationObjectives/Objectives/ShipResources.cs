@@ -33,7 +33,7 @@ namespace StationObjectives
 			requiredAmount = Random.Range(itemEntry.Value - itemEntry.Value / 3, itemEntry.Value + itemEntry.Value / 3);
 
 			var report = new StringBuilder();
-			report.AppendFormat(description, itemTrait.name, MatrixManager.MainStationMatrix.GameObject.scene.name, requiredAmount);
+			report.AppendFormat(description, itemTrait.name, MatrixManager.MainStationMatrix.GameObject.name, requiredAmount);
 			report.AppendLine("\n\nAsteroid coordinates are as follows:");
 			var index = 0;
 			foreach (var location in CentComm.asteroidLocations)

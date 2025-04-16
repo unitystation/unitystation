@@ -80,6 +80,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 0d012a1b46031284cb539fd87fb3b164,
         type: 2}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 0d012a1b46031284cb539fd87fb3b164,
+        type: 2}
+    - target: {fileID: 7971921043980192432, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: initialName
+      value: space piano
+      objectReference: {fileID: 0}
+    - target: {fileID: 7971921043980192432, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: initialDescription
+      value: This is a space piano, like a regular piano, but always in tune! Even
+        if the musician isn't.
+      objectReference: {fileID: 0}
     - target: {fileID: 9212640593017544930, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: _assetId

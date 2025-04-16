@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1a1e9a7021acd5343ab7777f5bdc00ff, type: 3}
   m_Name: sneeze
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier:
   emoteName: sneeze
   EmoteIcon: {fileID: 0}
   requiresHands: 0
@@ -20,7 +20,7 @@ MonoBehaviour:
   allowEmoteWhileCrawling: 1
   viewText: sneezes.
   youText: Better grab some tissues, You've sneezed.
-  failText: You were unable to preform this action!
+  failText: You were unable to perform this action!
   mouthBlockedText: You are unable to make a sound!
   critViewText: recoils in pain as they sneeze.
   soundsAreTyped: 1
@@ -28,16 +28,16 @@ MonoBehaviour:
   - SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/Emotes/Sneeze/FemaleSneeze1.prefab
     AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
+      m_AssetGUID:
+      m_SubObjectName:
+      m_SubObjectType:
       m_EditorAssetChanged: 0
   - SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/Emotes/Sneeze/FemaleSneeze2.prefab
     AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
+      m_AssetGUID:
+      m_SubObjectName:
+      m_SubObjectType:
       m_EditorAssetChanged: 0
   TypedSounds:
   - VoiceRace: {fileID: 11400000, guid: f8cc40dce57da8d4aa283decb92b4507, type: 2}
@@ -47,32 +47,32 @@ MonoBehaviour:
       - SetLoadSetting: 0
         AssetAddress: Assets/Prefabs/Effects/Emotes/Sneeze/MaleSneeze1.prefab
         AssetReference:
-          m_AssetGUID: 
-          m_SubObjectName: 
-          m_SubObjectType: 
+          m_AssetGUID:
+          m_SubObjectName:
+          m_SubObjectType:
           m_EditorAssetChanged: 0
       - SetLoadSetting: 0
         AssetAddress: Assets/Prefabs/Effects/Emotes/Sneeze/MaleSneeze2.prefab
         AssetReference:
-          m_AssetGUID: 
-          m_SubObjectName: 
-          m_SubObjectType: 
+          m_AssetGUID:
+          m_SubObjectName:
+          m_SubObjectType:
           m_EditorAssetChanged: 0
     - VoiceSex: 2
       Sounds:
       - SetLoadSetting: 0
         AssetAddress: Assets/Prefabs/Effects/Emotes/Sneeze/FemaleSneeze1.prefab
         AssetReference:
-          m_AssetGUID: 
-          m_SubObjectName: 
-          m_SubObjectType: 
+          m_AssetGUID:
+          m_SubObjectName:
+          m_SubObjectType:
           m_EditorAssetChanged: 0
       - SetLoadSetting: 0
         AssetAddress: Assets/Prefabs/Effects/Emotes/Sneeze/FemaleSneeze2.prefab
         AssetReference:
-          m_AssetGUID: 
-          m_SubObjectName: 
-          m_SubObjectType: 
+          m_AssetGUID:
+          m_SubObjectName:
+          m_SubObjectType:
           m_EditorAssetChanged: 0
   - VoiceRace: {fileID: 11400000, guid: 8bc1d65392e05ec4095bddde7a8b1324, type: 2}
     VoiceDatas:
@@ -81,32 +81,32 @@ MonoBehaviour:
       - SetLoadSetting: 0
         AssetAddress: Assets/Prefabs/Effects/Emotes/Sneeze/MaleSneeze1.prefab
         AssetReference:
-          m_AssetGUID: 
-          m_SubObjectName: 
-          m_SubObjectType: 
+          m_AssetGUID:
+          m_SubObjectName:
+          m_SubObjectType:
           m_EditorAssetChanged: 0
       - SetLoadSetting: 0
         AssetAddress: Assets/Prefabs/Effects/Emotes/Sneeze/MaleSneeze2.prefab
         AssetReference:
-          m_AssetGUID: 
-          m_SubObjectName: 
-          m_SubObjectType: 
+          m_AssetGUID:
+          m_SubObjectName:
+          m_SubObjectType:
           m_EditorAssetChanged: 0
     - VoiceSex: 2
       Sounds:
       - SetLoadSetting: 0
         AssetAddress: Assets/Prefabs/Effects/Emotes/Sneeze/FemaleSneeze1.prefab
         AssetReference:
-          m_AssetGUID: 
-          m_SubObjectName: 
-          m_SubObjectType: 
+          m_AssetGUID:
+          m_SubObjectName:
+          m_SubObjectType:
           m_EditorAssetChanged: 0
       - SetLoadSetting: 0
         AssetAddress: Assets/Prefabs/Effects/Emotes/Sneeze/FemaleSneeze2.prefab
         AssetReference:
-          m_AssetGUID: 
-          m_SubObjectName: 
-          m_SubObjectType: 
+          m_AssetGUID:
+          m_SubObjectName:
+          m_SubObjectType:
           m_EditorAssetChanged: 0
   - VoiceRace: {fileID: 11400000, guid: 4c4d0af544e2b6847a3902db71f721fd, type: 2}
     VoiceDatas:
@@ -115,32 +115,32 @@ MonoBehaviour:
       - SetLoadSetting: 0
         AssetAddress: Assets/Prefabs/Effects/Emotes/Sneeze/MaleSneeze1.prefab
         AssetReference:
-          m_AssetGUID: 
-          m_SubObjectName: 
-          m_SubObjectType: 
+          m_AssetGUID:
+          m_SubObjectName:
+          m_SubObjectType:
           m_EditorAssetChanged: 0
       - SetLoadSetting: 0
         AssetAddress: Assets/Prefabs/Effects/Emotes/Sneeze/MaleSneeze2.prefab
         AssetReference:
-          m_AssetGUID: 
-          m_SubObjectName: 
-          m_SubObjectType: 
+          m_AssetGUID:
+          m_SubObjectName:
+          m_SubObjectType:
           m_EditorAssetChanged: 0
     - VoiceSex: 2
       Sounds:
       - SetLoadSetting: 0
         AssetAddress: Assets/Prefabs/Effects/Emotes/Sneeze/FemaleSneeze1.prefab
         AssetReference:
-          m_AssetGUID: 
-          m_SubObjectName: 
-          m_SubObjectType: 
+          m_AssetGUID:
+          m_SubObjectName:
+          m_SubObjectType:
           m_EditorAssetChanged: 0
       - SetLoadSetting: 0
         AssetAddress: Assets/Prefabs/Effects/Emotes/Sneeze/FemaleSneeze2.prefab
         AssetReference:
-          m_AssetGUID: 
-          m_SubObjectName: 
-          m_SubObjectType: 
+          m_AssetGUID:
+          m_SubObjectName:
+          m_SubObjectType:
           m_EditorAssetChanged: 0
   - VoiceRace: {fileID: 11400000, guid: f0deb843b714e8f4590d893251718804, type: 2}
     VoiceDatas:
@@ -149,32 +149,32 @@ MonoBehaviour:
       - SetLoadSetting: 0
         AssetAddress: Assets/Prefabs/Effects/Emotes/Sneeze/MaleSneeze1.prefab
         AssetReference:
-          m_AssetGUID: 
-          m_SubObjectName: 
-          m_SubObjectType: 
+          m_AssetGUID:
+          m_SubObjectName:
+          m_SubObjectType:
           m_EditorAssetChanged: 0
       - SetLoadSetting: 0
         AssetAddress: Assets/Prefabs/Effects/Emotes/Sneeze/MaleSneeze2.prefab
         AssetReference:
-          m_AssetGUID: 
-          m_SubObjectName: 
-          m_SubObjectType: 
+          m_AssetGUID:
+          m_SubObjectName:
+          m_SubObjectType:
           m_EditorAssetChanged: 0
     - VoiceSex: 2
       Sounds:
       - SetLoadSetting: 0
         AssetAddress: Assets/Prefabs/Effects/Emotes/Sneeze/FemaleSneeze1.prefab
         AssetReference:
-          m_AssetGUID: 
-          m_SubObjectName: 
-          m_SubObjectType: 
+          m_AssetGUID:
+          m_SubObjectName:
+          m_SubObjectType:
           m_EditorAssetChanged: 0
       - SetLoadSetting: 0
         AssetAddress: Assets/Prefabs/Effects/Emotes/Sneeze/FemaleSneeze2.prefab
         AssetReference:
-          m_AssetGUID: 
-          m_SubObjectName: 
-          m_SubObjectType: 
+          m_AssetGUID:
+          m_SubObjectName:
+          m_SubObjectType:
           m_EditorAssetChanged: 0
   - VoiceRace: {fileID: 11400000, guid: 078513666ca7a3540bf3c90b08eb66da, type: 2}
     VoiceDatas:
@@ -183,32 +183,32 @@ MonoBehaviour:
       - SetLoadSetting: 0
         AssetAddress: Assets/Prefabs/Effects/Emotes/Sneeze/MaleSneeze1.prefab
         AssetReference:
-          m_AssetGUID: 
-          m_SubObjectName: 
-          m_SubObjectType: 
+          m_AssetGUID:
+          m_SubObjectName:
+          m_SubObjectType:
           m_EditorAssetChanged: 0
       - SetLoadSetting: 0
         AssetAddress: Assets/Prefabs/Effects/Emotes/Sneeze/MaleSneeze2.prefab
         AssetReference:
-          m_AssetGUID: 
-          m_SubObjectName: 
-          m_SubObjectType: 
+          m_AssetGUID:
+          m_SubObjectName:
+          m_SubObjectType:
           m_EditorAssetChanged: 0
     - VoiceSex: 2
       Sounds:
       - SetLoadSetting: 0
         AssetAddress: Assets/Prefabs/Effects/Emotes/Sneeze/FemaleSneeze1.prefab
         AssetReference:
-          m_AssetGUID: 
-          m_SubObjectName: 
-          m_SubObjectType: 
+          m_AssetGUID:
+          m_SubObjectName:
+          m_SubObjectType:
           m_EditorAssetChanged: 0
       - SetLoadSetting: 0
         AssetAddress: Assets/Prefabs/Effects/Emotes/Sneeze/FemaleSneeze2.prefab
         AssetReference:
-          m_AssetGUID: 
-          m_SubObjectName: 
-          m_SubObjectType: 
+          m_AssetGUID:
+          m_SubObjectName:
+          m_SubObjectType:
           m_EditorAssetChanged: 0
   - VoiceRace: {fileID: 11400000, guid: 31250f329a28a20458b0f76c1f157a7f, type: 2}
     VoiceDatas:
@@ -217,32 +217,32 @@ MonoBehaviour:
       - SetLoadSetting: 0
         AssetAddress: Assets/Prefabs/Effects/Emotes/Sneeze/MaleSneeze1.prefab
         AssetReference:
-          m_AssetGUID: 
-          m_SubObjectName: 
-          m_SubObjectType: 
+          m_AssetGUID:
+          m_SubObjectName:
+          m_SubObjectType:
           m_EditorAssetChanged: 0
       - SetLoadSetting: 0
         AssetAddress: Assets/Prefabs/Effects/Emotes/Sneeze/MaleSneeze2.prefab
         AssetReference:
-          m_AssetGUID: 
-          m_SubObjectName: 
-          m_SubObjectType: 
+          m_AssetGUID:
+          m_SubObjectName:
+          m_SubObjectType:
           m_EditorAssetChanged: 0
     - VoiceSex: 2
       Sounds:
       - SetLoadSetting: 0
         AssetAddress: Assets/Prefabs/Effects/Emotes/Sneeze/FemaleSneeze1.prefab
         AssetReference:
-          m_AssetGUID: 
-          m_SubObjectName: 
-          m_SubObjectType: 
+          m_AssetGUID:
+          m_SubObjectName:
+          m_SubObjectType:
           m_EditorAssetChanged: 0
       - SetLoadSetting: 0
         AssetAddress: Assets/Prefabs/Effects/Emotes/Sneeze/FemaleSneeze2.prefab
         AssetReference:
-          m_AssetGUID: 
-          m_SubObjectName: 
-          m_SubObjectType: 
+          m_AssetGUID:
+          m_SubObjectName:
+          m_SubObjectType:
           m_EditorAssetChanged: 0
   pitchRange: {x: 0.7, y: 1}
   allowedPlayerTypes: 1

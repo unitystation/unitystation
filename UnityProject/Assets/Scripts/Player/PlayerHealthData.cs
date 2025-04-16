@@ -50,6 +50,8 @@ public class RaceHealthData
 	public SpriteDataSO PreviewSprite;
 
 	[SerializeReference, SelectImplementation(typeof(HealthSystemBase))] public List<HealthSystemBase> SystemSettings = new List<HealthSystemBase>();
+
+	public List<MutationSO> StartingMutations = new List<MutationSO>();
 }
 
 

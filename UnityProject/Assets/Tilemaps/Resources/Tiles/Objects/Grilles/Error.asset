@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1796e5cfb0bb4f9b81661d07e7794f1d, type: 3}
+  m_Name: Error
+  m_EditorClassIdentifier: 
+  <ForeverID>k__BackingField: ERRORTILE
+  displayName: Error
+  description: Simulation breaking.. something is missing here..
+  LayerType: 6
+  TileType: 9
+  RequiredTiles: []
+  Mass: 0.1
+  floorTileSounds: {fileID: 0}
+  CanSoundOverride: 0
+  atmosPassable: 0
+  isSealed: 0
+  SpawnWithNoAir: 0
+  passable: 1
+  mineable: 0
+  miningTime: 5
+  miningHardness: 1
+  constructable: 0
+  RadiationPassability: 1
+  ThermalConductivity: 0.05
+  HeatCapacity: 10000
+  doesReflectBullet: 0
+  indestructible: 1
+  ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
+  passableException:
+    m_keys: 
+    m_values: 
+  maxHealth: 1000000
+  damageDeflection: 40000
+  armor:
+    Melee: 100
+    Bullet: 100
+    Laser: 100
+    Energy: 100
+    Bomb: 100
+    Rad: 100
+    Fire: 100
+    Acid: 100
+    Magic: 100
+    Bio: 100
+    Anomaly: 0
+    DismembermentProtectionChance: 0
+    StunImmunity: 0
+    TemperatureProtectionInK: {x: 268.15, y: 313.15}
+    PressureProtectionInKpa: {x: 30, y: 300}
+  tileInteractions: []
+  <OnTileStartMining>k__BackingField: []
+  <OnTileFinishMining>k__BackingField: []
+  tileStepInteractions: []
+  spawnOnDeconstruct: {fileID: 0}
+  spawnAmountOnDeconstruct: 1
+  lootOnDespawn: {fileID: 0}
+  toTileWhenDestroyed: {fileID: 0}
+  spawnOnDestroy: {fileID: 0}
+  damageOverlayList: {fileID: 0}
+  soundOnHit:
+    AssetAddress: Assets/Prefabs/UI/Bwoink.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  SoundOnDestroy: []
+  Sprites:
+  - {fileID: -2512927661099922447, guid: a08e177daac794cf680f161215685ce4, type: 3}
+  - {fileID: 4659265657221884602, guid: a08e177daac794cf680f161215685ce4, type: 3}
+  - {fileID: -3138123007396962320, guid: a08e177daac794cf680f161215685ce4, type: 3}
+  - {fileID: -7145856751783321575, guid: a08e177daac794cf680f161215685ce4, type: 3}
+  AnimationSpeed: 1
+  AnimationStartTime: 0
+  randomizeStartTime: 1

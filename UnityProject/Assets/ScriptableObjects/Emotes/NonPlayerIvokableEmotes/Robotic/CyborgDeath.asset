@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1b9c037cd481c0f4db1c77e9cdf31787, type: 3}
   m_Name: CyborgDeath
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier:
   emoteName: Cyborg Death
   EmoteIcon: {fileID: 21300000, guid: 5b75f453e9845504496b7013693ecf3c, type: 3}
   requiresHands: 0
@@ -19,8 +19,8 @@ MonoBehaviour:
   isAudibleEmote: 1
   allowEmoteWhileCrawling: 1
   viewText: shuts down.
-  youText: 
-  failText: You were unable to preform this action!
+  youText:
+  failText: You were unable to perform this action!
   mouthBlockedText: You are unable to make a sound!
   critViewText: shuts down.
   soundsAreTyped: 0
@@ -28,9 +28,9 @@ MonoBehaviour:
   - SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Voices/Robotic/Cyborg/BornDeath 1.prefab
     AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
+      m_AssetGUID:
+      m_SubObjectName:
+      m_SubObjectType:
       m_EditorAssetChanged: 0
   TypedSounds: []
   pitchRange: {x: 0.7, y: 1}

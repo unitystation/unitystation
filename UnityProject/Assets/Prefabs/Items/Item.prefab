@@ -417,6 +417,7 @@ MonoBehaviour:
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
   TimeSpentFlying: 0
+  <Scale>k__BackingField: {fileID: 0}
   DEBUG: 0
   isNotPushable: 0
   Pushing: []
@@ -435,6 +436,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13b3f20d3b30cb24fb70b1f35524c360, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  commonComponentsToRegister:
+  - {fileID: 8552236617046534393}
+  - {fileID: 499351249353511896}
+  - {fileID: 114734890905785284}
+  - {fileID: 114776788309089574}
+  - {fileID: 5414819541850508356}
 --- !u!114 &4885464012290422036
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -52,6 +52,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -110,9 +111,11 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: 07e249f505acb1244865f003c18ffc13,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 1689274832931870787}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1 &8582599332015320669
 GameObject:
@@ -580,6 +583,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 7803294762233930865}
+    - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 73a7b7229a2aec743bcd0c36080795c0,
@@ -776,6 +784,12 @@ SortingGroup:
     type: 3}
   m_PrefabInstance: {fileID: 8768609531924612570}
   m_PrefabAsset: {fileID: 0}
+--- !u!212 &7803294762233930865 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+    type: 3}
+  m_PrefabInstance: {fileID: 8768609531924612570}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8010465399013802086 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
@@ -917,19 +931,19 @@ MonoBehaviour:
   maximumDamageOnTouch: 3
   sparkObject: {fileID: 7194976834760766862}
   ambientSoundWhileOn:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/AmbienceObjects/Amb LightFixture.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   turnOffOnNoise:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/light_on.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
 --- !u!114 &4710465001683396220

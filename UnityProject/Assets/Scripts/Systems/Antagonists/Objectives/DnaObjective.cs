@@ -12,7 +12,8 @@ namespace Changeling
 
 		protected override bool CheckCompletion()
 		{
-			return Owner.Body.Changeling.ExtractedDna >= dnaNeedCount;
+			if (Owner?.Body?.Changeling?.ExtractedDna == null) return false;
+			return Owner?.Body?.Changeling?.ExtractedDna >= dnaNeedCount;
 		}
 
 		protected override void Setup()
@@ -26,7 +27,7 @@ namespace Changeling
 		}
 
 		protected override void SetupInGame()
-		{	
+		{
 			dnaNeedCount = attributes[0].Number;
 			description = $"Extract {dnaNeedCount} DNA by using your abilities.";
 		}

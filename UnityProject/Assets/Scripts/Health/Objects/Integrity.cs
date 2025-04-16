@@ -118,6 +118,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	private RegisterTile registerTile;
 	public RegisterTile RegisterTile => registerTile;
 	private UniversalObjectPhysics universalObjectPhysics;
+	public UniversalObjectPhysics Physics => universalObjectPhysics;
 
 	private Meleeable meleeable;
 	public Meleeable Meleeable => meleeable;

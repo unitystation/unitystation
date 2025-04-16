@@ -51,6 +51,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -138,6 +139,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -225,6 +227,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -312,6 +315,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -399,6 +403,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -485,6 +490,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -572,6 +578,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -659,6 +666,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -746,6 +754,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -868,7 +877,7 @@ PrefabInstance:
     - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: initialName
-      value: Gateway
+      value: gateway
       objectReference: {fileID: 0}
     - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -1055,7 +1064,8 @@ MonoBehaviour:
   maximumWorkingVoltage: 300
   deviceType: 0
   isSelfPowered: 0
-  wattusage: 700
+  mappingNotNeedToLink: 0
+  initialwattusage: 700
   InitialResistance: 100000000
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
@@ -1165,6 +1175,26 @@ PrefabInstance:
     - target: {fileID: 114106074147798934, guid: 084de663d74a84906a86a3a613ac4fd2,
         type: 3}
       propertyPath: Color.r
+      value: 0.01201493
+      objectReference: {fileID: 0}
+    - target: {fileID: 114106074147798934, guid: 084de663d74a84906a86a3a613ac4fd2,
+        type: 3}
+      propertyPath: InitialColour.a
+      value: 0.65882355
+      objectReference: {fileID: 0}
+    - target: {fileID: 114106074147798934, guid: 084de663d74a84906a86a3a613ac4fd2,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 0.8490566
+      objectReference: {fileID: 0}
+    - target: {fileID: 114106074147798934, guid: 084de663d74a84906a86a3a613ac4fd2,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.49790457
+      objectReference: {fileID: 0}
+    - target: {fileID: 114106074147798934, guid: 084de663d74a84906a86a3a613ac4fd2,
+        type: 3}
+      propertyPath: InitialColour.r
       value: 0.01201493
       objectReference: {fileID: 0}
     m_RemovedComponents: []

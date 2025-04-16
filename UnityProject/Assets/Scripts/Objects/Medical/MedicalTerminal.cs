@@ -26,9 +26,14 @@ namespace Objects.Medical
 			public float HealthPercent;
 		}
 
-		private void Awake()
+		public void OnEnable()
 		{
 			if (CustomNetworkManager.IsServer) UpdateManager.Add(Scan, scanInterval);
+		}
+
+		public void OnDestroy()
+		{
+			if (CustomNetworkManager.IsServer) UpdateManager.Remove(CallbackType.PERIODIC_UPDATE,Scan);
 		}
 
 		public void OnDisable()

@@ -296,6 +296,8 @@ public class ChatRelay : NetworkBehaviour
 
 		if (chatEvent.modifiers.HasFlag(ChatModifier.Emote)) return;
 
+		if (chatEvent.modifiers.HasFlag(ChatModifier.Mute)) return;
+
 		if (chatEvent.IsWhispering)
 		{
 			if ((toShowTo.transform.position - chatEvent.originator.transform.position).magnitude > 1.5f)

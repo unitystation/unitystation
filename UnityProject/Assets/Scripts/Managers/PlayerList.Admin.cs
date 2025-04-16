@@ -139,7 +139,6 @@ public partial class PlayerList
 		{
 			Instance.CheckAdminState(Info);
 		}
-
 	}
 
 	[Server]
@@ -225,11 +224,14 @@ public partial class PlayerList
 	}
 
 
+	[Server]
 	public void TryAddRank(string userID, string inRank, bool addToFile = true)
 	{
 		var data = GetRank(userID, out var Rank);
 
 		if (data != null) return;
+
+		Loggy.Warning($"Adding rank of {inRank} To userID > {userID} addToFile > {addToFile} ");
 
 		PermissionsManager.Instance.AddRoleTo(userID, inRank, addToFile);
 
@@ -239,6 +241,7 @@ public partial class PlayerList
 		}
 	}
 
+	[Server]
 	public void TryRemoveRank(string userID, string inRank, bool addToFile = true)
 	{
 		var data = GetRank(userID, out var Rank);
@@ -707,7 +710,8 @@ public partial class PlayerList
 		AdminEnableMessage.SendMessage(Player, Permissions);
 	}
 
-	void AddPlayerTAGS(PlayerInfo player)
+	[Server]
+	private void AddPlayerTAGS(PlayerInfo player)
 	{
 		//wtf?
 		if (player == null)
@@ -716,17 +720,28 @@ public partial class PlayerList
 			return;
 		}
 
-		if ((player.GameObject == PlayerManager.LocalViewerScript?.gameObject) || Application.isEditor || GameData.Instance.DevBuild)
+
+		if (Application.isEditor || GameData.Instance.DevBuild || player.Connection.address == "localhost")
 		{
-			TryAddRank( player.AccountId,"host", false);
+			//full admin privs for local offline testing for host player
+			LocalAdminSetup(player);
+			return;
 		}
+		if (PermissionsManager.Instance.HasAnyRank(player.AccountId)) EnableAdmin(player);
+	}
 
-		var permissions = PermissionsManager.Instance.GetPermissions(player.AccountId, out var Rank );
+	private void LocalAdminSetup(PlayerInfo player)
+	{
+		TryAddRank(player.AccountId,"host", false);
+		Loggy.Info($"Found local host ({player.AccountId}/{player.Connection.address}). Assigning 'host' perms to them.");
+		EnableAdmin(player);
+	}
 
-		//full admin privs for local offline testing for host player
+	private void EnableAdmin(PlayerInfo player)
+	{
+		var permissions = PermissionsManager.Instance.GetPermissions(player.AccountId, out var Rank);
 		if (permissions.Count > 0)
 		{
-			//This is an admin, send admin notify to the users client
 			Loggy.Info($"{player.Username} logged in with tags. IP: {player.ConnectionIP} and Rank {Rank} ", Category.Admin);
 			foreach (var tag in permissions)
 			{

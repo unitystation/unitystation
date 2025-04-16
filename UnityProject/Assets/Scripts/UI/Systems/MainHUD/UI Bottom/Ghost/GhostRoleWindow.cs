@@ -15,12 +15,9 @@ namespace UI.Windows
 	/// </summary>
 	public class GhostRoleWindow : MonoBehaviour
 	{
-		[SerializeField]
-		private GameObject ghostRoleEntryPrefab = default;
-		[SerializeField]
-		private Transform listContainer = default;
-		[SerializeField]
-		private GameObject noRolesLabel = default;
+		[SerializeField] private GameObject ghostRoleEntryPrefab = default;
+		[SerializeField] private Transform listContainer = default;
+		[SerializeField] private GameObject noRolesLabel = default;
 
 		private readonly Dictionary<uint, GhostRoleWindowEntry> entries = new Dictionary<uint, GhostRoleWindowEntry>();
 
@@ -44,6 +41,17 @@ namespace UI.Windows
 
 			entries[key].SetValues(key, role);
 
+			UpdateNoRolesLabel();
+		}
+
+
+		public void Cleanup()
+		{
+			foreach (var Entry in entries)
+			{
+				Destroy(Entry.Value.gameObject);
+			}
+			entries.Clear();
 			UpdateNoRolesLabel();
 		}
 

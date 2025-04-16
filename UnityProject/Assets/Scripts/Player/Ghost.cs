@@ -16,6 +16,6 @@ public class Ghost : MonoBehaviour
 
 	public void PlayerEnterGhost()
 	{
-		Camera.main.GetComponent<CameraEffectControlScript>().Stop();
+		Camera.main?.GetComponent<CameraEffectControlScript>()?.Stop();
 	}
 }

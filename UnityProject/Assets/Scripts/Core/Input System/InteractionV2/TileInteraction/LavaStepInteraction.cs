@@ -95,6 +95,8 @@ namespace Systems.Interaction
 		{
 			if (objectToAdd.TryGetComponent<RegisterTile>(out var registerTile) == false) return;
 
+			if (registerTile.ObjectPhysics?.Component?.Intangible == true || registerTile.ObjectPhysics?.Component?.MappingIntangible == true) return;
+
 			LayerTile tile = registerTile.Matrix.MetaTileMap.GetTile(registerTile.LocalPositionServer, true);
 
 			if (tile is BasicTile basicTile)

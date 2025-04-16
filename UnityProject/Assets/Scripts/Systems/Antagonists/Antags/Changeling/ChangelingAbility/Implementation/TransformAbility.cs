@@ -51,10 +51,10 @@ namespace Changeling
 
 			yield return WaitFor.SecondsRealtime(TIME_FOR_COMPLETION_TRANSFORM);
 
-			body.visibleName = characterSheet.Name;
-			body.playerName = characterSheet.Name;
+			body.PlayerScriptVisible.visibleName = characterSheet.Name;
+			body.PlayerScriptVisible.playerName = characterSheet.Name;
 
-			body.characterSettings = characterSheet;
+			body.PlayerScriptVisible.characterSettings = characterSheet;
 
 			PlayerHealthData raceBodyparts = characterSheet.GetRaceSoNoValidation();
 
@@ -188,12 +188,12 @@ namespace Changeling
 
 		private void UpdatePlayerSettings(PlayerScript body, ChangelingMain changeling, CharacterSheet characterSheet, ChangelingDna dna)
 		{
-			body.visibleName = characterSheet.Name;
-			body.playerName = characterSheet.Name;
+			body.PlayerScriptVisible.visibleName = characterSheet.Name;
+			body.PlayerScriptVisible.playerName = characterSheet.Name;
 
 			body.playerSprites.ThisCharacter = characterSheet;
-			body.GetComponent<PlayerScript>().characterSettings = characterSheet;
-			body.characterSettings = characterSheet;
+			body.GetComponent<PlayerScript>().PlayerScriptVisible.SetcharacterSettings( characterSheet);
+			body.PlayerScriptVisible.SetcharacterSettings(characterSheet);
 			body.PlayerInfo.Name = characterSheet.Name;
 			body.PlayerInfo.RequestedCharacterSettings = characterSheet;
 			body.Mind.CurrentCharacterSettings = characterSheet;

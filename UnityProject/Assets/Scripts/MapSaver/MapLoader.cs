@@ -113,7 +113,22 @@ namespace MapSaver
 					Matrix4x4 = CommonMatrix4x4[0];
 				}
 
-				Matrix.MetaTileMap.SetTile(Position, Tel, Matrix4x4, Colour, Application.isPlaying, true);
+				try
+				{
+					Matrix.MetaTileMap.SetTile(Position, Tel, Matrix4x4, Colour, Application.isPlaying, true);
+				}
+				catch (Exception e)
+				{
+					try
+					{
+						Matrix.MetaTileMap.SetTile(Position, TileManager.Instance.ErrorTile, Matrix4x4, Colour, Application.isPlaying, true);
+					}
+					catch (Exception exception)
+					{
+						Loggy.Error(exception.ToString());
+					}
+					Loggy.Error(e.ToString());
+				}
 			}
 		}
 
@@ -413,6 +428,12 @@ namespace MapSaver
 				Object.name = IndividualObject.Name;
 			}
 
+			if (IndividualObject.ObjectLayer != null)
+			{
+				Object.layer = IndividualObject.ObjectLayer.Value;
+			}
+
+
 
 			if (string.IsNullOrEmpty(IndividualObject.LocalPRS) == false)
 			{
@@ -483,6 +504,7 @@ namespace MapSaver
 			{
 				foreach (var Child in IndividualObject.Children)
 				{
+
 					var Id = int.Parse(Child.ID.Split(",").Last());
 					while (Object.transform.childCount <= Id)
 					{
@@ -493,8 +515,24 @@ namespace MapSaver
 						NewChild.transform.rotation = Quaternion.identity;
 					}
 
+
+
 					var ObjectChild = Object.transform.GetChild(Id);
-					ProcessClassData(prefabData, ObjectChild.gameObject, Child);
+					if (Child.Removed)
+					{
+						if (Application.isPlaying)
+						{
+							UnityEngine.Object.DestroyImmediate(ObjectChild.gameObject);
+						}
+						else
+						{
+							UnityEngine.Object.DestroyImmediate(ObjectChild.gameObject);
+						}
+					}
+					else
+					{
+						ProcessClassData(prefabData, ObjectChild.gameObject, Child);
+					}
 				}
 			}
 		}

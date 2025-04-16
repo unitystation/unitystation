@@ -8,6 +8,7 @@ using Messages.Server.SoundMessages;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Util.Independent.FluentRichText;
 using Random = UnityEngine.Random;
 
 namespace ScriptableObjects.RP
@@ -48,7 +49,7 @@ namespace ScriptableObjects.RP
 
 		[Tooltip("If the emote has a special requirment and fails to meet it.")]
 		[SerializeField]
-		protected string failText = "You were unable to preform this action!";
+		protected string failText = "You were unable to perform this action!";
 
 		[SerializeField, ShowIf(nameof(isAudibleEmote))]
 		protected string mouthBlockedText = "You are unable to make a sound!";
@@ -119,7 +120,7 @@ namespace ScriptableObjects.RP
 			switch (type)
 			{
 				case FailType.Normal:
-					Chat.AddActionMsgToChat(player, $"{failText}", "");
+					Chat.AddExamineMsg(player, $"[Emote: {emoteName}] - {failText}".Italic());
 					break;
 				case FailType.Critical:
 					Chat.AddActionMsgToChat(player, $"{player.ExpensiveName()} {critViewText}.", $"{player.ExpensiveName()} {critViewText}.");

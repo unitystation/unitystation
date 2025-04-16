@@ -24,6 +24,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 508c03f2fa38c6a49961b318e6ac8362,
         type: 2}
+    - target: {fileID: 2260876291568103529, guid: 0bf643131a7f0e3469673a5d636ae7c2,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 508c03f2fa38c6a49961b318e6ac8362,
+        type: 2}
     - target: {fileID: 5248898813661509810, guid: 0bf643131a7f0e3469673a5d636ae7c2,
         type: 3}
       propertyPath: m_Sprite
@@ -167,15 +173,10 @@ PrefabInstance:
         type: 3}
       propertyPath: CookedProduct
       value: 
-      objectReference: {fileID: 1451901068671368232}
+      objectReference: {fileID: 6880415347540399089, guid: c4d884c9f2e69424d8d72dca94257e05,
+        type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0bf643131a7f0e3469673a5d636ae7c2, type: 3}
---- !u!1 &1451901068671368232 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5342993422408371182, guid: 0bf643131a7f0e3469673a5d636ae7c2,
-    type: 3}
-  m_PrefabInstance: {fileID: 6773431851664865222}
-  m_PrefabAsset: {fileID: 0}

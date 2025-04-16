@@ -29,9 +29,6 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	{
 		get
 		{
-#if UNITY_STANDALONE_LINUX_API
-			return true;
-#endif
 			return Application.isBatchMode;
 		}
 	}
@@ -494,15 +491,6 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	//called on server side when player is being added, this is the main entry point for a client connecting to this server
 	public override void OnServerAddPlayer(NetworkConnectionToClient conn)
 	{
-		if (IsHeadless || GameData.Instance.testServer)
-		{
-			if (conn == NetworkServer.localConnection)
-			{
-				Loggy.Info("Prevented headless server from spawning a player", Category.Connections);
-				return;
-			}
-		}
-
 		Loggy.Trace($"Spawning a GameObject for the client {conn}.", Category.Connections);
 		base.OnServerAddPlayer(conn);
 		SubSceneManager.Instance.AddNewObserverScenePermissions(conn);

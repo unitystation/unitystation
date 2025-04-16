@@ -805,6 +805,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A huge chunk of metal used to separate rooms.
       objectReference: {fileID: 0}
+    - target: {fileID: 2346262979035586908, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: 'commonComponentsToRegister.Array.data[2]'
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3920465809857098496, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: InitialPresentSpriteSet

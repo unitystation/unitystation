@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: items_lefthand_flatpack
+  m_EditorClassIdentifier: 
+  foreverID: 386b86d35dfdd6b4da5f1837a264941f
+  Variance:
+  - Frames:
+    - sprite: {fileID: 1844342353963046053, guid: 624cbe5d4a209ba45b64fde3fd880ce6,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 8617849692059155181, guid: 624cbe5d4a209ba45b64fde3fd880ce6,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 8530889305337072652, guid: 624cbe5d4a209ba45b64fde3fd880ce6,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -1799998513, guid: 624cbe5d4a209ba45b64fde3fd880ce6, type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  DisplayName: 

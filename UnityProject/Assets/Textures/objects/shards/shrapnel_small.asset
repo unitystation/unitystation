@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: shrapnel_small
+  m_EditorClassIdentifier: 
+  foreverID: 9c16e3a9ebbb3cdc8ab5289c2afe0a7b
+  Variance:
+  - Frames:
+    - sprite: {fileID: -5254803864455177834, guid: 8f4c27dcbfe219493a28d556f47fb500,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 6544789037388464695, guid: 8f4c27dcbfe219493a28d556f47fb500,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -7572029129037654645, guid: 8f4c27dcbfe219493a28d556f47fb500,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -3199432703323825259, guid: 8f4c27dcbfe219493a28d556f47fb500,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 7862355905513266886, guid: 8f4c27dcbfe219493a28d556f47fb500,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  DisplayName: 

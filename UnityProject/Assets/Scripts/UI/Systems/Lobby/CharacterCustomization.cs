@@ -503,10 +503,6 @@ namespace UI.CharacterCreator
 			RefreshVoice();
 			RefreshPronoun();
 			RefreshRace();
-			if (this.gameObject.activeInHierarchy == false)
-			{
-				GUI_PreRoundWindow.Instance.characterCustomization.SetActive(true);
-			}
 
 			StartCoroutine(RefreshRotation());
 		}

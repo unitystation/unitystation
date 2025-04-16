@@ -52,6 +52,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -101,11 +102,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 3ba66c1c2edeefc4c9923c4797c950f6, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 3ba66c1c2edeefc4c9923c4797c950f6,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1001 &5354020385913806003
 PrefabInstance:
@@ -123,6 +126,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 1950433815664009833, guid: e0e64c895438def4e8c84991de4e2a0a,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 46dc324ad02233449a78c9aa8a841c1d,
+        type: 2}
+    - target: {fileID: 1950433815664009833, guid: e0e64c895438def4e8c84991de4e2a0a,
+        type: 3}
       propertyPath: SubCatalogue.Array.size
       value: 0
       objectReference: {fileID: 0}
@@ -130,6 +139,16 @@ PrefabInstance:
         type: 3}
       propertyPath: _assetId
       value: 820307013
+      objectReference: {fileID: 0}
+    - target: {fileID: 4459786365013727107, guid: e0e64c895438def4e8c84991de4e2a0a,
+        type: 3}
+      propertyPath: initialName
+      value: gibber
+      objectReference: {fileID: 0}
+    - target: {fileID: 4459786365013727107, guid: e0e64c895438def4e8c84991de4e2a0a,
+        type: 3}
+      propertyPath: initialDescription
+      value: The name isn't descriptive enough?
       objectReference: {fileID: 0}
     - target: {fileID: 5003702173552438322, guid: e0e64c895438def4e8c84991de4e2a0a,
         type: 3}
@@ -285,6 +304,7 @@ MonoBehaviour:
   initialContents: {fileID: 0}
   spawnContentsAtRoundstart: 0
   registerTile: {fileID: 7769064360663184456}
+  ObjectPhysics: {fileID: 0}
   OnObjectStored:
     m_PersistentCalls:
       m_Calls: []

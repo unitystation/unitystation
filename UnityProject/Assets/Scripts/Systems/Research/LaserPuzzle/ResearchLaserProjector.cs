@@ -71,6 +71,17 @@ namespace Objects.Research
 		[SyncVar(hook = nameof(UpdateLinesClient))]
 		private string SynchronisedData;
 
+
+		//The offset the laser should start from based on the device rotation.
+		//Worked out manually based on the rotation sprites so don't change unless you know what you are doing
+		private Vector2[] _barrelLocations = new Vector2[4]
+		{
+			new Vector2(0.4f , 0), //Right
+			new Vector2(0, 0.292f), //up
+			new Vector2(-0.4f, 0), //Left
+			new Vector2(0, -0.391f) //Down
+		};
+
 		public void Awake()
 		{
 			rotatable = this.GetComponent<Rotatable>();
@@ -108,9 +119,12 @@ namespace Objects.Research
 			{
 				Destroy(LivingLine.gameObject);
 			}
+
+			var position = _barrelLocations[(int)rotatable.CurrentDirection];
+
 			gameObject.GetComponent<Collider2D>().enabled = false;
 			LivingLine = Instantiate(LaserProjectionprefab, this.transform);
-			LivingLine.Initialise(gameObject, rotatable.WorldDirection, this);
+			LivingLine.Initialise(gameObject, rotatable.WorldDirection, this, new Vector3(position.x, position.y, 0f));
 			gameObject.GetComponent<Collider2D>().enabled = true;
 		}
 
@@ -132,8 +146,9 @@ namespace Objects.Research
 
 			var range = 30f;
 
+			var position = _barrelLocations[(int)rotatable.CurrentDirection];
 			var Projectile = ProjectileManager.InstantiateAndShoot(LaserProjectilePrefab,
-				rotatable.WorldDirection, gameObject, null, BodyPartType.None, range);
+				rotatable.WorldDirection, gameObject, null, BodyPartType.None, range, ShootWorldPosition: new Vector3(position.x, position.y, 0f));
 
 			var Data = Projectile.GetComponent<ContainsResearchData>();
 			Data.Initialise(null, this);

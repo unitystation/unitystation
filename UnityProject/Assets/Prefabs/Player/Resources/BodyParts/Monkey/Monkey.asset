@@ -56,6 +56,7 @@ MonoBehaviour:
     - rid: 7896866705837654026
     - rid: 7896866705837654027
     - rid: 7896866705837654029
+    StartingMutations: []
   references:
     version: 2
     RefIds:
@@ -73,13 +74,13 @@ MonoBehaviour:
         NormalBlood: 500
         bloodReagent: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
         PumpingDevices: []
-        RegenBloodPool:
+        TempBloodReservoir:
           temperature: 273.15
           reagents:
             m_keys: []
             m_values: []
           reagentKeys: []
-        RegenEfficiency: 0.15
+        ReservoirReturnMultiplier: 0.15
     - rid: 7896866705837654026
       type: {class: ChemicalMetabolismSystem, ns: HealthV2.Living.PolymorphicSystems,
         asm: Assets}

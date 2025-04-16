@@ -17,12 +17,12 @@ PrefabInstance:
     - target: {fileID: 1083807778969337673, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: initialName
-      value: Ai Upload Console
+      value: AI Upload Console
       objectReference: {fileID: 0}
     - target: {fileID: 1083807778969337673, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: initialDescription
-      value: Allows laws to be uploaded to the selected Ai
+      value: Allows laws to be uploaded to the selected AI.
       objectReference: {fileID: 0}
     - target: {fileID: 1401220419065593905, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -98,6 +98,12 @@ PrefabInstance:
     - target: {fileID: 8201155816690774842, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: b3e09340bebc08248a8823912a8483d2,
+        type: 2}
+    - target: {fileID: 8201155816690774842, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: b3e09340bebc08248a8823912a8483d2,
         type: 2}

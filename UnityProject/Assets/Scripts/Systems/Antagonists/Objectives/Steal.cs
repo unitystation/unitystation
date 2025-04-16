@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using System;
 using Logs;
+using SecureStuff;
 
 namespace Antagonists
 {
@@ -30,6 +31,11 @@ namespace Antagonists
 		/// The item to steal
 		/// </summary>
 		private string ItemName;
+
+		/// <summary>
+		/// The item to steal
+		/// </summary>
+		private string ItemID;
 
 		/// <summary>
 		/// The number of items needed to complete the objective
@@ -104,6 +110,8 @@ namespace Antagonists
 			AntagManager.Instance.TargetedItems.Add(itemEntry.Key);
 			// TODO randomise amount based on range/weightings?
 			description = $"Steal {Amount} {ItemName}";
+
+			ItemID = itemEntry.Key.Item().GetComponent<IHaveForeverID>()?.ForeverID;
 		}
 
 		protected override void SetupInGame()
@@ -127,6 +135,8 @@ namespace Antagonists
 			AntagManager.Instance.TargetedItems.Add(item);
 			// TODO randomise amount based on range/weightings?
 			description = $"Steal {Amount} {ItemName}";
+
+			ItemID = item.GetComponent<IHaveForeverID>()?.ForeverID;
 		}
 
 		public override string GetDescription()
@@ -136,7 +146,7 @@ namespace Antagonists
 
 		protected override bool CheckCompletion()
 		{
-			return CheckStorageFor(ItemName, Amount);
+			return CheckStorageFor(ItemName, Amount, ItemID);
 		}
 	}
 

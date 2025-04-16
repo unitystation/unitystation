@@ -8,5 +8,7 @@ namespace ScriptableObjects.Systems.Research
 	public class DesignProductionData : ScriptableObject
 	{
 		public SerializableDictionary<string, MaterialSheet> MaterialSheets;
+
+		public SerializableDictionary<ItemTrait, string> TraitsToDesignID;
 	}
 }

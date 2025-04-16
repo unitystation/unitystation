@@ -14,6 +14,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5890792449271279797, guid: 4bdb5ad25167fc848ab3b1f820df6638,
         type: 3}
+    - target: {fileID: 1083807778969337673, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: initialName
+      value: DNA console
+      objectReference: {fileID: 0}
     - target: {fileID: 2193914177532499227, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: _assetId
@@ -24,6 +29,16 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 97fde3b4a977e294395f1b8c3929200a
       objectReference: {fileID: 0}
+    - target: {fileID: 3026269723606354595, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 1672677458245609648}
+    - target: {fileID: 3806105522999988684, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 4484471429237688614}
     - target: {fileID: 4212405279327074240, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_LocalRotation.x
@@ -43,7 +58,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 9c816bd48a093fa419b56d16946eb9d1,
+      objectReference: {fileID: 21300104, guid: 9c816bd48a093fa419b56d16946eb9d1,
         type: 3}
     - target: {fileID: 5821743376341986250, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -132,7 +147,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8201155816690774842, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 4651009224191162958}
+    - target: {fileID: 8201155816690774842, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 55244a22f65d74244af61d61a9a9d4ea,
+        type: 2}
+    - target: {fileID: 8201155816690774842, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 55244a22f65d74244af61d61a9a9d4ea,
         type: 2}
@@ -247,6 +273,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 93463c37a4972ce4aa1104392aa3cc33, type: 2}
   - {fileID: 11400000, guid: 0d67f903a71649d4b95dddb95b36c805, type: 2}
   - {fileID: 11400000, guid: 946daa6f977e3404a867763dbd618564, type: 2}
+  - {fileID: 11400000, guid: 7263dbc1b5288a14e9a7cf00e530b0f8, type: 2}
+  - {fileID: 11400000, guid: 37836285d262552459c7aa1a562ccce8, type: 2}
   UnlockedMutations: []
   Injecting:
   - BodyPartSearchString: Torso
@@ -263,3 +291,21 @@ MonoBehaviour:
   ActiveGUI_DNAConsole: {fileID: 0}
   CurrentDNACharge: 0
   RequiredDNASamples: 3
+--- !u!212 &1672677458245609648 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7552453495883301998, guid: b46887a995abc224aab70e21b9e53697,
+    type: 3}
+  m_PrefabInstance: {fileID: 9221471228852727006}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &4484471429237688614 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4739251602149975544, guid: b46887a995abc224aab70e21b9e53697,
+    type: 3}
+  m_PrefabInstance: {fileID: 9221471228852727006}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &4651009224191162958 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4571869433525098128, guid: b46887a995abc224aab70e21b9e53697,
+    type: 3}
+  m_PrefabInstance: {fileID: 9221471228852727006}
+  m_PrefabAsset: {fileID: 0}
