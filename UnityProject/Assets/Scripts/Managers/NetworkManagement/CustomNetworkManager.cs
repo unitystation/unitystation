@@ -29,9 +29,6 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	{
 		get
 		{
-#if UNITY_STANDALONE_LINUX_API
-			return true;
-#endif
 			return Application.isBatchMode;
 		}
 	}

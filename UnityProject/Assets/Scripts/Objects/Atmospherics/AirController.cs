@@ -107,6 +107,10 @@ namespace Objects.Atmospherics
 
 			Thresholds = initialAcuThresholds.Clone();
 			GasLevelStatus = new AcuStatus[Gas.Gases.Count];
+		}
+
+		private void Start()
+		{
 			DesiredMode = initialOperatingMode;
 		}
 

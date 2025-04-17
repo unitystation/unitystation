@@ -29,6 +29,7 @@ public class SOListTracker : SingletonScriptableObject<SOListTracker>
 		SOTrackers.AddRange(FindAssetsByType<Reagent>());
 		SOTrackers.AddRange(FindAssetsByType<RandomItemPool>());
 		SOTrackers.AddRange(FindAssetsByType<GasMixesSO>());
+		SOTrackers.AddRange(FindAssetsByType<OreGeneratorConfig>());
 	}
 
 	public static List<T> FindAssetsByType<T>() where T : UnityEngine.Object

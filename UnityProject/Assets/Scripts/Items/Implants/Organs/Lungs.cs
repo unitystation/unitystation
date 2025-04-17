@@ -245,7 +245,7 @@ namespace Items.Implants.Organs
 		/// <param name="blood">The blood to put gases into</param>
 		/// <param name="efficiency"></param>
 		/// <returns> True if breathGasMix was changed </returns>
-		public virtual bool BreatheIn(GasMix breathGasMix, ReagentMix blood, float efficiency)
+		public virtual bool BreatheIn(GasMix breathGasMix, ReagentMix blood, float efficiency, bool DoEmot = true)
 		{
 			var respiratorySystem = RelatedPart.HealthMaster.RespiratorySystem;
 			if (respiratorySystem == null) return false;
@@ -321,8 +321,9 @@ namespace Items.Implants.Organs
 			else if (SaturationComponent.CurrentBloodSaturation <= SaturationComponent.bloodType.BLOOD_REAGENT_SATURATION_BAD)
 			{
 				suffocating = true;
-				if (DMMath.Prob(20))
+				if (DMMath.Prob(20) && DoEmot)
 				{
+					if (LivingHealthMaster == null || LivingHealthMaster.gameObject == null) return false; //how does this even happen midway? this isn't async
 					EmoteActionManager.DoEmote("gasp-air", LivingHealthMaster.gameObject);
 				}
 			}
@@ -346,13 +347,14 @@ namespace Items.Implants.Organs
 		/// <summary>
 		/// Pulls in the desired gas, as well as others, from the specified gas mix and adds them to the blood stream related to the lung.
 		/// </summary>
-		public void BreatheIn(GasMix breathGasMix, float efficiency)
+		public void BreatheIn(GasMix breathGasMix, float efficiency, bool DoEmot)
 		{
+			if (LivingHealthMaster == null || LivingHealthMaster.gameObject == null) return;
 			ReagentMix availableBlood =
-				LivingHealthMaster.reagentPoolSystem.BloodPool.Take(
+				LivingHealthMaster.reagentPoolSystem?.BloodPool.Take(
 					(LivingHealthMaster.reagentPoolSystem.BloodPool.Total * efficiency) / 2f);
-			BreatheIn(breathGasMix, availableBlood, efficiency);
-			LivingHealthMaster.reagentPoolSystem.BloodPool.Add(availableBlood);
+			BreatheIn(breathGasMix, availableBlood, efficiency, DoEmot);
+			LivingHealthMaster.reagentPoolSystem?.BloodPool.Add(availableBlood);
 		}
 
 		/// <summary>
@@ -361,8 +363,10 @@ namespace Items.Implants.Organs
 		/// <param name="gasMix">the gases the character is breathing in</param>
 		public virtual void ToxinBreathinCheck(GasMix gasMix)
 		{
-			if (RelatedPart.HealthMaster.RespiratorySystem.CanBreatheAnywhere ||
-				RelatedPart.HealthMaster.playerScript == null) return;
+			if (RelatedPart == null || RelatedPart.HealthMaster == null
+			                        || RelatedPart.HealthMaster.RespiratorySystem == null
+			                        || RelatedPart.HealthMaster.playerScript == null) return;
+			if (RelatedPart.HealthMaster.RespiratorySystem.CanBreatheAnywhere) return;
 
 			var hasToxins = false;
 

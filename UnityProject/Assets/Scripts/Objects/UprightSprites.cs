@@ -42,6 +42,10 @@ public class UprightSprites : MonoBehaviour, IMatrixRotation
 		uop = GetComponent<UniversalObjectPhysics>();
 		registerTile.OnParentChangeComplete.AddListener(OnAppearOrChangeMatrix);
 		registerTile.OnAppearClient.AddListener(OnAppearOrChangeMatrix);
+	}
+
+	public void Start()
+	{
 		SetSpritesUpright();
 	}
 

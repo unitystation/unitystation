@@ -384,11 +384,11 @@ public static class CleanupUtil
 		MatrixManager.IsInitialized = true;
 		GameManager.Instance.ResetStaticsOnNewRound();
 		Systems.Cargo.CargoManager.Instance.OnRoundRestart();
-		Systems.Scenes.LavaLandManager.Instance.Clean();
+		Systems.Scenes.LavaLandManager.Instance?.Clean();
 		ClientSynchronisedEffectsManager.Instance.ClearData();
 		TileManager.Instance.Cleanup_between_rounds();
 		CleanupUtil.RidListOfDeadElements(GameManager.Instance.SpaceBodies);
-		ElectricalManager.Instance.InBetweenScenesCleanUp();
+		ElectricalManager.Instance?.InBetweenScenesCleanUp();
 	}
 
 	/// <summary>

@@ -44,6 +44,7 @@ namespace Systems.MobAIs
 
 		public void TryAction()
 		{
+			if (mobAI == null) return;
 			if(mobAI.IsUnconscious && AllowUnconscious == false) return;
 
 			if(mobAI.IsDead && AllowDead == false) return;

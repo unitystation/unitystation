@@ -526,6 +526,7 @@ public class Matrix : MonoBehaviour
 
 	public void AddElectricalNode(Vector3Int position, ElectricalCableTile electricalCableTile, bool AddTile = true, bool AddLogic = false)
 	{
+		if (Application.isPlaying == false) return;
 		var checkPos = position;
 		checkPos.z = 0;
 		var metaData = MetaDataLayer.Get(checkPos, true);
