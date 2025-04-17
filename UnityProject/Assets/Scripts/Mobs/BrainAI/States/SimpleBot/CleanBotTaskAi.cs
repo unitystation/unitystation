@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Chemistry;
+using Cysharp.Threading.Tasks;
 using Logs;
 using Objects.Construction;
 using UnityEngine;
@@ -11,6 +13,9 @@ namespace Mobs.BrainAI.States.SimpleBot
 		private FloorDecal decalToClean = null;
 		[SerializeField] private Reagent reagentToSpill = null;
 
+		private Collider2D[] possibleDecals = new Collider2D[10];
+		[SerializeField] private ContactFilter2D contactFilter;
+
 		public override void OnEnterState()
 		{
 			if (IsEmagged == false && decalToClean == false)
@@ -21,15 +26,24 @@ namespace Mobs.BrainAI.States.SimpleBot
 			}
 
 			searchRadius = 3;
-			taskPerformCoroutine = null;
+			isPerformingTask = false;
 
 			DoTask();
 		}
 
-		protected override IEnumerator PerformTask()
+		protected override async UniTask PerformTask()
 		{
+			isPerformingTask = true;
 			SoundManager.PlayNetworkedAtPos(IsEmagged ? emaggedPerformSound : taskPerformSound, LivingHealthMaster.gameObject.AssumedWorldPosServer());
-			yield return WaitFor.Seconds(taskPerformDuration);
+			bool isCancelled = await UniTask.Delay(TimeSpan.FromSeconds(taskPerformDuration),
+				cancellationToken: cancellationTokenSource.Token).SuppressCancellationThrow();
+			isPerformingTask = false;
+
+			if (isCancelled)
+			{
+				master.RemoveAddState(this, findSimpleTaskAi);
+				return;
+			}
 
 			if (IsCurrentTaskValid() == true)
 			{
@@ -38,13 +52,11 @@ namespace Mobs.BrainAI.States.SimpleBot
 				if (IsEmagged)
 				{
 					var mix = new ReagentMix(reagentToSpill, 5f, 273.15f);
-					targetMatrix.MatrixInfo.MetaDataLayer.ReagentReact(mix,worldPos,targetCell);
+					targetMatrix.MatrixInfo.MetaDataLayer.ReagentReact(mix, worldPos, targetCell);
 				}
 				else targetMatrix.MatrixInfo.MetaDataLayer.Clean(worldPos, targetCell, false);
 
 			}
-
-			taskPerformCoroutine = null;
 
 			searchRadius = 1; //Search nearby tiles to see if it can continue to clean without moving
 			bool found = FindTarget(out targetCell, out targetMatrix);
@@ -93,10 +105,10 @@ namespace Mobs.BrainAI.States.SimpleBot
 			targetPosition = currentPosition;
 			decalToClean = null;
 
-			var possibleTargets = Physics2D.OverlapCircleAll(currentPosition.ToWorld(targetMatrixLocal), searchRadius, LayerMask.GetMask("Overfloor"));
-			foreach (var possibleDecal in possibleTargets)
+			int decalCount = Physics2D.OverlapCircle(currentPosition.ToWorld(targetMatrixLocal), searchRadius, contactFilter, possibleDecals);
+			for(int i = 0; i < decalCount; i++)
 			{
-				FloorDecal decal = possibleDecal.GetComponentCustom<FloorDecal>();
+				FloorDecal decal = possibleDecals[i].GetComponentCustom<FloorDecal>();
 				if (decal == false || decal.Cleanable == false) continue;
 
 

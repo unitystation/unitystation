@@ -512,7 +512,11 @@ namespace Player
 				}
 			}
 
-			livingHealthMasterBase.EmaggableMob.SetEmaggableState(livingHealthMasterBase.EmaggableRacesList.Contains(RaceBodyparts), livingHealthMasterBase.brain);
+			if (livingHealthMasterBase.EmaggableMob == false)
+			{
+				Loggy.Error("PlayerSprites/OnCharacterSettingsChange(): Attempted to set EMAG state for creature but no EmaggableMob component was attached");
+			}
+			else livingHealthMasterBase.EmaggableMob.SetEmaggableState(RaceBodyparts.Base.CanBeEmagged, livingHealthMasterBase.brain);
 		}
 
 		public void NotifyPlayer(NetworkConnection recipient, bool clothItems = false)

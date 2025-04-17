@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Items.Implants.Organs;
-using Mobs.BrainAI.States.SimpleBot;
+using Mobs;
 using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine;
 

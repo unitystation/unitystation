@@ -18,6 +18,11 @@ namespace Items.Implants.Organs
 		{
 			base.OnAddedToBody(addedToBody);
 
+			if (LivingHealthMaster.brain == false)
+			{
+				Loggy.Error($"SimpleBotBody/OnAddedToBody(): Could not find brain on LivingHealthMasterBase 'addedToBody'");
+				return;
+			}
 			if (LivingHealthMaster.brain.TryGetComponent<SimpleBotTaskAi>(out _taskAi) == false)
 			{
 				Loggy.Error($"SimpleBotBody/OnAddedToBody(): Could not find SimpleBotTaskAi script on LivingHealthMaster Brain");

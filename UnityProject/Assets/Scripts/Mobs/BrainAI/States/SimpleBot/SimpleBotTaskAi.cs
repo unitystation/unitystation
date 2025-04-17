@@ -1,24 +1,19 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using AddressableReferences;
+using Cysharp.Threading.Tasks;
 using Mirror;
 using NaughtyAttributes;
 using Player.Language;
 using UnityEngine;
-using UnityEngine.Serialization;
+using Mobs;
 
 namespace Mobs.BrainAI.States.SimpleBot
 {
-	[System.Serializable]
-	public struct BotDialogue
-	{
-		public AddressableAudioSource audioSource;
-		[FormerlySerializedAs("Transcription")] public string transcription;
-	}
-
 	public class SimpleBotTaskAi : BrainMobState
 	{
-
 		[SerializeField] protected FindSimpleTaskAi findSimpleTaskAi = null;
 		[SerializeField] protected AddressableAudioSource taskPerformSound;
 		[SerializeField] protected AddressableAudioSource emaggedPerformSound;
@@ -32,14 +27,16 @@ namespace Mobs.BrainAI.States.SimpleBot
 		protected Vector3Int targetCell;
 
 		[field: SyncVar] public bool IsEmagged { get; private set; } = false;
-		protected Coroutine taskPerformCoroutine = null;
+
 
 		public delegate void SpriteChangeEvent(bool isEmagged, bool isPerformingTask);
 		public SpriteChangeEvent OnSpriteChange = null;
 
 		[SerializeField] protected LanguageSO botLanguage = null;
-		[SerializeField] protected List<BotDialogue> stateExitDialogue = new List<BotDialogue>();
+		[SerializeField] protected List<AudibleMobDialogue> stateExitDialogue = new List<AudibleMobDialogue>();
 
+		protected CancellationTokenSource cancellationTokenSource = new();
+		protected bool isPerformingTask = false;
 
 		[Button()]
 		public void ToggleEmagState()
@@ -64,12 +61,12 @@ namespace Mobs.BrainAI.States.SimpleBot
 
 			targetMatrix = null;
 			targetCell = Vector3Int.zero;
-			taskPerformCoroutine = null;
+			isPerformingTask = false;
 
 			OnSpriteChange?.Invoke(IsEmagged, false);
 		}
 
-		public void Speak(BotDialogue toSay)
+		public void Speak(AudibleMobDialogue toSay)
 		{
 			Chat.AddLocalMsgToChat(toSay.transcription, gameObject, botLanguage, LivingHealthMaster.playerScript.playerName, true);
 
@@ -80,16 +77,16 @@ namespace Mobs.BrainAI.States.SimpleBot
 
 		public void DoTask()
 		{
-			if (taskPerformCoroutine == null && IsCurrentTaskValid() == false)
+			if (isPerformingTask == false && IsCurrentTaskValid() == false)
 			{
 				master.RemoveAddState(this, findSimpleTaskAi);
 				return;
 			}
 
-			if (taskPerformCoroutine is not null) return;
+			if (isPerformingTask == true) return;
 
 			OnSpriteChange?.Invoke(IsEmagged, true);
-			taskPerformCoroutine = StartCoroutine(PerformTask());
+			_ = PerformTask();
 		}
 
 		public override void OnUpdateTick()
@@ -97,12 +94,14 @@ namespace Mobs.BrainAI.States.SimpleBot
 			//Do nothing
 		}
 
-		protected virtual IEnumerator PerformTask()
+		protected virtual async UniTask PerformTask()
 		{
-			yield return WaitFor.Seconds(taskPerformDuration);
+			isPerformingTask = true;
 
-			taskPerformCoroutine = null;
+			bool isCancelled = await UniTask.Delay(TimeSpan.FromSeconds(taskPerformDuration), cancellationToken: cancellationTokenSource.Token).SuppressCancellationThrow();
+			isPerformingTask = false;
 
+			if (isCancelled) return;
 			DoTask();
 		}
 

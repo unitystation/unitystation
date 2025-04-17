@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using HealthV2;
 using Logs;
 using UnityEngine;
@@ -11,6 +13,10 @@ namespace Mobs.BrainAI.States.SimpleBot
 	{
 		private LivingHealthMasterBase creatureToHeal = null;
 		[SerializeField] private List<PlayerHealthData> blackListedSpecies = new List<PlayerHealthData>();
+
+		private Collider2D[] possiblePlayers = new Collider2D[5];
+		[SerializeField] private ContactFilter2D contactFilter;
+
 		public override void OnEnterState()
 		{
 			if (creatureToHeal == false)
@@ -21,26 +27,34 @@ namespace Mobs.BrainAI.States.SimpleBot
 			}
 
 			searchRadius = 5;
-			taskPerformCoroutine = null;
+			isPerformingTask = false;
 
 			DoTask();
 		}
 
-		protected override IEnumerator PerformTask()
+		protected override async UniTask PerformTask()
 		{
+			isPerformingTask = true;
 			SoundManager.PlayNetworkedAtPos(IsEmagged ? emaggedPerformSound : taskPerformSound, LivingHealthMaster.gameObject.AssumedWorldPosServer(), global: false);
 
 			if (IsEmagged && IsCurrentTaskValid() == true) creatureToHeal.ApplyDamageToRandomBodyPart(master.Body.gameObject, 5f, AttackType.Melee, DamageType.Brute);
 
-			yield return WaitFor.Seconds(taskPerformDuration);
+			bool isCancelled = await UniTask
+				.Delay(TimeSpan.FromSeconds(taskPerformDuration), cancellationToken: cancellationTokenSource.Token)
+				.SuppressCancellationThrow();
 
+			isPerformingTask = false;
+
+			if (isCancelled)
+			{
+				master.RemoveAddState(this, findSimpleTaskAi);
+				return;
+			}
 			if (IsEmagged == false && IsCurrentTaskValid() == true)
 			{
 				creatureToHeal.HealDamageOnAll(master.Body.gameObject, 3f, DamageType.Brute);
 				creatureToHeal.HealDamageOnAll(master.Body.gameObject, 3f, DamageType.Burn);
 			}
-
-			taskPerformCoroutine = null;
 
 			searchRadius = 1; //Search nearby tiles to see if it can continue to heal without moving
 			bool found = FindTarget(out targetCell, out targetMatrix);
@@ -74,10 +88,10 @@ namespace Mobs.BrainAI.States.SimpleBot
 			targetPosition = currentPosition;
 			creatureToHeal = null;
 
-			var possibleTargets = Physics2D.OverlapCircleAll(currentPosition.ToWorld(targetMatrixLocal), searchRadius, LayerMask.GetMask("Players"));
-			foreach (var possiblePlayer in possibleTargets)
+			var targetCount = Physics2D.OverlapCircle(currentPosition.ToWorld(targetMatrixLocal), searchRadius, contactFilter, possiblePlayers);
+			for (int i = 0; i < targetCount; i++)
 			{
-				var health = possiblePlayer.GetComponentCustom<LivingHealthMasterBase>();
+				var health = possiblePlayers[i].GetComponentCustom<LivingHealthMasterBase>();
 
 				if (health == false || health.mobID == LivingHealthMaster.mobID) continue;
 				if (blackListedSpecies.Contains(health.InitialSpecies)) continue;

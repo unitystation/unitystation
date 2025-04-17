@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
 using Tiles;
 using UnityEngine;
@@ -12,22 +14,30 @@ namespace Mobs.BrainAI.States.SimpleBot
 		public override void OnEnterState()
 		{
 			searchRadius = 2;
-			taskPerformCoroutine = null;
+			isPerformingTask = false;
 			DoTask();
 		}
 
-		protected override IEnumerator PerformTask()
+		protected override async UniTask PerformTask()
 		{
+			isPerformingTask = true;
+
 			SoundManager.PlayNetworkedAtPos(IsEmagged ? emaggedPerformSound : taskPerformSound, LivingHealthMaster.gameObject.AssumedWorldPosServer());
-			yield return WaitFor.Seconds(taskPerformDuration);
+
+			bool isCancelled = await UniTask.Delay(TimeSpan.FromSeconds(taskPerformDuration), cancellationToken: cancellationTokenSource.Token).SuppressCancellationThrow();
+			isPerformingTask = false;
+
+			if (isCancelled)
+			{
+				master.RemoveAddState(this, findSimpleTaskAi);
+				return;
+			}
 
 			if (IsCurrentTaskValid() == true)
 			{
 				if(IsEmagged) targetMatrix.MetaTileMap.RemoveTileWithlayer(targetCell, LayerType.Floors);
 				else targetMatrix.MetaTileMap.SetTile(targetCell, tileToPlace);
 			}
-
-			taskPerformCoroutine = null;
 
 			searchRadius = 1; //Look for tiles in range of current position so can retain state
 			bool found = FindTarget(out targetCell, out targetMatrix);

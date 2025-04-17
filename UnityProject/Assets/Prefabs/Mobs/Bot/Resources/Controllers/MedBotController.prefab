@@ -324,6 +324,20 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e9ff315a55db70441bed9631f79432e4, type: 2}
   - {fileID: 11400000, guid: f0297cb2a01ba64408e02a2944608937, type: 2}
   - {fileID: 11400000, guid: 60f6168d2ada0a34ea579eb77f1fd6b0, type: 2}
+  contactFilter:
+    useTriggers: 1
+    useLayerMask: 1
+    useDepth: 0
+    useOutsideDepth: 0
+    useNormalAngle: 0
+    useOutsideNormalAngle: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 256
+    minDepth: 0
+    maxDepth: 0
+    minNormalAngle: 0
+    maxNormalAngle: 0
 --- !u!114 &8328933848482641782 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,

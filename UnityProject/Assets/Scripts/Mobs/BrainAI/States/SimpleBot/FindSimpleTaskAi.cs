@@ -25,8 +25,8 @@ namespace Mobs.BrainAI.States.SimpleBot
 		private bool isTraversing = false;
 		private int refuseReturn = 0;
 
-		[SerializeField] private List<BotDialogue> idleDialogue = new List<BotDialogue>();
-		[SerializeField] List<BotDialogue> idleEmaggedDialogue = new List<BotDialogue>();
+		[SerializeField] private List<AudibleMobDialogue> idleDialogue = new List<AudibleMobDialogue>();
+		[SerializeField] List<AudibleMobDialogue> idleEmaggedDialogue = new List<AudibleMobDialogue>();
 		[SerializeField] private float dialogueChancePercent = 50;
 
 		private void Start()
@@ -59,7 +59,7 @@ namespace Mobs.BrainAI.States.SimpleBot
 			if (taskState == false) return;
 			if (DMMath.Prob(dialogueChancePercent))
 			{
-				BotDialogue toSay = taskState.IsEmagged ? idleEmaggedDialogue.PickRandom() : idleDialogue.PickRandom();
+				AudibleMobDialogue toSay = taskState.IsEmagged ? idleEmaggedDialogue.PickRandom() : idleDialogue.PickRandom();
 				taskState.Speak(toSay);
 			}
 		}
@@ -157,10 +157,5 @@ namespace Mobs.BrainAI.States.SimpleBot
 		{
 			taskState?.SetEmagState(true);
 		}
-	}
-
-	public interface ICanBeEmaggedMob
-	{
-		public void EmagMob();
 	}
 }

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class BrainWanderState : BrainMobState
 {
@@ -43,7 +42,7 @@ public class BrainWanderState : BrainMobState
 		if (Move(Directions[currentFacing]))
 		{
 			directionCounter++;
-			if (Random.Range(0, 10 - Math.Max(7, directionCounter)) == 0) Turn(LeftOrRight());
+			if (UnityEngine.Random.Range(0, 10 - Math.Max(7, directionCounter)) == 0) Turn(LeftOrRight());
 			//If a move was successful, have a chance at rotating that increases with every successful move in that direction. Caps at 33%
 			return;
 		}
@@ -58,7 +57,7 @@ public class BrainWanderState : BrainMobState
 	/// <returns>1 or -1 at a 50% chance for either</returns>
 	private TurnDirection LeftOrRight()
 	{
-		return (TurnDirection)(1 - Random.Range((int)0, (int)2) * 2);
+		return (TurnDirection)(1 - UnityEngine.Random.Range(0, 2) * 2);
 	}
 
 	/// <summary>

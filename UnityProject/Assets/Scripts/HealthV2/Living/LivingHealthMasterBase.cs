@@ -117,7 +117,6 @@ namespace HealthV2
 		public Dictionary<Type, List<BodyPartFunctionality>> BodyOrganLookup = new Dictionary<Type, List<BodyPartFunctionality>>();
 
 		[field: SerializeField] public EmaggableMob EmaggableMob { get; private set; } = null;
-		public List<PlayerHealthData> EmaggableRacesList = new List<PlayerHealthData>();
 
 		///<summary>
 		/// Fetch first or default system by type from the active systems on this living thing.
