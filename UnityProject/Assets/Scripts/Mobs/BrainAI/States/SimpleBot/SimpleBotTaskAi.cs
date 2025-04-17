@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using AddressableReferences;
-using Logs;
+using Mirror;
 using NaughtyAttributes;
 using Player.Language;
-using Tiles;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Mobs.BrainAI.States.SimpleBot
 {
@@ -13,7 +13,7 @@ namespace Mobs.BrainAI.States.SimpleBot
 	public struct BotDialogue
 	{
 		public AddressableAudioSource audioSource;
-		public string Transcription;
+		[FormerlySerializedAs("Transcription")] public string transcription;
 	}
 
 	public class SimpleBotTaskAi : BrainMobState
@@ -31,7 +31,7 @@ namespace Mobs.BrainAI.States.SimpleBot
 		protected Matrix targetMatrix;
 		protected Vector3Int targetCell;
 
-		public bool IsEmagged { get; private set; } = false;
+		[field: SyncVar] public bool IsEmagged { get; private set; } = false;
 		protected Coroutine taskPerformCoroutine = null;
 
 		public delegate void SpriteChangeEvent(bool isEmagged, bool isPerformingTask);
@@ -44,8 +44,7 @@ namespace Mobs.BrainAI.States.SimpleBot
 		[Button()]
 		public void ToggleEmagState()
 		{
-			IsEmagged = !IsEmagged;
-			OnSpriteChange?.Invoke(IsEmagged, false);
+			SetEmagState(!IsEmagged);
 		}
 
 		public void SetEmagState(bool state)
@@ -61,11 +60,7 @@ namespace Mobs.BrainAI.States.SimpleBot
 
 		public override void OnExitState()
 		{
-			BotDialogue toSay = stateExitDialogue.PickRandom();
-			Speak(toSay.Transcription);
-
-			if(toSay.audioSource != null) SoundManager.PlayNetworkedAtPosAsync(toSay.audioSource,
-				LivingHealthMaster.gameObject.AssumedWorldPosServer(), global: false);
+			Speak(stateExitDialogue.PickRandom());
 
 			targetMatrix = null;
 			targetCell = Vector3Int.zero;
@@ -74,9 +69,12 @@ namespace Mobs.BrainAI.States.SimpleBot
 			OnSpriteChange?.Invoke(IsEmagged, false);
 		}
 
-		public void Speak(string text)
+		public void Speak(BotDialogue toSay)
 		{
-			Chat.AddLocalMsgToChat(text, gameObject, botLanguage, LivingHealthMaster.playerScript.playerName, true);
+			Chat.AddLocalMsgToChat(toSay.transcription, gameObject, botLanguage, LivingHealthMaster.playerScript.playerName, true);
+
+			if(toSay.audioSource != null) SoundManager.PlayNetworkedAtPosAsync(toSay.audioSource,
+				LivingHealthMaster.gameObject.AssumedWorldPosServer(), global: false);
 		}
 
 

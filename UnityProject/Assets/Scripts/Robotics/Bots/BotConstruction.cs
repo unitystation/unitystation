@@ -70,7 +70,7 @@ namespace Items.Robotics
 			// Despawns item in hand, might cause problems later if it's stackable
 			Inventory.ServerConsume(interaction.HandSlot, 1);
 
-			if (stageCounter++ < stageParts.Length) return;
+			if (++stageCounter < stageParts.Length) return;
 
 			// Will spawn the simple bot and despawn the assembly
 			Spawn.ServerPrefab(botBlueprint, gameObject.RegisterTile().WorldPosition, transform.parent, count: 1);

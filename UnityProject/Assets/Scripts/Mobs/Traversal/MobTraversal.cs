@@ -55,9 +55,6 @@ namespace Mobs.Traversal
 			Movement.OnLocalTileReached.AddListener(SetMovingToTileToFalse);
 			Movement.OnBumpedIntoSomething.AddListener(OnBumpedIntoSomething);
 			if (MaxRetries < 2) MaxRetries = 2;
-#if UNITY_EDITOR
-			DebugGizmos = true;
-#endif
 		}
 
 		private void OnDestroy()

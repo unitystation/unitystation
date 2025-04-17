@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using AddressableReferences;
-using Chemistry;
-using Core.Utils;
 using HealthV2;
 using Logs;
-using Objects.Construction;
 using UnityEngine;
 
 namespace Mobs.BrainAI.States.SimpleBot
@@ -25,7 +20,7 @@ namespace Mobs.BrainAI.States.SimpleBot
 				return;
 			}
 
-			searchRadius = 3;
+			searchRadius = 5;
 			taskPerformCoroutine = null;
 
 			DoTask();
@@ -41,8 +36,8 @@ namespace Mobs.BrainAI.States.SimpleBot
 
 			if (IsCurrentTaskValid() == true)
 			{
-				creatureToHeal.HealDamageOnAll(master.Body.gameObject, 5f, DamageType.Brute);
-				creatureToHeal.HealDamageOnAll(master.Body.gameObject, 5f, DamageType.Burn);
+				creatureToHeal.HealDamageOnAll(master.Body.gameObject, 3f, DamageType.Brute);
+				creatureToHeal.HealDamageOnAll(master.Body.gameObject, 3f, DamageType.Burn);
 			}
 
 			taskPerformCoroutine = null;
@@ -74,17 +69,16 @@ namespace Mobs.BrainAI.States.SimpleBot
 			var possibleTargets = Physics2D.OverlapCircleAll(currentPosition.ToWorld(targetMatrixLocal), searchRadius, LayerMask.GetMask("Players"));
 			foreach (var possiblePlayer in possibleTargets)
 			{
-
 				var health = possiblePlayer.GetComponentCustom<LivingHealthMasterBase>();
-				if (health == LivingHealthMaster) continue;
+
+				if (health == false || health.mobID == LivingHealthMaster.mobID) continue;
 				if (blackListedSpecies.Contains(health.InitialSpecies)) continue;
 
-				Debug.Log("Found Player to heal");
-				if (health == false || health.OverallHealth < 0.95f * health.MaxHealth) continue;
-				Debug.Log("Player was valid");
+				var damage = health.GetBruteBurnTotal();
+				if (damage >= 0f) continue;
+
 				var worldPos = health.gameObject.AssumedWorldPosServer();
 				targetPosition = worldPos.ToLocalInt(targetMatrixLocal);
-
 
 				this.creatureToHeal = health;
 				targetMatrix = targetMatrixLocal;

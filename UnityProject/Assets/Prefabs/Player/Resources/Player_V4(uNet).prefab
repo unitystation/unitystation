@@ -128,6 +128,8 @@ MonoBehaviour:
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &1051931730128558
 GameObject:
   m_ObjectHideFlags: 0
@@ -288,6 +290,8 @@ MonoBehaviour:
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &1106181757792460
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,6 +420,8 @@ MonoBehaviour:
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &1133514949248654
 GameObject:
   m_ObjectHideFlags: 0
@@ -490,6 +496,7 @@ GameObject:
   - component: {fileID: 6097234027102085964}
   - component: {fileID: 8039750332941386657}
   - component: {fileID: 3794334480808639130}
+  - component: {fileID: -7834139986602151608}
   - component: {fileID: 3483459317486548442}
   - component: {fileID: 5740277750894326107}
   - component: {fileID: 2122636020811656725}
@@ -1125,6 +1132,10 @@ MonoBehaviour:
   DoesNotRequireBrain: 0
   tickRate: 1
   RTT: 0
+  <EmaggableMob>k__BackingField: {fileID: -7834139986602151608}
+  EmaggableRacesList:
+  - {fileID: 11400000, guid: 878d88bc2a64d75429f00a1208902607, type: 2}
+  - {fileID: 11400000, guid: e9ff315a55db70441bed9631f79432e4, type: 2}
   BodyPartStorage: {fileID: 0}
   playerSprites: {fileID: 0}
   BleedStacks: 0
@@ -1908,6 +1919,18 @@ MonoBehaviour:
       m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+--- !u!114 &-7834139986602151608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd945cf6ca5a15549916bbae6f5a09cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3483459317486548442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2203,6 +2226,8 @@ MonoBehaviour:
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &1332325770335918
 GameObject:
   m_ObjectHideFlags: 0
@@ -2331,6 +2356,8 @@ MonoBehaviour:
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &1392646042361530
 GameObject:
   m_ObjectHideFlags: 0
@@ -2459,6 +2486,8 @@ MonoBehaviour:
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &1442926995363424
 GameObject:
   m_ObjectHideFlags: 0
@@ -2587,6 +2616,8 @@ MonoBehaviour:
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &1456517064699986
 GameObject:
   m_ObjectHideFlags: 0
@@ -2715,6 +2746,8 @@ MonoBehaviour:
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &1562215114468348
 GameObject:
   m_ObjectHideFlags: 0
@@ -2843,6 +2876,8 @@ MonoBehaviour:
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &1626073062007556
 GameObject:
   m_ObjectHideFlags: 0
@@ -2971,6 +3006,8 @@ MonoBehaviour:
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &1653009388007362
 GameObject:
   m_ObjectHideFlags: 0
@@ -3099,6 +3136,8 @@ MonoBehaviour:
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &1660669868818532
 GameObject:
   m_ObjectHideFlags: 0
@@ -3227,6 +3266,8 @@ MonoBehaviour:
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &1889549945948160
 GameObject:
   m_ObjectHideFlags: 0
@@ -3355,6 +3396,8 @@ MonoBehaviour:
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &1894933337466704
 GameObject:
   m_ObjectHideFlags: 0
@@ -3776,6 +3819,8 @@ MonoBehaviour:
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &1243472505666966351
 GameObject:
   m_ObjectHideFlags: 0
@@ -13981,6 +14026,8 @@ MonoBehaviour:
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &4006269813396621170
 GameObject:
   m_ObjectHideFlags: 0
@@ -14109,6 +14156,8 @@ MonoBehaviour:
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &4560473325844253165
 GameObject:
   m_ObjectHideFlags: 0

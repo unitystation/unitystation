@@ -1,16 +1,13 @@
 ﻿using System.Collections.Generic;
 using Core.Editor.Attributes;
-using Core.Utils;
 using HealthV2;
 using Logs;
 using Mobs.Traversal;
 using UnityEngine;
-using Systems.Character;
-using UI.CharacterCreator;
 
 namespace Mobs.BrainAI.States.SimpleBot
 {
-	public class FindSimpleTaskAi : BrainMobState, ICanBeEmaggedMob
+	public class FindSimpleTaskAi : BrainMobState, ICanBeEmaggedMob, ICooldown
 	{
 		private Vector3Int targetCell;
 		private Matrix targetMatrix;
@@ -30,7 +27,9 @@ namespace Mobs.BrainAI.States.SimpleBot
 
 		[SerializeField] private List<BotDialogue> idleDialogue = new List<BotDialogue>();
 		[SerializeField] List<BotDialogue> idleEmaggedDialogue = new List<BotDialogue>();
-		[SerializeField] private float dialogueChancePercent = 20;
+		[SerializeField] private float dialogueChancePercent = 10;
+
+		public float DefaultTime => 5f;
 
 		private void Start()
 		{
@@ -53,17 +52,6 @@ namespace Mobs.BrainAI.States.SimpleBot
 			SubscribeToPathfinderEvents();
 
 			isTraversing = false;
-
-			if (taskState == false) return;
-
-			if (DMMath.Prob(dialogueChancePercent))
-			{
-				BotDialogue toSay = taskState.IsEmagged ? idleEmaggedDialogue.PickRandom() : idleDialogue.PickRandom();
-				taskState.Speak(toSay.Transcription);
-
-				if(toSay.audioSource != null) SoundManager.PlayNetworkedAtPosAsync(toSay.audioSource,
-					LivingHealthMaster.gameObject.AssumedWorldPosServer(), global: false);
-			}
 		}
 
 		public override void OnExitState()
@@ -75,6 +63,11 @@ namespace Mobs.BrainAI.States.SimpleBot
 		public override void OnUpdateTick()
 		{
 			if (taskState == false) return;
+			if (DMMath.Prob(dialogueChancePercent))
+			{
+				BotDialogue toSay = taskState.IsEmagged ? idleEmaggedDialogue.PickRandom() : idleDialogue.PickRandom();
+				taskState.Speak(toSay);
+			}
 
 			if (IsStillTraversing()) return;
 
@@ -89,7 +82,6 @@ namespace Mobs.BrainAI.States.SimpleBot
 				master.RemoveAddState(this, wanderState);
 				return;
 			}
-
 			isTraversing = pathfinder.QueueMovementGoal(targetCell, () => OnDoneTraversalToLocation(Vector3Int.zero), null, TraversalStrategies, true);
 
 			if (isTraversing == false)
@@ -108,12 +100,29 @@ namespace Mobs.BrainAI.States.SimpleBot
 			return false;
 		}
 
+		private void TraversalFailed(Vector3Int pos)
+		{
+			isTraversing = false;
+			if(master.CurrentActiveStates.Contains(this) == false) return;
+
+			if (foundTarget && Vector3.Distance(targetCell.ToWorld(targetMatrix), master.gameObject.AssumedWorldPosServer()) <= 1.5f)
+			{
+				master.RemoveAddState(this, taskState);
+			}
+			else
+			{
+				master.RemoveAddState(this, wanderState);
+				refuseReturn = 7;
+			}
+		}
+
 		private void SubscribeToPathfinderEvents()
 		{
 			isTraversing = false;
 			if (pathfinder == false) return;
 			pathfinder.OnDoneTraversalToLocation += OnDoneTraversalToLocation;
-			pathfinder.OnTraversalFailedCompletely += OnDoneTraversalToLocation;
+			pathfinder.OnTraversalFailedCompletely += TraversalFailed;
+
 		}
 
 		private void UnsubscribeToPathfinderEvents()
@@ -121,7 +130,7 @@ namespace Mobs.BrainAI.States.SimpleBot
 			isTraversing = false;
 			if (pathfinder == false) return;
 			pathfinder.OnDoneTraversalToLocation -= OnDoneTraversalToLocation;
-			pathfinder.OnTraversalFailedCompletely -= OnDoneTraversalToLocation;
+			pathfinder.OnTraversalFailedCompletely -= TraversalFailed;
 		}
 
 		private void OnDoneTraversalToLocation(Vector3Int pos)

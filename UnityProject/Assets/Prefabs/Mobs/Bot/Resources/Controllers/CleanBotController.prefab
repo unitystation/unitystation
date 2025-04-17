@@ -89,7 +89,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
+      propertyPath: idleDialogue.Array.data[0].transcription
+      value: Clean my mission is to clean.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
       propertyPath: idleDialogue.Array.data[1].Transcription
+      value: I clean the floors, to clean the floors is what I do.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.data[1].transcription
       value: I clean the floors, to clean the floors is what I do.
       objectReference: {fileID: 0}
     - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
@@ -99,7 +109,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
+      propertyPath: idleDialogue.Array.data[2].transcription
+      value: Did you know a mop makes a fashionable wig?
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
       propertyPath: idleEmaggedDialogue.Array.data[0].Transcription
+      value: I clean the floors, but who will clean away your sins?
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleEmaggedDialogue.Array.data[0].transcription
       value: I clean the floors, but who will clean away your sins?
       objectReference: {fileID: 0}
     - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
@@ -109,9 +129,50 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
+      propertyPath: idleEmaggedDialogue.Array.data[1].transcription
+      value: To watch them slip is what brings me joy.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
       propertyPath: idleEmaggedDialogue.Array.data[2].Transcription
       value: Cleaning tip of the day; To keep your insides clean, remember to drink
         bleach!
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleEmaggedDialogue.Array.data[2].transcription
+      value: Cleaning tip of the day; To keep your insides clean, remember to drink
+        bleach!
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.data[0].audioSource.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.data[1].audioSource.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.data[2].audioSource.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleEmaggedDialogue.Array.data[0].audioSource.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleEmaggedDialogue.Array.data[1].audioSource.AssetAddress
+      value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleEmaggedDialogue.Array.data[2].audioSource.AssetAddress
+      value: null
       objectReference: {fileID: 0}
     - target: {fileID: 3581588255896703113, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
@@ -216,39 +277,39 @@ MonoBehaviour:
   botLanguage: {fileID: 11400000, guid: 90699dd78f8cfad4e983185c4f67ae72, type: 2}
   stateExitDialogue:
   - audioSource:
-      AssetAddress: 
+      AssetAddress: null
       AssetReference:
         m_AssetGUID: 
         m_SubObjectName: 
         m_SubObjectGUID: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
-    Transcription: So filthy, so very filthy.
+    transcription: So filthy, so very filthy.
   - audioSource:
-      AssetAddress: 
+      AssetAddress: null
       AssetReference:
         m_AssetGUID: 
         m_SubObjectName: 
         m_SubObjectGUID: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
-    Transcription: A clean floor is a clean mind.
+    transcription: A clean floor is a clean mind.
   - audioSource:
-      AssetAddress: 
+      AssetAddress: null
       AssetReference:
         m_AssetGUID: 
         m_SubObjectName: 
         m_SubObjectGUID: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
-    Transcription: What a pig sty.
+    transcription: What a pig sty.
   - audioSource:
-      AssetAddress: 
+      AssetAddress: null
       AssetReference:
         m_AssetGUID: 
         m_SubObjectName: 
         m_SubObjectGUID: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
-    Transcription: Did your mother teach you this?
+    transcription: Did your mother teach you this?
   reagentToSpill: {fileID: 11400000, guid: e165b9d67b5163a9ea82a4c4fed31f7d, type: 2}
