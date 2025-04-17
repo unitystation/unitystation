@@ -53,6 +53,11 @@ namespace Mobs.BrainAI.States.SimpleBot
 		{
 			if (creatureToHeal == false || creatureToHeal.mobID == LivingHealthMaster.mobID) return false;
 			if (blackListedSpecies.Contains(creatureToHeal.InitialSpecies)) return false;
+			if (IsEmagged)
+			{
+				var worldPosHurt = creatureToHeal.gameObject.AssumedWorldPosServer();
+				return Vector3.Distance(worldPosHurt, LivingHealthMaster.gameObject.AssumedWorldPosServer()) <= 1.5f;
+			}
 
 			var damage = creatureToHeal.GetBruteBurnTotal();
 			if (damage >= 0f) return false;
@@ -78,7 +83,9 @@ namespace Mobs.BrainAI.States.SimpleBot
 				if (blackListedSpecies.Contains(health.InitialSpecies)) continue;
 
 				var damage = health.GetBruteBurnTotal();
-				if (damage >= 0f) continue;
+
+				if (IsEmagged && damage < -100f) continue;
+				if (IsEmagged == false && damage >= 0f) continue;
 
 				var worldPos = health.gameObject.AssumedWorldPosServer();
 				targetPosition = worldPos.ToLocalInt(targetMatrixLocal);

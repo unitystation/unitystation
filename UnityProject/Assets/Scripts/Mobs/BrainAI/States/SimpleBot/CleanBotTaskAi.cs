@@ -13,7 +13,7 @@ namespace Mobs.BrainAI.States.SimpleBot
 
 		public override void OnEnterState()
 		{
-			if (decalToClean == false)
+			if (IsEmagged == false && decalToClean == false)
 			{
 				Loggy.Error("CleanBotTaskAi: Attempted to enter state but decalToClean was null!");
 				master.RemoveAddState(this, findSimpleTaskAi);
@@ -71,6 +71,12 @@ namespace Mobs.BrainAI.States.SimpleBot
 
 		protected override bool IsCurrentTaskValid()
 		{
+			if(IsEmagged)
+			{
+				var worldPosToSlip = targetCell.ToWorld(targetMatrix);
+				return Vector3.Distance(worldPosToSlip, LivingHealthMaster.gameObject.AssumedWorldPosServer()) <= 1.5f;
+			}
+
 			Vector3 worldPos = targetCell.ToWorld(targetMatrix);
 
 			return Vector3.Distance(worldPos, LivingHealthMaster.gameObject.AssumedWorldPosServer()) <= 1.5f
@@ -79,6 +85,8 @@ namespace Mobs.BrainAI.States.SimpleBot
 
 		public override bool FindTarget(out Vector3Int targetPosition, out Matrix targetMatrixLocal)
 		{
+			if (IsEmagged) return FindTargetEmagged(out targetPosition, out targetMatrixLocal);
+
 			targetMatrixLocal = master.Body.UniversalObjectPhysics.registerTile.Matrix;
 			var currentPosition = master.Body.gameObject.AssumedWorldPosServer().ToLocalInt(targetMatrixLocal);
 
@@ -91,6 +99,7 @@ namespace Mobs.BrainAI.States.SimpleBot
 				FloorDecal decal = possibleDecal.GetComponentCustom<FloorDecal>();
 				if (decal == false || decal.Cleanable == false) continue;
 
+
 				var worldPos = decal.gameObject.AssumedWorldPosServer();
 				targetPosition = worldPos.ToLocalInt(targetMatrixLocal);
 
@@ -100,6 +109,37 @@ namespace Mobs.BrainAI.States.SimpleBot
 				targetMatrix = targetMatrixLocal;
 				targetCell = targetPosition;
 				return true;
+			}
+
+			targetMatrix = null;
+			targetMatrixLocal = null;
+			return false;
+		}
+
+		private bool FindTargetEmagged(out Vector3Int targetPosition, out Matrix targetMatrixLocal)
+		{
+			targetMatrixLocal = master.Body.UniversalObjectPhysics.registerTile.Matrix;
+			var currentPosition = master.Body.gameObject.AssumedWorldPosServer().ToLocalInt(targetMatrixLocal);
+
+			targetPosition = currentPosition;
+			decalToClean = null;
+
+			for (int y = -searchRadius; y <= searchRadius; y++)
+			{
+				for (int x = -searchRadius; x <= searchRadius; x++)
+				{
+					var checkPos = currentPosition;
+					checkPos.x += x;
+					checkPos.y += y;
+
+					if (targetMatrixLocal.MetaDataLayer.IsSlipperyAt(checkPos) == false)
+					{
+						targetMatrix = targetMatrixLocal;
+						targetPosition = checkPos;
+						targetCell = checkPos;
+						return true;
+					}
+				}
 			}
 
 			targetMatrix = null;
