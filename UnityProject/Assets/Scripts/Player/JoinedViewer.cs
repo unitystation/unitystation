@@ -233,6 +233,12 @@ namespace Player
 			{
 				ServerReturnMapData.Send(this.gameObject, MapData.Item1, ServerReturnMapData.MessageType.MapDataForClient, MapData.Item2);
 			}
+
+			foreach (var Matrix in MatrixManager.Instance.ActiveMatrices)
+			{
+				Matrix.Value.Matrix.MetaDataLayer.UpdateNewPlayer(connectionToClient);
+				Matrix.Value.Matrix.TileChangeManager.UpdateNewPlayer(connectionToClient);
+			}
 		}
 
 		[Client]

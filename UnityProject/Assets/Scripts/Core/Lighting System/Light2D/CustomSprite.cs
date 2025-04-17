@@ -73,6 +73,13 @@ namespace Light2D
         }
 
 
+        [NaughtyAttributes.Button()]
+        public void ForceUpdateColour()
+        {
+	        Color = InitialColour;
+        }
+
+
         public void OnNewMappedOnSpawn()
         {
 	        if (Color == Color.white)

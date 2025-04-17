@@ -8,6 +8,7 @@ using Messages.Server.SoundMessages;
 using Mirror;
 using Objects;
 using Objects.Construction;
+using Player;
 using Scripts.Core.Transform;
 using SecureStuff;
 using Tiles;
@@ -1071,6 +1072,11 @@ namespace Core.Physics
 
 		public void AnimationUpdateMe()
 		{
+			if (CustomNetworkManager.IsServer == false && JoinedViewer.ClientValidated == false)
+			{
+				return;
+			}
+			
 			if (isVisible == false)
 			{
 				MoveIsWalking = false;
@@ -1371,6 +1377,11 @@ namespace Core.Physics
 
 		public void FlyingUpdateMe()
 		{
+			if (CustomNetworkManager.IsServer == false && JoinedViewer.ClientValidated == false)
+			{
+				return;
+			}
+
 			NewtonianNaNCorrection();
 			if (isVisible == false)
 			{

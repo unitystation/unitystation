@@ -11,9 +11,12 @@ namespace Messages.Client
 		/// Returns ConnectedPlayer.Invalid if there are issues finding one from PlayerList (like, player already left)
 		/// </summary>
 		public PlayerInfo SentByPlayer;
+
+		public NetworkConnection SentBy;
 		public override void Process(NetworkConnection sentBy, T msg)
 		{
 			SentByPlayer = PlayerList.Instance.GetOnline(sentBy);
+			SentBy = sentBy;
 			try
 			{
 				base.Process(sentBy, msg);

@@ -48,6 +48,7 @@ public class ShuttleConnector : NetworkBehaviour, ICheckedInteractable<HandApply
 		RegisterTile = this.GetComponent<RegisterTile>();
 		RegisterTile.OnParentChangeComplete.AddListener(Reregister);
 		var WrenchSecurable = this.GetComponent<WrenchSecurable>();
+		if (WrenchSecurable == null) return;
 		WrenchSecurable.OnAnchoredChange.AddListener(Disconnect);
 	}
 
