@@ -221,12 +221,6 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 				matrix.MetaTileMap.InitialiseUnderFloorUtilities(CustomNetworkManager.IsServer);
 			}
 
-			var id = matrix.MatrixInfo.NetID;
-
-			JoinedViewer.AddOnPlayerValidated( (() =>
-			{
-				TileChangeNewPlayer.Send(id);
-			}));
 
 			if (AreAllMatrixReady())
 			{
