@@ -34,7 +34,7 @@ namespace Mobs.BrainAI.States.SimpleBot
 
 			yield return WaitFor.Seconds(taskPerformDuration);
 
-			if (IsCurrentTaskValid() == true)
+			if (IsEmagged == false && IsCurrentTaskValid() == true)
 			{
 				creatureToHeal.HealDamageOnAll(master.Body.gameObject, 3f, DamageType.Brute);
 				creatureToHeal.HealDamageOnAll(master.Body.gameObject, 3f, DamageType.Burn);

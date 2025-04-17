@@ -132,7 +132,7 @@ namespace Mobs.BrainAI.States.SimpleBot
 					checkPos.x += x;
 					checkPos.y += y;
 
-					if (targetMatrixLocal.MetaDataLayer.IsSlipperyAt(checkPos) == false)
+					if (targetMatrixLocal.MetaDataLayer.IsSlipperyAt(checkPos) == false && targetMatrixLocal.MetaTileMap.IsAtmosPassableAt(checkPos, targetMatrixLocal))
 					{
 						targetMatrix = targetMatrixLocal;
 						targetPosition = checkPos;
