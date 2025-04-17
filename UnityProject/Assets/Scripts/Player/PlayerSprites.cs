@@ -516,7 +516,7 @@ namespace Player
 			{
 				Loggy.Error("PlayerSprites/OnCharacterSettingsChange(): Attempted to set EMAG state for creature but no EmaggableMob component was attached");
 			}
-			else livingHealthMasterBase.EmaggableMob.SetEmaggableState(RaceBodyparts.Base.CanBeEmagged, livingHealthMasterBase.brain);
+			else livingHealthMasterBase.EmaggableMob.SetEmaggableState(ThisCharacter.GetRaceSo().Base.CanBeEmagged, livingHealthMasterBase.brain);
 		}
 
 		public void NotifyPlayer(NetworkConnection recipient, bool clothItems = false)
