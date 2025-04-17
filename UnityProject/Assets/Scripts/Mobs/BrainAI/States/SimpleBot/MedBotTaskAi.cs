@@ -51,8 +51,11 @@ namespace Mobs.BrainAI.States.SimpleBot
 		}
 		protected override bool IsCurrentTaskValid()
 		{
-			if (creatureToHeal == false || creatureToHeal.OverallHealth < 0.95f * creatureToHeal.MaxHealth)
-				return false;
+			if (creatureToHeal == false || creatureToHeal.mobID == LivingHealthMaster.mobID) return false;
+			if (blackListedSpecies.Contains(creatureToHeal.InitialSpecies)) return false;
+
+			var damage = creatureToHeal.GetBruteBurnTotal();
+			if (damage >= 0f) return false;
 
 			Vector3 worldPos = creatureToHeal.gameObject.AssumedWorldPosServer();
 			return Vector3.Distance(worldPos, LivingHealthMaster.gameObject.AssumedWorldPosServer()) <= 1.5f;

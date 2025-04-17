@@ -117,7 +117,7 @@ namespace HealthV2
 		public Dictionary<Type, List<BodyPartFunctionality>> BodyOrganLookup = new Dictionary<Type, List<BodyPartFunctionality>>();
 
 		[field: SerializeField] public EmaggableMob EmaggableMob { get; private set; } = null;
-		[SerializeField] private List<PlayerHealthData> EmaggableRacesList = new List<PlayerHealthData>();
+		public List<PlayerHealthData> EmaggableRacesList = new List<PlayerHealthData>();
 
 		///<summary>
 		/// Fetch first or default system by type from the active systems on this living thing.
@@ -2344,8 +2344,6 @@ namespace HealthV2
 			InstantiateAndSetUp(raceBodyparts.Base.ArmRight);
 			InstantiateAndSetUp(raceBodyparts.Base.LegLeft);
 			InstantiateAndSetUp(raceBodyparts.Base.LegRight);
-
-			EmaggableMob.SetEmaggableState(EmaggableRacesList.Contains(raceBodyparts), brain);
 		}
 
 		public void InitialiseFromRaceData(PlayerHealthData raceBodyparts)

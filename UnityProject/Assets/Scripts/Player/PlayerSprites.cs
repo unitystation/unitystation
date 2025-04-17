@@ -511,6 +511,8 @@ namespace Player
 					}
 				}
 			}
+
+			livingHealthMasterBase.EmaggableMob.SetEmaggableState(livingHealthMasterBase.EmaggableRacesList.Contains(RaceBodyparts), livingHealthMasterBase.brain);
 		}
 
 		public void NotifyPlayer(NetworkConnection recipient, bool clothItems = false)

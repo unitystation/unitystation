@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Mobs.BrainAI.States.SimpleBot
 {
-	public class FindSimpleTaskAi : BrainMobState, ICanBeEmaggedMob, ICooldown
+	public class FindSimpleTaskAi : BrainMobState, ICanBeEmaggedMob
 	{
 		private Vector3Int targetCell;
 		private Matrix targetMatrix;
@@ -27,9 +27,7 @@ namespace Mobs.BrainAI.States.SimpleBot
 
 		[SerializeField] private List<BotDialogue> idleDialogue = new List<BotDialogue>();
 		[SerializeField] List<BotDialogue> idleEmaggedDialogue = new List<BotDialogue>();
-		[SerializeField] private float dialogueChancePercent = 10;
-
-		public float DefaultTime => 5f;
+		[SerializeField] private float dialogueChancePercent = 50;
 
 		private void Start()
 		{
@@ -58,16 +56,17 @@ namespace Mobs.BrainAI.States.SimpleBot
 		{
 			UnsubscribeToPathfinderEvents();
 			foundTarget = false;
-		}
-
-		public override void OnUpdateTick()
-		{
 			if (taskState == false) return;
 			if (DMMath.Prob(dialogueChancePercent))
 			{
 				BotDialogue toSay = taskState.IsEmagged ? idleEmaggedDialogue.PickRandom() : idleDialogue.PickRandom();
 				taskState.Speak(toSay);
 			}
+		}
+
+		public override void OnUpdateTick()
+		{
+			if (taskState == false) return;
 
 			if (IsStillTraversing()) return;
 

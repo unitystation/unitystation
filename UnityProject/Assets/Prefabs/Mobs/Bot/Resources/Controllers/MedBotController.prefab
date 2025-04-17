@@ -84,7 +84,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
+      propertyPath: idleDialogue.Array.data[0].transcription
+      value: Look at me! I am a chicken.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
       propertyPath: idleDialogue.Array.data[1].Transcription
+      value: I knew it! I should've been a plastic surgeon.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.data[1].transcription
       value: I knew it! I should've been a plastic surgeon.
       objectReference: {fileID: 0}
     - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
@@ -94,7 +104,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
+      propertyPath: idleDialogue.Array.data[2].transcription
+      value: An apple a day keep me away!
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
       propertyPath: idleDialogue.Array.data[3].Transcription
+      value: You are a good person!
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.data[3].transcription
       value: You are a good person!
       objectReference: {fileID: 0}
     - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
@@ -104,12 +124,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
+      propertyPath: idleEmaggedDialogue.Array.data[0].transcription
+      value: This hurts, my pain is real.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
       propertyPath: idleEmaggedDialogue.Array.data[1].Transcription
       value: I require assistance.
       objectReference: {fileID: 0}
     - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
+      propertyPath: idleEmaggedDialogue.Array.data[1].transcription
+      value: I require assistance.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
       propertyPath: idleEmaggedDialogue.Array.data[2].Transcription
+      value: There's always a catch. And then the best there is.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleEmaggedDialogue.Array.data[2].transcription
       value: There's always a catch. And then the best there is.
       objectReference: {fileID: 0}
     - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
@@ -245,7 +280,7 @@ MonoBehaviour:
       m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  taskPerformDuration: 5
+  taskPerformDuration: 3
   botLanguage: {fileID: 11400000, guid: 90699dd78f8cfad4e983185c4f67ae72, type: 2}
   stateExitDialogue:
   - audioSource:
@@ -256,7 +291,7 @@ MonoBehaviour:
         m_SubObjectGUID: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
-    Transcription: An apple a day keeps me away!
+    transcription: An apple a day keeps me away!
   - audioSource:
       AssetAddress: Assets/Prefabs/NPC/Bots/medbot/feelbetter.prefab
       AssetReference:
@@ -265,7 +300,7 @@ MonoBehaviour:
         m_SubObjectGUID: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
-    Transcription: Feel better soon!
+    transcription: Feel better soon!
   - audioSource:
       AssetAddress: Assets/Prefabs/NPC/Bots/medbot/youre_good.prefab
       AssetReference:
@@ -274,7 +309,7 @@ MonoBehaviour:
         m_SubObjectGUID: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
-    Transcription: You are a good person!
+    transcription: You are a good person!
   - audioSource:
       AssetAddress: Assets/Prefabs/NPC/Bots/medbot/thank_you.prefab
       AssetReference:
@@ -283,7 +318,7 @@ MonoBehaviour:
         m_SubObjectGUID: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
-    Transcription: Thank you!
+    transcription: Thank you!
   blackListedSpecies:
   - {fileID: 11400000, guid: 878d88bc2a64d75429f00a1208902607, type: 2}
   - {fileID: 11400000, guid: e9ff315a55db70441bed9631f79432e4, type: 2}

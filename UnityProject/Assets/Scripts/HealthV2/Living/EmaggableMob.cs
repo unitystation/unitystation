@@ -21,10 +21,9 @@ namespace HealthV2.Living
 
 		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
-			if (_canBeEmagged == false) return false;
+			if (_canBeEmagged == false || _connectedBrain == false) return false;
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (interaction.Intent != Intent.Help) return false;
-			if (interaction.TargetObject == interaction.Performer) return false;
 			if (interaction.UsedObject == null) return false;
 			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Emag) == false) return false;
 
@@ -36,7 +35,11 @@ namespace HealthV2.Living
 			if (Cooldowns.TryStart(interaction, this, side: NetworkSide.Server) == false) return;
 
 			if (Vector3.Distance(interaction.Performer.gameObject.AssumedWorldPosServer(), _connectedBrain.gameObject.AssumedWorldPosServer()) > 2f) return;
-			if (_connectedBrain.TryGetComponent<ICanBeEmaggedMob>(out var emaggableMob)) emaggableMob.EmagMob();
+			if (_connectedBrain.gameObject.TryGetComponent<ICanBeEmaggedMob>(out var emaggableMob))
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"You successfully sabotage the {gameObject.ExpensiveName()}");
+				emaggableMob.EmagMob();
+			}
 		}
 
 		public string HoverTip()
