@@ -35,17 +35,17 @@ public static class SweetExtensions
 	}
 	public static ItemAttributesV2 Item(this GameObject go)
 	{
-		return go.OrNull()?.GetComponent<ItemAttributesV2>();
+		return go.OrNull()?.GetComponentCustom<ItemAttributesV2>();
 	}
 
 	public static ObjectAttributes Object(this GameObject go)
 	{
-		return go.OrNull()?.GetComponent<ObjectAttributes>();
+		return go.OrNull()?.GetComponentCustom<ObjectAttributes>();
 	}
 
 	public static Attributes AttributesOrNull(this GameObject go)
 	{
-		return go.OrNull()?.GetComponent<Attributes>();
+		return go.OrNull()?.GetComponentCustom<Attributes>();
 	}
 
 	public static bool HasComponent<T>(this GameObject go) where T : Component

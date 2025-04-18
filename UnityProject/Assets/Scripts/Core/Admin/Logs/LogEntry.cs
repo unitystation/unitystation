@@ -19,6 +19,8 @@ namespace Core.Admin.Logs
 		public static LogInfo GetLogInfo(this GameObject go)
 		{
 
+			var LogInfo = new LogInfo();
+
 			var StoredIn = go.GetRootGameObject();
 
 			PlayerInfo WasControlledByPlayer = null;
@@ -31,9 +33,20 @@ namespace Core.Admin.Logs
 				WasControlledByPlayer = StoredIn.GetComponentCustom<PlayerScript>()?.PlayerInfo;
 			}
 
+			LogInfo.CoreObject = go;
+			LogInfo.WasControlledByPlayer = WasControlledByPlayer;
+			LogInfo.WasStoredInObject = StoredIn;
+			LogInfo.Info = go.ExpensiveName();
+			LogInfo.WasAtPositionWorld = go.AssumedWorldPosServer();
 
+			return LogInfo;
+		}
 
-			return GetRootGameObject(go, IsInGameItem).transform.position;
+		public static LogInfo GetLogInfo(this string Info)
+		{
+			var LogInfo = new LogInfo();
+			LogInfo.Info = Info;
+			return LogInfo;
 		}
 
 	}
@@ -47,6 +60,7 @@ namespace Core.Admin.Logs
 		public Vector3 WasAtPositionWorld;
 		public string Info;
 		public string SerialisedInfo;
+
 	}
 
 	public class HumanLogEntry
