@@ -38,7 +38,7 @@ namespace Core.Factories
 			{
 				//Do init stuff
 				//TODO: Make only ONE bloodTile prefab that can handle all sizes.
-				smallBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("SmallBloodSplat");
+				smallBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("_BloodSplatBase");
 				mediumBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("MediumBloodSplat");
 				largeBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("LargeBloodSplat");
 				waterTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("WaterSplat");
@@ -47,9 +47,9 @@ namespace Core.Factories
 
 				footprintTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("FootPrints");
 
-				smallXenoBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("SmallXenoBloodSplat");
-				medXenoBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("MedXenoBloodSplat");
-				largeXenoBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("LargeXenoBloodSplat");
+				smallXenoBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("SmallBloodSplatXeno");
+				medXenoBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("MediumBloodSplatXeno");
+				largeXenoBloodTile = CustomNetworkManager.Instance.GetSpawnablePrefabFromName("LargeBloodSplatXeno");
 				lubeTile= CustomNetworkManager.Instance.GetSpawnablePrefabFromName("LubeSplat");
 			}
 		}

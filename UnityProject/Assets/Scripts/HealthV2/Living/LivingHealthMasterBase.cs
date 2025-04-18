@@ -15,6 +15,7 @@ using Core.Admin.Logs;
 using Core.Chat;
 using Core.Utils;
 using Health.Sickness;
+using HealthV2.Living;
 using HealthV2.Living.CirculatorySystem;
 using HealthV2.Living.PolymorphicSystems;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
@@ -115,7 +116,7 @@ namespace HealthV2
 
 		public Dictionary<Type, List<BodyPartFunctionality>> BodyOrganLookup = new Dictionary<Type, List<BodyPartFunctionality>>();
 
-
+		[field: SerializeField] public EmaggableMob EmaggableMob { get; private set; } = null;
 
 		///<summary>
 		/// Fetch first or default system by type from the active systems on this living thing.
@@ -1019,6 +1020,18 @@ namespace HealthV2
 			{
 				if (implant.DamageContributesToOverallHealth == false) continue;
 				toReturn -= implant.Burn;
+			}
+
+			return toReturn;
+		}
+
+		public float GetBruteBurnTotal()
+		{
+			float toReturn = 0;
+			foreach (var implant in BodyPartList)
+			{
+				if (implant.DamageContributesToOverallHealth == false) continue;
+				toReturn -= (implant.Burn + implant.Brute);
 			}
 
 			return toReturn;

@@ -319,6 +319,7 @@ public class InteractableStorage : NetworkBehaviour, IClientInteractable<HandAct
 		if (allowedToInteract == false) return false;
 		// Use default interaction checks
 		if (DefaultWillInteract.Default(interaction, side) == false) return false;
+		if (interaction.Intent != Intent.Help) return false;
 
 		if (interaction.TargetObject != null && interaction.TargetObject.HasComponent<DisposalBin>()) return false;
 
