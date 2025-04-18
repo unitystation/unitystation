@@ -14,7 +14,6 @@ using Core;
 using Core.Admin.Logs;
 using Core.Chat;
 using Core.Utils;
-using Health.Sickness;
 using HealthV2.Living.CirculatorySystem;
 using HealthV2.Living.PolymorphicSystems;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
@@ -41,7 +40,6 @@ namespace HealthV2
 	/// Equivalent to the old LivingHealthBehaviour
 	/// </Summary>
 	[RequireComponent(typeof(HealthStateController))]
-	[RequireComponent(typeof(MobSickness))]
 	public abstract class LivingHealthMasterBase : NetworkBehaviour, IFireExposable, IExaminable, IFullyHealable,
 		IAreaReactionBase, IRightClickable, IServerSpawn, IHoverTooltip, IChargeable
 	{
@@ -273,16 +271,6 @@ namespace HealthV2
 			return State;
 		}
 
-		/// <summary>
-		/// Current sicknesses status of the creature and it's current stage
-		/// </summary>
-		public MobSickness mobSickness { get; private set; } = null;
-
-		/// <summary>
-		/// List of sicknesses that creature has gained immunity to
-		/// </summary>
-		private List<Sickness> immunedSickness = new List<Sickness>();
-
 		public PlayerScript playerScript;
 
 		public event Action<DamageType, GameObject, float> OnTakeDamageType;
@@ -365,7 +353,6 @@ namespace HealthV2
 			CirculatorySystem = GetComponent<CirculatorySystemBase>();
 			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 			healthStateController = GetComponent<HealthStateController>();
-			mobSickness = GetComponent<MobSickness>();
 			playerScript = GetComponent<PlayerScript>();
 			BodyPartStorage.ServerInventoryItemSlotSet += BodyPartTransfer;
 			BodyPartStorage.SetRegisterPlayer(GetComponent<RegisterPlayer>());
@@ -750,9 +737,6 @@ namespace HealthV2
 				DeathPeriodicUpdate();
 				return;
 			}
-
-			//Sickness logic should not be triggered if the player is dead.
-			mobSickness.TriggerCustomSicknessLogic();
 		}
 
 		#region Mutations
@@ -1902,55 +1886,6 @@ namespace HealthV2
 			}
 
 			return healthString.ToString();
-		}
-
-		#endregion
-
-		#region Sickness
-
-		/// <summary>
-		/// Adds a sickness to the creature if it doesn't already have it and isn't dead or immune
-		/// </summary>
-		/// <param name="sickness">The sickness to add</param>
-		public void AddSickness(Sickness sickness)
-		{
-			if (IsDead) return;
-
-			var Race = playerScript.characterSettings.GetRaceSo();
-
-			if (sickness.ImmuneRaces.Contains(Race)) return;
-
-			if ((mobSickness.HasSickness(sickness) == false) && (immunedSickness.Contains(sickness) == false))
-				mobSickness.Add(sickness, Time.time);
-			sickness.IsOnCooldown = false;
-		}
-
-		/// <summary>
-		/// Removes the specified sickness from the creature, healing it
-		/// The creature will not be immune, to immunize it as well use ImmuneSickness
-		/// </summary>
-		/// <param name="sickness">The sickness to remove</param>
-		/// <remarks>Thread safe</remarks>
-		public void RemoveSickness(Sickness sickness)
-		{
-			SicknessAffliction sicknessAffliction =
-				mobSickness.sicknessAfflictions.FirstOrDefault(p => p.Sickness == sickness);
-
-			if (sicknessAffliction != null)
-				sicknessAffliction.Heal();
-		}
-
-		/// <summary>
-		/// Removes the specified sickness from the creature, healing it.
-		/// Also immunizes it for the current round, to only cure it use RemoveSickness.
-		/// </summary>
-		/// <param name="sickness">The sickness to remove</param>
-		public void ImmuneSickness(Sickness sickness)
-		{
-			RemoveSickness(sickness);
-
-			if (!immunedSickness.Contains(sickness))
-				immunedSickness.Add(sickness);
 		}
 
 		#endregion

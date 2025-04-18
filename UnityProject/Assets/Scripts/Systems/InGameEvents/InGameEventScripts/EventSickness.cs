@@ -1,5 +1,4 @@
-﻿using Health.Sickness;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Linq;
 using Managers;
 using Strings;
@@ -35,11 +34,14 @@ namespace InGameEvents
 
 		private static void SpawnSickness(string serializedEventParameters)
 		{
+			//TODO: Reimplent sickness event.
+
 			SicknessEventParameters sicknessEventParameters;
 
 			//If null means its a server random event so has no default parameters
 			//TODO: when infection system is more deadly change random effects based on player numbers
 			//TODO: eg more players == more chance of deadlier disease?
+			/*
 			if (serializedEventParameters == null)
 			{
 				sicknessEventParameters = new SicknessEventParameters()
@@ -65,7 +67,7 @@ namespace InGameEvents
 					sicknessResult.GameObject.GetComponent<Sickness>().SetCure(newSick.CureForSickness);
 					player.Script.playerHealth.AddSickness(sicknessResult.GameObject.GetComponent<Sickness>());
 				}
-			}
+			}*/
 		}
 	}
 }

@@ -1,5 +1,4 @@
 using HealthV2;
-using Health.Sickness;
 using UnityEngine;
 
 namespace Systems.Research
@@ -15,6 +14,10 @@ namespace Systems.Research
 
 		public override void OnEffect(PlayerScript player, BodyPart part = null)
 		{
+			//TODO: Reimplement this to give the player space cancer
+			//TODO: Give artifacts a custom sickness 'Artifact Sickness' they give instead of Space Cancer
+
+			/*
 			if(sicknessToInfect.TryGetComponent<Sickness>(out var sickness) == false) return;
 
 			if (player.playerHealth.mobSickness.HasSickness(sickness)) return;
@@ -27,7 +30,7 @@ namespace Systems.Research
 
 			sicknessResult.GameObject.GetComponent<Sickness>().SetCure(newSick.CureForSickness);
 
-			player.playerHealth.AddSickness(sicknessResult.GameObject.GetComponent<Sickness>());			
+			player.playerHealth.AddSickness(sicknessResult.GameObject.GetComponent<Sickness>());		*/
 		}
 	}
 }

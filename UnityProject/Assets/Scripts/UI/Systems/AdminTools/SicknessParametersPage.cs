@@ -1,5 +1,4 @@
 ﻿using AdminCommands;
-using Health.Sickness;
 using InGameEvents;
 using System;
 using System.Collections.Generic;
@@ -29,10 +28,11 @@ namespace AdminTools
 
 			List<Dropdown.OptionData> optionDatas = new List<Dropdown.OptionData>();
 
-			foreach (Sickness sickness in SicknessManager.Instance.Sicknesses)
+			//TODO: Reimplement Sickness Parameter Page
+			/*foreach (Sickness sickness in SicknessManager.Instance.Sicknesses)
 			{
 				optionDatas.Add(new Dropdown.OptionData(sickness.SicknessName));
-			}
+			}*/
 
 			sicknessDropdown.AddOptions(optionDatas);
 		}

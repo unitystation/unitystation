@@ -4,6 +4,7 @@ using System.Text;
 using HealthV2;
 using Logs;
 using Newtonsoft.Json;
+using Systems.Botany;
 using Systems.Character;
 using Random = UnityEngine.Random;
 
@@ -23,7 +24,7 @@ namespace Objects.Medical
 		public uint mindID; // New field for mindID
 		public Mind mind;
 		public List<BodyPartRecord> surfaceBodyParts = new();
-		public List<string> sicknessList = new();
+		public List<Reagent> sicknessList = new();
 
 		public CloningRecord()
 		{
@@ -50,8 +51,9 @@ namespace Objects.Medical
 			}
 
 			sicknessList.Clear();
-			foreach (var sickness in livingHealth.mobSickness.sicknessAfflictions)
-				sicknessList.Add(sickness.Sickness.SicknessName);
+			//TODO: Reimplement cloning disease
+			/*foreach (var sickness in livingHealth.mobSickness.sicknessAfflictions)
+				sicknessList.Add(sickness.Sickness.SicknessName);*/
 		}
 
 		public string Copy()
