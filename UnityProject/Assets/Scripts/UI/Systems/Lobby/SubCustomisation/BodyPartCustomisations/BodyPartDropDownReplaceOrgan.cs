@@ -78,14 +78,18 @@ namespace UI.CharacterCreator
 
 			var spawned = Spawn.ServerPrefab(bodyPart.OptionalReplacementOrgan[ActualIndex].gameObject, spawnManualContents: true);
 
-			var Storage = bodyPart.ContainedIn;
+
 
 			var IPlayerPossessable = bodyPart.GetComponent<IPlayerPossessable>();
 
-
-
-
-			Storage.OrganStorage.ServerTryAdd(spawned.GameObject);
+			if (bodyPart.ContainedIn)
+			{
+				bodyPart.ContainedIn.OrganStorage.ServerTryAdd(spawned.GameObject);
+			}
+			else
+			{
+				bodyPart.HealthMaster.BodyPartStorage.ServerTryAdd(spawned.GameObject);
+			}
 
 			if (IPlayerPossessable != null)
 			{
@@ -101,7 +105,15 @@ namespace UI.CharacterCreator
 				}
 			}
 
-			Storage.OrganStorage.ServerTryRemove(bodyPart.gameObject);
+			if (bodyPart.ContainedIn)
+			{
+				bodyPart.ContainedIn.OrganStorage.ServerTryRemove(bodyPart.gameObject);
+			}
+			else
+			{
+				bodyPart.HealthMaster.BodyPartStorage.ServerTryRemove(bodyPart.gameObject);
+			}
+	
 			_ = Despawn.ServerSingle(bodyPart.gameObject);
 
 		}

@@ -13,7 +13,7 @@ namespace Mobs.BrainAI
 	{
 		[field: ReadOnly, SerializeField] public List<BrainMobState> CurrentActiveStates { get; private set; } = new List<BrainMobState>();
 		[field: SerializeField] public List<BrainMobState> MobStates { get; private set; } = new List<BrainMobState>();
-		[SerializeField] private BrainMobState thinkingState;
+		[field: SerializeField] public BrainMobState thinkingState { get; private set; }
 
 		public Brain Brain;
 		public MobTraversal Traversal => Brain.Traversal;

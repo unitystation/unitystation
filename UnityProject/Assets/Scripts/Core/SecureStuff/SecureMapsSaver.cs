@@ -1224,7 +1224,9 @@ namespace SecureStuff
 			if (Field.FieldType.IsGenericType &&
 			    Field.FieldType.GetGenericTypeDefinition() == typeof(Dictionary<,>))
 				return; //skipping all dictionaries For now
+			
 			if (Field.FieldType == typeof(System.Action)) return;
+
 			if (Field.FieldType.BaseType == typeof(UnityEngine.Events.UnityEventBase))
 				return; //TODO Handle separately Since it is same as Object references
 

@@ -45,6 +45,9 @@ public class RaceHealthData
 	public GameObject MeatProduce;
 	public GameObject SkinProduce;
 	public ItemTrait SkinningItemTrait;
+
+	public bool CanBeEmagged = false;
+
 	[FormerlySerializedAs("CanShowUpInTheCharacterCreatorScreen")] public bool CanBePlayerChosen = true;
 
 	public SpriteDataSO PreviewSprite;

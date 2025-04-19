@@ -1,8 +1,10 @@
+using AddressableReferences;
 using HealthV2;
 using Logs;
 using Mobs.AI;
 using Systems.Character;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Mobs
 {
@@ -56,5 +58,12 @@ namespace Mobs
 			Possession.PlayerScriptVisible.SetcharacterSettings(sheet);
 			Possession.playerSprites.OnCharacterSettingsChange(sheet);
 		}
+	}
+
+	[System.Serializable]
+	public struct AudibleMobDialogue
+	{
+		public AddressableAudioSource audioSource;
+		[FormerlySerializedAs("Transcription")] public string transcription;
 	}
 }
