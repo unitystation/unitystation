@@ -17,12 +17,10 @@ namespace UI.Systems.AdminTools.AdminLogs
 		[SerializeField] private TMP_Text logTime = null;
 		private LogEntry entry = null;
 		public LogEntry StoredLogEntry => entry;
-		public string LogText => entry?.Log;
-
 		public void Setup(LogEntry newEntry)
 		{
 			entry = newEntry;
-			logInfo.text = entry.Log;
+			//logInfo.text = entry.Log;
 			logTime.text = newEntry.LogTime.ToLocalTime().ToLongTimeString();
 			gameObject.SetActive(true);
 			//gibButton.onClick.AddListener(GibRequest);
@@ -36,21 +34,21 @@ namespace UI.Systems.AdminTools.AdminLogs
 			var spawned =
 				CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
 
-			var target = spawned[AdminLogsManager.GetPerpIdFromString(entry.Perpetrator)];
-			if (target == null) return;
+			//var target = spawned[AdminLogsManager.GetPerpIdFromString(entry.Perpetrator)];
+		//	if (target == null) return;
 
 			if (PlayerManager.LocalPlayerScript.IsGhost == false)
 			{
 				teleportButton.interactable = false;
 				PlayerManager.LocalMindScript.CmdAGhost();
 			}
-			PlayerManager.LocalPlayerObject.GetComponent<GhostMove>()
-				.CMDSetServerPosition(target.transform.position);
+			//PlayerManager.LocalPlayerObject.GetComponent<GhostMove>()
+			//	.CMDSetServerPosition(target.transform.position);
 		}
 
 		public string HoverTip()
 		{
-			return $"Perpetrator: {entry.Perpetrator}\n" +
+			return $"Perpetrator:\n" +
 			       $"Time: {entry.LogTime.ToLongTimeString()} UTC\n" +
 			       $"Category: {entry.Category}\n" +
 			       $"Severity: {entry.LogImportance}\n";

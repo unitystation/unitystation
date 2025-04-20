@@ -31,6 +31,7 @@ namespace Core.Admin.Logs
 		public static void AddNewLog(GameObject Tracking1, string info1, GameObject Tracking2,string info2, GameObject Tracking3,string info3 ,LogCategory category,
 			Severity severity = Severity.MISC)
 		{
+			if (CustomNetworkManager.IsServer == false) return;
 			AddNewLogInternal(new List<LogInfo>() {Tracking1.GetLogInfo(), info1.GetLogInfo(), Tracking2.GetLogInfo(), info2.GetLogInfo(), Tracking3.GetLogInfo(), info3.GetLogInfo()}, category, severity);
 
 		}
@@ -38,6 +39,7 @@ namespace Core.Admin.Logs
 		public static void AddNewLog(GameObject Tracking1, string info1, GameObject Tracking2,string info2, GameObject Tracking3,LogCategory category,
 			Severity severity = Severity.MISC)
 		{
+			if (CustomNetworkManager.IsServer == false) return;
 			AddNewLogInternal(new List<LogInfo>() {Tracking1.GetLogInfo(), info1.GetLogInfo(), Tracking2.GetLogInfo(), info2.GetLogInfo(), Tracking3.GetLogInfo()}, category, severity);
 		}
 
@@ -45,6 +47,7 @@ namespace Core.Admin.Logs
 		public static void AddNewLog(GameObject Tracking1, string info1, GameObject Tracking2,string info2,LogCategory category,
 			Severity severity = Severity.MISC)
 		{
+			if (CustomNetworkManager.IsServer == false) return;
 			AddNewLogInternal(new List<LogInfo>() {Tracking1.GetLogInfo(), info1.GetLogInfo(), Tracking2.GetLogInfo(), info2.GetLogInfo()}, category, severity);
 		}
 
@@ -52,12 +55,14 @@ namespace Core.Admin.Logs
 		public static void AddNewLog(GameObject Tracking1, string info1, GameObject Tracking2,LogCategory category,
 			Severity severity = Severity.MISC)
 		{
+			if (CustomNetworkManager.IsServer == false) return;
 			AddNewLogInternal(new List<LogInfo>() {Tracking1.GetLogInfo(), info1.GetLogInfo(), Tracking2.GetLogInfo()}, category, severity);
 		}
 
 		public static void AddNewLog(string info1, GameObject Tracking1,string info2, GameObject Tracking2,string info3, GameObject Tracking3, LogCategory category,
 			Severity severity = Severity.MISC)
 		{
+			if (CustomNetworkManager.IsServer == false) return;
 			AddNewLogInternal(new List<LogInfo>() {info1.GetLogInfo(), Tracking1.GetLogInfo(), info2.GetLogInfo(), Tracking2.GetLogInfo(), info3.GetLogInfo(),  Tracking3.GetLogInfo() }, category, severity);
 
 		}
@@ -66,12 +71,14 @@ namespace Core.Admin.Logs
 		public static void AddNewLog(string info1, GameObject Tracking1,string info2, GameObject Tracking2,string info3, LogCategory category,
 			Severity severity = Severity.MISC)
 		{
+			if (CustomNetworkManager.IsServer == false) return;
 			AddNewLogInternal(new List<LogInfo>() {info1.GetLogInfo(), Tracking1.GetLogInfo(), info2.GetLogInfo(), Tracking2.GetLogInfo(), info3.GetLogInfo()}, category, severity);
 		}
 
 		public static void AddNewLog(string info1, GameObject Tracking1,string info2, GameObject Tracking2, LogCategory category,
 			Severity severity = Severity.MISC)
 		{
+			if (CustomNetworkManager.IsServer == false) return;
 			AddNewLogInternal(new List<LogInfo>() {info1.GetLogInfo(), Tracking1.GetLogInfo(), info2.GetLogInfo(), Tracking2.GetLogInfo()}, category, severity);
 		}
 
@@ -79,6 +86,7 @@ namespace Core.Admin.Logs
 		public static void AddNewLog(string info1, GameObject Tracking1,string info2, LogCategory category,
 			Severity severity = Severity.MISC)
 		{
+			if (CustomNetworkManager.IsServer == false) return;
 			AddNewLogInternal(new List<LogInfo>() {info1.GetLogInfo(), Tracking1.GetLogInfo(), info2.GetLogInfo()}, category, severity);
 		}
 
@@ -86,6 +94,7 @@ namespace Core.Admin.Logs
 		public static void AddNewLog(string info1, GameObject Tracking1, LogCategory category,
 			Severity severity = Severity.MISC)
 		{
+			if (CustomNetworkManager.IsServer == false) return;
 			AddNewLogInternal(new List<LogInfo>() {info1.GetLogInfo(), Tracking1.GetLogInfo()}, category, severity);
 		}
 
@@ -93,22 +102,24 @@ namespace Core.Admin.Logs
 		public static void AddNewLog(string info1, LogCategory category,
 			Severity severity = Severity.MISC)
 		{
+			if (CustomNetworkManager.IsServer == false) return;
 			AddNewLogInternal(new List<LogInfo>() {info1.GetLogInfo()}, category, severity);
 		}
 
 		public static void AddNewLog(GameObject Tracking1, string info1, LogCategory category, Severity severity = Severity.MISC)
 		{
+			if (CustomNetworkManager.IsServer == false) return;
 			AddNewLogInternal(new List<LogInfo>() {Tracking1.GetLogInfo(), info1.GetLogInfo()}, category, severity);
 		}
 		private static void AddNewLogInternal(List<LogInfo> Info,  LogCategory category, Severity severity = Severity.MISC)
 		{
-			if (CustomNetworkManager.IsServer == false) return;
 
 			LogEntry entry = new LogEntry
 			{
 				AdminActions = new List<AdminActionToTake>(),
 				Log = Info,
 				LogImportance = severity,
+				Category = category
 			};
 			AddNewLog(entry);
 		}

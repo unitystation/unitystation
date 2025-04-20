@@ -16,7 +16,7 @@ namespace Core.Admin.Logs.Stores
 {
 	public class AdminLogsStorage : SingletonManager<AdminLogsStorage>, IAdminStorage
 	{
-		private Queue<HumanLogEntry> entries = new Queue<HumanLogEntry>();
+		private Queue<LongTermLogEntry> entries = new Queue<LongTermLogEntry>();
 		private bool readyForQueue = true;
 
 		public const int ENTRY_PAGE_SIZE = 45;
@@ -41,7 +41,7 @@ namespace Core.Admin.Logs.Stores
 		private void QueueLog(LogEntry newEntry)
 		{
 			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound) return;
-			entries.Enqueue(new HumanLogEntry(newEntry));
+			entries.Enqueue(new LongTermLogEntry(newEntry));
 		}
 
 		public async Task Store(object entry)

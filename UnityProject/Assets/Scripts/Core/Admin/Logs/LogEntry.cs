@@ -63,7 +63,7 @@ namespace Core.Admin.Logs
 
 	}
 
-	public class HumanLogEntry
+	public class LongTermLogEntry
 	{
 		public DateTime LogTime;
 		public string Log;
@@ -71,13 +71,9 @@ namespace Core.Admin.Logs
 		public string Perpetrator;
 		public string Category;
 
-		public HumanLogEntry(LogEntry entry)
+		public LongTermLogEntry(LogEntry entry)
 		{
-			LogTime = entry.LogTime;
-			Log = entry.Log;
-			LogImportance = entry.LogImportance.ToString();
-			Perpetrator = entry.Perpetrator?.ToString();
-			Category = entry.Category.ToString();
+			throw new NotImplementedException();
 		}
 	}
 
