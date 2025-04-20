@@ -92960,15 +92960,6 @@
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_33┼102┼0┼@0@APC@0"
                     }
                   ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Up_By0"
-                    }
-                  ]
                 }
               ],
               "Children": [
@@ -93287,8 +93278,8 @@
             "LocalPRS": "33.03┼111.83┼0┼"
           },
           {
-            "GitID": "8gzr!x7_Yea@71L--kC5_33.04┼95.2┼0┼",
-            "PrefabID": "8gzr!x7_Yea@71L--kC5",
+            "GitID": "yZZOh_oxUsRnJuf$HNg8_33.04┼95.2┼0┼",
+            "PrefabID": "yZZOh_oxUsRnJuf$HNg8",
             "Name": "HandPick (1)",
             "LocalPRS": "33.04┼95.2┼0┼"
           },
@@ -94457,6 +94448,69 @@
             }
           },
           {
+            "GitID": "c21551dd992a57349973e4b5af103ca6_36┼70┼0┼",
+            "PrefabID": "c21551dd992a57349973e4b5af103ca6",
+            "NameMatches": true,
+            "Name": "SecurityCamera",
+            "LocalPRS": "36┼70┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "UniversalObjectPhysics@0",
+                  "Data": [
+                    {
+                      "Name": "SnapToGridOnStart",
+                      "Data": "False"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_37┼70┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "SecurityCamera@0",
+                  "Data": [
+                    {
+                      "Name": "cameraName",
+                      "Data": "Teleporter"
+                    },
+                    {
+                      "Name": "motionSensingCamera",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                },
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_36┼70┼0┼",
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
             "NameMatches": true,
@@ -94856,68 +94910,6 @@
             "NameMatches": true,
             "Name": "EODClosetScience",
             "LocalPRS": "36┼113┼0┼"
-          },
-          {
-            "GitID": "c21551dd992a57349973e4b5af103ca6_36.03┼69.67┼0┼",
-            "PrefabID": "c21551dd992a57349973e4b5af103ca6",
-            "Name": "SecurityCamera (1)",
-            "LocalPRS": "36.03┼69.67┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "UniversalObjectPhysics@0",
-                  "Data": [
-                    {
-                      "Name": "SnapToGridOnStart",
-                      "Data": "False"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_37┼70┼0┼@0@APC@0"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "SecurityCamera@0",
-                  "Data": [
-                    {
-                      "Name": "cameraName",
-                      "Data": "Teleporter"
-                    },
-                    {
-                      "Name": "motionSensingCamera",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Left_By90"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "Active": false,
-                  "ClassDatas": []
-                },
-                {
-                  "ID": "0,2",
-                  "Active": false,
-                  "ClassDatas": []
-                }
-              ]
-            }
           },
           {
             "GitID": "567c92f423be65e49becad1f3fc2dfb9_36.16┼98.83┼0┼",
@@ -95343,7 +95335,7 @@
                     },
                     {
                       "Name": "connectedDevices#11",
-                      "Data": "c21551dd992a57349973e4b5af103ca6_36.03┼69.67┼0┼@0@APCPoweredDevice@0"
+                      "Data": "c21551dd992a57349973e4b5af103ca6_36┼70┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#10",
@@ -97628,6 +97620,26 @@
             }
           },
           {
+            "GitID": "5425ee650c49e0849b4bed132cfb588f_40┼117┼0┼",
+            "PrefabID": "5425ee650c49e0849b4bed132cfb588f",
+            "NameMatches": true,
+            "Name": "TinyFan",
+            "LocalPRS": "40┼117┼0┼0↔0↔1↔",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "79cea07a5f8e66f49a554df1a003ecba_40┼117┼0┼",
             "PrefabID": "79cea07a5f8e66f49a554df1a003ecba",
             "NameMatches": true,
@@ -98777,13 +98789,30 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
           {
             "GitID": "ddcfc3ab784dec1419565255774956c5_42┼90┼0┼",
             "PrefabID": "ddcfc3ab784dec1419565255774956c5",
-            "Name": "WinDoorLeft (1)",
+            "NameMatches": true,
+            "Name": "WinDoorLeft",
             "LocalPRS": "42┼90┼0┼",
             "Object": {
               "ClassDatas": [
@@ -98808,6 +98837,20 @@
               ],
               "Children": [
                 {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -98816,6 +98859,90 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Robotics"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,3",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,4",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,5",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,6",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,7",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
                         }
                       ]
                     }
@@ -100843,7 +100970,8 @@
           {
             "GitID": "cbe919cf00f84254f83d474582798520_44┼107┼0┼",
             "PrefabID": "cbe919cf00f84254f83d474582798520",
-            "Name": "SecureWinDoorRight (1)",
+            "NameMatches": true,
+            "Name": "SecureWinDoorRight",
             "LocalPRS": "44┼107┼0┼",
             "Object": {
               "ClassDatas": [
@@ -100868,7 +100996,8 @@
           {
             "GitID": "cbe919cf00f84254f83d474582798520_44.001┼107┼0┼",
             "PrefabID": "cbe919cf00f84254f83d474582798520",
-            "Name": "SecureWinDoorRight (4)",
+            "NameMatches": true,
+            "Name": "SecureWinDoorRight",
             "LocalPRS": "44.001┼107┼0┼",
             "Object": {
               "ClassDatas": [
@@ -100887,6 +101016,106 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,3",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,4",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,5",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,6",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,7",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -102674,6 +102903,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -103798,7 +104043,8 @@
           {
             "GitID": "cbe919cf00f84254f83d474582798520_47┼107┼0┼",
             "PrefabID": "cbe919cf00f84254f83d474582798520",
-            "Name": "SecureWinDoorRight (2)",
+            "NameMatches": true,
+            "Name": "SecureWinDoorRight",
             "LocalPRS": "47┼107┼0┼",
             "Object": {
               "ClassDatas": [
@@ -103817,7 +104063,8 @@
           {
             "GitID": "cbe919cf00f84254f83d474582798520_47.001┼107┼0┼",
             "PrefabID": "cbe919cf00f84254f83d474582798520",
-            "Name": "SecureWinDoorRight (5)",
+            "NameMatches": true,
+            "Name": "SecureWinDoorRight",
             "LocalPRS": "47.001┼107┼0┼",
             "Object": {
               "ClassDatas": [
@@ -103836,6 +104083,106 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,3",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,4",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,5",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,6",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,7",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -103895,7 +104242,8 @@
           {
             "GitID": "6fa1bf6a566af2f479f551f9bb604178_48┼36┼0┼",
             "PrefabID": "6fa1bf6a566af2f479f551f9bb604178",
-            "Name": "SecureWinDoorLeft (2)",
+            "NameMatches": true,
+            "Name": "SecureWinDoorLeft",
             "LocalPRS": "48┼36┼0┼",
             "Object": {
               "ClassDatas": [
@@ -103914,6 +104262,106 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,3",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,4",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,5",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,6",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,7",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -104110,6 +104558,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -104486,7 +104950,8 @@
           {
             "GitID": "ddcfc3ab784dec1419565255774956c5_49┼69┼0┼",
             "PrefabID": "ddcfc3ab784dec1419565255774956c5",
-            "Name": "WinDoorLeft (4)",
+            "NameMatches": true,
+            "Name": "WinDoorLeft",
             "LocalPRS": "49┼69┼0┼",
             "Object": {
               "ClassDatas": [
@@ -104511,6 +104976,20 @@
               ],
               "Children": [
                 {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -104519,6 +104998,90 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Cargo"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,3",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,4",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,5",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,6",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,7",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
                         }
                       ]
                     }
@@ -105053,7 +105616,8 @@
           {
             "GitID": "cbe919cf00f84254f83d474582798520_50┼107┼0┼",
             "PrefabID": "cbe919cf00f84254f83d474582798520",
-            "Name": "SecureWinDoorRight (3)",
+            "NameMatches": true,
+            "Name": "SecureWinDoorRight",
             "LocalPRS": "50┼107┼0┼",
             "Object": {
               "ClassDatas": [
@@ -105072,7 +105636,8 @@
           {
             "GitID": "cbe919cf00f84254f83d474582798520_50.001┼107┼0┼",
             "PrefabID": "cbe919cf00f84254f83d474582798520",
-            "Name": "SecureWinDoorRight (6)",
+            "NameMatches": true,
+            "Name": "SecureWinDoorRight",
             "LocalPRS": "50.001┼107┼0┼",
             "Object": {
               "ClassDatas": [
@@ -105091,6 +105656,106 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,3",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,4",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,5",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,6",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,7",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -107088,6 +107753,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -107440,7 +108121,8 @@
           {
             "GitID": "c21551dd992a57349973e4b5af103ca6_55┼128┼0┼",
             "PrefabID": "c21551dd992a57349973e4b5af103ca6",
-            "Name": "SecurityCamera (1)",
+            "NameMatches": true,
+            "Name": "SecurityCamera",
             "LocalPRS": "55┼128┼0┼",
             "Object": {
               "ClassDatas": [
@@ -107605,6 +108287,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -107794,7 +108492,8 @@
           {
             "GitID": "6fa1bf6a566af2f479f551f9bb604178_56┼57┼0┼",
             "PrefabID": "6fa1bf6a566af2f479f551f9bb604178",
-            "Name": "SecureWinDoorLeft (3)",
+            "NameMatches": true,
+            "Name": "SecureWinDoorLeft",
             "LocalPRS": "56┼57┼0┼",
             "Object": {
               "ClassDatas": [
@@ -107819,6 +108518,20 @@
               ],
               "Children": [
                 {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -107827,6 +108540,90 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Cargo"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,3",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,4",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,5",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,6",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,7",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
                         }
                       ]
                     }
@@ -108992,6 +109789,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -110630,6 +111443,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -110844,6 +111673,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -111376,6 +112221,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -111392,6 +112253,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -111414,6 +112291,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -111430,6 +112323,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -111452,13 +112361,30 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
           {
             "GitID": "ddcfc3ab784dec1419565255774956c5_61┼28┼0┼",
             "PrefabID": "ddcfc3ab784dec1419565255774956c5",
-            "Name": "WinDoorLeft (1)",
+            "NameMatches": true,
+            "Name": "WinDoorLeft",
             "LocalPRS": "61┼28┼0┼",
             "Object": {
               "ClassDatas": [
@@ -111933,6 +112859,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -111949,6 +112891,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -111971,6 +112929,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -111990,13 +112964,30 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
           {
             "GitID": "ddcfc3ab784dec1419565255774956c5_62┼24┼0┼",
             "PrefabID": "ddcfc3ab784dec1419565255774956c5",
-            "Name": "WinDoorLeft (1)",
+            "NameMatches": true,
+            "Name": "WinDoorLeft",
             "LocalPRS": "62┼24┼0┼",
             "Object": {
               "ClassDatas": [
@@ -112021,6 +113012,20 @@
               ],
               "Children": [
                 {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -112029,6 +113034,90 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "ChapelOffice"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,3",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,4",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,5",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,6",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,7",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
                         }
                       ]
                     }
@@ -112161,6 +113250,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -113186,13 +114291,30 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
           {
             "GitID": "cf93667e32e15bc43b0347cd102fef98_63┼28┼0┼",
             "PrefabID": "cf93667e32e15bc43b0347cd102fef98",
-            "Name": "WinDoorRight (1)",
+            "NameMatches": true,
+            "Name": "WinDoorRight",
             "LocalPRS": "63┼28┼0┼",
             "Object": {
               "ClassDatas": [
@@ -113427,7 +114549,8 @@
           {
             "GitID": "cf93667e32e15bc43b0347cd102fef98_63┼58┼0┼",
             "PrefabID": "cf93667e32e15bc43b0347cd102fef98",
-            "Name": "WinDoorRight (2)",
+            "NameMatches": true,
+            "Name": "WinDoorRight",
             "LocalPRS": "63┼58┼0┼",
             "Object": {
               "ClassDatas": [
@@ -114190,6 +115313,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -114821,7 +115960,8 @@
           {
             "GitID": "cf93667e32e15bc43b0347cd102fef98_64┼58┼0┼",
             "PrefabID": "cf93667e32e15bc43b0347cd102fef98",
-            "Name": "WinDoorRight (5)",
+            "NameMatches": true,
+            "Name": "WinDoorRight",
             "LocalPRS": "64┼58┼0┼",
             "Object": {
               "ClassDatas": [
@@ -115244,7 +116384,8 @@
           {
             "GitID": "c21551dd992a57349973e4b5af103ca6_64┼125┼0┼",
             "PrefabID": "c21551dd992a57349973e4b5af103ca6",
-            "Name": "SecurityCamera (1)",
+            "NameMatches": true,
+            "Name": "SecurityCamera",
             "LocalPRS": "64┼125┼0┼",
             "Object": {
               "ClassDatas": [
@@ -115348,7 +116489,8 @@
           {
             "GitID": "c21551dd992a57349973e4b5af103ca6_64┼132┼0┼",
             "PrefabID": "c21551dd992a57349973e4b5af103ca6",
-            "Name": "SecurityCamera (2)",
+            "NameMatches": true,
+            "Name": "SecurityCamera",
             "LocalPRS": "64┼132┼0┼",
             "Object": {
               "ClassDatas": [
@@ -116375,7 +117517,8 @@
           {
             "GitID": "c21551dd992a57349973e4b5af103ca6_65┼129┼0┼",
             "PrefabID": "c21551dd992a57349973e4b5af103ca6",
-            "Name": "SecurityCamera (1)",
+            "NameMatches": true,
+            "Name": "SecurityCamera",
             "LocalPRS": "65┼129┼0┼",
             "Object": {
               "ClassDatas": [
@@ -117724,6 +118867,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -120727,7 +121886,8 @@
           {
             "GitID": "c21551dd992a57349973e4b5af103ca6_70┼128┼0┼",
             "PrefabID": "c21551dd992a57349973e4b5af103ca6",
-            "Name": "SecurityCamera (1)",
+            "NameMatches": true,
+            "Name": "SecurityCamera",
             "LocalPRS": "70┼128┼0┼",
             "Object": {
               "ClassDatas": [
@@ -120874,6 +122034,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -122165,7 +123341,8 @@
           {
             "GitID": "c21551dd992a57349973e4b5af103ca6_71┼118┼0┼",
             "PrefabID": "c21551dd992a57349973e4b5af103ca6",
-            "Name": "SecurityCamera (1)",
+            "NameMatches": true,
+            "Name": "SecurityCamera",
             "LocalPRS": "71┼118┼0┼",
             "Object": {
               "ClassDatas": [
@@ -122541,7 +123718,8 @@
           {
             "GitID": "6fa1bf6a566af2f479f551f9bb604178_72┼64┼0┼",
             "PrefabID": "6fa1bf6a566af2f479f551f9bb604178",
-            "Name": "SecureWinDoorLeft (1)",
+            "NameMatches": true,
+            "Name": "SecureWinDoorLeft",
             "LocalPRS": "72┼64┼0┼",
             "Object": {
               "ClassDatas": [
@@ -122700,6 +123878,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -122972,6 +124166,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -122989,6 +124199,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -123216,7 +124442,8 @@
           {
             "GitID": "c21551dd992a57349973e4b5af103ca6_73┼128┼0┼",
             "PrefabID": "c21551dd992a57349973e4b5af103ca6",
-            "Name": "SecurityCamera (2)",
+            "NameMatches": true,
+            "Name": "SecurityCamera",
             "LocalPRS": "73┼128┼0┼",
             "Object": {
               "ClassDatas": [
@@ -123884,7 +125111,8 @@
           {
             "GitID": "cf93667e32e15bc43b0347cd102fef98_74┼47┼0┼",
             "PrefabID": "cf93667e32e15bc43b0347cd102fef98",
-            "Name": "WinDoorRight (7)",
+            "NameMatches": true,
+            "Name": "WinDoorRight",
             "LocalPRS": "74┼47┼0┼",
             "Object": {
               "ClassDatas": [
@@ -123909,6 +125137,20 @@
               ],
               "Children": [
                 {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -123917,6 +125159,90 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Library"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,3",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,4",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,5",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,6",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,7",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
                         }
                       ]
                     }
@@ -124995,6 +126321,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -125232,6 +126574,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -125249,6 +126607,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -125272,6 +126646,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -125292,6 +126682,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -125309,6 +126715,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -128387,8 +129809,8 @@
             }
           },
           {
-            "GitID": "8D0W-BGDVb8469ufZ@aF_79┼95┼0┼",
-            "PrefabID": "8D0W-BGDVb8469ufZ@aF",
+            "GitID": "J5UF3VXxKdTV9iopbA17_79┼95┼0┼",
+            "PrefabID": "J5UF3VXxKdTV9iopbA17",
             "NameMatches": true,
             "Name": "SecBarrier",
             "LocalPRS": "79┼95┼0┼"
@@ -128607,6 +130029,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -128868,8 +130306,8 @@
             "LocalPRS": "80┼93┼0┼"
           },
           {
-            "GitID": "8D0W-BGDVb8469ufZ@aF_80┼95┼0┼",
-            "PrefabID": "8D0W-BGDVb8469ufZ@aF",
+            "GitID": "J5UF3VXxKdTV9iopbA17_80┼95┼0┼",
+            "PrefabID": "J5UF3VXxKdTV9iopbA17",
             "NameMatches": true,
             "Name": "SecBarrier",
             "LocalPRS": "80┼95┼0┼"
@@ -128929,6 +130367,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -130312,7 +131766,8 @@
           {
             "GitID": "6fa1bf6a566af2f479f551f9bb604178_81┼100┼0┼",
             "PrefabID": "6fa1bf6a566af2f479f551f9bb604178",
-            "Name": "SecureWinDoorLeft (5)",
+            "NameMatches": true,
+            "Name": "SecureWinDoorLeft",
             "LocalPRS": "81┼100┼0┼",
             "Object": {
               "ClassDatas": [
@@ -130334,13 +131789,114 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,3",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,4",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,5",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,6",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,7",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
           {
             "GitID": "cbe919cf00f84254f83d474582798520_81┼100┼0┼",
             "PrefabID": "cbe919cf00f84254f83d474582798520",
-            "Name": "SecureWinDoorRight (2)",
+            "NameMatches": true,
+            "Name": "SecureWinDoorRight",
             "LocalPRS": "81┼100┼0┼",
             "Object": {
               "ClassDatas": [
@@ -130359,6 +131915,106 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,3",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,4",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,5",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,6",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,7",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -132767,7 +134423,8 @@
           {
             "GitID": "c21551dd992a57349973e4b5af103ca6_84┼109┼0┼",
             "PrefabID": "c21551dd992a57349973e4b5af103ca6",
-            "Name": "SecurityCamera (1)",
+            "NameMatches": true,
+            "Name": "SecurityCamera",
             "LocalPRS": "84┼109┼0┼",
             "Object": {
               "ClassDatas": [
@@ -134583,7 +136240,8 @@
           {
             "GitID": "6fa1bf6a566af2f479f551f9bb604178_85┼104┼0┼",
             "PrefabID": "6fa1bf6a566af2f479f551f9bb604178",
-            "Name": "SecureWinDoorLeft (6)",
+            "NameMatches": true,
+            "Name": "SecureWinDoorLeft",
             "LocalPRS": "85┼104┼0┼",
             "Object": {
               "ClassDatas": [
@@ -134605,13 +136263,114 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,3",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,4",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,5",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,6",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,7",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
           {
             "GitID": "cbe919cf00f84254f83d474582798520_85┼104┼0┼",
             "PrefabID": "cbe919cf00f84254f83d474582798520",
-            "Name": "SecureWinDoorRight (3)",
+            "NameMatches": true,
+            "Name": "SecureWinDoorRight",
             "LocalPRS": "85┼104┼0┼",
             "Object": {
               "ClassDatas": [
@@ -134630,6 +136389,106 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,3",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,4",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,5",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,6",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,7",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -136321,8 +138180,8 @@
             }
           },
           {
-            "GitID": "8D0W-BGDVb8469ufZ@aF_87┼85┼0┼",
-            "PrefabID": "8D0W-BGDVb8469ufZ@aF",
+            "GitID": "J5UF3VXxKdTV9iopbA17_87┼85┼0┼",
+            "PrefabID": "J5UF3VXxKdTV9iopbA17",
             "NameMatches": true,
             "Name": "SecBarrier",
             "LocalPRS": "87┼85┼0┼"
@@ -136727,8 +138586,8 @@
             }
           },
           {
-            "GitID": "8D0W-BGDVb8469ufZ@aF_88┼85┼0┼",
-            "PrefabID": "8D0W-BGDVb8469ufZ@aF",
+            "GitID": "J5UF3VXxKdTV9iopbA17_88┼85┼0┼",
+            "PrefabID": "J5UF3VXxKdTV9iopbA17",
             "NameMatches": true,
             "Name": "SecBarrier",
             "LocalPRS": "88┼85┼0┼"
@@ -138024,13 +139883,14 @@
           {
             "GitID": "86570587e3d5cba1e9ffdeead16603e4_89┼101┼0┼",
             "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
-            "Name": "PottedPlantRandom (11)",
+            "Name": "PottedPlantRandom",
             "LocalPRS": "89┼101┼0┼"
           },
           {
             "GitID": "bb2d0192db81c7d469ced45d96e3629e_89┼103┼0┼",
             "PrefabID": "bb2d0192db81c7d469ced45d96e3629e",
-            "Name": "SecTech (1)",
+            "NameMatches": true,
+            "Name": "SecTech",
             "LocalPRS": "89┼103┼0┼",
             "Object": {
               "ClassDatas": [
@@ -138163,8 +140023,8 @@
             }
           },
           {
-            "GitID": "EkKax?M$hbn0fMg@aU5X_89.96┼65.14┼0┼",
-            "PrefabID": "EkKax?M$hbn0fMg@aU5X",
+            "GitID": "409gLRNpRQA6ZJ-B4F7U_89.96┼65.14┼0┼",
+            "PrefabID": "409gLRNpRQA6ZJ-B4F7U",
             "Name": "OddSlugPlushie (1)",
             "LocalPRS": "89.96┼65.14┼0┼"
           },
@@ -141104,6 +142964,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -141279,6 +143155,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -141576,6 +143468,50 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -141878,8 +143814,8 @@
             "LocalPRS": "93.14┼91.47┼0┼"
           },
           {
-            "GitID": "EkKax?M$hbn0fMg@aU5X_93.78┼72.21┼0┼",
-            "PrefabID": "EkKax?M$hbn0fMg@aU5X",
+            "GitID": "409gLRNpRQA6ZJ-B4F7U_93.78┼72.21┼0┼",
+            "PrefabID": "409gLRNpRQA6ZJ-B4F7U",
             "Name": "OddSlugPlushie (1)",
             "LocalPRS": "93.78┼72.21┼0┼",
             "Object": {
@@ -142556,6 +144492,50 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -142636,7 +144616,8 @@
           {
             "GitID": "6fa1bf6a566af2f479f551f9bb604178_94┼83┼0┼",
             "PrefabID": "6fa1bf6a566af2f479f551f9bb604178",
-            "Name": "SecureWinDoorLeft (4)",
+            "NameMatches": true,
+            "Name": "SecureWinDoorLeft",
             "LocalPRS": "94┼83┼0┼",
             "Object": {
               "ClassDatas": [
@@ -142661,6 +144642,20 @@
               ],
               "Children": [
                 {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -142673,6 +144668,90 @@
                       ]
                     }
                   ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,3",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,4",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,5",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,6",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,7",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }
@@ -142680,7 +144759,8 @@
           {
             "GitID": "cbe919cf00f84254f83d474582798520_94┼83┼0┼",
             "PrefabID": "cbe919cf00f84254f83d474582798520",
-            "Name": "SecureWinDoorRight (1)",
+            "NameMatches": true,
+            "Name": "SecureWinDoorRight",
             "LocalPRS": "94┼83┼0┼",
             "Object": {
               "ClassDatas": [
@@ -142846,7 +144926,8 @@
           {
             "GitID": "1a00e842e154f7d43811c5d45328988c_94┼91┼0┼",
             "PrefabID": "1a00e842e154f7d43811c5d45328988c",
-            "Name": "Chair (14)",
+            "NameMatches": true,
+            "Name": "Chair",
             "LocalPRS": "94┼91┼0┼",
             "Object": {
               "ClassDatas": [
@@ -142856,6 +144937,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -143047,8 +145144,8 @@
             "LocalPRS": "94.17┼75.01┼0┼"
           },
           {
-            "GitID": "EkKax?M$hbn0fMg@aU5X_94.44┼72.19┼0┼",
-            "PrefabID": "EkKax?M$hbn0fMg@aU5X",
+            "GitID": "409gLRNpRQA6ZJ-B4F7U_94.44┼72.19┼0┼",
+            "PrefabID": "409gLRNpRQA6ZJ-B4F7U",
             "Name": "OddSlugPlushie (1)",
             "LocalPRS": "94.44┼72.19┼0┼",
             "Object": {
@@ -143102,7 +145199,8 @@
           {
             "GitID": "9944313d68658b341966d43e2c218eaa_95┼28┼0┼",
             "PrefabID": "9944313d68658b341966d43e2c218eaa",
-            "Name": "CanisterNitrogen (4)",
+            "NameMatches": true,
+            "Name": "CanisterNitrogen",
             "LocalPRS": "95┼28┼0┼",
             "Object": {
               "ClassDatas": [
@@ -143325,7 +145423,8 @@
           {
             "GitID": "0058e1fe0dba62b4db396c6a0bbfd99d_95┼57┼0┼",
             "PrefabID": "0058e1fe0dba62b4db396c6a0bbfd99d",
-            "Name": "Morgue (5)",
+            "NameMatches": true,
+            "Name": "Morgue",
             "LocalPRS": "95┼57┼0┼",
             "Object": {
               "ClassDatas": [
@@ -143362,32 +145461,13 @@
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
-                      "Name": "MethodRotation",
-                      "Data": "Sprites"
-                    },
-                    {
                       "Name": "CurrentDirection",
-                      "Data": "Right_By270"
+                      "Data": "Left_By90"
                     }
                   ]
                 }
               ],
               "Children": [
-                {
-                  "LocalPRS": "0┼0┼0┼0ø0ø270ø",
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "fdf36b612a3a56e419736ba884a6c48e"
-                        }
-                      ]
-                    }
-                  ]
-                },
                 {
                   "ID": "0,1",
                   "Active": false,
@@ -143626,6 +145706,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -145388,7 +147484,7 @@
                   "Data": [
                     {
                       "Name": "CurrentDirection",
-                      "Data": "Up_By0"
+                      "Data": "Right_By270"
                     }
                   ]
                 }
@@ -145531,7 +147627,8 @@
           {
             "GitID": "ddcfc3ab784dec1419565255774956c5_97┼72┼0┼",
             "PrefabID": "ddcfc3ab784dec1419565255774956c5",
-            "Name": "WinDoorLeft (5)",
+            "NameMatches": true,
+            "Name": "WinDoorLeft",
             "LocalPRS": "97┼72┼0┼",
             "Object": {
               "ClassDatas": [
@@ -146315,6 +148412,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -146603,6 +148716,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -147624,6 +149753,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -147796,12 +149941,8 @@
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
-                      "Name": "MethodRotation",
-                      "Data": "Sprites"
-                    },
-                    {
                       "Name": "CurrentDirection",
-                      "Data": "Right_By270"
+                      "Data": "Left_By90"
                     }
                   ]
                 }
@@ -147935,6 +150076,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -149591,7 +151748,8 @@
           {
             "GitID": "cf93667e32e15bc43b0347cd102fef98_102┼72┼0┼",
             "PrefabID": "cf93667e32e15bc43b0347cd102fef98",
-            "Name": "WinDoorRight (3)",
+            "NameMatches": true,
+            "Name": "WinDoorRight",
             "LocalPRS": "102┼72┼0┼",
             "Object": {
               "ClassDatas": [
@@ -150645,6 +152803,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -150661,6 +152835,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -151184,6 +153374,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -151245,7 +153451,8 @@
           {
             "GitID": "6fa1bf6a566af2f479f551f9bb604178_104┼93┼0┼",
             "PrefabID": "6fa1bf6a566af2f479f551f9bb604178",
-            "Name": "SecureWinDoorLeft (7)",
+            "NameMatches": true,
+            "Name": "SecureWinDoorLeft",
             "LocalPRS": "104┼93┼0┼",
             "Object": {
               "ClassDatas": [
@@ -151839,6 +154046,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -151991,6 +154214,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -152870,6 +155109,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -152914,7 +155169,8 @@
           {
             "GitID": "cf93667e32e15bc43b0347cd102fef98_106┼76┼0┼",
             "PrefabID": "cf93667e32e15bc43b0347cd102fef98",
-            "Name": "WinDoorRight (6)",
+            "NameMatches": true,
+            "Name": "WinDoorRight",
             "LocalPRS": "106┼76┼0┼",
             "Object": {
               "ClassDatas": [
@@ -152949,7 +155205,8 @@
           {
             "GitID": "ddcfc3ab784dec1419565255774956c5_106┼76┼0┼",
             "PrefabID": "ddcfc3ab784dec1419565255774956c5",
-            "Name": "WinDoorLeft (6)",
+            "NameMatches": true,
+            "Name": "WinDoorLeft",
             "LocalPRS": "106┼76┼0┼",
             "Object": {
               "ClassDatas": [
@@ -152968,6 +155225,106 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,3",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,4",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,5",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,6",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,7",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -152990,6 +155347,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -153006,6 +155379,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -154179,6 +156568,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -155567,6 +157972,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -155587,6 +158008,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -155603,6 +158040,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -155626,6 +158079,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -155642,6 +158111,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -155665,6 +158150,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -155685,6 +158186,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -155701,6 +158218,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -156114,6 +158647,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -156130,6 +158679,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -156152,6 +158717,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -156168,6 +158749,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -156190,6 +158787,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -156206,6 +158819,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -156228,6 +158857,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -156244,6 +158889,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -156736,7 +159397,7 @@
                   "Data": [
                     {
                       "Name": "relatedLightSwitch",
-                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_115┼61┼0┼@0@LightSwitchV2@0"
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_109┼63┼0┼@0@LightSwitchV2@0"
                     }
                   ]
                 }
@@ -156777,6 +159438,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -156884,6 +159561,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -156900,6 +159593,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -156922,6 +159631,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -156938,6 +159663,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -156960,6 +159701,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -156976,6 +159733,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -156998,6 +159771,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -157014,6 +159803,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -157285,6 +160090,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -157406,6 +160227,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -157422,6 +160259,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -157444,6 +160297,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -157460,6 +160329,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -157482,6 +160367,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -157498,6 +160399,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -157520,6 +160437,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -157536,6 +160469,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -157706,6 +160655,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -161020,9 +163985,37 @@
               ],
               "Children": [
                 {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
                   "ID": "0,1",
                   "Active": false,
                   "ClassDatas": []
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }
@@ -161902,9 +164895,37 @@
               ],
               "Children": [
                 {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
                   "ID": "0,1",
                   "Active": false,
                   "ClassDatas": []
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }
@@ -176148,6 +179169,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -176284,6 +179321,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -176312,6 +179365,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -176462,6 +179531,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -178966,9 +182051,37 @@
               ],
               "Children": [
                 {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
                   "ID": "0,1",
                   "Active": false,
                   "ClassDatas": []
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }
@@ -178986,6 +182099,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -179158,9 +182287,37 @@
               ],
               "Children": [
                 {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
                   "ID": "0,1",
                   "Active": false,
                   "ClassDatas": []
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }
@@ -179185,9 +182342,37 @@
               ],
               "Children": [
                 {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
                   "ID": "0,1",
                   "Active": false,
                   "ClassDatas": []
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }
@@ -179239,9 +182424,37 @@
               ],
               "Children": [
                 {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
                   "ID": "0,1",
                   "Active": false,
                   "ClassDatas": []
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }
@@ -179259,6 +182472,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -179554,9 +182783,37 @@
               ],
               "Children": [
                 {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
                   "ID": "0,1",
                   "Active": false,
                   "ClassDatas": []
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }
@@ -179713,6 +182970,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -179858,9 +183131,37 @@
               ],
               "Children": [
                 {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
                   "ID": "0,1",
                   "Active": false,
                   "ClassDatas": []
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }
@@ -179912,9 +183213,37 @@
               ],
               "Children": [
                 {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
                   "ID": "0,1",
                   "Active": false,
                   "ClassDatas": []
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }
@@ -179932,6 +183261,22 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -180115,9 +183460,37 @@
               ],
               "Children": [
                 {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
                   "ID": "0,1",
                   "Active": false,
                   "ClassDatas": []
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }
@@ -180142,9 +183515,37 @@
               ],
               "Children": [
                 {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
                   "ID": "0,1",
                   "Active": false,
                   "ClassDatas": []
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }
