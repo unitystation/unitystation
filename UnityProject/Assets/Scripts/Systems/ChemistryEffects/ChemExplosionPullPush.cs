@@ -58,7 +58,7 @@ namespace Chemistry.Effects
 			}
 			else positionOfExplosion = registerObject.WorldPosition;
 
-			Explosion.StartExplosion(positionOfExplosion.CutToInt(), strength, node, stunNearbyPlayers: false, radiusMultiplier: 6);
+			Explosion.StartExplosion(positionOfExplosion.CutToInt(), strength, node, stunNearbyPlayers: false, radiusMultiplier: 10);
 
 			DarkMatterMainOverlay(positionOfExplosion, Mathf.Abs(strength), node.EffectOverlayType);
 		}
