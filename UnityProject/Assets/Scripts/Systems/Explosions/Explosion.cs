@@ -30,10 +30,11 @@ namespace Systems.Explosions
 		{
 			AdminLogsManager.AddNewLog(null, $"An explosion has occured at {WorldPOS} with strength: {strength}.", LogCategory.World,
 				strength > 75 ? Severity.IMMEDIATE_ATTENTION : Severity.SUSPICOUS);
-			nodeType ??= new ExplosionNode();
+			nodeType ??= new ExplosionNode(WorldPOS);
 			nodeType.IgnoreAttributes = damageIgnoreAttributes;
 
 			int radius = 0;
+			float strengthMag = Math.Abs(strength);
 			if (fixedRadius <= 0)
 			{
 				radius = (int)(Math.Round(strength / (Math.PI * 75)) + 5) * radiusMultiplier;
@@ -51,15 +52,15 @@ namespace Systems.Explosions
 			if (fixedShakingStrength <= 0 || fixedShakingStrength > 255)
 			{
 				shakingStrength = 25;
-				if (strength > EXPLOSION_STRENGTH_LOW)
+				if (strengthMag > EXPLOSION_STRENGTH_LOW)
 				{
 					shakingStrength = 75;
 				}
-				else if (strength > EXPLOSION_STRENGTH_MEDIUM)
+				else if (strengthMag > EXPLOSION_STRENGTH_MEDIUM)
 				{
 					shakingStrength = 125;
 				}
-				else if (strength > EXPLOSION_STRENGTH_HIGH)
+				else if (strengthMag > EXPLOSION_STRENGTH_HIGH)
 				{
 					shakingStrength = 255;
 				}
@@ -69,12 +70,13 @@ namespace Systems.Explosions
 				shakingStrength = (byte)fixedShakingStrength;
 			}
 
-			float volumeMultiplier = Mathf.Clamp(strength / EXPLOSION_STRENGTH_LOW, 0.25f, 1);
+			float volumeMultiplier = Mathf.Clamp(strengthMag / EXPLOSION_STRENGTH_LOW, 0.25f, 1);
 			ExplosionUtils.PlaySoundAndShake(WorldPOS, shakingStrength, radius / 20, nodeType.CustomSound, volumeMultiplier);
 
 			//Generates the conference
 			var explosionData = new ExplosionData();
 			circleBres(explosionData, WorldPOS.x, WorldPOS.y, radius);
+
 			float initialStrength = strength / explosionData.CircleCircumference.Count;
 
 			foreach (var toPoint in explosionData.CircleCircumference)
@@ -85,9 +87,9 @@ namespace Systems.Explosions
 			}
 
 			// we assume that the explosion isn't something small like an EMP gernade or
-			if (stunNearbyPlayers || strength > EXPLOSION_STRENGTH_HIGH)
+			if (stunNearbyPlayers || strengthMag > EXPLOSION_STRENGTH_HIGH)
 			{
-				_ = StunAndFlashPlayers(WorldPOS.To2Int(), strength);
+				_ = StunAndFlashPlayers(WorldPOS.To2Int(), strengthMag);
 			}
 
 			ScoreMachine.AddToScoreInt(1, RoundEndScoreBuilder.COMMON_SCORE_EXPLOSION);
