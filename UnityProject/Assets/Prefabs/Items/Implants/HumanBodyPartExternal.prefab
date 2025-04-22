@@ -51,6 +51,8 @@ MonoBehaviour:
   <traumaTypes>k__BackingField: 4
   deadlyDamageInOneHit: 55
   bodyPart: {fileID: 1673759363237950006}
+  onTakeDamageSounds: []
+  playTraumaNoise: 0
   stages:
     m_keys: 01000000020000000300000004000000
     m_values: 320000007d00000096000000c8000000
@@ -73,6 +75,8 @@ MonoBehaviour:
   <traumaTypes>k__BackingField: 1
   deadlyDamageInOneHit: 55
   bodyPart: {fileID: 1673759363237950006}
+  onTakeDamageSounds: []
+  playTraumaNoise: 0
   stages:
     m_keys: 01000000020000000300000004000000
     m_values: 230000007d000000af000000fa000000
@@ -94,6 +98,8 @@ MonoBehaviour:
   <traumaTypes>k__BackingField: 8
   deadlyDamageInOneHit: 55
   bodyPart: {fileID: 1673759363237950006}
+  onTakeDamageSounds: []
+  playTraumaNoise: 0
   stages:
     m_keys: 010000000200000003000000
     m_values: 41000000730000009b000000
@@ -122,6 +128,8 @@ MonoBehaviour:
   <traumaTypes>k__BackingField: 2
   deadlyDamageInOneHit: 55
   bodyPart: {fileID: 1673759363237950006}
+  onTakeDamageSounds: []
+  playTraumaNoise: 0
   stages:
     m_keys: 010000000200000003000000
     m_values: 2300000091000000c8000000
@@ -143,6 +151,8 @@ MonoBehaviour:
   <traumaTypes>k__BackingField: 0
   deadlyDamageInOneHit: 65
   bodyPart: {fileID: 1673759363237950006}
+  onTakeDamageSounds: []
+  playTraumaNoise: 0
   stages:
     m_keys: 01000000
     m_values: 41000000
@@ -193,10 +203,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bodyPart: {fileID: 1673759363237950006}
   minimumDamageRequired: 8
-  bloodSplats:
-  - {fileID: 3109035668459811093, guid: 0044109ca09aecc4a85e0829f5feaf81, type: 3}
-  - {fileID: 1069497300762596, guid: b5d421f0156248b4297eecc918b8758a, type: 3}
-  - {fileID: 1069497300762596, guid: e4b5330dc21e94b0494056c5ef239d49, type: 3}
 --- !u!1001 &3973776844980201138
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -493,6 +499,10 @@ MonoBehaviour:
   syncInterval: 0.1
   RelatedPart: {fileID: 0}
   ReagentMetabolism: 0.2
+  componentImmuneResponse:
+    ImmuneResponseChancePercent: 2
+    ImmuneResponseBaseRate: 0.04
+    ImmuneResponseRelativeRate: 0.004
   reagentCirculatedComponent: {fileID: 0}
   saturationComponent: {fileID: 0}
 --- !u!114 &6882847001899026306

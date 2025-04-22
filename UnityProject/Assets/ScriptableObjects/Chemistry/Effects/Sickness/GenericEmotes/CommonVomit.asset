@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fd8fb9c8e69d1143bef26b99741b536, type: 3}
+  m_Name: CommonVomit
+  m_EditorClassIdentifier: 
+  overrideDisplayName: 
+  requiredTrait: {fileID: 11400000, guid: 7577eabe60e5ac546901dbb7c30538fc, type: 2}
+  EmoteEffect:
+    CustomEmote: 0
+    CustomEmoterMessage: 
+    CustomShownMessage: 
+    Emote: {fileID: 11400000, guid: 10fbc8c0eb861c54199481242aef33a6, type: 2}
+    ChancePerTick: 1
+    StopIfOverdosed: 0

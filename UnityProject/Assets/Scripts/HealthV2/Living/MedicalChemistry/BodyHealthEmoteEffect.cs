@@ -22,7 +22,7 @@ public class BodyHealthEmoteEffect : BodyHealthEffect
 		[ShowIf(nameof(CustomEmote))] [AllowNesting] public string CustomShownMessage;
 		[HideIf("CustomEmote")] [AllowNesting] public EmoteSO Emote;
 		[Tooltip("Chance this action will happen every tick, first in the list rolls first")]
-		[Range(0, 100)] [AllowNesting] public int ChancePerTick;
+		[Range(0, 100)] [AllowNesting] public float ChancePerTick;
 		[ShowIf(nameof(CanOverdose))] [AllowNesting] public bool StopIfOverdosed;
 	}
 

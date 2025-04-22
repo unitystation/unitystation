@@ -1,3 +1,5 @@
+using HealthV2.Sickness;
+using Mirror;
 using UnityEngine;
 
 namespace HealthV2.Living.PolymorphicSystems.Bodypart
@@ -6,6 +8,9 @@ namespace HealthV2.Living.PolymorphicSystems.Bodypart
 	{
 		[Tooltip("How many metabolic reactions can happen inside of this body part Per tick per 1u of blood flow ")]
 		public float ReagentMetabolism = 0.2f;
+
+		[Tooltip("How this body part responds to pathogens"), SyncVar]
+		public ImmuneResponse componentImmuneResponse = new ImmuneResponse();
 
 		[HideInInspector]
 		public ReagentCirculatedComponent reagentCirculatedComponent;

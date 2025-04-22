@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04faef1760e156f4d8a855aa231b1b35, type: 3}
+  m_Name: SpaceFluReaction
+  m_EditorClassIdentifier: 
+  ingredients:
+    m_keys:
+    - {fileID: 11400000, guid: c277cb2e90e88e743ab2494b395ca8fa, type: 2}
+    m_values: 01000000
+  useExactAmounts: 0
+  MinimumReactionMultiple: 0.005
+  catalysts:
+    m_keys: []
+    m_values: 
+  inhibitors:
+    m_keys: []
+    m_values: 
+  hasMinTemp: 0
+  serializableTempMin: 0
+  hasMaxTemp: 0
+  serializableTempMax: 0
+  results:
+    m_keys:
+    - {fileID: 11400000, guid: c277cb2e90e88e743ab2494b395ca8fa, type: 2}
+    m_values: 01000000
+  effectDict:
+    m_keys: []
+    m_values: 
+  overrideDisplayName: Space Flu Growth
+  ReagentMetabolismMultiplier: 1
+  InternalAllRequired: []
+  InternalBlacklist: []
+  ExternalAllRequired: []
+  ExternalBlacklist: []
+  sicknessGrowthCharacteristic:
+    SicknessGrowthChancePercent: 50
+    SicknessGrowthBaseRate: 0.02
+    SicknessGrowthRelativeRate: 0.004
+  stages:
+  - StageConcentrationThreshold: 0
+    StageEffects:
+    - {fileID: 11400000, guid: 79301d27985fcc24ea6ce8dc316431e2, type: 2}
+    - {fileID: 11400000, guid: d1b404485372a174e8678695b1d8dbf8, type: 2}
+    - {fileID: 11400000, guid: 946786b52e1220a4aa564ad774fcce85, type: 2}
+  - StageConcentrationThreshold: 2
+    StageEffects:
+    - {fileID: 11400000, guid: c1ed547e609ed734ea50a13a8e35f6f4, type: 2}
+    - {fileID: 11400000, guid: 99076a382e6a9cb47809eff6a95552dd, type: 2}
+    - {fileID: 11400000, guid: 946786b52e1220a4aa564ad774fcce85, type: 2}
+  - StageConcentrationThreshold: 8
+    StageEffects:
+    - {fileID: 11400000, guid: c1ed547e609ed734ea50a13a8e35f6f4, type: 2}
+    - {fileID: 11400000, guid: 99076a382e6a9cb47809eff6a95552dd, type: 2}
+    - {fileID: 11400000, guid: 686e61ed159f74341a43a89072dc5bfe, type: 2}
+    - {fileID: 11400000, guid: 946786b52e1220a4aa564ad774fcce85, type: 2}
+    - {fileID: 11400000, guid: 45793ea50437e4a4e80170ec5fd0c3c6, type: 2}
+  - StageConcentrationThreshold: 16
+    StageEffects:
+    - {fileID: 11400000, guid: c1ed547e609ed734ea50a13a8e35f6f4, type: 2}
+    - {fileID: 11400000, guid: bae0b20b232b644459539e5a9024c23f, type: 2}
+    - {fileID: 11400000, guid: 45793ea50437e4a4e80170ec5fd0c3c6, type: 2}
+    - {fileID: 11400000, guid: 686e61ed159f74341a43a89072dc5bfe, type: 2}
+  DiseaseMaxConcentrationPercent: 20
