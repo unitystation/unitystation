@@ -12,6 +12,7 @@ namespace Systems.Explosions
 {
 	public class DarkMatterExplosionNode : ExplosionNode
 	{
+		public override OverlayType EffectOverlayType => OverlayType.DarkMatter;
 		public override AddressableAudioSource CustomSound => CommonSounds.Instance.GravHit;
 
 		public DarkMatterExplosionNode(Vector3 _explosionStartWorldPosition) : base(_explosionStartWorldPosition) { }
@@ -44,7 +45,7 @@ namespace Systems.Explosions
 
 		private void PullPushThings(Vector3Int worldPosition, float force)
 		{
-			float throwSpeed = Math.Min(2, force * 2);
+			float throwSpeed = Math.Max(0.5f, force * 0.1f);
 
 			foreach (var objectPhysics in MatrixManager.GetAt<UniversalObjectPhysics>(worldPosition, true).Distinct())
 			{
