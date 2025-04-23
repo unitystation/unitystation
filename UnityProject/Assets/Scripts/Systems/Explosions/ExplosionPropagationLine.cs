@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using Debug = Chemistry.Effects.Debug;
 
@@ -45,7 +46,6 @@ namespace Systems.Explosions
 		int e2 = 0;
 		public float ExplosionStrength = 0;
 		private bool InitialStep = true;
-		private bool shouldAngleBeInverted = false;
 
 		private ExplosionNode NodeType;
 
@@ -80,7 +80,6 @@ namespace Systems.Explosions
 
 		public void SetUp(int X0, int Y0, int X1, int Y1, float InExplosionStrength, ExplosionNode nodeType)
 		{
-			shouldAngleBeInverted = InExplosionStrength < 0;
 			ExplosionStrength = Mathf.Abs(InExplosionStrength);
 
 			x0 = X0;
@@ -161,7 +160,6 @@ namespace Systems.Explosions
 			{
 				InitialStep = false;
 				Angle = (float) (Math.Atan2(x1 - x0, y1 - y0));
-				if(shouldAngleBeInverted) Angle += 180 * Mathf.Deg2Rad;
 			}
 		}
 

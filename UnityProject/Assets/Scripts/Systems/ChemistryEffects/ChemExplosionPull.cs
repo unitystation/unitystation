@@ -12,12 +12,10 @@ using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Chemistry.Effects
 {
-	[CreateAssetMenu(fileName = "effect", menuName = "ScriptableObjects/Chemistry/Effect/ChemExplosionPullPush")]
-	public class ChemExplosionPullPush : ChemExplosion
+	[CreateAssetMenu(fileName = "effect", menuName = "ScriptableObjects/Chemistry/Effect/ChemExplosionPull")]
+	public class ChemExplosionPull : ChemExplosion
 	{
-		[SerializeField, Tooltip("Should this effects force push not pull")] private bool ShouldPush = false;
 		[SerializeField] private string effectName = "Dark Matter";
-
 
 		[SerializeField] private GameObject cataclysmPrefab = null;
 		[SerializeField] private float cataclysmThreshold = 2000;
@@ -41,14 +39,13 @@ namespace Chemistry.Effects
 				//If sender is in an inventory use the position of the inventory.
 				if (picked.ItemSlot != null)
 				{
-					objectBehaviour = picked.ItemSlot.ItemStorage.GetRootStorageOrPlayer().GetComponentCustom<UniversalObjectPhysics>();
-					registerObject = picked.ItemSlot.ItemStorage.GetRootStorageOrPlayer().GetComponentCustom<RegisterObject>();
+					objectBehaviour = picked.ItemSlot.ItemStorage.gameObject.GetRootGameObject().GetComponentCustom<UniversalObjectPhysics>();
+					registerObject = picked.ItemSlot.ItemStorage.gameObject.GetRootGameObject().GetComponentCustom<RegisterObject>();
 				}
 			}
 
 			if (strength <= 0) yield break;
 
-			strength = ShouldPush ? -strength : strength;
 			Vector3 positionOfExplosion;
 
 			if (registerObject == null)
@@ -58,7 +55,8 @@ namespace Chemistry.Effects
 			}
 			else positionOfExplosion = registerObject.WorldPosition;
 
-			Explosion.StartExplosion(positionOfExplosion.CutToInt(), strength, node, stunNearbyPlayers: false, radiusMultiplier: 10);
+			node.ExplosionStartWorldPosition = positionOfExplosion;
+			Explosion.StartExplosion(positionOfExplosion.RoundToInt(), strength, node, stunNearbyPlayers: false, radiusMultiplier: 10);
 
 			DarkMatterMainOverlay(positionOfExplosion, Mathf.Abs(strength), node.EffectOverlayType);
 		}
@@ -68,7 +66,7 @@ namespace Chemistry.Effects
 			MatrixInfo matrixInfo = MatrixManager.AtPoint(positionOfExplosion, CustomNetworkManager.IsServer);
 			TileChangeManager tileChangeManager = matrixInfo.TileChangeManager;
 
-			Vector3Int local = positionOfExplosion.ToLocal(matrixInfo).CutToInt();
+			Vector3Int local = positionOfExplosion.ToLocal(matrixInfo).RoundToInt();
 
 			if (tileChangeManager.MetaTileMap.HasOverlay(local, TileType.Effects, effectName)) return;
 			tileChangeManager.MetaTileMap.AddOverlay(local, TileType.Effects, effectName);

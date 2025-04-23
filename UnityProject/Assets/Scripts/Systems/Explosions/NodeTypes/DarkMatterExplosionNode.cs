@@ -40,18 +40,19 @@ namespace Systems.Explosions
 		public override float DoDamageToTiles(Matrix matrix, float explosionForce, Vector3Int nodeLocation, MetaTileMap tileMap)
 		{
 			PullPushThings(nodeLocation, explosionForce);
-			return 10.0f; //magic number
+			return 2f; //magic number
 		}
 
 		private void PullPushThings(Vector3Int worldPosition, float force)
 		{
-			float throwSpeed = Math.Max(0.5f, force * 0.1f);
+			float throwSpeed = Math.Max(0.5f, force * 0.25f);
 
+			Vector2 direction = (ExplosionStartWorldPosition - worldPosition).normalized;
 			foreach (var objectPhysics in MatrixManager.GetAt<UniversalObjectPhysics>(worldPosition, true).Distinct())
 			{
 				if (objectPhysics == false) continue;
 
-				objectPhysics.NewtonianPush(AngleAndIntensity.normalized, throwSpeed, inSlideTime: throwSpeed / 4);
+				objectPhysics.NewtonianPush(direction, throwSpeed, inSlideTime: 0.35f);
 			}
 		}
 
