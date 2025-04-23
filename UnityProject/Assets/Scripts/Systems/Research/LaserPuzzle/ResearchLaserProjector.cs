@@ -144,12 +144,15 @@ namespace Objects.Research
 		public void FireLaser()
 		{
 			if (hasPower == false) return;
-
 			var range = 30f;
 
-			var position = _barrelLocations[(int)rotatable.CurrentDirection];
+			int index = rotatable.SynchroniseCurrentDirection == OrientationEnum.Default ? 0 : (int)rotatable.SynchroniseCurrentDirection;
+
+			Vector3 position = gameObject.AssumedWorldPosServer();
+			position += new Vector3(_barrelLocations[index].x, _barrelLocations[index].y, 0);
+
 			var Projectile = ProjectileManager.InstantiateAndShoot(LaserProjectilePrefab,
-				rotatable.WorldDirection, gameObject, null, BodyPartType.None, range, ShootWorldPosition: new Vector3(position.x, position.y, 0f));
+				rotatable.WorldDirection, gameObject, null, BodyPartType.None, range, ShootWorldPosition: position);
 
 			var Data = Projectile.GetComponent<ContainsResearchData>();
 			Data.Initialise(null, this);
