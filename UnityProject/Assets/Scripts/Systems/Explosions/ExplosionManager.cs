@@ -26,6 +26,16 @@ namespace Systems.Explosions
 			public MetaTileMap MetaTileMap;
 			public GameObject Firelight;
 
+			public struct EffectCallback
+			{
+				public float explosionStrength;
+				public Vector3 position;
+				public OnCleanEffect callBackAction;
+			}
+			public delegate void OnCleanEffect(Vector3 position, float strength);
+
+			public EffectCallback Callback;
+
 			public void Pool()
 			{
 				PooledEffectDataToClean.Push(this);
@@ -44,7 +54,7 @@ namespace Systems.Explosions
 			}
 		}
 
-		public static void CleanupEffectLater(float seconds, MetaTileMap MetaTileMap, Vector3Int position, OverlayType effectOverlayType, GameObject Firelight)
+		public static void CleanupEffectLater(float seconds, MetaTileMap MetaTileMap, Vector3Int position, OverlayType effectOverlayType, GameObject Firelight, EffectDataToClean.EffectCallback callback = new EffectDataToClean.EffectCallback())
 		{
 			var EffectData = EffectDataToClean.Get();
 			EffectData.TimeLeft = Mathf.Min((int) seconds, 5);
@@ -52,6 +62,7 @@ namespace Systems.Explosions
 			EffectData.position = position;
 			EffectData.effectOverlayType = effectOverlayType;
 			EffectData.Firelight = Firelight;
+			EffectData.Callback = callback;
 			DelayedEffectsToRemove.Add(EffectData);
 		}
 
@@ -99,6 +110,7 @@ namespace Systems.Explosions
 					}
 
 					DelayedEffectsToRemove.RemoveAt(i);
+					timeEffect.Callback.callBackAction?.Invoke(timeEffect.Callback.position, timeEffect.Callback.explosionStrength);
 					timeEffect.Pool();
 				}
 			}

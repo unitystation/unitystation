@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
+using Debug = Chemistry.Effects.Debug;
 
 namespace Systems.Explosions
 {
@@ -78,9 +80,10 @@ namespace Systems.Explosions
 
 		public void SetUp(int X0, int Y0, int X1, int Y1, float InExplosionStrength, ExplosionNode nodeType)
 		{
+			ExplosionStrength = Mathf.Abs(InExplosionStrength);
+
 			x0 = X0;
 			y0 = Y0;
-
 
 			x1 = X1;
 			y1 = Y1;
@@ -94,7 +97,6 @@ namespace Systems.Explosions
 			sy = y0 < y1 ? 1 : -1;
 
 			err = (dx > dy ? dx : -dy) / 2;
-			ExplosionStrength = InExplosionStrength;
 
 			NodeType = nodeType;
 		}

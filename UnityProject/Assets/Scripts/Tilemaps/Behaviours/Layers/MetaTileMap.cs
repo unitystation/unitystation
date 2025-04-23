@@ -2987,6 +2987,7 @@ namespace TileManagement
 		EMPCenter,
 		Foam,
 		Smoke,
-		Liquid
+		Liquid,
+		DarkMatter
 	}
 }
