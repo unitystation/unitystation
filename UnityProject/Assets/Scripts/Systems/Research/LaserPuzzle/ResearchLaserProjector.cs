@@ -176,6 +176,8 @@ namespace Objects.Research
 				if (researchServer.Techweb.ResearchedTech.Contains(data.Technology) == false)
 				{
 					OutputLogs.Add($">{data.Technology.DisplayName} Research Complete!");
+					Chat.AddCommMsgByMachineToChat(gameObject, $"{data.Technology.DisplayName} node was researched by {gameObject.ExpensiveName()}!", ChatChannel.Local & ChatChannel.Science, Loudness.NORMAL);
+
 					researchServer.Techweb.UnlockTechnology(data.Technology);
 					GroupedData.Remove(data.Technology);
 				}
@@ -199,6 +201,8 @@ namespace Objects.Research
 
 			OutputLogs.Add($">{(int)(totalResearch * UPLOAD_EFFICIENCY)} RP Uploaded!");
 			if(OutputLogs.Count > MAX_OUTPUT_LENGTH) OutputLogs.RemoveAt(0);
+
+			Chat.AddCommMsgByMachineToChat(gameObject, $"{totalResearch * UPLOAD_EFFICIENCY}RP transfered from {gameObject.ExpensiveName()} to techweb server!", ChatChannel.Local & ChatChannel.Science, Loudness.NORMAL);
 
 			AddResearchPoints(this, (int)(totalResearch * UPLOAD_EFFICIENCY));
 		}

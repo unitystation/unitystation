@@ -196,6 +196,8 @@ namespace UI.Objects.Research
 			artifactAnalyser.storedRP = 0;
 
 			artifactAnalyser.AddResearchPoints(amount);
+			Chat.AddCommMsgByMachineToChat(gameObject, $"{amount}RP transfered from {gameObject.ExpensiveName()} to techweb server!", ChatChannel.Local & ChatChannel.Science, Loudness.NORMAL);
+
 			UpdateRPDisplay();
 		}
 

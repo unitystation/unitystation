@@ -2,6 +2,7 @@
 using Systems.Research.Data;
 using Systems.Research.ImporterExporter;
 using System;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Systems.Research
@@ -67,10 +68,18 @@ namespace Systems.Research
 			UpdateTechnologyLists();
 		}
 
-		public bool ResearchTechology(Technology technologyToResearch, bool updateUI = true)
+		public bool ResearchTechology(Technology technologyToResearch, GameObject parentServer = null, bool updateUI = true)
 		{
 			if(researchPoints < technologyToResearch.ResearchCosts) return false;
 			researchPoints -= technologyToResearch.ResearchCosts;
+
+			if (parentServer != null)
+			{
+				Chat.AddCommMsgByMachineToChat(parentServer,
+					$"{technologyToResearch.DisplayName} node has been researched!",
+					ChatChannel.Local & ChatChannel.Science, Loudness.NORMAL);
+			}
+
 			UnlockTechnology(technologyToResearch, updateUI);
 			return true;
 		}
