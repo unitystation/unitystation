@@ -120,6 +120,7 @@ namespace UI.Objects.Research
 		{
 			if(blastYieldDetector.researchServer != null) pointsLabel.MasterSetValue(blastYieldDetector.researchServer.RP.ToString());
 
+			if (CustomNetworkManager.IsServer == false) return;
 			UpdateBountyContainerToList();
 		}
 

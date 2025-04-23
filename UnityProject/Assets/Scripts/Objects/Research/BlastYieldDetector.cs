@@ -176,7 +176,7 @@ namespace Systems.Research.Objects
 				if (MeetsYieldTarget(bounty, blastData.BlastYield) == false || MeetsReagentTargets(bounty, mix) == false || MeetsReactionTargets(bounty, mix) == false) continue;
 
 				researchServer?.CompleteBounty(bounty);
-				Chat.AddCommMsgByMachineToChat(this.gameObject, $"Bounty: {bounty.BountyName} successfully completed! Awarded {ResearchServer.BOUNTY_AWARD}RP!", ChatChannel.Local & ChatChannel.Science, Loudness.NORMAL);
+				Chat.AddCommMsgByMachineToChat(this.gameObject, $"Bounty: {bounty.BountyName} successfully completed! Awarded {ResearchServer.BOUNTY_AWARD} RP!", ChatChannel.Local | ChatChannel.Science, Loudness.NORMAL);
 			}
 		}
 

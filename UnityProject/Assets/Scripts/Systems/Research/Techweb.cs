@@ -77,7 +77,7 @@ namespace Systems.Research
 			{
 				Chat.AddCommMsgByMachineToChat(parentServer,
 					$"{technologyToResearch.DisplayName} node has been researched!",
-					ChatChannel.Local & ChatChannel.Science, Loudness.NORMAL);
+					ChatChannel.Local | ChatChannel.Science, Loudness.NORMAL);
 			}
 
 			UnlockTechnology(technologyToResearch, updateUI);
