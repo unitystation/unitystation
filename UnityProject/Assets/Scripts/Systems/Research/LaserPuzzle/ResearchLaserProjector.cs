@@ -89,6 +89,7 @@ namespace Objects.Research
 			spriteHandler = this.GetComponentInChildren<SpriteHandler>();
 			registerTile = this.GetComponent<RegisterTile>();
 			objectPhysics = this.GetComponent<UniversalObjectPhysics>();
+			lastActivation = Time.time;
 		}
 
 		public void Start()
