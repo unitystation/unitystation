@@ -79,10 +79,13 @@ namespace HealthV2.Sickness
 			}
 			float concentrationPercent = (diseaseAmount / reagentMix.Total) * 100;
 			if (concentrationPercent > DiseaseMaxConcentrationPercent)
+			{
 				diseaseAmount *= (DiseaseMaxConcentrationPercent / concentrationPercent);
+				reactionMultiple *= (DiseaseMaxConcentrationPercent / concentrationPercent);
+			}
 
 			SicknessStage currentStage = GetSicknessState(concentrationPercent);
-			Debug.Log($"Disease Stage is {concentrationPercent}%");
+			Debug.Log($"Disease Stage is {concentrationPercent}% / {DiseaseMaxConcentrationPercent}%");
 			foreach (var stageEffect in currentStage.StageEffects)
 			{
 				foreach (var sender in senders)
