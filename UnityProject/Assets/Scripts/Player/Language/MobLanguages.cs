@@ -36,23 +36,19 @@ namespace Player.Language
 
 		public PlayerScript PlayerScript;
 
+		private void Awake()
+		{
+			addedLanguages.Callback += OnLanguageListChange;
+		}
+
 		private void Start()
 		{
 			PlayerScript = this.GetComponent<PlayerScript>();
-			PlayerScript.OnActionControlPlayer += OnPlayerEnterBody;
+
 			if(defaultLanguages == null) return;
 
 			//Copy the default lists to this script lists so we can add to it during runtime without adding to the SO
 			SetupFromGroup(defaultLanguages);
-		}
-
-		public void OnPlayerEnterBody()
-		{
-			if(CustomNetworkManager.IsServer) return;
-
-			addedLanguages.Callback += OnLanguageListChange;
-
-			TryAdd();
 		}
 
 		[ContextMenu("Try add languages")]
@@ -65,11 +61,6 @@ namespace Player.Language
 
 				LearnLanguageClient(language, newLanguage.canSpeak);
 			}
-		}
-
-		public override void OnStopLocalPlayer()
-		{
-			addedLanguages.Callback -= OnLanguageListChange;
 		}
 
 		private void SetupFromGroup(DefaultLanguageGroupSO newGroup)

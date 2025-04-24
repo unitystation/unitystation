@@ -134,9 +134,13 @@ namespace Objects
 				{
 					Chat.AddExamineMsgFromServer(interaction.Performer, "You carefully remove the poster from the wall.");
 
-					rolledPosterPrefab.GetComponent<RolledPoster>().posterVariant = posterVariant;
 
-					Spawn.ServerPrefab(rolledPosterPrefab, pos, interaction.Performer.transform.parent);
+
+					var Poster =  Spawn.ServerPrefab(rolledPosterPrefab, pos, interaction.Performer.transform.parent);
+					var Rolled =Poster.GameObject.GetComponent<RolledPoster>();
+					Rolled.posterVariant = posterVariant;
+					Rolled.InitialPoster =  posterVariant;
+
 				}
 
 				_ = Despawn.ServerSingle(gameObject);
