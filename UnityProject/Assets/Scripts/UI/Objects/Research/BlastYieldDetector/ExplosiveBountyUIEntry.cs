@@ -23,10 +23,10 @@ namespace UI.Objects.Research
 
 			foreach (ReagentBountyEntry reagent in bountyData.RequiredReagents)
 			{
-				label_text.Append($"\n\t-{reagent.RequiredReagent.Name}: {reagent.RequiredAmount}u");			
+				label_text.Append($"\n\t-{reagent.RequiredReagent.Name}: {reagent.RequiredAmount}u");
 			}
 
-			bountyDetails.SetValue(label_text.ToString());
+			bountyDetails.MasterSetValue(label_text.ToString());
 
 			string targetName = bountyData.BountyName != null && bountyData.BountyName != "" ? bountyData.BountyName : index.ToString();
 			bountyName.MasterSetValue($"Target [{targetName}]");

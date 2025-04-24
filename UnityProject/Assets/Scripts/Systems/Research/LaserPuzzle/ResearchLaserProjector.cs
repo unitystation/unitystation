@@ -89,6 +89,7 @@ namespace Objects.Research
 			spriteHandler = this.GetComponentInChildren<SpriteHandler>();
 			registerTile = this.GetComponent<RegisterTile>();
 			objectPhysics = this.GetComponent<UniversalObjectPhysics>();
+			lastActivation = Time.time;
 		}
 
 		public void Start()
@@ -143,12 +144,15 @@ namespace Objects.Research
 		public void FireLaser()
 		{
 			if (hasPower == false) return;
-
 			var range = 30f;
 
-			var position = _barrelLocations[(int)rotatable.CurrentDirection];
+			int index = rotatable.SynchroniseCurrentDirection == OrientationEnum.Default ? 0 : (int)rotatable.SynchroniseCurrentDirection;
+
+			Vector3 position = gameObject.AssumedWorldPosServer();
+			position += new Vector3(_barrelLocations[index].x, _barrelLocations[index].y, 0);
+
 			var Projectile = ProjectileManager.InstantiateAndShoot(LaserProjectilePrefab,
-				rotatable.WorldDirection, gameObject, null, BodyPartType.None, range, ShootWorldPosition: new Vector3(position.x, position.y, 0f));
+				rotatable.WorldDirection, gameObject, null, BodyPartType.None, range, ShootWorldPosition: position);
 
 			var Data = Projectile.GetComponent<ContainsResearchData>();
 			Data.Initialise(null, this);
@@ -176,6 +180,8 @@ namespace Objects.Research
 				if (researchServer.Techweb.ResearchedTech.Contains(data.Technology) == false)
 				{
 					OutputLogs.Add($">{data.Technology.DisplayName} Research Complete!");
+					Chat.AddCommMsgByMachineToChat(gameObject, $"{data.Technology.DisplayName} node was researched by {gameObject.ExpensiveName()}!", ChatChannel.Local | ChatChannel.Science, Loudness.NORMAL);
+
 					researchServer.Techweb.UnlockTechnology(data.Technology);
 					GroupedData.Remove(data.Technology);
 				}
@@ -199,6 +205,8 @@ namespace Objects.Research
 
 			OutputLogs.Add($">{(int)(totalResearch * UPLOAD_EFFICIENCY)} RP Uploaded!");
 			if(OutputLogs.Count > MAX_OUTPUT_LENGTH) OutputLogs.RemoveAt(0);
+
+			Chat.AddCommMsgByMachineToChat(gameObject, $"{(int)(totalResearch * UPLOAD_EFFICIENCY)} RP transfered from {gameObject.ExpensiveName()} to techweb server!", ChatChannel.Local | ChatChannel.Science, Loudness.NORMAL);
 
 			AddResearchPoints(this, (int)(totalResearch * UPLOAD_EFFICIENCY));
 		}

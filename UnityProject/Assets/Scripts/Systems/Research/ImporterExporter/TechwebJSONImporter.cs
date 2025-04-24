@@ -111,7 +111,7 @@ namespace Systems.Research.ImporterExporter
 				TechnologyPass.Techweb = techweb;
 				Nodes.Add(newNode);
 
-				if (newNode.technology.StartingNode == true) techweb.ResearchTechology(newNode.technology, false);
+				if (newNode.technology.StartingNode == true) techweb.ResearchTechology(newNode.technology, null, false);
 			}
 			techweb.nodes = Nodes;
 
