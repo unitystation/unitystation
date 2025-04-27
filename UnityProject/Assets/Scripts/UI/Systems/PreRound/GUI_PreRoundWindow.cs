@@ -9,8 +9,10 @@ using Messages.Client.Lobby;
 using Mirror;
 using Shared.Managers;
 using TMPro;
+using UI.Character;
 using UI.CharacterCreator;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Util.Independent.FluentRichText;
 
@@ -18,11 +20,12 @@ namespace UI.Systems.PreRound
 {
 	public class GUI_PreRoundWindow : SingletonManager<GUI_PreRoundWindow>
 	{
+		public RectTransform LeftSide = null;
 		public PreRoundLoadingArea LoadingArea = null;
 		public PreRoundButtonsScreen ButtonsArea = null;
 		public PreRoundCountdownDisplay CountdownArea = null;
 
-		public CharacterCustomization characterCustomization = null;
+		public GameObject characterCustomization = null;
 
 		public Action<string> OnClientLoadUpdateStatus;
 
@@ -30,6 +33,7 @@ namespace UI.Systems.PreRound
 
 		private Toggle joinButton;
 		private Button characterButton;
+		private Button adminStartButton;
 
 
 		private void OnEnable()
@@ -37,20 +41,26 @@ namespace UI.Systems.PreRound
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 			SetInfoScreenOn();
 			CountdownArea.OnFinishedCountingDown += ButtonsArea.RefreshGameModeText;
-			_ = DelayChecks();
+			CountdownArea.OnFinishedCountingDown += CheckForRoundStatusForTitle;
+			_ = DelayedCheck();
+		}
+
+		private async UniTask DelayedCheck()
+		{
+			ButtonsArea.SetTitle("Loading..");
+			// This might seem like an unnecessary delay, but it's actually required because the game likes to hang while loading; which delays the receiving of specific info from net messages
+			// that update the state of the round to players.
+			await UniTask.WaitForSeconds(0.5f);
+			PopulateWithStandardGameModeButtons();
+			ButtonsArea.RefreshGameModeText();
+			CheckForRoundStatusForTitle(); // maybe find a way to make this reactive with networked events?
 		}
 
 		private void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 			CountdownArea.OnFinishedCountingDown -= ButtonsArea.RefreshGameModeText;
-		}
-
-		private async UniTask DelayChecks()
-		{
-			await UniTask.WaitForSeconds(0.5f);
-			PopulateWithStandardGameModeButtons();
-			ButtonsArea.RefreshGameModeText();
+			CountdownArea.OnFinishedCountingDown -= CheckForRoundStatusForTitle;
 		}
 
 		private void UpdateMe()
@@ -90,7 +100,7 @@ namespace UI.Systems.PreRound
 			LoadingArea.SetActive(false);
 		}
 
-		public void PopulateLobbyScreenButtons(string gamemodeTitle, List<Tuple<string, System.Action>> buttonActions)
+		public void PopulateLobbyScreenWithButtons(string gamemodeTitle, List<Tuple<string, System.Action>> buttonActions)
 		{
 			ButtonsArea.SetTitle(gamemodeTitle);
 			foreach (var ba in buttonActions)
@@ -102,28 +112,50 @@ namespace UI.Systems.PreRound
 
 		public void PopulateWithStandardGameModeButtons()
 		{
-			if (PlayerList.HasTAGClient(TAG.MANAGE_ROUND_START))
-			{
-				ButtonsArea.CreateInteractableButton("[Admin] Start Now", StartNowButton);
-			}
+			ButtonsArea.ClearAllButtons();
+			AddStartNowButtonForAdmins();
 			joinButton = ButtonsArea.CreateInteractableToggle(CountdownArea.IsCountingDown ? "Ready Up!" : "Join Round", OnJoinButton);
 			characterButton = ButtonsArea.CreateInteractableButton("Character", OnCharacterButton);
+			CountdownArea.OnFinishedCountingDown += ChangeJoinButtonForRoundStarted;
+		}
 
-			CountdownArea.OnFinishedCountingDown += () =>
+		private void ChangeJoinButtonForRoundStarted()
+		{
+			if (joinButton == null)
 			{
-				joinButton.interactable = true;
-				joinButton.GetComponentInChildren<TMP_Text>().text = "Join Round";
-			};
+				CountdownArea.OnFinishedCountingDown -= ChangeJoinButtonForRoundStarted;
+				return;
+			}
+			joinButton.interactable = true;
+			joinButton.GetComponentInChildren<TMP_Text>().text = "Join Round";
+		}
+
+		private void AddStartNowButtonForAdmins()
+		{
+			if (adminStartButton != null)
+			{
+				adminStartButton.gameObject.SetActive(true);
+				return;
+			}
+			if (PlayerList.HasTAGClient(TAG.MANAGE_ROUND_START))
+			{
+				adminStartButton = ButtonsArea.CreateInteractableButton("[A] Start Now".Color(Color.yellow), StartNowButton);
+			}
 		}
 
 		public void StartNowButton()
 		{
 			AdminCommandsManager.Instance.CmdStartRound();
+			CheckForRoundStatusForTitle();
 		}
 
 		public void OnCharacterButton()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+			if (characterCustomization == null)
+			{
+				characterCustomization = FindAnyObjectByType<CharacterSettings>().gameObject;
+			}
 			characterCustomization.SetActive(true);
 		}
 
@@ -132,8 +164,9 @@ namespace UI.Systems.PreRound
 		/// </summary>
 		public void OnJoinButton(bool isOn)
 		{
+			AddStartNowButtonForAdmins();
 			if (HasCharacters() == false) return;
-			if (NoJobWarn() == false) return;
+			//if (NoJobWarn() == false) return;
 			if (CountdownArea.IsCountingDown)
 			{
 				characterButton.interactable = !isOn;
@@ -157,6 +190,7 @@ namespace UI.Systems.PreRound
 			{
 				return true;
 			}
+			ModalPanelManager.Instance.Inform("No job preferences found. Please select some in your character sheet.");
 			return false;
 		}
 
@@ -169,12 +203,34 @@ namespace UI.Systems.PreRound
 			}
 			characterCustomization.SetActive(true);
 			Chat.AddExamineMsgToClient("No active character sheet detected".Color(Color.red));
+			ModalPanelManager.Instance.Inform("No character sheet detected. Please create or choose one.");
 			return false;
 		}
 
 		private void SetInfoScreenOn()
 		{
 			InfoPanelMessageClient.Send();
+		}
+
+		public void CheckForRoundStatusForTitle()
+		{
+			switch (GameManager.Instance.CurrentRoundState)
+			{
+				case RoundState.None:
+				case RoundState.PreRound:
+					ButtonsArea.SetTitle("Waiting for new round..");
+					break;
+				case RoundState.Started:
+					ButtonsArea.SetTitle("Welcome to UnityStation.");
+					break;
+				case RoundState.Ended:
+				case RoundState.Restarting:
+					ButtonsArea.SetTitle("Shift has ended!");
+					break;
+				default:
+					ButtonsArea.SetTitle("Welcome to UnityStation!");
+					break;
+			}
 		}
 	}
 }

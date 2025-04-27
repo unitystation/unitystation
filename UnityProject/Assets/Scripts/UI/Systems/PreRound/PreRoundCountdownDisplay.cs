@@ -24,6 +24,7 @@ namespace UI.Systems.PreRound
 
 		private void OnDisable()
 		{
+			OnFinishedCountingDown?.Invoke();
 			EventManager.RemoveHandler(Event.PostRoundStarted, OnCountdownEnd);
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateCountdownText);
 		}

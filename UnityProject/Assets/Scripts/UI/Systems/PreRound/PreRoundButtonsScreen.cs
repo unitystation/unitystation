@@ -66,5 +66,13 @@ namespace UI.Systems.PreRound
 		{
 			gameModeDisplay.text = "Game Mode: " + GameManager.Instance.GetGameModeName();
 		}
+
+		public void ClearAllButtons()
+		{
+			foreach (var button in buttonsArea)
+			{
+				if (button is Transform c) Destroy(c.gameObject);
+			}
+		}
 	}
 }

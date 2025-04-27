@@ -11,6 +11,7 @@ namespace Messages.Server.Lobby
 		{
 			public MotdPageData MotdPageData;
 			public RulesPageData RulesPageData;
+			public RoundState RoundState;
 		}
 
 		public struct MotdPageData
@@ -38,14 +39,16 @@ namespace Messages.Server.Lobby
 			);
 
 			UIManager.Instance.ServerInfoPanelWindow.RefreshWindow();
+			GameManager.Instance.CurrentRoundState = msg.RoundState;
 		}
 
-		public static NetMessage Send(NetworkConnection clientConn, MotdPageData motdPageData, RulesPageData rulesPageData)
+		public static NetMessage Send(NetworkConnection clientConn, MotdPageData motdPageData, RulesPageData rulesPageData, RoundState state)
 		{
 			var msg = new NetMessage
 			{
 				MotdPageData = motdPageData,
-				RulesPageData = rulesPageData
+				RulesPageData = rulesPageData,
+				RoundState = state
 			};
 
 			SendTo(clientConn, msg);
