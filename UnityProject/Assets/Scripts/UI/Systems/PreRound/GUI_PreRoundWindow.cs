@@ -175,6 +175,10 @@ namespace UI.Systems.PreRound
 			}
 			else
 			{
+				if (SubSceneManager.Instance.clientIsLoadingSubscene)
+				{
+					ModalPanelManager.Instance.Inform("The game is still loading, please wait few more seconds.");
+				}
 				UIManager.Display.SetScreenForJobSelect();
 			}
 		}
