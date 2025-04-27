@@ -21,7 +21,7 @@ PrefabInstance:
     - target: {fileID: 2309046873998151232, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 16
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 2567080129922137229, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
@@ -172,7 +172,7 @@ PrefabInstance:
     - target: {fileID: 4447441901592205885, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4565153780927629279, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
@@ -332,6 +332,7 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: fc22d71c1c3167245ad53699c82a0a3f,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
