@@ -163,6 +163,19 @@ public static class SweetExtensions
 		}
 	}
 
+	public static uint NetIdCommonComponents(this GameObject go)
+	{
+		var net = go.GetComponentCustom<NetworkIdentity>();
+		if (net)
+		{
+			return net.netId;
+		}
+		else
+		{
+			return global::NetId.Invalid; //maxValue is invalid (see NetId.cs)
+		}
+	}
+
 	public static NetworkIdentity NetworkIdentity(this uint go)
 	{
 		if (go is global::NetId.Empty or global::NetId.Invalid)

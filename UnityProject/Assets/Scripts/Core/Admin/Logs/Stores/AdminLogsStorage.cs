@@ -31,7 +31,17 @@ namespace Core.Admin.Logs.Stores
 			AdminLogsManager.OnNewLog += QueueLog;
 		}
 
-		private void Update()
+		public void OnEnable()
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		public void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void UpdateMe()
 		{
 			if (entries.Count == 0) return;
 			if (readyForQueue == false) return;

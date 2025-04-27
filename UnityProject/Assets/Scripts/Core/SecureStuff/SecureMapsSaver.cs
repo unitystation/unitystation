@@ -167,7 +167,7 @@ namespace SecureStuff
 				}
 				else
 				{
-					Loggy.Error("Needs to be added!!!");
+					Loggy.Error($"Needs to be added!!! a ModField.Data  {ModField.Data}  ModField.Data  {ModField.Name} ");
 					//TODO Implement!!
 				}
 			}
@@ -1224,7 +1224,7 @@ namespace SecureStuff
 			if (Field.FieldType.IsGenericType &&
 			    Field.FieldType.GetGenericTypeDefinition() == typeof(Dictionary<,>))
 				return; //skipping all dictionaries For now
-			
+
 			if (Field.FieldType == typeof(System.Action)) return;
 
 			if (Field.FieldType.BaseType == typeof(UnityEngine.Events.UnityEventBase))

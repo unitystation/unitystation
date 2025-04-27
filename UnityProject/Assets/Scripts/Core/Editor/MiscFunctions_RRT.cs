@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Admin.Logs;
 using Doors;
 using UnityEditor;
 using UnityEngine;
@@ -57,6 +58,15 @@ namespace Util
 		[MenuItem("Tools/Debug/------------ Debug function -----------")]
 		public static void Generate()
 		{
+
+			AdminLogsManager.AddNewLog("log1 sdaasfdfgh fdg dfdfgdfg dfgd fgd oje", LogCategory.Admin);
+			AdminLogsManager.AddNewLog("log2 sdaasfdfgh fdg dfdfgdfg dfgd fgd oje", PlayerManager.LocalPlayerObject , LogCategory.Admin);
+			AdminLogsManager.AddNewLog("log3 sdaasfdfgh fdg dfdfgdfg dfgd fgd oje", PlayerManager.LocalPlayerObject,
+				" dasjhk ads jhkgasdhmgjshkadnhjkgsadhjsak gjh hjgsad jhasd",
+			PlayerManager.LocalPlayerScript.RegisterPlayer.Matrix.GetComponentInChildren<Rotatable>().gameObject
+				, LogCategory.Admin);
+
+			return;
 			System.Diagnostics.Stopwatch t1 = new Stopwatch();
 			t1.Start();
 			for (int i = 0; i < 1000; i++)

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Core.Admin.Logs
@@ -7,7 +8,7 @@ namespace Core.Admin.Logs
 	public class LogEntry
 	{
 		public DateTime LogTime { get; } = DateTime.UtcNow;
-		public List<LogInfo> Log = new List<LogInfo>();
+		public LogInfo[] Log;
 		public List<AdminActionToTake> AdminActions = null;
 		public Severity LogImportance;
 		public LogCategory Category;
@@ -34,8 +35,10 @@ namespace Core.Admin.Logs
 			}
 
 			LogInfo.CoreObject = go;
+			LogInfo.CoreObjectName = go.name;
 			LogInfo.WasControlledByPlayer = WasControlledByPlayer;
 			LogInfo.WasStoredInObject = StoredIn;
+			LogInfo.WasStoredInObjectName = StoredIn?.name;
 			LogInfo.Info = go.ExpensiveName();
 			LogInfo.WasAtPositionWorld = go.AssumedWorldPosServer();
 
@@ -51,29 +54,62 @@ namespace Core.Admin.Logs
 
 	}
 
+	public enum LogMarker
+	{
+		Core,
+		StoredIn,
+		ControlledBy,
+		Position,
+		Info
+	}
 
 	public struct LogInfo
 	{
 		public GameObject CoreObject;
+		public string CoreObjectName;
 		public GameObject WasStoredInObject;
+		public string WasStoredInObjectName;
 		public PlayerInfo WasControlledByPlayer;
 		public Vector3 WasAtPositionWorld;
 		public string Info;
-		public string SerialisedInfo;
+
+		public LongTermLogEntry.LogItems SerialiseVersion()
+		{
+			return new LongTermLogEntry.LogItems()
+			{
+				CoreObject = CoreObject.NetIdCommonComponents(),
+				WasStoredInObject = WasStoredInObject.NetIdCommonComponents(),
+				WasControlledByPlayerAccountId = WasControlledByPlayer?.AccountId,
+				Info = Info
+			};
+		}
 
 	}
 
-	public class LongTermLogEntry
+	public struct LongTermLogEntry
 	{
 		public DateTime LogTime;
-		public string Log;
+		public LogItems[] Log;
 		public string LogImportance;
-		public string Perpetrator;
 		public string Category;
 
 		public LongTermLogEntry(LogEntry entry)
 		{
-			throw new NotImplementedException();
+			LogTime = entry.LogTime;
+			Log = entry.Log.Select(x => x.SerialiseVersion()).ToArray();
+			LogImportance = entry.LogImportance.ToString();
+			Category = entry.Category.ToString();
+
+
+		}
+
+		public struct LogItems
+		{
+			public uint CoreObject;
+			public uint WasStoredInObject;
+			public string WasControlledByPlayerAccountId;
+			public Vector3 WasAtPositionWorld;
+			public string Info;
 		}
 	}
 

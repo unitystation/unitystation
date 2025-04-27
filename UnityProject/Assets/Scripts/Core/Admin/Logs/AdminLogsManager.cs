@@ -9,6 +9,10 @@ namespace Core.Admin.Logs
 {
 	public class AdminLogsManager : SingletonManager<AdminLogsManager>
 	{
+		//TODO Export to string on UI for admin
+		//TODO So just aa tick box, On the log to say you want to save it to strring
+
+
 		private HashSet<LogEntry> recordedEntries = new HashSet<LogEntry>();
 		public static Action<LogEntry> OnNewLog;
 
@@ -23,7 +27,7 @@ namespace Core.Admin.Logs
 			recordedEntries.Add(entry);
 		}
 
-		public static void AddNewLog(LogEntry entry)
+		public static void AddNewLogEntry(LogEntry entry)
 		{
 			OnNewLog?.Invoke(entry);
 		}
@@ -117,11 +121,11 @@ namespace Core.Admin.Logs
 			LogEntry entry = new LogEntry
 			{
 				AdminActions = new List<AdminActionToTake>(),
-				Log = Info,
+				Log = Info.ToArray(),
 				LogImportance = severity,
 				Category = category
 			};
-			AddNewLog(entry);
+			AddNewLogEntry(entry);
 		}
 
 

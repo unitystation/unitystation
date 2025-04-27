@@ -13,12 +13,24 @@ namespace UI.Systems.AdminTools.AdminLogs
 	{
 		[SerializeField] private Button gibButton = null;
 		[SerializeField] private Button teleportButton = null;
-		[SerializeField] private TMP_Text logInfo = null;
 		[SerializeField] private TMP_Text logTime = null;
 		private LogEntry entry = null;
 		public LogEntry StoredLogEntry => entry;
+
+
+		public LogInfoUI Prefab;
+
+		public Transform Target;
+
 		public void Setup(LogEntry newEntry)
 		{
+
+			foreach (var log in newEntry.Log)
+			{
+				var Instant = Instantiate(Prefab, Target);
+				Instant.SetUp(log);
+			}
+
 			entry = newEntry;
 			//logInfo.text = entry.Log;
 			logTime.text = newEntry.LogTime.ToLocalTime().ToLongTimeString();
@@ -26,6 +38,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 			//gibButton.onClick.AddListener(GibRequest);
 			//teleportButton.onClick.AddListener(TeleportTo);
 		}
+
 
 		public void TeleportTo()
 		{
@@ -35,7 +48,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 				CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
 
 			//var target = spawned[AdminLogsManager.GetPerpIdFromString(entry.Perpetrator)];
-		//	if (target == null) return;
+			//if (target == null) return;
 
 			if (PlayerManager.LocalPlayerScript.IsGhost == false)
 			{
