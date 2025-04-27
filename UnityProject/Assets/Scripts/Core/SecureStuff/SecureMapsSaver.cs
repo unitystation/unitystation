@@ -167,8 +167,7 @@ namespace SecureStuff
 				}
 				else
 				{
-					Loggy.Error("Needs to be added!!!");
-					//TODO Implement!!
+					Loggy.Error($"List, object In a list with no Forever ID unknown modification ModField.name {ModField.Name} ModField.Data {ModField.Data} on Component {Root} ");
 				}
 			}
 			else if (Component)
@@ -370,7 +369,8 @@ namespace SecureStuff
 				}
 				else
 				{
-					Loggy.Error("Needs to be added!!!");
+					Loggy.Error($"Dictionary Key, object In a Dictionary with no Forever ID unknown modification ModField.name {ModField.Name} ModField.Data {ModField.Data} on Component {Root} ");
+
 					//TODO Implement!!
 					return;
 				}
@@ -428,7 +428,7 @@ namespace SecureStuff
 				}
 				else
 				{
-					Loggy.Error("Needs to be added!!!");
+					Loggy.Error($"Dictionary val, object In a Dictionary with no Forever ID unknown modification ModField.name {ModField.Name} ModField.Data {ModField.Data} on Component {Root} ");
 					//TODO Implement!!
 					return;
 				}
@@ -1224,7 +1224,7 @@ namespace SecureStuff
 			if (Field.FieldType.IsGenericType &&
 			    Field.FieldType.GetGenericTypeDefinition() == typeof(Dictionary<,>))
 				return; //skipping all dictionaries For now
-			
+
 			if (Field.FieldType == typeof(System.Action)) return;
 
 			if (Field.FieldType.BaseType == typeof(UnityEngine.Events.UnityEventBase))
