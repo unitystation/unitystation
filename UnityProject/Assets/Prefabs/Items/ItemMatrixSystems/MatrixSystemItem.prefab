@@ -106,11 +106,14 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: fb8e393b01927e6db8168039ce0402cc,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 5025648362182782057}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 2
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &8151410467544744473
 GameObject:
   m_ObjectHideFlags: 0
@@ -217,11 +220,14 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: f1112686b80a7b9ccbedb3815e83c2b0,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 717017699282204641}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 3
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1001 &9120797067128070701
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -295,6 +301,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: m_Color.a
+      value: 0.78431374
+      objectReference: {fileID: 0}
+    - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
@@ -345,6 +356,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 8962716191955234251}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: f421a72c1fe743b44aff183b76241c34,
@@ -387,6 +403,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 3154519814276468534}
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
+--- !u!212 &8962716191955234251 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 9120797067128070701}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &9116272316079367139 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298,
