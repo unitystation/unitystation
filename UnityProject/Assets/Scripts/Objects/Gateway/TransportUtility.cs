@@ -32,6 +32,10 @@ namespace Gateway
 			if (SubSceneManager.Instance.IsMaintRooms && DMMath.Prob(0.0025 * maintRoomChanceModifier)) //1 in 400 chance for events like portals. 1 in 4000 for quantum pads and the like.
 			{
 				dest = MaintRoomLocations.PickRandom().RegisterTile().WorldPositionServer;
+				if (dest.z != 0)
+				{
+					dest = transportTo;
+				}
 			}
 
 			objectPhysics.DisappearFromWorld();

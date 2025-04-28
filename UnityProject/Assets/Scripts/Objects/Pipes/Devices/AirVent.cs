@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
@@ -56,20 +57,43 @@ namespace Objects.Atmospherics
 		private MetaDataNode metaNode;
 		private MetaDataLayer metaDataLayer;
 
-		private GasMix pipeMix;
+		private GasMix pipeMix
+		{
+			get
+			{
+				if (selfSufficient)
+				{
+					return InternalpipeMix;
+				}
+				else
+				{
+					return pipeData.GetMixAndVolume.GetGasMix();
+				}
+
+			}
+		}
+
+		private GasMix InternalpipeMix;
 
 		public override void OnSpawnServer(SpawnInfo info)
 		{
 			metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
 			metaNode = metaDataLayer.Get(registerTile.LocalPositionServer);
-			pipeMix = selfSufficient ? GasMix.NewGasMix(GasMixes.BaseAirMix) : pipeData.GetMixAndVolume.GetGasMix();
-
-			if (TryGetComponent<AcuDevice>(out var device) && device.Controller != null)
-			{
-				SetOperatingMode(device.Controller.DesiredMode);
-			}
+			InternalpipeMix = GasMix.NewGasMix(GasMixes.BaseEmptyMix);
 
 			base.OnSpawnServer(info);
+		}
+
+		public void Start()
+		{
+			if (CustomNetworkManager.IsServer)
+			{
+				if (TryGetComponent<AcuDevice>(out var device) && device.Controller != null)
+				{
+					SetOperatingMode(device.Controller.DesiredMode);
+				}
+
+			}
 		}
 
 		public override void TickUpdate()
@@ -79,7 +103,6 @@ namespace Objects.Atmospherics
 			if (IsOperating == false || isWelded) return;
 
 			Operate();
-
 			if (selfSufficient)
 			{
 				pipeMix.CopyFrom(GasMixes.BaseAirMix);
@@ -241,6 +264,11 @@ namespace Objects.Atmospherics
 			if (isWelded)
 			{
 				desiredFinalSprite = Sprite.Welded;
+			}
+
+			if (spritehandler.CataloguePage == (int)desiredFinalSprite)
+			{
+				return;
 			}
 
 			this.RestartCoroutine(AnimateSprite(desiredFinalSprite), ref animator);

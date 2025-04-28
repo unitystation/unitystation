@@ -41,12 +41,14 @@ public class MetabolismReaction : Reaction
 	public void React(List<MetabolismComponent> sender, ReagentMix reagentMix, float ReactionAmount)
 	{
 		var reactionMultiple = GetReactionMultiple(reagentMix);
-
+		if (reactionMultiple == 0) return;
 		var AmountProcessing = 0f;
 		foreach (var ingredient in ingredients.m_dict)
 		{
 			AmountProcessing += (ingredient.Value * reactionMultiple);
 		}
+
+		if (AmountProcessing == 0) return;
 
 		if (AmountProcessing > ReactionAmount)
 		{
