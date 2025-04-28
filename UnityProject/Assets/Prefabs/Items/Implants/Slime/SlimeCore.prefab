@@ -285,6 +285,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8253ab1a6600a6e4d843aba148ce5601,
         type: 2}
+    - target: {fileID: 8827344453534656638, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8253ab1a6600a6e4d843aba148ce5601,
+        type: 2}
     m_RemovedComponents:
     - {fileID: 1512013037722720825, guid: 1e19c4562afbbd2479d14830399db738, type: 3}
     - {fileID: 6883510592972252665, guid: 1e19c4562afbbd2479d14830399db738, type: 3}
@@ -390,11 +396,11 @@ MonoBehaviour:
   <PeriodicUpdateInterval>k__BackingField: 1
   <master>k__BackingField: {fileID: 0}
   eatFoodSound:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   hitMask:
@@ -460,7 +466,7 @@ MonoBehaviour:
   RelatedPart: {fileID: 0}
   <CurrentActiveStates>k__BackingField: []
   <MobStates>k__BackingField: []
-  thinkingState: {fileID: 3350947404595399408}
+  <thinkingState>k__BackingField: {fileID: 3350947404595399408}
   Brain: {fileID: 5814085553101229679}
   DEBUGoverride: 0
   Body: {fileID: 0}
