@@ -10,7 +10,6 @@ using UI.Action;
 using UI.Core.Action;
 using Changeling;
 using Logs;
-using UI.Systems.PreRound;
 
 namespace UI
 {
@@ -209,6 +208,7 @@ namespace UI
 			uiAnimator.Play("idle");
 			if (disclaimer != null) disclaimer.SetActive(false);
 			preRoundWindow.gameObject.SetActive(true);
+			preRoundWindow.SetUIForMapLoading();
 		}
 
 		public void SetScreenForPreRound()
@@ -223,6 +223,7 @@ namespace UI
 			jobSelectWindow.SetActive(false);
 			teamSelectionWindow.SetActive(false);
 			preRoundWindow.gameObject.SetActive(true);
+			preRoundWindow.SetUIForCountdown();
 
 			InfoPanelMessageClient.Send();
 		}
@@ -239,6 +240,8 @@ namespace UI
 			jobSelectWindow.SetActive(false);
 			teamSelectionWindow.SetActive(false);
 			preRoundWindow.gameObject.SetActive(true);
+			preRoundWindow.SetUIForJoining();
+
 			InfoPanelMessageClient.Send();
 		}
 

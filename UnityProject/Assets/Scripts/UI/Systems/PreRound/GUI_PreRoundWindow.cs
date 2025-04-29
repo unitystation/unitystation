@@ -1,66 +1,112 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
+using UnityEngine.UI;
+using Mirror;
+using TMPro;
 using AdminCommands;
-using Cysharp.Threading.Tasks;
+using Logs;
 using Managers;
 using Messages.Client.Lobby;
-using Mirror;
-using Shared.Managers;
-using TMPro;
+using Systems.Character;
 using UI.Character;
-using UI.CharacterCreator;
-using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
-using Util.Independent.FluentRichText;
 
-namespace UI.Systems.PreRound
+namespace UI
 {
-	public class GUI_PreRoundWindow : SingletonManager<GUI_PreRoundWindow>
+	public class GUI_PreRoundWindow : MonoBehaviour
 	{
-		public RectTransform LeftSide = null;
-		public PreRoundLoadingArea LoadingArea = null;
-		public PreRoundButtonsScreen ButtonsArea = null;
-		public PreRoundCountdownDisplay CountdownArea = null;
+		// Text objects
+		[SerializeField]
+		private TMP_Text currentGameMode = null;
+		[SerializeField]
+		private TMP_Text timer = null;
+		[SerializeField]
+		private TMP_Text playerCount = null;
+		[SerializeField]
+		private TMP_Text readyText = null;
 
+
+		[SerializeField] private TMP_Text loadingText = null;
+
+		[SerializeField] private Scrollbar loadingBar = null;
+
+		[SerializeField] private GameObject normalWindows = null;
+
+		[SerializeField] private GameObject warnText = null;
+
+		[SerializeField] private GameObject notEnoughReady = null;
+
+		// UI panels
+		[SerializeField]
+		private GameObject adminPanel = null;
+		[SerializeField]
+		private GameObject playerWaitPanel = null;
+		[SerializeField]
+		private GameObject mainPanel = null;
+		[SerializeField]
+		private GameObject timerPanel = null;
+		[SerializeField]
+		private GameObject joinPanel = null;
+
+		[SerializeField]
+		private GameObject mapLoadingPanel = null;
+
+		[SerializeField] private GameObject rejoiningRoundPanel = null;
+
+		// Character objects
+		[SerializeField]
 		public GameObject characterCustomization = null;
+
+		[SerializeField]
+		private GUI_JobPreferences localJobPref = null;
+
+		[SerializeField]
+		private Button characterButton = null;
+
+		[SerializeField]
+		private TMP_Text loadingTextDetailed = null;
+
+		// Internal variables
+		private bool doCountdown;
+		private double countdownEndTime;
+		private bool isReady;
+
+		public static GUI_PreRoundWindow Instance;
+
+		private bool startedAlready = false;
 
 		public Action<string> OnClientLoadUpdateStatus;
 
-		public GameObject adminPanel = null;
-
-		private Toggle joinButton;
-		private Button characterButton;
-		private Button adminStartButton;
-
+		private void Awake()
+		{
+			//localJobPref = null;
+			if (Instance == null)
+			{
+				Instance = this;
+				OnClientLoadUpdateStatus += UpdateDetailedLoadingText;
+			}
+			else
+			{
+				Destroy(gameObject);
+			}
+		}
 
 		private void OnEnable()
 		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			EventManager.AddHandler(Event.PostRoundStarted, OnCountdownEnd);
 			SetInfoScreenOn();
-			CountdownArea.OnFinishedCountingDown += ButtonsArea.RefreshGameModeText;
-			CountdownArea.OnFinishedCountingDown += CheckForRoundStatusForTitle;
-			_ = DelayedCheck();
-		}
-
-		private async UniTask DelayedCheck()
-		{
-			ButtonsArea.SetTitle("Loading..");
-			// This might seem like an unnecessary delay, but it's actually required because the game likes to hang while loading; which delays the receiving of specific info from net messages
-			// that update the state of the round to players.
-			await UniTask.WaitForSeconds(0.5f);
-			PopulateWithStandardGameModeButtons();
-			ButtonsArea.RefreshGameModeText();
-			CheckForRoundStatusForTitle(); // maybe find a way to make this reactive with networked events?
 		}
 
 		private void OnDisable()
 		{
+			startedAlready = false;
+			doCountdown = false;
+			isReady = false;
+			adminPanel.SetActive(false);
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-			CountdownArea.OnFinishedCountingDown -= ButtonsArea.RefreshGameModeText;
-			CountdownArea.OnFinishedCountingDown -= CheckForRoundStatusForTitle;
+			EventManager.RemoveHandler(Event.PostRoundStarted, OnCountdownEnd);
 		}
 
 		private void UpdateMe()
@@ -69,6 +115,11 @@ namespace UI.Systems.PreRound
 			{
 				TryShowAdminPanel();
 			}
+
+			if (doCountdown)
+			{
+				UpdateCountdownUI();
+			}
 		}
 
 		private void TryShowAdminPanel()
@@ -76,6 +127,41 @@ namespace UI.Systems.PreRound
 			if (PlayerList.HasTAGClient(TAG.MANAGE_ROUND_START))
 			{
 				adminPanel.SetActive(true);
+			}
+		}
+
+		private void OnCountdownEnd()
+		{
+			doCountdown = false;
+			if (isReady)
+			{
+				// Server should spawn the player so hide this window
+				gameObject.SetActive(false);
+			}
+			else
+			{
+				SetUIForJoining();
+			}
+		}
+
+		/// <summary>
+		/// Update the UI based on the current countdown time
+		/// </summary>
+		private void UpdateCountdownUI()
+		{
+			if (NetworkTime.time >= countdownEndTime)
+			{
+				notEnoughReady.SetActive(true);
+				return;
+			}
+
+			timer.text = TimeSpan.FromSeconds(countdownEndTime - NetworkTime.time).ToString(@"mm\:ss");
+
+			if (GameManager.Instance.QuickLoad && mapLoadingPanel.activeSelf == false)
+			{
+				if (startedAlready == true || this.isActiveAndEnabled == false) return;
+				startedAlready = true;
+				StartCoroutine(WaitForInitialisation());
 			}
 		}
 
@@ -91,124 +177,114 @@ namespace UI.Systems.PreRound
 					yield return WaitFor.Seconds(0.55f);
 					maxWaitTime++;
 				}
+				SetReady(true, false);
 				StartNowButton();
 			}
 		}
 
-		public void HideLoadingArea()
+		public void UpdatePlayerCount(int count)
 		{
-			LoadingArea.SetActive(false);
-		}
-
-		public void PopulateLobbyScreenWithButtons(string gamemodeTitle, List<Tuple<string, System.Action>> buttonActions)
-		{
-			ButtonsArea.SetTitle(gamemodeTitle);
-			foreach (var ba in buttonActions)
-			{
-				ButtonsArea.CreateInteractableButton(ba.Item1, ba.Item2);
-			}
-			StartCoroutine(WaitForInitialisation());
-		}
-
-		public void PopulateWithStandardGameModeButtons()
-		{
-			ButtonsArea.ClearAllButtons();
-			AddStartNowButtonForAdmins();
-			joinButton = ButtonsArea.CreateInteractableToggle(CountdownArea.IsCountingDown ? "Ready Up!" : "Join Round", OnJoinButton);
-			characterButton = ButtonsArea.CreateInteractableButton("Character", OnCharacterButton);
-			CountdownArea.OnFinishedCountingDown += ChangeJoinButtonForRoundStarted;
-		}
-
-		private void ChangeJoinButtonForRoundStarted()
-		{
-			if (joinButton == null)
-			{
-				CountdownArea.OnFinishedCountingDown -= ChangeJoinButtonForRoundStarted;
-				return;
-			}
-			joinButton.interactable = true;
-			joinButton.GetComponentInChildren<TMP_Text>().text = "Join Round";
-		}
-
-		private void AddStartNowButtonForAdmins()
-		{
-			if (adminStartButton != null)
-			{
-				adminStartButton.gameObject.SetActive(true);
-				return;
-			}
-			if (PlayerList.HasTAGClient(TAG.MANAGE_ROUND_START))
-			{
-				adminStartButton = ButtonsArea.CreateInteractableButton("[A] Start Now".Color(Color.yellow), StartNowButton);
-			}
+			playerCount.text = count.ToString();
+			currentGameMode.text = GameManager.Instance.GetGameModeName();
 		}
 
 		public void StartNowButton()
 		{
 			AdminCommandsManager.Instance.CmdStartRound();
-			CheckForRoundStatusForTitle();
+		}
+
+		public void SyncCountdown(bool started, double endTime)
+		{
+			Loggy.Info().Format("SyncCountdown called with: started={0}, endTime={1}, current NetworkTime={2}", Category.Round,
+				started, endTime, NetworkTime.time);
+			countdownEndTime = endTime;
+			doCountdown = started;
+			if (started)
+			{
+				SetUIForCountdown();
+				// Update the timer now so it doesn't flash 0:00
+				UpdateCountdownUI();
+			}
+			else
+			{
+				SetUIForWaiting();
+			}
 		}
 
 		public void OnCharacterButton()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			if (characterCustomization == null)
-			{
-				characterCustomization = FindAnyObjectByType<CharacterSettings>().gameObject;
-			}
 			characterCustomization.SetActive(true);
+		}
+
+		/// <summary>
+		/// Toggle isReady and update the UI
+		/// </summary>
+		public void OnReadyButton()
+		{
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+			if (PlayerManager.ActiveCharacter == null)
+			{
+				warnText.SetActive(true);
+				return;
+			}
+			SetReady(!isReady, true);
+			TryShowAdminPanel();
 		}
 
 		/// <summary>
 		/// Show the job select screen
 		/// </summary>
-		public void OnJoinButton(bool isOn)
+		public void OnJoinButton()
 		{
-			AddStartNowButtonForAdmins();
-			if (HasCharacters() == false) return;
-			//if (NoJobWarn() == false) return;
-			if (CountdownArea.IsCountingDown)
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+			if (PlayerManager.CharacterManager.Characters.Any() == false)
 			{
-				characterButton.interactable = !isOn;
-				joinButton.GetComponentInChildren<TMP_Text>().text = (!isOn) ? "Ready" : "Unready";
-				PlayerManager.LocalViewerScript?.SetReady(isOn);
+				characterCustomization.SetActive(true);
+				Chat.AddExamineMsgToClient("<color=red>No character sheets detected.</color>");
+				return;
 			}
-			else
+			UIManager.Display.SetScreenForJobSelect();
+		}
+
+		/// <summary>
+		/// Sets the new ready status. Will tell the server about the new ready state if it has changed.
+		/// </summary>
+		/// <param name="ready"></param>
+		private void SetReady(bool ready, bool isManuallyDoneByPlayer)
+		{
+			var noJob = localJobPref.JobPreferences.Count == 0;
+			NoJobWarn(noJob);
+			if (isManuallyDoneByPlayer && PlayerManager.CharacterManager.Characters.Count == 0)
 			{
-				if (SubSceneManager.Instance.clientIsLoadingSubscene)
-				{
-					ModalPanelManager.Instance.Inform("The game is still loading, please wait few more seconds.");
-				}
-				UIManager.Display.SetScreenForJobSelect();
+				characterCustomization.SetActive(true);
+				return;
 			}
+			if (isReady != ready)
+			{
+				// Ready status changed so tell the server
+				PlayerManager.LocalViewerScript?.SetReady(ready);
+			}
+			isReady = ready;
+			characterButton.interactable = !ready;
+			readyText.text = (!ready) ? "Ready" : "Unready";
 		}
 
 		/// <summary>
 		/// Warns the player when they have no job selected and default their job preference
 		/// </summary>
 		/// <param name="noJob"></param>
-		private bool NoJobWarn()
+		private void NoJobWarn(bool noJob)
 		{
-			bool hasPreferences = PlayerManager.ActiveCharacter.JobPreferences.Count != 0;
-			if (hasPreferences)
+			if (noJob)
 			{
-				return true;
+				warnText.SetActive(true);
+				localJobPref.SetAssistantDefault();
 			}
-			ModalPanelManager.Instance.Inform("No job preferences found. Please select some in your character sheet.");
-			return false;
-		}
-
-		private bool HasCharacters()
-		{
-			bool hasCharacters = PlayerManager.CharacterManager.ActiveCharacter != null;
-			if (hasCharacters)
+			else
 			{
-				return true;
+				warnText.SetActive(false);
 			}
-			characterCustomization.SetActive(true);
-			Chat.AddExamineMsgToClient("No active character sheet detected".Color(Color.red));
-			ModalPanelManager.Instance.Inform("No character sheet detected. Please create or choose one.");
-			return false;
 		}
 
 		private void SetInfoScreenOn()
@@ -216,25 +292,88 @@ namespace UI.Systems.PreRound
 			InfoPanelMessageClient.Send();
 		}
 
-		public void CheckForRoundStatusForTitle()
+		/// <summary>
+		/// Show waiting for players text
+		/// </summary>
+		public void SetUIForWaiting()
 		{
-			switch (GameManager.Instance.CurrentRoundState)
-			{
-				case RoundState.None:
-				case RoundState.PreRound:
-					ButtonsArea.SetTitle("Waiting for new round..");
-					break;
-				case RoundState.Started:
-					ButtonsArea.SetTitle("Welcome to UnityStation.");
-					break;
-				case RoundState.Ended:
-				case RoundState.Restarting:
-					ButtonsArea.SetTitle("Shift has ended!");
-					break;
-				default:
-					ButtonsArea.SetTitle("Welcome to UnityStation!");
-					break;
-			}
+			timerPanel.SetActive(false);
+			joinPanel.SetActive(false);
+			playerWaitPanel.SetActive(true);
+			mainPanel.SetActive(false);
+			rejoiningRoundPanel.SetActive(false);
+		}
+
+		/// <summary>
+		/// Show timer and ready button
+		/// </summary>
+		public void SetUIForCountdown()
+		{
+			normalWindows.SetActive(true);
+			mapLoadingPanel.SetActive(false);
+			SetReady(isReady, false);
+			timerPanel.SetActive(true);
+			joinPanel.SetActive(false);
+			playerWaitPanel.SetActive(false);
+			mainPanel.SetActive(true);
+			rejoiningRoundPanel.SetActive(false);
+		}
+
+		/// <summary>
+		/// Show round started and join button
+		/// </summary>
+		public void SetUIForJoining()
+		{
+			normalWindows.SetActive(true);
+			mapLoadingPanel.SetActive(false);
+			rejoiningRoundPanel.SetActive(false);
+			notEnoughReady.SetActive(false);
+			warnText.SetActive(false);
+			joinPanel.SetActive(true);
+			timerPanel.SetActive(false);
+			playerWaitPanel.SetActive(false);
+			mainPanel.SetActive(true);
+			rejoiningRoundPanel.SetActive(false);
+			OnClientLoadUpdateStatus?.Invoke("");
+		}
+
+		public void ShowRejoiningPanel()
+		{
+			normalWindows.SetActive(false);
+			mapLoadingPanel.SetActive(false);
+			rejoiningRoundPanel.SetActive(true);
+		}
+
+		public void CloseRejoiningPanel()
+		{
+			normalWindows.SetActive(false);
+			mapLoadingPanel.SetActive(false);
+			rejoiningRoundPanel.SetActive(false);
+		}
+
+		public void SetUIForMapLoading()
+		{
+			rejoiningRoundPanel.SetActive(false);
+			normalWindows.SetActive(false);
+			mapLoadingPanel.SetActive(true);
+		}
+
+		public void UpdateLoadingBar(string text, float loadedAmt)
+		{
+			loadingText.text = text;
+			loadingBar.size = loadedAmt;
+		}
+
+		public void CloseMapLoadingPanel()
+		{
+			normalWindows.SetActive(true);
+			mapLoadingPanel.SetActive(false);
+			UpdateLoadingBar("Preparing..", 0.1f);
+		}
+
+		private void UpdateDetailedLoadingText(string newText)
+		{
+			loadingTextDetailed.text = newText;
 		}
 	}
 }

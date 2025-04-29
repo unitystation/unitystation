@@ -23,8 +23,7 @@ namespace Messages.Client.Lobby
 				new InfoPanelMessageServer.RulesPageData
 				{
 					Rules = ServerData.RulesData
-				},
-				GameManager.Instance.CurrentRoundState
+				}
 			);
 		}
 

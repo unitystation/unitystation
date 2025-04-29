@@ -9,7 +9,6 @@ using System.Globalization;
 using Core.Utils;
 using Messages.Server;
 using ScriptableObjects.Characters;
-using UI.Systems.PreRound;
 
 namespace UI
 {

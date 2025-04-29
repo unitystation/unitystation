@@ -258,6 +258,6 @@ public class SubsceneLoadTimer
 		lastText = textToDisplay;
 
 		CurrentLoadTime += 1f;
-		UIManager.Display.preRoundWindow.LoadingArea.UpdateLoadingBar("Loading Scenes", textToDisplay, CurrentLoadTime / MaxLoadTime);
+		UIManager.Display.preRoundWindow.UpdateLoadingBar(textToDisplay, CurrentLoadTime / MaxLoadTime);
 	}
 }
