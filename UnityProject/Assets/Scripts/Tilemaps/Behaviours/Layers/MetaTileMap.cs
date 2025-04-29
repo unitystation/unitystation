@@ -81,6 +81,8 @@ namespace TileManagement
 		public float Mass = 0; //Nothing lighter!
 
 
+		public bool ClientReceivedTiles = false;
+
 		/// <summary>
 		/// Use this dictionary only if performance isn't critical, otherwise try using arrays below
 		/// </summary>This
