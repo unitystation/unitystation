@@ -40,7 +40,7 @@ public interface IClientSynchronisedEffect : IClientPlayerLeaveBody, IClientPlay
 		if (NetId.Empty != CurrentlyOn && NetId.Invalid != CurrentlyOn)
 		{
 			ClientSynchronisedEffectsManager.Instance.ClientRegisterOnBody(CurrentlyOn, this);
-			if (PlayerManager.LocalMindScript.OrNull()?.CurrentlyControllingObject != null && PlayerManager.LocalMindScript.CurrentlyControllingObject.NetId()  == CurrentlyOn)
+			if (ClientSynchronisedEffectsManager.CurrentlyOns.Contains(CurrentlyOn))
 			{
 				ApplyDefaultOrCurrentValues(false);
 			}
