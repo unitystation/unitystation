@@ -93,6 +93,16 @@ namespace Objects.Engineering
 
 			connectedDevices.RemoveAndSerialize(this, gameObject.scene, device => device == null);
 		}
+
+		public void Start()
+		{
+			foreach (var Device in connectedDevices)
+			{
+				if ( Device == null) continue;
+				Device.RelatedAPC = this;
+			}
+		}
+
 		public override void OnEnable()
 		{
 			integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
