@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Logs;
 using Managers;
 using Tilemaps.Behaviours.Layers;
@@ -172,7 +174,14 @@ public class EscapeShuttle : AutopilotShipMachine
 		centComm = GameManager.Instance.GetComponent<CentComm>();
 		initialTimerSecondsCache = initialTimerSeconds;
 		loadedOnRoundID = GameManager.RoundID;
-		InItAsIfDockedTo(StationStartBuoy);
+		_ = WaitForLoad();
+	}
+
+
+	private async Task WaitForLoad()
+	{
+		await UniTask.WaitForSeconds(10);
+        InItAsIfDockedTo(StationStartBuoy);
 	}
 
 
