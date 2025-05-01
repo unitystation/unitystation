@@ -51,17 +51,24 @@ namespace Objects.Wallmounts.Switches
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			apcPoweredDevice = GetComponent<APCPoweredDevice>();
 			clearanceRestricted = GetComponent<ClearanceRestricted>();
+
+			if (CustomNetworkManager.IsServer)
+			{
+				apcPoweredDevice.OnStateChangeEvent += OnPowerStatusChange;
+			}
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			apcPoweredDevice.OnStateChangeEvent += OnPowerStatusChange;
 			ChangeTurretStates();
 		}
 
 		private void OnDisable()
 		{
-			apcPoweredDevice.OnStateChangeEvent -= OnPowerStatusChange;
+			if (CustomNetworkManager.IsServer)
+			{
+				apcPoweredDevice.OnStateChangeEvent -= OnPowerStatusChange;
+			}
 		}
 
 		public void AddTurretToSwitch(Turret turret)
