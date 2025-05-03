@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using AddressableReferences;
+using Logs;
 using UnityEngine;
 using Systems.Construction.Parts;
 
@@ -61,38 +63,49 @@ namespace Weapons
 
 		private void AddCharge()
 		{
-			if (serverHolder == null) return;
-
-			var mag = gunComp.magSlot.Item;
-			if (mag != null)
+			try
 			{
-				var battery = mag.GetComponent<Battery>();
-				if (battery != null)
+				if (serverHolder == null)
 				{
-					battery.Watts = battery.MaxWatts;
+					isCharging = false;
+					return;
 				}
 
-				var electricalMagazine = mag.GetComponent<ElectricalMagazine>();
-				if (electricalMagazine != null)
+				var mag = gunComp.magSlot.Item;
+				if (mag != null)
 				{
-					electricalMagazine.AddCharge();
+					var battery = mag.GetComponent<Battery>();
+					if (battery != null)
+					{
+						battery.Watts = battery.MaxWatts;
+					}
+
+					var electricalMagazine = mag.GetComponent<ElectricalMagazine>();
+					if (electricalMagazine != null)
+					{
+						electricalMagazine.AddCharge();
+					}
+
+					var GunElectrical = gameObject.GetComponent<GunElectrical>();
+					if (GunElectrical != null)
+					{
+						GunElectrical.UpdateChargeSprite();
+					}
 				}
 
-				var GunElectrical = gameObject.GetComponent<GunElectrical>();
-				if (GunElectrical != null)
+				if (rechargeSound != null)
 				{
-					GunElectrical.UpdateChargeSprite();
+					SoundManager.PlayNetworkedAtPos(rechargeSound, gameObject.AssumedWorldPosServer(), sourceObj: serverHolder);
 				}
+
+				Chat.AddActionMsgToChat(serverHolder,
+					$"You finish {rechargeVerb} the {gameObject.ExpensiveName()}.",
+					$"{serverHolder.ExpensiveName()} finishes {rechargeVerb} the {gameObject.ExpensiveName()}.");
 			}
-
-			if (rechargeSound != null)
+			catch (Exception e)
 			{
-				SoundManager.PlayNetworkedAtPos(rechargeSound, gameObject.AssumedWorldPosServer(), sourceObj: serverHolder);
+				Loggy.Error(e.ToString());
 			}
-
-			Chat.AddActionMsgToChat(serverHolder,
-				$"You finish {rechargeVerb} the {gameObject.ExpensiveName()}.",
-				$"{serverHolder.ExpensiveName()} finishes {rechargeVerb} the {gameObject.ExpensiveName()}.");
 
 			isCharging = false;
 		}

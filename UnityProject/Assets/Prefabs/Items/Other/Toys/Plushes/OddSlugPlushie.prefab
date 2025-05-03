@@ -96,6 +96,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6236086576208570426, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 7269613952178807973}
+    - target: {fileID: 6236086576208570426, guid: 75421751b31ee7f49b1adb8b70cd2375,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: c819d8a72ab14b1489b3790e18c4dc54,
@@ -110,6 +115,12 @@ PrefabInstance:
       propertyPath: randomInitialSprite
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6236086576208570426, guid: 75421751b31ee7f49b1adb8b70cd2375,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c819d8a72ab14b1489b3790e18c4dc54,
+        type: 2}
     - target: {fileID: 6590914017311023056, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
       propertyPath: parentID
@@ -118,10 +129,16 @@ PrefabInstance:
     - target: {fileID: 6590914017311023056, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
       propertyPath: foreverID
-      value: EkKax?M$hbn0fMg@aU5X
+      value: 409gLRNpRQA6ZJ-B4F7U
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75421751b31ee7f49b1adb8b70cd2375, type: 3}
+--- !u!212 &7269613952178807973 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 89206780398788833, guid: 75421751b31ee7f49b1adb8b70cd2375,
+    type: 3}
+  m_PrefabInstance: {fileID: 7340364123394180164}
+  m_PrefabAsset: {fileID: 0}

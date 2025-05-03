@@ -12,6 +12,11 @@ using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public class PlayerFriendlyExplosionNode : ExplosionNode
 {
+	public PlayerFriendlyExplosionNode(Vector3 _explosionStartWorldPosition) : base(_explosionStartWorldPosition)
+	{
+		//No other constructor logic needed
+	}
+
 	public override async UniTask Process()
 	{
 		float damageDealt = AngleAndIntensity.magnitude;
@@ -63,6 +68,6 @@ public class PlayerFriendlyExplosionNode : ExplosionNode
 
 	public override ExplosionNode GenInstance()
 	{
-		return new PlayerFriendlyExplosionNode();
+		return new PlayerFriendlyExplosionNode(ExplosionStartWorldPosition);
 	}
 }

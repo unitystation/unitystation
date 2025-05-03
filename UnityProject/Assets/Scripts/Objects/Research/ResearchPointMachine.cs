@@ -37,6 +37,8 @@ namespace Systems.Research.Objects
 		/// <returns></returns>
 		public virtual int AddResearchPoints(ResearchPointMachine source, int points)
 		{
+			Chat.AddCommMsgByMachineToChat(source.gameObject, $"{source.gameObject.ExpensiveName()} {ResearchServer.BOUNTY_AWARD}RP!", ChatChannel.Local & ChatChannel.Science, Loudness.NORMAL);
+
 			return researchServer.AddResearchPoints(source, points);
 		}
 

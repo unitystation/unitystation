@@ -4,6 +4,7 @@ using UnityEngine;
 using Systems.Research.Data;
 using Systems.Research;
 using System.Collections;
+using Systems.Research.Objects;
 
 namespace UI.Objects.Research
 {
@@ -16,15 +17,15 @@ namespace UI.Objects.Research
 
 
 		private Technology technologyToUnlock;
-		private Techweb techWeb;
+		private ResearchServer server;
 		private CustomNetworkManager networkManager;
 
 
-		public void Initialise(Technology technology, Techweb techWeb)
+		public void Initialise(Technology technology, ResearchServer server)
 		{
 			networkManager = CustomNetworkManager.Instance;
 			technologyToUnlock = technology;
-			this.techWeb = techWeb;
+			this.server = server;
 
 			techName.MasterSetValue(GUI_TechwebPage.AppendNameAndTechType(technology));
 			techDescription.MasterSetValue(technology.Description);
@@ -43,10 +44,10 @@ namespace UI.Objects.Research
 			for (int i = 0; i < unlockCount; i++)
 			{
 				if (spriteList.Entries[i].TryGetComponent<SpriteEntry>(out var handler) == false) continue;
-				
+
 				string DesignID = technologyToUnlock.DesignIDs[i]; //Gets the designs this research will unlock
 				if (Designs.Globals.InternalIDSearch.ContainsKey(DesignID) == false) continue;
-				
+
 				Design designClass = Designs.Globals.InternalIDSearch[DesignID];
 
 				//Gets the sprite of the gameObject that design is for
@@ -62,7 +63,7 @@ namespace UI.Objects.Research
 
 		public void TryResearchTech()
 		{
-			techWeb.ResearchTechology(technologyToUnlock);
+			server.TryResearchTechnology(technologyToUnlock);
 		}
 	}
 }

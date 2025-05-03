@@ -538,6 +538,13 @@ namespace Core.Physics
 			bool doStepInteractions = true,
 			Vector2? momentum = null, MatrixInfo Matrixoveride = null, bool TeleportContainer = false)
 		{
+			if (worldPos.z != 0)
+			{
+				Loggy.Error(
+					$"Attempting to AppearAtWorldPositionServer for {this.gameObject.name} A odd z Level Of {worldPos.z}, change this to -100 for when we implement z levels  ");
+				worldPos.z = 0;
+			}
+
 			this.doStepInteractions = doStepInteractions;
 
 			if (ContainedInObjectContainer)
@@ -1076,7 +1083,7 @@ namespace Core.Physics
 			{
 				return;
 			}
-			
+
 			if (isVisible == false)
 			{
 				MoveIsWalking = false;
@@ -1377,7 +1384,7 @@ namespace Core.Physics
 
 		public void FlyingUpdateMe()
 		{
-			if (CustomNetworkManager.IsServer == false && JoinedViewer.ClientValidated == false)
+			if (CustomNetworkManager.IsServer == false && registerTile.Matrix.NetworkedMatrix.IsJsonLoaded && registerTile.Matrix.MetaTileMap.ClientReceivedTiles == false)
 			{
 				return;
 			}

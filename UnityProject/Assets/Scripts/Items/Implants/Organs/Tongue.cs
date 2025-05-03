@@ -29,8 +29,15 @@ namespace Items.Implants.Organs
 
 			//Get voice name from character sheet
 			var Sheet = livingHealth.GetComponentCustom<PlayerSprites>().ThisCharacter;
-			VoicesName = Sheet.Name;
-			Voice = Sheet.Voice;
+			if (string.IsNullOrWhiteSpace(VoicesName))
+			{
+				VoicesName = Sheet.Name;
+			}
+
+			if (string.IsNullOrWhiteSpace(Voice))
+			{
+				Voice = Sheet.Voice;
+			}
 
 			foreach (var language in languages)
 			{

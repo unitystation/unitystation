@@ -33,6 +33,15 @@ namespace Systems.Explosions
 
 		public List<ItemTrait> IgnoreAttributes = new List<ItemTrait>();
 
+		/// <summary>
+		/// The position of the node this explosion originated from
+		/// </summary>
+		public Vector3 ExplosionStartWorldPosition = Vector3.zero;
+
+		public ExplosionNode(Vector3 _explosionStartWorldPosition)
+		{
+			ExplosionStartWorldPosition = _explosionStartWorldPosition;
+		}
 		public virtual string EffectName
 		{
 			get { return "Fire"; }
@@ -245,7 +254,7 @@ namespace Systems.Explosions
 			}
 		}
 
-		public async UniTask TimedEffect(Vector3Int position, float time, string effectName, OverlayType effectOverlayType, TileChangeManager tileChangeManager)
+		public async UniTask TimedEffect(Vector3Int position, float timeMiliseconds, string effectName, OverlayType effectOverlayType, TileChangeManager tileChangeManager)
 		{
 			//Dont add effect if it is already there
 			if (tileChangeManager.MetaTileMap.HasOverlay(position, TileType.Effects, effectName)) return;
@@ -268,14 +277,14 @@ namespace Systems.Explosions
 			{
 				Loggy.Error("Attempted to acces CommonComponents on a FireLight object, but couldn't find one!");
 			}
-			ExplosionManager.CleanupEffectLater(time * 0.001f, tileChangeManager.MetaTileMap,
+			ExplosionManager.CleanupEffectLater(timeMiliseconds * 0.001f, tileChangeManager.MetaTileMap,
 				position, effectOverlayType, fireLightSpawn.GameObject);
 			return;
 		}
 
 		public virtual ExplosionNode GenInstance()
 		{
-			return new ExplosionNode();
+			return new ExplosionNode(ExplosionStartWorldPosition);
 		}
 	}
 }

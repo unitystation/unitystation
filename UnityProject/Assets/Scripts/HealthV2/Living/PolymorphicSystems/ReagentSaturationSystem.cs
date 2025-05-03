@@ -216,6 +216,11 @@ namespace HealthV2.Living.PolymorphicSystems
 
 					bloodSaturation = Mathf.Min(bloodSaturation, 1);
 
+					if (bloodSaturation.IsUnreasonableNumber())
+					{
+						bloodSaturation = 0;
+					}
+
 					foreach (var bodyPart in KVP.Value.RelatedBodyParts)
 					{
 						bodyPart.currentBloodSaturation = bloodSaturation;

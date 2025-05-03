@@ -40,13 +40,13 @@ namespace Systems.Electricity
 			{
 				registerTile.SetElectricalData(this);
 			}
-			ElectricalManager.Instance.electricalSync.StructureChange = true;
-			InData.Present = this;
-		}
 
-		public override void OnStartClient()
-		{
-			EnsureInit();
+			if (CustomNetworkManager.IsServer)
+			{
+				ElectricalManager.Instance.electricalSync.StructureChange = true;
+			}
+
+			InData.Present = this;
 		}
 
 		public override void OnStartServer()

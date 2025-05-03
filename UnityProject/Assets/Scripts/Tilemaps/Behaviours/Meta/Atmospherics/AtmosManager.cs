@@ -36,6 +36,9 @@ namespace Systems.Atmospherics
 		public GameObject FireLight { get; private set; }
 
 		[field: SerializeField]
+		public GameObject DarkMatterLight { get; private set; }
+
+		[field: SerializeField]
 		public GameObject IceShard { get; private set; }
 
 		[field: SerializeField]
