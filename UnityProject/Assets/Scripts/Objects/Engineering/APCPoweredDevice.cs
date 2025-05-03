@@ -132,6 +132,7 @@ namespace Systems.Electricity
 			{
 				Resistance = 240 / (Wattusage / 240);
 			}
+			EnsureInit();
 		}
 
 		private void EnsureInit()
@@ -164,6 +165,8 @@ namespace Systems.Electricity
 			{
 				Powered?.StateUpdate(PowerState.On);
 			}
+
+			OnStateChangeEvent?.Invoke(PowerState.Off, PowerState.On);
 		}
 
 		public override void OnStartClient()

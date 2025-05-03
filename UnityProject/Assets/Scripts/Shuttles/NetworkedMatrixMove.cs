@@ -1364,7 +1364,14 @@ public class NetworkedMatrixMove : NetworkBehaviour
 				{
 					bool fast = Mathf.Abs(Different.x) > 100;
 
-					var TravelSpeed = AITravelSpeed;
+					var  SpeedMultiplier = 1f;
+					if (Different.x > 30)
+					{
+						SpeedMultiplier = Mathf.Max((Different.y / 30), 0.3f);
+					}
+
+
+					var TravelSpeed = AITravelSpeed * SpeedMultiplier;
 					if (fast)
 					{
 						TravelSpeed = AITravelSpeedFast;
@@ -1413,7 +1420,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 							(OrientationZ + (DesiredDirection - CurrentForwards)).Angle360ToOrientationEnum();
 
 						var Orientation = OrientationZ.Angle360ToOrientationEnum();
-						if (Orientation != MovingDirection)
+						if (Orientation != MovingDirection && Mathf.Abs(Different.x) > 10)
 						{
 							TargetOrientation = MovingDirection;
 						}
@@ -1439,8 +1446,14 @@ public class NetworkedMatrixMove : NetworkBehaviour
 				if (Mathf.Abs(Different.y) > 1)
 				{
 					bool fast = Mathf.Abs(Different.y) > 100;
+					var  SpeedMultiplier = 1f;
+					if (Different.y > 30)
+					{
+						SpeedMultiplier = Mathf.Max((Different.y / 30), 0.3f);
+					}
 
-					var TravelSpeed = AITravelSpeed;
+
+					var TravelSpeed =  AITravelSpeed * SpeedMultiplier;
 					if (fast)
 					{
 						TravelSpeed = AITravelSpeedFast;
@@ -1477,7 +1490,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 						var Orientation = OrientationZ.Angle360ToOrientationEnum();
 
-						if (Orientation != MovingDirection)
+						if (Orientation != MovingDirection && Mathf.Abs(Different.y) > 10)
 						{
 							TargetOrientation = MovingDirection;
 						}
