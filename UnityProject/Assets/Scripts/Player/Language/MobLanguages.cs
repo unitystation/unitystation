@@ -36,9 +36,18 @@ namespace Player.Language
 
 		public PlayerScript PlayerScript;
 
-		private void Awake()
+		public override void OnStartServer()
 		{
 			addedLanguages.Callback += OnLanguageListChange;
+		}
+
+		public override void OnStartClient()
+		{
+			addedLanguages.Callback += OnLanguageListChange;
+
+			// Process initial SyncList payload
+			for (int index = 0; index < addedLanguages.Count; index++)
+				OnLanguageListChange(SyncList<NetworkLanguage>.Operation.OP_ADD, index, new NetworkLanguage(), addedLanguages[index]);
 		}
 
 		private void Start()
