@@ -180938,13 +180938,6 @@
             "LocalPRS": "91┼152┼0┼"
           },
           {
-            "GitID": "J5UF3VXxKdTV9iopbA17_91┼154┼0┼",
-            "PrefabID": "J5UF3VXxKdTV9iopbA17",
-            "NameMatches": true,
-            "Name": "SecBarrier",
-            "LocalPRS": "91┼154┼0┼"
-          },
-          {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_91┼154┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
             "NameMatches": true,
@@ -180988,6 +180981,13 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "J5UF3VXxKdTV9iopbA17_91┼154┼0┼",
+            "PrefabID": "J5UF3VXxKdTV9iopbA17",
+            "NameMatches": true,
+            "Name": "SecBarrier",
+            "LocalPRS": "91┼154┼0┼"
           },
           {
             "GitID": "J5UF3VXxKdTV9iopbA17_91┼155┼0┼",
@@ -220563,7 +220563,7 @@
                     },
                     {
                       "Name": "Out@NextInLine",
-                      "Data": "69ffc1053dc39a24fb870b2248780be4_217┼120┼0┼@0@GuidanceBuoy@0"
+                      "Data": "69ffc1053dc39a24fb870b2248780be4_175┼120┼0┼@0@GuidanceBuoy@0"
                     },
                     {
                       "Name": "In@UseConnectorAsCentreOfShuttle",
@@ -220576,6 +220576,45 @@
                     {
                       "Name": "In@NextInLine",
                       "Data": "69ffc1053dc39a24fb870b2248780be4_150┼120┼0┼@0@GuidanceBuoy@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "69ffc1053dc39a24fb870b2248780be4_175┼120┼0┼",
+            "PrefabID": "69ffc1053dc39a24fb870b2248780be4",
+            "Name": "Buoy (8)",
+            "LocalPRS": "175┼120┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "GuidanceBuoy@0",
+                  "Data": [
+                    {
+                      "Name": "Out@UseConnectorAsCentreOfShuttle",
+                      "Data": "True"
+                    },
+                    {
+                      "Name": "Out@DesiredFaceDirection",
+                      "Data": "Left_By90"
+                    },
+                    {
+                      "Name": "Out@NextInLine",
+                      "Data": "69ffc1053dc39a24fb870b2248780be4_217┼120┼0┼@0@GuidanceBuoy@0"
+                    },
+                    {
+                      "Name": "In@UseConnectorAsCentreOfShuttle",
+                      "Data": "True"
+                    },
+                    {
+                      "Name": "In@DesiredFaceDirection",
+                      "Data": "Left_By90"
+                    },
+                    {
+                      "Name": "In@NextInLine",
+                      "Data": "69ffc1053dc39a24fb870b2248780be4_155┼120┼0┼@0@GuidanceBuoy@0"
                     }
                   ]
                 }
@@ -220601,8 +220640,12 @@
                       "Data": "Left_By90"
                     },
                     {
+                      "Name": "In@DesiredFaceDirection",
+                      "Data": "Left_By90"
+                    },
+                    {
                       "Name": "In@NextInLine",
-                      "Data": "69ffc1053dc39a24fb870b2248780be4_155┼120┼0┼@0@GuidanceBuoy@0"
+                      "Data": "69ffc1053dc39a24fb870b2248780be4_175┼120┼0┼@0@GuidanceBuoy@0"
                     }
                   ]
                 }
