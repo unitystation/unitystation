@@ -85,7 +85,8 @@ public class GameData : MonoBehaviour, IInitialise
 
 	public async void APITest()
 	{
-		var url = $"{GameManager.Instance.AccountAPIHost}/validatetoken?data=";
+
+		var url = $"https://{GameManager.Instance.AccountAPIHost}/validatetoken";
 
 		HttpRequestMessage r = new HttpRequestMessage(HttpMethod.Get,
 			url + JsonConvert.SerializeObject(""));

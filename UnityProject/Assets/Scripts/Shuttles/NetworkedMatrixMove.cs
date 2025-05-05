@@ -237,7 +237,9 @@ public class NetworkedMatrixMove : NetworkBehaviour
 	[SyncVar] public bool HasMoveToTarget = false;
 
 	public bool ISMovingX = false;
+
 	public OrientationEnum TargetFaceDirectionOverride;
+
 	public bool FullAISpeed = false;
 	public bool isMovingAroundMatrix = false;
 
@@ -1413,11 +1415,9 @@ public class NetworkedMatrixMove : NetworkBehaviour
 							DesiredDirection = TargetFaceDirectionOverride.ToQuaternion().eulerAngles.z;
 						}
 
-
 						var CurrentForwards = ForwardsDirection.ToOrientationEnum().ToQuaternion().eulerAngles.z;
 
-						var MovingDirection =
-							(OrientationZ + (DesiredDirection - CurrentForwards)).Angle360ToOrientationEnum();
+						var MovingDirection = (OrientationZ + (DesiredDirection - CurrentForwards)).Angle360ToOrientationEnum();
 
 						var Orientation = OrientationZ.Angle360ToOrientationEnum();
 						if (Orientation != MovingDirection && Mathf.Abs(Different.x) > 10)

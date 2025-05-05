@@ -174,16 +174,9 @@ public class EscapeShuttle : AutopilotShipMachine
 		centComm = GameManager.Instance.GetComponent<CentComm>();
 		initialTimerSecondsCache = initialTimerSeconds;
 		loadedOnRoundID = GameManager.RoundID;
-		_ = WaitForLoad();
+		InItAsIfDockedTo(StationStartBuoy);
 	}
-
-
-	private async Task WaitForLoad()
-	{
-		await UniTask.WaitForSeconds(10);
-        InItAsIfDockedTo(StationStartBuoy);
-	}
-
+	
 
 	private void Awake()
 	{
@@ -235,6 +228,7 @@ public class EscapeShuttle : AutopilotShipMachine
 
 	IEnumerator WaitForGameOver()
 	{
+
 		//note: used to wait for 25 seconds, now less because
 		//we disabled the zoom out
 		yield return WaitFor.Seconds(15f);
@@ -280,7 +274,7 @@ public class EscapeShuttle : AutopilotShipMachine
 
 		if (Initialised == false)
 		{
-			if (TargetDestinationBuoy != null)
+			if (mm.NetworkedMatrixMove.HasMoveToTarget == false)
 			{
 				Initialised = true;
 				MoveDirectionIn = true;

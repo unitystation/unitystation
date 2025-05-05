@@ -1250,7 +1250,11 @@ namespace Core.Physics
 			if (transform.position.x.IsUnreasonableNumber() || transform.position.y.IsUnreasonableNumber() ||
 			    transform.position.z.IsUnreasonableNumber())
 			{
-				Loggy.Error("Unreasonable number detected with transform.position with " + transform.name);
+				if (isServer)
+				{
+					Loggy.Error("Unreasonable number detected with transform.position with " + transform.name);
+				}
+
 				var vec = transform.position;
 				vec.x = 0;
 				vec.y = 0;

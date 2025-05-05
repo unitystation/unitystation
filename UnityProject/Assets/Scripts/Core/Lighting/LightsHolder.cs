@@ -21,6 +21,10 @@ namespace Core.Lighting
 		{
 			base.OnStartClient();
 			Lights.Callback += OnLightsListChange;
+
+			// Process initial SyncList payload
+			for (int index = 0; index < Lights.Count; index++)
+				OnLightsListChange(SyncList<LightData>.Operation.OP_ADD, index, new LightData(), Lights[index]);
 		}
 
 		public override void OnStopClient()

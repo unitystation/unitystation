@@ -69,7 +69,7 @@ namespace Logs
 			File.WriteAllText(Path.Combine(path, "custom.json"), JsonUtility.ToJson(loggerPrefs));
 		}
 
-		private static void LogMessage(LogLevel level, string msg, string methodName, string filePath, int lineNumber, Category category = Category.Unknown)
+		private static void LogMessage(LogLevel level, string msg, string methodName, string filePath, int lineNumber, Category category = Category.Unknown, LogOption LogOption = LogOption.None)
 		{
 			if (level == LogLevel.Off)
 			{
@@ -129,13 +129,21 @@ namespace Logs
 			{
 				case LogLevel.Error:
 					//error level includes stacktrace like always
-					Debug.LogError(msg);
+					Debug.LogFormat(msg, LogOption);
 					break;
 				case LogLevel.Warning:
-					Debug.LogFormat(LogType.Warning, LogOption.NoStacktrace, null, "{0}", msg);
+					if (LogOption == LogOption.None)
+					{
+						LogOption = LogOption.NoStacktrace;
+					}
+					Debug.LogFormat(LogType.Warning, LogOption, null, "{0}", msg);
 					break;
 				default:
-					Debug.LogFormat(LogType.Log, LogOption.NoStacktrace, null, "{0}", msg);
+					if (LogOption == LogOption.None)
+					{
+						LogOption = LogOption.NoStacktrace;
+					}
+					Debug.LogFormat(LogType.Log, LogOption, null, "{0}", msg);
 					break;
 			}
 		}
@@ -173,12 +181,12 @@ namespace Logs
 			return formatter;
 		}
 
-		public static FluentFormatter Error(string msg = null, Category category = Category.Unknown, [CallerMemberName] string methodName = null, [CallerFilePath] string fileName = null, [CallerLineNumber] int lineNo = -1)
+		public static FluentFormatter Error(string msg = null, Category category = Category.Unknown, LogOption LogOption = LogOption.None, [CallerMemberName] string methodName = null, [CallerFilePath] string fileName = null, [CallerLineNumber] int lineNo = -1)
 		{
 			FluentFormatter formatter = new(LogLevel.Info, methodName, fileName, lineNo);
 			if (string.IsNullOrEmpty(msg) == false)
 			{
-				LogMessage(LogLevel.Error, msg, methodName, fileName, lineNo, category);
+				LogMessage(LogLevel.Error, msg, methodName, fileName, lineNo, category, LogOption);
 			}
 
 			return formatter;
