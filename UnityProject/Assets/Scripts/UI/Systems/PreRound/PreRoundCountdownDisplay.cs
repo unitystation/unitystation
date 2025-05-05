@@ -3,6 +3,7 @@ using Logs;
 using Mirror;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace UI.Systems.PreRound
 {
@@ -12,8 +13,8 @@ namespace UI.Systems.PreRound
 
 		public bool doCountdown;
 		private double countdownEndTime;
+		public UnityEvent OnFinishedCountingDown;
 
-		public System.Action OnFinishedCountingDown;
 		public bool IsCountingDown { get; private set; } = false;
 
 		private void OnEnable()
@@ -50,7 +51,7 @@ namespace UI.Systems.PreRound
 				started, endTime, NetworkTime.time);
 			countdownEndTime = endTime;
 			doCountdown = started;
-			if (countdownEndTime > NetworkTime.time)
+			if (endTime != 0 && doCountdown && countdownEndTime > NetworkTime.time)
 			{
 				IsCountingDown = true;
 				UpdateCountdownText();

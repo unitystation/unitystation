@@ -20,7 +20,8 @@ namespace UI.Systems.PreRound
 {
 	public class GUI_PreRoundWindow : SingletonManager<GUI_PreRoundWindow>
 	{
-		public RectTransform LeftSide = null;
+		public PreRoundLoadingWait LoadingWait = null;
+		public Transform ActiveContentArea = null;
 		public PreRoundLoadingArea LoadingArea = null;
 		public PreRoundButtonsScreen ButtonsArea = null;
 		public PreRoundCountdownDisplay CountdownArea = null;
@@ -40,27 +41,31 @@ namespace UI.Systems.PreRound
 		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 			SetInfoScreenOn();
-			CountdownArea.OnFinishedCountingDown += ButtonsArea.RefreshGameModeText;
-			CountdownArea.OnFinishedCountingDown += CheckForRoundStatusForTitle;
+			CountdownArea.OnFinishedCountingDown.AddListener(ButtonsArea.RefreshGameModeText);
+			CountdownArea.OnFinishedCountingDown.AddListener(CheckForRoundStatusForTitle);
 			_ = DelayedCheck();
 		}
 
 		private async UniTask DelayedCheck()
 		{
+			SwitchToLoadingPage();
 			ButtonsArea.SetTitle("Loading..");
 			// This might seem like an unnecessary delay, but it's actually required because the game likes to hang while loading; which delays the receiving of specific info from net messages
 			// that update the state of the round to players.
-			await UniTask.WaitForSeconds(0.5f);
-			PopulateWithStandardGameModeButtons();
+			await UniTask.WaitForSeconds(1.55f);
+			await UniTask.WaitUntil(IsClientDoneLoadingScenes);
+			await UniTask.WaitUntil(IsLoadingAreaNoLongerActive);
 			ButtonsArea.RefreshGameModeText();
 			CheckForRoundStatusForTitle(); // maybe find a way to make this reactive with networked events?
+			PopulateWithStandardGameModeButtons();
+			SwitchToMainPage();
 		}
 
 		private void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-			CountdownArea.OnFinishedCountingDown -= ButtonsArea.RefreshGameModeText;
-			CountdownArea.OnFinishedCountingDown -= CheckForRoundStatusForTitle;
+			CountdownArea.OnFinishedCountingDown.RemoveListener(ButtonsArea.RefreshGameModeText);
+			CountdownArea.OnFinishedCountingDown.RemoveListener(CheckForRoundStatusForTitle);
 		}
 
 		private void UpdateMe()
@@ -77,6 +82,16 @@ namespace UI.Systems.PreRound
 			{
 				adminPanel.SetActive(true);
 			}
+		}
+
+		private bool IsClientDoneLoadingScenes()
+		{
+			return SubSceneManager.Instance.clientIsLoadingSubscene == false;
+		}
+
+		private bool IsLoadingAreaNoLongerActive()
+		{
+			return LoadingArea.gameObject.activeSelf == false;
 		}
 
 		private IEnumerator WaitForInitialisation()
@@ -116,14 +131,14 @@ namespace UI.Systems.PreRound
 			AddStartNowButtonForAdmins();
 			joinButton = ButtonsArea.CreateInteractableToggle(CountdownArea.IsCountingDown ? "Ready Up!" : "Join Round", OnJoinButton);
 			characterButton = ButtonsArea.CreateInteractableButton("Character", OnCharacterButton);
-			CountdownArea.OnFinishedCountingDown += ChangeJoinButtonForRoundStarted;
+			CountdownArea.OnFinishedCountingDown.AddListener(ChangeJoinButtonForRoundStarted);
 		}
 
 		private void ChangeJoinButtonForRoundStarted()
 		{
 			if (joinButton == null)
 			{
-				CountdownArea.OnFinishedCountingDown -= ChangeJoinButtonForRoundStarted;
+				CountdownArea.OnFinishedCountingDown.RemoveListener(ChangeJoinButtonForRoundStarted);
 				return;
 			}
 			joinButton.interactable = true;
@@ -235,6 +250,18 @@ namespace UI.Systems.PreRound
 					ButtonsArea.SetTitle("Welcome to UnityStation!");
 					break;
 			}
+		}
+
+		public void SwitchToLoadingPage()
+		{
+			ActiveContentArea.gameObject.SetActive(false);
+			LoadingWait.gameObject.SetActive(true);
+		}
+
+		public void SwitchToMainPage()
+		{
+			ActiveContentArea.gameObject.SetActive(true);
+			LoadingWait.gameObject.SetActive(false);
 		}
 	}
 }

@@ -241,10 +241,8 @@ namespace Player
 		{
 			FinishedValidating();
 			CmdFinishLoading();
-			//UIManager.Display.preRoundWindow.ShowRejoiningPanel();
 			SpriteRequestCurrentStateMessage.Send(SpriteHandlerManager.Instance.GetComponent<NetworkIdentity>().netId);
 		}
-
 
 		[Command]
 		public void CmdFinishLoading()
