@@ -5,6 +5,7 @@ using System.Linq;
 using Logs;
 using Managers;
 using Mirror;
+using UI.Systems.PreRound;
 using UnityEditor;
 using UnityEngine.SceneManagement;
 using WebSocketSharp;
@@ -89,10 +90,10 @@ public partial class SubSceneManager
 			yield return WaitFor.Seconds(1f);
 		}
 
-		UIManager.Display.preRoundWindow.CloseMapLoadingPanel();
 		EventManager.Broadcast(Event.ScenesLoadedServer, false);
 		Loggy.Info($"Server has loaded {serverChosenAwaySite} away site", Category.Round);
 		ServerInitialLoadingComplete = true;
+		GUI_PreRoundWindow.Instance?.HideLoadingArea();
 	}
 
 	//Load the space scene on the server
