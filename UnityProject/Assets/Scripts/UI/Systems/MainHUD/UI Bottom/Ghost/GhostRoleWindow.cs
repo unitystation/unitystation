@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Messages.Server;
@@ -24,6 +25,12 @@ namespace UI.Windows
 		private void OnEnable()
 		{
 			RequestAvailableGhostRolesMessage.SendMessage();
+			UpdateManager.Add(RequestAvailableGhostRolesMessage.SendMessage, 3f);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, RequestAvailableGhostRolesMessage.SendMessage);
 		}
 
 		public void CloseWindow()
@@ -68,9 +75,8 @@ namespace UI.Windows
 
 		public void DisplayResponseMessage(uint key, GhostRoleResponseCode responseCode)
 		{
-			if (entries.ContainsKey(key) == false) return;
-
-			entries[key].SetResponseMessage(responseCode);
+			if (entries.TryGetValue(key, out var entry) == false) return;
+			entry.SetResponseMessage(responseCode);
 		}
 
 		private void UpdateNoRolesLabel()
