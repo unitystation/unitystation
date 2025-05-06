@@ -12,22 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c6335f50312476aa36048ce01d5d58b, type: 3}
   m_Name: WitchingWeekendTimedEvent
   m_EditorClassIdentifier: 
-  Months: 0a0000000100000003000000050000000700000009000000
+  Months: 0a000000
   MonthDayRanges:
-    m_keys: 0a0000000900000001000000030000000500000007000000
+    m_keys: 0a000000
     m_values:
-    - DayOfMonthStart: 18
-      DayOfMonthEnd: 27
-    - DayOfMonthStart: 5
-      DayOfMonthEnd: 7
-    - DayOfMonthStart: 3
-      DayOfMonthEnd: 5
-    - DayOfMonthStart: 1
-      DayOfMonthEnd: 3
-    - DayOfMonthStart: 2
-      DayOfMonthEnd: 4
-    - DayOfMonthStart: 4
-      DayOfMonthEnd: 6
+    - DayOfMonthStart: 17
+      DayOfMonthEnd: 19
   EventName: Witching Weekend
   EventDesc: 'Evil creatures and spooky witches, Rejoice! It''s the Witching Weekend!
 
