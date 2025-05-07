@@ -15,10 +15,9 @@ MonoBehaviour:
   Base:
     Head:
       Elements:
-      - {fileID: 112421141507975957, guid: b6b606388cb517144a21d93415c57401, type: 3}
-    Torso:
-      Elements:
       - {fileID: 960852636360704351, guid: a2b54580e9de99a4d9edfba6814ad865, type: 3}
+    Torso:
+      Elements: []
     ArmRight:
       Elements: []
     ArmLeft:
@@ -44,6 +43,7 @@ MonoBehaviour:
     MeatProduce: {fileID: 0}
     SkinProduce: {fileID: 0}
     SkinningItemTrait: {fileID: 0}
+    CanBeEmagged: 0
     CanBePlayerChosen: 0
     PreviewSprite: {fileID: 11400000, guid: 721ecc7a3b346db4886ee0f07f65515c, type: 2}
     SystemSettings: []

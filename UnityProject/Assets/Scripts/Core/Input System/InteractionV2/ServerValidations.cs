@@ -11,6 +11,9 @@ using UnityEngine;
 /// </summary>
 public static class ServerValidations
 {
+	//The list of all layers to ignore for the purpose of interrupting construction.
+	private static readonly LayerMask LayersToIgnore = LayerMask.GetMask("Floor", "WallMounts", "Items", "Machines", "Unshootable Machines", "Door Open", "Overfloor", "Lighting");
+
 	/// <summary>
 	/// Checks if the position is blocked by anything that would prevent construction or anchoring.
 	/// If blocked, optionally messages the performer telling them what's in the way.
@@ -25,27 +28,10 @@ public static class ServerValidations
 	public static bool IsConstructionBlocked(GameObject performer, GameObject anchoredObject, Vector2Int worldPosition, Func<RegisterTile, bool> allowed = null,
 		bool messagePerformer = true)
 	{
-		var floorLayer = LayerMask.NameToLayer("Floor");
-		var wallmountLayer = LayerMask.NameToLayer("WallMounts");
-		var itemsLayer = LayerMask.NameToLayer("Items");
-		var machinesLayer = LayerMask.NameToLayer("Machines");
-		var lightingLayer = LayerMask.NameToLayer("Lighting");
-		//blood splat layer is default
-		var defaultLayer = LayerMask.NameToLayer("Default");
 		if (allowed == null) allowed = (rt) => false;
 		var blocker =
 			MatrixManager.GetAt<RegisterTile>(worldPosition.To3Int(), true)
-				//ignore the object itself (if anchoring)
-				.Where(rt => rt.gameObject != anchoredObject)
-				//ignore performer
-				.Where(rt => rt.gameObject != performer)
-				//ignore stuff in floor and wallmounts
-				.Where(rt => rt.gameObject.layer != floorLayer &&
-				rt.gameObject.layer != wallmountLayer &&
-				rt.gameObject.layer != itemsLayer &&
-				rt.gameObject.layer != machinesLayer &&
-				rt.gameObject.layer != lightingLayer &&
-				rt.gameObject.layer != defaultLayer)
+				.Where(rt => rt.gameObject != anchoredObject && rt.gameObject != performer && LayersToIgnore.HasLayer(rt.gameObject.layer) == false)
 				.FirstOrDefault(rt => !allowed.Invoke(rt));
 		if (blocker != null)
 		{

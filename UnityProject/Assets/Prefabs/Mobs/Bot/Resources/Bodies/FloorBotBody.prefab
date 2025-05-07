@@ -97,7 +97,7 @@ PrefabInstance:
     - target: {fileID: 1641972083238813818, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1641972083238813818, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -109,7 +109,7 @@ PrefabInstance:
         type: 3}
       propertyPath: 'initialTraits.Array.data[2]'
       value: 
-      objectReference: {fileID: 11400000, guid: 5e9ac88966a35d34a9fd90c34e1ddaa0,
+      objectReference: {fileID: 11400000, guid: 8d9bddcf38348465eb528212d15282b5,
         type: 2}
     - target: {fileID: 1641972083238813818, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -148,6 +148,11 @@ PrefabInstance:
         type: 3}
       propertyPath: SelfArmor.Bio
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: SurgeryProcedureBase.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -253,24 +258,24 @@ PrefabInstance:
     - target: {fileID: 2719098251223779414, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: UesAddlistPopulater
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2719098251223779414, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: itemStorageCapacity
       value: 
-      objectReference: {fileID: 11400000, guid: d826281b4a2314b558681d69d7e7f5d2,
+      objectReference: {fileID: 11400000, guid: 67bccc09cee577e49b7d1ba558e7e80f,
         type: 2}
     - target: {fileID: 2719098251223779414, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: Populater.SlotContents.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2719098251223779414, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: Populater.SlotContents.Array.data[0].Prefab
       value: 
-      objectReference: {fileID: 4304790706924288976, guid: 789d74731ecbf8e4a813fc024afaf831,
+      objectReference: {fileID: 112421141507975957, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
     - target: {fileID: 4999823976648774815, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}

@@ -169,13 +169,13 @@ PrefabInstance:
         type: 3}
       propertyPath: 'initialTraits.Array.data[1]'
       value: 
-      objectReference: {fileID: 11400000, guid: 57eb2d1faf36d2040ade08046da48bfa,
+      objectReference: {fileID: 11400000, guid: d959db3d812fcd74792e16aedab33f9e,
         type: 2}
     - target: {fileID: 7697543707933771220, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
       propertyPath: 'initialTraits.Array.data[2]'
       value: 
-      objectReference: {fileID: 11400000, guid: d959db3d812fcd74792e16aedab33f9e,
+      objectReference: {fileID: 11400000, guid: 5e9ac88966a35d34a9fd90c34e1ddaa0,
         type: 2}
     - target: {fileID: 7794943344085702594, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
@@ -343,7 +343,7 @@ MonoBehaviour:
         m_SubObjectGUID: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
-    Transcription: Be done with your passion projects.
+    transcription: Be done with your passion projects.
   - audioSource:
       AssetAddress: Assets/Prefabs/NPC/Bots/floorbot/brick.prefab
       AssetReference:
@@ -352,7 +352,7 @@ MonoBehaviour:
         m_SubObjectGUID: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
-    Transcription: All in all its just another brick in the wall
+    transcription: All in all its just another brick in the wall
   - audioSource:
       AssetAddress: Assets/Prefabs/NPC/Bots/floorbot/cantanymore.prefab
       AssetReference:
@@ -361,7 +361,7 @@ MonoBehaviour:
         m_SubObjectGUID: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
-    Transcription: Please stop destroying this station, I can't anymore... I can't.
+    transcription: Please stop destroying this station, I can't anymore... I can't.
   - audioSource:
       AssetAddress: Assets/Prefabs/NPC/Bots/floorbot/pay.prefab
       AssetReference:
@@ -370,7 +370,7 @@ MonoBehaviour:
         m_SubObjectGUID: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
-    Transcription: If only I got paid for this.
+    transcription: If only I got paid for this.
   idleEmaggedDialogue:
   - audioSource:
       AssetAddress: Assets/Prefabs/NPC/Bots/floorbot/strings.prefab
@@ -380,7 +380,7 @@ MonoBehaviour:
         m_SubObjectGUID: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
-    Transcription: I had strings but now I'm free.
+    transcription: I had strings but now I'm free.
   - audioSource:
       AssetAddress: Assets/Prefabs/NPC/Bots/floorbot/cantanymore.prefab
       AssetReference:
@@ -389,7 +389,7 @@ MonoBehaviour:
         m_SubObjectGUID: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
-    Transcription: Please stop destroying this station, I can't anymore... I can't.
+    transcription: Please stop destroying this station, I can't anymore... I can't.
   dialogueChancePercent: 20
   references:
     version: 2
@@ -442,7 +442,7 @@ MonoBehaviour:
         m_SubObjectGUID: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
-    Transcription: Why must I fix everything I touch?
+    transcription: Why must I fix everything I touch?
   - audioSource:
       AssetAddress: Assets/Prefabs/NPC/Bots/floorbot/patchingholes.prefab
       AssetReference:
@@ -451,7 +451,7 @@ MonoBehaviour:
         m_SubObjectGUID: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
-    Transcription: Patching holes. But who is going to patch the hole in my heart?
+    transcription: Patching holes. But who is going to patch the hole in my heart?
   - audioSource:
       AssetAddress: Assets/Prefabs/NPC/Bots/floorbot/pay.prefab
       AssetReference:
@@ -460,7 +460,7 @@ MonoBehaviour:
         m_SubObjectGUID: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
-    Transcription: If only I got paid for this.
+    transcription: If only I got paid for this.
   - audioSource:
       AssetAddress: Assets/Prefabs/NPC/Bots/floorbot/entropy.prefab
       AssetReference:
@@ -469,7 +469,7 @@ MonoBehaviour:
         m_SubObjectGUID: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
-    Transcription: Witness the purity of entropy.
+    transcription: Witness the purity of entropy.
   - audioSource:
       AssetAddress: Assets/Prefabs/NPC/Bots/floorbot/fixit.prefab
       AssetReference:
@@ -478,7 +478,7 @@ MonoBehaviour:
         m_SubObjectGUID: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
-    Transcription: I will fix it!
+    transcription: I will fix it!
   tileToPlace: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb, type: 2}
 --- !u!212 &251801298607183945 stripped
 SpriteRenderer:
