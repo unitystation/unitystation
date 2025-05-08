@@ -148867,7 +148867,45 @@
             "GitID": "a50474d976314462a79602e20a762520_98┼57┼0┼",
             "PrefabID": "a50474d976314462a79602e20a762520",
             "Name": "ACU - Genentics",
-            "LocalPRS": "98┼57┼0┼"
+            "LocalPRS": "98┼57┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_99┼57┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "0d553281bdfc0fd438b3f6c7db58688c_98┼60┼0┼",
@@ -149500,6 +149538,10 @@
                 {
                   "ClassID": "APC@0",
                   "Data": [
+                    {
+                      "Name": "connectedDevices#16",
+                      "Data": "a50474d976314462a79602e20a762520_98┼57┼0┼@0@APCPoweredDevice@0"
+                    },
                     {
                       "Name": "connectedDevices#15",
                       "Data": "9f6a082ba93c5684b808b09619c08044_99┼62┼0┼@0@APCPoweredDevice@0"
@@ -158046,6 +158088,15 @@
             "LocalPRS": "110┼57┼0┼",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "APC@0",
                   "Data": [
