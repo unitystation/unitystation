@@ -12,32 +12,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaf6da0a52cc4214b1d4798d9a210177, type: 3}
   m_Name: PunchSounds
   m_EditorClassIdentifier: 
+  foreverID: a9032fa84c662554e83553ca48e62ec4
   addressableAudioSource:
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/Punch2.prefab
+  - AssetAddress: Assets/Prefabs/Effects/Punch2.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/Punch4.prefab
+  - AssetAddress: Assets/Prefabs/Effects/Punch4.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/Punch3.prefab
+  - AssetAddress: Assets/Prefabs/Effects/Punch3.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/Punch1.prefab
+  - AssetAddress: Assets/Prefabs/Effects/Punch1.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
