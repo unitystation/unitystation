@@ -121,7 +121,7 @@ namespace Light2D
             if (_meshFilter == null)
                 _meshFilter = gameObject.AddComponent<MeshFilter>();
 
-#if UNITY_EDITOR
+
 	        try
 	        {
 		        if (Material == null)
@@ -133,7 +133,6 @@ namespace Light2D
 	        {
 		        Loggy.Error(e.ToString());
 	        }
-#endif
 
             TryReleaseMesh();
             _meshFilter.sharedMesh = _mesh = new Mesh();
