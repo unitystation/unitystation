@@ -37,12 +37,13 @@ namespace Messages.Client.Admin
 				case OpperationList.TeleportAdmin:
 					AdminTeleport(msg);
 					return;
+
 			}
 		}
 
 		private void AdminTeleport(NetMessage msg)
 		{
-			if (HasPermission(TAG.PLAYER_MOVE) == false) return;
+			if (HasPermission(TAG.ADMIN_TP) == false) return;
 
 			var coord = new Vector3 {x = msg.vectorX, y = msg.vectorY, z = msg.vectorZ };
 

@@ -25,22 +25,39 @@ namespace Core.Admin.Logs
 			var StoredIn = go.GetRootGameObject();
 
 			PlayerInfo WasControlledByPlayer = null;
+			if (StoredIn != null)
+			{
+				WasControlledByPlayer = StoredIn.GetComponentCustom<PlayerScript>()?.PlayerInfo;
+			}
+			else
+			{
+				WasControlledByPlayer = go.Player();
+			}
+
 			if (go == StoredIn)
 			{
 				StoredIn = null;
 			}
-			else
-			{
-				WasControlledByPlayer = StoredIn.GetComponentCustom<PlayerScript>()?.PlayerInfo;
-			}
+
+
 
 			LogInfo.CoreObject = go;
-			LogInfo.CoreObjectName = go.name;
+			LogInfo.CoreObjectName = go?.name;
 			LogInfo.WasControlledByPlayer = WasControlledByPlayer;
 			LogInfo.WasStoredInObject = StoredIn;
 			LogInfo.WasStoredInObjectName = StoredIn?.name;
-			LogInfo.Info = go.ExpensiveName();
-			LogInfo.WasAtPositionWorld = go.AssumedWorldPosServer();
+			LogInfo.Info = "";
+
+			if (go == null)
+			{
+				LogInfo.WasAtPositionWorld = Vector3.zero;
+			}
+			else
+			{
+				LogInfo.WasAtPositionWorld = go.AssumedWorldPosServer();
+			}
+
+
 
 			return LogInfo;
 		}
@@ -78,8 +95,11 @@ namespace Core.Admin.Logs
 			return new LongTermLogEntry.LogItems()
 			{
 				CoreObject = CoreObject.NetIdCommonComponents(),
+				CoreObjectName = CoreObjectName,
 				WasStoredInObject = WasStoredInObject.NetIdCommonComponents(),
+				WasStoredInObjectName = WasStoredInObjectName,
 				WasControlledByPlayerAccountId = WasControlledByPlayer?.AccountId,
+				WasAtPositionWorld = WasAtPositionWorld.ToSerialiseString(),
 				Info = Info
 			};
 		}
@@ -96,19 +116,27 @@ namespace Core.Admin.Logs
 		public LongTermLogEntry(LogEntry entry)
 		{
 			LogTime = entry.LogTime;
-			Log = entry.Log.Select(x => x.SerialiseVersion()).ToArray();
+			if (entry.Log != null)
+			{
+				Log = entry.Log.Select(x => x.SerialiseVersion()).ToArray();
+			}
+			else
+			{
+				Log = Array.Empty<LogItems>();
+			}
+
 			LogImportance = entry.LogImportance.ToString();
 			Category = entry.Category.ToString();
-
-
 		}
 
 		public struct LogItems
 		{
+			public string CoreObjectName;
 			public uint CoreObject;
+			public string WasStoredInObjectName;
 			public uint WasStoredInObject;
 			public string WasControlledByPlayerAccountId;
-			public Vector3 WasAtPositionWorld;
+			public string WasAtPositionWorld;
 			public string Info;
 		}
 	}

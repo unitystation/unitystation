@@ -14,15 +14,15 @@ namespace UI.Systems.AdminTools.AdminLogs
 		[SerializeField] private Button gibButton = null;
 		[SerializeField] private Button teleportButton = null;
 		[SerializeField] private TMP_Text logTime = null;
-		private LogEntry entry = null;
-		public LogEntry StoredLogEntry => entry;
+		private LongTermLogEntry entry;
+		public LongTermLogEntry StoredLogEntry => entry;
 
 
 		public LogInfoUI Prefab;
 
 		public Transform Target;
 
-		public void Setup(LogEntry newEntry)
+		public void Setup(LongTermLogEntry newEntry)
 		{
 
 			foreach (var log in newEntry.Log)

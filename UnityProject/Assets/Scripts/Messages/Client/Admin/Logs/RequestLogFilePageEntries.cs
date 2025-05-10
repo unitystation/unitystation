@@ -17,17 +17,17 @@ namespace Messages.Client.Admin.Logs
 
 		public override void Process(NetMessage msg)
 		{
-			_ = Do(msg, SentByPlayer.Connection);
+			if (HasPermission(TAG.ADMIN_LOGS))
+			{
+				_ = Do(msg, SentByPlayer.Connection);
+			}
 		}
 
 		private async Task Do(NetMessage msg, NetworkConnectionToClient admin)
 		{
-			List<LogEntry> entries = await AdminLogsStorage.FetchLogsPaginated(msg.LogFileName, msg.PageToRequest);
-			UpdateLogFilePageEntries.NetMessage message = new UpdateLogFilePageEntries.NetMessage()
-			{
-				Entries = entries,
-			};
-			LoadManager.DoInMainThread(() => UpdateLogFilePageEntries.SendTo(admin, message));
+
+			List<LongTermLogEntry> entries = await AdminLogsStorage.FetchLogsPaginated(msg.LogFileName, msg.PageToRequest);
+			LoadManager.DoInMainThread(() => UpdateLogFilePageEntries.SendTo(admin, entries ));
 		}
 
 		public static NetMessage Send(int page, string logFileName)

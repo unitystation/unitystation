@@ -1,7 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using HealthV2;
+using Initialisation;
+using Logs;
+using SecureStuff;
 using Shared.Managers;
 using UnityEngine;
 
@@ -11,7 +17,9 @@ namespace Core.Admin.Logs
 	{
 		//TODO Export to string on UI for admin
 		//TODO So just aa tick box, On the log to say you want to save it to strring
+		//TODO Search system
 
+		public const int ENTRY_PAGE_SIZE = 45;
 
 		private HashSet<LogEntry> recordedEntries = new HashSet<LogEntry>();
 		public static Action<LogEntry> OnNewLog;

@@ -316,7 +316,7 @@ namespace UI.Chat_UI
 				CloseChatWindow();
 			}
 
-			if (InputManagerWrapper.GetKey(KeyCode.F6) && Math.Abs((DateTimePressedf6ToggleSTT - DateTime.Now).TotalMilliseconds) > 200f)
+			if (CommonInput.GetKey(KeyCode.F6) && Math.Abs((DateTimePressedf6ToggleSTT - DateTime.Now).TotalMilliseconds) > 200f)
 			{
 				DateTimePressedf6ToggleSTT = DateTime.Now;
 				OnToggleSTT();

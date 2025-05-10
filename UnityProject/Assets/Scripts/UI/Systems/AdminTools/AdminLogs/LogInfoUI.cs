@@ -12,14 +12,14 @@ namespace UI.Systems.AdminTools.AdminLogs
 		public SubLogInfoUI ControlledBy;
 		public SubLogInfoUI Position;
 
-		public LogInfo Info;
+		public LongTermLogEntry.LogItems Info;
 
 		public bool Expanded = false;
 
-		public void SetUp(LogInfo InInfo)
+		public void SetUp(LongTermLogEntry.LogItems InInfo)
 		{
 			Info = InInfo;
-			if (string.IsNullOrWhiteSpace(Info.Info) )
+			if (string.IsNullOrWhiteSpace(Info.Info) == false)
 			{
 				Text.SetUp(Info);
 			}
@@ -34,6 +34,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 			StoredIn.SetUp(Info);
 			ControlledBy.SetUp(Info);
 			Position.SetUp(Info);
+			Expanded = true;
 		}
 
 	}

@@ -116,22 +116,22 @@ namespace Core.Admin.Logs.Stores
 			}
 		}
 
-		public static void AddToEntryList(ref List<LogEntry> entries, string logLine)
+		public static void AddToEntryList(ref List<LongTermLogEntry> entries, string logLine)
 		{
-			LogEntry logEntry = Instance.Converter.ConvertBackSingle(logLine);
-			if (logEntry != null)
+			try
 			{
+				LongTermLogEntry logEntry = Instance.Converter.ConvertBackSingle(logLine);
 				entries.Add(logEntry);
 			}
-			else
+			catch (Exception e)
 			{
-				Loggy.Error($"[AdminLogsStorage/FetchLogsPaginated()] - Failed to convert log line to LogEntry: {logLine}");
+				Loggy.Error($"[AdminLogsStorage/FetchLogsPaginated()] - Failed to convert log line to LogEntry: {logLine} + " + e.ToString());
 			}
 		}
 
-		public static async Task<List<LogEntry>> FetchAllLogs(string fileName)
+		public static async Task<List<LongTermLogEntry>> FetchAllLogs(string fileName)
 		{
-			List<LogEntry> logEntries = new List<LogEntry>();
+			List<LongTermLogEntry> logEntries = new List<LongTermLogEntry>();
 			string filePath = Path.Combine("Admin", fileName);
 			try
 			{
@@ -160,7 +160,7 @@ namespace Core.Admin.Logs.Stores
 			return logEntries;
 		}
 
-		public static async Task<List<LogEntry>> FetchLogsPaginated(string fileName, int pageNumber, int pageSize = ENTRY_PAGE_SIZE)
+		public static async Task<List<LongTermLogEntry>> FetchLogsPaginated(string fileName, int pageNumber, int pageSize = ENTRY_PAGE_SIZE)
 		{
 			async Task<string> LoadData(string filePath)
 			{
@@ -177,7 +177,7 @@ namespace Core.Admin.Logs.Stores
 			}
 
 			if (pageNumber <= 0) pageNumber = 1;
-			List<LogEntry> logEntries = new List<LogEntry>();
+			List<LongTermLogEntry> logEntries = new List<LongTermLogEntry>();
 			string filePath = Path.Combine("Admin", fileName);
 			try
 			{

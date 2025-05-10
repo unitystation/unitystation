@@ -36,6 +36,8 @@ public class ComponentManager : SingletonManager<ComponentManager>
 
 	public static bool TryGetUniversalObjectPhysics(GameObject gameObject, out UniversalObjectPhysics UOP, bool IsInGameItem = true)
 	{
+		UOP = null;
+		if (gameObject == null) return false;
 		if (ObjectToPhysics.TryGetValue(gameObject, out UOP))
 		{
 			return UOP;

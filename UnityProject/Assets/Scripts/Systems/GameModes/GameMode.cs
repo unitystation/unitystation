@@ -438,7 +438,7 @@ namespace GameModes
 
 			GameManager.Instance.CurrentRoundState = RoundState.Started;
 			EventManager.Broadcast(Event.RoundStarted, true);
-			AdminLogsManager.AddNewLog(null, $"Round {GameManager.RoundID} has started. GameMode: {gameModeName}. {msg}.", LogCategory.RoundFlow);
+			AdminLogsManager.AddNewLog($"Round {GameManager.RoundID} has started. GameMode: {gameModeName}. {msg}.", LogCategory.RoundFlow);
 		}
 
 		protected void AntagJobAllocation(JobAllocator jobAllocator, List<PlayerInfo> playerPool,

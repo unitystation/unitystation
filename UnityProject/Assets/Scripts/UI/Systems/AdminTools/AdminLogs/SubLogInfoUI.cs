@@ -1,5 +1,6 @@
 using Core.Admin.Logs;
 using Logs;
+using Messages.Client.Admin;
 using TMPro;
 using UI.Systems.AdminTools.AdminLogs;
 using UnityEngine;
@@ -14,7 +15,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 
 		public LogInfoUI LogInfoUI;
 
-		public LogInfo Info;
+		public LongTermLogEntry.LogItems Info;
 
 		public LogMarker LogMarker;
 
@@ -26,7 +27,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 			}
 		}
 
-		public void SetUp(LogInfo InInfo)
+		public void SetUp(LongTermLogEntry.LogItems InInfo)
 		{
 			Info = InInfo;
 			switch (LogMarker)
@@ -34,7 +35,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 				case LogMarker.Info:
 					if (string.IsNullOrWhiteSpace(Info.CoreObjectName) == false)
 					{
-						textComponent.text = "";
+						textComponent.text = Info.CoreObjectName;
 					}
 					else
 					{
@@ -49,10 +50,10 @@ namespace UI.Systems.AdminTools.AdminLogs
 					textComponent.text = Info.WasStoredInObjectName;
 					break;
 				case LogMarker.ControlledBy:
-					textComponent.text = Info.WasControlledByPlayer.AccountId;
+					textComponent.text = Info.WasControlledByPlayerAccountId;
 					break;
 				case LogMarker.Position:
-					textComponent.text = Info.Info;
+					textComponent.text = Info.WasAtPositionWorld;
 					break;
 			}
 
@@ -62,6 +63,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 			}
 			else
 			{
+				textComponent.text = InsertLineBreaks(textComponent.text, 80);
 				gameObject.SetActive(true);
 			}
 		}
@@ -82,24 +84,112 @@ namespace UI.Systems.AdminTools.AdminLogs
 				{
 					switch (LogMarker)
 					{
+						//so
+						//alt = add to OR search
+						//click = TP to ControlledBy?
+						//control = Remove from AND search
+						//Shift = add to AND search
+						//TODO  Wrapping text
+
 						case LogMarker.Core:
+							if (SearchModifiersContinue(Info.CoreObject.ToString()))
+							{
+								HandleObjectInput(Info.CoreObject);
+							}
 							break;
 						case LogMarker.StoredIn:
+							if (SearchModifiersContinue(Info.WasStoredInObject.ToString()))
+							{
+								HandleObjectInput(Info.WasStoredInObject);
+							}
 							break;
 						case LogMarker.ControlledBy:
+							if (SearchModifiersContinue(Info.WasControlledByPlayerAccountId))
+							{
+								HandleAccountIDInput(Info.WasControlledByPlayerAccountId);
+							}
 							break;
 						case LogMarker.Position:
+							if (SearchModifiersContinue(Info.WasAtPositionWorld.ToString()))
+							{
+								HandlePositionInput(Info.WasAtPositionWorld);
+							}
 							break;
 					}
-					//TODO do logic here
 				}
 				else
 				{
 					LogInfoUI.Expand();
 				}
 			}
+		}
 
+		public bool SearchModifiersContinue(string Input)
+		{
+			if (KeyboardInputManager.IsControlPressed())
+			{
+				Loggy.Error("Remove From AND Search");
+				return false;
+			}
 
+			if (KeyboardInputManager.IsShiftPressed())
+			{
+				Loggy.Error("add to AND Search");
+				return false;
+			}
+
+			if (KeyboardInputManager.IsAltActionKeyPressed())
+			{
+				Loggy.Error("add to OR Search");
+				return false;
+			}
+
+			return true;
+		}
+
+		public void HandleObjectInput(uint netID)
+		{
+			if (CustomNetworkManager.Spawned.ContainsKey(netID))
+			{
+				RequestAdminTeleport.Send("", "",
+					RequestAdminTeleport.OpperationList.TeleportAdmin,
+					PlayerManager.LocalPlayerScript.IsGhost,
+					CustomNetworkManager.Spawned[netID].gameObject.AssumedWorldPosServer());
+			}
+		}
+
+		public void HandlePositionInput(string Position)
+		{
+			RequestAdminTeleport.Send("", "",
+				RequestAdminTeleport.OpperationList.TeleportAdmin,
+				PlayerManager.LocalPlayerScript.IsGhost,
+				Position.ToVector3());
+
+		}
+
+		public void HandleAccountIDInput(string AccountID)
+		{
+
+			RequestAdminTeleport.Send("", AccountID,
+				RequestAdminTeleport.OpperationList.AdminToPlayer,
+				PlayerManager.LocalPlayerScript.IsGhost,
+				Vector3.zero);
+
+		}
+
+		static string InsertLineBreaks(string input, int lineLength)
+		{
+			if (string.IsNullOrEmpty(input)) return input;
+
+			int insertPosition = lineLength;
+
+			while (insertPosition < input.Length)
+			{
+				input = input.Insert(insertPosition, "\n");
+				insertPosition += lineLength + 1; // +1 for the inserted '\n'
+			}
+
+			return input;
 		}
 	}
 }

@@ -12,7 +12,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 {
 	public class AdminLogsWindow : MonoBehaviour
 	{
-		private List<LogEntry> logEntries = new List<LogEntry>();
+		private List<LongTermLogEntry> logEntries = new List<LongTermLogEntry>();
 		private List<AdminLogEntryUI> entriesUI = new List<AdminLogEntryUI>();
 		[SerializeField] private AdminLogEntryUI logEntryBase;
 		[SerializeField] private Transform logsTranform;
@@ -71,7 +71,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 			RequestLogPage(logFilesDropdown.captionText.text, lastPageNumber);
 		}
 
-		public void UpdateLogEntries(List<LogEntry> newEntries)
+		public void UpdateLogEntries(List<LongTermLogEntry> newEntries)
 		{
 			logEntries = newEntries;
 			foreach (var oldEntries in entriesUI)
@@ -79,7 +79,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 				Destroy(oldEntries.gameObject);
 			}
 			entriesUI.Clear();
-			foreach (LogEntry newEntry in newEntries)
+			foreach (LongTermLogEntry newEntry in newEntries)
 			{
 				AdminLogEntryUI newEntryUI = Instantiate(logEntryBase, logsTranform, false);
 				newEntryUI.Setup(newEntry);
@@ -121,7 +121,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 			}
 			foreach (var log in entriesUI)
 			{
-				log.gameObject.SetActive(log.StoredLogEntry.LogImportance == (Severity)logSeverityFilterDropdown.value);
+				log.gameObject.SetActive(log.StoredLogEntry.LogImportance == ((Severity)logSeverityFilterDropdown.value).ToString());
 			}
 		}
 
@@ -137,7 +137,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 			}
 			foreach (var log in entriesUI)
 			{
-				log.gameObject.SetActive(log.StoredLogEntry.Category == (LogCategory)logCategoriesFilterDropdown.value);
+				log.gameObject.SetActive(log.StoredLogEntry.Category == ((LogCategory)logCategoriesFilterDropdown.value).ToString());
 			}
 		}
 	}
