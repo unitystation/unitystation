@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaf6da0a52cc4214b1d4798d9a210177, type: 3}
   m_Name: EnteringStationClips
   m_EditorClassIdentifier: 
+  foreverID: badf90167da9bba4fa049fac3e2912eb
   addressableAudioSource:
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/LoopedSounds/ShipAmbience.prefab
+  - AssetAddress: Assets/Prefabs/LoopedSounds/ShipAmbience.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
