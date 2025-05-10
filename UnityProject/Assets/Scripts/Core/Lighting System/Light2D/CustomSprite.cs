@@ -131,7 +131,7 @@ namespace Light2D
 	        }
 	        catch (Exception e)
 	        {
-		        Loggy.Error(e.ToString());
+		        Debug.LogError(e.ToString());
 	        }
 
             TryReleaseMesh();
