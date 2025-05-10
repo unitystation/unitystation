@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaf6da0a52cc4214b1d4798d9a210177, type: 3}
   m_Name: DarkJungleEntering
   m_EditorClassIdentifier: 
+  foreverID: e678174a050d9244a9b25387599c59b7
   addressableAudioSource:
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/AmbientTracks/DarkJungleAmbience.prefab
+  - AssetAddress: Assets/Prefabs/AmbientTracks/DarkJungleAmbience.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0

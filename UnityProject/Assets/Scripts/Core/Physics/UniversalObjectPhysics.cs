@@ -14,6 +14,7 @@ using SecureStuff;
 using Tiles;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using Util;
 using Random = UnityEngine.Random;
 
@@ -233,6 +234,8 @@ namespace Core.Physics
 		[PlayModeOnly] private float SecondsFlying;
 
 		[field: SerializeField] public ScaleSync Scale { get; protected set; }
+
+		public UnityEvent<Matrix> OnEnteredNewMatrix = new UnityEvent<Matrix>();
 
 		public bool IsFlyingSliding
 		{
@@ -881,6 +884,8 @@ namespace Core.Physics
 					Matrix = movetoMatrix.Id
 				};
 			}
+
+			OnEnteredNewMatrix?.Invoke(movetoMatrix);
 		}
 
 		/// <summary>
