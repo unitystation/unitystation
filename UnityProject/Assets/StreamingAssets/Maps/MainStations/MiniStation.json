@@ -115173,13 +115173,6 @@
             }
           },
           {
-            "GitID": "J5UF3VXxKdTV9iopbA17_55┼95┼0┼",
-            "PrefabID": "J5UF3VXxKdTV9iopbA17",
-            "NameMatches": true,
-            "Name": "SecBarrier",
-            "LocalPRS": "55┼95┼0┼"
-          },
-          {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_55┼95┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
             "Name": "LightTubeFixture (7)",
@@ -115213,6 +115206,13 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "J5UF3VXxKdTV9iopbA17_55┼95┼0┼",
+            "PrefabID": "J5UF3VXxKdTV9iopbA17",
+            "NameMatches": true,
+            "Name": "SecBarrier",
+            "LocalPRS": "55┼95┼0┼"
           },
           {
             "GitID": "bc0cd2a586c78b846a43622b6ea5c953_55┼98┼0┼",
@@ -122885,10 +122885,6 @@
                     {
                       "Name": "InitialVendorContent#0@ItemName",
                       "Data": ""
-                    },
-                    {
-                      "Name": "InitialVendorContent#0@Item",
-                      "Data": "NULL"
                     },
                     {
                       "Name": "InitialVendorContent#0@Stock",
@@ -133444,6 +133440,26 @@
             "PrefabID": "2c62bf4b8bd1b13409822a00ad8cb214",
             "Name": "FuelRod (4)",
             "LocalPRS": "74.003┼24┼0┼"
+          },
+          {
+            "GitID": "SaFaeLok!_90EKEzA!HE_74.02┼20.02┼0┼",
+            "PrefabID": "SaFaeLok!_90EKEzA!HE",
+            "NameMatches": true,
+            "Name": "MatrixEnterAmbienceSetter",
+            "LocalPRS": "74.02┼20.02┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "EnterAmbienceSetter@0",
+                  "Data": [
+                    {
+                      "Name": "EnteringSounds",
+                      "Data": "badf90167da9bba4fa049fac3e2912eb"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "ca7d7da17781bf046abd652ffb41a611_75┼-3┼0┼",
