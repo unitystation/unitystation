@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Core;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Systems.DynamicAmbience
@@ -21,6 +22,8 @@ namespace Systems.DynamicAmbience
 			if (CustomNetworkManager.IsHeadless) return;
 			UpdateManager.Add(CheckForAmbienceToPlay, timeBetweenAmbience);
 			root.playerMove.OnEnteredNewMatrix.AddListener(CheckAndPlayMatrixAmbience);
+			root.OnBodyPossesedByPlayer.AddListener(CheckAndPlayMatrixAmbienceOnPosses);
+			root.OnBodyUnPossesedByPlayer.AddListener(StopAllSounds);
 		}
 
 		private void OnDestroy()
@@ -28,6 +31,8 @@ namespace Systems.DynamicAmbience
 			if (CustomNetworkManager.IsHeadless) return;
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckForAmbienceToPlay);
 			root.playerMove.OnEnteredNewMatrix.RemoveListener(CheckAndPlayMatrixAmbience);
+			root.OnBodyPossesedByPlayer.RemoveListener(CheckAndPlayMatrixAmbienceOnPosses);
+			root.OnBodyUnPossesedByPlayer.RemoveListener(StopAllSounds);
 		}
 
 		private void CheckForAmbienceToPlay()
@@ -64,10 +69,20 @@ namespace Systems.DynamicAmbience
 			if (root.isOwned == false) return;
 			if (enteredMatrix == null || enteredMatrix.EnteringSounds == null || enteredMatrix.EnteringSounds.AddressableAudioSource.Count == 0) return;
 			timeSinceLastMatrixAmbiencePlayed = DateTime.Now;
-			SoundManager.ClientStop(soundToken, true);
-			SoundManager.ClientStop(loopToken, true);
+			StopAllSounds();
 			loopToken = Guid.NewGuid().ToString();
 			_ = SoundManager.Play(enteredMatrix.EnteringSounds.GetRandomClip(), loopToken);
+		}
+
+		private void CheckAndPlayMatrixAmbienceOnPosses()
+		{
+			CheckAndPlayMatrixAmbience(root.playerMove.registerTile?.Matrix);
+		}
+
+		private void StopAllSounds()
+		{
+			SoundManager.ClientStop(soundToken, true);
+			SoundManager.ClientStop(loopToken, true);
 		}
 	}
 }
