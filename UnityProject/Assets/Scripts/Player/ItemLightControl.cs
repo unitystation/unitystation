@@ -55,6 +55,11 @@ public class ItemLightControl : BodyPartFunctionality, IItemInOutMovedPlayer
 
 	private void Awake()
 	{
+		if (objectLightSprite == null)
+		{
+			objectLightSprite = objectLightEmission.GetComponentInChildren<LightSprite>();
+		}
+
 		if (objectLightEmission == null)
 		{
 			Loggy.Error($"{this} field objectLightEmission is null, please check {gameObject} prefab.", Category.Lighting);
@@ -67,7 +72,7 @@ public class ItemLightControl : BodyPartFunctionality, IItemInOutMovedPlayer
 			                $"because it is missing a net identity component.");
 			return;
 		}
-		objectLightSprite ??= objectLightEmission.GetComponent<LightSprite>();
+
 		lightID = Guid.NewGuid().GetHashCode();
 		playerLightData = new LightData()
 		{

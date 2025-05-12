@@ -12,18 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaf6da0a52cc4214b1d4798d9a210177, type: 3}
   m_Name: MicrowaveSounds
   m_EditorClassIdentifier: 
+  foreverID: 549f7b89039d4d54aaae21c7b6f17a03
   addressableAudioSource:
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Machines/Microwave/MicrowaveOpen.prefab
+  - AssetAddress: Assets/Prefabs/Machines/Microwave/MicrowaveOpen.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Machines/Microwave/MicrowaveClose.prefab
+  - AssetAddress: Assets/Prefabs/Machines/Microwave/MicrowaveClose.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0

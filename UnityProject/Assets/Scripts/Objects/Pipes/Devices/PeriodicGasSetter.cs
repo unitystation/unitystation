@@ -44,7 +44,7 @@ public class PeriodicGasSetter : MonoBehaviour
 		var gas = GasMix.GasData.CopyTo(nodeGasMix.GasData);
 		nodeGasMix.GasData = gas;
 		nodeGasMix.Temperature = GasMix.Temperature;
-		nodeGasMix.Temperature = GasMix.Pressure;
+		nodeGasMix.Pressure = GasMix.Pressure;
 		nodeGasMix.Volume = GasMix.Volume;
 		node.GasMixLocal = nodeGasMix;
 	}

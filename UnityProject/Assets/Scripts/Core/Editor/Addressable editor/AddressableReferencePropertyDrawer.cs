@@ -21,9 +21,9 @@ public class AddressableReferencePropertyDrawer : PropertyDrawer
 	{
 		EditorGUI.BeginProperty(position, label, property);
 
-		float labelWidth = position.width * 0.6f;
-		float buttonWidth = position.width * 0.3f;
-		float previewButtonWidth = position.width * 0.1f;
+		float labelWidth = position.width * 0.4f;
+		float buttonWidth = position.width * (Application.isPlaying ? 0.55f : 0.6f);
+		float previewButtonWidth = position.width * 0.05f;
 
 		Rect labelPosition = new Rect(position.x, position.y, labelWidth, position.height);
 		Rect buttonPosition = new Rect(position.x + labelWidth, position.y, buttonWidth, position.height);
@@ -55,9 +55,9 @@ public class AddressableReferencePropertyDrawer : PropertyDrawer
 		}
 
 		// Draw Preview Button
-		if (GUI.Button(previewButtonPosition, "▶"))
+		if (Application.isPlaying)
 		{
-			PlayAudioPreview(stringPath);
+			if (GUI.Button(previewButtonPosition, "▶")) PlayAudioPreview(stringPath);
 		}
 
 		EditorGUI.EndProperty();

@@ -26,7 +26,7 @@ namespace Managers
 			Loggy.Info("Setting up event hooks.", Category.Event);
 			EventManager.AddHandler(Event.RoundStarted, StartActiveEvents);
 			EventManager.AddHandler(Event.ScenesLoadedServer, CleanAndUpdateActiveEvents);
-			EventManager.AddHandler(Event.RoundEnded, EndActiveEvents);
+			EventManager.AddHandler(Event.RoundEnded, EndActiveEventsPrebool);
 			UpdateActiveEvents();
 		}
 
@@ -38,7 +38,7 @@ namespace Managers
 
 		public override void OnDestroy()
 		{
-			EndActiveEvents();
+			EndActiveEvents(true);
 			activeEvents.Clear();
 			base.OnDestroy();
 		}
@@ -59,12 +59,21 @@ namespace Managers
 			}
 		}
 
-		private void EndActiveEvents()
+		private void EndActiveEventsPrebool()
+		{
+			EndActiveEvents();
+		}
+
+		private void EndActiveEvents(bool BeingDestroyed = false)
 		{
 			Loggy.Info("Stopping timed events.", Category.Event);
 			foreach (var timedEvent in activeEvents)
 			{
-				StartCoroutine(timedEvent.OnRoundEnd());
+				if (BeingDestroyed == false)
+				{
+					StartCoroutine(timedEvent.OnRoundEnd());
+				}
+
 				timedEvent.Clean();
 			}
 		}

@@ -12,18 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaf6da0a52cc4214b1d4798d9a210177, type: 3}
   m_Name: AdminSounds
   m_EditorClassIdentifier: 
+  foreverID: c1b2f01cfa730ed4aaa225c8cd7a0405
   addressableAudioSource:
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/NPC/MouseSqueek.prefab
+  - AssetAddress: Assets/Prefabs/NPC/MouseSqueek.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/RoundEnd/ItsOnlyGame.prefab
+  - AssetAddress: Assets/Prefabs/RoundEnd/ItsOnlyGame.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0

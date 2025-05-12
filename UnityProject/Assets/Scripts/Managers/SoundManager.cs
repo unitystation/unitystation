@@ -723,10 +723,8 @@ public class SoundManager : MonoBehaviour
 					Sound.Paused = true;
 					Sound.AudioSource.Stop();
 				}
-
 			}
 		}
-
 	}
 
 	/// <summary>

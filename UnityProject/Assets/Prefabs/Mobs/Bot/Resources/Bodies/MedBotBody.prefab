@@ -84,6 +84,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 743e688f0d2c1fb468029a2f3ee1fa0e,
         type: 3}
+    - target: {fileID: 4093034629254112785, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[0].Prefab
+      value: 
+      objectReference: {fileID: 7653338138175774516, guid: 5198537037f182b439f0c2c8e1dfd42d,
+        type: 3}
     - target: {fileID: 4426650879872711363, guid: a2b54580e9de99a4d9edfba6814ad865,
         type: 3}
       propertyPath: 'OptionalReplacementOrgan.Array.data[2]'

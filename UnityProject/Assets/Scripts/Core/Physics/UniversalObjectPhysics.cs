@@ -14,6 +14,7 @@ using SecureStuff;
 using Tiles;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using Util;
 using Random = UnityEngine.Random;
 
@@ -233,6 +234,8 @@ namespace Core.Physics
 		[PlayModeOnly] private float SecondsFlying;
 
 		[field: SerializeField] public ScaleSync Scale { get; protected set; }
+
+		public UnityEvent<Matrix> OnEnteredNewMatrix = new UnityEvent<Matrix>();
 
 		public bool IsFlyingSliding
 		{
@@ -881,6 +884,8 @@ namespace Core.Physics
 					Matrix = movetoMatrix.Id
 				};
 			}
+
+			OnEnteredNewMatrix?.Invoke(movetoMatrix);
 		}
 
 		/// <summary>
@@ -1250,7 +1255,11 @@ namespace Core.Physics
 			if (transform.position.x.IsUnreasonableNumber() || transform.position.y.IsUnreasonableNumber() ||
 			    transform.position.z.IsUnreasonableNumber())
 			{
-				Loggy.Error("Unreasonable number detected with transform.position with " + transform.name);
+				if (isServer)
+				{
+					Loggy.Error("Unreasonable number detected with transform.position with " + transform.name);
+				}
+
 				var vec = transform.position;
 				vec.x = 0;
 				vec.y = 0;

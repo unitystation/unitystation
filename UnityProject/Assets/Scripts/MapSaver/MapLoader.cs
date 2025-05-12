@@ -433,8 +433,6 @@ namespace MapSaver
 				Object.layer = IndividualObject.ObjectLayer.Value;
 			}
 
-
-
 			if (string.IsNullOrEmpty(IndividualObject.LocalPRS) == false)
 			{
 				MapSaver.StringToPRS(Object, IndividualObject.LocalPRS);
@@ -549,7 +547,7 @@ namespace MapSaver
 			MapSaver.CodeClass.ThisCodeClass.ReportStatus();
 			MapSaver.CodeClass.ThisCodeClass.Reset();
 #if UNITY_EDITOR
-			if (Application.isPlaying == false)
+			if (Application.isPlaying == false && CustomNetworkManager.Instance != null)
 			{
 				CustomNetworkManager.Instance.SpawnedByMappingTool = true;
 			}
