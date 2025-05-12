@@ -51,6 +51,15 @@ jobs:
             Library2-${{ matrix.projectPath }}-
             Library2-
 
+      # Set the UNITY_LICENSE environment variable with contents of $LICENSE_FILE_PATH
+      - name: Setup license
+        env:
+          LICENSE_FILE_PATH: ./Tools/Unity_lic.ulf
+        run: |
+          echo 'UNITY_LICENSE<<LICENSE-EOF' >> "$GITHUB_ENV"
+          cat "$LICENSE_FILE_PATH" >> "$GITHUB_ENV"
+          printf "\nLICENSE-EOF" >> "$GITHUB_ENV"
+
       - name: Installs dotnet and restores packages
         uses: actions/setup-dotnet@v3
         with:
