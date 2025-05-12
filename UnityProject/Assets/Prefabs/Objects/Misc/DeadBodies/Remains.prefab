@@ -1,0 +1,113 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1005300928300304533
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 898257850705039193, guid: 73c238a0ea819cae4bcc91711b88cde9,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 4662359385745688833}
+    - target: {fileID: 898257850705039193, guid: 73c238a0ea819cae4bcc91711b88cde9,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d2d8cd380e081d54a8b60b90b0b1d48a,
+        type: 2}
+    - target: {fileID: 3063096358944438963, guid: 73c238a0ea819cae4bcc91711b88cde9,
+        type: 3}
+      propertyPath: initialName
+      value: remains
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063096358944438963, guid: 73c238a0ea819cae4bcc91711b88cde9,
+        type: 3}
+      propertyPath: initialDescription
+      value: They look like human remains.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4321874355684233441, guid: 73c238a0ea819cae4bcc91711b88cde9,
+        type: 3}
+      propertyPath: _assetId
+      value: 3342401707
+      objectReference: {fileID: 0}
+    - target: {fileID: 5568574454757409172, guid: 73c238a0ea819cae4bcc91711b88cde9,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e86efe7b5af6eb74daef2e3c7a766410,
+        type: 3}
+    - target: {fileID: 5631663503094408579, guid: 73c238a0ea819cae4bcc91711b88cde9,
+        type: 3}
+      propertyPath: m_Name
+      value: Remains
+      objectReference: {fileID: 0}
+    - target: {fileID: 5634572491986871129, guid: 73c238a0ea819cae4bcc91711b88cde9,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5634572491986871129, guid: 73c238a0ea819cae4bcc91711b88cde9,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5634572491986871129, guid: 73c238a0ea819cae4bcc91711b88cde9,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5634572491986871129, guid: 73c238a0ea819cae4bcc91711b88cde9,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5634572491986871129, guid: 73c238a0ea819cae4bcc91711b88cde9,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5634572491986871129, guid: 73c238a0ea819cae4bcc91711b88cde9,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5634572491986871129, guid: 73c238a0ea819cae4bcc91711b88cde9,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5634572491986871129, guid: 73c238a0ea819cae4bcc91711b88cde9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5634572491986871129, guid: 73c238a0ea819cae4bcc91711b88cde9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5634572491986871129, guid: 73c238a0ea819cae4bcc91711b88cde9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8743272737910397898, guid: 73c238a0ea819cae4bcc91711b88cde9,
+        type: 3}
+      propertyPath: foreverID
+      value: 342ad0b3f84950e5c93ee39098161533
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 73c238a0ea819cae4bcc91711b88cde9, type: 3}
+--- !u!212 &4662359385745688833 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5568574454757409172, guid: 73c238a0ea819cae4bcc91711b88cde9,
+    type: 3}
+  m_PrefabInstance: {fileID: 1005300928300304533}
+  m_PrefabAsset: {fileID: 0}
