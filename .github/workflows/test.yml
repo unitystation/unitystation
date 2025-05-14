@@ -93,6 +93,14 @@ jobs:
           name: Raw Test Results
           path: testReports/${{ matrix.targetPlatform }}/editmode-results.xml
 
+      - name: Create testReports directory
+        run: |
+          mkdir -p testReports/StandaloneWindows64
+
+      - name: Set permissions for testReports
+        run: |
+          chmod -R 777 testReports
+
       # Copy ExtentReports contents and generate .html report
       - name: Copy ExtentReports
         if: always()
