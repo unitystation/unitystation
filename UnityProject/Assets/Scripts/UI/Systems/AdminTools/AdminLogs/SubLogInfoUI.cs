@@ -89,8 +89,6 @@ namespace UI.Systems.AdminTools.AdminLogs
 						//click = TP to ControlledBy?
 						//control = Remove from AND search
 						//Shift = add to AND search
-						//TODO  Wrapping text
-
 						case LogMarker.Core:
 							if (SearchModifiersContinue(Info.CoreObject.ToString()))
 							{

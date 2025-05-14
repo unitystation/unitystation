@@ -129,7 +129,7 @@ namespace Logs
 			{
 				case LogLevel.Error:
 					//error level includes stacktrace like always
-					Debug.LogFormat(msg, LogOption);
+					Debug.LogErrorFormat(msg, LogOption);
 					break;
 				case LogLevel.Warning:
 					if (LogOption == LogOption.None)

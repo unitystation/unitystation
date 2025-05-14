@@ -10,6 +10,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using Core.Admin.Logs;
+using Core.Admin.Logs.Stores;
 using Doors;
 using UnityEditor;
 using UnityEngine;
@@ -58,7 +59,21 @@ namespace Util
 		[MenuItem("Tools/Debug/------------ Debug function -----------")]
 		public static void Generate()
 		{
+			AdminLogsStorage.ParseSearch("NOT bob");
 
+			//AdminLogsStorage.ParseSearch("bob AND cat");
+			//AdminLogsStorage.ParseSearch("bob OR cat");
+			//AdminLogsStorage.ParseSearch("bob AND cat OR car");
+			//AdminLogsStorage.ParseSearch("bob OR cat AND car");
+			//AdminLogsStorage.ParseSearch("{bob AND cat} OR car");
+
+			//AdminLogsStorage.ParseSearch("NOT bob2 AND {{cat OR bob} AND NOT Mike} OR NOT car");
+
+			//AdminLogsStorage.ParseSearch("1 OR 2 AND 3 OR 4 AND 5 AND 6 OR NOT 7");
+
+			//AdminLogsStorage.ParseSearch("{1 OR {{2 AND 3} OR 4} AND {5 AND 6 OR NOT 7}}");
+
+			return;
 			AdminLogsManager.AddNewLog("log1 sdaasfdfgh fdg dfdfgdfg dfgd fgd oje", LogCategory.Admin);
 			AdminLogsManager.AddNewLog("log2 sdaasfdfgh fdg dfdfgdfg dfgd fgd oje", PlayerManager.LocalPlayerObject , LogCategory.Admin);
 			AdminLogsManager.AddNewLog("log3 sdaasfdfgh fdg dfdfgdfg dfgd fgd oje", PlayerManager.LocalPlayerObject,

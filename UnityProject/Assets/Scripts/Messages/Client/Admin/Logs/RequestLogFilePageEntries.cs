@@ -13,6 +13,7 @@ namespace Messages.Client.Admin.Logs
 		{
 			public int PageToRequest;
 			public string LogFileName;
+			public string SearchString;
 		}
 
 		public override void Process(NetMessage msg)
@@ -26,16 +27,17 @@ namespace Messages.Client.Admin.Logs
 		private async Task Do(NetMessage msg, NetworkConnectionToClient admin)
 		{
 
-			List<LongTermLogEntry> entries = await AdminLogsStorage.FetchLogsPaginated(msg.LogFileName, msg.PageToRequest);
+			List<LongTermLogEntry> entries = await AdminLogsStorage.FetchLogsPaginated(msg.LogFileName, msg.PageToRequest, msg.SearchString);
 			LoadManager.DoInMainThread(() => UpdateLogFilePageEntries.SendTo(admin, entries ));
 		}
 
-		public static NetMessage Send(int page, string logFileName)
+		public static NetMessage Send(int page, string logFileName, string SearchString)
 		{
 			NetMessage msg = new NetMessage
 			{
 				LogFileName = logFileName,
-				PageToRequest = page
+				PageToRequest = page,
+				SearchString = SearchString
 			};
 
 			Send(msg);

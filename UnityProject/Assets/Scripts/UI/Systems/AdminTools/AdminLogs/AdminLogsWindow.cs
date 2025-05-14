@@ -21,6 +21,8 @@ namespace UI.Systems.AdminTools.AdminLogs
 		[SerializeField] private TMP_Dropdown logSeverityFilterDropdown;
 		[SerializeField] private TMP_Text AvaliablePagesText;
 		[SerializeField] private TMP_InputField CurrentSelectedPageInput;
+		[SerializeField] private TMP_InputField SearchField;
+
 		private int lastPageNumber = 1;
 		public int NumberOfPagesAvaliable = 0;
 
@@ -35,7 +37,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 
 		private void RequestLogPage(string logFileName, int page)
 		{
-			RequestLogFilePageEntries.Send(page, logFileName);
+			RequestLogFilePageEntries.Send(page, logFileName, SearchField.text);
 		}
 
 		private void RequestLogAvaliablePages(string logFileName)
@@ -51,6 +53,14 @@ namespace UI.Systems.AdminTools.AdminLogs
 		private void RequestAllLogFileNames()
 		{
 			RequestLogFilesNames.Send(new RequestLogFilesNames.NetMessage());
+		}
+
+
+		public void Search()
+		{
+			lastPageNumber = 1;
+			CurrentSelectedPageInput.text = 1.ToString();
+			RequestLogPage(logFilesDropdown.captionText.text, lastPageNumber);
 		}
 
 		public void UpdateLogFileDropdown(List<string> logFileNames)
