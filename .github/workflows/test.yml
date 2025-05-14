@@ -95,7 +95,7 @@ jobs:
 
       - name: Create testReports directory
         run: |
-          mkdir -p testReports/StandaloneWindows64
+          mkdir -p testReports/${{ matrix.targetPlatform }}/
 
       - name: Set permissions for testReports
         run: |
