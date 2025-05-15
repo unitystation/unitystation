@@ -69,11 +69,11 @@ jobs:
         run: chmod -R 777 testReports
       - name: Check Email
         run: |
-          if [ -z "${{ secrets.UNITY_EMAIL }}" ]; then
+          if [ -z "${{ vars.UNITY_EMAIL }}" ]; then
             echo "UNITY_EMAIL is not set. Please set it in the repository secrets."
             exit 1
           fi
-          echo "UNITY_EMAIL is set. ${{ secrets.UNITY_EMAIL }}"
+          echo "UNITY_EMAIL is set. ${{ vars.UNITY_EMAIL }}"
 
       # Run tests - only edit mode supported
       # Note: exits with non-zero on legitimate test fails, "if: always()" is needed for reporting
