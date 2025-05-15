@@ -54,7 +54,7 @@ jobs:
       # Set the UNITY_LICENSE environment variable with contents of $LICENSE_FILE_PATH
       - name: Setup license
         env:
-          LICENSE_FILE_PATH: ./Tools/Unity_lic.ulf
+          LICENSE_FILE_PATH: ./Tools/UnityLicense.ulf
         run: |
           echo 'UNITY_LICENSE<<LICENSE-EOF' >> "$GITHUB_ENV"
           cat "$LICENSE_FILE_PATH" >> "$GITHUB_ENV"
@@ -74,9 +74,10 @@ jobs:
       # Note: exits with non-zero on legitimate test fails, "if: always()" is needed for reporting
       - name: Run tests
         id: tests
-        uses: game-ci/unity-test-runner@v4
+        uses: game-ci/unity-test-runner@v4.0.0
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+
         with:
           customParameters: "-nographics"
           projectPath: ${{ matrix.projectPath }}
@@ -92,14 +93,6 @@ jobs:
         with:
           name: Raw Test Results
           path: testReports/${{ matrix.targetPlatform }}/editmode-results.xml
-
-      - name: Create testReports directory
-        run: |
-          mkdir -p testReports/${{ matrix.targetPlatform }}/
-
-      - name: Set permissions for testReports
-        run: |
-          chmod -R 777 testReports
 
       # Copy ExtentReports contents and generate .html report
       - name: Copy ExtentReports
