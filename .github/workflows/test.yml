@@ -70,7 +70,7 @@ jobs:
       # Note: exits with non-zero on legitimate test fails, "if: always()" is needed for reporting
       - name: Run tests
         id: tests
-        uses: game-ci/unity-test-runner@v4
+        uses: game-ci/unity-test-runner@v3
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
