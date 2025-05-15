@@ -105,11 +105,6 @@ jobs:
           name: Raw Test Results
           path: testReports/${{ matrix.targetPlatform }}/editmode-results.xml
 
-      - name: Echo permissions again of the testReports directory just in case
-        run: |
-          ls -ld testReports/${{ matrix.targetPlatform }}
-          echo "Permissions for testReports/${{ matrix.targetPlatform }} logged above."
-
       # Copy ExtentReports contents and generate .html report
       - name: Copy ExtentReports
         if: always()
@@ -117,7 +112,7 @@ jobs:
           sudo mkdir -p testReports/${{ matrix.targetPlatform }}/
           sudo cp -r ./Tools/ExtentReports/* testReports/${{ matrix.targetPlatform }}/
 
-      - name: Echo permissions again and again of the testReports directory just in case
+      - name: Echo permissions again of the testReports directory just in case
         run: |
           ls -ld testReports/${{ matrix.targetPlatform }}
           echo "Permissions for testReports/${{ matrix.targetPlatform }} logged above."
