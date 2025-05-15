@@ -68,6 +68,8 @@ jobs:
       - name: Set permissions for testReports directory
         run: chmod -R 777 testReports
       - name: Check Email
+        env:
+          UNITY_EMAIL: ${{ vars.UNITY_EMAIL }}
         run: |
           if [ -z "${{ vars.UNITY_EMAIL }}" ]; then
             echo "UNITY_EMAIL is not set. Please set it in the repository secrets."
