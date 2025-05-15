@@ -46,7 +46,9 @@ jobs:
           LICENSE_FILE_PATH: ./Tools/UnityLicense.ulf
         run: |
           echo 'UNITY_LICENSE<<LICENSE-EOF' >> "$GITHUB_ENV"
-          cat "$LICENSE_FILE_PATH" >> "$GITHUB_ENV"
+            echo "License file contents:"
+            cat "$LICENSE_FILE_PATH"
+            cat "$LICENSE_FILE_PATH" >> "$GITHUB_ENV"
           printf "\nLICENSE-EOF" >> "$GITHUB_ENV"
 
       - name: Installs dotnet and restores packages
