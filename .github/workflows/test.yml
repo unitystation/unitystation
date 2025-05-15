@@ -77,8 +77,8 @@ jobs:
         with:
           customParameters: "-nographics"
           projectPath: ${{ matrix.projectPath }}
-          unityVersion: 6000.0.48f1
-          customImage: "unityci/editor:ubuntu-6000.0.49f1-base-3.1.0"
+          unityVersion: 6000.0.48f1 (170d2541580d)
+          customImage: "unityci/editor:ubuntu-6000.0.48f1-base-3.1.0"
           artifactsPath: ./testReports/${{ matrix.targetPlatform }}
           testMode: editmode
           githubToken: ${{ secrets.GITHUB_TOKEN }}
