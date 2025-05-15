@@ -85,11 +85,6 @@ jobs:
       - name: Run tests
         id: tests
         uses: game-ci/unity-test-runner@v4
-        env:
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-          UNITY_EMAIL: ${{ vars.UNITY_EMAIL }}
-          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
-
         with:
           customParameters: "-nographics"
           projectPath: ${{ matrix.projectPath }}
