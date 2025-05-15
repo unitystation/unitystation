@@ -51,6 +51,18 @@ jobs:
             cat "$LICENSE_FILE_PATH" >> "$GITHUB_ENV"
           printf "\nLICENSE-EOF" >> "$GITHUB_ENV"
 
+      - name: Setup license login stuff
+        env:
+          ACCOUNT_FILE_PATH: ./Tools/thisshitisgettinghackedlol
+        run: |
+          echo 'UNITY_EMAIL='$(head -n 1 "$ACCOUNT_FILE_PATH") >> "$GITHUB_ENV"
+          echo 'UNITY_PASSWORD='$(head -n 2 "$ACCOUNT_FILE_PATH" | tail -n 1) >> "$GITHUB_ENV"
+      - name: Verify environment variables
+        run: |
+            echo "UNITY_EMAIL value is set: ${{ env.UNITY_EMAIL != '' }}"
+            echo "UNITY_PASSWORD value is set: ${{ env.UNITY_PASSWORD != '' }}"
+            echo "UNITY_LICENSE length: ${#UNITY_LICENSE}"
+
       - name: Installs dotnet and restores packages
         uses: actions/setup-dotnet@v3
         with:
@@ -67,16 +79,7 @@ jobs:
         run: mkdir -p testReports/${{ matrix.targetPlatform }}
       - name: Set permissions for testReports directory
         run: chmod -R 777 testReports
-      - name: Check Email
-        env:
-          UNITY_EMAIL: ${{ vars.UNITY_EMAIL }}
-        run: |
-          if [ -z "${{ vars.UNITY_EMAIL }}" ]; then
-            echo "UNITY_EMAIL is not set. Please set it in the repository secrets."
-            exit 1
-          fi
-          echo "UNITY_EMAIL is set. ${{ vars.UNITY_EMAIL }}"
-
+      
       # Run tests - only edit mode supported
       # Note: exits with non-zero on legitimate test fails, "if: always()" is needed for reporting
       - name: Run tests
