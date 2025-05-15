@@ -67,6 +67,13 @@ jobs:
         run: mkdir -p testReports/${{ matrix.targetPlatform }}
       - name: Set permissions for testReports directory
         run: chmod -R 777 testReports
+      - name: Check Email
+        run: |
+          if [ -z "${{ secrets.UNITY_EMAIL }}" ]; then
+            echo "UNITY_EMAIL is not set. Please set it in the repository secrets."
+            exit 1
+          fi
+          echo "UNITY_EMAIL is set. ${{ secrets.UNITY_EMAIL }}"
 
       # Run tests - only edit mode supported
       # Note: exits with non-zero on legitimate test fails, "if: always()" is needed for reporting
@@ -75,6 +82,8 @@ jobs:
         uses: game-ci/unity-test-runner@v4
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
 
         with:
           customParameters: "-nographics"
