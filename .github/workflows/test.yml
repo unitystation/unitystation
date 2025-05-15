@@ -70,6 +70,15 @@ jobs:
       - run: dotnet tool install --global NuGetForUnity.Cli
       - run: nugetforunity restore ${{ matrix.projectPath }}
 
+      - name: Cache Library
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.PROJECT_PATH }}/Library
+          key: Library2-${{ env.PROJECT_PATH }}-${{ env.UNITY_VERSION }}-${{ runner.os }}
+          restore-keys: |
+            Library2-${{ env.PROJECT_PATH }}-${{ env.UNITY_VERSION }}-
+            Library2-${{ env.PROJECT_PATH }}-
+
       - name: Set Swap Space
         uses: pierotofy/set-swap-space@master
         with:
