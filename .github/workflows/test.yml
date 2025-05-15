@@ -76,10 +76,6 @@ jobs:
         run: mkdir -p testReports/${{ matrix.targetPlatform }}
       - name: Set permissions for testReports directory
         run: chmod -R 777 testReports
-      - name: Echo permissions of the testReports directory
-        run: |
-          ls -ld testReports/${{ matrix.targetPlatform }}
-          echo "Permissions for testReports/${{ matrix.targetPlatform }} logged above."
 
       # Run tests - only edit mode supported
       # Note: exits with non-zero on legitimate test fails, "if: always()" is needed for reporting
@@ -112,7 +108,7 @@ jobs:
           sudo mkdir -p testReports/${{ matrix.targetPlatform }}/
           sudo cp -r ./Tools/ExtentReports/* testReports/${{ matrix.targetPlatform }}/
 
-      - name: Echo permissions again of the testReports directory just in case
+      - name: Echo permissions of the testReports directory just in case
         run: |
           ls -ld testReports/${{ matrix.targetPlatform }}
           echo "Permissions for testReports/${{ matrix.targetPlatform }} logged above."
