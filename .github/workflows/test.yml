@@ -8,7 +8,7 @@ on:
       - "UnityProject/**"
       - ".github/workflows/**"
       - "Docker/**"
-  pull_request_target:
+  pull_request:
     branches: [ develop ]
     paths:
       - "Tools/UnityLicense.ulf"
@@ -20,57 +20,70 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-env:                             
+env:
   UNITY_VERSION: 6000.0.48f1
   PROJECT_PATH: UnityProject
   TARGET_PLATFORM: StandaloneWindows64
 
 jobs:
   performTest:
+    name: Unit tests
     runs-on: ubuntu-latest
-    environment: ci
+
+    env: #TODO REMOVE
+      UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout
+      uses: actions/checkout@v4
 
-    - uses: actions/cache@v4
+    - name: Check UNITY_LICENSE length
+      run: |
+        echo "bytes=${#UNITY_LICENSE}"
+
+    - name: Cache Library
+      uses: actions/cache@v4
       with:
         path: ${{ env.PROJECT_PATH }}/Library
-        key:  Library2-${{ env.PROJECT_PATH }}-${{ env.UNITY_VERSION }}-${{ runner.os }}
+        key: Library2-${{ env.PROJECT_PATH }}-${{ env.UNITY_VERSION }}-${{ runner.os }}
         restore-keys: |
           Library2-${{ env.PROJECT_PATH }}-${{ env.UNITY_VERSION }}-
           Library2-${{ env.PROJECT_PATH }}-
 
-    - uses: pierotofy/set-swap-space@master
+    - name: Swap 4 GB
+      uses: pierotofy/set-swap-space@master
       with:
-        swap-size-gb: 8
+        swap-size-gb: 4
 
     - name: Run tests
       id: tests
       uses: game-ci/unity-test-runner@v4
       env:
         UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-        UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
-        UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
       with:
-        projectPath:   ${{ env.PROJECT_PATH }}
-        customImage:   unityci/editor:ubuntu-${{ env.UNITY_VERSION }}-base-3
-        testMode:      editmode
         customParameters: "-nographics"
-        artifactsPath: ./testReports/${{ env.TARGET_PLATFORM }}
+        projectPath: ${{ env.PROJECT_PATH }}
 
-    - if: always() && steps.tests.outcome != 'success'
+        customImage: unityci/editor:ubuntu-6000.0.48f1-base-3
+        artifactsPath: ./testReports/${{ env.TARGET_PLATFORM }}
+        testMode: editmode
+        githubToken: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Upload raw XML (fail-only)
+      if: always() && steps.tests.outcome != 'success'
       uses: actions/upload-artifact@v4
       with:
         name: Raw Test Results
         path: testReports/${{ env.TARGET_PLATFORM }}/editmode-results.xml
 
-    - if: always()
+    - name: Copy ExtentReports
+      if: always()
       run: |
-        mkdir -p testReports/${{ env.TARGET_PLATFORM }}
+        mkdir -p testReports/${{ env.TARGET_PLATFORM }}/
         cp -r ./Tools/ExtentReports/* testReports/${{ env.TARGET_PLATFORM }}/
 
-    - if: always()
+    - name: Upload reports
+      if: always()
       uses: actions/upload-artifact@v4
       with:
         name: Test results
