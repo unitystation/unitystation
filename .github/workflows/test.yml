@@ -130,32 +130,26 @@ jobs:
           name: Test results
           path: ./testReports/${{ matrix.targetPlatform }}
 
-      - name: Post test summary to PR if tests failed
+      - name: Generate test summary
         if: failure() && github.event_name == 'pull_request'
-        uses: actions/github-script@v7
+        run: |
+          xml=$(cat testReports/${{ matrix.targetPlatform }}/editmode-results.xml)
+          if [[ $xml =~ total=\"([0-9]+)\".*passed=\"([0-9]+)\".*failed=\"([0-9]+)\" ]]; then
+            total="${BASH_REMATCH[1]}"
+            passed="${BASH_REMATCH[2]}"
+            failed="${BASH_REMATCH[3]}"
+            echo -e "**Test Results:**\n- Total: $total\n- Passed: $passed\n- Failed: $failed" > test-summary.txt
+            if [[ "$failed" != "0" ]]; then
+              echo -e "\n❌ $failed test(s) failed. Please check the attached results for details." >> test-summary.txt
+            else
+              echo -e "\n✅ All tests passed, but the step failed for another reason." >> test-summary.txt
+            fi
+          else
+            echo "⚠️ Could not parse test results XML." > test-summary.txt
+          fi
+
+      - name: Comment on PR with test summary
+        if: failure() && github.event_name == 'pull_request'
+        uses: thollander/actions-comment-pull-request@v2
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const fs = require('fs');
-            const xml = fs.readFileSync('testReports/${{ matrix.targetPlatform }}/editmode-results.xml', 'utf8');
-            let summary = '';
-            const match = xml.match(/<test-run[^>]*total="(\d+)"[^>]*passed="(\d+)"[^>]*failed="(\d+)"/);
-            if (match) {
-              const total = match[1];
-              const passed = match[2];
-              const failed = match[3];
-              summary = `**Test Results:**\n- Total: ${total}\n- Passed: ${passed}\n- Failed: ${failed}\n`;
-              if (failed !== '0') {
-                summary += '\n❌ Some tests failed. Please check the attached results for details.';
-              } else {
-                summary += '\n✅ All tests passed, but the step failed for another reason.';
-              }
-            } else {
-              summary = '⚠️ Could not parse test results XML.';
-            }
-            await github.rest.issues.createComment({
-              issue_number: context.payload.pull_request.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: summary
-            });
+          filePath: test-summary.txt
