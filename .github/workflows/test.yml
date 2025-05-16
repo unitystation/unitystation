@@ -137,23 +137,22 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const fs = require('fs');
-            const xml2js = require('xml2js');
             const xml = fs.readFileSync('testReports/${{ matrix.targetPlatform }}/editmode-results.xml', 'utf8');
             let summary = '';
-            await xml2js.parseStringPromise(xml).then(result => {
-              const run = result['test-run'] || {};
-              const total = run.$.total || 'unknown';
-              const passed = run.$.passed || 'unknown';
-              const failed = run.$.failed || 'unknown';
+            const match = xml.match(/<test-run[^>]*total="(\d+)"[^>]*passed="(\d+)"[^>]*failed="(\d+)"/);
+            if (match) {
+              const total = match[1];
+              const passed = match[2];
+              const failed = match[3];
               summary = `**Test Results:**\n- Total: ${total}\n- Passed: ${passed}\n- Failed: ${failed}\n`;
               if (failed !== '0') {
                 summary += '\n❌ Some tests failed. Please check the attached results for details.';
               } else {
                 summary += '\n✅ All tests passed, but the step failed for another reason.';
               }
-            }).catch(() => {
+            } else {
               summary = '⚠️ Could not parse test results XML.';
-            });
+            }
             await github.rest.issues.createComment({
               issue_number: context.payload.pull_request.number,
               owner: context.repo.owner,
