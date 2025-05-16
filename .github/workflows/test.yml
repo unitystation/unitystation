@@ -116,11 +116,6 @@ jobs:
           sudo mkdir -p testReports/${{ matrix.targetPlatform }}/
           sudo cp -r ./Tools/ExtentReports/* testReports/${{ matrix.targetPlatform }}/
 
-      - name: Echo permissions of the testReports directory just in case
-        run: |
-          ls -ld testReports/${{ matrix.targetPlatform }}
-          echo "Permissions for testReports/${{ matrix.targetPlatform }} logged above."
-
       # Upload test results
       - name: Upload Test Results
         if: always()
