@@ -12,7 +12,7 @@ namespace Tests
 {
 	public class ScanCode
 	{
-		[Test]
+		[Test, Timeout(690000)]
 		public void BuildTest()
 		{
 			string[] levels = new string[] { "Assets/EmptyScene.unity" };

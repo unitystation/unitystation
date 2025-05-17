@@ -87299,6 +87299,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#1",
+                          "Data": "Eva"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -91919,6 +91935,10 @@
                 {
                   "ClassID": "APC@0",
                   "Data": [
+                    {
+                      "Name": "connectedDevices#167",
+                      "Data": "c937e0abe85aca9499d09951de736ec6_9┼24┼0┼@0@APCPoweredDevice@0"
+                    },
                     {
                       "Name": "connectedDevices#166",
                       "Data": "b7053ef275ce5b74e827e60b034d1647_-3┼25┼0┼@0@APCPoweredDevice@0"
@@ -110771,6 +110791,50 @@
             "Name": "RadiationTreatmentKit (1)",
             "LocalPRS": "8.25┼46.25┼0┼",
             "SortPath": "Items"
+          },
+          {
+            "GitID": "c937e0abe85aca9499d09951de736ec6_9┼24┼0┼",
+            "PrefabID": "c937e0abe85aca9499d09951de736ec6",
+            "Name": "LightBulbFixtureBrightMaints",
+            "LocalPRS": "9┼24┼0┼0ø0ø270ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_-9┼30┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "LightSource@0",
+                  "Data": [
+                    {
+                      "Name": "isWithoutSwitch",
+                      "Data": "True"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "7dea0790d26246447a9b881689c7dbdf_9┼26┼0┼",
@@ -149685,6 +149749,50 @@
             "LocalPRS": "50.88┼42┼0┼"
           },
           {
+            "GitID": "c937e0abe85aca9499d09951de736ec6_51┼24┼0┼",
+            "PrefabID": "c937e0abe85aca9499d09951de736ec6",
+            "Name": "LightBulbFixtureBrightMaints (1)",
+            "LocalPRS": "51┼24┼0┼0ø0ø90ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_54┼23┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "LightSource@0",
+                  "Data": [
+                    {
+                      "Name": "isWithoutSwitch",
+                      "Data": "True"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
             "GitID": "7dea0790d26246447a9b881689c7dbdf_51┼26┼0┼",
             "PrefabID": "7dea0790d26246447a9b881689c7dbdf",
             "Name": "AirlockExternalWindowed (1)",
@@ -152615,6 +152723,10 @@
                 {
                   "ClassID": "APC@0",
                   "Data": [
+                    {
+                      "Name": "connectedDevices#155",
+                      "Data": "c937e0abe85aca9499d09951de736ec6_51┼24┼0┼@0@APCPoweredDevice@0"
+                    },
                     {
                       "Name": "connectedDevices#154",
                       "Data": "b7053ef275ce5b74e827e60b034d1647_68┼38┼0┼@0@APCPoweredDevice@0"
@@ -175629,6 +175741,22 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_75┼64┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#1",
+                          "Data": "Eva"
+                        }
+                      ]
                     }
                   ]
                 }
