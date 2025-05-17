@@ -1252,7 +1252,6 @@ namespace SecureStuff
 					catch (Exception e)
 					{
 						Loggy.Error(e.ToString());
-
 					}
 				}
 			}
