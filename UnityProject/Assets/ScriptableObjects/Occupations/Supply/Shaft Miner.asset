@@ -21,8 +21,8 @@ MonoBehaviour:
   CustomSpeciesOverwrite: {fileID: 0}
   limit: 3
   priority: 99
-  issuedClearance: 1e0000001f0000000d0000000c0000002b0000002e000000
-  issuedLowPopClearance: 1e0000001f0000000d0000000c0000002b0000002e000000
+  issuedClearance: 1e0000000d0000000c0000002b0000002e000000
+  issuedLowPopClearance: 
   spells: []
   progress: 65
   choiceColor: {r: 0.67058825, g: 0.52156866, b: 0.078431375, a: 1}
@@ -50,16 +50,17 @@ MonoBehaviour:
   isTargeteable: 1
   playSound: 1
   spawnSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/AmbientTracks/SpawnSounds/departments/Cargo_Spawn.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   textColor: {r: 0.86274517, g: 0.7294118, b: 0.5921569, a: 1}
   backgroundColor: {r: 1, g: 0, b: 0, a: 0}
   specialPlayerPrefab: {fileID: 0}
+  StartingMutations: []
   references:
     version: 2
     RefIds: []

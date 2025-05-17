@@ -110,7 +110,7 @@ namespace Systems.Atmospherics
 			}
 		}
 
-		public float InternalEnergy //This is forgetting the amount of energy inside of the Gas
+		public float InternalEnergy //This is for getting the amount of energy inside of the Gas
 		{
 			get => (WholeHeatCapacity * Temperature);
 
