@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Core.Admin.Logs.Interfaces;
 using Core.Editor.Attributes;
+using GameConfig;
 using Initialisation;
 using Logs;
 using NUnit.Framework;
@@ -623,9 +624,18 @@ namespace Core.Admin.Logs.Stores
 
 			int i = 0;
 
+			var NumberOfLogsToStore = GameConfigManager.GameConfig.NumberOfLogsToStore;
+
+			if (NumberOfLogsToStore == null)
+			{
+				NumberOfLogsToStore = 100;
+			}
+
+
+			bool RemoveLog = NumberOfLogsToStore != -1;
 			foreach (string file in Reversed)
 			{
-				if (i > 100)
+				if (i > NumberOfLogsToStore && RemoveLog)
 				{
 					AccessFile.Delete("Admin" + "/"  +file, FolderType.Logs, false);
 				}

@@ -59,5 +59,10 @@ namespace GameConfig
 		public int LowPopCheckTimeAfterRoundStart;
 		public int RebootOnAverageFPSOrLower;
 		public string AccountAPIHost;
+
+		//how many rounds of logs Should be stored before they get deleted,  null = 100, -1 Do not delete (will lag admin log UI After a while so manage yourself)
+		//= n The number you want to keep
+		public int? NumberOfLogsToStore;
+
 	}
 }
