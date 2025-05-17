@@ -1106,8 +1106,19 @@ public static class SweetExtensions
 
 	public static bool IsHiddenPosition(this Vector3 vector3)
 	{
-		return vector3.z <= (TransformState.HiddenPos.z + 10);;
+		return vector3.z <= (TransformState.HiddenPos.z + 10);
 	}
 
+
+	public static string ReplaceFirst(this string text, string search, string replace)
+	{
+		int pos = text.IndexOf(search, StringComparison.Ordinal);
+		if (pos < 0)
+		{
+			return text;
+		}
+		return text.Substring(0, pos) + replace + text.Substring(pos + search.Length);
+
+	}
 
 }

@@ -230,25 +230,6 @@ namespace Core.Admin.Logs.Stores
 			return logEntries;
 		}
 
-		public static async Task<string[]> SearchLogs(string[] logLines, string SearchTerm)
-		{
-			//alt = add to OR search
-			//click = TP to ControlledBy?
-			//control = Remove from AND search
-			//Shift = add to AND search
-
-			//
-			//
-			foreach (var Line in logLines)
-			{
-			}
-
-
-			return logLines;
-		}
-
-
-
 		public class SearchStep
 		{
 			[JsonConverter(typeof(StringEnumConverter))]
@@ -327,11 +308,17 @@ namespace Core.Admin.Logs.Stores
 
 		public static SearchStep ParseSearch(string input)
 		{
+
+			input = input.Replace("ObjName=", @"""ObjectName"":""");
+			input = input.Replace("Obj=", @"""Object"":");
+			input = input.Replace("StoredInName=", @"""StoredInName"":""");
+			input = input.Replace("StoredIn=", @"""StoredIn"":");
+			input = input.Replace("PlayerAccount=", @"""PlayerAccountID"":""");
+			input = input.Replace("Position=", @"""PositionWorld"":""");
+			input = input.Replace("Info=", @"""Info"":""");
 			input = input.Trim();
 			var Span = input.AsSpan();
 			var data = ParseExpression(ref Span);
-
-
 			//Debug.LogError( JsonConvert.SerializeObject(data));
 
 			return data;
@@ -582,7 +569,7 @@ namespace Core.Admin.Logs.Stores
 				}
 				else
 				{
-					input = input.Slice(1); // move forward one character
+					input = input.Slice(1);
 				}
 			}
 
@@ -632,10 +619,24 @@ namespace Core.Admin.Logs.Stores
 			}
 
 			string[] files = AccessFile.DirectoriesOrFilesIn("Admin", FolderType.Logs, false);
-			foreach (string file in files)
+			var Reversed = files.Reverse();
+
+			int i = 0;
+
+			foreach (string file in Reversed)
 			{
-				totalEntries.Add(file);
+				if (i > 100)
+				{
+					AccessFile.Delete("Admin" + "/"  +file, FolderType.Logs, false);
+				}
+				else
+				{
+					totalEntries.Add(file);
+				}
+
+				i++;
 			}
+
 
 			return totalEntries;
 		}

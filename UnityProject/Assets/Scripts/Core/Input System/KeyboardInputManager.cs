@@ -165,6 +165,11 @@ public class KeyboardInputManager : MonoBehaviour
 		       CommonInput.GetKey(KeyCode.LeftCommand) || CommonInput.GetKey(KeyCode.RightCommand);
 	}
 
+	public static bool IsTabPressed()
+	{
+		return CommonInput.GetKey(KeyCode.Tab);
+	}
+
 	/// <summary>
 	/// Checks if the left or right shift key has been pressed
 	/// </summary>

@@ -33,9 +33,9 @@ namespace UI.Systems.AdminTools.AdminLogs
 			switch (LogMarker)
 			{
 				case LogMarker.Info:
-					if (string.IsNullOrWhiteSpace(Info.CoreObjectName) == false)
+					if (string.IsNullOrWhiteSpace(Info.ObjectName) == false)
 					{
-						textComponent.text = Info.CoreObjectName;
+						textComponent.text = Info.ObjectName;
 					}
 					else
 					{
@@ -44,16 +44,16 @@ namespace UI.Systems.AdminTools.AdminLogs
 					break;
 
 				case LogMarker.Core:
-					textComponent.text = Info.CoreObjectName;
+					textComponent.text = Info.ObjectName;
 					break;
 				case LogMarker.StoredIn:
-					textComponent.text = Info.WasStoredInObjectName;
+					textComponent.text = Info.StoredInName;
 					break;
 				case LogMarker.ControlledBy:
-					textComponent.text = Info.WasControlledByPlayerAccountId;
+					textComponent.text = Info.PlayerAccountID;
 					break;
 				case LogMarker.Position:
-					textComponent.text = Info.WasAtPositionWorld;
+					textComponent.text = Info.PositionWorld;
 					break;
 			}
 
@@ -82,35 +82,64 @@ namespace UI.Systems.AdminTools.AdminLogs
 			{
 				if (LogInfoUI.Expanded)
 				{
+					var Input = "";
 					switch (LogMarker)
 					{
-						//so
-						//alt = add to OR search
-						//click = TP to ControlledBy?
-						//control = Remove from AND search
-						//Shift = add to AND search
+
 						case LogMarker.Core:
-							if (SearchModifiersContinue(Info.CoreObject.ToString()))
+							Input = Info.Object.ToString();
+
+							if (KeyboardInputManager.IsTabPressed())
 							{
-								HandleObjectInput(Info.CoreObject);
+								Input = "Obj=" + Input;
+							}
+
+							if (SearchModifiersContinue(Input))
+							{
+								HandleObjectInput(Info.Object);
 							}
 							break;
 						case LogMarker.StoredIn:
-							if (SearchModifiersContinue(Info.WasStoredInObject.ToString()))
+
+							Input = Info.StoredIn.ToString();
+
+							if (KeyboardInputManager.IsTabPressed())
 							{
-								HandleObjectInput(Info.WasStoredInObject);
+								Input = "StoredIn=" + Input;
+							}
+
+
+							if (SearchModifiersContinue(Input))
+							{
+								HandleObjectInput(Info.StoredIn);
 							}
 							break;
 						case LogMarker.ControlledBy:
-							if (SearchModifiersContinue(Info.WasControlledByPlayerAccountId))
+
+							Input = Info.PlayerAccountID.ToString();
+
+							if (KeyboardInputManager.IsTabPressed())
 							{
-								HandleAccountIDInput(Info.WasControlledByPlayerAccountId);
+								Input= "PlayerAccount=" + Input;
+							}
+
+							if (SearchModifiersContinue(Input))
+							{
+								HandleAccountIDInput(Info.PlayerAccountID);
 							}
 							break;
 						case LogMarker.Position:
-							if (SearchModifiersContinue(Info.WasAtPositionWorld.ToString()))
+
+							Input = Info.PositionWorld.ToString();
+
+							if (KeyboardInputManager.IsTabPressed())
 							{
-								HandlePositionInput(Info.WasAtPositionWorld);
+								Input= "Position=" + Input;
+							}
+
+							if (SearchModifiersContinue(Input))
+							{
+								HandlePositionInput(Info.PositionWorld);
 							}
 							break;
 					}
@@ -124,21 +153,51 @@ namespace UI.Systems.AdminTools.AdminLogs
 
 		public bool SearchModifiersContinue(string Input)
 		{
+			//so
+			//alt = add to OR search
+			//click = TP to ControlledBy?
+			//control = Remove from AND search
+			//Shift = add to AND search
+			//tab Just add to Search
+
+
+
+
 			if (KeyboardInputManager.IsControlPressed())
 			{
-				Loggy.Error("Remove From AND Search");
+
+				UIManager.Instance.AdminLogsWindow.SearchField.text =
+					UIManager.Instance.AdminLogsWindow.SearchField.text.ReplaceFirst(" AND " + Input, "");
 				return false;
 			}
 
 			if (KeyboardInputManager.IsShiftPressed())
 			{
-				Loggy.Error("add to AND Search");
+				if (string.IsNullOrEmpty(UIManager.Instance.AdminLogsWindow.SearchField.text) == false)
+				{
+					UIManager.Instance.AdminLogsWindow.SearchField.text += " AND " + Input;
+				}
+				else
+				{
+					UIManager.Instance.AdminLogsWindow.SearchField.text = Input;
+				}
+
+
 				return false;
 			}
 
 			if (KeyboardInputManager.IsAltActionKeyPressed())
 			{
-				Loggy.Error("add to OR Search");
+				if (string.IsNullOrEmpty(UIManager.Instance.AdminLogsWindow.SearchField.text) == false)
+				{
+					UIManager.Instance.AdminLogsWindow.SearchField.text += " OR " + Input;
+
+				}
+				else
+				{
+					UIManager.Instance.AdminLogsWindow.SearchField.text = Input;
+				}
+
 				return false;
 			}
 

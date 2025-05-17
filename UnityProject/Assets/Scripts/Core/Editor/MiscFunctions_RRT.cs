@@ -59,6 +59,14 @@ namespace Util
 		[MenuItem("Tools/Debug/------------ Debug function -----------")]
 		public static void Generate()
 		{
+
+			AdminLogsManager.AddNewLog("bob Murdered irrelevant", LogCategory.Admin);
+			AdminLogsManager.AddNewLog("cat Attacked bob", LogCategory.Admin);
+			AdminLogsManager.AddNewLog("bob Attacked cat", LogCategory.Admin);
+			AdminLogsManager.AddNewLog("Bob murdered cat", LogCategory.Admin);
+			AdminLogsManager.AddNewLog("Banana house six was set on fire by Jimbo", LogCategory.Admin);
+			AdminLogsManager.AddNewLog("Bob HID cat in Disposal bin 67", LogCategory.Admin);
+
 			AdminLogsStorage.ParseSearch("NOT bob");
 
 			//AdminLogsStorage.ParseSearch("bob AND cat");

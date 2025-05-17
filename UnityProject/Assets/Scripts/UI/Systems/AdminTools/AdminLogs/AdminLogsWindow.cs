@@ -21,7 +21,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 		[SerializeField] private TMP_Dropdown logSeverityFilterDropdown;
 		[SerializeField] private TMP_Text AvaliablePagesText;
 		[SerializeField] private TMP_InputField CurrentSelectedPageInput;
-		[SerializeField] private TMP_InputField SearchField;
+		[SerializeField] public TMP_InputField SearchField;
 
 		private int lastPageNumber = 1;
 		public int NumberOfPagesAvaliable = 0;
@@ -68,7 +68,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 			Loggy.Info(logFileNames.Count.ToString());
 			logFilesDropdown.ClearOptions();
 			logFilesDropdown.AddOptions(logFileNames);
-			logFilesDropdown.value = logFilesDropdown.options.Count - 1;
+			logFilesDropdown.value = 0;
 			RequestLogAvaliablePages(logFilesDropdown.captionText.text);
 		}
 
@@ -93,6 +93,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 			{
 				AdminLogEntryUI newEntryUI = Instantiate(logEntryBase, logsTranform, false);
 				newEntryUI.Setup(newEntry);
+				entriesUI.Add(newEntryUI);
 			}
 		}
 

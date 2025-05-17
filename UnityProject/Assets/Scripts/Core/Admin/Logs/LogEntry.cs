@@ -94,12 +94,12 @@ namespace Core.Admin.Logs
 		{
 			return new LongTermLogEntry.LogItems()
 			{
-				CoreObject = CoreObject.NetIdCommonComponents(),
-				CoreObjectName = CoreObjectName,
-				WasStoredInObject = WasStoredInObject.NetIdCommonComponents(),
-				WasStoredInObjectName = WasStoredInObjectName,
-				WasControlledByPlayerAccountId = WasControlledByPlayer?.AccountId,
-				WasAtPositionWorld = WasAtPositionWorld.ToSerialiseString(),
+				Object = CoreObject.NetIdCommonComponents(),
+				ObjectName = CoreObjectName,
+				StoredIn = WasStoredInObject.NetIdCommonComponents(),
+				StoredInName = WasStoredInObjectName,
+				PlayerAccountID = WasControlledByPlayer?.AccountId,
+				PositionWorld = WasAtPositionWorld.ToSerialiseString(),
 				Info = Info
 			};
 		}
@@ -131,13 +131,21 @@ namespace Core.Admin.Logs
 
 		public struct LogItems
 		{
-			public string CoreObjectName;
-			public uint CoreObject;
-			public string WasStoredInObjectName;
-			public uint WasStoredInObject;
-			public string WasControlledByPlayerAccountId;
-			public string WasAtPositionWorld;
+			public string ObjectName;
+			public uint Object;
+			public string StoredInName;
+			public uint StoredIn;
+			public string PlayerAccountID;
+			public string PositionWorld;
 			public string Info;
+
+			//CoreObjectName -> ObjectName -> ObjName=x
+		//		CoreObject -> Object -> Obj=x
+	//			WasStoredInObjectName -> StoredInName -> StoredInName=x
+//				WasStoredInObject -> StoredIn-> StoredIn=x/
+			//	WasControlledByPlayerAccountId -> PlayerAccountID -> PlayerAccount=x
+			//	WasAtPositionWorld ->  PositionWorld -> Position=x
+			//	Info -> Info -> Info=x
 		}
 	}
 
