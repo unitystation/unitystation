@@ -124,28 +124,3 @@ jobs:
         with:
           name: Test results
           path: ./testReports/${{ matrix.targetPlatform }}
-
-      - name: Generate test summary
-        if: failure() && github.event_name == 'pull_request'
-        run: |
-          xml=$(cat testReports/${{ matrix.targetPlatform }}/editmode-results.xml)
-          if [[ $xml =~ total=\"([0-9]+)\".*passed=\"([0-9]+)\".*failed=\"([0-9]+)\" ]]; then
-            total="${BASH_REMATCH[1]}"
-            passed="${BASH_REMATCH[2]}"
-            failed="${BASH_REMATCH[3]}"
-            echo -e "**Test Results:**\n- Total: $total\n- Passed: $passed\n- Failed: $failed" > test-summary.txt
-            if [[ "$failed" != "0" ]]; then
-              echo -e "\n❌ $failed test(s) failed. Please check the attached results for details." >> test-summary.txt
-            else
-              echo -e "\n✅ All tests passed, but the step failed for another reason." >> test-summary.txt
-            fi
-          else
-            echo "⚠️ Could not parse test results XML." > test-summary.txt
-          fi
-
-      - name: Comment on PR with test summary
-        if: failure() && github.event_name == 'pull_request'
-        uses: thollander/actions-comment-pull-request@v2
-        with:
-          filePath: test-summary.txt
-          reactions: eyes, rocket, confused
