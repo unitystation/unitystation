@@ -67,7 +67,7 @@ namespace Util
 			AdminLogsManager.AddNewLog("Banana house six was set on fire by Jimbo", LogCategory.Admin);
 			AdminLogsManager.AddNewLog("Bob HID cat in Disposal bin 67", LogCategory.Admin);
 
-			AdminLogsStorage.ParseSearch("NOT bob");
+			Loggy.Error(JsonConvert.SerializeObject(AdminLogsStorage.ParseSearch("NOT bob")), LogOption:LogOption.NoStacktrace);
 
 			//AdminLogsStorage.ParseSearch("bob AND cat");
 			//AdminLogsStorage.ParseSearch("bob OR cat");

@@ -161,8 +161,6 @@ namespace UI.Systems.AdminTools.AdminLogs
 			//tab Just add to Search
 
 
-
-
 			if (KeyboardInputManager.IsControlPressed())
 			{
 
