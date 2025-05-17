@@ -95,11 +95,11 @@ public class ItemSlot
 	public NamedSlot? NamedSlot => slotIdentifier.NamedSlot;
 
 	/// <summary>
-	/// True iff the slot has no item.
+	/// True if the slot has no item.
 	/// </summary>
 	public bool IsEmpty => Item == null;
 	/// <summary>
-	/// True iff the slot has an item
+	/// True if the slot has an item
 	/// </summary>
 	public bool IsOccupied => !IsEmpty;
 
