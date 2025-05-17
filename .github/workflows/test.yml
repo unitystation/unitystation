@@ -1,9 +1,11 @@
 name: Tests
 
 permissions:
-  contents: read
+  contents: write
   actions: write
   checks: write
+  issues: write
+  attestations: write
   pull-requests: write
 
 on:
@@ -153,3 +155,4 @@ jobs:
         uses: thollander/actions-comment-pull-request@v2
         with:
           filePath: test-summary.txt
+          reactions: eyes, rocket, confused
