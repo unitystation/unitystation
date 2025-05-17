@@ -12,7 +12,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 {
 	public class AdminLogsWindow : MonoBehaviour
 	{
-		private List<LongTermLogEntry> logEntries = new List<LongTermLogEntry>();
+		private List<StoredLogEntry> logEntries = new List<StoredLogEntry>();
 		private List<AdminLogEntryUI> entriesUI = new List<AdminLogEntryUI>();
 		[SerializeField] private AdminLogEntryUI logEntryBase;
 		[SerializeField] private Transform logsTranform;
@@ -81,7 +81,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 			RequestLogPage(logFilesDropdown.captionText.text, lastPageNumber);
 		}
 
-		public void UpdateLogEntries(List<LongTermLogEntry> newEntries)
+		public void UpdateLogEntries(List<StoredLogEntry> newEntries)
 		{
 			logEntries = newEntries;
 			foreach (var oldEntries in entriesUI)
@@ -89,7 +89,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 				Destroy(oldEntries.gameObject);
 			}
 			entriesUI.Clear();
-			foreach (LongTermLogEntry newEntry in newEntries)
+			foreach (StoredLogEntry newEntry in newEntries)
 			{
 				AdminLogEntryUI newEntryUI = Instantiate(logEntryBase, logsTranform, false);
 				newEntryUI.Setup(newEntry);

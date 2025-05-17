@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using CAPSearch;
 using Core.Admin.Logs;
 using Core.Admin.Logs.Stores;
 using Doors;
@@ -67,7 +68,7 @@ namespace Util
 			AdminLogsManager.AddNewLog("Banana house six was set on fire by Jimbo", LogCategory.Admin);
 			AdminLogsManager.AddNewLog("Bob HID cat in Disposal bin 67", LogCategory.Admin);
 
-			Loggy.Error(JsonConvert.SerializeObject(AdminLogsStorage.ParseSearch("NOT bob")), LogOption:LogOption.NoStacktrace);
+			Loggy.Error(JsonConvert.SerializeObject(SearchCAP.ParseSearch("NOT bob")), LogOption:LogOption.NoStacktrace);
 
 			//AdminLogsStorage.ParseSearch("bob AND cat");
 			//AdminLogsStorage.ParseSearch("bob OR cat");

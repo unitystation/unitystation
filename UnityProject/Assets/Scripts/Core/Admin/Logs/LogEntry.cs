@@ -90,9 +90,9 @@ namespace Core.Admin.Logs
 		public Vector3 WasAtPositionWorld;
 		public string Info;
 
-		public LongTermLogEntry.LogItems SerialiseVersion()
+		public StoredLogEntry.LogItems SerialiseVersion()
 		{
-			return new LongTermLogEntry.LogItems()
+			return new StoredLogEntry.LogItems()
 			{
 				Object = CoreObject.NetIdCommonComponents(),
 				ObjectName = CoreObjectName,
@@ -106,14 +106,14 @@ namespace Core.Admin.Logs
 
 	}
 
-	public struct LongTermLogEntry
+	public struct StoredLogEntry
 	{
 		public DateTime LogTime;
 		public LogItems[] Log;
 		public string LogImportance;
 		public string Category;
 
-		public LongTermLogEntry(LogEntry entry)
+		public StoredLogEntry(LogEntry entry)
 		{
 			LogTime = entry.LogTime;
 			if (entry.Log != null)

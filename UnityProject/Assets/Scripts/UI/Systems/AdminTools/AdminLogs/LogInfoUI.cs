@@ -12,11 +12,11 @@ namespace UI.Systems.AdminTools.AdminLogs
 		public SubLogInfoUI ControlledBy;
 		public SubLogInfoUI Position;
 
-		public LongTermLogEntry.LogItems Info;
+		public StoredLogEntry.LogItems Info;
 
 		public bool Expanded = false;
 
-		public void SetUp(LongTermLogEntry.LogItems InInfo)
+		public void SetUp(StoredLogEntry.LogItems InInfo)
 		{
 			Info = InInfo;
 			if (string.IsNullOrWhiteSpace(Info.Info) == false)

@@ -15,7 +15,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 
 		public LogInfoUI LogInfoUI;
 
-		public LongTermLogEntry.LogItems Info;
+		public StoredLogEntry.LogItems Info;
 
 		public LogMarker LogMarker;
 
@@ -27,7 +27,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 			}
 		}
 
-		public void SetUp(LongTermLogEntry.LogItems InInfo)
+		public void SetUp(StoredLogEntry.LogItems InInfo)
 		{
 			Info = InInfo;
 			switch (LogMarker)
@@ -238,10 +238,13 @@ namespace UI.Systems.AdminTools.AdminLogs
 
 			int insertPosition = lineLength;
 
-			while (insertPosition < input.Length)
+			int EmergencyBreak = 0;
+
+			while (insertPosition < input.Length && EmergencyBreak < 1000)
 			{
 				input = input.Insert(insertPosition, "\n");
 				insertPosition += lineLength + 1; // +1 for the inserted '\n'
+				EmergencyBreak++;
 			}
 
 			return input;

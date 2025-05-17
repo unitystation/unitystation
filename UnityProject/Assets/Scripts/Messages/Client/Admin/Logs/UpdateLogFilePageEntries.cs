@@ -10,7 +10,7 @@ namespace Messages.Client.Admin.Logs
 	{
 		public struct NetMessage : NetworkMessage
 		{
-			public List<LongTermLogEntry> Entries;
+			public List<StoredLogEntry> Entries;
 		}
 
 		public override void Process(NetMessage msg)
@@ -18,7 +18,7 @@ namespace Messages.Client.Admin.Logs
 			UIManager.Instance.AdminLogsWindow.UpdateLogEntries(msg.Entries);
 		}
 
-		public static void SendTo(NetworkConnection admin, List<LongTermLogEntry> LogEntry)
+		public static void SendTo(NetworkConnection admin, List<StoredLogEntry> LogEntry)
 		{
 			NetMessage message = new NetMessage()
 			{

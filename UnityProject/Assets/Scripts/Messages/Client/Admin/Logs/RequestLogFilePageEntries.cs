@@ -27,7 +27,7 @@ namespace Messages.Client.Admin.Logs
 		private async Task Do(NetMessage msg, NetworkConnectionToClient admin)
 		{
 
-			List<LongTermLogEntry> entries = await AdminLogsStorage.FetchLogsPaginated(msg.LogFileName, msg.PageToRequest, msg.SearchString);
+			List<StoredLogEntry> entries = await AdminLogsStorage.FetchLogsPaginated(msg.LogFileName, msg.PageToRequest, msg.SearchString);
 			LoadManager.DoInMainThread(() => UpdateLogFilePageEntries.SendTo(admin, entries ));
 		}
 
