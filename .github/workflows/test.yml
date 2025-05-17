@@ -1,12 +1,6 @@
 name: Tests
 
-permissions:
-  contents: write
-  actions: write
-  checks: write
-  issues: write
-  attestations: write
-  pull-requests: write
+permissions: write-all
 
 on:
   push:
@@ -108,7 +102,6 @@ jobs:
           customImage: "unityci/editor:ubuntu-6000.0.48f1-base-3.1.0"
           artifactsPath: ./testReports/${{ matrix.targetPlatform }}
           testMode: editmode
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Raw Test Results
         if: always() && steps.tests.outcome != 'success'
