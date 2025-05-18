@@ -52,7 +52,7 @@ namespace UI.Systems.PreRound
 			ButtonsArea.SetTitle("Loading..");
 			// This might seem like an unnecessary delay, but it's actually required because the game likes to hang while loading; which delays the receiving of specific info from net messages
 			// that update the state of the round to players.
-			await UniTask.WaitForSeconds(1.55f);
+			await UniTask.WaitForSeconds(2f);
 			await UniTask.WaitUntil(IsClientDoneLoadingScenes);
 			await UniTask.WaitUntil(IsLoadingAreaNoLongerActive);
 			ButtonsArea.RefreshGameModeText();
