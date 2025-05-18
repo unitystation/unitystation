@@ -52,9 +52,13 @@ namespace UI.Systems.PreRound
 			ButtonsArea.SetTitle("Loading..");
 			// This might seem like an unnecessary delay, but it's actually required because the game likes to hang while loading; which delays the receiving of specific info from net messages
 			// that update the state of the round to players.
-			await UniTask.WaitForSeconds(1.55f);
+			await UniTask.WaitForSeconds(2f);
 			await UniTask.WaitUntil(IsClientDoneLoadingScenes);
 			await UniTask.WaitUntil(IsLoadingAreaNoLongerActive);
+			LoadingArea?.UpdateLoadingBar("Awaiting Server..", "Preparing Player", 0.85f);
+			await UniTask.WaitUntil(IsServerDonePreparingThePlayer);
+			LoadingArea?.UpdateLoadingBar("Awaiting Server..", "Finished Preparing Player", 2f);
+			HideLoadingArea();
 			ButtonsArea.RefreshGameModeText();
 			CheckForRoundStatusForTitle(); // maybe find a way to make this reactive with networked events?
 			PopulateWithStandardGameModeButtons();
@@ -86,12 +90,21 @@ namespace UI.Systems.PreRound
 
 		private bool IsClientDoneLoadingScenes()
 		{
+			if (CustomNetworkManager.IsServer == false)
+			{
+				return SubSceneManager.Instance.ClientIsFullyDoneLoadingOnSubsceneManager;
+			}
 			return SubSceneManager.Instance.clientIsLoadingSubscene == false;
 		}
 
 		private bool IsLoadingAreaNoLongerActive()
 		{
 			return LoadingArea.gameObject.activeSelf == false;
+		}
+
+		private bool IsServerDonePreparingThePlayer()
+		{
+			return PlayerManager.LocalViewerScript.ServerDoneLoading;
 		}
 
 		private IEnumerator WaitForInitialisation()
