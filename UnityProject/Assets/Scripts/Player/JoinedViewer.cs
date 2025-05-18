@@ -335,27 +335,27 @@ namespace Player
 				GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("An error occurred. Press F5 to check for what error had occured.".Color(Color.red));
 				Loggy.Error($"No {nameof(NetworkIdentity)} component on {loggedOffPlayer}! " +
 				                "Cannot rejoin that player. Was original player object improperly created? " +
-				                "Did we get runtime error while creating it?", Category.Connections);
+				                "Did we get runtime error while creating it?");
 				// TODO: if this issue persists, should probably send the poor player a message about failing to rejoin.
 				ClearCache();
 				return;
 			}
 
 			var antiFreezeCheckCount = 0;
-			while (identity.observers.ContainsKey(connectionToClient.connectionId) == false)
+			while (connectionToClient != null && identity.observers.ContainsKey(connectionToClient.connectionId) == false)
 			{
 				antiFreezeCheckCount++;
-				await UniTask.WaitForEndOfFrame();
+				await UniTask.WaitForSeconds(1f);
 				if (connectionToClient == null)
 				{
-					//disconnected while we were waiting
+					Loggy.Info("A client seemed to have discconected while we're waiting for their observer.");
 					ClearCache();
 					break;
 				}
-				if (antiFreezeCheckCount > 700)
+				if (antiFreezeCheckCount > 20)
 				{
 					GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("A problem occurred while attempting to check for a valid connection ID." +
-						"No valid connection found after 700 frames. Press F5 to check for if an error had occured.".Color(Color.red));
+						"No valid connection found after 20 seconds. Press F5 to check for if an error had occured.".Color(Color.red));
 					Loggy.Error($"ID {connectionToClient.connectionId} not found in observers dictionary!" +
 					            "Cannot rejoin that player. Was original player object improperly created? " +
 					            "Did we get runtime error while creating it?");
