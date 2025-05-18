@@ -352,10 +352,10 @@ namespace Player
 					ClearCache();
 					break;
 				}
-				if (antiFreezeCheckCount > 5500)
+				if (antiFreezeCheckCount > 700)
 				{
 					GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("A problem occurred while attempting to check for a valid connection ID." +
-						"No valid connection found after 55000 frames. Press F5 to check for if an error had occured.".Color(Color.red));
+						"No valid connection found after 700 frames. Press F5 to check for if an error had occured.".Color(Color.red));
 					Loggy.Error($"ID {connectionToClient.connectionId} not found in observers dictionary!" +
 					            "Cannot rejoin that player. Was original player object improperly created? " +
 					            "Did we get runtime error while creating it?");
@@ -382,7 +382,6 @@ namespace Player
 				if (player.ViewerScript.IsValidPlayerAndWaitingOnLoad == false)
 				{
 					Loggy.Error($"{player.Username} detected while attempting to fallback to mind checks, but IsValidPlayerAndWaitingOnLoad is set to false?!");
-					return;
 				}
 				SuccesfullyRejoin();
 				break;
