@@ -32,7 +32,7 @@ namespace Player
 
 		public static List<Action> DelayTillAuthenticated = new List<Action>();
 
-		private bool IsValidPlayerAndWaitingOnLoad = false; //Note This class is reused for multiple Connections
+		[field: SyncVar] public bool IsValidPlayerAndWaitingOnLoad { get; private set; } = false; //Note This class is reused for multiple Connections
 
 		private string STUnverifiedClientId;
 		private string STVerifiedUserid;
