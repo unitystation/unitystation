@@ -55,7 +55,10 @@ namespace UI.Systems.PreRound
 			await UniTask.WaitForSeconds(2f);
 			await UniTask.WaitUntil(IsClientDoneLoadingScenes);
 			await UniTask.WaitUntil(IsLoadingAreaNoLongerActive);
-			await UniTask.WaitUntil(IsValidPlayerAndWaitingOnLoad);
+			LoadingArea?.UpdateLoadingBar("Awaiting Server..", "Preparing Player", 0.85f);
+			await UniTask.WaitUntil(IsServerDonePreparingThePlayer);
+			LoadingArea?.UpdateLoadingBar("Awaiting Server..", "Finished Preparing Player", 2f);
+			HideLoadingArea();
 			await UniTask.WaitForSeconds(2f);
 			ButtonsArea.RefreshGameModeText();
 			CheckForRoundStatusForTitle(); // maybe find a way to make this reactive with networked events?
@@ -88,17 +91,21 @@ namespace UI.Systems.PreRound
 
 		private bool IsClientDoneLoadingScenes()
 		{
+			if (CustomNetworkManager.IsServer == false)
+			{
+				return SubSceneManager.Instance.ClientIsFullyDoneLoadingOnSubsceneManager;
+			}
 			return SubSceneManager.Instance.clientIsLoadingSubscene == false;
-		}
-
-		private bool IsValidPlayerAndWaitingOnLoad()
-		{
-			return PlayerManager.LocalViewerScript.IsValidPlayerAndWaitingOnLoad == false;
 		}
 
 		private bool IsLoadingAreaNoLongerActive()
 		{
 			return LoadingArea.gameObject.activeSelf == false;
+		}
+
+		private bool IsServerDonePreparingThePlayer()
+		{
+			return PlayerManager.LocalViewerScript.ServerDoneLoading;
 		}
 
 		private IEnumerator WaitForInitialisation()

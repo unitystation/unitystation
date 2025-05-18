@@ -32,11 +32,13 @@ namespace Player
 
 		public static List<Action> DelayTillAuthenticated = new List<Action>();
 
-		[field: SyncVar] public bool IsValidPlayerAndWaitingOnLoad { get; private set; } = false; //Note This class is reused for multiple Connections
+		private bool IsValidPlayerAndWaitingOnLoad = false; //Note This class is reused for multiple Connections
 
 		private string STUnverifiedClientId;
 		private string STVerifiedUserid;
 		private PlayerInfo STVerifiedConnPlayer;
+
+		[SyncVar] public bool ServerDoneLoading = false;
 
 		public static void AddOnPlayerValidated(Action ToInvoke)
 		{
@@ -72,6 +74,7 @@ namespace Player
 			base.OnStartLocalPlayer();
 
 			PlayerManager.SetViewerForControl(this);
+			ServerDoneLoading = false;
 
 			if (isServer && isLocalPlayer)
 			{
@@ -128,6 +131,7 @@ namespace Player
 		[Server]
 		private void ServerSetUpPlayer(string currentScene)
 		{
+			ServerDoneLoading = false;
 			var authData = (AuthData) connectionToClient.authenticationData;
 
 			// Sanity check in case Mirror does a surprising thing and allows commands from unauthenticated clients.
@@ -318,6 +322,7 @@ namespace Player
 				await WaitForLoggedOffObserver(STVerifiedConnPlayer.Mind);
 			}
 			IsValidPlayerAndWaitingOnLoad = false;
+			ServerDoneLoading = true;
 		}
 
 		/// <summary>

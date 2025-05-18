@@ -22,6 +22,8 @@ public partial class SubSceneManager
 
 	public Dictionary<string, bool> ClientObserver = new Dictionary<string, bool>();
 
+	public bool ClientIsFullyDoneLoadingOnSubsceneManager { get; private set; } = false;
+
 
 	void MonitorServerSceneListOnClient()
 	{
@@ -148,6 +150,7 @@ public partial class SubSceneManager
 		ClientSideFinishAction = null;
 		OnFinish?.Invoke();
 		GUI_PreRoundWindow.Instance?.HideLoadingArea();
+		ClientIsFullyDoneLoadingOnSubsceneManager = true;
 	}
 
 
