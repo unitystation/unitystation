@@ -59,7 +59,6 @@ namespace UI.Systems.PreRound
 			await UniTask.WaitUntil(IsServerDonePreparingThePlayer);
 			LoadingArea?.UpdateLoadingBar("Awaiting Server..", "Finished Preparing Player", 2f);
 			HideLoadingArea();
-			await UniTask.WaitForSeconds(2f);
 			ButtonsArea.RefreshGameModeText();
 			CheckForRoundStatusForTitle(); // maybe find a way to make this reactive with networked events?
 			PopulateWithStandardGameModeButtons();
