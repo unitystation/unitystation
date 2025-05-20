@@ -22,8 +22,8 @@ MonoBehaviour:
   Mass: 1
   floorTileSounds: {fileID: 0}
   CanSoundOverride: 0
-  atmosPassable: 0
-  isSealed: 1
+  atmosPassable: 1
+  isSealed: 0
   SpawnWithNoAir: 0
   passable: 1
   mineable: 0
@@ -71,11 +71,11 @@ MonoBehaviour:
   spawnOnDestroy: {fileID: 0}
   damageOverlayList: {fileID: 0}
   soundOnHit:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   SoundOnDestroy: []
