@@ -12963,6 +12963,9 @@
                 "Tel": "Plating"
               },
               {
+                "Tel": "table_reinforced"
+              },
+              {
                 "Tel": "DisposalPipeStraight-EW",
                 "Z": 1
               }
@@ -14001,6 +14004,9 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "table_reinforced"
               },
               {
                 "Tel": "DisposalPipeStraight-EW",
@@ -23282,13 +23288,10 @@
             "Key": "X7Y85",
             "Value": [
               {
-                "Tel": "yellow_7"
+                "Tel": "bcircuit"
               },
               {
                 "Tel": "Plating"
-              },
-              {
-                "Tel": "table_reinforced"
               }
             ]
           },
@@ -24199,13 +24202,10 @@
             "Key": "X8Y85",
             "Value": [
               {
-                "Tel": "yellow_6"
+                "Tel": "podfloor_light"
               },
               {
                 "Tel": "Plating"
-              },
-              {
-                "Tel": "table_reinforced"
               }
             ]
           },
@@ -74185,6 +74185,9 @@
             "Key": "X64Y70",
             "Value": [
               {
+                "Tel": "podfloor_light"
+              },
+              {
                 "Tel": "Plating"
               }
             ]
@@ -75044,6 +75047,9 @@
           {
             "Key": "X65Y70",
             "Value": [
+              {
+                "Tel": "bcircuit"
+              },
               {
                 "Tel": "Plating"
               }
@@ -98019,26 +98025,6 @@
             "SortPath": "Items"
           },
           {
-            "GitID": "bc3ec338908f0b24a80fadf8671f3028_-3┼23┼0┼",
-            "PrefabID": "bc3ec338908f0b24a80fadf8671f3028",
-            "Name": "PepperSprayRefiller (1)",
-            "LocalPRS": "-3┼23┼0┼",
-            "SortPath": "Items",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Left_By90"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
             "GitID": "a50474d976314462a79602e20a762520_-3┼24┼0┼",
             "PrefabID": "a50474d976314462a79602e20a762520",
             "Name": "ACU - SecEquip",
@@ -98941,6 +98927,20 @@
             }
           },
           {
+            "GitID": "288980126acf5f441841169958c31630_-3┼75┼0┼",
+            "PrefabID": "288980126acf5f441841169958c31630",
+            "Name": "HighCableCoil (1)",
+            "LocalPRS": "-3┼75┼0┼",
+            "SortPath": "Items"
+          },
+          {
+            "GitID": "288980126acf5f441841169958c31630_-3┼75.25┼0┼",
+            "PrefabID": "288980126acf5f441841169958c31630",
+            "Name": "HighCableCoil (2)",
+            "LocalPRS": "-3┼75.25┼0┼",
+            "SortPath": "Items"
+          },
+          {
             "GitID": "e58e1fd483fe772468ad2aab4259397d_-3┼76┼0┼",
             "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
             "Name": "PlayerSpawnPoint Engineer (2)",
@@ -99061,6 +99061,20 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "c3e6805b264a935428b0de415ea57943_-2.5┼75┼0┼",
+            "PrefabID": "c3e6805b264a935428b0de415ea57943",
+            "Name": "MediumCableCoil (1)",
+            "LocalPRS": "-2.5┼75┼0┼",
+            "SortPath": "Items"
+          },
+          {
+            "GitID": "c3e6805b264a935428b0de415ea57943_-2.5┼75.25┼0┼",
+            "PrefabID": "c3e6805b264a935428b0de415ea57943",
+            "Name": "MediumCableCoil (2)",
+            "LocalPRS": "-2.5┼75.25┼0┼",
+            "SortPath": "Items"
           },
           {
             "GitID": "09e0d3c634d29814484c38f53b700bee_-2┼19┼0┼",
@@ -99803,6 +99817,38 @@
             }
           },
           {
+            "GitID": "7f6eacde79c191f49b453bd576d1c1ec_-2┼73┼0┼",
+            "PrefabID": "7f6eacde79c191f49b453bd576d1c1ec",
+            "Name": "BoilerTurbineConsole (1)",
+            "LocalPRS": "-2┼73┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_0┼79┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "BoilerTurbineController@0",
+                  "Data": [
+                    {
+                      "Name": "ReactorBoiler",
+                      "Data": "212fb4f9ee5822c4c8584d1e7fc90905_-6┼82┼0┼@0@ReactorBoiler@0"
+                    },
+                    {
+                      "Name": "ReactorTurbine",
+                      "Data": "8c393ccc08d534149b66f4fe18918959_-6┼81┼0┼@0@ReactorTurbine@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "a075086024d70074e8747c26b57dfa7f_-2┼74┼0┼",
             "PrefabID": "a075086024d70074e8747c26b57dfa7f",
             "Name": "FirelockCE",
@@ -99836,6 +99882,52 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_0┼79┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "7f32e42309899114b9c122f261161bc5_-2┼75┼0┼",
+            "PrefabID": "7f32e42309899114b9c122f261161bc5",
+            "Name": "LowCableCoil (1)",
+            "LocalPRS": "-2┼75┼0┼",
+            "SortPath": "Items"
+          },
+          {
+            "GitID": "7f32e42309899114b9c122f261161bc5_-2┼75.25┼0┼",
+            "PrefabID": "7f32e42309899114b9c122f261161bc5",
+            "Name": "LowCableCoil (2)",
+            "LocalPRS": "-2┼75.25┼0┼",
+            "SortPath": "Items"
+          },
+          {
+            "GitID": "c2d88ade76d8f0646b89871af34a5115_-2┼77┼0┼",
+            "PrefabID": "c2d88ade76d8f0646b89871af34a5115",
+            "Name": "DepartmentTechfabEngineering (1)",
+            "LocalPRS": "-2┼77┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "False"
+                    },
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_0┼79┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "RDProductionMachine@0",
+                  "Data": [
+                    {
+                      "Name": "researchServer",
+                      "Data": "5kxOLzVCyAnAz_ATY8PU_22┼62┼0┼@0@ResearchServer@0"
                     }
                   ]
                 }
@@ -100531,9 +100623,9 @@
             "SortPath": "unsorted"
           },
           {
-            "GitID": "baeafe1b5e8214344a5acf3315766acc_-1┼40┼0┼",
-            "PrefabID": "baeafe1b5e8214344a5acf3315766acc",
-            "Name": "New DNA Scanner (1)",
+            "GitID": "c229b2348b62daf499ff1c45745ef9df_-1┼40┼0┼",
+            "PrefabID": "c229b2348b62daf499ff1c45745ef9df",
+            "Name": "CloningConsole (1)",
             "LocalPRS": "-1┼40┼0┼",
             "SortPath": "ConsolesAndMachines",
             "Object": {
@@ -100544,6 +100636,59 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_6┼39┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,3",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -100761,7 +100906,7 @@
                   "Data": [
                     {
                       "Name": "initialAmount",
-                      "Data": "25"
+                      "Data": "35"
                     }
                   ]
                 }
@@ -100781,7 +100926,7 @@
                   "Data": [
                     {
                       "Name": "initialAmount",
-                      "Data": "25"
+                      "Data": "35"
                     }
                   ]
                 }
@@ -100838,7 +100983,7 @@
                   "Data": [
                     {
                       "Name": "initialAmount",
-                      "Data": "25"
+                      "Data": "35"
                     }
                   ]
                 }
@@ -100943,6 +101088,43 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_0┼79┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "01adbe4ed95aba04298d331662f28dcd_-1┼75┼0┼",
+            "PrefabID": "01adbe4ed95aba04298d331662f28dcd",
+            "Name": "PlasmaCrate (1)",
+            "LocalPRS": "-1┼75┼0┼",
+            "SortPath": "CratesClosets",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "25108e21a69d52c46a538e66eb85db0a_-1┼75┼0┼",
+            "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
+            "Name": "SolidPlasmaSheet (2)",
+            "LocalPRS": "-1┼75┼0┼",
+            "SortPath": "Items",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Stackable@0",
+                  "Data": [
+                    {
+                      "Name": "initialAmount",
+                      "Data": "10"
                     }
                   ]
                 }
@@ -101187,7 +101369,7 @@
                   "Data": [
                     {
                       "Name": "initialAmount",
-                      "Data": "20"
+                      "Data": "25"
                     }
                   ]
                 }
@@ -101207,7 +101389,7 @@
                   "Data": [
                     {
                       "Name": "initialAmount",
-                      "Data": "20"
+                      "Data": "30"
                     }
                   ]
                 }
@@ -101227,7 +101409,7 @@
                   "Data": [
                     {
                       "Name": "initialAmount",
-                      "Data": "15"
+                      "Data": "20"
                     }
                   ]
                 }
@@ -101543,9 +101725,9 @@
             }
           },
           {
-            "GitID": "c229b2348b62daf499ff1c45745ef9df_0┼40┼0┼",
-            "PrefabID": "c229b2348b62daf499ff1c45745ef9df",
-            "Name": "CloningConsole (1)",
+            "GitID": "baeafe1b5e8214344a5acf3315766acc_0┼40┼0┼",
+            "PrefabID": "baeafe1b5e8214344a5acf3315766acc",
+            "Name": "New DNA Scanner (1)",
             "LocalPRS": "0┼40┼0┼",
             "SortPath": "ConsolesAndMachines",
             "Object": {
@@ -101556,59 +101738,6 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_6┼39┼0┼@0@APC@0"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Up_By0"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "initialVariantIndex",
-                          "Data": "1"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "ID": "0,2",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "initialVariantIndex",
-                          "Data": "1"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "ID": "0,3",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "initialVariantIndex",
-                          "Data": "1"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -101994,7 +102123,7 @@
                   "Data": [
                     {
                       "Name": "initialAmount",
-                      "Data": "20"
+                      "Data": "30"
                     }
                   ]
                 }
@@ -102050,7 +102179,7 @@
                   "Data": [
                     {
                       "Name": "initialAmount",
-                      "Data": "15"
+                      "Data": "20"
                     }
                   ]
                 }
@@ -102202,11 +102331,23 @@
             }
           },
           {
-            "GitID": "51c0e5d18b9c1fa44badeb798e344d05_0┼75┼0┼",
-            "PrefabID": "51c0e5d18b9c1fa44badeb798e344d05",
-            "Name": "Water Cooler (6)",
+            "GitID": "a223c02f818b8d74abd3e94371d523d4_0┼75┼0┼",
+            "PrefabID": "a223c02f818b8d74abd3e94371d523d4",
+            "Name": "Autolathe (1)",
             "LocalPRS": "0┼75┼0┼",
-            "SortPath": "FurnitureDecor"
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_0┼79┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_0┼75┼0┼",
@@ -102240,6 +102381,38 @@
                   "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "7f32e2dfc55013544999d599b7fe3b4b_0┼77┼0┼",
+            "PrefabID": "7f32e2dfc55013544999d599b7fe3b4b",
+            "Name": "DepartmentProtolatheEngineering (1)",
+            "LocalPRS": "0┼77┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "False"
+                    },
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_0┼79┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "RDProductionMachine@0",
+                  "Data": [
+                    {
+                      "Name": "researchServer",
+                      "Data": "5kxOLzVCyAnAz_ATY8PU_22┼62┼0┼@0@ResearchServer@0"
+                    }
+                  ]
                 }
               ]
             }
@@ -102307,6 +102480,30 @@
                 {
                   "ClassID": "APC@0",
                   "Data": [
+                    {
+                      "Name": "connectedDevices#115",
+                      "Data": "c5b5d7ad69b7bfc4cbf90bac4b998450_8┼82┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#114",
+                      "Data": "7f6eacde79c191f49b453bd576d1c1ec_-2┼73┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#113",
+                      "Data": "a223c02f818b8d74abd3e94371d523d4_0┼75┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#112",
+                      "Data": "c2d88ade76d8f0646b89871af34a5115_-2┼77┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#111",
+                      "Data": "7f32e2dfc55013544999d599b7fe3b4b_0┼77┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#110",
+                      "Data": "f85ab7ac2e81eeb48827c7b08a12b01e_8┼85┼0┼@0@APCPoweredDevice@0"
+                    },
                     {
                       "Name": "connectedDevices#109",
                       "Data": "c04905100b9b3d746ad50b5a62efe998_8┼69┼0┼@0@APCPoweredDevice@0"
@@ -102417,15 +102614,15 @@
                     },
                     {
                       "Name": "connectedDevices#82",
-                      "Data": "a23df53dd1a41174396457b4cd6f7e99_8┼83┼0┼@0@APCPoweredDevice@0"
+                      "Data": "a23df53dd1a41174396457b4cd6f7e99_8┼81┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#81",
-                      "Data": "a23df53dd1a41174396457b4cd6f7e99_8┼82┼0┼@0@APCPoweredDevice@0"
+                      "Data": "a23df53dd1a41174396457b4cd6f7e99_8┼80┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#80",
-                      "Data": "a23df53dd1a41174396457b4cd6f7e99_8┼81┼0┼@0@APCPoweredDevice@0"
+                      "Data": "a23df53dd1a41174396457b4cd6f7e99_8┼79┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#79",
@@ -102777,19 +102974,6 @@
                       "Data": "Up_By0"
                     }
                   ]
-                },
-                {
-                  "ClassID": "BoilerTurbineController@0",
-                  "Data": [
-                    {
-                      "Name": "ReactorBoiler",
-                      "Data": "212fb4f9ee5822c4c8584d1e7fc90905_-6┼82┼0┼@0@ReactorBoiler@0"
-                    },
-                    {
-                      "Name": "ReactorTurbine",
-                      "Data": "8c393ccc08d534149b66f4fe18918959_-6┼81┼0┼@0@ReactorTurbine@0"
-                    }
-                  ]
                 }
               ],
               "Children": [
@@ -103007,7 +103191,7 @@
                   "Data": [
                     {
                       "Name": "initialAmount",
-                      "Data": "25"
+                      "Data": "35"
                     }
                   ]
                 }
@@ -103027,7 +103211,7 @@
                   "Data": [
                     {
                       "Name": "initialAmount",
-                      "Data": "20"
+                      "Data": "25"
                     }
                   ]
                 }
@@ -103496,7 +103680,7 @@
                   "Data": [
                     {
                       "Name": "initialAmount",
-                      "Data": "25"
+                      "Data": "35"
                     }
                   ]
                 }
@@ -103516,7 +103700,7 @@
                   "Data": [
                     {
                       "Name": "initialAmount",
-                      "Data": "25"
+                      "Data": "35"
                     }
                   ]
                 }
@@ -103693,6 +103877,13 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "51c0e5d18b9c1fa44badeb798e344d05_1┼75┼0┼",
+            "PrefabID": "51c0e5d18b9c1fa44badeb798e344d05",
+            "Name": "Water Cooler (6)",
+            "LocalPRS": "1┼75┼0┼",
+            "SortPath": "FurnitureDecor"
           },
           {
             "GitID": "c21551dd992a57349973e4b5af103ca6_1┼78┼0┼",
@@ -106460,6 +106651,13 @@
             }
           },
           {
+            "GitID": "1f1f794ef351a004ca8600daab98e915_4┼81┼0┼",
+            "PrefabID": "1f1f794ef351a004ca8600daab98e915",
+            "Name": "ElectricalSuppliesLocker (2)",
+            "LocalPRS": "4┼81┼0┼",
+            "SortPath": "CratesClosets"
+          },
+          {
             "GitID": "9028811e852742d40ac5ae72a716a679_4┼84┼0┼",
             "PrefabID": "9028811e852742d40ac5ae72a716a679",
             "Name": "DirectionalWindowPlasmaReinforced (87)",
@@ -106730,6 +106928,13 @@
             "Name": "DirectionalWindowPlasmaReinforced (96)",
             "LocalPRS": "4.001┼87┼0┼",
             "SortPath": "Windows"
+          },
+          {
+            "GitID": "3edf81f4a32c4c348bad5bfe43e263fd_4.88┼74┼0┼",
+            "PrefabID": "3edf81f4a32c4c348bad5bfe43e263fd",
+            "Name": "Paper Bin1 (13)",
+            "LocalPRS": "4.88┼74┼0┼",
+            "SortPath": "Items"
           },
           {
             "GitID": "86649e4eafe8e014b925a49dbc892d4f_5┼20┼0┼",
@@ -107397,12 +107602,6 @@
             }
           },
           {
-            "GitID": "d554409601a0f744090f24e47955cb9a_5┼74┼0┼",
-            "PrefabID": "d554409601a0f744090f24e47955cb9a",
-            "Name": "MechanicalToolbox (2)",
-            "LocalPRS": "5┼74┼0┼"
-          },
-          {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_5┼74┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
             "Name": "LightTubeFixture (122)",
@@ -107460,31 +107659,30 @@
             "SortPath": "Powernet"
           },
           {
-            "GitID": "25108e21a69d52c46a538e66eb85db0a_5┼79┼0┼",
-            "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (3)",
-            "LocalPRS": "5┼79┼0┼",
-            "SortPath": "Items",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Stackable@0",
-                  "Data": [
-                    {
-                      "Name": "initialAmount",
-                      "Data": "5"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
             "GitID": "93d1f95a33757fe4fa3e2771e3f5bd67_5┼79┼0┼",
             "PrefabID": "93d1f95a33757fe4fa3e2771e3f5bd67",
             "Name": "New PowerGeneratorPlasma (1)",
             "LocalPRS": "5┼79┼0┼",
             "SortPath": "Powernet"
+          },
+          {
+            "GitID": "1f1f794ef351a004ca8600daab98e915_5┼82┼0┼",
+            "PrefabID": "1f1f794ef351a004ca8600daab98e915",
+            "Name": "ElectricalSuppliesLocker (1)",
+            "LocalPRS": "5┼82┼0┼",
+            "SortPath": "CratesClosets"
+          },
+          {
+            "GitID": "83442ea1bc97ef04db1f9962a2f7021d_5.12┼74.25┼0┼",
+            "PrefabID": "83442ea1bc97ef04db1f9962a2f7021d",
+            "Name": "Pen (14)",
+            "LocalPRS": "5.12┼74.25┼0┼"
+          },
+          {
+            "GitID": "cb11f80a7ec1323428cd508fccb1f311_5.62┼74┼0┼",
+            "PrefabID": "cb11f80a7ec1323428cd508fccb1f311",
+            "Name": "TrayScanner (2)",
+            "LocalPRS": "5.62┼74┼0┼"
           },
           {
             "GitID": "e9faaf09b99986345b369321292e6812_5.75┼50.07┼0┼",
@@ -107947,11 +108145,11 @@
                     },
                     {
                       "Name": "connectedDevices#91",
-                      "Data": "c229b2348b62daf499ff1c45745ef9df_0┼40┼0┼@0@APCPoweredDevice@0"
+                      "Data": "c229b2348b62daf499ff1c45745ef9df_-1┼40┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#90",
-                      "Data": "baeafe1b5e8214344a5acf3315766acc_-1┼40┼0┼@0@APCPoweredDevice@0"
+                      "Data": "baeafe1b5e8214344a5acf3315766acc_0┼40┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#89",
@@ -108789,13 +108987,6 @@
             }
           },
           {
-            "GitID": "3edf81f4a32c4c348bad5bfe43e263fd_6┼74┼0┼",
-            "PrefabID": "3edf81f4a32c4c348bad5bfe43e263fd",
-            "Name": "Paper Bin1 (13)",
-            "LocalPRS": "6┼74┼0┼",
-            "SortPath": "Items"
-          },
-          {
             "GitID": "0d553281bdfc0fd438b3f6c7db58688c_6┼81┼0┼",
             "PrefabID": "0d553281bdfc0fd438b3f6c7db58688c",
             "Name": "AirVent (69)",
@@ -108888,10 +109079,10 @@
             "SortPath": "Items"
           },
           {
-            "GitID": "83442ea1bc97ef04db1f9962a2f7021d_6.25┼74.25┼0┼",
-            "PrefabID": "83442ea1bc97ef04db1f9962a2f7021d",
-            "Name": "Pen (14)",
-            "LocalPRS": "6.25┼74.25┼0┼"
+            "GitID": "d554409601a0f744090f24e47955cb9a_6.25┼74.12┼0┼",
+            "PrefabID": "d554409601a0f744090f24e47955cb9a",
+            "Name": "MechanicalToolbox (2)",
+            "LocalPRS": "6.25┼74.12┼0┼"
           },
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_7┼22┼0┼",
@@ -110009,10 +110200,10 @@
             }
           },
           {
-            "GitID": "ba57b15b534bc514fa63faf954c4e5da_7┼74┼0┼",
+            "GitID": "ba57b15b534bc514fa63faf954c4e5da_7┼74.12┼0┼",
             "PrefabID": "ba57b15b534bc514fa63faf954c4e5da",
             "Name": "ElectricalToolbox (1)",
-            "LocalPRS": "7┼74┼0┼"
+            "LocalPRS": "7┼74.12┼0┼"
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_7┼77┼0┼",
@@ -110080,24 +110271,75 @@
             }
           },
           {
-            "GitID": "288980126acf5f441841169958c31630_7┼85┼0┼",
-            "PrefabID": "288980126acf5f441841169958c31630",
-            "Name": "HighCableCoil (1)",
+            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_7┼85┼0┼",
+            "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
+            "Name": "MappingLightSourceTransporterCircuit1 (8)",
             "LocalPRS": "7┼85┼0┼",
-            "SortPath": "Items"
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "LocalPRS": "0┼0┼0┼1↔1↔0.06↔",
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "LightSprite@0",
+                      "Data": [
+                        {
+                          "Name": "InitialColour",
+                          "Data": "1ÚÿÍ"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "LightSpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "30dfa7309f045854aabe3d39b2cc5a24"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
-            "GitID": "cb11f80a7ec1323428cd508fccb1f311_7┼85┼0┼",
-            "PrefabID": "cb11f80a7ec1323428cd508fccb1f311",
-            "Name": "TrayScanner (2)",
-            "LocalPRS": "7┼85┼0┼"
-          },
-          {
-            "GitID": "288980126acf5f441841169958c31630_7┼85.25┼0┼",
-            "PrefabID": "288980126acf5f441841169958c31630",
-            "Name": "HighCableCoil (2)",
-            "LocalPRS": "7┼85.25┼0┼",
-            "SortPath": "Items"
+            "GitID": "9028811e852742d40ac5ae72a716a679_7┼85┼0┼",
+            "PrefabID": "9028811e852742d40ac5ae72a716a679",
+            "Name": "DirectionalWindowPlasmaReinforced (124)",
+            "LocalPRS": "7┼85┼0┼",
+            "SortPath": "Windows",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "3a73c3372e9ae3f738dfdf0806301d5c_7┼87┼0┼",
@@ -110121,11 +110363,54 @@
             "SortPath": "Items"
           },
           {
+            "GitID": "9028811e852742d40ac5ae72a716a679_7.001┼85┼0┼",
+            "PrefabID": "9028811e852742d40ac5ae72a716a679",
+            "Name": "DirectionalWindowPlasmaReinforced (125)",
+            "LocalPRS": "7.001┼85┼0┼",
+            "SortPath": "Windows"
+          },
+          {
             "GitID": "1bd4d6ea60dfdc1498ee8f06b7289fb4_7.002┼33┼0┼",
             "PrefabID": "1bd4d6ea60dfdc1498ee8f06b7289fb4",
             "Name": "Crowbar (4)",
             "LocalPRS": "7.002┼33┼0┼",
             "SortPath": "Items"
+          },
+          {
+            "GitID": "9028811e852742d40ac5ae72a716a679_7.002┼85┼0┼",
+            "PrefabID": "9028811e852742d40ac5ae72a716a679",
+            "Name": "DirectionalWindowPlasmaReinforced (126)",
+            "LocalPRS": "7.002┼85┼0┼",
+            "SortPath": "Windows",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "1bd4d6ea60dfdc1498ee8f06b7289fb4_7.003┼33┼0┼",
@@ -110135,18 +110420,40 @@
             "SortPath": "Items"
           },
           {
-            "GitID": "c3e6805b264a935428b0de415ea57943_7.5┼85┼0┼",
-            "PrefabID": "c3e6805b264a935428b0de415ea57943",
-            "Name": "MediumCableCoil (1)",
-            "LocalPRS": "7.5┼85┼0┼",
-            "SortPath": "Items"
-          },
-          {
-            "GitID": "c3e6805b264a935428b0de415ea57943_7.5┼85.25┼0┼",
-            "PrefabID": "c3e6805b264a935428b0de415ea57943",
-            "Name": "MediumCableCoil (2)",
-            "LocalPRS": "7.5┼85.25┼0┼",
-            "SortPath": "Items"
+            "GitID": "9028811e852742d40ac5ae72a716a679_7.003┼85┼0┼",
+            "PrefabID": "9028811e852742d40ac5ae72a716a679",
+            "Name": "DirectionalWindowPlasmaReinforced (127)",
+            "LocalPRS": "7.003┼85┼0┼",
+            "SortPath": "Windows",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "eb1040cb96c8fc544a215ded005c5f97_7.75┼46.25┼0┼",
@@ -110602,23 +110909,49 @@
             }
           },
           {
-            "GitID": "1f1f794ef351a004ca8600daab98e915_8┼79┼0┼",
-            "PrefabID": "1f1f794ef351a004ca8600daab98e915",
-            "Name": "ElectricalSuppliesLocker (2)",
+            "GitID": "a23df53dd1a41174396457b4cd6f7e99_8┼79┼0┼",
+            "PrefabID": "a23df53dd1a41174396457b4cd6f7e99",
+            "Name": "SuitStorageUnitEngineer (1)",
             "LocalPRS": "8┼79┼0┼",
-            "SortPath": "CratesClosets"
+            "SortPath": "ConsolesAndMachines",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_0┼79┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
-            "GitID": "1f1f794ef351a004ca8600daab98e915_8┼80┼0┼",
-            "PrefabID": "1f1f794ef351a004ca8600daab98e915",
-            "Name": "ElectricalSuppliesLocker (1)",
+            "GitID": "a23df53dd1a41174396457b4cd6f7e99_8┼80┼0┼",
+            "PrefabID": "a23df53dd1a41174396457b4cd6f7e99",
+            "Name": "SuitStorageUnitEngineer (3)",
             "LocalPRS": "8┼80┼0┼",
-            "SortPath": "CratesClosets"
+            "SortPath": "ConsolesAndMachines",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_0┼79┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "a23df53dd1a41174396457b4cd6f7e99_8┼81┼0┼",
             "PrefabID": "a23df53dd1a41174396457b4cd6f7e99",
-            "Name": "SuitStorageUnitEngineer (1)",
+            "Name": "SuitStorageUnitEngineer (2)",
             "LocalPRS": "8┼81┼0┼",
             "SortPath": "ConsolesAndMachines",
             "Object": {
@@ -110636,11 +110969,10 @@
             }
           },
           {
-            "GitID": "a23df53dd1a41174396457b4cd6f7e99_8┼82┼0┼",
-            "PrefabID": "a23df53dd1a41174396457b4cd6f7e99",
-            "Name": "SuitStorageUnitEngineer (3)",
+            "GitID": "c5b5d7ad69b7bfc4cbf90bac4b998450_8┼82┼0┼",
+            "PrefabID": "c5b5d7ad69b7bfc4cbf90bac4b998450",
+            "Name": "EngiVend (1)",
             "LocalPRS": "8┼82┼0┼",
-            "SortPath": "ConsolesAndMachines",
             "Object": {
               "ClassDatas": [
                 {
@@ -110701,13 +111033,49 @@
             }
           },
           {
-            "GitID": "a23df53dd1a41174396457b4cd6f7e99_8┼83┼0┼",
-            "PrefabID": "a23df53dd1a41174396457b4cd6f7e99",
-            "Name": "SuitStorageUnitEngineer (2)",
-            "LocalPRS": "8┼83┼0┼",
-            "SortPath": "ConsolesAndMachines",
+            "GitID": "f85ab7ac2e81eeb48827c7b08a12b01e_8┼85┼0┼",
+            "PrefabID": "f85ab7ac2e81eeb48827c7b08a12b01e",
+            "Name": "QuantumPad Eng",
+            "LocalPRS": "8┼85┼0┼",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "Integrity@0",
+                  "Data": [
+                    {
+                      "Name": "initialIntegrity",
+                      "Data": "200"
+                    },
+                    {
+                      "Name": "Armor@Melee",
+                      "Data": "30"
+                    },
+                    {
+                      "Name": "Armor@Bullet",
+                      "Data": "30"
+                    },
+                    {
+                      "Name": "Armor@Laser",
+                      "Data": "30"
+                    },
+                    {
+                      "Name": "Armor@Energy",
+                      "Data": "30"
+                    },
+                    {
+                      "Name": "Armor@Bomb",
+                      "Data": "30"
+                    },
+                    {
+                      "Name": "Armor@Fire",
+                      "Data": "30"
+                    },
+                    {
+                      "Name": "Armor@Acid",
+                      "Data": "30"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "APCPoweredDevice@0",
                   "Data": [
@@ -110716,60 +111084,30 @@
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_0┼79┼0┼@0@APC@0"
                     }
                   ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "01adbe4ed95aba04298d331662f28dcd_8┼84┼0┼",
-            "PrefabID": "01adbe4ed95aba04298d331662f28dcd",
-            "Name": "PlasmaCrate (1)",
-            "LocalPRS": "8┼84┼0┼",
-            "SortPath": "CratesClosets",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
+                },
                 {
-                  "ID": "0,2",
-                  "Active": false,
-                  "ClassDatas": []
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "25108e21a69d52c46a538e66eb85db0a_8┼84┼0┼",
-            "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (2)",
-            "LocalPRS": "8┼84┼0┼",
-            "SortPath": "Items",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Stackable@0",
+                  "ClassID": "QuantumPad@0",
                   "Data": [
                     {
-                      "Name": "initialAmount",
-                      "Data": "15"
+                      "Name": "connectedPad",
+                      "Data": "f85ab7ac2e81eeb48827c7b08a12b01e_64┼70┼0┼@0@QuantumPad@0"
+                    },
+                    {
+                      "Name": "passiveDetect",
+                      "Data": "True"
+                    },
+                    {
+                      "Name": "padDirection",
+                      "Data": "Up"
+                    },
+                    {
+                      "Name": "<CanRelink>k__BackingField",
+                      "Data": "True"
                     }
                   ]
                 }
               ]
             }
-          },
-          {
-            "GitID": "7f32e42309899114b9c122f261161bc5_8┼85┼0┼",
-            "PrefabID": "7f32e42309899114b9c122f261161bc5",
-            "Name": "LowCableCoil (1)",
-            "LocalPRS": "8┼85┼0┼",
-            "SortPath": "Items"
-          },
-          {
-            "GitID": "7f32e42309899114b9c122f261161bc5_8┼85.25┼0┼",
-            "PrefabID": "7f32e42309899114b9c122f261161bc5",
-            "Name": "LowCableCoil (2)",
-            "LocalPRS": "8┼85.25┼0┼",
-            "SortPath": "Items"
           },
           {
             "GitID": "1a3dae49e88850661b9e361860843923_8┼87┼0┼",
@@ -117183,13 +117521,25 @@
             }
           },
           {
-            "GitID": "7953abf1584ad8241b2281698de84f40_18┼64┼0┼",
-            "PrefabID": "7953abf1584ad8241b2281698de84f40",
-            "Name": "CircuitImprinter (1)",
+            "GitID": "60e82c6d5e5366d468e1657776c3f505_18┼64┼0┼",
+            "PrefabID": "60e82c6d5e5366d468e1657776c3f505",
+            "Name": "DepartmentCircuitImprinterScience (1)",
             "LocalPRS": "18┼64┼0┼",
-            "SortPath": "ConsolesAndMachines",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "False"
+                    },
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_23┼68┼0┼@0@APC@0"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "RDProductionMachine@0",
                   "Data": [
@@ -119088,7 +119438,33 @@
             "PrefabID": "214d0dfaf75593d48ab032a0b74b4116",
             "Name": "DepartmentProtolatheScience (1)",
             "LocalPRS": "20┼64┼0┼",
-            "SortPath": "ConsolesAndMachines"
+            "SortPath": "ConsolesAndMachines",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "False"
+                    },
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_23┼68┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "RDProductionMachine@0",
+                  "Data": [
+                    {
+                      "Name": "researchServer",
+                      "Data": "5kxOLzVCyAnAz_ATY8PU_22┼62┼0┼@0@ResearchServer@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "46256bd32d78e6244ae8cf416751c9a3_20┼67┼0┼",
@@ -121716,6 +122092,15 @@
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_23┼68┼0┼@0@APC@0"
                     }
                   ]
+                },
+                {
+                  "ClassID": "RDProductionMachine@0",
+                  "Data": [
+                    {
+                      "Name": "researchServer",
+                      "Data": "5kxOLzVCyAnAz_ATY8PU_22┼62┼0┼@0@ResearchServer@0"
+                    }
+                  ]
                 }
               ]
             }
@@ -121909,6 +122294,18 @@
                 {
                   "ClassID": "APC@0",
                   "Data": [
+                    {
+                      "Name": "connectedDevices#207",
+                      "Data": "8eab193d6d8ce92468bb22dfde12253a_28┼62┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#206",
+                      "Data": "60e82c6d5e5366d468e1657776c3f505_18┼64┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#205",
+                      "Data": "214d0dfaf75593d48ab032a0b74b4116_20┼64┼0┼@0@APCPoweredDevice@0"
+                    },
                     {
                       "Name": "connectedDevices#204",
                       "Data": "c04905100b9b3d746ad50b5a62efe998_14┼69┼0┼@0@APCPoweredDevice@0"
@@ -127187,6 +127584,13 @@
             }
           },
           {
+            "GitID": "4a7128e6bc8b4214794a2cc4405e60ae_27.75┼25.12┼0┼",
+            "PrefabID": "4a7128e6bc8b4214794a2cc4405e60ae",
+            "Name": "FountainPenCaptain (1)",
+            "LocalPRS": "27.75┼25.12┼0┼",
+            "SortPath": "Items"
+          },
+          {
             "GitID": "e0f5d6ccb46435b4b95b586b0419df56_28┼10┼0┼",
             "PrefabID": "e0f5d6ccb46435b4b95b586b0419df56",
             "Name": "ShuttersBridge",
@@ -128019,16 +128423,19 @@
             }
           },
           {
-            "GitID": "673bb8fcbfe706f4ba328a489e31337d_28┼62┼0┼",
-            "PrefabID": "673bb8fcbfe706f4ba328a489e31337d",
-            "Name": "TechnologyFabricator (1)",
+            "GitID": "8eab193d6d8ce92468bb22dfde12253a_28┼62┼0┼",
+            "PrefabID": "8eab193d6d8ce92468bb22dfde12253a",
+            "Name": "DepartmentTechfabScience (1)",
             "LocalPRS": "28┼62┼0┼",
-            "SortPath": "ConsolesAndMachines",
             "Object": {
               "ClassDatas": [
                 {
                   "ClassID": "APCPoweredDevice@0",
                   "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "False"
+                    },
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_23┼68┼0┼@0@APC@0"
@@ -128442,11 +128849,10 @@
             "SortPath": "Disposals"
           },
           {
-            "GitID": "4a7128e6bc8b4214794a2cc4405e60ae_28.25┼25.12┼0┼",
-            "PrefabID": "4a7128e6bc8b4214794a2cc4405e60ae",
-            "Name": "FountainPenCaptain (1)",
-            "LocalPRS": "28.25┼25.12┼0┼",
-            "SortPath": "Items"
+            "GitID": "5ec00bb76bef2cb4c82733598b9e3c47_28.12┼25.12┼0┼",
+            "PrefabID": "5ec00bb76bef2cb4c82733598b9e3c47",
+            "Name": "GreenDeskLamp (1)",
+            "LocalPRS": "28.12┼25.12┼0┼"
           },
           {
             "GitID": "fb2c1c5d5f027eb45bb342edeb5a3d8f_29┼9┼0┼",
@@ -133183,6 +133589,80 @@
             }
           },
           {
+            "GitID": "69ffc1053dc39a24fb870b2248780be4_31┼101┼0┼",
+            "PrefabID": "69ffc1053dc39a24fb870b2248780be4",
+            "Name": "Buoy (4)",
+            "LocalPRS": "31┼101┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "GuidanceBuoy@0",
+                  "Data": [
+                    {
+                      "Name": "Out@UseConnectorAsCentreOfShuttle",
+                      "Data": "True"
+                    },
+                    {
+                      "Name": "Out@DesiredFaceDirection",
+                      "Data": "Right_By270"
+                    },
+                    {
+                      "Name": "Out@NextInLine",
+                      "Data": "69ffc1053dc39a24fb870b2248780be4_31┼122┼0┼@0@GuidanceBuoy@0"
+                    },
+                    {
+                      "Name": "In@UseConnectorAsCentreOfShuttle",
+                      "Data": "True"
+                    },
+                    {
+                      "Name": "In@DesiredFaceDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "69ffc1053dc39a24fb870b2248780be4_31┼122┼0┼",
+            "PrefabID": "69ffc1053dc39a24fb870b2248780be4",
+            "Name": "Buoy (5)",
+            "LocalPRS": "31┼122┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "GuidanceBuoy@0",
+                  "Data": [
+                    {
+                      "Name": "Out@UseConnectorAsCentreOfShuttle",
+                      "Data": "True"
+                    },
+                    {
+                      "Name": "Out@DesiredFaceDirection",
+                      "Data": "Right_By270"
+                    },
+                    {
+                      "Name": "Out@NextInLine",
+                      "Data": "69ffc1053dc39a24fb870b2248780be4_460┼122┼0┼@0@GuidanceBuoy@0"
+                    },
+                    {
+                      "Name": "In@UseConnectorAsCentreOfShuttle",
+                      "Data": "True"
+                    },
+                    {
+                      "Name": "In@DesiredFaceDirection",
+                      "Data": "Left_By90"
+                    },
+                    {
+                      "Name": "In@NextInLine",
+                      "Data": "69ffc1053dc39a24fb870b2248780be4_31┼101┼0┼@0@GuidanceBuoy@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "dadf23a93f587cd47950a68f55f64d5b_31.88┼54.12┼0┼",
             "PrefabID": "dadf23a93f587cd47950a68f55f64d5b",
             "Name": "PremiumCigarHavana (1)",
@@ -134985,10 +135465,10 @@
             "SortPath": "unsorted"
           },
           {
-            "GitID": "3edf81f4a32c4c348bad5bfe43e263fd_33┼26┼0┼",
+            "GitID": "3edf81f4a32c4c348bad5bfe43e263fd_33┼26.12┼0┼",
             "PrefabID": "3edf81f4a32c4c348bad5bfe43e263fd",
             "Name": "Paper Bin1 (3)",
-            "LocalPRS": "33┼26┼0┼",
+            "LocalPRS": "33┼26.12┼0┼",
             "SortPath": "Items"
           },
           {
@@ -135733,10 +136213,10 @@
             }
           },
           {
-            "GitID": "83442ea1bc97ef04db1f9962a2f7021d_33.12┼26.38┼0┼",
+            "GitID": "83442ea1bc97ef04db1f9962a2f7021d_33.12┼26.5┼0┼",
             "PrefabID": "83442ea1bc97ef04db1f9962a2f7021d",
             "Name": "Pen (4)",
-            "LocalPRS": "33.12┼26.38┼0┼"
+            "LocalPRS": "33.12┼26.5┼0┼"
           },
           {
             "GitID": "9f6fc4b1068141040a6145759e0bdbe8_33.12┼46.12┼0┼",
@@ -138343,41 +138823,6 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_28┼91┼0┼@0@APC@0"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "69ffc1053dc39a24fb870b2248780be4_35┼101┼0┼",
-            "PrefabID": "69ffc1053dc39a24fb870b2248780be4",
-            "Name": "Buoy (4)",
-            "LocalPRS": "35┼101┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "GuidanceBuoy@0",
-                  "Data": [
-                    {
-                      "Name": "Out@UseConnectorAsCentreOfShuttle",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "Out@DesiredFaceDirection",
-                      "Data": "Right_By270"
-                    },
-                    {
-                      "Name": "Out@NextInLine",
-                      "Data": "69ffc1053dc39a24fb870b2248780be4_45┼101┼0┼@0@GuidanceBuoy@0"
-                    },
-                    {
-                      "Name": "In@UseConnectorAsCentreOfShuttle",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "In@DesiredFaceDirection",
-                      "Data": "Right_By270"
                     }
                   ]
                 }
@@ -144179,17 +144624,11 @@
             }
           },
           {
-            "GitID": "4e87468c82c280b418f8bf0d5f3e7882_41.62┼61.12┼0┼",
-            "PrefabID": "4e87468c82c280b418f8bf0d5f3e7882",
-            "Name": "BikeHorn (1)",
-            "LocalPRS": "41.62┼61.12┼0┼",
+            "GitID": "3edf81f4a32c4c348bad5bfe43e263fd_41.88┼61.12┼0┼",
+            "PrefabID": "3edf81f4a32c4c348bad5bfe43e263fd",
+            "Name": "Paper Bin1 (18)",
+            "LocalPRS": "41.88┼61.12┼0┼",
             "SortPath": "Items"
-          },
-          {
-            "GitID": "83442ea1bc97ef04db1f9962a2f7021d_41.88┼61.25┼0┼",
-            "PrefabID": "83442ea1bc97ef04db1f9962a2f7021d",
-            "Name": "Pen (18)",
-            "LocalPRS": "41.88┼61.25┼0┼"
           },
           {
             "GitID": "032e150131f53a64fbf6048aca6a879a_42┼21┼0┼",
@@ -144652,11 +145091,16 @@
             "SortPath": "FurnitureDecor"
           },
           {
-            "GitID": "3edf81f4a32c4c348bad5bfe43e263fd_42.12┼61.12┼0┼",
-            "PrefabID": "3edf81f4a32c4c348bad5bfe43e263fd",
-            "Name": "Paper Bin1 (18)",
-            "LocalPRS": "42.12┼61.12┼0┼",
-            "SortPath": "Items"
+            "GitID": "83442ea1bc97ef04db1f9962a2f7021d_42.12┼61┼0┼",
+            "PrefabID": "83442ea1bc97ef04db1f9962a2f7021d",
+            "Name": "Pen (18)",
+            "LocalPRS": "42.12┼61┼0┼"
+          },
+          {
+            "GitID": "dbe35ec7f5414c148b9bb5bfc6b5137e_42.25┼61.38┼0┼",
+            "PrefabID": "dbe35ec7f5414c148b9bb5bfc6b5137e",
+            "Name": "BananaLamp (1)",
+            "LocalPRS": "42.25┼61.38┼0┼"
           },
           {
             "GitID": "a50474d976314462a79602e20a762520_43┼22┼0┼",
@@ -146689,41 +147133,6 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_23┼68┼0┼@0@APC@0"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "69ffc1053dc39a24fb870b2248780be4_45┼101┼0┼",
-            "PrefabID": "69ffc1053dc39a24fb870b2248780be4",
-            "Name": "Buoy (5)",
-            "LocalPRS": "45┼101┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "GuidanceBuoy@0",
-                  "Data": [
-                    {
-                      "Name": "Out@UseConnectorAsCentreOfShuttle",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "Out@NextInLine",
-                      "Data": "69ffc1053dc39a24fb870b2248780be4_65┼101┼0┼@0@GuidanceBuoy@0"
-                    },
-                    {
-                      "Name": "In@UseConnectorAsCentreOfShuttle",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "In@DesiredFaceDirection",
-                      "Data": "Right_By270"
-                    },
-                    {
-                      "Name": "In@NextInLine",
-                      "Data": "69ffc1053dc39a24fb870b2248780be4_35┼101┼0┼@0@GuidanceBuoy@0"
                     }
                   ]
                 }
@@ -151971,6 +152380,12 @@
             }
           },
           {
+            "GitID": "151d489becc4ca64f878f37a991c138e_53┼71┼0┼",
+            "PrefabID": "151d489becc4ca64f878f37a991c138e",
+            "Name": "CanisterAir (4)",
+            "LocalPRS": "53┼71┼0┼"
+          },
+          {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_53┼72┼0┼",
             "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
             "Name": "New Disposal Bin (42)",
@@ -152723,6 +153138,10 @@
                 {
                   "ClassID": "APC@0",
                   "Data": [
+                    {
+                      "Name": "connectedDevices#156",
+                      "Data": "25e9df00571eb634a984f48b294de71e_67┼25┼0┼@0@APCPoweredDevice@0"
+                    },
                     {
                       "Name": "connectedDevices#155",
                       "Data": "c937e0abe85aca9499d09951de736ec6_51┼24┼0┼@0@APCPoweredDevice@0"
@@ -155413,6 +155832,14 @@
                   "ClassID": "APC@0",
                   "Data": [
                     {
+                      "Name": "connectedDevices#120",
+                      "Data": "c5b5d7ad69b7bfc4cbf90bac4b998450_61┼65┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#119",
+                      "Data": "f85ab7ac2e81eeb48827c7b08a12b01e_64┼70┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
                       "Name": "connectedDevices#118",
                       "Data": "c04905100b9b3d746ad50b5a62efe998_52┼69┼0┼@0@APCPoweredDevice@0"
                     },
@@ -155862,7 +156289,7 @@
                     },
                     {
                       "Name": "connectedDevices#6",
-                      "Data": "c21551dd992a57349973e4b5af103ca6_61┼65┼0┼@0@APCPoweredDevice@0"
+                      "Data": "c21551dd992a57349973e4b5af103ca6_59┼65┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#5",
@@ -156498,6 +156925,12 @@
             "Name": "Toilet (2)",
             "LocalPRS": "56┼60┼0┼",
             "SortPath": "FurnitureDecor"
+          },
+          {
+            "GitID": "9944313d68658b341966d43e2c218eaa_56┼68┼0┼",
+            "PrefabID": "9944313d68658b341966d43e2c218eaa",
+            "Name": "CanisterNitrogen (3)",
+            "LocalPRS": "56┼68┼0┼"
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_56┼68┼0┼",
@@ -158245,6 +158678,15 @@
             "Object": {
               "ClassDatas": [
                 {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "APC@0",
                   "Data": [
                     {
@@ -159978,6 +160420,70 @@
             "LocalPRS": "59┼65┼0┼"
           },
           {
+            "GitID": "c21551dd992a57349973e4b5af103ca6_59┼65┼0┼",
+            "PrefabID": "c21551dd992a57349973e4b5af103ca6",
+            "Name": "SecurityCamera (100)",
+            "LocalPRS": "59┼65┼0┼",
+            "SortPath": "AICameras",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_55┼69┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "SecurityCamera@0",
+                  "Data": [
+                    {
+                      "Name": "cameraName",
+                      "Data": "Atmospherics"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                },
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
             "GitID": "d243343741d540446b159becf769231a_59┼72┼0┼",
             "PrefabID": "d243343741d540446b159becf769231a",
             "Name": "GasPumpOff (18)",
@@ -160910,6 +161416,22 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_58┼46┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#1",
+                          "Data": "Kitchen"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -162187,13 +162709,25 @@
             }
           },
           {
-            "GitID": "c21551dd992a57349973e4b5af103ca6_61┼65┼0┼",
-            "PrefabID": "c21551dd992a57349973e4b5af103ca6",
-            "Name": "SecurityCamera (100)",
+            "GitID": "c5b5d7ad69b7bfc4cbf90bac4b998450_61┼65┼0┼",
+            "PrefabID": "c5b5d7ad69b7bfc4cbf90bac4b998450",
+            "Name": "EngiVend (1)",
             "LocalPRS": "61┼65┼0┼",
-            "SortPath": "AICameras",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialName",
+                      "Data": "Atmo-Vend"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "Spare atmospherics tool vending. What? Did you expect some airy description?"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "APCPoweredDevice@0",
                   "Data": [
@@ -162204,51 +162738,112 @@
                   ]
                 },
                 {
-                  "ClassID": "SecurityCamera@0",
+                  "ClassID": "ClearanceRestricted@0",
                   "Data": [
                     {
-                      "Name": "cameraName",
+                      "Name": "requiredClearance#0",
                       "Data": "Atmospherics"
                     }
                   ]
                 },
                 {
-                  "ClassID": "Rotatable@0",
+                  "ClassID": "Vendor@0",
                   "Data": [
                     {
-                      "Name": "CurrentDirection",
-                      "Data": "Up_By0"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
+                      "Name": "InitialVendorContent#12",
+                      "Data": "#removed#"
+                    },
                     {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "initialVariantIndex",
-                          "Data": "1"
-                        }
-                      ]
+                      "Name": "InitialVendorContent#11",
+                      "Data": "#removed#"
+                    },
+                    {
+                      "Name": "InitialVendorContent#10",
+                      "Data": "#removed#"
+                    },
+                    {
+                      "Name": "InitialVendorContent#9",
+                      "Data": "#removed#"
+                    },
+                    {
+                      "Name": "InitialVendorContent#8",
+                      "Data": "#removed#"
+                    },
+                    {
+                      "Name": "InitialVendorContent#7",
+                      "Data": "#removed#"
+                    },
+                    {
+                      "Name": "InitialVendorContent#6",
+                      "Data": "#removed#"
+                    },
+                    {
+                      "Name": "InitialVendorContent#5@ItemName",
+                      "Data": "Atmospheric Grenade"
+                    },
+                    {
+                      "Name": "InitialVendorContent#5@Item",
+                      "Data": "9048a2e02f9e4d4cabf6fb1fe495a5ce",
+                      "IsPrefabID": true
+                    },
+                    {
+                      "Name": "InitialVendorContent#5@Stock",
+                      "Data": "2"
+                    },
+                    {
+                      "Name": "InitialVendorContent#4@ItemName",
+                      "Data": "Smart Wall Foam Grenade"
+                    },
+                    {
+                      "Name": "InitialVendorContent#4@Item",
+                      "Data": "97a11b00ceabc84458e4a7c793f6e0e7",
+                      "IsPrefabID": true
+                    },
+                    {
+                      "Name": "InitialVendorContent#4@Stock",
+                      "Data": "1"
+                    },
+                    {
+                      "Name": "InitialVendorContent#3@ItemName",
+                      "Data": "Wall Foam Grenade"
+                    },
+                    {
+                      "Name": "InitialVendorContent#3@Item",
+                      "Data": "d94ac0dbe8be8904781817222a134207",
+                      "IsPrefabID": true
+                    },
+                    {
+                      "Name": "InitialVendorContent#2@ItemName",
+                      "Data": "Toolbelt"
+                    },
+                    {
+                      "Name": "InitialVendorContent#2@Item",
+                      "Data": "fd24ddc02f2fe5847aebda20f2e87e4a",
+                      "IsPrefabID": true
+                    },
+                    {
+                      "Name": "InitialVendorContent#2@Stock",
+                      "Data": "3"
+                    },
+                    {
+                      "Name": "InitialVendorContent#0@ItemName",
+                      "Data": "Optical T-Ray Scanner"
+                    },
+                    {
+                      "Name": "InitialVendorContent#0@Item",
+                      "Data": "7489039294a4ab74495912a1d77e1677",
+                      "IsPrefabID": true
                     }
                   ]
-                },
-                {
-                  "ID": "0,1",
-                  "Active": false,
-                  "ClassDatas": []
-                },
-                {
-                  "ID": "0,2",
-                  "Active": false,
-                  "ClassDatas": []
                 }
               ]
             }
+          },
+          {
+            "GitID": "bd3e0a412d65e934f966a366f85b4c85_61┼66┼0┼",
+            "PrefabID": "bd3e0a412d65e934f966a366f85b4c85",
+            "Name": "WeldingSuppliesLocker (1)",
+            "LocalPRS": "61┼66┼0┼"
           },
           {
             "GitID": "c80393b4412660b41937e05425ceb921_61┼68┼0┼",
@@ -164643,6 +165238,42 @@
             }
           },
           {
+            "GitID": "c80393b4412660b41937e05425ceb921_63┼69┼0┼",
+            "PrefabID": "c80393b4412660b41937e05425ceb921",
+            "Name": "DirectionalWindowReinforced (33)",
+            "LocalPRS": "63┼69┼0┼",
+            "SortPath": "Windows",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_63┼69┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
             "Name": "LightTubeFixture (143)",
@@ -164683,6 +165314,42 @@
                   "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "c80393b4412660b41937e05425ceb921_63┼70┼0┼",
+            "PrefabID": "c80393b4412660b41937e05425ceb921",
+            "Name": "DirectionalWindowReinforced (30)",
+            "LocalPRS": "63┼70┼0┼",
+            "SortPath": "Windows",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }
@@ -165563,6 +166230,83 @@
             }
           },
           {
+            "GitID": "f85ab7ac2e81eeb48827c7b08a12b01e_64┼70┼0┼",
+            "PrefabID": "f85ab7ac2e81eeb48827c7b08a12b01e",
+            "Name": "QuantumPad Atmos",
+            "LocalPRS": "64┼70┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Integrity@0",
+                  "Data": [
+                    {
+                      "Name": "initialIntegrity",
+                      "Data": "200"
+                    },
+                    {
+                      "Name": "Armor@Melee",
+                      "Data": "30"
+                    },
+                    {
+                      "Name": "Armor@Bullet",
+                      "Data": "30"
+                    },
+                    {
+                      "Name": "Armor@Laser",
+                      "Data": "30"
+                    },
+                    {
+                      "Name": "Armor@Energy",
+                      "Data": "30"
+                    },
+                    {
+                      "Name": "Armor@Bomb",
+                      "Data": "30"
+                    },
+                    {
+                      "Name": "Armor@Fire",
+                      "Data": "30"
+                    },
+                    {
+                      "Name": "Armor@Acid",
+                      "Data": "30"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_55┼69┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "QuantumPad@0",
+                  "Data": [
+                    {
+                      "Name": "connectedPad",
+                      "Data": "f85ab7ac2e81eeb48827c7b08a12b01e_8┼85┼0┼@0@QuantumPad@0"
+                    },
+                    {
+                      "Name": "passiveDetect",
+                      "Data": "True"
+                    },
+                    {
+                      "Name": "padDirection",
+                      "Data": "Down"
+                    },
+                    {
+                      "Name": "<CanRelink>k__BackingField",
+                      "Data": "True"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "d243343741d540446b159becf769231a_64┼74┼0┼",
             "PrefabID": "d243343741d540446b159becf769231a",
             "Name": "GasPumpOff (6)",
@@ -166240,10 +166984,81 @@
             "SortPath": "unsorted"
           },
           {
-            "GitID": "bd3e0a412d65e934f966a366f85b4c85_65┼70┼0┼",
-            "PrefabID": "bd3e0a412d65e934f966a366f85b4c85",
-            "Name": "WeldingSuppliesLocker (1)",
-            "LocalPRS": "65┼70┼0┼"
+            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_65┼70┼0┼",
+            "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
+            "Name": "MappingLightSourceTransporterCircuit1 (9)",
+            "LocalPRS": "65┼70┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "LocalPRS": "0┼0┼0┼1↔1↔0.06↔",
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "LightSprite@0",
+                      "Data": [
+                        {
+                          "Name": "InitialColour",
+                          "Data": "1ÚÿÍ"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "LightSpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "30dfa7309f045854aabe3d39b2cc5a24"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "9028811e852742d40ac5ae72a716a679_65┼70┼0┼",
+            "PrefabID": "9028811e852742d40ac5ae72a716a679",
+            "Name": "DirectionalWindowPlasmaReinforced (128)",
+            "LocalPRS": "65┼70┼0┼",
+            "SortPath": "Windows",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "dd86caf1f673b7642be83819773021d8_65┼72┼0┼",
+            "PrefabID": "dd86caf1f673b7642be83819773021d8",
+            "Name": "CanisterOxygen (6)",
+            "LocalPRS": "65┼72┼0┼"
           },
           {
             "GitID": "bde2e04457efae9448181975599790a5_65┼73┼0┼",
@@ -166633,39 +167448,11 @@
             "SortPath": "FurnitureDecor"
           },
           {
-            "GitID": "69ffc1053dc39a24fb870b2248780be4_65┼101┼0┼",
-            "PrefabID": "69ffc1053dc39a24fb870b2248780be4",
-            "Name": "Buoy (6)",
-            "LocalPRS": "65┼101┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "GuidanceBuoy@0",
-                  "Data": [
-                    {
-                      "Name": "Out@UseConnectorAsCentreOfShuttle",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "Out@NextInLine",
-                      "Data": "69ffc1053dc39a24fb870b2248780be4_105┼101┼0┼@0@GuidanceBuoy@0"
-                    },
-                    {
-                      "Name": "In@UseConnectorAsCentreOfShuttle",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "In@DesiredFaceDirection",
-                      "Data": "Right_By270"
-                    },
-                    {
-                      "Name": "In@NextInLine",
-                      "Data": "69ffc1053dc39a24fb870b2248780be4_45┼101┼0┼@0@GuidanceBuoy@0"
-                    }
-                  ]
-                }
-              ]
-            }
+            "GitID": "9028811e852742d40ac5ae72a716a679_65.001┼70┼0┼",
+            "PrefabID": "9028811e852742d40ac5ae72a716a679",
+            "Name": "DirectionalWindowPlasmaReinforced (129)",
+            "LocalPRS": "65.001┼70┼0┼",
+            "SortPath": "Windows"
           },
           {
             "GitID": "9028811e852742d40ac5ae72a716a679_65.001┼80┼0┼",
@@ -166803,6 +167590,78 @@
                         {
                           "Name": "initialVariantIndex",
                           "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "9028811e852742d40ac5ae72a716a679_65.002┼70┼0┼",
+            "PrefabID": "9028811e852742d40ac5ae72a716a679",
+            "Name": "DirectionalWindowPlasmaReinforced (130)",
+            "LocalPRS": "65.002┼70┼0┼",
+            "SortPath": "Windows",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "9028811e852742d40ac5ae72a716a679_65.003┼70┼0┼",
+            "PrefabID": "9028811e852742d40ac5ae72a716a679",
+            "Name": "DirectionalWindowPlasmaReinforced (131)",
+            "LocalPRS": "65.003┼70┼0┼",
+            "SortPath": "Windows",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
                         }
                       ]
                     }
@@ -167656,7 +168515,33 @@
             "PrefabID": "25e9df00571eb634a984f48b294de71e",
             "Name": "DepartmentProtolatheCargo (1)",
             "LocalPRS": "67┼25┼0┼",
-            "SortPath": "ConsolesAndMachines"
+            "SortPath": "ConsolesAndMachines",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "False"
+                    },
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_54┼23┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "RDProductionMachine@0",
+                  "Data": [
+                    {
+                      "Name": "researchServer",
+                      "Data": "5kxOLzVCyAnAz_ATY8PU_22┼62┼0┼@0@ResearchServer@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_67┼25┼0┼",
@@ -176679,7 +177564,7 @@
                     },
                     {
                       "Name": "Out@NextInLine",
-                      "Data": "69ffc1053dc39a24fb870b2248780be4_500┼14┼0┼@0@GuidanceBuoy@0"
+                      "Data": "69ffc1053dc39a24fb870b2248780be4_413┼14┼0┼@0@GuidanceBuoy@0"
                     },
                     {
                       "Name": "In@UseConnectorAsCentreOfShuttle",
@@ -176735,41 +177620,6 @@
             }
           },
           {
-            "GitID": "69ffc1053dc39a24fb870b2248780be4_105┼101┼0┼",
-            "PrefabID": "69ffc1053dc39a24fb870b2248780be4",
-            "Name": "Buoy (7)",
-            "LocalPRS": "105┼101┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "GuidanceBuoy@0",
-                  "Data": [
-                    {
-                      "Name": "Out@UseConnectorAsCentreOfShuttle",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "Out@NextInLine",
-                      "Data": "69ffc1053dc39a24fb870b2248780be4_650┼101┼0┼@0@GuidanceBuoy@0"
-                    },
-                    {
-                      "Name": "In@UseConnectorAsCentreOfShuttle",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "In@DesiredFaceDirection",
-                      "Data": "Right_By270"
-                    },
-                    {
-                      "Name": "In@NextInLine",
-                      "Data": "69ffc1053dc39a24fb870b2248780be4_65┼101┼0┼@0@GuidanceBuoy@0"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
             "GitID": "2304f6197e788654ebfe0cf0947a8b1a_110┼73┼0┼",
             "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
             "Name": "MappingLightSourceSpaceLight (24)",
@@ -176806,10 +177656,10 @@
             }
           },
           {
-            "GitID": "69ffc1053dc39a24fb870b2248780be4_500┼14┼0┼",
+            "GitID": "69ffc1053dc39a24fb870b2248780be4_413┼14┼0┼",
             "PrefabID": "69ffc1053dc39a24fb870b2248780be4",
             "Name": "Buoy (3)",
-            "LocalPRS": "500┼14┼0┼",
+            "LocalPRS": "413┼14┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -176825,7 +177675,7 @@
                     },
                     {
                       "Name": "In@NextInLine",
-                      "Data": "69ffc1053dc39a24fb870b2248780be4_550┼14┼0┼@0@GuidanceBuoy@0"
+                      "Data": "69ffc1053dc39a24fb870b2248780be4_435┼14┼0┼@0@GuidanceBuoy@0"
                     }
                   ]
                 }
@@ -176833,10 +177683,10 @@
             }
           },
           {
-            "GitID": "69ffc1053dc39a24fb870b2248780be4_550┼14┼0┼",
+            "GitID": "69ffc1053dc39a24fb870b2248780be4_435┼14┼0┼",
             "PrefabID": "69ffc1053dc39a24fb870b2248780be4",
             "Name": "Buoy (9)",
-            "LocalPRS": "550┼14┼0┼",
+            "LocalPRS": "435┼14┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -176848,7 +177698,7 @@
                     },
                     {
                       "Name": "Out@NextInLine",
-                      "Data": "69ffc1053dc39a24fb870b2248780be4_500┼14┼0┼@0@GuidanceBuoy@0"
+                      "Data": "69ffc1053dc39a24fb870b2248780be4_413┼14┼0┼@0@GuidanceBuoy@0"
                     },
                     {
                       "Name": "In@UseConnectorAsCentreOfShuttle",
@@ -176860,26 +177710,22 @@
             }
           },
           {
-            "GitID": "69ffc1053dc39a24fb870b2248780be4_650┼101┼0┼",
+            "GitID": "69ffc1053dc39a24fb870b2248780be4_460┼122┼0┼",
             "PrefabID": "69ffc1053dc39a24fb870b2248780be4",
-            "Name": "Buoy (8)",
-            "LocalPRS": "650┼101┼0┼",
+            "Name": "Buoy (6)",
+            "LocalPRS": "460┼122┼0┼",
             "Object": {
               "ClassDatas": [
                 {
                   "ClassID": "GuidanceBuoy@0",
                   "Data": [
                     {
-                      "Name": "Out@UseConnectorAsCentreOfShuttle",
-                      "Data": "True"
-                    },
-                    {
                       "Name": "In@UseConnectorAsCentreOfShuttle",
                       "Data": "True"
                     },
                     {
                       "Name": "In@NextInLine",
-                      "Data": "69ffc1053dc39a24fb870b2248780be4_105┼101┼0┼@0@GuidanceBuoy@0"
+                      "Data": "69ffc1053dc39a24fb870b2248780be4_31┼122┼0┼@0@GuidanceBuoy@0"
                     }
                   ]
                 }
@@ -176892,8 +177738,8 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "300,29.8,0",
-          "Size": "700,142.5,2"
+          "Pos": "205,40.2,0",
+          "Size": "510,163.5,2"
         }
       ]
     },
@@ -433823,10 +434669,16 @@
             }
           },
           {
-            "GitID": "4fb72a1b453dd004cb9edad139b817ca_36.88┼31.12┼0┼",
-            "PrefabID": "4fb72a1b453dd004cb9edad139b817ca",
-            "Name": "PenBlue (1)",
-            "LocalPRS": "36.88┼31.12┼0┼"
+            "GitID": "3edf81f4a32c4c348bad5bfe43e263fd_36.88┼30.12┼0┼",
+            "PrefabID": "3edf81f4a32c4c348bad5bfe43e263fd",
+            "Name": "Paper Bin1 (2)",
+            "LocalPRS": "36.88┼30.12┼0┼"
+          },
+          {
+            "GitID": "5ec00bb76bef2cb4c82733598b9e3c47_36.88┼31.38┼0┼",
+            "PrefabID": "5ec00bb76bef2cb4c82733598b9e3c47",
+            "Name": "GreenDeskLamp (1)",
+            "LocalPRS": "36.88┼31.38┼0┼"
           },
           {
             "GitID": "7e519f2e00da68f4db6a61b480f78d51_37┼8┼0┼",
@@ -433870,12 +434722,6 @@
                 }
               ]
             }
-          },
-          {
-            "GitID": "3edf81f4a32c4c348bad5bfe43e263fd_37┼30.25┼0┼",
-            "PrefabID": "3edf81f4a32c4c348bad5bfe43e263fd",
-            "Name": "Paper Bin1 (2)",
-            "LocalPRS": "37┼30.25┼0┼"
           },
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_37┼33┼0┼",
@@ -434471,6 +435317,12 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "4fb72a1b453dd004cb9edad139b817ca_37.12┼30.5┼0┼",
+            "PrefabID": "4fb72a1b453dd004cb9edad139b817ca",
+            "Name": "PenBlue (1)",
+            "LocalPRS": "37.12┼30.5┼0┼"
           },
           {
             "GitID": "2304f6197e788654ebfe0cf0947a8b1a_37.5┼-19.5┼0┼",
@@ -450136,7 +450988,20 @@
             "GitID": "d56b65cebb41c78479fed5218fb0344c_3┼6┼0┼",
             "PrefabID": "d56b65cebb41c78479fed5218fb0344c",
             "Name": "AirVentSelfSufficient (1)",
-            "LocalPRS": "3┼6┼0┼"
+            "LocalPRS": "3┼6┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_6┼7┼0┼@0@AirController@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_4┼2┼0┼",
@@ -450391,6 +451256,34 @@
             }
           },
           {
+            "GitID": "a50474d976314462a79602e20a762520_6┼7┼0┼",
+            "PrefabID": "a50474d976314462a79602e20a762520",
+            "Name": "ACU - MiningShuttle",
+            "LocalPRS": "6┼7┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ClearanceRestricted@0",
+                  "Data": [
+                    {
+                      "Name": "requiredClearance#0",
+                      "Data": "#removed#"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "9bda2d5647088c74392285230ba38474_6┼8┼0┼",
             "PrefabID": "9bda2d5647088c74392285230ba38474",
             "Name": "Plasma Thruster (6)",
@@ -450400,7 +451293,20 @@
             "GitID": "63c4576068eee0e4cb8cb02ef5b3bebf_7┼6┼0┼",
             "PrefabID": "63c4576068eee0e4cb8cb02ef5b3bebf",
             "Name": "AirScrubberSelfSufficient (1)",
-            "LocalPRS": "7┼6┼0┼"
+            "LocalPRS": "7┼6┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_6┼7┼0┼@0@AirController@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "ed4e62dc12dca724ba1e5f374965096b_7┼6┼0┼",
@@ -450939,7 +451845,29 @@
             "GitID": "63c4576068eee0e4cb8cb02ef5b3bebf_1┼3┼0┼",
             "PrefabID": "63c4576068eee0e4cb8cb02ef5b3bebf",
             "Name": "AirScrubberSelfSufficient (1)",
-            "LocalPRS": "1┼3┼0┼"
+            "LocalPRS": "1┼3┼0┼0ø0ø90ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_3┼4┼0┼@0@AirController@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "9bda2d5647088c74392285230ba38474_2┼-1┼0┼",
@@ -451099,6 +452027,25 @@
             }
           },
           {
+            "GitID": "4825f602d82135245a7d68a4b493f90b_2┼4┼0┼",
+            "PrefabID": "4825f602d82135245a7d68a4b493f90b",
+            "Name": "New Ornamental ShuttleHeater (1)",
+            "LocalPRS": "2┼4┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "9bda2d5647088c74392285230ba38474_2┼5┼0┼",
             "PrefabID": "9bda2d5647088c74392285230ba38474",
             "Name": "Plasma Thruster (1)",
@@ -451108,7 +452055,48 @@
             "GitID": "d56b65cebb41c78479fed5218fb0344c_3┼3┼0┼",
             "PrefabID": "d56b65cebb41c78479fed5218fb0344c",
             "Name": "AirVentSelfSufficient (1)",
-            "LocalPRS": "3┼3┼0┼"
+            "LocalPRS": "3┼3┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_3┼4┼0┼@0@AirController@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "a50474d976314462a79602e20a762520_3┼4┼0┼",
+            "PrefabID": "a50474d976314462a79602e20a762520",
+            "Name": "ACU - SecShuttle",
+            "LocalPRS": "3┼4┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ClearanceRestricted@0",
+                  "Data": [
+                    {
+                      "Name": "requiredClearance#0",
+                      "Data": "#removed#"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "5425ee650c49e0849b4bed132cfb588f_4┼2┼0┼",
@@ -451984,6 +452972,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -451991,7 +452982,13 @@
             "Key": "X-11Y5",
             "Value": [
               {
-                "Tel": "shuttle_wall_corner"
+                "Tel": "WindowShuttle"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -451999,7 +452996,13 @@
             "Key": "X-11Y6",
             "Value": [
               {
-                "Tel": "shuttle_wall_corner"
+                "Tel": "WindowShuttle"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -452007,7 +453010,13 @@
             "Key": "X-11Y7",
             "Value": [
               {
-                "Tel": "shuttle_wall_corner"
+                "Tel": "WindowShuttle"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -452016,6 +453025,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -452023,7 +453035,13 @@
             "Key": "X-11Y9",
             "Value": [
               {
-                "Tel": "shuttle_wall_corner"
+                "Tel": "WindowShuttle"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -452032,6 +453050,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -452039,7 +453060,13 @@
             "Key": "X-11Y11",
             "Value": [
               {
-                "Tel": "shuttle_wall_corner"
+                "Tel": "WindowShuttle"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -452048,6 +453075,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -452055,7 +453085,13 @@
             "Key": "X-11Y13",
             "Value": [
               {
-                "Tel": "shuttle_wall_corner"
+                "Tel": "WindowShuttle"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -452063,7 +453099,13 @@
             "Key": "X-11Y14",
             "Value": [
               {
-                "Tel": "shuttle_wall_corner"
+                "Tel": "WindowShuttle"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -452071,7 +453113,13 @@
             "Key": "X-11Y15",
             "Value": [
               {
-                "Tel": "shuttle_wall_corner"
+                "Tel": "WindowShuttle"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -452134,7 +453182,10 @@
             "Key": "X-10Y0",
             "Value": [
               {
-                "Tel": "shuttle_wall_corner"
+                "Tel": "shuttle_wall"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -452142,7 +453193,13 @@
             "Key": "X-10Y1",
             "Value": [
               {
-                "Tel": "shuttle_wall_corner"
+                "Tel": "WindowShuttle"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -452150,7 +453207,13 @@
             "Key": "X-10Y2",
             "Value": [
               {
-                "Tel": "shuttle_wall_corner"
+                "Tel": "WindowShuttle"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -452159,6 +453222,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -452366,6 +453432,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -452402,6 +453471,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -452614,6 +453686,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -452644,6 +453719,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -452870,6 +453948,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -452900,6 +453981,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -452974,6 +454058,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -453010,6 +454097,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -453151,6 +454241,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -453415,6 +454508,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -453445,6 +454541,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -453541,6 +454640,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -453588,6 +454690,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -453682,6 +454787,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -453712,6 +454820,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -453941,6 +455052,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -453977,6 +455091,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -454073,6 +455190,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -454114,6 +455234,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -454190,7 +455313,10 @@
             "Key": "X-2Y0",
             "Value": [
               {
-                "Tel": "shuttle_wall_corner"
+                "Tel": "shuttle_wall"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -454198,7 +455324,13 @@
             "Key": "X-2Y1",
             "Value": [
               {
-                "Tel": "shuttle_wall_corner"
+                "Tel": "WindowShuttle"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -454206,7 +455338,13 @@
             "Key": "X-2Y2",
             "Value": [
               {
-                "Tel": "shuttle_wall_corner"
+                "Tel": "WindowShuttle"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -454215,6 +455353,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -454427,6 +455568,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -454434,7 +455578,13 @@
             "Key": "X-1Y5",
             "Value": [
               {
-                "Tel": "shuttle_wall_corner"
+                "Tel": "WindowShuttle"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -454453,7 +455603,13 @@
             "Key": "X-1Y7",
             "Value": [
               {
-                "Tel": "shuttle_wall_corner"
+                "Tel": "WindowShuttle"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -454462,6 +455618,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -454469,7 +455628,13 @@
             "Key": "X-1Y9",
             "Value": [
               {
-                "Tel": "shuttle_wall_corner"
+                "Tel": "WindowShuttle"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -454488,7 +455653,13 @@
             "Key": "X-1Y11",
             "Value": [
               {
-                "Tel": "shuttle_wall_corner"
+                "Tel": "WindowShuttle"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -454497,6 +455668,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -454504,7 +455678,13 @@
             "Key": "X-1Y13",
             "Value": [
               {
-                "Tel": "shuttle_wall_corner"
+                "Tel": "WindowShuttle"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -454523,7 +455703,13 @@
             "Key": "X-1Y15",
             "Value": [
               {
-                "Tel": "shuttle_wall_corner"
+                "Tel": "WindowShuttle"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -454532,6 +455718,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -454827,7 +456016,20 @@
             "GitID": "d56b65cebb41c78479fed5218fb0344c_-9┼2┼0┼",
             "PrefabID": "d56b65cebb41c78479fed5218fb0344c",
             "Name": "AirVentSelfSufficient (3)",
-            "LocalPRS": "-9┼2┼0┼0ø0ø90ø"
+            "LocalPRS": "-9┼2┼0┼0ø0ø90ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_-7┼16┼0┼@0@AirController@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_-9┼4┼0┼",
@@ -454960,13 +456162,39 @@
             "GitID": "63c4576068eee0e4cb8cb02ef5b3bebf_-9┼12┼0┼",
             "PrefabID": "63c4576068eee0e4cb8cb02ef5b3bebf",
             "Name": "AirScrubberSelfSufficient (4)",
-            "LocalPRS": "-9┼12┼0┼0ø0ø90ø"
+            "LocalPRS": "-9┼12┼0┼0ø0ø90ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_-7┼16┼0┼@0@AirController@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "d56b65cebb41c78479fed5218fb0344c_-9┼14┼0┼",
             "PrefabID": "d56b65cebb41c78479fed5218fb0344c",
             "Name": "AirVentSelfSufficient (4)",
-            "LocalPRS": "-9┼14┼0┼0ø0ø90ø"
+            "LocalPRS": "-9┼14┼0┼0ø0ø90ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_-7┼16┼0┼@0@AirController@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "a1b4e3dadda51f84d8160600951b6012_-9┼14.92┼0┼",
@@ -455117,7 +456345,20 @@
             "GitID": "63c4576068eee0e4cb8cb02ef5b3bebf_-9┼19┼0┼",
             "PrefabID": "63c4576068eee0e4cb8cb02ef5b3bebf",
             "Name": "AirScrubberSelfSufficient (1)",
-            "LocalPRS": "-9┼19┼0┼0ø0ø90ø"
+            "LocalPRS": "-9┼19┼0┼0ø0ø90ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_-7┼16┼0┼@0@AirController@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "3877ffa8e067d124ba52802dde6f2d34_-8┼-1┼0┼",
@@ -455378,7 +456619,7 @@
                   "Data": [
                     {
                       "Name": "CurrentDirection",
-                      "Data": "Right_By270"
+                      "Data": "Up_By0"
                     }
                   ]
                 }
@@ -455490,6 +456731,59 @@
             }
           },
           {
+            "GitID": "a50474d976314462a79602e20a762520_-7┼16┼0┼",
+            "PrefabID": "a50474d976314462a79602e20a762520",
+            "Name": "ACU - EscapeShuttle",
+            "LocalPRS": "-7┼16┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ClearanceRestricted@0",
+                  "Data": [
+                    {
+                      "Name": "requiredClearance#1",
+                      "Data": "Heads"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "bc0cd2a586c78b846a43622b6ea5c953_-7┼21┼0┼",
             "PrefabID": "bc0cd2a586c78b846a43622b6ea5c953",
             "Name": "Recharger (1)",
@@ -455502,6 +456796,25 @@
                     {
                       "Name": "isSelfPowered",
                       "Data": "True"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "e58e1fd483fe772468ad2aab4259397d_-6┼1┼0┼",
+            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
+            "Name": "DEBUG - Escape Shuttle",
+            "LocalPRS": "-6┼1┼0┼0ø0ø90ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "SpawnPoint@0",
+                  "Data": [
+                    {
+                      "Name": "category",
+                      "Data": "GhostTeleportSites"
                     }
                   ]
                 }
@@ -455531,13 +456844,39 @@
             "GitID": "d56b65cebb41c78479fed5218fb0344c_-6┼5┼0┼",
             "PrefabID": "d56b65cebb41c78479fed5218fb0344c",
             "Name": "AirVentSelfSufficient (2)",
-            "LocalPRS": "-6┼5┼0┼0ø0ø90ø"
+            "LocalPRS": "-6┼5┼0┼0ø0ø90ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_-7┼16┼0┼@0@AirController@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "63c4576068eee0e4cb8cb02ef5b3bebf_-6┼10┼0┼",
             "PrefabID": "63c4576068eee0e4cb8cb02ef5b3bebf",
             "Name": "AirScrubberSelfSufficient (2)",
-            "LocalPRS": "-6┼10┼0┼0ø0ø90ø"
+            "LocalPRS": "-6┼10┼0┼0ø0ø90ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_-7┼16┼0┼@0@AirController@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_-6┼13┼0┼",
@@ -455686,7 +457025,7 @@
                   "Data": [
                     {
                       "Name": "StationStartBuoy",
-                      "Data": "69ffc1053dc39a24fb870b2248780be4_650┼101┼0┼@0@GuidanceBuoy@0"
+                      "Data": "69ffc1053dc39a24fb870b2248780be4_460┼122┼0┼@0@GuidanceBuoy@0"
                     },
                     {
                       "Name": "CentralCommandOverrideDirection",
@@ -455694,7 +457033,7 @@
                     },
                     {
                       "Name": "ShuttlesMainConnector",
-                      "Data": "f7fc46cd9fc472a4b96ad181a215ccfa_-1┼15┼0┼@0@ShuttleConnector@0"
+                      "Data": "f7fc46cd9fc472a4b96ad181a215ccfa_-1┼11┼0┼@0@ShuttleConnector@0"
                     },
                     {
                       "Name": "DirectionOverride",
@@ -455977,7 +457316,20 @@
             "GitID": "63c4576068eee0e4cb8cb02ef5b3bebf_-4┼13┼0┼",
             "PrefabID": "63c4576068eee0e4cb8cb02ef5b3bebf",
             "Name": "AirScrubberSelfSufficient (5)",
-            "LocalPRS": "-4┼13┼0┼0ø0ø90ø"
+            "LocalPRS": "-4┼13┼0┼0ø0ø90ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_-7┼16┼0┼@0@AirController@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_-4┼13┼0┼",
@@ -456157,7 +457509,20 @@
             "GitID": "63c4576068eee0e4cb8cb02ef5b3bebf_-3┼2┼0┼",
             "PrefabID": "63c4576068eee0e4cb8cb02ef5b3bebf",
             "Name": "AirScrubberSelfSufficient (3)",
-            "LocalPRS": "-3┼2┼0┼0ø0ø90ø"
+            "LocalPRS": "-3┼2┼0┼0ø0ø90ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_-7┼16┼0┼@0@AirController@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_-3┼4┼0┼",
@@ -456430,7 +457795,7 @@
                   "Data": [
                     {
                       "Name": "CurrentDirection",
-                      "Data": "Left_By90"
+                      "Data": "Up_By0"
                     }
                   ]
                 }
@@ -456530,7 +457895,20 @@
             "GitID": "d56b65cebb41c78479fed5218fb0344c_-3┼19┼0┼",
             "PrefabID": "d56b65cebb41c78479fed5218fb0344c",
             "Name": "AirVentSelfSufficient (1)",
-            "LocalPRS": "-3┼19┼0┼0ø0ø90ø"
+            "LocalPRS": "-3┼19┼0┼0ø0ø90ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_-7┼16┼0┼@0@AirController@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_-2┼4┼0┼",
@@ -456748,7 +458126,20 @@
             "GitID": "d56b65cebb41c78479fed5218fb0344c_-2┼15┼0┼",
             "PrefabID": "d56b65cebb41c78479fed5218fb0344c",
             "Name": "AirVentSelfSufficient (5)",
-            "LocalPRS": "-2┼15┼0┼0ø0ø90ø"
+            "LocalPRS": "-2┼15┼0┼0ø0ø90ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_-7┼16┼0┼@0@AirController@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "5e6f53b64c8b43c4285d171f4a9346a3_-2┼16.92┼0┼",
@@ -456823,6 +458214,12 @@
             }
           },
           {
+            "GitID": "f7fc46cd9fc472a4b96ad181a215ccfa_-1┼11┼0┼",
+            "PrefabID": "f7fc46cd9fc472a4b96ad181a215ccfa",
+            "Name": "ShuttleConnector (2)",
+            "LocalPRS": "-1┼11┼0┼"
+          },
+          {
             "GitID": "cf4eea25ecf048448aea1576b077452b_-1┼14┼0┼",
             "PrefabID": "cf4eea25ecf048448aea1576b077452b",
             "Name": "AirlockShuttleWindowed (3)",
@@ -456840,12 +458237,6 @@
                 }
               ]
             }
-          },
-          {
-            "GitID": "f7fc46cd9fc472a4b96ad181a215ccfa_-1┼15┼0┼",
-            "PrefabID": "f7fc46cd9fc472a4b96ad181a215ccfa",
-            "Name": "ShuttleConnector (2)",
-            "LocalPRS": "-1┼15┼0┼"
           }
         ],
         "IDToNetIDClient": {}
@@ -456860,7 +458251,7 @@
     },
     {
       "Ver": "1.1.1",
-      "Location": "454┼9┼0┼0ø0ø270ø",
+      "Location": "390┼9┼0┼0ø0ø270ø",
       "MatrixName": "CargoShuttle",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -457939,7 +459330,7 @@
                     },
                     {
                       "Name": "TargetDestinationBuoy",
-                      "Data": "69ffc1053dc39a24fb870b2248780be4_500┼14┼0┼@0@GuidanceBuoy@0"
+                      "Data": "69ffc1053dc39a24fb870b2248780be4_413┼14┼0┼@0@GuidanceBuoy@0"
                     },
                     {
                       "Name": "ShuttlesMainConnector",
@@ -457974,6 +459365,25 @@
                           "Data": "0"
                         }
                       ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "e58e1fd483fe772468ad2aab4259397d_-4┼5┼0┼",
+            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
+            "Name": "DEBUG - Cargo Shuttle",
+            "LocalPRS": "-4┼5┼0┼0ø0ø90ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "SpawnPoint@0",
+                  "Data": [
+                    {
+                      "Name": "category",
+                      "Data": "GhostTeleportSites"
                     }
                   ]
                 }
