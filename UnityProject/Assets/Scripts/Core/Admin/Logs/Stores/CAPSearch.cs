@@ -8,7 +8,6 @@ namespace CAPSearch
 {
 	public class SearchStep
 	{
-		[JsonConverter(typeof(StringEnumConverter))]
 		public CompareOperation? SearchOperation;
 
 		public bool IsNot;
