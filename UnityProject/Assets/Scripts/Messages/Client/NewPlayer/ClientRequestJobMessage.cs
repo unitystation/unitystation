@@ -102,6 +102,7 @@ namespace Messages.Client.NewPlayer
 				if (GameManager.Instance.TrySpawnPlayer(spawnRequest) == false)
 				{
 					SendClientLogMessage.SendErrorToClient(SentByPlayer, "Server couldn't spawn you.");
+					Loggy.Error($"Couldn't spawn {SentByPlayer.Account}'s job request: {msg.JobType}");
 				}
 			}
 		}
