@@ -1,7 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using HealthV2;
+using Initialisation;
+using Logs;
+using SecureStuff;
 using Shared.Managers;
 using UnityEngine;
 
@@ -9,6 +15,12 @@ namespace Core.Admin.Logs
 {
 	public class AdminLogsManager : SingletonManager<AdminLogsManager>
 	{
+		//TODO Export to string on UI for admin
+		//TODO So just aa tick box, On the log to say you want to save it to strring
+		//TODO Search system
+
+		public const int ENTRY_PAGE_SIZE = 45;
+
 		private HashSet<LogEntry> recordedEntries = new HashSet<LogEntry>();
 		public static Action<LogEntry> OnNewLog;
 
@@ -23,24 +35,107 @@ namespace Core.Admin.Logs
 			recordedEntries.Add(entry);
 		}
 
-		public static void AddNewLog(LogEntry entry)
+		public static void AddNewLogEntry(LogEntry entry)
 		{
 			OnNewLog?.Invoke(entry);
 		}
 
-		public static void AddNewLog(GameObject perp, string info, LogCategory category, Severity severity = Severity.MISC)
+		public static void AddNewLog(GameObject Tracking1, string info1, GameObject Tracking2,string info2, GameObject Tracking3,string info3 ,LogCategory category,
+			Severity severity = Severity.MISC)
 		{
 			if (CustomNetworkManager.IsServer == false) return;
+			AddNewLogInternal(new List<LogInfo>() {Tracking1.GetLogInfo(), info1.GetLogInfo(), Tracking2.GetLogInfo(), info2.GetLogInfo(), Tracking3.GetLogInfo(), info3.GetLogInfo()}, category, severity);
+
+		}
+
+		public static void AddNewLog(GameObject Tracking1, string info1, GameObject Tracking2,string info2, GameObject Tracking3,LogCategory category,
+			Severity severity = Severity.MISC)
+		{
+			if (CustomNetworkManager.IsServer == false) return;
+			AddNewLogInternal(new List<LogInfo>() {Tracking1.GetLogInfo(), info1.GetLogInfo(), Tracking2.GetLogInfo(), info2.GetLogInfo(), Tracking3.GetLogInfo()}, category, severity);
+		}
+
+
+		public static void AddNewLog(GameObject Tracking1, string info1, GameObject Tracking2,string info2,LogCategory category,
+			Severity severity = Severity.MISC)
+		{
+			if (CustomNetworkManager.IsServer == false) return;
+			AddNewLogInternal(new List<LogInfo>() {Tracking1.GetLogInfo(), info1.GetLogInfo(), Tracking2.GetLogInfo(), info2.GetLogInfo()}, category, severity);
+		}
+
+
+		public static void AddNewLog(GameObject Tracking1, string info1, GameObject Tracking2,LogCategory category,
+			Severity severity = Severity.MISC)
+		{
+			if (CustomNetworkManager.IsServer == false) return;
+			AddNewLogInternal(new List<LogInfo>() {Tracking1.GetLogInfo(), info1.GetLogInfo(), Tracking2.GetLogInfo()}, category, severity);
+		}
+
+		public static void AddNewLog(string info1, GameObject Tracking1,string info2, GameObject Tracking2,string info3, GameObject Tracking3, LogCategory category,
+			Severity severity = Severity.MISC)
+		{
+			if (CustomNetworkManager.IsServer == false) return;
+			AddNewLogInternal(new List<LogInfo>() {info1.GetLogInfo(), Tracking1.GetLogInfo(), info2.GetLogInfo(), Tracking2.GetLogInfo(), info3.GetLogInfo(),  Tracking3.GetLogInfo() }, category, severity);
+
+		}
+
+
+		public static void AddNewLog(string info1, GameObject Tracking1,string info2, GameObject Tracking2,string info3, LogCategory category,
+			Severity severity = Severity.MISC)
+		{
+			if (CustomNetworkManager.IsServer == false) return;
+			AddNewLogInternal(new List<LogInfo>() {info1.GetLogInfo(), Tracking1.GetLogInfo(), info2.GetLogInfo(), Tracking2.GetLogInfo(), info3.GetLogInfo()}, category, severity);
+		}
+
+		public static void AddNewLog(string info1, GameObject Tracking1,string info2, GameObject Tracking2, LogCategory category,
+			Severity severity = Severity.MISC)
+		{
+			if (CustomNetworkManager.IsServer == false) return;
+			AddNewLogInternal(new List<LogInfo>() {info1.GetLogInfo(), Tracking1.GetLogInfo(), info2.GetLogInfo(), Tracking2.GetLogInfo()}, category, severity);
+		}
+
+
+		public static void AddNewLog(string info1, GameObject Tracking1,string info2, LogCategory category,
+			Severity severity = Severity.MISC)
+		{
+			if (CustomNetworkManager.IsServer == false) return;
+			AddNewLogInternal(new List<LogInfo>() {info1.GetLogInfo(), Tracking1.GetLogInfo(), info2.GetLogInfo()}, category, severity);
+		}
+
+
+		public static void AddNewLog(string info1, GameObject Tracking1, LogCategory category,
+			Severity severity = Severity.MISC)
+		{
+			if (CustomNetworkManager.IsServer == false) return;
+			AddNewLogInternal(new List<LogInfo>() {info1.GetLogInfo(), Tracking1.GetLogInfo()}, category, severity);
+		}
+
+
+		public static void AddNewLog(string info1, LogCategory category,
+			Severity severity = Severity.MISC)
+		{
+			if (CustomNetworkManager.IsServer == false) return;
+			AddNewLogInternal(new List<LogInfo>() {info1.GetLogInfo()}, category, severity);
+		}
+
+		public static void AddNewLog(GameObject Tracking1, string info1, LogCategory category, Severity severity = Severity.MISC)
+		{
+			if (CustomNetworkManager.IsServer == false) return;
+			AddNewLogInternal(new List<LogInfo>() {Tracking1.GetLogInfo(), info1.GetLogInfo()}, category, severity);
+		}
+		private static void AddNewLogInternal(List<LogInfo> Info,  LogCategory category, Severity severity = Severity.MISC)
+		{
 
 			LogEntry entry = new LogEntry
 			{
 				AdminActions = new List<AdminActionToTake>(),
-				Log = info,
+				Log = Info.ToArray(),
 				LogImportance = severity,
-				Perpetrator = GetPerpString(perp),
+				Category = category
 			};
-			AddNewLog(entry);
+			AddNewLogEntry(entry);
 		}
+
 
 		public static void TrackKill(GameObject perp, LivingHealthMasterBase victim)
 		{
@@ -50,9 +145,9 @@ namespace Core.Admin.Logs
 			LogEntry entry = new LogEntry
 			{
 				AdminActions = new List<AdminActionToTake>(),
-				Log = log,
+				//Log = log,
 				LogImportance = Severity.DEATH,
-				Perpetrator = GetPerpString(perp),
+				//Perpetrator = GetPerpString(perp),
 				Category = LogCategory.MobDamage
 			};
 			OnNewLog?.Invoke(entry);
@@ -67,9 +162,9 @@ namespace Core.Admin.Logs
 			LogEntry entry = new LogEntry
 			{
 				AdminActions = new List<AdminActionToTake>(),
-				Log = log,
+				//Log = log,
 				LogImportance = Severity.MISC,
-				Perpetrator = GetPerpString(perp),
+				//Perpetrator = GetPerpString(perp),
 				Category = LogCategory.MobDamage
 			};
 			OnNewLog?.Invoke(entry);
@@ -83,9 +178,9 @@ namespace Core.Admin.Logs
 			LogEntry entry = new LogEntry
 			{
 				AdminActions = new List<AdminActionToTake>(),
-				Log = log,
+				//Log = log,
 				LogImportance = Severity.MISC,
-				Perpetrator = GetPerpString(perp),
+				//Perpetrator = GetPerpString(perp),
 				Category = LogCategory.ObjectDamage
 			};
 			OnNewLog?.Invoke(entry);

@@ -423,7 +423,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 		}
 
 		SyncPossessing(_idPossessing, intID);
-		AdminLogsManager.AddNewLog(null, $"{gameObject} has possesed {obj.ExpensiveName()}.", LogCategory.Ghost);
+		AdminLogsManager.AddNewLog(gameObject, $" has possesed ", obj, LogCategory.Ghost);
 	}
 
 	public void InternalSetControllingObject(GameObject obj)

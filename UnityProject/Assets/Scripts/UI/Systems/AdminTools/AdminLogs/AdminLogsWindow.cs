@@ -12,7 +12,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 {
 	public class AdminLogsWindow : MonoBehaviour
 	{
-		private List<LogEntry> logEntries = new List<LogEntry>();
+		private List<StoredLogEntry> logEntries = new List<StoredLogEntry>();
 		private List<AdminLogEntryUI> entriesUI = new List<AdminLogEntryUI>();
 		[SerializeField] private AdminLogEntryUI logEntryBase;
 		[SerializeField] private Transform logsTranform;
@@ -21,6 +21,8 @@ namespace UI.Systems.AdminTools.AdminLogs
 		[SerializeField] private TMP_Dropdown logSeverityFilterDropdown;
 		[SerializeField] private TMP_Text AvaliablePagesText;
 		[SerializeField] private TMP_InputField CurrentSelectedPageInput;
+		[SerializeField] public TMP_InputField SearchField;
+
 		private int lastPageNumber = 1;
 		public int NumberOfPagesAvaliable = 0;
 
@@ -35,7 +37,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 
 		private void RequestLogPage(string logFileName, int page)
 		{
-			RequestLogFilePageEntries.Send(page, logFileName);
+			RequestLogFilePageEntries.Send(page, logFileName, SearchField.text);
 		}
 
 		private void RequestLogAvaliablePages(string logFileName)
@@ -53,12 +55,20 @@ namespace UI.Systems.AdminTools.AdminLogs
 			RequestLogFilesNames.Send(new RequestLogFilesNames.NetMessage());
 		}
 
+
+		public void Search()
+		{
+			lastPageNumber = 1;
+			CurrentSelectedPageInput.text = 1.ToString();
+			RequestLogPage(logFilesDropdown.captionText.text, lastPageNumber);
+		}
+
 		public void UpdateLogFileDropdown(List<string> logFileNames)
 		{
 			Loggy.Info(logFileNames.Count.ToString());
 			logFilesDropdown.ClearOptions();
 			logFilesDropdown.AddOptions(logFileNames);
-			logFilesDropdown.value = logFilesDropdown.options.Count - 1;
+			logFilesDropdown.value = 0;
 			RequestLogAvaliablePages(logFilesDropdown.captionText.text);
 		}
 
@@ -71,7 +81,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 			RequestLogPage(logFilesDropdown.captionText.text, lastPageNumber);
 		}
 
-		public void UpdateLogEntries(List<LogEntry> newEntries)
+		public void UpdateLogEntries(List<StoredLogEntry> newEntries)
 		{
 			logEntries = newEntries;
 			foreach (var oldEntries in entriesUI)
@@ -79,10 +89,11 @@ namespace UI.Systems.AdminTools.AdminLogs
 				Destroy(oldEntries.gameObject);
 			}
 			entriesUI.Clear();
-			foreach (LogEntry newEntry in newEntries)
+			foreach (StoredLogEntry newEntry in newEntries)
 			{
 				AdminLogEntryUI newEntryUI = Instantiate(logEntryBase, logsTranform, false);
 				newEntryUI.Setup(newEntry);
+				entriesUI.Add(newEntryUI);
 			}
 		}
 
@@ -121,7 +132,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 			}
 			foreach (var log in entriesUI)
 			{
-				log.gameObject.SetActive(log.StoredLogEntry.LogImportance == (Severity)logSeverityFilterDropdown.value);
+				log.gameObject.SetActive(log.StoredLogEntry.LogImportance == ((Severity)logSeverityFilterDropdown.value).ToString());
 			}
 		}
 
@@ -137,7 +148,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 			}
 			foreach (var log in entriesUI)
 			{
-				log.gameObject.SetActive(log.StoredLogEntry.Category == (LogCategory)logCategoriesFilterDropdown.value);
+				log.gameObject.SetActive(log.StoredLogEntry.Category == ((LogCategory)logCategoriesFilterDropdown.value).ToString());
 			}
 		}
 	}

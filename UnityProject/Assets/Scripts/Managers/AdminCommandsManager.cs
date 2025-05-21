@@ -933,7 +933,7 @@ namespace AdminCommands
 		[Command(requiresAuthority = false)]
 		public void CmdTeleportToObject(GameObject teleportTo, NetworkConnectionToClient sender = null)
 		{
-			if (HasPermission(sender, out var admin, TAG. ADMIN_TP) == false) return;
+			if (HasPermission(sender, out var admin, TAG.ADMIN_TP) == false) return;
 			if (teleportTo == null) return;
 
 			if (teleportTo.TryGetComponent<UniversalObjectPhysics>(out var uop) == false) return;

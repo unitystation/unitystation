@@ -16,9 +16,9 @@ namespace Core.Admin.Logs.Stores
 			return JsonConvert.SerializeObject(entry, _settings) + "\n";
 		}
 
-		public LogEntry ConvertBackSingle(object entry)
+		public StoredLogEntry ConvertBackSingle(object entry)
 		{
-			return JsonConvert.DeserializeObject<LogEntry>(entry.ToString(), _settings);
+			return JsonConvert.DeserializeObject<StoredLogEntry>(entry.ToString(), _settings);
 		}
 	}
 }

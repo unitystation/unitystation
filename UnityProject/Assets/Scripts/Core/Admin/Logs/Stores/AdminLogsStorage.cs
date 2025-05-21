@@ -3,26 +3,32 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using CAPSearch;
 using Core.Admin.Logs.Interfaces;
 using Core.Editor.Attributes;
+using GameConfig;
 using Initialisation;
 using Logs;
 using NUnit.Framework;
 using SecureStuff;
 using Shared.Managers;
 using UnityEngine;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
 
 namespace Core.Admin.Logs.Stores
 {
 	public class AdminLogsStorage : SingletonManager<AdminLogsStorage>, IAdminStorage
 	{
-		private Queue<HumanLogEntry> entries = new Queue<HumanLogEntry>();
+		private Queue<StoredLogEntry> entries = new Queue<StoredLogEntry>();
 		private bool readyForQueue = true;
 
 		public const int ENTRY_PAGE_SIZE = 45;
 
 		[SerializeField, SerializeReference, SelectImplementation(typeof(IAdminLogEntryConverter<string>))]
 		private IAdminLogEntryConverter<string> EntryConverter;
+
 		public IAdminLogEntryConverter<string> Converter => EntryConverter;
 
 		public override void Start()
@@ -31,7 +37,17 @@ namespace Core.Admin.Logs.Stores
 			AdminLogsManager.OnNewLog += QueueLog;
 		}
 
-		private void Update()
+		public void OnEnable()
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		public void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void UpdateMe()
 		{
 			if (entries.Count == 0) return;
 			if (readyForQueue == false) return;
@@ -41,7 +57,7 @@ namespace Core.Admin.Logs.Stores
 		private void QueueLog(LogEntry newEntry)
 		{
 			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound) return;
-			entries.Enqueue(new HumanLogEntry(newEntry));
+			entries.Enqueue(new StoredLogEntry(newEntry));
 		}
 
 		public async Task Store(object entry)
@@ -53,7 +69,8 @@ namespace Core.Admin.Logs.Stores
 				newLog = EntryConverter.Convert(entry);
 				if (newLog == null)
 				{
-					Loggy.Error("[AdminLogsStorage/Store()] - Recevied a null entry when attempting to convert logs into a human readable version.");
+					Loggy.Error(
+						"[AdminLogsStorage/Store()] - Recevied a null entry when attempting to convert logs into a human readable version.");
 					readyForQueue = true;
 					return;
 				}
@@ -64,13 +81,11 @@ namespace Core.Admin.Logs.Stores
 				readyForQueue = true;
 				return;
 			}
+
 			//TODO: Update this to have operations be IAdminLogEntryConverter specific to allow for things like easy SQLite integretions
 			string filePath = Path.Combine("Admin", $"{DateTime.Now:yyyy-MM-dd} - {GameManager.RoundID}.txt");
 			CheckForDirectory(filePath);
-			await Task.Run(() =>
-			{
-				WriteToLogsFile(filePath, newLog);
-			});
+			await Task.Run(() => { WriteToLogsFile(filePath, newLog); });
 			readyForQueue = true;
 		}
 
@@ -106,22 +121,24 @@ namespace Core.Admin.Logs.Stores
 			}
 		}
 
-		public static void AddToEntryList(ref List<LogEntry> entries, string logLine)
+		public static void AddToEntryList(ref List<StoredLogEntry> entries, string logLine)
 		{
-			LogEntry logEntry = Instance.Converter.ConvertBackSingle(logLine);
-			if (logEntry != null)
+			try
 			{
+				StoredLogEntry logEntry = Instance.Converter.ConvertBackSingle(logLine);
 				entries.Add(logEntry);
 			}
-			else
+			catch (Exception e)
 			{
-				Loggy.Error($"[AdminLogsStorage/FetchLogsPaginated()] - Failed to convert log line to LogEntry: {logLine}");
+				Loggy.Error(
+					$"[AdminLogsStorage/FetchLogsPaginated()] - Failed to convert log line to LogEntry: {logLine} + " +
+					e.ToString());
 			}
 		}
 
-		public static async Task<List<LogEntry>> FetchAllLogs(string fileName)
+		public static async Task<List<StoredLogEntry>> FetchAllLogs(string fileName)
 		{
-			List<LogEntry> logEntries = new List<LogEntry>();
+			List<StoredLogEntry> logEntries = new List<StoredLogEntry>();
 			string filePath = Path.Combine("Admin", fileName);
 			try
 			{
@@ -129,8 +146,9 @@ namespace Core.Admin.Logs.Stores
 				{
 					Loggy.Error($"[AdminLogsStorage/FetchLogs()] - File not found: {filePath}");
 				}
+
 				string fileContent = await Task.Run(() => AccessFile.Load(filePath, FolderType.Logs, false));
-				string[] logLines = fileContent.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+				string[] logLines = fileContent.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
 				foreach (string logLine in logLines)
 				{
 					try
@@ -147,10 +165,12 @@ namespace Core.Admin.Logs.Stores
 			{
 				Loggy.Error($"[AdminLogsStorage/FetchLogs()] - Exception during file read: {e}");
 			}
+
 			return logEntries;
 		}
 
-		public static async Task<List<LogEntry>> FetchLogsPaginated(string fileName, int pageNumber, int pageSize = ENTRY_PAGE_SIZE)
+		public static async Task<List<StoredLogEntry>> FetchLogsPaginated(string fileName, int pageNumber,string SearchString,
+			int pageSize = ENTRY_PAGE_SIZE)
 		{
 			async Task<string> LoadData(string filePath)
 			{
@@ -163,11 +183,12 @@ namespace Core.Admin.Logs.Stores
 				{
 					Loggy.Error($"[AdminLogsStorage/FetchLogsPaginated()] - Exception during file read: {e}");
 				}
+
 				return data;
 			}
 
 			if (pageNumber <= 0) pageNumber = 1;
-			List<LogEntry> logEntries = new List<LogEntry>();
+			List<StoredLogEntry> logEntries = new List<StoredLogEntry>();
 			string filePath = Path.Combine("Admin", fileName);
 			try
 			{
@@ -175,10 +196,18 @@ namespace Core.Admin.Logs.Stores
 				{
 					Loggy.Error($"[AdminLogsStorage/FetchLogsPaginated()] - File not found: {filePath}");
 				}
+
 				string fileContent = await LoadData(filePath);
 				LoadManager.DoInMainThread(() => Loggy.Info("Moving back to main thread."));
 				if (string.IsNullOrEmpty(fileContent)) return logEntries;
-				string[] logLines = fileContent.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+				IEnumerable<string> logLines = fileContent.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
+
+				if (string.IsNullOrEmpty(SearchString) == false)
+				{
+					var SearchObject = SearchCAP.ParseSearch(SearchString);
+					logLines = logLines.Where(x => SearchObject.Matches(x));
+				}
+
 				int skip = (pageNumber - 1) * pageSize;
 				int take = pageSize;
 				var paginatedLogLines = logLines.Skip(skip).Take(take);
@@ -190,7 +219,8 @@ namespace Core.Admin.Logs.Stores
 					}
 					catch (Exception e)
 					{
-						Loggy.Error($"[AdminLogsStorage/FetchLogsPaginated()] - Exception during log entry conversion: {e}");
+						Loggy.Error(
+							$"[AdminLogsStorage/FetchLogsPaginated()] - Exception during log entry conversion: {e}");
 					}
 				}
 			}
@@ -198,8 +228,12 @@ namespace Core.Admin.Logs.Stores
 			{
 				Loggy.Error($"[AdminLogsStorage/FetchLogsPaginated()] - Exception during file read: {e}");
 			}
+
 			return logEntries;
 		}
+
+
+
 
 		public static async Task<int> GetTotalPages(string fileName, int pageSize = ENTRY_PAGE_SIZE)
 		{
@@ -212,9 +246,10 @@ namespace Core.Admin.Logs.Stores
 					Loggy.Error($"[AdminLogsStorage/GetTotalPages()] - File not found: {filePath}");
 					return totalEntries;
 				}
+
 				string fileContent = await Task.Run(() => AccessFile.Load(filePath, FolderType.Logs, false));
 				LoadManager.DoInMainThread(() => Loggy.Info("Moving back to main thread."));
-				string[] logLines = fileContent.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+				string[] logLines = fileContent.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
 				totalEntries = logLines.Length;
 			}
 			catch (Exception e)
@@ -222,7 +257,8 @@ namespace Core.Admin.Logs.Stores
 				Loggy.Error($"[AdminLogsStorage/GetTotalPages()] - Exception during file read: {e}");
 				return 0;
 			}
-			return (int)Math.Ceiling((double)totalEntries / pageSize);
+
+			return (int) Math.Ceiling((double) totalEntries / pageSize);
 		}
 
 		public static List<string> GetAllLogFiles()
@@ -233,11 +269,36 @@ namespace Core.Admin.Logs.Stores
 				Loggy.Error($"[AdminLogsStorage/GetTotalPages()] - Logs folder not found.");
 				return totalEntries;
 			}
+
 			string[] files = AccessFile.DirectoriesOrFilesIn("Admin", FolderType.Logs, false);
-			foreach (string file in files)
+			var Reversed = files.Reverse();
+
+			int i = 0;
+
+			var NumberOfLogsToStore = GameConfigManager.GameConfig.NumberOfLogsToStore;
+
+			if (NumberOfLogsToStore == null)
 			{
-				totalEntries.Add(file);
+				NumberOfLogsToStore = 100;
 			}
+
+
+			bool RemoveLog = NumberOfLogsToStore != -1;
+			foreach (string file in Reversed)
+			{
+				if (i > NumberOfLogsToStore && RemoveLog)
+				{
+					AccessFile.Delete("Admin" + "/"  +file, FolderType.Logs, false);
+				}
+				else
+				{
+					totalEntries.Add(file);
+				}
+
+				i++;
+			}
+
+
 			return totalEntries;
 		}
 	}
