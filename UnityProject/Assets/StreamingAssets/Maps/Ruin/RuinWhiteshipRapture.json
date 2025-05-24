@@ -345,6 +345,9 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "table_wood"
               }
             ]
           },
@@ -367,6 +370,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -638,6 +644,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -654,6 +663,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -838,6 +850,9 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "table_wood"
               }
             ]
           },
@@ -1193,6 +1208,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               },
               {
                 "Tel": "FluidStraightPipe",
@@ -2871,7 +2889,7 @@
                 "Tel": "Plating"
               },
               {
-                "Tel": "WE-Medium_Voltage_Cable",
+                "Tel": "WO-Medium_Voltage_Cable",
                 "Z": 1
               },
               {
@@ -3197,10 +3215,6 @@
             "Value": [
               {
                 "Tel": "Plating"
-              },
-              {
-                "Tel": "WE-Low_Voltage_Cable",
-                "Z": 1
               }
             ]
           },
@@ -3211,11 +3225,8 @@
                 "Tel": "Plating"
               },
               {
-                "Tel": "WO-Medium_Voltage_Cable",
+                "Tel": "EO-Medium_Voltage_Cable",
                 "Z": 1
-              },
-              {
-                "Tel": "EO-Medium_Voltage_Cable"
               }
             ]
           },
@@ -3527,6 +3538,10 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "NO-Medium_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -3537,7 +3552,7 @@
                 "Tel": "Plating"
               },
               {
-                "Tel": "WO-Medium_Voltage_Cable",
+                "Tel": "SW-Medium_Voltage_Cable",
                 "Z": 1
               }
             ]
@@ -3853,6 +3868,9 @@
                 "Tel": "shuttle_wall_corner"
               },
               {
+                "Tel": "Plating"
+              },
+              {
                 "Tel": "FluidStraightPipe",
                 "Z": 1,
                 "Tf": "5.960464E-08,-0.9999999,0,0,0.9999999,5.960464E-08,0,0,0,0,1,0,0,0,0,1"
@@ -3880,6 +3898,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -4380,6 +4401,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -4607,6 +4631,9 @@
             "Value": [
               {
                 "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -4860,6 +4887,15 @@
             "Object": {
               "ClassDatas": [
                 {
+                  "ClassID": "Thruster@0",
+                  "Data": [
+                    {
+                      "Name": "ThisThrusterDirectionClassification",
+                      "Data": "Down"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -5049,6 +5085,10 @@
                     {
                       "Name": "relatedLightSwitch",
                       "Data": "f2432d244a6b7774ea00ff013beb7dcb_7┼18┼0┼@0@LightSwitchV2@0"
+                    },
+                    {
+                      "Name": "InitialState",
+                      "Data": "Off"
                     }
                   ]
                 }
@@ -5075,9 +5115,9 @@
             "LocalPRS": "6┼20┼0┼"
           },
           {
-            "GitID": "bd64b33086a7f4043a661eccdb8cbb8a_6┼22┼0┼",
-            "PrefabID": "bd64b33086a7f4043a661eccdb8cbb8a",
-            "Name": "EnergyCollector (1)",
+            "GitID": "903ca9514f710404c8c7311c5669f481_6┼22┼0┼",
+            "PrefabID": "903ca9514f710404c8c7311c5669f481",
+            "Name": "ComfyChairBrown (1)",
             "LocalPRS": "6┼22┼0┼",
             "Object": {
               "ClassDatas": [
@@ -5086,16 +5126,7 @@
                   "Data": [
                     {
                       "Name": "CurrentDirection",
-                      "Data": "Up_By0"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "ResearchCollector@0",
-                  "Data": [
-                    {
-                      "Name": "AssociatedResearchLaserProjector",
-                      "Data": "0d2a097efdcb88644898d858b77b4e94_6┼26┼0┼@0@ResearchLaserProjector@0"
+                      "Data": "Right_By270"
                     }
                   ]
                 }
@@ -5109,7 +5140,35 @@
                       "Data": [
                         {
                           "Name": "initialVariantIndex",
-                          "Data": "1"
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
                         }
                       ]
                     }
@@ -5119,16 +5178,10 @@
             }
           },
           {
-            "GitID": "2fdf8b52304435e40a6ba4475e91c835_6┼24┼0┼",
-            "PrefabID": "2fdf8b52304435e40a6ba4475e91c835",
-            "Name": "ResearchPlinth (1)",
-            "LocalPRS": "6┼24┼0┼"
-          },
-          {
-            "GitID": "0d2a097efdcb88644898d858b77b4e94_6┼26┼0┼",
-            "PrefabID": "0d2a097efdcb88644898d858b77b4e94",
-            "Name": "R&DLaserProjector (1)",
-            "LocalPRS": "6┼26┼0┼",
+            "GitID": "ce971a77eb7c2894e8583efec1c56965_6┼24┼0┼",
+            "PrefabID": "ce971a77eb7c2894e8583efec1c56965",
+            "Name": "WoodenChair (1)",
+            "LocalPRS": "6┼24┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -5136,16 +5189,7 @@
                   "Data": [
                     {
                       "Name": "CurrentDirection",
-                      "Data": "Down_By180"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "ResearchLaserProjector@0",
-                  "Data": [
-                    {
-                      "Name": "researchServer",
-                      "Data": "5kxOLzVCyAnAz_ATY8PU_11┼13┼0┼@0@ResearchServer@0"
+                      "Data": "Left_By90"
                     }
                   ]
                 }
@@ -5159,7 +5203,7 @@
                       "Data": [
                         {
                           "Name": "initialVariantIndex",
-                          "Data": "0"
+                          "Data": "3"
                         }
                       ]
                     }
@@ -5169,9 +5213,15 @@
             }
           },
           {
-            "GitID": "2a39aefa5aa903240b20a8b5a5185fbf_7┼12┼0┼",
-            "PrefabID": "2a39aefa5aa903240b20a8b5a5185fbf",
-            "Name": "AirlockShuttleOpaque (1)",
+            "GitID": "419b53e1dfc68534c874d417a070b675_6┼26┼0┼",
+            "PrefabID": "419b53e1dfc68534c874d417a070b675",
+            "Name": "New Bookshelf (1)",
+            "LocalPRS": "6┼26┼0┼"
+          },
+          {
+            "GitID": "cf4eea25ecf048448aea1576b077452b_7┼12┼0┼",
+            "PrefabID": "cf4eea25ecf048448aea1576b077452b",
+            "Name": "AirlockShuttleWindowed (1)",
             "LocalPRS": "7┼12┼0┼",
             "Object": {
               "ClassDatas": [
@@ -5181,6 +5231,25 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_12┼25┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "d56b65cebb41c78479fed5218fb0344c_7┼14┼0┼",
+            "PrefabID": "d56b65cebb41c78479fed5218fb0344c",
+            "Name": "AirVentSelfSufficient (1)",
+            "LocalPRS": "7┼14┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_16┼11┼0┼@0@AirController@0"
                     }
                   ]
                 }
@@ -5251,8 +5320,31 @@
                   "ClassID": "LightSwitchV2@0",
                   "Data": [
                     {
+                      "Name": "listOfLights#1",
+                      "Data": "c937e0abe85aca9499d09951de736ec6_9┼13┼0┼@0@LightSource@0"
+                    },
+                    {
                       "Name": "listOfLights#0",
                       "Data": "c937e0abe85aca9499d09951de736ec6_7┼15┼0┼@0@LightSource@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "d56b65cebb41c78479fed5218fb0344c_7┼17┼0┼",
+            "PrefabID": "d56b65cebb41c78479fed5218fb0344c",
+            "Name": "AirVentSelfSufficient (3)",
+            "LocalPRS": "7┼17┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_16┼11┼0┼@0@AirController@0"
                     }
                   ]
                 }
@@ -5290,6 +5382,10 @@
                     {
                       "Name": "listOfLights#0",
                       "Data": "c937e0abe85aca9499d09951de736ec6_6┼19┼0┼@0@LightSource@0"
+                    },
+                    {
+                      "Name": "isOn",
+                      "Data": "False"
                     }
                   ]
                 }
@@ -5309,6 +5405,50 @@
             "LocalPRS": "7┼20┼0┼"
           },
           {
+            "GitID": "d56b65cebb41c78479fed5218fb0344c_7┼23┼0┼",
+            "PrefabID": "d56b65cebb41c78479fed5218fb0344c",
+            "Name": "AirVentSelfSufficient (1)",
+            "LocalPRS": "7┼23┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_16┼11┼0┼@0@AirController@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "63c4576068eee0e4cb8cb02ef5b3bebf_7┼25┼0┼",
+            "PrefabID": "63c4576068eee0e4cb8cb02ef5b3bebf",
+            "Name": "AirScrubberSelfSufficient (1)",
+            "LocalPRS": "7┼25┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_16┼11┼0┼@0@AirController@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "419b53e1dfc68534c874d417a070b675_7┼26┼0┼",
+            "PrefabID": "419b53e1dfc68534c874d417a070b675",
+            "Name": "New Bookshelf (2)",
+            "LocalPRS": "7┼26┼0┼"
+          },
+          {
             "GitID": "9bda2d5647088c74392285230ba38474_7┼28┼0┼",
             "PrefabID": "9bda2d5647088c74392285230ba38474",
             "Name": "Plasma Thruster (7)",
@@ -5316,11 +5456,39 @@
             "Object": {
               "ClassDatas": [
                 {
+                  "ClassID": "Thruster@0",
+                  "Data": [
+                    {
+                      "Name": "ThisThrusterDirectionClassification",
+                      "Data": "Left"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
                       "Name": "CurrentDirection",
                       "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "63c4576068eee0e4cb8cb02ef5b3bebf_8┼6┼0┼",
+            "PrefabID": "63c4576068eee0e4cb8cb02ef5b3bebf",
+            "Name": "AirScrubberSelfSufficient (2)",
+            "LocalPRS": "8┼6┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_16┼11┼0┼@0@AirController@0"
                     }
                   ]
                 }
@@ -5351,10 +5519,6 @@
                   "ClassID": "LightSwitchV2@0",
                   "Data": [
                     {
-                      "Name": "listOfLights#2",
-                      "Data": "fde32c02abddc814f9366ff1fb21f234_10┼6┼0┼@0@LightSource@0"
-                    },
-                    {
                       "Name": "listOfLights#1",
                       "Data": "c937e0abe85aca9499d09951de736ec6_6┼9┼0┼@0@LightSource@0"
                     },
@@ -5367,6 +5531,25 @@
                 {
                   "ClassID": "WallmountBehavior@0",
                   "Removed": true
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "63c4576068eee0e4cb8cb02ef5b3bebf_8┼11┼0┼",
+            "PrefabID": "63c4576068eee0e4cb8cb02ef5b3bebf",
+            "Name": "AirScrubberSelfSufficient (1)",
+            "LocalPRS": "8┼11┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_16┼11┼0┼@0@AirController@0"
+                    }
+                  ]
                 }
               ]
             }
@@ -5489,10 +5672,60 @@
             }
           },
           {
+            "GitID": "ca7d7da17781bf046abd652ffb41a611_9┼5┼0┼",
+            "PrefabID": "ca7d7da17781bf046abd652ffb41a611",
+            "Name": "ExtinguisherCabinet (1)",
+            "LocalPRS": "9┼5┼0┼"
+          },
+          {
             "GitID": "329682eedacc925409e4d48e76912be0_9┼7┼0┼",
             "PrefabID": "329682eedacc925409e4d48e76912be0",
             "Name": "DiamondOre (2)",
             "LocalPRS": "9┼7┼0┼"
+          },
+          {
+            "GitID": "c937e0abe85aca9499d09951de736ec6_9┼13┼0┼",
+            "PrefabID": "c937e0abe85aca9499d09951de736ec6",
+            "Name": "LightBulbFixture (1)",
+            "LocalPRS": "9┼13┼0┼0ø0ø90ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_12┼25┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "LightSource@0",
+                  "Data": [
+                    {
+                      "Name": "relatedLightSwitch",
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_7┼16┼0┼@0@LightSwitchV2@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "y9sE1$maUPtNfaksxX_Y_9┼13┼0┼",
@@ -5575,6 +5808,10 @@
                     {
                       "Name": "relatedLightSwitch",
                       "Data": "f2432d244a6b7774ea00ff013beb7dcb_10┼20┼0┼@0@LightSwitchV2@0"
+                    },
+                    {
+                      "Name": "InitialState",
+                      "Data": "Off"
                     }
                   ]
                 }
@@ -5613,6 +5850,25 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_12┼25┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "e58e1fd483fe772468ad2aab4259397d_9┼26┼0┼",
+            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
+            "Name": "PlayerSpawnPoint (1)",
+            "LocalPRS": "9┼26┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "SpawnPoint@0",
+                  "Data": [
+                    {
+                      "Name": "category",
+                      "Data": "GhostTeleportSites"
                     }
                   ]
                 }
@@ -5681,7 +5937,7 @@
                   "Data": [
                     {
                       "Name": "relatedLightSwitch",
-                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_8┼10┼0┼@0@LightSwitchV2@0"
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_11┼10┼0┼@0@LightSwitchV2@0"
                     }
                   ]
                 }
@@ -5708,9 +5964,9 @@
             "LocalPRS": "10┼8┼0┼"
           },
           {
-            "GitID": "9fb2fbfd8a7e36f4c8cc32c927713ab0_10┼10┼0┼",
-            "PrefabID": "9fb2fbfd8a7e36f4c8cc32c927713ab0",
-            "Name": "AirlockVault (1)",
+            "GitID": "2a39aefa5aa903240b20a8b5a5185fbf_10┼10┼0┼",
+            "PrefabID": "2a39aefa5aa903240b20a8b5a5185fbf",
+            "Name": "AirlockShuttleOpaque (1)",
             "LocalPRS": "10┼10┼0┼",
             "Object": {
               "ClassDatas": [
@@ -5720,22 +5976,6 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_12┼25┼0┼@0@APC@0"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "#removed#"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -5817,6 +6057,10 @@
                     {
                       "Name": "listOfLights#0",
                       "Data": "c937e0abe85aca9499d09951de736ec6_9┼21┼0┼@0@LightSource@0"
+                    },
+                    {
+                      "Name": "isOn",
+                      "Data": "False"
                     }
                   ]
                 }
@@ -5834,6 +6078,25 @@
             "PrefabID": "6cc52e3e49f58614882eba9fac485fbb",
             "Name": "Bible (2)",
             "LocalPRS": "10┼22┼0┼"
+          },
+          {
+            "GitID": "ca7d7da17781bf046abd652ffb41a611_10┼23┼0┼",
+            "PrefabID": "ca7d7da17781bf046abd652ffb41a611",
+            "Name": "ExtinguisherCabinet (2)",
+            "LocalPRS": "10┼23┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "2a39aefa5aa903240b20a8b5a5185fbf_10┼25┼0┼",
@@ -5881,6 +6144,34 @@
             "PrefabID": "329682eedacc925409e4d48e76912be0",
             "Name": "DiamondOre (4)",
             "LocalPRS": "11┼7┼0┼"
+          },
+          {
+            "GitID": "f2432d244a6b7774ea00ff013beb7dcb_11┼10┼0┼",
+            "PrefabID": "f2432d244a6b7774ea00ff013beb7dcb",
+            "Name": "LightSwitch (1)",
+            "LocalPRS": "11┼10┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_12┼25┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "LightSwitchV2@0",
+                  "Data": [
+                    {
+                      "Name": "listOfLights#0",
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_10┼6┼0┼@0@LightSource@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "5kxOLzVCyAnAz_ATY8PU_11┼13┼0┼",
@@ -6214,6 +6505,25 @@
             }
           },
           {
+            "GitID": "d56b65cebb41c78479fed5218fb0344c_12┼6┼0┼",
+            "PrefabID": "d56b65cebb41c78479fed5218fb0344c",
+            "Name": "AirVentSelfSufficient (2)",
+            "LocalPRS": "12┼6┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_16┼11┼0┼@0@AirController@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "43f5bf2b4c625894da17b8de50a6d4b7_12┼11┼0┼",
             "PrefabID": "43f5bf2b4c625894da17b8de50a6d4b7",
             "Name": "EngineersLocker (1)",
@@ -6252,10 +6562,10 @@
             }
           },
           {
-            "GitID": "d56b65cebb41c78479fed5218fb0344c_12┼19┼0┼",
+            "GitID": "d56b65cebb41c78479fed5218fb0344c_12┼15┼0┼",
             "PrefabID": "d56b65cebb41c78479fed5218fb0344c",
             "Name": "AirVentSelfSufficient (1)",
-            "LocalPRS": "12┼19┼0┼0ø0ø90ø",
+            "LocalPRS": "12┼15┼0┼0ø0ø90ø",
             "Object": {
               "ClassDatas": [
                 {
@@ -6293,10 +6603,10 @@
             }
           },
           {
-            "GitID": "63c4576068eee0e4cb8cb02ef5b3bebf_12┼24┼0┼",
+            "GitID": "63c4576068eee0e4cb8cb02ef5b3bebf_12┼19┼0┼",
             "PrefabID": "63c4576068eee0e4cb8cb02ef5b3bebf",
             "Name": "AirScrubberSelfSufficient (1)",
-            "LocalPRS": "12┼24┼0┼0ø0ø90ø",
+            "LocalPRS": "12┼19┼0┼0ø0ø90ø",
             "Object": {
               "ClassDatas": [
                 {
@@ -6397,136 +6707,144 @@
                   "ClassID": "APC@0",
                   "Data": [
                     {
+                      "Name": "connectedDevices#70",
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_11┼10┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#69",
+                      "Data": "c937e0abe85aca9499d09951de736ec6_9┼13┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
                       "Name": "connectedDevices#68",
-                      "Data": "63c4576068eee0e4cb8cb02ef5b3bebf_17┼10┼0┼@0@APCPoweredDevice@0"
+                      "Data": "cf4eea25ecf048448aea1576b077452b_7┼12┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#67",
-                      "Data": "63c4576068eee0e4cb8cb02ef5b3bebf_14┼12┼0┼@0@APCPoweredDevice@0"
+                      "Data": "63c4576068eee0e4cb8cb02ef5b3bebf_17┼10┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#66",
-                      "Data": "63c4576068eee0e4cb8cb02ef5b3bebf_9┼4┼0┼@0@APCPoweredDevice@0"
+                      "Data": "63c4576068eee0e4cb8cb02ef5b3bebf_14┼12┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#65",
-                      "Data": "63c4576068eee0e4cb8cb02ef5b3bebf_12┼24┼0┼@0@APCPoweredDevice@0"
+                      "Data": "63c4576068eee0e4cb8cb02ef5b3bebf_9┼4┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#64",
-                      "Data": "d56b65cebb41c78479fed5218fb0344c_17┼14┼0┼@0@APCPoweredDevice@0"
+                      "Data": "63c4576068eee0e4cb8cb02ef5b3bebf_12┼19┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#63",
-                      "Data": "d56b65cebb41c78479fed5218fb0344c_14┼10┼0┼@0@APCPoweredDevice@0"
+                      "Data": "d56b65cebb41c78479fed5218fb0344c_17┼14┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#62",
-                      "Data": "d56b65cebb41c78479fed5218fb0344c_15┼4┼0┼@0@APCPoweredDevice@0"
+                      "Data": "d56b65cebb41c78479fed5218fb0344c_14┼10┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#61",
-                      "Data": "d56b65cebb41c78479fed5218fb0344c_12┼19┼0┼@0@APCPoweredDevice@0"
+                      "Data": "d56b65cebb41c78479fed5218fb0344c_15┼4┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#60",
-                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_16┼14┼0┼@0@APCPoweredDevice@0"
+                      "Data": "d56b65cebb41c78479fed5218fb0344c_12┼15┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#59",
-                      "Data": "a50474d976314462a79602e20a762520_16┼11┼0┼@0@APCPoweredDevice@0"
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_16┼14┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#58",
-                      "Data": "2a39aefa5aa903240b20a8b5a5185fbf_12┼13┼0┼@0@APCPoweredDevice@0"
+                      "Data": "a50474d976314462a79602e20a762520_16┼11┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#57",
-                      "Data": "c937e0abe85aca9499d09951de736ec6_11┼13┼0┼@0@APCPoweredDevice@0"
+                      "Data": "2a39aefa5aa903240b20a8b5a5185fbf_12┼13┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#56",
-                      "Data": "fde32c02abddc814f9366ff1fb21f234_10┼6┼0┼@0@APCPoweredDevice@0"
+                      "Data": "c937e0abe85aca9499d09951de736ec6_11┼13┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#55",
-                      "Data": "c937e0abe85aca9499d09951de736ec6_15┼7┼0┼@0@APCPoweredDevice@0"
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_10┼6┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#54",
-                      "Data": "ArtifactAnalyser_6┼9┼0┼@0@APCPoweredDevice@0"
+                      "Data": "c937e0abe85aca9499d09951de736ec6_15┼7┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#53",
-                      "Data": "artifactconsole_6┼13┼0┼@0@APCPoweredDevice@0"
+                      "Data": "ArtifactAnalyser_6┼9┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#52",
-                      "Data": "5kxOLzVCyAnAz_ATY8PU_11┼13┼0┼@0@APCPoweredDevice@0"
+                      "Data": "artifactconsole_6┼13┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#51",
-                      "Data": "cf4eea25ecf048448aea1576b077452b_14┼14┼0┼@0@APCPoweredDevice@0"
+                      "Data": "5kxOLzVCyAnAz_ATY8PU_11┼13┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#50",
-                      "Data": "2a39aefa5aa903240b20a8b5a5185fbf_14┼25┼0┼@0@APCPoweredDevice@0"
+                      "Data": "cf4eea25ecf048448aea1576b077452b_14┼14┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#49",
-                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_8┼25┼0┼@0@APCPoweredDevice@0"
+                      "Data": "2a39aefa5aa903240b20a8b5a5185fbf_14┼25┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#48",
-                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_11┼25┼0┼@0@APCPoweredDevice@0"
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_8┼25┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#47",
-                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_16┼23┼0┼@0@APCPoweredDevice@0"
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_11┼25┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#46",
-                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_8┼10┼0┼@0@APCPoweredDevice@0"
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_16┼23┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#45",
-                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_7┼16┼0┼@0@APCPoweredDevice@0"
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_8┼10┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#44",
-                      "Data": "c937e0abe85aca9499d09951de736ec6_6┼9┼0┼@0@APCPoweredDevice@0"
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_7┼16┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#43",
-                      "Data": "fde32c02abddc814f9366ff1fb21f234_5┼24┼0┼@0@APCPoweredDevice@0"
+                      "Data": "c937e0abe85aca9499d09951de736ec6_6┼9┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#42",
-                      "Data": "fde32c02abddc814f9366ff1fb21f234_19┼24┼0┼@0@APCPoweredDevice@0"
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_5┼24┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#41",
-                      "Data": "fde32c02abddc814f9366ff1fb21f234_12┼27┼0┼@0@APCPoweredDevice@0"
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_19┼24┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#40",
-                      "Data": "24eaaeb286e2fbe48a16783af29e3c02_18┼26┼0┼@0@APCPoweredDevice@0"
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_12┼27┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#39",
-                      "Data": "2a39aefa5aa903240b20a8b5a5185fbf_8┼15┼0┼@0@APCPoweredDevice@0"
+                      "Data": "24eaaeb286e2fbe48a16783af29e3c02_18┼26┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#38",
-                      "Data": "cf4eea25ecf048448aea1576b077452b_16┼15┼0┼@0@APCPoweredDevice@0"
+                      "Data": "2a39aefa5aa903240b20a8b5a5185fbf_8┼15┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#37",
-                      "Data": "9fb2fbfd8a7e36f4c8cc32c927713ab0_10┼10┼0┼@0@APCPoweredDevice@0"
+                      "Data": "cf4eea25ecf048448aea1576b077452b_16┼15┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#36",
-                      "Data": "2a39aefa5aa903240b20a8b5a5185fbf_7┼12┼0┼@0@APCPoweredDevice@0"
+                      "Data": "2a39aefa5aa903240b20a8b5a5185fbf_10┼10┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#35",
@@ -6690,6 +7008,29 @@
             "LocalPRS": "12┼27┼0┼"
           },
           {
+            "GitID": "dd553da79275dac409d269c0d6ec571c_12┼27┼0┼",
+            "PrefabID": "dd553da79275dac409d269c0d6ec571c",
+            "Name": "CanisterPlasma (1)",
+            "LocalPRS": "12┼27┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "GasContainer@0",
+                  "Data": [
+                    {
+                      "Name": "StoredInitialGasMix@GasData@GasesArray#0@moles",
+                      "Data": "1846.242"
+                    },
+                    {
+                      "Name": "StoredInitialGasMix@pressure",
+                      "Data": "1500"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_12┼27┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
             "Name": "LightTubeFixture (3)",
@@ -6801,6 +7142,12 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "170e72b76e0da9645995a9bac3f49cb2_13┼27┼0┼",
+            "PrefabID": "170e72b76e0da9645995a9bac3f49cb2",
+            "Name": "New SMES (1)",
+            "LocalPRS": "13┼27┼0┼"
           },
           {
             "GitID": "9bda2d5647088c74392285230ba38474_13┼29┼0┼",
@@ -6960,6 +7307,10 @@
                     {
                       "Name": "listOfLights#0",
                       "Data": "c937e0abe85aca9499d09951de736ec6_15┼21┼0┼@0@LightSource@0"
+                    },
+                    {
+                      "Name": "isOn",
+                      "Data": "False"
                     }
                   ]
                 }
@@ -6998,9 +7349,15 @@
             }
           },
           {
-            "GitID": "170e72b76e0da9645995a9bac3f49cb2_14┼27┼0┼",
-            "PrefabID": "170e72b76e0da9645995a9bac3f49cb2",
-            "Name": "New SMES (1)",
+            "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_14┼26┼0┼",
+            "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "Name": "New Low Machine  Connector Variant (2)",
+            "LocalPRS": "14┼26┼0┼"
+          },
+          {
+            "GitID": "bb684284e149a524d9f53b039e51b806_14┼27┼0┼",
+            "PrefabID": "bb684284e149a524d9f53b039e51b806",
+            "Name": "New Medium Machine Connector (1)",
             "LocalPRS": "14┼27┼0┼"
           },
           {
@@ -7344,6 +7701,10 @@
                     {
                       "Name": "relatedLightSwitch",
                       "Data": "f2432d244a6b7774ea00ff013beb7dcb_14┼20┼0┼@0@LightSwitchV2@0"
+                    },
+                    {
+                      "Name": "InitialState",
+                      "Data": "Off"
                     }
                   ]
                 }
@@ -7370,16 +7731,10 @@
             "LocalPRS": "15┼22┼0┼"
           },
           {
-            "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_15┼26┼0┼",
-            "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
-            "Name": "New Low Machine  Connector Variant (2)",
-            "LocalPRS": "15┼26┼0┼"
-          },
-          {
-            "GitID": "9c3a6c9c953a49941aa32b5ad9400d89_15┼27┼0┼",
+            "GitID": "9c3a6c9c953a49941aa32b5ad9400d89_15┼26┼0┼",
             "PrefabID": "9c3a6c9c953a49941aa32b5ad9400d89",
             "Name": "New Department Battery (1)",
-            "LocalPRS": "15┼27┼0┼",
+            "LocalPRS": "15┼26┼0┼",
             "Object": {
               "ClassDatas": [],
               "Children": [
@@ -7425,6 +7780,15 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Left_By90"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ClearanceRestricted@0",
+                  "Data": [
+                    {
+                      "Name": "requiredClearance#0",
+                      "Data": "#removed#"
                     }
                   ]
                 }
@@ -7713,7 +8077,20 @@
             "GitID": "60badd0969907f044819febb546b443f_17┼13┼0┼",
             "PrefabID": "60badd0969907f044819febb546b443f",
             "Name": "FreezerRefridgerator (1)",
-            "LocalPRS": "17┼13┼0┼"
+            "LocalPRS": "17┼13┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ClearanceRestricted@0",
+                  "Data": [
+                    {
+                      "Name": "requiredClearance#0",
+                      "Data": "#removed#"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "d56b65cebb41c78479fed5218fb0344c_17┼14┼0┼",
@@ -7792,6 +8169,25 @@
             }
           },
           {
+            "GitID": "d56b65cebb41c78479fed5218fb0344c_17┼17┼0┼",
+            "PrefabID": "d56b65cebb41c78479fed5218fb0344c",
+            "Name": "AirVentSelfSufficient (4)",
+            "LocalPRS": "17┼17┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_16┼11┼0┼@0@AirController@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "f2432d244a6b7774ea00ff013beb7dcb_17┼18┼0┼",
             "PrefabID": "f2432d244a6b7774ea00ff013beb7dcb",
             "Name": "LightSwitch (2)",
@@ -7822,6 +8218,10 @@
                     {
                       "Name": "listOfLights#0",
                       "Data": "c937e0abe85aca9499d09951de736ec6_18┼19┼0┼@0@LightSource@0"
+                    },
+                    {
+                      "Name": "isOn",
+                      "Data": "False"
                     }
                   ]
                 }
@@ -7845,6 +8245,44 @@
             "PrefabID": "91d832be818283a4188516804e8d5ef0",
             "Name": "EmergencyCloset (2)",
             "LocalPRS": "17┼22┼0┼"
+          },
+          {
+            "GitID": "63c4576068eee0e4cb8cb02ef5b3bebf_17┼23┼0┼",
+            "PrefabID": "63c4576068eee0e4cb8cb02ef5b3bebf",
+            "Name": "AirScrubberSelfSufficient (2)",
+            "LocalPRS": "17┼23┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_16┼11┼0┼@0@AirController@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "d56b65cebb41c78479fed5218fb0344c_17┼25┼0┼",
+            "PrefabID": "d56b65cebb41c78479fed5218fb0344c",
+            "Name": "AirVentSelfSufficient (2)",
+            "LocalPRS": "17┼25┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_16┼11┼0┼@0@AirController@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "haBBWNjmgJzZ?f-9P$K3_17┼26┼0┼",
@@ -7873,6 +8311,15 @@
             "Object": {
               "ClassDatas": [
                 {
+                  "ClassID": "Thruster@0",
+                  "Data": [
+                    {
+                      "Name": "ThisThrusterDirectionClassification",
+                      "Data": "Right"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -7891,6 +8338,15 @@
             "LocalPRS": "18┼7┼0┼0ø0ø180ø",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "Thruster@0",
+                  "Data": [
+                    {
+                      "Name": "ThisThrusterDirectionClassification",
+                      "Data": "Down"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "Rotatable@0",
                   "Data": [
@@ -7969,6 +8425,10 @@
                     {
                       "Name": "relatedLightSwitch",
                       "Data": "f2432d244a6b7774ea00ff013beb7dcb_17┼18┼0┼@0@LightSwitchV2@0"
+                    },
+                    {
+                      "Name": "InitialState",
+                      "Data": "Off"
                     }
                   ]
                 }

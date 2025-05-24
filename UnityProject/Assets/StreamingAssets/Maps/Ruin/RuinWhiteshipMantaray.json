@@ -4340,7 +4340,7 @@
                 "Tel": "Plating"
               },
               {
-                "Tel": "NS-Medium_Voltage_Cable",
+                "Tel": "SO-Medium_Voltage_Cable",
                 "Z": 1
               }
             ]
@@ -4357,9 +4357,6 @@
               {
                 "Tel": "WO-Medium_Voltage_Cable",
                 "Z": 1
-              },
-              {
-                "Tel": "SO-Medium_Voltage_Cable"
               }
             ]
           },
@@ -6058,6 +6055,15 @@
             "Object": {
               "ClassDatas": [
                 {
+                  "ClassID": "Thruster@0",
+                  "Data": [
+                    {
+                      "Name": "ThisThrusterDirectionClassification",
+                      "Data": "Down"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -6076,6 +6082,15 @@
             "LocalPRS": "9┼22┼0┼0ø0ø90ø",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "Thruster@0",
+                  "Data": [
+                    {
+                      "Name": "ThisThrusterDirectionClassification",
+                      "Data": "Down"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "Rotatable@0",
                   "Data": [
@@ -7116,6 +7131,41 @@
             }
           },
           {
+            "GitID": "c937e0abe85aca9499d09951de736ec6_17┼14┼0┼",
+            "PrefabID": "c937e0abe85aca9499d09951de736ec6",
+            "Name": "LightBulbFixture (1)",
+            "LocalPRS": "17┼14┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_20┼12┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "LightSource@0",
+                  "Data": [
+                    {
+                      "Name": "relatedLightSwitch",
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_25┼20┼0┼@0@LightSwitchV2@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_17┼16┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
             "Name": "ShuttleChair (5)",
@@ -7888,6 +7938,10 @@
                   "ClassID": "APC@0",
                   "Data": [
                     {
+                      "Name": "connectedDevices#53",
+                      "Data": "c937e0abe85aca9499d09951de736ec6_17┼14┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
                       "Name": "connectedDevices#52",
                       "Data": "bc0cd2a586c78b846a43622b6ea5c953_14┼20┼0┼@0@APCPoweredDevice@0"
                     },
@@ -8659,6 +8713,15 @@
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_20┼12┼0┼@0@APC@0"
                     }
                   ]
+                },
+                {
+                  "ClassID": "ClearanceRestricted@0",
+                  "Data": [
+                    {
+                      "Name": "requiredClearance#0",
+                      "Data": "#removed#"
+                    }
+                  ]
                 }
               ]
             }
@@ -8845,6 +8908,10 @@
                 {
                   "ClassID": "LightSwitchV2@0",
                   "Data": [
+                    {
+                      "Name": "listOfLights#3",
+                      "Data": "c937e0abe85aca9499d09951de736ec6_17┼14┼0┼@0@LightSource@0"
+                    },
                     {
                       "Name": "listOfLights#2",
                       "Data": "c937e0abe85aca9499d09951de736ec6_16┼21┼0┼@0@LightSource@0"
@@ -9170,6 +9237,12 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "bb684284e149a524d9f53b039e51b806_28┼18┼0┼",
+            "PrefabID": "bb684284e149a524d9f53b039e51b806",
+            "Name": "New Medium Machine Connector (1)",
+            "LocalPRS": "28┼18┼0┼"
           },
           {
             "GitID": "170e72b76e0da9645995a9bac3f49cb2_28┼19┼0┼",
@@ -9569,6 +9642,15 @@
             "Object": {
               "ClassDatas": [
                 {
+                  "ClassID": "Thruster@0",
+                  "Data": [
+                    {
+                      "Name": "ThisThrusterDirectionClassification",
+                      "Data": "Right"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -9603,7 +9685,20 @@
             "GitID": "9bda2d5647088c74392285230ba38474_31┼19┼0┼",
             "PrefabID": "9bda2d5647088c74392285230ba38474",
             "Name": "Plasma Thruster (7)",
-            "LocalPRS": "31┼19┼0┼"
+            "LocalPRS": "31┼19┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Thruster@0",
+                  "Data": [
+                    {
+                      "Name": "ThisThrusterDirectionClassification",
+                      "Data": "Left"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "2a39aefa5aa903240b20a8b5a5185fbf_33┼17┼0┼",
