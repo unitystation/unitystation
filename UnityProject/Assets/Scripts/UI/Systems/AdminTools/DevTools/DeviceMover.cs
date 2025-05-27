@@ -6,6 +6,7 @@ using Core.Utils;
 using InGameGizmos;
 using Logs;
 using Shared.Managers;
+using Shuttles;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -18,9 +19,9 @@ public class DeviceMover : SingletonManager<DeviceMover>
 	//TODO on  appear at World position  reset stuff
 
 
-    public Button StopSelectingButton;
+	public Button StopSelectingButton;
 
-    public Toggle RoundToggle;
+	public Toggle RoundToggle;
 
 	// so we can escape while drawing - enabled while drawing, disabled when done
 	private EscapeKeyTarget escapeKeyTarget;
@@ -36,6 +37,10 @@ public class DeviceMover : SingletonManager<DeviceMover>
 	public Slider RoundSlider;
 
 	public TMP_Text RoundText;
+
+	public Toggle PositionToggle;
+	public TMP_InputField X;
+	public TMP_InputField Y;
 
 	private void OnEnable()
 	{
@@ -83,8 +88,10 @@ public class DeviceMover : SingletonManager<DeviceMover>
 		if (EventSystem.current.IsPointerOverGameObject()) return;
 
 
-		PressedObject = MouseUtils.GetOrderedObjectsUnderMouse(  useMappedItems : DevCameraControls.Instance.MappingItemState).FirstOrDefault();
-		if (KeyboardInputManager.IsAltActionKeyPressed() == false &&  PressedObject.TryGetComponent<UniversalObjectPhysics>(out var Physics) == false)
+		PressedObject = MouseUtils
+			.GetOrderedObjectsUnderMouse(useMappedItems: DevCameraControls.Instance.MappingItemState).FirstOrDefault();
+		if (KeyboardInputManager.IsAltActionKeyPressed() == false &&
+		    PressedObject.TryGetComponent<UniversalObjectPhysics>(out var Physics) == false)
 		{
 			PressedObject = null;
 			return;
@@ -92,6 +99,26 @@ public class DeviceMover : SingletonManager<DeviceMover>
 
 
 		if (PressedObject == null) return;
+		if (PositionToggle.isOn)
+		{
+			var ObjectPhysics = PressedObject.GetComponent<UniversalObjectPhysics>();
+			if (ObjectPhysics != null)
+			{
+				DeviceMoverMessage.Send(PressedObject.gameObject,
+					new Vector3(float.Parse(X.text), float.Parse(Y.text), 0), null, Vector3.zero);
+			}
+			else
+			{
+				DeviceMoverMessage.Send(null,
+					Vector3.zero
+					, PressedObject.gameObject,
+					PressedObject.GetComponent<MatrixSync>().NetworkedMatrix.matrix.MatrixMove.NetworkedMatrixMove.TargetTransform.position
+					-  new Vector3(float.Parse(X.text), float.Parse(Y.text), 0));
+			}
+
+			PressedObject = null;
+			return;
+		}
 
 
 		StartPositionWorld = MouseUtils.MouseToWorldPos();
@@ -118,7 +145,6 @@ public class DeviceMover : SingletonManager<DeviceMover>
 		}
 
 		CursorLine.UpdateMe();
-
 	}
 
 	public void OnMouseButtonUp()
@@ -139,7 +165,7 @@ public class DeviceMover : SingletonManager<DeviceMover>
 				PosToRound.x = PosToRound.x.RoundToArbitrary(GetRoundingValue());
 				PosToRound.y = PosToRound.y.RoundToArbitrary(GetRoundingValue());
 
-				DeviceMoverMessage.Send(ObjectPhysics.gameObject,  PosToRound.ToWorld(Matrix), null, Vector3.zero);
+				DeviceMoverMessage.Send(ObjectPhysics.gameObject, PosToRound.ToWorld(Matrix), null, Vector3.zero);
 			}
 			else
 			{
@@ -148,7 +174,8 @@ public class DeviceMover : SingletonManager<DeviceMover>
 		}
 		else
 		{
-			DeviceMoverMessage.Send(null, Vector3.zero, PressedObject, (MouseUtils.MouseToWorldPos().RoundToInt() -StartPositionWorld.RoundToInt() ));
+			DeviceMoverMessage.Send(null, Vector3.zero, PressedObject,
+				(MouseUtils.MouseToWorldPos().RoundToInt() - StartPositionWorld.RoundToInt()));
 		}
 
 
@@ -208,6 +235,7 @@ public class DeviceMover : SingletonManager<DeviceMover>
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 			Updating = false;
 		}
+
 		CursorLine.OrNull()?.Remove();
 		CursorLine = null;
 		PressedObject = null;

@@ -91,7 +91,7 @@ public class ReplaceWithPrefab : EditorWindow
 					SpriteDataSO Bright = null;
 					foreach (var srightSO in Catalogue)
 					{
-						if (srightSO.Variance[0].Frames[0].sprite == selectedLightSprite.Sprite)
+						if (srightSO.GetFirstSprite == selectedLightSprite.Sprite)
 						{
 							Bright = srightSO;
 							break;

@@ -62,6 +62,8 @@ namespace ScriptableObjects
 
 		private Dictionary<Type, ScriptableObject> typeSOMap;
 
+		public CommonSpriteDataSOs CommonSpriteDataSOs;
+
 		public override void Awake()
 		{
 			base.Awake();
@@ -98,6 +100,7 @@ namespace ScriptableObjects
 				{ typeof(CommonTiles), CommonTiles },
 				{ typeof(CommonMaterials), CommonMaterials },
 				{ typeof(CommonReagents), CommonReagents },
+				{ typeof(CommonSpriteDataSOs), CommonSpriteDataSOs },
 			};
 		}
 
