@@ -14,6 +14,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9093253379e8be340b9a09b1faf39664,
         type: 2}
+    - target: {fileID: 1162272864508818684, guid: 1e86836ca86312b47b6c5416bd8426f1,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 9093253379e8be340b9a09b1faf39664,
+        type: 2}
     - target: {fileID: 2152051915416306454, guid: 1e86836ca86312b47b6c5416bd8426f1,
         type: 3}
       propertyPath: parentID
@@ -27,13 +33,13 @@ PrefabInstance:
     - target: {fileID: 4866909607520428057, guid: 1e86836ca86312b47b6c5416bd8426f1,
         type: 3}
       propertyPath: initialName
-      value: Slime Stabilizer
+      value: slime stabilizer
       objectReference: {fileID: 0}
     - target: {fileID: 4866909607520428057, guid: 1e86836ca86312b47b6c5416bd8426f1,
         type: 3}
       propertyPath: initialDescription
-      value: A potent chemical mix that will reduce the chance of a slime mutating.
-        by 15%
+      value: A potent chemical mix that will reduce the chance of a slime mutating
+        by 15%.
       objectReference: {fileID: 0}
     - target: {fileID: 4968336445900272335, guid: 1e86836ca86312b47b6c5416bd8426f1,
         type: 3}
