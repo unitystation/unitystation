@@ -1699,7 +1699,7 @@ namespace Blob
 
 			structure.integrity.OnWillDestroyServer.AddListener(BlobTileDeath);
 
-			structure.integrity.OnApplyDamage.AddListener(OnDamageReceived);
+			structure.integrity.OnApplyDamage += OnDamageReceived;
 		}
 
 		private void OnDamageReceived(DamageInfo info)

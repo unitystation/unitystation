@@ -55,7 +55,7 @@ namespace Items.Food
 		{
 			if (integrity == null) integrity = GetComponent<Integrity>();
 			Pickupable = this.GetComponent<Pickupable>();
-			integrity.OnApplyDamage.AddListener(OnDamageReceived);
+			integrity.OnApplyDamage += OnDamageReceived;
 			if (CookableBy.HasFlag(CookSource.BurnUp))
 			{
 				integrity.OnBurnUpServer += OnBurnUpServer;

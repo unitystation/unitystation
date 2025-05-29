@@ -205,7 +205,7 @@ namespace Systems.Ai
 		{
 			var coreIntegrity = vesselObject.GetComponent<Integrity>();
 			coreIntegrity.OnWillDestroyServer.AddListener(OnCoreDestroy);
-			coreIntegrity.OnApplyDamage.AddListener(OnCoreDamage);
+			coreIntegrity.OnApplyDamage += OnCoreDamage;
 			hasPower = true;
 
 			//Power set up
@@ -236,7 +236,7 @@ namespace Systems.Ai
 
 			var coreIntegrity = vesselObject.GetComponent<Integrity>();
 			coreIntegrity.OnWillDestroyServer.RemoveListener(OnCoreDestroy);
-			coreIntegrity.OnApplyDamage.RemoveListener(OnCoreDamage);
+			coreIntegrity.OnApplyDamage -= OnCoreDamage;
 
 			var apc = vesselObject.GetComponent<APCPoweredDevice>();
 			if (apc != null)

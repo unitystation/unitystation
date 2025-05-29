@@ -103,7 +103,7 @@ namespace Objects.Atmospherics
 			// Not all containers need integrity e.g. DisposalVirtualContainer
 			if (integrity != null)
 			{
-				integrity.OnApplyDamage.AddListener(OnServerDamage);
+				integrity.OnApplyDamage += OnServerDamage;
 			}
 		}
 
@@ -117,7 +117,7 @@ namespace Objects.Atmospherics
 		{
 			if (integrity != null)
 			{
-				integrity.OnApplyDamage.RemoveListener(OnServerDamage);
+				integrity.OnApplyDamage -= OnServerDamage;
 			}
 
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, InventoryUpdateLoop);
