@@ -68,14 +68,14 @@ MonoBehaviour:
   lootOnDespawn: {fileID: 0}
   toTileWhenDestroyed: {fileID: 11400000, guid: 73a1eb94ba00f6d4196c037f45efba7c,
     type: 2}
-  spawnOnDestroy: {fileID: 0}
+  spawnOnDestroy: {fileID: 11400000, guid: 017dad844ab5047cab969a94134a1fdb, type: 2}
   damageOverlayList: {fileID: 0}
   soundOnHit:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   SoundOnDestroy: []
