@@ -21,7 +21,7 @@ namespace Objects.Machines.ServerMachines.Communications
 			if (integrity == null)
 			{
 				integrity = GetComponent<Integrity>();
-				integrity.OnApplyDamage.AddListener(OnDamageReceived);
+				integrity.OnApplyDamage += OnDamageReceived;
 			}
 			if (apcPoweredDevice == null)
 			{
@@ -38,7 +38,7 @@ namespace Objects.Machines.ServerMachines.Communications
 		private void OnDisable()
 		{
 			GameManager.Instance.CommsServers.Remove(this);
-			integrity.OnApplyDamage.RemoveListener(OnDamageReceived);
+			integrity.OnApplyDamage -= OnDamageReceived;
 		}
 
 		public override void ReceiveSignal(SignalStrength strength, SignalEmitter responsibleEmitter, ISignalMessage message = null)
