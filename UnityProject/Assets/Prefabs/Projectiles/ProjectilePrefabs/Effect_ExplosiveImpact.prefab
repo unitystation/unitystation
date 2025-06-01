@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &5334821289746285941
+--- !u!1001 &8032017785819651806
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -11,40 +11,29 @@ PrefabInstance:
     - target: {fileID: 3047997598811481740, guid: adb0df071fda80345a84874ad1b69b85,
         type: 3}
       propertyPath: lifeTime
-      value: 0.4
+      value: 0.48
       objectReference: {fileID: 0}
     - target: {fileID: 4134233870614292426, guid: adb0df071fda80345a84874ad1b69b85,
         type: 3}
       propertyPath: spriteRenderer
       value: 
-      objectReference: {fileID: 149184767792060180}
-    - target: {fileID: 4134233870614292426, guid: adb0df071fda80345a84874ad1b69b85,
-        type: 3}
-      propertyPath: PresentSpriteSet
-      value: 
-      objectReference: {fileID: 11400000, guid: 39d8f4d9269e76a4697feb38a53dbb43,
-        type: 2}
+      objectReference: {fileID: 2840752039221759167}
     - target: {fileID: 4134233870614292426, guid: adb0df071fda80345a84874ad1b69b85,
         type: 3}
       propertyPath: InitialPresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 39d8f4d9269e76a4697feb38a53dbb43,
+      objectReference: {fileID: 11400000, guid: 689a4a29e5faaaa4fbbf1a1c313b60ec,
         type: 2}
     - target: {fileID: 5195770179465892449, guid: adb0df071fda80345a84874ad1b69b85,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 8d68853332b99464693cc42850851279,
+      objectReference: {fileID: 21300004, guid: 98d9416f48b71dd49b0e063c23a39831,
         type: 3}
     - target: {fileID: 5398400983743228273, guid: adb0df071fda80345a84874ad1b69b85,
         type: 3}
       propertyPath: m_Name
-      value: Effect_FireballImpact
-      objectReference: {fileID: 0}
-    - target: {fileID: 5402629628908376089, guid: adb0df071fda80345a84874ad1b69b85,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
+      value: Effect_ExplosiveImpact
       objectReference: {fileID: 0}
     - target: {fileID: 5402629628908376089, guid: adb0df071fda80345a84874ad1b69b85,
         type: 3}
@@ -103,21 +92,21 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5399089165182216845, guid: adb0df071fda80345a84874ad1b69b85,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5285598258378229174}
+      addedObject: {fileID: 4056898498065445652}
   m_SourcePrefab: {fileID: 100100000, guid: adb0df071fda80345a84874ad1b69b85, type: 3}
---- !u!1 &64314076483579896 stripped
+--- !u!1 &2709512638299042899 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5399089165182216845, guid: adb0df071fda80345a84874ad1b69b85,
     type: 3}
-  m_PrefabInstance: {fileID: 5334821289746285941}
+  m_PrefabInstance: {fileID: 8032017785819651806}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5285598258378229174
+--- !u!114 &4056898498065445652
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 64314076483579896}
+  m_GameObject: {fileID: 2709512638299042899}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 967620e59e52cc14c89c22c4176bac09, type: 3}
@@ -126,9 +115,9 @@ MonoBehaviour:
   mIntensity: 0.7
   mAdditionalEmission: 0
   mScale: 1.1
---- !u!212 &149184767792060180 stripped
+--- !u!212 &2840752039221759167 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 5195770179465892449, guid: adb0df071fda80345a84874ad1b69b85,
     type: 3}
-  m_PrefabInstance: {fileID: 5334821289746285941}
+  m_PrefabInstance: {fileID: 8032017785819651806}
   m_PrefabAsset: {fileID: 0}
