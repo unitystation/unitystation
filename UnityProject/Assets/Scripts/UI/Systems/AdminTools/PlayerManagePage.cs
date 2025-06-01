@@ -10,6 +10,7 @@ using UnityEngine.UI;
 using Core.Accounts;
 using AdminCommands;
 using Messages.Client.Admin;
+using TMPro;
 using UI.AdminTools;
 
 
@@ -25,6 +26,7 @@ namespace AdminTools
 
 		[SerializeField] private Text oocMuteButtonText = null;
 
+		[SerializeField] private TMP_InputField PlayerNotes = null;
 
 		public AdminPlayerEntry PlayerEntry { get; private set; }
 
@@ -36,6 +38,13 @@ namespace AdminTools
 			mentorToggle.gameObject.SetActive(entry.PlayerData.hasMentorRole == false);
 
 			oocMuteButtonText.text = entry.PlayerData.isOOCMuted ? "Unmute OOC" : "Mute OOC";
+
+			PlayerNotes.SetTextWithoutNotify( entry.PlayerData.PlayerNotes);
+		}
+
+		public void OnInputFinishEditingNotes()
+		{
+			AdminRequestSetNote.Send(PlayerNotes.text, PlayerEntry.PlayerData.uid);
 		}
 
 		public void OnKickBtn()

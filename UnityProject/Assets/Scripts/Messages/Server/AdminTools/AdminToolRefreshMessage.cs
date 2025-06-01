@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using AdminTools;
 using DatabaseAPI;
 using InGameEvents;
 using Mirror;
 using Newtonsoft.Json;
+using SecureStuff;
 using UnityEngine;
 
 namespace Messages.Server.AdminTools
@@ -111,6 +113,19 @@ namespace Messages.Server.AdminTools
 				}
 
 				var Rank= PlayerList.GetRank(player.AccountId, out var rankName);
+
+
+				var NotePath = Path.Combine(AccessFile.AdminFolder, "Notes", player.AccountId);
+				if (AccessFile.Exists(NotePath,true ,  FolderType.Logs))
+				{
+					entry.PlayerNotes = AccessFile.ReadAllLines(NotePath, FolderType.Logs, false)[0];
+				}
+				else
+				{
+					entry.PlayerNotes = "";
+				}
+
+
 
 				entry.isAntag = PlayerList.Instance.AntagPlayers.Contains(player);
 				entry.hasAChat = PlayerList.HasTAGServer(TAG.ADMIN_CHAT, player.AccountId);

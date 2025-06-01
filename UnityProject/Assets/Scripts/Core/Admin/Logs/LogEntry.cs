@@ -12,6 +12,9 @@ namespace Core.Admin.Logs
 		public List<AdminActionToTake> AdminActions = null;
 		public Severity LogImportance;
 		public LogCategory Category;
+
+		[NonSerialized]
+		public bool BubbleToChat;
 	}
 
 	public static class LogUtilities

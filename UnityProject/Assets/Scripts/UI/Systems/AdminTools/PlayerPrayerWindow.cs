@@ -6,7 +6,7 @@ using AdminCommands;
 
 namespace AdminTools
 {
-	public class PlayerPrayerWindow : AdminPlayerChat
+	public class PlayerPrayerWindow : AdminPlayerChatOld
 	{
 		public string MessagePrefix = "You hear a voice in your head...";
 		[SerializeField]

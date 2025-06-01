@@ -41,90 +41,108 @@ namespace Core.Admin.Logs
 		}
 
 		public static void AddNewLog(GameObject Tracking1, string info1, GameObject Tracking2,string info2, GameObject Tracking3,string info3 ,LogCategory category,
-			Severity severity = Severity.MISC)
+			Severity severity = Severity.MISC, bool BubbleUpToChatAdmin = false)
 		{
 			if (CustomNetworkManager.IsServer == false) return;
-			AddNewLogInternal(new List<LogInfo>() {Tracking1.GetLogInfo(), info1.GetLogInfo(), Tracking2.GetLogInfo(), info2.GetLogInfo(), Tracking3.GetLogInfo(), info3.GetLogInfo()}, category, severity);
+			AddNewLogInternal(
+				new List<LogInfo>() {Tracking1.GetLogInfo(), info1.GetLogInfo(), Tracking2.GetLogInfo(), info2.GetLogInfo(),
+					Tracking3.GetLogInfo(), info3.GetLogInfo()}, category, severity, BubbleUpToChatAdmin);
 
 		}
 
 		public static void AddNewLog(GameObject Tracking1, string info1, GameObject Tracking2,string info2, GameObject Tracking3,LogCategory category,
-			Severity severity = Severity.MISC)
+			Severity severity = Severity.MISC, bool BubbleUpToChatAdmin = false)
 		{
 			if (CustomNetworkManager.IsServer == false) return;
-			AddNewLogInternal(new List<LogInfo>() {Tracking1.GetLogInfo(), info1.GetLogInfo(), Tracking2.GetLogInfo(), info2.GetLogInfo(), Tracking3.GetLogInfo()}, category, severity);
+			AddNewLogInternal(new List<LogInfo>() {Tracking1.GetLogInfo(), info1.GetLogInfo(), Tracking2.GetLogInfo(), info2.GetLogInfo(),
+				Tracking3.GetLogInfo()}, category, severity, BubbleUpToChatAdmin);
 		}
 
 
 		public static void AddNewLog(GameObject Tracking1, string info1, GameObject Tracking2,string info2,LogCategory category,
-			Severity severity = Severity.MISC)
+			Severity severity = Severity.MISC, bool BubbleUpToChatAdmin = false)
 		{
 			if (CustomNetworkManager.IsServer == false) return;
-			AddNewLogInternal(new List<LogInfo>() {Tracking1.GetLogInfo(), info1.GetLogInfo(), Tracking2.GetLogInfo(), info2.GetLogInfo()}, category, severity);
+			AddNewLogInternal(new List<LogInfo>() {Tracking1.GetLogInfo(), info1.GetLogInfo(), Tracking2.GetLogInfo(), info2.GetLogInfo()},
+				category, severity, BubbleUpToChatAdmin);
 		}
 
 
 		public static void AddNewLog(GameObject Tracking1, string info1, GameObject Tracking2,LogCategory category,
-			Severity severity = Severity.MISC)
+			Severity severity = Severity.MISC, bool BubbleUpToChatAdmin = false)
 		{
 			if (CustomNetworkManager.IsServer == false) return;
-			AddNewLogInternal(new List<LogInfo>() {Tracking1.GetLogInfo(), info1.GetLogInfo(), Tracking2.GetLogInfo()}, category, severity);
+			AddNewLogInternal(new List<LogInfo>() {Tracking1.GetLogInfo(), info1.GetLogInfo(), Tracking2.GetLogInfo()}, category, severity, BubbleUpToChatAdmin);
 		}
 
 		public static void AddNewLog(string info1, GameObject Tracking1,string info2, GameObject Tracking2,string info3, GameObject Tracking3, LogCategory category,
-			Severity severity = Severity.MISC)
+			Severity severity = Severity.MISC, bool BubbleUpToChatAdmin = false)
 		{
 			if (CustomNetworkManager.IsServer == false) return;
-			AddNewLogInternal(new List<LogInfo>() {info1.GetLogInfo(), Tracking1.GetLogInfo(), info2.GetLogInfo(), Tracking2.GetLogInfo(), info3.GetLogInfo(),  Tracking3.GetLogInfo() }, category, severity);
+			AddNewLogInternal(new List<LogInfo>() {info1.GetLogInfo(), Tracking1.GetLogInfo(), info2.GetLogInfo(), Tracking2.GetLogInfo(), info3.GetLogInfo(),  Tracking3.GetLogInfo() }, category, severity, BubbleUpToChatAdmin);
 
 		}
 
 
 		public static void AddNewLog(string info1, GameObject Tracking1,string info2, GameObject Tracking2,string info3, LogCategory category,
-			Severity severity = Severity.MISC)
+			Severity severity = Severity.MISC, bool BubbleUpToChatAdmin = false)
 		{
 			if (CustomNetworkManager.IsServer == false) return;
-			AddNewLogInternal(new List<LogInfo>() {info1.GetLogInfo(), Tracking1.GetLogInfo(), info2.GetLogInfo(), Tracking2.GetLogInfo(), info3.GetLogInfo()}, category, severity);
+			AddNewLogInternal(new List<LogInfo>() {info1.GetLogInfo(), Tracking1.GetLogInfo(), info2.GetLogInfo(), Tracking2.GetLogInfo(), info3.GetLogInfo()}, category, severity, BubbleUpToChatAdmin);
 		}
 
 		public static void AddNewLog(string info1, GameObject Tracking1,string info2, GameObject Tracking2, LogCategory category,
-			Severity severity = Severity.MISC)
+			Severity severity = Severity.MISC, bool BubbleUpToChatAdmin = false)
 		{
 			if (CustomNetworkManager.IsServer == false) return;
-			AddNewLogInternal(new List<LogInfo>() {info1.GetLogInfo(), Tracking1.GetLogInfo(), info2.GetLogInfo(), Tracking2.GetLogInfo()}, category, severity);
+			AddNewLogInternal(new List<LogInfo>() {info1.GetLogInfo(), Tracking1.GetLogInfo(), info2.GetLogInfo(), Tracking2.GetLogInfo()}, category, severity, BubbleUpToChatAdmin);
 		}
 
 
 		public static void AddNewLog(string info1, GameObject Tracking1,string info2, LogCategory category,
-			Severity severity = Severity.MISC)
+			Severity severity = Severity.MISC, bool BubbleUpToChatAdmin = false)
 		{
 			if (CustomNetworkManager.IsServer == false) return;
-			AddNewLogInternal(new List<LogInfo>() {info1.GetLogInfo(), Tracking1.GetLogInfo(), info2.GetLogInfo()}, category, severity);
+			AddNewLogInternal(new List<LogInfo>() {info1.GetLogInfo(), Tracking1.GetLogInfo(), info2.GetLogInfo()}, category, severity, BubbleUpToChatAdmin);
 		}
 
 
 		public static void AddNewLog(string info1, GameObject Tracking1, LogCategory category,
-			Severity severity = Severity.MISC)
+			Severity severity = Severity.MISC, bool BubbleUpToChatAdmin = false)
 		{
 			if (CustomNetworkManager.IsServer == false) return;
-			AddNewLogInternal(new List<LogInfo>() {info1.GetLogInfo(), Tracking1.GetLogInfo()}, category, severity);
+			AddNewLogInternal(new List<LogInfo>() {info1.GetLogInfo(), Tracking1.GetLogInfo()}, category, severity, BubbleUpToChatAdmin);
 		}
 
 
 		public static void AddNewLog(string info1, LogCategory category,
-			Severity severity = Severity.MISC)
+			Severity severity = Severity.MISC, bool BubbleUpToChatAdmin = false)
 		{
 			if (CustomNetworkManager.IsServer == false) return;
-			AddNewLogInternal(new List<LogInfo>() {info1.GetLogInfo()}, category, severity);
+			AddNewLogInternal(new List<LogInfo>() {info1.GetLogInfo()}, category, severity, BubbleUpToChatAdmin);
 		}
 
-		public static void AddNewLog(GameObject Tracking1, string info1, LogCategory category, Severity severity = Severity.MISC)
+		public static void AddNewLog(GameObject Tracking1, string info1, LogCategory category, Severity severity = Severity.MISC, bool BubbleUpToChatAdmin = false)
 		{
 			if (CustomNetworkManager.IsServer == false) return;
-			AddNewLogInternal(new List<LogInfo>() {Tracking1.GetLogInfo(), info1.GetLogInfo()}, category, severity);
+			AddNewLogInternal(new List<LogInfo>() {Tracking1.GetLogInfo(), info1.GetLogInfo()}, category, severity, BubbleUpToChatAdmin);
 		}
-		private static void AddNewLogInternal(List<LogInfo> Info,  LogCategory category, Severity severity = Severity.MISC)
+		private static void AddNewLogInternal(List<LogInfo> Info,  LogCategory category, Severity severity = Severity.MISC, bool BubbleUpToChatAdmin = false)
 		{
+
+
+			if (severity == Severity.IMMEDIATE_ATTENTION)
+			{
+				BubbleUpToChatAdmin = true;
+			}
+
+
+			if (Info.Count > 1 && Info[1].Info.Contains("HELP") ==  false)
+			{
+				global::Chat.AddChatMsgToChatServer("HELP", ChatChannel.Admin, null);
+			}
+
+
 
 			LogEntry entry = new LogEntry
 			{
