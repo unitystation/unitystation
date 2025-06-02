@@ -28,6 +28,10 @@ namespace AdminTools
 
 		[SerializeField] private TMP_InputField PlayerNotes = null;
 
+		[SerializeField] private Toggle OnWatchlist = null;
+
+		[SerializeField] private TMP_Text JailText;
+
 		public AdminPlayerEntry PlayerEntry { get; private set; }
 
 		public void SetData(AdminPlayerEntry entry)
@@ -40,6 +44,22 @@ namespace AdminTools
 			oocMuteButtonText.text = entry.PlayerData.isOOCMuted ? "Unmute OOC" : "Mute OOC";
 
 			PlayerNotes.SetTextWithoutNotify( entry.PlayerData.PlayerNotes);
+			OnWatchlist.isOn = (entry.PlayerData.OnWatchlist);
+
+			JailText.text = entry.PlayerData.InJail ? " UnJail " : " Send To Jail ";
+		}
+
+		public void OnJailTextBtn()
+		{
+			var State = !PlayerEntry.PlayerData.InJail;
+			AdminSetJail.Send(State, PlayerEntry.PlayerData.uid);
+			PlayerEntry.PlayerData.InJail = State;
+			JailText.text = PlayerEntry.PlayerData.InJail ? " UnJail " : " Send To Jail ";
+		}
+
+		public void OnSetWatchlistBtn()
+		{
+			AdminSetWatchlist.Send(OnWatchlist.isOn, PlayerEntry.PlayerData.uid);
 		}
 
 		public void OnInputFinishEditingNotes()

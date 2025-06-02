@@ -131,16 +131,7 @@ namespace Core.Admin.Logs
 		{
 
 
-			if (severity == Severity.IMMEDIATE_ATTENTION)
-			{
-				BubbleUpToChatAdmin = true;
-			}
 
-
-			if (Info.Count > 1 && Info[1].Info.Contains("HELP") ==  false)
-			{
-				global::Chat.AddChatMsgToChatServer("HELP", ChatChannel.Admin, null);
-			}
 
 
 
@@ -151,6 +142,18 @@ namespace Core.Admin.Logs
 				LogImportance = severity,
 				Category = category
 			};
+
+			if (severity == Severity.IMMEDIATE_ATTENTION)
+			{
+				BubbleUpToChatAdmin = true;
+			}
+
+
+			if (BubbleUpToChatAdmin) //NOTE Potential infinite loop Do not Make chat events BubbleUpToChatAdmin Since chat posts to logs as well
+			{
+				global::Chat.AddChatMsgToChatServer( entry.ToStringChat(), ChatChannel.Admin, null);
+			}
+
 			AddNewLogEntry(entry);
 		}
 

@@ -13,12 +13,16 @@ namespace Core.Admin.Logs
 		public Severity LogImportance;
 		public LogCategory Category;
 
-		[NonSerialized]
-		public bool BubbleToChat;
+		public string ToStringChat()
+		{
+			return string.Join(" ", Log.Select(x => x.ToChatString()));
+		}
 	}
 
 	public static class LogUtilities
 	{
+
+
 
 		public static LogInfo GetLogInfo(this GameObject go)
 		{
@@ -105,6 +109,26 @@ namespace Core.Admin.Logs
 				PositionWorld = WasAtPositionWorld.ToSerialiseString(),
 				Info = Info
 			};
+		}
+
+		public string ToChatString()
+		{
+			if (string.IsNullOrEmpty(Info))
+			{
+				if (WasControlledByPlayer == null)
+				{
+					return CoreObjectName;
+				}
+				else
+				{
+					return CoreObjectName + " By " + WasControlledByPlayer.AccountId;
+				}
+
+			}
+			else
+			{
+				return Info;
+			}
 		}
 
 	}

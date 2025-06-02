@@ -25,6 +25,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation90, INewMappedOnSpawn
 
 	public RotationMethod MethodRotation = RotationMethod.None;
 
+
 	public bool ChangeSprites = false;
 
 	[ShowIf(nameof(ChangeSprites))] public bool isChangingSO;

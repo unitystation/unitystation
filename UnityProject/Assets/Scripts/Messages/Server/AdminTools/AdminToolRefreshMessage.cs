@@ -112,7 +112,7 @@ namespace Messages.Server.AdminTools
 					entry.isAlive = player.Script.playerHealth.ConsciousState != ConsciousState.DEAD;
 				}
 
-				var Rank= PlayerList.GetRank(player.AccountId, out var rankName);
+				var Rank= PlayerList.GetRankForAccount(player.AccountId, out var rankName);
 
 
 				var NotePath = Path.Combine(AccessFile.AdminFolder, "Notes", player.AccountId);
@@ -135,6 +135,24 @@ namespace Messages.Server.AdminTools
 				entry.hasMentorRole = rankName == "mentor";
 				entry.isOnline = player.Connection != null;
 				entry.isOOCMuted = player.IsOOCMuted;
+				if (AdminSetWatchlist.Watchlist.ContainsKey(player.AccountId))
+				{
+					entry.OnWatchlist = AdminSetWatchlist.Watchlist[player.AccountId];
+				}
+
+
+				if (AdminJail.AdminJailLocation != null && AdminJail.AdminJailLocation.JailedLocations.ContainsKey(player.AccountId))
+				{
+					entry.InJail = true;
+				}
+				else
+				{
+					entry.InJail = false;
+				}
+
+
+
+
 				if (player?.Script != null)
 				{
 					if (player.Script.gameObject != null) entry.playerObject = player.Script.gameObject.NetId();

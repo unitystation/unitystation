@@ -85,6 +85,10 @@ namespace AdminTools
 		public uint playerObject;
 
 		public string PlayerNotes;
+		public bool OnWatchlist;
+
+		public bool InJail;
+
 	}
 
 	[Serializable]
