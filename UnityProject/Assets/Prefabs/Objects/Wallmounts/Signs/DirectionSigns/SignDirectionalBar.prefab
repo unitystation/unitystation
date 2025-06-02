@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &5184288565431864526
+--- !u!1001 &1947949078150047954
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,51 +10,36 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1210846040600401038, guid: d95c8124beb3ec54ab012b6142cf1977,
         type: 3}
-      propertyPath: PresentSpriteSet
+      propertyPath: spriteRenderer
       value: 
-      objectReference: {fileID: 11400000, guid: 6c1a259f7f08da841803595831997e97,
+      objectReference: {fileID: 5401372193124364945}
+    - target: {fileID: 1210846040600401038, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 103521315bbbbaee699e9cd67627bae2,
         type: 2}
     - target: {fileID: 2828519069101837110, guid: d95c8124beb3ec54ab012b6142cf1977,
         type: 3}
       propertyPath: _assetId
-      value: 4113807352
-      objectReference: {fileID: 0}
-    - target: {fileID: 2828519069101837110, guid: d95c8124beb3ec54ab012b6142cf1977,
-        type: 3}
-      propertyPath: m_AssetId
-      value: ac0b126bc5017d3419e710658b871c41
+      value: 3215983115
       objectReference: {fileID: 0}
     - target: {fileID: 3907091649879794020, guid: d95c8124beb3ec54ab012b6142cf1977,
         type: 3}
       propertyPath: initialName
-      value: cargo sign
+      value: bar sign
       objectReference: {fileID: 0}
     - target: {fileID: 3907091649879794020, guid: d95c8124beb3ec54ab012b6142cf1977,
         type: 3}
       propertyPath: initialDescription
-      value: A direction sign, pointing out which way the Cargo Bay is.
-      objectReference: {fileID: 0}
-    - target: {fileID: 4675260807256895403, guid: d95c8124beb3ec54ab012b6142cf1977,
-        type: 3}
-      propertyPath: isChangingSO
-      value: 0
+      value: A sign pointing the way to the bar.
       objectReference: {fileID: 0}
     - target: {fileID: 5907885132315318851, guid: d95c8124beb3ec54ab012b6142cf1977,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: e36840cf1bae46c4098bbfd6374fc27e,
+      objectReference: {fileID: 5191041234483785021, guid: bc0cfbf968a9e54f299dd6dca371fafc,
         type: 3}
-    - target: {fileID: 5907885132315318851, guid: d95c8124beb3ec54ab012b6142cf1977,
-        type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -68,6 +53,26 @@ PrefabInstance:
     - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
         type: 3}
       propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
@@ -88,20 +93,21 @@ PrefabInstance:
     - target: {fileID: 5952978952584658516, guid: d95c8124beb3ec54ab012b6142cf1977,
         type: 3}
       propertyPath: m_Name
-      value: SignDirectionsCargo
-      objectReference: {fileID: 0}
-    - target: {fileID: 7344477038852931613, guid: d95c8124beb3ec54ab012b6142cf1977,
-        type: 3}
-      propertyPath: parentID
-      value: d95c8124beb3ec54ab012b6142cf1977
+      value: SignDirectionalBar
       objectReference: {fileID: 0}
     - target: {fileID: 7344477038852931613, guid: d95c8124beb3ec54ab012b6142cf1977,
         type: 3}
       propertyPath: foreverID
-      value: ac0b126bc5017d3419e710658b871c41
+      value: 1e9f5329898d1da72828310e87f0b9b2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d95c8124beb3ec54ab012b6142cf1977, type: 3}
+--- !u!212 &5401372193124364945 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5907885132315318851, guid: d95c8124beb3ec54ab012b6142cf1977,
+    type: 3}
+  m_PrefabInstance: {fileID: 1947949078150047954}
+  m_PrefabAsset: {fileID: 0}
