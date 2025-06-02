@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: decals_direction_cust
+  m_EditorClassIdentifier: 
+  foreverID: b5b70673f1cc019dfa582242ca2d4fde
+  Variance:
+  - Frames:
+    - sprite: {fileID: -7284685309156491906, guid: bc0cfbf968a9e54f299dd6dca371fafc,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -4621422062332419802, guid: bc0cfbf968a9e54f299dd6dca371fafc,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 1584212541866309788, guid: bc0cfbf968a9e54f299dd6dca371fafc,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 8068570568533686389, guid: bc0cfbf968a9e54f299dd6dca371fafc,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  DisplayName: 

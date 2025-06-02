@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &3139299837660527749
+--- !u!1001 &6610094193012386873
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,35 +10,46 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1210846040600401038, guid: d95c8124beb3ec54ab012b6142cf1977,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 740494265395148410}
+    - target: {fileID: 1210846040600401038, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: c77369bb384817e418a5e5a08705c836,
+      objectReference: {fileID: 11400000, guid: 97f853f18221cb84caf813c7ed15070b,
+        type: 2}
+    - target: {fileID: 1210846040600401038, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 97f853f18221cb84caf813c7ed15070b,
         type: 2}
     - target: {fileID: 2828519069101837110, guid: d95c8124beb3ec54ab012b6142cf1977,
         type: 3}
       propertyPath: _assetId
-      value: 956007805
+      value: 1234148110
       objectReference: {fileID: 0}
     - target: {fileID: 2828519069101837110, guid: d95c8124beb3ec54ab012b6142cf1977,
         type: 3}
       propertyPath: m_AssetId
-      value: e29f867aede7e8d459f7a98bb91919b9
+      value: fd97d1db028a88e44a73aa0c153b5630
       objectReference: {fileID: 0}
     - target: {fileID: 3907091649879794020, guid: d95c8124beb3ec54ab012b6142cf1977,
         type: 3}
       propertyPath: initialName
-      value: upload sign
+      value: science department sign
       objectReference: {fileID: 0}
     - target: {fileID: 3907091649879794020, guid: d95c8124beb3ec54ab012b6142cf1977,
         type: 3}
       propertyPath: initialDescription
-      value: A direction sign, pointing out which way the station's AI Upload is.
+      value: A sign pointing the way to the science department.
       objectReference: {fileID: 0}
     - target: {fileID: 5907885132315318851, guid: d95c8124beb3ec54ab012b6142cf1977,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 277079322359956102, guid: c2190902797337249ae724a73d587863,
+      objectReference: {fileID: 21300006, guid: b6fdc634e5c0e7947b4a4f09a3ead302,
         type: 3}
     - target: {fileID: 5907885132315318851, guid: d95c8124beb3ec54ab012b6142cf1977,
         type: 3}
@@ -83,7 +94,7 @@ PrefabInstance:
     - target: {fileID: 5952978952584658516, guid: d95c8124beb3ec54ab012b6142cf1977,
         type: 3}
       propertyPath: m_Name
-      value: SignDirectionsUpload
+      value: SignDirectionalScience
       objectReference: {fileID: 0}
     - target: {fileID: 7344477038852931613, guid: d95c8124beb3ec54ab012b6142cf1977,
         type: 3}
@@ -93,10 +104,16 @@ PrefabInstance:
     - target: {fileID: 7344477038852931613, guid: d95c8124beb3ec54ab012b6142cf1977,
         type: 3}
       propertyPath: foreverID
-      value: e29f867aede7e8d459f7a98bb91919b9
+      value: fd97d1db028a88e44a73aa0c153b5630
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d95c8124beb3ec54ab012b6142cf1977, type: 3}
+--- !u!212 &740494265395148410 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5907885132315318851, guid: d95c8124beb3ec54ab012b6142cf1977,
+    type: 3}
+  m_PrefabInstance: {fileID: 6610094193012386873}
+  m_PrefabAsset: {fileID: 0}

@@ -14,6 +14,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e606b25401e0fdc42a7ccb8fce46d92b,
         type: 2}
+    - target: {fileID: 1210846040600401038, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e606b25401e0fdc42a7ccb8fce46d92b,
+        type: 2}
     - target: {fileID: 2828519069101837110, guid: d95c8124beb3ec54ab012b6142cf1977,
         type: 3}
       propertyPath: _assetId
@@ -32,7 +38,7 @@ PrefabInstance:
     - target: {fileID: 3907091649879794020, guid: d95c8124beb3ec54ab012b6142cf1977,
         type: 3}
       propertyPath: initialDescription
-      value: A direction sign, pointing out which way the Security department is.
+      value: A sign pointing the way to the security department.
       objectReference: {fileID: 0}
     - target: {fileID: 5907885132315318851, guid: d95c8124beb3ec54ab012b6142cf1977,
         type: 3}
@@ -43,7 +49,7 @@ PrefabInstance:
     - target: {fileID: 5907885132315318851, guid: d95c8124beb3ec54ab012b6142cf1977,
         type: 3}
       propertyPath: m_WasSpriteAssigned
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
         type: 3}

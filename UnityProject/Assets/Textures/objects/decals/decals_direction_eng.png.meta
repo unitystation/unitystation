@@ -15,7 +15,7 @@ TextureImporter:
       213: 21300006
     second: direction_eng_3
   externalObjects: {}
-  serializedVersion: 12
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -79,7 +79,7 @@ TextureImporter:
   swizzle: 50462976
   cookieLightType: 1
   platformSettings:
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -89,9 +89,10 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 1
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -101,9 +102,10 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 1
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -113,13 +115,14 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: direction_eng_0
+      name: decals_direction_eng_0
       rect:
         serializedVersion: 2
         x: 0
@@ -129,18 +132,19 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300000
+      spriteID: f95aed60a806fde8ca82de90d1acd18c
+      internalID: 367521224
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: direction_eng_1
+      name: decals_direction_eng_1
       rect:
         serializedVersion: 2
         x: 32
@@ -150,18 +154,19 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300002
+      spriteID: cdc7c1b350092be47bd7e7e274715180
+      internalID: 1460082429
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: direction_eng_2
+      name: decals_direction_eng_2
       rect:
         serializedVersion: 2
         x: 64
@@ -171,18 +176,19 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300004
+      spriteID: 5007730deb0efda0797b197dd0d2e977
+      internalID: 1484979737
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: direction_eng_3
+      name: decals_direction_eng_3
       rect:
         serializedVersion: 2
         x: 96
@@ -192,17 +198,19 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300006
+      spriteID: 3acc24c15850d69e0ba3a13bb1f9a653
+      internalID: 1058264313
       vertices: []
       indices: 
       edges: []
       weights: []
     outline: []
+    customData: 
     physicsShape: []
     bones: []
     spriteID: 280b93732caf29f42b334a277f625760
@@ -212,11 +220,13 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
     nameFileIdTable:
-      direction_eng_0: 21300000
-      direction_eng_1: 21300002
-      direction_eng_2: 21300004
-      direction_eng_3: 21300006
+      decals_direction_eng_0: 367521224
+      decals_direction_eng_1: 1460082429
+      decals_direction_eng_2: 1484979737
+      decals_direction_eng_3: 1058264313
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

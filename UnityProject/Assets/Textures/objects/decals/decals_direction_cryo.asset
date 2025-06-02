@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: decals_direction_cryo
+  m_EditorClassIdentifier: 
+  foreverID: 51225e5212ebf392a8ec8b93346193a3
+  Variance:
+  - Frames:
+    - sprite: {fileID: 1660271354573698370, guid: bc0cfbf968a9e54f299dd6dca371fafc,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -5454473779121800230, guid: bc0cfbf968a9e54f299dd6dca371fafc,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 6473171980269293254, guid: bc0cfbf968a9e54f299dd6dca371fafc,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 3457100869008244219, guid: bc0cfbf968a9e54f299dd6dca371fafc,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  DisplayName: 
