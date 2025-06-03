@@ -133,7 +133,7 @@ namespace Messages.Server.AdminTools
 				entry.roleColour = Rank?.Color;
 
 				entry.hasMentorRole = rankName == "mentor";
-				entry.isOnline = player.Connection != null;
+				entry.isOnline = player.Connection.observing.Count > 0;
 				entry.isOOCMuted = player.IsOOCMuted;
 				if (AdminSetWatchlist.Watchlist.ContainsKey(player.AccountId))
 				{
