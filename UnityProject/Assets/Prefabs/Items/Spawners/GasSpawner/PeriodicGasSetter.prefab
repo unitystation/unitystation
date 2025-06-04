@@ -105,11 +105,14 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: f421a72c1fe743b44aff183b76241c34,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1001 &699352788335916318
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -270,6 +273,6 @@ MonoBehaviour:
     GasData:
       GasesArray: []
     pressure: 0
-    Volume: 0
+    Volume: 2.5
     temperature: 0
   RunOnStart: 1

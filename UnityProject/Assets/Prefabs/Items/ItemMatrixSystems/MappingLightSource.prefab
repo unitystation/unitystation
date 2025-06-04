@@ -168,14 +168,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 34bdd256c153bb04daf3c4a233428230, type: 2}
   - {fileID: 11400000, guid: c395172dd2a83f7409ddb1cf6756f579, type: 2}
   - {fileID: 11400000, guid: 3c3f3b0e8b6f78e4497dbd51ed1936fa, type: 2}
-  - {fileID: 11400000, guid: 5ab7ce26a416983b49ade209cc94e051, type: 2}
   InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1001 &883036876261739093
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -243,21 +245,6 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialColour.r
       value: 0.7735849
-      objectReference: {fileID: 0}
-    - target: {fileID: 3036676720722876633, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 26
-      objectReference: {fileID: 0}
-    - target: {fileID: 3036676720722876633, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 3036676720722876633, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: -1919284671
       objectReference: {fileID: 0}
     - target: {fileID: 3158743287136101648, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
         type: 3}
