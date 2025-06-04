@@ -6,6 +6,7 @@ using ScriptableObjects.Atmospherics;
 using UnityEditor;
 using UnityEngine;
 #if UNITY_EDITOR
+using Audio.Containers;
 using Chemistry;
 using Items;
 using Tiles;
@@ -30,6 +31,7 @@ public class SOListTracker : SingletonScriptableObject<SOListTracker>
 		SOTrackers.AddRange(FindAssetsByType<RandomItemPool>());
 		SOTrackers.AddRange(FindAssetsByType<GasMixesSO>());
 		SOTrackers.AddRange(FindAssetsByType<OreGeneratorConfig>());
+		SOTrackers.AddRange(FindAssetsByType<AudioClipsArray>());
 	}
 
 	public static List<T> FindAssetsByType<T>() where T : UnityEngine.Object
