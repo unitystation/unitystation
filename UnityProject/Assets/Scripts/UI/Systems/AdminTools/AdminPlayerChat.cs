@@ -40,6 +40,11 @@ namespace AdminTools
 		/// </summary>
 		private readonly Dictionary<string, Dictionary<int,  List<AdminChatMessage>>> clientAdminPlayerChatLogs = new();
 
+		public void Awake()
+		{
+			RoundIDsDropDown.options.Clear();
+		}
+
 		public void ClearLogs()
 		{
 
@@ -246,10 +251,14 @@ namespace AdminTools
 
 			if ((selectedPlayer != null
 			     && selectedPlayer.uid == playerId
-			     &&  int.Parse(RoundIDsDropDown.options[RoundIDsDropDown.value].text.Replace(".txt", "")) == RoundID
+			     &&  (int.Parse(RoundIDsDropDown.options[RoundIDsDropDown.value].text.Replace(".txt", "")) == RoundID)
 			     )
 				|| ForceShow)
 			{
+				if (RoundIDsDropDown.options[RoundIDsDropDown.value].text == "Option A")
+				{
+					return;
+				}
 				if (ForceShow && int.Parse(RoundIDsDropDown.options[RoundIDsDropDown.value].text.Replace(".txt", "")) !=
 				    RoundID)
 				{

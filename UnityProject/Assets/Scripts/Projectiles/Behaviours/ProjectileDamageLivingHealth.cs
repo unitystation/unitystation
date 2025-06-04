@@ -1,4 +1,5 @@
 ﻿using System;
+using Core.Admin.Logs;
 using HealthV2;
 using Logs;
 using ScriptableObjects.Gun;
@@ -44,6 +45,7 @@ namespace Weapons.Projectiles.Behaviours
 			{
 				livingHealth.ApplyDamageToBodyPart(shooter, damageData.Damage, damageData.AttackType, damageData.DamageType, targetZone);
 
+				AdminLogsManager.AddNewLog(shooter , " Shot ", livingHealth.gameObject, $" Using {this.gameObject.ExpensiveName()} Damage {damageData.Damage} DamageType {damageData.DamageType} targetZone {targetZone} ", LogCategory.MobDamage );
 
 				Chat.AddThrowHitMsgToChat(gameObject, coll.gameObject, targetZone);
 				Loggy.Trace().Format("Hit {0} for {1} with HealthBehaviour! bullet absorbed", Category.Firearms,
