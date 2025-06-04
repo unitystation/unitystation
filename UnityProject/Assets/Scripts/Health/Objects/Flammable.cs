@@ -56,9 +56,12 @@ namespace Health.Objects
 		private void Awake()
 		{
 			integrity = GetComponent<Integrity>();
-			integrity.OnDestruction.AddListener(ExtingushFireAndDestroy);
-			integrity.OnApplyDamage.AddListener(OnDamageReceived);
 			EnsureInit();
+		}
+
+		private void OnEnable()
+		{
+			EnableIntegrityObserver();
 		}
 
 		private void OnDisable()
@@ -67,6 +70,23 @@ namespace Health.Objects
 			{
 				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdateBurn);
 			}
+			DisableIntegrityObserver();
+		}
+
+		private void EnableIntegrityObserver()
+		{
+			if (CustomNetworkManager.IsServer == false) return;
+			if (!integrity) return;
+			integrity.OnDestruction.AddListener(ExtingushFireAndDestroy);
+			integrity.OnApplyDamage += OnDamageReceived;
+		}
+
+		private void DisableIntegrityObserver()
+		{
+			if (CustomNetworkManager.IsServer == false) return;
+			if (!integrity) return;
+			integrity.OnDestruction.RemoveListener(ExtingushFireAndDestroy);
+			integrity.OnApplyDamage -= OnDamageReceived;
 		}
 
 		private void EnsureInit()

@@ -4,7 +4,7 @@
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
-      "Location": "-420┼372┼0┼",
+      "Location": "-420┼337┼0┼",
       "MatrixName": "RuinAutonomousPlatform",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -1125,6 +1125,9 @@
             "Key": "X11Y8",
             "Value": [
               {
+                "Tel": "warningcorner4"
+              },
+              {
                 "Tel": "Plating"
               }
             ]
@@ -1187,6 +1190,9 @@
           {
             "Key": "X11Y14",
             "Value": [
+              {
+                "Tel": "warningcorner2"
+              },
               {
                 "Tel": "Plating"
               }
@@ -2709,6 +2715,9 @@
             "Key": "X17Y8",
             "Value": [
               {
+                "Tel": "warningcorner1"
+              },
+              {
                 "Tel": "Plating"
               }
             ]
@@ -2771,6 +2780,9 @@
           {
             "Key": "X17Y14",
             "Value": [
+              {
+                "Tel": "warningcorner3"
+              },
               {
                 "Tel": "Plating"
               }
@@ -3948,12 +3960,6 @@
             }
           },
           {
-            "GitID": "83b269ab1421fcf4a95ad3cf33935cff_-2┼-8┼0┼",
-            "PrefabID": "83b269ab1421fcf4a95ad3cf33935cff",
-            "Name": "OreGenerator (1)",
-            "LocalPRS": "-2┼-8┼0┼"
-          },
-          {
             "GitID": "f10c70de452d8b84ba9d9fd4c169f205_7┼4┼0┼",
             "PrefabID": "f10c70de452d8b84ba9d9fd4c169f205",
             "Name": "AiCoreTurret (1)",
@@ -4399,6 +4405,12 @@
             "PrefabID": "c80393b4412660b41937e05425ceb921",
             "Name": "DirectionalWindowReinforced (1)",
             "LocalPRS": "14┼11┼0┼"
+          },
+          {
+            "GitID": "c2688b12db72cdc4c8c20b8647f6b587_14┼12┼0┼",
+            "PrefabID": "c2688b12db72cdc4c8c20b8647f6b587",
+            "Name": "Artifact25% (1)",
+            "LocalPRS": "14┼12┼0┼"
           },
           {
             "GitID": "1d35052f4fc2cad4d8226d1a63e4a1b3_14┼14┼0┼",

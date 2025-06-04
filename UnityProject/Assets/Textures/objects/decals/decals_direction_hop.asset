@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: decals_direction_hop
+  m_EditorClassIdentifier: 
+  foreverID: 36c7b5e7aafde2b36a4eb834a6dfd55c
+  Variance:
+  - Frames:
+    - sprite: {fileID: -4135727110136616611, guid: bc0cfbf968a9e54f299dd6dca371fafc,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 1041685687363254030, guid: bc0cfbf968a9e54f299dd6dca371fafc,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -8822278893510612857, guid: bc0cfbf968a9e54f299dd6dca371fafc,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -4581510322497841086, guid: bc0cfbf968a9e54f299dd6dca371fafc,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  DisplayName: 

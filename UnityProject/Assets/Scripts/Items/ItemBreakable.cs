@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using AddressableReferences;
@@ -18,11 +19,15 @@ namespace Items
 		[SerializeField] private AddressableAudioSource soundOnBreak = null;
 
 		// Start is called before the first frame update
-		void Awake()
+		private void Awake()
 		{
 			integrity = GetComponent<Integrity>();
+			integrity.OnApplyDamage += OnDamageReceived;
+		}
 
-			integrity.OnApplyDamage.AddListener(OnDamageReceived);
+		private void OnDestroy()
+		{
+			if (integrity) integrity.OnApplyDamage -= OnDamageReceived;
 		}
 
 		public void AddDamage()

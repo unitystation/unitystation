@@ -118,7 +118,7 @@ namespace Objects.Research
 			radiationProducer = GetComponent<RadiationProducer>();
 			objectPhysics = GetComponent<UniversalObjectPhysics>();
 
-			integrity.OnApplyDamage.AddListener(DoDamageEffect);
+			integrity.OnApplyDamage += DoDamageEffect;
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -228,7 +228,7 @@ namespace Objects.Research
 
 		public void OnDespawnServer(DespawnInfo info)
 		{
-			integrity.OnApplyDamage.RemoveListener(DoDamageEffect);
+			integrity.OnApplyDamage -= DoDamageEffect;
 
 			// remove it from global artifacts registry
 			if (ServerSpawnedArtifacts.Contains(this))

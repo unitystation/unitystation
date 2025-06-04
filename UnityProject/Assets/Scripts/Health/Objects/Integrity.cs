@@ -45,8 +45,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	/// Server-side event invoked when ApplyDamage is called
 	/// and Integrity is about to apply damage.
 	/// </summary>
-	[NonSerialized]
-	public DamagedEvent OnApplyDamage = new DamagedEvent();
+	public Action<DamageInfo> OnApplyDamage = null;
 
 	public UnityEvent OnDamaged = new UnityEvent();
 	public UnityEvent OnDestruction = new UnityEvent();
@@ -430,7 +429,6 @@ public class DestructionInfo
 /// Event fired when an object is destroyed
 /// </summary>
 public class DestructionEvent : UnityEvent<DestructionInfo> { }
-public class DamagedEvent : UnityEvent<DamageInfo> { }
 
 /// <summary>
 /// Event fired when ApplyDamage is called

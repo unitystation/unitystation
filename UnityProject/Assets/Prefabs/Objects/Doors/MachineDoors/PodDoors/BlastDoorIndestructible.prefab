@@ -1,5 +1,118 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &327443829603065409
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5009671903892610499}
+  - component: {fileID: 8313793295018781067}
+  - component: {fileID: 9190546897561346524}
+  m_Layer: 28
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5009671903892610499
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327443829603065409}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.40625, y: 0.34375, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8943476889873775360}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &8313793295018781067
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327443829603065409}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: -1919284671
+  m_SortingLayer: 26
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: 7a491026407c27849bdef21b75667bb0, type: 3}
+  m_Color: {r: 0.38431373, g: 0.9764706, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &9190546897561346524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327443829603065409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue: []
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 2b63878f8f190194793a59ce7373a399,
+    type: 2}
+  randomInitialSprite: 0
+  spriteRenderer: {fileID: 8313793295018781067}
+  doReverseAnimation: 0
+  pushTextureOnStartUp: 1
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
+  palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1001 &2909314279984869432
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8,6 +121,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1248352207522032011, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 4528904109574887043}
+    - target: {fileID: 1587285914693216056, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 9180612005137390029}
     - target: {fileID: 2416758669775616128, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: _assetId
@@ -18,6 +141,16 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: f3101ca72dd47794c832468176e071ca
       objectReference: {fileID: 0}
+    - target: {fileID: 3000278193385742481, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 4372376588135882819}
+    - target: {fileID: 3428335695311746209, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 5717842533174385406}
     - target: {fileID: 3439362329626657407, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: Resistances.AcidProof
@@ -48,6 +181,16 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A heavy duty blast door that only opens for dire emergencies.
       objectReference: {fileID: 0}
+    - target: {fileID: 5035996318453927091, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 439070723897150099}
+    - target: {fileID: 5770958872810706802, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 1957959512579384109}
     - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: m_RootOrder
@@ -118,6 +261,11 @@ PrefabInstance:
       propertyPath: foreverID
       value: f3101ca72dd47794c832468176e071ca
       objectReference: {fileID: 0}
+    - target: {fileID: 7735645636919656443, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 8760556506506481571}
     - target: {fileID: 7880321078131954941, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: openSFX.AssetAddress
@@ -130,6 +278,58 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5009671903892610499}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79cea07a5f8e66f49a554df1a003ecba, type: 3}
+--- !u!212 &439070723897150099 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3334934847785401003, guid: 79cea07a5f8e66f49a554df1a003ecba,
+    type: 3}
+  m_PrefabInstance: {fileID: 2909314279984869432}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &1957959512579384109 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3707557752560423701, guid: 79cea07a5f8e66f49a554df1a003ecba,
+    type: 3}
+  m_PrefabInstance: {fileID: 2909314279984869432}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &4372376588135882819 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1509331201845547131, guid: 79cea07a5f8e66f49a554df1a003ecba,
+    type: 3}
+  m_PrefabInstance: {fileID: 2909314279984869432}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &4528904109574887043 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1623006321672234683, guid: 79cea07a5f8e66f49a554df1a003ecba,
+    type: 3}
+  m_PrefabInstance: {fileID: 2909314279984869432}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &5717842533174385406 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7423672236760017606, guid: 79cea07a5f8e66f49a554df1a003ecba,
+    type: 3}
+  m_PrefabInstance: {fileID: 2909314279984869432}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &8760556506506481571 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5894167746814836635, guid: 79cea07a5f8e66f49a554df1a003ecba,
+    type: 3}
+  m_PrefabInstance: {fileID: 2909314279984869432}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8943476889873775360 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
+    type: 3}
+  m_PrefabInstance: {fileID: 2909314279984869432}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &9180612005137390029 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+    type: 3}
+  m_PrefabInstance: {fileID: 2909314279984869432}
+  m_PrefabAsset: {fileID: 0}

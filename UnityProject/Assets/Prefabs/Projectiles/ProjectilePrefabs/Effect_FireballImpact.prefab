@@ -8,9 +8,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3047997598811481740, guid: adb0df071fda80345a84874ad1b69b85,
+        type: 3}
+      propertyPath: lifeTime
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4134233870614292426, guid: adb0df071fda80345a84874ad1b69b85,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 149184767792060180}
     - target: {fileID: 4134233870614292426, guid: adb0df071fda80345a84874ad1b69b85,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 39d8f4d9269e76a4697feb38a53dbb43,
+        type: 2}
+    - target: {fileID: 4134233870614292426, guid: adb0df071fda80345a84874ad1b69b85,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 39d8f4d9269e76a4697feb38a53dbb43,
         type: 2}
@@ -107,6 +123,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 967620e59e52cc14c89c22c4176bac09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mIntensity: 0.2
+  mIntensity: 0.7
   mAdditionalEmission: 0
-  mScale: 1
+  mScale: 1.1
+--- !u!212 &149184767792060180 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5195770179465892449, guid: adb0df071fda80345a84874ad1b69b85,
+    type: 3}
+  m_PrefabInstance: {fileID: 5334821289746285941}
+  m_PrefabAsset: {fileID: 0}

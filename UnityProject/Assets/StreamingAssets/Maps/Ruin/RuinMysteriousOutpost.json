@@ -4,7 +4,7 @@
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
-      "Location": "0┼0┼0┼",
+      "Location": "-439┼276┼0┼",
       "MatrixName": "MysteriousOutpost",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -934,6 +934,10 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "WE-Low_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -949,6 +953,9 @@
               {
                 "Tel": "WE-Medium_Voltage_Cable",
                 "Z": 1
+              },
+              {
+                "Tel": "NW-Medium_Voltage_Cable"
               }
             ]
           },
@@ -960,6 +967,10 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "NS-Medium_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -971,6 +982,10 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "SE-Medium_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -1092,6 +1107,10 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "WE-Low_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -1107,9 +1126,6 @@
               {
                 "Tel": "WO-Medium_Voltage_Cable",
                 "Z": 1
-              },
-              {
-                "Tel": "NO-Medium_Voltage_Cable"
               }
             ]
           },
@@ -1123,7 +1139,7 @@
                 "Tel": "Plating"
               },
               {
-                "Tel": "NS-Medium_Voltage_Cable",
+                "Tel": "NO-Medium_Voltage_Cable",
                 "Z": 1
               }
             ]
@@ -1138,8 +1154,11 @@
                 "Tel": "Plating"
               },
               {
-                "Tel": "NS-Medium_Voltage_Cable",
+                "Tel": "NW-Medium_Voltage_Cable",
                 "Z": 1
+              },
+              {
+                "Tel": "SE-Medium_Voltage_Cable"
               }
             ]
           },
@@ -1185,9 +1204,6 @@
               {
                 "Tel": "NS-Medium_Voltage_Cable",
                 "Z": 1
-              },
-              {
-                "Tel": "SE-Medium_Voltage_Cable"
               }
             ]
           },
@@ -1285,6 +1301,10 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "NW-Low_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -1296,6 +1316,10 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "NS-Low_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -1318,6 +1342,13 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "WE-Medium_Voltage_Cable",
+                "Z": 1
+              },
+              {
+                "Tel": "NW-Medium_Voltage_Cable"
               }
             ]
           },
@@ -1329,6 +1360,10 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "NS-Medium_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -1340,6 +1375,10 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "NS-Medium_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -1353,8 +1392,11 @@
                 "Tel": "Plating"
               },
               {
-                "Tel": "WE-Medium_Voltage_Cable",
+                "Tel": "NE-Medium_Voltage_Cable",
                 "Z": 1
+              },
+              {
+                "Tel": "SE-Medium_Voltage_Cable"
               }
             ]
           },
@@ -1366,6 +1408,10 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "NS-Medium_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -1377,6 +1423,10 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "NS-Medium_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -1388,6 +1438,10 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "SO-Medium_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -1443,6 +1497,10 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "NO-Medium_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -1454,6 +1512,10 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "SW-Medium_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -8868,7 +8930,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_17┼11┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_9┼2┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -8911,24 +8973,38 @@
             }
           },
           {
-            "GitID": "83b269ab1421fcf4a95ad3cf33935cff_3┼0┼0┼",
-            "PrefabID": "83b269ab1421fcf4a95ad3cf33935cff",
-            "Name": "OreGenerator (1)",
-            "LocalPRS": "3┼0┼0┼"
-          },
-          {
-            "GitID": "e654148c91063ed499de6438ee9dd63e_4┼7┼0┼",
-            "PrefabID": "e654148c91063ed499de6438ee9dd63e",
-            "Name": "CommServer (2)",
+            "GitID": "a7af28adb717b4c44b8b2002b27670bd_4┼7┼0┼",
+            "PrefabID": "a7af28adb717b4c44b8b2002b27670bd",
+            "Name": "StructureBase (2)",
             "LocalPRS": "4┼7┼0┼",
             "Object": {
               "ClassDatas": [
                 {
-                  "ClassID": "APCPoweredDevice@0",
+                  "ClassID": "ObjectAttributes@0",
                   "Data": [
                     {
-                      "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_17┼11┼0┼@0@APC@0"
+                      "Name": "initialName",
+                      "Data": "telecommunication server"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "A machine used to store data and network statistics."
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "6742ea5946896b148a992d3e8629a973"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -8936,18 +9012,38 @@
             }
           },
           {
-            "GitID": "3cb701e51433c4046bba232ed4f350d1_4┼8┼0┼",
-            "PrefabID": "3cb701e51433c4046bba232ed4f350d1",
-            "Name": "Hub (1)",
+            "GitID": "a7af28adb717b4c44b8b2002b27670bd_4┼8┼0┼",
+            "PrefabID": "a7af28adb717b4c44b8b2002b27670bd",
+            "Name": "StructureBase (4)",
             "LocalPRS": "4┼8┼0┼",
             "Object": {
               "ClassDatas": [
                 {
-                  "ClassID": "APCPoweredDevice@0",
+                  "ClassID": "ObjectAttributes@0",
                   "Data": [
                     {
-                      "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_17┼11┼0┼@0@APC@0"
+                      "Name": "initialName",
+                      "Data": "telecommunication hub"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "A mighty piece of hardware used to send/receive massive amounts of data."
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "3644c184b9936e249bbe585339c0e784"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -8966,7 +9062,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_17┼11┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_9┼2┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -8999,18 +9095,38 @@
             }
           },
           {
-            "GitID": "e654148c91063ed499de6438ee9dd63e_4┼9┼0┼",
-            "PrefabID": "e654148c91063ed499de6438ee9dd63e",
-            "Name": "CommServer (1)",
+            "GitID": "a7af28adb717b4c44b8b2002b27670bd_4┼9┼0┼",
+            "PrefabID": "a7af28adb717b4c44b8b2002b27670bd",
+            "Name": "StructureBase (11)",
             "LocalPRS": "4┼9┼0┼",
             "Object": {
               "ClassDatas": [
                 {
-                  "ClassID": "APCPoweredDevice@0",
+                  "ClassID": "ObjectAttributes@0",
                   "Data": [
                     {
-                      "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_17┼11┼0┼@0@APC@0"
+                      "Name": "initialName",
+                      "Data": "telecommunication server"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "A machine used to store data and network statistics."
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "6742ea5946896b148a992d3e8629a973"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -9307,7 +9423,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_17┼11┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_9┼2┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -9327,6 +9443,80 @@
             }
           },
           {
+            "GitID": "cd57203a8d3f54f478446e9b0ced6cf9_9┼2┼0┼",
+            "PrefabID": "cd57203a8d3f54f478446e9b0ced6cf9",
+            "Name": "APC (1)",
+            "LocalPRS": "9┼2┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APC@0",
+                  "Data": [
+                    {
+                      "Name": "connectedDevices#10",
+                      "Data": "1172c577b92e17940afd7e1729f184f6_15┼9┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#9",
+                      "Data": "c21551dd992a57349973e4b5af103ca6_9┼15┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#8",
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_14┼8┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#7",
+                      "Data": "cbe919cf00f84254f83d474582798520_9┼7┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#6",
+                      "Data": "c21551dd992a57349973e4b5af103ca6_9┼1┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#5",
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_4┼8┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#4",
+                      "Data": "c21551dd992a57349973e4b5af103ca6_2┼8┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#3",
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_9┼3┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#2",
+                      "Data": "bc0cd2a586c78b846a43622b6ea5c953_14┼7┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#1",
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_9┼13┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#0",
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_15┼10┼0┼@0@APCPoweredDevice@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_9┼3┼0┼",
+            "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "Name": "New Low Machine  Connector Variant (3)",
+            "LocalPRS": "9┼3┼0┼"
+          },
+          {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_9┼3┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
             "Name": "LightTubeFixture (9)",
@@ -9338,7 +9528,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_17┼11┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_9┼2┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -9379,7 +9569,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_17┼11┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_9┼2┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -9502,7 +9692,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_17┼11┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_9┼2┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -9546,7 +9736,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_17┼11┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_9┼2┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -9741,6 +9931,12 @@
             "LocalPRS": "11┼4┼0┼"
           },
           {
+            "GitID": "bb684284e149a524d9f53b039e51b806_11┼5┼0┼",
+            "PrefabID": "bb684284e149a524d9f53b039e51b806",
+            "Name": "New Medium Machine Connector (1)",
+            "LocalPRS": "11┼5┼0┼"
+          },
+          {
             "GitID": "ce874e42e21343a429f39c4780a09059_11┼8┼0┼",
             "PrefabID": "ce874e42e21343a429f39c4780a09059",
             "Name": "ComputerFrame (1)",
@@ -9782,6 +9978,12 @@
             "LocalPRS": "11┼12┼0┼"
           },
           {
+            "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_12┼5┼0┼",
+            "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "Name": "New Low Machine  Connector Variant (4)",
+            "LocalPRS": "12┼5┼0┼"
+          },
+          {
             "GitID": "63c4576068eee0e4cb8cb02ef5b3bebf_12┼11┼0┼",
             "PrefabID": "63c4576068eee0e4cb8cb02ef5b3bebf",
             "Name": "AirScrubberSelfSufficient (1)",
@@ -9796,6 +9998,28 @@
                       "Data": "a50474d976314462a79602e20a762520_23┼16┼0┼@0@AirController@0"
                     }
                   ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "bb684284e149a524d9f53b039e51b806_12┼12┼0┼",
+            "PrefabID": "bb684284e149a524d9f53b039e51b806",
+            "Name": "New Medium Machine Connector (2)",
+            "LocalPRS": "12┼12┼0┼"
+          },
+          {
+            "GitID": "9c3a6c9c953a49941aa32b5ad9400d89_13┼5┼0┼",
+            "PrefabID": "9c3a6c9c953a49941aa32b5ad9400d89",
+            "Name": "New Department Battery (2)",
+            "LocalPRS": "13┼5┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -9818,7 +10042,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_17┼11┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_9┼2┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -9837,7 +10061,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_17┼11┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_9┼2┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -9881,7 +10105,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_17┼11┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_9┼2┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -9916,7 +10140,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_17┼11┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_9┼2┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -10008,304 +10232,236 @@
                   "ClassID": "APC@0",
                   "Data": [
                     {
-                      "Name": "connectedDevices#74",
-                      "Data": "3cb701e51433c4046bba232ed4f350d1_4┼8┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#73",
-                      "Data": "e654148c91063ed499de6438ee9dd63e_4┼9┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#72",
-                      "Data": "e654148c91063ed499de6438ee9dd63e_4┼7┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#71",
+                      "Name": "connectedDevices#57",
                       "Data": "be26d178314bedc419e95cd4466da4e5_19┼7┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#70",
+                      "Name": "connectedDevices#56",
                       "Data": "be26d178314bedc419e95cd4466da4e5_20┼6┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#69",
+                      "Name": "connectedDevices#55",
                       "Data": "24eaaeb286e2fbe48a16783af29e3c02_22┼14┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#68",
+                      "Name": "connectedDevices#54",
                       "Data": "24eaaeb286e2fbe48a16783af29e3c02_24┼14┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#67",
+                      "Name": "connectedDevices#53",
                       "Data": "f2432d244a6b7774ea00ff013beb7dcb_29┼8┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#66",
+                      "Name": "connectedDevices#52",
                       "Data": "f2432d244a6b7774ea00ff013beb7dcb_33┼28┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#65",
+                      "Name": "connectedDevices#51",
                       "Data": "f2432d244a6b7774ea00ff013beb7dcb_30┼10┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#64",
+                      "Name": "connectedDevices#50",
                       "Data": "f2432d244a6b7774ea00ff013beb7dcb_31┼13┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#63",
+                      "Name": "connectedDevices#49",
                       "Data": "f2432d244a6b7774ea00ff013beb7dcb_20┼16┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#62",
+                      "Name": "connectedDevices#48",
                       "Data": "f2432d244a6b7774ea00ff013beb7dcb_29┼12┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#61",
-                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_15┼10┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#60",
-                      "Data": "fde32c02abddc814f9366ff1fb21f234_9┼13┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#59",
-                      "Data": "fde32c02abddc814f9366ff1fb21f234_4┼8┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#58",
-                      "Data": "fde32c02abddc814f9366ff1fb21f234_14┼8┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#57",
-                      "Data": "fde32c02abddc814f9366ff1fb21f234_9┼3┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#56",
+                      "Name": "connectedDevices#47",
                       "Data": "fde32c02abddc814f9366ff1fb21f234_30┼14┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#55",
+                      "Name": "connectedDevices#46",
                       "Data": "fde32c02abddc814f9366ff1fb21f234_37┼14┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#54",
+                      "Name": "connectedDevices#45",
                       "Data": "fde32c02abddc814f9366ff1fb21f234_40┼17┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#53",
+                      "Name": "connectedDevices#44",
                       "Data": "fde32c02abddc814f9366ff1fb21f234_40┼22┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#52",
+                      "Name": "connectedDevices#43",
                       "Data": "fde32c02abddc814f9366ff1fb21f234_24┼17┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#51",
+                      "Name": "connectedDevices#42",
                       "Data": "fde32c02abddc814f9366ff1fb21f234_24┼22┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#50",
+                      "Name": "connectedDevices#41",
                       "Data": "fde32c02abddc814f9366ff1fb21f234_30┼27┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#49",
+                      "Name": "connectedDevices#40",
                       "Data": "fde32c02abddc814f9366ff1fb21f234_34┼27┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#48",
+                      "Name": "connectedDevices#39",
                       "Data": "c937e0abe85aca9499d09951de736ec6_18┼12┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#47",
+                      "Name": "connectedDevices#38",
                       "Data": "c937e0abe85aca9499d09951de736ec6_22┼15┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#46",
+                      "Name": "connectedDevices#37",
                       "Data": "c937e0abe85aca9499d09951de736ec6_28┼10┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#45",
+                      "Name": "connectedDevices#36",
                       "Data": "c937e0abe85aca9499d09951de736ec6_21┼5┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#44",
+                      "Name": "connectedDevices#35",
                       "Data": "c937e0abe85aca9499d09951de736ec6_33┼11┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#43",
+                      "Name": "connectedDevices#34",
                       "Data": "c937e0abe85aca9499d09951de736ec6_32┼9┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#42",
+                      "Name": "connectedDevices#33",
                       "Data": "c937e0abe85aca9499d09951de736ec6_20┼19┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#41",
+                      "Name": "connectedDevices#32",
                       "Data": "c937e0abe85aca9499d09951de736ec6_43┼20┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#40",
+                      "Name": "connectedDevices#31",
                       "Data": "c937e0abe85aca9499d09951de736ec6_37┼28┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#39",
+                      "Name": "connectedDevices#30",
                       "Data": "c937e0abe85aca9499d09951de736ec6_32┼30┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#38",
+                      "Name": "connectedDevices#29",
                       "Data": "a50474d976314462a79602e20a762520_23┼16┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#37",
-                      "Data": "e654148c91063ed499de6438ee9dd63e_22┼9┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#36",
-                      "Data": "b86f34553f52566458169ac066409af7_24┼11┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#35",
+                      "Name": "connectedDevices#28",
                       "Data": "78a19fdb4261d9143b2808ede0c330ed_23┼5┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#34",
+                      "Name": "connectedDevices#27",
                       "Data": "ea7280b49083dfa469fb176f6a7e4772_42┼21┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#33",
+                      "Name": "connectedDevices#26",
                       "Data": "ea7280b49083dfa469fb176f6a7e4772_44┼21┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#32",
+                      "Name": "connectedDevices#25",
                       "Data": "ea7280b49083dfa469fb176f6a7e4772_36┼11.88┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#31",
+                      "Name": "connectedDevices#24",
                       "Data": "fe295f9b660522a41978f6b83f7cb800_29┼9┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#30",
-                      "Data": "d80287f2984bd444d96284d43dd860b5_24┼9┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#29",
+                      "Name": "connectedDevices#23",
                       "Data": "e1ad8de4f68a56b47873e091a2bcecd1_23┼9┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#28",
-                      "Data": "bc0cd2a586c78b846a43622b6ea5c953_14┼7┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#27",
+                      "Name": "connectedDevices#22",
                       "Data": "bc0cd2a586c78b846a43622b6ea5c953_28┼8┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#26",
+                      "Name": "connectedDevices#21",
                       "Data": "c21551dd992a57349973e4b5af103ca6_46┼21┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#25",
+                      "Name": "connectedDevices#20",
                       "Data": "79cea07a5f8e66f49a554df1a003ecba_45┼20┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#24",
+                      "Name": "connectedDevices#19",
                       "Data": "79cea07a5f8e66f49a554df1a003ecba_45┼19┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#23",
+                      "Name": "connectedDevices#18",
                       "Data": "79cea07a5f8e66f49a554df1a003ecba_45┼18┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#22",
+                      "Name": "connectedDevices#17",
                       "Data": "79cea07a5f8e66f49a554df1a003ecba_41┼20┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#21",
+                      "Name": "connectedDevices#16",
                       "Data": "79cea07a5f8e66f49a554df1a003ecba_41┼19┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#20",
+                      "Name": "connectedDevices#15",
                       "Data": "79cea07a5f8e66f49a554df1a003ecba_41┼18┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#19",
+                      "Name": "connectedDevices#14",
                       "Data": "c21551dd992a57349973e4b5af103ca6_37┼30┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#18",
+                      "Name": "connectedDevices#13",
                       "Data": "7dea0790d26246447a9b881689c7dbdf_36┼29┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#17",
+                      "Name": "connectedDevices#12",
                       "Data": "ea7280b49083dfa469fb176f6a7e4772_36┼12.12┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#16",
+                      "Name": "connectedDevices#11",
                       "Data": "c21551dd992a57349973e4b5af103ca6_35┼6┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#15",
+                      "Name": "connectedDevices#10",
                       "Data": "7dea0790d26246447a9b881689c7dbdf_34┼30┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#14",
+                      "Name": "connectedDevices#9",
                       "Data": "c21551dd992a57349973e4b5af103ca6_33┼32┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#13",
+                      "Name": "connectedDevices#8",
                       "Data": "fe295f9b660522a41978f6b83f7cb800_32┼28┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#12",
+                      "Name": "connectedDevices#7",
                       "Data": "72c52afe10dba924fa7b9a6f33c04feb_29┼14┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#11",
+                      "Name": "connectedDevices#6",
                       "Data": "fe295f9b660522a41978f6b83f7cb800_29┼11┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#10",
+                      "Name": "connectedDevices#5",
                       "Data": "72c52afe10dba924fa7b9a6f33c04feb_27┼15┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#9",
+                      "Name": "connectedDevices#4",
                       "Data": "cbe919cf00f84254f83d474582798520_23┼6┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#8",
+                      "Name": "connectedDevices#3",
                       "Data": "c21551dd992a57349973e4b5af103ca6_23┼3┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#7",
+                      "Name": "connectedDevices#2",
                       "Data": "c21551dd992a57349973e4b5af103ca6_21┼23┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#6",
+                      "Name": "connectedDevices#1",
                       "Data": "fe295f9b660522a41978f6b83f7cb800_21┼16┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#5",
-                      "Data": "1172c577b92e17940afd7e1729f184f6_17┼9┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#4",
-                      "Data": "1172c577b92e17940afd7e1729f184f6_15┼9┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#3",
-                      "Data": "c21551dd992a57349973e4b5af103ca6_9┼15┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#2",
-                      "Data": "cbe919cf00f84254f83d474582798520_9┼7┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#1",
-                      "Data": "c21551dd992a57349973e4b5af103ca6_9┼1┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
                       "Name": "connectedDevices#0",
-                      "Data": "c21551dd992a57349973e4b5af103ca6_2┼8┼0┼@0@APCPoweredDevice@0"
+                      "Data": "1172c577b92e17940afd7e1729f184f6_17┼9┼0┼@0@APCPoweredDevice@0"
                     }
                   ]
                 }
@@ -10828,18 +10984,38 @@
             }
           },
           {
-            "GitID": "e654148c91063ed499de6438ee9dd63e_22┼9┼0┼",
-            "PrefabID": "e654148c91063ed499de6438ee9dd63e",
-            "Name": "CommServer (1)",
+            "GitID": "a7af28adb717b4c44b8b2002b27670bd_22┼9┼0┼",
+            "PrefabID": "a7af28adb717b4c44b8b2002b27670bd",
+            "Name": "StructureBase (12)",
             "LocalPRS": "22┼9┼0┼",
             "Object": {
               "ClassDatas": [
                 {
-                  "ClassID": "APCPoweredDevice@0",
+                  "ClassID": "ObjectAttributes@0",
                   "Data": [
                     {
-                      "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_17┼11┼0┼@0@APC@0"
+                      "Name": "initialName",
+                      "Data": "telecommunication server"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "A machine used to store data and network statistics."
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "6742ea5946896b148a992d3e8629a973"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -11408,18 +11584,38 @@
             }
           },
           {
-            "GitID": "d80287f2984bd444d96284d43dd860b5_24┼9┼0┼",
-            "PrefabID": "d80287f2984bd444d96284d43dd860b5",
-            "Name": "Processor (1)",
+            "GitID": "a7af28adb717b4c44b8b2002b27670bd_24┼9┼0┼",
+            "PrefabID": "a7af28adb717b4c44b8b2002b27670bd",
+            "Name": "StructureBase (6)",
             "LocalPRS": "24┼9┼0┼",
             "Object": {
               "ClassDatas": [
                 {
-                  "ClassID": "APCPoweredDevice@0",
+                  "ClassID": "ObjectAttributes@0",
                   "Data": [
                     {
-                      "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_17┼11┼0┼@0@APC@0"
+                      "Name": "initialName",
+                      "Data": "processor unit"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "This machine is used to process large quantities of information."
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "ebf3b03218a3171489782a07f393f178"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -11462,18 +11658,38 @@
             }
           },
           {
-            "GitID": "b86f34553f52566458169ac066409af7_24┼11┼0┼",
-            "PrefabID": "b86f34553f52566458169ac066409af7",
-            "Name": "Relay (1)",
+            "GitID": "a7af28adb717b4c44b8b2002b27670bd_24┼11┼0┼",
+            "PrefabID": "a7af28adb717b4c44b8b2002b27670bd",
+            "Name": "StructureBase (7)",
             "LocalPRS": "24┼11┼0┼",
             "Object": {
               "ClassDatas": [
                 {
-                  "ClassID": "APCPoweredDevice@0",
+                  "ClassID": "ObjectAttributes@0",
                   "Data": [
                     {
-                      "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_17┼11┼0┼@0@APC@0"
+                      "Name": "initialName",
+                      "Data": "telecommunication relay"
+                    },
+                    {
+                      "Name": "initialDescription",
+                      "Data": "A mighty piece of hardware used to send massive amounts of data far away."
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "74c0502e16ec74546a0d77ec4381c95c"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -12063,6 +12279,15 @@
             "Object": {
               "ClassDatas": [
                 {
+                  "ClassID": "Turret@0",
+                  "Data": [
+                    {
+                      "Name": "range",
+                      "Data": "12"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "APCPoweredDevice@0",
                   "Data": [
                     {
@@ -12281,6 +12506,34 @@
             }
           },
           {
+            "GitID": "63c4576068eee0e4cb8cb02ef5b3bebf_31┼29┼0┼",
+            "PrefabID": "63c4576068eee0e4cb8cb02ef5b3bebf",
+            "Name": "AirScrubberSelfSufficient (1)",
+            "LocalPRS": "31┼29┼0┼0ø0ø180ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Down_By180"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_23┼16┼0┼@0@AirController@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "acf501f0c03424246b3026033866b0e5_32┼8.88┼0┼",
             "PrefabID": "acf501f0c03424246b3026033866b0e5",
             "Name": "IonCarbine (2)",
@@ -12347,6 +12600,25 @@
             "PrefabID": "d56b65cebb41c78479fed5218fb0344c",
             "Name": "AirVentSelfSufficient (4)",
             "LocalPRS": "32┼11┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_23┼16┼0┼@0@AirController@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "d56b65cebb41c78479fed5218fb0344c_32┼19┼0┼",
+            "PrefabID": "d56b65cebb41c78479fed5218fb0344c",
+            "Name": "AirVentSelfSufficient (1)",
+            "LocalPRS": "32┼19┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -12514,6 +12786,34 @@
                     {
                       "Name": "isOn",
                       "Data": "False"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "d56b65cebb41c78479fed5218fb0344c_33┼29┼0┼",
+            "PrefabID": "d56b65cebb41c78479fed5218fb0344c",
+            "Name": "AirVentSelfSufficient (2)",
+            "LocalPRS": "33┼29┼0┼0ø0ø180ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Down_By180"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_23┼16┼0┼@0@AirController@0"
                     }
                   ]
                 }
@@ -12869,9 +13169,18 @@
             "GitID": "d56b65cebb41c78479fed5218fb0344c_35┼29┼0┼",
             "PrefabID": "d56b65cebb41c78479fed5218fb0344c",
             "Name": "AirVentSelfSufficient (1)",
-            "LocalPRS": "35┼29┼0┼",
+            "LocalPRS": "35┼29┼0┼0ø0ø90ø",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "AcuDevice@0",
                   "Data": [
@@ -13406,9 +13715,18 @@
             "GitID": "63c4576068eee0e4cb8cb02ef5b3bebf_43┼18┼0┼",
             "PrefabID": "63c4576068eee0e4cb8cb02ef5b3bebf",
             "Name": "AirScrubberSelfSufficient (1)",
-            "LocalPRS": "43┼18┼0┼",
+            "LocalPRS": "43┼18┼0┼0ø0ø180ø",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Down_By180"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "AcuDevice@0",
                   "Data": [
