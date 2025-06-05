@@ -490,7 +490,7 @@ namespace Mobs
 				}
 				try
 				{
-					var previewSprite = spriteDataSO.Sprites[0]?.Variance[0].Frames[0].sprite.texture;
+					var previewSprite = spriteDataSO.Sprites[0]?.GetFirstSprite.texture;
 					if (previewSprite != null)
 					{
 						GUILayout.Box(previewSprite, GUILayout.Width(50), GUILayout.Height(50));

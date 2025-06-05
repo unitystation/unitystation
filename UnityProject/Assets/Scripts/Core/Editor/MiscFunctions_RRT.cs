@@ -64,9 +64,9 @@ namespace Util
 			AdminLogsManager.AddNewLog("bob Murdered irrelevant", LogCategory.Admin);
 			AdminLogsManager.AddNewLog("cat Attacked bob", LogCategory.Admin);
 			AdminLogsManager.AddNewLog("bob Attacked cat", LogCategory.Admin);
-			AdminLogsManager.AddNewLog("Bob murdered cat", LogCategory.Admin);
-			AdminLogsManager.AddNewLog("Banana house six was set on fire by Jimbo", LogCategory.Admin);
-			AdminLogsManager.AddNewLog("Bob HID cat in Disposal bin 67", LogCategory.Admin);
+			AdminLogsManager.AddNewLog("Bob murdered cat", LogCategory.Admin, BubbleUpToChatAdmin: true);
+			AdminLogsManager.AddNewLog("Banana house six was set on fire by Jimbo", LogCategory.Admin, Severity.IMMEDIATE_ATTENTION);
+			AdminLogsManager.AddNewLog("Bob HID cat in Disposal bin 67", LogCategory.Admin, BubbleUpToChatAdmin: true);
 
 			Loggy.Error(JsonConvert.SerializeObject(SearchCAP.ParseSearch("NOT bob")), LogOption:LogOption.NoStacktrace);
 

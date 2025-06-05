@@ -126,7 +126,7 @@ namespace AdminTools
 			update.messages = serverMentorPlayerChatLogs[playerId].GetRange(currentCount,
 				serverMentorPlayerChatLogs[playerId].Count - currentCount);
 
-			AdminPlayerChatUpdateMessage.SendLogUpdateToAdmin(requestee, update, playerId);
+			AdminPlayerChatUpdateMessage.SendLogUpdateToAdmin(requestee, update, playerId, GameManager.RoundID, false);
 		}
 
 		private void ClientGetUnreadAdminPlayerMessages(string playerId)
@@ -136,7 +136,7 @@ namespace AdminTools
 				clientMentorPlayerChatLogs.Add(playerId, new List<AdminChatMessage>());
 			}
 
-			AdminCheckMessages.Send(playerId, clientMentorPlayerChatLogs[playerId].Count);
+			AdminCheckMessages.Send(playerId, clientMentorPlayerChatLogs[playerId].Count, GameManager.RoundID);
 		}
 
 		public void ClientUpdateChatLog(string unreadMessagesJson, string playerId)

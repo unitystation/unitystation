@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Core.Admin.Logs;
+using Logs;
 using Mirror;
 using TMPro;
 using UI.Systems.Tooltips.HoverTooltips;
@@ -24,6 +25,12 @@ namespace UI.Systems.AdminTools.AdminLogs
 
 		public void Setup(StoredLogEntry newEntry)
 		{
+
+			if (newEntry.Log == null)
+			{
+				Loggy.Error("boo Empty log who had this!! at " + newEntry.LogTime);
+				return;
+			}
 
 			foreach (var log in newEntry.Log)
 			{

@@ -103,7 +103,7 @@ namespace Systems.Permissions
 
 			List<string> Returning = new List<string>();
 
-			var rank = GetRank(identifier, out rankType);
+			var rank = GetRankForAccount(identifier, out rankType);
 
 			if (rank == null)
 			{
@@ -115,7 +115,7 @@ namespace Systems.Permissions
 			return Returning;
 		}
 
-		public Rank GetRank(string identifier, out string rankType)
+		public Rank GetRankForAccount(string identifier, out string rankType)
 		{
 			rankType = "";
 			var player = Config.Players.Find(p => p.Identifier == identifier);
@@ -133,7 +133,7 @@ namespace Systems.Permissions
 
 		public void AddRoleTo(string userID, string rankType, bool saveFile = false)
 		{
-			var data = GetRank(userID, out var Rank);
+			var data = GetRankForAccount(userID, out var Rank);
 
 			if (data != null) return;
 
@@ -148,7 +148,7 @@ namespace Systems.Permissions
 
 		public void RemoveRoleFrom(string userID, string rankType, bool saveFile = false)
 		{
-			var data = GetRank(userID, out var Rank);
+			var data = GetRankForAccount(userID, out var Rank);
 
 			if (data == null) return;
 

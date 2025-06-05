@@ -20,6 +20,8 @@ namespace UI
 
 		[SerializeField] private Text indexedStorageCapacity = default;
 
+		public Transform TargetTransform;
+
 		/// <summary>
 		/// Currently opened ItemStorage (like the backpack that's currently being looked in)
 		/// </summary>
@@ -28,33 +30,55 @@ namespace UI
 		// holds the currently rendered ui slots linked to the open storage.
 		private readonly List<UI_ItemSlot> currentOpenStorageUISlots = new List<UI_ItemSlot>();
 
+		private bool AdminObserving = false;
+
 		/// <summary>
 		/// Pop up the UI for viewing this storage
 		/// </summary>
 		/// <param name="itemStorage"></param>
-		public void OpenStorageUI(ItemStorage itemStorage)
+		public void OpenStorageUI(ItemStorage itemStorage, bool AdminRequestContents = false)
 		{
 			// only update if it's actually different
 			if (CurrentOpenStorage != itemStorage)
 			{
+				if (AdminObserving && CurrentOpenStorage != null)
+				{
+					AdminRequestObserving.Send(CurrentOpenStorage, true);
+					AdminObserving = false;
+				}
+
+
+
 				CloseStorageUI();
 				CurrentOpenStorage = itemStorage;
+				if (AdminRequestContents)
+				{
+					AdminObserving = true;
+					AdminRequestObserving.Send(CurrentOpenStorage, false);
+				}
 				PopulateInventorySlots();
 			}
 		}
 
 		private void PopulateInventorySlots()
 		{
+			if (TargetTransform == null)
+			{
+				TargetTransform = this.transform;
+			}
+
 			// indexed storage
 			// create a slot element for each indexed slot in the storage
 			var  indexedSlots = CurrentOpenStorage.GetItemSlots();
 			int occupiedSlots = 0;
 			foreach (var itemSlot in indexedSlots)
 			{
-				GameObject newSlot = Instantiate(inventorySlotPrefab, Vector3.zero, Quaternion.identity);
-				newSlot.transform.SetParent(transform);
+				GameObject newSlot = Instantiate(inventorySlotPrefab, Vector3.zero, Quaternion.identity, TargetTransform);
 				newSlot.transform.localScale = Vector3.one;
 				var uiItemSlot = newSlot.GetComponentInChildren<UI_ItemSlot>();
+
+				uiItemSlot.IsAdmins = AdminObserving;
+
 
 				if (itemSlot.IsOccupied)
 					occupiedSlots++;
@@ -66,7 +90,7 @@ namespace UI
 			}
 
 			indexedStorageCapacity.gameObject.SetActive(true);
-			indexedStorageCapacity.text = $"{occupiedSlots}/{indexedSlots.Count()}";
+			indexedStorageCapacity.text = $"{CurrentOpenStorage.gameObject.ExpensiveName()} > {occupiedSlots}/{indexedSlots.Count()}";
 
 			closeStorageUIButton.transform.SetAsLastSibling();
 			closeStorageUIButton.SetActive(true);
@@ -88,7 +112,7 @@ namespace UI
 				}
 			}
 
-			indexedStorageCapacity.text = $"{occupiedSlots}/{indexedSlotsCount}";
+			indexedStorageCapacity.text = $"{CurrentOpenStorage.gameObject.ExpensiveName()} > {occupiedSlots}/{indexedSlotsCount}";
 		}
 
 		/// <summary>
@@ -99,6 +123,12 @@ namespace UI
 			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdDisrobe(CurrentOpenStorage.gameObject);
 		}
 
+		public void DestroyStorageUI()
+		{
+			CloseStorageUI();
+			Destroy(this.gameObject);
+		}
+
 		public void CloseStorageUI()
 		{
 			if (PlayerManager.LocalPlayerObject != null)
@@ -107,6 +137,13 @@ namespace UI
 					PlayerManager.LocalPlayerObject.transform.position,
 					PlayerManager.LocalPlayerObject);
 			}
+
+			if (AdminObserving)
+			{
+				AdminRequestObserving.Send(CurrentOpenStorage, true);
+				AdminObserving = false;
+			}
+
 
 			CurrentOpenStorage = null;
 			foreach (var uiItemSlot in currentOpenStorageUISlots)

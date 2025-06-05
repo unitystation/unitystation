@@ -60,7 +60,7 @@ namespace AdminTools
 			dropdown.AddOptions(options);
 			dropdown.value = GhostRoleList.Instance.GetIndex(role.Value.RoleData);
 			roleName.text = role.Value.RoleData.Name;
-			icon.sprite = role.Value.RoleData.Sprite.Variance[0].Frames[0].sprite;
+			icon.sprite = role.Value.RoleData.Sprite.GetFirstSprite;
 		}
 
 
@@ -97,7 +97,7 @@ namespace AdminTools
 			roleName.text = role.Name;
 			roleName.SetActive(false);
 			dropdown.SetActive(true);
-			icon.sprite = role.Sprite.Variance[0].Frames[0].sprite;
+			icon.sprite = role.Sprite.GetFirstSprite;
 		}
 
 		public void RemoveEntry()
@@ -125,7 +125,7 @@ namespace AdminTools
 
 			description.text = roleData.DescriptionAdmin;
 			roleInfo.RoleIndex = GhostRoleList.Instance.GetIndex(roleData);
-			icon.sprite = roleData.Sprite.Variance[0].Frames[0].sprite;
+			icon.sprite = roleData.Sprite.GetFirstSprite;
 		}
 
 		public void UpdateSettings()
@@ -176,7 +176,7 @@ namespace AdminTools
 			dropdown.ClearOptions();
 			dropdown.AddOptions(options);
 			dropdown.value = GhostRoleList.Instance.GetIndex(role.RoleData);
-			icon.sprite = role.RoleData.Sprite.Variance[0].Frames[0].sprite;
+			icon.sprite = role.RoleData.Sprite.GetFirstSprite;
 		}
 	}
 }

@@ -26,6 +26,7 @@ using Systems.Permissions;
 using UI;
 
 
+
 /// <summary>
 /// Admin Controller for players
 /// </summary>
@@ -194,21 +195,20 @@ public partial class PlayerList
 			{
 				return true;
 			}
-			else
-			{
-				return Instance.LoggedInWithTag["*"].Contains(AccountID);
-			}
-
 		}
-
-
+		else
+		{
+			return Instance.LoggedInWithTag["*"].Contains(AccountID);
+		}
 		return false;
 	}
 
 
-	public  static Rank GetRank(string AccountID, out string RankName)
+
+
+	public  static Rank GetRankForAccount(string AccountID, out string RankName)
 	{
-		return PermissionsManager.Instance.GetRank(AccountID, out RankName);
+		return PermissionsManager.Instance.GetRankForAccount(AccountID, out RankName);
 	}
 
 	[Server]
@@ -227,7 +227,7 @@ public partial class PlayerList
 	[Server]
 	public void TryAddRank(string userID, string inRank, bool addToFile = true)
 	{
-		var data = GetRank(userID, out var Rank);
+		var data = GetRankForAccount(userID, out var Rank);
 
 		if (data != null) return;
 
@@ -244,7 +244,7 @@ public partial class PlayerList
 	[Server]
 	public void TryRemoveRank(string userID, string inRank, bool addToFile = true)
 	{
-		var data = GetRank(userID, out var Rank);
+		var data = GetRankForAccount(userID, out var Rank);
 
 		if (Rank != inRank)  return;
 
@@ -701,6 +701,7 @@ public partial class PlayerList
 		var Permissions = PermissionsManager.Instance.GetPermissions(Player.AccountId, out var Rank );
 		foreach (var Permission in Permissions)
 		{
+			if (LoggedInWithTag.ContainsKey(Permission) == false) continue;
 			if (LoggedInWithTag[Permission].Contains(Player.AccountId))
 			{
 				LoggedInWithTag[Permission].Remove(Player.AccountId);

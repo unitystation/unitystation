@@ -51,7 +51,7 @@ namespace UI.Systems.MainHUD.UI_Bottom
 			{
 				var alien = alienEvolutions[i];
 				entryPool[i].SetUp(alien.Name, alien.Description,
-					alien.Normal.Variance[0].Frames[0].sprite, uiAlien, alien.AlienType);
+					alien.Normal.GetFirstSprite, uiAlien, alien.AlienType);
 			}
 		}
 
