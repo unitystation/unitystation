@@ -3238,6 +3238,56 @@
             "LocalPRS": "1┼-15┼0┼"
           },
           {
+            "GitID": "7178630252013ba41832aa94eb53d12c_1┼-2┼0┼",
+            "PrefabID": "7178630252013ba41832aa94eb53d12c",
+            "Name": "newFloorDecal (7)",
+            "LocalPRS": "1┼-2┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "de411080e39fd1c45a4019195ac50fa2"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "«ÿÿÒ"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "LightEmissionBehaviour@0",
+                      "Data": [
+                        {
+                          "Name": "mIntensity",
+                          "Data": "0.25"
+                        },
+                        {
+                          "Name": "mAdditionalEmission",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "mScale",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "e02a5954be8d94b4bbaaa0d63d813c71_2┼-15┼0┼",
             "PrefabID": "e02a5954be8d94b4bbaaa0d63d813c71",
             "NameMatches": true,
@@ -3277,10 +3327,10 @@
             "LocalPRS": "3┼-1┼0┼"
           },
           {
-            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_3.5┼-6.5┼0┼",
+            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_3.5┼-0.5┼0┼",
             "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
-            "Name": "Geode3Sparkle",
-            "LocalPRS": "3.5┼-6.5┼0┼",
+            "Name": "Geode3Sparkle (3)",
+            "LocalPRS": "3.5┼-0.5┼0┼",
             "Object": {
               "ClassDatas": [],
               "Children": [
@@ -3303,6 +3353,10 @@
                         {
                           "Name": "InitialPresentSpriteSet",
                           "Data": "994f4a6b1674bf2449b3a17431347e5a"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿ\u0014"
                         }
                       ]
                     }
@@ -3331,16 +3385,10 @@
             }
           },
           {
-            "GitID": "329682eedacc925409e4d48e76912be0_4┼-4┼0┼",
-            "PrefabID": "329682eedacc925409e4d48e76912be0",
-            "Name": "DiamondOre (7)",
-            "LocalPRS": "4┼-4┼0┼"
-          },
-          {
-            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_4┼-1.5┼0┼",
+            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_4┼-6┼0┼",
             "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
-            "Name": "Geode3Sparkle (3)",
-            "LocalPRS": "4┼-1.5┼0┼",
+            "Name": "Geode3Sparkle",
+            "LocalPRS": "4┼-6┼0┼",
             "Object": {
               "ClassDatas": [],
               "Children": [
@@ -3363,6 +3411,166 @@
                         {
                           "Name": "InitialPresentSpriteSet",
                           "Data": "994f4a6b1674bf2449b3a17431347e5a"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿ\u0014"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "7178630252013ba41832aa94eb53d12c_4┼-6┼0┼",
+            "PrefabID": "7178630252013ba41832aa94eb53d12c",
+            "Name": "newFloorDecal (3)",
+            "LocalPRS": "4┼-6┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "c8ba10b7dd326a94d8a8f24566b4744e"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿ¾"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "LightEmissionBehaviour@0",
+                      "Data": [
+                        {
+                          "Name": "mIntensity",
+                          "Data": "0.25"
+                        },
+                        {
+                          "Name": "mAdditionalEmission",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "mScale",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "329682eedacc925409e4d48e76912be0_4┼-4┼0┼",
+            "PrefabID": "329682eedacc925409e4d48e76912be0",
+            "Name": "DiamondOre (7)",
+            "LocalPRS": "4┼-4┼0┼"
+          },
+          {
+            "GitID": "7178630252013ba41832aa94eb53d12c_4┼-1┼0┼",
+            "PrefabID": "7178630252013ba41832aa94eb53d12c",
+            "Name": "newFloorDecal (10)",
+            "LocalPRS": "4┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "c8ba10b7dd326a94d8a8f24566b4744e"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿ¾"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "LightEmissionBehaviour@0",
+                      "Data": [
+                        {
+                          "Name": "mIntensity",
+                          "Data": "0.25"
+                        },
+                        {
+                          "Name": "mAdditionalEmission",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "mScale",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "7178630252013ba41832aa94eb53d12c_5┼-9┼0┼",
+            "PrefabID": "7178630252013ba41832aa94eb53d12c",
+            "Name": "newFloorDecal (9)",
+            "LocalPRS": "5┼-9┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "de411080e39fd1c45a4019195ac50fa2"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "«ÿÿÒ"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "LightEmissionBehaviour@0",
+                      "Data": [
+                        {
+                          "Name": "mIntensity",
+                          "Data": "0.25"
+                        },
+                        {
+                          "Name": "mAdditionalEmission",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "mScale",
+                          "Data": "1"
                         }
                       ]
                     }
@@ -3378,16 +3586,166 @@
             "LocalPRS": "5┼-5┼0┼"
           },
           {
+            "GitID": "7178630252013ba41832aa94eb53d12c_5┼-3┼0┼",
+            "PrefabID": "7178630252013ba41832aa94eb53d12c",
+            "Name": "newFloorDecal (12)",
+            "LocalPRS": "5┼-3┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "c8ba10b7dd326a94d8a8f24566b4744e"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿ¾"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "LightEmissionBehaviour@0",
+                      "Data": [
+                        {
+                          "Name": "mIntensity",
+                          "Data": "0.25"
+                        },
+                        {
+                          "Name": "mAdditionalEmission",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "mScale",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "329682eedacc925409e4d48e76912be0_5┼-2┼0┼",
             "PrefabID": "329682eedacc925409e4d48e76912be0",
             "Name": "DiamondOre (6)",
             "LocalPRS": "5┼-2┼0┼"
           },
           {
+            "GitID": "7178630252013ba41832aa94eb53d12c_5┼2┼0┼",
+            "PrefabID": "7178630252013ba41832aa94eb53d12c",
+            "Name": "newFloorDecal (5)",
+            "LocalPRS": "5┼2┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "de411080e39fd1c45a4019195ac50fa2"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "«ÿÿÒ"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "LightEmissionBehaviour@0",
+                      "Data": [
+                        {
+                          "Name": "mIntensity",
+                          "Data": "0.25"
+                        },
+                        {
+                          "Name": "mAdditionalEmission",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "mScale",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "329682eedacc925409e4d48e76912be0_6┼-4┼0┼",
             "PrefabID": "329682eedacc925409e4d48e76912be0",
             "Name": "DiamondOre (1)",
             "LocalPRS": "6┼-4┼0┼"
+          },
+          {
+            "GitID": "7178630252013ba41832aa94eb53d12c_6┼-4┼0┼",
+            "PrefabID": "7178630252013ba41832aa94eb53d12c",
+            "Name": "newFloorDecal (14)",
+            "LocalPRS": "6┼-4┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "de411080e39fd1c45a4019195ac50fa2"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "«ÿÿÒ"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "LightEmissionBehaviour@0",
+                      "Data": [
+                        {
+                          "Name": "mIntensity",
+                          "Data": "0.25"
+                        },
+                        {
+                          "Name": "mAdditionalEmission",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "mScale",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "2304f6197e788654ebfe0cf0947a8b1a_6┼-3.5┼0┼",
@@ -3416,6 +3774,10 @@
                         {
                           "Name": "InitialPresentSpriteSet",
                           "Data": "ShineHalo128"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿ\u000f"
                         }
                       ]
                     }
@@ -3429,6 +3791,56 @@
             "PrefabID": "329682eedacc925409e4d48e76912be0",
             "Name": "DiamondOre (2)",
             "LocalPRS": "6┼-3┼0┼"
+          },
+          {
+            "GitID": "7178630252013ba41832aa94eb53d12c_6┼-3┼0┼",
+            "PrefabID": "7178630252013ba41832aa94eb53d12c",
+            "Name": "newFloorDecal (13)",
+            "LocalPRS": "6┼-3┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "c8ba10b7dd326a94d8a8f24566b4744e"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿ¾"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "LightEmissionBehaviour@0",
+                      "Data": [
+                        {
+                          "Name": "mIntensity",
+                          "Data": "0.25"
+                        },
+                        {
+                          "Name": "mAdditionalEmission",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "mScale",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "329682eedacc925409e4d48e76912be0_6┼1┼0┼",
@@ -3463,6 +3875,10 @@
                         {
                           "Name": "InitialPresentSpriteSet",
                           "Data": "Terrain64C"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿ\u0007"
                         }
                       ]
                     }
@@ -3476,6 +3892,156 @@
             "PrefabID": "329682eedacc925409e4d48e76912be0",
             "Name": "DiamondOre (3)",
             "LocalPRS": "7┼-3┼0┼"
+          },
+          {
+            "GitID": "7178630252013ba41832aa94eb53d12c_7┼-2┼0┼",
+            "PrefabID": "7178630252013ba41832aa94eb53d12c",
+            "Name": "newFloorDecal (15)",
+            "LocalPRS": "7┼-2┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "de411080e39fd1c45a4019195ac50fa2"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "«ÿÿÒ"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "LightEmissionBehaviour@0",
+                      "Data": [
+                        {
+                          "Name": "mIntensity",
+                          "Data": "0.25"
+                        },
+                        {
+                          "Name": "mAdditionalEmission",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "mScale",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "7178630252013ba41832aa94eb53d12c_7┼0┼0┼",
+            "PrefabID": "7178630252013ba41832aa94eb53d12c",
+            "Name": "newFloorDecal (6)",
+            "LocalPRS": "7┼0┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "de411080e39fd1c45a4019195ac50fa2"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "«ÿÿÒ"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "LightEmissionBehaviour@0",
+                      "Data": [
+                        {
+                          "Name": "mIntensity",
+                          "Data": "0.25"
+                        },
+                        {
+                          "Name": "mAdditionalEmission",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "mScale",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "7178630252013ba41832aa94eb53d12c_7┼1┼0┼",
+            "PrefabID": "7178630252013ba41832aa94eb53d12c",
+            "Name": "newFloorDecal (11)",
+            "LocalPRS": "7┼1┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "c8ba10b7dd326a94d8a8f24566b4744e"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿ¾"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "LightEmissionBehaviour@0",
+                      "Data": [
+                        {
+                          "Name": "mIntensity",
+                          "Data": "0.25"
+                        },
+                        {
+                          "Name": "mAdditionalEmission",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "mScale",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "2304f6197e788654ebfe0cf0947a8b1a_7.5┼1.5┼0┼",
@@ -3504,6 +4070,60 @@
                         {
                           "Name": "InitialPresentSpriteSet",
                           "Data": "994f4a6b1674bf2449b3a17431347e5a"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿ\u0014"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "7178630252013ba41832aa94eb53d12c_8┼-8┼0┼",
+            "PrefabID": "7178630252013ba41832aa94eb53d12c",
+            "Name": "newFloorDecal (1)",
+            "LocalPRS": "8┼-8┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "de411080e39fd1c45a4019195ac50fa2"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "«ÿÿÒ"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "LightEmissionBehaviour@0",
+                      "Data": [
+                        {
+                          "Name": "mIntensity",
+                          "Data": "0.25"
+                        },
+                        {
+                          "Name": "mAdditionalEmission",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "mScale",
+                          "Data": "1"
                         }
                       ]
                     }
@@ -3525,10 +4145,16 @@
             "LocalPRS": "8┼-2┼0┼"
           },
           {
-            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_8.5┼-4.5┼0┼",
+            "GitID": "329682eedacc925409e4d48e76912be0_9┼-7┼0┼",
+            "PrefabID": "329682eedacc925409e4d48e76912be0",
+            "Name": "DiamondOre (10)",
+            "LocalPRS": "9┼-7┼0┼"
+          },
+          {
+            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_9┼-4┼0┼",
             "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
             "Name": "Geode3Sparkle (2)",
-            "LocalPRS": "8.5┼-4.5┼0┼",
+            "LocalPRS": "9┼-4┼0┼",
             "Object": {
               "ClassDatas": [],
               "Children": [
@@ -3551,6 +4177,10 @@
                         {
                           "Name": "InitialPresentSpriteSet",
                           "Data": "994f4a6b1674bf2449b3a17431347e5a"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿ\u0014"
                         }
                       ]
                     }
@@ -3560,16 +4190,160 @@
             }
           },
           {
-            "GitID": "329682eedacc925409e4d48e76912be0_9┼-7┼0┼",
-            "PrefabID": "329682eedacc925409e4d48e76912be0",
-            "Name": "DiamondOre (10)",
-            "LocalPRS": "9┼-7┼0┼"
+            "GitID": "7178630252013ba41832aa94eb53d12c_9┼-4┼0┼",
+            "PrefabID": "7178630252013ba41832aa94eb53d12c",
+            "Name": "newFloorDecal (2)",
+            "LocalPRS": "9┼-4┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "c8ba10b7dd326a94d8a8f24566b4744e"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿ¾"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "LightEmissionBehaviour@0",
+                      "Data": [
+                        {
+                          "Name": "mIntensity",
+                          "Data": "0.25"
+                        },
+                        {
+                          "Name": "mAdditionalEmission",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "mScale",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "7178630252013ba41832aa94eb53d12c_10┼0┼0┼",
+            "PrefabID": "7178630252013ba41832aa94eb53d12c",
+            "Name": "newFloorDecal (8)",
+            "LocalPRS": "10┼0┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "de411080e39fd1c45a4019195ac50fa2"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "«ÿÿÒ"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "LightEmissionBehaviour@0",
+                      "Data": [
+                        {
+                          "Name": "mIntensity",
+                          "Data": "0.25"
+                        },
+                        {
+                          "Name": "mAdditionalEmission",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "mScale",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "329682eedacc925409e4d48e76912be0_11┼-1┼0┼",
             "PrefabID": "329682eedacc925409e4d48e76912be0",
             "Name": "DiamondOre (11)",
             "LocalPRS": "11┼-1┼0┼"
+          },
+          {
+            "GitID": "7178630252013ba41832aa94eb53d12c_12┼-4┼0┼",
+            "PrefabID": "7178630252013ba41832aa94eb53d12c",
+            "Name": "newFloorDecal (4)",
+            "LocalPRS": "12┼-4┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "de411080e39fd1c45a4019195ac50fa2"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "«ÿÿÒ"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "LightEmissionBehaviour@0",
+                      "Data": [
+                        {
+                          "Name": "mIntensity",
+                          "Data": "0.25"
+                        },
+                        {
+                          "Name": "mAdditionalEmission",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "mScale",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
           }
         ],
         "IDToNetIDClient": {}
