@@ -106,7 +106,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
   randomSeed: 0
@@ -4868,6 +4868,7 @@ ParticleSystemRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -4948,6 +4949,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 7010d5d329d33de4cb2097097d8f8385,
         type: 2}
+    - target: {fileID: 4128362409855863911, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 7010d5d329d33de4cb2097097d8f8385,
+        type: 2}
     - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
       propertyPath: exportCost
@@ -5025,9 +5032,21 @@ PrefabInstance:
       objectReference: {fileID: 2800000, guid: 9749374dc5e5e9648b486bc6abc160c0, type: 3}
     - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 4fef38dfed901f74b99f554aad70dbca,
+        type: 2}
+    - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
       propertyPath: itemSprites.LeftHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: de14879d91e33fb40b407fae5c001e1a, type: 3}
+    - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 754905503c0cb97499d3d92e1cc2801f,
+        type: 2}
     - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
       propertyPath: itemSprites.RightHand.EquippedData
@@ -5224,11 +5243,11 @@ MonoBehaviour:
   syncInterval: 0.1
   travelDistance: 3
   Spray2:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/Spray2.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   reagentsPerUse: 5
