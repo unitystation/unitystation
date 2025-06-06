@@ -34,7 +34,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 8d68853332b99464693cc42850851279,
+      objectReference: {fileID: 21300002, guid: 8d68853332b99464693cc42850851279,
         type: 3}
     - target: {fileID: 5398400983743228273, guid: adb0df071fda80345a84874ad1b69b85,
         type: 3}
@@ -123,9 +123,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 967620e59e52cc14c89c22c4176bac09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mIntensity: 0.7
+  mIntensity: 0.6
   mAdditionalEmission: 0
-  mScale: 1.1
+  mScale: 1.2
 --- !u!212 &149184767792060180 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 5195770179465892449, guid: adb0df071fda80345a84874ad1b69b85,

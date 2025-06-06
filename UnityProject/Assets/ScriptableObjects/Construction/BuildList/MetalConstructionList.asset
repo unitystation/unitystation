@@ -90,7 +90,7 @@ MonoBehaviour:
     spawnAmount: 1
     onePerTile: 1
     facePlayerDirectionOnConstruction: 0
-  - name: Floor Tile
+  - name: Floor Tile (x4)
     prefab: {fileID: 7602444472548548205, guid: 28ccdf7c9ebf84198bf4b8bd543f4ce8,
       type: 3}
     cost: 1
@@ -98,7 +98,7 @@ MonoBehaviour:
     spawnAmount: 4
     onePerTile: 0
     facePlayerDirectionOnConstruction: 0
-  - name: Metal Rods x2
+  - name: Metal Rods (x2)
     prefab: {fileID: 7198241665461443898, guid: 5dce4d3e01518474bb9bb8085b718980,
       type: 3}
     cost: 1
