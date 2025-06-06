@@ -47,7 +47,7 @@ namespace Messages.Server
 			{
 				var tag = "";
 
-				var Rank = PlayerList.GetRank(c.AccountId, out var RankName);
+				var Rank = PlayerList.GetRankForAccount(c.AccountId, out var RankName);
 
 				if (Rank?.ShowInChat == true)
 				{

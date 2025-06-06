@@ -226,14 +226,23 @@ public class ChatRelay : NetworkBehaviour
 		{
 			channel = chatEvent.channels;
 
+			ChatChannel Mask = ChatChannel.None;
+
 			if (players[i].Script == null)
 			{
-				channel &= ChatChannel.OOC;
+				Mask |= ChatChannel.OOC;
 			}
 			else
 			{
-				channel &= players[i].Script.GetAvailableChannelsMask(false);
+				Mask |= players[i].Script.GetAvailableChannelsMask(false);
 			}
+
+			if (players[i].HasTAGServer(TAG.ADMIN_LOGS))
+			{
+				Mask |= ChatChannel.Admin;
+			}
+
+			channel &= Mask;
 
 			//if the mask ends up being a big fat 0 then don't do anything
 			if (channel != ChatChannel.None)
@@ -247,11 +256,16 @@ public class ChatRelay : NetworkBehaviour
 		{
 			message = $"<b>[{chatEvent.channels}]</b> {message}";
 		}
-		AdminLogsManager.AddNewLog(
-			null,
-			$"Chat: {message}",
-			LogCategory.MISC
-		);
+
+		if (channel != ChatChannel.Admin)
+		{
+			AdminLogsManager.AddNewLog(
+				null,
+				$"Chat: {message}",
+				LogCategory.MISC
+			);
+		}
+
 		if (rconManager != null)
 		{
 			RconManager.AddChatLog(message);

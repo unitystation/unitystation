@@ -83,6 +83,12 @@ namespace AdminTools
 		public bool isOOCMuted;
 		public string ipAddress;
 		public uint playerObject;
+
+		public string PlayerNotes;
+		public bool OnWatchlist;
+
+		public bool InJail;
+
 	}
 
 	[Serializable]

@@ -205,6 +205,14 @@ namespace Player
 				return;
 			}
 
+			if (AdminSetWatchlist.Watchlist.ContainsKey(authData.Account.Id))
+			{
+				if (AdminSetWatchlist.Watchlist[authData.Account.Id])
+				{
+					AdminLogsManager.AddNewLog($"Player has joined who is on watchlist ID {authData.Account.Id}", LogCategory.Connections, BubbleUpToChatAdmin:true);
+				}
+			}
+
 			//Add player to the list of current round players
 			PlayerList.Instance.AddToRoundPlayers(player);
 

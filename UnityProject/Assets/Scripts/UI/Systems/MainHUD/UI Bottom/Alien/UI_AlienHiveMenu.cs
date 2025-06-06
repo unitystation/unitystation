@@ -52,7 +52,7 @@ namespace UI.Systems.MainHUD.UI_Bottom
 			for (int i = 0; i < aliens.Length; i++)
 			{
 				var alien = aliens[i];
-				entryPool[i].SetUp(alien.RegisterPlayer.PlayerScript.playerName, alien.AlienType.Normal.Variance[0].Frames[0].sprite);
+				entryPool[i].SetUp(alien.RegisterPlayer.PlayerScript.playerName, alien.AlienType.Normal.GetFirstSprite);
 			}
 		}
 

@@ -271,36 +271,6 @@ public class DevSpawnerListItemController : MonoBehaviour
 			MousePosition = MouseUtils.MouseToWorldPos();
 		}
 
-		if (CustomNetworkManager.IsServer)
-		{
-			var game = Spawn.ServerPrefab(prefab, MousePosition).GameObject;
-
-			if (GUI_DevSpawner.Instance.MappingToggle.isOn)
-			{
-				var NonMapped = game.gameObject.GetComponent<RuntimeSpawned>();
-				if (NonMapped != null)
-				{
-					Destroy(NonMapped);
-				}
-			}
-
-
-			if (game.TryGetComponent<Stackable>(out var Stackable) && GUI_DevSpawner.Instance.StackAmount != -1)
-			{
-				Stackable.ServerSetAmount(GUI_DevSpawner.Instance.StackAmount);
-			}
-
-			if (game.TryGetComponent<Rotatable>(out var Rotatable) && OrientationEnum != null)
-			{
-				Rotatable.FaceDirection(OrientationEnum.Value);
-			}
-
-			var player = PlayerManager.LocalPlayerObject.Player();
-			AdminLogsManager.AddNewLog(player.GameObject, $"{player.Username} spawned a {prefab.name} at {MousePosition}", LogCategory.Admin);
-		}
-		else
-		{
-			DevSpawnMessage.Send(prefab, (Vector3) MousePosition, GUI_DevSpawner.Instance.StackAmount, OrientationEnum, GUI_DevSpawner.Instance.MappingToggle.isOn);
-		}
+		DevSpawnMessage.Send(prefab, (Vector3) MousePosition, GUI_DevSpawner.Instance.StackAmount, OrientationEnum, GUI_DevSpawner.Instance.MappingToggle.isOn, KeyboardInputManager.IsAltActionKeyPressed());
 	}
 }

@@ -48,7 +48,7 @@ namespace Changeling
 		{
 			nameText.text = data.Name;
 			descriptionText.text = data.DescriptionStore;
-			image.sprite = data.Sprites[0].Variance[0].Frames[0].sprite;
+			image.sprite = data.Sprites[0].GetFirstSprite;
 			gpCost.text = $"GP: {data.AbilityEPCost}";
 			cpCost.text = $"CP: {data.AbilityChemCost}";
 

@@ -88,6 +88,21 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: caef283039caa8845977f8e8bdc66d4b
       objectReference: {fileID: 0}
+    - target: {fileID: 8296188907648457845, guid: f99b98719ad16074496e272268d289f9,
+        type: 3}
+      propertyPath: CameraRecoilConfig.Distance
+      value: 0.001
+      objectReference: {fileID: 0}
+    - target: {fileID: 8296188907648457845, guid: f99b98719ad16074496e272268d289f9,
+        type: 3}
+      propertyPath: CameraRecoilConfig.RecoilDuration
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8296188907648457845, guid: f99b98719ad16074496e272268d289f9,
+        type: 3}
+      propertyPath: CameraRecoilConfig.RecoveryDuration
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

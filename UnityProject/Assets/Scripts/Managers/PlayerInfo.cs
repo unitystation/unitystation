@@ -219,6 +219,11 @@ public class PlayerInfo
 		}
 	}
 
+	public bool HasTAGServer(string TAG)
+	{
+		return PlayerList.HasTAGServer(TAG, AccountId);
+	}
+
 	public override string ToString()
 	{
 		if (this == Invalid)

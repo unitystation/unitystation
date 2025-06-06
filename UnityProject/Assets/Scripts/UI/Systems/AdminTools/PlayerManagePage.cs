@@ -10,6 +10,7 @@ using UnityEngine.UI;
 using Core.Accounts;
 using AdminCommands;
 using Messages.Client.Admin;
+using TMPro;
 using UI.AdminTools;
 
 
@@ -25,6 +26,11 @@ namespace AdminTools
 
 		[SerializeField] private Text oocMuteButtonText = null;
 
+		[SerializeField] private TMP_InputField PlayerNotes = null;
+
+		[SerializeField] private Toggle OnWatchlist = null;
+
+		[SerializeField] private TMP_Text JailText;
 
 		public AdminPlayerEntry PlayerEntry { get; private set; }
 
@@ -36,6 +42,29 @@ namespace AdminTools
 			mentorToggle.gameObject.SetActive(entry.PlayerData.hasMentorRole == false);
 
 			oocMuteButtonText.text = entry.PlayerData.isOOCMuted ? "Unmute OOC" : "Mute OOC";
+
+			PlayerNotes.SetTextWithoutNotify( entry.PlayerData.PlayerNotes);
+			OnWatchlist.isOn = (entry.PlayerData.OnWatchlist);
+
+			JailText.text = entry.PlayerData.InJail ? " UnJail " : " Send To Jail ";
+		}
+
+		public void OnJailTextBtn()
+		{
+			var State = !PlayerEntry.PlayerData.InJail;
+			AdminSetJail.Send(State, PlayerEntry.PlayerData.uid);
+			PlayerEntry.PlayerData.InJail = State;
+			JailText.text = PlayerEntry.PlayerData.InJail ? " UnJail " : " Send To Jail ";
+		}
+
+		public void OnSetWatchlistBtn()
+		{
+			AdminSetWatchlist.Send(OnWatchlist.isOn, PlayerEntry.PlayerData.uid);
+		}
+
+		public void OnInputFinishEditingNotes()
+		{
+			AdminRequestSetNote.Send(PlayerNotes.text, PlayerEntry.PlayerData.uid);
 		}
 
 		public void OnKickBtn()
