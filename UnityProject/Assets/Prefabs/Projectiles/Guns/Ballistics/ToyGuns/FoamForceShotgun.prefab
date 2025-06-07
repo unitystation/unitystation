@@ -52,6 +52,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -104,10 +105,14 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: 5772d8438f7db5c47ab1447274cc44a7,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1001 &8274857781587469554
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -179,6 +184,21 @@ PrefabInstance:
         type: 3}
       propertyPath: FiringSoundA.AssetAddress
       value: Assets/Prefabs/Weapons/Gun/SyringeShot.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: CameraRecoilConfig.Distance
+      value: 0.001
+      objectReference: {fileID: 0}
+    - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: CameraRecoilConfig.RecoilDuration
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: CameraRecoilConfig.RecoveryDuration
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3012018597040680649, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
