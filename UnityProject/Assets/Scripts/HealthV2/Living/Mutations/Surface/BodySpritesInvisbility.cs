@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Logs;
 using Mirror;
 using UnityEngine;
@@ -30,6 +31,8 @@ namespace HealthV2.Living.Mutations.Surface
 			if (Customisation == null)return;
 			foreach (SpriteRenderer spriteRenderer in Customisation.GetComponentsInChildren<SpriteRenderer>())
 			{
+				if (spriteRenderer.GetComponent<CustomisationSprite>() == null) continue;
+
 				spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, newAlpha);
 			}
 		}
