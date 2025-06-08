@@ -51,7 +51,8 @@ namespace UI.Systems.Tooltips.HoverTooltips
 
 		private void Start()
 		{
-			UpdateManager.Add(CallbackType.FIXED_UPDATE, UpdatePosition);
+			if(CustomNetworkManager.IsHeadless) return;
+			UpdateManager.Add(CallbackType.UPDATE, UpdatePosition);
 			UpdateManager.Add(CallbackType.UPDATE, CheckForInput);
 			ResetTool();
 		}

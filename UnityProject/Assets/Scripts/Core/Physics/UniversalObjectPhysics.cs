@@ -1393,8 +1393,7 @@ namespace Core.Physics
 
 		public void FlyingUpdateMe()
 		{
-			//TODO!!!!!!!!!
-			if (CustomNetworkManager.IsServer == false && registerTile.Matrix.NetworkedMatrix.IsJsonLoaded && registerTile.Matrix.MetaTileMap.ClientReceivedTiles == false)
+			if (CustomNetworkManager.IsServer == false && SubSceneManager.Instance.ClientIsFullyDoneLoadingOnSubsceneManager == false)
 			{
 				return;
 			}

@@ -613,9 +613,9 @@ namespace Objects.Lighting
 			CheckIntegrityState(arg0);
 		}
 
-		private void CheckIntegrityState(DamageInfo arg0)
+		public void CheckIntegrityState(DamageInfo arg0, bool Override = false)
 		{
-			if (integrity.integrity > integrityThreshBar || MountState == LightMountState.MissingBulb) return;
+			if ((integrity.integrity > integrityThreshBar || Override == false ) && MountState == LightMountState.MissingBulb) return;
 			Vector3 pos = gameObject.AssumedWorldPosServer();
 
 			if (MountState == LightMountState.Broken)
