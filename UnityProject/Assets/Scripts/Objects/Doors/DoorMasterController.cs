@@ -194,7 +194,7 @@ namespace Doors
 		private void TryBump()
 		{
 			var firelock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
-			if (firelock != null && firelock.fireAlarm.activated) return;
+			if (firelock != null && firelock.fireAlarm.activated && firelock.DoorMasterController.IsClosed) return;
 			if (!isAutomatic || !allowInput)
 			{
 				return;
@@ -353,7 +353,7 @@ namespace Doors
 			if (isFireLock == false)
 			{
 				var fireLock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
-				if (fireLock != null && fireLock.fireAlarm.activated) return;
+				if (fireLock != null && fireLock.fireAlarm.activated && fireLock.DoorMasterController.IsClosed) return;
 			}
 
 			if(IsClosed == false || isPerformingAction) return;
