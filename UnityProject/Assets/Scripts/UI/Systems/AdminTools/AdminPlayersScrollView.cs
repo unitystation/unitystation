@@ -59,7 +59,9 @@ namespace AdminTools
 		{
 			foreach (var p in playerList.players)
 			{
-				var index = playerEntries.FindIndex(x => x.PlayerData.uid == p.uid);
+				if (p == null) continue;
+
+				var index = playerEntries.FindIndex(x => x.PlayerData?.uid == p?.uid);
 				if (index != -1)
 				{
 					playerEntries[index].UpdateButton(p, SelectPlayerInList, masterNotification, disableButtonInteract,hideSensitiveFields);
@@ -72,6 +74,7 @@ namespace AdminTools
 					}
 					var e = Instantiate(playerEntryPrefab, playerListContent);
 					var entry = e.GetComponent<AdminPlayerEntry>();
+					if (entry == null) continue;
 					entry.UpdateButton(p, SelectPlayerInList, masterNotification, disableButtonInteract,hideSensitiveFields);
 					playerEntries.Add(entry);
 					index = playerEntries.Count - 1;
@@ -95,9 +98,13 @@ namespace AdminTools
 			{
 				if (gameObject.activeInHierarchy)
 				{
-					SelectedPlayer.pendingMsgNotification.ClearAll();
+					SelectedPlayer?.pendingMsgNotification?.ClearAll();
 					if (masterNotification != null)
 					{
+						if (SelectedPlayer?.PlayerData == null)
+						{
+							return;
+						}
 						masterNotification.RemoveNotification(SelectedPlayer.PlayerData.uid);
 					}
 				}
