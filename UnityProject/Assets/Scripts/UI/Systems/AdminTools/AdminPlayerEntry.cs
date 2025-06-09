@@ -103,7 +103,7 @@ namespace AdminTools
 		{
 			if (parentNotification == null) return;
 
-			if (parentNotification.notifications.ContainsKey(PlayerData.uid))
+			if (PlayerData != null && parentNotification.notifications.ContainsKey(PlayerData.uid))
 			{
 				pendingMsgNotification.ClearAll();
 				pendingMsgNotification.AddNotification(PlayerData.uid,
