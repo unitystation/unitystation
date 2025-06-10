@@ -76,7 +76,10 @@ namespace Systems.Atmospherics
 			}
 
 			MetaDataNode node = metaDataLayer.Get(position, false);
-			if ((node.IsRoom || node.IsOccupied) && !spawnWithNoAir)
+
+			var hasPathTooSpace = node.InItHadPathToSpace;
+
+			if ((node.IsRoom || node.IsOccupied) && spawnWithNoAir == false && hasPathTooSpace == false)
 			{
 				//Check to see if theres a special room mix
 				if (node.IsRoom && toSetRoom.Count > 0 && toSetRoom.TryGetValue(node.RoomNumber, out var roomGasSetter))

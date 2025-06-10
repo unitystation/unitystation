@@ -99,5 +99,10 @@ namespace UI.AdminTools
 		{
 			InventoryOpener.Instance.gameObject.SetActive(true);
 		}
+
+		public void BtnOpenPollMaker()
+		{
+			AdminVoteUI.Instance.gameObject.SetActive(true);
+		}
 	}
 }

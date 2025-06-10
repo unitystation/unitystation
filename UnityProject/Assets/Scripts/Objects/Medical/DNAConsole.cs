@@ -68,6 +68,15 @@ public class DNAConsole : MonoBehaviour
 	}
 
 
+	[NaughtyAttributes.Button()]
+	public void UpdateUI()
+	{
+		if (ActiveGUI_DNAConsole != null)
+		{
+			ActiveGUI_DNAConsole.UpdateMutations();
+		}
+	}
+
 	public void AddMutationOfficial(MutationSO MutationSO)
 	{
 		UnlockedMutations.Add(MutationSO);

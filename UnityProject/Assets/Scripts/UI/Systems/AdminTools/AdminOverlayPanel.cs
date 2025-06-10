@@ -70,11 +70,13 @@ namespace AdminTools
 
 		private void OnEnable()
 		{
+			if (CustomNetworkManager.IsHeadless) return;
 			UpdateManager.Add(CallbackType.FIXED_UPDATE, FixedUpdateMe);
 		}
 
 		private void OnDisable()
 		{
+			if (CustomNetworkManager.IsHeadless) return;
 			UpdateManager.Remove(CallbackType.FIXED_UPDATE, FixedUpdateMe);
 		}
 

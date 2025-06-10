@@ -360,15 +360,15 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 		}
 	}
 
-	public Color GetColor()
+	public Color? GetColor(bool tryGet = true)
 	{
 		Init();
-		if (setColour == null)
+		if (setColour == null && tryGet)
 		{
 			UpdateImageColor();
 		}
 
-		return setColour.Value;
+		return setColour;
 	}
 
 	public void SetColor(Color value, bool networked = true)
@@ -500,7 +500,9 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 
 		PushTexture();
 
-		if (GetColor() == Color.white && InitialColour != Color.white)
+
+
+		if (GetColor(false) == null && InitialColour != new Color(1,1,1,0.659f) )
 		{
 			SetColor(InitialColour);
 		}

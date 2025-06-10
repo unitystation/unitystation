@@ -8,6 +8,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 215885806494224138, guid: 8c0ef2df6a4c5ccfabe24981530c334a,
+        type: 3}
+      propertyPath: initialName
+      value: secure door
+      objectReference: {fileID: 0}
     - target: {fileID: 1047209059299821001, guid: 8c0ef2df6a4c5ccfabe24981530c334a,
         type: 3}
       propertyPath: 'SubCatalogue.Array.data[1]'
