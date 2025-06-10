@@ -255,7 +255,7 @@ namespace UI.Objects.Command
 
 		public void RemoveId(PlayerInfo player)
 		{
-			if (console.IdCard && IsAIInteracting() == false)
+			if (console.IdCard && IsAIInteracting(player) == false)
 			{
 				console.ServerRemoveIDCard(player);
 			}
