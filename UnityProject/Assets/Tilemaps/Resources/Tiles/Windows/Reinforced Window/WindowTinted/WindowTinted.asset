@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ForeverID>k__BackingField: 9bb645b368afb4aef881234040005bfd
   displayName: tinted window
-  description: 
+  description: A reinforced, tinted window.
   LayerType: 1
   TileType: 2
   RequiredTiles:
@@ -72,11 +72,11 @@ MonoBehaviour:
   spawnOnDestroy: {fileID: 0}
   damageOverlayList: {fileID: 11400000, guid: a9338e07e1ad66d48bf05e214ab1f02e, type: 2}
   soundOnHit:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/GlassHit.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   SoundOnDestroy: []

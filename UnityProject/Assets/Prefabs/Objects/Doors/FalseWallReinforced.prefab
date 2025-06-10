@@ -144,6 +144,31 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: ad3ad861919b88a479eacc3d06e05fd5
       objectReference: {fileID: 0}
+    - target: {fileID: 7889646264740299019, guid: e3fb07aeead92a74091216ef8df2c338,
+        type: 3}
+      propertyPath: Armor.Bio
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889646264740299019, guid: e3fb07aeead92a74091216ef8df2c338,
+        type: 3}
+      propertyPath: Armor.Bomb
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889646264740299019, guid: e3fb07aeead92a74091216ef8df2c338,
+        type: 3}
+      propertyPath: Armor.Energy
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889646264740299019, guid: e3fb07aeead92a74091216ef8df2c338,
+        type: 3}
+      propertyPath: damageDeflection
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 7889646264740299019, guid: e3fb07aeead92a74091216ef8df2c338,
+        type: 3}
+      propertyPath: initialIntegrity
+      value: 400
+      objectReference: {fileID: 0}
     - target: {fileID: 8229369143368323494, guid: e3fb07aeead92a74091216ef8df2c338,
         type: 3}
       propertyPath: initialName
@@ -152,7 +177,7 @@ PrefabInstance:
     - target: {fileID: 8229369143368323494, guid: e3fb07aeead92a74091216ef8df2c338,
         type: 3}
       propertyPath: initialDescription
-      value: A huge chunk of reinforced metal used to separate rooms.
+      value: A strong, composite structure designed to resist a good deal of punishment.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

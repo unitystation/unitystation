@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: windoor_rightplasma
+  m_EditorClassIdentifier: 
+  foreverID: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: 316627034384947717, guid: 14aaa6c553acc00cc8e54afb7d016ae7,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -6867279269047640574, guid: 14aaa6c553acc00cc8e54afb7d016ae7,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 7973127480686715179, guid: 14aaa6c553acc00cc8e54afb7d016ae7,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 3902107826733931718, guid: 14aaa6c553acc00cc8e54afb7d016ae7,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  DisplayName: 

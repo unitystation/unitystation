@@ -1,0 +1,106 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: windoor_leftplasmaclosing
+  m_EditorClassIdentifier: 
+  foreverID: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: -3645058597811919824, guid: 1c076aaa6d122f0b48a7e260af9f5428,
+        type: 3}
+      secondDelay: 0.2
+    - sprite: {fileID: -6103789230580480284, guid: 1c076aaa6d122f0b48a7e260af9f5428,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: -8014893907050695639, guid: 1c076aaa6d122f0b48a7e260af9f5428,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: -6403679870681936490, guid: 1c076aaa6d122f0b48a7e260af9f5428,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 8415616637407642969, guid: 1c076aaa6d122f0b48a7e260af9f5428,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: -7617615848750800295, guid: 1c076aaa6d122f0b48a7e260af9f5428,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 7163859225069714166, guid: 1c076aaa6d122f0b48a7e260af9f5428,
+        type: 3}
+      secondDelay: 0.2
+  - Frames:
+    - sprite: {fileID: 4605552374359239263, guid: 1c076aaa6d122f0b48a7e260af9f5428,
+        type: 3}
+      secondDelay: 0.2
+    - sprite: {fileID: -1408679674592318757, guid: 1c076aaa6d122f0b48a7e260af9f5428,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: -98810892216120847, guid: 1c076aaa6d122f0b48a7e260af9f5428,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: -3344341816037997540, guid: 1c076aaa6d122f0b48a7e260af9f5428,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: -4800734611232596915, guid: 1c076aaa6d122f0b48a7e260af9f5428,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: -4672882059742893528, guid: 1c076aaa6d122f0b48a7e260af9f5428,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: -6281811737025851129, guid: 1c076aaa6d122f0b48a7e260af9f5428,
+        type: 3}
+      secondDelay: 0.2
+  - Frames:
+    - sprite: {fileID: 6093604055402703370, guid: 1c076aaa6d122f0b48a7e260af9f5428,
+        type: 3}
+      secondDelay: 0.2
+    - sprite: {fileID: -1875420523350528773, guid: 1c076aaa6d122f0b48a7e260af9f5428,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: -4018475564573749852, guid: 1c076aaa6d122f0b48a7e260af9f5428,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 2005615037954931426, guid: 1c076aaa6d122f0b48a7e260af9f5428,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: -5867501554133905492, guid: 1c076aaa6d122f0b48a7e260af9f5428,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 6966038355499374132, guid: 1c076aaa6d122f0b48a7e260af9f5428,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: -5998835785802827737, guid: 1c076aaa6d122f0b48a7e260af9f5428,
+        type: 3}
+      secondDelay: 0.2
+  - Frames:
+    - sprite: {fileID: -6975067561611520073, guid: 1c076aaa6d122f0b48a7e260af9f5428,
+        type: 3}
+      secondDelay: 0.2
+    - sprite: {fileID: -535167839198666765, guid: 1c076aaa6d122f0b48a7e260af9f5428,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: -4143258330120387182, guid: 1c076aaa6d122f0b48a7e260af9f5428,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 879252429708013717, guid: 1c076aaa6d122f0b48a7e260af9f5428,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: -6780190719559964606, guid: 1c076aaa6d122f0b48a7e260af9f5428,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 3471932783311922555, guid: 1c076aaa6d122f0b48a7e260af9f5428,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 3833342875988132246, guid: 1c076aaa6d122f0b48a7e260af9f5428,
+        type: 3}
+      secondDelay: 0.2
+  IsPalette: 0
+  DisplayName: 
