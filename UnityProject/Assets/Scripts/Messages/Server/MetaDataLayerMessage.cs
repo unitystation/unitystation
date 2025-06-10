@@ -76,7 +76,8 @@ public class MetaDataLayerMessage : ServerMessage<MetaDataLayerMessage.NetMessag
 				{
 					Position = metaData.LocalPosition,
 					IsSlippy = metaData.IsSlippery,
-					IsIceSlippy = metaData.IsIceSlippy
+					IsIceSlippy = metaData.IsIceSlippy,
+					IsSuperSlippy = metaData.IsSuperSlippery
 				});
 			}
 

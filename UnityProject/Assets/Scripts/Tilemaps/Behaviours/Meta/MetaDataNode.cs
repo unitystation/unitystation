@@ -95,6 +95,12 @@ public class MetaDataNode : IGasMixContainer
 	/// </summary>
 	public NodeOccupiedType OccupiedType;
 
+	/// <summary>
+	/// Whether or not on round start it had a path to space, TEMP, Will 100% be out of date When using it outside of the init code
+	/// </summary>
+	public bool InItHadPathToSpace = false;
+
+
 	private GasMix gasMix;
 
 	/// <summary>

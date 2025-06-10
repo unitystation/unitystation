@@ -164,7 +164,9 @@ namespace Objects
 					DetectPlayer();
 					SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.MachineHum4, Position + Vector3Int.up, new AudioSourceParameters()
 					{
-						Pitch = 1
+						Pitch = 0.5f,
+						Volume = 0.276f,
+						MaxDistance = 8
 					});
 					timeElapsedServerSound = 0;
 				}

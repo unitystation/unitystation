@@ -105,7 +105,7 @@ namespace Systems.Radiation
 				LightPower = 1;
 			}
 			lightSprite.transform.localScale = Vector3.one * (7 * LightSize);
-			var Colour = lightSprite.GetColor();
+			var Colour = lightSprite.GetColor().GetValueOrDefault(Color.white);
 			Colour.a = LightPower;
 			lightSprite.SetColor(Colour);
 		}
