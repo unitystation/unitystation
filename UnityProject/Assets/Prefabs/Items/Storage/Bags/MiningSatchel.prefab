@@ -18,7 +18,7 @@ PrefabInstance:
         type: 3}
       propertyPath: itemStorageStructure
       value: 
-      objectReference: {fileID: 11400000, guid: 7e4ace3adda26744eb4ef28b1f7a0ab8,
+      objectReference: {fileID: 11400000, guid: 68b41e207e277d5efba35e6625993480,
         type: 2}
     - target: {fileID: 2945219828330548335, guid: a4904005b4f886143a41a4b3c99a6845,
         type: 3}
@@ -55,6 +55,18 @@ PrefabInstance:
     - target: {fileID: 2945219828330548335, guid: a4904005b4f886143a41a4b3c99a6845,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 06d3f44b78a61364fb99a19e5f1f6044,
+        type: 2}
+    - target: {fileID: 2945219828330548335, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: d81d06086c36d994581f0f74608e8fae,
+        type: 2}
+    - target: {fileID: 2945219828330548335, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: 06d3f44b78a61364fb99a19e5f1f6044,
         type: 2}
@@ -152,6 +164,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8895735541756795018, guid: a4904005b4f886143a41a4b3c99a6845,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 5857430138003296881}
+    - target: {fileID: 8895735541756795018, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 69b2c76fac696de448189cb63b516071,
@@ -171,6 +188,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: -8348481429601067230}
   m_SourcePrefab: {fileID: 100100000, guid: a4904005b4f886143a41a4b3c99a6845, type: 3}
+--- !u!212 &5857430138003296881 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3225680128402821201, guid: a4904005b4f886143a41a4b3c99a6845,
+    type: 3}
+  m_PrefabInstance: {fileID: 9046094829488308768}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6032624691665936685 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3328757573197865741, guid: a4904005b4f886143a41a4b3c99a6845,
