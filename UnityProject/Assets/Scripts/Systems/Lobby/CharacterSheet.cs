@@ -324,7 +324,7 @@ public class CharacterSheet : ICloneable
 
 		if (speciesToChooseFrom == null || speciesToChooseFrom.Count == 0)
 		{
-			speciesToChooseFrom = RaceSOSingleton.Instance.Races;
+			speciesToChooseFrom = RaceSOSingleton.GetPlayerSpecies();
 		}
 		PlayerHealthData race = speciesToChooseFrom.PickRandom();
 
