@@ -143,6 +143,8 @@ MonoBehaviour:
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &4190555781170665524
 GameObject:
   m_ObjectHideFlags: 0
@@ -486,6 +488,8 @@ MonoBehaviour:
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &7971638957329120905
 GameObject:
   m_ObjectHideFlags: 0
@@ -725,7 +729,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0
-  syncMode: 0
+  syncMode: 1
   syncInterval: 0
   corePrefab: {fileID: 1705799857596220470, guid: 965a30360b6f44c4895003abe8ff4197,
     type: 3}
@@ -836,6 +840,9 @@ MonoBehaviour:
   LastUpdateClientFlying: 0
   TimeSpentFlying: 0
   <Scale>k__BackingField: {fileID: 0}
+  OnEnteredNewMatrix:
+    m_PersistentCalls:
+      m_Calls: []
   DEBUG: 0
   isNotPushable: 0
   Pushing: []

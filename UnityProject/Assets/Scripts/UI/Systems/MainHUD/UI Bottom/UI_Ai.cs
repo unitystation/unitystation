@@ -240,6 +240,7 @@ namespace UI.Systems.MainHUD.UI_Bottom
 			StartCoroutine(StateLawsRoutine());
 		}
 
+
 		private IEnumerator StateLawsRoutine()
 		{
 			PostToChatMessage.Send("Current active laws: ", ChatChannel.Local | ChatChannel.Common, Voice: "",  Loudness.NORMAL);
