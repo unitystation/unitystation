@@ -21,7 +21,7 @@ namespace Changeling
 			{
 				var racesToAdd = new List<PlayerHealthData>();
 
-				foreach (PlayerHealthData x in RaceSOSingleton.Instance.Races)
+				foreach (PlayerHealthData x in RaceSOSingleton.GetPlayerSpecies())
 				{
 					if (x.Base.allowedToChangeling)
 					{

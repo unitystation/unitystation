@@ -38,7 +38,6 @@ namespace Gateway
 				}
 			}
 
-			objectPhysics.DisappearFromWorld();
 			objectPhysics.AppearAtWorldPositionServer(dest, doStepInteractions: doTileStep);
 		}
 

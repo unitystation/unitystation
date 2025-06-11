@@ -66,7 +66,7 @@ namespace UI.Objects.Security
 				console.ServerRemoveIDCard(player);
 				UpdateScreen();
 			}
-			else if (IsAIInteracting())
+			else if (IsAIInteracting(player))
 			{
 				UpdateScreen();
 			}
