@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ForeverID>k__BackingField: 8cccf662e3a574563b886a47e04843cc
   displayName: wood plank wall
-  description: a wall plated with wood planks. Looks pretty flammable.
+  description: A wall plated with wood planks. Looks pretty flammable.
   LayerType: 0
   TileType: 1
   RequiredTiles:
@@ -69,11 +69,11 @@ MonoBehaviour:
   spawnOnDestroy: {fileID: 0}
   damageOverlayList: {fileID: 0}
   soundOnHit:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   SoundOnDestroy: []

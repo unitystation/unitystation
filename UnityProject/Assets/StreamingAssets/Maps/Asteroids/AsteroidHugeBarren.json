@@ -78564,10 +78564,1182 @@
             }
           },
           {
+            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_53.93┼54.74┼0┼",
+            "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
+            "Name": "MappingLightSource (1)",
+            "LocalPRS": "53.93┼54.74┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "Removed": true,
+                  "ID": "0,2"
+                },
+                {
+                  "Name": "light - asteroidhugebarren pyramid",
+                  "LocalPRS": "0┼0┼0┼32↔32↔2↔",
+                  "ObjectLayer": 21,
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "LightSprite@0",
+                      "Data": [
+                        {
+                          "Name": "LightOrigin",
+                          "Data": "0,0,1"
+                        },
+                        {
+                          "Name": "Shape",
+                          "Data": "Point"
+                        },
+                        {
+                          "Name": "GivenID",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿåH\u0003"
+                        },
+                        {
+                          "Name": "SortingOrder",
+                          "Data": "0"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "MeshFilter@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "LightSpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "NetworkThis",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "SubCatalogue#46",
+                          "Data": "3c3f3b0e8b6f78e4497dbd51ed1936fa"
+                        },
+                        {
+                          "Name": "SubCatalogue#45",
+                          "Data": "c395172dd2a83f7409ddb1cf6756f579"
+                        },
+                        {
+                          "Name": "SubCatalogue#44",
+                          "Data": "34bdd256c153bb04daf3c4a233428230"
+                        },
+                        {
+                          "Name": "SubCatalogue#43",
+                          "Data": "fc22d71c1c3167245ad53699c82a0a3f"
+                        },
+                        {
+                          "Name": "SubCatalogue#42",
+                          "Data": "4308782497813cd4bbd8d5acec692d14"
+                        },
+                        {
+                          "Name": "SubCatalogue#41",
+                          "Data": "1c5634ade123e2543afaa807c01a0ffb"
+                        },
+                        {
+                          "Name": "SubCatalogue#40",
+                          "Data": "db0f93ccfdb32454ebd8652216ecf3b4"
+                        },
+                        {
+                          "Name": "SubCatalogue#39",
+                          "Data": "5b9e43fcfba83694b8a633782b33d2c1"
+                        },
+                        {
+                          "Name": "SubCatalogue#38",
+                          "Data": "cbc8584e88fdc9940977466fab70cd06"
+                        },
+                        {
+                          "Name": "SubCatalogue#37",
+                          "Data": "005654d195a93350d8365dc2ab6a7772"
+                        },
+                        {
+                          "Name": "SubCatalogue#36",
+                          "Data": "Pulse32_A100"
+                        },
+                        {
+                          "Name": "SubCatalogue#35",
+                          "Data": "54f00872c0db5d043ab67b7f96af72b5"
+                        },
+                        {
+                          "Name": "SubCatalogue#34",
+                          "Data": "4fb9fdcd14ab0c748b969d9023602795"
+                        },
+                        {
+                          "Name": "SubCatalogue#33",
+                          "Data": "DirectionalLight64_cardinal"
+                        },
+                        {
+                          "Name": "SubCatalogue#32",
+                          "Data": "DirectionalLight64_diagonal"
+                        },
+                        {
+                          "Name": "SubCatalogue#31",
+                          "Data": "DiscoLight"
+                        },
+                        {
+                          "Name": "SubCatalogue#30",
+                          "Data": "double_cone"
+                        },
+                        {
+                          "Name": "SubCatalogue#29",
+                          "Data": "Eyes32"
+                        },
+                        {
+                          "Name": "SubCatalogue#28",
+                          "Data": "Eyes32A"
+                        },
+                        {
+                          "Name": "SubCatalogue#27",
+                          "Data": "Eyes32B"
+                        },
+                        {
+                          "Name": "SubCatalogue#26",
+                          "Data": "d39f2938943a271468e9efbe0dee0bcb"
+                        },
+                        {
+                          "Name": "SubCatalogue#25",
+                          "Data": "635a7b02f61419a4a9174c74462dda30"
+                        },
+                        {
+                          "Name": "SubCatalogue#24",
+                          "Data": "LaserLightSprite"
+                        },
+                        {
+                          "Name": "SubCatalogue#23",
+                          "Data": "lightcone"
+                        },
+                        {
+                          "Name": "SubCatalogue#22",
+                          "Data": "lightconedoubleLight"
+                        },
+                        {
+                          "Name": "SubCatalogue#21",
+                          "Data": "Minimal Player Light Cookie"
+                        },
+                        {
+                          "Name": "SubCatalogue#20",
+                          "Data": "Minimal Player Light Cookie Draft"
+                        },
+                        {
+                          "Name": "SubCatalogue#19",
+                          "Data": "NoisyLight64"
+                        },
+                        {
+                          "Name": "SubCatalogue#18",
+                          "Data": "Shimmer128"
+                        },
+                        {
+                          "Name": "SubCatalogue#17",
+                          "Data": "bd732cd97d648554899e495c442e82b3"
+                        },
+                        {
+                          "Name": "SubCatalogue#16",
+                          "Data": "ShineHalo128"
+                        },
+                        {
+                          "Name": "SubCatalogue#15",
+                          "Data": "small Fire"
+                        },
+                        {
+                          "Name": "SubCatalogue#14",
+                          "Data": "d555eae6cf8589644a859d71726f45c6"
+                        },
+                        {
+                          "Name": "SubCatalogue#13",
+                          "Data": "Terrain32A"
+                        },
+                        {
+                          "Name": "SubCatalogue#12",
+                          "Data": "Terrain32B"
+                        },
+                        {
+                          "Name": "SubCatalogue#11",
+                          "Data": "Terrain32C"
+                        },
+                        {
+                          "Name": "SubCatalogue#10",
+                          "Data": "Terrain32D"
+                        },
+                        {
+                          "Name": "SubCatalogue#9",
+                          "Data": "Terrain32E"
+                        },
+                        {
+                          "Name": "SubCatalogue#8",
+                          "Data": "Terrain64A"
+                        },
+                        {
+                          "Name": "SubCatalogue#7",
+                          "Data": "Terrain64B"
+                        },
+                        {
+                          "Name": "SubCatalogue#6",
+                          "Data": "Terrain64C"
+                        },
+                        {
+                          "Name": "SubCatalogue#5",
+                          "Data": "1371cd5a2fc024e4c9d1c95bfd587a82"
+                        },
+                        {
+                          "Name": "SubCatalogue#4",
+                          "Data": "ff532b948413ab84db6fa7e2eaea1fe2"
+                        },
+                        {
+                          "Name": "SubCatalogue#3",
+                          "Data": "2e40a630bb6c7ba4fb3f7be2b688f1be"
+                        },
+                        {
+                          "Name": "SubCatalogue#2",
+                          "Data": "Terrain64G"
+                        },
+                        {
+                          "Name": "SubCatalogue#1",
+                          "Data": "TinyLight32"
+                        },
+                        {
+                          "Name": "SubCatalogue#0",
+                          "Data": "5bdbe339de217f646897cd4330d637b6"
+                        },
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "NoisyLight64"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "spriteRenderer",
+                          "Data": "NULL"
+                        },
+                        {
+                          "Name": "doReverseAnimation",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "pushTextureOnStartUp",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿåH\u0003"
+                        },
+                        {
+                          "Name": "initialSortingOrder",
+                          "Data": "-1"
+                        },
+                        {
+                          "Name": "initialSortingLayerName",
+                          "Data": ""
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_54┼63┼0┼",
+            "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
+            "Name": "MappingLightSource (4)",
+            "LocalPRS": "54┼63┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "Removed": true,
+                  "ID": "0,2"
+                },
+                {
+                  "Name": "light - asteroidhugebarren pyramid",
+                  "LocalPRS": "0┼0┼0┼32↔32↔2↔",
+                  "ObjectLayer": 21,
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "LightSprite@0",
+                      "Data": [
+                        {
+                          "Name": "LightOrigin",
+                          "Data": "0,0,1"
+                        },
+                        {
+                          "Name": "Shape",
+                          "Data": "Point"
+                        },
+                        {
+                          "Name": "GivenID",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿåH\u0003"
+                        },
+                        {
+                          "Name": "SortingOrder",
+                          "Data": "0"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "MeshFilter@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "LightSpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "NetworkThis",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "SubCatalogue#46",
+                          "Data": "3c3f3b0e8b6f78e4497dbd51ed1936fa"
+                        },
+                        {
+                          "Name": "SubCatalogue#45",
+                          "Data": "c395172dd2a83f7409ddb1cf6756f579"
+                        },
+                        {
+                          "Name": "SubCatalogue#44",
+                          "Data": "34bdd256c153bb04daf3c4a233428230"
+                        },
+                        {
+                          "Name": "SubCatalogue#43",
+                          "Data": "fc22d71c1c3167245ad53699c82a0a3f"
+                        },
+                        {
+                          "Name": "SubCatalogue#42",
+                          "Data": "4308782497813cd4bbd8d5acec692d14"
+                        },
+                        {
+                          "Name": "SubCatalogue#41",
+                          "Data": "1c5634ade123e2543afaa807c01a0ffb"
+                        },
+                        {
+                          "Name": "SubCatalogue#40",
+                          "Data": "db0f93ccfdb32454ebd8652216ecf3b4"
+                        },
+                        {
+                          "Name": "SubCatalogue#39",
+                          "Data": "5b9e43fcfba83694b8a633782b33d2c1"
+                        },
+                        {
+                          "Name": "SubCatalogue#38",
+                          "Data": "cbc8584e88fdc9940977466fab70cd06"
+                        },
+                        {
+                          "Name": "SubCatalogue#37",
+                          "Data": "005654d195a93350d8365dc2ab6a7772"
+                        },
+                        {
+                          "Name": "SubCatalogue#36",
+                          "Data": "Pulse32_A100"
+                        },
+                        {
+                          "Name": "SubCatalogue#35",
+                          "Data": "54f00872c0db5d043ab67b7f96af72b5"
+                        },
+                        {
+                          "Name": "SubCatalogue#34",
+                          "Data": "4fb9fdcd14ab0c748b969d9023602795"
+                        },
+                        {
+                          "Name": "SubCatalogue#33",
+                          "Data": "DirectionalLight64_cardinal"
+                        },
+                        {
+                          "Name": "SubCatalogue#32",
+                          "Data": "DirectionalLight64_diagonal"
+                        },
+                        {
+                          "Name": "SubCatalogue#31",
+                          "Data": "DiscoLight"
+                        },
+                        {
+                          "Name": "SubCatalogue#30",
+                          "Data": "double_cone"
+                        },
+                        {
+                          "Name": "SubCatalogue#29",
+                          "Data": "Eyes32"
+                        },
+                        {
+                          "Name": "SubCatalogue#28",
+                          "Data": "Eyes32A"
+                        },
+                        {
+                          "Name": "SubCatalogue#27",
+                          "Data": "Eyes32B"
+                        },
+                        {
+                          "Name": "SubCatalogue#26",
+                          "Data": "d39f2938943a271468e9efbe0dee0bcb"
+                        },
+                        {
+                          "Name": "SubCatalogue#25",
+                          "Data": "635a7b02f61419a4a9174c74462dda30"
+                        },
+                        {
+                          "Name": "SubCatalogue#24",
+                          "Data": "LaserLightSprite"
+                        },
+                        {
+                          "Name": "SubCatalogue#23",
+                          "Data": "lightcone"
+                        },
+                        {
+                          "Name": "SubCatalogue#22",
+                          "Data": "lightconedoubleLight"
+                        },
+                        {
+                          "Name": "SubCatalogue#21",
+                          "Data": "Minimal Player Light Cookie"
+                        },
+                        {
+                          "Name": "SubCatalogue#20",
+                          "Data": "Minimal Player Light Cookie Draft"
+                        },
+                        {
+                          "Name": "SubCatalogue#19",
+                          "Data": "NoisyLight64"
+                        },
+                        {
+                          "Name": "SubCatalogue#18",
+                          "Data": "Shimmer128"
+                        },
+                        {
+                          "Name": "SubCatalogue#17",
+                          "Data": "bd732cd97d648554899e495c442e82b3"
+                        },
+                        {
+                          "Name": "SubCatalogue#16",
+                          "Data": "ShineHalo128"
+                        },
+                        {
+                          "Name": "SubCatalogue#15",
+                          "Data": "small Fire"
+                        },
+                        {
+                          "Name": "SubCatalogue#14",
+                          "Data": "d555eae6cf8589644a859d71726f45c6"
+                        },
+                        {
+                          "Name": "SubCatalogue#13",
+                          "Data": "Terrain32A"
+                        },
+                        {
+                          "Name": "SubCatalogue#12",
+                          "Data": "Terrain32B"
+                        },
+                        {
+                          "Name": "SubCatalogue#11",
+                          "Data": "Terrain32C"
+                        },
+                        {
+                          "Name": "SubCatalogue#10",
+                          "Data": "Terrain32D"
+                        },
+                        {
+                          "Name": "SubCatalogue#9",
+                          "Data": "Terrain32E"
+                        },
+                        {
+                          "Name": "SubCatalogue#8",
+                          "Data": "Terrain64A"
+                        },
+                        {
+                          "Name": "SubCatalogue#7",
+                          "Data": "Terrain64B"
+                        },
+                        {
+                          "Name": "SubCatalogue#6",
+                          "Data": "Terrain64C"
+                        },
+                        {
+                          "Name": "SubCatalogue#5",
+                          "Data": "1371cd5a2fc024e4c9d1c95bfd587a82"
+                        },
+                        {
+                          "Name": "SubCatalogue#4",
+                          "Data": "ff532b948413ab84db6fa7e2eaea1fe2"
+                        },
+                        {
+                          "Name": "SubCatalogue#3",
+                          "Data": "2e40a630bb6c7ba4fb3f7be2b688f1be"
+                        },
+                        {
+                          "Name": "SubCatalogue#2",
+                          "Data": "Terrain64G"
+                        },
+                        {
+                          "Name": "SubCatalogue#1",
+                          "Data": "TinyLight32"
+                        },
+                        {
+                          "Name": "SubCatalogue#0",
+                          "Data": "5bdbe339de217f646897cd4330d637b6"
+                        },
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "NoisyLight64"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "spriteRenderer",
+                          "Data": "NULL"
+                        },
+                        {
+                          "Name": "doReverseAnimation",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "pushTextureOnStartUp",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿåH\u0003"
+                        },
+                        {
+                          "Name": "initialSortingOrder",
+                          "Data": "-1"
+                        },
+                        {
+                          "Name": "initialSortingLayerName",
+                          "Data": ""
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "c2688b12db72cdc4c8c20b8647f6b587_58┼59┼0┼",
             "PrefabID": "c2688b12db72cdc4c8c20b8647f6b587",
             "Name": "Artifact25% (1)",
             "LocalPRS": "58┼59┼0┼"
+          },
+          {
+            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_62┼54.74┼0┼",
+            "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
+            "Name": "MappingLightSource (2)",
+            "LocalPRS": "62┼54.74┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "Removed": true,
+                  "ID": "0,2"
+                },
+                {
+                  "Name": "light - asteroidhugebarren pyramid",
+                  "LocalPRS": "0┼0┼0┼32↔32↔2↔",
+                  "ObjectLayer": 21,
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "LightSprite@0",
+                      "Data": [
+                        {
+                          "Name": "LightOrigin",
+                          "Data": "0,0,1"
+                        },
+                        {
+                          "Name": "Shape",
+                          "Data": "Point"
+                        },
+                        {
+                          "Name": "GivenID",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿåH\u0003"
+                        },
+                        {
+                          "Name": "SortingOrder",
+                          "Data": "0"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "MeshFilter@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "LightSpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "NetworkThis",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "SubCatalogue#46",
+                          "Data": "3c3f3b0e8b6f78e4497dbd51ed1936fa"
+                        },
+                        {
+                          "Name": "SubCatalogue#45",
+                          "Data": "c395172dd2a83f7409ddb1cf6756f579"
+                        },
+                        {
+                          "Name": "SubCatalogue#44",
+                          "Data": "34bdd256c153bb04daf3c4a233428230"
+                        },
+                        {
+                          "Name": "SubCatalogue#43",
+                          "Data": "fc22d71c1c3167245ad53699c82a0a3f"
+                        },
+                        {
+                          "Name": "SubCatalogue#42",
+                          "Data": "4308782497813cd4bbd8d5acec692d14"
+                        },
+                        {
+                          "Name": "SubCatalogue#41",
+                          "Data": "1c5634ade123e2543afaa807c01a0ffb"
+                        },
+                        {
+                          "Name": "SubCatalogue#40",
+                          "Data": "db0f93ccfdb32454ebd8652216ecf3b4"
+                        },
+                        {
+                          "Name": "SubCatalogue#39",
+                          "Data": "5b9e43fcfba83694b8a633782b33d2c1"
+                        },
+                        {
+                          "Name": "SubCatalogue#38",
+                          "Data": "cbc8584e88fdc9940977466fab70cd06"
+                        },
+                        {
+                          "Name": "SubCatalogue#37",
+                          "Data": "005654d195a93350d8365dc2ab6a7772"
+                        },
+                        {
+                          "Name": "SubCatalogue#36",
+                          "Data": "Pulse32_A100"
+                        },
+                        {
+                          "Name": "SubCatalogue#35",
+                          "Data": "54f00872c0db5d043ab67b7f96af72b5"
+                        },
+                        {
+                          "Name": "SubCatalogue#34",
+                          "Data": "4fb9fdcd14ab0c748b969d9023602795"
+                        },
+                        {
+                          "Name": "SubCatalogue#33",
+                          "Data": "DirectionalLight64_cardinal"
+                        },
+                        {
+                          "Name": "SubCatalogue#32",
+                          "Data": "DirectionalLight64_diagonal"
+                        },
+                        {
+                          "Name": "SubCatalogue#31",
+                          "Data": "DiscoLight"
+                        },
+                        {
+                          "Name": "SubCatalogue#30",
+                          "Data": "double_cone"
+                        },
+                        {
+                          "Name": "SubCatalogue#29",
+                          "Data": "Eyes32"
+                        },
+                        {
+                          "Name": "SubCatalogue#28",
+                          "Data": "Eyes32A"
+                        },
+                        {
+                          "Name": "SubCatalogue#27",
+                          "Data": "Eyes32B"
+                        },
+                        {
+                          "Name": "SubCatalogue#26",
+                          "Data": "d39f2938943a271468e9efbe0dee0bcb"
+                        },
+                        {
+                          "Name": "SubCatalogue#25",
+                          "Data": "635a7b02f61419a4a9174c74462dda30"
+                        },
+                        {
+                          "Name": "SubCatalogue#24",
+                          "Data": "LaserLightSprite"
+                        },
+                        {
+                          "Name": "SubCatalogue#23",
+                          "Data": "lightcone"
+                        },
+                        {
+                          "Name": "SubCatalogue#22",
+                          "Data": "lightconedoubleLight"
+                        },
+                        {
+                          "Name": "SubCatalogue#21",
+                          "Data": "Minimal Player Light Cookie"
+                        },
+                        {
+                          "Name": "SubCatalogue#20",
+                          "Data": "Minimal Player Light Cookie Draft"
+                        },
+                        {
+                          "Name": "SubCatalogue#19",
+                          "Data": "NoisyLight64"
+                        },
+                        {
+                          "Name": "SubCatalogue#18",
+                          "Data": "Shimmer128"
+                        },
+                        {
+                          "Name": "SubCatalogue#17",
+                          "Data": "bd732cd97d648554899e495c442e82b3"
+                        },
+                        {
+                          "Name": "SubCatalogue#16",
+                          "Data": "ShineHalo128"
+                        },
+                        {
+                          "Name": "SubCatalogue#15",
+                          "Data": "small Fire"
+                        },
+                        {
+                          "Name": "SubCatalogue#14",
+                          "Data": "d555eae6cf8589644a859d71726f45c6"
+                        },
+                        {
+                          "Name": "SubCatalogue#13",
+                          "Data": "Terrain32A"
+                        },
+                        {
+                          "Name": "SubCatalogue#12",
+                          "Data": "Terrain32B"
+                        },
+                        {
+                          "Name": "SubCatalogue#11",
+                          "Data": "Terrain32C"
+                        },
+                        {
+                          "Name": "SubCatalogue#10",
+                          "Data": "Terrain32D"
+                        },
+                        {
+                          "Name": "SubCatalogue#9",
+                          "Data": "Terrain32E"
+                        },
+                        {
+                          "Name": "SubCatalogue#8",
+                          "Data": "Terrain64A"
+                        },
+                        {
+                          "Name": "SubCatalogue#7",
+                          "Data": "Terrain64B"
+                        },
+                        {
+                          "Name": "SubCatalogue#6",
+                          "Data": "Terrain64C"
+                        },
+                        {
+                          "Name": "SubCatalogue#5",
+                          "Data": "1371cd5a2fc024e4c9d1c95bfd587a82"
+                        },
+                        {
+                          "Name": "SubCatalogue#4",
+                          "Data": "ff532b948413ab84db6fa7e2eaea1fe2"
+                        },
+                        {
+                          "Name": "SubCatalogue#3",
+                          "Data": "2e40a630bb6c7ba4fb3f7be2b688f1be"
+                        },
+                        {
+                          "Name": "SubCatalogue#2",
+                          "Data": "Terrain64G"
+                        },
+                        {
+                          "Name": "SubCatalogue#1",
+                          "Data": "TinyLight32"
+                        },
+                        {
+                          "Name": "SubCatalogue#0",
+                          "Data": "5bdbe339de217f646897cd4330d637b6"
+                        },
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "NoisyLight64"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "spriteRenderer",
+                          "Data": "NULL"
+                        },
+                        {
+                          "Name": "doReverseAnimation",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "pushTextureOnStartUp",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿåH\u0003"
+                        },
+                        {
+                          "Name": "initialSortingOrder",
+                          "Data": "-1"
+                        },
+                        {
+                          "Name": "initialSortingLayerName",
+                          "Data": ""
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_62┼63┼0┼",
+            "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
+            "Name": "MappingLightSource (3)",
+            "LocalPRS": "62┼63┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "Removed": true,
+                  "ID": "0,2"
+                },
+                {
+                  "Name": "light - asteroidhugebarren pyramid",
+                  "LocalPRS": "0┼0┼0┼32↔32↔2↔",
+                  "ObjectLayer": 21,
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "MeshRenderer@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "LightSprite@0",
+                      "Data": [
+                        {
+                          "Name": "LightOrigin",
+                          "Data": "0,0,1"
+                        },
+                        {
+                          "Name": "Shape",
+                          "Data": "Point"
+                        },
+                        {
+                          "Name": "GivenID",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿåH\u0003"
+                        },
+                        {
+                          "Name": "SortingOrder",
+                          "Data": "0"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "MeshFilter@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "LightSpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "NetworkThis",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "SubCatalogue#46",
+                          "Data": "3c3f3b0e8b6f78e4497dbd51ed1936fa"
+                        },
+                        {
+                          "Name": "SubCatalogue#45",
+                          "Data": "c395172dd2a83f7409ddb1cf6756f579"
+                        },
+                        {
+                          "Name": "SubCatalogue#44",
+                          "Data": "34bdd256c153bb04daf3c4a233428230"
+                        },
+                        {
+                          "Name": "SubCatalogue#43",
+                          "Data": "fc22d71c1c3167245ad53699c82a0a3f"
+                        },
+                        {
+                          "Name": "SubCatalogue#42",
+                          "Data": "4308782497813cd4bbd8d5acec692d14"
+                        },
+                        {
+                          "Name": "SubCatalogue#41",
+                          "Data": "1c5634ade123e2543afaa807c01a0ffb"
+                        },
+                        {
+                          "Name": "SubCatalogue#40",
+                          "Data": "db0f93ccfdb32454ebd8652216ecf3b4"
+                        },
+                        {
+                          "Name": "SubCatalogue#39",
+                          "Data": "5b9e43fcfba83694b8a633782b33d2c1"
+                        },
+                        {
+                          "Name": "SubCatalogue#38",
+                          "Data": "cbc8584e88fdc9940977466fab70cd06"
+                        },
+                        {
+                          "Name": "SubCatalogue#37",
+                          "Data": "005654d195a93350d8365dc2ab6a7772"
+                        },
+                        {
+                          "Name": "SubCatalogue#36",
+                          "Data": "Pulse32_A100"
+                        },
+                        {
+                          "Name": "SubCatalogue#35",
+                          "Data": "54f00872c0db5d043ab67b7f96af72b5"
+                        },
+                        {
+                          "Name": "SubCatalogue#34",
+                          "Data": "4fb9fdcd14ab0c748b969d9023602795"
+                        },
+                        {
+                          "Name": "SubCatalogue#33",
+                          "Data": "DirectionalLight64_cardinal"
+                        },
+                        {
+                          "Name": "SubCatalogue#32",
+                          "Data": "DirectionalLight64_diagonal"
+                        },
+                        {
+                          "Name": "SubCatalogue#31",
+                          "Data": "DiscoLight"
+                        },
+                        {
+                          "Name": "SubCatalogue#30",
+                          "Data": "double_cone"
+                        },
+                        {
+                          "Name": "SubCatalogue#29",
+                          "Data": "Eyes32"
+                        },
+                        {
+                          "Name": "SubCatalogue#28",
+                          "Data": "Eyes32A"
+                        },
+                        {
+                          "Name": "SubCatalogue#27",
+                          "Data": "Eyes32B"
+                        },
+                        {
+                          "Name": "SubCatalogue#26",
+                          "Data": "d39f2938943a271468e9efbe0dee0bcb"
+                        },
+                        {
+                          "Name": "SubCatalogue#25",
+                          "Data": "635a7b02f61419a4a9174c74462dda30"
+                        },
+                        {
+                          "Name": "SubCatalogue#24",
+                          "Data": "LaserLightSprite"
+                        },
+                        {
+                          "Name": "SubCatalogue#23",
+                          "Data": "lightcone"
+                        },
+                        {
+                          "Name": "SubCatalogue#22",
+                          "Data": "lightconedoubleLight"
+                        },
+                        {
+                          "Name": "SubCatalogue#21",
+                          "Data": "Minimal Player Light Cookie"
+                        },
+                        {
+                          "Name": "SubCatalogue#20",
+                          "Data": "Minimal Player Light Cookie Draft"
+                        },
+                        {
+                          "Name": "SubCatalogue#19",
+                          "Data": "NoisyLight64"
+                        },
+                        {
+                          "Name": "SubCatalogue#18",
+                          "Data": "Shimmer128"
+                        },
+                        {
+                          "Name": "SubCatalogue#17",
+                          "Data": "bd732cd97d648554899e495c442e82b3"
+                        },
+                        {
+                          "Name": "SubCatalogue#16",
+                          "Data": "ShineHalo128"
+                        },
+                        {
+                          "Name": "SubCatalogue#15",
+                          "Data": "small Fire"
+                        },
+                        {
+                          "Name": "SubCatalogue#14",
+                          "Data": "d555eae6cf8589644a859d71726f45c6"
+                        },
+                        {
+                          "Name": "SubCatalogue#13",
+                          "Data": "Terrain32A"
+                        },
+                        {
+                          "Name": "SubCatalogue#12",
+                          "Data": "Terrain32B"
+                        },
+                        {
+                          "Name": "SubCatalogue#11",
+                          "Data": "Terrain32C"
+                        },
+                        {
+                          "Name": "SubCatalogue#10",
+                          "Data": "Terrain32D"
+                        },
+                        {
+                          "Name": "SubCatalogue#9",
+                          "Data": "Terrain32E"
+                        },
+                        {
+                          "Name": "SubCatalogue#8",
+                          "Data": "Terrain64A"
+                        },
+                        {
+                          "Name": "SubCatalogue#7",
+                          "Data": "Terrain64B"
+                        },
+                        {
+                          "Name": "SubCatalogue#6",
+                          "Data": "Terrain64C"
+                        },
+                        {
+                          "Name": "SubCatalogue#5",
+                          "Data": "1371cd5a2fc024e4c9d1c95bfd587a82"
+                        },
+                        {
+                          "Name": "SubCatalogue#4",
+                          "Data": "ff532b948413ab84db6fa7e2eaea1fe2"
+                        },
+                        {
+                          "Name": "SubCatalogue#3",
+                          "Data": "2e40a630bb6c7ba4fb3f7be2b688f1be"
+                        },
+                        {
+                          "Name": "SubCatalogue#2",
+                          "Data": "Terrain64G"
+                        },
+                        {
+                          "Name": "SubCatalogue#1",
+                          "Data": "TinyLight32"
+                        },
+                        {
+                          "Name": "SubCatalogue#0",
+                          "Data": "5bdbe339de217f646897cd4330d637b6"
+                        },
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "NoisyLight64"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "spriteRenderer",
+                          "Data": "NULL"
+                        },
+                        {
+                          "Name": "doReverseAnimation",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "pushTextureOnStartUp",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿåH\u0003"
+                        },
+                        {
+                          "Name": "initialSortingOrder",
+                          "Data": "-1"
+                        },
+                        {
+                          "Name": "initialSortingLayerName",
+                          "Data": ""
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
           }
         ],
         "IDToNetIDClient": {}

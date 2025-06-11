@@ -146,11 +146,14 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 7923449428670895990}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!114 &4966897602236780545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,11 +280,14 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 2811456323365981450}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!114 &7492727395406265142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -404,11 +410,14 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 5432911076512425740}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &5821065072093624389
 GameObject:
   m_ObjectHideFlags: 0
@@ -516,11 +525,14 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 6685078975388950757}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &6892139865194474319
 GameObject:
   m_ObjectHideFlags: 0
@@ -633,11 +645,14 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 7552679027665353737}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &7837979025980665679
 GameObject:
   m_ObjectHideFlags: 0
@@ -747,11 +762,14 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 6847578832828285011}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1001 &7109442641318188876
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -778,17 +796,67 @@ PrefabInstance:
     - target: {fileID: 338588115043544032, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: m_Layer
-      value: 17
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: Armor.Bio
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: Armor.Rad
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: Armor.Bomb
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: Armor.Laser
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: Armor.Melee
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: Armor.Bullet
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: Armor.Energy
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: damageDeflection
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: initialIntegrity
-      value: 100
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 1197192003336439530, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: initialName
-      value: wall
+      value: metal wall
       objectReference: {fileID: 0}
     - target: {fileID: 1197192003336439530, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -803,13 +871,18 @@ PrefabInstance:
     - target: {fileID: 1197192003336439530, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: initialDescription
-      value: A huge chunk of metal used to separate rooms.
+      value: A sealed metal framework used to separate rooms.
       objectReference: {fileID: 0}
     - target: {fileID: 2346262979035586908, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: 'commonComponentsToRegister.Array.data[2]'
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3920465809857098496, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 1581140313371191937}
     - target: {fileID: 3920465809857098496, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: InitialPresentSpriteSet
@@ -854,21 +927,6 @@ PrefabInstance:
         type: 3}
       propertyPath: foreverID
       value: e3fb07aeead92a74091216ef8df2c338
-      objectReference: {fileID: 0}
-    - target: {fileID: 5718954047647765097, guid: a7af28adb717b4c44b8b2002b27670bd,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5718954047647765097, guid: a7af28adb717b4c44b8b2002b27670bd,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5718954047647765097, guid: a7af28adb717b4c44b8b2002b27670bd,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6673231170480590552, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -938,7 +996,7 @@ PrefabInstance:
     - target: {fileID: 8374648283101600218, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: m_Layer
-      value: 17
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -1042,6 +1100,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 3363448639085241135}
   m_SourcePrefab: {fileID: 100100000, guid: a7af28adb717b4c44b8b2002b27670bd, type: 3}
+--- !u!212 &1581140313371191937 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
+    type: 3}
+  m_PrefabInstance: {fileID: 7109442641318188876}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1622667636829309004 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
@@ -1155,10 +1219,10 @@ MonoBehaviour:
   overlayFill: {fileID: 7837979025980665679}
   overlayWeld: {fileID: 5821065072093624389}
   overlayHacking: {fileID: 3939855377403599151}
-  openingAnimationTime: 0.6
-  closingAnimationTime: 0.6
-  deniedAnimationTime: 0.6
-  warningAnimationTime: 0.6
+  openingAnimationTime: 0.5
+  closingAnimationTime: 0.5
+  deniedAnimationTime: 0.5
+  warningAnimationTime: 0.5
   SyncDoorUpdateType: 0
   PanelOpen: 0
   openingSFX:
