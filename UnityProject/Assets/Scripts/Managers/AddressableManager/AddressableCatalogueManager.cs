@@ -20,6 +20,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceLocations;
 using UnityEngine.ResourceManagement.Util;
 using Core.Networking;
+using Lobby;
 
 public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 {
@@ -183,7 +184,12 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 
 	public IEnumerator WaitForLoad()
 	{
-		yield return WaitFor.Seconds(5f);
+		yield return WaitFor.Seconds(3f);
+		if (LobbyManager.Instance.LobbyPasswordGUI.Haspass)
+		{
+			yield return WaitFor.Seconds(30f); //Wait for password input TODO better system of Waiting
+		}
+
 		ClientRequestCatalogues.RequestCatalogue();
 	}
 

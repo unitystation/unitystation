@@ -125,6 +125,15 @@ namespace Core.Networking
 
 			Account account;
 
+			if (conn.address != "localhost")
+			{
+				if (ValidatePassword(conn, msg) == false)
+				{
+					return;
+				}
+			}
+
+
 			// Allow local offline testing
 			if (GameData.Instance.OfflineMode)
 			{
@@ -339,9 +348,7 @@ namespace Core.Networking
 					$"A user tried to connect with an invalid lobby password: {msg.LobbyPassword}."
 					+ $" Account ID: '{accountId}'. IP: '{conn.address}'.",
 					Category.Connections);
-
-				DisconnectClient(conn, ResponseCode.IncorrectPassword, "Invalid lobby password!");
-
+				ServerReject(conn);
 				return false;
 			}
 
