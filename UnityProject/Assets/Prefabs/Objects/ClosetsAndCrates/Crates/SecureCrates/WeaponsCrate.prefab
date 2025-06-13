@@ -18,16 +18,6 @@ PrefabInstance:
       propertyPath: foreverID
       value: 8e84a0677b6a4364386bae0efa717939
       objectReference: {fileID: 0}
-    - target: {fileID: 3444414882150781575, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
-        type: 3}
-      propertyPath: requiredClearance.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3444414882150781575, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
-        type: 3}
-      propertyPath: 'requiredClearance.Array.data[1]'
-      value: 58
-      objectReference: {fileID: 0}
     - target: {fileID: 3933894558199293636, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
         type: 3}
       propertyPath: doorOpened
@@ -128,12 +118,6 @@ PrefabInstance:
     - target: {fileID: 8717739805835431555, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
         type: 3}
       propertyPath: PresentSpriteSet
-      value: 
-      objectReference: {fileID: 11400000, guid: 7261bf409c7d54a459476558ed74a236,
-        type: 2}
-    - target: {fileID: 8717739805835431555, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
-        type: 3}
-      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 7261bf409c7d54a459476558ed74a236,
         type: 2}
