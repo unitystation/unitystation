@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Objects.Medical.Virology
 {
-	[RequireComponent(typeof(SequenceAnalyzer))]
+	[RequireComponent(typeof(CureTester))]
 	public class CureTesterInteraction : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 	{
 		[SerializeField] private SpriteClickRegion powerButtonRegion = default;
