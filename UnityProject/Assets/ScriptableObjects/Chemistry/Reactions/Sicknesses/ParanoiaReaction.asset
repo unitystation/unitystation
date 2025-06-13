@@ -14,29 +14,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ingredients:
     m_keys:
-    - {fileID: 11400000, guid: eea29c4c2e4ea5e41b8ae15a911b5479, type: 2}
-    m_values: 01000000
+    - {fileID: 11400000, guid: c4e931cdd4b041652928e77065466e6b, type: 2}
+    - {fileID: 11400000, guid: 0196cc8cc2de8818b9d56bdb11582c6c, type: 2}
+    - {fileID: 11400000, guid: c277cb2e90e88e743ab2494b395ca8fa, type: 2}
+    m_values: 010000000100000005000000
   useExactAmounts: 0
   MinimumReactionMultiple: 0
   catalysts:
     m_keys: []
     m_values: 
   inhibitors:
-    m_keys: []
-    m_values: 
+    m_keys:
+    - {fileID: 11400000, guid: e491e0411dc22a5e28ef4d7a4685a3c1, type: 2}
+    - {fileID: 11400000, guid: 3a54c19300dc2022cb0d10a8e5883ea7, type: 2}
+    m_values: 0100000001000000
   hasMinTemp: 0
   serializableTempMin: 0
   hasMaxTemp: 0
   serializableTempMax: 0
   results:
-    m_keys:
-    - {fileID: 11400000, guid: eea29c4c2e4ea5e41b8ae15a911b5479, type: 2}
-    m_values: 01000000
+    m_keys: []
+    m_values: 
   effectDict:
     m_keys: []
     m_values: 
   overrideDisplayName: Paranoia Growth
-  indexInSingleton: 496
+  indexInSingleton: 499
   ReagentMetabolismMultiplier: 1
   InternalAllRequired: []
   InternalBlacklist: []
