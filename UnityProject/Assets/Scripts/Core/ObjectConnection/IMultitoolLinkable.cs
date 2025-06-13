@@ -27,6 +27,7 @@ namespace Shared.Systems.ObjectConnection
 		MaintGeneratorExclusionZone,
 		SolarPanel,
 		GenericTrigger,
+		CureTester,
 	}
 
 	public interface IMultitoolLinkable

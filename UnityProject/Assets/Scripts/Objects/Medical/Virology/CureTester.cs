@@ -1,50 +1,43 @@
 using Chemistry;
 using HealthV2.Sickness;
 using UnityEngine;
-using System;
-using System.Collections.Generic;
 using System.Text;
 using AddressableReferences;
 using Chemistry.Components;
 using Core.Physics;
 using Cysharp.Threading.Tasks;
 using Logs;
+using Shared.Systems.ObjectConnection;
 using Systems.Electricity;
 
 namespace Objects.Medical.Virology
 {
-	public class CureTester : MonoBehaviour, IAPCPowerable
+	public class CureTester : MonoBehaviour, IAPCPowerable, IMultitoolMasterable
 	{
-		private PowerState currentPowerState;
+		private PowerState _currentPowerState;
 
-		[SerializeField] private SpriteHandler dishSpriteHandler = null;
-		[SerializeField] private SpriteHandler sampleSpriteHandler = null;
-		[SerializeField] private SpriteHandler buttonSpriteHandler = null;
-		[SerializeField] private ItemStorage itemStorage = null;
+		[SerializeField] private SequenceAnalyzer connectedSequenceAnalyzer;
 
-		[SerializeField] private UniversalObjectPhysics objectPhysics = null;
-		[SerializeField] private AddressableAudioSource machineBeepSound = null;
+		[SerializeField] private SpriteHandler sampleSpriteHandler;
+		[SerializeField] private SpriteHandler buttonSpriteHandler;
+		[SerializeField] private ItemStorage itemStorage;
 
-		public ItemSlot CureItemSlot { get; private set; } = null;
-		public ItemSlot DishItemSlot { get; private set; } = null;
+		[SerializeField] private UniversalObjectPhysics objectPhysics;
+		[SerializeField] private AddressableAudioSource machineBeepSound;
 
+		public ItemSlot CureItemSlot { get; private set; }
 
-		private Reagent _activeSicknessReagent = null;
-		private CureManager.Cure ActiveCure => CureManager.InitialisedSicknesses[_activeSicknessReagent];
-
-		private bool _isOnCooldown = false;
-		public bool CanExamineSample => _isOnCooldown == false && currentPowerState == PowerState.On;
+		private bool _isOnCooldown;
+		public bool CanExamineSample => _isOnCooldown == false && _currentPowerState == PowerState.On;
 
 		private void Start()
 		{
 			if (itemStorage == null)
 			{
-				Loggy.Error($"[CureTester/Start] No Item Storage set on {gameObject.ExpensiveName()}!");
+				Loggy.Error($"No Item Storage set on {gameObject.ExpensiveName()}!");
 				return;
 			}
-
-			CureItemSlot = itemStorage.GetIndexedItemSlot(1);
-			DishItemSlot = itemStorage.GetIndexedItemSlot(0);
+			CureItemSlot = itemStorage.GetIndexedItemSlot(0);
 		}
 
 		public void RequestLoadRemoveItem(PositionalHandApply interaction, ItemSlot slot, ItemTrait requiredTrait)
@@ -52,57 +45,18 @@ namespace Objects.Medical.Virology
 			if (interaction.HandObject&& Validations.HasItemTrait(interaction, requiredTrait))
 			{
 				Inventory.ServerTransfer(interaction.HandSlot, slot);
-				if (slot == DishItemSlot)
-				{
-					dishSpriteHandler.SetSpriteVariant(1);
-					Chat.AddActionMsgToChat(interaction.Performer,
-						$"You place the {interaction.HandObject.ExpensiveName()} into the tester's blood sampler.",
-						$"{interaction.Performer.ExpensiveName()} places the {interaction.HandObject.ExpensiveName()} into the tester's blood sampler.");
-				}
-				else
-				{
+
 					sampleSpriteHandler.SetSpriteVariant(1);
 					Chat.AddActionMsgToChat(interaction.Performer,
 						$"You place the {interaction.HandObject.ExpensiveName()} into the tester's primary slot.",
 						$"{interaction.Performer.ExpensiveName()} places the {interaction.HandObject.ExpensiveName()} into the tester's primary slot.");
-				}
 
 				return;
 			}
 			if (interaction.HandObject) return;
 
 			Inventory.ServerTransfer(slot, interaction.HandSlot);
-			if (slot == DishItemSlot)
-			{
-				dishSpriteHandler.SetSpriteVariant(0);
-				_activeSicknessReagent = null;
-			}
-			else sampleSpriteHandler.SetSpriteVariant(0);
-		}
-
-		private bool RequestFindSicknessInSample(PositionalHandApply interaction)
-		{
-			if (DishItemSlot.ItemObject?.TryGetComponent<ReagentContainer>(out var container) == true) return FindSicknessInSample(container.CurrentReagentMix);
-
-			Chat.AddWarningMsgFromServer(interaction.Performer, "No sample was found to test!");
-			return false;
-		}
-
-		private bool FindSicknessInSample(ReagentMix currentMix)
-		{
-			foreach (KeyValuePair<Reagent, CureManager.Cure> curePair in CureManager.InitialisedSicknesses)
-			{
-				if (currentMix.reagents.ContainsKey(curePair.Key) == false) continue;
-
-				_activeSicknessReagent = curePair.Key;
-				return true;
-			}
-
-			Chat.AddLocalMsgToChat("No sickness was identified in the provided sample.", gameObject,
-				doSpeechBubble: false);
-			_activeSicknessReagent = null;
-
-			return false;
+			sampleSpriteHandler.SetSpriteVariant(0);
 		}
 
 		public void RequestExamineCure(PositionalHandApply interaction)
@@ -110,12 +64,16 @@ namespace Objects.Medical.Virology
 			_ = SoundManager.PlayNetworkedAtPosAsync(machineBeepSound, objectPhysics.OfficialPosition);
 			_ = AnimateButtonPress();
 
-			if(RequestFindSicknessInSample(interaction) == false) return;
+			if (connectedSequenceAnalyzer.ActiveSickness is null)
+			{
+				Chat.AddWarningMsgFromServer(interaction.Performer, "No pathogen sample in sequence analyser!");
+				return;
+			}
 
 			if (CureItemSlot.ItemObject?.TryGetComponent<ReagentContainer>(out var container) == true)
 			{
 				StringBuilder machineDialogue = new StringBuilder();
-				machineDialogue.AppendLine($"Test results of cure against sickness {_activeSicknessReagent.Name}: ");
+				machineDialogue.AppendLine($"Test results of cure against sickness {connectedSequenceAnalyzer.ActiveSickness.Name}: ");
 				TestCure(in machineDialogue, container.CurrentReagentMix);
 				Chat.AddLocalMsgToChat(machineDialogue.ToString(), gameObject, doSpeechBubble: false);
 			}
@@ -124,11 +82,13 @@ namespace Objects.Medical.Virology
 
 		private void TestCure(in StringBuilder machineDialogue, ReagentMix proposedCure)
 		{
+			CureManager.Cure activeCure = CureManager.InitialisedSicknesses[connectedSequenceAnalyzer.ActiveSickness];
+
 			int numberOfMatches = 0;
-			if (proposedCure.reagents.Contains(ActiveCure.CureReagentA)) numberOfMatches++;
-			if (proposedCure.reagents.Contains(ActiveCure.CureReagentB)) numberOfMatches++;
-			if (proposedCure.reagents.Contains(ActiveCure.InhibitorReagentA)) numberOfMatches--;
-			if (proposedCure.reagents.Contains(ActiveCure.InhibitorReagentB)) numberOfMatches--;
+			if (proposedCure.reagents.Contains(activeCure.CureReagentA)) numberOfMatches++;
+			if (proposedCure.reagents.Contains(activeCure.CureReagentB)) numberOfMatches++;
+			if (proposedCure.reagents.Contains(activeCure.InhibitorReagentA)) numberOfMatches--;
+			if (proposedCure.reagents.Contains(activeCure.InhibitorReagentB)) numberOfMatches--;
 
 			switch (numberOfMatches)
 			{
@@ -155,12 +115,22 @@ namespace Objects.Medical.Virology
 
 		public void StateUpdate(PowerState state)
 		{
-			currentPowerState = state;
+			_currentPowerState = state;
 		}
 
 		public void PowerNetworkUpdate(float voltage)
 		{
 			//No required logic for input voltage
 		}
+
+		public void SetAnalyzer(SequenceAnalyzer analyzer)
+		{
+			connectedSequenceAnalyzer = analyzer;
+		}
+
+		public MultitoolConnectionType ConType { get; } = MultitoolConnectionType.CureTester;
+		public bool CanRelink { get; } = true;
+		public int MaxDistance { get; } = 30;
+		public bool IgnoreMaxDistanceMapper { get; } = true;
 	}
 }

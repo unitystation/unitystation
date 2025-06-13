@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6261603888642619574}
+  - component: {fileID: 3403427515954074756}
   - component: {fileID: 2728592379231489674}
   - component: {fileID: 6102157500274823570}
   - component: {fileID: 4434023247273284483}
@@ -36,6 +37,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2815555166148818142}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3403427515954074756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184948361678666440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ae24776c5fc9a7428296895e16ca510, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <traumaTypes>k__BackingField: 0
+  deadlyDamageInOneHit: 25
+  bodyPart: {fileID: 1673759363237950006}
+  onTakeDamageSounds: []
+  playTraumaNoise: 0
+  stages:
+    m_keys: 
+    m_values: 
+  afflictionReductionFactor: 200
 --- !u!114 &2728592379231489674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -403,6 +425,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 3a60d21cb4e18b14ba0387530f2dccd5,
         type: 2}
+    - target: {fileID: 4999823976648774815, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 2733873253844105974}
     - target: {fileID: 5232716269704749941, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: parentID
@@ -458,6 +485,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!212 &2733873253844105974 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1357021381986229316, guid: 1162a9966a460f940a18b4d183b04c30,
+    type: 3}
+  m_PrefabInstance: {fileID: 3973776844980201138}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2810631690420259242 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1163316686972202776, guid: 1162a9966a460f940a18b4d183b04c30,
@@ -549,6 +582,7 @@ MonoBehaviour:
   - {fileID: 4434023247273284483}
   - {fileID: 1058680709829996922}
   - {fileID: 7822575272286095514}
+  - {fileID: 3403427515954074756}
 --- !u!114 &9055646429353295198
 MonoBehaviour:
   m_ObjectHideFlags: 0

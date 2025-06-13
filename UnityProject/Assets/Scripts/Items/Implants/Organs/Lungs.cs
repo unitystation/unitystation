@@ -412,8 +412,6 @@ namespace Items.Implants.Organs
 			                        || RelatedPart.HealthMaster.playerScript == null) return;
 			if (RelatedPart.HealthMaster.RespiratorySystem.CanBreatheAnywhere) return;
 
-			var hasToxins = false;
-
 			foreach(SickeningGas gas in sickeningGasses)
 			{
 				float pressure = gasMix.GetPressure(gas.GasType);

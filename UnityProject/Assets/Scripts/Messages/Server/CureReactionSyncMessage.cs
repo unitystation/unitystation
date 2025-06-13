@@ -41,9 +41,9 @@ namespace Messages.Server
 
 			SetInhibitor(msg.CureInhibitorA, cureReaction);
 			SetInhibitor(msg.CureInhibitorB, cureReaction);
-			SetIngredient(msg.CureIngredientA, true, cureReaction);
-			SetIngredient(msg.CureIngredientB, true, cureReaction);
-			SetIngredient(msg.SicknessReagentIndex, false, cureReaction);
+			SetIngredient(msg.CureIngredientA, 1, cureReaction);
+			SetIngredient(msg.CureIngredientB, 1, cureReaction);
+			SetIngredient(msg.SicknessReagentIndex, 5, cureReaction);
 		}
 
 		private void SetInhibitor(int reagentIndex, in Reaction reactionToEffect)
@@ -59,7 +59,7 @@ namespace Messages.Server
 			reactionToEffect.inhibitors.Add(reagent, 1);
 		}
 
-		private void SetIngredient(int reagentIndex, bool conserveReagent, in Reaction reactionToEffect)
+		private void SetIngredient(int reagentIndex, int usedAmount, in Reaction reactionToEffect)
 		{
 			Reagent reagent;
 			if (FetchReagent(reagentIndex, out reagent) == false)
@@ -68,8 +68,7 @@ namespace Messages.Server
 					$"[CureReactionSyncMessage/SetIngredient]: Attempted to set ingredient reagent for {reactionToEffect.name} but the reagent index was outside the bounds of the array!");
 				return;
 			}
-			reactionToEffect.ingredients.Add(reagent, 1);
-			if(conserveReagent) reactionToEffect.results.Add(reagent, 1); //Cure reagents are conserved
+			reactionToEffect.ingredients.Add(reagent, usedAmount);
 
 			//Add the cure reaction to related reactions if it isn't already
 			if(reagent.RelatedReactions.Contains(reactionToEffect) == false) reagent.RelatedReactions = reagent.RelatedReactions.Append(reactionToEffect).ToArray();
