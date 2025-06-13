@@ -31,7 +31,8 @@ namespace HealthV2.Sickness
 			public Reagent InhibitorReagentB;
 		}
 
-		[SerializeField] private List<CureableSickness> cureableSicknesses = new List<CureableSickness>();
+		public List<CureableSickness> CureableSicknesses = new List<CureableSickness>();
+
 		public static Dictionary<Reagent, Cure> InitialisedSicknesses { get; private set; } = new Dictionary<Reagent, Cure>();
 
 		private void OnEnable()
@@ -53,7 +54,7 @@ namespace HealthV2.Sickness
 
 			CureReactionSyncMessage.CureDataMessage data;
 
-			foreach (var cureableSickness in cureableSicknesses)
+			foreach (var cureableSickness in CureableSicknesses)
 			{
 				Cure cure = new Cure();
 				GetCluesForRound(ref cure, cureableSickness);
@@ -79,7 +80,7 @@ namespace HealthV2.Sickness
 		/// </summary>
 		private void CleanUpPastCures()
 		{
-			foreach (CureableSickness sickness in cureableSicknesses)
+			foreach (CureableSickness sickness in CureableSicknesses)
 			{
 				int reactionAmount = InitialisedSicknesses[sickness.Sickness].CureReagentA.RelatedReactions.Length;
 
@@ -97,10 +98,12 @@ namespace HealthV2.Sickness
 
 		private void GetCluesForRound(ref Cure cure, in CureableSickness cureableSickness)
 		{
+			List<Reagent> possibleCureReagents = new List<Reagent>(cureableSickness.PossibleCureReagents);
+
 			cure.ClueReagents = new Reagent[cureableSickness.NumberOfCluesForSickness];
 			for (int i = 0; i < cureableSickness.NumberOfCluesForSickness; i++)
 			{
-				cure.ClueReagents[i] = PickAndRemoveRandomReagent(cureableSickness.PossibleCureReagents); //Picks 5 random reagents with no duplicates
+				cure.ClueReagents[i] = PickAndRemoveRandomReagent(possibleCureReagents); //Picks 5 random reagents with no duplicates
 			}
 
 			cure.InhibitorReagentA = cure.ClueReagents[0];

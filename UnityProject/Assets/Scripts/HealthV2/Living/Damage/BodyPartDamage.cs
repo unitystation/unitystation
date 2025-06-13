@@ -507,6 +507,7 @@ namespace HealthV2
 
 			HealDamage(null,ProcessingRadiation, DamageType.Radiation);
 			TakeDamage(null, ProcessingRadiation * 0.1f,AttackType.Internal , DamageType.Tox, DamageSubOrgans : false); //This Should bypass all armour
+			if(ProcessingRadiation * 0.005f > 0.1f) HealthMaster.reagentPoolSystem.BloodPool.Add(CommonSicknesses.Instance.SpaceCancerReagent, ProcessingRadiation * 0.005f);
 		}
 
 		/// <summary>

@@ -8,6 +8,7 @@ using HealthV2.Living.PolymorphicSystems.Bodypart;
 using UnityEngine;
 using UnityEngine.Serialization;
 
+[CreateAssetMenu(fileName = "NewMetabolismReaction", menuName = "ScriptableObjects/Chemistry/MetabolismReaction")]
 public class MetabolismReaction : Reaction
 {
 

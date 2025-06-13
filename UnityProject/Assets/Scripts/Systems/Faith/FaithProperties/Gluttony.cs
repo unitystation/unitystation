@@ -77,10 +77,8 @@ namespace Systems.Faith.FaithProperties
 		private void StarvationProblem(PlayerScript member)
 		{
 			if (DMMath.Prob(25) == false) return;
-			//TODO: Give sickness
+			member.playerHealth.reagentPoolSystem.BloodPool.Add(CommonSicknesses.Instance.SpaceFluReagent, 10);
 			//TODO: Change this from cold to custom sickness for this faith
-			/*var sickness = Spawn.ServerPrefab(starvationSickness.gameObject);
-			member.playerHealth.AddSickness(sickness.GameObject.GetComponent<Sickness>());*/
 		}
 
 		public void OnJoinFaith(PlayerScript newMember)

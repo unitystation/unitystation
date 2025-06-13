@@ -103,6 +103,8 @@ public static class PlayerSpawn
 	//Time to start spawning players at arrivals
 	private static readonly DateTime ArrivalsSpawnTime = new DateTime().AddHours(12).AddMinutes(2);
 
+	private const float CHANCE_OF_FLU_ON_SPAWN = 10f;
+
 	private static Vector3Int GetSpawnPointForOccupation(Occupation occupation)
 	{
 		Transform spawnTransform;
@@ -148,6 +150,9 @@ public static class PlayerSpawn
 			}
 
 			var mind = NewSpawnCharacterV2(requestedOccupation, character);
+
+			if(DMMath.Prob(CHANCE_OF_FLU_ON_SPAWN)) mind.Body.playerHealth.reagentPoolSystem.BloodPool.Add(CommonSicknesses.Instance.SpaceFluReagent, 0.5f);
+
 			TransferAccountToSpawnedMind(account, mind);
 			OnNewMindSpawnEvent?.Invoke(mind);
 			return mind;

@@ -40,8 +40,7 @@ namespace Systems.Antagonists.Antags
 			}
 			if (DMMath.Prob(15))
 			{
-				//TODO: Reimplement giving blood brothers paranoia
-				//SpawnMind.Body.playerHealth.AddSickness(paranoiaSickness);
+				SpawnMind.Body.playerHealth.reagentPoolSystem.BloodPool.Add(CommonSicknesses.Instance.ParanoiaReagent, 10f);
 				Chat.AddExamineMsg(SpawnMind.Body.gameObject,
 					"Due to your past in prison.. You've gained paranoia from the experiments they've done on you.");
 				return;

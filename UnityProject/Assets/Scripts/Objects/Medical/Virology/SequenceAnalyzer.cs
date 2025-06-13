@@ -24,40 +24,40 @@ namespace Objects.Medical.Virology
 		[SerializeField] private ItemTrait dishItemTrait;
 		[SerializeField] private AddressableAudioSource machineBeepSound = null;
 
-		private ItemSlot dishItemSlot => dishItemStorage.GetIndexedItemSlot(0);
-		private bool isOnCooldown = false;
+		private ItemSlot DishItemSlot => dishItemStorage.GetIndexedItemSlot(0);
+		private bool _isOnCooldown = false;
 
-		public bool CanExamineSample => isOnCooldown == false && currentPowerState == PowerState.On;
-		public bool HasDishLoaded => dishItemSlot.IsOccupied;
+		public bool CanExamineSample => _isOnCooldown == false && currentPowerState == PowerState.On;
+		public bool HasDishLoaded => DishItemSlot.IsOccupied;
 
 		public void RequestLoadRemoveDish(PositionalHandApply interaction)
 		{
 			if (interaction.HandObject&& Validations.HasItemTrait(interaction, dishItemTrait))
 			{
-				Inventory.ServerTransfer(interaction.HandSlot, dishItemSlot);
+				Inventory.ServerTransfer(interaction.HandSlot, DishItemSlot);
 				mainpriteHandler.SetSpriteVariant(1);
 				return;
 			}
 			if (interaction.HandObject) return;
 
-			Inventory.ServerTransfer(dishItemSlot, interaction.HandSlot);
+			Inventory.ServerTransfer(DishItemSlot, interaction.HandSlot);
 			mainpriteHandler.SetSpriteVariant(0);
 		}
 
 		public void RequestExamineDish()
 		{
-			if (dishItemSlot.IsEmpty || CanExamineSample == false) return;
+			if (DishItemSlot.IsEmpty || CanExamineSample == false) return;
 
-			if(dishItemSlot.ItemObject.TryGetComponent<ReagentContainer>(out var container) == false) return;
+			if(DishItemSlot.ItemObject.TryGetComponent<ReagentContainer>(out var container) == false) return;
 
-			SoundManager.PlayNetworkedAtPosAsync(machineBeepSound, objectPhysics.OfficialPosition);
-			AnimateButtonPress();
+			_ = SoundManager.PlayNetworkedAtPosAsync(machineBeepSound, objectPhysics.OfficialPosition);
+			_ = AnimateButtonPress();
 
 			StringBuilder machineDialogue = new StringBuilder();
 			bool sampleHasSickness = false;
 			foreach (KeyValuePair<Reagent, CureManager.Cure> curePair in CureManager.InitialisedSicknesses)
 			{
-				if (container.CurrentReagentMix.reagents.TryGetValue(curePair.Key, out float amount) == false) continue;
+				if (container.CurrentReagentMix.reagents.ContainsKey(curePair.Key) == false) continue;
 				sampleHasSickness = true;
 				machineDialogue.AppendLine(
 					$"Sickness {curePair.Key.Name} has been identified in the sample.\nFormulating possible cure reagents:");
@@ -80,11 +80,11 @@ namespace Objects.Medical.Virology
 
 		private async UniTask AnimateButtonPress()
 		{
-			isOnCooldown = true;
+			_isOnCooldown = true;
 			buttonSpriteHandler.SetSpriteVariant(1);
 			await UniTask.Delay(200);
 			buttonSpriteHandler.SetSpriteVariant(0);
-			isOnCooldown = false;
+			_isOnCooldown = false;
 		}
 
 		public void StateUpdate(PowerState state)
