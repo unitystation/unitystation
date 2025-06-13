@@ -36,7 +36,7 @@ namespace Objects.Medical.Virology
 		public void ServerPerformInteraction(PositionalHandApply interaction)
 		{
 			if (loadCureRegion.Contains(interaction.WorldPositionTarget))
-				parentCureTester.RequestLoadRemoveItem(interaction, parentCureTester.CureItemSlot, reagentContainerItemTrait);
+				parentCureTester.RequestLoadRemoveItem(interaction, reagentContainerItemTrait);
 			if (powerButtonRegion.Contains(interaction.WorldPositionTarget))
 				parentCureTester.RequestExamineCure(interaction);
 		}

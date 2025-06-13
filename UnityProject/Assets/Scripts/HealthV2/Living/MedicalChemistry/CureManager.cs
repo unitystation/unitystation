@@ -80,6 +80,8 @@ namespace HealthV2.Sickness
 		/// </summary>
 		private void CleanUpPastCures()
 		{
+			if (InitialisedSicknesses.Count == 0) return;
+
 			foreach (CureableSickness sickness in CureableSicknesses)
 			{
 				int reactionAmount = InitialisedSicknesses[sickness.Sickness].CureReagentA.RelatedReactions.Length;

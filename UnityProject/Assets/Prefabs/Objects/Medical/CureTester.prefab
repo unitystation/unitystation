@@ -663,7 +663,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemStorageStructure: {fileID: 11400000, guid: 74bf3e872403e488695c17ecdde194ab,
     type: 2}
-  itemStorageCapacity: {fileID: 11400000, guid: 67218e514569804449f9d11a8c5dfcce,
+  itemStorageCapacity: {fileID: 11400000, guid: d826281b4a2314b558681d69d7e7f5d2,
     type: 2}
   itemStoragePopulator: {fileID: 0}
   forceSpawnContents: 0
@@ -688,7 +688,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c0e698b965320949b9d161d77b30301, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dishSpriteHandler: {fileID: 8019675412159415370}
+  connectedSequenceAnalyzer: {fileID: 0}
   sampleSpriteHandler: {fileID: 4580184169871743892}
   buttonSpriteHandler: {fileID: 78270153391506549}
   itemStorage: {fileID: 6580316994347479842}
@@ -714,10 +714,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerButtonRegion: {fileID: 292277418653205106}
-  loadSampleRegion: {fileID: 4247284413902882658}
   loadCureRegion: {fileID: 4063463649654110159}
   parentCureTester: {fileID: -8305334532888041256}
-  dishItemTrait: {fileID: 11400000, guid: d949801fb9efc874ba9902555eb46748, type: 2}
   reagentContainerItemTrait: {fileID: 11400000, guid: 175ef43f5edbe4b76b865068ed381c58,
     type: 2}
 --- !u!212 &3349359237517658759 stripped
@@ -736,17 +734,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 52a6a264ee47433418b51f654439372f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8019675412159415370 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
-    type: 3}
-  m_PrefabInstance: {fileID: 4287942156532837164}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

@@ -68,10 +68,10 @@ namespace Objects.Medical.Virology
 
 			}
 			if(_activeSickness is not null) machineDialogue.AppendLine($"Sickness {_activeSickness.Name} is registered as active disease.");
-			Chat.AddLocalMsgToChat(
-				_activeSickness is null
-					? "No sickness was identified in the provided sample."
-					: machineDialogue.ToString(), gameObject, doSpeechBubble: false);
+
+			Chat.AddCommMsgByMachineToChat(gameObject,
+				_activeSickness is null ? "No sickness was identified in the provided sample." : machineDialogue.ToString(),
+				ChatChannel.Local, Loudness.NORMAL);
 		}
 
 		private void AddCluesToStringBuilder(in StringBuilder builder, CureManager.Cure cure)
@@ -120,6 +120,6 @@ namespace Objects.Medical.Virology
 			tester.SetAnalyzer(this);
 		}
 
-		public bool RequireLink { get; } = true;
+		public bool RequireLink { get; } = false;
 	}
 }

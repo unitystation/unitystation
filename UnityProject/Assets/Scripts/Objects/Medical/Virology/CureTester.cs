@@ -40,29 +40,40 @@ namespace Objects.Medical.Virology
 			CureItemSlot = itemStorage.GetIndexedItemSlot(0);
 		}
 
-		public void RequestLoadRemoveItem(PositionalHandApply interaction, ItemSlot slot, ItemTrait requiredTrait)
+		public void RequestLoadRemoveItem(PositionalHandApply interaction, ItemTrait requiredTrait)
 		{
+			if (_currentPowerState != PowerState.On)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"{gameObject.ExpensiveName()} is unpowered!");
+				return;
+			}
+
 			if (interaction.HandObject&& Validations.HasItemTrait(interaction, requiredTrait))
 			{
-				Inventory.ServerTransfer(interaction.HandSlot, slot);
+				Inventory.ServerTransfer(interaction.HandSlot, CureItemSlot, ReplacementStrategy.DropOther);
 
-					sampleSpriteHandler.SetSpriteVariant(1);
-					Chat.AddActionMsgToChat(interaction.Performer,
+				sampleSpriteHandler.SetSpriteVariant(1);
+				Chat.AddActionMsgToChat(interaction.Performer,
 						$"You place the {interaction.HandObject.ExpensiveName()} into the tester's primary slot.",
 						$"{interaction.Performer.ExpensiveName()} places the {interaction.HandObject.ExpensiveName()} into the tester's primary slot.");
-
 				return;
 			}
 			if (interaction.HandObject) return;
 
-			Inventory.ServerTransfer(slot, interaction.HandSlot);
+			Inventory.ServerTransfer(CureItemSlot, interaction.HandSlot);
 			sampleSpriteHandler.SetSpriteVariant(0);
 		}
 
 		public void RequestExamineCure(PositionalHandApply interaction)
 		{
-			_ = SoundManager.PlayNetworkedAtPosAsync(machineBeepSound, objectPhysics.OfficialPosition);
 			_ = AnimateButtonPress();
+
+			if (_currentPowerState != PowerState.On)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"{gameObject.ExpensiveName()} is unpowered!");
+				return;
+			}
+			_ = SoundManager.PlayNetworkedAtPosAsync(machineBeepSound, objectPhysics.OfficialPosition);
 
 			if (connectedSequenceAnalyzer.ActiveSickness is null)
 			{
@@ -75,7 +86,7 @@ namespace Objects.Medical.Virology
 				StringBuilder machineDialogue = new StringBuilder();
 				machineDialogue.AppendLine($"Test results of cure against sickness {connectedSequenceAnalyzer.ActiveSickness.Name}: ");
 				TestCure(in machineDialogue, container.CurrentReagentMix);
-				Chat.AddLocalMsgToChat(machineDialogue.ToString(), gameObject, doSpeechBubble: false);
+				Chat.AddCommMsgByMachineToChat(gameObject, machineDialogue.ToString(), ChatChannel.Local, Loudness.NORMAL);
 			}
 			else Chat.AddWarningMsgFromServer(interaction.Performer, "No cure was found to test!");
 		}
