@@ -311,8 +311,20 @@ public class NetTab : Tab
 		}
 	}
 
-	public bool IsAIInteracting()
+	public bool IsAIInteracting(PlayerInfo player = null)
 	{
+		if (player != null)
+		{
+			if (player.Job == JobType.AI) //TODO Better system for determining if Remotely accessing
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
 		foreach(var peep in Peepers)
 		{
 			if (peep.Job != JobType.AI) continue;

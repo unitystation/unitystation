@@ -1,0 +1,113 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1015569816170201447
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1210846040600401038, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 6909930732346956580}
+    - target: {fileID: 1210846040600401038, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 5ceb3c755b67b6ff2aa0c12995878d4d,
+        type: 2}
+    - target: {fileID: 2828519069101837110, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: _assetId
+      value: 895424018
+      objectReference: {fileID: 0}
+    - target: {fileID: 3907091649879794020, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: initialName
+      value: atmospherics department sign
+      objectReference: {fileID: 0}
+    - target: {fileID: 3907091649879794020, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: initialDescription
+      value: A sign pointing the way to the atmospherics department.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5907885132315318851, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -8194262860130224469, guid: bc0cfbf968a9e54f299dd6dca371fafc,
+        type: 3}
+    - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5952978952584658516, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: m_Name
+      value: SignDirectionalAtmospherics
+      objectReference: {fileID: 0}
+    - target: {fileID: 7344477038852931613, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: foreverID
+      value: 85b546a6b28d59b6abdf99b5923dc55c
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d95c8124beb3ec54ab012b6142cf1977, type: 3}
+--- !u!212 &6909930732346956580 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5907885132315318851, guid: d95c8124beb3ec54ab012b6142cf1977,
+    type: 3}
+  m_PrefabInstance: {fileID: 1015569816170201447}
+  m_PrefabAsset: {fileID: 0}

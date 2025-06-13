@@ -22,6 +22,8 @@ public class SpriteDataSO : SOTracker
 	[NonSerialized] public object SpriteDataEntry;
 
 
+	public Sprite GetFirstSprite => Variance[0].Frames[0].sprite;
+
 	[Serializable]
 	public struct Variant
 	{

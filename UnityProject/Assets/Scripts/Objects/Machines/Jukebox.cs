@@ -128,7 +128,7 @@ namespace Objects
 			registerTile = GetComponent<RegisterTile>();
 			vinylStorage = GetComponent<ItemStorage>();
 			integrity = GetComponent<Integrity>();
-			integrity.OnApplyDamage.AddListener(OnDamageReceived);
+			integrity.OnApplyDamage += OnDamageReceived;
 
 			audioSourceParameters = new AudioSourceParameters(volume: Volume, spatialBlend: 2, spread: Spread,
 				minDistance: MinSoundDistance, maxDistance: MaxSoundDistance, mixerType: MixerType.JukeBox,

@@ -1,0 +1,352 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &7762367453387633697
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7692143295305377, guid: b6b606388cb517144a21d93415c57401, type: 3}
+      propertyPath: _assetId
+      value: 909790041
+      objectReference: {fileID: 0}
+    - target: {fileID: 112421141507975957, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: m_Name
+      value: MedBotController
+      objectReference: {fileID: 0}
+    - target: {fileID: 116218716797523553, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 116218716797523553, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 116218716797523553, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 116218716797523553, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 116218716797523553, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 116218716797523553, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 116218716797523553, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 116218716797523553, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 116218716797523553, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 116218716797523553, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleEmaggedDialogue.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.data[0].Transcription
+      value: Look at me! I am a chicken.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.data[0].transcription
+      value: Look at me! I am a chicken.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.data[1].Transcription
+      value: I knew it! I should've been a plastic surgeon.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.data[1].transcription
+      value: I knew it! I should've been a plastic surgeon.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.data[2].Transcription
+      value: An apple a day keep me away!
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.data[2].transcription
+      value: An apple a day keep me away!
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.data[3].Transcription
+      value: You are a good person!
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.data[3].transcription
+      value: You are a good person!
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleEmaggedDialogue.Array.data[0].Transcription
+      value: This hurts, my pain is real.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleEmaggedDialogue.Array.data[0].transcription
+      value: This hurts, my pain is real.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleEmaggedDialogue.Array.data[1].Transcription
+      value: I require assistance.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleEmaggedDialogue.Array.data[1].transcription
+      value: I require assistance.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleEmaggedDialogue.Array.data[2].Transcription
+      value: There's always a catch. And then the best there is.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleEmaggedDialogue.Array.data[2].transcription
+      value: There's always a catch. And then the best there is.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.data[0].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/medbot/i_am_chicken.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.data[1].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/medbot/surgeon.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.data[2].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/medbot/apple.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.data[3].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/medbot/youre_good.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleEmaggedDialogue.Array.data[0].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/medbot/pain_is_real.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleEmaggedDialogue.Array.data[1].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/medbot/i_require_asst.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleEmaggedDialogue.Array.data[2].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/medbot/catch.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 3581588255896703113, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: 'OptionalReplacementOrgan.Array.data[2]'
+      value: 
+      objectReference: {fileID: 6488881776525976744}
+    - target: {fileID: 6109547793187147922, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 7550262648123665512}
+    - target: {fileID: 6428289829602600824, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: foreverID
+      value: 5198537037f182b439f0c2c8e1dfd42d
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 1588973984930370205, guid: b6b606388cb517144a21d93415c57401, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 112421141507975957, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5371549656244227377}
+  m_SourcePrefab: {fileID: 100100000, guid: b6b606388cb517144a21d93415c57401, type: 3}
+--- !u!114 &6286650873187718081 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4361687565459908576, guid: b6b606388cb517144a21d93415c57401,
+    type: 3}
+  m_PrefabInstance: {fileID: 7762367453387633697}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7653338138175774516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f14e9b5b4498704cb98ada2d5271d86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6488881776525976744 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3581588255896703113, guid: b6b606388cb517144a21d93415c57401,
+    type: 3}
+  m_PrefabInstance: {fileID: 7762367453387633697}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7653338138175774516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!212 &7550262648123665512 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 251801298607183945, guid: b6b606388cb517144a21d93415c57401,
+    type: 3}
+  m_PrefabInstance: {fileID: 7762367453387633697}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7653338138175774516 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 112421141507975957, guid: b6b606388cb517144a21d93415c57401,
+    type: 3}
+  m_PrefabInstance: {fileID: 7762367453387633697}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5371549656244227377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7653338138175774516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c206d0bd8e47e04380148afd0a65e9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  RelatedPart: {fileID: 6488881776525976744}
+  <Blacklist>k__BackingField: []
+  <UpdateType>k__BackingField: 3
+  <PeriodicUpdateInterval>k__BackingField: 1.5
+  <master>k__BackingField: {fileID: 6286650873187718081}
+  findSimpleTaskAi: {fileID: 8328933848482641782}
+  taskPerformSound:
+    AssetAddress: Assets/Prefabs/Items/defib/DefibReady.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  emaggedPerformSound:
+    AssetAddress: Assets/Prefabs/Effects/Punch1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  taskPerformDuration: 3
+  botLanguage: {fileID: 11400000, guid: 90699dd78f8cfad4e983185c4f67ae72, type: 2}
+  stateExitDialogue:
+  - audioSource:
+      AssetAddress: Assets/Prefabs/NPC/Bots/medbot/apple.prefab
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectGUID: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    transcription: An apple a day keeps me away!
+  - audioSource:
+      AssetAddress: Assets/Prefabs/NPC/Bots/medbot/feelbetter.prefab
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectGUID: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    transcription: Feel better soon!
+  - audioSource:
+      AssetAddress: Assets/Prefabs/NPC/Bots/medbot/youre_good.prefab
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectGUID: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    transcription: You are a good person!
+  - audioSource:
+      AssetAddress: Assets/Prefabs/NPC/Bots/medbot/thank_you.prefab
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectGUID: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    transcription: Thank you!
+  blackListedSpecies:
+  - {fileID: 11400000, guid: 878d88bc2a64d75429f00a1208902607, type: 2}
+  - {fileID: 11400000, guid: e9ff315a55db70441bed9631f79432e4, type: 2}
+  - {fileID: 11400000, guid: f0297cb2a01ba64408e02a2944608937, type: 2}
+  - {fileID: 11400000, guid: 60f6168d2ada0a34ea579eb77f1fd6b0, type: 2}
+  contactFilter:
+    useTriggers: 1
+    useLayerMask: 1
+    useDepth: 0
+    useOutsideDepth: 0
+    useNormalAngle: 0
+    useOutsideNormalAngle: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 256
+    minDepth: 0
+    maxDepth: 0
+    minNormalAngle: 0
+    maxNormalAngle: 0
+--- !u!114 &8328933848482641782 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+    type: 3}
+  m_PrefabInstance: {fileID: 7762367453387633697}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7653338138175774516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18d38ca4cab17f544a95f2d3600c2045, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

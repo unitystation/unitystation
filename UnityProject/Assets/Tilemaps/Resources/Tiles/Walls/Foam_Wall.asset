@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Foam_Wall
   m_EditorClassIdentifier: 
   <ForeverID>k__BackingField: e572dbae862787047b70b6f7786d2a6c
-  displayName: Foam Wall
-  description: A wall completely made of foam
+  displayName: foam wall
+  description: A wall completely made of foam.
   LayerType: 0
   TileType: 1
   RequiredTiles: []
@@ -69,11 +69,11 @@ MonoBehaviour:
   spawnOnDestroy: {fileID: 0}
   damageOverlayList: {fileID: 0}
   soundOnHit:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   SoundOnDestroy: []

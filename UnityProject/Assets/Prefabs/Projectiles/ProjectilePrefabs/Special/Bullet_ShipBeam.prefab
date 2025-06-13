@@ -21,8 +21,33 @@ PrefabInstance:
     - target: {fileID: 2309046873998151232, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 16
+      value: 24
       objectReference: {fileID: 0}
+    - target: {fileID: 2309046873998151232, guid: f8f5682e74c42bb45851c71a4b53b20b,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2309046873998151232, guid: f8f5682e74c42bb45851c71a4b53b20b,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2309046873998151232, guid: f8f5682e74c42bb45851c71a4b53b20b,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2309046873998151232, guid: f8f5682e74c42bb45851c71a4b53b20b,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567080129922137229, guid: f8f5682e74c42bb45851c71a4b53b20b,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 216892637462594426}
     - target: {fileID: 2567080129922137229, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -162,23 +187,23 @@ PrefabInstance:
     - target: {fileID: 4447441901592205885, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.3333334
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4447441901592205885, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 2
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 4447441901592205885, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4565153780927629279, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300002, guid: 2bb6119a8b8c5a64e821f4e1622b8821,
+      objectReference: {fileID: 21300000, guid: 2bb6119a8b8c5a64e821f4e1622b8821,
         type: 3}
     - target: {fileID: 5134017693424603158, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
@@ -205,7 +230,7 @@ PrefabInstance:
         type: 3}
       propertyPath: Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: bb4c5a10ebf40144bb44e432b1c4082d,
+      objectReference: {fileID: 21300000, guid: f68e161ab5e490e40a2813c2e26e10cb,
         type: 3}
     - target: {fileID: 5391593875210699565, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
@@ -224,18 +249,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5391593875210699565, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
-      propertyPath: InitialColour.a
-      value: 0.9411765
-      objectReference: {fileID: 0}
-    - target: {fileID: 5391593875210699565, guid: f8f5682e74c42bb45851c71a4b53b20b,
-        type: 3}
       propertyPath: InitialColour.b
-      value: 0.14192861
+      value: 0.14117648
       objectReference: {fileID: 0}
     - target: {fileID: 5391593875210699565, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
       propertyPath: InitialColour.g
-      value: 0.3400205
+      value: 0.34117648
       objectReference: {fileID: 0}
     - target: {fileID: 5391593875210699565, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
@@ -246,8 +266,13 @@ PrefabInstance:
         type: 3}
       propertyPath: decal
       value: 
-      objectReference: {fileID: 64157212496800772, guid: cd302345568216c40988ac17b9ee7754,
+      objectReference: {fileID: 2710477072232626095, guid: ff79210754866503da7367a569689a14,
         type: 3}
+    - target: {fileID: 5572642767229722754, guid: f8f5682e74c42bb45851c71a4b53b20b,
+        type: 3}
+      propertyPath: animationTime
+      value: 0.48
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 52189756191693650, guid: f8f5682e74c42bb45851c71a4b53b20b, type: 3}
     m_RemovedGameObjects: []
@@ -257,36 +282,11 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: -7057741786109646320}
-    - targetCorrespondingSourceObject: {fileID: 4444223980311046247, guid: f8f5682e74c42bb45851c71a4b53b20b,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3189289497893967582}
     - targetCorrespondingSourceObject: {fileID: 5673484502209229565, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 3687048150704736697}
   m_SourcePrefab: {fileID: 100100000, guid: f8f5682e74c42bb45851c71a4b53b20b, type: 3}
---- !u!1 &141071399309831362 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4444223980311046247, guid: f8f5682e74c42bb45851c71a4b53b20b,
-    type: 3}
-  m_PrefabInstance: {fileID: 4348262382638859429}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &3189289497893967582
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 141071399309831362}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 967620e59e52cc14c89c22c4176bac09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mIntensity: 1
-  mAdditionalEmission: 0.2
-  mScale: 1.2
 --- !u!1 &141087819969772048 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4444242521069764277, guid: f8f5682e74c42bb45851c71a4b53b20b,
@@ -309,6 +309,12 @@ MonoBehaviour:
   explosionPrefab: {fileID: 6047024076387894157, guid: 7442edc5f98954af09587a7233e5a7c5,
     type: 3}
   explosionStrength: 80
+--- !u!212 &216892637462594426 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4565153780927629279, guid: f8f5682e74c42bb45851c71a4b53b20b,
+    type: 3}
+  m_PrefabInstance: {fileID: 4348262382638859429}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8278853620741404248 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5673484502209229565, guid: f8f5682e74c42bb45851c71a4b53b20b,
@@ -329,11 +335,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  InitialPresentSpriteSet: {fileID: 11400000, guid: fc22d71c1c3167245ad53699c82a0a3f,
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 3d8ec325ec2878f49a3fb13038c0588c,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 

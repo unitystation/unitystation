@@ -1,6 +1,6 @@
 {
   "Ver": "1.0.0",
-  "MapName": "Asteroid",
+  "MapName": "AsteroidMedium",
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
@@ -3387,6 +3387,9 @@
             "Value": [
               {
                 "Tel": "Loose_Rock_wall"
+              },
+              {
+                "Tel": "ironsand10"
               }
             ]
           },
@@ -3395,6 +3398,9 @@
             "Value": [
               {
                 "Tel": "Loose_Rock_wall"
+              },
+              {
+                "Tel": "ironsand9"
               }
             ]
           },
@@ -3611,6 +3617,9 @@
             "Key": "X7Y23",
             "Value": [
               {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
                 "Tel": "ironsand5"
               }
             ]
@@ -3704,6 +3713,17 @@
             ]
           },
           {
+            "Key": "X8Y15",
+            "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
+                "Tel": "ironsand4"
+              }
+            ]
+          },
+          {
             "Key": "X8Y16",
             "Value": [
               {
@@ -3780,6 +3800,9 @@
             "Key": "X8Y24",
             "Value": [
               {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
                 "Tel": "ironsand4"
               }
             ]
@@ -3844,6 +3867,17 @@
               },
               {
                 "Tel": "ironsand7"
+              }
+            ]
+          },
+          {
+            "Key": "X9Y15",
+            "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
+                "Tel": "ironsand2"
               }
             ]
           },
@@ -5007,6 +5041,9 @@
             "Key": "X14Y24",
             "Value": [
               {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
                 "Tel": "ironsand5"
               }
             ]
@@ -5046,6 +5083,9 @@
           {
             "Key": "X14Y29",
             "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
               {
                 "Tel": "ironsand4"
               }
@@ -5275,6 +5315,9 @@
           {
             "Key": "X15Y26",
             "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
               {
                 "Tel": "ironsand7"
               }
@@ -5978,6 +6021,17 @@
             ]
           },
           {
+            "Key": "X18Y7",
+            "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
+                "Tel": "ironsand2"
+              }
+            ]
+          },
+          {
             "Key": "X18Y8",
             "Value": [
               {
@@ -6273,6 +6327,17 @@
               },
               {
                 "Tel": "ironsand4"
+              }
+            ]
+          },
+          {
+            "Key": "X19Y7",
+            "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
+                "Tel": "ironsand13"
               }
             ]
           },
@@ -6578,6 +6643,17 @@
             ]
           },
           {
+            "Key": "X20Y7",
+            "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
+                "Tel": "ironsand6"
+              }
+            ]
+          },
+          {
             "Key": "X20Y8",
             "Value": [
               {
@@ -6876,6 +6952,17 @@
             ]
           },
           {
+            "Key": "X21Y7",
+            "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
+                "Tel": "ironsand12"
+              }
+            ]
+          },
+          {
             "Key": "X21Y8",
             "Value": [
               {
@@ -7170,6 +7257,17 @@
               },
               {
                 "Tel": "ironsand6"
+              }
+            ]
+          },
+          {
+            "Key": "X22Y7",
+            "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
+                "Tel": "ironsand3"
               }
             ]
           },
@@ -7599,6 +7697,9 @@
           {
             "Key": "X23Y24",
             "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
               {
                 "Tel": "ironsand1"
               }
@@ -8468,6 +8569,9 @@
             "Key": "X26Y24",
             "Value": [
               {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
                 "Tel": "ironsand1"
               }
             ]
@@ -8620,6 +8724,9 @@
           {
             "Key": "X27Y12",
             "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
               {
                 "Tel": "ironsand1"
               }
@@ -9771,9 +9878,53 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.2",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
+          {
+            "GitID": "83b269ab1421fcf4a95ad3cf33935cff_-5┼9┼0┼",
+            "PrefabID": "83b269ab1421fcf4a95ad3cf33935cff",
+            "Name": "OreGenerator (1)",
+            "LocalPRS": "-5┼9┼0┼"
+          },
+          {
+            "GitID": "e02a5954be8d94b4bbaaa0d63d813c71_-4┼9┼0┼",
+            "PrefabID": "e02a5954be8d94b4bbaaa0d63d813c71",
+            "NameMatches": true,
+            "Name": "AI_ShouldNavigateAround",
+            "LocalPRS": "-4┼9┼0┼"
+          },
+          {
+            "GitID": "911f81eefba53574788e7659d9b3dbfe_-3┼9┼0┼",
+            "PrefabID": "911f81eefba53574788e7659d9b3dbfe",
+            "NameMatches": true,
+            "Name": "AsteroidSystem",
+            "LocalPRS": "-3┼9┼0┼"
+          },
+          {
+            "GitID": "86f1fa4a01e7f0142a6e2ce35cce0930_-2┼9┼0┼",
+            "PrefabID": "86f1fa4a01e7f0142a6e2ce35cce0930",
+            "NameMatches": true,
+            "Name": "MatrixGasSettings",
+            "LocalPRS": "-2┼9┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "MatrixGasSettings@0",
+                  "Data": [
+                    {
+                      "Name": "defaultRoomGasMixOverride",
+                      "Data": "Space"
+                    },
+                    {
+                      "Name": "overriderTileSpawnWithNoAir",
+                      "Data": "True"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
           {
             "GitID": "8fb9b82aab871a54fb9bdb7e4a985821_-2┼26┼0┼",
             "PrefabID": "8fb9b82aab871a54fb9bdb7e4a985821",
@@ -9842,23 +9993,18 @@
             }
           },
           {
-            "GitID": "86f1fa4a01e7f0142a6e2ce35cce0930_0┼0┼0┼",
-            "PrefabID": "86f1fa4a01e7f0142a6e2ce35cce0930",
-            "NameMatches": true,
-            "Name": "MatrixGasSettings",
-            "LocalPRS": "0┼0┼0┼",
+            "GitID": "SaFaeLok!_90EKEzA!HE_-1┼9┼0┼",
+            "PrefabID": "SaFaeLok!_90EKEzA!HE",
+            "Name": "MatrixEnterAmbienceSetter (5)",
+            "LocalPRS": "-1┼9┼0┼",
             "Object": {
               "ClassDatas": [
                 {
-                  "ClassID": "MatrixGasSettings@0",
+                  "ClassID": "EnterAmbienceSetter@0",
                   "Data": [
                     {
-                      "Name": "defaultRoomGasMixOverride",
-                      "Data": "Space"
-                    },
-                    {
-                      "Name": "overriderTileSpawnWithNoAir",
-                      "Data": "True"
+                      "Name": "EnteringSounds",
+                      "Data": "84b2223b47deb0d458c4c171c79fea3b"
                     }
                   ]
                 }
@@ -9866,30 +10012,10 @@
             }
           },
           {
-            "GitID": "911f81eefba53574788e7659d9b3dbfe_0┼0┼0┼",
-            "PrefabID": "911f81eefba53574788e7659d9b3dbfe",
-            "NameMatches": true,
-            "Name": "AsteroidSystem",
-            "LocalPRS": "0┼0┼0┼"
-          },
-          {
-            "GitID": "e02a5954be8d94b4bbaaa0d63d813c71_0┼0┼0┼",
-            "PrefabID": "e02a5954be8d94b4bbaaa0d63d813c71",
-            "NameMatches": true,
-            "Name": "AI_ShouldNavigateAround",
-            "LocalPRS": "0┼0┼0┼"
-          },
-          {
             "GitID": "immadirtpilewhipeeee_3┼22┼0┼",
             "PrefabID": "immadirtpilewhipeeee",
             "Name": "DirtPile (1)",
             "LocalPRS": "3┼22┼0┼"
-          },
-          {
-            "GitID": "83b269ab1421fcf4a95ad3cf33935cff_8.02┼23.99┼0┼",
-            "PrefabID": "83b269ab1421fcf4a95ad3cf33935cff",
-            "Name": "OreGenerator (1)",
-            "LocalPRS": "8.02┼23.99┼0┼"
           },
           {
             "GitID": "immadirtpilewhipeeee_16┼20┼0┼",
@@ -9902,12 +10028,6 @@
             "PrefabID": "immadirtpilewhipeeee",
             "Name": "DirtPile (3)",
             "LocalPRS": "22┼11┼0┼"
-          },
-          {
-            "GitID": "c2688b12db72cdc4c8c20b8647f6b587_23┼14┼0┼",
-            "PrefabID": "c2688b12db72cdc4c8c20b8647f6b587",
-            "Name": "Artifact25% (2)",
-            "LocalPRS": "23┼14┼0┼"
           },
           {
             "GitID": "8fb9b82aab871a54fb9bdb7e4a985821_23┼22┼0┼",

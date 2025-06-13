@@ -2,6 +2,7 @@
 using Logs;
 using Mirror;
 using UI;
+using UI.Systems.PreRound;
 
 namespace Messages.Server
 {
@@ -30,7 +31,7 @@ namespace Messages.Server
 			}
 
 			UIManager.Display.jobSelectWindow.GetComponent<GUI_PlayerJobs>().UpdateJobsList();
-			UIManager.Display.preRoundWindow.GetComponent<GUI_PreRoundWindow>().UpdatePlayerCount(msg.Players?.Length ?? 0);
+			UIManager.Display.preRoundWindow.GetComponent<GUI_PreRoundWindow>().ButtonsArea.SetPlayerCount(msg.Players?.Length ?? 0);
 		}
 
 		public static NetMessage Send()
@@ -46,7 +47,7 @@ namespace Messages.Server
 			{
 				var tag = "";
 
-				var Rank = PlayerList.GetRank(c.AccountId, out var RankName);
+				var Rank = PlayerList.GetRankForAccount(c.AccountId, out var RankName);
 
 				if (Rank?.ShowInChat == true)
 				{

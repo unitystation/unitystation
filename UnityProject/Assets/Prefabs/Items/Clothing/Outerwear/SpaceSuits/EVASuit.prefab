@@ -107,7 +107,7 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A lightweight space suit with the basic ability to protect the wearer
-        from the vacuum of space during emergencies."
+        from the vacuum of space during emergencies.
       objectReference: {fileID: 0}
     - target: {fileID: 3791466462619397166, guid: bb9351dcbe298544e9475ae3e599f329,
         type: 3}
@@ -207,6 +207,11 @@ PrefabInstance:
       objectReference: {fileID: 2156878199720053913}
     - target: {fileID: 7145545764318209269, guid: bb9351dcbe298544e9475ae3e599f329,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 5452525214285543819}
+    - target: {fileID: 7145545764318209269, guid: bb9351dcbe298544e9475ae3e599f329,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 7c0216e23b0d28440851441285af0101,
@@ -256,6 +261,12 @@ PrefabInstance:
 --- !u!210 &2156878199720053913 stripped
 SortingGroup:
   m_CorrespondingSourceObject: {fileID: 7122576024641788220, guid: bb9351dcbe298544e9475ae3e599f329,
+    type: 3}
+  m_PrefabInstance: {fileID: 9166721228376233381}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &5452525214285543819 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3791466462619397166, guid: bb9351dcbe298544e9475ae3e599f329,
     type: 3}
   m_PrefabInstance: {fileID: 9166721228376233381}
   m_PrefabAsset: {fileID: 0}

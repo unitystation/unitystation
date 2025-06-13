@@ -228,10 +228,7 @@ public static class ConverterExtensions
 	}
 
 
-	public static  string ToSerialiseString(this Vector3 Vector3data)
-	{
-		return $"{Vector3data.x},{Vector3data.y},{Vector3data.z}";
-	}
+
 
 	public static  Vector3 RoundToArbitraryDepth(this Vector3 Vector3data, int NumberOfDigits)
 	{
@@ -240,6 +237,10 @@ public static class ConverterExtensions
 			(float) Math.Round(Vector3data.z, NumberOfDigits));
 	}
 
+	public static  string ToSerialiseString(this Vector3 Vector3data)
+	{
+		return $"{Vector3data.x},{Vector3data.y},{Vector3data.z}";
+	}
 
 	public static  Vector3 ToVector3(this string SerialiseData)
 	{

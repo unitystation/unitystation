@@ -18,21 +18,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: a1b40c924340847478c3f6926388d3e7
       objectReference: {fileID: 0}
-    - target: {fileID: 4798169871898643449, guid: 2d5ef1e4279414f4798d5cf1542d9388,
+    - target: {fileID: 4297281311582415504, guid: 2d5ef1e4279414f4798d5cf1542d9388,
         type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4798169871898643449, guid: 2d5ef1e4279414f4798d5cf1542d9388,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4798169871898643449, guid: 2d5ef1e4279414f4798d5cf1542d9388,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 3866909193454180787}
     - target: {fileID: 5657113146019560963, guid: 2d5ef1e4279414f4798d5cf1542d9388,
         type: 3}
       propertyPath: parentID
@@ -103,3 +93,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d5ef1e4279414f4798d5cf1542d9388, type: 3}
+--- !u!212 &3866909193454180787 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8832630492572476509, guid: 2d5ef1e4279414f4798d5cf1542d9388,
+    type: 3}
+  m_PrefabInstance: {fileID: 5708818091657903598}
+  m_PrefabAsset: {fileID: 0}

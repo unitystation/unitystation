@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using Core;
 using Items;
 using Logs;
+using Managers;
+using Messages.Client;
 using UI;
 using UnityEngine;
 using UnityEngine.Events;
@@ -309,14 +311,37 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 
 	public RightClickableResult GenerateRightClickOptions()
 	{
-		if (!canPickup) return null;
-		var interaction = HandApply.ByLocalPlayer(gameObject);
-		if (interaction.TargetObject != gameObject) return null;
-		if (interaction.HandObject != null) return null;
-		if (!Validations.CanApply(interaction.PerformerPlayerScript, interaction.TargetObject, NetworkSide.Client, true, ReachRange.Standard)) return null;
 
-		return RightClickableResult.Create()
+		var Result = RightClickableResult.Create();
+
+		if (PlayerList.HasTAGClient(TAG.ADMIN_GHOST_DROP_ITEM)  &&
+		    KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions,
+			    KeyboardInputManager.KeyEventType.Hold) )
+		{
+			Result.AddAdminElement("Admin PickUp", RightClickInteractAdmin);
+		}
+
+
+		if (!canPickup) return Result;
+		var interaction = HandApply.ByLocalPlayer(gameObject);
+		if (interaction.TargetObject != gameObject) return Result;
+		if (interaction.HandObject != null) return Result;
+		if (!Validations.CanApply(interaction.PerformerPlayerScript, interaction.TargetObject, NetworkSide.Client, true, ReachRange.Standard)) return Result;
+
+
+		return Result
 				.AddElement("PickUp", RightClickInteract);
+	}
+
+	private void RightClickInteractAdmin()
+	{
+		var CurrentSlot = PlayerManager.LocalPlayerScript?.DynamicItemStorage?.GetActiveHandSlot();
+		if (PlayerManager.LocalMindScript.isGhosting)
+		{
+			CurrentSlot = AdminManager.Instance.LocalAdminGhostStorage.GetNamedItemSlot(NamedSlot.ghostStorage01);
+		}
+
+		AdminInventoryTransferMessage.Send(this, CurrentSlot);
 	}
 
 	private void RightClickInteract()

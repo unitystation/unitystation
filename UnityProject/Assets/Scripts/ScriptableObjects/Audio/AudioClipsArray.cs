@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AddressableReferences;
 using NaughtyAttributes;
+using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -10,7 +11,7 @@ using Random = UnityEngine.Random;
 namespace Audio.Containers
 {
 	[CreateAssetMenu(fileName = "AudioClipsArray", menuName = "ScriptableObjects/Audio/AudioClipsArray", order = 0)]
-	public class AudioClipsArray : ScriptableObject
+	public class AudioClipsArray : SOTracker
 	{
 		[FormerlySerializedAs("audioClips")] [SerializeField]
 		private List<AddressableAudioSource> addressableAudioSource = new List<AddressableAudioSource>();

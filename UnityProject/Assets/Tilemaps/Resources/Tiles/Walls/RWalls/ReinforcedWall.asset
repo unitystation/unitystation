@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ForeverID>k__BackingField: 0fcc62fe65ef68645b4ef5863b15eaf0
   displayName: reinforced wall
-  description: A strong, composite structure design to resist a good deal of punishment.
+  description: A strong, composite structure designed to resist a good deal of punishment.
   LayerType: 0
   TileType: 1
   RequiredTiles:
@@ -68,14 +68,14 @@ MonoBehaviour:
   lootOnDespawn: {fileID: 0}
   toTileWhenDestroyed: {fileID: 11400000, guid: e5521a40048af4964ad58c041a5dc7f4,
     type: 2}
-  spawnOnDestroy: {fileID: 0}
+  spawnOnDestroy: {fileID: 11400000, guid: 017dad844ab5047cab969a94134a1fdb, type: 2}
   damageOverlayList: {fileID: 0}
   soundOnHit:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   SoundOnDestroy: []

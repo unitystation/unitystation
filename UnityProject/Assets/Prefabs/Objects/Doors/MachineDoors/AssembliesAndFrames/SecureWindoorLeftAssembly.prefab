@@ -10,7 +10,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 333270429306783608, guid: a97162b8bb7eda1498667ff8e831f837,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 6332298592430036196}
+    - target: {fileID: 333270429306783608, guid: a97162b8bb7eda1498667ff8e831f837,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 46b66e4cfa3da7747bcee08bd943490d,
+        type: 2}
+    - target: {fileID: 333270429306783608, guid: a97162b8bb7eda1498667ff8e831f837,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 46b66e4cfa3da7747bcee08bd943490d,
         type: 2}
@@ -25,6 +36,16 @@ PrefabInstance:
       propertyPath: initialName
       value: secure windoor left assembly
       objectReference: {fileID: 0}
+    - target: {fileID: 2721087689227183032, guid: a97162b8bb7eda1498667ff8e831f837,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 8984190790121808485}
+    - target: {fileID: 3259298705838065899, guid: a97162b8bb7eda1498667ff8e831f837,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 3507191117420075616}
     - target: {fileID: 3687641762445007040, guid: a97162b8bb7eda1498667ff8e831f837,
         type: 3}
       propertyPath: _assetId
@@ -39,8 +60,13 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 0ec5ea7b3d593c74192701ffb1c3e041,
+      objectReference: {fileID: 21300006, guid: 0ec5ea7b3d593c74192701ffb1c3e041,
         type: 3}
+    - target: {fileID: 5012734566442633653, guid: a97162b8bb7eda1498667ff8e831f837,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5108567027293055864, guid: a97162b8bb7eda1498667ff8e831f837,
         type: 3}
       propertyPath: m_RootOrder
@@ -116,3 +142,21 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a97162b8bb7eda1498667ff8e831f837, type: 3}
+--- !u!212 &3507191117420075616 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2511913752537302833, guid: a97162b8bb7eda1498667ff8e831f837,
+    type: 3}
+  m_PrefabInstance: {fileID: 1328587739458510161}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &6332298592430036196 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5012734566442633653, guid: a97162b8bb7eda1498667ff8e831f837,
+    type: 3}
+  m_PrefabInstance: {fileID: 1328587739458510161}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &8984190790121808485 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7988917823086198580, guid: a97162b8bb7eda1498667ff8e831f837,
+    type: 3}
+  m_PrefabInstance: {fileID: 1328587739458510161}
+  m_PrefabAsset: {fileID: 0}

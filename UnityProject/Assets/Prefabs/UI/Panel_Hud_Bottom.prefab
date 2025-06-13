@@ -3874,6 +3874,7 @@ GameObject:
   - component: {fileID: 3893469595956328423}
   - component: {fileID: 4788294120526571340}
   - component: {fileID: 7161079474872368595}
+  - component: {fileID: 5692841817303861430}
   m_Layer: 5
   m_Name: StorageInvenHandler capacity
   m_TagString: Untagged
@@ -3957,6 +3958,20 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 2, y: -2}
   m_UseGraphicAlpha: 1
+--- !u!114 &5692841817303861430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4632142586563870432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 2
+  m_VerticalFit: 2
 --- !u!1 &4720579776294730544
 GameObject:
   m_ObjectHideFlags: 0
@@ -6568,6 +6583,7 @@ MonoBehaviour:
   inventorySlotPrefab: {fileID: 1797031250616714, guid: 0b1de82b3cb8a4ae2a8a97915fdd62e6,
     type: 3}
   indexedStorageCapacity: {fileID: 4788294120526571340}
+  TargetTransform: {fileID: 0}
 --- !u!114 &8782086903836173967
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -56,9 +56,12 @@ namespace Health.Objects
 		private void Awake()
 		{
 			integrity = GetComponent<Integrity>();
-			integrity.OnDestruction.AddListener(ExtingushFireAndDestroy);
-			integrity.OnApplyDamage.AddListener(OnDamageReceived);
 			EnsureInit();
+		}
+
+		private void OnEnable()
+		{
+			EnableIntegrityObserver();
 		}
 
 		private void OnDisable()
@@ -67,6 +70,23 @@ namespace Health.Objects
 			{
 				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdateBurn);
 			}
+			DisableIntegrityObserver();
+		}
+
+		private void EnableIntegrityObserver()
+		{
+			if (CustomNetworkManager.IsServer == false) return;
+			if (!integrity) return;
+			integrity.OnDestruction.AddListener(ExtingushFireAndDestroy);
+			integrity.OnApplyDamage += OnDamageReceived;
+		}
+
+		private void DisableIntegrityObserver()
+		{
+			if (CustomNetworkManager.IsServer == false) return;
+			if (!integrity) return;
+			integrity.OnDestruction.RemoveListener(ExtingushFireAndDestroy);
+			integrity.OnApplyDamage -= OnDamageReceived;
 		}
 
 		private void EnsureInit()
@@ -115,7 +135,7 @@ namespace Health.Objects
 				SyncOnFire(fireStacks, 0);
 				return;
 			}
-			node?.GasMixLocal.AddGas(Gas.Smoke, BURNING_DAMAGE_PER_STACK * 75, Kelvin.FromC(100f));
+			node?.GasMixLocal.AddGasWithTemperature(Gas.Smoke, BURNING_DAMAGE_PER_STACK * 75, Kelvin.FromC(100f));
 
 			if (integrity.Resistances.Flammable || skipFlammableCheck)
 			{

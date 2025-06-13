@@ -4,6 +4,8 @@ using UnityEngine;
 using TileManagement;
 using Mirror;
 using AddressableReferences;
+using Core.Admin.Logs;
+using Core.Admin.Logs.Stores;
 using HealthV2;
 using HealthV2.Limbs;
 using Items;
@@ -110,6 +112,9 @@ public class WeaponNetworkActions : NetworkBehaviour
 		GameObject weapon = playerScript.PlayerNetworkActions.GetActiveHandItem();
 		ItemAttributesV2 weaponAttributes = weapon == null ? null : weapon.GetComponent<ItemAttributesV2>();
 
+
+
+
 		if (weaponAttributes != null)
 		{
 			stats = MeleeStats.Init(weaponAttributes);
@@ -118,6 +123,7 @@ public class WeaponNetworkActions : NetworkBehaviour
 			{
 				stats = customMeleeBehaviour.CustomMeleeBehaviour(gameObject, victim, damageZone, stats);
 			}
+			AdminLogsManager.AddNewLog(this.gameObject, " Try to attack ", victim, " With  ", weapon, LogCategory.MobDamage);
 		}
 		else
 		{
@@ -128,6 +134,8 @@ public class WeaponNetworkActions : NetworkBehaviour
 			{
 				stats = MeleeStats.Init(armStats);
 			}
+
+			AdminLogsManager.AddNewLog(this.gameObject, " Try to attack ", victim, " With Hands ", LogCategory.MobDamage);
 		}
 
 		LayerTile attackedTile = null;
@@ -146,6 +154,8 @@ public class WeaponNetworkActions : NetworkBehaviour
 			var worldPos = (Vector2)transform.position + attackDirection;
 			attackedTile = tileChangeManager.InteractableTiles.LayerTileAt(worldPos, true);
 
+			AdminLogsManager.AddNewLog(this.gameObject, $" Attacked Tile at {worldPos.ToString()} ", victim, $" Dealing damage {stats.Damage} ", LogCategory.MobDamage);
+
 			// Tile itself is responsible for playing victim damage sound
 			tileMapDamage.ApplyDamage(stats.Damage, AttackType.Melee, worldPos);
 			didHit = true;
@@ -160,6 +170,7 @@ public class WeaponNetworkActions : NetworkBehaviour
 				SoundManager.PlayNetworkedAtPos(integrity.soundOnHit, gameObject.AssumedWorldPosServer(), audioSourceParameters, sourceObj: gameObject);
 			}
 
+			AdminLogsManager.AddNewLog(this.gameObject, " Attacked ", victim, $" Dealing damage {stats.Damage} Damage to {stats.DamageType} ", LogCategory.MobDamage);
 			integrity.ApplyDamage(stats.Damage, AttackType.Melee, stats.DamageType);
 			didHit = true;
 		}
@@ -175,6 +186,7 @@ public class WeaponNetworkActions : NetworkBehaviour
 					// The attack hit.
 					if (victim.TryGetComponent<LivingHealthMasterBase>(out var victimHealth))
 					{
+						AdminLogsManager.AddNewLog(this.gameObject, $" Attacked ", victim, $" Dealing damage {stats.Damage} Of type {stats.DamageType} damageZone {damageZone} traumaDamageChance {stats.TraumaDamageChance} Traumatic damage type {stats.TraumaticDamageType} ", LogCategory.MobDamage);
 						victimHealth.ApplyDamageToBodyPart(gameObject, stats.Damage, AttackType.Melee, stats.DamageType, damageZone, traumaDamageChance: stats.TraumaDamageChance, tramuticDamageType: stats.TraumaticDamageType);
 						didHit = true;
 					}

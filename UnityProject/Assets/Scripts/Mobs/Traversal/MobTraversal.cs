@@ -45,6 +45,7 @@ namespace Mobs.Traversal
 		private CancellationTokenSource cancellationToken = new();
 
 		private const int TENTH_OF_A_SECOND = 135;
+		private const int A_SECOND = 1350;
 
 
 		private void Awake()
@@ -54,9 +55,6 @@ namespace Mobs.Traversal
 			Movement.OnLocalTileReached.AddListener(SetMovingToTileToFalse);
 			Movement.OnBumpedIntoSomething.AddListener(OnBumpedIntoSomething);
 			if (MaxRetries < 2) MaxRetries = 2;
-#if UNITY_EDITOR
-			DebugGizmos = true;
-#endif
 		}
 
 		private void OnDestroy()
@@ -323,7 +321,7 @@ namespace Mobs.Traversal
 			_movingFromFirstTile = false;
 			waitTicks = 0;
 			timeoutRequestTicks = 0;
-			if (clearPath) path.Clear();
+			if (clearPath && path != null) path.Clear();
 			cancellationToken = new CancellationTokenSource();
 		}
 
@@ -359,5 +357,11 @@ namespace Mobs.Traversal
 			public GameObject TargetObject;
 			public List<ITraversalStrat> Strats;
 		}
+	}
+
+	public enum PathfinderType
+	{
+		AStar = 0,
+		BFS = 1,
 	}
 }

@@ -35,17 +35,17 @@ public static class SweetExtensions
 	}
 	public static ItemAttributesV2 Item(this GameObject go)
 	{
-		return go.OrNull()?.GetComponent<ItemAttributesV2>();
+		return go.OrNull()?.GetComponentCustom<ItemAttributesV2>();
 	}
 
 	public static ObjectAttributes Object(this GameObject go)
 	{
-		return go.OrNull()?.GetComponent<ObjectAttributes>();
+		return go.OrNull()?.GetComponentCustom<ObjectAttributes>();
 	}
 
 	public static Attributes AttributesOrNull(this GameObject go)
 	{
-		return go.OrNull()?.GetComponent<Attributes>();
+		return go.OrNull()?.GetComponentCustom<Attributes>();
 	}
 
 	public static bool HasComponent<T>(this GameObject go) where T : Component
@@ -153,6 +153,19 @@ public static class SweetExtensions
 	public static uint NetId(this GameObject go)
 	{
 		var net = NetWorkIdentity(go);
+		if (net)
+		{
+			return net.netId;
+		}
+		else
+		{
+			return global::NetId.Invalid; //maxValue is invalid (see NetId.cs)
+		}
+	}
+
+	public static uint NetIdCommonComponents(this GameObject go)
+	{
+		var net = go.GetComponentCustom<NetworkIdentity>();
 		if (net)
 		{
 			return net.netId;
@@ -1093,8 +1106,19 @@ public static class SweetExtensions
 
 	public static bool IsHiddenPosition(this Vector3 vector3)
 	{
-		return vector3.z <= (TransformState.HiddenPos.z + 10);;
+		return vector3.z <= (TransformState.HiddenPos.z + 10);
 	}
 
+
+	public static string ReplaceFirst(this string text, string search, string replace)
+	{
+		int pos = text.IndexOf(search, StringComparison.Ordinal);
+		if (pos < 0)
+		{
+			return text;
+		}
+		return text.Substring(0, pos) + replace + text.Substring(pos + search.Length);
+
+	}
 
 }

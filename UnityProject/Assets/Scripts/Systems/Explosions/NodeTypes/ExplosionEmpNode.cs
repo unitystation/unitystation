@@ -28,6 +28,10 @@ namespace Systems.Explosions
 			get { return CommonSounds.Instance.Empulse; }
 		}
 
+		public ExplosionEmpNode(Vector3 _explosionStartWorldPosition) : base(_explosionStartWorldPosition)
+		{
+		}
+
 		public override async UniTask Process()
 		{
 			float damageDealt = AngleAndIntensity.magnitude;
@@ -124,7 +128,7 @@ namespace Systems.Explosions
 
 		public override ExplosionNode GenInstance()
 		{
-			return new ExplosionEmpNode();
+			return new ExplosionEmpNode(ExplosionStartWorldPosition);
 		}
 	}
 }

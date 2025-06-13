@@ -47,7 +47,7 @@ namespace InGameEvents
 		{
 			yield return WaitFor.Seconds(Random.Range(0f, 1f));
 			var integrity = light.GetComponent<Integrity>();
-			integrity.ApplyDamage(light.integrityThreshBar, AttackType.Internal, DamageType.Burn);
+			light.CheckIntegrityState(new DamageInfo(light.integrityThreshBar, AttackType.Internal, DamageType.Burn, integrity), true);
 		}
 	}
 }

@@ -118,13 +118,13 @@ namespace Objects.Lighting
 		private void OnEnable()
 		{
 			directional.OnRotationChange.AddListener(OnDirectionChange);
-			integrity.OnApplyDamage.AddListener(OnDamageReceived);
+			integrity.OnApplyDamage += OnDamageReceived;
 		}
 
 		private void OnDisable()
 		{
 			directional.OnRotationChange.RemoveListener(OnDirectionChange);
-			if (integrity != null) integrity.OnApplyDamage.RemoveListener(OnDamageReceived);
+			if (integrity) integrity.OnApplyDamage -= OnDamageReceived;
 
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, TrySpark);
 		}
@@ -613,9 +613,9 @@ namespace Objects.Lighting
 			CheckIntegrityState(arg0);
 		}
 
-		private void CheckIntegrityState(DamageInfo arg0)
+		public void CheckIntegrityState(DamageInfo arg0, bool Override = false)
 		{
-			if (integrity.integrity > integrityThreshBar || MountState == LightMountState.MissingBulb) return;
+			if ((integrity.integrity > integrityThreshBar || Override == false ) && MountState == LightMountState.MissingBulb) return;
 			Vector3 pos = gameObject.AssumedWorldPosServer();
 
 			if (MountState == LightMountState.Broken)

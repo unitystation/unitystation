@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Audio.Containers;
 using Core;
 using Doors;
 using UnityEngine;
@@ -113,6 +114,8 @@ public class Matrix : MonoBehaviour
 
 	//Pretty self-explanatory, TODO gravity generator
 	public bool HasGravity = true;
+
+	public AudioClipsArray EnteringSounds = null;
 
 	public void Awake()
 	{

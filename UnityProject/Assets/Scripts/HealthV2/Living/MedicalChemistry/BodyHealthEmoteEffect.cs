@@ -39,19 +39,16 @@ public class BodyHealthEmoteEffect : BodyHealthEffect
 			GameObject player = senders[0].RelatedPart.HealthMaster.gameObject;
 			if (emote.StopIfOverdosed == true && overdose == true) { continue; }
 
-			if (Random.Range(0, 100) <= emote.ChancePerTick)
+			if (DMMath.Prob(emote.ChancePerTick))
 			{
 				if (emote.CustomEmote == true)
 				{
 					Chat.AddActionMsgToChat(player, "You " + emote.CustomEmoterMessage,
 						player.GetComponent<PlayerScript>().playerName + " " + emote.CustomShownMessage);
-					break;
 				}
-				else if (emote.Emote != null)
-				{
-					emote.Emote.Do(player);
-					break;
-				}
+				else if (emote.Emote != null) emote.Emote.Do(player);
+
+				break;
 			}
 		}
 	}

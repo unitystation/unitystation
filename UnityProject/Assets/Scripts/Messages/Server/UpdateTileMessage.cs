@@ -76,6 +76,7 @@ namespace Messages.Server
 
 
 			var tileChangerManager = NetworkObject.transform.parent.GetComponentInChildren<MetaTileMap>();
+			tileChangerManager.ClientReceivedTiles = true;
 			foreach (var Change in msg.Changes)
 			{
 				if (Change.TileType == TileType.None)

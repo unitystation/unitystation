@@ -33,7 +33,11 @@ public class DinosaurLivingMutationCarrier : NetworkBehaviour
 
 	public void Start()
 	{
-		SynchroniseSize(StageSynchronise, 0);
+		if (isServer)
+		{
+			SynchroniseSize(StageSynchronise, 0);
+		}
+
 		this.GetComponent<MobExplore>().FoodEatenEvent += EatFood;
 		StartCoroutine(BecomeHungry());
 	}

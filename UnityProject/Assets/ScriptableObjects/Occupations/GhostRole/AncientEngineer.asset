@@ -21,8 +21,8 @@ MonoBehaviour:
   CustomSpeciesOverwrite: {fileID: 0}
   limit: 3
   priority: 1
-  issuedClearance: 1f0000000a0000000d0000000c000000
-  issuedLowPopClearance: 1f0000000a0000000d0000000c000000
+  issuedClearance: 1f0000000a0000000b0000000d0000000c000000
+  issuedLowPopClearance: 
   spells: []
   progress: 45
   choiceColor: {r: 1, g: 0.9607843, b: 0.8, a: 1}
@@ -40,16 +40,17 @@ MonoBehaviour:
   isTargeteable: 0
   playSound: 1
   spawnSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/AmbientTracks/AmbiGen8.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   textColor: {r: 1, g: 0.9607844, b: 0.8000001, a: 1}
   backgroundColor: {r: 1, g: 0, b: 0, a: 0}
   specialPlayerPrefab: {fileID: 0}
+  StartingMutations: []
   references:
     version: 2
     RefIds:

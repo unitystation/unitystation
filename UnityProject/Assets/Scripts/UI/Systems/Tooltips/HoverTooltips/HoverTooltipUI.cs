@@ -51,7 +51,8 @@ namespace UI.Systems.Tooltips.HoverTooltips
 
 		private void Start()
 		{
-			UpdateManager.Add(CallbackType.FIXED_UPDATE, UpdatePosition);
+			if(CustomNetworkManager.IsHeadless) return;
+			UpdateManager.Add(CallbackType.UPDATE, UpdatePosition);
 			UpdateManager.Add(CallbackType.UPDATE, CheckForInput);
 			ResetTool();
 		}
@@ -75,10 +76,15 @@ namespace UI.Systems.Tooltips.HoverTooltips
 
 		private void CheckForInput()
 		{
-			detailsModeEnabled = Input.GetKeyDown(KeyCode.LeftShift);
+			detailsModeEnabled = CommonInput.GetKeyDown(KeyCode.LeftShift);
 			if (detailsModeEnabled && CurrentlyOverObject != null)
 			{
 				SetupTooltip(CurrentlyOverObject, true);
+			}
+
+			if (CommonInput.GetKeyDown(KeyCode.Escape))
+			{
+				showing = false;
 			}
 		}
 

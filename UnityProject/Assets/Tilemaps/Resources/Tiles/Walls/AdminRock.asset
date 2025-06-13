@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ForeverID>k__BackingField: 8c9bb22fe94771f8a82985c7e17140c8
   displayName: solid stone
-  description: 
+  description: An extremely densely-packed rock. Most mining tools or explosives
+    would never get through this.
   LayerType: 0
   TileType: 1
   RequiredTiles: []
@@ -39,8 +40,8 @@ MonoBehaviour:
   passableException:
     m_keys: 
     m_values: 
-  maxHealth: 100
-  damageDeflection: 0
+  maxHealth: 5000
+  damageDeflection: 500
   armor:
     Melee: 100
     Bullet: 100

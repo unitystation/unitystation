@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -112,7 +113,7 @@ public class MetaDataSystem : MatrixSystemBehaviour
 			}
 			else
 			{
-				node.OccupiedType = DetectOccupiedType(localPosition);
+				node.OccupiedType = DetectOccupiedType(localPosition).Item1;
 			}
 		}
 		//Then must be fully blocked e.g wall or closed door
@@ -258,7 +259,7 @@ public class MetaDataSystem : MatrixSystemBehaviour
 			return;
 		}
 
-		var roomPositions = new Dictionary<Vector3Int, NodeOccupiedType>();
+		var roomPositions = new Dictionary<Vector3Int, Tuple<NodeOccupiedType, bool>>();
 		var freePositions = new UniqueQueue<Vector3Int>();
 
 		freePositions.Enqueue(origin);
@@ -317,7 +318,7 @@ public class MetaDataSystem : MatrixSystemBehaviour
 	/// Might have a windoor or DirectionalPassables (e.g directional window)
 	/// See if we need to set NodeOccupiedType so we block atmos from doing gas exchange in that direction
 	/// </summary>
-	private NodeOccupiedType DetectOccupiedType(Vector3Int position)
+	private Tuple<NodeOccupiedType, bool> DetectOccupiedType(Vector3Int position)
 	{
 		var freePositionDoors = matrix.GetAs<RegisterDoor>(position, true).ToArray();
 		var freePositionDirectionalPassable = matrix.GetAs<DirectionalPassable>(position, true).ToArray();
@@ -378,10 +379,10 @@ public class MetaDataSystem : MatrixSystemBehaviour
 			}
 		}
 
-		return occupiedType;
+		return new Tuple<NodeOccupiedType, bool>( occupiedType, matrix.MetaTileMap.HasTile(position, LayerType.Base));
 	}
 
-	private void AssignType(Dictionary<Vector3Int, NodeOccupiedType> positions, NodeType nodeType)
+	private void AssignType(Dictionary<Vector3Int, Tuple<NodeOccupiedType, bool>> positions, NodeType nodeType)
 	{
 		// Bulk assign type to nodes at given positions
 		foreach (var position in positions)
@@ -389,8 +390,25 @@ public class MetaDataSystem : MatrixSystemBehaviour
 			MetaDataNode node = metaDataLayer.Get(position.Key);
 			if (setUpDone == false) tested.Add(position.Key);
 
-			node.Type = nodeType;
-			node.OccupiedType = position.Value;
+			if (position.Value.Item2)
+			{
+				if (nodeType == NodeType.Space)
+				{
+					node.Type = NodeType.Room;
+					node.InItHadPathToSpace = true;
+				}
+				else
+				{
+					node.Type = nodeType;
+				}
+			}
+			else
+			{
+				node.Type = nodeType;
+			}
+
+
+			node.OccupiedType = position.Value.Item1;
 
 			// assign room number, if type is room
 			node.RoomNumber = nodeType == NodeType.Room ? roomCounter : -1;
@@ -403,7 +421,7 @@ public class MetaDataSystem : MatrixSystemBehaviour
 		}
 	}
 
-	private void SetupNeighbors(Dictionary<Vector3Int, NodeOccupiedType> positions)
+	private void SetupNeighbors(Dictionary<Vector3Int, Tuple<NodeOccupiedType, bool>> positions)
 	{
 		foreach (var position in positions)
 		{

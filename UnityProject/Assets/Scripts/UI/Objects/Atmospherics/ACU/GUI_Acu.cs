@@ -128,7 +128,7 @@ namespace UI.Objects.Atmospherics.Acu
 			UpdateManager.Add(PeriodicUpdate, 0.5f);
 			Acu.OnStateChanged += OnAcuStateChanged;
 			PeriodicUpdate();
-			if (IsAIInteracting()) Acu.IsLocked = false;
+			if (IsAIInteracting(newPeeper)) Acu.IsLocked = false;
 		}
 
 		private void TabClosed(PlayerInfo oldPeeper = default)

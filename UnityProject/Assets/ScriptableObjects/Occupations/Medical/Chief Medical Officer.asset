@@ -21,8 +21,8 @@ MonoBehaviour:
   CustomSpeciesOverwrite: {fileID: 0}
   limit: 1
   priority: 2
-  issuedClearance: 250000001f0000000d000000200000000900000012000000340000000c00000005000000060000003d0000002800000024000000010000003700000011000000
-  issuedLowPopClearance: 250000001f0000000d000000200000000900000012000000340000000c00000005000000060000003d0000002800000024000000010000003700000011000000
+  issuedClearance: 2500000020000000110000000d0000000900000012000000340000000c00000005000000060000003d00000028000000240000000100000037000000
+  issuedLowPopClearance: 2a00000007000000
   spells: []
   progress: 40
   choiceColor: {r: 0.227451, g: 0.53333336, b: 0.65882355, a: 1}
@@ -48,16 +48,17 @@ MonoBehaviour:
   isTargeteable: 1
   playSound: 1
   spawnSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/AmbientTracks/SpawnSounds/departments/Medical_Spawn.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   textColor: {r: 1, g: 0.86666673, b: 0.94117653, a: 1}
   backgroundColor: {r: 1, g: 0, b: 0, a: 0}
   specialPlayerPrefab: {fileID: 0}
+  StartingMutations: []
   references:
     version: 2
     RefIds: []

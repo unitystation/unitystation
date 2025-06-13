@@ -22,7 +22,7 @@ MonoBehaviour:
   limit: 1
   priority: 1
   issuedClearance: 020000001e0000001f000000270000000a0000000d00000012000000310000001900000034000000220000002c0000000c000000050000005b0000005a0000002a00000001000000370000000e0000002b000000210000002300000029000000260000001b000000150000001a00000011000000
-  issuedLowPopClearance: 020000001e0000001f000000270000000a0000000d00000012000000310000001900000034000000220000002c0000000c000000050000005b0000005a0000002a00000001000000370000000e0000002b000000210000002300000029000000260000001b000000150000001a00000011000000
+  issuedLowPopClearance: 030000003a000000
   spells: []
   progress: 85
   choiceColor: {r: 0.3927999, g: 0.4688148, b: 0.9150943, a: 1}
@@ -47,16 +47,17 @@ MonoBehaviour:
   isTargeteable: 1
   playSound: 1
   spawnSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/AmbientTracks/SpawnSounds/departments/Command_Spawn.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   textColor: {r: 0.86666673, g: 0.86666673, b: 1, a: 1}
   backgroundColor: {r: 1, g: 0, b: 0, a: 0}
   specialPlayerPrefab: {fileID: 0}
+  StartingMutations: []
   references:
     version: 2
     RefIds: []

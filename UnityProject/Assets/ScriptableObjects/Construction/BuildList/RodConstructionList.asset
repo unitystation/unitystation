@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RodConstructionList
   m_EditorClassIdentifier: 
   entries:
-  - name: Grill
+  - name: Grille
     prefab: {fileID: 7376449702682419346, guid: e7a19fe59d5bcfe49a1d885d7fedab6e,
       type: 3}
     cost: 2
@@ -21,11 +21,19 @@ MonoBehaviour:
     spawnAmount: 1
     onePerTile: 1
     facePlayerDirectionOnConstruction: 0
-  - name: Table frame
+  - name: Table Frame
     prefab: {fileID: 3324775161014056536, guid: 9b139d47618b5ff418198a443805c1d5,
       type: 3}
     cost: 2
     buildTime: 2
     spawnAmount: 1
     onePerTile: 1
+    facePlayerDirectionOnConstruction: 0
+  - name: Grille Floor Tile
+    prefab: {fileID: 3676569978057729469, guid: e32944cede94bf1608f0cfd17b9d4b08,
+      type: 3}
+    cost: 1
+    buildTime: 2
+    spawnAmount: 1
+    onePerTile: 0
     facePlayerDirectionOnConstruction: 0

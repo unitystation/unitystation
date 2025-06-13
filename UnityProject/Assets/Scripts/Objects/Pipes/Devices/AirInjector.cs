@@ -41,8 +41,9 @@ namespace Objects.Atmospherics
 
 		private MetaDataNode metaNode;
 		private MetaDataLayer metaDataLayer;
+		private GasMix pipeMix => pipeData.GetMixAndVolume.GetGasMix();
 
-		private GasMix pipeMix;
+
 		private GasMix sourceMix;
 		private GasMix targetMix;
 
@@ -50,7 +51,6 @@ namespace Objects.Atmospherics
 		{
 			metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
 			metaNode = metaDataLayer.Get(registerTile.LocalPositionServer);
-			pipeMix = pipeData.GetMixAndVolume.GetGasMix();
 
 			UpdateState();
 			base.OnSpawnServer(info);

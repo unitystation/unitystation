@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ForeverID>k__BackingField: ae105d9364e52524f854296e03bc894e
   displayName: plasma window
-  description: 
+  description: A window made out of a plasma-silicate alloy. It looks insanely tough
+    to break and burn through.
   LayerType: 1
   TileType: 2
   RequiredTiles:
@@ -73,11 +74,11 @@ MonoBehaviour:
   spawnOnDestroy: {fileID: 0}
   damageOverlayList: {fileID: 11400000, guid: a9338e07e1ad66d48bf05e214ab1f02e, type: 2}
   soundOnHit:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/GlassHit.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   SoundOnDestroy: []

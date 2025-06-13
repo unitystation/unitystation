@@ -131,13 +131,13 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandApply>, IC
 		switch (swordColor)
 		{
 			case SwordColor.Red:
-				return new Color32(250, 130, 130, 255); // LIGHT_COLOR_RED
+				return new Color32(250, 130, 130, 169); // LIGHT_COLOR_RED
 			case SwordColor.Blue:
-				return new Color32(64, 206, 255, 255); // LIGHT_COLOR_LIGHT_CYAN
+				return new Color32(64, 206, 255, 169); // LIGHT_COLOR_LIGHT_CYAN
 			case SwordColor.Green:
-				return new Color32(100, 200, 100, 255); // LIGHT_COLOR_GREEN
+				return new Color32(100, 200, 100, 169); // LIGHT_COLOR_GREEN
 			case SwordColor.Purple:
-				return new Color32(155, 81, 255, 255); // LIGHT_COLOR_LAVENDER
+				return new Color32(155, 81, 255, 169); // LIGHT_COLOR_LAVENDER
 		}
 
 		return default;

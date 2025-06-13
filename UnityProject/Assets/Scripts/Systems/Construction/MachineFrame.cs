@@ -90,6 +90,11 @@ namespace Objects.Construction
 
 			//tracks change for client
 			allowedTraits.Callback += AllowedTraitsCallBack;
+
+
+			// Process initial SyncList payload
+			for (int index = 0; index < allowedTraits.Count; index++)
+				AllowedTraitsCallBack(SyncList<AllowedTraitList>.Operation.OP_ADD, index, new AllowedTraitList(), allowedTraits[index]);
 		}
 
 		/// <summary>

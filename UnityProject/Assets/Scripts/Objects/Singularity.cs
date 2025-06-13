@@ -268,7 +268,7 @@ namespace Objects
 				Vector3Int empPosition = registerTile.WorldPositionServer;
 				empPosition.x += Random.Range(-3 - (int)CurrentStage, 3 + (int)CurrentStage);
 				empPosition.y += Random.Range(-3 - (int)CurrentStage, 3 + (int)CurrentStage);
-				Explosion.StartExplosion(empPosition, empStrength, new ExplosionEmpNode());
+				Explosion.StartExplosion(empPosition, empStrength, new ExplosionEmpNode(empPosition));
 			}
 		}
 

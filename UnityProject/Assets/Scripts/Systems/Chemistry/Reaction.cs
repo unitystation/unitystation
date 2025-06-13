@@ -166,6 +166,12 @@ namespace Chemistry
 					reactionMultiplier = value;
 				}
 			}
+
+			if (reactionMultiplier.IsUnreasonableNumber())
+			{
+				reactionMultiplier = 0;
+			}
+
 			return reactionMultiplier;
 		}
 

@@ -5,6 +5,7 @@ using System.Linq;
 using Messages.Client;
 using Mirror;
 using UI;
+using UI.Systems.PreRound;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -20,6 +21,8 @@ public partial class SubSceneManager
 	private readonly float tickRate = 1f;
 
 	public Dictionary<string, bool> ClientObserver = new Dictionary<string, bool>();
+
+	public bool ClientIsFullyDoneLoadingOnSubsceneManager { get; private set; } = false;
 
 
 	void MonitorServerSceneListOnClient()
@@ -95,7 +98,7 @@ public partial class SubSceneManager
 		foreach (var Scene in Scenes)
 		{
 			loadCount++;
-			GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke($"Loading scenes.. ({loadCount}/{Scenes.Count})");
+			GUI_PreRoundWindow.Instance?.LoadingArea?.UpdateLoadingBar("Loading Scenes", $"Scenes Loaded.. ({loadCount}/{Scenes.Count})", loadCount / Scenes.Count);
 			yield return LoadClientSubScene(Scene, false, SubsceneLoadTimer, true );
 			if (KillClientLoadingCoroutine)
 			{
@@ -112,10 +115,10 @@ public partial class SubSceneManager
 		NetworkClient.PrepareToSpawnSceneObjects();
 		RequestObserverRefresh.Send(OriginalScene);
 
+		GUI_PreRoundWindow.Instance?.LoadingArea?.UpdateLoadingBar("Loading Scenes", $"Requesting Object Observers.. ({loadCount}/{Scenes.Count})", 0.5f);
 		foreach (var scene in Scenes)
 		{
 			loadCount++;
-			GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke($"Requesting Object Observers.. ({loadCount}/{Scenes.Count})");
 			yield return WaitFor.Seconds(0.1f); //For smooth FPS not necessary technically, but causes freeze For a little bit
 			if (KillClientLoadingCoroutine)
 			{
@@ -144,10 +147,10 @@ public partial class SubSceneManager
 
 
 		ClientObserver.Clear();
-		UIManager.Display.preRoundWindow.CloseMapLoadingPanel();
 		ClientSideFinishAction = null;
-		GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke($"Client Finished Loading.");
-		OnFinish.Invoke();
+		OnFinish?.Invoke();
+		GUI_PreRoundWindow.Instance?.HideLoadingArea();
+		ClientIsFullyDoneLoadingOnSubsceneManager = true;
 	}
 
 

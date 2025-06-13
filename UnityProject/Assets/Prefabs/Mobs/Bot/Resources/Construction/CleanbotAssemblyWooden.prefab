@@ -12,7 +12,13 @@ PrefabInstance:
         type: 3}
       propertyPath: botPrefab
       value: 
-      objectReference: {fileID: 6390563642695955054, guid: eb4a53a337832f64eb6ed71341ea818b,
+      objectReference: {fileID: 8017834079190008690, guid: 22a1c48b5e5863446bdac1931c2a79cb,
+        type: 3}
+    - target: {fileID: 377135526006328127, guid: 487e0ccc7184595408fc207296ee20d9,
+        type: 3}
+      propertyPath: botBlueprint
+      value: 
+      objectReference: {fileID: 8017834079190008690, guid: 22a1c48b5e5863446bdac1931c2a79cb,
         type: 3}
     - target: {fileID: 377135526006328127, guid: 487e0ccc7184595408fc207296ee20d9,
         type: 3}
@@ -23,6 +29,12 @@ PrefabInstance:
     - target: {fileID: 526982063192555996, guid: 487e0ccc7184595408fc207296ee20d9,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 13485a14ccddbb24b806fdcfe9f156af,
+        type: 2}
+    - target: {fileID: 526982063192555996, guid: 487e0ccc7184595408fc207296ee20d9,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 13485a14ccddbb24b806fdcfe9f156af,
         type: 2}

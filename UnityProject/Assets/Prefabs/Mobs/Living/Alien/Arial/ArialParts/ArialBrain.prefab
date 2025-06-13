@@ -152,7 +152,9 @@ MonoBehaviour:
   RelatedPart: {fileID: 0}
   <CurrentActiveStates>k__BackingField: []
   <MobStates>k__BackingField: []
-  thinkingState: {fileID: 6222196209030829027}
+  <thinkingState>k__BackingField: {fileID: 6222196209030829027}
+  InitialPathfindingMethod: 0
+  InitialDontCheckForDoorsOverride: 0
   Brain: {fileID: 3169105340071869467}
   DEBUGoverride: 0
   Body: {fileID: 0}

@@ -94,5 +94,15 @@ namespace UI.AdminTools
 		{
 			DeviceAttributeEditor.Instance.gameObject.SetActive(true);
 		}
+
+		public void BtnOpenInventoryOpener()
+		{
+			InventoryOpener.Instance.gameObject.SetActive(true);
+		}
+
+		public void BtnOpenPollMaker()
+		{
+			AdminVoteUI.Instance.gameObject.SetActive(true);
+		}
 	}
 }

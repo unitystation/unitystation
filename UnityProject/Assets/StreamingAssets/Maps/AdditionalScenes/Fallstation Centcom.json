@@ -759,7 +759,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.0",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -1470,13 +1470,6 @@
             "LocalPRS": "5┼-1┼0.5┼"
           },
           {
-            "GitID": "753e37602e1e0194cbe435fda83795c4_5.001┼-1┼0.5┼",
-            "PrefabID": "753e37602e1e0194cbe435fda83795c4",
-            "NameMatches": true,
-            "Name": "RollerBedItem",
-            "LocalPRS": "5┼-1┼0.5┼"
-          },
-          {
             "GitID": "d0eb5dacbdcd4844e8c76aabde50434f_5┼-1┼0.5┼",
             "PrefabID": "d0eb5dacbdcd4844e8c76aabde50434f",
             "NameMatches": true,
@@ -1588,6 +1581,13 @@
             }
           },
           {
+            "GitID": "753e37602e1e0194cbe435fda83795c4_5.001┼-1┼0.5┼",
+            "PrefabID": "753e37602e1e0194cbe435fda83795c4",
+            "NameMatches": true,
+            "Name": "RollerBedItem",
+            "LocalPRS": "5.001┼-1┼0.5┼"
+          },
+          {
             "GitID": "9bda2d5647088c74392285230ba38474_7┼-2┼0┼",
             "PrefabID": "9bda2d5647088c74392285230ba38474",
             "Name": "Plasma Thruster (1)",
@@ -1689,8 +1689,8 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "2048,3981,0",
-          "Size": "10,6,0"
+          "Pos": "2,-1,0.2",
+          "Size": "10,6,0.5"
         }
       ]
     },
@@ -2341,7 +2341,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.0",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -2354,46 +2354,6 @@
                 {
                   "ClassID": "Thruster@0",
                   "Data": [
-                    {
-                      "Name": "SelfPowered",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "pipeData@SelfSufficient",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Down_By180"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "9bda2d5647088c74392285230ba38474_-3.999┼-3┼0┼",
-            "PrefabID": "9bda2d5647088c74392285230ba38474",
-            "Name": "Plasma Thruster (4)",
-            "LocalPRS": "-4┼-3┼0┼0ø0ø180ø",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Thruster@0",
-                  "Data": [
-                    {
-                      "Name": "ThisThrusterDirectionClassification",
-                      "Data": "Right"
-                    },
-                    {
-                      "Name": "ThrusterMultiplier",
-                      "Data": "5000"
-                    },
                     {
                       "Name": "SelfPowered",
                       "Data": "True"
@@ -2441,6 +2401,46 @@
                     {
                       "Name": "pipeData@SelfSufficient",
                       "Data": "True"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "9bda2d5647088c74392285230ba38474_-3.999┼-3┼0┼",
+            "PrefabID": "9bda2d5647088c74392285230ba38474",
+            "Name": "Plasma Thruster (4)",
+            "LocalPRS": "-3.999┼-3┼0┼0ø0ø180ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Thruster@0",
+                  "Data": [
+                    {
+                      "Name": "ThisThrusterDirectionClassification",
+                      "Data": "Right"
+                    },
+                    {
+                      "Name": "ThrusterMultiplier",
+                      "Data": "5000"
+                    },
+                    {
+                      "Name": "SelfPowered",
+                      "Data": "True"
+                    },
+                    {
+                      "Name": "pipeData@SelfSufficient",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Down_By180"
                     }
                   ]
                 }
@@ -2710,7 +2710,7 @@
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_2.001┼-2┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
             "Name": "ShuttleChair (1)",
-            "LocalPRS": "2┼-2┼0┼",
+            "LocalPRS": "2.001┼-2┼0┼",
             "Object": {
               "ClassDatas": [],
               "Children": [
@@ -2727,7 +2727,7 @@
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
             "NameMatches": true,
             "Name": "ShuttleChair",
-            "LocalPRS": "2┼0┼0┼",
+            "LocalPRS": "2.001┼0┼0┼",
             "Object": {
               "ClassDatas": [],
               "Children": [
@@ -2937,7 +2937,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "2047,4014,0",
+          "Pos": "2,-1,0",
           "Size": "12,4,0"
         }
       ]
@@ -3767,6 +3767,9 @@
             "Key": "X42Y3",
             "Value": [
               {
+                "Tel": "AdminWall"
+              },
+              {
                 "Tel": "Plating"
               }
             ]
@@ -3775,6 +3778,9 @@
             "Key": "X42Y4",
             "Value": [
               {
+                "Tel": "AdminWall"
+              },
+              {
                 "Tel": "Plating"
               }
             ]
@@ -3782,6 +3788,9 @@
           {
             "Key": "X42Y5",
             "Value": [
+              {
+                "Tel": "AdminWall"
+              },
               {
                 "Tel": "Plating"
               }
@@ -4000,6 +4009,9 @@
             "Key": "X43Y3",
             "Value": [
               {
+                "Tel": "AdminWall"
+              },
+              {
                 "Tel": "Plating"
               }
             ]
@@ -4015,6 +4027,9 @@
           {
             "Key": "X43Y5",
             "Value": [
+              {
+                "Tel": "AdminWall"
+              },
               {
                 "Tel": "Plating"
               }
@@ -4297,6 +4312,9 @@
             "Key": "X44Y3",
             "Value": [
               {
+                "Tel": "AdminWall"
+              },
+              {
                 "Tel": "Plating"
               }
             ]
@@ -4305,6 +4323,9 @@
             "Key": "X44Y4",
             "Value": [
               {
+                "Tel": "AdminWall"
+              },
+              {
                 "Tel": "Plating"
               }
             ]
@@ -4312,6 +4333,9 @@
           {
             "Key": "X44Y5",
             "Value": [
+              {
+                "Tel": "AdminWall"
+              },
               {
                 "Tel": "Plating"
               }
@@ -10550,7 +10574,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.0",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -11270,6 +11294,18 @@
             }
           },
           {
+            "GitID": "7effe72ed277ea74ea535559b60d48aa_42.95┼3.97┼0┼",
+            "PrefabID": "7effe72ed277ea74ea535559b60d48aa",
+            "Name": "AdminPrisonJailSpot (1)",
+            "LocalPRS": "42.95┼3.97┼0┼"
+          },
+          {
+            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_42.96┼3.99┼0┼",
+            "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
+            "Name": "MappingLightSource (1)",
+            "LocalPRS": "42.96┼3.99┼0┼"
+          },
+          {
             "GitID": "c5d8ddf96e1765c49ba6cd480d421926_43┼-11┼0┼",
             "PrefabID": "c5d8ddf96e1765c49ba6cd480d421926",
             "Name": "AirlockCentCom (2)",
@@ -11402,10 +11438,36 @@
             }
           },
           {
+            "GitID": "f4e2ccb49d51f6b4c9d391d9ee285911_43┼-2┼0┼",
+            "PrefabID": "f4e2ccb49d51f6b4c9d391d9ee285911",
+            "Name": "ComfyChairBlack (1)",
+            "LocalPRS": "43┼-2┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "ed4e62dc12dca724ba1e5f374965096b_43┼1┼0┼",
+            "PrefabID": "ed4e62dc12dca724ba1e5f374965096b",
+            "NameMatches": true,
+            "Name": "Rack",
+            "LocalPRS": "43┼1┼0┼"
+          },
+          {
             "GitID": "e58e1fd483fe772468ad2aab4259397d_43.001┼-2┼0┼",
             "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
             "Name": "CentCommCommander at 2044 3999",
-            "LocalPRS": "43┼-2┼0┼",
+            "LocalPRS": "43.001┼-2┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -11435,32 +11497,6 @@
                 }
               ]
             }
-          },
-          {
-            "GitID": "f4e2ccb49d51f6b4c9d391d9ee285911_43┼-2┼0┼",
-            "PrefabID": "f4e2ccb49d51f6b4c9d391d9ee285911",
-            "Name": "ComfyChairBlack (1)",
-            "LocalPRS": "43┼-2┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Right_By270"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "ed4e62dc12dca724ba1e5f374965096b_43┼1┼0┼",
-            "PrefabID": "ed4e62dc12dca724ba1e5f374965096b",
-            "NameMatches": true,
-            "Name": "Rack",
-            "LocalPRS": "43┼1┼0┼"
           },
           {
             "GitID": "ca1dc74b2f8b3e94b8c60a119e98bd9d_43.91┼-2.85┼0┼",
@@ -13686,20 +13722,6 @@
             "LocalPRS": "53┼8┼0┼"
           },
           {
-            "GitID": "630e95b6bf6f9e2439487630ee85cfaf_53.001┼8┼0┼",
-            "PrefabID": "630e95b6bf6f9e2439487630ee85cfaf",
-            "NameMatches": true,
-            "Name": "P357AutoMag",
-            "LocalPRS": "53┼8┼0┼"
-          },
-          {
-            "GitID": "630e95b6bf6f9e2439487630ee85cfaf_53.002┼8┼0┼",
-            "PrefabID": "630e95b6bf6f9e2439487630ee85cfaf",
-            "NameMatches": true,
-            "Name": "P357AutoMag",
-            "LocalPRS": "53┼8┼0┼"
-          },
-          {
             "GitID": "ed4e62dc12dca724ba1e5f374965096b_53┼8┼0┼",
             "PrefabID": "ed4e62dc12dca724ba1e5f374965096b",
             "NameMatches": true,
@@ -13722,6 +13744,20 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "630e95b6bf6f9e2439487630ee85cfaf_53.001┼8┼0┼",
+            "PrefabID": "630e95b6bf6f9e2439487630ee85cfaf",
+            "NameMatches": true,
+            "Name": "P357AutoMag",
+            "LocalPRS": "53.001┼8┼0┼"
+          },
+          {
+            "GitID": "630e95b6bf6f9e2439487630ee85cfaf_53.002┼8┼0┼",
+            "PrefabID": "630e95b6bf6f9e2439487630ee85cfaf",
+            "NameMatches": true,
+            "Name": "P357AutoMag",
+            "LocalPRS": "53.002┼8┼0┼"
           },
           {
             "GitID": "68ff916d2f0053c4ab145dfd70a7aa0f_53.01┼4.16┼0.3┼",
@@ -14412,13 +14448,6 @@
             "LocalPRS": "54┼8┼0┼"
           },
           {
-            "GitID": "065437736dfc00d44b10f9cb995081ad_54.001┼8┼0┼",
-            "PrefabID": "065437736dfc00d44b10f9cb995081ad",
-            "NameMatches": true,
-            "Name": "M1928ThompsonSMG",
-            "LocalPRS": "54┼8┼0┼"
-          },
-          {
             "GitID": "ed4e62dc12dca724ba1e5f374965096b_54┼8┼0┼",
             "PrefabID": "ed4e62dc12dca724ba1e5f374965096b",
             "NameMatches": true,
@@ -14448,6 +14477,13 @@
             "NameMatches": true,
             "Name": "M1928ThompsonSMG",
             "LocalPRS": "54.0001┼8┼0┼"
+          },
+          {
+            "GitID": "065437736dfc00d44b10f9cb995081ad_54.001┼8┼0┼",
+            "PrefabID": "065437736dfc00d44b10f9cb995081ad",
+            "NameMatches": true,
+            "Name": "M1928ThompsonSMG",
+            "LocalPRS": "54.001┼8┼0┼"
           },
           {
             "GitID": "9505db5c84437ce4692422e1ef11cef2_54.01┼8.05┼0.3┼",
@@ -16566,10 +16602,6 @@
                       "Data": "Up_By0"
                     },
                     {
-                      "Name": "Out@IsEnd",
-                      "Data": "True"
-                    },
-                    {
                       "Name": "In@NextInLine",
                       "Data": "69ffc1053dc39a24fb870b2248780be4_72┼-50┼0┼@0@GuidanceBuoy@0"
                     }
@@ -16646,10 +16678,6 @@
                     {
                       "Name": "In@DesiredFaceDirection",
                       "Data": "Up_By0"
-                    },
-                    {
-                      "Name": "In@IsEnd",
-                      "Data": "True"
                     }
                   ]
                 }
@@ -16662,8 +16690,8 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "2037,3969,0",
-          "Size": "72,84,0"
+          "Pos": "36,-32,0.5",
+          "Size": "72,84,1"
         }
       ]
     }

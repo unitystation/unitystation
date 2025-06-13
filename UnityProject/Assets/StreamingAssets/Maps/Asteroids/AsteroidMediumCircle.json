@@ -1,10 +1,10 @@
 {
   "Ver": "1.0.0",
-  "MapName": "AsteroidCircle",
+  "MapName": "AsteroidMediumCircle",
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
-      "Location": "-485┼392┼0┼",
+      "Location": "-550┼392┼0┼",
       "MatrixName": "AsteroidMediumCircle",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -315,6 +315,9 @@
             "Key": "X0Y12",
             "Value": [
               {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
                 "Tel": "ironsand7"
               }
             ]
@@ -354,6 +357,9 @@
           {
             "Key": "X0Y17",
             "Value": [
+              {
+                "Tel": "Igneous_Rock_wall"
+              },
               {
                 "Tel": "ironsand7"
               }
@@ -482,6 +488,9 @@
           {
             "Key": "X1Y12",
             "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
               {
                 "Tel": "ironsand1"
               }
@@ -636,6 +645,9 @@
           {
             "Key": "X2Y9",
             "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
               {
                 "Tel": "ironsand1"
               }
@@ -991,7 +1003,7 @@
             "Key": "X4Y6",
             "Value": [
               {
-                "Tel": "Loose_Rock_wall"
+                "Tel": "Igneous_Rock_wall"
               },
               {
                 "Tel": "ironsand1"
@@ -1001,6 +1013,9 @@
           {
             "Key": "X4Y7",
             "Value": [
+              {
+                "Tel": "Igneous_Rock_wall"
+              },
               {
                 "Tel": "ironsand1"
               }
@@ -1055,8 +1070,35 @@
             ]
           },
           {
+            "Key": "X4Y18",
+            "Value": [
+              {
+                "Tel": "ironsand15"
+              }
+            ]
+          },
+          {
+            "Key": "X4Y19",
+            "Value": [
+              {
+                "Tel": "ironsand11"
+              }
+            ]
+          },
+          {
+            "Key": "X4Y20",
+            "Value": [
+              {
+                "Tel": "ironsand9"
+              }
+            ]
+          },
+          {
             "Key": "X4Y21",
             "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
               {
                 "Tel": "ironsand1"
               }
@@ -1066,6 +1108,9 @@
             "Key": "X4Y22",
             "Value": [
               {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
                 "Tel": "ironsand1"
               }
             ]
@@ -1073,6 +1118,9 @@
           {
             "Key": "X4Y23",
             "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
               {
                 "Tel": "ironsand1"
               }
@@ -1134,7 +1182,7 @@
             "Key": "X5Y5",
             "Value": [
               {
-                "Tel": "Loose_Rock_wall"
+                "Tel": "Igneous_Rock_wall"
               },
               {
                 "Tel": "ironsand5"
@@ -1144,6 +1192,9 @@
           {
             "Key": "X5Y6",
             "Value": [
+              {
+                "Tel": "Igneous_Rock_wall"
+              },
               {
                 "Tel": "ironsand1"
               }
@@ -1206,6 +1257,14 @@
             ]
           },
           {
+            "Key": "X5Y20",
+            "Value": [
+              {
+                "Tel": "ironsand15"
+              }
+            ]
+          },
+          {
             "Key": "X5Y21",
             "Value": [
               {
@@ -1217,6 +1276,9 @@
             "Key": "X5Y22",
             "Value": [
               {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
                 "Tel": "ironsand1"
               }
             ]
@@ -1224,6 +1286,9 @@
           {
             "Key": "X5Y23",
             "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
               {
                 "Tel": "ironsand2"
               }
@@ -1373,6 +1438,9 @@
             "Key": "X6Y23",
             "Value": [
               {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
                 "Tel": "ironsand3"
               }
             ]
@@ -1380,6 +1448,9 @@
           {
             "Key": "X6Y24",
             "Value": [
+              {
+                "Tel": "Igneous_Rock_wall"
+              },
               {
                 "Tel": "ironsand1"
               }
@@ -1481,6 +1552,14 @@
             ]
           },
           {
+            "Key": "X7Y9",
+            "Value": [
+              {
+                "Tel": "ironsand1"
+              }
+            ]
+          },
+          {
             "Key": "X7Y11",
             "Value": [
               {
@@ -1516,6 +1595,9 @@
             "Key": "X7Y23",
             "Value": [
               {
+                "Tel": "Igneous_Rock_wall"
+              },
+              {
                 "Tel": "ironsand1"
               }
             ]
@@ -1523,6 +1605,9 @@
           {
             "Key": "X7Y24",
             "Value": [
+              {
+                "Tel": "Igneous_Rock_wall"
+              },
               {
                 "Tel": "ironsand1"
               }
@@ -1654,6 +1739,38 @@
           },
           {
             "Key": "X8Y17",
+            "Value": [
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          },
+          {
+            "Key": "X8Y18",
+            "Value": [
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          },
+          {
+            "Key": "X8Y19",
+            "Value": [
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          },
+          {
+            "Key": "X8Y20",
+            "Value": [
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          },
+          {
+            "Key": "X8Y21",
             "Value": [
               {
                 "Tel": "Lattice"
@@ -1802,32 +1919,7 @@
             "Key": "X9Y11",
             "Value": [
               {
-                "Tel": "ReinforcedWall"
-              },
-              {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X9Y12",
-            "Value": [
-              {
-                "Tel": "Wall"
-              },
-              {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X9Y13",
-            "Value": [
-              {
-                "Tel": "ReinforcedWall"
-              },
-              {
-                "Tel": "Plating"
+                "Tel": "Lattice"
               }
             ]
           },
@@ -1835,72 +1927,12 @@
             "Key": "X9Y14",
             "Value": [
               {
-                "Tel": "Wall"
-              },
-              {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X9Y15",
-            "Value": [
-              {
-                "Tel": "ReinforcedWall"
-              },
-              {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X9Y16",
-            "Value": [
-              {
-                "Tel": "Wall"
-              },
-              {
-                "Tel": "Plating"
+                "Tel": "Lattice"
               }
             ]
           },
           {
             "Key": "X9Y17",
-            "Value": [
-              {
-                "Tel": "ReinforcedWall"
-              },
-              {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X9Y18",
-            "Value": [
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X9Y19",
-            "Value": [
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X9Y20",
-            "Value": [
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X9Y21",
             "Value": [
               {
                 "Tel": "Lattice"
@@ -1955,6 +1987,17 @@
               },
               {
                 "Tel": "ironsand8"
+              }
+            ]
+          },
+          {
+            "Key": "X9Y28",
+            "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
+                "Tel": "ironsand14"
               }
             ]
           },
@@ -2038,7 +2081,7 @@
             "Key": "X10Y11",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -2049,13 +2092,19 @@
             "Key": "X10Y12",
             "Value": [
               {
-                "Tel": "CatWalk"
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
           {
             "Key": "X10Y13",
             "Value": [
+              {
+                "Tel": "ReinforcedWall"
+              },
               {
                 "Tel": "Plating"
               }
@@ -2065,6 +2114,9 @@
             "Key": "X10Y14",
             "Value": [
               {
+                "Tel": "Wall"
+              },
+              {
                 "Tel": "Plating"
               }
             ]
@@ -2072,6 +2124,9 @@
           {
             "Key": "X10Y15",
             "Value": [
+              {
+                "Tel": "ReinforcedWall"
+              },
               {
                 "Tel": "Plating"
               }
@@ -2081,7 +2136,10 @@
             "Key": "X10Y16",
             "Value": [
               {
-                "Tel": "CatWalk"
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -2089,7 +2147,7 @@
             "Key": "X10Y17",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -2144,6 +2202,17 @@
               },
               {
                 "Tel": "ironsand11"
+              }
+            ]
+          },
+          {
+            "Key": "X10Y28",
+            "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
+                "Tel": "ironsand8"
               }
             ]
           },
@@ -2224,7 +2293,7 @@
             "Key": "X11Y12",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "CatWalk"
               }
             ]
           },
@@ -2256,7 +2325,7 @@
             "Key": "X11Y16",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "CatWalk"
               }
             ]
           },
@@ -2307,6 +2376,9 @@
             "Key": "X11Y26",
             "Value": [
               {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
                 "Tel": "ironsand1"
               }
             ]
@@ -2319,6 +2391,17 @@
               },
               {
                 "Tel": "ironsand1"
+              }
+            ]
+          },
+          {
+            "Key": "X11Y28",
+            "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
+                "Tel": "ironsand11"
               }
             ]
           },
@@ -2388,30 +2471,6 @@
             ]
           },
           {
-            "Key": "X12Y8",
-            "Value": [
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X12Y9",
-            "Value": [
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X12Y10",
-            "Value": [
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
             "Key": "X12Y11",
             "Value": [
               {
@@ -2474,38 +2533,6 @@
             ]
           },
           {
-            "Key": "X12Y18",
-            "Value": [
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X12Y19",
-            "Value": [
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X12Y20",
-            "Value": [
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X12Y21",
-            "Value": [
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
             "Key": "X12Y22",
             "Value": [
               {
@@ -2533,6 +2560,9 @@
             "Key": "X12Y25",
             "Value": [
               {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
                 "Tel": "ironsand7"
               }
             ]
@@ -2540,6 +2570,9 @@
           {
             "Key": "X12Y26",
             "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
               {
                 "Tel": "ironsand1"
               }
@@ -2553,6 +2586,17 @@
               },
               {
                 "Tel": "ironsand1"
+              }
+            ]
+          },
+          {
+            "Key": "X12Y28",
+            "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
+                "Tel": "ironsand9"
               }
             ]
           },
@@ -2684,46 +2728,6 @@
             ]
           },
           {
-            "Key": "X13Y18",
-            "Value": [
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X13Y19",
-            "Value": [
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X13Y20",
-            "Value": [
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X13Y21",
-            "Value": [
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X13Y22",
-            "Value": [
-              {
-                "Tel": "ironsand1"
-              }
-            ]
-          },
-          {
             "Key": "X13Y23",
             "Value": [
               {
@@ -2751,6 +2755,9 @@
             "Key": "X13Y26",
             "Value": [
               {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
                 "Tel": "ironsand1"
               }
             ]
@@ -2763,6 +2770,17 @@
               },
               {
                 "Tel": "ironsand2"
+              }
+            ]
+          },
+          {
+            "Key": "X13Y28",
+            "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
+                "Tel": "ironsand12"
               }
             ]
           },
@@ -2891,22 +2909,6 @@
             ]
           },
           {
-            "Key": "X14Y18",
-            "Value": [
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X14Y22",
-            "Value": [
-              {
-                "Tel": "ironsand12"
-              }
-            ]
-          },
-          {
             "Key": "X14Y23",
             "Value": [
               {
@@ -2940,6 +2942,9 @@
             "Key": "X14Y26",
             "Value": [
               {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
                 "Tel": "ironsand1"
               }
             ]
@@ -2952,6 +2957,17 @@
               },
               {
                 "Tel": "ironsand1"
+              }
+            ]
+          },
+          {
+            "Key": "X14Y28",
+            "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
+                "Tel": "ironsand15"
               }
             ]
           },
@@ -3010,38 +3026,6 @@
             ]
           },
           {
-            "Key": "X15Y7",
-            "Value": [
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X15Y8",
-            "Value": [
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X15Y9",
-            "Value": [
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
-            "Key": "X15Y10",
-            "Value": [
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
             "Key": "X15Y11",
             "Value": [
               {
@@ -3056,7 +3040,7 @@
             "Key": "X15Y12",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "CatWalk"
               }
             ]
           },
@@ -3088,7 +3072,7 @@
             "Key": "X15Y16",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "CatWalk"
               }
             ]
           },
@@ -3100,14 +3084,6 @@
               },
               {
                 "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X15Y18",
-            "Value": [
-              {
-                "Tel": "Lattice"
               }
             ]
           },
@@ -3157,6 +3133,17 @@
               },
               {
                 "Tel": "ironsand1"
+              }
+            ]
+          },
+          {
+            "Key": "X15Y28",
+            "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
+                "Tel": "ironsand8"
               }
             ]
           },
@@ -3218,7 +3205,7 @@
             "Key": "X16Y11",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -3229,7 +3216,10 @@
             "Key": "X16Y12",
             "Value": [
               {
-                "Tel": "CatWalk"
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -3237,36 +3227,15 @@
             "Key": "X16Y13",
             "Value": [
               {
+                "Tel": "ReinforcedWall"
+              },
+              {
                 "Tel": "Plating"
               }
             ]
           },
           {
             "Key": "X16Y14",
-            "Value": [
-              {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X16Y15",
-            "Value": [
-              {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X16Y16",
-            "Value": [
-              {
-                "Tel": "CatWalk"
-              }
-            ]
-          },
-          {
-            "Key": "X16Y17",
             "Value": [
               {
                 "Tel": "Wall"
@@ -3277,10 +3246,35 @@
             ]
           },
           {
-            "Key": "X16Y18",
+            "Key": "X16Y15",
             "Value": [
               {
-                "Tel": "Lattice"
+                "Tel": "ReinforcedWall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X16Y16",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X16Y17",
+            "Value": [
+              {
+                "Tel": "ReinforcedWall"
+              },
+              {
+                "Tel": "Plating"
               }
             ]
           },
@@ -3333,6 +3327,17 @@
               },
               {
                 "Tel": "ironsand1"
+              }
+            ]
+          },
+          {
+            "Key": "X16Y28",
+            "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
+                "Tel": "ironsand15"
               }
             ]
           },
@@ -3394,32 +3399,7 @@
             "Key": "X17Y11",
             "Value": [
               {
-                "Tel": "ReinforcedWall"
-              },
-              {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X17Y12",
-            "Value": [
-              {
-                "Tel": "Wall"
-              },
-              {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X17Y13",
-            "Value": [
-              {
-                "Tel": "ReinforcedWall"
-              },
-              {
-                "Tel": "Plating"
+                "Tel": "Lattice"
               }
             ]
           },
@@ -3427,32 +3407,7 @@
             "Key": "X17Y14",
             "Value": [
               {
-                "Tel": "Wall"
-              },
-              {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X17Y15",
-            "Value": [
-              {
-                "Tel": "ReinforcedWall"
-              },
-              {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X17Y16",
-            "Value": [
-              {
-                "Tel": "Wall"
-              },
-              {
-                "Tel": "Plating"
+                "Tel": "Lattice"
               }
             ]
           },
@@ -3460,10 +3415,7 @@
             "Key": "X17Y17",
             "Value": [
               {
-                "Tel": "ReinforcedWall"
-              },
-              {
-                "Tel": "Plating"
+                "Tel": "Lattice"
               }
             ]
           },
@@ -3557,6 +3509,17 @@
             ]
           },
           {
+            "Key": "X17Y28",
+            "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
+                "Tel": "ironsand8"
+              }
+            ]
+          },
+          {
             "Key": "X18Y2",
             "Value": [
               {
@@ -3570,6 +3533,9 @@
           {
             "Key": "X18Y3",
             "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
               {
                 "Tel": "ironsand2"
               }
@@ -3672,10 +3638,10 @@
             ]
           },
           {
-            "Key": "X18Y18",
+            "Key": "X18Y22",
             "Value": [
               {
-                "Tel": "Lattice"
+                "Tel": "ironsand7"
               }
             ]
           },
@@ -3699,7 +3665,7 @@
             "Key": "X18Y25",
             "Value": [
               {
-                "Tel": "Loose_Rock_wall"
+                "Tel": "Igneous_Rock_wall"
               },
               {
                 "Tel": "ironsand14"
@@ -3742,6 +3708,9 @@
           {
             "Key": "X19Y3",
             "Value": [
+              {
+                "Tel": "Igneous_Rock_wall"
+              },
               {
                 "Tel": "ironsand4"
               }
@@ -3796,6 +3765,14 @@
             ]
           },
           {
+            "Key": "X19Y21",
+            "Value": [
+              {
+                "Tel": "ironsand15"
+              }
+            ]
+          },
+          {
             "Key": "X19Y22",
             "Value": [
               {
@@ -3823,7 +3800,7 @@
             "Key": "X19Y25",
             "Value": [
               {
-                "Tel": "Loose_Rock_wall"
+                "Tel": "Igneous_Rock_wall"
               },
               {
                 "Tel": "ironsand2"
@@ -4035,6 +4012,14 @@
             "Value": [
               {
                 "Tel": "ironsand14"
+              }
+            ]
+          },
+          {
+            "Key": "X21Y8",
+            "Value": [
+              {
+                "Tel": "ironsand5"
               }
             ]
           },
@@ -4738,6 +4723,9 @@
             "Key": "X25Y8",
             "Value": [
               {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
                 "Tel": "ironsand1"
               }
             ]
@@ -4746,6 +4734,9 @@
             "Key": "X25Y9",
             "Value": [
               {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
                 "Tel": "ironsand6"
               }
             ]
@@ -4753,6 +4744,9 @@
           {
             "Key": "X25Y10",
             "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
               {
                 "Tel": "ironsand3"
               }
@@ -4811,7 +4805,7 @@
             "Key": "X25Y16",
             "Value": [
               {
-                "Tel": "Loose_Rock_wall"
+                "Tel": "Igneous_Rock_wall"
               },
               {
                 "Tel": "ironsand2"
@@ -4822,7 +4816,7 @@
             "Key": "X25Y17",
             "Value": [
               {
-                "Tel": "Loose_Rock_wall"
+                "Tel": "Igneous_Rock_wall"
               },
               {
                 "Tel": "ironsand3"
@@ -4913,7 +4907,7 @@
                 "Tel": "Loose_Rock_wall"
               },
               {
-                "Tel": "ironsand11"
+                "Tel": "ironsand14"
               }
             ]
           },
@@ -4924,7 +4918,7 @@
                 "Tel": "Loose_Rock_wall"
               },
               {
-                "Tel": "ironsand3"
+                "Tel": "ironsand2"
               }
             ]
           },
@@ -4935,7 +4929,7 @@
                 "Tel": "Loose_Rock_wall"
               },
               {
-                "Tel": "ironsand4"
+                "Tel": "ironsand13"
               }
             ]
           },
@@ -4946,7 +4940,7 @@
                 "Tel": "Loose_Rock_wall"
               },
               {
-                "Tel": "ironsand3"
+                "Tel": "ironsand5"
               }
             ]
           },
@@ -5015,31 +5009,106 @@
                 "Tel": "ironsand1"
               }
             ]
+          },
+          {
+            "Key": "X27Y10",
+            "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
+                "Tel": "ironsand9"
+              }
+            ]
+          },
+          {
+            "Key": "X27Y11",
+            "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
+                "Tel": "ironsand8"
+              }
+            ]
+          },
+          {
+            "Key": "X27Y12",
+            "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
+                "Tel": "ironsand5"
+              }
+            ]
+          },
+          {
+            "Key": "X27Y13",
+            "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
+                "Tel": "ironsand13"
+              }
+            ]
+          },
+          {
+            "Key": "X27Y14",
+            "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
+                "Tel": "ironsand1"
+              }
+            ]
+          },
+          {
+            "Key": "X27Y15",
+            "Value": [
+              {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
+                "Tel": "ironsand3"
+              }
+            ]
           }
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.2",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
-            "GitID": "86f1fa4a01e7f0142a6e2ce35cce0930_-0.5┼-0.5┼0┼",
-            "PrefabID": "86f1fa4a01e7f0142a6e2ce35cce0930",
+            "GitID": "83b269ab1421fcf4a95ad3cf33935cff_-2┼1┼0┼",
+            "PrefabID": "83b269ab1421fcf4a95ad3cf33935cff",
             "NameMatches": true,
-            "Name": "MatrixGasSettings",
-            "LocalPRS": "-0.5┼-0.5┼0┼",
+            "Name": "OreGenerator",
+            "LocalPRS": "-2┼1┼0┼"
+          },
+          {
+            "GitID": "e02a5954be8d94b4bbaaa0d63d813c71_-1┼1┼0┼",
+            "PrefabID": "e02a5954be8d94b4bbaaa0d63d813c71",
+            "NameMatches": true,
+            "Name": "AI_ShouldNavigateAround",
+            "LocalPRS": "-1┼1┼0┼"
+          },
+          {
+            "GitID": "SaFaeLok!_90EKEzA!HE_0┼1┼0┼",
+            "PrefabID": "SaFaeLok!_90EKEzA!HE",
+            "Name": "MatrixEnterAmbienceSetter (6)",
+            "LocalPRS": "0┼1┼0┼",
             "Object": {
               "ClassDatas": [
                 {
-                  "ClassID": "MatrixGasSettings@0",
+                  "ClassID": "EnterAmbienceSetter@0",
                   "Data": [
                     {
-                      "Name": "defaultRoomGasMixOverride",
-                      "Data": "Space"
-                    },
-                    {
-                      "Name": "overriderTileSpawnWithNoAir",
-                      "Data": "True"
+                      "Name": "EnteringSounds",
+                      "Data": "84b2223b47deb0d458c4c171c79fea3b"
                     }
                   ]
                 }
@@ -5047,31 +5116,17 @@
             }
           },
           {
-            "GitID": "911f81eefba53574788e7659d9b3dbfe_-0.5┼-0.5┼0┼",
+            "GitID": "911f81eefba53574788e7659d9b3dbfe_1┼1┼0┼",
             "PrefabID": "911f81eefba53574788e7659d9b3dbfe",
             "NameMatches": true,
             "Name": "AsteroidSystem",
-            "LocalPRS": "-0.5┼-0.5┼0┼"
+            "LocalPRS": "1┼1┼0┼"
           },
           {
-            "GitID": "e02a5954be8d94b4bbaaa0d63d813c71_-0.5┼-0.5┼0┼",
-            "PrefabID": "e02a5954be8d94b4bbaaa0d63d813c71",
-            "NameMatches": true,
-            "Name": "AI_ShouldNavigateAround",
-            "LocalPRS": "-0.5┼-0.5┼0┼"
-          },
-          {
-            "GitID": "83b269ab1421fcf4a95ad3cf33935cff_0┼0┼0┼",
-            "PrefabID": "83b269ab1421fcf4a95ad3cf33935cff",
-            "NameMatches": true,
-            "Name": "OreGenerator",
-            "LocalPRS": "0┼0┼0┼"
-          },
-          {
-            "GitID": "8fb9b82aab871a54fb9bdb7e4a985821_0┼19┼0┼",
+            "GitID": "8fb9b82aab871a54fb9bdb7e4a985821_1┼19┼0┼",
             "PrefabID": "8fb9b82aab871a54fb9bdb7e4a985821",
             "Name": "CarpSpawnPoint",
-            "LocalPRS": "0┼19┼0┼",
+            "LocalPRS": "1┼19┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -5128,6 +5183,30 @@
                     {
                       "Name": "poolList#0@randomItemPool",
                       "Data": "869d427583594bf4e92f94d88cd5a967"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "86f1fa4a01e7f0142a6e2ce35cce0930_2┼1┼0┼",
+            "PrefabID": "86f1fa4a01e7f0142a6e2ce35cce0930",
+            "NameMatches": true,
+            "Name": "MatrixGasSettings",
+            "LocalPRS": "2┼1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "MatrixGasSettings@0",
+                  "Data": [
+                    {
+                      "Name": "defaultRoomGasMixOverride",
+                      "Data": "Space"
+                    },
+                    {
+                      "Name": "overriderTileSpawnWithNoAir",
+                      "Data": "True"
                     }
                   ]
                 }
@@ -5208,16 +5287,16 @@
             "LocalPRS": "8┼6┼0┼"
           },
           {
-            "GitID": "77ef12547efe0a243a55cfdea11215af_13┼14┼0┼",
-            "PrefabID": "77ef12547efe0a243a55cfdea11215af",
-            "Name": "Artifact75% (1)",
+            "GitID": "c2688b12db72cdc4c8c20b8647f6b587_13┼14┼0┼",
+            "PrefabID": "c2688b12db72cdc4c8c20b8647f6b587",
+            "Name": "Artifact25% (1)",
             "LocalPRS": "13┼14┼0┼"
           },
           {
-            "GitID": "8fb9b82aab871a54fb9bdb7e4a985821_21┼23┼0┼",
+            "GitID": "8fb9b82aab871a54fb9bdb7e4a985821_17┼5┼0┼",
             "PrefabID": "8fb9b82aab871a54fb9bdb7e4a985821",
-            "Name": "CarpSpawnPoint (3)",
-            "LocalPRS": "21┼23┼0┼",
+            "Name": "CarpSpawnPoint (1)",
+            "LocalPRS": "17┼5┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -5281,10 +5360,10 @@
             }
           },
           {
-            "GitID": "8fb9b82aab871a54fb9bdb7e4a985821_24┼12┼0┼",
+            "GitID": "8fb9b82aab871a54fb9bdb7e4a985821_20┼22┼0┼",
             "PrefabID": "8fb9b82aab871a54fb9bdb7e4a985821",
-            "Name": "CarpSpawnPoint (1)",
-            "LocalPRS": "24┼12┼0┼",
+            "Name": "CarpSpawnPoint (3)",
+            "LocalPRS": "20┼22┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -5353,8 +5432,8 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "12,13.2,0",
-          "Size": "28,27.5,0"
+          "Pos": "12.5,14,0",
+          "Size": "29,28,0"
         }
       ]
     }

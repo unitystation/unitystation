@@ -25,6 +25,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation90, INewMappedOnSpawn
 
 	public RotationMethod MethodRotation = RotationMethod.None;
 
+
 	public bool ChangeSprites = false;
 
 	[ShowIf(nameof(ChangeSprites))] public bool isChangingSO;
@@ -283,6 +284,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation90, INewMappedOnSpawn
 
 	public void RotateObject(OrientationEnum dir)
 	{
+#if UNITY_EDITOR
 		if (Application.isPlaying == false)
 		{
 			if (spriteHandlers == null || spriteHandlers.Length == 0)
@@ -295,6 +297,7 @@ public class Rotatable : NetworkBehaviour, IMatrixRotation90, INewMappedOnSpawn
 				spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
 			}
 		}
+#endif
 
 		int spriteVariant = 0;
 		switch (dir)

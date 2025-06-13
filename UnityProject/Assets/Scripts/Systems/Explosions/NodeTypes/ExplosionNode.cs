@@ -33,6 +33,18 @@ namespace Systems.Explosions
 
 		public List<ItemTrait> IgnoreAttributes = new List<ItemTrait>();
 
+		/// <summary>
+		/// The position of the node this explosion originated from
+		/// </summary>
+		public Vector3 ExplosionStartWorldPosition = Vector3.zero;
+
+		public const int MINIMUM_DAMAGE_TO_THROW_OBJECTS = 8;
+		public const int OBJECT_PROCESS_SPLICE_LIMIT = 6;
+
+		public ExplosionNode(Vector3 _explosionStartWorldPosition)
+		{
+			ExplosionStartWorldPosition = _explosionStartWorldPosition;
+		}
 		public virtual string EffectName
 		{
 			get { return "Fire"; }
@@ -111,7 +123,7 @@ namespace Systems.Explosions
 			var spliceCounter = 0;
 			foreach (var something in stuffOnTile)
 			{
-				if (spliceCounter > 30)
+				if (spliceCounter > OBJECT_PROCESS_SPLICE_LIMIT)
 				{
 					spliceCounter = 0;
 					await UniTask.WaitForEndOfFrame();
@@ -119,7 +131,7 @@ namespace Systems.Explosions
 				spliceCounter++;
 				// Incase of multiple explosions occuring at once (i.e: multiple Gibtonites)
 				// trycatch this to avoid trying to destroy stuff that is already destroyed by other damage sources.
-				if (something == null || something.gameObject == null) continue;
+				if (!something) continue;
 				if (something.TrySafeGetComponent<Integrity>(out var integrity))
 				{
 					DamageObjects(something, integrity, damageDealt);
@@ -135,8 +147,11 @@ namespace Systems.Explosions
 				await UniTask.WaitForEndOfFrame();
 				try
 				{
-					player.playerScript.playerMove.NewtonianPush(AngleAndIntensity.Rotate90(), 7, 1, 3,
-						BodyPartType.Chest, player.gameObject, 15);
+					if (damageDealt >= MINIMUM_DAMAGE_TO_THROW_OBJECTS)
+					{
+						player.playerScript.playerMove.NewtonianPush(AngleAndIntensity.Rotate90(), 7, 1, 3,
+							BodyPartType.Chest, player.gameObject, 15);
+					}
 					player.ApplyDamageAll(null, damageDealt, AttackType.Bomb, DamageType.Brute, default, TraumaticDamageTypes.NONE, 75);
 				}
 				catch (Exception e)
@@ -151,8 +166,11 @@ namespace Systems.Explosions
 		{
 			try
 			{
-				integrity.Physics.NewtonianNewtonPush(AngleAndIntensity.Rotate90(), AngleAndIntensity.magnitude * 0.1f , 1, 3,
-					BodyPartType.Chest, integrity.gameObject, 15);
+				if (damageDealt >= MINIMUM_DAMAGE_TO_THROW_OBJECTS)
+				{
+					integrity.Physics.NewtonianNewtonPush(AngleAndIntensity.Rotate90(), AngleAndIntensity.magnitude * 0.1f , 1, 3,
+						BodyPartType.Chest, integrity.gameObject, 15);
+				}
 
 				if (IgnoreAttributes != null)
 				{
@@ -245,7 +263,7 @@ namespace Systems.Explosions
 			}
 		}
 
-		public async UniTask TimedEffect(Vector3Int position, float time, string effectName, OverlayType effectOverlayType, TileChangeManager tileChangeManager)
+		public async UniTask TimedEffect(Vector3Int position, float timeMiliseconds, string effectName, OverlayType effectOverlayType, TileChangeManager tileChangeManager)
 		{
 			//Dont add effect if it is already there
 			if (tileChangeManager.MetaTileMap.HasOverlay(position, TileType.Effects, effectName)) return;
@@ -268,14 +286,14 @@ namespace Systems.Explosions
 			{
 				Loggy.Error("Attempted to acces CommonComponents on a FireLight object, but couldn't find one!");
 			}
-			ExplosionManager.CleanupEffectLater(time * 0.001f, tileChangeManager.MetaTileMap,
+			ExplosionManager.CleanupEffectLater(timeMiliseconds * 0.001f, tileChangeManager.MetaTileMap,
 				position, effectOverlayType, fireLightSpawn.GameObject);
 			return;
 		}
 
 		public virtual ExplosionNode GenInstance()
 		{
-			return new ExplosionNode();
+			return new ExplosionNode(ExplosionStartWorldPosition);
 		}
 	}
 }

@@ -17,6 +17,7 @@ using Items;
 using Items.Implants.Organs;
 using Logs;
 using Managers;
+using Objects.Machines;
 using Objects.Machines.ServerMachines.Communications;
 using Player.Language;
 using Shared.Util;
@@ -56,6 +57,7 @@ public partial class Chat : MonoBehaviour
 
 		chatEvent.allChannels = channels;
 		PlayerScript playerScript = chatEvent.originator.OrNull()?.GetComponent<PlayerScript>();
+		Machine machineScript = chatEvent.originator.OrNull()?.GetComponent<Machine>();
 		AiPlayer aiPlayer = null;
 		if (playerScript != null)
 		{
@@ -78,6 +80,14 @@ public partial class Chat : MonoBehaviour
 					ChatEvent = chatEvent,
 				};
 				chatEvent.channels = channel;
+
+				if (machineScript != null)
+				{
+					if (machineScript.TryGetComponent<SignalEmitter>(out var emitter))
+					{
+						emitter.TrySendSignal(null, radioMessageData);
+					}
+				}
 
 				if (playerScript == null) continue;
 
@@ -260,7 +270,7 @@ public partial class Chat : MonoBehaviour
 			chatEvent.speaker = StripAll(sentByPlayer.Username);
 
 			//Show admin tag for ghosts
-			var rank = PlayerList.GetRank(sentByPlayer.AccountId, out _);
+			var rank = PlayerList.GetRankForAccount(sentByPlayer.AccountId, out _);
 
 			if (rank?.ShowInChat == true)
 			{

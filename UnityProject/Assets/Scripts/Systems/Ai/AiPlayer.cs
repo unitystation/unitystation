@@ -205,7 +205,7 @@ namespace Systems.Ai
 		{
 			var coreIntegrity = vesselObject.GetComponent<Integrity>();
 			coreIntegrity.OnWillDestroyServer.AddListener(OnCoreDestroy);
-			coreIntegrity.OnApplyDamage.AddListener(OnCoreDamage);
+			coreIntegrity.OnApplyDamage += OnCoreDamage;
 			hasPower = true;
 
 			//Power set up
@@ -236,7 +236,7 @@ namespace Systems.Ai
 
 			var coreIntegrity = vesselObject.GetComponent<Integrity>();
 			coreIntegrity.OnWillDestroyServer.RemoveListener(OnCoreDestroy);
-			coreIntegrity.OnApplyDamage.RemoveListener(OnCoreDamage);
+			coreIntegrity.OnApplyDamage -= OnCoreDamage;
 
 			var apc = vesselObject.GetComponent<APCPoweredDevice>();
 			if (apc != null)
@@ -285,7 +285,10 @@ namespace Systems.Ai
 			if(vesselObject == null) return;
 
 			//Something weird with headless and local host triggering the sync even though its set to owner
-			if (CustomNetworkManager.IsHeadless || isOwned == false) return;
+			if (CustomNetworkManager.IsHeadless) return;
+
+			if (CustomNetworkManager.IsServer && isOwned == false) return;
+
 
 			Init();
 			aiUi.OrNull()?.SetUp(this);
@@ -1582,12 +1585,14 @@ namespace Systems.Ai
 		}
 
 		[Command]
-		private void CmdAskForLawUpdate()
+		public void CmdAskForLawUpdate(NetworkConnectionToClient sender = null)
 		{
 			ServerUpdateClientLaws();
 
 			//Sync number of cameras here for new player.
 			SecurityCamera.SyncNumberOfCameras();
+
+			TargetRpcToggleCameras(connectionToClient, true);
 		}
 
 		[ContextMenu("randomise laws")]

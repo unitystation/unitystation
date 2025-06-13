@@ -40,8 +40,6 @@ namespace TileMap.Behaviours
 			tileChangeManager = null;
 			networkedMatrix = null;
 			subsystemManager = null;
-
 		}
 	}
-
 }

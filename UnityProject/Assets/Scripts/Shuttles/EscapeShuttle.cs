@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Logs;
 using Managers;
 using Tilemaps.Behaviours.Layers;
@@ -174,7 +176,7 @@ public class EscapeShuttle : AutopilotShipMachine
 		loadedOnRoundID = GameManager.RoundID;
 		InItAsIfDockedTo(StationStartBuoy);
 	}
-
+	
 
 	private void Awake()
 	{
@@ -226,6 +228,7 @@ public class EscapeShuttle : AutopilotShipMachine
 
 	IEnumerator WaitForGameOver()
 	{
+
 		//note: used to wait for 25 seconds, now less because
 		//we disabled the zoom out
 		yield return WaitFor.Seconds(15f);
@@ -271,7 +274,7 @@ public class EscapeShuttle : AutopilotShipMachine
 
 		if (Initialised == false)
 		{
-			if (TargetDestinationBuoy != null)
+			if (mm.NetworkedMatrixMove.HasMoveToTarget == false)
 			{
 				Initialised = true;
 				MoveDirectionIn = true;

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: resin_wall
   m_EditorClassIdentifier: 
   <ForeverID>k__BackingField: 2b55386c030f24193bc289cd227a621e
-  displayName: 
-  description: 
+  displayName: resin wall
+  description: A wall made of a strange, hard resin.
   LayerType: 0
   TileType: 1
   RequiredTiles:
@@ -70,11 +70,11 @@ MonoBehaviour:
   spawnOnDestroy: {fileID: 0}
   damageOverlayList: {fileID: 0}
   soundOnHit:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   SoundOnDestroy: []

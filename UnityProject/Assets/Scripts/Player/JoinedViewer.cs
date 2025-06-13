@@ -15,6 +15,7 @@ using Messages.Client;
 using Messages.Client.NewPlayer;
 using Messages.Client.SpriteMessages;
 using UI;
+using UI.Systems.PreRound;
 using UnityEngine;
 using Util.Independent.FluentRichText;
 
@@ -36,6 +37,8 @@ namespace Player
 		private string STUnverifiedClientId;
 		private string STVerifiedUserid;
 		private PlayerInfo STVerifiedConnPlayer;
+
+		[SyncVar] public bool ServerDoneLoading = false;
 
 		public static void AddOnPlayerValidated(Action ToInvoke)
 		{
@@ -71,6 +74,7 @@ namespace Player
 			base.OnStartLocalPlayer();
 
 			PlayerManager.SetViewerForControl(this);
+			ServerDoneLoading = false;
 
 			if (isServer && isLocalPlayer)
 			{
@@ -127,6 +131,7 @@ namespace Player
 		[Server]
 		private void ServerSetUpPlayer(string currentScene)
 		{
+			ServerDoneLoading = false;
 			var authData = (AuthData) connectionToClient.authenticationData;
 
 			// Sanity check in case Mirror does a surprising thing and allows commands from unauthenticated clients.
@@ -200,6 +205,14 @@ namespace Player
 				return;
 			}
 
+			if (AdminSetWatchlist.Watchlist.ContainsKey(authData.Account.Id))
+			{
+				if (AdminSetWatchlist.Watchlist[authData.Account.Id])
+				{
+					AdminLogsManager.AddNewLog($"Player has joined who is on watchlist ID {authData.Account.Id}", LogCategory.Connections, BubbleUpToChatAdmin:true);
+				}
+			}
+
 			//Add player to the list of current round players
 			PlayerList.Instance.AddToRoundPlayers(player);
 
@@ -246,10 +259,8 @@ namespace Player
 		{
 			FinishedValidating();
 			CmdFinishLoading();
-			UIManager.Display.preRoundWindow.ShowRejoiningPanel();
 			SpriteRequestCurrentStateMessage.Send(SpriteHandlerManager.Instance.GetComponent<NetworkIdentity>().netId);
 		}
-
 
 		[Command]
 		public void CmdFinishLoading()
@@ -319,6 +330,7 @@ namespace Player
 				await WaitForLoggedOffObserver(STVerifiedConnPlayer.Mind);
 			}
 			IsValidPlayerAndWaitingOnLoad = false;
+			ServerDoneLoading = true;
 		}
 
 		/// <summary>
@@ -326,7 +338,7 @@ namespace Player
 		/// </summary>
 		private async UniTask WaitForLoggedOffObserver(Mind loggedOffPlayer)
 		{
-			TargetLocalPlayerRejoinUI(connectionToClient);
+			TargetLocalPlayerRejoinUI(connectionToClient, 0.1f, "Rejoining", "Waiting for logged off observer..");
 
 			// TODO: When we have scene network culling we will need to allow observers
 			// for the whole specific scene and the body before doing the logic below:
@@ -336,27 +348,27 @@ namespace Player
 				GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("An error occurred. Press F5 to check for what error had occured.".Color(Color.red));
 				Loggy.Error($"No {nameof(NetworkIdentity)} component on {loggedOffPlayer}! " +
 				                "Cannot rejoin that player. Was original player object improperly created? " +
-				                "Did we get runtime error while creating it?", Category.Connections);
+				                "Did we get runtime error while creating it?");
 				// TODO: if this issue persists, should probably send the poor player a message about failing to rejoin.
 				ClearCache();
 				return;
 			}
 
 			var antiFreezeCheckCount = 0;
-			while (identity.observers.ContainsKey(connectionToClient.connectionId) == false)
+			while (connectionToClient != null && identity.observers.ContainsKey(connectionToClient.connectionId) == false)
 			{
 				antiFreezeCheckCount++;
-				await UniTask.WaitForEndOfFrame();
+				await UniTask.WaitForSeconds(1f);
 				if (connectionToClient == null)
 				{
-					//disconnected while we were waiting
+					Loggy.Info("A client seemed to have discconected while we're waiting for their observer.");
 					ClearCache();
 					break;
 				}
-				if (antiFreezeCheckCount > 5500)
+				if (antiFreezeCheckCount > 20)
 				{
 					GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("A problem occurred while attempting to check for a valid connection ID." +
-						"No valid connection found after 55000 frames. Press F5 to check for if an error had occured.".Color(Color.red));
+						"No valid connection found after 20 seconds. Press F5 to check for if an error had occured.".Color(Color.red));
 					Loggy.Error($"ID {connectionToClient.connectionId} not found in observers dictionary!" +
 					            "Cannot rejoin that player. Was original player object improperly created? " +
 					            "Did we get runtime error while creating it?");
@@ -383,7 +395,6 @@ namespace Player
 				if (player.ViewerScript.IsValidPlayerAndWaitingOnLoad == false)
 				{
 					Loggy.Error($"{player.Username} detected while attempting to fallback to mind checks, but IsValidPlayerAndWaitingOnLoad is set to false?!");
-					return;
 				}
 				SuccesfullyRejoin();
 				break;
@@ -392,16 +403,16 @@ namespace Player
 
 		private void SuccesfullyRejoin()
 		{
-			TargetLocalPlayerRejoinUI(connectionToClient);
+			TargetLocalPlayerRejoinUI(connectionToClient, 0.9f, "Rejoining", "Successfully rejoined. Alerting Mind..");
 			GameManager.Instance.OrNull()?.PlayerLoadedIn(connectionToClient);
 			STVerifiedConnPlayer.Mind.OrNull()?.ReLog();
 			ClearCache(true);
 		}
 
 		[TargetRpc]
-		private void TargetLocalPlayerRejoinUI(NetworkConnection target)
+		private void TargetLocalPlayerRejoinUI(NetworkConnection target, float amount, string loadingTitle, string loadingSubject)
 		{
-			UIManager.Display.preRoundWindow.ShowRejoiningPanel();
+			UIManager.Display.preRoundWindow.LoadingArea.UpdateLoadingBar(loadingTitle, loadingSubject, amount);
 		}
 
 		/// <summary>
@@ -471,7 +482,7 @@ namespace Player
 		private void TargetSyncCountdown(NetworkConnection target, bool started, double endTime)
 		{
 			Loggy.Info("Syncing countdown!", Category.Round);
-			UIManager.Display.preRoundWindow.GetComponent<GUI_PreRoundWindow>().SyncCountdown(started, endTime);
+			UIManager.Display.preRoundWindow.GetComponent<GUI_PreRoundWindow>().CountdownArea.SyncCountdown(started, endTime);
 		}
 
 		/// <summary>

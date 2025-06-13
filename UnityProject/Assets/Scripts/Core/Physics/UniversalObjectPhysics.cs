@@ -14,6 +14,7 @@ using SecureStuff;
 using Tiles;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using Util;
 using Random = UnityEngine.Random;
 
@@ -233,6 +234,8 @@ namespace Core.Physics
 		[PlayModeOnly] private float SecondsFlying;
 
 		[field: SerializeField] public ScaleSync Scale { get; protected set; }
+
+		public UnityEvent<Matrix> OnEnteredNewMatrix = new UnityEvent<Matrix>();
 
 		public bool IsFlyingSliding
 		{
@@ -538,6 +541,13 @@ namespace Core.Physics
 			bool doStepInteractions = true,
 			Vector2? momentum = null, MatrixInfo Matrixoveride = null, bool TeleportContainer = false)
 		{
+			if (worldPos.z != 0)
+			{
+				Loggy.Error(
+					$"Attempting to AppearAtWorldPositionServer for {this.gameObject.name} A odd z Level Of {worldPos.z}, change this to -100 for when we implement z levels  ");
+				worldPos.z = 0;
+			}
+
 			this.doStepInteractions = doStepInteractions;
 
 			if (ContainedInObjectContainer)
@@ -874,6 +884,8 @@ namespace Core.Physics
 					Matrix = movetoMatrix.Id
 				};
 			}
+
+			OnEnteredNewMatrix?.Invoke(movetoMatrix);
 		}
 
 		/// <summary>
@@ -1076,7 +1088,7 @@ namespace Core.Physics
 			{
 				return;
 			}
-			
+
 			if (isVisible == false)
 			{
 				MoveIsWalking = false;
@@ -1243,7 +1255,11 @@ namespace Core.Physics
 			if (transform.position.x.IsUnreasonableNumber() || transform.position.y.IsUnreasonableNumber() ||
 			    transform.position.z.IsUnreasonableNumber())
 			{
-				Loggy.Error("Unreasonable number detected with transform.position with " + transform.name);
+				if (isServer)
+				{
+					Loggy.Error("Unreasonable number detected with transform.position with " + transform.name);
+				}
+
 				var vec = transform.position;
 				vec.x = 0;
 				vec.y = 0;
@@ -1377,7 +1393,7 @@ namespace Core.Physics
 
 		public void FlyingUpdateMe()
 		{
-			if (CustomNetworkManager.IsServer == false && JoinedViewer.ClientValidated == false)
+			if (CustomNetworkManager.IsServer == false && SubSceneManager.Instance.ClientIsFullyDoneLoadingOnSubsceneManager == false)
 			{
 				return;
 			}

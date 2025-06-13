@@ -32,9 +32,12 @@ namespace Gateway
 			if (SubSceneManager.Instance.IsMaintRooms && DMMath.Prob(0.0025 * maintRoomChanceModifier)) //1 in 400 chance for events like portals. 1 in 4000 for quantum pads and the like.
 			{
 				dest = MaintRoomLocations.PickRandom().RegisterTile().WorldPositionServer;
+				if (dest.z != 0)
+				{
+					dest = transportTo;
+				}
 			}
 
-			objectPhysics.DisappearFromWorld();
 			objectPhysics.AppearAtWorldPositionServer(dest, doStepInteractions: doTileStep);
 		}
 
@@ -48,9 +51,12 @@ namespace Gateway
 		/// <param name="doTileStep">Whether step interactions should trigger on teleport</param>
 		[Server]
 		public static void TransportObjectAndPulled(UniversalObjectPhysics objectPhysics, Vector3 transportTo,
-			bool doTileStep = true, float maintRoomChanceModifier = 1f)
+			bool doTileStep = true, float maintRoomChanceModifier = 1f, bool IgnoreNotPushble = false)
 		{
 			if (objectPhysics == null) return; //Don't even bother...
+
+			if (IgnoreNotPushble == false && objectPhysics.isNotPushable) return;
+
 
 			var linkedList = new LinkedList<UniversalObjectPhysics>();
 
