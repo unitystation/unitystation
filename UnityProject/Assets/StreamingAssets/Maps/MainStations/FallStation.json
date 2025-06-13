@@ -111578,22 +111578,6 @@
                     }
                   ]
                 }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "ForensicsLockers"
-                        }
-                      ]
-                    }
-                  ]
-                }
               ]
             }
           },
@@ -129870,7 +129854,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "Armory"
+                      "Data": "BasicPublicAccess"
                     }
                   ]
                 },
@@ -132825,22 +132809,6 @@
                     }
                   ]
                 }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "Brig"
-                        }
-                      ]
-                    }
-                  ]
-                }
               ]
             }
           },
@@ -132896,22 +132864,6 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "Brig"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -133008,6 +132960,15 @@
                       "Data": "29107a3e6fd05d34c864ad077d34bafc_81┼88┼0┼@0@DoorMasterController@0"
                     }
                   ]
+                },
+                {
+                  "ClassID": "ClearanceRestricted@0",
+                  "Data": [
+                    {
+                      "Name": "requiredClearance#0",
+                      "Data": "Security"
+                    }
+                  ]
                 }
               ]
             }
@@ -133026,22 +132987,6 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_85┼94┼0┼@0@APC@0"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "Brig"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -133128,6 +133073,15 @@
                       "Data": "29107a3e6fd05d34c864ad077d34bafc_81┼92┼0┼@0@DoorMasterController@0"
                     }
                   ]
+                },
+                {
+                  "ClassID": "ClearanceRestricted@0",
+                  "Data": [
+                    {
+                      "Name": "requiredClearance#0",
+                      "Data": "Security"
+                    }
+                  ]
                 }
               ]
             }
@@ -133146,22 +133100,6 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_85┼94┼0┼@0@APC@0"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "Brig"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -135205,7 +135143,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "SecDoors"
+                          "Data": "Brig"
                         }
                       ]
                     }
@@ -135279,7 +135217,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "SecDoors"
+                          "Data": "Brig"
                         }
                       ]
                     }
@@ -137258,7 +137196,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Security"
+                          "Data": "Brig"
                         }
                       ]
                     }
@@ -137319,6 +137257,15 @@
                       "Data": "29107a3e6fd05d34c864ad077d34bafc_85┼88┼0┼@0@DoorMasterController@0"
                     }
                   ]
+                },
+                {
+                  "ClassID": "ClearanceRestricted@0",
+                  "Data": [
+                    {
+                      "Name": "requiredClearance#0",
+                      "Data": "Security"
+                    }
+                  ]
                 }
               ]
             }
@@ -137337,22 +137284,6 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_85┼94┼0┼@0@APC@0"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "Brig"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -137439,6 +137370,15 @@
                       "Data": "29107a3e6fd05d34c864ad077d34bafc_85┼92┼0┼@0@DoorMasterController@0"
                     }
                   ]
+                },
+                {
+                  "ClassID": "ClearanceRestricted@0",
+                  "Data": [
+                    {
+                      "Name": "requiredClearance#0",
+                      "Data": "Security"
+                    }
+                  ]
                 }
               ]
             }
@@ -137457,22 +137397,6 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_85┼94┼0┼@0@APC@0"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "Brig"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -160334,6 +160258,290 @@
             "LocalPRS": "112┼77┼0┼"
           },
           {
+            "GitID": "157fcff274a3644448d1ff3bdc019619_112┼80┼0┼",
+            "PrefabID": "157fcff274a3644448d1ff3bdc019619",
+            "Name": "DirectionalWindow (3)",
+            "LocalPRS": "112┼80┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "1a00e842e154f7d43811c5d45328988c_112┼80┼0┼",
+            "PrefabID": "1a00e842e154f7d43811c5d45328988c",
+            "NameMatches": true,
+            "Name": "Chair",
+            "LocalPRS": "112┼80┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "157fcff274a3644448d1ff3bdc019619_112┼81┼0┼",
+            "PrefabID": "157fcff274a3644448d1ff3bdc019619",
+            "Name": "DirectionalWindow (2)",
+            "LocalPRS": "112┼81┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "1a00e842e154f7d43811c5d45328988c_112┼81┼0┼",
+            "PrefabID": "1a00e842e154f7d43811c5d45328988c",
+            "NameMatches": true,
+            "Name": "Chair",
+            "LocalPRS": "112┼81┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "157fcff274a3644448d1ff3bdc019619_112┼82┼0┼",
+            "PrefabID": "157fcff274a3644448d1ff3bdc019619",
+            "Name": "DirectionalWindow (1)",
+            "LocalPRS": "112┼82┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "1a00e842e154f7d43811c5d45328988c_112┼82┼0┼",
+            "PrefabID": "1a00e842e154f7d43811c5d45328988c",
+            "NameMatches": true,
+            "Name": "Chair",
+            "LocalPRS": "112┼82┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "157fcff274a3644448d1ff3bdc019619_112┼83┼0┼",
+            "PrefabID": "157fcff274a3644448d1ff3bdc019619",
+            "NameMatches": true,
+            "Name": "DirectionalWindow",
+            "LocalPRS": "112┼83┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "1a00e842e154f7d43811c5d45328988c_112┼83┼0┼",
+            "PrefabID": "1a00e842e154f7d43811c5d45328988c",
+            "Name": "Chair (1)",
+            "LocalPRS": "112┼83┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "cb2f847ef3b8b754181a970a4032c552_113┼36┼0┼",
             "PrefabID": "cb2f847ef3b8b754181a970a4032c552",
             "Name": "Scrubber - Plasma - dVvXr",
@@ -160719,6 +160927,286 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_112┼76┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "157fcff274a3644448d1ff3bdc019619_113┼80┼0┼",
+            "PrefabID": "157fcff274a3644448d1ff3bdc019619",
+            "Name": "DirectionalWindow (9)",
+            "LocalPRS": "113┼80┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "1a00e842e154f7d43811c5d45328988c_113┼80┼0┼",
+            "PrefabID": "1a00e842e154f7d43811c5d45328988c",
+            "Name": "Chair (6)",
+            "LocalPRS": "113┼80┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "157fcff274a3644448d1ff3bdc019619_113┼81┼0┼",
+            "PrefabID": "157fcff274a3644448d1ff3bdc019619",
+            "Name": "DirectionalWindow (11)",
+            "LocalPRS": "113┼81┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "1a00e842e154f7d43811c5d45328988c_113┼81┼0┼",
+            "PrefabID": "1a00e842e154f7d43811c5d45328988c",
+            "Name": "Chair (7)",
+            "LocalPRS": "113┼81┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "157fcff274a3644448d1ff3bdc019619_113┼82┼0┼",
+            "PrefabID": "157fcff274a3644448d1ff3bdc019619",
+            "Name": "DirectionalWindow (8)",
+            "LocalPRS": "113┼82┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "1a00e842e154f7d43811c5d45328988c_113┼82┼0┼",
+            "PrefabID": "1a00e842e154f7d43811c5d45328988c",
+            "Name": "Chair (8)",
+            "LocalPRS": "113┼82┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "157fcff274a3644448d1ff3bdc019619_113┼83┼0┼",
+            "PrefabID": "157fcff274a3644448d1ff3bdc019619",
+            "Name": "DirectionalWindow (10)",
+            "LocalPRS": "113┼83┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "1a00e842e154f7d43811c5d45328988c_113┼83┼0┼",
+            "PrefabID": "1a00e842e154f7d43811c5d45328988c",
+            "Name": "Chair (9)",
+            "LocalPRS": "113┼83┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -161361,32 +161849,32 @@
             }
           },
           {
-            "GitID": "cbe919cf00f84254f83d474582798520_114┼81┼0┼",
-            "PrefabID": "cbe919cf00f84254f83d474582798520",
-            "Name": "SecureWinDoorRight (1)",
-            "LocalPRS": "114┼81┼0┼",
+            "GitID": "157fcff274a3644448d1ff3bdc019619_114┼80┼0┼",
+            "PrefabID": "157fcff274a3644448d1ff3bdc019619",
+            "Name": "DirectionalWindow (5)",
+            "LocalPRS": "114┼80┼0┼",
             "Object": {
               "ClassDatas": [
                 {
-                  "ClassID": "APCPoweredDevice@0",
+                  "ClassID": "Rotatable@0",
                   "Data": [
                     {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
                     }
                   ]
                 }
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,0",
                   "ClassDatas": [
                     {
-                      "ClassID": "ClearanceRestricted@0",
+                      "ClassID": "SpriteHandler@0",
                       "Data": [
                         {
-                          "Name": "requiredClearance#0",
-                          "Data": "Captain"
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
                         }
                       ]
                     }
@@ -161396,32 +161884,242 @@
             }
           },
           {
-            "GitID": "6fa1bf6a566af2f479f551f9bb604178_114┼83┼0┼",
-            "PrefabID": "6fa1bf6a566af2f479f551f9bb604178",
-            "Name": "SecureWinDoorLeft (1)",
-            "LocalPRS": "114┼83┼0┼",
+            "GitID": "1a00e842e154f7d43811c5d45328988c_114┼80┼0┼",
+            "PrefabID": "1a00e842e154f7d43811c5d45328988c",
+            "Name": "Chair (2)",
+            "LocalPRS": "114┼80┼0┼",
             "Object": {
               "ClassDatas": [
                 {
-                  "ClassID": "APCPoweredDevice@0",
+                  "ClassID": "Rotatable@0",
                   "Data": [
                     {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
                     }
                   ]
                 }
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,0",
                   "ClassDatas": [
                     {
-                      "ClassID": "ClearanceRestricted@0",
+                      "ClassID": "SpriteHandler@0",
                       "Data": [
                         {
-                          "Name": "requiredClearance#0",
-                          "Data": "Captain"
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "157fcff274a3644448d1ff3bdc019619_114┼81┼0┼",
+            "PrefabID": "157fcff274a3644448d1ff3bdc019619",
+            "Name": "DirectionalWindow (7)",
+            "LocalPRS": "114┼81┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "1a00e842e154f7d43811c5d45328988c_114┼81┼0┼",
+            "PrefabID": "1a00e842e154f7d43811c5d45328988c",
+            "Name": "Chair (3)",
+            "LocalPRS": "114┼81┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "157fcff274a3644448d1ff3bdc019619_114┼82┼0┼",
+            "PrefabID": "157fcff274a3644448d1ff3bdc019619",
+            "Name": "DirectionalWindow (4)",
+            "LocalPRS": "114┼82┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "1a00e842e154f7d43811c5d45328988c_114┼82┼0┼",
+            "PrefabID": "1a00e842e154f7d43811c5d45328988c",
+            "Name": "Chair (4)",
+            "LocalPRS": "114┼82┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "157fcff274a3644448d1ff3bdc019619_114┼83┼0┼",
+            "PrefabID": "157fcff274a3644448d1ff3bdc019619",
+            "Name": "DirectionalWindow (6)",
+            "LocalPRS": "114┼83┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "1a00e842e154f7d43811c5d45328988c_114┼83┼0┼",
+            "PrefabID": "1a00e842e154f7d43811c5d45328988c",
+            "Name": "Chair (5)",
+            "LocalPRS": "114┼83┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
                         }
                       ]
                     }
@@ -161833,6 +162531,286 @@
             "LocalPRS": "115┼76┼0┼"
           },
           {
+            "GitID": "157fcff274a3644448d1ff3bdc019619_115┼80┼0┼",
+            "PrefabID": "157fcff274a3644448d1ff3bdc019619",
+            "Name": "DirectionalWindow (13)",
+            "LocalPRS": "115┼80┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "1a00e842e154f7d43811c5d45328988c_115┼80┼0┼",
+            "PrefabID": "1a00e842e154f7d43811c5d45328988c",
+            "Name": "Chair (10)",
+            "LocalPRS": "115┼80┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "157fcff274a3644448d1ff3bdc019619_115┼81┼0┼",
+            "PrefabID": "157fcff274a3644448d1ff3bdc019619",
+            "Name": "DirectionalWindow (15)",
+            "LocalPRS": "115┼81┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "1a00e842e154f7d43811c5d45328988c_115┼81┼0┼",
+            "PrefabID": "1a00e842e154f7d43811c5d45328988c",
+            "Name": "Chair (11)",
+            "LocalPRS": "115┼81┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "157fcff274a3644448d1ff3bdc019619_115┼82┼0┼",
+            "PrefabID": "157fcff274a3644448d1ff3bdc019619",
+            "Name": "DirectionalWindow (12)",
+            "LocalPRS": "115┼82┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "1a00e842e154f7d43811c5d45328988c_115┼82┼0┼",
+            "PrefabID": "1a00e842e154f7d43811c5d45328988c",
+            "Name": "Chair (12)",
+            "LocalPRS": "115┼82┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "157fcff274a3644448d1ff3bdc019619_115┼83┼0┼",
+            "PrefabID": "157fcff274a3644448d1ff3bdc019619",
+            "Name": "DirectionalWindow (14)",
+            "LocalPRS": "115┼83┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "1a00e842e154f7d43811c5d45328988c_115┼83┼0┼",
+            "PrefabID": "1a00e842e154f7d43811c5d45328988c",
+            "Name": "Chair (13)",
+            "LocalPRS": "115┼83┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "7fef1f43f3e45bd478a49e422020b543_115.001┼76┼0┼",
             "PrefabID": "7fef1f43f3e45bd478a49e422020b543",
             "Name": "SignEvacuation (2)",
@@ -162010,76 +162988,6 @@
                         {
                           "Name": "initialVariantIndex",
                           "Data": "1"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "cf93667e32e15bc43b0347cd102fef98_116┼81┼0┼",
-            "PrefabID": "cf93667e32e15bc43b0347cd102fef98",
-            "Name": "WinDoorRight (1)",
-            "LocalPRS": "116┼81┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "Captain"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "ddcfc3ab784dec1419565255774956c5_116┼83┼0┼",
-            "PrefabID": "ddcfc3ab784dec1419565255774956c5",
-            "Name": "WinDoorLeft (1)",
-            "LocalPRS": "116┼83┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "Captain"
                         }
                       ]
                     }

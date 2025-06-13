@@ -1688,8 +1688,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 593.55, y: -15}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 593.55, y: -157}
+  m_SizeDelta: {x: 160, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &273553939133593881
 MonoBehaviour:
@@ -3685,8 +3685,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 253.54999, y: -15}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 253.54999, y: -177}
+  m_SizeDelta: {x: 160, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6095771623616678595
 MonoBehaviour:
@@ -4444,8 +4444,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 83.54999, y: -15}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 83.54999, y: -197}
+  m_SizeDelta: {x: 160, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7453123264701613184
 MonoBehaviour:
@@ -5291,8 +5291,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 933.55, y: -15}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 933.55, y: -137}
+  m_SizeDelta: {x: 160, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2899945527571728339
 MonoBehaviour:
@@ -5789,8 +5789,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 763.55, y: -15}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 763.55, y: -197}
+  m_SizeDelta: {x: 160, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1179107635567259085
 MonoBehaviour:
@@ -6438,8 +6438,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1103.55, y: -15}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 1103.55, y: -237}
+  m_SizeDelta: {x: 160, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6545749713946238619
 MonoBehaviour:
@@ -6557,8 +6557,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 423.55, y: -15}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 423.55, y: -177}
+  m_SizeDelta: {x: 160, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4770898551182609147
 MonoBehaviour:
@@ -6679,7 +6679,7 @@ PrefabInstance:
     - target: {fileID: 2041067641272499810, guid: 8b38e065d8b0ba92f87e51c67787e6d8,
         type: 3}
       propertyPath: m_Name
-      value: Security Doors
+      value: Security
       objectReference: {fileID: 0}
     - target: {fileID: 3407102841600178071, guid: 8b38e065d8b0ba92f87e51c67787e6d8,
         type: 3}
@@ -6789,7 +6789,7 @@ PrefabInstance:
     - target: {fileID: 5953459471698865265, guid: 8b38e065d8b0ba92f87e51c67787e6d8,
         type: 3}
       propertyPath: m_Text
-      value: Sec. Entry Doors
+      value: Security
       objectReference: {fileID: 0}
     - target: {fileID: 6861918984671894881, guid: 8b38e065d8b0ba92f87e51c67787e6d8,
         type: 3}
@@ -6913,7 +6913,7 @@ PrefabInstance:
     - target: {fileID: 294168097564939916, guid: 8b38e065d8b0ba92f87e51c67787e6d8,
         type: 3}
       propertyPath: clearance
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 294168097564939916, guid: 8b38e065d8b0ba92f87e51c67787e6d8,
         type: 3}
@@ -6943,7 +6943,7 @@ PrefabInstance:
     - target: {fileID: 2041067641272499810, guid: 8b38e065d8b0ba92f87e51c67787e6d8,
         type: 3}
       propertyPath: m_Name
-      value: Engineering Equipment
+      value: Engineering
       objectReference: {fileID: 0}
     - target: {fileID: 3407102841600178071, guid: 8b38e065d8b0ba92f87e51c67787e6d8,
         type: 3}
@@ -7053,7 +7053,7 @@ PrefabInstance:
     - target: {fileID: 5953459471698865265, guid: 8b38e065d8b0ba92f87e51c67787e6d8,
         type: 3}
       propertyPath: m_Text
-      value: Engineering Equipment
+      value: Engine
       objectReference: {fileID: 0}
     - target: {fileID: 6861918984671894881, guid: 8b38e065d8b0ba92f87e51c67787e6d8,
         type: 3}
@@ -7148,7 +7148,7 @@ PrefabInstance:
     - target: {fileID: 9212041992209255377, guid: 8b38e065d8b0ba92f87e51c67787e6d8,
         type: 3}
       propertyPath: m_Name
-      value: Engineering Equipment
+      value: Engine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7722,7 +7722,7 @@ PrefabInstance:
     - target: {fileID: 2041067641272499810, guid: 8b38e065d8b0ba92f87e51c67787e6d8,
         type: 3}
       propertyPath: m_Name
-      value: Toxins Storage
+      value: Toxins Lab
       objectReference: {fileID: 0}
     - target: {fileID: 3407102841600178071, guid: 8b38e065d8b0ba92f87e51c67787e6d8,
         type: 3}
@@ -7832,7 +7832,7 @@ PrefabInstance:
     - target: {fileID: 5953459471698865265, guid: 8b38e065d8b0ba92f87e51c67787e6d8,
         type: 3}
       propertyPath: m_Text
-      value: Toxins Storage
+      value: Toxins Lab
       objectReference: {fileID: 0}
     - target: {fileID: 6861918984671894881, guid: 8b38e065d8b0ba92f87e51c67787e6d8,
         type: 3}
@@ -13480,7 +13480,7 @@ PrefabInstance:
     - target: {fileID: 2041067641272499810, guid: 8b38e065d8b0ba92f87e51c67787e6d8,
         type: 3}
       propertyPath: m_Name
-      value: Cargo Bay
+      value: Cargo Office
       objectReference: {fileID: 0}
     - target: {fileID: 3407102841600178071, guid: 8b38e065d8b0ba92f87e51c67787e6d8,
         type: 3}
@@ -13590,7 +13590,7 @@ PrefabInstance:
     - target: {fileID: 5953459471698865265, guid: 8b38e065d8b0ba92f87e51c67787e6d8,
         type: 3}
       propertyPath: m_Text
-      value: Cargo Bay
+      value: Cargo Office
       objectReference: {fileID: 0}
     - target: {fileID: 6861918984671894881, guid: 8b38e065d8b0ba92f87e51c67787e6d8,
         type: 3}
@@ -13685,7 +13685,7 @@ PrefabInstance:
     - target: {fileID: 9212041992209255377, guid: 8b38e065d8b0ba92f87e51c67787e6d8,
         type: 3}
       propertyPath: m_Name
-      value: Cargo Bay
+      value: Cargo Office
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -24933,7 +24933,7 @@ PrefabInstance:
     - target: {fileID: 294168097564939916, guid: 8b38e065d8b0ba92f87e51c67787e6d8,
         type: 3}
       propertyPath: clearance
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 294168097564939916, guid: 8b38e065d8b0ba92f87e51c67787e6d8,
         type: 3}

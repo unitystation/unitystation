@@ -3,11 +3,11 @@
 	public enum Clearance
 	{
 		BasicPublicAccess = 0,
-		// Security equipment rooms & storage containers, security records, department security posts, secbots
+		// Security equipment, security records, gulag item storage, secbots
 		Security = 1,
-		// Brig cells+timers, brig lockers, permabrig, gulag+gulag shuttle/teleporter, prisoner management console
+		// Brig cells+timers, permabrig, gulag+gulag shuttle, prisoner management console
 		Brig = 2,
-		// Armory, Warden's office, secure armory lockers, execution chamber switch
+		// Armory, gulag teleporter, execution chamber
 		Armory = 3,
 		//Detective's office, forensics lockers, security+medical records
 		ForensicsLockers = 4,
@@ -73,12 +73,12 @@
 		// has access to the entire telecomms satellite / machinery
 		Tcomsat = 53,
 		Gateway = 54,
-		// Outer security department doors and other semi-public security areas accessible by lawyer and some heads
+		// Outer brig doors, department security posts
 		SecDoors = 55,
 		// For releasing minerals from the ORM
 		MineralStoreroom = 56,
 		MiniSat = 57,
-		// Weapon authorization for turret checks & secbots, and a secondary clearance for weapon crates
+		// Weapon authorization for secbots
 		Weapons = 58,
 		// NTnet diagnostics/monitoring software
 		Network = 59,

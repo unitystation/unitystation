@@ -52,7 +52,6 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -102,16 +101,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  InitialPresentSpriteSet: {fileID: 0}
+  PresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
-  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 0
-  initialVariantIndex: 0
-  InitialColour: {r: 1, g: 1, b: 1, a: 1}
+  variantIndex: 0
   palette: []
-  initialSortingOrder: -1
-  initialSortingLayerName: 
 --- !u!1 &6551633036436676155
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,11 +259,6 @@ PrefabInstance:
       propertyPath: wattusage
       value: 10
       objectReference: {fileID: 0}
-    - target: {fileID: -6356777978426299504, guid: b69bfc56f39849d4ba9139d2d51bedb6,
-        type: 3}
-      propertyPath: initialwattusage
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_Sprite
@@ -393,12 +383,6 @@ PrefabInstance:
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: PresentSpriteSet
-      value: 
-      objectReference: {fileID: 11400000, guid: a7c271a87131ccb4ebe3f6e410c10b53,
-        type: 2}
-    - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
-        type: 3}
-      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: a7c271a87131ccb4ebe3f6e410c10b53,
         type: 2}
@@ -580,6 +564,7 @@ MonoBehaviour:
   openCabled: {fileID: 21300000, guid: ffe91d76691c7b240a3c58915e2b3594, type: 3}
   closedOff: {fileID: 21300000, guid: 04bf384246499214baf7542e07b7019e, type: 3}
   joeNews: {fileID: 11400000, guid: 0627b5d10aa2ee24988d240b94b47ec2, type: 2}
+  doorControllers: []
   NewdoorControllers: []
   centComm: {fileID: 0}
   currentTimerSeconds: 0
@@ -615,7 +600,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09b7e5ca3d7645bf909222e46af44b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requiredClearance: 01000000
+  requiredClearance: 00000000
   type: 0
 --- !u!210 &4006928101237905058 stripped
 SortingGroup:

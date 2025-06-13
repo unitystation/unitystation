@@ -209163,7 +209163,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "Cargo"
+                      "Data": "BasicPublicAccess"
                     }
                   ]
                 },
@@ -209239,7 +209239,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "Cargo"
+                      "Data": "BasicPublicAccess"
                     }
                   ]
                 },
@@ -214148,7 +214148,7 @@
                     },
                     {
                       "Name": "FireLockList#2",
-                      "Data": "a075086024d70074e8747c26b57dfa7f_23┼185┼0┼@0@FireLock@0"
+                      "Data": "a075086024d70074e8747c26b57dfa7f_22┼185┼0┼@0@FireLock@0"
                     },
                     {
                       "Name": "FireLockList#1",
@@ -218105,7 +218105,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "ToxinsStorage"
+                      "Data": "BasicPublicAccess"
                     }
                   ]
                 },
@@ -219008,6 +219008,34 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_32┼184┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "a075086024d70074e8747c26b57dfa7f_22┼185┼0┼",
+            "PrefabID": "a075086024d70074e8747c26b57dfa7f",
+            "Name": "Firelock - CargoLobby B",
+            "LocalPRS": "22┼185┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_32┼184┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "FireLock@0",
+                  "Data": [
+                    {
+                      "Name": "fireAlarm",
+                      "Data": "e6e7f915b6b6fc14c981a592369d47f8_18┼181┼0┼@0@FireAlarm@0"
                     }
                   ]
                 }
@@ -220453,43 +220481,6 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Left_By90"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "DoorSwitch@0",
-                  "Data": [
-                    {
-                      "Name": "NewdoorControllers#0",
-                      "Data": "f2441585d37f1914395df59a57c5e925_23┼185┼0┼@0@DoorMasterController@0"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "a075086024d70074e8747c26b57dfa7f_23┼185┼0┼",
-            "PrefabID": "a075086024d70074e8747c26b57dfa7f",
-            "Name": "Firelock - CargoLobby B",
-            "LocalPRS": "23┼185┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_32┼184┼0┼@0@APC@0"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "FireLock@0",
-                  "Data": [
-                    {
-                      "Name": "fireAlarm",
-                      "Data": "e6e7f915b6b6fc14c981a592369d47f8_18┼181┼0┼@0@FireAlarm@0"
                     }
                   ]
                 }
@@ -231638,7 +231629,7 @@
                     },
                     {
                       "Name": "FireLockList#4",
-                      "Data": "a075086024d70074e8747c26b57dfa7f_23┼185┼0┼@0@FireLock@0"
+                      "Data": "a075086024d70074e8747c26b57dfa7f_22┼185┼0┼@0@FireLock@0"
                     },
                     {
                       "Name": "FireLockList#3",
@@ -231800,7 +231791,7 @@
                     },
                     {
                       "Name": "connectedDevices#122",
-                      "Data": "a075086024d70074e8747c26b57dfa7f_23┼185┼0┼@0@APCPoweredDevice@0"
+                      "Data": "a075086024d70074e8747c26b57dfa7f_22┼185┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#121",
@@ -241366,7 +241357,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "Hop"
+                      "Data": "BasicPublicAccess"
                     }
                   ]
                 },
@@ -244609,7 +244600,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "Hop"
+                      "Data": "BasicPublicAccess"
                     }
                   ]
                 },
@@ -248348,7 +248339,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "Brig"
+                      "Data": "BasicPublicAccess"
                     }
                   ]
                 },
@@ -249803,22 +249794,6 @@
                     }
                   ]
                 }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "Armory"
-                        }
-                      ]
-                    }
-                  ]
-                }
               ]
             }
           },
@@ -249845,106 +249820,6 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Up_By0"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "initialVariantIndex",
-                          "Data": "1"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "ID": "0,2",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "initialVariantIndex",
-                          "Data": "1"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "ID": "0,3",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "initialVariantIndex",
-                          "Data": "1"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "ID": "0,4",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "initialVariantIndex",
-                          "Data": "1"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "ID": "0,5",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "initialVariantIndex",
-                          "Data": "1"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "ID": "0,6",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "initialVariantIndex",
-                          "Data": "1"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "ID": "0,7",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "initialVariantIndex",
-                          "Data": "1"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -252963,120 +252838,6 @@
                     }
                   ]
                 }
-              ],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "initialVariantIndex",
-                          "Data": "3"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "Armory"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "ID": "0,2",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "initialVariantIndex",
-                          "Data": "3"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "ID": "0,3",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "initialVariantIndex",
-                          "Data": "3"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "ID": "0,4",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "initialVariantIndex",
-                          "Data": "3"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "ID": "0,5",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "initialVariantIndex",
-                          "Data": "3"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "ID": "0,6",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "initialVariantIndex",
-                          "Data": "3"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "ID": "0,7",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "initialVariantIndex",
-                          "Data": "3"
-                        }
-                      ]
-                    }
-                  ]
-                }
               ]
             }
           },
@@ -253103,106 +252864,6 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Right_By270"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "initialVariantIndex",
-                          "Data": "2"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "ID": "0,2",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "initialVariantIndex",
-                          "Data": "2"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "ID": "0,3",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "initialVariantIndex",
-                          "Data": "2"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "ID": "0,4",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "initialVariantIndex",
-                          "Data": "2"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "ID": "0,5",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "initialVariantIndex",
-                          "Data": "2"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "ID": "0,6",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "initialVariantIndex",
-                          "Data": "2"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "ID": "0,7",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "initialVariantIndex",
-                          "Data": "2"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -255697,7 +255358,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "Security"
+                      "Data": "BasicPublicAccess"
                     }
                   ]
                 },
@@ -262504,7 +262165,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "SecDoors"
+                          "Data": "Brig"
                         }
                       ]
                     }
@@ -264576,7 +264237,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "SecDoors"
+                          "Data": "Brig"
                         }
                       ]
                     }
@@ -265399,6 +265060,12 @@
             "LocalPRS": "56.004┼257┼0┼"
           },
           {
+            "GitID": "25108e21a69d52c46a538e66eb85db0a_56.008┼257┼0┼",
+            "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
+            "Name": "SolidPlasmaSheet (24)",
+            "LocalPRS": "56.008┼257┼0┼"
+          },
+          {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_56.009┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
             "Name": "SolidPlasmaSheet (25)",
@@ -265407,56 +265074,50 @@
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_56.01┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (24)",
+            "Name": "SolidPlasmaSheet (23)",
             "LocalPRS": "56.01┼257┼0┼"
           },
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_56.011┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (23)",
+            "Name": "SolidPlasmaSheet (22)",
             "LocalPRS": "56.011┼257┼0┼"
           },
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_56.012┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (22)",
+            "Name": "SolidPlasmaSheet (21)",
             "LocalPRS": "56.012┼257┼0┼"
           },
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_56.013┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (21)",
+            "Name": "SolidPlasmaSheet (26)",
             "LocalPRS": "56.013┼257┼0┼"
           },
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_56.014┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (26)",
+            "Name": "SolidPlasmaSheet (27)",
             "LocalPRS": "56.014┼257┼0┼"
           },
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_56.015┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (27)",
+            "Name": "SolidPlasmaSheet (28)",
             "LocalPRS": "56.015┼257┼0┼"
           },
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_56.016┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (28)",
+            "Name": "SolidPlasmaSheet (29)",
             "LocalPRS": "56.016┼257┼0┼"
           },
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_56.02┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (29)",
-            "LocalPRS": "56.02┼257┼0┼"
-          },
-          {
-            "GitID": "25108e21a69d52c46a538e66eb85db0a_56.021┼257┼0┼",
-            "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
             "Name": "SolidPlasmaSheet (30)",
-            "LocalPRS": "56.021┼257┼0┼"
+            "LocalPRS": "56.02┼257┼0┼"
           },
           {
             "GitID": "8f1ce2b118c25334fa660be931e62dbf_56.14┼218.28┼0┼",
@@ -266887,6 +266548,12 @@
             "LocalPRS": "57.004┼257┼0┼"
           },
           {
+            "GitID": "25108e21a69d52c46a538e66eb85db0a_57.008┼257┼0┼",
+            "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
+            "Name": "SolidPlasmaSheet (9)",
+            "LocalPRS": "57.008┼257┼0┼"
+          },
+          {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_57.009┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
             "Name": "SolidPlasmaSheet (10)",
@@ -266895,56 +266562,50 @@
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_57.01┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (9)",
+            "Name": "SolidPlasmaSheet (8)",
             "LocalPRS": "57.01┼257┼0┼"
           },
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_57.011┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (8)",
+            "Name": "SolidPlasmaSheet (7)",
             "LocalPRS": "57.011┼257┼0┼"
           },
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_57.012┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (7)",
+            "Name": "SolidPlasmaSheet (6)",
             "LocalPRS": "57.012┼257┼0┼"
           },
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_57.013┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (6)",
+            "Name": "SolidPlasmaSheet (11)",
             "LocalPRS": "57.013┼257┼0┼"
           },
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_57.014┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (11)",
+            "Name": "SolidPlasmaSheet (12)",
             "LocalPRS": "57.014┼257┼0┼"
           },
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_57.015┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (12)",
+            "Name": "SolidPlasmaSheet (13)",
             "LocalPRS": "57.015┼257┼0┼"
           },
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_57.016┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (13)",
+            "Name": "SolidPlasmaSheet (14)",
             "LocalPRS": "57.016┼257┼0┼"
           },
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_57.02┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (14)",
-            "LocalPRS": "57.02┼257┼0┼"
-          },
-          {
-            "GitID": "25108e21a69d52c46a538e66eb85db0a_57.021┼257┼0┼",
-            "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
             "Name": "SolidPlasmaSheet (15)",
-            "LocalPRS": "57.021┼257┼0┼"
+            "LocalPRS": "57.02┼257┼0┼"
           },
           {
             "GitID": "6015d5ca578d27b43b1c649384760954_57.05┼210.09┼0┼",
@@ -271437,6 +271098,12 @@
             "LocalPRS": "60.004┼268┼0┼"
           },
           {
+            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_60.008┼268┼0┼",
+            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
+            "Name": "ControlRod (10)",
+            "LocalPRS": "60.008┼268┼0┼"
+          },
+          {
             "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_60.009┼268┼0┼",
             "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
             "Name": "ControlRod (4)",
@@ -271451,7 +271118,7 @@
           {
             "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_60.01┼268┼0┼",
             "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (10)",
+            "Name": "ControlRod (9)",
             "LocalPRS": "60.01┼268┼0┼"
           },
           {
@@ -271463,7 +271130,7 @@
           {
             "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_60.011┼268┼0┼",
             "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (9)",
+            "Name": "ControlRod (8)",
             "LocalPRS": "60.011┼268┼0┼"
           },
           {
@@ -271475,14 +271142,8 @@
           {
             "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_60.012┼268┼0┼",
             "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (8)",
-            "LocalPRS": "60.012┼268┼0┼"
-          },
-          {
-            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_60.013┼268┼0┼",
-            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
             "Name": "ControlRod (7)",
-            "LocalPRS": "60.013┼268┼0┼"
+            "LocalPRS": "60.012┼268┼0┼"
           },
           {
             "GitID": "3edf81f4a32c4c348bad5bfe43e263fd_60.13┼204.08┼0┼",
@@ -273243,22 +272904,6 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_66┼172┼0┼@0@APC@0"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "ForensicsLockers"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -276691,22 +276336,6 @@
                     }
                   ]
                 }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "Court"
-                        }
-                      ]
-                    }
-                  ]
-                }
               ]
             }
           },
@@ -278012,22 +277641,6 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_61┼185┼0┼@0@APC@0"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "Court"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -284320,7 +283933,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "Brig"
+                      "Data": "BasicPublicAccess"
                     }
                   ]
                 },
@@ -285990,22 +285603,6 @@
                     }
                   ]
                 }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "Brig"
-                        }
-                      ]
-                    }
-                  ]
-                }
               ]
             }
           },
@@ -286060,22 +285657,6 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_68┼168┼0┼@0@APC@0"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "Brig"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -287113,22 +286694,6 @@
                     }
                   ]
                 }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "Brig"
-                        }
-                      ]
-                    }
-                  ]
-                }
               ]
             }
           },
@@ -287183,22 +286748,6 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_68┼168┼0┼@0@APC@0"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "Brig"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -288469,7 +288018,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "Brig"
+                      "Data": "BasicPublicAccess"
                     }
                   ]
                 },
@@ -288557,7 +288106,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "Brig"
+                      "Data": "BasicPublicAccess"
                     }
                   ]
                 },
@@ -288645,7 +288194,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "Brig"
+                      "Data": "BasicPublicAccess"
                     }
                   ]
                 },
@@ -288695,22 +288244,6 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_68┼168┼0┼@0@APC@0"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "Brig"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -291662,7 +291195,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "Armory"
+                      "Data": "BasicPublicAccess"
                     }
                   ]
                 },
