@@ -630,6 +630,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8310781707658080595}
+    - targetCorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -9068706601882404991}
   m_SourcePrefab: {fileID: 100100000, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
 --- !u!4 &1620760171862631715 stripped
 Transform:
@@ -718,6 +722,30 @@ MonoBehaviour:
   parentCureTester: {fileID: -8305334532888041256}
   reagentContainerItemTrait: {fileID: 11400000, guid: 175ef43f5edbe4b76b865068ed381c58,
     type: 2}
+--- !u!114 &-9068706601882404991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3250310938253979280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0faab122ac985ee45b5e7ba686c2308e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  emmitableSignalData:
+  - {fileID: 11400000, guid: 248cafaf10637f2439d052ae7b819a6e, type: 2}
+  passCode: 0
+  frequency: 122
+  requiresPower: 0
+  isPowered: 1
+  canExamineFrequency: 0
+  minimumDamageBeforeObfuscation: 12
+  isEMPed: 0
 --- !u!212 &3349359237517658759 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,

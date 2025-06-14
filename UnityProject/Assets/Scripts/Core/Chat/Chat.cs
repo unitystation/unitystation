@@ -546,9 +546,10 @@ public partial class Chat : MonoBehaviour
 	/// <param name="broadcasterName">Optional name for the broadcaster. Pulls name from GameObject if not used.</param>
 	/// <param name="voiceLevel">How loud is this message?</param>
 	/// <param name="language">The language the message is in, null for no language</param>
+	/// <param name="doSpeechBubble">Whether this chat message should create a speech bubble</param>
 	public static void AddCommMsgByMachineToChat(
 			GameObject sentByMachine, string message, ChatChannel channels, Loudness voiceLevel,
-			ChatModifier chatModifiers = ChatModifier.None, string broadcasterName = default, LanguageSO language = null)
+			ChatModifier chatModifiers = ChatModifier.None, string broadcasterName = default, LanguageSO language = null, bool doSpeechBubble = false)
 	{
 		if (string.IsNullOrWhiteSpace(message)) return;
 
@@ -561,7 +562,8 @@ public partial class Chat : MonoBehaviour
 			channels = channels,
 			originator = sentByMachine,
 			VoiceLevel = voiceLevel,
-			language = language
+			language = language,
+			ShowChatBubble = doSpeechBubble,
 		};
 
 		InvokeChatEvent(chatEvent);
@@ -860,7 +862,7 @@ public partial class Chat : MonoBehaviour
 	/// <param name="speakerName">The speakers name</param>
 	/// <param name="doSpeechBubble">Do speech bubble at originator?</param>
 	public static void AddLocalMsgToChat(string message, Vector2 worldPos, GameObject originator,
-		LanguageSO language = null, string speakerName = null, bool doSpeechBubble = false)
+		LanguageSO language = null, string speakerName = null, bool doSpeechBubble = true)
 	{
 		if (!IsServer()) return;
 		Instance.TryStopCoroutine(ref composeMessageHandle);
@@ -887,7 +889,7 @@ public partial class Chat : MonoBehaviour
 	/// <param name="speakerName">The speakers name</param>
 	/// /// <param name="doSpeechBubble">Do speech bubble at originator?</param>
 	public static void AddLocalMsgToChat(string message, GameObject originator, LanguageSO language = null,
-		string speakerName = null, bool doSpeechBubble = false)
+		string speakerName = null, bool doSpeechBubble = true)
 	{
 		AddLocalMsgToChat(message, originator.AssumedWorldPosServer(), originator, language,
 			speakerName, doSpeechBubble);

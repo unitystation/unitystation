@@ -299,7 +299,7 @@ public class ChatRelay : NetworkBehaviour
 
 		UpdateChatMessage.Send(playerToSend, channel, chatEvent.modifiers, copiedString, chatEvent.VoiceLevel,
 			chatEvent.messageOthers, chatEvent.originator, chatEvent.speaker, chatEvent.stripTags, languageId, chatEvent.IsWhispering, chatEvent.Voice);
-		ShowChatBubbleToPlayer( playerToSend, ref chatEvent, copiedString);
+		if(chatEvent.ShowChatBubble) ShowChatBubbleToPlayer( playerToSend, ref chatEvent, copiedString);
 	}
 
 	public static void ShowChatBubbleToPlayer(GameObject toShowTo, ref ChatEvent chatEvent, string msg)
