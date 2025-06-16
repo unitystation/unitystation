@@ -191775,6 +191775,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "#removed#"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -192077,7 +192093,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "MaintTunnels"
                     }
                   ]
                 },
@@ -193424,7 +193440,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Cargo"
                     }
                   ]
                 },
@@ -193500,7 +193516,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Cargo"
                     }
                   ]
                 },
@@ -199262,7 +199278,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Qm"
                     }
                   ]
                 },
@@ -202006,7 +202022,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Cargo"
                     }
                   ]
                 },
@@ -213882,7 +213898,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Research"
                     }
                   ]
                 },
@@ -218228,7 +218244,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "ToxinsStorage"
                     }
                   ]
                 },
@@ -220985,7 +221001,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Rd"
                     }
                   ]
                 },
@@ -221864,7 +221880,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Research"
                     }
                   ]
                 },
@@ -224366,7 +224382,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Security"
                     }
                   ]
                 },
@@ -234449,7 +234465,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Robotics"
                     }
                   ]
                 },
@@ -236812,7 +236828,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Robotics"
                     }
                   ]
                 },
@@ -237150,7 +237166,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Rnd"
                     }
                   ]
                 },
@@ -239505,7 +239521,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Hop"
                     }
                   ]
                 },
@@ -239577,7 +239593,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Hop"
                     }
                   ]
                 },
@@ -240546,7 +240562,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Kitchen"
                     }
                   ]
                 },
@@ -243394,7 +243410,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Brig"
+                          "Data": "SecDoors"
                         }
                       ]
                     }
@@ -243602,7 +243618,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Brig"
+                          "Data": "SecDoors"
                         }
                       ]
                     }
@@ -244626,7 +244642,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Brig"
+                          "Data": "SecDoors"
                         }
                       ]
                     }
@@ -244700,7 +244716,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Brig"
+                          "Data": "SecDoors"
                         }
                       ]
                     }
@@ -246272,15 +246288,6 @@
                       "Data": "DoorTimer"
                     }
                   ]
-                },
-                {
-                  "ClassID": "ClearanceRestricted@0",
-                  "Data": [
-                    {
-                      "Name": "requiredClearance#0",
-                      "Data": "Security"
-                    }
-                  ]
                 }
               ]
             }
@@ -246312,7 +246319,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Security"
+                          "Data": "Brig"
                         }
                       ]
                     }
@@ -246359,15 +246366,6 @@
                       "Data": "DoorTimer"
                     }
                   ]
-                },
-                {
-                  "ClassID": "ClearanceRestricted@0",
-                  "Data": [
-                    {
-                      "Name": "requiredClearance#0",
-                      "Data": "Security"
-                    }
-                  ]
                 }
               ]
             }
@@ -246399,7 +246397,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Security"
+                          "Data": "Brig"
                         }
                       ]
                     }
@@ -246446,15 +246444,6 @@
                       "Data": "DoorTimer"
                     }
                   ]
-                },
-                {
-                  "ClassID": "ClearanceRestricted@0",
-                  "Data": [
-                    {
-                      "Name": "requiredClearance#0",
-                      "Data": "Security"
-                    }
-                  ]
                 }
               ]
             }
@@ -246486,7 +246475,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Security"
+                          "Data": "Brig"
                         }
                       ]
                     }
@@ -246533,15 +246522,6 @@
                       "Data": "DoorTimer"
                     }
                   ]
-                },
-                {
-                  "ClassID": "ClearanceRestricted@0",
-                  "Data": [
-                    {
-                      "Name": "requiredClearance#0",
-                      "Data": "Security"
-                    }
-                  ]
                 }
               ]
             }
@@ -246573,7 +246553,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Security"
+                          "Data": "Brig"
                         }
                       ]
                     }
@@ -248903,7 +248883,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Eva"
                     }
                   ]
                 },
@@ -250132,7 +250112,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Eva"
                     }
                   ]
                 },
@@ -252830,7 +252810,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Brig"
                     }
                   ]
                 },
@@ -253746,7 +253726,107 @@
                   "Data": [
                     {
                       "Name": "CurrentDirection",
-                      "Data": "Right_By270"
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,3",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,4",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,5",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,6",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,7",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -253851,7 +253931,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Armory"
                     }
                   ]
                 },
@@ -255251,12 +255331,26 @@
                   "Data": [
                     {
                       "Name": "CurrentDirection",
-                      "Data": "Left_By90"
+                      "Data": "Right_By270"
                     }
                   ]
                 }
               ],
               "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
                 {
                   "ID": "0,1",
                   "ClassDatas": [
@@ -255266,6 +255360,90 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Armory"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,3",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,4",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,5",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,6",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,7",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
                         }
                       ]
                     }
@@ -256027,7 +256205,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Brig"
+                          "Data": "SecDoors"
                         }
                       ]
                     }
@@ -256063,7 +256241,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Brig"
+                          "Data": "SecDoors"
                         }
                       ]
                     }
@@ -257443,7 +257621,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Brig"
+                          "Data": "SecDoors"
                         }
                       ]
                     }
@@ -257479,7 +257657,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Brig"
+                          "Data": "SecDoors"
                         }
                       ]
                     }
@@ -258184,6 +258362,106 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,3",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,4",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,5",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,6",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,7",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -258277,7 +258555,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Armory"
                     }
                   ]
                 },
@@ -260946,7 +261224,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Armory"
                     }
                   ]
                 },
@@ -263135,13 +263413,6 @@
             "LocalPRS": "63┼26.08┼0┼"
           },
           {
-            "GitID": "J5UF3VXxKdTV9iopbA17_63┼27┼0┼",
-            "PrefabID": "J5UF3VXxKdTV9iopbA17",
-            "NameMatches": true,
-            "Name": "SecBarrier",
-            "LocalPRS": "63┼27┼0┼"
-          },
-          {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_63┼27┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
             "NameMatches": true,
@@ -263194,6 +263465,13 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "J5UF3VXxKdTV9iopbA17_63┼27┼0┼",
+            "PrefabID": "J5UF3VXxKdTV9iopbA17",
+            "NameMatches": true,
+            "Name": "SecBarrier",
+            "LocalPRS": "63┼27┼0┼"
           },
           {
             "GitID": "70d3024fe9d901346a2e42c43833ceba_63┼29┼0┼",
@@ -264444,7 +264722,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Security"
                     }
                   ]
                 },
@@ -264996,7 +265274,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Security"
                     }
                   ]
                 },
@@ -274221,7 +274499,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Cmo"
                     }
                   ]
                 },
@@ -274614,7 +274892,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Heads"
                     }
                   ]
                 },
@@ -277421,7 +277699,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Security"
+                          "Data": "Brig"
                         }
                       ]
                     }
@@ -278606,7 +278884,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Brig"
                     }
                   ]
                 },
@@ -278662,6 +278940,22 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_77┼47┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "ForensicsLockers"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -281350,7 +281644,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Security"
+                          "Data": "Brig"
                         }
                       ]
                     }
@@ -281373,6 +281667,22 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_73┼47┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "ForensicsLockers"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -281464,7 +281774,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "ForensicsLockers"
                     }
                   ]
                 },
@@ -282168,7 +282478,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Gateway"
                     }
                   ]
                 },
@@ -282940,7 +283250,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Brig"
                     }
                   ]
                 },
@@ -285675,6 +285985,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -285729,6 +286055,22 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_73┼47┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -287376,7 +287718,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Chemistry"
                     }
                   ]
                 },
@@ -288402,7 +288744,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Armory"
                     }
                   ]
                 },
@@ -290453,7 +290795,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Lawyer"
                     }
                   ]
                 },
@@ -295978,7 +296320,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Atmospherics"
                     }
                   ]
                 },
@@ -297796,7 +298138,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Atmospherics"
                     }
                   ]
                 },
@@ -298436,7 +298778,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Teleporter"
                     }
                   ]
                 },
@@ -300214,13 +300556,17 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Engine"
                     }
                   ]
                 },
                 {
                   "ClassID": "DoorSwitch@0",
                   "Data": [
+                    {
+                      "Name": "NewdoorControllers#1",
+                      "Data": "79cea07a5f8e66f49a554df1a003ecba_90┼42┼0┼@0@DoorMasterController@0"
+                    },
                     {
                       "Name": "NewdoorControllers#0",
                       "Data": "79cea07a5f8e66f49a554df1a003ecba_90┼45┼0┼@0@DoorMasterController@0"
@@ -302595,7 +302941,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Ce"
                     }
                   ]
                 },
@@ -306233,7 +306579,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Ce"
                     }
                   ]
                 },
@@ -309957,7 +310303,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Ce"
                     }
                   ]
                 },
@@ -310838,7 +311184,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Engine"
                     }
                   ]
                 },
@@ -311308,7 +311654,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Atmospherics"
                     }
                   ]
                 },
@@ -314421,7 +314767,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Morgue"
                     }
                   ]
                 },
@@ -317423,16 +317769,16 @@
             "LocalPRS": "105.015┼33┼0┼"
           },
           {
-            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_105.016┼33┼0┼",
-            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (11)",
-            "LocalPRS": "105.016┼33┼0┼"
-          },
-          {
             "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_105.02┼33┼0┼",
             "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (12)",
+            "Name": "ControlRod (11)",
             "LocalPRS": "105.02┼33┼0┼"
+          },
+          {
+            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_105.021┼33┼0┼",
+            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
+            "Name": "ControlRod (12)",
+            "LocalPRS": "105.021┼33┼0┼"
           },
           {
             "GitID": "e58e1fd483fe772468ad2aab4259397d_105.92┼78┼0┼",
@@ -318877,7 +319223,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Morgue"
                     }
                   ]
                 },
@@ -348398,7 +348744,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Mining"
                     }
                   ]
                 },
@@ -349497,7 +349843,24 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Mining"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "DoorSwitch@0",
+                  "Data": [
+                    {
+                      "Name": "NewdoorControllers#2",
+                      "Data": "79cea07a5f8e66f49a554df1a003ecba_13┼-3┼0┼@0@DoorMasterController@0"
+                    },
+                    {
+                      "Name": "NewdoorControllers#1",
+                      "Data": "79cea07a5f8e66f49a554df1a003ecba_12┼-3┼0┼@0@DoorMasterController@0"
+                    },
+                    {
+                      "Name": "NewdoorControllers#0",
+                      "Data": "79cea07a5f8e66f49a554df1a003ecba_11┼-3┼0┼@0@DoorMasterController@0"
                     }
                   ]
                 }
