@@ -1,7 +1,11 @@
+using System.Collections.Generic;
 using System.Linq;
 using Chemistry;
 using Chemistry.Components;
 using Detective;
+using Items;
+using NUnit.Framework;
+using Objects.Construction;
 using UnityEngine;
 
 namespace Effects.FloorEffect
@@ -15,6 +19,7 @@ namespace Effects.FloorEffect
 		private Pickupable pickupable;
 
 		[SerializeField] private GameObject FootprintTile;
+		[SerializeField] private ItemTrait FilthBlocking;
 
 		private System.Random RNG = new System.Random();
 		public int ClueShoeImprintInverseChance = 75;
@@ -78,54 +83,70 @@ namespace Effects.FloorEffect
 
 		public void LocalTileReached(Vector3Int old,Vector3Int newPosition )
 		{
-			if (spillContents.ReagentMixTotal > 0f)
+			if (spillContents.ReagentMixTotal <= 0f) return;
+			bool useAll = spillContents.ReagentMixTotal < 0.1f;
+
+			Vector3Int currentPosition = gameObject.AssumedWorldPosServer().RoundToInt(); //AssumedWorldPosServer Really doing the heavy lifting here amazing
+			if (MatrixManager.IsSpaceAt(oldPosition, true) == false)
 			{
-				bool useAll = spillContents.ReagentMixTotal < 0.1f;
-
-				Vector3Int currentPosition = gameObject.AssumedWorldPosServer().RoundToInt(); //AssumedWorldPosServer Really doing the heavy lifting here amazing
-				if (MatrixManager.IsSpaceAt(oldPosition, true) == false)
+				var decals = MatrixManager.GetAt<FloorPrintEffect>(oldPosition, isServer: true);
+				if (decals.Any())
 				{
-					var decals = MatrixManager.GetAt<FloorPrintEffect>(oldPosition, isServer: true);
-					if (decals.Any())
-					{
-						var floorPrintEffect = decals.First();
+					var floorPrintEffect = decals.First();
 
-						var change = currentPosition.ToLocal(me.RegisterPlayer.Matrix) - oldPosition.ToLocal(me.RegisterPlayer.Matrix);
-						floorPrintEffect.RegisterLeave(	Orientation.FromAsEnum(change));
+					var change = currentPosition.ToLocal(me.RegisterPlayer.Matrix) - oldPosition.ToLocal(me.RegisterPlayer.Matrix);
+					floorPrintEffect.RegisterLeave(Orientation.FromAsEnum(change));
+				}
+			}
+
+
+			if (currentPosition != oldPosition &&
+			    MatrixManager.IsSpaceAt(gameObject.AssumedWorldPosServer().RoundToInt(), true)== false)
+			{
+				var reagents = spillContents.TakeReagents(
+					useAll ? spillContents.ReagentMixTotal : spillContents.ReagentMixTotal * 0.25f); //Use all use everything in the container if not only 10%
+
+				var everything = MatrixManager.GetAt<CommonComponents>(currentPosition, true).ToList();
+				var decals = new List<FloorPrintEffect>();
+				var CCsToRemove = new List<CommonComponents>();
+				foreach (var comp in everything)
+				{
+					if (FilthBlocking != null && comp.TrySafeGetComponent<Attributes>(out var attributes))
+					{
+						if (attributes.InitialTraits.Contains(FilthBlocking) == false)
+						{
+							CCsToRemove.Add(comp);
+							continue;
+						}
+					}
+
+					if (comp.TryGetComponentCustom<FloorPrintEffect>(out var effect) == false)
+					{
+						decals.Add(effect);
+						CCsToRemove.Add(comp);
 					}
 				}
-
-
-				if (currentPosition != oldPosition &&
-				    MatrixManager.IsSpaceAt(gameObject.AssumedWorldPosServer().RoundToInt(), true)== false)
+				everything.RemoveAll(x => CCsToRemove.Contains(x));
+				if (decals.Any())
 				{
+					MatrixManager.ReagentReact(reagents,
+						gameObject.AssumedWorldPosServer().RoundToInt(), null, false, me.CurrentDirection);
 
-					var reagents = spillContents.TakeReagents(
-						useAll ? spillContents.ReagentMixTotal : spillContents.ReagentMixTotal * 0.25f); //Use all use everything in the container if not only 10%
-
-					var decals = MatrixManager.GetAt<FloorPrintEffect>(currentPosition, isServer: true);
-					if (decals.Any())
-					{
-						MatrixManager.ReagentReact(reagents,
-							gameObject.AssumedWorldPosServer().RoundToInt(), null, false, me.CurrentDirection);
-
-						var floorPrintEffect = decals.First();
-						var Change = currentPosition.ToLocal(me.RegisterPlayer.Matrix) - oldPosition.ToLocal(me.RegisterPlayer.Matrix);
-						floorPrintEffect.RegisterEnter(	Orientation.FromAsEnum(Change));
-					}
-					else
-					{
-						var footPrint = FootPrint(gameObject.AssumedWorldPosServer().RoundToInt(), reagents);
-
-						MatrixManager.ReagentReact(reagents,
-							gameObject.AssumedWorldPosServer().RoundToInt(), null, false, me.CurrentDirection);
-
-						var change = currentPosition.ToLocal(me.RegisterPlayer.Matrix) - oldPosition.ToLocal(me.RegisterPlayer.Matrix);
-						footPrint.RegisterEnter(Orientation.FromAsEnum(change));
-					}
-
-					oldPosition = currentPosition;
+					var floorPrintEffect = decals.First();
+					var Change = currentPosition.ToLocal(me.RegisterPlayer.Matrix) - oldPosition.ToLocal(me.RegisterPlayer.Matrix);
+					floorPrintEffect.RegisterEnter(	Orientation.FromAsEnum(Change));
 				}
+				else if (everything.Count == 0)
+				{
+					var footPrint = FootPrint(gameObject.AssumedWorldPosServer().RoundToInt(), reagents);
+					MatrixManager.ReagentReact(reagents,
+						gameObject.AssumedWorldPosServer().RoundToInt(), null, false, me.CurrentDirection);
+
+					var change = currentPosition.ToLocal(me.RegisterPlayer.Matrix) - oldPosition.ToLocal(me.RegisterPlayer.Matrix);
+					footPrint.RegisterEnter(Orientation.FromAsEnum(change));
+				}
+
+				oldPosition = currentPosition;
 			}
 		}
 
