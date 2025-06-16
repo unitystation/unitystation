@@ -6,6 +6,8 @@ using Mirror;
 using System.Linq;
 using Gateway;
 using Logs;
+using Messages.Server.SoundMessages;
+using Objects.Construction;
 using Shared.Systems.ObjectConnection;
 using Systems.Scenes;
 
@@ -68,6 +70,7 @@ namespace Objects.Science
 		[field: SerializeField] public bool CanRelink { get; set; } = false;
 		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = true;
 		[field: SerializeField] public int MaxDistance { get; set; } = 60;
+		[field: SerializeField] public float CheckForThingsToTeleportTime { get; set; } = 1.5f;
 
 		MultitoolConnectionType IMultitoolLinkable.ConType => MultitoolConnectionType.QuantumPad;
 
@@ -137,7 +140,7 @@ namespace Objects.Science
 		{
 			if (!passiveDetect) return;
 
-			UpdateManager.Add(ServerDetectObjectsOnTile, 1f);
+			UpdateManager.Add(ServerDetectObjectsOnTile, CheckForThingsToTeleportTime);
 		}
 
 		private void OnDisable()
@@ -195,68 +198,40 @@ namespace Objects.Science
 				travelCoord += Vector3.up;
 			}
 
-			var message = connectedPad.messageOnTravelToThis;
-
 			var registerTileLocation = registerTile.LocalPositionServer;
-
 			var somethingTeleported = false;
 
 			//Use the transport object code from StationGateway
-
 			//detect players positioned on the portal bit of the gateway
-			foreach (var reg in Matrix.Get(registerTileLocation, isServer))
+			foreach (var reg in Matrix.Get<CommonComponents>(registerTileLocation, isServer))
 			{
 				//Don't teleport self lol
-				if(reg.gameObject == gameObject) continue;
-				if (reg.ObjectPhysics.Component == null)
+				if (reg.gameObject == gameObject) continue;
+				if (reg.UniversalObjectPhysics == null && (reg.UniversalObjectPhysics.Intangible || reg.UniversalObjectPhysics.CanMove == false)) continue;
+				if (reg.TrySafeGetComponent<GhostMove>(out var ghost))
 				{
-					var Ghost = reg.GetComponent<GhostMove>();
-					if (Ghost != null)
-					{
-						Ghost.CMDSetServerPosition(travelCoord);
-						continue;
-					}
-					else
-					{
-						Loggy.Error( reg.name + " Does not have object physics");
-						continue;
-					}
-
+					ghost.CMDSetServerPosition(travelCoord);
 				}
-				if(reg.ObjectPhysics.Component.Intangible) continue;
-
-				SoundManager.PlayNetworkedForPlayer(connectedPad.gameObject, CommonSounds.Instance.StealthOff);
-				SoundManager.PlayNetworkedForPlayer(gameObject, CommonSounds.Instance.StealthOff);
-				Chat.AddExamineMsgFromServer(reg.gameObject, message);
-				if (reg.gameObject.TryGetComponent(out IQuantumReaction reaction))
+				if (reg.TrySafeGetComponent<FloorDecal>(out var decal))
 				{
-					reaction.OnTeleportStart();
-					TransportUtility.TransportObjectAndPulled(reg.ObjectPhysics.Component, travelCoord);
-					reaction.OnTeleportEnd();
+					_ = Despawn.ServerSingle(decal.gameObject);
+					continue;
 				}
 
-				else
-				{
-					TransportUtility.TransportObjectAndPulled(reg.ObjectPhysics.Component, travelCoord);
-				}
-
-
-				if (IsLavaLandBase1Connector && firstEnteredTriggered == false)
-				{
-					//Trigger lavaland first entered event
-					EventManager.Broadcast(Event.LavalandFirstEntered);
-					firstEnteredTriggered = true;
-				}
+				HandleTeleportation(reg);
+				HandleAudioOnTeleport();
+				HandleLavalandFirstEnterEvent(); //(Max): Bad. This should be handled on the matrix itself; not via quantum pads.
 
 				somethingTeleported = true;
+				break;
 			}
 
-
-			if (!doingAnimation && passiveDetect && somethingTeleported)
+			if (doingAnimation == false && passiveDetect && somethingTeleported)
 			{
 				ServerSync(true);
-
 				StartCoroutine(ServerAnimation());
+				connectedPad.ServerSync(true);
+				StartCoroutine(connectedPad.ServerAnimation());
 			}
 		}
 
@@ -266,6 +241,35 @@ namespace Objects.Science
 			yield return WaitFor.Seconds(1f);
 			spriteHandler.SetCatalogueIndexSprite(0);
 			ServerSync(false);
+		}
+
+		private void HandleAudioOnTeleport()
+		{
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.StealthOff, connectedPad.registerTile.LocalPosition, new AudioSourceParameters(maxDistance: 4f));
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.StealthOff, registerTile.LocalPosition, new AudioSourceParameters(maxDistance: 4f));
+		}
+
+		private void HandleTeleportation(CommonComponents reg)
+		{
+			if (reg.gameObject.TryGetComponent(out IQuantumReaction reaction))
+			{
+				reaction.OnTeleportStart();
+				TransportUtility.TransportObjectAndPulled(reg.UniversalObjectPhysics, travelCoord);
+				reaction.OnTeleportEnd();
+			}
+			else
+			{
+				TransportUtility.TransportObjectAndPulled(reg.UniversalObjectPhysics, travelCoord);
+			}
+
+			if (connectedPad.messageOnTravelToThis != "") Chat.AddExamineMsgFromServer(reg.gameObject, connectedPad.messageOnTravelToThis);
+		}
+
+		private void HandleLavalandFirstEnterEvent()
+		{
+			if (IsLavaLandBase1Connector == false || firstEnteredTriggered) return;
+			EventManager.Broadcast(Event.LavalandFirstEntered);
+			firstEnteredTriggered = true;
 		}
 
 		public enum PadDirection
