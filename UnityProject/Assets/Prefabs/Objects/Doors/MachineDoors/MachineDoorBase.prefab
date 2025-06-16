@@ -13,6 +13,11 @@ PrefabInstance:
       propertyPath: wattusage
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -6356777978426299504, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: initialwattusage
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_Sprite
@@ -139,6 +144,11 @@ PrefabInstance:
       propertyPath: IsFixedMatrix
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4768638821400444218, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: 'commonComponentsToRegister.Array.data[2]'
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5432513913519741094, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_IsTrigger
@@ -223,6 +233,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: It opens and closes.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8232375373487905420, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 768889878625444157, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
@@ -374,7 +389,7 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
-  ignoreRoundstartGrabObjects: 0
+  initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}
 --- !u!210 &7782817179362649248 stripped
