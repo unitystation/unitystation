@@ -31,6 +31,17 @@ public class UpdateManager : MonoBehaviour
 	private readonly List<Action> fixedUpdateActions = new List<Action>();
 	private readonly List<Action> lateUpdateActions = new List<Action>();
 
+	public int preCameraUpdateActionsCount => preCameraUpdateActions.Count;
+	public int updateActionsCount => updateActions.Count;
+	public int fixedUpdateActionsCount => fixedUpdateActions.Count;
+	public int lateUpdateActionsCount => lateUpdateActions.Count;
+	public int periodicUpdateActionsCount => periodicUpdateActions.Count;
+	public int soundUpdatesCount => soundUpdates.Count;
+	public int thinkShotActionsCount => thinkShotActions.Count;
+
+
+
+
 	private Action cameraFollowUpate = null;
 
 	private List<TimedUpdate> periodicUpdateActions = new List<TimedUpdate>();

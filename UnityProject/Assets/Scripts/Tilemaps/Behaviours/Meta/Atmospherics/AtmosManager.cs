@@ -26,6 +26,7 @@ namespace Systems.Atmospherics
 		public List<ReactionManager> reactionManagerList = new List<ReactionManager>();
 
 		private AtmosThread atmosThread;
+		public AtmosThread AtmosThread => atmosThread ;
 		public AtmosSimulation simulation;
 		public CustomSampler sampler;
 
