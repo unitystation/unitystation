@@ -223,6 +223,7 @@ namespace Objects.Science
 				HandleLavalandFirstEnterEvent(); //(Max): Bad. This should be handled on the matrix itself; not via quantum pads.
 
 				somethingTeleported = true;
+				break;
 			}
 
 			if (doingAnimation == false && passiveDetect && somethingTeleported)
