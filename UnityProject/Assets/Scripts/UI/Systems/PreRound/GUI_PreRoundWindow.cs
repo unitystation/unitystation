@@ -244,7 +244,7 @@ namespace UI.Systems.PreRound
 			InfoPanelMessageClient.Send();
 		}
 
-		public void CheckForRoundStatusForTitle()
+		private void CheckForRoundStatusForTitle()
 		{
 			switch (GameManager.Instance.CurrentRoundState)
 			{
