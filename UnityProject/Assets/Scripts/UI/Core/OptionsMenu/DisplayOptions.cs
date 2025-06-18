@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Managers.SettingsManager;
+using TMPro;
 using UI.Core;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,7 +24,8 @@ namespace Unitystation.Options
 		[SerializeField] private InputField frameRateTarget = null;
 
 		[SerializeField] private Slider camZoomSlider = null;
-		[SerializeField] private Slider uiScaleSlider = null;
+		[SerializeField] private TMP_InputField uiScaleX = null;
+		[SerializeField] private TMP_InputField uiScaleY = null;
 
 		[SerializeField] private Toggle scrollWheelZoomToggle = null;
 
@@ -60,7 +62,9 @@ namespace Unitystation.Options
 			camZoomSlider.value = DisplaySettings.Instance.ZoomLevel / 8f;
 
 			scrollWheelZoomToggle.isOn = DisplaySettings.Instance.ScrollWheelZoom;
-			uiScaleSlider.value = PlayerPrefs.GetFloat(DisplaySettings.UISCALE_KEY, DisplaySettings.UISCALE_DEFAULT);
+			uiScaleX.text = PlayerPrefs.GetInt(DisplaySettings.UISCALE_KEY + "x", (int)DisplaySettings.UISCALE_DEFAULT.x).ToString();
+			uiScaleY.text = PlayerPrefs.GetInt(DisplaySettings.UISCALE_KEY + "y", (int)DisplaySettings.UISCALE_DEFAULT.y).ToString();
+			ParseAndSetReferenceResolutionForUiScale(out int x, out int y);
 		}
 
 		/// <summary>
@@ -132,8 +136,24 @@ namespace Unitystation.Options
 
 		public void OnUIScaleChange()
 		{
-			UIManager.Instance.Scaler.scaleFactor = uiScaleSlider.value;
-			PlayerPrefs.SetFloat(DisplaySettings.UISCALE_KEY, uiScaleSlider.value);
+			ParseAndSetReferenceResolutionForUiScale(out int x, out int y);
+		}
+
+		private void ParseAndSetReferenceResolutionForUiScale(out int x, out int y)
+		{
+			if (int.TryParse(uiScaleX.text, out x) == false || int.TryParse(uiScaleY.text, out y) == false)
+			{
+				uiScaleX.text = DisplaySettings.UISCALE_DEFAULT.x.ToString();
+				uiScaleY.text = DisplaySettings.UISCALE_DEFAULT.y.ToString();
+				x = (int)DisplaySettings.UISCALE_DEFAULT.x;
+				y = (int)DisplaySettings.UISCALE_DEFAULT.y;
+				return;
+			}
+
+			UIManager.Instance.Scaler.referenceResolution = new Vector2(x, y);
+
+			PlayerPrefs.SetInt(DisplaySettings.UISCALE_KEY + "x", x);
+			PlayerPrefs.SetInt(DisplaySettings.UISCALE_KEY + "y", y);
 			PlayerPrefs.Save();
 		}
 
