@@ -277,7 +277,8 @@ namespace Systems.Spawns
 		WizardFederation,
 		SpaceExterior,
 		AncientEngineering,
-		Ashwalker
+		Ashwalker,
+		Virologist,
 	}
 
 	public enum SpawnPointType
