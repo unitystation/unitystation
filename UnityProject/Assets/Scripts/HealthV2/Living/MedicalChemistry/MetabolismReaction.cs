@@ -39,28 +39,37 @@ public class MetabolismReaction : Reaction
 		return false;
 	}
 
-	public void React(List<MetabolismComponent> sender, ReagentMix reagentMix, float ReactionAmount)
+	/// <summary>
+	///
+	/// </summary>
+	/// <param name="sender"></param>
+	/// <param name="reagentMix"></param>
+	/// <param name="maxReactQuantity">The portion in u of the entire blood pool that should react. (5u means it'll take 100 calls for a given reaction to occur to completion in the blood stream)</param>
+	public void React(List<MetabolismComponent> sender, ReagentMix reagentMix, float maxReactQuantity)
 	{
 		var reactionMultiple = GetReactionMultiple(reagentMix);
 		if (reactionMultiple == 0) return;
+		reactionMultiple *= (maxReactQuantity / reagentMix.Total);
+
 		var AmountProcessing = 0f;
 		foreach (var ingredient in ingredients.m_dict)
 		{
 			AmountProcessing += (ingredient.Value * reactionMultiple);
 		}
-
 		if (AmountProcessing == 0) return;
 
-		if (AmountProcessing > ReactionAmount)
-		{
-			reactionMultiple *= (ReactionAmount / AmountProcessing);
-		}
 		//out must be asigned to something, overdose is never used here
-		bool overdose;
-		PossibleReaction(sender, reagentMix, reactionMultiple, ReactionAmount, AmountProcessing, out overdose);
+		bool overdose = false;
+
+		//Sender - The organs that contain this reaction
+		//Reagent Mix - System blood pool
+		//Reaction multiple - reaction multiple for the given reaction. Scaled for how much of the blood is processed at once
+		//BodyReactionAmount - The max amount of blood that is reacted at once
+		//TotalChemicalsProcessed - The amount of ingredients being reacted by this
+		PossibleReaction(sender, reagentMix, reactionMultiple, maxReactQuantity, AmountProcessing, ref overdose);
 	}
 
-	public virtual void PossibleReaction(List<MetabolismComponent> senders, ReagentMix reagentMix, float reactionMultiple, float BodyReactionAmount, float TotalChemicalsProcessed, out bool overdose)
+	public virtual void PossibleReaction(List<MetabolismComponent> senders, ReagentMix reagentMix, float reactionMultiple, float BodyReactionAmount, float TotalChemicalsProcessed, ref bool overdose)
 	{
 		//out must be asigned to something, overdose is never used here.
 		overdose = false;

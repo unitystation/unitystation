@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using UnityEngine;
 using Chemistry;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
@@ -61,32 +63,35 @@ namespace HealthV2.Sickness
 		[SerializeField] private List<SicknessStage> stages = new List<SicknessStage>();
 
 		[Tooltip("The largest %age of the bloodstream this disease can occupy. Caps its exponential growth."), SerializeField]
-		private float DiseaseMaxConcentrationPercent = 20f;
+		private float DiseaseMaxConcentrationPercent = 16f;
 
+		// We handle sickness reactions differently to standard metabolism reactions. Instead of isolating only 5u to react at a time,
+		// We bypass this and react the whole mix. This is because sickness growth is not a result of a bodies metabolism but independent pathogen growth that scales universally.
 		public override void PossibleReaction(List<MetabolismComponent> senders, ReagentMix reagentMix,
-		float reactionMultiple, float bodyReactionAmount, float TotalChemicalsProcessed, out bool overdose)
+		float reactionMultiple, float bodyReactionAmount, float TotalChemicalsProcessed, ref bool overdose)
 		{
-			Debug.Log($"Reacting disease {name} starting with {reactionMultiple}u of disease in {reagentMix.Total}u of mix.");
-			float diseaseAmount = reactionMultiple;
+			//This line has the assumption that the only reagent for a sickness reaction is the pathogen.
+			Reagent sicknessReagent = ingredients.m_dict.First().Key;
 
-			MultiplyDisease(ref diseaseAmount, sicknessGrowthCharacteristic);
-			Debug.Log($"Disease multiplied to {diseaseAmount}");
+			float diseaseAmount = reagentMix[sicknessReagent];
+			float initialAmount = diseaseAmount;
 
-			float diseaseAmountPerOrgan = diseaseAmount / senders.Count;
+			MultiplyDisease(ref diseaseAmount, sicknessGrowthCharacteristic); //Calculate the natural growth of the disease
+
+			float diseaseAmountPerOrgan = initialAmount / senders.Count;
 			foreach (var metabolisedComponent in senders)
 			{
-				diseaseAmount -= ImmuneResponse(diseaseAmountPerOrgan, metabolisedComponent.componentImmuneResponse);
-			}
-			float concentrationPercent = (diseaseAmount / reagentMix.Total) * 100;
-			if (concentrationPercent > DiseaseMaxConcentrationPercent)
-			{
-				diseaseAmount *= (DiseaseMaxConcentrationPercent / concentrationPercent);
-				reactionMultiple *= (DiseaseMaxConcentrationPercent / concentrationPercent);
+				diseaseAmount -= ImmuneResponse(diseaseAmountPerOrgan, metabolisedComponent.componentImmuneResponse); //Apply an immune response on a per organ basis
 			}
 
-			SicknessStage currentStage = GetSicknessState(concentrationPercent);
-			Debug.Log($"Disease Stage is {concentrationPercent}% / {DiseaseMaxConcentrationPercent}%");
-			foreach (var stageEffect in currentStage.StageEffects)
+			float concentrationPercent = (diseaseAmount / reagentMix.Total) * 100;
+
+			diseaseAmount = concentrationPercent > DiseaseMaxConcentrationPercent
+				? diseaseAmount * (DiseaseMaxConcentrationPercent / concentrationPercent)
+				: diseaseAmount; //Ensure disease does not exceed max concentration (Default 16%)
+
+			SicknessStage currentStage = GetSicknessState(concentrationPercent); //Find the symptoms for the given concentration
+			foreach (var stageEffect in currentStage.StageEffects) //Apply the symptoms
 			{
 				foreach (var sender in senders)
 				{
@@ -94,18 +99,21 @@ namespace HealthV2.Sickness
 				}
 			}
 
+			//Apply change in disease count.
+			float change = diseaseAmount - initialAmount;
+			if (change > 0)
+			{
+				foreach (var result in results.m_dict)
+				{
+					reagentMix.Add(result.Key, change * result.Value);
+				}
+				return;
+			}
+
 			foreach (var ingredient in ingredients.m_dict)
 			{
-				reagentMix.Subtract(ingredient.Key, reactionMultiple * ingredient.Value);
+				reagentMix.Remove(ingredient.Key, -(change * ingredient.Value));
 			}
-
-			foreach (var result in results.m_dict)
-			{
-				var reactionResult = diseaseAmount * result.Value;
-				reagentMix.Add(result.Key, reactionResult);
-			}
-
-			overdose = false;
 		}
 
 		private static void MultiplyDisease(ref float diseaseAmount, SicknessGrowthCharacteristic sicknessGrowthCharacteristic)
