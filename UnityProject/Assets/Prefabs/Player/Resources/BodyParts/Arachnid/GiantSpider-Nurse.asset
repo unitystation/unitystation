@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e3145566f967d4e9706a88c0917052, type: 3}
+  m_Name: GiantSpider-Nurse
+  m_EditorClassIdentifier: 
+  Base:
+    Head:
+      Elements: []
+    Torso:
+      Elements:
+      - {fileID: 3250516129481264533, guid: dc39510bd03cf3d4bb7fda0ad9261d96, type: 3}
+    ArmRight:
+      Elements:
+      - {fileID: 4784306132090323369, guid: 95e951198b7207b4c934c3a11892b8cd, type: 3}
+    ArmLeft:
+      Elements:
+      - {fileID: 4194108783310398540, guid: 70638042228ce3e45b4f421fbe70f45e, type: 3}
+    LegRight:
+      Elements:
+      - {fileID: 1852908659077902804, guid: 32d717bc21c264e4fbae73dc42852d1e, type: 3}
+      - {fileID: 1852908659077902804, guid: 32d717bc21c264e4fbae73dc42852d1e, type: 3}
+      - {fileID: 1852908659077902804, guid: 32d717bc21c264e4fbae73dc42852d1e, type: 3}
+    LegLeft:
+      Elements:
+      - {fileID: 3390955108080355248, guid: e0975d2360e77c540a5c603b2973a010, type: 3}
+      - {fileID: 3390955108080355248, guid: e0975d2360e77c540a5c603b2973a010, type: 3}
+      - {fileID: 3390955108080355248, guid: e0975d2360e77c540a5c603b2973a010, type: 3}
+    allowedToChangeling: 0
+    CustomisationSettings: []
+    bodyTypeSettings:
+      AvailableBodyTypes: []
+    SkinColours: []
+    RootImplantProcedure: {fileID: 0}
+    BodyPartsThatShareTheSkinTone: []
+    ClueString: 
+    MeatProduce: {fileID: 0}
+    SkinProduce: {fileID: 0}
+    SkinningItemTrait: {fileID: 0}
+    CanBeEmagged: 0
+    CanBePlayerChosen: 0
+    PreviewSprite: {fileID: 11400000, guid: 72568b1fca5c55b4ab748b171f0646c4, type: 2}
+    SystemSettings: []
+    StartingMutations: []
+  references:
+    version: 2
+    RefIds: []

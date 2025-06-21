@@ -1,0 +1,133 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3191257760466032363
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 289169006579493167, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: m_Name
+      value: BlueprintGiantSpiderNurse
+      objectReference: {fileID: 0}
+    - target: {fileID: 292970980448228443, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 292970980448228443, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 292970980448228443, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 292970980448228443, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 292970980448228443, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 292970980448228443, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 292970980448228443, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 292970980448228443, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 292970980448228443, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 292970980448228443, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 402896476671775899, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: _assetId
+      value: 3878554674
+      objectReference: {fileID: 0}
+    - target: {fileID: 500638641922251379, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: aab59a0f07ede8043ad41c425cffe0d8,
+        type: 3}
+    - target: {fileID: 2974636977527904776, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 72568b1fca5c55b4ab748b171f0646c4,
+        type: 2}
+    - target: {fileID: 4502520880032039943, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: CharacterSheet.Age
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 4502520880032039943, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: CharacterSheet.Name
+      value: Spider Nurse
+      objectReference: {fileID: 0}
+    - target: {fileID: 4502520880032039943, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: CharacterSheet.AiName
+      value: CafeeAntiVirus
+      objectReference: {fileID: 0}
+    - target: {fileID: 4502520880032039943, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: CharacterSheet.Species
+      value: GiantSpider-Nurse
+      objectReference: {fileID: 0}
+    - target: {fileID: 4502520880032039943, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: CharacterSheet.BodyType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4502520880032039943, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: CharacterSheet.PlayerPronoun
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6681631323935909186, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: parentID
+      value: 623a46f508861004491312c14069eff2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6681631323935909186, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: foreverID
+      value: 4be3f9a4e4125c4479c1bcb4fdd03544
+      objectReference: {fileID: 0}
+    - target: {fileID: 6870226969733880062, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 48711b34c394aea478d63e379acb812b,
+        type: 3}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 623a46f508861004491312c14069eff2, type: 3}

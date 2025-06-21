@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e3145566f967d4e9706a88c0917052, type: 3}
+  m_Name: GiantSpider-Broodmother
+  m_EditorClassIdentifier: 
+  Base:
+    Head:
+      Elements: []
+    Torso:
+      Elements:
+      - {fileID: 3250516129481264533, guid: c5f20f74719ef0a43834b6ded0549f74, type: 3}
+    ArmRight:
+      Elements:
+      - {fileID: 4784306132090323369, guid: 3129eb17802859d488af427847997787, type: 3}
+    ArmLeft:
+      Elements:
+      - {fileID: 4194108783310398540, guid: a91618ccb27bafd49bdf8cef6443fb25, type: 3}
+    LegRight:
+      Elements:
+      - {fileID: 1852908659077902804, guid: 008a21f69a4ad00448a5d65ec50fe6f0, type: 3}
+      - {fileID: 1852908659077902804, guid: 008a21f69a4ad00448a5d65ec50fe6f0, type: 3}
+      - {fileID: 1852908659077902804, guid: 008a21f69a4ad00448a5d65ec50fe6f0, type: 3}
+    LegLeft:
+      Elements:
+      - {fileID: 3390955108080355248, guid: c62e32bf8900a3b4898bd251be746a44, type: 3}
+      - {fileID: 3390955108080355248, guid: c62e32bf8900a3b4898bd251be746a44, type: 3}
+      - {fileID: 3390955108080355248, guid: c62e32bf8900a3b4898bd251be746a44, type: 3}
+    allowedToChangeling: 0
+    CustomisationSettings: []
+    bodyTypeSettings:
+      AvailableBodyTypes: []
+    SkinColours: []
+    RootImplantProcedure: {fileID: 0}
+    BodyPartsThatShareTheSkinTone: []
+    ClueString: 
+    MeatProduce: {fileID: 0}
+    SkinProduce: {fileID: 0}
+    SkinningItemTrait: {fileID: 0}
+    CanBeEmagged: 0
+    CanBePlayerChosen: 0
+    PreviewSprite: {fileID: 11400000, guid: 9fbb19c06c2e24840b12607cad12c32f, type: 2}
+    SystemSettings: []
+    StartingMutations: []
+  references:
+    version: 2
+    RefIds: []

@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 40
-  m_Sprite: {fileID: 21300000, guid: 48711b34c394aea478d63e379acb812b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 33452bc8b91a99048907aeb652d9a1de, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -102,7 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  InitialPresentSpriteSet: {fileID: 11400000, guid: 72568b1fca5c55b4ab748b171f0646c4,
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 9beba14ffa9a94a4683739624575b59f,
     type: 2}
   randomInitialSprite: 0
   spriteRenderer: {fileID: 1318986182125683303}
@@ -1016,7 +1016,8 @@ MonoBehaviour:
       ReplacementStrategy: 0
       namedSlotPopulatorEntrys: []
     - DoNotGetFirstEmptySlot: 0
-      Prefab: {fileID: 0}
+      Prefab: {fileID: 7889273870754781763, guid: cb2bf5a86ff0c2949aea09b9a60fea63,
+        type: 3}
       StackableAmount: 0
       UseIndex: 0
       IndexSlot: 0
@@ -1037,8 +1038,7 @@ MonoBehaviour:
       ReplacementStrategy: 0
       namedSlotPopulatorEntrys: []
     - DoNotGetFirstEmptySlot: 0
-      Prefab: {fileID: 3419287765834980474, guid: e842d7513d34ec442af969504d96dfd9,
-        type: 3}
+      Prefab: {fileID: 0}
       StackableAmount: 0
       UseIndex: 0
       IndexSlot: 0
@@ -1048,8 +1048,7 @@ MonoBehaviour:
       ReplacementStrategy: 0
       namedSlotPopulatorEntrys: []
     - DoNotGetFirstEmptySlot: 0
-      Prefab: {fileID: 4433481285298299169, guid: 5a74cf606128e2d44859b6077c25b06c,
-        type: 3}
+      Prefab: {fileID: 0}
       StackableAmount: 0
       UseIndex: 0
       IndexSlot: 0
@@ -1059,8 +1058,7 @@ MonoBehaviour:
       ReplacementStrategy: 0
       namedSlotPopulatorEntrys: []
     - DoNotGetFirstEmptySlot: 0
-      Prefab: {fileID: 2556953724642564633, guid: 69104df12837d1e48bb456dce5301bfa,
-        type: 3}
+      Prefab: {fileID: 0}
       StackableAmount: 0
       UseIndex: 0
       IndexSlot: 0
@@ -1070,8 +1068,7 @@ MonoBehaviour:
       ReplacementStrategy: 0
       namedSlotPopulatorEntrys: []
     - DoNotGetFirstEmptySlot: 0
-      Prefab: {fileID: 3169642092305287280, guid: a05828ab8602a63449e9b422078fd217,
-        type: 3}
+      Prefab: {fileID: 0}
       StackableAmount: 0
       UseIndex: 0
       IndexSlot: 0
@@ -1081,8 +1078,7 @@ MonoBehaviour:
       ReplacementStrategy: 0
       namedSlotPopulatorEntrys: []
     - DoNotGetFirstEmptySlot: 0
-      Prefab: {fileID: 6161261707722952892, guid: cfda4a920ce328d449993498e023ddfc,
-        type: 3}
+      Prefab: {fileID: 0}
       StackableAmount: 0
       UseIndex: 0
       IndexSlot: 0
@@ -1092,8 +1088,7 @@ MonoBehaviour:
       ReplacementStrategy: 0
       namedSlotPopulatorEntrys: []
     - DoNotGetFirstEmptySlot: 0
-      Prefab: {fileID: 7638872791175960119, guid: 445373074652a00409300b4b8a70dcb7,
-        type: 3}
+      Prefab: {fileID: 0}
       StackableAmount: 0
       UseIndex: 0
       IndexSlot: 0
@@ -1354,7 +1349,7 @@ MonoBehaviour:
   OnBodyID: 0
   drunkReagent: {fileID: 0}
   MaxDrunkAtPercentage: 0.06
-  hasInbuiltSight: 1
+  hasInbuiltSight: 0
   hasInbuiltHearing: 1
   CannotSpeak: 0
   hasInbuiltSpeech: 1
