@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &461674035511237555
+--- !u!1 &1852908659077902804
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,290 +8,70 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6879639045757421258}
-  - component: {fileID: 7383713670251860361}
-  - component: {fileID: 8248841212523691251}
-  - component: {fileID: 5660903990923956462}
-  - component: {fileID: 7130214814230728721}
-  - component: {fileID: 2657042528275253263}
+  - component: {fileID: 6732837271303102852}
+  - component: {fileID: 5856173531822071521}
+  - component: {fileID: 6935006951978144150}
+  - component: {fileID: 2615895959633247866}
+  - component: {fileID: 1387100700353610348}
+  - component: {fileID: 2953244559482601804}
+  - component: {fileID: 5352025895146019508}
+  - component: {fileID: 5523757683868579360}
+  - component: {fileID: 1681658229143044123}
+  - component: {fileID: 7722409343856237073}
+  - component: {fileID: 3665398427777007083}
+  - component: {fileID: 1793508964663191097}
+  - component: {fileID: 7369519882507579727}
+  - component: {fileID: 3204436525823869458}
+  - component: {fileID: 1428562167387278852}
+  - component: {fileID: 83767364901982108}
+  - component: {fileID: 8482454278440818149}
+  - component: {fileID: 2656753742377396315}
+  - component: {fileID: 1602769998338939853}
+  - component: {fileID: 455359979400227100}
+  - component: {fileID: 9096035748460485483}
+  - component: {fileID: 864614550012001968}
+  - component: {fileID: 1396869932539042377}
+  - component: {fileID: 590695806993203708}
+  - component: {fileID: 8407752869404832254}
+  - component: {fileID: 6349773091964697954}
+  - component: {fileID: 648080570646748088}
+  - component: {fileID: 5218865679741390445}
+  - component: {fileID: 2377131400876141910}
+  - component: {fileID: 4395245057802102787}
+  - component: {fileID: 1837811831782079204}
+  - component: {fileID: 8158912749797370943}
   m_Layer: 10
-  m_Name: Traumas
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6879639045757421258
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 461674035511237555}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2548101303269265362}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7383713670251860361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 461674035511237555}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f6beaddc22e42f485e6e754bba9cb9d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <traumaTypes>k__BackingField: 4
-  deadlyDamageInOneHit: 55
-  bodyPart: {fileID: 8561759620041897298}
-  onTakeDamageSounds:
-  - AssetAddress: Assets/Prefabs/Effects/wounds/sizzle1.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectGUID: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  - AssetAddress: Assets/Prefabs/Effects/wounds/sizzle1.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectGUID: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  playTraumaNoise: 1
-  stages:
-    m_keys: 01000000020000000300000004000000
-    m_values: 320000007d00000096000000c8000000
-  bodyPartColorWhenCharred: {r: 0.24528301, g: 0.07762121, b: 0, a: 1}
-  bodyPartColorWhenSecondDegreeBurns: {r: 0.6981132, g: 0.38527945, b: 0.38527945,
-    a: 1}
-  bodyPartColorWhenThirdBurns: {r: 0.8773585, g: 0.1779548, b: 0.28664598, a: 1}
---- !u!114 &8248841212523691251
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 461674035511237555}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbefa1dc9397413d843f8aa0aa0e9a2c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <traumaTypes>k__BackingField: 1
-  deadlyDamageInOneHit: 55
-  bodyPart: {fileID: 8561759620041897298}
-  onTakeDamageSounds:
-  - AssetAddress: Assets/Prefabs/Effects/wounds/blood1.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectGUID: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  - AssetAddress: Assets/Prefabs/Effects/wounds/blood2.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectGUID: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  - AssetAddress: Assets/Prefabs/Effects/wounds/blood3.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectGUID: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  playTraumaNoise: 1
-  stages:
-    m_keys: 01000000020000000300000004000000
-    m_values: 230000007d000000af000000fa000000
-  minimumDamageToProgressStages: 16
-  healingTimeFirstStage: 20
-  healingTimeSecondStage: 60
---- !u!114 &5660903990923956462
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 461674035511237555}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f4811d9f15647899e17db8b443f43ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <traumaTypes>k__BackingField: 8
-  deadlyDamageInOneHit: 55
-  bodyPart: {fileID: 8561759620041897298}
-  onTakeDamageSounds:
-  - AssetAddress: Assets/Prefabs/Effects/wounds/crack1.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectGUID: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  - AssetAddress: Assets/Prefabs/Effects/wounds/crack2.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectGUID: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  playTraumaNoise: 1
-  stages:
-    m_keys: 010000000200000003000000
-    m_values: 41000000730000009b000000
-  minimumDamage: 14
-  internalDamagePerStage:
-    m_keys: 010000000200000003000000
-    m_values:
-    - Damage: 3
-      TimeForDamage: 45
-    - Damage: 6
-      TimeForDamage: 25
-    - Damage: 8
-      TimeForDamage: 18
---- !u!114 &7130214814230728721
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 461674035511237555}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81e8c75aad164fdaae489c366f3c1a77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <traumaTypes>k__BackingField: 2
-  deadlyDamageInOneHit: 55
-  bodyPart: {fileID: 8561759620041897298}
-  onTakeDamageSounds:
-  - AssetAddress: Assets/Prefabs/Effects/wounds/crackandbleed.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectGUID: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  playTraumaNoise: 1
-  stages:
-    m_keys: 010000000200000003000000
-    m_values: 2300000091000000c8000000
-  minimumDamageToProgressStages: 16
-  healingTimeFirstStage: 15
-  healingTimeSecondStage: 45
---- !u!114 &2657042528275253263
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 461674035511237555}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0b6f9c8a1b04979a8bbf068f12f703a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <traumaTypes>k__BackingField: 0
-  deadlyDamageInOneHit: 65
-  bodyPart: {fileID: 8561759620041897298}
-  onTakeDamageSounds:
-  - AssetAddress: Assets/Prefabs/Effects/wounds/crackandbleed.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectGUID: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  playTraumaNoise: 1
-  stages:
-    m_keys: 01000000
-    m_values: 41000000
-  juddgerResistence: 12
---- !u!1 &3390955108080355248
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2548101303269265362}
-  - component: {fileID: 6806658618854000394}
-  - component: {fileID: 1935221350052898950}
-  - component: {fileID: 7341029579697820835}
-  - component: {fileID: 6868351217924585982}
-  - component: {fileID: 583739380348609907}
-  - component: {fileID: 8275911334052953582}
-  - component: {fileID: 8960771594379940556}
-  - component: {fileID: 5297913362202315121}
-  - component: {fileID: 58585164761393921}
-  - component: {fileID: 8689506490484989119}
-  - component: {fileID: 4001966729559658394}
-  - component: {fileID: 4909016990217437742}
-  - component: {fileID: 8324967065929187716}
-  - component: {fileID: 2146055211455866301}
-  - component: {fileID: 90662507916869023}
-  - component: {fileID: 5570223266276008597}
-  - component: {fileID: 8098718090493894375}
-  - component: {fileID: 7008735299496127209}
-  - component: {fileID: 2912664967874933399}
-  - component: {fileID: 8561759620041897298}
-  - component: {fileID: 5951213959168842015}
-  - component: {fileID: 6876617490341429878}
-  - component: {fileID: 1537209143796118022}
-  - component: {fileID: 5408452356859169894}
-  - component: {fileID: 6107333273918791901}
-  - component: {fileID: 1341135027821068602}
-  - component: {fileID: 1862328382113121957}
-  - component: {fileID: 1281815577941568872}
-  - component: {fileID: 6145640472686184784}
-  - component: {fileID: 3840939781715121677}
-  - component: {fileID: 324598669486788300}
-  m_Layer: 10
-  m_Name: GiantSpiderLegLeft
+  m_Name: GiantSpider-Nurse-LegRight
   m_TagString: Abstract
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2548101303269265362
+--- !u!4 &6732837271303102852
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3390955108080355248}
+  m_GameObject: {fileID: 1852908659077902804}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3550376855802295674}
-  - {fileID: 6879639045757421258}
-  - {fileID: 4166853022374999610}
+  - {fileID: 30555192223923183}
+  - {fileID: 2711568337975966340}
+  - {fileID: 2068478950425074247}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6806658618854000394
+--- !u!114 &5856173531822071521
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3390955108080355248}
+  m_GameObject: {fileID: 1852908659077902804}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
@@ -300,10 +80,11 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  initialName: left leg
+  initialName: right leg
   initialNames: []
-  initialDescription: Some athletes prefer to tie their left shoelaces first for
-    good luck. In this instance, it probably would not have helped.
+  initialDescription: You put your right leg in, your right leg out. In, out, in,
+    out, shake it all about. And apparently then it detaches. The hokey pokey has
+    certainly changed a lot since space colonisation.
   willHighlight: 1
   exportCost: 1000
   CanBeSoldInCargo: 1
@@ -377,13 +158,13 @@ MonoBehaviour:
     - {r: 0, g: 0, b: 0, a: 0}
     IsPaletted: 0
   IsFakeItem: 0
---- !u!114 &1935221350052898950
+--- !u!114 &6935006951978144150
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3390955108080355248}
+  m_GameObject: {fileID: 1852908659077902804}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e1ce0dbeeeb473dae66fb3610953c99, type: 3}
@@ -406,14 +187,14 @@ MonoBehaviour:
   OnThrow:
     m_PersistentCalls:
       m_Calls: []
-  lastTouch: {fileID: 2146055211455866301}
---- !u!114 &7341029579697820835
+  lastTouch: {fileID: 1428562167387278852}
+--- !u!114 &2615895959633247866
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3390955108080355248}
+  m_GameObject: {fileID: 1852908659077902804}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 322493e979844b028b86387c7a0aa50c, type: 3}
@@ -425,15 +206,15 @@ MonoBehaviour:
   matrixDebugLogging: 0
   objectType: 0
   LiesFlat3D: 0
-  prefabTracker: {fileID: 4001966729559658394}
-  CurrentsortingGroup: {fileID: 58585164761393921}
---- !u!114 &6868351217924585982
+  prefabTracker: {fileID: 1793508964663191097}
+  CurrentsortingGroup: {fileID: 7722409343856237073}
+--- !u!114 &1387100700353610348
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3390955108080355248}
+  m_GameObject: {fileID: 1852908659077902804}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f24590037b6b486082fc874d1bfd9d95, type: 3}
@@ -487,13 +268,13 @@ MonoBehaviour:
   ExplosionsDamage: 100
   doDamageMessage: 1
   logDamage: 0
---- !u!114 &583739380348609907
+--- !u!114 &2953244559482601804
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3390955108080355248}
+  m_GameObject: {fileID: 1852908659077902804}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a70443b1a4a57ca408b7fde35a0570a0, type: 3}
@@ -508,42 +289,42 @@ MonoBehaviour:
   chanceToSpread: 20
   maxStacks: 20
   skipFlammableCheck: 0
---- !u!114 &8275911334052953582
+--- !u!114 &5352025895146019508
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3390955108080355248}
+  m_GameObject: {fileID: 1852908659077902804}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
-  _assetId: 1964500698
+  _assetId: 2490179015
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
---- !u!114 &8960771594379940556
+--- !u!114 &5523757683868579360
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3390955108080355248}
+  m_GameObject: {fileID: 1852908659077902804}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5297913362202315121
+--- !u!114 &1681658229143044123
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3390955108080355248}
+  m_GameObject: {fileID: 1852908659077902804}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af4d0e94e1b24623931ca59abaf6e1e2, type: 3}
@@ -560,25 +341,25 @@ MonoBehaviour:
   customAmountOfPaper: 5
   shapedPackage: 0
   packageType: 0
---- !u!210 &58585164761393921
+--- !u!210 &7722409343856237073
 SortingGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3390955108080355248}
+  m_GameObject: {fileID: 1852908659077902804}
   m_Enabled: 1
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 40
   m_SortAtRoot: 0
---- !u!114 &8689506490484989119
+--- !u!114 &3665398427777007083
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3390955108080355248}
+  m_GameObject: {fileID: 1852908659077902804}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d6083a8f6e47464fb42db6e06bc08665, type: 3}
@@ -587,29 +368,29 @@ MonoBehaviour:
   InheritParentsRecipes: 1
   hasSimpleRelatedRecipe: 0
   relatedRecipes: []
---- !u!114 &4001966729559658394
+--- !u!114 &1793508964663191097
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3390955108080355248}
+  m_GameObject: {fileID: 1852908659077902804}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f4629d03e356d64eb509d18a7450082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentID: 51326f2264a075148a8aaa6bf95604c7
-  foreverID: 2e6f2ff9beb985749940d242877d84f0
+  parentID: root
+  foreverID: 32d717bc21c264e4fbae73dc42852d1e
   <AlternativePrefabName>k__BackingField: 
   <CanBeSpawnedByAdmin>k__BackingField: 1
---- !u!114 &4909016990217437742
+--- !u!114 &7369519882507579727
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3390955108080355248}
+  m_GameObject: {fileID: 1852908659077902804}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 52a6a264ee47433418b51f654439372f, type: 3}
@@ -667,70 +448,70 @@ MonoBehaviour:
   CanBeWindPushed: 1
   canResetRotationFromRightClick: 1
   rotationTarget: {fileID: 0}
---- !u!114 &8324967065929187716
+--- !u!114 &3204436525823869458
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3390955108080355248}
+  m_GameObject: {fileID: 1852908659077902804}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13b3f20d3b30cb24fb70b1f35524c360, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   commonComponentsToRegister:
-  - {fileID: 8098718090493894375}
-  - {fileID: 6806658618854000394}
-  - {fileID: 1935221350052898950}
-  - {fileID: 7341029579697820835}
-  - {fileID: 4909016990217437742}
---- !u!114 &2146055211455866301
+  - {fileID: 2656753742377396315}
+  - {fileID: 5856173531822071521}
+  - {fileID: 6935006951978144150}
+  - {fileID: 2615895959633247866}
+  - {fileID: 7369519882507579727}
+--- !u!114 &1428562167387278852
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3390955108080355248}
+  m_GameObject: {fileID: 1852908659077902804}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9306f5c12c5c44b1a525a287c5cced72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &90662507916869023
+--- !u!114 &83767364901982108
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3390955108080355248}
+  m_GameObject: {fileID: 1852908659077902804}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a088a411ff27eb7419f4302446539af3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5570223266276008597
+--- !u!114 &8482454278440818149
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3390955108080355248}
+  m_GameObject: {fileID: 1852908659077902804}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cd0a615c4a14d4147a1cbfa0d1f2d5ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   IsTooPure: 0
-  PrefabTracker: {fileID: 4001966729559658394}
+  PrefabTracker: {fileID: 1793508964663191097}
   BasePurity: 10
---- !u!114 &8098718090493894375
+--- !u!114 &2656753742377396315
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3390955108080355248}
+  m_GameObject: {fileID: 1852908659077902804}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 14a67aad38c961f45ad1cb44ac3b1f07, type: 3}
@@ -740,13 +521,13 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   scaleTransform: {x: 1, y: 1, z: 1}
---- !u!114 &7008735299496127209
+--- !u!114 &1602769998338939853
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3390955108080355248}
+  m_GameObject: {fileID: 1852908659077902804}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea3b715ac32a0014787603458c14c14c, type: 3}
@@ -756,13 +537,13 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   RelatedPart: {fileID: 0}
---- !u!114 &2912664967874933399
+--- !u!114 &455359979400227100
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3390955108080355248}
+  m_GameObject: {fileID: 1852908659077902804}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1d72619b419eb784d89be0849c02177b, type: 3}
@@ -802,34 +583,32 @@ MonoBehaviour:
   SecondsForSpeciesMutation: 150
   PlayerHealthData: {fileID: 0}
   TOMutateBodyPart: {fileID: 0}
---- !u!114 &8561759620041897298
+--- !u!114 &9096035748460485483
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3390955108080355248}
+  m_GameObject: {fileID: 1852908659077902804}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isCybernetic: 0
-  OrganStorage: {fileID: 5951213959168842015}
+  OrganStorage: {fileID: 864614550012001968}
   isOpenAir: 0
   CommonComponents: {fileID: 0}
   playerSprites: {fileID: 0}
   IsBleeding: 0
   limbLossBleedingValue: 3.5
-  BodyPartType: 5
+  BodyPartType: 4
   isDimorphic: 0
   ContainedIn: {fileID: 0}
   BodyTypesSprites:
     SpriteOrder:
-      Orders: 05000000030000000100000006000000
-    BodyTypes:
-    - Sprites:
-      - {fileID: 11400000, guid: 017d1b29096f3444ca19a41866459176, type: 2}
+      Orders: 05000000030000000500000001000000
+    BodyTypes: []
   RelatedPresentSprites: []
   DeathOnRemoval: 0
   ClothingHide: 0
@@ -837,7 +616,7 @@ MonoBehaviour:
   ItemAttributes: {fileID: 0}
   SpritePrefab: {fileID: 8495837738996047739, guid: 7f846789e62ac004499611e9c1417efa,
     type: 3}
-  BodyPartItemSprite: {fileID: 1883541294713679368}
+  BodyPartItemSprite: {fileID: 1108747110888889887}
   BodyPartItemInheritsSkinColor: 0
   LobbyCustomisation: {fileID: 0}
   optionalOrgans: []
@@ -886,13 +665,13 @@ MonoBehaviour:
   DamageContributesToOverallHealth: 1
   maxHealth: 100
   Severity: 50
---- !u!114 &5951213959168842015
+--- !u!114 &864614550012001968
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3390955108080355248}
+  m_GameObject: {fileID: 1852908659077902804}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
@@ -914,13 +693,13 @@ MonoBehaviour:
   initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}
---- !u!114 &6876617490341429878
+--- !u!114 &1396869932539042377
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3390955108080355248}
+  m_GameObject: {fileID: 1852908659077902804}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fed226d36f0fdcd40a51a7bfbf8fb6d1, type: 3}
@@ -952,13 +731,13 @@ MonoBehaviour:
   possibleTransferAmounts: []
   transferAmount: 20
   transferSound: []
---- !u!114 &1537209143796118022
+--- !u!114 &590695806993203708
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3390955108080355248}
+  m_GameObject: {fileID: 1852908659077902804}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a9ebd1817f5f0547a70d4591eca98a7, type: 3}
@@ -970,13 +749,13 @@ MonoBehaviour:
   RelatedPart: {fileID: 0}
   Throughput: 1
   bloodReagent: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
---- !u!114 &5408452356859169894
+--- !u!114 &8407752869404832254
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3390955108080355248}
+  m_GameObject: {fileID: 1852908659077902804}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49e8d56bad352cc47925df17616dded1, type: 3}
@@ -989,13 +768,13 @@ MonoBehaviour:
   ReagentMetabolism: 0.2
   reagentCirculatedComponent: {fileID: 0}
   saturationComponent: {fileID: 0}
---- !u!114 &6107333273918791901
+--- !u!114 &6349773091964697954
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3390955108080355248}
+  m_GameObject: {fileID: 1852908659077902804}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c78758cf40985e84692bbc8a9860e432, type: 3}
@@ -1011,13 +790,13 @@ MonoBehaviour:
   reagentCirculatedComponent: {fileID: 0}
   currentBloodSaturation: 0
   isNotBloodReagentConsumed: 0
---- !u!114 &1341135027821068602
+--- !u!114 &648080570646748088
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3390955108080355248}
+  m_GameObject: {fileID: 1852908659077902804}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a35915b45cb54b97bc3c38a21c1d3209, type: 3}
@@ -1028,18 +807,18 @@ MonoBehaviour:
   syncInterval: 0.1
   RelatedPart: {fileID: 0}
   traumaTypesOnBodyPart:
-  - {fileID: 7383713670251860361}
-  - {fileID: 8248841212523691251}
-  - {fileID: 5660903990923956462}
-  - {fileID: 7130214814230728721}
-  - {fileID: 2657042528275253263}
---- !u!114 &1862328382113121957
+  - {fileID: 3825121465198119425}
+  - {fileID: 7294986243746475439}
+  - {fileID: 770107082060292121}
+  - {fileID: 2014228503727607586}
+  - {fileID: 630078751080440815}
+--- !u!114 &5218865679741390445
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3390955108080355248}
+  m_GameObject: {fileID: 1852908659077902804}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 132a8f200f593b24cb7bc31ef84a253c, type: 3}
@@ -1053,13 +832,13 @@ MonoBehaviour:
   HealingNutrimentMultiplier: 2
   HungerState: 1
   reagentCirculatedComponent: {fileID: 0}
---- !u!114 &1281815577941568872
+--- !u!114 &2377131400876141910
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3390955108080355248}
+  m_GameObject: {fileID: 1852908659077902804}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8688576ed720a4f40b3583f62adeeb23, type: 3}
@@ -1070,13 +849,13 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 82692ea8680693d459ad97993dbda0f3, type: 2}
     - {fileID: 11400000, guid: 3afb1893f74fb775d806cbc4563ed1e7, type: 2}
     m_values: 0a00000005000000
---- !u!114 &6145640472686184784
+--- !u!114 &4395245057802102787
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3390955108080355248}
+  m_GameObject: {fileID: 1852908659077902804}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 73c8a0e70c3343fd9c7d764c28769377, type: 3}
@@ -1087,16 +866,16 @@ MonoBehaviour:
   syncInterval: 0.1
   RelatedPart: {fileID: 0}
   walkingSpeed: 2
-  runningSpeed: 4
+  runningSpeed: 3
   crawlingSpeed: 0.024
   initialLimbEfficiency: 1
---- !u!114 &3840939781715121677
+--- !u!114 &1837811831782079204
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3390955108080355248}
+  m_GameObject: {fileID: 1852908659077902804}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
@@ -1117,19 +896,19 @@ MonoBehaviour:
   SetSlotItemNotRemovableOnStartUp: 0
   initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 0}
---- !u!114 &324598669486788300
+--- !u!114 &8158912749797370943
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3390955108080355248}
+  m_GameObject: {fileID: 1852908659077902804}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe56a83532907c141b7592eead8f0641, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  relatedStorage: {fileID: 3840939781715121677}
+  relatedStorage: {fileID: 1837811831782079204}
   storage:
   - NotPresentOnUI: 0
     SlotArea: 4
@@ -1143,7 +922,7 @@ MonoBehaviour:
       CategoryID: Feet1
       ConditionalParameter: 1
       XAmountConditional: 2
---- !u!1 &7825709781077043151
+--- !u!1 &2144395403905897284
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1151,55 +930,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4166853022374999610}
-  - component: {fileID: 991371617287576211}
-  m_Layer: 10
-  m_Name: TraumaEffects
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4166853022374999610
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7825709781077043151}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2548101303269265362}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &991371617287576211
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7825709781077043151}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6307023e0a54eb58850270b22920235, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bodyPart: {fileID: 8561759620041897298}
-  minimumDamageRequired: 8
---- !u!1 &9139667098114409636
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3550376855802295674}
-  - component: {fileID: 5095808523669587148}
-  - component: {fileID: 1883541294713679368}
+  - component: {fileID: 30555192223923183}
+  - component: {fileID: 2063252814926566883}
+  - component: {fileID: 1108747110888889887}
   m_Layer: 10
   m_Name: Sprite
   m_TagString: Untagged
@@ -1207,28 +940,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3550376855802295674
+--- !u!4 &30555192223923183
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9139667098114409636}
+  m_GameObject: {fileID: 2144395403905897284}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2548101303269265362}
+  m_Father: {fileID: 6732837271303102852}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &5095808523669587148
+--- !u!212 &2063252814926566883
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9139667098114409636}
+  m_GameObject: {fileID: 2144395403905897284}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -1266,7 +999,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 40
-  m_Sprite: {fileID: 21300000, guid: 403a3aabbddb21648a5bfdce837e11a8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5df8e60d40d9a1847bc62acb9cd5d810, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1277,13 +1010,13 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1883541294713679368
+--- !u!114 &1108747110888889887
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9139667098114409636}
+  m_GameObject: {fileID: 2144395403905897284}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
@@ -1291,10 +1024,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  InitialPresentSpriteSet: {fileID: 11400000, guid: 901c1f6615fcfd94597e331012dacafd,
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 19c90f6653fa2604e8b0401e19133790,
     type: 2}
   randomInitialSprite: 0
-  spriteRenderer: {fileID: 0}
+  spriteRenderer: {fileID: 2063252814926566883}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -1302,3 +1035,269 @@ MonoBehaviour:
   palette: []
   initialSortingOrder: -1
   initialSortingLayerName: 
+--- !u!1 &3354353063868222266
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2068478950425074247}
+  - component: {fileID: 3444363664951839321}
+  m_Layer: 10
+  m_Name: TraumaEffects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2068478950425074247
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3354353063868222266}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6732837271303102852}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3444363664951839321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3354353063868222266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6307023e0a54eb58850270b22920235, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bodyPart: {fileID: 9096035748460485483}
+  minimumDamageRequired: 8
+--- !u!1 &8594692119533814580
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2711568337975966340}
+  - component: {fileID: 3825121465198119425}
+  - component: {fileID: 7294986243746475439}
+  - component: {fileID: 770107082060292121}
+  - component: {fileID: 2014228503727607586}
+  - component: {fileID: 630078751080440815}
+  m_Layer: 10
+  m_Name: Traumas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2711568337975966340
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8594692119533814580}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6732837271303102852}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3825121465198119425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8594692119533814580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f6beaddc22e42f485e6e754bba9cb9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <traumaTypes>k__BackingField: 4
+  deadlyDamageInOneHit: 55
+  bodyPart: {fileID: 9096035748460485483}
+  onTakeDamageSounds:
+  - AssetAddress: Assets/Prefabs/Effects/wounds/sizzle1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - AssetAddress: Assets/Prefabs/Effects/wounds/sizzle1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  playTraumaNoise: 1
+  stages:
+    m_keys: 01000000020000000300000004000000
+    m_values: 320000007d00000096000000c8000000
+  bodyPartColorWhenCharred: {r: 0.24528301, g: 0.07762121, b: 0, a: 1}
+  bodyPartColorWhenSecondDegreeBurns: {r: 0.6981132, g: 0.38527945, b: 0.38527945,
+    a: 1}
+  bodyPartColorWhenThirdBurns: {r: 0.8773585, g: 0.1779548, b: 0.28664598, a: 1}
+--- !u!114 &7294986243746475439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8594692119533814580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbefa1dc9397413d843f8aa0aa0e9a2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <traumaTypes>k__BackingField: 1
+  deadlyDamageInOneHit: 55
+  bodyPart: {fileID: 9096035748460485483}
+  onTakeDamageSounds:
+  - AssetAddress: Assets/Prefabs/Effects/wounds/blood1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - AssetAddress: Assets/Prefabs/Effects/wounds/blood2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - AssetAddress: Assets/Prefabs/Effects/wounds/blood3.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  playTraumaNoise: 1
+  stages:
+    m_keys: 01000000020000000300000004000000
+    m_values: 230000007d000000af000000fa000000
+  minimumDamageToProgressStages: 16
+  healingTimeFirstStage: 20
+  healingTimeSecondStage: 60
+--- !u!114 &770107082060292121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8594692119533814580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f4811d9f15647899e17db8b443f43ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <traumaTypes>k__BackingField: 8
+  deadlyDamageInOneHit: 55
+  bodyPart: {fileID: 9096035748460485483}
+  onTakeDamageSounds:
+  - AssetAddress: Assets/Prefabs/Effects/wounds/crack1.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - AssetAddress: Assets/Prefabs/Effects/wounds/crack2.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  playTraumaNoise: 1
+  stages:
+    m_keys: 010000000200000003000000
+    m_values: 41000000730000009b000000
+  minimumDamage: 14
+  internalDamagePerStage:
+    m_keys: 010000000200000003000000
+    m_values:
+    - Damage: 3
+      TimeForDamage: 45
+    - Damage: 6
+      TimeForDamage: 25
+    - Damage: 8
+      TimeForDamage: 18
+--- !u!114 &2014228503727607586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8594692119533814580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81e8c75aad164fdaae489c366f3c1a77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <traumaTypes>k__BackingField: 2
+  deadlyDamageInOneHit: 55
+  bodyPart: {fileID: 9096035748460485483}
+  onTakeDamageSounds:
+  - AssetAddress: Assets/Prefabs/Effects/wounds/crackandbleed.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  playTraumaNoise: 1
+  stages:
+    m_keys: 010000000200000003000000
+    m_values: 2300000091000000c8000000
+  minimumDamageToProgressStages: 16
+  healingTimeFirstStage: 15
+  healingTimeSecondStage: 45
+--- !u!114 &630078751080440815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8594692119533814580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0b6f9c8a1b04979a8bbf068f12f703a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <traumaTypes>k__BackingField: 0
+  deadlyDamageInOneHit: 65
+  bodyPart: {fileID: 9096035748460485483}
+  onTakeDamageSounds:
+  - AssetAddress: Assets/Prefabs/Effects/wounds/crackandbleed.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  playTraumaNoise: 1
+  stages:
+    m_keys: 01000000
+    m_values: 41000000
+  juddgerResistence: 12
