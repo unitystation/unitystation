@@ -144,11 +144,7 @@ GameObject:
   - component: {fileID: 6707030517574008012}
   - component: {fileID: 8024857237178113389}
   - component: {fileID: 4545535388637668072}
-  - component: {fileID: 6259794438990900323}
-  - component: {fileID: 5182092815546103682}
-  - component: {fileID: 2001340773145763963}
   - component: {fileID: 8487662831144965116}
-  - component: {fileID: 4450754132925654710}
   - component: {fileID: 2859684190708692452}
   - component: {fileID: 6569637085981806810}
   - component: {fileID: 1134813588633635910}
@@ -1027,8 +1023,7 @@ MonoBehaviour:
       ReplacementStrategy: 0
       namedSlotPopulatorEntrys: []
     - DoNotGetFirstEmptySlot: 0
-      Prefab: {fileID: 174840935956465806, guid: f7bfb4c96bfd75240b712bdad9f69379,
-        type: 3}
+      Prefab: {fileID: 0}
       StackableAmount: 0
       UseIndex: 0
       IndexSlot: 0
@@ -1038,8 +1033,7 @@ MonoBehaviour:
       ReplacementStrategy: 0
       namedSlotPopulatorEntrys: []
     - DoNotGetFirstEmptySlot: 0
-      Prefab: {fileID: 174840935956465806, guid: f7bfb4c96bfd75240b712bdad9f69379,
-        type: 3}
+      Prefab: {fileID: 0}
       StackableAmount: 0
       UseIndex: 0
       IndexSlot: 0
@@ -1141,65 +1135,6 @@ MonoBehaviour:
   possibleTransferAmounts: []
   transferAmount: 20
   transferSound: []
---- !u!114 &6259794438990900323
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3250516129481264533}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a9ebd1817f5f0547a70d4591eca98a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  Throughput: 1
-  bloodReagent: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
---- !u!114 &5182092815546103682
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3250516129481264533}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49e8d56bad352cc47925df17616dded1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  ReagentMetabolism: 0.2
-  reagentCirculatedComponent: {fileID: 0}
-  saturationComponent: {fileID: 0}
---- !u!114 &2001340773145763963
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3250516129481264533}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c78758cf40985e84692bbc8a9860e432, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  requiredReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
-  wasteReagent: {fileID: 11400000, guid: 2a39c514112f198858f2c7407b75d8c4, type: 2}
-  bloodReagentConsumedPercentageb: 0.5
-  reagentCirculatedComponent: {fileID: 0}
-  currentBloodSaturation: 0
-  isNotBloodReagentConsumed: 0
 --- !u!114 &8487662831144965116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1222,26 +1157,6 @@ MonoBehaviour:
   - {fileID: 4605167161400643358}
   - {fileID: 5487671123392512740}
   - {fileID: 2941499536311191685}
---- !u!114 &4450754132925654710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3250516129481264533}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 132a8f200f593b24cb7bc31ef84a253c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  Nutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
-  HealingNutrimentMultiplier: 2
-  HungerState: 1
-  reagentCirculatedComponent: {fileID: 0}
 --- !u!114 &2859684190708692452
 MonoBehaviour:
   m_ObjectHideFlags: 0

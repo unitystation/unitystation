@@ -27,7 +27,5 @@ namespace HealthV2.Living.PolymorphicSystems.Bodypart
 				bloodReagent = AssociatedSystem.bloodReagent;
 			}
 		}
-
-
 	}
 }
