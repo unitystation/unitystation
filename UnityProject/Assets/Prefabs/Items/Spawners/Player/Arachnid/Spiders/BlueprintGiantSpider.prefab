@@ -1,0 +1,180 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6232194119582748077
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -1729072835972511318, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: nonImportantMind
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1729072835972511318, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: CharacterSheet.Name
+      value: Giant Spider
+      objectReference: {fileID: 0}
+    - target: {fileID: -1729072835972511318, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: CharacterSheet.AiName
+      value: SPIDER WEB
+      objectReference: {fileID: 0}
+    - target: {fileID: -1729072835972511318, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: CharacterSheet.Species
+      value: GiantSpider
+      objectReference: {fileID: 0}
+    - target: {fileID: -1729072835972511318, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: CharacterSheet.BagStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1729072835972511318, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: CharacterSheet.ClothingStyle
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -1729072835972511318, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: CharacterSheet.PlayerPronoun
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 520298877121306373, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 500638641922251379}
+    - target: {fileID: 660552017190180179, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b2f01ea70c7fe67449b793600277c437,
+        type: 3}
+    - target: {fileID: 775991059901622511, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: parentID
+      value: e4b3aaedc8dd9ee4092a8ca74ee86d7b
+      objectReference: {fileID: 0}
+    - target: {fileID: 775991059901622511, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: foreverID
+      value: BVGR5$NZPZjWXBff7RMK
+      objectReference: {fileID: 0}
+    - target: {fileID: 5805020867509229534, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: aab59a0f07ede8043ad41c425cffe0d8,
+        type: 3}
+    - target: {fileID: 5939654197155682806, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5939654197155682806, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5939654197155682806, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5939654197155682806, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5939654197155682806, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5939654197155682806, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5939654197155682806, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5939654197155682806, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5939654197155682806, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5939654197155682806, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5944300870768993410, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: m_Name
+      value: BlueprintGiantSpider
+      objectReference: {fileID: 0}
+    - target: {fileID: 6046737524137990454, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: _assetId
+      value: 1103311994
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964805003572023560, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964805003572023560, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964805003572023560, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964805003572023560, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9166297599979345829, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 6870226969733880062}
+    - target: {fileID: 9166297599979345829, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ead6d6cf7b85ed043aa6c5d84fe61fb3,
+        type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b, type: 3}
+--- !u!212 &500638641922251379 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5805020867509229534, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+    type: 3}
+  m_PrefabInstance: {fileID: 6232194119582748077}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &6870226969733880062 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 660552017190180179, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+    type: 3}
+  m_PrefabInstance: {fileID: 6232194119582748077}
+  m_PrefabAsset: {fileID: 0}
