@@ -1,0 +1,115 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2688387114879211667
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1318986182125683303, guid: 21c964837876b9449b3251d4cc88dee4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e0e574f9ad5fe5241ad982c13bfbe993,
+        type: 3}
+    - target: {fileID: 1569000016430172753, guid: 21c964837876b9449b3251d4cc88dee4,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 4b0ad4e40673b7c4190417de5fc10158,
+        type: 2}
+    - target: {fileID: 3250516129481264533, guid: 21c964837876b9449b3251d4cc88dee4,
+        type: 3}
+      propertyPath: m_Name
+      value: GiantSpider-Torso-Hunter
+      objectReference: {fileID: 0}
+    - target: {fileID: 5633680408796000961, guid: 21c964837876b9449b3251d4cc88dee4,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5633680408796000961, guid: 21c964837876b9449b3251d4cc88dee4,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5633680408796000961, guid: 21c964837876b9449b3251d4cc88dee4,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5633680408796000961, guid: 21c964837876b9449b3251d4cc88dee4,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5633680408796000961, guid: 21c964837876b9449b3251d4cc88dee4,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5633680408796000961, guid: 21c964837876b9449b3251d4cc88dee4,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5633680408796000961, guid: 21c964837876b9449b3251d4cc88dee4,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5633680408796000961, guid: 21c964837876b9449b3251d4cc88dee4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5633680408796000961, guid: 21c964837876b9449b3251d4cc88dee4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5633680408796000961, guid: 21c964837876b9449b3251d4cc88dee4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6453276588694272727, guid: 21c964837876b9449b3251d4cc88dee4,
+        type: 3}
+      propertyPath: parentID
+      value: 21c964837876b9449b3251d4cc88dee4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6453276588694272727, guid: 21c964837876b9449b3251d4cc88dee4,
+        type: 3}
+      propertyPath: foreverID
+      value: c7a0acc5d7d69f242a70be71bb622bd6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6707030517574008012, guid: 21c964837876b9449b3251d4cc88dee4,
+        type: 3}
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 6cce62561d4295944af54d3c4cc97549,
+        type: 2}
+    - target: {fileID: 6707030517574008012, guid: 21c964837876b9449b3251d4cc88dee4,
+        type: 3}
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[1].Sprites.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 6cce62561d4295944af54d3c4cc97549,
+        type: 2}
+    - target: {fileID: 6707030517574008012, guid: 21c964837876b9449b3251d4cc88dee4,
+        type: 3}
+      propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[2].Sprites.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 6cce62561d4295944af54d3c4cc97549,
+        type: 2}
+    - target: {fileID: 7203886055180484771, guid: 21c964837876b9449b3251d4cc88dee4,
+        type: 3}
+      propertyPath: _assetId
+      value: 4279331202
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 21c964837876b9449b3251d4cc88dee4, type: 3}
