@@ -47,17 +47,17 @@ namespace UI.AdminTools
 			if (CommonInput.GetMouseButtonDown(0))
 			{
 				var hits = MouseUtils.GetOrderedObjectsUnderMouse(layerMask,
-					go => go.GetComponent<UniversalObjectPhysics>() != null, useMappedItems : DevCameraControls.Instance.MappingItemState);
-				if (hits.Any())
+					go => go.GetComponent<UniversalObjectPhysics>() != null, useMappedItems : DevCameraControls.Instance.MappingItemState).ToArray();
+				if (hits.Any() == false) return;
+				var target = hits.First().GetComponentInParent<UniversalObjectPhysics>().gameObject;
+				if (target == null) return;
+				if (CustomNetworkManager.IsServer)
 				{
-					if (CustomNetworkManager.IsServer)
-					{
-						_ = Despawn.ServerSingle(hits.First().GetComponentInParent<UniversalObjectPhysics>().gameObject);
-					}
-					else
-					{
-						DevDestroyMessage.Send(hits.First().GetComponentInParent<UniversalObjectPhysics>().gameObject);
-					}
+					_ = Despawn.ServerSingle(target);
+				}
+				else
+				{
+					DevDestroyMessage.Send(target);
 				}
 			}
 		}

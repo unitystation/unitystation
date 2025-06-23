@@ -111582,6 +111582,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "ForensicsLockers"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -129858,7 +129874,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Armory"
                     }
                   ]
                 },
@@ -132813,6 +132829,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -132868,6 +132900,22 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -132964,15 +133012,6 @@
                       "Data": "29107a3e6fd05d34c864ad077d34bafc_81┼88┼0┼@0@DoorMasterController@0"
                     }
                   ]
-                },
-                {
-                  "ClassID": "ClearanceRestricted@0",
-                  "Data": [
-                    {
-                      "Name": "requiredClearance#0",
-                      "Data": "Security"
-                    }
-                  ]
                 }
               ]
             }
@@ -132991,6 +133030,22 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_85┼94┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -133077,15 +133132,6 @@
                       "Data": "29107a3e6fd05d34c864ad077d34bafc_81┼92┼0┼@0@DoorMasterController@0"
                     }
                   ]
-                },
-                {
-                  "ClassID": "ClearanceRestricted@0",
-                  "Data": [
-                    {
-                      "Name": "requiredClearance#0",
-                      "Data": "Security"
-                    }
-                  ]
                 }
               ]
             }
@@ -133104,6 +133150,22 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_85┼94┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -135147,7 +135209,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Brig"
+                          "Data": "SecDoors"
                         }
                       ]
                     }
@@ -135221,7 +135283,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Brig"
+                          "Data": "SecDoors"
                         }
                       ]
                     }
@@ -137200,7 +137262,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Brig"
+                          "Data": "Security"
                         }
                       ]
                     }
@@ -137261,15 +137323,6 @@
                       "Data": "29107a3e6fd05d34c864ad077d34bafc_85┼88┼0┼@0@DoorMasterController@0"
                     }
                   ]
-                },
-                {
-                  "ClassID": "ClearanceRestricted@0",
-                  "Data": [
-                    {
-                      "Name": "requiredClearance#0",
-                      "Data": "Security"
-                    }
-                  ]
                 }
               ]
             }
@@ -137288,6 +137341,22 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_85┼94┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -137374,15 +137443,6 @@
                       "Data": "29107a3e6fd05d34c864ad077d34bafc_85┼92┼0┼@0@DoorMasterController@0"
                     }
                   ]
-                },
-                {
-                  "ClassID": "ClearanceRestricted@0",
-                  "Data": [
-                    {
-                      "Name": "requiredClearance#0",
-                      "Data": "Security"
-                    }
-                  ]
                 }
               ]
             }
@@ -137401,6 +137461,22 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_85┼94┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -160339,7 +160415,7 @@
           {
             "GitID": "157fcff274a3644448d1ff3bdc019619_112┼81┼0┼",
             "PrefabID": "157fcff274a3644448d1ff3bdc019619",
-            "Name": "DirectionalWindow (2)",
+            "Name": "DirectionalWindow (4)",
             "LocalPRS": "112┼81┼0┼",
             "Object": {
               "ClassDatas": [
@@ -160374,8 +160450,7 @@
           {
             "GitID": "1a00e842e154f7d43811c5d45328988c_112┼81┼0┼",
             "PrefabID": "1a00e842e154f7d43811c5d45328988c",
-            "NameMatches": true,
-            "Name": "Chair",
+            "Name": "Chair (1)",
             "LocalPRS": "112┼81┼0┼",
             "Object": {
               "ClassDatas": [
@@ -160410,7 +160485,7 @@
           {
             "GitID": "157fcff274a3644448d1ff3bdc019619_112┼82┼0┼",
             "PrefabID": "157fcff274a3644448d1ff3bdc019619",
-            "Name": "DirectionalWindow (1)",
+            "Name": "DirectionalWindow (5)",
             "LocalPRS": "112┼82┼0┼",
             "Object": {
               "ClassDatas": [
@@ -160445,8 +160520,7 @@
           {
             "GitID": "1a00e842e154f7d43811c5d45328988c_112┼82┼0┼",
             "PrefabID": "1a00e842e154f7d43811c5d45328988c",
-            "NameMatches": true,
-            "Name": "Chair",
+            "Name": "Chair (2)",
             "LocalPRS": "112┼82┼0┼",
             "Object": {
               "ClassDatas": [
@@ -160481,8 +160555,7 @@
           {
             "GitID": "157fcff274a3644448d1ff3bdc019619_112┼83┼0┼",
             "PrefabID": "157fcff274a3644448d1ff3bdc019619",
-            "NameMatches": true,
-            "Name": "DirectionalWindow",
+            "Name": "DirectionalWindow (6)",
             "LocalPRS": "112┼83┼0┼",
             "Object": {
               "ClassDatas": [
@@ -160517,7 +160590,7 @@
           {
             "GitID": "1a00e842e154f7d43811c5d45328988c_112┼83┼0┼",
             "PrefabID": "1a00e842e154f7d43811c5d45328988c",
-            "Name": "Chair (1)",
+            "Name": "Chair (3)",
             "LocalPRS": "112┼83┼0┼",
             "Object": {
               "ClassDatas": [
@@ -160944,7 +161017,7 @@
           {
             "GitID": "157fcff274a3644448d1ff3bdc019619_113┼80┼0┼",
             "PrefabID": "157fcff274a3644448d1ff3bdc019619",
-            "Name": "DirectionalWindow (9)",
+            "Name": "DirectionalWindow (7)",
             "LocalPRS": "113┼80┼0┼",
             "Object": {
               "ClassDatas": [
@@ -160979,7 +161052,7 @@
           {
             "GitID": "1a00e842e154f7d43811c5d45328988c_113┼80┼0┼",
             "PrefabID": "1a00e842e154f7d43811c5d45328988c",
-            "Name": "Chair (6)",
+            "Name": "Chair (4)",
             "LocalPRS": "113┼80┼0┼",
             "Object": {
               "ClassDatas": [
@@ -161014,7 +161087,7 @@
           {
             "GitID": "157fcff274a3644448d1ff3bdc019619_113┼81┼0┼",
             "PrefabID": "157fcff274a3644448d1ff3bdc019619",
-            "Name": "DirectionalWindow (11)",
+            "Name": "DirectionalWindow (08)",
             "LocalPRS": "113┼81┼0┼",
             "Object": {
               "ClassDatas": [
@@ -161049,7 +161122,7 @@
           {
             "GitID": "1a00e842e154f7d43811c5d45328988c_113┼81┼0┼",
             "PrefabID": "1a00e842e154f7d43811c5d45328988c",
-            "Name": "Chair (7)",
+            "Name": "Chair (5)",
             "LocalPRS": "113┼81┼0┼",
             "Object": {
               "ClassDatas": [
@@ -161084,7 +161157,7 @@
           {
             "GitID": "157fcff274a3644448d1ff3bdc019619_113┼82┼0┼",
             "PrefabID": "157fcff274a3644448d1ff3bdc019619",
-            "Name": "DirectionalWindow (8)",
+            "Name": "DirectionalWindow (9)",
             "LocalPRS": "113┼82┼0┼",
             "Object": {
               "ClassDatas": [
@@ -161119,7 +161192,7 @@
           {
             "GitID": "1a00e842e154f7d43811c5d45328988c_113┼82┼0┼",
             "PrefabID": "1a00e842e154f7d43811c5d45328988c",
-            "Name": "Chair (8)",
+            "Name": "Chair (6)",
             "LocalPRS": "113┼82┼0┼",
             "Object": {
               "ClassDatas": [
@@ -161189,7 +161262,7 @@
           {
             "GitID": "1a00e842e154f7d43811c5d45328988c_113┼83┼0┼",
             "PrefabID": "1a00e842e154f7d43811c5d45328988c",
-            "Name": "Chair (9)",
+            "Name": "Chair (7)",
             "LocalPRS": "113┼83┼0┼",
             "Object": {
               "ClassDatas": [
@@ -161859,7 +161932,7 @@
           {
             "GitID": "157fcff274a3644448d1ff3bdc019619_114┼80┼0┼",
             "PrefabID": "157fcff274a3644448d1ff3bdc019619",
-            "Name": "DirectionalWindow (5)",
+            "Name": "DirectionalWindow (11)",
             "LocalPRS": "114┼80┼0┼",
             "Object": {
               "ClassDatas": [
@@ -161894,7 +161967,7 @@
           {
             "GitID": "1a00e842e154f7d43811c5d45328988c_114┼80┼0┼",
             "PrefabID": "1a00e842e154f7d43811c5d45328988c",
-            "Name": "Chair (2)",
+            "Name": "Chair (8)",
             "LocalPRS": "114┼80┼0┼",
             "Object": {
               "ClassDatas": [
@@ -161929,7 +162002,7 @@
           {
             "GitID": "157fcff274a3644448d1ff3bdc019619_114┼81┼0┼",
             "PrefabID": "157fcff274a3644448d1ff3bdc019619",
-            "Name": "DirectionalWindow (7)",
+            "Name": "DirectionalWindow (12)",
             "LocalPRS": "114┼81┼0┼",
             "Object": {
               "ClassDatas": [
@@ -161964,7 +162037,7 @@
           {
             "GitID": "1a00e842e154f7d43811c5d45328988c_114┼81┼0┼",
             "PrefabID": "1a00e842e154f7d43811c5d45328988c",
-            "Name": "Chair (3)",
+            "Name": "Chair (9)",
             "LocalPRS": "114┼81┼0┼",
             "Object": {
               "ClassDatas": [
@@ -161999,7 +162072,7 @@
           {
             "GitID": "157fcff274a3644448d1ff3bdc019619_114┼82┼0┼",
             "PrefabID": "157fcff274a3644448d1ff3bdc019619",
-            "Name": "DirectionalWindow (4)",
+            "Name": "DirectionalWindow (13)",
             "LocalPRS": "114┼82┼0┼",
             "Object": {
               "ClassDatas": [
@@ -162034,7 +162107,7 @@
           {
             "GitID": "1a00e842e154f7d43811c5d45328988c_114┼82┼0┼",
             "PrefabID": "1a00e842e154f7d43811c5d45328988c",
-            "Name": "Chair (4)",
+            "Name": "Chair (10)",
             "LocalPRS": "114┼82┼0┼",
             "Object": {
               "ClassDatas": [
@@ -162069,7 +162142,7 @@
           {
             "GitID": "157fcff274a3644448d1ff3bdc019619_114┼83┼0┼",
             "PrefabID": "157fcff274a3644448d1ff3bdc019619",
-            "Name": "DirectionalWindow (6)",
+            "Name": "DirectionalWindow (14)",
             "LocalPRS": "114┼83┼0┼",
             "Object": {
               "ClassDatas": [
@@ -162104,7 +162177,7 @@
           {
             "GitID": "1a00e842e154f7d43811c5d45328988c_114┼83┼0┼",
             "PrefabID": "1a00e842e154f7d43811c5d45328988c",
-            "Name": "Chair (5)",
+            "Name": "Chair (11)",
             "LocalPRS": "114┼83┼0┼",
             "Object": {
               "ClassDatas": [
@@ -162568,7 +162641,7 @@
           {
             "GitID": "157fcff274a3644448d1ff3bdc019619_115┼80┼0┼",
             "PrefabID": "157fcff274a3644448d1ff3bdc019619",
-            "Name": "DirectionalWindow (13)",
+            "Name": "DirectionalWindow (15)",
             "LocalPRS": "115┼80┼0┼",
             "Object": {
               "ClassDatas": [
@@ -162603,7 +162676,7 @@
           {
             "GitID": "1a00e842e154f7d43811c5d45328988c_115┼80┼0┼",
             "PrefabID": "1a00e842e154f7d43811c5d45328988c",
-            "Name": "Chair (10)",
+            "Name": "Chair (12)",
             "LocalPRS": "115┼80┼0┼",
             "Object": {
               "ClassDatas": [
@@ -162638,7 +162711,7 @@
           {
             "GitID": "157fcff274a3644448d1ff3bdc019619_115┼81┼0┼",
             "PrefabID": "157fcff274a3644448d1ff3bdc019619",
-            "Name": "DirectionalWindow (15)",
+            "Name": "DirectionalWindow (16)",
             "LocalPRS": "115┼81┼0┼",
             "Object": {
               "ClassDatas": [
@@ -162673,7 +162746,7 @@
           {
             "GitID": "1a00e842e154f7d43811c5d45328988c_115┼81┼0┼",
             "PrefabID": "1a00e842e154f7d43811c5d45328988c",
-            "Name": "Chair (11)",
+            "Name": "Chair (13)",
             "LocalPRS": "115┼81┼0┼",
             "Object": {
               "ClassDatas": [
@@ -162708,7 +162781,7 @@
           {
             "GitID": "157fcff274a3644448d1ff3bdc019619_115┼82┼0┼",
             "PrefabID": "157fcff274a3644448d1ff3bdc019619",
-            "Name": "DirectionalWindow (12)",
+            "Name": "DirectionalWindow (17)",
             "LocalPRS": "115┼82┼0┼",
             "Object": {
               "ClassDatas": [
@@ -162743,7 +162816,7 @@
           {
             "GitID": "1a00e842e154f7d43811c5d45328988c_115┼82┼0┼",
             "PrefabID": "1a00e842e154f7d43811c5d45328988c",
-            "Name": "Chair (12)",
+            "Name": "Chair (14)",
             "LocalPRS": "115┼82┼0┼",
             "Object": {
               "ClassDatas": [
@@ -162778,7 +162851,7 @@
           {
             "GitID": "157fcff274a3644448d1ff3bdc019619_115┼83┼0┼",
             "PrefabID": "157fcff274a3644448d1ff3bdc019619",
-            "Name": "DirectionalWindow (14)",
+            "Name": "DirectionalWindow (18)",
             "LocalPRS": "115┼83┼0┼",
             "Object": {
               "ClassDatas": [
@@ -162813,7 +162886,7 @@
           {
             "GitID": "1a00e842e154f7d43811c5d45328988c_115┼83┼0┼",
             "PrefabID": "1a00e842e154f7d43811c5d45328988c",
-            "Name": "Chair (13)",
+            "Name": "Chair (15)",
             "LocalPRS": "115┼83┼0┼",
             "Object": {
               "ClassDatas": [

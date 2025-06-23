@@ -90368,6 +90368,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "ForensicsLockers"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -93630,6 +93646,22 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_-9┼30┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -103792,22 +103824,6 @@
                     }
                   ]
                 }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "Security"
-                        }
-                      ]
-                    }
-                  ]
-                }
               ]
             }
           },
@@ -104789,15 +104805,6 @@
                     {
                       "Name": "channel",
                       "Data": "DoorTimer"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "ClearanceRestricted@0",
-                  "Data": [
-                    {
-                      "Name": "requiredClearance#0",
-                      "Data": "Security"
                     }
                   ]
                 }
@@ -107540,22 +107547,6 @@
                     }
                   ]
                 }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "Security"
-                        }
-                      ]
-                    }
-                  ]
-                }
               ]
             }
           },
@@ -108325,15 +108316,6 @@
                     {
                       "Name": "channel",
                       "Data": "DoorTimer"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "ClearanceRestricted@0",
-                  "Data": [
-                    {
-                      "Name": "requiredClearance#0",
-                      "Data": "Security"
                     }
                   ]
                 }
@@ -131416,6 +131398,19 @@
                   ]
                 },
                 {
+                  "ClassID": "ClearanceRestricted@0",
+                  "Data": [
+                    {
+                      "Name": "requiredClearance#1",
+                      "Data": "Security"
+                    },
+                    {
+                      "Name": "requiredClearance#0",
+                      "Data": "Heads"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "DoorSwitch@0",
                   "Data": [
                     {
@@ -131521,6 +131516,19 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Up_By0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ClearanceRestricted@0",
+                  "Data": [
+                    {
+                      "Name": "requiredClearance#1",
+                      "Data": "Security"
+                    },
+                    {
+                      "Name": "requiredClearance#0",
+                      "Data": "Heads"
                     }
                   ]
                 },
@@ -300710,6 +300718,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -301039,6 +301063,22 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_63┼104┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -301617,6 +301657,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -301633,6 +301689,22 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_63┼104┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -303515,7 +303587,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Security"
+                          "Data": "Brig"
                         }
                       ]
                     }
@@ -303735,7 +303807,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Security"
+                          "Data": "Brig"
                         }
                       ]
                     }

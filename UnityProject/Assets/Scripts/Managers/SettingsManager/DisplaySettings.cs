@@ -399,7 +399,7 @@ namespace Managers.SettingsManager
 		//TODO: Resolution options: issues #2047 #4107
 
 		public static string UISCALE_KEY = "uiscale";
-		public static float UISCALE_DEFAULT = 0.85f;
+		public static Vector2 UISCALE_DEFAULT = new Vector2(2560, 1440);
 
 		public event EventHandler<DisplaySettingsChangedEventArgs> SettingsChanged;
 		protected virtual void OnSettingsChanged(DisplaySettingsChangedEventArgs e)
@@ -412,7 +412,11 @@ namespace Managers.SettingsManager
 		{
 			base.Awake();
 			IsFullScreen = Screen.fullScreen;
-			UIManager.Instance.Scaler.scaleFactor = PlayerPrefs.GetFloat(UISCALE_KEY, UISCALE_DEFAULT);
+			Vector2 savedScale = new Vector2(
+				PlayerPrefs.GetInt(UISCALE_KEY + "x", (int)UISCALE_DEFAULT.x),
+				PlayerPrefs.GetInt(UISCALE_KEY + "y", (int)UISCALE_DEFAULT.y)
+			);
+			UIManager.Instance.Scaler.referenceResolution = savedScale;
 			SetupPrefs();
 		}
 

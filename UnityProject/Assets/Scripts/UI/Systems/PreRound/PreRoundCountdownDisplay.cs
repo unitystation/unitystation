@@ -10,6 +10,7 @@ namespace UI.Systems.PreRound
 	public class PreRoundCountdownDisplay : MonoBehaviour
 	{
 		[SerializeField] private TMP_Text countdownText = null;
+		[SerializeField] private TMP_Text statusText = null;
 
 		public bool doCountdown;
 		private double countdownEndTime;
@@ -30,7 +31,7 @@ namespace UI.Systems.PreRound
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateCountdownText);
 		}
 
-		public void UpdateCountdownText()
+		private void UpdateCountdownText()
 		{
 			if (countdownText == null)
 			{
@@ -41,7 +42,26 @@ namespace UI.Systems.PreRound
 			{
 				gameObject.SetActive(true);
 			}
-			countdownText.text = TimeSpan.FromSeconds(countdownEndTime - NetworkTime.time).ToString(@"mm\:ss");
+
+			double timeDiff = countdownEndTime - NetworkTime.time;
+			if (timeDiff >= 0)
+			{
+				// Counting down
+				UpdateStatusText("Next Shift in:");
+				countdownText.text = TimeSpan.FromSeconds(timeDiff).ToString(@"mm\:ss");
+			}
+			else
+			{
+				// Counting up
+				UpdateStatusText("Time Since Shift Started:");
+				countdownText.text = TimeSpan.FromSeconds(-timeDiff).ToString(@"mm\:ss");
+			}
+		}
+
+		private void UpdateStatusText(string status)
+		{
+			if (statusText == null) return;
+			statusText.text = status;
 		}
 
 		public void SyncCountdown(bool started, double endTime)
@@ -64,7 +84,6 @@ namespace UI.Systems.PreRound
 
 		private void OnCountdownEnd()
 		{
-			gameObject.SetActive(false);
 			IsCountingDown = false;
 			OnFinishedCountingDown?.Invoke();
 		}
