@@ -124,16 +124,16 @@ namespace Objects.Medical.Virology
 		private async UniTask AnimateButtonPress()
 		{
 			_isOnCooldown = true;
-			buttonSpriteHandler.SetSpriteVariant(2);
-			await UniTask.Delay(200);
 			buttonSpriteHandler.SetSpriteVariant(1);
+			await UniTask.Delay(200);
+			buttonSpriteHandler.SetSpriteVariant(2);
 			_isOnCooldown = false;
 		}
 
 		public void StateUpdate(PowerState state)
 		{
 			_currentPowerState = state;
-			buttonSpriteHandler.SetSpriteVariant(state != PowerState.On ? 0 : 1);
+			buttonSpriteHandler.SetSpriteVariant(state != PowerState.On ? 0 : 2);
 		}
 
 		public void PowerNetworkUpdate(float voltage)

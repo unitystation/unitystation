@@ -40,7 +40,7 @@ namespace Objects.Medical.Virology
 			if (loadSlideRegion.Contains(interaction.WorldPositionTarget))
 				parentAnalyzer.RequestLoadRemoveDish(interaction);
 			if (powerButtonRegion.Contains(interaction.WorldPositionTarget))
-				parentAnalyzer.RequestExamineDish();
+				parentAnalyzer.RequestExamineDish(interaction);
 		}
 	}
 }

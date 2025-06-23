@@ -53,15 +53,28 @@ namespace Objects.Medical.Virology
 			buttonSpriteHandler.SetSpriteVariant(0);
 		}
 
-		public void RequestExamineDish()
+		public void RequestExamineDish(Interaction interaction)
 		{
-			if (DishItemSlot.IsEmpty || CanExamineSample == false) return;
+			_ = AnimateButtonPress();
 
-			_activeSickness = null;
-			if(DishItemSlot.ItemObject.TryGetComponent<ReagentContainer>(out var container) == false) return;
+			if (_currentPowerState != PowerState.On)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"{gameObject.ExpensiveName()} is unpowered!");
+				return;
+			}
 
 			_ = SoundManager.PlayNetworkedAtPosAsync(machineBeepSound, objectPhysics.OfficialPosition);
-			_ = AnimateButtonPress();
+
+			_activeSickness = null;
+			if (CanExamineSample == false) return;
+			if (DishItemSlot.IsEmpty)
+			{
+				Chat.AddWarningMsgFromServer(interaction.Performer, "No pathogen sample in sequence analyser!");
+				return;
+			}
+
+
+			if(DishItemSlot.ItemObject.TryGetComponent<ReagentContainer>(out var container) == false) return;
 
 			StringBuilder machineDialogue = new StringBuilder();
 			foreach (KeyValuePair<Reagent, CureManager.Cure> curePair in CureManager.InitialisedSicknesses)
