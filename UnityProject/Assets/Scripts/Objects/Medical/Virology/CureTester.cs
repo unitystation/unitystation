@@ -12,7 +12,7 @@ using Systems.Electricity;
 
 namespace Objects.Medical.Virology
 {
-	public class CureTester : MonoBehaviour, IAPCPowerable, IMultitoolMasterable
+	public class CureTester : MonoBehaviour, IAPCPowerable, IMultitoolMasterable, IServerSpawn
 	{
 		private PowerState _currentPowerState;
 
@@ -40,6 +40,12 @@ namespace Objects.Medical.Virology
 			CureItemSlot = itemStorage.GetIndexedItemSlot(0);
 		}
 
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			sampleSpriteHandler.SetSpriteVariant(1);
+			buttonSpriteHandler.SetSpriteVariant(0);
+		}
+
 		public void RequestLoadRemoveItem(PositionalHandApply interaction, ItemTrait requiredTrait)
 		{
 			if (_currentPowerState != PowerState.On)
@@ -52,7 +58,7 @@ namespace Objects.Medical.Virology
 			{
 				Inventory.ServerTransfer(interaction.HandSlot, CureItemSlot, ReplacementStrategy.DropOther);
 
-				sampleSpriteHandler.SetSpriteVariant(1);
+				sampleSpriteHandler.SetSpriteVariant(0);
 				Chat.AddActionMsgToChat(interaction.Performer,
 						$"You place the {interaction.HandObject.ExpensiveName()} into the tester's primary slot.",
 						$"{interaction.Performer.ExpensiveName()} places the {interaction.HandObject.ExpensiveName()} into the tester's primary slot.");
@@ -61,7 +67,7 @@ namespace Objects.Medical.Virology
 			if (interaction.HandObject) return;
 
 			Inventory.ServerTransfer(CureItemSlot, interaction.HandSlot);
-			sampleSpriteHandler.SetSpriteVariant(0);
+			sampleSpriteHandler.SetSpriteVariant(1);
 		}
 
 		public void RequestExamineCure(PositionalHandApply interaction)
@@ -118,15 +124,16 @@ namespace Objects.Medical.Virology
 		private async UniTask AnimateButtonPress()
 		{
 			_isOnCooldown = true;
-			buttonSpriteHandler.SetSpriteVariant(1);
+			buttonSpriteHandler.SetSpriteVariant(2);
 			await UniTask.Delay(200);
-			buttonSpriteHandler.SetSpriteVariant(0);
+			buttonSpriteHandler.SetSpriteVariant(1);
 			_isOnCooldown = false;
 		}
 
 		public void StateUpdate(PowerState state)
 		{
 			_currentPowerState = state;
+			buttonSpriteHandler.SetSpriteVariant(state != PowerState.On ? 0 : 1);
 		}
 
 		public void PowerNetworkUpdate(float voltage)

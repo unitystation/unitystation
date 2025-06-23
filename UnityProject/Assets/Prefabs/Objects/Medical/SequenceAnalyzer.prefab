@@ -78,7 +78,8 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: 6d66da182248aa04ea885e8df6ffe332, type: 3}
+  m_Sprite: {fileID: 3813068863539753360, guid: 5af64f0f3efffa24aac43e442bec190c,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -102,15 +103,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetworkThis: 1
-  SubCatalogue:
-  - {fileID: 11400000, guid: a9d9bf1a77c00d44f8434a8bd3be24c7, type: 2}
-  - {fileID: 11400000, guid: a2f1419071296b047abb53de8e18d99e, type: 2}
-  - {fileID: 11400000, guid: df89dabc30e44864d8c13c2fe00c5025, type: 2}
-  - {fileID: 11400000, guid: c2b5b10ee8c47e0458c142d31bcf2542, type: 2}
-  - {fileID: 11400000, guid: 95891e5e8da9d564ebfddcda736739bd, type: 2}
-  - {fileID: 11400000, guid: 53b4b3268f209eb49a64a3bf7bf02393, type: 2}
-  - {fileID: 11400000, guid: d61e2ef2c736262499b80a36a26c91ab, type: 2}
-  InitialPresentSpriteSet: {fileID: 11400000, guid: a9d9bf1a77c00d44f8434a8bd3be24c7,
+  SubCatalogue: []
+  InitialPresentSpriteSet: {fileID: 11400000, guid: c0d232fa9eb8c564a8d8a9e582ad6879,
     type: 2}
   randomInitialSprite: 0
   spriteRenderer: {fileID: 7284053326418442188}
@@ -154,8 +148,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0806, y: -0.0936}
-  m_SizeDelta: {x: 0.4751, y: 0.4363}
+  m_AnchoredPosition: {x: -0.018, y: 0.1776}
+  m_SizeDelta: {x: 0.53, y: 0.3946}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4247284413902882658
 MonoBehaviour:
@@ -202,8 +196,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.1829, y: -0.3738}
-  m_SizeDelta: {x: 0.2193, y: 0.2219}
+  m_AnchoredPosition: {x: -0.2782, y: -0.3738}
+  m_SizeDelta: {x: 0.5267, y: 0.3471}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &292277418653205106
 MonoBehaviour:
@@ -244,7 +238,7 @@ PrefabInstance:
         type: 3}
       propertyPath: MachineParts
       value: 
-      objectReference: {fileID: 11400000, guid: 8f39027f43a2f0e4a9ac3cdf6cfb86e9,
+      objectReference: {fileID: 11400000, guid: aeb9ea9cad75e744489ee30b79c2acc4,
         type: 2}
     - target: {fileID: 768889878625444157, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
@@ -256,7 +250,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 6d66da182248aa04ea885e8df6ffe332,
+      objectReference: {fileID: 2675201729606969689, guid: 5af64f0f3efffa24aac43e442bec190c,
         type: 3}
     - target: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
@@ -353,12 +347,12 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialPresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: a9d9bf1a77c00d44f8434a8bd3be24c7,
+      objectReference: {fileID: 11400000, guid: 2f840cfd2a6421740a63169d8c16c2b2,
         type: 2}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: SubCatalogue.Array.size
-      value: 7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
@@ -438,7 +432,7 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
-      insertIndex: -1
+      insertIndex: 0
       addedObject: {fileID: 4015536273948078679}
     - targetCorrespondingSourceObject: {fileID: 3314592590375341583, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}

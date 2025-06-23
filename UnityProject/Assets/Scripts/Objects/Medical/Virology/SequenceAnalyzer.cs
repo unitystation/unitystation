@@ -12,7 +12,7 @@ using Systems.Electricity;
 
 namespace Objects.Medical.Virology
 {
-	public class SequenceAnalyzer : MonoBehaviour, IAPCPowerable, IMultitoolSlaveable
+	public class SequenceAnalyzer : MonoBehaviour, IAPCPowerable, IMultitoolSlaveable, IServerSpawn
 	{
 		private PowerState _currentPowerState;
 		private Reagent _activeSickness;
@@ -38,13 +38,19 @@ namespace Objects.Medical.Virology
 			if (interaction.HandObject&& Validations.HasItemTrait(interaction, dishItemTrait))
 			{
 				Inventory.ServerTransfer(interaction.HandSlot, DishItemSlot);
-				mainSpriteHandler.SetSpriteVariant(1);
+				mainSpriteHandler.SetSpriteVariant(0);
 				return;
 			}
 			if (interaction.HandObject) return;
 
 			Inventory.ServerTransfer(DishItemSlot, interaction.HandSlot);
-			mainSpriteHandler.SetSpriteVariant(0);
+			mainSpriteHandler.SetSpriteVariant(1);
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			mainSpriteHandler.SetSpriteVariant(1);
+			buttonSpriteHandler.SetSpriteVariant(0);
 		}
 
 		public void RequestExamineDish()
@@ -85,15 +91,16 @@ namespace Objects.Medical.Virology
 		private async UniTask AnimateButtonPress()
 		{
 			_isOnCooldown = true;
-			buttonSpriteHandler.SetSpriteVariant(1);
-			await UniTask.Delay(200);
 			buttonSpriteHandler.SetSpriteVariant(0);
+			await UniTask.Delay(200);
+			buttonSpriteHandler.SetSpriteVariant(1);
 			_isOnCooldown = false;
 		}
 
 		public void StateUpdate(PowerState state)
 		{
 			_currentPowerState = state;
+			buttonSpriteHandler.SetSpriteVariant(state != PowerState.On ? 0 : 1);
 		}
 
 		public void PowerNetworkUpdate(float voltage)
