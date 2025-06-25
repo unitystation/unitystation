@@ -60,16 +60,7 @@ namespace Systems.Teleport
 				}
 				else
 				{
-					var Controlling =  player.CurrentlyControllingObject;
-					var Health = Controlling.GetComponentCustom<LivingHealthMasterBase>();
-					if (Health == null)
-					{
-						status = "(Inanimate)";
-					}
-					else
-					{
-						//TODO Sometimes synchronising Conscious state maybe
-					}
+					status = "";
 				}
 
 				var teleportInfo = new TeleportInfo(nameOfObject + "\n" + status, player.CurrentlyControllingObject.AssumedWorldPosServer().RoundToInt(), player.CurrentlyControllingObject);
