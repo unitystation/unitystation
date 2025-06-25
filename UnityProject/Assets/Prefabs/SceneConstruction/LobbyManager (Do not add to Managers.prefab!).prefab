@@ -2882,10 +2882,14 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: fe30c89eb91ce78458848eec38130921,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &3348007700158840619
 GameObject:
   m_ObjectHideFlags: 0
@@ -3661,6 +3665,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   passwordInputField: {fileID: 1970677414898017421}
+  Haspass: 0
 --- !u!1 &3857206507198329078
 GameObject:
   m_ObjectHideFlags: 0
