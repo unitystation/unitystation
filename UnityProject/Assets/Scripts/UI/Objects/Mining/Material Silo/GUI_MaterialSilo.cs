@@ -61,7 +61,17 @@ namespace UI.Objects.Cargo
 
 		public IEnumerator DispenseMoney()
 		{
-			Chat.AddCommMsgByMachineToChat(Provider.gameObject, $"Cargo's bank account is being drained at the ore Silo", ChatChannel.Local |ChatChannel.Common , Loudness.LOUD);
+			System.Random random = new System.Random();
+			if (random.Next(1000) == 0)
+			{
+				Chat.AddCommMsgByMachineToChat(Provider.gameObject, $" Our financial troubles are over!, money in the bag please! I'm CRACKERS!! Cargo's bank account is being drained. CHEEEEEEEEEESE!!! ", ChatChannel.Local |ChatChannel.Common , Loudness.LOUD);
+
+			}
+			else
+			{
+				Chat.AddCommMsgByMachineToChat(Provider.gameObject, $"Cargo's bank account is being drained at the ore Silo", ChatChannel.Local |ChatChannel.Common , Loudness.LOUD);
+
+			}
 
 			_ = SoundManager.PlayNetworked(CommonSounds.Instance.AnnouncementAlert);
 
