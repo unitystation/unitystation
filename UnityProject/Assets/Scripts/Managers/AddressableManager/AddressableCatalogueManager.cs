@@ -185,7 +185,7 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 	public IEnumerator WaitForLoad()
 	{
 		yield return WaitFor.Seconds(3f);
-		if (LobbyManager.Instance.LobbyPasswordGUI.Haspass)
+		if (LobbyManager.Instance?.LobbyPasswordGUI?.Haspass == true)
 		{
 			yield return WaitFor.Seconds(30f); //Wait for password input TODO better system of Waiting
 		}

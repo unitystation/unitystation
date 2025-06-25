@@ -2,7 +2,7 @@ using Messages.Client;
 using Mirror;
 using UnityEngine;
 
-public class AdminRequestPerformancesStatistics: ClientMessage<AdminRequestPerformancesStatistics.NetMessage>
+public class AdminRequestPerformancesStatistics : ClientMessage<AdminRequestPerformancesStatistics.NetMessage>
 {
 	public struct NetMessage : NetworkMessage
 	{

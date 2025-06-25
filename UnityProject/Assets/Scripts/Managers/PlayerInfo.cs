@@ -233,6 +233,11 @@ public class PlayerInfo
 		return $"ConnectedPlayer {nameof(Username)}: {Username}, {nameof(ClientId)}: {ClientId}, " +
 		       $"{nameof(AccountId)}: {AccountId}, {nameof(Connection)}: {Connection}, {nameof(Name)}: {Name}, {nameof(Job)}: {Job}";
 	}
+
+	public void GenNewMind()
+	{
+		PlayerSpawn.NewSpawnCharacterV2(this, null,this.RequestedCharacterSettings, true);
+	}
 }
 
 [Flags]

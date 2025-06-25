@@ -786,7 +786,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			return false;
 		}
 
-		return PlayerSpawn.NewSpawnPlayerV2(spawnRequest.Player, spawnRequest.RequestedOccupation,
+		return PlayerSpawn.NewSpawnCharacterV2(spawnRequest.Player, spawnRequest.RequestedOccupation,
 			spawnRequest.CharacterSettings) != null;
 	}
 

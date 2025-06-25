@@ -404,7 +404,7 @@ namespace GameModes
 			{
 				try
 				{
-					PlayerSpawn.NewSpawnPlayerV2(spawnReq.Player, spawnReq.RequestedOccupation,
+					PlayerSpawn.NewSpawnCharacterV2(spawnReq.Player, spawnReq.RequestedOccupation,
 						spawnReq.CharacterSettings);
 				}
 				catch (Exception e)

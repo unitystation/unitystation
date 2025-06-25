@@ -153,7 +153,7 @@ namespace Antagonists
 				ChosenOccupation = spawnRequest.RequestedOccupation;
 			}
 
-			return PlayerSpawn.NewSpawnPlayerV2(spawnRequest.Player, ChosenOccupation, spawnRequest.CharacterSettings);
+			return PlayerSpawn.NewSpawnCharacterV2(spawnRequest.Player, ChosenOccupation, spawnRequest.CharacterSettings);
 		}
 
 		/// <summary>

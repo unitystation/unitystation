@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Core.Admin.Logs;
 using Mirror;
 using Newtonsoft.Json;
 using Objects;
@@ -219,7 +220,7 @@ public class BrainLaws : NetworkBehaviour, IActionGUI, IClientInteractable<HandA
 			break;
 		}
 
-		SetLaws(lawFromModule, true, notOnlyCoreLaws);
+		SetLaws(lawFromModule, true, notOnlyCoreLaws, Performer: interaction.Performer);
 
 		Chat.AddActionMsgToChat(interaction.Performer, $"You change {gameObject.ExpensiveName()} laws",
 			$"{interaction.Performer.ExpensiveName()} changes {gameObject.ExpensiveName()} laws");
@@ -259,7 +260,8 @@ public class BrainLaws : NetworkBehaviour, IActionGUI, IClientInteractable<HandA
 	[Server]
 	public void SetLaws(Dictionary<AiPlayer.LawOrder, List<string>> newLaws, bool keepIonLaws = true,
 		bool keepCoreLaws = false,
-		bool keepFreeform = true)
+		bool keepFreeform = true,
+		GameObject Performer = null)
 	{
 		foreach (var lawGroups in aiLaws)
 		{
@@ -317,6 +319,13 @@ public class BrainLaws : NetworkBehaviour, IActionGUI, IClientInteractable<HandA
 				}
 			}
 		}
+		var NewLawsString =newLaws.Select(kvp => $"{kvp.Key}: {string.Join(", ", kvp.Value)}")
+			.Aggregate((a, b) => a + "\n" + b);
+
+		var oldlaws = aiLaws.Select(kvp => $"{kvp.Key}: {string.Join(", ", kvp.Value)}")
+			.Aggregate((a, b) => a + "\n" + b);
+
+		AdminLogsManager.AddNewLog(Performer, $" Updated laws From { oldlaws } to {NewLawsString} ", LogCategory.Interaction);
 
 		aiLaws = newLaws;
 

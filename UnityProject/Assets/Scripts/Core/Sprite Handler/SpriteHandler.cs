@@ -502,7 +502,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 
 
 
-		if (GetColor(false) == null && InitialColour != new Color(1,1,1,0.659f) )
+		if (GetColor(false) == null)
 		{
 			SetColor(InitialColour);
 		}

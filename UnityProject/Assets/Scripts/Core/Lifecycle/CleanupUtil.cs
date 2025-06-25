@@ -352,6 +352,7 @@ public static class CleanupUtil
 		SpriteHandlerManager.PresentSprites.Clear();
 		SpriteHandlerManager.PresentSprites = new Dictionary<Mirror.NetworkIdentity, Dictionary<string, SpriteHandler>>();
 		ChatBubbleManager.Instance.Clear();
+		MindManager.Instance?.minds?.Clear();
 
 		foreach (var a in GameObject.FindObjectsOfType<AdminTools.AdminPlayerEntry>(true))
 		{

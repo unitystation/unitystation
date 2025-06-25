@@ -140,7 +140,7 @@ namespace Antagonists
 				Occupation = antagonist.GhostRoleOccupation;
 			}
 
-			var AntagonistsMind = PlayerSpawn.NewSpawnPlayerV2(connectedPlayer, Occupation, CharacterSettings);
+			var AntagonistsMind = PlayerSpawn.NewSpawnCharacterV2(connectedPlayer, Occupation, CharacterSettings);
 			ServerFinishAntag(antagonist, AntagonistsMind);
 		}
 
