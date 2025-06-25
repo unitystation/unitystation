@@ -117,6 +117,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1c22c898582131a4cbd75cd6eb2dc280,
         type: 2}
+    - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 1c22c898582131a4cbd75cd6eb2dc280,
+        type: 2}
     - target: {fileID: 7153803037707514078, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: _assetId
@@ -163,6 +169,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 7897134970269053135}
+    - targetCorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1324561805682719334}
   m_SourcePrefab: {fileID: 100100000, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
 --- !u!210 &6121050030887182365 stripped
 SortingGroup:
@@ -188,7 +198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 550208171e0da2341a370f011c486eb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  linkedStorages: []
+  InitiallinkedStorages: []
   materialStorage: {fileID: 0}
 --- !u!114 &4941392364254511558
 MonoBehaviour:
@@ -236,6 +246,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e266b02032c5442b067c162ae425c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InitialIsUsingSilo: 1
   IsUsingSilo: 1
+  InitialusedStorage: {fileID: 0}
   usedStorage: {fileID: 0}
   materialListGUI: {fileID: 0}
+--- !u!114 &1324561805682719334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8808594067259233453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0faab122ac985ee45b5e7ba686c2308e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  emmitableSignalData:
+  - {fileID: 11400000, guid: 248cafaf10637f2439d052ae7b819a6e, type: 2}
+  passCode: 0
+  frequency: 122
+  requiresPower: 0
+  isPowered: 1
+  canExamineFrequency: 0
+  minimumDamageBeforeObfuscation: 12
+  isEMPed: 0

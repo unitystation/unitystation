@@ -885,6 +885,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdRequestSpell(int spellIndex, Vector3 clickPosition)
 	{
+		if (playerScript?.Mind?.Spells == null)
+		{
+			return;
+		}
 		foreach (var spell in playerScript.Mind.Spells)
 		{
 			if (spell.SpellData.Index == spellIndex)

@@ -286,7 +286,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckNonImportantMind);
 		}
-		MindManager.Instance.minds.Remove(MindID);
+		MindManager.Instance?.minds?.Remove(MindID);
 	}
 
 

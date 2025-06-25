@@ -32,5 +32,7 @@ namespace ScriptableObjects
 		public GameObject Cube3D;
 
 		public GameObject DirtyFloorDecal;
+
+		public GameObject Cash500;
 	}
 }
