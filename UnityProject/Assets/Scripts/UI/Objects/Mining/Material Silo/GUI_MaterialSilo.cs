@@ -64,7 +64,7 @@ namespace UI.Objects.Cargo
 			System.Random random = new System.Random();
 			if (random.Next(1000) == 0)
 			{
-				Chat.AddCommMsgByMachineToChat(Provider.gameObject, $" Our financial troubles are over!, money in the bag please! I'm CRACKERS!! Cargo's bank account is being drained. CHEEEEEEEEEESE!!! ", ChatChannel.Local |ChatChannel.Common , Loudness.LOUD);
+				Chat.AddCommMsgByMachineToChat(Provider.gameObject, $" Our financial troubles are OVER!, money in the bag please! I'm CRACKERS!! Cargo's bank account is being drained. CHEEEEEEEEEESE!!! ", ChatChannel.Local |ChatChannel.Common , Loudness.LOUD);
 
 			}
 			else
