@@ -14,6 +14,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 6a6ca9a236adba34e83648a9bc942adc,
         type: 2}
+    - target: {fileID: 1497028632681747686, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 6a6ca9a236adba34e83648a9bc942adc,
+        type: 2}
     - target: {fileID: 1817806423449182988, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: parentID
@@ -251,6 +257,13 @@ MonoBehaviour:
     PressureSafeMax: 0.4
     UnsafeLevelDamage: 0.14
     UnsafeLevelDamageType: 2
+  sickeningGasses:
+  - GasType: {fileID: 11400000, guid: ca89e986f14ca0d46b7cc46d462d905a, type: 2}
+    PressureSafeMax: 0.4
+    UnsafeLevelPercent: 15
+    possibleAfflictions:
+    - {fileID: 11400000, guid: c277cb2e90e88e743ab2494b395ca8fa, type: 2}
+    - {fileID: 11400000, guid: eea29c4c2e4ea5e41b8ae15a911b5479, type: 2}
   requiredGas: {fileID: 11400000, guid: d7d4e6085864f9f4e83593f63d102d08, type: 2}
   LungSize: 0.3
   coughChanceWhenInternallyBleeding: 35

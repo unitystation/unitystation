@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Chemistry;
 using Core.Chat;
+using Core.Utils;
 using HealthV2;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Logs;
@@ -33,6 +34,7 @@ namespace Items.Implants.Organs
 		private float pressureSafeMin = 16;
 
 		[SerializeField] private List<ToxicGas> toxicGases;
+		[SerializeField] private List<SickeningGas> sickeningGasses;
 
 		/// <summary>
 		/// The gas that this tries to put into the blood stream
@@ -259,6 +261,7 @@ namespace Items.Implants.Organs
 			var available = SaturationComponent.bloodType.GetNormalGasCapacity(blood);
 
 			ToxinBreathinCheck(breathGasMix);
+
 			float percentageCanTake = 1;
 
 			if (breathGasMix.Moles != 0)
@@ -277,6 +280,7 @@ namespace Items.Implants.Organs
 				pressureMultiplier = 1;
 			}
 
+			SicknessBreathinCheck(breathGasMix, percentageCanTake);
 			var totalMoles = breathGasMix.Moles * percentageCanTake;
 
 			lock (breathGasMix.GasData.GasesArray) //no Double lock
@@ -401,6 +405,24 @@ namespace Items.Implants.Organs
 			}
 		}
 
+		private void SicknessBreathinCheck(GasMix gasMix, float percentageCanTake)
+		{
+			if (RelatedPart == null || RelatedPart.HealthMaster == null
+			                        || RelatedPart.HealthMaster.RespiratorySystem == null
+			                        || RelatedPart.HealthMaster.playerScript == null) return;
+			if (RelatedPart.HealthMaster.RespiratorySystem.CanBreatheAnywhere) return;
+
+			foreach(SickeningGas gas in sickeningGasses)
+			{
+				float pressure = gasMix.GetPressure(gas.GasType);
+				var totalMoles = gasMix.GetMoles(gas.GasType) * percentageCanTake;
+				if (pressure >= gas.PressureSafeMax && DMMath.Prob(gas.UnsafeLevelPercent))
+				{
+					RelatedPart.HealthMaster.reagentPoolSystem.BloodPool.Add(gas.possibleAfflictions.PickRandom(), totalMoles * 0.25f);
+				}
+			}
+		}
+
 		private IEnumerator<WaitForSeconds> CooldownTick()
 		{
 			yield return new WaitForSeconds(internalBleedingCooldown);
@@ -422,6 +444,15 @@ namespace Items.Implants.Organs
 			public float PressureSafeMax = 0.4f;
 			public float UnsafeLevelDamage = 10;
 			public DamageType UnsafeLevelDamageType = DamageType.Tox;
+		}
+
+		[Serializable]
+		class SickeningGas
+		{
+			public GasSO GasType = default;
+			public float PressureSafeMax = 0.4f;
+			public float UnsafeLevelPercent = 10;
+			public List<Reagent> possibleAfflictions = default;
 		}
 	}
 }

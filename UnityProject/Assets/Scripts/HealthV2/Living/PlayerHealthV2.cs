@@ -4,7 +4,6 @@ using System.Linq;
 using UnityEngine;
 using Mirror;
 using AdminTools;
-using Health.Sickness;
 using Messages.Server;
 using Messages.Server.SoundMessages;
 using Player;
@@ -30,18 +29,6 @@ namespace HealthV2
 		public RegisterPlayer RegisterPlayer => registerPlayer;
 
 		private DynamicItemStorage dynamicItemStorage;
-
-		/// <summary>
-		/// The percentage of players that start with common allergies.
-		/// </summary>
-		[SerializeField]
-		private int percentAllergies = 30;
-
-		/// <summary>
-		/// Common allergies.  A percent of players start with that.
-		/// </summary>
-		[SerializeField]
-		private Sickness commonAllergies = null;
 
 		//fixme: not actually set or modified. keep an eye on this!
 		public bool serverPlayerConscious { get; set; } = true; //Only used on the server
@@ -143,23 +130,6 @@ namespace HealthV2
 			their ??= "their";
 			Chat.AddActionMsgToChat(gameObject, $"<b>{playerScript.visibleName}</b> seizes up and falls limp, {their} eyes dead and lifeless...");
 		}
-
-		#region Sickness
-		//Player only sickness stuff, general stuff in LivingHealthMasterBase as all mobs should be able to get sick
-
-		/// <summary>
-		/// Randomly determines whether the player has common allergies at round start
-		/// This is to give the idea that coughing and sneezing at random is "probably" not a real sickness.
-		/// </summary>
-		private void ApplyStartingAllergies()
-		{
-			if (UnityEngine.Random.Range(0, 100) < percentAllergies)
-			{
-				AddSickness(commonAllergies);
-			}
-		}
-
-		#endregion
 
 		#region Electrocution
 

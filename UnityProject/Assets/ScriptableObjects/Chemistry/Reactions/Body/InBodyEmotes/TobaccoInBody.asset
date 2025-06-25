@@ -35,6 +35,7 @@ MonoBehaviour:
     m_keys: []
     m_values: 
   overrideDisplayName: 
+  indexInSingleton: 14
   ReagentMetabolismMultiplier: 4
   InternalAllRequired:
   - {fileID: 11400000, guid: cf7011331adb47d4880a8f62edf3259d, type: 2}
@@ -46,7 +47,7 @@ MonoBehaviour:
   AttackBodyPartPerOneU: 0.1
   CanOverdose: 1
   ConcentrationBloodOverdose: 20
-  OverdoseDamageMultiplier: 2
+  OverdoseDamageMultiplierNew: 1
   MultiEffect: 0
   Effects: []
   EmoteEffects:

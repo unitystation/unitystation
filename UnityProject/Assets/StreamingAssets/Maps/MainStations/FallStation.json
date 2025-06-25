@@ -90551,7 +90551,7 @@
             "Key": "X116Y60",
             "Value": [
               {
-                "Tel": "whitegreen_5"
+                "Tel": "darkgreen_3"
               },
               {
                 "Tel": "Plating"
@@ -90562,7 +90562,7 @@
             "Key": "X116Y61",
             "Value": [
               {
-                "Tel": "whitegreen_7"
+                "Tel": "darkgreen_1"
               },
               {
                 "Tel": "Plating"
@@ -90891,7 +90891,7 @@
             "Key": "X117Y60",
             "Value": [
               {
-                "Tel": "whitegreen_4"
+                "Tel": "darkgreen_2"
               },
               {
                 "Tel": "Plating"
@@ -90902,7 +90902,7 @@
             "Key": "X117Y61",
             "Value": [
               {
-                "Tel": "whitegreen_6"
+                "Tel": "darkgreen_1"
               },
               {
                 "Tel": "Plating"
@@ -90913,7 +90913,7 @@
             "Key": "X117Y62",
             "Value": [
               {
-                "Tel": "rockvault"
+                "Tel": "darkgreen_0"
               },
               {
                 "Tel": "Plating"
@@ -91283,6 +91283,9 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "Table"
               }
             ]
           },
@@ -91507,7 +91510,7 @@
             "Key": "X119Y60",
             "Value": [
               {
-                "Tel": "whitegreen_5"
+                "Tel": "darkgreen_3"
               },
               {
                 "Tel": "Plating"
@@ -91518,7 +91521,7 @@
             "Key": "X119Y61",
             "Value": [
               {
-                "Tel": "whitegreen_7"
+                "Tel": "darkgreen_1"
               },
               {
                 "Tel": "Plating"
@@ -91529,7 +91532,7 @@
             "Key": "X119Y62",
             "Value": [
               {
-                "Tel": "rockvault"
+                "Tel": "darkgreen_0"
               },
               {
                 "Tel": "Plating"
@@ -91786,7 +91789,7 @@
             "Key": "X120Y60",
             "Value": [
               {
-                "Tel": "whitegreen_4"
+                "Tel": "darkgreen_2"
               },
               {
                 "Tel": "Plating"
@@ -91797,7 +91800,7 @@
             "Key": "X120Y61",
             "Value": [
               {
-                "Tel": "whitegreen_6"
+                "Tel": "darkgreen_1"
               },
               {
                 "Tel": "Plating"
@@ -91826,6 +91829,10 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "DisposalPipeTerminal-N",
+                "Z": 1
               }
             ]
           },
@@ -91839,7 +91846,7 @@
                 "Tel": "Plating"
               },
               {
-                "Tel": "DisposalPipeTerminal-W",
+                "Tel": "DisposalPipeBent-SW",
                 "Z": 1
               }
             ]
@@ -91852,9 +91859,6 @@
               },
               {
                 "Tel": "Plating"
-              },
-              {
-                "Tel": "Table"
               }
             ]
           },
@@ -154637,6 +154641,10 @@
                       "ClassID": "ClearanceRestricted@0",
                       "Data": [
                         {
+                          "Name": "requiredClearance#1",
+                          "Data": "Virology"
+                        },
+                        {
                           "Name": "requiredClearance#0",
                           "Data": "Chemistry"
                         }
@@ -162293,6 +162301,25 @@
             }
           },
           {
+            "GitID": "888b07cbf85b6b84ebe9a3762d7e45eb_115┼64┼0┼",
+            "PrefabID": "888b07cbf85b6b84ebe9a3762d7e45eb",
+            "Name": "SignBiohazard (1)",
+            "LocalPRS": "115┼64┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "cd57203a8d3f54f478446e9b0ced6cf9_115┼64┼0┼",
             "PrefabID": "cd57203a8d3f54f478446e9b0ced6cf9",
             "Name": "APC - Virology",
@@ -162338,6 +162365,14 @@
                   "ClassID": "APC@0",
                   "Data": [
                     {
+                      "Name": "connectedDevices#13",
+                      "Data": "6?ZZVFykWa9Kw$v9FhX-_120┼66┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#12",
+                      "Data": "4c3b9b1d349b58541830995579dd8d18_119┼66┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
                       "Name": "connectedDevices#11",
                       "Data": "a50474d976314462a79602e20a762520_118┼67┼0┼@0@APCPoweredDevice@0"
                     },
@@ -162355,7 +162390,7 @@
                     },
                     {
                       "Name": "connectedDevices#7",
-                      "Data": "c21551dd992a57349973e4b5af103ca6_119┼66┼0┼@0@APCPoweredDevice@0"
+                      "Data": "c21551dd992a57349973e4b5af103ca6_120┼64┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#6",
@@ -162941,24 +162976,22 @@
             }
           },
           {
-            "GitID": "5a7af30c589b41a449d0ba74c9e1771c_116┼60┼0┼",
-            "PrefabID": "5a7af30c589b41a449d0ba74c9e1771c",
-            "NameMatches": true,
-            "Name": "Bed",
+            "GitID": "e98cddcd13521604faf5044326a42bc5_116┼60┼0┼",
+            "PrefabID": "e98cddcd13521604faf5044326a42bc5",
+            "Name": "RollerBed (1)",
             "LocalPRS": "116┼60┼0┼"
           },
           {
-            "GitID": "a1b4e3dadda51f84d8160600951b6012_116┼60┼0┼",
+            "GitID": "68a3eee06f0a8cf4da5d8ab811ce1c73_116┼61┼0┼",
+            "PrefabID": "68a3eee06f0a8cf4da5d8ab811ce1c73",
+            "Name": "ClosetBase (2)",
+            "LocalPRS": "116┼61┼0┼"
+          },
+          {
+            "GitID": "a1b4e3dadda51f84d8160600951b6012_116┼61.01┼0┼",
             "PrefabID": "a1b4e3dadda51f84d8160600951b6012",
             "Name": "BedSheet Medical (2)",
-            "LocalPRS": "116┼60┼0┼"
-          },
-          {
-            "GitID": "3dc8e50beee4af94da6243026e09a6f8_116┼61┼0┼",
-            "PrefabID": "3dc8e50beee4af94da6243026e09a6f8",
-            "NameMatches": true,
-            "Name": "Monkey",
-            "LocalPRS": "116┼61┼0┼"
+            "LocalPRS": "116┼61.01┼0┼"
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_116┼63┼0┼",
@@ -163088,6 +163121,47 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "e58e1fd483fe772468ad2aab4259397d_117┼64┼0┼",
+            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
+            "Name": "Virologist at 117 64",
+            "LocalPRS": "117┼64┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "SpawnPoint@0",
+                  "Data": [
+                    {
+                      "Name": "category",
+                      "Data": "Virologist"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "ff6294cc9685df442ab2ed00e56d8ba9"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "3dc986d21b3a6104d95b80bf7eac20c5_117┼66┼0┼",
+            "PrefabID": "3dc986d21b3a6104d95b80bf7eac20c5",
+            "Name": "BiohazardGearClosetVirology (1)",
+            "LocalPRS": "117┼66┼0┼"
           },
           {
             "GitID": "86570587e3d5cba1e9ffdeead16603e4_117┼71┼0┼",
@@ -163232,6 +163306,12 @@
             }
           },
           {
+            "GitID": "c5e1a6dc4fcab3848980de5c8e407c75_117.93┼66.17┼0┼",
+            "PrefabID": "c5e1a6dc4fcab3848980de5c8e407c75",
+            "Name": "BoxOfPetriDishes (1)",
+            "LocalPRS": "117.93┼66.17┼0┼"
+          },
+          {
             "GitID": "0d553281bdfc0fd438b3f6c7db58688c_118┼63┼0┼",
             "PrefabID": "0d553281bdfc0fd438b3f6c7db58688c",
             "Name": "Vent - Virology - nimYr",
@@ -163260,11 +163340,40 @@
             }
           },
           {
-            "GitID": "ccd1f793fb8b567449cffcd7b5121996_118┼65┼0┼",
+            "GitID": "ccd1f793fb8b567449cffcd7b5121996_118┼63┼0┼",
             "PrefabID": "ccd1f793fb8b567449cffcd7b5121996",
             "NameMatches": true,
             "Name": "CrabCoffee",
-            "LocalPRS": "118┼65┼0┼"
+            "LocalPRS": "118┼63┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "cb2f847ef3b8b754181a970a4032c552_118┼66┼0┼",
@@ -163575,6 +163684,12 @@
             }
           },
           {
+            "GitID": "3e7a8691d076daf439aac194957276be_118.55┼66.15┼0┼",
+            "PrefabID": "3e7a8691d076daf439aac194957276be",
+            "Name": "BoxOfSyringes (1)",
+            "LocalPRS": "118.55┼66.15┼0┼"
+          },
+          {
             "GitID": "15c5ba9791bcdd940965825e1a84fa69_119┼62┼0┼",
             "PrefabID": "15c5ba9791bcdd940965825e1a84fa69",
             "NameMatches": true,
@@ -163595,10 +163710,9 @@
             }
           },
           {
-            "GitID": "c21551dd992a57349973e4b5af103ca6_119┼66┼0┼",
-            "PrefabID": "c21551dd992a57349973e4b5af103ca6",
-            "NameMatches": true,
-            "Name": "SecurityCamera",
+            "GitID": "4c3b9b1d349b58541830995579dd8d18_119┼66┼0┼",
+            "PrefabID": "4c3b9b1d349b58541830995579dd8d18",
+            "Name": "SequenceAnalyzer (1)",
             "LocalPRS": "119┼66┼0┼",
             "Object": {
               "ClassDatas": [
@@ -163610,18 +163724,6 @@
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_115┼64┼0┼@0@APC@0"
                     }
                   ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "Active": false,
-                  "ClassDatas": []
-                },
-                {
-                  "ID": "0,2",
-                  "Active": false,
-                  "ClassDatas": []
                 }
               ]
             }
@@ -163672,24 +163774,64 @@
             }
           },
           {
-            "GitID": "5a7af30c589b41a449d0ba74c9e1771c_120┼60┼0┼",
-            "PrefabID": "5a7af30c589b41a449d0ba74c9e1771c",
-            "NameMatches": true,
-            "Name": "Bed",
+            "GitID": "e58e1fd483fe772468ad2aab4259397d_119.02┼64┼0┼",
+            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
+            "Name": "Virologist at 119 64",
+            "LocalPRS": "119.02┼64┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "SpawnPoint@0",
+                  "Data": [
+                    {
+                      "Name": "category",
+                      "Data": "Virologist"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "ff6294cc9685df442ab2ed00e56d8ba9"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "e98cddcd13521604faf5044326a42bc5_120┼60┼0┼",
+            "PrefabID": "e98cddcd13521604faf5044326a42bc5",
+            "Name": "RollerBed (2)",
             "LocalPRS": "120┼60┼0┼"
           },
           {
-            "GitID": "a1b4e3dadda51f84d8160600951b6012_120┼60┼0┼",
+            "GitID": "68a3eee06f0a8cf4da5d8ab811ce1c73_120┼61┼0┼",
+            "PrefabID": "68a3eee06f0a8cf4da5d8ab811ce1c73",
+            "Name": "ClosetBase (1)",
+            "LocalPRS": "120┼61┼0┼"
+          },
+          {
+            "GitID": "a1b4e3dadda51f84d8160600951b6012_120┼61.06┼0┼",
             "PrefabID": "a1b4e3dadda51f84d8160600951b6012",
             "Name": "BedSheet Medical (1)",
-            "LocalPRS": "120┼60┼0┼"
+            "LocalPRS": "120┼61.06┼0┼"
           },
           {
-            "GitID": "3dc8e50beee4af94da6243026e09a6f8_120┼61┼0┼",
-            "PrefabID": "3dc8e50beee4af94da6243026e09a6f8",
+            "GitID": "c73942e301ad48a4c87343bc6f8b20f7_120┼63┼0┼",
+            "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
             "NameMatches": true,
-            "Name": "Monkey",
-            "LocalPRS": "120┼61┼0┼"
+            "Name": "New Disposal Bin",
+            "LocalPRS": "120┼63┼0┼"
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_120┼63┼0┼",
@@ -163746,11 +163888,87 @@
             }
           },
           {
-            "GitID": "c73942e301ad48a4c87343bc6f8b20f7_120┼64┼0┼",
-            "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "GitID": "c21551dd992a57349973e4b5af103ca6_120┼64┼0┼",
+            "PrefabID": "c21551dd992a57349973e4b5af103ca6",
             "NameMatches": true,
-            "Name": "New Disposal Bin",
-            "LocalPRS": "120┼64┼0┼"
+            "Name": "SecurityCamera",
+            "LocalPRS": "120┼64┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_115┼64┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                },
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "6?ZZVFykWa9Kw$v9FhX-_120┼66┼0┼",
+            "PrefabID": "6?ZZVFykWa9Kw$v9FhX-",
+            "Name": "CureTester (1)",
+            "LocalPRS": "120┼66┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_115┼64┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "CureTester@0",
+                  "Data": [
+                    {
+                      "Name": "connectedSequenceAnalyzer",
+                      "Data": "4c3b9b1d349b58541830995579dd8d18_119┼66┼0┼@0@SequenceAnalyzer@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_120┼81┼0┼",

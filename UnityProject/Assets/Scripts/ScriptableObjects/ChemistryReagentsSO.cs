@@ -14,9 +14,6 @@ namespace ScriptableObjects
 	[CreateAssetMenu(fileName = "ChemistryReagentsSO", menuName = "Singleton/ChemistryReagentsSO")]
 	public class ChemistryReagentsSO : SingletonScriptableObject<ChemistryReagentsSO>
 	{
-
-
-
 		[SerializeField]
 		private List<Reaction> allChemistryReactions = new List<Reaction>();
 
@@ -34,7 +31,7 @@ namespace ScriptableObjects
 			{
 				if (allChemistryReagents[i] == null)
 				{
-					Loggy.Error($"The ChemistryReagentsSO singleton has null at the index: {i}.");
+					Loggy.Error($"The ChemistryReagentsSO reagents singleton has null at the index: {i}.");
 					continue;
 				}
 
@@ -42,6 +39,20 @@ namespace ScriptableObjects
 				{
 					Loggy.Error($"The reagent {allChemistryReagents[i]} has the wrong singleton index. " +
 					                $"Expected: {i}. Found: {allChemistryReagents[i].IndexInSingleton}.");
+				}
+			}
+
+			for (int i = 0; i < allChemistryReactions.Count; i++)
+			{
+				if (allChemistryReactions[i] == null)
+				{
+					Loggy.Error($"The ChemistryReagentsSO reactions singleton has null at the index: {i}.");
+					continue;
+				}
+				if (allChemistryReactions[i].IndexInSingleton != i)
+				{
+					Loggy.Error($"The reaction {allChemistryReactions[i]} has the wrong singleton index. " +
+					            $"Expected: {i}. Found: {allChemistryReactions[i].IndexInSingleton}.");
 				}
 			}
 		}
@@ -116,6 +127,23 @@ namespace ScriptableObjects
 					{
 						singleton.AllChemistryReagents[i].IndexInSingleton = i;
 						EditorUtility.SetDirty(singleton.AllChemistryReagents[i]);
+					}
+				}
+
+				EditorUtility.SetDirty(singleton);
+				AssetDatabase.SaveAssets();
+				AssetDatabase.Refresh();
+			}
+
+			if (GUILayout.Button("Fix reactions' indexes."))
+			{
+				ChemistryReagentsSO singleton = (ChemistryReagentsSO) target;
+				for (int i = 0; i < ChemistryReagentsSO.Instance.AllChemistryReactions.Count; i++)
+				{
+					if (singleton.AllChemistryReactions[i].IndexInSingleton != i)
+					{
+						singleton.AllChemistryReactions[i].IndexInSingleton = i;
+						EditorUtility.SetDirty(singleton.AllChemistryReactions[i]);
 					}
 				}
 

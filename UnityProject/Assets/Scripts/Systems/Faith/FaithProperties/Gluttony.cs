@@ -1,5 +1,4 @@
 ﻿using System;
-using Health.Sickness;
 using HealthV2.Living.PolymorphicSystems;
 using Logs;
 using UnityEngine;
@@ -32,7 +31,6 @@ namespace Systems.Faith.FaithProperties
 
 		public FaithData AssociatedFaith { get; set; }
 
-		[SerializeField] private Sickness starvationSickness;
 		[SerializeField] private Sprite propertyIcon;
 
 		public void Setup(FaithData associatedFaith)
@@ -79,8 +77,8 @@ namespace Systems.Faith.FaithProperties
 		private void StarvationProblem(PlayerScript member)
 		{
 			if (DMMath.Prob(25) == false) return;
-			var sickness = Spawn.ServerPrefab(starvationSickness.gameObject);
-			member.playerHealth.AddSickness(sickness.GameObject.GetComponent<Sickness>());
+			member.playerHealth.reagentPoolSystem.BloodPool.Add(CommonSicknesses.Instance.SpaceFluReagent, 10);
+			//TODO: Change this from cold to custom sickness for this faith
 		}
 
 		public void OnJoinFaith(PlayerScript newMember)

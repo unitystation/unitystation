@@ -4,6 +4,7 @@ using System.Text;
 using HealthV2;
 using Logs;
 using Newtonsoft.Json;
+using Systems.Botany;
 using Systems.Character;
 using Random = UnityEngine.Random;
 
@@ -50,8 +51,8 @@ namespace Objects.Medical
 			}
 
 			sicknessList.Clear();
-			foreach (var sickness in livingHealth.mobSickness.sicknessAfflictions)
-				sicknessList.Add(sickness.Sickness.SicknessName);
+			//TODO: Reimplement cloning disease.
+			//TODO: Does cloning disease even make sense? I'm not sure if it should be reimplemented - Atner
 		}
 
 		public string Copy()

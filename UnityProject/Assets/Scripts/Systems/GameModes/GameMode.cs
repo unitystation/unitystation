@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Antagonists;
+using Chemistry;
 using Core.Admin.Logs;
 using DiscordWebhook;
 using JetBrains.Annotations;
@@ -173,6 +174,10 @@ namespace GameModes
 		public List<JobType> NonAntagJobTypes => nonAntagJobTypes;
 
 
+		[SerializeField] private bool randomSicknesses = true;
+		[ShowIf(nameof(randomSicknesses)), SerializeField] private List<Reagent> possibleSicknesses = new List<Reagent>();
+		[ShowIf(nameof(randomSicknesses)), SerializeField] private float randomSicknessRatio = 0.5f;
+
 		public MainStationListSO mainStations;
 
 		#endregion
@@ -213,6 +218,16 @@ namespace GameModes
 		public virtual void SetupRound()
 		{
 			Loggy.Info().Format("Setting up {0} round!", Category.GameMode, Name);
+			PlayerSpawn.OnNewMindSpawnEvent += OnPlayerMindSpawned;
+		}
+
+		protected virtual void OnPlayerMindSpawned(Mind m)
+		{
+			if (randomSicknesses == false) return;
+			if (DMMath.Prob(randomSicknessRatio * 100) == false) return;
+			if (m.Body is null || m.Body.playerHealth is null) return;
+
+			m.Body.playerHealth.reagentPoolSystem.BloodPool.Add(possibleSicknesses.PickRandom(), 0.5f);
 		}
 
 		/// <summary>
@@ -514,6 +529,8 @@ namespace GameModes
 		/// </summary>
 		public virtual void EndRoundReport()
 		{
+			PlayerSpawn.OnNewMindSpawnEvent -= OnPlayerMindSpawned;
+
 			var roundDuration = GameManager.Instance.RoundTime.AddHours(-12);
 			var output = $"A round has ended. Round duration: {roundDuration.ToString("HH:mm")}.";
 			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, $"`{output}`", "");

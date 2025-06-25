@@ -14,7 +14,7 @@ public class MutationEffect : MetabolismReaction
 	public List<MutationSO> MutationsToRemove = new List<MutationSO>();
 	public override void PossibleReaction(List<MetabolismComponent> senders, ReagentMix reagentMix,
 		float reactionMultiple, float BodyReactionAmount, float TotalChemicalsProcessed,
-		out bool overdose) //limitedReactionAmountPercentage = 0 to 1
+		ref bool overdose) //limitedReactionAmountPercentage = 0 to 1
 	{
 		foreach (var Processing in senders)
 		{
@@ -43,6 +43,6 @@ public class MutationEffect : MetabolismReaction
 
 
 		base.PossibleReaction(senders, reagentMix, reactionMultiple, BodyReactionAmount, TotalChemicalsProcessed,
-			out overdose);
+			ref overdose);
 	}
 }

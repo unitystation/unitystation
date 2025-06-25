@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2cbff4f76b84a449a6a2735deca9221, type: 3}
+  m_Name: MajorParanoia
+  m_EditorClassIdentifier: 
+  overrideDisplayName: 
+  hallucinationTime: 1
+  percentageChance: 7.5
+  harmIntentChance: 25
+  nameForgetChance: 25
+  ParanoidThoughts:
+  - Something moved past the corner of my eye..
+  - What if a meteor hits the station and i die?
+  - Did I leave a stove off before coming here?
+  - Did I hear something whispering my name?
+  - I feel like I'm being watched..
+  - I can't trust anyone..
+  - They're after me, I know it
+  - I thought I saw someone in a red space suit behind me..
+  - Oh god, I'm going to die!
+  - I feel like someone is staring at me..
+  - Why am I even here? I feel like someone or something is working against me..
+  - Need to protect my stuff.. They're out to steal from me!
+  - The colors, what do they mean?
+  - The colors, it's a secret message by people plotting against me!
+  - Everyone.. Harmful..
+  - Let me out of here!
+  - I don't want to die!
+  - Everyone better stay away from me! I'm not afraid to use anything to protect
+    myself!
+  emoteChance: 25
+  possibleEmotes:
+  - {fileID: 11400000, guid: c5a62d06ca7357e4185aa698ff299f90, type: 2}
+  - {fileID: 11400000, guid: 46f3f1cab09fa684d85d1fe9f0db0b7f, type: 2}
+  - {fileID: 11400000, guid: c330a7cbe2059774fafd4a32d2eabecc, type: 2}
+  - {fileID: 11400000, guid: c167f7374cdcf604a82efb440115efe4, type: 2}
+  - {fileID: 11400000, guid: 6e4b775c8ef02a84aa542838b5ea7178, type: 2}
+  - {fileID: 11400000, guid: 22ecbf3fe05075d45a7cb1df2d445c9c, type: 2}
+  - {fileID: 11400000, guid: d930b33c2fc8c444a9cc7aa8533491ac, type: 2}
