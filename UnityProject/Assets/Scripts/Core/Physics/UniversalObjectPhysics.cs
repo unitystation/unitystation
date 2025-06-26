@@ -90,9 +90,8 @@ namespace Core.Physics
 
 		private float localTileMoveSpeedOverride = 0;
 
-		[SyncVar] private float
-			networkedTileMoveSpeedOverride =
-				0; //TODO Potential Desynchronisation issues, Probably should have a who caused
+		[SyncVar] private float networkedTileMoveSpeedOverride = 0;
+		//TODO Potential Desynchronisation issues, Probably should have a who caused
 
 		[SyncVar] public float tileMoveSpeed = 1;
 		[SyncVar] private uint parentContainer;
@@ -1398,7 +1397,20 @@ namespace Core.Physics
 				return;
 			}
 
+
 			NewtonianNaNCorrection();
+
+			if (PulledBy.HasComponent)
+			{
+				IsFlyingSliding = false;
+				airTime = 0;
+				slideTime = 0;
+				NewtonianMovement= Vector2.zero;
+				UpdateManager.Remove(CallbackType.EARLY_UPDATE, FlyingUpdateMe);
+				return;
+			}
+
+
 			if (isVisible == false)
 			{
 				IsFlyingSliding = false;
