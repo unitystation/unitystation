@@ -86,7 +86,7 @@ namespace Objects.Command
 			itemNuke = GetComponent<ItemStorage>();
 			nukeSlot = itemNuke.GetIndexedItemSlot(0);
 			Detonated = false;
-			loadedOnRoundID = GameManager.RoundID;
+
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -276,6 +276,7 @@ namespace Objects.Command
 				CurrentAlertLevel = GameManager.Instance.CentComm.CurrentAlertLevel;
 				GameManager.Instance.CentComm.lastAlertChange = GameManager.Instance.RoundTime;
 				GameManager.Instance.CentComm.ChangeAlertLevel(CentComm.AlertLevel.Delta);
+				loadedOnRoundID = GameManager.RoundID;
 				this.StartCoroutine(TickTimer(), ref timerHandle);
 				return true;
 			}
