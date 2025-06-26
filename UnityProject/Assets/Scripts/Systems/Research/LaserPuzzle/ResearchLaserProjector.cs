@@ -19,8 +19,6 @@ namespace Objects.Research
 	public class ResearchLaserProjector : ResearchPointMachine, INodeControl, ICheckedInteractable<HandApply>, ICanOpenNetTab, IHoverTooltip
 	{
 		//TODO Go through and balance items , Done to a basic level
-
-		//TODO Sprite collector
 		//TODO https://www.youtube.com/watch?v=DwGcKFMxrmI
 
 		private const float UPLOAD_EFFICIENCY = 0.75f; //If the player decides to upload research data as direct RP as opposed to technology, how efficient is this process?

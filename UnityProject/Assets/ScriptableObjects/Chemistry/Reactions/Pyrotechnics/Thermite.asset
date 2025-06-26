@@ -14,28 +14,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ingredients:
     m_keys:
-    - {fileID: 11400000, guid: 0b8ae0a034025c1afb82d9b40b73b7dc, type: 2}
-    - {fileID: 11400000, guid: bb1b374d9154ed45ca903a8ace087e8d, type: 2}
-    - {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
-    m_values: 010000000100000001000000
+    - {fileID: 11400000, guid: c4e931cdd4b041652928e77065466e6b, type: 2}
+    - {fileID: 11400000, guid: e491e0411dc22a5e28ef4d7a4685a3c1, type: 2}
+    - {fileID: 11400000, guid: 2945ad40ab95234498cac68e72a6940a, type: 2}
+    m_values: 010000000100000005000000
   useExactAmounts: 0
   MinimumReactionMultiple: 0
   catalysts:
     m_keys: []
     m_values: 
   inhibitors:
-    m_keys: []
-    m_values: 
+    m_keys:
+    - {fileID: 11400000, guid: a353f355495400bf5b38e4b7f9315591, type: 2}
+    - {fileID: 11400000, guid: 4d31620644b580ae09c87962a41d1369, type: 2}
+    m_values: 0100000001000000
   hasMinTemp: 0
   serializableTempMin: 0
   hasMaxTemp: 0
   serializableTempMax: 0
   results:
-    m_keys:
-    - {fileID: 11400000, guid: 788f4bc0e1be4faca9be83416283c65d, type: 2}
-    m_values: 03000000
+    m_keys: []
+    m_values: 
   effectDict:
     m_keys: []
     m_values: 
-  effects: []
   overrideDisplayName: 
+  indexInSingleton: 497

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using SecureStuff;
+using UI.Systems.Character;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif

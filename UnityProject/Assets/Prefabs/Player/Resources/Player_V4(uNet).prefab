@@ -456,7 +456,6 @@ GameObject:
   - component: {fileID: -4232167787565634782}
   - component: {fileID: 4174611152458090807}
   - component: {fileID: -5061689181288922864}
-  - component: {fileID: 7092917086790084979}
   - component: {fileID: 1354417930896543338}
   - component: {fileID: 2708192528502292653}
   - component: {fileID: 4232843736106124361}
@@ -1101,19 +1100,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   CanRotateIfNotMovable: 0
---- !u!114 &7092917086790084979
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1133514949248654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65d675f20bb354d4b8d5e20051f2f2ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sicknessAfflictions: []
 --- !u!114 &1354417930896543338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1133,9 +1119,6 @@ MonoBehaviour:
   tickRate: 1
   RTT: 0
   <EmaggableMob>k__BackingField: {fileID: -7834139986602151608}
-  EmaggableRacesList:
-  - {fileID: 11400000, guid: 878d88bc2a64d75429f00a1208902607, type: 2}
-  - {fileID: 11400000, guid: e9ff315a55db70441bed9631f79432e4, type: 2}
   BodyPartStorage: {fileID: 0}
   playerSprites: {fileID: 0}
   BleedStacks: 0
@@ -1172,8 +1155,6 @@ MonoBehaviour:
   NegativeMutationMinimumTimeMinutes: 1
   NegativeMutationMaximumTimeMinutes: 4
   ClientSprites: []
-  percentAllergies: 30
-  commonAllergies: {fileID: 0}
   convulsionEffect: {fileID: 11400000, guid: 7c57d67ca22c5694e88b9c2aa85e9fc6, type: 2}
 --- !u!114 &2708192528502292653
 MonoBehaviour:
@@ -1528,6 +1509,9 @@ MonoBehaviour:
   LastUpdateClientFlying: 0
   TimeSpentFlying: 0
   <Scale>k__BackingField: {fileID: 0}
+  OnEnteredNewMatrix:
+    m_PersistentCalls:
+      m_Calls: []
   DEBUG: 0
   isNotPushable: 0
   Pushing: []

@@ -75544,6 +75544,9 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "Table"
               }
             ]
           },
@@ -101419,6 +101422,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -104260,6 +104279,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -104566,6 +104601,22 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_50┼94┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "ForensicsLockers"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -105533,15 +105584,6 @@
                       "Data": "DoorTimer"
                     }
                   ]
-                },
-                {
-                  "ClassID": "ClearanceRestricted@0",
-                  "Data": [
-                    {
-                      "Name": "requiredClearance#0",
-                      "Data": "Security"
-                    }
-                  ]
                 }
               ]
             }
@@ -105572,15 +105614,6 @@
                     {
                       "Name": "channel",
                       "Data": "DoorTimer"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "ClearanceRestricted@0",
-                  "Data": [
-                    {
-                      "Name": "requiredClearance#0",
-                      "Data": "Security"
                     }
                   ]
                 }
@@ -106328,6 +106361,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -106629,6 +106678,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -106645,6 +106710,22 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_50┼94┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -106991,7 +107072,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Security"
+                          "Data": "ForensicsLockers"
                         }
                       ]
                     }
@@ -107436,15 +107517,6 @@
                       "Data": "DoorTimer"
                     }
                   ]
-                },
-                {
-                  "ClassID": "ClearanceRestricted@0",
-                  "Data": [
-                    {
-                      "Name": "requiredClearance#0",
-                      "Data": "Security"
-                    }
-                  ]
                 }
               ]
             }
@@ -107510,15 +107582,6 @@
                     {
                       "Name": "channel",
                       "Data": "DoorTimer"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "ClearanceRestricted@0",
-                  "Data": [
-                    {
-                      "Name": "requiredClearance#0",
-                      "Data": "Security"
                     }
                   ]
                 }
@@ -108507,6 +108570,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -108523,6 +108602,22 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_50┼94┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -109495,15 +109590,6 @@
                       "Data": "DoorTimer"
                     }
                   ]
-                },
-                {
-                  "ClassID": "ClearanceRestricted@0",
-                  "Data": [
-                    {
-                      "Name": "requiredClearance#0",
-                      "Data": "Security"
-                    }
-                  ]
                 }
               ]
             }
@@ -109571,15 +109657,6 @@
                     {
                       "Name": "channel",
                       "Data": "DoorTimer"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "ClearanceRestricted@0",
-                  "Data": [
-                    {
-                      "Name": "requiredClearance#0",
-                      "Data": "Security"
                     }
                   ]
                 }
@@ -111521,6 +111598,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -111537,6 +111630,22 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_50┼94┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -115334,22 +115443,6 @@
                     }
                   ]
                 }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "Brig"
-                        }
-                      ]
-                    }
-                  ]
-                }
               ]
             }
           },
@@ -118497,6 +118590,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "SecDoors"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -121422,6 +121531,106 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,3",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,4",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,5",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,6",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,7",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -121438,6 +121647,22 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_50┼94┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "SecDoors"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -121666,6 +121891,20 @@
               ],
               "Children": [
                 {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -121674,6 +121913,90 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Security"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,3",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,4",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,5",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,6",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,7",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
                         }
                       ]
                     }
@@ -122885,6 +123208,10 @@
                     {
                       "Name": "InitialVendorContent#0@ItemName",
                       "Data": ""
+                    },
+                    {
+                      "Name": "InitialVendorContent#0@Item",
+                      "Data": "NULL"
                     },
                     {
                       "Name": "InitialVendorContent#0@Stock",
@@ -133650,6 +133977,10 @@
                   "ClassID": "ReagentContainer@0",
                   "Data": [
                     {
+                      "Name": "possibleTransferAmounts#0",
+                      "Data": "#removed#"
+                    },
+                    {
                       "Name": "maxCapacity",
                       "Data": "100"
                     },
@@ -133659,10 +133990,6 @@
                     },
                     {
                       "Name": "initialReagentMix@reagents#Water",
-                      "Data": "#removed#"
-                    },
-                    {
-                      "Name": "possibleTransferAmounts#0",
                       "Data": "#removed#"
                     }
                   ]
@@ -142043,6 +142370,10 @@
                       "ClassID": "ClearanceRestricted@0",
                       "Data": [
                         {
+                          "Name": "requiredClearance#1",
+                          "Data": "Virology"
+                        },
+                        {
                           "Name": "requiredClearance#0",
                           "Data": "Chemistry"
                         }
@@ -148024,6 +148355,10 @@
                       "ClassID": "ClearanceRestricted@0",
                       "Data": [
                         {
+                          "Name": "requiredClearance#1",
+                          "Data": "Virology"
+                        },
+                        {
                           "Name": "requiredClearance#0",
                           "Data": "Genetics"
                         }
@@ -149433,6 +149768,25 @@
             "LocalPRS": "89┼43┼0┼"
           },
           {
+            "GitID": "4c3b9b1d349b58541830995579dd8d18_89┼45┼0┼",
+            "PrefabID": "4c3b9b1d349b58541830995579dd8d18",
+            "Name": "SequenceAnalyzer (1)",
+            "LocalPRS": "89┼45┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_100┼42┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "51a0e98912223fc41b22c9a8d9b0eb0f_89┼48┼0┼",
             "PrefabID": "51a0e98912223fc41b22c9a8d9b0eb0f",
             "Name": "Aloe (1)",
@@ -150635,6 +150989,34 @@
             "LocalPRS": "90┼43┼0┼"
           },
           {
+            "GitID": "6?ZZVFykWa9Kw$v9FhX-_90┼45┼0┼",
+            "PrefabID": "6?ZZVFykWa9Kw$v9FhX-",
+            "Name": "CureTester (1)",
+            "LocalPRS": "90┼45┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_100┼42┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "CureTester@0",
+                  "Data": [
+                    {
+                      "Name": "connectedSequenceAnalyzer",
+                      "Data": "4c3b9b1d349b58541830995579dd8d18_89┼45┼0┼@0@SequenceAnalyzer@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "51a0e98912223fc41b22c9a8d9b0eb0f_90┼48┼0┼",
             "PrefabID": "51a0e98912223fc41b22c9a8d9b0eb0f",
             "Name": "Aloe (3)",
@@ -151775,6 +152157,12 @@
             }
           },
           {
+            "GitID": "3e7a8691d076daf439aac194957276be_90.53┼45.21┼0┼",
+            "PrefabID": "3e7a8691d076daf439aac194957276be",
+            "Name": "BoxOfSyringes (2)",
+            "LocalPRS": "90.53┼45.21┼0┼"
+          },
+          {
             "GitID": "f029ac18cb79ad24c8691a3a0d6f191e_90.77┼66.01┼0┼",
             "PrefabID": "f029ac18cb79ad24c8691a3a0d6f191e",
             "Name": "HandLabeler (1)",
@@ -151992,6 +152380,12 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "c5e1a6dc4fcab3848980de5c8e407c75_91┼45.2┼0┼",
+            "PrefabID": "c5e1a6dc4fcab3848980de5c8e407c75",
+            "Name": "BoxOfPetriDishes (1)",
+            "LocalPRS": "91┼45.2┼0┼"
           },
           {
             "GitID": "a50474d976314462a79602e20a762520_91┼49┼0┼",
@@ -152923,6 +153317,12 @@
             "PrefabID": "3dc8e50beee4af94da6243026e09a6f8",
             "Name": "Monkey (1)",
             "LocalPRS": "92┼41┼0┼"
+          },
+          {
+            "GitID": "3dc986d21b3a6104d95b80bf7eac20c5_92┼45┼0┼",
+            "PrefabID": "3dc986d21b3a6104d95b80bf7eac20c5",
+            "Name": "BiohazardGearClosetVirology (1)",
+            "LocalPRS": "92┼45┼0┼"
           },
           {
             "GitID": "baeafe1b5e8214344a5acf3315766acc_92┼48┼0┼",
@@ -159249,6 +159649,14 @@
                 {
                   "ClassID": "APC@0",
                   "Data": [
+                    {
+                      "Name": "connectedDevices#86",
+                      "Data": "4c3b9b1d349b58541830995579dd8d18_89┼45┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#85",
+                      "Data": "6?ZZVFykWa9Kw$v9FhX-_90┼45┼0┼@0@APCPoweredDevice@0"
+                    },
                     {
                       "Name": "connectedDevices#84",
                       "Data": "31f497a1df0802143afd331d9e780661_98┼51┼0┼@0@APCPoweredDevice@0"

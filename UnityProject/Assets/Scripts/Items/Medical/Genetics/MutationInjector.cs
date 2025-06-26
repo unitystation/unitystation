@@ -21,7 +21,6 @@ public class MutationInjector : Syringe
 		Chat.AddCombatMsgToChat(performer.gameObject,
 			$"You Inject The {this.name} into {LHB.gameObject.ExpensiveName()}",
 			$"{performer.PlayerScript.visibleName} injects a {this.name} into {LHB.gameObject.ExpensiveName()}");
-		if (SicknessesInSyringe.Count > 0) LHB.AddSickness(SicknessesInSyringe.PickRandom().Sickness);
 		LHB.InjectDna(DNAPayload);
 
 		SpriteHandler.SetCatalogueIndexSprite(1);

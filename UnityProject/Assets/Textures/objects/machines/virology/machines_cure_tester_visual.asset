@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: machines_cure_tester_visual
+  m_EditorClassIdentifier: 
+  foreverID: a525042c86780c844b129a6b2e943147
+  Variance:
+  - Frames:
+    - sprite: {fileID: -2113363560, guid: 3ef00f714014da34a995887486e04cc0, type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 1469293404, guid: 3ef00f714014da34a995887486e04cc0, type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  DisplayName: 

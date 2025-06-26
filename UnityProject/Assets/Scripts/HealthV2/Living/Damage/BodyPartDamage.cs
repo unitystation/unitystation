@@ -500,10 +500,7 @@ namespace HealthV2
 		{
 			if (RadiationStacks == 0) return;
 			var ProcessingRadiation = RadiationStacks * 0.01f;
-			if (ProcessingRadiation > 2 && ProcessingRadiation < 0.05f)
-			{
-				ProcessingRadiation = 2;
-			}
+			if (ProcessingRadiation is < 2 and > 0.05f) ProcessingRadiation = 2;
 
 			HealDamage(null,ProcessingRadiation, DamageType.Radiation);
 			TakeDamage(null, ProcessingRadiation * 0.1f,AttackType.Internal , DamageType.Tox, DamageSubOrgans : false); //This Should bypass all armour

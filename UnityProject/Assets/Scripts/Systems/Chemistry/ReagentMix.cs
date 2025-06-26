@@ -15,6 +15,7 @@ namespace Chemistry
 		private int[] m_array;
 		private int m_length;
 
+		public static Reagent reagentToTest = null;
 
 		[NonSerialized] private object _syncRoot;
 		private const int _ShrinkThreshold = 256;

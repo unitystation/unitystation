@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e3145566f967d4e9706a88c0917052, type: 3}
+  m_Name: GiantSpider-Hunter
+  m_EditorClassIdentifier: 
+  Base:
+    Head:
+      Elements: []
+    Torso:
+      Elements:
+      - {fileID: 599883532469556486, guid: c7a0acc5d7d69f242a70be71bb622bd6, type: 3}
+    ArmRight:
+      Elements:
+      - {fileID: 8464484982521538483, guid: 7604746d43784384c9960debb81a6b68, type: 3}
+      - {fileID: 8464484982521538483, guid: 7604746d43784384c9960debb81a6b68, type: 3}
+    ArmLeft:
+      Elements:
+      - {fileID: 7779031758428269712, guid: 090a9970d9da2e04d84286cee6a65a3f, type: 3}
+      - {fileID: 7779031758428269712, guid: 090a9970d9da2e04d84286cee6a65a3f, type: 3}
+    LegRight:
+      Elements:
+      - {fileID: 9115500096433477562, guid: 2c9b2deb5df922146a313b17ff761935, type: 3}
+      - {fileID: 9115500096433477562, guid: 2c9b2deb5df922146a313b17ff761935, type: 3}
+      - {fileID: 9115500096433477562, guid: 2c9b2deb5df922146a313b17ff761935, type: 3}
+    LegLeft:
+      Elements:
+      - {fileID: 7547303407656752895, guid: db29862969c43964398943fe98303f9a, type: 3}
+      - {fileID: 7547303407656752895, guid: db29862969c43964398943fe98303f9a, type: 3}
+      - {fileID: 7547303407656752895, guid: db29862969c43964398943fe98303f9a, type: 3}
+    allowedToChangeling: 0
+    CustomisationSettings: []
+    bodyTypeSettings:
+      AvailableBodyTypes: []
+    SkinColours: []
+    RootImplantProcedure: {fileID: 0}
+    BodyPartsThatShareTheSkinTone: []
+    ClueString: 
+    MeatProduce: {fileID: 0}
+    SkinProduce: {fileID: 0}
+    SkinningItemTrait: {fileID: 0}
+    CanBeEmagged: 0
+    CanBePlayerChosen: 0
+    PreviewSprite: {fileID: 11400000, guid: 6cce62561d4295944af54d3c4cc97549, type: 2}
+    SystemSettings: []
+    StartingMutations: []
+  references:
+    version: 2
+    RefIds: []

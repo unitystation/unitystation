@@ -141,6 +141,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3243135318912008533, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: componentImmuneResponse.ImmuneResponseBaseRate
+      value: 0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 3243135318912008533, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: componentImmuneResponse.ImmuneResponseRelativeRate
+      value: 0.004
+      objectReference: {fileID: 0}
+    - target: {fileID: 3243135318912008533, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: componentImmuneResponse.ImmuneResponseChancePercent
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4434023247273284483, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: onTakeDamageSounds.Array.size
@@ -276,3 +291,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   RelatedPart: {fileID: 0}
+  walkingSpeed: 1.5
+  runningSpeed: 3
+  crawlingSpeed: 0.5
+  initialLimbEfficiency: 1
