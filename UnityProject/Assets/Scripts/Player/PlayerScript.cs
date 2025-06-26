@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Actions.V2;
 using Core.Utils;
 using Detective;
 using Systems.Ai;
@@ -108,6 +109,7 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 	[field: SerializeField] public BodyAlertManager BodyAlerts { get; private set; }
 	[field: SerializeField] public MobTraversal Traversal { get; private set; }
 	[field: SerializeField] public GroupedAccess Access { get; private set; }
+	[field: SerializeField] public ActionManager PlayerButtonedActions { get; private set; }
 
 	public PlayerStats PlayerStats { get; private set; }
 
@@ -217,6 +219,7 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 		Traversal ??= GetComponent<MobTraversal>();
 		Access ??= GetComponent<GroupedAccess>();
 		PlayerScriptVisible ??= GetComponent<PlayerScriptVisible>();
+		PlayerButtonedActions ??= GetComponent<ActionManager>();
 	}
 
 	private void OnEnable()

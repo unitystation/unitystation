@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Actions.V2;
 using Logs;
 using Mirror;
 using UnityEngine;
@@ -10,8 +11,27 @@ namespace HealthV2.Living.Mutations.Surface
 	{
 		[SyncVar(hook = nameof(OnAlphaChanged))] public float Alpha = 1f;
 		public GameObject bodyPartSprites;
-
 		public GameObject Customisation;
+
+		public bool DEBUG = false;
+
+		private void Start()
+		{
+			if (DEBUG)
+			{
+				GetComponent<ActionManager>().RegisterNewAction($"{gameObject.NetId()}_player_become_invisible", "Become Invisible",
+					"Make yourself invisible to other players.", ActionTriggerType.Both, null, () =>
+					{
+						if (!gameObject)
+						{
+							Loggy.Error($"Gameobject is null?");
+							return;
+						}
+						Alpha = 0.1f;
+						Chat.AddExamineMsg(gameObject, "You have become invisible to other players.");
+					}, 5f);
+			}
+		}
 
 		public void OnAlphaChanged(float oldAlpha, float newAlpha)
 		{
