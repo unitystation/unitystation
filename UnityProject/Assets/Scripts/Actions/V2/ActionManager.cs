@@ -54,6 +54,25 @@ namespace Actions.V2
 			}
 		}
 
+		public void RegisterNewAction(ActionButtonData newData, Action logic)
+		{
+			switch (newData.TriggerType)
+			{
+				case ActionTriggerType.ServerOnly:
+					ServerAddAction(newData, logic);
+					break;
+				case ActionTriggerType.ClientOnly:
+					ClientAddAction(newData, logic);
+					break;
+				case ActionTriggerType.Both:
+				default:
+					ServerAddAction(newData, logic);
+					ClientAddAction(newData, logic);
+					break;
+			}
+			ActionButtons.Add(newData);
+		}
+
 		public void RegisterNewAction(string newID, string displayName, string desc, ActionTriggerType triggerType,
 			Sprite Icon, Action logic, float cooldownTime = 0f)
 		{
@@ -82,6 +101,24 @@ namespace Actions.V2
 					break;
 			}
 			ActionButtons.Add(ActionData);
+		}
+
+		public void UnregisterAction(ActionButtonData data)
+		{
+			switch (data.TriggerType)
+			{
+				case ActionTriggerType.ServerOnly:
+					ServerRemoveAction(data.ID);
+					break;
+				case ActionTriggerType.ClientOnly:
+					ClientRemoveAction(data.ID);
+					break;
+				case ActionTriggerType.Both:
+				default:
+					ServerRemoveAction(data.ID);
+					ClientRemoveAction(data.ID);
+					break;
+			}
 		}
 
 		[Command]
@@ -159,6 +196,20 @@ namespace Actions.V2
 			{
 				Debug.LogWarning("Action already exists: " + actionId);
 			}
+		}
+
+		[Client]
+		private void ClientRemoveAction(string dataID)
+		{
+			ActionButtons.RemoveAll(a =>
+			{
+				var hasItem = a.ID == dataID;
+				if (hasItem)
+				{
+					ClientActionRegistry.Remove(dataID);
+				}
+				return hasItem;
+			});
 		}
 
 		private void ClearCooldowns()
