@@ -72,6 +72,10 @@ namespace HealthV2
 		/// </summary>
 		[NonSerialized] public ConsciousStateEvent OnConsciousStateChangeServer = new ConsciousStateEvent();
 
+		public delegate void BrainAddedEvent(Brain brain);
+
+		public BrainAddedEvent OnBrainAdded = null;
+
 		/// <summary>
 		/// Returns true if the creature's current conscious state is dead
 		/// </summary>
@@ -130,7 +134,19 @@ namespace HealthV2
 			return Equals(system, default(T));
 		}
 
-		public Brain brain { get; private set; }
+		private Brain _brain;
+		public Brain brain
+		{
+			get
+			{
+				return _brain;
+			}
+			private set
+			{
+				_brain = value;
+				OnBrainAdded?.Invoke(value);
+			}
+		}
 
 
 		[SyncVar(hook = nameof(SyncBain))] private uint BrainID;
