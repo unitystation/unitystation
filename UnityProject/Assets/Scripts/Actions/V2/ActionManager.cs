@@ -124,6 +124,7 @@ namespace Actions.V2
 		[Command]
 		public void CmdTriggerAction(string actionId)
 		{
+			if (IsActionOnCooldown(actionId)) return;
 			if (ServerActionRegistry.TryGetValue(actionId, out var found))
 			{
 				Debug.Log($"Server executing action: {actionId}");
@@ -150,6 +151,7 @@ namespace Actions.V2
 		[Client]
 		public void TriggerClientAction(string actionId)
 		{
+			if (IsActionOnCooldown(actionId)) return;
 			if (ClientActionRegistry.TryGetValue(actionId, out var found))
 			{
 				found.Action?.Invoke();
@@ -236,6 +238,21 @@ namespace Actions.V2
 			if (cooldownTime <= 0.085f) return;
 			var cooldownEnd = DateTime.UtcNow.AddSeconds(cooldownTime);
 			ActionCooldowns[actionId] = cooldownEnd;
+		}
+
+		private bool IsActionOnCooldown(string actionId)
+		{
+			if (ActionCooldowns.TryGetValue(actionId, out var cooldownEnd))
+			{
+				var isUnderCooldown = cooldownEnd > DateTime.UtcNow;
+				if (isUnderCooldown)
+				{
+					Chat.AddExamineMsg(gameObject,
+						$"This action is still on cooldown, remaining time: {Math.Round((cooldownEnd - DateTime.UtcNow).TotalSeconds, 2)} seconds.");
+				}
+				return isUnderCooldown;
+			}
+			return false;
 		}
 	}
 }
