@@ -53,6 +53,9 @@ namespace HealthV2.Sickness
 			EventManager.RemoveHandler(Event.ScenesLoadedServer, RandomiseCureData);
 		}
 
+		/// <summary>
+		/// Ensures late join clients receive the updated cure data
+		/// </summary>
 		private void RequestCureData()
 		{
 			if (CustomNetworkManager.IsServer) return;
