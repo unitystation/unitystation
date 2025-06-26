@@ -14,7 +14,7 @@ namespace Weapons.Projectiles.Behaviours
 		[SerializeField] private float stunTime = 4.0f;
 
 		[Tooltip("Do you want to ignore armor stun immunity?")]
-		[SerializeField] private bool passThroughStunImmunity = true;
+		[SerializeField] private bool passThroughStunImmunity = false;
 
 		[Tooltip("Will this stun disarm.")]
 		[SerializeField] private bool willDisarm = true;
