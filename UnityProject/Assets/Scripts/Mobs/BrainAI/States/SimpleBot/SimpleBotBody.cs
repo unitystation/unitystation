@@ -18,11 +18,12 @@ namespace Items.Implants.Organs
 		{
 			base.OnAddedToBody(addedToBody);
 
-			if (LivingHealthMaster.brain == false)
-			{
-				Loggy.Error($"SimpleBotBody/OnAddedToBody(): Could not find brain on LivingHealthMasterBase 'addedToBody'");
-				return;
-			}
+			if(LivingHealthMaster.brain == true) AttachToBrain(LivingHealthMaster.brain);
+			LivingHealthMaster.OnBrainAdded += AttachToBrain;
+		}
+
+		private void AttachToBrain(Brain brain)
+		{
 			if (LivingHealthMaster.brain.TryGetComponent<SimpleBotTaskAi>(out _taskAi) == false)
 			{
 				Loggy.Error($"SimpleBotBody/OnAddedToBody(): Could not find SimpleBotTaskAi script on LivingHealthMaster Brain");
@@ -36,13 +37,13 @@ namespace Items.Implants.Organs
 		{
 			base.OnRemovedFromBody(addedToBody, source);
 
+			addedToBody.OnBrainAdded -= AttachToBrain;
 			if (_taskAi == false) return;
 			_taskAi.OnSpriteChange -= UpdateBodySprites;
 		}
 
 		private void UpdateBodySprites(bool isEmagged, bool isPerformingTask)
 		{
-
 			_currentSpriteIndex = isEmagged ? 2 : 0;
 			_currentSpriteIndex += isPerformingTask ? 1 : 0;
 

@@ -96,16 +96,20 @@ namespace Objects.ExecutionDevices
 			if (IsBusy(interaction.Performer)) return;
 			if (isRaised == false)
 			{
-				Chat.AddExamineMsg(interaction.Performer, "Can't do anything while the iron is not raised!");
+				Chat.AddWarningMsgFromServer(interaction.Performer, "Can't do anything while the iron is not raised!");
 				return;
 			}
 			if (victimStorage.GetStoredObjects().Count() != 0)
 			{
-				Chat.AddExamineMsg(interaction.Performer, "There's already something in this device!");
+				Chat.AddWarningMsgFromServer(interaction.Performer, "There's already something in this device!");
 				return;
 			}
-			if (interaction.DroppedObject.Player() == null) return;
+
+			if(interaction.DroppedObject.TryGetComponent<PlayerScript>(out var player) == false) return;
 			victimStorage.StoreObject(interaction.DroppedObject);
+			Chat.AddActionMsgToChat(interaction.Performer, $"You load {interaction.DroppedObject.ExpensiveName()} into the guillotine!",
+				$"{interaction.Performer.ExpensiveName()} load {interaction.DroppedObject.ExpensiveName()} into the guillotine!");
+
 			OnEnterDevice(interaction.DroppedObject, interaction.Performer);
 		}
 
@@ -117,7 +121,7 @@ namespace Objects.ExecutionDevices
 		private bool IsBusy(GameObject performer)
 		{
 			if (isBusy == false) return false;
-			if (performer != null) Chat.AddExamineMsg(performer, "Can't do that right now..");
+			if (performer != null) Chat.AddWarningMsgFromServer(performer, "Can't do that right now..");
 			return true;
 
 		}

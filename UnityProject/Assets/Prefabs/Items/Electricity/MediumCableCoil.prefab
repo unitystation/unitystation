@@ -40,6 +40,28 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5870593039450586072, guid: aeb7181029581034f83f8191643b900b,
         type: 3}
+    - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: InitialstacksWith.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: 'InitialstacksWith.Array.data[0]'
+      value: 
+      objectReference: {fileID: 5680136605834777345}
+    - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: 'InitialstacksWith.Array.data[1]'
+      value: 
+      objectReference: {fileID: 4435676122793348777, guid: c567e6c3b003a2b488534a8766866cb0,
+        type: 3}
+    - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: 'InitialstacksWith.Array.data[2]'
+      value: 
+      objectReference: {fileID: 5870593039450586072, guid: aeb7181029581034f83f8191643b900b,
+        type: 3}
     - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: m_RootOrder
@@ -202,9 +224,21 @@ PrefabInstance:
       objectReference: {fileID: 2800000, guid: 1ccce1c93f8f84d4ba396efc17c4799e, type: 3}
     - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 34a82e02247b4f441a2ce19d84a21b39,
+        type: 2}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
       propertyPath: itemSprites.LeftHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: e83aca79bc2633243945668e31701957, type: 3}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 907998a5ea584c14a8a595f17beb5afc,
+        type: 2}
     - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: itemSprites.RightHand.EquippedData
@@ -273,43 +307,43 @@ PrefabInstance:
         type: 3}
       propertyPath: relatedRecipes.Array.data[1].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: 699e523c4be366f4c902147c30b8c386,
+      objectReference: {fileID: 11400000, guid: 1d1a12050acb49144b753de71904614c,
         type: 2}
     - target: {fileID: 2258033352175129733, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: relatedRecipes.Array.data[2].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: 1d1a12050acb49144b753de71904614c,
+      objectReference: {fileID: 11400000, guid: 094db329f7e1ab142b090d0140516c00,
         type: 2}
     - target: {fileID: 2258033352175129733, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: relatedRecipes.Array.data[3].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: 094db329f7e1ab142b090d0140516c00,
+      objectReference: {fileID: 11400000, guid: 3141e2bf964dcb64596b3a52beb69868,
         type: 2}
     - target: {fileID: 2258033352175129733, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: relatedRecipes.Array.data[4].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: 3141e2bf964dcb64596b3a52beb69868,
+      objectReference: {fileID: 11400000, guid: 538ae3c4efa0bbc4c8f5a150698a1896,
         type: 2}
     - target: {fileID: 2258033352175129733, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: relatedRecipes.Array.data[5].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: 538ae3c4efa0bbc4c8f5a150698a1896,
+      objectReference: {fileID: 11400000, guid: b3305fe2a6133d84d855578b5ac409b7,
         type: 2}
     - target: {fileID: 2258033352175129733, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: relatedRecipes.Array.data[6].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: b3305fe2a6133d84d855578b5ac409b7,
+      objectReference: {fileID: 11400000, guid: 80e6b1b7c63ce8d44a8a6204c31f7785,
         type: 2}
     - target: {fileID: 2258033352175129733, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: relatedRecipes.Array.data[7].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: 80e6b1b7c63ce8d44a8a6204c31f7785,
+      objectReference: {fileID: 11400000, guid: 699e523c4be366f4c902147c30b8c386,
         type: 2}
     - target: {fileID: 2258033352175129733, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
@@ -325,12 +359,12 @@ PrefabInstance:
     - target: {fileID: 2258033352175129733, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: relatedRecipes.Array.data[1].ingredientIndex
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2258033352175129733, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: relatedRecipes.Array.data[2].ingredientIndex
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2258033352175129733, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
@@ -345,7 +379,7 @@ PrefabInstance:
     - target: {fileID: 2258033352175129733, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: relatedRecipes.Array.data[5].ingredientIndex
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2258033352175129733, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
@@ -355,7 +389,7 @@ PrefabInstance:
     - target: {fileID: 2258033352175129733, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: relatedRecipes.Array.data[7].ingredientIndex
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2258033352175129733, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
@@ -375,6 +409,12 @@ PrefabInstance:
     - target: {fileID: 5592108624515032788, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 019ec0446d92b564db8cb9b1c053b5aa,
+        type: 2}
+    - target: {fileID: 5592108624515032788, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 019ec0446d92b564db8cb9b1c053b5aa,
         type: 2}
