@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Chemistry;
 using Messages.Server;
+using Mirror;
+using Player;
 using Shared.Managers;
 using UnityEngine;
 
@@ -37,12 +39,29 @@ namespace HealthV2.Sickness
 
 		private void OnEnable()
 		{
+			if (CustomNetworkManager.IsServer == false)
+			{
+				JoinedViewer.DelayTillAuthenticated.Add(RequestCureData);
+				return;
+			}
 			EventManager.AddHandler(Event.ScenesLoadedServer, RandomiseCureData);
 		}
 
 		private void OnDisable()
 		{
+			if (CustomNetworkManager.IsServer == false) return;
 			EventManager.RemoveHandler(Event.ScenesLoadedServer, RandomiseCureData);
+		}
+
+		/// <summary>
+		/// Ensures late join clients receive the updated cure data
+		/// </summary>
+		private void RequestCureData()
+		{
+			if (CustomNetworkManager.IsServer) return;
+
+			RequestCureSyncMessage.SyncDataMessage data = new();
+			RequestCureSyncMessage.Send(data);
 		}
 
 
@@ -71,6 +90,30 @@ namespace HealthV2.Sickness
 				data.CureInhibitorB = cure.InhibitorReagentB.IndexInSingleton;
 
 				CureReactionSyncMessage.SendToAll(data);
+			}
+		}
+
+		/// <summary>
+		/// Used for late join clients to sync them to the current cure states.
+		/// </summary>
+		/// <param name="client">The network connection for the late join client</param>
+		public void SynchroniseClient(NetworkConnection client)
+		{
+			CureReactionSyncMessage.CureDataMessage data;
+			foreach (var cureableSickness in CureableSicknesses)
+			{
+				if (InitialisedSicknesses.TryGetValue(cureableSickness.Sickness, out var cure) == false) continue;
+
+				//This gets all the indexes that will be used to sync the chemical reactions to the client
+				data.SicknessReagentIndex = cureableSickness.Sickness.IndexInSingleton;
+				data.CureReactionIndex = cureableSickness.CureReaction.IndexInSingleton;
+
+				data.CureIngredientA = cure.CureReagentA.IndexInSingleton;
+				data.CureIngredientB = cure.CureReagentB.IndexInSingleton;
+				data.CureInhibitorA = cure.InhibitorReagentA.IndexInSingleton;
+				data.CureInhibitorB = cure.InhibitorReagentB.IndexInSingleton;
+
+				CureReactionSyncMessage.SendTo(client, data);
 			}
 		}
 

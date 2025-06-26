@@ -1,6 +1,8 @@
 using System.Linq;
 using Chemistry;
+using HealthV2.Sickness;
 using Logs;
+using Messages.Client;
 using Mirror;
 using ScriptableObjects;
 
@@ -81,6 +83,17 @@ namespace Messages.Server
 			reagent = ChemistryReagentsSO.Instance.AllChemistryReagents[reagentIndex];
 
 			return true;
+		}
+	}
+
+	public class RequestCureSyncMessage : ClientMessage<RequestCureSyncMessage.SyncDataMessage>
+	{
+		public struct SyncDataMessage : NetworkMessage { }
+
+		public override void Process(SyncDataMessage msg)
+		{
+			if (GameManager.Instance.CurrentRoundState != RoundState.Started) return;
+			CureManager.Instance.SynchroniseClient(this.SentBy);
 		}
 	}
 }
