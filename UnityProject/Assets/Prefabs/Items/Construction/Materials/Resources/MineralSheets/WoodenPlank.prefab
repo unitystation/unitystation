@@ -14,6 +14,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e5f1b324d163600459043714cd80dc9a,
         type: 2}
+    - target: {fileID: 514345970168333904, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e5f1b324d163600459043714cd80dc9a,
+        type: 2}
     - target: {fileID: 783613402110013882, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
       propertyPath: parentID
@@ -169,10 +175,22 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.Texture
       value: 
       objectReference: {fileID: 2800000, guid: 21bd4aa4beb3ff249a553813ce40f26d, type: 3}
+    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 47654c7e729e27b4cb712050e7809293,
+        type: 2}
+    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 8e7e0029fec45bc4eb168f9ff9d31568,
+        type: 2}
     - target: {fileID: 6191990561276589057, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
       propertyPath: relatedRecipes.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6191990561276589057, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
@@ -190,12 +208,12 @@ PrefabInstance:
         type: 3}
       propertyPath: relatedRecipes.Array.data[2].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: 8c391184975b2be4cbe32ace1bc3255c,
+      objectReference: {fileID: 11400000, guid: 699e523c4be366f4c902147c30b8c386,
         type: 2}
     - target: {fileID: 6191990561276589057, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
       propertyPath: relatedRecipes.Array.data[2].ingredientIndex
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
