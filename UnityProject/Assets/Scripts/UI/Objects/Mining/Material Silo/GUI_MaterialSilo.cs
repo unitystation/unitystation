@@ -1,7 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Communications;
+using Core.Physics;
+using Messages.Server.SoundMessages;
 using UnityEngine;
 using Objects.Machines;
+using ScriptableObjects;
+using Systems.Cargo;
 
 namespace UI.Objects.Cargo
 {
@@ -9,6 +15,20 @@ namespace UI.Objects.Cargo
 	{
 		[SerializeField]
 		private GUI_MaterialsList materialsListDisplay = null;
+
+		private ChatEvent chatEvent = new ChatEvent();
+		private const ChatChannel ChatChannels = ChatChannel.Common;
+
+		public bool DispensingCash = false;
+
+		public void Start()
+		{
+			chatEvent.channels = ChatChannels;
+			chatEvent.VoiceLevel = Loudness.LOUD;
+			chatEvent.position = Provider.gameObject.AssumedWorldPosServer();
+			chatEvent.originator = Provider;
+			chatEvent.speaker = "[Material Silo]";
+		}
 
 		protected override void InitServer()
 		{
@@ -24,6 +44,53 @@ namespace UI.Objects.Cargo
 			materialsListDisplay.materialStorageLink = Provider.GetComponent<MaterialStorageLink>();
 			materialsListDisplay.materialStorageLink.materialListGUI = materialsListDisplay;
 			materialsListDisplay.UpdateMaterialList();
+		}
+
+		public void DoDispenseMoney()
+		{
+			DispensingCash = !DispensingCash;
+			if (DispensingCash)
+			{
+				Provider.GetComponent<UniversalObjectPhysics>().StartCoroutine(DispenseMoney());
+			}
+			else
+			{
+				Chat.AddCommMsgByMachineToChat(Provider.gameObject, $"Cargo's Leaky bank account has stopped leaking", ChatChannel.Local |ChatChannel.Common , Loudness.LOUD);
+			}
+		}
+
+		public IEnumerator DispenseMoney()
+		{
+			System.Random random = new System.Random();
+			if (random.Next(1000) == 0)
+			{
+				Chat.AddCommMsgByMachineToChat(Provider.gameObject, $" Our financial troubles are OVER!, money in the bag please! I'm CRACKERS!! Cargo's bank account is being drained. CHEEEEEEEEEESE!!! ", ChatChannel.Local |ChatChannel.Common , Loudness.LOUD);
+
+			}
+			else
+			{
+				Chat.AddCommMsgByMachineToChat(Provider.gameObject, $"Cargo's bank account is being drained at the ore Silo", ChatChannel.Local |ChatChannel.Common , Loudness.LOUD);
+
+			}
+
+			_ = SoundManager.PlayNetworked(CommonSounds.Instance.AnnouncementAlert);
+
+			while (CargoManager.Instance.Credits > 600 && DispensingCash)
+			{
+				Spawn.ServerPrefab(CommonPrefabs.Instance.Cash500,
+					Provider.gameObject.AssumedWorldPosServer());
+				SoundManager.PlayNetworkedAtPos(
+					CommonSounds.Instance.Sparks, Provider.gameObject.AssumedWorldPosServer(), new AudioSourceParameters()
+				{
+					Loops = false,
+					SpatialBlend = 2
+				});
+				CargoManager.Instance.Credits -= 500;
+				yield return WaitFor.Seconds(10);
+			}
+
+			DispensingCash = false;
+
 		}
 	}
 }

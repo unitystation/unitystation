@@ -155,4 +155,6 @@ public static class TAG
 	public const string ADMIN_RESPAWN_SELF = "ADMIN_RESPAWN_SELF";
 	public const string MAP_CAMERA_OPTIONS = "MAP_CAMERA_OPTIONS";
 
+	public const string MANAGE_MIND_POSSESSING = "MANAGE_MIND_POSSESSING";
+	public const string MANAGE_MIND_OWNERSHIP = "MANAGE_MIND_OWNERSHIP";
 }

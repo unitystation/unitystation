@@ -1,4 +1,5 @@
-﻿using Core.Networking;
+﻿using System;
+using Core.Networking;
 using Logs;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,6 +10,13 @@ namespace Lobby
 	{
 		[SerializeField]
 		private InputField passwordInputField = null;
+
+		public bool Haspass = false;
+
+		public void OnEnable()
+		{
+			Haspass = true;
+		}
 
 		public void OnJoinBtn()
 		{

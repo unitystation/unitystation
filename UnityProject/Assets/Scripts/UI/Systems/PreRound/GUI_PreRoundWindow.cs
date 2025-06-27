@@ -104,7 +104,7 @@ namespace UI.Systems.PreRound
 
 		private bool IsServerDonePreparingThePlayer()
 		{
-			return PlayerManager.LocalViewerScript.ServerDoneLoading;
+			return PlayerManager.LocalViewerScript?.ServerDoneLoading == true;
 		}
 
 		private IEnumerator WaitForInitialisation()

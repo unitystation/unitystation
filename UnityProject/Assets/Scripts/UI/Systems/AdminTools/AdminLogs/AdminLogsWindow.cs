@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using Core.Admin.Logs;
 using Logs;
 using Messages.Client.Admin.Logs;
@@ -35,6 +36,37 @@ namespace UI.Systems.AdminTools.AdminLogs
 			logCategoriesFilterDropdown.AddOptions(Enum.GetNames(typeof(LogCategory)).ToList());
 		}
 
+		public void UpPage()
+		{
+			var CurrentPage = int.Parse(CurrentSelectedPageInput.text);
+
+
+			CurrentPage++;
+
+			var Max = int.Parse(AvaliablePagesText.text);
+
+			if (Max > CurrentPage)
+			{
+				CurrentPage = Max;
+			}
+
+			CurrentSelectedPageInput.text = (CurrentPage).ToString();
+			OnGoToPageButtonClick();
+		}
+		public void DownPage()
+		{
+			var CurrentPage = int.Parse(CurrentSelectedPageInput.text);
+			CurrentPage--;
+
+			if (1 > CurrentPage)
+			{
+				CurrentPage = 1;
+			}
+
+			CurrentSelectedPageInput.text = (CurrentPage).ToString();
+			OnGoToPageButtonClick();
+		}
+
 		private void RequestLogPage(string logFileName, int page)
 		{
 			RequestLogFilePageEntries.Send(page, logFileName, SearchField.text);
@@ -53,6 +85,18 @@ namespace UI.Systems.AdminTools.AdminLogs
 		private void RequestAllLogFileNames()
 		{
 			RequestLogFilesNames.Send(new RequestLogFilesNames.NetMessage());
+		}
+
+		public void SaveToClipboard()
+		{
+			StringBuilder Stringy = new StringBuilder();
+
+			foreach (var Log in logEntries)
+			{
+				Stringy.AppendLine(Log.ClipboardString());
+			}
+
+			GUIUtility.systemCopyBuffer = Stringy.ToString();
 		}
 
 

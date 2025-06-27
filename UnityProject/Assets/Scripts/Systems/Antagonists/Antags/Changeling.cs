@@ -35,11 +35,11 @@ namespace Changeling
 					new UI.CharacterCreator.CustomisationStorage()
 				};
 
-				return PlayerSpawn.NewSpawnPlayerV2(spawnRequest.Player, spawnRequest.RequestedOccupation, chSh);
+				return PlayerSpawn.NewSpawnCharacterV2(spawnRequest.Player, spawnRequest.RequestedOccupation, chSh);
 			}
 
 			// spawn them normally, with their preferred occupation
-			return PlayerSpawn.NewSpawnPlayerV2(spawnRequest.Player, spawnRequest.RequestedOccupation, spawnRequest.CharacterSettings);
+			return PlayerSpawn.NewSpawnCharacterV2(spawnRequest.Player, spawnRequest.RequestedOccupation, spawnRequest.CharacterSettings);
 		}
 
 		public override void AfterSpawn(Mind NewMind)

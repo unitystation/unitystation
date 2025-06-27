@@ -3,6 +3,7 @@ using System.Linq;
 using AdminCommands;
 using Core;
 using HealthV2;
+using JetBrains.Annotations;
 using Logs;
 using UnityEngine;
 using Mirror;
@@ -138,7 +139,7 @@ public static class PlayerSpawn
 		return spawnTransform.transform.position.CutToInt();
 	}
 
-	public static Mind NewSpawnPlayerV2(PlayerInfo account, Occupation requestedOccupation, CharacterSheet character)
+	public static Mind NewSpawnCharacterV2(PlayerInfo account, Occupation requestedOccupation, CharacterSheet character, bool OnlyMind = false)
 	{
 		try
 		{
@@ -147,7 +148,7 @@ public static class PlayerSpawn
 				character = CharacterSheet.GenerateRandomCharacter();
 			}
 
-			var mind = NewSpawnCharacterV2(requestedOccupation, character);
+			var mind = NewSpawnCharacterV2(requestedOccupation, character, OnlyMind : OnlyMind);
 			TransferAccountToSpawnedMind(account, mind);
 			OnNewMindSpawnEvent?.Invoke(mind);
 			return mind;
@@ -161,14 +162,17 @@ public static class PlayerSpawn
 
 
 	public static Mind NewSpawnCharacterV2(Occupation requestedOccupation, CharacterSheet character,
-		bool nonImportantMind = false)
+		bool nonImportantMind = false, bool OnlyMind = false)
 	{
 		//TODO: This is hard-coded for now and shouldn't be here.
 		if (IsValidForBorgName(requestedOccupation))
 			character.Name = StringManager.GetRandomGenericBorgSerialNumberName();
 		//Validate?
 		var mind = SpawnMind(character, nonImportantMind);
-		SpawnAndApplyRole(mind, requestedOccupation, character, SpawnType.NewSpawn);
+		if (OnlyMind == false)
+		{
+			SpawnAndApplyRole(mind, requestedOccupation, character, SpawnType.NewSpawn);
+		}
 		return mind;
 	}
 

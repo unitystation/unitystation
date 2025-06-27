@@ -70,8 +70,11 @@ namespace HealthV2.Living
 		}
 
 		[Command(requiresAuthority = false)]
-		public void ServerPerformInteraction(PlayerScript performer)
+		public void ServerPerformInteraction(PlayerScript performer, NetworkConnectionToClient sender = null)
 		{
+			if (sender == null) return;
+			if (Validations.CanApply(PlayerList.Instance.Get(sender).Script, this.gameObject, NetworkSide.Server, false, ReachRange.Standard) == false) return;
+
 			if (Vector3.Distance(performer.gameObject.AssumedWorldPosServer(), gameObject.AssumedWorldPosServer()) > 2f) return;
 			var bar = StandardProgressAction.Create(
 				new StandardProgressActionConfig(StandardProgressActionType.Restrain, true, false),

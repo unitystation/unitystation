@@ -4,6 +4,7 @@ using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using Core;
+using Core.Admin.Logs;
 using Items;
 using Logs;
 using Managers;
@@ -165,6 +166,11 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		}
 		OnInventoryMoveServerEvent?.Invoke(gameObject);
 
+		if (info.RemoveType is InventoryRemoveType.Drop or InventoryRemoveType.Throw)
+		{
+			AdminLogsManager.AddNewLog(info?.FromPlayer?.gameObject, " Dropped ", this.gameObject, LogCategory.Interaction);
+		}
+
 		switch (info.RemoveType)
 		{
 			case InventoryRemoveType.Drop:
@@ -272,6 +278,8 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		{
 			//pick it up normally - if it was floating, we will grab it while it's floating
 			//set ForceInform to false for simulation
+			AdminLogsManager.AddNewLog(interaction.Performer.gameObject, " Picked up ", this.gameObject, LogCategory.Interaction);
+
 			if (Inventory.ServerAdd(this, interaction.HandSlot))
 			{
 				Loggy.Trace().Format("Pickup success! server pos:{0} player pos:{1} (floating={2})", Category.Movement,

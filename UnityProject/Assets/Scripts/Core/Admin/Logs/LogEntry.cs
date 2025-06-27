@@ -156,6 +156,11 @@ namespace Core.Admin.Logs
 			Category = entry.Category.ToString();
 		}
 
+		public string ClipboardString()
+		{
+			return string.Join(" ", Log.Select(x => x.ClipboardString())) + " " + LogTime.ToString();
+		}
+
 		public struct LogItems
 		{
 			public string ObjectName;
@@ -165,6 +170,54 @@ namespace Core.Admin.Logs
 			public string PlayerAccountID;
 			public string PositionWorld;
 			public string Info;
+
+			public string ClipboardString()
+			{
+				if (string.IsNullOrEmpty(Info) == false)
+				{
+					return Info;
+				}
+				else
+				{
+					string Combine = "";
+					if (string.IsNullOrEmpty(ObjectName) == false)
+					{
+						Combine += ObjectName;
+					}
+
+					Combine += " ";
+					if (Object != 0)
+					{
+						Combine += Object.ToString();
+					}
+
+					Combine += " ";
+					if (string.IsNullOrEmpty(StoredInName) == false)
+					{
+						Combine += StoredInName;
+					}
+
+					Combine += " ";
+					if (StoredIn != 0)
+					{
+						Combine += StoredIn.ToString();
+					}
+
+					Combine += " ";
+					if (string.IsNullOrEmpty(PlayerAccountID) == false)
+					{
+						Combine += PlayerAccountID;
+					}
+
+					Combine += " ";
+					if (string.IsNullOrEmpty(PositionWorld) == false)
+					{
+						Combine += PositionWorld;
+					}
+
+					return Combine;
+				}
+			}
 
 			//CoreObjectName -> ObjectName -> ObjName=x
 		//		CoreObject -> Object -> Obj=x

@@ -65,6 +65,8 @@ public class Mind : NetworkBehaviour, IActionGUI
 	[SyncVar] private bool nonImportantMind = false;
 
 
+	public uint MindID = 0;
+
 	/// <summary>
 	/// True if this minds belong to an NPC
 	/// </summary>
@@ -105,9 +107,17 @@ public class Mind : NetworkBehaviour, IActionGUI
 			{
 				if (IDActivelyControlling is NetId.Invalid or NetId.Empty) return this.gameObject;
 				if (CustomNetworkManager.Spawned.ContainsKey(IDActivelyControlling) == false) return this.gameObject;
-				var Possessable = CustomNetworkManager.Spawned[IDActivelyControlling].GetComponent<IPlayerPossessable>();
+				var Possessing = CustomNetworkManager.Spawned[IDActivelyControlling];
 
-				return 	Possessable.ControllingObject;
+				var Possessable = Possessing.GetComponent<IPlayerPossessable>();
+				if (Possessable != null)
+				{
+					return 	Possessable.ControllingObject;
+				}
+				else
+				{
+					return 	Possessing.gameObject;
+				}
 			}
 			else
 			{
@@ -265,6 +275,9 @@ public class Mind : NetworkBehaviour, IActionGUI
 		{
 			UpdateManager.Add(CheckNonImportantMind, 30f);
 		}
+		MindID = MindManager.Instance.MindID;
+		MindManager.Instance.minds[MindID] = this;
+		MindManager.Instance.MindID++;
 	}
 
 	public void OnDestroy()
@@ -273,6 +286,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckNonImportantMind);
 		}
+		MindManager.Instance?.minds?.Remove(MindID);
 	}
 
 
@@ -999,5 +1013,20 @@ public class Mind : NetworkBehaviour, IActionGUI
 	public T GetPropertyOrDefault<T>(string key, T defaultValue)
 	{
 		return properties.GetOrDefault(key, defaultValue) is T typedProperty ? typedProperty : defaultValue;
+	}
+
+	public AdminMindEntryData GetAdminMindEntryData()
+	{
+		return new AdminMindEntryData()
+		{
+			MindUID =  MindID,
+			IsAntag = IsAntag,
+			ControlledByID = ControlledBy?.AccountId,
+			nonImportantMind = nonImportantMind,
+			PossessingObject = PossessingObject.NetId(),
+			occupationName = occupation?.name,
+			CurrentCharacterSettings = CurrentCharacterSettings
+		};
+
 	}
 }

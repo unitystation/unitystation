@@ -93,7 +93,7 @@ namespace Messages.Client.NewPlayer
 			if (msg.JobType == JobType.NULL)
 			{
 				character.ValidateSpeciesCanBePlayerChosen();
-				PlayerSpawn.NewSpawnPlayerV2(SentByPlayer, OccupationList.Instance.AllOcccupations.First(x => x.name == "Spectator") , character);
+				PlayerSpawn.NewSpawnCharacterV2(SentByPlayer, OccupationList.Instance.AllOcccupations.First(x => x.name == "Spectator") , character);
 			}
 			else
 			{
