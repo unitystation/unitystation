@@ -15,15 +15,16 @@ namespace Actions.V2.UI
 
         public void RefreshButtonsBody(SyncList<ActionButtonData> actionButtons) => RefreshButtons(actionButtons, spawnedButtonsBody);
 
-        public void RefreshButtonsMind(SyncList<ActionButtonData> actionButtons) => RefreshButtons(actionButtons, spawnedButtonsMind);
+        public void RefreshButtonsMind(SyncList<ActionButtonData> actionButtons) => RefreshButtons(actionButtons, spawnedButtonsMind, true);
 
-        private void RefreshButtons(SyncList<ActionButtonData> actionButtons, List<UIActionButton> spawnedButtons)
+        private void RefreshButtons(SyncList<ActionButtonData> actionButtons, List<UIActionButton> spawnedButtons, bool isMindAction = false)
         {
             var trackedItems = new List<string>();
 
             foreach (var buttonData in actionButtons)
             {
-                if (buttonData.TrackingObject != null &&
+	            if (buttonData == null || !PlayerManager.LocalMindScript) continue;
+                if (buttonData.TrackingObject &&
                     (PlayerManager.LocalMindScript.netIdentity.netId != buttonData.TrackingObject.netId
                      && PlayerManager.LocalMindScript.GetDeepestBody().netId != buttonData.TrackingObject.netId))
                 {
@@ -38,7 +39,7 @@ namespace Actions.V2.UI
 
                 var newButton = Instantiate(ActionButtonPrefab, transform);
                 var logic = newButton.GetComponent<UIActionButton>();
-	            logic?.Setup(buttonData);
+	            logic?.Setup(buttonData, isMindAction);
                 spawnedButtons.Add(logic);
             }
 

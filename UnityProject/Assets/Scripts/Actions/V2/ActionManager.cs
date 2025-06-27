@@ -10,15 +10,40 @@ namespace Actions.V2
 	public class ActionManager : NetworkBehaviour
 	{
 		[field: SerializeField] public OnType ActionButtonOnType { get; private set; } = OnType.Body;
-		[field: SerializeField] public float ActionButtonRefreshRate { get; private set; } = 5f;
+		[field: SerializeField] public float ActionButtonRefreshRate { get; private set; } = 0.75f;
 
-		public SyncList<ActionButtonData> ActionButtons = new SyncList<ActionButtonData>();
+		private SyncList<ActionButtonData> ActionButtons = new SyncList<ActionButtonData>();
+		private SyncList<CooldownInfo> ActionCooldowns = new();
 		private readonly Dictionary<string, (ActionButtonData Data, Action Action)> ServerActionRegistry = new();
 		private readonly Dictionary<string, (ActionButtonData Data, Action Action)> ClientActionRegistry = new();
 
-		private readonly Dictionary<string, DateTime> ActionCooldowns = new Dictionary<string, DateTime>();
-
 		private const float MINIMUM_COOLDOWN_TIME = 0.085f;
+
+		[Serializable]
+		private class CooldownInfo : NetworkMessage
+		{
+			public string ActionId { get; private set; }
+			public DateTime CooldownEnd { get; private set; }
+
+			public CooldownInfo() { }
+			public CooldownInfo(string actionId, DateTime cooldownEnd)
+			{
+				ActionId = actionId;
+				CooldownEnd = cooldownEnd;
+			}
+
+			public void Serialize(NetworkWriter writer)
+			{
+				writer.WriteString(ActionId);
+				writer.WriteLong(CooldownEnd.Ticks);
+			}
+
+			public void Deserialize(NetworkReader reader)
+			{
+				ActionId = reader.ReadString();
+				CooldownEnd = new DateTime(reader.ReadLong());
+			}
+		}
 
 		public enum OnType
 		{
@@ -46,7 +71,7 @@ namespace Actions.V2
 
 		private void UpdateMe()
 		{
-			if (PlayerManager.LocalMindScript.GetRelatedBodies().Contains(gameObject.NetWorkIdentity()) == false) return;
+			if (PlayerManager.LocalMindScript?.GetRelatedBodies().Contains(gameObject.NetWorkIdentity()) == false) return;
 			if (ActionButtonOnType == OnType.Body)
 			{
 				ActionButtonManager.Instance.RefreshButtonsBody(ActionButtons);
@@ -83,8 +108,19 @@ namespace Actions.V2
 			ActionButtons.Add(newData);
 		}
 
+		/// <summary>
+		/// Registers a new action with the given parameters.
+		/// </summary>
+		/// <param name="newID">the ID that will be used to trigger said command</param>
+		/// <param name="displayName">The UI name</param>
+		/// <param name="desc">The description of the action that will be executed</param>
+		/// <param name="triggerType">Do you want to execute this command on the server? the client? or both? (Server always recommended)</param>
+		/// <param name="Icon">The graphics used for the button</param>
+		/// <param name="logic">The actual function that will be run when pressing the button</param>
+		/// <param name="canBeUsedWhileGhosting">[Mind Action Manger Only] - Can this action be used while ghosting?</param>
+		/// <param name="cooldownTime">How long before we can run this command again?</param>
 		public void RegisterNewAction(string newID, string displayName, string desc, ActionTriggerType triggerType,
-			Sprite Icon, Action logic, float cooldownTime = 0f)
+			List<SpriteDataSO> Icon, Action logic, bool canBeUsedWhileGhosting = false, float cooldownTime = 0f)
 		{
 			var ActionData = new ActionButtonData
 			{
@@ -92,8 +128,9 @@ namespace Actions.V2
 				DisplayName = displayName,
 				Description = desc,
 				TriggerType = triggerType,
-				Icon = Icon,
 				CooldownTime = cooldownTime,
+				AnimatedIconCatalogue = Icon,
+				CanUseWhileGhosting = canBeUsedWhileGhosting,
 				TrackingObject = gameObject.NetWorkIdentity()
 			};
 
@@ -133,7 +170,7 @@ namespace Actions.V2
 		}
 
 		[Command]
-		public void CmdTriggerAction(string actionId)
+		public void CmdTriggerAction(string actionId, Vector2 mouseLocation)
 		{
 			if (IsActionOnCooldown(actionId)) return;
 			if (ServerActionRegistry.TryGetValue(actionId, out var found))
@@ -160,7 +197,7 @@ namespace Actions.V2
 		}
 
 		[Client]
-		public void TriggerClientAction(string actionId)
+		public void TriggerClientAction(string actionId, Vector2 mouseLocation)
 		{
 			if (IsActionOnCooldown(actionId)) return;
 			if (ClientActionRegistry.TryGetValue(actionId, out var found))
@@ -228,13 +265,13 @@ namespace Actions.V2
 		private void ClearCooldowns()
 		{
 			var now = DateTime.UtcNow;
-			var keysToRemove = new List<string>();
+			var keysToRemove = new List<CooldownInfo>();
 
 			foreach (var kvp in ActionCooldowns)
 			{
-				if (kvp.Value <= now)
+				if (kvp.CooldownEnd <= now)
 				{
-					keysToRemove.Add(kvp.Key);
+					keysToRemove.Add(kvp);
 				}
 			}
 
@@ -248,22 +285,37 @@ namespace Actions.V2
 		{
 			if (cooldownTime <= 0.085f) return;
 			var cooldownEnd = DateTime.UtcNow.AddSeconds(cooldownTime);
-			ActionCooldowns[actionId] = cooldownEnd;
+			if (ActionCooldowns.Find(x => x.ActionId == actionId) is { } _)
+			{
+				return;
+			}
+			ActionCooldowns.Add(new CooldownInfo(actionId, cooldownEnd));
 		}
 
 		private bool IsActionOnCooldown(string actionId)
 		{
-			if (ActionCooldowns.TryGetValue(actionId, out var cooldownEnd))
+			var isUnderCooldown = ActionCooldowns.Find(tuple => tuple.ActionId == actionId);
+			if (isUnderCooldown == null) return false;
+			if (isUnderCooldown.CooldownEnd <= DateTime.UtcNow)
 			{
-				var isUnderCooldown = cooldownEnd > DateTime.UtcNow;
-				if (isUnderCooldown)
-				{
-					Chat.AddExamineMsg(gameObject,
-						$"This action is still on cooldown, remaining time: {Math.Round((cooldownEnd - DateTime.UtcNow).TotalSeconds, 2)} seconds.");
-				}
-				return isUnderCooldown;
+				ActionCooldowns.Remove(isUnderCooldown);
+				return false; // Cooldown has expired
 			}
-			return false;
+			else
+			{
+				Chat.AddExamineMsg(gameObject,
+					$"This action is still on cooldown, remaining time: {Math.Round((isUnderCooldown.CooldownEnd - DateTime.UtcNow).TotalSeconds, 2)} seconds.");
+				return true;
+			}
+		}
+
+		[Client]
+		public float GetRemainingCooldown(string actionId)
+		{
+			var isUnderCooldown = ActionCooldowns.Find(tuple => tuple.ActionId == actionId);
+			if (isUnderCooldown == null) return 0f;
+			var remaining = (isUnderCooldown.CooldownEnd - DateTime.UtcNow).TotalSeconds;
+			return remaining > 0 ? (float)remaining : 0f;
 		}
 	}
 }

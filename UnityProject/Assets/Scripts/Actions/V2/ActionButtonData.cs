@@ -1,5 +1,7 @@
-﻿using Mirror;
+﻿using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Actions.V2
 {
@@ -24,9 +26,9 @@ namespace Actions.V2
 		public string Description;
 		public ActionTriggerType TriggerType;
 		public ActionType Type;
-		public Sprite Icon;
-		public SpriteDataSO AnimatedIcon;
+		public List<SpriteDataSO> AnimatedIconCatalogue;
 		public float CooldownTime;
+		public bool CanUseWhileGhosting = false;
 
 		public bool HasCustomCursorOffset { get; set; }
 		public bool HasCustomCursor;

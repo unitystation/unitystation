@@ -438,6 +438,7 @@ MonoBehaviour:
     Species: Human
     Voice: Male 01
   ghostLocked: 0
+  PlayerButtonedActions: {fileID: 7004486458757816502}
   Move: {fileID: 0}
   actionData: {fileID: 11400000, guid: 288088e3bb7768d41a2fe1b2c170fbce, type: 2}
 --- !u!114 &8715673610173069278
@@ -535,10 +536,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0
-  syncMode: 0
+  syncMode: 1
   syncInterval: 0
   <ActionButtonOnType>k__BackingField: 1
-  <ActionButtonRefreshRate>k__BackingField: 2.5
+  <ActionButtonRefreshRate>k__BackingField: 0.35
 --- !u!1 &7113893953078827476
 GameObject:
   m_ObjectHideFlags: 0

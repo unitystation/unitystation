@@ -110,7 +110,7 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 	[field: SerializeField] public MobTraversal Traversal { get; private set; }
 	[field: SerializeField] public GroupedAccess Access { get; private set; }
 	[field: SerializeField] public ActionManager PlayerButtonedActions { get; private set; }
-	[field: SerializeField] public ActionManager PlayerButtonedMindActions => Mind?.PlayerButtonedActions;
+	public ActionManager PlayerButtonedMindActions => Mind?.PlayerButtonedActions;
 
 	public PlayerStats PlayerStats { get; private set; }
 

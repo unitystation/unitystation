@@ -6,6 +6,7 @@ using NaughtyAttributes;
 using ScriptableObjects.Systems.Spells;
 using Logs;
 using System;
+using Actions.V2;
 
 [System.Serializable]
 
@@ -86,6 +87,30 @@ public class ActionData : ScriptableObject
 		Loggy.Error($"ScriptableObject.ActionData.activeSpriteIndex set to a value({activeSpriteIndex}) without a matching sprite, falling back to sprite 0.");
 		activeSpriteIndex = 0;
 		return true;
+	}
+
+	public ActionButtonData ToActionButtonData()
+	{
+		return new ActionButtonData
+		{
+			ID = Name,
+			DisplayName = Name,
+			Description = Description,
+			TriggerType = DetermineTriggerType(),
+			Type = ActionType == UIActionType.Toggle ? Actions.V2.ActionType.Activated : Actions.V2.ActionType.Trigger,
+			AnimatedIconCatalogue = Sprites,
+			HasCustomCursor = HasCustomCursor,
+			CursorTexture = CursorTexture,
+			HasCustomCursorOffset = HasCustomCursorOffset,
+			OffsetType = OffsetType,
+			CursorOffset = CursorOffset
+		};
+	}
+
+	private ActionTriggerType DetermineTriggerType()
+	{
+		if (CallOnServer && CallOnClient) return ActionTriggerType.Both;
+		return CallOnServer ? ActionTriggerType.ServerOnly : ActionTriggerType.ClientOnly;
 	}
 }
 
