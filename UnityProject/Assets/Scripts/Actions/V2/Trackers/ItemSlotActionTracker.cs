@@ -61,6 +61,7 @@ namespace Actions.V2.Trackers
 
 		public void WhenHolderIsOutOfRange()
 		{
+			if (TargetActionManager == null) return;
 			foreach (var actionData in ActionData.Keys)
 			{
 				TargetActionManager.UnregisterAction(actionData);

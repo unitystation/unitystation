@@ -27,7 +27,7 @@ namespace HealthV2.Living.Mutations.Surface
 		{
 			var playerScript = GetComponent<PlayerScript>();
 			playerScript.PlayerButtonedActions.RegisterNewAction($"{gameObject.NetId()}_player_become_invisible", "Become Invisible",
-				"Make yourself invisible to other players.", ActionTriggerType.ServerOnly, null, () =>
+				"Make yourself invisible to other players.", ActionTriggerType.ServerOnly, null, v =>
 				{
 					if (!gameObject)
 					{
@@ -42,7 +42,7 @@ namespace HealthV2.Living.Mutations.Surface
 				await UniTask.WaitForSeconds(2f);
 			}
 			playerScript.PlayerButtonedMindActions?.RegisterNewAction($"{gameObject.NetId()}_player_become_visible", "Become visible",
-				"Make yourself visible to other players.", ActionTriggerType.ServerOnly, null, () =>
+				"Make yourself visible to other players.", ActionTriggerType.ServerOnly, null, v =>
 				{
 					if (!gameObject)
 					{

@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using TMPro;
+using UI.Core.Action;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Actions.V2.UI
 {
-	public class UIActionButton : MonoBehaviour
+	public class UIActionButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 	{
 		public ActionButtonData ActionData;
 		public Image Background;
@@ -20,6 +22,8 @@ namespace Actions.V2.UI
 		private Color defaultColor;
 
 		private List<ActionManager> ControlledActionManagers = new List<ActionManager>();
+		private ActionTooltip Tooltip => UIActionManager.Instance.TooltipInstance;
+		private static readonly Vector3 tooltipOffset = new Vector3(-40, -60);
 
 		public void Setup(ActionButtonData buttonData, bool isMindAction)
 		{
@@ -173,6 +177,18 @@ namespace Actions.V2.UI
 				if (cooldownOverlay) cooldownOverlay.gameObject.SetActive(false);
 				cooldownText.text = string.Empty;
 			}
+		}
+
+		public void OnPointerEnter(PointerEventData eventData)
+		{
+			Tooltip.gameObject.SetActive(true);
+			Tooltip.transform.position = transform.position + tooltipOffset;
+			Tooltip.ApplyActionData(ActionData);
+		}
+
+		public void OnPointerExit(PointerEventData eventData)
+		{
+			Tooltip.gameObject.SetActive(false);
 		}
 	}
 }

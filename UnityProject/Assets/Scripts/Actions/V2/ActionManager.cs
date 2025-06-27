@@ -14,8 +14,8 @@ namespace Actions.V2
 
 		private SyncList<ActionButtonData> ActionButtons = new SyncList<ActionButtonData>();
 		private SyncList<CooldownInfo> ActionCooldowns = new();
-		private readonly Dictionary<string, (ActionButtonData Data, Action Action)> ServerActionRegistry = new();
-		private readonly Dictionary<string, (ActionButtonData Data, Action Action)> ClientActionRegistry = new();
+		private readonly Dictionary<string, (ActionButtonData Data, Action<Vector2> Action)> ServerActionRegistry = new();
+		private readonly Dictionary<string, (ActionButtonData Data, Action<Vector2> Action)> ClientActionRegistry = new();
 
 		private const float MINIMUM_COOLDOWN_TIME = 0.085f;
 
@@ -88,7 +88,7 @@ namespace Actions.V2
 			UpdateMe();
 		}
 
-		public void RegisterNewAction(ActionButtonData newData, Action logic)
+		public void RegisterNewAction(ActionButtonData newData, Action<Vector2> logic)
 		{
 			newData.TrackingObject = gameObject.NetWorkIdentity();
 			switch (newData.TriggerType)
@@ -120,7 +120,7 @@ namespace Actions.V2
 		/// <param name="canBeUsedWhileGhosting">[Mind Action Manger Only] - Can this action be used while ghosting?</param>
 		/// <param name="cooldownTime">How long before we can run this command again?</param>
 		public void RegisterNewAction(string newID, string displayName, string desc, ActionTriggerType triggerType,
-			List<SpriteDataSO> Icon, Action logic, bool canBeUsedWhileGhosting = false, float cooldownTime = 0f)
+			List<SpriteDataSO> Icon, Action<Vector2> logic, bool canBeUsedWhileGhosting = false, float cooldownTime = 0f)
 		{
 			var ActionData = new ActionButtonData
 			{
@@ -179,7 +179,7 @@ namespace Actions.V2
 
 				try
 				{
-					found.Action?.Invoke();
+					found.Action?.Invoke(mouseLocation);
 					if (found.Data.CooldownTime > MINIMUM_COOLDOWN_TIME)
 					{
 						AddCooldown(actionId, found.Data.CooldownTime);
@@ -202,12 +202,12 @@ namespace Actions.V2
 			if (IsActionOnCooldown(actionId)) return;
 			if (ClientActionRegistry.TryGetValue(actionId, out var found))
 			{
-				found.Action?.Invoke();
+				found.Action?.Invoke(mouseLocation);
 			}
 		}
 
 		[Server]
-		public void ServerAddAction(ActionButtonData actionData, Action newAction)
+		public void ServerAddAction(ActionButtonData actionData, Action<Vector2> newAction)
 		{
 			Debug.Log("adding action to serverActionRegistry: " + actionData);
 			if (ServerActionRegistry.ContainsKey(actionData.ID) == false)
@@ -235,7 +235,7 @@ namespace Actions.V2
 		}
 
 		[Client]
-		public void ClientAddAction(ActionButtonData actionId, Action newAction)
+		public void ClientAddAction(ActionButtonData actionId, Action<Vector2> newAction)
 		{
 			Debug.Log("adding action to clientActionRegistry: " + actionId);
 			if (ClientActionRegistry.ContainsKey(actionId.ID) == false)
