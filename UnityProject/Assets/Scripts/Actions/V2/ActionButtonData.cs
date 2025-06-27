@@ -17,7 +17,7 @@ namespace Actions.V2
 	}
 
 	[System.Serializable]
-	public struct ActionButtonData
+	public class ActionButtonData
 	{
 		public string ID;
 		public string DisplayName;
@@ -33,5 +33,7 @@ namespace Actions.V2
 		public CursorOffsetType OffsetType;
 		public Vector2 CursorOffset;
 		public Texture2D CursorTexture;
+
+		[HideInInspector] public NetworkIdentity TrackingObject;
 	}
 }

@@ -21,23 +21,28 @@ namespace Actions.V2.Trackers
 				return;
 			}
 
-			pickupable.OnInventoryMoveServerEvent.AddListener(OnInventoryMovementCheck);
+			pickupable.OnItemSlotChanged.CachedAction += OnInventoryMovementCheck;
 		}
 
 		private void OnDestroy()
 		{
 			if (pickupable != null)
 			{
-				pickupable.OnInventoryMoveServerEvent.RemoveListener(OnInventoryMovementCheck);
+				pickupable.OnItemSlotChanged.CachedAction -= OnInventoryMovementCheck;
 			}
 		}
 
-		private void OnInventoryMovementCheck(GameObject inventory)
+		private void OnInventoryMovementCheck()
 		{
-			if (inventory == null) return;
-			if (inventory.TryGetComponent<ActionManager>(out ActionManager actionManager))
+			if (pickupable.ItemSlot == null)
 			{
-				TargetActionManager = actionManager;
+				WhenHolderIsOutOfRange();
+				return;
+			}
+			if (pickupable.ItemSlot.Player != null)
+			{
+				WhenHolderIsOutOfRange();
+				TargetActionManager = pickupable.ItemSlot.Player.PlayerScript.PlayerButtonedActions;
 				WhenHolderIsInRange();
 			}
 			else

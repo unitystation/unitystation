@@ -15,12 +15,12 @@ namespace SecureStuff
 		[SerializeField] private UnityEngine.Object target;
 		[SerializeField] private string methodName;
 
-		private Action cachedAction;
+		public Action CachedAction;
 
 		public void Invoke()
 		{
-			if (cachedAction == null) Cache();
-			cachedAction?.Invoke();
+			if (CachedAction == null) Cache();
+			CachedAction?.Invoke();
 		}
 
 		private void Cache()
@@ -32,7 +32,7 @@ namespace SecureStuff
 
 			if (method != null && method.GetParameters().Length == 0)
 			{
-				cachedAction = (Action)Delegate.CreateDelegate(typeof(Action), target, method);
+				CachedAction += (Action)Delegate.CreateDelegate(typeof(Action), target, method);
 			}
 			else
 			{

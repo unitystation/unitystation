@@ -9,6 +9,7 @@ namespace Actions.V2
 {
 	public class ActionManager : NetworkBehaviour
 	{
+		[field: SerializeField] public OnType ActionButtonOnType { get; private set; } = OnType.Body;
 		[field: SerializeField] public float ActionButtonRefreshRate { get; private set; } = 5f;
 
 		public SyncList<ActionButtonData> ActionButtons = new SyncList<ActionButtonData>();
@@ -18,6 +19,12 @@ namespace Actions.V2
 		private readonly Dictionary<string, DateTime> ActionCooldowns = new Dictionary<string, DateTime>();
 
 		private const float MINIMUM_COOLDOWN_TIME = 0.085f;
+
+		public enum OnType
+		{
+			Body,
+			Mind
+		}
 
 		public override void OnStartClient()
 		{
@@ -39,23 +46,26 @@ namespace Actions.V2
 
 		private void UpdateMe()
 		{
-			if (PlayerManager.LocalPlayerObject == gameObject)
+			if (PlayerManager.LocalMindScript.GetRelatedBodies().Contains(gameObject.NetWorkIdentity()) == false) return;
+			if (ActionButtonOnType == OnType.Body)
 			{
-				ActionButtonManager.Instance.RefreshButtons(ActionButtons);
+				ActionButtonManager.Instance.RefreshButtonsBody(ActionButtons);
+			}
+			else
+			{
+				ActionButtonManager.Instance.RefreshButtonsMind(ActionButtons);
 			}
 		}
 
 		private void OnActionButtonsChanged(SyncList<ActionButtonData>.Operation op, int index, ActionButtonData oldItem, ActionButtonData newItem)
 		{
 			// Notify UI system on client to refresh buttons
-			if (isLocalPlayer)
-			{
-				ActionButtonManager.Instance.RefreshButtons(ActionButtons);
-			}
+			UpdateMe();
 		}
 
 		public void RegisterNewAction(ActionButtonData newData, Action logic)
 		{
+			newData.TrackingObject = gameObject.NetWorkIdentity();
 			switch (newData.TriggerType)
 			{
 				case ActionTriggerType.ServerOnly:
@@ -83,7 +93,8 @@ namespace Actions.V2
 				Description = desc,
 				TriggerType = triggerType,
 				Icon = Icon,
-				CooldownTime = cooldownTime
+				CooldownTime = cooldownTime,
+				TrackingObject = gameObject.NetWorkIdentity()
 			};
 
 			switch (triggerType)

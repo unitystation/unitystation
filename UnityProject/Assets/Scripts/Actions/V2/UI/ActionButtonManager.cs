@@ -1,50 +1,56 @@
 ﻿using System.Collections.Generic;
+using Logs;
 using Mirror;
 using Shared.Managers;
 using UnityEngine;
 
 namespace Actions.V2.UI
 {
-	public class ActionButtonManager : SingletonManager<ActionButtonManager>
-	{
-		public GameObject ActionButtonPrefab;
+    public class ActionButtonManager : SingletonManager<ActionButtonManager>
+    {
+        public GameObject ActionButtonPrefab;
 
-		private List<UIActionButton> spawnedButtons = new List<UIActionButton>();
+        private List<UIActionButton> spawnedButtonsBody = new List<UIActionButton>();
+        private List<UIActionButton> spawnedButtonsMind = new List<UIActionButton>();
 
-		public void RefreshButtons(SyncList<ActionButtonData> actionButtons)
-		{
-			var trackedItems = new List<string>();
-			var itemsToRemove = new List<string>();
-			foreach (var buttonData in actionButtons)
-			{
-				trackedItems.Add(buttonData.ID);
-				Debug.Log($"Refreshing button: {buttonData.DisplayName} with ID: {buttonData.ID}");
-				if (spawnedButtons.Exists(b => b.name == buttonData.ID))
-				{
+        public void RefreshButtonsBody(SyncList<ActionButtonData> actionButtons) => RefreshButtons(actionButtons, spawnedButtonsBody);
+
+        public void RefreshButtonsMind(SyncList<ActionButtonData> actionButtons) => RefreshButtons(actionButtons, spawnedButtonsMind);
+
+        private void RefreshButtons(SyncList<ActionButtonData> actionButtons, List<UIActionButton> spawnedButtons)
+        {
+            var trackedItems = new List<string>();
+
+            foreach (var buttonData in actionButtons)
+            {
+                if (buttonData.TrackingObject != null &&
+                    (PlayerManager.LocalMindScript.netIdentity.netId != buttonData.TrackingObject.netId
+                     && PlayerManager.LocalMindScript.GetDeepestBody().netId != buttonData.TrackingObject.netId))
+                {
 					continue;
-				}
-				// Create a new button if it doesn't exist
-				var newButton = Instantiate(ActionButtonPrefab, transform);
-				var logic = newButton.GetComponent<UIActionButton>();
-				logic.Setup(buttonData);
-				spawnedButtons.Add(logic);
-			}
+                }
 
-			foreach (var b in spawnedButtons)
-			{
-				if (trackedItems.Contains(b.name)) continue;
-				itemsToRemove.Add(b.name);
-			}
+                trackedItems.Add(buttonData.ID);
+                if (spawnedButtons.Exists(b => b.name == buttonData.ID))
+                {
+                    continue;
+                }
 
-			spawnedButtons.RemoveAll(x =>
-			{
-				var shouldRemove = itemsToRemove.Contains(x.name);
-				if (shouldRemove)
-				{
-					Destroy(x.gameObject);
-				}
-				return shouldRemove;
-			});
-		}
-	}
+                var newButton = Instantiate(ActionButtonPrefab, transform);
+                var logic = newButton.GetComponent<UIActionButton>();
+	            logic?.Setup(buttonData);
+                spawnedButtons.Add(logic);
+            }
+
+            spawnedButtons.RemoveAll(x =>
+            {
+                var shouldRemove = trackedItems.Contains(x.ActionData.ID) == false;
+                if (shouldRemove)
+                {
+                    Destroy(x.gameObject);
+                }
+                return shouldRemove;
+            });
+        }
+    }
 }
