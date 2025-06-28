@@ -175,3 +175,4 @@ Because `CmdTriggerAction` uses Mirror RPCs to function, other users cannot run 
 
 Clients can lose their client sided actions' logic upon relogging into the game. Programmers who decide to implement client sided actions must reassign that logic themselves to clients. You don't have to worry about this on the server side, as the logic will always be tracked on its side (unless the server goes up in flames and restarts, then the actions and their logic are lost)
 
+The system currently is missing a proper way to handle contextual sprites for buttons. The old system *technically* did have one, but it was for a very specific component.

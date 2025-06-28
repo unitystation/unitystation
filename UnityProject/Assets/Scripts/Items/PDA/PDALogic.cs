@@ -222,6 +222,11 @@ namespace Items.PDA
 			flashlight.Toggle(!flashlight.IsOn);
 		}
 
+		public void ToggleFlashlight(Vector2 mousePosition)
+		{
+			flashlight.Toggle(!flashlight.IsOn);
+		}
+
 		/// <summary>
 		/// Resets PDA and tells the MessengerManager to set PDA to unknown
 		/// </summary>
