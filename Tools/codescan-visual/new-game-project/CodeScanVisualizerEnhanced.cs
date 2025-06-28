@@ -15,8 +15,18 @@ public partial class CodeScanVisualizerEnhanced : Control
     private Button _expandAllButton;
     private Button _collapseAllButton;
     private Button _exportButton;
+    private Button _addItemButton;
+    private Button _exportJsonButton;
     private TabContainer _tabContainer;
     private RichTextLabel _jsonViewer;
+    private AcceptDialog _addItemDialog;
+    private OptionButton _addItemTypeOption;
+    private OptionButton _addItemNamespaceOption;
+    private OptionButton _addItemTypeParentOption;
+    private Label _addItemExtraLabel;
+    private LineEdit _addItemNameEdit;
+    private Button _addItemConfirmButton;
+    private CheckBox _addTypeAllCheckbox;
     
     public override void _Ready()
     {
@@ -42,6 +52,12 @@ public partial class CodeScanVisualizerEnhanced : Control
         _searchBox.SizeFlagsHorizontal = SizeFlags.ExpandFill;
         toolbar.AddChild(_searchBox);
         
+        // Add Item button
+        _addItemButton = new Button();
+        _addItemButton.Text = "➕ Add Item";
+        _addItemButton.Pressed += OnAddItemPressed;
+        toolbar.AddChild(_addItemButton);
+        
         // Refresh button
         _refreshButton = new Button();
         _refreshButton.Text = "🔄 Refresh";
@@ -60,11 +76,17 @@ public partial class CodeScanVisualizerEnhanced : Control
         _collapseAllButton.Pressed += OnCollapseAllPressed;
         toolbar.AddChild(_collapseAllButton);
         
-        // Export button
+        // Export Stats button
         _exportButton = new Button();
         _exportButton.Text = "💾 Export Stats";
         _exportButton.Pressed += OnExportPressed;
         toolbar.AddChild(_exportButton);
+        
+        // Export JSON button
+        _exportJsonButton = new Button();
+        _exportJsonButton.Text = "📝 Export JSON";
+        _exportJsonButton.Pressed += OnExportJsonPressed;
+        toolbar.AddChild(_exportJsonButton);
         
         // Status and stats labels
         var infoContainer = new HBoxContainer();
@@ -116,6 +138,50 @@ public partial class CodeScanVisualizerEnhanced : Control
         _jsonViewer.BbcodeEnabled = true;
         _jsonViewer.ScrollFollowing = true;
         jsonTab.AddChild(_jsonViewer);
+
+        // Add Item Dialog
+        _addItemDialog = new AcceptDialog();
+        _addItemDialog.Title = "Add New Item";
+        _addItemDialog.DialogText = "Choose what you want to add and enter the name:";
+        _addItemDialog.Exclusive = true;
+        AddChild(_addItemDialog);
+
+        var vbox = new VBoxContainer();
+        _addItemDialog.AddChild(vbox);
+
+        _addItemTypeOption = new OptionButton();
+        _addItemTypeOption.AddItem("📦 Namespace");
+        _addItemTypeOption.AddItem("🔷 Type");
+        _addItemTypeOption.AddItem("⚡ Method");
+        _addItemTypeOption.AddItem("📝 Field");
+        _addItemTypeOption.ItemSelected += OnAddItemTypeChanged;
+        vbox.AddChild(_addItemTypeOption);
+
+        _addItemNamespaceOption = new OptionButton();
+        vbox.AddChild(_addItemNamespaceOption);
+        _addItemNamespaceOption.Visible = false;
+
+        _addItemTypeParentOption = new OptionButton();
+        vbox.AddChild(_addItemTypeParentOption);
+        _addItemTypeParentOption.Visible = false;
+
+        _addTypeAllCheckbox = new CheckBox();
+        _addTypeAllCheckbox.Text = "All: true (allow all members)";
+        vbox.AddChild(_addTypeAllCheckbox);
+        _addTypeAllCheckbox.Visible = false;
+
+        _addItemExtraLabel = new Label();
+        vbox.AddChild(_addItemExtraLabel);
+        _addItemExtraLabel.Visible = false;
+
+        _addItemNameEdit = new LineEdit();
+        _addItemNameEdit.PlaceholderText = "Enter name...";
+        vbox.AddChild(_addItemNameEdit);
+
+        _addItemConfirmButton = new Button();
+        _addItemConfirmButton.Text = "Add";
+        _addItemConfirmButton.Pressed += OnAddItemConfirmPressed;
+        vbox.AddChild(_addItemConfirmButton);
     }
     
     private void LoadCodeScanData()
@@ -418,6 +484,25 @@ public partial class CodeScanVisualizerEnhanced : Control
         ExportStatistics();
     }
     
+    private void OnExportJsonPressed()
+    {
+        try
+        {
+            var options = new System.Text.Json.JsonSerializerOptions { WriteIndented = true };
+            var json = System.Text.Json.JsonSerializer.Serialize(_codeScanData, options);
+            var timestamp = DateTime.Now.ToString("yyyyMMdd-HHmmss");
+            var filePath = $"res://CodeScanList-{timestamp}.json";
+            var file = FileAccess.Open(filePath, FileAccess.ModeFlags.Write);
+            file.StoreString(json);
+            file.Close();
+            _statusLabel.Text = $"Exported JSON to: {filePath}";
+        }
+        catch (Exception e)
+        {
+            _statusLabel.Text = $"Export failed: {e.Message}";
+        }
+    }
+    
     private void ExportStatistics()
     {
         if (_codeScanData == null) return;
@@ -518,5 +603,161 @@ public partial class CodeScanVisualizerEnhanced : Control
             CollapseAllItems(child);
             child = child.GetNext();
         }
+    }
+
+    private void OnAddItemPressed()
+    {
+        _addItemNameEdit.Text = "";
+        _addItemTypeOption.Selected = 0;
+        UpdateAddItemDialogUI();
+        _addItemDialog.PopupCentered();
+    }
+
+    private void OnAddItemTypeChanged(long idx)
+    {
+        UpdateAddItemDialogUI();
+    }
+
+    private void UpdateAddItemDialogUI()
+    {
+        var selected = _addItemTypeOption.Selected;
+        _addItemNamespaceOption.Visible = false;
+        _addItemTypeParentOption.Visible = false;
+        _addItemExtraLabel.Visible = false;
+        _addTypeAllCheckbox.Visible = false;
+        _addItemNamespaceOption.Clear();
+        _addItemTypeParentOption.Clear();
+        if (selected == 0) // Namespace
+        {
+            _addItemNameEdit.PlaceholderText = "Enter namespace name...";
+        }
+        else if (selected == 1) // Type
+        {
+            _addItemNamespaceOption.Visible = true;
+            _addTypeAllCheckbox.Visible = true;
+            _addTypeAllCheckbox.ButtonPressed = false;
+            _addItemNameEdit.PlaceholderText = "Enter type name...";
+            foreach (var ns in _codeScanData.Types.Keys)
+                _addItemNamespaceOption.AddItem(ns);
+            if (_addItemNamespaceOption.ItemCount == 0)
+                _addItemNamespaceOption.AddItem("<No namespaces>");
+        }
+        else if (selected == 2 || selected == 3) // Method or Field
+        {
+            _addItemNamespaceOption.Visible = true;
+            _addItemTypeParentOption.Visible = true;
+            _addItemNameEdit.PlaceholderText = selected == 2 ? "Enter method signature..." : "Enter field name...";
+            foreach (var ns in _codeScanData.Types.Keys)
+                _addItemNamespaceOption.AddItem(ns);
+            if (_addItemNamespaceOption.ItemCount == 0)
+                _addItemNamespaceOption.AddItem("<No namespaces>");
+            UpdateTypeParentOptions();
+        }
+    }
+
+    private void UpdateTypeParentOptions()
+    {
+        _addItemTypeParentOption.Clear();
+        var nsIdx = _addItemNamespaceOption.Selected;
+        if (nsIdx < 0 || nsIdx >= _codeScanData.Types.Count) return;
+        var ns = _addItemNamespaceOption.GetItemText(nsIdx);
+        if (!_codeScanData.Types.ContainsKey(ns)) return;
+        foreach (var type in _codeScanData.Types[ns].Keys)
+            _addItemTypeParentOption.AddItem(type);
+        if (_addItemTypeParentOption.ItemCount == 0)
+            _addItemTypeParentOption.AddItem("<No types>");
+    }
+
+    private void OnAddItemConfirmPressed()
+    {
+        var selected = _addItemTypeOption.Selected;
+        var name = _addItemNameEdit.Text.Trim();
+        if (string.IsNullOrEmpty(name))
+        {
+            _statusLabel.Text = "Name cannot be empty.";
+            return;
+        }
+        if (selected == 0) // Namespace
+        {
+            if (!_codeScanData.Types.ContainsKey(name))
+            {
+                _codeScanData.Types[name] = new Dictionary<string, TypeData>();
+                _statusLabel.Text = $"Added namespace '{name}'.";
+            }
+            else
+            {
+                _statusLabel.Text = $"Namespace '{name}' already exists.";
+            }
+        }
+        else if (selected == 1) // Type
+        {
+            var nsIdx = _addItemNamespaceOption.Selected;
+            if (nsIdx < 0) { _statusLabel.Text = "Select a namespace."; return; }
+            var ns = _addItemNamespaceOption.GetItemText(nsIdx);
+            if (!_codeScanData.Types.ContainsKey(ns)) { _statusLabel.Text = "Invalid namespace."; return; }
+            if (!_codeScanData.Types[ns].ContainsKey(name))
+            {
+                var typeData = new TypeData();
+                typeData.All = _addTypeAllCheckbox.ButtonPressed;
+                _codeScanData.Types[ns][name] = typeData;
+                _statusLabel.Text = $"Added type '{name}' to namespace '{ns}' (All: {typeData.All.ToString().ToLower()}).";
+            }
+            else
+            {
+                _statusLabel.Text = $"Type '{name}' already exists in '{ns}'.";
+            }
+        }
+        else if (selected == 2 || selected == 3) // Method or Field
+        {
+            var nsIdx = _addItemNamespaceOption.Selected;
+            var typeIdx = _addItemTypeParentOption.Selected;
+            if (nsIdx < 0 || typeIdx < 0) { _statusLabel.Text = "Select a namespace and type."; return; }
+            var ns = _addItemNamespaceOption.GetItemText(nsIdx);
+            var type = _addItemTypeParentOption.GetItemText(typeIdx);
+            if (!_codeScanData.Types.ContainsKey(ns) || !_codeScanData.Types[ns].ContainsKey(type))
+            { _statusLabel.Text = "Invalid namespace or type."; return; }
+            var typeData = _codeScanData.Types[ns][type];
+            if (selected == 2) // Method
+            {
+                if (!typeData.Methods.Contains(name))
+                {
+                    typeData.Methods.Add(name);
+                    _statusLabel.Text = $"Added method '{name}' to type '{type}' in '{ns}'.";
+                }
+                else
+                {
+                    _statusLabel.Text = $"Method '{name}' already exists in '{type}'.";
+                }
+            }
+            else // Field
+            {
+                if (!typeData.Fields.Contains(name))
+                {
+                    typeData.Fields.Add(name);
+                    _statusLabel.Text = $"Added field '{name}' to type '{type}' in '{ns}'.";
+                }
+                else
+                {
+                    _statusLabel.Text = $"Field '{name}' already exists in '{type}'.";
+                }
+            }
+        }
+        _addItemDialog.Hide();
+        PopulateTree();
+        UpdateStatistics();
+    }
+
+    // Update type options when namespace changes
+    public override void _Process(double delta)
+    {
+        if (_addItemNamespaceOption.Visible && _addItemTypeParentOption.Visible)
+        {
+            _addItemNamespaceOption.ItemSelected -= OnNamespaceChangedForTypeParent;
+            _addItemNamespaceOption.ItemSelected += OnNamespaceChangedForTypeParent;
+        }
+    }
+    private void OnNamespaceChangedForTypeParent(long idx)
+    {
+        UpdateTypeParentOptions();
     }
 } 
