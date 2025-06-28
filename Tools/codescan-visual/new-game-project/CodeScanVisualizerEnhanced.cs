@@ -503,7 +503,11 @@ public partial class CodeScanVisualizerEnhanced : Control
     {
         using var doc = System.Text.Json.JsonDocument.Parse(json);
         var compact = RemoveEmptyJsonPropertiesRecursive(doc.RootElement);
-        return System.Text.Json.JsonSerializer.Serialize(compact, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
+        return System.Text.Json.JsonSerializer.Serialize(compact, new System.Text.Json.JsonSerializerOptions
+        {
+            WriteIndented = true,
+            DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull | System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault
+        });
     }
 
     private object RemoveEmptyJsonPropertiesRecursive(System.Text.Json.JsonElement element)
@@ -519,10 +523,22 @@ public partial class CodeScanVisualizerEnhanced : Control
                         continue;
 
                     var value = RemoveEmptyJsonPropertiesRecursive(prop.Value);
+
                     // Remove if value is empty array, empty object, or empty string
-                    if (value is IList<object> list && list.Count == 0) continue;
-                    if (value is IDictionary<string, object> d && d.Count == 0) continue;
-                    if (value is string s && string.IsNullOrEmpty(s)) continue;
+                    if (value is IList<object> list && list.Count == 0)
+                        continue;
+                    if (value is IDictionary<string, object> d && d.Count == 0)
+                    {
+                        // Special case: keep empty objects for valid type entries (e.g. "MultiplexTransport": {})
+                        if (IsTypeEntry(element, prop.Name))
+                        {
+                            dict[prop.Name] = value;
+                            continue;
+                        }
+                        continue;
+                    }
+                    if (value is string s && string.IsNullOrEmpty(s))
+                        continue;
                     dict[prop.Name] = value;
                 }
                 return dict;
@@ -531,9 +547,12 @@ public partial class CodeScanVisualizerEnhanced : Control
                 foreach (var item in element.EnumerateArray())
                 {
                     var value = RemoveEmptyJsonPropertiesRecursive(item);
-                    if (value is IList<object> list && list.Count == 0) continue;
-                    if (value is IDictionary<string, object> d && d.Count == 0) continue;
-                    if (value is string s && string.IsNullOrEmpty(s)) continue;
+                    if (value is IList<object> list && list.Count == 0)
+                        continue;
+                    if (value is IDictionary<string, object> d && d.Count == 0)
+                        continue;
+                    if (value is string s && string.IsNullOrEmpty(s))
+                        continue;
                     arr.Add(value);
                 }
                 return arr;
@@ -550,11 +569,50 @@ public partial class CodeScanVisualizerEnhanced : Control
         }
     }
 
+    // Helper to get a debug name for the parent object (for logging)
+    private string GetParentDebugName(System.Text.Json.JsonElement element)
+    {
+        // Try to get a property name or type for context, fallback to ValueKind
+        if (element.ValueKind == System.Text.Json.JsonValueKind.Object)
+        {
+            foreach (var prop in element.EnumerateObject())
+            {
+                if (prop.Name == "All" || prop.Name == "Inherit")
+                    return prop.Name;
+            }
+        }
+        return element.ValueKind.ToString();
+    }
+
+    // Helper to detect if this is a type entry under a namespace in "Types"
+    private bool IsTypeEntry(System.Text.Json.JsonElement parent, string propName)
+    {
+        // If parent is a namespace object (i.e. parent of types), allow empty type objects
+        // We check if the parent is under the "Types" root by looking for a property named "Types" in the grandparent
+        // This is a heuristic, but works for this schema
+        // If parent is not an object, return false
+        if (parent.ValueKind != System.Text.Json.JsonValueKind.Object)
+            return false;
+        // If parent contains only type entries (i.e. all values are objects or empty objects), treat as namespace
+        foreach (var prop in parent.EnumerateObject())
+        {
+            if (prop.Name == propName)
+                continue;
+            if (prop.Value.ValueKind != System.Text.Json.JsonValueKind.Object)
+                return false;
+        }
+        return true;
+    }
+
     private void OnExportJsonPressed()
     {
         try
         {
-            var options = new System.Text.Json.JsonSerializerOptions { WriteIndented = true };
+            var options = new System.Text.Json.JsonSerializerOptions
+            {
+                WriteIndented = true,
+                DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull | System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault
+            };
             var json = System.Text.Json.JsonSerializer.Serialize(_codeScanData, options);
             json = RemoveEmptyJsonProperties(json);
             json = DeUnicodeGenericMarkers(json);

@@ -19,4 +19,4 @@ public class TypeData
     public List<string> Methods { get; set; } = new List<string>();
     public List<string> Fields { get; set; } = new List<string>();
     public Dictionary<string, TypeData> NestedTypes { get; set; } = new Dictionary<string, TypeData>();
-} 
+}

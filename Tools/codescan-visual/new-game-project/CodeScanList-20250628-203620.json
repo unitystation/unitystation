@@ -66,12 +66,14 @@
       }
     },
     "System.Runtime.Serialization": {
+      "SerializationInfo": {},
       "ISerializable": {
         "All": true
       },
       "IDeserializationCallback": {
         "All": true
-      }
+      },
+      "StreamingContext": {}
     },
     "System.Security.Principal": {
       "IIdentity": {
@@ -317,6 +319,7 @@
       "CancelEventArgs": {
         "All": true
       },
+      "PropertyDescriptor": {},
       "ISite": {
         "All": true
       },
@@ -395,6 +398,7 @@
       "DebuggerBrowsableAttribute": {
         "All": true
       },
+      "DebuggerBrowsableState": {},
       "DebuggerDisplayAttribute": {
         "All": true
       },
@@ -432,6 +436,7 @@
       }
     },
     "System.Globalization": {
+      "CompareOptions": {},
       "CultureInfo": {
         "All": true
       },
@@ -441,6 +446,7 @@
       "NumberFormatInfo": {
         "All": true
       },
+      "NumberStyles": {},
       "TextInfo": {
         "Methods": [
           "bool get_IsRightToLeft()",
@@ -455,6 +461,8 @@
       }
     },
     "System.IO.Compression": {
+      "CompressionMode": {},
+      "CompressionLevel": {},
       "DeflateStream": {
         "All": true
       },
@@ -463,12 +471,16 @@
       },
       "ZipArchiveEntry": {
         "All": true
-      }
+      },
+      "ZipArchiveMode": {}
     },
     "System.IO": {
       "BinaryReader": {
         "All": true
       },
+      "FileAccess": {},
+      "FileMode": {},
+      "FileShare": {},
       "FileNotFoundException": {
         "All": true
       },
@@ -481,6 +493,7 @@
       "MemoryStream": {
         "All": true
       },
+      "SeekOrigin": {},
       "Stream": {
         "All": true
       },
@@ -534,11 +547,15 @@
       }
     },
     "System.Linq.Expressions": {
+      "ConstantExpression": {},
       "Expression": {
         "Methods": [
           "System.Linq.Expressions.Expression`1<!!0> Lambda<>(System.Linq.Expressions.Expression, System.Linq.Expressions.ParameterExpression[])"
         ]
-      }
+      },
+      "Expression`1": {},
+      "MemberExpression": {},
+      "ParameterExpression": {}
     },
     "System.Linq": {
       "Enumerable": {
@@ -552,6 +569,7 @@
       }
     },
     "System.Net": {
+      "DnsEndPoint": {},
       "IPAddress": {
         "All": true
       },
@@ -598,6 +616,9 @@
       "AuthenticationHeaderValue": {
         "All": true
       }
+    },
+    "System.Net.Sockets": {
+      "AddressFamily": {}
     },
     "System.Net.NetworkInformation": {
       "PhysicalAddress": {
@@ -660,6 +681,8 @@
       "DefaultMemberAttribute": {
         "All": true
       },
+      "GenericParameterAttributes": {},
+      "MemberFilter": {},
       "MemberInfo": {
         "Methods": [
           "string get_Name()",
@@ -669,6 +692,7 @@
           "System.Type get_ReflectedType()"
         ]
       },
+      "MemberTypes": {},
       "MethodBase": {
         "Methods": [
           "System.Reflection.ParameterInfo[] GetParameters()",
@@ -680,6 +704,8 @@
           "System.Type get_ReturnType()"
         ]
       },
+      "TypeAttributes": {},
+      "TypeInfo": {},
       "PropertyInfo": {
         "Methods": [
           "bool op_Inequality(System.Reflection.PropertyInfo, System.Reflection.PropertyInfo)"
@@ -810,7 +836,8 @@
       },
       "InAttribute": {
         "All": true
-      }
+      },
+      "UnmanagedType": {}
     },
     "System.Runtime.Versioning": {
       "TargetFrameworkAttribute": {
@@ -906,6 +933,8 @@
       "RegexMatchTimeoutException": {
         "All": true
       },
+      "RegexOptions": {},
+      "RegexParseError": {},
       "RegexParseException": {
         "All": true
       }
@@ -956,6 +985,7 @@
           "System.Text.Encoding GetEncoding(string)"
         ]
       },
+      "NormalizationForm": {},
       "Rune": {
         "All": true
       },
@@ -1311,15 +1341,18 @@
       "ArraySegment`1": {
         "All": true
       },
+      "AsyncCallback": {},
       "Attribute": {
         "All": true
       },
+      "AttributeTargets": {},
       "AttributeUsageAttribute": {
         "All": true
       },
       "BitConverter": {
         "All": true
       },
+      "Base64FormattingOptions": {},
       "Boolean": {
         "All": true
       },
@@ -1383,6 +1416,7 @@
       "DateTime": {
         "All": true
       },
+      "DateTimeKind": {},
       "DateTimeOffset": {
         "All": true
       },
@@ -1489,6 +1523,7 @@
       "IAsyncDisposable": {
         "All": true
       },
+      "IAsyncResult": {},
       "ICloneable": {
         "All": true
       },
@@ -1501,6 +1536,7 @@
       "IDisposable": {
         "All": true
       },
+      "IEquatable`1": {},
       "IFormatProvider": {
         "All": true
       },
@@ -1555,6 +1591,7 @@
       "MemoryExtensions": {
         "All": true
       },
+      "MidpointRounding": {},
       "MulticastDelegate": {
         "Inherit": "Allow"
       },
@@ -1645,6 +1682,9 @@
       "Rune": {
         "All": true
       },
+      "RuntimeFieldHandle": {},
+      "RuntimeMethodHandle": {},
+      "RuntimeTypeHandle": {},
       "SByte": {
         "All": true
       },
@@ -1844,6 +1884,8 @@
           "string Empty"
         ]
       },
+      "StringComparison": {},
+      "StringSplitOptions": {},
       "TimeSpan": {
         "All": true
       },
@@ -1936,6 +1978,7 @@
           "System.Type[] EmptyTypes"
         ]
       },
+      "TypeCode": {},
       "UInt16": {
         "All": true
       },
@@ -2019,9 +2062,11 @@
           "void BlockCopy (System.Array, int, System.Array, int, int)"
         ]
       },
+      "AppDomain": {},
       "AggregateException": {
         "All": true
       },
+      "Activator": {},
       "UriBuilder": {
         "All": true
       },
@@ -2068,6 +2113,7 @@
       "Vector2Int": {
         "All": true
       },
+      "Coroutine": {},
       "Object": {
         "All": true
       },
@@ -2902,6 +2948,7 @@
           "System.Action`2<Mirror.NetworkWriter, !0> write"
         ]
       },
+      "NetworkBehaviourSyncVar": {},
       "NetworkPongMessage": {
         "All": true
       },
@@ -3070,7 +3117,15 @@
       },
       "NetworkManagerMode": {
         "All": true
-      }
+      },
+      "MultiplexTransport": {},
+      "NetworkConnectionToServer": {}
+    },
+    "kcp2k": {
+      "KcpTransport": {}
+    },
+    "Mirror.SimpleWeb": {
+      "SimpleWebTransport": {}
     },
     "IgnoranceTransport": {
       "Ignorance": {
