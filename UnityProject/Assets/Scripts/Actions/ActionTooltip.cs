@@ -41,7 +41,7 @@ public class ActionTooltip : MonoBehaviour
 		else
 		{
 			descriptionText.enabled = true;
-			descriptionText.text = actionData.Description + "\n\n [OBSOLETE] - This button is spawned from an outdated system. Please port this to the newer V2 System.".Color(Color.red);
+			descriptionText.text = actionData.Description + "\n\n [OBSOLETE] - This button is spawned from an outdated system.\n Please port this to the newer V2 System.".Color(Color.red);
 		}
 	}
 
