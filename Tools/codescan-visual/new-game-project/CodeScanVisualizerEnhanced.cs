@@ -27,11 +27,15 @@ public partial class CodeScanVisualizerEnhanced : Control
     private LineEdit _addItemNameEdit;
     private Button _addItemConfirmButton;
     private CheckBox _addTypeAllCheckbox;
+    private string _pendingAddNamespace = null;
+    private string _pendingAddType = null;
+    private bool _pendingAddTypePrompt = false;
     
     public override void _Ready()
     {
         SetupUI();
         LoadCodeScanData();
+        _addItemDialog.Connect("popup_hide", new Callable(this, nameof(OnAddItemDialogHide)));
     }
     
     private void SetupUI()
@@ -701,6 +705,13 @@ public partial class CodeScanVisualizerEnhanced : Control
                 typeData.All = _addTypeAllCheckbox.ButtonPressed;
                 _codeScanData.Types[ns][name] = typeData;
                 _statusLabel.Text = $"Added type '{name}' to namespace '{ns}' (All: {typeData.All.ToString().ToLower()}).";
+                if (!typeData.All)
+                {
+                    // Prompt to add methods/fields
+                    _pendingAddNamespace = ns;
+                    _pendingAddType = name;
+                    _pendingAddTypePrompt = true;
+                }
             }
             else
             {
@@ -745,6 +756,40 @@ public partial class CodeScanVisualizerEnhanced : Control
         _addItemDialog.Hide();
         PopulateTree();
         UpdateStatistics();
+        // If we need to prompt for methods/fields after adding a type
+        if (_pendingAddTypePrompt)
+        {
+            _pendingAddTypePrompt = false;
+            ShowAddMethodOrFieldForType(_pendingAddNamespace, _pendingAddType);
+        }
+    }
+
+    private void ShowAddMethodOrFieldForType(string ns, string type)
+    {
+        // Reuse the add dialog, but lock namespace/type and only allow method/field
+        _addItemTypeOption.Selected = 2; // Default to Method
+        UpdateAddItemDialogUI();
+        // Lock namespace/type selection
+        _addItemNamespaceOption.Clear();
+        _addItemNamespaceOption.AddItem(ns);
+        _addItemNamespaceOption.Selected = 0;
+        _addItemNamespaceOption.Disabled = true;
+        _addItemTypeParentOption.Clear();
+        _addItemTypeParentOption.AddItem(type);
+        _addItemTypeParentOption.Selected = 0;
+        _addItemTypeParentOption.Disabled = true;
+        _addTypeAllCheckbox.Visible = false;
+        _addItemDialog.Title = $"Add to {type} in {ns}";
+        _addItemDialog.DialogText = "Add methods or fields to the new type. Close when done.";
+        _addItemDialog.PopupCentered();
+    }
+
+    private void OnAddItemDialogHide()
+    {
+        _addItemNamespaceOption.Disabled = false;
+        _addItemTypeParentOption.Disabled = false;
+        _addItemDialog.Title = "Add New Item";
+        _addItemDialog.DialogText = "Choose what you want to add and enter the name:";
     }
 
     // Update type options when namespace changes
