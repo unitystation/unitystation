@@ -63,9 +63,9 @@ namespace SecureStuff
 
 			if (method != null && method.GetParameters().Length == 0)
 			{
-				if (method.IsStatic || method.IsPrivate)
+				if (AllowedReflection.ValidateMethodInfo(method) == false)
 				{
-					Loggy.Error("Attempted to cache a static or private method. This is not allowed.", Category.Exploits);
+					Loggy.Error($"Method '{methodName}' on {target} is not allowed to be cached.", Category.Exploits);
 					return;
 				}
 				CachedAction += (Action)Delegate.CreateDelegate(typeof(Action), target, method);
@@ -85,20 +85,23 @@ namespace SecureStuff
 				BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
 				null, new[] { typeof(T) }, null);
 
-			if (method != null)
+			if (method == null) return;
+			if (AllowedReflection.ValidateMethodInfo(method) == false)
 			{
-				var delegateType = typeof(Action<>).MakeGenericType(typeof(T));
-				if (typeof(T) == typeof(Vector2))
-					CachedVector2Action += (Action<Vector2>)Delegate.CreateDelegate(delegateType, target, method);
-				else if (typeof(T) == typeof(Vector3))
-					CachedVector3Action += (Action<Vector3>)Delegate.CreateDelegate(delegateType, target, method);
-				else if (typeof(T) == typeof(Vector2Int))
-					CachedVector2IntAction += (Action<Vector2Int>)Delegate.CreateDelegate(delegateType, target, method);
-				else if (typeof(T) == typeof(Vector3Int))
-					CachedVector3IntAction += (Action<Vector3Int>)Delegate.CreateDelegate(delegateType, target, method);
-
-				parameterType = typeof(T).Name;
+				Loggy.Error($"Method '{methodName}' on {target} is not allowed to be cached.", Category.Exploits);
+				return;
 			}
+			var delegateType = typeof(Action<>).MakeGenericType(typeof(T));
+			if (typeof(T) == typeof(Vector2))
+				CachedVector2Action += (Action<Vector2>)Delegate.CreateDelegate(delegateType, target, method);
+			else if (typeof(T) == typeof(Vector3))
+				CachedVector3Action += (Action<Vector3>)Delegate.CreateDelegate(delegateType, target, method);
+			else if (typeof(T) == typeof(Vector2Int))
+				CachedVector2IntAction += (Action<Vector2Int>)Delegate.CreateDelegate(delegateType, target, method);
+			else if (typeof(T) == typeof(Vector3Int))
+				CachedVector3IntAction += (Action<Vector3Int>)Delegate.CreateDelegate(delegateType, target, method);
+
+			parameterType = typeof(T).Name;
 		}
 	}
 

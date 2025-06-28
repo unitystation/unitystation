@@ -278,7 +278,7 @@ namespace SecureStuff
 			}
 		}
 
-		private static bool ValidateMethodInfo(MethodInfo methodInfo)
+		public static bool ValidateMethodInfo(MethodInfo methodInfo)
 		{
 			if (methodInfo.GetCustomAttribute<BaseAttribute>(true) == null)
 			{
