@@ -514,6 +514,10 @@ public partial class CodeScanVisualizerEnhanced : Control
                 var dict = new Dictionary<string, object>();
                 foreach (var prop in element.EnumerateObject())
                 {
+                    // Remove "All": false
+                    if (prop.Name == "All" && prop.Value.ValueKind == System.Text.Json.JsonValueKind.False)
+                        continue;
+
                     var value = RemoveEmptyJsonPropertiesRecursive(prop.Value);
                     // Remove if value is empty array, empty object, or empty string
                     if (value is IList<object> list && list.Count == 0) continue;
@@ -527,7 +531,6 @@ public partial class CodeScanVisualizerEnhanced : Control
                 foreach (var item in element.EnumerateArray())
                 {
                     var value = RemoveEmptyJsonPropertiesRecursive(item);
-                    // Remove empty objects/arrays/strings from arrays too
                     if (value is IList<object> list && list.Count == 0) continue;
                     if (value is IDictionary<string, object> d && d.Count == 0) continue;
                     if (value is string s && string.IsNullOrEmpty(s)) continue;
