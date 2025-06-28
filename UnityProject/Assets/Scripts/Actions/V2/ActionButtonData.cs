@@ -23,7 +23,7 @@ namespace Actions.V2
 	{
 		public string ID;
 		public string DisplayName;
-		public string Description;
+		[TextArea(2, 4)] public string Description;
 		public ActionTriggerType TriggerType;
 		public ActionType Type;
 		public List<SpriteDataSO> AnimatedIconCatalogue;
