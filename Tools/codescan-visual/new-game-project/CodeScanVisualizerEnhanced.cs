@@ -489,6 +489,7 @@ public partial class CodeScanVisualizerEnhanced : Control
     }
 
     // Utility to replace unicode escapes for <, >, `
+    // you need this shit or it will look all wack
     private string DeUnicodeGenericMarkers(string json)
     {
         return json
@@ -497,12 +498,62 @@ public partial class CodeScanVisualizerEnhanced : Control
             .Replace("\\u0060", "`");
     }
 
+    // Utility to remove empty properties from JSON using System.Text.Json
+    private string RemoveEmptyJsonProperties(string json)
+    {
+        using var doc = System.Text.Json.JsonDocument.Parse(json);
+        var compact = RemoveEmptyJsonPropertiesRecursive(doc.RootElement);
+        return System.Text.Json.JsonSerializer.Serialize(compact, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
+    }
+
+    private object RemoveEmptyJsonPropertiesRecursive(System.Text.Json.JsonElement element)
+    {
+        switch (element.ValueKind)
+        {
+            case System.Text.Json.JsonValueKind.Object:
+                var dict = new Dictionary<string, object>();
+                foreach (var prop in element.EnumerateObject())
+                {
+                    var value = RemoveEmptyJsonPropertiesRecursive(prop.Value);
+                    // Remove if value is empty array, empty object, or empty string
+                    if (value is IList<object> list && list.Count == 0) continue;
+                    if (value is IDictionary<string, object> d && d.Count == 0) continue;
+                    if (value is string s && string.IsNullOrEmpty(s)) continue;
+                    dict[prop.Name] = value;
+                }
+                return dict;
+            case System.Text.Json.JsonValueKind.Array:
+                var arr = new List<object>();
+                foreach (var item in element.EnumerateArray())
+                {
+                    var value = RemoveEmptyJsonPropertiesRecursive(item);
+                    // Remove empty objects/arrays/strings from arrays too
+                    if (value is IList<object> list && list.Count == 0) continue;
+                    if (value is IDictionary<string, object> d && d.Count == 0) continue;
+                    if (value is string s && string.IsNullOrEmpty(s)) continue;
+                    arr.Add(value);
+                }
+                return arr;
+            case System.Text.Json.JsonValueKind.String:
+                return element.GetString();
+            case System.Text.Json.JsonValueKind.Number:
+                return element.GetRawText();
+            case System.Text.Json.JsonValueKind.True:
+            case System.Text.Json.JsonValueKind.False:
+                return element.GetBoolean();
+            case System.Text.Json.JsonValueKind.Null:
+            default:
+                return null;
+        }
+    }
+
     private void OnExportJsonPressed()
     {
         try
         {
             var options = new System.Text.Json.JsonSerializerOptions { WriteIndented = true };
             var json = System.Text.Json.JsonSerializer.Serialize(_codeScanData, options);
+            json = RemoveEmptyJsonProperties(json);
             json = DeUnicodeGenericMarkers(json);
             var timestamp = DateTime.Now.ToString("yyyyMMdd-HHmmss");
             var filePath = $"res://CodeScanList-{timestamp}.json";
