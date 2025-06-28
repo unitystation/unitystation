@@ -11,9 +11,9 @@ config_version=5
 [application]
 
 config/name="CodeScanVisual"
-config/features=PackedStringArray("4.4", "GL Compatibility")
-config/icon="res://icon.svg"
 run/main_scene="res://MainEnhanced.tscn"
+config/features=PackedStringArray("4.4", "C#", "GL Compatibility")
+config/icon="res://icon.svg"
 
 [dotnet]
 
