@@ -33,6 +33,16 @@ PrefabInstance:
       propertyPath: colour.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1426191220270131227, guid: 06fa88552c4d5c84a9356cc79c6d43c6,
+        type: 3}
+      propertyPath: initialName
+      value: Rusted Flashlight
+      objectReference: {fileID: 0}
+    - target: {fileID: 1426191220270131227, guid: 06fa88552c4d5c84a9356cc79c6d43c6,
+        type: 3}
+      propertyPath: initialDescription
+      value: A flashlight covered in rust and blood, has seen better days.
+      objectReference: {fileID: 0}
     - target: {fileID: 1491666158708374221, guid: 06fa88552c4d5c84a9356cc79c6d43c6,
         type: 3}
       propertyPath: _assetId
@@ -108,6 +118,11 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.8773585
       objectReference: {fileID: 0}
+    - target: {fileID: 4639091175743307006, guid: 06fa88552c4d5c84a9356cc79c6d43c6,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 2113420305844612547}
     - target: {fileID: 5592901241364351764, guid: 06fa88552c4d5c84a9356cc79c6d43c6,
         type: 3}
       propertyPath: parentID
@@ -143,6 +158,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 364f9fbced37d9048b4071fca95e51ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!212 &2113420305844612547 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1717760913338250277, guid: 06fa88552c4d5c84a9356cc79c6d43c6,
+    type: 3}
+  m_PrefabInstance: {fileID: 757403949314906598}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2175691809861841377 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1491618148031277063, guid: 06fa88552c4d5c84a9356cc79c6d43c6,
