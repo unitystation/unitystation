@@ -58,7 +58,7 @@ namespace SecureStuff
 			if (target == null || string.IsNullOrEmpty(methodName))
 				return;
 
-			var method = target.GetType().GetMethod(methodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+			var method = target.GetType().GetMethod(methodName, BindingFlags.Instance | BindingFlags.Public);
 
 			if (method != null && method.GetParameters().Length == 0)
 			{
@@ -100,7 +100,7 @@ namespace SecureStuff
 	[CustomPropertyDrawer(typeof(SerializedAction))]
     public class SerializedActionDrawer : PropertyDrawer
     {
-        private const BindingFlags methodFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+        private const BindingFlags methodFlags = BindingFlags.Instance | BindingFlags.Public;
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
