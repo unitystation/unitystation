@@ -278,26 +278,16 @@ namespace SecureStuff
 			}
 		}
 
-		private static bool ValidateMethodInfo(MethodInfo methodInfo)
+		public static bool ValidateMethodInfo(MethodInfo methodInfo)
 		{
-			if (methodInfo.GetCustomAttribute<BaseAttribute>(true) == null)
-			{
-				var VVNote = methodInfo.GetCustomAttribute<VVNote>(true);
-				if (VVNote is not {variableHighlightl: VVHighlight.SafeToModify100})
-				{
-					if (methodInfo.IsStatic) return false;
-					if (methodInfo.IsPrivate) return false;
+			if (methodInfo.GetCustomAttribute<BaseAttribute>(true) != null) return true;
 
-					Type declaringType = methodInfo.DeclaringType;
+			var VVNote = methodInfo.GetCustomAttribute<VVNote>(true);
+			if (VVNote is { variableHighlightl: VVHighlight.SafeToModify100 }) return true;
+			if (methodInfo.IsStatic || methodInfo.IsPrivate) return false;
 
-					if (declaringType == null || declaringType.IsSubclassOf(typeof(Component)) == false)
-					{
-						return false;
-					}
-				}
-			}
-
-			return true;
+			Type declaringType = methodInfo.DeclaringType;
+			return declaringType != null && declaringType.IsSubclassOf(typeof(Component));
 		}
 
 

@@ -26,6 +26,7 @@ namespace HealthV2
 
 		[HideInInspector] private readonly List<BodyPart> containBodyParts = new List<BodyPart>();
 		public event Action<LivingHealthMasterBase> OnAddedToBody;
+		public event Action<LivingHealthMasterBase> OnRemovedFromBody;
 
 		public List<BodyPart> ContainBodyParts => containBodyParts;
 
@@ -320,6 +321,7 @@ namespace HealthV2
 			}
 
 			RemoveAllSprites();
+			OnRemovedFromBody?.Invoke(HealthMaster);
 			HealthMaster.RemovingBodyPart(this);
 			HealthMaster.BodyPartListChange();
 			HealthMaster = null;

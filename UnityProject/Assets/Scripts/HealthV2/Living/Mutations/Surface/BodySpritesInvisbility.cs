@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Linq;
+using Actions.V2;
+using Cysharp.Threading.Tasks;
 using Logs;
 using Mirror;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace HealthV2.Living.Mutations.Surface
@@ -10,8 +13,46 @@ namespace HealthV2.Living.Mutations.Surface
 	{
 		[SyncVar(hook = nameof(OnAlphaChanged))] public float Alpha = 1f;
 		public GameObject bodyPartSprites;
-
 		public GameObject Customisation;
+
+		public bool DEBUG = false;
+
+		private void Start()
+		{
+			if (DEBUG == false) return;
+			_ = SetupDebugActions();
+		}
+
+		private async UniTask SetupDebugActions()
+		{
+			var playerScript = GetComponent<PlayerScript>();
+			playerScript.PlayerButtonedActions.RegisterNewAction($"{gameObject.NetId()}_player_become_invisible", "Become Invisible",
+				"Make yourself invisible to other players.", ActionTriggerType.ServerOnly, null, v =>
+				{
+					if (!gameObject)
+					{
+						Loggy.Error($"Gameobject is null?");
+						return;
+					}
+					Alpha = 0.1f;
+					Chat.AddExamineMsg(gameObject, "You have become invisible to other players.");
+				}, cooldownTime: 8f);
+			while (playerScript.PlayerButtonedMindActions == null)
+			{
+				await UniTask.WaitForSeconds(2f);
+			}
+			playerScript.PlayerButtonedMindActions?.RegisterNewAction($"{gameObject.NetId()}_player_become_visible", "Become visible",
+				"Make yourself visible to other players.", ActionTriggerType.ServerOnly, null, v =>
+				{
+					if (!gameObject)
+					{
+						Loggy.Error($"Gameobject is null?");
+						return;
+					}
+					Alpha = 1f;
+					Chat.AddExamineMsg(gameObject, "You have become visible to other players.");
+				}, cooldownTime: 8f);
+		}
 
 		public void OnAlphaChanged(float oldAlpha, float newAlpha)
 		{

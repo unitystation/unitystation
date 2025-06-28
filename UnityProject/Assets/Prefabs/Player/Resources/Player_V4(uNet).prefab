@@ -501,6 +501,7 @@ GameObject:
   - component: {fileID: 2122636020811656725}
   - component: {fileID: 5004798331138800037}
   - component: {fileID: 8218340658487575790}
+  - component: {fileID: 7498047547275951016}
   m_Layer: 8
   m_Name: Player_V4(uNet)
   m_TagString: Untagged
@@ -605,6 +606,7 @@ MonoBehaviour:
   <BodyAlerts>k__BackingField: {fileID: 0}
   <Traversal>k__BackingField: {fileID: 0}
   <Access>k__BackingField: {fileID: 0}
+  <PlayerButtonedActions>k__BackingField: {fileID: 0}
   RTT: 0
   playerChatLocation: {fileID: 1133514949248654}
   canVentCrawl: 0
@@ -2064,6 +2066,7 @@ MonoBehaviour:
   Alpha: 1
   bodyPartSprites: {fileID: 193028258071297994}
   Customisation: {fileID: 975496025995574624}
+  DEBUG: 0
 --- !u!114 &8218340658487575790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2082,6 +2085,23 @@ MonoBehaviour:
   PlayerScript: {fileID: 114617133355526680}
   playerName: ' '
   visibleName: ' '
+--- !u!114 &7498047547275951016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90945acc90ee4832b9b5bf45930ca35a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 1
+  syncInterval: 0
+  <ActionButtonOnType>k__BackingField: 0
+  <ActionButtonRefreshRate>k__BackingField: 0.25
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0

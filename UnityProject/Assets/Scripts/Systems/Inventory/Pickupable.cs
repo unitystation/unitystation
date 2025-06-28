@@ -9,6 +9,7 @@ using Items;
 using Logs;
 using Managers;
 using Messages.Client;
+using SecureStuff;
 using UI;
 using UnityEngine;
 using UnityEngine.Events;
@@ -83,6 +84,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	/// </summary>
 	public UnityEvent<GameObject> OnMoveToPlayerInventory;
 	public UnityEvent<GameObject> OnInventoryMoveServerEvent;
+	public SerializedAction OnItemSlotChanged;
 
 	public UnityEvent<GameObject> OnDrop;
 	public UnityEvent<GameObject> OnThrow;
@@ -396,6 +398,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		{
 			clientSynchronisedStorageIn = toSlot?.ItemStorage.OrNull()?.gameObject.NetId() ?? NetId.Empty;
 		}
+		OnItemSlotChanged?.Invoke();
 	}
 
 	/// <summary>

@@ -1707,6 +1707,7 @@ GameObject:
   - component: {fileID: 2182558256432821875}
   - component: {fileID: 6874708546728957909}
   - component: {fileID: 3540620692669540631}
+  - component: {fileID: 5281813136900456097}
   m_Layer: 5
   m_Name: ActionPanel
   m_TagString: Untagged
@@ -1783,6 +1784,20 @@ MonoBehaviour:
   UIAction: {fileID: 6125046395117371678, guid: 81a64977c12c3824190819e6475872db,
     type: 3}
   PooledUIAction: []
+--- !u!114 &5281813136900456097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7689135917848229407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d22bcef9869d44f5a33109a53f75ff52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActionButtonPrefab: {fileID: 6063054962364824003, guid: 5ec579890b2bf8a4186aaf614d2a3d83,
+    type: 3}
 --- !u!1 &7911482729289438424
 GameObject:
   m_ObjectHideFlags: 0
@@ -9886,12 +9901,12 @@ PrefabInstance:
     - target: {fileID: 2291836163645699629, guid: f27842d0cfc85ff4d8adb73f44a5fc20,
         type: 3}
       propertyPath: m_Size
-      value: 0.8191764
+      value: 0.81917626
       objectReference: {fileID: 0}
     - target: {fileID: 2291836163645699629, guid: f27842d0cfc85ff4d8adb73f44a5fc20,
         type: 3}
       propertyPath: m_Value
-      value: 1
+      value: 1.0000004
       objectReference: {fileID: 0}
     - target: {fileID: 2297336143607620840, guid: f27842d0cfc85ff4d8adb73f44a5fc20,
         type: 3}
@@ -12518,7 +12533,7 @@ PrefabInstance:
     - target: {fileID: 3084792595808672787, guid: 6f3ec31486746b34a8da74bd0735fe4e,
         type: 3}
       propertyPath: m_Value
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3110275234668418375, guid: 6f3ec31486746b34a8da74bd0735fe4e,
         type: 3}

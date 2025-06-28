@@ -20,7 +20,7 @@ namespace Items.Others
 		private ItemLightControl lightControl;
 		private ItemActionButton actionButton;
 
-		protected bool IsOn => lightControl.IsOn;
+		public bool IsOn => lightControl.IsOn;
 		protected int SpriteIndex => IsOn ? 1 : 0;
 		protected bool HasActionButton => actionButton != null;
 

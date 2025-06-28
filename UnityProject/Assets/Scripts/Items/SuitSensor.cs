@@ -184,24 +184,21 @@ namespace Items
 			return null;
 		}
 
-
-		private void SwitchMode(PlayerScript player)
+		public void SwitchMode(Vector2 mousePosition)
 		{
-			if (Vector3.Distance(gameObject.AssumedWorldPosServer(), player.AssumedWorldPos) > 3.5)
-			{
-				Loggy.Warning($"[MedicalTerminal/SwitchMode] - Prevented possible cheating from player {player.playerName} who is far away from this option.");
-				return;
-			}
-
 			Mode = Mode switch
 			{
-				SensorMode.OFF => SensorMode.OFF,
+				SensorMode.OFF => SensorMode.LOCATION,
 				SensorMode.LOCATION => SensorMode.VITALS,
 				SensorMode.VITALS => SensorMode.FULL,
-				SensorMode.FULL => SensorMode.VITALS,
-				_ => throw new ArgumentOutOfRangeException()
+				SensorMode.FULL => SensorMode.OFF,
+				_ => SensorMode.FULL
 			};
-
+			if (pickupable.ItemSlot.Player != null)
+			{
+				Chat.AddExamineMsgFromServer(pickupable.ItemSlot.Player.gameObject,
+					$"Changed the {gameObject.ExpensiveName()}'s suit sensors to {Mode} mode.");
+			}
 		}
 
 
