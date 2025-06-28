@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Logs;
 using UnityEngine;
 
 #if true
@@ -62,6 +63,11 @@ namespace SecureStuff
 
 			if (method != null && method.GetParameters().Length == 0)
 			{
+				if (method.IsStatic || method.IsPrivate)
+				{
+					Loggy.Error("Attempted to cache a static or private method. This is not allowed.", Category.Exploits);
+					return;
+				}
 				CachedAction += (Action)Delegate.CreateDelegate(typeof(Action), target, method);
 				parameterType = "None";
 			}
