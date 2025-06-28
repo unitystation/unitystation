@@ -66,17 +66,11 @@
       }
     },
     "System.Runtime.Serialization": {
-      "SerializationInfo": {
-        "All": false
-      },
       "ISerializable": {
         "All": true
       },
       "IDeserializationCallback": {
         "All": true
-      },
-      "StreamingContext": {
-        "All": false
       }
     },
     "System.Security.Principal": {
@@ -323,9 +317,6 @@
       "CancelEventArgs": {
         "All": true
       },
-      "PropertyDescriptor": {
-        "All": false
-      },
       "ISite": {
         "All": true
       },
@@ -339,7 +330,6 @@
         "All": true
       },
       "TypeDescriptor": {
-        "All": false,
         "Methods": [
           "string GetClassName(object)"
         ]
@@ -405,9 +395,6 @@
       "DebuggerBrowsableAttribute": {
         "All": true
       },
-      "DebuggerBrowsableState": {
-        "All": false
-      },
       "DebuggerDisplayAttribute": {
         "All": true
       },
@@ -433,7 +420,6 @@
         "All": true
       },
       "Process": {
-        "All": false,
         "Methods": [
           "void Kill()",
           "System.Diagnostics.Process GetCurrentProcess()"
@@ -446,9 +432,6 @@
       }
     },
     "System.Globalization": {
-      "CompareOptions": {
-        "All": false
-      },
       "CultureInfo": {
         "All": true
       },
@@ -458,11 +441,7 @@
       "NumberFormatInfo": {
         "All": true
       },
-      "NumberStyles": {
-        "All": false
-      },
       "TextInfo": {
-        "All": false,
         "Methods": [
           "bool get_IsRightToLeft()",
           "char ToLower(char)",
@@ -476,12 +455,6 @@
       }
     },
     "System.IO.Compression": {
-      "CompressionMode": {
-        "All": false
-      },
-      "CompressionLevel": {
-        "All": false
-      },
       "DeflateStream": {
         "All": true
       },
@@ -490,23 +463,11 @@
       },
       "ZipArchiveEntry": {
         "All": true
-      },
-      "ZipArchiveMode": {
-        "All": false
       }
     },
     "System.IO": {
       "BinaryReader": {
         "All": true
-      },
-      "FileAccess": {
-        "All": false
-      },
-      "FileMode": {
-        "All": false
-      },
-      "FileShare": {
-        "All": false
       },
       "FileNotFoundException": {
         "All": true
@@ -520,14 +481,10 @@
       "MemoryStream": {
         "All": true
       },
-      "SeekOrigin": {
-        "All": false
-      },
       "Stream": {
         "All": true
       },
       "StreamReader": {
-        "All": false,
         "Methods": [
           "System.IO.Stream get_BaseStream()",
           "void .ctor(System.IO.Stream)",
@@ -542,7 +499,6 @@
         ]
       },
       "StreamWriter": {
-        "All": false,
         "Methods": [
           "bool get_AutoFlush()",
           "System.IO.Stream get_BaseStream()",
@@ -563,7 +519,6 @@
         "All": true
       },
       "Path": {
-        "All": false,
         "Methods": [
           "string Combine(string, string)",
           "string Combine(string, string, string)",
@@ -579,23 +534,10 @@
       }
     },
     "System.Linq.Expressions": {
-      "ConstantExpression": {
-        "All": false
-      },
       "Expression": {
-        "All": false,
         "Methods": [
           "System.Linq.Expressions.Expression`1<!!0> Lambda<>(System.Linq.Expressions.Expression, System.Linq.Expressions.ParameterExpression[])"
         ]
-      },
-      "Expression`1": {
-        "All": false
-      },
-      "MemberExpression": {
-        "All": false
-      },
-      "ParameterExpression": {
-        "All": false
       }
     },
     "System.Linq": {
@@ -610,9 +552,6 @@
       }
     },
     "System.Net": {
-      "DnsEndPoint": {
-        "All": false
-      },
       "IPAddress": {
         "All": true
       },
@@ -660,11 +599,6 @@
         "All": true
       }
     },
-    "System.Net.Sockets": {
-      "AddressFamily": {
-        "All": false
-      }
-    },
     "System.Net.NetworkInformation": {
       "PhysicalAddress": {
         "All": true
@@ -686,7 +620,6 @@
     },
     "System.Reflection": {
       "Assembly": {
-        "All": false,
         "Methods": [
           "string CreateQualifiedName(string, string)",
           "string get_FullName()",
@@ -712,7 +645,6 @@
         "All": true
       },
       "AssemblyName": {
-        "All": false,
         "Methods": [
           "string get_FullName()",
           "System.Version get_Version()",
@@ -728,14 +660,7 @@
       "DefaultMemberAttribute": {
         "All": true
       },
-      "GenericParameterAttributes": {
-        "All": false
-      },
-      "MemberFilter": {
-        "All": false
-      },
       "MemberInfo": {
-        "All": false,
         "Methods": [
           "string get_Name()",
           "System.Reflection.MemberTypes get_MemberType()",
@@ -744,49 +669,34 @@
           "System.Type get_ReflectedType()"
         ]
       },
-      "MemberTypes": {
-        "All": false
-      },
       "MethodBase": {
-        "All": false,
         "Methods": [
           "System.Reflection.ParameterInfo[] GetParameters()",
           "bool get_IsStatic()"
         ]
       },
       "MethodInfo": {
-        "All": false,
         "Methods": [
           "System.Type get_ReturnType()"
         ]
       },
-      "TypeAttributes": {
-        "All": false
-      },
-      "TypeInfo": {
-        "All": false
-      },
       "PropertyInfo": {
-        "All": false,
         "Methods": [
           "bool op_Inequality(System.Reflection.PropertyInfo, System.Reflection.PropertyInfo)"
         ]
       },
       "FieldInfo": {
-        "All": false,
         "Methods": [
           "bool op_Inequality(System.Reflection.FieldInfo, System.Reflection.FieldInfo)"
         ]
       },
       "ParameterInfo": {
-        "All": false,
         "Methods": [
           "System.Type get_ParameterType()",
           "bool op_Inequality(System.Reflection.PropertyInfo, System.Reflection.PropertyInfo)"
         ]
       },
       "CustomAttributeExtensions": {
-        "All": false,
         "Methods": [
           "!!0 GetCustomAttribute(System.Reflection.MemberInfo, bool)"
         ]
@@ -894,16 +804,12 @@
     },
     "System.Runtime.InteropServices": {
       "CollectionsMarshal": {
-        "All": false,
         "Methods": [
           "System.Span`1<!!0> AsSpan<>(System.Collections.Generic.List`1<!!0>)"
         ]
       },
       "InAttribute": {
         "All": true
-      },
-      "UnmanagedType": {
-        "All": false
       }
     },
     "System.Runtime.Versioning": {
@@ -942,7 +848,6 @@
         "All": true
       },
       "Regex": {
-        "All": false,
         "Methods": [
           "bool get_RightToLeft()",
           "bool IsMatch(string)",
@@ -1001,19 +906,12 @@
       "RegexMatchTimeoutException": {
         "All": true
       },
-      "RegexOptions": {
-        "All": false
-      },
-      "RegexParseError": {
-        "All": false
-      },
       "RegexParseException": {
         "All": true
       }
     },
     "System.Text": {
       "Encoding": {
-        "All": false,
         "Methods": [
           "bool IsAlwaysNormalized()",
           "bool IsAlwaysNormalized(System.Text.NormalizationForm)",
@@ -1058,14 +956,10 @@
           "System.Text.Encoding GetEncoding(string)"
         ]
       },
-      "NormalizationForm": {
-        "All": false
-      },
       "Rune": {
         "All": true
       },
       "StringBuilder": {
-        "All": false,
         "Methods": [
           "bool Equals(System.ReadOnlySpan`1<char>)",
           "bool Equals(System.Text.StringBuilder)",
@@ -1189,7 +1083,6 @@
         "All": true
       },
       "TaskScheduler": {
-        "All": false,
         "Methods": [
           "System.Threading.Tasks.TaskScheduler FromCurrentSynchronizationContext()"
         ]
@@ -1209,7 +1102,6 @@
         "All": true
       },
       "Thread": {
-        "All": false,
         "Methods": [
           "void Start()",
           "void Sleep(int)",
@@ -1221,7 +1113,6 @@
         ]
       },
       "ThreadPool": {
-        "All": false,
         "Methods": [
           "bool QueueUserWorkItem(System.Threading.WaitCallback)"
         ]
@@ -1241,7 +1132,6 @@
     },
     "System.Web": {
       "HttpUtility": {
-        "All": false,
         "Methods": [
           "System.Collections.Specialized.NameValueCollection ParseQueryString(string, System.Text.Encoding)",
           "System.Collections.Specialized.NameValueCollection ParseQueryString(string)",
@@ -1318,7 +1208,6 @@
         "All": true
       },
       "Array": {
-        "All": false,
         "Methods": [
           "!!0 Find<>(!!0[], System.Predicate`1<!!0>)",
           "!!0 Resize<>(!!0[], int)",
@@ -1422,23 +1311,14 @@
       "ArraySegment`1": {
         "All": true
       },
-      "AsyncCallback": {
-        "All": false
-      },
       "Attribute": {
         "All": true
-      },
-      "AttributeTargets": {
-        "All": false
       },
       "AttributeUsageAttribute": {
         "All": true
       },
       "BitConverter": {
         "All": true
-      },
-      "Base64FormattingOptions": {
-        "All": false
       },
       "Boolean": {
         "All": true
@@ -1456,7 +1336,6 @@
         "All": true
       },
       "Convert": {
-        "All": false,
         "Methods": [
           "System.TypeCode GetTypeCode(object)",
           "bool IsDBNull(object)",
@@ -1504,14 +1383,10 @@
       "DateTime": {
         "All": true
       },
-      "DateTimeKind": {
-        "All": false
-      },
       "DateTimeOffset": {
         "All": true
       },
       "Delegate": {
-        "All": false,
         "Methods": [
           "System.Delegate Combine(System.Delegate, System.Delegate)",
           "System.Delegate Remove(System.Delegate, System.Delegate)",
@@ -1531,7 +1406,6 @@
         "All": true
       },
       "Environment": {
-        "All": false,
         "Methods": [
           "int get_CurrentManagedThreadId()",
           "int get_ProcessorCount()",
@@ -1615,9 +1489,6 @@
       "IAsyncDisposable": {
         "All": true
       },
-      "IAsyncResult": {
-        "All": false
-      },
       "ICloneable": {
         "All": true
       },
@@ -1629,9 +1500,6 @@
       },
       "IDisposable": {
         "All": true
-      },
-      "IEquatable`1": {
-        "All": false
       },
       "IFormatProvider": {
         "All": true
@@ -1664,7 +1532,6 @@
         "All": true
       },
       "Memory`1": {
-        "All": false,
         "Methods": [
           "!0[] ToArray()",
           "bool Equals(object)",
@@ -1688,11 +1555,7 @@
       "MemoryExtensions": {
         "All": true
       },
-      "MidpointRounding": {
-        "All": false
-      },
       "MulticastDelegate": {
-        "All": false,
         "Inherit": "Allow"
       },
       "NotImplementedException": {
@@ -1732,7 +1595,6 @@
         "All": true
       },
       "ReadOnlyMemory`1": {
-        "All": false,
         "Methods": [
           "!0[] ToArray()",
           "bool Equals(object)",
@@ -1753,7 +1615,6 @@
         ]
       },
       "ReadOnlySpan`1": {
-        "All": false,
         "Methods": [
           "!0[] ToArray()",
           "bool get_IsEmpty()",
@@ -1784,15 +1645,6 @@
       "Rune": {
         "All": true
       },
-      "RuntimeFieldHandle": {
-        "All": false
-      },
-      "RuntimeMethodHandle": {
-        "All": false
-      },
-      "RuntimeTypeHandle": {
-        "All": false
-      },
       "SByte": {
         "All": true
       },
@@ -1800,7 +1652,6 @@
         "All": true
       },
       "Span`1": {
-        "All": false,
         "Methods": [
           "!0[] ToArray()",
           "bool get_IsEmpty()",
@@ -1830,7 +1681,6 @@
         }
       },
       "String": {
-        "All": false,
         "Methods": [
           "bool Contains(char)",
           "bool Contains(char, System.StringComparison)",
@@ -1994,17 +1844,10 @@
           "string Empty"
         ]
       },
-      "StringComparison": {
-        "All": false
-      },
-      "StringSplitOptions": {
-        "All": false
-      },
       "TimeSpan": {
         "All": true
       },
       "Type": {
-        "All": false,
         "Methods": [
           "bool Equals(object)",
           "bool Equals(System.Type)",
@@ -2093,9 +1936,6 @@
           "System.Type[] EmptyTypes"
         ]
       },
-      "TypeCode": {
-        "All": false
-      },
       "UInt16": {
         "All": true
       },
@@ -2175,19 +2015,12 @@
         "All": true
       },
       "Buffer": {
-        "All": false,
         "Methods": [
           "void BlockCopy (System.Array, int, System.Array, int, int)"
         ]
       },
-      "AppDomain": {
-        "All": false
-      },
       "AggregateException": {
         "All": true
-      },
-      "Activator": {
-        "All": false
       },
       "UriBuilder": {
         "All": true
@@ -2234,9 +2067,6 @@
       },
       "Vector2Int": {
         "All": true
-      },
-      "Coroutine": {
-        "All": false
       },
       "Object": {
         "All": true
@@ -2389,7 +2219,6 @@
         "All": true
       },
       "GUIUtility": {
-        "All": false,
         "Methods": [
           "void set_systemCopyBuffer(string)",
           "void RotateAroundPivot(float, UnityEngine.Vector2)",
@@ -2403,7 +2232,6 @@
         "All": true
       },
       "ImageConversion": {
-        "All": false,
         "Methods": [
           "byte[] EncodeToPNG(UnityEngine.Texture2D)"
         ]
@@ -2574,7 +2402,6 @@
         "All": true
       },
       "Application": {
-        "All": false,
         "Methods": [
           "bool get_isPlaying()",
           "bool get_isMobilePlatform()",
@@ -2685,7 +2512,6 @@
         "All": true
       },
       "Caching": {
-        "All": false,
         "Methods": [
           "bool ClearCache()"
         ]
@@ -2956,7 +2782,6 @@
     },
     "UnityEngine.Profiling": {
       "Profiler": {
-        "All": false,
         "Methods": [
           "long GetTotalAllocatedMemoryLong()",
           "void EndThreadProfiling()",
@@ -3045,7 +2870,6 @@
     },
     "Unity.Collections": {
       "NativeArray`1": {
-        "All": false,
         "Methods": [
           "int get_Length()",
           "!0 get_Item(int)",
@@ -3069,19 +2893,14 @@
     },
     "Mirror": {
       "Reader`1": {
-        "All": false,
         "Fields": [
           "System.Func`2<Mirror.NetworkReader, !0> read"
         ]
       },
       "Writer`1": {
-        "All": false,
         "Fields": [
           "System.Action`2<Mirror.NetworkWriter, !0> write"
         ]
-      },
-      "NetworkBehaviourSyncVar": {
-        "All": false
       },
       "NetworkPongMessage": {
         "All": true
@@ -3159,7 +2978,6 @@
         "All": true
       },
       "NetworkWriter": {
-        "All": false,
         "Methods": [
           "void WriteByte(byte)",
           "void Write<>(!!0)"
@@ -3169,7 +2987,6 @@
         "All": true
       },
       "NetworkReader": {
-        "All": false,
         "Methods": [
           "!!0 Read<>()",
           "byte ReadByte()}"
@@ -3204,7 +3021,6 @@
         "All": true
       },
       "TelepathyTransport": {
-        "All": false,
         "Fields": [
           "ushort port"
         ]
@@ -3213,7 +3029,6 @@
         "All": true
       },
       "Transport": {
-        "All": false,
         "Methods": [
           "void Shutdown()",
           "int GetMaxPacketSize(int)"
@@ -3255,27 +3070,10 @@
       },
       "NetworkManagerMode": {
         "All": true
-      },
-      "MultiplexTransport": {
-        "All": false
-      },
-      "NetworkConnectionToServer": {
-        "All": false
-      }
-    },
-    "kcp2k": {
-      "KcpTransport": {
-        "All": false
-      }
-    },
-    "Mirror.SimpleWeb": {
-      "SimpleWebTransport": {
-        "All": false
       }
     },
     "IgnoranceTransport": {
       "Ignorance": {
-        "All": false,
         "Fields": [
           "int port",
           "bool serverBindsAll",
@@ -3285,13 +3083,11 @@
     },
     "Mirror.RemoteCalls": {
       "RemoteCallDelegate": {
-        "All": false,
         "Methods": [
           "void .ctor(object, nint)"
         ]
       },
       "RemoteProcedureCalls": {
-        "All": false,
         "Methods": [
           "void RemoteCallDelegate(Mirror.NetworkBehaviour, Mirror.NetworkReader , Mirror.NetworkConnectionToClient)",
           "void RegisterCommand(System.Type, string, Mirror.RemoteCalls.RemoteCallDelegate, bool)",
@@ -3426,7 +3222,6 @@
         "All": true
       },
       "SpriteMetadata": {
-        "All": false,
         "Methods": [
           "float get_Scale()",
           "UnityEngine.Vector2 get_Offset()",
@@ -3529,7 +3324,6 @@
     },
     "Tomlyn": {
       "Toml": {
-        "All": false,
         "Methods": [
           "bool TryToModel<>(string, ref !!0, ref Tomlyn.Syntax.DiagnosticsBag, string, Tomlyn.TomlModelOptions)",
           "string FromModel(object, Tomlyn.TomlModelOptions)"
@@ -3624,7 +3418,6 @@
     },
     "Whisper": {
       "WhisperResult": {
-        "All": false,
         "Fields": [
           "string Result",
           "string Language",
@@ -3632,7 +3425,6 @@
         ]
       },
       "WhisperManager": {
-        "All": false,
         "Methods": [
           "System.Threading.Tasks.Task`1<Whisper.WhisperResult> GetTextAsync(float[], int, int)"
         ]
@@ -3643,7 +3435,6 @@
         "All": true
       },
       "MicrophoneRecord": {
-        "All": false,
         "Methods": [
           "void add_OnRecordStop(Whisper.Utils.OnRecordStopDelegate)"
         ]
