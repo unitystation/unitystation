@@ -3,1015 +3,466 @@
     "InitOnly",
     "InterfaceMethodNotImplemented"
   ],
-  "WhitelistedNamespaces": [],
-  "WhitelistedAssembliesDEBUG": [],
   "Types": {
     "WebSocketSharp": {
       "MessageEventArgs": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Ext": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "CloseEventArgs": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "WebSocketState": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "WebSocket": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "WebSocketSharp.Server": {
       "HttpServer": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "WebSocketBehavior": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "WebSocketSessionManager": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IWebSocketSession": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "WebSocketServiceManager": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "WebSocketServiceHost": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "WebSocketSharp.Net.WebSockets": {
       "WebSocketContext": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "WebSocketSharp.Net": {
       "NetworkCredential": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "AuthenticationSchemes": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "System.Collections.Specialized": {
       "NameValueCollection": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "NotifyCollectionChangedEventHandler": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "NotifyCollectionChangedEventArgs": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "System.Runtime.Serialization": {
       "SerializationInfo": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "ISerializable": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IDeserializationCallback": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "StreamingContext": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       }
     },
     "System.Security.Principal": {
       "IIdentity": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IPrincipal": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "System.Drawing": {
       "Color": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "System.Buffers": {
       "SpanAction`2": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "System.Buffers.Binary": {
       "BinaryPrimitives": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "System.Collections.Generic": {
       "CollectionExtensions": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Comparer`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Dictionary`2": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "EqualityComparer`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "HashSet`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IAsyncEnumerable`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ICollection`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IComparer`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IDictionary`2": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IEnumerable`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IEnumerator`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IEqualityComparer`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IList`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IReadOnlyCollection`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IReadOnlyDictionary`2": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IReadOnlyList`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IReadOnlySet`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ISet`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "KeyNotFoundException": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "KeyValuePair": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "KeyValuePair`2": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "LinkedList`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "LinkedListNode`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "List`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Queue`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ReferenceEqualityComparer": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "SortedDictionary`2": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "SortedList`2": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "SortedSet`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Stack`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "System.Collections.Immutable": {
       "IImmutableDictionary`2": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IImmutableList`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IImmutableQueue`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IImmutableSet`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IImmutableStack`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ImmutableArray": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ImmutableArray`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ImmutableDictionary": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ImmutableDictionary`2": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ImmutableHashSet": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ImmutableHashSet`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ImmutableInterlocked": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ImmutableList": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ImmutableList`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ImmutableQueue": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ImmutableQueue`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ImmutableSortedDictionary": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ImmutableSortedDictionary`2": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ImmutableSortedSet": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ImmutableSortedSet`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ImmutableSortedStack": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ImmutableSortedStack`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "System.Collections.ObjectModel": {
       "ObservableCollection`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ReadOnlyCollection`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Collection`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "System.Collections.Concurrent": {
       "ConcurrentBag`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ConcurrentDictionary`2": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ConcurrentQueue`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ConcurrentStack`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "System.Collections": {
       "IEnumerable": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IEnumerator": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IReadOnlyList`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Collection": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Collection`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IList": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IDictionary": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IDictionaryEnumerator": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IDeserializationCallback": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ICollection": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "System.ComponentModel": {
       "CancelEventArgs": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "PropertyDescriptor": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "ISite": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IComponent": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IContainer": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ITypeDescriptorContext": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TypeDescriptor": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "string GetClassName(object)"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       },
       "DescriptionAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "EditorBrowsableAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "EditorBrowsableState": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "DefaultValueAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "System.Diagnostics.CodeAnalysis": {
       "AllowNullAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "DisallowNullAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "DoesNotReturnAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "DoesNotReturnIfAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ExcludeFromCodeCoverageAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "MaybeNullAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "MaybeNullWhenAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "MemberNotNullAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "MemberNotNullWhenAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "NotNullAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "NotNullIfNotNullAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "NotNullWhenAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "SuppressMessageAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "System.Diagnostics": {
       "DebuggableAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "DebuggerBrowsableAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "DebuggerBrowsableState": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "DebuggerDisplayAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "DebuggerHiddenAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "DebuggerNonUserCodeAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "DebuggerStepperBoundaryAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "DebuggerStepThroughAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "DebuggerTypeProxyAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "DebuggerVisualizerAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Stopwatch": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Process": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "void Kill()",
           "System.Diagnostics.Process GetCurrentProcess()"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       }
     },
     "System.CodeDom.Compiler": {
       "GeneratedCodeAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "System.Globalization": {
       "CompareOptions": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "CultureInfo": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "DateTimeStyles": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "NumberFormatInfo": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "NumberStyles": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "TextInfo": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "bool get_IsRightToLeft()",
           "char ToLower(char)",
@@ -1021,129 +472,62 @@
           "string ToTitleCase(string)",
           "string ToTitleCase(string)",
           "string ToUpper(string)"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       }
     },
     "System.IO.Compression": {
       "CompressionMode": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "CompressionLevel": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "DeflateStream": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ZipArchive": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ZipArchiveEntry": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ZipArchiveMode": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       }
     },
     "System.IO": {
       "BinaryReader": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "FileAccess": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "FileMode": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "FileShare": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "FileNotFoundException": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "InvalidDataException": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IOException": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "MemoryStream": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "SeekOrigin": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "Stream": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "StreamReader": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "System.IO.Stream get_BaseStream()",
           "void .ctor(System.IO.Stream)",
@@ -1155,12 +539,10 @@
         ],
         "Fields": [
           "System.IO.StreamReader Null"
-        ],
-        "NestedTypes": {}
+        ]
       },
       "StreamWriter": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "bool get_AutoFlush()",
           "System.IO.Stream get_BaseStream()",
@@ -1172,275 +554,139 @@
         ],
         "Fields": [
           "System.IO.StreamWriter Null"
-        ],
-        "NestedTypes": {}
+        ]
       },
       "TextReader": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TextWriter": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Path": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "string Combine(string, string)",
           "string Combine(string, string, string)",
           "string Combine(string, string, string, string)",
           "string GetFileName(string)"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       },
       "StringReader": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "PathTooLongException": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "System.Linq.Expressions": {
       "ConstantExpression": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "Expression": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "System.Linq.Expressions.Expression`1<!!0> Lambda<>(System.Linq.Expressions.Expression, System.Linq.Expressions.ParameterExpression[])"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       },
       "Expression`1": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "MemberExpression": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "ParameterExpression": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       }
     },
     "System.Linq": {
       "Enumerable": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IGrouping`2": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IOrderedEnumerable`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "System.Net": {
       "DnsEndPoint": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "IPAddress": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "HttpStatusCode": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "System.Net.Http": {
       "StringContent": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "HttpResponseMessage": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "HttpRequestMessage": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "HttpRequestException": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "HttpMethod": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "HttpContent": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "System.Net.Http.Headers": {
       "MediaTypeWithQualityHeaderValue": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "HttpResponseHeaders": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "HttpHeaderValueCollection`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "HttpHeaders": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "HttpRequestHeaders": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "AuthenticationHeaderValue": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "System.Net.Sockets": {
       "AddressFamily": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       }
     },
     "System.Net.NetworkInformation": {
       "PhysicalAddress": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "NetworkInterface": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "System.Numerics": {
       "BitOperations": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Vector2": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Vector3": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "System.Reflection": {
       "Assembly": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "string CreateQualifiedName(string, string)",
           "string get_FullName()",
@@ -1451,506 +697,252 @@
           "System.Reflection.Assembly GetExecutingAssembly()",
           "System.Type[] GetTypes()",
           "System.Reflection.AssemblyName GetName()"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       },
       "AssemblyCompanyAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "AssemblyConfigurationAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "AssemblyFileVersionAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "AssemblyInformationalVersionAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "AssemblyName": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "string get_FullName()",
           "System.Version get_Version()",
           "string get_Name()"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       },
       "AssemblyProductAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "AssemblyTitleAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "DefaultMemberAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "GenericParameterAttributes": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "MemberFilter": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "MemberInfo": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "string get_Name()",
           "System.Reflection.MemberTypes get_MemberType()",
           "System.Type get_DeclaringType()",
           "System.Type get_ReturnType()",
           "System.Type get_ReflectedType()"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       },
       "MemberTypes": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "MethodBase": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "System.Reflection.ParameterInfo[] GetParameters()",
           "bool get_IsStatic()"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       },
       "MethodInfo": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "System.Type get_ReturnType()"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       },
       "TypeAttributes": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "TypeInfo": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "PropertyInfo": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "bool op_Inequality(System.Reflection.PropertyInfo, System.Reflection.PropertyInfo)"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       },
       "FieldInfo": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "bool op_Inequality(System.Reflection.FieldInfo, System.Reflection.FieldInfo)"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       },
       "ParameterInfo": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "System.Type get_ParameterType()",
           "bool op_Inequality(System.Reflection.PropertyInfo, System.Reflection.PropertyInfo)"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       },
       "CustomAttributeExtensions": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "!!0 GetCustomAttribute(System.Reflection.MemberInfo, bool)"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       }
     },
     "System.Runtime.CompilerServices": {
       "AsyncStateMachineAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "AsyncTaskMethodBuilder": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "AsyncTaskMethodBuilder`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "AsyncValueTaskMethodBuilder": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "AsyncValueTaskMethodBuilder`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "AsyncVoidMethodBuilder": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "CallerArgumentExpressionAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "CompilationRelaxationsAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "CompilerFeatureRequiredAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "CompilerGeneratedAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "DefaultInterpolatedStringHandler": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ExtensionAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IAsyncStateMachine": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "InternalsVisibleToAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "InterpolatedStringHandlerAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IsByRefLikeAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IsExternalInit": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IsReadOnlyAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IteratorStateMachineAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "PreserveBaseOverridesAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "RuntimeCompatibilityAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "RuntimeHelpers": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TaskAwaiter": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TaskAwaiter`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TupleElementNamesAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ValueTaskAwaiter": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ValueTaskAwaiter`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "DecimalConstantAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ConfiguredTaskAwaitable": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "CallerMemberNameAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ConfiguredTaskAwaitable/ConfiguredTaskAwaiter": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "System.Runtime.ExceptionServices": {
       "ExceptionDispatchInfo": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "System.Runtime.InteropServices": {
       "CollectionsMarshal": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "System.Span`1<!!0> AsSpan<>(System.Collections.Generic.List`1<!!0>)"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       },
       "InAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "UnmanagedType": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       }
     },
     "System.Runtime.Versioning": {
       "TargetFrameworkAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "System.Text.Json.Serialization": {
       "JsonIgnoreAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "JsonPropertyNameAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "System.Text.RegularExpressions": {
       "Capture": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "CaptureCollection": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Group": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "GroupCollection": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Match": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "MatchCollection": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "MatchEvaluator": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Regex": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "bool get_RightToLeft()",
           "bool IsMatch(string)",
@@ -2004,43 +996,24 @@
           "System.Text.RegularExpressions.MatchCollection Matches(string, string)",
           "System.Text.RegularExpressions.MatchCollection Matches(string, string, System.Text.RegularExpressions.RegexOptions)",
           "System.Text.RegularExpressions.MatchCollection Matches(string, string, System.Text.RegularExpressions.RegexOptions, System.TimeSpan)"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       },
       "RegexMatchTimeoutException": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "RegexOptions": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "RegexParseError": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "RegexParseException": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "System.Text": {
       "Encoding": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "bool IsAlwaysNormalized()",
           "bool IsAlwaysNormalized(System.Text.NormalizationForm)",
@@ -2083,27 +1056,16 @@
           "System.Text.Encoding get_UTF8()",
           "System.Text.Encoding get_UTF32()",
           "System.Text.Encoding GetEncoding(string)"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       },
       "NormalizationForm": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "Rune": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "StringBuilder": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "bool Equals(System.ReadOnlySpan`1<char>)",
           "bool Equals(System.Text.StringBuilder)",
@@ -2191,124 +1153,63 @@
           "System.Text.StringBuilder Append(float)",
           "void set_Length(int)"
         ],
-        "Fields": [],
         "NestedTypes": {
           "ChunkEnumerator": {
-            "All": true,
-            "Inherit": "",
-            "Methods": [],
-            "Fields": [],
-            "NestedTypes": {}
+            "All": true
           },
           "AppendInterpolatedStringHandler": {
-            "All": true,
-            "Inherit": "",
-            "Methods": [],
-            "Fields": [],
-            "NestedTypes": {}
+            "All": true
           }
         }
       },
       "StringRuneEnumerator": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "System.Threading.Tasks": {
       "Task": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Task`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TaskCompletionSource": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TaskCompletionSource`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TaskCanceledException": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ValueTask": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ValueTask`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TaskScheduler": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "System.Threading.Tasks.TaskScheduler FromCurrentSynchronizationContext()"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       }
     },
     "System.Threading": {
       "CancellationToken": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "CancellationTokenSource": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Interlocked": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Monitor": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Thread": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "void Start()",
           "void Sleep(int)",
@@ -2317,52 +1218,30 @@
           "void Abort()",
           "System.Globalization.CultureInfo get_CurrentCulture()",
           "void .ctor(System.Threading.ThreadStart)"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       },
       "ThreadPool": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "bool QueueUserWorkItem(System.Threading.WaitCallback)"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       },
       "ThreadStart": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "WaitCallback": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "WaitHandle": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Mutex": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "System.Web": {
       "HttpUtility": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "System.Collections.Specialized.NameValueCollection ParseQueryString(string, System.Text.Encoding)",
           "System.Collections.Specialized.NameValueCollection ParseQueryString(string)",
@@ -2371,162 +1250,75 @@
           "string UrlDecode(string)",
           "string UrlEncode(string, System.Text.Encoding)",
           "string UrlEncode(string)"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       }
     },
     "System": {
       "Decimal": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IServiceProvider": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Action": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Action`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Action`2": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Action`3": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Action`4": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Action`5": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Action`6": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Action`7": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Action`8": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Action`9": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Action`10": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Action`11": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Action`12": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Action`13": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Action`14": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Action`15": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Action`16": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ArgumentException": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ArgumentOutOfRangeException": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Array": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "!!0 Find<>(!!0[], System.Predicate`1<!!0>)",
           "!!0 Resize<>(!!0[], int)",
@@ -2625,97 +1417,46 @@
           "void Sort<>(!!0[], System.Collections.Generic.IComparer`1<!!0>)",
           "void Sort<>(!!0[], System.Comparison`1<!!0>)",
           "void Resize<>(ref !!0[], int)"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       },
       "ArraySegment`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "AsyncCallback": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "Attribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "AttributeTargets": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "AttributeUsageAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "BitConverter": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Base64FormattingOptions": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "Boolean": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Byte": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Char": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "CharEnumerator": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Comparison`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Convert": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "System.TypeCode GetTypeCode(object)",
           "bool IsDBNull(object)",
@@ -2755,40 +1496,22 @@
         ],
         "Fields": [
           "object DBNull"
-        ],
-        "NestedTypes": {}
+        ]
       },
       "Converter`2": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "DateTime": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "DateTimeKind": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "DateTimeOffset": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Delegate": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "System.Delegate Combine(System.Delegate, System.Delegate)",
           "System.Delegate Remove(System.Delegate, System.Delegate)",
@@ -2796,334 +1519,152 @@
           "object get_Target()",
           "System.Reflection.MethodInfo get_Method()",
           "bool op_Equality(System.Delegate, System.Delegate)"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       },
       "DivideByZeroException": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Double": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Enum": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Environment": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "int get_CurrentManagedThreadId()",
           "int get_ProcessorCount()",
           "string get_NewLine()",
           "string get_StackTrace()",
           "string[] GetCommandLineArgs() "
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       },
       "EventArgs": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "EventHandler": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "EventHandler`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Exception": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "FlagsAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Func`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Func`2": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Func`3": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Func`4": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Func`5": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Func`6": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Func`7": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Func`8": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Func`9": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Func`10": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Func`11": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Func`12": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Func`13": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Func`14": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Func`15": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Func`16": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Func`17": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Guid": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "HashCode": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IAsyncDisposable": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IAsyncResult": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "ICloneable": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IComparable": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IComparable`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IDisposable": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IEquatable`1": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "IFormatProvider": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IFormattable": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Index": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IndexOutOfRangeException": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Int16": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Int32": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Int64": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "InvalidOperationException": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Math": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "MathF": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Memory`1": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "!0[] ToArray()",
           "bool Equals(object)",
@@ -3142,118 +1683,56 @@
           "void .ctor(!0[])",
           "void .ctor(!0[], int, int)",
           "void CopyTo(System.Memory`1<!0>)"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       },
       "MemoryExtensions": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "MidpointRounding": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "MulticastDelegate": {
         "All": false,
-        "Inherit": "Allow",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "Inherit": "Allow"
       },
       "NotImplementedException": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "NotSupportedException": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Nullable": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Nullable`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "NullReferenceException": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Object": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ObsoleteAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "OperationCanceledException": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ParamArrayAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Predicate`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Random": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Range": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ReadOnlyMemory`1": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "!0[] ToArray()",
           "bool Equals(object)",
@@ -3271,13 +1750,10 @@
           "void .ctor(!0[])",
           "void .ctor(!0[], int, int)",
           "void CopyTo(System.Memory`1<!0>)"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       },
       "ReadOnlySpan`1": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "!0[] ToArray()",
           "bool get_IsEmpty()",
@@ -3299,62 +1775,32 @@
           "void CopyTo(System.Span`1<!0>)",
           "void Fill(!0)"
         ],
-        "Fields": [],
         "NestedTypes": {
           "Enumerator": {
-            "All": true,
-            "Inherit": "",
-            "Methods": [],
-            "Fields": [],
-            "NestedTypes": {}
+            "All": true
           }
         }
       },
       "Rune": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "RuntimeFieldHandle": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "RuntimeMethodHandle": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "RuntimeTypeHandle": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "SByte": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Single": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Span`1": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "!0[] ToArray()",
           "bool get_IsEmpty()",
@@ -3377,20 +1823,14 @@
           "void CopyTo(System.Span`1<!0>)",
           "void Fill(!0)"
         ],
-        "Fields": [],
         "NestedTypes": {
           "Enumerator": {
-            "All": true,
-            "Inherit": "",
-            "Methods": [],
-            "Fields": [],
-            "NestedTypes": {}
+            "All": true
           }
         }
       },
       "String": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "bool Contains(char)",
           "bool Contains(char, System.StringComparison)",
@@ -3552,33 +1992,19 @@
         ],
         "Fields": [
           "string Empty"
-        ],
-        "NestedTypes": {}
+        ]
       },
       "StringComparison": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "StringSplitOptions": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "TimeSpan": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Type": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "bool Equals(object)",
           "bool Equals(System.Type)",
@@ -3665,1107 +2091,490 @@
           "object Missing",
           "char Delimiter",
           "System.Type[] EmptyTypes"
-        ],
-        "NestedTypes": {}
+        ]
       },
       "TypeCode": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "UInt16": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "UInt32": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "UInt64": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Uri": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ValueTuple": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ValueTuple`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ValueTuple`2": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ValueTuple`3": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ValueTuple`4": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ValueTuple`5": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ValueTuple`6": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ValueTuple`7": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ValueTuple`8": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ValueType": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Version": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Void": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Tuple": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Tuple`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Tuple`2": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Tuple`3": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TupleExtensions": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IConvertible": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "WeakReference": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "WeakReference`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ArgumentNullException": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "UriHostNameType": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Buffer": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "void BlockCopy (System.Array, int, System.Array, int, int)"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       },
       "AppDomain": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "AggregateException": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Activator": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "UriBuilder": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "UnauthorizedAccessException": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Half": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "UnityEngine": {
       "MonoBehaviour": {
         "All": true,
-        "Inherit": "Allow",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "Inherit": "Allow"
       },
       "ScriptableObject": {
         "All": true,
-        "Inherit": "Allow",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "Inherit": "Allow"
       },
       "TooltipAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "SerializeField": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "GameObject": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Component": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Vector4": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Vector3": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Vector3Int": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Vector2": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Vector2Int": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Coroutine": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "Object": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Debug": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "WaitForEndOfFrame": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "WaitForSeconds": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "CreateAssetMenuAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Collider2D": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "LayerMask": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Physics2D": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ContactFilter2D": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Mathf": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "RangeAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Quaternion": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Transform": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Random": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Matrix4x4": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Color": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Color32": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "HideInInspector": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Time": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Behaviour": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "RuntimeInitializeOnLoadMethodAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "RuntimeInitializeLoadType": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Rect": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Plane": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Ray": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Texture2D": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Sprite": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "SystemInfo": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "CanvasGroup": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "RaycastHit2D": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "RenderTexture": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ColorUtility": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "LineRenderer": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Bounds": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "BoundsInt": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ColorSpace": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Canvas": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "PropertyAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "RectTransformUtility": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ICanvasRaycastFilter": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "CanvasRenderer": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "AudioSource": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TextGenerator": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "HorizontalWrapMode": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Physics": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "SimulationMode2D": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "BoxCollider2D": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ParticleSystem": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Touch": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Input": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "GUIUtility": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "void set_systemCopyBuffer(string)",
           "void RotateAroundPivot(float, UnityEngine.Vector2)",
           "string get_systemCopyBuffer()"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       },
       "GUI": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Event": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ImageConversion": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "byte[] EncodeToPNG(UnityEngine.Texture2D)"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       },
       "GridLayout": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "WaitForSecondsRealtime": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "WaitForFixedUpdate": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TextureWrapMode": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TextureFormat": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Texture": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TextAsset": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TextAreaAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "SpriteRenderer": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "SpritePackingMode": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "SpriteMeshType": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "SpaceAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "SortingLayer": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Skybox": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Shader": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Space": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "SerializeReference": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Material": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Camera": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "AudioClip": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Screen": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "RuntimePlatform": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Resolution": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "RequireComponent": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "RenderTextureFormat": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Renderer": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "RectTransform": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "RectOffset": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "RectInt": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "QualitySettings": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "PlayerPrefs": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "MinAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "MeshRenderer": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "MaterialPropertyBlock": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "LogType": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Keyframe": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "KeyCode": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "HideFlags": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "HeaderAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Graphics": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "GradientAlphaKey": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Gradient": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Gizmos": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "FullScreenMode": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ExecuteInEditMode": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "DrivenTransformProperties": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "DrivenRectTransformTracker": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "DisallowMultipleComponent": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "CursorMode": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "CursorLockMode": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Cursor": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ContextMenu": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ComputeShader": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "CameraClearFlags": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "AsyncOperation": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Application": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "bool get_isPlaying()",
           "bool get_isMobilePlatform()",
@@ -4785,822 +2594,369 @@
           "void remove_logMessageReceived(UnityEngine.Application/LogCallback)",
           "void add_logMessageReceived(UnityEngine.Application/LogCallback)"
         ],
-        "Fields": [],
         "NestedTypes": {
           "LogCallback": {
-            "All": true,
-            "Inherit": "",
-            "Methods": [],
-            "Fields": [],
-            "NestedTypes": {}
+            "All": true
           }
         }
       },
       "AnimationCurve": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "AddComponentMenu": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "CanBeNullAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "AudioSourceCurveType": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "AudioRolloffMode": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "AudioListener": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Animator": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "SendMessageOptions": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "SelectionBaseAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ScreenOrientation": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "FilterMode": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Resources": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "AnimatorControllerParameterType": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "RenderMode": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ParticleSystemRenderer": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "GUIStyle": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Mesh": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "GUIStyleState": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "GUISkin": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "MeshFilter": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "GL": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TextAnchor": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "MultilineAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "DeviceType": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "FFTWindow": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TextEditor": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ISerializationCallbackReceiver": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "UnassignedReferenceException": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Caching": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "bool ClearCache()"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       },
       "RenderSettings": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "FogMode": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "LogOption": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "UnityEngine.Events": {
       "UnityEvent": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "UnityEvent`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "UnityEvent`2": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "UnityEvent`3": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "UnityEvent`4": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "UnityEvent`5": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "UnityEvent`6": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "UnityAction": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "UnityAction`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "UnityAction`2": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "UnityAction`3": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "UnityAction`4": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "UnityEventCallState": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "UnityEventBase": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "UnityEngine.UI": {
       "Dropdown": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "InputField": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Scrollbar": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "CanvasScaler": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ColorBlock": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Graphic": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Button": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "LayoutGroup": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "VerticalLayoutGroup": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ToggleGroup": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Toggle": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Text": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Slider": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Shadow": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Selectable": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ScrollRect": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "RawImage": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "LayoutRebuilder": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Image": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ICanvasElement": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "HorizontalOrVerticalLayoutGroup": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "GridLayoutGroup": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "GraphicRaycaster": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ContentSizeFitter": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "CanvasUpdate": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "LayoutElement": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "MaskableGraphic": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "UnityEngine.EventSystems": {
       "EventSystem": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IPointerExitHandler": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IDragHandler": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IPointerDownHandler": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IEventSystemHandler": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IPointerEnterHandler": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IPointerUpHandler": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IPointerClickHandler": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IBeginDragHandler": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IEndDragHandler": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "PointerEventData": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IScrollHandler": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "UIBehaviour": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "RaycastResult": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IDropHandler": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ExecuteEvents": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "EventTriggerType": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "EventTrigger": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IInitializePotentialDragHandler": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "BaseRaycaster": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "BaseEventData": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "UnityEngine.Tilemaps": {
       "TileData": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TileBase": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Tilemap": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ITilemap": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TileFlags": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TilemapRenderer": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TileAnimationData": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Tile": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "UnityEngine.Video": {
       "VideoPlayer": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "VideoClip": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "UnityEngine.SceneManagement": {
       "SceneUtility": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "SceneManager": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Scene": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "LoadSceneMode": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "UnityEngine.Rendering": {
       "SortingGroup": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "GraphicsDeviceType": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "AsyncGPUReadbackRequest": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "AsyncGPUReadback": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "UnityEngine.Profiling": {
       "Profiler": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "long GetTotalAllocatedMemoryLong()",
           "void EndThreadProfiling()",
@@ -5609,511 +2965,255 @@
           "long GetMonoUsedSizeLong()",
           "void EndSample()",
           "void BeginSample(string)"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       },
       "CustomSampler": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "UnityEngine.Pool": {
       "PooledObject`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "CollectionPool`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "CollectionPool`2": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "UnityEngine.Audio": {
       "AudioMixerGroup": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "AudioMixer": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "UnityEngine.Animations": {
       "ParentConstraint": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ConstraintSource": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "UnityEngine.Serialization": {
       "FormerlySerializedAsAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "UnityEngine.ResourceManagement.ResourceLocations": {
       "IResourceLocation": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "UnityEngine.ResourceManagement.AsyncOperations": {
       "AsyncOperationStatus": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "AsyncOperationHandle": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "AsyncOperationHandle`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "UnityEngine.AddressableAssets": {
       "ResourceLocators": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "AssetReference": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Addressables": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "UnityEngine.AddressableAssets.ResourceLocators": {
       "IResourceLocator": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ResourceLocationMap": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "UnityEngine.U2D": {
       "PixelPerfectCamera": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "Unity.Collections": {
       "NativeArray`1": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "int get_Length()",
           "!0 get_Item(int)",
           "void Dispose()",
           "void .ctor(Unity.Collections.NativeArray`1<!0>, Unity.Collections.Allocator)"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       },
       "Allocator": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "UnityEngine.Experimental.Rendering": {
       "GraphicsFormat": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "JetBrains.Annotations": {
       "CanBeNullAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "Mirror": {
       "Reader`1": {
         "All": false,
-        "Inherit": "",
-        "Methods": [],
         "Fields": [
           "System.Func`2<Mirror.NetworkReader, !0> read"
-        ],
-        "NestedTypes": {}
+        ]
       },
       "Writer`1": {
         "All": false,
-        "Inherit": "",
-        "Methods": [],
         "Fields": [
           "System.Action`2<Mirror.NetworkWriter, !0> write"
-        ],
-        "NestedTypes": {}
+        ]
       },
       "NetworkBehaviourSyncVar": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "NetworkPongMessage": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "NetworkPingMessage": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "EntityStateMessage": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ObjectHideMessage": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ObjectDestroyMessage": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ObjectSpawnFinishedMessage": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ObjectSpawnStartedMessage": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ChangeOwnerMessage": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "SpawnMessage": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "RpcBufferMessage": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "RpcMessage": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "CommandMessage": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "SceneOperation": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "SceneMessage": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "AddPlayerMessage": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "NotReadyMessage": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ReadyMessage": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TimeSnapshotMessage": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ServerAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "CommandAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "SyncVarAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TargetRpcAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "NetworkServer": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "NetworkClient": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "NetworkConnectionToClient": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "NetworkWriter": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "void WriteByte(byte)",
           "void Write<>(!!0)"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       },
       "NetworkWriterExtensions": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "NetworkReader": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "!!0 Read<>()",
           "byte ReadByte()}"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       },
       "NetworkReaderExtensions": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "NetworkWriterPooled": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "NetworkWriterPool": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "NetworkConnection": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "NetworkIdentity": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "NetworkBehaviour": {
         "All": true,
-        "Inherit": "Allow",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "Inherit": "Allow"
       },
       "NetworkMessage": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "SyncList`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "NetworkManager": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TelepathyTransport": {
         "All": false,
-        "Inherit": "",
-        "Methods": [],
         "Fields": [
           "ushort port"
-        ],
-        "NestedTypes": {}
+        ]
       },
       "SyncObject": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Transport": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "void Shutdown()",
           "int GetMaxPacketSize(int)"
@@ -6124,138 +3224,74 @@
           "System.Action`1<int> OnServerConnected",
           "System.Action OnClientDisconnected",
           "System.Action OnClientConnected"
-        ],
-        "NestedTypes": {}
+        ]
       },
       "ServerCallbackAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "NetworkTime": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ClientRpcAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ClientAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Extensions": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "InterestManagement": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "LocalConnectionToClient": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "NetworkAuthenticator": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "NetworkStartPosition": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "NetworkManagerMode": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "MultiplexTransport": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       },
       "NetworkConnectionToServer": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       }
     },
     "kcp2k": {
       "KcpTransport": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       }
     },
     "Mirror.SimpleWeb": {
       "SimpleWebTransport": {
-        "All": false,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": false
       }
     },
     "IgnoranceTransport": {
       "Ignorance": {
         "All": false,
-        "Inherit": "",
-        "Methods": [],
         "Fields": [
           "int port",
           "bool serverBindsAll",
           "string serverBindAddress"
-        ],
-        "NestedTypes": {}
+        ]
       }
     },
     "Mirror.RemoteCalls": {
       "RemoteCallDelegate": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "void .ctor(object, nint)"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       },
       "RemoteProcedureCalls": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "void RemoteCallDelegate(Mirror.NetworkBehaviour, Mirror.NetworkReader , Mirror.NetworkConnectionToClient)",
           "void RegisterCommand(System.Type, string, Mirror.RemoteCalls.RemoteCallDelegate, bool)",
@@ -6264,291 +3300,133 @@
         "Fields": [
           "bool mirrorProcessingCMD",
           "Mirror.RemoteCalls.Invoker mirrorLastInvoker"
-        ],
-        "NestedTypes": {}
+        ]
       },
       "Invoker": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "Logs": {
       "Loggy": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "LogOverridePref": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "LoggerPreferences": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Category": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "LogLevel": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ThreadLoggy": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "TMPro": {
       "TMP_VertexDataUpdateFlags": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TMP_TextUtilities": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TMP_TextInfo": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TMP_Text": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TMP_SpriteAsset": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TMP_MeshInfo": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TMP_LinkInfo": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TMP_InputField": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TMP_FontAsset": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TMP_Dropdown": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TMP_CharacterInfo": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TextMeshProUGUI": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "FontStyles": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "SecureStuff": {
       "SafeURL": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "SafeProfileManager": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "SafeHttpRequest": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "AccessFile": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "FolderType": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "VVNote": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "VVHighlight": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Librarian": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ICustomSerialisationSystem": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "BaseAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "AllowedReflection": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "MethodsAndAttributee`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "SecureMapsSaver": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "SceneObjectReference": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IPopulateIDRelation": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IAllowedReflection": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "FieldData": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "AllowedEnvironmentVariables": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "PlayModeOnlyAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "SpriteMetadata": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "float get_Scale()",
           "UnityEngine.Vector2 get_Offset()",
@@ -6556,496 +3434,248 @@
         ],
         "Fields": [
           "SecureStuff.SpriteMetadata Default()"
-        ],
-        "NestedTypes": {}
+        ]
       },
       "EventConnection": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "IHaveForeverID": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "MicrophoneAccess": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "UnprocessedData": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "INewMappedOnSpawn": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "SafeFieldInfo": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "SafeCanGrabFields": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "TTSCommunication": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "SerializedAction": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "Newtonsoft.Json": {
       "ReferenceLoopHandling": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "PreserveReferencesHandling": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "NullValueHandling": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "JsonWriter": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "JsonSerializerSettings": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "JsonSerializer": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "JsonReader": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "JsonPropertyAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "JsonIgnoreAttribute": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "JsonConvert": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Formatting": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "DefaultValueHandling": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "MissingMemberHandling": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "Newtonsoft.Json.Bson": {
       "BsonWriter": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "BsonReader": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "Newtonsoft.Json.Linq": {
       "JToken": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "JObject": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "JValue": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "JProperty": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "Tomlyn": {
       "Toml": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "bool TryToModel<>(string, ref !!0, ref Tomlyn.Syntax.DiagnosticsBag, string, Tomlyn.TomlModelOptions)",
           "string FromModel(object, Tomlyn.TomlModelOptions)"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       },
       "TomlModelOptions": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "Tomlyn.Syntax": {
       "DiagnosticsBag": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "DiagnosticMessage": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "Tomlyn.Model": {
       "TomlPropertiesMetadata": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ITomlMetadataProvider": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "YamlDotNet.Serialization": {
       "IDeserializer": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "DeserializerBuilder": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "YamlDotNet.RepresentationModel": {
       "YamlStream": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "YamlScalarNode": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "YamlNode": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "YamlMappingNode": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "YamlDocument": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "YamlDotNet.Helpers": {
       "IOrderedDictionary`2": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "C5": {
       "IntervalHeap`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "CollectionValueBase`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "SunVox": {
       "SunVox": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "ImGui": {
       "ImGui": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "UImGui": {
       "ImGuiUn": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "UImGuiUtility": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "UImGui": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "ImGuiNET": {
       "ImGuiNET": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "ImGui": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "Whisper": {
       "WhisperResult": {
         "All": false,
-        "Inherit": "",
-        "Methods": [],
         "Fields": [
           "string Result",
           "string Language",
           "int LanguageId"
-        ],
-        "NestedTypes": {}
+        ]
       },
       "WhisperManager": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "System.Threading.Tasks.Task`1<Whisper.WhisperResult> GetTextAsync(float[], int, int)"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       }
     },
     "Whisper.Utils": {
       "OnRecordStopDelegate": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "MicrophoneRecord": {
         "All": false,
-        "Inherit": "",
         "Methods": [
           "void add_OnRecordStop(Whisper.Utils.OnRecordStopDelegate)"
-        ],
-        "Fields": [],
-        "NestedTypes": {}
+        ]
       },
       "AudioChunk": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "Cysharp.Threading.Tasks": {
       "UniTask": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "UniTaskVoid": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "UniTask`1": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "Awaiter": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       },
       "PlayerLoopTiming": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     },
     "Cysharp.Threading.Tasks.CompilerServices": {
       "AsyncUniTaskMethodBuilder": {
         "All": true,
-        "Inherit": "Block",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "Inherit": "Block"
       },
       "AsyncUniTaskVoidMethodBuilder": {
-        "All": true,
-        "Inherit": "",
-        "Methods": [],
-        "Fields": [],
-        "NestedTypes": {}
+        "All": true
       }
     }
   }
