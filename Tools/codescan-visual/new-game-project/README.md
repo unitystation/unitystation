@@ -150,7 +150,3 @@ The UI is built programmatically in C#, making it easy to modify:
 ### Debug Information
 
 Enable debug output by checking the Godot console for error messages and loading status information.
-
-## License
-
-This project is provided as-is for educational and development purposes. 
