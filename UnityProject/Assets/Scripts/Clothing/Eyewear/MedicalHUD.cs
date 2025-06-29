@@ -208,7 +208,7 @@ public class MedicalHUD : NetworkBehaviour, IHUD
 		foreach (var cure in CureManager.Instance.CureableSicknesses)
 		{
 			if (blood.reagents.TryGetValue(cure.Sickness, out float amount) == false) continue;
-			if (CommonSicknesses.Instance.DiseaseReactionDictionary.TryGetValue(cure.Sickness, out var reaction) == false) continue;
+			if (CommonSicknesses.Instance.diseaseReactionDictionary.TryGetValue(cure.Sickness.Name, out var reaction) == false) continue;
 
 			float concentrationPercent = (amount / blood.Total) * 100;
 			int newStage = reaction.GetStageID(concentrationPercent);

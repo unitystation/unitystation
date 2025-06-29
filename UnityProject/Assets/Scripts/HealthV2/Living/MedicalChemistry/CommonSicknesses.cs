@@ -2,6 +2,7 @@
 using HealthV2.Sickness;
 using ScriptableObjects;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Used for getting sicknesses outside monobehaviours
@@ -13,5 +14,5 @@ public class CommonSicknesses : SingletonScriptableObject<CommonSicknesses>
    public Reagent SpaceCancerReagent = null;
    public Reagent ParanoiaReagent = null;
 
-   public SerializableDictionary<Reagent, SicknessReaction> DiseaseReactionDictionary = new SerializableDictionary<Reagent, SicknessReaction>();
+   public SerializableDictionary<string, SicknessReaction> diseaseReactionDictionary = default;
 }
