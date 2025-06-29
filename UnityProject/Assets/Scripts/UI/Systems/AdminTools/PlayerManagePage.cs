@@ -30,7 +30,7 @@ namespace AdminTools
 
 		[SerializeField] private Toggle OnWatchlist = null;
 
-		[SerializeField] private TMP_Text JailText;
+		[SerializeField] private Text JailText;
 
 		public AdminPlayerEntry PlayerEntry { get; private set; }
 
@@ -38,15 +38,15 @@ namespace AdminTools
 		{
 			PlayerEntry = entry;
 
-			mentorButtonText.text = entry.PlayerData.hasMentorRole ? "REMOVE MENTOR" : "MAKE MENTOR";
+			mentorButtonText.text = entry.PlayerData.hasMentorRole ? "<color=cyan>Remove Player Mentor</color>" : "<color=cyan>Make Player Mentor</color>";
 			mentorToggle.gameObject.SetActive(entry.PlayerData.hasMentorRole == false);
 
-			oocMuteButtonText.text = entry.PlayerData.isOOCMuted ? "Unmute OOC" : "Mute OOC";
+			oocMuteButtonText.text = entry.PlayerData.isOOCMuted ? "<color=grey>Unmute OOC</color>" : "<color=grey>Mute OOC</color>";
 
 			PlayerNotes.SetTextWithoutNotify( entry.PlayerData.PlayerNotes);
 			OnWatchlist.isOn = (entry.PlayerData.OnWatchlist);
 
-			JailText.text = entry.PlayerData.InJail ? " UnJail " : " Send To Jail ";
+			JailText.text = entry.PlayerData.InJail ? "<color=yellow>UNJAIL</color>" : "<color=red>JAIL</color>";
 		}
 
 		public void OnJailTextBtn()
@@ -130,6 +130,12 @@ namespace AdminTools
 		public void OnHealUpButton()
 		{
 			AdminCommandsManager.Instance.CmdHealUpPlayer(PlayerEntry.PlayerData.uid);
+			RefreshPage();
+		}
+
+		public void OnCureSicknessButton()
+		{
+			AdminCommandsManager.Instance.CmdCurePlayer(PlayerEntry.PlayerData.uid);
 			RefreshPage();
 		}
 
@@ -253,12 +259,6 @@ namespace AdminTools
 		{
 			AdminCommandsManager.Instance.CmdOOCMutePlayer(PlayerEntry.PlayerData.uid);
 			RefreshPage();
-		}
-
-		public void OnAntagonistManager()
-		{
-			antagManagerPage.Init(PlayerEntry);
-			adminTools.ShowAntagManagerPage();
 		}
 	}
 }
