@@ -50,7 +50,7 @@ namespace AdminTools
 		public void StartInfection()
 		{
 			if (Int32.TryParse(NumberOfPlayerInput.textComponent.text, out var numberResult) == false) return;
-			if (Int32.TryParse(DiseaseStrengthInput.textComponent.text, out var strengthResult) == false) return;
+			if (float.TryParse(DiseaseStrengthInput.textComponent.text, out var strengthResult) == false) return;
 
 			SicknessEventParameters eventParameters = new SicknessEventParameters();
 

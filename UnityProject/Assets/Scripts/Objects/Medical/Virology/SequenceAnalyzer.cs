@@ -6,15 +6,18 @@ using Chemistry.Components;
 using Core.Physics;
 using Cysharp.Threading.Tasks;
 using HealthV2.Sickness;
+using Mirror;
 using Shared.Systems.ObjectConnection;
 using UnityEngine;
 using Systems.Electricity;
 
 namespace Objects.Medical.Virology
 {
-	public class SequenceAnalyzer : MonoBehaviour, IAPCPowerable, IMultitoolSlaveable, IServerSpawn
+	public class SequenceAnalyzer : NetworkBehaviour, IAPCPowerable, IMultitoolSlaveable, IServerSpawn
 	{
-		private PowerState _currentPowerState;
+		[SyncVar] private PowerState _currentPowerState = PowerState.On;
+		[SyncVar] private bool _isOnCooldown = false;
+
 		private Reagent _activeSickness;
 		public Reagent ActiveSickness => _activeSickness;
 
@@ -28,9 +31,8 @@ namespace Objects.Medical.Virology
 		[SerializeField] private AddressableAudioSource machineBeepSound;
 
 		private ItemSlot DishItemSlot => dishItemStorage.GetIndexedItemSlot(0);
-		private bool _isOnCooldown;
 
-		public bool CanExamineSample => _isOnCooldown == false && _currentPowerState == PowerState.On;
+		public bool CanExamineSample => _isOnCooldown == false;
 		public bool HasDishLoaded => DishItemSlot.IsOccupied;
 
 		public void RequestLoadRemoveDish(PositionalHandApply interaction)

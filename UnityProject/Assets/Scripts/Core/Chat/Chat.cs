@@ -255,7 +255,8 @@ public partial class Chat : MonoBehaviour
 			channels = channels,
 			originator = sentByPlayer.GameObject,
 			VoiceLevel = loudness,
-			Voice = voice
+			Voice = voice,
+			ShowChatBubble = true,
 		};
 
 		//This is to make sure OOC doesn't break
