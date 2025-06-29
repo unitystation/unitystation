@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Logs;
+using TMPro;
 using UnityEngine;
 using Random = System.Random;
 using PlayerMoveDirection = MovementSynchronisation.PlayerMoveDirection;
@@ -344,6 +345,27 @@ public static class ConverterExtensions
 		return ToLocalVector3(@in).RoundTo2Int();
 	}
 
+
+	public static List<TMP_Dropdown.OptionData> GetSelected(this TMP_Dropdown DropDown)
+	{
+		if (DropDown.MultiSelect == false)
+		{
+			return new List<TMP_Dropdown.OptionData>() {DropDown.options[DropDown.value]};
+		}
+		else
+		{
+			var Values = new List<TMP_Dropdown.OptionData>();
+			for (int i = 0; i < DropDown.options.Count; ++i)
+			{
+				if ((DropDown.value & (1 << i)) != 0)
+				{
+					Values.Add(DropDown.options[i]);
+				}
+			}
+
+			return Values;
+		}
+	}
 
 	/// <summary>
 	/// Takes an <see cref="OrientationEnum"/> and returns a unit <see cref="Vector3"/> direction.
