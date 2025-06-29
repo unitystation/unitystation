@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c0c8fd537387459c95edf35f9c5dd2c3, type: 3}
-  m_Name: Bureaucracy Crate
+  m_Name: BureaucracyCrate
   m_EditorClassIdentifier: 
   OrderName: Bureaucracy Crate
   CreditCost: 750
@@ -19,13 +19,15 @@ MonoBehaviour:
   - {fileID: 8517905270553474336, guid: f029ac18cb79ad24c8691a3a0d6f191e, type: 3}
   - {fileID: 603719719618459706, guid: b32ca0cccde16ef428f4f164dc1f884a, type: 3}
   - {fileID: 603719719618459706, guid: b32ca0cccde16ef428f4f164dc1f884a, type: 3}
-  - {fileID: 8734328976324889014, guid: 3edf81f4a32c4c348bad5bfe43e263fd, type: 3}
-  - {fileID: 7656612713623131699, guid: d66b5d1b9282e88438707dc53a429f0e, type: 3}
-  - {fileID: 8734328976324889014, guid: 83442ea1bc97ef04db1f9962a2f7021d, type: 3}
-  - {fileID: 8734328976324889014, guid: 83442ea1bc97ef04db1f9962a2f7021d, type: 3}
-  - {fileID: 8734328976324889014, guid: 83442ea1bc97ef04db1f9962a2f7021d, type: 3}
-  - {fileID: 672303750654484543, guid: 642aa305b6e36804ca123bab080adccb, type: 3}
-  - {fileID: 672303750654484543, guid: 642aa305b6e36804ca123bab080adccb, type: 3}
-  - {fileID: 672303750654484543, guid: 642aa305b6e36804ca123bab080adccb, type: 3}
-  ContentSellPrice: 500
+  - {fileID: 603719719618459706, guid: b32ca0cccde16ef428f4f164dc1f884a, type: 3}
+  - {fileID: 3281490335687790866, guid: 8aed0ee99da5fca4d93befe72d7da164, type: 3}
+  - {fileID: 6277220708137598445, guid: ce58cd7d98f8abc4db91e438dd31462f, type: 3}
+  - {fileID: 6277220708137598445, guid: ce58cd7d98f8abc4db91e438dd31462f, type: 3}
+  - {fileID: 6277220708137598445, guid: ce58cd7d98f8abc4db91e438dd31462f, type: 3}
+  - {fileID: 5804300582492145495, guid: 0ffd76bb18fbbc8469a9e46bf83d1988, type: 3}
+  - {fileID: 5804300582492145495, guid: 0ffd76bb18fbbc8469a9e46bf83d1988, type: 3}
+  - {fileID: 5804300582492145495, guid: 0ffd76bb18fbbc8469a9e46bf83d1988, type: 3}
   EmagOnly: 0
+  SuggestedCargoPrice: 621
+  ContentSellPrice: 518
+  WillFailUnitTests: 0
