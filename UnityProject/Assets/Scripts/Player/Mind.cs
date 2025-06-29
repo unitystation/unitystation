@@ -16,6 +16,7 @@ using ScriptableObjects.Systems.Spells;
 using Systems.Antagonists.Antags;
 using UI.Core.Action;
 using System.Linq;
+using Actions.V2;
 using Changeling;
 using Core.Admin.Logs;
 using Logs;
@@ -175,7 +176,6 @@ public class Mind : NetworkBehaviour, IActionGUI
 	public SpawnedAntag AntagPublic => antagContainer;
 	public bool IsAntag => CustomNetworkManager.IsServer ? antagContainer.Antagonist != null : NetworkedisAntag;
 
-
 	public bool DenyCloning;
 	public int bodyMobID;
 	public FloorSounds StepSound; //Why is this on the mind!!!, Should be on the body
@@ -198,6 +198,8 @@ public class Mind : NetworkBehaviour, IActionGUI
 
 	private ObservableCollection<Spell> spells = new ObservableCollection<Spell>();
 	public ObservableCollection<Spell> Spells => spells;
+
+	public ActionManager PlayerButtonedActions;
 
 	/// <summary>
 	/// General purpose properties storage for misc stuff like job-specific flags

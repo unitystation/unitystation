@@ -26,7 +26,18 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3633450545834772647, guid: 57bdc54d41899c34a897a26ef0a10933,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 2266538441636645373}
+    - target: {fileID: 3633450545834772647, guid: 57bdc54d41899c34a897a26ef0a10933,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ce7b54905280f634caba433777dfea67,
+        type: 2}
+    - target: {fileID: 3633450545834772647, guid: 57bdc54d41899c34a897a26ef0a10933,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: ce7b54905280f634caba433777dfea67,
         type: 2}
@@ -126,3 +137,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 57bdc54d41899c34a897a26ef0a10933, type: 3}
+--- !u!212 &2266538441636645373 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7339590508352225404, guid: 57bdc54d41899c34a897a26ef0a10933,
+    type: 3}
+  m_PrefabInstance: {fileID: 8840330884921739649}
+  m_PrefabAsset: {fileID: 0}

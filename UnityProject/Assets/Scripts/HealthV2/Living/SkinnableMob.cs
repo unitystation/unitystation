@@ -112,10 +112,9 @@ namespace HealthV2.Living
 		{
 			var result = new List<TextColor>();
 			if (gibbableMob?.Mob?.Mind?.CurrentCharacterSettings?.Species == null) return result;
-
-			var hands = PlayerManager.Equipment.ItemStorage.GetActiveHandSlot();
 			RaceSOSingleton.TryGetRaceByName(gibbableMob.Mob.Mind.CurrentCharacterSettings.Species, out var species);
 
+			var hands = PlayerManager.Equipment?.ItemStorage?.GetActiveHandSlot();
 			if (hands != null && hands.ItemAttributes != null && hands.ItemAttributes.GetTraits().Contains(species.Base.SkinningItemTrait))
 			{
 				result.Add(new TextColor() {Text = "Right click while they're buckled to an object or laying down to skin this creature.", Color = Color.red});
