@@ -168,6 +168,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 	public bool ServerCheckStandingChange(bool layingDown, bool doBar = false, float time = 1.5f)
 	{
 		if (IsLayingDown == layingDown) return false;
+		if (layingDown == false && ObjectPhysics.Component.IsBuckled) return false;
 
 		foreach (var status in CheckableStatuses)
 		{
