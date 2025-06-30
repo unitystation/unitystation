@@ -8,6 +8,81 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1666505115895660852, guid: adbb6ca456fa4b1408d794922c0fd2c4,
+        type: 3}
+      propertyPath: palette.Array.data[0].b
+      value: 0.069129534
+      objectReference: {fileID: 0}
+    - target: {fileID: 1666505115895660852, guid: adbb6ca456fa4b1408d794922c0fd2c4,
+        type: 3}
+      propertyPath: palette.Array.data[0].g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1666505115895660852, guid: adbb6ca456fa4b1408d794922c0fd2c4,
+        type: 3}
+      propertyPath: palette.Array.data[0].r
+      value: 0.67058825
+      objectReference: {fileID: 0}
+    - target: {fileID: 1666505115895660852, guid: adbb6ca456fa4b1408d794922c0fd2c4,
+        type: 3}
+      propertyPath: palette.Array.data[1].b
+      value: 0.06252861
+      objectReference: {fileID: 0}
+    - target: {fileID: 1666505115895660852, guid: adbb6ca456fa4b1408d794922c0fd2c4,
+        type: 3}
+      propertyPath: palette.Array.data[1].g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1666505115895660852, guid: adbb6ca456fa4b1408d794922c0fd2c4,
+        type: 3}
+      propertyPath: palette.Array.data[1].r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1666505115895660852, guid: adbb6ca456fa4b1408d794922c0fd2c4,
+        type: 3}
+      propertyPath: palette.Array.data[2].b
+      value: 0.0603883
+      objectReference: {fileID: 0}
+    - target: {fileID: 1666505115895660852, guid: adbb6ca456fa4b1408d794922c0fd2c4,
+        type: 3}
+      propertyPath: palette.Array.data[2].g
+      value: 0.011764712
+      objectReference: {fileID: 0}
+    - target: {fileID: 1666505115895660852, guid: adbb6ca456fa4b1408d794922c0fd2c4,
+        type: 3}
+      propertyPath: palette.Array.data[2].r
+      value: 0.42352942
+      objectReference: {fileID: 0}
+    - target: {fileID: 1666505115895660852, guid: adbb6ca456fa4b1408d794922c0fd2c4,
+        type: 3}
+      propertyPath: palette.Array.data[3].b
+      value: 0.037089545
+      objectReference: {fileID: 0}
+    - target: {fileID: 1666505115895660852, guid: adbb6ca456fa4b1408d794922c0fd2c4,
+        type: 3}
+      propertyPath: palette.Array.data[3].g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1666505115895660852, guid: adbb6ca456fa4b1408d794922c0fd2c4,
+        type: 3}
+      propertyPath: palette.Array.data[3].r
+      value: 0.7735849
+      objectReference: {fileID: 0}
+    - target: {fileID: 1666505115895660852, guid: adbb6ca456fa4b1408d794922c0fd2c4,
+        type: 3}
+      propertyPath: palette.Array.data[4].b
+      value: 0.11425209
+      objectReference: {fileID: 0}
+    - target: {fileID: 1666505115895660852, guid: adbb6ca456fa4b1408d794922c0fd2c4,
+        type: 3}
+      propertyPath: palette.Array.data[4].g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1666505115895660852, guid: adbb6ca456fa4b1408d794922c0fd2c4,
+        type: 3}
+      propertyPath: palette.Array.data[4].r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1935487091443775198, guid: adbb6ca456fa4b1408d794922c0fd2c4,
         type: 3}
       propertyPath: parentID
@@ -102,6 +177,18 @@ PrefabInstance:
     - target: {fileID: 4939067879421793745, guid: adbb6ca456fa4b1408d794922c0fd2c4,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 448c9f91cc815d94c8d5181c27d1f468,
+        type: 2}
+    - target: {fileID: 4939067879421793745, guid: adbb6ca456fa4b1408d794922c0fd2c4,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 290d275b8000e664da2a6f952ee19231,
+        type: 2}
+    - target: {fileID: 4939067879421793745, guid: adbb6ca456fa4b1408d794922c0fd2c4,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: 448c9f91cc815d94c8d5181c27d1f468,
         type: 2}

@@ -384,6 +384,21 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 		}
 	}
 
+	[NaughtyAttributes.Button]
+	private void PushColour()
+	{
+		SetColor(InitialColour);
+	}
+
+
+	[NaughtyAttributes.Button]
+	private void PushPaletteColour()
+	{
+		Init();
+		SetPaletteOnSpriteRenderer();
+	}
+
+
 	public void ClearPalette(bool networked = true)
 	{
 		Init();
