@@ -72,6 +72,7 @@ public enum JobType
 	THEWELDER = 60,
 	CHANGELING = 61,
 	ASHWALKER_PRIEST = 62,
+	MAINT_SURVIVOR = 63,
 }
 
 public static class JobCategories
