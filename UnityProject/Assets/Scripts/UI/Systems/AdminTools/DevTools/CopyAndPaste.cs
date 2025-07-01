@@ -61,6 +61,7 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 	public MapSaver.MapSaver.MatrixData currentlyActivePaste;
 
+
 	public Vector3? Offset00 = null;
 
 	public Toggle UseLocal;
@@ -71,61 +72,71 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 	private bool DelayCut = false;
 
-	private MatrixInfo PreviouslySelectedMatrix = null;
+	private List<MatrixInfo> PreviouslySelectedMatrixs = new List<MatrixInfo>();
 
 	public void UnselectMatrix()
 	{
-		if (PreviouslySelectedMatrix != null)
+		foreach (var Matrix in PreviouslySelectedMatrixs)
 		{
-			foreach (var layers in PreviouslySelectedMatrix.MetaTileMap.Layers)
+			if (Matrix != null)
 			{
-				if (layers.Value == null)
+				foreach (var layers in Matrix.MetaTileMap.Layers)
 				{
-					Loggy.Error("[DevCameraControls/ToggleMatrixCheck] - Layer is null. Are we grabbing matrices before loading any?");
-					continue;
-				}
-				var TM = layers.Value.GetComponent<Tilemap>();
-				if (TM != null)
-				{
-					TM.color = Color.white;
+					if (layers.Value == null)
+					{
+						Loggy.Error("[DevCameraControls/ToggleMatrixCheck] - Layer is null. Are we grabbing matrices before loading any?");
+						continue;
+					}
+					var TM = layers.Value.GetComponent<Tilemap>();
+					if (TM != null)
+					{
+						TM.color = Color.white;
+					}
 				}
 			}
-
-			PreviouslySelectedMatrix = null;
 		}
+		PreviouslySelectedMatrixs.Clear();
 	}
 
 	public void UpdateSelectedMatrix(int val)
 	{
 		UnselectMatrix();
-		var ID = (TMP_Dropdown.options[TMP_Dropdown.value] as CustomOption).ID;
-		MatrixInfo Matrix = null;
-		if (ID == null)
+		var IDs = (TMP_Dropdown.GetSelected().Select(x=> x as CustomOption));
+		List<MatrixInfo> Matrixs = new List<MatrixInfo>();
+
+		foreach (var ID in IDs)
 		{
-			if (PositionsToCopy.Count > 0)
+			MatrixInfo Matrix = null;
+			if (ID.ID == null)
 			{
-				Matrix =  MatrixManager.AtPoint(PositionsToCopy[0].BetterBounds.Min, CustomNetworkManager.IsServer);
+				if (PositionsToCopy.Count > 0)
+				{
+					Matrix =  MatrixManager.AtPoint(PositionsToCopy[0].BetterBounds.Min, CustomNetworkManager.IsServer);
+				}
 			}
-		}
-		else
-		{
-			Matrix = MatrixManager.Get(ID.Value);
+			else
+			{
+				Matrix = MatrixManager.Get(ID.ID.Value);
+			}
+			Matrixs.Add(Matrix);
 		}
 
-		if (Matrix != null)
+		PreviouslySelectedMatrixs = Matrixs;
+		foreach (var Matrix in Matrixs)
 		{
-			PreviouslySelectedMatrix = Matrix;
-			var colour = Colour.Orange;
-			foreach (var Layers in Matrix.MetaTileMap.Layers)
+			if (Matrix != null)
 			{
-				var TM = Layers.Value.GetComponent<Tilemap>();
-				if (TM != null)
+				var colour = Colour.Orange;
+				foreach (var Layers in Matrix.MetaTileMap.Layers)
 				{
-					TM.color = colour;
+					var TM = Layers.Value.GetComponent<Tilemap>();
+					if (TM != null)
+					{
+						TM.color = colour;
+					}
 				}
 			}
 		}
-
 	}
 
 	private void OnEnable()
@@ -150,17 +161,30 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 	public void UpdateSelected(int val)
 	{
-		var ID = (TMP_Dropdown.options[TMP_Dropdown.value] as CustomOption).ID;
-		if (ID != null)
+		var IDS = (TMP_Dropdown.GetSelected().Select(x => x as CustomOption));
+		if (IDS.Count() > 1)
 		{
-			TMP_InputField.interactable = false;
-			TMP_InputField.text = TMP_Dropdown.options[TMP_Dropdown.value].text;
+			TMP_InputField.interactable = true;
 		}
 		else
 		{
-			TMP_InputField.interactable = true;
-			TMP_InputField.text = "";
+			foreach (var ID in IDS)
+			{
+				if (ID != null)
+				{
+					TMP_InputField.interactable = false;
+					TMP_InputField.text = ID.text;
+				}
+				else
+				{
+					TMP_InputField.interactable = true;
+					TMP_InputField.text = "";
+				}
+			}
 		}
+
+
+
 		ReGenNotGoingToBeSavedGizmos();
 	}
 
@@ -325,9 +349,6 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 	public void OnSave()
 	{
-
-		if (PositionsToCopy.Count == 0) return;
-
 		JsonSerializerSettings settings = new JsonSerializerSettings
 		{
 			NullValueHandling = NullValueHandling.Ignore, // Ignore null values
@@ -335,52 +356,82 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 			Formatting = Formatting.Indented
 		};
 
-		if (false)
-		{
-			settings.Formatting = Formatting.None;
-		}
-
-		var ID = (TMP_Dropdown.options[TMP_Dropdown.value] as CustomOption).ID;
-		MatrixInfo Matrix = MatrixManager.AtPoint(PositionsToCopy[0].BetterBounds.Min, CustomNetworkManager.IsServer);
-		if (ID != null)
-		{
-			Matrix = MatrixManager.Get(ID.Value);
-		}
-
-
-		List<BetterBounds> LocalArea = new List<BetterBounds>();
-		List<GameGizmoModel> Gizmos = new List<GameGizmoModel>();
-		foreach (var Position in PositionsToCopy)
-		{
-			var Local = Position.BetterBounds.ConvertToLocal(Matrix);
-
-			var Size = Local.Maximum - Local.Minimum;
-			Gizmos.Add(new GameGizmoModel()
-			{
-				Pos = (Local.Minimum + (Size / 2f)).ToSerialiseString(),
-				Size = Size.ToSerialiseString(),
-			});
-			Local.Maximum += new Vector3(-0.5f, -0.5f, 0);
-			Local.Minimum -= new Vector3(-0.5f, -0.5f, 0);
-			LocalArea.Add(Local);
-		}
-
 		var ObjectsVisible = DevCameraControls.Instance.GetObjectsMappingVisible();
 		var Layers = DevCameraControls.Instance.ReturnVisibleLayers();
 
+		var IDs = (TMP_Dropdown.GetSelected().Select(x => x  as CustomOption));
 
-		Chat.AddExamineMsg( PlayerManager.LocalPlayerObject, $" Saving Portion of {Matrix.Name} " );
-
-		if (UseLocal.isOn == false)
+		if (PositionsToCopy.Count == 0)
 		{
-			ClientRequestsSaveMessage.Send(Gizmos, LocalArea, Matrix, UesCompact.isOn, NonmappedItems.isOn, Layers, ObjectsVisible, CutSection.isOn);
+			List<MatrixInfo> MatrixsToSave = new List<MatrixInfo>();
+
+			foreach(var ID in IDs)
+			{
+				MatrixsToSave.Add(MatrixManager.Get(ID.ID.Value));
+			}
+
+			if (UseLocal.isOn == false)
+			{
+				ClientRequestsSaveMessage.Send(new List<GameGizmoModel>(), new List<BetterBounds>(), MatrixsToSave, UesCompact.isOn, NonmappedItems.isOn, Layers, ObjectsVisible, CutSection.isOn, TMP_InputField.text);
+			}
+			else
+			{
+				var Data =  MapSaver.MapSaver.SaveMap(MatrixsToSave.Select(x => x.MetaTileMap).ToList(),
+					UesCompact.isOn,TMP_InputField.text ,
+					false,new List<BetterBounds>(), NonmappedItems.isOn,Layers, ObjectsVisible, CutSection.isOn, new List<GameGizmoModel>());
+				var StringData = JsonConvert.SerializeObject(Data, settings);
+				ReceiveData(StringData);
+			}
+
+			return;
 		}
 		else
 		{
-			var Data =  MapSaver.MapSaver.SaveMatrix(UesCompact.isOn, Matrix.MetaTileMap, true, LocalArea,NonmappedItems.isOn,Layers, ObjectsVisible, CutSection.isOn, Gizmos  );
-			var StringData = JsonConvert.SerializeObject(Data, settings);
-			ReceiveData(StringData);
+			if (IDs.Count() > 1)
+			{
+				Loggy.Error("TODO Support taking a section out of multiple Matrixes");
+				return;
+			}
+
+			var ID = IDs.First().ID;
+
+			MatrixInfo Matrix = MatrixManager.AtPoint(PositionsToCopy[0].BetterBounds.Min, CustomNetworkManager.IsServer);
+			if (ID != null)
+			{
+				Matrix = MatrixManager.Get(ID.Value);
+			}
+
+			List<BetterBounds> LocalArea = new List<BetterBounds>();
+			List<GameGizmoModel> Gizmos = new List<GameGizmoModel>();
+			foreach (var Position in PositionsToCopy)
+			{
+				var Local = Position.BetterBounds.ConvertToLocal(Matrix);
+
+				var Size = Local.Maximum - Local.Minimum;
+				Gizmos.Add(new GameGizmoModel()
+				{
+					Pos = (Local.Minimum + (Size / 2f)).ToSerialiseString(),
+					Size = Size.ToSerialiseString(),
+				});
+				Local.Maximum += new Vector3(-0.5f, -0.5f, 0);
+				Local.Minimum -= new Vector3(-0.5f, -0.5f, 0);
+				LocalArea.Add(Local);
+			}
+
+			Chat.AddExamineMsg( PlayerManager.LocalPlayerObject, $" Saving Portion of {Matrix.Name} " );
+
+			if (UseLocal.isOn == false)
+			{
+				ClientRequestsSaveMessage.Send(Gizmos, LocalArea, new List<MatrixInfo>(){Matrix}, UesCompact.isOn, NonmappedItems.isOn, Layers, ObjectsVisible, CutSection.isOn);
+			}
+			else
+			{
+				var Data =  MapSaver.MapSaver.SaveMatrix(UesCompact.isOn, Matrix.MetaTileMap, true, LocalArea,NonmappedItems.isOn,Layers, ObjectsVisible, CutSection.isOn, Gizmos  );
+				var StringData = JsonConvert.SerializeObject(Data, settings);
+				ReceiveData(StringData);
+			}
 		}
+
 	}
 
 	public void ReceiveData(string StringData)
@@ -405,6 +456,7 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 	{
 
 		MapSaver.MapSaver.MatrixData data = null;
+		MapSaver.MapSaver.MapData dataMap = null;
 		//For now, we assume the clipboard?
 		try
 		{
@@ -416,41 +468,97 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 			Loggy.Warning( GUIUtility.systemCopyBuffer + " " + e.ToString() );
 		}
 
-
-		if (data == null)
+		try
 		{
-			data = JsonConvert.DeserializeObject<MapSaver.MapSaver.MatrixData>(Clipboard);
+			if (data?.MatrixName == null)
+			{
+				dataMap = JsonConvert.DeserializeObject<MapSaver.MapSaver.MapData>(GUIUtility.systemCopyBuffer);
+				Clipboard = GUIUtility.systemCopyBuffer;
+			}
+		}
+		catch (Exception e)
+		{
+			Loggy.Warning( GUIUtility.systemCopyBuffer + " " + e.ToString() );
 		}
 
-		Offset00 = data.Get00Victor();
 
-		if (ActiveMouseGrabber == null)
+		if (data?.MatrixName == null && dataMap?.MapName == null)
 		{
-			ActiveMouseGrabber = Instantiate(MouseGrabberPrefab);
-			ActiveMouseGrabber.SnapPosition = true;
+			try
+			{
+				data = JsonConvert.DeserializeObject<MapSaver.MapSaver.MatrixData>(Clipboard);
+			}
+			catch (Exception e)
+			{
+				Loggy.Warning(e.ToString());
+			}
+
 		}
 
-		foreach (var Gizmo in data.PreviewGizmos)
+		if (data?.MatrixName == null && dataMap?.MapName == null)
 		{
-			PreviewGizmos.Add(GameGizmomanager.AddNewSquareStaticClient(ActiveMouseGrabber.gameObject,
-				 (Gizmo.Pos.ToVector3() + Offset00.Value ), Color.blue, BoxSize: Gizmo.Size.ToVector3()));
+			dataMap = JsonConvert.DeserializeObject<MapSaver.MapSaver.MapData>(Clipboard);
 		}
 
-		currentlyActivePaste = data;
 
-		if (Updating == false)
+		if (data?.MatrixName != null)
 		{
-			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-			Updating = true;
-		}
-		escapeKeyTarget.enabled = true;
+			Offset00 = data.Get00Victor();
 
-		StopSelectingButton.interactable = false;
-		StopUnSelectingButton.interactable = false;
-		UnSelectingButton.interactable = false;
-		SelectingButton.interactable = false;
-		Load.interactable =false;
-		Save.interactable = false;
+			if (ActiveMouseGrabber == null)
+			{
+				ActiveMouseGrabber = Instantiate(MouseGrabberPrefab);
+				ActiveMouseGrabber.SnapPosition = true;
+			}
+
+			foreach (var Gizmo in data.PreviewGizmos)
+			{
+				PreviewGizmos.Add(GameGizmomanager.AddNewSquareStaticClient(ActiveMouseGrabber.gameObject,
+					(Gizmo.Pos.ToVector3() + Offset00.Value ), Color.blue, BoxSize: Gizmo.Size.ToVector3()));
+			}
+
+			currentlyActivePaste = data;
+
+			if (Updating == false)
+			{
+				UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+				Updating = true;
+			}
+			escapeKeyTarget.enabled = true;
+
+			StopSelectingButton.interactable = false;
+			StopUnSelectingButton.interactable = false;
+			UnSelectingButton.interactable = false;
+			SelectingButton.interactable = false;
+			Load.interactable =false;
+			Save.interactable = false;
+		}
+		else
+		{
+			JsonSerializerSettings settings = new JsonSerializerSettings
+			{
+				NullValueHandling = NullValueHandling.Ignore, // Ignore null values
+				DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate, // Ignore default values
+				Formatting = Formatting.None
+			};
+
+			settings.Formatting = Formatting.None;
+
+			var ObjectsVisible = DevCameraControls.Instance.GetObjectsMappingVisible();
+			var Layers = DevCameraControls.Instance.ReturnVisibleLayers();
+
+			ClientRequestLoadMap.Send(
+				JsonConvert.SerializeObject(dataMap,settings),
+				null,
+				Vector3.zero,
+				Vector3.zero,
+				Layers,
+				ObjectsVisible,
+				dataMap.MapName,
+				ClientRequestLoadMap.LoadType.LoadMap
+			);
+		}
+
 	}
 
 	[NaughtyAttributes.Button]
@@ -464,7 +572,7 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 			MatrixInfo Matrix = null;
 			Vector3 Offset = ActiveMouseGrabber.gameObject.transform.position.ToLocal();
-			var ID = (TMP_Dropdown.options[TMP_Dropdown.value] as CustomOption).ID;
+			var ID = (TMP_Dropdown.GetSelected().FirstOrDefault() as CustomOption).ID;
 			var MatrixName = TMP_InputField.text;
 			if (ID != null)
 			{
@@ -507,7 +615,8 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 				Offset,
 				Layers,
 				ObjectsVisible,
-				name
+				name,
+				ClientRequestLoadMap.LoadType.LoadMatrix
 				);
 
 			if (KeyboardInputManager.IsAltActionKeyPressed() == false)
@@ -610,57 +719,60 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 		if (NonmappedItems.isOn) return; //Everything is going to be saved
 		if (PositionsToCopy.Count == 0) return; //Nothing selected
 
-
-		var ID = (TMP_Dropdown.options[TMP_Dropdown.value] as CustomOption).ID;
-		MatrixInfo Matrix = MatrixManager.AtPoint(PositionsToCopy[0].BetterBounds.Min, CustomNetworkManager.IsServer);
-		if (ID != null)
+		var IDs = (TMP_Dropdown.GetSelected().Select(x => x  as CustomOption) );
+		foreach (var ID in IDs)
 		{
-			Matrix = MatrixManager.Get(ID.Value);
-		}
-
-		foreach (var EtherealThing in Matrix.MetaDataLayer.EtherealThings)
-		{
-			foreach (var Boxes in PositionsToCopy)
+			MatrixInfo Matrix = MatrixManager.AtPoint(PositionsToCopy[0].BetterBounds.Min, CustomNetworkManager.IsServer);
+			if (ID != null)
 			{
-				if (Boxes.BetterBounds.Contains(EtherealThing.transform.position))
+				Matrix = MatrixManager.Get(ID.ID.Value);
+			}
+
+			foreach (var EtherealThing in Matrix.MetaDataLayer.EtherealThings)
+			{
+				foreach (var Boxes in PositionsToCopy)
 				{
-					var Attribute = EtherealThing.GetComponentCustom<Attributes>();
-					if (Attribute != null)
+					if (Boxes.BetterBounds.Contains(EtherealThing.transform.position))
 					{
-						if (Attribute.IsMapped == false)
+						var Attribute = EtherealThing.GetComponentCustom<Attributes>();
+						if (Attribute != null)
 						{
-							NotGoingToBeSavedGizmos.Add( GameGizmomanager.AddNewSquareStaticClient(EtherealThing.gameObject,
-								Vector3.zero, Color.yellow));
+							if (Attribute.IsMapped == false)
+							{
+								NotGoingToBeSavedGizmos.Add( GameGizmomanager.AddNewSquareStaticClient(EtherealThing.gameObject,
+									Vector3.zero, Color.yellow));
+							}
 						}
+						break;
 					}
-					break;
+				}
+			}
+
+			var Objects = Matrix.MetaTileMap.ObjectLayer.GetTileList(CustomNetworkManager.IsServer)
+				.AllObjects;
+
+
+			foreach (var Object in Objects)
+			{
+				foreach (var Boxes in PositionsToCopy)
+				{
+					if (Boxes.BetterBounds.Contains(Object.transform.position))
+					{
+						var Attribute = Object.GetComponentCustom<Attributes>();
+						if (Attribute != null)
+						{
+							if (Attribute.IsMapped == false)
+							{
+								NotGoingToBeSavedGizmos.Add( GameGizmomanager.AddNewSquareStaticClient(Object.gameObject,
+									Vector3.zero, Color.yellow));
+							}
+						}
+						break;
+					}
 				}
 			}
 		}
 
-		var Objects = Matrix.MetaTileMap.ObjectLayer.GetTileList(CustomNetworkManager.IsServer)
-			.AllObjects;
-
-
-		foreach (var Object in Objects)
-		{
-			foreach (var Boxes in PositionsToCopy)
-			{
-				if (Boxes.BetterBounds.Contains(Object.transform.position))
-				{
-					var Attribute = Object.GetComponentCustom<Attributes>();
-					if (Attribute != null)
-					{
-						if (Attribute.IsMapped == false)
-						{
-							NotGoingToBeSavedGizmos.Add( GameGizmomanager.AddNewSquareStaticClient(Object.gameObject,
-								Vector3.zero, Color.yellow));
-						}
-					}
-					break;
-				}
-			}
-		}
 
 	}
 

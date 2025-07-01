@@ -635,7 +635,9 @@ namespace MapSaver
 		}
 
 		public static MapData SaveMap(List<MetaTileMap> MetaTileMaps, bool Compact,
-			string MapName = "Unknown map name your maps dam it", bool ReadjustCentre = false)
+			string MapName = "Unknown map name your maps dam it", bool ReadjustCentre = false,
+			List<BetterBounds> LocalArea = null, bool NonmappedItems = false, HashSet<LayerType> LayersToProcess = null,
+			bool DoSaveObjects = true, bool Cut = false, List<GameGizmoModel> PreviewGizmos = null)
 		{
 			var OutMapData = new MapData();
 
@@ -648,7 +650,14 @@ namespace MapSaver
 			OutMapData.MapName = MapName;
 			foreach (var MetaTileMap in MetaTileMaps)
 			{
-				OutMapData.ContainedMatrices.Add(SaveMatrix(Compact, MetaTileMap, false, ReadjustCentre : ReadjustCentre));
+				OutMapData.ContainedMatrices.Add(SaveMatrix(Compact, MetaTileMap, false,
+					ReadjustCentre : ReadjustCentre,
+					LocalArea : LocalArea,
+					NonmappedItems : NonmappedItems,
+					LayersToProcess: LayersToProcess,
+					DoSaveObjects : DoSaveObjects,
+					Cut : Cut,
+					PreviewGizmos : PreviewGizmos));
 			}
 
 

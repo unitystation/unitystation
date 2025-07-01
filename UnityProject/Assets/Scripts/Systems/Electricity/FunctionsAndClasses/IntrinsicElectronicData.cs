@@ -323,7 +323,7 @@ namespace Systems.Electricity
 				FlushConnectionAndUp();
 				FindPossibleConnections();
 				FlushConnectionAndUp();
-				MetaDataPresent.IsOn.ElectricalData.Remove(MetaDataPresent);
+				MetaDataPresent?.IsOn?.ElectricalData.Remove(MetaDataPresent);
 				ElectricalManager.Instance.electricalSync.StructureChange = true;
 
 				if (MetaDataPresent?.RelatedTile != null)
