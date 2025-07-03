@@ -143,6 +143,18 @@ namespace HealthV2.Sickness
 
 			return currentStage;
 		}
+
+		public int GetStageID(float concentrationPercent)
+		{
+			int currentStage = 0;
+			for(int i = 0; i < stages.Count; i++)
+			{
+				if (concentrationPercent > stages[i].StageConcentrationThreshold) currentStage = i + 1;
+				else break;
+			}
+
+			return currentStage;
+		}
 	}
 }
 

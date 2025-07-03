@@ -24,6 +24,7 @@ namespace ScriptableObjects.RP
 
 			if(actor.TryGetComponent<PlayerScript>(out var actorPlayerScript) == false) return;
 			if(actor.TryGetComponent<Rotatable>(out var rotatable) == false) return;
+			if (HasBlockingItem(actorPlayerScript)) return;
 
 			Vector3 actorPos = actor.AssumedWorldPosServer();
 			ReagentMix coughMix = GetDiseaseFromBlood(actorPlayerScript);

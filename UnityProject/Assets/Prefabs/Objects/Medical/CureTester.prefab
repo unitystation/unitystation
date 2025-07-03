@@ -532,8 +532,14 @@ PrefabInstance:
     - target: {fileID: 8232375373487905420, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: initialDescription
-      value: Tests proposed cures against provided pathogen specimens to evaluate
+      value: 'Tests proposed cures against provided pathogen specimens to evaluate
         their effectiveness.
+
+        Place a proposed cure in a beaker and insert
+        on the right. Press the button to begin the cure test.
+
+        Requires
+        a connection to a sequence analyzer.'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

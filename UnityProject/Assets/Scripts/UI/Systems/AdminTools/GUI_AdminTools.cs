@@ -159,7 +159,11 @@ namespace AdminTools
 			windowTitle.text = "MIND MANAGER";
 		}
 
-
+		public void OnAntagonistManager()
+		{
+			antagManagerPage.Init(playerManagePageScript.PlayerEntry);
+			ShowAntagManagerPage();
+		}
 
 		public void ShowServerSettingsPage()
 		{

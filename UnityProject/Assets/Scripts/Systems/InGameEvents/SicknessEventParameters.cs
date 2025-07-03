@@ -19,6 +19,6 @@
 		/// <summary>
 		/// The starting % of the disease in applied victims
 		/// </summary>
-		public int Strength;
+		public float Strength;
 	}
 }

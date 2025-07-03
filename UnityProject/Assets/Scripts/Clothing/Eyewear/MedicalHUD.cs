@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Chemistry;
 using HealthV2;
+using HealthV2.Sickness;
 using Mirror;
 using UnityEngine;
 
@@ -74,6 +76,25 @@ public class MedicalHUD : NetworkBehaviour, IHUD
 			HealthPercentage = newHealth / HealthStateController.MaxHealth;
 		}
 
+		int currentStage = GetCurrentSicknessStage();
+		switch (currentStage)
+		{
+			case 0:
+				NewCurrentState = HealthSymbol.Healthy;
+				break;
+			case 1:
+				NewCurrentState = HealthSymbol.SlightlyIll;
+				break;
+			case 2:
+				NewCurrentState = HealthSymbol.ModeratelyIll;
+				break;
+			case 3:
+				NewCurrentState = HealthSymbol.SubstantiouslyIll;
+				break;
+			case >4:
+				NewCurrentState = HealthSymbol.HeavilyIll;
+				break;
+		}
 
 		switch (HealthPercentage)
 		{
@@ -83,71 +104,54 @@ public class MedicalHUD : NetworkBehaviour, IHUD
 				break;
 			case > 1f:
 				NewHealth = HealthBarPercentage.Full100;
-				NewCurrentState = HealthSymbol.Healthy;
 				break;
 			case > 0.93f:
 				NewHealth = HealthBarPercentage.Damaged93;
-				NewCurrentState = HealthSymbol.SlightlyHurt;
 				break;
 			case > 0.87f:
 				NewHealth = HealthBarPercentage.Damaged87;
-				NewCurrentState = HealthSymbol.SlightlyHurt;
 				break;
 			case > 0.81f:
 				NewHealth = HealthBarPercentage.Damaged81;
-				NewCurrentState = HealthSymbol.SlightlyHurt;
 				break;
 			case > 0.75f:
 				NewHealth = HealthBarPercentage.Damaged75;
-				NewCurrentState = HealthSymbol.SlightlyHurt;
 				break;
 			case > 0.68f:
 				NewHealth = HealthBarPercentage.Damaged68;
-				NewCurrentState = HealthSymbol.SomewhatHurt;
 				break;
 			case > 0.62f:
 				NewHealth = HealthBarPercentage.Damaged62;
-				NewCurrentState = HealthSymbol.SomewhatHurt;
 				break;
 			case > 0.56f:
 				NewHealth = HealthBarPercentage.Damaged56;
-				NewCurrentState = HealthSymbol.SomewhatHurt;
 				break;
 			case > 0.50f:
 				NewHealth = HealthBarPercentage.Damaged50;
-				NewCurrentState = HealthSymbol.SomewhatHurt;
 				break;
 			case > 0.43f:
 				NewHealth = HealthBarPercentage.Damaged43;
-				NewCurrentState = HealthSymbol.VeryHurtSomewhat;
 				break;
 			case > 0.37f:
 				NewHealth = HealthBarPercentage.Damaged37;
-				NewCurrentState = HealthSymbol.VeryHurtSomewhat;
 				break;
 			case > 0.31f:
 				NewHealth = HealthBarPercentage.Damaged31;
-				NewCurrentState = HealthSymbol.VeryHurtSomewhat;
 				break;
 			case > 0.25f:
 				NewHealth = HealthBarPercentage.Damaged25;
-				NewCurrentState = HealthSymbol.VeryHurtSomewhat;
 				break;
 			case > 0.18f:
 				NewHealth = HealthBarPercentage.Damaged18;
-				NewCurrentState = HealthSymbol.BarelyConscious;
 				break;
 			case > 0.125f:
 				NewHealth = HealthBarPercentage.Damaged12_5;
-				NewCurrentState = HealthSymbol.BarelyConscious;
 				break;
 			case > 0.065f:
 				NewHealth = HealthBarPercentage.Damaged6_5;
-				NewCurrentState = HealthSymbol.BarelyConscious;
 				break;
 			case > 0f:
 				NewHealth = HealthBarPercentage.Damaged0;
-				NewCurrentState = HealthSymbol.BarelyConscious;
 				break;
 			case > -0.5f:
 				NewHealth = HealthBarPercentage.CriticalN50;
@@ -196,19 +200,35 @@ public class MedicalHUD : NetworkBehaviour, IHUD
 		HUDHandler.RemoveHud(this);
 	}
 
+	private int GetCurrentSicknessStage()
+	{
+		int stage = 0;
+
+		ReagentMix blood = PlayerScript.playerHealth.reagentPoolSystem.BloodPool;
+		foreach (var cure in CureManager.Instance.CureableSicknesses)
+		{
+			if (blood.reagents.TryGetValue(cure.Sickness, out float amount) == false) continue;
+			if (CommonSicknesses.Instance.diseaseReactionDictionary.TryGetValue(cure.Sickness.Name, out var reaction) == false) continue;
+
+			float concentrationPercent = (amount / blood.Total) * 100;
+			int newStage = reaction.GetStageID(concentrationPercent);
+			if (newStage > stage) stage = newStage;
+		}
+
+		return stage;
+	}
 
 	public enum HealthSymbol
 	{
 		Buffed  = 0, //blue
-		Healthy,// medical symbol
-		SlightlyHurt, //dark green
-		SomewhatHurt,
-		VeryHurtSomewhat, //Orange
-		BarelyConscious, //red, She barely living now, Trippidy tripping now
-		Critical, //flashing
-		Defibrillatorble, //that defibrillator one
-		NoSoul, //Skull, you are Dead! no, you! Pow hAhA. You are dead, no big surprise
-		Ill, //green
+		Healthy = 1,// medical symbol
+		SlightlyIll = 2, //dark green
+		ModeratelyIll = 3,
+		SubstantiouslyIll = 4, //Orange
+		HeavilyIll = 5,
+		Critical = 7, //flashing
+		Defibrillatorble = 7, //that defibrillator one
+		NoSoul = 8, //Skull, you are Dead! no, you! Pow hAhA. You are dead, no big surprise
 		XenoEgg //eggy //TODO
 
 	}

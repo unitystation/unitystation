@@ -28,7 +28,7 @@ namespace Objects.Medical.Virology
 		public ItemSlot CureItemSlot { get; private set; }
 
 		private bool _isOnCooldown;
-		public bool CanExamineSample => _isOnCooldown == false && _currentPowerState == PowerState.On;
+		public bool CanExamineSample => _isOnCooldown == false;
 
 		private void Start()
 		{
@@ -72,14 +72,20 @@ namespace Objects.Medical.Virology
 
 		public void RequestExamineCure(PositionalHandApply interaction)
 		{
-			_ = AnimateButtonPress();
-
 			if (_currentPowerState != PowerState.On)
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, $"{gameObject.ExpensiveName()} is unpowered!");
 				return;
 			}
+
+			_ = AnimateButtonPress();
 			_ = SoundManager.PlayNetworkedAtPosAsync(machineBeepSound, objectPhysics.OfficialPosition);
+
+			if (connectedSequenceAnalyzer is null)
+			{
+				Chat.AddWarningMsgFromServer(interaction.Performer, "Requires connection to a sequence analyzer!");
+				return;
+			}
 
 			if (connectedSequenceAnalyzer.ActiveSickness is null)
 			{
