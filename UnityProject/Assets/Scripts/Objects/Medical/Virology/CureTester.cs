@@ -9,12 +9,14 @@ using Cysharp.Threading.Tasks;
 using Logs;
 using Shared.Systems.ObjectConnection;
 using Systems.Electricity;
+using Mirror;
 
 namespace Objects.Medical.Virology
 {
-	public class CureTester : MonoBehaviour, IAPCPowerable, IMultitoolMasterable, IServerSpawn
+	public class CureTester : NetworkBehaviour, IAPCPowerable, IMultitoolMasterable, IServerSpawn
 	{
-		private PowerState _currentPowerState;
+		[field: SyncVar] public bool IsFull { get; private set; } = false;
+		[SyncVar] private PowerState _currentPowerState;
 
 		[SerializeField] private SequenceAnalyzer connectedSequenceAnalyzer;
 
@@ -58,6 +60,7 @@ namespace Objects.Medical.Virology
 			{
 				Inventory.ServerTransfer(interaction.HandSlot, CureItemSlot, ReplacementStrategy.DropOther);
 
+				IsFull = true;
 				sampleSpriteHandler.SetSpriteVariant(0);
 				Chat.AddActionMsgToChat(interaction.Performer,
 						$"You place the {interaction.HandObject.ExpensiveName()} into the tester's primary slot.",
@@ -66,6 +69,7 @@ namespace Objects.Medical.Virology
 			}
 			if (interaction.HandObject) return;
 
+			IsFull = false;
 			Inventory.ServerTransfer(CureItemSlot, interaction.HandSlot);
 			sampleSpriteHandler.SetSpriteVariant(1);
 		}

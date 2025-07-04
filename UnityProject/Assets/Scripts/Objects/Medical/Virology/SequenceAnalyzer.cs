@@ -17,6 +17,7 @@ namespace Objects.Medical.Virology
 	{
 		[SyncVar] private PowerState _currentPowerState = PowerState.On;
 		[SyncVar] private bool _isOnCooldown = false;
+		[field: SyncVar] public bool IsFull { get; private set; } = false;
 
 		private Reagent _activeSickness;
 		public Reagent ActiveSickness => _activeSickness;
@@ -33,13 +34,13 @@ namespace Objects.Medical.Virology
 		private ItemSlot DishItemSlot => dishItemStorage.GetIndexedItemSlot(0);
 
 		public bool CanExamineSample => _isOnCooldown == false;
-		public bool HasDishLoaded => DishItemSlot.IsOccupied;
 
 		public void RequestLoadRemoveDish(PositionalHandApply interaction)
 		{
 			if (interaction.HandObject&& Validations.HasItemTrait(interaction, dishItemTrait))
 			{
 				Inventory.ServerTransfer(interaction.HandSlot, DishItemSlot);
+				IsFull = true;
 				mainSpriteHandler.SetSpriteVariant(0);
 				return;
 			}
@@ -47,6 +48,7 @@ namespace Objects.Medical.Virology
 
 			Inventory.ServerTransfer(DishItemSlot, interaction.HandSlot);
 			mainSpriteHandler.SetSpriteVariant(1);
+			IsFull = false;
 		}
 
 		public void OnSpawnServer(SpawnInfo info)

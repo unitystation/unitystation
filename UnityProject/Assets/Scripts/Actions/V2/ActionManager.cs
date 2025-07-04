@@ -20,7 +20,7 @@ namespace Actions.V2
 		private const float MINIMUM_COOLDOWN_TIME = 0.085f;
 
 		[Serializable]
-		private class CooldownInfo : NetworkMessage
+		public class CooldownInfo : NetworkMessage
 		{
 			public string ActionId { get; private set; }
 			public DateTime CooldownEnd { get; private set; }
