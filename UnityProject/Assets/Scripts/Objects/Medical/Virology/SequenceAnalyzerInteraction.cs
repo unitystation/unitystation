@@ -20,12 +20,8 @@ namespace Objects.Medical.Virology
 			if (loadSlideRegion.Contains(interaction.WorldPositionTarget))
 			{
 				if (interaction.HandObject && Validations.HasItemTrait(interaction, dishItemTrait) &&
-				    parentAnalyzer.HasDishLoaded == false)
-					return
-						true;
-				if (interaction.HandObject == false && parentAnalyzer.HasDishLoaded)
-					return
-						true;
+				    parentAnalyzer.IsFull == false) return true;
+				if (interaction.HandObject == false && parentAnalyzer.IsFull) return true;
 
 				return false;
 			}

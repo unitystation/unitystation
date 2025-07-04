@@ -18,12 +18,8 @@ namespace Objects.Medical.Virology
 			if (loadCureRegion.Contains(interaction.WorldPositionTarget))
 			{
 				if (interaction.HandObject && Validations.HasItemTrait(interaction, reagentContainerItemTrait) &&
-				    parentCureTester.CureItemSlot.IsEmpty)
-					return
-						true;
-				if (interaction.HandObject == false && parentCureTester.CureItemSlot.IsOccupied)
-					return
-						true;
+				    parentCureTester.IsFull == false) return true;
+				if (interaction.HandObject == false && parentCureTester.IsFull) return true;
 
 				return false;
 			}
