@@ -1,5 +1,7 @@
+using System;
 using Communications;
 using InGameEvents;
+using Logs;
 using Managers;
 using Systems.Electricity;
 using Systems.Explosions;
@@ -51,8 +53,15 @@ namespace Objects.Machines.ServerMachines.Communications
 				finalMessage.message = EventProcessorOverload.ProcessMessage(c.ChatEvent.message);
 			}
 			//Not the best way to do this currently but we can worry about it later during the chat rework
-			ChatRelay.Instance.PropagateChatToClients(finalMessage);
-			if(blackbox != null) blackbox.StoreChatEvents(finalMessage);
+			try
+			{
+				ChatRelay.Instance.PropagateChatToClients(finalMessage);
+				if (blackbox != null) blackbox.StoreChatEvents(finalMessage);
+			}
+			catch (Exception e)
+			{
+				Loggy.Error($"Error while processing radio message: {e.Message}\n{e.StackTrace}");
+			}
 		}
 
 		private void OnDamageReceived(DamageInfo damageInfo)
