@@ -39,7 +39,8 @@ Growth characteristics are divided into 3 parts:
 - **Sickness Growth Relative Rate**
   The sickness growth relative rate is a multiplier for the current pathogen amount that is applied every sucessful growth attempt. The exact method is so:
   ```cs 
-  NewPathogenAmount = OldPathogenAmount * (1 + SicknessGrowthRelativeRate). ```
+  NewPathogenAmount = OldPathogenAmount * (1 + SicknessGrowthRelativeRate). 
+  ```
 
 
 The base and relative rates shown in the image above are precisely callibrated using a simulation to obtain the desired growth, as such, unless you know what you are doing it is not recommended to change the base and relative rate for your disease. If you wish to change how fast your sickness grows, just tinker with the chance %.
