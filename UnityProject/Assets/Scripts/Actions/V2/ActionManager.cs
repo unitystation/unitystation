@@ -105,7 +105,7 @@ namespace Actions.V2
 					ClientAddAction(newData, logic);
 					break;
 			}
-			ActionButtons.Add(newData);
+			//ActionButtons.Add(newData);
 		}
 
 		/// <summary>

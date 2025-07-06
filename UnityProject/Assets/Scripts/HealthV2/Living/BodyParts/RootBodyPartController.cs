@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using HealthV2;
+using Logs;
 using Mirror;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -14,7 +15,7 @@ public class RootBodyPartController : NetworkBehaviour
 	public string PlayerSpritesData = "";
 
 	[SyncVar(hook = nameof(SyncBodyParts))]
-	private string SerialisedPrefabIDs = "";
+	public string SerialisedPrefabIDs = "";
 
 	public List<IntName> ToSerialised = new List<IntName>();
 

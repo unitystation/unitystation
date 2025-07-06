@@ -58,7 +58,7 @@ namespace Objects.Shuttles
 
 		public void OnDisable()
 		{
-			ShuttleMatrixMove.NetworkedMatrixMove.ShuttleConsuls.Remove(this);
+			ShuttleMatrixMove?.NetworkedMatrixMove?.ShuttleConsuls?.Remove(this);
 		}
 
 		public void OnEnable()
