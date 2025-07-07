@@ -173,26 +173,18 @@ namespace Actions.V2
 		public void CmdTriggerAction(string actionId, Vector2 mouseLocation)
 		{
 			if (IsActionOnCooldown(actionId)) return;
-			if (ServerActionRegistry.TryGetValue(actionId, out var found))
+			if (ServerActionRegistry.TryGetValue(actionId, out var found) == false) return;
+			try
 			{
-				Debug.Log($"Server executing action: {actionId}");
-
-				try
+				found.Action?.Invoke(mouseLocation);
+				if (found.Data.CooldownTime > MINIMUM_COOLDOWN_TIME)
 				{
-					found.Action?.Invoke(mouseLocation);
-					if (found.Data.CooldownTime > MINIMUM_COOLDOWN_TIME)
-					{
-						AddCooldown(actionId, found.Data.CooldownTime);
-					}
-				}
-				catch (Exception e)
-				{
-					Loggy.Error(e.ToString());
+					AddCooldown(actionId, found.Data.CooldownTime);
 				}
 			}
-			else
+			catch (Exception e)
 			{
-				Debug.Log($"server action not found: {actionId}");
+				Loggy.Error(e.ToString());
 			}
 		}
 
