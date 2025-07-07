@@ -683,7 +683,9 @@ namespace Chemistry
 		/// </summary>
 		public float GetPercent(Reagent reagent)
 		{
-			return reagents.m_dict[reagent] / Total;
+			if (reagent) return reagents.m_dict[reagent] / Total;
+			Loggy.Error("Trying to get percent of null reagent", Category.Chemistry);
+			return 0;
 		}
 
 

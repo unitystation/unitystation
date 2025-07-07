@@ -172,9 +172,8 @@ namespace HealthV2
 				}
 				catch (Exception e)
 				{
-					Loggy.Error(e.ToString());
+					Loggy.Error($"Error on organ: {organ.name}:\n" + e.ToString());
 				}
-
 			}
 
 			CalculateRadiationDamage();
@@ -195,10 +194,17 @@ namespace HealthV2
 			var dynamicItemStorage = HealthMaster.GetComponent<DynamicItemStorage>();
 			if (dynamicItemStorage != null)
 			{
-				var bodyPartUISlots = GetComponent<BodyPartUISlots>();
-				if (bodyPartUISlots != null)
+				try
 				{
-					dynamicItemStorage.Add(bodyPartUISlots);
+					var bodyPartUISlots = GetComponent<BodyPartUISlots>();
+					if (bodyPartUISlots != null)
+					{
+						dynamicItemStorage.Add(bodyPartUISlots);
+					}
+				}
+				catch (Exception e)
+				{
+					Loggy.Error("An error occured when adding body UI slots:\n" + e.ToString());
 				}
 			}
 
