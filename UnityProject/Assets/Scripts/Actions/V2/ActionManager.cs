@@ -12,8 +12,8 @@ namespace Actions.V2
 		[field: SerializeField] public OnType ActionButtonOnType { get; private set; } = OnType.Body;
 		[field: SerializeField] public float ActionButtonRefreshRate { get; private set; } = 0.75f;
 
-		private SyncList<ActionButtonData> ActionButtons = new SyncList<ActionButtonData>();
-		private SyncList<CooldownInfo> ActionCooldowns = new();
+		private readonly SyncList<ActionButtonData> ActionButtons = new SyncList<ActionButtonData>();
+		private readonly SyncList<CooldownInfo> ActionCooldowns = new();
 		private readonly Dictionary<string, (ActionButtonData Data, Action<Vector2> Action)> ServerActionRegistry = new();
 		private readonly Dictionary<string, (ActionButtonData Data, Action<Vector2> Action)> ClientActionRegistry = new();
 
@@ -86,6 +86,7 @@ namespace Actions.V2
 		{
 			// Notify UI system on client to refresh buttons
 			UpdateMe();
+			netIdentity.isDirty = true;
 		}
 
 		public void RegisterNewAction(ActionButtonData newData, Action<Vector2> logic)
