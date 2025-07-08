@@ -105,7 +105,12 @@ namespace Actions.V2
 					ClientAddAction(newData, logic);
 					break;
 			}
-			//ActionButtons.Add(newData);
+
+			if (CustomNetworkManager.IsServer)
+			{
+				ActionButtons.Add(newData);
+				this.netIdentity.isDirty = true;
+			}
 		}
 
 		/// <summary>
@@ -149,6 +154,7 @@ namespace Actions.V2
 					break;
 			}
 			ActionButtons.Add(ActionData);
+			this.netIdentity.isDirty = true;
 		}
 
 		public void UnregisterAction(ActionButtonData data)
@@ -232,6 +238,7 @@ namespace Actions.V2
 				}
 				return hasItem;
 			});
+			netIdentity.isDirty = true;
 		}
 
 		[Client]
@@ -260,6 +267,7 @@ namespace Actions.V2
 				}
 				return hasItem;
 			});
+			this.netIdentity.isDirty = true;
 		}
 
 		private void ClearCooldowns()
@@ -278,7 +286,10 @@ namespace Actions.V2
 			foreach (var key in keysToRemove)
 			{
 				ActionCooldowns.Remove(key);
+				this.netIdentity.isDirty = true;
 			}
+
+
 		}
 
 		private void AddCooldown(string actionId, float cooldownTime)
@@ -299,6 +310,7 @@ namespace Actions.V2
 			if (isUnderCooldown.CooldownEnd <= DateTime.UtcNow)
 			{
 				ActionCooldowns.Remove(isUnderCooldown);
+				this.netIdentity.isDirty = true;
 				return false; // Cooldown has expired
 			}
 			else
