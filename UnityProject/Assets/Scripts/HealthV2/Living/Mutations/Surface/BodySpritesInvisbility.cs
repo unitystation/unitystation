@@ -54,16 +54,8 @@ namespace HealthV2.Living.Mutations.Surface
 				}, cooldownTime: 8f);
 		}
 
-		public void OnAlphaChanged(float oldAlpha, float newAlpha)
+		private void SetAlphaOnSprites(float newAlpha)
 		{
-			if (newAlpha < 0.05f)
-			{
-				newAlpha = 0.05f;
-			}
-			if (newAlpha > 1f)
-			{
-				newAlpha = 1f;
-			}
 			if (bodyPartSprites == null) return;
 			foreach (SpriteRenderer spriteRenderer in bodyPartSprites.GetComponentsInChildren<SpriteRenderer>())
 			{
@@ -76,6 +68,26 @@ namespace HealthV2.Living.Mutations.Surface
 
 				spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, newAlpha);
 			}
+		}
+
+		public void OnAlphaChanged(float oldAlpha, float newAlpha)
+		{
+			if (newAlpha < 0.05f)
+			{
+				newAlpha = 0.05f;
+			}
+			if (newAlpha > 1f)
+			{
+				newAlpha = 0.99f;
+			}
+			SetAlphaOnSprites(newAlpha);
+		}
+
+		[ClientRpc]
+		public void ServerToClientsResetAlphaToOne()
+		{
+			Alpha = 1f;
+			SetAlphaOnSprites(0.99f);
 		}
 	}
 }

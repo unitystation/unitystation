@@ -228,6 +228,14 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 5462587972100837194}
+    - targetCorrespondingSourceObject: {fileID: 152888543104788066, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1926668629546310274}
+    - targetCorrespondingSourceObject: {fileID: 152888543104788066, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6035124000564632535}
   m_SourcePrefab: {fileID: 100100000, guid: 750a753b5c7e3ac4cbe1f07e69d256be, type: 3}
 --- !u!114 &530239055796471082 stripped
 MonoBehaviour:
@@ -403,6 +411,75 @@ MonoBehaviour:
   SuffocatingAlert: {fileID: 11400000, guid: a242a18320bcd0345b83fe02838d0460, type: 2}
   coughEmote: {fileID: 11400000, guid: 5d61ca3eb68b81946b8226b482703158, type: 2}
   coughCooldown: 6
+--- !u!114 &1926668629546310274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928932909309318955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd5fde0fe0fd4da4822430179f3a1af2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  relatedBodyPart: {fileID: 0}
+  <ActionData>k__BackingField:
+    m_keys:
+    - ID: spider_ability_crawlunderdoor
+      DisplayName: Crawl Under Doors
+      Description: No door will block your way
+      TriggerType: 0
+      Type: 1
+      AnimatedIconCatalogue: []
+      CooldownTime: 3
+      CanUseWhileGhosting: 0
+      HasCustomCursor: 1
+      OffsetType: 1
+      CursorOffset: {x: 0, y: 0}
+      CursorTexture: {fileID: 2800000, guid: a98858de92927fd4c844f441140f55fe, type: 3}
+      TrackingObject: {fileID: 0}
+    - ID: spider_ability_disappear
+      DisplayName: Disappear
+      Description: Go invisible for 60 seconds to hunt prey or avoid predators.
+      TriggerType: 0
+      Type: 0
+      AnimatedIconCatalogue:
+      - {fileID: 11400000, guid: aa2a3a3936fce084b83023b00e18394f, type: 2}
+      CooldownTime: 120
+      CanUseWhileGhosting: 0
+      HasCustomCursor: 1
+      OffsetType: 1
+      CursorOffset: {x: 0, y: 0}
+      CursorTexture: {fileID: 2800000, guid: a98858de92927fd4c844f441140f55fe, type: 3}
+      TrackingObject: {fileID: 0}
+    m_values:
+    - target: {fileID: 6035124000564632535}
+      methodName: Crawl
+      parameterType: 
+    - target: {fileID: 6035124000564632535}
+      methodName: GoInvisible
+      parameterType: 
+--- !u!114 &6035124000564632535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928932909309318955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83d33c80238b4874bae68a70320ae067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  RelatedPart: {fileID: 0}
+  empStaggerTime: 0.5
+  crawlTime: 2
+  invisbilityTime: 60
+  checkForNearbyPlayersWhileInvisbleTime: 3
 --- !u!114 &2564132891975968900 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4273485401078028749, guid: 750a753b5c7e3ac4cbe1f07e69d256be,

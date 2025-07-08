@@ -21,6 +21,7 @@ using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Changeling;
 using Core;
+using HealthV2.Living.Mutations.Surface;
 using Logs;
 using Mobs.Traversal;
 using Systems.Faith;
@@ -110,6 +111,7 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 	[field: SerializeField] public MobTraversal Traversal { get; private set; }
 	[field: SerializeField] public GroupedAccess Access { get; private set; }
 	[field: SerializeField] public ActionManager PlayerButtonedActions { get; private set; }
+	[field: SerializeField] public BodySpritesInvisbility PlayerAlpha { get; private set; }
 	public ActionManager PlayerButtonedMindActions => Mind?.PlayerButtonedActions;
 
 	public PlayerStats PlayerStats { get; private set; }
@@ -221,6 +223,7 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 		Access ??= GetComponent<GroupedAccess>();
 		PlayerScriptVisible ??= GetComponent<PlayerScriptVisible>();
 		PlayerButtonedActions ??= GetComponent<ActionManager>();
+		PlayerAlpha ??= GetComponent<BodySpritesInvisbility>();
 	}
 
 	private void OnEnable()

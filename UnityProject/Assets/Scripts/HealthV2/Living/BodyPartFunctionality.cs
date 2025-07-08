@@ -43,7 +43,6 @@ namespace HealthV2
 		public virtual void OnTakeDamage(BodyPartDamageData data) {}
 
 
-
 		public virtual void OnEmp(int strength)
 		{
 
