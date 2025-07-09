@@ -204,6 +204,7 @@ public class MedicalHUD : NetworkBehaviour, IHUD
 	{
 		int stage = 0;
 
+		if (PlayerScript?.playerHealth?.reagentPoolSystem?.BloodPool == null) return 0;
 		ReagentMix blood = PlayerScript.playerHealth.reagentPoolSystem.BloodPool;
 		foreach (var cure in CureManager.Instance.CureableSicknesses)
 		{
