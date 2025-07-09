@@ -10,13 +10,15 @@ using SecureStuff;
 
 //MAKE A UIActionButtonDataPacket CLASS TO REPLACE THIS
 
-
-public class GameActionRequest//<TMT> : IAllowedReflection where TMT : struct
+namespace GameActions
 {
-	public struct ActionRequestMessage : IActionRequestMessage, NetworkMessage
+	public class GameActionRequest //<TMT> : IAllowedReflection where TMT : struct
 	{
-		public string RequestedActionGuid { get; set; }
-		public bool AttemptTrigger  { get; set; }
+		public struct ActionRequestMessage : IGameActionRequestMessage, NetworkMessage
+		{
+			public string ReceivingActionGuid { get; set; }
+			public bool AttemptTrigger { get; set; }
+		}
 	}
 }
 

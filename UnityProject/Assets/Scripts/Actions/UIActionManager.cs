@@ -44,6 +44,8 @@ namespace UI.Core.Action
 		/// A dict of minds and their currently selected actions, used for if things need to run logic on deselection
 		/// </summary>
 		private Dictionary<Mind, IGameActionHolder> selectedActionHolders = new();
+		private Dictionary<string, Dictionary<Type, Action<IGameActionNetworkMessage>>> specialNetMessageHandlers = new();
+		private Dictionary<Type, int> specialNetMessageHandlerCount = new();
 
 		public GameObject Panel;
 		public GameObject TooltipPrefab;
@@ -168,6 +170,19 @@ namespace UI.Core.Action
 		{
 			allActionsByGuid.Remove(unregisteredAction.ActionGuid);
 			allActionUUIDsByGameObject.Remove(unregisteredAction.gameObject);
+		}
+
+		public void RegisterNetworkHandler<M>()
+		{
+			/*if (CustomNetworkManager.IsServer)
+			{
+				NetworkServer.RegisterHandler<IGameActionHolder<>();
+				NetworkServer.UnregisterHandler<>();
+			}
+			else
+			{
+				NetworkClient.RegisterHandler<>();
+			}*/
 		}
 
 		/// <summary>
