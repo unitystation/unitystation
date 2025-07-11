@@ -1,4 +1,5 @@
 ﻿using System;
+using Logs;
 using SecureStuff;
 using UnityEngine;
 using UnityEngine.Events;
@@ -39,10 +40,11 @@ namespace Actions.V2.Trackers
 				WhenHolderIsOutOfRange();
 				return;
 			}
-			if (pickupable.ItemSlot.Player != null)
+			var rootStorage = pickupable.ItemSlot.GetRootStorageAndIfPlayer();
+			if (rootStorage.Item1 && rootStorage.Item2)
 			{
 				WhenHolderIsOutOfRange();
-				TargetActionManager = pickupable.ItemSlot.Player.PlayerScript.PlayerButtonedActions;
+				TargetActionManager = rootStorage.Item2.PlayerButtonedActions;
 				WhenHolderIsInRange();
 			}
 			else
@@ -53,9 +55,14 @@ namespace Actions.V2.Trackers
 
 		public void WhenHolderIsInRange()
 		{
+			if (TargetActionManager == null)
+			{
+				Loggy.Error($"Attempted to register actions for {gameObject.name}, but TargetActionManager is null.");
+				return;
+			}
 			foreach (var data in ActionData.Keys)
 			{
-				TargetActionManager.RegisterNewAction(data, ActionData[data].Invoke);
+				TargetActionManager?.RegisterNewAction(data, ActionData[data].Invoke);
 			}
 		}
 
@@ -64,7 +71,7 @@ namespace Actions.V2.Trackers
 			if (TargetActionManager == null) return;
 			foreach (var actionData in ActionData.Keys)
 			{
-				TargetActionManager.UnregisterAction(actionData);
+				TargetActionManager?.UnregisterAction(actionData);
 			}
 			TargetActionManager = null;
 		}

@@ -70,6 +70,7 @@ namespace UI.Systems.PreRound
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 			CountdownArea.OnFinishedCountingDown.RemoveListener(ButtonsArea.RefreshGameModeText);
 			CountdownArea.OnFinishedCountingDown.RemoveListener(CheckForRoundStatusForTitle);
+			GameManager.Instance.OncurrentRoundStateChange -= ChangeJoinButtonForRoundStarted;
 		}
 
 		private void UpdateMe()
@@ -142,13 +143,17 @@ namespace UI.Systems.PreRound
 		{
 			ButtonsArea.ClearAllButtons();
 			AddStartNowButtonForAdmins();
-			joinButton = ButtonsArea.CreateInteractableToggle(CountdownArea.IsCountingDown ? "Ready Up!" : "Join Round", OnJoinButton);
+			joinButton = ButtonsArea.CreateInteractableToggle(GameManager.Instance.CurrentRoundState == RoundState.PreRound ? "Ready Up!" : "Join Round", OnJoinButton);
 			characterButton = ButtonsArea.CreateInteractableButton("Character", OnCharacterButton);
 			CountdownArea.OnFinishedCountingDown.AddListener(ChangeJoinButtonForRoundStarted);
+			GameManager.Instance.OncurrentRoundStateChange += ChangeJoinButtonForRoundStarted;
 		}
+
+
 
 		private void ChangeJoinButtonForRoundStarted()
 		{
+			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound) return;
 			if (joinButton == null)
 			{
 				CountdownArea.OnFinishedCountingDown.RemoveListener(ChangeJoinButtonForRoundStarted);
@@ -195,7 +200,7 @@ namespace UI.Systems.PreRound
 			AddStartNowButtonForAdmins();
 			if (HasCharacters() == false) return;
 			//if (NoJobWarn() == false) return;
-			if (CountdownArea.IsCountingDown)
+			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound)
 			{
 				characterButton.interactable = !isOn;
 				joinButton.GetComponentInChildren<TMP_Text>().text = (!isOn) ? "Ready" : "Unready";

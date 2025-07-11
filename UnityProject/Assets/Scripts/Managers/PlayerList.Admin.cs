@@ -189,16 +189,19 @@ public partial class PlayerList
 
 	public static bool HasTAGServer(string TAG, string AccountID)
 	{
-		if (Instance.LoggedInWithTag.TryGetValue(TAG, out var loggedIn))
+		if (Instance.LoggedInWithTag.ContainsKey(TAG))
 		{
-			if (loggedIn.Contains(AccountID))
+			if (Instance.LoggedInWithTag[TAG].Contains(AccountID))
 			{
 				return true;
 			}
 		}
 		else
 		{
-			return Instance.LoggedInWithTag.TryGetValue("*", out var allAdmins) && allAdmins.Contains(AccountID);
+			if (Instance.LoggedInWithTag.ContainsKey("*"))
+			{
+				return Instance.LoggedInWithTag["*"].Contains(AccountID);
+			}
 		}
 		return false;
 	}

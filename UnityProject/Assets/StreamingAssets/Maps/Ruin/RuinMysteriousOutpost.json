@@ -8935,6 +8935,15 @@
                   ]
                 },
                 {
+                  "ClassID": "SecurityCamera@0",
+                  "Data": [
+                    {
+                      "Name": "securityCameraChannel",
+                      "Data": "NotStation"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -9426,6 +9435,15 @@
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_9┼2┼0┼@0@APC@0"
                     }
                   ]
+                },
+                {
+                  "ClassID": "SecurityCamera@0",
+                  "Data": [
+                    {
+                      "Name": "securityCameraChannel",
+                      "Data": "NotStation"
+                    }
+                  ]
                 }
               ],
               "Children": [
@@ -9741,6 +9759,15 @@
                   ]
                 },
                 {
+                  "ClassID": "SecurityCamera@0",
+                  "Data": [
+                    {
+                      "Name": "securityCameraChannel",
+                      "Data": "NotStation"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -9928,7 +9955,20 @@
             "GitID": "170e72b76e0da9645995a9bac3f49cb2_11┼4┼0┼",
             "PrefabID": "170e72b76e0da9645995a9bac3f49cb2",
             "Name": "New SMES (2)",
-            "LocalPRS": "11┼4┼0┼"
+            "LocalPRS": "11┼4┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "BatterySupplyingModule@0",
+                  "Data": [
+                    {
+                      "Name": "InitialCurrentCapacity",
+                      "Data": "100"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "bb684284e149a524d9f53b039e51b806_11┼5┼0┼",
@@ -9975,7 +10015,20 @@
             "GitID": "170e72b76e0da9645995a9bac3f49cb2_11┼12┼0┼",
             "PrefabID": "170e72b76e0da9645995a9bac3f49cb2",
             "Name": "New SMES (1)",
-            "LocalPRS": "11┼12┼0┼"
+            "LocalPRS": "11┼12┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "BatterySupplyingModule@0",
+                  "Data": [
+                    {
+                      "Name": "InitialCurrentCapacity",
+                      "Data": "100"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_12┼5┼0┼",
@@ -10014,7 +10067,17 @@
             "Name": "New Department Battery (2)",
             "LocalPRS": "13┼5┼0┼",
             "Object": {
-              "ClassDatas": [],
+              "ClassDatas": [
+                {
+                  "ClassID": "BatterySupplyingModule@0",
+                  "Data": [
+                    {
+                      "Name": "InitialCurrentCapacity",
+                      "Data": "100"
+                    }
+                  ]
+                }
+              ],
               "Children": [
                 {
                   "ID": "0,2",
@@ -10232,116 +10295,112 @@
                   "ClassID": "APC@0",
                   "Data": [
                     {
-                      "Name": "connectedDevices#57",
+                      "Name": "connectedDevices#56",
                       "Data": "14a19ccac8a2fa597a49a9db3ad05725_23┼6┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#56",
+                      "Name": "connectedDevices#55",
                       "Data": "be26d178314bedc419e95cd4466da4e5_19┼7┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#55",
+                      "Name": "connectedDevices#54",
                       "Data": "be26d178314bedc419e95cd4466da4e5_20┼6┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#54",
+                      "Name": "connectedDevices#53",
                       "Data": "24eaaeb286e2fbe48a16783af29e3c02_22┼14┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#53",
+                      "Name": "connectedDevices#52",
                       "Data": "24eaaeb286e2fbe48a16783af29e3c02_24┼14┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#52",
+                      "Name": "connectedDevices#51",
                       "Data": "f2432d244a6b7774ea00ff013beb7dcb_29┼8┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#51",
+                      "Name": "connectedDevices#50",
                       "Data": "f2432d244a6b7774ea00ff013beb7dcb_33┼28┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#50",
+                      "Name": "connectedDevices#49",
                       "Data": "f2432d244a6b7774ea00ff013beb7dcb_30┼10┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#49",
+                      "Name": "connectedDevices#48",
                       "Data": "f2432d244a6b7774ea00ff013beb7dcb_31┼13┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#48",
+                      "Name": "connectedDevices#47",
                       "Data": "f2432d244a6b7774ea00ff013beb7dcb_20┼16┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#47",
+                      "Name": "connectedDevices#46",
                       "Data": "f2432d244a6b7774ea00ff013beb7dcb_29┼12┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#46",
+                      "Name": "connectedDevices#45",
                       "Data": "fde32c02abddc814f9366ff1fb21f234_30┼14┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#45",
+                      "Name": "connectedDevices#44",
                       "Data": "fde32c02abddc814f9366ff1fb21f234_37┼14┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#44",
+                      "Name": "connectedDevices#43",
                       "Data": "fde32c02abddc814f9366ff1fb21f234_40┼17┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#43",
+                      "Name": "connectedDevices#42",
                       "Data": "fde32c02abddc814f9366ff1fb21f234_40┼22┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#42",
+                      "Name": "connectedDevices#41",
                       "Data": "fde32c02abddc814f9366ff1fb21f234_24┼17┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#41",
+                      "Name": "connectedDevices#40",
                       "Data": "fde32c02abddc814f9366ff1fb21f234_24┼22┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#40",
+                      "Name": "connectedDevices#39",
                       "Data": "fde32c02abddc814f9366ff1fb21f234_30┼27┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#39",
+                      "Name": "connectedDevices#38",
                       "Data": "fde32c02abddc814f9366ff1fb21f234_34┼27┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#38",
+                      "Name": "connectedDevices#37",
                       "Data": "c937e0abe85aca9499d09951de736ec6_18┼12┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#37",
+                      "Name": "connectedDevices#36",
                       "Data": "c937e0abe85aca9499d09951de736ec6_22┼15┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#36",
+                      "Name": "connectedDevices#35",
                       "Data": "c937e0abe85aca9499d09951de736ec6_28┼10┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#35",
+                      "Name": "connectedDevices#34",
                       "Data": "c937e0abe85aca9499d09951de736ec6_21┼5┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#34",
+                      "Name": "connectedDevices#33",
                       "Data": "c937e0abe85aca9499d09951de736ec6_33┼11┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#33",
+                      "Name": "connectedDevices#32",
                       "Data": "c937e0abe85aca9499d09951de736ec6_32┼9┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#32",
+                      "Name": "connectedDevices#31",
                       "Data": "c937e0abe85aca9499d09951de736ec6_20┼19┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#31",
-                      "Data": "c937e0abe85aca9499d09951de736ec6_43┼20┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
                       "Name": "connectedDevices#30",
-                      "Data": "c937e0abe85aca9499d09951de736ec6_37┼28┼0┼@0@APCPoweredDevice@0"
+                      "Data": "c937e0abe85aca9499d09951de736ec6_43┼20┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#29",
@@ -10870,6 +10929,15 @@
                   ]
                 },
                 {
+                  "ClassID": "SecurityCamera@0",
+                  "Data": [
+                    {
+                      "Name": "securityCameraChannel",
+                      "Data": "NotStation"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -11063,7 +11131,17 @@
             "Name": "New Department Battery (1)",
             "LocalPRS": "22┼11┼0┼",
             "Object": {
-              "ClassDatas": [],
+              "ClassDatas": [
+                {
+                  "ClassID": "BatterySupplyingModule@0",
+                  "Data": [
+                    {
+                      "Name": "InitialCurrentCapacity",
+                      "Data": "100"
+                    }
+                  ]
+                }
+              ],
               "Children": [
                 {
                   "ID": "0,2",
@@ -11196,6 +11274,15 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_17┼11┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "SecurityCamera@0",
+                  "Data": [
+                    {
+                      "Name": "securityCameraChannel",
+                      "Data": "NotStation"
                     }
                   ]
                 }
@@ -12837,6 +12924,15 @@
                   ]
                 },
                 {
+                  "ClassID": "SecurityCamera@0",
+                  "Data": [
+                    {
+                      "Name": "securityCameraChannel",
+                      "Data": "NotStation"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Rotatable@0",
                   "Data": [
                     {
@@ -13128,6 +13224,15 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_17┼11┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "SecurityCamera@0",
+                  "Data": [
+                    {
+                      "Name": "securityCameraChannel",
+                      "Data": "NotStation"
                     }
                   ]
                 }
@@ -13449,8 +13554,8 @@
                   "ClassID": "APCPoweredDevice@0",
                   "Data": [
                     {
-                      "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_17┼11┼0┼@0@APC@0"
+                      "Name": "isSelfPowered",
+                      "Data": "True"
                     }
                   ]
                 },
@@ -13499,6 +13604,15 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_17┼11┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "SecurityCamera@0",
+                  "Data": [
+                    {
+                      "Name": "securityCameraChannel",
+                      "Data": "NotStation"
                     }
                   ]
                 },
@@ -14002,6 +14116,15 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_17┼11┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "SecurityCamera@0",
+                  "Data": [
+                    {
+                      "Name": "securityCameraChannel",
+                      "Data": "NotStation"
                     }
                   ]
                 },
