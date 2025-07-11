@@ -12,6 +12,8 @@ namespace Chemistry.Effects
 		menuName = "ScriptableObjects/Chemistry/Effects/PlagueBomb")]
 	public class PlagueBomb : Chemistry.Effect
 	{
+		[SerializeField] private ItemTrait blockingTrait = null;
+
 		[SerializeField] private Reagent reagentToSpread = null;
 		[SerializeField] private float spreadRange = 1;
 		[SerializeField] private float spreadCount = 1;
@@ -69,6 +71,59 @@ namespace Chemistry.Effects
 
 			float amountToAfflict = spreadCount * (1 - (victimDistance / spreadRange));
 			victim.Script.playerHealth.reagentPoolSystem.BloodPool.Add(reagentToSpread, amountToAfflict);
+		}
+
+		private bool HasBlockingSuit(PlayerScript playerToCheck)
+		{
+			if(CheckHeadForProtection(playerToCheck) == false) return false;
+			if(CheckChestForProtection(playerToCheck) == false) return false;
+
+			return true;
+		}
+
+
+		private bool CheckHeadForProtection(PlayerScript playerToCheck)
+		{
+			if (playerToCheck.Equipment.IsInternalsEnabled) return true;
+
+			if (playerToCheck.Equipment.ItemStorage.ServerContents.TryGetValue(NamedSlot.head, out var headSlots) ==
+			    false) return true;
+			if (playerToCheck.Equipment.ItemStorage.ServerContents.TryGetValue(NamedSlot.mask, out var maskSlots) ==
+			    false) return true;
+
+			foreach (var slot in headSlots)
+			{
+				if(slot.ItemAttributes == null) continue;
+				if (slot.ItemAttributes.HasTrait(blockingTrait)) return true;
+			}
+			foreach (var slot in maskSlots)
+			{
+				if(slot.ItemAttributes == null) continue;
+				if (slot.ItemAttributes.HasTrait(blockingTrait)) return true;
+			}
+
+			return false;
+		}
+
+		private bool CheckChestForProtection(PlayerScript playerToCheck)
+		{
+			if (playerToCheck.Equipment.ItemStorage.ServerContents.TryGetValue(NamedSlot.outerwear, out var outerWearSlots) ==
+			    false) return true;
+			if (playerToCheck.Equipment.ItemStorage.ServerContents.TryGetValue(NamedSlot.uniform, out var uniformSlots) ==
+			    false) return true;
+
+			foreach (var slot in outerWearSlots)
+			{
+				if(slot.ItemAttributes == null) continue;
+				if (slot.ItemAttributes.HasTrait(blockingTrait)) return true;
+			}
+			foreach (var slot in uniformSlots)
+			{
+				if(slot.ItemAttributes == null) continue;
+				if (slot.ItemAttributes.HasTrait(blockingTrait)) return true;
+			}
+
+			return false;
 		}
 	}
 }
