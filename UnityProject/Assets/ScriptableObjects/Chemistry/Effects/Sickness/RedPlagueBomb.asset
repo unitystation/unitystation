@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2628649e51546f42a3bd76927e78c73, type: 3}
+  m_Name: RedPlagueBomb
+  m_EditorClassIdentifier: 
+  overrideDisplayName: Plague Bomb
+  reagentToSpread: {fileID: 11400000, guid: 71f3eb7fc3909074a9f91b4dac0d9b91, type: 2}
+  spreadRange: 10
+  spreadCount: 15
+  gasToEmit: {fileID: 11400000, guid: ca89e986f14ca0d46b7cc46d462d905a, type: 2}
+  amountOfGas: 100
+  filter:
+    useTriggers: 0
+    useLayerMask: 1
+    useDepth: 0
+    useOutsideDepth: 0
+    useNormalAngle: 0
+    useOutsideNormalAngle: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 393728
+    minDepth: -1
+    maxDepth: 1
+    minNormalAngle: 0
+    maxNormalAngle: 0

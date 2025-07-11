@@ -3,7 +3,7 @@ using HealthV2.Living.PolymorphicSystems.Bodypart;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Chemistry
+namespace Chemistry.Effects
 {
 	[CreateAssetMenu(fileName = "newDamageHealthEffect", menuName = "ScriptableObjects/Chemistry/DamageHealthEffect")]
 	public class DamageHealthEffect : Effect
@@ -24,6 +24,7 @@ namespace Chemistry
 		private List<DamageToDeal> damageToDeal = new List<DamageToDeal>();
 
 		[FormerlySerializedAs("DamageChancePercent")] [SerializeField] private float damageChancePercent = 1;
+		[SerializeField] private ItemTrait requiredItemTrait = null;
 
 		public override void Apply(MonoBehaviour sender, float amount)
 		{
@@ -32,6 +33,8 @@ namespace Chemistry
 			var metabolismComponent = sender as MetabolismComponent;
 			if (metabolismComponent is null) return;
 
+			if (requiredItemTrait != null && metabolismComponent.RelatedPart.ItemAttributes.HasTrait(requiredItemTrait) == false) return;
+			
 			foreach (var damage in damageToDeal)
 			{
 				metabolismComponent.RelatedPart.TakeDamage(metabolismComponent.gameObject, damage.damageAmount, AttackType.Bio, damage.damageType);
