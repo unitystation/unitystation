@@ -77,7 +77,7 @@ PrefabInstance:
     - target: {fileID: 3319486117027293288, guid: e29b1fbcef2694d41b261271fecf09dc,
         type: 3}
       propertyPath: m_Name
-      value: BottleChlorine 1
+      value: BottleRedPlague
       objectReference: {fileID: 0}
     - target: {fileID: 3424172302466455004, guid: e29b1fbcef2694d41b261271fecf09dc,
         type: 3}
@@ -114,6 +114,42 @@ PrefabInstance:
         type: 3}
       propertyPath: 'initialReagentMix.reagents.m_values.Array.data[0]'
       value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7784065591889724654, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7784065591889724654, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7784065591889724654, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 965391d0a5eab4c4aa01ada0586ce4f8,
+        type: 3}
+    - target: {fileID: 7784065591889724654, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7784065591889724654, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7784065591889724654, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7784065591889724654, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8551094262549914629, guid: e29b1fbcef2694d41b261271fecf09dc,
         type: 3}
