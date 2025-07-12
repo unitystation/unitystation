@@ -6,6 +6,7 @@ using Chemistry.Components;
 using Core.Physics;
 using Cysharp.Threading.Tasks;
 using HealthV2.Sickness;
+using Logs;
 using Mirror;
 using Shared.Systems.ObjectConnection;
 using UnityEngine;
@@ -31,22 +32,20 @@ namespace Objects.Medical.Virology
 		[SerializeField] private ItemTrait dishItemTrait;
 		[SerializeField] private AddressableAudioSource machineBeepSound;
 
-		private ItemSlot DishItemSlot => dishItemStorage.GetIndexedItemSlot(0);
-
 		public bool CanExamineSample => _isOnCooldown == false;
 
 		public void RequestLoadRemoveDish(PositionalHandApply interaction)
 		{
 			if (interaction.HandObject&& Validations.HasItemTrait(interaction, dishItemTrait))
 			{
-				Inventory.ServerTransfer(interaction.HandSlot, DishItemSlot);
+				Inventory.ServerTransfer(interaction.HandSlot, dishItemStorage.GetIndexedItemSlot(0));
 				IsFull = true;
 				mainSpriteHandler.SetSpriteVariant(0);
 				return;
 			}
 			if (interaction.HandObject) return;
 
-			Inventory.ServerTransfer(DishItemSlot, interaction.HandSlot);
+			Inventory.ServerTransfer(dishItemStorage.GetIndexedItemSlot(0), interaction.HandSlot);
 			mainSpriteHandler.SetSpriteVariant(1);
 			IsFull = false;
 		}
@@ -59,6 +58,8 @@ namespace Objects.Medical.Virology
 
 		public void RequestExamineDish(Interaction interaction)
 		{
+			if (CanExamineSample == false) return;
+
 			_ = AnimateButtonPress();
 
 			if (_currentPowerState != PowerState.On)
@@ -70,15 +71,14 @@ namespace Objects.Medical.Virology
 			_ = SoundManager.PlayNetworkedAtPosAsync(machineBeepSound, objectPhysics.OfficialPosition);
 
 			_activeSickness = null;
-			if (CanExamineSample == false) return;
-			if (DishItemSlot.IsEmpty)
+			if (IsFull == false)
 			{
 				Chat.AddWarningMsgFromServer(interaction.Performer, "No pathogen sample in sequence analyser!");
 				return;
 			}
 
 
-			if(DishItemSlot.ItemObject.TryGetComponent<ReagentContainer>(out var container) == false) return;
+			if(dishItemStorage.GetIndexedItemSlot(0).Item.TryGetComponent<ReagentContainer>(out var container) == false) return;
 
 			StringBuilder machineDialogue = new StringBuilder();
 			foreach (KeyValuePair<Reagent, CureManager.Cure> curePair in CureManager.InitialisedSicknesses)

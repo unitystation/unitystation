@@ -204,8 +204,9 @@ public class MedicalHUD : NetworkBehaviour, IHUD
 	{
 		int stage = 0;
 
-		if (PlayerScript?.playerHealth?.reagentPoolSystem?.BloodPool == null) return 0;
-		ReagentMix blood = PlayerScript.playerHealth.reagentPoolSystem.BloodPool;
+		ReagentMix blood = PlayerScript.playerHealth.reagentPoolSystem?.BloodPool;
+		if (blood == null) return stage; //Its possible as mobs like bots are players, that blood can in fact be null
+
 		foreach (var cure in CureManager.Instance.CureableSicknesses)
 		{
 			if (blood.reagents.TryGetValue(cure.Sickness, out float amount) == false) continue;

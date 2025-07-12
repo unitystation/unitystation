@@ -87,10 +87,12 @@ namespace ScriptableObjects.RP
 
 			foreach (var slot in headSlots)
 			{
+				if(slot.ItemAttributes == null) continue;
 				if(slot.ItemAttributes.HasTrait(blockingTrait)) return true;
 			}
 			foreach (var slot in maskSlots)
 			{
+				if(slot.ItemAttributes == null) continue;
 				if(slot.ItemAttributes.HasTrait(blockingTrait)) return true;
 			}
 
