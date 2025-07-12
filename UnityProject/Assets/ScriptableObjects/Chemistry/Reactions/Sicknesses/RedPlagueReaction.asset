@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04faef1760e156f4d8a855aa231b1b35, type: 3}
+  m_Name: RedPlagueReaction
+  m_EditorClassIdentifier: 
+  ingredients:
+    m_keys:
+    - {fileID: 11400000, guid: 71f3eb7fc3909074a9f91b4dac0d9b91, type: 2}
+    m_values: 01000000
+  useExactAmounts: 0
+  MinimumReactionMultiple: 0
+  catalysts:
+    m_keys: []
+    m_values: 
+  inhibitors:
+    m_keys: []
+    m_values: 
+  hasMinTemp: 0
+  serializableTempMin: 0
+  hasMaxTemp: 0
+  serializableTempMax: 0
+  results:
+    m_keys:
+    - {fileID: 11400000, guid: 2945ad40ab95234498cac68e72a6940a, type: 2}
+    m_values: 01000000
+  effectDict:
+    m_keys: []
+    m_values: 
+  overrideDisplayName: Red Plague Growth
+  indexInSingleton: 501
+  ReagentMetabolismMultiplier: 1
+  InternalAllRequired: []
+  InternalBlacklist: []
+  ExternalAllRequired: []
+  ExternalBlacklist: []
+  sicknessGrowthCharacteristic:
+    SicknessGrowthChancePercent: 55
+    SicknessGrowthBaseRate: 0.025
+    SicknessGrowthRelativeRate: 0.004
+  stages:
+  - StageConcentrationThreshold: 0
+    StageEffects:
+    - {fileID: 11400000, guid: 79301d27985fcc24ea6ce8dc316431e2, type: 2}
+    - {fileID: 11400000, guid: 79301d27985fcc24ea6ce8dc316431e2, type: 2}
+  - StageConcentrationThreshold: 2
+    StageEffects:
+    - {fileID: 11400000, guid: c1ed547e609ed734ea50a13a8e35f6f4, type: 2}
+    - {fileID: 11400000, guid: 686e61ed159f74341a43a89072dc5bfe, type: 2}
+    - {fileID: 11400000, guid: 45793ea50437e4a4e80170ec5fd0c3c6, type: 2}
+  - StageConcentrationThreshold: 4
+    StageEffects:
+    - {fileID: 11400000, guid: 5d0b7b3efbb3a33418ee59eb52ef4e14, type: 2}
+    - {fileID: 11400000, guid: ce00514859fcfbf4ebc18904aa14dcde, type: 2}
+    - {fileID: 11400000, guid: 4b495bfd5e5a6174db5e66d2c4ee407c, type: 2}
+    - {fileID: 11400000, guid: 1efd831ebaa972e43b93dbcbc1382783, type: 2}
+  - StageConcentrationThreshold: 8
+    StageEffects:
+    - {fileID: 11400000, guid: cd22551c247e5d14dbef9724f827fe5a, type: 2}
+  DiseaseMaxConcentrationPercent: 16

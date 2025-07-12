@@ -31,6 +31,8 @@ namespace Messages.Server
 		{
 			if (ChemistryReagentsSO.Instance == null) return;
 
+			CureManager.Instance.CleanUpPastCures();
+
 			int reactionIndex = msg.CureReactionIndex;
 			if (reactionIndex < 0 || reactionIndex >= ChemistryReagentsSO.Instance.AllChemistryReactions.Count) return;
 

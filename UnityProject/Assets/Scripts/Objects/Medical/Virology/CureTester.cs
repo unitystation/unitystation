@@ -27,8 +27,6 @@ namespace Objects.Medical.Virology
 		[SerializeField] private UniversalObjectPhysics objectPhysics;
 		[SerializeField] private AddressableAudioSource machineBeepSound;
 
-		public ItemSlot CureItemSlot { get; private set; }
-
 		private bool _isOnCooldown;
 		public bool CanExamineSample => _isOnCooldown == false;
 
@@ -39,7 +37,6 @@ namespace Objects.Medical.Virology
 				Loggy.Error($"No Item Storage set on {gameObject.ExpensiveName()}!");
 				return;
 			}
-			CureItemSlot = itemStorage.GetIndexedItemSlot(0);
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -58,7 +55,7 @@ namespace Objects.Medical.Virology
 
 			if (interaction.HandObject&& Validations.HasItemTrait(interaction, requiredTrait))
 			{
-				Inventory.ServerTransfer(interaction.HandSlot, CureItemSlot, ReplacementStrategy.DropOther);
+				Inventory.ServerTransfer(interaction.HandSlot, itemStorage.GetIndexedItemSlot(0), ReplacementStrategy.DropOther);
 
 				IsFull = true;
 				sampleSpriteHandler.SetSpriteVariant(0);
@@ -70,12 +67,14 @@ namespace Objects.Medical.Virology
 			if (interaction.HandObject) return;
 
 			IsFull = false;
-			Inventory.ServerTransfer(CureItemSlot, interaction.HandSlot);
+			Inventory.ServerTransfer(itemStorage.GetIndexedItemSlot(0), interaction.HandSlot);
 			sampleSpriteHandler.SetSpriteVariant(1);
 		}
 
 		public void RequestExamineCure(PositionalHandApply interaction)
 		{
+			if (_isOnCooldown) return;
+
 			if (_currentPowerState != PowerState.On)
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, $"{gameObject.ExpensiveName()} is unpowered!");
@@ -97,7 +96,7 @@ namespace Objects.Medical.Virology
 				return;
 			}
 
-			if (CureItemSlot.ItemObject?.TryGetComponent<ReagentContainer>(out var container) == true)
+			if (itemStorage.GetIndexedItemSlot(0).ItemObject?.TryGetComponent<ReagentContainer>(out var container) == true)
 			{
 				StringBuilder machineDialogue = new StringBuilder();
 				machineDialogue.AppendLine($"Test results of cure against sickness {connectedSequenceAnalyzer.ActiveSickness.Name}: ");

@@ -732,7 +732,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 		ClientTotal.Remove(slot);
 		if (isOwned)
 		{
-			UIManager.Instance.UI_SlotManager.UpdateUI();
+			UIManager.Instance?.UI_SlotManager?.UpdateUI();
 		}
 
 		//UIManager.Instance.UI_SlotManager.RemoveContainer(bodyPartUISlots);

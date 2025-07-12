@@ -279,10 +279,11 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 			UIManager.ResetAllUI();
 			GetComponent<MouseInputController>().enabled = true;
 
-			if (UIManager.Instance.statsTab.window.activeInHierarchy == false)
+			if (UIManager.Instance?.statsTab?.window?.activeInHierarchy == false)
 			{
 				UIManager.Instance.statsTab.window.SetActive(true);
 			}
+
 
 			if (PlayerType == PlayerTypes.Ghost)
 			{

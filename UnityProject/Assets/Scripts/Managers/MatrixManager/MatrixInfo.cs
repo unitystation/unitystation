@@ -49,7 +49,7 @@ public class MatrixInfo : IEquatable<MatrixInfo>
 
 	public bool IsMovable => Matrix.IsMovable;
 
-	public Vector2Int MovementVector =>  Vector2Int.zero;
+	public Vector2Int MovementVector =>  Matrix.MatrixMove.NetworkedMatrixMove.SynchronisedVelocity.NormalizeTo2Int();
 
 	public Vector3Int InitialOffset
 	{

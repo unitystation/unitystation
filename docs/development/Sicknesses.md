@@ -12,6 +12,7 @@ In order to add a sickness, three new files must be created:
 - A sickness cure reaction. This chemical reaction controls how the sickness is cured. The contents of this reaction are generated at runtime but we need a place for these contents to be written. Create a cure reaction by creating a simple reaction (`Create -> ScriptableObjects/Chemistry/Reaction`) and ensure all fields are empty.
 
 When creating new scriptable objects, please respect existing file structure. The folders for each of the above resources are so:
+
 `Assets/ScriptableObjects/Chemistry/Reagents/Pathogens`
 `Assets/ScriptableObjects/Chemistry/Reactions/Sicknesses`
 `Assets/ScriptableObjects/Chemistry/Reactions/Sicknesses`
@@ -62,7 +63,7 @@ The fields for configuring these stages are seen below:
 - **Stage Effects**
   A list of chemistry effects that will *always* be triggered during this stage. During each update, all symptoms in this list will be triggered. If the symptom should only have a chance to occur (such as an emote like a cough), the chance must be implemented on the effect side.
   If you wish for the symptom to be an emote, damage, or heal, please use existing the SOs:
-  `ScriptableObjects/Chemistry/BodyHealthEffect` & `ScriptableObjects/Chemistry/EmoteHealthEffect`
+  `ScriptableObjects/Chemistry/DamageHealthEffect` & `ScriptableObjects/Chemistry/EmoteHealthEffect`
 
   Existing symptoms may be found in the `ScriptableObjects/Chemistry/Effects/Sickness` folder. Add your symptoms into this folder aswell.
 
