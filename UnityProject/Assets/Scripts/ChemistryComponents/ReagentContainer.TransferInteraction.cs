@@ -43,7 +43,10 @@ namespace Chemistry.Components
 		[FormerlySerializedAs("TransferMode")] [SerializeField]
 		private TransferMode transferMode = TransferMode.Normal;
 
+
+		[Tooltip("Can this container only be filled using a syringe/injector?"), SerializeField] private bool onlyAllowSyringeFilling = false;
 		[SerializeField] public bool SyringePulling;
+
 
 		public TransferMode TransferMode => transferMode;
 
@@ -139,6 +142,9 @@ namespace Chemistry.Components
 					return false;
 				}
 			}
+
+			if (dstContainer.onlyAllowSyringeFilling && srcContainer.transferMode != TransferMode.Syringe) return false;
+			if (srcContainer.onlyAllowSyringeFilling && dstContainer.transferMode != TransferMode.Syringe) return false;
 
 			return dstContainer.transferMode != TransferMode.Syringe;
 		}
