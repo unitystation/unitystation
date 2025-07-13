@@ -144,12 +144,10 @@ namespace HealthV2.Living.PolymorphicSystems
 		/// </summary>
 		private void SoakReagentsFromSurface()
 		{
-			ReagentMix tempContainer = null;
-			foreach (var bodyPart in MetabolismComponents)
+			foreach (var bodyPart in Base.SurfaceBodyParts)
 			{
-				tempContainer = Base.SurfaceReagents[bodyPart.RelatedPart.BodyPartType]
-					.Take(ExternalMetabolismPerSecond * EXTERNAL_REAGENT_SOAK_EFFICIENCY);
-				reagentPoolSystem.BloodPool.Add(tempContainer);
+				if(Base.SurfaceReagents.TryGetValue(bodyPart.BodyPartType, out var container) == false) continue;
+				reagentPoolSystem.BloodPool.Add(container.Take(ExternalMetabolismPerSecond * EXTERNAL_REAGENT_SOAK_EFFICIENCY));
 			}
 		}
 
