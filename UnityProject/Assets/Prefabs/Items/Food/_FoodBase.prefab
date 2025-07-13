@@ -142,11 +142,16 @@ PrefabInstance:
     - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
       propertyPath: transferMode
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
       propertyPath: ExamineContent
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: SyringePulling
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
@@ -156,8 +161,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
+      propertyPath: onlyAllowSyringeFilling
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
       propertyPath: possibleTransferAmounts.Array.size
-      value: 0
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: 'possibleTransferAmounts.Array.data[0]'
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: 'possibleTransferAmounts.Array.data[1]'
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
