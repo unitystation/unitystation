@@ -16,6 +16,7 @@ namespace Items.Implants.Organs.Arachnid
 	{
 		[SerializeField] private float empStaggerTime = 0.5f;
 		[SerializeField] private float crawlTime = 6f;
+		[SerializeField] private float openDoorTime = 6f;
 		[SerializeField] private float invisbilityTime = 60f;
 		[SerializeField] private float checkForNearbyPlayersWhileInvisbleTime = 3f;
 
@@ -57,6 +58,28 @@ namespace Items.Implants.Organs.Arachnid
 			LivingHealthMaster.playerScript.PlayerAlpha.Alpha = 0.05f;
 			LivingHealthMaster.OnTakeDamageType += BecomeVisibleOnDamage;
 			UpdateManager.Add(UnclockWhenNearPlayersForProlongedTime, checkForNearbyPlayersWhileInvisbleTime);
+		}
+
+		public void OpenDoors(Vector2 worldMousePosition)
+		{
+			if (CanDoAction() == false) return;
+			var player = RelatedPart.HealthMaster.playerScript;
+			var matrix = player.gameObject.RegisterTile().Matrix;
+			var objectsOnTile = matrix
+				.Get<DoorMasterController>(worldMousePosition.To3Int().ToLocal(matrix).CutToInt(), CustomNetworkManager.IsServer).ToList();
+			if (objectsOnTile.Count == 0 || objectsOnTile[0] == null)
+			{
+				Chat.AddExamineMsg(player.gameObject, "You can't open anything here.");
+				return;
+			}
+			var door = objectsOnTile[0];
+			var timeToOpen = door.isWindowedDoor ? openDoorTime / 2f : openDoorTime;
+			StandardProgressActionConfig cfg = new StandardProgressActionConfig(StandardProgressActionType.Construction, false, false, false);
+			StandardProgressAction.Create(cfg, () =>
+			{
+				OpenDoorsBehavior(door);
+			}).ServerStartProgress(player.RegisterPlayer.LocalPosition.To3(), timeToOpen, player.gameObject);
+			OpenDoorsBehavior(door);
 		}
 
 		public void GoVisible()
@@ -157,6 +180,24 @@ namespace Items.Implants.Organs.Arachnid
 			}
 			LivingHealthMaster.playerScript.playerMove.AppearAtWorldPositionServer(positionToTeleportTo.ToWorldInt(matrix), true);
 			Chat.AddExamineMsg(LivingHealthMaster.gameObject, "You squeeze yourself under the door.");
+		}
+
+		private void OpenDoorsBehavior(DoorMasterController door)
+		{
+			if (LivingHealthMaster == null || LivingHealthMaster.playerScript == null)
+			{
+				Loggy.Error("Looks like the player disappeared while they were trying to crawl under the door. Rip.");
+				return;
+			}
+
+			if (door.TryForceOpen())
+			{
+				Chat.AddExamineMsg(LivingHealthMaster.gameObject, "You manage to pry open the door.");
+			}
+			else
+			{
+				Chat.AddExamineMsg(LivingHealthMaster.gameObject, "Something is preventing the door from being opened.");
+			}
 		}
 
 		private bool CanDoAction()
