@@ -558,7 +558,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		StartCoroutine(WaitToStartGameMode());
 
 		// Tell all clients that the countdown has finished
-		UpdateCountdownMessage.Send(true, 0);
+		UpdateCountdownMessage.Send(true, 0, CurrentRoundState);
 		EventManager.Broadcast(Event.PostRoundStarted, true);
 		CleanupUtil.RoundStartCleanup();
 	}
@@ -774,7 +774,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookErrorLogURL,
 			"```A new round countdown has started```", "");
 
-		UpdateCountdownMessage.Send(waitForStart, PreRoundTime);
+		UpdateCountdownMessage.Send(waitForStart, PreRoundTime, currentRoundState);
 	}
 
 	[Server]

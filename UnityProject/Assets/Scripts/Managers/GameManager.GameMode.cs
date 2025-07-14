@@ -52,7 +52,6 @@ public partial class GameManager
 		{
 			currentRoundState = value;
 			Loggy.Info().Format("CurrentRoundState is now {0}!", Category.Round, value);
-			Chat.AddGameWideSystemMsgToChat($"Round state is now: {value.ToString().ToUpper()}");
 			OnCurrentRoundStateChange?.Invoke();
 		}
 	}

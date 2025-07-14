@@ -158,6 +158,7 @@ namespace UI.Systems.PreRound
 			joinButton.interactable = true;
 			joinButton.GetComponentInChildren<TMP_Text>().text = GameManager.Instance.CurrentRoundState == RoundState.PreRound ? "Ready Up!" : "Join Round";
 			CheckForRoundStatusForTitle();
+			AddStartNowButtonForAdmins();
 		}
 
 		private void AddStartNowButtonForAdmins()
