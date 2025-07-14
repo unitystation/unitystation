@@ -43,6 +43,7 @@ namespace UI.Systems.PreRound
 			SetInfoScreenOn();
 			CountdownArea.OnFinishedCountingDown.AddListener(ButtonsArea.RefreshGameModeText);
 			CountdownArea.OnFinishedCountingDown.AddListener(CheckForRoundStatusForTitle);
+			CountdownArea.OnFinishedCountingDown.AddListener(ChangeJoinButtonForRoundStarted);
 			_ = DelayedCheck();
 		}
 
@@ -70,7 +71,8 @@ namespace UI.Systems.PreRound
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 			CountdownArea.OnFinishedCountingDown.RemoveListener(ButtonsArea.RefreshGameModeText);
 			CountdownArea.OnFinishedCountingDown.RemoveListener(CheckForRoundStatusForTitle);
-			GameManager.Instance.OncurrentRoundStateChange -= ChangeJoinButtonForRoundStarted;
+			CountdownArea.OnFinishedCountingDown.RemoveListener(ChangeJoinButtonForRoundStarted);
+			GameManager.Instance.OnCurrentRoundStateChange -= ChangeJoinButtonForRoundStarted;
 		}
 
 		private void UpdateMe()
@@ -79,6 +81,8 @@ namespace UI.Systems.PreRound
 			{
 				TryShowAdminPanel();
 			}
+
+			CheckForRoundStatusForTitle();
 		}
 
 		private void TryShowAdminPanel()
@@ -146,21 +150,14 @@ namespace UI.Systems.PreRound
 			joinButton = ButtonsArea.CreateInteractableToggle(GameManager.Instance.CurrentRoundState == RoundState.PreRound ? "Ready Up!" : "Join Round", OnJoinButton);
 			characterButton = ButtonsArea.CreateInteractableButton("Character", OnCharacterButton);
 			CountdownArea.OnFinishedCountingDown.AddListener(ChangeJoinButtonForRoundStarted);
-			GameManager.Instance.OncurrentRoundStateChange += ChangeJoinButtonForRoundStarted;
+			GameManager.Instance.OnCurrentRoundStateChange += ChangeJoinButtonForRoundStarted;
 		}
-
-
 
 		private void ChangeJoinButtonForRoundStarted()
 		{
-			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound) return;
-			if (joinButton == null)
-			{
-				CountdownArea.OnFinishedCountingDown.RemoveListener(ChangeJoinButtonForRoundStarted);
-				return;
-			}
 			joinButton.interactable = true;
-			joinButton.GetComponentInChildren<TMP_Text>().text = "Join Round";
+			joinButton.GetComponentInChildren<TMP_Text>().text = GameManager.Instance.CurrentRoundState == RoundState.PreRound ? "Ready Up!" : "Join Round";
+			CheckForRoundStatusForTitle();
 		}
 
 		private void AddStartNowButtonForAdmins()
@@ -198,6 +195,7 @@ namespace UI.Systems.PreRound
 		public void OnJoinButton(bool isOn)
 		{
 			AddStartNowButtonForAdmins();
+			ChangeJoinButtonForRoundStarted();
 			if (HasCharacters() == false) return;
 			//if (NoJobWarn() == false) return;
 			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound)
@@ -253,7 +251,6 @@ namespace UI.Systems.PreRound
 		{
 			switch (GameManager.Instance.CurrentRoundState)
 			{
-				case RoundState.None:
 				case RoundState.PreRound:
 					ButtonsArea.SetTitle("Waiting for new round..");
 					break;
@@ -264,6 +261,7 @@ namespace UI.Systems.PreRound
 				case RoundState.Restarting:
 					ButtonsArea.SetTitle("Shift has ended!");
 					break;
+				case RoundState.None:
 				default:
 					ButtonsArea.SetTitle("Welcome to UnityStation!");
 					break;

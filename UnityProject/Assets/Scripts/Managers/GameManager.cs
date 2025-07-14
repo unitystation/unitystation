@@ -439,6 +439,14 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		{
 			if (NetworkTime.time >= CountdownEndTime)
 			{
+				//(Max): Hey shitass
+				// If you're wondering why the round state is paused when the countdown ends, it's because of this stupid "feature"
+				// It's probably used to save on the performance when no players are online, but can be confusing as fuck if you are working on the prelobby code
+				// locally and suddenly cant figure out why stuff like the Join Round button doesn't want to update.
+				// This honestly seems useless as shit, because many of the game's processes still continue working through
+				// the UpdateManager regardless if there are players on the server or not.
+				// My advice? hit F7 and use the admin round start tool to avoid the headaches of this.
+				// Don't bother removing it, I know some bugs will unearth somehow from this.
 				if (PlayerList.Instance.ReadyPlayers.Count >= MinReadyPlayersForCountdown)
 				{
 					StartRound();
