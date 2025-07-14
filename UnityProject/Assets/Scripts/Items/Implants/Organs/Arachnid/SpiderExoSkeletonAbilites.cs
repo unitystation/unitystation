@@ -190,14 +190,8 @@ namespace Items.Implants.Organs.Arachnid
 				return;
 			}
 
-			if (door.TryForceOpen())
-			{
-				Chat.AddExamineMsg(LivingHealthMaster.gameObject, "You manage to pry open the door.");
-			}
-			else
-			{
-				Chat.AddExamineMsg(LivingHealthMaster.gameObject, "Something is preventing the door from being opened.");
-			}
+			door.Open();
+			Chat.AddExamineMsg(LivingHealthMaster.gameObject, "You manage to pry open the door.");
 		}
 
 		private bool CanDoAction()
