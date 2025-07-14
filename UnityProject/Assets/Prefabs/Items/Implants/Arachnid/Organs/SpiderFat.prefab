@@ -1,0 +1,183 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4652392703281979879
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1250221917221666655, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+        type: 3}
+      propertyPath: parentID
+      value: 940a7490c94c6b3478f0b4268b2cf2c0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1250221917221666655, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+        type: 3}
+      propertyPath: foreverID
+      value: eBwS7onC0uicCFhTeAEF
+      objectReference: {fileID: 0}
+    - target: {fileID: 2064065789026011317, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 829362509404496265}
+    - target: {fileID: 5221679992042294918, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+        type: 3}
+      propertyPath: _assetId
+      value: 3358599805
+      objectReference: {fileID: 0}
+    - target: {fileID: 5324125373314380594, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+        type: 3}
+      propertyPath: m_Name
+      value: SpiderFat
+      objectReference: {fileID: 0}
+    - target: {fileID: 5327923223883959878, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5327923223883959878, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5327923223883959878, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5327923223883959878, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5327923223883959878, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5327923223883959878, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5327923223883959878, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5327923223883959878, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5327923223883959878, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5327923223883959878, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6087789242995761459, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+        type: 3}
+      propertyPath: bloodReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: c7943c0995bc04a49b55b22064796666,
+        type: 2}
+    - target: {fileID: 8277528412481190642, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+        type: 3}
+      propertyPath: requiredReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: 23b1fd9d2d60ffd0a8879d7745f1a7fb,
+        type: 2}
+    - target: {fileID: 8779813883913210030, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+        type: 3}
+      propertyPath: SelfArmor.Bio
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 8779813883913210030, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+        type: 3}
+      propertyPath: SelfArmor.Rad
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8779813883913210030, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+        type: 3}
+      propertyPath: SelfArmor.Acid
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 8779813883913210030, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+        type: 3}
+      propertyPath: SelfArmor.Bomb
+      value: -25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8779813883913210030, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+        type: 3}
+      propertyPath: SelfArmor.Fire
+      value: -25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8779813883913210030, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+        type: 3}
+      propertyPath: SelfArmor.Laser
+      value: -15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8779813883913210030, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+        type: 3}
+      propertyPath: SelfArmor.Magic
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8779813883913210030, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+        type: 3}
+      propertyPath: SelfArmor.Melee
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8779813883913210030, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+        type: 3}
+      propertyPath: SelfArmor.Bullet
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8779813883913210030, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+        type: 3}
+      propertyPath: SelfArmor.Energy
+      value: -15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8779813883913210030, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+        type: 3}
+      propertyPath: SelfArmor.PressureProtectionInKpa.x
+      value: -520
+      objectReference: {fileID: 0}
+    - target: {fileID: 8779813883913210030, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+        type: 3}
+      propertyPath: SelfArmor.PressureProtectionInKpa.y
+      value: 1799.9999
+      objectReference: {fileID: 0}
+    - target: {fileID: 8779813883913210030, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+        type: 3}
+      propertyPath: SelfArmor.TemperatureProtectionInK.x
+      value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 8779813883913210030, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+        type: 3}
+      propertyPath: SelfArmor.TemperatureProtectionInK.y
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 8779813883913210030, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+        type: 3}
+      propertyPath: SelfArmor.DismembermentProtectionChance
+      value: 20
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 940a7490c94c6b3478f0b4268b2cf2c0, type: 3}
+--- !u!212 &829362509404496265 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5409634923867340910, guid: 940a7490c94c6b3478f0b4268b2cf2c0,
+    type: 3}
+  m_PrefabInstance: {fileID: 4652392703281979879}
+  m_PrefabAsset: {fileID: 0}

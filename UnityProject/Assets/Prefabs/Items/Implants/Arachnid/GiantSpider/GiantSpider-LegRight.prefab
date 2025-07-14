@@ -36,6 +36,8 @@ GameObject:
   - component: {fileID: 4395245057802102787}
   - component: {fileID: 1837811831782079204}
   - component: {fileID: 8158912749797370943}
+  - component: {fileID: -5656997121140229445}
+  - component: {fileID: 781184014468124244}
   m_Layer: 10
   m_Name: GiantSpider-LegRight
   m_TagString: Abstract
@@ -177,6 +179,10 @@ MonoBehaviour:
   OnInventoryMoveServerEvent:
     m_PersistentCalls:
       m_Calls: []
+  OnItemSlotChanged:
+    target: {fileID: 0}
+    methodName: 
+    parameterType: 
   OnDrop:
     m_PersistentCalls:
       m_Calls: []
@@ -626,26 +632,26 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3a60d21cb4e18b14ba0387530f2dccd5, type: 2}
   CanNotBeHealedByExternalHealingPack: 0
   SelfArmor:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
-    Energy: 0
-    Bomb: 0
-    Rad: 0
-    Fire: 0
-    Acid: 0
-    Magic: 0
-    Bio: 0
+    Melee: 15
+    Bullet: 10
+    Laser: -15
+    Energy: -15
+    Bomb: -25
+    Rad: 50
+    Fire: -25
+    Acid: 40
+    Magic: 25
+    Bio: 40
     Anomaly: 0
-    DismembermentProtectionChance: 0
+    DismembermentProtectionChance: 20
     StunImmunity: 0
-    TemperatureProtectionInK: {x: 268.15, y: 313.15}
-    PressureProtectionInKpa: {x: 30, y: 300}
+    TemperatureProtectionInK: {x: 250, y: 300}
+    PressureProtectionInKpa: {x: -520, y: 1799.9999}
   SubOrganBodyPartArmour:
-    Melee: 100
-    Bullet: 90
-    Laser: 100
-    Energy: 99
+    Melee: 85
+    Bullet: 80
+    Laser: 50
+    Energy: 50
     Bomb: 80
     Rad: 30
     Fire: 0
@@ -655,8 +661,8 @@ MonoBehaviour:
     Anomaly: 0
     DismembermentProtectionChance: 25
     StunImmunity: 0
-    TemperatureProtectionInK: {x: 268.15, y: 313.15}
-    PressureProtectionInKpa: {x: 30, y: 300}
+    TemperatureProtectionInK: {x: 25, y: 300}
+    PressureProtectionInKpa: {x: -520, y: 1800}
   SubOrganDamageIncreasePoint: 80
   DamageContributesToOverallHealth: 1
   maxHealth: 100
@@ -839,6 +845,46 @@ MonoBehaviour:
       CategoryID: Feet1
       ConditionalParameter: 1
       XAmountConditional: 2
+--- !u!114 &-5656997121140229445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1852908659077902804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a9ebd1817f5f0547a70d4591eca98a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  RelatedPart: {fileID: 0}
+  Throughput: 0
+  bloodReagent: {fileID: 11400000, guid: c7943c0995bc04a49b55b22064796666, type: 2}
+--- !u!114 &781184014468124244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1852908659077902804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c78758cf40985e84692bbc8a9860e432, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  RelatedPart: {fileID: 0}
+  requiredReagent: {fileID: 11400000, guid: 23b1fd9d2d60ffd0a8879d7745f1a7fb, type: 2}
+  wasteReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
+  bloodReagentConsumedPercentageb: 0.7
+  reagentCirculatedComponent: {fileID: 0}
+  currentBloodSaturation: 0
+  isNotBloodReagentConsumed: 0
 --- !u!1 &2144395403905897284
 GameObject:
   m_ObjectHideFlags: 0

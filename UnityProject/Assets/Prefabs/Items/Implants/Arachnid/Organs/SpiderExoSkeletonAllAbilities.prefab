@@ -1,0 +1,193 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5648237282547573702
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1744309080863040631, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.6745098
+      objectReference: {fileID: 0}
+    - target: {fileID: 1744309080863040631, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.9411765
+      objectReference: {fileID: 0}
+    - target: {fileID: 1926668629546310274, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: <ActionData>k__BackingField.m_keys.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1926668629546310274, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: <ActionData>k__BackingField.m_values.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1926668629546310274, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: <ActionData>k__BackingField.m_keys.Array.data[2].ID
+      value: spider_ability_openDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1926668629546310274, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: <ActionData>k__BackingField.m_keys.Array.data[2].Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1926668629546310274, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: <ActionData>k__BackingField.m_values.Array.data[2].target
+      value: 
+      objectReference: {fileID: 2135692139899353105}
+    - target: {fileID: 1926668629546310274, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: <ActionData>k__BackingField.m_keys.Array.data[2].OffsetType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1926668629546310274, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: <ActionData>k__BackingField.m_keys.Array.data[2].Description
+      value: Force open a door
+      objectReference: {fileID: 0}
+    - target: {fileID: 1926668629546310274, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: <ActionData>k__BackingField.m_keys.Array.data[2].DisplayName
+      value: Pry Open Door
+      objectReference: {fileID: 0}
+    - target: {fileID: 1926668629546310274, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: <ActionData>k__BackingField.m_keys.Array.data[2].CooldownTime
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1926668629546310274, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: <ActionData>k__BackingField.m_values.Array.data[2].methodName
+      value: OpenDoors
+      objectReference: {fileID: 0}
+    - target: {fileID: 1926668629546310274, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: <ActionData>k__BackingField.m_keys.Array.data[2].CursorTexture
+      value: 
+      objectReference: {fileID: 2800000, guid: a98858de92927fd4c844f441140f55fe, type: 3}
+    - target: {fileID: 1926668629546310274, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: <ActionData>k__BackingField.m_keys.Array.data[2].HasCustomCursor
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1926668629546310274, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: <ActionData>k__BackingField.m_keys.Array.data[2].AnimatedIconCatalogue.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1926668629546310274, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: '<ActionData>k__BackingField.m_keys.Array.data[2].AnimatedIconCatalogue.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 6025600b6c11247409fe96ae57bbcc6c,
+        type: 2}
+    - target: {fileID: 1928932909309318955, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: m_Name
+      value: SpiderExoSkeletonAllAbilities
+      objectReference: {fileID: 0}
+    - target: {fileID: 1934138134557436511, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1934138134557436511, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1934138134557436511, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1934138134557436511, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1934138134557436511, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1934138134557436511, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1934138134557436511, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1934138134557436511, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1934138134557436511, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1934138134557436511, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1968292779608992415, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: _assetId
+      value: 3711638862
+      objectReference: {fileID: 0}
+    - target: {fileID: 4791350234009230150, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: parentID
+      value: xbXA372TNNpWc7ruWxpc
+      objectReference: {fileID: 0}
+    - target: {fileID: 4791350234009230150, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: foreverID
+      value: d8Fw1tKM0!6U7sF-aXm8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5729402764699888812, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 0.6745283
+      objectReference: {fileID: 0}
+    - target: {fileID: 5729402764699888812, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.94013846
+      objectReference: {fileID: 0}
+    - target: {fileID: 5729402764699888812, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 68d45976839d081429fc3adc1bdb7e76, type: 3}
+--- !u!114 &2135692139899353105 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6035124000564632535, guid: 68d45976839d081429fc3adc1bdb7e76,
+    type: 3}
+  m_PrefabInstance: {fileID: 5648237282547573702}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83d33c80238b4874bae68a70320ae067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

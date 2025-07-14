@@ -29,7 +29,6 @@ namespace Actions.V2.UI
 		{
 			ActionData = buttonData;
 			name = ActionData.ID;
-			TrySetIcon();
 			if (ActionData.CooldownTime >= 0.085f) UpdateManager.Add(UpdateCooldown, 1.25f);
 			if (isMindAction)
 			{
@@ -37,6 +36,7 @@ namespace Actions.V2.UI
 			}
 			defaultColor = Background.color;
 			RefreshManagers();
+			TrySetIcon();
 		}
 
 		private void RefreshManagers()
@@ -133,7 +133,7 @@ namespace Actions.V2.UI
 
 		private void TrySetIcon()
 		{
-			if (ActionData.AnimatedIconCatalogue == null) return;
+			if (ActionData.AnimatedIconCatalogue == null || ActionData.AnimatedIconCatalogue.Count == 0) return;
 			iconHandler.SetSpriteSO(ActionData.AnimatedIconCatalogue[0]);
 		}
 

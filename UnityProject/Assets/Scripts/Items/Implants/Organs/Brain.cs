@@ -197,30 +197,34 @@ namespace Items.Implants.Organs
 
 		public override void ImplantPeriodicUpdate()
 		{
-			if (ReagentCirculatedComponent.OrNull()?.AssociatedSystem != null && ReagentCirculatedComponent.AssociatedSystem.BloodPool.reagents.Contains(drunkReagent))
-			{
-				float DrunkPercentage = ReagentCirculatedComponent.AssociatedSystem.BloodPool.GetPercent(drunkReagent);
-				if (DrunkPercentage > 0)
-				{
-					if (DrunkPercentage > MaxDrunkAtPercentage)
-					{
-						DrunkPercentage = MaxDrunkAtPercentage;
-					}
-					var percentage = DrunkPercentage / MaxDrunkAtPercentage;
+			if (drunkReagent != null) DrunkCheck();
+		}
 
-					if (percentage > 0.05f)
-					{
-						SyncDrunkenness(drunkAmount, percentage);
-					}
-					else
-					{
-						SyncDrunkenness(drunkAmount, 0);
-					}
+		private void DrunkCheck()
+		{
+			if (ReagentCirculatedComponent.OrNull()?.AssociatedSystem == null) return;
+			if (ReagentCirculatedComponent.AssociatedSystem.BloodPool.reagents.Contains(drunkReagent) == false) return;
+			float drunkPercentage = ReagentCirculatedComponent.AssociatedSystem.BloodPool.GetPercent(drunkReagent);
+			if (drunkPercentage > 0)
+			{
+				if (drunkPercentage > MaxDrunkAtPercentage)
+				{
+					drunkPercentage = MaxDrunkAtPercentage;
+				}
+				var percentage = drunkPercentage / MaxDrunkAtPercentage;
+
+				if (percentage > 0.05f)
+				{
+					SyncDrunkenness(drunkAmount, percentage);
 				}
 				else
 				{
-					drunkAmount = 0;
+					SyncDrunkenness(drunkAmount, 0);
 				}
+			}
+			else
+			{
+				drunkAmount = 0;
 			}
 		}
 

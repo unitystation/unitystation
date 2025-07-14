@@ -21,8 +21,88 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2999579435661173254, guid: 6534a00fd464cbe439cb6eb13d5218fa,
         type: 3}
+      propertyPath: parentID
+      value: 6534a00fd464cbe439cb6eb13d5218fa
+      objectReference: {fileID: 0}
+    - target: {fileID: 2999579435661173254, guid: 6534a00fd464cbe439cb6eb13d5218fa,
+        type: 3}
       propertyPath: foreverID
-      value: cb2bf5a86ff0c2949aea09b9a60fea63
+      value: 4yh0NegST6cqWzOmoM-m
+      objectReference: {fileID: 0}
+    - target: {fileID: 4693069235242505719, guid: 6534a00fd464cbe439cb6eb13d5218fa,
+        type: 3}
+      propertyPath: SelfArmor.Bio
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 4693069235242505719, guid: 6534a00fd464cbe439cb6eb13d5218fa,
+        type: 3}
+      propertyPath: SelfArmor.Rad
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 4693069235242505719, guid: 6534a00fd464cbe439cb6eb13d5218fa,
+        type: 3}
+      propertyPath: SelfArmor.Acid
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 4693069235242505719, guid: 6534a00fd464cbe439cb6eb13d5218fa,
+        type: 3}
+      propertyPath: SelfArmor.Bomb
+      value: -25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4693069235242505719, guid: 6534a00fd464cbe439cb6eb13d5218fa,
+        type: 3}
+      propertyPath: SelfArmor.Fire
+      value: -25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4693069235242505719, guid: 6534a00fd464cbe439cb6eb13d5218fa,
+        type: 3}
+      propertyPath: SelfArmor.Laser
+      value: -15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4693069235242505719, guid: 6534a00fd464cbe439cb6eb13d5218fa,
+        type: 3}
+      propertyPath: SelfArmor.Magic
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4693069235242505719, guid: 6534a00fd464cbe439cb6eb13d5218fa,
+        type: 3}
+      propertyPath: SelfArmor.Melee
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4693069235242505719, guid: 6534a00fd464cbe439cb6eb13d5218fa,
+        type: 3}
+      propertyPath: SelfArmor.Bullet
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4693069235242505719, guid: 6534a00fd464cbe439cb6eb13d5218fa,
+        type: 3}
+      propertyPath: SelfArmor.Energy
+      value: -15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4693069235242505719, guid: 6534a00fd464cbe439cb6eb13d5218fa,
+        type: 3}
+      propertyPath: SelfArmor.PressureProtectionInKpa.x
+      value: -520
+      objectReference: {fileID: 0}
+    - target: {fileID: 4693069235242505719, guid: 6534a00fd464cbe439cb6eb13d5218fa,
+        type: 3}
+      propertyPath: SelfArmor.PressureProtectionInKpa.y
+      value: 1799.9999
+      objectReference: {fileID: 0}
+    - target: {fileID: 4693069235242505719, guid: 6534a00fd464cbe439cb6eb13d5218fa,
+        type: 3}
+      propertyPath: SelfArmor.TemperatureProtectionInK.x
+      value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 4693069235242505719, guid: 6534a00fd464cbe439cb6eb13d5218fa,
+        type: 3}
+      propertyPath: SelfArmor.TemperatureProtectionInK.y
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 4693069235242505719, guid: 6534a00fd464cbe439cb6eb13d5218fa,
+        type: 3}
+      propertyPath: SelfArmor.DismembermentProtectionChance
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5326732179633632454, guid: 6534a00fd464cbe439cb6eb13d5218fa,
         type: 3}
@@ -69,6 +149,24 @@ PrefabInstance:
       propertyPath: DefaultPreventsBlindness_
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5343164248566917035, guid: 6534a00fd464cbe439cb6eb13d5218fa,
+        type: 3}
+      propertyPath: wasteReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c,
+        type: 2}
+    - target: {fileID: 5343164248566917035, guid: 6534a00fd464cbe439cb6eb13d5218fa,
+        type: 3}
+      propertyPath: requiredReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: 23b1fd9d2d60ffd0a8879d7745f1a7fb,
+        type: 2}
+    - target: {fileID: 7819699899912813674, guid: 6534a00fd464cbe439cb6eb13d5218fa,
+        type: 3}
+      propertyPath: bloodReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: c7943c0995bc04a49b55b22064796666,
+        type: 2}
     - target: {fileID: 8110466048910889951, guid: 6534a00fd464cbe439cb6eb13d5218fa,
         type: 3}
       propertyPath: _assetId
@@ -135,10 +233,7 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 5529706bcefa7fe4a996f652aab7935b,
         type: 3}
-    m_RemovedComponents:
-    - {fileID: 5343164248566917035, guid: 6534a00fd464cbe439cb6eb13d5218fa, type: 3}
-    - {fileID: 7819699899912813674, guid: 6534a00fd464cbe439cb6eb13d5218fa, type: 3}
-    - {fileID: 8223438570470291983, guid: 6534a00fd464cbe439cb6eb13d5218fa, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

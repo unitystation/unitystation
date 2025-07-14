@@ -33,6 +33,15 @@ namespace Items.Implants.Organs
 		[SerializeField]
 		private float pressureSafeMin = 16;
 
+		/// <summary>
+		///How efficient the lungs are at exchanging gases.
+		/// Keep at 1 for normal efficiency that's designed for regular humans.
+		/// Higher numbers will exchange more gas, lower numbers will exchange less gas.
+		/// </summary>
+		[Tooltip("How efficient the lungs are at exchanging gases. Keep at 1 for normal efficiency that's designed for regular humans. Higher numbers will exchange more gas, lower numbers will exchange less gas.")]
+		[Range(0.5f, 4f)]
+		public float LungEfficiency = 1f;
+
 		[SerializeField] private List<ToxicGas> toxicGases;
 		[SerializeField] private List<SickeningGas> sickeningGasses;
 
@@ -118,6 +127,8 @@ namespace Items.Implants.Organs
 				totalModified *= toMultiply;
 			}
 
+			if (Mathf.Approximately(LungEfficiency, 1) == false) totalModified += LungEfficiency;
+
 			if (TryBreathing(node, totalModified))
 			{
 				AtmosManager.Instance.UpdateNode(node);
@@ -156,7 +167,7 @@ namespace Items.Implants.Organs
 			bool internalGasMix = true;
 
 			// Try to get internal breathing if possible, otherwise get from the surroundings
-			IGasMixContainer container = RelatedPart.HealthMaster.RespiratorySystem.GetInternalGasMix();
+			IGasMixContainer container = RelatedPart.HealthMaster.RespiratorySystem?.GetInternalGasMix();
 			var gasMixSink = node.GasMixLocal; // Where to dump lung exhaust
 			if (container == null)
 			{
