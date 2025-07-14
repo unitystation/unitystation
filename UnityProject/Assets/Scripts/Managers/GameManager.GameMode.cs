@@ -52,13 +52,13 @@ public partial class GameManager
 		{
 			currentRoundState = value;
 			Loggy.Info().Format("CurrentRoundState is now {0}!", Category.Round, value);
-			OncurrentRoundStateChange?.Invoke();
+			OnCurrentRoundStateChange?.Invoke();
 		}
 	}
 
 	private RoundState currentRoundState;
 
-	public event Action OncurrentRoundStateChange;
+	public event Action OnCurrentRoundStateChange;
 
 	/// <summary>
 	/// The current game mode
