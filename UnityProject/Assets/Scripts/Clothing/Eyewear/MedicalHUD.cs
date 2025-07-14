@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Chemistry;
 using HealthV2;
+using HealthV2.Living.PolymorphicSystems;
 using HealthV2.Sickness;
 using Mirror;
 using UnityEngine;
@@ -204,9 +205,10 @@ public class MedicalHUD : NetworkBehaviour, IHUD
 	{
 		int stage = 0;
 
-		ReagentMix blood = PlayerScript.playerHealth.reagentPoolSystem?.BloodPool;
-		if (blood == null) return stage; //Its possible as mobs like bots are players, that blood can in fact be null
+		ReagentPoolSystem system = PlayerScript.playerHealth.reagentPoolSystem;
+		if (system == null) return stage;
 
+		ReagentMix blood = system.BloodPool;
 		foreach (var cure in CureManager.Instance.CureableSicknesses)
 		{
 			if (blood.reagents.TryGetValue(cure.Sickness, out float amount) == false) continue;

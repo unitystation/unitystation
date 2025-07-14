@@ -10,6 +10,21 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 275102857289942383, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
+      propertyPath: possibleTransferAmounts.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 275102857289942383, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: 'possibleTransferAmounts.Array.data[0]'
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 275102857289942383, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: 'possibleTransferAmounts.Array.data[1]'
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 275102857289942383, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -129,6 +144,12 @@ PrefabInstance:
     - target: {fileID: 5169367590891271744, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 338736030a242a44398d6f6e8204a9ee,
+        type: 2}
+    - target: {fileID: 5169367590891271744, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 338736030a242a44398d6f6e8204a9ee,
         type: 2}

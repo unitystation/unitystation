@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Chemistry;
 using HealthV2.Living.CirculatorySystem;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
 using UnityEngine;
@@ -35,7 +36,7 @@ namespace HealthV2.Living.PolymorphicSystems
 		}
 
 		private ReagentPoolSystem _reagentPoolSystem;
-
+		private const float EXTERNAL_REAGENT_SOAK_EFFICIENCY = 0.25f;
 
 		public override void StartFresh()
 		{
@@ -132,8 +133,25 @@ namespace HealthV2.Living.PolymorphicSystems
 
 		public override void SystemUpdate()
 		{
+			SoakReagentsFromSurface();
 			MetaboliseReactions();
 		}
+
+
+		/// <summary>
+		/// Models reagents on a players surface container 'soaking' through the skin, through pores, orifices etc.
+		/// Means if chem's like diseases are on your skin, they can make it into your blood stream.
+		/// </summary>
+		private void SoakReagentsFromSurface()
+		{
+			foreach (var bodyPart in Base.SurfaceBodyParts)
+			{
+				if(Base.SurfaceReagents.TryGetValue(bodyPart.BodyPartType, out var container) == false) continue;
+				reagentPoolSystem.BloodPool.Add(container.Take(ExternalMetabolismPerSecond * EXTERNAL_REAGENT_SOAK_EFFICIENCY));
+			}
+		}
+
+
 
 		public void MetaboliseReactions()
 		{
