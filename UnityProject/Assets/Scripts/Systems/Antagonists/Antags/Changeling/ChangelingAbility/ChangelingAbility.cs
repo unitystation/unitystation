@@ -11,12 +11,11 @@ namespace Changeling
 {
 	[Serializable]
 	[DisallowMultipleComponent]
-	public class ChangelingAbility : NetworkBehaviour, IGameActionHolder
+	public class ChangelingAbility : NetworkBehaviour, IActionGUI
 	{
 		public ChangelingBaseAbility ability;
 		public ChangelingBaseAbility AbilityData => ability;
 		public ActionData ActionData => ability;
-		public string ActionGuid => UIActionManager.RegisterAction(this);
 		public float CooldownTime { get; set; }
 		[SyncVar]
 		private bool isToggled = false;

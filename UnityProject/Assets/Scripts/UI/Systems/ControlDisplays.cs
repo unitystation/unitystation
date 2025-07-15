@@ -6,10 +6,11 @@ using Blob;
 using JetBrains.Annotations;
 using Messages.Client.Lobby;
 using UI.Systems.Ghost;
-using GameActions;
+using UI.Action;
 using UI.Core.Action;
 using Changeling;
 using Logs;
+using UI.Systems.PreRound;
 
 namespace UI
 {
@@ -87,16 +88,16 @@ namespace UI
 		{
 			// TODO: make better system for handling lots of different UIs
 			if (PlayerManager.LocalPlayerObject == null) return;
-			if (PlayerManager.LocalPlayerObject.GetComponent<PlayerScript>().PlayerType == PlayerTypes.Blob)
+			if (PlayerManager.LocalPlayerObject?.GetComponent<PlayerScript>()?.PlayerType == PlayerTypes.Blob)
 			{
 				SetUi(hudBottomBlob);
-				PlayerManager.LocalPlayerObject.GetComponent<BlobPlayer>()?.TurnOnClientLight();
+				PlayerManager.LocalPlayerObject?.GetComponent<BlobPlayer>()?.TurnOnClientLight();
 			}
-			else if (PlayerManager.LocalPlayerScript.PlayerType == PlayerTypes.Ai)
+			else if (PlayerManager.LocalPlayerScript?.PlayerType == PlayerTypes.Ai)
 			{
 				SetUi(hudBottomAi);
 			}
-			else if (PlayerManager.LocalPlayerObject.GetComponent<PlayerScript>().IsGhost)
+			else if (PlayerManager.LocalPlayerObject?.GetComponent<PlayerScript>()?.IsGhost == true)
 			{
 				SetUi(hudBottomGhost.gameObject);
 			}
@@ -208,7 +209,6 @@ namespace UI
 			uiAnimator.Play("idle");
 			if (disclaimer != null) disclaimer.SetActive(false);
 			preRoundWindow.gameObject.SetActive(true);
-			preRoundWindow.SetUIForMapLoading();
 		}
 
 		public void SetScreenForPreRound()
@@ -223,7 +223,6 @@ namespace UI
 			jobSelectWindow.SetActive(false);
 			teamSelectionWindow.SetActive(false);
 			preRoundWindow.gameObject.SetActive(true);
-			preRoundWindow.SetUIForCountdown();
 
 			InfoPanelMessageClient.Send();
 		}
@@ -240,8 +239,6 @@ namespace UI
 			jobSelectWindow.SetActive(false);
 			teamSelectionWindow.SetActive(false);
 			preRoundWindow.gameObject.SetActive(true);
-			preRoundWindow.SetUIForJoining();
-
 			InfoPanelMessageClient.Send();
 		}
 

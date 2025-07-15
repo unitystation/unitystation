@@ -20,7 +20,7 @@ using UnityEngine;
 public class InteractableStorage : NetworkBehaviour, IClientInteractable<HandActivate>,
 	IClientInteractable<InventoryApply>,
 	ICheckedInteractable<InventoryApply>, ICheckedInteractable<PositionalHandApply>,
-	ICheckedInteractable<HandApply>, ICheckedInteractable<MouseDrop>, IGameActionHolder, IItemInOutMovedPlayer, IHoverTooltip
+	ICheckedInteractable<HandApply>, ICheckedInteractable<MouseDrop>, IActionGUI, IItemInOutMovedPlayer, IHoverTooltip
 {
 	/// <summary>
 	/// The click pickup mode.
@@ -84,7 +84,6 @@ public class InteractableStorage : NetworkBehaviour, IClientInteractable<HandAct
 
 	[SerializeField] private ActionData actionData = null;
 	public ActionData ActionData => actionData;
-	public string ActionGuid => UIActionManager.RegisterAction(this);
 
 	private bool preventUIShowingAfterTrapTrigger = false;
 
@@ -320,6 +319,7 @@ public class InteractableStorage : NetworkBehaviour, IClientInteractable<HandAct
 		if (allowedToInteract == false) return false;
 		// Use default interaction checks
 		if (DefaultWillInteract.Default(interaction, side) == false) return false;
+		if (interaction.Intent != Intent.Help) return false;
 
 		if (interaction.TargetObject != null && interaction.TargetObject.HasComponent<DisposalBin>()) return false;
 
@@ -539,7 +539,7 @@ public class InteractableStorage : NetworkBehaviour, IClientInteractable<HandAct
 							    PlayerManager.LocalPlayerScript.RegisterPlayer.WorldPosition,
 							    interaction.WorldPositionTarget) == false) return;
 						if (MatrixManager.IsPassableAtAllMatricesOneTile(interaction.WorldPositionTarget.RoundToInt(),
-							    CustomNetworkManager.Instance._isServer) == false) return;
+							    CustomNetworkManager.IsServer) == false) return;
 
 						PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdDropAllItems(itemStorage
 							.GetIndexedItemSlot(0)
@@ -565,7 +565,7 @@ public class InteractableStorage : NetworkBehaviour, IClientInteractable<HandAct
 
 			if (slots == null)
 			{
-				if (!CustomNetworkManager.Instance._isServer)
+				if (!CustomNetworkManager.IsServer)
 				{
 					Chat.AddExamineMsgToClient("It's already empty!");
 				}
@@ -578,7 +578,7 @@ public class InteractableStorage : NetworkBehaviour, IClientInteractable<HandAct
 			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdDropAllItems(itemStorage.GetIndexedItemSlot(0)
 				.ItemStorageNetID, TransformState.HiddenPos);
 
-			if (CustomNetworkManager.Instance._isServer == false)
+			if (CustomNetworkManager.IsServer == false)
 			{
 				Chat.AddExamineMsgToClient($"You start dumping out the {gameObject.ExpensiveName()}.");
 			}

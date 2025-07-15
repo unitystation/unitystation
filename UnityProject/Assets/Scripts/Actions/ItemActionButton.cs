@@ -7,9 +7,9 @@ using Mirror;
 using NaughtyAttributes;
 using UI.Core.Action;
 
-namespace GameActions
+namespace UI.Action
 {
-	public class ItemActionButton : BodyPartFunctionality, IGameActionHolder, IItemInOutMovedPlayer
+	public class ItemActionButton : BodyPartFunctionality, IServerActionGUI, IItemInOutMovedPlayer
 	{
 		[Tooltip("The button action data SO this component should use.")]
 		[SerializeField]
@@ -30,7 +30,6 @@ namespace GameActions
 		private Pickupable pickupable;
 
 		public ActionData ActionData => actionData;
-		public string ActionGuid => UIActionManager.RegisterAction(this);
 		public event System.Action ServerActionClicked;
 		public event System.Action ClientActionClicked;
 

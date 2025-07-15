@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using HealthV2;
 using Logs;
 using UnityEngine;
-using GameActions;
+using UI.Action;
 using UI.Core.Action;
 
 namespace UI.Items
@@ -11,7 +11,7 @@ namespace UI.Items
 	/// <summary>
 	/// Handles the overlays for the handcuff sprites
 	/// </summary>
-	public class RestraintOverlay : ClothingItem, IGameActionHolder
+	public class RestraintOverlay : ClothingItem, IActionGUI
 	{
 		// TODO Different colored overlays for different restraints
 		[SerializeField]
@@ -25,8 +25,6 @@ namespace UI.Items
 		private ActionData actionData = null;
 
 		public ActionData ActionData => actionData;
-
-		public string ActionGuid => UIActionManager.RegisterAction(this);
 
 		public override void SetReference(GameObject Item)
 		{

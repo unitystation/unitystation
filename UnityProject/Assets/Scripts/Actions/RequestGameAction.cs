@@ -6,21 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Logs;
 using Messages.Client;
-using SecureStuff;
-
-//MAKE A UIActionButtonDataPacket CLASS TO REPLACE THIS
-
-namespace GameActions
-{
-	public class GameActionRequest //<TMT> : IAllowedReflection where TMT : struct
-	{
-		public struct ActionRequestMessage : IGameActionRequestMessage, NetworkMessage
-		{
-			public string ReceivingActionGuid { get; set; }
-			public bool AttemptTrigger { get; set; }
-		}
-	}
-}
 
 public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 {
@@ -39,8 +24,8 @@ public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 	{
 		//initialize id mappings
 		var alphabeticalComponentTypes =
-			typeof(IGameActionHolder).Assembly.GetTypes()
-				.Where(type => typeof(IGameActionHolder).IsAssignableFrom(type))
+			typeof(IAction).Assembly.GetTypes()
+				.Where(type => typeof(IAction).IsAssignableFrom(type))
 				.OrderBy(type => type.FullName);
 		ushort i = 0;
 		foreach (var componentType in alphabeticalComponentTypes)
@@ -62,15 +47,20 @@ public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 		var IActionGUIs = NetworkObject.GetComponentsInChildren(type);
 		if (IActionGUIs.Length > msg.ComponentLocation)
 		{
-			if (IActionGUIs[msg.ComponentLocation] is IGameActionHolder IServerGameAction)
+			if (IActionGUIs[msg.ComponentLocation] is IServerActionGUI IServerActionGUI)
 			{
-				//IServerGameAction.CallActionServer(SentByPlayer);
+				IServerActionGUI.CallActionServer(SentByPlayer);
 				return;
+			}
+
+			if (IActionGUIs[msg.ComponentLocation] is IServerActionGUIMulti IServerActionGUIMulti)
+			{
+				IServerActionGUIMulti.CallActionServer(IServerActionGUIMulti.ActionData[msg.listIndex], SentByPlayer);
 			}
 		}
 	}
 
-	public static void Send(IGameActionHolder iServerActionGUI)
+	public static void Send(IActionGUI iServerActionGUI)
 	{
 		if (iServerActionGUI is Component)
 		{
@@ -79,7 +69,7 @@ public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 		//else not doing anything, implying custom sending
 	}
 
-	private static void SendToComponent(IGameActionHolder actionComponent)
+	private static void SendToComponent(IActionGUI actionComponent)
 	{
 		var netObject = ((Component) actionComponent).GetComponent<NetworkIdentity>();
 		var componentType = actionComponent.GetType();
@@ -89,7 +79,7 @@ public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 
 		foreach (var action in childActions)
 		{
-			if ((action as IGameActionHolder) == actionComponent)
+			if ((action as IServerActionGUI) == actionComponent)
 			{
 				found = true;
 				break;
@@ -109,6 +99,61 @@ public class RequestGameAction : ClientMessage<RequestGameAction.NetMessage>
 			return;
 		}
 
-		Loggy.Error("Failed to find IGameActionHolder on NetworkIdentity", Category.UserInput);
+		Loggy.Error("Failed to find IServerActionGUI on NetworkIdentity", Category.UserInput);
+	}
+
+	public static void Send(IActionGUIMulti iServerActionGUIMulti, ActionData action)
+	{
+		if (iServerActionGUIMulti is Component)
+		{
+			SendToComponent(iServerActionGUIMulti, action);
+		}
+		//else not doing anything, implying custom sending
+	}
+
+	private static void SendToComponent(IActionGUIMulti actionComponent, ActionData actionChosen)
+	{
+		var netObject = ((Component) actionComponent).GetComponent<NetworkIdentity>();
+		var componentType = actionComponent.GetType();
+		var childActions = netObject.GetComponentsInChildren(componentType);
+		int componentLocation = 0;
+		bool found = false;
+
+		foreach (var action in childActions)
+		{
+			if ((action as IServerActionGUIMulti) == actionComponent)
+			{
+				found = true;
+				break;
+			}
+			componentLocation++;
+		}
+
+		if (found)
+		{
+			var msg = new NetMessage
+			{
+				NetObject = netObject.netId,
+				ComponentLocation = componentLocation,
+				ComponentID = componentTypeToComponentID[componentType],
+				listIndex = FindIndex(actionComponent, actionChosen)
+			};
+			Send(msg);
+			return;
+		}
+
+		Loggy.Error("Failed to find IServerActionGUI on NetworkIdentity", Category.UserInput);
+	}
+
+	public static short FindIndex(IActionGUIMulti actionComponent, ActionData actionChosen)
+	{
+		for (int i = 0; i < actionComponent.ActionData.Count; i++)
+		{
+			if(actionComponent.ActionData[i] != actionChosen) continue;
+
+			return (short)i;
+		}
+
+		return 0;
 	}
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using AddressableReferences;
 using Mirror;
 using ScriptableObjects;
-using GameActions;
+using UI.Action;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;

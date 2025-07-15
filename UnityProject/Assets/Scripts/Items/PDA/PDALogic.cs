@@ -7,7 +7,7 @@ using UnityEngine;
 using Mirror;
 using NaughtyAttributes;
 using Random = UnityEngine.Random;
-using GameActions;
+using UI.Action;
 using AddressableReferences;
 using UI.Items.PDA;
 
@@ -80,7 +80,6 @@ namespace Items.PDA
 		private Pickupable pickupable;
 		public ItemStorage storage {get; private set;}
 		private ItemLightControl flashlight;
-		private ItemActionButton actionButton;
 
 		/// <summary> The IDCard that is currently inserted into the PDA </summary>
 		private IDCard IDCard;
@@ -144,17 +143,6 @@ namespace Items.PDA
 			pickupable = GetComponent<Pickupable>();
 			storage = GetComponent<ItemStorage>();
 			flashlight = GetComponent<ItemLightControl>();
-			actionButton = GetComponent<ItemActionButton>();
-		}
-
-		private void OnEnable()
-		{
-			actionButton.ServerActionClicked += ToggleFlashlight;
-		}
-
-		private void OnDisable()
-		{
-			actionButton.ServerActionClicked -= ToggleFlashlight;
 		}
 
 		private void Start()
@@ -218,6 +206,11 @@ namespace Items.PDA
 		}
 
 		public void ToggleFlashlight()
+		{
+			flashlight.Toggle(!flashlight.IsOn);
+		}
+
+		public void ToggleFlashlight(Vector2 mousePosition)
 		{
 			flashlight.Toggle(!flashlight.IsOn);
 		}

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using CameraEffects;
 using Mirror;
-using GameActions;
+using UI.Action;
 using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine;
 

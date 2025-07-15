@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UI.Core.Action;
 using UnityEngine;
 
-namespace GameActions
+namespace UI.Action
 {
 	public class ActionControlInventory : MonoBehaviour, IServerInventoryMove
 	{
 		public ActionController ActionControllerType = ActionController.Inventory;
 
-		public List<IGameActionHolder> ControllingActions = new List<IGameActionHolder>();
+		public List<IActionGUI> ControllingActions = new List<IActionGUI>();
 
 		private GameObject previousOn;
 
@@ -59,7 +59,7 @@ namespace GameActions
 
 		void Start()
 		{
-			var ActionGUIs = this.GetComponents<IGameActionHolder>();
+			var ActionGUIs = this.GetComponents<IActionGUI>();
 			foreach (var ActionGUI in ActionGUIs)
 			{
 				if (ActionGUI.ActionData.PreventBeingControlledBy.Contains(ActionControllerType) == false)
