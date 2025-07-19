@@ -79,7 +79,11 @@ namespace Lobby
 			"Welcome back {0}!",
 			"Good to see you, {0}!",
 			"G'day {0}!",
-			"Howdy {0}!",
+			"Howdy {0}!" +
+			"Yo {0}!",
+			"You alright {0}!",
+			"Salam aleykoum {0}!",
+			"Weeeena po, {0}!"
 		};
 
 		public async Task<bool> TryLogin(string emailAddress, string password, bool autoConnect = false)
