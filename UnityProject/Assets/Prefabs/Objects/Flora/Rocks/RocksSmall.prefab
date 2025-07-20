@@ -52,6 +52,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -102,11 +103,13 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue:
   - {fileID: 0}
-  PresentSpriteSet: {fileID: 11400000, guid: 5ec8b5132283aae4bbc4201788401eba, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 5ec8b5132283aae4bbc4201788401eba,
+    type: 2}
   randomInitialSprite: 0
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!1001 &8719487246163689976
 PrefabInstance:
@@ -230,8 +233,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7457120324780852448, guid: 26c5baacae3795f4ba2c5caf5ce80791,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f9fdf66baec64454bb3a1e78f2a3ce12,
+        type: 2}
+    - target: {fileID: 7457120324780852448, guid: 26c5baacae3795f4ba2c5caf5ce80791,
+        type: 3}
       propertyPath: SubCatalogue.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7457120324780852448, guid: 26c5baacae3795f4ba2c5caf5ce80791,
         type: 3}
@@ -250,6 +259,12 @@ PrefabInstance:
       propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: c3fa0dd7e0e03474eb9192faf1b33607,
+        type: 2}
+    - target: {fileID: 7457120324780852448, guid: 26c5baacae3795f4ba2c5caf5ce80791,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 3d4710083f05af98ea4ad17bbeb51280,
         type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

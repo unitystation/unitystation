@@ -37,9 +37,11 @@ namespace HealthV2
 		/// </summary>
 		/// <param name="livingHealth"></param>
 		public virtual void OnAddedToBody(LivingHealthMasterBase livingHealth) { }
+
 		public virtual void SetUpSystems(){}
 		public virtual void InternalDamageLogic() {}
 		public virtual void OnTakeDamage(BodyPartDamageData data) {}
+
 
 		public virtual void OnEmp(int strength)
 		{

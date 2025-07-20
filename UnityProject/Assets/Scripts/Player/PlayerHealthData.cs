@@ -45,11 +45,16 @@ public class RaceHealthData
 	public GameObject MeatProduce;
 	public GameObject SkinProduce;
 	public ItemTrait SkinningItemTrait;
+
+	public bool CanBeEmagged = false;
+
 	[FormerlySerializedAs("CanShowUpInTheCharacterCreatorScreen")] public bool CanBePlayerChosen = true;
 
 	public SpriteDataSO PreviewSprite;
 
 	[SerializeReference, SelectImplementation(typeof(HealthSystemBase))] public List<HealthSystemBase> SystemSettings = new List<HealthSystemBase>();
+
+	public List<MutationSO> StartingMutations = new List<MutationSO>();
 }
 
 

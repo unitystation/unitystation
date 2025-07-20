@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Chemistry;
 using Core.Chat;
+using Core.Utils;
 using HealthV2;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Logs;
@@ -32,7 +33,17 @@ namespace Items.Implants.Organs
 		[SerializeField]
 		private float pressureSafeMin = 16;
 
+		/// <summary>
+		///How efficient the lungs are at exchanging gases.
+		/// Keep at 1 for normal efficiency that's designed for regular humans.
+		/// Higher numbers will exchange more gas, lower numbers will exchange less gas.
+		/// </summary>
+		[Tooltip("How efficient the lungs are at exchanging gases. Keep at 1 for normal efficiency that's designed for regular humans. Higher numbers will exchange more gas, lower numbers will exchange less gas.")]
+		[Range(0.5f, 4f)]
+		public float LungEfficiency = 1f;
+
 		[SerializeField] private List<ToxicGas> toxicGases;
+		[SerializeField] private List<SickeningGas> sickeningGasses;
 
 		/// <summary>
 		/// The gas that this tries to put into the blood stream
@@ -116,6 +127,8 @@ namespace Items.Implants.Organs
 				totalModified *= toMultiply;
 			}
 
+			if (Mathf.Approximately(LungEfficiency, 1) == false) totalModified += LungEfficiency;
+
 			if (TryBreathing(node, totalModified))
 			{
 				AtmosManager.Instance.UpdateNode(node);
@@ -154,7 +167,7 @@ namespace Items.Implants.Organs
 			bool internalGasMix = true;
 
 			// Try to get internal breathing if possible, otherwise get from the surroundings
-			IGasMixContainer container = RelatedPart.HealthMaster.RespiratorySystem.GetInternalGasMix();
+			IGasMixContainer container = RelatedPart.HealthMaster.RespiratorySystem?.GetInternalGasMix();
 			var gasMixSink = node.GasMixLocal; // Where to dump lung exhaust
 			if (container == null)
 			{
@@ -245,7 +258,7 @@ namespace Items.Implants.Organs
 		/// <param name="blood">The blood to put gases into</param>
 		/// <param name="efficiency"></param>
 		/// <returns> True if breathGasMix was changed </returns>
-		public virtual bool BreatheIn(GasMix breathGasMix, ReagentMix blood, float efficiency)
+		public virtual bool BreatheIn(GasMix breathGasMix, ReagentMix blood, float efficiency, bool DoEmot = true)
 		{
 			var respiratorySystem = RelatedPart.HealthMaster.RespiratorySystem;
 			if (respiratorySystem == null) return false;
@@ -259,6 +272,7 @@ namespace Items.Implants.Organs
 			var available = SaturationComponent.bloodType.GetNormalGasCapacity(blood);
 
 			ToxinBreathinCheck(breathGasMix);
+
 			float percentageCanTake = 1;
 
 			if (breathGasMix.Moles != 0)
@@ -277,6 +291,7 @@ namespace Items.Implants.Organs
 				pressureMultiplier = 1;
 			}
 
+			SicknessBreathinCheck(breathGasMix, percentageCanTake);
 			var totalMoles = breathGasMix.Moles * percentageCanTake;
 
 			lock (breathGasMix.GasData.GasesArray) //no Double lock
@@ -321,8 +336,9 @@ namespace Items.Implants.Organs
 			else if (SaturationComponent.CurrentBloodSaturation <= SaturationComponent.bloodType.BLOOD_REAGENT_SATURATION_BAD)
 			{
 				suffocating = true;
-				if (DMMath.Prob(20))
+				if (DMMath.Prob(20) && DoEmot)
 				{
+					if (LivingHealthMaster == null || LivingHealthMaster.gameObject == null) return false; //how does this even happen midway? this isn't async
 					EmoteActionManager.DoEmote("gasp-air", LivingHealthMaster.gameObject);
 				}
 			}
@@ -346,13 +362,14 @@ namespace Items.Implants.Organs
 		/// <summary>
 		/// Pulls in the desired gas, as well as others, from the specified gas mix and adds them to the blood stream related to the lung.
 		/// </summary>
-		public void BreatheIn(GasMix breathGasMix, float efficiency)
+		public void BreatheIn(GasMix breathGasMix, float efficiency, bool DoEmot)
 		{
+			if (LivingHealthMaster == null || LivingHealthMaster.gameObject == null) return;
 			ReagentMix availableBlood =
-				LivingHealthMaster.reagentPoolSystem.BloodPool.Take(
+				LivingHealthMaster.reagentPoolSystem?.BloodPool.Take(
 					(LivingHealthMaster.reagentPoolSystem.BloodPool.Total * efficiency) / 2f);
-			BreatheIn(breathGasMix, availableBlood, efficiency);
-			LivingHealthMaster.reagentPoolSystem.BloodPool.Add(availableBlood);
+			BreatheIn(breathGasMix, availableBlood, efficiency, DoEmot);
+			LivingHealthMaster.reagentPoolSystem?.BloodPool.Add(availableBlood);
 		}
 
 		/// <summary>
@@ -361,8 +378,10 @@ namespace Items.Implants.Organs
 		/// <param name="gasMix">the gases the character is breathing in</param>
 		public virtual void ToxinBreathinCheck(GasMix gasMix)
 		{
-			if (RelatedPart.HealthMaster.RespiratorySystem.CanBreatheAnywhere ||
-				RelatedPart.HealthMaster.playerScript == null) return;
+			if (RelatedPart == null || RelatedPart.HealthMaster == null
+			                        || RelatedPart.HealthMaster.RespiratorySystem == null
+			                        || RelatedPart.HealthMaster.playerScript == null) return;
+			if (RelatedPart.HealthMaster.RespiratorySystem.CanBreatheAnywhere) return;
 
 			var hasToxins = false;
 
@@ -397,6 +416,24 @@ namespace Items.Implants.Organs
 			}
 		}
 
+		private void SicknessBreathinCheck(GasMix gasMix, float percentageCanTake)
+		{
+			if (RelatedPart == null || RelatedPart.HealthMaster == null
+			                        || RelatedPart.HealthMaster.RespiratorySystem == null
+			                        || RelatedPart.HealthMaster.playerScript == null) return;
+			if (RelatedPart.HealthMaster.RespiratorySystem.CanBreatheAnywhere) return;
+
+			foreach(SickeningGas gas in sickeningGasses)
+			{
+				float pressure = gasMix.GetPressure(gas.GasType);
+				var totalMoles = gasMix.GetMoles(gas.GasType) * percentageCanTake;
+				if (pressure >= gas.PressureSafeMax && DMMath.Prob(gas.UnsafeLevelPercent))
+				{
+					RelatedPart.HealthMaster.reagentPoolSystem.BloodPool.Add(gas.possibleAfflictions.PickRandom(), totalMoles * 0.25f);
+				}
+			}
+		}
+
 		private IEnumerator<WaitForSeconds> CooldownTick()
 		{
 			yield return new WaitForSeconds(internalBleedingCooldown);
@@ -418,6 +455,15 @@ namespace Items.Implants.Organs
 			public float PressureSafeMax = 0.4f;
 			public float UnsafeLevelDamage = 10;
 			public DamageType UnsafeLevelDamageType = DamageType.Tox;
+		}
+
+		[Serializable]
+		class SickeningGas
+		{
+			public GasSO GasType = default;
+			public float PressureSafeMax = 0.4f;
+			public float UnsafeLevelPercent = 10;
+			public List<Reagent> possibleAfflictions = default;
 		}
 	}
 }

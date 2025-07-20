@@ -15,6 +15,7 @@ namespace Chemistry
 		private int[] m_array;
 		private int m_length;
 
+		public static Reagent reagentToTest = null;
 
 		[NonSerialized] private object _syncRoot;
 		private const int _ShrinkThreshold = 256;
@@ -682,7 +683,9 @@ namespace Chemistry
 		/// </summary>
 		public float GetPercent(Reagent reagent)
 		{
-			return reagents.m_dict[reagent] / Total;
+			if (reagent) return reagents.m_dict[reagent] / Total;
+			Loggy.Error("Trying to get percent of null reagent", Category.Chemistry);
+			return 0;
 		}
 
 

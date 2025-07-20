@@ -10,6 +10,8 @@ namespace Systems.Radiation
 		public List<RadiationPulse> PulseQueue = new List<RadiationPulse>();
 		public CustomSampler sampler;
 		private RadiationThread radiationThread;
+		public RadiationThread RadiationThread => radiationThread;
+
 
 		public override void Awake()
 		{

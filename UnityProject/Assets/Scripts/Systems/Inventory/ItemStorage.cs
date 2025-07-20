@@ -19,7 +19,8 @@ using Systems;
 /// Note that items stored in an ItemStorage can themselves have ItemStorage (for example, storing a backpack
 /// in a player's inventory)!
 /// </summary>
-public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove, IClientInventoryMove, IUniversalInventoryAPI
+public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove, IClientInventoryMove,
+	IUniversalInventoryAPI
 {
 	[SerializeField]
 	[FormerlySerializedAs("ItemStorageStructure")]
@@ -63,6 +64,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	/// Cached for quick lookup of what slots are actually available in this storage.
 	/// </summary>
 	private HashSet<SlotIdentifier> definedSlots;
+
 	public HashSet<SlotIdentifier> DefinedSlots => new(definedSlots);
 
 	//note this will be null if this is not a player's own top-level inventory
@@ -89,6 +91,8 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	private RegisterPlayer player;
 
 	public bool SetSlotItemNotRemovableOnStartUp = false;
+
+	public int IndexOnObject => Array.IndexOf(GetComponents<ItemStorage>(), this);
 
 	public void SetRegisterPlayer(RegisterPlayer registerPlayer)
 	{
@@ -146,6 +150,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 				ServerPopulate(Populater, PopulationContext.AfterSpawn(spawnInfo), info);
 			}
 		}
+
 		ignoreRoundstartGrabObjects = false;
 	}
 
@@ -190,8 +195,6 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		{
 			return Inventory.ServerTransfer(CurrentlyInSlot, slot);
 		}
-
-
 	}
 
 	public bool ServerTransferGameObjectToItemSlot(GameObject outGameObject, ItemSlot Slot)
@@ -481,7 +484,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 
 	public List<T> GetItemsWithComponent<T>() where T : Component
 	{
-		var slots =  GetItemSlots().Where(slot => slot.Item != null && slot.ItemObject.HasComponent<T>()).ToList();
+		var slots = GetItemSlots().Where(slot => slot.Item != null && slot.ItemObject.HasComponent<T>()).ToList();
 		return slots.Select(slot => slot.ItemObject.GetComponent<T>()).ToList();
 	}
 
@@ -543,7 +546,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		{
 			if (slot.Item != null)
 			{
-				if(slot.Item.TryGetComponent<ItemStorage>(out var subStorage) == true)
+				if (slot.Item.TryGetComponent<ItemStorage>(out var subStorage) == true)
 				{
 					subStorage.ServerDespawnOppressive();
 					continue;
@@ -575,7 +578,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	{
 		if (slot?.Item == null)
 		{
-			return new[] { slot };
+			return new[] {slot};
 		}
 
 		var itemStorage = slot.Item.GetComponents<ItemStorage>();
@@ -585,9 +588,37 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 			ListThis.AddRange(itemStorages.GetItemSlotTree());
 		}
 
-		var ToReturn = ListThis.ToArray().Concat(new[] { slot });
+		var ToReturn = ListThis.ToArray().Concat(new[] {slot});
 		return ToReturn;
 	}
+
+	//TODO Could be more optimised
+	public IEnumerable<ItemStorage> GetItemStorageTree()
+	{
+		//not sure if this blows the heap up since it's recursive selectmany, but it's trivial to convert
+		//to BFS / DFS if needed.
+		var ItemStorages = new List<ItemStorage>() {this};
+		ItemStorages.AddRange(ItemStorageTree(this));
+		return ItemStorages;
+	}
+
+	public static List<ItemStorage> ItemStorageTree(ItemStorage ItemStorage)
+	{
+		List<ItemStorage> ItemStorages = new List<ItemStorage>();
+		foreach (var slot in ItemStorage.GetItemSlots())
+		{
+			if (slot.Item == null) continue;
+			var itemStorage = slot.Item.GetComponents<ItemStorage>();
+			if (itemStorage == null) continue;
+			foreach (var itemStorages in itemStorage)
+			{
+				ItemStorages.AddRange(itemStorages.GetItemStorageTree());
+			}
+		}
+
+		return ItemStorages;
+	}
+
 
 	public IEnumerable<ItemSlot> GetIndexedSlots()
 	{
@@ -678,7 +709,15 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	/// <returns></returns>
 	public bool HasAnyOccupied()
 	{
-		return GetIndexedSlots().Any(slot => slot.Item != null);
+		foreach (var slot in GetItemSlots())
+		{
+			if (slot.IsOccupied)
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/// <summary>
@@ -711,7 +750,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	/// This observer will not longer receive updates as they happen to this slot.
 	/// </summary>
 	/// <param name="observerPlayer"></param>
-	public void ServerRemoveObserverPlayer(GameObject observerPlayer)
+	public void ServerRemoveObserverPlayer(GameObject observerPlayer, bool topLevelOnly = false )
 	{
 		if (!CustomNetworkManager.IsServer) return;
 		if (observerPlayer == null) return;
@@ -720,8 +759,19 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 			return;
 		}
 
+		IEnumerable<ItemSlot> Slots = null;
+
+		if (topLevelOnly)
+		{
+			Slots = GetItemSlots();
+		}
+		else
+		{
+			Slots = GetItemSlotTree();
+
+		}
 		serverObserverPlayers.Remove(observerPlayer);
-		foreach (var slot in GetItemSlotTree())
+		foreach (var slot in Slots)
 		{
 			slot.ServerRemoveObserverPlayer(observerPlayer);
 		}
@@ -776,6 +826,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		{
 			worldDeltaTargetVector = DropAtWorld - gameObject.AssumedWorldPosServer();
 		}
+
 		ServerDropAll(worldDeltaTargetVector);
 	}
 
@@ -787,6 +838,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 			if (item == null) continue;
 			ServerTryAdd(item);
 		}
+
 		onGrab?.Invoke();
 	}
 

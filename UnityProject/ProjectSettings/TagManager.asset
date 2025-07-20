@@ -2,7 +2,7 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
 TagManager:
-  serializedVersion: 2
+  serializedVersion: 3
   tags:
   - GameManager
   - Beam
@@ -20,6 +20,7 @@ TagManager:
   - Abstract
   - Clothing
   - Rcs
+  - DontHighlightSpecial
   layers:
   - Default
   - TransparentFX
@@ -28,7 +29,7 @@ TagManager:
   - Water
   - UI
   - 
-  - 
+  - Overfloor
   - Players
   - Walls
   - Items
@@ -150,3 +151,5 @@ TagManager:
   - name: UI
     uniqueID: 1702942933
     locked: 0
+  m_RenderingLayers:
+  - Default

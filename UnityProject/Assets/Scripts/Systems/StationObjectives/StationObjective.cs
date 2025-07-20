@@ -17,7 +17,7 @@ namespace StationObjectives
 		public void DoSetupStationObjective()
 		{
 			Setup();
-			GameManager.Instance.CentComm.MakeCommandReport(Description, false);
+			GameManager.Instance.CentComm.MakeCommandReport(GetDescription(), false);
 		}
 
 		/// <summary>

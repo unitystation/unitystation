@@ -14,9 +14,10 @@ namespace Messages.Client.Admin
 
 		public override void Process(NetMessage msg)
 		{
-			if (IsFromAdmin() == false)
+			if (HasPermission(TAG.PLAYER_KICK) == false)
 			{
 				Loggy.Info($"Player {SentByPlayer.Username} tried to kick someone but they weren't an admin!", Category.Exploits);
+				return;
 			}
 
 			if (PlayerList.Instance.TryGetByUserID(msg.UserIDToKick, out var player))
@@ -52,9 +53,11 @@ namespace Messages.Client.Admin
 
 		public override void Process(NetMessage msg)
 		{
-			if (IsFromAdmin() == false)
+
+			if (HasPermission(TAG.PLAYER_BAN) == false)
 			{
 				Loggy.Info($"Player {SentByPlayer.Username} tried to ban someone but they weren't an admin!", Category.Exploits);
+				return;
 			}
 
 			if (PlayerList.Instance.TryGetByUserID(msg.UserIDToBan, out var player))

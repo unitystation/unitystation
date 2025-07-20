@@ -2,6 +2,7 @@ using Core.Physics;
 using System.Collections;
 using UnityEngine;
 using Logs;
+using UnityEngine.Events;
 
 
 namespace Objects.Traps
@@ -18,6 +19,8 @@ namespace Objects.Traps
 		private const int IDLE_VARIANT_INDEX = 0;
 		private const int PRESSED_VARIANT_INDEX = 1;
 
+		public UnityEvent OnPlayerStepEvent = new UnityEvent();
+
 		protected override void Awake()
 		{
 			_output = GetComponent<GenericTriggerOutput>();
@@ -25,9 +28,16 @@ namespace Objects.Traps
 			registerObject = GetComponent<RegisterObject>();
 		}
 
+		protected override void OnDisable()
+		{
+			StopAllCoroutines();
+			objectPhysics.OnLocalTileReached.RemoveListener(OnLocalPositionChangedServer);
+		}
+
 		public override void OnPlayerStep(PlayerScript playerScript)
 		{
 			OnObjectEnter(playerScript.gameObject);
+			OnPlayerStepEvent?.Invoke();
 		}
 
 		public override void OnObjectEnter(GameObject eventData)
@@ -65,12 +75,6 @@ namespace Objects.Traps
 				return true;
 			}
 			return false;
-		}
-
-		protected override void OnDisable()
-		{
-			StopAllCoroutines();
-			objectPhysics.OnLocalTileReached.RemoveListener(OnLocalPositionChangedServer);
 		}
 	}
 }

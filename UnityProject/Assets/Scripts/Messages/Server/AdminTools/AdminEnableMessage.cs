@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Core.Threading;
 using Initialisation;
@@ -18,7 +20,7 @@ namespace Messages.Server.AdminTools
 	{
 		public struct NetMessage : NetworkMessage
 		{
-			public string AdminToken;
+			public string[] AdminToken;
 			public uint AdminGhostStorage;
 		}
 
@@ -35,20 +37,28 @@ namespace Messages.Server.AdminTools
 				AdminManager.Instance.LocalAdminGhostStorage = NetworkObject.GetComponent<ItemStorage>();
 			}
 
-			PlayerList.Instance.SetClientAsAdmin(msg.AdminToken);
-			UIManager.Instance.adminChatButtons.transform.parent.gameObject.SetActive(true);
-			UIManager.Instance.mentorChatButtons.transform.parent.gameObject.SetActive(true);
+			PlayerList.Instance.SetClientTAGS(msg.AdminToken);
+			if (PlayerList.HasTAGClient(TAG.ADMIN_CHAT))
+			{
+				UIManager.Instance.adminChatButtons.transform.parent.gameObject.SetActive(true);
+			}
+
+			if (PlayerList.HasTAGClient(TAG.MENTOR_MESSAGE))
+			{
+				UIManager.Instance.mentorChatButtons.transform.parent.gameObject.SetActive(true);
+			}
+
 		}
 
-		public static void SendMessage(PlayerInfo player, string adminToken)
+		public static void SendMessage(PlayerInfo player, List<string> Tags)
 		{
-			UpdateManager.Instance.StartCoroutine( SendMessageCo(player, adminToken));
+			UpdateManager.Instance.StartCoroutine( SendMessageCo(player, Tags));
 		}
 
-		private static IEnumerator SendMessageCo(PlayerInfo player, string adminToken)
+		private static IEnumerator SendMessageCo(PlayerInfo player, List<string> Tags)
 		{
 
-			yield return WaitFor.Seconds(10);
+			yield return WaitFor.Seconds(5);
 			ItemStorage adminGhostItemStorage = null;
 
 			try
@@ -62,14 +72,14 @@ namespace Messages.Server.AdminTools
 			}
 
 
-			Send(player, adminToken, adminGhostItemStorage?.GetComponent<NetworkIdentity>()?.netId);
+			Send(player, Tags, adminGhostItemStorage?.GetComponent<NetworkIdentity>()?.netId);
 		}
 
-		private static NetMessage Send(PlayerInfo player, string adminToken, uint? netId)
+		private static NetMessage Send(PlayerInfo player, List<string> Tags, uint? netId)
 		{
 			NetMessage msg = new NetMessage
 			{
-				AdminToken = adminToken,
+				AdminToken = Tags.ToArray(),
 				AdminGhostStorage = netId ?? NetId.Empty
 			};
 

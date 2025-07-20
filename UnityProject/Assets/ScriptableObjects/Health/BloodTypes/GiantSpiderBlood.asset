@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f64d4f5b1b1d304bb037fa918fad45f, type: 3}
+  m_Name: GiantSpiderBlood
+  m_EditorClassIdentifier: 
+  foreverID: c7943c0995bc04a49b55b22064796666
+  displayName: Spider Blood
+  description: Looks like it came from a vat of acid
+  color: {r: 0.8287276, g: 1, b: 0.11792451, a: 0.50980395}
+  state: 1
+  heatDensity: 5
+  indexInSingleton: 544
+  PercentageNeededInBloodFlow: 0.05
+  CirculatedReagent: {fileID: 11400000, guid: 23b1fd9d2d60ffd0a8879d7745f1a7fb, type: 2}
+  WasteCarryReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
+  Type: 6
+  BloodCapacityOf: 0.015
+  BloodGasCapability: 0.0005
+  BLOOD_REAGENT_SATURATION_OKAY: 0.08
+  BLOOD_REAGENT_SATURATION_BAD: 0.055
+  BLOOD_REAGENT_SATURATION_CRITICAL: 0.015

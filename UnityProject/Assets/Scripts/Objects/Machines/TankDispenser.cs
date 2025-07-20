@@ -16,13 +16,13 @@ namespace Objects.Machines
 		[SerializeField] private SpriteHandler plasmaTankSpriteHandler;
 		[SerializeField] private bool canStorePlasma;
 		[SyncVar] private int plasmaCount;
-		[ReadOnly] private List<ItemSlot> plasmaTankSlots = new(10);
+		[NaughtyAttributes.ReadOnly] private List<ItemSlot> plasmaTankSlots = new(10);
 
 		[SerializeField] private SpriteClickRegion oxygenTankRegion;
 		[SerializeField] private SpriteHandler oxygenTankSpriteHandler;
 		[SerializeField] private bool canStoreOxygen;
 		[SyncVar] private int oxygenCount;
-		[ReadOnly] private List<ItemSlot> oxygenTankSlots = new(10);
+		[NaughtyAttributes.ReadOnly] private List<ItemSlot> oxygenTankSlots = new(10);
 
 		private const int SPRITE_INDEX_MAX = 5;
 
@@ -36,7 +36,7 @@ namespace Objects.Machines
 				plasmaTankSlots.Add(tankStorage.GetIndexedItemSlot(i + 10));
 			}
 		}
-		
+
 		private void UpdateSprite()
 		{
 			if (isServer)
@@ -44,7 +44,7 @@ namespace Objects.Machines
 				plasmaCount = GetFilledSlots(plasmaTankSlots);
 				oxygenCount = GetFilledSlots(oxygenTankSlots);
 				plasmaTankSpriteHandler.SetSpriteVariant(Math.Min(plasmaCount, SPRITE_INDEX_MAX));
-				oxygenTankSpriteHandler.SetSpriteVariant(Math.Min(oxygenCount, SPRITE_INDEX_MAX));				
+				oxygenTankSpriteHandler.SetSpriteVariant(Math.Min(oxygenCount, SPRITE_INDEX_MAX));
 			}
 		}
 

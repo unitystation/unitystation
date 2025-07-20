@@ -105,11 +105,12 @@ namespace Objects.Lighting
 			traitRequired = currentState.TraitRequired;
 			RefreshBoxCollider();
 			loopKey = Guid.NewGuid().ToString();
-			ComponentsTracker<LightSource>.Instances.Add(this);
+			ComponentsTracker<LightSource>.RegisterInstance(this);
 		}
 
 		private void Start()
 		{
+			SetColor(CurrentOnColor, CurrentOnColor);
 			LightSpriteUsed.Color = CurrentOnColor;
 			CheckAudioState();
 		}
@@ -117,13 +118,13 @@ namespace Objects.Lighting
 		private void OnEnable()
 		{
 			directional.OnRotationChange.AddListener(OnDirectionChange);
-			integrity.OnApplyDamage.AddListener(OnDamageReceived);
+			integrity.OnApplyDamage += OnDamageReceived;
 		}
 
 		private void OnDisable()
 		{
 			directional.OnRotationChange.RemoveListener(OnDirectionChange);
-			if (integrity != null) integrity.OnApplyDamage.RemoveListener(OnDamageReceived);
+			if (integrity) integrity.OnApplyDamage -= OnDamageReceived;
 
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, TrySpark);
 		}
@@ -151,7 +152,7 @@ namespace Objects.Lighting
 
 		private void OnDestroy()
 		{
-			ComponentsTracker<LightSource>.Instances.Remove(this);
+			ComponentsTracker<LightSource>.UnregisterInstance(this);
 		}
 
 		#endregion
@@ -540,13 +541,11 @@ namespace Objects.Lighting
 		{
 			UnSubscribeFromSwitchEvent();
 			relatedLightSwitch = lightSwitch;
-			lightSwitch.SwitchTriggerEvent += Trigger;
 		}
 
 		public void UnSubscribeFromSwitchEvent()
 		{
 			if (relatedLightSwitch == null) return;
-			relatedLightSwitch.SwitchTriggerEvent -= Trigger;
 			relatedLightSwitch = null;
 		}
 
@@ -556,6 +555,11 @@ namespace Objects.Lighting
 			switchState = newState;
 			if (MountState == LightMountState.On || MountState == LightMountState.Off)
 				ServerChangeLightState(newState ? LightMountState.On : LightMountState.Off);
+		}
+
+		public void FlipState()
+		{
+			Trigger(switchState = !switchState);
 		}
 
 		#endregion
@@ -609,9 +613,9 @@ namespace Objects.Lighting
 			CheckIntegrityState(arg0);
 		}
 
-		private void CheckIntegrityState(DamageInfo arg0)
+		public void CheckIntegrityState(DamageInfo arg0, bool Override = false)
 		{
-			if (integrity.integrity > integrityThreshBar || MountState == LightMountState.MissingBulb) return;
+			if ((integrity.integrity > integrityThreshBar || Override == false ) && MountState == LightMountState.MissingBulb) return;
 			Vector3 pos = gameObject.AssumedWorldPosServer();
 
 			if (MountState == LightMountState.Broken)

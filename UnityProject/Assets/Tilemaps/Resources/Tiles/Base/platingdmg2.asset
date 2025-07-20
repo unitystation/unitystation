@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c576ac449c2d45d99890dcfa21598645, type: 3}
   m_Name: platingdmg2
   m_EditorClassIdentifier: 
-  <ForeverID>k__BackingField: 28455114dec364442b57e2ae77a4b06e
+  <ForeverID>k__BackingField: platingdmg2
   displayName: plating
   description: 
   LayerType: 4
@@ -71,11 +71,11 @@ MonoBehaviour:
   spawnOnDestroy: {fileID: 0}
   damageOverlayList: {fileID: 0}
   soundOnHit:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   SoundOnDestroy: []

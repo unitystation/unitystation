@@ -29,11 +29,13 @@ public class AutopilotShipMachine : MonoBehaviour
 	public OrientationEnum DirectionOverride = OrientationEnum.Default;
 	private void OnEnable()
 	{
+		if (CustomNetworkManager.IsServer == false) return;
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()
 	{
+		if (CustomNetworkManager.IsServer == false) return;
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
@@ -46,6 +48,21 @@ public class AutopilotShipMachine : MonoBehaviour
 		mm.NetworkedMatrixMove.ShuttleNonSpinneyModeRounding = 90;
 
 
+	}
+
+	public void InItAsIfDockedTo(GuidanceBuoy Buoy)
+	{
+		if (CustomNetworkManager.IsServer == false) return;
+		StartOfChain = Buoy;
+		CurrentTarget = Buoy;
+
+		while (CurrentTarget.In.NextInLine != null)
+		{
+			CurrentTarget = CurrentTarget.In.NextInLine;
+		}
+
+		mm.NetworkedMatrixMove.IgnoreMatrix = CurrentTarget.metaTileMap.matrix.MatrixInfo;
+		MoveToInternal(CurrentTarget);
 	}
 
 
@@ -134,7 +151,7 @@ public class AutopilotShipMachine : MonoBehaviour
 	{
 		if (MoveDirectionIn)
 		{
-			if (CurrentTarget.In.IsEnd)
+			if (CurrentTarget.In.NextInLine == null)
 			{
 				if (PreviouslyReached == pos) return;
 				PreviouslyReached = pos;
@@ -142,7 +159,6 @@ public class AutopilotShipMachine : MonoBehaviour
 				{
 					ShuttlesMainConnector.TryConnectAdjacent();
 				}
-
 
 				ReachedEndOfInBuoyChain(CurrentTarget, StartOfChain);
 			}
@@ -155,7 +171,7 @@ public class AutopilotShipMachine : MonoBehaviour
 		}
 		else
 		{
-			if (CurrentTarget.Out.IsEnd)
+			if (CurrentTarget.Out.NextInLine == null)
 			{
 
 				if (PreviouslyReached == pos) return;
@@ -198,12 +214,7 @@ public class AutopilotShipMachine : MonoBehaviour
 
 	public virtual void UpdateMe()
 	{
-		if (mm.NetworkedMatrixMove.IsMoving)
-		{
-			mm.NetworkedMatrixMove.AITravelSpeed =
-				(mm.NetworkedMatrixMove.CentreOfAIMovementWorld - mm.NetworkedMatrixMove.TravelToWorldPOS).magnitude < 100 ? 20 : 80;
-		}
-		else
+		if (mm.NetworkedMatrixMove.IsMoving == false)
 		{
 			if (CurrentTarget == null) return;
 			var Difference = (mm.NetworkedMatrixMove.CentreOfAIMovementWorld.RoundToInt() - CurrentTarget.transform.position).magnitude;

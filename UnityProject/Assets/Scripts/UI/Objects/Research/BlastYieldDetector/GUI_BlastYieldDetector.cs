@@ -59,7 +59,7 @@ namespace UI.Objects.Research
 
 		protected void Awake()
 		{
-			if (CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.IsServer)
 			{
 				StartCoroutine(WaitForProvider());
 			}
@@ -104,7 +104,7 @@ namespace UI.Objects.Research
 		#endregion
 
 		private void OnRecieveBlast(BlastData data, float smokeAmount, float foamAmount)
-		{  
+		{
 			smokeLabel.MasterSetValue(smokeAmount.ToString());
 			foamLabel.MasterSetValue(foamAmount.ToString());
 			reagentLabel.MasterSetValue(data.ReagentMix.Total.ToString());
@@ -119,8 +119,9 @@ namespace UI.Objects.Research
 		public void UpdateGui()
 		{
 			if(blastYieldDetector.researchServer != null) pointsLabel.MasterSetValue(blastYieldDetector.researchServer.RP.ToString());
-			
-			UpdateBountyContainerToList();	
+
+			if (CustomNetworkManager.IsServer == false) return;
+			UpdateBountyContainerToList();
 		}
 
 		private void UpdateBountyContainerToList()
@@ -187,7 +188,7 @@ namespace UI.Objects.Research
 				Vector2 dataShownPos = GetNodePosition(yields[i], i);
 
 				graphContainer.Entries[i].GetComponentInChildren<NetAnchoredPosition>().SetPosition(dataShownPos);
-				
+
 				if (i != yields.Count - 1) continue;
 
 				Vector3 yieldNewY = horizontalNodeHighlight.Element.anchoredPosition;
@@ -199,7 +200,7 @@ namespace UI.Objects.Research
 				verticalNodeHighlight.SetPosition(indexNewX);
 			}
 		}
-	
+
 		#endregion
 }
 }

@@ -45,8 +45,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	/// Server-side event invoked when ApplyDamage is called
 	/// and Integrity is about to apply damage.
 	/// </summary>
-	[NonSerialized]
-	public DamagedEvent OnApplyDamage = new DamagedEvent();
+	public Action<DamageInfo> OnApplyDamage = null;
 
 	public UnityEvent OnDamaged = new UnityEvent();
 	public UnityEvent OnDestruction = new UnityEvent();
@@ -118,6 +117,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	private RegisterTile registerTile;
 	public RegisterTile RegisterTile => registerTile;
 	private UniversalObjectPhysics universalObjectPhysics;
+	public UniversalObjectPhysics Physics => universalObjectPhysics;
 
 	private Meleeable meleeable;
 	public Meleeable Meleeable => meleeable;
@@ -294,15 +294,35 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 	public RightClickableResult GenerateRightClickOptions()
 	{
-		if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) ||
-		    KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold) == false)
+		if (KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold) == false)
 		{
 			return null;
 		}
 
-		return RightClickableResult.Create()
-			.AddAdminElement("[Debug] - Smash", AdminSmash)
-			.AddAdminElement("[Debug] - Delete", AdminDelete);
+		var op = RightClickableResult.Create();
+
+		bool show = false;
+
+		if (PlayerList.HasTAGClient(TAG.ADMIN_SMASH))
+		{
+			show = true;
+			op.AddAdminElement("[Debug] - Smash", AdminSmash);
+		}
+
+		if (PlayerList.HasTAGClient(TAG.MAP_DESTROY))
+		{
+			show = true;
+			op.AddAdminElement("[Debug] - Delete", AdminDelete);
+		}
+
+		if (show)
+		{
+			return op;
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	[NaughtyAttributes.Button()]
@@ -409,7 +429,6 @@ public class DestructionInfo
 /// Event fired when an object is destroyed
 /// </summary>
 public class DestructionEvent : UnityEvent<DestructionInfo> { }
-public class DamagedEvent : UnityEvent<DamageInfo> { }
 
 /// <summary>
 /// Event fired when ApplyDamage is called

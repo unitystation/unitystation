@@ -312,6 +312,7 @@ namespace Systems.Pipes
 			newOne.pipeType = pipeType;
 			newOne.PortType = PortType;
 			newOne.MappedNeeded = MappedNeeded;
+			newOne.flagLogic = flagLogic;
 			return newOne;
 		}
 	}

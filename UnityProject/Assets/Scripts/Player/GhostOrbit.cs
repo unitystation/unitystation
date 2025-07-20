@@ -66,7 +66,7 @@ namespace Player
 
 		private void UpdateMe()
 		{
-			if(hasAuthority == false || mind.IsGhosting == false) return;
+			if(isOwned == false || mind.IsGhosting == false) return;
 
 
 			if (Input.GetMouseButtonDown(0) && (UIManager.IsMouseInteractionDisabled == false))

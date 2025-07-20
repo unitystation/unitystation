@@ -49,9 +49,6 @@ public class PlayerInfo
 	public string ConnectionIP { get; set; }
 
 	public bool IsOnline { get; private set; }
-	public PlayerRole PlayerRoles { get; set; }
-
-	public bool IsAdmin => (PlayerRoles & PlayerRole.Admin) != 0;
 
 	public bool IsOOCMuted = false;
 
@@ -215,11 +212,16 @@ public class PlayerInfo
 	private static void TrySendUpdate()
 	{
 		if ( CustomNetworkManager.Instance != null
-		     && CustomNetworkManager.Instance._isServer
+		     && CustomNetworkManager.IsServer
 		     && PlayerList.Instance != null )
 		{
 			UpdateConnectedPlayersMessage.Send();
 		}
+	}
+
+	public bool HasTAGServer(string TAG)
+	{
+		return PlayerList.HasTAGServer(TAG, AccountId);
 	}
 
 	public override string ToString()
@@ -230,6 +232,11 @@ public class PlayerInfo
 		}
 		return $"ConnectedPlayer {nameof(Username)}: {Username}, {nameof(ClientId)}: {ClientId}, " +
 		       $"{nameof(AccountId)}: {AccountId}, {nameof(Connection)}: {Connection}, {nameof(Name)}: {Name}, {nameof(Job)}: {Job}";
+	}
+
+	public void GenNewMind()
+	{
+		PlayerSpawn.NewSpawnCharacterV2(this, null,this.RequestedCharacterSettings, true);
 	}
 }
 

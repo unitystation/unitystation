@@ -76,7 +76,6 @@ namespace Blob
 			if(integrity == null) return;
 
 			integrity.OnWillDestroyServer.RemoveAllListeners();
-			integrity.OnApplyDamage.RemoveAllListeners();
 		}
 	}
 }

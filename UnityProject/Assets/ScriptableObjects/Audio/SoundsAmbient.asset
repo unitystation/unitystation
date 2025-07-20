@@ -12,39 +12,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaf6da0a52cc4214b1d4798d9a210177, type: 3}
   m_Name: SoundsAmbient
   m_EditorClassIdentifier: 
+  foreverID: 7494346cc0a671f4c875d2ffb38e1274
   addressableAudioSource:
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
+  - AssetAddress: Assets/Prefabs/AmbientTracks/Ambient04.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/AmbientTracks/AmbiGen8.prefab
+  - AssetAddress: Assets/Prefabs/AmbientTracks/AmbiGen8.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/AmbientTracks/SpawnSounds/Ling_alert.prefab
+  - AssetAddress: Assets/Prefabs/AmbientTracks/SpawnSounds/Ling_alert.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/AmbientTracks/SpawnSounds/Ops.prefab
+  - AssetAddress: Assets/Prefabs/AmbientTracks/SpawnSounds/Ops.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/AmbientTracks/SpawnSounds/Tatoralert.prefab
+  - AssetAddress: Assets/Prefabs/AmbientTracks/SpawnSounds/Tatoralert.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0

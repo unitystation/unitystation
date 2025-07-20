@@ -2,6 +2,9 @@
 using System.Collections;
 using ImGuiNET;
 using SecureStuff;
+using UnityEngine;
+using Vector2 = System.Numerics.Vector2;
+using Vector3 = System.Numerics.Vector3;
 
 namespace Util
 {
@@ -133,6 +136,10 @@ namespace Util
 			if (type == typeof(float)) return 0.0f;
 			if (type == typeof(bool)) return false;
 			if (type == typeof(string)) return string.Empty;
+			if (type == typeof(Vector3)) return Vector3.Zero;
+			if (type == typeof(Vector2)) return Vector2.Zero;
+			if (type == typeof(Vector3Int)) return Vector3Int.zero;
+			if (type == typeof(Vector2Int)) return Vector2Int.zero;
 
 			// (Max): Activator.CreateInstance(type) seems relatively abusable, so we can't let it pass in codescans.
 			// as a result, we just return null for now. If you have a type that you want to draw, you'll have to do it manually.

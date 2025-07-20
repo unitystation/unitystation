@@ -56,13 +56,13 @@ namespace UI.Objects.Engineering
 		public override void OnEnable()
 		{
 			base.OnEnable();
-			if (CustomNetworkManager.Instance._isServer == false) return;
+			if (CustomNetworkManager.IsServer == false) return;
 			UpdateManager.Add(RefreshGui, 1);
 		}
 
 		private void OnDisable()
 		{
-			if (CustomNetworkManager.Instance._isServer == false) return;
+			if (CustomNetworkManager.IsServer == false) return;
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, RefreshGui);
 		}
 

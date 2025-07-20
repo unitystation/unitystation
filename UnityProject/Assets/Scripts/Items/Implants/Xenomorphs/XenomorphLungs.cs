@@ -10,9 +10,9 @@ namespace HealthV2
 		[SerializeField]
 		private float circulatedReagentAmount = 10;
 
-		public override bool BreatheIn(GasMix breathGasMix, ReagentMix blood, float efficiency)
+		public override bool BreatheIn(GasMix breathGasMix, ReagentMix blood, float efficiency, bool DoEmot = true )
 		{
-			var baseBool = base.BreatheIn(breathGasMix, blood, efficiency);
+			var baseBool = base.BreatheIn(breathGasMix, blood, efficiency, DoEmot);
 
 			if (SaturationComponent.CurrentBloodSaturation < (ReagentCirculatedComponent.bloodType.BLOOD_REAGENT_SATURATION_OKAY))
 			{

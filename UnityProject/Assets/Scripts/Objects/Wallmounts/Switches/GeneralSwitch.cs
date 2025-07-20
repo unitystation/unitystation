@@ -7,6 +7,7 @@ using CustomInspectors;
 using Systems.Clearance;
 using Shared.Systems.ObjectConnection;
 using Systems.Electricity;
+using Util.Independent.FluentRichText;
 
 namespace Objects.Wallmounts
 {
@@ -26,6 +27,7 @@ namespace Objects.Wallmounts
 		private APCPoweredDevice APCPoweredDevice;
 		[field: SerializeField] public bool CanRelink { get; set; } = true;
 		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
+
 		private void Start()
 		{
 			//This is needed because you can no longer apply shutterSwitch prefabs (it will move all of the child sprite positions)
@@ -52,17 +54,16 @@ namespace Objects.Wallmounts
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-
 			if (clearanceRestricted.HasClearance(interaction.Performer) == false)
 			{
 				RpcPlayButtonAnim(false);
+				Chat.AddExamineMsg(interaction.Performer, "You don't have clearance to use this switch.".Color(Color.red));
 				return;
 			}
-
-			RunDoorController();
+			RunDoorController(interaction);
 		}
 
-		public void RunDoorController()
+		public void RunDoorController(HandApply interaction = null)
 		{
 			if (APCPoweredDevice != null)
 			{
@@ -71,12 +72,17 @@ namespace Objects.Wallmounts
 
 			RpcPlayButtonAnim(true);
 
-			for (int i = 0; i < generalSwitchControllers.Count; i++)
+			foreach (var controller in generalSwitchControllers)
 			{
-				if (generalSwitchControllers[i] == null) continue;
-
+				if (controller == null) continue;
 				//Trigger Event
-				generalSwitchControllers[i].SwitchPressedDoAction.Invoke();
+				controller.SwitchPressedDoAction?.Invoke();
+			}
+
+			if (interaction != null)
+			{
+				Chat.AddActionMsgToChat(interaction.Performer, "Small chirps can be heard as " +
+				                                               $"{interaction.PerformerPlayerScript.visibleName} presses the {gameObject.ExpensiveName()}.");
 			}
 		}
 
@@ -104,28 +110,12 @@ namespace Objects.Wallmounts
 			{
 				if (status)
 				{
-					if (spriteRenderer.sprite == greenSprite)
-					{
-						spriteRenderer.sprite = offSprite;
-					}
-					else
-					{
-						spriteRenderer.sprite = greenSprite;
-					}
-
+					spriteRenderer.sprite = spriteRenderer.sprite == greenSprite ? offSprite : greenSprite;
 					yield return WaitFor.Seconds(0.2f);
 				}
 				else
 				{
-					if (spriteRenderer.sprite == redSprite)
-					{
-						spriteRenderer.sprite = offSprite;
-					}
-					else
-					{
-						spriteRenderer.sprite = redSprite;
-					}
-
+					spriteRenderer.sprite = spriteRenderer.sprite == redSprite ? offSprite : redSprite;
 					yield return WaitFor.Seconds(0.1f);
 				}
 			}
@@ -194,8 +184,10 @@ namespace Objects.Wallmounts
 
 		public RightClickableResult GenerateRightClickOptions()
 		{
-			if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) ||
-			    KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold) == false)
+
+
+			if (PlayerList.HasTAGClient(TAG.ADMIN_PRESS_BUTTON) == false ||
+				    KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold) == false)
 			{
 				return null;
 			}

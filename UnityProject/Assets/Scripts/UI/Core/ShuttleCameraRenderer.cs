@@ -17,6 +17,8 @@ public class ShuttleCameraRenderer : MonoBehaviour
 
 	public LightingSystem LightingSystem;
 
+	private Vector3 MatrixCashedPosition;
+
 	void Start()
 	{
 
@@ -58,7 +60,8 @@ public class ShuttleCameraRenderer : MonoBehaviour
 			{
 				if (MatrixMove.NetworkedMatrixMove.TargetOrientation != OrientationEnum.Default
 				    || MatrixMove.NetworkedMatrixMove.SynchronisedVelocity.magnitude > 0
-				    || MatrixMove.NetworkedMatrixMove.SynchronisedSpin > 0)
+				    || MatrixMove.NetworkedMatrixMove.SynchronisedSpin > 0
+				    || MatrixCashedPosition != MatrixMove.NetworkedMatrixMove.SynchronisedPosition)
 				{
 					LightingSystem.matrixRotationMode = true;
 				}
@@ -67,7 +70,7 @@ public class ShuttleCameraRenderer : MonoBehaviour
 					LightingSystem.matrixRotationMode = false;
 				}
 
-
+				MatrixCashedPosition = MatrixMove.NetworkedMatrixMove.SynchronisedPosition;
 			}
 		}
 	}

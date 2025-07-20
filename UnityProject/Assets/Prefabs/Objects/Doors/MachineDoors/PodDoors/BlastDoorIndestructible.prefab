@@ -8,6 +8,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1248352207522032011, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 4528904109574887043}
+    - target: {fileID: 1587285914693216056, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 9180612005137390029}
     - target: {fileID: 2416758669775616128, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: _assetId
@@ -18,6 +28,16 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: f3101ca72dd47794c832468176e071ca
       objectReference: {fileID: 0}
+    - target: {fileID: 3000278193385742481, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 4372376588135882819}
+    - target: {fileID: 3428335695311746209, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 5717842533174385406}
     - target: {fileID: 3439362329626657407, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: Resistances.AcidProof
@@ -48,6 +68,16 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A heavy duty blast door that only opens for dire emergencies.
       objectReference: {fileID: 0}
+    - target: {fileID: 5035996318453927091, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 439070723897150099}
+    - target: {fileID: 5770958872810706802, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 1957959512579384109}
     - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: m_RootOrder
@@ -118,6 +148,11 @@ PrefabInstance:
       propertyPath: foreverID
       value: f3101ca72dd47794c832468176e071ca
       objectReference: {fileID: 0}
+    - target: {fileID: 7735645636919656443, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 8760556506506481571}
     - target: {fileID: 7880321078131954941, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: openSFX.AssetAddress
@@ -133,3 +168,45 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79cea07a5f8e66f49a554df1a003ecba, type: 3}
+--- !u!212 &439070723897150099 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3334934847785401003, guid: 79cea07a5f8e66f49a554df1a003ecba,
+    type: 3}
+  m_PrefabInstance: {fileID: 2909314279984869432}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &1957959512579384109 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3707557752560423701, guid: 79cea07a5f8e66f49a554df1a003ecba,
+    type: 3}
+  m_PrefabInstance: {fileID: 2909314279984869432}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &4372376588135882819 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1509331201845547131, guid: 79cea07a5f8e66f49a554df1a003ecba,
+    type: 3}
+  m_PrefabInstance: {fileID: 2909314279984869432}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &4528904109574887043 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1623006321672234683, guid: 79cea07a5f8e66f49a554df1a003ecba,
+    type: 3}
+  m_PrefabInstance: {fileID: 2909314279984869432}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &5717842533174385406 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7423672236760017606, guid: 79cea07a5f8e66f49a554df1a003ecba,
+    type: 3}
+  m_PrefabInstance: {fileID: 2909314279984869432}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &8760556506506481571 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5894167746814836635, guid: 79cea07a5f8e66f49a554df1a003ecba,
+    type: 3}
+  m_PrefabInstance: {fileID: 2909314279984869432}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &9180612005137390029 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+    type: 3}
+  m_PrefabInstance: {fileID: 2909314279984869432}
+  m_PrefabAsset: {fileID: 0}

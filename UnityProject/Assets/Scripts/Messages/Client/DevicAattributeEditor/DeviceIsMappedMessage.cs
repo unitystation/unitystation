@@ -26,7 +26,7 @@ public class DeviceIsMappedMessage : ClientMessage<DeviceIsMappedMessage.NetMess
 
 	public override void Process(NetMessage msg)
 	{
-		if (IsFromAdmin() == false) return;
+		if (HasPermission(TAG.MAP_TAG) == false) return;
 
 
 		if (msg.ObjectID !=  NetId.Empty &&  msg.ObjectID != NetId.Invalid)

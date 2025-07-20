@@ -38,7 +38,7 @@ namespace Messages.Server.AdminTools
 
 		public static void SendToApplicable()
 		{
-			var adminList = PlayerList.Instance.GetAllAdmins();
+			var adminList = PlayerList.Instance.GetAllWithTAG(TAG.DEBUG_FRAME_VIEW_PROFILE);
 			foreach (var admin in adminList)
 			{
 				Send(admin.GameObject);

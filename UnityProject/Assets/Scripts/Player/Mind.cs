@@ -16,6 +16,7 @@ using ScriptableObjects.Systems.Spells;
 using Systems.Antagonists.Antags;
 using UI.Core.Action;
 using System.Linq;
+using Actions.V2;
 using Changeling;
 using Core.Admin.Logs;
 using Logs;
@@ -53,7 +54,9 @@ public class Mind : NetworkBehaviour, IGameActionHolder, IGameActionContainer
 	}
 
 	[SyncVar(hook = nameof(SyncPossessing))]
-	private uint IDPossessing;
+	private uint _idPossessing;
+
+	public uint IDPoessing => _idPossessing;
 
 	//TODO ondatesiss
 
@@ -62,6 +65,8 @@ public class Mind : NetworkBehaviour, IGameActionHolder, IGameActionContainer
 
 	[SyncVar] private bool nonImportantMind = false;
 
+
+	public uint MindID = 0;
 
 	/// <summary>
 	/// True if this minds belong to an NPC
@@ -101,11 +106,19 @@ public class Mind : NetworkBehaviour, IGameActionHolder, IGameActionContainer
 		{
 			if (isOwned || isServer)
 			{
-				if (IsGhosting) return this.gameObject;
 				if (IDActivelyControlling is NetId.Invalid or NetId.Empty) return this.gameObject;
-				var Possessable = CustomNetworkManager.Spawned[IDActivelyControlling].GetComponent<IPlayerPossessable>();
+				if (CustomNetworkManager.Spawned.ContainsKey(IDActivelyControlling) == false) return this.gameObject;
+				var Possessing = CustomNetworkManager.Spawned[IDActivelyControlling];
 
-				return 	Possessable.ControllingObject;
+				var Possessable = Possessing.GetComponent<IPlayerPossessable>();
+				if (Possessable != null)
+				{
+					return 	Possessable.ControllingObject;
+				}
+				else
+				{
+					return 	Possessing.gameObject;
+				}
 			}
 			else
 			{
@@ -119,9 +132,9 @@ public class Mind : NetworkBehaviour, IGameActionHolder, IGameActionContainer
 		get
 		{
 			var Spawned = SweetExtensions.GetSpawned();
-			if (Spawned.TryGetValue(IDPossessing, out var Returning))
+			if (Spawned.TryGetValue(_idPossessing, out var returning))
 			{
-				return Returning.gameObject;
+				return returning.gameObject;
 			}
 
 			return null;
@@ -163,7 +176,6 @@ public class Mind : NetworkBehaviour, IGameActionHolder, IGameActionContainer
 	public SpawnedAntag AntagPublic => antagContainer;
 	public bool IsAntag => CustomNetworkManager.IsServer ? antagContainer.Antagonist != null : NetworkedisAntag;
 
-
 	public bool DenyCloning;
 	public int bodyMobID;
 	public FloorSounds StepSound; //Why is this on the mind!!!, Should be on the body, update 22 months later: WHY IS THIS STILL ON MIND
@@ -191,6 +203,7 @@ public class Mind : NetworkBehaviour, IGameActionHolder, IGameActionContainer
 
 	private Dictionary<string, IGameActionHolder> availableActions = new();
 	public Dictionary<string, IGameActionHolder> AvailableActions => availableActions;
+	public ActionManager PlayerButtonedActions;
 
 	/// <summary>
 	/// General purpose properties storage for misc stuff like job-specific flags
@@ -270,6 +283,9 @@ public class Mind : NetworkBehaviour, IGameActionHolder, IGameActionContainer
 		{
 			UpdateManager.Add(CheckNonImportantMind, 30f);
 		}
+		MindID = MindManager.Instance.MindID;
+		MindManager.Instance.minds[MindID] = this;
+		MindManager.Instance.MindID++;
 	}
 
 	public void OnDestroy()
@@ -278,19 +294,17 @@ public class Mind : NetworkBehaviour, IGameActionHolder, IGameActionContainer
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckNonImportantMind);
 		}
+		MindManager.Instance?.minds?.Remove(MindID);
 	}
 
 
 	[Command]
 	public void CmdRequestPossess(uint ID)
 	{
-
-		if (AdminCommandsManager.IsAdmin(this.connectionToClient, out var _))
+		if (AdminCommandsManager.HasPermission(this.connectionToClient, out var _, TAG.ADMIN_POSSESS_BODY))
 		{
 			SetPossessingObject(CustomNetworkManager.Spawned[ID].gameObject);
 		}
-
-
 	}
 
 	#region Action Control
@@ -333,6 +347,8 @@ public class Mind : NetworkBehaviour, IGameActionHolder, IGameActionContainer
 		{
 			SetPermanentName(CurrentCharacterSettings.AiName ?? "H.A.L.E");
 		}
+
+
 	}
 
 
@@ -421,17 +437,17 @@ public class Mind : NetworkBehaviour, IGameActionHolder, IGameActionContainer
 			gaining.Add(obj.NetWorkIdentity());
 		}
 
-		List<NetworkIdentity> Losing = new List<NetworkIdentity>();
+		List<NetworkIdentity> losing = new List<NetworkIdentity>();
 		if (PlayerPossessable != null)
 		{
-			PlayerPossessable.GetRelatedBodies(Losing);
+			PlayerPossessable.GetRelatedBodies(losing);
 		}
 		else if (PossessingObject != null)
 		{
-			Losing.Add(PossessingObject.NetWorkIdentity());
+			losing.Add(PossessingObject.NetWorkIdentity());
 		}
 
-		HandleOwnershipChangeMulti(Losing, gaining);
+		HandleOwnershipChangeMulti(losing, gaining);
 
 		var intID = this.netId;
 		if (obj != null)
@@ -439,8 +455,8 @@ public class Mind : NetworkBehaviour, IGameActionHolder, IGameActionContainer
 			intID = obj.NetId();
 		}
 
-		SyncPossessing(IDPossessing, intID);
-		AdminLogsManager.AddNewLog(null, $"{gameObject} has possesed {obj.ExpensiveName()}.", LogCategory.Ghost);
+		SyncPossessing(_idPossessing, intID);
+		AdminLogsManager.AddNewLog(gameObject, $" has possesed ", obj, LogCategory.Ghost);
 	}
 
 	public void InternalSetControllingObject(GameObject obj)
@@ -510,7 +526,7 @@ public class Mind : NetworkBehaviour, IGameActionHolder, IGameActionContainer
 	[Command]
 	public void CmdAGhost()
 	{
-		if (AdminCommandsManager.IsAdmin(connectionToClient, out _))
+		if (AdminCommandsManager.HasPermission(connectionToClient, out _, TAG.ADMIN_AGHOST))
 		{
 			if (IsGhosting)
 			{
@@ -526,7 +542,7 @@ public class Mind : NetworkBehaviour, IGameActionHolder, IGameActionContainer
 	[Command]
 	public void CmdForceAGhost()
 	{
-		if (AdminCommandsManager.IsAdmin(connectionToClient, out _))
+		if (AdminCommandsManager.HasPermission(connectionToClient, out _, TAG.ADMIN_AGHOST))
 		{
 			if (IsGhosting == false) Ghost();
 		}
@@ -619,20 +635,26 @@ public class Mind : NetworkBehaviour, IGameActionHolder, IGameActionContainer
 
 	private void SyncActiveOn(uint oldID, uint newID)
 	{
+
+
 		AllClientsObservableMind.IDActivelyControlling = newID;
 		IDActivelyControlling = newID;
-		if (isClient)
+		if (isOwned)
 		{
-			LoadManager.RegisterActionDelayed(() => { HandleActiveOnChange(oldID, newID); },
-				2);
+			PlayerManager.SetMind(this);
+		}
+
+		HandleActiveOnChange(oldID, newID);
+		if (isServer == false)
+		{
+			UIManager.Display.DetermineUI();
 		}
 	}
 
 	private void SyncPossessing(uint oldID, uint newID)
 	{
-		IDPossessing = newID;
-		LoadManager.RegisterActionDelayed(() => { HandlePossessingChange(oldID, newID); },
-			2);
+		_idPossessing = newID;
+		HandlePossessingChange(oldID, newID);
 		//This is to handle The game object being spawned in and data being provided before Owner message
 		//s sent owner, This means the game object it's told it's in charge of is not actually in charge of Until later on in that frame is Dumb,
 		//Plus this handles server player funnies with the same thing Just stretched over another frame so that's why it's 2
@@ -659,6 +681,18 @@ public class Mind : NetworkBehaviour, IGameActionHolder, IGameActionContainer
 	private void HandleActiveOnChange(uint oldID, uint newID)
 	{
 		var spawned = CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+		if ((oldID is NetId.Invalid or NetId.Empty) == false )
+		{
+			if (spawned.ContainsKey(oldID))
+			{
+				var possessableOld = spawned[oldID].GetComponent<IPlayerPossessable>();
+				if (possessableOld != null)
+				{
+					possessableOld.InternalOnPlayerLeave(this);
+				}
+			};
+		}
+
 		if (spawned.ContainsKey(newID) == false) return;
 
 		if (ControlledBy != null) //TODO Remove
@@ -672,20 +706,11 @@ public class Mind : NetworkBehaviour, IGameActionHolder, IGameActionContainer
 		{
 			possessable.InternalOnControlPlayer(this, isServer);
 		}
-		else
-		{
-			if (isServer && spawned[newID].gameObject == gameObject) //Has ghosted
-			{
-				PossessAndUnpossessMessage.Send(this.gameObject, gameObject, null); //TODO rethink this
-			}
-
-			//TODO For objects
-		}
-
 	}
 
 	public void AccountLeavingMind(PlayerInfo account)
 	{
+		ControlAndLoseControlMessage.Send(account.GameObject, null, gameObject);
 		account.SetMind(null);
 		// Remove account from being observer of ghost and stuff
 		var relatedBodies = GetRelatedBodies();
@@ -693,6 +718,8 @@ public class Mind : NetworkBehaviour, IGameActionHolder, IGameActionContainer
 		{
 			PlayerSpawn.TransferOwnershipFromToConnection(account, body, null);
 		}
+
+
 	}
 
 	public void AccountEnteringMind(PlayerInfo account)
@@ -705,14 +732,19 @@ public class Mind : NetworkBehaviour, IGameActionHolder, IGameActionContainer
 			PlayerSpawn.TransferOwnershipFromToConnection(ControlledBy, null, Body);
 		}
 
+
+		if (ControlledBy?.Connection is LocalConnectionToClient) //Server host  client
+		{
+			PlayerManager.SetMind(this);
+		}
+
 		UpdateMind.SendTo(ControlledBy?.Connection, this);
 
 		if (PlayerPossessable != null)
 		{
 			PlayerPossessable.PlayerRejoin();
 		}
-
-		SyncPossessing(IDPossessing, IDPossessing);
+		SyncPossessing(_idPossessing, _idPossessing);
 		SyncActiveOn(IDActivelyControlling, IDActivelyControlling);
 	}
 
@@ -725,8 +757,6 @@ public class Mind : NetworkBehaviour, IGameActionHolder, IGameActionContainer
 		}
 
 		PlayerSpawn.TransferAccountToSpawnedMind(ControlledBy, this);
-
-
 	}
 
 	public void HandleOwnershipChangeMulti(List<NetworkIdentity> Losing, List<NetworkIdentity> Gaining)
@@ -736,16 +766,16 @@ public class Mind : NetworkBehaviour, IGameActionHolder, IGameActionContainer
 		{
 			PlayerSpawn.TransferOwnershipFromToConnection(ControlledBy, Lost, null);
 
-			var PlayerPositionable = Lost.GetComponent<IPlayerPossessable>();
-			if (PlayerPositionable != null)
+			var playerPositionable = Lost.GetComponent<IPlayerPossessable>();
+			if (playerPositionable != null)
 			{
-				PlayerPositionable.InternalOnLosePossess();
+				playerPositionable.InternalOnLosePossess();
 			}
 		}
 
-		foreach (var Gained in Gaining)
+		foreach (var gained in Gaining)
 		{
-			PlayerSpawn.TransferOwnershipFromToConnection(ControlledBy, null, Gained);
+			PlayerSpawn.TransferOwnershipFromToConnection(ControlledBy, null, gained);
 		}
 	}
 
@@ -1002,5 +1032,20 @@ public class Mind : NetworkBehaviour, IGameActionHolder, IGameActionContainer
 	public T GetPropertyOrDefault<T>(string key, T defaultValue)
 	{
 		return properties.GetOrDefault(key, defaultValue) is T typedProperty ? typedProperty : defaultValue;
+	}
+
+	public AdminMindEntryData GetAdminMindEntryData()
+	{
+		return new AdminMindEntryData()
+		{
+			MindUID =  MindID,
+			IsAntag = IsAntag,
+			ControlledByID = ControlledBy?.AccountId,
+			nonImportantMind = nonImportantMind,
+			PossessingObject = PossessingObject.NetId(),
+			occupationName = occupation?.name,
+			CurrentCharacterSettings = CurrentCharacterSettings
+		};
+
 	}
 }

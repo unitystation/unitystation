@@ -26,6 +26,7 @@ namespace Systems.Atmospherics
 		public List<ReactionManager> reactionManagerList = new List<ReactionManager>();
 
 		private AtmosThread atmosThread;
+		public AtmosThread AtmosThread => atmosThread ;
 		public AtmosSimulation simulation;
 		public CustomSampler sampler;
 
@@ -34,6 +35,9 @@ namespace Systems.Atmospherics
 		//TODO: move these prefabs somewhere else more appropiate
 		[field: SerializeField]
 		public GameObject FireLight { get; private set; }
+
+		[field: SerializeField]
+		public GameObject DarkMatterLight { get; private set; }
 
 		[field: SerializeField]
 		public GameObject IceShard { get; private set; }

@@ -27,7 +27,7 @@ public class Effect
 	/// <param name="targetVector">AimApply interaction TargetVector (relative to gameObject)</param>
 	public static void PlayParticleDirectional( GameObject gameObject, Vector2 targetVector )
 	{
-		if ( !CustomNetworkManager.Instance._isServer )
+		if ( !CustomNetworkManager.IsServer )
 		{
 			return;
 		}

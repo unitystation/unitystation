@@ -13,6 +13,5 @@ public class GuidanceBuoyMoveStep
 	//On Reach
 	public ShuttleConnector ConnectTo;
 	public GuidanceBuoy NextInLine;
-	public bool IsEnd = false;
 }
 

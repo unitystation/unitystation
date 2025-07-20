@@ -170,6 +170,7 @@ namespace Player
 
 		public void SubSetBodyPart(BodyPart Body_Part, string path, bool Randomised = false)
 		{
+			if (Body_Part == null) return;
 			path = path + "/" + Body_Part.name;
 
 			CustomisationStorage customisationStorage = null;
@@ -326,16 +327,16 @@ namespace Player
 
 		public void SetSurfaceColour()
 		{
-			Color CurrentSurfaceColour = Color.white;
+			Color currentSurfaceColour = Color.white;
 			if (RaceBodyparts.Base.SkinColours.Count > 0)
 			{
-				ColorUtility.TryParseHtmlString(ThisCharacter.SkinTone, out CurrentSurfaceColour);
+				ColorUtility.TryParseHtmlString(ThisCharacter.SkinTone, out currentSurfaceColour);
 
 				var hasColour = false;
 
-				foreach (var color in RaceBodyparts.Base.SkinColours)
+				foreach (Color color in RaceBodyparts.Base.SkinColours)
 				{
-					if (color.ColorApprox(CurrentSurfaceColour))
+					if (color.ColorApprox(currentSurfaceColour))
 					{
 						hasColour = true;
 						break;
@@ -344,19 +345,21 @@ namespace Player
 
 				if (hasColour == false)
 				{
-					CurrentSurfaceColour = RaceBodyparts.Base.SkinColours[0];
+					Loggy.Error($"None-matching skin tone colors found on {gameObject.name}. Using closest skin tone.\n " +
+					            $"parsed SurfaceColor: {currentSurfaceColour}\n ThisCharacter skintone: {ThisCharacter.SkinTone}]");
+					currentSurfaceColour = currentSurfaceColour.ClosestColor(RaceBodyparts.Base.SkinColours.ToArray());
 				}
 			}
 			else
 			{
-				ColorUtility.TryParseHtmlString(ThisCharacter.SkinTone, out CurrentSurfaceColour);
+				ColorUtility.TryParseHtmlString(ThisCharacter.SkinTone, out currentSurfaceColour);
 			}
 
-			CurrentSurfaceColour.a = 1;
+			currentSurfaceColour.a = 1;
 
 			foreach (var sp in SurfaceSprite)
 			{
-				sp.baseSpriteHandler.SetColor(CurrentSurfaceColour);
+				sp.baseSpriteHandler.SetColor(currentSurfaceColour);
 			}
 		}
 
@@ -496,6 +499,24 @@ namespace Player
 			livingHealthMasterBase.SetUpCharacter(RaceBodyparts);
 			SetupSprites();
 			livingHealthMasterBase.StartFresh();
+
+			foreach (var Mutation in RaceBodyparts.Base.StartingMutations)
+			{
+				foreach (var Bodypart in livingHealthMasterBase.BodyPartList)
+				{
+					var BodyPartMutations = Bodypart.GetComponentCustom<BodyPartMutations>();
+					if (BodyPartMutations.CapableMutations.Contains(Mutation))
+					{
+						BodyPartMutations.AddMutation(Mutation);
+					}
+				}
+			}
+
+			if (livingHealthMasterBase.EmaggableMob == false)
+			{
+				Loggy.Error("PlayerSprites/OnCharacterSettingsChange(): Attempted to set EMAG state for creature but no EmaggableMob component was attached");
+			}
+			else livingHealthMasterBase.EmaggableMob.SetEmaggableState(ThisCharacter.GetRaceSo().Base.CanBeEmagged, livingHealthMasterBase.brain);
 		}
 
 		public void NotifyPlayer(NetworkConnection recipient, bool clothItems = false)

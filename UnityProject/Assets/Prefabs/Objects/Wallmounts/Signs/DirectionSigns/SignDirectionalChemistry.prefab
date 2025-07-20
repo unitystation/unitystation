@@ -1,0 +1,113 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6872869863467242262
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1210846040600401038, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 1052804940529174869}
+    - target: {fileID: 1210846040600401038, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f504cde8c4f1e718b8bd72c9321d3d26,
+        type: 2}
+    - target: {fileID: 2828519069101837110, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: _assetId
+      value: 23268114
+      objectReference: {fileID: 0}
+    - target: {fileID: 3907091649879794020, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: initialName
+      value: chemistry lab sign
+      objectReference: {fileID: 0}
+    - target: {fileID: 3907091649879794020, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: initialDescription
+      value: A sign pointing the way to the chemistry lab.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5907885132315318851, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 2374858560172125518, guid: bc0cfbf968a9e54f299dd6dca371fafc,
+        type: 3}
+    - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5947160655986866318, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5952978952584658516, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: m_Name
+      value: SignDirectionalChemistry
+      objectReference: {fileID: 0}
+    - target: {fileID: 7344477038852931613, guid: d95c8124beb3ec54ab012b6142cf1977,
+        type: 3}
+      propertyPath: foreverID
+      value: 2a30585686b53eda0b634667fab6cf72
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d95c8124beb3ec54ab012b6142cf1977, type: 3}
+--- !u!212 &1052804940529174869 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5907885132315318851, guid: d95c8124beb3ec54ab012b6142cf1977,
+    type: 3}
+  m_PrefabInstance: {fileID: 6872869863467242262}
+  m_PrefabAsset: {fileID: 0}

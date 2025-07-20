@@ -169,12 +169,12 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 	private void Start()
 	{
 		SyncIsMapped(IsMapped, this.GetComponent<RuntimeSpawned>() == null);
-		ComponentsTracker<Attributes>.Instances.Add(this);
+		if (gameObject.HasComponent<EtherealThing>() == false) ComponentsTracker<Attributes>.Instances.Add(this);
 	}
 
 	private void OnDestroy()
 	{
-		ComponentsTracker<Attributes>.Instances.Remove(this);
+		if (gameObject.HasComponent<EtherealThing>() == false) ComponentsTracker<Attributes>.Instances.Remove(this);
 	}
 
 	private void SyncSize(Size oldSize, Size newSize)

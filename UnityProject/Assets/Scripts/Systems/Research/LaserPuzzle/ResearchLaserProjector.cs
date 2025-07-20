@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Core;
 using Logs;
 using Mirror;
 using Newtonsoft.Json;
@@ -20,8 +19,6 @@ namespace Objects.Research
 	public class ResearchLaserProjector : ResearchPointMachine, INodeControl, ICheckedInteractable<HandApply>, ICanOpenNetTab, IHoverTooltip
 	{
 		//TODO Go through and balance items , Done to a basic level
-
-		//TODO Sprite collector
 		//TODO https://www.youtube.com/watch?v=DwGcKFMxrmI
 
 		private const float UPLOAD_EFFICIENCY = 0.75f; //If the player decides to upload research data as direct RP as opposed to technology, how efficient is this process?
@@ -60,6 +57,7 @@ namespace Objects.Research
 		public event Action UpdateGUI;
 
 		public readonly List<string> OutputLogs = new List<string>();
+		private const int MAX_OUTPUT_LENGTH = 6;
 
 		[field: SyncVar] public LaserProjectorState ProjectorState { get; private set; } = LaserProjectorState.Visual;
 		[field: SyncVar] public bool IsVisualOn { get; private set; } = false;
@@ -71,6 +69,17 @@ namespace Objects.Research
 		[SyncVar(hook = nameof(UpdateLinesClient))]
 		private string SynchronisedData;
 
+
+		//The offset the laser should start from based on the device rotation.
+		//Worked out manually based on the rotation sprites so don't change unless you know what you are doing
+		private Vector2[] _barrelLocations = new Vector2[4]
+		{
+			new Vector2(0.4f , 0), //Right
+			new Vector2(0, 0.292f), //up
+			new Vector2(-0.4f, 0), //Left
+			new Vector2(0, -0.391f) //Down
+		};
+
 		public void Awake()
 		{
 			rotatable = this.GetComponent<Rotatable>();
@@ -78,13 +87,17 @@ namespace Objects.Research
 			spriteHandler = this.GetComponentInChildren<SpriteHandler>();
 			registerTile = this.GetComponent<RegisterTile>();
 			objectPhysics = this.GetComponent<UniversalObjectPhysics>();
+			lastActivation = Time.time;
+		}
 
+		public void Start()
+		{
 			if (startSetUp)
 			{
 				isWelded = true;
 				isWrenched = true;
-				rotatable.LockDirectionTo(true, rotatable.CurrentDirection);
 				objectPhysics.SetIsNotPushable(true);
+				rotatable.LockDirectionTo(true, rotatable.CurrentDirection);
 			}
 		}
 
@@ -105,9 +118,12 @@ namespace Objects.Research
 			{
 				Destroy(LivingLine.gameObject);
 			}
+
+			var position = _barrelLocations[(int)rotatable.CurrentDirection];
+
 			gameObject.GetComponent<Collider2D>().enabled = false;
 			LivingLine = Instantiate(LaserProjectionprefab, this.transform);
-			LivingLine.Initialise(gameObject, rotatable.WorldDirection, this);
+			LivingLine.Initialise(gameObject, rotatable.WorldDirection, this, new Vector3(position.x, position.y, 0f));
 			gameObject.GetComponent<Collider2D>().enabled = true;
 		}
 
@@ -126,11 +142,15 @@ namespace Objects.Research
 		public void FireLaser()
 		{
 			if (hasPower == false) return;
-
 			var range = 30f;
 
+			int index = rotatable.SynchroniseCurrentDirection == OrientationEnum.Default ? 0 : (int)rotatable.SynchroniseCurrentDirection;
+
+			Vector3 position = gameObject.AssumedWorldPosServer();
+			position += new Vector3(_barrelLocations[index].x, _barrelLocations[index].y, 0);
+
 			var Projectile = ProjectileManager.InstantiateAndShoot(LaserProjectilePrefab,
-				rotatable.WorldDirection, gameObject, null, BodyPartType.None, range);
+				rotatable.WorldDirection, gameObject, null, BodyPartType.None, range, ShootWorldPosition: position);
 
 			var Data = Projectile.GetComponent<ContainsResearchData>();
 			Data.Initialise(null, this);
@@ -144,6 +164,9 @@ namespace Objects.Research
 		{
 			if (researchServer == null) return;
 
+			TrimResearchedTech();
+			if (researchServer.Techweb.ResearchedTech.Contains(data.Technology)) return;
+
 			if(GroupedData.ContainsKey(data.Technology) == true)
 			{
 				GroupedData[data.Technology] += data.ResearchPower;
@@ -155,15 +178,13 @@ namespace Objects.Research
 				if (researchServer.Techweb.ResearchedTech.Contains(data.Technology) == false)
 				{
 					OutputLogs.Add($">{data.Technology.DisplayName} Research Complete!");
+					Chat.AddCommMsgByMachineToChat(gameObject, $"{data.Technology.DisplayName} node was researched by {gameObject.ExpensiveName()}!", ChatChannel.Local | ChatChannel.Science, Loudness.NORMAL);
+
 					researchServer.Techweb.UnlockTechnology(data.Technology);
-				}
-				else
-				{
-					OutputLogs.Add($">{(int)GroupedData[data.Technology]} RP Uploaded!");
-					AddResearchPoints(this, (int)GroupedData[data.Technology]);
+					GroupedData.Remove(data.Technology);
 				}
 
-				GroupedData.Remove(data.Technology);
+				if(OutputLogs.Count > MAX_OUTPUT_LENGTH) OutputLogs.RemoveAt(0);
 			}
 
 			UpdateGUI?.Invoke();
@@ -181,6 +202,10 @@ namespace Objects.Research
 			GroupedData.Clear();
 
 			OutputLogs.Add($">{(int)(totalResearch * UPLOAD_EFFICIENCY)} RP Uploaded!");
+			if(OutputLogs.Count > MAX_OUTPUT_LENGTH) OutputLogs.RemoveAt(0);
+
+			Chat.AddCommMsgByMachineToChat(gameObject, $"{(int)(totalResearch * UPLOAD_EFFICIENCY)} RP transfered from {gameObject.ExpensiveName()} to techweb server!", ChatChannel.Local | ChatChannel.Science, Loudness.NORMAL);
+
 			AddResearchPoints(this, (int)(totalResearch * UPLOAD_EFFICIENCY));
 		}
 
@@ -203,6 +228,23 @@ namespace Objects.Research
 				return false;
 			}
 			return true;
+		}
+
+		//Sometimes other players might use the techweb to research a technology node thats already in progress
+		//On the projector, if this is the case it needs to be removed.
+		private void TrimResearchedTech()
+		{
+			var groupedDataCopy = new Dictionary<Technology, float>(GroupedData);
+			foreach (var tech in groupedDataCopy)
+			{
+				if (researchServer.Techweb.ResearchedTech.Contains(tech.Key))
+				{
+					GroupedData.Remove(tech.Key);
+
+					OutputLogs.Add($">{tech.Key.DisplayName} has been researched externally!");
+					if(OutputLogs.Count > MAX_OUTPUT_LENGTH) OutputLogs.RemoveAt(0);
+				}
+			}
 		}
 
 		public void UpdateState(LaserProjectorState state)
@@ -438,7 +480,7 @@ namespace Objects.Research
 				{
 					Origin = LaserLine.VOrigin.ToSerialiseString(),
 					Target = LaserLine.VTarget.ToSerialiseString(),
-					Colour = LaserLine.Sprite.color.ToStringCompressed()
+					Colour = LaserLine.Sprite.Color.ToStringCompressed()
 				});
 			}
 			SynchronisedData = JsonConvert.SerializeObject(data);

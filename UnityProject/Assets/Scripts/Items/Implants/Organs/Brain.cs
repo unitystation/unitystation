@@ -6,6 +6,7 @@ using Core.Utils;
 using HealthV2;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Mirror;
+using Mobs.Traversal;
 using SecureStuff;
 using UnityEngine;
 using UnityEngine.Events;
@@ -13,9 +14,9 @@ using UnityEngine.Serialization;
 
 namespace Items.Implants.Organs
 {
+	//NOTE SyncVar Only visible to owner!!!
 	public class Brain : BodyPartFunctionality, IItemInOutMovedPlayer, IClientSynchronisedEffect, IPlayerPossessable
 	{
-
 		public IPlayerPossessable Itself => this as IPlayerPossessable;
 		private IClientSynchronisedEffect Preimplemented => (IClientSynchronisedEffect)this;
 
@@ -30,20 +31,18 @@ namespace Items.Implants.Organs
 		public uint PossessingID => possessingID;
 
 		[FormerlySerializedAs("hasInbuiltSite")][SerializeField] private bool hasInbuiltSight = false;
+
 		[SerializeField] private bool hasInbuiltHearing = false;
-
-
 		[SerializeField] private bool CannotSpeak = false;
-
-
 		[SerializeField] private bool hasInbuiltSpeech = false;
 		//stuff in here?
 		//nah
 
-
 		[SyncVar(hook = nameof(SyncTelekinesis))] private bool hasTelekinesis = false;
 
 		[SyncVar(hook = nameof(SyncDrunkenness))] private float drunkAmount = 0;
+
+		public MobTraversal Traversal => LivingHealthMaster?.playerScript.Traversal;
 
 		public float DrunkAmount => drunkAmount;
 
@@ -56,6 +55,9 @@ namespace Items.Implants.Organs
 		public UnityEvent OnDeath = new UnityEvent();
 		public UnityEvent OnRevival = new UnityEvent();
 
+		public bool hasSillyWalk;
+		public bool HasSillyWalk => hasSillyWalk;
+
 		[RightClickMethod]
 		public void Possess()
 		{
@@ -67,6 +69,21 @@ namespace Items.Implants.Organs
 
 					PlayerManager.LocalMindScript.CmdRequestPossess(this.gameObject.NetId());
 				}
+			}
+		}
+
+		public void SetSillyWalk(bool State)
+		{
+			hasSillyWalk = State;
+			RecordPositionSillyWalk(hasSillyWalk);
+		}
+
+
+		public void RecordPositionSillyWalk(bool State)
+		{
+			if (LivingHealthMaster != null)
+			{
+				(LivingHealthMaster.ObjectBehaviour as MovementSynchronisation).ServerSillyWalk.RecordPosition(this, State);
 			}
 		}
 
@@ -114,6 +131,8 @@ namespace Items.Implants.Organs
 				livingHealth.IsMute.RecordPosition(this, CannotSpeak);
 			}
 
+			RecordPositionSillyWalk(hasSillyWalk);
+
 			UpdateChatModifier(true);
 			livingHealth.OnDeath += DeathEvent;
 			livingHealth.OnRevive.AddListener(ReviveEvent);
@@ -128,6 +147,8 @@ namespace Items.Implants.Organs
 			{
 				livingHealth.SetBrain(null);
 			}
+
+			(LivingHealthMaster.ObjectBehaviour as MovementSynchronisation).ServerSillyWalk.RemovePosition(this);
 
 			livingHealth.IsMute.RemovePosition(this);
 			Itself.SetPossessingObject(null);
@@ -176,30 +197,34 @@ namespace Items.Implants.Organs
 
 		public override void ImplantPeriodicUpdate()
 		{
-			if (ReagentCirculatedComponent.OrNull()?.AssociatedSystem != null && ReagentCirculatedComponent.AssociatedSystem.BloodPool.reagents.Contains(drunkReagent))
-			{
-				float DrunkPercentage = ReagentCirculatedComponent.AssociatedSystem.BloodPool.GetPercent(drunkReagent);
-				if (DrunkPercentage > 0)
-				{
-					if (DrunkPercentage > MaxDrunkAtPercentage)
-					{
-						DrunkPercentage = MaxDrunkAtPercentage;
-					}
-					var percentage = DrunkPercentage / MaxDrunkAtPercentage;
+			if (drunkReagent != null) DrunkCheck();
+		}
 
-					if (percentage > 0.05f)
-					{
-						SyncDrunkenness(drunkAmount, percentage);
-					}
-					else
-					{
-						SyncDrunkenness(drunkAmount, 0);
-					}
+		private void DrunkCheck()
+		{
+			if (ReagentCirculatedComponent.OrNull()?.AssociatedSystem == null) return;
+			if (ReagentCirculatedComponent.AssociatedSystem.BloodPool.reagents.Contains(drunkReagent) == false) return;
+			float drunkPercentage = ReagentCirculatedComponent.AssociatedSystem.BloodPool.GetPercent(drunkReagent);
+			if (drunkPercentage > 0)
+			{
+				if (drunkPercentage > MaxDrunkAtPercentage)
+				{
+					drunkPercentage = MaxDrunkAtPercentage;
+				}
+				var percentage = drunkPercentage / MaxDrunkAtPercentage;
+
+				if (percentage > 0.05f)
+				{
+					SyncDrunkenness(drunkAmount, percentage);
 				}
 				else
 				{
-					drunkAmount = 0;
+					SyncDrunkenness(drunkAmount, 0);
 				}
+			}
+			else
+			{
+				drunkAmount = 0;
 			}
 		}
 

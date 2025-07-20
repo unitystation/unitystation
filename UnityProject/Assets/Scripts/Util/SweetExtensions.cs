@@ -35,17 +35,17 @@ public static class SweetExtensions
 	}
 	public static ItemAttributesV2 Item(this GameObject go)
 	{
-		return go.OrNull()?.GetComponent<ItemAttributesV2>();
+		return go.OrNull()?.GetComponentCustom<ItemAttributesV2>();
 	}
 
 	public static ObjectAttributes Object(this GameObject go)
 	{
-		return go.OrNull()?.GetComponent<ObjectAttributes>();
+		return go.OrNull()?.GetComponentCustom<ObjectAttributes>();
 	}
 
 	public static Attributes AttributesOrNull(this GameObject go)
 	{
-		return go.OrNull()?.GetComponent<Attributes>();
+		return go.OrNull()?.GetComponentCustom<Attributes>();
 	}
 
 	public static bool HasComponent<T>(this GameObject go) where T : Component
@@ -163,6 +163,19 @@ public static class SweetExtensions
 		}
 	}
 
+	public static uint NetIdCommonComponents(this GameObject go)
+	{
+		var net = go.GetComponentCustom<NetworkIdentity>();
+		if (net)
+		{
+			return net.netId;
+		}
+		else
+		{
+			return global::NetId.Invalid; //maxValue is invalid (see NetId.cs)
+		}
+	}
+
 	public static NetworkIdentity NetworkIdentity(this uint go)
 	{
 		if (go is global::NetId.Empty or global::NetId.Invalid)
@@ -219,6 +232,21 @@ public static class SweetExtensions
 		}
 
 		return GetRootGameObject(go, IsInGameItem).transform.position;
+	}
+
+	public static void AppearAtWorldPositionServer(this GameObject go, Vector3 WorldPositioon)
+	{
+		if (go == null)
+		{
+			Loggy.Error("Null object passed into AssumedWorldPosServer");
+			return;
+		}
+
+		if (ComponentManager.TryGetUniversalObjectPhysics(go, out var UOP))
+		{
+			UOP.AppearAtWorldPositionServer(WorldPositioon);
+		}
+
 	}
 
 
@@ -701,22 +729,35 @@ public static class SweetExtensions
 	}
 
 	/// <summary>
-	/// See if two colours are approximately the same
+	/// See if two colors are approximately the same within a small tolerance.
 	/// </summary>
-	public static bool ColorApprox(this Color a, Color b, bool checkAlpha = true)
+	public static bool ColorApprox(this Color a, Color b, bool checkAlpha = true, float tolerance = 0.0001f)
 	{
+		bool CloseEnough(float x, float y) => Mathf.Abs(x - y) <= tolerance;
+
 		if (checkAlpha)
 		{
-			return Mathf.Approximately(a.b, b.b) &&
-			       Mathf.Approximately(a.r, b.r) &&
-			       Mathf.Approximately(a.g, b.g) &&
-			       Mathf.Approximately(a.a, b.a);
+			return CloseEnough(a.r, b.r) &&
+			       CloseEnough(a.g, b.g) &&
+			       CloseEnough(a.b, b.b) &&
+			       CloseEnough(a.a, b.a);
 		}
 
-		return Mathf.Approximately(a.b, b.b) &&
-		       Mathf.Approximately(a.r, b.r) &&
-		       Mathf.Approximately(a.g, b.g);
+		return CloseEnough(a.r, b.r) &&
+		       CloseEnough(a.g, b.g) &&
+		       CloseEnough(a.b, b.b);
 	}
+
+	public static Color ClosestColor(this Color targetColor, Color[] colorPalette)
+	{
+		return colorPalette.OrderBy(c => ColorDifference(targetColor, c)).FirstOrDefault();
+	}
+
+	public static float ColorDifference(Color a, Color b)
+	{
+		return Mathf.Pow(a.r - b.r, 2) + Mathf.Pow(a.g - b.g, 2) + Mathf.Pow(a.b - b.b, 2);
+	}
+
 	public static string Truncate(this string value, int maxLength)
 	{
 		if (string.IsNullOrEmpty(value)) return value;
@@ -1062,4 +1103,22 @@ public static class SweetExtensions
 	{
 		return new Vector2((int)Random.Range(-1, 1), (int)Random.Range(-1, 1));
 	}
+
+	public static bool IsHiddenPosition(this Vector3 vector3)
+	{
+		return vector3.z <= (TransformState.HiddenPos.z + 10);
+	}
+
+
+	public static string ReplaceFirst(this string text, string search, string replace)
+	{
+		int pos = text.IndexOf(search, StringComparison.Ordinal);
+		if (pos < 0)
+		{
+			return text;
+		}
+		return text.Substring(0, pos) + replace + text.Substring(pos + search.Length);
+
+	}
+
 }

@@ -15,7 +15,7 @@ namespace Messages.Client.Admin
 
 		public override void Process(NetMessage netMsg)
 		{
-			if (IsFromAdmin() == false) return;
+			if (HasPermission(TAG.ROUND_RANDOM_EVENTS) == false) return;
 
 			if (InGameEventsManager.Instance.RandomEventsAllowed == netMsg.RandomEventsAllowed) return;
 

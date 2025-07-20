@@ -19,7 +19,7 @@ namespace Messages.Client.VariableViewer
 
 		private void ValidateAdmin(NetMessage msg)
 		{
-			if (IsFromAdmin() == false) return;
+			if (HasPermission(TAG.VV_CALL) == false) return;
 
 			global::VariableViewer.RequestInvokeFunction(msg.PageID,msg.SendToClient ,  SentByPlayer.GameObject, SentByPlayer.AccountId);
 		}

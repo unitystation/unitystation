@@ -52,6 +52,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -102,12 +103,17 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue:
   - {fileID: 0}
-  PresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1001 &7286424199340952833
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -225,7 +231,7 @@ PrefabInstance:
     - target: {fileID: 8694470382786230075, guid: d8a238d784db4594c9fef5a84fa22c0d,
         type: 3}
       propertyPath: foreverID
-      value: 7QQh2JkMCwD3@-Ck!TGO
+      value: 7b72aa7093c050142829a7b83d33855e
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 975572777817596840, guid: d8a238d784db4594c9fef5a84fa22c0d, type: 3}

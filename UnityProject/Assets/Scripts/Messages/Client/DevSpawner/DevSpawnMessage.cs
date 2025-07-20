@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Core.Admin.Logs;
 using Logs;
 using UnityEngine;
@@ -31,6 +32,7 @@ namespace Messages.Client.DevSpawner
 			public bool HasOrientationEnum;
 
 			public bool Mapped;
+			public bool AltInteraction;
 
 			public override string ToString()
 			{
@@ -52,34 +54,93 @@ namespace Messages.Client.DevSpawner
 
 		private void ValidateAdmin(NetMessage msg)
 		{
-			if (IsFromAdmin() == false) return;
+			if (HasPermission(TAG.MAP_SPAWN) == false) return;
 
 			//no longer checks impassability, spawn anywhere, go hog wild.
 			if (NetworkClient.prefabs.TryGetValue(msg.PrefabAssetID, out var prefab))
 			{
-				var Matrix = MatrixManager.Get(msg.MatrixID);
-				var worldPosition = msg.LocalPosition.ToWorld(Matrix);
-				var game = Spawn.ServerPrefab(prefab, worldPosition).GameObject;
-
-				if (msg.Mapped)
+				bool StackableBool = false;
+				if (prefab.TryGetComponent<Stackable>(out var prefabStackable))
 				{
-					var NonMapped = game.gameObject.GetComponent<RuntimeSpawned>();
-					if (NonMapped != null)
+					StackableBool = true;
+				}
+				else
+				{
+					if (msg.SpawnStackAmount != -1)
 					{
-						Object.Destroy(NonMapped);
+						if (msg.SpawnStackAmount > 10) //Stop spawning a lot
+						{
+							msg.SpawnStackAmount = 10;
+						}
+					}
+
+					StackableBool = false;
+				}
+
+				var Matrix = MatrixManager.Get(msg.MatrixID);
+				var Dynamicstorage = Matrix.Matrix.Get<DynamicItemStorage>(msg.LocalPosition.RoundToInt(), true);
+				var ItemStorage = Matrix.Matrix.Get<ItemStorage>(msg.LocalPosition.RoundToInt(), true);
+				var worldPosition = msg.LocalPosition.ToWorld(Matrix);
+
+				SpawnResult SpawnResult = null;
+				if (StackableBool || msg.SpawnStackAmount == -1)
+				{
+					SpawnResult = Spawn.ServerPrefab(prefab, worldPosition);
+				}
+				else
+				{
+					SpawnResult = Spawn.ServerPrefab(prefab, worldPosition, count:msg.SpawnStackAmount);
+				}
+
+
+				foreach (var game in SpawnResult.GameObjects)
+				{
+					if (msg.Mapped)
+					{
+						var NonMapped = game.gameObject.GetComponent<RuntimeSpawned>();
+						if (NonMapped != null)
+						{
+							Object.Destroy(NonMapped);
+						}
+					}
+
+					if (msg.SpawnStackAmount != -1)
+					{
+						if (game.TryGetComponent<Stackable>(out var Stackable) )
+						{
+							Stackable.ServerSetAmount(msg.SpawnStackAmount);
+						}
+					}
+
+
+					if (game.TryGetComponent<Rotatable>(out var Rotatable) && msg.HasOrientationEnum)
+					{
+						Rotatable.FaceDirection(msg.OrientationEnum);
+					}
+
+					if (msg.AltInteraction)
+					{
+						if (Dynamicstorage?.Any() == true)
+						{
+							var Slot = Dynamicstorage.First().GetBestHandOrSlotFor(game);
+							if (Slot != null)
+							{
+								Inventory.ServerAdd(game, Slot);
+							}
+						}
+						else if (ItemStorage?.Any() == true)
+						{
+							var Slot = ItemStorage.First().GetBestSlotFor(game);
+							if (Slot != null)
+							{
+								Inventory.ServerAdd(game, Slot);
+							}
+						}
 					}
 				}
 
-				if (game.TryGetComponent<Stackable>(out var Stackable) && msg.SpawnStackAmount != -1)
-				{
-					Stackable.ServerSetAmount(msg.SpawnStackAmount);
-				}
 
-				if (game.TryGetComponent<Rotatable>(out var Rotatable) && msg.HasOrientationEnum)
-				{
-					Rotatable.FaceDirection(msg.OrientationEnum);
-				}
-				AdminLogsManager.AddNewLog(SentByPlayer.GameObject, $"{SentByPlayer.Username} spawned a {prefab.name} at {worldPosition}", LogCategory.Admin);
+				AdminLogsManager.AddNewLog(SentByPlayer.GameObject, $" spawned a ", prefab ,$" at {worldPosition}  ", LogCategory.Admin);
 			}
 			else
 			{
@@ -97,7 +158,8 @@ namespace Messages.Client.DevSpawner
 		/// <param name="adminId">user id of the admin trying to perform this action</param>
 		/// <param name="adminToken">token of the admin trying to perform this action</param>
 		/// <returns></returns>
-		public static void Send(GameObject prefab, Vector3 worldPosition, int InSpawnStackAmount,OrientationEnum? OrientationEnum, bool Mapped)
+		public static void Send(GameObject prefab, Vector3 worldPosition, int InSpawnStackAmount,OrientationEnum? OrientationEnum, bool Mapped,
+			bool altInteraction)
 		{
 			if (prefab.TryGetComponent<NetworkIdentity>(out var networkIdentity))
 			{
@@ -108,7 +170,8 @@ namespace Messages.Client.DevSpawner
 					MatrixID = worldPosition.GetMatrixAtWorld().Id,
 					SpawnStackAmount = InSpawnStackAmount,
 					HasOrientationEnum = OrientationEnum != null,
-					Mapped = Mapped
+					Mapped = Mapped,
+					AltInteraction = altInteraction,
 				};
 
 				if (msg.HasOrientationEnum)

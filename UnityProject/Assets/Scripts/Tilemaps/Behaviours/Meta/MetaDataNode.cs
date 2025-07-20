@@ -95,6 +95,12 @@ public class MetaDataNode : IGasMixContainer
 	/// </summary>
 	public NodeOccupiedType OccupiedType;
 
+	/// <summary>
+	/// Whether or not on round start it had a path to space, TEMP, Will 100% be out of date When using it outside of the init code
+	/// </summary>
+	public bool InItHadPathToSpace = false;
+
+
 	private GasMix gasMix;
 
 	/// <summary>
@@ -127,7 +133,6 @@ public class MetaDataNode : IGasMixContainer
 	public HashSet<GasSO> GasOverlayData => gasOverlayData;
 
 	public AppliedDetails AppliedDetails = new AppliedDetails();
-
 
 	private SmokeNode smokeNode;
 	public SmokeNode SmokeNode
@@ -293,7 +298,6 @@ public class MetaDataNode : IGasMixContainer
 	/// </summary>
 	public bool IsOccupied => Type == NodeType.Occupied;
 
-
 	private bool isSlippery = false;
 
 	public bool IsSlippery
@@ -323,7 +327,23 @@ public class MetaDataNode : IGasMixContainer
 		}
 	}
 
-	public bool Allslippery => IsSlippery || IsIceSlippy;
+
+	private bool isSuperSlippery = false;
+
+	public bool IsSuperSlippery
+	{
+		get
+		{
+			return isSuperSlippery;
+		}
+		set
+		{
+			isSuperSlippery = value;
+			ForceUpdateClient();
+		}
+	}
+
+	public bool Allslippery => IsSlippery || IsIceSlippy || IsSuperSlippery;
 
 	public bool Exists => this != None;
 

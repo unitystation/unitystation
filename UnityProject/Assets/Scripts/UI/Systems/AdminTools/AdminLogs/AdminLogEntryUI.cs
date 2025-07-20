@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Core.Admin.Logs;
+using Logs;
 using Mirror;
 using TMPro;
 using UI.Systems.Tooltips.HoverTooltips;
@@ -13,21 +14,38 @@ namespace UI.Systems.AdminTools.AdminLogs
 	{
 		[SerializeField] private Button gibButton = null;
 		[SerializeField] private Button teleportButton = null;
-		[SerializeField] private TMP_Text logInfo = null;
 		[SerializeField] private TMP_Text logTime = null;
-		private LogEntry entry = null;
-		public LogEntry StoredLogEntry => entry;
-		public string LogText => entry?.Log;
+		private StoredLogEntry entry;
+		public StoredLogEntry StoredLogEntry => entry;
 
-		public void Setup(LogEntry newEntry)
+
+		public LogInfoUI Prefab;
+
+		public Transform Target;
+
+		public void Setup(StoredLogEntry newEntry)
 		{
+
+			if (newEntry.Log == null)
+			{
+				Loggy.Error("boo Empty log who had this!! at " + newEntry.LogTime);
+				return;
+			}
+
+			foreach (var log in newEntry.Log)
+			{
+				var Instant = Instantiate(Prefab, Target);
+				Instant.SetUp(log);
+			}
+
 			entry = newEntry;
-			logInfo.text = entry.Log;
+			//logInfo.text = entry.Log;
 			logTime.text = newEntry.LogTime.ToLocalTime().ToLongTimeString();
 			gameObject.SetActive(true);
 			//gibButton.onClick.AddListener(GibRequest);
 			//teleportButton.onClick.AddListener(TeleportTo);
 		}
+
 
 		public void TeleportTo()
 		{
@@ -36,21 +54,21 @@ namespace UI.Systems.AdminTools.AdminLogs
 			var spawned =
 				CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
 
-			var target = spawned[AdminLogsManager.GetPerpIdFromString(entry.Perpetrator)];
-			if (target == null) return;
+			//var target = spawned[AdminLogsManager.GetPerpIdFromString(entry.Perpetrator)];
+			//if (target == null) return;
 
 			if (PlayerManager.LocalPlayerScript.IsGhost == false)
 			{
 				teleportButton.interactable = false;
 				PlayerManager.LocalMindScript.CmdAGhost();
 			}
-			PlayerManager.LocalPlayerObject.GetComponent<GhostMove>()
-				.CMDSetServerPosition(target.transform.position);
+			//PlayerManager.LocalPlayerObject.GetComponent<GhostMove>()
+			//	.CMDSetServerPosition(target.transform.position);
 		}
 
 		public string HoverTip()
 		{
-			return $"Perpetrator: {entry.Perpetrator}\n" +
+			return $"Perpetrator:\n" +
 			       $"Time: {entry.LogTime.ToLongTimeString()} UTC\n" +
 			       $"Category: {entry.Category}\n" +
 			       $"Severity: {entry.LogImportance}\n";

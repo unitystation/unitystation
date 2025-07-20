@@ -27,7 +27,7 @@ namespace UI
 			voteCount.text = currentCount;
 			voteTimer.text = timer;
 
-			if (PlayerList.Instance.AdminToken == null) return;
+			if (PlayerList.HasTAGClient(TAG.ADMIN_VOTE_VETO) == false) return;
 
 			vetoBtn.gameObject.SetActive(true);
 		}

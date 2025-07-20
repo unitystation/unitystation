@@ -45,7 +45,7 @@ namespace HealthV2.Living.PolymorphicSystems
 			// Currently only does blood and required reagents, should at nutriments and other common gases
 			if (bloodPool == null || bloodReagent == null)
 			{
-				Loggy.Error("[ReagentPoolSystem/AddFreshBlood] - Missing data detected. Make sure you're not spawning a bodyPart without its proper systems defined.");
+				Loggy.Error("Missing data on detected. Make sure you're not spawning a bodyPart without its proper systems defined.");
 			}
 			try
 			{
@@ -68,11 +68,16 @@ namespace HealthV2.Living.PolymorphicSystems
 		}
 
 
-		public void Bleed(float amount, bool spawnReagentOnFloor = true)
+		public void Bleed(float amount, bool spawnReagentOnFloor = true, Vector3Int? pos = null)
 		{
 			var bloodLoss = new ReagentMix();
 			BloodPool.TransferTo(bloodLoss, amount);
-			if (spawnReagentOnFloor) MatrixManager.ReagentReact(bloodLoss, Base.gameObject.RegisterTile().WorldPositionServer, Scatter: true, from: Base);
+			if (pos == null)
+			{
+				pos = Base.gameObject.AssumedWorldPosServer().RoundToInt();
+			}
+
+			if (spawnReagentOnFloor) MatrixManager.ReagentReact(bloodLoss, pos.Value, Scatter: true, from: Base);
 		}
 
 		/// <summary>

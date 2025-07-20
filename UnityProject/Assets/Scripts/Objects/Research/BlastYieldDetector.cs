@@ -40,7 +40,7 @@ namespace Systems.Research.Objects
 		[SerializeField]
 		private SpriteHandler spriteHandler;
 
-		private const float EFFECT_TOLERABLE_THRESHOLD = 0.1f;
+		private const float EFFECT_TOLERABLE_THRESHOLD = 1f;
 
 		public enum BlastYieldDetectorState
 		{
@@ -163,8 +163,6 @@ namespace Systems.Research.Objects
 
 		#region BountyValidation
 
-		private const float ALLOWED_ERROR_PERCENT = 0.05f; //The allowed error in blast yield to still achieve target.
-
 		private void TryCompleteBounties(BlastData blastData)
 		{
 			List<ExplosiveBounty> bountyList = new List<ExplosiveBounty>();
@@ -178,17 +176,13 @@ namespace Systems.Research.Objects
 				if (MeetsYieldTarget(bounty, blastData.BlastYield) == false || MeetsReagentTargets(bounty, mix) == false || MeetsReactionTargets(bounty, mix) == false) continue;
 
 				researchServer?.CompleteBounty(bounty);
-				Chat.AddCommMsgByMachineToChat(this.gameObject, $"Bounty: {bounty.BountyName} successfully completed! Awarded {ResearchServer.BOUNTY_AWARD}RP!", ChatChannel.Local, Loudness.NORMAL);
+				Chat.AddCommMsgByMachineToChat(this.gameObject, $"Bounty: {bounty.BountyName} successfully completed! Awarded {ResearchServer.BOUNTY_AWARD} RP!", ChatChannel.Local | ChatChannel.Science, Loudness.NORMAL);
 			}
 		}
 
 		private bool MeetsYieldTarget(ExplosiveBounty bounty, float yield)
 		{
-			if (bounty.RequiredYield.RequiredAmount <= 1) return true;
-
-			float yieldDiff = Math.Abs(bounty.RequiredYield.RequiredAmount - yield);
-
-			return yieldDiff / bounty.RequiredYield.RequiredAmount <= ALLOWED_ERROR_PERCENT;
+			return yield >= bounty.RequiredYield.RequiredAmount;
 		}
 
 		private bool MeetsReagentTargets(ExplosiveBounty bounty, ReagentMix mix)
@@ -196,10 +190,7 @@ namespace Systems.Research.Objects
 			foreach (ReagentBountyEntry reagent in bounty.RequiredReagents)
 			{
 				mix.reagents.m_dict.TryGetValue(reagent.RequiredReagent, out float reagentAmount);
-				if (reagentAmount != reagent.RequiredAmount)
-				{
-					return false;
-				}
+				if (Math.Abs(reagentAmount - reagent.RequiredAmount) > EFFECT_TOLERABLE_THRESHOLD) return false;
 			}
 
 			return true;

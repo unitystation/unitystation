@@ -1,0 +1,141 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &8319312302558940983
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1744309080863040631, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1744309080863040631, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.3301887
+      objectReference: {fileID: 0}
+    - target: {fileID: 1744309080863040631, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.15254447
+      objectReference: {fileID: 0}
+    - target: {fileID: 1926668629546310274, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: <ActionData>k__BackingField.m_keys.Array.data[0].ID
+      value: spider_ability_OpenDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 1926668629546310274, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: <ActionData>k__BackingField.m_keys.Array.data[0].DisplayName
+      value: Pry Open Door
+      objectReference: {fileID: 0}
+    - target: {fileID: 1926668629546310274, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: <ActionData>k__BackingField.m_keys.Array.data[1].CooldownTime
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1926668629546310274, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: <ActionData>k__BackingField.m_values.Array.data[0].methodName
+      value: OpenDoors
+      objectReference: {fileID: 0}
+    - target: {fileID: 1926668629546310274, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: <ActionData>k__BackingField.m_keys.Array.data[0].AnimatedIconCatalogue.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1926668629546310274, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: '<ActionData>k__BackingField.m_keys.Array.data[0].AnimatedIconCatalogue.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 6025600b6c11247409fe96ae57bbcc6c,
+        type: 2}
+    - target: {fileID: 1928932909309318955, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: m_Name
+      value: SpiderExoSkeletonNoCrawl
+      objectReference: {fileID: 0}
+    - target: {fileID: 1934138134557436511, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1934138134557436511, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1934138134557436511, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1934138134557436511, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1934138134557436511, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1934138134557436511, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1934138134557436511, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1934138134557436511, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1934138134557436511, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1934138134557436511, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1968292779608992415, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: _assetId
+      value: 1109686461
+      objectReference: {fileID: 0}
+    - target: {fileID: 4791350234009230150, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: parentID
+      value: xbXA372TNNpWc7ruWxpc
+      objectReference: {fileID: 0}
+    - target: {fileID: 4791350234009230150, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: foreverID
+      value: zwwZ-yK6hOR_fVW!Nik4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5729402764699888812, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.32941177
+      objectReference: {fileID: 0}
+    - target: {fileID: 5729402764699888812, guid: 68d45976839d081429fc3adc1bdb7e76,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 0.15294118
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 68d45976839d081429fc3adc1bdb7e76, type: 3}

@@ -221,11 +221,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccbb5729ffc2e0b4f89279dcaf8110ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stackableMaterials: 0
-  materialCost: 0
-  reagentContainer: 0
   craftItem:
   - {fileID: 7185978976352611110, guid: 0af3fb6f8543f0b4b914da932bd18ea0, type: 3}
   - {fileID: 7029765293304545759, guid: 40e2b6f8f7fbcdb4cbe892093907ef91, type: 3}
-  assembly: {fileID: 5914959498962467419, guid: 6c3917fe0f6cb4b4b912f686cbc05d7f,
+  amount: 1
+  prefabToSpawn: {fileID: 5914959498962467419, guid: 6c3917fe0f6cb4b4b912f686cbc05d7f,
     type: 3}

@@ -39,7 +39,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 	[SerializeField]
 	private bool randomInitialSprite = false;
 
-	private SpriteRenderer spriteRenderer;
+	[SerializeField] private SpriteRenderer spriteRenderer;
 
 	public SpriteRenderer SpriteRenderer => spriteRenderer;
 	private Image image;
@@ -86,6 +86,14 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 
 	public List<Color> Palette => palette;
 
+	//TODO Network
+	[SerializeField]
+	private int initialSortingOrder = -1;
+
+	//TODO Network
+	[SerializeField]
+	private string initialSortingLayerName = "";
+
 	/// <summary>
 	/// false if the palette has not been configured for the current spriteSO. true otherwise
 	/// </summary>
@@ -127,6 +135,8 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 	public int CatalogueCount => SubCatalogue.Count;
 
 	private bool SpriteHasBeenCodeSet = false;
+
+	private bool IndexHasBeenCodeSet = false;
 
 	/// <summary>
 	/// Current sprite from SpriteRender or Image
@@ -210,6 +220,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 	/// <param name="networked">Whether this change should be sent to clients, if server.</param>
 	public void SetCatalogueIndexSprite(int cataloguePage, bool networked = true)
 	{
+		Init();
 		SpriteHasBeenCodeSet = true;
 		InternalChangeSprite(cataloguePage, networked);
 	}
@@ -220,6 +231,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 	/// </summary>
 	public void AnimateOnce(int cataloguePage, bool networked = true)
 	{
+		Init();
 		SpriteHasBeenCodeSet = true;
 		InternalChangeSprite(cataloguePage, networked, true);
 	}
@@ -259,6 +271,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 	public void SetSpriteSO(SpriteDataSO newSpriteSO, Color? color = null, int newVariantIndex = -1,
 		bool networked = true)
 	{
+		Init();
 		if (newSpriteSO == null) return;
 		if (newSpriteSO != PresentSpriteSet)
 		{
@@ -311,14 +324,17 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 	/// Used to set a singular sprite NOTE: This will not be networked
 	/// </summary>
 	/// <param name="_sprite">Sprite.</param>
-	public void SetSprite(Sprite _sprite)
+	public void SetSpriteNonNetworked(Sprite _sprite)
 	{
+		Init();
 		SetImageSprite(_sprite);
 		TryToggleAnimationState(false);
 	}
 
 	public void SetSpriteVariant(int spriteVariant, bool networked = true)
 	{
+		IndexHasBeenCodeSet = true;
+		Init();
 		if (PresentSpriteSet == null) return;
 		if (spriteVariant < PresentSpriteSet.Variance.Count)
 		{
@@ -331,7 +347,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 
 			if (Application.isPlaying == false)
 			{
-				variantIndex = initialVariantIndex;
+				initialVariantIndex = variantIndex;
 			}
 			var Frame = PresentSpriteSet.Variance[variantIndex].Frames[animationIndex];
 			SetSprite(Frame);
@@ -344,19 +360,20 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 		}
 	}
 
-	public Color GetColor()
+	public Color? GetColor(bool tryGet = true)
 	{
 		Init();
-		if (setColour == null)
+		if (setColour == null && tryGet)
 		{
 			UpdateImageColor();
 		}
 
-		return setColour.Value;
+		return setColour;
 	}
 
 	public void SetColor(Color value, bool networked = true)
 	{
+		Init();
 		if (setColour == value) return;
 		setColour = value;
 
@@ -367,8 +384,24 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 		}
 	}
 
+	[NaughtyAttributes.Button]
+	private void PushColour()
+	{
+		SetColor(InitialColour);
+	}
+
+
+	[NaughtyAttributes.Button]
+	private void PushPaletteColour()
+	{
+		Init();
+		SetPaletteOnSpriteRenderer();
+	}
+
+
 	public void ClearPalette(bool networked = true)
 	{
+		Init();
 		if (palette == null) return;
 		palette = null;
 		isPaletteSet = false;
@@ -381,6 +414,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 
 	public void Empty(bool clearCatalogue = false, bool networked = true)
 	{
+		Init();
 		SpriteHasBeenCodeSet = true;
 		if (clearCatalogue)
 		{
@@ -411,6 +445,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 	/// <param name="networked">Network this action to all clients.</param>
 	public void PushClear(bool networked = true)
 	{
+		Init();
 		if (HasSpriteInImageComponent() == false) return;
 
 		SetImageSprite(null);
@@ -426,6 +461,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 	/// </summary>
 	public void SetCatalogue(List<SpriteDataSO> newCatalogue, int initialPage = -1, bool networked = true)
 	{
+		Init();
 		isSubCatalogueChanged = true;
 		SubCatalogue = newCatalogue;
 		if (initialPage > -1)
@@ -436,6 +472,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 
 	public void SetPaletteOfCurrentSprite(List<Color> newPalette, bool networked = true)
 	{
+		Init();
 		bool paletted = IsPaletted();
 
 		Debug.Assert((paletted && newPalette == null) == false,
@@ -459,6 +496,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 	[VVNote(VVHighlight.SafeToModify100), NaughtyAttributes.Button]
 	public void PushTextureWithNetworking()
 	{
+		Init();
 		PushTexture(true);
 	}
 
@@ -470,12 +508,30 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 			PresentSpriteSet = InitialPresentSpriteSet;
 		}
 
+		if (IndexHasBeenCodeSet == false)
+		{
+			variantIndex = initialVariantIndex;
+		}
+
 		PushTexture();
 
-		if (GetColor() == Color.white && InitialColour != Color.white)
+
+
+		if (GetColor(false) == null)
 		{
-			setColour = InitialColour;
-			SetColor(setColour.Value);
+			SetColor(InitialColour);
+		}
+
+		//TODO Network
+		if (string.IsNullOrWhiteSpace(initialSortingLayerName) == false)
+		{
+			SetSpriteRendererSortingLayer(initialSortingLayerName);
+		}
+
+		//TODO Network
+		if (initialSortingOrder >= 0)
+		{
+			SetSpriteRendererSortingOrder(initialSortingOrder);
 		}
 
 	}
@@ -483,6 +539,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 	//Used to set the sprite of the sprite renderer/Image
 	public void PushTexture(bool networked = true)
 	{
+		Init();
 		if (PresentSpriteSet != null && PresentSpriteSet.Variance.Count > 0)
 		{
 			if (variantIndex < PresentSpriteSet.Variance.Count)
@@ -524,6 +581,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 	/// <param name="networked">Will send update to clients if true (default).</param>
 	public void ToggleTexture(bool newState, bool networked = true)
 	{
+		Init();
 		if (newState)
 		{
 			PushTexture(networked);
@@ -574,7 +632,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 			}
 		}
 
-		if (CustomNetworkManager.Instance._isServer == false) return;
+		if (CustomNetworkManager.IsServer == false) return;
 
 		SpriteHandlerManager.SpriteChange spriteChange = null;
 
@@ -756,6 +814,32 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 		OnSpriteUpdated = null;
 		OnVariantUpdated = null;
 		OnSpriteDataSOChanged = null;
+	}
+
+
+	/// <summary>
+	/// Currently only used for mapping TODO Network
+	/// </summary>
+	/// <param name="value"></param>
+	protected virtual void SetSpriteRendererSortingLayer(string value)
+	{
+		if (spriteRenderer != null)
+		{
+			spriteRenderer.sortingLayerName = value;
+		}
+	}
+
+
+	/// <summary>
+	/// Currently only used for mapping TODO Network
+	/// </summary>
+	/// <param name="value"></param>
+	protected virtual void SetSpriteRendererSortingOrder(int value)
+	{
+		if (spriteRenderer != null)
+		{
+			spriteRenderer.sortingOrder = value;
+		}
 	}
 
 	protected virtual void SetImageColor(Color value)
@@ -1033,6 +1117,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 	/// </summary>
 	public SpriteDataSO GetCurrentSpriteSO()
 	{
+		Init();
 		return PresentSpriteSet;
 	}
 
@@ -1041,6 +1126,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 	/// </summary>
 	public SpriteDataSO GetSpriteSO(int index)
 	{
+		Init();
 		if (index < CatalogueCount)
 		{
 			return SubCatalogue[index];
@@ -1054,6 +1140,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 	/// </summary>
 	public List<SpriteDataSO> GetSubCatalogue()
 	{
+		Init();
 		if (CatalogueCount != 0)
 		{
 			return SubCatalogue;
@@ -1123,7 +1210,7 @@ public class SpriteHandler : MonoBehaviour, INewMappedOnSpawn
 		ValidateLate();
 	}
 
-	public void ValidateLate()
+	private void ValidateLate()
 	{
 		// ValidateLate might be called after this object is already destroyed.
 		if (this == null || Application.isPlaying) return;

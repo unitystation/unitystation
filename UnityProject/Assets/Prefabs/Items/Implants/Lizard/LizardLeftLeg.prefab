@@ -39,6 +39,28 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8cda47cca77fdd844aff26e911f13f31,
         type: 2}
+    - target: {fileID: 2567774700964970869, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: CapableMutations.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567774700964970869, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: StartingMutations.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567774700964970869, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: 'CapableMutations.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 7263dbc1b5288a14e9a7cf00e530b0f8,
+        type: 2}
+    - target: {fileID: 2567774700964970869, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: 'StartingMutations.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 7263dbc1b5288a14e9a7cf00e530b0f8,
+        type: 2}
     - target: {fileID: 2574131780916113488, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
       propertyPath: initialName
@@ -134,6 +156,12 @@ PrefabInstance:
     - target: {fileID: 8075695979122336949, guid: 2e6f2ff9beb985749940d242877d84f0,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8cda47cca77fdd844aff26e911f13f31,
+        type: 2}
+    - target: {fileID: 8075695979122336949, guid: 2e6f2ff9beb985749940d242877d84f0,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 8cda47cca77fdd844aff26e911f13f31,
         type: 2}

@@ -56,6 +56,16 @@ namespace Chemistry
 			}
 		}
 
+		[SerializeField, HideInInspector]
+		private int indexInSingleton = -1;
+		public int IndexInSingleton
+		{
+			get => indexInSingleton;
+#if UNITY_EDITOR
+			set => indexInSingleton = value;
+#endif
+		}
+
 		public virtual bool Apply(object sender, ReagentMix reagentMix)
 		{
 			if (IsReactionValid(reagentMix) == false) return false;
@@ -156,6 +166,12 @@ namespace Chemistry
 					reactionMultiplier = value;
 				}
 			}
+
+			if (reactionMultiplier.IsUnreasonableNumber())
+			{
+				reactionMultiplier = 0;
+			}
+
 			return reactionMultiplier;
 		}
 

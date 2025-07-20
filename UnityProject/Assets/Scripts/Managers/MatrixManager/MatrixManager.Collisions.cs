@@ -40,7 +40,7 @@ public partial class MatrixManager
 
 	private void InitCollisions(MatrixInfo matrixInfo)
 	{
-		if (!Application.isPlaying || !CustomNetworkManager.Instance._isServer)
+		if (!Application.isPlaying || !CustomNetworkManager.IsServer)
 		{
 			return;
 		}
@@ -194,7 +194,7 @@ public partial class MatrixManager
 
 	private void UpdateMe()
 	{
-		if (!CustomNetworkManager.Instance._isServer)
+		if (!CustomNetworkManager.IsServer)
 		{
 			return;
 		}
@@ -281,7 +281,6 @@ public partial class MatrixManager
 		{
 			return;
 		}
-
 
 		byte collisions = 0;
 		foreach ( var worldPos in i.Rect.allPositionsWithin() )
@@ -412,7 +411,7 @@ public partial class MatrixManager
 			//TilemapDamage
 			ApplyTilemapDamage( victimMatrix, cellPos, hitEnergy, worldPos );
 
-//			//Integrity
+			//Integrity
 			ApplyIntegrityDamage( victimMatrix, cellPos, hitEnergy );
 		}
 
@@ -426,36 +425,17 @@ public partial class MatrixManager
 
 			//Integrity
 			ApplyIntegrityDamage( victimMatrix, cellPos, 9001 );
-
-			//Underfloor
-			RemoveUnderfloor(victimMatrix, cellPos);
-		}
-
-		void RemoveUnderfloor(MatrixInfo matrix, Vector3Int cellPos)
-		{
-			if (matrix == null) return;
-
-			var Node = matrix.Matrix.GetMetaDataNode(cellPos);
-			if (Node != null)
-			{
-				foreach (var electricalData in Node.ElectricalData)
-				{
-					electricalData.InData.DestroyThisPlease();
-				}
-			}
 		}
 
 		void ApplyTilemapDamage( MatrixInfo matrix, Vector3Int cellPos, float damage, Vector3Int worldPos )
 		{
-			if (matrix == null) return;
-
-			matrix.MetaTileMap.ApplyDamage( cellPos, damage, worldPos );
-			if ( damage > 9000 )
+			if ( matrix == null ) return;
+			if ( matrix.MetaTileMap.ApplyDamage( cellPos, damage, worldPos ) <= 9000 )
 			{
 				foreach ( var damageableLayer in matrix.MetaTileMap.LayersValues )
 				{
 					if (damageableLayer.LayerType == LayerType.Objects) continue;
-					matrix.TileChangeManager.MetaTileMap.RemoveTileWithlayer( cellPos, damageableLayer.LayerType);
+					matrix.TileChangeManager.MetaTileMap.RemoveTileWithlayer( cellPos, damageableLayer.LayerType, false, removeAllMulti: true);
 				}
 			}
 		}

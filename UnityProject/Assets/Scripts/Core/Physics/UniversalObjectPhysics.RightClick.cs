@@ -10,12 +10,17 @@ namespace Core.Physics
 		{
 			var options = RightClickableResult.Create();
 
-			if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) == false &&
-			    KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions,
-				    KeyboardInputManager.KeyEventType.Hold))
+			if (KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold))
 			{
-				options.AddAdminElement("Teleport To", AdminTeleport)
-					.AddAdminElement("Toggle Pushable", AdminTogglePushable);
+				if (PlayerList.HasTAGClient(TAG.ADMIN_TP))
+				{
+					options.AddAdminElement("Teleport To", AdminTeleport);
+				}
+
+				if (PlayerList.HasTAGClient(TAG. ADMIN_CHANGE_PUSHBLE))
+				{
+					options.AddAdminElement("Toggle Pushable", AdminTogglePushable);
+				}
 			}
 
 			//check if our local player can reach this
@@ -43,13 +48,22 @@ namespace Core.Physics
 			{
 				if (Validations.IsReachableByRegisterTiles(initiator.registerTile, registerTile, false,
 					    context: gameObject) &&
-				    rotationTarget.eulerAngles != initialRotationOnAwake)
+				    rotationTarget.eulerAngles.z != 0)
 				{
-					options.AddElement("Reset Rotation", CmdResetTransformRotationForAll);
+					options.AddElement("Reset Rotation", ClientRequestResetRotation);
 				}
 			}
 
+
 			return options;
+		}
+
+		public void ClientRequestResetRotation()
+		{
+			var Euler = transform.localRotation.eulerAngles;
+			Euler.z = 0;
+			transform.localRotation = Quaternion.Euler(Euler);
+			CmdResetTransformRotationForAll();
 		}
 	}
 }

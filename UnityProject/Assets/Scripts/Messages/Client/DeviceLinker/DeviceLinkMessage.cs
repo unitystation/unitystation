@@ -34,7 +34,7 @@ namespace Messages.Client.DeviceLinkMessage
 
 		public override void Process(NetMessage msg)
 		{
-			if (IsFromAdmin() == false) return;
+			if (HasPermission(TAG.MAP_LINK) == false) return;
 
 			if (msg.Slave is NetId.Empty or NetId.Invalid)
 			{

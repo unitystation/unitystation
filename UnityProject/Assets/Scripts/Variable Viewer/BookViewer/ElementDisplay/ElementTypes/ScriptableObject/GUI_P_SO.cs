@@ -117,7 +117,7 @@ namespace AdminTools.VariableViewer
 			{
 				if (ISearchSpritePreview.Sprite == null)
 				{
-					Preview.SetSprite(ISearchSpritePreview.OldSprite);
+					Preview.SetSpriteNonNetworked(ISearchSpritePreview.OldSprite);
 				}
 				else
 				{
@@ -242,7 +242,13 @@ namespace AdminTools.VariableViewer
 				InitialiseIndividualDropDownOptions();
 			}
 
-			return OptimiseIndividualDropDownOptions[InType].GetValueOrDefault(StringVariable);
+			var Object = OptimiseIndividualDropDownOptions[InType].GetValueOrDefault(StringVariable);
+			if (Object == null)
+			{
+				Loggy.Error($" Unable to find Forever ID of  {StringVariable} for the Type {InType.Name} ");
+			}
+
+			return Object;
 		}
 
 		public override void Pool()

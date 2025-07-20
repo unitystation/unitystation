@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Core;
 using Objects.Engineering;
 using UnityEngine;
+using Light2D;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public class LaserLine : MonoBehaviour
@@ -27,7 +28,8 @@ public class LaserLine : MonoBehaviour
 	public LaserProjection RelatedLaserProjection;
 
 
-	public SpriteRenderer Sprite;
+	public LightSprite Sprite;
+	[SerializeField]  SpriteRenderer subSprite = null;
 
 	public Vector3 VOrigin;
 	public Vector3 VTarget;
@@ -96,9 +98,9 @@ public class LaserLine : MonoBehaviour
 
 		RelatedLaserProjection = _RelatedLaserProjection;
 		var Colour = TechnologyAndBeams.Colour;
-		Colour.a = 0.65f;
-		Sprite.color = Colour;
-
+		Colour.a = 0.9f;
+		Sprite.Color = Colour;
+		subSprite.color = Colour;
 
 		HookInto();
 		if (WorldTarget == null)
@@ -114,10 +116,11 @@ public class LaserLine : MonoBehaviour
 		PositionLaserBody(OriginTarget.Value, WorldTarget.Value);
 	}
 
+
 	public void ManualSetup(Vector3 OriginTarget, Vector3 WorldTarget, Color Colour)
 	{
 		Colour.a = 0.65f;
-		Sprite.color = Colour;
+		Sprite.Color = Colour;
 		PositionLaserBody(OriginTarget, WorldTarget);
 	}
 

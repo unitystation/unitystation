@@ -26,7 +26,7 @@ namespace Messages.Client.Admin
 
 		private void VerifyAdminStatus(NetMessage msg)
 		{
-			if (IsFromAdmin() == false) return;
+			if (HasPermission(TAG.VV_EDIT) == false) return;
 
 			if (Librarian.IDToBookShelf.TryGetValue(msg.VVObjectID, out var shelf))
 			{

@@ -44,7 +44,7 @@ namespace UI.Objects.Research
 
 		protected override void InitServer()
 		{
-			if (CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.IsServer)
 			{
 				StartCoroutine(WaitForProvider());
 			}
@@ -87,7 +87,7 @@ namespace UI.Objects.Research
 		private void UpdateServerConnectionImage()
 		{
 			if (artifactAnalyser.researchServer == null) connection.SetSprite(0);
-			else connection.SetSprite(1);	
+			else connection.SetSprite(1);
 		}
 
 		private void UpdateRPDisplay()
@@ -193,9 +193,12 @@ namespace UI.Objects.Research
 			if(artifactAnalyser.researchServer == null) return;
 
 			int amount = artifactAnalyser.storedRP;
+			if (amount <= 0) return;
 			artifactAnalyser.storedRP = 0;
 
 			artifactAnalyser.AddResearchPoints(amount);
+			Chat.AddCommMsgByMachineToChat(artifactAnalyser.gameObject, $"{amount} RP transfered from {artifactAnalyser.gameObject.ExpensiveName()} to techweb server!", ChatChannel.Local | ChatChannel.Science, Loudness.NORMAL);
+
 			UpdateRPDisplay();
 		}
 

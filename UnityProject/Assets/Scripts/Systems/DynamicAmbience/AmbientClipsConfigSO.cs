@@ -32,9 +32,11 @@ namespace Systems.DynamicAmbience
 			return tile != null && requiredTiles.Contains(tile);
 		}
 
-		public void PlayRandomClipLocally()
+		public string PlayRandomClipLocally()
 		{
-			_ = SoundManager.Play(ambientClips.PickRandom(), new Guid().ToString());
+			var token = Guid.NewGuid().ToString();
+			_ = SoundManager.Play(ambientClips.PickRandom(), token);
+			return token;
 		}
 	}
 }

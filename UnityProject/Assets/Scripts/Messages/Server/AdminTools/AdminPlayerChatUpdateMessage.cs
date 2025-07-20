@@ -11,31 +11,40 @@ namespace Messages.Server.AdminTools
 		{
 			public string JsonData;
 			public string PlayerId;
+			public int RoundID;
+			public bool ForceShow;
 		}
 
 		public override void Process(NetMessage msg)
 		{
-			UIManager.Instance.adminChatWindows.adminPlayerChat.ClientUpdateChatLog(msg.JsonData, msg.PlayerId);
+			UIManager.Instance.adminChatWindows.adminPlayerChat.ClientUpdateChatLog(msg.JsonData, msg.PlayerId, msg.RoundID, msg.ForceShow);
 		}
 
-		public static NetMessage SendSingleEntryToAdmins(AdminChatMessage chatMessage, string playerId)
+		public static NetMessage SendSingleEntryToAdmins(AdminChatMessage chatMessage, string playerId, int RoundID, bool ForceShow)
 		{
 			AdminChatUpdate update = new AdminChatUpdate();
 			update.messages.Add(chatMessage);
 			NetMessage  msg =
-				new NetMessage  {JsonData = JsonConvert.SerializeObject(update), PlayerId = playerId};
+				new NetMessage
+				{
+					JsonData = JsonConvert.SerializeObject(update), PlayerId = playerId,
+					RoundID = RoundID,
+					ForceShow = ForceShow
+				};
 
-			SendToAdmins(msg);
+			SendToAdmins(msg, TAG.PLAYER_AHELP);
 			return msg;
 		}
 
-		public static NetMessage SendLogUpdateToAdmin(NetworkConnection requestee, AdminChatUpdate update, string playerId)
+		public static NetMessage SendLogUpdateToAdmin(NetworkConnection requestee, AdminChatUpdate update, string playerId, int RoundID, bool ForceShow)
 		{
 			NetMessage msg =
 				new NetMessage
 				{
 					JsonData = JsonConvert.SerializeObject(update),
-					PlayerId = playerId
+					PlayerId = playerId,
+					RoundID = RoundID,
+					ForceShow = ForceShow
 				};
 
 			SendTo(requestee, msg);

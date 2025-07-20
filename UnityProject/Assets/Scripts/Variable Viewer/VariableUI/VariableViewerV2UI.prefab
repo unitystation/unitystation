@@ -2818,6 +2818,7 @@ GameObject:
   - component: {fileID: 7448834874888325302}
   - component: {fileID: 6241977091832391785}
   - component: {fileID: 4218529131494440505}
+  - component: {fileID: 8540965853259299076}
   m_Layer: 5
   m_Name: BookShelf_book
   m_TagString: Untagged
@@ -2942,6 +2943,23 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &8540965853259299076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3453526943535881885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636111e8adf7b234f8563fdfdf91f495, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTab: {fileID: 0}
+  OnEscapeKey:
+    m_PersistentCalls:
+      m_Calls: []
+  DisableOnEscape: 1
 --- !u!1 &3462953354989560559
 GameObject:
   m_ObjectHideFlags: 0
@@ -6241,6 +6259,7 @@ GameObject:
   - component: {fileID: 6272734420192359570}
   - component: {fileID: 6178116301371929298}
   - component: {fileID: 1979136254496156694}
+  - component: {fileID: 4931313489409157608}
   m_Layer: 5
   m_Name: Hierarchy_library
   m_TagString: Untagged
@@ -6385,6 +6404,23 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &4931313489409157608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7396178997878153693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636111e8adf7b234f8563fdfdf91f495, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTab: {fileID: 0}
+  OnEscapeKey:
+    m_PersistentCalls:
+      m_Calls: []
+  DisableOnEscape: 1
 --- !u!1 &7403199281790221455
 GameObject:
   m_ObjectHideFlags: 0

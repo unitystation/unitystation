@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using HealthV2;
 using ScriptableObjects.Health;
 using UnityEditor;
@@ -28,6 +30,8 @@ namespace Mobs
 		private bool showBodyParts = true;
 		private bool showCustomization = true;
 		private bool showItems = true;
+
+		private Dictionary<string, bool> foldoutStates = new Dictionary<string, bool>();
 
 		[MenuItem("Window/Mob Editor")]
 		public static void ShowWindow()
@@ -235,17 +239,17 @@ namespace Mobs
 				if (_bodyPartsBaseSO != null && GUILayout.Button("Generate Limbs", GUILayout.Height(30)))
 					GenerateBodyPartVariants(raceData);
 
-				raceData.Head = DrawObjectListField("Head", raceData.Head);
+				raceData.Head = DrawObjectListField("Head", raceData.Head, raceData);
 				GUILayout.Space(5);
-				raceData.Torso = DrawObjectListField("Torso", raceData.Torso);
+				raceData.Torso = DrawObjectListField("Torso", raceData.Torso, raceData);
 				GUILayout.Space(5);
-				raceData.ArmRight = DrawObjectListField("Right Arm", raceData.ArmRight);
+				raceData.ArmRight = DrawObjectListField("Right Arm", raceData.ArmRight, raceData);
 				GUILayout.Space(5);
-				raceData.ArmLeft = DrawObjectListField("Left Arm", raceData.ArmLeft);
+				raceData.ArmLeft = DrawObjectListField("Left Arm", raceData.ArmLeft, raceData);
 				GUILayout.Space(5);
-				raceData.LegRight = DrawObjectListField("Right Leg", raceData.LegRight);
+				raceData.LegRight = DrawObjectListField("Right Leg", raceData.LegRight, raceData);
 				GUILayout.Space(5);
-				raceData.LegLeft = DrawObjectListField("Left Leg", raceData.LegLeft);
+				raceData.LegLeft = DrawObjectListField("Left Leg", raceData.LegLeft, raceData);
 				EditorGUILayout.EndVertical();
 			}
 
@@ -412,14 +416,11 @@ namespace Mobs
 			return AssetDatabase.LoadAssetAtPath<GameObject>(variantPath);
 		}
 
-		private ObjectList DrawObjectListField(string label, ObjectList objectList)
+		private ObjectList DrawObjectListField(string label, ObjectList objectList, RaceHealthData raceHealthData)
 		{
 			EditorGUILayout.BeginHorizontal();
 			EditorGUILayout.LabelField(label, EditorStyles.boldLabel);
-			if (GUILayout.Button("Add " + label, GUILayout.Height(15)))
-			{
-				objectList.Elements.Add(null);
-			}
+			if (GUILayout.Button("Add " + label, GUILayout.Height(15))) objectList.Elements.Add(null);
 			EditorGUILayout.EndHorizontal();
 
 			var count = Mathf.Max(0, EditorGUILayout.IntField("Number of Elements", objectList.Elements.Count));
@@ -429,10 +430,109 @@ namespace Mobs
 				objectList.Elements.Add(null);
 
 			for (var i = 0; i < objectList.Elements.Count; i++)
+			{
 				objectList.Elements[i] = (GameObject)EditorGUILayout.ObjectField($"Element {i + 1}",
 					objectList.Elements[i], typeof(GameObject), false);
 
+				if (objectList.Elements[i] != null &&
+				    objectList.Elements[i].TryGetComponent<BodyPart>(out var bodyPart))
+				{
+					var elementName = objectList.Elements[i].name;
+					foldoutStates.TryAdd(elementName, true);
+
+					foldoutStates[elementName] =
+						EditorGUILayout.Foldout(foldoutStates[elementName], $"Sprites for {elementName}");
+					if (foldoutStates[elementName])
+					{
+						var bodyTypeSprites = bodyPart.GetBodyTypesSprites;
+						RenderBodySpritesSettings(bodyTypeSprites, raceHealthData);
+						RenderBodyItemSpritesOptions(objectList, bodyPart, elementName, i);
+					}
+				}
+			}
 			return objectList;
+		}
+
+		private static void RenderBodyItemSpritesOptions(ObjectList objectList, BodyPart bodyPart, string elementName, int i)
+		{
+			var handler = bodyPart.BodyPartItemSprite;
+			if (handler != null)
+			{
+				EditorGUILayout.LabelField("Item Sprites", EditorStyles.boldLabel);
+				EditorGUILayout.BeginHorizontal();
+				EditorGUILayout.HelpBox(
+					"Cannot edit item sprites directly in this tool. Manually assign SpriteSOs in prefab.",
+					MessageType.Warning);
+				if (GUILayout.Button($"Open {elementName} prefab"))
+				{
+					Selection.activeObject = objectList.Elements[i];
+					EditorGUIUtility.PingObject(objectList.Elements[i]);
+				}
+				EditorGUILayout.EndHorizontal();
+			}
+		}
+
+		private static void RenderBodySpritesSettings(BodyTypesWithOrder bodyTypeSprites, RaceHealthData raceHealthData)
+		{
+			EditorGUILayout.LabelField("Body Sprites", EditorStyles.boldLabel);
+			EditorGUILayout.HelpBox(
+				"The sprites mobs will render on their physical bodies. " +
+				"Each sprite index should match this mob's defined BodyType index.",
+				MessageType.Info);
+			var bodyTypeIndex = 0;
+			foreach (var spriteDataSO in bodyTypeSprites.BodyTypes)
+			{
+				EditorGUILayout.BeginHorizontal();
+				if (spriteDataSO == null || spriteDataSO.Sprites == null)
+				{
+					EditorGUILayout.HelpBox("SpriteSO has missing data. Please assign a SpriteSO in its prefab.", MessageType.Error);
+					continue;
+				}
+				try
+				{
+					var previewSprite = spriteDataSO.Sprites[0]?.GetFirstSprite.texture;
+					if (previewSprite != null)
+					{
+						GUILayout.Box(previewSprite, GUILayout.Width(50), GUILayout.Height(50));
+					}
+				}
+				catch (Exception e)
+				{
+					EditorGUILayout.HelpBox("SpriteSO has missing data. Please fill out everything.", MessageType.Error);
+				}
+				EditorGUILayout.EndHorizontal();
+
+				for (var k = 0; k < spriteDataSO.Sprites.Count; k++)
+				{
+					if (spriteDataSO.Sprites[k] == null)
+					{
+						EditorGUILayout.HelpBox("SpriteSO has missing sprite data. Please assign it in the prefab.", MessageType.Error);
+						continue;
+					}
+					if (raceHealthData.bodyTypeSettings.AvailableBodyTypes.Count <= bodyTypeIndex)
+					{
+						spriteDataSO.Sprites[k] = (SpriteDataSO)EditorGUILayout.ObjectField($"Sprite {k + 1}",
+							spriteDataSO.Sprites[k], typeof(SpriteDataSO), false);
+					}
+					else
+					{
+						spriteDataSO.Sprites[k] = (SpriteDataSO)EditorGUILayout.ObjectField($"Sprite {raceHealthData.bodyTypeSettings.AvailableBodyTypes[bodyTypeIndex].Name} {k + 1}",
+							spriteDataSO.Sprites[k], typeof(SpriteDataSO), false);
+					}
+				}
+				bodyTypeIndex++;
+			}
+			EditorGUILayout.BeginHorizontal();
+			if (GUILayout.Button("Add Sprite", GUILayout.Height(15)))
+			{
+				bodyTypeSprites.BodyTypes.Add(bodyTypeSprites.BodyTypes.Count > 0
+					? bodyTypeSprites.BodyTypes[0]
+					: null);
+			}
+			if (GUILayout.Button("Remove Sprite", GUILayout.Height(15)))
+				if (bodyTypeSprites.BodyTypes.Count > 0)
+					bodyTypeSprites.BodyTypes.RemoveAt(bodyTypeSprites.BodyTypes.Count - 1);
+			EditorGUILayout.EndHorizontal();
 		}
 	}
 #endif

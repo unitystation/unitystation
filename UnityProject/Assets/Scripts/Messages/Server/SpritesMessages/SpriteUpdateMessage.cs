@@ -20,7 +20,7 @@ namespace Messages.Server.SpritesMessages
 
 		public override void Process(NetMessage msg)
 		{
-			if (CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.IsServer)
 				return;
 
 			List<SpriteUpdateEntry> spriteUpdateList = new List<SpriteUpdateEntry>();

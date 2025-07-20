@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: rusty_r_metal_fwall_closing
+  m_EditorClassIdentifier: 
+  foreverID: MQrDHmmdTnUmV20MX?CK
+  Variance:
+  - Frames:
+    - sprite: {fileID: 3393885865431555206, guid: e7e39b24825764a90a56d41f8d70db70,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: -4508118431823989526, guid: e7e39b24825764a90a56d41f8d70db70,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: -8955085638988002917, guid: e7e39b24825764a90a56d41f8d70db70,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 4153943110927409806, guid: e7e39b24825764a90a56d41f8d70db70,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: -4758196156036083845, guid: e7e39b24825764a90a56d41f8d70db70,
+        type: 3}
+      secondDelay: 0.1
+  IsPalette: 0
+  DisplayName: 

@@ -10,6 +10,7 @@ using UnityEngine.UI;
 using Core.Accounts;
 using AdminCommands;
 using Messages.Client.Admin;
+using TMPro;
 using UI.AdminTools;
 
 
@@ -25,6 +26,11 @@ namespace AdminTools
 
 		[SerializeField] private Text oocMuteButtonText = null;
 
+		[SerializeField] private TMP_InputField PlayerNotes = null;
+
+		[SerializeField] private Toggle OnWatchlist = null;
+
+		[SerializeField] private Text JailText;
 
 		public AdminPlayerEntry PlayerEntry { get; private set; }
 
@@ -32,10 +38,33 @@ namespace AdminTools
 		{
 			PlayerEntry = entry;
 
-			mentorButtonText.text = entry.PlayerData.isMentor ? "REMOVE MENTOR" : "MAKE MENTOR";
-			mentorToggle.gameObject.SetActive(entry.PlayerData.isMentor == false);
+			mentorButtonText.text = entry.PlayerData.hasMentorRole ? "<color=cyan>Remove Player Mentor</color>" : "<color=cyan>Make Player Mentor</color>";
+			mentorToggle.gameObject.SetActive(entry.PlayerData.hasMentorRole == false);
 
-			oocMuteButtonText.text = entry.PlayerData.isOOCMuted ? "Unmute OOC" : "Mute OOC";
+			oocMuteButtonText.text = entry.PlayerData.isOOCMuted ? "<color=grey>Unmute OOC</color>" : "<color=grey>Mute OOC</color>";
+
+			PlayerNotes.SetTextWithoutNotify( entry.PlayerData.PlayerNotes);
+			OnWatchlist.isOn = (entry.PlayerData.OnWatchlist);
+
+			JailText.text = entry.PlayerData.InJail ? "<color=yellow>UNJAIL</color>" : "<color=red>JAIL</color>";
+		}
+
+		public void OnJailTextBtn()
+		{
+			var State = !PlayerEntry.PlayerData.InJail;
+			AdminSetJail.Send(State, PlayerEntry.PlayerData.uid);
+			PlayerEntry.PlayerData.InJail = State;
+			JailText.text = PlayerEntry.PlayerData.InJail ? " UnJail " : " Send To Jail ";
+		}
+
+		public void OnSetWatchlistBtn()
+		{
+			AdminSetWatchlist.Send(OnWatchlist.isOn, PlayerEntry.PlayerData.uid);
+		}
+
+		public void OnInputFinishEditingNotes()
+		{
+			AdminRequestSetNote.Send(PlayerNotes.text, PlayerEntry.PlayerData.uid);
 		}
 
 		public void OnKickBtn()
@@ -62,7 +91,7 @@ namespace AdminTools
 
 		public void OnDeputiseBtn()
 		{
-			if (PlayerEntry.PlayerData.isMentor == false)
+			if (PlayerEntry.PlayerData.hasMentorRole == false)
 			{
 				adminTools.areYouSurePage.SetAreYouSurePage(
 					$"Are you sure you want to make {PlayerEntry.PlayerData.accountName} a {(mentorToggle.isOn ? "temporary" : "permanent")} mentor?",
@@ -101,6 +130,12 @@ namespace AdminTools
 		public void OnHealUpButton()
 		{
 			AdminCommandsManager.Instance.CmdHealUpPlayer(PlayerEntry.PlayerData.uid);
+			RefreshPage();
+		}
+
+		public void OnCureSicknessButton()
+		{
+			AdminCommandsManager.Instance.CmdCurePlayer(PlayerEntry.PlayerData.uid);
 			RefreshPage();
 		}
 
@@ -224,12 +259,6 @@ namespace AdminTools
 		{
 			AdminCommandsManager.Instance.CmdOOCMutePlayer(PlayerEntry.PlayerData.uid);
 			RefreshPage();
-		}
-
-		public void OnAntagonistManager()
-		{
-			antagManagerPage.Init(PlayerEntry);
-			adminTools.ShowAntagManagerPage();
 		}
 	}
 }

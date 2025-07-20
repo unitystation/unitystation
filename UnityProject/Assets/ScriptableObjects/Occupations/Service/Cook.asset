@@ -21,8 +21,8 @@ MonoBehaviour:
   CustomSpeciesOverwrite: {fileID: 0}
   limit: 2
   priority: 99
-  issuedClearance: 1b0000000d0000001f00000006000000
-  issuedLowPopClearance: 1b0000000d0000001f00000006000000
+  issuedClearance: 0d0000001b00000006000000
+  issuedLowPopClearance: 1800000021000000
   spells: []
   progress: 50
   choiceColor: {r: 0.75, g: 1, b: 0.8851351, a: 1}
@@ -47,16 +47,17 @@ MonoBehaviour:
   isTargeteable: 1
   playSound: 1
   spawnSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/AmbientTracks/SpawnSounds/departments/Service_Spawn.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   textColor: {r: 0.73333335, g: 0.8862746, b: 0.5686275, a: 1}
   backgroundColor: {r: 1, g: 0, b: 0, a: 0}
   specialPlayerPrefab: {fileID: 0}
+  StartingMutations: []
   references:
     version: 2
     RefIds: []

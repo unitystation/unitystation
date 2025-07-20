@@ -5,6 +5,7 @@ using System.Linq;
 using Logs;
 using Managers;
 using Mirror;
+using UI.Systems.PreRound;
 using UnityEditor;
 using UnityEngine.SceneManagement;
 using WebSocketSharp;
@@ -50,6 +51,10 @@ public partial class SubSceneManager
 		Loggy.Info(" Loading main station ");
 		yield return StartCoroutine(ServerLoadMainStation(loadTimer));
 
+		Loggy.Info(" Loading CentCom ");
+		//Load CentCom Scene:
+		yield return StartCoroutine(ServerLoadCentCom(loadTimer));
+
 		if (GameManager.Instance.QuickLoad == false)
 		{
 			Loggy.Info(" Loading Asteroids ");
@@ -59,9 +64,7 @@ public partial class SubSceneManager
 			//Load away site:
 			yield return StartCoroutine(ServerLoadAwaySite(loadTimer));
 
-			Loggy.Info(" Loading CentCom ");
-			//Load CentCom Scene:
-			yield return StartCoroutine(ServerLoadCentCom(loadTimer));
+
 			//Load Additional Scenes:
 
 			Loggy.Info(" Loading AdditionalScenes ");
@@ -89,10 +92,10 @@ public partial class SubSceneManager
 			yield return WaitFor.Seconds(1f);
 		}
 
-		UIManager.Display.preRoundWindow.CloseMapLoadingPanel();
 		EventManager.Broadcast(Event.ScenesLoadedServer, false);
 		Loggy.Info($"Server has loaded {serverChosenAwaySite} away site", Category.Round);
 		ServerInitialLoadingComplete = true;
+		GUI_PreRoundWindow.Instance?.HideLoadingArea();
 	}
 
 	//Load the space scene on the server
@@ -147,11 +150,6 @@ public partial class SubSceneManager
 
 	IEnumerator ServerLoadCentCom(SubsceneLoadTimer loadTimer)
 	{
-		if (GameManager.Instance.QuickLoad)
-		{
-			yield break;
-		}
-
 		loadTimer.IncrementLoadBar("Loading CentCom");
 
 		//CENTCOM

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Core.Physics;
 using Core.Utils;
 using HealthV2;
 using Items.Implants.Organs;
@@ -22,6 +23,7 @@ public class BodyPartMutations : BodyPartFunctionality
 
 	public List<MutationSO> CapableMutations = new List<MutationSO>();
 	public List<Mutation> ActiveMutations = new List<Mutation>();
+	public List<MutationSO> StartingMutations = new List<MutationSO>();
 	public List<MutationSO> ActiveMutationsSO = new List<MutationSO>();
 
 
@@ -50,6 +52,14 @@ public class BodyPartMutations : BodyPartFunctionality
 		RelatedPart.OnDamageTaken += OnDMGMutationCheck;
 	}
 
+	private void Start()
+	{
+		foreach (var mutationSo in StartingMutations)
+		{
+			AddMutation(mutationSo);
+		}
+	}
+
 
 	private void OnDMGMutationCheck(BodyPartDamageData data)
 	{
@@ -60,7 +70,7 @@ public class BodyPartMutations : BodyPartFunctionality
 		data.DamageAmount = Mathf.Clamp(data.DamageAmount, 0, 100);
 		//Range = 0 to 100
 		//Percentage 100 = 10
-		var RNG= Random.Range(0, 1000);
+		var RNG = Random.Range(0, 1000);
 		if ((data.DamageAmount >= RNG) == false) return;
 
 		var available = new List<MutationSO>(CapableMutations);
@@ -97,10 +107,12 @@ public class BodyPartMutations : BodyPartFunctionality
 			RelatedPart.SetCustomisationString(RelatedPart.SetCustomisationData);
 			return;
 		}
+
 		if (RelatedPart.SetCustomisationData.Contains(InCustomisationTarget))
 		{
 			//Loggy.LogError($"{bodyPart.name} has {InCustomisationTarget} in SetCustomisationData");
-			RelatedPart.SetCustomisationString(RelatedPart.SetCustomisationData.Replace(InCustomisationTarget, CustomisationReplaceWith));
+			RelatedPart.SetCustomisationString(
+				RelatedPart.SetCustomisationData.Replace(InCustomisationTarget, CustomisationReplaceWith));
 			//Loggy.LogError($"Changing from {bodyPart.SetCustomisationData} to {newone} ");
 		}
 	}
@@ -142,6 +154,7 @@ public class BodyPartMutations : BodyPartFunctionality
 				break;
 			}
 		}
+
 		if (Target == null) return;
 
 		ActiveMutations.Remove(Target);
@@ -238,7 +251,8 @@ public class BodyPartMutations : BodyPartFunctionality
 				else
 				{
 					RelatedPart.OrganStorage.ServerTryRemove(itemSlot.Item.gameObject, false,
-						DroppedAtWorldPositionOrThrowVector: ConverterExtensions.GetRandomRotatedVector2(-0.5f, 0.5f), Throw: true);
+						DroppedAtWorldPositionOrThrowVector: ConverterExtensions.GetRandomRotatedVector2(-0.5f, 0.5f),
+						Throw: true);
 				}
 			}
 		}
@@ -257,13 +271,30 @@ public class BodyPartMutations : BodyPartFunctionality
 
 		if (Parent != null)
 		{
-			Inventory.ServerAdd(SpawnedBodypart.gameObject,
-				Parent.OrganStorage.GetBestSlotFor(SpawnedBodypart.gameObject));
+			var Slot = Parent.OrganStorage.GetBestSlotFor(SpawnedBodypart.gameObject);
+			if (Slot != null)
+			{
+				Inventory.ServerAdd(SpawnedBodypart.gameObject, Slot);
+			}
+			else
+			{
+				SpawnedBodypart.gameObject.AppearAtWorldPositionServer(Parent.OrganStorage.gameObject
+					.AssumedWorldPosServer());
+			}
 		}
 		else
 		{
-			Inventory.ServerAdd(SpawnedBodypart.gameObject,
-				ContainedIn.BodyPartStorage.GetBestSlotFor(SpawnedBodypart.gameObject));
+			var Slot = ContainedIn.BodyPartStorage.GetBestSlotFor(SpawnedBodypart.gameObject);
+			if (Slot != null)
+			{
+				Inventory.ServerAdd(SpawnedBodypart.gameObject,
+					Slot);
+			}
+			else
+			{
+				SpawnedBodypart.gameObject.AppearAtWorldPositionServer(ContainedIn.BodyPartStorage.gameObject
+					.AssumedWorldPosServer());
+			}
 		}
 
 
@@ -276,7 +307,7 @@ public class BodyPartMutations : BodyPartFunctionality
 				ONMutation.AddMutation(Mutations.RelatedMutationSO);
 			}
 
-			ONMutation.MutateCustomisation(((BodyPartFunctionality)ONMutation).RelatedPart.SetCustomisationData,
+			ONMutation.MutateCustomisation(((BodyPartFunctionality) ONMutation).RelatedPart.SetCustomisationData,
 				RelatedPart.SetCustomisationData);
 		}
 	}
@@ -321,6 +352,7 @@ public class BodyPartMutations : BodyPartFunctionality
 				usedOrgansInSpawnedPart.Add(x.Prefab);
 			}
 		}
+
 		foreach (var x in bodyPartExampleStorage.Populater.DeprecatedContents)
 		{
 			if (x != null)
@@ -341,7 +373,8 @@ public class BodyPartMutations : BodyPartFunctionality
 					foreach (var organ in usedOrgansInSpawnedPart)
 					{
 						if (organ != null &&
-						organ.GetComponent<PrefabTracker>().ForeverID == itemSlot.Item.gameObject.GetComponent<PrefabTracker>().ForeverID)
+						    organ.GetComponent<PrefabTracker>().ForeverID ==
+						    itemSlot.Item.gameObject.GetComponent<PrefabTracker>().ForeverID)
 						{
 							organContains = organ;
 							break;
@@ -361,7 +394,8 @@ public class BodyPartMutations : BodyPartFunctionality
 				else
 				{
 					RelatedPart.OrganStorage.ServerTryRemove(itemSlot.Item.gameObject, false,
-						DroppedAtWorldPositionOrThrowVector: ConverterExtensions.GetRandomRotatedVector2(-0.5f, 0.5f), Throw: true);
+						DroppedAtWorldPositionOrThrowVector: ConverterExtensions.GetRandomRotatedVector2(-0.5f, 0.5f),
+						Throw: true);
 				}
 			}
 		}
@@ -566,7 +600,6 @@ public class BodyPartMutations : BodyPartFunctionality
 
 		public void RerollDifficulty()
 		{
-
 			this.RoundID = GameManager.RoundID;
 			if (MutationSO != null)
 			{
@@ -585,8 +618,6 @@ public class BodyPartMutations : BodyPartFunctionality
 				var SGen = new SudokuGenerator();
 				SudokuPuzzle = SGen.generate("easy");
 			}
-
-
 		}
 
 		public class SliderParameters
@@ -596,7 +627,6 @@ public class BodyPartMutations : BodyPartFunctionality
 			public List<Tuple<float, int>> Parameters = new List<Tuple<float, int>>();
 		}
 	}
-
 
 
 	/*

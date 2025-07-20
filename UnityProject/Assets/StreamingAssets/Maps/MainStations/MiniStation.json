@@ -75544,6 +75544,9 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "Table"
               }
             ]
           },
@@ -96660,7 +96663,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -96713,10 +96716,6 @@
                     {
                       "Name": "In@DesiredFaceDirection",
                       "Data": "Up_By0"
-                    },
-                    {
-                      "Name": "In@IsEnd",
-                      "Data": "True"
                     }
                   ]
                 }
@@ -96772,10 +96771,6 @@
                 {
                   "ClassID": "GuidanceBuoy@0",
                   "Data": [
-                    {
-                      "Name": "Out@IsEnd",
-                      "Data": "True"
-                    },
                     {
                       "Name": "In@NextInLine",
                       "Data": "69ffc1053dc39a24fb870b2248780be4_21┼131┼0┼@0@GuidanceBuoy@0"
@@ -101427,6 +101422,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -104268,6 +104279,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -104574,6 +104601,22 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_50┼94┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "ForensicsLockers"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -105541,15 +105584,6 @@
                       "Data": "DoorTimer"
                     }
                   ]
-                },
-                {
-                  "ClassID": "ClearanceRestricted@0",
-                  "Data": [
-                    {
-                      "Name": "requiredClearance#0",
-                      "Data": "Security"
-                    }
-                  ]
                 }
               ]
             }
@@ -105580,15 +105614,6 @@
                     {
                       "Name": "channel",
                       "Data": "DoorTimer"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "ClearanceRestricted@0",
-                  "Data": [
-                    {
-                      "Name": "requiredClearance#0",
-                      "Data": "Security"
                     }
                   ]
                 }
@@ -106336,6 +106361,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -106637,6 +106678,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -106653,6 +106710,22 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_50┼94┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -106999,7 +107072,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Security"
+                          "Data": "ForensicsLockers"
                         }
                       ]
                     }
@@ -107444,15 +107517,6 @@
                       "Data": "DoorTimer"
                     }
                   ]
-                },
-                {
-                  "ClassID": "ClearanceRestricted@0",
-                  "Data": [
-                    {
-                      "Name": "requiredClearance#0",
-                      "Data": "Security"
-                    }
-                  ]
                 }
               ]
             }
@@ -107518,15 +107582,6 @@
                     {
                       "Name": "channel",
                       "Data": "DoorTimer"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "ClearanceRestricted@0",
-                  "Data": [
-                    {
-                      "Name": "requiredClearance#0",
-                      "Data": "Security"
                     }
                   ]
                 }
@@ -108515,6 +108570,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -108531,6 +108602,22 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_50┼94┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -109503,15 +109590,6 @@
                       "Data": "DoorTimer"
                     }
                   ]
-                },
-                {
-                  "ClassID": "ClearanceRestricted@0",
-                  "Data": [
-                    {
-                      "Name": "requiredClearance#0",
-                      "Data": "Security"
-                    }
-                  ]
                 }
               ]
             }
@@ -109579,15 +109657,6 @@
                     {
                       "Name": "channel",
                       "Data": "DoorTimer"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "ClearanceRestricted@0",
-                  "Data": [
-                    {
-                      "Name": "requiredClearance#0",
-                      "Data": "Security"
                     }
                   ]
                 }
@@ -111529,6 +111598,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -111545,6 +111630,22 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_50┼94┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -113860,8 +113961,8 @@
             }
           },
           {
-            "GitID": "8D0W-BGDVb8469ufZ@aF_53┼95┼0┼",
-            "PrefabID": "8D0W-BGDVb8469ufZ@aF",
+            "GitID": "J5UF3VXxKdTV9iopbA17_53┼95┼0┼",
+            "PrefabID": "J5UF3VXxKdTV9iopbA17",
             "NameMatches": true,
             "Name": "SecBarrier",
             "LocalPRS": "53┼95┼0┼"
@@ -114298,8 +114399,8 @@
             }
           },
           {
-            "GitID": "8D0W-BGDVb8469ufZ@aF_54┼95┼0┼",
-            "PrefabID": "8D0W-BGDVb8469ufZ@aF",
+            "GitID": "J5UF3VXxKdTV9iopbA17_54┼95┼0┼",
+            "PrefabID": "J5UF3VXxKdTV9iopbA17",
             "NameMatches": true,
             "Name": "SecBarrier",
             "LocalPRS": "54┼95┼0┼"
@@ -115181,13 +115282,6 @@
             }
           },
           {
-            "GitID": "8D0W-BGDVb8469ufZ@aF_55┼95┼0┼",
-            "PrefabID": "8D0W-BGDVb8469ufZ@aF",
-            "NameMatches": true,
-            "Name": "SecBarrier",
-            "LocalPRS": "55┼95┼0┼"
-          },
-          {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_55┼95┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
             "Name": "LightTubeFixture (7)",
@@ -115221,6 +115315,13 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "J5UF3VXxKdTV9iopbA17_55┼95┼0┼",
+            "PrefabID": "J5UF3VXxKdTV9iopbA17",
+            "NameMatches": true,
+            "Name": "SecBarrier",
+            "LocalPRS": "55┼95┼0┼"
           },
           {
             "GitID": "bc0cd2a586c78b846a43622b6ea5c953_55┼98┼0┼",
@@ -115339,22 +115440,6 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_50┼94┼0┼@0@APC@0"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "Brig"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -118505,6 +118590,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "SecDoors"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -121430,6 +121531,106 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,3",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,4",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,5",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,6",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,7",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -121446,6 +121647,22 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_50┼94┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "SecDoors"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -121674,6 +121891,20 @@
               ],
               "Children": [
                 {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
                   "ID": "0,1",
                   "ClassDatas": [
                     {
@@ -121682,6 +121913,90 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Security"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,3",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,4",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,5",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,6",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,7",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
                         }
                       ]
                     }
@@ -124266,20 +124581,7 @@
             "GitID": "cajcKzj41Rgh!X$LAkMi_65┼110┼0┼",
             "PrefabID": "cajcKzj41Rgh!X$LAkMi",
             "Name": "SmallBloodSplat (1)",
-            "LocalPRS": "65┼110┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "FloorDecal@0",
-                  "Data": [
-                    {
-                      "Name": "CanDryUp",
-                      "Data": "False"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "65┼110┼0┼"
           },
           {
             "GitID": "42bdfe2e83a9b184385867c7ccc527c2_65┼112┼0┼",
@@ -125496,20 +125798,7 @@
             "GitID": "cajcKzj41Rgh!X$LAkMi_66.25┼111.75┼0┼",
             "PrefabID": "cajcKzj41Rgh!X$LAkMi",
             "Name": "SmallBloodSplat (2)",
-            "LocalPRS": "66.25┼111.75┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "FloorDecal@0",
-                  "Data": [
-                    {
-                      "Name": "CanDryUp",
-                      "Data": "False"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "66.25┼111.75┼0┼"
           },
           {
             "GitID": "a9dfc8bf04d4e4b47aeaeb5193efa5d6_66.27┼52.06┼0┼",
@@ -126643,8 +126932,8 @@
             }
           },
           {
-            "GitID": "w3mtBALizcvj6hm?Di$V_67.98┼110.97┼0┼",
-            "PrefabID": "w3mtBALizcvj6hm?Di$V",
+            "GitID": "ffad4a126b8745f46ac82b8e1faf478c_67.98┼110.97┼0┼",
+            "PrefabID": "ffad4a126b8745f46ac82b8e1faf478c",
             "Name": "MediumBloodSplat (1)",
             "LocalPRS": "67.98┼110.97┼0┼"
           },
@@ -133480,6 +133769,26 @@
             "LocalPRS": "74.003┼24┼0┼"
           },
           {
+            "GitID": "SaFaeLok!_90EKEzA!HE_74.02┼20.02┼0┼",
+            "PrefabID": "SaFaeLok!_90EKEzA!HE",
+            "NameMatches": true,
+            "Name": "MatrixEnterAmbienceSetter",
+            "LocalPRS": "74.02┼20.02┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "EnterAmbienceSetter@0",
+                  "Data": [
+                    {
+                      "Name": "EnteringSounds",
+                      "Data": "badf90167da9bba4fa049fac3e2912eb"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "ca7d7da17781bf046abd652ffb41a611_75┼-3┼0┼",
             "PrefabID": "ca7d7da17781bf046abd652ffb41a611",
             "Name": "ExtinguisherCabinet (1)",
@@ -133668,6 +133977,10 @@
                   "ClassID": "ReagentContainer@0",
                   "Data": [
                     {
+                      "Name": "possibleTransferAmounts#0",
+                      "Data": "#removed#"
+                    },
+                    {
                       "Name": "maxCapacity",
                       "Data": "100"
                     },
@@ -133677,10 +133990,6 @@
                     },
                     {
                       "Name": "initialReagentMix@reagents#Water",
-                      "Data": "#removed#"
-                    },
-                    {
-                      "Name": "possibleTransferAmounts#0",
                       "Data": "#removed#"
                     }
                   ]
@@ -137935,40 +138244,40 @@
             "LocalPRS": "78.005┼24┼0┼"
           },
           {
-            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.008┼24┼0┼",
-            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (9)",
-            "LocalPRS": "78.008┼24┼0┼"
-          },
-          {
-            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.009┼24┼0┼",
-            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (10)",
-            "LocalPRS": "78.009┼24┼0┼"
-          },
-          {
             "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.01┼24┼0┼",
             "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (8)",
+            "Name": "ControlRod (10)",
             "LocalPRS": "78.01┼24┼0┼"
           },
           {
             "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.011┼24┼0┼",
             "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (7)",
+            "Name": "ControlRod (9)",
             "LocalPRS": "78.011┼24┼0┼"
           },
           {
             "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.012┼24┼0┼",
             "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (11)",
+            "Name": "ControlRod (8)",
             "LocalPRS": "78.012┼24┼0┼"
           },
           {
             "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.013┼24┼0┼",
             "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (12)",
+            "Name": "ControlRod (7)",
             "LocalPRS": "78.013┼24┼0┼"
+          },
+          {
+            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.014┼24┼0┼",
+            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
+            "Name": "ControlRod (11)",
+            "LocalPRS": "78.014┼24┼0┼"
+          },
+          {
+            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_78.015┼24┼0┼",
+            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
+            "Name": "ControlRod (12)",
+            "LocalPRS": "78.015┼24┼0┼"
           },
           {
             "GitID": "e33403c0371fc174aa03640734665a15_78.65┼94.42┼0┼",
@@ -142061,6 +142370,10 @@
                       "ClassID": "ClearanceRestricted@0",
                       "Data": [
                         {
+                          "Name": "requiredClearance#1",
+                          "Data": "Virology"
+                        },
+                        {
                           "Name": "requiredClearance#0",
                           "Data": "Chemistry"
                         }
@@ -144656,6 +144969,12 @@
             }
           },
           {
+            "GitID": "ab0aa8f76b409df4484ece26230ffdd2_84┼45┼0┼",
+            "PrefabID": "ab0aa8f76b409df4484ece26230ffdd2",
+            "Name": "BlueprintMedBot (1)",
+            "LocalPRS": "84┼45┼0┼"
+          },
+          {
             "GitID": "0d553281bdfc0fd438b3f6c7db58688c_84┼47┼0┼",
             "PrefabID": "0d553281bdfc0fd438b3f6c7db58688c",
             "Name": "Vent - Medical Hallway - gubNj",
@@ -147085,6 +147404,12 @@
             }
           },
           {
+            "GitID": "31d7f641274343343b94e59bce361843_86┼54┼0┼",
+            "PrefabID": "31d7f641274343343b94e59bce361843",
+            "Name": "IV Drip (1)",
+            "LocalPRS": "86┼54┼0┼"
+          },
+          {
             "GitID": "91d832be818283a4188516804e8d5ef0_86┼55┼0┼",
             "PrefabID": "91d832be818283a4188516804e8d5ef0",
             "Name": "EmergencyCloset (1)",
@@ -148029,6 +148354,10 @@
                     {
                       "ClassID": "ClearanceRestricted@0",
                       "Data": [
+                        {
+                          "Name": "requiredClearance#1",
+                          "Data": "Virology"
+                        },
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Genetics"
@@ -149236,8 +149565,8 @@
             "LocalPRS": "88.18┼85.2┼0┼"
           },
           {
-            "GitID": "8gzr!x7_Yea@71L--kC5_88.25┼85.95┼0┼",
-            "PrefabID": "8gzr!x7_Yea@71L--kC5",
+            "GitID": "yZZOh_oxUsRnJuf$HNg8_88.25┼85.95┼0┼",
+            "PrefabID": "yZZOh_oxUsRnJuf$HNg8",
             "Name": "HandPick (1)",
             "LocalPRS": "88.25┼85.95┼0┼"
           },
@@ -149437,6 +149766,25 @@
             "PrefabID": "e0e2a6ad88a88af43944d68f8140d27a",
             "Name": "MedicalDoctorsLocker (2)",
             "LocalPRS": "89┼43┼0┼"
+          },
+          {
+            "GitID": "4c3b9b1d349b58541830995579dd8d18_89┼45┼0┼",
+            "PrefabID": "4c3b9b1d349b58541830995579dd8d18",
+            "Name": "SequenceAnalyzer (1)",
+            "LocalPRS": "89┼45┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_100┼42┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "51a0e98912223fc41b22c9a8d9b0eb0f_89┼48┼0┼",
@@ -150641,6 +150989,34 @@
             "LocalPRS": "90┼43┼0┼"
           },
           {
+            "GitID": "6?ZZVFykWa9Kw$v9FhX-_90┼45┼0┼",
+            "PrefabID": "6?ZZVFykWa9Kw$v9FhX-",
+            "Name": "CureTester (1)",
+            "LocalPRS": "90┼45┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_100┼42┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "CureTester@0",
+                  "Data": [
+                    {
+                      "Name": "connectedSequenceAnalyzer",
+                      "Data": "4c3b9b1d349b58541830995579dd8d18_89┼45┼0┼@0@SequenceAnalyzer@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "51a0e98912223fc41b22c9a8d9b0eb0f_90┼48┼0┼",
             "PrefabID": "51a0e98912223fc41b22c9a8d9b0eb0f",
             "Name": "Aloe (3)",
@@ -150754,8 +151130,14 @@
             }
           },
           {
-            "GitID": "b5d421f0156248b4297eecc918b8758a_90┼52┼0┼",
-            "PrefabID": "b5d421f0156248b4297eecc918b8758a",
+            "GitID": "c4c1a5e556c58314eb690ee3272fb1cf_90┼52┼0┼",
+            "PrefabID": "c4c1a5e556c58314eb690ee3272fb1cf",
+            "Name": "OperatingTable (1)",
+            "LocalPRS": "90┼52┼0┼"
+          },
+          {
+            "GitID": "mMVYbrsc1igLbcubooT6_90┼52┼0┼",
+            "PrefabID": "mMVYbrsc1igLbcubooT6",
             "Name": "LargeBloodSplat (1)",
             "LocalPRS": "90┼52┼0┼",
             "Object": {
@@ -150777,12 +151159,6 @@
                 }
               ]
             }
-          },
-          {
-            "GitID": "c4c1a5e556c58314eb690ee3272fb1cf_90┼52┼0┼",
-            "PrefabID": "c4c1a5e556c58314eb690ee3272fb1cf",
-            "Name": "OperatingTable (1)",
-            "LocalPRS": "90┼52┼0┼"
           },
           {
             "GitID": "c08b964edf24e5c42a6edf23e84fc920_90┼54.14┼0┼",
@@ -151781,6 +152157,12 @@
             }
           },
           {
+            "GitID": "3e7a8691d076daf439aac194957276be_90.53┼45.21┼0┼",
+            "PrefabID": "3e7a8691d076daf439aac194957276be",
+            "Name": "BoxOfSyringes (2)",
+            "LocalPRS": "90.53┼45.21┼0┼"
+          },
+          {
             "GitID": "f029ac18cb79ad24c8691a3a0d6f191e_90.77┼66.01┼0┼",
             "PrefabID": "f029ac18cb79ad24c8691a3a0d6f191e",
             "Name": "HandLabeler (1)",
@@ -151998,6 +152380,12 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "c5e1a6dc4fcab3848980de5c8e407c75_91┼45.2┼0┼",
+            "PrefabID": "c5e1a6dc4fcab3848980de5c8e407c75",
+            "Name": "BoxOfPetriDishes (1)",
+            "LocalPRS": "91┼45.2┼0┼"
           },
           {
             "GitID": "a50474d976314462a79602e20a762520_91┼49┼0┼",
@@ -152931,6 +153319,12 @@
             "LocalPRS": "92┼41┼0┼"
           },
           {
+            "GitID": "3dc986d21b3a6104d95b80bf7eac20c5_92┼45┼0┼",
+            "PrefabID": "3dc986d21b3a6104d95b80bf7eac20c5",
+            "Name": "BiohazardGearClosetVirology (1)",
+            "LocalPRS": "92┼45┼0┼"
+          },
+          {
             "GitID": "baeafe1b5e8214344a5acf3315766acc_92┼48┼0┼",
             "PrefabID": "baeafe1b5e8214344a5acf3315766acc",
             "NameMatches": true,
@@ -153532,6 +153926,15 @@
             "LocalPRS": "93┼14┼0┼",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "UniversalObjectPhysics@0",
+                  "Data": [
+                    {
+                      "Name": "CanBeWindPushed",
+                      "Data": "False"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "GasContainer@0",
                   "Data": [
@@ -154846,8 +155249,8 @@
             "LocalPRS": "94┼28┼0┼"
           },
           {
-            "GitID": "b5d421f0156248b4297eecc918b8758a_94┼39┼0┼",
-            "PrefabID": "b5d421f0156248b4297eecc918b8758a",
+            "GitID": "mMVYbrsc1igLbcubooT6_94┼39┼0┼",
+            "PrefabID": "mMVYbrsc1igLbcubooT6",
             "Name": "LargeBloodSplat (3)",
             "LocalPRS": "94┼39┼0┼",
             "Object": {
@@ -156950,6 +157353,15 @@
             "Object": {
               "ClassDatas": [
                 {
+                  "ClassID": "UniversalObjectPhysics@0",
+                  "Data": [
+                    {
+                      "Name": "CanBeWindPushed",
+                      "Data": "False"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "GasContainer@0",
                   "Data": [
                     {
@@ -157901,8 +158313,8 @@
             "LocalPRS": "98┼32┼0┼"
           },
           {
-            "GitID": "b5d421f0156248b4297eecc918b8758a_98┼43┼0┼",
-            "PrefabID": "b5d421f0156248b4297eecc918b8758a",
+            "GitID": "mMVYbrsc1igLbcubooT6_98┼43┼0┼",
+            "PrefabID": "mMVYbrsc1igLbcubooT6",
             "Name": "LargeBloodSplat (4)",
             "LocalPRS": "98┼43┼0┼",
             "Object": {
@@ -159237,6 +159649,14 @@
                 {
                   "ClassID": "APC@0",
                   "Data": [
+                    {
+                      "Name": "connectedDevices#86",
+                      "Data": "4c3b9b1d349b58541830995579dd8d18_89┼45┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#85",
+                      "Data": "6?ZZVFykWa9Kw$v9FhX-_90┼45┼0┼@0@APCPoweredDevice@0"
+                    },
                     {
                       "Name": "connectedDevices#84",
                       "Data": "31f497a1df0802143afd331d9e780661_98┼51┼0┼@0@APCPoweredDevice@0"
@@ -161466,6 +161886,15 @@
             "Object": {
               "ClassDatas": [
                 {
+                  "ClassID": "UniversalObjectPhysics@0",
+                  "Data": [
+                    {
+                      "Name": "CanBeWindPushed",
+                      "Data": "False"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "GasContainer@0",
                   "Data": [
                     {
@@ -162539,8 +162968,8 @@
             "LocalPRS": "104┼41┼0┼"
           },
           {
-            "GitID": "b5d421f0156248b4297eecc918b8758a_104┼43┼0┼",
-            "PrefabID": "b5d421f0156248b4297eecc918b8758a",
+            "GitID": "mMVYbrsc1igLbcubooT6_104┼43┼0┼",
+            "PrefabID": "mMVYbrsc1igLbcubooT6",
             "Name": "LargeBloodSplat (2)",
             "LocalPRS": "104┼43┼0┼",
             "Object": {
@@ -165849,10 +166278,6 @@
                     {
                       "Name": "In@DesiredFaceDirection",
                       "Data": "Up_By0"
-                    },
-                    {
-                      "Name": "In@IsEnd",
-                      "Data": "True"
                     }
                   ]
                 }
@@ -165885,6 +166310,15 @@
             "LocalPRS": "112┼23┼0┼",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "UniversalObjectPhysics@0",
+                  "Data": [
+                    {
+                      "Name": "CanBeWindPushed",
+                      "Data": "False"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "GasContainer@0",
                   "Data": [
@@ -165944,6 +166378,15 @@
             "LocalPRS": "112┼29┼0┼",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "UniversalObjectPhysics@0",
+                  "Data": [
+                    {
+                      "Name": "CanBeWindPushed",
+                      "Data": "False"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "GasContainer@0",
                   "Data": [
@@ -166285,10 +166728,6 @@
                       "Data": "Up_By0"
                     },
                     {
-                      "Name": "Out@IsEnd",
-                      "Data": "True"
-                    },
-                    {
                       "Name": "In@NextInLine",
                       "Data": "69ffc1053dc39a24fb870b2248780be4_140┼64┼0┼@0@GuidanceBuoy@0"
                     }
@@ -166307,10 +166746,6 @@
                 {
                   "ClassID": "GuidanceBuoy@0",
                   "Data": [
-                    {
-                      "Name": "Out@IsEnd",
-                      "Data": "True"
-                    },
                     {
                       "Name": "In@NextInLine",
                       "Data": "69ffc1053dc39a24fb870b2248780be4_730┼64┼0┼@0@GuidanceBuoy@0"
@@ -166333,10 +166768,6 @@
                     {
                       "Name": "Out@NextInLine",
                       "Data": "69ffc1053dc39a24fb870b2248780be4_698┼64┼0┼@0@GuidanceBuoy@0"
-                    },
-                    {
-                      "Name": "In@IsEnd",
-                      "Data": "True"
                     }
                   ]
                 }
@@ -166349,8 +166780,8 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "366,72,0",
-          "Size": "730,152,0"
+          "Pos": "365,71,-23.5",
+          "Size": "730,152,49"
         }
       ]
     },
@@ -167402,7 +167833,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -167484,8 +167915,8 @@
             }
           },
           {
-            "GitID": "f7fc46cd9fc472a4b96ad181a215ccfa_-2┼0┼0┼",
-            "PrefabID": "f7fc46cd9fc472a4b96ad181a215ccfa",
+            "GitID": "kEKGObGBLag_L6F8X$s3_-2┼0┼0┼",
+            "PrefabID": "kEKGObGBLag_L6F8X$s3",
             "Name": "ShuttleConnector (1)",
             "LocalPRS": "-2┼0┼0┼"
           },
@@ -167587,7 +168018,7 @@
                     },
                     {
                       "Name": "ShuttlesMainConnector",
-                      "Data": "f7fc46cd9fc472a4b96ad181a215ccfa_-2┼0┼0┼@0@ShuttleConnector@0"
+                      "Data": "kEKGObGBLag_L6F8X$s3_-2┼0┼0┼@0@ShuttleConnector@0"
                     }
                   ]
                 }
@@ -167796,7 +168227,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "277.5,66,0",
+          "Pos": "3.5,0,0",
           "Size": "11,8,0"
         }
       ]
@@ -168410,7 +168841,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -168786,7 +169217,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "30.5,47,0",
+          "Pos": "0.5,1,0",
           "Size": "11,4,0"
         }
       ]
@@ -169668,7 +170099,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -170303,8 +170734,8 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "115.6,74,0",
-          "Size": "9,6,0"
+          "Pos": "2.5,0,0.5",
+          "Size": "9,6,1"
         }
       ]
     },
@@ -170817,7 +171248,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -171257,14 +171688,14 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "58,16.5,0",
-          "Size": "4,7,0"
+          "Pos": "0,-0.5,0.5",
+          "Size": "4,7,1"
         }
       ]
     },
     {
       "Ver": "1.1.1",
-      "Location": "18┼164┼0┼",
+      "Location": "18┼52┼0┼",
       "MatrixName": "EMS",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -172940,7 +173371,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -173439,7 +173870,7 @@
                     },
                     {
                       "Name": "ShuttlesMainConnector",
-                      "Data": "f7fc46cd9fc472a4b96ad181a215ccfa_3┼13┼0┼@0@ShuttleConnector@0"
+                      "Data": "kEKGObGBLag_L6F8X$s3_3┼13┼0┼@0@ShuttleConnector@0"
                     }
                   ]
                 }
@@ -174206,8 +174637,8 @@
             }
           },
           {
-            "GitID": "f7fc46cd9fc472a4b96ad181a215ccfa_3┼13┼0┼",
-            "PrefabID": "f7fc46cd9fc472a4b96ad181a215ccfa",
+            "GitID": "kEKGObGBLag_L6F8X$s3_3┼13┼0┼",
+            "PrefabID": "kEKGObGBLag_L6F8X$s3",
             "Name": "ShuttleConnector (1)",
             "LocalPRS": "3┼13┼0┼"
           }
@@ -174217,7 +174648,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "18,173.5,0",
+          "Pos": "-1,8.5,0",
           "Size": "8,17,0"
         }
       ]

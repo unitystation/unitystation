@@ -12,6 +12,8 @@ using DatabaseAPI;
 using Logs;
 using System.Threading.Tasks;
 using Initialisation;
+using UI;
+using UI.Systems.PreRound;
 using Task = System.Threading.Tasks.Task;
 
 namespace Systems.Character
@@ -111,21 +113,36 @@ namespace Systems.Character
 		/// <returns><see cref="CharacterSheet"/> or default.</returns>
 		public CharacterSheet Get(int key)
 		{
-			if (IsCharacterKeyValid(key) == false)
+			CharacterSheet GenerateRandomSheet()
 			{
-				Loggy.Error($"An attempt was made to fetch a character with an invalid key \"{key}\". Ignoring.");
-				if (Characters.Count > 0)
+				var sheet = CharacterSheet.GenerateRandomCharacter();
+				Characters.Add(new SubAccountGetCharacterSheet()
 				{
-					return default;
-				}
-				else
-				{
-					return new CharacterSheet();
-				}
+					Account = PlayerManager.Account.Id,
+					ForkCompatibility = CharacterSheetForkCompatibility,
+					CharacterSheetVersion = CharacterSheetVersion,
+					Data = sheet,
+					LastUpdated = DateTime.Now
+				});
+				return sheet;
 			}
 
-			var Character = Characters[key];
-			return Character.Data;
+			if (Characters.Count == 0)
+			{
+				Loggy.Info("No character sheets found. Generating a new one..");
+				return GenerateRandomSheet();
+			}
+			if (IsCharacterKeyValid(key) == false)
+			{
+				var msg = $"An attempt was made to fetch a character with an invalid key \"{key}\". " +
+				          $"The game will attempt to fill this data for you with a randomly generated character sheet.";
+				Loggy.Error(msg);
+				UIManager.InfoWindow.Show(msg, false, "Error");
+				return GenerateRandomSheet();
+			}
+
+			var character = Characters[key];
+			return character.Data;
 		}
 
 		/// <summary>Set the <see cref="CharacterSheet"/> associated with the given key.</summary>
@@ -272,8 +289,18 @@ namespace Systems.Character
 					{
 						Loggy.Error(
 							$"Failed to load characters online. because: {accountResponse.Exception!.Message}");
+						UIManager.InfoWindow.Show("Failed to load characters online" +
+						                          $"{accountResponse.Exception!.Message}",
+							false, "Error");
 					});
-					throw accountResponse.Exception;
+					if (accountResponse.Exception != null)
+					{
+						throw accountResponse.Exception;
+					}
+					else
+					{
+						throw new Exception("Failed to load characters online");
+					}
 				}
 				else
 				{
@@ -296,7 +323,13 @@ namespace Systems.Character
 			}
 			catch (Exception e)
 			{
-				LoadManager.DoInMainThread( ()=> Loggy.Error(e.ToString()) );
+				LoadManager.DoInMainThread( ()=>
+				{
+					Loggy.Error(e.ToString());
+					UIManager.InfoWindow.Show("Something went wrong while attempting to fetch your characters." +
+					                          " Make sure you're online and you have a valid account token.",
+						false, "Error");
+				});
 			}
 		}
 
@@ -319,6 +352,7 @@ namespace Systems.Character
 				}
 			}
 			DetermineActiveCharacter();
+			GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("");
 		}
 
 		private void LoadOfflineCharacterSheets(ref List<SubAccountGetCharacterSheet> characters)
@@ -402,13 +436,6 @@ namespace Systems.Character
 			}
 
 			return true;
-		}
-
-		public struct ToUpdateLocal
-		{
-			public SubAccountGetCharacterSheet online;
-			public SubAccountGetCharacterSheet local;
-
 		}
 	}
 }

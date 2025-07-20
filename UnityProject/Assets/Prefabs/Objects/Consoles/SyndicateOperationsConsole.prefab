@@ -21,12 +21,12 @@ PrefabInstance:
     - target: {fileID: 1083807778969337673, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: initialName
-      value: Syndicate Operations Console
+      value: Syndicate operations console
       objectReference: {fileID: 0}
     - target: {fileID: 1083807778969337673, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: initialDescription
-      value: For all your syndicate needs!
+      value: For all your Syndicate needs!
       objectReference: {fileID: 0}
     - target: {fileID: 2193914177532499227, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -70,6 +70,21 @@ PrefabInstance:
       propertyPath: Color.r
       value: 0.6627451
       objectReference: {fileID: 0}
+    - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 0.08235294
+      objectReference: {fileID: 0}
+    - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.08235294
+      objectReference: {fileID: 0}
+    - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 0.6627451
+      objectReference: {fileID: 0}
     - target: {fileID: 6556397441920388693, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: isSelfPowered
@@ -84,6 +99,11 @@ PrefabInstance:
         type: 3}
       propertyPath: foreverID
       value: d3398886fbb591ba4a70e0ef3a79cc71
+      objectReference: {fileID: 0}
+    - target: {fileID: 7410584208186429367, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: SynchroniseCurrentDirection
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7759570870767460473, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}

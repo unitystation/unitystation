@@ -495,13 +495,14 @@ namespace Systems.Atmospherics
 
 					if (gas.CustomColour)
 					{
-						node.PositionMatrix.MetaTileMap.AddOverlay(node.LocalPosition, gas.OverlayTile,
-							color: gas.Colour, allowMultiple: gas.OverlayTile.OverlayType == OverlayType.Gas);
-
-						continue;
+						node.PositionMatrix.MetaTileMap.AddOverlay(node.LocalPosition, gas.OverlayTile, color: gas.Colour);
+					}
+					else
+					{
+						node.PositionMatrix.MetaTileMap.AddOverlay(node.LocalPosition, gas.OverlayTile);
 					}
 
-					node.PositionMatrix.MetaTileMap.AddOverlay(node.LocalPosition, gas.OverlayTile);
+
 				}
 				else
 				{

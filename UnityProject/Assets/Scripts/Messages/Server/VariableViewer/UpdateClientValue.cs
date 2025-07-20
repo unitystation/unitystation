@@ -36,7 +36,7 @@ namespace Messages.Server.VariableViewer
 
 		public override void Process(NetMessage msg)
 		{
-			if (CustomNetworkManager.Instance._isServer) return;
+			if (CustomNetworkManager.IsServer) return;
 			var NetworkedObject = ClientObjectPath.GetObjectMessage(msg.PathData);
 
 			if (msg.Modifying is UpdateClientValue.Modifying.InvokingFunction or UpdateClientValue.Modifying.ModifyingVariable)

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 499351249353511896}
   - component: {fileID: 114734890905785284}
   - component: {fileID: 114776788309089574}
-  - component: {fileID: 114577415631634126}
   - component: {fileID: 114883521337486670}
   - component: {fileID: 657520313027932809}
   - component: {fileID: 114738972662350094}
@@ -66,6 +65,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialName: Unnamed
+  initialNames: []
   initialDescription: Oops, someone spawned something they shouldn't!
   willHighlight: 1
   exportCost: 0
@@ -74,6 +74,7 @@ MonoBehaviour:
   exportMessage: 
   noMouseHighlight: 0
   initialTraits: []
+  IsMapped: 0
   initialSize: 3
   hitDamage: 0
   ShowHitDamage: 1
@@ -85,36 +86,36 @@ MonoBehaviour:
   throwSpeed: 2
   throwRange: 7
   hitSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/GenericHit.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   hitSoundSettings: 0
   blockSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/smash.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   inventoryMoveSound:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   inventoryRemoveSound:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   canConnectToTank: 0
@@ -186,21 +187,6 @@ MonoBehaviour:
   LiesFlat3D: 0
   prefabTracker: {fileID: 6393191727481188567}
   CurrentsortingGroup: {fileID: 6104600676241079028}
---- !u!114 &114577415631634126
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1011433845357754}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteMatrixRotationBehavior: 1
-  ignoreExtraRotation: []
-  RotateParent: {fileID: 0}
 --- !u!114 &114883521337486670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,11 +210,11 @@ MonoBehaviour:
       m_Calls: []
   initialIntegrity: 100
   soundOnHit:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/Tap.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   damageDeflection: 0
@@ -393,7 +379,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   BuckledToObject: {fileID: 0}
+  BuckleOffset: {x: 0, y: 0, z: 0}
   LocalDifferenceNeeded: {x: 0, y: 0}
+  newtonianMovement: {x: 0, y: 0}
   LocalTargetPosition: {x: 0, y: 0, z: 0}
   CorrectingCourse: 0
   Animating: 0
@@ -403,7 +391,6 @@ MonoBehaviour:
   spinMagnitude: 0
   thrownBy: {fileID: 0}
   thrownProtection: {fileID: 0}
-  aim: 0
   ForcedPushedFrame: 0
   TryPushedFrame: 0
   PushedFrame: 0
@@ -430,6 +417,7 @@ MonoBehaviour:
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
   TimeSpentFlying: 0
+  <Scale>k__BackingField: {fileID: 0}
   DEBUG: 0
   isNotPushable: 0
   Pushing: []
@@ -448,6 +436,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13b3f20d3b30cb24fb70b1f35524c360, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  commonComponentsToRegister:
+  - {fileID: 8552236617046534393}
+  - {fileID: 499351249353511896}
+  - {fileID: 114734890905785284}
+  - {fileID: 114776788309089574}
+  - {fileID: 5414819541850508356}
 --- !u!114 &4885464012290422036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -555,6 +549,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -610,4 +605,5 @@ MonoBehaviour:
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []

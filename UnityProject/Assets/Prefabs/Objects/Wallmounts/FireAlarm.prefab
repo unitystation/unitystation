@@ -53,6 +53,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -106,11 +107,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f0d9ef9cb1bd60041ba7bece6502cad1, type: 2}
   - {fileID: 11400000, guid: 438e55d815092a542bfd51688ac1ca5b, type: 2}
   - {fileID: 11400000, guid: da165232a664e42478b67852c0c20ceb, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 43216e6a6e9d3ec4681d25def5310123, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 43216e6a6e9d3ec4681d25def5310123,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 575592768451504345}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!114 &3777985596206283457
 MonoBehaviour:
@@ -126,7 +130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mIntensity: 0.4
   mAdditionalEmission: 0
-  mScale: 0.9
+  mScale: 1
 --- !u!1 &8844773903192739836
 GameObject:
   m_ObjectHideFlags: 0
@@ -180,6 +184,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -232,11 +237,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5209ae0633fb8a24d9d4f9d45d46053d, type: 2}
   - {fileID: 11400000, guid: 8656127b1191f6d4397dab145b7fcaf7, type: 2}
   - {fileID: 11400000, guid: d0e82ed9ea095c64c81c7790c1e07758, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 5209ae0633fb8a24d9d4f9d45d46053d, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 5209ae0633fb8a24d9d4f9d45d46053d,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 6173794422173241655}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
 --- !u!114 &3296440861055232477
 MonoBehaviour:
@@ -252,7 +260,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mIntensity: 0.4
   mAdditionalEmission: 0
-  mScale: 0.9
+  mScale: 1
 --- !u!1001 &3074947235549192634
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -269,6 +277,11 @@ PrefabInstance:
     - target: {fileID: -6356777978426299504, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: deviceType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -6356777978426299504, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: initialwattusage
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
@@ -399,7 +412,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 4564095785055846417}
+    - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 1355c8740991a9047a3546b6f422dd19,
+        type: 2}
+    - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 1355c8740991a9047a3546b6f422dd19,
         type: 2}
@@ -610,6 +634,14 @@ MonoBehaviour:
   SynchroniseCurrentDirection: 3
   IgnoreServerUpdatesIfLocalPlayer: 0
   MatrixRotateUpdate: 1
+  SetOrder: 0
+  Orders: 00000000000000000000000000000000
+  SetLayer: 0
+  Layers:
+  - Rename me 1
+  - Rename me 2
+  - Rename me 3
+  - Rename me 4
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
 --- !u!114 &7882156339634519424
@@ -640,18 +672,48 @@ MonoBehaviour:
   bottomLightSpriteHandler: {fileID: 6366995917858756332}
   coverOpen: 0
   hasCables: 1
-  registerTile: {fileID: 0}
-  integrity: {fileID: 0}
+  registerTile: {fileID: 4966197239815423054}
+  integrity: {fileID: 5177482785941875611}
   FireAlarmSFX:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/FireAlarm.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   <CanRelink>k__BackingField: 1
   <IgnoreMaxDistanceMapper>k__BackingField: 0
+--- !u!212 &4564095785055846417 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+    type: 3}
+  m_PrefabInstance: {fileID: 3074947235549192634}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4966197239815423054 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7946340047006197236, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+    type: 3}
+  m_PrefabInstance: {fileID: 3074947235549192634}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4338884022056035334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5177482785941875611 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7887620515462466081, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+    type: 3}
+  m_PrefabInstance: {fileID: 3074947235549192634}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4338884022056035334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f24590037b6b486082fc874d1bfd9d95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5529437522813867580 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7354635586586802054, guid: b69bfc56f39849d4ba9139d2d51bedb6,
@@ -670,9 +732,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 967620e59e52cc14c89c22c4176bac09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mIntensity: 0.5
+  mIntensity: 0.15
   mAdditionalEmission: 0
-  mScale: 0.76
+  mScale: 1
 --- !u!114 &9108003409961094876 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,

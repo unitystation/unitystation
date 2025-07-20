@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Actions.V2;
 using Core.Utils;
 using Detective;
 using Systems.Ai;
@@ -20,7 +21,9 @@ using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Changeling;
 using Core;
+using HealthV2.Living.Mutations.Surface;
 using Logs;
+using Mobs.Traversal;
 using Systems.Faith;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
@@ -32,6 +35,7 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 	public IPlayerPossessable PossessedBy { get; set; }
 	public MindNIPossessingEvent OnPossessedBy { get; set; } = new MindNIPossessingEvent();
 
+	//NOTE SyncVar Only visible to owner
 	[SyncVar(hook = nameof(SyncPossessingID))] private uint possessingID;
 
 	public IPlayerPossessable Itself => this as IPlayerPossessable;
@@ -47,16 +51,14 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 
 	public ChatModifier inventorySpeechModifiers = ChatModifier.None;
 
-	/// <summary>
-	/// Current character settings for this player.
-	/// </summary>
-	[SyncVar] public CharacterSheet characterSettings = new CharacterSheet();
 
-	[HideInInspector, SyncVar(hook = nameof(SyncPlayerName))]
-	public string playerName = " ";
+	public CharacterSheet characterSettings => PlayerScriptVisible.characterSettings;
 
-	[HideInInspector, SyncVar(hook = nameof(SyncVisibleName))]
-	public string visibleName = " ";
+
+	public string playerName => PlayerScriptVisible.playerName;
+
+
+	public string visibleName => PlayerScriptVisible.visibleName;
 
 	public PlayerNetworkActions PlayerNetworkActions { get; private set; }
 
@@ -71,6 +73,8 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 
 	public MovementSynchronisation playerMove { get; private set; }
 	public PlayerSprites playerSprites { get; private set; }
+
+	public PlayerScriptVisible PlayerScriptVisible;
 
 	/// <summary>
 	/// Will be null if player is a ghost.
@@ -104,6 +108,11 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 
 	[field: SerializeField] public DimPlayerLightController DimPlayerLightController { get; private set; }
 	[field: SerializeField] public BodyAlertManager BodyAlerts { get; private set; }
+	[field: SerializeField] public MobTraversal Traversal { get; private set; }
+	[field: SerializeField] public GroupedAccess Access { get; private set; }
+	[field: SerializeField] public ActionManager PlayerButtonedActions { get; private set; }
+	[field: SerializeField] public BodySpritesInvisbility PlayerAlpha { get; private set; }
+	public ActionManager PlayerButtonedMindActions => Mind?.PlayerButtonedActions;
 
 	public PlayerStats PlayerStats { get; private set; }
 
@@ -210,12 +219,11 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 		DimPlayerLightController ??= GetComponent<DimPlayerLightController>();
 		PlayerStats = GetComponent<PlayerStats>();
 		BodyAlerts = GetComponent<BodyAlertManager>();
-	}
-
-	public override void OnStartClient()
-	{
-		base.OnStartClient();
-		SyncPlayerName(name, name);
+		Traversal ??= GetComponent<MobTraversal>();
+		Access ??= GetComponent<GroupedAccess>();
+		PlayerScriptVisible ??= GetComponent<PlayerScriptVisible>();
+		PlayerButtonedActions ??= GetComponent<ActionManager>();
+		PlayerAlpha ??= GetComponent<BodySpritesInvisbility>();
 	}
 
 	private void OnEnable()
@@ -240,9 +248,9 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 
 	public void InitPossess(Mind mind)
 	{
-		if (mind.CurrentCharacterSettings != null)
+		if (mind.CurrentCharacterSettings != null && characterSettings == null)
 		{
-			characterSettings = mind.CurrentCharacterSettings;
+			PlayerScriptVisible.SetcharacterSettings(mind.CurrentCharacterSettings);
 		}
 	}
 
@@ -250,27 +258,32 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 	{
 		if (isServer)
 		{
-			if (mind.CurrentCharacterSettings != null)
+			if (string.IsNullOrWhiteSpace(playerName))
 			{
-				SyncPlayerName(mind.name, mind.CurrentCharacterSettings.Name);
-			}
-			else
-			{
-				SyncPlayerName(mind.name, mind.name);
+				if (mind.CurrentCharacterSettings != null)
+				{
+					PlayerScriptVisible.SyncPlayerName(mind.name, mind.CurrentCharacterSettings.Name);
+				}
+				else
+				{
+					PlayerScriptVisible.SyncPlayerName(mind.name, mind.name);
+				}
 			}
 		}
 
 
-		if (isOwned)
+
+		if ((CustomNetworkManager.IsServer == false) || isOwned)
 		{
 			EnableLighting(true);
 			UIManager.ResetAllUI();
 			GetComponent<MouseInputController>().enabled = true;
 
-			if (UIManager.Instance.statsTab.window.activeInHierarchy == false)
+			if (UIManager.Instance?.statsTab?.window?.activeInHierarchy == false)
 			{
 				UIManager.Instance.statsTab.window.SetActive(true);
 			}
+
 
 			if (PlayerType == PlayerTypes.Ghost)
 			{
@@ -329,7 +342,7 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 	//Client Side Only
 	private void UpdateMe()
 	{
-		if (isUpdateRTT && hasAuthority)
+		if (isUpdateRTT && isOwned)
 		{
 			RTTUpdate();
 		}
@@ -401,7 +414,7 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 	private void EnableLighting(bool enable)
 	{
 		// Get the lighting system
-		var lighting = Camera.main.GetComponent<LightingSystem>();
+		var lighting = Camera.main?.GetComponent<LightingSystem>();
 		if (!lighting)
 		{
 			Loggy.Warning("Local Player can't find lighting system on Camera.main", Category.Lighting);
@@ -424,12 +437,6 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 		OnBodyUnPossesedByPlayer?.Invoke();
 	}
 
-	public void SyncPlayerName(string oldValue, string value)
-	{
-		playerName = value;
-		gameObject.name = value;
-		RefreshVisibleName();
-	}
 
 	[RightClickMethod]
 	public void Possess()
@@ -584,10 +591,9 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 		return transmitChannels | receiveChannels;
 	}
 
-	// Syncvisiblename
-	public void SyncVisibleName(string oldValue, string value)
+
+	public void SetVisibleName()
 	{
-		visibleName = value;
 		try
 		{
 			OnVisibleNameChange?.Invoke();
@@ -614,7 +620,7 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 			newVisibleName = Equipment.GetPlayerNameByEquipment();
 		}
 
-		SyncVisibleName(newVisibleName, newVisibleName);
+		PlayerScriptVisible.SyncVisibleName(newVisibleName, newVisibleName);
 	}
 
 	// Tooltips inspector bar

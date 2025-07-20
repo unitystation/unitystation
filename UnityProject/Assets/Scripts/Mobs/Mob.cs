@@ -1,8 +1,10 @@
+using AddressableReferences;
 using HealthV2;
 using Logs;
 using Mobs.AI;
 using Systems.Character;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Mobs
 {
@@ -42,7 +44,7 @@ namespace Mobs
 		private void MobInit()
 		{
 			GenerateCharacterSheet();
-			Possession.SyncVisibleName("", MobName);
+			Possession.PlayerScriptVisible.SyncVisibleName("", MobName);
 		}
 
 		private void GenerateCharacterSheet()
@@ -53,8 +55,15 @@ namespace Mobs
 				Species = Possession.playerSprites.RaceBodyparts.name,
 				PlayerPronoun = MobPronouns
 			};
-			Possession.characterSettings = sheet;
+			Possession.PlayerScriptVisible.SetcharacterSettings(sheet);
 			Possession.playerSprites.OnCharacterSettingsChange(sheet);
 		}
+	}
+
+	[System.Serializable]
+	public struct AudibleMobDialogue
+	{
+		public AddressableAudioSource audioSource;
+		[FormerlySerializedAs("Transcription")] public string transcription;
 	}
 }

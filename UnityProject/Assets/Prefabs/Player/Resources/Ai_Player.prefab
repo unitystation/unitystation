@@ -82,6 +82,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -131,15 +134,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 03a80d3c933efc34685a9442cbb919e9, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 03a80d3c933efc34685a9442cbb919e9,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 873306758269908624}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &4190555781170665524
 GameObject:
   m_ObjectHideFlags: 0
@@ -190,6 +195,9 @@ LineRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -326,6 +334,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -411,6 +422,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -465,15 +479,17 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 79f732890684fdf47ac6f64ae00bb8f6, type: 2}
   - {fileID: 11400000, guid: d91c579b8bd73404fb1676ba7bf20c5d, type: 2}
   - {fileID: 11400000, guid: 3cc58aaaccdf34c499544ffeac4e7a56, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 0ae7d83d6d2e07041a08b251e147d876, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 0ae7d83d6d2e07041a08b251e147d876,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &7971638957329120905
 GameObject:
   m_ObjectHideFlags: 0
@@ -500,6 +516,7 @@ GameObject:
   - component: {fileID: 502681722295336018}
   - component: {fileID: 3911358018866170098}
   - component: {fileID: 3778468619111041184}
+  - component: {fileID: 2805272046511416254}
   m_Layer: 31
   m_Name: Ai_Player
   m_TagString: Untagged
@@ -540,7 +557,7 @@ MonoBehaviour:
   sceneId: 0
   _assetId: 209738690
   serverOnly: 0
-  visible: 0
+  visibility: 0
   hasSpawned: 0
 --- !u!114 &4434401367323058700
 MonoBehaviour:
@@ -559,25 +576,15 @@ MonoBehaviour:
   syncInterval: 0.1
   playerTypeSettings: {fileID: 11400000, guid: 6dc4c671f3201dd4eb28d0718eb4d193, type: 2}
   inventorySpeechModifiers: 0
-  characterSettings:
-    Name: Cuban Pete
-    AiName: R.O.B.O.T.
-    BodyType: 1
-    ClothingStyle: 0
-    BagStyle: 0
-    PlayerPronoun: 1
-    Age: 22
-    Speech: 0
-    SkinTone: '#ffe0d1'
-    SerialisedBodyPartCustom: []
-    SerialisedExternalCustom: []
-    Species: Human
-  playerName: ' '
-  visibleName: ' '
+  PlayerScriptVisible: {fileID: 2805272046511416254}
   PlayerSync: {fileID: 0}
+  <PlayerFaith>k__BackingField: {fileID: 0}
+  <Particles>k__BackingField: {fileID: 0}
+  <DimPlayerLightController>k__BackingField: {fileID: 0}
+  <BodyAlerts>k__BackingField: {fileID: 0}
+  <Traversal>k__BackingField: {fileID: 0}
+  <Access>k__BackingField: {fileID: 0}
   RTT: 0
-  RcsMode: 0
-  RcsMatrixMove: {fileID: 0}
   playerChatLocation: {fileID: 7971638957329120905}
   canVentCrawl: 0
   <OnBodyPossesedByPlayer>k__BackingField:
@@ -627,6 +634,7 @@ MonoBehaviour:
   CurrentsortingGroup: {fileID: 0}
   <LayDownBehavior>k__BackingField: {fileID: 3778468619111041184}
   networkedLean: {fileID: 0}
+  stunAlert: {fileID: 0}
 --- !u!114 &6528301238134470348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -646,7 +654,17 @@ MonoBehaviour:
   ChangeSprites: 0
   isChangingSO: 0
   CurrentDirection: 3
+  SynchroniseCurrentDirection: 0
   IgnoreServerUpdatesIfLocalPlayer: 0
+  MatrixRotateUpdate: 1
+  SetOrder: 0
+  Orders: 00000000000000000000000000000000
+  SetLayer: 0
+  Layers:
+  - Rename me 1
+  - Rename me 2
+  - Rename me 3
+  - Rename me 4
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
 --- !u!114 &7775768926088388867
@@ -711,7 +729,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0
-  syncMode: 0
+  syncMode: 1
   syncInterval: 0
   corePrefab: {fileID: 1705799857596220470, guid: 965a30360b6f44c4895003abe8ff4197,
     type: 3}
@@ -782,7 +800,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  BuckledToObject: {fileID: 0}
+  BuckleOffset: {x: 0, y: 0, z: 0}
   LocalDifferenceNeeded: {x: 0, y: 0}
+  newtonianMovement: {x: 0, y: 0}
   LocalTargetPosition: {x: 0, y: 0, z: 0}
   CorrectingCourse: 0
   Animating: 0
@@ -791,21 +812,18 @@ MonoBehaviour:
   slideTime: 0
   spinMagnitude: 0
   thrownBy: {fileID: 0}
-  aim: 0
+  thrownProtection: {fileID: 0}
   ForcedPushedFrame: 0
   TryPushedFrame: 0
   PushedFrame: 0
   ChangesDirectionPush: 0
   Intangible: 1
+  MappingIntangible: 0
   SnapToGridOnStart: 0
   IsPlayer: 0
-  DEBUG: 0
+  ObjectBouncyness: 0.75
   tileMoveSpeed: 8
   HasOwnGravity: 0
-  isNotPushable: 0
-  CanBeWindPushed: 1
-  rotationTarget: {fileID: 0}
-  FramePushDecision: 1
   stickyMovement: 1
   OnThrowEndResetRotation: 0
   maximumStickSpeed: 20
@@ -815,29 +833,50 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   IsCurrentlyFloating: 0
-  Pushing: []
   Hits: []
   isFlyingSliding: 0
   IsMoving: 0
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
-  BuckledToObject: {fileID: 0}
+  TimeSpentFlying: 0
+  <Scale>k__BackingField: {fileID: 0}
+  OnEnteredNewMatrix:
+    m_PersistentCalls:
+      m_Calls: []
+  DEBUG: 0
+  isNotPushable: 0
+  Pushing: []
+  CanBeWindPushed: 1
+  canResetRotationFromRightClick: 0
+  rotationTarget: {fileID: 0}
   IsPressedCashed: 0
   IsPressedServer: 0
   HardcodedSpeed: 0
   LastUpdatedFlyingPosition: 15
   playerScript: {fileID: 0}
+  ServerSillyWalk:
+    InitialState: 0
+    OnBoolChange:
+      m_PersistentCalls:
+        m_Calls: []
+  HasSillyWalk: 0
   Step: 0
+  OnBumpedIntoSomething:
+    m_PersistentCalls:
+      m_Calls: []
   CanMoveThroughObstructions: 1
   RunSpeed: 0
   WalkSpeed: 0
   CrawlSpeed: 0
   needsWalking: {fileID: 0}
   needsRunning: {fileID: 0}
+  VomitEmote: {fileID: 0}
   CachedPreviousMove: {x: 0, y: 0}
   CachedMove: {x: 0, y: 0}
+  ClientRequestedType: 0
   actionData: {fileID: 0}
   IsBumping: 0
+  FudgeThresholdFlyingSliding: 0.5
 --- !u!114 &4807786497952879602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -908,3 +947,21 @@ MonoBehaviour:
   networkedLean: {fileID: 0}
   disabled: 1
   clientAutoCorrectInterval: 1.35
+--- !u!114 &2805272046511416254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7971638957329120905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2b2f750919e8ae4589de91e78abefba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  PlayerScript: {fileID: 4434401367323058700}
+  playerName: ' '
+  visibleName: ' '

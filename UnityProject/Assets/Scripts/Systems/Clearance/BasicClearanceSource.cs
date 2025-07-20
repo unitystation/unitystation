@@ -10,7 +10,7 @@ namespace Systems.Clearance
 	/// Component to make an object a basic clearance source, like an ID card for example.
 	/// Simply add this component to the object and set the different clearance levels for normal population and low population.
 	/// </summary>
-	public class BasicClearanceSource: NetworkBehaviour, IClearanceSource
+	public class BasicClearanceSource: NetworkBehaviour, IClearanceSource, IServerSpawn
 	{
 		[SerializeField]
 		[ReorderableList]
@@ -53,6 +53,12 @@ namespace Systems.Clearance
 				}
 				return syncedLowpopClearance;
 			}
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			ServerSetClearance(clearance);
+			ServerSetLowPopClearance(lowPopClearance);
 		}
 
 		public override void OnStartServer()

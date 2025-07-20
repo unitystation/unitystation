@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Antagonists;
 using GameModes;
-using Health.Sickness;
 using UnityEngine;
 using Task = System.Threading.Tasks.Task;
 using Wizard = Antagonists.Wizard;
@@ -12,7 +12,6 @@ namespace Systems.Antagonists.Antags
 	public class BloodBrother : Antagonist
 	{
 		[SerializeField] private float extraHealthForBrothers = 350f;
-		[SerializeField] private Sickness paranoiaSickness;
 
 		[Tooltip("For use in Syndicate Uplinks")]
 		[SerializeField]
@@ -25,7 +24,12 @@ namespace Systems.Antagonists.Antags
 				"<color=red>You're a convicted prisoner and test subject who was given " +
 				"a new chance for freedom by the syndicate.\n You and your blood brothers <b>must all succeed</b> to earn your freedom, or die trying.</color>");
 			_ = CheckForOtherBloodBrothers(SpawnMind.Body.gameObject);
-			SpawnMind.Body.playerHealth.OnDeath += BloodBrothers.OnBrotherDeath;
+			var Objective = SpawnMind.AntagPublic.Objectives.FirstOrDefault(x => x is BloodBrotherMainObjective) as BloodBrotherMainObjective;
+			if (Objective != null)
+			{
+				SpawnMind.Body.playerHealth.OnDeath +=  Objective.OnBrotherDeathNotEnd;
+			}
+
 			SpawnMind.Body.playerHealth.SetMaxHealth(SpawnMind.Body.playerHealth.MaxHealth + extraHealthForBrothers);
 			AntagManager.TryInstallPDAUplink(SpawnMind, initialTC, false);
 			if (DMMath.Prob(25))
@@ -36,7 +40,7 @@ namespace Systems.Antagonists.Antags
 			}
 			if (DMMath.Prob(15))
 			{
-				SpawnMind.Body.playerHealth.AddSickness(paranoiaSickness);
+				SpawnMind.Body.playerHealth.reagentPoolSystem.BloodPool.Add(CommonSicknesses.Instance.ParanoiaReagent, 10f);
 				Chat.AddExamineMsg(SpawnMind.Body.gameObject,
 					"Due to your past in prison.. You've gained paranoia from the experiments they've done on you.");
 				return;

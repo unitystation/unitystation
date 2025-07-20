@@ -75,6 +75,11 @@ PrefabInstance:
       propertyPath: CurrentDirection
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3879102292432146991, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: SynchroniseCurrentDirection
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4097308122355289166, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
         type: 3}
       propertyPath: isNotPushable
@@ -177,8 +182,14 @@ PrefabInstance:
     - target: {fileID: 8675587485970357742, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
         type: 3}
       propertyPath: initialVariantIndex
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8675587485970357742, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 03d29d58e5d4c4c4bb483849e52d6b1b,
+        type: 2}
     - target: {fileID: 8675587485970357742, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
         type: 3}
       propertyPath: SubCatalogue.Array.size
@@ -220,6 +231,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2116856896879531024}
+    - targetCorrespondingSourceObject: {fileID: 4194276244320548660, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8735041207019494075}
   m_SourcePrefab: {fileID: 100100000, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f, type: 3}
 --- !u!1 &3151798844342946279 stripped
 GameObject:
@@ -289,3 +304,27 @@ MonoBehaviour:
   syncInterval: 0.1
   NetTabType: 60
   aiInteractable: 1
+--- !u!114 &8735041207019494075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3151798844342946279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0faab122ac985ee45b5e7ba686c2308e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  emmitableSignalData:
+  - {fileID: 11400000, guid: 248cafaf10637f2439d052ae7b819a6e, type: 2}
+  passCode: 0
+  frequency: 122
+  requiresPower: 0
+  isPowered: 1
+  canExamineFrequency: 0
+  minimumDamageBeforeObfuscation: 12
+  isEMPed: 0

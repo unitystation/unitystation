@@ -14,21 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   foreverID: 01ce9facd72382b408999e30ed2601ab
   pool:
+  - prefab: {fileID: 9060380378923672138, guid: 76c1cf9465a29384faac0d9df2eec3c9,
+      type: 3}
+    maxAmount: 1
+    probability: 100
   - prefab: {fileID: 3118614214066566036, guid: e76d17836a8eb274b95b38b9e522e071,
       type: 3}
     maxAmount: 1
-    probability: 100
-  - prefab: {fileID: 4184658972748340991, guid: eb0c626c3a078634594555c4139784d4,
+    probability: 75
+  - prefab: {fileID: 5356887044243828095, guid: ab2d2e4cb3ad42343836eb491c8dc037,
       type: 3}
     maxAmount: 1
-    probability: 80
-  - prefab: {fileID: 5558746297286370, guid: 7433fede76bc68c40851a73d529d8b3a, type: 3}
+    probability: 75
+  - prefab: {fileID: 9060380378923672138, guid: 079d2b7c1bf7fca48af7deb2c5d98539,
+      type: 3}
     maxAmount: 1
-    probability: 100
+    probability: 75
   - prefab: {fileID: 773683976701909403, guid: dae0cbe22cdb0e6478da04587c4e38e1, type: 3}
-    maxAmount: 1
-    probability: 100
-  - prefab: {fileID: 5558746297286370, guid: fd49dd2cee50dce468c4545c460e75a9, type: 3}
     maxAmount: 1
     probability: 100
   - prefab: {fileID: 1931456197757473819, guid: 1eea6c0e153fb2343bf1097664784d9c,
@@ -55,22 +57,92 @@ MonoBehaviour:
       type: 3}
     maxAmount: 1
     probability: 100
+  - prefab: {fileID: 770905702833930762, guid: 3ede8088b8e6f3e43a90cdc28055f000, type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 4284472624482382869, guid: 6bc7664000f3e42498bd8318c68ce7d2,
+      type: 3}
+    maxAmount: 1
+    probability: 50
+  - prefab: {fileID: 7190962387822714855, guid: 778a5f3172a005c4eafa43d5f18c1546,
+      type: 3}
+    maxAmount: 1
+    probability: 25
+  - prefab: {fileID: 6041984200622467946, guid: 02fd4b3f2a75ae74db68f80085ed0b48,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 4043713673800239651, guid: 01b4b07fc0f73fc489e41d12542d7ad0,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 4574939532575719906, guid: 8e17c9d2a242e0b44b3aee4e531bf391,
+      type: 3}
+    maxAmount: 1
+    probability: 75
+  - prefab: {fileID: 2102246942251672770, guid: 056109d8307020c4483e3ae4fa8148dc,
+      type: 3}
+    maxAmount: 1
+    probability: 25
+  - prefab: {fileID: 57465164435145771, guid: 8d9c365f583671e4f8c4ca8bfcee494a, type: 3}
+    maxAmount: 1
+    probability: 50
+  - prefab: {fileID: 6593377461839908636, guid: e303b373d5802f74a8b0e2772752b988,
+      type: 3}
+    maxAmount: 1
+    probability: 25
+  - prefab: {fileID: 4414483273744636164, guid: becf33b74a41462418a65ab34e21df88,
+      type: 3}
+    maxAmount: 1
+    probability: 25
+  - prefab: {fileID: 2717702614898470369, guid: b7f9ffc5f19a51546bc9474d372c12c4,
+      type: 3}
+    maxAmount: 1
+    probability: 25
+  - prefab: {fileID: 1311865976920758376, guid: 2476ec9801e0c2e4bb198f841cb3ef08,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 3626410358046780009, guid: 7c4d6f08fc4da3b4dbd86d2f111812ea,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 4184658972748340991, guid: eb0c626c3a078634594555c4139784d4,
+      type: 3}
+    maxAmount: 1
+    probability: 25
   - prefab: {fileID: 4267452151052300856, guid: 959aef1c36706b7428a7e700a978e648,
       type: 3}
     maxAmount: 1
-    probability: 100
+    probability: 25
   - prefab: {fileID: 7161211515976270597, guid: fe372e5eb4602664ba2bf856c4ffc47f,
       type: 3}
     maxAmount: 1
-    probability: 50
+    probability: 25
   - prefab: {fileID: 7276965238237120900, guid: 7dfd431fc77359d47bd657505877f763,
       type: 3}
     maxAmount: 1
-    probability: 50
+    probability: 25
   - prefab: {fileID: 1069497300762596, guid: dde8d9bf0726b3140971ecd9d5ddcb87, type: 3}
     maxAmount: 1
-    probability: 100
+    probability: 25
   - prefab: {fileID: 577345115248442667, guid: f461811dd0714004b8d55d03d4491293, type: 3}
+    maxAmount: 1
+    probability: 25
+  - prefab: {fileID: 2265521501557685915, guid: 82677ff961fa72944936cc923625a1bc,
+      type: 3}
+    maxAmount: 1
+    probability: 50
+  - prefab: {fileID: 4547519999024183013, guid: ce2bf2f708dd3cbf1b06a7fd16f4eef6,
+      type: 3}
+    maxAmount: 1
+    probability: 50
+  - prefab: {fileID: 8012353638308087684, guid: b25ecfd0ff025024995ceff3a9bb6be7,
+      type: 3}
+    maxAmount: 1
+    probability: 50
+  - prefab: {fileID: 4766721875690198130, guid: 24b56977c4055b64cb1f133b59595e60,
+      type: 3}
     maxAmount: 1
     probability: 50
   RequiredTrait: {fileID: 0}

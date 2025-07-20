@@ -165,8 +165,8 @@ namespace HealthV2.Living.PolymorphicSystems
 						bloodSaturation = reagentPoolSystem.BloodPool[KVP.Key] / bloodCap;
 					}
 
-					bloodSaturation = bloodSaturation * HeartEfficiency *
-					                  bloodAndValues.Key.CalculatePercentageBloodPresent(reagentPoolSystem.BloodPool);
+					var e = bloodAndValues.Key.CalculatePercentageBloodPresent(reagentPoolSystem.BloodPool);
+					bloodSaturation = bloodSaturation * HeartEfficiency * e;
 
 
 					bloodSaturation *= purityMultiplier;
@@ -215,6 +215,11 @@ namespace HealthV2.Living.PolymorphicSystems
 					}
 
 					bloodSaturation = Mathf.Min(bloodSaturation, 1);
+
+					if (bloodSaturation.IsUnreasonableNumber())
+					{
+						bloodSaturation = 0;
+					}
 
 					foreach (var bodyPart in KVP.Value.RelatedBodyParts)
 					{

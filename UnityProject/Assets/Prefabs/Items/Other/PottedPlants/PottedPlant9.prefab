@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 4, y: 4, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1606098006712257228}
@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Color: {r: 0.17254902, g: 0.69803923, b: 0.9098039, a: 1}
+  InitialColour: {r: 0.17254902, g: 0.69803923, b: 0.9098039, a: 0.7254902}
   Sprite: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
@@ -72,6 +72,7 @@ MeshRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -197,7 +198,7 @@ PrefabInstance:
     - target: {fileID: 317484318661653637, guid: 0271f252689106348ad30060b7abea96,
         type: 3}
       propertyPath: initialName
-      value: bioluminescent potted plant
+      value: glowing potted plant
       objectReference: {fileID: 0}
     - target: {fileID: 317484318661653637, guid: 0271f252689106348ad30060b7abea96,
         type: 3}
@@ -206,7 +207,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6326550108531515488, guid: 0271f252689106348ad30060b7abea96,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 1488569541138924772}
+    - target: {fileID: 6326550108531515488, guid: 0271f252689106348ad30060b7abea96,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: aace53907327f6f498d31ca3cb14ed4d,
+        type: 2}
+    - target: {fileID: 6326550108531515488, guid: 0271f252689106348ad30060b7abea96,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: aace53907327f6f498d31ca3cb14ed4d,
         type: 2}
@@ -227,11 +239,54 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6033720368224876263}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 183087353082436583, guid: 0271f252689106348ad30060b7abea96,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6082362842374168899}
   m_SourcePrefab: {fileID: 100100000, guid: 0271f252689106348ad30060b7abea96, type: 3}
+--- !u!212 &1488569541138924772 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 34763699688138939, guid: 0271f252689106348ad30060b7abea96,
+    type: 3}
+  m_PrefabInstance: {fileID: 1500815208261626975}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1606098006712257228 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 187452277244307091, guid: 0271f252689106348ad30060b7abea96,
     type: 3}
   m_PrefabInstance: {fileID: 1500815208261626975}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1610462930538100664 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 183087353082436583, guid: 0271f252689106348ad30060b7abea96,
+    type: 3}
+  m_PrefabInstance: {fileID: 1500815208261626975}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6082362842374168899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1610462930538100664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3d65b4ce352374ba2f4a8645c9476c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  RelatedPart: {fileID: 0}
+  LightEmission: {fileID: 0}
+  objectLightEmission: {fileID: 8722500347396248980}
+  IsOn: 1
+  colour: {r: 0.17254902, g: 0.69803923, b: 0.9098039, a: 0.7254902}
+  objectLightSprite: {fileID: 0}
+  commonComponents: {fileID: 0}
+  SpriteShape: 0
+  Size: 4
+  weakenOnGround: 0
+  revertToOldConsistencyBehavior: 0
+  weakenStrength: 1.45

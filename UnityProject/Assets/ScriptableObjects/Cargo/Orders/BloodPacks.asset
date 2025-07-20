@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0c8fd537387459c95edf35f9c5dd2c3, type: 3}
+  m_Name: BloodPacks
+  m_EditorClassIdentifier: 
+  OrderName: Blood Packs
+  CreditCost: 3000
+  Crate: {fileID: 2395943996647778371, guid: a85bb77436de9574c8523fe45acffb14, type: 3}
+  Items:
+  - {fileID: 175755116826495342, guid: d11369a9825828947a3d54cc46d63b9f, type: 3}
+  - {fileID: 175755116826495342, guid: d11369a9825828947a3d54cc46d63b9f, type: 3}
+  - {fileID: 175755116826495342, guid: d11369a9825828947a3d54cc46d63b9f, type: 3}
+  - {fileID: 175755116826495342, guid: d11369a9825828947a3d54cc46d63b9f, type: 3}
+  - {fileID: 175755116826495342, guid: d11369a9825828947a3d54cc46d63b9f, type: 3}
+  EmagOnly: 0
+  SuggestedCargoPrice: 600
+  ContentSellPrice: 500
+  WillFailUnitTests: 0

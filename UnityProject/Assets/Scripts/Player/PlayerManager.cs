@@ -26,12 +26,12 @@ public class PlayerManager : SingletonManager<PlayerManager>
 	public static Equipment Equipment { get; private set; }
 
 	/// <summary>The player GameObject. Null if not in game.</summary>
-	public static GameObject LocalPlayerObject {
+	public static GameObject  LocalPlayerObject {
 		get
 		{
 			if (LocalMindScript != null)
 			{
-				return LocalMindScript.GetDeepestBody().gameObject;
+				return LocalMindScript.CurrentlyControllingObject.gameObject;
 			}
 			else if (LocalViewerScript != null)
 			{
@@ -43,7 +43,7 @@ public class PlayerManager : SingletonManager<PlayerManager>
 	}
 
 	/// <summary>The player script for the player while in the game.</summary>
-	public static PlayerScript LocalPlayerScript => LocalPlayerObject.OrNull()?.GetComponent<PlayerScript>(); //TODO Maybe a bit lagg
+	public static PlayerScript LocalPlayerScript => LocalPlayerObject?.OrNull()?.GetComponent<PlayerScript>(); //TODO Maybe a bit lagg
 
 	public static Mind LocalMindScript { get; private set; }
 
@@ -105,6 +105,7 @@ public class PlayerManager : SingletonManager<PlayerManager>
 		var move = GetMovementAction();
 		if (ShuttleConsole != null)
 		{
+			if (UIManager.IsInputFocus) return;
 			if (move.moveActions.Length > 0)
 			{
 				ShuttleConsole.CmdMove(Orientation.From(GetMovementAction().ToPlayerMoveDirection().ToVector()));

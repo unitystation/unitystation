@@ -49,7 +49,7 @@ namespace Antagonists
 			get
 			{
 				if (curOwner == null)
-					curOwner = gameObject.GetComponent<Mind>();
+					curOwner = gameObject?.GetComponent<Mind>();
 				return curOwner;
 			}
 		}
@@ -107,7 +107,7 @@ namespace Antagonists
 			var objectiveList = Objectives.ToList();
 			for (int i = 0; i < objectiveList.Count; i++)
 			{
-				objSB.AppendLine($"{i+1}. {objectiveList[i].Description}");
+				objSB.AppendLine($"{i+1}. {objectiveList[i].GetDescription()}");
 			}
 			return objSB.ToString();
 		}
@@ -131,11 +131,11 @@ namespace Antagonists
 			{
 				if (IsAntagCanSeeObjectivesStatus == true)
 				{
-					objSB.AppendLine($"{i + 1}. {objectiveList[i].Description}:");
-					objSB.AppendLine(objectiveList[i].IsComplete() ? "<color=green>Completed\n" : "In progress/Failed");
+					objSB.AppendLine($"{i + 1}. {objectiveList[i].GetDescription()}:");
+					objSB.AppendLine(objectiveList[i].GetStatusText(true));
 				} else
 				{
-					objSB.AppendLine($"{i + 1}. {objectiveList[i].Description}");
+					objSB.AppendLine($"{i + 1}. {objectiveList[i].GetDescription()}");
 				}
 			}
 			if (CurTeam != null)
@@ -149,7 +149,7 @@ namespace Antagonists
 				{
 					var obj = CurTeam.TeamObjectives[i];
 
-					objSB.AppendLine($"{i + 1}. {obj.Description}");
+					objSB.AppendLine($"{i + 1}. {obj.GetDescription()}");
 				}
 			}
 			// Adding back italic tag so rich text doesn't break
@@ -163,7 +163,7 @@ namespace Antagonists
 			var objectiveList = Objectives.ToList();
 			for (int i = 0; i < objectiveList.Count; i++)
 			{
-				objSB.AppendLine($"{i+1}. {objectiveList[i].Description}");
+				objSB.AppendLine($"{i+1}. {objectiveList[i].GetDescription()}");
 			}
 			return objSB.ToString();
 		}
@@ -173,24 +173,24 @@ namespace Antagonists
 		/// </summary>
 		public string GetObjectiveStatus()
 		{
-			StringBuilder objSB = new StringBuilder($"<b>{Owner.Body.playerName}</b>, {Owner.occupation.DisplayName}\n", 200);
+			StringBuilder objSB = new StringBuilder($"<b>{Owner?.Body?.playerName}</b>, {Owner?.occupation?.DisplayName}\n", 200);
 			var objectiveList = Objectives.ToList();
 			for (int i = 0; i < objectiveList.Count; i++)
 			{
-				objSB.Append($"{i+1}. {objectiveList[i].Description}: ");
-				objSB.AppendLine(objectiveList[i].IsComplete() ? "<color=green><b>Completed</b></color>" : "<color=red><b>Failed</b></color>");
+				objSB.Append($"{i+1}. {objectiveList[i]?.GetDescription()}: ");
+				objSB.AppendLine(objectiveList[i]?.GetCompleteText(true));
 			}
 			return objSB.ToString();
 		}
 
 		public string GetObjectiveStatusNonRich()
 		{
-			var message = $"{Owner.OrNull()?.Body.OrNull()?.playerName}, {Owner.OrNull()?.occupation.OrNull()?.DisplayName}\n";
+			var message = $"{Owner?.Body?.playerName}, {Owner?.occupation?.DisplayName}\n";
 			var objectiveList = Objectives.ToList();
 			for (int i = 0; i < objectiveList.Count; i++)
 			{
-				message += $"{i + 1}. {objectiveList[i].Description}: ";
-				message += objectiveList[i].IsComplete() ? "Completed\n" : "Failed\n";
+				message += $"{i + 1}. {objectiveList[i].GetDescription()}: ";
+				message += objectiveList[i].GetCompleteText(false);
 			}
 			return message;
 		}

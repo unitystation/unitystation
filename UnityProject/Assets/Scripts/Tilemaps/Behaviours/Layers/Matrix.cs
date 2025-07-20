@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Audio.Containers;
 using Core;
 using Doors;
 using UnityEngine;
@@ -113,6 +114,8 @@ public class Matrix : MonoBehaviour
 
 	//Pretty self-explanatory, TODO gravity generator
 	public bool HasGravity = true;
+
+	public AudioClipsArray EnteringSounds = null;
 
 	public void Awake()
 	{
@@ -257,6 +260,12 @@ public class Matrix : MonoBehaviour
 	public bool IsTableAt(Vector3Int position, bool isServer)
 	{
 		return MetaTileMap.IsTableAt(position);
+	}
+
+	public LayerTile IsTableAt(Vector3Int position)
+	{
+		if (MetaTileMap.IsTableAt(position, out var table) == false) return null;
+		return table;
 	}
 
 	public bool IsWallAt(Vector3Int position, bool isServer)
@@ -520,6 +529,7 @@ public class Matrix : MonoBehaviour
 
 	public void AddElectricalNode(Vector3Int position, ElectricalCableTile electricalCableTile, bool AddTile = true, bool AddLogic = false)
 	{
+		if (Application.isPlaying == false) return;
 		var checkPos = position;
 		checkPos.z = 0;
 		var metaData = MetaDataLayer.Get(checkPos, true);

@@ -19,7 +19,7 @@ namespace Messages.Server
 
 		public override void Process(NetMessage msg)
 		{
-			if (CustomNetworkManager.Instance._isServer) return;
+			if (CustomNetworkManager.IsServer) return;
 			var Matrix = msg.MatrixID.NetIdToGameObject().GetComponent<MatrixSync>().NetworkedMatrix.matrix;
 			var Object = Matrix.transform.parent;
 			var Offset = msg.RelativePosition.RoundToInt();

@@ -225,6 +225,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			Destroy(this);
 		}
 		RoundID = LoadRoundID();
+		RoundID++;
+		SaveRoundID();
 	}
 
 
@@ -376,7 +378,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 	private void OnSceneChange(Scene oldScene, Scene newScene)
 	{
-		if (CustomNetworkManager.Instance._isServer && newScene.name != "Lobby")
+		if (CustomNetworkManager.IsServer && newScene.name != "Lobby")
 		{
 			PreRoundStart();
 		}
@@ -403,7 +405,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	{
 		if (string.IsNullOrEmpty(currentTime)) return;
 
-		if (!CustomNetworkManager.Instance._isServer)
+		if (!CustomNetworkManager.IsServer)
 		{
 			RoundTime = DateTime.ParseExact(currentTime, "O", CultureInfo.InvariantCulture,
 				DateTimeStyles.RoundtripKind);
@@ -437,6 +439,14 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		{
 			if (NetworkTime.time >= CountdownEndTime)
 			{
+				//(Max): Hey shitass
+				// If you're wondering why the round state is paused when the countdown ends, it's because of this stupid "feature"
+				// It's probably used to save on the performance when no players are online, but can be confusing as fuck if you are working on the prelobby code
+				// locally and suddenly cant figure out why stuff like the Join Round button doesn't want to update.
+				// This honestly seems useless as shit, because many of the game's processes still continue working through
+				// the UpdateManager regardless if there are players on the server or not.
+				// My advice? hit F7 and use the admin round start tool to avoid the headaches of this.
+				// Don't bother removing it, I know some bugs will unearth somehow from this.
 				if (PlayerList.Instance.ReadyPlayers.Count >= MinReadyPlayersForCountdown)
 				{
 					StartRound();
@@ -455,7 +465,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// </summary>
 	public void PreRoundStart()
 	{
-		if (CustomNetworkManager.Instance._isServer == false) return;
+		if (CustomNetworkManager.IsServer == false) return;
 
 		// Clear up any space bodies
 		SpaceBodies.Clear();
@@ -507,12 +517,11 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// </summary>
 	public void StartRound()
 	{
-		RoundID++;
 		SaveRoundID();
 		waitForStart = false;
 
 		// Only do this stuff on the server
-		if (CustomNetworkManager.Instance._isServer == false) return;
+		if (CustomNetworkManager.IsServer == false) return;
 
 		//Clear jobs for next round
 		if (CrewManifestManager.Instance != null)
@@ -549,7 +558,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		StartCoroutine(WaitToStartGameMode());
 
 		// Tell all clients that the countdown has finished
-		UpdateCountdownMessage.Send(true, 0);
+		UpdateCountdownMessage.Send(true, 0, CurrentRoundState);
 		EventManager.Broadcast(Event.PostRoundStarted, true);
 		CleanupUtil.RoundStartCleanup();
 	}
@@ -559,6 +568,10 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		if (string.IsNullOrEmpty(NextGameMode) || NextGameMode == "Random")
 		{
 			SetRandomGameMode();
+		}
+		else if (NextGameMode == "Carousel")
+		{
+			PickFromCarouselGameMode();
 		}
 		else
 		{
@@ -618,13 +631,18 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// <summary>
 	/// Calls the end of the round which plays a sound and shows the round report. Server only
 	/// </summary>
-	public void EndRound()
+	public void EndRound( int TriggeredOnID)
 	{
-		if (CustomNetworkManager.Instance._isServer == false) return;
+		if (TriggeredOnID != GameManager.RoundID)
+		{
+			return;
+		}
+
+		if (CustomNetworkManager.IsServer == false) return;
 
 		if (CurrentRoundState != RoundState.Started &&
-		    CurrentRoundState !=
-		    RoundState.PreRound) //PreRound If the round didn't even start at all and because of an error
+		    CurrentRoundState != RoundState.PreRound)
+			//PreRound If the round didn't even start at all and because of an error
 		{
 			if (CurrentRoundState == RoundState.Ended)
 			{
@@ -716,7 +734,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	[Server]
 	public void CheckPlayerCount()
 	{
-		if (CustomNetworkManager.Instance._isServer && PlayerList.Instance.ConnectionCount >= MinPlayersForCountdown)
+		if (CustomNetworkManager.IsServer && PlayerList.Instance.ConnectionCount >= MinPlayersForCountdown)
 		{
 			StartCountdown();
 		}
@@ -756,7 +774,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookErrorLogURL,
 			"```A new round countdown has started```", "");
 
-		UpdateCountdownMessage.Send(waitForStart, PreRoundTime);
+		UpdateCountdownMessage.Send(waitForStart, PreRoundTime, currentRoundState);
 	}
 
 	[Server]
@@ -776,7 +794,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			return false;
 		}
 
-		return PlayerSpawn.NewSpawnPlayerV2(spawnRequest.Player, spawnRequest.RequestedOccupation,
+		return PlayerSpawn.NewSpawnCharacterV2(spawnRequest.Player, spawnRequest.RequestedOccupation,
 			spawnRequest.CharacterSettings) != null;
 	}
 
@@ -901,7 +919,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// </summary>
 	public void RestartRound()
 	{
-		if (CustomNetworkManager.Instance._isServer == false)
+		if (CustomNetworkManager.IsServer == false)
 		{
 			Loggy.Error("Cannot restart round, Is not server!", Category.Round);
 			return;
@@ -915,6 +933,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 
 		CurrentRoundState = RoundState.Restarting;
 
+		RoundID++;
 		StartCoroutine(ServerRoundRestart());
 	}
 

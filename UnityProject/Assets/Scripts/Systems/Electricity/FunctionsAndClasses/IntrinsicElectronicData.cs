@@ -323,8 +323,19 @@ namespace Systems.Electricity
 				FlushConnectionAndUp();
 				FindPossibleConnections();
 				FlushConnectionAndUp();
-				MetaDataPresent.IsOn.ElectricalData.Remove(MetaDataPresent);
+				MetaDataPresent?.IsOn?.ElectricalData.Remove(MetaDataPresent);
 				ElectricalManager.Instance.electricalSync.StructureChange = true;
+
+				if (MetaDataPresent?.RelatedTile != null)
+				{
+					if (DropIngredients)
+					{
+						Spawn.ServerPrefab(MetaDataPresent.RelatedTile.SpawnOnDeconstruct, MetaDataPresent.NodeLocation.ToWorld(MetaDataPresent.Locatedon),
+							count: MetaDataPresent.RelatedTile.SpawnAmountOnDeconstruct);
+					}
+				}
+
+
 				if (TileRemoved == false)
 				{
 					MetaDataPresent.Locatedon.TileChangeManager.MetaTileMap.RemoveTileWithlayer(MetaDataPresent.NodeLocation, LayerType.Electrical);

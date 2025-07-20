@@ -78,7 +78,7 @@ namespace Items.Storage
 			var sprite = pizza.ItemObject.GetComponentInChildren<SpriteHandler>();
 			if (sprite != null)
 			{
-				pizzaSprites.SetSprite(sprite.CurrentSprite);
+				pizzaSprites.SetSpriteNonNetworked(sprite.CurrentSprite);
 			}
 		}
 

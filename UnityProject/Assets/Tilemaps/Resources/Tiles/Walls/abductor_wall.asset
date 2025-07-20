@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: abductor_wall
   m_EditorClassIdentifier: 
   <ForeverID>k__BackingField: a51dca50f2097414594a8e8478f2d7ec
-  displayName: 
-  description: 
+  displayName: alien wall
+  description: A wall with alien alloy plating.
   LayerType: 0
   TileType: 1
   RequiredTiles:
@@ -69,11 +69,11 @@ MonoBehaviour:
   spawnOnDestroy: {fileID: 0}
   damageOverlayList: {fileID: 0}
   soundOnHit:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   SoundOnDestroy: []

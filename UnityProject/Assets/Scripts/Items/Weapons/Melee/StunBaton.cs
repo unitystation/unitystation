@@ -48,11 +48,11 @@ public class StunBaton : NetworkBehaviour, IPredictedInteractable<HandActivate>
 	{
 		if (active)
 		{
-			spriteHandler?.SetSprite(spriteActive);
+			spriteHandler?.SetSpriteNonNetworked(spriteActive);
 		}
 		else
 		{
-			spriteHandler?.SetSprite(spriteInactive);
+			spriteHandler?.SetSpriteNonNetworked(spriteInactive);
 		}
 	}
 

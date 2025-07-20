@@ -7,9 +7,7 @@ using UnityEngine;
 
 public class GroupedAccess : MonoBehaviour, IClearanceSource
 {
-
 	private List<IClearanceSource> Sources = new List<IClearanceSource>();
-
 
 	public IEnumerable<Clearance> IssuedClearance
 	{

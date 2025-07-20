@@ -64,6 +64,7 @@ namespace UI.UI_Bottom
 		/// <param name="buildingMaterial"></param>
 		public void ShowBuildMenu(BuildingMaterial buildingMaterial)
 		{
+
 			conveyorBuildMenu.gameObject.SetActive(false);
 			constructionUI.SetActive(true);
 			currentBuildingMaterial = buildingMaterial;
@@ -79,6 +80,8 @@ namespace UI.UI_Bottom
 			{
 				CreateListItem(entry);
 			}
+
+			Search(searchField.text);
 		}
 
 		public void ShowConveyorBeltMenu(BuildList.Entry entry, BuildingMaterial buildingMaterial)

@@ -17,16 +17,20 @@ MonoBehaviour:
     evil objectives.
   canRespawn: 0
   minPlayers: 1
-  antagRatio: 0.333
+  antagRatio: 0.2
   minAntags: 1
   maxAntags: 100
   hardNumberOfAntagsToSpawn: 0
   forceMinAntags: 0
   teamGameMode: 0
   midRoundAntags: 1
-  midRoundAntagsChance: 25
+  midRoundAntagsChance: 50
   possibleAntags:
   - {fileID: 11400000, guid: c060c33698c0f81449f0735a800740ca, type: 2}
   allocateJobsToAntags: 1
   nonAntagJobTypes: 06000000160000001700000023000000210000001100000010000000
+  randomSicknesses: 1
+  possibleSicknesses:
+  - {fileID: 11400000, guid: c277cb2e90e88e743ab2494b395ca8fa, type: 2}
+  randomSicknessRatio: 0.1
   mainStations: {fileID: 11400000, guid: 9b0018951af67314ca9e85705e0d2ce4, type: 2}

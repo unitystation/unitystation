@@ -23,11 +23,12 @@ public class ClientRequestLoadMap : ClientMessage<ClientRequestLoadMap.NetMessag
 		public LayerType[] LoadLayers;
 		public bool LoadObjects;
 		public string MatrixName;
+		public LoadType LoadType;
 	}
 
 	public override void Process(NetMessage msg)
 	{
-		if (IsFromAdmin() == false) return;
+		if (HasPermission(TAG.MAP_LOAD) == false) return;
 
 		if (SaveDatas.ContainsKey(SentByPlayer) == false)
 		{
@@ -40,7 +41,7 @@ public class ClientRequestLoadMap : ClientMessage<ClientRequestLoadMap.NetMessag
 		{
 			var data = String.Join("", SaveDatas[SentByPlayer]);
 			SaveDatas.Remove(SentByPlayer);
-			var mapdata = JsonConvert.DeserializeObject<MapSaver.MapSaver.MatrixData>(data);
+
 			HashSet<LayerType> LoadLayers = null;
 			if (msg.LoadLayers != null)
 			{
@@ -53,12 +54,22 @@ public class ClientRequestLoadMap : ClientMessage<ClientRequestLoadMap.NetMessag
 				MatrixInfo = MatrixManager.Get(msg.MatrixID.Value);
 			}
 
-			MapLoader.ServerLoadSectionNoCoRoutine(MatrixInfo,  msg.Offset00, msg.Offset, mapdata, null, LoadLayers, msg.LoadObjects, msg.MatrixName);
+			switch (msg.LoadType)
+			{
+				case LoadType.LoadMatrix:
+					var mapdataMatrix = JsonConvert.DeserializeObject<MapSaver.MapSaver.MatrixData>(data);
+					MapLoader.ServerLoadSectionNoCoRoutine(MatrixInfo,  msg.Offset00, msg.Offset, mapdataMatrix, null, LoadLayers, msg.LoadObjects, msg.MatrixName);
+					return;
+				case LoadType.LoadMap:
+					var mapdata = JsonConvert.DeserializeObject<MapSaver.MapSaver.MapData>(data);
+					MapLoader.ServerLoadMapNoCoRoutine(msg.Offset00, msg.Offset , mapdata, SceneType.AdditionalScenes, LoadLayers,  msg.LoadObjects);
+					return;
+			}
 		}
 
 	}
 
-	public static void Send(string data, Matrix Matrix,  Vector3 Offset00,Vector3 Offset, HashSet<LayerType> Layers = null, bool LoadObjects = true, string NewMatrixName = "")
+	public static void Send(string data, Matrix Matrix,  Vector3 Offset00,Vector3 Offset, HashSet<LayerType> Layers = null, bool LoadObjects = true, string NewMatrixName = "", LoadType LoadType = LoadType.LoadMatrix)
 	{
 
 		var StringDatas = data.Chunk(5000).ToList();
@@ -73,11 +84,18 @@ public class ClientRequestLoadMap : ClientMessage<ClientRequestLoadMap.NetMessag
 				Offset00 = Offset00,
 				LoadLayers = Layers?.ToArray(),
 				LoadObjects = LoadObjects,
-				MatrixName = NewMatrixName
+				MatrixName = NewMatrixName,
+				LoadType = LoadType
 			};
 
 			Send(msg);
 		}
 
+	}
+
+	public enum LoadType
+	{
+		 LoadMatrix,
+		 LoadMap
 	}
 }

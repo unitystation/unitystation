@@ -144,6 +144,9 @@ public class SlimeProcessor : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 			}
 
 			container.RetrieveObject(Remov.Key);
+
+			Health.BodyPartStorage.ServerDespawnOppressive();
+
 			_ = Despawn.ServerSingle(Health.gameObject);
 
 			return;
@@ -155,11 +158,10 @@ public class SlimeProcessor : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 			MonkeyCharges++;
 			if (MonkeyCharges >= MonkeyChargesNeeded)
 			{
-
 				Spawn.ServerPrefab(MonkeyCube, transform.position);
-
 			}
 			container.RetrieveObject(Remov.Key);
+			Health.BodyPartStorage.ServerDespawnOppressive();
 			_ = Despawn.ServerSingle(Health.gameObject);
 			return;
 		}

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6dc02f66152ab54e8e055142c543182, type: 3}
+  m_Name: Azide
+  m_EditorClassIdentifier: 
+  <BountyName>k__BackingField: Almighty Azide
+  <RequiredYield>k__BackingField:
+    <RandomiseRequirement>k__BackingField: 1
+    <RequiredAmount>k__BackingField: 1500
+    <MinAmount>k__BackingField: 1000
+    <MaxAmount>k__BackingField: 1500
+    <MinimumIncrement>k__BackingField: 50
+  <RequiredEffects>k__BackingField:
+  - <RandomiseRequirement>k__BackingField: 1
+    <RequiredAmount>k__BackingField: 0
+    <MinAmount>k__BackingField: 12
+    <MaxAmount>k__BackingField: 120
+    <MinimumIncrement>k__BackingField: 6
+    <RequiredEffect>k__BackingField: {fileID: 11400000, guid: e6cbc5e66870d7b4d9588e3386666dad,
+      type: 2}
+  <RequiredReagents>k__BackingField: []

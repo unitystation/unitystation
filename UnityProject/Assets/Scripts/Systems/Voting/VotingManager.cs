@@ -64,7 +64,8 @@ public class VotingManager : NetworkBehaviour
 		RestartRound,
 		NextGameMode,
 		NextMap,
-		NextAwaySite
+		NextAwaySite,
+		Custom
 	}
 
 	private void Awake()
@@ -185,6 +186,26 @@ public class VotingManager : NetworkBehaviour
 		Loggy.Info($"Vote initiated by {instigator.name}", Category.Admin);
 	}
 
+
+	public void SetupArbitraryVote(VotePolicy policy, int time, string Title,  List<string> Options)
+	{
+		if (voteInProgress || voteRestartSuccess) return;
+
+
+
+		votes.Clear();
+		possibleVotes.Clear();
+		countTime = 0f;
+		prevSecond = 0;
+		votePolicy = policy;
+		voteInProgress = true;
+		voteType = VoteType.Custom;
+
+		possibleVotes.AddRange(Options);
+		RpcOpenVoteWindow(Title, "admin", CountAmountString(), (time - prevSecond).ToString(), Options);
+
+	}
+
 	/// <summary>
 	/// I only made this a function for the reference
 	/// </summary>
@@ -239,7 +260,7 @@ public class VotingManager : NetworkBehaviour
 				RpcUpdateVoteStats((30 - prevSecond).ToString(), CountAmountString());
 
 				//If there are admins online, dont complete vote until after 15 seconds even if it will pass to allow for veto
-				if (PlayerList.Instance.GetAllAdmins().Count > 0 && (30 - prevSecond) > 15) return;
+				if (PlayerList.Instance.GetAllWithTAG(TAG.ADMIN_VOTE_VETO).Count > 0 && (30 - prevSecond) > 15) return;
 
 				CheckVoteCriteria();
 			}
@@ -247,10 +268,17 @@ public class VotingManager : NetworkBehaviour
 			if (countTime > 30f)
 			{
 				voteInProgress = false;
-				CheckVoteCriteria();
+				CheckVoteCriteria(true);
 				FinishVote();
 			}
 		}
+	}
+
+	public void EndVote()
+	{
+		voteInProgress = false;
+		CheckVoteCriteria(true);
+		FinishVote();
 	}
 
 	/// <summary>
@@ -263,14 +291,22 @@ public class VotingManager : NetworkBehaviour
 		isCooldownActive = false;
 	}
 
-	private void CheckVoteCriteria()
+	private void CheckVoteCriteria(bool LastCheck = false)
 	{
 		if (IsSuccess(votes.Count, PlayerList.Instance.AllPlayers.Count))
 		{
-			var winner = GetHighestVote();
+			var winner = GetHighestVote(out var Count);
 			if (winner == "")
 			{
 				Chat.AddGameWideSystemMsgToChat($"<color=blue>Voting failed! vote has somehow passed but no winner was written!</color>");
+				switch (voteType)
+				{
+					case VoteType.Custom:
+						ReturnCustomVoteResult.Send( $" The winner is {winner} \n "
+						                             +string.Join(Environment.NewLine, Count.Select(kv => $"{kv.Key} : votes {kv.Value}")));
+						break;
+				}
+
 				return;
 			}
 			switch (voteType)
@@ -285,8 +321,7 @@ public class VotingManager : NetworkBehaviour
 					Loggy.Info("Vote to restart server was successful. Restarting now.....", Category.Admin);
 					VideoPlayerMessage.Send(VideoType.RestartRound);
 					GameManager.Instance.RoundEndTime = 5; // Quick round end when triggered by Players.
-
-					GameManager.Instance.EndRound();
+					GameManager.Instance.EndRound(GameManager.RoundID);
 					break;
 				case VoteType.NextGameMode:
 					Chat.AddGameWideSystemMsgToChat($"<color=blue>Vote passed! Next GameMode has been chosen</color>");
@@ -301,10 +336,26 @@ public class VotingManager : NetworkBehaviour
 					Chat.AddGameWideSystemMsgToChat($"<color=blue>Vote passed! Next away site will be {winner}</color>");
 					SubSceneManager.AdminForcedAwaySite = winner;
 					break;
+				case VoteType.Custom:
+					//Chat.AddGameWideSystemMsgToChat($"<color=blue>Vote passed! Winner is {winner}</color>"); //TODO Option?? idk
+					ReturnCustomVoteResult.Send( $" The winner is {winner} \n "
+					                             +string.Join(Environment.NewLine, Count.Select(kv => $"{kv.Key} : votes {kv.Value}")));
+					break;
 			}
 
 			voteInProgress = false;
 			FinishVote();
+		}
+		else if (LastCheck)
+		{
+			switch (voteType)
+			{
+				case VoteType.Custom:
+					var winner = GetHighestVote(out var Count);
+					ReturnCustomVoteResult.Send( $" The winner is {winner} \n "
+					                             +string.Join(Environment.NewLine, Count.Select(kv => $"{kv.Key} : votes {kv.Value}")));
+					break;
+			}
 		}
 	}
 
@@ -338,9 +389,9 @@ public class VotingManager : NetworkBehaviour
 	/// Gets the highest vote count on the list
 	/// </summary>
 	/// <returns></returns>
-	private string GetHighestVote()
+	private string GetHighestVote(out Dictionary<string, int> count)
 	{
-		Dictionary<string, int> count = new Dictionary<string, int>();
+		count = new Dictionary<string, int>();
 		var highestVote = 0;
 		var winner = "";
 		foreach (var vote in votes)

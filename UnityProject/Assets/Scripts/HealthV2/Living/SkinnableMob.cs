@@ -70,8 +70,11 @@ namespace HealthV2.Living
 		}
 
 		[Command(requiresAuthority = false)]
-		public void ServerPerformInteraction(PlayerScript performer)
+		public void ServerPerformInteraction(PlayerScript performer, NetworkConnectionToClient sender = null)
 		{
+			if (sender == null) return;
+			if (Validations.CanApply(PlayerList.Instance.Get(sender).Script, this.gameObject, NetworkSide.Server, false, ReachRange.Standard) == false) return;
+
 			if (Vector3.Distance(performer.gameObject.AssumedWorldPosServer(), gameObject.AssumedWorldPosServer()) > 2f) return;
 			var bar = StandardProgressAction.Create(
 				new StandardProgressActionConfig(StandardProgressActionType.Restrain, true, false),
@@ -107,9 +110,11 @@ namespace HealthV2.Living
 
 		public List<TextColor> InteractionsStrings()
 		{
-			var hands = PlayerManager.Equipment.ItemStorage.GetActiveHandSlot();
-			RaceSOSingleton.TryGetRaceByName(gibbableMob.Mob.Mind.CurrentCharacterSettings.Species, out var species);
 			var result = new List<TextColor>();
+			if (gibbableMob?.Mob?.Mind?.CurrentCharacterSettings?.Species == null) return result;
+			RaceSOSingleton.TryGetRaceByName(gibbableMob.Mob.Mind.CurrentCharacterSettings.Species, out var species);
+
+			var hands = PlayerManager.Equipment?.ItemStorage?.GetActiveHandSlot();
 			if (hands != null && hands.ItemAttributes != null && hands.ItemAttributes.GetTraits().Contains(species.Base.SkinningItemTrait))
 			{
 				result.Add(new TextColor() {Text = "Right click while they're buckled to an object or laying down to skin this creature.", Color = Color.red});

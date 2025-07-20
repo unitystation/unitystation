@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using AdminCommands;
+using Newtonsoft.Json;
+using Shared.Managers;
+using TMPro;
 using UI.AdminTools;
 using UI.Systems.AdminTools;
 
 
 namespace AdminTools
 {
-	public class GUI_AdminTools : MonoBehaviour
+	public class GUI_AdminTools : SingletonManager<GUI_AdminTools>
 	{
 		[SerializeField] private GameObject retrievingDataScreen = null;
 
@@ -22,12 +25,16 @@ namespace AdminTools
 		[SerializeField] private GameObject roundManagerPage = null;
 		[SerializeField] private GameObject devToolsPage = null;
 		[SerializeField] private GameObject serverSettingsPage = null;
+		[SerializeField] private GameObject serverPerformancePage = null;
+		[SerializeField] private GameObject MindManagerPage = null;
+		[SerializeField] private GameObject MindManagerList = null; //Just In case the list gets disabled for some reason
 		[SerializeField] private TeamObjectiveAdminPage teamObjectivePage = null;
 		[SerializeField] private GhostRoleAdminPage ghostRolesPage = null;
 		[SerializeField] private AdminRespawnPage adminRespawnPage = default;
 		[SerializeField] private PlayerObjectiveManagerPage antagManagerPage = default;
 		[SerializeField] private Slider transparencySlider;
 		[SerializeField] private Image backgroundImage;
+		public AdminMindScrollView adminMindScrollView;
 		public AdminGiveItem giveItemPage;
 		private PlayerChatPage playerChatPageScript;
 		public PlayerManagePage playerManagePageScript;
@@ -38,10 +45,14 @@ namespace AdminTools
 		[SerializeField] private GameObject playerEntryPrefab = null;
 
 		[SerializeField] private Text windowTitle = null;
+		[SerializeField] private TMP_Text TMPPerformanceText = null;
+
 		public Text WindowTitle => windowTitle;
 
 		private List<AdminPlayerEntry> playerEntries = new List<AdminPlayerEntry>();
 		public string SelectedPlayer { get; private set; }
+
+		public OnSelectPlayerEvent OnSelectPlayer;
 
 		public List<AdminPlayerEntry> GetPlayerEntries()
 		{
@@ -54,6 +65,7 @@ namespace AdminTools
 			playerManagePageScript = playerManagePage.GetComponent<PlayerManagePage>();
 			GameObject.DontDestroyOnLoad(playerChatPage);
 			GameObject.DontDestroyOnLoad(playerManagePage);
+			Instance = this;
 		}
 
 		private void Update()
@@ -130,6 +142,29 @@ namespace AdminTools
 			AdminCommandsManager.Instance.CmdRequestProfiles();
 		}
 
+
+		public void ShowServerStatisticsPage()
+		{
+			DisableAllPages();
+			serverPerformancePage.SetActive(true);
+			windowTitle.text = "SERVER STATISTICS";
+			RefreshServerPerformancePage();
+		}
+
+		public void ShowMindManagerPagePage()
+		{
+			DisableAllPages();
+			MindManagerPage.SetActive(true);
+			MindManagerList.SetActive(true);
+			windowTitle.text = "MIND MANAGER";
+		}
+
+		public void OnAntagonistManager()
+		{
+			antagManagerPage.Init(playerManagePageScript.PlayerEntry);
+			ShowAntagManagerPage();
+		}
+
 		public void ShowServerSettingsPage()
 		{
 			DisableAllPages();
@@ -197,6 +232,8 @@ namespace AdminTools
 			teamObjectivePage.gameObject.SetActive(false);
 			ghostRolesPage.gameObject.SetActive(false);
 			giveItemPage.SetActive(false);
+			serverPerformancePage.SetActive(false);
+			MindManagerPage.SetActive(false);
 		}
 
 		public void CloseRetrievingDataScreen()
@@ -270,7 +307,7 @@ namespace AdminTools
 			}
 
 			SelectedPlayer = selectedEntry.PlayerData.uid;
-
+			OnSelectPlayer?.Invoke(selectedEntry.PlayerData);
 			if (playerChatPage.activeInHierarchy)
 			{
 				playerChatPageScript.SetData(selectedEntry);
@@ -298,6 +335,16 @@ namespace AdminTools
 			var bgColor = backgroundImage.color;
 			bgColor.a = transparencySlider.value;
 			backgroundImage.color = bgColor;
+		}
+
+		public void RefreshServerPerformancePage()
+		{
+			AdminRequestPerformancesStatistics.Send();
+		}
+
+		public void SetServerPerformancePage(PerformanceManager.PerformanceInfo Info)
+		{
+			TMPPerformanceText.text = JsonConvert.SerializeObject(Info, Newtonsoft.Json.Formatting.Indented);
 		}
 	}
 }

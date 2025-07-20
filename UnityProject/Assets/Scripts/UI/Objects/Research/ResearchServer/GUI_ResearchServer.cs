@@ -26,7 +26,7 @@ namespace UI.Objects.Research
 		{
 			StartCoroutine(WaitForProvider());
 		}
-		
+
 		public void OnDestroy()
 		{
 			TechWeb.UIupdate -= UpdateGUI;
@@ -42,7 +42,7 @@ namespace UI.Objects.Research
 			Server = Provider.GetComponent<ResearchServer>();
 			TechWeb.UIupdate += UpdateGUI;
 
-			if (CustomNetworkManager.Instance._isServer == false) yield break;
+			if (CustomNetworkManager.IsServer == false) yield break;
 
 			UpdateGUI();
 

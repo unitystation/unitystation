@@ -39,6 +39,8 @@ namespace Systems.Atmospherics
 		public static GasSO Smoke => GasesSingleton.Instance.Smoke;
 		public static GasSO Ash => GasesSingleton.Instance.Ash;
 		public static GasSO CarbonMonoxide => GasesSingleton.Instance.CarbonMonoxide;
+
+		public static GasSO Tobacco => GasesSingleton.Instance.Tobacco;
 	}
 
 	[Serializable]

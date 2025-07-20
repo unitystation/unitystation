@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Logs;
 using UnityEngine.Serialization;
@@ -82,6 +83,41 @@ public enum LayerTypeSelection
 /// </summary>
 public static class LTSUtil
 {
+	private static readonly LayerType[] StaticLayers = new LayerType[]
+	{
+		LayerType.Effects,
+		LayerType.Walls,
+		LayerType.Windows,
+		LayerType.Grills,
+		LayerType.Objects,
+		LayerType.Floors,
+		LayerType.Underfloor,
+		LayerType.Base,
+		LayerType.Tables,
+		LayerType.Electrical,
+		LayerType.Pipe,
+		LayerType.Disposals,
+		LayerType.UnderObjectsEffects,
+	};
+
+
+	public static List<LayerType> GetLayersBack(LayerTypeSelection SpecifyLayers, List<LayerType> InList)
+	{
+
+		var Count = StaticLayers.Length;
+		for (int i = 0; i < Count; i++)
+		{
+			var Layer = StaticLayers[i];
+			if (IsLayerIn(SpecifyLayers, Layer))
+			{
+				InList.Add(Layer);
+			}
+
+		}
+
+		return InList;
+	}
+
 	public static bool IsLayerIn(LayerTypeSelection SpecifyLayers, LayerType Layer)
 	{
 		LayerTypeSelection LayerCon = LayerType2LayerTypeSelection(Layer);

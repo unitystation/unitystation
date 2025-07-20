@@ -90,7 +90,7 @@ namespace Doors
 		public RegisterDoor RegisterTile => registerTile;
 		private SpriteRenderer spriteRenderer;
 
-		private Matrix matrix => registerTile.Matrix;
+		public Matrix matrix => registerTile.Matrix;
 
 		private List<DoorModuleBase> modulesList;
 		public List<DoorModuleBase> ModulesList => modulesList;
@@ -177,7 +177,7 @@ namespace Doors
 
 			}
 		}
-		
+
 
 		private bool CheckPower()
 		{
@@ -194,7 +194,7 @@ namespace Doors
 		private void TryBump()
 		{
 			var firelock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
-			if (firelock != null && firelock.fireAlarm.activated) return;
+			if (firelock != null && firelock.fireAlarm.activated && firelock.DoorMasterController.IsClosed) return;
 			if (!isAutomatic || !allowInput)
 			{
 				return;
@@ -353,7 +353,7 @@ namespace Doors
 			if (isFireLock == false)
 			{
 				var fireLock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
-				if (fireLock != null && fireLock.fireAlarm.activated) return;
+				if (fireLock != null && fireLock.fireAlarm.activated && fireLock.DoorMasterController.IsClosed) return;
 			}
 
 			if(IsClosed == false || isPerformingAction) return;
@@ -482,7 +482,7 @@ namespace Doors
 			}
 		}
 
-		public void Open(bool blockClosing = false)
+		public void Open(bool blockClosing)
 		{
 			if (isFireLock == false)
 			{
@@ -499,6 +499,18 @@ namespace Doors
 			StartCoroutine(DelayOpen());
 		}
 
+		public void Open()
+		{
+			if (isFireLock == false)
+			{
+				var fireLock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
+				if (fireLock != null && fireLock.fireAlarm!= null && fireLock.fireAlarm.activated && fireLock.DoorMasterController.IsClosed) return;
+			}
+			if (!this || !gameObject) return; // probably destroyed by a shuttle crash
+			if (IsClosed == false) return;
+			ResetWaiting();
+			StartCoroutine(DelayOpen());
+		}
 
 		public IEnumerator DelayOpen()
 		{
@@ -866,25 +878,46 @@ namespace Doors
 
 		public RightClickableResult GenerateRightClickOptions()
 		{
-			if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) || !KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold))
+			if (KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold) == false)
 			{
 				return null;
 			}
 
-			var options = RightClickableResult.Create()
-				.AddAdminElement("Force Open", AdminOpen);
+			bool add = false;
 
-			if (GetComponentInChildren<BoltsModule>() != null)
+			var options = RightClickableResult.Create();
+			if (PlayerList.HasTAGClient(TAG.ADMIN_OPEN_DOORS))
 			{
-				options.AddAdminElement("Toggle Bolts", AdminToggleBolt);
+				add = true;
+				options.AddAdminElement("Force Open", AdminOpen);
 			}
 
-			if (GetComponentInChildren<ElectrifiedDoorModule>() != null)
+			if (PlayerList.HasTAGClient(TAG.ADMIN_TOGGLE_BOLTS))
 			{
-				options.AddAdminElement("Toggle Electrify", AdminToggleElectrify);
+				add = true;
+				if (GetComponentInChildren<BoltsModule>() != null)
+				{
+					options.AddAdminElement("Toggle Bolts", AdminToggleBolt);
+				}
 			}
 
-			return options;
+			if (PlayerList.HasTAGClient(TAG.ADMIN_ELECTRIFIE_DOOR))
+			{
+				add = true;
+				if (GetComponentInChildren<ElectrifiedDoorModule>() != null)
+				{
+					options.AddAdminElement("Toggle Electrify", AdminToggleElectrify);
+				}
+			}
+
+			if (add)
+			{
+				return options;
+			}
+			else
+			{
+				return null;
+			}
 		}
 
 		private void AdminOpen()

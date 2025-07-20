@@ -14,7 +14,10 @@ namespace Messages.Client.Admin.Logs
 
 		public override void Process(NetMessage msg)
 		{
-			_ = Do(msg, SentByPlayer.Connection);
+			if (HasPermission(TAG.ADMIN_LOGS))
+			{
+				_ = Do(msg, SentByPlayer.Connection);
+			}
 		}
 
 		private async Task Do(NetMessage msg, NetworkConnectionToClient admin)

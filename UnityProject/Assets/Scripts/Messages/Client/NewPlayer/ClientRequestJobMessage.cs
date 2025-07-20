@@ -93,7 +93,7 @@ namespace Messages.Client.NewPlayer
 			if (msg.JobType == JobType.NULL)
 			{
 				character.ValidateSpeciesCanBePlayerChosen();
-				PlayerSpawn.NewSpawnPlayerV2(SentByPlayer, OccupationList.Instance.AllOcccupations.First(x => x.name == "Spectator") , character);
+				PlayerSpawn.NewSpawnCharacterV2(SentByPlayer, OccupationList.Instance.AllOcccupations.First(x => x.name == "Spectator") , character);
 			}
 			else
 			{
@@ -102,6 +102,7 @@ namespace Messages.Client.NewPlayer
 				if (GameManager.Instance.TrySpawnPlayer(spawnRequest) == false)
 				{
 					SendClientLogMessage.SendErrorToClient(SentByPlayer, "Server couldn't spawn you.");
+					Loggy.Error($"Couldn't spawn {SentByPlayer.Account}'s job request: {msg.JobType}");
 				}
 			}
 		}

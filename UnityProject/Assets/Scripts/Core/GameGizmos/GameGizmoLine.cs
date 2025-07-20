@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core.GameGizmos;
+using InGameGizmos;
 using UnityEngine;
 
 public class GameGizmoLine : GameGizmo
@@ -13,9 +15,10 @@ public class GameGizmoLine : GameGizmo
 
 	public GameObject TrackingTo;
 	public Vector3 To;
+	private bool callbackRegistered = false;
 
 
-	public void SetUp(GameObject InTrackingFrom, Vector3 InFrom,   GameObject InTrackingTo, Vector3 InTo, Color color, float LineThickness)
+	public void SetUp(GameObject InTrackingFrom, Vector3 InFrom,   GameObject InTrackingTo, Vector3 InTo, Color color, float LineThickness, float time = -1)
 	{
 		TrackingFrom = InTrackingFrom;
 		From = InFrom;
@@ -27,12 +30,9 @@ public class GameGizmoLine : GameGizmo
 
 		Renderer.startWidth = LineThickness;
 		Renderer.endWidth = LineThickness;
+		SecondsToLive = time;
 
-		if (TrackingFrom != null || TrackingTo != null)
-		{
-			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-		}
-
+		RegisterUpdateCallbacks();
 
 		if (TrackingFrom != null)
 		{
@@ -53,22 +53,33 @@ public class GameGizmoLine : GameGizmo
 		}
 	}
 
-	public void OnEnable()
+	private void RegisterUpdateCallbacks()
 	{
+		if (callbackRegistered) return;
 		if (TrackingFrom != null || TrackingTo != null)
 		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			callbackRegistered = true;
 		}
-
 	}
 
-
-	public void OnDisable()
+	private void UnRegisterUpdateCallbacks()
 	{
 		if (TrackingFrom != null || TrackingTo != null)
 		{
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
+		callbackRegistered = false;
+	}
+
+	public void OnEnable()
+	{
+		RegisterUpdateCallbacks();
+	}
+
+	public void OnDisable()
+	{
+		UnRegisterUpdateCallbacks();
 	}
 
 	public void UpdateMe()
@@ -91,6 +102,4 @@ public class GameGizmoLine : GameGizmo
 			Renderer.SetPosition(1, To);
 		}
 	}
-
-
 }

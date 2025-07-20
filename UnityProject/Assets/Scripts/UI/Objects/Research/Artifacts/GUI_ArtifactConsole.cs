@@ -68,7 +68,7 @@ namespace UI.Objects.Research
 
 			console.StateChange += UpdateGUI;
 
-			if (!CustomNetworkManager.Instance._isServer) yield break;
+			if (!CustomNetworkManager.IsServer) yield break;
 
 			UpdateGUI();
 
@@ -172,7 +172,7 @@ namespace UI.Objects.Research
 
 		public string GenerateReportText(ArtifactData data, string signee)
 		{
-			
+
 			StringBuilder sb = new StringBuilder();
 			sb.AppendLine($"<size=30><b>=={CargoManager.ANOMALY_REPORT_TITLE_STRING.ToUpper()}==</b></size>");
 			sb.AppendLine($"\nReport conducted by {signee}");
@@ -211,7 +211,7 @@ namespace UI.Objects.Research
 			inputData.DamageEffectValue = damageEffectDropdown.value;
 			inputData.InteractEffectValue = interactEffectDropdown.value;
 
-			if(CustomNetworkManager.Instance._isServer == false)
+			if(CustomNetworkManager.IsServer == false)
 			{
 				console.CmdSetInputData(this.inputData);
 			}

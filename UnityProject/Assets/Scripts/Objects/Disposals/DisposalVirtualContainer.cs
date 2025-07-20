@@ -139,6 +139,7 @@ namespace Objects.Disposals
 				}
 			}
 
+			this.ObjectContainer.ObjectPhysics.AppearAtWorldPositionServer(this.gameObject.AssumedWorldPosServer() + exitVector);
 			gasContainer.ReleaseContentsInstantly();
 			gasContainer.IsSealed = false;
 		}

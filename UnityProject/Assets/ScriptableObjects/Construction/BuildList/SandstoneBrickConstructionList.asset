@@ -37,10 +37,10 @@ MonoBehaviour:
     spawnAmount: 1
     onePerTile: 1
     facePlayerDirectionOnConstruction: 0
-  - name: Breakdown Into Sand
+  - name: (Crumble to Sand)
     prefab: {fileID: 773312911048126984, guid: 6e4200f349a2e834c93abd60c2264641, type: 3}
     cost: 1
-    buildTime: 0
+    buildTime: 1
     spawnAmount: 1
     onePerTile: 0
     facePlayerDirectionOnConstruction: 0

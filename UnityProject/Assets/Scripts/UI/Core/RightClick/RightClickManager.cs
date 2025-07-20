@@ -370,7 +370,7 @@ public class RightClickManager : SingletonManager<RightClickManager>
 					}
 				}
 
-				if (!string.IsNullOrEmpty(PlayerList.Instance.AdminToken))
+				if (PlayerList.HasTAGClient(TAG.VARIABLE_VIEWER))
 				{
 					subMenus.Add(VariableViewerOption.AsMenu(() =>
 					{

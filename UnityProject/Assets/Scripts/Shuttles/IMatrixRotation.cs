@@ -30,5 +30,5 @@ public interface IMatrixRotation90
 	/// Can use rotationInfo.IsStart, IsEnd, IsObjectBeingRegistered to distinguish between different kinds of
 	/// rotation events.
 	/// </summary>
-	void OnMatrixRotate90();
+	void OnMatrixRotate90(OrientationEnum orientation);
 }

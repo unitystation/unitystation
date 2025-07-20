@@ -6,6 +6,8 @@ using Mirror;
 using AddressableReferences;
 using Core;
 using Core.Utils;
+using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks.Linq;
 using Systems.Clothing;
 using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine.Serialization;
@@ -280,13 +282,27 @@ namespace Items
 
 		/// <summary>
 		/// Does it have any of the given traits?
+		/// Causes allocations. Use HasAnyTraitZeroAlloc instead.
 		/// </summary>
-		/// <param name="expectedTraits"></param>
-		/// <returns></returns>
+		[Obsolete]
 		public bool HasAnyTrait(IEnumerable<ItemTrait> expectedTraits)
 		{
 			return traits.Any(expectedTraits.Contains);
 		}
+
+
+		/// <summary>
+		/// Does it have any of the given traits?
+		/// </summary>
+		/// <param name="expectedTraits">The list of traits to check.</param>
+		/// <returns>True if one of the traits in expectedTraits is included in traits.</returns>
+		public bool HasAnyTraitZeroAlloc(List<ItemTrait> expectedTraits)
+		{
+			if (expectedTraits.Count == 0 || traits.Count == 0) return false;
+			return traits.Overlaps(expectedTraits);
+		}
+
+
 
 		/// <summary>
 		/// Does it have all of the given traits?

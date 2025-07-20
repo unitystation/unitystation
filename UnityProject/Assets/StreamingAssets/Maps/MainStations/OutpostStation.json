@@ -190223,7 +190223,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -190255,10 +190255,6 @@
                     {
                       "Name": "In@DesiredFaceDirection",
                       "Data": "Up_By0"
-                    },
-                    {
-                      "Name": "In@IsEnd",
-                      "Data": "True"
                     }
                   ]
                 }
@@ -190307,10 +190303,6 @@
                   "ClassID": "GuidanceBuoy@0",
                   "Data": [
                     {
-                      "Name": "Out@IsEnd",
-                      "Data": "True"
-                    },
-                    {
                       "Name": "In@NextInLine",
                       "Data": "69ffc1053dc39a24fb870b2248780be4_-15┼145┼0┼@0@GuidanceBuoy@0"
                     }
@@ -190329,10 +190321,6 @@
                 {
                   "ClassID": "GuidanceBuoy@0",
                   "Data": [
-                    {
-                      "Name": "Out@IsEnd",
-                      "Data": "True"
-                    },
                     {
                       "Name": "In@NextInLine",
                       "Data": "69ffc1053dc39a24fb870b2248780be4_-15┼541┼0┼@0@GuidanceBuoy@0"
@@ -190355,10 +190343,6 @@
                     {
                       "Name": "Out@NextInLine",
                       "Data": "69ffc1053dc39a24fb870b2248780be4_-15┼479┼0┼@0@GuidanceBuoy@0"
-                    },
-                    {
-                      "Name": "In@IsEnd",
-                      "Data": "True"
                     }
                   ]
                 }
@@ -191791,6 +191775,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "#removed#"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -192093,7 +192093,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "MaintTunnels"
                     }
                   ]
                 },
@@ -193440,7 +193440,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Cargo"
                     }
                   ]
                 },
@@ -193516,7 +193516,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Cargo"
                     }
                   ]
                 },
@@ -197498,8 +197498,8 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_5┼40┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_5┼40┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PotPlant (13)",
             "LocalPRS": "5┼40┼0┼"
           },
@@ -198967,8 +198967,8 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_7┼46┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_7┼46┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PotPlant (14)",
             "LocalPRS": "7┼46┼0┼"
           },
@@ -199278,7 +199278,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Qm"
                     }
                   ]
                 },
@@ -202022,7 +202022,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Cargo"
                     }
                   ]
                 },
@@ -202933,8 +202933,8 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_13┼41┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_13┼41┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PotPlant (7)",
             "LocalPRS": "13┼41┼0┼"
           },
@@ -203793,8 +203793,8 @@
             "LocalPRS": "14┼54.11┼0┼"
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_14┼56┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_14┼56┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PotPlant (6)",
             "LocalPRS": "14┼56┼0┼"
           },
@@ -207449,8 +207449,8 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_17┼64┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_17┼64┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PotPlant (16)",
             "LocalPRS": "17┼64┼0┼"
           },
@@ -210649,8 +210649,8 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_20┼60┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_20┼60┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PotPlant (17)",
             "LocalPRS": "20┼60┼0┼"
           },
@@ -213206,8 +213206,8 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_24┼62┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_24┼62┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PotPlant (10)",
             "LocalPRS": "24┼62┼0┼"
           },
@@ -213898,7 +213898,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Research"
                     }
                   ]
                 },
@@ -218244,7 +218244,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "ToxinsStorage"
                     }
                   ]
                 },
@@ -221001,7 +221001,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Rd"
                     }
                   ]
                 },
@@ -221880,7 +221880,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Research"
                     }
                   ]
                 },
@@ -223660,8 +223660,8 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_34┼44┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_34┼44┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PotPlant (1)",
             "LocalPRS": "34┼44┼0┼"
           },
@@ -224382,7 +224382,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Security"
                     }
                   ]
                 },
@@ -225472,8 +225472,8 @@
             "LocalPRS": "35┼107┼0┼"
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_35┼110┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_35┼110┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PotPlant (12)",
             "LocalPRS": "35┼110┼0┼"
           },
@@ -226303,8 +226303,8 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_36┼100┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_36┼100┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PotPlant (21)",
             "LocalPRS": "36┼100┼0┼"
           },
@@ -226718,8 +226718,8 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_37┼35┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_37┼35┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PotPlant (18)",
             "LocalPRS": "37┼35┼0┼"
           },
@@ -234465,7 +234465,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Robotics"
                     }
                   ]
                 },
@@ -236828,7 +236828,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Robotics"
                     }
                   ]
                 },
@@ -237166,7 +237166,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Rnd"
                     }
                   ]
                 },
@@ -237594,8 +237594,8 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_45┼109┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_45┼109┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PotPlant (11)",
             "LocalPRS": "45┼109┼0┼"
           },
@@ -239521,7 +239521,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Hop"
                     }
                   ]
                 },
@@ -239593,7 +239593,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Hop"
                     }
                   ]
                 },
@@ -240562,7 +240562,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Kitchen"
                     }
                   ]
                 },
@@ -243410,7 +243410,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Brig"
+                          "Data": "SecDoors"
                         }
                       ]
                     }
@@ -243618,7 +243618,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Brig"
+                          "Data": "SecDoors"
                         }
                       ]
                     }
@@ -244642,7 +244642,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Brig"
+                          "Data": "SecDoors"
                         }
                       ]
                     }
@@ -244716,7 +244716,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Brig"
+                          "Data": "SecDoors"
                         }
                       ]
                     }
@@ -246288,15 +246288,6 @@
                       "Data": "DoorTimer"
                     }
                   ]
-                },
-                {
-                  "ClassID": "ClearanceRestricted@0",
-                  "Data": [
-                    {
-                      "Name": "requiredClearance#0",
-                      "Data": "Security"
-                    }
-                  ]
                 }
               ]
             }
@@ -246328,7 +246319,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Security"
+                          "Data": "Brig"
                         }
                       ]
                     }
@@ -246375,15 +246366,6 @@
                       "Data": "DoorTimer"
                     }
                   ]
-                },
-                {
-                  "ClassID": "ClearanceRestricted@0",
-                  "Data": [
-                    {
-                      "Name": "requiredClearance#0",
-                      "Data": "Security"
-                    }
-                  ]
                 }
               ]
             }
@@ -246415,7 +246397,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Security"
+                          "Data": "Brig"
                         }
                       ]
                     }
@@ -246462,15 +246444,6 @@
                       "Data": "DoorTimer"
                     }
                   ]
-                },
-                {
-                  "ClassID": "ClearanceRestricted@0",
-                  "Data": [
-                    {
-                      "Name": "requiredClearance#0",
-                      "Data": "Security"
-                    }
-                  ]
                 }
               ]
             }
@@ -246502,7 +246475,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Security"
+                          "Data": "Brig"
                         }
                       ]
                     }
@@ -246549,15 +246522,6 @@
                       "Data": "DoorTimer"
                     }
                   ]
-                },
-                {
-                  "ClassID": "ClearanceRestricted@0",
-                  "Data": [
-                    {
-                      "Name": "requiredClearance#0",
-                      "Data": "Security"
-                    }
-                  ]
                 }
               ]
             }
@@ -246589,7 +246553,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Security"
+                          "Data": "Brig"
                         }
                       ]
                     }
@@ -246648,6 +246612,12 @@
             }
           },
           {
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_52┼52┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
+            "Name": "PotPlant (9)",
+            "LocalPRS": "52┼52┼0┼"
+          },
+          {
             "GitID": "aef082ffdd3b51f45bd9a56c6afda863_52┼52┼0┼",
             "PrefabID": "aef082ffdd3b51f45bd9a56c6afda863",
             "Name": "emergency_lights",
@@ -246662,12 +246632,6 @@
                 }
               ]
             }
-          },
-          {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_52┼52┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
-            "Name": "PotPlant (9)",
-            "LocalPRS": "52┼52┼0┼"
           },
           {
             "GitID": "cdd75698355b0a14fb404e6041b9f9b3_52┼55┼0┼",
@@ -247230,6 +247194,12 @@
             }
           },
           {
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_52┼88┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
+            "Name": "PotPlant (1)",
+            "LocalPRS": "52┼88┼0┼"
+          },
+          {
             "GitID": "aef082ffdd3b51f45bd9a56c6afda863_52┼88┼0┼",
             "PrefabID": "aef082ffdd3b51f45bd9a56c6afda863",
             "Name": "emergency_lights (8)",
@@ -247254,12 +247224,6 @@
                 }
               ]
             }
-          },
-          {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_52┼88┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
-            "Name": "PotPlant (1)",
-            "LocalPRS": "52┼88┼0┼"
           },
           {
             "GitID": "c21551dd992a57349973e4b5af103ca6_52┼89┼0┼",
@@ -248919,7 +248883,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Eva"
                     }
                   ]
                 },
@@ -249179,8 +249143,8 @@
             "LocalPRS": "53┼103┼0┼"
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_53┼106┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_53┼106┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PotPlant (8)",
             "LocalPRS": "53┼106┼0┼"
           },
@@ -250148,7 +250112,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Eva"
                     }
                   ]
                 },
@@ -250555,8 +250519,8 @@
             "LocalPRS": "54.78┼82.34┼0┼"
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_55┼0┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_55┼0┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PotPlant (5)",
             "LocalPRS": "55┼0┼0┼"
           },
@@ -252846,7 +252810,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Brig"
                     }
                   ]
                 },
@@ -253762,7 +253726,107 @@
                   "Data": [
                     {
                       "Name": "CurrentDirection",
-                      "Data": "Right_By270"
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,3",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,4",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,5",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,6",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,7",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -253867,7 +253931,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Armory"
                     }
                   ]
                 },
@@ -255267,12 +255331,26 @@
                   "Data": [
                     {
                       "Name": "CurrentDirection",
-                      "Data": "Left_By90"
+                      "Data": "Right_By270"
                     }
                   ]
                 }
               ],
               "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
                 {
                   "ID": "0,1",
                   "ClassDatas": [
@@ -255282,6 +255360,90 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Armory"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,3",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,4",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,5",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,6",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,7",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
                         }
                       ]
                     }
@@ -256043,7 +256205,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Brig"
+                          "Data": "SecDoors"
                         }
                       ]
                     }
@@ -256079,7 +256241,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Brig"
+                          "Data": "SecDoors"
                         }
                       ]
                     }
@@ -257459,7 +257621,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Brig"
+                          "Data": "SecDoors"
                         }
                       ]
                     }
@@ -257495,7 +257657,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Brig"
+                          "Data": "SecDoors"
                         }
                       ]
                     }
@@ -258200,6 +258362,106 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,3",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,4",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,5",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,6",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,7",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -258293,7 +258555,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Armory"
                     }
                   ]
                 },
@@ -260962,7 +261224,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Armory"
                     }
                   ]
                 },
@@ -261292,8 +261554,8 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_61┼58┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_61┼58┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PotPlant",
             "LocalPRS": "61┼58┼0┼"
           },
@@ -261598,8 +261860,8 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_61┼110┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_61┼110┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PotPlant (22)",
             "LocalPRS": "61┼110┼0┼"
           },
@@ -261691,8 +261953,8 @@
             "LocalPRS": "61┼116┼0┼"
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_61┼117┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_61┼117┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PotPlant (23)",
             "LocalPRS": "61┼117┼0┼"
           },
@@ -262087,8 +262349,8 @@
             }
           },
           {
-            "GitID": "8D0W-BGDVb8469ufZ@aF_62┼27┼0┼",
-            "PrefabID": "8D0W-BGDVb8469ufZ@aF",
+            "GitID": "J5UF3VXxKdTV9iopbA17_62┼27┼0┼",
+            "PrefabID": "J5UF3VXxKdTV9iopbA17",
             "NameMatches": true,
             "Name": "SecBarrier",
             "LocalPRS": "62┼27┼0┼"
@@ -263151,13 +263413,6 @@
             "LocalPRS": "63┼26.08┼0┼"
           },
           {
-            "GitID": "8D0W-BGDVb8469ufZ@aF_63┼27┼0┼",
-            "PrefabID": "8D0W-BGDVb8469ufZ@aF",
-            "NameMatches": true,
-            "Name": "SecBarrier",
-            "LocalPRS": "63┼27┼0┼"
-          },
-          {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_63┼27┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
             "NameMatches": true,
@@ -263210,6 +263465,13 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "J5UF3VXxKdTV9iopbA17_63┼27┼0┼",
+            "PrefabID": "J5UF3VXxKdTV9iopbA17",
+            "NameMatches": true,
+            "Name": "SecBarrier",
+            "LocalPRS": "63┼27┼0┼"
           },
           {
             "GitID": "70d3024fe9d901346a2e42c43833ceba_63┼29┼0┼",
@@ -264460,7 +264722,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Security"
                     }
                   ]
                 },
@@ -265012,7 +265274,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Security"
                     }
                   ]
                 },
@@ -265302,8 +265564,8 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_64┼80┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_64┼80┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PotPlant (19)",
             "LocalPRS": "64┼80┼0┼"
           },
@@ -265539,8 +265801,8 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_64┼94┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_64┼94┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PotPlant (1)",
             "LocalPRS": "64┼94┼0┼"
           },
@@ -266701,6 +266963,18 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "31d7f641274343343b94e59bce361843_65┼61┼0┼",
+            "PrefabID": "31d7f641274343343b94e59bce361843",
+            "Name": "IV Drip (2)",
+            "LocalPRS": "65┼61┼0┼"
+          },
+          {
+            "GitID": "31d7f641274343343b94e59bce361843_65┼62┼0┼",
+            "PrefabID": "31d7f641274343343b94e59bce361843",
+            "Name": "IV Drip (1)",
+            "LocalPRS": "65┼62┼0┼"
           },
           {
             "GitID": "f2441585d37f1914395df59a57c5e925_65┼66┼0┼",
@@ -273278,8 +273552,8 @@
             "LocalPRS": "69┼110┼0┼"
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_69┼114┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_69┼114┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PotPlant (24)",
             "LocalPRS": "69┼114┼0┼"
           },
@@ -273968,8 +274242,8 @@
             }
           },
           {
-            "GitID": "8D0W-BGDVb8469ufZ@aF_70┼48┼0┼",
-            "PrefabID": "8D0W-BGDVb8469ufZ@aF",
+            "GitID": "J5UF3VXxKdTV9iopbA17_70┼48┼0┼",
+            "PrefabID": "J5UF3VXxKdTV9iopbA17",
             "NameMatches": true,
             "Name": "SecBarrier",
             "LocalPRS": "70┼48┼0┼"
@@ -274225,7 +274499,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Cmo"
                     }
                   ]
                 },
@@ -274618,7 +274892,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Heads"
                     }
                   ]
                 },
@@ -275657,8 +275931,8 @@
             "LocalPRS": "71.09┼41.06┼0┼"
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_72┼0┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_72┼0┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PotPlant (4)",
             "LocalPRS": "72┼0┼0┼"
           },
@@ -277425,7 +277699,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Security"
+                          "Data": "Brig"
                         }
                       ]
                     }
@@ -277662,8 +277936,8 @@
             "LocalPRS": "73┼48┼0┼"
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_73┼49┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_73┼49┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PotPlant (15)",
             "LocalPRS": "73┼49┼0┼"
           },
@@ -277767,8 +278041,8 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_73┼58┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_73┼58┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PotPlant (2)",
             "LocalPRS": "73┼58┼0┼"
           },
@@ -278610,7 +278884,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Brig"
                     }
                   ]
                 },
@@ -278666,6 +278940,22 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_77┼47┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "ForensicsLockers"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -278759,8 +279049,8 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_74┼67┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_74┼67┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PotPlant (20)",
             "LocalPRS": "74┼67┼0┼"
           },
@@ -279300,10 +279590,6 @@
                     {
                       "Name": "In@DesiredFaceDirection",
                       "Data": "Up_By0"
-                    },
-                    {
-                      "Name": "In@IsEnd",
-                      "Data": "True"
                     }
                   ]
                 }
@@ -281358,7 +281644,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Security"
+                          "Data": "Brig"
                         }
                       ]
                     }
@@ -281381,6 +281667,22 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_73┼47┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "ForensicsLockers"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -281472,7 +281774,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "ForensicsLockers"
                     }
                   ]
                 },
@@ -282176,7 +282478,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Gateway"
                     }
                   ]
                 },
@@ -282948,7 +283250,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Brig"
                     }
                   ]
                 },
@@ -284366,8 +284668,8 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_78┼6┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_78┼6┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PotPlant (1)",
             "LocalPRS": "78┼6┼0┼"
           },
@@ -285683,6 +285985,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -285737,6 +286055,22 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_73┼47┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -287202,8 +287536,8 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_80┼50┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_80┼50┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PotPlant (1)",
             "LocalPRS": "80┼50┼0┼"
           },
@@ -287384,7 +287718,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Chemistry"
                     }
                   ]
                 },
@@ -288410,7 +288744,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Armory"
                     }
                   ]
                 },
@@ -290461,7 +290795,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Lawyer"
                     }
                   ]
                 },
@@ -291133,8 +291467,8 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_83.95┼92.14┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_83.95┼92.14┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PotPlant (3)",
             "LocalPRS": "83.95┼92.14┼0┼"
           },
@@ -295986,7 +296320,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Atmospherics"
                     }
                   ]
                 },
@@ -297804,7 +298138,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Atmospherics"
                     }
                   ]
                 },
@@ -298444,7 +298778,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Teleporter"
                     }
                   ]
                 },
@@ -300222,13 +300556,17 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Engine"
                     }
                   ]
                 },
                 {
                   "ClassID": "DoorSwitch@0",
                   "Data": [
+                    {
+                      "Name": "NewdoorControllers#1",
+                      "Data": "79cea07a5f8e66f49a554df1a003ecba_90┼42┼0┼@0@DoorMasterController@0"
+                    },
                     {
                       "Name": "NewdoorControllers#0",
                       "Data": "79cea07a5f8e66f49a554df1a003ecba_90┼45┼0┼@0@DoorMasterController@0"
@@ -302603,7 +302941,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Ce"
                     }
                   ]
                 },
@@ -306241,7 +306579,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Ce"
                     }
                   ]
                 },
@@ -309965,7 +310303,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Ce"
                     }
                   ]
                 },
@@ -310846,7 +311184,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Engine"
                     }
                   ]
                 },
@@ -311316,7 +311654,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Atmospherics"
                     }
                   ]
                 },
@@ -314429,7 +314767,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Morgue"
                     }
                   ]
                 },
@@ -317395,52 +317733,52 @@
             "LocalPRS": "105.005┼34┼0┼"
           },
           {
-            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_105.007┼33┼0┼",
-            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (6)",
-            "LocalPRS": "105.007┼33┼0┼"
-          },
-          {
-            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_105.008┼33┼0┼",
-            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (7)",
-            "LocalPRS": "105.008┼33┼0┼"
-          },
-          {
-            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_105.009┼33┼0┼",
-            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (8)",
-            "LocalPRS": "105.009┼33┼0┼"
-          },
-          {
             "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_105.01┼33┼0┼",
             "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (5)",
+            "Name": "ControlRod (8)",
             "LocalPRS": "105.01┼33┼0┼"
           },
           {
             "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_105.011┼33┼0┼",
             "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (9)",
+            "Name": "ControlRod (7)",
             "LocalPRS": "105.011┼33┼0┼"
           },
           {
             "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_105.012┼33┼0┼",
             "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (10)",
+            "Name": "ControlRod (6)",
             "LocalPRS": "105.012┼33┼0┼"
           },
           {
             "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_105.013┼33┼0┼",
             "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (11)",
+            "Name": "ControlRod (5)",
             "LocalPRS": "105.013┼33┼0┼"
           },
           {
             "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_105.014┼33┼0┼",
             "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (12)",
+            "Name": "ControlRod (9)",
             "LocalPRS": "105.014┼33┼0┼"
+          },
+          {
+            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_105.015┼33┼0┼",
+            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
+            "Name": "ControlRod (10)",
+            "LocalPRS": "105.015┼33┼0┼"
+          },
+          {
+            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_105.02┼33┼0┼",
+            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
+            "Name": "ControlRod (11)",
+            "LocalPRS": "105.02┼33┼0┼"
+          },
+          {
+            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_105.021┼33┼0┼",
+            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
+            "Name": "ControlRod (12)",
+            "LocalPRS": "105.021┼33┼0┼"
           },
           {
             "GitID": "e58e1fd483fe772468ad2aab4259397d_105.92┼78┼0┼",
@@ -318885,7 +319223,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Morgue"
                     }
                   ]
                 },
@@ -326372,10 +326710,6 @@
                       "Data": "Up_By0"
                     },
                     {
-                      "Name": "Out@IsEnd",
-                      "Data": "True"
-                    },
-                    {
                       "Name": "In@NextInLine",
                       "Data": "69ffc1053dc39a24fb870b2248780be4_75┼-5┼0┼@0@GuidanceBuoy@0"
                     }
@@ -326390,14 +326724,14 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "72,257,0",
-          "Size": "172,570,0"
+          "Pos": "71,256,-0.5",
+          "Size": "172,570,3"
         }
       ]
     },
     {
       "Ver": "1.1.1",
-      "Location": "266┼-9┼0┼",
+      "Location": "15┼-1┼0┼",
       "MatrixName": "EscapeShuttle",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -330687,7 +331021,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -331637,8 +331971,8 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_46.99┼-5.06┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_46.99┼-5.06┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PotPlant (2)",
             "LocalPRS": "46.99┼-5.06┼0┼"
           },
@@ -335063,8 +335397,8 @@
             }
           },
           {
-            "GitID": "f7fc46cd9fc472a4b96ad181a215ccfa_60┼-4┼0┼",
-            "PrefabID": "f7fc46cd9fc472a4b96ad181a215ccfa",
+            "GitID": "kEKGObGBLag_L6F8X$s3_60┼-4┼0┼",
+            "PrefabID": "kEKGObGBLag_L6F8X$s3",
             "Name": "ShuttleConnector (1)",
             "LocalPRS": "60┼-4┼0┼"
           },
@@ -335188,8 +335522,8 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_61.99┼-12.06┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_61.99┼-12.06┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PotPlant (1)",
             "LocalPRS": "61.99┼-12.06┼0┼"
           },
@@ -335958,14 +336292,14 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_70.99┼-11.06┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_70.99┼-11.06┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PotPlant (4)",
             "LocalPRS": "70.99┼-11.06┼0┼"
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_70.99┼-7.06┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_70.99┼-7.06┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PotPlant (3)",
             "LocalPRS": "70.99┼-7.06┼0┼"
           },
@@ -336239,7 +336573,7 @@
                     },
                     {
                       "Name": "ShuttlesMainConnector",
-                      "Data": "f7fc46cd9fc472a4b96ad181a215ccfa_60┼-4┼0┼@0@ShuttleConnector@0"
+                      "Data": "kEKGObGBLag_L6F8X$s3_60┼-4┼0┼@0@ShuttleConnector@0"
                     }
                   ]
                 }
@@ -336252,7 +336586,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "304.5,-15,0",
+          "Pos": "37.5,-7,0",
           "Size": "75,14,0"
         }
       ]
@@ -336396,7 +336730,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -336652,7 +336986,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "105,130,0",
+          "Pos": "1,-2,0",
           "Size": "2,4,0"
         }
       ]
@@ -337618,7 +337952,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -337641,7 +337975,7 @@
                     },
                     {
                       "Name": "ShuttlesMainConnector",
-                      "Data": "f7fc46cd9fc472a4b96ad181a215ccfa_2┼0┼0┼@0@ShuttleConnector@0"
+                      "Data": "kEKGObGBLag_L6F8X$s3_2┼0┼0┼@0@ShuttleConnector@0"
                     }
                   ]
                 }
@@ -338110,8 +338444,8 @@
             }
           },
           {
-            "GitID": "f7fc46cd9fc472a4b96ad181a215ccfa_2┼0┼0┼",
-            "PrefabID": "f7fc46cd9fc472a4b96ad181a215ccfa",
+            "GitID": "kEKGObGBLag_L6F8X$s3_2┼0┼0┼",
+            "PrefabID": "kEKGObGBLag_L6F8X$s3",
             "Name": "ShuttleConnector (1)",
             "LocalPRS": "2┼0┼0┼"
           },
@@ -338206,7 +338540,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "-17,226,0",
+          "Pos": "-1,1,0",
           "Size": "6,14,0"
         }
       ]
@@ -338647,7 +338981,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -339484,8 +339818,8 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "26,102.6,0",
-          "Size": "4,7,0"
+          "Pos": "0,-0.5,0.5",
+          "Size": "4,7,1"
         }
       ]
     },
@@ -339925,7 +340259,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -340553,8 +340887,8 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "-5,76.5,0",
-          "Size": "4,7,0"
+          "Pos": "0,-0.5,0.5",
+          "Size": "4,7,1"
         }
       ]
     },
@@ -340994,7 +341328,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -341622,8 +341956,8 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "36.1,120.5,0",
-          "Size": "4,7,0"
+          "Pos": "0,-0.5,0.5",
+          "Size": "4,7,1"
         }
       ]
     },
@@ -342063,7 +342397,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -342885,8 +343219,8 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "10,102.5,0",
-          "Size": "4,7,0"
+          "Pos": "0,-0.5,0.5",
+          "Size": "4,7,1"
         }
       ]
     },
@@ -344027,7 +344361,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -345500,7 +345834,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "102,112,0",
+          "Pos": "3,0,0",
           "Size": "16,6,0"
         }
       ]
@@ -345644,7 +345978,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -345900,7 +346234,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "109,130,0",
+          "Pos": "1,-2,0",
           "Size": "2,4,0"
         }
       ]
@@ -347817,7 +348151,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -348410,7 +348744,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Mining"
                     }
                   ]
                 },
@@ -349509,7 +349843,24 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Mining"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "DoorSwitch@0",
+                  "Data": [
+                    {
+                      "Name": "NewdoorControllers#2",
+                      "Data": "79cea07a5f8e66f49a554df1a003ecba_13┼-3┼0┼@0@DoorMasterController@0"
+                    },
+                    {
+                      "Name": "NewdoorControllers#1",
+                      "Data": "79cea07a5f8e66f49a554df1a003ecba_12┼-3┼0┼@0@DoorMasterController@0"
+                    },
+                    {
+                      "Name": "NewdoorControllers#0",
+                      "Data": "79cea07a5f8e66f49a554df1a003ecba_11┼-3┼0┼@0@DoorMasterController@0"
                     }
                   ]
                 }
@@ -350714,8 +351065,8 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "16.5,85,0",
-          "Size": "23,6,0"
+          "Pos": "7.5,0,0.5",
+          "Size": "23,6,1"
         }
       ]
     },
@@ -352469,7 +352820,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.1",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -352733,8 +353084,8 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "-489,660,0",
-          "Size": "20,14,0"
+          "Pos": "-1,0,-0.5",
+          "Size": "20,14,3"
         }
       ]
     }

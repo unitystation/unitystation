@@ -8,10 +8,13 @@ using Messages.Server.SoundMessages;
 using Mirror;
 using Objects;
 using Objects.Construction;
+using Player;
+using Scripts.Core.Transform;
 using SecureStuff;
 using Tiles;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using Util;
 using Random = UnityEngine.Random;
 
@@ -87,9 +90,8 @@ namespace Core.Physics
 
 		private float localTileMoveSpeedOverride = 0;
 
-		[SyncVar] private float
-			networkedTileMoveSpeedOverride =
-				0; //TODO Potential Desynchronisation issues, Probably should have a who caused
+		[SyncVar] private float networkedTileMoveSpeedOverride = 0;
+		//TODO Potential Desynchronisation issues, Probably should have a who caused
 
 		[SyncVar] public float tileMoveSpeed = 1;
 		[SyncVar] private uint parentContainer;
@@ -104,6 +106,9 @@ namespace Core.Physics
 
 		[SyncVar(hook = nameof(SyncLocalTarget))]
 		private Vector3WithData synchLocalTargetPosition;
+
+		[SyncVar]
+		private float ZRotation;
 
 		protected bool doStepInteractions = true;
 
@@ -227,6 +232,10 @@ namespace Core.Physics
 		[PlayModeOnly] public float TimeSpentFlying = 0;
 		[PlayModeOnly] private float SecondsFlying;
 
+		[field: SerializeField] public ScaleSync Scale { get; protected set; }
+
+		public UnityEvent<Matrix> OnEnteredNewMatrix = new UnityEvent<Matrix>();
+
 		public bool IsFlyingSliding
 		{
 			get
@@ -265,7 +274,7 @@ namespace Core.Physics
 			registerTile = GetComponent<RegisterTile>();
 			rotatable = GetComponent<Rotatable>();
 			pickupable.DirectSetComponent(GetComponent<Pickupable>());
-
+			Scale ??= GetComponent<ScaleSync>();
 			SetRotationTarget();
 		}
 
@@ -280,11 +289,16 @@ namespace Core.Physics
 					Matrix = -1,
 					Speed = tileMoveSpeed
 				};
+				ZRotation = transform.localRotation.eulerAngles.z;
 			}
 			else
 			{
 				InternalTriggerOnLocalTileReached(synchLocalTargetPosition.Vector3.RoundToInt());
 				SetTransform(synchLocalTargetPosition.Vector3, false);
+
+				var Euler = transform.localRotation.eulerAngles;
+				Euler.z = ZRotation;
+				transform.localRotation = Quaternion.Euler(Euler);
 			}
 
 			CheckNSnapToGrid(isServer);
@@ -359,7 +373,6 @@ namespace Core.Physics
 			if (isServer) return;
 			if (LocalTargetPosition == newLocalTarget.Vector3) return;
 			if (isOwned && PulledBy.HasComponent == false) return;
-
 
 			var spawned = CustomNetworkManager.Spawned;
 
@@ -527,6 +540,13 @@ namespace Core.Physics
 			bool doStepInteractions = true,
 			Vector2? momentum = null, MatrixInfo Matrixoveride = null, bool TeleportContainer = false)
 		{
+			if (worldPos.z != 0)
+			{
+				Loggy.Error(
+					$"Attempting to AppearAtWorldPositionServer for {this.gameObject.name} A odd z Level Of {worldPos.z}, change this to -100 for when we implement z levels  ");
+				worldPos.z = 0;
+			}
+
 			this.doStepInteractions = doStepInteractions;
 
 			if (ContainedInObjectContainer)
@@ -863,6 +883,8 @@ namespace Core.Physics
 					Matrix = movetoMatrix.Id
 				};
 			}
+
+			OnEnteredNewMatrix?.Invoke(movetoMatrix);
 		}
 
 		/// <summary>
@@ -922,7 +944,6 @@ namespace Core.Physics
 					Matrix = registerTile.Matrix.Id
 				};
 			}
-
 
 			NewtonianMovement = Vector2.zero;
 			airTime = 0;
@@ -1062,6 +1083,11 @@ namespace Core.Physics
 
 		public void AnimationUpdateMe()
 		{
+			if (CustomNetworkManager.IsServer == false && JoinedViewer.ClientValidated == false)
+			{
+				return;
+			}
+
 			if (isVisible == false)
 			{
 				MoveIsWalking = false;
@@ -1077,6 +1103,11 @@ namespace Core.Physics
 				IsMoving = false;
 				Animating = false;
 				UpdateManager.Remove(CallbackType.EARLY_UPDATE, AnimationUpdateMe);
+			}
+
+			if (ZRotation != transform.rotation.eulerAngles.z)
+			{
+				ZRotation = transform.rotation.eulerAngles.z;
 			}
 
 			Animating = true;
@@ -1131,8 +1162,17 @@ namespace Core.Physics
 			}
 		}
 
-		public void SetTransform(Vector3 position, bool world)
+		public void SetTransform(Vector3 position, bool world, UniversalObjectPhysics Origin = null)
 		{
+			if (Origin == null)
+			{
+				Origin = this;
+			}
+			else if (Origin == this)
+			{
+				return;
+			}
+
 			if (world)
 			{
 				transform.position = position;
@@ -1144,7 +1184,7 @@ namespace Core.Physics
 
 			if (ObjectIsBuckling != null)
 			{
-				ObjectIsBuckling.SetTransform(position + BuckleOffset, world);
+				ObjectIsBuckling.SetTransform(position + BuckleOffset, world, Origin);
 			}
 		}
 
@@ -1214,7 +1254,11 @@ namespace Core.Physics
 			if (transform.position.x.IsUnreasonableNumber() || transform.position.y.IsUnreasonableNumber() ||
 			    transform.position.z.IsUnreasonableNumber())
 			{
-				Loggy.Error("Unreasonable number detected with transform.position with " + transform.name);
+				if (isServer)
+				{
+					Loggy.Error("Unreasonable number detected with transform.position with " + transform.name);
+				}
+
 				var vec = transform.position;
 				vec.x = 0;
 				vec.y = 0;
@@ -1324,7 +1368,13 @@ namespace Core.Physics
 				//TODO: Add the ability to catch thrown objects if the player has the "throw" state enabled on them.
 				if (hit.TryGetComponent<LivingHealthMasterBase>(out var livingHealthMasterBase) && isServer)
 				{
-					livingHealthMasterBase.ApplyDamageToBodyPart(thrownBy.gameObject, damage, AttackType.Melee, DamageType.Brute, currentAim);
+					GameObject ddamagedBy = null;
+					if (thrownBy != null)
+					{
+						ddamagedBy = thrownBy?.gameObject;
+					}
+
+					livingHealthMasterBase.ApplyDamageToBodyPart(ddamagedBy, damage, AttackType.Melee, DamageType.Brute, currentAim);
 					if (currentAim == BodyPartType.Mouth && TryGetComponent<Edible>(out var edible)) edible.TryConsume(null, hit.gameObject, true);
 
 					global::Chat.AddThrowHitMsgToChat(gameObject, livingHealthMasterBase.gameObject,
@@ -1342,7 +1392,25 @@ namespace Core.Physics
 
 		public void FlyingUpdateMe()
 		{
+			if (CustomNetworkManager.IsServer == false && SubSceneManager.Instance.ClientIsFullyDoneLoadingOnSubsceneManager == false)
+			{
+				return;
+			}
+
+
 			NewtonianNaNCorrection();
+
+			if (PulledBy.HasComponent)
+			{
+				IsFlyingSliding = false;
+				airTime = 0;
+				slideTime = 0;
+				NewtonianMovement= Vector2.zero;
+				UpdateManager.Remove(CallbackType.EARLY_UPDATE, FlyingUpdateMe);
+				return;
+			}
+
+
 			if (isVisible == false)
 			{
 				IsFlyingSliding = false;
@@ -1351,6 +1419,12 @@ namespace Core.Physics
 				UpdateManager.Remove(CallbackType.EARLY_UPDATE, FlyingUpdateMe);
 				return;
 			}
+
+			if (ZRotation != transform.rotation.eulerAngles.z)
+			{
+				ZRotation = transform.rotation.eulerAngles.z;
+			}
+
 
 			if (IsMoving) return;
 			isFlyingSliding = true;
@@ -1427,6 +1501,7 @@ namespace Core.Physics
 							foreach (var push in Pushing)
 							{
 								if (push == this) continue;
+								if (push == null) continue;
 								if (push.gameObject.NetWorkIdentity() == thrownProtection) continue;
 								push.NewtonianNewtonPush(NewtonianMovement, (NewtonianMovement.magnitude * GetWeight()),
 									Single.NaN, Single.NaN, currentAim, thrownBy?.gameObject, spinMagnitude);
@@ -1527,7 +1602,9 @@ namespace Core.Physics
 				thrownProtection = null;
 				if (OnThrowEndResetRotation)
 				{
-					rotationTarget.rotation = Quaternion.Euler(0, 0, 0);
+					var euler = rotationTarget.localRotation.eulerAngles;
+					euler.z = 0;
+					rotationTarget.localRotation = Quaternion.Euler(euler);
 					if (this is MovementSynchronisation c)
 						c.playerScript.RegisterPlayer.LayDownBehavior.EnsureCorrectState();
 				}
@@ -1567,8 +1644,17 @@ namespace Core.Physics
 		}
 
 
-		public void ProcessNewtonianPull(Vector2 InNewtonianMovement, Vector2 PullerPosition)
+		public void ProcessNewtonianPull(Vector2 InNewtonianMovement, Vector2 PullerPosition, UniversalObjectPhysics Origin = null )
 		{
+			if (Origin == null)
+			{
+				Origin = this;
+			}
+			else if (Origin == this)
+			{
+				return;
+			}
+
 			if (Animating)
 			{
 				localTileMoveSpeedOverride = 0;
@@ -1611,12 +1697,12 @@ namespace Core.Physics
 
 			if (Pulling.HasComponent)
 			{
-				Pulling.Component.ProcessNewtonianPull(InNewtonianMovement, newPosition);
+				Pulling.Component.ProcessNewtonianPull(InNewtonianMovement, newPosition, Origin);
 			}
 
 			if (ObjectIsBuckling != null && ObjectIsBuckling.Pulling.HasComponent)
 			{
-				ObjectIsBuckling.Pulling.Component.ProcessNewtonianPull(InNewtonianMovement, newPosition + BuckleOffset);
+				ObjectIsBuckling.Pulling.Component.ProcessNewtonianPull(InNewtonianMovement, newPosition + BuckleOffset, Origin);
 			}
 		}
 

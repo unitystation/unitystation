@@ -9,6 +9,9 @@ using System.Runtime.CompilerServices;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using CAPSearch;
+using Core.Admin.Logs;
+using Core.Admin.Logs.Stores;
 using Doors;
 using UnityEditor;
 using UnityEngine;
@@ -57,6 +60,71 @@ namespace Util
 		[MenuItem("Tools/Debug/------------ Debug function -----------")]
 		public static void Generate()
 		{
+
+			AdminLogsManager.AddNewLog("bob Murdered irrelevant", LogCategory.Admin);
+			AdminLogsManager.AddNewLog("cat Attacked bob", LogCategory.Admin);
+			AdminLogsManager.AddNewLog("bob Attacked cat", LogCategory.Admin);
+			AdminLogsManager.AddNewLog("Bob murdered cat", LogCategory.Admin, BubbleUpToChatAdmin: true);
+			AdminLogsManager.AddNewLog("Banana house six was set on fire by Jimbo", LogCategory.Admin, Severity.IMMEDIATE_ATTENTION);
+			AdminLogsManager.AddNewLog("Bob HID cat in Disposal bin 67", LogCategory.Admin, BubbleUpToChatAdmin: true);
+
+			Loggy.Error(JsonConvert.SerializeObject(SearchCAP.ParseSearch("NOT bob")), LogOption:LogOption.NoStacktrace);
+
+			//AdminLogsStorage.ParseSearch("bob AND cat");
+			//AdminLogsStorage.ParseSearch("bob OR cat");
+			//AdminLogsStorage.ParseSearch("bob AND cat OR car");
+			//AdminLogsStorage.ParseSearch("bob OR cat AND car");
+			//AdminLogsStorage.ParseSearch("{bob AND cat} OR car");
+
+			//AdminLogsStorage.ParseSearch("NOT bob2 AND {{cat OR bob} AND NOT Mike} OR NOT car");
+
+			//AdminLogsStorage.ParseSearch("1 OR 2 AND 3 OR 4 AND 5 AND 6 OR NOT 7");
+
+			//AdminLogsStorage.ParseSearch("{1 OR {{2 AND 3} OR 4} AND {5 AND 6 OR NOT 7}}");
+
+			return;
+			AdminLogsManager.AddNewLog("log1 sdaasfdfgh fdg dfdfgdfg dfgd fgd oje", LogCategory.Admin);
+			AdminLogsManager.AddNewLog("log2 sdaasfdfgh fdg dfdfgdfg dfgd fgd oje", PlayerManager.LocalPlayerObject , LogCategory.Admin);
+			AdminLogsManager.AddNewLog("log3 sdaasfdfgh fdg dfdfgdfg dfgd fgd oje", PlayerManager.LocalPlayerObject,
+				" dasjhk ads jhkgasdhmgjshkadnhjkgsadhjsak gjh hjgsad jhasd",
+			PlayerManager.LocalPlayerScript.RegisterPlayer.Matrix.GetComponentInChildren<Rotatable>().gameObject
+				, LogCategory.Admin);
+
+			return;
+			System.Diagnostics.Stopwatch t1 = new Stopwatch();
+			t1.Start();
+			for (int i = 0; i < 1000; i++)
+			{
+				var randomChatEnum = ChatChannel.Action | ChatChannel.Admin;
+				if (randomChatEnum.HasFlagFast(ChatChannel.Action))
+				{
+					continue;
+				}
+				else
+				{
+					break;
+				}
+			}
+			t1.Stop();
+			Debug.Log($"[HasFlagFast] - Ticks taken: {t1.ElapsedTicks}");
+
+			System.Diagnostics.Stopwatch t2 = new Stopwatch();
+			t2.Start();
+			for (int i = 0; i < 1000; i++)
+			{
+				var randomChatEnum = ChatChannel.Action | ChatChannel.Admin;
+				if (randomChatEnum.HasFlag(ChatChannel.Action))
+				{
+					continue;
+				}
+				else
+				{
+					break;
+				}
+			}
+			t2.Stop();
+			Debug.Log($"[HasFlag] - Ticks taken: {t2.ElapsedTicks}");
+
 			// AssetDatabase.StartAssetEditing();
 			// var AAAa = FindAssetsByType<Chemistry.Reaction>();
 			// foreach (var a in AAAa)

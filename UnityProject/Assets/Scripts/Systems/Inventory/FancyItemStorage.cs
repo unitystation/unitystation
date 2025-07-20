@@ -74,7 +74,7 @@ public class FancyItemStorage : NetworkBehaviour
 		if (newSprite)
 		{
 			// apply it to sprite handler
-			spriteHandler.SetSprite(newSprite);
+			spriteHandler.SetSpriteNonNetworked(newSprite);
 			// try to update in-hand sprite
 			pickupable?.RefreshUISlotImage();
 		}

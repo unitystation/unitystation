@@ -85,6 +85,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a74c26b770411d14d9fc1c0df58c1c72,
         type: 2}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a74c26b770411d14d9fc1c0df58c1c72,
+        type: 2}
+    - target: {fileID: 7971921043980192432, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: initialName
+      value: food cart
+      objectReference: {fileID: 0}
     - target: {fileID: 9212640593017544930, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: _assetId
@@ -168,19 +179,19 @@ MonoBehaviour:
     Price: 0
   ActualCurrentPowerState: 2
   vendingSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/MachineVend.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   ambientSoundWhileOn:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   lightSprite: {fileID: 0}

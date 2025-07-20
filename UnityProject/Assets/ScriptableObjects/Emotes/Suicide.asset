@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 412a0c8074d7434fb8562fb10ddaf54a, type: 3}
   m_Name: Suicide
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier:
   emoteName: Suicide
   EmoteIcon: {fileID: 21300000, guid: d5b95eacfe2b01443912617d7e57c4ed, type: 3}
   requiresHands: 1
@@ -19,8 +19,8 @@ MonoBehaviour:
   isAudibleEmote: 0
   allowEmoteWhileCrawling: 1
   viewText: attempts to commit suicide!
-  youText: 
-  failText: You were unable to preform this action!
+  youText:
+  failText: You were unable to perform this action!
   mouthBlockedText: You are unable to make a sound!
   critViewText: screams in pain!
   soundsAreTyped: 0

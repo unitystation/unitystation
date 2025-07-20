@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using System.Linq;
 
 namespace UI.Core.NetUI
 {
@@ -16,6 +13,7 @@ namespace UI.Core.NetUI
 		{
 			AddBulk(new string[count]);
 			NetworkTabManager.Instance.Rescan(containedInTab.NetTabDescriptor);
+			UpdatePeepers();
 		}
 
 		public void SetItems(int count)
@@ -32,7 +30,5 @@ namespace UI.Core.NetUI
 			NetworkTabManager.Instance.Rescan(containedInTab.NetTabDescriptor);
 			UpdatePeepers();
 		}
-
-
 	}
 }

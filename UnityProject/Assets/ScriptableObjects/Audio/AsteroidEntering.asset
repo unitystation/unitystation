@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaf6da0a52cc4214b1d4798d9a210177, type: 3}
   m_Name: AsteroidEntering
   m_EditorClassIdentifier: 
+  foreverID: 84b2223b47deb0d458c4c171c79fea3b
   addressableAudioSource:
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/AmbientTracks/AsteriodAmbience.prefab
+  - AssetAddress: Assets/Prefabs/AmbientTracks/AsteriodAmbience.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0

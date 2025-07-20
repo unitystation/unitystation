@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using AdminCommands;
 using Logs;
 using UI.Core.Action;
 using UnityEngine;
@@ -257,7 +258,7 @@ namespace Changeling
 		/// Resets changeling abilities
 		/// </summary>
 		[Command(requiresAuthority = true)]
-		public void CmdResetAbilities()
+		public void CmdResetAbilitiesAdmin()
 		{
 			if (ResetsLeft <= 0)
 				return;
@@ -330,7 +331,7 @@ namespace Changeling
 					toggleAbility.UseAbilityToggleClient(this, false);
 				}
 			}
-			CmdResetAbilities();
+			CmdResetAbilitiesAdmin();
 		}
 
 		private void OnDisable()

@@ -201,8 +201,16 @@ public class ObjectPool
 				return false;
 			}
 			spawnedObject.name = prefab.name;
-			spawnedObject.GetComponent<UniversalObjectPhysics>()?.AppearAtWorldPositionServer(destination.WorldPosition);
-			// only add pool prefab tracker if the object can be pooled
+			if (destination.WorldPosition.z == -100)
+			{
+				spawnedObject.GetComponent<UniversalObjectPhysics>()?.DisappearFromWorld();
+			}
+			else
+			{
+				spawnedObject.GetComponent<UniversalObjectPhysics>()?.AppearAtWorldPositionServer(destination.WorldPosition);
+			}
+
+			// only add pool prefab tracker if the object can be pooledAnnoying babies
 			if (IsPoolable(prefab))
 			{
 				spawnedObject.AddComponent<PoolPrefabTracker>().myPrefab = prefab;

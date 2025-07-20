@@ -24,6 +24,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 93cc56c549d8bcd48990dd32f3295b61,
         type: 2}
+    - target: {fileID: 4536149052226606106, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 93cc56c549d8bcd48990dd32f3295b61,
+        type: 2}
     - target: {fileID: 6597352703958914049, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
       propertyPath: DamageThreshold
@@ -192,6 +198,28 @@ PrefabInstance:
       propertyPath: m_Name
       value: LizardHead
       objectReference: {fileID: 0}
+    - target: {fileID: 7873295243319357914, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: CapableMutations.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7873295243319357914, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: StartingMutations.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7873295243319357914, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: 'CapableMutations.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 7263dbc1b5288a14e9a7cf00e530b0f8,
+        type: 2}
+    - target: {fileID: 7873295243319357914, guid: 78253771c2047f94c9ae40161a6be7ee,
+        type: 3}
+      propertyPath: 'StartingMutations.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 7263dbc1b5288a14e9a7cf00e530b0f8,
+        type: 2}
     - target: {fileID: 7879089347396255999, guid: 78253771c2047f94c9ae40161a6be7ee,
         type: 3}
       propertyPath: initialName

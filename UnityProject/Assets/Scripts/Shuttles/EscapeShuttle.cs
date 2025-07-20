@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Logs;
 using Managers;
 using Tilemaps.Behaviours.Layers;
@@ -162,13 +164,19 @@ public class EscapeShuttle : AutopilotShipMachine
 
 	private NetworkedMatrix networkedMatrix;
 
+	public int loadedOnRoundID = 0;
+
+	public float timeSpentTravellingToCC;
+
 	private void Start()
 	{
 		base.Start();
 		centComm = GameManager.Instance.GetComponent<CentComm>();
 		initialTimerSecondsCache = initialTimerSeconds;
+		loadedOnRoundID = GameManager.RoundID;
+		InItAsIfDockedTo(StationStartBuoy);
 	}
-
+	
 
 	private void Awake()
 	{
@@ -181,9 +189,6 @@ public class EscapeShuttle : AutopilotShipMachine
 			var integrity = thruster.GetComponent<Integrity>();
 			integrity.OnWillDestroyServer.AddListener(OnWillDestroyThruster);
 		}
-
-
-
 	}
 
 
@@ -223,11 +228,12 @@ public class EscapeShuttle : AutopilotShipMachine
 
 	IEnumerator WaitForGameOver()
 	{
+
 		//note: used to wait for 25 seconds, now less because
 		//we disabled the zoom out
 		yield return WaitFor.Seconds(15f);
 		// Trigger end of round
-		GameManager.Instance.EndRound();
+		GameManager.Instance.EndRound(loadedOnRoundID);
 	}
 
 	public override void ReachedEndOfOutBuoyChain(GuidanceBuoy GuidanceBuoy)
@@ -257,9 +263,18 @@ public class EscapeShuttle : AutopilotShipMachine
 	public override void UpdateMe()
 	{
 		base.UpdateMe();
+		if (Status == EscapeShuttleStatus.OnRouteToCentCom)
+		{
+			timeSpentTravellingToCC += Time.deltaTime;
+		}
+		else if (startedMovingToStation && Status == EscapeShuttleStatus.OnRouteStation)
+		{
+			timeSpentTravellingToCC -= Time.deltaTime;
+		}
+
 		if (Initialised == false)
 		{
-			if (TargetDestinationBuoy != null)
+			if (mm.NetworkedMatrixMove.HasMoveToTarget == false)
 			{
 				Initialised = true;
 				MoveDirectionIn = true;
@@ -330,22 +345,25 @@ public class EscapeShuttle : AutopilotShipMachine
 
 		var Alert = centComm.CurrentAlertLevel;
 
-		//Changes EscapeShuttle time depending on Alert Level
 
+		var Achievable = Mathf.RoundToInt(timeSpentTravellingToCC * 2);
+
+
+		//Changes EscapeShuttle time depending on Alert Level
 		if (Alert == CentComm.AlertLevel.Green)
 		{
 			//Double the Time
-			InitialTimerSeconds = initialTimerSecondsCache * 2;
+			InitialTimerSeconds = Achievable * 2;
 		}
 		else if (Alert == CentComm.AlertLevel.Blue)
         {
 			//Default values set in inspector
-			InitialTimerSeconds = initialTimerSecondsCache;
+			InitialTimerSeconds = Achievable;
         }
 		else if (Alert == CentComm.AlertLevel.Red || Alert == CentComm.AlertLevel.Delta)
 		{
 			//Half the Time
-			InitialTimerSeconds = initialTimerSecondsCache / 2;
+			InitialTimerSeconds = Achievable / 2;
 		}
 
 		TooLateToRecallSeconds = InitialTimerSeconds / 2;
@@ -396,7 +414,6 @@ public class EscapeShuttle : AutopilotShipMachine
 
 		HasShuttleDockedToStation = false;
 
-		matrixMove.NetworkedMatrixMove.AITravelSpeed = (90);
 		MoveToTargetBuoy(TargetDestinationBuoy);
 
 		callResult = "Shuttle has been recalled.";
@@ -423,8 +440,6 @@ public class EscapeShuttle : AutopilotShipMachine
 
 		Status = EscapeShuttleStatus.OnRouteToStationTeleport;
 
-		matrixMove.NetworkedMatrixMove.AITravelSpeed = 100f;
-
 		MoveToTargetBuoy( TargetDestinationBuoy );
 	}
 
@@ -446,17 +461,16 @@ public class EscapeShuttle : AutopilotShipMachine
 				}
 				AddToTime(-1);
 				//Time = Distance/Speed
-				if (startedMovingToStation == false && CurrentTimerSeconds <= Vector2.Distance(matrixMove.NetworkedMatrixMove.TargetTransform.position, StationStartBuoy.transform.position) / matrixMove.NetworkedMatrixMove.AITravelSpeed + 10f)
+				if (startedMovingToStation == false && CurrentTimerSeconds <= timeSpentTravellingToCC)
 				{
 					startedMovingToStation = true;
-					matrixMove.NetworkedMatrixMove.AITravelSpeed = 100;
 					MoveToTargetBuoy( StationStartBuoy );
 					Status = EscapeShuttleStatus.OnRouteStation;
 				}
 				if (CurrentTimerSeconds <= 0 && UnderflowFunnies.Count <= UnderflowIndex && GiveUpTime < 0)
 				{
 					Loggy.Error("[GameManager.Escape/TickTimer()] - OH SHITTTT Shuttle got stuck on the Way to station AAAAAAAAAAAAAAAAAAAAAAAAAAAA emergency end round");
-					GameManager.Instance.EndRound();
+					GameManager.Instance.EndRound(loadedOnRoundID);
 					centComm.UpdateStatusDisplay(StatusDisplayChannel.CachedChannel, null);
 					yield break;
 				}

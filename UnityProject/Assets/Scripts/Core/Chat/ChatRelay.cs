@@ -99,9 +99,9 @@ public class ChatRelay : NetworkBehaviour
 		}
 
 		//Local chat range checks:
-		if (chatEvent.channels.HasFlag(ChatChannel.Local)
-		    || chatEvent.channels.HasFlag(ChatChannel.Combat)
-		    || chatEvent.channels.HasFlag(ChatChannel.Action))
+		if (chatEvent.channels.HasFlagFast(ChatChannel.Local)
+		    || chatEvent.channels.HasFlagFast(ChatChannel.Combat)
+		    || chatEvent.channels.HasFlagFast(ChatChannel.Action))
 		{
 			for (int i = players.Count - 1; i >= 0; i--)
 			{
@@ -141,7 +141,7 @@ public class ChatRelay : NetworkBehaviour
 				{
 					//Distance check failed so if we are Ai, then try send action and combat messages to their camera location
 					//as well as if possible
-					if (chatEvent.channels.HasFlag(ChatChannel.Local) == false &&
+					if (chatEvent.channels.HasFlagFast(ChatChannel.Local) == false &&
 					    players[i].Script.PlayerType == PlayerTypes.Ai &&
 					    players[i].Script.TryGetComponent<AiPlayer>(out var aiPlayer) &&
 					    aiPlayer.IsCarded == false)
@@ -189,14 +189,14 @@ public class ChatRelay : NetworkBehaviour
 
 		ChatChannel channel = chatEvent.channels;
 
-		if (channel.HasFlag(ChatChannel.Combat) || channel.HasFlag(ChatChannel.Local) ||
-		    channel.HasFlag(ChatChannel.System) || channel.HasFlag(ChatChannel.Examine) ||
-		    channel.HasFlag(ChatChannel.Action))
+		if (channel.HasFlagFast(ChatChannel.Combat) || channel.HasFlagFast(ChatChannel.Local) ||
+		    channel.HasFlagFast(ChatChannel.System) || channel.HasFlagFast(ChatChannel.Examine) ||
+		    channel.HasFlagFast(ChatChannel.Action))
 		{
 
 			//Check here to avoid speaking in local when speaking on non verbal channels
 			//If local chat check for any Chat.NonVerbalChannels in all the channels sent and don't do local
-			var doNotDoLocal = channel.HasFlag(ChatChannel.Local) &&
+			var doNotDoLocal = channel.HasFlagFast(ChatChannel.Local) &&
 			                   (chatEvent.allChannels & Chat.NonVerbalChannels) != 0;
 
 			if (doNotDoLocal)
@@ -226,14 +226,23 @@ public class ChatRelay : NetworkBehaviour
 		{
 			channel = chatEvent.channels;
 
+			ChatChannel Mask = ChatChannel.None;
+
 			if (players[i].Script == null)
 			{
-				channel &= ChatChannel.OOC;
+				Mask |= ChatChannel.OOC;
 			}
 			else
 			{
-				channel &= players[i].Script.GetAvailableChannelsMask(false);
+				Mask |= players[i].Script.GetAvailableChannelsMask(false);
 			}
+
+			if (players[i].HasTAGServer(TAG.ADMIN_LOGS))
+			{
+				Mask |= ChatChannel.Admin;
+			}
+
+			channel &= Mask;
 
 			//if the mask ends up being a big fat 0 then don't do anything
 			if (channel != ChatChannel.None)
@@ -247,11 +256,16 @@ public class ChatRelay : NetworkBehaviour
 		{
 			message = $"<b>[{chatEvent.channels}]</b> {message}";
 		}
-		AdminLogsManager.AddNewLog(
-			null,
-			$"Chat: {message}",
-			LogCategory.MISC
-		);
+
+		if (channel != ChatChannel.Admin)
+		{
+			AdminLogsManager.AddNewLog(
+				null,
+				$"Chat: {message}",
+				LogCategory.MISC
+			);
+		}
+
 		if (rconManager != null)
 		{
 			RconManager.AddChatLog(message);
@@ -284,8 +298,8 @@ public class ChatRelay : NetworkBehaviour
 		if (string.IsNullOrWhiteSpace(chatEvent.message)) return;
 
 		UpdateChatMessage.Send(playerToSend, channel, chatEvent.modifiers, copiedString, chatEvent.VoiceLevel,
-			chatEvent.messageOthers, chatEvent.originator, chatEvent.speaker, chatEvent.stripTags, languageId, chatEvent.IsWhispering);
-		ShowChatBubbleToPlayer( playerToSend, ref chatEvent, copiedString);
+			chatEvent.messageOthers, chatEvent.originator, chatEvent.speaker, chatEvent.stripTags, languageId, chatEvent.IsWhispering, chatEvent.Voice);
+		if(chatEvent.ShowChatBubble) ShowChatBubbleToPlayer( playerToSend, ref chatEvent, copiedString);
 	}
 
 	public static void ShowChatBubbleToPlayer(GameObject toShowTo, ref ChatEvent chatEvent, string msg)
@@ -295,6 +309,8 @@ public class ChatRelay : NetworkBehaviour
 		if (chatEvent.channels != ChatChannel.Local) return;
 
 		if (chatEvent.modifiers.HasFlag(ChatModifier.Emote)) return;
+
+		if (chatEvent.modifiers.HasFlag(ChatModifier.Mute)) return;
 
 		if (chatEvent.IsWhispering)
 		{
@@ -334,7 +350,7 @@ public class ChatRelay : NetworkBehaviour
 		HandleRadioCheckCooldown();
 
 		// Only spoken messages should be forwarded
-		if (chatEvent.channels.HasFlag(ChatChannel.Local) == false)
+		if (chatEvent.channels.HasFlagFast(ChatChannel.Local) == false)
 		{
 			return chatEvent;
 		}
@@ -367,7 +383,7 @@ public class ChatRelay : NetworkBehaviour
 	[Client]
 	public void AddAdminPrivMessageToClient(string message)
 	{
-		trySendingTTS(message);
+		trySendingTTS(message, "", MaryTTS.AudioSynthType.NormalSpeech);
 
 		ChatUI.Instance.AddAdminPrivEntry(message);
 	}
@@ -375,7 +391,7 @@ public class ChatRelay : NetworkBehaviour
 	[Client]
 	public void AddPrayerPrivMessageToClient(string message)
 	{
-		trySendingTTS(message);
+		trySendingTTS(message, "", MaryTTS.AudioSynthType.NormalSpeech);
 
 		ChatUI.Instance.AddChatEntry(message);
 	}
@@ -383,18 +399,20 @@ public class ChatRelay : NetworkBehaviour
 	[Client]
 	public void AddMentorPrivMessageToClient(string message)
 	{
-		trySendingTTS(message);
+		trySendingTTS(message, "", MaryTTS.AudioSynthType.NormalSpeech);
 
 		ChatUI.Instance.AddMentorPrivEntry(message);
 	}
 
 	[Client]
 	public void UpdateClientChat(string message, ChatChannel channels, bool isOriginator, GameObject recipient,
-		Loudness loudness, ChatModifier modifiers, ushort languageId = 0, bool isWhispering = false)
+		Loudness loudness, ChatModifier modifiers, ushort languageId = 0, bool isWhispering = false, string Voice = "", uint originatorNetId = UInt32.MinValue)
 	{
 		if (string.IsNullOrWhiteSpace(message)) return;
+		MaryTTS.AudioSynthType synthType = MaryTTS.AudioSynthType.NormalSpeech;
+		if (Channels.RadioChannels.HasFlag(channels)) synthType = MaryTTS.AudioSynthType.Radio;
 
-		trySendingTTS(message);
+		trySendingTTS(message, Voice, synthType, isOriginator ? UInt32.MinValue : originatorNetId);
 
 		if (PlayerManager.LocalPlayerScript == null)
 		{
@@ -404,8 +422,8 @@ public class ChatRelay : NetworkBehaviour
 		if (channels != ChatChannel.None)
 		{
 			// replace action messages with chat bubble
-			if (channels.HasFlag(ChatChannel.Combat) || channels.HasFlag(ChatChannel.Action) ||
-			    channels.HasFlag(ChatChannel.Examine) || modifiers.HasFlag(ChatModifier.Emote))
+			if (channels.HasFlagFast(ChatChannel.Combat) || channels.HasFlagFast(ChatChannel.Action) ||
+			    channels.HasFlagFast(ChatChannel.Examine) || modifiers.HasFlag(ChatModifier.Emote))
 			{
 				if (isOriginator)
 				{
@@ -481,7 +499,7 @@ public class ChatRelay : NetworkBehaviour
 	/// Messages must also contain at least one letter from the alphabet.
 	/// </summary>
 	/// <param name="message">The message to try to vocalize.</param>
-	private void trySendingTTS(string message)
+	private void trySendingTTS(string message, string Voice, MaryTTS.AudioSynthType type, uint originNetId = uint.MinValue)
 	{
 		if (UIManager.Instance.ttsToggle)
 		{
@@ -492,7 +510,7 @@ public class ChatRelay : NetworkBehaviour
 				string messageAfterSaysChar = message.Substring(message.IndexOf(saysChar) + 1);
 				if (messageAfterSaysChar.Length > 0 && messageAfterSaysChar.Any(char.IsLetter))
 				{
-					MaryTTS.Instance.Synthesize(messageAfterSaysChar);
+					MaryTTS.Instance.Synthesize(messageAfterSaysChar, type, Voice, originNetId);
 				}
 			}
 		}

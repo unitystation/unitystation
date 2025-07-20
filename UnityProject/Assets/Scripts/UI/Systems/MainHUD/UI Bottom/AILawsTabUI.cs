@@ -64,7 +64,7 @@ public class AILawsTabUI : SingletonManager<AILawsTabUI>
 
 	private IEnumerator StateLawsRoutine()
 	{
-		PostToChatMessage.Send("Current active laws: ", ChatChannel.Local | ChatChannel.Common, Loudness.NORMAL);
+		PostToChatMessage.Send("Current active laws: ", ChatChannel.Local | ChatChannel.Common , Voice: "", Loudness.NORMAL);
 
 		yield return WaitFor.Seconds(1.5f);
 
@@ -77,7 +77,7 @@ public class AILawsTabUI : SingletonManager<AILawsTabUI>
 			var toggle = child.GetComponentInChildren<Toggle>();
 			if(toggle == null || toggle.isOn == false) continue;
 
-			PostToChatMessage.Send(text.text, ChatChannel.Local | ChatChannel.Common, Loudness.NORMAL);
+			PostToChatMessage.Send(text.text, ChatChannel.Local | ChatChannel.Common,  Voice: "", Loudness.NORMAL);
 
 			yield return WaitFor.Seconds(1.5f);
 		}

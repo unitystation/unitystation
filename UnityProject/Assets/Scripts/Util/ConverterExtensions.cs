@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Logs;
+using TMPro;
 using UnityEngine;
 using Random = System.Random;
 using PlayerMoveDirection = MovementSynchronisation.PlayerMoveDirection;
@@ -15,7 +17,7 @@ public static class ConverterExtensions
 	public static Vector3 ToLocal(this Vector3 worldPos)
 	{
 		return MatrixManager.WorldToLocal(worldPos,
-			MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), CustomNetworkManager.Instance._isServer));
+			MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), CustomNetworkManager.IsServer));
 	}
 
 	public static Vector3 DirectionLocalToWorld(this Vector3 localDirection, Matrix matrix)
@@ -84,7 +86,7 @@ public static class ConverterExtensions
 	public static Vector3 ToLocal(this Vector3Int worldPos)
 	{
 		return MatrixManager.WorldToLocal(worldPos,
-			MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), CustomNetworkManager.Instance._isServer));
+			MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPos), CustomNetworkManager.IsServer));
 	}
 
 	public static Vector3Int ToWorldInt(this Vector3Int worldPos, Matrix matrix)
@@ -95,7 +97,7 @@ public static class ConverterExtensions
 
 	public static MatrixInfo GetMatrixAtWorld(this Vector3 World)
 	{
-		return MatrixManager.AtPoint(Vector3Int.RoundToInt(World), CustomNetworkManager.Instance._isServer);
+		return MatrixManager.AtPoint(Vector3Int.RoundToInt(World), CustomNetworkManager.IsServer);
 	}
 
 
@@ -227,10 +229,7 @@ public static class ConverterExtensions
 	}
 
 
-	public static  string ToSerialiseString(this Vector3 Vector3data)
-	{
-		return $"{Vector3data.x},{Vector3data.y},{Vector3data.z}";
-	}
+
 
 	public static  Vector3 RoundToArbitraryDepth(this Vector3 Vector3data, int NumberOfDigits)
 	{
@@ -239,6 +238,10 @@ public static class ConverterExtensions
 			(float) Math.Round(Vector3data.z, NumberOfDigits));
 	}
 
+	public static  string ToSerialiseString(this Vector3 Vector3data)
+	{
+		return $"{Vector3data.x},{Vector3data.y},{Vector3data.z}";
+	}
 
 	public static  Vector3 ToVector3(this string SerialiseData)
 	{
@@ -342,6 +345,27 @@ public static class ConverterExtensions
 		return ToLocalVector3(@in).RoundTo2Int();
 	}
 
+
+	public static List<TMP_Dropdown.OptionData> GetSelected(this TMP_Dropdown DropDown)
+	{
+		if (DropDown.MultiSelect == false)
+		{
+			return new List<TMP_Dropdown.OptionData>() {DropDown.options[DropDown.value]};
+		}
+		else
+		{
+			var Values = new List<TMP_Dropdown.OptionData>();
+			for (int i = 0; i < DropDown.options.Count; ++i)
+			{
+				if ((DropDown.value & (1 << i)) != 0)
+				{
+					Values.Add(DropDown.options[i]);
+				}
+			}
+
+			return Values;
+		}
+	}
 
 	/// <summary>
 	/// Takes an <see cref="OrientationEnum"/> and returns a unit <see cref="Vector3"/> direction.

@@ -10,74 +10,93 @@ using Logs;
 using Mirror;
 using SecureStuff;
 
-public class MaryTTS : MonoBehaviour {
+public class MaryTTS : MonoBehaviour
+{
 	public static MaryTTS Instance;
 
-	private const string requestURL = "http://play.unitystation.org:59125/process";
-	private MaryVoiceSettings defaultConfig = new MaryVoiceSettings();
 	public AudioSource audioSource;
+	public AudioSource AudioSourceRadio;
+	public AudioSource AudioSourceRobot;
 
-	private void Awake() {
-		if ( Instance == null ) {
+	public static int Fails = 0;
+	private string lastMessage = "";
+
+	public enum AudioSynthType
+	{
+		NormalSpeech,
+		Radio,
+		Robot
+	}
+
+	private void Awake()
+	{
+		if (Instance == null)
+		{
 			Instance = this;
 		} //else gets destroyed by parent
 	}
 
-	private void Start() {
-		audioSource.outputAudioMixerGroup = AudioManager.Instance.TTSMixer;
-	}
-
-	public void Synthesize( string textToSynth ) {
-		_= RequestSynth( textToSynth, bytes => audioSource.PlayOneShot( WavUtility.ToAudioClip( bytes, 0, "TTS_Clip" ) ) ) ;
-	}
-//
-//    public void Announce(string textToSynth)
-//    {
-//	    StartCoroutine( RequestSynth( textToSynth, bytes => Synth.Instance.PlayAnnouncement( bytes ) ) );
-//    }
-
-	/// Do whatever you want with resulting bytes in callback (if/when you recieve them)
-	public void Synthesize( string textToSynth, Action<byte[]> callback ) {
-		_= RequestSynth( textToSynth, bytes => callback?.Invoke( bytes ) ) ;
-	}
-
-	async Task RequestSynth( string textToSynth, Action<byte[]> callback )
+	private void Start()
 	{
-
-		try
-		{
-			HttpResponseMessage response = await SafeHttpRequest.GetAsync(GetURL(textToSynth));
-
-			if (response.IsSuccessStatusCode == false)
-			{
-				Loggy.Error("Err: " + response.ReasonPhrase);
-			}
-			else
-			{
-				byte[] responseData = await response.Content.ReadAsByteArrayAsync();
-				LoadManager.DoInMainThread(() => { callback.Invoke(responseData); });
-			}
-		}
-		catch (Exception e)
-		{
-			Loggy.Error(e.ToString());
-		}
+		audioSource.outputAudioMixerGroup = AudioManager.Instance.TTSMixer;
+		AudioSourceRadio.outputAudioMixerGroup = AudioManager.Instance.TTSMixerRadio;
+		AudioSourceRobot.outputAudioMixerGroup = AudioManager.Instance.TTSMixerRobot;
 	}
 
-	private string GetURL( string textInput ) {
-		return requestURL + defaultConfig.GetConfigString() + textInput;
+	public void Synthesize(string textToSynth, AudioSynthType type, string voice = "", uint originator = UInt32.MinValue)
+	{
+		if (Fails > 10 || textToSynth == lastMessage)
+		{
+			return;
+		}
+		lastMessage = textToSynth;
+
+		var source = audioSource;
+		if (originator != uint.MinValue && type == AudioSynthType.NormalSpeech)
+		{
+			var originObject = originator.NetIdToGameObject();
+			if (originObject != null && originObject.TryGetComponent<AudioSource>(out var speechSource)) source = speechSource;
+		}
+		else
+		{
+			switch (type)
+			{
+				case AudioSynthType.NormalSpeech:
+					source = audioSource;
+					break;
+				case AudioSynthType.Radio:
+					source = AudioSourceRadio;
+					break;
+				case AudioSynthType.Robot:
+					source = AudioSourceRobot;
+					break;
+				default:
+					source = audioSource;
+					break;
+			}
+		}
+
+		_ = RequestSynth(textToSynth, voice, bytes => source.PlayOneShot(WavUtility.ToAudioClip(bytes, 0, "TTS_Clip")));
 	}
-}
 
-public class MaryVoiceSettings {
-	public string InputType = "TEXT";
-	public string Audio = "WAVE_FILE";
-	public string OutputType = "AUDIO";
-	public string Locale = "en_US";
+	async Task RequestSynth(string textToSynth, string voice, Action<byte[]> callback)
+	{
+		if (string.IsNullOrWhiteSpace(voice))
+		{
+			voice = TTSVoices.GetDefaultPreference();
+		}
+		byte[] responseData = await TTSCommunication.GenTTS(textToSynth, voice);
 
-	public string GetConfigString() {
-		return "?INPUT_TYPE=" + InputType + "&AUDIO="
-		       + Audio + "&OUTPUT_TYPE=" + OutputType + "&LOCALE="
-		       + Locale + "&INPUT_TEXT=";
+		if (responseData == null)
+		{
+			Fails++;
+			return;
+		}
+		else
+		{
+			Fails = 0;
+		}
+
+		LoadManager.DoInMainThread(() => { callback.Invoke(responseData); });
 	}
 }

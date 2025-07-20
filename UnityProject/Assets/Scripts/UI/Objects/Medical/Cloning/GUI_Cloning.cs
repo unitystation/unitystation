@@ -258,22 +258,6 @@ namespace UI.Objects.Medical.Cloning
 	        OrganRecord(null);
         }
 
-		public void DisplayAilments()
-        {
-			Debug.Log("Ailment Run");
-			string sicknesses = "None";
-
-			if(specificRecord.sicknessList.Count != 0)
-            {
-				Debug.Log("is sick");
-				sicknesses = "";
-				foreach (string sickness in specificRecord.sicknessList)
-                {
-					sicknesses += $"{sickness}\n";
-                }
-            }
-			ailments.MasterSetValue(sicknesses);
-		}
 		/*
 		 overlays array is ordered to match BodyPartType enums
 			Head = 0,

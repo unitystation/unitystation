@@ -41,7 +41,7 @@ namespace Messages.Client.Admin
 				var objInfo = new ObjectiveInfo
 				{
 					Status = x.IsComplete(),
-					Description = x.Description,
+					Description = x.GetDescription(),
 					Name = x.name,
 					ID = x.ID,
 					IsCustom = x is CustomObjective,

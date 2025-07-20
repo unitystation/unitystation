@@ -114,6 +114,11 @@ namespace Objects.Disposals
 			netTab = GetComponent<HasNetworkTab>();
 			overlaysSpriteHandler = transform.GetChild(1).GetComponent<SpriteHandler>();
 			PoweredDevice = GetComponent<APCPoweredDevice>();
+
+		}
+
+		public void Start()
+		{
 			if (PoweredDevice.RelatedAPC == null)
 			{
 				SetBinState(BinState.Disconnected);
@@ -225,6 +230,7 @@ namespace Objects.Disposals
 				storage.ItemStorage.ServerDropAllAtWorld(gameObject.AssumedWorldPosServer());
 				objectContainer.GatherObjects();
 				Chat.AddExamineMsg(interaction.Performer, "You throw all of the bag's contents into the disposal bin.");
+				this.RestartCoroutine(AutoFlush(), ref autoFlushCoroutine);
 				return;
 			}
 

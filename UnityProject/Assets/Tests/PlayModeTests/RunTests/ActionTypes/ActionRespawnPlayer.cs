@@ -29,7 +29,7 @@ public partial class TestAction
 			var spawnRequest = new PlayerSpawnRequest(playerInfo, Occupation, characterSettings);
 
 
-			var Mind = PlayerSpawn.NewSpawnPlayerV2(spawnRequest.Player, spawnRequest.RequestedOccupation, spawnRequest.CharacterSettings);
+			var Mind = PlayerSpawn.NewSpawnCharacterV2(spawnRequest.Player, spawnRequest.RequestedOccupation, spawnRequest.CharacterSettings);
 
 			Mind.Body.playerMove.AppearAtWorldPositionServer(PositionToSpawn);
 

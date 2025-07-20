@@ -51,7 +51,8 @@ namespace Objects.Traps
 					Loggy.Warning($"[GenericTriggerOutput/TriggerOutput] Trigger in genericTrigger list was null! Removing...");
 					RemoveTrigger(trigger);
 				}
-				trigger.OnTrigger();
+
+				if (trigger != null) trigger.OnTrigger();
 			}
 		}
 
@@ -77,7 +78,8 @@ namespace Objects.Traps
 					Loggy.Warning($"[GenericTriggerOutput/ReleaseOutput] Trigger in genericTrigger list was null! Removing...");
 					RemoveTrigger(trigger);
 				}
-				trigger.OnTriggerEnd();
+
+				if (trigger != null) trigger.OnTriggerEnd();
 			}
 		}
 

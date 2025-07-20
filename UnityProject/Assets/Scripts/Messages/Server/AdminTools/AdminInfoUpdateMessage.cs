@@ -62,7 +62,7 @@ namespace Messages.Server.AdminTools
 				FullUpdate = false
 			};
 
-			SendToAdmins(msg);
+			SendToAdmins(msg, TAG.PLAYER_INFO);
 			return msg;
 		}
 	}

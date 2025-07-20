@@ -73,6 +73,13 @@ namespace Light2D
         }
 
 
+        [NaughtyAttributes.Button()]
+        public void ForceUpdateColour()
+        {
+	        Color = InitialColour;
+        }
+
+
         public void OnNewMappedOnSpawn()
         {
 	        if (Color == Color.white)
@@ -114,7 +121,7 @@ namespace Light2D
             if (_meshFilter == null)
                 _meshFilter = gameObject.AddComponent<MeshFilter>();
 
-#if UNITY_EDITOR
+
 	        try
 	        {
 		        if (Material == null)
@@ -124,9 +131,8 @@ namespace Light2D
 	        }
 	        catch (Exception e)
 	        {
-		        Loggy.Error(e.ToString());
+		        Debug.LogError(e.ToString());
 	        }
-#endif
 
             TryReleaseMesh();
             _meshFilter.sharedMesh = _mesh = new Mesh();

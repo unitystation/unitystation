@@ -74,15 +74,9 @@ namespace AdminTools
 
 		private void AppendAdminMentorStatus(StringBuilder builder, AdminPlayerEntryData playerEntryData)
 		{
-			if (playerEntryData.isAdmin)
+			if (string.IsNullOrWhiteSpace(playerEntryData.roleColour) == false )
 			{
-				builder.Append("<color=red>[A]</color>");
-
-			}
-
-			if (playerEntryData.isMentor)
-			{
-				builder.Append("<color=#6400ff>[M]</color>");
+				builder.Append($"<color={playerEntryData.roleColour}>[{playerEntryData.roleSmall}]</color>");
 			}
 		}
 
@@ -109,7 +103,7 @@ namespace AdminTools
 		{
 			if (parentNotification == null) return;
 
-			if (parentNotification.notifications.ContainsKey(PlayerData.uid))
+			if (PlayerData != null && parentNotification.notifications.ContainsKey(PlayerData.uid))
 			{
 				pendingMsgNotification.ClearAll();
 				pendingMsgNotification.AddNotification(PlayerData.uid,
@@ -133,8 +127,9 @@ namespace AdminTools
 
 		public void ClearMessageNot()
 		{
+			if (PlayerData == null) return;
 			if(parentNotification != null) parentNotification.RemoveNotification(PlayerData.uid);
-			pendingMsgNotification.ClearAll();
+			pendingMsgNotification?.ClearAll();
 		}
 
 		public void SelectPlayer()

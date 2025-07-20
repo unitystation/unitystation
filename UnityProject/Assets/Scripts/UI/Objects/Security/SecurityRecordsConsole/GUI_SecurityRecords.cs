@@ -25,7 +25,7 @@ namespace UI.Objects.Security
 		public override void OnEnable()
 		{
 			base.OnEnable();
-			if (CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.IsServer)
 			{
 				StartCoroutine(WaitForProvider());
 			}
@@ -66,7 +66,7 @@ namespace UI.Objects.Security
 				console.ServerRemoveIDCard(player);
 				UpdateScreen();
 			}
-			else if (IsAIInteracting())
+			else if (IsAIInteracting(player))
 			{
 				UpdateScreen();
 			}

@@ -1,8 +1,8 @@
 ﻿using AdminCommands;
-using Health.Sickness;
 using InGameEvents;
 using System;
 using System.Collections.Generic;
+using HealthV2.Sickness;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,6 +18,9 @@ namespace AdminTools
 		[SerializeField]
 		private InputField NumberOfPlayerInput = null;
 
+		[SerializeField]
+		private InputField DiseaseStrengthInput = null;
+
 		private int index;
 		private bool fakeEvent;
 		private bool announceEvent;
@@ -29,11 +32,10 @@ namespace AdminTools
 
 			List<Dropdown.OptionData> optionDatas = new List<Dropdown.OptionData>();
 
-			foreach (Sickness sickness in SicknessManager.Instance.Sicknesses)
+			foreach (CureManager.CureableSickness sicknesss in CureManager.Instance.CureableSicknesses)
 			{
-				optionDatas.Add(new Dropdown.OptionData(sickness.SicknessName));
+				optionDatas.Add(new Dropdown.OptionData(sicknesss.Sickness.Name));
 			}
-
 			sicknessDropdown.AddOptions(optionDatas);
 		}
 
@@ -47,14 +49,14 @@ namespace AdminTools
 
 		public void StartInfection()
 		{
-			if (!Int32.TryParse(NumberOfPlayerInput.textComponent.text, out var result))
-			{
-				return;
-			}
+			if (Int32.TryParse(NumberOfPlayerInput.textComponent.text, out var numberResult) == false) return;
+			if (float.TryParse(DiseaseStrengthInput.textComponent.text, out var strengthResult) == false) return;
 
 			SicknessEventParameters eventParameters = new SicknessEventParameters();
 
-			eventParameters.PlayerToInfect = result;
+			eventParameters.PlayerToInfect = numberResult;
+			eventParameters.Strength = strengthResult;
+
 			eventParameters.SicknessIndex = sicknessDropdown.value;
 
 			AdminCommandsManager.Instance.CmdTriggerGameEvent(

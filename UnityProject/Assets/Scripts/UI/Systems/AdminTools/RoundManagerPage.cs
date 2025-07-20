@@ -49,8 +49,10 @@ public class RoundManagerPage : AdminPage
 
 	public void ChangeAwaySite()
 	{
-		AdminCommandsManager.Instance.CmdChangeAwaySite(nextAwaySiteDropDown.options[nextAwaySiteDropDown.value].text);
+		AdminCommandsManager.Instance.CmdAdminChangeAwaySite(nextAwaySiteDropDown.options[nextAwaySiteDropDown.value].text);
 	}
+
+
 
 	public void StartRoundButtonClick()
 	{

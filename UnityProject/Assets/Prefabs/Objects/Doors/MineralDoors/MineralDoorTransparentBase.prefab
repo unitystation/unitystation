@@ -8,6 +8,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -569951594937249329, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: isWindowedDoor
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 283893224911832105, guid: d6882bf1e96328b4189c858524c259b6,
         type: 3}
       propertyPath: m_Layer

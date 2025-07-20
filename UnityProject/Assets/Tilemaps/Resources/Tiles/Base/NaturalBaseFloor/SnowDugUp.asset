@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SnowDugUp
   m_EditorClassIdentifier: 
   <ForeverID>k__BackingField: 2e46044007b7b374ab53678c0f07fc4f
-  displayName: sand
+  displayName: snow
   description: 
   LayerType: 4
   TileType: 7
@@ -69,11 +69,11 @@ MonoBehaviour:
   spawnOnDestroy: {fileID: 0}
   damageOverlayList: {fileID: 0}
   soundOnHit:
-    SetLoadSetting: 0
     AssetAddress: null
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   SoundOnDestroy: []

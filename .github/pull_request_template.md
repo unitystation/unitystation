@@ -7,6 +7,9 @@
 ### Notes:
 <!-- Please enter any other relevant information here -->
 
+### Media Preview:
+<!-- Please enter any screenshots or videos relevant to this PR -->
+
 ### Changelog:
 <!-- Add here individual lines with all your remarkable changes using the prefix ``CL:`` -->
 <!-- Mind that the changes meant to be logged in the in changelog are those that are remarkable for the end user, so things like new features and fixes of known bugs are perfect for this section -->

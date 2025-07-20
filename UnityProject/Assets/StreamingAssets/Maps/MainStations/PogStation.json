@@ -191521,7 +191521,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.0",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -197001,8 +197001,8 @@
             "LocalPRS": "-13.82┼231.69┼0┼"
           },
           {
-            "GitID": "8gzr!x7_Yea@71L--kC5_-13.77┼223.05┼0┼",
-            "PrefabID": "8gzr!x7_Yea@71L--kC5",
+            "GitID": "yZZOh_oxUsRnJuf$HNg8_-13.77┼223.05┼0┼",
+            "PrefabID": "yZZOh_oxUsRnJuf$HNg8",
             "Name": "HandPick (1)",
             "LocalPRS": "-13.77┼223.05┼0┼"
           },
@@ -207078,14 +207078,6 @@
                     {
                       "Name": "Out@NextInLine",
                       "Data": "69ffc1053dc39a24fb870b2248780be4_11┼-12┼0┼@0@GuidanceBuoy@0"
-                    },
-                    {
-                      "Name": "Out@IsEnd",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "In@IsEnd",
-                      "Data": "True"
                     }
                   ]
                 }
@@ -207424,10 +207416,6 @@
                   "ClassID": "GuidanceBuoy@0",
                   "Data": [
                     {
-                      "Name": "Out@IsEnd",
-                      "Data": "True"
-                    },
-                    {
                       "Name": "In@NextInLine",
                       "Data": "69ffc1053dc39a24fb870b2248780be4_10┼-35┼0┼@0@GuidanceBuoy@0"
                     }
@@ -207453,10 +207441,6 @@
                     {
                       "Name": "Out@DesiredFaceDirection",
                       "Data": "Up_By0"
-                    },
-                    {
-                      "Name": "Out@IsEnd",
-                      "Data": "True"
                     },
                     {
                       "Name": "In@NextInLine",
@@ -209179,7 +209163,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Cargo"
                     }
                   ]
                 },
@@ -209255,7 +209239,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Cargo"
                     }
                   ]
                 },
@@ -214164,7 +214148,7 @@
                     },
                     {
                       "Name": "FireLockList#2",
-                      "Data": "a075086024d70074e8747c26b57dfa7f_22┼185┼0┼@0@FireLock@0"
+                      "Data": "a075086024d70074e8747c26b57dfa7f_23┼185┼0┼@0@FireLock@0"
                     },
                     {
                       "Name": "FireLockList#1",
@@ -218121,7 +218105,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "ToxinsStorage"
                     }
                   ]
                 },
@@ -219024,34 +219008,6 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_32┼184┼0┼@0@APC@0"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "a075086024d70074e8747c26b57dfa7f_22┼185┼0┼",
-            "PrefabID": "a075086024d70074e8747c26b57dfa7f",
-            "Name": "Firelock - CargoLobby B",
-            "LocalPRS": "22┼185┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_32┼184┼0┼@0@APC@0"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "FireLock@0",
-                  "Data": [
-                    {
-                      "Name": "fireAlarm",
-                      "Data": "e6e7f915b6b6fc14c981a592369d47f8_18┼181┼0┼@0@FireAlarm@0"
                     }
                   ]
                 }
@@ -220499,6 +220455,43 @@
                       "Data": "Left_By90"
                     }
                   ]
+                },
+                {
+                  "ClassID": "DoorSwitch@0",
+                  "Data": [
+                    {
+                      "Name": "NewdoorControllers#0",
+                      "Data": "f2441585d37f1914395df59a57c5e925_23┼185┼0┼@0@DoorMasterController@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "a075086024d70074e8747c26b57dfa7f_23┼185┼0┼",
+            "PrefabID": "a075086024d70074e8747c26b57dfa7f",
+            "Name": "Firelock - CargoLobby B",
+            "LocalPRS": "23┼185┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_32┼184┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "FireLock@0",
+                  "Data": [
+                    {
+                      "Name": "fireAlarm",
+                      "Data": "e6e7f915b6b6fc14c981a592369d47f8_18┼181┼0┼@0@FireAlarm@0"
+                    }
+                  ]
                 }
               ]
             }
@@ -221437,30 +221430,10 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_24┼186┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
-            "NameMatches": true,
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_24┼186┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom",
-            "LocalPRS": "24┼186┼0┼",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "9459b9918b0083842a221474925da005"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "24┼186┼0┼"
           },
           {
             "GitID": "a075086024d70074e8747c26b57dfa7f_24┼191┼0┼",
@@ -223330,30 +223303,10 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_25┼244┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
-            "NameMatches": true,
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_25┼244┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom",
-            "LocalPRS": "25┼244┼0┼",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "5f3d9026e8621e64f9e29bd4018ea911"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "25┼244┼0┼"
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_25┼244┼0┼",
@@ -225618,30 +225571,10 @@
             "LocalPRS": "27┼203┼0┼"
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_27┼204┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
-            "NameMatches": true,
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_27┼204┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom",
-            "LocalPRS": "27┼204┼0┼",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "1f304806278cdf942bd94c857f6f5286"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "27┼204┼0┼"
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_27┼211┼0┼",
@@ -225860,30 +225793,10 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_27┼229┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
-            "NameMatches": true,
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_27┼229┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom",
-            "LocalPRS": "27┼229┼0┼",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "fad97914a675f2c48ba0ca4c0afe6450"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "27┼229┼0┼"
           },
           {
             "GitID": "c73942e301ad48a4c87343bc6f8b20f7_27┼231┼0┼",
@@ -231327,30 +231240,10 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_31┼249┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
-            "NameMatches": true,
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_31┼249┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom",
-            "LocalPRS": "31┼249┼0┼",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "aace53907327f6f498d31ca3cb14ed4d"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "31┼249┼0┼"
           },
           {
             "GitID": "cb2f847ef3b8b754181a970a4032c552_31┼249┼0┼",
@@ -231430,30 +231323,10 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_31┼253┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
-            "NameMatches": true,
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_31┼253┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom",
-            "LocalPRS": "31┼253┼0┼",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "9be5b6a895571524f849570158129637"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "31┼253┼0┼"
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_31┼253┼0┼",
@@ -231765,7 +231638,7 @@
                     },
                     {
                       "Name": "FireLockList#4",
-                      "Data": "a075086024d70074e8747c26b57dfa7f_22┼185┼0┼@0@FireLock@0"
+                      "Data": "a075086024d70074e8747c26b57dfa7f_23┼185┼0┼@0@FireLock@0"
                     },
                     {
                       "Name": "FireLockList#3",
@@ -231927,7 +231800,7 @@
                     },
                     {
                       "Name": "connectedDevices#122",
-                      "Data": "a075086024d70074e8747c26b57dfa7f_22┼185┼0┼@0@APCPoweredDevice@0"
+                      "Data": "a075086024d70074e8747c26b57dfa7f_23┼185┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#121",
@@ -232504,29 +232377,10 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_32┼207┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_32┼207┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (21)",
-            "LocalPRS": "32┼207┼0┼",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "b48a3709120744b4fb993541ac80ccf4"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "32┼207┼0┼"
           },
           {
             "GitID": "cb2f847ef3b8b754181a970a4032c552_32┼208┼0┼",
@@ -241512,7 +241366,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Hop"
                     }
                   ]
                 },
@@ -244755,7 +244609,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Hop"
                     }
                   ]
                 },
@@ -245173,56 +245027,16 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_42┼249┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
-            "NameMatches": true,
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_42┼249┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom",
-            "LocalPRS": "42┼249┼0┼",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "7327ccd49186c1c42bbd651d4d6287c2"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "42┼249┼0┼"
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_42┼253┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
-            "NameMatches": true,
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_42┼253┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom",
-            "LocalPRS": "42┼253┼0┼",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "c42540cf1f836b9408645b8e65574c64"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "42┼253┼0┼"
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_42┼253┼0┼",
@@ -248534,7 +248348,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Brig"
                     }
                   ]
                 },
@@ -249989,6 +249803,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Armory"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -250015,6 +249845,106 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,3",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,4",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,5",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,6",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,7",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -250638,29 +250568,10 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_46┼218┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_46┼218┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (8)",
-            "LocalPRS": "46┼218┼0┼",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "9be5b6a895571524f849570158129637"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "46┼218┼0┼"
           },
           {
             "GitID": "48c055fcd2fc08c45a9f53310133aa8b_46┼220┼0┼",
@@ -251063,29 +250974,10 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_46┼247┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_46┼247┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (9)",
-            "LocalPRS": "46┼247┼0┼",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "5f3d9026e8621e64f9e29bd4018ea911"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "46┼247┼0┼"
           },
           {
             "GitID": "cb2f847ef3b8b754181a970a4032c552_46┼247┼0┼",
@@ -252347,54 +252239,16 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_47┼225┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_47┼225┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (1)",
-            "LocalPRS": "47┼225┼0┼",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "af4cef8aa7a68b74f8e5aeffa5dd8dbc"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "47┼225┼0┼"
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_47┼231┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_47┼231┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (2)",
-            "LocalPRS": "47┼231┼0┼",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "824fb6fa4d185624f9f89e8ed8e2831c"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "47┼231┼0┼"
           },
           {
             "GitID": "9203bf917337c3e4db0a64a10ef0e50b_47┼233┼0┼",
@@ -253109,6 +252963,120 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Armory"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,3",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,4",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,5",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,6",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,7",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -253135,6 +253103,106 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,3",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,4",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,5",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,6",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,7",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -255629,7 +255697,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Security"
                     }
                   ]
                 },
@@ -260471,10 +260539,10 @@
             "LocalPRS": "52.004┼257┼0┼"
           },
           {
-            "GitID": "08be734c1a459464f9c78d3b21384339_52.005┼257┼0┼",
+            "GitID": "08be734c1a459464f9c78d3b21384339_52.01┼257┼0┼",
             "PrefabID": "08be734c1a459464f9c78d3b21384339",
             "Name": "Capacitor (1)",
-            "LocalPRS": "52.005┼257┼0┼"
+            "LocalPRS": "52.01┼257┼0┼"
           },
           {
             "GitID": "a04a2ac5c1ef5a142b26e818b8dfa3fb_52.13┼169.93┼0┼",
@@ -262166,44 +262234,10 @@
             "LocalPRS": "53┼274┼0┼"
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_53.03┼180.04┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
-            "NameMatches": true,
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_53.03┼180.04┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom",
-            "LocalPRS": "53.03┼180.04┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemAttributesV2@0",
-                  "Data": [
-                    {
-                      "Name": "inventoryMoveSound@AssetAddress",
-                      "Data": "null"
-                    },
-                    {
-                      "Name": "inventoryRemoveSound@AssetAddress",
-                      "Data": "null"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "a02cb7685269db14ba4ee98f89ffdf4f"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "53.03┼180.04┼0┼"
           },
           {
             "GitID": "0bf643131a7f0e3469673a5d636ae7c2_53.05┼228.2┼0┼",
@@ -262470,7 +262504,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Brig"
+                          "Data": "SecDoors"
                         }
                       ]
                     }
@@ -263982,29 +264016,10 @@
             "LocalPRS": "55┼213.1┼0┼"
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_55┼216┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_55┼216┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (4)",
-            "LocalPRS": "55┼216┼0┼",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "780b29e5202931c47951b3b389d231a1"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "55┼216┼0┼"
           },
           {
             "GitID": "ce971a77eb7c2894e8583efec1c56965_55┼218┼0┼",
@@ -264561,7 +264576,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Brig"
+                          "Data": "SecDoors"
                         }
                       ]
                     }
@@ -265384,30 +265399,6 @@
             "LocalPRS": "56.004┼257┼0┼"
           },
           {
-            "GitID": "25108e21a69d52c46a538e66eb85db0a_56.005┼257┼0┼",
-            "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (21)",
-            "LocalPRS": "56.005┼257┼0┼"
-          },
-          {
-            "GitID": "25108e21a69d52c46a538e66eb85db0a_56.006┼257┼0┼",
-            "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (22)",
-            "LocalPRS": "56.006┼257┼0┼"
-          },
-          {
-            "GitID": "25108e21a69d52c46a538e66eb85db0a_56.007┼257┼0┼",
-            "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (23)",
-            "LocalPRS": "56.007┼257┼0┼"
-          },
-          {
-            "GitID": "25108e21a69d52c46a538e66eb85db0a_56.008┼257┼0┼",
-            "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (24)",
-            "LocalPRS": "56.008┼257┼0┼"
-          },
-          {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_56.009┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
             "Name": "SolidPlasmaSheet (25)",
@@ -265416,32 +265407,56 @@
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_56.01┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (26)",
+            "Name": "SolidPlasmaSheet (24)",
             "LocalPRS": "56.01┼257┼0┼"
           },
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_56.011┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (27)",
+            "Name": "SolidPlasmaSheet (23)",
             "LocalPRS": "56.011┼257┼0┼"
           },
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_56.012┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (28)",
+            "Name": "SolidPlasmaSheet (22)",
             "LocalPRS": "56.012┼257┼0┼"
           },
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_56.013┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (29)",
+            "Name": "SolidPlasmaSheet (21)",
             "LocalPRS": "56.013┼257┼0┼"
           },
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_56.014┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (30)",
+            "Name": "SolidPlasmaSheet (26)",
             "LocalPRS": "56.014┼257┼0┼"
+          },
+          {
+            "GitID": "25108e21a69d52c46a538e66eb85db0a_56.015┼257┼0┼",
+            "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
+            "Name": "SolidPlasmaSheet (27)",
+            "LocalPRS": "56.015┼257┼0┼"
+          },
+          {
+            "GitID": "25108e21a69d52c46a538e66eb85db0a_56.016┼257┼0┼",
+            "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
+            "Name": "SolidPlasmaSheet (28)",
+            "LocalPRS": "56.016┼257┼0┼"
+          },
+          {
+            "GitID": "25108e21a69d52c46a538e66eb85db0a_56.02┼257┼0┼",
+            "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
+            "Name": "SolidPlasmaSheet (29)",
+            "LocalPRS": "56.02┼257┼0┼"
+          },
+          {
+            "GitID": "25108e21a69d52c46a538e66eb85db0a_56.021┼257┼0┼",
+            "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
+            "Name": "SolidPlasmaSheet (30)",
+            "LocalPRS": "56.021┼257┼0┼"
           },
           {
             "GitID": "8f1ce2b118c25334fa660be931e62dbf_56.14┼218.28┼0┼",
@@ -265963,30 +265978,10 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_57┼207┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
-            "NameMatches": true,
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_57┼207┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom",
-            "LocalPRS": "57┼207┼0┼",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "5f3d9026e8621e64f9e29bd4018ea911"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "57┼207┼0┼"
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_57┼208┼0┼",
@@ -266892,30 +266887,6 @@
             "LocalPRS": "57.004┼257┼0┼"
           },
           {
-            "GitID": "25108e21a69d52c46a538e66eb85db0a_57.005┼257┼0┼",
-            "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (6)",
-            "LocalPRS": "57.005┼257┼0┼"
-          },
-          {
-            "GitID": "25108e21a69d52c46a538e66eb85db0a_57.006┼257┼0┼",
-            "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (7)",
-            "LocalPRS": "57.006┼257┼0┼"
-          },
-          {
-            "GitID": "25108e21a69d52c46a538e66eb85db0a_57.007┼257┼0┼",
-            "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (8)",
-            "LocalPRS": "57.007┼257┼0┼"
-          },
-          {
-            "GitID": "25108e21a69d52c46a538e66eb85db0a_57.008┼257┼0┼",
-            "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (9)",
-            "LocalPRS": "57.008┼257┼0┼"
-          },
-          {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_57.009┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
             "Name": "SolidPlasmaSheet (10)",
@@ -266924,32 +266895,56 @@
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_57.01┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (11)",
+            "Name": "SolidPlasmaSheet (9)",
             "LocalPRS": "57.01┼257┼0┼"
           },
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_57.011┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (12)",
+            "Name": "SolidPlasmaSheet (8)",
             "LocalPRS": "57.011┼257┼0┼"
           },
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_57.012┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (13)",
+            "Name": "SolidPlasmaSheet (7)",
             "LocalPRS": "57.012┼257┼0┼"
           },
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_57.013┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (14)",
+            "Name": "SolidPlasmaSheet (6)",
             "LocalPRS": "57.013┼257┼0┼"
           },
           {
             "GitID": "25108e21a69d52c46a538e66eb85db0a_57.014┼257┼0┼",
             "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
-            "Name": "SolidPlasmaSheet (15)",
+            "Name": "SolidPlasmaSheet (11)",
             "LocalPRS": "57.014┼257┼0┼"
+          },
+          {
+            "GitID": "25108e21a69d52c46a538e66eb85db0a_57.015┼257┼0┼",
+            "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
+            "Name": "SolidPlasmaSheet (12)",
+            "LocalPRS": "57.015┼257┼0┼"
+          },
+          {
+            "GitID": "25108e21a69d52c46a538e66eb85db0a_57.016┼257┼0┼",
+            "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
+            "Name": "SolidPlasmaSheet (13)",
+            "LocalPRS": "57.016┼257┼0┼"
+          },
+          {
+            "GitID": "25108e21a69d52c46a538e66eb85db0a_57.02┼257┼0┼",
+            "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
+            "Name": "SolidPlasmaSheet (14)",
+            "LocalPRS": "57.02┼257┼0┼"
+          },
+          {
+            "GitID": "25108e21a69d52c46a538e66eb85db0a_57.021┼257┼0┼",
+            "PrefabID": "25108e21a69d52c46a538e66eb85db0a",
+            "Name": "SolidPlasmaSheet (15)",
+            "LocalPRS": "57.021┼257┼0┼"
           },
           {
             "GitID": "6015d5ca578d27b43b1c649384760954_57.05┼210.09┼0┼",
@@ -269083,30 +269078,10 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_59┼207┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
-            "NameMatches": true,
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_59┼207┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom",
-            "LocalPRS": "59┼207┼0┼",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "aace53907327f6f498d31ca3cb14ed4d"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "59┼207┼0┼"
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_59┼207┼0┼",
@@ -271462,52 +271437,52 @@
             "LocalPRS": "60.004┼268┼0┼"
           },
           {
-            "GitID": "2c62bf4b8bd1b13409822a00ad8cb214_60.005┼268┼0┼",
-            "PrefabID": "2c62bf4b8bd1b13409822a00ad8cb214",
-            "Name": "FuelRod (3)",
-            "LocalPRS": "60.005┼268┼0┼"
-          },
-          {
-            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_60.005┼268┼0┼",
-            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (7)",
-            "LocalPRS": "60.005┼268┼0┼"
-          },
-          {
-            "GitID": "2c62bf4b8bd1b13409822a00ad8cb214_60.006┼268┼0┼",
-            "PrefabID": "2c62bf4b8bd1b13409822a00ad8cb214",
-            "Name": "FuelRod (2)",
-            "LocalPRS": "60.006┼268┼0┼"
-          },
-          {
-            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_60.006┼268┼0┼",
-            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (8)",
-            "LocalPRS": "60.006┼268┼0┼"
-          },
-          {
-            "GitID": "2c62bf4b8bd1b13409822a00ad8cb214_60.007┼268┼0┼",
-            "PrefabID": "2c62bf4b8bd1b13409822a00ad8cb214",
-            "Name": "FuelRod (1)",
-            "LocalPRS": "60.007┼268┼0┼"
-          },
-          {
-            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_60.007┼268┼0┼",
-            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (9)",
-            "LocalPRS": "60.007┼268┼0┼"
-          },
-          {
-            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_60.008┼268┼0┼",
-            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
-            "Name": "ControlRod (10)",
-            "LocalPRS": "60.008┼268┼0┼"
-          },
-          {
             "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_60.009┼268┼0┼",
             "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
             "Name": "ControlRod (4)",
             "LocalPRS": "60.009┼268┼0┼"
+          },
+          {
+            "GitID": "2c62bf4b8bd1b13409822a00ad8cb214_60.01┼268┼0┼",
+            "PrefabID": "2c62bf4b8bd1b13409822a00ad8cb214",
+            "Name": "FuelRod (1)",
+            "LocalPRS": "60.01┼268┼0┼"
+          },
+          {
+            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_60.01┼268┼0┼",
+            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
+            "Name": "ControlRod (10)",
+            "LocalPRS": "60.01┼268┼0┼"
+          },
+          {
+            "GitID": "2c62bf4b8bd1b13409822a00ad8cb214_60.011┼268┼0┼",
+            "PrefabID": "2c62bf4b8bd1b13409822a00ad8cb214",
+            "Name": "FuelRod (2)",
+            "LocalPRS": "60.011┼268┼0┼"
+          },
+          {
+            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_60.011┼268┼0┼",
+            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
+            "Name": "ControlRod (9)",
+            "LocalPRS": "60.011┼268┼0┼"
+          },
+          {
+            "GitID": "2c62bf4b8bd1b13409822a00ad8cb214_60.012┼268┼0┼",
+            "PrefabID": "2c62bf4b8bd1b13409822a00ad8cb214",
+            "Name": "FuelRod (3)",
+            "LocalPRS": "60.012┼268┼0┼"
+          },
+          {
+            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_60.012┼268┼0┼",
+            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
+            "Name": "ControlRod (8)",
+            "LocalPRS": "60.012┼268┼0┼"
+          },
+          {
+            "GitID": "f035a877ddd6fa8458a3ad86fd4069ee_60.013┼268┼0┼",
+            "PrefabID": "f035a877ddd6fa8458a3ad86fd4069ee",
+            "Name": "ControlRod (7)",
+            "LocalPRS": "60.013┼268┼0┼"
           },
           {
             "GitID": "3edf81f4a32c4c348bad5bfe43e263fd_60.13┼204.08┼0┼",
@@ -272913,29 +272888,10 @@
             "LocalPRS": "61┼246┼0┼"
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_61┼250┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_61┼250┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (10)",
-            "LocalPRS": "61┼250┼0┼",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "c42540cf1f836b9408645b8e65574c64"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "61┼250┼0┼"
           },
           {
             "GitID": "56207cafd3f8d8549b442fe7b1ad7777_61┼253┼0┼",
@@ -273287,6 +273243,22 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_66┼172┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "ForensicsLockers"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -274039,29 +274011,10 @@
             "LocalPRS": "62┼207┼0┼"
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_62┼216┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_62┼216┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (3)",
-            "LocalPRS": "62┼216┼0┼",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "58e19f5e1f96aca4e831c3dc97d67781"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "62┼216┼0┼"
           },
           {
             "GitID": "ce971a77eb7c2894e8583efec1c56965_62┼218┼0┼",
@@ -275340,29 +275293,10 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_63┼192┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_63┼192┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (7)",
-            "LocalPRS": "63┼192┼0┼",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "8fa53d06c952b3646a5c799fd39806c3"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "63┼192┼0┼"
           },
           {
             "GitID": "c21551dd992a57349973e4b5af103ca6_63┼194┼0┼",
@@ -276757,6 +276691,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Court"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -278065,6 +278015,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Court"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -278761,30 +278727,10 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_65┼232┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
-            "NameMatches": true,
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_65┼232┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom",
-            "LocalPRS": "65┼232┼0┼",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "2a90bceb663133a4493375ad0daf719c"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "65┼232┼0┼"
           },
           {
             "GitID": "d683da3ad01cc02479a3ac6df782c111_65┼234.24┼0┼",
@@ -281447,30 +281393,10 @@
             "LocalPRS": "67┼168┼0┼"
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_67┼171┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
-            "NameMatches": true,
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_67┼171┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom",
-            "LocalPRS": "67┼171┼0┼",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "58e19f5e1f96aca4e831c3dc97d67781"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "67┼171┼0┼"
           },
           {
             "GitID": "c21551dd992a57349973e4b5af103ca6_67┼174┼0┼",
@@ -281550,29 +281476,10 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_67┼177┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_67┼177┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (20)",
-            "LocalPRS": "67┼177┼0┼",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "b48a3709120744b4fb993541ac80ccf4"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "67┼177┼0┼"
           },
           {
             "GitID": "c80393b4412660b41937e05425ceb921_67┼179┼0┼",
@@ -281725,29 +281632,10 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_67┼183┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_67┼183┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (19)",
-            "LocalPRS": "67┼183┼0┼",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "780b29e5202931c47951b3b389d231a1"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "67┼183┼0┼"
           },
           {
             "GitID": "1a00e842e154f7d43811c5d45328988c_67┼185┼0┼",
@@ -284432,7 +284320,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Brig"
                     }
                   ]
                 },
@@ -286102,6 +285990,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -286156,6 +286060,22 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_68┼168┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -287193,6 +287113,22 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
@@ -287247,6 +287183,22 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_68┼168┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -288517,7 +288469,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Brig"
                     }
                   ]
                 },
@@ -288605,7 +288557,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Brig"
                     }
                   ]
                 },
@@ -288693,7 +288645,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Brig"
                     }
                   ]
                 },
@@ -288743,6 +288695,22 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_68┼168┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Brig"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -290749,82 +290717,16 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_74┼211┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_74┼211┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (13)",
-            "LocalPRS": "74┼211┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemAttributesV2@0",
-                  "Data": [
-                    {
-                      "Name": "inventoryMoveSound@AssetAddress",
-                      "Data": "null"
-                    },
-                    {
-                      "Name": "inventoryRemoveSound@AssetAddress",
-                      "Data": "null"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "a02cb7685269db14ba4ee98f89ffdf4f"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "74┼211┼0┼"
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_74┼219┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_74┼219┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (14)",
-            "LocalPRS": "74┼219┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemAttributesV2@0",
-                  "Data": [
-                    {
-                      "Name": "inventoryMoveSound@AssetAddress",
-                      "Data": "null"
-                    },
-                    {
-                      "Name": "inventoryRemoveSound@AssetAddress",
-                      "Data": "null"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "9459b9918b0083842a221474925da005"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "74┼219┼0┼"
           },
           {
             "GitID": "91d832be818283a4188516804e8d5ef0_74┼220┼0┼",
@@ -291760,7 +291662,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "BasicPublicAccess"
+                      "Data": "Armory"
                     }
                   ]
                 },
@@ -293193,29 +293095,10 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_76┼192┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_76┼192┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (22)",
-            "LocalPRS": "76┼192┼0┼",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "58e19f5e1f96aca4e831c3dc97d67781"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "76┼192┼0┼"
           },
           {
             "GitID": "41432e034ee6b30418de8668905d7fd1_76┼195┼0┼",
@@ -293391,29 +293274,10 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_76┼221┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_76┼221┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (12)",
-            "LocalPRS": "76┼221┼0┼",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "7327ccd49186c1c42bbd651d4d6287c2"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "76┼221┼0┼"
           },
           {
             "GitID": "f2432d244a6b7774ea00ff013beb7dcb_76┼222┼0┼",
@@ -297603,16 +297467,16 @@
             "LocalPRS": "79.005┼165┼0┼"
           },
           {
-            "GitID": "d3c71176f32c1274b929f3a88695a795_79.006┼165┼0┼",
-            "PrefabID": "d3c71176f32c1274b929f3a88695a795",
-            "Name": "Paper (15)",
-            "LocalPRS": "79.006┼165┼0┼"
-          },
-          {
-            "GitID": "d3c71176f32c1274b929f3a88695a795_79.007┼165┼0┼",
+            "GitID": "d3c71176f32c1274b929f3a88695a795_79.01┼165┼0┼",
             "PrefabID": "d3c71176f32c1274b929f3a88695a795",
             "Name": "Paper (16)",
-            "LocalPRS": "79.007┼165┼0┼"
+            "LocalPRS": "79.01┼165┼0┼"
+          },
+          {
+            "GitID": "d3c71176f32c1274b929f3a88695a795_79.011┼165┼0┼",
+            "PrefabID": "d3c71176f32c1274b929f3a88695a795",
+            "Name": "Paper (15)",
+            "LocalPRS": "79.011┼165┼0┼"
           },
           {
             "GitID": "5059deed2ffb32a439249dcb385321f4_79.2┼223.25┼0┼",
@@ -299285,30 +299149,10 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_81┼237┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
-            "NameMatches": true,
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_81┼237┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom",
-            "LocalPRS": "81┼237┼0┼",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "9459b9918b0083842a221474925da005"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "81┼237┼0┼"
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_81┼237┼0┼",
@@ -299581,54 +299425,16 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_82┼189┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_82┼189┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (17)",
-            "LocalPRS": "82┼189┼0┼",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "641427c814c42e048bb8c536e8597a57"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "82┼189┼0┼"
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_82┼198┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_82┼198┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (18)",
-            "LocalPRS": "82┼198┼0┼",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "58e19f5e1f96aca4e831c3dc97d67781"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "82┼198┼0┼"
           },
           {
             "GitID": "c21551dd992a57349973e4b5af103ca6_82┼205┼0┼",
@@ -301788,29 +301594,10 @@
             }
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_84┼207┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_84┼207┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (15)",
-            "LocalPRS": "84┼207┼0┼",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "ec71b74dd533c4e4bb3eba5358a09cd2"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "84┼207┼0┼"
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_84┼207┼0┼",
@@ -302082,6 +301869,12 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "31d7f641274343343b94e59bce361843_84┼229┼0┼",
+            "PrefabID": "31d7f641274343343b94e59bce361843",
+            "Name": "IV Drip (1)",
+            "LocalPRS": "84┼229┼0┼"
           },
           {
             "GitID": "b087cae0f7059d946a59146ea8d0fb04_84┼235┼0┼",
@@ -303945,6 +303738,12 @@
             }
           },
           {
+            "GitID": "31d7f641274343343b94e59bce361843_86┼229┼0┼",
+            "PrefabID": "31d7f641274343343b94e59bce361843",
+            "Name": "IV Drip (2)",
+            "LocalPRS": "86┼229┼0┼"
+          },
+          {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_86┼232┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
             "Name": "LightTubeFixture (1)",
@@ -305032,16 +304831,16 @@
             "LocalPRS": "87.005┼246┼0┼"
           },
           {
-            "GitID": "908afbc5b9f871148b5ccd0b81bd147f_87.006┼246┼0┼",
-            "PrefabID": "908afbc5b9f871148b5ccd0b81bd147f",
-            "Name": "FireExtinguisher (7)",
-            "LocalPRS": "87.006┼246┼0┼"
-          },
-          {
-            "GitID": "908afbc5b9f871148b5ccd0b81bd147f_87.007┼246┼0┼",
+            "GitID": "908afbc5b9f871148b5ccd0b81bd147f_87.01┼246┼0┼",
             "PrefabID": "908afbc5b9f871148b5ccd0b81bd147f",
             "Name": "FireExtinguisher (8)",
-            "LocalPRS": "87.007┼246┼0┼"
+            "LocalPRS": "87.01┼246┼0┼"
+          },
+          {
+            "GitID": "908afbc5b9f871148b5ccd0b81bd147f_87.011┼246┼0┼",
+            "PrefabID": "908afbc5b9f871148b5ccd0b81bd147f",
+            "Name": "FireExtinguisher (7)",
+            "LocalPRS": "87.011┼246┼0┼"
           },
           {
             "GitID": "753e37602e1e0194cbe435fda83795c4_87.79┼229.28┼0┼",
@@ -305329,29 +305128,10 @@
             "LocalPRS": "88┼235┼0┼"
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_88┼237┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_88┼237┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (11)",
-            "LocalPRS": "88┼237┼0┼",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "8fa53d06c952b3646a5c799fd39806c3"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "88┼237┼0┼"
           },
           {
             "GitID": "c21551dd992a57349973e4b5af103ca6_88┼255┼0┼",
@@ -308399,29 +308179,10 @@
             "LocalPRS": "94┼217┼0┼"
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_94┼219┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_94┼219┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (16)",
-            "LocalPRS": "94┼219┼0┼",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "75d610e14a60e7d43b2720cede2925ef"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "94┼219┼0┼"
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_94┼223┼0┼",
@@ -313699,36 +313460,32 @@
                   "ClassID": "APC@0",
                   "Data": [
                     {
-                      "Name": "connectedDevices#42",
+                      "Name": "connectedDevices#41",
                       "Data": "c21551dd992a57349973e4b5af103ca6_112┼211┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#41",
+                      "Name": "connectedDevices#40",
                       "Data": "c21551dd992a57349973e4b5af103ca6_108┼211┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#40",
+                      "Name": "connectedDevices#39",
                       "Data": "c21551dd992a57349973e4b5af103ca6_102┼211┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#39",
+                      "Name": "connectedDevices#38",
                       "Data": "c21551dd992a57349973e4b5af103ca6_104┼214┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#38",
+                      "Name": "connectedDevices#37",
                       "Data": "c21551dd992a57349973e4b5af103ca6_106┼211┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#37",
+                      "Name": "connectedDevices#36",
                       "Data": "c21551dd992a57349973e4b5af103ca6_103┼207┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#36",
-                      "Data": "c21551dd992a57349973e4b5af103ca6_94┼205┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
                       "Name": "connectedDevices#35",
-                      "Data": "EzjNzmvMsgnzPS8Vf!we_108┼215┼0┼@0@APCPoweredDevice@0"
+                      "Data": "c21551dd992a57349973e4b5af103ca6_94┼205┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#34",
@@ -314519,10 +314276,6 @@
                     {
                       "Name": "In@DesiredFaceDirection",
                       "Data": "Right_By270"
-                    },
-                    {
-                      "Name": "In@IsEnd",
-                      "Data": "True"
                     }
                   ]
                 }
@@ -314578,10 +314331,6 @@
                 {
                   "ClassID": "GuidanceBuoy@0",
                   "Data": [
-                    {
-                      "Name": "Out@IsEnd",
-                      "Data": "True"
-                    },
                     {
                       "Name": "In@NextInLine",
                       "Data": "69ffc1053dc39a24fb870b2248780be4_105┼277┼0┼@0@GuidanceBuoy@0"
@@ -315476,25 +315225,6 @@
                           "Data": "1f1fe01a93ff9e54eb52ac23599eb76a"
                         }
                       ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "EzjNzmvMsgnzPS8Vf!we_108┼215┼0┼",
-            "PrefabID": "EzjNzmvMsgnzPS8Vf!we",
-            "Name": "BioChemScanner (1)",
-            "LocalPRS": "108┼215┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_103┼210┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -316688,8 +316418,8 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "86.5,359.5,0",
-          "Size": "179,331,0"
+          "Pos": "35.5,130.5,-8",
+          "Size": "179,331,18"
         }
       ]
     },
@@ -317520,7 +317250,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.0",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -317694,7 +317424,7 @@
                     },
                     {
                       "Name": "ShuttlesMainConnector",
-                      "Data": "f7fc46cd9fc472a4b96ad181a215ccfa_2┼0┼0┼@0@ShuttleConnector@0"
+                      "Data": "kEKGObGBLag_L6F8X$s3_2┼0┼0┼@0@ShuttleConnector@0"
                     }
                   ]
                 }
@@ -318288,8 +318018,8 @@
             }
           },
           {
-            "GitID": "f7fc46cd9fc472a4b96ad181a215ccfa_2┼0┼0┼",
-            "PrefabID": "f7fc46cd9fc472a4b96ad181a215ccfa",
+            "GitID": "kEKGObGBLag_L6F8X$s3_2┼0┼0┼",
+            "PrefabID": "kEKGObGBLag_L6F8X$s3",
             "Name": "ShuttleConnector (1)",
             "LocalPRS": "2┼0┼0┼"
           },
@@ -318466,7 +318196,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "9,74,0",
+          "Pos": "-1,0,0",
           "Size": "6,12,0"
         }
       ]
@@ -319291,7 +319021,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.0",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -320119,14 +319849,14 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "80.5,384,0",
-          "Size": "9,6,0"
+          "Pos": "0.5,-1,0.5",
+          "Size": "9,6,1"
         }
       ]
     },
     {
       "Ver": "1.1.1",
-      "Location": "111┼317.25┼0┼",
+      "Location": "153┼424┼0┼0ø0ø90ø",
       "MatrixName": "EscapeShuttle",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -323115,7 +322845,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.0",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -326902,36 +326632,16 @@
             }
           },
           {
-            "GitID": "f7fc46cd9fc472a4b96ad181a215ccfa_50┼-4┼0┼",
-            "PrefabID": "f7fc46cd9fc472a4b96ad181a215ccfa",
+            "GitID": "kEKGObGBLag_L6F8X$s3_50┼-4┼0┼",
+            "PrefabID": "kEKGObGBLag_L6F8X$s3",
             "Name": "ShuttleConnector (1)",
             "LocalPRS": "50┼-4┼0┼0ø0ø270ø"
           },
           {
-            "GitID": "bd0b61b5f22871e40bdf20387ae9d642_51┼-13┼0┼",
-            "PrefabID": "bd0b61b5f22871e40bdf20387ae9d642",
-            "NameMatches": true,
+            "GitID": "86570587e3d5cba1e9ffdeead16603e4_51┼-13┼0┼",
+            "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom",
-            "LocalPRS": "51┼-13┼0┼",
-            "Object": {
-              "ClassDatas": [],
-              "Children": [
-                {
-                  "ID": "0,0",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "fad97914a675f2c48ba0ca4c0afe6450"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "51┼-13┼0┼"
           },
           {
             "GitID": "91d832be818283a4188516804e8d5ef0_51┼-9┼0┼",
@@ -327811,7 +327521,7 @@
                     },
                     {
                       "Name": "ShuttlesMainConnector",
-                      "Data": "f7fc46cd9fc472a4b96ad181a215ccfa_50┼-4┼0┼@0@ShuttleConnector@0"
+                      "Data": "kEKGObGBLag_L6F8X$s3_50┼-4┼0┼@0@ShuttleConnector@0"
                     }
                   ]
                 }
@@ -327897,7 +327607,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "142,311.2,0",
+          "Pos": "30,-7,0",
           "Size": "60,14,0"
         }
       ]
@@ -328479,7 +328189,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.0",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -329151,8 +328861,8 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "44.9,440,0",
-          "Size": "22,106,0"
+          "Pos": "6,-52,0.5",
+          "Size": "22,106,1"
         }
       ]
     },
@@ -330147,7 +329857,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.0",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -331380,7 +331090,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "140.5,422.4,0",
+          "Pos": "-0.5,-0.5,0",
           "Size": "11,7,0"
         }
       ]

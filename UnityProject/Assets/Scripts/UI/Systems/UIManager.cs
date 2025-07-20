@@ -11,6 +11,7 @@ using Audio.Managers;
 using Initialisation;
 using Learning;
 using Logs;
+using Messages.Client.Lobby;
 using UI;
 using UI.Core;
 using UI.Core.Windows;
@@ -249,7 +250,7 @@ public class UIManager : MonoBehaviour, IInitialise
 		set
 		{
 			if (Instance.HoverTooltipUI == null) return;
-			Instance.hoverTooltipUI.SetupTooltip(value);
+			Instance.hoverTooltipUI.SetupTooltip(value, false);
 		}
 	}
 
@@ -450,6 +451,7 @@ public class UIManager : MonoBehaviour, IInitialise
 
 	public static void ResetAllUI()
 	{
+		if (StorageHandler == null) return;
 		StorageHandler.CloseStorageUI();
 		Camera2DFollow.followControl.ZeroStars();
 		IsOxygen = false;
@@ -643,5 +645,11 @@ public class UIManager : MonoBehaviour, IInitialise
 	{
 		gameObject.SetActive(!gameObject.activeInHierarchy);
 		ChatUI.Instance.CloseChatWindow(true);
+	}
+
+	public void RefreshAndShowServerInfoUI()
+	{
+		InfoPanelMessageClient.Send();
+		if (Instance.ServerInfoPanelWindow != null) Instance.ServerInfoPanelWindow.SetActive(true);
 	}
 }

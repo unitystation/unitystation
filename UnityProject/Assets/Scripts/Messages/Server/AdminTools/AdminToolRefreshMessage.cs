@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using AdminTools;
 using DatabaseAPI;
 using InGameEvents;
 using Mirror;
 using Newtonsoft.Json;
+using SecureStuff;
 using UnityEngine;
 
 namespace Messages.Server.AdminTools
@@ -32,7 +34,7 @@ namespace Messages.Server.AdminTools
 			}
 		}
 
-		public static NetMessage Send(GameObject recipient, string adminID)
+		public static NetMessage Send(GameObject recipient, string adminID, bool ShowIP =  true)
 		{
 			//Gather the data:
 			var pageData = new AdminPageRefreshData();
@@ -61,7 +63,7 @@ namespace Messages.Server.AdminTools
 
 
 			//Player list info:
-			pageData.players = GetAllPlayerStates(adminID);
+			pageData.players = GetAllPlayerStates(adminID, false, ShowIP);
 
 			//Server Setting
 			pageData.playerLimit = GameManager.Instance.PlayerLimit;
@@ -77,7 +79,7 @@ namespace Messages.Server.AdminTools
 			return msg;
 		}
 
-		public static List<AdminPlayerEntryData> GetAllPlayerStates(string adminID, bool onlineOnly = false)
+		public static List<AdminPlayerEntryData> GetAllPlayerStates(string adminID, bool onlineOnly = false, bool showIp = true)
 		{
 			var playerList = new List<AdminPlayerEntryData>();
 			if (string.IsNullOrEmpty(adminID)) return playerList;
@@ -99,18 +101,58 @@ namespace Messages.Server.AdminTools
 				entry.currentJob = player.Job.ToString();
 				entry.accountName = player.Username;
 
-				entry.ipAddress = player.ConnectionIP;
+				if (showIp)
+				{
+					entry.ipAddress = player.ConnectionIP;
+				}
+
 
 				if (player.Script != null && player.Script.playerHealth != null)
 				{
 					entry.isAlive = player.Script.playerHealth.ConsciousState != ConsciousState.DEAD;
 				}
 
+				var Rank= PlayerList.GetRankForAccount(player.AccountId, out var rankName);
+
+
+				var NotePath = Path.Combine(AccessFile.AdminFolder, "Notes", player.AccountId);
+				if (AccessFile.Exists(NotePath,true ,  FolderType.Logs))
+				{
+					entry.PlayerNotes = AccessFile.ReadAllLines(NotePath, FolderType.Logs, false)[0];
+				}
+				else
+				{
+					entry.PlayerNotes = "";
+				}
+
+
+
 				entry.isAntag = PlayerList.Instance.AntagPlayers.Contains(player);
-				entry.isAdmin = PlayerList.Instance.IsAdmin(player.AccountId);
-				entry.isMentor = PlayerList.Instance.IsMentor(player.AccountId);
-				entry.isOnline = player.Connection != null;
+				entry.hasAChat = PlayerList.HasTAGServer(TAG.ADMIN_CHAT, player.AccountId);
+				entry.roleSmall = Rank?.Abbreviation;
+				entry.roleColour = Rank?.Color;
+
+				entry.hasMentorRole = rankName == "mentor";
+				entry.isOnline = player.Connection.observing.Count > 0;
 				entry.isOOCMuted = player.IsOOCMuted;
+				if (AdminSetWatchlist.Watchlist.ContainsKey(player.AccountId))
+				{
+					entry.OnWatchlist = AdminSetWatchlist.Watchlist[player.AccountId];
+				}
+
+
+				if (AdminJail.AdminJailLocation != null && AdminJail.AdminJailLocation.JailedLocations.ContainsKey(player.AccountId))
+				{
+					entry.InJail = true;
+				}
+				else
+				{
+					entry.InJail = false;
+				}
+
+
+
+
 				if (player?.Script != null)
 				{
 					if (player.Script.gameObject != null) entry.playerObject = player.Script.gameObject.NetId();

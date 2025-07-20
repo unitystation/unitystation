@@ -22,7 +22,6 @@ using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public class CustomNetworkManager : NetworkManager, IInitialise
 {
-	public static bool IsServer => Instance._isServer;
 
 	// NetworkManager.isHeadless is removed in latest versions of Mirror,
 	// so we assume headless would be running in batch mode.
@@ -30,9 +29,6 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	{
 		get
 		{
-#if UNITY_STANDALONE_LINUX_API
-			return true;
-#endif
 			return Application.isBatchMode;
 		}
 	}
@@ -45,7 +41,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public List<GameObject> ActiveNetworkedManagersPrefabs;
 
-	[HideInInspector] public bool _isServer;
+	public static bool IsServer;
 	[HideInInspector] private ServerConfig config;
 	public GameObject humanPlayerPrefab;
 	public GameObject ghostPrefab;
@@ -137,8 +133,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	}
 
 
-	public override void
-		ObjectBeforePayloadDataClient(NetworkIdentity identity) //NOTE : Won't handle object to object references,
+	public override void ObjectBeforePayloadDataClient(NetworkIdentity identity) //NOTE : Won't handle object to object references,
 		//However these should be synchronised By mirror since I can't Think of a state where they won't be
 	{
 		try
@@ -248,6 +243,16 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public void InitNetworkedManagers()
 	{
+#if UNITY_EDITOR
+		//Opening closing shenanigans
+		if ( this == null)
+		{
+			Instance = FindObjectsByType<CustomNetworkManager>(FindObjectsSortMode.None)[0];
+			Instance.InitNetworkedManagers();
+			return;
+		}
+#endif
+
 		StartCoroutine(WaitForInit());
 	}
 
@@ -263,6 +268,14 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		}
 	}
 
+	public override void OnDestroy()
+	{
+		base.OnDestroy();
+		if (Instance == this)
+		{
+			Instance = null;
+		}
+	}
 
 	public void RoundEnding()
 	{
@@ -407,7 +420,15 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public GameObject GetSpawnablePrefabFromName(string prefabName)
 	{
-		var prefab = allSpawnablePrefabs?.Where(o => o.name == prefabName).ToList();
+#if UNITY_EDITOR
+		//Opening closing shenanigans
+		if (allSpawnablePrefabs == null || this == null)
+		{
+			Instance = FindObjectsByType<CustomNetworkManager>(FindObjectsSortMode.None)[0];
+			return	Instance.GetSpawnablePrefabFromName(prefabName);
+		}
+#endif
+		var prefab = allSpawnablePrefabs?.Where(o => o?.name == prefabName).ToList();
 
 		if (prefab != null && prefab.Any())
 		{
@@ -440,7 +461,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public override void OnStartServer()
 	{
-		_isServer = true;
+		IsServer = true;
 		base.OnStartServer();
 		NetworkManagerExtensions.RegisterServerHandlers();
 		// Fixes loading directly into the station scene
@@ -470,15 +491,6 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	//called on server side when player is being added, this is the main entry point for a client connecting to this server
 	public override void OnServerAddPlayer(NetworkConnectionToClient conn)
 	{
-		if (IsHeadless || GameData.Instance.testServer)
-		{
-			if (conn == NetworkServer.localConnection)
-			{
-				Loggy.Info("Prevented headless server from spawning a player", Category.Connections);
-				return;
-			}
-		}
-
 		Loggy.Trace($"Spawning a GameObject for the client {conn}.", Category.Connections);
 		base.OnServerAddPlayer(conn);
 		SubSceneManager.Instance.AddNewObserverScenePermissions(conn);
@@ -515,31 +527,18 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 	{
 		Loggy.Error($"Disconnecting {conn.address}");
 		//register them as removed from our own player list
+
 		PlayerList.Instance.RemoveByConnection(conn);
 
-		//NOTE: We don't call the base.OnServerDisconnect method because it destroys the player object -
-		//we want to keep the object around so player can rejoin and reenter their body.
-
-		//note that we can't remove authority from player owned objects, the workaround is to transfer authority to
-		//a different temporary object, remove authority from the original, and then run the normal disconnect logic
-
-
-		//transfer to a temporary object
-		GameObject disconnectedViewer = Instantiate(CustomNetworkManager.Instance.disconnectedViewerPrefab);
-		NetworkServer.ReplacePlayerForConnection(conn, disconnectedViewer,
-			BitConverter.ToUInt32(System.Guid.NewGuid().ToByteArray(), 0), false);
-
-		foreach (var ownedObject in conn.clientOwnedObjects.ToArray())
+		foreach (var ownedObject in conn.owned.ToArray())
 		{
-			if (disconnectedViewer == ownedObject.gameObject) continue;
+			if (ownedObject.connectionToClient?.identity == ownedObject) continue;
 			ownedObject.RemoveClientAuthority();
 		}
 
 		//now we can call mirror's normal disconnect logic, which will destroy all the player's owned objects
-		//which will preserve their actual body because they no longer own it
 		base.OnServerDisconnect(conn);
 		SubSceneManager.Instance.RemoveSceneObserver(conn);
-		_ = Despawn.ServerSingle(disconnectedViewer);
 	}
 
 	private void OnLevelFinishedLoading(Scene oldScene, Scene newScene)
@@ -565,7 +564,7 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 		{
 			//Set up for headless mode stuff here
 			//Useful for turning on and off components
-			_isServer = true;
+			IsServer = true;
 		}
 	}
 

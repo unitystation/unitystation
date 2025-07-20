@@ -563,7 +563,7 @@ PrefabInstance:
     - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[10].ItemName
-      value: Noir Suitskirt
+      value: Noir Suit Coat
       objectReference: {fileID: 0}
     - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
@@ -727,6 +727,21 @@ PrefabInstance:
       propertyPath: Color.r
       value: 0.8313726
       objectReference: {fileID: 0}
+    - target: {fileID: 6229150752284204976, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 0.7411765
+      objectReference: {fileID: 0}
+    - target: {fileID: 6229150752284204976, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.8000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 6229150752284204976, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 0.8313726
+      objectReference: {fileID: 0}
     - target: {fileID: 6267070499382879197, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
       propertyPath: _assetId
@@ -746,6 +761,12 @@ PrefabInstance:
     - target: {fileID: 7022302039327439973, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 39b1a138676dafb49ab10c5932419be2,
+        type: 2}
+    - target: {fileID: 7022302039327439973, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 39b1a138676dafb49ab10c5932419be2,
         type: 2}

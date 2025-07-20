@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using AddressableReferences;
+using Logs;
 using UnityEngine;
 using Systems.Construction.Parts;
 
@@ -18,6 +20,8 @@ namespace Weapons
 
 		private GameObject serverHolder;
 
+		private bool isCharging = false;
+
 		private void Awake()
 		{
 			gunComp = GetComponent<Gun>();
@@ -31,11 +35,14 @@ namespace Weapons
 
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
+			if (isCharging) return;
+
 			Chat.AddActionMsgToChat(serverHolder,
 				$"You start {rechargeVerb} the {gameObject.ExpensiveName()}.",
 				$"{serverHolder.ExpensiveName()} starts {rechargeVerb} the {gameObject.ExpensiveName()}.");
 
 			StartCoroutine(Recharging());
+			isCharging = true;
 		}
 
 		public void OnInventoryMoveServer(InventoryMove info)
@@ -43,6 +50,7 @@ namespace Weapons
 			if (gameObject != info.MovedObject.gameObject) return;
 
 			StopAllCoroutines();
+			isCharging = false;
 			serverHolder = info.ToPlayer != null ? info.ToPlayer.gameObject : null;
 		}
 
@@ -55,38 +63,51 @@ namespace Weapons
 
 		private void AddCharge()
 		{
-			if (serverHolder == null) return;
-
-			var mag = gunComp.magSlot.Item;
-			if (mag != null)
+			try
 			{
-				var battery = mag.GetComponent<Battery>();
-				if (battery != null)
+				if (serverHolder == null)
 				{
-					battery.Watts = battery.MaxWatts;
+					isCharging = false;
+					return;
 				}
 
-				var electricalMagazine = mag.GetComponent<ElectricalMagazine>();
-				if (electricalMagazine != null)
+				var mag = gunComp.magSlot.Item;
+				if (mag != null)
 				{
-					electricalMagazine.AddCharge();
+					var battery = mag.GetComponent<Battery>();
+					if (battery != null)
+					{
+						battery.Watts = battery.MaxWatts;
+					}
+
+					var electricalMagazine = mag.GetComponent<ElectricalMagazine>();
+					if (electricalMagazine != null)
+					{
+						electricalMagazine.AddCharge();
+					}
+
+					var GunElectrical = gameObject.GetComponent<GunElectrical>();
+					if (GunElectrical != null)
+					{
+						GunElectrical.UpdateChargeSprite();
+					}
 				}
 
-				var GunElectrical = gameObject.GetComponent<GunElectrical>();
-				if (GunElectrical != null)
+				if (rechargeSound != null)
 				{
-					GunElectrical.UpdateChargeSprite();
+					SoundManager.PlayNetworkedAtPos(rechargeSound, gameObject.AssumedWorldPosServer(), sourceObj: serverHolder);
 				}
+
+				Chat.AddActionMsgToChat(serverHolder,
+					$"You finish {rechargeVerb} the {gameObject.ExpensiveName()}.",
+					$"{serverHolder.ExpensiveName()} finishes {rechargeVerb} the {gameObject.ExpensiveName()}.");
+			}
+			catch (Exception e)
+			{
+				Loggy.Error(e.ToString());
 			}
 
-			if (rechargeSound != null)
-			{
-				SoundManager.PlayNetworkedAtPos(rechargeSound, gameObject.AssumedWorldPosServer(), sourceObj: serverHolder);
-			}
-
-			Chat.AddActionMsgToChat(serverHolder,
-				$"You finish {rechargeVerb} the {gameObject.ExpensiveName()}.",
-				$"{serverHolder.ExpensiveName()} finishes {rechargeVerb} the {gameObject.ExpensiveName()}.");
+			isCharging = false;
 		}
 	}
 }

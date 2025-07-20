@@ -54,10 +54,14 @@ namespace ScriptableObjects
 
 		public CommonMaterials CommonMaterials;
 
+		public CommonReagents CommonReagents;
+
 		[FormerlySerializedAs("PlayerStatesSingleton")]
 		public PlayerTypeSingleton playerTypeSingleton;
 
 		private Dictionary<Type, ScriptableObject> typeSOMap;
+
+		public CommonSpriteDataSOs CommonSpriteDataSOs;
 
 		public override void Awake()
 		{
@@ -92,7 +96,9 @@ namespace ScriptableObjects
 				{ typeof(ThrusterFuelReactions), ThrusterFuelReactions },
 				{ typeof(SpawnPointSpritesSingleton), SpawnPointSpritesSingleton },
 				{ typeof(CommonTiles), CommonTiles },
-
+				{ typeof(CommonMaterials), CommonMaterials },
+				{ typeof(CommonReagents), CommonReagents },
+				{ typeof(CommonSpriteDataSOs), CommonSpriteDataSOs },
 			};
 		}
 

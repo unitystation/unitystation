@@ -62,6 +62,7 @@ MonoBehaviour:
       type: 3}
     SkinningItemTrait: {fileID: 11400000, guid: 4fd46b7ca0066174bb16d0435eef3baa,
       type: 2}
+    CanBeEmagged: 0
     CanBePlayerChosen: 1
     PreviewSprite: {fileID: 11400000, guid: 61fd5595729577647a3caf7a4bf15c37, type: 2}
     SystemSettings:
@@ -69,6 +70,7 @@ MonoBehaviour:
     - rid: 5920833068371804162
     - rid: 5920833068371804164
     - rid: 5920833068371804166
+    StartingMutations: []
   references:
     version: 2
     RefIds:
@@ -86,13 +88,13 @@ MonoBehaviour:
         NormalBlood: 500
         bloodReagent: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
         PumpingDevices: []
-        RegenBloodPool:
+        TempBloodReservoir:
           temperature: 273.15
           reagents:
             m_keys: []
             m_values: []
           reagentKeys: []
-        RegenEfficiency: 0.15
+        ReservoirReturnMultiplier: 0.15
     - rid: 5920833068371804162
       type: {class: ChemicalMetabolismSystem, ns: HealthV2.Living.PolymorphicSystems,
         asm: Assets}
@@ -130,6 +132,14 @@ MonoBehaviour:
         - {fileID: 11400000, guid: 13adffb9ac3eeb24fa7ea444c2d4dc1f, type: 2}
         - {fileID: 11400000, guid: c08bfc7b09a88c34d9be46b34e311204, type: 2}
         - {fileID: 11400000, guid: b987033982fda254ab8d08cc1db71c09, type: 2}
+        - {fileID: 11400000, guid: 183626486b5659147b9ab76c37f755d1, type: 2}
+        - {fileID: 11400000, guid: ddca67217442d154e9994c3f3d196a73, type: 2}
+        - {fileID: 11400000, guid: 0dfeb25a3a262dd4ba264ecd21677a89, type: 2}
+        - {fileID: 11400000, guid: 2547afc334d978d4cbfb3b8f6ee11861, type: 2}
+        - {fileID: 11400000, guid: 626942fe77af4b14fb904dc45a2f7d86, type: 2}
+        - {fileID: 11400000, guid: f362361d30166404488d57dc70e23c35, type: 2}
+        - {fileID: 11400000, guid: b883f83098b28cb4db20326f8306afc5, type: 2}
+        - {fileID: 11400000, guid: 941454b59dbb7574ebf6b82391ebc80f, type: 2}
         MetabolismComponents: []
     - rid: 5920833068371804164
       type: {class: HungerSystem, ns: HealthV2.Living.PolymorphicSystems, asm: Assets}

@@ -52,6 +52,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -104,12 +105,17 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 629838426e75c1047be7985e566681d3, type: 2}
   - {fileID: 11400000, guid: 04c7957fa28bd9943b5e369a616719f7, type: 2}
   - {fileID: 11400000, guid: ca5a5d1843e4fdd4aa11f726f13d283f, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 629838426e75c1047be7985e566681d3, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 629838426e75c1047be7985e566681d3,
+    type: 2}
   randomInitialSprite: 1
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1001 &4934267206829871565
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -279,9 +285,21 @@ PrefabInstance:
       objectReference: {fileID: 2800000, guid: 131f554ffd2d77a48855a401bce14573, type: 3}
     - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: b141c5d6b1f8b8245a182b3a94ed9948,
+        type: 2}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
       propertyPath: itemSprites.LeftHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 2fd86fdd08e83d042b61774399527b13, type: 3}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 3b5a3e682ce8ab64aa63a4044cc5cdd0,
+        type: 2}
     - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
       propertyPath: itemSprites.RightHand.EquippedData
@@ -346,6 +364,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5ea8558db487ae74b8bb8789ee193232,
         type: 2}
+    - target: {fileID: 7482199438493803764, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 5ea8558db487ae74b8bb8789ee193232,
+        type: 2}
     - target: {fileID: 7650131893140443934, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
       propertyPath: parentID
@@ -391,12 +415,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccbb5729ffc2e0b4f89279dcaf8110ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stackableMaterials: 1
-  materialCost: 10
-  reagentContainer: 0
   craftItem:
   - {fileID: 7602444472548548205, guid: 28ccdf7c9ebf84198bf4b8bd543f4ce8, type: 3}
-  assembly: {fileID: 8622575264684028204, guid: 4ea433b6871fa2b4193194fd6be7a8ce,
+  amount: 10
+  prefabToSpawn: {fileID: 8622575264684028204, guid: 4ea433b6871fa2b4193194fd6be7a8ce,
     type: 3}
 --- !u!114 &7381038148697665226
 MonoBehaviour:

@@ -232,6 +232,10 @@ namespace Systems.Pipes
 		{
 			if (GameManager.Instance.CurrentRoundState is RoundState.Restarting) return;
 			if (MatrixManager.Instance == null) return;
+#if UNITY_EDITOR
+			if (MatrixManager.Instance.spaceMatrix == null) return;
+#endif
+
 			if (pipeNode == null && MonoPipe == null ) return;
 
 			Vector3Int ZeroedLocation = Vector3Int.zero;

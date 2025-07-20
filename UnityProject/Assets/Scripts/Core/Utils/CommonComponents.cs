@@ -24,6 +24,25 @@ public class CommonComponents : MonoBehaviour
 
 	public Dictionary<Type, Component> dictionary = new Dictionary<Type, Component>();
 
+	[SerializeField] private List<Component> commonComponentsToRegister = new List<Component>();
+
+
+	private void Awake()
+	{
+		ComponentsTracker<CommonComponents>.RegisterInstance(this);
+		foreach (var c in commonComponentsToRegister)
+		{
+			if (c == null) continue;
+			var type = c.GetType();
+			dictionary.TryAdd(type, c);
+		}
+	}
+
+	private void OnDestroy()
+	{
+		ComponentsTracker<CommonComponents>.UnregisterInstance(this);
+	}
+
 	public bool TrySafeGetComponent<T>(out T component) where T : Component
 	{
 		if (dictionary.ContainsKey(typeof(T)) == false)

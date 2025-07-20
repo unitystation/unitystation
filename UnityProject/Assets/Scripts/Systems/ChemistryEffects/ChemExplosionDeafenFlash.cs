@@ -64,31 +64,31 @@ namespace Chemistry.Effects
 					//If not, we need to check if the item is a bodypart inside of a player
 					if (insideBody)
 					{
-						AfflictRadius(bodyPart.HealthMaster.RegisterTile.WorldPosition, strength / 3); //Reduced flash when inside an object
+						AfflictRadius(bodyPart.HealthMaster.RegisterTile.WorldPosition, sender.gameObject, strength / 3); //Reduced flash when inside an object
 						Explosion.StartExplosion(bodyPart.HealthMaster.RegisterTile.WorldPosition, strength, node, radiusMultiplier: 3);
 					}
 					else
 					{
-						AfflictRadius(objectBehaviour.registerTile.WorldPosition, strength / 3); //Reduced flash when inside an object
+						AfflictRadius(objectBehaviour.registerTile.WorldPosition, sender.gameObject, strength / 3); //Reduced flash when inside an object
 						//Otherwise, if it's not inside of a player, we consider it just an item
 						Explosion.StartExplosion(objectBehaviour.registerTile.WorldPosition, strength, node, stunNearbyPlayers: false, radiusMultiplier: 3);
 					}
 				}
 				else
 				{
-					AfflictRadius(registerObject.WorldPosition, strength);
+					AfflictRadius(registerObject.WorldPosition, sender.gameObject, strength);
 					Explosion.StartExplosion(registerObject.WorldPosition, strength, node, stunNearbyPlayers: false, radiusMultiplier: 3);
 				}
 			}
 
 			// If sender is a pickupable item not inside the body, destroy it.
-			if (picked != null && !insideBody)
+			if (explosionType != ExplosionTypes.ExplosionType.Harmless && picked != null && !insideBody)
 			{
 				_ = Despawn.ServerSingle(sender.gameObject);
 			}
 		}
 
-		private void AfflictRadius(Vector3 worldPosition, float strength)
+		private void AfflictRadius(Vector3 worldPosition, GameObject sender, float strength)
 		{
 			var afflictionRadius = (int)(Math.Round(strength / (Math.PI * 15)) + 5);
 
@@ -101,19 +101,13 @@ namespace Chemistry.Effects
 				var duration = strength * STUN_DURATION_PER_YIELD;
 				duration = result.Distance < afflictionRadius * 0.65f ? duration : duration / 2;
 
-				if (target.gameObject.TryGetComponentCustom<LivingHealthMasterBase>(out var livingHealthMasterBase) == false) return;
+				if (duration <= 0) continue;
+				if (target.gameObject.TryGetComponentCustom<LivingHealthMasterBase>(out var livingHealthMasterBase) == false) continue;
 
-				bool successfulTrigger = false;
+				bool successfulTrigger = flashPlayers == true && livingHealthMasterBase.TryFlash(duration) && stunPlayers == true;
 
-				if (flashPlayers == true && duration > 0)
-				{
-					if (livingHealthMasterBase.TryFlash(duration) && stunPlayers == true) successfulTrigger = true;
-				}
-				if (deafenPlayers == true && duration > 0)
-				{
-					if(livingHealthMasterBase.TryDeafen(duration) && stunPlayers == true) successfulTrigger = true;
-				}
-					
+				if (deafenPlayers == true && livingHealthMasterBase.TryDeafen(sender, duration * 8) && stunPlayers == true) successfulTrigger = true;
+
 				if(successfulTrigger == true) livingHealthMasterBase.GetComponent<RegisterPlayer>()?.ServerStun(duration);
 			}
 		}

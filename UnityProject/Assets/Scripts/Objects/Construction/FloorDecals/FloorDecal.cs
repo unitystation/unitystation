@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Chemistry.Components;
 using UnityEngine;
 using Mirror;
+using Random = UnityEngine.Random;
 
 namespace Objects.Construction
 {
@@ -25,13 +27,15 @@ namespace Objects.Construction
 
 		public bool IsFootprint = false;
 
-		[SyncVar(hook = "OnColorChanged")]
-		[HideInInspector]
+		public bool IsSlippery = false;
+		public bool IsSuperSlippery = false;
+
+		[SyncVar(hook = "OnColorChanged")] [HideInInspector]
 		public Color color;
 
 		[Tooltip("Possible appearances of this decal. One will randomly be chosen when the decal appears." +
-				 " This can be left empty, in which case the prefab's sprite renderer sprite will " +
-				 "be used.")]
+		         " This can be left empty, in which case the prefab's sprite renderer sprite will " +
+		         "be used.")]
 		public Sprite[] PossibleSprites;
 
 		//public SpriteHandler FootPrints;
@@ -75,6 +79,34 @@ namespace Objects.Construction
 			SyncChosenSprite(chosenSprite, chosenSprite);
 		}
 
+		public void Start()
+		{
+			if (CustomNetworkManager.IsServer && CanDryUp)
+			{
+				StartCoroutine(DryUp());
+			}
+		}
+
+		private IEnumerator DryUp()
+		{
+			yield return WaitFor.Seconds(Random.Range(10, 21));
+
+			var Matrix = MatrixManager.AtPoint(transform.position, isServer);
+			var Node = Matrix.MetaDataLayer.Get(transform.position.ToLocalInt(Matrix));
+
+			if (IsSuperSlippery)
+			{
+				Node.IsSuperSlippery = false;
+			}
+
+			if (IsSlippery)
+			{
+				Node.IsSlippery = false;
+			}
+			
+			_ = Despawn.ServerSingle(this.gameObject);
+		}
+
 		private void SyncChosenSprite(int _oldSprite, int _chosenSprite)
 		{
 			EnsureInit();
@@ -87,7 +119,7 @@ namespace Objects.Construction
 
 		public void OnColorChanged(Color oldColor, Color newColor)
 		{
-			if (spriteRenderer&& DontTouchSpriteRenderer== false)
+			if (spriteRenderer && DontTouchSpriteRenderer == false)
 			{
 				spriteRenderer.color = newColor;
 			}

@@ -32,7 +32,7 @@ namespace UI.Objects.Research
 
 			UpdateResearchTechList();
 			UpdateFutureTechList();
-			if(gameObject.activeSelf) StartCoroutine(UpdateAvailiableTechList());
+			if(gameObject.activeInHierarchy) StartCoroutine(UpdateAvailiableTechList());
 			PointLabel.MasterSetValue($"Available Points: {serverGUI.TechWeb.researchPoints} (+{serverGUI.Server.ResearchPointsTrickle} / minute)");
 
 			FocusLabel.MasterSetValue(serverGUI.TechWeb.ResearchFocus.ToString());
@@ -80,7 +80,7 @@ namespace UI.Objects.Research
 			{
 				Technology technology = serverGUI.TechWeb.AvailableTech[i];
 
-				if (AvailableTechList.Entries[i].TryGetComponent<AvailableTechEntry>(out var entry)) entry.Initialise(technology, serverGUI.TechWeb);
+				if (AvailableTechList.Entries[i].TryGetComponent<AvailableTechEntry>(out var entry)) entry.Initialise(technology, serverGUI.Server);
 				else Loggy.Error("GUI_ResearchServer.cs: Could not find AvailableTechEntry component on AvailableTech Entry");
 
 				yield return new WaitForEndOfFrame();

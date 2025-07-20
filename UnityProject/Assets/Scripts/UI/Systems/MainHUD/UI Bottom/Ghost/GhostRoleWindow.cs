@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Messages.Server;
@@ -15,18 +16,21 @@ namespace UI.Windows
 	/// </summary>
 	public class GhostRoleWindow : MonoBehaviour
 	{
-		[SerializeField]
-		private GameObject ghostRoleEntryPrefab = default;
-		[SerializeField]
-		private Transform listContainer = default;
-		[SerializeField]
-		private GameObject noRolesLabel = default;
+		[SerializeField] private GameObject ghostRoleEntryPrefab = default;
+		[SerializeField] private Transform listContainer = default;
+		[SerializeField] private GameObject noRolesLabel = default;
 
 		private readonly Dictionary<uint, GhostRoleWindowEntry> entries = new Dictionary<uint, GhostRoleWindowEntry>();
 
 		private void OnEnable()
 		{
 			RequestAvailableGhostRolesMessage.SendMessage();
+			UpdateManager.Add(RequestAvailableGhostRolesMessage.SendMessage, 3f);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, RequestAvailableGhostRolesMessage.SendMessage);
 		}
 
 		public void CloseWindow()
@@ -47,6 +51,17 @@ namespace UI.Windows
 			UpdateNoRolesLabel();
 		}
 
+
+		public void Cleanup()
+		{
+			foreach (var Entry in entries)
+			{
+				Destroy(Entry.Value.gameObject);
+			}
+			entries.Clear();
+			UpdateNoRolesLabel();
+		}
+
 		public void RemoveEntry(uint key)
 		{
 			if (entries.ContainsKey(key))
@@ -60,9 +75,8 @@ namespace UI.Windows
 
 		public void DisplayResponseMessage(uint key, GhostRoleResponseCode responseCode)
 		{
-			if (entries.ContainsKey(key) == false) return;
-
-			entries[key].SetResponseMessage(responseCode);
+			if (entries.TryGetValue(key, out var entry) == false) return;
+			entry.SetResponseMessage(responseCode);
 		}
 
 		private void UpdateNoRolesLabel()

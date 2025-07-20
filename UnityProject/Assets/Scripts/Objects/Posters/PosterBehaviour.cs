@@ -8,8 +8,10 @@ namespace Objects
 {
 	public class PosterBehaviour : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
-		public SpriteRenderer sprite;
+		public SpriteHandler sprite;
 		public GameObject rolledPosterPrefab;
+
+		public ObjectAttributes Attributes;
 
 		[Tooltip("The sound made when the poster is ripped off a wall.")]
 		[SerializeField] private AddressableAudioSource RipSound;
@@ -33,10 +35,19 @@ namespace Objects
 		{
 			posterVariant = p;
 
-			var poster = GetPoster(p);
-			if (poster != null)
+
+			if (CustomNetworkManager.IsServer)
 			{
-				sprite.sprite = poster.sprite;
+
+
+				var poster = GetPoster(p);
+				if (poster != null)
+				{
+					Attributes.ServerSetArticleName(poster.Name);
+					Attributes.ServerSetArticleDescription(poster.Description);
+
+					sprite.SetSpriteSO(poster.spriteSo);
+				}
 			}
 		}
 
@@ -123,9 +134,13 @@ namespace Objects
 				{
 					Chat.AddExamineMsgFromServer(interaction.Performer, "You carefully remove the poster from the wall.");
 
-					rolledPosterPrefab.GetComponent<RolledPoster>().posterVariant = posterVariant;
 
-					Spawn.ServerPrefab(rolledPosterPrefab, pos, interaction.Performer.transform.parent);
+
+					var Poster =  Spawn.ServerPrefab(rolledPosterPrefab, pos, interaction.Performer.transform.parent);
+					var Rolled =Poster.GameObject.GetComponent<RolledPoster>();
+					Rolled.posterVariant = posterVariant;
+					Rolled.InitialPoster =  posterVariant;
+
 				}
 
 				_ = Despawn.ServerSingle(gameObject);

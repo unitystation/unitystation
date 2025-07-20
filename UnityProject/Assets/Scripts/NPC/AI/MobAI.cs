@@ -314,26 +314,6 @@ namespace Systems.MobAIs
 		/// </summary>
 		protected Vector2Int GetNudgeDirFromInt(int dir)
 		{
-			//Apply offset to the nudge dir if this mob is on a rotated matrix
-			if (uprightSprites != null)
-			{
-				if (uprightSprites.ExtraRotation.eulerAngles != Vector3.zero)
-				{
-					var a = (uprightSprites.ExtraRotation.eulerAngles.z * -1f) / 45f;
-					var b = dir + (int)a;
-					if (b < -7)
-					{
-						b += 7;
-					}
-					else if (b > 7)
-					{
-						b -= 7;
-					}
-
-					dir = b;
-				}
-			}
-
 			Vector2Int nudgeDir = Vector2Int.zero;
 			switch (dir)
 			{

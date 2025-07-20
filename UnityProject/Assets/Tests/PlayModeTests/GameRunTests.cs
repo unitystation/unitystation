@@ -29,12 +29,12 @@ namespace GameRunTests
 		public static void RunRestartRound()
 		{
 			GameManager.Instance.RoundEndTime = 0f;
-			GameManager.Instance.EndRound();
+			GameManager.Instance.EndRound(GameManager.RoundID);
 		}
 
 		// public void RunRestartRound()
 		// {
-		// 	if (CustomNetworkManager.Instance._isServer == false)
+		// 	if (CustomNetworkManager.IsServer == false)
 		// 	{
 		// 		Loggy.Log("Can only execute command from server.", Category.DebugConsole);
 		// 		return;

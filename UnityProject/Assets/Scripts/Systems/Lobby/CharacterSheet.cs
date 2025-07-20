@@ -23,7 +23,7 @@ public class CharacterSheet : ICloneable
 
 	// IMPORTANT: these fields use primitive types (int, string... etc) so they can be sent  over the network with
 	// RPCs and Commands without needing to serialise them to JSON!
-	public const int MAX_NAME_LENGTH = 26; // Arbitrary limit, but 26 is the max the current UI can fit
+	public const int MAX_NAME_LENGTH = 28; // Arbitrary limit, but 26 is the max the current UI can fit
 
 	public string Name = "Cuban Pete";
 	public string AiName = "R.O.B.O.T.";
@@ -40,6 +40,8 @@ public class CharacterSheet : ICloneable
 	public string Species = "Human";
 	public JobPrefsDict JobPreferences = new JobPrefsDict();
 	public AntagPrefsDict AntagPreferences = new AntagPrefsDict();
+
+	public string Voice = "Male 01";
 
 	[Serializable]
 	public class CustomisationClass
@@ -59,6 +61,7 @@ public class CharacterSheet : ICloneable
 		sb.AppendLine($"Age: {Age}");
 		sb.AppendLine($"Speech: {Speech}");
 		sb.AppendLine($"SkinTone: {SkinTone}");
+		sb.AppendLine($"Voice: {Voice}");
 		sb.AppendLine($"JobPreferences: \n\t{string.Join("\n\t", JobPreferences)}");
 		sb.AppendLine($"AntagPreferences: \n\t{string.Join("\n\t", AntagPreferences)}");
 		return sb.ToString();
@@ -321,7 +324,7 @@ public class CharacterSheet : ICloneable
 
 		if (speciesToChooseFrom == null || speciesToChooseFrom.Count == 0)
 		{
-			speciesToChooseFrom = RaceSOSingleton.Instance.Races;
+			speciesToChooseFrom = RaceSOSingleton.GetPlayerSpecies();
 		}
 		PlayerHealthData race = speciesToChooseFrom.PickRandom();
 
@@ -341,6 +344,7 @@ public class CharacterSheet : ICloneable
 
 		character.SerialisedBodyPartCustom = new List<CustomisationStorage>(); // things like beards etc, TODO ask bod
 		character.SerialisedExternalCustom = GetRandomUnderwear(race); // socks, t-shirts etc
+		character.Voice = TTSVoices.Voices.PickRandom();
 
 		return character;
 	}

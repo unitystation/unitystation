@@ -55,6 +55,11 @@ public class ItemLightControl : BodyPartFunctionality, IItemInOutMovedPlayer
 
 	private void Awake()
 	{
+		if (objectLightSprite == null)
+		{
+			objectLightSprite = objectLightEmission.GetComponentInChildren<LightSprite>();
+		}
+
 		if (objectLightEmission == null)
 		{
 			Loggy.Error($"{this} field objectLightEmission is null, please check {gameObject} prefab.", Category.Lighting);
@@ -67,7 +72,7 @@ public class ItemLightControl : BodyPartFunctionality, IItemInOutMovedPlayer
 			                $"because it is missing a net identity component.");
 			return;
 		}
-		objectLightSprite ??= objectLightEmission.GetComponent<LightSprite>();
+
 		lightID = Guid.NewGuid().GetHashCode();
 		playerLightData = new LightData()
 		{
@@ -126,11 +131,6 @@ public class ItemLightControl : BodyPartFunctionality, IItemInOutMovedPlayer
 	public void Toggle(bool on)
 	{
 		if (IsOn == on) return;
-		if (LightEmission == null)
-		{
-			Loggy.Error($"{this} field LightEmission is null, please check scripts.", Category.Lighting);
-			return;
-		}
 
 		IsOn = on; // Will trigger SyncState.
 		UpdateLights();
@@ -180,12 +180,12 @@ public class ItemLightControl : BodyPartFunctionality, IItemInOutMovedPlayer
 	{
 		if (IsOn)
 		{
-			LightEmission.AddLight(playerLightData);
+			LightEmission?.AddLight(playerLightData);
 			objectLightEmission.SetActive(true);
 		}
 		else
 		{
-			LightEmission.RemoveLight(playerLightData);
+			LightEmission?.RemoveLight(playerLightData);
 			objectLightEmission.SetActive(false);
 		}
 	}

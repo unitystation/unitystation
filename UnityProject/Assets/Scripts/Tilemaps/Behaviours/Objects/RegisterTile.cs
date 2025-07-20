@@ -441,7 +441,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private void SyncNetworkedMatrixNetId(uint oldNetworkMatrixId, uint newNetworkedMatrixNetID)
 	{
 		networkedMatrixNetId = newNetworkedMatrixNetID;
-		if (hasAuthority && isServer == false) return;
+		if (isOwned && isServer == false) return;
 		NetworkedMatrix.InvokeWhenInitialized(networkedMatrixNetId,
 			FinishNetworkedMatrixRegistration); //note: we dont actually wait for init here anymore
 	}
@@ -451,7 +451,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		if (networkedMatrix == null) return;
 		//if we had any spin rotation, preserve it,
 		//otherwise all objects should always have upright local rotation
-		var rotation = transform.rotation;
+		var rotation = transform.localRotation;
 		bool hadSpinRotation = Quaternion.Angle(transform.localRotation, Quaternion.identity) > 5;
 
 		var newObjectLayer = networkedMatrix.GetComponentInChildren<ObjectLayer>();
@@ -475,12 +475,15 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		//preserve absolute rotation if there was spin rotation
 		if (hadSpinRotation)
 		{
-			transform.rotation = rotation;
+			transform.localRotation = rotation;
 		}
 		else
 		{
+			var euler = rotation.eulerAngles;
+			euler.z = 0;
+
 			//objects are always upright w.r.t. parent matrix
-			transform.localRotation = Quaternion.identity;
+			transform.localRotation = Quaternion.Euler(euler);
 		}
 
 		//this will fire parent change hooks so we do it last
@@ -532,7 +535,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 					if (matrixRotation90Hooks.Length > 0)
 					{
 						Matrix.MatrixMove.NetworkedMatrixMove.OnRotate90 += (OnRotate90);
-						OnRotate90();
+						OnRotate90(Matrix.MatrixMove.NetworkedMatrixMove.previousDirectionFacing);
 					}
 				}
 			}
@@ -594,14 +597,14 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		}
 	}
 
-	private void OnRotate90()
+	private void OnRotate90(OrientationEnum orientation)
 	{
 		if (matrixRotation90Hooks != null)
 		{
 			//pass rotation event on to our children
 			foreach (var matrixRotationHook in matrixRotation90Hooks)
 			{
-				matrixRotationHook.OnMatrixRotate90();
+				matrixRotationHook.OnMatrixRotate90(orientation);
 			}
 
 		}

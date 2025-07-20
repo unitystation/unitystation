@@ -10,6 +10,7 @@ using Shared.Systems.ObjectConnection;
 using Systems.Score;
 using Random = UnityEngine.Random;
 using System.Linq;
+using Systems.Research.Data;
 
 namespace Systems.Research.Objects
 {
@@ -135,6 +136,11 @@ namespace Systems.Research.Objects
 				if (hardDisk.DataOnStorage[0] is TechwebFiles c) Techweb = c.Techweb;
 				Techweb.TechWebDesignUpdateEvent?.Invoke(1, Techweb.AvailableDesigns);
 			}
+		}
+
+		public void TryResearchTechnology(Technology technologyToResearch)
+		{
+			Techweb?.ResearchTechology(technologyToResearch, gameObject);
 		}
 
 		/// <summary>

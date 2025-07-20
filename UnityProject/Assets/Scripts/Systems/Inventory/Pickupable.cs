@@ -4,8 +4,12 @@ using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using Core;
+using Core.Admin.Logs;
 using Items;
 using Logs;
+using Managers;
+using Messages.Client;
+using SecureStuff;
 using UI;
 using UnityEngine;
 using UnityEngine.Events;
@@ -80,6 +84,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	/// </summary>
 	public UnityEvent<GameObject> OnMoveToPlayerInventory;
 	public UnityEvent<GameObject> OnInventoryMoveServerEvent;
+	public SerializedAction OnItemSlotChanged;
 
 	public UnityEvent<GameObject> OnDrop;
 	public UnityEvent<GameObject> OnThrow;
@@ -162,6 +167,11 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 			info.ToPlayer.GetComponent<PlayerScript>().RefreshVisibleName();
 		}
 		OnInventoryMoveServerEvent?.Invoke(gameObject);
+
+		if (info.RemoveType is InventoryRemoveType.Drop or InventoryRemoveType.Throw)
+		{
+			AdminLogsManager.AddNewLog(info?.FromPlayer?.gameObject, " Dropped ", this.gameObject, LogCategory.Interaction);
+		}
 
 		switch (info.RemoveType)
 		{
@@ -270,6 +280,8 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		{
 			//pick it up normally - if it was floating, we will grab it while it's floating
 			//set ForceInform to false for simulation
+			AdminLogsManager.AddNewLog(interaction.Performer.gameObject, " Picked up ", this.gameObject, LogCategory.Interaction);
+
 			if (Inventory.ServerAdd(this, interaction.HandSlot))
 			{
 				Loggy.Trace().Format("Pickup success! server pos:{0} player pos:{1} (floating={2})", Category.Movement,
@@ -309,14 +321,37 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 
 	public RightClickableResult GenerateRightClickOptions()
 	{
-		if (!canPickup) return null;
-		var interaction = HandApply.ByLocalPlayer(gameObject);
-		if (interaction.TargetObject != gameObject) return null;
-		if (interaction.HandObject != null) return null;
-		if (!Validations.CanApply(interaction.PerformerPlayerScript, interaction.TargetObject, NetworkSide.Client, true, ReachRange.Standard)) return null;
 
-		return RightClickableResult.Create()
+		var Result = RightClickableResult.Create();
+
+		if (PlayerList.HasTAGClient(TAG.ADMIN_GHOST_DROP_ITEM)  &&
+		    KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions,
+			    KeyboardInputManager.KeyEventType.Hold) )
+		{
+			Result.AddAdminElement("Admin PickUp", RightClickInteractAdmin);
+		}
+
+
+		if (!canPickup) return Result;
+		var interaction = HandApply.ByLocalPlayer(gameObject);
+		if (interaction.TargetObject != gameObject) return Result;
+		if (interaction.HandObject != null) return Result;
+		if (!Validations.CanApply(interaction.PerformerPlayerScript, interaction.TargetObject, NetworkSide.Client, true, ReachRange.Standard)) return Result;
+
+
+		return Result
 				.AddElement("PickUp", RightClickInteract);
+	}
+
+	private void RightClickInteractAdmin()
+	{
+		var CurrentSlot = PlayerManager.LocalPlayerScript?.DynamicItemStorage?.GetActiveHandSlot();
+		if (PlayerManager.LocalMindScript.isGhosting)
+		{
+			CurrentSlot = AdminManager.Instance.LocalAdminGhostStorage.GetNamedItemSlot(NamedSlot.ghostStorage01);
+		}
+
+		AdminInventoryTransferMessage.Send(this, CurrentSlot);
 	}
 
 	private void RightClickInteract()
@@ -363,6 +398,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		{
 			clientSynchronisedStorageIn = toSlot?.ItemStorage.OrNull()?.gameObject.NetId() ?? NetId.Empty;
 		}
+		OnItemSlotChanged?.Invoke();
 	}
 
 	/// <summary>

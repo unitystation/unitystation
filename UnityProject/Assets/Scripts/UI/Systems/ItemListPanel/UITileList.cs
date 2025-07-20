@@ -44,7 +44,7 @@ namespace UI
 		/// <param name="position">Position where to look for items</param>
 		public static List<GameObject> GetItemsAtPosition(Vector3 position)
 		{
-			var matrix = MatrixManager.AtPoint(Vector3Int.RoundToInt(position), CustomNetworkManager.Instance._isServer).Matrix;
+			var matrix = MatrixManager.AtPoint(Vector3Int.RoundToInt(position), CustomNetworkManager.IsServer).Matrix;
 			if (matrix == false)
 			{
 				return new List<GameObject>();

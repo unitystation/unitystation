@@ -71,8 +71,8 @@ namespace Messages.Client
 				" are not allowed.", Category.Exploits, SentByPlayer.GameObject.name, fromSlot, toSlot);
 
 			//roll back the client prediction
-			UpdateItemSlotMessage.Send(SentByPlayer.GameObject, fromSlot);
-			UpdateItemSlotMessage.Send(SentByPlayer.GameObject, toSlot);
+			UpdateItemNSlotMessage.Send(SentByPlayer.GameObject, fromSlot);
+			UpdateItemNSlotMessage.Send(SentByPlayer.GameObject, toSlot);
 		}
 
 		/// <summary>

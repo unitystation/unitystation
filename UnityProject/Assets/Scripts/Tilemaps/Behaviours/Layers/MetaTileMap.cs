@@ -81,6 +81,8 @@ namespace TileManagement
 		public float Mass = 0; //Nothing lighter!
 
 
+		public bool ClientReceivedTiles = false;
+
 		/// <summary>
 		/// Use this dictionary only if performance isn't critical, otherwise try using arrays below
 		/// </summary>This
@@ -880,6 +882,22 @@ namespace TileManagement
 			return false;
 		}
 
+		public bool IsTableAt(Vector3Int position, out LayerTile table)
+		{
+			table = null;
+			if (Layers.TryGetValue(LayerType.Tables, out var layer))
+			{
+				TileLocation tileLocation = null;
+				lock (PresentTiles)
+				{
+					PresentTiles[(int) layer.LayerType].TryGetValue(position, out tileLocation);
+				}
+				table = tileLocation?.layerTile;
+				return tileLocation?.layerTile;
+			}
+			return false;
+		}
+
 		public Vector3Int SetTile(Vector3Int position, TileType TileType, string tileName,
 			Matrix4x4? matrixTransform = null,
 			Color? color = null,
@@ -912,8 +930,6 @@ namespace TileManagement
 
 					TileSaveRollbacks[position] = TileSaveRollback;
 				}
-
-
 			}
 
 			if (Layers.TryGetValue(tile.LayerType, out var layer))
@@ -1015,13 +1031,13 @@ namespace TileManagement
 				}
 
 
-				LayerTile PreExistingTile = tileLocation.layerTile;
+				LayerTile preExistingTile = tileLocation.layerTile;
 
 				tileLocation.layerTile = tile;
 				tileLocation.transformMatrix = matrixTransform.GetValueOrDefault(Matrix4x4.identity);
 				tileLocation.Colour = color.GetValueOrDefault(Color.white);
 
-				if (PreExistingTile != null)
+				if (preExistingTile != null)
 				{
 					if (tileLocation.layer.LayerType is LayerType.Base or LayerType.Walls)
 					{
@@ -1029,8 +1045,8 @@ namespace TileManagement
 						{
 							if (Mass != 0)
 							{
-								LocalTotalMasslocations -= (PreExistingTile.Mass * position.To3());
-								Mass -= PreExistingTile.Mass;
+								LocalTotalMasslocations -= (preExistingTile.Mass * position.To3());
+								Mass -= preExistingTile.Mass;
 								LocalCentreOfMass = LocalTotalMasslocations / Mass;
 							}
 						}
@@ -1052,9 +1068,9 @@ namespace TileManagement
 				{
 					if (LocalCachedBounds.Value.Contains(tileLocation.LocalPosition) == false)
 					{
-						var Bounds = LocalCachedBounds.Value; // struct funnies With references
-						Bounds.ExpandToPoint2D(tileLocation.LocalPosition);
-						LocalCachedBounds = Bounds;
+						var bounds = LocalCachedBounds.Value; // struct funnies With references
+						bounds.ExpandToPoint2D(tileLocation.LocalPosition);
+						LocalCachedBounds = bounds;
 
 						lock (matrix)
 						{
@@ -2173,14 +2189,14 @@ namespace TileManagement
 		}
 
 		//Use TileChangeManager Instead if you want to me networked
-		public void RemoveTile(Vector3Int position, bool DropItems = true)
+		public void RemoveTile(Vector3Int position, bool DropItems = true, bool isPlaying = true)
 		{
 			TileLocation tileLocation = null;
 			foreach (var layer in LayersValues)
 			{
 				if (layer.LayerType == LayerType.Objects) continue;
 
-				if (Application.isPlaying == false)
+				if (isPlaying == false)
 				{
 					if (layer.gameObject.activeInHierarchy == false) continue;
 					if (layer.LayerType.IsMultilayer())
@@ -2195,7 +2211,7 @@ namespace TileManagement
 							positionnew.z = 1 - i;
 							if (layer.RemoveTile(positionnew))
 							{
-								return;
+								break;
 							}
 						}
 					}
@@ -2203,11 +2219,10 @@ namespace TileManagement
 					{
 						if (layer.RemoveTile(position))
 						{
-							return;
+
 						}
 					}
 
-					continue;
 				}
 
 				if (layer.LayerType.IsMultilayer()) //TODO Tile map upgrade
@@ -2255,7 +2270,7 @@ namespace TileManagement
 			}
 		}
 
-		public void RemoveTileWithlayer(Vector3Int position, LayerType refLayer, bool exactPosition = true, bool DropItems = true)
+		public void RemoveTileWithlayer(Vector3Int position, LayerType refLayer, bool exactPosition = true, bool DropItems = true, bool removeAllMulti = false)
 		{
 			if (refLayer == LayerType.Objects) return;
 
@@ -2271,24 +2286,30 @@ namespace TileManagement
 					}
 					else
 					{
-						var positionNew = position;
-						for (int i = 0; i < 50; i++)
+
+						lock (MultilayerPresentTiles)
 						{
-							positionNew.z = 1 - i;
+							var tileLocations = GetTileLocationsNeedLockSurrounding(position, layer);
 
-							tileLocation = GetTileExactLocationMultilayer(positionNew, layer, true);
-
-							if (tileLocation != null)
+							foreach (var Location in tileLocations)
 							{
-								tileLocation.layerTile = null;
-								ApplyTileChange(tileLocation);
-								if (refLayer != LayerType.Effects)
-								{
-									RemoveOverlaysOfType(tileLocation.LocalPosition, LayerType.Effects,
-										OverlayType.Damage);
-								}
+								tileLocation = Location;
 
-								return;
+								if (tileLocation != null && tileLocation.layerTile != null)
+								{
+									tileLocation.layerTile = null;
+									ApplyTileChange(tileLocation);
+									if (refLayer != LayerType.Effects)
+									{
+										RemoveOverlaysOfType(tileLocation.LocalPosition, LayerType.Effects,
+											OverlayType.Damage);
+									}
+
+									if (removeAllMulti == false)
+									{
+										return;
+									}
+								}
 							}
 						}
 					}
@@ -2543,11 +2564,11 @@ namespace TileManagement
 			var vexinvX = (1d / (direction.x)); //Editions need to be done here for Working offset
 			var vexinvY = (1d / (direction.y)); //Needs to be conditional
 
-
 			double calculationFloat = 0;
 
 			bool LeftFaceHit = true;
 
+			var Layers = LTSUtil.GetLayersBack(layerMask, new List<LayerType>());
 
 			while (Math.Abs((xSteps + gridOffsetx + stepX) * vexinvX) < distance ||
 			       Math.Abs((ySteps + gridOffsety + stepY) * vexinvY) < distance)
@@ -2583,14 +2604,13 @@ namespace TileManagement
 				vecHit.y = origin.y + (float) RelativeY; // + offsetY;
 				//Check point here
 
-				for (var i = 0; i < LayersValues.Length; i++)
+				for (var i = 0; i < Layers.Count; i++)
 				{
-					if (LayersValues[i].LayerType == LayerType.Objects) continue;
-					if (LTSUtil.IsLayerIn(layerMask, LayersValues[i].LayerType))
+					if (LTSUtil.IsLayerIn(layerMask, Layers[i]))
 					{
 						lock (PresentTiles)
 						{
-							PresentTiles[(int) LayersValues[i].LayerType].TryGetValue(vec, out tileLocation);
+							PresentTiles[(int) Layers[i]].TryGetValue(vec, out tileLocation);
 						}
 
 #if UNITY_EDITOR
@@ -2706,7 +2726,7 @@ namespace TileManagement
 							Tile.Colour = layer.Tilemap.GetColor(localPlace);
 							Tile.transformMatrix = layer.Tilemap.GetTransformMatrix(localPlace);
 
-							if (isServer)
+							if (isServer && Application.isPlaying)
 							{
 								var Functional = getTile as FuncPlaceRemoveTile;
 								if (Functional != null)
@@ -2969,6 +2989,7 @@ namespace TileManagement
 		EMPCenter,
 		Foam,
 		Smoke,
-		Liquid
+		Liquid,
+		DarkMatter
 	}
 }

@@ -12,18 +12,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaf6da0a52cc4214b1d4798d9a210177, type: 3}
   m_Name: LeavingStationClips
   m_EditorClassIdentifier: 
+  foreverID: 887547c1601288541a8cf751bf33fbc1
   addressableAudioSource:
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/AmbientTracks/SpaceAmbience.prefab
+  - AssetAddress: Assets/Prefabs/AmbientTracks/SpaceAmbience.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/AmbientTracks/SpaceAmbience2.prefab
+  - AssetAddress: Assets/Prefabs/AmbientTracks/SpaceAmbience2.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - AssetAddress: Assets/Prefabs/Ambient/AmbienceClips/space/outside_in_a_firesuit.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - AssetAddress: Assets/Prefabs/Ambient/AmbienceClips/space/saw_you_just_then.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  - AssetAddress: Assets/Prefabs/Ambient/AmbienceClips/space/strangely_dark_sky.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0

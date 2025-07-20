@@ -645,7 +645,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 
 
 		SerialisedNetIDs = JsonConvert.SerializeObject(UIBodyPartsToSerialise);
-		// if (hasAuthority)
+		// if (isOwned)
 		// {
 		// UpdateSlots(SerialisedNetIDs, SerialisedNetIDs);
 		// }
@@ -683,7 +683,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 		ClientSlotCharacteristic[Slot] = storageCharacteristicse;
 		ClientTotal.Add(Slot);
 
-		if (hasAuthority && storageCharacteristicse.NotPresentOnUI == false)
+		if (isOwned && storageCharacteristicse.NotPresentOnUI == false)
 		{
 			UIManager.Instance.UI_SlotManager.SetActive(true);
 			UIManager.Instance.UI_SlotManager.UpdateUI();
@@ -730,9 +730,9 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 		}
 
 		ClientTotal.Remove(slot);
-		if (hasAuthority)
+		if (isOwned)
 		{
-			UIManager.Instance.UI_SlotManager.UpdateUI();
+			UIManager.Instance?.UI_SlotManager?.UpdateUI();
 		}
 
 		//UIManager.Instance.UI_SlotManager.RemoveContainer(bodyPartUISlots);
@@ -788,19 +788,27 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 					}
 					WeakReference<DynamicItemStorage> wptr = new WeakReference<DynamicItemStorage>(this);
 
-					LoadManager.RegisterActionDelayed(() =>
+					try
 					{
-						DynamicItemStorage DIS;
-
-						int LocalTries = tries;
-						LocalTries++;
-
-						if (wptr.TryGetTarget(out DIS))
+						LoadManager.RegisterActionDelayed(() =>
 						{
-							DIS.ProcessChangeClient(newSt, LocalTries);
-						}
-					}, 60);
-					return;
+							DynamicItemStorage DIS;
+
+							int LocalTries = tries;
+							LocalTries++;
+
+							if (wptr.TryGetTarget(out DIS))
+							{
+								DIS.ProcessChangeClient(newSt, LocalTries);
+							}
+						}, 60);
+						return;
+					}
+					catch (Exception e)
+					{
+						Loggy.Error(e.ToString());
+						return;
+					}
 				}
 
 				bool Contain = false;

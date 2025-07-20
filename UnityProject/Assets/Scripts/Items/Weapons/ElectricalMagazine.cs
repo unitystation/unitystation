@@ -44,7 +44,7 @@ namespace Weapons
 				return;
 			}
 			base.ExpendAmmo(amount);
-			if (CustomNetworkManager.Instance._isServer == false) return;
+			if (CustomNetworkManager.IsServer == false) return;
 			battery.Watts -= toRemove;
 		}
 

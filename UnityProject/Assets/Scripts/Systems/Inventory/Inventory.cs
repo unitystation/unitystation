@@ -773,6 +773,11 @@ public static class Inventory
 
 			var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab, PrePickRandom: true, spawnManualContents: info?.SpawnManualContents ?? false);
 
+			if (namedSlotPopulatorEntry.StackableAmount != 1)
+			{
+				spawn.GameObject.GetComponent<Stackable>()?.ServerSetAmount(namedSlotPopulatorEntry.StackableAmount);
+			}
+
 			if (Validations.CanFit(ItemSlot, spawn.GameObject, NetworkSide.Server) == false)
 			{
 				Loggy.Error($"Your initial contents spawn for ItemStorage {itemStorage.name} for {spawn.GameObject} Is bypassing the Can fit requirements");
@@ -843,6 +848,12 @@ public static class Inventory
 			}
 
 			var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab, PrePickRandom: true, spawnManualContents: info?.SpawnManualContents ?? false);
+
+			if (namedSlotPopulatorEntry.StackableAmount != 1)
+			{
+				spawn.GameObject.GetComponent<Stackable>()?.ServerSetAmount(namedSlotPopulatorEntry.StackableAmount);
+			}
+
 
 			if (Validations.CanFit(ItemSlot, spawn.GameObject, NetworkSide.Server) == false)
 			{

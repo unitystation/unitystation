@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 3685518439402342249, guid: 4fc25c61215094048b41943837cf2e3f,
         type: 3}
       propertyPath: initialName
-      value: syndicate encryption key
+      value: Syndicate encryption key
       objectReference: {fileID: 0}
     - target: {fileID: 3772952514296108479, guid: 4fc25c61215094048b41943837cf2e3f,
         type: 3}
@@ -98,6 +98,12 @@ PrefabInstance:
     - target: {fileID: 6957519355703055244, guid: 4fc25c61215094048b41943837cf2e3f,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 73572a2399f59e64998d380f7bec1d16,
+        type: 2}
+    - target: {fileID: 6957519355703055244, guid: 4fc25c61215094048b41943837cf2e3f,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 73572a2399f59e64998d380f7bec1d16,
         type: 2}

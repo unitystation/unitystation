@@ -15,17 +15,21 @@ MonoBehaviour:
   gameModeName: Changeling
   description: 
   canRespawn: 0
-  minPlayers: 10
+  minPlayers: 4
   antagRatio: 0.3
   minAntags: 1
   maxAntags: 4
   hardNumberOfAntagsToSpawn: 0
   forceMinAntags: 1
   teamGameMode: 0
-  midRoundAntags: 0
-  midRoundAntagsChance: 25
+  midRoundAntags: 1
+  midRoundAntagsChance: 50
   possibleAntags:
   - {fileID: 11400000, guid: 7977e2d7465279a419fe55b27ecca5df, type: 2}
   allocateJobsToAntags: 1
   nonAntagJobTypes: 0600000016000000170000002300000021000000110000000d0000001e00000001000000
+  randomSicknesses: 1
+  possibleSicknesses:
+  - {fileID: 11400000, guid: c277cb2e90e88e743ab2494b395ca8fa, type: 2}
+  randomSicknessRatio: 0.1
   mainStations: {fileID: 11400000, guid: 9b0018951af67314ca9e85705e0d2ce4, type: 2}

@@ -17,6 +17,6 @@ jobs:
           ref: "develop"
 
       - name: Deploy docs
-        uses: mhausenblas/mkdocs-deploy-gh-pages@1.16
+        uses: mhausenblas/mkdocs-deploy-gh-pages@master
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}

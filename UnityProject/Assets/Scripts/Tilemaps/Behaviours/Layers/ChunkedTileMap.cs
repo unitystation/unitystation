@@ -18,6 +18,10 @@ public class ChunkedTileMap<T> : IEnumerable<T> where T : class
 	public List<List<T[,]>> chunksnXnY = new List<List<T[,]>>();
 	public List<List<T[,]>> chunksnXY = new List<List<T[,]>>();
 
+	private readonly List<List<T[,]>>[] allChunks;
+	public int MaxX = 0;
+	public int MaxY = 0;
+
 	public Dictionary<Vector3Int, T> OverflowDictionary = new Dictionary<Vector3Int, T>();
 	//This is for any silly values that happen to end up in here, so it doesn't consume all the RAM in the universe
 
@@ -25,9 +29,8 @@ public class ChunkedTileMap<T> : IEnumerable<T> where T : class
 	{
 		MaxChunkRangeBeforeDictionaryBackup = InMaxChunkRangeBeforeDictionaryBackup;
 		MaxChunkTileRange = MaxChunkRangeBeforeDictionaryBackup * ChunkSize;
+		allChunks = new[] { chunksXY, chunksXnY, chunksnXY, chunksnXnY };
 	}
-
-
 
 	public bool ContainsKey(Vector3Int position)
 	{
@@ -36,39 +39,53 @@ public class ChunkedTileMap<T> : IEnumerable<T> where T : class
 
 	public bool TryGetValue(Vector3Int position, out T Value, bool Expand = false)
 	{
-		Value = GetTile(position,Expand );
+		Value = GetTile(position,Expand);
 		return Value != null;
 	}
 
+	public T this[Vector2Int position]
+	{
+		get => GetTile(position.To3Int());
+		set => PositionSet(position.To3Int(), value);
+	}
 
 	public T this[Vector3Int position]
 	{
-		get
+		get => GetTile(position);
+		set => PositionSet(position, value);
+	}
+
+	public T this[int x, int y]
+	{
+		get => GetTile(new Vector3Int(x, y));
+		set => PositionSet(new Vector3Int(x, y), value);
+	}
+
+	private void PositionSet(Vector3Int position, T value)
+	{
+
+		if (MaxX < position.x) MaxX = position.x;
+		if (MaxY < position.y) MaxY = position.y;
+		if (Mathf.Abs(position.x) > MaxChunkTileRange || Mathf.Abs(position.y) > MaxChunkTileRange)
 		{
-			return GetTile(position);
+			OverflowDictionary[position] = value;
+			return;
 		}
-		set
+
+		var chunk = GetChunkAtAndIgnoreDictionaryRecords(position, true);
+		int localX = Mathf.Abs(Mathf.FloorToInt(position.x) % ChunkSize);
+		int localY = Mathf.Abs(Mathf.FloorToInt(position.y) % ChunkSize);
+		try
 		{
-			if (Mathf.Abs(position.x) > MaxChunkTileRange || Mathf.Abs(position.y) > MaxChunkTileRange)
-			{
-				OverflowDictionary[position] = value;
-				return;
-			}
-
-			var Chunk = GetChunkAtAndIgnoreDictionaryRecords(position, true);
-			int localX = Mathf.Abs(Mathf.FloorToInt(position.x) % ChunkSize);
-			int localY = Mathf.Abs(Mathf.FloorToInt(position.y) % ChunkSize);
-			try
-			{
-				Chunk[localX, localY] = value;
-			}
-			catch (Exception e)
-			{
-				Loggy.Error(e.ToString());
-			}
-
+			chunk[localX, localY] = value;
+		}
+		catch (Exception e)
+		{
+			Loggy.Error(e.ToString());
 		}
 	}
+
+
 	private T[,] GetChunkFromList2D(List<List<T[,]>> List2D, Vector3Int position, bool Expand = false)
 	{
 		int chunkX = Mathf.Abs(Mathf.FloorToInt( (float)position.x / ChunkSize));
@@ -163,19 +180,19 @@ public class ChunkedTileMap<T> : IEnumerable<T> where T : class
 
 
 
-	public T GetTile(Vector3Int position, bool Expand = false)
+	public T GetTile(Vector3Int position, bool expand = false)
 	{
 		if (Mathf.Abs(position.x) > MaxChunkTileRange || Mathf.Abs(position.y) > MaxChunkTileRange)
 		{
 			return OverflowDictionary.GetValueOrDefault(position);
 		}
 
-		var Chunk = GetChunkAtAndIgnoreDictionaryRecords(position, Expand);
+		var chunk = GetChunkAtAndIgnoreDictionaryRecords(position, expand);
 		int localX = Mathf.Abs(Mathf.FloorToInt(position.x) % ChunkSize);
 		int localY = Mathf.Abs(Mathf.FloorToInt(position.y) % ChunkSize);
-		if (Chunk != null)
+		if (chunk != null)
 		{
-			return Chunk[localX, localY];
+			return chunk[localX, localY];
 		}
 		else
 		{
@@ -184,7 +201,7 @@ public class ChunkedTileMap<T> : IEnumerable<T> where T : class
 	}
 
 
-// IEnumerable<T> implementation for foreach
+	// IEnumerable<T> implementation for foreach
 	public IEnumerator<T> GetEnumerator()
 	{
 		foreach (var chunkList in chunksXY)
@@ -245,7 +262,6 @@ public class ChunkedTileMap<T> : IEnumerable<T> where T : class
 					}
 				}
 			}
-
 		}
 
 		foreach (var chunkList in chunksnXY)
@@ -277,6 +293,125 @@ public class ChunkedTileMap<T> : IEnumerable<T> where T : class
 	IEnumerator IEnumerable.GetEnumerator()
 	{
 		return GetEnumerator();
+	}
+
+
+	/// <summary>
+	/// Grabs all tile positions on a tilemap (Extremely slow, don't overuse it)
+	/// </summary>
+	public Vector3Int[,] GetAllPositionsSlow()
+	{
+	    List<Vector3Int> positions = new List<Vector3Int>();
+
+	    foreach (var chunkList in chunksXY)
+	    {
+	        if (chunkList != null)
+	        {
+	            for (int chunkX = 0; chunkX < chunkList.Count; chunkX++)
+	            {
+	                var chunk = chunkList[chunkX];
+	                if (chunk != null)
+	                {
+	                    for (int localX = 0; localX < ChunkSize; localX++)
+	                    {
+	                        for (int localY = 0; localY < ChunkSize; localY++)
+	                        {
+	                            if (chunk[localX, localY] != null)
+	                            {
+	                                positions.Add(new Vector3Int(chunkX * ChunkSize + localX, chunkX * ChunkSize + localY, 0));
+	                            }
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	    }
+
+	    foreach (var chunkList in chunksXnY)
+	    {
+	        if (chunkList != null)
+	        {
+	            for (int chunkX = 0; chunkX < chunkList.Count; chunkX++)
+	            {
+	                var chunk = chunkList[chunkX];
+	                if (chunk != null)
+	                {
+	                    for (int localX = 0; localX < ChunkSize; localX++)
+	                    {
+	                        for (int localY = 0; localY < ChunkSize; localY++)
+	                        {
+	                            if (chunk[localX, localY] != null)
+	                            {
+	                                positions.Add(new Vector3Int(chunkX * ChunkSize + localX, -(chunkX * ChunkSize + localY), 0));
+	                            }
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	    }
+
+	    foreach (var chunkList in chunksnXY)
+	    {
+	        if (chunkList != null)
+	        {
+	            for (int chunkX = 0; chunkX < chunkList.Count; chunkX++)
+	            {
+	                var chunk = chunkList[chunkX];
+	                if (chunk != null)
+	                {
+	                    for (int localX = 0; localX < ChunkSize; localX++)
+	                    {
+	                        for (int localY = 0; localY < ChunkSize; localY++)
+	                        {
+	                            if (chunk[localX, localY] != null)
+	                            {
+	                                positions.Add(new Vector3Int(-(chunkX * ChunkSize + localX), chunkX * ChunkSize + localY, 0));
+	                            }
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	    }
+
+	    foreach (var chunkList in chunksnXnY)
+	    {
+	        if (chunkList != null)
+	        {
+	            for (int chunkX = 0; chunkX < chunkList.Count; chunkX++)
+	            {
+	                var chunk = chunkList[chunkX];
+	                if (chunk != null)
+	                {
+	                    for (int localX = 0; localX < ChunkSize; localX++)
+	                    {
+	                        for (int localY = 0; localY < ChunkSize; localY++)
+	                        {
+	                            if (chunk[localX, localY] != null)
+	                            {
+	                                positions.Add(new Vector3Int(-(chunkX * ChunkSize + localX), -(chunkX * ChunkSize + localY), 0));
+	                            }
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	    }
+
+	    foreach (var kv in OverflowDictionary)
+	    {
+	        positions.Add(kv.Key);
+	    }
+
+	    int size = positions.Count;
+	    Vector3Int[,] result = new Vector3Int[size, 1];
+	    for (int i = 0; i < size; i++)
+	    {
+	        result[i, 0] = positions[i];
+	    }
+
+	    return result;
 	}
 
 	public void Clear()

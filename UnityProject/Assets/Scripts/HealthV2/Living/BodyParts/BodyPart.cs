@@ -16,7 +16,7 @@ namespace HealthV2
 {
 	/// <summary>
 	/// A part of a body. Can be external, such as a limb, or internal like an organ.
-	/// Body parts can also contain other body parts, eg the 'brain body part' contained in the 'head body part'.
+	/// Body parts can also contain other body parts, e.g. the 'brain body part' contained in the 'head body part'.
 	/// BodyPart is a partial class split into BodyPart, BodyPartDamage, BodyPartBlood, BodyPartSurgery, and BodyPartModifiers.
 	/// </summary>
 	public partial class BodyPart : MonoBehaviour, IBodyPartDropDownOrgans
@@ -26,6 +26,7 @@ namespace HealthV2
 
 		[HideInInspector] private readonly List<BodyPart> containBodyParts = new List<BodyPart>();
 		public event Action<LivingHealthMasterBase> OnAddedToBody;
+		public event Action<LivingHealthMasterBase> OnRemovedFromBody;
 
 		public List<BodyPart> ContainBodyParts => containBodyParts;
 
@@ -111,6 +112,8 @@ namespace HealthV2
 		         "Leave empty if it shouldn't change this.")]
 		private BodyTypesWithOrder BodyTypesSprites = new BodyTypesWithOrder();
 
+		public BodyTypesWithOrder GetBodyTypesSprites => BodyTypesSprites;
+
 		/// <summary>
 		/// The list of sprites associated with this body part
 		/// </summary>
@@ -169,9 +172,8 @@ namespace HealthV2
 				}
 				catch (Exception e)
 				{
-					Loggy.Error(e.ToString());
+					Loggy.Error($"Error on organ: {organ.name}:\n" + e.ToString());
 				}
-
 			}
 
 			CalculateRadiationDamage();
@@ -192,10 +194,17 @@ namespace HealthV2
 			var dynamicItemStorage = HealthMaster.GetComponent<DynamicItemStorage>();
 			if (dynamicItemStorage != null)
 			{
-				var bodyPartUISlots = GetComponent<BodyPartUISlots>();
-				if (bodyPartUISlots != null)
+				try
 				{
-					dynamicItemStorage.Add(bodyPartUISlots);
+					var bodyPartUISlots = GetComponent<BodyPartUISlots>();
+					if (bodyPartUISlots != null)
+					{
+						dynamicItemStorage.Add(bodyPartUISlots);
+					}
+				}
+				catch (Exception e)
+				{
+					Loggy.Error("An error occured when adding body UI slots:\n" + e.ToString());
 				}
 			}
 
@@ -274,6 +283,14 @@ namespace HealthV2
 
 			foreach (var organ in OrganList)
 			{
+
+				var organType = organ.GetType();
+				while (organType != typeof(BodyPartFunctionality) && organType != typeof(NetworkBehaviour))
+				{
+					livingHealth.AddOrgan(organType,organ);
+					organType = organType.BaseType;
+				}
+
 				organ.OnAddedToBody(HealthMaster); //Only add Body parts
 			}
 
@@ -294,6 +311,13 @@ namespace HealthV2
 		{
 			foreach (var organ in OrganList)
 			{
+				var Type = organ.GetType();
+				while (Type != typeof(BodyPartFunctionality) && Type != typeof(NetworkBehaviour))
+				{
+					HealthMaster.RemoveOrgan(Type,organ);
+					Type = Type.BaseType;
+				}
+
 				organ.OnRemovedFromBody(HealthMaster);
 			}
 
@@ -303,6 +327,7 @@ namespace HealthV2
 			}
 
 			RemoveAllSprites();
+			OnRemovedFromBody?.Invoke(HealthMaster);
 			HealthMaster.RemovingBodyPart(this);
 			HealthMaster.BodyPartListChange();
 			HealthMaster = null;

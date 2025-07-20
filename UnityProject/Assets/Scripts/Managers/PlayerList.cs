@@ -516,8 +516,7 @@ public partial class PlayerList : NetworkBehaviour
 		}
 
 		SetPlayerReady(player, false);
-		CheckForLoggedOffAdmin(player.AccountId, player.Username);
-		CheckForLoggedOffMentor(player.AccountId, player.Username);
+		RemovePlayerTAGS(player);
 		TryMoveClientToOfflineList(player);
 	}
 
@@ -603,7 +602,7 @@ public partial class PlayerList : NetworkBehaviour
 
 			if (GameData.Instance.OfflineMode)
 			{
-				if (serverAdmins.Contains(player.Account.Id)) continue; //Allow admins to multikey (local devs connecting multiple clients)
+				if (HasTAGServer(TAG.OFFLINE_MODE_MULTIKEY, player.Account.Id)) continue; //Allow admins to multikey (local devs connecting multiple clients)
 			}
 
 
@@ -641,7 +640,7 @@ public partial class PlayerList : NetworkBehaviour
 				continue; //server player
 			}
 
-			if (serverAdmins.Contains(player.AccountId)) continue; // Allow admins to multikey (local devs connecting multiple clients)
+			if (HasTAGServer(TAG.OFFLINE_MODE_MULTIKEY, player.Account.Id)) continue; // Allow admins to multikey (local devs connecting multiple clients)
 
 			if ((player.ClientId == clientId || player.AccountId == userId) && newPlayer != player)
 			{
@@ -672,7 +671,6 @@ public partial class PlayerList : NetworkBehaviour
 	private void OnDestroy()
 	{
 		AccessFile.UnRegister(LoadCurrentAdmins);
-		AccessFile.UnRegister(LoadCurrentMentors);
 		AccessFile.UnRegister(LoadWhiteList);
 	}
 

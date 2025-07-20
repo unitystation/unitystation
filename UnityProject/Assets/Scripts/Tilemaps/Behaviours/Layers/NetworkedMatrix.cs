@@ -168,6 +168,14 @@ namespace Tilemaps.Behaviours.Layers
 
 			Loggy.Error($"Failed to find matrix sync for {gameObject.name}");
 		}
+
+		public void OnDestroy()
+		{
+			if (Initialized)
+			{
+				MatrixManager.Instance?.UnRegister(matrix);
+			}
+		}
 	}
 
 	class NetworkedMatrixInitEvent : UnityEvent<NetworkedMatrix>

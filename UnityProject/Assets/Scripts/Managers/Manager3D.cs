@@ -82,13 +82,13 @@ public class Manager3D : MonoBehaviour
 		Array.Reverse(charArray);
 		string reversedString = new string(charArray);
 
-		if (reversedString == "007") //This never happened to the other fella
+		if (reversedString == "007")
 		{
-			SafeURL.Open("https://youtu.be/AFaJWqVcv8k?t=11");
+			_ = SafeURL.Open("https://www.youtube.com/watch?v=fahO8mCWL44");
 		}
 		else
 		{
-			SafeURL.Open("https://youtu.be/0gEkNVq1ct0?t=8");
+			_ = SafeURL.Open("https://www.youtube.com/watch?v=BSsfjHCFosw");
 		}
 
 		ConvertTo3D();
@@ -268,5 +268,12 @@ public class Manager3D : MonoBehaviour
 		Camera.main.orthographic = false;
 		Camera.main.fieldOfView = 90;
 		Camera.main.nearClipPlane = 0.1f;
+		Camera.main.useOcclusionCulling = true;
+		UnityEngine.RenderSettings.fog = true;
+		UnityEngine.RenderSettings.fogDensity = 0.25f;
+		UnityEngine.RenderSettings.fogMode = FogMode.Linear;
+		UnityEngine.RenderSettings.fogStartDistance = 1;
+		UnityEngine.RenderSettings.fogEndDistance = 12;
+		UnityEngine.RenderSettings.fogColor = Color.black;
 	}
 }

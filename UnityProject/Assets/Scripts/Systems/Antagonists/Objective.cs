@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Items;
 using Logs;
+using SecureStuff;
 using UnityEngine;
 
 namespace Antagonists
@@ -172,12 +173,43 @@ namespace Antagonists
 
 		}
 
+		public virtual void OnRoundEnd()
+		{
+
+		}
 		/// <summary>
 		/// Shows if this objective is complete or not
 		/// </summary>
 		public bool IsComplete()
 		{
 			return (Complete || CheckCompletion());
+		}
+
+		public virtual string GetStatusText(bool RichText)
+		{
+			if (RichText)
+			{
+				return IsComplete() ? "<color=green>Completed\n" : "In progress/Failed\n";
+			}
+			else
+			{
+				return IsComplete() ? "Completed" : "In progress/Failed";
+			}
+		}
+
+		public virtual string GetCompleteText(bool RichText)
+		{
+			if (RichText)
+			{
+				return this.IsComplete()
+					? "<color=green><b>Completed</b></color>"
+					: "<color=red><b>Failed</b></color>";
+			}
+			else
+			{
+				return this.IsComplete() ? "Completed\n" : "Failed\n";
+			}
+
 		}
 
 		public virtual string GetShortDescription()
@@ -201,51 +233,67 @@ namespace Antagonists
 		/// <summary>
 		/// Checks through all the storage recursively
 		/// </summary>
-		protected bool CheckStorageFor(string name, int count)
+		protected bool CheckStorageFor(string name, int count, string ItemID)
 		{
-			if (Owner.Body.DynamicItemStorage == null)
+			if (Owner?.CurrentPlayScript?.DynamicItemStorage == null)
 			{
-				Loggy.Error($"Unable to find dynamic storage for {Owner.Body} / {Owner.Body.PlayerInfo.Username}");
+				Loggy.Error($"Unable to find dynamic storage for {Owner?.Body} / {Owner?.Body?.PlayerInfo?.Username}");
 				//If they have no storage then fail, as they can't have the item
 				return false;
 			}
 
-			return CheckStorage(Owner.Body.DynamicItemStorage, default, name) >= count;
+			return CheckStorage(Owner?.CurrentPlayScript?.DynamicItemStorage, default, name, ItemID) >= count;
 		}
 
 		/// <inheritdoc cref="CheckStorageFor(string, int)"/>
-		protected bool CheckStorageFor(Type component, int count)
+		protected bool CheckStorageFor(Type component, int count, string ItemID)
 		{
-			return CheckStorage(Owner.Body.DynamicItemStorage, component, default) >= count;
+			return CheckStorage(Owner?.CurrentPlayScript?.DynamicItemStorage, component, default, ItemID) >= count;
 		}
 
-		private int CheckStorage(DynamicItemStorage itemStorage, Type component, string name)
+		private int CheckStorage(DynamicItemStorage itemStorage, Type component, string name, string ItemID)
 		{
+			if (itemStorage == null) return 0;
 			int count = 0;
 			foreach (var slot in itemStorage.GetItemSlotTree())
 			{
-				count += CheckSlot(slot, component, name);
+				count += CheckSlot(slot, component, name, ItemID);
 			}
 			return count;
 		}
 
-		private int CheckStorage(ItemStorage itemStorage, Type component, string name)
+		private int CheckStorage(ItemStorage itemStorage, Type component, string name, string ItemID)
 		{
 			int count = 0;
 			foreach (var slot in itemStorage.GetItemSlotTree())
 			{
-				count += CheckSlot(slot, component, name);
+				count += CheckSlot(slot, component, name,ItemID);
 			}
 			return count;
 		}
 
-		private int CheckSlot(ItemSlot slot, Type component, string name)
+		private int CheckSlot(ItemSlot slot, Type component, string name, string ItemID)
 		{
 			if (slot.IsEmpty) return 0;
 
+
+			bool ItemMatches = false;
 			//Check if current Item is the one we need
-			if ((component != null && slot.ItemObject.TryGetComponent(component, out _)) ||
-					slot.ItemObject.GetComponent<ItemAttributesV2>()?.ArticleName == name)
+			if (string.IsNullOrEmpty(ItemID) == false && slot.ItemObject.GetComponent<IHaveForeverID>()?.ForeverID == ItemID )
+			{
+				ItemMatches = true;
+			}
+			else if ((component != null && slot.ItemObject.TryGetComponent(component, out _)))
+			{
+				ItemMatches = true;
+			}
+			else if  (slot.ItemObject.GetComponent<ItemAttributesV2>()?.ArticleName == name)
+			{
+				ItemMatches = true;
+			}
+
+
+			if (ItemMatches)
 			{
 				//If stackable count stack
 				if (slot.ItemObject.TryGetComponent<Stackable>(out var stackable))
@@ -256,15 +304,11 @@ namespace Antagonists
 				return 1;
 			}
 
+
 			//Check to see if this item has storage, and do checks on that
 			if (slot.ItemObject.TryGetComponent<DynamicItemStorage>(out var itemStorage))
 			{
-				return CheckStorage(itemStorage, component, name);
-			}
-
-			if (slot.ItemObject.TryGetComponent<ItemStorage>(out var storage))
-			{
-				return CheckStorage(storage, component, name);
+				return CheckStorage(itemStorage, component, name, ItemID);
 			}
 
 			return 0;

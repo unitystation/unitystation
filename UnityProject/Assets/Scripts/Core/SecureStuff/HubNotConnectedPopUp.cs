@@ -20,6 +20,8 @@ public class HubNotConnectedPopUp : MonoBehaviour
 		Close();
 	}
 
+
+
 	public void SetUp(string OnFailText, string ClipboardURL)
 	{
 		gameObject.SetActive(true);

@@ -134,6 +134,11 @@ namespace Objects
 			{
 				//For electrical guns
 				electricalMagazine.AddCharge();
+				var GunElectrical = ChargingSlot.Item.GetComponent<GunElectrical>();
+				if (GunElectrical != null)
+				{
+					GunElectrical.UpdateChargeSprite();
+				}
 			}
 		}
 

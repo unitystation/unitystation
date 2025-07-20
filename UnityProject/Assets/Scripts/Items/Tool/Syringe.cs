@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Chemistry.Components;
-using Health.Sickness;
 using HealthV2;
 using Mirror;
 using UnityEngine;
@@ -16,8 +15,6 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>, ICheckedI
 	public SpriteHandler PullOrDrawSpriteHandler;
 
 	public SpriteHandler ContentsSpriteHandler;
-
-	public List<SicknessAffliction> SicknessesInSyringe = new List<SicknessAffliction>();
 
 	public bool singleUse = false;
 
@@ -136,7 +133,6 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>, ICheckedI
 			Chat.AddCombatMsgToChat(performer.gameObject,
 				$"You Inject The {this.name} into {LHB.gameObject.ExpensiveName()}",
 				$"{performer.PlayerScript.visibleName} injects a {this.name} into {LHB.gameObject.ExpensiveName()}");
-			if (SicknessesInSyringe.Count > 0) LHB.AddSickness(SicknessesInSyringe.PickRandom().Sickness);
 			if (ChangesSprite) SpriteHandler.SetCatalogueIndexSprite(SpiteEmptyIndex);
 
 			if (LocalContainer.ReagentMixTotal == 0)
@@ -152,9 +148,6 @@ public class Syringe : MonoBehaviour, ICheckedInteractable<HandApply>, ICheckedI
 			if (ChangesSprite) SpriteHandler.SetCatalogueIndexSprite(SpiteFullIndex);
 			Chat.AddCombatMsgToChat(performer.gameObject, $"You pull the blood from {LHB.gameObject.ExpensiveName()}",
 				$"{performer.PlayerScript.visibleName} pulls the blood from {LHB.gameObject.ExpensiveName()}");
-			if (LHB.mobSickness.sicknessAfflictions.Count > 0)
-				SicknessesInSyringe.AddRange(LHB.mobSickness.sicknessAfflictions);
-
 
 			if (LocalContainer.ReagentMixTotal == LocalContainer.MaxCapacity)
 			{

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Messages.Client;
 using Mirror;
+using UI;
+using UI.Systems.PreRound;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -19,6 +21,8 @@ public partial class SubSceneManager
 	private readonly float tickRate = 1f;
 
 	public Dictionary<string, bool> ClientObserver = new Dictionary<string, bool>();
+
+	public bool ClientIsFullyDoneLoadingOnSubsceneManager { get; private set; } = false;
 
 
 	void MonitorServerSceneListOnClient()
@@ -89,9 +93,12 @@ public partial class SubSceneManager
 		//calculate load time:
 		SubsceneLoadTimer.MaxLoadTime = Scenes.Count;
 
+		var loadCount = 0;
 		clientIsLoadingSubscene = true;
 		foreach (var Scene in Scenes)
 		{
+			loadCount++;
+			GUI_PreRoundWindow.Instance?.LoadingArea?.UpdateLoadingBar("Loading Scenes", $"Scenes Loaded.. ({loadCount}/{Scenes.Count})", loadCount / Scenes.Count);
 			yield return LoadClientSubScene(Scene, false, SubsceneLoadTimer, true );
 			if (KillClientLoadingCoroutine)
 			{
@@ -102,11 +109,16 @@ public partial class SubSceneManager
 			}
 		}
 
+		loadCount = 0;
+
+		GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke($"Preparing to spawn objects..");
 		NetworkClient.PrepareToSpawnSceneObjects();
 		RequestObserverRefresh.Send(OriginalScene);
 
-		foreach (var Scene in Scenes)
+		GUI_PreRoundWindow.Instance?.LoadingArea?.UpdateLoadingBar("Loading Scenes", $"Requesting Object Observers.. ({loadCount}/{Scenes.Count})", 0.5f);
+		foreach (var scene in Scenes)
 		{
+			loadCount++;
 			yield return WaitFor.Seconds(0.1f); //For smooth FPS not necessary technically, but causes freeze For a little bit
 			if (KillClientLoadingCoroutine)
 			{
@@ -114,8 +126,8 @@ public partial class SubSceneManager
 				clientIsLoadingSubscene = false;
 				yield break;
 			}
-			RequestObserverRefresh.Send(Scene.SceneName);
-			ClientObserver[Scene.SceneName] = false;
+			RequestObserverRefresh.Send(scene.SceneName);
+			ClientObserver[scene.SceneName] = false;
 		}
 
 		clientIsLoadingSubscene = false;
@@ -135,9 +147,10 @@ public partial class SubSceneManager
 
 
 		ClientObserver.Clear();
-		UIManager.Display.preRoundWindow.CloseMapLoadingPanel();
 		ClientSideFinishAction = null;
-		OnFinish.Invoke();
+		OnFinish?.Invoke();
+		GUI_PreRoundWindow.Instance?.HideLoadingArea();
+		ClientIsFullyDoneLoadingOnSubsceneManager = true;
 	}
 
 

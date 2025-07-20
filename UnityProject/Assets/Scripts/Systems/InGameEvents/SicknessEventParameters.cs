@@ -3,7 +3,7 @@
 	/// <summary>
 	/// Parameters for the sickness event
 	/// </summary>
-	public class SicknessEventParameters: BaseEventParameters 
+	public class SicknessEventParameters: BaseEventParameters
 	{
 		/// <summary>
 		/// Number of players to infect
@@ -11,8 +11,14 @@
 		public int PlayerToInfect;
 
 		/// <summary>
-		/// The NetId of the sickness to apply
+		/// The index of the sickness to apply in CureManager.CureableSicknesses
 		/// </summary>
 		public int SicknessIndex;
+
+
+		/// <summary>
+		/// The starting % of the disease in applied victims
+		/// </summary>
+		public float Strength;
 	}
 }

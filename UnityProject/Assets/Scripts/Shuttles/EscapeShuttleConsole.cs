@@ -168,7 +168,7 @@ namespace Objects
 
 		public RightClickableResult GenerateRightClickOptions()
 		{
-			if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) ||
+			if (PlayerList.HasTAGClient(TAG.ROUND_EARLY_LAUNCH) == false ||
 			    KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions,
 				    KeyboardInputManager.KeyEventType.Hold) == false)
 			{

@@ -110,14 +110,14 @@ namespace Util
 		}
 
 		[ClientRpc]
-		public void RpcRotateGameObject(Vector3 vector, float time)
+		public void RpcLocalRotateGameObject(Vector3 vector, float time)
 		{
-			LeanTween.rotate(Target.gameObject, vector, time);
+			LeanTween.rotateLocal(Target.gameObject, vector, time);
 		}
 
-		public void RotateGameObject(Vector3 vector, float time, GameObject otherTarget = null)
+		public void LocalRotateGameObject(Vector3 vector, float time, GameObject otherTarget = null)
 		{
-			LeanTween.rotate(otherTarget == null ? Target.gameObject : otherTarget.gameObject, vector, time);
+			LeanTween.rotateLocal(otherTarget == null ? Target.gameObject : otherTarget.gameObject, vector, time);
 		}
 
 		[ClientRpc]

@@ -72,7 +72,7 @@ PrefabInstance:
     - target: {fileID: 4242206434757656628, guid: f2441585d37f1914395df59a57c5e925,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.00000004371139
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4242206434757656628, guid: f2441585d37f1914395df59a57c5e925,
         type: 3}
@@ -87,7 +87,7 @@ PrefabInstance:
     - target: {fileID: 4242206434757656628, guid: f2441585d37f1914395df59a57c5e925,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4242206434757656628, guid: f2441585d37f1914395df59a57c5e925,
         type: 3}
@@ -122,6 +122,12 @@ PrefabInstance:
     - target: {fileID: 8690290674264779828, guid: f2441585d37f1914395df59a57c5e925,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: b70d58d7e106d3d42b2dafed631faa23,
+        type: 2}
+    - target: {fileID: 8690290674264779828, guid: f2441585d37f1914395df59a57c5e925,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: b70d58d7e106d3d42b2dafed631faa23,
         type: 2}

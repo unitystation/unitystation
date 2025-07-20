@@ -296,7 +296,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			if (Validations.IsReachableByPositions(PlayerManager.LocalPlayerScript.RegisterPlayer.WorldPosition, Target, false))
 			{
-				if (MatrixManager.IsPassableAtAllMatricesOneTile(Target.RoundToInt(), CustomNetworkManager.Instance._isServer))
+				if (MatrixManager.IsPassableAtAllMatricesOneTile(Target.RoundToInt(), CustomNetworkManager.IsServer))
 				{
 					possibleTarget = (Target - PlayerManager.LocalPlayerScript.RegisterPlayer.WorldPosition);
 				}
@@ -507,7 +507,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdVetoRestartVote()
 	{
-		if (AdminCommandsManager.IsAdmin(connectionToClient, out var player))
+		if (AdminCommandsManager.HasPermission(connectionToClient, out var player, TAG.ADMIN_VOTE_VETO))
 		{
 			if (VotingManager.Instance == null) return;
 
@@ -645,7 +645,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdRespawnPlayer()
 	{
-		if (AdminCommandsManager.IsAdmin(connectionToClient, out _, false) || GameManager.Instance.RespawnCurrentlyAllowed)
+		if (AdminCommandsManager.HasPermission(connectionToClient, out _,  TAG.ADMIN_RESPAWN_SELF,false) || GameManager.Instance.RespawnCurrentlyAllowed)
 		{
 			ServerRespawnPlayer();
 		}
@@ -886,6 +886,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdRequestSpell(int spellIndex, Vector3 clickPosition)
 	{
+		if (playerScript?.Mind?.Spells == null)
+		{
+			return;
+		}
 		foreach (var spell in playerScript.Mind.Spells)
 		{
 			if (spell.SpellData.Index == spellIndex)
@@ -957,7 +961,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdSetCrayon(GameObject crayon, uint category, uint index, uint colourIndex, OrientationEnum direction)
+	public void CmdSetCrayonTile(GameObject crayon, uint category, uint index, uint colourIndex, OrientationEnum direction)
 	{
 		if(crayon == null || crayon.TryGetComponent<CrayonSprayCan>(out var crayonScript) ==  false) return;
 

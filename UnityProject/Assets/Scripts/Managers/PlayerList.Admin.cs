@@ -6,6 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using AdminCommands;
+using C5;
 using SecureStuff;
 using DatabaseAPI;
 using Mirror;
@@ -20,7 +22,9 @@ using Messages.Server;
 using Messages.Server.AdminTools;
 using Newtonsoft.Json;
 using Systems.Character;
+using Systems.Permissions;
 using UI;
+
 
 
 /// <summary>
@@ -28,18 +32,14 @@ using UI;
 /// </summary>
 public partial class PlayerList
 {
-	private HashSet<string> serverAdmins = new HashSet<string>();
+	private Dictionary<string, System.Collections.Generic.HashSet<string>> LoggedInWithTag = new Dictionary<string, System.Collections.Generic.HashSet<string> >();
 
-	public  HashSet<string> ServerAdmins => serverAdmins;
-
-	private HashSet<string> mentorUsers = new HashSet<string>();
-	private Dictionary<string, string> loggedInAdmins = new Dictionary<string, string>();
-	private Dictionary<string, string> loggedInMentors = new Dictionary<string, string>();
 	private BanList banList;
-	private string mentorsPath;
-	private string adminsPath;
 	private string banPath;
 	private List<string> whiteListUsers = new List<string>();
+
+	public string[] AdminTAGS = Array.Empty<string>();
+
 	private string whiteListPath;
 
 	private string jobBanPath;
@@ -47,7 +47,8 @@ public partial class PlayerList
 
 	public List<JobBanEntry> clientSideBanEntries = new List<JobBanEntry>();
 
-	public string AdminToken { get; private set; }
+
+	public static event Action OnPermissionsChange;
 
 	//does the client think he's an admin
 	public bool IsClientAdmin;
@@ -56,8 +57,6 @@ public partial class PlayerList
 	[Server]
 	void InitAdminController()
 	{
-		adminsPath = Path.Combine( AccessFile.AdminFolder, "admins.txt");
-		mentorsPath = Path.Combine( AccessFile.AdminFolder, "mentors.txt");
 		banPath = Path.Combine( AccessFile.AdminFolder, "banlist.json");
 		whiteListPath = Path.Combine( AccessFile.AdminFolder, "whitelist.txt");
 		jobBanPath = Path.Combine( AccessFile.AdminFolder, "jobBanlist.json");
@@ -72,14 +71,12 @@ public partial class PlayerList
 			AccessFile.Save(jobBanPath, JsonConvert.SerializeObject(new JobBanList()));
 		}
 
-		AccessFile.Watch(adminsPath, ThreadLoadCurrentAdmins);
-		AccessFile.Watch(mentorsPath, ThreadLoadCurrentMentors);
 		AccessFile.Watch(whiteListPath, ThreadLoadWhiteList);
-
+		AccessFile.Watch(PermissionsManager.Instance.configPath, LoadCurrentAdmins);
 
 		LoadBanList();
 		LoadCurrentAdmins();
-		LoadCurrentMentors();
+
 		LoadWhiteList();
 		LoadJobBanList();
 	}
@@ -105,28 +102,7 @@ public partial class PlayerList
 
 	static void LoadCurrentAdmins()
 	{
-		Instance.StartCoroutine(LoadAdmins());
-	}
-
-	static void ThreadLoadCurrentAdmins()
-	{
-		Thread.Sleep(100);
-		Instance.serverAdmins.Clear();
-		Instance.serverAdmins = new HashSet<string>(AccessFile.ReadAllLines(Instance.adminsPath));
-	}
-
-
-	static void LoadCurrentMentors()
-	{
-
-		Instance.StartCoroutine(LoadMentors());
-	}
-
-	static void ThreadLoadCurrentMentors()
-	{
-		Thread.Sleep(100);
-		Instance.mentorUsers.Clear();
-		Instance.mentorUsers = new HashSet<string>(AccessFile.ReadAllLines(Instance.mentorsPath));
+		LoadAdmins();
 	}
 
 	static void LoadJobBanList()
@@ -156,180 +132,131 @@ public partial class PlayerList
 		Instance.whiteListUsers = new List<string>(AccessFile.ReadAllLines(Instance.whiteListPath));
 	}
 
-	static IEnumerator LoadAdmins()
+	static void LoadAdmins()
 	{
-		//ensure any writing has finished
-		yield return WaitFor.EndOfFrame;
-		Instance.serverAdmins.Clear();
-		var collectionOfAdmins = AccessFile.ReadAllLines(Instance.adminsPath);
-		if (collectionOfAdmins == null)
+		PermissionsManager.Instance.LoadPermissionsConfig();
+		Instance.LoggedInWithTag.Clear();
+		foreach (var Info in PlayerList.Instance.loggedIn)
 		{
-			Loggy.Error("The Admins file is null, empty or broken!", Category.Admin);
-			yield break;
+			Instance.CheckAdminState(Info);
 		}
-		else
-		{
-			var names = new StringBuilder();
-			names.Append("Admins Loaded: ");
-			foreach (var adminName in collectionOfAdmins)
-			{
-				names.AppendLine(adminName);
-			}
-			Loggy.Info(names.ToString());
-		}
-		Instance.serverAdmins = new HashSet<string>(collectionOfAdmins);
-	}
-
-	static IEnumerator LoadMentors()
-	{
-		//ensure any writing has finished
-		yield return WaitFor.EndOfFrame;
-		Instance.mentorUsers.Clear();
-		Instance.mentorUsers = new HashSet<string>(AccessFile.ReadAllLines(Instance.mentorsPath));
 	}
 
 	[Server]
-	public GameObject GetAdmin(string userID, string token)
-	{
-
-		if (string.IsNullOrEmpty(userID))
-		{
-			//allow null admin when doing offline testing
-			if (GameData.Instance.OfflineMode)
-			{
-				return PlayerManager.LocalPlayerObject;
-			}
-			Loggy.Error("The User ID for Admin is null!", Category.Admin);
-			if (string.IsNullOrEmpty(token))
-			{
-				Loggy.Error("The AdminToken value is null!", Category.Admin);
-			}
-
-			return null;
-		}
-
-		if (!loggedInAdmins.ContainsKey(userID)) return null;
-
-		if (loggedInAdmins[userID] != token) return null;
-
-		TryGetOnlineByUserID(userID, out var admin);
-		return admin?.GameObject;
-	}
-
-	[Server]
-	public List<PlayerInfo> GetAllAdmins()
+	public List<PlayerInfo> GetAllWithTAG(string tag)
 	{
 		var admins = new List<PlayerInfo>();
-		foreach (var a in loggedInAdmins)
+		if (LoggedInWithTag.ContainsKey(tag))
 		{
-			if (TryGetOnlineByUserID(a.Key, out var admin))
+			foreach (var a in LoggedInWithTag[tag])
 			{
-				admins.Add(admin);
+				if (TryGetOnlineByUserID(a, out var admin))
+				{
+					admins.Add(admin);
+				}
+			}
+
+		}
+
+		if (LoggedInWithTag.ContainsKey("*"))
+		{
+			foreach (var a in LoggedInWithTag["*"])
+			{
+				if (TryGetOnlineByUserID(a, out var admin))
+				{
+					admins.Add(admin);
+				}
 			}
 		}
 
 		return admins;
 	}
 
-	[Server]
-	public bool IsAdmin(string userID)
+	public static bool HasTAGClient(string TAG)
 	{
-		return serverAdmins.Contains(userID);
-	}
-
-	[Server]
-	public GameObject GetMentor(string userID, string token)
-	{
-
-		if (string.IsNullOrEmpty(userID))
+		if (Instance == null) return false;
+		if (Instance.AdminTAGS.Contains("*"))
 		{
-			//allow null mentor when doing offline testing
-			if (GameData.Instance.OfflineMode)
-			{
-				return PlayerManager.LocalPlayerObject;
-			}
-			Loggy.Error("The User ID for Mentor is null!", Category.Mentor);
-			if (string.IsNullOrEmpty(token))
-			{
-				Loggy.Error("The AdminToken value is null!", Category.Mentor);
-			}
-
-			return null;
+			return true;
 		}
 
-		if (!loggedInMentors.ContainsKey(userID)) return null;
-
-		if (loggedInMentors[userID] != token) return null;
-
-		TryGetOnlineByUserID(userID, out var admin);
-		return admin?.GameObject;
+		if (Instance.AdminTAGS.Contains(TAG))
+		{
+			return true;
+		}
+		return false;
 	}
 
-	[Server]
-	public List<PlayerInfo> GetAllMentors()
+	public static bool HasTAGServer(string TAG, string AccountID)
 	{
-		List<PlayerInfo> mentors = new List<PlayerInfo>();
-		foreach (var a in loggedInMentors)
+		if (Instance.LoggedInWithTag.ContainsKey(TAG))
 		{
-			if (TryGetOnlineByUserID(a.Key, out var mentor))
+			if (Instance.LoggedInWithTag[TAG].Contains(AccountID))
 			{
-				mentors.Add(mentor);
+				return true;
 			}
 		}
-
-		return mentors;
+		else
+		{
+			if (Instance.LoggedInWithTag.ContainsKey("*"))
+			{
+				return Instance.LoggedInWithTag["*"].Contains(AccountID);
+			}
+		}
+		return false;
 	}
 
-	[Server]
-	public bool IsMentor(string userID)
+
+
+
+	public  static Rank GetRankForAccount(string AccountID, out string RankName)
 	{
-		return mentorUsers.Contains(userID);
+		return PermissionsManager.Instance.GetRankForAccount(AccountID, out RankName);
 	}
 
 	[Server]
 	public void TryAddMentor(string userID, bool addToFile = true)
 	{
-		if (IsMentor(userID) && addToFile == false) return;
-
-		mentorUsers.Add(userID);
-
-		if (TryGetOnlineByUserID(userID, out var player))
-		{
-			CheckMentorState(player, userID);
-		}
-
-		if (addToFile == false) return;
-
-		//Read file to see if already in file
-		var fileContents = AccessFile.ReadAllLines(mentorsPath);
-		if(fileContents.Contains(userID)) return;
-
-		//Write to file if not
-		var newContents = fileContents.Append(userID).ToArray();
-		AccessFile.WriteAllLines(mentorsPath, newContents);
+		TryAddRank(userID, "mentor", addToFile);
 	}
 
 	[Server]
-	public void TryRemoveMentor(string userID)
+	public void TryRemoveMentor(string userID, bool addToFile = true)
 	{
-		if (IsMentor(userID) == false) return;
+		TryRemoveRank(userID, "mentor", addToFile);
+	}
 
-		mentorUsers.Remove(userID);
+
+	[Server]
+	public void TryAddRank(string userID, string inRank, bool addToFile = true)
+	{
+		var data = GetRankForAccount(userID, out var Rank);
+
+		if (data != null) return;
+
+		Loggy.Warning($"Adding rank of {inRank} To userID > {userID} addToFile > {addToFile} ");
+
+		PermissionsManager.Instance.AddRoleTo(userID, inRank, addToFile);
 
 		if (TryGetOnlineByUserID(userID, out var player))
 		{
-			MentorEnableMessage.Send(player.Connection, string.Empty, false);
+			CheckAdminState(player);
+		}
+	}
 
-			CheckForLoggedOffMentor(userID, player.Username);
+	[Server]
+	public void TryRemoveRank(string userID, string inRank, bool addToFile = true)
+	{
+		var data = GetRankForAccount(userID, out var Rank);
+
+		if (Rank != inRank)  return;
+
+		if (TryGetOnlineByUserID(userID, out var player))
+		{
+			RemovePlayerTAGS(player);
 		}
 
-		//Read file to see if already in file
-		var fileContents = AccessFile.ReadAllLines(mentorsPath);
-		if(fileContents.Contains(userID) == false) return;
-
-		//Remove from file if they are in there
-		var newContents = fileContents.Where(line => line != userID).ToArray();
-		AccessFile.WriteAllLines(mentorsPath, newContents);
+		PermissionsManager.Instance.RemoveRoleFrom(userID, inRank, addToFile);
 	}
 
 	[TargetRpc]
@@ -343,14 +270,7 @@ public partial class PlayerList
 
 	public bool TryLogIn(PlayerInfo player)
 	{
-		// Check if the player is considered a server admin
-		// Admins can bypass certain checks, like player capacity and multikeying
-		if (ValidatePlayerAdminStatus(player))
-		{
-			CheckAdminState(player);
-			Loggy.Info($"Admin {player.Username} (user ID '{player.AccountId}') logged in successfully.", Category.Admin);
-			return true;
-		}
+		CheckAdminState(player);
 
 		if (CanRegularPlayerJoin(player) == false) return false;
 		if (ValidateMultikeying(player) == false) return false;
@@ -359,32 +279,18 @@ public partial class PlayerList
 		return true;
 	}
 
-	private bool ValidatePlayerAdminStatus(PlayerInfo player)
-	{
-		// Server host instances are always admins
-		if (player.AccountId == PlayerManager.Account.Id)
-		{
-			serverAdmins.Add(player.AccountId);
-		}
-
-		// Players are always admins if in offline mode, for testing
-		if (GameData.Instance.OfflineMode)
-		{
-			Loggy.Info($"{player.Username} logged in successfully in offline mode. userid: {player.AccountId}", Category.Admin);
-			serverAdmins.Add(player.AccountId);
-		}
-
-		return serverAdmins.Contains(player.AccountId);
-	}
 
 	private bool CanRegularPlayerJoin(PlayerInfo player)
 	{
-		if (player.IsAdmin) return true;
-
 		//PlayerLimit Checking:
 		//Deny player joining if limit reached and this player wasn't already in the round (in case of disconnect)
 		var playerLimit = GameManager.Instance.PlayerLimit;
-		if (ConnectionCount > GameManager.Instance.PlayerLimit && roundPlayers.Contains(player) == false)
+
+
+
+		if (ConnectionCount > GameManager.Instance.PlayerLimit
+		    && roundPlayers.Contains(player) == false
+		    && AdminCommandsManager.HasPermission(player,TAG.ADMIN_BYPASS_PLAYER_LIMIT) == false)
 		{
 			ServerKickPlayer(player, $"Server Error: The server is full, player limit: {playerLimit}.");
 			Loggy.Info($"{player.Username} tried to log in but PlayerLimit ({playerLimit}) was reached. IP: {player.ConnectionIP}", Category.Admin);
@@ -395,7 +301,8 @@ public partial class PlayerList
 		//Checks whether the userid is in either the Admins or whitelist AND that the whitelist file has something in it.
 		//Whitelist only activates if whitelist is populated.
 		var lines = AccessFile.ReadAllLines(whiteListPath);
-		if (lines.Length > 0 && !whiteListUsers.Contains(player.AccountId))
+		if (lines.Length > 0 && !whiteListUsers.Contains(player.AccountId)
+		    && AdminCommandsManager.HasPermission(player,TAG.ADMIN_BYPASS_WHITE_LIST) == false)
 		{
 			ServerKickPlayer(player, $"This server uses a whitelist. This account is not whitelisted.");
 			Loggy.Info($"{player.Username} tried to log in but the account is not whitelisted. IP: {player.ConnectionIP}", Category.Admin);
@@ -501,7 +408,7 @@ public partial class PlayerList
 		//jobbanlist checking:
 		var jobBanPlayerEntry = jobBanList?.CheckForEntry(connPlayer.AccountId, connPlayer.ConnectionIP, connPlayer.ClientId);
 
-		if (jobBanPlayerEntry.Value.Item1 == null)
+		if (jobBanPlayerEntry?.Item1 == null)
 		{
 			//No job bans at all
 			return null;
@@ -751,7 +658,7 @@ public partial class PlayerList
 		{
 			// Server Stuff here
 
-			if (IsFromAdmin() == false) return;
+			if (HasPermission(TAG.PLAYER_JOB_BAN) == false) return;
 
 			if (PlayerList.Instance.TryGetByUserID(msg.PlayerID, out var player) == false)
 			{
@@ -789,100 +696,78 @@ public partial class PlayerList
 
 	public void CheckAdminState(PlayerInfo player)
 	{
-		// (Max): Unity doesn't load server admins on MPM due to the library not copying the correct files over.
-		// This prevents the server from breaking if it ever gets an empty ServerAdmin list.
-		if (serverAdmins == null)
+		AddPlayerTAGS(player);
+	}
+
+	void RemovePlayerTAGS(PlayerInfo Player)
+	{
+		var Permissions = PermissionsManager.Instance.GetPermissions(Player.AccountId, out var Rank );
+		foreach (var Permission in Permissions)
 		{
-			Instance.StartCoroutine(LoadAdmins());
-			Loggy.Error("Missing serverAdmins list.", Category.Admin);
-			return;
+			if (LoggedInWithTag.ContainsKey(Permission) == false) continue;
+			if (LoggedInWithTag[Permission].Contains(Player.AccountId))
+			{
+				LoggedInWithTag[Permission].Remove(Player.AccountId);
+			}
 		}
+		Permissions.Clear();
+		AdminEnableMessage.SendMessage(Player, Permissions);
+	}
+
+	[Server]
+	private void AddPlayerTAGS(PlayerInfo player)
+	{
 		//wtf?
 		if (player == null)
 		{
 			Loggy.Error("Attempting to access playerinfo that doesn't exist? MPM issue?", Category.Admin);
 			return;
 		}
-		//full admin privs for local offline testing for host player
-		if (serverAdmins.Contains(player.AccountId)
-		    || (player.GameObject == PlayerManager.LocalViewerScript?.gameObject)
-		    || Application.isEditor
-		    )
+
+
+		if (Application.isEditor || GameData.Instance.DevBuild || player.Connection.address == "localhost")
 		{
-			//This is an admin, send admin notify to the users client
-			Loggy.Info($"{player.Username} logged in as Admin. IP: {player.ConnectionIP}", Category.Admin);
-			var newToken = Guid.NewGuid().ToString();
-			loggedInAdmins[player.AccountId] = newToken;
-			player.PlayerRoles |= PlayerRole.Admin;
-			AdminEnableMessage.SendMessage(player, newToken);
+			//full admin privs for local offline testing for host player
+			LocalAdminSetup(player);
+			return;
 		}
+		if (PermissionsManager.Instance.HasAnyRank(player.AccountId)) EnableAdmin(player);
 	}
 
-	public void CheckMentorState(PlayerInfo playerConn, string userid)
+	private void LocalAdminSetup(PlayerInfo player)
 	{
-		if (mentorUsers.Contains(userid) && !serverAdmins.Contains(userid))
+		TryAddRank(player.AccountId,"host", false);
+		Loggy.Info($"Found local host ({player.AccountId}/{player.Connection.address}). Assigning 'host' perms to them.");
+		EnableAdmin(player);
+	}
+
+	private void EnableAdmin(PlayerInfo player)
+	{
+		var permissions = PermissionsManager.Instance.GetPermissions(player.AccountId, out var Rank);
+		if (permissions.Count > 0)
 		{
-			Loggy.Info($"{playerConn.Username} logged in as Mentor. IP: {playerConn.ConnectionIP}", Category.Admin);
-			var newToken = System.Guid.NewGuid().ToString();
-			if (!loggedInMentors.ContainsKey(userid))
+			Loggy.Info($"{player.Username} logged in with tags. IP: {player.ConnectionIP} and Rank {Rank} ", Category.Admin);
+			foreach (var tag in permissions)
 			{
-				loggedInMentors.Add(userid, newToken);
-				playerConn.PlayerRoles |= PlayerRole.Mentor;
-				MentorEnableMessage.Send(playerConn.Connection, newToken);
+				if (LoggedInWithTag.ContainsKey(tag) == false)
+				{
+					LoggedInWithTag[tag] = new System.Collections.Generic.HashSet<string>();
+				}
+				LoggedInWithTag[tag].Add(player.AccountId);
 			}
 		}
+		AdminEnableMessage.SendMessage(player, permissions);
 	}
 
-	void CheckForLoggedOffAdmin(string userid, string userName)
+	public void SetClientTAGS(string[] tags)
 	{
-		if (loggedInAdmins.ContainsKey(userid) == false) return;
-
-		Loggy.Info($"Admin {userName} logged off.", Category.Admin);
-		loggedInAdmins.Remove(userid);
-	}
-
-	void CheckForLoggedOffMentor(string userid, string userName)
-	{
-		if (loggedInMentors.ContainsKey(userid) == false) return;
-
-		Loggy.Info($"Mentor {userName} logged off.", Category.Admin);
-		loggedInMentors.Remove(userid);
-	}
-
-	public void SetClientAsAdmin(string _adminToken)
-	{
-		AdminToken = _adminToken;
+		AdminTAGS = tags;
 		IsClientAdmin = true;
 		ControlTabs.Instance.ToggleOnAdminTab();
 		Loggy.Info("You have logged in as an admin. Admin tools are now available.", Category.Admin);
+		OnPermissionsChange?.Invoke();
 	}
 
-	public void SetClientAsMentor(string _mentorToken)
-	{
-		MentorToken = _mentorToken;
-		Loggy.Info("You have logged in as a mentor. Mentor tools are now available.", Category.Admin);
-	}
-
-	public void ProcessAdminEnableRequest(string admin, string userToPromote)
-	{
-		if (!serverAdmins.Contains(admin)) return;
-		if (serverAdmins.Contains(userToPromote)) return;
-
-		Loggy.Info(
-			$"{admin} has promoted {userToPromote} to admin. Time: {DateTime.Now}", Category.Admin);
-
-		AccessFile.AppendAllText(adminsPath, "\r\n" + userToPromote);
-
-		serverAdmins.Add(userToPromote);
-		if (TryGetOnlineByUserID(userToPromote, out var user) == false) return;
-
-		var newToken = System.Guid.NewGuid().ToString();
-		if (!loggedInAdmins.ContainsKey(userToPromote))
-		{
-			loggedInAdmins.Add(userToPromote, newToken);
-			AdminEnableMessage.SendMessage(user, newToken);
-		}
-	}
 	#endregion
 
 	#region Kick/Ban
@@ -997,8 +882,6 @@ public partial class PlayerList
 
 	public void ProcessJobBanRequest(PlayerInfo admin, PlayerInfo player, string reason, bool isPerma, int banMinutes, JobType jobType, bool kickAfter = false, bool ghostAfter = false)
 	{
-		if (admin.IsAdmin == false) return;
-
 		string message;
 
 		if (isPerma)

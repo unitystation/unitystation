@@ -13,4 +13,20 @@ public static class RNG
 		return Random.Next(min, max + 1); // Generates a number between min (inclusive) and max (inclusive)
 	}
 
+	public static bool FlipACoin()
+	{
+		return Random.NextDouble() >= 0.5f;
+	}
+
+	/// <summary>
+	/// 0 to 1
+	/// </summary>
+	/// <param name="Chance"> 0f to 1f </param>
+	/// <returns></returns>
+	public static bool RoleChance(float Chance)
+	{
+		var value = Random.NextDouble();
+		return Chance >= value;
+	}
+
 }

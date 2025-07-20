@@ -26,7 +26,7 @@ MonoBehaviour:
   SpawnWithNoAir: 0
   passable: 1
   mineable: 0
-  miningTime: -4.02
+  miningTime: 5
   miningHardness: 1
   constructable: 1
   RadiationPassability: 1
@@ -72,11 +72,11 @@ MonoBehaviour:
   spawnOnDestroy: {fileID: 0}
   damageOverlayList: {fileID: 0}
   soundOnHit:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   SoundOnDestroy: []

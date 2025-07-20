@@ -96,7 +96,7 @@ namespace Objects.Other
 			var sprite = slot.Item.gameObject.GetComponentInChildren<SpriteHandler>();
 			if (sprite.GetCurrentSpriteSO() == null)
 			{
-				trapPreview.SetSprite(sprite.CurrentSprite);
+				trapPreview.SetSpriteNonNetworked(sprite.CurrentSprite);
 				return;
 			}
 			trapPreview.SetSpriteSO(sprite.GetCurrentSpriteSO());

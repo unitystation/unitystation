@@ -359,7 +359,9 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.ToggleAHelp,	new KeybindMetadata("Toggle Admin Help", ActionType.Chat)},
 		{ KeyAction.ToggleMHelp,	new KeybindMetadata("Toggle Mentor Help", ActionType.Chat)},
 		{ KeyAction.PushToTalk,	new KeybindMetadata("Toggle Microphone", ActionType.Chat)},
+		{ KeyAction.PushToSTT, new KeybindMetadata("Toggles the voice to text system", ActionType.Chat)},
 
+		
 		// Body part selection
 		{ KeyAction.TargetHead,		new KeybindMetadata("Target Head, Eyes and Mouth", ActionType.Targeting)},
 		{ KeyAction.TargetChest,	new KeybindMetadata("Target Chest", ActionType.Targeting)},
@@ -389,6 +391,8 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.HideUi, new KeybindMetadata("Hide UI", ActionType.UI) },
 		{ KeyAction.PreventRadialQuickSelectOpen, new KeybindMetadata("Prevent Quick Radial Open", ActionType.UI) },
 		{ KeyAction.Mode3DKeyToggle,new KeybindMetadata("Toggles mouse in 3D mode", ActionType.UI)},
+
+
 	};
 
 	private readonly KeybindDict defaultKeybinds = new KeybindDict

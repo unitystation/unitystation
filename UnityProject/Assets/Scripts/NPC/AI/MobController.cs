@@ -63,13 +63,14 @@ namespace Systems.MobAIs
 
 			foreach (var _MobObjective in MobObjectives)
 			{
-				_MobObjective.ContemplatePriority();
+				_MobObjective?.ContemplatePriority();
 			}
 
 			MobObjective ChosenObjective = null;
 
 			foreach (var _MobObjective in MobObjectives)
 			{
+				if (_MobObjective == null) continue;
 				if (ChosenObjective == null)
 				{
 					ChosenObjective = _MobObjective;

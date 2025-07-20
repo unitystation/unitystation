@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb800d30caa6a03429d22e494955cb7c, type: 3}
+  m_Name: MixedRound
+  m_EditorClassIdentifier: 
+  gameModeName: Base Mixed Game Mode
+  description: has a mix of traitors and a 50% chance each of swap and changling
+    at 10 and 20 pop respectively
+  canRespawn: 0
+  minPlayers: 1
+  antagRatio: 0.2
+  minAntags: 1
+  maxAntags: 100
+  hardNumberOfAntagsToSpawn: 0
+  forceMinAntags: 0
+  teamGameMode: 0
+  midRoundAntags: 1
+  midRoundAntagsChance: 50
+  possibleAntags: []
+  allocateJobsToAntags: 1
+  nonAntagJobTypes: 0600000016000000170000002300000021000000110000000100000010000000
+  randomSicknesses: 1
+  possibleSicknesses:
+  - {fileID: 11400000, guid: c277cb2e90e88e743ab2494b395ca8fa, type: 2}
+  randomSicknessRatio: 0.1
+  mainStations: {fileID: 11400000, guid: 9b0018951af67314ca9e85705e0d2ce4, type: 2}
+  AntagonistDatas:
+  - ratio: 0.75
+    Antagonist: {fileID: 11400000, guid: c060c33698c0f81449f0735a800740ca, type: 2}
+    UniqueOne: 0
+    OneTimechance: 0
+    MinPop: 1
+  - ratio: 0.25
+    Antagonist: {fileID: 11400000, guid: 054c3003e031e0a4c9146f6b0f806940, type: 2}
+    UniqueOne: 0
+    OneTimechance: 0
+    MinPop: 1
+  - ratio: 1
+    Antagonist: {fileID: 11400000, guid: 613f4c1efe110a34e858e8ccbdea6b04, type: 2}
+    UniqueOne: 1
+    OneTimechance: 0.5
+    MinPop: 3
+  - ratio: 1
+    Antagonist: {fileID: 11400000, guid: 7977e2d7465279a419fe55b27ecca5df, type: 2}
+    UniqueOne: 1
+    OneTimechance: 0.25
+    MinPop: 3

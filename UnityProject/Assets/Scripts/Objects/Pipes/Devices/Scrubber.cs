@@ -51,6 +51,24 @@ namespace Objects.Atmospherics
 		private MetaDataLayer metaDataLayer;
 
 		private List<MetaDataNode> MetaNodes = new List<MetaDataNode>();
+
+		private GasMix pipeMix
+		{
+			get
+			{
+				if (selfSufficient)
+				{
+					return InternalpipeMix;
+				}
+				else
+				{
+					return pipeData.GetMixAndVolume.GetGasMix();
+				}
+
+			}
+		}
+
+		private GasMix InternalpipeMix;
 		#region Lifecycle
 
 		public override void Awake()
@@ -76,7 +94,7 @@ namespace Objects.Atmospherics
 		{
 			metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
 			metaNode = metaDataLayer.Get(registerTile.LocalPositionServer);
-			pipeMix = selfSufficient ? GasMix.NewGasMix(GasMixes.BaseEmptyMix) : pipeData.GetMixAndVolume.GetGasMix();
+			InternalpipeMix = GasMix.NewGasMix(GasMixes.BaseEmptyMix);
 
 			MetaNodes.Add(metaNode);
 			MetaNodes.Add(metaDataLayer.Get(registerTile.LocalPositionServer+new Vector3Int(1,0,0)));
@@ -144,8 +162,6 @@ namespace Objects.Atmospherics
 		private float Effectiveness => voltageMultiplier;
 		public float nominalMolesTransferCap = 50;
 		private float[] scrubbingGasMoles;
-
-		private GasMix pipeMix;
 
 		private bool CanTransfer()
 		{

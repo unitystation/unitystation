@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d78e1e7707387e46b70320b956ede0e, type: 3}
+  m_Name: Swapper
+  m_EditorClassIdentifier: 
+  antagName: Swapper
+  team: {fileID: 0}
+  addTeamAtInit: 0
+  antagJobType: 0
+  playSound: 0
+  spawnSound:
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  textColor: {r: 1, g: 1, b: 1, a: 1}
+  backgroundColor: {r: 1, g: 0, b: 0.95176077, a: 1}
+  numberOfObjectives: 1
+  canUseSharedObjectives: 0
+  needsEscapeObjective: 0
+  chanceForGimmickObjective: 0
+  coreObjectives:
+  - {fileID: 11400000, guid: c164f1318372ab5459a9fea56341e6a6, type: 2}
+  antagOccupation: {fileID: 0}
+  showInPreferences: 1
+  randomizeCharacterForGhostRole: 0
+  ghostRoleOccupation: {fileID: 0}
+  <BlackListedObjectives>k__BackingField: []
+  <AlwaysStartWithObjectives>k__BackingField:
+  - {fileID: 11400000, guid: cbce83d24c463494ebae62da433fe252, type: 2}
+  SwapSpell: {fileID: 11400000, guid: 128007fa709a90348b9bd3f441c095df, type: 2}

@@ -48,7 +48,7 @@ namespace Items.Others
 		private void Start()
 		{
 			if(CustomNetworkManager.IsServer == false) return;
-			integrity.OnApplyDamage.AddListener(OnDamageTaken);
+			integrity.OnApplyDamage += OnDamageTaken;
 			// If this ore starts in storage already, then assume it is safe.
 			SetState(pickupable.ItemSlot != null ? GibState.INACTIVE : GibState.FUSED);
 		}

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AddressableReferences;
 using Items;
+using Messages.Server.SoundMessages;
 using Mirror;
 using UnityEngine;
 using UI.Objects.Cargo;
@@ -94,7 +95,7 @@ namespace Objects.Cargo
 		public void PlayBudgetUpdateSound()
 		{
 			if(soundIsOnCooldown) return;
-			_ = SoundManager.PlayNetworkedAtPosAsync(creditArrivalSound, gameObject.AssumedWorldPosServer());
+			_ = SoundManager.PlayNetworkedAtPosAsync(creditArrivalSound, gameObject.AssumedWorldPosServer(), new AudioSourceParameters(spatialBlend:2));
 			StartCoroutine(SoundCooldown());
 		}
 

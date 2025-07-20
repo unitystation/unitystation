@@ -35,20 +35,20 @@ namespace UI.Objects.Engineering
 		public override void OnEnable()
 		{
 			base.OnEnable();
-			if (CustomNetworkManager.Instance._isServer == false) return;
+			if (CustomNetworkManager.IsServer == false) return;
 			UpdateManager.Add(Refresh, 1);
 		}
 
 		private void OnDisable()
 		{
-			if (CustomNetworkManager.Instance._isServer == false) return;
+			if (CustomNetworkManager.IsServer == false) return;
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, Refresh);
 		}
 
 		public void Refresh()
 		{
 			if (boilerTurbineController == null || boilerTurbineController.ReactorBoiler == null) return;
-			
+
 			CapacityPercent = (decimal)(boilerTurbineController.ReactorBoiler.ReactorPipe.pipeData.mixAndVolume.Total.x
 					/ boilerTurbineController.ReactorBoiler.ReactorPipe.pipeData.mixAndVolume.TheVolume);
 
@@ -69,7 +69,7 @@ namespace UI.Objects.Engineering
 			TurbinePowerGenerating.MasterSetValue(boilerTurbineController.ReactorTurbine.moduleSupplyingDevice
 					.ProducingWatts + "W");
 			GUITurbineAnnunciators.Refresh();
-			
+
 		}
 
 		[Serializable]

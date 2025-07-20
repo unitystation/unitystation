@@ -1,0 +1,133 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &554573317240436803
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 289169006579493167, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: m_Name
+      value: BlueprintGiantSpiderMother
+      objectReference: {fileID: 0}
+    - target: {fileID: 292970980448228443, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 292970980448228443, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 292970980448228443, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 292970980448228443, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 292970980448228443, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 292970980448228443, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 292970980448228443, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 292970980448228443, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 292970980448228443, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 292970980448228443, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 402896476671775899, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: _assetId
+      value: 3945250861
+      objectReference: {fileID: 0}
+    - target: {fileID: 500638641922251379, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300024, guid: aab59a0f07ede8043ad41c425cffe0d8,
+        type: 3}
+    - target: {fileID: 2974636977527904776, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 9fbb19c06c2e24840b12607cad12c32f,
+        type: 2}
+    - target: {fileID: 4502520880032039943, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: CharacterSheet.Age
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 4502520880032039943, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: CharacterSheet.Name
+      value: Giant Broodmother
+      objectReference: {fileID: 0}
+    - target: {fileID: 4502520880032039943, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: CharacterSheet.Voice
+      value: Female 01
+      objectReference: {fileID: 0}
+    - target: {fileID: 4502520880032039943, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: CharacterSheet.AiName
+      value: ZIPBOMB
+      objectReference: {fileID: 0}
+    - target: {fileID: 4502520880032039943, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: CharacterSheet.Species
+      value: GiantSpider-Broodmother
+      objectReference: {fileID: 0}
+    - target: {fileID: 4502520880032039943, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: CharacterSheet.BodyType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4502520880032039943, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: CharacterSheet.PlayerPronoun
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6681631323935909186, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: foreverID
+      value: 2e5474f87b622e44c98028d67e4f1f3d
+      objectReference: {fileID: 0}
+    - target: {fileID: 6870226969733880062, guid: 623a46f508861004491312c14069eff2,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4b57e2c0ef7afd544a36bd716d188ea8,
+        type: 3}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 623a46f508861004491312c14069eff2, type: 3}

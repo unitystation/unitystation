@@ -107,7 +107,12 @@ namespace Objects.Atmospherics
 
 			Thresholds = initialAcuThresholds.Clone();
 			GasLevelStatus = new AcuStatus[Gas.Gases.Count];
+		}
+
+		private void Start()
+		{
 			DesiredMode = initialOperatingMode;
+			SetOperatingMode(DesiredMode);
 		}
 
 		private void OnDisable()
@@ -256,13 +261,19 @@ namespace Objects.Atmospherics
 			if (IsWriteable == false) return;
 
 			DesiredMode = mode;
+			SetDevicesOperatingMode(mode);
+			OnStateChanged?.Invoke();
+		}
+
+		public void SetDevicesOperatingMode(AcuMode mode)
+		{
 			foreach (var device in ConnectedDevices)
 			{
 				device.SetOperatingMode(mode);
 			}
 
-			OnStateChanged?.Invoke();
 		}
+
 
 		public void ResetThresholds()
 		{
@@ -281,7 +292,7 @@ namespace Objects.Atmospherics
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
-			return interaction.HandObject != null;
+			return interaction.HandObject != null && interaction.IsAltClick == false;
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
@@ -358,6 +369,7 @@ namespace Objects.Atmospherics
 						spriteHandler.SetCatalogueIndexSprite((int) AcuStatus.Nominal);
 						UpdateManager.Add(PeriodicUpdate, 3);
 						PeriodicUpdate();
+						SetDevicesOperatingMode(DesiredMode);
 					}
 					break;
 				case PowerState.Off:
@@ -365,6 +377,7 @@ namespace Objects.Atmospherics
 					IsPowered = false;
 					UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 					spriteHandler.SetCatalogueIndexSprite((int) AcuStatus.Off);
+					SetDevicesOperatingMode(AcuMode.Off);
 					break;
 			}
 

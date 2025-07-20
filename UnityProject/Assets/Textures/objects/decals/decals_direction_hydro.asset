@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: decals_direction_hydro
+  m_EditorClassIdentifier: 
+  foreverID: 35e2de04b6a3fcc0d9985553b56c6de8
+  Variance:
+  - Frames:
+    - sprite: {fileID: 5935822267375654994, guid: bc0cfbf968a9e54f299dd6dca371fafc,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -9187506064777408378, guid: bc0cfbf968a9e54f299dd6dca371fafc,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 7981757870227201285, guid: bc0cfbf968a9e54f299dd6dca371fafc,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 6517929758223390087, guid: bc0cfbf968a9e54f299dd6dca371fafc,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  DisplayName: 

@@ -116,9 +116,9 @@ namespace Messages.Server
 			}
 		}
 
-		public static void SendToAdmins(T msg, int channel = 0)
+		public static void SendToAdmins(T msg,string tag, int channel = 0 )
 		{
-			var admins = PlayerList.Instance.GetAllAdmins();
+			var admins = PlayerList.Instance.GetAllWithTAG(tag);
 
 			foreach (var admin in admins)
 			{
@@ -131,16 +131,7 @@ namespace Messages.Server
 
 		public static void SendToMentors(T msg, int channel = 0)
 		{
-			var mentors = PlayerList.Instance.GetAllMentors();
-
-			foreach (var mentor in mentors)
-			{
-				if (PlayerList.Instance.Has(mentor.Connection))
-				{
-					mentor.Connection.Send(msg, channel);
-				}
-			}
-			var admins = PlayerList.Instance.GetAllAdmins();
+			var admins = PlayerList.Instance.GetAllWithTAG(TAG.MENTOR_MESSAGE);
 
 			foreach (var admin in admins)
 			{

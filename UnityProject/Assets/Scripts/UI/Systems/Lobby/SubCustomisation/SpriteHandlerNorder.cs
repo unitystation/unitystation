@@ -37,7 +37,7 @@ public class SpriteHandlerNorder : MonoBehaviour
 		}
 
 		Data = InNew;
-		if (CustomNetworkManager.Instance._isServer) return;
+		if (CustomNetworkManager.IsServer) return;
 		spriteOrder = JsonConvert.DeserializeObject<SpriteOrder>(Data);
 		SpriteOrder.Orders.RemoveRange(0, 4);
 	}

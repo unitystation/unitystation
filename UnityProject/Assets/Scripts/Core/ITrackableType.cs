@@ -9,6 +9,25 @@ namespace Core
 	public static class ComponentsTracker<T>
 	{
 		public static HashSet<T> Instances { get; } = new HashSet<T>();
+		private static Dictionary<GameObject, T> instanceLookup = new Dictionary<GameObject, T>();
+
+		public static void RegisterInstance(T instance)
+		{
+			if (instance is Component component)
+			{
+				Instances.Add(instance);
+				instanceLookup[component.gameObject] = instance;
+			}
+		}
+
+		public static void UnregisterInstance(T instance)
+		{
+			if (instance is Component component)
+			{
+				Instances.Remove(instance);
+				instanceLookup.Remove(component.gameObject);
+			}
+		}
 
 		public static List<T> GetAllNearbyTypesToTarget(GameObject target, float maximumDistance, bool bypassInventories = true)
 		{
@@ -62,24 +81,32 @@ namespace Core
 		private static List<T> GetNearbyComponents(bool bypassInventories, Vector3 target, float maximumDistance)
 		{
 			var components = new List<T>();
+			float maxDistSquared = maximumDistance * maximumDistance; // Avoid repeated sqrt calculations
+
 			foreach (var stationObject in Instances)
 			{
 				var obj = stationObject as Component;
-				if (obj == null || obj.gameObject == null || obj.gameObject.OrNull() == null) continue;
-				if (bypassInventories == false && obj.gameObject.IsAtHiddenPos())
+
+				if (obj == null) continue;
+
+				var Position = obj.transform.position;
+
+				if (bypassInventories == false && Position.IsHiddenPosition())
 				{
 					continue;
 				}
-				if (Vector3.Distance(obj.gameObject.AssumedWorldPosServer(), target) > maximumDistance)
-				{
-					continue;
-				}
-				else
-				{
-					components.Add(stationObject);
-				}
+
+				if ((Position - target).sqrMagnitude > maxDistSquared)
+					continue; // Use squared distance for comparison
+
+				components.Add(stationObject);
 			}
 			return components;
+		}
+
+		public static T GetComponentFromGameObject(GameObject obj)
+		{
+			return instanceLookup.GetValueOrDefault(obj);
 		}
 	}
 }

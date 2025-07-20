@@ -66,7 +66,7 @@ namespace UI.Objects.Command
 		public override void OnEnable()
 		{
 			base.OnEnable();
-			if (CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.IsServer)
 			{
 				StartCoroutine(ServerWaitForProvider());
 			}

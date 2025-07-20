@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: snow_wall
   m_EditorClassIdentifier: 
   <ForeverID>k__BackingField: 9bdc995cb35ba414d941370ba495eb73
-  displayName: 
-  description: 
+  displayName: packed snow wall
+  description: A wall made of densely-packed snow blocks.
   LayerType: 0
   TileType: 1
   RequiredTiles:
@@ -69,11 +69,11 @@ MonoBehaviour:
   spawnOnDestroy: {fileID: 0}
   damageOverlayList: {fileID: 0}
   soundOnHit:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   SoundOnDestroy: []

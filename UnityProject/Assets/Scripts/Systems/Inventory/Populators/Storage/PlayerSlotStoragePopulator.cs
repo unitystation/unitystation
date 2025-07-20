@@ -168,6 +168,11 @@ namespace Systems.Storage
 				if (ItemSlot == null) continue;
 				var spawn = Spawn.ServerPrefab(namedSlotPopulatorEntry.Prefab, PrePickRandom: true);
 
+				if (namedSlotPopulatorEntry.StackableAmount != 1)
+				{
+					spawn.GameObject.GetComponent<Stackable>()?.ServerSetAmount(namedSlotPopulatorEntry.StackableAmount);
+				}
+
 				if (Validations.CanFit(ItemSlot, spawn.GameObject, NetworkSide.Server) == false)
 				{
 					Loggy.Error($"Your initial contents spawn for Storage {gameObject.name} for {spawn.GameObject} Is bypassing the Can fit requirements");
@@ -197,6 +202,8 @@ namespace Systems.Storage
 
 		[Tooltip("Prefab to spawn in this slot. Takes precedence over slot populator.")]
 		public GameObject Prefab;
+
+		public int StackableAmount = 0;
 
 		[HorizontalLine]
 

@@ -1,4 +1,6 @@
-﻿using Player;
+﻿using Antagonists;
+using JetBrains.Annotations;
+using Player;
 using UnityEngine;
 
 namespace GameModes
@@ -11,9 +13,9 @@ namespace GameModes
 			return true;
 		}
 
-		protected override bool ShouldSpawnAntag(PlayerSpawnRequest spawnRequest)
+		protected override Antagonist HandleRatioAndPickAntagonist(PlayerInfo PlayerInfo, [CanBeNull] PlayerSpawnRequest spawnRequest, int NumberChosenAlready)
 		{
-			return false;
+			return null;
 		}
 
 

@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 8153443404168369063}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.01, y: -0.996, z: 0}
+  m_LocalPosition: {x: 0.01, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -52,6 +52,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -101,12 +102,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 3271367676713184689}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &8248417872068901956
 GameObject:
   m_ObjectHideFlags: 0
@@ -134,7 +139,7 @@ Transform:
   m_GameObject: {fileID: 8248417872068901956}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -159,6 +164,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -211,12 +217,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 75e417278f4c6264fb8990bb1f7b1a72, type: 2}
   - {fileID: 11400000, guid: 1783c0ce427aabb409977521349cbe3e, type: 2}
   - {fileID: 11400000, guid: a267c2f909b5987499494289ee1ad33c, type: 2}
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 2574685408391271123}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1001 &4218887424821755918
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -278,7 +288,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4090371145196013456, guid: c735db9af3182104f8006ec3d79e6056,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 4863704078337444179}
+    - target: {fileID: 4090371145196013456, guid: c735db9af3182104f8006ec3d79e6056,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: aa29e01dd1ac5074f9dff92733ba3852,
+        type: 2}
+    - target: {fileID: 4090371145196013456, guid: c735db9af3182104f8006ec3d79e6056,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: aa29e01dd1ac5074f9dff92733ba3852,
         type: 2}
@@ -311,6 +332,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e6ec26a6e76a9a4448a0fec4a5987a69,
         type: 2}
+    - target: {fileID: 4753107835106223865, guid: c735db9af3182104f8006ec3d79e6056,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5612314271532831491, guid: c735db9af3182104f8006ec3d79e6056,
         type: 3}
       propertyPath: parentID
@@ -408,11 +434,11 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8828937595049274256, guid: c735db9af3182104f8006ec3d79e6056,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1698779998234320138}
+      addedObject: {fileID: 4924080160083399192}
     - targetCorrespondingSourceObject: {fileID: 8828937595049274256, guid: c735db9af3182104f8006ec3d79e6056,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4924080160083399192}
+      addedObject: {fileID: 1698779998234320138}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8832432144764185930, guid: c735db9af3182104f8006ec3d79e6056,
         type: 3}
@@ -492,9 +518,16 @@ MonoBehaviour:
   initialContents: {fileID: 0}
   spawnContentsAtRoundstart: 0
   registerTile: {fileID: 0}
+  ObjectPhysics: {fileID: 0}
   OnObjectStored:
     m_PersistentCalls:
       m_Calls: []
   OnObjectRetrieved:
     m_PersistentCalls:
       m_Calls: []
+--- !u!212 &4863704078337444179 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8787409996451219805, guid: c735db9af3182104f8006ec3d79e6056,
+    type: 3}
+  m_PrefabInstance: {fileID: 4218887424821755918}
+  m_PrefabAsset: {fileID: 0}

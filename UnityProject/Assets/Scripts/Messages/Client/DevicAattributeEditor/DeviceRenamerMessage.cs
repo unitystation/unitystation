@@ -28,7 +28,7 @@ public class DeviceRenamerMessage : ClientMessage<DeviceRenamerMessage.NetMessag
 
 	public override void Process(NetMessage msg)
 	{
-		if (IsFromAdmin() == false) return;
+		if (HasPermission(TAG.MAP_RENAME) == false) return;
 
 
 		if (msg.ObjectID !=  NetId.Empty &&  msg.ObjectID != NetId.Invalid)
@@ -51,7 +51,7 @@ public class DeviceRenamerMessage : ClientMessage<DeviceRenamerMessage.NetMessag
 					msg.ObjectID.NetIdToGameObject()?.Player()?.Mind?.SetPermanentName(msg.NewName);
 					if (msg.ObjectID.NetIdToGameObject()?.Player()?.Script != null)
 					{
-						msg.ObjectID.NetIdToGameObject().Player().Script.playerName = msg.NewName;
+						msg.ObjectID.NetIdToGameObject().Player().Script.PlayerScriptVisible.playerName = msg.NewName;
 					}
 					break;
 			}

@@ -20,7 +20,7 @@ namespace Objects.Engineering
 		public decimal OutputEnergy;
 		public decimal TotalEnergyInput;
 
-		public decimal Efficiency = 0.9M; //0.825M
+		public decimal Efficiency = 1M; //0.825M
 		private const int BOILING_TEMP = 100;
 
 		public ReactorPipe ReactorPipe;
@@ -42,14 +42,14 @@ namespace Objects.Engineering
 
 		private void OnEnable()
 		{
-			if (CustomNetworkManager.Instance._isServer == false) return;
+			if (CustomNetworkManager.IsServer == false) return;
 
 			UpdateManager.Add(CycleUpdate, 1);
 		}
 
 		private void OnDisable()
 		{
-			if (CustomNetworkManager.Instance._isServer == false) return;
+			if (CustomNetworkManager.IsServer == false) return;
 
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CycleUpdate);
 		}

@@ -30,7 +30,7 @@ namespace Messages.Client.DevSpawner
 
 		private void ValidateAdmin(NetMessage msg)
 		{
-			if (IsFromAdmin() == false) return;
+			if (HasPermission(TAG.MAP_CLONE) == false) return;
 
 			if (msg.ToClone.Equals(NetId.Invalid))
 			{

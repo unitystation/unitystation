@@ -14,7 +14,7 @@ using Core;
 using Core.Admin.Logs;
 using Core.Chat;
 using Core.Utils;
-using Health.Sickness;
+using HealthV2.Living;
 using HealthV2.Living.CirculatorySystem;
 using HealthV2.Living.PolymorphicSystems;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
@@ -41,7 +41,6 @@ namespace HealthV2
 	/// Equivalent to the old LivingHealthBehaviour
 	/// </Summary>
 	[RequireComponent(typeof(HealthStateController))]
-	[RequireComponent(typeof(MobSickness))]
 	public abstract class LivingHealthMasterBase : NetworkBehaviour, IFireExposable, IExaminable, IFullyHealable,
 		IAreaReactionBase, IRightClickable, IServerSpawn, IHoverTooltip, IChargeable
 	{
@@ -72,6 +71,10 @@ namespace HealthV2
 		/// Event for when the consciousness state of the creature changes, eg becoming unconscious or dead
 		/// </summary>
 		[NonSerialized] public ConsciousStateEvent OnConsciousStateChangeServer = new ConsciousStateEvent();
+
+		public delegate void BrainAddedEvent(Brain brain);
+
+		public BrainAddedEvent OnBrainAdded = null;
 
 		/// <summary>
 		/// Returns true if the creature's current conscious state is dead
@@ -113,6 +116,10 @@ namespace HealthV2
 
 		public ReagentPoolSystem reagentPoolSystem => ActiveSystems.OfType<ReagentPoolSystem>().FirstOrDefault();
 
+		public Dictionary<Type, List<BodyPartFunctionality>> BodyOrganLookup = new Dictionary<Type, List<BodyPartFunctionality>>();
+
+		[field: SerializeField] public EmaggableMob EmaggableMob { get; private set; } = null;
+
 		///<summary>
 		/// Fetch first or default system by type from the active systems on this living thing.
 		///</summary>
@@ -127,7 +134,19 @@ namespace HealthV2
 			return Equals(system, default(T));
 		}
 
-		public Brain brain { get; private set; }
+		private Brain _brain;
+		public Brain brain
+		{
+			get
+			{
+				return _brain;
+			}
+			private set
+			{
+				_brain = value;
+				OnBrainAdded?.Invoke(value);
+			}
+		}
 
 
 		[SyncVar(hook = nameof(SyncBain))] private uint BrainID;
@@ -269,16 +288,6 @@ namespace HealthV2
 			return State;
 		}
 
-		/// <summary>
-		/// Current sicknesses status of the creature and it's current stage
-		/// </summary>
-		public MobSickness mobSickness { get; private set; } = null;
-
-		/// <summary>
-		/// List of sicknesses that creature has gained immunity to
-		/// </summary>
-		private List<Sickness> immunedSickness = new List<Sickness>();
-
 		public PlayerScript playerScript;
 
 		public event Action<DamageType, GameObject, float> OnTakeDamageType;
@@ -289,7 +298,8 @@ namespace HealthV2
 		public UnityEvent OnCrit;
 		public UnityEvent OnCritExit;
 
-		[SyncVar] public bool CannotRecognizeNames = false;
+		[field: SyncVar]
+		public bool CannotRecognizeNames { get; set; } = false;
 
 
 		public Dictionary<BodyPartType, ReagentMix> SurfaceReagents = new Dictionary<BodyPartType, ReagentMix>()
@@ -360,7 +370,6 @@ namespace HealthV2
 			CirculatorySystem = GetComponent<CirculatorySystemBase>();
 			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 			healthStateController = GetComponent<HealthStateController>();
-			mobSickness = GetComponent<MobSickness>();
 			playerScript = GetComponent<PlayerScript>();
 			BodyPartStorage.ServerInventoryItemSlotSet += BodyPartTransfer;
 			BodyPartStorage.SetRegisterPlayer(GetComponent<RegisterPlayer>());
@@ -512,6 +521,46 @@ namespace HealthV2
 			{
 				SurfaceBodyParts.Remove(BodyPart);
 			}
+		}
+
+
+		public void AddOrgan(Type OrganType, BodyPartFunctionality BodyPartFunctionality)
+		{
+
+			if (BodyOrganLookup.ContainsKey(OrganType) == false)
+			{
+				BodyOrganLookup[OrganType] = new List<BodyPartFunctionality>();
+			}
+
+			var List = BodyOrganLookup[OrganType];
+			if (List.Contains(BodyPartFunctionality) == false)
+			{
+				List.Add(BodyPartFunctionality);
+			}
+		}
+
+		public void RemoveOrgan(Type OrganType, BodyPartFunctionality Organ)
+		{
+			if (BodyOrganLookup.ContainsKey(OrganType) == false)
+			{
+				BodyOrganLookup[OrganType] = new List<BodyPartFunctionality>();
+			}
+
+			var List = BodyOrganLookup[OrganType];
+			if (List.Contains(Organ))
+			{
+				List.Remove(Organ);
+			}
+		}
+
+		public List<BodyPartFunctionality> GetOrgans(Type OrganType)
+		{
+			if (BodyOrganLookup.ContainsKey(OrganType) == false)
+			{
+				BodyOrganLookup[OrganType] = new List<BodyPartFunctionality>();
+			}
+
+			return BodyOrganLookup[OrganType];
 		}
 
 		public void BodyPartListChange()
@@ -705,9 +754,6 @@ namespace HealthV2
 				DeathPeriodicUpdate();
 				return;
 			}
-
-			//Sickness logic should not be triggered if the player is dead.
-			mobSickness.TriggerCustomSicknessLogic();
 		}
 
 		#region Mutations
@@ -974,6 +1020,18 @@ namespace HealthV2
 			{
 				if (implant.DamageContributesToOverallHealth == false) continue;
 				toReturn -= implant.Burn;
+			}
+
+			return toReturn;
+		}
+
+		public float GetBruteBurnTotal()
+		{
+			float toReturn = 0;
+			foreach (var implant in BodyPartList)
+			{
+				if (implant.DamageContributesToOverallHealth == false) continue;
+				toReturn -= (implant.Burn + implant.Brute);
 			}
 
 			return toReturn;
@@ -1364,17 +1422,18 @@ namespace HealthV2
 			return didFlash;
 		}
 
-		public bool TryDeafen(float deafenDuration, bool checkForProtectiveCloth = true)
+		public bool TryDeafen(GameObject sender, float deafenDuration, bool checkForProtectiveCloth = true)
 		{
 			bool didDeafen = false;
 			var ears = GetBodyPartsInArea(BodyPartType.Ears, false);
 			foreach (var ear in ears)
 			{
-				var earDeafen = ear.GetComponentCustom<EarDeafen>();
-				if (earDeafen != null && earDeafen.TryDeafen(deafenDuration, checkForProtectiveCloth))
+				var earDeafen = ear.GetComponentCustom<Ears>();
+				if (earDeafen != null && earDeafen.TryDeafen(sender, deafenDuration, checkForProtectiveCloth))
 				{
 					didDeafen = true;
 					AdminLogsManager.AddNewLog(null, $"{playerScript.visibleName} has been deafened.", LogCategory.Interaction, Severity.SUSPICOUS);
+					break;
 				}
 			}
 
@@ -1652,7 +1711,7 @@ namespace HealthV2
 		private void LogDeath()
 		{
 			PlayerInfo player = playerScript?.PlayerInfo;
-			if (CustomNetworkManager.Instance._isServer == false && playerScript != null && player != null) return;
+			if (CustomNetworkManager.IsServer == false && playerScript != null && player != null) return;
 
 			string killerName = null;
 			if (LastDamagedBy != null)
@@ -1856,55 +1915,6 @@ namespace HealthV2
 			}
 
 			return healthString.ToString();
-		}
-
-		#endregion
-
-		#region Sickness
-
-		/// <summary>
-		/// Adds a sickness to the creature if it doesn't already have it and isn't dead or immune
-		/// </summary>
-		/// <param name="sickness">The sickness to add</param>
-		public void AddSickness(Sickness sickness)
-		{
-			if (IsDead) return;
-
-			var Race = playerScript.characterSettings.GetRaceSo();
-
-			if (sickness.ImmuneRaces.Contains(Race)) return;
-
-			if ((mobSickness.HasSickness(sickness) == false) && (immunedSickness.Contains(sickness) == false))
-				mobSickness.Add(sickness, Time.time);
-			sickness.IsOnCooldown = false;
-		}
-
-		/// <summary>
-		/// Removes the specified sickness from the creature, healing it
-		/// The creature will not be immune, to immunize it as well use ImmuneSickness
-		/// </summary>
-		/// <param name="sickness">The sickness to remove</param>
-		/// <remarks>Thread safe</remarks>
-		public void RemoveSickness(Sickness sickness)
-		{
-			SicknessAffliction sicknessAffliction =
-				mobSickness.sicknessAfflictions.FirstOrDefault(p => p.Sickness == sickness);
-
-			if (sicknessAffliction != null)
-				sicknessAffliction.Heal();
-		}
-
-		/// <summary>
-		/// Removes the specified sickness from the creature, healing it.
-		/// Also immunizes it for the current round, to only cure it use RemoveSickness.
-		/// </summary>
-		/// <param name="sickness">The sickness to remove</param>
-		public void ImmuneSickness(Sickness sickness)
-		{
-			RemoveSickness(sickness);
-
-			if (!immunedSickness.Contains(sickness))
-				immunedSickness.Add(sickness);
 		}
 
 		#endregion
@@ -2277,7 +2287,7 @@ namespace HealthV2
 
 		public void SetUpCharacter(PlayerHealthData raceBodyparts)
 		{
-			if (CustomNetworkManager.Instance._isServer == false) return;
+			if (CustomNetworkManager.IsServer == false) return;
 			InstantiateAndSetUp(raceBodyparts.Base.Head);
 			InstantiateAndSetUp(raceBodyparts.Base.Torso);
 			InstantiateAndSetUp(raceBodyparts.Base.ArmLeft);
@@ -2330,7 +2340,7 @@ namespace HealthV2
 
 		public RightClickableResult GenerateRightClickOptions()
 		{
-			if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) ||
+			if (PlayerList.HasTAGClient(TAG.PLAYER_HEAL) == false ||
 			    KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions,
 				    KeyboardInputManager.KeyEventType.Hold) == false)
 			{

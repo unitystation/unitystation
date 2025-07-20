@@ -21,12 +21,17 @@ PrefabInstance:
     - target: {fileID: 1372415355449250170, guid: 9db4bf1ee8035794e86668c2d82c60b0,
         type: 3}
       propertyPath: initialDescription
-      value: '"Please consider supporting out Patreon!"'
+      value: '"Please consider supporting our Patreon!"'
       objectReference: {fileID: 0}
     - target: {fileID: 4674694277299007491, guid: 9db4bf1ee8035794e86668c2d82c60b0,
         type: 3}
       propertyPath: foreverID
       value: e6fef14b66545db41939986bb7911c4d
+      objectReference: {fileID: 0}
+    - target: {fileID: 5533593334725297657, guid: 9db4bf1ee8035794e86668c2d82c60b0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8416679462981446237, guid: 9db4bf1ee8035794e86668c2d82c60b0,
         type: 3}
@@ -57,7 +62,7 @@ PrefabInstance:
     - target: {fileID: 8627634931308447888, guid: 9db4bf1ee8035794e86668c2d82c60b0,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.00000004371139
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8627634931308447888, guid: 9db4bf1ee8035794e86668c2d82c60b0,
         type: 3}
@@ -72,7 +77,7 @@ PrefabInstance:
     - target: {fileID: 8627634931308447888, guid: 9db4bf1ee8035794e86668c2d82c60b0,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8627634931308447888, guid: 9db4bf1ee8035794e86668c2d82c60b0,
         type: 3}

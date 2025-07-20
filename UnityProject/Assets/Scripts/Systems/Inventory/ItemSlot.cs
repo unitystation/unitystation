@@ -95,11 +95,11 @@ public class ItemSlot
 	public NamedSlot? NamedSlot => slotIdentifier.NamedSlot;
 
 	/// <summary>
-	/// True iff the slot has no item.
+	/// True if the slot has no item.
 	/// </summary>
 	public bool IsEmpty => Item == null;
 	/// <summary>
-	/// True iff the slot has an item
+	/// True if the slot has an item
 	/// </summary>
 	public bool IsOccupied => !IsEmpty;
 
@@ -205,7 +205,7 @@ public class ItemSlot
 	{
 		if (CustomNetworkManager.IsServer == false) return;
 		serverObserverPlayers.Add(observerPlayer);
-		UpdateItemSlotMessage.Send(observerPlayer, this);
+		UpdateItemNSlotMessage.Send(observerPlayer, this);
 	}
 
 	/// <summary>
@@ -217,7 +217,7 @@ public class ItemSlot
 		if (CustomNetworkManager.IsServer == false) return;
 		serverObserverPlayers.Remove(observerPlayer);
 		// tell the client the slot is now empty
-		UpdateItemSlotMessage.Send(observerPlayer, this, true);
+		UpdateItemNSlotMessage.Send(observerPlayer, this, true);
 	}
 
 	/// <summary>
@@ -236,6 +236,13 @@ public class ItemSlot
 	public GameObject GetRootStorageOrPlayer()
 	{
 		return itemStorage.GetRootStorageOrPlayer();
+	}
+
+	public (GameObject, PlayerScript) GetRootStorageAndIfPlayer()
+	{
+		var storage = itemStorage.GetRootStorageOrPlayer();
+		if (storage == null) return (null, null);
+		return storage.TryGetComponent(out PlayerScript playerScript) ? (storage, playerScript) : (storage, null);
 	}
 
 	public override string ToString()
@@ -280,7 +287,7 @@ public class ItemSlot
 			}
 		}
 
-		UpdateItemSlotMessage.Send(serverObserverPlayers, this);
+		UpdateItemNSlotMessage.Send(serverObserverPlayers, this);
 	}
 
 	/// <summary>
@@ -444,14 +451,23 @@ public class ItemSlot
 	/// </summary>
 	public static void Free(ItemStorage storageToFree)
 	{
-		if (CustomNetworkManager.Instance != null && CustomNetworkManager.Instance._isServer)
+		if (CustomNetworkManager.Instance != null && CustomNetworkManager.IsServer)
 		{
 			// destroy all items in the slots
 			foreach (var slot in storageToFree.GetItemSlots())
 			{
-				if (slot.Item != null)
+				if (slot.Item != null )
 				{
-					Inventory.ServerDespawn(slot);
+					var Integrity = slot.Item.GetComponent<Integrity>();
+					if (Integrity?.Resistances?.Indestructable == true)
+					{
+						Inventory.ServerDrop(slot);
+					}
+					else
+					{
+						Inventory.ServerDespawn(slot);
+					}
+
 				}
 			}
 		}

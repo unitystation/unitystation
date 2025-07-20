@@ -54,7 +54,7 @@ namespace AdminTools
 				kickReasonField.text = "";
 				kickReasonField.ActivateInputField();
 			}
-			else if(!isJobBan)
+			else if (!isJobBan)
 			{
 				banPage.SetActive(true);
 				banTitle.text = $"Ban Player: {playerToKick.name}";
@@ -90,7 +90,7 @@ namespace AdminTools
 			{
 				if (jobType == "NULL") continue;
 
-				GameObject jobEntry = Instantiate(jobBanJobTemplate);//creates new button
+				GameObject jobEntry = Instantiate(jobBanJobTemplate); //creates new button
 				jobEntry.SetActive(true);
 				var c = jobEntry.GetComponent<JobBanListItem>();
 				c.jobName.text = jobType;
@@ -167,14 +167,15 @@ namespace AdminTools
 
 			foreach (var jobs in jobBanJobTypeListObjects)
 			{
-				if(jobs.toBeBanned.isOn == false) continue;
+				if (jobs.toBeBanned.isOn == false) continue;
 
 				var jobTypeBool = Enum.TryParse(jobs.jobName.text, out JobType jobType);
 
-				if(!jobTypeBool) continue;
+				if (!jobTypeBool) continue;
 
 				PlayerList.RequestJobBan.Send(
-						playerToKickCache.uid, jobBanReasonField.text, jobBanPermaBanToggle.isOn, minutes, jobType, ghost, kick);
+					playerToKickCache.uid, jobBanReasonField.text, jobBanPermaBanToggle.isOn, minutes, jobType, ghost,
+					kick);
 			}
 
 			ClosePage();
@@ -201,13 +202,13 @@ namespace AdminTools
 
 			public override void Process(NetMessage msg)
 			{
-				//Server Stuff here
-				if (SentByPlayer.IsAdmin)
-				{
-					var jobBanEntries = PlayerList.Instance.ListOfBanEntries(msg.PlayerID);
+				if (HasPermission(TAG.PLAYER_GET_JOB_BANS) == false) return;
 
-					ServerSendsJobBanDataAdminMessage.Send(SentByPlayer.Connection, jobBanEntries);
-				}
+				//Server Stuff here
+
+				var jobBanEntries = PlayerList.Instance.ListOfBanEntries(msg.PlayerID);
+
+				ServerSendsJobBanDataAdminMessage.Send(SentByPlayer.Connection, jobBanEntries);
 			}
 
 			public static NetMessage Send(string playerID)
@@ -259,10 +260,11 @@ namespace AdminTools
 							}
 							else
 							{
-								var entryTime = DateTime.ParseExact(jobsBanned.dateTimeOfBan,"O",CultureInfo.InvariantCulture);
-								var totalMins = Mathf.Abs((float)(entryTime - DateTime.Now).TotalMinutes);
+								var entryTime = DateTime.ParseExact(jobsBanned.dateTimeOfBan, "O",
+									CultureInfo.InvariantCulture);
+								var totalMins = Mathf.Abs((float) (entryTime - DateTime.Now).TotalMinutes);
 
-								banMsg = $"{Mathf.RoundToInt((float)jobsBanned.minutes - totalMins)} minutes left";
+								banMsg = $"{Mathf.RoundToInt((float) jobsBanned.minutes - totalMins)} minutes left";
 							}
 
 							jobObject.banTime.text = banMsg;

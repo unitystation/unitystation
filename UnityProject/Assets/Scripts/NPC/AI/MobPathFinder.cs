@@ -69,7 +69,7 @@ namespace Systems.MobAIs
 			//only needed for starting via a map scene through the editor:
 			if (CustomNetworkManager.Instance == null) return;
 
-			if (CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.IsServer)
 			{
 				uop.OnLocalTileReached.AddListener(OnTileReached);
 				isServer = true;

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>NUnit XML display</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div id="drop_zone" class="form-control dropzone" onclick="clicHandler(event);" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+                    <div class="dz-message d-flex flex-column">
+                        Drag &amp; Drop here or click
+                    </div>
+                </div>
+                <input type="file" accept="text/xml" id="fileInput" style="display:none" onchange="fileChangeHandler(event);"/>
+            </div>
+            <div id="report" class="col-12">
+                <div style="margin-top: 1rem;">
+                    <div id="summary" role="alert" class="alert alert-info">
+                        <h3>Summary</h3>
+                        <span id="total-count" class="badge badge-info">Tests: xxx</span>
+                        <span id="failed-count" class="badge badge-danger">Failed: xxx</span>
+                        <span id="passed-count" class="badge badge-success">Passed: xxx</span>
+                        <span id="inconclusive-count" class="badge badge-secondary">Inconclusive: xxx</span>
+                        <span id="skipped-count" class="badge badge-secondary">Skipped: xxx</span>
+                        <span id="date" class="badge badge-light">Date: 2023-04-22 15:09:52Z</span>
+                        <span id="duration" class="badge badge-light">Duration: 1.23456</span>
+                    </div>
+                </div>
+                <div id="test-cases"></div>
+                <template id="template-failed">
+                    <div role="alert" class="alert alert-danger">
+                        <h3 style="overflow-wrap: break-word;">Tests.FailingTest</h3>
+                        <div class="badges mb-2">
+                            <span class="badge badge-danger">Failed</span>
+                            <span class="badge badge-light">Duration: 0.001234</span>
+                        </div>
+                        <h5>Message</h5>
+                        <p>A failure</p>
+                        <h5>Stack Trace</h5>
+                        <pre class="bg-white"></pre>
+                        <h5>Output</h5>
+                        <pre class="bg-white"></pre>
+                    </div>
+                </template>
+                <template id="template-skipped">
+                    <div role="alert" class="alert alert-secondary">
+                        <h3 style="overflow-wrap: break-word;">Tests.TestsSimplePasses</h3>
+                        <div class="badges mb-2">
+                            <span class="badge badge-secondary">Skipped</span>
+                            <span class="badge badge-light">Duration: 0.001234</span>
+                        </div>
+                        <h5>Reason</h5>
+                        <p class="mb-0">Skipped</p>
+                    </div>
+                </template>                
+                <template id="template-passed">
+                    <div role="alert" class="alert alert-success">
+                        <h3 style="overflow-wrap: break-word;">Tests.TestsSimplePasses</h3>
+                        <div class="badges mb-2">
+                            <span class="badge badge-light">Passed</span>
+                            <span class="badge badge-light">Duration: 0.001234</span>
+                        </div>
+                        <h5>Output</h5>
+                        <pre class="bg-white"></pre>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

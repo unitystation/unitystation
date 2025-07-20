@@ -9,12 +9,15 @@ using Communications;
 using Core.Chat;
 using DiscordWebhook;
 using DatabaseAPI;
+using HealthV2;
 using Systems.Communications;
 using Systems.MobAIs;
 using Messages.Server;
 using Items;
+using Items.Implants.Organs;
 using Logs;
 using Managers;
+using Objects.Machines;
 using Objects.Machines.ServerMachines.Communications;
 using Player.Language;
 using Shared.Util;
@@ -54,6 +57,7 @@ public partial class Chat : MonoBehaviour
 
 		chatEvent.allChannels = channels;
 		PlayerScript playerScript = chatEvent.originator.OrNull()?.GetComponent<PlayerScript>();
+		Machine machineScript = chatEvent.originator.OrNull()?.GetComponent<Machine>();
 		AiPlayer aiPlayer = null;
 		if (playerScript != null)
 		{
@@ -76,6 +80,14 @@ public partial class Chat : MonoBehaviour
 					ChatEvent = chatEvent,
 				};
 				chatEvent.channels = channel;
+
+				if (machineScript != null)
+				{
+					if (machineScript.TryGetComponent<SignalEmitter>(out var emitter))
+					{
+						emitter.TrySendSignal(null, radioMessageData);
+					}
+				}
 
 				if (playerScript == null) continue;
 
@@ -178,7 +190,7 @@ public partial class Chat : MonoBehaviour
 	/// Server only
 	/// </summary>
 	public static void AddChatMsgToChatServer(PlayerInfo sentByPlayer, string message, ChatChannel channels,
-		Loudness loudness = Loudness.NORMAL, ushort languageId = 0)
+		Loudness loudness = Loudness.NORMAL, ushort languageId = 0, string voice = "")
 	{
 		message = message.Replace("\n", " ").Replace("\r", " ");  // We don't want users to spam chat vertically
 		message = AutoMod.ProcessChatServer(sentByPlayer, message);
@@ -211,7 +223,7 @@ public partial class Chat : MonoBehaviour
 		// This step is skipped when speaking in the OOC channel.
 		(string message, ChatModifier chatModifiers) processedMessage = (string.Empty, ChatModifier.None); // Placeholder values
 
-		bool isOOC = channels.HasFlag(ChatChannel.OOC);
+		bool isOOC = channels.HasFlagFast(ChatChannel.OOC);
 		if (isOOC == false)
 		{
 			processedMessage = ProcessMessage(sentByPlayer, message);
@@ -219,16 +231,32 @@ public partial class Chat : MonoBehaviour
 			if (string.IsNullOrWhiteSpace(processedMessage.message)) return;
 		}
 
+		var Health = sentByPlayer.GameObject.GetComponentCustom<LivingHealthMasterBase>();
+
+		var speaker = (player == null) ? sentByPlayer.Username : sentByPlayer.Mind.name;
+
+		if (Health != null)
+		{
+			var Tongues = Health.GetOrgans(typeof(Tongue));
+			var Tongue = Tongues.FirstOrDefault() as Tongue; //TODO User selects which tongue they want to use
+			if (Tongue != null) //if null Technically shouldn't be talking but will leave it for now
+			{
+				voice = Tongue.Voice;
+				speaker = Tongue.VoicesName;
+			}
+		}
+
 		var chatEvent = new ChatEvent
 		{
 			message = isOOC ? message : processedMessage.message,
 			modifiers = (player == null) ? ChatModifier.None : processedMessage.chatModifiers,
-			speaker = (player == null) ? sentByPlayer.Username : sentByPlayer.Mind.name,
+			speaker = speaker,
 			position = (player == null) ? TransformState.HiddenPos : player.PlayerChatLocation.AssumedWorldPosServer(),
 			channels = channels,
 			originator = sentByPlayer.GameObject,
 			VoiceLevel = loudness,
-
+			Voice = voice,
+			ShowChatBubble = true,
 		};
 
 		//This is to make sure OOC doesn't break
@@ -243,22 +271,18 @@ public partial class Chat : MonoBehaviour
 			chatEvent.speaker = StripAll(sentByPlayer.Username);
 
 			//Show admin tag for ghosts
-			var isAdmin = PlayerList.Instance.IsAdmin(sentByPlayer.AccountId);
-			if (isAdmin)
+			var rank = PlayerList.GetRankForAccount(sentByPlayer.AccountId, out _);
+
+			if (rank?.ShowInChat == true)
 			{
-				chatEvent.speaker = "<color=red>[A]</color> " + chatEvent.speaker;
+				chatEvent.speaker =  $"<color={rank.Color}>[{rank.Abbreviation}]</color> " + chatEvent.speaker;
 				chatEvent.VoiceLevel = Loudness.LOUD;
+
 			}
 
 			//Handle OOC messages
 			if (isOOC)
 			{
-				//Add mentor tag for non-admin mentors for OOC
-				if (isAdmin == false && PlayerList.Instance.IsMentor(sentByPlayer.AccountId))
-				{
-					chatEvent.speaker = "<color=#6400ff>[M]</color> " + chatEvent.speaker;
-				}
-
 				AddOOCChatMessage(sentByPlayer, message, chatEvent);
 				return;
 			}
@@ -396,7 +420,7 @@ public partial class Chat : MonoBehaviour
 
 		processedMessage.message = message;
 
-		bool isOOC = channels.HasFlag(ChatChannel.OOC);
+		bool isOOC = channels.HasFlagFast(ChatChannel.OOC);
 
 		var chatEvent = new ChatEvent
 		{
@@ -429,13 +453,11 @@ public partial class Chat : MonoBehaviour
 			return;
 		}
 
-		var isAdmin = PlayerList.Instance.IsAdmin(sentByPlayer.AccountId);
-
 		//If global OOCMute don't allow anyone but admins to talk on OOC
-		if (Instance.OOCMute && isAdmin == false) return;
+		if (Instance.OOCMute && PlayerList.HasTAGServer(TAG.ADMIN_BYPASS_GLOBAL_OOC_MUTE, sentByPlayer.AccountId) == false) return;
 
 		//http/https links in OOC chat
-		if (isAdmin || GameManager.Instance.AdminOnlyHtml == false)
+		if (GameManager.Instance.AdminOnlyHtml == false || PlayerList.HasTAGServer(TAG.ADMIN_CHAT_HTML, sentByPlayer.AccountId))
 		{
 			if (htmlRegex.IsMatch(chatEvent.message))
 			{
@@ -503,11 +525,11 @@ public partial class Chat : MonoBehaviour
 
 	private static bool IsOnCorrectChannels(ChatChannel channels)
 	{
-		if (channels.HasFlag(ChatChannel.Common) ||
-		    channels.HasFlag(ChatChannel.Command) || channels.HasFlag(ChatChannel.Security)
-		    || channels.HasFlag(ChatChannel.Engineering) || channels.HasFlag(ChatChannel.Medical)
-		    || channels.HasFlag(ChatChannel.Science)
-		    || channels.HasFlag(ChatChannel.Syndicate) || channels.HasFlag(ChatChannel.Supply))
+		if (channels.HasFlagFast(ChatChannel.Common) ||
+		    channels.HasFlagFast(ChatChannel.Command) || channels.HasFlagFast(ChatChannel.Security)
+		    || channels.HasFlagFast(ChatChannel.Engineering) || channels.HasFlagFast(ChatChannel.Medical)
+		    || channels.HasFlagFast(ChatChannel.Science)
+		    || channels.HasFlagFast(ChatChannel.Syndicate) || channels.HasFlagFast(ChatChannel.Supply))
 		{
 			return true;
 		}
@@ -525,9 +547,10 @@ public partial class Chat : MonoBehaviour
 	/// <param name="broadcasterName">Optional name for the broadcaster. Pulls name from GameObject if not used.</param>
 	/// <param name="voiceLevel">How loud is this message?</param>
 	/// <param name="language">The language the message is in, null for no language</param>
+	/// <param name="doSpeechBubble">Whether this chat message should create a speech bubble</param>
 	public static void AddCommMsgByMachineToChat(
 			GameObject sentByMachine, string message, ChatChannel channels, Loudness voiceLevel,
-			ChatModifier chatModifiers = ChatModifier.None, string broadcasterName = default, LanguageSO language = null)
+			ChatModifier chatModifiers = ChatModifier.None, string broadcasterName = default, LanguageSO language = null, bool doSpeechBubble = false)
 	{
 		if (string.IsNullOrWhiteSpace(message)) return;
 
@@ -540,7 +563,8 @@ public partial class Chat : MonoBehaviour
 			channels = channels,
 			originator = sentByMachine,
 			VoiceLevel = voiceLevel,
-			language = language
+			language = language,
+			ShowChatBubble = doSpeechBubble,
 		};
 
 		InvokeChatEvent(chatEvent);
@@ -839,7 +863,7 @@ public partial class Chat : MonoBehaviour
 	/// <param name="speakerName">The speakers name</param>
 	/// <param name="doSpeechBubble">Do speech bubble at originator?</param>
 	public static void AddLocalMsgToChat(string message, Vector2 worldPos, GameObject originator,
-		LanguageSO language = null, string speakerName = null, bool doSpeechBubble = false)
+		LanguageSO language = null, string speakerName = null, bool doSpeechBubble = true)
 	{
 		if (!IsServer()) return;
 		Instance.TryStopCoroutine(ref composeMessageHandle);
@@ -866,7 +890,7 @@ public partial class Chat : MonoBehaviour
 	/// <param name="speakerName">The speakers name</param>
 	/// /// <param name="doSpeechBubble">Do speech bubble at originator?</param>
 	public static void AddLocalMsgToChat(string message, GameObject originator, LanguageSO language = null,
-		string speakerName = null, bool doSpeechBubble = false)
+		string speakerName = null, bool doSpeechBubble = true)
 	{
 		AddLocalMsgToChat(message, originator.AssumedWorldPosServer(), originator, language,
 			speakerName, doSpeechBubble);

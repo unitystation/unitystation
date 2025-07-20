@@ -14,6 +14,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 85789047387278f44b7d605a5344392f,
         type: 2}
+    - target: {fileID: 1661714906645112505, guid: f99b98719ad16074496e272268d289f9,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 85789047387278f44b7d605a5344392f,
+        type: 2}
     - target: {fileID: 1941964260758557011, guid: f99b98719ad16074496e272268d289f9,
         type: 3}
       propertyPath: parentID
@@ -36,6 +42,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a6e19c7d6afcff246ae8a9c2c153b150,
         type: 2}
+    - target: {fileID: 3388407568319593415, guid: f99b98719ad16074496e272268d289f9,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a6e19c7d6afcff246ae8a9c2c153b150,
+        type: 2}
     - target: {fileID: 3486087033876061008, guid: f99b98719ad16074496e272268d289f9,
         type: 3}
       propertyPath: m_Sprite
@@ -48,9 +60,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f60c935ac9adc0046ae9bc0816e0a51f,
         type: 2}
+    - target: {fileID: 3725189081826482617, guid: f99b98719ad16074496e272268d289f9,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f60c935ac9adc0046ae9bc0816e0a51f,
+        type: 2}
     - target: {fileID: 4459787485994208050, guid: f99b98719ad16074496e272268d289f9,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 9648d4e7c8b734743a4efe6755475585,
+        type: 2}
+    - target: {fileID: 4459787485994208050, guid: f99b98719ad16074496e272268d289f9,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 9648d4e7c8b734743a4efe6755475585,
         type: 2}
@@ -147,6 +171,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4946110610046906972, guid: f99b98719ad16074496e272268d289f9,
         type: 3}
+      propertyPath: initialDescription
+      value: A toy pistol with wood furniture. Ages 8 and up.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4946110610046906972, guid: f99b98719ad16074496e272268d289f9,
+        type: 3}
       propertyPath: hitSound.AssetAddress
       value: Assets/Prefabs/Effects/Tap.prefab
       objectReference: {fileID: 0}
@@ -159,6 +188,18 @@ PrefabInstance:
     - target: {fileID: 4946110610046906972, guid: f99b98719ad16074496e272268d289f9,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 92c8fbdd0c285af429459769d58b2763,
+        type: 2}
+    - target: {fileID: 4946110610046906972, guid: f99b98719ad16074496e272268d289f9,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 142ee55c20971b54689d887a12602774,
+        type: 2}
+    - target: {fileID: 4946110610046906972, guid: f99b98719ad16074496e272268d289f9,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: 92c8fbdd0c285af429459769d58b2763,
         type: 2}
@@ -216,6 +257,21 @@ PrefabInstance:
         type: 3}
       propertyPath: FiringSoundA.AssetAddress
       value: Assets/Prefabs/Weapons/Gun/SyringeShot.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 8296188907648457845, guid: f99b98719ad16074496e272268d289f9,
+        type: 3}
+      propertyPath: CameraRecoilConfig.Distance
+      value: 0.001
+      objectReference: {fileID: 0}
+    - target: {fileID: 8296188907648457845, guid: f99b98719ad16074496e272268d289f9,
+        type: 3}
+      propertyPath: CameraRecoilConfig.RecoilDuration
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8296188907648457845, guid: f99b98719ad16074496e272268d289f9,
+        type: 3}
+      propertyPath: CameraRecoilConfig.RecoveryDuration
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

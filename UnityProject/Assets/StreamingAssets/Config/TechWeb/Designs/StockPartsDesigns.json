@@ -498,7 +498,7 @@
             "Science"
         ],
         "name": "Hyperwave Filter",
-        "Item_ID": "Assets/Prefabs/Items/Construction/StockParts/SubspaceStockParts/HyperwaveFilter"
+        "Item_ID": "8513915a51caca44a9e3ad11a1260f06"
     },
     {
         "Internal_ID": "s-amplifier",
@@ -581,5 +581,24 @@
         ],
         "name": "Ansible Crystal",
         "Item_ID": "2a037b7145cc9dd45ad1d23a4ee4f04f"
+    },
+    {
+        "Internal_ID": "igniter",
+        "Description": "A small electronic igniter.",
+        "Category": [
+            "Stock Parts"
+        ],
+        "Materials": {
+            "Metal": 250
+        },
+        "Machinery_type": [
+            "ProtoLathe"
+        ],
+        "Compatible_machinery": [
+            "Engineering",
+            "Science"
+        ],
+        "name": "Igniter",
+        "Item_ID": "0e933e4f965c9bf4082015f5e176ac73"
     }
 ]

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using HealthV2;
+using Player;
 using Player.Language;
 using UnityEngine;
 
@@ -15,12 +16,28 @@ namespace Items.Implants.Organs
 
 		[SerializeField] private float maximumCharactersCanBeSpokenInOneMessage = 1600;
 
+		public string VoicesName = "";
+
+		public string Voice = "";
+
 		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
 			RelatedPart = GetComponent<BodyPart>();
 			mobLanguages = livingHealth.GetComponent<MobLanguages>();
 
 			if(CustomNetworkManager.IsServer == false) return;
+
+			//Get voice name from character sheet
+			var Sheet = livingHealth.GetComponentCustom<PlayerSprites>().ThisCharacter;
+			if (string.IsNullOrWhiteSpace(VoicesName))
+			{
+				VoicesName = Sheet.Name;
+			}
+
+			if (string.IsNullOrWhiteSpace(Voice))
+			{
+				Voice = Sheet.Voice;
+			}
 
 			foreach (var language in languages)
 			{

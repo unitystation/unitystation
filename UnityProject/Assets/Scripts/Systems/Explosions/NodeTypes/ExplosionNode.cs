@@ -11,6 +11,7 @@ using TileManagement;
 using AddressableReferences;
 using Core;
 using Core.Lighting_System.Light2D;
+using Cysharp.Threading.Tasks;
 using Logs;
 using Player;
 using Scripts.Core.Transform;
@@ -32,6 +33,18 @@ namespace Systems.Explosions
 
 		public List<ItemTrait> IgnoreAttributes = new List<ItemTrait>();
 
+		/// <summary>
+		/// The position of the node this explosion originated from
+		/// </summary>
+		public Vector3 ExplosionStartWorldPosition = Vector3.zero;
+
+		public const int MINIMUM_DAMAGE_TO_THROW_OBJECTS = 8;
+		public const int OBJECT_PROCESS_SPLICE_LIMIT = 6;
+
+		public ExplosionNode(Vector3 _explosionStartWorldPosition)
+		{
+			ExplosionStartWorldPosition = _explosionStartWorldPosition;
+		}
 		public virtual string EffectName
 		{
 			get { return "Fire"; }
@@ -51,14 +64,10 @@ namespace Systems.Explosions
 			matrix = Inmatrix;
 		}
 
-		public void Process()
+		public virtual async UniTask Process()
 		{
-			float DamageDealt = AngleAndIntensity.magnitude;
-			float EnergyExpended = 0;
-			var v3int = new Vector3Int(Location.x, Location.y, 0);
-			var tileManager = matrix.TileChangeManager;
-
-			if (DamageDealt <= 0)
+			float damageDealt = AngleAndIntensity.magnitude;
+			if (damageDealt <= 0)
 			{
 				return;
 			}
@@ -68,57 +77,113 @@ namespace Systems.Explosions
 				return;
 			}
 
-			if(DamageDealt > 0)
+			if (damageDealt > 0)
 			{
-				if (EffectName != null && EffectOverlayType != null && tileManager != null)
-				{
-					TimedEffect(v3int, DamageDealt * 10, EffectName, EffectOverlayType, tileManager);
-				}
-				EnergyExpended = DoDamage(matrix, DamageDealt, v3int);
-
-				foreach (var line in PresentLines)
-				{
-					line.ExplosionStrength -= EnergyExpended * (line.ExplosionStrength / DamageDealt);
-				}
-				AngleAndIntensity = Vector2.zero;
+				//(Max): v3int is a terrible name. Whoever named it this way should be ashamed.
+				//I have no clue what's the context of this vector. Is it local position? Is it world position? Is it a direction? Who knows!
+				//Keep gatekeeping the codebase, it's not like there are other people working on this project..
+				var v3int = new Vector3Int(Location.x, Location.y, 0);
+				await ReguralProcessingToTilesOnly(damageDealt, v3int);
+				_ = DoDamageToObjects(matrix, damageDealt, v3int);
 			}
 		}
 
-		//method that, surprise, does damage to stuff on node's tile. override for custom behaviour. must return EnergyExpended value
-		public virtual float DoDamage(Matrix matrix, float damageDealt, Vector3Int v3int)
+		protected async UniTask ReguralProcessingToTilesOnly(float damageDealt, Vector3Int v3int)
 		{
+			var tileManager = matrix.TileChangeManager;
+			if (EffectName != null && EffectOverlayType != null && tileManager != null)
+			{
+				if (damageDealt >= 2) await TimedEffect(v3int, damageDealt * 10, EffectName, EffectOverlayType, tileManager);
+			}
 			var metaTileMap = matrix.MetaTileMap;
+			var energyExpended = DoDamageToTiles(matrix, damageDealt, v3int, metaTileMap);
+			foreach (var line in PresentLines)
+			{
+				line.ExplosionStrength -= energyExpended * (line.ExplosionStrength / damageDealt);
+			}
+			AngleAndIntensity = Vector2.zero;
+		}
+
+		//method that, surprise, does damage to stuff on node's tile. override for custom behaviour. must return EnergyExpended value
+		public virtual float DoDamageToTiles(Matrix matrix, float damageDealt, Vector3Int v3int, MetaTileMap metaTileMap)
+		{
 			float energyExpended = metaTileMap.ApplyDamage(v3int, damageDealt,
 			MatrixManager.LocalToWorldInt(v3int, matrix.MatrixInfo), AttackType.Bomb);
 
 			DamageLayers(damageDealt, v3int);
-
-			foreach (var integrity in matrix.Get<Integrity>(v3int, true))
-			{
-				//Throw items and Objects
-				integrity.GetComponent<UniversalObjectPhysics>()?.NewtonianNewtonPush(AngleAndIntensity.Rotate90(), AngleAndIntensity.magnitude * 0.1f , 1, 3,
-					BodyPartType.Chest, integrity.gameObject, 15);
-
-				if (integrity.TryGetComponent<ItemAttributesV2>(out var traits))
-				{
-					if (IgnoreAttributes != null && traits.HasAnyTrait(IgnoreAttributes)) continue;
-				}
-
-				//And do damage to objects
-				integrity.ApplyDamage(damageDealt, AttackType.Bomb, DamageType.Brute);
-			}
-
-			foreach (var player in matrix.Get<LivingHealthMasterBase>(v3int, ObjectType.Player, true))
-			{
-				player.GetComponent<UniversalObjectPhysics>()?.NewtonianPush(AngleAndIntensity.Rotate90(), 7, 1, 3,
-                					BodyPartType.Chest, player.gameObject, 15);
-				// do damage
-				player.ApplyDamageAll(null, damageDealt, AttackType.Bomb, DamageType.Brute, default, TraumaticDamageTypes.NONE, 75);
-			}
-
 			ChangeNodeTemp(matrix, damageDealt, v3int);
 
 			return energyExpended;
+		}
+
+		public virtual async UniTask DoDamageToObjects(Matrix matrix, float damageDealt, Vector3Int v3int)
+		{
+			var stuffOnTile = matrix.Get<CommonComponents>(v3int, true);
+			var playersOnTile = matrix.Get<LivingHealthMasterBase>(v3int, ObjectType.Player, true);
+			var spliceCounter = 0;
+			foreach (var something in stuffOnTile)
+			{
+				if (spliceCounter > OBJECT_PROCESS_SPLICE_LIMIT)
+				{
+					spliceCounter = 0;
+					await UniTask.WaitForEndOfFrame();
+				}
+				spliceCounter++;
+				// Incase of multiple explosions occuring at once (i.e: multiple Gibtonites)
+				// trycatch this to avoid trying to destroy stuff that is already destroyed by other damage sources.
+				if (!something) continue;
+				if (something.TrySafeGetComponent<Integrity>(out var integrity))
+				{
+					DamageObjects(something, integrity, damageDealt);
+				}
+			}
+
+			// Damage mobs
+			foreach (var player in playersOnTile)
+			{
+				//Player damage is relatively fine performance wise, and doesn't generate any GC.
+				//However, it is still a bit too complex; and its complexity shows when several mobs are recieving damage at once.
+				//Processing one at a time each frame should give the game plenty of breathing room.
+				await UniTask.WaitForEndOfFrame();
+				try
+				{
+					if (damageDealt >= MINIMUM_DAMAGE_TO_THROW_OBJECTS)
+					{
+						player.playerScript.playerMove.NewtonianPush(AngleAndIntensity.Rotate90(), 7, 1, 3,
+							BodyPartType.Chest, player.gameObject, 15);
+					}
+					player.ApplyDamageAll(null, damageDealt, AttackType.Bomb, DamageType.Brute, default, TraumaticDamageTypes.NONE, 75);
+				}
+				catch (Exception e)
+				{
+					Loggy.Error(
+						$"An issue occured while trying to damage players during an explosion. Maybe they got gibbed?\n {e}");
+				}
+			}
+		}
+
+		private void DamageObjects(CommonComponents components, Integrity integrity, float damageDealt)
+		{
+			try
+			{
+				if (damageDealt >= MINIMUM_DAMAGE_TO_THROW_OBJECTS)
+				{
+					integrity.Physics.NewtonianNewtonPush(AngleAndIntensity.Rotate90(), AngleAndIntensity.magnitude * 0.1f , 1, 3,
+						BodyPartType.Chest, integrity.gameObject, 15);
+				}
+
+				if (IgnoreAttributes != null)
+				{
+					if (components.TrySafeGetComponent<ItemAttributesV2>(out var traits) &&
+					    traits.HasAnyTraitZeroAlloc(IgnoreAttributes)) return;
+				}
+				// And do damage to objects
+				integrity.ApplyDamage(damageDealt, AttackType.Bomb, DamageType.Brute);
+			}
+			catch (Exception e)
+			{
+				Loggy.Error($"An error occured while trying to damage an object in an explosion.\n {e}");
+			}
 		}
 
 		private void ChangeNodeTemp(Matrix matrix, float damageDealt, Vector3Int v3int)
@@ -198,23 +263,37 @@ namespace Systems.Explosions
 			}
 		}
 
-		public void TimedEffect(Vector3Int position, float time, string effectName, OverlayType effectOverlayType, TileChangeManager tileChangeManager)
+		public async UniTask TimedEffect(Vector3Int position, float timeMiliseconds, string effectName, OverlayType effectOverlayType, TileChangeManager tileChangeManager)
 		{
 			//Dont add effect if it is already there
 			if (tileChangeManager.MetaTileMap.HasOverlay(position, TileType.Effects, effectName)) return;
 			tileChangeManager.MetaTileMap.AddOverlay(position, TileType.Effects, effectName);
 			var Position = position.ToWorld(tileChangeManager.MetaTileMap.matrix);
-			var fireLightSpawn = Spawn.ServerPrefab(tileChangeManager.MetaTileMap.matrix.ReactionManager.FireLightPrefab,Position );
-
-			fireLightSpawn.GameObject.GetComponent<UniversalObjectPhysics>().AppearAtWorldPositionServer(Position);
-			fireLightSpawn.GameObject.GetComponent< ScaleSync>().SetScale(Vector3.one * 30);
-			ExplosionManager.CleanupEffectLater(time * 0.001f, tileChangeManager.MetaTileMap,
+			//TODO: Pool this because it's ruining performance when multiple explosions occur.
+			var fireLightSpawn = Spawn.ServerPrefab(tileChangeManager.MetaTileMap.matrix.ReactionManager.FireLightPrefab, Position);
+			await UniTask.Delay(75);
+			var components =
+				ComponentsTracker<CommonComponents>.GetComponentFromGameObject(fireLightSpawn.GameObject);
+			if (components != null)
+			{
+				if (components.TrySafeGetComponent<UniversalObjectPhysics>(out var physics))
+				{
+					physics.AppearAtWorldPositionServer(Position);
+					physics.Scale.SetScale(Vector3.one * 30);
+				}
+			}
+			else
+			{
+				Loggy.Error("Attempted to acces CommonComponents on a FireLight object, but couldn't find one!");
+			}
+			ExplosionManager.CleanupEffectLater(timeMiliseconds * 0.001f, tileChangeManager.MetaTileMap,
 				position, effectOverlayType, fireLightSpawn.GameObject);
+			return;
 		}
 
 		public virtual ExplosionNode GenInstance()
 		{
-			return new ExplosionNode();
+			return new ExplosionNode(ExplosionStartWorldPosition);
 		}
 	}
 }

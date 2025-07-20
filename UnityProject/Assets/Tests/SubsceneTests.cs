@@ -57,13 +57,13 @@ namespace Tests
 						// Check if the scene is enabled in the build settings
 						if (enabled.GetValueOrDefault(false) == false)
 						{
-							report.AppendLine($"{typeName}: {sceneName} scene is not enabled in the Build Settings list.").MarkDirtyIfFailed().Fail();;
+							report.Fail().AppendLine($"{typeName}: {sceneName} scene is not enabled in the Build Settings list.").Log().MarkDirtyIfFailed().Fail();
 						}
 
 					}
 					else
 					{
-						report.AppendLine($"{typeName}: {sceneName} scene does not exist in the '{mapsDirectory}' directory or Built setting.").Fail();
+						report.Fail().AppendLine($"{typeName}: {sceneName} scene does not exist in the '{mapsDirectory}' directory or Built setting.").Log().MarkDirtyIfFailed().Fail();
 					}
 				}
 			}

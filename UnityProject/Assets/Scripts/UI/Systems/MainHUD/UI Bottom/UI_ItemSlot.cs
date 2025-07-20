@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using Items.Implants.Organs;
 using Logs;
 using Managers;
+using Messages.Client;
 using Objects.Atmospherics;
 using UI;
 using UI.Systems.Tooltips.HoverTooltips;
@@ -78,6 +79,9 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IPointerEnterHandler, IPointerE
 
 	public Material OverlayMaterial;
 
+
+	public bool IsAdmins = false;
+
 	private void Awake()
 	{
 		if (amountText)
@@ -141,11 +145,105 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IPointerEnterHandler, IPointerE
 		{
 			itemSlot.LinkLocalUISlot(this);
 			itemSlot.OnSlotContentsChangeClient.AddListener(OnClientSlotContentsChange);
+
+			if (itemSlot.NamedSlot != null)
+			{
+				namedSlot = itemSlot.NamedSlot.Value;
+			}
+			else
+			{
+				namedSlot = NamedSlot.none;
+			}
+
+			SetPlaceholder();
 		}
 
 		RefreshImage();
 	}
 
+
+	public void SetPlaceholder()
+	{
+		if (placeholderImage == null) return;
+		switch (namedSlot)
+		{
+			case NamedSlot.outerwear:
+				placeholderImage.sprite = CommonSpriteDataSOs.Instance.outerwear.GetFirstSprite;
+				break;
+			case NamedSlot.belt:
+				placeholderImage.sprite = CommonSpriteDataSOs.Instance.belt.GetFirstSprite;
+				break;
+			case NamedSlot.head:
+				placeholderImage.sprite = CommonSpriteDataSOs.Instance.head.GetFirstSprite;
+				break;
+			case NamedSlot.feet:
+				placeholderImage.sprite = CommonSpriteDataSOs.Instance.feet.GetFirstSprite;
+				break;
+			case NamedSlot.mask:
+				placeholderImage.sprite = CommonSpriteDataSOs.Instance.mask.GetFirstSprite;
+				break;
+			case NamedSlot.uniform:
+				placeholderImage.sprite = CommonSpriteDataSOs.Instance.uniform.GetFirstSprite;
+				break;
+			case NamedSlot.leftHand:
+				placeholderImage.sprite = CommonSpriteDataSOs.Instance.leftHand.GetFirstSprite;
+				break;
+			case NamedSlot.rightHand:
+				placeholderImage.sprite = CommonSpriteDataSOs.Instance.rightHand.GetFirstSprite;
+				break;
+			case NamedSlot.eyes:
+				placeholderImage.sprite = CommonSpriteDataSOs.Instance.eyes.GetFirstSprite;
+				break;
+			case NamedSlot.back:
+				placeholderImage.sprite = CommonSpriteDataSOs.Instance.back.GetFirstSprite;
+				break;
+			case NamedSlot.hands:
+				placeholderImage.sprite = CommonSpriteDataSOs.Instance.hands.GetFirstSprite;
+				break;
+			case NamedSlot.ear:
+				placeholderImage.sprite = CommonSpriteDataSOs.Instance.ear.GetFirstSprite;
+				break;
+			case NamedSlot.neck:
+				placeholderImage.sprite = CommonSpriteDataSOs.Instance.neck.GetFirstSprite;
+				break;
+			case NamedSlot.handcuffs:
+				placeholderImage.sprite = CommonSpriteDataSOs.Instance.handcuffs.GetFirstSprite;
+				break;
+			case NamedSlot.id:
+				placeholderImage.sprite = CommonSpriteDataSOs.Instance.id.GetFirstSprite;
+				break;
+			case NamedSlot.suitStorage:
+				placeholderImage.sprite = CommonSpriteDataSOs.Instance.suitStorage.GetFirstSprite;
+				break;
+
+			// Storage items remain as before (using InventoryPocket, assumed)
+			case NamedSlot.storage01:
+			case NamedSlot.storage02:
+			case NamedSlot.storage03:
+			case NamedSlot.storage04:
+			case NamedSlot.storage05:
+			case NamedSlot.storage06:
+			case NamedSlot.storage07:
+			case NamedSlot.storage08:
+			case NamedSlot.storage09:
+			case NamedSlot.storage10:
+			case NamedSlot.storage11:
+			case NamedSlot.storage12:
+			case NamedSlot.storage13:
+			case NamedSlot.storage14:
+			case NamedSlot.storage15:
+			case NamedSlot.storage16:
+			case NamedSlot.storage17:
+			case NamedSlot.storage18:
+			case NamedSlot.storage19:
+			case NamedSlot.storage20:
+				placeholderImage.sprite = CommonSpriteDataSOs.Instance.InventoryPocket.GetFirstSprite;
+				break;
+			default:
+				placeholderImage.sprite = CommonSpriteDataSOs.Instance.bob.GetFirstSprite;
+				break;
+		}
+	}
 
 	/// <summary>
 	///  any relation to any slot on client
@@ -164,7 +262,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IPointerEnterHandler, IPointerE
 
 	public void SetUp(BodyPartUISlots.StorageCharacteristics storageCharacteristics)
 	{
-		if (placeholderImage != null)placeholderImage.sprite = storageCharacteristics.placeholderSprite;
+		if (placeholderImage != null) placeholderImage.sprite = storageCharacteristics.placeholderSprite;
 		namedSlot = storageCharacteristics.namedSlot;
 		hoverName = storageCharacteristics.hoverName;
 	}
@@ -188,8 +286,15 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IPointerEnterHandler, IPointerE
 	/// </summary>
 	public void RefreshImage()
 	{
-		if (itemSlot != null)
-			UpdateImage(ItemObject);
+		try
+		{
+			if (itemSlot != null)
+				UpdateImage(ItemObject);
+		}
+		catch (Exception e)
+		{
+			Loggy.Error(e.ToString());
+		}
 	}
 
 	/// <summary>
@@ -220,13 +325,13 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IPointerEnterHandler, IPointerE
 
 		if (!nullItem)
 		{
-			image?.ShowItem(item,OverlayMaterial,  color);
+			image?.ShowItem(item, OverlayMaterial, color);
 			if (placeholderImage)
 				placeholderImage.color = new Color(1, 1, 1, 0);
 
 			//determine if we should show an amount
 			var stack = item.GetComponent<Stackable>();
-			if (stack != null && ((stack.Amount > 1  && amountText)|| stack.IsRepresentationOfStack) )
+			if (stack != null && ((stack.Amount > 1 && amountText) || stack.IsRepresentationOfStack))
 			{
 				amountText.enabled = true;
 				amountText.text = stack.Amount.ToString();
@@ -339,31 +444,57 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IPointerEnterHandler, IPointerE
 		return true;
 	}
 
-	public bool SwapItem(UI_ItemSlot itemSlot)
+	public  bool SwapItem(UI_ItemSlot itemSlot)
 	{
-		if (isValidPlayer())
+		if (itemSlot.IsAdmins || isValidPlayer())
 		{
-			var CurrentSlot = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot();
+			var CurrentSlot = PlayerManager.LocalPlayerScript?.DynamicItemStorage?.GetActiveHandSlot();
+			if (itemSlot.IsAdmins && PlayerManager.LocalMindScript.isGhosting)
+			{
+				CurrentSlot = AdminManager.Instance.LocalAdminGhostStorage.GetNamedItemSlot(NamedSlot.ghostStorage01);
+			}
+
 			if (CurrentSlot != itemSlot.itemSlot) //Check if we're not interacting with our own hand
 			{
 				if (CurrentSlot.Item == null) //check if hand is empty
 				{
 					if (itemSlot.Item != null) //check if slot is not empty
 					{
-						//if slot is not empty and hand is empty; ask the inventory to give us that item in our hand
-						Inventory.ClientRequestTransfer(itemSlot.ItemSlot, CurrentSlot);
-						return true;
+						if (itemSlot.IsAdmins)
+						{
+							//if slot is not empty and hand is empty; ask the inventory to give us that item in our hand
+							AdminInventoryTransferMessage.Send(itemSlot.ItemSlot, CurrentSlot);
+							return true;
+						}
+						else
+						{
+							//if slot is not empty and hand is empty; ask the inventory to give us that item in our hand
+							Inventory.ClientRequestTransfer(itemSlot.ItemSlot, CurrentSlot);
+							return true;
+						}
+
 					}
 				}
 				else
 				{
 					if (itemSlot.Item != null) return false;
-					//if slot is empty, ask the game to put whatever thats in out hand in it.
-					Inventory.ClientRequestTransfer(CurrentSlot, itemSlot.ItemSlot);
-					return true;
+
+					if (itemSlot.IsAdmins)
+					{
+						//if slot is empty, ask the game to put whatever thats in out hand in it.
+						AdminInventoryTransferMessage.Send(CurrentSlot, itemSlot.ItemSlot);
+						return true;
+					}
+					else
+					{
+						//if slot is empty, ask the game to put whatever thats in out hand in it.
+						Inventory.ClientRequestTransfer(CurrentSlot, itemSlot.ItemSlot);
+						return true;
+					}
 				}
 			}
 		}
+
 		return false;
 	}
 
@@ -375,9 +506,10 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IPointerEnterHandler, IPointerE
 	{
 		// Clicked on another slot other than our own hands
 		bool IsHandSlots = false;
-		IsHandSlots = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot() == itemSlot;
+		var HandSlot = PlayerManager.LocalPlayerScript?.DynamicItemStorage?.GetActiveHandSlot();
+		IsHandSlots =  HandSlot == itemSlot;
 
-		if (IsHandSlots == false)
+		if (IsHandSlots == false && HandSlot != null)
 		{
 			// If full, attempt to interact the two, otherwise swap
 			if (Item != null)
@@ -399,7 +531,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IPointerEnterHandler, IPointerE
 		}
 
 		// If there is an item and the hand is interacting in the same slot
-		if (Item != null && PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot() == itemSlot)
+		if (Item != null && HandSlot == itemSlot)
 		{
 			//check IF2 logic first
 			var interactables = Item.GetComponents<IBaseInteractable<HandActivate>>()
@@ -409,9 +541,13 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IPointerEnterHandler, IPointerE
 		}
 		else
 		{
-			if (PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot() != itemSlot)
+			if (HandSlot != itemSlot)
 			{
-				if (TryIF2InventoryApply()) return;
+				if (HandSlot != null)
+				{
+					if (TryIF2InventoryApply()) return;
+				}
+
 				if (swapIfEmpty)
 					SwapItem(this);
 			}
@@ -425,7 +561,8 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IPointerEnterHandler, IPointerE
 		//target slot is occupied, but it's okay if active hand slot is not occupied)
 		if (Item != null)
 		{
-			var combine = InventoryApply.ByLocalPlayer(itemSlot, PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot());
+			var combine = InventoryApply.ByLocalPlayer(itemSlot,
+				PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot());
 			//check interactables in the active hand (if active hand occupied)
 			if (PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().Item != null)
 			{
@@ -446,12 +583,12 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IPointerEnterHandler, IPointerE
 	}
 
 	private bool SwapTwoItemsInInventory(ItemSlot CurrentSlot)
-    	{
-    		if (PlayerManager.LocalPlayerScript.PlayerNetworkActions == null) return false;
-            PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdServerReplaceItemInInventory(CurrentSlot.ItemObject,
-    			itemSlot.ItemStorageNetID, itemSlot.NamedSlot.Value);
-            return true;
-    	}
+	{
+		if (PlayerManager.LocalPlayerScript.PlayerNetworkActions == null) return false;
+		PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdServerReplaceItemInInventory(CurrentSlot.ItemObject,
+			itemSlot.ItemStorageNetID, itemSlot.NamedSlot.Value);
+		return true;
+	}
 
 
 	[ContextMenu("Debug Slot")]

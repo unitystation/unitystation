@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: statuewingedarmsout
+  m_EditorClassIdentifier: 
+  foreverID: 90805498f2f234464af35480c7e12d75
+  Variance:
+  - Frames:
+    - sprite: {fileID: -6416133655785747872, guid: f985c3dc475d3a550947648f28217f50,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 4698252762737702861, guid: f985c3dc475d3a550947648f28217f50,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -8724032048643000796, guid: f985c3dc475d3a550947648f28217f50,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -1473121253, guid: f985c3dc475d3a550947648f28217f50, type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  DisplayName: 

@@ -92,6 +92,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8052c1708b6d99043a2da0a67d842306,
+        type: 2}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
       propertyPath: SubCatalogue.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -116,6 +122,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: You probably shouldn't stick around to see if this is armed.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8208024911721290269, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: Resistances.Indestructable
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9212640593017544930, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
@@ -207,7 +218,7 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
-  ignoreRoundstartGrabObjects: 0
+  initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 0}
 --- !u!114 &692548729324142341
 MonoBehaviour:
@@ -242,13 +253,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   TimerTickSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/UI/Tick.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   isAncharable: 1
   explosionRadius: 500
   minTimer: 270
+  UseSyndiNukeCode: 0
+  loadedOnRoundID: 0

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using InGameGizmos;
 using Logs;
 using TMPro;
 using UnityEngine;
@@ -241,7 +242,6 @@ public class ChatBubble : MonoBehaviour, IDisposable
 			if (msgQueue.Count > 0)
 			{
 				BubbleMsg msg = msgQueue.Dequeue();
-
 				var Bubble = GetSubChatBubble();
 				Bubble.transform.SetParent(content);
 				Bubble.transform.SetSiblingIndex(Bubble.transform.parent.childCount -1);
@@ -274,7 +274,7 @@ public class ChatBubble : MonoBehaviour, IDisposable
     {
 	    if (target != null)
 	    {
-		    Vector3 viewPos = manualWorldToScreenPoint(target.position);
+		    Vector3 viewPos = manualWorldToScreenPoint(target.gameObject.AssumedWorldPosServer() + new Vector3(-0.03125f, 0.5625f, 0));
 		    transform.position = viewPos;
 	    }
     }

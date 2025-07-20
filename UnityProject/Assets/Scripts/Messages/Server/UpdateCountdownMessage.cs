@@ -1,5 +1,6 @@
 ﻿using Mirror;
 using UI;
+using UI.Systems.PreRound;
 
 namespace Messages.Server
 {
@@ -12,11 +13,13 @@ namespace Messages.Server
 		{
 			public bool Started;
 			public double EndTime;
+			public RoundState RoundState;
 		}
 
 		public override void Process(NetMessage msg)
 		{
-			UIManager.Display.preRoundWindow.GetComponent<GUI_PreRoundWindow>().SyncCountdown(msg.Started, msg.EndTime);
+			GameManager.Instance.CurrentRoundState = msg.RoundState;
+			UIManager.Display.preRoundWindow.GetComponent<GUI_PreRoundWindow>().CountdownArea.SyncCountdown(msg.Started, msg.EndTime);
 		}
 
 		/// <summary>
@@ -25,14 +28,15 @@ namespace Messages.Server
 		/// <param name="started">Has the countdown started or stopped?</param>
 		/// <param name="time">How much time is left on the countdown?</param>
 		/// <returns></returns>
-		public static NetMessage Send(bool started, float time)
+		public static NetMessage Send(bool started, float time, RoundState state)
 		{
 			// Calculate when the countdown will end relative to the current NetworkTime
 			double endTime = NetworkTime.time + time;
 			NetMessage msg = new NetMessage
 			{
 				Started = started,
-				EndTime = endTime
+				EndTime = endTime,
+				RoundState = state
 			};
 
 			SendToAll(msg);

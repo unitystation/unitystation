@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using GameModes;
 using Logs;
 using UnityEngine;
+using Category = Logs.Category;
+using System;
+using Action = System.Action;
 
 /// <summary>
 /// Represents what state the round is in: PreRound, Started or Ended
@@ -49,15 +52,18 @@ public partial class GameManager
 		{
 			currentRoundState = value;
 			Loggy.Info().Format("CurrentRoundState is now {0}!", Category.Round, value);
+			OnCurrentRoundStateChange?.Invoke();
 		}
 	}
 
 	private RoundState currentRoundState;
 
+	public event Action OnCurrentRoundStateChange;
+
 	/// <summary>
 	/// The current game mode
 	/// </summary>
-	public GameMode GameMode { get; private set; }
+	public GameMode GameMode { get; set; }
 
 	/// <summary>
 	/// Sets the current gamemode using a string to find the gamemode name
@@ -88,11 +94,19 @@ public partial class GameManager
 	}
 
 	/// <summary>
+	/// Shuffles a list of game modes then iterate through by round ( If not possible skips)
+	/// </summary>
+	public void PickFromCarouselGameMode()
+	{
+		GameMode randomGM = GameModeData.PickFromCarouselGameMode();
+		SetGameMode(randomGM);
+	}
+
+	/// <summary>
 	/// Sets a random gamemode which is currently possible
 	/// </summary>
 	public void SetRandomGameMode()
 	{
-		// TODO add precondition checks
 		GameMode randomGM = GameModeData.ChooseGameMode();
 		SetGameMode(randomGM);
 	}

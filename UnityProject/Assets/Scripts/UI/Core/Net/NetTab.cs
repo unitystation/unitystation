@@ -88,6 +88,7 @@ public enum NetTabType
 	TemperatureGate = 70,
 	ReflectionGolf = 71,
 	PaperHolographic = 72,
+	Flatpacker = 73,
 	// add new entres to the bottom
 	// the enum name must match that of the prefab except the prefab has the word tab infront of the enum name
 	// i.e TabJukeBox
@@ -310,8 +311,20 @@ public class NetTab : Tab
 		}
 	}
 
-	public bool IsAIInteracting()
+	public bool IsAIInteracting(PlayerInfo player = null)
 	{
+		if (player != null)
+		{
+			if (player.Job == JobType.AI) //TODO Better system for determining if Remotely accessing
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+
 		foreach(var peep in Peepers)
 		{
 			if (peep.Job != JobType.AI) continue;
