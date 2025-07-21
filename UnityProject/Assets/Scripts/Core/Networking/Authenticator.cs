@@ -38,6 +38,7 @@ namespace Core.Networking
 			public string ClientId;
 			public string AccountId;
 			public string PlayerToken;
+			public string PlayerAuthenticationServerToken;
 			public string LobbyPassword;
 			public string OffLineName;
 		}
@@ -46,6 +47,7 @@ namespace Core.Networking
 		{
 			public ResponseCode Code;
 			public string Message;
+			public Account Account;
 		}
 
 		public struct ServerClientAuthRequestMessage : NetworkMessage { }
@@ -146,13 +148,25 @@ namespace Core.Networking
 			}
 			else
 			{
-				if (ValidateRequest(conn, msg.AccountId, msg.PlayerToken) == false) return;
-				if (ValidatePlayerClient(conn, msg.ClientVersion) == false) return;
+				if (string.IsNullOrEmpty(msg.PlayerAuthenticationServerToken))
+				{
+					if (ValidateRequest(conn, msg.AccountId, msg.PlayerToken) == false) return;
+					if (ValidatePlayerClient(conn, msg.ClientVersion) == false) return;
 
-				account = await TryGetPlayerAccount(conn, msg.AccountId, msg.PlayerToken);
-				if (account == null) return;
+					account = await TryGetPlayerAccount(conn, msg.AccountId, msg.PlayerToken);
+					if (account == null) return;
 
-				if (ValidatePlayerAccount(conn, account) == false) return;
+					if (ValidatePlayerAccount(conn, account) == false) return;
+				}
+				else
+				{
+					if (ValidatePlayerClient(conn, msg.ClientVersion) == false) return;
+
+					account = await TryGetPlayerAccountByServerToken(conn, msg.PlayerAuthenticationServerToken);
+					if (account == null) return;
+					//Return account to client since Client doesn't know what account it is funnily enough
+					if (ValidatePlayerAccount(conn, account) == false) return;
+				}
 			}
 
 			//if (ValidateLobbyPassword(conn, msg) == false) return; TODO!!!
@@ -164,11 +178,24 @@ namespace Core.Networking
 				Account = account,
 			};
 
-			conn.Send(new AuthResponseMessage
+			if (string.IsNullOrEmpty(msg.PlayerAuthenticationServerToken))
 			{
-				Code = ResponseCode.Success,
-				Message = "Authentication successful.",
-			});
+				conn.Send(new AuthResponseMessage
+				{
+					Code = ResponseCode.Success,
+					Message = "Authentication successful.",
+				});
+			}
+			else
+			{
+				conn.Send(new AuthResponseMessage
+				{
+					Code = ResponseCode.Success,
+					Message = "Authentication successful.",
+					Account = account
+				});
+			}
+
 
 			ServerAccept(conn);
 		}
@@ -266,6 +293,50 @@ namespace Core.Networking
 			}
 
 			return true;
+		}
+
+		private async Task<Account> TryGetPlayerAccountByServerToken(NetworkConnectionToClient conn,
+			string ServerAccountPlayerToken)
+		{
+			// Validate the provided token against the account details and get the account
+			ApiResult<AccountGetResponse> accountResponse;
+			try
+			{
+
+				accountResponse = await AccountServer.VerifyAccountAgainstServerAccount(ServerAccountPlayerToken, ServerData.ServerConfig.ServerCCToken);
+				if (!accountResponse.IsSuccess)
+				{
+					throw (ApiRequestException)accountResponse.Exception!;
+				}
+			}
+			catch (ApiRequestException e)
+			{
+				Loggy.Info(
+					$"The API server rejected the verification request for account with "
+					+ $" at address '{conn.address}'. Error: {e.Message}",
+					Category.Connections);
+
+				// TODO check which particular error message corresponds with the log below, if we have one.
+				//Loggy.Log("A user tried to authenticate with a bad token. Possible spoof attempt."
+				//		+ $" Account ID: '{accountId}'. IP: '{conn.address}'.",
+				//		Category.Connections);
+				DisconnectClient(conn, ResponseCode.AccountValidationFailed,
+					"Account token validation failed. Try restarting the game and relogging into your account.");
+
+				return default;
+			}
+			catch (ApiHttpException e)
+			{
+				Loggy.Error($"Http error when validating user account token. Error: {e.Message} - "
+				            + $" IP: '{conn.address}'.",
+					Category.Connections);
+				DisconnectClient(conn, ResponseCode.AccountValidationError,
+					"Server Error: unknown problem encountered when attempting to validate your account token.");
+
+				return default;
+			}
+
+			return Account.FromAccountGetResponse(accountResponse.Data);
 		}
 
 		private async Task<Account> TryGetPlayerAccount(NetworkConnectionToClient conn, string accountId, string playerToken)
@@ -405,15 +476,31 @@ namespace Core.Networking
 				return;
 			}
 
-			AuthRequestMessage msg = new()
+			AuthRequestMessage msg = new AuthRequestMessage();
+			if (string.IsNullOrEmpty(GameData.Instance.JoinArgs.ServeTroken))
 			{
-				ClientVersion = GameData.BuildNumber,
-				ClientId = GetPhysicalAddress(),
-				AccountId = PlayerManager.Account.Id,
-				PlayerToken = await PlayerManager.Account.GetPlayerToken(), // TODO error handling
-				LobbyPassword = PasswordField,
-				OffLineName = GetPhysicalAddress()
-			};
+				msg = new()
+				{
+					ClientVersion = GameData.BuildNumber,
+					ClientId = GetPhysicalAddress(),
+					AccountId = PlayerManager.Account.Id,
+					PlayerToken  = await PlayerManager.Account.GetPlayerToken(), // TODO error handling
+					LobbyPassword = PasswordField,
+					OffLineName = GetPhysicalAddress()
+				};
+			}
+			else
+			{
+				msg = new()
+				{
+					ClientVersion = GameData.BuildNumber,
+					ClientId = GetPhysicalAddress(),
+					AccountId = PlayerManager.Account.Id,
+					PlayerAuthenticationServerToken = GameData.Instance.JoinArgs.ServeTroken,
+					LobbyPassword = PasswordField,
+					OffLineName = GetPhysicalAddress()
+				};
+			}
 
 			NetworkClient.Send(msg);
 		}
@@ -435,6 +522,12 @@ namespace Core.Networking
 
 			if (msg.Code == ResponseCode.Success)
 			{
+				if (msg.Account != null)
+				{
+					PlayerManager.Account.Id = msg.Account.Id;
+					PlayerManager.Account.Username = msg.Account.Username;
+				}
+
 				ClientAccept();
 				return;
 			}
@@ -503,15 +596,31 @@ namespace Core.Networking
 
 		public async void ClientSendLobbyPassword(string password)
 		{
-			AuthRequestMessage msg = new()
+			AuthRequestMessage msg = new AuthRequestMessage();
+			if (string.IsNullOrEmpty(GameData.Instance.JoinArgs.ServeTroken))
 			{
-				ClientVersion = GameData.BuildNumber,
-				ClientId = GetPhysicalAddress(),
-				AccountId = PlayerManager.Account.Id,
-				PlayerToken = await PlayerManager.Account.GetPlayerToken(), // TODO error handling
-				LobbyPassword = password,
-				OffLineName = GetPhysicalAddress()
-			};
+				msg = new()
+				{
+					ClientVersion = GameData.BuildNumber,
+					ClientId = GetPhysicalAddress(),
+					AccountId = PlayerManager.Account.Id,
+					PlayerToken  = await PlayerManager.Account.GetPlayerToken(), // TODO error handling
+					LobbyPassword = password,
+					OffLineName = GetPhysicalAddress()
+				};
+			}
+			else
+			{
+				msg = new()
+				{
+					ClientVersion = GameData.BuildNumber,
+					ClientId = GetPhysicalAddress(),
+					AccountId = PlayerManager.Account.Id,
+					PlayerAuthenticationServerToken = GameData.Instance.JoinArgs.ServeTroken,
+					LobbyPassword = password,
+					OffLineName = GetPhysicalAddress()
+				};
+			}
 
 			NetworkClient.Send(msg);
 		}

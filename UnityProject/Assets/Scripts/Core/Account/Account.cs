@@ -57,6 +57,7 @@ namespace Core.Accounts
 			return this;
 		}
 
+
 		public async Task<Account> Login(string token)
 		{
 			ApiResult<AccountLoginResponse> loginResponse = await AccountServer.Login(token);

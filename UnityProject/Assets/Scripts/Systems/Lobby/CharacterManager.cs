@@ -158,7 +158,16 @@ namespace Systems.Character
 
 			Characters[key].Data = character;
 
-			_ = PersistenceServer.PutAccountsCharacterByID(Characters[key].Id, Characters[key], PlayerManager.Account.Token);
+			if (string.IsNullOrEmpty(GameData.Instance.JoinArgs.CharacterToken))
+			{
+				_ = PersistenceServer.PutAccountsCharacterByID(Characters[key].Id, Characters[key], PlayerManager.Account.Token);
+			}
+			else
+			{
+				_ = PersistenceServer.PutAccountsCharacterByIDByCharactersToken(Characters[key].Id, Characters[key], GameData.Instance.JoinArgs.CharacterToken);
+			}
+
+
 			Task.Run(() => UpdateCharacterOnline(Characters[key]));
 			SaveCharacters();
 		}
@@ -169,7 +178,17 @@ namespace Systems.Character
 			{
 				Loggy.Info($"Updating character {character.Id} online.");
 			});
-			ApiResult<SubAccountGetCharacterSheet> response = await PersistenceServer.PutAccountsCharacterByID(character.Id, character, PlayerManager.Account.Token);
+
+			ApiResult<SubAccountGetCharacterSheet> response = null;
+			if (string.IsNullOrEmpty(GameData.Instance.JoinArgs.CharacterToken))
+			{
+				response = await PersistenceServer.PutAccountsCharacterByID(character.Id, character, PlayerManager.Account.Token);
+			}
+			else
+			{
+				response = await PersistenceServer.PutAccountsCharacterByIDByCharactersToken(character.Id , character, GameData.Instance.JoinArgs.CharacterToken);
+			}
+
 
 			if (!response.IsSuccess)
 			{
@@ -239,7 +258,17 @@ namespace Systems.Character
 
 		public async Task SaveNewCharacterTask(SubAccountGetCharacterSheet character)
 		{
-			ApiResult<SubAccountGetCharacterSheet> response = await PersistenceServer.PostMakeAccountsCharacter(character, PlayerManager.Account.Token);
+			ApiResult<SubAccountGetCharacterSheet> response = null;
+			if (string.IsNullOrEmpty(GameData.Instance.JoinArgs.CharacterToken))
+			{
+				response = await PersistenceServer.PostMakeAccountsCharacter(character, PlayerManager.Account.Token);
+			}
+			else
+			{
+				response = await PersistenceServer.PostMakeAccountsCharacterByCharactersToken(character, GameData.Instance.JoinArgs.CharacterToken);
+			}
+
+
 			if (response.IsSuccess == false)
 			{
 				LoadManager.DoInMainThread(() =>
@@ -273,15 +302,33 @@ namespace Systems.Character
 
 			var characterRemove = Characters[key];
 			Characters.RemoveAt(key);
-			_ = PersistenceServer.DeleteAccountsCharacterByID(characterRemove.Id, PlayerManager.Account.Token);
+
+			if (string.IsNullOrEmpty(GameData.Instance.JoinArgs.CharacterToken))
+			{
+				_ = PersistenceServer.DeleteAccountsCharacterByID(characterRemove.Id, PlayerManager.Account.Token);
+			}
+			else
+			{
+				_ = PersistenceServer.DeleteAccountsCharacterByIDByCharactersToken(characterRemove.Id, GameData.Instance.JoinArgs.CharacterToken);
+			}
+
 		}
 
 		public async Task LoadOnlineCharacters()
 		{
 			try
 			{
-				ApiResult<AccountGetCharacterSheets> accountResponse =
-					await PersistenceServer.GetAccountsCharacters(CharacterSheetForkCompatibility, CharacterSheetVersion, PlayerManager.Account.Token);
+				ApiResult<AccountGetCharacterSheets> accountResponse = null;
+				if (string.IsNullOrEmpty(GameData.Instance.JoinArgs.CharacterToken))
+				{
+					accountResponse = await PersistenceServer.GetAccountsCharacters(CharacterSheetForkCompatibility, CharacterSheetVersion, PlayerManager.Account.Token);
+				}
+				else
+				{
+					accountResponse = await PersistenceServer.GetCharactersByCharacterSheetToken(GameData.Instance.JoinArgs.CharacterToken);
+				}
+
+
 
 				if (!accountResponse.IsSuccess)
 				{

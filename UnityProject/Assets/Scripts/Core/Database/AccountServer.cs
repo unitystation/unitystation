@@ -121,6 +121,20 @@ namespace Core.Database
 			return response;
 		}
 
+		public static async Task<ApiResult<AccountGetResponse>> VerifyAccountAgainstServerAccount(string ClientServerToken, string ServerVerifyToken)
+		{
+			throw new NotImplementedException();
+			// AccountValidate requestBody = new()
+			// {
+			// 	UniqueIdentifier = accountId,
+			// 	VerificationToken = token,
+			// };
+			//
+			// var response = await ApiServer.Post<AccountGetResponse>(GetUri("verify-account"), requestBody);
+			//
+			// return response;
+		}
+
 		public static async Task<ApiResult<AccountGetResponse>> VerifyAccount(string accountId, string token)
 		{
 			AccountValidate requestBody = new()

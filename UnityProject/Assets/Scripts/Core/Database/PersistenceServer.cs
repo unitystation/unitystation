@@ -33,6 +33,17 @@ namespace Core.Database
 			return response;
 		}
 
+		public static async Task<ApiResult<SubAccountGetCharacterSheet>> PutAccountsCharacterByIDByCharactersToken(int id, SubAccountGetCharacterSheet subAccountGetCharacterSheet, string token)
+		{
+			//TODO Endpoint has to manually set fork, from the token
+			throw new NotImplementedException();
+			// var response = await ApiServer.Put<SubAccountGetCharacterSheet>(
+			// 	GetUri($"characters/{id}/update"),
+			// 	subAccountGetCharacterSheet, token
+			// );
+			// return response;
+		}
+
 		public static async Task<ApiResult<SubAccountGetCharacterSheet>> PostMakeAccountsCharacter(SubAccountGetCharacterSheet subAccountGetCharacterSheet, string token)
 		{
 			var response = await ApiServer.Post<SubAccountGetCharacterSheet>(GetUri($"characters/create", null), subAccountGetCharacterSheet, token);
@@ -40,12 +51,33 @@ namespace Core.Database
 			return response;
 		}
 
+		public static async Task<ApiResult<SubAccountGetCharacterSheet>> PostMakeAccountsCharacterByCharactersToken(SubAccountGetCharacterSheet subAccountGetCharacterSheet, string token)
+		{
+			//TODO Endpoint has to manually set fork, from the token
+			throw new NotImplementedException();
+			// var response = await ApiServer.Post<SubAccountGetCharacterSheet>(GetUri($"characters/create", null), subAccountGetCharacterSheet, token);
+			//
+			// return response;
+		}
+
+
 		public static async Task<ApiResult<SubAccountGetCharacterSheet>> GetAccountsCharacter(int id, string token)
 		{
 			var response = await ApiServer.Get<SubAccountGetCharacterSheet>(GetUri($"characters/{id}", null),
 				token);
 
 			return response;
+		}
+
+		public static async Task<ApiResult<AccountGetCharacterSheets>> GetCharactersByCharacterSheetToken(string token)
+		{
+			throw new NotImplementedException();
+			// var response = await ApiServer.Get<AccountGetCharacterSheets>(
+			// 	GetUri("characters/compatible", $"?fork_compatibility={forkCompatibility}&character_sheet_version={characterSheetVersion}"),
+			// 	token
+			// );
+			//
+			// return response;
 		}
 
 		public static async Task<ApiResult<AccountGetCharacterSheets>> GetAccountsCharacters(
@@ -65,6 +97,13 @@ namespace Core.Database
 		{
 			var response = await ApiServer.Delete<JsonObject>(GetUri($"characters/{id}/delete",""), token);
 			return response;
+		}
+
+		public static async Task<ApiResult<JsonObject>> DeleteAccountsCharacterByIDByCharactersToken(int id, string token)
+		{
+			throw new NotImplementedException();
+			// var response = await ApiServer.Delete<JsonObject>(GetUri($"characters/{id}/delete",""), token);
+			// return response;
 		}
 	}
 }

@@ -78,6 +78,12 @@ namespace DatabaseAPI
 			ignoranceTransport = FindObjectOfType<Ignorance>();
 			config = configData;
 			_ = Instance.SendServerStatus();
+
+			var HostToken = GameData.GetArgument("-HostToken");
+			if (string.IsNullOrEmpty(HostToken) == false)
+			{
+				config.ServerCCToken = HostToken;
+			}
 		}
 
 		private void LoadMotd()
@@ -356,6 +362,8 @@ namespace DatabaseAPI
 
 		//The password to join the server if set
 		public string ConnectionPassword;
+
+		public string ServerCCToken;
 	}
 
 	//Used to identify the build and fork of this client/server

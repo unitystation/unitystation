@@ -69,15 +69,14 @@ public class GameData : MonoBehaviour, IInitialise
 	{
 		public string ServerIP;
 		public string Port;
-		public string Token;
-		public string UID;
-
-		public HubJoinArgs(string IP, string p, string t, string uuid)
+		public string ServeTroken;
+		public string CharacterToken;
+		public HubJoinArgs(string IP, string p, string t, string _CharacterToken)
 		{
 			ServerIP = IP;
 			Port = p;
-			Token = t;
-			UID = uuid;
+			ServeTroken = t;
+			CharacterToken = _CharacterToken;
 		}
 	}
 
@@ -213,10 +212,10 @@ public class GameData : MonoBehaviour, IInitialise
 	{
 		string serverIp = GetArgument("-server");
 		string portStr = GetArgument("-port");
-		string token = GetArgument("-refreshtoken");
-		string uid = GetArgument("-uid");
+		string token = GetArgument("-ServerToken");
+		string CharacterToken = GetArgument("-CharacterToken");
 
-		JoinArgs = new HubJoinArgs(serverIp, portStr, token, uid);
+		JoinArgs = new HubJoinArgs(serverIp, portStr, token, CharacterToken);
 
 		if (string.IsNullOrEmpty(serverIp) || string.IsNullOrEmpty(portStr)) return false;
 
@@ -226,7 +225,7 @@ public class GameData : MonoBehaviour, IInitialise
 			return false;
 		}
 
-		return await HubToServerConnect(serverIp, port, uid, token);
+		return await HubToServerConnect(serverIp, port, token, CharacterToken);
 	}
 
 	public async Task TryLoginThenServerConnectFromJoinArgs()
@@ -236,20 +235,15 @@ public class GameData : MonoBehaviour, IInitialise
 		LoadManager.DoInMainThread(() => Loggy.Info($"HubToServerConnect Connecting to IP {JoinArgs.ServerIP}, port {JoinArgs.Port}"));
 	}
 
-	private async Task<bool> HubToServerConnect(string ip, ushort port, string uid, string token)
+	private async Task<bool> HubToServerConnect(string ip, ushort port, string ServerToken, string CharacterToken)
 	{
-		Loggy.Info($"HubToServerConnect Connecting to IP {ip}, port {port}, with uid {uid}");
+		Loggy.Info($"HubToServerConnect Connecting to IP {ip}, port {port}");
 		await Task.Delay(TimeSpan.FromSeconds(0.1));
 
-		if (string.IsNullOrEmpty(token) == false)
+		if (string.IsNullOrEmpty(ServerToken) == false)
 		{
-			Loggy.Info("Logging in via hub account...");
-			if (await LobbyManager.Instance.TryTokenLogin(token)) // TODO uid not needed anymore?
-			{
-				LobbyManager.Instance.JoinServer(ip, port);
-				return true;
-			}
-			Loggy.Warning("Logging in via hub account (via command line args) failed.");
+			LobbyManager.Instance.JoinServer(ip, port);
+			return true;
 		}
 
 		if (await LobbyManager.Instance.TryAutoLogin())
@@ -275,7 +269,7 @@ public class GameData : MonoBehaviour, IInitialise
 
 	#region Helpers
 
-	private static string GetArgument(string name)
+	public static string GetArgument(string name)
 	{
 		string[] args = Environment.GetCommandLineArgs();
 		for (int i = 0; i < args.Length; i++)
