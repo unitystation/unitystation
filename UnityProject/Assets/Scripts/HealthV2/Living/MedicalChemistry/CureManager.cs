@@ -76,7 +76,6 @@ namespace HealthV2.Sickness
 
 			foreach (var cureableSickness in CureableSicknesses)
 			{
-				Loggy.Error($"[CureManager] CureableSickness: {cureableSickness.Sickness.Name}");
 				Cure cure = new Cure();
 				GetCluesForRound(ref cure, cureableSickness);
 
