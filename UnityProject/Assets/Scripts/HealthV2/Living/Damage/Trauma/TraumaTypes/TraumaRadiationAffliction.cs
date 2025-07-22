@@ -5,7 +5,7 @@ namespace HealthV2.TraumaTypes
 	public class TraumaRadiationAfflict : TraumaLogic
 	{
 		[SerializeField,Tooltip("The radiation damage dealt is reduced by this factor to calculate added pathogen count.")]
-		private float afflictionReductionFactor = 200f;
+		private float afflictionReductionFactor = 400f;
 
 		private const float DeadlyCancerCount = 25f;
 
