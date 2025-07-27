@@ -1,6 +1,8 @@
 using MiniGames.MiniGameModules;
 using UnityEngine;
 using System;
+using InGameGizmos;
+using Logs;
 using UI.Minigames;
 
 namespace UI.Minigames
@@ -35,22 +37,20 @@ namespace UI.Minigames
 			Initialised = true;
 		}
 
-		public void OnGridPress(Vector3 mousePosition, Vector3 _uiPosition)
+		public void OnGridPress(Vector3 mousePosition, Vector3 uiPosition)
 		{
 			if (Initialised == false || IsGameActive == false) return;
 
-			float uiscale = UIManager.Instance.Scaler.scaleFactor;
-			float _cellSize = CellSize * uiscale;
+			float cellSize = CellSize * gridTransform.lossyScale.x;
 
-			Vector2 pos = (mousePosition - _uiPosition).To2() - gridTransform.anchoredPosition * uiscale + new Vector2(300 * uiscale, 300 * uiscale); //To local coordinate space
+			Vector2 pos = (mousePosition - uiPosition).To2() - (gridTransform.anchoredPosition * gridTransform.lossyScale); //To local coordinate space
+			pos += (new Vector2(300, 300) * gridTransform.lossyScale.x);
 
-
-			if (Level.Width < Level.Height) pos.x = pos.x - ((Level.Height - Level.Width) * _cellSize / 2);
-			else if (Level.Height < Level.Width) pos.y = pos.y - ((Level.Width - Level.Height) * _cellSize / 2);
-
-			Vector2Int clickedGridPosition = new Vector2Int((int)(pos.x / _cellSize), (int)(pos.y / _cellSize));
+			if (Level.Width < Level.Height) pos.x -= ((Level.Height - Level.Width) * cellSize / 2);
+			else if (Level.Height < Level.Width) pos.y -= ((Level.Width - Level.Height) * cellSize / 2);
 
 
+			Vector2Int clickedGridPosition = new Vector2Int((int)(pos.x / cellSize), (int)(pos.y / cellSize));
 			if (pos.x < 0 || pos.y < 0 || clickedGridPosition.x < 0 || clickedGridPosition.x > Level.Width - 1 || clickedGridPosition.y < 0 || clickedGridPosition.y > Level.Height - 1)
 			{
 				OnFalseMove();
