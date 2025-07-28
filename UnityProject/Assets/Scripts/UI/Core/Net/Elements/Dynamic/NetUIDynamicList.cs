@@ -224,12 +224,14 @@ namespace UI.Core.NetUI
 		/// </summary>
 		protected virtual void RefreshPositions()
 		{
-			//Adding new entries to the end by default
-			var entries = Entries;
-			var orderByDescending = entries.OrderByDescending(x => x.name).ToList();
-			for (var i = 0; i < orderByDescending.Count; i++)
+			// Sort entries by name descending
+			Entries.Sort(
+				(a, b) =>
+					string.Compare(b.name, a.name, StringComparison.Ordinal)
+					);
+			for (var i = 0; i < Entries.Count; i++)
 			{
-				SetProperPosition(entries[i], i);
+				SetProperPosition(Entries[i], i);
 			}
 		}
 

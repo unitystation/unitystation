@@ -335,7 +335,7 @@ namespace UI.Systems.AdminTools.DevTools
 			var tile = matrixInfo.MetaTileMap.GetTileAtWorldPos(MouseInputController.MouseWorldPosition, categoryType);
 			if (tile == null)
 			{
-				Debug.Log($"no tile at {pos} on matrix {matrixInfo.Name} with category type: {categoryType} || {MouseInputController.MouseWorldPosition} - {pos}");
+				Loggy.Info($"no tile at {pos} on matrix {matrixInfo.Name} with category type: {categoryType} || {MouseInputController.MouseWorldPosition} - {pos}");
 				return;
 			}
 			foreach (var button in activeButtons)
