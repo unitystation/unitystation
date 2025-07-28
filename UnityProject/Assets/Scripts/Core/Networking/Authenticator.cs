@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using Mirror;
 using Core.Accounts;
@@ -19,6 +21,7 @@ namespace Core.Networking
 	{
 		/// <summary>The identifier for the game client.</summary>
 		public string ClientId;
+
 		/// <summary>The player's Unitystation account information.</summary>
 		public Account Account;
 	}
@@ -38,7 +41,7 @@ namespace Core.Networking
 			public string ClientId;
 			public string AccountId;
 			public string PlayerToken;
-			public string PlayerAuthenticationServerToken;
+			public string SharedSecret;
 			public string LobbyPassword;
 			public string OffLineName;
 		}
@@ -50,8 +53,13 @@ namespace Core.Networking
 			public Account Account;
 		}
 
-		public struct ServerClientAuthRequestMessage : NetworkMessage { }
-		public struct ServerClientAuthResponseMessage : NetworkMessage { }
+		public struct ServerClientAuthRequestMessage : NetworkMessage
+		{
+		}
+
+		public struct ServerClientAuthResponseMessage : NetworkMessage
+		{
+		}
 
 		public enum ResponseCode
 		{
@@ -78,6 +86,13 @@ namespace Core.Networking
 		private const float PasswordRequestTime = 30f;
 
 		private const string PasswordField = "NA";
+
+		public static Dictionary<string, ClientConnectionRequest> ConnectionAuthenticatedRequests =
+			new Dictionary<string, ClientConnectionRequest>();
+
+		public static RSA RSA;
+		public static SHA512 SHA512;
+
 
 		public override void OnStartServer()
 		{
@@ -115,7 +130,7 @@ namespace Core.Networking
 		public async void OnAuthRequest(NetworkConnectionToClient conn, AuthRequestMessage msg)
 		{
 			Loggy.Trace($"A client is requesting authentication. " +
-			               $"Address: {conn.address}. Client Version: {msg.ClientVersion}. Account ID: {msg.AccountId}.",
+			            $"Address: {conn.address}. Client Version: {msg.ClientVersion}. Account ID: {msg.AccountId}.",
 				Category.Connections);
 
 			// Before proceeding, check for connection spam.
@@ -148,7 +163,7 @@ namespace Core.Networking
 			}
 			else
 			{
-				if (string.IsNullOrEmpty(msg.PlayerAuthenticationServerToken))
+				if (string.IsNullOrEmpty(msg.SharedSecret))
 				{
 					if (ValidateRequest(conn, msg.AccountId, msg.PlayerToken) == false) return;
 					if (ValidatePlayerClient(conn, msg.ClientVersion) == false) return;
@@ -162,9 +177,22 @@ namespace Core.Networking
 				{
 					if (ValidatePlayerClient(conn, msg.ClientVersion) == false) return;
 
-					account = await TryGetPlayerAccountByServerToken(conn, msg.PlayerAuthenticationServerToken);
+
+					if (ConnectionAuthenticatedRequests.TryGetValue(msg.AccountId, out var thisRequest) == false) return;
+
+					if (thisRequest.SharedSecret != msg.SharedSecret) return;
+
+					ConnectionAuthenticatedRequests.Remove(msg.AccountId);
+					if ((DateTime.UtcNow - thisRequest.InternalDatetimeReceived).Minutes > 60f)
+					{
+						return;
+					}
+
+					var SHA512Check = Convert.ToBase64String(SHA512.ComputeHash(
+						Encoding.UTF8.GetBytes(thisRequest.SharedSecret + ServerData.ServerConfig.ServerPublicKey)));
+					account = await TryGetPlayerAccountRegisteredSHA512Check(conn, SHA512Check, msg.AccountId);
 					if (account == null) return;
-					//Return account to client since Client doesn't know what account it is funnily enough
+
 					if (ValidatePlayerAccount(conn, account) == false) return;
 				}
 			}
@@ -178,7 +206,7 @@ namespace Core.Networking
 				Account = account,
 			};
 
-			if (string.IsNullOrEmpty(msg.PlayerAuthenticationServerToken))
+			if (string.IsNullOrEmpty(msg.SharedSecret))
 			{
 				conn.Send(new AuthResponseMessage
 				{
@@ -234,7 +262,7 @@ namespace Core.Networking
 
 		private void PasswordTimeCheck()
 		{
-			if(connectionPasswordRequestTime.Count == 0) return;
+			if (connectionPasswordRequestTime.Count == 0) return;
 
 			//Have to do ToList thx dictionaries
 			foreach (var connectionTimer in connectionPasswordRequestTime.ToList())
@@ -252,7 +280,7 @@ namespace Core.Networking
 					NetworkServer.connections.FirstOrDefault(
 						x => x.Value.address == connectionTimer.Key);
 
-				if (connectionFound.Equals(default(KeyValuePair<int,NetworkConnectionToClient>)) == false)
+				if (connectionFound.Equals(default(KeyValuePair<int, NetworkConnectionToClient>)) == false)
 				{
 					//If still connected then disconnect
 					DisconnectClient(connectionFound.Value, ResponseCode.IncorrectPassword, "Invalid Password!");
@@ -295,18 +323,17 @@ namespace Core.Networking
 			return true;
 		}
 
-		private async Task<Account> TryGetPlayerAccountByServerToken(NetworkConnectionToClient conn,
-			string ServerAccountPlayerToken)
+		private async Task<Account> TryGetPlayerAccountRegisteredSHA512Check(NetworkConnectionToClient conn,
+			string SHA512Check, string PlayersAccountID)
 		{
 			// Validate the provided token against the account details and get the account
 			ApiResult<AccountGetResponse> accountResponse;
 			try
 			{
-
-				accountResponse = await AccountServer.VerifyAccountAgainstServerAccount(ServerAccountPlayerToken, ServerData.ServerConfig.ServerCCToken);
-				if (!accountResponse.IsSuccess)
+				accountResponse = await AccountServer.VerifyAccountRegisteredSHA512Check(SHA512Check, PlayersAccountID);
+				if (accountResponse.IsSuccess == false)
 				{
-					throw (ApiRequestException)accountResponse.Exception!;
+					throw (ApiRequestException) accountResponse.Exception!;
 				}
 			}
 			catch (ApiRequestException e)
@@ -339,7 +366,8 @@ namespace Core.Networking
 			return Account.FromAccountGetResponse(accountResponse.Data);
 		}
 
-		private async Task<Account> TryGetPlayerAccount(NetworkConnectionToClient conn, string accountId, string playerToken)
+		private async Task<Account> TryGetPlayerAccount(NetworkConnectionToClient conn, string accountId,
+			string playerToken)
 		{
 			// Validate the provided token against the account details and get the account
 			ApiResult<AccountGetResponse> accountResponse;
@@ -348,7 +376,7 @@ namespace Core.Networking
 				accountResponse = await AccountServer.VerifyAccount(accountId, playerToken);
 				if (!accountResponse.IsSuccess)
 				{
-					throw (ApiRequestException)accountResponse.Exception!;
+					throw (ApiRequestException) accountResponse.Exception!;
 				}
 			}
 			catch (ApiRequestException e)
@@ -370,7 +398,7 @@ namespace Core.Networking
 			catch (ApiHttpException e)
 			{
 				Loggy.Error($"Http error when validating user account token. Error: {e.Message} - "
-				               + $"Account ID: '{accountId}'. IP: '{conn.address}'.",
+				            + $"Account ID: '{accountId}'. IP: '{conn.address}'.",
 					Category.Connections);
 				DisconnectClient(conn, ResponseCode.AccountValidationError,
 					"Server Error: unknown problem encountered when attempting to validate your account token.");
@@ -439,7 +467,7 @@ namespace Core.Networking
 		}
 
 		private void DisconnectClient(NetworkConnectionToClient connection, ResponseCode reason, string message = "")
-				=> StartCoroutine(_DisconnectClient(connection, reason, message));
+			=> StartCoroutine(_DisconnectClient(connection, reason, message));
 
 		private IEnumerator _DisconnectClient(NetworkConnectionToClient conn, ResponseCode reason, string message = "")
 		{
@@ -463,7 +491,8 @@ namespace Core.Networking
 
 		public override void OnStartClient()
 		{
-			Loggy.Trace("Authenticator: client starting, preparing before sending authentication request.", Category.Connections);
+			Loggy.Trace("Authenticator: client starting, preparing before sending authentication request.",
+				Category.Connections);
 			NetworkClient.RegisterHandler<AuthResponseMessage>(OnAuthResponse, false);
 			NetworkClient.RegisterHandler<ServerClientAuthResponseMessage>(OnServerClientAuthResponse, false);
 		}
@@ -477,14 +506,14 @@ namespace Core.Networking
 			}
 
 			AuthRequestMessage msg = new AuthRequestMessage();
-			if (string.IsNullOrEmpty(GameData.Instance.JoinArgs.ServeTroken))
+			if (string.IsNullOrEmpty(GameData.Instance.JoinArgs.SharedSecret))
 			{
 				msg = new()
 				{
 					ClientVersion = GameData.BuildNumber,
 					ClientId = GetPhysicalAddress(),
 					AccountId = PlayerManager.Account.Id,
-					PlayerToken  = await PlayerManager.Account.GetPlayerToken(), // TODO error handling
+					PlayerToken = await PlayerManager.Account.GetPlayerToken(), // TODO error handling
 					LobbyPassword = PasswordField,
 					OffLineName = GetPhysicalAddress()
 				};
@@ -496,7 +525,7 @@ namespace Core.Networking
 					ClientVersion = GameData.BuildNumber,
 					ClientId = GetPhysicalAddress(),
 					AccountId = PlayerManager.Account.Id,
-					PlayerAuthenticationServerToken = GameData.Instance.JoinArgs.ServeTroken,
+					SharedSecret = GameData.Instance.JoinArgs.SharedSecret,
 					LobbyPassword = PasswordField,
 					OffLineName = GetPhysicalAddress()
 				};
@@ -597,14 +626,14 @@ namespace Core.Networking
 		public async void ClientSendLobbyPassword(string password)
 		{
 			AuthRequestMessage msg = new AuthRequestMessage();
-			if (string.IsNullOrEmpty(GameData.Instance.JoinArgs.ServeTroken))
+			if (string.IsNullOrEmpty(GameData.Instance.JoinArgs.SharedSecret))
 			{
 				msg = new()
 				{
 					ClientVersion = GameData.BuildNumber,
 					ClientId = GetPhysicalAddress(),
 					AccountId = PlayerManager.Account.Id,
-					PlayerToken  = await PlayerManager.Account.GetPlayerToken(), // TODO error handling
+					PlayerToken = await PlayerManager.Account.GetPlayerToken(), // TODO error handling
 					LobbyPassword = password,
 					OffLineName = GetPhysicalAddress()
 				};
@@ -616,7 +645,7 @@ namespace Core.Networking
 					ClientVersion = GameData.BuildNumber,
 					ClientId = GetPhysicalAddress(),
 					AccountId = PlayerManager.Account.Id,
-					PlayerAuthenticationServerToken = GameData.Instance.JoinArgs.ServeTroken,
+					SharedSecret = GameData.Instance.JoinArgs.SharedSecret,
 					LobbyPassword = password,
 					OffLineName = GetPhysicalAddress()
 				};

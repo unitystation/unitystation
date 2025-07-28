@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 752180679074368365}
   - component: {fileID: 1404376226815865619}
   - component: {fileID: 1670478699794476422}
+  - component: {fileID: 4570761185254945142}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: NetworkManager
@@ -56,7 +57,7 @@ MonoBehaviour:
   offlineScene: Assets/Scenes/ActiveScenes/Lobby.unity
   onlineScene: Assets/Scenes/ActiveScenes/OnlineScene.unity
   offlineSceneLoadDelay: 0
-  transport: {fileID: 752180679074368365}
+  transport: {fileID: 4570761185254945142}
   networkAddress: localhost
   maxConnections: 100
   disconnectInactiveConnections: 0
@@ -12513,6 +12514,7 @@ MonoBehaviour:
   - {fileID: 2017234413611192039, guid: 3485054107fb504479179df8b552c961, type: 3}
   - {fileID: 5322105462336844431, guid: 2cee823abaaaa4e4a853404330e4b8a1, type: 3}
   - {fileID: 1862726917171198, guid: 33f8568b70c917242b667cb2e5a3cac4, type: 3}
+  EncryptionTransport: {fileID: 4570761185254945142}
 --- !u!114 &5032898753073590648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12585,3 +12587,20 @@ MonoBehaviour:
   OnClientAuthenticated:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4570761185254945142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2920527550438430692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0aa135acc32a4383ae9a5817f018cb06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Inner: {fileID: 752180679074368365}
+  ClientValidateServerPubKey: 2
+  ClientTrustedPubKeySignatures: []
+  ServerLoadKeyPairFromFile: 0
+  ServerKeypairPath: ./server-keys.json

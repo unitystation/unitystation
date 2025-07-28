@@ -121,7 +121,7 @@ namespace Core.Database
 			return response;
 		}
 
-		public static async Task<ApiResult<AccountGetResponse>> VerifyAccountAgainstServerAccount(string ClientServerToken, string ServerVerifyToken)
+		public static async Task<ApiResult<AccountGetResponse>> VerifyAccountRegisteredSHA512Check(string SHA512Check, string PlayersAccountID)
 		{
 			throw new NotImplementedException();
 			// AccountValidate requestBody = new()

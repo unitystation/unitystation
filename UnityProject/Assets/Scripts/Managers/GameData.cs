@@ -3,6 +3,7 @@ using System.Collections;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Core.Accounts;
 using Cysharp.Threading.Tasks;
 using SecureStuff;
 using DatabaseAPI;
@@ -69,14 +70,27 @@ public class GameData : MonoBehaviour, IInitialise
 	{
 		public string ServerIP;
 		public string Port;
-		public string ServeTroken;
+		public string SharedSecret;
 		public string CharacterToken;
-		public HubJoinArgs(string IP, string p, string t, string _CharacterToken)
+		public string ServerPublicConnectionKey;
+		public string AccountID;
+		public string Username;
+		public HubJoinArgs(
+			string IP,
+			string p,
+			string sharedSecret,
+			string _CharacterToken,
+			string ServerPublicConnectionKey,
+			string AccountID,
+			string Username)
 		{
 			ServerIP = IP;
 			Port = p;
-			ServeTroken = t;
+			this.SharedSecret = sharedSecret;
 			CharacterToken = _CharacterToken;
+			this.ServerPublicConnectionKey = ServerPublicConnectionKey;
+			this.AccountID = AccountID;
+			this.Username = Username;
 		}
 	}
 
@@ -212,10 +226,29 @@ public class GameData : MonoBehaviour, IInitialise
 	{
 		string serverIp = GetArgument("-server");
 		string portStr = GetArgument("-port");
-		string token = GetArgument("-ServerToken");
+		string sharedSecret = GetArgument("-SharedSecret");
 		string CharacterToken = GetArgument("-CharacterToken");
+		string ServerPublicConnectionKey = GetArgument("-ServerPublicConnectionKey");
+		string AccountID = GetArgument("-AccountID");
+		string Username = GetArgument("-Username");
 
-		JoinArgs = new HubJoinArgs(serverIp, portStr, token, CharacterToken);
+		JoinArgs = new HubJoinArgs(serverIp, portStr, sharedSecret, CharacterToken, ServerPublicConnectionKey, AccountID, Username);
+
+		CustomNetworkManager.Instance.EncryptionTransport.OnClientValidateServerPubKey += info =>
+		{
+			string base64PubKey = Convert.ToBase64String(info.Serialized.Array, info.Serialized.Offset, info.Serialized.Count);
+			if (base64PubKey != ServerPublicConnectionKey)
+			{
+				return false;
+			}
+			return true;
+		};
+
+		PlayerManager.Instance.SetAccount(new Account()
+		{
+			Username = Username,
+			Id = AccountID
+		});
 
 		if (string.IsNullOrEmpty(serverIp) || string.IsNullOrEmpty(portStr)) return false;
 
@@ -225,7 +258,7 @@ public class GameData : MonoBehaviour, IInitialise
 			return false;
 		}
 
-		return await HubToServerConnect(serverIp, port, token, CharacterToken);
+		return await HubToServerConnect(serverIp, port, sharedSecret, CharacterToken);
 	}
 
 	public async Task TryLoginThenServerConnectFromJoinArgs()

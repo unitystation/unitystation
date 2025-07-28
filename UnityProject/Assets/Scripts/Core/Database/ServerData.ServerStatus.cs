@@ -3,10 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text;
 using UnityEngine;
 using Mirror;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Core.Database;
+using Core.Networking;
 using SecureStuff;
 using IgnoranceTransport;
 using Logs;
@@ -22,11 +26,12 @@ namespace DatabaseAPI
 	/// To gain access to the unitystation hub for your server
 	/// speak to unitystation staff on discord.
 	/// </summary>
-	public partial class ServerData
+	public partial class ServerData : IReturnAndReceiveStringForSecureHttpListener
 	{
 		private ServerConfig config;
 		private ServerMotdData motdData;
 		private string rulesData;
+
 		/// <summary>
 		/// The server config that holds the values
 		/// for your RCON and Unitystation HUB API connections
@@ -57,7 +62,8 @@ namespace DatabaseAPI
 			}
 			catch (Exception e)
 			{
-				Loggy.Info($"[ServerData.ServerStatus/AttemptConfigLoad()] - Something went wrong while trying to load buildinfo \n {e}",
+				Loggy.Info(
+					$"[ServerData.ServerStatus/AttemptConfigLoad()] - Something went wrong while trying to load buildinfo \n {e}",
 					Category.DatabaseAPI);
 			}
 
@@ -66,6 +72,7 @@ namespace DatabaseAPI
 				Loggy.Info("No config found for Rcon and Server Hub connections", Category.DatabaseAPI);
 				return;
 			}
+
 			var configData = new ServerConfig();
 			try
 			{
@@ -73,17 +80,140 @@ namespace DatabaseAPI
 			}
 			catch (Exception e)
 			{
-				Loggy.Error($"[ServerData.ServerStatus/AttemptConfigLoad()] - Something went wrong while trying to load config.json. \n {e}");
+				Loggy.Error(
+					$"[ServerData.ServerStatus/AttemptConfigLoad()] - Something went wrong while trying to load config.json. \n {e}");
 			}
+
 			ignoranceTransport = FindObjectOfType<Ignorance>();
 			config = configData;
-			_ = Instance.SendServerStatus();
+			Authenticator.RSA = RSA.Create(2048);
+			Authenticator.SHA512 = SHA512.Create();
 
-			var HostToken = GameData.GetArgument("-HostToken");
-			if (string.IsNullOrEmpty(HostToken) == false)
+			if (string.IsNullOrEmpty(config.ServerPublicKey) || string.IsNullOrEmpty(config.ServerPrivateKey))
 			{
-				config.ServerCCToken = HostToken;
+				config.ServerPrivateKey = Convert.ToBase64String(Authenticator.RSA.ExportRSAPrivateKey());
+				config.ServerPublicKey = Convert.ToBase64String(Authenticator.RSA.ExportRSAPublicKey());
 			}
+			else
+			{
+				Authenticator.RSA.ImportRSAPrivateKey(Convert.FromBase64String(config.ServerPrivateKey), out _);
+				Authenticator.RSA.ImportRSAPublicKey(Convert.FromBase64String(config.ServerPublicKey), out _);
+			}
+
+
+			_ = Instance.SendServerStatus();
+			SecureHttpListener.StartHttpListener(this);
+		}
+
+
+
+		public string GetReturnString()
+		{
+			return JsonConvert.SerializeObject(GetServerStatus());
+		}
+
+
+		public async Task<string> ReceiveString(string data, string clientIp)
+		{
+			var Request = JsonConvert.DeserializeObject<ClientConnectionRequest>(data);
+
+			var HubRequestedFork = Convert.ToBase64String(Authenticator.RSA.Decrypt(Convert.FromBase64String(Request.EncryptedClientFork), RSAEncryptionPadding.OaepSHA256));
+			var HubRequestedVersion = Convert.ToBase64String(Authenticator.RSA.Decrypt(Convert.FromBase64String(Request.EncryptedClientVersion), RSAEncryptionPadding.OaepSHA256));
+			var GoodFileVersion = Convert.ToBase64String(Authenticator.RSA.Decrypt(Convert.FromBase64String(Request.EncryptedGoodFileVersion), RSAEncryptionPadding.OaepSHA256));
+			var AccountID = Convert.ToBase64String(Authenticator.RSA.Decrypt(Convert.FromBase64String(Request.EncryptedAccountID), RSAEncryptionPadding.OaepSHA256));
+			var ConnectionPublicServerKey = Convert.ToBase64String(Authenticator.RSA.Decrypt(Convert.FromBase64String(Request.EncryptedConnectionPublicServerKey), RSAEncryptionPadding.OaepSHA256));
+
+
+			if (HubRequestedFork != buildInfo.ForkName || HubRequestedVersion != buildInfo.BuildNumber.ToString() ||
+			    GoodFileVersion != buildInfo.GoodFileVersion)
+			{
+				return "Client Version mismatch";
+			}
+
+			if (ConnectionPublicServerKey != Convert.ToBase64String(CustomNetworkManager.Instance.EncryptionTransport.EncryptionPublicKey))
+			{
+				return "Incorrect server Connection public key";
+			}
+
+			Request.AccountID = AccountID;
+
+			Request.SharedSecret = Convert.ToBase64String(Authenticator.RSA.Decrypt(Convert.FromBase64String(Request.EncryptedSharedSecret), RSAEncryptionPadding.OaepSHA256));
+			var SHA512Check = Convert.ToBase64String(Authenticator.SHA512.ComputeHash(Encoding.UTF8.GetBytes(Request.SharedSecret + ServerData.ServerConfig.ServerPublicKey)));
+			var AccountResponse = await AccountServer.VerifyAccountRegisteredSHA512Check(SHA512Check, AccountID);
+
+			if (AccountResponse.IsSuccess == false)
+			{
+				return "BAD Authentication check";
+			}
+
+			CleanConnectionRequest();
+
+			Request.InternalDatetimeReceived = DateTime.UtcNow;
+
+			Authenticator.ConnectionAuthenticatedRequests[AccountID] = Request;
+			return "OK";
+		}
+
+		public void CleanConnectionRequest()
+		{
+
+			List<string> ToRemove = new List<string>();
+			foreach (var Requests in Authenticator.ConnectionAuthenticatedRequests)
+			{
+
+				if ((DateTime.UtcNow - Requests.Value.InternalDatetimeReceived).Minutes > 60)
+				{
+					ToRemove.Add(Requests.Key);
+				}
+			}
+
+			foreach (var Remove in ToRemove)
+			{
+				Authenticator.ConnectionAuthenticatedRequests.Remove(Remove);
+			}
+		}
+
+
+	public ServerStatus GetServerStatus()
+		{
+			var status = new ServerStatus();
+			status.ServerName = config.ServerName;
+			status.ForkName = buildInfo.ForkName;
+			status.BuildVersion = buildInfo.BuildNumber;
+
+			status.GoodFileVersion = buildInfo.GoodFileVersion;
+
+			if (SubSceneManager.Instance == null)
+			{
+				status.CurrentMap = "loading";
+			}
+			else
+			{
+				status.CurrentMap = SubSceneManager.ServerChosenMainStation;
+			}
+
+			status.Passworded = string.IsNullOrEmpty(config.ConnectionPassword) == false;
+			status.RoundTime = GameManager.Instance.RoundTimeInMinutes.ToString();
+			status.PlayerCountMax = GameManager.Instance.PlayerLimit;
+
+
+			status.GameMode = GameManager.Instance.GetGameModeName();
+			status.IngameTime = GameManager.Instance.roundTimer.text;
+			if (PlayerList.Instance != null)
+			{
+				status.PlayerCount = PlayerList.Instance.ConnectionCount;
+			}
+
+
+			status.ServerIP = publicIP;
+			status.ServerPort = GetPort();
+			status.WinDownload = config.WinDownload;
+			status.OSXDownload = config.OSXDownload;
+			status.LinuxDownload = config.LinuxDownload;
+			status.fps = (int) FPSMonitor.Instance.Current;
+			status.ServerPublicKey = config.ServerPublicKey;
+			status.ServerConnectionPublicKey = Convert.ToBase64String(CustomNetworkManager.Instance.EncryptionTransport.EncryptionPublicKey);
+			return status;
 		}
 
 		private void LoadMotd()
@@ -102,6 +232,10 @@ namespace DatabaseAPI
 			rulesData = AccessFile.Exists("serverRules.txt") ? AccessFile.Load("serverRules.txt") : null;
 		}
 
+		public void OnApplicationQuit()
+		{
+			SecureHttpListener.OnApplicationQuit();
+		}
 
 		void MonitorServerStatus()
 		{
@@ -116,8 +250,9 @@ namespace DatabaseAPI
 
 		private async Task SendServerStatus()
 		{
+			CleanConnectionRequest();
+			var status = GetServerStatus();
 
-			var status = new ServerStatus();
 			var requestData = "";
 			try
 			{
@@ -126,48 +261,13 @@ namespace DatabaseAPI
 					Loggy.Warning("Invalid Hub creds found, aborting HUB connection");
 					return;
 				}
+
 				var loginRequest = new HubLoginReq
 				{
 					username = config.HubUser,
 					password = config.HubPass
 				};
 
-				status.ServerName = config.ServerName;
-				status.ForkName = buildInfo.ForkName;
-				status.BuildVersion = buildInfo.BuildNumber;
-
-				status.GoodFileVersion = buildInfo.GoodFileVersion;
-
-				if (SubSceneManager.Instance == null)
-				{
-					status.CurrentMap = "loading";
-				}
-				else
-				{
-					status.CurrentMap = SubSceneManager.ServerChosenMainStation;
-				}
-
-				status.Passworded = string.IsNullOrEmpty(config.ConnectionPassword) == false;
-				status.RoundTime = GameManager.Instance.RoundTimeInMinutes.ToString();
-				status.PlayerCountMax = GameManager.Instance.PlayerLimit;
-
-
-				status.GameMode = GameManager.Instance.GetGameModeName();
-				status.IngameTime = GameManager.Instance.roundTimer.text;
-				if (PlayerList.Instance != null)
-				{
-					status.PlayerCount = PlayerList.Instance.ConnectionCount;
-				}
-
-
-				status.ServerIP = publicIP;
-				status.ServerPort = GetPort();
-				status.WinDownload = config.WinDownload;
-				status.OSXDownload = config.OSXDownload;
-				status.LinuxDownload = config.LinuxDownload;
-
-
-				status.fps = (int)FPSMonitor.Instance.Current;
 				requestData = JsonConvert.SerializeObject(loginRequest);
 			}
 			catch (Exception e)
@@ -176,63 +276,64 @@ namespace DatabaseAPI
 				return;
 			}
 
+			try
+			{
+				string escapedData = Uri.EscapeDataString(requestData);
+				HttpResponseMessage response = await SafeHttpRequest.GetAsync(hubLogin + escapedData);
 
-	        try
-	        {
-	            string escapedData = Uri.EscapeDataString(requestData);
-	            HttpResponseMessage response = await  SafeHttpRequest.GetAsync(hubLogin + escapedData);
+				if (response.IsSuccessStatusCode)
+				{
+					string responseBody = await response.Content.ReadAsStringAsync();
+					var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(responseBody);
 
-	            if (response.IsSuccessStatusCode)
-	            {
-	                string responseBody = await response.Content.ReadAsStringAsync();
-	                var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(responseBody);
+					if (apiResponse.errorCode == 0)
+					{
+						string cookieHeader = response.Headers.GetValues("set-cookie")?.FirstOrDefault();
+						if (!string.IsNullOrEmpty(cookieHeader))
+						{
+							string[] cookieParts = cookieHeader.Split(';');
+							hubCookie = cookieParts[0];
+						}
 
-	                if (apiResponse.errorCode == 0)
-	                {
-	                    string cookieHeader = response.Headers.GetValues("set-cookie")?.FirstOrDefault();
-	                    if (!string.IsNullOrEmpty(cookieHeader))
-	                    {
-	                        string[] cookieParts = cookieHeader.Split(';');
-		                    hubCookie = cookieParts[0];
-	                    }
-
-	                    if (!string.IsNullOrEmpty(config.PublicAddress))
-	                    {
-	                        publicIP = config.PublicAddress;
-	                    }
-	                    else if (!string.IsNullOrEmpty(config.BindAddress))
-	                    {
-	                        publicIP = config.BindAddress;
-	                    }
-	                    else
-	                    {
-	                        response = await SafeHttpRequest.GetAsync("http://ipinfo.io/ip");
-	                        string ipResponse = await response.Content.ReadAsStringAsync();
-	                        publicIP = Regex.Replace(ipResponse, @"\t|\n|\r", "");
-	                    }
-	                }
-	                else if (apiResponse.errorCode == 901)
-	                {
-	                    Loggy.Error("Hub API returned unauthorized credentials, aborting HUB connection");
-	                }
-	                else
-	                {
-	                    Loggy.Error("Hub API returned error code " + apiResponse.errorCode + ", aborting HUB connection\n" + apiResponse.errorMsg);
-	                }
-	            }
-	            else
-	            {
-	                Loggy.Error("Hub API returned error, aborting HUB connection");
-	            }
-	        }
-	        catch (Exception ex)
-	        {
-	            Loggy.Error("Error: " + ex.Message);
-	        }
+						if (!string.IsNullOrEmpty(config.PublicAddress))
+						{
+							publicIP = config.PublicAddress;
+						}
+						else if (!string.IsNullOrEmpty(config.BindAddress))
+						{
+							publicIP = config.BindAddress;
+						}
+						else
+						{
+							response = await SafeHttpRequest.GetAsync("http://ipinfo.io/ip");
+							string ipResponse = await response.Content.ReadAsStringAsync();
+							publicIP = Regex.Replace(ipResponse, @"\t|\n|\r", "");
+						}
+					}
+					else if (apiResponse.errorCode == 901)
+					{
+						Loggy.Error("Hub API returned unauthorized credentials, aborting HUB connection");
+					}
+					else
+					{
+						Loggy.Error("Hub API returned error code " + apiResponse.errorCode +
+						            ", aborting HUB connection\n" + apiResponse.errorMsg);
+					}
+				}
+				else
+				{
+					Loggy.Error("Hub API returned error, aborting HUB connection");
+				}
+			}
+			catch (Exception ex)
+			{
+				Loggy.Error("Error: " + ex.Message);
+			}
 
 			try
 			{
-				string url = hubUpdate + Uri.EscapeDataString( JsonConvert.SerializeObject(status)) + "&user=" + config.HubUser;
+				string url = hubUpdate + Uri.EscapeDataString(JsonConvert.SerializeObject(status)) + "&user=" +
+				             config.HubUser;
 
 				HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
 				request.Headers.Add("Cookie", hubCookie);
@@ -262,10 +363,7 @@ namespace DatabaseAPI
 
 			return port;
 		}
-
-
 	}
-
 
 
 	[Serializable]
@@ -303,6 +401,8 @@ namespace DatabaseAPI
 		public string LinuxDownload;
 		public int fps;
 		public string GoodFileVersion;
+		public string ServerPublicKey;
+		public string ServerConnectionPublicKey;
 	}
 
 	//Read from Streaming Assets/config/config.json on the server
@@ -313,12 +413,16 @@ namespace DatabaseAPI
 		public int RconPort;
 		public int ServerPort;
 		public string BindAddress;
+
 		public string PublicAddress;
+
 		//CertKey needed in the future for SSL Rcon
 		public string certKey;
 		public string HubUser;
 		public string HubPass;
+
 		public string ServerName;
+
 		//Location on the internet where clients can be downloaded from:
 		public string WinDownload;
 		public string OSXDownload;
@@ -363,7 +467,8 @@ namespace DatabaseAPI
 		//The password to join the server if set
 		public string ConnectionPassword;
 
-		public string ServerCCToken;
+		public string ServerPublicKey;
+		public string ServerPrivateKey;
 	}
 
 	//Used to identify the build and fork of this client/server
@@ -373,10 +478,24 @@ namespace DatabaseAPI
 		//This is used in the HUB to determine if the player has the right
 		//build for your server. Remember 01 is not a valid integer. Make sure it starts with at least 1
 		public int BuildNumber;
+
 		//I.E. Unitystation, ColonialMarines, BeeStation
 		public string ForkName;
 
 		//What good file version does this build use
 		public string GoodFileVersion;
 	}
+}
+
+public class ClientConnectionRequest
+{
+	public string EncryptedClientFork;
+	public string EncryptedClientVersion;
+	public string EncryptedGoodFileVersion;
+	public string EncryptedSharedSecret;
+	public string EncryptedAccountID;
+	public string EncryptedConnectionPublicServerKey;
+	[NonSerialized] public DateTime InternalDatetimeReceived;
+	[NonSerialized] public string SharedSecret;
+	[NonSerialized] public string AccountID;
 }
