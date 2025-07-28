@@ -42,6 +42,14 @@ namespace InGameEvents
 		[SerializeField, MinMaxSlider(0f, 100f)]
 		private Vector2 spawnDelayRange = new Vector2(3f, 10f);
 
+		[Tooltip("The probability that this scrubber will spill any reagents.")]
+		[SerializeField]
+		private float dispenseChance = 35f;
+
+		[Tooltip("The amount of reagents to spill.")]
+		[SerializeField]
+		private float spillAmount = 55f;
+
 
 		public bool ShouldDispenseRareDispersionAgents()
 		{
@@ -68,8 +76,9 @@ namespace InGameEvents
 		{
 			ReagentContainer container = Instantiate(reagentContainer).GetComponent<ReagentContainer>();
 
-			foreach (var scrubber in FindObjectsOfType<Scrubber>())
+			foreach (var scrubber in MatrixManager.MainStationMatrix.GameObject.GetComponentsInChildren<Scrubber>())
 			{
+				if (DMMath.Prob(dispenseChance) == false) continue;
 				StartCoroutine(SpillAtScrubber(scrubber, container));
 			}
 
@@ -95,7 +104,7 @@ namespace InGameEvents
 					reagentMix.Add(dispersionMix.PickRandom());
 				}
 
-				reagentMix.reagents.m_dict.Add(ChemistryReagentsSO.Instance.AllChemistryReagents.PickRandom(), 75f);
+				reagentMix.reagents.m_dict.Add(ChemistryReagentsSO.Instance.AllChemistryReagents.PickRandom(), spillAmount);
 			}
 
 
