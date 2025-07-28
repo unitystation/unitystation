@@ -476,17 +476,13 @@ public class ChatRelay : NetworkBehaviour
 		{
 			var canUnderstand = playerLanguages.CanUnderstandLanguage(language);
 
-			if (canUnderstand && language.Flags.HasFlag(LanguageFlags.HideIconIfUnderstood))
+			switch (canUnderstand)
 			{
-				return null;
-			}
-			else if (canUnderstand == false && language.Flags.HasFlag(LanguageFlags.HideIconIfNotUnderstood))
-			{
-				return null;
-			}
-			else
-			{
-				return language.ChatSprite;
+				case true when (language.Flags & LanguageFlags.HideIconIfUnderstood) != 0:
+				case false when (language.Flags & LanguageFlags.HideIconIfNotUnderstood) != 0:
+					return null;
+				default:
+					return language.ChatSprite;
 			}
 		}
 
@@ -501,17 +497,24 @@ public class ChatRelay : NetworkBehaviour
 	/// <param name="message">The message to try to vocalize.</param>
 	private void trySendingTTS(string message, string Voice, MaryTTS.AudioSynthType type, uint originNetId = uint.MinValue)
 	{
-		if (UIManager.Instance.ttsToggle)
+		if (!UIManager.Instance.ttsToggle) return;
+		message = Regex.Replace(message, @"<[^>]*>", String.Empty); // Style tags
+		int saysCharIndex = message.IndexOf(saysChar);
+		if (saysCharIndex != -1)
 		{
-			message = Regex.Replace(message, @"<[^>]*>", String.Empty); // Style tags
-			int saysCharIndex = message.IndexOf(saysChar);
-			if (saysCharIndex != -1)
+			string messageAfterSaysChar = message.Substring(message.IndexOf(saysChar) + 1);
+			bool hasLetter = false;
+			for (int i = 0; i < messageAfterSaysChar.Length; i++)
 			{
-				string messageAfterSaysChar = message.Substring(message.IndexOf(saysChar) + 1);
-				if (messageAfterSaysChar.Length > 0 && messageAfterSaysChar.Any(char.IsLetter))
+				if (char.IsLetter(messageAfterSaysChar[i]))
 				{
-					MaryTTS.Instance.Synthesize(messageAfterSaysChar, type, Voice, originNetId);
+					hasLetter = true;
+					break;
 				}
+			}
+			if (messageAfterSaysChar.Length > 0 && hasLetter)
+			{
+				MaryTTS.Instance.Synthesize(messageAfterSaysChar, type, Voice, originNetId);
 			}
 		}
 	}

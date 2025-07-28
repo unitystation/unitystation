@@ -81,11 +81,9 @@ namespace HealthV2
 
 		private void LateUpdate()
 		{
-			if (DollDataChanged)
-			{
-				healthDollData = JsonConvert.SerializeObject(CurrentHealthDollStorage);
-				DollDataChanged = false;
-			}
+			if (DollDataChanged == false) return;
+			healthDollData = JsonConvert.SerializeObject(CurrentHealthDollStorage);
+			DollDataChanged = false;
 		}
 
 		#region ServerSetValue
