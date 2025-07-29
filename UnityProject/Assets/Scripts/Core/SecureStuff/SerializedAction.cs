@@ -23,6 +23,7 @@ namespace SecureStuff
 		public Action<Vector3> CachedVector3Action;
 		public Action<Vector2Int> CachedVector2IntAction;
 		public Action<Vector3Int> CachedVector3IntAction;
+		public Action<GameObject> CachedObjectAction;
 
 		public void Invoke()
 		{
@@ -52,6 +53,12 @@ namespace SecureStuff
 		{
 			if (CachedVector3IntAction == null) Cache<Vector3Int>();
 			CachedVector3IntAction?.Invoke(param);
+		}
+
+		public void Invoke(GameObject param)
+		{
+			if (CachedObjectAction == null) Cache<GameObject>();
+			CachedObjectAction?.Invoke(param);
 		}
 
 		private void Cache()
@@ -100,6 +107,8 @@ namespace SecureStuff
 				CachedVector2IntAction += (Action<Vector2Int>)Delegate.CreateDelegate(delegateType, target, method);
 			else if (typeof(T) == typeof(Vector3Int))
 				CachedVector3IntAction += (Action<Vector3Int>)Delegate.CreateDelegate(delegateType, target, method);
+			else if (typeof(T) == typeof(GameObject))
+				CachedObjectAction += (Action<GameObject>)Delegate.CreateDelegate(delegateType, target, method);
 
 			parameterType = typeof(T).Name;
 		}
@@ -140,7 +149,8 @@ namespace SecureStuff
                              parameters[0].ParameterType == typeof(Vector2) ||
                              parameters[0].ParameterType == typeof(Vector3) ||
                              parameters[0].ParameterType == typeof(Vector2Int) ||
-                             parameters[0].ParameterType == typeof(Vector3Int))))
+                             parameters[0].ParameterType == typeof(Vector3Int)) ||
+                             parameters[0].ParameterType == typeof(GameObject)))
                         {
                             string methodSignature = GetMethodSignature(m);
                             methodNames.Add(methodSignature);

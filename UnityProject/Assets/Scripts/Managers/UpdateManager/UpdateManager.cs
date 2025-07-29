@@ -154,7 +154,10 @@ public class UpdateManager : MonoBehaviour
 		}
 		if (CallbackType == CallbackType.PERIODIC_UPDATE)
 		{
-			if (Instance.periodicUpdateActions.Any(x => x.Action == action)) return;
+			foreach (var x in Instance.periodicUpdateActions)
+			{
+				if (x.Action == action) return;
+			}
 			TimedUpdate timedUpdate = Instance.GetTimedUpdates();
 			timedUpdate.SetUp(action, timeInterval, false);
 			//Bod: It has a delay that it adds when first updating so,
@@ -168,7 +171,10 @@ public class UpdateManager : MonoBehaviour
 		}
 		else
 		{
-			if (Instance.soundUpdates.Any(x => x.Action == action)) return;
+			foreach (var x in Instance.soundUpdates)
+			{
+				if (x.Action == action) return;
+			}
 			TimedUpdate timedUpdate = Instance.GetTimedUpdates();
 			timedUpdate.SetUp(action, timeInterval, false);
 			if (offsetUpdate)
@@ -197,7 +203,10 @@ public class UpdateManager : MonoBehaviour
 	/// <param name="timeInterval">Time until action is invoked in seconds. Setting this below or equals 0 will cause timeInterval to run randomly between 0.1 and 1 seconds.</param>
 	public static void ThinkShot(Action action, float timeInterval)
 	{
-		if (Instance.thinkShotActions.Any(x => x.Action == action)) return;
+		foreach (var thinkShot in Instance.thinkShotActions)
+		{
+			if (thinkShot.Action == action) return;
+		}
 		if (timeInterval <= 0)
 		{
 			timeInterval = Random.Range(0.1f, 1f);

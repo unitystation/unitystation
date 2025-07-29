@@ -13,8 +13,8 @@ namespace Messages.Server.SpritesMessages
 
 		public struct NetMessage : NetworkMessage
 		{
-			public List<KeyValuePair<SpriteHandler, SpriteHandlerManager.SpriteChange>> Data;
-			public List<KeyValuePair<string, SpriteHandlerManager.SpriteChange>> DataSpecial;
+			public IEnumerable<KeyValuePair<SpriteHandler, SpriteHandlerManager.SpriteChange>> Data;
+			public IEnumerable<KeyValuePair<string, SpriteHandlerManager.SpriteChange>> DataSpecial;
 			//public string SerialiseData;
 		}
 
@@ -172,7 +172,7 @@ namespace Messages.Server.SpritesMessages
 			IEnumerable<KeyValuePair<string, SpriteHandlerManager.SpriteChange>> toSend)
 		{
 			var msg = new NetMessage();
-			msg.DataSpecial = toSend.ToList();
+			msg.DataSpecial = toSend;
 			return msg;
 		}
 
@@ -180,7 +180,7 @@ namespace Messages.Server.SpritesMessages
 			IEnumerable<KeyValuePair<SpriteHandler, SpriteHandlerManager.SpriteChange>> toSend)
 		{
 			var msg = new NetMessage();
-			msg.Data = toSend.ToList();
+			msg.Data = toSend;
 			return msg;
 		}
 

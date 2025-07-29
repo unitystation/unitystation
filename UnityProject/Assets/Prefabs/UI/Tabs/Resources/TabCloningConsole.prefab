@@ -8068,7 +8068,7 @@ GameObject:
   - component: {fileID: 7420939370761848047}
   - component: {fileID: 5469393528543433544}
   m_Layer: 5
-  m_Name: Button
+  m_Name: ExitButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8176,10 +8176,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 494093373439464809}
-        m_TargetAssemblyTypeName: EscapeKeyTarget, Assets
-        m_MethodName: HandleEscapeKey
-        m_Mode: 1
+      - m_Target: {fileID: 1871118659464886}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
