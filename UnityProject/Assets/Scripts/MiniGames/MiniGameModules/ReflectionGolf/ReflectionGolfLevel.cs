@@ -72,13 +72,12 @@ namespace MiniGames.MiniGameModules
 			int uniqueObjects = 0;
 			for (int y = 0; y < Height; y++)
 			{
-				string[] Values = matches[y].Value.Split(' ');
+				string[] Values = matches[y].Value.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
 				if(y == 0)
 				{
 					Width = (short)Values.Length;
 					LevelData = new CellData[Width * Height];
-					LevelData[0].width = Width;
 				}
 
 				for (int x = 0; x < Width; x++)
@@ -88,7 +87,13 @@ namespace MiniGames.MiniGameModules
 					newCell.currentRotation = 0;
 					newCell.isTouched = false;
 
-					newCell.value = Int16.Parse(Values[x]);
+					if (Int16.TryParse(Values[x], out newCell.value) == false)
+					{
+						Loggy.Error(
+							$"Error while parsing value: \"{Values[x]}\"\nOriginal Line: \"{matches[y].Value}\"");
+						LevelData[x + y*Width] = newCell;
+						continue;
+					}
 					if (newCell.value != 0) uniqueObjects++;
 					if (newCell.value == (int)SpecialCellTypes.Goal) GoalLocation = new Vector2Int(x, y);
 					if (newCell.value >= (int)SpecialCellTypes.Number) newCell.isNumber = true;
@@ -132,6 +137,5 @@ namespace MiniGames.MiniGameModules
 		public short currentRotation;
 		public bool isTouched;
 		public bool isNumber;
-		public short width;
 	}
 }

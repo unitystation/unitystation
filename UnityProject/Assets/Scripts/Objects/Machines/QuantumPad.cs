@@ -173,30 +173,7 @@ namespace Objects.Science
 				StartCoroutine(ServerAnimation());
 			}
 
-			travelCoord = connectedPad.registerTile.WorldPositionServer;
-
-			switch (padDirection)
-			{
-				case PadDirection.OnTop:
-					break;
-				case PadDirection.Up:
-					travelCoord += Vector3.up;
-					break;
-				case PadDirection.Down:
-					travelCoord += Vector3.down;
-					break;
-				case PadDirection.Left:
-					travelCoord += Vector3.left;
-					break;
-				case PadDirection.Right:
-					travelCoord += Vector3.right;
-					break;
-			}
-
-			if (passiveDetect && padDirection == PadDirection.OnTop)
-			{
-				travelCoord += Vector3.up;
-			}
+			EnsureTravelCordsAreCorrect();
 
 			var registerTileLocation = registerTile.LocalPositionServer;
 			var somethingTeleported = false;
@@ -235,6 +212,34 @@ namespace Objects.Science
 			}
 		}
 
+		private void EnsureTravelCordsAreCorrect()
+		{
+			travelCoord = connectedPad.registerTile.WorldPositionServer;
+
+			switch (padDirection)
+			{
+				case PadDirection.OnTop:
+					break;
+				case PadDirection.Up:
+					travelCoord += Vector3.up;
+					break;
+				case PadDirection.Down:
+					travelCoord += Vector3.down;
+					break;
+				case PadDirection.Left:
+					travelCoord += Vector3.left;
+					break;
+				case PadDirection.Right:
+					travelCoord += Vector3.right;
+					break;
+			}
+
+			if (passiveDetect && padDirection == PadDirection.OnTop)
+			{
+				travelCoord += Vector3.up;
+			}
+		}
+
 		public IEnumerator ServerAnimation()
 		{
 			spriteHandler.SetCatalogueIndexSprite(1);
@@ -262,7 +267,15 @@ namespace Objects.Science
 				TransportUtility.TransportObjectAndPulled(reg.UniversalObjectPhysics, travelCoord);
 			}
 
-			if (connectedPad.messageOnTravelToThis != "") Chat.AddExamineMsgFromServer(reg.gameObject, connectedPad.messageOnTravelToThis);
+			if (connectedPad && connectedPad.messageOnTravelToThis != "") Chat.AddExamineMsgFromServer(reg.gameObject, connectedPad.messageOnTravelToThis);
+		}
+
+		public void HandleTeleportationForTargetGameObject(GameObject target)
+		{
+			if (target == null || connectedPad == null) return;
+			EnsureTravelCordsAreCorrect();
+			var common = target.GetComponent<CommonComponents>();
+			HandleTeleportation(common);
 		}
 
 		private void HandleLavalandFirstEnterEvent()
