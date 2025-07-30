@@ -1,12 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Core.Physics;
 using Health.Objects;
 using Items.Food;
+using Systems.Atmospherics;
 using UnityEngine;
 using Util.Independent.FluentRichText;
 
 namespace Objects.Other
 {
-	public class Campfire : EnterTileBase, ICheckedInteractable<HandApply>
+	public class Campfire : EnterTileBase, ICheckedInteractable<HandApply>, IExaminable
 	{
 		[SerializeField] private SpriteHandler spriteHandler;
 		[SerializeField] private CommonComponents components;
@@ -19,6 +23,7 @@ namespace Objects.Other
 		[SerializeField] private int maxStacks = 20;
 		[SerializeField] private float secondsPerStack = 30f;
 		[SerializeField] private float startingEffortTime = 8f;
+		[SerializeField] private float smokeMolesToAddToTheAtmosphere = 0.09f;
 		[SerializeField] private bool canAffectPlayersOnEnter = true;
 		[SerializeField] private bool canAffectObjectsOnEnter = true;
 
@@ -35,34 +40,37 @@ namespace Objects.Other
 		{
 			base.Awake();
 			spriteHandler ??= GetComponentInChildren <SpriteHandler>();
+			components ??= GetComponent<CommonComponents>();
 			if (CustomNetworkManager.IsServer == false) return;
 			ChangeState(currentState);
 		}
 
 		private void UpdateMe()
 		{
-			AddStacks(-1);
-			if (stacks <= 0)
+			var objectsOnSameTile = registerObject.Matrix.Get<CommonComponents>(registerObject.LocalPosition, true).ToList();
+			AddStacks(-objectsOnSameTile.Count);
+			foreach (var obj in objectsOnSameTile)
 			{
-				ChangeState(CampfireState.Unlit);
+				AffectObjectOnCampfire(obj);
 			}
+			AtmosInteractions();
 			SetSpritesBasedOnStatus();
 		}
 
 		private void ChangeState(CampfireState newState)
 		{
 			if (currentState == newState) return;
-			if (currentState == CampfireState.Lit) // removing if previous state is Lit
-			{
-				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
-			}
-
 			currentState = newState;
-
-			if (currentState == CampfireState.Lit) // adding if new state is lit
+			switch (currentState)
 			{
-				UpdateManager.Add(UpdateMe,secondsPerStack);
-				stacks = maxStacks;
+				case CampfireState.Lit:
+					UpdateManager.Add(UpdateMe,secondsPerStack);
+					stacks = maxStacks;
+					break;
+				case CampfireState.Unlit:
+				default:
+					UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+					break;
 			}
 
 			SetSpritesBasedOnStatus();
@@ -147,11 +155,17 @@ namespace Objects.Other
 			{
 				Chat.AddActionMsgToChat(interaction.Performer,
 					$"{interaction.PerformerPlayerScript.visibleName} adds {obj.ArticleName} as fuel for the {attributes.ArticleName}, extending its lifespan.");
+				interaction.HandSlot.ItemStorage.ServerTryRemove(obj.gameObject, Destroy: true);
 				AddStacks(1);
 				return;
 			}
-			if (interaction.HandSlot.ItemStorage.ServerTryRemove(obj.gameObject, DroppedAtWorldPositionOrThrowVector: registerObject.WorldPosition))
+			if (interaction.HandSlot.ItemStorage.ServerTryRemove(obj.gameObject))
 			{
+				var objComponents = obj.gameObject.GetCommonComponents();
+				if (objComponents != null && objComponents.TrySafeGetComponent<UniversalObjectPhysics>(out var physics))
+				{
+					physics.AppearAtWorldPositionServer(registerObject.WorldPosition);
+				}
 				Chat.AddActionMsgToChat(interaction.Performer,
 					$"{interaction.PerformerPlayerScript.visibleName} throws the {obj.ArticleName} onto the {attributes.ArticleName}'s fire.");
 			}
@@ -176,12 +190,25 @@ namespace Objects.Other
 			}
 		}
 
+		private void AtmosInteractions()
+		{
+			MetaDataNode node = registerObject.Matrix.MetaDataLayer.Get(registerObject.LocalPositionServer);
+			if (currentState == CampfireState.Lit && node?.GasMixLocal.GetMoles(Gas.Oxygen) < 1)
+			{
+				ChangeState(CampfireState.Unlit);
+				return;
+			}
+			node?.GasMixLocal.AddGasWithTemperature(Gas.Smoke, smokeMolesToAddToTheAtmosphere, Kelvin.FromC(100f));
+			node?.GasMixLocal.ChangeTemperature(Kelvin.FromC(25f));
+		}
+
 		private void AffectObjectOnCampfire(CommonComponents common)
 		{
+			if (common == components) return;
 			var commonsAttribute = common.SafeGetComponent<Attributes>();
 			if (common.TrySafeGetComponent<Cookable>(out var cookable))
 			{
-				if (cookable.AddCookingTime(secondsPerStack / 4))
+				if (cookable.AddCookingTime(secondsPerStack / 12))
 				{
 					Chat.AddActionMsgToChat(gameObject,
 						$"The {commonsAttribute.ArticleName}'s aroma fills the air, as it is done being cooked on the {attributes.ArticleName}");
@@ -230,6 +257,18 @@ namespace Objects.Other
 			base.OnObjectEnter(eventData);
 			if (eventData.TryGetComponent<CommonComponents>(out var common) == false) return;
 			AffectObjectOnCampfire(common);
+		}
+
+		public string Examine(Vector3 worldPos = default)
+		{
+			switch (currentState)
+			{
+				case CampfireState.Lit:
+					return $"Campfire Stacks: {stacks}";
+				case CampfireState.Unlit:
+				default:
+					return "This campfire is inactive";
+			}
 		}
 	}
 }

@@ -112,12 +112,17 @@ PrefabInstance:
     - target: {fileID: 8199129536166038015, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: maxStacks
-      value: 4
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8199129536166038015, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: skipFlammableCheck
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8199129536166038015, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: minimumFireDamageForStack
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -151,6 +156,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1553450417857592877 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7995357239597924047, guid: ebb08cf966efc084aa918bd8d9429604,
+    type: 3}
+  m_PrefabInstance: {fileID: 8897918660811784418}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4700022350712571563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b3f20d3b30cb24fb70b1f35524c360, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4700022350712571563 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
@@ -173,9 +190,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   spriteHandler: {fileID: 245769104678268017}
+  components: {fileID: 1553450417857592877}
   campfireActive: {fileID: 11400000, guid: cc85002e30d25a94b89eef803c272361, type: 2}
   campfireInactive: {fileID: 11400000, guid: 90f04e313fac31849bba72955395b550, type: 2}
-  isLit: 0
   lightingItems:
   - {fileID: 11400000, guid: 5b9f111eed52a4d4fa8a3fbbd459fdf6, type: 2}
   - {fileID: 11400000, guid: b52339a75d4b045469c79bd102bc98ea, type: 2}
@@ -189,6 +206,18 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ca26dc287738d424ab39fd41879d4e34, type: 2}
   - {fileID: 11400000, guid: 658af8203b5c2fc4dbaced78a47ce133, type: 2}
   - {fileID: 11400000, guid: c2072f6675ce8014394bd5be6ba5cb29, type: 2}
+  proddingItems:
+  - {fileID: 11400000, guid: d823ef2f0f86bd240b865220bbd5c6a3, type: 2}
+  - {fileID: 11400000, guid: 0ed64735be8ec47f99cd4c93bce388ac, type: 2}
+  - {fileID: 11400000, guid: 98ad76bb152404a11aed28bf6fa703d6, type: 2}
+  - {fileID: 11400000, guid: 5524008e9372c468aacfb95c83179a91, type: 2}
+  currentState: 0
+  stacks: 0
+  maxStacks: 20
+  secondsPerStack: 30
+  startingEffortTime: 8
+  canAffectPlayersOnEnter: 1
+  canAffectObjectsOnEnter: 1
 --- !u!212 &4781109240490533564 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
