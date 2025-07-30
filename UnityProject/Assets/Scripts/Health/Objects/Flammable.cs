@@ -278,6 +278,12 @@ namespace Health.Objects
 			Profiler.EndSample();
 		}
 
+		[Server]
+		public void AddFireStacks(int stacksToAdd)
+		{
+			fireStacks = Mathf.Clamp(fireStacks + stacksToAdd, 0, maxStacks);
+		}
+
 		public void OnDamageReceived(DamageInfo info)
 		{
 			if (integrity.Resistances.Flammable == false) return;

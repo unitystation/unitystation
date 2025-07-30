@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Health.Objects;
+using Items.Food;
 using UnityEngine;
 using Util.Independent.FluentRichText;
 
@@ -10,24 +12,31 @@ namespace Objects.Other
 		[SerializeField] private CommonComponents components;
 		[SerializeField] private SpriteDataSO campfireActive;
 		[SerializeField] private SpriteDataSO campfireInactive;
-		[SerializeField] private bool isLit = false;
 		[SerializeField] private List<ItemTrait> lightingItems;
 		[SerializeField] private List<ItemTrait> proddingItems;
+		[SerializeField] private CampfireState currentState = CampfireState.Unlit;
 		[SerializeField] private int stacks = 0;
 		[SerializeField] private int maxStacks = 20;
 		[SerializeField] private float secondsPerStack = 30f;
 		[SerializeField] private float startingEffortTime = 8f;
+		[SerializeField] private bool canAffectPlayersOnEnter = true;
+		[SerializeField] private bool canAffectObjectsOnEnter = true;
 
 		private RegisterObject registerObject => components.SafeGetComponent<RegisterObject>();
 		private Attributes attributes => components.SafeGetComponent<Attributes>();
 
+		private enum CampfireState
+		{
+			Unlit,
+			Lit,
+		}
 
 		protected override void Awake()
 		{
 			base.Awake();
 			spriteHandler ??= GetComponentInChildren <SpriteHandler>();
 			if (CustomNetworkManager.IsServer == false) return;
-			SetSpritesBasedOnStatus();
+			ChangeState(currentState);
 		}
 
 		private void UpdateMe()
@@ -35,15 +44,42 @@ namespace Objects.Other
 			AddStacks(-1);
 			if (stacks <= 0)
 			{
-				isLit = false;
+				ChangeState(CampfireState.Unlit);
+			}
+			SetSpritesBasedOnStatus();
+		}
+
+		private void ChangeState(CampfireState newState)
+		{
+			if (currentState == newState) return;
+			if (currentState == CampfireState.Lit) // removing if previous state is Lit
+			{
 				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 			}
+
+			currentState = newState;
+
+			if (currentState == CampfireState.Lit) // adding if new state is lit
+			{
+				UpdateManager.Add(UpdateMe,secondsPerStack);
+				stacks = maxStacks;
+			}
+
 			SetSpritesBasedOnStatus();
 		}
 
 		private void SetSpritesBasedOnStatus()
 		{
-			spriteHandler.SetSpriteSO(isLit ? campfireActive : campfireInactive);
+			switch (currentState)
+			{
+				case CampfireState.Lit:
+					spriteHandler.SetSpriteSO(campfireActive);
+					break;
+				case CampfireState.Unlit:
+				default:
+					spriteHandler.SetSpriteSO(campfireInactive);
+					break;
+			}
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -54,8 +90,18 @@ namespace Objects.Other
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			if (interaction.HandObject == null) return;
-			if (isLit) LitInteractions(interaction);
-			else LightingUpInteractions(interaction);
+			switch (currentState)
+			{
+				case CampfireState.Unlit:
+					LightingUpInteractions(interaction);
+					break;
+				case CampfireState.Lit:
+					LitInteractions(interaction);
+					break;
+				default:
+					Chat.AddExamineMsg(interaction.Performer, "huh?");
+					break;
+			}
 		}
 
 		private void LightingUpInteractions(HandApply interaction)
@@ -117,15 +163,73 @@ namespace Objects.Other
 
 		private void LightCampUp()
 		{
-			stacks = maxStacks;
-			isLit = true;
-			SetSpritesBasedOnStatus();
+			ChangeState(CampfireState.Lit);
 			UpdateManager.Add(UpdateMe,secondsPerStack);
 		}
 
 		private void AddStacks(int stacksToAdd)
 		{
 			stacks = Mathf.Clamp(stacks + stacksToAdd, 0, maxStacks);
+			if (stacks <= 0)
+			{
+				ChangeState(CampfireState.Unlit);
+			}
+		}
+
+		private void AffectObjectOnCampfire(CommonComponents common)
+		{
+			var commonsAttribute = common.SafeGetComponent<Attributes>();
+			if (common.TrySafeGetComponent<Cookable>(out var cookable))
+			{
+				if (cookable.AddCookingTime(secondsPerStack / 4))
+				{
+					Chat.AddActionMsgToChat(gameObject,
+						$"The {commonsAttribute.ArticleName}'s aroma fills the air, as it is done being cooked on the {attributes.ArticleName}");
+				}
+				else
+				{
+					Chat.AddActionMsgToChat(gameObject,
+						$"The {commonsAttribute.ArticleName} sizzles on the {attributes.ArticleName}.");
+				}
+				return;
+			}
+
+			if (common.TrySafeGetComponent<Flammable>(out var flammable))
+			{
+				flammable.AddFireStacks(1);
+			}
+		}
+
+		public override bool WillAffectPlayer(PlayerScript playerScript)
+		{
+			return canAffectPlayersOnEnter;
+		}
+
+		public override bool WillAffectObject(GameObject eventData)
+		{
+			return canAffectObjectsOnEnter;
+		}
+
+		public override void OnPlayerStep(PlayerScript playerScript)
+		{
+			base.OnPlayerStep(playerScript);
+			AddStacks(-5);
+			if (DMMath.Prob(50))
+			{
+				playerScript.playerHealth.ChangeFireStacks(2f);
+				Chat.AddExamineMsg(playerScript.GameObject, "You step on the campfire and catch on fire!".Color(Color.red));
+			}
+			else
+			{
+				Chat.AddExamineMsg(playerScript.GameObject, "You step on the campfire, and some of its flames get snuffed out.".Color(Color.yellow));
+			}
+		}
+
+		public override void OnObjectEnter(GameObject eventData)
+		{
+			base.OnObjectEnter(eventData);
+			if (eventData.TryGetComponent<CommonComponents>(out var common) == false) return;
+			AffectObjectOnCampfire(common);
 		}
 	}
 }
