@@ -44,6 +44,26 @@ namespace Objects.Other
 			components ??= GetComponent<CommonComponents>();
 			if (CustomNetworkManager.IsServer == false) return;
 			ChangeState(currentState);
+			if (components.TrySafeGetComponent<Integrity>(out var integrity))
+			{
+				integrity.OnApplyDamage += OnApplyDamage;
+			}
+		}
+
+		private void OnApplyDamage(DamageInfo dmgInfo)
+		{
+			if (dmgInfo.DamageType != DamageType.Burn ||
+			    dmgInfo.AttackType != AttackType.Energy  || dmgInfo.AttackType != AttackType.Fire) return;
+			switch (currentState)
+			{
+				case CampfireState.Lit:
+					AddStacks((int)(dmgInfo.Damage * 2));
+					break;
+				case CampfireState.Unlit:
+				default:
+					LightCampUp();
+					break;
+			}
 		}
 
 		private void UpdateMe()
@@ -228,6 +248,7 @@ namespace Objects.Other
 				flammable.AddFireStacks(1);
 			}
 		}
+
 
 		public override bool WillAffectPlayer(PlayerScript playerScript)
 		{
