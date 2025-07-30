@@ -15,6 +15,7 @@ namespace Objects.Other
 	{
 		[SerializeField] private SpriteHandler spriteHandler;
 		[SerializeField] private CommonComponents components;
+		[SerializeField] private Integrity integrity;
 		[SerializeField] private SpriteDataSO campfireActive;
 		[SerializeField] private SpriteDataSO campfireInactive;
 		[SerializeField] private List<ItemTrait> lightingItems;
@@ -42,12 +43,16 @@ namespace Objects.Other
 			base.Awake();
 			spriteHandler ??= GetComponentInChildren <SpriteHandler>();
 			components ??= GetComponent<CommonComponents>();
+			integrity ??= GetComponent<Integrity>();
 			if (CustomNetworkManager.IsServer == false) return;
 			ChangeState(currentState);
-			if (components.TrySafeGetComponent<Integrity>(out var integrity))
-			{
-				integrity.OnApplyDamage += OnApplyDamage;
-			}
+			integrity.OnApplyDamage += OnApplyDamage;
+		}
+
+		public override void OnDestroy()
+		{
+			base.OnDestroy();
+			integrity.OnApplyDamage -= OnApplyDamage;
 		}
 
 		private void OnApplyDamage(DamageInfo dmgInfo)
