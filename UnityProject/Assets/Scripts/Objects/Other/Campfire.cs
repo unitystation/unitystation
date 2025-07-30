@@ -130,9 +130,9 @@ namespace Objects.Other
 			{
 				if (DMMath.Prob(35) && interaction.HandObject)
 				{
-					Chat.AddActionMsgToChat(interaction.Performer, $"{interaction.PerformerPlayerScript.visibleName} has successfully started a fire with the {interaction.HandObject}.".Color(Color.green));
-					_ = Despawn.ServerSingle(interaction.HandObject);
 					LightCampUp();
+					Chat.AddActionMsgToChat(interaction.Performer, $"{interaction.PerformerPlayerScript.visibleName} has successfully started a fire with the {interaction.HandObject.ExpensiveName()}.".Color(Color.green));
+					_ = Despawn.ServerSingle(interaction.HandObject);
 				}
 				else
 				{
