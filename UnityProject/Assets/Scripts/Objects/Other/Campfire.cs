@@ -7,14 +7,19 @@ namespace Objects.Other
 	public class Campfire : EnterTileBase, ICheckedInteractable<HandApply>
 	{
 		[SerializeField] private SpriteHandler spriteHandler;
+		[SerializeField] private CommonComponents components;
 		[SerializeField] private SpriteDataSO campfireActive;
 		[SerializeField] private SpriteDataSO campfireInactive;
 		[SerializeField] private bool isLit = false;
 		[SerializeField] private List<ItemTrait> lightingItems;
+		[SerializeField] private List<ItemTrait> proddingItems;
 		[SerializeField] private int stacks = 0;
 		[SerializeField] private int maxStacks = 20;
 		[SerializeField] private float secondsPerStack = 30f;
 		[SerializeField] private float startingEffortTime = 8f;
+
+		private RegisterObject registerObject => components.SafeGetComponent<RegisterObject>();
+		private Attributes attributes => components.SafeGetComponent<Attributes>();
 
 
 		protected override void Awake()
@@ -27,7 +32,13 @@ namespace Objects.Other
 
 		private void UpdateMe()
 		{
-
+			AddStacks(-1);
+			if (stacks <= 0)
+			{
+				isLit = false;
+				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+			}
+			SetSpritesBasedOnStatus();
 		}
 
 		private void SetSpritesBasedOnStatus()
@@ -77,7 +88,31 @@ namespace Objects.Other
 
 		private void LitInteractions(HandApply interaction)
 		{
-
+			if (interaction.HandSlot.Item == null) return;
+			var obj = interaction.HandSlot.Item.ItemAttributesV2;
+			if (obj.HasAnyTraitZeroAlloc(proddingItems))
+			{
+				Chat.AddActionMsgToChat(interaction.Performer,
+					$"{interaction.PerformerPlayerScript.visibleName} prods the {attributes.ArticleName} with the {obj.ArticleName}, making it lightly glow in reaction.");
+				if (DMMath.Prob(25)) AddStacks(1);
+				return;
+			}
+			if (obj.HasAnyTraitZeroAlloc(lightingItems))
+			{
+				Chat.AddActionMsgToChat(interaction.Performer,
+					$"{interaction.PerformerPlayerScript.visibleName} adds {obj.ArticleName} as fuel for the {attributes.ArticleName}, extending its lifespan.");
+				AddStacks(1);
+				return;
+			}
+			if (interaction.HandSlot.ItemStorage.ServerTryRemove(obj.gameObject, DroppedAtWorldPositionOrThrowVector: registerObject.WorldPosition))
+			{
+				Chat.AddActionMsgToChat(interaction.Performer,
+					$"{interaction.PerformerPlayerScript.visibleName} throws the {obj.ArticleName} onto the {attributes.ArticleName}'s fire.");
+			}
+			else
+			{
+				Chat.AddExamineMsg(interaction.Performer, "Something compels you not to throw that in the fire.");
+			}
 		}
 
 		private void LightCampUp()
@@ -85,6 +120,12 @@ namespace Objects.Other
 			stacks = maxStacks;
 			isLit = true;
 			SetSpritesBasedOnStatus();
+			UpdateManager.Add(UpdateMe,secondsPerStack);
+		}
+
+		private void AddStacks(int stacksToAdd)
+		{
+			stacks = Mathf.Clamp(stacks + stacksToAdd, 0, maxStacks);
 		}
 	}
 }
