@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Core.Physics;
+using Cysharp.Threading.Tasks;
 using Health.Objects;
 using Items.Food;
 using Systems.Atmospherics;
@@ -60,6 +61,7 @@ namespace Objects.Other
 		private void ChangeState(CampfireState newState)
 		{
 			if (currentState == newState) return;
+			var previousState = currentState;
 			currentState = newState;
 			switch (currentState)
 			{
