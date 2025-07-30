@@ -115,7 +115,7 @@ namespace DatabaseAPI
 
 		public async Task<string> ReceiveString(string data, string clientIp)
 		{
-			var Request = JsonConvert.DeserializeObject<ClientConnectionRequest>(data);
+			var Request = JsonConvert.DeserializeObject<ClientAuthenticationConnectionRequest>(data);
 
 			var HubRequestedFork = Convert.ToBase64String(Authenticator.RSA.Decrypt(Convert.FromBase64String(Request.EncryptedClientFork), RSAEncryptionPadding.OaepSHA256));
 			var HubRequestedVersion = Convert.ToBase64String(Authenticator.RSA.Decrypt(Convert.FromBase64String(Request.EncryptedClientVersion), RSAEncryptionPadding.OaepSHA256));
@@ -487,7 +487,7 @@ namespace DatabaseAPI
 	}
 }
 
-public class ClientConnectionRequest
+public class ClientAuthenticationConnectionRequest
 {
 	public string EncryptedClientFork;
 	public string EncryptedClientVersion;

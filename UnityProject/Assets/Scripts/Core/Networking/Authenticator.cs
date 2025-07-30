@@ -87,8 +87,8 @@ namespace Core.Networking
 
 		private const string PasswordField = "NA";
 
-		public static Dictionary<string, ClientConnectionRequest> ConnectionAuthenticatedRequests =
-			new Dictionary<string, ClientConnectionRequest>();
+		public static Dictionary<string, ClientAuthenticationConnectionRequest> ConnectionAuthenticatedRequests =
+			new Dictionary<string, ClientAuthenticationConnectionRequest>();
 
 		public static RSA RSA;
 		public static SHA512 SHA512;
