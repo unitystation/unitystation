@@ -135,7 +135,7 @@ namespace Health.Objects
 				SyncOnFire(fireStacks, 0);
 				return;
 			}
-			node?.GasMixLocal.AddGasWithTemperature(Gas.Smoke, BURNING_DAMAGE_PER_STACK * 75, Kelvin.FromC(100f));
+			node?.GasMixLocal.AddGasWithTemperature(Gas.Smoke, BURNING_DAMAGE_PER_STACK * 25, Kelvin.FromC(100f));
 
 			if (integrity.Resistances.Flammable || skipFlammableCheck)
 			{
