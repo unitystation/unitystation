@@ -39,7 +39,7 @@ namespace Health.Objects
 		// damage incurred each tick while an object is on fire
 		private static float BURNING_DAMAGE_PER_STACK = 0.08f;
 		private static float HOT_IN_KELVIN = 750f;
-		private static readonly float BURN_RATE = 1.25f;
+		private static readonly float BURN_RATE = 2.25f;
 
 		private bool isLarge = false;
 
