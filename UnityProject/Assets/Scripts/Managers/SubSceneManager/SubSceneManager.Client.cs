@@ -35,6 +35,7 @@ public partial class SubSceneManager
 
 		for (int i = 0; i < loadedScenesList.Count; i++)
 		{
+			GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("Loading Scenes", $"Loading Scene Number #{i}", i / loadedScenesList.Count);
 			var sceneToCheck = loadedScenesList[i];
 			if(clientLoadedSubScenes.Contains(sceneToCheck)) continue;
 			clientIsLoadingSubscene = true;
@@ -111,11 +112,11 @@ public partial class SubSceneManager
 
 		loadCount = 0;
 
-		GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke($"Preparing to spawn objects..");
+		GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("Loading Scenes", $"Preparing to spawn objects..", 0.4f);
 		NetworkClient.PrepareToSpawnSceneObjects();
 		RequestObserverRefresh.Send(OriginalScene);
 
-		GUI_PreRoundWindow.Instance?.LoadingArea?.UpdateLoadingBar("Loading Scenes", $"Requesting Object Observers.. ({loadCount}/{Scenes.Count})", 0.5f);
+		GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("Loading Scenes", $"Requesting Object Observers.. ({loadCount}/{Scenes.Count})", 0.5f);
 		foreach (var scene in Scenes)
 		{
 			loadCount++;

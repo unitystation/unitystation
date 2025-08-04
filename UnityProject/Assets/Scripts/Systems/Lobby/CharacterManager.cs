@@ -352,7 +352,7 @@ namespace Systems.Character
 				}
 			}
 			DetermineActiveCharacter();
-			GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("");
+			GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("", "", 2f);
 		}
 
 		private void LoadOfflineCharacterSheets(ref List<SubAccountGetCharacterSheet> characters)
