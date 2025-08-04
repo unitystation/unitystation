@@ -48,12 +48,24 @@ public class MyObjectEditor : Editor
 		if (texture.isReadable == false)
 		{
 			Loggy.Error($"Sprite \"{sprite.name}\" is not read/write enabled. Please enable " +
-		                  "Read/Write in the texture's import settings.", Category.Editor);
+						  "Read/Write in the texture's import settings.", Category.Editor);
 			return;
 		}
 
+		bool canDrawPreview = false;
+		var assetPath = AssetDatabase.GUIDToAssetPath(guid);
+		var asset = AssetDatabase.LoadMainAssetAtPath(assetPath);
 
-
+		var prefabStage = UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage();
+		if (prefabStage != null && prefabStage.prefabContentsRoot == asset)
+		{
+			canDrawPreview = true;
+		}
+		if (Selection.activeObject == asset)
+		{
+			canDrawPreview = true;
+		}
+		if (!canDrawPreview) return;
 
 		selectionRect.height = selectionRect.width; // Exclude text description
 		var spriteRect = sprite.rect;
@@ -93,8 +105,6 @@ public class MyObjectEditor : Editor
 				return false;
 			}
 
-
-
 			var data = AssetDatabase.LoadAssetAtPath<SpriteDataSO>(assetPath);
 
 			if (data == null)
@@ -102,7 +112,7 @@ public class MyObjectEditor : Editor
 				// An empty entry will be added so we don't get spammed with the same message.
 				entry = SpriteDataEntry.Empty;
 				Loggy.Warning($"Could not load {nameof(SpriteDataSO)} at \"{assetPath}\". " +
-				                 "Unable to render the sprite in the asset viewer.", Category.Editor);
+								 "Unable to render the sprite in the asset viewer.", Category.Editor);
 			}
 
 			if (data.SpriteDataEntry == null)
@@ -147,7 +157,7 @@ public class MyObjectEditor : Editor
 		if (texture.isReadable == false)
 		{
 			Loggy.Error($"Sprite \"{sprite.name}\" is not read/write enabled. Please enable " +
-			               "Read/Write in the texture's import settings.", Category.Editor);
+						   "Read/Write in the texture's import settings.", Category.Editor);
 			return null;
 		}
 
@@ -247,7 +257,7 @@ public class MyObjectEditor : Editor
 		if (texture.isReadable == false)
 		{
 			Loggy.Error($"Sprite \"{sprite.name}\" is not read/write enabled. Please enable " +
-			               "Read/Write in the texture's import settings.", Category.Editor);
+						   "Read/Write in the texture's import settings.", Category.Editor);
 			return;
 		}
 

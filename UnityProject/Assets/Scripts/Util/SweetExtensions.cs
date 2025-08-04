@@ -281,10 +281,8 @@ public static class SweetExtensions
 		{
 			return commonComponent;
 		}
-		else
-		{
-			return null;
-		}
+
+		return go.TryGetComponent<CommonComponents>(out var slowGet) ? slowGet : null;
 	}
 
 

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: Campfire
+  m_EditorClassIdentifier: 
+  category: 4
+  craftingTime: 10
+  recipeName: Campfire
+  recipeIconOverride: {fileID: 21300000, guid: e17b8d4128e479346a240ade373a9a21, type: 3}
+  recipeDescription: Used to cook food and warm people
+  requiredIngredients:
+  - requiredAmount: 4
+    requiredItem: {fileID: 7925887490475824938, guid: 840ab0630c3688b4e9aeb37e8be1d007,
+      type: 3}
+  requiredReagents: []
+  requiredToolTraits: []
+  result:
+  - {fileID: 4700022350712571563, guid: 6b56647cba430b340b2bdda94251c704, type: 3}
+  resultHandlers: []
+  isSimple: 0
+  indexInSingleton: 455
