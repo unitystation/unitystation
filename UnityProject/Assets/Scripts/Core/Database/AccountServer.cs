@@ -123,16 +123,15 @@ namespace Core.Database
 
 		public static async Task<ApiResult<AccountGetResponse>> VerifyAccountRegisteredSHA512Check(string SHA512Check, string PlayersAccountID)
 		{
-			throw new NotImplementedException();
-			// AccountValidate requestBody = new()
-			// {
-			// 	UniqueIdentifier = accountId,
-			// 	VerificationToken = token,
-			// };
-			//
-			// var response = await ApiServer.Post<AccountGetResponse>(GetUri("verify-account"), requestBody);
-			//
-			// return response;
+			AccountSHA512Validate requestBody = new()
+			{
+				unique_identifier = PlayersAccountID,
+				sha512_token = SHA512Check,
+			};
+
+			var response = await ApiServer.Post<AccountGetResponse>(GetUri("check-SHA512-for-account"), requestBody);
+
+			return response;
 		}
 
 		public static async Task<ApiResult<AccountGetResponse>> VerifyAccount(string accountId, string token)

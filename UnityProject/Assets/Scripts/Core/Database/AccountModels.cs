@@ -88,6 +88,17 @@ namespace Core.Database
 		public string VerificationToken {get; set;}
 	}
 
+	[Serializable]
+	public class AccountSHA512Validate : JsonObject
+	{
+		[JsonProperty("sha512_token")]
+		public string sha512_token {get; set;}
+
+		[JsonProperty("unique_identifier")]
+		public string unique_identifier {get; set;}
+	}
+
+
 	#endregion
 
 	#region Responses

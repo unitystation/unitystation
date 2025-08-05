@@ -325,7 +325,7 @@ namespace Systems.Character
 				}
 				else
 				{
-					accountResponse = await PersistenceServer.GetCharactersByCharacterSheetToken(GameData.Instance.JoinArgs.CharacterToken);
+					accountResponse = await PersistenceServer.GetCharactersByCharacterSheetToken(GameData.Instance.JoinArgs.CharacterToken, CharacterSheetVersion);
 				}
 
 

@@ -32,18 +32,24 @@ namespace Core.Database
 			return await Send<T>(request);
 		}
 
-		internal static async Task<ApiResult<T>> Post<T>(Uri uri, JsonObject body, string token = default) where T : JsonObject
+		internal static async Task<ApiResult<T>> Post<T>(Uri uri, JsonObject body, string token = default, bool UseXCharacterToken = false) where T : JsonObject
 		{
 			HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, uri);
-
-			if (body is ITokenAuthable authable)
+			if (UseXCharacterToken)
 			{
-				request.Headers.Authorization = new AuthenticationHeaderValue("Token", authable.Token);
+				request.Headers.Add("X-Character-Token", token);
 			}
-
-			if (token != default)
+			else
 			{
-				request.Headers.Authorization = new AuthenticationHeaderValue("Token", token);
+				if (body is ITokenAuthable authable)
+				{
+					request.Headers.Authorization = new AuthenticationHeaderValue("Token", authable.Token);
+				}
+
+				if (token != default)
+				{
+					request.Headers.Authorization = new AuthenticationHeaderValue("Token", token);
+				}
 			}
 
 			string sss = JsonConvert.SerializeObject(body);
@@ -51,19 +57,28 @@ namespace Core.Database
 			return await Send<T>(request);
 		}
 
-		internal static async Task<ApiResult<T>> Put<T>(Uri uri, JsonObject body, string token = default) where T : JsonObject
+		internal static async Task<ApiResult<T>> Put<T>(Uri uri, JsonObject body, string token = default, bool UseXCharacterToken = false) where T : JsonObject
 		{
 			HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, uri);
 
-			if (body is ITokenAuthable authable)
+			if (UseXCharacterToken)
 			{
-				request.Headers.Authorization = new AuthenticationHeaderValue("Token", authable.Token);
+				request.Headers.Add("X-Character-Token", token);
+			}
+			else
+			{
+				if (body is ITokenAuthable authable)
+				{
+					request.Headers.Authorization = new AuthenticationHeaderValue("Token", authable.Token);
+				}
+
+				if (token != default)
+				{
+					request.Headers.Authorization = new AuthenticationHeaderValue("Token", token);
+				}
 			}
 
-			if (token != default)
-			{
-				request.Headers.Authorization = new AuthenticationHeaderValue("Token", token);
-			}
+
 
 			var sss = JsonConvert.SerializeObject(body);
 			request.Content = new StringContent(sss, Encoding.UTF8, "application/json");
@@ -71,14 +86,21 @@ namespace Core.Database
 			return await Send<T>(request);
 		}
 
-		internal static async Task<ApiResult<T>> Delete<T>(Uri uri, string token = default) where T : JsonObject
+		internal static async Task<ApiResult<T>> Delete<T>(Uri uri, string token = default, bool UseXCharacterToken = false) where T : JsonObject
 		{
 			HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, uri);
-
-			if (token != default)
+			if (UseXCharacterToken)
 			{
-				request.Headers.Authorization = new AuthenticationHeaderValue("Token", token);
+				request.Headers.Add("X-Character-Token", token);
 			}
+			else
+			{
+				if (token != default)
+				{
+					request.Headers.Authorization = new AuthenticationHeaderValue("Token", token);
+				}
+			}
+
 			return await Send<T>(request);
 		}
 
