@@ -1,18 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using AdminCommands;
+using Core.Networking.AsyncMessageQueue;
 using Cysharp.Threading.Tasks;
+using Logs;
 using Managers;
 using Messages.Client.Lobby;
-using Mirror;
 using Shared.Managers;
 using TMPro;
 using UI.Character;
-using UI.CharacterCreator;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Util.Independent.FluentRichText;
 
@@ -153,10 +151,31 @@ namespace UI.Systems.PreRound
 			GameManager.Instance.OnCurrentRoundStateChange += ChangeJoinButtonForRoundStarted;
 		}
 
+		private async UniTask AskServerDirectlyForRoundState()
+		{
+			var status = await RpcMessageQueue.Instance.Queue(RequestHandlerConstants.REQUEST_ROUND_STATUS, PlayerManager.LocalViewerScript.netIdentity);
+			Loggy.Info($"Status: {status.Status}\n data: {status.ValueFromJson}");
+			if (status.Status == MessageStatus.Success)
+			{
+				var state = status.DeserializeFromText<RoundState>();
+				GameManager.Instance.CurrentRoundState = state;
+				CheckForRoundStatusForTitle();
+				AddStartNowButtonForAdmins();
+			}
+		}
+
 		private void ChangeJoinButtonForRoundStarted()
 		{
+			var buttonTxt = joinButton.GetComponentInChildren<TMP_Text>();
+			if (buttonTxt == null)
+			{
+				Loggy.Error($"Uhoh! Missing text component on the join button!!!");
+				joinButton.interactable = true;
+				return;
+			}
+			joinButton.interactable = false;
+			buttonTxt.text = GameManager.Instance.CurrentRoundState == RoundState.PreRound ? "Ready Up!" : "Join Round";
 			joinButton.interactable = true;
-			joinButton.GetComponentInChildren<TMP_Text>().text = GameManager.Instance.CurrentRoundState == RoundState.PreRound ? "Ready Up!" : "Join Round";
 			CheckForRoundStatusForTitle();
 			AddStartNowButtonForAdmins();
 		}
@@ -196,7 +215,7 @@ namespace UI.Systems.PreRound
 		public void OnJoinButton(bool isOn)
 		{
 			AddStartNowButtonForAdmins();
-			ChangeJoinButtonForRoundStarted();
+			_ = AskServerDirectlyForRoundState();
 			if (HasCharacters() == false) return;
 			//if (NoJobWarn() == false) return;
 			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound)
