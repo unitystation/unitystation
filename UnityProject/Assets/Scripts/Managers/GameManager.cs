@@ -279,7 +279,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		EventManager.AddHandler(Event.CleanupEnd, ClientCleanupEndRoundCleanups);
 		EventManager.AddHandler(Event.PostRoundStarted, ClientRoundStartCleanup);
 		EventManager.AddHandler(Event.RoundEnded, ClientAndServerEndCleanup);
-		RpcMessageQueue.Instance.ServerRequestHandlers.Add(RequestHandlerConstants.REQUEST_ROUND_STATUS, CurrentRoundStatusToJson);
+		RpcMessageQueue.Instance.RegisterHandler(RequestHandlerConstants.REQUEST_ROUND_STATUS, CurrentRoundStatusToJson);
 	}
 
 	private void OnDisable()
@@ -292,7 +292,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		EventManager.RemoveHandler(Event.PostRoundStarted, ClientRoundStartCleanup);
 		EventManager.RemoveHandler(Event.RoundEnded, ClientAndServerEndCleanup);
 		Manager3D.Is3D = false;
-		RpcMessageQueue.Instance.ServerRequestHandlers.Remove(RequestHandlerConstants.REQUEST_ROUND_STATUS);
+		RpcMessageQueue.Instance.UnregisterHandler(RequestHandlerConstants.REQUEST_ROUND_STATUS);
 	}
 
 	/// <summary>

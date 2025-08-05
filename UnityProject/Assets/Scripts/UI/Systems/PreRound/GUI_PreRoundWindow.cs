@@ -153,7 +153,7 @@ namespace UI.Systems.PreRound
 
 		private async UniTask AskServerDirectlyForRoundState()
 		{
-			var status = await RpcMessageQueue.Instance.Queue(RequestHandlerConstants.REQUEST_ROUND_STATUS, PlayerManager.LocalViewerScript.netIdentity);
+			var status = await RpcMessageQueue.Instance.Queue(RequestHandlerConstants.REQUEST_ROUND_STATUS);
 			Loggy.Info($"Status: {status.Status}\n data: {status.ValueFromJson}");
 			if (status.Status == MessageStatus.Success)
 			{
@@ -215,13 +215,20 @@ namespace UI.Systems.PreRound
 		public void OnJoinButton(bool isOn)
 		{
 			AddStartNowButtonForAdmins();
-			_ = AskServerDirectlyForRoundState();
+			_ = DefaultJoinAndReadyProcess(isOn);
+		}
+
+		private async UniTask DefaultJoinAndReadyProcess(bool isOn)
+		{
+			var joinButtonText = joinButton.GetComponentInChildren<TMP_Text>();
+			joinButtonText.text = "Loading..";
+			await AskServerDirectlyForRoundState();
 			if (HasCharacters() == false) return;
 			//if (NoJobWarn() == false) return;
 			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound)
 			{
 				characterButton.interactable = !isOn;
-				joinButton.GetComponentInChildren<TMP_Text>().text = (!isOn) ? "Ready" : "Unready";
+				joinButtonText.text = (!isOn) ? "Ready" : "Unready";
 				PlayerManager.LocalViewerScript?.SetReady(isOn);
 			}
 			else
