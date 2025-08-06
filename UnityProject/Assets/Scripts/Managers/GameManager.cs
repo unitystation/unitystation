@@ -15,9 +15,11 @@ using GameConfig;
 using Initialisation;
 using Audio.Containers;
 using Core.Admin.Logs;
+using Core.Networking.AsyncMessageQueue;
 using Logs;
 using Managers;
 using Messages.Server;
+using Newtonsoft.Json;
 using Objects.Machines.ServerMachines.Communications;
 using Tilemaps.Behaviours.Layers;
 using UnityEngine.Profiling;
@@ -277,6 +279,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		EventManager.AddHandler(Event.CleanupEnd, ClientCleanupEndRoundCleanups);
 		EventManager.AddHandler(Event.PostRoundStarted, ClientRoundStartCleanup);
 		EventManager.AddHandler(Event.RoundEnded, ClientAndServerEndCleanup);
+		RpcMessageQueue.Instance.RegisterHandler(RequestHandlerConstants.REQUEST_ROUND_STATUS, CurrentRoundStatusToJson);
 	}
 
 	private void OnDisable()
@@ -289,6 +292,16 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		EventManager.RemoveHandler(Event.PostRoundStarted, ClientRoundStartCleanup);
 		EventManager.RemoveHandler(Event.RoundEnded, ClientAndServerEndCleanup);
 		Manager3D.Is3D = false;
+		RpcMessageQueue.Instance.UnregisterHandler(RequestHandlerConstants.REQUEST_ROUND_STATUS);
+	}
+
+	/// <summary>
+	/// Only call this from the server.
+	/// </summary>
+	/// <returns></returns>
+	private string CurrentRoundStatusToJson()
+	{
+		return JsonConvert.SerializeObject(CurrentRoundState);
 	}
 
 	private void ClientAndServerEndCleanup()
