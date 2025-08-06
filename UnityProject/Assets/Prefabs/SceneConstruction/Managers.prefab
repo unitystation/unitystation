@@ -386,7 +386,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3165787565492837816}
-  - component: {fileID: 9010995250560984963}
   - component: {fileID: 8380802296837092645}
   m_Layer: 0
   m_Name: NetworkedManagers
@@ -410,23 +409,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4244501537706558}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9010995250560984963
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2399002148230849003}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  _assetId: 1415270931
-  serverOnly: 0
-  visibility: 2
-  hasSpawned: 0
 --- !u!114 &8380802296837092645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -439,9 +421,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efe4f12807d64dc0aae893471724bf99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
 --- !u!1 &2562141563749181643
 GameObject:
   m_ObjectHideFlags: 0
@@ -17378,7 +17357,7 @@ PrefabInstance:
     - target: {fileID: 2638182944326202324, guid: 2e51a3d610891a643ba27bbe15bda3fa,
         type: 3}
       propertyPath: m_Value
-      value: 1
+      value: 0.9999997
       objectReference: {fileID: 0}
     - target: {fileID: 2644543980407464209, guid: 2e51a3d610891a643ba27bbe15bda3fa,
         type: 3}
@@ -18178,7 +18157,7 @@ PrefabInstance:
     - target: {fileID: 3929503810053816799, guid: 2e51a3d610891a643ba27bbe15bda3fa,
         type: 3}
       propertyPath: m_Value
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3977444481453993085, guid: 2e51a3d610891a643ba27bbe15bda3fa,
         type: 3}

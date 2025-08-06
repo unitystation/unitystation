@@ -3,28 +3,16 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Logs;
 using Mirror;
+using Shared.Managers;
 
 namespace Core.Networking.AsyncMessageQueue
 {
-	public class RpcMessageQueue : NetworkBehaviour
+	public class RpcMessageQueue : SingletonManager<RpcMessageQueue>
 	{
-		public static RpcMessageQueue Instance;
 		private Dictionary<string, QueuedMessage> _client_ReceivedMessages = new();
 		private Dictionary<string, Func<string>> _server_RequestHandlers = new();
 
-		private void Awake()
-		{
-			if (Instance == null)
-			{
-				Instance = this;
-			}
-			else
-			{
-				Destroy(this);
-			}
-		}
-
-		public async UniTask<QueuedMessage> Queue(string requestedTicket, int minimumTimeoutTimeInSeconds = 25)
+		public async UniTask<QueuedMessage> Queue(string requestedTicket, int minimumTimeoutTimeInMillaSecond = 25225)
 		{
 			var requestToken = Guid.NewGuid().ToString();
 			var waitTick = 0;
@@ -32,10 +20,10 @@ namespace Core.Networking.AsyncMessageQueue
 			// Send the request using Net Messages
 			RequestAsyncData.Send(requestedTicket, requestToken);
 
-			while (waitTick < minimumTimeoutTimeInSeconds)
+			while (waitTick < minimumTimeoutTimeInMillaSecond)
 			{
 				waitTick++;
-				await UniTask.WaitForSeconds(1);
+				await UniTask.WaitForSeconds(0.05f);
 				if (_client_ReceivedMessages.ContainsKey(requestToken))
 				{
 					var result = _client_ReceivedMessages[requestToken];
