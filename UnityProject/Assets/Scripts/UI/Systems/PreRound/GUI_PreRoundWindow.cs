@@ -26,7 +26,7 @@ namespace UI.Systems.PreRound
 
 		public GameObject characterCustomization = null;
 
-		public Action<string> OnClientLoadUpdateStatus;
+		public Action<string, string, float> OnClientLoadUpdateStatus;
 
 		public GameObject adminPanel = null;
 
@@ -42,6 +42,7 @@ namespace UI.Systems.PreRound
 			CountdownArea.OnFinishedCountingDown.AddListener(ButtonsArea.RefreshGameModeText);
 			CountdownArea.OnFinishedCountingDown.AddListener(CheckForRoundStatusForTitle);
 			CountdownArea.OnFinishedCountingDown.AddListener(ChangeJoinButtonForRoundStarted);
+			OnClientLoadUpdateStatus += UpdateLoadingStatus;
 			_ = DelayedCheck();
 		}
 
@@ -52,6 +53,7 @@ namespace UI.Systems.PreRound
 			// This might seem like an unnecessary delay, but it's actually required because the game likes to hang while loading; which delays the receiving of specific info from net messages
 			// that update the state of the round to players.
 			await UniTask.WaitForSeconds(2f);
+			LoadingArea?.UpdateLoadingBar("Awaiting Client..", "Awaiting Client to finish loading scenes", 0.01f);
 			await UniTask.WaitUntil(IsClientDoneLoadingScenes);
 			await UniTask.WaitUntil(IsLoadingAreaNoLongerActive);
 			LoadingArea?.UpdateLoadingBar("Awaiting Server..", "Preparing Player", 0.85f);
@@ -71,6 +73,7 @@ namespace UI.Systems.PreRound
 			CountdownArea.OnFinishedCountingDown.RemoveListener(CheckForRoundStatusForTitle);
 			CountdownArea.OnFinishedCountingDown.RemoveListener(ChangeJoinButtonForRoundStarted);
 			GameManager.Instance.OnCurrentRoundStateChange -= ChangeJoinButtonForRoundStarted;
+			OnClientLoadUpdateStatus -= UpdateLoadingStatus;
 		}
 
 		private void UpdateMe()
@@ -305,6 +308,11 @@ namespace UI.Systems.PreRound
 		{
 			ActiveContentArea.gameObject.SetActive(true);
 			LoadingWait.gameObject.SetActive(false);
+		}
+
+		public void UpdateLoadingStatus(string title, string txt, float amount)
+		{
+			LoadingArea?.UpdateLoadingBar(title, txt, amount);
 		}
 	}
 }

@@ -30,7 +30,7 @@ namespace UI.Systems.PreRound
 		private void UpdateMe()
 		{
 			loadingTooLongWarningCount++;
-			if (loadingTooLongWarningCount > 3)
+			if (loadingTooLongWarningCount > 8)
 			{
 				loadingTooLongWarning?.gameObject.SetActive(true);
 			}
@@ -42,6 +42,7 @@ namespace UI.Systems.PreRound
 
 		public void UpdateLoadingBar(string title, string subject, float loadedAmt)
 		{
+			if (title == "" && subject == "") return;
 			if (loadedAmt >= 1f)
 			{
 				loadingBar.size = 1f;
