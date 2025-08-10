@@ -3154,7 +3154,7 @@
         "Mirror.BouncyCastle.Crypto.Encodings": {
             "OaepEncoding": {
                 "Methods": [
-                    "int8[] ProcessBlock(unsigned int8[], int32, int32)",
+                    "sbyte[] ProcessBlock(unsigned sbyte[], int32, int32)",
                     "void Init(bool, Mirror.BouncyCastle.Crypto.ICipherParameters)",
                     "void .ctor(Mirror.BouncyCastle.Crypto.IAsymmetricBlockCipher, Mirror.BouncyCastle.Crypto.IDigest)"
                 ]
@@ -3199,7 +3199,7 @@
         "Mirror.Transports.Encryption": {
             "EncryptionTransport": {
                 "Methods": [
-                    "int8[] get_EncryptionPublicKey()"
+                    "sbyte[] get_EncryptionPublicKey()"
                 ],
 				"Fields": [
                     "System.Func`2<Mirror.BouncyCastle.Crypto.PubKeyInfo, bool> OnClientValidateServerPubKey"
