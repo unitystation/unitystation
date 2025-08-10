@@ -545,7 +545,9 @@
             "PathTooLongException": {
                 "All": true
             },
-            "StringWriter": {}
+            "StringWriter": {
+                "ALL": true
+            }
         },
         "System.Linq.Expressions": {
             "ConstantExpression": {},
@@ -3134,16 +3136,36 @@
 
         },
         "Mirror.BouncyCastle.Crypto.Generators": {
-            "RsaKeyPairGenerator": {}
+            "RsaKeyPairGenerator": {
+                "Methods": [
+                    "void Init(Mirror.BouncyCastle.Crypto.KeyGenerationParameters)",
+                    "Mirror.BouncyCastle.Crypto.AsymmetricCipherKeyPair GenerateKeyPair()",
+                    "void .ctor()"
+                ]
+            }
         },
         "Mirror.BouncyCastle.Crypto.Engines": {
-            "RsaEngine": {}
+            "RsaEngine": {
+                "Methods": [
+                    "void .ctor()"
+                ]
+            }
         },
         "Mirror.BouncyCastle.Crypto.Encodings": {
-            "OaepEncoding": {}
+            "OaepEncoding": {
+                "Methods": [
+                    "int8[] ProcessBlock(unsigned int8[], int32, int32)",
+                    "void Init(bool, Mirror.BouncyCastle.Crypto.ICipherParameters)",
+                    "void .ctor(Mirror.BouncyCastle.Crypto.IAsymmetricBlockCipher, Mirror.BouncyCastle.Crypto.IDigest)"
+                ]
+            }
         },
         "Mirror.BouncyCastle.Crypto.Digests": {
-            "Sha256Digest": {}
+            "Sha256Digest": {
+                "Methods": [
+                    "void .ctor()"
+                ]
+            }
         },
         "Mirror.BouncyCastle.Crypto": {
             "KeyGenerationParameters": {
@@ -3156,7 +3178,12 @@
             "ICipherParameters": {},
             "IAsymmetricBlockCipher": {},
             "AsymmetricKeyParameter": {},
-            "AsymmetricCipherKeyPair": {}
+            "AsymmetricCipherKeyPair": {
+                "Methods": [
+                    "Mirror.BouncyCastle.Crypto.AsymmetricKeyParameter get_Public()",
+                    "Mirror.BouncyCastle.Crypto.AsymmetricKeyParameter get_Private()"
+                ]
+            }
         },
         "System.Security.Cryptography": {
             "SHA512": {
@@ -3170,7 +3197,14 @@
             "PubKeyInfo": {},
         },
         "Mirror.Transports.Encryption": {
-            "EncryptionTransport": {}
+            "EncryptionTransport": {
+                "Methods": [
+                    "int8[] get_EncryptionPublicKey()"
+                ],
+				"Fields": [
+                    "System.Func`2<Mirror.BouncyCastle.Crypto.PubKeyInfo, bool> OnClientValidateServerPubKey"
+                ]
+            }
         },
         "Mirror.BouncyCastle.Utilities.IO.Pem": {
             "PemWriter": {
@@ -3377,7 +3411,12 @@
             "SerializedAction": {
                 "All": true
             },
-            "SecureHttpListener": {},
+            "SecureHttpListener": {
+                "Methods": [
+                    "void StartHttpListener(SecureStuff.IReturnAndReceiveStringForSecureHttpListener)",
+                    "void OnApplicationQuit()"
+                ]
+            },
             "IReturnAndReceiveStringForSecureHttpListener": {
                 "ALL": true
             }
