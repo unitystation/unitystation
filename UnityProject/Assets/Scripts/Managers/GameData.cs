@@ -8,6 +8,7 @@ using Cysharp.Threading.Tasks;
 using SecureStuff;
 using DatabaseAPI;
 using Initialisation;
+using JetBrains.Annotations;
 using Lobby;
 using Logs;
 using Managers;
@@ -64,7 +65,7 @@ public class GameData : MonoBehaviour, IInitialise
 
 	public bool DevBuild = false;
 
-	public HubJoinArgs JoinArgs = null;
+	[CanBeNull] public HubJoinArgs JoinArgs = null;
 
 	public class HubJoinArgs
 	{
@@ -144,8 +145,8 @@ public class GameData : MonoBehaviour, IInitialise
 
 		string testServerEnv = AllowedEnvironmentVariables.GetTEST_SERVER();
 		if (!string.IsNullOrEmpty(testServerEnv))
-		{		_ = LobbyManager.Instance.TryAutoLogin();
-
+		{
+			_ = LobbyManager.Instance.TryAutoLogin();
 			testServer = Convert.ToBoolean(testServerEnv);
 		}
 
@@ -247,7 +248,8 @@ public class GameData : MonoBehaviour, IInitialise
 		PlayerManager.Instance.SetAccount(new Account()
 		{
 			Username = Username,
-			Id = AccountID
+			Id = AccountID,
+			IsAvailable = true
 		});
 
 		if (string.IsNullOrEmpty(serverIp) || string.IsNullOrEmpty(portStr)) return false;

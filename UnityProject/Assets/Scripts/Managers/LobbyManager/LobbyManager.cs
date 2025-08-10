@@ -167,6 +167,11 @@ namespace Lobby
 
 		public async Task<bool> TryAutoLogin()
 		{
+			if (string.IsNullOrEmpty(GameData.Instance?.JoinArgs?.Username) == false)
+			{
+				return true;
+			}
+
 			Loggy.Info("Attempting automatic login by token...");
 
 			if (PlayerPrefs.GetInt(PlayerPrefKeys.AccountAutoLogin) == 1 && PlayerPrefs.HasKey(PlayerPrefKeys.AccountToken))

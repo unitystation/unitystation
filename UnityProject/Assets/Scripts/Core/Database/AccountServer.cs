@@ -121,7 +121,7 @@ namespace Core.Database
 			return response;
 		}
 
-		public static async Task<ApiResult<AccountGetResponse>> VerifyAccountRegisteredSHA512Check(string SHA512Check, string PlayersAccountID)
+		public static async Task<ApiResult<HashCheckExists>> VerifyAccountRegisteredSHA512Check(string SHA512Check, string PlayersAccountID)
 		{
 			AccountSHA512Validate requestBody = new()
 			{
@@ -129,7 +129,7 @@ namespace Core.Database
 				sha512_token = SHA512Check,
 			};
 
-			var response = await ApiServer.Post<AccountGetResponse>(GetUri("check-SHA512-for-account"), requestBody);
+			var response = await ApiServer.Post<HashCheckExists>(GetUri("check-SHA512-for-account/"), requestBody);
 
 			return response;
 		}

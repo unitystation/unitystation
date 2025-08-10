@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Core.Accounts;
 using Newtonsoft.Json;
 using Systems.Character;
 
@@ -134,6 +135,17 @@ namespace Core.Database
 
 		[JsonProperty("last_updated")]
 		public DateTime LastUpdated {get; set;}
+	}
+
+
+	[Serializable]
+	public class HashCheckExists : JsonObject
+	{
+		[JsonProperty("exists")]
+		public bool exists {get; set;}
+
+		[JsonProperty("account")]
+		public Account account;
 	}
 
 	[Serializable]

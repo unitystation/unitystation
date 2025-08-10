@@ -20,13 +20,19 @@ namespace Core.Database
 	/// </summary>
 	public static class ApiServer
 	{
-		internal static async Task<ApiResult<T>> Get<T>(Uri uri, string token = default) where T : JsonObject
+		internal static async Task<ApiResult<T>> Get<T>(Uri uri, string token = default, bool UseXCharacterToken = false) where T : JsonObject
 		{
 			HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, uri);
-
-			if (token != default)
+			if (UseXCharacterToken)
 			{
-				request.Headers.Authorization = new AuthenticationHeaderValue("Token", token);
+				request.Headers.Add("X-Character-Token", token);
+			}
+			else
+			{
+				if (token != default)
+				{
+					request.Headers.Authorization = new AuthenticationHeaderValue("Token", token);
+				}
 			}
 
 			return await Send<T>(request);

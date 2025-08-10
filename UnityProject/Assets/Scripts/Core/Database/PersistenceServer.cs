@@ -13,6 +13,7 @@ namespace Core.Database
 
 		public static Uri GetUri(string endpoint, string queries = null)
 		{
+
 			UriBuilder.Path = $"/persistence/{endpoint}";
 
 
@@ -35,13 +36,22 @@ namespace Core.Database
 
 		public static async Task<ApiResult<SubAccountGetCharacterSheet>> PutAccountsCharacterByIDByCharactersToken(int id, SubAccountGetCharacterSheet subAccountGetCharacterSheet, string token)
 		{
-			var response = await ApiServer.Put<SubAccountGetCharacterSheet>(
-				GetUri($"characters/{id}/updateToken"),
-				subAccountGetCharacterSheet,
-				token,
-				true
-			);
-			return response;
+			try
+			{
+				var response = await ApiServer.Put<SubAccountGetCharacterSheet>(
+					GetUri($"characters/{id}/updateToken"),
+					subAccountGetCharacterSheet,
+					token,
+					true
+				);
+				return response;
+			}
+			catch (Exception e)
+			{
+				Loggy.Error(e.ToString());
+			}
+
+			return null;
 		}
 
 		public static async Task<ApiResult<SubAccountGetCharacterSheet>> PostMakeAccountsCharacter(SubAccountGetCharacterSheet subAccountGetCharacterSheet, string token)
@@ -78,7 +88,7 @@ namespace Core.Database
 		{
 			var response = await ApiServer.Get<AccountGetCharacterSheets>(
 				GetUri("characters/compatibleToken", $"?character_sheet_version={characterSheetVersion}"),
-				token
+				token, true
 			);
 
 			return response;

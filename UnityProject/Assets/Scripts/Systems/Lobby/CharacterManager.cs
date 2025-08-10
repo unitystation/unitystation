@@ -158,7 +158,8 @@ namespace Systems.Character
 
 			Characters[key].Data = character;
 
-			if (string.IsNullOrEmpty(GameData.Instance.JoinArgs.CharacterToken))
+
+			if (string.IsNullOrEmpty(GameData.Instance?.JoinArgs?.CharacterToken))
 			{
 				_ = PersistenceServer.PutAccountsCharacterByID(Characters[key].Id, Characters[key], PlayerManager.Account.Token);
 			}
@@ -180,7 +181,7 @@ namespace Systems.Character
 			});
 
 			ApiResult<SubAccountGetCharacterSheet> response = null;
-			if (string.IsNullOrEmpty(GameData.Instance.JoinArgs.CharacterToken))
+			if (string.IsNullOrEmpty(GameData.Instance?.JoinArgs?.CharacterToken))
 			{
 				response = await PersistenceServer.PutAccountsCharacterByID(character.Id, character, PlayerManager.Account.Token);
 			}
@@ -259,7 +260,7 @@ namespace Systems.Character
 		public async Task SaveNewCharacterTask(SubAccountGetCharacterSheet character)
 		{
 			ApiResult<SubAccountGetCharacterSheet> response = null;
-			if (string.IsNullOrEmpty(GameData.Instance.JoinArgs.CharacterToken))
+			if (string.IsNullOrEmpty(GameData.Instance?.JoinArgs?.CharacterToken))
 			{
 				response = await PersistenceServer.PostMakeAccountsCharacter(character, PlayerManager.Account.Token);
 			}
@@ -303,7 +304,7 @@ namespace Systems.Character
 			var characterRemove = Characters[key];
 			Characters.RemoveAt(key);
 
-			if (string.IsNullOrEmpty(GameData.Instance.JoinArgs.CharacterToken))
+			if (string.IsNullOrEmpty(GameData.Instance?.JoinArgs?.CharacterToken))
 			{
 				_ = PersistenceServer.DeleteAccountsCharacterByID(characterRemove.Id, PlayerManager.Account.Token);
 			}
@@ -319,7 +320,8 @@ namespace Systems.Character
 			try
 			{
 				ApiResult<AccountGetCharacterSheets> accountResponse = null;
-				if (string.IsNullOrEmpty(GameData.Instance.JoinArgs.CharacterToken))
+
+				if (string.IsNullOrEmpty(GameData.Instance?.JoinArgs?.CharacterToken))
 				{
 					accountResponse = await PersistenceServer.GetAccountsCharacters(CharacterSheetForkCompatibility, CharacterSheetVersion, PlayerManager.Account.Token);
 				}

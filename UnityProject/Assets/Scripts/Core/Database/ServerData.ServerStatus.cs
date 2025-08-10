@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Cryptography;
@@ -9,12 +11,24 @@ using UnityEngine;
 using Mirror;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Core.Accounts;
 using Core.Database;
 using Core.Networking;
 using SecureStuff;
 using IgnoranceTransport;
 using Logs;
 using Managers;
+using Mirror.BouncyCastle.Asn1;
+using Mirror.BouncyCastle.Asn1.Pkcs;
+using Mirror.BouncyCastle.Crypto;
+using Mirror.BouncyCastle.Crypto.Digests;
+using Mirror.BouncyCastle.Crypto.Encodings;
+using Mirror.BouncyCastle.Crypto.Engines;
+using Mirror.BouncyCastle.Crypto.Generators;
+using Mirror.BouncyCastle.Crypto.Parameters;
+using Mirror.BouncyCastle.Math;
+using Mirror.BouncyCastle.OpenSsl;
+using Mirror.BouncyCastle.Security;
 using Newtonsoft.Json;
 using UI.Systems.ServerInfoPanel.Models;
 
@@ -41,7 +55,7 @@ namespace DatabaseAPI
 		public static ServerMotdData MotdData => Instance.motdData;
 		public static string RulesData => Instance.rulesData;
 
-		private BuildInfo buildInfo;
+		public BuildInfo buildInfo;
 
 		private string hubCookie;
 		private const string hubRoot = "https://api.unitystation.org";
@@ -86,24 +100,54 @@ namespace DatabaseAPI
 
 			ignoranceTransport = FindObjectOfType<Ignorance>();
 			config = configData;
-			Authenticator.RSA = RSA.Create(2048);
-			Authenticator.SHA512 = SHA512.Create();
 
-			if (string.IsNullOrEmpty(config.ServerPublicKey) || string.IsNullOrEmpty(config.ServerPrivateKey))
+			Task.Run(() =>
 			{
-				config.ServerPrivateKey = Convert.ToBase64String(Authenticator.RSA.ExportRSAPrivateKey());
-				config.ServerPublicKey = Convert.ToBase64String(Authenticator.RSA.ExportRSAPublicKey());
-			}
-			else
-			{
-				Authenticator.RSA.ImportRSAPrivateKey(Convert.FromBase64String(config.ServerPrivateKey), out _);
-				Authenticator.RSA.ImportRSAPublicKey(Convert.FromBase64String(config.ServerPublicKey), out _);
-			}
+				Authenticator.SHA512 = SHA512.Create();
+				var keyGen = new RsaKeyPairGenerator();
+				keyGen.Init(new KeyGenerationParameters(new SecureRandom(), 3072));
+				AsymmetricCipherKeyPair keyPair = keyGen.GenerateKeyPair();
 
 
-			_ = Instance.SendServerStatus();
-			SecureHttpListener.StartHttpListener(this);
+				static string ExportKeyToPem(AsymmetricKeyParameter key)
+				{
+					using (var sw = new StringWriter())
+					{
+						var pw = new PemWriter(sw);
+						pw.WriteObject(key);
+						pw.Writer.Flush();
+						return sw.ToString(); // PEM string
+					}
+				}
+
+				static AsymmetricKeyParameter ImportKeyFromPem(string pem)
+				{
+					using (var sr = new StringReader(pem))
+					{
+						var pr = new PemReader(sr);
+						return (AsymmetricKeyParameter)pr.ReadObject();
+					}
+				}
+
+				if (string.IsNullOrEmpty(config.ServerPublicKey) || string.IsNullOrEmpty(config.ServerPrivateKey))
+				{
+					config.ServerPrivateKey = ExportKeyToPem(keyPair.Private as RsaPrivateCrtKeyParameters);
+					config.ServerPublicKey = ExportKeyToPem(keyPair.Public as RsaKeyParameters);
+				}
+
+				Authenticator.RSADecrypt = new OaepEncoding(
+					new RsaEngine(),
+					new Sha256Digest()
+				);
+
+				Authenticator.RSADecrypt.Init(false, keyPair.Private); // false = decrypt mode
+
+				_ = Instance.SendServerStatus();
+				SecureHttpListener.StartHttpListener(this);
+			});
 		}
+
+
 
 
 
@@ -112,17 +156,24 @@ namespace DatabaseAPI
 			return JsonConvert.SerializeObject(GetServerStatus());
 		}
 
+		public static byte[] DecryptWithBouncyCastle(byte[] cipherText)
+		{
+			return Authenticator.RSADecrypt.ProcessBlock(cipherText, 0, cipherText.Length);
+		}
+
+
 
 		public async Task<string> ReceiveString(string data, string clientIp)
 		{
 			var Request = JsonConvert.DeserializeObject<ClientAuthenticationConnectionRequest>(data);
 
-			var HubRequestedFork = Convert.ToBase64String(Authenticator.RSA.Decrypt(Convert.FromBase64String(Request.EncryptedClientFork), RSAEncryptionPadding.OaepSHA256));
-			var HubRequestedVersion = Convert.ToBase64String(Authenticator.RSA.Decrypt(Convert.FromBase64String(Request.EncryptedClientVersion), RSAEncryptionPadding.OaepSHA256));
-			var GoodFileVersion = Convert.ToBase64String(Authenticator.RSA.Decrypt(Convert.FromBase64String(Request.EncryptedGoodFileVersion), RSAEncryptionPadding.OaepSHA256));
-			var AccountID = Convert.ToBase64String(Authenticator.RSA.Decrypt(Convert.FromBase64String(Request.EncryptedAccountID), RSAEncryptionPadding.OaepSHA256));
-			var ConnectionPublicServerKey = Convert.ToBase64String(Authenticator.RSA.Decrypt(Convert.FromBase64String(Request.EncryptedConnectionPublicServerKey), RSAEncryptionPadding.OaepSHA256));
+			var HubRequestedFork = Request.ClientFork;
+			var HubRequestedVersion = Request.ClientVersion;
+			var GoodFileVersion = Request.GoodFileVersion;
 
+
+			var AccountID =  Encoding.UTF8.GetString(DecryptWithBouncyCastle(Convert.FromBase64String(Request.EncryptedAccountID)));
+			var ConnectionPublicServerKey = Request.ConnectionPublicServerKey;
 
 			if (HubRequestedFork != buildInfo.ForkName || HubRequestedVersion != buildInfo.BuildNumber.ToString() ||
 			    GoodFileVersion != buildInfo.GoodFileVersion)
@@ -137,17 +188,25 @@ namespace DatabaseAPI
 
 			Request.AccountID = AccountID;
 
-			Request.SharedSecret = Convert.ToBase64String(Authenticator.RSA.Decrypt(Convert.FromBase64String(Request.EncryptedSharedSecret), RSAEncryptionPadding.OaepSHA256));
-			var SHA512Check = Convert.ToBase64String(Authenticator.SHA512.ComputeHash(Encoding.UTF8.GetBytes(Request.SharedSecret + ServerData.ServerConfig.ServerPublicKey)));
+			Request.SharedSecret = Encoding.UTF8.GetString(DecryptWithBouncyCastle(Convert.FromBase64String(Request.EncryptedSharedSecret)));
+			var SHA512Check = Convert.ToBase64String(Authenticator.SHA512.ComputeHash(Encoding.UTF8.GetBytes(
+				Request.SharedSecret
+				+ ServerData.ServerConfig.ServerPublicKey
+				+ buildInfo.BuildNumber.ToString()
+				+ buildInfo.ForkName.ToString()
+				+ buildInfo.GoodFileVersion.ToString()
+				+ Convert.ToBase64String(CustomNetworkManager.Instance.EncryptionTransport.EncryptionPublicKey)
+				)));
 			var AccountResponse = await AccountServer.VerifyAccountRegisteredSHA512Check(SHA512Check, AccountID);
 
-			if (AccountResponse.IsSuccess == false)
+			if (AccountResponse.IsSuccess == false || AccountResponse.Data.exists == false)
 			{
 				return "BAD Authentication check";
 			}
 
 			CleanConnectionRequest();
 
+			Request.Account = AccountResponse.Data.account;
 			Request.InternalDatetimeReceived = DateTime.UtcNow;
 
 			Authenticator.ConnectionAuthenticatedRequests[AccountID] = Request;
@@ -489,13 +548,14 @@ namespace DatabaseAPI
 
 public class ClientAuthenticationConnectionRequest
 {
-	public string EncryptedClientFork;
-	public string EncryptedClientVersion;
-	public string EncryptedGoodFileVersion;
+	public string ClientFork;
+	public string ClientVersion;
+	public string GoodFileVersion;
 	public string EncryptedSharedSecret;
 	public string EncryptedAccountID;
-	public string EncryptedConnectionPublicServerKey;
+	public string ConnectionPublicServerKey;
 	[NonSerialized] public DateTime InternalDatetimeReceived;
 	[NonSerialized] public string SharedSecret;
 	[NonSerialized] public string AccountID;
+	[NonSerialized] public Account Account;
 }

@@ -97,8 +97,17 @@ namespace Lobby
 		public void ShowLoginPanel()
 		{
 			HideAllPanels();
-			SetTitle("Account Login");
-			accountLoginScript.SetActive(true);
+			if (string.IsNullOrEmpty(GameData.Instance?.JoinArgs?.Username) == false)
+			{
+				GameData.Instance.SetForceOfflineMode(true);
+				LobbyManager.UI.ShowMainPanel();
+			}
+			else
+			{
+				SetTitle("Account Login");
+				accountLoginScript.SetActive(true);
+			}
+
 		}
 
 		public void ShowAccountCreatePanel()

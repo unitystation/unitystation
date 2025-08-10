@@ -13,6 +13,7 @@ using DatabaseAPI;
 using GameConfig;
 using Lobby;
 using Logs;
+using Mirror.BouncyCastle.Crypto.Encodings;
 using Systems.Character;
 
 namespace Core.Networking
@@ -90,7 +91,9 @@ namespace Core.Networking
 		public static Dictionary<string, ClientAuthenticationConnectionRequest> ConnectionAuthenticatedRequests =
 			new Dictionary<string, ClientAuthenticationConnectionRequest>();
 
-		public static RSA RSA;
+
+
+		public static OaepEncoding RSADecrypt;
 		public static SHA512 SHA512;
 
 
@@ -182,18 +185,14 @@ namespace Core.Networking
 
 					if (thisRequest.SharedSecret != msg.SharedSecret) return;
 
-					ConnectionAuthenticatedRequests.Remove(msg.AccountId);
 					if ((DateTime.UtcNow - thisRequest.InternalDatetimeReceived).Minutes > 60f)
 					{
+						ConnectionAuthenticatedRequests.Remove(msg.AccountId);
 						return;
 					}
 
-					var SHA512Check = Convert.ToBase64String(SHA512.ComputeHash(
-						Encoding.UTF8.GetBytes(thisRequest.SharedSecret + ServerData.ServerConfig.ServerPublicKey)));
-					account = await TryGetPlayerAccountRegisteredSHA512Check(conn, SHA512Check, msg.AccountId);
+					account = thisRequest.Account;
 					if (account == null) return;
-
-					if (ValidatePlayerAccount(conn, account) == false) return;
 				}
 			}
 
@@ -321,49 +320,6 @@ namespace Core.Networking
 			}
 
 			return true;
-		}
-
-		private async Task<Account> TryGetPlayerAccountRegisteredSHA512Check(NetworkConnectionToClient conn,
-			string SHA512Check, string PlayersAccountID)
-		{
-			// Validate the provided token against the account details and get the account
-			ApiResult<AccountGetResponse> accountResponse;
-			try
-			{
-				accountResponse = await AccountServer.VerifyAccountRegisteredSHA512Check(SHA512Check, PlayersAccountID);
-				if (accountResponse.IsSuccess == false)
-				{
-					throw (ApiRequestException) accountResponse.Exception!;
-				}
-			}
-			catch (ApiRequestException e)
-			{
-				Loggy.Info(
-					$"The API server rejected the verification request for account with "
-					+ $" at address '{conn.address}'. Error: {e.Message}",
-					Category.Connections);
-
-				// TODO check which particular error message corresponds with the log below, if we have one.
-				//Loggy.Log("A user tried to authenticate with a bad token. Possible spoof attempt."
-				//		+ $" Account ID: '{accountId}'. IP: '{conn.address}'.",
-				//		Category.Connections);
-				DisconnectClient(conn, ResponseCode.AccountValidationFailed,
-					"Account token validation failed. Try restarting the game and relogging into your account.");
-
-				return default;
-			}
-			catch (ApiHttpException e)
-			{
-				Loggy.Error($"Http error when validating user account token. Error: {e.Message} - "
-				            + $" IP: '{conn.address}'.",
-					Category.Connections);
-				DisconnectClient(conn, ResponseCode.AccountValidationError,
-					"Server Error: unknown problem encountered when attempting to validate your account token.");
-
-				return default;
-			}
-
-			return Account.FromAccountGetResponse(accountResponse.Data);
 		}
 
 		private async Task<Account> TryGetPlayerAccount(NetworkConnectionToClient conn, string accountId,
