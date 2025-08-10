@@ -3154,7 +3154,7 @@
         "Mirror.BouncyCastle.Crypto.Encodings": {
             "OaepEncoding": {
                 "Methods": [
-                    "byte[] ProcessBlock(unsigned byte[], int32, int32)",
+                    "byte[] ProcessBlock(byte[], int32, int32)",
                     "void Init(bool, Mirror.BouncyCastle.Crypto.ICipherParameters)",
                     "void .ctor(Mirror.BouncyCastle.Crypto.IAsymmetricBlockCipher, Mirror.BouncyCastle.Crypto.IDigest)"
                 ]
