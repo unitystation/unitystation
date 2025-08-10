@@ -108,10 +108,6 @@ namespace Items.Food
 			{
 				Inventory.ServerAdd(item.GameObject, Pickupable.ItemSlot, ReplacementStrategy.DropOther);
 			}
-
-
-
-
 		}
 
 		public void CookProduct()

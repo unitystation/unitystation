@@ -56,7 +56,7 @@ namespace Objects
 			previousMatrix = objectPhysics.registerTile.Matrix;
 		}
 
-		public void OnDestroy()
+		public virtual void OnDestroy()
 		{
 			if (previousMatrix != null)
 			{

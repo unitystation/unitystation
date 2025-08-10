@@ -1,18 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using AdminCommands;
+using Core.Networking.AsyncMessageQueue;
 using Cysharp.Threading.Tasks;
+using Logs;
 using Managers;
 using Messages.Client.Lobby;
-using Mirror;
 using Shared.Managers;
 using TMPro;
 using UI.Character;
-using UI.CharacterCreator;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Util.Independent.FluentRichText;
 
@@ -28,7 +26,7 @@ namespace UI.Systems.PreRound
 
 		public GameObject characterCustomization = null;
 
-		public Action<string> OnClientLoadUpdateStatus;
+		public Action<string, string, float> OnClientLoadUpdateStatus;
 
 		public GameObject adminPanel = null;
 
@@ -44,6 +42,7 @@ namespace UI.Systems.PreRound
 			CountdownArea.OnFinishedCountingDown.AddListener(ButtonsArea.RefreshGameModeText);
 			CountdownArea.OnFinishedCountingDown.AddListener(CheckForRoundStatusForTitle);
 			CountdownArea.OnFinishedCountingDown.AddListener(ChangeJoinButtonForRoundStarted);
+			OnClientLoadUpdateStatus += UpdateLoadingStatus;
 			_ = DelayedCheck();
 		}
 
@@ -54,6 +53,7 @@ namespace UI.Systems.PreRound
 			// This might seem like an unnecessary delay, but it's actually required because the game likes to hang while loading; which delays the receiving of specific info from net messages
 			// that update the state of the round to players.
 			await UniTask.WaitForSeconds(2f);
+			LoadingArea?.UpdateLoadingBar("Awaiting Client..", "Awaiting Client to finish loading scenes", 0.01f);
 			await UniTask.WaitUntil(IsClientDoneLoadingScenes);
 			await UniTask.WaitUntil(IsLoadingAreaNoLongerActive);
 			LoadingArea?.UpdateLoadingBar("Awaiting Server..", "Preparing Player", 0.85f);
@@ -73,6 +73,7 @@ namespace UI.Systems.PreRound
 			CountdownArea.OnFinishedCountingDown.RemoveListener(CheckForRoundStatusForTitle);
 			CountdownArea.OnFinishedCountingDown.RemoveListener(ChangeJoinButtonForRoundStarted);
 			GameManager.Instance.OnCurrentRoundStateChange -= ChangeJoinButtonForRoundStarted;
+			OnClientLoadUpdateStatus -= UpdateLoadingStatus;
 		}
 
 		private void UpdateMe()
@@ -153,10 +154,31 @@ namespace UI.Systems.PreRound
 			GameManager.Instance.OnCurrentRoundStateChange += ChangeJoinButtonForRoundStarted;
 		}
 
+		private async UniTask AskServerDirectlyForRoundState()
+		{
+			var status = await RpcMessageQueue.Instance.Queue(RequestHandlerConstants.REQUEST_ROUND_STATUS);
+			Loggy.Info($"Status: {status.Status}\n data: {status.ValueFromJson}");
+			if (status.Status == MessageStatus.Success)
+			{
+				var state = status.DeserializeFromText<RoundState>();
+				GameManager.Instance.CurrentRoundState = state;
+				CheckForRoundStatusForTitle();
+				AddStartNowButtonForAdmins();
+			}
+		}
+
 		private void ChangeJoinButtonForRoundStarted()
 		{
+			var buttonTxt = joinButton.GetComponentInChildren<TMP_Text>();
+			if (buttonTxt == null)
+			{
+				Loggy.Error($"Uhoh! Missing text component on the join button!!!");
+				joinButton.interactable = true;
+				return;
+			}
+			joinButton.interactable = false;
+			buttonTxt.text = GameManager.Instance.CurrentRoundState == RoundState.PreRound ? "Ready Up!" : "Join Round";
 			joinButton.interactable = true;
-			joinButton.GetComponentInChildren<TMP_Text>().text = GameManager.Instance.CurrentRoundState == RoundState.PreRound ? "Ready Up!" : "Join Round";
 			CheckForRoundStatusForTitle();
 			AddStartNowButtonForAdmins();
 		}
@@ -196,13 +218,20 @@ namespace UI.Systems.PreRound
 		public void OnJoinButton(bool isOn)
 		{
 			AddStartNowButtonForAdmins();
-			ChangeJoinButtonForRoundStarted();
+			_ = DefaultJoinAndReadyProcess(isOn);
+		}
+
+		private async UniTask DefaultJoinAndReadyProcess(bool isOn)
+		{
+			var joinButtonText = joinButton.GetComponentInChildren<TMP_Text>();
+			joinButtonText.text = "Loading..";
+			await AskServerDirectlyForRoundState();
 			if (HasCharacters() == false) return;
 			//if (NoJobWarn() == false) return;
 			if (GameManager.Instance.CurrentRoundState == RoundState.PreRound)
 			{
 				characterButton.interactable = !isOn;
-				joinButton.GetComponentInChildren<TMP_Text>().text = (!isOn) ? "Ready" : "Unready";
+				joinButtonText.text = (!isOn) ? "Ready" : "Unready";
 				PlayerManager.LocalViewerScript?.SetReady(isOn);
 			}
 			else
@@ -279,6 +308,11 @@ namespace UI.Systems.PreRound
 		{
 			ActiveContentArea.gameObject.SetActive(true);
 			LoadingWait.gameObject.SetActive(false);
+		}
+
+		public void UpdateLoadingStatus(string title, string txt, float amount)
+		{
+			LoadingArea?.UpdateLoadingBar(title, txt, amount);
 		}
 	}
 }

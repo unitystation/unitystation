@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using UnityEngine.SceneManagement;
 using Mirror;
 using Core.Networking;
+using Core.Networking.AsyncMessageQueue;
 using Cysharp.Threading.Tasks;
 using Logs;
 using Systems;
@@ -90,7 +91,7 @@ namespace Player
 
 			try
 			{
-				GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("Prefetching character sheets..");
+				GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("Player Loading", "Prefetching character sheets..", 0.1f);
 				_ = PlayerManager.CharacterManager.LoadCharacters();
 			}
 			catch (Exception e)
@@ -123,7 +124,7 @@ namespace Player
 		private void RpcLoadScenes(string Data, string OriginalScene)
 		{
 			if (isServer) return;
-			GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("Loading Scenes from server.");
+			GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("Starting game", "Loading Scenes from server.", 0.2f);
 			SubSceneManager.Instance.LoadScenesFromServer(JsonConvert.DeserializeObject<List<SceneInfo>>(Data),
 				OriginalScene, ClientFinishedLoading);
 		}
@@ -296,7 +297,7 @@ namespace Player
 			{
 				_ = Despawn.ServerSingle(this.gameObject);
 			}
-			GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("");
+			GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("", "", 2f);
 		}
 
 		private async UniTask ClientFinishLoading()
@@ -306,7 +307,7 @@ namespace Player
 			{
 				if (GameManager.Instance.waitForStart)
 				{
-					GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("Syncing countdown end time.");
+					GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("Starting game", "Syncing countdown end time.", 0.7f);
 					TargetSyncCountdown(connectionToClient, GameManager.Instance.waitForStart,
 						GameManager.Instance.CountdownEndTime);
 				}
@@ -319,14 +320,14 @@ namespace Player
 			// If there's a logged off player, we will force them to rejoin their body
 			if (STVerifiedConnPlayer.Mind == null) //TODO Handle when someone gets kicked out of their mind
 			{
-				GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("");
+				GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("", "", 2f);
 				TargetLocalPlayerSetupNewPlayer(connectionToClient, GameManager.Instance.CurrentRoundState);
 				GameManager.Instance.OrNull()?.PlayerLoadedIn(connectionToClient);
 				ClearCache(true);
 			}
 			else
 			{
-				GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("Found previous mind. Rejoining.");
+				GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("Starting game", "Found previous mind. Rejoining.", 0.9f);
 				await WaitForLoggedOffObserver(STVerifiedConnPlayer.Mind);
 			}
 			IsValidPlayerAndWaitingOnLoad = false;
@@ -345,7 +346,7 @@ namespace Player
 			var identity = loggedOffPlayer.GetComponent<NetworkIdentity>();
 			if (identity == null)
 			{
-				GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("An error occurred. Press F5 to check for what error had occured.".Color(Color.red));
+				GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("Encountered an issue while loading", "An error occurred. Press F5 to check for what error had occured.".Color(Color.red), 0f);
 				Loggy.Error($"No {nameof(NetworkIdentity)} component on {loggedOffPlayer}! " +
 				                "Cannot rejoin that player. Was original player object improperly created? " +
 				                "Did we get runtime error while creating it?");
@@ -367,8 +368,8 @@ namespace Player
 				}
 				if (antiFreezeCheckCount > 20)
 				{
-					GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("A problem occurred while attempting to check for a valid connection ID." +
-						"No valid connection found after 20 seconds. Press F5 to check for if an error had occured.".Color(Color.red));
+					GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("Encountered an issue while loading", "A problem occurred while attempting to check for a valid connection ID." +
+						"No valid connection found after 20 seconds. Press F5 to check for if an error had occured.".Color(Color.red), 0f);
 					Loggy.Error($"ID {connectionToClient.connectionId} not found in observers dictionary!" +
 					            "Cannot rejoin that player. Was original player object improperly created? " +
 					            "Did we get runtime error while creating it?");

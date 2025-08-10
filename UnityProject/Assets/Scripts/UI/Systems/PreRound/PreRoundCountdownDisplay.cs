@@ -12,13 +12,6 @@ namespace UI.Systems.PreRound
 		[SerializeField] private TMP_Text countdownText = null;
 		[SerializeField] private TMP_Text statusText = null;
 
-		private enum CountdownState
-		{
-			Inactive,
-			CountingDown,
-			Finished
-		}
-
 		private CountdownState currentState = CountdownState.Inactive;
 
 		public bool doCountdown;
@@ -27,6 +20,13 @@ namespace UI.Systems.PreRound
 
 		public bool IsCountingDown => currentState == CountdownState.CountingDown;
 		private bool hasTriggeredCountdownEnd = false;
+
+		private enum CountdownState
+		{
+			Inactive,
+			CountingDown,
+			Finished
+		}
 
 		private void OnEnable()
 		{
