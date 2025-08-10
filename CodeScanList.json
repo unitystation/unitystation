@@ -544,7 +544,8 @@
       },
       "PathTooLongException": {
         "All": true
-      }
+      },
+	  "StringWriter": {}
     },
     "System.Linq.Expressions": {
       "ConstantExpression": {},
@@ -3127,6 +3128,33 @@
     "Mirror.SimpleWeb": {
       "SimpleWebTransport": {}
     },
+	"Mirror.BouncyCastle.Crypto.Parameters" : {
+		"RsaKeyParameters" :{},
+		"RsaPrivateCrtKeyParameters" :{}
+	},
+	"Mirror.BouncyCastle.Crypto" : {
+		"KeyGenerationParameters" :{}
+	},
+	"System.Security.Cryptography": {
+		"SHA512": {},
+		"HashAlgorithm": {}
+	},
+	"Mirror.Transports": {
+		"PubKeyInfo": {},
+	},
+	"Mirror.Transports.Encryption":{
+		"EncryptionTransport": {}
+	}
+	"Mirror.BouncyCastle.Utilities.IO.Pem": {
+		"PemWriter": {}
+	},
+	"Mirror.BouncyCastle.Security": {
+		"SecureRandom": {}
+	},
+	"Mirror.BouncyCastle.OpenSsl": {
+		"PemWriter": {},
+		"PemReader": {}
+	},
     "IgnoranceTransport": {
       "Ignorance": {
         "Fields": [
@@ -3312,7 +3340,11 @@
       },
       "SerializedAction": {
         "All": true
-      }
+      },
+	  "SecureHttpListener": {},
+	  "IReturnAndReceiveStringForSecureHttpListener": {
+		  "ALL": true
+	  }
     },
     "Newtonsoft.Json": {
       "ReferenceLoopHandling": {
