@@ -3131,13 +3131,40 @@
         "Mirror.BouncyCastle.Crypto.Parameters": {
             "RsaKeyParameters": {},
             "RsaPrivateCrtKeyParameters": {}
+
         },
+        "Mirror.BouncyCastle.Crypto.Generators": {
+            "RsaKeyPairGenerator": {}
+        },
+        "Mirror.BouncyCastle.Crypto.Engines": {
+            "RsaEngine": {}
+        },
+        "Mirror.BouncyCastle.Crypto.Encodings": {
+            "OaepEncoding": {}
+        },
+        "Mirror.BouncyCastle.Crypto.Digests": {
+            "Sha256Digest": {}
+        }
         "Mirror.BouncyCastle.Crypto": {
-            "KeyGenerationParameters": {}
+            "KeyGenerationParameters": {
+                "ALL": true
+            },
+            "PubKeyInfo": {
+                "ALL": true
+            },
+            "IDigest": {},
+            "ICipherParameters": {},
+            "IAsymmetricBlockCipher": {},
+            "AsymmetricKeyParameter": {},
+            "AsymmetricCipherKeyPair": {}
         },
         "System.Security.Cryptography": {
-            "SHA512": {},
-            "HashAlgorithm": {}
+            "SHA512": {
+                "All": true
+            },
+            "HashAlgorithm": {
+                "ALL": true
+            }
         },
         "Mirror.Transports": {
             "PubKeyInfo": {},
@@ -3146,14 +3173,23 @@
             "EncryptionTransport": {}
         },
         "Mirror.BouncyCastle.Utilities.IO.Pem": {
-            "PemWriter": {}
+            "PemWriter": {
+                "ALL": true
+            }
         },
         "Mirror.BouncyCastle.Security": {
-            "SecureRandom": {}
+            "SecureRandom": {
+                "ALL": true
+            }
+
         },
         "Mirror.BouncyCastle.OpenSsl": {
-            "PemWriter": {},
-            "PemReader": {}
+            "PemWriter": {
+                "ALL": true
+            },
+            "PemReader": {
+                "ALL": true
+            }
         },
         "IgnoranceTransport": {
             "Ignorance": {
