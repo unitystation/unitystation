@@ -269,6 +269,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	private void Start()
 	{
 		UpdateManager.Add(UpdateMinutes, 60f);
+		RpcMessageQueue.Instance.RegisterHandler(RequestHandlerConstants.REQUEST_ROUND_STATUS, CurrentRoundStatusToJson);
 	}
 
 	private void OnEnable()
@@ -279,7 +280,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		EventManager.AddHandler(Event.CleanupEnd, ClientCleanupEndRoundCleanups);
 		EventManager.AddHandler(Event.PostRoundStarted, ClientRoundStartCleanup);
 		EventManager.AddHandler(Event.RoundEnded, ClientAndServerEndCleanup);
-		RpcMessageQueue.Instance.RegisterHandler(RequestHandlerConstants.REQUEST_ROUND_STATUS, CurrentRoundStatusToJson);
 	}
 
 	private void OnDisable()
@@ -292,7 +292,6 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		EventManager.RemoveHandler(Event.PostRoundStarted, ClientRoundStartCleanup);
 		EventManager.RemoveHandler(Event.RoundEnded, ClientAndServerEndCleanup);
 		Manager3D.Is3D = false;
-		RpcMessageQueue.Instance.UnregisterHandler(RequestHandlerConstants.REQUEST_ROUND_STATUS);
 	}
 
 	/// <summary>
