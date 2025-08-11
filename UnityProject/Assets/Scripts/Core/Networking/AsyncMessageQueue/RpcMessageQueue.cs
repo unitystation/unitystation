@@ -37,7 +37,7 @@ namespace Core.Networking.AsyncMessageQueue
 			{
 				Requester = null,
 				Status = MessageStatus.Failure,
-				ValueFromJson = ""
+				ValueFromJson = "E.3: Timeout"
 			};
 		}
 
@@ -68,11 +68,6 @@ namespace Core.Networking.AsyncMessageQueue
 		/// <param name="queuedMessage">The response message</param>
 		public void ProcessResponse(string token, QueuedMessage queuedMessage)
 		{
-			if (_client_ReceivedMessages.Count > 100)
-			{
-				_client_ReceivedMessages.Clear();
-			}
-
 			// Store the result in the client's received messages dictionary using the token as key
 			_client_ReceivedMessages[token] = queuedMessage;
 		}
@@ -104,7 +99,7 @@ namespace Core.Networking.AsyncMessageQueue
 					{
 						Requester = null,
 						Status = MessageStatus.Failure,
-						ValueFromJson = ""
+						ValueFromJson = $"E.0: Unexpected Error.\n {e}"
 					};
 
 					Loggy.Error(e.Message);
@@ -117,7 +112,7 @@ namespace Core.Networking.AsyncMessageQueue
 				{
 					Requester = null,
 					Status = MessageStatus.Failure,
-					ValueFromJson = ""
+					ValueFromJson = $"E.1: Missing '{requestedTicket}' handler."
 				};
 
 				Loggy.Error($"Handler '{requestedTicket}' not found");
