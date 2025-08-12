@@ -237,11 +237,15 @@ public class GameData : MonoBehaviour, IInitialise
 
 		CustomNetworkManager.Instance.EncryptionTransport.OnClientValidateServerPubKey += info =>
 		{
-			string base64PubKey = Convert.ToBase64String(info.Serialized.Array, info.Serialized.Offset, info.Serialized.Count);
-			if (base64PubKey != ServerPublicConnectionKey)
+			if (BuildPreferences.isForRelease)
 			{
-				return false;
+				string base64PubKey = Convert.ToBase64String(info.Serialized.Array, info.Serialized.Offset, info.Serialized.Count);
+				if (base64PubKey != ServerPublicConnectionKey)
+				{
+					return false;
+				}
 			}
+
 			return true;
 		};
 
