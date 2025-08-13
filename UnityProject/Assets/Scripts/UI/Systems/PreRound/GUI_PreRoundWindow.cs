@@ -55,7 +55,6 @@ namespace UI.Systems.PreRound
 			await UniTask.WaitForSeconds(2f);
 			LoadingArea?.UpdateLoadingBar("Awaiting Client..", "Awaiting Client to finish loading scenes", 0.01f);
 			await UniTask.WaitUntil(IsClientDoneLoadingScenes);
-			await UniTask.WaitUntil(IsLoadingAreaNoLongerActive);
 			LoadingArea?.UpdateLoadingBar("Awaiting Server..", "Preparing Player", 0.85f);
 			await UniTask.WaitUntil(IsServerDonePreparingThePlayer);
 			LoadingArea?.UpdateLoadingBar("Awaiting Server..", "Finished Preparing Player", 2f);
