@@ -338,7 +338,10 @@ namespace Systems.Electricity
 
 				if (TileRemoved == false)
 				{
-					MetaDataPresent.Locatedon.TileChangeManager.MetaTileMap.RemoveTileWithlayer(MetaDataPresent.NodeLocation, LayerType.Electrical);
+					if (MetaDataPresent?.Locatedon?.TileChangeManager?.MetaTileMap != null)
+					{
+						MetaDataPresent.Locatedon.TileChangeManager.MetaTileMap.RemoveTileWithlayer(MetaDataPresent.NodeLocation, LayerType.Electrical);
+					}
 				}
 			}
 		}

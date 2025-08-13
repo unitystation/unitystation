@@ -302,10 +302,10 @@ public class UIManager : MonoBehaviour, IInitialise
 		Loggy.Info("Touchscreen support = " + CommonInput.IsTouchscreen, Category.Sprites);
 		InitMobile();
 
-		if (!PlayerPrefs.HasKey(PlayerPrefKeys.TTSToggleKey))
+		if (PlayerPrefs.HasKey(PlayerPrefKeys.TTSToggleKey) == false)
 		{
-			PlayerPrefs.SetInt(PlayerPrefKeys.TTSToggleKey, 0);
-			ttsToggle = false;
+			PlayerPrefs.SetInt(PlayerPrefKeys.TTSToggleKey, 1);
+			ttsToggle = true;
 			PlayerPrefs.Save();
 		}
 		else

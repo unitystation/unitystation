@@ -88,11 +88,11 @@ public static class SweetExtensions
 			}
 		}
 
-		var player = go.Player();
+		var Script = go.GetComponentCustom<PlayerScript>();
 
-		if (player != null && player.Script != null && String.IsNullOrWhiteSpace(player.Script.visibleName) == false)
+		if (Script != null && string.IsNullOrWhiteSpace(Script.visibleName) == false)
 		{
-			return player.Script.visibleName;
+			return Script.visibleName;
 		}
 
 		return go?.name.Replace("NPC_", "").Replace("_", " ").Replace("(Clone)","");
