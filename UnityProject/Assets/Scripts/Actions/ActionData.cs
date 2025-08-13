@@ -100,7 +100,7 @@ public class ActionData : ScriptableObject
 			Type = ActionType == UIActionType.Toggle ? Actions.V2.ActionType.Activated : Actions.V2.ActionType.Trigger,
 			AnimatedIconCatalogue = Sprites,
 			HasCustomCursor = HasCustomCursor,
-			CursorTexture = CursorTexture,
+			CursorTexture = null,
 			HasCustomCursorOffset = HasCustomCursorOffset,
 			OffsetType = OffsetType,
 			CursorOffset = CursorOffset

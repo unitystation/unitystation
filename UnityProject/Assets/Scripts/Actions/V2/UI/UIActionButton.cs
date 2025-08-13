@@ -139,15 +139,15 @@ namespace Actions.V2.UI
 
 		private void TrySetCustomCursor()
 		{
-			if (ActionData.HasCustomCursor == false) return;
+			if (ActionData.HasCustomCursor == false || ActionData.CursorTexture?.Variance[0] == null) return;
 			if (ActionData.HasCustomCursorOffset)
 			{
-				MouseInputController.SetCursorTexture(ActionData.CursorTexture, ActionData.CursorOffset);
+				MouseInputController.SetCursorTexture(ActionData.CursorTexture.Variance[0].Frames[0].sprite.texture, ActionData.CursorOffset);
 			}
 			else
 			{
 				bool isCentered = ActionData.OffsetType == CursorOffsetType.Centered;
-				MouseInputController.SetCursorTexture(ActionData.CursorTexture, isCentered);
+				MouseInputController.SetCursorTexture(ActionData.CursorTexture.Variance[0].Frames[0].sprite.texture, isCentered);
 			}
 		}
 
