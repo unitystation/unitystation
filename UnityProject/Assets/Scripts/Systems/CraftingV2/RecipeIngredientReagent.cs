@@ -16,6 +16,9 @@ namespace Systems.CraftingV2
 		[SerializeField] [Tooltip("The required reagent.")]
 		private Reagent requiredReagent;
 
+		[SerializeField] [Tooltip("Whether or not it gets used up")]
+		private bool catalyst;
+
 		/// <summary>
 		///     The amount of required reagent.
 		/// </summary>
@@ -26,10 +29,14 @@ namespace Systems.CraftingV2
 		/// </summary>
 		public Reagent RequiredReagent => requiredReagent;
 
-		public RecipeIngredientReagent(Reagent reagent, float amount)
+		public bool Catalyst => catalyst;
+
+		public RecipeIngredientReagent(Reagent reagent, float amount, bool catalyst)
 		{
 			requiredReagent = reagent;
 			requiredAmount = amount;
+			this.catalyst = catalyst;
+
 		}
 	}
 }
