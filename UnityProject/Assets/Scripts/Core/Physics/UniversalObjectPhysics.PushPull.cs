@@ -77,7 +77,10 @@ namespace Core.Physics
 			}
 			else
 			{
-				ResetLocationOnClients();
+				if (CustomNetworkManager.IsServer)
+				{
+					ResetLocationOnClients();
+				}
 
 				if (isOwned) UIManager.Action.UpdatePullingUI(false);
 				if (Pulling.HasComponent)
@@ -400,6 +403,7 @@ namespace Core.Physics
 			var pullable = pullableObject.GetComponent<Physics.UniversalObjectPhysics>();
 			if (pullable == null || pullable.isNotPushable)
 			{
+				pullable?.ResetLocationOnClients();
 				return;
 			}
 
@@ -425,6 +429,7 @@ namespace Core.Physics
 			if (Validations.CanApply(clientWhoAsked.Script, gameObject, NetworkSide.Server
 				    , apt: Validations.CheckState(x => x.CanPull), reachRange: reachRange) == false)
 			{
+				pullable.ResetLocationOnClients();
 				return;
 			}
 
