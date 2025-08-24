@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &9056276249520482552
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1182366540502230666, guid: 89c3f4c525ddf014d8dbe780d74999b1,
+        type: 3}
+      propertyPath: m_Name
+      value: Cyborg DefibrillatorPaddles
+      objectReference: {fileID: 0}
+    - target: {fileID: 1187576164266613758, guid: 89c3f4c525ddf014d8dbe780d74999b1,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1187576164266613758, guid: 89c3f4c525ddf014d8dbe780d74999b1,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1187576164266613758, guid: 89c3f4c525ddf014d8dbe780d74999b1,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1187576164266613758, guid: 89c3f4c525ddf014d8dbe780d74999b1,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1187576164266613758, guid: 89c3f4c525ddf014d8dbe780d74999b1,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1187576164266613758, guid: 89c3f4c525ddf014d8dbe780d74999b1,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1187576164266613758, guid: 89c3f4c525ddf014d8dbe780d74999b1,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1187576164266613758, guid: 89c3f4c525ddf014d8dbe780d74999b1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1187576164266613758, guid: 89c3f4c525ddf014d8dbe780d74999b1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1187576164266613758, guid: 89c3f4c525ddf014d8dbe780d74999b1,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1296097171683105598, guid: 89c3f4c525ddf014d8dbe780d74999b1,
+        type: 3}
+      propertyPath: _assetId
+      value: 1821036493
+      objectReference: {fileID: 0}
+    - target: {fileID: 4985066067028335885, guid: 89c3f4c525ddf014d8dbe780d74999b1,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 8013929871559228718}
+    - target: {fileID: 5247298291017378535, guid: 89c3f4c525ddf014d8dbe780d74999b1,
+        type: 3}
+      propertyPath: foreverID
+      value: ee0158f81f23d0c478a552aa6e2d1df8
+      objectReference: {fileID: 0}
+    - target: {fileID: 9019548994788298775, guid: 89c3f4c525ddf014d8dbe780d74999b1,
+        type: 3}
+      propertyPath: DoesntRequireBackpack
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 89c3f4c525ddf014d8dbe780d74999b1, type: 3}
+--- !u!212 &8013929871559228718 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1340218390401537494, guid: 89c3f4c525ddf014d8dbe780d74999b1,
+    type: 3}
+  m_PrefabInstance: {fileID: 9056276249520482552}
+  m_PrefabAsset: {fileID: 0}

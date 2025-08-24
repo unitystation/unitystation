@@ -73,6 +73,11 @@ public class InteractableStorage : NetworkBehaviour, IClientInteractable<HandAct
 	[SerializeField] [Tooltip("So, It doesn't collide with other interactions if it is full, Not turned on by default Because of large inventories")]
 	private bool NoInteractionIfInventoryFull = false;
 
+	[SerializeField] [Tooltip("Basically when you click on something with it, can the thing you're interacting with look inside of it and take items from it directly")]
+	private bool actAsOpenInventory = false;
+
+	public bool ActAsOpenInventory => actAsOpenInventory;
+
 	/// <summary>
 	/// The current pickup mode used when clicking
 	/// </summary>
