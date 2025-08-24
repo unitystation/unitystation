@@ -74,13 +74,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: initialSize
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: initialDescription
       value: A scanner used to measure the internal energies of objects, measuring
         their viability as catalysts in the high energy lab.
       objectReference: {fileID: 0}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 4844317133509557121}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8ba519aabd99d814c8f124832da08068,
+        type: 2}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 8ba519aabd99d814c8f124832da08068,
         type: 2}
@@ -126,3 +142,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ca86ebd993566a4d93577dbc910968d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!212 &4844317133509557121 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 4740068004050056295}
+  m_PrefabAsset: {fileID: 0}
