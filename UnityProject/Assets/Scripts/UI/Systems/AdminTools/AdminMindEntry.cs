@@ -43,7 +43,7 @@ public class AdminMindEntry : MonoBehaviour
 			AppendAdminMentorStatus(displayData, playerEntryData);
 			AppendPersonalInformation(displayData, playerEntryData, isForMentor);
 			displayName.text = displayData.ToString();
-			displayName.color = Color.white;
+			displayName.color = playerEntryData.IsAntag ? antagTextColor : Color.white;
 
 			if (disableInteract)
 			{
