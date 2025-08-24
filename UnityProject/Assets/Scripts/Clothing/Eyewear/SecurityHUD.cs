@@ -254,6 +254,9 @@ public class SecurityHUD : NetworkBehaviour, IHUD
 
 			case JobType.WARDEN:
 				return JobIcon.Warden;
+
+			case JobType.PSYCHIATRIST:
+				return JobIcon.Psychiatrist;
 			default:
 				return JobIcon.Unknown;
 		}
@@ -340,6 +343,7 @@ public class SecurityHUD : NetworkBehaviour, IHUD
 		StationEngineer,
 		Unknown,
 		Virologist,
-		Warden
+		Warden,
+		Psychiatrist
 	}
 }
