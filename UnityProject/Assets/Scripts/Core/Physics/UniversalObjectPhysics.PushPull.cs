@@ -77,6 +77,8 @@ namespace Core.Physics
 			}
 			else
 			{
+				ResetLocationOnClients();
+
 				if (isOwned) UIManager.Action.UpdatePullingUI(false);
 				if (Pulling.HasComponent)
 				{
