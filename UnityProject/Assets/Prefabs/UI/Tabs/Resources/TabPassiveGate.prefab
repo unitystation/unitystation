@@ -870,6 +870,7 @@ GameObject:
   - component: {fileID: 3681709597048707664}
   - component: {fileID: 5964796962878805456}
   - component: {fileID: 7368153873599004779}
+  - component: {fileID: 2123425053621823346}
   m_Layer: 5
   m_Name: SubmitPopup
   m_TagString: Untagged
@@ -1031,6 +1032,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2123425053621823346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2778776055583859761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4391943135465341682
 GameObject:
   m_ObjectHideFlags: 0
@@ -1537,6 +1550,7 @@ GameObject:
   - component: {fileID: 8710710052728254890}
   - component: {fileID: 7812703779832070626}
   - component: {fileID: 1009786277140065661}
+  - component: {fileID: 8838756402371783028}
   m_Layer: 5
   m_Name: LabelBorder
   m_TagString: Untagged
@@ -1657,6 +1671,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8838756402371783028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7391220162273338730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7627404182252481568
 GameObject:
   m_ObjectHideFlags: 0

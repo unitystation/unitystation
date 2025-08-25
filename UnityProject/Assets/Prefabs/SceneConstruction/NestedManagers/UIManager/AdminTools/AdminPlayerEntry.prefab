@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8673299104264404672}
   - component: {fileID: 134408836658770737}
   - component: {fileID: 7353423561189993339}
+  - component: {fileID: 4292719653313472794}
   m_Layer: 5
   m_Name: AdminPlayerEntry
   m_TagString: Untagged
@@ -156,6 +157,18 @@ MonoBehaviour:
   selectedColor: {r: 0.37647063, g: 0.64705884, b: 0.91372555, a: 1}
   defaultColor: {r: 0.30980393, g: 0.46274513, b: 0.6117647, a: 1}
   antagTextColor: {r: 1, g: 0.97351444, b: 0, a: 1}
+--- !u!114 &4292719653313472794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1424975127111674072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2497021615975738672
 GameObject:
   m_ObjectHideFlags: 0
@@ -327,11 +340,11 @@ MonoBehaviour:
   label: {fileID: 3434342750199056146}
   background: {fileID: 1707240953045221323}
   nofticationSound:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
 --- !u!1 &3534797153133428626

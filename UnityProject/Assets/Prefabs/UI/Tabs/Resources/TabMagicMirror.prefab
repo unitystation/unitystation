@@ -145,6 +145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 636111e8adf7b234f8563fdfdf91f495, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NetTab: {fileID: 0}
   OnEscapeKey:
     m_PersistentCalls:
       m_Calls: []
@@ -239,15 +240,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 0
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 3ce47bba9f0da4b43a0bbd89210486f3, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 3ce47bba9f0da4b43a0bbd89210486f3,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &90488914039723378
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,6 +343,7 @@ GameObject:
   - component: {fileID: 4510036953379974958}
   - component: {fileID: 1004730082730533172}
   - component: {fileID: 6099694022602605184}
+  - component: {fileID: -9047114623776328888}
   m_Layer: 5
   m_Name: ChangeNameButton
   m_TagString: Untagged
@@ -489,6 +493,18 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   SourceInputField: {fileID: 8514528037926767295}
+--- !u!114 &-9047114623776328888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1143727786225186046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1530642423001819766
 GameObject:
   m_ObjectHideFlags: 0
@@ -501,6 +517,7 @@ GameObject:
   - component: {fileID: 5460725315718946475}
   - component: {fileID: 8947831710529520783}
   - component: {fileID: 8103086956523828804}
+  - component: {fileID: 2301571616093565558}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -622,6 +639,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2301571616093565558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1530642423001819766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1817592096259492702
 GameObject:
   m_ObjectHideFlags: 0
@@ -1067,6 +1096,7 @@ GameObject:
   - component: {fileID: 6229655945499366725}
   - component: {fileID: 6209423084553006220}
   - component: {fileID: 693511412802186623}
+  - component: {fileID: 668905444365379747}
   m_Layer: 5
   m_Name: RandomNameButton
   m_TagString: Untagged
@@ -1188,6 +1218,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &668905444365379747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7712789189560901937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8339565357014287675
 GameObject:
   m_ObjectHideFlags: 0

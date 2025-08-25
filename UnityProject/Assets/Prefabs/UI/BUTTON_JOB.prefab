@@ -91,6 +91,7 @@ GameObject:
   - component: {fileID: 222323555535228364}
   - component: {fileID: 114579487190361616}
   - component: {fileID: 114789601480514766}
+  - component: {fileID: -2341229547158765510}
   m_Layer: 5
   m_Name: BUTTON_JOB
   m_TagString: Untagged
@@ -212,3 +213,15 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &-2341229547158765510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1507566313556698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

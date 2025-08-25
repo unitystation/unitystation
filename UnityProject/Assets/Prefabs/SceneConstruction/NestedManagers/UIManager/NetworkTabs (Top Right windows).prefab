@@ -512,6 +512,7 @@ GameObject:
   - component: {fileID: 9072450783741516290}
   - component: {fileID: 4698457232091015449}
   - component: {fileID: 4176553901310918543}
+  - component: {fileID: -2018656073468667501}
   m_Layer: 5
   m_Name: Open Device Mover
   m_TagString: Untagged
@@ -683,6 +684,18 @@ MonoBehaviour:
   NeedsAny: []
   NeedsAll: []
   RequireBoth: 0
+--- !u!114 &-2018656073468667501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1340388050235137996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1364691839729166918
 GameObject:
   m_ObjectHideFlags: 0
@@ -934,6 +947,7 @@ GameObject:
   - component: {fileID: 7639434293165493545}
   - component: {fileID: 5812174582384206504}
   - component: {fileID: 4941520234935937926}
+  - component: {fileID: 3351984177855124876}
   m_Layer: 5
   m_Name: VV For Objects On Tile Button
   m_TagString: Untagged
@@ -1088,6 +1102,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &3351984177855124876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1737227325568661915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2008173313982982246
 GameObject:
   m_ObjectHideFlags: 0
@@ -1340,6 +1366,7 @@ GameObject:
   - component: {fileID: 6335360467027724366}
   - component: {fileID: 744952867126023263}
   - component: {fileID: 1630593906350516154}
+  - component: {fileID: 24692682208958059}
   m_Layer: 5
   m_Name: Open VV Button
   m_TagString: Untagged
@@ -1511,6 +1538,18 @@ MonoBehaviour:
   NeedsAny: []
   NeedsAll: []
   RequireBoth: 0
+--- !u!114 &24692682208958059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2513903602170789189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2715333376641952382
 GameObject:
   m_ObjectHideFlags: 0
@@ -1526,6 +1565,7 @@ GameObject:
   - component: {fileID: 4699878601205023659}
   - component: {fileID: 8270286898701291808}
   - component: {fileID: 5561639348356873047}
+  - component: {fileID: -7034375145275635322}
   m_Layer: 5
   m_Name: SpawnItemButton
   m_TagString: Untagged
@@ -1697,6 +1737,18 @@ MonoBehaviour:
   NeedsAny: []
   NeedsAll: []
   RequireBoth: 0
+--- !u!114 &-7034375145275635322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2715333376641952382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3064713112676544877
 GameObject:
   m_ObjectHideFlags: 0
@@ -2173,6 +2225,7 @@ GameObject:
   - component: {fileID: 1700985612418571087}
   - component: {fileID: 2423468428376414270}
   - component: {fileID: 8632890465328196324}
+  - component: {fileID: 4983920849784009498}
   m_Layer: 5
   m_Name: Open Device Linker
   m_TagString: Untagged
@@ -2344,6 +2397,18 @@ MonoBehaviour:
   NeedsAny: []
   NeedsAll: []
   RequireBoth: 0
+--- !u!114 &4983920849784009498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4228657588191732428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4497993866889060407
 GameObject:
   m_ObjectHideFlags: 0
@@ -2359,6 +2424,7 @@ GameObject:
   - component: {fileID: 2217429843480861861}
   - component: {fileID: 7896131939405449004}
   - component: {fileID: 7636924374018918863}
+  - component: {fileID: -4818837960474508113}
   m_Layer: 5
   m_Name: Tile Changer
   m_TagString: Untagged
@@ -2532,6 +2598,18 @@ MonoBehaviour:
   - tagValue: MAP_PLACE_TILE
   NeedsAll: []
   RequireBoth: 0
+--- !u!114 &-4818837960474508113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4497993866889060407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4499822673834632442
 GameObject:
   m_ObjectHideFlags: 0
@@ -2547,6 +2625,7 @@ GameObject:
   - component: {fileID: 5204608232045988362}
   - component: {fileID: 7107447369223098515}
   - component: {fileID: 6753250668008700560}
+  - component: {fileID: 8652532182047854325}
   m_Layer: 5
   m_Name: DestroyItemButton
   m_TagString: Untagged
@@ -2718,6 +2797,18 @@ MonoBehaviour:
   NeedsAny: []
   NeedsAll: []
   RequireBoth: 0
+--- !u!114 &8652532182047854325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4499822673834632442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4633168990160243453
 GameObject:
   m_ObjectHideFlags: 0
@@ -2733,6 +2824,7 @@ GameObject:
   - component: {fileID: 8099505650097513112}
   - component: {fileID: 2902553053749448947}
   - component: {fileID: 4379103160548707978}
+  - component: {fileID: -4584836802059512380}
   m_Layer: 5
   m_Name: Open Device Rotater
   m_TagString: Untagged
@@ -2904,6 +2996,18 @@ MonoBehaviour:
   NeedsAny: []
   NeedsAll: []
   RequireBoth: 0
+--- !u!114 &-4584836802059512380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4633168990160243453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4826147347881738860
 GameObject:
   m_ObjectHideFlags: 0
@@ -2919,6 +3023,7 @@ GameObject:
   - component: {fileID: 1758439043119494355}
   - component: {fileID: 3634533226457574743}
   - component: {fileID: 6794481068197353918}
+  - component: {fileID: 2887330664838930257}
   m_Layer: 5
   m_Name: Open inventory opener
   m_TagString: Untagged
@@ -3090,6 +3195,18 @@ MonoBehaviour:
   NeedsAny: []
   NeedsAll: []
   RequireBoth: 0
+--- !u!114 &2887330664838930257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4826147347881738860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5164368279624967651
 GameObject:
   m_ObjectHideFlags: 0
@@ -4360,6 +4477,7 @@ GameObject:
   - component: {fileID: 5420785438647271280}
   - component: {fileID: 5420674680481803858}
   - component: {fileID: 5420546272880142630}
+  - component: {fileID: 9165375064281931740}
   m_Layer: 5
   m_Name: RollOutButton
   m_TagString: Untagged
@@ -4498,6 +4616,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &9165375064281931740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5380142541511188688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5380185652939830920
 GameObject:
   m_ObjectHideFlags: 0
@@ -5905,6 +6035,7 @@ GameObject:
   - component: {fileID: 8365247057951440307}
   - component: {fileID: 2978032138442058691}
   - component: {fileID: 8409745649546867286}
+  - component: {fileID: -5263374199183189035}
   m_Layer: 5
   m_Name: Open copy and paste
   m_TagString: Untagged
@@ -6078,6 +6209,18 @@ MonoBehaviour:
   - tagValue: MAP_SAVE
   NeedsAll: []
   RequireBoth: 0
+--- !u!114 &-5263374199183189035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6557148270563300332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6599202947305703652
 GameObject:
   m_ObjectHideFlags: 0
@@ -6172,6 +6315,7 @@ GameObject:
   - component: {fileID: 6604178009683702983}
   - component: {fileID: 1943263321773194582}
   - component: {fileID: 8719714794832792294}
+  - component: {fileID: -2540462323353336998}
   m_Layer: 5
   m_Name: Open Camera Controls
   m_TagString: Untagged
@@ -6343,6 +6487,18 @@ MonoBehaviour:
   NeedsAny: []
   NeedsAll: []
   RequireBoth: 0
+--- !u!114 &-2540462323353336998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6700712571160370590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6837047478745710226
 GameObject:
   m_ObjectHideFlags: 0
@@ -6448,6 +6604,7 @@ GameObject:
   - component: {fileID: 5269996064571606891}
   - component: {fileID: 8604543847167763769}
   - component: {fileID: 365540708085103292}
+  - component: {fileID: 8777887508490085623}
   m_Layer: 5
   m_Name: Open device attribute editor
   m_TagString: Untagged
@@ -6619,6 +6776,18 @@ MonoBehaviour:
   NeedsAny: []
   NeedsAll: []
   RequireBoth: 0
+--- !u!114 &8777887508490085623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6878446486952582173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6885944563243963854
 GameObject:
   m_ObjectHideFlags: 0
@@ -6946,6 +7115,7 @@ GameObject:
   - component: {fileID: 86081074872616679}
   - component: {fileID: 1257256617652386091}
   - component: {fileID: 685066268748413517}
+  - component: {fileID: -5675933516857438010}
   m_Layer: 5
   m_Name: AdminPanelButton
   m_TagString: Untagged
@@ -7100,6 +7270,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &-5675933516857438010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6937808518097532432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7128701735060152133
 GameObject:
   m_ObjectHideFlags: 0
@@ -7322,6 +7504,7 @@ GameObject:
   - component: {fileID: 5596536689895217380}
   - component: {fileID: 5042486477176901775}
   - component: {fileID: 3900914762130711051}
+  - component: {fileID: -217535636020083075}
   m_Layer: 5
   m_Name: CloneItemButton
   m_TagString: Untagged
@@ -7493,6 +7676,18 @@ MonoBehaviour:
   NeedsAny: []
   NeedsAll: []
   RequireBoth: 0
+--- !u!114 &-217535636020083075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8366806058581208876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8622409605491006702
 GameObject:
   m_ObjectHideFlags: 0
@@ -7699,6 +7894,7 @@ GameObject:
   - component: {fileID: 7253635471197707612}
   - component: {fileID: 6516157656377754036}
   - component: {fileID: 8966866445873566761}
+  - component: {fileID: -4041250688586845360}
   m_Layer: 5
   m_Name: Open poll maker
   m_TagString: Untagged
@@ -7870,3 +8066,15 @@ MonoBehaviour:
   NeedsAny: []
   NeedsAll: []
   RequireBoth: 0
+--- !u!114 &-4041250688586845360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8929546529225720081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

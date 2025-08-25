@@ -756,6 +756,7 @@ GameObject:
   - component: {fileID: 7811648060731662255}
   - component: {fileID: 7662577810342573290}
   - component: {fileID: 677449672576107655}
+  - component: {fileID: -4988809555418673036}
   m_Layer: 5
   m_Name: ClearQueueButton
   m_TagString: Untagged
@@ -904,6 +905,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80af66fa15a485449be1acba90908fb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddInRunTime: 1
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -925,6 +927,18 @@ MonoBehaviour:
   OnMouseExit:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-4988809555418673036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025918146812056910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2333525597412155780
 GameObject:
   m_ObjectHideFlags: 0
@@ -1167,6 +1181,7 @@ GameObject:
   - component: {fileID: 2827676734688791629}
   - component: {fileID: 8692436151454474767}
   - component: {fileID: 6352477866407446234}
+  - component: {fileID: 2844528950605966817}
   m_Layer: 5
   m_Name: ReturnButton
   m_TagString: Untagged
@@ -1315,6 +1330,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96dd745c9170eac449ebeed0ba2e873d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddInRunTime: 1
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -1344,6 +1360,18 @@ MonoBehaviour:
       m_values: 
     productionTime: 10
   categoryName: 
+--- !u!114 &2844528950605966817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3647573422169776403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4247874502369429225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1862,6 +1890,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 636111e8adf7b234f8563fdfdf91f495, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NetTab: {fileID: 0}
   OnEscapeKey:
     m_PersistentCalls:
       m_Calls: []
@@ -2729,6 +2758,7 @@ GameObject:
   - component: {fileID: 1136589952681544538}
   - component: {fileID: 2032314653015291015}
   - component: {fileID: 7241110071652861616}
+  - component: {fileID: -593691276768800832}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -2865,6 +2895,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &-593691276768800832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6426124439595295814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6993792550334215222
 GameObject:
   m_ObjectHideFlags: 0
@@ -3073,6 +3115,7 @@ GameObject:
   - component: {fileID: 5958859070759810027}
   - component: {fileID: 3891407630411434791}
   - component: {fileID: 931497613517417913}
+  - component: {fileID: -3093326610406643226}
   m_Layer: 5
   m_Name: ProcessQueueButton
   m_TagString: Untagged
@@ -3221,6 +3264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80af66fa15a485449be1acba90908fb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddInRunTime: 1
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -3242,6 +3286,18 @@ MonoBehaviour:
   OnMouseExit:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-3093326610406643226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7309253295906906567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7602129706130894247
 GameObject:
   m_ObjectHideFlags: 0

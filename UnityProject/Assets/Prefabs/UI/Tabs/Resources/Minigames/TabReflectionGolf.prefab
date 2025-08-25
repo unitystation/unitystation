@@ -641,6 +641,7 @@ GameObject:
   - component: {fileID: 6773014753989373269}
   - component: {fileID: 2549173708971977064}
   - component: {fileID: 5885753020055823384}
+  - component: {fileID: 8536061170649725755}
   m_Layer: 5
   m_Name: UndoButton
   m_TagString: Untagged
@@ -762,6 +763,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8536061170649725755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092008214189519440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1681303031203579180
 GameObject:
   m_ObjectHideFlags: 0
@@ -1065,6 +1078,7 @@ GameObject:
   - component: {fileID: 4654377042751738130}
   - component: {fileID: 5443229419559547089}
   - component: {fileID: 1408660752333131390}
+  - component: {fileID: 4284431836003245283}
   m_Layer: 5
   m_Name: ClickableRegion
   m_TagString: Untagged
@@ -1185,6 +1199,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4284431836003245283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3350083771761591615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3380574472775808630
 GameObject:
   m_ObjectHideFlags: 0
@@ -1198,6 +1224,7 @@ GameObject:
   - component: {fileID: 1503988059820883306}
   - component: {fileID: 7231680013177090706}
   - component: {fileID: 5146801515702570783}
+  - component: {fileID: 5220118978847807474}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -1332,6 +1359,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   url: https://wiki.unitystation.org/index.php/Abandoned_Crates
+--- !u!114 &5220118978847807474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3380574472775808630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3945797975788133142
 GameObject:
   m_ObjectHideFlags: 0
@@ -1344,6 +1383,7 @@ GameObject:
   - component: {fileID: 8573524387070211299}
   - component: {fileID: 151326374458714821}
   - component: {fileID: 392816634293463167}
+  - component: {fileID: 4649963194716607821}
   m_Layer: 5
   m_Name: ResetButton
   m_TagString: Untagged
@@ -1465,6 +1505,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4649963194716607821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3945797975788133142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4594477802513169190
 GameObject:
   m_ObjectHideFlags: 0
@@ -1733,6 +1785,7 @@ GameObject:
   - component: {fileID: 3122147586440579286}
   - component: {fileID: 5768032551700315448}
   - component: {fileID: 1031225047588791001}
+  - component: {fileID: 5178153006818208206}
   m_Layer: 5
   m_Name: CloseWindowButton
   m_TagString: Untagged
@@ -1854,6 +1907,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5178153006818208206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7629480698816629430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7815991524673829851
 GameObject:
   m_ObjectHideFlags: 0

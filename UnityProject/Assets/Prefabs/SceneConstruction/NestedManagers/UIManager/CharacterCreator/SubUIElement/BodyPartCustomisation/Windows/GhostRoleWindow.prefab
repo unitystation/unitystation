@@ -875,15 +875,17 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
+  m_ActiveFontFeatures: 00000000
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
+  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -1183,6 +1185,7 @@ GameObject:
   - component: {fileID: 8901212099129486745}
   - component: {fileID: 3304037195100337894}
   - component: {fileID: 742113214684170684}
+  - component: {fileID: -4384425566395451662}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -1304,6 +1307,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &-4384425566395451662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8247584417781324094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8465225457555866716
 GameObject:
   m_ObjectHideFlags: 0
@@ -1673,7 +1688,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8465225457555866716, guid: a3bdbadc1882c2d469488193d09a8101,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -1329763293670556843}
   m_SourcePrefab: {fileID: 100100000, guid: a3bdbadc1882c2d469488193d09a8101, type: 3}
 --- !u!224 &7588594165177994438 stripped
 RectTransform:
@@ -1681,3 +1700,21 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 2247917390765839638}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7658566085049012554 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8465225457555866716, guid: a3bdbadc1882c2d469488193d09a8101,
+    type: 3}
+  m_PrefabInstance: {fileID: 2247917390765839638}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-1329763293670556843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7658566085049012554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
