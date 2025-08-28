@@ -74,6 +74,20 @@ public enum JobType
 	ASHWALKER_PRIEST = 62,
 }
 
+public enum JobCategory
+{
+	Other = 0,
+	Cargo,
+	Engineering,
+	Medical,
+	Security,
+	Science,
+	Service,
+	Crewe,
+	Command,
+	Silicon
+}
+
 public static class JobCategories
 {
 	public static readonly List<JobType> CentCommJobs = new List<JobType>()

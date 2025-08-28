@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Cyborg
   m_EditorClassIdentifier: 
   jobType: 16
+  jobCategory: 9
   isCrewmember: 1
   lateSpawnIsArrivals: 1
   inventoryPopulator: {fileID: 0}
@@ -39,16 +40,17 @@ MonoBehaviour:
   isTargeteable: 0
   playSound: 1
   spawnSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/AmbientTracks/SpawnSounds/departments/Synthetic_Spawn.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   textColor: {r: 0, g: 0.08627451, b: 0.3529412, a: 1}
   backgroundColor: {r: 0.21960784, g: 0.21960784, b: 0.21960784, a: 1}
   specialPlayerPrefab: {fileID: 0}
+  StartingMutations: []
   references:
     version: 2
     RefIds: []

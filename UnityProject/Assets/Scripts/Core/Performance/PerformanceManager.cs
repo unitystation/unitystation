@@ -55,27 +55,27 @@ public class PerformanceManager : SingletonManager<PerformanceManager>
 		//TODO have a think abouut this
 		var info = new PerformanceInfo
 		{
-			ElectricalTick = ElectricalManager.Instance.electricalSync.electricalThread.ticker,
-			ElectricalSupplies = ElectricalManager.Instance.electricalSync.TotalSupplies.Count,
-			ElectricalPoweredDevices = ElectricalManager.Instance.electricalSync.PoweredDevices.Count,
-
-			AtmosTick = AtmosManager.Instance.AtmosThread.ticker,
-			AtmosPipes = AtmosManager.Instance.pipeList.Count,
-			AtmosTiles = AtmosManager.Instance.atmosphericsUpdates.Count,
-
-			RadiationTick = RadiationManager.Instance.RadiationThread.ticker,
-			RadiationPulseQueue = RadiationManager.Instance.PulseQueue.Count,
-
-			UpdateManagerPreCameraUpdateActionsCount = UpdateManager.Instance.preCameraUpdateActionsCount,
-			UpdateManagerUpdateActionsCount = UpdateManager.Instance.updateActionsCount,
-			UpdateManagerFixedUpdateActionsCount = UpdateManager.Instance.fixedUpdateActionsCount,
-			UpdateManagerLateUpdateActionsCount = UpdateManager.Instance.lateUpdateActionsCount,
-			UpdateManagerPeriodicUpdateActionsCount = UpdateManager.Instance.periodicUpdateActionsCount,
-			UpdateManagerSoundUpdatesCount = UpdateManager.Instance.soundUpdatesCount,
-			UpdateManagerThinkShotActionsCount = UpdateManager.Instance.thinkShotActionsCount,
-
 
 		};
+
+		info.ElectricalTick = ElectricalManager.Instance.electricalSync.electricalThread.ticker;
+		info.ElectricalSupplies = ElectricalManager.Instance.electricalSync.TotalSupplies.Count;
+		info.ElectricalPoweredDevices = ElectricalManager.Instance.electricalSync.PoweredDevices.Count;
+
+		info.AtmosTick = AtmosManager.Instance.AtmosThread.ticker;
+		info.AtmosPipes = AtmosManager.Instance.pipeList.Count;
+		info.AtmosTiles = AtmosManager.Instance.atmosphericsUpdates.Count;
+
+		info.RadiationTick = RadiationManager.Instance.RadiationThread.ticker;
+		info.RadiationPulseQueue = RadiationManager.Instance.PulseQueue.Count;
+
+		info.UpdateManagerPreCameraUpdateActionsCount = UpdateManager.Instance.preCameraUpdateActionsCount;
+		info.UpdateManagerUpdateActionsCount = UpdateManager.Instance.updateActionsCount;
+		info.UpdateManagerFixedUpdateActionsCount = UpdateManager.Instance.fixedUpdateActionsCount;
+		info.UpdateManagerLateUpdateActionsCount = UpdateManager.Instance.lateUpdateActionsCount;
+		info.UpdateManagerPeriodicUpdateActionsCount = UpdateManager.Instance.periodicUpdateActionsCount;
+		info.UpdateManagerSoundUpdatesCount = UpdateManager.Instance.soundUpdatesCount;
+		info.UpdateManagerThinkShotActionsCount = UpdateManager.Instance.thinkShotActionsCount;
 
 		var Matrix = new List<int>();
 

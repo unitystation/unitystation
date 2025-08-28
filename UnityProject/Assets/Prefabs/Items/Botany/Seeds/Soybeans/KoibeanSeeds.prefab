@@ -113,12 +113,61 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3566736689462956888, guid: e41afb7979b591443b008859f958eca6,
         type: 3}
+      propertyPath: plantData.ReagentProduction.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3566736689462956888, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
       propertyPath: plantData.MutatesInToGameObject.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3566736689462956888, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
+      propertyPath: plantData.ReagentProduction.Array.data[0].percentage
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 3566736689462956888, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
+      propertyPath: plantData.ReagentProduction.Array.data[1].percentage
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3566736689462956888, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
+      propertyPath: plantData.ReagentProduction.Array.data[2].percentage
+      value: 0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 3566736689462956888, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
+      propertyPath: plantData.ReagentProduction.Array.data[0].ChemistryReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237,
+        type: 2}
+    - target: {fileID: 3566736689462956888, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
+      propertyPath: plantData.ReagentProduction.Array.data[1].ChemistryReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: 9d1090f4516aeb0f2aa5fec39d2127d5,
+        type: 2}
+    - target: {fileID: 3566736689462956888, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
+      propertyPath: plantData.ReagentProduction.Array.data[2].ChemistryReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: d5386cc24a0a08cab9f2e1dab976ee2f,
+        type: 2}
+    - target: {fileID: 8342266094634562150, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 3595984085737207267}
     - target: {fileID: 8342266094634562150, guid: e41afb7979b591443b008859f958eca6,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 00788e286f06918459035c59d50e9c61,
+        type: 2}
+    - target: {fileID: 8342266094634562150, guid: e41afb7979b591443b008859f958eca6,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 00788e286f06918459035c59d50e9c61,
         type: 2}
@@ -137,3 +186,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e41afb7979b591443b008859f958eca6, type: 3}
+--- !u!212 &3595984085737207267 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2626236828490791613, guid: e41afb7979b591443b008859f958eca6,
+    type: 3}
+  m_PrefabInstance: {fileID: 1555364760981016414}
+  m_PrefabAsset: {fileID: 0}

@@ -317,6 +317,7 @@ GameObject:
   - component: {fileID: 8802690643367474584}
   - component: {fileID: 3592976406442729771}
   - component: {fileID: 17494720264519472}
+  - component: {fileID: 75424498522135944}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -438,3 +439,15 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &75424498522135944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5686898108746896577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

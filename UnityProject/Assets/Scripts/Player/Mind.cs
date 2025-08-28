@@ -20,6 +20,7 @@ using Actions.V2;
 using Changeling;
 using Core.Admin.Logs;
 using Logs;
+using Messages.Server.LocalGuiMessages;
 using static Core.Physics.UniversalObjectPhysics;
 
 /// <summary>
@@ -729,6 +730,17 @@ public class Mind : NetworkBehaviour, IActionGUI
 		}
 		SyncPossessing(_idPossessing, _idPossessing);
 		SyncActiveOn(IDActivelyControlling, IDActivelyControlling);
+
+		if (isServer)
+		{
+			SpawnBannerMessage.Send(
+					this.gameObject,
+				occupation.DisplayName,
+				occupation.SpawnSound.AssetAddress,
+				occupation.TextColor,
+				occupation.BackgroundColor,
+				occupation.PlaySound);
+		}
 	}
 
 	public void ReLog()

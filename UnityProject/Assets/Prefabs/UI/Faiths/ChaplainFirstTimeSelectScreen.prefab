@@ -955,6 +955,7 @@ GameObject:
   - component: {fileID: 2733471832917227031}
   - component: {fileID: 3346523098893066042}
   - component: {fileID: 6379477286401862801}
+  - component: {fileID: -2216528916169618277}
   m_Layer: 5
   m_Name: FaithButton
   m_TagString: Untagged
@@ -1091,6 +1092,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonName: {fileID: 4011106470064209367}
   icon: {fileID: 6448462886653039406}
+--- !u!114 &-2216528916169618277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4202850257950410544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4785933148976818947
 GameObject:
   m_ObjectHideFlags: 0
@@ -1762,6 +1775,7 @@ GameObject:
   - component: {fileID: 7400583128744229203}
   - component: {fileID: 5702768283052995646}
   - component: {fileID: 3780323714052446559}
+  - component: {fileID: 8551217079407745447}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -1884,3 +1898,15 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8551217079407745447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9063019182433633147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

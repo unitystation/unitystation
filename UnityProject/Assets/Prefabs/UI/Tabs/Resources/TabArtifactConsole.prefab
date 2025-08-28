@@ -1533,6 +1533,7 @@ GameObject:
   - component: {fileID: 6958144336183471456}
   - component: {fileID: 8212804295504598326}
   - component: {fileID: 3599325250213348301}
+  - component: {fileID: 479437689602588467}
   m_Layer: 5
   m_Name: WriteButton
   m_TagString: Untagged
@@ -1697,6 +1698,18 @@ MonoBehaviour:
   m_EffectColor: {r: 0.5320754, g: 0.23592022, b: 0.5320754, a: 1}
   m_EffectDistance: {x: 0, y: -10}
   m_UseGraphicAlpha: 1
+--- !u!114 &479437689602588467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304696049434214141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1505557208920949804
 GameObject:
   m_ObjectHideFlags: 0
@@ -5171,7 +5184,7 @@ MonoBehaviour:
   m_ContentType: 2
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 4
+  m_KeyboardType: 2
   m_LineType: 0
   m_HideMobileInput: 0
   m_CharacterValidation: 1
@@ -6229,7 +6242,7 @@ MonoBehaviour:
   m_ContentType: 2
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 4
+  m_KeyboardType: 2
   m_LineType: 0
   m_HideMobileInput: 0
   m_CharacterValidation: 1
@@ -6397,6 +6410,7 @@ GameObject:
   - component: {fileID: 818089458179707339}
   - component: {fileID: 3463516972180787732}
   - component: {fileID: 3202717941638355763}
+  - component: {fileID: -5677749652039970331}
   m_Layer: 5
   m_Name: Erase
   m_TagString: Untagged
@@ -6560,6 +6574,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &-5677749652039970331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6602837315309855708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6702952737862867040
 GameObject:
   m_ObjectHideFlags: 0
@@ -7705,6 +7731,7 @@ GameObject:
   - component: {fileID: 3122147586440579286}
   - component: {fileID: 6358348082829473450}
   - component: {fileID: 5768032551700315448}
+  - component: {fileID: -1094650149844894039}
   m_Layer: 5
   m_Name: CloseWindowButton
   m_TagString: Untagged
@@ -7826,6 +7853,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &-1094650149844894039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7629480698816629430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7682415677986093036
 GameObject:
   m_ObjectHideFlags: 0
@@ -8487,7 +8526,7 @@ MonoBehaviour:
   m_ContentType: 2
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 4
+  m_KeyboardType: 2
   m_LineType: 0
   m_HideMobileInput: 0
   m_CharacterValidation: 1

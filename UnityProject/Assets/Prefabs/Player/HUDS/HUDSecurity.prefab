@@ -53,15 +53,17 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 732f3c8aabedeb54d95e72403239ed1a, type: 2}
   - {fileID: 11400000, guid: abad0fc424fd15448ab6c518b8af74e2, type: 2}
   - {fileID: 11400000, guid: a3b478722c9113a44934cc53746db83b, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: a3b478722c9113a44934cc53746db83b, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: a3b478722c9113a44934cc53746db83b,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 2847870594669773660}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!212 &2847870594669773660
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -79,6 +81,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -163,15 +168,17 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: e4eb608982005d94e9d3ab683cd83d7f, type: 2}
   - {fileID: 11400000, guid: 824bc28ad4d94fb4da75a98483250f71, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 824bc28ad4d94fb4da75a98483250f71, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 824bc28ad4d94fb4da75a98483250f71,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 3436643012773090244}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!212 &3436643012773090244
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -189,6 +196,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -358,15 +368,18 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6d6ec370ce48fd741827f3f961045fb2, type: 2}
   - {fileID: 11400000, guid: e416313c0fe970a49b95ef9a455b5bca, type: 2}
   - {fileID: 11400000, guid: 1cf77ef2623b89d4eaacfe38576c20f9, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: c7dfd4bf41416f74da18305360ee1fe2, type: 2}
+  - {fileID: 11400000, guid: e2b82e7bde52ae745a83e6b25a840aa2, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: c7dfd4bf41416f74da18305360ee1fe2,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 519543029209916075}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!212 &519543029209916075
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -384,6 +397,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

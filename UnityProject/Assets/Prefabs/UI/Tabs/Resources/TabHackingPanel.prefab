@@ -150,6 +150,7 @@ GameObject:
   - component: {fileID: 2824830047033383198}
   - component: {fileID: 710427847971794725}
   - component: {fileID: 158294277186538504}
+  - component: {fileID: -7934272271007010941}
   m_Layer: 5
   m_Name: Devices Panel
   m_TagString: Untagged
@@ -271,6 +272,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &-7934272271007010941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1894247202287186774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2481354037394629130
 GameObject:
   m_ObjectHideFlags: 0
@@ -831,6 +844,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4097794302188107283}
   - component: {fileID: 329028281310826644}
+  - component: {fileID: 1038502080920061501}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -914,6 +928,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1038502080920061501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8248658913142469993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8317024002202406274
 GameObject:
   m_ObjectHideFlags: 0
@@ -1010,11 +1036,11 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   Wirecut:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/wiring/Wirecut1.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   Inputs: {fileID: 6938771034534665163}
@@ -1090,6 +1116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 636111e8adf7b234f8563fdfdf91f495, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NetTab: {fileID: 0}
   OnEscapeKey:
     m_PersistentCalls:
       m_Calls: []

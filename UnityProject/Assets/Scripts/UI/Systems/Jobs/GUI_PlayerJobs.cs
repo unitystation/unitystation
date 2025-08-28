@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using Core.Utils;
+using Logs;
 using Messages.Server;
 using ScriptableObjects.Characters;
 using UI.Systems.PreRound;
@@ -64,6 +65,8 @@ namespace UI
 		[SerializeField] private RoundJoinAttributes attributesJoinList;
 		[SerializeField] private Toggle expirementalJobsTestToggle;
 		[SerializeField] private Transform expiermentalWarning;
+
+		public List<GUI_PlayerJobsCategory> Categories;
 
 
 		/// <summary>
@@ -188,12 +191,15 @@ namespace UI
 
 		public void UpdateJobsList()
 		{
-			screen_Jobs.SetActive(false);
 
-			foreach (Transform child in screen_Jobs.transform)
+			foreach (var Category in Categories)
 			{
-				Destroy(child.gameObject);
+				foreach (Transform child in Category.Child.transform)
+				{
+					Destroy(child.gameObject);
+				}
 			}
+
 
 			if (expirementalJobsTestToggle.isOn)
 			{
@@ -233,8 +239,22 @@ namespace UI
 
 			int active = GameManager.Instance.ClientGetOccupationsCount(jobType);
 			int available = GameManager.Instance.GetOccupationMaxCount(jobType);
+			GUI_PlayerJobsCategory ChosenCategory = null;
+			foreach (var Category in Categories)
+			{
+				if (occupation.JobCategory == Category.JobCategory)
+				{
+					ChosenCategory = Category;
+					break;
+				}
+			}
 
-			GameObject occupationGO = Instantiate(buttonPrefab, screen_Jobs.transform);
+			if (ChosenCategory?.Child?.transform == null)
+			{
+				Loggy.Error("AAAAAA");
+			}
+
+			GameObject occupationGO = Instantiate(buttonPrefab, ChosenCategory.Child.transform);
 
 			var image = occupationGO.GetComponent<Image>();
 			var text = occupationGO.GetComponentInChildren<TextMeshProUGUI>();

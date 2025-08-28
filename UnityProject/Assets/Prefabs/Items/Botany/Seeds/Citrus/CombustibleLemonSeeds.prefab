@@ -112,9 +112,25 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 1619299131167382530, guid: a096b50447bc34448ab67474a463eaef,
         type: 3}
+      propertyPath: plantData.ReagentProduction.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1619299131167382530, guid: a096b50447bc34448ab67474a463eaef,
+        type: 3}
       propertyPath: plantData.MutatesInToGameObject.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1619299131167382530, guid: a096b50447bc34448ab67474a463eaef,
+        type: 3}
+      propertyPath: plantData.ReagentProduction.Array.data[0].percentage
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 1619299131167382530, guid: a096b50447bc34448ab67474a463eaef,
+        type: 3}
+      propertyPath: plantData.ReagentProduction.Array.data[0].ChemistryReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237,
+        type: 2}
     - target: {fileID: 3689958723454309655, guid: a096b50447bc34448ab67474a463eaef,
         type: 3}
       propertyPath: BasePurity
@@ -122,7 +138,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6107674072460836156, guid: a096b50447bc34448ab67474a463eaef,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 3855113717358228173}
+    - target: {fileID: 6107674072460836156, guid: a096b50447bc34448ab67474a463eaef,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c0178f8eb864b52499105419e7a92187,
+        type: 2}
+    - target: {fileID: 6107674072460836156, guid: a096b50447bc34448ab67474a463eaef,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: c0178f8eb864b52499105419e7a92187,
         type: 2}
@@ -141,3 +168,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a096b50447bc34448ab67474a463eaef, type: 3}
+--- !u!212 &3855113717358228173 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 249170908317726183, guid: a096b50447bc34448ab67474a463eaef,
+    type: 3}
+  m_PrefabInstance: {fileID: 3960113361349035818}
+  m_PrefabAsset: {fileID: 0}

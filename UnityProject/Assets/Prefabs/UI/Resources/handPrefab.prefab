@@ -219,6 +219,7 @@ GameObject:
   - component: {fileID: 8478270150037755551}
   - component: {fileID: 3342555528256427899}
   - component: {fileID: 1752947061031652116}
+  - component: {fileID: 476946636632269259}
   m_Layer: 5
   m_Name: select_left_hand
   m_TagString: Untagged
@@ -339,6 +340,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &476946636632269259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1952248557454503239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2389279833176741792
 GameObject:
   m_ObjectHideFlags: 0
@@ -617,6 +630,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 2100000, guid: 0a968fd8e26129845b1d5e4fc47031b0, type: 2}
+  IsAdmins: 0
   _storageCharacteristics:
     NotPresentOnUI: 0
     SlotArea: 0
@@ -698,6 +712,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 2100000, guid: 0a968fd8e26129845b1d5e4fc47031b0, type: 2}
+  IsAdmins: 0
   _storageCharacteristics:
     NotPresentOnUI: 0
     SlotArea: 0
@@ -1387,6 +1402,7 @@ GameObject:
   - component: {fileID: 3014398213955882423}
   - component: {fileID: 1402756870546519111}
   - component: {fileID: 911577040737313387}
+  - component: {fileID: 1553351032800565008}
   m_Layer: 5
   m_Name: select_Right_hand
   m_TagString: Untagged
@@ -1507,6 +1523,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1553351032800565008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5760873583443659805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6405349877022171975
 GameObject:
   m_ObjectHideFlags: 0
@@ -1558,6 +1586,7 @@ GameObject:
   - component: {fileID: 5455514355304542452}
   - component: {fileID: 474812684451367645}
   - component: {fileID: 8605122075702307434}
+  - component: {fileID: 74160517486955142}
   m_Layer: 5
   m_Name: use_both_hands_button
   m_TagString: Untagged
@@ -1680,6 +1709,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+--- !u!114 &74160517486955142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6957041755572134863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7186669893136936723
 GameObject:
   m_ObjectHideFlags: 0

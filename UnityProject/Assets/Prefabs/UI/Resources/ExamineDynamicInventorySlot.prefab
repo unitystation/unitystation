@@ -310,6 +310,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 7819580118528154722}
+    - targetCorrespondingSourceObject: {fileID: 1797031250616714, guid: 31a7e33d28b1bc54682ad8da4173418a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3178971549765556455}
   m_SourcePrefab: {fileID: 100100000, guid: 31a7e33d28b1bc54682ad8da4173418a, type: 3}
 --- !u!224 &2156120002485461081 stripped
 RectTransform:
@@ -394,6 +398,18 @@ MonoBehaviour:
   obstructedOverlay: {fileID: 3471305784699077577}
   questionMark: {fileID: 7030477577018461885}
   itemSlot: {fileID: 3403880728139105968}
+--- !u!114 &3178971549765556455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2231193451659322067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2262514672629174001 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114483242453224872, guid: 31a7e33d28b1bc54682ad8da4173418a,

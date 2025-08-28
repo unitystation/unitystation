@@ -24,6 +24,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 0b7cd266aa6e5444586f807384493b11,
         type: 2}
+    - target: {fileID: 4089991019371845393, guid: ab1442ccdc53ec149820ae45ec942a3a,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 0b7cd266aa6e5444586f807384493b11,
+        type: 2}
     - target: {fileID: 7739740155914552308, guid: ab1442ccdc53ec149820ae45ec942a3a,
         type: 3}
       propertyPath: initialName
@@ -160,6 +166,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5f71d2549376cc842a81db7f80ae34e1,
         type: 2}
+    - target: {fileID: 8824988080051254831, guid: ab1442ccdc53ec149820ae45ec942a3a,
+        type: 3}
+      propertyPath: plantData.ReagentProduction.Array.data[0].percentage
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8824988080051254831, guid: ab1442ccdc53ec149820ae45ec942a3a,
+        type: 3}
+      propertyPath: plantData.ReagentProduction.Array.data[1].percentage
+      value: 0.05
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

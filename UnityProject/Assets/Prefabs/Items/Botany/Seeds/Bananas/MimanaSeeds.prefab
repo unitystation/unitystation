@@ -27,6 +27,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3075874683970725352, guid: 20a3d1857d5f66c4aa945129302471a7,
         type: 3}
+      propertyPath: plantData.ReagentProduction.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3075874683970725352, guid: 20a3d1857d5f66c4aa945129302471a7,
+        type: 3}
       propertyPath: 'plantData.GrowthSpritesSOs.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 7bfccf7a82ac1604180f47aee8ba2f72,
@@ -54,6 +59,29 @@ PrefabInstance:
       propertyPath: plantData.MutatesInToGameObject.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3075874683970725352, guid: 20a3d1857d5f66c4aa945129302471a7,
+        type: 3}
+      propertyPath: plantData.ReagentProduction.Array.data[2].percentage
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 3075874683970725352, guid: 20a3d1857d5f66c4aa945129302471a7,
+        type: 3}
+      propertyPath: plantData.ReagentProduction.Array.data[0].ChemistryReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: 4141aea622b4c088c9c0d154b7d75d84,
+        type: 2}
+    - target: {fileID: 3075874683970725352, guid: 20a3d1857d5f66c4aa945129302471a7,
+        type: 3}
+      propertyPath: plantData.ReagentProduction.Array.data[1].ChemistryReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: acf5aada393318ae79eda0faba3acc14,
+        type: 2}
+    - target: {fileID: 3075874683970725352, guid: 20a3d1857d5f66c4aa945129302471a7,
+        type: 3}
+      propertyPath: plantData.ReagentProduction.Array.data[2].ChemistryReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237,
+        type: 2}
     - target: {fileID: 4304879353229922355, guid: 20a3d1857d5f66c4aa945129302471a7,
         type: 3}
       propertyPath: initialName
@@ -154,6 +182,12 @@ PrefabInstance:
     - target: {fileID: 7500047492164191446, guid: 20a3d1857d5f66c4aa945129302471a7,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 939186a77bb8e3f4bba1083b02794192,
+        type: 2}
+    - target: {fileID: 7500047492164191446, guid: 20a3d1857d5f66c4aa945129302471a7,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 939186a77bb8e3f4bba1083b02794192,
         type: 2}
