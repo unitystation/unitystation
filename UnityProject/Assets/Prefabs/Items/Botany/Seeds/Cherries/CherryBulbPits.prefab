@@ -97,9 +97,35 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2040676439104927070, guid: a4df6b632a40f5c448d93a5ac982967a,
         type: 3}
+      propertyPath: plantData.ReagentProduction.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2040676439104927070, guid: a4df6b632a40f5c448d93a5ac982967a,
+        type: 3}
       propertyPath: plantData.MutatesInToGameObject.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2040676439104927070, guid: a4df6b632a40f5c448d93a5ac982967a,
+        type: 3}
+      propertyPath: plantData.ReagentProduction.Array.data[0].percentage
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2040676439104927070, guid: a4df6b632a40f5c448d93a5ac982967a,
+        type: 3}
+      propertyPath: plantData.ReagentProduction.Array.data[1].percentage
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2040676439104927070, guid: a4df6b632a40f5c448d93a5ac982967a,
+        type: 3}
+      propertyPath: plantData.ReagentProduction.Array.data[2].percentage
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2040676439104927070, guid: a4df6b632a40f5c448d93a5ac982967a,
+        type: 3}
+      propertyPath: plantData.ReagentProduction.Array.data[2].ChemistryReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: c88c2310c2554a916809a444eb0efbe6,
+        type: 2}
     - target: {fileID: 5987360281773351818, guid: a4df6b632a40f5c448d93a5ac982967a,
         type: 3}
       propertyPath: parentID
@@ -113,6 +139,12 @@ PrefabInstance:
     - target: {fileID: 6839778882622264416, guid: a4df6b632a40f5c448d93a5ac982967a,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: fbb08c54e9c065647b9390864a51112b,
+        type: 2}
+    - target: {fileID: 6839778882622264416, guid: a4df6b632a40f5c448d93a5ac982967a,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: fbb08c54e9c065647b9390864a51112b,
         type: 2}

@@ -95,7 +95,7 @@ namespace Systems.Botany
 			ReagentMix CurrentReagentMix = new ReagentMix();
 			foreach (var reagentAndAmount in plantData.ReagentProduction)
 			{
-				CurrentReagentMix.Add(reagentAndAmount.ChemistryReagent, reagentAndAmount.Amount);
+				CurrentReagentMix.Add(reagentAndAmount.ChemistryReagent, reagentAndAmount.percentage);
 			}
 
 			reagentContainer.Add(CurrentReagentMix);

@@ -24,6 +24,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 75a893cd3b162d247a0d1ecad50feb06,
         type: 2}
+    - target: {fileID: 1141984989486209808, guid: aea6ac6f49bb5e443ac179f2e10caae0,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 75a893cd3b162d247a0d1ecad50feb06,
+        type: 2}
     - target: {fileID: 5576322218513136174, guid: aea6ac6f49bb5e443ac179f2e10caae0,
         type: 3}
       propertyPath: plantData.PlantName
@@ -43,9 +49,25 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5576322218513136174, guid: aea6ac6f49bb5e443ac179f2e10caae0,
         type: 3}
+      propertyPath: plantData.ReagentProduction.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5576322218513136174, guid: aea6ac6f49bb5e443ac179f2e10caae0,
+        type: 3}
       propertyPath: plantData.MutatesInToGameObject.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5576322218513136174, guid: aea6ac6f49bb5e443ac179f2e10caae0,
+        type: 3}
+      propertyPath: plantData.ReagentProduction.Array.data[2].percentage
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5576322218513136174, guid: aea6ac6f49bb5e443ac179f2e10caae0,
+        type: 3}
+      propertyPath: plantData.ReagentProduction.Array.data[2].ChemistryReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: 720afa3a7185df33baf0d79d93739983,
+        type: 2}
     - target: {fileID: 6372259115286189003, guid: aea6ac6f49bb5e443ac179f2e10caae0,
         type: 3}
       propertyPath: m_Sprite

@@ -172,7 +172,7 @@ namespace Objects.Botany
 
 
 				//Growth and harvest checks
-				if (!ReadyToHarvest)
+				if (ReadyToHarvest == false)
 				{
 					plantData.NextGrowthStageProgress += (int)Math.Ceiling((plantData.GrowthSpeed / 160f) * plantData.GrowthSpritesSOs.Count) ;
 
@@ -197,7 +197,7 @@ namespace Objects.Botany
 							}
 							else
 							{
-								if (!ReadyToHarvest)
+								if (ReadyToHarvest == false)
 								{
 									//plantData.NaturalMutation(modification);
 									plantCurrentStage = PlantSpriteStage.FullyGrown;
