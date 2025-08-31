@@ -165,7 +165,7 @@ namespace Objects.Botany
 				{
 					reagentContainer.Subtract(new ReagentMix(water, .01f));
 				}
-				else if (!plantData.PlantTrays.Contains(PlantTrays.Fungal_Vitality))
+				else if (plantData.PlantTrays.Contains(PlantTrays.Fungal_Vitality) == false)
 				{
 					plantData.Health += (plantData.Endurance - 101f) / 100f;
 				}
@@ -422,8 +422,10 @@ namespace Objects.Botany
 		private void ProduceCrop()
 		{
 			//Divides the yield value by 10 and then rounds it to the nearest integer to get the amount of objects harvested.
+			var Number = Mathf.Min(Mathf.Round(plantData.Yield / 10f), 10);
+
 			for (int i = 0;
-				i < (int)Math.Round(plantData.Yield / 10f);
+				i < (int)Number;
 				i++)
 			{
 				var produceObject = Spawn

@@ -92,6 +92,7 @@ namespace Items
 			// check if player want to use some light-source
 			if (interaction.UsedObject)
 			{
+				if (interaction.UsedObject == this.gameObject) return false;
 				var lightSource = interaction.UsedObject.GetComponent<FireSource>();
 				if (lightSource)
 				{
