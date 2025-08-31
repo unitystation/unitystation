@@ -230,7 +230,7 @@ namespace Systems.Botany
 
 			reagentContainer.Add(CurrentReagentMix);
 
-			reagentContainer.Multiply( plantData.Potency / 100f * 2.5f ); //40 Potency = * 1
+			reagentContainer.Multiply( plantData.Potency / 100f * 5f ); //40 Potency = * 1
 		}
 
 		/// <summary>
