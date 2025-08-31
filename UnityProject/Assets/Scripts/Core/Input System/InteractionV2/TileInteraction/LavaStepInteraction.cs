@@ -87,7 +87,7 @@ namespace Systems.Interaction
 
 			if (objectToBurn.TryGetComponent<Integrity>(out var integrity) && (integrity.Resistances.LavaProof == false || integrity.Resistances.Flammable))
 			{
-				integrity.ApplyDamage(objectFireDamage, AttackType.Fire, DamageType.Burn);
+				integrity.ApplyDamage(objectFireDamage, AttackType.Fire, DamageType.Burn, true);
 			}
 		}
 
