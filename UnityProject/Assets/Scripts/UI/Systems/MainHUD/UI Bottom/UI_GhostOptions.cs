@@ -141,7 +141,6 @@ namespace UI.Systems.Ghost
 			ghostRoleAnimator.TriggerAnimation();
 
 			yield return WaitFor.Seconds(5);
-			ghostRoleSpriteHandler.SetCatalogueIndexSprite(0, networked: false);
 
 			roleBtnAnimating = false;
 		}
