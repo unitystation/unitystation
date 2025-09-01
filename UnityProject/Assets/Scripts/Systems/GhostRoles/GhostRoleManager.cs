@@ -100,6 +100,10 @@ namespace Systems.GhostRoles
 			{
 				serverAvailableRoles.Remove(key);
 			};
+			role.OnMaxPlayersReached += () =>
+			{
+				serverAvailableRoles.Remove(key);
+			};
 
 			GhostRoleUpdateMessage.SendToClients(key);
 
@@ -150,7 +154,7 @@ namespace Systems.GhostRoles
 				};
 
 				if (PlayerManager.LocalPlayerScript.IsDeadOrGhost)
-					UIManager.Display.hudBottomGhost.NewGhostRoleAvailable(GhostRoles[typeIndex]);
+					UIManager.Display.hudBottomGhost.NewGhostRoleAvailable(GhostRoles[typeIndex], newRole);
 			}
 
 			GhostRoleClient role = clientAvailableRoles[key];

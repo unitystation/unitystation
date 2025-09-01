@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using NaughtyAttributes;
@@ -11,6 +12,7 @@ using AdminCommands;
 using Effects;
 using Messages.Client.GhostRoles;
 using Strings;
+using Systems.GhostRoles;
 
 
 namespace UI.Systems.Ghost
@@ -95,13 +97,34 @@ namespace UI.Systems.Ghost
 			DetermineGhostHearText();
 		}
 
-		public void NewGhostRoleAvailable(GhostRoleData role)
+		public void NewGhostRoleAvailable(GhostRoleData role, GhostRoleClient clientrole)
 		{
 			if (gameObject.activeSelf == false) return;
 			ghostRoleSpriteHandler.SetSpriteSO(role.Sprite, networked: false);
 			if (roleBtnAnimating) return; // Drop rapid subsequent notifications
 
+			if (clientrole != null)
+			{
+				clientrole.OnTimerExpired += UpdateIcon;
+			}
+
+
 			StartCoroutine(GhostRoleNotify(role));
+		}
+
+		public void UpdateIcon()
+		{
+
+			if (GhostRoleManager.Instance.clientAvailableRoles.Count == 0)
+			{
+				ghostRoleSpriteHandler.SetCatalogueIndexSprite(0, networked: false);
+				roleBtnAnimating = false;
+				return;
+			}
+
+			var firstOrDefault = GhostRoleManager.Instance.clientAvailableRoles.OrderByDescending(x => x.Key).FirstOrDefault();
+			var data = firstOrDefault.Value;
+			NewGhostRoleAvailable(GhostRoleManager.Instance.GhostRoles[data.RoleListIndex], data);
 		}
 
 		private void DetermineGhostHearText()
