@@ -13,6 +13,8 @@ public class CommonSicknesses : SingletonScriptableObject<CommonSicknesses>
    public Reagent SpaceFluReagent = null;
    public Reagent SpaceCancerReagent = null;
    public Reagent ParanoiaReagent = null;
+   public Reagent SpaceColdReagent = null;
+
 
    public SerializableDictionary<string, SicknessReaction> diseaseReactionDictionary = default;
 }

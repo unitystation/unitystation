@@ -1,4 +1,6 @@
 # Unitystation Sickness - How to implement new sicknesses
+(Search terms,  sickness, illness, called, Virus, virology, Cure, disease)
+
 
 In Unitystation, sicknesses are reagents (chemicals) and use unitystations chemistry system to perform their functions and afflict the player.
 This page covers the process for implementing new sicknesses into the game.
@@ -9,7 +11,7 @@ In order to add a sickness, three new files must be created:
 
 - The sickness reagent itself. Create a new reagent by right clicking in the asset window and navigating to `Create -> ScriptableObjects/Chemistry/Reagent`
 - A sickness growth reaction. This chemical reaction denotes how the sickness should grow within a patient and what symptoms to afflict. We will cover this in detail later, but to create one, right click in the asset window and navigate to `Create -> ScriptableObjects/Chemistry/SicknessReaction`
-- A sickness cure reaction. This chemical reaction controls how the sickness is cured. The contents of this reaction are generated at runtime but we need a place for these contents to be written. Create a cure reaction by creating a simple reaction (`Create -> ScriptableObjects/Chemistry/Reaction`) and ensure all fields are empty.
+- A sickness cure reaction. This chemical reaction controls how the sickness is cured. The contents of this reaction are generated at runtime but we need a place for these contents to be written. Create a cure reaction by creating a simple reaction (`Create -> ScriptableObjects/Chemistry/MetabolismReaction`) and ensure all fields are empty.
 
 When creating new scriptable objects, please respect existing file structure. The folders for each of the above resources are so:
 

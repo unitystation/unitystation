@@ -85,44 +85,9 @@ MonoBehaviour:
         Base: {fileID: 0}
         InternalMetabolismPerSecond: 1
         ExternalMetabolismPerSecond: 2
-        ALLMetabolismReactions:
-        - {fileID: 11400000, guid: ac0c760ad1cbab341b756545ba0586a4, type: 2}
-        - {fileID: 11400000, guid: 764107d010af362458271da1cae0b721, type: 2}
-        - {fileID: 11400000, guid: be96438d1ece65d42ac82b073c5b0dbd, type: 2}
-        - {fileID: 11400000, guid: f3831b1acebd1cc49b8bedc1d561da2d, type: 2}
-        - {fileID: 11400000, guid: b68a4df01ef69964596c5dc9daa503fc, type: 2}
-        - {fileID: 11400000, guid: 2314f18e5395f214ca02e5976e2ac99e, type: 2}
-        - {fileID: 11400000, guid: e0148fad25511cf4282cedc206ee507a, type: 2}
-        - {fileID: 11400000, guid: a1c4a4720b715e84ab247305a46e923a, type: 2}
-        - {fileID: 11400000, guid: 2bb9f5c33f1a9cf4ea2a004aa7873462, type: 2}
-        - {fileID: 11400000, guid: 70f22bab240e3b3468ad4b1509c90e9f, type: 2}
-        - {fileID: 11400000, guid: 132f2cd5d79066e46af78ea80a196713, type: 2}
-        - {fileID: 11400000, guid: e83c05c9c83ddfc4c84a80bff9a2cc8c, type: 2}
-        - {fileID: 11400000, guid: 11e70b972f4994f40ba26c72d9bc4b5e, type: 2}
-        - {fileID: 11400000, guid: d6d894f88c77aa54e814bcd831ff6eab, type: 2}
-        - {fileID: 11400000, guid: c3c30039428d04945891a05a5b24d90b, type: 2}
-        - {fileID: 11400000, guid: a6633049f2276744bb1debe8b7a4f1fb, type: 2}
-        - {fileID: 11400000, guid: 9d9fccd4b659b2e45a6089eb7fd5a8ec, type: 2}
-        - {fileID: 11400000, guid: 467467a8d844a53429f385bc1d11d6b3, type: 2}
-        - {fileID: 11400000, guid: cdad4fded4aa182459103c9a59012dc8, type: 2}
-        - {fileID: 11400000, guid: 6783e379d47680046abcc3d47d62c03a, type: 2}
-        - {fileID: 11400000, guid: 1d6fd38b48113c8448800db674a5110c, type: 2}
-        - {fileID: 11400000, guid: 7b8e80a904cafcf41a634682976c06a0, type: 2}
-        - {fileID: 11400000, guid: 85b402a852ad1ad49b64886cd42e93ce, type: 2}
-        - {fileID: 11400000, guid: 3ea6d21ecff38954a9e1b05795f3f45e, type: 2}
-        - {fileID: 11400000, guid: b7d0a552223af4d4d9f3eb3217df9183, type: 2}
-        - {fileID: 11400000, guid: 2902beb621ef39d42b6f061978844fc3, type: 2}
-        - {fileID: 11400000, guid: 13adffb9ac3eeb24fa7ea444c2d4dc1f, type: 2}
-        - {fileID: 11400000, guid: c08bfc7b09a88c34d9be46b34e311204, type: 2}
-        - {fileID: 11400000, guid: b987033982fda254ab8d08cc1db71c09, type: 2}
-        - {fileID: 11400000, guid: 183626486b5659147b9ab76c37f755d1, type: 2}
-        - {fileID: 11400000, guid: ddca67217442d154e9994c3f3d196a73, type: 2}
-        - {fileID: 11400000, guid: 0dfeb25a3a262dd4ba264ecd21677a89, type: 2}
-        - {fileID: 11400000, guid: 2547afc334d978d4cbfb3b8f6ee11861, type: 2}
-        - {fileID: 11400000, guid: 626942fe77af4b14fb904dc45a2f7d86, type: 2}
-        - {fileID: 11400000, guid: f362361d30166404488d57dc70e23c35, type: 2}
-        - {fileID: 11400000, guid: b883f83098b28cb4db20326f8306afc5, type: 2}
-        - {fileID: 11400000, guid: 941454b59dbb7574ebf6b82391ebc80f, type: 2}
+        MetabolismReactionSets:
+        - {fileID: 11400000, guid: c489a27500b5c5b4392c5f90d1d2fce9, type: 2}
+        ALLMetabolismReactions: []
         MetabolismComponents: []
     - rid: 5920833068371804164
       type: {class: HungerSystem, ns: HealthV2.Living.PolymorphicSystems, asm: Assets}
