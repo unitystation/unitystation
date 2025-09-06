@@ -216,7 +216,11 @@ MonoBehaviour:
   syncInterval: 0.1
   RelatedPart: {fileID: 0}
   BlacklistReagents:
-  - {fileID: 11400000, guid: 68548df5bd53cc24b8d2bbfa735a274d, type: 2}
-  - {fileID: 11400000, guid: 5e2a5c76d1bce6144b8b1aac987b2751, type: 2}
+  - Reagent: {fileID: 11400000, guid: 68548df5bd53cc24b8d2bbfa735a274d, type: 2}
+    Percentage: 1
+  - Reagent: {fileID: 11400000, guid: 5e2a5c76d1bce6144b8b1aac987b2751, type: 2}
+    Percentage: 1
+  - Reagent: {fileID: 11400000, guid: 16bdefd1a024c1992a1af5dfef5340f6, type: 2}
+    Percentage: 0.25
   _ReagentCirculatedComponent: {fileID: 0}
   ProcessingPercentage: 0.03

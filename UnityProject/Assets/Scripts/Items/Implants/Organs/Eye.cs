@@ -1,4 +1,8 @@
+using Chemistry;
+using Clothing;
 using HealthV2;
+using HealthV2.Living.PolymorphicSystems.Bodypart;
+using Logs;
 using Mirror;
 using UnityEngine;
 
@@ -17,6 +21,10 @@ namespace Items.Implants.Organs
 		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
 
 		public Color DimLightColour = new Color(255, 255, 255, 1);
+
+		public Reagent EyeIrritant;
+
+		public float EyeIrritantAmount = 0.25f;
 
 		public bool IsValidSetup(RegisterPlayer player)
 		{
@@ -37,6 +45,36 @@ namespace Items.Implants.Organs
 		{
 			OnBodyID = ShowForPlayer != null ? ShowForPlayer.netId : NetId.Empty;
 		}
+
+		public override void ImplantPeriodicUpdate()
+		{
+			//TODO eye Protection
+
+			if (EyeIrritant == null) return;
+			if (RelatedPart?.HealthMaster.OrNull()?.SurfaceReagents == null) return;
+
+			if (RelatedPart.HealthMaster.SurfaceReagents.TryGetValue(BodyPartType.Head, out var mix) == false)
+				//TODO Dynamically work out depending on which body part implanted in,  Instead of assuming it's in the head
+			//Simplest way to do it traverse to the highest body part, that it stored in and then work out its category, In the health doll
+			{
+				 return;
+			};
+
+
+			if (mix.reagents.Contains(EyeIrritant) == false) return;
+			float AmountOnHead = mix[EyeIrritant];
+			Loggy.Error(AmountOnHead.ToString());
+			if (AmountOnHead > EyeIrritantAmount)
+			{
+				if (RelatedPart.ClothingArmors.Count > 0) return;
+				var RegisterPlayer = RelatedPart.HealthMaster.GetComponent<RegisterPlayer>();
+				if (RegisterPlayer.IsSlippingServer == false)
+				{
+					RegisterPlayer.ServerStun(AmountOnHead * 5f, true, false);
+				}
+			}
+		}
+
 
 		public override void Awake()
 		{
