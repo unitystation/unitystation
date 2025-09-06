@@ -18,6 +18,8 @@ namespace CameraEffects
 
 		public BlurryVision blurryVisionEffect;
 		public ColourblindEmulation colourblindEmulationEffect;
+		public HighCamera HighCamera;
+
 		[field: SerializeField] public FlashbangCamera FlashbangCamera { get; private set; }
 
 		[Header("Settings")]

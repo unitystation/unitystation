@@ -1231,6 +1231,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				}
 
 				causesSlip = causesSlipClient;
+				slippingOn?.OnSlipOn?.Invoke(this);
 			}
 
 

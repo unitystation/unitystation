@@ -87,7 +87,7 @@ namespace Chemistry.Components
 			if (interaction.Intent == Intent.Help)
 			{
 				//checks if it's possible to transfer from container to container
-				if (!WillInteractHelp(interaction.HandObject, interaction.TargetObject, side)) return false;
+				if (WillInteractHelp(interaction.HandObject, interaction.TargetObject, side) == false) return false;
 			}
 			else
 			{
@@ -144,7 +144,6 @@ namespace Chemistry.Components
 			}
 
 			if (dstContainer.onlyAllowSyringeFilling && srcContainer.transferMode != TransferMode.Syringe) return false;
-			if (srcContainer.onlyAllowSyringeFilling && dstContainer.transferMode != TransferMode.Syringe) return false;
 
 			return dstContainer.transferMode != TransferMode.Syringe;
 		}

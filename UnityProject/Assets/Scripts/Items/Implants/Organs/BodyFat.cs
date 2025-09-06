@@ -106,6 +106,20 @@ namespace Items.Implants.Organs
 					playerHealthV2.PlayerMove.UpdateSpeeds();
 				}
 			}
+			else
+			{
+				if (RunningSpeedModifier != 0)
+				{
+					RunningSpeedModifier = 0;
+					WalkingSpeedModifier = 0;
+					CrawlingSpeedModifier = 0;
+					var playerHealthV2 = RelatedPart.HealthMaster as PlayerHealthV2;
+					if (playerHealthV2 != null)
+					{
+						playerHealthV2.PlayerMove.UpdateSpeeds();
+					}
+				}
+			}
 
 			if (AbsorbedAmount == 0)
 			{

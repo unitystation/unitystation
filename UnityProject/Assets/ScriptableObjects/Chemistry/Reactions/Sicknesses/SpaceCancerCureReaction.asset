@@ -13,16 +13,21 @@ MonoBehaviour:
   m_Name: SpaceCancerCureReaction
   m_EditorClassIdentifier: 
   ingredients:
-    m_keys: []
-    m_values: 
+    m_keys:
+    - {fileID: 11400000, guid: 4d31620644b580ae09c87962a41d1369, type: 2}
+    - {fileID: 11400000, guid: 0196cc8cc2de8818b9d56bdb11582c6c, type: 2}
+    - {fileID: 11400000, guid: 2945ad40ab95234498cac68e72a6940a, type: 2}
+    m_values: 010000000100000005000000
   useExactAmounts: 0
   MinimumReactionMultiple: 0
   catalysts:
     m_keys: []
     m_values: 
   inhibitors:
-    m_keys: []
-    m_values: 
+    m_keys:
+    - {fileID: 11400000, guid: c4e931cdd4b041652928e77065466e6b, type: 2}
+    - {fileID: 11400000, guid: e491e0411dc22a5e28ef4d7a4685a3c1, type: 2}
+    m_values: 0100000001000000
   hasMinTemp: 0
   serializableTempMin: 0
   hasMaxTemp: 0
@@ -34,7 +39,7 @@ MonoBehaviour:
     m_keys: []
     m_values: 
   overrideDisplayName: 
-  indexInSingleton: 502
+  indexInSingleton: 508
   ReagentMetabolismMultiplier: 1
   InternalAllRequired: []
   InternalBlacklist: []

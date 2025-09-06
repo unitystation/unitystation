@@ -757,7 +757,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	/// </summary>
 	public static void ReagentReact(ReagentMix reagents,
 		Vector3Int worldPos, MatrixInfo matrixInfo = null,bool spawnPrefabEffect = true, OrientationEnum direction = OrientationEnum.Up_By0,
-		bool Scatter = false, LivingHealthMasterBase from = null )
+		bool Scatter = false, LivingHealthMasterBase from = null, BodyPartType bodyPartAim = BodyPartType.None  )
 	{
 		if (CustomNetworkManager.IsServer == false)
 		{
@@ -773,7 +773,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		}
 
 		Vector3Int localPos = WorldToLocalInt(worldPos, matrixInfo);
-		matrixInfo.MetaDataLayer.ReagentReact(reagents, worldPos, localPos, spawnPrefabEffect, direction, Scatter, from);
+		matrixInfo.MetaDataLayer.ReagentReact(reagents, worldPos, localPos, spawnPrefabEffect, direction, Scatter, from, bodyPartAim);
 	}
 
 	public static bool IsSpaceWithNoTilesNearbyAt(Vector3Int worldPos, MatrixInfo matrixInfo = null)

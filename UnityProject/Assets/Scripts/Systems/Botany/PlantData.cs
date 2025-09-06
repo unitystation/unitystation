@@ -323,5 +323,6 @@ namespace Systems.Botany
 		Strong_Bioluminescence,
 		Bioluminescence,
 		Separated_Chemicals,
+		Fire_Resistance
 	}
 }
