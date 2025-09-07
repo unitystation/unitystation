@@ -48,6 +48,7 @@ MonoBehaviour:
   maxCapacity: 100
   DEBUGReagent: {fileID: 0}
   DEBUGAmount: 0
+  StopReactions: 0
   reactionSet: {fileID: 11400000, guid: d867504583cfacb479e53eb0b14eba94, type: 2}
   AdditionalReactions: []
   initialReagentMix:
@@ -59,6 +60,12 @@ MonoBehaviour:
   destroyOnEmpty: 0
   ContentsSet: 0
   menuOptions: -1
+  currentReagentMix:
+    temperature: 0
+    reagents:
+      m_keys: []
+      m_values: []
+    reagentKeys: []
   spriteHandler: {fileID: 0}
   UseStandardExamine: 1
   ExamineAmount: 0
@@ -66,6 +73,7 @@ MonoBehaviour:
   traitWhitelist: []
   reagentWhitelist: []
   transferMode: 0
+  onlyAllowSyringeFilling: 0
   SyringePulling: 0
   possibleTransferAmounts: []
   transferAmount: 20
@@ -81,6 +89,12 @@ PrefabInstance:
     - target: {fileID: 1497028632681747686, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8e6dea18948c403448bba8684dd8c4d1,
+        type: 2}
+    - target: {fileID: 1497028632681747686, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 8e6dea18948c403448bba8684dd8c4d1,
         type: 2}
@@ -353,7 +367,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b874c725172fcf7d58a34dc3c490ab6c, type: 2}
   - {fileID: 11400000, guid: bebd3a37d59755fd4af4118d65daaa15, type: 2}
   - {fileID: 11400000, guid: c83fc8c9eaa6569fe9ef9f7e77ac5342, type: 2}
-  - {fileID: 11400000, guid: de881df76c9427ef1be15d68edfffb29, type: 2}
   - {fileID: 11400000, guid: 43b2e8abad079ce65b1596d8cf4edab2, type: 2}
   - {fileID: 11400000, guid: bcde3fb1d9a3810bba61466ddd6c6a21, type: 2}
   - {fileID: 11400000, guid: 75210b0291c665bd4b736aa07e146047, type: 2}
