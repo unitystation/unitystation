@@ -27,7 +27,7 @@ namespace Items.Weapons
 		[SerializeField] protected int timeToDetonate = 10;
 		[SerializeField] protected int minimumTimeToDetonate = 10;
 		[SerializeField] protected float explosiveStrength = 150f;
-		[SerializeField, Range(0,150)] protected int explosiveRadius = 150;
+		[SerializeField, Range(-1,150)] protected int explosiveRadius = 150;
 		[SerializeField] protected SpriteDataSO activeSpriteSO;
 		[SerializeField] protected AddressableAudioSource beepSound;
 		[SerializeField] protected float progressTime = 3f;
