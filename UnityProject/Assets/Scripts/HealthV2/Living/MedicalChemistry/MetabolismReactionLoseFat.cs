@@ -13,7 +13,7 @@ public class MetabolismReactionLoseFat : BodyHealthEffect
 	public float Multiplyer = 10;
 
 	public override void PossibleReaction(List<MetabolismComponent> senders, ReagentMix reagentMix,
-		float reactionMultiple, float BodyReactionAmount, float TotalChemicalsProcessed, ref bool overdose)
+		float reactionMultiple, float BodyReactionAmount, float TotalChemicalsProcessed, float UntouchedMultiple, ref bool overdose)
 	{
 		overdose = false;
 		bool lowFat = true;
@@ -29,14 +29,14 @@ public class MetabolismReactionLoseFat : BodyHealthEffect
 				}
 			}
 		}
-
+		reactionMultiple = Mathf.Min(reactionMultiple * ReagentMetabolismMultiplier, UntouchedMultiple);
 		foreach (var bodyPart in Toloop)
 		{
 
 			var Individual = bodyPart.ReagentMetabolism * bodyPart.BloodThroughput * bodyPart.CurrentBloodSaturation;
 
 			var PercentageOfProcess = Individual / BodyReactionAmount;
-			
+
 			var TotalChemicalsProcessedByBodyPart =
 				(TotalChemicalsProcessed * ReagentMetabolismMultiplier) * PercentageOfProcess;
 
@@ -58,6 +58,6 @@ public class MetabolismReactionLoseFat : BodyHealthEffect
 			}
 		}
 
-		base.PossibleReaction(senders, reagentMix, reactionMultiple, BodyReactionAmount, TotalChemicalsProcessed, ref overdose);
+		base.PossibleReaction(senders, reagentMix, reactionMultiple, BodyReactionAmount, TotalChemicalsProcessed, UntouchedMultiple, ref overdose);
 	}
 }

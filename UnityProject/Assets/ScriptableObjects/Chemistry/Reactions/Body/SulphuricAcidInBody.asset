@@ -36,8 +36,10 @@ MonoBehaviour:
     m_values: 
   overrideDisplayName: 
   indexInSingleton: 157
-  ReagentMetabolismMultiplier: 1
-  InternalAllRequired: []
+  ReagentMetabolismMultiplier: 90
+  InternalAllRequired:
+  - {fileID: 11400000, guid: d859938ed34564a4a932f3beb902e34c, type: 2}
+  - {fileID: 11400000, guid: 57eb2d1faf36d2040ade08046da48bfa, type: 2}
   InternalBlacklist: []
   ExternalAllRequired: []
   ExternalBlacklist: []
@@ -52,7 +54,7 @@ MonoBehaviour:
   Effects:
   - DamageEffect: 1
     AttackType: 7
-    EffectPerOne: 1
+    EffectPerOne: 2
   - DamageEffect: 2
     AttackType: 7
-    EffectPerOne: 0.1
+    EffectPerOne: 1

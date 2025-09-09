@@ -111,10 +111,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1505407316208279060, guid: ddaa7cb39d8f9b942961b4aae4d65658,
         type: 3}
+      propertyPath: plantData.DeadSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: c47da2b726e94624b8111048330edb77,
+        type: 2}
+    - target: {fileID: 1505407316208279060, guid: ddaa7cb39d8f9b942961b4aae4d65658,
+        type: 3}
       propertyPath: plantData.ProduceObject
       value: 
       objectReference: {fileID: 664396184679314580, guid: 738b6ffb632b73442a1b02f72133ced5,
         type: 3}
+    - target: {fileID: 1505407316208279060, guid: ddaa7cb39d8f9b942961b4aae4d65658,
+        type: 3}
+      propertyPath: plantData.FullyGrownSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 6e8fad23ed7752d4e8a3e40ab6cf9427,
+        type: 2}
     - target: {fileID: 1505407316208279060, guid: ddaa7cb39d8f9b942961b4aae4d65658,
         type: 3}
       propertyPath: plantData.PlantTrays.Array.size
@@ -130,6 +142,36 @@ PrefabInstance:
       propertyPath: plantData.ReagentProduction.Array.size
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1505407316208279060, guid: ddaa7cb39d8f9b942961b4aae4d65658,
+        type: 3}
+      propertyPath: 'plantData.GrowthSpritesSOs.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: f4e1004608a395349871b9d062f2549b,
+        type: 2}
+    - target: {fileID: 1505407316208279060, guid: ddaa7cb39d8f9b942961b4aae4d65658,
+        type: 3}
+      propertyPath: 'plantData.GrowthSpritesSOs.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 228e768a2f0a8c04e9dbd8eac3440b0b,
+        type: 2}
+    - target: {fileID: 1505407316208279060, guid: ddaa7cb39d8f9b942961b4aae4d65658,
+        type: 3}
+      propertyPath: 'plantData.GrowthSpritesSOs.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: eaa7636804fbb9f4c86e39254d7e7379,
+        type: 2}
+    - target: {fileID: 1505407316208279060, guid: ddaa7cb39d8f9b942961b4aae4d65658,
+        type: 3}
+      propertyPath: 'plantData.GrowthSpritesSOs.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 554479ffce4f02340bae95c006038569,
+        type: 2}
+    - target: {fileID: 1505407316208279060, guid: ddaa7cb39d8f9b942961b4aae4d65658,
+        type: 3}
+      propertyPath: 'plantData.GrowthSpritesSOs.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 823e78264f6b096419d1af4c0dfffd93,
+        type: 2}
     - target: {fileID: 1505407316208279060, guid: ddaa7cb39d8f9b942961b4aae4d65658,
         type: 3}
       propertyPath: plantData.MutatesInToGameObject.Array.size

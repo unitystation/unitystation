@@ -68,7 +68,7 @@ namespace HealthV2.Sickness
 		// We handle sickness reactions differently to standard metabolism reactions. Instead of isolating only 5u to react at a time,
 		// We bypass this and react the whole mix. This is because sickness growth is not a result of a bodies metabolism but independent pathogen growth that scales universally.
 		public override void PossibleReaction(List<MetabolismComponent> senders, ReagentMix reagentMix,
-		float reactionMultiple, float bodyReactionAmount, float TotalChemicalsProcessed, ref bool overdose)
+		float reactionMultiple, float bodyReactionAmount, float TotalChemicalsProcessed, float UntouchedMultiple, ref bool overdose)
 		{
 			//This line has the assumption that the only reagent for a sickness reaction is the pathogen.
 			Reagent sicknessReagent = ingredients.m_dict.First().Key;

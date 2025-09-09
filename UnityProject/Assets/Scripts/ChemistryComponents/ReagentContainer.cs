@@ -132,6 +132,7 @@ namespace Chemistry.Components
 		private IReagentMixProvider _customMixProviderProvider;
 
 
+		[SerializeField]
 		private ReagentMix currentReagentMix;
 
 		/// <summary>

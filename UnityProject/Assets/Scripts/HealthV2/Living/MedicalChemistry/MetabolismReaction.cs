@@ -48,6 +48,7 @@ public class MetabolismReaction : Reaction
 	public void React(List<MetabolismComponent> sender, ReagentMix reagentMix, float maxReactQuantity)
 	{
 		var reactionMultiple = GetReactionMultiple(reagentMix);
+		var UntouchedreactionMultiple = reactionMultiple;
 		if (reactionMultiple == 0) return;
 		reactionMultiple *= (maxReactQuantity / reagentMix.Total);
 
@@ -66,11 +67,13 @@ public class MetabolismReaction : Reaction
 		//Reaction multiple - reaction multiple for the given reaction. Scaled for how much of the blood is processed at once
 		//BodyReactionAmount - The max amount of blood that is reacted at once
 		//TotalChemicalsProcessed - The amount of ingredients being reacted by this
-		PossibleReaction(sender, reagentMix, reactionMultiple, maxReactQuantity, AmountProcessing, ref overdose);
+		PossibleReaction(sender, reagentMix, reactionMultiple, maxReactQuantity, AmountProcessing, UntouchedreactionMultiple, ref overdose);
 	}
 
-	public virtual void PossibleReaction(List<MetabolismComponent> senders, ReagentMix reagentMix, float reactionMultiple, float BodyReactionAmount, float TotalChemicalsProcessed, ref bool overdose)
+	public virtual void PossibleReaction(List<MetabolismComponent> senders, ReagentMix reagentMix, float reactionMultiple, float BodyReactionAmount, float TotalChemicalsProcessed, float UntouchedMultiple, ref bool overdose)
 	{
+		reactionMultiple = Mathf.Min(reactionMultiple * ReagentMetabolismMultiplier, UntouchedMultiple);
+
 		//out must be asigned to something, overdose is never used here.
 		overdose = false;
 		foreach (var ingredient in ingredients.m_dict)

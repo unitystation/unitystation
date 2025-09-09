@@ -89,6 +89,7 @@ namespace Items.Food
 		public bool WillInteract(HandActivate interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+			if (interaction.Intent != Intent.Help) return false;
 			return true;
 		}
 
