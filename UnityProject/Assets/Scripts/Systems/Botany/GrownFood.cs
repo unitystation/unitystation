@@ -211,7 +211,7 @@ namespace Systems.Botany
 			float portion = reagentContainer.ReagentMixTotal / hitsRemaining;
 
 			var InjectingReagents = reagentContainer.TakeReagents(portion);
-			
+
 			LHB.reagentPoolSystem.BloodPool.Add(InjectingReagents);
 
 			hitCount++;
