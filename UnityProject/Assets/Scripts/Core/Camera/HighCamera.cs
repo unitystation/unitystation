@@ -22,8 +22,6 @@ public class HighCamera : MonoBehaviour
 
 	public void SetStrength(float Strength)
 	{
-		Loggy.Error(Strength.ToString());
-
 		if (Strength > 0.75f)
 		{
 			var CorrectedStrength = (Strength - 0.75f) * 4;
