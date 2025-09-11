@@ -98,10 +98,13 @@ namespace Systems.GhostRoles
 			uint key = ServerAddRole(role);
 			role.OnTimerExpired += () =>
 			{
+				GhostRoleUpdateMessage.SendToClients(key);
 				serverAvailableRoles.Remove(key);
+
 			};
 			role.OnMaxPlayersReached += () =>
 			{
+				GhostRoleUpdateMessage.SendToClients(key);
 				serverAvailableRoles.Remove(key);
 			};
 
@@ -166,6 +169,7 @@ namespace Systems.GhostRoles
 				UIManager.GhostRoleWindow.RemoveEntry(key);
 				clientAvailableRoles.Remove(key);
 				clientUpdatedRole.Invoke(role);
+				UIManager.Instance.displayControl.hudBottomGhost.UpdateIcon();
 				return default;
 			}
 
