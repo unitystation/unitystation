@@ -41,7 +41,7 @@ namespace Core.Physics
 		//## WIND AND OTHER ## //
 		public bool CanBeWindPushed = true;
 
-		public void PullSet(Physics.UniversalObjectPhysics toPull, bool byClient, bool synced = false)
+		public void PullSet(Physics.UniversalObjectPhysics toPull, bool byClient, bool synced = false, bool ResetForcePosition = false)
 		{
 			if (toPull != null && ContainedInObjectContainer != null) return; //Can't pull stuff inside of objects)
 
@@ -77,7 +77,7 @@ namespace Core.Physics
 			}
 			else
 			{
-				if (CustomNetworkManager.IsServer)
+				if (CustomNetworkManager.IsServer && ResetForcePosition)
 				{
 					ResetLocationOnClients();
 				}
@@ -311,7 +311,7 @@ namespace Core.Physics
 				var inDirection = cachedPosition - Pulling.Component.transform.position;
 				if (inDirection.magnitude > 2f && isServer)
 				{
-					PullSet(null, false);
+					PullSet(null, false, ResetForcePosition: true);
 				}
 				else
 				{
