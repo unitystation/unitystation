@@ -29,7 +29,7 @@ namespace Systems.Explosions
 			int fixedRadius = -1, int fixedShakingStrength = -1, List<ItemTrait> damageIgnoreAttributes = null, bool stunNearbyPlayers = false, int radiusMultiplier = 1)
 		{
 			AdminLogsManager.AddNewLog(null, $"An explosion has occured at {WorldPOS} with strength: {strength}.", LogCategory.World,
-				strength > 75 ? Severity.IMMEDIATE_ATTENTION : Severity.SUSPICOUS);
+				Severity.SUSPICOUS);
 			nodeType ??= new ExplosionNode(WorldPOS);
 			nodeType.IgnoreAttributes = damageIgnoreAttributes;
 

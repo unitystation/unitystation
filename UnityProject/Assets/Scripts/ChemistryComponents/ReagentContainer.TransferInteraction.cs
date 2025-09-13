@@ -130,6 +130,13 @@ namespace Chemistry.Components
 				return false;
 			}
 
+			if (srcContainer.transferMode == TransferMode.InputOnly
+			    || dstContainer.transferMode == TransferMode.InputOnly)
+			{
+				return false;
+			}
+
+
 			if (side == NetworkSide.Server)
 			{
 				if (srcContainer.TraitWhitelistOn && !Validations.HasAnyTrait(dstObject, srcContainer.traitWhitelist))

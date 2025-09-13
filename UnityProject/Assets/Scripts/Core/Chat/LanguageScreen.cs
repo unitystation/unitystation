@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Managers;
 using TMPro;
@@ -28,6 +29,22 @@ namespace Core.Chat
 		{
 			Refresh();
 		}
+
+		public void Start()
+		{
+			EventManager.AddHandler(Event.Cleanup, Cleanup);
+		}
+
+		private void Cleanup()
+		{
+			int i = 0;
+			while (entryPool.Count > 0 && 50 > i)
+			{
+				RemoveEntry();
+				i++;
+			}
+		}
+
 
 		public void Refresh()
 		{
@@ -86,7 +103,7 @@ namespace Core.Chat
 
 		private void RemoveEntry()
 		{
-			Destroy(entryPool[^1]);
+			Destroy(entryPool[^1].gameObject);
 
 			entryPool.RemoveAt(entryPool.Count - 1);
 		}

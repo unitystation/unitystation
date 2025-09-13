@@ -52,6 +52,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -103,12 +104,17 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: 11b31d276779d5c4d90f26aa36d3da93, type: 2}
   - {fileID: 11400000, guid: cc9fd78d18c33d14db1ba9e294e34282, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 11b31d276779d5c4d90f26aa36d3da93, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 11b31d276779d5c4d90f26aa36d3da93,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &5829844436876796117
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,6 +167,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -215,12 +222,17 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ac99d4fa9d468d844b43f6c27eaea817, type: 2}
   - {fileID: 11400000, guid: 081fcbce358b5b04587a9a5be797b4ca, type: 2}
   - {fileID: 11400000, guid: 870cf87ced50c75459d4726f34237a96, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: e4eb608982005d94e9d3ab683cd83d7f, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: e4eb608982005d94e9d3ab683cd83d7f,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1001 &9161379464675248413
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -242,6 +254,12 @@ PrefabInstance:
     - target: {fileID: 4128362409855863911, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: eaf99639db15fef409e10f6d89480371,
+        type: 2}
+    - target: {fileID: 4128362409855863911, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: eaf99639db15fef409e10f6d89480371,
         type: 2}
@@ -307,9 +325,21 @@ PrefabInstance:
       objectReference: {fileID: 2800000, guid: f68f9660bfed4f347958c0cfbdca90bc, type: 3}
     - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 8a48d48c73b986c449c0829f13a80d56,
+        type: 2}
+    - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
       propertyPath: itemSprites.LeftHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: b76c8358af98242468fe29b497a3a5e7, type: 3}
+    - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: c6b648b1361bd78418d3ee578b0d3d1a,
+        type: 2}
     - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
       propertyPath: itemSprites.RightHand.EquippedData
@@ -524,8 +554,9 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  magType: 0
-  initalProjectile: {fileID: 0}
+  magType: 1
+  initalProjectile: {fileID: 942198071249333068, guid: 1b73b065de833794fbdec1c8beb4e99a,
+    type: 3}
   ProjectilesFired: 1
   ammoType: 16
   magazineSize: 1
@@ -545,7 +576,6 @@ MonoBehaviour:
   SpriteHandler: {fileID: 5073623463249184122}
   PullOrDrawSpriteHandler: {fileID: 190108051400119662}
   ContentsSpriteHandler: {fileID: 3568568803878376952}
-  SicknessesInSyringe: []
   singleUse: 0
   ChangesSprite: 1
   SpiteFullIndex: 0

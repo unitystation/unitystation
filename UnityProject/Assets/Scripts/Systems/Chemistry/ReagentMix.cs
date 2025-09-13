@@ -486,8 +486,15 @@ namespace Chemistry
 				return;
 			}
 
+
 			lock (reagents)
 			{
+				if (TEMPReagents == null)
+				{
+					TEMPReagents = new Dictionary<Reagent, float>();
+				}
+
+
 				TEMPReagents.Clear();
 				foreach (var key in reagents.m_dict.Keys)
 				{

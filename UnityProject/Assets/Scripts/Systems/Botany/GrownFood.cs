@@ -9,6 +9,7 @@ using Items;
 using Objects.Botany;
 using Items.Botany;
 using Items.Food;
+using Logs;
 using Scripts.Core.Transform;
 
 namespace Systems.Botany
@@ -211,7 +212,6 @@ namespace Systems.Botany
 
 			var InjectingReagents = reagentContainer.TakeReagents(portion);
 
-
 			LHB.reagentPoolSystem.BloodPool.Add(InjectingReagents);
 
 			hitCount++;
@@ -230,7 +230,7 @@ namespace Systems.Botany
 
 			reagentContainer.Add(CurrentReagentMix);
 
-			reagentContainer.Multiply( plantData.Potency / 100f * 5f ); //40 Potency = * 1
+			reagentContainer.Multiply( plantData.Potency / 100f * 15f );
 		}
 
 		/// <summary>

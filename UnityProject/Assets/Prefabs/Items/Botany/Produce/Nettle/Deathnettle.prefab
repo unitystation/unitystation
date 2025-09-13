@@ -87,7 +87,7 @@ PrefabInstance:
     - target: {fileID: 1132829406489390023, guid: 62fb89c5825f8d04386853747cfb547f,
         type: 3}
       propertyPath: hitDamage
-      value: 30
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1132829406489390023, guid: 62fb89c5825f8d04386853747cfb547f,
         type: 3}
@@ -97,7 +97,7 @@ PrefabInstance:
     - target: {fileID: 1132829406489390023, guid: 62fb89c5825f8d04386853747cfb547f,
         type: 3}
       propertyPath: throwDamage
-      value: 15
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1132829406489390023, guid: 62fb89c5825f8d04386853747cfb547f,
         type: 3}
@@ -118,6 +118,18 @@ PrefabInstance:
     - target: {fileID: 1132829406489390023, guid: 62fb89c5825f8d04386853747cfb547f,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 2c227daecdc8a4447981df813ff8d5d7,
+        type: 2}
+    - target: {fileID: 1132829406489390023, guid: 62fb89c5825f8d04386853747cfb547f,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 7aa0b826b14081e4ab5a5b8fd599cf83,
+        type: 2}
+    - target: {fileID: 1132829406489390023, guid: 62fb89c5825f8d04386853747cfb547f,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: 2c227daecdc8a4447981df813ff8d5d7,
         type: 2}
@@ -145,6 +157,12 @@ PrefabInstance:
     - target: {fileID: 6634677275537571618, guid: 62fb89c5825f8d04386853747cfb547f,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 6f66f71e0c6a8f047b6d14e6f099d393,
+        type: 2}
+    - target: {fileID: 6634677275537571618, guid: 62fb89c5825f8d04386853747cfb547f,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 6f66f71e0c6a8f047b6d14e6f099d393,
         type: 2}

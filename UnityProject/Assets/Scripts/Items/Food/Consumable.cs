@@ -54,6 +54,7 @@ public abstract class Consumable : NetworkBehaviour, ICheckedInteractable<HandAp
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
+		if (interaction.Intent != Intent.Help) return false;
 		if (interaction.HandObject == null && interaction.Performer.GetComponent<ConsumeFromFloor>() != null)
 		{
 			//Default check and allow any player if they have this script to do this

@@ -22,7 +22,7 @@ namespace Weapons.Projectiles.Behaviours
 		[Tooltip("Will the projectile create a hitmsg")]
 		[SerializeField] private bool doMsg = false;
 
-		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, BodyPartType targetZone = BodyPartType.Chest)
+		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, MagazineBehaviour MagazineBehaviour, BodyPartType targetZone = BodyPartType.Chest)
 		{
 			this.shooter = shooter;
 			this.weapon = weapon;

@@ -10,44 +10,54 @@ using UnityEngine;
 public class MetabolismReactionLoseFat : BodyHealthEffect
 {
 
-	public float Multiplier = 10;
+	public float Multiplyer = 10;
 
 	public override void PossibleReaction(List<MetabolismComponent> senders, ReagentMix reagentMix,
-		float reactionMultiple, float BodyReactionAmount, float TotalChemicalsProcessed, ref bool overdose)
+		float reactionMultiple, float BodyReactionAmount, float TotalChemicalsProcessed, float UntouchedMultiple, ref bool overdose)
 	{
 		overdose = false;
+		bool lowFat = true;
 		var Toloop = senders;
 		foreach (var bodyPart in Toloop)
 		{
-			float fatLeft = 0;
+			var BodyPart = bodyPart.GetComponentCustom<BodyFat>();
+			if (BodyPart != null)
+			{
+				if (BodyPart.AbsorbedAmount > 0.4)
+				{
+					lowFat = false;
+				}
+			}
+		}
+		reactionMultiple = Mathf.Min(reactionMultiple * ReagentMetabolismMultiplier, UntouchedMultiple);
+		foreach (var bodyPart in Toloop)
+		{
+
 			var Individual = bodyPart.ReagentMetabolism * bodyPart.BloodThroughput * bodyPart.CurrentBloodSaturation;
 
 			var PercentageOfProcess = Individual / BodyReactionAmount;
 
-
 			var TotalChemicalsProcessedByBodyPart =
 				(TotalChemicalsProcessed * ReagentMetabolismMultiplier) * PercentageOfProcess;
+
+			if (lowFat)
+			{
+				processDamageCalculation(overdose, bodyPart, TotalChemicalsProcessedByBodyPart * 5);
+			}
+			else
+			{
+				processDamageCalculation(overdose, bodyPart, TotalChemicalsProcessedByBodyPart);
+			}
 
 			var BodyPart = bodyPart.GetComponentCustom<BodyFat>();
 			if (BodyPart != null)
 			{
-
-				fatLeft += BodyPart.AbsorbedAmount;
 				var Total = BodyPart.AbsorbedAmount;
-				Total -= TotalChemicalsProcessedByBodyPart * Multiplier;
+				Total -= TotalChemicalsProcessed * Multiplyer;
 				BodyPart.SetAbsorbedAmount(Total);
-
-				if (fatLeft < 0.4)
-				{
-					processDamageCalculation(overdose, bodyPart, TotalChemicalsProcessedByBodyPart * 5);
-				}
-				else
-				{
-					processDamageCalculation(overdose, bodyPart, TotalChemicalsProcessedByBodyPart);
-				}
 			}
 		}
 
-		base.PossibleReaction(senders, reagentMix, reactionMultiple, BodyReactionAmount, TotalChemicalsProcessed, ref overdose);
+		base.PossibleReaction(senders, reagentMix, reactionMultiple, BodyReactionAmount, TotalChemicalsProcessed, UntouchedMultiple, ref overdose);
 	}
 }
