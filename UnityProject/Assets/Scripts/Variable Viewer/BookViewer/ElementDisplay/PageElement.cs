@@ -71,4 +71,11 @@ public class PageElement : MonoBehaviour
 			return null;
 		}
 	}
+
+	public virtual object GetDefaultValue(Type InType)
+	{
+		return null;
+	}
+
+
 }

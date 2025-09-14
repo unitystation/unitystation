@@ -215,6 +215,11 @@ namespace Systems.Botany
 			LHB.reagentPoolSystem.BloodPool.Add(InjectingReagents);
 
 			hitCount++;
+
+			if (hitCount >= 4)
+			{
+				_ = Despawn.ServerSingle(gameObject);
+			}
 		}
 
 		/// <summary>

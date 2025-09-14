@@ -2325,7 +2325,7 @@ namespace TileManagement
 
 				if (tileLocation != null)
 				{
-					if (tileLocation.layer.LayerType is LayerType.Base or LayerType.Walls)
+					if (tileLocation.layer?.LayerType is LayerType.Base or LayerType.Walls)
 					{
 						if (tileLocation.layerTile != null)
 						{
