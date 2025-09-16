@@ -88,8 +88,8 @@ namespace Core.Chat
 			for (int i = 0; i < understoodLanguages.Length; i++)
 			{
 				var language = understoodLanguages[i];
-				entryPool[i].SetUp($"[{(spokenLanguages.Contains(language) ? "U + S" : "U")}]{language.LanguageName} key: ,{language.Key}", language.Desc,
-					language.Sprite, this, language.LanguageUniqueId);
+				entryPool[i].SetUp($"{language.LanguageName}\n<size=50%>[{(spokenLanguages.Contains(language) ? "U + S" : "U")}]</size>", language.Desc,
+					language.Sprite, this, language.LanguageUniqueId, language.Key.ToString());
 			}
 		}
 
