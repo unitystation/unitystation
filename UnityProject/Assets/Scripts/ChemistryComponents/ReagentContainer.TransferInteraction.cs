@@ -131,7 +131,7 @@ namespace Chemistry.Components
 			}
 
 			if (srcContainer.transferMode == TransferMode.InputOnly
-			    || dstContainer.transferMode == TransferMode.InputOnly)
+			    || dstContainer.transferMode == TransferMode.OutputOnly)
 			{
 				return false;
 			}
