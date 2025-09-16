@@ -73,7 +73,10 @@ namespace TileManagement
 
 		public ChunkedTileMap<List<TileLocation>>[] MultilayerPresentTilesNeedsLock => MultilayerPresentTiles;
 
-		private Dictionary<Layer, BetterBoundsInt> BoundLocations = new Dictionary<Layer, BetterBoundsInt>();
+		private BetterBoundsInt?[] BoundLocations = new BetterBoundsInt?[14]; //NOTE TODO UPATE When you add a new Layer!!!
+
+		private bool Init = false;
+
 
 		public List<string> MassAndCentreLock = new List<string>();
 		public Vector3 LocalCentreOfMass = Vector3.zero;
@@ -127,12 +130,17 @@ namespace TileManagement
 		/// </summary>
 		public Layer[] DamageableLayers { get; private set; }
 
+		public Layer BaseLayer { get; private set; }
+
 		public Matrix matrix = null;
 
 		private Thread mainThread;
 
 		private BetterBoundsInt? LocalCachedBounds;
-		public BetterBounds? GlobalCachedBounds;
+		private BetterBounds? GlobalCachedBounds;
+
+		private BetterBounds? GlobalCachedCollisionBounds;
+
 
 		[NonSerialized] public Matrix4x4? localToWorldMatrix = null;
 		[NonSerialized] public Matrix4x4? worldToLocalMatrix = null;
@@ -176,11 +184,12 @@ namespace TileManagement
 				Layers[type] = layer;
 				layersKeys.Add(type);
 				layersValues.Add(layer);
-				if (type != LayerType.Effects
-				    && type != LayerType.None)
+				if (type == LayerType.Base)
 				{
-					solidLayersValues.Add(layer);
+					BaseLayer = layer;
 				}
+
+
 
 				if (type is LayerType.Walls or LayerType.Windows or LayerType.Grills or LayerType.Tables)
 				{
@@ -203,11 +212,7 @@ namespace TileManagement
 					continue;
 				}
 
-				var InBoundLocations = new BetterBoundsInt()
-				{
-					Maximum = Vector3Int.one,
-					Minimum = Vector3Int.zero
-				};
+				BetterBoundsInt? InBoundLocations = null;
 
 				if (layer.LayerType.IsMultilayer() == false)
 				{
@@ -242,7 +247,15 @@ namespace TileManagement
 
 
 								ToInsertDictionary[localPlace] = Tile;
-								InBoundLocations.ExpandToPoint2D(localPlace);
+								if (InBoundLocations == null)
+								{
+									InBoundLocations = new BetterBoundsInt()
+									{
+										Maximum = Tile.LocalPosition,
+										Minimum = Tile.LocalPosition
+									};
+								}
+								InBoundLocations.Value.ExpandToPoint2D(localPlace);
 							}
 						}
 					}
@@ -253,7 +266,19 @@ namespace TileManagement
 					}
 				}
 
-				BoundLocations[layer] = InBoundLocations;
+
+
+				if (type != LayerType.Effects
+				    && type != LayerType.None
+				    && type != LayerType.UnderObjectsEffects)
+				{
+					solidLayersValues.Add(layer);
+					BoundLocations[(int)layer.LayerType] = InBoundLocations;
+				}
+				else
+				{
+					BoundLocations[(int)layer.LayerType] = null;
+				}
 			}
 
 			lock (PresentTiles)
@@ -289,6 +314,7 @@ namespace TileManagement
 			localToWorldMatrix = transform1.localToWorldMatrix;
 			worldToLocalMatrix = transform1.worldToLocalMatrix;
 			CacheLocalBound();
+			Init = true;
 		}
 
 
@@ -299,7 +325,7 @@ namespace TileManagement
 			worldToLocalMatrix = transform1.worldToLocalMatrix;
 			lock (matrix)
 			{
-				GlobalCachedBounds = null;
+				NullifyWorldBounds();
 			}
 		}
 
@@ -464,20 +490,7 @@ namespace TileManagement
 				}
 			}
 
-			if (LocalCachedBounds != null)
-			{
-				if (LocalCachedBounds.Value.Contains(tileLocation.LocalPosition) == false)
-				{
-					var Bounds = LocalCachedBounds.Value; // struct funnies With references
-					Bounds.ExpandToPoint2D(tileLocation.LocalPosition);
-					LocalCachedBounds = Bounds;
-
-					lock (matrix)
-					{
-						GlobalCachedBounds = null;
-					}
-				}
-			}
+			HandleBoundChange(tileLocation);
 
 			tileLocation.layer.SubsystemManager.UpdateAt(tileLocation.LocalPosition);
 
@@ -1064,20 +1077,7 @@ namespace TileManagement
 					}
 				}
 
-				if (LocalCachedBounds != null)
-				{
-					if (LocalCachedBounds.Value.Contains(tileLocation.LocalPosition) == false)
-					{
-						var bounds = LocalCachedBounds.Value; // struct funnies With references
-						bounds.ExpandToPoint2D(tileLocation.LocalPosition);
-						LocalCachedBounds = bounds;
-
-						lock (matrix)
-						{
-							GlobalCachedBounds = null;
-						}
-					}
-				}
+				HandleBoundChange(tileLocation);
 
 				ApplyTileChange(tileLocation);
 
@@ -1089,6 +1089,65 @@ namespace TileManagement
 			}
 
 			return position;
+		}
+
+		private void HandleBoundChange(TileLocation tileLocation)
+		{
+
+			if (LocalCachedBounds == null)
+			{
+				LocalCachedBounds = new BetterBoundsInt()
+				{
+					Maximum = tileLocation.LocalPosition,
+					Minimum = tileLocation.LocalPosition
+				};
+				lock (matrix)
+				{
+					NullifyWorldBounds();
+				}
+			}
+
+			if (LocalCachedBounds.Value.Contains(tileLocation.LocalPosition) == false)
+			{
+				var bounds = LocalCachedBounds.Value; // struct funnies With references
+				bounds.ExpandToPoint2D(tileLocation.LocalPosition);
+				LocalCachedBounds = bounds;
+
+				lock (matrix)
+				{
+					NullifyWorldBounds();
+				}
+			}
+
+			var Type = tileLocation.layer.LayerType;
+			if (Type is not
+			    (LayerType.Effects
+			    or LayerType.None
+			    or LayerType.UnderObjectsEffects)
+			    )
+			{
+
+				var BoundsN = BoundLocations[(int) Type];
+				if (BoundsN == null)
+				{
+					BoundsN = new BetterBoundsInt()
+					{
+						Maximum = tileLocation.LocalPosition,
+						Minimum = tileLocation.LocalPosition
+					};
+					BoundLocations[(int) Type] = BoundsN;
+				}
+
+				var Bounds = BoundLocations[(int) Type].Value;
+
+				if (Bounds.Contains(tileLocation.LocalPosition) == false)
+				{
+					Bounds.ExpandToPoint2D(tileLocation.LocalPosition);
+					BoundLocations[(int) Type] = Bounds;
+				}
+
+			}
+
 		}
 
 		public void ClearAtPos(Vector3Int position)
@@ -2204,7 +2263,7 @@ namespace TileManagement
 						//TODO Tile map upgrade , xyz z = is the z The level so We need one more xyzw w = what w Coordinate on the z Coordinate on the layer the tile is
 						//so, Upgrade messages and the entire system to use vector4int
 						//but For now since the z is left hanging is ok
-						//If it was vector4int then Use that directly
+						//If it was vector4int then Use that directlydddd
 						var positionnew = position;
 						for (int i = 0; i < 50; i++)
 						{
@@ -2360,6 +2419,12 @@ namespace TileManagement
 		public Vector3 CellToWorld(Vector3Int cellPos) => LayersValues[0].CellToWorld(cellPos);
 		public Vector3 WorldToLocal(Vector3 worldPos) => LayersValues[0].WorldToLocal(worldPos);
 
+		public BetterBoundsInt? GetLocalCollisionBounds()
+		{
+			return  BoundLocations[(int) LayerType.Base];
+		}
+
+
 		public BetterBoundsInt GetLocalBounds()
 		{
 			lock (matrix)
@@ -2367,10 +2432,24 @@ namespace TileManagement
 				if (LocalCachedBounds == null)
 				{
 					CacheLocalBound();
+					if (LocalCachedBounds == null)
+					{
+						return new BetterBoundsInt()
+						{
+							Maximum = new Vector3Int(1, 1, 0),
+							Minimum = Vector3Int.zero
+						};
+					}
 				}
 
 				return LocalCachedBounds.Value;
 			}
+		}
+
+		public void NullifyWorldBounds()
+		{
+			GlobalCachedBounds = null;
+			GlobalCachedCollisionBounds = null;
 		}
 
 		public BetterBounds GetWorldBounds()
@@ -2379,33 +2458,71 @@ namespace TileManagement
 			{
 				if (GlobalCachedBounds == null)
 				{
-					return CacheGlobalBound();
+					if (CacheGlobalBound() == null)
+					{
+						return new BetterBounds()
+						{
+							Maximum = new Vector3(1, 1, 0),
+							Minimum = Vector3.zero
+						};
+					}
 				}
 
 				return GlobalCachedBounds.Value;
 			}
 		}
 
-		public void CacheLocalBound()
+		public BetterBounds? GeWorldMatrixCollisionBounds()
 		{
-			Vector3Int minPosition = Vector3Int.one * int.MaxValue;
-			Vector3Int maxPosition = Vector3Int.one * int.MinValue;
-
-
-			foreach (var layerBounds in BoundLocations.Values)
+			lock (matrix)
 			{
-				minPosition = Vector3Int.Min(layerBounds.min, minPosition);
-				maxPosition = Vector3Int.Max(layerBounds.max, maxPosition);
+				if (GlobalCachedCollisionBounds == null)
+				{
+					return CacheGlobalCollisionBound();
+				}
+
+				return GlobalCachedCollisionBounds.Value;
 			}
-
-			LocalCachedBounds = new BetterBoundsInt()
-			{
-				Maximum = maxPosition,
-				Minimum = minPosition
-			};
 		}
 
-		public BetterBounds CacheGlobalBound()
+
+		public void CacheLocalBound()
+		{
+			Vector3Int? minPosition = null;
+			Vector3Int? maxPosition =  null;
+
+
+			foreach (var layerBounds in BoundLocations)
+			{
+				if (layerBounds == null) continue;
+				if (minPosition == null)
+				{
+					minPosition = layerBounds.Value.min;
+					maxPosition = layerBounds.Value.max;
+				}
+				else
+				{
+					minPosition = Vector3Int.Min(layerBounds.Value.min, minPosition.Value);
+					maxPosition = Vector3Int.Max(layerBounds.Value.max, maxPosition.Value);
+				}
+			}
+
+			if (maxPosition == null)
+			{
+				LocalCachedBounds = null;
+			}
+			else
+			{
+				LocalCachedBounds = new BetterBoundsInt()
+				{
+					Maximum = maxPosition.Value,
+					Minimum = minPosition.Value,
+				};
+			}
+
+		}
+
+		public BetterBounds? CacheGlobalBound()
 		{
 			var localBound = GetLocalBounds();
 
@@ -2416,29 +2533,32 @@ namespace TileManagement
 				localToWorldMatrix = Matrix4x4.identity;
 			}
 
-			//Vector3[4] {bottomLeft, bottomRight, topLeft, topRight}; //Presuming It's been updated
-			var bottomLeft = localToWorldMatrix.Value.MultiplyPoint(localBound.min);
-			globalPoints[0] = bottomLeft;
-			globalPoints[1] =
-				localToWorldMatrix.Value.MultiplyPoint(new Vector3(localBound.xMax, localBound.yMin, 0));
-			globalPoints[2] =
-				localToWorldMatrix.Value.MultiplyPoint(new Vector3(localBound.xMin, localBound.yMax, 0));
-			globalPoints[3] = localToWorldMatrix.Value.MultiplyPoint(localBound.max);
-
-			var minPosition = bottomLeft;
-			var maxPosition = bottomLeft;
-			foreach (var point in globalPoints)
-			{
-				minPosition = Vector3.Min(minPosition, point);
-				maxPosition = Vector3.Max(maxPosition, point);
-			}
-
-			var newGlobalBounds = new BetterBounds()
-			{
-				Maximum = maxPosition + new Vector3(0.5f, 0.5f, 0), Minimum = minPosition + new Vector3(-0.5f, -0.5f, 0)
-			};
+			var newGlobalBounds = localBound.ConvertToWorld(localToWorldMatrix.Value);
 
 			GlobalCachedBounds = newGlobalBounds;
+
+			return newGlobalBounds;
+		}
+
+		public BetterBounds? CacheGlobalCollisionBound()
+		{
+			var localBound = GetLocalCollisionBounds();
+
+			if (localBound == null)
+			{
+				return null;
+			}
+
+			if (localToWorldMatrix == null)
+			{
+				Loggy.Error(
+					"humm, localToWorldMatrix  tried to be excess before being set humm, Setting to identity matrix, Please fix this ");
+				localToWorldMatrix = Matrix4x4.identity;
+			}
+
+			var newGlobalBounds = localBound.Value.ConvertToWorld(localToWorldMatrix.Value);
+
+			GlobalCachedCollisionBounds = newGlobalBounds;
 
 			return newGlobalBounds;
 		}
