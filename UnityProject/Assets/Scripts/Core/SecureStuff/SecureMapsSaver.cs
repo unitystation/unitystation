@@ -1207,23 +1207,23 @@ namespace SecureStuff
 
 					if (Field.GetValue(Object) == null)
 					{
-						return;
+
 						//If causing issues can always uncomment
 						//NOTE Dangerous , Resolved By commenting out ( Doesn't seem to be used tested on square station, non-play mode and play mode in editor ) So removed
-						// try
-						// {
-						// 	var valss = Activator.CreateInstance(Field.FieldType);
-						// 	//Why is it here
-						// 	//so, Let's say it's a value that needs to be set e.g
-						// 	//The capacity of the battery you'd want it to specify zero if it wasn't set
-						// 	PropertyInfo?.SetValue(Object, valss);
-						// 	Field.SetValue(Object,valss );
-						//
-						// }
-						// catch (Exception e)
-						// {
-						// 	Loggy.Error(e.ToString());
-						// }
+						try
+						{
+							var valss = Activator.CreateInstance(Field.FieldType);
+							//Why is it here
+							//so, Let's say it's a value that needs to be set e.g
+							//The capacity of the battery you'd want it to specify zero if it wasn't set
+							PropertyInfo?.SetValue(Object, valss);
+							Field.SetValue(Object,valss );
+
+						}
+						catch (Exception e)
+						{
+							Loggy.Error(e.ToString());
+						}
 					}
 
 
