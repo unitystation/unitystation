@@ -119,7 +119,11 @@ namespace SecureStuff
 
 			if (ModField.Data is "#removed#")
 			{
-				List.RemoveAt(Index);
+				if (List.Count > Index)
+				{
+					List.RemoveAt(Index);
+				}
+
 				return;
 			}
 
@@ -150,6 +154,11 @@ namespace SecureStuff
 				    ListType.IsValueType)
 				{
 					//NOTEE is dangerous
+					//Is needed if it's a List of a class,
+					//so let's say some settings in a List, and you want to set an int inside of it,
+					//You have to make it to set it
+					//This is also to get to the right index value, And if it's nonnullble the level
+					//E,G if it's an int, You can't have a null int
 					List.Add(Activator.CreateInstance(ListType));
 				}
 				else
@@ -440,6 +449,9 @@ namespace SecureStuff
 					if (Dictionary.Contains(Key) == false)
 					{
 						//NOTEE is dangerous
+						//Is needed if it's a dictionary of a class,
+						//so let's say some settings in a Dictionary, and you want to set an int inside of it,
+						//You have to make it to set it
 						Dictionary[Key] = (Activator.CreateInstance(ValType));
 					}
 
@@ -1199,18 +1211,23 @@ namespace SecureStuff
 
 					if (Field.GetValue(Object) == null)
 					{
-						//NOTE Dangerous
-						try
-						{
-							var valss = Activator.CreateInstance(Field.FieldType);
-							PropertyInfo?.SetValue(Object, valss);
-							Field.SetValue(Object,valss );
-
-						}
-						catch (Exception e)
-						{
-							Loggy.Error(e.ToString());
-						}
+						return;
+						//If causing issues can always uncomment
+						//NOTE Dangerous , Resolved By commenting out ( Doesn't seem to be used tested on square station, non-play mode and play mode in editor ) So removed
+						// try
+						// {
+						// 	var valss = Activator.CreateInstance(Field.FieldType);
+						// 	//Why is it here
+						// 	//so, Let's say it's a value that needs to be set e.g
+						// 	//The capacity of the battery you'd want it to specify zero if it wasn't set
+						// 	PropertyInfo?.SetValue(Object, valss);
+						// 	Field.SetValue(Object,valss );
+						//
+						// }
+						// catch (Exception e)
+						// {
+						// 	Loggy.Error(e.ToString());
+						// }
 					}
 
 

@@ -651,7 +651,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 		if (spawned.ContainsKey(oldID))
 		{
 			var oldPossessable = spawned[oldID].GetComponent<IPlayerPossessable>();
-			oldPossessable?.InternalOnLosePossess();
+			oldPossessable?.InternalOnLosePossess(this);
 		}
 
 		if (spawned.ContainsKey(newID))
@@ -764,7 +764,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 			var playerPositionable = Lost.GetComponent<IPlayerPossessable>();
 			if (playerPositionable != null)
 			{
-				playerPositionable.InternalOnLosePossess();
+				playerPositionable.InternalOnLosePossess(this);
 			}
 		}
 

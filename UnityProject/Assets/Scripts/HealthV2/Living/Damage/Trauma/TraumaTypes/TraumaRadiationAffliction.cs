@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Logs;
+using UnityEngine;
 
 namespace HealthV2.TraumaTypes
 {
@@ -9,12 +10,19 @@ namespace HealthV2.TraumaTypes
 
 		private const float DeadlyCancerCount = 25f;
 
+		[SerializeField]
+		private float MinThresholdDamage = 2;
+		[SerializeField]
+		private float CancerPercentage = 0.5f;
 		public override void OnTakeDamage(BodyPartDamageData data)
 		{
+			if (data.DamageAmount < 2) return;
 			if ( data.TramuticDamageType != TraumaticDamageTypes.NONE ) return;
 			if ( data.AttackType != AttackType.Rad ) return;
 			if ( DMMath.Prob(GetRadProtectionPercentage()) ) return;
 			if ( DMMath.Prob(data.TraumaDamageChance) == false ) return;
+			if ( DMMath.Prob(CancerPercentage) == false ) return;
+			Loggy.Error(data.DamageAmount.ToString());
 			if ( deadlyDamageInOneHit > data.DamageAmount)
 			{
 				AfflictMinorCancer(data);

@@ -91,17 +91,17 @@ public partial class MatrixManager
 			return;
 		}
 
-		UpdateAndPruneIntersections();
+		UpdateAndPruneCollisionIntersections();
 		TrackNewIntersections();
 
-		void UpdateAndPruneIntersections()
+		void UpdateAndPruneCollisionIntersections()
 		{
 			List<MatrixIntersection> toRemove = null;
 			List<MatrixIntersection> toUpdate = null;
 
 			foreach ( var trackedIntersection in trackedIntersections )
 			{
-				if ( trackedIntersection.Matrix1.BoundsIntersect( trackedIntersection.Matrix2, out var hotZone ) )
+				if ( trackedIntersection.Matrix1.BoundsCollisionIntersect( trackedIntersection.Matrix2, out var hotZone ) )
 				{ //refresh rect
 					if ( toUpdate == null )
 					{
@@ -144,7 +144,7 @@ public partial class MatrixManager
 		{
 			foreach ( var movingMatrix in movingMatrices )
 			{
-				var intersections = GetIntersections( movingMatrix );
+				var intersections = GetCollisionIntersections( movingMatrix );
 				if ( intersections == noIntersections )
 				{
 					continue;
@@ -165,7 +165,7 @@ public partial class MatrixManager
 
 	private static readonly MatrixIntersection[] noIntersections = new MatrixIntersection[0];
 
-	private MatrixIntersection[] GetIntersections( MatrixInfo matrix )
+	private MatrixIntersection[] GetCollisionIntersections( MatrixInfo matrix )
 	{
 		List<MatrixIntersection> intersections = null;
 		foreach ( var otherMatrix in ActiveMatrices.Values )
@@ -174,7 +174,7 @@ public partial class MatrixManager
 			{
 				continue;
 			}
-			if ( matrix.BoundsIntersect( otherMatrix, out BetterBounds hotZone ) )
+			if ( matrix.BoundsCollisionIntersect( otherMatrix, out BetterBounds hotZone ) )
 			{
 				if ( intersections == null )
 				{
@@ -517,6 +517,7 @@ public partial class MatrixManager
 		if (!Application.isPlaying || !IsInitialized) return;
 		foreach ( var intersection in Instance.TrackedIntersections )
 		{
+			//Don't need to worry about nulls, since they are intersecting
 			Gizmos.color = Color.red;
 			DebugGizmoUtils.DrawRect( intersection.Matrix1.WorldBounds.Minimum, intersection.Matrix1.WorldBounds.Maximum );
 			Gizmos.color = Color.blue;

@@ -14,6 +14,7 @@ namespace Messages.Client.VariableViewer
 			public ulong PageID;
 			public bool IsNewBookshelf;
 			public bool SendToClient;
+			public bool iskey;
 			public global::VariableViewer.ListModification ListModification;
 		}
 
@@ -27,14 +28,20 @@ namespace Messages.Client.VariableViewer
 			if (HasPermission(TAG.VV_EDIT) == false) return;
 
 			global::VariableViewer.RequestChangeVariable(
-					msg.PageID, msg.newValue, msg.SendToClient, SentByPlayer.GameObject, SentByPlayer.AccountId, msg.SentenceID, msg.ListModification);
+					msg.PageID, msg.newValue, msg.SendToClient, SentByPlayer.GameObject, SentByPlayer.AccountId, msg.SentenceID, msg.iskey, msg.ListModification);
 
 			Loggy.Info(
 					$"Admin {SentByPlayer.Username} changed variable {msg.PageID} (in VV) with a new value of: {msg.newValue} ",
 					Category.Admin);
 		}
 
-		public static NetMessage Send(ulong _PageID, string _newValue, bool InSendToClient, uint SentenceID , global::VariableViewer.ListModification ListModification= global::VariableViewer.ListModification.NONE )
+		public static NetMessage Send(
+			ulong _PageID,
+			string _newValue,
+			bool InSendToClient,
+			uint SentenceID,
+			bool iskey,
+			global::VariableViewer.ListModification ListModification= global::VariableViewer.ListModification.NONE )
 		{
 
 			NetMessage msg = new NetMessage
@@ -44,6 +51,7 @@ namespace Messages.Client.VariableViewer
 				SendToClient = InSendToClient,
 				ListModification = ListModification,
 				SentenceID =  SentenceID,
+				iskey = iskey
 			};
 
 			Send(msg);

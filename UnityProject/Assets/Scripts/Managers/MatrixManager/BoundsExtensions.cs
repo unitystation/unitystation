@@ -6,7 +6,7 @@ using UnityEngine;
 /// </summary>
 public static class BoundsExtensions
 {
-	public static bool BoundsIntersect(this MatrixInfo matrix, MatrixInfo otherMatrix, out BetterBounds intersection)
+	public static bool BoundsCollisionIntersect(this MatrixInfo matrix, MatrixInfo otherMatrix, out BetterBounds intersection)
 	{
 		intersection = new BetterBounds();
 		if (matrix == null || otherMatrix == null || matrix == otherMatrix)
@@ -14,9 +14,12 @@ public static class BoundsExtensions
 			return false;
 		}
 
-		var rect = matrix.WorldBounds;
-		var Otherrect = otherMatrix.WorldBounds;
-		return rect.Intersects(Otherrect, out intersection);
+		var rect = matrix.WorldMatrixCollisionBounds;
+		var Otherrect = otherMatrix.WorldMatrixCollisionBounds;
+
+		if (Otherrect == null || rect == null) return false;
+
+		return rect.Value.Intersects(Otherrect.Value, out intersection);
 	}
 
 	public static Rect ToRect(this Bounds bounds)

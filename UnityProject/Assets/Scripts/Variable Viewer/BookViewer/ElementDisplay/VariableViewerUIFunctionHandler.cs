@@ -89,6 +89,11 @@ public static class VVUIElementHandler
 			var ReturnString = InObject.ToString();
 			return ReturnString;
 		}
+
+		public object GetDefaultValue(Type InType)
+		{
+			return Type2Element[InType].GetDefaultValue(InType);
+		}
 	}
 
 	public static void ProcessElement(GameObject DynamicPanel, VariableViewerNetworking.NetFriendlyPage Page = null,

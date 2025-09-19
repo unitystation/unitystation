@@ -187,15 +187,20 @@ public interface IPlayerPossessable
 		OnActionPossess?.Invoke();
 	}
 
-	public void InternalOnLosePossess()
+	public void InternalOnLosePossess(Mind losing)
 	{
+		if (PossessingMind != losing)
+		{
+			return; //Not the same mind
+		}
+
 		var MindBackup = PossessingMind;
 		PossessingMind = null;
 
 		var Possessed = GetPossessing();
 		if (Possessed != null)
 		{
-			Possessed.InternalOnLosePossess();
+			Possessed.InternalOnLosePossess(losing);
 		}
 
 		if (MindBackup != null)
