@@ -65,7 +65,7 @@ namespace AdminTools.VariableViewer
 				Outstring += Convert.ToChar(Mathf.RoundToInt(thisColor.b * 255));
 				Outstring += Convert.ToChar(Mathf.RoundToInt(thisColor.a * 255));
 
-				RequestChangeVariableNetMessage.Send(PageID, Outstring, UISendToClientToggle.toggle, SentenceID);
+				RequestChangeVariableNetMessage.Send(PageID, Outstring, UISendToClientToggle.toggle, SentenceID, iskey);
 			}
 		}
 
@@ -94,10 +94,10 @@ namespace AdminTools.VariableViewer
 			if (CanDo.Contains(inType))
 			{
 				Color Color = (Color) Data;
-				string newstring = "" + Convert.ToChar(Mathf.RoundToInt((float)Color.r * 255));
-				newstring += Convert.ToChar(Mathf.RoundToInt((float)Color.g * 255));
-				newstring += Convert.ToChar(Mathf.RoundToInt((float)Color.b * 255));
-				newstring += Convert.ToChar(Mathf.RoundToInt((float)Color.a * 255));
+				string newstring = "" + Convert.ToChar(Mathf.RoundToInt((float)Color.r.MakeInToReasonableNumber(1) * 255));
+				newstring += Convert.ToChar(Mathf.RoundToInt((float)Color.g.MakeInToReasonableNumber(1)  * 255));
+				newstring += Convert.ToChar(Mathf.RoundToInt((float)Color.b.MakeInToReasonableNumber(1)  * 255));
+				newstring += Convert.ToChar(Mathf.RoundToInt((float)Color.a.MakeInToReasonableNumber(1)  * 255));
 				return newstring;
 			}
 
@@ -119,6 +119,11 @@ namespace AdminTools.VariableViewer
 			}
 
 			return TheColour;
+		}
+
+		public override object GetDefaultValue(Type InType)
+		{
+			return Color.white;
 		}
 	}
 }

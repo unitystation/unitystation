@@ -57,8 +57,6 @@ namespace SecureStuff
 						// Iterate through each type that implements the interface
 						foreach (var type in types)
 						{
-
-
 							// Create an instance of the type (assuming it has a parameterless constructor)
 							try
 							{
@@ -819,7 +817,6 @@ namespace SecureStuff
 								Loggy.Error(e.ToString());
 								return "null";
 							}
-
 						}
 						else
 						{
@@ -833,12 +830,12 @@ namespace SecureStuff
 								return "null";
 							}
 						}
-
 					}
 					catch (Exception e)
 					{
 						Loggy.Error(e.ToString());
 					}
+
 					return "null";
 				}
 			}
@@ -869,105 +866,148 @@ namespace SecureStuff
 			public void AddElement()
 			{
 				if (HubValidation.TrustedMode == false) return;
-				var list = (IList) Variable;
 
-				var Ttype = this.VariableType.GetGenericArguments()[0];
-
-				var NewIndex = list.Count; //It's okay because we are adding one and it becomes a new index
-
-				object Object = null;
-
-				if (Ttype.IsSubclassOf(typeof(UnityEngine.Object)))
+				if (Variable is (IList))
 				{
-					//No constructor we can use
-					list.Add(null);
-					Object = null;
+					var list = (IList) Variable;
+
+					var Ttype = this.VariableType.GetGenericArguments()[0];
+
+					object Object = null;
+
+					Object = GetADefaultValue(Ttype); //is in Trusted mode so should be okay
+					list.Add(Object);
 				}
 				else
 				{
-					Object = Activator.CreateInstance(Ttype);
-					list.Add(Object);
-				}
+					var KeyType = this.VariableType.GetGenericArguments()[0];
+					var ValueType = this.VariableType.GetGenericArguments()[1];
+					object KeyObject = null;
+					object ValueObject = null;
+					KeyObject =  GetADefaultValue(KeyType);  //is in Trusted mode so should be okay
 
+					ValueObject = GetADefaultValue(ValueType); //is in Trusted mode so should be okay
 
-				Sentence _sentence = new Sentence();
-				_sentence.ValueVariable = Object;
-				_sentence.OnPageID = this.ID;
-				_sentence.ValueVariableType = Ttype;
-				_sentence.SentenceID = this.ASentenceID;
-				this.IDtoSentence[_sentence.SentenceID] = _sentence;
-				this.ASentenceID++;
-				Type valueType = Ttype;
-				if (valueType.IsGenericType)
-				{
-					Type baseType = valueType.GetGenericTypeDefinition();
-					if (baseType == typeof(KeyValuePair<,>))
+					var IDict = (IDictionary) Variable;
+
+					if (KeyObject == null)
 					{
-						_sentence.KeyVariable = valueType.GetProperty("Key").GetValue(Object, null);
-						_sentence.ValueVariable = valueType.GetProperty("Value").GetValue(Object, null);
+						Loggy.Error("Unable to add to " + AssemblyQualifiedName + " Due to having null key for type " +
+						            KeyType.AssemblyQualifiedName);
 
-						_sentence.ValueVariableType = valueType.GetGenericArguments()[1];
-						_sentence.KeyVariableType = valueType.GetGenericArguments()[0];
+						return;
 					}
+
+					IDict[KeyObject] = ValueObject;
 				}
 
-				if (valueType.IsClass == false)
-				{
-					GenerateSentenceValuesforSentence(_sentence, Ttype, this, Object);
-				}
-
-			    this.Sentences.Sentences.Add(_sentence);
+				UpdatePage();
 			}
 
 
 			public void RemoveElement(int ID)
 			{
 				if (HubValidation.TrustedMode == false) return;
-				var Data = IDtoSentence[(uint) ID ];
+				var Data = IDtoSentence[(uint) ID];
 				IDtoSentence.Remove((uint) ID);
-				var list = (IList) Variable; // Cast `Variable` to ICollection interface
-				list.Remove(Data.ValueVariable); // Call the appropriate removal method based on the underlying implementation
+
+				if (Variable is (IList))
+				{
+					var list = (IList) Variable;
+					list.Remove(Data.ValueVariable);
+				}
+				else
+				{
+					var IDict = (IDictionary) Variable;
+					IDict.Remove(Data.KeyVariable);
+				}
 			}
 
 
 			public void MoveElementUp(int ID)
 			{
 				if (HubValidation.TrustedMode == false) return;
-				IList variable = (IList) Variable;
 
-				var Data = IDtoSentence[(uint) ID ];
-				var CurrentIndex = variable.IndexOf(Data.ValueVariable);;
-				var MovingToIndex = CurrentIndex - 1;
-				var Swapping = variable[MovingToIndex];
-				variable[MovingToIndex] = variable[CurrentIndex];
-				variable[CurrentIndex] = Swapping;
+				if (Variable is (IList))
+				{
+					IList variable = (IList) Variable;
+					var Data = IDtoSentence[(uint) ID];
+					var CurrentIndex = variable.IndexOf(Data.ValueVariable);
+					;
+					var MovingToIndex = CurrentIndex - 1;
+					var Swapping = variable[MovingToIndex];
+					variable[MovingToIndex] = variable[CurrentIndex];
+					variable[CurrentIndex] = Swapping;
+				}
+				//Not supported for dictionaries
 			}
 
 			public void MoveElementDown(int ID)
 			{
 				if (HubValidation.TrustedMode == false) return;
 
-
-				IList variable = (IList) Variable;
-				var Data = IDtoSentence[(uint) ID ];
-				var CurrentIndex = variable.IndexOf(Data.ValueVariable);
-				var MovingToIndex = CurrentIndex + 1;
-				var Swapping = variable[MovingToIndex];
-				variable[MovingToIndex] = variable[CurrentIndex];
-				variable[CurrentIndex] = Swapping;
+				if (Variable is (IList))
+				{
+					IList variable = (IList) Variable;
+					var Data = IDtoSentence[(uint) ID];
+					var CurrentIndex = variable.IndexOf(Data.ValueVariable);
+					var MovingToIndex = CurrentIndex + 1;
+					var Swapping = variable[MovingToIndex];
+					variable[MovingToIndex] = variable[CurrentIndex];
+					variable[CurrentIndex] = Swapping;
+				}
+				//Not supported for dictionaries
 			}
 
-			public void SetValue(string Value, uint Index)
+			public void SetValue(string Value, uint Index, bool iskey)
 			{
 				if (HubValidation.TrustedMode == false) return;
 
 				try
 				{
-					object DeSerialised = DeSerialiseValue(Value, IDtoSentence[(uint) Index ].ValueVariableType);
-					IList variable = (IList) Variable;
-					variable[(int)Index-1] = DeSerialised;
-					var dat = IDtoSentence[(uint)Index];
-					dat.ValueVariable = DeSerialised;
+					var dat = IDtoSentence[(uint) Index];
+					Type Type = null;
+					if (iskey)
+					{
+						Type = dat.KeyVariableType;
+					}
+					else
+					{
+						Type = dat.ValueVariableType;
+					}
+
+					object DeSerialised = DeSerialiseValue(Value, Type);
+
+					if (Variable is IList)
+					{
+						IList variable = (IList) Variable;
+						variable[(int) Index - 1] = DeSerialised;
+						if (iskey)
+						{
+							dat.KeyVariable = DeSerialised;
+						}
+						else
+						{
+							dat.ValueVariable = DeSerialised;
+						}
+					}
+					else if (Variable is IDictionary)
+					{
+						IDictionary variable = (IDictionary) Variable;
+						if (iskey)
+						{
+							object ValueOfKey = variable[dat.KeyVariable];
+							variable.Remove(dat.KeyVariable);
+							variable[DeSerialised] = ValueOfKey;
+							dat.KeyVariable = DeSerialised;
+						}
+						else
+						{
+							variable[dat.KeyVariable] = DeSerialised;
+							dat.ValueVariable = DeSerialised;
+						}
+					}
+
 					//TODO Set Sentences up for  Sentence when setting in VV
 					UpdatePage();
 				}
@@ -996,7 +1036,6 @@ namespace SecureStuff
 					{
 						object DeSerialised = DeSerialiseValue(Value, VariableType);
 						Info.SetValue(BindedTo.BookClass, DeSerialised);
-
 					}
 
 					UpdatePage();
@@ -1030,6 +1069,32 @@ namespace SecureStuff
 			public static string Serialise(object InObject, Type TypeOf)
 			{
 				return VVUIElementHandler.Serialise(InObject, TypeOf);
+			}
+
+			public static object GetADefaultValue(Type InType)
+			{
+				if (VVUIElementHandler.CanDeSerialiseValue(InType))
+				{
+					var data = VVUIElementHandler.GetDefaultValue(InType);
+					if (data != null)
+					{
+						return data;
+					}
+				}
+
+				try
+				{
+					if (InType.IsDefined(typeof(System.SerializableAttribute))) //Better safe than sorry
+					{
+						return Activator.CreateInstance(InType);
+					}
+				}
+				catch (Exception e)
+				{
+					Loggy.Error(e.ToString());
+				}
+
+				return null;
 			}
 
 			public static object DeSerialiseValue(string StringVariable, Type InType)

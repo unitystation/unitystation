@@ -27,7 +27,7 @@ namespace AdminTools.VariableViewer
 
 		void ToggleValueChanged(string change)
 		{
-			RequestChangeVariableNetMessage.Send(PageID, change, UISendToClientToggle.toggle, SentenceID);
+			RequestChangeVariableNetMessage.Send(PageID, change, UISendToClientToggle.toggle, SentenceID, false);
 		}
 
 		public override void Pool()
