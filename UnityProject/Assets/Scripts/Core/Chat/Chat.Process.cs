@@ -636,7 +636,7 @@ public partial class Chat
 		return true;
 	}
 
-	private static string GetChannelColor(ChatChannel channel)
+	public static string GetChannelColor(ChatChannel channel)
 	{
 		if (channel.HasFlagFast(ChatChannel.OOC)) return ColorUtility.ToHtmlStringRGBA(Instance.oocColor);
 		if (channel.HasFlagFast(ChatChannel.Ghost)) return ColorUtility.ToHtmlStringRGBA(Instance.ghostColor);

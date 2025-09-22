@@ -299,7 +299,6 @@ GameObject:
   m_Component:
   - component: {fileID: 224321409555159418}
   - component: {fileID: 2683077268717762227}
-  - component: {fileID: 2453556391865715716}
   m_Layer: 5
   m_Name: ChannelToggleTemplate
   m_TagString: Untagged
@@ -340,25 +339,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba273dc2ab75b1d40888efbc0ca7112f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tooltip: {fileID: 1146867818099528407}
   toggle: {fileID: 2315575213069008016}
+  tooltip: {fileID: 1146867818099528407}
   displayText: {fileID: 8906051548434581021}
   tooltipText: {fileID: 7750759701018441747}
-  TooltipMonoBehaviour: {fileID: 2453556391865715716}
---- !u!114 &2453556391865715716
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1618776996635460}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf4c32ee6644da142bdc56ad587c885c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseTooltip: 
-  baseExitTooltip: 
+  TooltipMonoBehaviour: {fileID: 0}
 --- !u!1 &1688151018307278
 GameObject:
   m_ObjectHideFlags: 0
@@ -468,8 +453,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 80.075, y: -36.004997}
-  m_SizeDelta: {x: 130.15, y: 62.01}
+  m_AnchoredPosition: {x: 77.585, y: -25.11}
+  m_SizeDelta: {x: 125.17, y: 40.22}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8753586603218956858
 CanvasRenderer:
@@ -502,8 +487,7 @@ MonoBehaviour:
   m_text: medical
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: -7961061889389584597, guid: 86d9cae515958f04587d4dedb707c1da,
-    type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -549,7 +533,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -568,7 +552,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1146867818099528407
@@ -609,7 +593,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 2.8, y: 65}
-  m_SizeDelta: {x: 160.15, y: 72.009995}
+  m_SizeDelta: {x: 155.17, y: 50.22}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &4255993488490106584
 CanvasRenderer:
