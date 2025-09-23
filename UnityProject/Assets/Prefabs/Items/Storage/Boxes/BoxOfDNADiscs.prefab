@@ -1,0 +1,160 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4048372692109453123
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 309958516471808564, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b8dbb45e3c2c18a4f9a5f4b8e69eb555,
+        type: 3}
+    - target: {fileID: 5939332488413283618, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 4351466951952541047}
+    - target: {fileID: 8159390639885615672, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: initialName
+      value: box of DNA discs
+      objectReference: {fileID: 0}
+    - target: {fileID: 8159390639885615672, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: initialDescription
+      value: It's just an ordinary box. containing a bunch of DNA discs
+      objectReference: {fileID: 0}
+    - target: {fileID: 8521467601672753390, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: _assetId
+      value: 3347814918
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630552864855298094, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8635195139948178778, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: m_Name
+      value: BoxOfDNADiscs
+      objectReference: {fileID: 0}
+    - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: UesAddlistPopulater
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[0].Prefab
+      value: 
+      objectReference: {fileID: 3171026890170201667, guid: 9393fcd1fff56ad41b387662fdaf8700,
+        type: 3}
+    - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[1].Prefab
+      value: 
+      objectReference: {fileID: 3171026890170201667, guid: 9393fcd1fff56ad41b387662fdaf8700,
+        type: 3}
+    - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[2].Prefab
+      value: 
+      objectReference: {fileID: 3171026890170201667, guid: 9393fcd1fff56ad41b387662fdaf8700,
+        type: 3}
+    - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[3].Prefab
+      value: 
+      objectReference: {fileID: 3171026890170201667, guid: 9393fcd1fff56ad41b387662fdaf8700,
+        type: 3}
+    - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[4].Prefab
+      value: 
+      objectReference: {fileID: 3171026890170201667, guid: 9393fcd1fff56ad41b387662fdaf8700,
+        type: 3}
+    - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[5].Prefab
+      value: 
+      objectReference: {fileID: 3171026890170201667, guid: 9393fcd1fff56ad41b387662fdaf8700,
+        type: 3}
+    - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[6].Prefab
+      value: 
+      objectReference: {fileID: 3171026890170201667, guid: 9393fcd1fff56ad41b387662fdaf8700,
+        type: 3}
+    - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[7].Prefab
+      value: 
+      objectReference: {fileID: 3171026890170201667, guid: 9393fcd1fff56ad41b387662fdaf8700,
+        type: 3}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3e5919f639f566c4590d07d54ef256dd, type: 3}
+--- !u!212 &4351466951952541047 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 309958516471808564, guid: 3e5919f639f566c4590d07d54ef256dd,
+    type: 3}
+  m_PrefabInstance: {fileID: 4048372692109453123}
+  m_PrefabAsset: {fileID: 0}

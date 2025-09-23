@@ -1,19 +1,53 @@
 using System.Collections;
 using System.Collections.Generic;
 using NaughtyAttributes;
+using TMPro;
 using UI.Core.NetUI;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NetUIChildActive : NetUIStringElement
 {
 
 	public GameObject ToToggleChild;
 
-	public override string Value {
-		get => ToToggleChild.activeSelf ? "1" : "0";
+	public bool MakeChildrenInvisible;
+
+	private Dictionary<Image, Color> ImageColourDefault = new Dictionary<Image, Color>();
+	private Dictionary<TMP_Text, Color> TMP_TextColourDefault = new Dictionary<TMP_Text, Color>();
+
+	private bool Init = false;
+
+	private string State = "1";
+
+
+	public override string Value
+	{
+		get
+		{
+
+			if (MakeChildrenInvisible)
+			{
+				return State;
+			}
+			else
+			{
+
+				return ToToggleChild.activeSelf ? "1" : "0";
+			}
+		}
 		protected set {
 			externalChange = true;
-			ToToggleChild.SetActive(value.Equals("1"));
+			if (MakeChildrenInvisible)
+			{
+				State = value;
+				SetChildren(value.Equals("1"));
+			}
+			else
+			{
+				ToToggleChild.SetActive(value.Equals("1"));
+			}
+
 			externalChange = false;
 			NetworkTabManager.Instance.Rescan(containedInTab.NetTabDescriptor);
 		}
@@ -29,6 +63,52 @@ public class NetUIChildActive : NetUIStringElement
 
 	public BoolEvent ServerMethod;
 	public BoolEventWithSubject ServerMethodWithSubject;
+
+	public void SetChildren(bool Enable )
+	{
+		if (Init == false)
+		{
+			var Images = GetComponentsInChildren<Image>();
+			var TMP_Texts = GetComponentsInChildren<TMP_Text>();
+
+			foreach (var Image in Images)
+			{
+				ImageColourDefault[Image] = Image.color;
+			}
+
+			foreach (var Texts in TMP_Texts)
+			{
+				TMP_TextColourDefault[Texts] = Texts.color;
+			}
+
+			Init = true;
+		}
+
+		if (Enable)
+		{
+			foreach (var Image in ImageColourDefault)
+			{
+				Image.Key.color = Image.Value;
+			}
+
+			foreach (var tmp in TMP_TextColourDefault)
+			{
+				tmp.Key.color = tmp.Value;
+			}
+		}
+		else
+		{
+			foreach (var Image in ImageColourDefault)
+			{
+				Image.Key.color= Color.clear;
+			}
+
+			foreach (var tmp in TMP_TextColourDefault)
+			{
+				tmp.Key.color = Color.clear;
+			}
+		}
+	}
 
 	public override void ExecuteServer(PlayerInfo subject)
 	{

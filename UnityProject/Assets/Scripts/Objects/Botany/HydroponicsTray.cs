@@ -163,7 +163,7 @@ namespace Objects.Botany
 				//Water Checks
 				if (reagentContainer[water] > 0)
 				{
-					reagentContainer.Subtract(new ReagentMix(water, .01f));
+					reagentContainer.Subtract(new ReagentMix(water, .05f));
 				}
 				else if (plantData.PlantTrays.Contains(PlantTrays.Fungal_Vitality) == false)
 				{
@@ -185,7 +185,7 @@ namespace Objects.Botany
 							{
 								if (reagentContainer[nutriment] > 0)
 								{
-									reagentContainer.Subtract(new ReagentMix(nutriment, 0.5f));
+									reagentContainer.Subtract(new ReagentMix(nutriment, 2f));
 								}
 							}
 
@@ -500,14 +500,6 @@ namespace Objects.Botany
 					return;
 				}
 
-				//If hand slot contains Bucket water plants
-				if (objectItemAttributes.HasTrait(CommonTraits.Instance.Bucket))
-				{
-					Chat.AddActionMsgToChat(interaction.Performer, $"You water the {gameObject.ExpensiveName()}.",
-						$"{interaction.Performer.name} waters the {gameObject.ExpensiveName()}.");
-					reagentContainer.Add(new ReagentMix(water, 100));
-					return;
-				}
 
 				//If hand slot contains Trowel remove plants
 				if (objectItemAttributes.HasTrait(CommonTraits.Instance.Trowel))
@@ -543,7 +535,7 @@ namespace Objects.Botany
 					Chat.AddActionMsgToChat(interaction.Performer,
 						$"You compost the {foodObject.name} in the {gameObject.ExpensiveName()}.",
 						$"{interaction.Performer.name} composts {foodObject.name} in the {gameObject.ExpensiveName()}.");
-					reagentContainer.Add(new ReagentMix(nutriment, foodObject.GetPlantData().Potency));
+					reagentContainer.Add(new ReagentMix(nutriment, foodObject.reagentContainer[nutriment]*2));
 					_ = Despawn.ServerSingle(interaction.HandObject);
 					return;
 				}
