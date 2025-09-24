@@ -87,7 +87,17 @@ namespace Chemistry.Components
 			if (interaction.Intent == Intent.Help)
 			{
 				//checks if it's possible to transfer from container to container
-				if (WillInteractHelp(interaction.HandObject, interaction.TargetObject, side) == false) return false;
+				if (interaction.TargetObject == this.gameObject)
+				{
+
+					if (WillInteractHelp(this.gameObject, interaction.HandObject, side) == false) return false;
+				}
+				else
+				{
+
+					if (WillInteractHelp(this.gameObject, interaction.TargetObject, side) == false) return false;
+				}
+
 			}
 			else
 			{
