@@ -6,6 +6,7 @@ using Mirror;
 using Chemistry.Components;
 using AddressableReferences;
 using Chemistry;
+using Logs;
 using Messages.Server.SoundMessages;
 
 
@@ -80,11 +81,11 @@ public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 		MatrixInfo matrixInfo = MatrixManager.AtPoint(worldPos, true);
 		Vector3Int localPos = MatrixManager.WorldToLocalInt(worldPos, matrixInfo);
 
-		if (reagentContainer.MajorMixReagent.name == "SpaceCleaner")
+		if (reagentContainer.MajorMixReagent?.name == "SpaceCleaner")
 		{
 			matrixInfo.MetaDataLayer.Clean(worldPos, localPos, false);
 		}
-		else if (reagentContainer.MajorMixReagent.name == "Water")
+		else if (reagentContainer.MajorMixReagent?.name == "Water")
 		{
 			matrixInfo.MetaDataLayer.Clean(worldPos, localPos, true);
 		}
