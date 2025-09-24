@@ -62,6 +62,8 @@ namespace Items.Weapons
 
 		[NaughtyAttributes.ReadOnly] public ItemSlot TriggerSlot;
 
+
+
 		private void Start()
 		{
 			registerItem = GetComponent<RegisterItem>();
@@ -85,11 +87,8 @@ namespace Items.Weapons
 
 		public void ClientPredictInteraction(HandActivate interaction)
 		{
-			if (TriggerSlot.IsOccupied)
-			{
-				// Toggle the throw action after activation
-				UIManager.Action.Throw();
-			}
+			// Toggle the throw action after activation
+			UIManager.Action.Throw();
 		}
 
 		public void ServerRollbackClient(HandActivate interaction)
