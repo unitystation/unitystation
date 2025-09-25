@@ -426,6 +426,7 @@ GameObject:
   - component: {fileID: 2602020628031429358}
   - component: {fileID: 2997007325353167385}
   - component: {fileID: 6732152527233319527}
+  - component: {fileID: -8935469173728702118}
   m_Layer: 5
   m_Name: CloseStorageUI
   m_TagString: Untagged
@@ -562,3 +563,15 @@ MonoBehaviour:
   baseExitTooltip: 
   useObjectName: 0
   hoverName: close
+--- !u!114 &-8935469173728702118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8666188619450958038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

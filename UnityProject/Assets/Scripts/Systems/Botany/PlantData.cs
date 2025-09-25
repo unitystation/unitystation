@@ -6,6 +6,7 @@ using UnityEngine;
 using Objects.Botany;
 using Items.Botany;
 using Logs;
+using UnityEngine.Serialization;
 
 namespace Systems.Botany
 {
@@ -41,7 +42,7 @@ namespace Systems.Botany
 		[Tooltip("Determines how long the plant lives for.")]
 		public int Lifespan = 25;
 		public List<PlantTrays> PlantTrays = new List<PlantTrays>();
-		public List<Reagent> ReagentProduction = new List<Reagent>();
+		public List<ReagentNPercentage> ReagentProduction = new List<ReagentNPercentage>();
 
 		public List<GameObject> MutatesInToGameObject = new List<GameObject>();
 
@@ -135,9 +136,9 @@ namespace Systems.Botany
 		/// Combine plants reagents removing any duplicates, Keeps highest yield
 		/// </summary>
 		/// <param name="Reagents">New reagents to combine</param>
-		private void CombineReagentProduction(List<Reagent> Reagents)
+		private void CombineReagentProduction(List<ReagentNPercentage> Reagents)
 		{
-			var ToRemove = new List<Reagent>();
+			var ToRemove = new List<ReagentNPercentage>();
 			Reagents.AddRange(ReagentProduction);
 			foreach (var Reagent in Reagents)
 			{
@@ -147,7 +148,7 @@ namespace Systems.Botany
 					{
 						if (_Reagent.ChemistryReagent == Reagent.ChemistryReagent)
 						{
-							if (_Reagent.Amount > Reagent.Amount)
+							if (_Reagent.percentage > Reagent.percentage)
 							{
 								ToRemove.Add(Reagent);
 							}
@@ -286,10 +287,10 @@ namespace Systems.Botany
 			public int LifespanChange;
 
 			public List<PlantTrays> PlantTrays = new List<PlantTrays>();
-			public List<Reagent> ReagentProduction = new List<Reagent>();
+			public List<ReagentNPercentage> ReagentProduction = new List<ReagentNPercentage>();
 
 			public List<PlantTrays> RemovePlantTrays = new List<PlantTrays>();
-			public List<Reagent> RemoveReagentProduction = new List<Reagent>();
+			public List<ReagentNPercentage> RemoveReagentProduction = new List<ReagentNPercentage>();
 
 		}
 	}
@@ -298,10 +299,10 @@ namespace Systems.Botany
 	/// Holds Reagent information
 	/// </summary>
 	[System.Serializable]
-	public class Reagent
+	public class ReagentNPercentage
 	{
 		public Chemistry.Reagent ChemistryReagent;
-		public int Amount;
+		[FormerlySerializedAs("Amount")] public float percentage;
 	}
 
 
@@ -322,5 +323,6 @@ namespace Systems.Botany
 		Strong_Bioluminescence,
 		Bioluminescence,
 		Separated_Chemicals,
+		Fire_Resistance
 	}
 }

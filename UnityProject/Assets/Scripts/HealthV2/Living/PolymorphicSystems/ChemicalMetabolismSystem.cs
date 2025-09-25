@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Chemistry;
 using HealthV2.Living.CirculatorySystem;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
@@ -18,7 +19,9 @@ namespace HealthV2.Living.PolymorphicSystems
 		public float ExternalMetabolismPerSecond = 2f;
 		public List<MetabolismReaction> MetabolismReactions { get; } = new();
 
-		public List<MetabolismReaction> ALLMetabolismReactions = new List<MetabolismReaction>(); //TOOD Move somewhere static maybe
+		public List<MetabolismReactionSets> MetabolismReactionSets = new List<MetabolismReactionSets>();
+
+		public List<MetabolismReaction> ALLMetabolismReactions = new List<MetabolismReaction>();
 
 		public List<MetabolismComponent> MetabolismComponents = new List<MetabolismComponent>();
 
@@ -40,6 +43,16 @@ namespace HealthV2.Living.PolymorphicSystems
 
 		public override void StartFresh()
 		{
+
+			foreach (var set in MetabolismReactionSets)
+			{
+				foreach (var React in set.ALLMetabolismReactions)
+				{
+					ALLMetabolismReactions.Add(React);
+				}
+			}
+
+			ALLMetabolismReactions = ALLMetabolismReactions.Distinct().ToList();
 
 			PlayerHealthData RaceBodypart = Base.InitialSpecies;
 			var internalTotalBloodThroughput = 0f;
@@ -181,7 +194,8 @@ namespace HealthV2.Living.PolymorphicSystems
 		{
 			return new ChemicalMetabolismSystem()
 			{
-				ALLMetabolismReactions = ALLMetabolismReactions
+				ALLMetabolismReactions = ALLMetabolismReactions,
+				MetabolismReactionSets = MetabolismReactionSets
 			};
 		}
 	}

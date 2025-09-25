@@ -46,8 +46,13 @@ namespace AdminTools.VariableViewer
 		{
 			if (PageID != 0)
 			{
-				RequestChangeVariableNetMessage.Send(PageID, TDropdown.options[intloc].text, UISendToClientToggle.toggle, SentenceID);
+				RequestChangeVariableNetMessage.Send(PageID, TDropdown.options[intloc].text, UISendToClientToggle.toggle, SentenceID, false);
 			}
+		}
+
+		public override object GetDefaultValue(Type InType)
+		{
+			return Enum.ToObject(InType, 0);
 		}
 
 

@@ -88,6 +88,7 @@ GameObject:
   - component: {fileID: 1388901965251124848}
   - component: {fileID: 8108339593239370358}
   - component: {fileID: 6076670545114168910}
+  - component: {fileID: -6138742377214431878}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -234,6 +235,18 @@ MonoBehaviour:
   palette: []
   initialSortingOrder: -1
   initialSortingLayerName: 
+--- !u!114 &-6138742377214431878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5227603364192571310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6063054962364824003
 GameObject:
   m_ObjectHideFlags: 0
@@ -357,17 +370,16 @@ MonoBehaviour:
     Description: 
     TriggerType: 0
     Type: 0
-    Icon: {fileID: 0}
-    AnimatedIcon: {fileID: 0}
+    AnimatedIconCatalogue: []
     CooldownTime: 0
+    CanUseWhileGhosting: 0
     HasCustomCursor: 0
     OffsetType: 0
     CursorOffset: {x: 0, y: 0}
     CursorTexture: {fileID: 0}
     TrackingObject: {fileID: 0}
-  Icon: {fileID: 1388901965251124848}
   Background: {fileID: 5782606166101826592}
-  AnimatedIconHandler: {fileID: 6076670545114168910}
+  iconHandler: {fileID: 6076670545114168910}
   cooldownOverlay: {fileID: 5386635272652446463}
   cooldownText: {fileID: 4673587575636925336}
 --- !u!1 &7980389337560204134

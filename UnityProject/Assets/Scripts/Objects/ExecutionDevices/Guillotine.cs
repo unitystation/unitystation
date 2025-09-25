@@ -22,6 +22,11 @@ namespace Objects.ExecutionDevices
 		private const int ANIM_DROP = 1;
 		private const int ANIM_RAISE = 3;
 
+		public float ExecuteTime = 6;
+
+		private static readonly StandardProgressActionConfig injectProgressBar =
+			new StandardProgressActionConfig(StandardProgressActionType.Restrain);
+
 		ExecutionDeviceController IExecutionDevice.Controller
 		{
 			get => controller == null ? GetComponent<ExecutionDeviceController>() : controller;
@@ -136,7 +141,10 @@ namespace Objects.ExecutionDevices
 			}
 			else
 			{
-				((IExecutionDevice)this).Controller.Execute();
+				//here
+				StandardProgressAction.Create(injectProgressBar,
+				 		() => ((IExecutionDevice)this).Controller.Execute())
+					.ServerStartProgress(interaction.Performer.GetComponent<RegisterTile>(), ExecuteTime, interaction.Performer.gameObject);
 			}
 		}
 	}

@@ -10,6 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1497028632681747686, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 7401063450612855369}
+    - target: {fileID: 1497028632681747686, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: fc29430444625854dad475fdbd530566,
@@ -378,6 +383,8 @@ MonoBehaviour:
   Pickupable: {fileID: 0}
   BaseBlurryVision: 0
   DimLightColour: {r: 1, g: 1, b: 1, a: 0.003921569}
+  EyeIrritant: {fileID: 11400000, guid: b297c259c012907a19324e8aee4d063e, type: 2}
+  EyeIrritantAmount: 0.25
   OnBodyID: 0
   PreventsBlindness: 1
   DefaultPreventsBlindness_: 0
@@ -405,3 +412,9 @@ MonoBehaviour:
   FlashProtection: {fileID: 11400000, guid: 4f5b7ce1cca0a644cba934af14ea4b2c, type: 2}
   WeldingShieldImplants: 0
   FlashMultiplier: 1
+--- !u!212 &7401063450612855369 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4859781159729634365, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+    type: 3}
+  m_PrefabInstance: {fileID: 2721496653381365364}
+  m_PrefabAsset: {fileID: 0}

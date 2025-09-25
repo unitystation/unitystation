@@ -92,9 +92,31 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Used to inject people with custom DNA
       objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f46f13d516624e6883db235a840f575,
+        type: 2}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 9153257592932444449}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: b16c78fc38e1b634195587c5b6a3be7d,
+        type: 2}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: b16c78fc38e1b634195587c5b6a3be7d,
         type: 2}
@@ -133,6 +155,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6171932382948120575}
+    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7816627480078395557}
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!114 &2932140103522656762 stripped
 MonoBehaviour:
@@ -168,7 +194,6 @@ MonoBehaviour:
   SpriteHandler: {fileID: 2932140103522656762}
   PullOrDrawSpriteHandler: {fileID: 0}
   ContentsSpriteHandler: {fileID: 0}
-  SicknessesInSyringe: []
   singleUse: 1
   ChangesSprite: 0
   SpiteFullIndex: 0
@@ -177,3 +202,30 @@ MonoBehaviour:
   injectTime: 0.55
   armourMultiplier: 2.75
   DNAPayload: []
+--- !u!114 &7816627480078395557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9076744276633164413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e01cf0e4c6ebb4443a9ca96c6f09f22c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  magType: 1
+  initalProjectile: {fileID: 4055189109785788133, guid: a72a29991cf0c824dadc8676faca9eb6,
+    type: 3}
+  ProjectilesFired: 1
+  ammoType: 16
+  magazineSize: 1
+--- !u!212 &9153257592932444449 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 9076025594538845895}
+  m_PrefabAsset: {fileID: 0}

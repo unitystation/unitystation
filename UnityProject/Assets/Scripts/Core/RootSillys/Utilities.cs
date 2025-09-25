@@ -8,4 +8,16 @@ public static class Utilities
 	{
 		return float.IsNaN(Number) || float.IsInfinity(Number);
 	}
+
+	public static float MakeInToReasonableNumber(this float Number, float Reasonable)
+	{
+		if (Number.IsUnreasonableNumber())
+		{
+			return Reasonable;
+		}
+		else
+		{
+			return Number;
+		}
+	}
 }

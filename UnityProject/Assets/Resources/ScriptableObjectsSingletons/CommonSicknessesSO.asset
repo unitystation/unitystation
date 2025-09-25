@@ -15,14 +15,17 @@ MonoBehaviour:
   SpaceFluReagent: {fileID: 11400000, guid: c277cb2e90e88e743ab2494b395ca8fa, type: 2}
   SpaceCancerReagent: {fileID: 11400000, guid: 2945ad40ab95234498cac68e72a6940a, type: 2}
   ParanoiaReagent: {fileID: 11400000, guid: eea29c4c2e4ea5e41b8ae15a911b5479, type: 2}
+  SpaceColdReagent: {fileID: 11400000, guid: 663b67816c62a694b94fc771e7e91efd, type: 2}
   diseaseReactionDictionary:
     m_keys:
     - Space Flu
     - Cosmophobia
     - Space Cancer
     - The Red Plague
+    - Space Cold
     m_values:
     - {fileID: 11400000, guid: 183626486b5659147b9ab76c37f755d1, type: 2}
     - {fileID: 11400000, guid: 0dfeb25a3a262dd4ba264ecd21677a89, type: 2}
     - {fileID: 11400000, guid: ddca67217442d154e9994c3f3d196a73, type: 2}
     - {fileID: 11400000, guid: 941454b59dbb7574ebf6b82391ebc80f, type: 2}
+    - {fileID: 11400000, guid: a9860fe5bfce35d43b2c1dc83d4c6211, type: 2}

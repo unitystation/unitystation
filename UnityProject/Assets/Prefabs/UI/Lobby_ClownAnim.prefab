@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 169364936}
   - component: {fileID: 169364935}
   - component: {fileID: 169364934}
+  - component: {fileID: 7367062779351961811}
   m_Layer: 5
   m_Name: BikeHorn
   m_TagString: Untagged
@@ -89,6 +90,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 24300001, guid: 94208a0928046438d9b8a00796e7a5a7,
     type: 2}
   m_audioClip: {fileID: 8300000, guid: 5479a0541f4249b7a707f18bdefe5d74, type: 3}
+  m_Resource: {fileID: 8300000, guid: 5479a0541f4249b7a707f18bdefe5d74, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.5
   m_Pitch: 1
@@ -230,6 +232,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &7367062779351961811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 169364932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1915507449614968054
 GameObject:
   m_ObjectHideFlags: 0
@@ -393,6 +407,7 @@ GameObject:
   - component: {fileID: 2413824579487650907}
   - component: {fileID: 23186650}
   - component: {fileID: 23186649}
+  - component: {fileID: 18457155300193392}
   m_Layer: 5
   m_Name: CLOWN
   m_TagString: Untagged
@@ -469,6 +484,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 24300001, guid: 94208a0928046438d9b8a00796e7a5a7,
     type: 2}
   m_audioClip: {fileID: 8300000, guid: 5479a0541f4249b7a707f18bdefe5d74, type: 3}
+  m_Resource: {fileID: 8300000, guid: 5479a0541f4249b7a707f18bdefe5d74, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.5
   m_Pitch: 1
@@ -610,6 +626,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &18457155300193392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2373322392582777823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5397777675146764733
 GameObject:
   m_ObjectHideFlags: 0
@@ -787,6 +815,7 @@ GameObject:
   - component: {fileID: 1249932039262770571}
   - component: {fileID: 2188712661275867406}
   - component: {fileID: 6988769765164958835}
+  - component: {fileID: 4557141430664756431}
   m_Layer: 5
   m_Name: NukeDisk
   m_TagString: Untagged
@@ -863,6 +892,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 24300001, guid: 94208a0928046438d9b8a00796e7a5a7,
     type: 2}
   m_audioClip: {fileID: 8300000, guid: 3be9ec90dfd41ac4c93ba7af7c9b46ac, type: 3}
+  m_Resource: {fileID: 8300000, guid: 3be9ec90dfd41ac4c93ba7af7c9b46ac, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.5
   m_Pitch: 1
@@ -1004,6 +1034,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4557141430664756431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6592034355268592536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7046851196751689105
 GameObject:
   m_ObjectHideFlags: 0

@@ -410,6 +410,7 @@ GameObject:
   - component: {fileID: 4402487243424649743}
   - component: {fileID: 6403061061126419494}
   - component: {fileID: 4784929340234307077}
+  - component: {fileID: -2602969426454222536}
   m_Layer: 5
   m_Name: Inspection
   m_TagString: Untagged
@@ -558,6 +559,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96dd745c9170eac449ebeed0ba2e873d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddInRunTime: 1
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -587,6 +589,18 @@ MonoBehaviour:
       m_values: 
     productionTime: 10
   categoryName: 
+--- !u!114 &-2602969426454222536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6965996461391346802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8460461711053132864
 GameObject:
   m_ObjectHideFlags: 0
@@ -601,6 +615,7 @@ GameObject:
   - component: {fileID: 1760074261582755266}
   - component: {fileID: 7545620067660707449}
   - component: {fileID: 532498488129426782}
+  - component: {fileID: -1806418063515479634}
   m_Layer: 5
   m_Name: AddToQueue
   m_TagString: Untagged
@@ -749,6 +764,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96dd745c9170eac449ebeed0ba2e873d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddInRunTime: 1
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -778,3 +794,15 @@ MonoBehaviour:
       m_values: 
     productionTime: 10
   categoryName: 
+--- !u!114 &-1806418063515479634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8460461711053132864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

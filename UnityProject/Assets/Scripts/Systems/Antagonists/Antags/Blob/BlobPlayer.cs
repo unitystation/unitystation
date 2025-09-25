@@ -1465,7 +1465,7 @@ namespace Blob
 				if (factoryBlob.Key == null) continue;
 
 				factoryBlob.Value.Remove(null);
-				factoryBlob.Value.RemoveWhere(spore => spore.GetComponent<LivingHealthBehaviour>().IsDead);
+				factoryBlob.Value.RemoveWhere(spore => spore == null || spore?.GetComponent<LivingHealthBehaviour>()?.IsDead is null or true);
 
 				//Dont produce spores unless connected
 				if(!factoryBlob.Key.connectedToBlobNet) continue;

@@ -56,8 +56,8 @@ namespace GameConfig
 		public bool ServerShutsDownOnRoundEnd;
 		public int PlayerLimit;
 		public int LowPopLimit;
-		public int LowPopCheckTimeAfterRoundStart;
-		public int RebootOnAverageFPSOrLower;
+		public int LowPopCheckTimeAfterRoundStart = 300;
+		public int RebootOnAverageFPSOrLower = 35;
 		public string AccountAPIHost;
 
 		//how many rounds of logs Should be stored before they get deleted,  null = 100, -1 Do not delete (will lag admin log UI After a while so manage yourself)

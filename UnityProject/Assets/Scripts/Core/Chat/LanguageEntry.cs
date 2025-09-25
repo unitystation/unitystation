@@ -14,6 +14,9 @@ namespace Core.Chat
 		private TMP_Text languageDescriptionText = null;
 
 		[SerializeField]
+		private TMP_Text languagePrefixKeyText = null;
+
+		[SerializeField]
 		private Image languageImage = null;
 
 		private LanguageScreen languageScreen;
@@ -21,9 +24,10 @@ namespace Core.Chat
 		private ushort languageId;
 
 		public void SetUp(string languageName, string languageDesc, Sprite languageSprite,
-			LanguageScreen setLanguageScreen, ushort setLanguageId)
+			LanguageScreen setLanguageScreen, ushort setLanguageId, string prefixKey)
 		{
 			languageNameText.text = languageName;
+			languagePrefixKeyText.text = "Prefix:\n," + prefixKey;
 
 			languageImage.SetActive(true);
 

@@ -60,6 +60,8 @@ namespace Chemistry.Components
 #endif
 
 
+		public bool StopReactions = false;
+
 		//How much room is there left in the container
 		public float SpareCapacity => maxCapacity - ReagentMixTotal;
 
@@ -130,6 +132,7 @@ namespace Chemistry.Components
 		private IReagentMixProvider _customMixProviderProvider;
 
 
+		[SerializeField]
 		private ReagentMix currentReagentMix;
 
 		/// <summary>
@@ -233,6 +236,7 @@ namespace Chemistry.Components
 		//Warning main thread only for now
 		public void ReagentsChanged(bool applyChange = true, bool cacheEffects = false)
 		{
+			if (StopReactions) return;
 			possibleReactions.Clear();
 			foreach (var reagents in CurrentReagentMix.reagents.m_dict)
 			{

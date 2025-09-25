@@ -128,7 +128,7 @@ public class GUI_P_Collection : PageElement
 	public void AddElement()
 	{
 		RequestChangeVariableNetMessage.Send(Sentence.OnPageID, "",
-			UISendToClientToggle.toggle,uint.MaxValue,VariableViewer.ListModification.Add);
+			UISendToClientToggle.toggle,uint.MaxValue, false,VariableViewer.ListModification.Add);
 		StartCoroutine(Refresh());
 	}
 	private IEnumerator Refresh()

@@ -120,6 +120,7 @@ namespace Items
 		[CanBeNull]
 		public string GetInfo()
 		{
+			if (pickupable == null || pickupable.ItemSlot == null || pickupable.ItemSlot.RootPlayer() == null) return "???";
 			StringBuilder sensorReport = new StringBuilder();
 			RegisterPlayer player = pickupable.ItemSlot.RootPlayer();
 			LivingHealthMasterBase health = player.PlayerScript.playerHealth;

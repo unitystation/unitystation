@@ -77,7 +77,7 @@ namespace Systems.Faith.FaithProperties
 		private void StarvationProblem(PlayerScript member)
 		{
 			if (DMMath.Prob(25) == false) return;
-			member.playerHealth.reagentPoolSystem.BloodPool.Add(CommonSicknesses.Instance.SpaceFluReagent, 10);
+			member.playerHealth.reagentPoolSystem.BloodPool.Add(CommonSicknesses.Instance.SpaceColdReagent, 1);
 			//TODO: Change this from cold to custom sickness for this faith
 		}
 

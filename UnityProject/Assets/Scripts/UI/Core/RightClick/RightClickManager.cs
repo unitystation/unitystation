@@ -299,6 +299,10 @@ public class RightClickManager : SingletonManager<RightClickManager>
 		var position = MouseUtils.MouseToWorldPos();
 		var objects = UITileList.GetItemsAtPosition(position);
 
+
+		objects = objects.Where(x => x.GetUniversalObjectPhysics()?.Intangible is null or false && (x.GetUniversalObjectPhysics()?.MappingIntangible is null or false)).ToList();
+
+
 		//special case, remove wallmounts that are transparent
 		objects.RemoveAll(IsHiddenWallmount);
 

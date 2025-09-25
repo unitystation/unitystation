@@ -257,7 +257,7 @@ public class MetaDataLayer : MonoBehaviour
 	/// </summary>
 	public void ReagentReact(ReagentMix reagents, Vector3Int worldPosInt, Vector3Int localPosInt,
 		bool spawnPrefabEffect = true, OrientationEnum direction = OrientationEnum.Up_By0, bool Scatter = false,
-		LivingHealthMasterBase from = null)
+		LivingHealthMasterBase from = null, BodyPartType bodyPartAim = BodyPartType.None)
 	{
 		var mobs = MatrixManager.GetAt<LivingHealthMasterBase>(worldPosInt, true);
 
@@ -270,7 +270,7 @@ public class MetaDataLayer : MonoBehaviour
 		//splashes mobs
 		foreach (var mob in mobs)
 		{
-			mob.ApplyReagentsToSurface(reagents, BodyPartType.None);
+			mob.ApplyReagentsToSurface(reagents, bodyPartAim);
 		}
 
 		Vector3 Position = worldPosInt;

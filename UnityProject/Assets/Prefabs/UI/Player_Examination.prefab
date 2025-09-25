@@ -724,6 +724,7 @@ GameObject:
   - component: {fileID: 6670532911623603463}
   - component: {fileID: 9039735781583680196}
   - component: {fileID: 3711348449801545738}
+  - component: {fileID: -5567287833531515403}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -845,6 +846,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &-5567287833531515403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4571266098666923487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4726413028663566182
 GameObject:
   m_ObjectHideFlags: 0
@@ -1016,6 +1029,7 @@ GameObject:
   - component: {fileID: 6390750328141871557}
   - component: {fileID: 2129812843882501750}
   - component: {fileID: 3645058761464356695}
+  - component: {fileID: -7562833417148692008}
   m_Layer: 5
   m_Name: expand
   m_TagString: Untagged
@@ -1156,6 +1170,18 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &-7562833417148692008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7145024107975273226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7293924850693886997
 GameObject:
   m_ObjectHideFlags: 0
@@ -1547,6 +1573,7 @@ GameObject:
   - component: {fileID: 13204156983590298}
   - component: {fileID: 892499926324468809}
   - component: {fileID: 6675704735933795517}
+  - component: {fileID: 2096312264439782546}
   m_Layer: 5
   m_Name: collapse
   m_TagString: Untagged
@@ -1667,6 +1694,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2096312264439782546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8775931671009073291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9068946588302096491
 GameObject:
   m_ObjectHideFlags: 0
@@ -1756,6 +1795,7 @@ GameObject:
   - component: {fileID: 3574444225181492050}
   - component: {fileID: 7002000419943292837}
   - component: {fileID: 2333839906525802914}
+  - component: {fileID: 5721352380638538736}
   m_Layer: 5
   m_Name: exit button
   m_TagString: Untagged
@@ -1876,3 +1916,15 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &5721352380638538736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9093509823243519224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -199,6 +199,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!1 &885056235498551571
 GameObject:
   m_ObjectHideFlags: 0
@@ -617,6 +618,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!1 &1234132492725419287
 GameObject:
   m_ObjectHideFlags: 0
@@ -735,6 +737,7 @@ GameObject:
   - component: {fileID: 8978027623061209631}
   - component: {fileID: 6760800973114409908}
   - component: {fileID: 8515004150864966727}
+  - component: {fileID: -1149967187136684165}
   m_Layer: 5
   m_Name: Grab
   m_TagString: Untagged
@@ -871,6 +874,18 @@ MonoBehaviour:
   baseExitTooltip: 
   useObjectName: 0
   hoverName: Grab
+--- !u!114 &-1149967187136684165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1296858734579852498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1374109994173358195
 GameObject:
   m_ObjectHideFlags: 0
@@ -940,6 +955,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!1 &1469995666062044178
 GameObject:
   m_ObjectHideFlags: 0
@@ -1304,6 +1320,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!1 &2781363611504298275
 GameObject:
   m_ObjectHideFlags: 0
@@ -1373,6 +1390,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!1 &2819891921087267672
 GameObject:
   m_ObjectHideFlags: 0
@@ -1547,6 +1565,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!1 &3268946651178372869
 GameObject:
   m_ObjectHideFlags: 0
@@ -1616,6 +1635,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!1 &3303788112113925873
 GameObject:
   m_ObjectHideFlags: 0
@@ -1815,6 +1835,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!1 &3555018902672964781
 GameObject:
   m_ObjectHideFlags: 0
@@ -1884,6 +1905,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!1 &3651452369807840915
 GameObject:
   m_ObjectHideFlags: 0
@@ -1897,6 +1919,7 @@ GameObject:
   - component: {fileID: 5842275182289477131}
   - component: {fileID: 8621405619461283765}
   - component: {fileID: 6531585058710734552}
+  - component: {fileID: -843944641860332183}
   m_Layer: 5
   m_Name: DropAll
   m_TagString: Untagged
@@ -2033,6 +2056,18 @@ MonoBehaviour:
   baseExitTooltip: 
   useObjectName: 0
   hoverName: Drop all
+--- !u!114 &-843944641860332183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3651452369807840915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3688018423274123415
 GameObject:
   m_ObjectHideFlags: 0
@@ -2193,6 +2228,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!1 &3926994990136988804
 GameObject:
   m_ObjectHideFlags: 0
@@ -2297,6 +2333,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!1 &4130436679050336715
 GameObject:
   m_ObjectHideFlags: 0
@@ -2401,6 +2438,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!1 &4234070578867309748
 GameObject:
   m_ObjectHideFlags: 0
@@ -2470,6 +2508,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!1 &4749762061854465771
 GameObject:
   m_ObjectHideFlags: 0
@@ -2531,6 +2570,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!222 &7109269341834315181
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2652,6 +2692,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!1 &5073374582999077657
 GameObject:
   m_ObjectHideFlags: 0
@@ -2769,6 +2810,7 @@ GameObject:
   - component: {fileID: 8778361260333343780}
   - component: {fileID: 3341332921308457465}
   - component: {fileID: 2581060959245539618}
+  - component: {fileID: 7419581449431956671}
   m_Layer: 5
   m_Name: Help
   m_TagString: Untagged
@@ -2905,6 +2947,18 @@ MonoBehaviour:
   baseExitTooltip: 
   useObjectName: 0
   hoverName: Help
+--- !u!114 &7419581449431956671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5116986475321075226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5166066134047724189
 GameObject:
   m_ObjectHideFlags: 0
@@ -3818,6 +3872,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!1 &6663061321104561392
 GameObject:
   m_ObjectHideFlags: 0
@@ -3926,6 +3981,7 @@ GameObject:
   - component: {fileID: 1435359986814271715}
   - component: {fileID: 2580360611564338813}
   - component: {fileID: 2174332000468962367}
+  - component: {fileID: -4346265473937454509}
   m_Layer: 5
   m_Name: Harm
   m_TagString: Untagged
@@ -4062,6 +4118,18 @@ MonoBehaviour:
   baseExitTooltip: 
   useObjectName: 0
   hoverName: Harm
+--- !u!114 &-4346265473937454509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6801543749986786019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6939145147121627443
 GameObject:
   m_ObjectHideFlags: 0
@@ -4270,6 +4338,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!1 &7455236265559476176
 GameObject:
   m_ObjectHideFlags: 0
@@ -4573,6 +4642,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!1 &7918023654687668628
 GameObject:
   m_ObjectHideFlags: 0
@@ -4586,6 +4656,7 @@ GameObject:
   - component: {fileID: 763757056721071810}
   - component: {fileID: 3844078023596197484}
   - component: {fileID: 4380040536457233996}
+  - component: {fileID: 5985809273288828862}
   m_Layer: 5
   m_Name: CloseStorageUI
   m_TagString: Untagged
@@ -4722,6 +4793,18 @@ MonoBehaviour:
   baseExitTooltip: 
   useObjectName: 0
   hoverName: close
+--- !u!114 &5985809273288828862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7918023654687668628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7967256725470370117
 GameObject:
   m_ObjectHideFlags: 0
@@ -4735,6 +4818,7 @@ GameObject:
   - component: {fileID: 6365890439468836677}
   - component: {fileID: 7773975631241151611}
   - component: {fileID: 7030138677758189785}
+  - component: {fileID: -4875730194713534705}
   m_Layer: 5
   m_Name: CloseStorageUI (1)
   m_TagString: Untagged
@@ -4871,6 +4955,18 @@ MonoBehaviour:
   baseExitTooltip: 
   useObjectName: 0
   hoverName: close
+--- !u!114 &-4875730194713534705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7967256725470370117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8093612741509103835
 GameObject:
   m_ObjectHideFlags: 0
@@ -4884,6 +4980,7 @@ GameObject:
   - component: {fileID: 2796571098994457239}
   - component: {fileID: 6740807855394049013}
   - component: {fileID: 8500620593995795175}
+  - component: {fileID: -6555242708336463162}
   m_Layer: 5
   m_Name: Disarm
   m_TagString: Untagged
@@ -5020,6 +5117,18 @@ MonoBehaviour:
   baseExitTooltip: 
   useObjectName: 0
   hoverName: Disarm
+--- !u!114 &-6555242708336463162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8093612741509103835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8175596816488739950
 GameObject:
   m_ObjectHideFlags: 0
@@ -5297,6 +5406,7 @@ MonoBehaviour:
   inventorySlotPrefab: {fileID: 1797031250616714, guid: 0b1de82b3cb8a4ae2a8a97915fdd62e6,
     type: 3}
   indexedStorageCapacity: {fileID: 0}
+  TargetTransform: {fileID: 0}
 --- !u!1 &8321114386157546147
 GameObject:
   m_ObjectHideFlags: 0
@@ -5472,6 +5582,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!114 &8281883405673787351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5514,6 +5625,7 @@ GameObject:
   - component: {fileID: 8281660560908135931}
   - component: {fileID: 8282053720859060387}
   - component: {fileID: 6596721438414345357}
+  - component: {fileID: 2247935135018498828}
   m_Layer: 5
   m_Name: Mouth
   m_TagString: Untagged
@@ -5650,6 +5762,18 @@ MonoBehaviour:
   baseExitTooltip: 
   useObjectName: 0
   hoverName: 'Damage zone: Mouth'
+--- !u!114 &2247935135018498828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8321145030998453739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8321147838129547543
 GameObject:
   m_ObjectHideFlags: 0
@@ -5662,6 +5786,7 @@ GameObject:
   - component: {fileID: 8101704180398623553}
   - component: {fileID: 8278029546150847335}
   - component: {fileID: 8282030070551056537}
+  - component: {fileID: -5632859728392029818}
   m_Layer: 5
   m_Name: Equip
   m_TagString: Untagged
@@ -5782,6 +5907,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &-5632859728392029818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8321147838129547543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8321149360104508185
 GameObject:
   m_ObjectHideFlags: 0
@@ -5795,6 +5932,7 @@ GameObject:
   - component: {fileID: 8281647106606541001}
   - component: {fileID: 8282096147036121955}
   - component: {fileID: 1393421293440265707}
+  - component: {fileID: -1311227408678959922}
   m_Layer: 5
   m_Name: R_Leg
   m_TagString: Untagged
@@ -5931,6 +6069,18 @@ MonoBehaviour:
   baseExitTooltip: 
   useObjectName: 0
   hoverName: 'Damage zone: Right leg'
+--- !u!114 &-1311227408678959922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8321149360104508185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8321164708509651395
 GameObject:
   m_ObjectHideFlags: 0
@@ -5944,6 +6094,7 @@ GameObject:
   - component: {fileID: 8281908010896302221}
   - component: {fileID: 8282011884864999309}
   - component: {fileID: 8941797262540233539}
+  - component: {fileID: -9081654079093713587}
   m_Layer: 5
   m_Name: Pull
   m_TagString: Untagged
@@ -6080,6 +6231,18 @@ MonoBehaviour:
   baseExitTooltip: 
   useObjectName: 0
   hoverName: Stop pulling
+--- !u!114 &-9081654079093713587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8321164708509651395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8321191460322243837
 GameObject:
   m_ObjectHideFlags: 0
@@ -6093,6 +6256,7 @@ GameObject:
   - component: {fileID: 8281018203813039439}
   - component: {fileID: 8281903859615279329}
   - component: {fileID: 358288024626935495}
+  - component: {fileID: 7174008759942816618}
   m_Layer: 5
   m_Name: R_Arm
   m_TagString: Untagged
@@ -6229,6 +6393,18 @@ MonoBehaviour:
   baseExitTooltip: 
   useObjectName: 0
   hoverName: 'Damage zone: Right arm'
+--- !u!114 &7174008759942816618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8321191460322243837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8321240404126291303
 GameObject:
   m_ObjectHideFlags: 0
@@ -6299,6 +6475,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!114 &8281186427836740963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6478,6 +6655,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!1 &8321561569998128419
 GameObject:
   m_ObjectHideFlags: 0
@@ -6491,6 +6669,7 @@ GameObject:
   - component: {fileID: 8281251467492019175}
   - component: {fileID: 8281205420356622509}
   - component: {fileID: 3893696244836531873}
+  - component: {fileID: -8030586483421000061}
   m_Layer: 5
   m_Name: Torso
   m_TagString: Untagged
@@ -6627,6 +6806,18 @@ MonoBehaviour:
   baseExitTooltip: 
   useObjectName: 0
   hoverName: 'Damage zone: Torso'
+--- !u!114 &-8030586483421000061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8321561569998128419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8321571950572456839
 GameObject:
   m_ObjectHideFlags: 0
@@ -6640,6 +6831,7 @@ GameObject:
   - component: {fileID: 8277952986304832451}
   - component: {fileID: 8281716408480828201}
   - component: {fileID: 142747252769714797}
+  - component: {fileID: 7712455802277747426}
   m_Layer: 5
   m_Name: Head
   m_TagString: Untagged
@@ -6776,6 +6968,18 @@ MonoBehaviour:
   baseExitTooltip: 
   useObjectName: 0
   hoverName: 'Damage zone: Head'
+--- !u!114 &7712455802277747426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8321571950572456839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8321582135236366025
 GameObject:
   m_ObjectHideFlags: 0
@@ -6845,6 +7049,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!1 &8321587465626005175
 GameObject:
   m_ObjectHideFlags: 0
@@ -7018,6 +7223,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!1 &8321624334854963317
 GameObject:
   m_ObjectHideFlags: 0
@@ -7031,6 +7237,7 @@ GameObject:
   - component: {fileID: 8277915477216995855}
   - component: {fileID: 8281266925126921529}
   - component: {fileID: 4197290165197470597}
+  - component: {fileID: 8761033593071100007}
   m_Layer: 5
   m_Name: L_Leg
   m_TagString: Untagged
@@ -7167,6 +7374,18 @@ MonoBehaviour:
   baseExitTooltip: 
   useObjectName: 0
   hoverName: 'Damage zone: Left leg'
+--- !u!114 &8761033593071100007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8321624334854963317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8321629272961621499
 GameObject:
   m_ObjectHideFlags: 0
@@ -7180,6 +7399,7 @@ GameObject:
   - component: {fileID: 8281973736374526597}
   - component: {fileID: 8277941641971164525}
   - component: {fileID: 6368011002375304705}
+  - component: {fileID: -4464193738885445383}
   m_Layer: 5
   m_Name: Resist
   m_TagString: Untagged
@@ -7316,6 +7536,18 @@ MonoBehaviour:
   baseExitTooltip: 
   useObjectName: 0
   hoverName: Resist
+--- !u!114 &-4464193738885445383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8321629272961621499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8321634039243762281
 GameObject:
   m_ObjectHideFlags: 0
@@ -7540,6 +7772,7 @@ GameObject:
   - component: {fileID: 8281270871911874049}
   - component: {fileID: 8281255369464917837}
   - component: {fileID: 2654366810790537782}
+  - component: {fileID: -19403553456554486}
   m_Layer: 5
   m_Name: LeftHand
   m_TagString: Untagged
@@ -7703,6 +7936,18 @@ MonoBehaviour:
   baseTooltip: 
   baseExitTooltip: 
   sprite: {fileID: 21300000, guid: 262e76d6b192e2e4383908fcc4edd1c6, type: 3}
+--- !u!114 &-19403553456554486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8321642703171633275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8321656306025107829
 GameObject:
   m_ObjectHideFlags: 0
@@ -7716,6 +7961,7 @@ GameObject:
   - component: {fileID: 8281223811369858701}
   - component: {fileID: 8281779293573331585}
   - component: {fileID: 6847239713964104595}
+  - component: {fileID: 4540457005884859854}
   m_Layer: 5
   m_Name: Drop
   m_TagString: Untagged
@@ -7852,6 +8098,18 @@ MonoBehaviour:
   baseExitTooltip: 
   useObjectName: 0
   hoverName: Drop
+--- !u!114 &4540457005884859854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8321656306025107829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8321665812333033313
 GameObject:
   m_ObjectHideFlags: 0
@@ -7865,6 +8123,7 @@ GameObject:
   - component: {fileID: 8281181633839577613}
   - component: {fileID: 8278017596761733625}
   - component: {fileID: 6117536462190824250}
+  - component: {fileID: 7154707167916998898}
   m_Layer: 5
   m_Name: Throw
   m_TagString: Untagged
@@ -8001,6 +8260,18 @@ MonoBehaviour:
   baseExitTooltip: 
   useObjectName: 0
   hoverName: Throw/Catch
+--- !u!114 &7154707167916998898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8321665812333033313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8321689161433145869
 GameObject:
   m_ObjectHideFlags: 0
@@ -8014,6 +8285,7 @@ GameObject:
   - component: {fileID: 8282113168341713299}
   - component: {fileID: 8281209768856760413}
   - component: {fileID: 6479734665955414932}
+  - component: {fileID: 8492518250147985771}
   m_Layer: 5
   m_Name: Groin
   m_TagString: Untagged
@@ -8150,6 +8422,18 @@ MonoBehaviour:
   baseExitTooltip: 
   useObjectName: 0
   hoverName: 'Damage zone: Groin'
+--- !u!114 &8492518250147985771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8321689161433145869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8321718308775306565
 GameObject:
   m_ObjectHideFlags: 0
@@ -8219,6 +8503,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!1 &8321727016523858965
 GameObject:
   m_ObjectHideFlags: 0
@@ -8288,6 +8573,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!1 &8321831381721076015
 GameObject:
   m_ObjectHideFlags: 0
@@ -8462,6 +8748,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!1 &8321863801762327181
 GameObject:
   m_ObjectHideFlags: 0
@@ -8531,6 +8818,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!1 &8321888781654950973
 GameObject:
   m_ObjectHideFlags: 0
@@ -8705,6 +8993,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!1 &8321898198140105951
 GameObject:
   m_ObjectHideFlags: 0
@@ -8843,6 +9132,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!1 &8321917465750768617
 GameObject:
   m_ObjectHideFlags: 0
@@ -8858,6 +9148,7 @@ GameObject:
   - component: {fileID: 8281674495870864117}
   - component: {fileID: 8277910431233419687}
   - component: {fileID: 5763014278214023581}
+  - component: {fileID: -6133127773760392875}
   m_Layer: 5
   m_Name: RightHand
   m_TagString: Untagged
@@ -9022,6 +9313,18 @@ MonoBehaviour:
   baseTooltip: 
   baseExitTooltip: 
   sprite: {fileID: 21300000, guid: 1ffe07caa421d164c8c7499fb6b592df, type: 3}
+--- !u!114 &-6133127773760392875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8321917465750768617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8321977419476458081
 GameObject:
   m_ObjectHideFlags: 0
@@ -9034,6 +9337,7 @@ GameObject:
   - component: {fileID: 8101105416524092249}
   - component: {fileID: 8281776427077820411}
   - component: {fileID: 8281187845011638491}
+  - component: {fileID: 3009721378335929811}
   m_Layer: 5
   m_Name: Swap
   m_TagString: Untagged
@@ -9154,6 +9458,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &3009721378335929811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8321977419476458081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8322022242344282369
 GameObject:
   m_ObjectHideFlags: 0
@@ -9167,6 +9483,7 @@ GameObject:
   - component: {fileID: 8282078065408765007}
   - component: {fileID: 8281163102184217759}
   - component: {fileID: 6906429040354474690}
+  - component: {fileID: 4330653787005033342}
   m_Layer: 5
   m_Name: L_Arm
   m_TagString: Untagged
@@ -9303,6 +9620,18 @@ MonoBehaviour:
   baseExitTooltip: 
   useObjectName: 0
   hoverName: 'Damage zone: Left arm'
+--- !u!114 &4330653787005033342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8322022242344282369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8322055320330206745
 GameObject:
   m_ObjectHideFlags: 0
@@ -9706,6 +10035,7 @@ GameObject:
   - component: {fileID: 8281862448447359283}
   - component: {fileID: 8277939169518449893}
   - component: {fileID: 3505236960800990643}
+  - component: {fileID: 7152044607678443043}
   m_Layer: 5
   m_Name: RunWalk_Toggle
   m_TagString: Untagged
@@ -9859,6 +10189,18 @@ MonoBehaviour:
   baseExitTooltip: 
   useObjectName: 0
   hoverName: Run / Walk
+--- !u!114 &7152044607678443043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8322203573426564241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8322215779809400367
 GameObject:
   m_ObjectHideFlags: 0
@@ -10512,6 +10854,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!1 &8322454344363220281
 GameObject:
   m_ObjectHideFlags: 0
@@ -10656,6 +10999,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!1 &8322535828645807689
 GameObject:
   m_ObjectHideFlags: 0
@@ -11000,6 +11344,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!1 &8322565278541805033
 GameObject:
   m_ObjectHideFlags: 0
@@ -11069,6 +11414,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!1 &8322594039807480207
 GameObject:
   m_ObjectHideFlags: 0
@@ -11138,6 +11484,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!1 &8322610206352831391
 GameObject:
   m_ObjectHideFlags: 0
@@ -11151,6 +11498,7 @@ GameObject:
   - component: {fileID: 8282077339251953979}
   - component: {fileID: 8278029132062263677}
   - component: {fileID: 1636035535474704301}
+  - component: {fileID: -8938181719116391650}
   m_Layer: 5
   m_Name: Eyes
   m_TagString: Untagged
@@ -11287,6 +11635,18 @@ MonoBehaviour:
   baseExitTooltip: 
   useObjectName: 0
   hoverName: 'Damage zone: Eyes'
+--- !u!114 &-8938181719116391650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8322610206352831391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8322615842752028439
 GameObject:
   m_ObjectHideFlags: 0
@@ -11356,6 +11716,7 @@ MonoBehaviour:
   MoreInventoryImage: {fileID: 0}
   HasSubInventory: {fileID: 0}
   OverlayMaterial: {fileID: 0}
+  IsAdmins: 0
 --- !u!1 &8322619663844361839
 GameObject:
   m_ObjectHideFlags: 0
@@ -11369,6 +11730,7 @@ GameObject:
   - component: {fileID: 8281986676888526523}
   - component: {fileID: 8281837175837129411}
   - component: {fileID: 8281951782109606383}
+  - component: {fileID: 5679475570415553469}
   m_Layer: 5
   m_Name: Equip-Clothing
   m_TagString: Untagged
@@ -11508,6 +11870,18 @@ MonoBehaviour:
   ObjectToHide: {fileID: 0}
   openButtonImage: {fileID: 0}
   closeButtonImage: {fileID: 0}
+--- !u!114 &5679475570415553469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8322619663844361839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8322635071879192107
 GameObject:
   m_ObjectHideFlags: 0

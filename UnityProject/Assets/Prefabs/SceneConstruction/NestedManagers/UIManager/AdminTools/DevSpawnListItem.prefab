@@ -166,6 +166,7 @@ GameObject:
   - component: {fileID: 1104702365894475482}
   - component: {fileID: 4945462975886789159}
   - component: {fileID: 9038129648481929438}
+  - component: {fileID: 1618755223224206491}
   m_Layer: 5
   m_Name: PrefabsearchByChildren
   m_TagString: Untagged
@@ -286,6 +287,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1618755223224206491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 810722569177937295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2998714458148007339
 GameObject:
   m_ObjectHideFlags: 0
@@ -298,6 +311,7 @@ GameObject:
   - component: {fileID: 3618030758274408470}
   - component: {fileID: 6573858713211116883}
   - component: {fileID: 6933602441384420398}
+  - component: {fileID: -2931027961211956416}
   m_Layer: 5
   m_Name: PrefabParent
   m_TagString: Untagged
@@ -418,6 +432,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &-2931027961211956416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2998714458148007339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3513550266189800003
 GameObject:
   m_ObjectHideFlags: 0
@@ -585,6 +611,7 @@ GameObject:
   - component: {fileID: 5688767285526637738}
   - component: {fileID: 1179156543412066230}
   - component: {fileID: 2482301677763872801}
+  - component: {fileID: -9026776455579121070}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -705,6 +732,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &-9026776455579121070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4242001512883561668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5526875930846530222
 GameObject:
   m_ObjectHideFlags: 0

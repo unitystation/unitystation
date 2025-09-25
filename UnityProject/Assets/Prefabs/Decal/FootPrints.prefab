@@ -19,7 +19,6 @@ GameObject:
   - component: {fileID: 2784834567204722147}
   - component: {fileID: 2128560979510487873}
   - component: {fileID: 5279946445485126567}
-  - component: {fileID: 5642772728976905861}
   m_Layer: 7
   m_Name: FootPrints
   m_TagString: Untagged
@@ -79,7 +78,7 @@ MonoBehaviour:
   sceneId: 0
   _assetId: 2225315443
   serverOnly: 0
-  visible: 0
+  visibility: 0
   hasSpawned: 0
 --- !u!114 &-5758749406593069758
 MonoBehaviour:
@@ -127,6 +126,7 @@ MonoBehaviour:
   traitWhitelist: []
   reagentWhitelist: []
   transferMode: 4
+  onlyAllowSyringeFilling: 0
   SyringePulling: 0
   possibleTransferAmounts: []
   transferAmount: 20
@@ -188,7 +188,7 @@ MonoBehaviour:
   TryPushedFrame: 0
   PushedFrame: 0
   ChangesDirectionPush: 0
-  Intangible: 0
+  Intangible: 1
   MappingIntangible: 0
   SnapToGridOnStart: 0
   IsPlayer: 0
@@ -210,6 +210,10 @@ MonoBehaviour:
   MoveIsWalking: 0
   LastUpdateClientFlying: 0
   TimeSpentFlying: 0
+  <Scale>k__BackingField: {fileID: 0}
+  OnEnteredNewMatrix:
+    m_PersistentCalls:
+      m_Calls: []
   DEBUG: 0
   isNotPushable: 1
   Pushing: []
@@ -339,52 +343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13b3f20d3b30cb24fb70b1f35524c360, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!61 &5642772728976905861
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1069497300762596}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 128
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 4160749367
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 128
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4160749367
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  commonComponentsToRegister: []
 --- !u!1 &1230737790073880
 GameObject:
   m_ObjectHideFlags: 0
@@ -491,11 +450,14 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: b30362eb1e81411499d4f3ed87c1400a,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 0
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &2691999392330986136
 GameObject:
   m_ObjectHideFlags: 0
@@ -602,11 +564,14 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: f92e9e1c222069c479596cc2d0f2edb8,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 0
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &3336718082574871343
 GameObject:
   m_ObjectHideFlags: 0
@@ -713,11 +678,14 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: f92e9e1c222069c479596cc2d0f2edb8,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 0
   initialVariantIndex: 1
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &4117799564845932110
 GameObject:
   m_ObjectHideFlags: 0
@@ -824,11 +792,14 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: b30362eb1e81411499d4f3ed87c1400a,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 0
   initialVariantIndex: 2
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &5308156924449183557
 GameObject:
   m_ObjectHideFlags: 0
@@ -935,11 +906,14 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: f92e9e1c222069c479596cc2d0f2edb8,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 0
   initialVariantIndex: 3
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &5737883633246699644
 GameObject:
   m_ObjectHideFlags: 0
@@ -1081,11 +1055,14 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: b30362eb1e81411499d4f3ed87c1400a,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 0
   initialVariantIndex: 1
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &6381005143451504906
 GameObject:
   m_ObjectHideFlags: 0
@@ -1227,11 +1204,14 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: b30362eb1e81411499d4f3ed87c1400a,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 0
   initialVariantIndex: 3
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &8812557886825915679
 GameObject:
   m_ObjectHideFlags: 0
@@ -1338,8 +1318,11 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: f92e9e1c222069c479596cc2d0f2edb8,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 0
   initialVariantIndex: 2
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 

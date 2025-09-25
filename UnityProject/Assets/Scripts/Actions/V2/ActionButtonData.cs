@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Actions.V2
 {
@@ -34,7 +33,7 @@ namespace Actions.V2
 		public bool HasCustomCursor;
 		public CursorOffsetType OffsetType;
 		public Vector2 CursorOffset;
-		public Texture2D CursorTexture;
+		public SpriteDataSO CursorTexture;
 
 		[HideInInspector] public NetworkIdentity TrackingObject;
 	}

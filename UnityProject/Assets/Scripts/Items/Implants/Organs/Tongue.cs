@@ -2,6 +2,7 @@
 using HealthV2;
 using Player;
 using Player.Language;
+using Systems.Character;
 using UnityEngine;
 
 namespace Items.Implants.Organs
@@ -28,7 +29,13 @@ namespace Items.Implants.Organs
 			if(CustomNetworkManager.IsServer == false) return;
 
 			//Get voice name from character sheet
-			var Sheet = livingHealth.GetComponentCustom<PlayerSprites>().ThisCharacter;
+			var Sheet = livingHealth?.GetComponentCustom<PlayerSprites>()?.ThisCharacter;
+
+			if (Sheet == null)
+			{
+				Sheet = new CharacterSheet() {Name = "Error"};
+			}
+
 			if (string.IsNullOrWhiteSpace(VoicesName))
 			{
 				VoicesName = Sheet.Name;

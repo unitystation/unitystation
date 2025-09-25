@@ -30,7 +30,7 @@ public class FireExtinguisher : NetworkBehaviour,
 
 	private float TravelTime => 1f / travelDistance;
 
-	bool safety = true;
+	[SyncVar] public bool safety = true;
 	private DateTime clientLastInteract = DateTime.Now;
 
 	private enum SpriteState
@@ -63,6 +63,8 @@ public class FireExtinguisher : NetworkBehaviour,
 	{
 		if (!DefaultWillInteract.Default(interaction, side)
 		    || (!IsCoolDown() && !isServer)) return false;
+
+		if (safety) return false;
 		return true;
 	}
 

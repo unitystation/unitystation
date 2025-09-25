@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04faef1760e156f4d8a855aa231b1b35, type: 3}
+  m_Name: SpaceColdReaction
+  m_EditorClassIdentifier: 
+  ingredients:
+    m_keys:
+    - {fileID: 11400000, guid: 663b67816c62a694b94fc771e7e91efd, type: 2}
+    m_values: 00000000
+  useExactAmounts: 0
+  MinimumReactionMultiple: 0
+  catalysts:
+    m_keys: []
+    m_values: 
+  inhibitors:
+    m_keys: []
+    m_values: 
+  hasMinTemp: 0
+  serializableTempMin: 0
+  hasMaxTemp: 0
+  serializableTempMax: 0
+  results:
+    m_keys: []
+    m_values: 
+  effectDict:
+    m_keys: []
+    m_values: 
+  overrideDisplayName: Space cold growth
+  indexInSingleton: 511
+  ReagentMetabolismMultiplier: 1
+  InternalAllRequired: []
+  InternalBlacklist: []
+  ExternalAllRequired: []
+  ExternalBlacklist: []
+  sicknessGrowthCharacteristic:
+    SicknessGrowthChancePercent: 50
+    SicknessGrowthBaseRate: 0.02
+    SicknessGrowthRelativeRate: 0.004
+  stages:
+  - StageConcentrationThreshold: 0
+    StageEffects:
+    - {fileID: 11400000, guid: 6f846516c0ff98843a1911c5b7dd96ac, type: 2}
+  - StageConcentrationThreshold: 5
+    StageEffects:
+    - {fileID: 11400000, guid: bda4abd1b12fc3549b414edeeecd868d, type: 2}
+    - {fileID: 11400000, guid: d1b404485372a174e8678695b1d8dbf8, type: 2}
+  - StageConcentrationThreshold: 10
+    StageEffects:
+    - {fileID: 11400000, guid: bda4abd1b12fc3549b414edeeecd868d, type: 2}
+    - {fileID: 11400000, guid: 99076a382e6a9cb47809eff6a95552dd, type: 2}
+  DiseaseMaxConcentrationPercent: 16

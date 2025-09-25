@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4495058724824268421}
   - component: {fileID: 5712487803982985795}
   - component: {fileID: 2825542358079580298}
+  - component: {fileID: 6859878156347386973}
   m_Layer: 5
   m_Name: DelButton
   m_TagString: Untagged
@@ -146,6 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddInRunTime: 1
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -167,6 +169,18 @@ MonoBehaviour:
   OnMouseExit:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6859878156347386973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 259714845884301959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1380618384541160272
 GameObject:
   m_ObjectHideFlags: 0
@@ -272,6 +286,7 @@ GameObject:
   - component: {fileID: 8258368635997972672}
   - component: {fileID: 5618891524059971965}
   - component: {fileID: 3489438360820908466}
+  - component: {fileID: 7331943474869379263}
   m_Layer: 5
   m_Name: DetailsBorder
   m_TagString: Untagged
@@ -417,6 +432,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddInRunTime: 1
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -438,6 +454,18 @@ MonoBehaviour:
   OnMouseExit:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7331943474869379263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1527999775792034808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1979487476516273909
 GameObject:
   m_ObjectHideFlags: 0
@@ -451,6 +479,7 @@ GameObject:
   - component: {fileID: 7658463246394157547}
   - component: {fileID: 7632006833373428826}
   - component: {fileID: 1273084836954746913}
+  - component: {fileID: -6525544948015062981}
   m_Layer: 5
   m_Name: CrimeBorder
   m_TagString: Untagged
@@ -596,6 +625,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddInRunTime: 1
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -617,6 +647,18 @@ MonoBehaviour:
   OnMouseExit:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-6525544948015062981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1979487476516273909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3119807726389228833
 GameObject:
   m_ObjectHideFlags: 0
@@ -706,6 +748,7 @@ GameObject:
   - component: {fileID: 7216224065586812273}
   - component: {fileID: 3152362182929014948}
   - component: {fileID: 136792942955571487}
+  - component: {fileID: 844517568811127198}
   m_Layer: 5
   m_Name: AuthorBorder
   m_TagString: Untagged
@@ -851,6 +894,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddInRunTime: 1
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -872,6 +916,18 @@ MonoBehaviour:
   OnMouseExit:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &844517568811127198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3387758907386576263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3479127659329116897
 GameObject:
   m_ObjectHideFlags: 0
@@ -1233,6 +1289,7 @@ GameObject:
   - component: {fileID: 8131835226495132226}
   - component: {fileID: 4252508009595941157}
   - component: {fileID: 4475217302035566813}
+  - component: {fileID: 7930891320068940348}
   m_Layer: 5
   m_Name: TimeBorder
   m_TagString: Untagged
@@ -1378,6 +1435,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddInRunTime: 1
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -1399,6 +1457,18 @@ MonoBehaviour:
   OnMouseExit:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7930891320068940348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8019757411898228748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9080186516185717655
 GameObject:
   m_ObjectHideFlags: 0

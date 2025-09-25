@@ -8,6 +8,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1662985683926489149, guid: 22a0f31b240a38d43889201d251db483,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 3453690916806187164}
     - target: {fileID: 1939004667052077015, guid: 22a0f31b240a38d43889201d251db483,
         type: 3}
       propertyPath: parentID
@@ -21,7 +26,7 @@ PrefabInstance:
     - target: {fileID: 4147696764540277749, guid: 22a0f31b240a38d43889201d251db483,
         type: 3}
       propertyPath: storage.Array.size
-      value: 17
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 4147696764540277749, guid: 22a0f31b240a38d43889201d251db483,
         type: 3}
@@ -110,6 +115,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4147696764540277749, guid: 22a0f31b240a38d43889201d251db483,
         type: 3}
+      propertyPath: storage.Array.data[17].SlotArea
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4147696764540277749, guid: 22a0f31b240a38d43889201d251db483,
+        type: 3}
+      propertyPath: storage.Array.data[18].SlotArea
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4147696764540277749, guid: 22a0f31b240a38d43889201d251db483,
+        type: 3}
       propertyPath: storage.Array.data[1].namedSlot
       value: 17
       objectReference: {fileID: 0}
@@ -188,11 +203,21 @@ PrefabInstance:
       propertyPath: storage.Array.data[16].namedSlot
       value: 33
       objectReference: {fileID: 0}
+    - target: {fileID: 4147696764540277749, guid: 22a0f31b240a38d43889201d251db483,
+        type: 3}
+      propertyPath: storage.Array.data[17].namedSlot
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 4147696764540277749, guid: 22a0f31b240a38d43889201d251db483,
+        type: 3}
+      propertyPath: storage.Array.data[18].namedSlot
+      value: 35
+      objectReference: {fileID: 0}
     - target: {fileID: 4657836921080778982, guid: 22a0f31b240a38d43889201d251db483,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 670a0c4738c13bf4893ebeb3ae8e0dd4,
+      objectReference: {fileID: 21300006, guid: 670a0c4738c13bf4893ebeb3ae8e0dd4,
         type: 3}
     - target: {fileID: 4774239726879727310, guid: 22a0f31b240a38d43889201d251db483,
         type: 3}
@@ -266,8 +291,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5678182667614193453, guid: 22a0f31b240a38d43889201d251db483,
         type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5678182667614193453, guid: 22a0f31b240a38d43889201d251db483,
+        type: 3}
       propertyPath: Populater.SlotContents.Array.size
-      value: 17
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 5678182667614193453, guid: 22a0f31b240a38d43889201d251db483,
         type: 3}
@@ -370,6 +400,18 @@ PrefabInstance:
       propertyPath: Populater.SlotContents.Array.data[16].Prefab
       value: 
       objectReference: {fileID: 6925024718413404426, guid: 160224caee4e1394f8a535f3c34d1ec2,
+        type: 3}
+    - target: {fileID: 5678182667614193453, guid: 22a0f31b240a38d43889201d251db483,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[17].Prefab
+      value: 
+      objectReference: {fileID: 7910229005830770290, guid: ee0158f81f23d0c478a552aa6e2d1df8,
+        type: 3}
+    - target: {fileID: 5678182667614193453, guid: 22a0f31b240a38d43889201d251db483,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[18].Prefab
+      value: 
+      objectReference: {fileID: 8680994867995415037, guid: dd97c290495c57e47b54b45eb7d49a38,
         type: 3}
     - target: {fileID: 5678182667614193453, guid: 22a0f31b240a38d43889201d251db483,
         type: 3}
@@ -511,6 +553,26 @@ PrefabInstance:
       propertyPath: Populater.SlotContents.Array.data[16].NamedSlot
       value: 19
       objectReference: {fileID: 0}
+    - target: {fileID: 5678182667614193453, guid: 22a0f31b240a38d43889201d251db483,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[17].IndexSlot
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5678182667614193453, guid: 22a0f31b240a38d43889201d251db483,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[17].NamedSlot
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 5678182667614193453, guid: 22a0f31b240a38d43889201d251db483,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[18].IndexSlot
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5678182667614193453, guid: 22a0f31b240a38d43889201d251db483,
+        type: 3}
+      propertyPath: Populater.SlotContents.Array.data[18].NamedSlot
+      value: 19
+      objectReference: {fileID: 0}
     - target: {fileID: 7189410730190013466, guid: 22a0f31b240a38d43889201d251db483,
         type: 3}
       propertyPath: ToSetTo
@@ -548,3 +610,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   OnBodyID: 0
+--- !u!212 &3453690916806187164 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4657836921080778982, guid: 22a0f31b240a38d43889201d251db483,
+    type: 3}
+  m_PrefabInstance: {fileID: 8020365129663236218}
+  m_PrefabAsset: {fileID: 0}

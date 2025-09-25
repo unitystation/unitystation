@@ -12,6 +12,8 @@ namespace Items.Medical
 
 		public float Time;
 
+		public bool DoesntRequireBackpack = false;
+
 		[SerializeField] private AddressableAudioSource soundCharged;
 		[SerializeField] private AddressableAudioSource soundReady;
 		[SerializeField] private AddressableAudioSource soundSuccsuess;
@@ -29,16 +31,21 @@ namespace Items.Medical
 			var livingHealthMaster = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
 			if (livingHealthMaster == null)
 				return false;
-			var equipment = interaction.Performer.GetComponent<Equipment>();
-			var ObjectInSlot = equipment.GetClothingItem(NamedSlot.back).GameObjectReference;
-			if (Validations.HasItemTrait(ObjectInSlot, DefibrillatorTrait) == false)
+			if (DoesntRequireBackpack == false)
 			{
-				ObjectInSlot = equipment.GetClothingItem(NamedSlot.belt).GameObjectReference;
+
+				var equipment = interaction.Performer.GetComponent<Equipment>();
+				var ObjectInSlot = equipment.GetClothingItem(NamedSlot.back).GameObjectReference;
 				if (Validations.HasItemTrait(ObjectInSlot, DefibrillatorTrait) == false)
 				{
-					return false;
+					ObjectInSlot = equipment.GetClothingItem(NamedSlot.belt).GameObjectReference;
+					if (Validations.HasItemTrait(ObjectInSlot, DefibrillatorTrait) == false)
+					{
+						return false;
+					}
 				}
 			}
+
 
 			if (CanDefibrillate(livingHealthMaster, interaction.Performer) == false && side == NetworkSide.Server)
 			{

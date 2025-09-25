@@ -456,6 +456,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 636111e8adf7b234f8563fdfdf91f495, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  NetTab: {fileID: 0}
   OnEscapeKey:
     m_PersistentCalls:
       m_Calls: []
@@ -644,6 +645,7 @@ GameObject:
   - component: {fileID: 1298619692093753785}
   - component: {fileID: 1638864957873838887}
   - component: {fileID: 4513007937397990434}
+  - component: {fileID: 1132766222594603023}
   m_Layer: 5
   m_Name: LoadButton
   m_TagString: Untagged
@@ -807,6 +809,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1132766222594603023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6897755650997097607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8244206819111505277
 GameObject:
   m_ObjectHideFlags: 0
@@ -820,6 +834,7 @@ GameObject:
   - component: {fileID: 4624165487684847173}
   - component: {fileID: 7596655449366108515}
   - component: {fileID: 5097617067928967307}
+  - component: {fileID: -5009663793378708471}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -955,6 +970,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &-5009663793378708471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8244206819111505277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8248169314191894103
 GameObject:
   m_ObjectHideFlags: 0
@@ -1135,6 +1162,7 @@ GameObject:
   - component: {fileID: 7559357163178935421}
   - component: {fileID: 2565594833102910402}
   - component: {fileID: 2292375802329778207}
+  - component: {fileID: -7051055930461687000}
   m_Layer: 5
   m_Name: ClaimButton
   m_TagString: Untagged
@@ -1298,3 +1326,15 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &-7051055930461687000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8710442241119043883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

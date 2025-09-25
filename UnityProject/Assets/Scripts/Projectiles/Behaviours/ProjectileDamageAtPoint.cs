@@ -21,7 +21,7 @@ namespace Weapons.Projectiles.Behaviours
 			behavioursOnBulletHit = GetComponents<IOnHit>();
 		}
 
-		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon,
+		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon,MagazineBehaviour MagazineBehaviour,
 			BodyPartType targetZone = BodyPartType.Chest)
 		{
 			this.direction = direction;

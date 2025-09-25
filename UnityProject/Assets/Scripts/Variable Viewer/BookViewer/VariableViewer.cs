@@ -242,7 +242,8 @@ public static class VariableViewer
 
 
 	public static void RequestChangeVariable(ulong PageID, string ChangeTo, bool SendToClient, GameObject WhoBy,
-		string AdminId, uint SentenceID, ListModification ListModification = ListModification.NONE)
+		string AdminId, uint SentenceID,
+		bool iskey, ListModification ListModification = ListModification.NONE)
 
 	{
 		if (Librarian.IDToPage.ContainsKey(PageID))
@@ -257,7 +258,7 @@ public static class VariableViewer
 
 				if (SentenceID != uint.MaxValue && SentenceID != 0)
 				{
-					Librarian.IDToPage[PageID].SetValue(ChangeTo, SentenceID);
+					Librarian.IDToPage[PageID].SetValue(ChangeTo, SentenceID, iskey);
 				}
 				else
 				{

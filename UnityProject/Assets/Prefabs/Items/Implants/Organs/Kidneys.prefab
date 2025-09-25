@@ -10,7 +10,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1497028632681747686, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 7562475920030016875}
+    - target: {fileID: 1497028632681747686, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 55538d1aeac5a1a458e5b3dc993b7f3e,
+        type: 2}
+    - target: {fileID: 1497028632681747686, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 55538d1aeac5a1a458e5b3dc993b7f3e,
         type: 2}
@@ -176,6 +187,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 6653825087990165626}
   m_SourcePrefab: {fileID: 100100000, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
+--- !u!212 &7562475920030016875 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4859781159729634365, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+    type: 3}
+  m_PrefabInstance: {fileID: 3135111169342683478}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7638872791175960119 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
@@ -199,6 +216,13 @@ MonoBehaviour:
   syncInterval: 0.1
   RelatedPart: {fileID: 0}
   BlacklistReagents:
-  - {fileID: 11400000, guid: 68548df5bd53cc24b8d2bbfa735a274d, type: 2}
+  - Reagent: {fileID: 11400000, guid: 68548df5bd53cc24b8d2bbfa735a274d, type: 2}
+    Percentage: 1
+  - Reagent: {fileID: 11400000, guid: 5e2a5c76d1bce6144b8b1aac987b2751, type: 2}
+    Percentage: 1
+  - Reagent: {fileID: 11400000, guid: 16bdefd1a024c1992a1af5dfef5340f6, type: 2}
+    Percentage: 0.15
+  - Reagent: {fileID: 11400000, guid: de881df76c9427ef1be15d68edfffb29, type: 2}
+    Percentage: 0.33
   _ReagentCirculatedComponent: {fileID: 0}
   ProcessingPercentage: 0.03

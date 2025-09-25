@@ -8,6 +8,32 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 457982459814482299, guid: b58112df4b5764d479ff1b2118341579,
+        type: 3}
+      propertyPath: UseReagentContainer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 457982459814482299, guid: b58112df4b5764d479ff1b2118341579,
+        type: 3}
+      propertyPath: groundReagents.m_keys.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 457982459814482299, guid: b58112df4b5764d479ff1b2118341579,
+        type: 3}
+      propertyPath: groundReagents.m_values.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 457982459814482299, guid: b58112df4b5764d479ff1b2118341579,
+        type: 3}
+      propertyPath: 'groundReagents.m_keys.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 394c1da54edee07e1930589510b8ec51,
+        type: 2}
+    - target: {fileID: 457982459814482299, guid: b58112df4b5764d479ff1b2118341579,
+        type: 3}
+      propertyPath: 'groundReagents.m_values.Array.data[0]'
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1715204488864381413, guid: b58112df4b5764d479ff1b2118341579,
         type: 3}
       propertyPath: parentID
@@ -24,22 +50,39 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e194ed0824047074abd890f08151d517,
         type: 2}
+    - target: {fileID: 1887298199834824207, guid: b58112df4b5764d479ff1b2118341579,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e194ed0824047074abd890f08151d517,
+        type: 2}
     - target: {fileID: 3288822452712985832, guid: b58112df4b5764d479ff1b2118341579,
         type: 3}
       propertyPath: groundReagents.m_keys.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3288822452712985832, guid: b58112df4b5764d479ff1b2118341579,
         type: 3}
       propertyPath: groundReagents.m_values.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3288822452712985832, guid: b58112df4b5764d479ff1b2118341579,
+        type: 3}
+      propertyPath: 'groundReagents.m_keys.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 394c1da54edee07e1930589510b8ec51,
+        type: 2}
     - target: {fileID: 3288822452712985832, guid: b58112df4b5764d479ff1b2118341579,
         type: 3}
       propertyPath: 'groundReagents.m_keys.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 394c1da54edee07e1930589510b8ec51,
         type: 2}
+    - target: {fileID: 3288822452712985832, guid: b58112df4b5764d479ff1b2118341579,
+        type: 3}
+      propertyPath: 'groundReagents.m_values.Array.data[0]'
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3288822452712985832, guid: b58112df4b5764d479ff1b2118341579,
         type: 3}
       propertyPath: 'groundReagents.m_values.Array.data[1]'

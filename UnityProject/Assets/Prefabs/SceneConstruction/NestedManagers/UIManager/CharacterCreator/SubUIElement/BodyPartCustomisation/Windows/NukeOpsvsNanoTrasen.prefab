@@ -172,6 +172,7 @@ GameObject:
   - component: {fileID: 5991616829156965718}
   - component: {fileID: 5993116794772809518}
   - component: {fileID: 5990992616746678018}
+  - component: {fileID: 8082289879142365460}
   m_Layer: 5
   m_Name: NukeOps
   m_TagString: Untagged
@@ -307,6 +308,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8082289879142365460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5959723201280546710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5959959621593650474
 GameObject:
   m_ObjectHideFlags: 0
@@ -723,6 +736,7 @@ GameObject:
   - component: {fileID: 5991057763599281154}
   - component: {fileID: 5991209988435669684}
   - component: {fileID: 5991510045459224312}
+  - component: {fileID: 9133970343525804254}
   m_Layer: 5
   m_Name: Nanotrasen
   m_TagString: Untagged
@@ -858,6 +872,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &9133970343525804254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5960289280248769484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5960403367549959920
 GameObject:
   m_ObjectHideFlags: 0

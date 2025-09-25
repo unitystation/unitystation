@@ -25,6 +25,7 @@ namespace TileManagement
 
 		public Vector3 center => (Minimum + Maximum) / 2;
 
+
 		public readonly bool Contains(Vector3 Point)
 		{
 			if (Point.x >= Minimum.x && Point.x <= Maximum.x)
@@ -196,10 +197,34 @@ namespace TileManagement
 			return new BetterBounds(Minimum.ToLocal(Matrix), Maximum.ToLocal(Matrix));
 		}
 
-		public readonly BetterBounds ConvertToWorld(MatrixInfo Matrix)
+		public readonly BetterBounds ConvertToWorld(Matrix4x4 Matrix)
 		{
-			return new BetterBounds(Minimum.ToWorld(Matrix), Maximum.ToWorld(Matrix));
+			var bottomLeft = Matrix.MultiplyPoint(min);
+			var bottomRight = Matrix.MultiplyPoint(new Vector3(xMax, yMin, 0));
+			var topLeft =     Matrix.MultiplyPoint(new Vector3(xMin, yMax, 0));
+			var topRight =    Matrix.MultiplyPoint(max);
+
+			var minPosition = bottomLeft;
+			var maxPosition = bottomLeft;
+
+			minPosition = Vector3.Min(minPosition, bottomLeft);
+			maxPosition = Vector3.Max(maxPosition, bottomLeft);
+
+			minPosition = Vector3.Min(minPosition, bottomRight);
+			maxPosition = Vector3.Max(maxPosition, bottomRight);
+
+			minPosition = Vector3.Min(minPosition, topLeft);
+			maxPosition = Vector3.Max(maxPosition, topLeft);
+
+			minPosition = Vector3.Min(minPosition, topRight);
+			maxPosition = Vector3.Max(maxPosition, topRight);
+
+			return new BetterBounds()
+			{
+				Maximum = maxPosition + new Vector3(0.5f, 0.5f, 0), Minimum = minPosition + new Vector3(-0.5f, -0.5f, 0)
+			};
 		}
+
 
 		public Vector3 GetCorner(int i)
 		{
@@ -252,13 +277,15 @@ namespace TileManagement
 			Minimum = Vector3.Min(Minimum, Point);
 			Maximum = Vector3.Max(Maximum, Point);
 		}
-
 		public List<Vector3Int> allPositionsWithin()
 		{
-			List<Vector3Int> Returning = new List<Vector3Int>();
-
 			var stop = Mathf.RoundToInt(Maximum.x);
 			var stop2 = Mathf.RoundToInt(Maximum.y);
+
+			List<Vector3Int> Returning = new List<Vector3Int>(
+				Mathf.Abs(stop2 - Mathf.RoundToInt(Minimum.y))
+				*	Mathf.Abs(stop - Mathf.RoundToInt(Minimum.x))
+			);
 
 			for (int x = Mathf.RoundToInt(Minimum.x); x <= stop; x++)
 			{
@@ -270,7 +297,6 @@ namespace TileManagement
 
 			return Returning;
 		}
-
 
 		public bool Intersects(BetterBounds OppositeMatrix, out BetterBounds Overlap)
 		{

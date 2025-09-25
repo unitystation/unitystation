@@ -1,4 +1,4 @@
-﻿﻿﻿﻿using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,35 +17,35 @@ using Weapons.WeaponAttachments;
 using Random = UnityEngine.Random;
 
 //TODO: All of this needs to be fixed:
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		// Code cleanup:
-		// - Update xml comments
-		// - Remove code comments that are no longer relevant
-		// - Add new code comments
-		// - Redo logs, also re-add the logs that were removed when shotqueue was ripped out but probably shouldnt have been
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		// Feature fixes/implementation:
-		// - Reimplement burstfire
-		// - Redo mag/pin spawning behaviour
-		// - Redo gun init behaviour
-		// - Redo recoil implementation from shotqueue removal
-		// - Redo shot cooldown behaviour from shotqueue removal, new impl needs to support things for burstfire
-		// - Fix the ability to shoot over crit players and dead bodies
-		// - Fix or Redo mag behaviour thats no longer needed or broken from shotqueue removal
-		// - Update the way progress bars are done for firing pins
-		// - Many weapons still dont have their projectile behaviours done
-		// - Consider making recoil differ based on projectile
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		// UX:
-		// - Redo examine messages
-		// - Redo action messages and add more of them
-		// - Consider adding hovertooltip messages
-		// - Consider adding mag retention reloads (probably not)
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		// Balance:
-		// - Do a balance pass on all firearms after the above problems have been fixed
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Code cleanup:
+// - Update xml comments
+// - Remove code comments that are no longer relevant
+// - Add new code comments
+// - Redo logs, also re-add the logs that were removed when shotqueue was ripped out but probably shouldnt have been
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Feature fixes/implementation:
+// - Reimplement burstfire
+// - Redo mag/pin spawning behaviour
+// - Redo gun init behaviour
+// - Redo recoil implementation from shotqueue removal
+// - Redo shot cooldown behaviour from shotqueue removal, new impl needs to support things for burstfire
+// - Fix the ability to shoot over crit players and dead bodies
+// - Fix or Redo mag behaviour thats no longer needed or broken from shotqueue removal
+// - Update the way progress bars are done for firing pins
+// - Many weapons still dont have their projectile behaviours done
+// - Consider making recoil differ based on projectile
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// UX:
+// - Redo examine messages
+// - Redo action messages and add more of them
+// - Consider adding hovertooltip messages
+// - Consider adding mag retention reloads (probably not)
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Balance:
+// - Do a balance pass on all firearms after the above problems have been fixed
 
-		// Dont make this list any longer, please...
+// Dont make this list any longer, please...
 
 namespace Weapons
 {
@@ -55,11 +55,10 @@ namespace Weapons
 	[RequireComponent(typeof(Pickupable))]
 	[RequireComponent(typeof(ItemStorage))]
 	public class Gun : NetworkBehaviour, ICheckedInteractable<AimApply>, ICheckedInteractable<HandActivate>,
-		ICheckedInteractable<InventoryApply>, ICheckedInteractable<ContextMenuApply>, IRightClickable, IServerInventoryMove, IServerSpawn, IExaminable, ISuicide
+		ICheckedInteractable<InventoryApply>, ICheckedInteractable<ContextMenuApply>, IRightClickable,
+		IServerInventoryMove, IServerSpawn, IExaminable, ISuicide
 	{
-		[Header("Weapon Config")]
-
-		public bool AllowSuicide;
+		[Header("Weapon Config")] public bool AllowSuicide;
 
 		[SerializeField, Tooltip("The firing pin initally inside the gun")]
 		private GameObject pinPrefab = null;
@@ -99,7 +98,6 @@ namespace Weapons
 
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		[Header("Mag/Ammo Config")]
-
 		[SerializeField, Tooltip("Mag prefab to be spawned within on roundstart")]
 		protected GameObject ammoPrefab = null;
 
@@ -125,17 +123,17 @@ namespace Weapons
 
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		[Header("Attachment Config")]
-
 		[SerializeField, Tooltip("List of attachments to spawn on the weapon")]
 		private List<GameObject> attachmentPrefabs = default;
+
 		[SerializeField, EnumFlags] public AttachmentType allowedAttachments;
 
 		[HorizontalLine]
 
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		[Header("Addressable Audio")]
-
 		public AddressableAudioSource loadMagSound;
+
 		public AddressableAudioSource unloadMagSound;
 		public AddressableAudioSource FiringSoundA = null;
 		public AddressableAudioSource SuppressedSoundA;
@@ -199,6 +197,7 @@ namespace Weapons
 				{
 					continue;
 				}
+
 				weaponAttachmentSlots.Add(itemStorage.GetIndexedItemSlot(i));
 			}
 
@@ -266,7 +265,8 @@ namespace Weapons
 
 				if (slot == null)
 				{
-					Loggy.Error($"{gameObject.name} had no free attachment slot to add {prefab.name}", Category.Firearms);
+					Loggy.Error($"{gameObject.name} had no free attachment slot to add {prefab.name}",
+						Category.Firearms);
 					continue;
 				}
 
@@ -381,16 +381,19 @@ namespace Weapons
 				//Call the attachments check function and then see if the attachment gets added to the weapon
 				var slot = weaponAttachmentSlots.FirstOrDefault(slot => slot.Item == null);
 				if (slot != null && allowedAttachments.HasFlag(attachment.AttachmentType) &&
-					(attachment.AllowDuplicateAttachments || weaponAttachments.Any(att => att.AttachmentType.Equals(attachment.AttachmentType)) == false) &&
-					attachment.AttachCheck(this) && Inventory.ServerTransfer(interaction.FromSlot, slot))
+				    (attachment.AllowDuplicateAttachments ||
+				     weaponAttachments.Any(att => att.AttachmentType.Equals(attachment.AttachmentType)) == false) &&
+				    attachment.AttachCheck(this) && Inventory.ServerTransfer(interaction.FromSlot, slot))
 				{
 					weaponAttachments.Add(attachment);
 					attachment.AttachBehaviour(this);
-					Chat.AddExamineMsgFromServer(ServerHolder, $"You attach the {interaction.UsedObject.ExpensiveName()} onto the {gameObject.ExpensiveName()}");
+					Chat.AddExamineMsgFromServer(ServerHolder,
+						$"You attach the {interaction.UsedObject.ExpensiveName()} onto the {gameObject.ExpensiveName()}");
 				}
 				else
 				{
-					Chat.AddExamineMsgFromServer(ServerHolder, $"The {interaction.UsedObject.ExpensiveName()} won't fit on the {gameObject.ExpensiveName()}");
+					Chat.AddExamineMsgFromServer(ServerHolder,
+						$"The {interaction.UsedObject.ExpensiveName()} won't fit on the {gameObject.ExpensiveName()}");
 				}
 			}
 		}
@@ -481,6 +484,7 @@ namespace Weapons
 					}
 				}
 			}
+
 			return result;
 		}
 
@@ -502,11 +506,13 @@ namespace Weapons
 			{
 				if (interaction.RequestedOption == attachment.InteractionKey)
 				{
-					if (attachment.DetachCheck(this) && TransferHandOrFloor(interaction, itemStorage.GetSlotFromItem(attachment.gameObject)))
+					if (attachment.DetachCheck(this) && TransferHandOrFloor(interaction,
+						    itemStorage.GetSlotFromItem(attachment.gameObject)))
 					{
 						weaponAttachments.Remove(attachment);
 						attachment.DetachBehaviour(this);
-						Chat.AddExamineMsgFromServer(ServerHolder, $"You detach the {attachment.gameObject.ExpensiveName()} from the {gameObject.ExpensiveName()}");
+						Chat.AddExamineMsgFromServer(ServerHolder,
+							$"You detach the {attachment.gameObject.ExpensiveName()} from the {gameObject.ExpensiveName()}");
 						return;
 					}
 				}
@@ -535,7 +541,8 @@ namespace Weapons
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 
 			//Melee behaviour for things like bayonets
-			if (interaction.Intent == Intent.Harm && BayonetCheck(interaction.Performer.RegisterTile().LocalPosition.To2(), interaction.TargetPosition))
+			if (interaction.Intent == Intent.Harm &&
+			    BayonetCheck(interaction.Performer.RegisterTile().LocalPosition.To2(), interaction.TargetPosition))
 			{
 				return false;
 			}
@@ -566,7 +573,6 @@ namespace Weapons
 
 			if (ShotCooldown == false)
 			{
-
 				if (interaction.MouseButtonState == MouseButtonState.PRESS)
 				{
 					return true;
@@ -586,13 +592,14 @@ namespace Weapons
 		private bool BayonetCheck(Vector2 playerPos, Vector2 targetPos)
 		{
 			const float checkRange = 1.5f;
-			if (playerPos.x >= targetPos.x - checkRange  && playerPos.x <= targetPos.x + checkRange)
+			if (playerPos.x >= targetPos.x - checkRange && playerPos.x <= targetPos.x + checkRange)
 			{
 				if (playerPos.y >= targetPos.y - checkRange && playerPos.y <= targetPos.y + checkRange)
 				{
 					return true;
 				}
 			}
+
 			return false;
 		}
 
@@ -645,7 +652,8 @@ namespace Weapons
 			}
 			else
 			{
-				ServerShoot(interaction.Performer, interaction.TargetVector.normalized, interaction.TargetBodyPart, isSuicide);
+				ServerShoot(interaction.Performer, interaction.TargetVector.normalized, interaction.TargetBodyPart,
+					isSuicide);
 			}
 
 			if (interaction.Intent == Intent.Harm && interaction.UsedObject == gameObject)
@@ -655,7 +663,7 @@ namespace Weapons
 				foreach (var hand in hands)
 				{
 					if (hand.ItemObject != null && hand.ItemObject.TryGetComponent<Gun>(out var gun)
-						&& gun.WillInteract(interaction, NetworkSide.Server))
+					                            && gun.WillInteract(interaction, NetworkSide.Server))
 					{
 						gun.ServerPerformInteraction(interaction);
 					}
@@ -812,8 +820,6 @@ namespace Weapons
 
 					return;
 				}
-
-				CurrentMagazine.ExpendAmmo();
 			}
 			//TODO: If this is not our gun, simply display the shot, don't run any other logic
 
@@ -826,7 +832,7 @@ namespace Weapons
 				GameObject newprojectile = Spawn.ServerPrefab(projectile,
 					shooter.transform.position, parent: shooter.transform.parent).GameObject;
 				Projectile projectileComponent = newprojectile.GetComponent<Projectile>();
-				projectileComponent.Suicide(shooter, this, damageZone);
+				projectileComponent.Suicide(shooter, this, CurrentMagazine, damageZone);
 			}
 			else
 			{
@@ -836,9 +842,16 @@ namespace Weapons
 						shooter.transform.position, parent: shooter.transform.parent).GameObject;
 					Projectile projectileComponent = newprojectile.GetComponent<Projectile>();
 					Vector2 finalDirectionOverride = CalcProjectileDirections(finalDirection, n);
-					projectileComponent.Shoot(finalDirectionOverride, shooter, this, damageZone);
+					projectileComponent.Shoot(finalDirectionOverride, shooter, this, CurrentMagazine, damageZone);
 				}
 			}
+
+			//if this is our gun (or server), last check to ensure we really can shoot
+			if (isServer || PlayerManager.LocalPlayerObject == shooter)
+			{
+				CurrentMagazine.ExpendAmmo();
+			}
+
 
 			if (isSuppressed && SuppressedSoundA != null)
 			{
@@ -952,6 +965,7 @@ namespace Weapons
 			{
 				return;
 			}
+
 			UnloadMagSound();
 			Inventory.ServerDrop(magSlot);
 		}

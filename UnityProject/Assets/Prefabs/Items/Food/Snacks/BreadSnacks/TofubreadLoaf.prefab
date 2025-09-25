@@ -24,6 +24,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4b53e08fbdefd814e8d336aa764ecf80,
         type: 2}
+    - target: {fileID: 3771205322401006763, guid: 1c2bdc503ea85964dbb86ef10991bef8,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 4b53e08fbdefd814e8d336aa764ecf80,
+        type: 2}
     - target: {fileID: 4155315648681964353, guid: 1c2bdc503ea85964dbb86ef10991bef8,
         type: 3}
       propertyPath: parentID
@@ -160,28 +166,5 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6994121511001194284, guid: 1c2bdc503ea85964dbb86ef10991bef8,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: -6754440854251167517}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1c2bdc503ea85964dbb86ef10991bef8, type: 3}
---- !u!1 &5507229201587329714 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6994121511001194284, guid: 1c2bdc503ea85964dbb86ef10991bef8,
-    type: 3}
-  m_PrefabInstance: {fileID: 3277925306436003230}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &-6754440854251167517
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5507229201587329714}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d1a7f835ef036e43a6a56f5f25de6a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mutatedFood: {fileID: 0}

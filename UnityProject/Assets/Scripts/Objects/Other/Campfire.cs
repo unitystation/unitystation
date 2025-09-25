@@ -225,7 +225,7 @@ namespace Objects.Other
 				ChangeState(CampfireState.Unlit);
 				return;
 			}
-			node?.GasMixLocal.AddGasWithTemperature(Gas.Smoke, smokeMolesToAddToTheAtmosphere, Kelvin.FromC(100f));
+			node?.GasMixLocal.AddGasWithTemperature(Gas.Smoke, smokeMolesToAddToTheAtmosphere, Kelvin.FromC(40f));
 			node?.GasMixLocal.ChangeTemperature(Kelvin.FromC(25f));
 		}
 

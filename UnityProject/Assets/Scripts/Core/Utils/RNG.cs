@@ -13,6 +13,14 @@ public static class RNG
 		return Random.Next(min, max + 1); // Generates a number between min (inclusive) and max (inclusive)
 	}
 
+	//e.g 1 ,9 Will return 1 to 9 randomly
+	//as Float
+	public static float GetRandomNumber(float min, float max)
+	{
+		return (float)(Random.NextDouble() * (max - min) + min);
+	}
+
+
 	public static bool FlipACoin()
 	{
 		return Random.NextDouble() >= 0.5f;

@@ -5,6 +5,7 @@ using UnityEngine;
 using Mirror;
 using AddressableReferences;
 using Core;
+using Core.Physics;
 using Core.Utils;
 using Cysharp.Threading.Tasks;
 using Cysharp.Threading.Tasks.Linq;
@@ -216,6 +217,8 @@ namespace Items
 
 		[HideInInspector]
 		public bool IsFakeItem = false;
+
+		public Action<UniversalObjectPhysics> OnSlipOn;
 
 		#region Lifecycle
 

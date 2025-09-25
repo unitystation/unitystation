@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 820000214959157369}
   - component: {fileID: 8686764556263563692}
   - component: {fileID: 29342902534132906}
+  - component: {fileID: -2780733728820024904}
   m_Layer: 5
   m_Name: Allow Clone
   m_TagString: Untagged
@@ -150,6 +151,18 @@ MonoBehaviour:
   baseExitTooltip: 
   useObjectName: 1
   hoverName: 
+--- !u!114 &-2780733728820024904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87750028717620605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &293119324078625895
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,6 +176,7 @@ GameObject:
   - component: {fileID: 6431015513953677337}
   - component: {fileID: 3772236031504487699}
   - component: {fileID: 2247189578744383488}
+  - component: {fileID: -2636343235417662586}
   m_Layer: 5
   m_Name: GhostHearSelection
   m_TagString: Untagged
@@ -300,6 +314,18 @@ MonoBehaviour:
   baseExitTooltip: 
   useObjectName: 1
   hoverName: 
+--- !u!114 &-2636343235417662586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 293119324078625895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &511047422458827011
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,6 +416,7 @@ GameObject:
   - component: {fileID: 4553894633473353236}
   - component: {fileID: 179453518968755828}
   - component: {fileID: 9053589886049900368}
+  - component: {fileID: 7133596664356937519}
   m_Layer: 5
   m_Name: Jump to mob
   m_TagString: Untagged
@@ -570,6 +597,18 @@ MonoBehaviour:
   hoverSpriteVariant: 0
   noHoverSpriteIndex: 0
   noHoverSpriteVariant: 0
+--- !u!114 &7133596664356937519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 819786889913424350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1786183660701439628
 GameObject:
   m_ObjectHideFlags: 0
@@ -658,6 +697,7 @@ GameObject:
   - component: {fileID: 3263713742588112240}
   - component: {fileID: 8706831999615992321}
   - component: {fileID: 2067486372548902514}
+  - component: {fileID: -5800429551717846873}
   m_Layer: 5
   m_Name: GhostRoleBtn
   m_TagString: Untagged
@@ -795,6 +835,18 @@ MonoBehaviour:
   baseExitTooltip: 
   useObjectName: 0
   hoverName: View Available Ghost Roles
+--- !u!114 &-5800429551717846873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2270553605341765193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2412581885974016781
 GameObject:
   m_ObjectHideFlags: 0
@@ -809,6 +861,7 @@ GameObject:
   - component: {fileID: 5074064983628894593}
   - component: {fileID: 1225455919678775970}
   - component: {fileID: 101737834784416412}
+  - component: {fileID: -4575525980048465715}
   m_Layer: 5
   m_Name: Toggle Light
   m_TagString: Untagged
@@ -960,6 +1013,18 @@ MonoBehaviour:
   lightOnSprite: {fileID: 21300000, guid: 1f47029abc69b0d459157e59bb8be3cc, type: 3}
   lightOffSprite: {fileID: 21300000, guid: a8c182231f704ec4ca4a25c230b6a88d, type: 3}
   image: {fileID: 4402018160824025007}
+--- !u!114 &-4575525980048465715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2412581885974016781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2432514835345951166
 GameObject:
   m_ObjectHideFlags: 0
@@ -972,6 +1037,7 @@ GameObject:
   - component: {fileID: 6679600818260763548}
   - component: {fileID: 5172093703240668777}
   - component: {fileID: 4568351994645529628}
+  - component: {fileID: 5865294790076278517}
   m_Layer: 5
   m_Name: Smash
   m_TagString: Untagged
@@ -1093,6 +1159,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &5865294790076278517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2432514835345951166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2901745911356249523
 GameObject:
   m_ObjectHideFlags: 0
@@ -1487,6 +1565,7 @@ GameObject:
   - component: {fileID: 6320294791030523287}
   - component: {fileID: 4585896480865425578}
   - component: {fileID: 4104893546194957466}
+  - component: {fileID: 1831363784754230291}
   m_Layer: 5
   m_Name: Drop
   m_TagString: Untagged
@@ -1608,6 +1687,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1831363784754230291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4944684734024989610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5121836764961598259
 GameObject:
   m_ObjectHideFlags: 0
@@ -1623,6 +1714,7 @@ GameObject:
   - component: {fileID: 6267276012862357132}
   - component: {fileID: 6373383413246097320}
   - component: {fileID: 5569988039204206820}
+  - component: {fileID: 7739615293912532022}
   m_Layer: 5
   m_Name: Teleport
   m_TagString: Untagged
@@ -1803,6 +1895,18 @@ MonoBehaviour:
   hoverSpriteVariant: 0
   noHoverSpriteIndex: 0
   noHoverSpriteVariant: 0
+--- !u!114 &7739615293912532022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5121836764961598259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5614239669610669021
 GameObject:
   m_ObjectHideFlags: 0
@@ -2689,6 +2793,7 @@ GameObject:
   - component: {fileID: 1398321636126635911}
   - component: {fileID: 2203224601844660962}
   - component: {fileID: 6208214947169742236}
+  - component: {fileID: -4054283234663170789}
   m_Layer: 5
   m_Name: Reenter corpse
   m_TagString: Untagged
@@ -2869,6 +2974,18 @@ MonoBehaviour:
   hoverSpriteVariant: 0
   noHoverSpriteIndex: 0
   noHoverSpriteVariant: 0
+--- !u!114 &-4054283234663170789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7798651070204786658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8196869612237413341
 GameObject:
   m_ObjectHideFlags: 0
@@ -2964,6 +3081,7 @@ GameObject:
   - component: {fileID: 7979880301771075009}
   - component: {fileID: 2647256119042401085}
   - component: {fileID: 3920222382547557490}
+  - component: {fileID: 99701133423507592}
   m_Layer: 5
   m_Name: Respawn
   m_TagString: Untagged
@@ -3101,6 +3219,18 @@ MonoBehaviour:
   baseExitTooltip: 
   useObjectName: 1
   hoverName: 
+--- !u!114 &99701133423507592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8235270779181068066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8322412643209625539
 GameObject:
   m_ObjectHideFlags: 0
@@ -3187,6 +3317,7 @@ GameObject:
   - component: {fileID: 1673967739001739332}
   - component: {fileID: 1671303719306414650}
   - component: {fileID: 7645792700348589773}
+  - component: {fileID: -2113078833876495014}
   m_Layer: 5
   m_Name: Orbit
   m_TagString: Untagged
@@ -3367,6 +3498,18 @@ MonoBehaviour:
   hoverSpriteVariant: 0
   noHoverSpriteIndex: 0
   noHoverSpriteVariant: 0
+--- !u!114 &-2113078833876495014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8322551834956648785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8350237330402955818
 GameObject:
   m_ObjectHideFlags: 0

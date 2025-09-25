@@ -30,6 +30,12 @@ PrefabInstance:
       propertyPath: plantData.MutatesInToGameObject.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2694380725038700653, guid: c10750ad2e97d7c449aa7a5518793cdc,
+        type: 3}
+      propertyPath: plantData.ReagentProduction.Array.data[1].ChemistryReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: 20567dacb4ce347419c383d443a0ade6,
+        type: 2}
     - target: {fileID: 3488460787324842376, guid: c10750ad2e97d7c449aa7a5518793cdc,
         type: 3}
       propertyPath: m_Sprite
@@ -119,6 +125,12 @@ PrefabInstance:
     - target: {fileID: 7484536389609453907, guid: c10750ad2e97d7c449aa7a5518793cdc,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 993323bd12e76b743aaf9ea1273642bf,
+        type: 2}
+    - target: {fileID: 7484536389609453907, guid: c10750ad2e97d7c449aa7a5518793cdc,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 993323bd12e76b743aaf9ea1273642bf,
         type: 2}

@@ -20,7 +20,7 @@ namespace Weapons.Projectiles
 			GameObject Newprojectile = Spawn.ServerPrefab(projectile,
 				ShootWorldPosition, parent: shooter.transform.parent).GameObject;
 			Projectile projectileComponent = Newprojectile.GetComponent<Projectile>();
-			projectileComponent.Shoot(finalDirection, shooter, fromWeapon, targetZone);
+			projectileComponent.Shoot(finalDirection, shooter, fromWeapon, null, targetZone);
 			if (Rangeoverride != -1f)
 			{
 				if (projectileComponent.TryGetComponent<ProjectileRangeLimited>(out var rangeLimited))

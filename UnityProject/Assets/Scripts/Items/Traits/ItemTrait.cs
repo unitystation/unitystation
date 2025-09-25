@@ -6,7 +6,7 @@ using UnityEngine;
 /// Base class for the trait system. Defines a particular
 /// trait than an item can have (assigned in ItemAttributes)
 /// </summary>
-[CreateAssetMenu(fileName = "ItemTrait", menuName = "Traits/ItemTrait")]
+[CreateAssetMenu(fileName = "ItemTrait", menuName = "ScriptableObjects/Items/ItemTrait")]
 public class ItemTrait : SOTracker
 {
 	// Is used in editor, so "unused" warning is ignored.

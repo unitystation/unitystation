@@ -17,7 +17,7 @@ namespace Weapons.Projectiles.Behaviours
 
 		[SerializeField] private DamageData damageData = null;
 
-		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, BodyPartType targetZone = BodyPartType.Chest)
+		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, MagazineBehaviour MagazineBehaviour , BodyPartType targetZone = BodyPartType.Chest)
 		{
 			this.shooter = shooter;
 			this.targetZone = targetZone;

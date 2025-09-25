@@ -14,6 +14,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d31b0afec30b7ec49beb0d18cd65a5b9,
         type: 2}
+    - target: {fileID: 253386682497890838, guid: e2ecbd3591e115b459b0160c82af302c,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d31b0afec30b7ec49beb0d18cd65a5b9,
+        type: 2}
     - target: {fileID: 1042744992957779452, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
       propertyPath: parentID
@@ -49,6 +55,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
+      propertyPath: plantData.ReagentProduction.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
+        type: 3}
       propertyPath: 'plantData.GrowthSpritesSOs.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 66ff9dca8aace254d9a0328efb2a3a50,
@@ -58,6 +69,22 @@ PrefabInstance:
       propertyPath: plantData.MutatesInToGameObject.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
+        type: 3}
+      propertyPath: plantData.ReagentProduction.Array.data[1].percentage
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
+        type: 3}
+      propertyPath: plantData.ReagentProduction.Array.data[2].percentage
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 4701198458871700264, guid: e2ecbd3591e115b459b0160c82af302c,
+        type: 3}
+      propertyPath: plantData.ReagentProduction.Array.data[2].ChemistryReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: fa60dedbe4f861e76a46f56f59987729,
+        type: 2}
     - target: {fileID: 5778030755086511859, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
       propertyPath: initialName

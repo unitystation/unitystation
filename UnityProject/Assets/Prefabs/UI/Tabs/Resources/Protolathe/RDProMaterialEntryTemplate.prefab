@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7179552267035920793}
   - component: {fileID: 8267200883748343994}
   - component: {fileID: 1277097656451138701}
+  - component: {fileID: -7778866141853068227}
   m_Layer: 5
   m_Name: FiftySheetButton
   m_TagString: Untagged
@@ -162,6 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80af66fa15a485449be1acba90908fb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddInRunTime: 1
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -183,6 +185,18 @@ MonoBehaviour:
   OnMouseExit:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-7778866141853068227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1157683611753953280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1901399425927328070
 GameObject:
   m_ObjectHideFlags: 0
@@ -581,6 +595,7 @@ GameObject:
   - component: {fileID: 3211882017235043221}
   - component: {fileID: 1344420418398130244}
   - component: {fileID: 4940080925749599305}
+  - component: {fileID: -7910920952410597568}
   m_Layer: 5
   m_Name: TenSheetButton
   m_TagString: Untagged
@@ -729,6 +744,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80af66fa15a485449be1acba90908fb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddInRunTime: 1
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -750,6 +766,18 @@ MonoBehaviour:
   OnMouseExit:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-7910920952410597568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6585018842947035828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8132501230544854628
 GameObject:
   m_ObjectHideFlags: 0
@@ -764,6 +792,7 @@ GameObject:
   - component: {fileID: 9134656661666390170}
   - component: {fileID: 6552339310020880256}
   - component: {fileID: 2934226028225061078}
+  - component: {fileID: -1516736116405711568}
   m_Layer: 5
   m_Name: OneSheetButton
   m_TagString: Untagged
@@ -912,6 +941,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80af66fa15a485449be1acba90908fb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddInRunTime: 1
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -933,6 +963,18 @@ MonoBehaviour:
   OnMouseExit:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-1516736116405711568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8132501230544854628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8388847601825133010
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d4ea11761a8f2844865df391acdc61f, type: 3}
-  m_Name: VomitWhenInBody
+  m_Script: {fileID: 11500000, guid: 0e66dcbbf6b63f74da3f53fcc85ae1cc, type: 3}
+  m_Name: MushroomHallucinogenInBody
   m_EditorClassIdentifier: 
   ingredients:
     m_keys:
-    - {fileID: 11400000, guid: 5e2a5c76d1bce6144b8b1aac987b2751, type: 2}
-    m_values: 03000000
+    - {fileID: 11400000, guid: 30402bcebad00fc50b5d41a70f3dda9c, type: 2}
+    m_values: 01000000
   useExactAmounts: 0
   MinimumReactionMultiple: 0
   catalysts:
@@ -29,31 +29,26 @@ MonoBehaviour:
   hasMaxTemp: 0
   serializableTempMax: 0
   results:
-    m_keys: []
-    m_values: 
+    m_keys:
+    - {fileID: 11400000, guid: 16bdefd1a024c1992a1af5dfef5340f6, type: 2}
+    m_values: 03000000
   effectDict:
     m_keys: []
     m_values: 
   overrideDisplayName: 
-  indexInSingleton: 15
-  ReagentMetabolismMultiplier: 1
+  indexInSingleton: 144
+  ReagentMetabolismMultiplier: 4
   InternalAllRequired:
-  - {fileID: 11400000, guid: 7577eabe60e5ac546901dbb7c30538fc, type: 2}
+  - {fileID: 11400000, guid: d859938ed34564a4a932f3beb902e34c, type: 2}
   InternalBlacklist: []
   ExternalAllRequired: []
   ExternalBlacklist: []
   DamageEffect: 2
-  AttackType: 10
-  AttackBodyPartPerOneU: 1
+  AttackType: 3
+  AttackBodyPartPerOneU: 0.1
   CanOverdose: 0
   ConcentrationBloodOverdose: 20
   OverdoseDamageMultiplierNew: 1
+  OverdoseEffects: []
   MultiEffect: 0
   Effects: []
-  EmoteEffects:
-  - CustomEmote: 0
-    CustomEmoterMessage: 
-    CustomShownMessage: 
-    Emote: {fileID: 11400000, guid: 10fbc8c0eb861c54199481242aef33a6, type: 2}
-    ChancePerTick: 10
-    StopIfOverdosed: 0

@@ -242,7 +242,7 @@ public class ObjectLayer : Layer
 			{
 				if (context.Pulling.HasComponent)
 				{
-					if (o.gameObject == context.Pulling.Component.gameObject)
+					if (o.IsPassable(isServer, context.gameObject) == false && o.gameObject == context.Pulling.Component.gameObject)
 					{
 						context.StopPulling(false);
 						return false;
