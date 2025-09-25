@@ -40,11 +40,19 @@ namespace Objects.Botany
 		[Tooltip("Chooses what plants to place in the tray if it is a wild tray.")]
 		[SerializeField] private List<SeedPacket> potentialWildPlants = new List<SeedPacket>();
 
-		[SerializeField] private PlantTrayModification modification = PlantTrayModification.None;
 		[SerializeField] private ReagentContainer reagentContainer = null;
 		[SerializeField] private Chemistry.Reagent nutriment = null;
 		[SerializeField] private Chemistry.Reagent water = null;
 		[SerializeField] private Chemistry.Reagent mutagen = null;
+
+		[SerializeField] private Chemistry.Reagent PestKiller = null;
+		[SerializeField] private Chemistry.Reagent WeedKiller = null;
+		[SerializeField] private Chemistry.Reagent Left4Zed = null;
+
+		[SerializeField] private Chemistry.Reagent RobustHarvest  = null;
+		[SerializeField] private Chemistry.Reagent EZNutrient  = null;
+
+
 		[SerializeField] private SpriteHandler plantSprite = null;
 		[SerializeField] private SpriteHandler harvestNotifier = null;
 		[SerializeField] private SpriteHandler weedNotifier = null;
@@ -58,6 +66,8 @@ namespace Objects.Botany
 		private readonly List<GameObject> readyProduce = new List<GameObject>();
 		private float tickCount;
 		private float weedLevel;
+		private float pestLevel;
+
 
 		#region Lifecycle
 
@@ -119,6 +129,33 @@ namespace Objects.Botany
 
 		#endregion Lifecycle
 
+		public void ReagentChecks()
+		{
+			if (reagentContainer[PestKiller] >= 1)
+			{
+				reagentContainer.Subtract(new ReagentMix(PestKiller, 1));
+				pestLevel -= 1;
+
+				if (pestLevel < 0)
+				{
+					pestLevel = 0;
+				}
+				plantData.Health -= 1;
+			}
+
+			if (reagentContainer[WeedKiller] >= 1)
+			{
+				reagentContainer.Subtract(new ReagentMix(WeedKiller, 1));
+				weedLevel -= 1;
+				if (weedLevel < 0)
+				{
+					weedLevel = 0;
+				}
+				plantData.Health -= 1;
+			}
+
+		}
+
 		/// <summary>
 		/// Server updates plant status and updates clients as needed
 		/// Server Side Only
@@ -143,6 +180,7 @@ namespace Objects.Botany
 			{
 				//Up plants age
 				plantData.Age++;
+				ReagentChecks();
 
 				//Weeds checks
 				if (weedLevel < 10)
@@ -159,6 +197,16 @@ namespace Objects.Botany
 					plantData.Health += (((plantData.WeedResistance - 110f) / 100f) * (weedLevel / 10f) * 5);
 					//Loggy.Log("plantData.weed > " + plantData.PlantHealth);
 				}
+				
+				if (pestLevel > 10)
+				{
+					plantData.Health -= 0.5f;
+				}
+				else
+				{
+					pestLevel += 0.01f;
+				}
+
 
 				//Water Checks
 				if (reagentContainer[water] > 0)
@@ -215,6 +263,8 @@ namespace Objects.Botany
 					}
 				}
 
+
+
 				//Health checks
 				if (plantData.Health < 0)
 				{
@@ -223,6 +273,10 @@ namespace Objects.Botany
 				else if (plantData.Age > plantData.Lifespan * 2500)
 				{
 					CropDeath();
+				}
+				else if (plantData.Health > 30)
+				{
+					plantData.Health = 30;
 				}
 			}
 			//Empty tray checks
@@ -254,13 +308,13 @@ namespace Objects.Botany
 			}
 
 
-			UpdateNutrimentFlag(showNutrimenetFlag, reagentContainer[nutriment] < 25);
+			UpdateNutrimentFlag(showNutrimenetFlag, reagentContainer[nutriment] < 10);
 
-			UpdateWaterFlag(showWaterFlag, reagentContainer[water] < 25);
-			UpdateWeedsFlag(showWeedsFlag, weedLevel > 5);
+			UpdateWaterFlag(showWaterFlag, reagentContainer[water] < 10);
+			UpdateWeedsFlag(showWeedsFlag, weedLevel > 5 || pestLevel > 5);
 		}
 
-		/// <summary>
+		/// <summary>w
 		/// Shows harvest ready sprite on tray if flag is set and tray is not a soil pile
 		/// </summary>
 		/// <param name="oldNotifier"></param>
@@ -415,12 +469,36 @@ namespace Objects.Botany
 			UpdateHarvestFlag(showHarvestFlag, false);
 		}
 
+
 		/// <summary>
 		/// Spawns hidden produce ready for player to harvest
 		/// Sets food component if it exists on the produce
 		/// </summary>
 		private void ProduceCrop()
 		{
+			bool? IncreasesMutationChanceState = null;
+
+			PlantTrayModification modification = PlantTrayModification.None;
+			if (reagentContainer[Left4Zed] >= 2.4f)
+			{
+				reagentContainer.Subtract(new ReagentMix(Left4Zed, 2.5f));
+				IncreasesMutationChanceState = true;
+			}
+
+			if (reagentContainer[RobustHarvest] >= 2.4f)
+			{
+				reagentContainer.Subtract(new ReagentMix(RobustHarvest, 2.5f));
+				IncreasesMutationChanceState = false;
+				modification = PlantTrayModification.Yield;
+			}
+
+			if (reagentContainer[EZNutrient] >= 2.4f)
+			{
+				reagentContainer.Subtract(new ReagentMix(EZNutrient, 2.5f));
+				IncreasesMutationChanceState = null;
+				modification = PlantTrayModification.Potency;
+			}
+
 			//Divides the yield value by 10 and then rounds it to the nearest integer to get the amount of objects harvested.
 			var Number = Mathf.Min(Mathf.Round(plantData.Yield / 10f), 10);
 
@@ -443,7 +521,7 @@ namespace Objects.Botany
 				var food = produceObject.GetComponent<GrownFood>();
 				if (food != null)
 				{
-					food.SetUpFood(plantData, modification);
+					food.SetUpFood(plantData, modification, IncreasesMutationChanceState);
 				}
 
 				ObjectPhysics.DisappearFromWorld();
@@ -495,7 +573,11 @@ namespace Objects.Botany
 							$"{interaction.Performer.name} uproots the weeds.");
 					}
 
-					weedNotifier.PushClear();
+					if ((pestLevel > 5) == false)
+					{
+						UpdateWeedsFlag(showWeedsFlag, false);
+					}
+
 					weedLevel = 0;
 					return;
 				}
@@ -535,7 +617,7 @@ namespace Objects.Botany
 					Chat.AddActionMsgToChat(interaction.Performer,
 						$"You compost the {foodObject.name} in the {gameObject.ExpensiveName()}.",
 						$"{interaction.Performer.name} composts {foodObject.name} in the {gameObject.ExpensiveName()}.");
-					reagentContainer.Add(new ReagentMix(nutriment, foodObject.reagentContainer[nutriment]*2));
+					reagentContainer.Add(new ReagentMix(nutriment, foodObject.reagentContainer[nutriment]*4));
 					_ = Despawn.ServerSingle(interaction.HandObject);
 					return;
 				}
@@ -555,7 +637,7 @@ namespace Objects.Botany
 
 			//If hand slot contains seeds, plant the seeds
 			var Object = slot?.Item.OrNull()?.GetComponent<SeedPacket>();
-			if (Object != null)
+			if (Object != null && HasPlant == false)
 			{
 				plantData = PlantData.CreateNewPlant(slot.Item.GetComponent<SeedPacket>().plantData);
 				UpdatePlantGrowthStage(0, 0);
@@ -595,12 +677,10 @@ namespace Objects.Botany
 					UpdateHarvestFlag(harvestNotifier, false);
 				}
 			}
-
-			//Commenting unless this causes issues
-			/*else
+			else if (plantData == null)
 			{
 				UpdatePlantStage(plantCurrentStage, PlantSpriteStage.None);
-			}*/
+			}
 		}
 
 		public void DigUp()

@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
+  m_Sprite: {fileID: 21300002, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -303,7 +303,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
+  m_Sprite: {fileID: 21300002, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -416,7 +416,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: aea86856306566d43bfb7f194de93f06, type: 3}
+  m_Sprite: {fileID: 21300002, guid: aea86856306566d43bfb7f194de93f06, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -529,7 +529,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
+  m_Sprite: {fileID: 21300002, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -781,7 +781,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ReactionSounds: 1
-  maxCapacity: 200
+  maxCapacity: 60
   DEBUGReagent: {fileID: 0}
   DEBUGAmount: 0
   StopReactions: 0
@@ -812,7 +812,7 @@ MonoBehaviour:
   ExamineContent: 0
   traitWhitelist: []
   reagentWhitelist: []
-  transferMode: 0
+  transferMode: 3
   onlyAllowSyringeFilling: 0
   SyringePulling: 0
   possibleTransferAmounts: []
@@ -871,11 +871,15 @@ MonoBehaviour:
   - {fileID: 8824988080051254831, guid: ab1442ccdc53ec149820ae45ec942a3a, type: 3}
   - {fileID: 3050735359452578519, guid: c9011cdae105db947b62a63d5934fec3, type: 3}
   - {fileID: 9192370514693095488, guid: 7579a4af66d1b6646a4d42103cfadc68, type: 3}
-  modification: 0
   reagentContainer: {fileID: 1922518068148154257}
   nutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
   water: {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
   mutagen: {fileID: 11400000, guid: 034ab10c20e9a63099ab7df08b99509c, type: 2}
+  PestKiller: {fileID: 11400000, guid: 2451aaa3d8142d59885b55a17b7e9197, type: 2}
+  WeedKiller: {fileID: 11400000, guid: 8405a9ef1db62270490c560d5fffafb4, type: 2}
+  Left4Zed: {fileID: 11400000, guid: fb97533e4f38b347c92d22418f26b54d, type: 2}
+  RobustHarvest: {fileID: 11400000, guid: 4380569809c73234d9de922bee3102f1, type: 2}
+  EZNutrient: {fileID: 11400000, guid: 5458b3a2fbbb709769a12535fe65de9f, type: 2}
   plantSprite: {fileID: 4178863703110800593}
   harvestNotifier: {fileID: 1428977398308812781}
   weedNotifier: {fileID: 5908421315688622042}
