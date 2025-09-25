@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Logs;
 using UnityEngine;
@@ -119,7 +120,14 @@ namespace Systems.GhostRoles
 		/// <param name="key">The key used to identify the role for modifying. Returned by <see cref="ServerCreateRole(GhostRoleData)"/>"/></param>
 		public void ServerUpdateRole(uint key, int minPlayers, int maxPlayers, float timeRemaining)
 		{
-			serverAvailableRoles[key].UpdateRole(minPlayers, maxPlayers, timeRemaining);
+			try
+			{
+				serverAvailableRoles[key].UpdateRole(minPlayers, maxPlayers, timeRemaining);
+			}
+			catch (Exception e)
+			{
+				Loggy.Error(e.ToString());
+			}
 			GhostRoleUpdateMessage.SendToClients(key);
 		}
 
@@ -129,7 +137,14 @@ namespace Systems.GhostRoles
 		/// <param name="key">The key used to identify the role for modifying. Returned by <see cref="ServerCreateRole(GhostRoleData)"/>"/></param>
 		public void ServerUpdateRole(uint key, int minPlayers, int maxPlayers, float timeRemaining, int newRoleIndex)
 		{
-			serverAvailableRoles[key].UpdateRole(minPlayers, maxPlayers, timeRemaining, newRoleIndex);
+			try
+			{
+				serverAvailableRoles[key].UpdateRole(minPlayers, maxPlayers, timeRemaining, newRoleIndex);
+			}
+			catch (Exception e)
+			{
+				Loggy.Error(e.ToString());
+			}
 			GhostRoleUpdateMessage.SendToClients(key);
 		}
 
