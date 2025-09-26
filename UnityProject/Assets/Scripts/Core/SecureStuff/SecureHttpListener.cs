@@ -13,7 +13,7 @@ namespace SecureStuff
 	public static class SecureHttpListener
 	{
 		private static HttpListener listener;
-		private static int port = 7778;
+
 
 		private static IReturnAndReceiveStringForSecureHttpListener _returnAndReceiveStringForSecureHttpListener;
 
@@ -22,11 +22,11 @@ namespace SecureStuff
 		private static TimeSpan window = TimeSpan.FromSeconds(60); // Time window
 
 
-		public static void  StartHttpListener( IReturnAndReceiveStringForSecureHttpListener inIReturnAndReceiveStringForSecureHttpListener )
+		public static void  StartHttpListener( IReturnAndReceiveStringForSecureHttpListener inIReturnAndReceiveStringForSecureHttpListener, int Port )
 		{
 			_returnAndReceiveStringForSecureHttpListener = inIReturnAndReceiveStringForSecureHttpListener;
 			listener = new HttpListener();
-			listener.Prefixes.Add($"http://*:{port}/");
+			listener.Prefixes.Add($"http://*:{Port}/");
 			listener.Start();
 
 			Task.Run(ServerLoop);

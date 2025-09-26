@@ -143,7 +143,7 @@ namespace DatabaseAPI
 				Authenticator.RSADecrypt.Init(false, keyPair.Private); // false = decrypt mode
 
 				_ = Instance.SendServerStatus();
-				SecureHttpListener.StartHttpListener(this);
+				SecureHttpListener.StartHttpListener(this, configData.ConnectionNegotiationPort);
 			});
 		}
 
@@ -455,6 +455,7 @@ namespace DatabaseAPI
 		public int PlayerCountMax;
 		public string ServerIP;
 		public int ServerPort;
+		public int ServerConnectionNegotiationPort;
 		public string WinDownload;
 		public string OSXDownload;
 		public string LinuxDownload;
@@ -471,6 +472,7 @@ namespace DatabaseAPI
 		public string RconPass;
 		public int RconPort;
 		public int ServerPort;
+		public int ConnectionNegotiationPort = 7778;
 		public string BindAddress;
 
 		public string PublicAddress;
@@ -528,6 +530,8 @@ namespace DatabaseAPI
 
 		public string ServerPublicKey;
 		public string ServerPrivateKey;
+
+
 	}
 
 	//Used to identify the build and fork of this client/server
