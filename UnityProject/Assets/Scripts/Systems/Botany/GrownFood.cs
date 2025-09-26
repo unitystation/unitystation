@@ -121,17 +121,17 @@ namespace Systems.Botany
 			SyncSize(sizeScale, sizeScale);
 			if (reagentContainer.ReagentMixTotal == 0)
 			{
-				SetUpFood(plantData, PlantTrayModification.None);
+				SetUpFood(plantData, PlantTrayModification.None, null);
 			}
 		}
 
 		/// <summary>
 		/// Called when plant creates food
 		/// </summary>
-		public void SetUpFood(PlantData newPlantData, PlantTrayModification modification)
+		public void SetUpFood(PlantData newPlantData, PlantTrayModification modification, bool? IncreasesMutationChanceState)
 		{
 
-			plantData = PlantData.MutateNewPlant(newPlantData, modification);
+			plantData = PlantData.MutateNewPlant(newPlantData, modification, IncreasesMutationChanceState);
 			SyncSize(sizeScale, 0.5f + (newPlantData.Potency / 200f));
 			SetupChemicalContents();
 			if (edible != null)

@@ -617,6 +617,8 @@ namespace MapSaver
 								.localPosition = Offset;
 							Offset = Vector3.zero;
 						}
+
+						aaMatrix.NetworkedMatrix.IsJsonLoaded = false;
 					}
 					else
 					{

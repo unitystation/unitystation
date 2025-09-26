@@ -64,18 +64,18 @@ namespace Systems.Botany
 		{
 			PlantData newPlant = new PlantData();
 			newPlant.SetValues(plantData);
-			newPlant.Health = 100;
+			newPlant.Health = 30;
 			newPlant.Age = 0;
 			return newPlant;
 		}
 
-		public static PlantData MutateNewPlant(PlantData plantData, PlantTrayModification modification)
+		public static PlantData MutateNewPlant(PlantData plantData, PlantTrayModification modification, bool? IncreasesMutationChanceState)
 		{
 			PlantData newPlant = new PlantData();
 			newPlant.SetValues(plantData);
-			newPlant.Health = 100;
+			newPlant.Health = 30;
 			newPlant.Age = 0;
-			newPlant.NaturalMutation(modification);
+			newPlant.NaturalMutation(modification, IncreasesMutationChanceState);
 			return newPlant;
 		}
 
@@ -201,7 +201,7 @@ namespace Systems.Botany
 		/// Triggers stat mutation and chance to mutate into new plant
 		/// </summary>
 		/// <param name="modification"></param>
-		public void NaturalMutation(PlantTrayModification modification)
+		public void NaturalMutation(PlantTrayModification modification, bool? IncreasesMutationChanceState)
 		{
 			//Stat mutations
 			WeedResistance = StatMutation(WeedResistance, StatMutationType.Normal);
@@ -238,7 +238,22 @@ namespace Systems.Botany
 					break;
 			}
 
-			if (random.Next(100) > 95)
+			int Chance = 95;
+
+			if (IncreasesMutationChanceState == null)
+			{
+				Chance = 95;
+			}
+			else if (IncreasesMutationChanceState.Value == false)
+			{
+				Chance = 99;
+			}
+			else
+			{
+				Chance = 75;
+			}
+
+			if (random.Next(100) > Chance)
 			{
 				Mutation();
 			}
@@ -256,7 +271,7 @@ namespace Systems.Botany
 			var addition = 0;
 			if (statMutationType == StatMutationType.Normal)
 			{
-				addition = random.Next(2, 5);
+				addition = random.Next(-2, 5);
 			}
 			else if (statMutationType == StatMutationType.Special)
 			{

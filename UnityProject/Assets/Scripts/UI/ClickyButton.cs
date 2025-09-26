@@ -6,7 +6,7 @@ public class ClickyButton : MonoBehaviour
 {
 
 
-	public void Awake()
+	public void Start()
 	{
 
 		this.GetComponent<ToggleButton>()?.onValueChanged?.AddListener(Click);

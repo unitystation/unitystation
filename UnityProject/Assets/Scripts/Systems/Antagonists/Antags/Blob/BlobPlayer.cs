@@ -655,6 +655,7 @@ namespace Blob
 				{
 					if (currentStrain.strainType == StrainTypes.NetworkedFibers)
 					{
+						resources = resources - 1;
 						//Move core to normal blob when networked fibers strain
 						MoveCoreToNormalBlob(blob);
 						return true;
