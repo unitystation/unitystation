@@ -37,9 +37,27 @@ public static class Inventory
 	/// <param name="toSlot"></param>
 	/// <param name="replacementStrategy">what to do if toSlot is already occupied</param>
 	/// <returns>true if successful</returns>
-	public static bool ServerTransfer(ItemSlot fromSlot, ItemSlot toSlot, ReplacementStrategy replacementStrategy = ReplacementStrategy.Cancel, bool IgnoreRestraints = false)
+	public static bool  ServerTransfer(ItemSlot fromSlot, ItemSlot toSlot, ReplacementStrategy replacementStrategy = ReplacementStrategy.Cancel, bool IgnoreRestraints = false)
 	{
 		return ServerPerform(InventoryMove.Transfer(fromSlot, toSlot, replacementStrategy, IgnoreRestraints));
+	}
+
+	/// <summary>
+	/// Inventory move in which the objects are Swapped from one slot to another
+	/// </summary>
+	/// <param name="SlotOne"></param>
+	/// <param name="SlotTwo"></param>
+	/// <param name="replacementStrategy">what to do if toSlot is already occupied</param>
+	/// <returns>true if successful</returns>
+	public static void ServerSwap(ItemSlot SlotOne, ItemSlot SlotTwo, ReplacementStrategy replacementStrategy = ReplacementStrategy.Cancel, bool IgnoreRestraints = false)
+	{
+		var ObjectOne = SlotOne.ItemObject;
+		ServerDrop(SlotOne);
+		var ObjectTwo = SlotTwo.ItemObject;
+		ServerDrop(SlotTwo);
+
+		ServerAdd(ObjectOne, SlotTwo);
+		ServerAdd(ObjectTwo, SlotOne);
 	}
 
 	/// <summary>

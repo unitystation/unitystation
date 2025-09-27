@@ -102,8 +102,25 @@ namespace Util
 		{
 
 
-			LoadManager.Instance.StartCoroutine(Do());
+			//LoadManager.Instance.StartCoroutine(Do());
+			AssetDatabase.StartAssetEditing();
+			//var AaAA = FindAssetsByType<SeedPacket>();
+			var AaAA = LoadAllPrefabsOfType<SeedPacket>(Application.dataPath).ToHashSet();
+			foreach (var a in AaAA)
+			{
+				foreach(var PD in a.plantData.ReagentProduction)
+				{
+					if (PD.ChemistryReagent.name is "Nutriment" or "Vitamin")
+					{
+						PD.percentage = PD.percentage * 10;
+					}
+				}
 
+				EditorUtility.SetDirty(a);
+			}
+
+			AssetDatabase.StopAssetEditing();
+			AssetDatabase.SaveAssets();
 
 			return;
 			AdminLogsManager.AddNewLog("bob Murdered irrelevant", LogCategory.Admin);
