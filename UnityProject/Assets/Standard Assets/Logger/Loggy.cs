@@ -298,7 +298,11 @@ namespace Logs
 		// Roles and Jobs
 		Jobs,
 		Antags,
+
+		// Logs relating to actions
+		Actions, //might replace all instances of Spells logging with this
 		Spells,
+
 		Blob,
 		Changeling,
 

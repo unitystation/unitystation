@@ -20,7 +20,7 @@ namespace UI.Systems.MainHUD.UI_Bottom
 
 		private List<HiveMenuEntry> entryPool = new List<HiveMenuEntry>();
 
-		private void OnEnable()
+/*		private void OnEnable()
 		{
 			Refresh();
 		}
@@ -67,6 +67,6 @@ namespace UI.Systems.MainHUD.UI_Bottom
 		private void RemoveEntry()
 		{
 			entryPool.RemoveAt(entryPool.Count - 1);
-		}
+		}*/
 	}
 }

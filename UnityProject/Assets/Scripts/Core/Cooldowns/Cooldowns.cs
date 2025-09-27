@@ -16,7 +16,7 @@ public static class Cooldowns
 	public static bool TryStart(PlayerScript player, ICooldown cooldown,  NetworkSide side, float secondsOverride=float.NaN)
 	{
 		if (player == false) return false;
-		return player.Cooldowns.TryStart(cooldown,side,  secondsOverride);
+		return player.Cooldowns.TryStart(cooldown, side, secondsOverride);
 	}
 
 	/// <summary>

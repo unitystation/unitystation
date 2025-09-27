@@ -33,6 +33,7 @@ using Tiles;
 using Util;
 using Random = UnityEngine.Random;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
+using UI.Core.Action;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -516,7 +517,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	/// <summary>
 	/// Switches the pickup mode for the InteractableStorage in the players hands
-	/// TODO should probably be turned into some kind of UIAction component which can hold all these functions
+	/// TODO should probably be turned into some kind of UIActionButton component which can hold all these functions
 	/// </summary>
 	[Command]
 	public void CmdSwitchPickupMode()
@@ -897,6 +898,20 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				return;
 			}
 		}
+	}
+
+	//effectively a command wrapper for UIActionManager.RequestGameAction()
+	[Command]
+	public void CmdRequestAction(string actionID, Vector3 clickPosition)
+	{
+		UIActionManager.RequestGameAction(actionID, playerScript.Mind, clickPosition);
+	}
+
+	//same as above but for UIActionManager.RequestActionToggle()
+	[Command]
+	public void CmdRequestActionToggle(string actionID)
+	{
+		UIActionManager.RequestActionToggle(actionID, playerScript.Mind);
 	}
 
 	[Command]

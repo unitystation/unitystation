@@ -97,11 +97,6 @@ namespace HealthV2
 					PlayerSpawn.TransferAccountToSpawnedMind(checkPlayerScript.Component.Mind.ControlledBy, alienMind);
 				}
 
-				var alienPlayer = alienMind.PossessingObject.GetComponent<AlienPlayer>();
-
-				alienPlayer.SetNewPlayer(alienMind);
-				alienPlayer.DoConnectCheck();
-
 				//kill after transfer
 				RelatedPart.HealthMaster.Death();
 

@@ -1,4 +1,4 @@
-﻿using Systems.Antagonists;
+﻿/*using Systems.Antagonists;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -34,4 +34,4 @@ namespace UI.Systems.MainHUD.UI_Bottom
 			alien.OnEvolve(alienType);
 		}
 	}
-}
+}*/

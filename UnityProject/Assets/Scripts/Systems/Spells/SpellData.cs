@@ -43,6 +43,7 @@ namespace ScriptableObjects.Systems.Spells
 
 		[SerializeField] private AddressableAudioSource castSound = null;
 		[SerializeField] private int range = 0;
+		[SerializeField] private int castUses = 1;
 
 		[SerializeField, BoxGroup("Chat")]
 		private string stillRechargingMessage = "The spell is still recharging!";
@@ -94,6 +95,7 @@ namespace ScriptableObjects.Systems.Spells
 		public SpellInvocationType InvocationType => invocationType;
 		public string InvocationMessage => invocationMessage;
 		public int Range => range;
+		public int CastUses => castUses;
 		public string InvocationMessageSelf => invocationMessageSelf;
 		public float SummonLifespan => summonLifespan;
 		public SpellSummonType SummonType => summonType;
@@ -137,7 +139,6 @@ namespace ScriptableObjects.Systems.Spells
 				return default;
 			}
 			spellComponent.SpellData = this;
-			spellComponent.CooldownTime = CooldownTime;
 			return spellComponent;
 		}
 	}

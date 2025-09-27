@@ -12,7 +12,7 @@ namespace ScriptableObjects
 		[Header("Main")]
 		public string Name;
 
-		public AlienPlayer.AlienTypes AlienType;
+		//public AlienPlayer.AlienTypes AlienType;
 
 		public Occupation AlienOccupation;
 
@@ -50,8 +50,8 @@ namespace ScriptableObjects
 		public int AcidSpitCost = 10;
 		public int NeurotoxinSpitCost = 50;
 
-		[HorizontalLine]
-		public AlienPlayer.AlienTypes EvolvedFrom = AlienPlayer.AlienTypes.Larva3;
+		/*[HorizontalLine]
+		public AlienPlayer.AlienTypes EvolvedFrom = AlienPlayer.AlienTypes.Larva3;*/
 
 		[Header("ActionData")]
 		public List<ActionData> ActionData = new List<ActionData>();

@@ -7,8 +7,8 @@ using UnityEngine.EventSystems;
 
 public class AlienMouseInputController : MouseInputController
 {
-	private AlienPlayer alienPlayer;
-	private UI_Alien alienUi;
+	/*private AlienPlayer alienPlayer;
+	private UI_Alien alienUi;*/
 
 	private AlienClicks currentClick = AlienClicks.None;
 	public AlienClicks CurrentClick => currentClick;
@@ -22,14 +22,14 @@ public class AlienMouseInputController : MouseInputController
 
 	private void Awake()
 	{
-		alienPlayer = GetComponent<AlienPlayer>();
+	//	alienPlayer = GetComponent<AlienPlayer>();
 	}
 
 	public override void Start()
 	{
 		base.Start();
 
-		alienUi = UIManager.Instance.panelHudBottomController.AlienUI;
+	//	alienUi = UIManager.Instance.panelHudBottomController.AlienUI;
 	}
 
 	public void SetClickType(AlienClicks newClick)
@@ -53,11 +53,11 @@ public class AlienMouseInputController : MouseInputController
 		}
 
 		//If right click or middle mouse button then try spit
-		if (CommonInput.GetMouseButtonDown(1) || KeyboardInputManager.IsMiddleMouseButtonPressed())
+	/*	if (CommonInput.GetMouseButtonDown(1) || KeyboardInputManager.IsMiddleMouseButtonPressed())
 		{
 			//Check for spit clicks
 			if (DoAlienClicks()) return;
-		}
+		}*/
 
 		if (CommonInput.GetMouseButtonDown(0))
 		{
@@ -148,7 +148,7 @@ public class AlienMouseInputController : MouseInputController
 		}
 	}
 
-	private bool DoAlienClicks()
+	/*private bool DoAlienClicks()
 	{
 		if (currentClick == AlienClicks.None) return false;
 
@@ -170,5 +170,5 @@ public class AlienMouseInputController : MouseInputController
 		}
 
 		return false;
-	}
+	}*/
 }

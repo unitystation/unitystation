@@ -85,8 +85,6 @@ namespace Systems.MobAIs
 
 			if (interaction.Intent != Intent.Help && interaction.Intent != Intent.Grab) return false;
 
-			if (interaction.PerformerPlayerScript.TryGetComponent<AlienPlayer>(out var alien) && alien.IsLarva) return false;
-
 			return true;
 		}
 

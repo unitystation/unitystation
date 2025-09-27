@@ -12,7 +12,7 @@ namespace UI.Systems.MainHUD.UI_Bottom
 
 		[SerializeField]
 		private GameObject contentArea = null;
-
+/*
 		[SerializeField]
 		private UI_Alien uiAlien = null;
 
@@ -68,6 +68,6 @@ namespace UI.Systems.MainHUD.UI_Bottom
 			Destroy(entryPool[^1]);
 
 			entryPool.RemoveAt(entryPool.Count - 1);
-		}
+		}*/
 	}
 }

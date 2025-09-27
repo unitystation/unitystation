@@ -1,12 +1,17 @@
-﻿using Logs;
+﻿using System;
+using Logs;
+using Systems.Spells;
 using UI.Core.Action;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace UI.Action
+namespace GameActions
 {
-	public class UIAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+	/// <summary>
+	/// The button to trigger an action that is shown to players clientside
+	/// </summary>
+	public class UIActionButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 	{
 		public SpriteDataSO DefaultIconBackground;
 		public SpriteHandler IconBackground;
@@ -14,7 +19,7 @@ namespace UI.Action
 		public Transform CooldownOpacity;
 		public Text CooldownNumber;
 
-		public IAction iAction;
+		public IGameActionHolder iActionHolder;
 		private ActionData actionData;
 		private static readonly Vector3 tooltipOffset = new Vector3(-40, -60);
 		private ActionTooltip Tooltip => UIActionManager.Instance.TooltipInstance;
@@ -25,15 +30,15 @@ namespace UI.Action
 
 		#region Lifecycle
 
-		public void SetUp(IActionGUI action)
+		public void SetUp(IGameActionHolder action)
 		{
 			gameObject.SetActive(true);
-			iAction = action;
+			iActionHolder = action;
 
 			actionData = action.ActionData;
 			if (actionData == null)
 			{
-				Loggy.Warning().Format("UIAction {0}: action data is null!", Category.UserInput, iAction);
+				Loggy.Warning().Format("UIActionButton {0}: action data is null!", Category.UserInput, iActionHolder);
 				return;
 			}
 
@@ -43,28 +48,6 @@ namespace UI.Action
 
 				//Turn off raycasting if we have a background so the tooltip will show if mouse over IconFront
 				GetComponent<Image>().raycastTarget = actionData.Backgrounds.Count == 0;
-			}
-			if (actionData.Backgrounds.Count > 0)
-			{
-				IconBackground.SetCatalogue(actionData.Backgrounds, 0, networked: false);
-			}
-		}
-
-		public void SetUp(IActionGUIMulti action, ActionData newActionData)
-		{
-			gameObject.SetActive(true);
-			iAction = action;
-
-			actionData = newActionData;
-			if (actionData == null)
-			{
-				Loggy.Warning().Format("UIAction {0}: action data is null!", Category.UserInput, iAction);
-				return;
-			}
-
-			if (actionData.Sprites.Count > 0)
-			{
-				IconFront.SetCatalogue(actionData.Sprites, 0, networked: false);
 			}
 			if (actionData.Backgrounds.Count > 0)
 			{
@@ -96,14 +79,9 @@ namespace UI.Action
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 
-			if (actionData == null)
-			{
-				Loggy.Error("Missing action data detected.");
-				return;
-			}
 			if (actionData.IsToggle)
 			{
-				Toggle();
+				Toggle(true);
 				return;
 			}
 
@@ -139,13 +117,9 @@ namespace UI.Action
 			// The spell's server request can provide a click position.
 			if (actionData.CallOnClient)
 			{
-				if (iAction is IActionGUI iActionGUI)
+				if (iActionHolder is IGameActionHolder iActionGUI)
 				{
 					iActionGUI.CallActionClient();
-				}
-				else if (iAction is IActionGUIMulti iActionGUIMulti)
-				{
-					iActionGUIMulti.CallActionClient(actionData);
 				}
 			}
 
@@ -154,40 +128,23 @@ namespace UI.Action
 			// Once it does, consider moving the spell's server request to rely on this here instead, if possible.
 			if (actionData.CallOnServer == false) return;
 
-			if (iAction is IServerActionGUI)
+			if (iActionHolder is IGameActionHolder)
 			{
-				if (iAction is UIActionScriptableObject actionSO)
-				{
-					RequestGameActionSO.Send(actionSO);
-				}
-				else
-				{
-					RequestGameAction.Send(iAction as IServerActionGUI);
-				}
-			}
-			else if (iAction is IServerActionGUIMulti)
-			{
-				if (iAction is UIActionScriptableObject actionSO)
-				{
-					RequestGameActionSO.Send(actionSO);
-				}
-				else
-				{
-					RequestGameAction.Send(iAction as IServerActionGUIMulti, actionData);
-				}
+					RequestGameAction.Send(iActionHolder as IGameActionHolder);
 			}
 		}
 
-		private void Toggle()
+		public void Toggle(bool ForceDisable = false)
 		{
 			if (UIActionManager.Instance.HasActiveAction && UIActionManager.Instance.ActiveAction != this)
 			{
-				UIActionManager.Instance.ActiveAction.Toggle(); // Toggle off whatever other action was active.
+				UIActionManager.Instance.ActiveAction.Toggle(true); // Toggle off whatever other action was active.
 			}
 
 			// The currently active action is this, so toggle it off.
 			if (UIActionManager.Instance.HasActiveAction)
 			{
+				if(!ForceDisable && ActionData.StaySelectedOnUse) return;
 				ToggleOff();
 			}
 			else
@@ -196,8 +153,11 @@ namespace UI.Action
 			}
 		}
 
-		private void ToggleOff()
+		public event System.Action OnToggleOff;
+
+		public void ToggleOff()
 		{
+			OnToggleOff?.Invoke();
 			IconFront.SetSpriteSO(actionData.Sprites[0], networked: false);
 			UIActionManager.Instance.ActiveAction = null;
 
@@ -207,7 +167,7 @@ namespace UI.Action
 			}
 		}
 
-		private void ToggleOn()
+		public void ToggleOn()
 		{
 			IconFront.SetSpriteSO(actionData.ActiveSprite, networked: false);
 			UIActionManager.Instance.ActiveAction = this;
@@ -228,6 +188,11 @@ namespace UI.Action
 				bool isCentered = actionData.OffsetType == CursorOffsetType.Centered;
 				MouseInputController.SetCursorTexture(actionData.CursorTexture, isCentered);
 			}
+		}
+
+		private void OnDestroy()
+		{
+			OnToggleOff = null;
 		}
 	}
 }

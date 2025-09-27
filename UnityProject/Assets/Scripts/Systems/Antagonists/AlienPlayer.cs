@@ -1,4 +1,5 @@
-﻿using System;
+﻿//TODO: refactor xenos(MAKE SURE THEIR ACTIONS ARE STORED ON THEIR ORGANS NOT SOME WEIRD CONTROLLER THING)
+/*using System;
 using System.Collections.Generic;
 using System.Linq;
 using Alien;
@@ -129,7 +130,7 @@ namespace Systems.Antagonists
 		public AlienTypeDataSO AlienType => alienType;
 
 		[SyncVar] public AlienTypes CurrentAlienType;
-		public List<ActionData> ActionData => alienType.ActionData;
+		public Dictionary<string, ActionData> ActionDataDict => alienType.ActionData;
 
 		[SyncVar]
 		private AlienMode currentAlienMode;
@@ -1727,4 +1728,4 @@ namespace Systems.Antagonists
 			Queen = 1 << 7
 		}
 	}
-}
+}*/

@@ -8,7 +8,7 @@ using Logs;
 using UnityEngine;
 using Mirror;
 using ScriptableObjects.Systems.Spells;
-using UI.Action;
+using GameActions;
 using UI.Core.Action;
 
 namespace Systems.Spells
@@ -18,7 +18,7 @@ namespace Systems.Spells
 	/// </summary>
 	[Serializable]
 	[DisallowMultipleComponent]
-	public class Spell : NetworkBehaviour, IActionGUI
+	public class Spell : NetworkBehaviour, IGameActionHolder
 	{
 		private SpellData spellData = null;
 		public SpellData SpellData {
@@ -26,6 +26,7 @@ namespace Systems.Spells
 			set => spellData = value;
 		}
 		public ActionData ActionData => SpellData;
+		public string ActionGuid => UIActionManager.RegisterAction(this);
 
 		public int CurrentTier { get; private set; } = 1;
 		public float CooldownTime { get; set; }
@@ -36,6 +37,16 @@ namespace Systems.Spells
 		}
 
 		private int chargesLeft = 0;
+
+		/// <summary>
+		/// How many times can we cast the spell before it goes onto cooldown
+		/// </summary>
+		public int CastUses { get; set; } //might want to move this to fully be on SpellData
+
+		/// <summary>
+		/// How many uses do we have left for our current cast, meaning we can use the spell x more times before it goes on cooldown
+		/// </summary>
+		private int castUsesLeft = default;
 
 		protected Coroutine handle;
 
@@ -49,7 +60,7 @@ namespace Systems.Spells
 
 		public virtual void CallActionClient()
 		{
-			UIAction action = UIActionManager.Instance.DicIActionGUI[this][0];
+			UIActionButton action = UIActionManager.Instance.DicIActionGUI[this][0];
 			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestSpell(SpellData.Index, action.LastClickPosition);
 		}
 
@@ -64,7 +75,14 @@ namespace Systems.Spells
 
 		private void AfterCast(PlayerInfo sentByPlayer)
 		{
-			Cooldowns.TryStartServer(sentByPlayer.Script, SpellData, CooldownTime);
+			if(castUsesLeft == 0)
+				castUsesLeft = CastUses;
+
+			castUsesLeft--;
+			if(castUsesLeft <= 0)
+				{
+					Cooldowns.TryStartServer(sentByPlayer.Script, SpellData, CooldownTime);
+				}
 
 			SoundManager.PlayNetworkedAtPos(
 					SpellData.CastSound, sentByPlayer.Script.WorldPos, sourceObj: sentByPlayer.GameObject, global: false);
@@ -96,12 +114,33 @@ namespace Systems.Spells
 			if (SpellData.ChargeType == SpellChargeType.FixedCharges && --ChargesLeft <= 0)
 			{
 				//remove it from spell list
-				UIActionManager.ToggleServer(sentByPlayer.Mind.gameObject, this, false);
+				UIActionManager.ToggleServer(sentByPlayer.Mind.gameObject, this, false); //might want to simply disable it so its possible to regain charges later
 			}
-			else
+			else if(castUsesLeft <= 0)
 			{
-				UIActionManager.SetCooldown(this, CooldownTime, sentByPlayer.GameObject);
+				StartCooldown(sentByPlayer.GameObject);
 			}
+		}
+
+		private void OnActionToggleOff()
+		{
+			/*if(castUsesLeft > 0 && castUsesLeft != CastUses)
+				Loggy.LogError($"AAAAA");
+				StartCooldown();*/
+		}
+
+		public string Ugg()
+		{
+			return $"{GetInstanceID()}";
+		}
+
+		public void StartCooldown(GameObject recipient = default)
+		{
+			if(recipient == null)
+			{
+				recipient = PlayerList.Instance.GetOnline(PlayerManager.LocalPlayerScript.PlayerNetworkActions.gameObject).GameObject; //we really should just have access to our owner
+			}
+			UIActionManager.SetCooldown(this, CooldownTime, recipient);
 		}
 
 		public virtual bool CastSpellServer(PlayerInfo caster, Vector3 clickPosition)

@@ -44,7 +44,6 @@ namespace ScriptableObjects
 		public SpeechModManager SpeechModManager;
 		public SpriteCatalogue SpriteCatalogue;
 		public SurgeryProcedureBaseSingleton SurgeryProcedureBaseSingleton;
-		public UIActionSOSingleton UIActionSOSingleton;
 		public UplinkCategoryList UplinkCategoryList;
 		public UplinkPasswordList UplinkPasswordList;
 		public ThrusterFuelReactions ThrusterFuelReactions;
@@ -91,7 +90,6 @@ namespace ScriptableObjects
 				{ typeof(SpeechModManager), SpeechModManager },
 				{ typeof(SpriteCatalogue), SpriteCatalogue },
 				{ typeof(SurgeryProcedureBaseSingleton), SurgeryProcedureBaseSingleton },
-				{ typeof(UIActionSOSingleton), UIActionSOSingleton },
 				{ typeof(UplinkCategoryList), UplinkCategoryList },
 				{ typeof(UplinkPasswordList), UplinkPasswordList },
 				{ typeof(PlayerTypeSingleton), playerTypeSingleton },
