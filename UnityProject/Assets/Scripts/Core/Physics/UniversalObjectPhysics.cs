@@ -441,10 +441,11 @@ namespace Core.Physics
 			int matrixID, float inSpinFactor, bool forceOverride, uint doNotUpdateThisClient, float timeSent)
 		{
 			if (isServer) return;
+
 			currentAim = inAim;
 			if (IDIsLocalPlayerObject(doNotUpdateThisClient)) return;
 
-			if (IsFlyingSliding && (TimeSpentFlying - timeSent) < 0)
+			if (this is MovementSynchronisation && IsFlyingSliding && (TimeSpentFlying - timeSent) < 0)
 			{
 				return; //Invalid check request, In between landing and push off
 			}
@@ -463,35 +464,24 @@ namespace Core.Physics
 			}
 
 
-			if (IsFlyingSliding) //If we flying try and smooth it
+
+			if (isOwned && this is MovementSynchronisation) //The client is technically ahead of the server
 			{
-				if (isOwned && this is MovementSynchronisation) //The client is technically ahead of the server
-				{
-					var TimeDifference = (TimeSpentFlying - timeSent);
-					var ToResetToPosition = resetToLocal + (newMomentum * TimeDifference).To3();
+				var TimeDifference = (TimeSpentFlying - timeSent);
+				var ToResetToPosition = resetToLocal + (newMomentum * TimeDifference).To3();
 
-					resetToLocal = ToResetToPosition;
-				}
-
-				LocalDifferenceNeeded = resetToLocal - transform.localPosition;
-
-
-				if (CorrectingCourse == false)
-				{
-					CorrectingCourse = true;
-					UpdateManager.Add(CallbackType.EARLY_UPDATE, FloatingCourseCorrection);
-				}
+				resetToLocal = ToResetToPosition;
 			}
-			else //We are walking around somewhere
+
+			LocalDifferenceNeeded = resetToLocal - transform.localPosition;
+
+
+			if (CorrectingCourse == false)
 			{
-				SetLocalTarget = new Vector3WithData()
-				{
-					Vector3 = resetToLocal,
-					ByClient = NetId.Empty,
-					Matrix = matrixID
-				};
-				SetTransform(resetToLocal, false);
+				CorrectingCourse = true;
+				UpdateManager.Add(CallbackType.EARLY_UPDATE, FloatingCourseCorrection);
 			}
+
 
 			InternalTriggerOnLocalTileReached(resetToLocal.RoundToInt());
 
@@ -659,62 +649,61 @@ namespace Core.Physics
 
 			if (smooth)
 			{
-				if (IsFlyingSliding)
+				NewtonianMovement = momentum;
+				LocalDifferenceNeeded = resetToLocal - transform.localPosition;
+				if (LocalDifferenceNeeded.sqrMagnitude > 0)
 				{
-					NewtonianMovement = momentum;
-					LocalDifferenceNeeded = resetToLocal - transform.localPosition;
-					InternalTriggerOnLocalTileReached(resetToLocal.RoundToInt());
-					if (CorrectingCourse == false)
-					{
-						CorrectingCourse = true;
-						UpdateManager.Add(CallbackType.EARLY_UPDATE, FloatingCourseCorrection);
-					}
+					doNotApplyMomentumOnTarget = true;
 				}
-				else
+
+				if (CorrectingCourse == false)
 				{
-					var ToResetTo = resetToLocal;
-
-					if (localTarget != null)
-					{
-						ToResetTo = localTarget.Value;
-					}
-
-					NewtonianMovement = momentum;
-					SetLocalTarget = new Vector3WithData()
-					{
-						Vector3 = ToResetTo,
-						ByClient = NetId.Empty,
-						Matrix = matrixID
-					};
-					InternalTriggerOnLocalTileReached(resetToLocal.RoundToInt());
-
-					if (Animating == false)
-					{
-						Animating = true;
-						UpdateManager.Add(CallbackType.EARLY_UPDATE, AnimationUpdateMe);
-					}
-
-					if (NewtonianMovement.magnitude > 0)
-					{
-						StartFlyingUpdateMe();
-					}
+					CorrectingCourse = true;
+					UpdateManager.Add(CallbackType.EARLY_UPDATE, FloatingCourseCorrection);
 				}
+
+				var ToResetTo = resetToLocal;
+
+				if (localTarget != null)
+				{
+					ToResetTo = localTarget.Value;
+				}
+
+				NewtonianMovement = momentum;
+				if (NewtonianMovement.sqrMagnitude > 0)
+				{
+					doNotApplyMomentumOnTarget = true;
+				}
+
+				SetLocalTarget = new Vector3WithData()
+				{
+					Vector3 = ToResetTo,
+					ByClient = NetId.Empty,
+					Matrix = matrixID
+				};
+				InternalTriggerOnLocalTileReached(resetToLocal.RoundToInt());
+
+				if (Animating == false)
+				{
+					Animating = true;
+					UpdateManager.Add(CallbackType.EARLY_UPDATE, AnimationUpdateMe);
+				}
+
+				if (NewtonianMovement.magnitude > 0)
+				{
+					StartFlyingUpdateMe();
+				}
+
 			}
 			else
 			{
+
 				var ToResetTo = resetToLocal;
-				if (IsFlyingSliding && momentum.magnitude > 0)
+				SetTransform(resetToLocal, false);
+				InternalTriggerOnLocalTileReached(resetToLocal.RoundToInt());
+				if (localTarget != null)
 				{
-					NewtonianMovement = momentum;
-					SetTransform(resetToLocal, false);
-					InternalTriggerOnLocalTileReached(resetToLocal.RoundToInt());
-				}
-				else
-				{
-					if (localTarget != null)
-					{
-						ToResetTo = localTarget.Value;
-					}
+					ToResetTo = localTarget.Value;
 				}
 
 				NewtonianMovement = momentum;
@@ -786,6 +775,7 @@ namespace Core.Physics
 		{
 			if (isServer == false) return;
 			SetLastResetID = Time.frameCount;
+
 			RPCForceSetPosition(transform.localPosition, NewtonianMovement, LocalTargetPosition, smooth,
 				registerTile.Matrix.Id,
 				rotationTarget.localRotation.eulerAngles.z, SetLastResetID, ignoreForClient);
@@ -816,6 +806,12 @@ namespace Core.Physics
 			{
 				Pulling.Component.ResetLocationOnClient(client, smooth);
 			}
+
+			if (ObjectIsBuckling != null && ObjectIsBuckling.Pulling.HasComponent)
+			{
+				ObjectIsBuckling.Pulling.Component.ResetLocationOnClients(smooth);
+			}
+
 			//Update client to server state
 		}
 
@@ -1058,7 +1054,7 @@ namespace Core.Physics
 			if (isServer)
 			{
 				LastUpdateClientFlying = NetworkTime.time;
-				;		UpdateClientMomentum(transform.localPosition, NewtonianMovement, airTime, this.slideTime, inAim,
+				UpdateClientMomentum(transform.localPosition, NewtonianMovement, airTime, this.slideTime, inAim,
 					registerTile.Matrix.Id, spinFactor, true, NetId.Empty, TimeSpentFlying);
 			}
 		}
@@ -1231,6 +1227,7 @@ namespace Core.Physics
 				TimeSpentFlying = 0;
 				LastUpdateClientFlying = NetworkTime.time;
 				UpdateManager.Add(CallbackType.EARLY_UPDATE, FlyingUpdateMe);
+
 				if (Animating)
 				{
 					Animating = false;
@@ -1239,6 +1236,7 @@ namespace Core.Physics
 				}
 			}
 		}
+
 
 		private void NewtonianNaNCorrection()
 		{
@@ -1457,6 +1455,7 @@ namespace Core.Physics
 			var intNewPosition = newPosition.RoundToInt();
 			rotationTarget.Rotate(new Vector3(0, 0, spinMagnitude * NewtonianMovement.magnitude * Time.deltaTime));
 			var movetoMatrix = MatrixManager.AtPoint(newPosition.RoundToInt(), isServer).Matrix;
+			LocalTargetPosition = transform.localPosition;
 
 			if (intPosition != intNewPosition)
 			{
@@ -1526,16 +1525,18 @@ namespace Core.Physics
 					ProcessThingsToHit();
 				}
 
-				var localPosition = newPosition.ToLocal(movetoMatrix);
+				var localPosition = transform.localPosition;
+
 				InternalTriggerOnLocalTileReached(localPosition.RoundToInt());
 			}
 
 			if (isVisible == false) return;
 			var cachedPosition = this.transform.position;
 			SetTransform(newPosition, true);
+
 			if (registerTile.Matrix != movetoMatrix)
 			{
-				SetMatrix(movetoMatrix);
+				SetMatrix(movetoMatrix, false);
 			}
 
 			if (isServer && NetworkTime.time - LastUpdateClientFlying > 2) //We only need correction for that item

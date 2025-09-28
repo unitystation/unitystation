@@ -312,6 +312,7 @@ namespace Core.Physics
 				if (inDirection.magnitude > 2f && isServer)
 				{
 					PullSet(null, false, ResetForcePosition: true);
+					Pulling.Component.ResetLocationOnClients(true);
 				}
 				else
 				{
@@ -429,6 +430,7 @@ namespace Core.Physics
 			if (Validations.CanApply(clientWhoAsked.Script, gameObject, NetworkSide.Server
 				    , apt: Validations.CheckState(x => x.CanPull), reachRange: reachRange) == false)
 			{
+				PullSet(null, false);
 				pullable.ResetLocationOnClients();
 				return;
 			}

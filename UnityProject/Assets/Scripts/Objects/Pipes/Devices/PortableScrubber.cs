@@ -147,7 +147,7 @@ public class PortableScrubber : MonoBehaviour, ICheckedInteractable<HandApply>
 
 		var energyTotal = 0f;
 		var totalMoles = 0f;
-		var localPosition = UniversalObjectPhysics.LocalTargetPosition.RoundToInt();
+		var localPosition = transform.localPosition.RoundToInt();
 
 		foreach (var offsetPosition in RelativePositionsToScrub)
 		{
