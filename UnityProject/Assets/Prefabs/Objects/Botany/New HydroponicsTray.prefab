@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300002, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
+  m_Sprite: {fileID: 21300004, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -303,7 +303,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300002, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
+  m_Sprite: {fileID: 21300004, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -416,7 +416,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300002, guid: aea86856306566d43bfb7f194de93f06, type: 3}
+  m_Sprite: {fileID: 21300004, guid: aea86856306566d43bfb7f194de93f06, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -529,7 +529,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300002, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
+  m_Sprite: {fileID: 21300004, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -781,7 +781,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ReactionSounds: 1
-  maxCapacity: 60
+  maxCapacity: 85
   DEBUGReagent: {fileID: 0}
   DEBUGAmount: 0
   StopReactions: 0
@@ -886,6 +886,7 @@ MonoBehaviour:
   waterNotifier: {fileID: 6485752293267675454}
   nutrimentNotifier: {fileID: 6019309559584754933}
   tickRate: 1
+  RandomisedReagents: 1
 --- !u!114 &-7608530819517167522
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -59,7 +59,7 @@ namespace Objects.Botany
 		[SerializeField] private SpriteHandler waterNotifier = null;
 		[SerializeField] private SpriteHandler nutrimentNotifier = null;
 		[SerializeField] private float tickRate = 0;
-
+		[SerializeField] private bool RandomisedReagents = true;
 		private PlantData plantData;
 		public PlantData PlantData => plantData;
 
@@ -78,6 +78,18 @@ namespace Objects.Botany
 			weedNotifier.PushClear();
 			nutrimentNotifier.PushClear();
 			harvestNotifier.PushClear();
+
+			if (RandomisedReagents)
+			{
+				reagentContainer.TakeReagents(99);
+				var mix = new ReagentMix();
+				mix.Add(water, RNG.GetRandomNumber(1f, 30f));
+				mix.Add(nutriment, RNG.GetRandomNumber(1f, 30f));
+				reagentContainer.Add(mix);
+			}
+
+			weedLevel = RNG.GetRandomNumber(0f, 4f);
+			pestLevel = RNG.GetRandomNumber(0f, 4f);
 		}
 
 		public override void OnStartServer()
@@ -197,21 +209,21 @@ namespace Objects.Botany
 					plantData.Health += (((plantData.WeedResistance - 110f) / 100f) * (weedLevel / 10f) * 5);
 					//Loggy.Log("plantData.weed > " + plantData.PlantHealth);
 				}
-				
+
 				if (pestLevel > 10)
 				{
 					plantData.Health -= 0.5f;
 				}
 				else
 				{
-					pestLevel += 0.01f;
+					pestLevel += 0.001f;
 				}
 
 
 				//Water Checks
 				if (reagentContainer[water] > 0)
 				{
-					reagentContainer.Subtract(new ReagentMix(water, .05f));
+					reagentContainer.Subtract(new ReagentMix(water, .03f));
 				}
 				else if (plantData.PlantTrays.Contains(PlantTrays.Fungal_Vitality) == false)
 				{
@@ -233,7 +245,7 @@ namespace Objects.Botany
 							{
 								if (reagentContainer[nutriment] > 0)
 								{
-									reagentContainer.Subtract(new ReagentMix(nutriment, 2f));
+									reagentContainer.Subtract(new ReagentMix(nutriment, 0.75f));
 								}
 							}
 
