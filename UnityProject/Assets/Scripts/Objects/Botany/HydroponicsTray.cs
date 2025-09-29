@@ -474,6 +474,7 @@ namespace Objects.Botany
 			}
 
 			growingPlantStage = 0;
+			pestLevel = 0;
 			plantCurrentStage = PlantSpriteStage.Dead;
 			UpdateSprite();
 			plantData = null;
