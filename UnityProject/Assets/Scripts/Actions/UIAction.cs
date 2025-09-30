@@ -1,4 +1,6 @@
-﻿using Logs;
+﻿using System.Linq;
+using HealthV2;
+using Logs;
 using UI.Core.Action;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -22,6 +24,9 @@ namespace UI.Action
 		public ActionData ActionData => actionData;
 		private Vector3 lastClickPosition = default;
 		public Vector3 LastClickPosition => lastClickPosition;
+
+
+
 
 		#region Lifecycle
 
@@ -126,6 +131,14 @@ namespace UI.Action
 
 		public void RunActionWithClick(Vector3 clickPosition)
 		{
+			if (actionData.RequireLivingHealth)
+			{
+				if (MatrixManager
+				    .GetAt<LivingHealthMasterBase>(clickPosition.RoundToInt(), CustomNetworkManager.IsServer).Any() == false)
+				{
+					return;
+				}
+			}
 			Toggle(); // Toggle button off after it is used. Could be removed if this is not desired.
 			lastClickPosition = clickPosition;
 			UseAction();

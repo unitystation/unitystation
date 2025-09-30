@@ -68,6 +68,8 @@ public class ActionData : ScriptableObject
 	public CursorOffsetType OffsetType => cursorOffsetType;
 	public Vector2 CursorOffset => cursorOffset;
 
+	public bool RequireLivingHealth = false;
+
 	public override string ToString()
 	{
 		if (SpellList.Instance && this == SpellList.Instance.InvalidData)
