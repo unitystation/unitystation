@@ -166,6 +166,12 @@ namespace Objects.Botany
 				plantData.Health -= 1;
 			}
 
+			if (reagentContainer[mutagen] >= 5)
+			{
+				reagentContainer.Subtract(new ReagentMix(mutagen, 5));
+				plantData.Mutation();
+			}
+
 		}
 
 		/// <summary>
@@ -210,13 +216,17 @@ namespace Objects.Botany
 					//Loggy.Log("plantData.weed > " + plantData.PlantHealth);
 				}
 
-				if (pestLevel > 10)
+				if (isSoilPile == false)
 				{
-					plantData.Health -= 0.5f;
-				}
-				else
-				{
-					pestLevel += 0.001f;
+					if (pestLevel > 10)
+					{
+						plantData.Health -= 0.5f;
+					}
+					else
+					{
+						pestLevel += 0.001f;
+					}
+
 				}
 
 
@@ -549,29 +559,6 @@ namespace Objects.Botany
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			var slot = interaction.HandSlot;
-
-			//If hand slot contains mutagen, use 5 mutagen mutate plant
-			if (HasPlant)
-			{
-				if (plantData.MutatesInToGameObject.Count > 0)
-				{
-					var objectContainer = slot?.Item.OrNull()?.GetComponent<ReagentContainer>();
-					if (objectContainer != null)
-					{
-						objectContainer.MoveReagentsTo(5, reagentContainer);
-						Chat.AddActionMsgToChat(interaction.Performer,
-							$"You add reagents to the {gameObject.ExpensiveName()}.",
-							$"{interaction.Performer.name} adds reagents to the {gameObject.ExpensiveName()}.");
-						if (reagentContainer[mutagen] >= 5)
-						{
-							reagentContainer.Subtract(new ReagentMix(mutagen, 5));
-							plantData.Mutation();
-							return;
-						}
-					}
-				}
-			}
-
 
 			var objectItemAttributes = slot?.Item.OrNull()?.GetComponent<ItemAttributesV2>();
 			if (objectItemAttributes != null)
