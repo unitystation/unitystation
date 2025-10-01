@@ -8,9 +8,20 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 25917947699532951, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: SyncDoorUpdateType
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1587285914693216056, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8eb57d16d0d360b47909d6bc144b3bbe,
+        type: 2}
+    - target: {fileID: 1587285914693216056, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 8eb57d16d0d360b47909d6bc144b3bbe,
         type: 2}
