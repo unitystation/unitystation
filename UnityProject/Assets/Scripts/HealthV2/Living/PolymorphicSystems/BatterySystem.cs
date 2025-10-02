@@ -241,7 +241,7 @@ namespace HealthV2.Living.PolymorphicSystems
 				{
 					foreach (var cell in batteryPack.Cells)
 					{
-						cell.Watts = Mathf.RoundToInt((cell.Watts * adjustmentFactor)) ;
+						cell.Watts = Mathf.RoundToInt(Mathf.Floor(cell.Watts * adjustmentFactor)) ;
 					}
 				}
 
