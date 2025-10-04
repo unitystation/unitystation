@@ -312,6 +312,7 @@ namespace Core.Physics
 				if (inDirection.magnitude > 2f && isServer)
 				{
 					PullSet(null, false, ResetForcePosition: true);
+					Pulling.Component.ResetLocationOnClients(true);
 				}
 				else
 				{
@@ -426,9 +427,10 @@ namespace Core.Physics
 				reachRange = ReachRange.Telekinesis;
 			}
 
-			if (Validations.CanApply(clientWhoAsked.Script, gameObject, NetworkSide.Server
+			if (Validations.CanApply(clientWhoAsked.Script, pullableObject.gameObject, NetworkSide.Server
 				    , apt: Validations.CheckState(x => x.CanPull), reachRange: reachRange) == false)
 			{
+				PullSet(null, false);
 				pullable.ResetLocationOnClients();
 				return;
 			}

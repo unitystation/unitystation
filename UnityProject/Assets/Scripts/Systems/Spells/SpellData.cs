@@ -85,6 +85,8 @@ namespace ScriptableObjects.Systems.Spells
 		[SerializeField, BoxGroup("Summoning"), ShowIf(nameof(WillSummonThing))]
 		private bool replaceExisting = false;
 
+		public bool AllowSoftCriticalUses = true;
+
 		public string StillRechargingMessage => stillRechargingMessage;
 		public SpellChargeType ChargeType => chargeType;
 		public float CooldownTime => cooldownTime;

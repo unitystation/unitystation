@@ -105,123 +105,160 @@ public class GUI_PlantDNAManipulator : NetTab
 				AbilityInjectobject.MasterNetSetActive(false);
 			}
 
-			if (PlantDNAManipulator.SeedPacket != null)
+			bool Seed = PlantDNAManipulator.SeedPacket != null;
+
+
+			if (PlantDNAManipulator.PlantDNADataDisc.LoadedData.Potency != -1)
 			{
-				if (PlantDNAManipulator.PlantDNADataDisc.LoadedData.Potency != -1)
+				if (Seed)
 				{
 					PotencyB.MasterNetSetActive(true);
 					PotencyBT.MasterSetValue("Inject " + PlantDNAManipulator.PlantDNADataDisc.LoadedData.Potency);
-					CartridgeText.MasterSetValue("Potency " + PlantDNAManipulator.PlantDNADataDisc.LoadedData.Potency);
-				}
-				else
-				{
-					PotencyBT.MasterSetValue("Extract");
 				}
 
+				CartridgeText.MasterSetValue("Potency " + PlantDNAManipulator.PlantDNADataDisc.LoadedData.Potency);
+			}
+			else if (Seed)
+			{
+				PotencyBT.MasterSetValue("Extract");
+			}
 
-				if (PlantDNAManipulator.PlantDNADataDisc.LoadedData.Yield != -1)
+
+			if (PlantDNAManipulator.PlantDNADataDisc.LoadedData.Yield != -1)
+			{
+				if (Seed)
 				{
 					YieldB.MasterNetSetActive(true);
 					YieldBT.MasterSetValue("Inject " + PlantDNAManipulator.PlantDNADataDisc.LoadedData.Yield);
-					CartridgeText.MasterSetValue("Yield " + PlantDNAManipulator.PlantDNADataDisc.LoadedData.Yield);
-				}
-				else
-				{
-					YieldBT.MasterSetValue("Extract");
 				}
 
+				CartridgeText.MasterSetValue("Yield " + PlantDNAManipulator.PlantDNADataDisc.LoadedData.Yield);
+			}
+			else if (Seed)
+			{
+				YieldBT.MasterSetValue("Extract");
+			}
 
-				if (PlantDNAManipulator.PlantDNADataDisc.LoadedData.GrowthSpeed != -1)
+
+			if (PlantDNAManipulator.PlantDNADataDisc.LoadedData.GrowthSpeed != -1)
+			{
+				if (Seed)
 				{
 					ProductionSpeedB.MasterNetSetActive(true);
 					ProductionSpeedBT.MasterSetValue("Inject " +
 					                                 PlantDNAManipulator.PlantDNADataDisc.LoadedData.GrowthSpeed);
-					CartridgeText.MasterSetValue("Production Speed " +
-					                             PlantDNAManipulator.PlantDNADataDisc.LoadedData.GrowthSpeed);
-				}
-				else
-				{
-					ProductionSpeedBT.MasterSetValue("Extract");
 				}
 
+				CartridgeText.MasterSetValue("Production Speed " +
+				                             PlantDNAManipulator.PlantDNADataDisc.LoadedData.GrowthSpeed);
+			}
+			else if (Seed)
+			{
+				ProductionSpeedBT.MasterSetValue("Extract");
+			}
 
-				if (PlantDNAManipulator.PlantDNADataDisc.LoadedData.Endurance != -1)
+
+			if (PlantDNAManipulator.PlantDNADataDisc.LoadedData.Endurance != -1)
+			{
+				if (Seed)
 				{
 					enduranceB.MasterNetSetActive(true);
 					enduranceBT.MasterSetValue("Inject " + PlantDNAManipulator.PlantDNADataDisc.LoadedData.Endurance);
-					CartridgeText.MasterSetValue("Endurance " +
-					                             PlantDNAManipulator.PlantDNADataDisc.LoadedData.Endurance);
-				}
-				else
-				{
-					enduranceBT.MasterSetValue("Extract");
 				}
 
-				if (PlantDNAManipulator.PlantDNADataDisc.LoadedData.Lifespan != -1)
+				CartridgeText.MasterSetValue("Endurance " +
+				                             PlantDNAManipulator.PlantDNADataDisc.LoadedData.Endurance);
+			}
+			else if (Seed)
+			{
+				enduranceBT.MasterSetValue("Extract");
+			}
+
+			if (PlantDNAManipulator.PlantDNADataDisc.LoadedData.Lifespan != -1)
+			{
+				if (Seed)
 				{
 					LifespanB.MasterNetSetActive(true);
 					LifespanBT.MasterSetValue("Inject " + PlantDNAManipulator.PlantDNADataDisc.LoadedData.Lifespan);
-					CartridgeText.MasterSetValue("Lifespan " +
-					                             PlantDNAManipulator.PlantDNADataDisc.LoadedData.Lifespan);
-				}
-				else
-				{
-					LifespanBT.MasterSetValue("Extract");
 				}
 
-				if (PlantDNAManipulator.PlantDNADataDisc.LoadedData.WeedResistance != -1)
+				CartridgeText.MasterSetValue("Lifespan " +
+				                             PlantDNAManipulator.PlantDNADataDisc.LoadedData.Lifespan);
+			}
+			else if (Seed)
+			{
+				LifespanBT.MasterSetValue("Extract");
+			}
+
+			if (PlantDNAManipulator.PlantDNADataDisc.LoadedData.WeedResistance != -1)
+			{
+				if (Seed)
 				{
 					WeedResistanceB.MasterNetSetActive(true);
 					WeedResistanceBT.MasterSetValue("Inject " +
 					                                PlantDNAManipulator.PlantDNADataDisc.LoadedData.WeedResistance);
-					CartridgeText.MasterSetValue("Weed Resistance " +
-					                             PlantDNAManipulator.PlantDNADataDisc.LoadedData.WeedResistance);
-				}
-				else
-				{
-					WeedResistanceBT.MasterSetValue("Extract");
 				}
 
-				if (PlantDNAManipulator.PlantDNADataDisc.LoadedData.WeedGrowthRate != -1)
+				CartridgeText.MasterSetValue("Weed Resistance " +
+				                             PlantDNAManipulator.PlantDNADataDisc.LoadedData.WeedResistance);
+			}
+			else if (Seed)
+			{
+				WeedResistanceBT.MasterSetValue("Extract");
+			}
+
+			if (PlantDNAManipulator.PlantDNADataDisc.LoadedData.WeedGrowthRate != -1)
+			{
+				if (Seed)
 				{
 					WeedGrowthRateB.MasterNetSetActive(true);
 					WeedGrowthRateBT.MasterSetValue("Inject " +
 					                                PlantDNAManipulator.PlantDNADataDisc.LoadedData.WeedGrowthRate);
-					CartridgeText.MasterSetValue("Weed Growth Rate " +
-					                             PlantDNAManipulator.PlantDNADataDisc.LoadedData.WeedGrowthRate);
-				}
-				else
-				{
-					WeedGrowthRateBT.MasterSetValue("Extract");
 				}
 
+				CartridgeText.MasterSetValue("Weed Growth Rate " +
+				                             PlantDNAManipulator.PlantDNADataDisc.LoadedData.WeedGrowthRate);
+			}
+			else if (Seed)
+			{
+				WeedGrowthRateBT.MasterSetValue("Extract");
+			}
 
-				if (PlantDNAManipulator.PlantDNADataDisc.LoadedData.ReagentProduction.Count > 0)
+
+			if (PlantDNAManipulator.PlantDNADataDisc.LoadedData.ReagentProduction.Count > 0)
+			{
+				var Reagent = PlantDNAManipulator.PlantDNADataDisc.LoadedData.ReagentProduction[0];
+				if (Seed)
 				{
-					var Reagent = PlantDNAManipulator.PlantDNADataDisc.LoadedData.ReagentProduction[0];
+
 					ReagentInjectobject.MasterNetSetActive(true);
 					ReagentInjectText.MasterSetValue("Inject " + Reagent.ChemistryReagent.name + " " +
 					                                 Reagent.percentage);
-					CartridgeText.MasterSetValue("Produce " + Reagent.ChemistryReagent.name + " " + Reagent.percentage);
-				}
-				else
-				{
-					ReagentInjectobject.MasterNetSetActive(false);
-					ReagentInjectText.MasterSetValue("Extract");
 				}
 
-				if (PlantDNAManipulator.PlantDNADataDisc.LoadedData.PlantTrays.Count > 0)
+				CartridgeText.MasterSetValue("Produce " + Reagent.ChemistryReagent.name + " " + Reagent.percentage);
+			}
+			else if (Seed)
+			{
+				ReagentInjectobject.MasterNetSetActive(false);
+				ReagentInjectText.MasterSetValue("Extract");
+			}
+
+			if (PlantDNAManipulator.PlantDNADataDisc.LoadedData.PlantTrays.Count > 0)
+			{
+				var Trey = PlantDNAManipulator.PlantDNADataDisc.LoadedData.PlantTrays[0];
+				if (Seed)
 				{
-					var Trey = PlantDNAManipulator.PlantDNADataDisc.LoadedData.PlantTrays[0];
 					AbilityInjectobject.MasterNetSetActive(true);
 					AbilityInjectText.MasterSetValue("Inject " + Trey);
-					CartridgeText.MasterSetValue("Trait  " + Trey);
 				}
-				else
-				{
-					AbilityInjectobject.MasterNetSetActive(false);
-					AbilityInjectText.MasterSetValue("Extract");
-				}
+
+				CartridgeText.MasterSetValue("Trait  " + Trey);
+			}
+			else if (Seed)
+			{
+				AbilityInjectobject.MasterNetSetActive(false);
+				AbilityInjectText.MasterSetValue("Extract");
 			}
 		}
 		else

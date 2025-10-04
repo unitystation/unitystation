@@ -313,6 +313,8 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 				mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
 				Camera2DFollow.followControl.cam.cullingMask = mask;
 				UIManager.Display.RejoinedEvent();
+
+				HandsController.Instance.PickAcctiveHandController();
 			}
 			//Players like blob or Ai
 			else

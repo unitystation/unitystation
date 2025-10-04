@@ -24,6 +24,25 @@ namespace Player
 		public void UpdateLightLocally()
 		{
 			light.Color = lightColor;
+
+			UpdateSize();
+		}
+
+		public void UpdateSize()
+		{
+			var Scale = light.gameObject.transform.localScale;
+			Scale = Vector3.one *4;
+
+			if (light.Color.a == 0)
+			{
+				Scale = Vector3.zero;
+			}
+			else
+			{
+				Scale = (light.Color.a / 0.0392156877f) * Scale;
+			}
+
+			light.gameObject.transform.localScale = Scale;
 		}
 
 		public void TurnOffLight2D()
@@ -40,6 +59,7 @@ namespace Player
 		public void ResetToDefault()
 		{
 			lightColor = defaultColor;
+			UpdateSize();
 		}
 	}
 }

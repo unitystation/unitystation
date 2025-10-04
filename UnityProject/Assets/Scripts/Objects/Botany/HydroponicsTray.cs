@@ -59,7 +59,7 @@ namespace Objects.Botany
 		[SerializeField] private SpriteHandler waterNotifier = null;
 		[SerializeField] private SpriteHandler nutrimentNotifier = null;
 		[SerializeField] private float tickRate = 0;
-
+		[SerializeField] private bool RandomisedReagents = true;
 		private PlantData plantData;
 		public PlantData PlantData => plantData;
 
@@ -78,6 +78,18 @@ namespace Objects.Botany
 			weedNotifier.PushClear();
 			nutrimentNotifier.PushClear();
 			harvestNotifier.PushClear();
+
+			if (RandomisedReagents)
+			{
+				reagentContainer.TakeReagents(99);
+				var mix = new ReagentMix();
+				mix.Add(water, RNG.GetRandomNumber(1f, 30f));
+				mix.Add(nutriment, RNG.GetRandomNumber(1f, 30f));
+				reagentContainer.Add(mix);
+			}
+
+			weedLevel = RNG.GetRandomNumber(0f, 4f);
+			pestLevel = RNG.GetRandomNumber(0f, 4f);
 		}
 
 		public override void OnStartServer()
@@ -154,6 +166,12 @@ namespace Objects.Botany
 				plantData.Health -= 1;
 			}
 
+			if (reagentContainer[mutagen] >= 5)
+			{
+				reagentContainer.Subtract(new ReagentMix(mutagen, 5));
+				plantData.Mutation();
+			}
+
 		}
 
 		/// <summary>
@@ -197,21 +215,25 @@ namespace Objects.Botany
 					plantData.Health += (((plantData.WeedResistance - 110f) / 100f) * (weedLevel / 10f) * 5);
 					//Loggy.Log("plantData.weed > " + plantData.PlantHealth);
 				}
-				
-				if (pestLevel > 10)
+
+				if (isSoilPile == false)
 				{
-					plantData.Health -= 0.5f;
-				}
-				else
-				{
-					pestLevel += 0.01f;
+					if (pestLevel > 10)
+					{
+						plantData.Health -= 0.5f;
+					}
+					else
+					{
+						pestLevel += 0.001f;
+					}
+
 				}
 
 
 				//Water Checks
 				if (reagentContainer[water] > 0)
 				{
-					reagentContainer.Subtract(new ReagentMix(water, .05f));
+					reagentContainer.Subtract(new ReagentMix(water, .03f));
 				}
 				else if (plantData.PlantTrays.Contains(PlantTrays.Fungal_Vitality) == false)
 				{
@@ -233,7 +255,7 @@ namespace Objects.Botany
 							{
 								if (reagentContainer[nutriment] > 0)
 								{
-									reagentContainer.Subtract(new ReagentMix(nutriment, 2f));
+									reagentContainer.Subtract(new ReagentMix(nutriment, 0.75f));
 								}
 							}
 
@@ -462,6 +484,7 @@ namespace Objects.Botany
 			}
 
 			growingPlantStage = 0;
+			pestLevel = 0;
 			plantCurrentStage = PlantSpriteStage.Dead;
 			UpdateSprite();
 			plantData = null;
@@ -536,29 +559,6 @@ namespace Objects.Botany
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			var slot = interaction.HandSlot;
-
-			//If hand slot contains mutagen, use 5 mutagen mutate plant
-			if (HasPlant)
-			{
-				if (plantData.MutatesInToGameObject.Count > 0)
-				{
-					var objectContainer = slot?.Item.OrNull()?.GetComponent<ReagentContainer>();
-					if (objectContainer != null)
-					{
-						objectContainer.MoveReagentsTo(5, reagentContainer);
-						Chat.AddActionMsgToChat(interaction.Performer,
-							$"You add reagents to the {gameObject.ExpensiveName()}.",
-							$"{interaction.Performer.name} adds reagents to the {gameObject.ExpensiveName()}.");
-						if (reagentContainer[mutagen] >= 5)
-						{
-							reagentContainer.Subtract(new ReagentMix(mutagen, 5));
-							plantData.Mutation();
-							return;
-						}
-					}
-				}
-			}
-
 
 			var objectItemAttributes = slot?.Item.OrNull()?.GetComponent<ItemAttributesV2>();
 			if (objectItemAttributes != null)

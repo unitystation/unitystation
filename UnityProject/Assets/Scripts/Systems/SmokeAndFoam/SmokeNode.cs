@@ -80,10 +80,11 @@ public class SmokeNode : SpreadNode
 
 	public override void Update()
 	{
-		//TODO apply reagents to people and stuff??
+		//TODO apply reagents to ~~people~~ and stuff??
 		//but lag?
 		//but Applying to items
 		//not yet
+		//People will breathe in the smoke now, Handled in lungs
 
 		PresentTimeCount += 1;
 		if (PresentTimeCount > MaxTimePresent)

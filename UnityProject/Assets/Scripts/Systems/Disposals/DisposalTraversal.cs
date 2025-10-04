@@ -5,6 +5,7 @@ using UnityEngine;
 using Objects.Disposals;
 using AddressableReferences;
 using Core;
+using Logs;
 using Random = UnityEngine.Random;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
@@ -73,19 +74,19 @@ namespace Systems.Disposals
 			{
 				case MoveAction.MoveUp:
 					currentPipeOutputSide = Orientation.Up;
-					nextPipeRequiredSide = GetConnectedSide(currentPipeOutputSide, true).AsEnum();
+					nextPipeRequiredSide = GetConnectedSide(currentPipeOutputSide, false).AsEnum();
 					break;
 				case MoveAction.MoveLeft:
 					currentPipeOutputSide = Orientation.Left;
-					nextPipeRequiredSide = GetConnectedSide(currentPipeOutputSide, true).AsEnum();
+					nextPipeRequiredSide = GetConnectedSide(currentPipeOutputSide, false).AsEnum();
 					break;
 				case MoveAction.MoveDown:
 					currentPipeOutputSide = Orientation.Down;
-					nextPipeRequiredSide = GetConnectedSide(currentPipeOutputSide, true).AsEnum();
+					nextPipeRequiredSide = GetConnectedSide(currentPipeOutputSide, false).AsEnum();
 					break;
 				case MoveAction.MoveRight:
 					currentPipeOutputSide = Orientation.Right;
-					nextPipeRequiredSide = GetConnectedSide(currentPipeOutputSide, true).AsEnum();
+					nextPipeRequiredSide = GetConnectedSide(currentPipeOutputSide, false).AsEnum();
 					break;
 				case MoveAction.NoMove:
 					break;
@@ -162,7 +163,10 @@ namespace Systems.Disposals
 			foreach (DisposalPipe pipe in matrix.GetDisposalPipesAt(localPosition))
 			{
 				if (type != null && (pipe.PipeType != type.Value && virtualContainer.SelfControlled == false)) continue;
-				if (requiredSide != null && pipe.ConnectablePoints.ContainsKey(requiredSide.Value) == false && virtualContainer.SelfControlled == false) continue;
+				if (requiredSide != null && pipe.ConnectablePoints.ContainsKey(requiredSide.Value) == false)
+				{
+					continue;
+				}
 
 				return pipe;
 			}

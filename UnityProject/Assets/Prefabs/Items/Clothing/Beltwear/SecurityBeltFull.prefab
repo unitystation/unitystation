@@ -8,6 +8,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 503100812507854743, guid: 0c2ee0b3b98be9a47b3eaf08b0748b17,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 5420268285938378624}
     - target: {fileID: 794878009134055549, guid: 0c2ee0b3b98be9a47b3eaf08b0748b17,
         type: 3}
       propertyPath: parentID
@@ -94,8 +99,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5377557db35c44e9f9de1e2518aea5a2,
         type: 2}
+    - target: {fileID: 6660843412095075786, guid: 0c2ee0b3b98be9a47b3eaf08b0748b17,
+        type: 3}
+      propertyPath: itemStorageStructure
+      value: 
+      objectReference: {fileID: 11400000, guid: e8b6fa61b6bdb4b8aa2833a751dfc487,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c2ee0b3b98be9a47b3eaf08b0748b17, type: 3}
+--- !u!212 &5420268285938378624 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5858256426857283404, guid: 0c2ee0b3b98be9a47b3eaf08b0748b17,
+    type: 3}
+  m_PrefabInstance: {fileID: 1906179772188596428}
+  m_PrefabAsset: {fileID: 0}

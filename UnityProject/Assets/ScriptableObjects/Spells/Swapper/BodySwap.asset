@@ -29,6 +29,7 @@ MonoBehaviour:
   cursorTexture: {fileID: 2800000, guid: dc9c4014da7b32246b228810d6ec6a1b, type: 3}
   cursorOffsetType: 0
   cursorOffset: {x: 0, y: 0}
+  RequireLivingHealth: 1
   spellImplementation: {fileID: 409063178857974263, guid: 34757906d1065954d8d5785769150fd7,
     type: 3}
   chargeType: 0
@@ -54,3 +55,4 @@ MonoBehaviour:
   summonPosition: 1
   summonLifespan: 10
   replaceExisting: 0
+  AllowSoftCriticalUses: 0
