@@ -52,7 +52,8 @@ Shader "Stencil/Unlit background masked"
             {
                 float4 vertex : SV_POSITION;
                 half2 texcoord : TEXCOORD0;
-                half2 screencoord : TEXCOORD1;
+                float2 spritecoord : TEXCOORD1;
+                half2 screencoord : TEXCOORD2;
                 float4 color : COLOR;
             };
 
@@ -77,6 +78,7 @@ Shader "Stencil/Unlit background masked"
             v2f vert(appdata_t v)
             {
                 v2f o;
+                o.spritecoord = v.vertex.xy;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
                 o.screencoord = (ComputeScreenPos(o.vertex) - 0.5 + _ObjectFovMaskTransformation.xy) *
@@ -116,9 +118,27 @@ Shader "Stencil/Unlit background masked"
                 fixed4 shadowSample = tex2D(_MainTex, shadowUV);
                 float shadowAlpha = step(0.99, shadowSample.a) * alphaFactor * i.color.a * _ShadowAlpha;
 
+                
+                float2 fraccoord = (i.spritecoord.xy % float2(1,1)) + float2(0.5f,0.5f);
+                if(abs(i.spritecoord.x) > 1 || abs(i.spritecoord.y) > 1)
+                {
+                    fraccoord = ((i.spritecoord.xy + float2(0.5f,0.5f)) % float2(1,1));
+                    //Tile maps are centered on 0.5f, 0.5f not 0,0 and also extend beyond 1,1. So we test and correct here
+                }
+
+                float2 shadowDirection = sign(_ShadowOffset) * float2(1, 1);
+                float2 edgeThresholds =  ((0.99 * shadowDirection) + float2(1.0f,1.0f)) / float2(2.0f, 2.0f);
+                //Turns -1 into 0.005 and +1 into 0.995
+                if((shadowDirection.x < 0 && fraccoord.x <= edgeThresholds.x) || (shadowDirection.x > 0 && fraccoord.x > edgeThresholds.x)
+                || (shadowDirection.y < 0 && fraccoord.y <= edgeThresholds.y) || (shadowDirection.y > 0 && fraccoord.y > edgeThresholds.y))
+                {
+                    shadowAlpha = 0;
+                }
+               
+                    
                 fixed4 shadowColor = _ShadowColor;
                 shadowColor.a *= shadowAlpha;
-
+                
                 // First draw shadow
                 fixed4 output = shadowColor;
                 // Then overlay sprite
