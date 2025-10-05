@@ -229,7 +229,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			&& playerScript.RegisterPlayer.IsSlippingServer == false) {
 			playerScript.playerMove.ServerAllowInput.RemovePosition(this);
 		}
-
+		playerScript.playerMove.ServerAllowInput.RemovePosition(this);
 		IsRolling = false;
 		yield return null;
 	}
@@ -428,7 +428,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			{
 				return;
 			}
-			
+
 			if (Validations.IsReachableByRegisterTiles(playerMove.registerTile, playerMove.Pulling.Component.registerTile, true,
 				    context: gameObject, interactDist: interactDist)== false)
 			{

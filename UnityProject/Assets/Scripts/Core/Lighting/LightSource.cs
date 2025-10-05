@@ -334,7 +334,7 @@ namespace Objects.Lighting
 			}
 		}
 
-		#region ICheckedInteractable<HandApply>
+		                     #region ICheckedInteractable<HandApply>
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
