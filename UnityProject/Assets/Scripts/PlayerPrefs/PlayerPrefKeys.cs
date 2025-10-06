@@ -215,6 +215,13 @@
 	/// </summary>
 	public static readonly string ChatBackgroundMinimumAlpha = "ChatBackgroundMinimumAlpha";
 
+	/// <summary>
+	/// Chat Background visibility
+	/// 0 = Invisible
+	/// 1 = Visible
+	/// </summary>
+	public static readonly string ItemDropShadow = "ItemDropShadow";
+
 	public static readonly string HoverTooltipDelayKey = "hoverTooltipDelay";
 
 	public static readonly string ThrowHoldPreference = "ThrowHoldPreference";
