@@ -20,7 +20,7 @@ namespace HealthV2
 		public override void FinnishSurgeryProcedure(BodyPart OnBodyPart, HandApply interaction,
 			PresentProcedure presentProcedure)
 		{
-			if (presentProcedure.RelatedBodyPart.ContainedIn != null)
+			if (presentProcedure.RelatedBodyPart.ContainedIn != null && presentProcedure.RelatedBodyPart.ContainedIn.IsOpenAir == false)
 			{
 				presentProcedure.isOn.currentlyOn = presentProcedure.RelatedBodyPart.ContainedIn.gameObject;
 				presentProcedure.RelatedBodyPart = presentProcedure.RelatedBodyPart.ContainedIn;
