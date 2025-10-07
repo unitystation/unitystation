@@ -9,6 +9,7 @@ using Core;
 using Items;
 using Items.Botany;
 using Logs;
+using Objects.Machines;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Botany
@@ -69,7 +70,15 @@ namespace Objects.Botany
 		private float pestLevel;
 
 
+		private Machine Machine;
+
+
 		#region Lifecycle
+
+		public void Awake()
+		{
+			Machine = this.GetComponent<Machine>();
+		}
 
 		public void Start()
 		{
@@ -220,11 +229,11 @@ namespace Objects.Botany
 				{
 					if (pestLevel > 10)
 					{
-						plantData.Health -= 0.5f;
+						plantData.Health -= 0.5f / Machine.GetPartMultiplier();
 					}
 					else
 					{
-						pestLevel += 0.001f;
+						pestLevel += 0.005f / Machine.GetPartMultiplier();
 					}
 
 				}
@@ -233,7 +242,7 @@ namespace Objects.Botany
 				//Water Checks
 				if (reagentContainer[water] > 0)
 				{
-					reagentContainer.Subtract(new ReagentMix(water, .03f));
+					reagentContainer.Subtract(new ReagentMix(water, .03f / Machine.GetPartMultiplier()));
 				}
 				else if (plantData.PlantTrays.Contains(PlantTrays.Fungal_Vitality) == false)
 				{
@@ -244,18 +253,18 @@ namespace Objects.Botany
 				//Growth and harvest checks
 				if (ReadyToHarvest == false)
 				{
-					plantData.NextGrowthStageProgress += (int)Math.Ceiling((plantData.GrowthSpeed / 160f) * plantData.GrowthSpritesSOs.Count) ;
+					plantData.NextGrowthStageProgress += (int)Math.Ceiling(((plantData.GrowthSpeed *  Machine.GetPartMultiplier()) / 160f) * plantData.GrowthSpritesSOs.Count) ;
 
 					if (plantData.NextGrowthStageProgress > 100)
 					{
 						plantData.NextGrowthStageProgress = 0;
 						if (reagentContainer[nutriment] > 0 || plantData.PlantTrays.Contains(PlantTrays.Weed_Adaptation))
 						{
-							if (!plantData.PlantTrays.Contains(PlantTrays.Weed_Adaptation))
+							if (plantData.PlantTrays.Contains(PlantTrays.Weed_Adaptation) == false)
 							{
 								if (reagentContainer[nutriment] > 0)
 								{
-									reagentContainer.Subtract(new ReagentMix(nutriment, 0.75f));
+									reagentContainer.Subtract(new ReagentMix(nutriment, 0.75f /   Machine.GetPartMultiplier()));
 								}
 							}
 
@@ -292,7 +301,7 @@ namespace Objects.Botany
 				{
 					CropDeath();
 				}
-				else if (plantData.Age > plantData.Lifespan * 2500)
+				else if (plantData.Age > plantData.Lifespan * 2500 *  Machine.GetPartMultiplier())
 				{
 					CropDeath();
 				}
@@ -306,7 +315,7 @@ namespace Objects.Botany
 			{
 				if (weedLevel < 10)
 				{
-					weedLevel += 0.01f;
+					weedLevel += 0.01f /   Machine.GetPartMultiplier();
 					if (weedLevel > 10)
 					{
 						weedLevel = 10;

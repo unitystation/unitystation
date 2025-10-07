@@ -64,6 +64,8 @@ namespace Objects.Machines
 
 		private HackingProcessBase HackingProcessBase;
 
+		private float? CachedMultiplier = null;
+
 		private void Awake()
 		{
 			HackingProcessBase = GetComponent<HackingProcessBase>();
@@ -244,6 +246,7 @@ namespace Objects.Machines
 
 		public void SetPartsInFrame(IDictionary<GameObject, int> InActiveGameObjectpartsInFrame) //Presume that it is all the it needs parts!!
 		{
+			CachedMultiplier = null;
 			this.activeGameObjectpartsInFrame = InActiveGameObjectpartsInFrame;
 
 			if (InActiveGameObjectpartsInFrame == null)
@@ -300,6 +303,11 @@ namespace Objects.Machines
 		//Maxes out at 4
 		public float GetPartMultiplier()
 		{
+			if (CachedMultiplier != null)
+			{
+				return CachedMultiplier.Value;
+			}
+
 			float TotalParts = 0;
 			float Alladded = 0;
 			foreach (var Objectpart in ObjectpartsInFrame)
@@ -314,13 +322,15 @@ namespace Objects.Machines
 				}
 			}
 
-			return Alladded / TotalParts;
+			CachedMultiplier = Alladded / TotalParts;
+			return CachedMultiplier.Value;
 		}
 
 		//Used for if you have a bass performance Stat And you want to * it depending on how many advanced parts there are
 		//Maxes out at 4
 		public float GetCertainPartMultiplier(ItemTrait ItemTrait)
 		{
+
 			if (ItemTrait == null)
 			{
 				Loggy.Error($" null ItemTrait Tried to be passed into GetCertainPartMultiplier for {this.name} ");
