@@ -163,7 +163,7 @@ namespace Objects.Machines
 			SpawnRawMaterials(flatpack);
 			PackMachineBoard(flatpack);
 
-			materialStorageLink.usedStorage.TryConsumeList(_neededMaterials);
+			materialStorageLink.usedStorage.TryConsumeList(_neededMaterials, 1);
 
 			UpdateGUI();
 		}
@@ -300,12 +300,12 @@ namespace Objects.Machines
 
 		#region IRefreshParts
 
-		public void RefreshParts(IDictionary<PartReference, int> partsInFrame, Machine Frame)
+		public void RefreshParts(List<PartReference> partsInFrame, Machine Frame)
 		{
 			_maniTier = 0;
 			// Get the machine stock parts used in this instance and get the tier of each part.
 			// Collection is unorganized so run through the whole list.
-			foreach (var part in partsInFrame.Keys)
+			foreach (var part in partsInFrame)
 			{
 				if (part.itemTrait == MachinePartsItemTraits.Instance.Manipulator) _maniTier += part.tier / 2;
 				if (part.itemTrait == MachinePartsItemTraits.Instance.MatterBin) _binTier = part.tier;

@@ -92,7 +92,7 @@ namespace Objects.Medical
 			};
 
 
-		public void RefreshParts(IDictionary<PartReference, int> partsInFrame, Machine Frame)
+		public void RefreshParts(List<PartReference> partsInFrame, Machine Frame)
 		{
 			var Multiplier = Frame.GetCertainPartMultiplier(UpgradePart);
 			var DamageMultiplier = 1f / Multiplier;

@@ -120,7 +120,7 @@ namespace Systems.Botany
 		/// <summary>
 		/// Called when plant creates food
 		/// </summary>
-		public void SetUpFood(PlantData newPlantData, PlantTrayModification modification, bool? IncreasesMutationChanceState)
+		public void SetUpFood(PlantData newPlantData, PlantTrayModification modification, bool? IncreasesMutationChanceState, PlantData.StatMutationType StatMutationTypeModifyer = PlantData.StatMutationType.Normal)
 		{
 
 			plantData = PlantData.MutateNewPlant(newPlantData, modification, IncreasesMutationChanceState);

@@ -71,13 +71,14 @@ namespace Objects.Botany
 
 
 		private Machine Machine;
-
+		private bool HasMachine;
 
 		#region Lifecycle
 
 		public void Awake()
 		{
 			Machine = this.GetComponent<Machine>();
+			HasMachine = Machine;
 		}
 
 		public void Start()
@@ -229,11 +230,11 @@ namespace Objects.Botany
 				{
 					if (pestLevel > 10)
 					{
-						plantData.Health -= 0.5f / Machine.GetPartMultiplier();
+						plantData.Health -= 0.5f / GetMachineMultiplier();
 					}
 					else
 					{
-						pestLevel += 0.005f / Machine.GetPartMultiplier();
+						pestLevel += 0.005f / GetMachineMultiplier();
 					}
 
 				}
@@ -242,7 +243,7 @@ namespace Objects.Botany
 				//Water Checks
 				if (reagentContainer[water] > 0)
 				{
-					reagentContainer.Subtract(new ReagentMix(water, .03f / Machine.GetPartMultiplier()));
+					reagentContainer.Subtract(new ReagentMix(water, .03f / GetMachineMultiplier()));
 				}
 				else if (plantData.PlantTrays.Contains(PlantTrays.Fungal_Vitality) == false)
 				{
@@ -253,7 +254,7 @@ namespace Objects.Botany
 				//Growth and harvest checks
 				if (ReadyToHarvest == false)
 				{
-					plantData.NextGrowthStageProgress += (int)Math.Ceiling(((plantData.GrowthSpeed *  Machine.GetPartMultiplier()) / 160f) * plantData.GrowthSpritesSOs.Count) ;
+					plantData.NextGrowthStageProgress += (int)Math.Ceiling(((plantData.GrowthSpeed *  GetMachineMultiplier()) / 160f) * plantData.GrowthSpritesSOs.Count) ;
 
 					if (plantData.NextGrowthStageProgress > 100)
 					{
@@ -264,7 +265,7 @@ namespace Objects.Botany
 							{
 								if (reagentContainer[nutriment] > 0)
 								{
-									reagentContainer.Subtract(new ReagentMix(nutriment, 0.75f /   Machine.GetPartMultiplier()));
+									reagentContainer.Subtract(new ReagentMix(nutriment, 0.75f /   GetMachineMultiplier()));
 								}
 							}
 
@@ -301,7 +302,7 @@ namespace Objects.Botany
 				{
 					CropDeath();
 				}
-				else if (plantData.Age > plantData.Lifespan * 2500 *  Machine.GetPartMultiplier())
+				else if (plantData.Age > plantData.Lifespan * 2500 *  GetMachineMultiplier())
 				{
 					CropDeath();
 				}
@@ -315,7 +316,7 @@ namespace Objects.Botany
 			{
 				if (weedLevel < 10)
 				{
-					weedLevel += 0.01f /   Machine.GetPartMultiplier();
+					weedLevel += 0.01f /   GetMachineMultiplier();
 					if (weedLevel > 10)
 					{
 						weedLevel = 10;
@@ -549,16 +550,33 @@ namespace Objects.Botany
 					continue;
 				}
 
+				PlantData.StatMutationType StatMutationTypeModifyer = PlantData.StatMutationType.Normal;
+
+				if (GetMachineMultiplier() > 3)
+				{
+					StatMutationTypeModifyer = PlantData.StatMutationType.Special;
+				}
+
 				UniversalObjectPhysics ObjectPhysics  = produceObject.GetComponent<UniversalObjectPhysics>();
 				var food = produceObject.GetComponent<GrownFood>();
 				if (food != null)
 				{
-					food.SetUpFood(plantData, modification, IncreasesMutationChanceState);
+					food.SetUpFood(plantData, modification, IncreasesMutationChanceState, StatMutationTypeModifyer);
 				}
 
 				ObjectPhysics.DisappearFromWorld();
 				readyProduce.Add(produceObject);
 			}
+		}
+
+		public float GetMachineMultiplier()
+		{
+			if (HasMachine == false)
+			{
+				return 1;
+			}
+
+			return Machine.GetPartMultiplier();
 		}
 
 		/// <summary>

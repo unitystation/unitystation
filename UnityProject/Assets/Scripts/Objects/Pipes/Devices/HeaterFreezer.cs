@@ -186,33 +186,19 @@ namespace Objects.Atmospherics
 
 		#region Machine Parts
 
-		public void RefreshParts(IDictionary<PartReference, int> partsInFrame, Machine Frame )
+		public void RefreshParts(List<PartReference> partsInFrame, Machine Frame )
 		{
 			var rating = 0;
 
 			ItemAttributesV2 partAttributes;
-			foreach (var part in partsInFrame)
-			{
-				if (part.Key.itemTrait  == MachinePartsItemTraits.Instance.MatterBin)
-				{
-					rating += part.Key.tier * part.Value;
-				}
-			}
+			rating += Frame.RatingOfPartsForTrait(MachinePartsItemTraits.Instance.MatterBin);
 
 			Efficiency = (Mathf.Pow((rating - 1), 2));
 
 			if (type == HeaterFreezerType.Freezer || type == HeaterFreezerType.Both)
 			{
 				var minTempRating = 0;
-
-				foreach (var part in partsInFrame)
-				{
-					if (part.Key.itemTrait  ==  MachinePartsItemTraits.Instance.MicroLaser)
-					{
-						minTempRating += part.Key.tier * part.Value;
-					}
-				}
-
+				minTempRating += Frame.RatingOfPartsForTrait(MachinePartsItemTraits.Instance.MicroLaser);
 				minTemperature = Mathf.Max(TemperatureUtils.ZERO_CELSIUS_IN_KELVIN -
 				                           (initalMinTemperature + minTempRating * 15), AtmosDefines.SPACE_TEMPERATURE);
 				targetTemperature = minTemperature;
@@ -226,15 +212,7 @@ namespace Objects.Atmospherics
 			{
 				var maxTempRating = 0;
 
-				foreach (var part in partsInFrame)
-				{
-
-					if (part.Key.itemTrait == MachinePartsItemTraits.Instance.MicroLaser)
-					{
-						maxTempRating += part.Key.tier * part.Value;
-					}
-				}
-
+				maxTempRating += Frame.RatingOfPartsForTrait(MachinePartsItemTraits.Instance.MicroLaser);
 				maxTemperature = 293.15f + (initalMaxTemperature * maxTempRating);
 				targetTemperature = maxTemperature;
 			}

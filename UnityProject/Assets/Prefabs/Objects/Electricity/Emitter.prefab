@@ -429,6 +429,7 @@ MonoBehaviour:
   isEMPResistant: 0
   mustBeUnanchored: 1
   secondsToScrewdrive: 2
+  PartsStorage: {fileID: 6387725634436437859}
 --- !u!114 &3879102292432146991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -477,3 +478,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   CanRotateIfNotMovable: 0
+--- !u!114 &6387725634436437859 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4656077842951146614, guid: f9025da3beb40304cb15babfc0a6cafa,
+    type: 3}
+  m_PrefabInstance: {fileID: 1745273223061576469}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4194276244320548660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

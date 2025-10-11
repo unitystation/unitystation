@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Core;
 using Items;
 using Logs;
@@ -47,8 +48,11 @@ namespace Objects.Construction
 		private SpriteHandler spriteHandler;
 
 		private ItemSlot circuitBoardSlot;//Index 0
-		private IDictionary<ItemTrait, int> basicPartsUsed = new Dictionary<ItemTrait, int>();
-		private IDictionary<GameObject, int> partsInFrame = new Dictionary<GameObject, int>();
+
+		private List<PartReference> ObjectpartsInFrame = new List<PartReference>();
+
+		public ItemStorage ItemStorage;
+
 		private Stateful stateful;
 
 		private MachineParts machineParts;
@@ -56,8 +60,6 @@ namespace Objects.Construction
 		private readonly SyncListItem allowedTraits = new SyncListItem();
 
 		private List<AllowedTraitList> listOfAllowedTraits = new List<AllowedTraitList>();
-
-		private MachineParts.MachinePartList machinePartsList;
 
 		private bool putBoardInManually;
 
@@ -77,6 +79,8 @@ namespace Objects.Construction
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 
 			integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
+
+			ItemStorage.ServerInventoryItemSlotSet += PartFrameTransfer;
 
 			if (CurrentState != partsAddedState)
 			{
@@ -366,9 +370,11 @@ namespace Objects.Construction
 				//Check we have all the parts so we can move on to next stage.
 				foreach (var parts in machineParts.machineParts)
 				{
-					if (!basicPartsUsed.ContainsKey(parts.itemTrait)) return;
+					int Required = parts.amountOfThisPart;
 
-					if (basicPartsUsed[parts.itemTrait] != parts.amountOfThisPart)
+					Required -= NumberOfPartsForTrait(parts.itemTrait);
+
+					if (Required > 0)
 					{
 						return;
 					}
@@ -397,7 +403,7 @@ namespace Objects.Construction
 
 				//Send circuit board data to the new machine
 				spawnedObject.SetMachineParts(machineParts);
-				spawnedObject.SetPartsInFrame(partsInFrame);
+				spawnedObject.SetPartsInFrame(ItemStorage);
 
 
 				//Restoring previous vendor content if possible
@@ -425,6 +431,56 @@ namespace Objects.Construction
 			}
 		}
 
+		public void PartFrameTransfer(Pickupable prevPart, Pickupable NewPart)
+		{
+			if (NewPart)
+			{
+				MachineParts.MachinePartList machinePartsList = null;
+				// For all the list of data(itemtraits, amounts needed) in machine parts
+				for(int i = 0; i < machineParts.machineParts.Length; i++)
+				{
+					// If the interaction object has an itemtrait thats in the list, set the list machinePartsList variable as the list from the machineParts data from the circuit board.
+					if (NewPart.GetComponent<ItemAttributesV2>().HasTrait(machineParts.machineParts[i].itemTrait))
+					{
+						machinePartsList = machineParts.machineParts[i];
+						break;
+
+						// IF YOU WANT AN ITEM TO HAVE TWO ITEMTTRAITS WHICH CONTRIBUTE TO THE MACHINE BUILIDNG PROCESS, THIS NEEDS TO BE REFACTORED
+						// all the stuff below needs to go into its own method which gets called here, replace the break;
+					}
+				}
+
+				if (machinePartsList != null)
+				{
+					// Itemtrait currently being looked at.
+					var itemTrait = machinePartsList.itemTrait;
+
+
+					var StockTier = NewPart.GetComponent<StockTier>();
+
+					int Tier = 1;
+
+					if (StockTier != null)
+					{
+						Tier = StockTier.Tier;
+					}
+
+					ObjectpartsInFrame.Add(new PartReference()
+					{
+						itemObject = NewPart.gameObject,
+						Slot = NewPart.ItemSlot,
+						itemTrait = itemTrait,
+						tier = Tier
+					});
+				}
+			}
+			else if (prevPart )
+			{
+				ObjectpartsInFrame.RemoveAll(x => x.itemObject == prevPart.gameObject);
+			}
+		}
+
+
 		/// <summary>
 		/// Function to process the part which has been applied to the frame
 		/// </summary>
@@ -432,6 +488,7 @@ namespace Objects.Construction
 		/// <param name="interaction"></param>
 		private void PartCheck(GameObject usedObject, HandApply interaction)
 		{
+			MachineParts.MachinePartList machinePartsList = null;
 			// For all the list of data(itemtraits, amounts needed) in machine parts
 			for(int i = 0; i < machineParts.machineParts.Length; i++)
 			{
@@ -452,139 +509,50 @@ namespace Objects.Construction
 			// Itemtrait currently being looked at.
 			var itemTrait = machinePartsList.itemTrait;
 
-			// If theres already the itemtrait how many more do we need
-			if (basicPartsUsed.ContainsKey(itemTrait))
-			{
-				needed -= basicPartsUsed[itemTrait];
-			}
 
-			//Main logic for tallying up and moving parts to hidden pos
-			if (basicPartsUsed.ContainsKey(itemTrait) && usedObject.GetComponent<Stackable>() != null && usedObject.GetComponent<Stackable>().Amount >= needed) //if the itemTrait already exists, and its stackable and some of it is needed.
-			{
-				if (usedObject.GetComponent<Stackable>().Amount == needed)
-				{
-					Inventory.ServerDrop(interaction.HandSlot);
-				}
-
-				var StackingItem = usedObject.GetComponent<Stackable>();
-				var oldAmount = StackingItem.Amount;
-				var addNew = StackingItem.ServerRemoveOne();
-				addNew.GetComponent<Stackable>().ServerSetAmount(needed);
-
-				StackingItem.ServerSetAmount(oldAmount -needed);
-
-				basicPartsUsed[itemTrait] = machinePartsList.amountOfThisPart;
-				AddItemToDict(addNew, needed, interaction);
-			}
-			else if (basicPartsUsed.ContainsKey(itemTrait) && usedObject.GetComponent<Stackable>() != null && usedObject.GetComponent<Stackable>().Amount < needed)//if the itemTrait already exists, and its stackable and all of its needed.
-			{
-				var used = usedObject.GetComponent<Stackable>().Amount;
-				basicPartsUsed[itemTrait] += used;
-
-				Inventory.ServerDrop(interaction.HandSlot);
-
-				AddItemToDict(usedObject, used, interaction);
-
-			}
-			else if (usedObject.GetComponent<Stackable>() != null && usedObject.GetComponent<Stackable>().Amount >= needed) //if the itemTrait doesnt exists, and its stackable and some of it is needed.
-			{
-				if (usedObject.GetComponent<Stackable>().Amount == needed)
-				{
-					Inventory.ServerDrop(interaction.HandSlot);
-				}
-
-				var StackingItem = usedObject.GetComponent<Stackable>();
-				var oldAmount = StackingItem.Amount;
-				var addNew = StackingItem.ServerRemoveOne();
-				addNew.GetComponent<Stackable>().ServerSetAmount(needed);
-
-				StackingItem.ServerSetAmount(oldAmount -needed );
-				basicPartsUsed.Add(itemTrait, needed);
-
-				AddItemToDict(addNew, needed, interaction);
-
-			}
-			else if (usedObject.GetComponent<Stackable>() != null && usedObject.GetComponent<Stackable>().Amount < needed)//if the itemTrait doesnt exists, and its stackable and all of its needed.
-			{
-				var used = usedObject.GetComponent<Stackable>().Amount;
-				basicPartsUsed.Add(itemTrait, used);
-
-				Inventory.ServerDrop(interaction.HandSlot);
-
-				AddItemToDict(usedObject, used, interaction);
-			}
-			else if (basicPartsUsed.ContainsKey(itemTrait))// ItemTrait already exists but isnt stackable
-			{
-				basicPartsUsed[itemTrait] ++;
-
-				Inventory.ServerDrop(interaction.HandSlot);
-
-				AddItemToDict(usedObject, 1, interaction);
-			}
-			else// ItemTrait doesnt exist but isnt stackable
-			{
-				basicPartsUsed.Add(itemTrait, 1);
-
-				Inventory.ServerDrop(interaction.HandSlot);
-
-				AddItemToDict(usedObject, 1, interaction);
-			}
-		}
-
-		/// <summary>
-		/// Adds the part object to the dictionaries and moves items to hidden pos
-		/// </summary>
-		/// <param name="usedObject"></param>
-		/// <param name="amount"></param>
-		/// <param name="interaction"></param>
-		private void AddItemToDict(GameObject usedObject, int amount, HandApply interaction)
-		{
-			// If its stackable, make copy itself, set amount used, send to hidden pos.
 			if (usedObject.GetComponent<Stackable>() != null)
 			{
-				// Returns usedObject if stack amount is 1, if > 1 then creates new object.
-				var newObject = usedObject.GetComponent<Stackable>().ServerRemoveOne();
+				var Stacking = usedObject.GetComponent<Stackable>();
 
-				//If a new object was created
-				if (newObject != usedObject)
+
+				var PreExisting = NumberOfPartsForTrait(itemTrait);
+
+				needed -= PreExisting;
+
+				var ExistingStacking=  ObjectpartsInFrame.FirstOrDefault(
+					x => x.itemTrait == itemTrait
+					     && x.itemObject.GetComponentCustom<Stackable>().StacksWith(Stacking));
+
+				if (ExistingStacking.itemTrait  != null)
 				{
-					usedObject.GetComponent<Stackable>().ServerConsume(amount - 1);
+					var Amount = Mathf.Min(Stacking.Amount, needed);
+					ExistingStacking.itemObject.GetComponent<Stackable>().ServerIncrease(Amount);
+					Stacking.ServerConsume(Amount);
+				}
+				else
+				{
+					var objectToUse = Stacking.ServerTake(needed);
+					var Slot = ItemStorage.GetBestSlotFor(objectToUse);
 
-					newObject.GetComponent<Stackable>().ServerIncrease(amount - 1);
+					var Currentslot = objectToUse.GetComponent<Pickupable>().ItemSlot;
 
-					if (usedObject.GetComponent<Stackable>().Amount != 0)
+					if (Currentslot != null)
 					{
-						Inventory.ServerAdd(usedObject, interaction.HandSlot);
+						Inventory.ServerTransfer(Currentslot,Slot);
+					}
+					else
+					{
+						Inventory.ServerAdd(objectToUse,Slot);
 					}
 				}
-				else if (newObject.GetComponent<Stackable>().Amount == 0)
-				{
-					// Sets old objects amount if amount is 0
-					newObject.GetComponent<Stackable>().ServerIncrease(amount);
-				}
-
-				newObject.GetComponent<UniversalObjectPhysics>().DisappearFromWorld();
-
-				if (newObject.transform.parent != gameObject.transform.parent)
-				{
-					newObject.transform.parent = gameObject.transform.parent;
-				}
-
-				partsInFrame.Add(newObject, amount);
 			}
-			// If not stackable send to hidden pos
 			else
 			{
-				usedObject.GetComponent<UniversalObjectPhysics>().DisappearFromWorld();
-
-				if (usedObject.transform.parent != gameObject.transform.parent)
-				{
-					usedObject.transform.parent = gameObject.transform.parent;
-				}
-
-				partsInFrame.Add(usedObject, amount);
+				var Slot = ItemStorage.GetBestSlotFor(interaction.HandSlot.ItemObject);
+				Inventory.ServerTransfer(interaction.HandSlot,Slot);
 			}
 		}
+
 
 		/// <summary>
 		/// Used to validate the interaction for the server.
@@ -595,7 +563,9 @@ namespace Objects.Construction
 		{
 			foreach (var part in machineParts.machineParts)
 			{
-				if (Validations.HasItemTrait(interaction, part.itemTrait) && (!basicPartsUsed.ContainsKey(part.itemTrait) || basicPartsUsed[part.itemTrait] != part.amountOfThisPart)) // Has items trait and we dont have enough yet
+				if (Validations.HasItemTrait(interaction, part.itemTrait)
+				    && (ObjectpartsInFrame.Any( x=> x.itemTrait == part.itemTrait) == false //Doesn't have any
+				        || NumberOfPartsForTrait(part.itemTrait) < part.amountOfThisPart)) //  dont have enough yet
 				{
 					return true;
 				}
@@ -604,6 +574,11 @@ namespace Objects.Construction
 			return false;
 		}
 
+		public int NumberOfPartsForTrait(ItemTrait itemTrait)
+		{
+			return ObjectpartsInFrame.Where(x => x.itemTrait == itemTrait).Sum(x => x.itemObject.NumberOf());
+
+		}
 		/// <summary>
 		/// Examine messages
 		/// </summary>
@@ -648,7 +623,8 @@ namespace Objects.Construction
 
 			foreach (var parts in machineParts.machineParts)
 			{
-				if (!basicPartsUsed.ContainsKey(parts.itemTrait))//If false then we have none of the itemtrait
+				var NumberSet = NumberOfPartsForTrait(parts.itemTrait);
+				if (NumberSet == 0)//If false then we have none of the itemtrait
 				{
 					msg += parts.amountOfThisPart;
 					msg += " " + parts.itemTrait.name;
@@ -660,12 +636,12 @@ namespace Objects.Construction
 
 					msg += "\n";
 				}
-				else if (basicPartsUsed[parts.itemTrait] != parts.amountOfThisPart)//If we have some but not enough of the itemtrait
+				else if (NumberSet != parts.amountOfThisPart)//If we have some but not enough of the itemtrait
 				{
-					msg += parts.amountOfThisPart - basicPartsUsed[parts.itemTrait];
+					msg += parts.amountOfThisPart - NumberSet;
 					msg += " " + parts.itemTrait.name;
 
-					if ((parts.amountOfThisPart - basicPartsUsed[parts.itemTrait]) > 1)
+					if ((parts.amountOfThisPart - NumberSet) > 1)
 					{
 						msg += "s";
 					}
@@ -684,28 +660,24 @@ namespace Objects.Construction
 		{
 			spriteHandler.SetCatalogueIndexSprite((int) SpriteStates.BoxCircuit);
 
-			// Create the circuit board
-			var board = Spawn.ServerPrefab(machine.MachineBoardPrefab).GameObject;
 
-			if (board == null)
-			{
-				Loggy.Warning("MachineBoardPrefab was null", Category.Construction);
-				return;
-			}
 
-			board.GetComponent<MachineCircuitBoard>().SetMachineParts(machine.MachineParts); // Basic item requirements to the circuit board
-
-			//PM: Below is commented out because I've decided to make all the machines use appropriate machine board .prefabs instead of the blank board.
-			/*
-			board.GetComponent<ItemAttributesV2>().ServerSetArticleName(machine.MachineParts.NameOfCircuitBoard); // Sets name of board
-
-			board.GetComponent<ItemAttributesV2>().ServerSetArticleDescription(machine.MachineParts.DescriptionOfCircuitBoard); // Sets desc of board
-			*/
+			// Basic item requirements to the circuit board
+			// Shouldn't be required that cool if you make a custom machine since the circuit board will magically become what you want
 
 			// Basic items to the machine frame from the despawned machine
 			machineParts = machine.MachineParts;
-			partsInFrame = machine.ActiveGameObjectpartsInFrame;
+			ItemStorage.ServerTryTransferFrom(machine.PartsStorage);
 
+			MachineCircuitBoard board = null;
+
+
+			foreach (var slot in ItemStorage.GetItemSlots())
+			{
+				if (slot.Item.TryGetComponent(out board)) break;
+			}
+
+			board.GetComponent<MachineCircuitBoard>().SetMachineParts(machine.MachineParts);
 			// Save vendor content if necessary, which is stored temporarily in the machine frame and transferred to the restock item if it exists
 			var vendor = machine.GetComponent<Vendor>();
 			if (vendor != null)
@@ -718,7 +690,7 @@ namespace Objects.Construction
 
 			if (machineParts == null || machineParts.machineParts == null)
 			{
-				Loggy.Error($"Failed to find machine parts for {machineParts.OrNull()?.name ?? board.ExpensiveName()}");
+				Loggy.Error($"Failed to find machine parts for {machineParts.OrNull()?.name ?? board.gameObject.ExpensiveName()}");
 			}
 			else
 			{
@@ -729,9 +701,6 @@ namespace Objects.Construction
 			}
 
 			netIdentity.isDirty = true;
-
-			// Put it in
-			Inventory.ServerAdd(board, circuitBoardSlot);
 
 			// Set initial state
 			objectBehaviour.SetIsNotPushable(true);
@@ -744,9 +713,9 @@ namespace Objects.Construction
 		/// </summary>
 		private void TryTransferVendorContent()
 		{
-			foreach(var part in partsInFrame)
+			foreach(var part in ObjectpartsInFrame)
 			{
-				var restock = part.Key.GetComponent<VendingRestock>();
+				var restock = part.itemObject.GetComponentCustom<VendingRestock>();
 				if (restock != null)
 				{
 					restock.SetPreviousVendorContent(previousVendorContent);
@@ -758,9 +727,9 @@ namespace Objects.Construction
 
 		private List<VendorItem> GetPreviousVendorContent()
 		{
-			foreach(var part in partsInFrame)
+			foreach(var part in ObjectpartsInFrame)
 			{
-				var restock = part.Key.GetComponent<VendingRestock>();
+				var restock = part.itemObject.GetComponentCustom<VendingRestock>();
 				if (restock != null && restock.PreviousVendorContent != null)
 					return restock.PreviousVendorContent;
 			}
@@ -782,44 +751,11 @@ namespace Objects.Construction
 			Inventory.ServerDrop(circuitBoardSlot);
 			stateful.ServerChangeState(wrenchedState);
 
-			//If frame in mapped; count == 0 and its the only time putBoardInManually will be false as putting in board makes it true
-			if (partsInFrame.Count != machineParts.machineParts.Length && !putBoardInManually)
-			{
-				foreach (var part in machineParts.machineParts)
-				{
-					//Spawn the part
-					var partObj = Spawn.ServerPrefab(part.basicItem, gameObject.AssumedWorldPosServer(), gameObject.transform.parent, count: part.amountOfThisPart).GameObject;
-
-					//Transfer vendor content if possible
-					var restock = partObj.GetComponent<VendingRestock>();
-					if (restock != null && previousVendorContent != null)
-					{
-						restock.SetPreviousVendorContent(previousVendorContent);
-						previousVendorContent = null;
-					}
-				}
-			}
-			else
-			{
-				foreach (var item in partsInFrame)//Moves the hidden objects back on to the gameobject.
-				{
-					if (item.Key == null)//Shouldnt ever happen, but just incase
-					{
-						continue;
-					}
-
-					var pos = gameObject.AssumedWorldPosServer();
-
-					item.Key.GetComponent<UniversalObjectPhysics>().AppearAtWorldPositionServer(pos);
-				}
-			}
+			ItemStorage.ServerDropAll();
 
 			putBoardInManually = false;
 			spriteHandler.SetCatalogueIndexSprite((int) SpriteStates.BoxCable);
-
-			//Reset data
-			partsInFrame.Clear();
-			basicPartsUsed.Clear();
+			ObjectpartsInFrame.Clear();
 		}
 
 		private enum SpriteStates

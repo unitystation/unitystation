@@ -15,6 +15,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -84533939571855719, guid: aa11b93feb043fe4e84e2f313cc41f6b,
         type: 3}
+      propertyPath: dropItemsOnDespawn
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -84533939571855719, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+        type: 3}
       propertyPath: itemStorageCapacity
       value: 
       objectReference: {fileID: 11400000, guid: cf1cb1cba739dee4a8ed30bdf05379a7,
@@ -211,7 +216,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 085f18e36927a034e9c7fe05071ad821,
         type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -84533939571855719, guid: aa11b93feb043fe4e84e2f313cc41f6b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -219,6 +225,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: -1857382574510368006}
+    - targetCorrespondingSourceObject: {fileID: 2762829276071619203, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3001322629905710455}
   m_SourcePrefab: {fileID: 100100000, guid: aa11b93feb043fe4e84e2f313cc41f6b, type: 3}
 --- !u!1 &260239628808517242 stripped
 GameObject:
@@ -246,3 +256,32 @@ MonoBehaviour:
   wrenchedState: {fileID: 11400000, guid: 58f920c5778516c469fd44836715ce0c, type: 2}
   circuitAddedState: {fileID: 11400000, guid: e0ac3c48fdc6a374b812dcf38f61c86a, type: 2}
   partsAddedState: {fileID: 11400000, guid: a9770efcfaef8a841bba9179224e0683, type: 2}
+  ItemStorage: {fileID: 3001322629905710455}
+--- !u!114 &3001322629905710455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 260239628808517242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: f040b5dae3721f542a7d43c31febfba8,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 8b251e124fc227f4b8af6f6baa310070,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  ManuallySpawnContent: 0
+  dropItemsOnDespawn: 1
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  SetSlotItemNotRemovableOnStartUp: 0
+  initialignoreRoundstartGrabObjects: 0
+  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+    type: 3}
