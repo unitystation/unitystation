@@ -26,6 +26,8 @@ namespace Initialisation
 
 		public List<DelayedAction> ToClear = new List<DelayedAction>();
 
+		public List<Material> Materials = new List<Material>();
+
 		public bool IsExecuting = false;
 		public bool IsExecutingGeneric = false;
 		public Action LastInvokedAction {get; private set;}
@@ -54,15 +56,49 @@ namespace Initialisation
 		//call Manager with function and what to Load before
 
 
-		public override void Start()
+		public override void Awake()
 		{
-			base.Start();
 			Loggy.MainGameThread = Thread.CurrentThread; //Initialises logger
 
 			// Set the global culture to InvariantCulture
 			CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
 			CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InvariantCulture;
+
+
+			SetMaterialStatus(null);
 		}
+
+
+		public void SetMaterialStatus(bool? Shadow)
+		{
+			if (Shadow == null)
+			{
+				if (PlayerPrefs.HasKey(PlayerPrefKeys.ItemDropShadow) == false)
+				{
+					PlayerPrefs.SetString(PlayerPrefKeys.ItemDropShadow, "true");
+				}
+				Shadow = bool.Parse(PlayerPrefs.GetString(PlayerPrefKeys.ItemDropShadow));
+			}
+			else
+			{
+				PlayerPrefs.SetString(PlayerPrefKeys.ItemDropShadow, Shadow.Value.ToString());
+			}
+
+
+			foreach (var Material in Materials)
+			{
+				if (Shadow.Value)
+				{
+					Material.EnableKeyword("USE_SHADOW");
+
+				}
+				else
+				{
+					Material.DisableKeyword("USE_SHADOW");
+				}
+			}
+		}
+
 
 
 		public static void DoInMainThread(Action InAction)

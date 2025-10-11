@@ -62,6 +62,9 @@ namespace Systems.Research.Objects
 
 		[SerializeField] private DesignProductionData designProductionData;
 		[field: SerializeField] public bool CanRelink { get; set; } = true;
+
+		private Machine machine;
+
 		public enum RDProState
 		{
 			Idle,
@@ -158,7 +161,7 @@ namespace Systems.Research.Objects
 
 			Machinerytype = machineType.ToString();
 			department = MachineDepartment.ToString();
-
+			machine = this.GetComponent<Machine>();
 			foreach (string Category in CategoryList.Categories)
 			{
 				Categories.Add(Category, new List<string>());
@@ -248,7 +251,7 @@ namespace Systems.Research.Objects
 					consumeList.Add(designProductionData.MaterialSheets[entry.Key], entry.Value);
 				}
 
-				if (materialStorageLink.usedStorage.TryConsumeList(consumeList))
+				if (materialStorageLink.usedStorage.TryConsumeList(consumeList, 0.5f / (machine.GetPartMultiplier()/2f)))
 				{
 					if (APCPoweredDevice.IsOn(PoweredState))
 					{

@@ -308,6 +308,21 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		return spawnInfo.GameObject;
 	}
 
+
+	[Server]
+	public GameObject ServerTake(int ToTake)
+	{
+		if ((amount-ToTake) <= 0)
+		{
+			return gameObject;
+		}
+		SyncAmount(amount, amount - ToTake);
+
+		var spawnInfo = Spawn.ServerPrefab(prefab, gameObject.transform.position, gameObject.transform);
+		spawnInfo.GameObject.GetComponent<Stackable>().ServerSetAmount(ToTake);
+		return spawnInfo.GameObject;
+	}
+
 	/// <summary>
 	/// Adds the quantity in toAdd to this stackable (up to maxAmount) and despawns toAdd
 	/// if it is entirely used up.

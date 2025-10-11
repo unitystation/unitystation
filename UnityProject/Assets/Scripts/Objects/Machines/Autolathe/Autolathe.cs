@@ -42,6 +42,8 @@ namespace Objects.Machines
 		private ItemTrait InsertedMaterialType;
 		private IEnumerator currentProduction;
 
+		private Machine machine;
+
 		public enum AutolatheState
 		{
 			Idle,
@@ -55,6 +57,7 @@ namespace Objects.Machines
 		{
 			registerObject = GetComponent<RegisterObject>();
 			materialStorageLink = GetComponent<MaterialStorageLink>();
+			machine = GetComponent<Machine>();
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -142,7 +145,7 @@ namespace Objects.Machines
 		[Server]
 		public bool CanProcessProduct(MachineProduct product)
 		{
-			if (materialStorageLink.usedStorage.TryConsumeList(product.materialToAmounts))
+			if (materialStorageLink.usedStorage.TryConsumeList(product.materialToAmounts, 0.5f / (machine.GetPartMultiplier()/2f) ))
 			{
 				if (APCPoweredDevice.IsOn(PoweredState))
 				{

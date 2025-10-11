@@ -35,14 +35,13 @@ namespace Systems.Botany
 		[SerializeField]
 		private Edible edible = default;
 
-		[SyncVar(hook = nameof(SyncSize))]
-		public float sizeScale = 1;
-
 		[SerializeField] private ScaleSync scaleSync;
 
 		private ItemAttributesV2 ItemAttributesV2;
 		private UniversalObjectPhysics UniversalObjectPhysics;
 		private Integrity Integrity;
+		private ScaleSync ScaleSync;
+
 		[SyncVar(hook = nameof(SyncSlippery))]
 		public bool HasSlippery = false;
 
@@ -78,17 +77,10 @@ namespace Systems.Botany
 		}
 
 
-		public void SyncSize(float oldScale, float newScale)
+		public void SyncSize( float newScale)
 		{
-			if (scaleSync is not null)
-			{
-				scaleSync.SetScale(new Vector3(sizeScale, sizeScale, sizeScale));
-			}
-			else
-			{
-				sizeScale = newScale;
-				SpriteSizeAdjustment.transform.localScale = new Vector3((sizeScale), (sizeScale), (sizeScale));
-			}
+			if (isServer == false) return;
+			ScaleSync.SetScale(new Vector3(newScale, newScale, newScale));
 		}
 
 		public PlantData GetPlantData()
@@ -114,11 +106,11 @@ namespace Systems.Botany
 			UniversalObjectPhysics = this.GetComponentCustom<UniversalObjectPhysics>();
 
 			Integrity = this.GetComponentCustom<Integrity>();
+			ScaleSync = this.GetComponentCustom<ScaleSync>();
 		}
 
 		public void Start()
 		{
-			SyncSize(sizeScale, sizeScale);
 			if (reagentContainer.ReagentMixTotal == 0)
 			{
 				SetUpFood(plantData, PlantTrayModification.None, null);
@@ -128,11 +120,11 @@ namespace Systems.Botany
 		/// <summary>
 		/// Called when plant creates food
 		/// </summary>
-		public void SetUpFood(PlantData newPlantData, PlantTrayModification modification, bool? IncreasesMutationChanceState)
+		public void SetUpFood(PlantData newPlantData, PlantTrayModification modification, bool? IncreasesMutationChanceState, PlantData.StatMutationType StatMutationTypeModifyer = PlantData.StatMutationType.Normal)
 		{
 
 			plantData = PlantData.MutateNewPlant(newPlantData, modification, IncreasesMutationChanceState);
-			SyncSize(sizeScale, 0.5f + (newPlantData.Potency / 200f));
+			SyncSize( 0.5f + (newPlantData.Potency / 200f));
 			SetupChemicalContents();
 			if (edible != null)
 			{

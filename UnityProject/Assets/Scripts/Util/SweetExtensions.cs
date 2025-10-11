@@ -314,6 +314,29 @@ public static class SweetExtensions
 	}
 
 
+	//New better system for Get component That cashs results
+	public static int NumberOf(this GameObject go)
+	{
+		if (ComponentManager.TryGetCommonComponent(go, out  var commonComponent))
+		{
+			if (commonComponent.TrySafeGetComponent<Stackable>(out var Stackable))
+			{
+				return Stackable.Amount;
+			}
+
+			return 1;
+		}
+		else
+		{
+			if (go == null) return 0;
+			if (go.TryGetComponent<Stackable>(out var Stackable))
+			{
+				return Stackable.Amount;
+			}
+			return 1;
+		}
+	}
+
 
 	//New better system for Get component That cashs results
 	public static T GetComponentCustom<T>(this GameObject go)  where T : Component

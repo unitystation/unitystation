@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Initialisation;
 using Managers.SettingsManager;
 using TMPro;
 using UI.Core;
@@ -28,6 +29,8 @@ namespace Unitystation.Options
 		[SerializeField] private TMP_InputField uiScaleY = null;
 
 		[SerializeField] private Toggle scrollWheelZoomToggle = null;
+
+		[SerializeField] private Toggle DropShadow = null;
 
 		void OnEnable()
 		{
@@ -65,6 +68,19 @@ namespace Unitystation.Options
 			uiScaleX.text = PlayerPrefs.GetInt(DisplaySettings.UISCALE_KEY + "x", (int)DisplaySettings.UISCALE_DEFAULT.x).ToString();
 			uiScaleY.text = PlayerPrefs.GetInt(DisplaySettings.UISCALE_KEY + "y", (int)DisplaySettings.UISCALE_DEFAULT.y).ToString();
 			ParseAndSetReferenceResolutionForUiScale(out int x, out int y);
+
+			if (PlayerPrefs.HasKey(PlayerPrefKeys.ItemDropShadow) == false)
+			{
+				PlayerPrefs.SetString(PlayerPrefKeys.ItemDropShadow, "true");
+			}
+
+			DropShadow.isOn = bool.Parse(PlayerPrefs.GetString(PlayerPrefKeys.ItemDropShadow));
+		}
+
+
+		public void SetItemDropShadow(bool State)
+		{
+			LoadManager.Instance.SetMaterialStatus(State);
 		}
 
 		/// <summary>

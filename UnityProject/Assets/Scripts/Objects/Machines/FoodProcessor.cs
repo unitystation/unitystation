@@ -84,23 +84,23 @@ namespace Objects.Kitchen
 		}
 
 		// Get the machine stock parts used in this instance and get the tier of each part.
-		public void RefreshParts(IDictionary<PartReference, int> partsInFrame, Machine Frame)
+		public void RefreshParts(List<PartReference> partsInFrame, Machine Frame)
 		{
 			// Collection is unorganized so run through the whole list.
 			foreach (var part in partsInFrame)
 			{
-				if (part.Key.itemTrait == MachinePartsItemTraits.Instance.Manipulator)
+				if (part.itemTrait == MachinePartsItemTraits.Instance.Manipulator)
 				{
 					// Manipulator tier determines process speed. For each tier above 1,
 					// the time it takes to process a single object is reduced by 1 second.
-					manipTier = part.Key.tier;
+					manipTier = part.tier;
 				}
 
-				if (part.Key.itemTrait ==  MachinePartsItemTraits.Instance.MatterBin)
+				if (part.itemTrait ==  MachinePartsItemTraits.Instance.MatterBin)
 				{
 					// Bin tier determines product number. The amount of product
 					// per input object is equal to the bin tier.
-					binTier = part.Key.tier;
+					binTier = part.tier;
 				}
 			}
 		}

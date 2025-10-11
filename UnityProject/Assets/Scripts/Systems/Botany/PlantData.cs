@@ -69,13 +69,13 @@ namespace Systems.Botany
 			return newPlant;
 		}
 
-		public static PlantData MutateNewPlant(PlantData plantData, PlantTrayModification modification, bool? IncreasesMutationChanceState)
+		public static PlantData MutateNewPlant(PlantData plantData, PlantTrayModification modification, bool? IncreasesMutationChanceState, StatMutationType StatMutationTypeModifyer = StatMutationType.Normal)
 		{
 			PlantData newPlant = new PlantData();
 			newPlant.SetValues(plantData);
 			newPlant.Health = 30;
 			newPlant.Age = 0;
-			newPlant.NaturalMutation(modification, IncreasesMutationChanceState);
+			newPlant.NaturalMutation(modification, IncreasesMutationChanceState, StatMutationTypeModifyer);
 			return newPlant;
 		}
 
@@ -201,16 +201,26 @@ namespace Systems.Botany
 		/// Triggers stat mutation and chance to mutate into new plant
 		/// </summary>
 		/// <param name="modification"></param>
-		public void NaturalMutation(PlantTrayModification modification, bool? IncreasesMutationChanceState)
+		public void NaturalMutation(PlantTrayModification modification, bool? IncreasesMutationChanceState = null, StatMutationType StatMutationTypeModifyer = StatMutationType.Normal )
 		{
+			if (StatMutationTypeModifyer == StatMutationType.Normal)
+			{
+				WeedGrowthRate = StatMutation(WeedGrowthRate, StatMutationType.Bad);
+			}
+			else
+			{
+				WeedGrowthRate = StatMutation(WeedGrowthRate, StatMutationType.VeryBad);
+			}
+
 			//Stat mutations
-			WeedResistance = StatMutation(WeedResistance, StatMutationType.Normal);
-			WeedGrowthRate = StatMutation(WeedGrowthRate, StatMutationType.Bad);
-			GrowthSpeed = StatMutation(GrowthSpeed, StatMutationType.Normal);
-			Potency = StatMutation(Potency, StatMutationType.Normal);
-			Endurance = StatMutation(Endurance, StatMutationType.Normal);
-			Yield = StatMutation(Yield, StatMutationType.Normal);
-			Lifespan = StatMutation(Lifespan, StatMutationType.Normal);
+			WeedResistance = StatMutation(WeedResistance, StatMutationTypeModifyer);
+
+			GrowthSpeed = StatMutation(GrowthSpeed, StatMutationTypeModifyer);
+			Potency = StatMutation(Potency, StatMutationTypeModifyer);
+			Endurance = StatMutation(Endurance, StatMutationTypeModifyer);
+			Yield = StatMutation(Yield, StatMutationTypeModifyer);
+			Lifespan = StatMutation(Lifespan, StatMutationTypeModifyer);
+
 			switch (modification)
 			{
 				case PlantTrayModification.None:
@@ -259,11 +269,12 @@ namespace Systems.Botany
 			}
 		}
 
-		private enum StatMutationType
+		public enum StatMutationType
 		{
 			Normal,
 			Special,
-			Bad
+			Bad,
+			VeryBad
 		}
 
 		private int StatMutation(int stat, StatMutationType statMutationType)
@@ -280,6 +291,10 @@ namespace Systems.Botany
 			else if (statMutationType == StatMutationType.Bad)
 			{
 				addition = random.Next(-5, 2);
+			}
+			else if (statMutationType == StatMutationType.VeryBad)
+			{
+				addition = random.Next(-7, 0);
 			}
 			return AddToStat(stat, addition);
 		}

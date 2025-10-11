@@ -9,6 +9,7 @@ using Items;
 using Logs;
 using Managers;
 using Messages.Client;
+using Scripts.Core.Transform;
 using SecureStuff;
 using UI;
 using UnityEngine;
@@ -79,6 +80,8 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 
 	public ItemAttributesV2 ItemAttributesV2;
 
+	private ScaleSync ScaleSync;
+
 	/// <summary>
 	/// Client Side Events. Expects an interactor.
 	/// </summary>
@@ -99,6 +102,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	{
 		ItemAttributesV2 =  GetComponent<ItemAttributesV2>();
 		universalObjectPhysics = GetComponent<UniversalObjectPhysics>();
+		ScaleSync = GetComponent<ScaleSync>();
 		if (lastTouch == null) lastTouch = GetComponent<LastTouch>();
 	}
 
@@ -316,7 +320,15 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	[ClientRpc]
 	private void RpcResetPickupAnim()
 	{
-		LeanTween.scale(gameObject, new Vector3(1, 1), 0.1f);
+		if (ScaleSync != null)
+		{
+			LeanTween.scale(gameObject, ScaleSync.ScaleTransform, 0.1f);
+		}
+		else
+		{
+			LeanTween.scale(gameObject, new Vector3(1, 1), 0.1f);
+		}
+
 	}
 
 	public RightClickableResult GenerateRightClickOptions()
