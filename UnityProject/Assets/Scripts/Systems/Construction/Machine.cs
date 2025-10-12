@@ -104,15 +104,23 @@ namespace Objects.Machines
 
 				foreach (var part in MachineParts.machineParts)
 				{
-					var partObjs = Spawn.ServerPrefab(part.basicItem, gameObject.AssumedWorldPosServer(),
-						gameObject.transform.parent, count: part.amountOfThisPart).GameObjects;
-					
-					foreach (var Object in partObjs)
+
+					for (int i = 0; i < part.amountOfThisPart; i++)
 					{
-						PartsStorage.ServerTryAdd(Object);
+						var partObjs = Spawn.ServerPrefab(part.basicItem, gameObject.AssumedWorldPosServer(),
+							gameObject.transform.parent).GameObjects;
+
+						foreach (var Object in partObjs)
+						{
+							PartsStorage.ServerTryAdd(Object);
+						}
 					}
+
 				}
 			}
+
+
+			var data = PartsStorage.GetItemSlots();
 
 			var toRefresh = GetComponents<IRefreshParts>();
 

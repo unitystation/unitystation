@@ -523,7 +523,7 @@ namespace Objects.Construction
 					x => x.itemTrait == itemTrait
 					     && x.itemObject.GetComponentCustom<Stackable>().StacksWith(Stacking));
 
-				if (ExistingStacking.itemTrait  != null)
+				if (ExistingStacking?.itemTrait  != null)
 				{
 					var Amount = Mathf.Min(Stacking.Amount, needed);
 					ExistingStacking.itemObject.GetComponent<Stackable>().ServerIncrease(Amount);

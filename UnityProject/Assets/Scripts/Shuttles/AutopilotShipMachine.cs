@@ -68,6 +68,7 @@ public class AutopilotShipMachine : MonoBehaviour
 
 	public void MoveToTargetBuoy(GuidanceBuoy Buoy)
 	{
+		if (CustomNetworkManager.IsServer == false) return;
 		PreviouslyReached = null;
 		StartOfChain = Buoy;
 		if (CurrentTarget != null)
@@ -84,6 +85,7 @@ public class AutopilotShipMachine : MonoBehaviour
 
 	protected void MoveToInternal(GuidanceBuoy pos)
 	{
+		if (CustomNetworkManager.IsServer == false) return;
 		ShuttlesMainConnector.Disconnect();
 		CurrentTarget = pos;
 		mm.NetworkedMatrixMove.HasMoveToTarget = true;
