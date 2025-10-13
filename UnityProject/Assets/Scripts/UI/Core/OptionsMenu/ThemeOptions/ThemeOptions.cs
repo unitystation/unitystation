@@ -8,7 +8,6 @@ using TMPro;
 using UI;
 using UI.Chat_UI;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Unitystation.Options
@@ -42,6 +41,9 @@ namespace Unitystation.Options
 
 		[SerializeField]
 		private Toggle chatHighlightToggle = null;
+
+		[SerializeField]
+		private Toggle chatEntryBackgroundToggle = null;
 
 		[SerializeField]
 		private Toggle mentionSoundToggle = null;
@@ -99,6 +101,7 @@ namespace Unitystation.Options
 			HighlightToggle.isOn = Highlight.HighlightEnabled;
 			chatHighlightToggle.isOn = ThemeManager.ChatHighlight;
 			mentionSoundToggle.isOn = ThemeManager.MentionSound;
+			chatEntryBackgroundToggle.isOn = PlayerPrefs.GetInt(PlayerPrefKeys.CHAT_BACKGROUND_ALLWAYS_ENABLED, 0) == 1;
 
 			chatBubbleSizeSlider.value = DisplaySettings.Instance.ChatBubbleSize;
 			chatBubbleInstantToggle.isOn = DisplaySettings.Instance.ChatBubbleInstant == 1;
@@ -302,6 +305,12 @@ namespace Unitystation.Options
 		public void OnChatBubbleNumber()
 		{
 			ChatBubble.SetPreferenceNummberBubbles(Mathf.RoundToInt(NumberOfBubblesSlider.value));
+		}
+
+		public void OnChatEntryBackgroundToggle()
+		{
+			PlayerPrefs.SetInt(PlayerPrefKeys.CHAT_BACKGROUND_ALLWAYS_ENABLED, chatEntryBackgroundToggle.isOn ? 1 : 0);
+			PlayerPrefs.Save();
 		}
 	}
 }
