@@ -692,14 +692,13 @@ namespace UI.CharacterCreator
 			{
 				foreach (var PartSprite in partSprites.Value)
 				{
-					yield return WaitFor.EndOfFrame;
+
 					PartSprite.ChangeSpriteVariant(referenceOffset);
 				}
 			}
 
 			foreach (var Customisation in OpenCustomisation)
 			{
-				yield return WaitFor.EndOfFrame; //(Max): Why do we need to wait a whole frame for each change? I want to die.
 				Customisation.SetRotation(referenceOffset);
 			}
 		}

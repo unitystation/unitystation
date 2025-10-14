@@ -12,15 +12,16 @@ namespace Actions.V2
 		[field: SerializeField] public OnType ActionButtonOnType { get; private set; } = OnType.Body;
 		[field: SerializeField] public float ActionButtonRefreshRate { get; private set; } = 0.75f;
 
-		private SyncList<ActionButtonData> ActionButtons = new SyncList<ActionButtonData>();
-		private SyncList<CooldownInfo> ActionCooldowns = new();
+		private readonly SyncList<ActionButtonData> ActionButtons = new SyncList<ActionButtonData>();
+		private readonly SyncList<CooldownInfo> ActionCooldowns = new();
 		private readonly Dictionary<string, (ActionButtonData Data, Action<Vector2> Action)> ServerActionRegistry = new();
 		private readonly Dictionary<string, (ActionButtonData Data, Action<Vector2> Action)> ClientActionRegistry = new();
+		private NetworkIdentity cachedNetIdentity;
 
 		private const float MINIMUM_COOLDOWN_TIME = 0.085f;
 
 		[Serializable]
-		private class CooldownInfo : NetworkMessage
+		public class CooldownInfo : NetworkMessage
 		{
 			public string ActionId { get; private set; }
 			public DateTime CooldownEnd { get; private set; }
@@ -60,6 +61,7 @@ namespace Actions.V2
 		private void Start()
 		{
 			if (CustomNetworkManager.IsHeadless == false) UpdateManager.Add(UpdateMe, ActionButtonRefreshRate);
+			cachedNetIdentity = gameObject.NetWorkIdentity();
 		}
 
 		private void OnDestroy()
@@ -71,14 +73,42 @@ namespace Actions.V2
 
 		private void UpdateMe()
 		{
-			if (PlayerManager.LocalMindScript?.GetRelatedBodies().Contains(gameObject.NetWorkIdentity()) == false) return;
-			if (ActionButtonOnType == OnType.Body)
+			if (cachedNetIdentity == null) cachedNetIdentity = gameObject.NetWorkIdentity();
+			switch (ActionButtonOnType)
 			{
-				ActionButtonManager.Instance.RefreshButtonsBody(ActionButtons);
+				case OnType.Body:
+					UICheckBody();
+					break;
+				case OnType.Mind:
+					UICheckMind();
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+		}
+
+		private void UICheckMind()
+		{
+			if (PlayerManager.LocalMindScript && PlayerManager.LocalMindScript.gameObject.NetWorkIdentity() ==
+			    cachedNetIdentity)
+			{
+				ActionButtonManager.Instance.RefreshButtonsMind(ActionButtons, cachedNetIdentity);
 			}
 			else
 			{
-				ActionButtonManager.Instance.RefreshButtonsMind(ActionButtons);
+				ActionButtonManager.Instance.DeleteSpawnedMindUIActions(cachedNetIdentity);
+			}
+		}
+
+		private void UICheckBody()
+		{
+			if (PlayerManager.LocalMindScript?.GetRelatedBodies().Contains(cachedNetIdentity) == true)
+			{
+				ActionButtonManager.Instance.RefreshButtonsBody(ActionButtons, cachedNetIdentity);
+			}
+			else
+			{
+				ActionButtonManager.Instance.DeleteSpawnedBodyUIActions(cachedNetIdentity);
 			}
 		}
 
@@ -86,6 +116,7 @@ namespace Actions.V2
 		{
 			// Notify UI system on client to refresh buttons
 			UpdateMe();
+			this.netIdentity.isDirty = true;
 		}
 
 		public void RegisterNewAction(ActionButtonData newData, Action<Vector2> logic)
@@ -105,7 +136,12 @@ namespace Actions.V2
 					ClientAddAction(newData, logic);
 					break;
 			}
-			ActionButtons.Add(newData);
+
+			if (CustomNetworkManager.IsServer)
+			{
+				ActionButtons.Add(newData);
+				this.netIdentity.isDirty = true;
+			}
 		}
 
 		/// <summary>
@@ -149,6 +185,7 @@ namespace Actions.V2
 					break;
 			}
 			ActionButtons.Add(ActionData);
+			this.cachedNetIdentity.isDirty = true;
 		}
 
 		public void UnregisterAction(ActionButtonData data)
@@ -173,26 +210,18 @@ namespace Actions.V2
 		public void CmdTriggerAction(string actionId, Vector2 mouseLocation)
 		{
 			if (IsActionOnCooldown(actionId)) return;
-			if (ServerActionRegistry.TryGetValue(actionId, out var found))
+			if (ServerActionRegistry.TryGetValue(actionId, out var found) == false) return;
+			try
 			{
-				Debug.Log($"Server executing action: {actionId}");
-
-				try
+				found.Action?.Invoke(mouseLocation);
+				if (found.Data.CooldownTime > MINIMUM_COOLDOWN_TIME)
 				{
-					found.Action?.Invoke(mouseLocation);
-					if (found.Data.CooldownTime > MINIMUM_COOLDOWN_TIME)
-					{
-						AddCooldown(actionId, found.Data.CooldownTime);
-					}
-				}
-				catch (Exception e)
-				{
-					Loggy.Error(e.ToString());
+					AddCooldown(actionId, found.Data.CooldownTime);
 				}
 			}
-			else
+			catch (Exception e)
 			{
-				Debug.Log($"server action not found: {actionId}");
+				Loggy.Error(e.ToString());
 			}
 		}
 
@@ -232,6 +261,11 @@ namespace Actions.V2
 				}
 				return hasItem;
 			});
+			if (cachedNetIdentity == null)
+			{
+				cachedNetIdentity = gameObject.NetWorkIdentity();
+			}
+			cachedNetIdentity.isDirty = true;
 		}
 
 		[Client]
@@ -260,6 +294,7 @@ namespace Actions.V2
 				}
 				return hasItem;
 			});
+			this.cachedNetIdentity.isDirty = true;
 		}
 
 		private void ClearCooldowns()
@@ -278,7 +313,10 @@ namespace Actions.V2
 			foreach (var key in keysToRemove)
 			{
 				ActionCooldowns.Remove(key);
+				this.cachedNetIdentity.isDirty = true;
 			}
+
+
 		}
 
 		private void AddCooldown(string actionId, float cooldownTime)
@@ -299,6 +337,7 @@ namespace Actions.V2
 			if (isUnderCooldown.CooldownEnd <= DateTime.UtcNow)
 			{
 				ActionCooldowns.Remove(isUnderCooldown);
+				this.cachedNetIdentity.isDirty = true;
 				return false; // Cooldown has expired
 			}
 			else

@@ -12,56 +12,46 @@ namespace UI.Systems.PreRound
 		[SerializeField] private TMP_Text countdownText = null;
 		[SerializeField] private TMP_Text statusText = null;
 
+		private CountdownState currentState = CountdownState.Inactive;
+
 		public bool doCountdown;
 		private double countdownEndTime;
 		public UnityEvent OnFinishedCountingDown;
 
-		public bool IsCountingDown { get; private set; } = false;
+		public bool IsCountingDown => currentState == CountdownState.CountingDown;
+		private bool hasTriggeredCountdownEnd = false;
+
+		private enum CountdownState
+		{
+			Inactive,
+			CountingDown,
+			Finished
+		}
 
 		private void OnEnable()
 		{
-			EventManager.AddHandler(Event.PostRoundStarted, OnCountdownEnd);
-			UpdateManager.Add(UpdateCountdownText, 1f);
+			hasTriggeredCountdownEnd = true;
+			EventManager.AddHandler(Event.PostRoundStarted, HandlePostRoundStarted);
+			UpdateManager.Add(UpdateCountdownState, 1f);
 		}
 
 		private void OnDisable()
 		{
 			OnFinishedCountingDown?.Invoke();
-			EventManager.RemoveHandler(Event.PostRoundStarted, OnCountdownEnd);
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateCountdownText);
+			EventManager.RemoveHandler(Event.PostRoundStarted, HandlePostRoundStarted);
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateCountdownState);
 		}
 
-		private void UpdateCountdownText()
+		private void HandlePostRoundStarted()
 		{
-			if (countdownText == null)
-			{
-				Debug.LogError("Countdown text is null");
-				return;
-			}
-			if (gameObject.activeSelf == false)
-			{
-				gameObject.SetActive(true);
-			}
-
-			double timeDiff = countdownEndTime - NetworkTime.time;
-			if (timeDiff >= 0)
-			{
-				// Counting down
-				UpdateStatusText("Next Shift in:");
-				countdownText.text = TimeSpan.FromSeconds(timeDiff).ToString(@"mm\:ss");
-			}
-			else
-			{
-				// Counting up
-				UpdateStatusText("Time Since Shift Started:");
-				countdownText.text = TimeSpan.FromSeconds(-timeDiff).ToString(@"mm\:ss");
-			}
+			currentState = CountdownState.Finished;
+			OnFinishedCountingDown?.Invoke();
 		}
 
-		private void UpdateStatusText(string status)
+		private void UpdateCountdownText(double seconds, string label)
 		{
-			if (statusText == null) return;
-			statusText.text = status;
+			statusText.text = label;
+			countdownText.text = TimeSpan.FromSeconds(seconds).ToString(@"mm\:ss");
 		}
 
 		public void SyncCountdown(bool started, double endTime)
@@ -69,23 +59,57 @@ namespace UI.Systems.PreRound
 			Loggy.Info().Format("SyncCountdown called with: started={0}, endTime={1}, current NetworkTime={2}",
 				Category.Round,
 				started, endTime, NetworkTime.time);
+
 			countdownEndTime = endTime;
 			doCountdown = started;
-			if (endTime != 0 && doCountdown && countdownEndTime > NetworkTime.time)
+
+			if (doCountdown && countdownEndTime > NetworkTime.time)
 			{
-				IsCountingDown = true;
-				UpdateCountdownText();
+				currentState = CountdownState.CountingDown;
 			}
 			else
 			{
-				OnCountdownEnd();
+				// Already expired or invalid
+				currentState = CountdownState.Finished;
+				OnFinishedCountingDown?.Invoke();
 			}
+
+			UpdateCountdownState();
 		}
 
-		private void OnCountdownEnd()
+		private void UpdateCountdownState()
 		{
-			IsCountingDown = false;
-			OnFinishedCountingDown?.Invoke();
+			if (countdownText == null || statusText == null)
+			{
+				Debug.LogError("Countdown text or status text is null");
+				return;
+			}
+
+			if (!gameObject.activeSelf)
+				gameObject.SetActive(true);
+
+			double timeRemaining = countdownEndTime - NetworkTime.time;
+
+			if (doCountdown && timeRemaining > 0)
+			{
+				// Still counting down
+				if (currentState != CountdownState.CountingDown)
+					currentState = CountdownState.CountingDown;
+
+				UpdateCountdownText(timeRemaining, "Next Shift in:");
+			}
+			else
+			{
+				// Time has expired
+				if (currentState == CountdownState.CountingDown)
+				{
+					currentState = CountdownState.Finished;
+					OnFinishedCountingDown?.Invoke();
+				}
+
+				double elapsed = Math.Max(0, -timeRemaining);
+				UpdateCountdownText(elapsed, "Time Since Shift Started:");
+			}
 		}
 	}
 }

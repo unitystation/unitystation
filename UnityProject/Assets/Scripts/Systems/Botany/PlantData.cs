@@ -6,6 +6,7 @@ using UnityEngine;
 using Objects.Botany;
 using Items.Botany;
 using Logs;
+using UnityEngine.Serialization;
 
 namespace Systems.Botany
 {
@@ -41,7 +42,7 @@ namespace Systems.Botany
 		[Tooltip("Determines how long the plant lives for.")]
 		public int Lifespan = 25;
 		public List<PlantTrays> PlantTrays = new List<PlantTrays>();
-		public List<Reagent> ReagentProduction = new List<Reagent>();
+		public List<ReagentNPercentage> ReagentProduction = new List<ReagentNPercentage>();
 
 		public List<GameObject> MutatesInToGameObject = new List<GameObject>();
 
@@ -63,18 +64,18 @@ namespace Systems.Botany
 		{
 			PlantData newPlant = new PlantData();
 			newPlant.SetValues(plantData);
-			newPlant.Health = 100;
+			newPlant.Health = 30;
 			newPlant.Age = 0;
 			return newPlant;
 		}
 
-		public static PlantData MutateNewPlant(PlantData plantData, PlantTrayModification modification)
+		public static PlantData MutateNewPlant(PlantData plantData, PlantTrayModification modification, bool? IncreasesMutationChanceState, StatMutationType StatMutationTypeModifyer = StatMutationType.Normal)
 		{
 			PlantData newPlant = new PlantData();
 			newPlant.SetValues(plantData);
-			newPlant.Health = 100;
+			newPlant.Health = 30;
 			newPlant.Age = 0;
-			newPlant.NaturalMutation(modification);
+			newPlant.NaturalMutation(modification, IncreasesMutationChanceState, StatMutationTypeModifyer);
 			return newPlant;
 		}
 
@@ -135,9 +136,9 @@ namespace Systems.Botany
 		/// Combine plants reagents removing any duplicates, Keeps highest yield
 		/// </summary>
 		/// <param name="Reagents">New reagents to combine</param>
-		private void CombineReagentProduction(List<Reagent> Reagents)
+		private void CombineReagentProduction(List<ReagentNPercentage> Reagents)
 		{
-			var ToRemove = new List<Reagent>();
+			var ToRemove = new List<ReagentNPercentage>();
 			Reagents.AddRange(ReagentProduction);
 			foreach (var Reagent in Reagents)
 			{
@@ -147,7 +148,7 @@ namespace Systems.Botany
 					{
 						if (_Reagent.ChemistryReagent == Reagent.ChemistryReagent)
 						{
-							if (_Reagent.Amount > Reagent.Amount)
+							if (_Reagent.percentage > Reagent.percentage)
 							{
 								ToRemove.Add(Reagent);
 							}
@@ -200,16 +201,26 @@ namespace Systems.Botany
 		/// Triggers stat mutation and chance to mutate into new plant
 		/// </summary>
 		/// <param name="modification"></param>
-		public void NaturalMutation(PlantTrayModification modification)
+		public void NaturalMutation(PlantTrayModification modification, bool? IncreasesMutationChanceState = null, StatMutationType StatMutationTypeModifyer = StatMutationType.Normal )
 		{
+			if (StatMutationTypeModifyer == StatMutationType.Normal)
+			{
+				WeedGrowthRate = StatMutation(WeedGrowthRate, StatMutationType.Bad);
+			}
+			else
+			{
+				WeedGrowthRate = StatMutation(WeedGrowthRate, StatMutationType.VeryBad);
+			}
+
 			//Stat mutations
-			WeedResistance = StatMutation(WeedResistance, StatMutationType.Normal);
-			WeedGrowthRate = StatMutation(WeedGrowthRate, StatMutationType.Bad);
-			GrowthSpeed = StatMutation(GrowthSpeed, StatMutationType.Normal);
-			Potency = StatMutation(Potency, StatMutationType.Normal);
-			Endurance = StatMutation(Endurance, StatMutationType.Normal);
-			Yield = StatMutation(Yield, StatMutationType.Normal);
-			Lifespan = StatMutation(Lifespan, StatMutationType.Normal);
+			WeedResistance = StatMutation(WeedResistance, StatMutationTypeModifyer);
+
+			GrowthSpeed = StatMutation(GrowthSpeed, StatMutationTypeModifyer);
+			Potency = StatMutation(Potency, StatMutationTypeModifyer);
+			Endurance = StatMutation(Endurance, StatMutationTypeModifyer);
+			Yield = StatMutation(Yield, StatMutationTypeModifyer);
+			Lifespan = StatMutation(Lifespan, StatMutationTypeModifyer);
+
 			switch (modification)
 			{
 				case PlantTrayModification.None:
@@ -237,17 +248,33 @@ namespace Systems.Botany
 					break;
 			}
 
-			if (random.Next(100) > 95)
+			int Chance = 95;
+
+			if (IncreasesMutationChanceState == null)
+			{
+				Chance = 95;
+			}
+			else if (IncreasesMutationChanceState.Value == false)
+			{
+				Chance = 99;
+			}
+			else
+			{
+				Chance = 75;
+			}
+
+			if (random.Next(100) > Chance)
 			{
 				Mutation();
 			}
 		}
 
-		private enum StatMutationType
+		public enum StatMutationType
 		{
 			Normal,
 			Special,
-			Bad
+			Bad,
+			VeryBad
 		}
 
 		private int StatMutation(int stat, StatMutationType statMutationType)
@@ -255,7 +282,7 @@ namespace Systems.Botany
 			var addition = 0;
 			if (statMutationType == StatMutationType.Normal)
 			{
-				addition = random.Next(2, 5);
+				addition = random.Next(-2, 5);
 			}
 			else if (statMutationType == StatMutationType.Special)
 			{
@@ -264,6 +291,10 @@ namespace Systems.Botany
 			else if (statMutationType == StatMutationType.Bad)
 			{
 				addition = random.Next(-5, 2);
+			}
+			else if (statMutationType == StatMutationType.VeryBad)
+			{
+				addition = random.Next(-7, 0);
 			}
 			return AddToStat(stat, addition);
 		}
@@ -286,10 +317,10 @@ namespace Systems.Botany
 			public int LifespanChange;
 
 			public List<PlantTrays> PlantTrays = new List<PlantTrays>();
-			public List<Reagent> ReagentProduction = new List<Reagent>();
+			public List<ReagentNPercentage> ReagentProduction = new List<ReagentNPercentage>();
 
 			public List<PlantTrays> RemovePlantTrays = new List<PlantTrays>();
-			public List<Reagent> RemoveReagentProduction = new List<Reagent>();
+			public List<ReagentNPercentage> RemoveReagentProduction = new List<ReagentNPercentage>();
 
 		}
 	}
@@ -298,10 +329,10 @@ namespace Systems.Botany
 	/// Holds Reagent information
 	/// </summary>
 	[System.Serializable]
-	public class Reagent
+	public class ReagentNPercentage
 	{
 		public Chemistry.Reagent ChemistryReagent;
-		public int Amount;
+		[FormerlySerializedAs("Amount")] public float percentage;
 	}
 
 
@@ -322,5 +353,6 @@ namespace Systems.Botany
 		Strong_Bioluminescence,
 		Bioluminescence,
 		Separated_Chemicals,
+		Fire_Resistance
 	}
 }

@@ -25,6 +25,8 @@ namespace Objects.Robotics
 		private ItemTrait InsertedMaterialType;
 		private IEnumerator currentProduction;
 
+		private Machine machine;
+
 		public delegate void MaterialsManipulating();
 
 		public static event MaterialsManipulating MaterialsManipulated;
@@ -55,6 +57,7 @@ namespace Objects.Robotics
 			registerObject = GetComponent<RegisterObject>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			materialStorageLink = GetComponent<MaterialStorageLink>();
+			machine = GetComponent<Machine>();
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -122,7 +125,7 @@ namespace Objects.Robotics
 		/// </summary>
 		public bool CanProcessProduct(MachineProduct product)
 		{
-			if (materialStorageLink.usedStorage.TryConsumeList(product.materialToAmounts))
+			if (materialStorageLink.usedStorage.TryConsumeList(product.materialToAmounts, 0.5f / (machine.GetPartMultiplier()/2f)))
 			{
 				currentProduction = ProcessProduction(product.Product, product.ProductionTime);
 				StartCoroutine(currentProduction);

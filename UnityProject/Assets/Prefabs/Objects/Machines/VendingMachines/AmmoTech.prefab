@@ -35,7 +35,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4145616584517116956, guid: bb2d0192db81c7d469ced45d96e3629e,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 2451706321488521331}
+    - target: {fileID: 4145616584517116956, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f01d5b3451e2114a955dd68ad2bcd85,
+        type: 2}
+    - target: {fileID: 4145616584517116956, guid: bb2d0192db81c7d469ced45d96e3629e,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 8f01d5b3451e2114a955dd68ad2bcd85,
         type: 2}
@@ -88,12 +99,12 @@ PrefabInstance:
     - target: {fileID: 5120633959521883907, guid: bb2d0192db81c7d469ced45d96e3629e,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[0].Stock
-      value: 15
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 5120633959521883907, guid: bb2d0192db81c7d469ced45d96e3629e,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[1].Stock
-      value: 10
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 5120633959521883907, guid: bb2d0192db81c7d469ced45d96e3629e,
         type: 3}
@@ -226,3 +237,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb2d0192db81c7d469ced45d96e3629e, type: 3}
+--- !u!212 &2451706321488521331 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8698980198332754641, guid: bb2d0192db81c7d469ced45d96e3629e,
+    type: 3}
+  m_PrefabInstance: {fileID: 6538885322122511010}
+  m_PrefabAsset: {fileID: 0}

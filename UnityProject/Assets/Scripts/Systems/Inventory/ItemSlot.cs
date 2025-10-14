@@ -238,6 +238,13 @@ public class ItemSlot
 		return itemStorage.GetRootStorageOrPlayer();
 	}
 
+	public (GameObject, PlayerScript) GetRootStorageAndIfPlayer()
+	{
+		var storage = itemStorage.GetRootStorageOrPlayer();
+		if (storage == null) return (null, null);
+		return storage.TryGetComponent(out PlayerScript playerScript) ? (storage, playerScript) : (storage, null);
+	}
+
 	public override string ToString()
 	{
 		return $"storage {itemStorage.name}, slot {slotIdentifier}, contains " + (Item != null ? Item.name : "nothing");

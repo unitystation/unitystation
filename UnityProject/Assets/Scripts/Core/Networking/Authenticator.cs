@@ -225,7 +225,7 @@ namespace Core.Networking
 					NetworkServer.connections.FirstOrDefault(
 						x => x.Value.address == connectionTimer.Key);
 
-				if (connectionFound.Equals(default(KeyValuePair<int,NetworkConnectionToClient>)) == false)
+				if (connectionFound.Key != 0 || connectionFound.Value != null)
 				{
 					//If still connected then disconnect
 					DisconnectClient(connectionFound.Value, ResponseCode.IncorrectPassword, "Invalid Password!");

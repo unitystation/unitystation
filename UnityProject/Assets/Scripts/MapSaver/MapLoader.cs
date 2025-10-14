@@ -535,13 +535,22 @@ namespace MapSaver
 			}
 		}
 
+		public static void ServerLoadMapNoCoRoutine(Vector3 Offset00, Vector3 Offset, MapSaver.MapData MapData,
+			SceneType sceneType = SceneType.HiddenScene, HashSet<LayerType> LoadLayers = null,
+			bool LoadObjects = true)
+		{
+			GameManager.Instance.StartCoroutine(ServerLoadMap(Offset00, Offset, MapData, sceneType, LoadLayers, LoadObjects));
+		}
+
+
 		public static IEnumerator ServerLoadMap(Vector3 Offset00, Vector3 Offset, MapSaver.MapData MapData,
-			SceneType sceneType = SceneType.HiddenScene)
+			SceneType sceneType = SceneType.HiddenScene, HashSet<LayerType> LoadLayers = null,
+			bool LoadObjects = true)
 		{
 			foreach (var ToMapMatrix in MapData.ContainedMatrices)
 			{
 				yield return ServerLoadSection(null, Offset00, Offset, ToMapMatrix, null,
-					MatrixName: ToMapMatrix.MatrixName, LoadingMultiple: true, sceneType: sceneType);
+					MatrixName: ToMapMatrix.MatrixName, LoadingMultiple: true, sceneType: sceneType, LoadLayers : LoadLayers,LoadObjects :LoadObjects );
 			}
 
 			MapSaver.CodeClass.ThisCodeClass.ReportStatus();
@@ -608,6 +617,8 @@ namespace MapSaver
 								.localPosition = Offset;
 							Offset = Vector3.zero;
 						}
+
+						aaMatrix.NetworkedMatrix.IsJsonLoaded = false;
 					}
 					else
 					{

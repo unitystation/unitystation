@@ -89,6 +89,7 @@ namespace Items.Food
 		public bool WillInteract(HandActivate interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+			if (interaction.Intent != Intent.Help) return false;
 			return true;
 		}
 
@@ -189,13 +190,13 @@ namespace Items.Food
 				{
 					Chat.AddActionMsgToChat(feeder.gameObject,
 						"you try the stuff The food into your mouth but your stomach has no more room",
-						$"{feeder} Tries to stuff food into the mouth but is unable to");
+						$"{feeder.gameObject.ExpensiveName()} Tries to stuff food into the mouth but is unable to");
 				}
 				else if(feeder == null)
 				{
 					Chat.AddActionMsgToChat(feeder.gameObject,
 						"You try and stuff more food into your targets mouth but no more seems to go in",
-						$"{feeder} Tries to stuff food into Their targets mouth but no more food is going in");
+						$"{feeder.gameObject.ExpensiveName()} Tries to stuff food into Their targets mouth but no more food is going in");
 				}
 				else
 				{
@@ -212,13 +213,13 @@ namespace Items.Food
 				if(feeder == null)
 				{
 					Chat.AddActionMsgToChat(this.gameObject, $"You unwillingly get eaten by {eater}",
-					$"{eater} Unwillingly force themselves to eat the food");
+					$"{eater.gameObject.ExpensiveName()} Unwillingly force themselves to eat the food");
 
 				}
 				else
 				{
 					Chat.AddActionMsgToChat(feeder.gameObject, "You unwillingly eat the food",
-					$"{eater} Unwillingly force themselves to eat the food");
+					$"{eater.gameObject.ExpensiveName()} Unwillingly force themselves to eat the food");
 				}
 			}
 

@@ -215,7 +215,7 @@ namespace Objects.Lighting
 
 			if (newState == LightMountState.Broken)
 			{
-				UpdateManager.Add(TrySpark, 1f);
+				UpdateManager.Add(TrySpark, RNG.GetRandomNumber(0.25f, 10) );
 				sparking = true;
 			}
 			else
@@ -334,7 +334,7 @@ namespace Objects.Lighting
 			}
 		}
 
-		#region ICheckedInteractable<HandApply>
+		                     #region ICheckedInteractable<HandApply>
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{

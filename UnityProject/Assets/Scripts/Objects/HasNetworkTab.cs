@@ -14,7 +14,7 @@ namespace Objects
 	/// please ensure this component is placed below them, otherwise the tab open/close will
 	/// be the interaction that always takes precedence.
 	/// </summary>
-	public class HasNetworkTab : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerDespawn, ICheckedInteractable<AiActivate>
+	public class HasNetworkTab : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerDespawn, ICheckedInteractable<AiActivate>,  ICheckedInteractable<PositionalHandApply>
 	{
 		[NonSerialized]
 		private GameObject playerInteracted;
@@ -42,6 +42,11 @@ namespace Objects
 			OnShowUI?.Invoke(player);
 		}
 
+		bool ICheckable<PositionalHandApply>.WillInteract(PositionalHandApply interaction, NetworkSide side)
+		{
+			return WillInteract(interaction, side);
+		}
+
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.Default(interaction, side, AllowTelekinesis : false) == false)
@@ -55,6 +60,11 @@ namespace Objects
 			{ return false; }
 
 			return true;
+		}
+
+		void IInteractable<PositionalHandApply>.ServerPerformInteraction(PositionalHandApply interaction)
+		{
+			 ServerPerformInteraction(interaction);
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
@@ -87,20 +97,6 @@ namespace Objects
 			InvokeEventOnClient(interaction.PerformerPlayerScript.connectionToClient, interaction.Performer);
 		}
 
-		public void ServerPerformInteraction(PositionalHandApply interaction)
-		{
-			foreach (var validateNetTab in GetComponents<ICanOpenNetTab>())
-			{
-				if(validateNetTab.CanOpenNetTab(interaction.Performer, NetTabType)) continue;
-
-				//If false block net tab opening
-				return;
-			}
-
-			playerInteracted = interaction.Performer;
-			TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);
-			InvokeEventOnClient(interaction.PerformerPlayerScript.connectionToServer, interaction.Performer);
-		}
 
 		public void OnDespawnServer(DespawnInfo info)
 		{

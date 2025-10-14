@@ -113,7 +113,7 @@ namespace AdminTools.VariableViewer
 						break;
 				}
 
-				RequestChangeVariableNetMessage.Send(PageID, Outstring, UISendToClientToggle.toggle, SentenceID);
+				RequestChangeVariableNetMessage.Send(PageID, Outstring, UISendToClientToggle.toggle, SentenceID, iskey);
 			}
 		}
 
@@ -245,6 +245,29 @@ namespace AdminTools.VariableViewer
 					);
 				}
 			}
+		}
+
+
+		public override object GetDefaultValue(Type InType)
+		{
+			if (InType == typeof(Vector2))
+			{
+				return new Vector2(0, 0);
+			}
+			else if (InType == typeof(Vector2Int))
+			{
+				return new Vector2Int(0, 0);
+			}
+			else if (InType == typeof(Vector3))
+			{
+				return new Vector3(0, 0,0);
+			}
+			else if (InType == typeof(Vector3Int))
+			{
+				return new Vector3Int(0, 0,0);
+			}
+
+			return null;
 		}
 
 		// TODO: could be extension method / moved to generic class

@@ -21,21 +21,21 @@ namespace Weapons.Projectiles
 			behavioursOnBulletDespawn = GetComponents<IOnDespawn>();
 		}
 
-		public override void Suicide(GameObject controlledByPlayer, Gun fromWeapon, BodyPartType targetZone = BodyPartType.Chest)
+		public override void Suicide(GameObject controlledByPlayer, Gun fromWeapon, MagazineBehaviour Magazine, BodyPartType targetZone = BodyPartType.Chest)
 		{
-			ShootBeam(Vector2.zero, controlledByPlayer,fromWeapon, targetZone);
+			ShootBeam(Vector2.zero, controlledByPlayer,fromWeapon,Magazine , targetZone);
 		}
 
-		public override void Shoot(Vector2 direction, GameObject controlledByPlayer, Gun fromWeapon, BodyPartType targetZone = BodyPartType.Chest)
+		public override void Shoot(Vector2 direction, GameObject controlledByPlayer, Gun fromWeapon,  MagazineBehaviour Magazine, BodyPartType targetZone = BodyPartType.Chest)
 		{
-			ShootBeam(direction, controlledByPlayer,fromWeapon, targetZone);
+			ShootBeam(direction, controlledByPlayer,fromWeapon, Magazine, targetZone);
 		}
 
-		private void ShootBeam(Vector2 direction, GameObject controlledByPlayer, Gun fromWeapon, BodyPartType targetZone )
+		private void ShootBeam(Vector2 direction, GameObject controlledByPlayer, Gun fromWeapon, MagazineBehaviour Magazine, BodyPartType targetZone )
 		{
 			foreach (var behaviour in behavioursOnShoot)
 			{
-				behaviour.OnShoot(direction, controlledByPlayer, fromWeapon, targetZone);
+				behaviour.OnShoot(direction, controlledByPlayer, fromWeapon, Magazine, targetZone);
 			}
 
 			var pos = transform.position;

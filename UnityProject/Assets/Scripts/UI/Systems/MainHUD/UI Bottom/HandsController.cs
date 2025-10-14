@@ -58,6 +58,16 @@ public class HandsController : MonoBehaviour
 		}
 	}
 
+	public void PickAcctiveHandController()
+	{
+		foreach (var Hand in StorageToHands)
+		{
+			Hand.Value.PickActiveHand();
+			break;
+		}
+
+	}
+
 	public void AddHand(IDynamicItemSlotS bodyPartUISlots, BodyPartUISlots.StorageCharacteristics StorageCharacteristics)
 	{
 		if (this == null) return;

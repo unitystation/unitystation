@@ -68,6 +68,8 @@ public class ActionData : ScriptableObject
 	public CursorOffsetType OffsetType => cursorOffsetType;
 	public Vector2 CursorOffset => cursorOffset;
 
+	public bool RequireLivingHealth = false;
+
 	public override string ToString()
 	{
 		if (SpellList.Instance && this == SpellList.Instance.InvalidData)
@@ -100,7 +102,7 @@ public class ActionData : ScriptableObject
 			Type = ActionType == UIActionType.Toggle ? Actions.V2.ActionType.Activated : Actions.V2.ActionType.Trigger,
 			AnimatedIconCatalogue = Sprites,
 			HasCustomCursor = HasCustomCursor,
-			CursorTexture = CursorTexture,
+			CursorTexture = null,
 			HasCustomCursorOffset = HasCustomCursorOffset,
 			OffsetType = OffsetType,
 			CursorOffset = CursorOffset

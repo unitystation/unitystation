@@ -15,11 +15,13 @@ using Strings;
 using HealthV2;
 using AdminTools;
 using Audio.Containers;
+using Chemistry;
 using Core;
 using Core.Admin.Logs;
 using DatabaseAPI;
 using Doors;
 using Doors.Modules;
+using HealthV2.Sickness;
 using IngameDebugConsole;
 using Logs;
 using Messages.Server.SoundMessages;
@@ -483,6 +485,39 @@ namespace AdminCommands
 
 			//Log what we did.
 			LogAdminAction(message);
+		}
+
+		/// <summary>
+		/// Heals a player up
+		/// </summary>
+		[Command(requiresAuthority = false)]
+		public void CmdCurePlayer(string userToCure, NetworkConnectionToClient sender = null)
+		{
+			if (HasPermission(sender, out var admin, TAG.PLAYER_HEAL) == false) return;
+
+			if (PlayerList.Instance.TryGetByUserID(userToCure, out var player) == false)
+			{
+				Loggy.Error($"Could not find player with user ID '{userToCure}'. Unable to cure sickness.", Category.Admin);
+				return;
+			}
+
+			//get player stuff.
+			PlayerScript playerScript = player.Script;
+			ReagentMix playerBlood = playerScript.playerHealth?.reagentPoolSystem?.BloodPool;
+			if (playerBlood == null)
+			{
+				Loggy.Error(
+					$"Could not find player blood pool for '{playerScript.playerName}'. Unable to cure sickness.",
+					Category.Admin);
+				return;
+			}
+
+			foreach (var sickness in CureManager.Instance.CureableSicknesses)
+			{
+				playerBlood.Remove(sickness.Sickness, 9999);
+			}
+			//Log what we did.
+			LogAdminAction($"{admin.Username}: Cured Username: {player.Username} ({player.Name})");
 		}
 
 		/// <summary>

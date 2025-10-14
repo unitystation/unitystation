@@ -126,7 +126,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 6071657925845321805}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 08e099632556f8643924f674320f698e,
+        type: 2}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 08e099632556f8643924f674320f698e,
         type: 2}
@@ -162,6 +173,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8690583159735545812}
+    - targetCorrespondingSourceObject: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6797436321181889882}
   m_SourcePrefab: {fileID: 100100000, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
 --- !u!114 &1545315772294334080 stripped
 MonoBehaviour:
@@ -175,6 +190,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!212 &6071657925845321805 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
+    type: 3}
+  m_PrefabInstance: {fileID: 7881568538303212051}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6278827525492321370 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
@@ -201,7 +222,8 @@ MonoBehaviour:
   maximumWorkingVoltage: 300
   deviceType: 0
   isSelfPowered: 0
-  wattusage: 500
+  mappingNotNeedToLink: 0
+  initialwattusage: 500
   InitialResistance: 100000000
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
@@ -265,7 +287,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e266b02032c5442b067c162ae425c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InitialIsUsingSilo: 0
   IsUsingSilo: 0
+  InitialusedStorage: {fileID: 0}
   usedStorage: {fileID: 0}
   materialListGUI: {fileID: 0}
 --- !u!114 &4515876064805449849
@@ -287,6 +311,7 @@ MonoBehaviour:
   isEMPResistant: 0
   mustBeUnanchored: 0
   secondsToScrewdrive: 2
+  PartsStorage: {fileID: 6797436321181889882}
 --- !u!114 &4583094959117635624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,3 +344,31 @@ MonoBehaviour:
   syncInterval: 0.1
   NetTabType: 18
   aiInteractable: 1
+--- !u!114 &6797436321181889882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6278827525492321370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: f040b5dae3721f542a7d43c31febfba8,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 411b6b7a74c524a91b9a38a0c692761b,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  ManuallySpawnContent: 0
+  dropItemsOnDespawn: 1
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  SetSlotItemNotRemovableOnStartUp: 0
+  initialignoreRoundstartGrabObjects: 0
+  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+    type: 3}

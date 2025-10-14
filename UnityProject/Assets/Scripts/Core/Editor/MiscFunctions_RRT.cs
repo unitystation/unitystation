@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -13,6 +14,7 @@ using CAPSearch;
 using Core.Admin.Logs;
 using Core.Admin.Logs.Stores;
 using Doors;
+using Initialisation;
 using UnityEditor;
 using UnityEngine;
 using Newtonsoft.Json;
@@ -22,6 +24,7 @@ using Items.Botany;
 using Logs;
 using SecureStuff;
 using Systems.Atmospherics;
+using Systems.Character;
 using Systems.Clothing;
 using Debug = UnityEngine.Debug;
 using Random = System.Random;
@@ -57,10 +60,69 @@ namespace Util
 		}
 
 
+		private static IEnumerator Do()
+		{
+
+			var Mind1 = PlayerSpawn.NewSpawnCharacterV2(null, new CharacterSheet());
+			var Mind2 = PlayerSpawn.NewSpawnCharacterV2(null, new CharacterSheet());
+
+			var Body1 = Mind1.Body.GetComponent<MovementSynchronisation>();
+			var Body2 = Mind2.Body.GetComponent<MovementSynchronisation>();
+
+			Body1.AppearAtWorldPositionServer(new Vector3(99, 106, 0));
+
+			Body2.AppearAtWorldPositionServer(new Vector3(98, 106,0));
+
+			yield return WaitFor.EndOfFrame;
+
+
+			Body2.ReceivePlayerMoveAction(new PlayerAction()
+			{
+				moveActions = new[] {(int) MoveAction.MoveUp,(int) MoveAction.MoveLeft }
+			});
+
+			yield return WaitFor.EndOfFrame;
+
+			Body1.ReceivePlayerMoveAction(new PlayerAction()
+			{
+				moveActions = new[] {(int) MoveAction.MoveLeft }
+			});
+
+			yield return WaitFor.Seconds(5);
+
+			Destroy(Body2.gameObject);
+			Destroy(Body1.gameObject);
+			Destroy(Mind2.gameObject);
+			Destroy(Mind1.gameObject);
+
+		}
+
 		[MenuItem("Tools/Debug/------------ Debug function -----------")]
 		public static void Generate()
 		{
 
+
+			//LoadManager.Instance.StartCoroutine(Do());
+			AssetDatabase.StartAssetEditing();
+			//var AaAA = FindAssetsByType<SeedPacket>();
+			var AaAA = LoadAllPrefabsOfType<SeedPacket>(Application.dataPath).ToHashSet();
+			foreach (var a in AaAA)
+			{
+				foreach(var PD in a.plantData.ReagentProduction)
+				{
+					if (PD.ChemistryReagent.name is "Nutriment" or "Vitamin")
+					{
+						PD.percentage = PD.percentage * 10;
+					}
+				}
+
+				EditorUtility.SetDirty(a);
+			}
+
+			AssetDatabase.StopAssetEditing();
+			AssetDatabase.SaveAssets();
+
+			return;
 			AdminLogsManager.AddNewLog("bob Murdered irrelevant", LogCategory.Admin);
 			AdminLogsManager.AddNewLog("cat Attacked bob", LogCategory.Admin);
 			AdminLogsManager.AddNewLog("bob Attacked cat", LogCategory.Admin);

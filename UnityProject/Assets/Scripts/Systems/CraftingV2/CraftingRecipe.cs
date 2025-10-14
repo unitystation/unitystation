@@ -481,6 +481,7 @@ namespace Systems.CraftingV2
 		{
 			foreach (RecipeIngredientReagent requiredReagent in RequiredReagents)
 			{
+				if (requiredReagent.Catalyst) continue;
 				float amountUsed = 0;
 				foreach (var possibleIngredient in possibleReagentContainers)
 				{

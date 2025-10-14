@@ -228,6 +228,11 @@ namespace Systems.Spells
 				return false;
 			}
 
+			if (SpellData.AllowSoftCriticalUses == false && caster.Script.playerHealth.IsSoftCrit)
+			{
+				return false;
+			}
+
 			bool isRecharging = Cooldowns.IsOnServer(caster.Script, SpellData);
 			if (isRecharging)
 			{

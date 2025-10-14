@@ -11,6 +11,7 @@ namespace Scripts.Core.Transform
 	    [SyncVar(hook = nameof(SyncScale)), SerializeField]
 	    [PlayModeOnly] private Vector3 scaleTransform = new Vector3(1f, 1f, 1f);
 
+	    public Vector3 ScaleTransform => scaleTransform;
 
 
 	    public override void OnStartClient()

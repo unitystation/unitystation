@@ -217,11 +217,11 @@ MonoBehaviour:
   forceFeedTime: 3
   setCurrentBitesToMaxBitesOnServerSpawn: 1
   sound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/EatFood.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
 --- !u!114 &3585042287024462177
@@ -261,6 +261,10 @@ MonoBehaviour:
   syncInterval: 0.1
   RelatedPart: {fileID: 0}
   ReagentMetabolism: 0.2
+  componentImmuneResponse:
+    ImmuneResponseChancePercent: 0
+    ImmuneResponseBaseRate: 0
+    ImmuneResponseRelativeRate: 0
   reagentCirculatedComponent: {fileID: 0}
   saturationComponent: {fileID: 0}
 --- !u!114 &6638208500181761376

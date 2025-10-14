@@ -1,0 +1,496 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1791263953294045513
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 67236017385100606, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: dded75cdca81c654b9cc96a7b29159f8,
+        type: 3}
+    - target: {fileID: 67236017385100606, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 67236017385100606, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.49411765
+      objectReference: {fileID: 0}
+    - target: {fileID: 67236017385100606, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 79572619054117382, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: ReagentMetabolism
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 79572619054117382, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: componentImmuneResponse.ImmuneResponseBaseRate
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 79572619054117382, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: componentImmuneResponse.ImmuneResponseRelativeRate
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 79572619054117382, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: componentImmuneResponse.ImmuneResponseChancePercent
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 147679194818059030, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 147679194818059030, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 147679194818059030, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 147679194818059030, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 147679194818059030, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 147679194818059030, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 147679194818059030, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 147679194818059030, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 147679194818059030, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 147679194818059030, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 152888543104788066, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: m_Name
+      value: SpiderExoSkeleton
+      objectReference: {fileID: 0}
+    - target: {fileID: 255331656632818646, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: _assetId
+      value: 3397713369
+      objectReference: {fileID: 0}
+    - target: {fileID: 356542921466513664, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: hitDamage
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 356542921466513664, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: blockChance
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 356542921466513664, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: initialName
+      value: Spider's Exo Skeleton
+      objectReference: {fileID: 0}
+    - target: {fileID: 356542921466513664, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: initialDescription
+      value: A one-pieced skeleton that has biolagical organs extruding from in it.
+      objectReference: {fileID: 0}
+    - target: {fileID: 356542921466513664, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: TraumaticDamageType
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2269832421073761379, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: bloodReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: c7943c0995bc04a49b55b22064796666,
+        type: 2}
+    - target: {fileID: 4117289224801365922, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: wasteReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c,
+        type: 2}
+    - target: {fileID: 4117289224801365922, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: requiredReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: 23b1fd9d2d60ffd0a8879d7745f1a7fb,
+        type: 2}
+    - target: {fileID: 4273485401078028749, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: HungerState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4273485401078028749, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: HealingNutrimentMultiplier
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6294119568094682597, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 1744309080863040631}
+    - target: {fileID: 6294119568094682597, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6294119568094682597, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.49468166
+      objectReference: {fileID: 0}
+    - target: {fileID: 6294119568094682597, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6294119568094682597, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: fff5cc65126167f4a80399867d8a6fd8,
+        type: 2}
+    - target: {fileID: 6531788144006097423, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: parentID
+      value: 750a753b5c7e3ac4cbe1f07e69d256be
+      objectReference: {fileID: 0}
+    - target: {fileID: 6531788144006097423, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: foreverID
+      value: xbXA372TNNpWc7ruWxpc
+      objectReference: {fileID: 0}
+    - target: {fileID: 9087859535210089700, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: maxBites
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 9087859535210089700, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      propertyPath: forceFeedTime
+      value: 8
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 152888543104788066, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 863972986484861102}
+    - targetCorrespondingSourceObject: {fileID: 152888543104788066, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -5528955131075497949}
+    - targetCorrespondingSourceObject: {fileID: 152888543104788066, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2742465342520069577}
+    - targetCorrespondingSourceObject: {fileID: 152888543104788066, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5462587972100837194}
+    - targetCorrespondingSourceObject: {fileID: 152888543104788066, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1926668629546310274}
+    - targetCorrespondingSourceObject: {fileID: 152888543104788066, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6035124000564632535}
+  m_SourcePrefab: {fileID: 100100000, guid: 750a753b5c7e3ac4cbe1f07e69d256be, type: 3}
+--- !u!114 &530239055796471082 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2269832421073761379, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+    type: 3}
+  m_PrefabInstance: {fileID: 1791263953294045513}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928932909309318955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a9ebd1817f5f0547a70d4591eca98a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!212 &1744309080863040631 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 67236017385100606, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+    type: 3}
+  m_PrefabInstance: {fileID: 1791263953294045513}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1928932909309318955 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 152888543104788066, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+    type: 3}
+  m_PrefabInstance: {fileID: 1791263953294045513}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &863972986484861102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928932909309318955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d907426271c5e5544a1c7131da7c493c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  RelatedPart: {fileID: 0}
+  CanHaveHeartAttack: 1
+  EfficiencyLinksToModifiers: 1
+  HeartAttack: 0
+  heartAttackThreshold: -80
+  SecondsOfRevivePulse: 30
+  CurrentPulse: 0
+  salt: {fileID: 11400000, guid: 5d0d5fd7f5c5e68e3ac8ad0859df2b08, type: 2}
+  dangerSaltLevel: 20
+  HungerComponent: {fileID: 2564132891975968900}
+  _ReagentCirculatedComponent: {fileID: 530239055796471082}
+  CashedReagentPoolSystem:
+    Base: {fileID: 0}
+    BloodPool:
+      temperature: 273.15
+      reagents:
+        m_keys: []
+        m_values: []
+      reagentKeys: []
+    StartingBlood: 500
+    NormalBlood: 500
+    bloodReagent: {fileID: 11400000, guid: c7943c0995bc04a49b55b22064796666, type: 2}
+    PumpingDevices: []
+    TempBloodReservoir:
+      temperature: 273.15
+      reagents:
+        m_keys: []
+        m_values: []
+      reagentKeys: []
+    ReservoirReturnMultiplier: 0.15
+  ForcedBeats: 0
+  isEMPVunerable: 0
+  EMPResistance: 2
+  BeatFrameCash: 0
+  BeatStrength: 0
+--- !u!114 &-5528955131075497949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928932909309318955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6db4404109ee5304895b5058a7eff177, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  RelatedPart: {fileID: 0}
+  StomachContents: {fileID: 2742465342520069577}
+  DigesterAmountPerSecond: 1
+  BodyFats: []
+  BodyFatToInstantiate: {fileID: 1151132354838283526, guid: a93a0f454bce00f408fc109ffe92eefe,
+    type: 3}
+  InitialFatSpawned: 0
+  _ReagentCirculatedComponent: {fileID: 0}
+  HungerComponent: {fileID: 0}
+--- !u!114 &2742465342520069577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928932909309318955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ReactionSounds: 1
+  maxCapacity: 100
+  DEBUGReagent: {fileID: 0}
+  DEBUGAmount: 0
+  reactionSet: {fileID: 0}
+  AdditionalReactions: []
+  initialReagentMix:
+    temperature: 273.15
+    reagents:
+      m_keys: []
+      m_values: []
+    reagentKeys: []
+  destroyOnEmpty: 0
+  ContentsSet: 0
+  menuOptions: -1
+  spriteHandler: {fileID: 0}
+  UseStandardExamine: 1
+  ExamineAmount: 0
+  ExamineContent: 0
+  traitWhitelist: []
+  reagentWhitelist: []
+  transferMode: 0
+  onlyAllowSyringeFilling: 0
+  SyringePulling: 0
+  possibleTransferAmounts: []
+  transferAmount: 20
+  transferSound: []
+--- !u!114 &5462587972100837194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928932909309318955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fae19aae8ddc974c84a11abe4f1279e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  RelatedPart: {fileID: 0}
+  breatheCooldown: 8
+  pressureSafeMin: 2
+  LungEfficiency: 2.5
+  toxicGases:
+  - GasType: {fileID: 11400000, guid: c8a6070e2fed0ac43a0bb73c019af97f, type: 2}
+    PressureSafeMax: 2
+    UnsafeLevelDamage: 4
+    UnsafeLevelDamageType: 3
+  sickeningGasses: []
+  requiredGas: {fileID: 11400000, guid: ac2834f2705dcbc4da8731a53d3076fc, type: 2}
+  LungSize: 12
+  coughChanceWhenInternallyBleeding: 0
+  internalBleedingCooldown: 4
+  ReagentCirculatedComponent: {fileID: 0}
+  SaturationComponent: {fileID: 0}
+  HungerComponent: {fileID: 0}
+  BodyPartAlerts: {fileID: 0}
+  hasToxinsCash: 0
+  ToxinAlert: {fileID: 11400000, guid: 2c812669f183287449afa3e620bfcef6, type: 2}
+  SuffocatingAlert: {fileID: 11400000, guid: a242a18320bcd0345b83fe02838d0460, type: 2}
+  coughEmote: {fileID: 11400000, guid: 5d61ca3eb68b81946b8226b482703158, type: 2}
+  coughCooldown: 6
+--- !u!114 &1926668629546310274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928932909309318955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd5fde0fe0fd4da4822430179f3a1af2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  relatedBodyPart: {fileID: 0}
+  <ActionData>k__BackingField:
+    m_keys:
+    - ID: spider_ability_crawlunderdoor
+      DisplayName: Crawl Under Doors
+      Description: No door will block your way
+      TriggerType: 0
+      Type: 1
+      AnimatedIconCatalogue: []
+      CooldownTime: 3
+      CanUseWhileGhosting: 0
+      HasCustomCursor: 1
+      OffsetType: 1
+      CursorOffset: {x: 0, y: 0}
+      CursorTexture: {fileID: 11400000, guid: f3e23c8b0ccd0334ca8b9d4b92bdff65, type: 2}
+      TrackingObject: {fileID: 0}
+    - ID: spider_ability_disappear
+      DisplayName: Disappear
+      Description: Go invisible for 60 seconds to hunt prey or avoid predators.
+      TriggerType: 0
+      Type: 0
+      AnimatedIconCatalogue:
+      - {fileID: 11400000, guid: aa2a3a3936fce084b83023b00e18394f, type: 2}
+      CooldownTime: 120
+      CanUseWhileGhosting: 0
+      HasCustomCursor: 1
+      OffsetType: 1
+      CursorOffset: {x: 0, y: 0}
+      CursorTexture: {fileID: 11400000, guid: f3e23c8b0ccd0334ca8b9d4b92bdff65, type: 2}
+      TrackingObject: {fileID: 0}
+    m_values:
+    - target: {fileID: 6035124000564632535}
+      methodName: Crawl
+      parameterType: 
+    - target: {fileID: 6035124000564632535}
+      methodName: GoInvisible
+      parameterType: 
+--- !u!114 &6035124000564632535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928932909309318955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83d33c80238b4874bae68a70320ae067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  RelatedPart: {fileID: 0}
+  empStaggerTime: 0.5
+  crawlTime: 2
+  openDoorTime: 6
+  invisbilityTime: 60
+  checkForNearbyPlayersWhileInvisbleTime: 3
+--- !u!114 &2564132891975968900 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4273485401078028749, guid: 750a753b5c7e3ac4cbe1f07e69d256be,
+    type: 3}
+  m_PrefabInstance: {fileID: 1791263953294045513}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928932909309318955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 132a8f200f593b24cb7bc31ef84a253c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -22,6 +22,13 @@ public class Occupation : ScriptableObject
 	private JobType jobType = JobType.NULL;
 	public JobType JobType => jobType;
 
+
+	[SerializeField]
+	[Tooltip("Category of occupation.")]
+	private JobCategory jobCategory = JobCategory.Other;
+	public JobCategory JobCategory => jobCategory;
+
+
 	[Tooltip("Whether this is a crew role (to add to crew manifest, security records etc)")]
 	[SerializeField]
 	private bool isCrewmember = true;

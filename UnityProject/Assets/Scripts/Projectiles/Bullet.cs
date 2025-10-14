@@ -57,19 +57,19 @@ namespace Weapons.Projectiles
 			}
 		}
 
-		public override void Suicide(GameObject controlledByPlayer, Gun fromWeapon, BodyPartType targetZone = BodyPartType.Chest)
+		public override void Suicide(GameObject controlledByPlayer, Gun fromWeapon, MagazineBehaviour Magazine, BodyPartType targetZone = BodyPartType.Chest)
 		{
 			WillHurtShooter = true;
-			StartShoot(Vector2.zero, controlledByPlayer, fromWeapon, targetZone);
+			StartShoot(Vector2.zero, controlledByPlayer, fromWeapon, Magazine, targetZone);
 		}
 
-		public override void Shoot(Vector2 direction, GameObject controlledByPlayer, Gun fromWeapon, BodyPartType targetZone = BodyPartType.Chest)
+		public override void Shoot(Vector2 direction, GameObject controlledByPlayer, Gun fromWeapon, MagazineBehaviour MagazineBehaviour, BodyPartType targetZone = BodyPartType.Chest)
 		{
 			WillHurtShooter = false;
-			StartShoot(direction, controlledByPlayer, fromWeapon, targetZone);
+			StartShoot(direction, controlledByPlayer, fromWeapon, MagazineBehaviour, targetZone);
 		}
 
-		private void StartShoot(Vector2 direction, GameObject controlledByPlayer, Gun fromWeapon, BodyPartType targetZone)
+		private void StartShoot(Vector2 direction, GameObject controlledByPlayer, Gun fromWeapon, MagazineBehaviour MagazineBehaviour, BodyPartType targetZone)
 		{
 			shooter = controlledByPlayer;
 
@@ -85,7 +85,7 @@ namespace Weapons.Projectiles
 
 			foreach (var behaviour in behavioursOnShoot)
 			{
-				behaviour.OnShoot(direction, controlledByPlayer,fromWeapon,targetZone);
+				behaviour.OnShoot(direction, controlledByPlayer,fromWeapon, MagazineBehaviour,targetZone);
 			}
 		}
 

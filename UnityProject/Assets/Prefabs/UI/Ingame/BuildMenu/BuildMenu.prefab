@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3131926701434828161}
   - component: {fileID: 2899987503118182637}
   - component: {fileID: 7867941806391411257}
+  - component: {fileID: -233346052978025955}
   m_Layer: 5
   m_Name: BeltButton
   m_TagString: Untagged
@@ -132,6 +133,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &-233346052978025955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 69385280369615865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &200416636396531370
 GameObject:
   m_ObjectHideFlags: 0
@@ -272,6 +285,7 @@ GameObject:
   - component: {fileID: 1450864475908390357}
   - component: {fileID: 2694976718250135784}
   - component: {fileID: 8147444569294613577}
+  - component: {fileID: 8992901106447602510}
   m_Layer: 5
   m_Name: BeltButton (7)
   m_TagString: Untagged
@@ -392,6 +406,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8992901106447602510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 306901864653232083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &356033154408913521
 GameObject:
   m_ObjectHideFlags: 0
@@ -479,6 +505,7 @@ GameObject:
   - component: {fileID: 6813189562654267111}
   - component: {fileID: 7452581469565234459}
   - component: {fileID: 5034997721056222898}
+  - component: {fileID: 2129853545761540502}
   m_Layer: 5
   m_Name: BeltButton (9)
   m_TagString: Untagged
@@ -599,6 +626,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2129853545761540502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 489554760877208613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1023589272398614452
 GameObject:
   m_ObjectHideFlags: 0
@@ -611,6 +650,7 @@ GameObject:
   - component: {fileID: 2735439587245593898}
   - component: {fileID: 2809455625823242802}
   - component: {fileID: 4167716500946128838}
+  - component: {fileID: -3153929719191874876}
   m_Layer: 5
   m_Name: BeltButton (4)
   m_TagString: Untagged
@@ -731,6 +771,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &-3153929719191874876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1023589272398614452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1478058581278860049
 GameObject:
   m_ObjectHideFlags: 0
@@ -743,6 +795,7 @@ GameObject:
   - component: {fileID: 7947040326976170337}
   - component: {fileID: 1807111141856759989}
   - component: {fileID: 8221027245096554234}
+  - component: {fileID: -4711870098764770606}
   m_Layer: 5
   m_Name: BeltButton (1)
   m_TagString: Untagged
@@ -863,6 +916,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &-4711870098764770606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1478058581278860049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1563819218720982672
 GameObject:
   m_ObjectHideFlags: 0
@@ -1197,6 +1262,7 @@ GameObject:
   - component: {fileID: 137176540025822941}
   - component: {fileID: 8138714866180130231}
   - component: {fileID: 8488538539731781569}
+  - component: {fileID: 5740605129360523514}
   m_Layer: 5
   m_Name: BeltButton (8)
   m_TagString: Untagged
@@ -1317,6 +1383,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &5740605129360523514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2690116955199150924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2803855208174164632
 GameObject:
   m_ObjectHideFlags: 0
@@ -1446,7 +1524,7 @@ MonoBehaviour:
   m_ContentType: 2
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 4
+  m_KeyboardType: 2
   m_LineType: 0
   m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
@@ -1613,6 +1691,7 @@ GameObject:
   - component: {fileID: 704809609741457448}
   - component: {fileID: 7732658223393596802}
   - component: {fileID: 8680103211380983391}
+  - component: {fileID: -1265739469393419302}
   m_Layer: 5
   m_Name: BeltButton (10)
   m_TagString: Untagged
@@ -1733,6 +1812,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &-1265739469393419302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3459729762636000781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3492827904835161384
 GameObject:
   m_ObjectHideFlags: 0
@@ -1835,6 +1926,7 @@ GameObject:
   - component: {fileID: 6831997892160312682}
   - component: {fileID: 30082997276963066}
   - component: {fileID: 4753564688651343158}
+  - component: {fileID: -1251531433884545124}
   m_Layer: 5
   m_Name: BeltButton (5)
   m_TagString: Untagged
@@ -1955,6 +2047,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &-1251531433884545124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3771708148161162097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3825147004853807321
 GameObject:
   m_ObjectHideFlags: 0
@@ -2177,6 +2281,7 @@ GameObject:
   - component: {fileID: 4180835802594936212}
   - component: {fileID: 4072462916827950966}
   - component: {fileID: 4072951837271440086}
+  - component: {fileID: 2392195162877178373}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -2298,6 +2403,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2392195162877178373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4113081692950315678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4113241217249094608
 GameObject:
   m_ObjectHideFlags: 0
@@ -3002,6 +3119,7 @@ GameObject:
   - component: {fileID: 6655951603796242836}
   - component: {fileID: 375016959414192188}
   - component: {fileID: 2581656188548144287}
+  - component: {fileID: 2364017138792966708}
   m_Layer: 5
   m_Name: BackButton
   m_TagString: Untagged
@@ -3123,6 +3241,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2364017138792966708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4362927847440327954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4409193329650690717
 GameObject:
   m_ObjectHideFlags: 0
@@ -3397,6 +3527,7 @@ GameObject:
   - component: {fileID: 2589769623119638941}
   - component: {fileID: 5941802255952052239}
   - component: {fileID: 1286900908899311217}
+  - component: {fileID: 2825261860948978341}
   m_Layer: 5
   m_Name: BeltButton (3)
   m_TagString: Untagged
@@ -3517,6 +3648,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2825261860948978341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4671855519842640640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4934006045433561897
 GameObject:
   m_ObjectHideFlags: 0
@@ -3779,6 +3922,7 @@ GameObject:
   - component: {fileID: 4279178883929758425}
   - component: {fileID: 1117863896431307873}
   - component: {fileID: 2908710449087213054}
+  - component: {fileID: 173365329911864610}
   m_Layer: 5
   m_Name: BeltButton (6)
   m_TagString: Untagged
@@ -3899,6 +4043,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &173365329911864610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5501224329775317040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5880357538163757233
 GameObject:
   m_ObjectHideFlags: 0
@@ -4047,6 +4203,7 @@ GameObject:
   - component: {fileID: 243350516644049568}
   - component: {fileID: 1238384740837956217}
   - component: {fileID: 5439932061906469470}
+  - component: {fileID: 8126881786934770105}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -4168,6 +4325,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8126881786934770105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5910879728761578071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5976194829241679414
 GameObject:
   m_ObjectHideFlags: 0
@@ -4272,6 +4441,7 @@ GameObject:
   - component: {fileID: 4286750060828709619}
   - component: {fileID: 4978831023064190677}
   - component: {fileID: 7603773059228488518}
+  - component: {fileID: 7356633351791348330}
   m_Layer: 5
   m_Name: BeltButton
   m_TagString: Untagged
@@ -4392,6 +4562,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &7356633351791348330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6745712618494212028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6990685589093093194
 GameObject:
   m_ObjectHideFlags: 0
@@ -4706,6 +4888,7 @@ GameObject:
   - component: {fileID: 4908935590035829446}
   - component: {fileID: 8048497212579234583}
   - component: {fileID: 3977514978112938350}
+  - component: {fileID: 312901856708218687}
   m_Layer: 5
   m_Name: BeltButton (2)
   m_TagString: Untagged
@@ -4826,6 +5009,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &312901856708218687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7365842271658246817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7930854467899427191
 GameObject:
   m_ObjectHideFlags: 0

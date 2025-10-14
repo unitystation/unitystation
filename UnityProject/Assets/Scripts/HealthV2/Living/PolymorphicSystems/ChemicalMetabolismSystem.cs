@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using Chemistry;
 using HealthV2.Living.CirculatorySystem;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
 using UnityEngine;
@@ -17,7 +19,9 @@ namespace HealthV2.Living.PolymorphicSystems
 		public float ExternalMetabolismPerSecond = 2f;
 		public List<MetabolismReaction> MetabolismReactions { get; } = new();
 
-		public List<MetabolismReaction> ALLMetabolismReactions = new List<MetabolismReaction>(); //TOOD Move somewhere static maybe
+		public List<MetabolismReactionSets> MetabolismReactionSets = new List<MetabolismReactionSets>();
+
+		public List<MetabolismReaction> ALLMetabolismReactions = new List<MetabolismReaction>();
 
 		public List<MetabolismComponent> MetabolismComponents = new List<MetabolismComponent>();
 
@@ -35,10 +39,20 @@ namespace HealthV2.Living.PolymorphicSystems
 		}
 
 		private ReagentPoolSystem _reagentPoolSystem;
-
+		private const float EXTERNAL_REAGENT_SOAK_EFFICIENCY = 0.25f;
 
 		public override void StartFresh()
 		{
+
+			foreach (var set in MetabolismReactionSets)
+			{
+				foreach (var React in set.ALLMetabolismReactions)
+				{
+					ALLMetabolismReactions.Add(React);
+				}
+			}
+
+			ALLMetabolismReactions = ALLMetabolismReactions.Distinct().ToList();
 
 			PlayerHealthData RaceBodypart = Base.InitialSpecies;
 			var internalTotalBloodThroughput = 0f;
@@ -132,8 +146,25 @@ namespace HealthV2.Living.PolymorphicSystems
 
 		public override void SystemUpdate()
 		{
+			SoakReagentsFromSurface();
 			MetaboliseReactions();
 		}
+
+
+		/// <summary>
+		/// Models reagents on a players surface container 'soaking' through the skin, through pores, orifices etc.
+		/// Means if chem's like diseases are on your skin, they can make it into your blood stream.
+		/// </summary>
+		private void SoakReagentsFromSurface()
+		{
+			foreach (var bodyPart in Base.SurfaceBodyParts)
+			{
+				if(Base.SurfaceReagents.TryGetValue(bodyPart.BodyPartType, out var container) == false) continue;
+				reagentPoolSystem.BloodPool.Add(container.Take(ExternalMetabolismPerSecond * EXTERNAL_REAGENT_SOAK_EFFICIENCY));
+			}
+		}
+
+
 
 		public void MetaboliseReactions()
 		{
@@ -163,7 +194,8 @@ namespace HealthV2.Living.PolymorphicSystems
 		{
 			return new ChemicalMetabolismSystem()
 			{
-				ALLMetabolismReactions = ALLMetabolismReactions
+				ALLMetabolismReactions = ALLMetabolismReactions,
+				MetabolismReactionSets = MetabolismReactionSets
 			};
 		}
 	}

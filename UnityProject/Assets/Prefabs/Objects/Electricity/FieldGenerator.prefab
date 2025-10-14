@@ -52,6 +52,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -102,12 +103,16 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue:
   - {fileID: 11400000, guid: e7475929fe7685b4eb3f9f18ba668902, type: 2}
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 6597136901890082552}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &3490467274430056261
 GameObject:
   m_ObjectHideFlags: 0
@@ -160,6 +165,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -215,12 +221,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 28cff29f90b718644820f13ae7f9d047, type: 2}
   - {fileID: 11400000, guid: 99cd5063b6e427c4d8a38fc9914b249b, type: 2}
   - {fileID: 11400000, guid: cbea34572a64be44a9876810290319f2, type: 2}
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 4162796876592852070}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &7895098804929828835
 GameObject:
   m_ObjectHideFlags: 0
@@ -273,6 +283,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -325,12 +336,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ffc30db18432f83458e17259bbeb878a, type: 2}
   - {fileID: 11400000, guid: 2988bc66312a2434caecc962f1ee8a2b, type: 2}
   - {fileID: 11400000, guid: 4ddef7361a3102e48bec2af0d97f6f66, type: 2}
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 7929104220334329706}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1001 &6243841975866764647
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -442,7 +457,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 6900262157793697008}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2dda5b42d38dadc4a80ae634d31e8817,
+        type: 2}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 2dda5b42d38dadc4a80ae634d31e8817,
         type: 2}
@@ -530,6 +556,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 5282140598025257239}
+    - targetCorrespondingSourceObject: {fileID: 721717256067945856, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1320551967183185094}
   m_SourcePrefab: {fileID: 100100000, guid: b06b702714bab49b9ad949eab1ca4534, type: 3}
 --- !u!1 &6675068259735517415 stripped
 GameObject:
@@ -581,9 +611,44 @@ MonoBehaviour:
   isEMPResistant: 0
   mustBeUnanchored: 1
   secondsToScrewdrive: 2
+  PartsStorage: {fileID: 1320551967183185094}
+--- !u!114 &1320551967183185094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6675068259735517415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: f040b5dae3721f542a7d43c31febfba8,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 411b6b7a74c524a91b9a38a0c692761b,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  ManuallySpawnContent: 0
+  dropItemsOnDespawn: 1
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  SetSlotItemNotRemovableOnStartUp: 0
+  initialignoreRoundstartGrabObjects: 0
+  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+    type: 3}
 --- !u!4 &6680860236849151549 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
+    type: 3}
+  m_PrefabInstance: {fileID: 6243841975866764647}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &6900262157793697008 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
     type: 3}
   m_PrefabInstance: {fileID: 6243841975866764647}
   m_PrefabAsset: {fileID: 0}

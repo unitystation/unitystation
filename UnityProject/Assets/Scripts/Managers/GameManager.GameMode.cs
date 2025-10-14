@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using GameModes;
 using Logs;
 using UnityEngine;
+using Category = Logs.Category;
+using System;
+using Action = System.Action;
 
 /// <summary>
 /// Represents what state the round is in: PreRound, Started or Ended
@@ -49,10 +52,13 @@ public partial class GameManager
 		{
 			currentRoundState = value;
 			Loggy.Info().Format("CurrentRoundState is now {0}!", Category.Round, value);
+			OnCurrentRoundStateChange?.Invoke();
 		}
 	}
 
 	private RoundState currentRoundState;
+
+	public event Action OnCurrentRoundStateChange;
 
 	/// <summary>
 	/// The current game mode

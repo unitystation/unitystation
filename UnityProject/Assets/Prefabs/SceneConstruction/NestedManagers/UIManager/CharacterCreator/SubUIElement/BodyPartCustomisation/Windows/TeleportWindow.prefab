@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 9031721310546260569}
   - component: {fileID: 4944397766386252031}
   - component: {fileID: 2902633226231577440}
+  - component: {fileID: -3850894873328913336}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -147,6 +148,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myText: {fileID: 1648269427620387862}
+--- !u!114 &-3850894873328913336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 587761426399394860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &629350342679766801
 GameObject:
   m_ObjectHideFlags: 0
@@ -720,15 +733,17 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
+  m_ActiveFontFeatures: 00000000
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
+  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -1547,15 +1562,17 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
+  m_ActiveFontFeatures: 00000000
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
+  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -2053,6 +2070,7 @@ GameObject:
   - component: {fileID: 8684310409136605054}
   - component: {fileID: 2008034642799053661}
   - component: {fileID: 189037022941217905}
+  - component: {fileID: 8706230707326443053}
   m_Layer: 5
   m_Name: Apply
   m_TagString: Untagged
@@ -2189,6 +2207,18 @@ MonoBehaviour:
   mainWindow: {fileID: 6514991271209329748}
   XCoordinate: {fileID: 2579387762972838276}
   YCoordinate: {fileID: 629350342679766801}
+--- !u!114 &8706230707326443053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8041429080374907106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8127958330428511166
 GameObject:
   m_ObjectHideFlags: 0
@@ -2280,6 +2310,7 @@ GameObject:
   - component: {fileID: 8901212099129486745}
   - component: {fileID: 3304037195100337894}
   - component: {fileID: 742113214684170684}
+  - component: {fileID: -2927306613702457844}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -2401,6 +2432,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &-2927306613702457844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8247584417781324094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8465225457555866716
 GameObject:
   m_ObjectHideFlags: 0

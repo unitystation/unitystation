@@ -58,6 +58,18 @@ namespace Player.Language
 
 			//Copy the default lists to this script lists so we can add to it during runtime without adding to the SO
 			SetupFromGroup(defaultLanguages);
+
+			EventManager.AddHandler(Event.Cleanup, Cleanup);
+		}
+
+		private void Cleanup()
+		{
+
+			if (CustomNetworkManager.IsServer == false)
+			{
+				RemoveAddedLanguagesClient();
+				ResetCurrentLanguage();
+			}
 		}
 
 		[ContextMenu("Try add languages")]

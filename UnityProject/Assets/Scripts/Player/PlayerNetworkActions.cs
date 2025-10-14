@@ -229,7 +229,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			&& playerScript.RegisterPlayer.IsSlippingServer == false) {
 			playerScript.playerMove.ServerAllowInput.RemovePosition(this);
 		}
-
+		playerScript.playerMove.ServerAllowInput.RemovePosition(this);
 		IsRolling = false;
 		yield return null;
 	}
@@ -391,6 +391,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		if (Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction) == false) return;
 
+
+
 		var slot = itemStorage.GetActiveHandSlot();
 		Vector3 targetVector = targetLocalPosition.ToWorld(playerMove.registerTile.Matrix) - playerMove.transform.position;
 		if (slot?.Item != null)
@@ -400,6 +402,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		else if (playerMove.Pulling.HasComponent)
 		{
 
+
+
 			if ((playerMove.Pulling.Component as MovementSynchronisation) == null)
 			{
 				if (playerMove.Pulling.Component.attributes.Component.OrNull()?.Size != null && playerMove.Pulling.Component.attributes.Component.Size >= Size.Large)
@@ -407,6 +411,30 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 					return;
 				}
 			}
+
+			float interactDist = PlayerScript.INTERACTION_DISTANCE;
+			var reachRange = ReachRange.Standard;
+
+			if (playerMove.playerScript.playerHealth.brain != null &&
+			    playerMove.playerScript.playerHealth.brain.HasTelekinesis) //Has telekinesis
+			{
+				interactDist = Validations.TELEKINESIS_INTERACTION_DISTANCE;
+				reachRange = ReachRange.Telekinesis;
+			}
+
+
+			if (Validations.CanApply(playerMove.playerScript, gameObject, NetworkSide.Server
+				    , apt: Validations.CheckState(x => x.CanPull), reachRange: reachRange) == false)
+			{
+				return;
+			}
+
+			if (Validations.IsReachableByRegisterTiles(playerMove.registerTile, playerMove.Pulling.Component.registerTile, true,
+				    context: gameObject, interactDist: interactDist)== false)
+			{
+				return;
+			}
+
 			targetVector = targetLocalPosition.ToWorld(playerMove.registerTile.Matrix) - playerMove.Pulling.Component.gameObject.AssumedWorldPosServer();
 			var distance = targetVector.magnitude;
 
@@ -437,9 +465,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				var timeTakenIfallThrow = (distance / speed);
 				airtime = timeTakenIfallThrow - ((Mathf.Pow(speed, 2) / (2 * UniversalObjectPhysics.DEFAULT_Friction)) / speed);
 			}
-
-
-
 
 			pulling.NewtonianPush( targetVector,speed,
 				airtime,

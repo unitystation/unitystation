@@ -147,7 +147,7 @@ public class GUI_P_Component : PageElement
 				PrefabForeverID = ForeverID
 			}),
 			UISendToClientToggle.toggle,
-			SentenceID);
+			SentenceID, iskey);
 	}
 
 
@@ -162,7 +162,7 @@ public class GUI_P_Component : PageElement
 					BookID = BookID
 				}),
 				UISendToClientToggle.toggle,
-				SentenceID);
+				SentenceID, iskey);
 		}
 	}
 
@@ -177,7 +177,7 @@ public class GUI_P_Component : PageElement
 					ShelfID = ShelfID
 				}),
 				UISendToClientToggle.toggle,
-				SentenceID);
+				SentenceID, iskey);
 		}
 	}
 

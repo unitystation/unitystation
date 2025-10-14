@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Chemistry;
+using Logs;
 using Messages.Server;
 using Mirror;
 using Player;
@@ -37,20 +39,17 @@ namespace HealthV2.Sickness
 
 		public static Dictionary<Reagent, Cure> InitialisedSicknesses { get; private set; } = new Dictionary<Reagent, Cure>();
 
-		private void OnEnable()
+		public override void Awake()
 		{
-			if (CustomNetworkManager.IsServer == false)
-			{
-				JoinedViewer.DelayTillAuthenticated.Add(RequestCureData);
-				return;
-			}
-			EventManager.AddHandler(Event.ScenesLoadedServer, RandomiseCureData);
+			base.Awake();
+			if (CustomNetworkManager.IsServer == false) JoinedViewer.DelayTillAuthenticated.Add(RequestCureData);
+			EventManager.AddHandler(Event.RoundStarted, RandomiseCureData);
 		}
 
-		private void OnDisable()
+		public override void OnDestroy()
 		{
-			if (CustomNetworkManager.IsServer == false) return;
-			EventManager.RemoveHandler(Event.ScenesLoadedServer, RandomiseCureData);
+			EventManager.RemoveHandler(Event.RoundStarted, RandomiseCureData);
+			base.OnDestroy();
 		}
 
 		/// <summary>
@@ -67,6 +66,8 @@ namespace HealthV2.Sickness
 
 		public void RandomiseCureData()
 		{
+			if (CustomNetworkManager.IsServer == false) return;
+
 			CleanUpPastCures();
 
 			InitialisedSicknesses = new();
@@ -91,6 +92,8 @@ namespace HealthV2.Sickness
 
 				CureReactionSyncMessage.SendToAll(data);
 			}
+
+			Chat.AddGameWideSystemMsgToChat($"<color=green>Randomised cures for round, registering {InitialisedSicknesses.Count} sicknesses</color>");
 		}
 
 		/// <summary>
@@ -121,7 +124,7 @@ namespace HealthV2.Sickness
 		/// This function removes the cure reaction from the RelatedReactions array of the current cure ingredients,
 		/// This works off the assumption as cure reactions are runtime, they will always be the last elements in this array.
 		/// </summary>
-		private void CleanUpPastCures()
+		public void CleanUpPastCures()
 		{
 			if (InitialisedSicknesses.Count == 0) return;
 

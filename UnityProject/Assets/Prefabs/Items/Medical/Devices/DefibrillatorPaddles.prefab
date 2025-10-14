@@ -218,12 +218,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 6ebe34edb5d86344cbaf250e7640a7f4,
+        type: 2}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: inventoryRemoveSound.AssetAddress
       value: null
       objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 7f9a58ccabd6b5c439bf284fdafa81a7,
+        type: 2}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ec49f1cc42ad70a489f45c464ba90127,
+        type: 2}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: ec49f1cc42ad70a489f45c464ba90127,
         type: 2}
@@ -301,43 +319,44 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DefibrillatorTrait: {fileID: 11400000, guid: 680252d70a89d4846bc5de6e814ffa57, type: 2}
   Time: 5
+  DoesntRequireBackpack: 0
   soundCharged:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Items/defib/DefibCharge.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   soundReady:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Items/defib/DefibReady.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   soundSuccsuess:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Items/defib/DefibSucc.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   soundFailed:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Items/defib/DefibFail.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   soundZap:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Items/defib/DefibZap.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0

@@ -16,6 +16,7 @@ namespace Actions.V2.Trackers
 
 		private void Awake()
 		{
+			relatedBodyPart ??= GetComponent<BodyPart>();
 			if (relatedBodyPart == null)
 			{
 				Loggy.Error("Cannot initialize BodyPartActionTracker without a related BodyPart.");

@@ -37,7 +37,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 7cd232d70698e2d4b856d70b22d3f223,
+      objectReference: {fileID: 21300012, guid: 7cd232d70698e2d4b856d70b22d3f223,
         type: 3}
     - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -133,7 +133,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 1978891904548199728}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e417ffb4aabe13546b3bfdf8bcabdd56,
+        type: 2}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: e417ffb4aabe13546b3bfdf8bcabdd56,
         type: 2}
@@ -161,6 +172,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 5600573209671788888}
+    - targetCorrespondingSourceObject: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2016160373631241092}
   m_SourcePrefab: {fileID: 100100000, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
 --- !u!1 &1735666357076621607 stripped
 GameObject:
@@ -180,7 +195,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e266b02032c5442b067c162ae425c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InitialIsUsingSilo: 0
   IsUsingSilo: 0
+  InitialusedStorage: {fileID: 0}
   usedStorage: {fileID: 0}
   materialListGUI: {fileID: 0}
 --- !u!114 &531004782889982676
@@ -251,3 +268,38 @@ MonoBehaviour:
   isEMPResistant: 0
   mustBeUnanchored: 0
   secondsToScrewdrive: 2
+  PartsStorage: {fileID: 2016160373631241092}
+--- !u!114 &2016160373631241092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1735666357076621607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: f040b5dae3721f542a7d43c31febfba8,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 411b6b7a74c524a91b9a38a0c692761b,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  ManuallySpawnContent: 0
+  dropItemsOnDespawn: 1
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  SetSlotItemNotRemovableOnStartUp: 0
+  initialignoreRoundstartGrabObjects: 0
+  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+    type: 3}
+--- !u!212 &1978891904548199728 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
+    type: 3}
+  m_PrefabInstance: {fileID: 2473681083921268590}
+  m_PrefabAsset: {fileID: 0}

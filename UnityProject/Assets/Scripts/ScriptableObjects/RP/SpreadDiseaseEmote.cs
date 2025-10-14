@@ -24,6 +24,7 @@ namespace ScriptableObjects.RP
 
 			if(actor.TryGetComponent<PlayerScript>(out var actorPlayerScript) == false) return;
 			if(actor.TryGetComponent<Rotatable>(out var rotatable) == false) return;
+			if (HasBlockingItem(actorPlayerScript)) return;
 
 			Vector3 actorPos = actor.AssumedWorldPosServer();
 			ReagentMix coughMix = GetDiseaseFromBlood(actorPlayerScript);
@@ -86,10 +87,12 @@ namespace ScriptableObjects.RP
 
 			foreach (var slot in headSlots)
 			{
+				if(slot.ItemAttributes == null) continue;
 				if(slot.ItemAttributes.HasTrait(blockingTrait)) return true;
 			}
 			foreach (var slot in maskSlots)
 			{
+				if(slot.ItemAttributes == null) continue;
 				if(slot.ItemAttributes.HasTrait(blockingTrait)) return true;
 			}
 

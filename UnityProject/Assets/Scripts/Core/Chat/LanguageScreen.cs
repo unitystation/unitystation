@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Managers;
 using TMPro;
@@ -28,6 +29,22 @@ namespace Core.Chat
 		{
 			Refresh();
 		}
+
+		public void Start()
+		{
+			EventManager.AddHandler(Event.Cleanup, Cleanup);
+		}
+
+		private void Cleanup()
+		{
+			int i = 0;
+			while (entryPool.Count > 0 && 50 > i)
+			{
+				RemoveEntry();
+				i++;
+			}
+		}
+
 
 		public void Refresh()
 		{
@@ -71,8 +88,8 @@ namespace Core.Chat
 			for (int i = 0; i < understoodLanguages.Length; i++)
 			{
 				var language = understoodLanguages[i];
-				entryPool[i].SetUp($"[{(spokenLanguages.Contains(language) ? "U + S" : "U")}]{language.LanguageName} key: ,{language.Key}", language.Desc,
-					language.Sprite, this, language.LanguageUniqueId);
+				entryPool[i].SetUp($"{language.LanguageName}\n<size=50%>[{(spokenLanguages.Contains(language) ? "U + S" : "U")}]</size>", language.Desc,
+					language.Sprite, this, language.LanguageUniqueId, language.Key.ToString());
 			}
 		}
 
@@ -86,7 +103,7 @@ namespace Core.Chat
 
 		private void RemoveEntry()
 		{
-			Destroy(entryPool[^1]);
+			Destroy(entryPool[^1].gameObject);
 
 			entryPool.RemoveAt(entryPool.Count - 1);
 		}

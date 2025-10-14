@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6277436296296420862}
   - component: {fileID: 3359074576112343055}
   - component: {fileID: 1362447534624371649}
+  - component: {fileID: 5809946353931888550}
   m_Layer: 5
   m_Name: AdminMindEntry
   m_TagString: Untagged
@@ -153,6 +154,18 @@ MonoBehaviour:
   selectedColor: {r: 0.37647063, g: 0.64705884, b: 0.91372555, a: 1}
   defaultColor: {r: 0.30980393, g: 0.46274513, b: 0.6117647, a: 1}
   antagTextColor: {r: 1, g: 0.9725491, b: 0, a: 1}
+--- !u!114 &5809946353931888550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4361410561834140646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7009996526777904389
 GameObject:
   m_ObjectHideFlags: 0

@@ -91,6 +91,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5666735912054379986, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 3828264386811584063}
+    - target: {fileID: 5666735912054379986, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 685ad63ad497a884091a906925a2e525,
@@ -182,7 +187,17 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: -2520356030976446224}
+    - targetCorrespondingSourceObject: {fileID: 933576176691117832, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2993941776765511290}
   m_SourcePrefab: {fileID: 100100000, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73, type: 3}
+--- !u!212 &3828264386811584063 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1122670086388767519, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+    type: 3}
+  m_PrefabInstance: {fileID: 4230072279620781344}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3909272659631209000 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 933576176691117832, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
@@ -257,3 +272,32 @@ MonoBehaviour:
   isEMPResistant: 0
   mustBeUnanchored: 0
   secondsToScrewdrive: 2
+  PartsStorage: {fileID: 2993941776765511290}
+--- !u!114 &2993941776765511290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3909272659631209000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: f040b5dae3721f542a7d43c31febfba8,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 411b6b7a74c524a91b9a38a0c692761b,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  ManuallySpawnContent: 0
+  dropItemsOnDespawn: 1
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  SetSlotItemNotRemovableOnStartUp: 0
+  initialignoreRoundstartGrabObjects: 0
+  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+    type: 3}

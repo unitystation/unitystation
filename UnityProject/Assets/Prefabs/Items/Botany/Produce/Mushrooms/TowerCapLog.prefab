@@ -71,7 +71,7 @@ PrefabInstance:
     - target: {fileID: 4314607143740255459, guid: 983b718a497883e46bb1b4c8927f9961,
         type: 3}
       propertyPath: relatedRecipes.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4314607143740255459, guid: 983b718a497883e46bb1b4c8927f9961,
         type: 3}
@@ -83,7 +83,7 @@ PrefabInstance:
         type: 3}
       propertyPath: relatedRecipes.Array.data[1].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: 699e523c4be366f4c902147c30b8c386,
+      objectReference: {fileID: 11400000, guid: 3cbc309cc235b9941b8e91d29309281e,
         type: 2}
     - target: {fileID: 4353717592831911221, guid: 983b718a497883e46bb1b4c8927f9961,
         type: 3}
@@ -202,6 +202,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: -5771745461331304457}
+    - targetCorrespondingSourceObject: {fileID: 4353717592831911221, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5583861375563807034}
   m_SourcePrefab: {fileID: 100100000, guid: 983b718a497883e46bb1b4c8927f9961, type: 3}
 --- !u!1 &6062953987052555307 stripped
 GameObject:
@@ -224,3 +228,18 @@ MonoBehaviour:
   processedProduct: {fileID: 8058325044013834992, guid: c922b01496840a04e87ee46fba6bf4bb,
     type: 3}
   productAmount: 3
+--- !u!114 &5583861375563807034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6062953987052555307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6083a8f6e47464fb42db6e06bc08665, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InheritParentsRecipes: 1
+  hasSimpleRelatedRecipe: 0
+  relatedRecipes: []

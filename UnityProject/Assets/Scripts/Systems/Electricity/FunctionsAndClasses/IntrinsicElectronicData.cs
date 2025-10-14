@@ -323,7 +323,7 @@ namespace Systems.Electricity
 				FlushConnectionAndUp();
 				FindPossibleConnections();
 				FlushConnectionAndUp();
-				MetaDataPresent.IsOn.ElectricalData.Remove(MetaDataPresent);
+				MetaDataPresent?.IsOn?.ElectricalData.Remove(MetaDataPresent);
 				ElectricalManager.Instance.electricalSync.StructureChange = true;
 
 				if (MetaDataPresent?.RelatedTile != null)
@@ -338,7 +338,10 @@ namespace Systems.Electricity
 
 				if (TileRemoved == false)
 				{
-					MetaDataPresent.Locatedon.TileChangeManager.MetaTileMap.RemoveTileWithlayer(MetaDataPresent.NodeLocation, LayerType.Electrical);
+					if (MetaDataPresent?.Locatedon?.TileChangeManager?.MetaTileMap != null)
+					{
+						MetaDataPresent.Locatedon.TileChangeManager.MetaTileMap.RemoveTileWithlayer(MetaDataPresent.NodeLocation, LayerType.Electrical);
+					}
 				}
 			}
 		}

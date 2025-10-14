@@ -36,6 +36,8 @@ public class MatrixInfo : IEquatable<MatrixInfo>
 	//Warning slow
 	public BetterBounds WorldBounds => MetaTileMap.GetWorldBounds();
 
+	public BetterBounds? WorldMatrixCollisionBounds => MetaTileMap.GeWorldMatrixCollisionBounds();
+
 	public Transform ObjectParent => MetaTileMap.ObjectLayer.transform;
 
 	public Color Color => IsMovable ? Matrix.Color : Color.red;
@@ -44,12 +46,9 @@ public class MatrixInfo : IEquatable<MatrixInfo>
 
 	public string Name => Matrix.gameObject.name;
 
-	//todo: placeholder, should depend on solid tiles count instead (and use caching)
-	public float Mass => LocalBounds.size.sqrMagnitude/1000f;
-
 	public bool IsMovable => Matrix.IsMovable;
 
-	public Vector2Int MovementVector =>  Vector2Int.zero;
+	public Vector2Int MovementVector =>  Matrix.MatrixMove.NetworkedMatrixMove.SynchronisedVelocity.NormalizeTo2Int();
 
 	public Vector3Int InitialOffset
 	{

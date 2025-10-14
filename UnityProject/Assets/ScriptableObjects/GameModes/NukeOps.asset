@@ -17,13 +17,13 @@ MonoBehaviour:
     it!
   canRespawn: 0
   minPlayers: 4
-  antagRatio: 0.25
+  antagRatio: 0.1
   minAntags: 1
   maxAntags: 100
   hardNumberOfAntagsToSpawn: 0
   forceMinAntags: 1
   teamGameMode: 1
-  midRoundAntags: 0
+  midRoundAntags: 1
   midRoundAntagsChance: 50
   possibleAntags:
   - {fileID: 11400000, guid: 4bc36e6d8aa946c4081073eabc2472eb, type: 2}
@@ -32,5 +32,5 @@ MonoBehaviour:
   randomSicknesses: 1
   possibleSicknesses:
   - {fileID: 11400000, guid: c277cb2e90e88e743ab2494b395ca8fa, type: 2}
-  randomSicknessRatio: 0.1
+  randomSicknessRatio: 0.01
   mainStations: {fileID: 11400000, guid: 9b0018951af67314ca9e85705e0d2ce4, type: 2}

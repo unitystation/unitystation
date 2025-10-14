@@ -79,7 +79,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	//It can be null, or it can be a pickupable.(Health V2)
 	public event Action<Pickupable, Pickupable> ServerInventoryItemSlotSet;
 
-	[SerializeField] private bool dropItemsOnDespawn;
+	[SerializeField] private bool dropItemsOnDespawn = true;
 
 	public bool UesAddlistPopulater = false;
 
@@ -177,15 +177,35 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		return ServerTryAdd(spawned.GameObject);
 	}
 
+
+
+	//True equals successful false equals unsuccessful
+	public bool ServerTryTransferFrom(ItemStorage inStorage)
+	{
+
+		bool Overall = true;
+
+		foreach (var Slot in inStorage.GetItemSlots())
+		{
+			if (Slot.Item == null) continue;
+			if (ServerTryAdd(Slot.Item.gameObject) == false)
+			{
+				Overall = false;
+			}
+		}
+
+		return Overall;
+	}
+
 	//True equals successful false equals unsuccessful
 	public bool ServerTryAdd(GameObject inGameObject)
 	{
-		var item = inGameObject.GetComponent<ItemAttributesV2>();
+		var item = inGameObject.GetComponentCustom<ItemAttributesV2>();
 		if (item == null) return false;
 		var slot = GetBestSlotFor(inGameObject);
 		if (slot == null) return false;
 
-		var CurrentlyInSlot = inGameObject.GetComponent<Pickupable>().ItemSlot;
+		var CurrentlyInSlot = inGameObject.GetComponentCustom<Pickupable>().ItemSlot;
 
 		if (CurrentlyInSlot == null)
 		{
@@ -199,7 +219,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 
 	public bool ServerTransferGameObjectToItemSlot(GameObject outGameObject, ItemSlot Slot)
 	{
-		var item = outGameObject.GetComponent<ItemAttributesV2>();
+		var item = outGameObject.GetComponentCustom<ItemAttributesV2>();
 		if (item == null) return false;
 		var slot = GetSlotFromItem(outGameObject);
 		if (slot == null) return false;
@@ -675,7 +695,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	public ItemSlot GetBestSlotFor(GameObject toCheck)
 	{
 		if (toCheck == null) return null;
-		return GetBestSlotFor(toCheck.GetComponent<Pickupable>());
+		return GetBestSlotFor(toCheck.GetComponentCustom<Pickupable>());
 	}
 
 	/// <summary>
@@ -810,6 +830,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	/// </summary>
 	public void ServerDropAll(Vector2? worldDeltaTargetVector = null)
 	{
+		TrySpawnContents();
 		foreach (var itemSlot in GetItemSlots())
 		{
 			Inventory.ServerDrop(itemSlot, worldDeltaTargetVector);

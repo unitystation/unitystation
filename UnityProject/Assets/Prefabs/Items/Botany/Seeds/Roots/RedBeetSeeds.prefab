@@ -10,7 +10,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3846204835941215739, guid: 68259771352072a48a290530b2894872,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 9116155716400698183}
+    - target: {fileID: 3846204835941215739, guid: 68259771352072a48a290530b2894872,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 751b203873ee8cf4ba820fe0b67f24e7,
+        type: 2}
+    - target: {fileID: 3846204835941215739, guid: 68259771352072a48a290530b2894872,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 751b203873ee8cf4ba820fe0b67f24e7,
         type: 2}
@@ -139,6 +150,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8636285762777304261, guid: 68259771352072a48a290530b2894872,
         type: 3}
+      propertyPath: plantData.ReagentProduction.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8636285762777304261, guid: 68259771352072a48a290530b2894872,
+        type: 3}
       propertyPath: 'plantData.GrowthSpritesSOs.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: d55b42f50f5ffa34f91554eaa54a638f,
@@ -178,8 +194,36 @@ PrefabInstance:
       propertyPath: plantData.MutatesInToGameObject.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8636285762777304261, guid: 68259771352072a48a290530b2894872,
+        type: 3}
+      propertyPath: plantData.ReagentProduction.Array.data[0].percentage
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8636285762777304261, guid: 68259771352072a48a290530b2894872,
+        type: 3}
+      propertyPath: plantData.ReagentProduction.Array.data[1].percentage
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8636285762777304261, guid: 68259771352072a48a290530b2894872,
+        type: 3}
+      propertyPath: plantData.ReagentProduction.Array.data[0].ChemistryReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237,
+        type: 2}
+    - target: {fileID: 8636285762777304261, guid: 68259771352072a48a290530b2894872,
+        type: 3}
+      propertyPath: plantData.ReagentProduction.Array.data[1].ChemistryReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: d5386cc24a0a08cab9f2e1dab976ee2f,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68259771352072a48a290530b2894872, type: 3}
+--- !u!212 &9116155716400698183 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7122333138192033056, guid: 68259771352072a48a290530b2894872,
+    type: 3}
+  m_PrefabInstance: {fileID: 2041409449001236071}
+  m_PrefabAsset: {fileID: 0}

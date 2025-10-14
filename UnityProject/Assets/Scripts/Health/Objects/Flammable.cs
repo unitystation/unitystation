@@ -39,7 +39,7 @@ namespace Health.Objects
 		// damage incurred each tick while an object is on fire
 		private static float BURNING_DAMAGE_PER_STACK = 0.08f;
 		private static float HOT_IN_KELVIN = 750f;
-		private static readonly float BURN_RATE = 1.25f;
+		private static readonly float BURN_RATE = 2.25f;
 
 		private bool isLarge = false;
 
@@ -135,7 +135,7 @@ namespace Health.Objects
 				SyncOnFire(fireStacks, 0);
 				return;
 			}
-			node?.GasMixLocal.AddGasWithTemperature(Gas.Smoke, BURNING_DAMAGE_PER_STACK * 75, Kelvin.FromC(100f));
+			node?.GasMixLocal.AddGasWithTemperature(Gas.Smoke, BURNING_DAMAGE_PER_STACK * 25, Kelvin.FromC(100f));
 
 			if (integrity.Resistances.Flammable || skipFlammableCheck)
 			{
@@ -276,6 +276,12 @@ namespace Health.Objects
 			Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " burnt to ash.", gameObject);
 			Loggy.Trace().Format("{0} burning up, onfire is {1} (burningObject enabled {2})", Category.Health, name, this.fireStacks, burningObjectOverlay?.enabled);
 			Profiler.EndSample();
+		}
+
+		[Server]
+		public void AddFireStacks(int stacksToAdd)
+		{
+			fireStacks = Mathf.Clamp(fireStacks + stacksToAdd, 0, maxStacks);
 		}
 
 		public void OnDamageReceived(DamageInfo info)

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Logs;
 using UnityEngine;
@@ -98,6 +99,13 @@ namespace Systems.GhostRoles
 			uint key = ServerAddRole(role);
 			role.OnTimerExpired += () =>
 			{
+				GhostRoleUpdateMessage.SendToClients(key);
+				serverAvailableRoles.Remove(key);
+
+			};
+			role.OnMaxPlayersReached += () =>
+			{
+				GhostRoleUpdateMessage.SendToClients(key);
 				serverAvailableRoles.Remove(key);
 			};
 
@@ -112,7 +120,14 @@ namespace Systems.GhostRoles
 		/// <param name="key">The key used to identify the role for modifying. Returned by <see cref="ServerCreateRole(GhostRoleData)"/>"/></param>
 		public void ServerUpdateRole(uint key, int minPlayers, int maxPlayers, float timeRemaining)
 		{
-			serverAvailableRoles[key].UpdateRole(minPlayers, maxPlayers, timeRemaining);
+			try
+			{
+				serverAvailableRoles[key].UpdateRole(minPlayers, maxPlayers, timeRemaining);
+			}
+			catch (Exception e)
+			{
+				Loggy.Error(e.ToString());
+			}
 			GhostRoleUpdateMessage.SendToClients(key);
 		}
 
@@ -122,7 +137,14 @@ namespace Systems.GhostRoles
 		/// <param name="key">The key used to identify the role for modifying. Returned by <see cref="ServerCreateRole(GhostRoleData)"/>"/></param>
 		public void ServerUpdateRole(uint key, int minPlayers, int maxPlayers, float timeRemaining, int newRoleIndex)
 		{
-			serverAvailableRoles[key].UpdateRole(minPlayers, maxPlayers, timeRemaining, newRoleIndex);
+			try
+			{
+				serverAvailableRoles[key].UpdateRole(minPlayers, maxPlayers, timeRemaining, newRoleIndex);
+			}
+			catch (Exception e)
+			{
+				Loggy.Error(e.ToString());
+			}
 			GhostRoleUpdateMessage.SendToClients(key);
 		}
 
@@ -150,7 +172,7 @@ namespace Systems.GhostRoles
 				};
 
 				if (PlayerManager.LocalPlayerScript.IsDeadOrGhost)
-					UIManager.Display.hudBottomGhost.NewGhostRoleAvailable(GhostRoles[typeIndex]);
+					UIManager.Display.hudBottomGhost.NewGhostRoleAvailable(GhostRoles[typeIndex], newRole);
 			}
 
 			GhostRoleClient role = clientAvailableRoles[key];
@@ -162,6 +184,7 @@ namespace Systems.GhostRoles
 				UIManager.GhostRoleWindow.RemoveEntry(key);
 				clientAvailableRoles.Remove(key);
 				clientUpdatedRole.Invoke(role);
+				UIManager.Instance.displayControl.hudBottomGhost.UpdateIcon();
 				return default;
 			}
 

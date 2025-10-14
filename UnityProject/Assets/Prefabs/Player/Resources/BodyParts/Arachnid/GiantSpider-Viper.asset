@@ -48,8 +48,30 @@ MonoBehaviour:
     CanBeEmagged: 0
     CanBePlayerChosen: 0
     PreviewSprite: {fileID: 11400000, guid: d2e7ec96de320d54cb2784982665ba69, type: 2}
-    SystemSettings: []
+    SystemSettings:
+    - rid: 3557079718172033086
     StartingMutations: []
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 3557079718172033086
+      type: {class: ReagentPoolSystem, ns: HealthV2.Living.PolymorphicSystems, asm: Assets}
+      data:
+        Base: {fileID: 0}
+        BloodPool:
+          temperature: 273.15
+          reagents:
+            m_keys: []
+            m_values: []
+          reagentKeys: []
+        StartingBlood: 500
+        NormalBlood: 500
+        bloodReagent: {fileID: 11400000, guid: c7943c0995bc04a49b55b22064796666, type: 2}
+        PumpingDevices: []
+        TempBloodReservoir:
+          temperature: 273.15
+          reagents:
+            m_keys: []
+            m_values: []
+          reagentKeys: []
+        ReservoirReturnMultiplier: 0.15

@@ -24,9 +24,11 @@ namespace Items.Implants.Organs
 		[PlayModeOnly,SyncVar(hook = nameof(SyncPossessingID))] private uint possessingID;
 
 		[FormerlySerializedAs("DrunkReagent")] [SerializeField] private Reagent drunkReagent;
+		[SerializeField] private Reagent highReagent;
 		public Reagent DrunkReagent => drunkReagent;
+		public Reagent HighReagent => highReagent;
 		[SerializeField] public float MaxDrunkAtPercentage = 0.06f;
-
+		[SerializeField] public float MaxHighAtPercentage = 0.06f;
 		public uint OnPlayerID => OnBodyID;
 		public uint PossessingID => possessingID;
 
@@ -41,6 +43,8 @@ namespace Items.Implants.Organs
 		[SyncVar(hook = nameof(SyncTelekinesis))] private bool hasTelekinesis = false;
 
 		[SyncVar(hook = nameof(SyncDrunkenness))] private float drunkAmount = 0;
+
+		[SyncVar(hook = nameof(SyncHighness))] private float highAmount = 0;
 
 		public MobTraversal Traversal => LivingHealthMaster?.playerScript.Traversal;
 
@@ -162,6 +166,15 @@ namespace Items.Implants.Organs
 			hasTelekinesis = NewValue;
 		}
 
+		public void SyncHighness(float Oldvalue, float NewValue)
+		{
+			highAmount = NewValue;
+			if (Preimplemented.IsOnLocalPlayer)
+			{
+				ApplyChangesHighness(highAmount);
+			}
+		}
+
 		public void SyncDrunkenness(float Oldvalue, float NewValue)
 		{
 			drunkAmount = NewValue;
@@ -174,6 +187,11 @@ namespace Items.Implants.Organs
 		public void ApplyChangesDrunkenness(float newState)
 		{
 			Camera.main.GetComponent<CameraEffectControlScript>().drunkCamera.SetDrunkStrength(newState);
+		}
+
+		public void ApplyChangesHighness(float newState)
+		{
+			Camera.main.GetComponent<CameraEffectControlScript>().HighCamera.SetStrength(newState);
 		}
 
 		public UnityEvent OnBodyUnPossesedByPlayer { get; set; }
@@ -197,30 +215,63 @@ namespace Items.Implants.Organs
 
 		public override void ImplantPeriodicUpdate()
 		{
-			if (ReagentCirculatedComponent.OrNull()?.AssociatedSystem != null && ReagentCirculatedComponent.AssociatedSystem.BloodPool.reagents.Contains(drunkReagent))
-			{
-				float DrunkPercentage = ReagentCirculatedComponent.AssociatedSystem.BloodPool.GetPercent(drunkReagent);
-				if (DrunkPercentage > 0)
-				{
-					if (DrunkPercentage > MaxDrunkAtPercentage)
-					{
-						DrunkPercentage = MaxDrunkAtPercentage;
-					}
-					var percentage = DrunkPercentage / MaxDrunkAtPercentage;
+			if (drunkReagent != null) DrunkCheck();
+			if (highReagent != null) HighCheck();
+		}
 
-					if (percentage > 0.05f)
-					{
-						SyncDrunkenness(drunkAmount, percentage);
-					}
-					else
-					{
-						SyncDrunkenness(drunkAmount, 0);
-					}
+		private void DrunkCheck()
+		{
+			if (ReagentCirculatedComponent.OrNull()?.AssociatedSystem == null) return;
+			if (ReagentCirculatedComponent.AssociatedSystem.BloodPool.reagents.Contains(drunkReagent) == false) return;
+			float drunkPercentage = ReagentCirculatedComponent.AssociatedSystem.BloodPool.GetPercent(drunkReagent);
+			if (drunkPercentage > 0)
+			{
+				if (drunkPercentage > MaxDrunkAtPercentage)
+				{
+					drunkPercentage = MaxDrunkAtPercentage;
+				}
+				var percentage = drunkPercentage / MaxDrunkAtPercentage;
+
+				if (percentage > 0.05f)
+				{
+					SyncDrunkenness(drunkAmount, percentage);
 				}
 				else
 				{
-					drunkAmount = 0;
+					SyncDrunkenness(drunkAmount, 0);
 				}
+			}
+			else
+			{
+				drunkAmount = 0;
+			}
+		}
+
+		private void HighCheck()
+		{
+			if (ReagentCirculatedComponent.OrNull()?.AssociatedSystem == null) return;
+			if (ReagentCirculatedComponent.AssociatedSystem.BloodPool.reagents.Contains(highReagent) == false) return;
+			float drunkPercentage = ReagentCirculatedComponent.AssociatedSystem.BloodPool.GetPercent(highReagent);
+			if (drunkPercentage > 0)
+			{
+				if (drunkPercentage > MaxHighAtPercentage)
+				{
+					drunkPercentage = MaxHighAtPercentage;
+				}
+				var percentage = drunkPercentage / MaxHighAtPercentage;
+
+				if (percentage > 0.05f)
+				{
+					SyncHighness(highAmount, percentage);
+				}
+				else
+				{
+					SyncHighness(highAmount, 0);
+				}
+			}
+			else
+			{
+				highAmount = 0;
 			}
 		}
 
@@ -240,6 +291,7 @@ namespace Items.Implants.Organs
 			ApplyChangesBlindness(Default ? false : true);
 			ApplyDeafness(Default ? 0 : 1);
 			ApplyChangesDrunkenness(Default ? 0 : drunkAmount);
+			ApplyChangesHighness(Default ? 0 : highAmount);
 		}
 
 		public void ApplyDeafness(float Value)

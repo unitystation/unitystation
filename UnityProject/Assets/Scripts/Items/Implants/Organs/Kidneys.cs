@@ -7,9 +7,17 @@ namespace Items.Implants.Organs
 {
 	public class Kidneys : BodyPartFunctionality
 	{
-		public List<Reagent> BlacklistReagents = new List<Reagent>();
+		public List<ReagentNPercentage> BlacklistReagents = new List<ReagentNPercentage>();
 		//add Special nutrients in body
 
+		[System.Serializable]
+
+		public class ReagentNPercentage
+		{
+			public Reagent Reagent;
+			public float Percentage;
+
+		}
 
 		public ReagentCirculatedComponent _ReagentCirculatedComponent;
 
@@ -32,7 +40,7 @@ namespace Items.Implants.Organs
 
 			foreach (var Reagent in BlacklistReagents)
 			{
-				poolToClean.Remove(Reagent, 1000);
+				poolToClean.Remove(Reagent.Reagent, poolToClean[Reagent.Reagent] * Reagent.Percentage);
 			}
 
 			_ReagentCirculatedComponent.AssociatedSystem.BloodPool.Add(poolToClean);

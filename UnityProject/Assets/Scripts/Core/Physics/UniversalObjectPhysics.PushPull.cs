@@ -41,7 +41,7 @@ namespace Core.Physics
 		//## WIND AND OTHER ## //
 		public bool CanBeWindPushed = true;
 
-		public void PullSet(Physics.UniversalObjectPhysics toPull, bool byClient, bool synced = false)
+		public void PullSet(Physics.UniversalObjectPhysics toPull, bool byClient, bool synced = false, bool ResetForcePosition = false)
 		{
 			if (toPull != null && ContainedInObjectContainer != null) return; //Can't pull stuff inside of objects)
 
@@ -77,6 +77,11 @@ namespace Core.Physics
 			}
 			else
 			{
+				if (CustomNetworkManager.IsServer && ResetForcePosition)
+				{
+					ResetLocationOnClients();
+				}
+
 				if (isOwned) UIManager.Action.UpdatePullingUI(false);
 				if (Pulling.HasComponent)
 				{
@@ -306,7 +311,8 @@ namespace Core.Physics
 				var inDirection = cachedPosition - Pulling.Component.transform.position;
 				if (inDirection.magnitude > 2f && isServer)
 				{
-					PullSet(null, false);
+					PullSet(null, false, ResetForcePosition: true);
+					Pulling.Component.ResetLocationOnClients(true);
 				}
 				else
 				{
@@ -398,6 +404,7 @@ namespace Core.Physics
 			var pullable = pullableObject.GetComponent<Physics.UniversalObjectPhysics>();
 			if (pullable == null || pullable.isNotPushable)
 			{
+				pullable?.ResetLocationOnClients();
 				return;
 			}
 
@@ -420,9 +427,11 @@ namespace Core.Physics
 				reachRange = ReachRange.Telekinesis;
 			}
 
-			if (Validations.CanApply(clientWhoAsked.Script, gameObject, NetworkSide.Server
+			if (Validations.CanApply(clientWhoAsked.Script, pullableObject.gameObject, NetworkSide.Server
 				    , apt: Validations.CheckState(x => x.CanPull), reachRange: reachRange) == false)
 			{
+				PullSet(null, false);
+				pullable.ResetLocationOnClients();
 				return;
 			}
 

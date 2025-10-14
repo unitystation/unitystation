@@ -198,7 +198,10 @@ public partial class PlayerList
 		}
 		else
 		{
-			return Instance.LoggedInWithTag["*"].Contains(AccountID);
+			if (Instance.LoggedInWithTag.ContainsKey("*"))
+			{
+				return Instance.LoggedInWithTag["*"].Contains(AccountID);
+			}
 		}
 		return false;
 	}

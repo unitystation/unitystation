@@ -46,7 +46,10 @@ namespace Systems.Faith
 			FaithPropertiesEventUpdate.Clear();
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, LongUpdate);
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
-			Chat.AddGameWideSystemMsgToChat($"Faiths have been reset. Awaiting new round.".Color(Color.blue));
+			if (CustomNetworkManager.IsServer)
+			{
+				Chat.AddGameWideSystemMsgToChat($"Faiths have been reset. Awaiting new round.".Color(Color.blue));
+			}
 		}
 
 		private void LongUpdate()

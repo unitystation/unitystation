@@ -52,6 +52,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -104,10 +105,14 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: b17bebc68a303e341ad9ae325f44e7ce,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1001 &1004520157929427565
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -153,10 +158,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 4654319829746092527}
+    - target: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 4411773cea9c5fc4d985d0debd90c5dd,
         type: 2}
+    - target: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: palette.Array.size
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
       propertyPath: InitialPresentSpriteSet
@@ -167,6 +182,91 @@ PrefabInstance:
         type: 3}
       propertyPath: SubCatalogue.Array.size
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: palette.Array.data[0].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: palette.Array.data[0].b
+      value: 0.15760265
+      objectReference: {fileID: 0}
+    - target: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: palette.Array.data[0].g
+      value: 0.6698113
+      objectReference: {fileID: 0}
+    - target: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: palette.Array.data[0].r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: palette.Array.data[1].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: palette.Array.data[1].b
+      value: 0.17240834
+      objectReference: {fileID: 0}
+    - target: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: palette.Array.data[1].g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: palette.Array.data[1].r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: palette.Array.data[2].b
+      value: 0.09390254
+      objectReference: {fileID: 0}
+    - target: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: palette.Array.data[2].g
+      value: 0.4245283
+      objectReference: {fileID: 0}
+    - target: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: palette.Array.data[2].r
+      value: 0.010012458
+      objectReference: {fileID: 0}
+    - target: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: palette.Array.data[3].b
+      value: 0.30116534
+      objectReference: {fileID: 0}
+    - target: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: palette.Array.data[3].g
+      value: 0.764151
+      objectReference: {fileID: 0}
+    - target: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: palette.Array.data[3].r
+      value: 0.19103774
+      objectReference: {fileID: 0}
+    - target: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: palette.Array.data[4].b
+      value: 0.29015136
+      objectReference: {fileID: 0}
+    - target: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: palette.Array.data[4].g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: palette.Array.data[4].r
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
@@ -408,6 +508,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: e3a3dacaa74cf2c458198e3a7584b736,
         type: 3}
+    - target: {fileID: 5577623456038050690, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577623456038050690, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577623456038050690, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5621077696875497794, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
       propertyPath: customNetTransform
@@ -530,6 +645,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1360d2b65a03cdf449035cd3c4cd0153, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!212 &4654319829746092527 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5577623456038050690, guid: 6f371050bff8b32438f91c7c680900bb,
+    type: 3}
+  m_PrefabInstance: {fileID: 1004520157929427565}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4784655301099371187 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5734849685452875998, guid: 6f371050bff8b32438f91c7c680900bb,
@@ -572,11 +693,11 @@ MonoBehaviour:
   spriteHandler: {fileID: 1666505115895660852}
   destroyThisComponentOnOpen: 0
   openingNoise:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   openedSprite: {fileID: 0}

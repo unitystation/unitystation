@@ -67,11 +67,11 @@ namespace Objects.Machines
 		/// <summary>
 		/// Attempt to remove an amount of materials from a Dictionary of materials
 		/// </summary>
-		public bool TryConsumeList(SerializableDictionary<MaterialSheet, int> consume)
+		public bool TryConsumeList(SerializableDictionary<MaterialSheet, int> consume, float ConsumptionMultiplier)
 		{
 			foreach (var materialSheet in consume.Keys)
 			{
-				if (MaterialList[materialSheet.materialTrait] < consume[materialSheet])
+				if (MaterialList[materialSheet.materialTrait] < (consume[materialSheet] * ConsumptionMultiplier))
 				{
 					return false;
 				}
@@ -80,7 +80,7 @@ namespace Objects.Machines
 			//Removes all the materials and their amount from the storage.
 			foreach (var materialSheet in consume.Keys)
 			{
-				ConsumeMaterial(materialSheet.materialTrait, consume[materialSheet]);
+				ConsumeMaterial(materialSheet.materialTrait, Mathf.RoundToInt(consume[materialSheet] * ConsumptionMultiplier));
 			}
 
 			UpdateGUIs?.Invoke();

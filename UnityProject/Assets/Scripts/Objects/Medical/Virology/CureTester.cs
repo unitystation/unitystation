@@ -9,12 +9,14 @@ using Cysharp.Threading.Tasks;
 using Logs;
 using Shared.Systems.ObjectConnection;
 using Systems.Electricity;
+using Mirror;
 
 namespace Objects.Medical.Virology
 {
-	public class CureTester : MonoBehaviour, IAPCPowerable, IMultitoolMasterable, IServerSpawn
+	public class CureTester : NetworkBehaviour, IAPCPowerable, IMultitoolMasterable, IServerSpawn
 	{
-		private PowerState _currentPowerState;
+		[field: SyncVar] public bool IsFull { get; private set; } = false;
+		[SyncVar] private PowerState _currentPowerState;
 
 		[SerializeField] private SequenceAnalyzer connectedSequenceAnalyzer;
 
@@ -25,10 +27,8 @@ namespace Objects.Medical.Virology
 		[SerializeField] private UniversalObjectPhysics objectPhysics;
 		[SerializeField] private AddressableAudioSource machineBeepSound;
 
-		public ItemSlot CureItemSlot { get; private set; }
-
 		private bool _isOnCooldown;
-		public bool CanExamineSample => _isOnCooldown == false && _currentPowerState == PowerState.On;
+		public bool CanExamineSample => _isOnCooldown == false;
 
 		private void Start()
 		{
@@ -37,7 +37,6 @@ namespace Objects.Medical.Virology
 				Loggy.Error($"No Item Storage set on {gameObject.ExpensiveName()}!");
 				return;
 			}
-			CureItemSlot = itemStorage.GetIndexedItemSlot(0);
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -56,8 +55,9 @@ namespace Objects.Medical.Virology
 
 			if (interaction.HandObject&& Validations.HasItemTrait(interaction, requiredTrait))
 			{
-				Inventory.ServerTransfer(interaction.HandSlot, CureItemSlot, ReplacementStrategy.DropOther);
+				Inventory.ServerTransfer(interaction.HandSlot, itemStorage.GetIndexedItemSlot(0), ReplacementStrategy.DropOther);
 
+				IsFull = true;
 				sampleSpriteHandler.SetSpriteVariant(0);
 				Chat.AddActionMsgToChat(interaction.Performer,
 						$"You place the {interaction.HandObject.ExpensiveName()} into the tester's primary slot.",
@@ -66,20 +66,29 @@ namespace Objects.Medical.Virology
 			}
 			if (interaction.HandObject) return;
 
-			Inventory.ServerTransfer(CureItemSlot, interaction.HandSlot);
+			IsFull = false;
+			Inventory.ServerTransfer(itemStorage.GetIndexedItemSlot(0), interaction.HandSlot);
 			sampleSpriteHandler.SetSpriteVariant(1);
 		}
 
 		public void RequestExamineCure(PositionalHandApply interaction)
 		{
-			_ = AnimateButtonPress();
+			if (_isOnCooldown) return;
 
 			if (_currentPowerState != PowerState.On)
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, $"{gameObject.ExpensiveName()} is unpowered!");
 				return;
 			}
+
+			_ = AnimateButtonPress();
 			_ = SoundManager.PlayNetworkedAtPosAsync(machineBeepSound, objectPhysics.OfficialPosition);
+
+			if (connectedSequenceAnalyzer is null)
+			{
+				Chat.AddWarningMsgFromServer(interaction.Performer, "Requires connection to a sequence analyzer!");
+				return;
+			}
 
 			if (connectedSequenceAnalyzer.ActiveSickness is null)
 			{
@@ -87,7 +96,7 @@ namespace Objects.Medical.Virology
 				return;
 			}
 
-			if (CureItemSlot.ItemObject?.TryGetComponent<ReagentContainer>(out var container) == true)
+			if (itemStorage.GetIndexedItemSlot(0).ItemObject?.TryGetComponent<ReagentContainer>(out var container) == true)
 			{
 				StringBuilder machineDialogue = new StringBuilder();
 				machineDialogue.AppendLine($"Test results of cure against sickness {connectedSequenceAnalyzer.ActiveSickness.Name}: ");

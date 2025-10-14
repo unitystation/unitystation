@@ -322,11 +322,11 @@ namespace Objects.Kitchen
 
 		#region IRefreshParts
 
-		public void RefreshParts(IDictionary<PartReference, int> partsInFrame, Machine Frame)
+		public void RefreshParts(List<PartReference> partsInFrame, Machine Frame)
 		{
 			// Get the machine stock parts used in this instance and get the tier of each part.
 			// Collection is unorganized so run through the whole list.
-			foreach (PartReference part in partsInFrame.Keys)
+			foreach (PartReference part in partsInFrame)
 			{
 				if (part.itemTrait == MachinePartsItemTraits.Instance.MicroLaser)
 				{

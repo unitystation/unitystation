@@ -118,7 +118,8 @@ public static class UpdateTileMessageReaderWriters
 			{
 				Position = reader.ReadVector3Int(),
 				IsSlippy = reader.ReadBool(),
-				IsIceSlippy = reader.ReadBool()
+				IsIceSlippy = reader.ReadBool(),
+				IsSuperSlippy = reader.ReadBool()
 			};
 
 			message.Changes.Add(WorkingOn);
@@ -137,6 +138,7 @@ public static class UpdateTileMessageReaderWriters
 			writer.WriteVector3Int(delayedData.Position);
 			writer.WriteBool(delayedData.IsSlippy);
 			writer.WriteBool(delayedData.IsIceSlippy);
+			writer.WriteBool(delayedData.IsSuperSlippy);
 		}
 
 		writer.WriteBool(false);

@@ -797,6 +797,7 @@ GameObject:
   - component: {fileID: 102884157009045889}
   - component: {fileID: 1432219655656521002}
   - component: {fileID: 2287926465101290152}
+  - component: {fileID: 4202728424026430971}
   m_Layer: 5
   m_Name: TransferButton
   m_TagString: Untagged
@@ -960,6 +961,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4202728424026430971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2631473825883710478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3466317474418282422
 GameObject:
   m_ObjectHideFlags: 0
@@ -1510,6 +1523,7 @@ GameObject:
   - component: {fileID: 3581303950208604550}
   - component: {fileID: 2277772996755250401}
   - component: {fileID: 5029769972036029234}
+  - component: {fileID: -3476627799808878311}
   m_Layer: 5
   m_Name: ScanButton
   m_TagString: Untagged
@@ -1680,6 +1694,18 @@ MonoBehaviour:
   OnMouseExit:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-3476627799808878311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7260450891702136899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7378761451593733557
 GameObject:
   m_ObjectHideFlags: 0
@@ -1694,6 +1720,7 @@ GameObject:
   - component: {fileID: 6898893186714414458}
   - component: {fileID: 759086067480861465}
   - component: {fileID: 4594018325379726465}
+  - component: {fileID: 4083012919994946832}
   m_Layer: 5
   m_Name: DeconstructButton
   m_TagString: Untagged
@@ -1864,6 +1891,18 @@ MonoBehaviour:
   OnMouseExit:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4083012919994946832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7378761451593733557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7392573884059164619
 GameObject:
   m_ObjectHideFlags: 0
@@ -2051,6 +2090,7 @@ GameObject:
   - component: {fileID: 9064293859993645290}
   - component: {fileID: 2683271780948943695}
   - component: {fileID: 8667149656895809592}
+  - component: {fileID: -3660685142363123604}
   m_Layer: 5
   m_Name: EjectButton
   m_TagString: Untagged
@@ -2221,6 +2261,18 @@ MonoBehaviour:
   OnMouseExit:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-3660685142363123604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7530931803567291887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7629480698816629430
 GameObject:
   m_ObjectHideFlags: 0
@@ -2233,6 +2285,7 @@ GameObject:
   - component: {fileID: 3122147586440579286}
   - component: {fileID: 6358348082829473450}
   - component: {fileID: 5768032551700315448}
+  - component: {fileID: -5817990863948608422}
   m_Layer: 5
   m_Name: CloseWindowButton
   m_TagString: Untagged
@@ -2354,6 +2407,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &-5817990863948608422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7629480698816629430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7844531404901311406
 GameObject:
   m_ObjectHideFlags: 0

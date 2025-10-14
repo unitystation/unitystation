@@ -8,6 +8,12 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1284128491174236193, guid: d10477987defc1744a7b9a9e197a1ce0,
+        type: 3}
+      propertyPath: damageData
+      value: 
+      objectReference: {fileID: 11400000, guid: 64c33474fbd27fb4a9709c1f60b6f713,
+        type: 2}
     - target: {fileID: 6997930057317163912, guid: d10477987defc1744a7b9a9e197a1ce0,
         type: 3}
       propertyPath: m_AssetId
@@ -29,6 +35,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 3623433bc89d707419549c2fd4bb119b,
         type: 3}
+    - target: {fileID: 7654838351817613080, guid: d10477987defc1744a7b9a9e197a1ce0,
+        type: 3}
+      propertyPath: damageData
+      value: 
+      objectReference: {fileID: 11400000, guid: 64c33474fbd27fb4a9709c1f60b6f713,
+        type: 2}
     - target: {fileID: 7728329713383276162, guid: d10477987defc1744a7b9a9e197a1ce0,
         type: 3}
       propertyPath: m_Name
@@ -109,5 +121,33 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7728329713383276162, guid: d10477987defc1744a7b9a9e197a1ce0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 994054444771913438}
   m_SourcePrefab: {fileID: 100100000, guid: d10477987defc1744a7b9a9e197a1ce0, type: 3}
+--- !u!1 &942198071249333068 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7728329713383276162, guid: d10477987defc1744a7b9a9e197a1ce0,
+    type: 3}
+  m_PrefabInstance: {fileID: 7373473181926004174}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &994054444771913438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 942198071249333068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ce2732ba058c44498c468a3543a43de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ReagentMix:
+    temperature: 0
+    reagents:
+      m_keys: []
+      m_values: []
+    reagentKeys: []

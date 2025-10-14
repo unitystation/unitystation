@@ -68,6 +68,7 @@ namespace Mobs.BrainAI.States.SimpleBot
 
 		public void Speak(AudibleMobDialogue toSay)
 		{
+			if (string.IsNullOrWhiteSpace(LivingHealthMaster?.playerScript?.playerName)) return;
 			Chat.AddLocalMsgToChat(toSay.transcription, gameObject, botLanguage, LivingHealthMaster.playerScript.playerName, true);
 
 			if(toSay.audioSource != null) SoundManager.PlayNetworkedAtPosAsync(toSay.audioSource,

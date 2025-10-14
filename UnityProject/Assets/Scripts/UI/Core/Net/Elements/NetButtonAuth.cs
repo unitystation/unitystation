@@ -12,7 +12,19 @@ namespace UI.Core.NetUI
 	[Serializable]
 	public class NetButtonAuth : NetUIStringElement
 	{
+		public bool AddInRunTime = false;
+		private Button Button;
 		public ConnectedPlayerEvent ServerMethod;
+
+		public void Awake()
+		{
+			Button = this.GetComponent<Button>();
+			if (AddInRunTime)
+			{
+				Button.onClick = new Button.ButtonClickedEvent();
+				Button.onClick.AddListener(ExecuteClient);
+			}
+		}
 
 		public override void ExecuteServer(PlayerInfo subject)
 		{

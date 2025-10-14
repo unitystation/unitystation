@@ -25,6 +25,7 @@ namespace Learning.ProtipObjectTypes
 
 		private void OnInventoryChange()
 		{
+			if (this.gameObject.activeInHierarchy == false) return;
 			StartCoroutine(CheckHand());
 		}
 

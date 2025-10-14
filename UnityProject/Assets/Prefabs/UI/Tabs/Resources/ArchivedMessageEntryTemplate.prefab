@@ -557,6 +557,7 @@ GameObject:
   - component: {fileID: 6689070741363431623}
   - component: {fileID: 5712517467875393244}
   - component: {fileID: 658207395022520265}
+  - component: {fileID: -5788719782765898583}
   m_Layer: 5
   m_Name: Delete
   m_TagString: Untagged
@@ -690,6 +691,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddInRunTime: 1
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -712,3 +714,15 @@ MonoBehaviour:
   OnMouseExit:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-5788719782765898583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7179844300889193836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

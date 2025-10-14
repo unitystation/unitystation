@@ -43,7 +43,10 @@ namespace Chemistry.Components
 		[FormerlySerializedAs("TransferMode")] [SerializeField]
 		private TransferMode transferMode = TransferMode.Normal;
 
+
+		[Tooltip("Can this container only be filled using a syringe/injector?"), SerializeField] private bool onlyAllowSyringeFilling = false;
 		[SerializeField] public bool SyringePulling;
+
 
 		public TransferMode TransferMode => transferMode;
 
@@ -84,7 +87,17 @@ namespace Chemistry.Components
 			if (interaction.Intent == Intent.Help)
 			{
 				//checks if it's possible to transfer from container to container
-				if (!WillInteractHelp(interaction.HandObject, interaction.TargetObject, side)) return false;
+				if (interaction.TargetObject == this.gameObject)
+				{
+
+					if (WillInteractHelp(this.gameObject, interaction.HandObject, side) == false) return false;
+				}
+				else
+				{
+
+					if (WillInteractHelp(this.gameObject, interaction.TargetObject, side) == false) return false;
+				}
+
 			}
 			else
 			{
@@ -127,6 +140,13 @@ namespace Chemistry.Components
 				return false;
 			}
 
+			if (srcContainer.transferMode == TransferMode.InputOnly
+			    || dstContainer.transferMode == TransferMode.OutputOnly)
+			{
+				return false;
+			}
+
+
 			if (side == NetworkSide.Server)
 			{
 				if (srcContainer.TraitWhitelistOn && !Validations.HasAnyTrait(dstObject, srcContainer.traitWhitelist))
@@ -139,6 +159,8 @@ namespace Chemistry.Components
 					return false;
 				}
 			}
+
+			if (dstContainer.onlyAllowSyringeFilling && srcContainer.transferMode != TransferMode.Syringe) return false;
 
 			return dstContainer.transferMode != TransferMode.Syringe;
 		}

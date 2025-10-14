@@ -29,13 +29,14 @@ namespace ScriptableObjects.Systems.Spells
 		[SerializeField]
 		private GameObject spellImplementation = null;
 
-
 		[Tooltip("Rechargeable has unlimited uses, LimitedCharges is limited by StartingCharges")]
 		[SerializeField, BoxGroup("Replenishment")]
 		private SpellChargeType chargeType = SpellChargeType.Rechargeable;
+
 		[Tooltip("Cooldown time in seconds.")]
 		[SerializeField, BoxGroup("Replenishment"), ShowIf(nameof(IsRechargeable)), Range(0f, 1000f)]
 		private float cooldownTime = 10f;
+
 		[Tooltip("Starting charges. Used if ChargeType = FixedCharges")]
 		[SerializeField, BoxGroup("Replenishment"), HideIf(nameof(IsRechargeable)), Range(0, 30)]
 		private int startingCharges = 10;
@@ -45,35 +46,46 @@ namespace ScriptableObjects.Systems.Spells
 
 		[SerializeField, BoxGroup("Chat")]
 		private string stillRechargingMessage = "The spell is still recharging!";
+
 		[Tooltip("Whatever it says to the guy affected by it")]
 		[SerializeField, BoxGroup("Chat")]
 		private string affectedMessage = "";
+
 		[Tooltip("Whether to whisper, shout or emote the invocationMessage")]
 		[SerializeField, BoxGroup("Chat")]
 		private SpellInvocationType invocationType = SpellInvocationType.None;
+
 		[SerializeField, BoxGroup("Chat"), ShowIf(nameof(IsInvocable))]
 		private string invocationMessage = "";
+
 		[SerializeField, BoxGroup("Chat"), ShowIf(nameof(IsInvocable))]
 		private string invocationMessageSelf = "";
 
 		[Tooltip("Summon type (what to spawn)")]
 		[SerializeField, BoxGroup("Summoning")]
 		private SpellSummonType summonType = SpellSummonType.None;
+
 		[Tooltip("Objects to summon (SummonType=Object)")]
 		[SerializeField, BoxGroup("Summoning"), ShowIf(nameof(WillSummonObjects))]
 		private List<GameObject> summonObjects = new List<GameObject>();
+
 		[Tooltip("Tiles to summon (SummonType=Tile)")]
 		[SerializeField, BoxGroup("Summoning"), ShowIf(nameof(WillSummonTiles))]
 		private List<LayerTile> summonTiles = new List<LayerTile>();
+
 		[Tooltip("Summon position type")]
 		[SerializeField, BoxGroup("Summoning"), ShowIf(nameof(WillSummonThing))]
 		private SpellSummonPosition summonPosition = SpellSummonPosition.CasterDirection;
+
 		[Tooltip("0 means permanent – lifespan of summoned thing in seconds")]
 		[SerializeField, BoxGroup("Summoning"), Range(0f, 1000f), ShowIf(nameof(WillSummonThing))]
 		private float summonLifespan = 10f;
+
 		[Tooltip("Whether to replace existing tile")]
 		[SerializeField, BoxGroup("Summoning"), ShowIf(nameof(WillSummonThing))]
 		private bool replaceExisting = false;
+
+		public bool AllowSoftCriticalUses = true;
 
 		public string StillRechargingMessage => stillRechargingMessage;
 		public SpellChargeType ChargeType => chargeType;

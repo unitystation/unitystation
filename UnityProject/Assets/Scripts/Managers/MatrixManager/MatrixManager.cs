@@ -757,20 +757,37 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	/// </summary>
 	public static void ReagentReact(ReagentMix reagents,
 		Vector3Int worldPos, MatrixInfo matrixInfo = null,bool spawnPrefabEffect = true, OrientationEnum direction = OrientationEnum.Up_By0,
-		bool Scatter = false, LivingHealthMasterBase from = null )
+		bool Scatter = false, LivingHealthMasterBase from = null, BodyPartType bodyPartAim = BodyPartType.None  )
 	{
 		if (CustomNetworkManager.IsServer == false)
 		{
 			return;
 		}
 
-		if (matrixInfo is null)
+		matrixInfo ??= AtPoint(worldPos, true);
+
+		if (IsSpaceWithNoTilesNearbyAt(worldPos, matrixInfo))
 		{
-			matrixInfo = AtPoint(worldPos, true);
+			Loggy.Warning($"Attempted to do a reagent reaction in the middle of space at {worldPos}", Category.Chemistry);
+			return;
 		}
 
 		Vector3Int localPos = WorldToLocalInt(worldPos, matrixInfo);
-		matrixInfo.MetaDataLayer.ReagentReact(reagents, worldPos, localPos, spawnPrefabEffect, direction, Scatter, from);
+		matrixInfo.MetaDataLayer.ReagentReact(reagents, worldPos, localPos, spawnPrefabEffect, direction, Scatter, from, bodyPartAim);
+	}
+
+	public static bool IsSpaceWithNoTilesNearbyAt(Vector3Int worldPos, MatrixInfo matrixInfo = null)
+	{
+		if (IsSpaceAt(worldPos, true, matrixInfo) == false) return false;
+		var dontReactInSpace = worldPos;
+		var neighbors = worldPos.GetNeighbors();
+		foreach (var n in neighbors)
+		{
+			if (IsSpaceAt(n, true, matrixInfo)) continue;
+			worldPos = n;
+			break;
+		}
+		return dontReactInSpace != worldPos;
 	}
 
 	/// <summary>

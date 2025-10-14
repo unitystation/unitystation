@@ -14,6 +14,8 @@ namespace Weapons.Projectiles.Behaviours
 		private Gun weapon;
 		private BodyPartType targetZone;
 
+		private MagazineBehaviour MagazineBehaviour;
+
 		[SerializeField] private ConditionsTileArray hitInteractTileConditions = null;
 
 		[SerializeField] private int maxHitCount = 4;
@@ -26,12 +28,13 @@ namespace Weapons.Projectiles.Behaviours
 			movingProjectile = GetComponentInChildren<MovingProjectile>().transform;
 		}
 
-		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, BodyPartType targetZone = BodyPartType.Chest)
+		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, MagazineBehaviour MagazineBehaviour, BodyPartType targetZone = BodyPartType.Chest)
 		{
 			this.direction = direction;
 			this.shooter = shooter;
 			this.weapon = weapon;
 			this.targetZone = targetZone;
+			this.MagazineBehaviour = MagazineBehaviour;
 		}
 
 		public bool Interact(MatrixManager.CustomPhysicsHit hit, InteractableTiles interactableTiles, Vector3 worldPosition)
@@ -51,7 +54,7 @@ namespace Weapons.Projectiles.Behaviours
 
 		private void RotateBullet(Vector2 newDirection)
 		{
-			bullet.Shoot(newDirection, shooter, weapon, targetZone);
+			bullet.Shoot(newDirection, shooter, weapon, MagazineBehaviour, targetZone);
 			bullet.WillHurtShooter = true;
 		}
 

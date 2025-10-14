@@ -11,7 +11,8 @@ Material:
   m_Shader: {fileID: 4800000, guid: 3624ae5443757fc4f95aac44d2c0d1aa, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - USE_SHADOW
   m_InvalidKeywords:
   - ETC1_EXTERNAL_ALPHA
   m_LightmapFlags: 4
@@ -75,12 +76,18 @@ Material:
     - _OcclusionStrength: 1
     - _PaletteSize: 8
     - _Parallax: 0.02
+    - _ShadowAlpha: 0.4
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
+    - _UseShadow: 1
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _ShadowColor: {r: 0, g: 0, b: 0, a: 1}
+    - _ShadowDirection: {r: 1, g: -1, b: 0, a: 0}
+    - _ShadowOffset: {r: -0.3, g: 0.3, b: 0, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1

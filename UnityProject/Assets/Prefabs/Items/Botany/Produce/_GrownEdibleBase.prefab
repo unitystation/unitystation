@@ -8,6 +8,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 275102857289942383, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 275102857289942383, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1362573601969762483, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: m_RootOrder
@@ -138,6 +148,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 600753371851395131}
+    - targetCorrespondingSourceObject: {fileID: 1367782950990450119, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6436208063954450623}
   m_SourcePrefab: {fileID: 100100000, guid: eaf8c1f2a0f9374488e16061fd5b4dcd, type: 3}
 --- !u!114 &95709129899775204 stripped
 MonoBehaviour:
@@ -211,6 +225,22 @@ MonoBehaviour:
   edible: {fileID: 7037229560526396988}
   sizeScale: 1
   scaleSync: {fileID: 0}
+--- !u!114 &6436208063954450623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1188401911067925580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8688576ed720a4f40b3583f62adeeb23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundReagents:
+    m_keys: []
+    m_values: []
+  UseReagentContainer: 1
 --- !u!212 &1337560984964591376 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 1155915217242832539, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,

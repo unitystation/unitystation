@@ -1,111 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1917856994
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1917856995}
-  - component: {fileID: 1917856998}
-  - component: {fileID: 1917856997}
-  - component: {fileID: 1917856996}
-  m_Layer: 21
-  m_Name: Minimal Player Visibility Sprite
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1917856995
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1917856994}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
-  m_LocalScale: {x: 1.75, y: 1.75, z: 3.5}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4568765046733910}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1917856998
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1917856994}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  InitialColour: {r: 0.990566, g: 0.990566, b: 0.990566, a: 0.13725491}
-  Sprite: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758, type: 3}
-  SortingOrder: 0
-  Material: {fileID: 2100000, guid: bb638c523f5b7064b9a032025a8db0a5, type: 2}
-  LightOrigin: {x: 0, y: 0, z: 1}
-  Shape: 0
-  GivenID: 0
---- !u!23 &1917856997
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1917856994}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &1917856996
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1917856994}
-  m_Mesh: {fileID: 0}
 --- !u!1 &1187200688554218
 GameObject:
   m_ObjectHideFlags: 0
@@ -268,6 +162,7 @@ GameObject:
   - component: {fileID: 114239165020214558}
   - component: {fileID: 4251233521143295179}
   - component: {fileID: 5935000786866830145}
+  - component: {fileID: 3087442223282236594}
   - component: {fileID: 4441493179746393366}
   - component: {fileID: 7171882492086519817}
   - component: {fileID: 7964655504328845500}
@@ -308,7 +203,6 @@ Transform:
   - {fileID: 4249331889089346}
   - {fileID: 4742569332115770}
   - {fileID: 4422804088835706}
-  - {fileID: 1917856995}
   - {fileID: 5474882198295534349}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -509,8 +403,9 @@ MonoBehaviour:
   nightVisionCamera: {fileID: 1620099701739618863}
   blurryVisionEffect: {fileID: 7964655504328845500}
   colourblindEmulationEffect: {fileID: 8481840996761083126}
+  HighCamera: {fileID: 3087442223282236594}
   <FlashbangCamera>k__BackingField: {fileID: 1486188175020947451}
-  minimalVisibilitySprite: {fileID: 1917856994}
+  minimalVisibilitySprite: {fileID: 0}
   maxDrunkTime: 120
   maxFlashTime: 25
   LightingSystem: {fileID: 0}
@@ -535,6 +430,26 @@ MonoBehaviour:
   Waves: 0.25
   Speed: 0.5
   DoubleVision: 0.01
+--- !u!114 &3087442223282236594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365047106309440}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6d8683beb0918542af1264504278a9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _HueSpeed: 0
+  _HueIntensity: 0
+  _PlasmaSpeed: 0
+  _PlasmaScale: 0
+  _PlasmaBlend: 0
+  _DistortionAmount: 0
+  _DistortTimeSpeed: 0
+  material: {fileID: 2100000, guid: 9ac5150d5463adc40980437ab47bfd43, type: 2}
 --- !u!114 &4441493179746393366
 MonoBehaviour:
   m_ObjectHideFlags: 0

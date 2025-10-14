@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Chemistry.Components;
 using Items;
+using Logs;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -65,6 +66,11 @@ namespace Systems.CraftingV2
 
 			foreach (RelatedRecipe relatedRecipe in relatedRecipes)
 			{
+				if (relatedRecipe == null || relatedRecipe.Recipe == null)
+				{
+					Loggy.Error($"Something went wrong when attempting to check for a recipe.\nrelatedRecipe is null:{relatedRecipe == null}\n relatedRecipe?.Recipe is null:{relatedRecipe?.Recipe == null}");
+					continue;
+				}
 				if (relatedRecipe.Recipe.IsSimple == false)
 				{
 					continue;

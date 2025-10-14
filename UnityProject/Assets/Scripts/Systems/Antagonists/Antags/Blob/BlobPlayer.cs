@@ -655,6 +655,7 @@ namespace Blob
 				{
 					if (currentStrain.strainType == StrainTypes.NetworkedFibers)
 					{
+						resources = resources - 1;
 						//Move core to normal blob when networked fibers strain
 						MoveCoreToNormalBlob(blob);
 						return true;
@@ -1465,7 +1466,7 @@ namespace Blob
 				if (factoryBlob.Key == null) continue;
 
 				factoryBlob.Value.Remove(null);
-				factoryBlob.Value.RemoveWhere(spore => spore.GetComponent<LivingHealthBehaviour>().IsDead);
+				factoryBlob.Value.RemoveWhere(spore => spore == null || spore?.GetComponent<LivingHealthBehaviour>()?.IsDead is null or true);
 
 				//Dont produce spores unless connected
 				if(!factoryBlob.Key.connectedToBlobNet) continue;

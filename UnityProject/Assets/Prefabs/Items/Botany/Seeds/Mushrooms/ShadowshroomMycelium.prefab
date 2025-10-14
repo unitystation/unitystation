@@ -24,6 +24,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4f52f8ac8ff2acd4e8dc17f1703c3ca6,
         type: 2}
+    - target: {fileID: 3208750400927667784, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 4f52f8ac8ff2acd4e8dc17f1703c3ca6,
+        type: 2}
     - target: {fileID: 7943773264967317366, guid: 9d50a0a8790aa454c824ffd039c07e6f,
         type: 3}
       propertyPath: plantData.PlantName
@@ -49,6 +55,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7943773264967317366, guid: 9d50a0a8790aa454c824ffd039c07e6f,
         type: 3}
+      propertyPath: plantData.ReagentProduction.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7943773264967317366, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
       propertyPath: 'plantData.GrowthSpritesSOs.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: a8ffcafb958d33848adf13064e8f479b,
@@ -70,6 +81,22 @@ PrefabInstance:
       propertyPath: plantData.MutatesInToGameObject.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7943773264967317366, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
+      propertyPath: plantData.ReagentProduction.Array.data[0].percentage
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7943773264967317366, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
+      propertyPath: plantData.ReagentProduction.Array.data[1].percentage
+      value: 0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 7943773264967317366, guid: 9d50a0a8790aa454c824ffd039c07e6f,
+        type: 3}
+      propertyPath: plantData.ReagentProduction.Array.data[1].ChemistryReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237,
+        type: 2}
     - target: {fileID: 8671100345473241211, guid: 9d50a0a8790aa454c824ffd039c07e6f,
         type: 3}
       propertyPath: _assetId

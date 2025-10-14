@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 636111e8adf7b234f8563fdfdf91f495, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NetTab: {fileID: 0}
+  NetTab: {fileID: 3100268208970083998}
   OnEscapeKey:
     m_PersistentCalls:
       m_Calls: []
@@ -376,8 +376,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -350}
-  m_SizeDelta: {x: 900, y: 700}
+  m_AnchoredPosition: {x: -1.8405, y: -24.775}
+  m_SizeDelta: {x: 897.2524, y: 50.45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1019248072329734667
 CanvasRenderer:
@@ -641,6 +641,7 @@ GameObject:
   - component: {fileID: 6773014753989373269}
   - component: {fileID: 2549173708971977064}
   - component: {fileID: 5885753020055823384}
+  - component: {fileID: 8536061170649725755}
   m_Layer: 5
   m_Name: UndoButton
   m_TagString: Untagged
@@ -762,6 +763,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8536061170649725755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092008214189519440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1681303031203579180
 GameObject:
   m_ObjectHideFlags: 0
@@ -1065,7 +1078,8 @@ GameObject:
   - component: {fileID: 4654377042751738130}
   - component: {fileID: 5443229419559547089}
   - component: {fileID: 1408660752333131390}
-  m_Layer: 0
+  - component: {fileID: 4284431836003245283}
+  m_Layer: 5
   m_Name: ClickableRegion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1115,7 +1129,7 @@ MonoBehaviour:
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1150,11 +1164,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 0
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_NormalColor: {r: 0, g: 0, b: 0, a: 1}
+    m_HighlightedColor: {r: 1, g: 0, b: 0, a: 1}
+    m_PressedColor: {r: 0.12795234, g: 1, b: 0, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -1185,6 +1199,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4284431836003245283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3350083771761591615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3380574472775808630
 GameObject:
   m_ObjectHideFlags: 0
@@ -1198,6 +1224,7 @@ GameObject:
   - component: {fileID: 1503988059820883306}
   - component: {fileID: 7231680013177090706}
   - component: {fileID: 5146801515702570783}
+  - component: {fileID: 5220118978847807474}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -1332,124 +1359,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   url: https://wiki.unitystation.org/index.php/Abandoned_Crates
---- !u!1 &3926694953004371946
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7215784664134392683}
-  - component: {fileID: 1488573131874205248}
-  - component: {fileID: 1385272635210502480}
-  - component: {fileID: 2161307876910530705}
-  m_Layer: 0
-  m_Name: GridButton
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &7215784664134392683
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3926694953004371946}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8278237228466518704}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 125}
-  m_SizeDelta: {x: -350, y: -350}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &1488573131874205248
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3926694953004371946}
-  m_CullTransparentMesh: 0
---- !u!114 &1385272635210502480
+--- !u!114 &5220118978847807474
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3926694953004371946}
+  m_GameObject: {fileID: 3380574472775808630}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 0
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 2161307876910530705}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3100268208970083998}
-        m_TargetAssemblyTypeName: UI.Minigames.GUI_ReflectionGolf, Assets
-        m_MethodName: OnGridPress
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &2161307876910530705
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3926694953004371946}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e6a978475f2d2241a81969bd041aba4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &3945797975788133142
 GameObject:
   m_ObjectHideFlags: 0
@@ -1462,6 +1383,7 @@ GameObject:
   - component: {fileID: 8573524387070211299}
   - component: {fileID: 151326374458714821}
   - component: {fileID: 392816634293463167}
+  - component: {fileID: 4649963194716607821}
   m_Layer: 5
   m_Name: ResetButton
   m_TagString: Untagged
@@ -1583,6 +1505,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4649963194716607821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3945797975788133142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4594477802513169190
 GameObject:
   m_ObjectHideFlags: 0
@@ -1829,16 +1763,15 @@ RectTransform:
   - {fileID: 224950370593069080}
   - {fileID: 3023967205046690197}
   - {fileID: 6354564220186151038}
-  - {fileID: 7215784664134392683}
   - {fileID: 1545608276904591864}
   - {fileID: 2988418744647112600}
   - {fileID: 8917069872552738194}
   m_Father: {fileID: 224663602153563088}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 950, y: 950}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7629480698816629430
 GameObject:
@@ -1852,6 +1785,7 @@ GameObject:
   - component: {fileID: 3122147586440579286}
   - component: {fileID: 5768032551700315448}
   - component: {fileID: 1031225047588791001}
+  - component: {fileID: 5178153006818208206}
   m_Layer: 5
   m_Name: CloseWindowButton
   m_TagString: Untagged
@@ -1973,6 +1907,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5178153006818208206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7629480698816629430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7815991524673829851
 GameObject:
   m_ObjectHideFlags: 0

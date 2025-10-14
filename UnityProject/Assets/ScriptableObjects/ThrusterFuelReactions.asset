@@ -28,3 +28,12 @@ MonoBehaviour:
       Amount: 3
     ConsumptionMultiplierEffect: -0.5
     ThrustMultiplierEffect: 1
+  - ChemicalMakeUp:
+    - Reagent: {fileID: 0}
+      Gas: {fileID: 11400000, guid: 2d3c38fe76e3df249ade18fd6fdac274, type: 2}
+      Amount: 10
+    - Reagent: {fileID: 0}
+      Gas: {fileID: 11400000, guid: 2dc2b9cbfa71299438285909b02ca481, type: 2}
+      Amount: 1
+    ConsumptionMultiplierEffect: 5
+    ThrustMultiplierEffect: 3

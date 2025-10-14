@@ -88,6 +88,7 @@ GameObject:
   - component: {fileID: 5410241782545315045}
   - component: {fileID: 4965210837218329734}
   - component: {fileID: 8680170662003591949}
+  - component: {fileID: -9021098147591822630}
   m_Layer: 5
   m_Name: HandCuffed
   m_TagString: Untagged
@@ -225,6 +226,18 @@ MonoBehaviour:
   baseExitTooltip: 
   useObjectName: 0
   hoverName: Cuffed
+--- !u!114 &-9021098147591822630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3248531503589456294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3649146278576809436
 GameObject:
   m_ObjectHideFlags: 0
@@ -238,6 +251,7 @@ GameObject:
   - component: {fileID: 2550012286925896327}
   - component: {fileID: 6783144893512755736}
   - component: {fileID: 3871911707004256860}
+  - component: {fileID: 7898677997914462362}
   m_Layer: 5
   m_Name: MagBoots
   m_TagString: Untagged
@@ -375,6 +389,18 @@ MonoBehaviour:
   baseExitTooltip: 
   useObjectName: 0
   hoverName: Toggle Mag Boots
+--- !u!114 &7898677997914462362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3649146278576809436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4496686093604667891
 GameObject:
   m_ObjectHideFlags: 0
@@ -463,6 +489,7 @@ GameObject:
   - component: {fileID: 1658381236423737786}
   - component: {fileID: 8295194566564112952}
   - component: {fileID: 2576265434104174096}
+  - component: {fileID: 4776574875179126705}
   m_Layer: 5
   m_Name: PickupMode
   m_TagString: Untagged
@@ -600,6 +627,18 @@ MonoBehaviour:
   baseExitTooltip: 
   useObjectName: 0
   hoverName: Switch Pickup Mode
+--- !u!114 &4776574875179126705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4523665691807717615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8153163913192884163
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,6 +775,7 @@ GameObject:
   - component: {fileID: 8121523089393964095}
   - component: {fileID: 8121622239159964365}
   - component: {fileID: 8603585592823261982}
+  - component: {fileID: 3319870160301377248}
   m_Layer: 5
   m_Name: Restrained
   m_TagString: Untagged
@@ -872,6 +912,18 @@ MonoBehaviour:
   baseExitTooltip: 
   useObjectName: 0
   hoverName: Buckled
+--- !u!114 &3319870160301377248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8153215756600515221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8298666828600119355
 GameObject:
   m_ObjectHideFlags: 0

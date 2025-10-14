@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Mirror;
 using TMPro;
 using UI.Core.Action;
 using UnityEngine;
@@ -15,6 +16,8 @@ namespace Actions.V2.UI
 		public Image Background;
 		[FormerlySerializedAs("AnimatedIconHandler")] public SpriteHandler iconHandler;
 
+		public NetworkIdentity Owner { get; private set; }
+
 		[SerializeField] private Image cooldownOverlay;
 		[SerializeField] private TMP_Text cooldownText;
 
@@ -25,11 +28,11 @@ namespace Actions.V2.UI
 		private ActionTooltip Tooltip => UIActionManager.Instance.TooltipInstance;
 		private static readonly Vector3 tooltipOffset = new Vector3(-40, -60);
 
-		public void Setup(ActionButtonData buttonData, bool isMindAction)
+		public void Setup(ActionButtonData buttonData, bool isMindAction, NetworkIdentity owner)
 		{
 			ActionData = buttonData;
 			name = ActionData.ID;
-			TrySetIcon();
+			Owner = owner;
 			if (ActionData.CooldownTime >= 0.085f) UpdateManager.Add(UpdateCooldown, 1.25f);
 			if (isMindAction)
 			{
@@ -37,6 +40,7 @@ namespace Actions.V2.UI
 			}
 			defaultColor = Background.color;
 			RefreshManagers();
+			TrySetIcon();
 		}
 
 		private void RefreshManagers()
@@ -133,21 +137,21 @@ namespace Actions.V2.UI
 
 		private void TrySetIcon()
 		{
-			if (ActionData.AnimatedIconCatalogue == null) return;
+			if (ActionData.AnimatedIconCatalogue == null || ActionData.AnimatedIconCatalogue.Count == 0) return;
 			iconHandler.SetSpriteSO(ActionData.AnimatedIconCatalogue[0]);
 		}
 
 		private void TrySetCustomCursor()
 		{
-			if (ActionData.HasCustomCursor == false) return;
+			if (ActionData.HasCustomCursor == false || ActionData.CursorTexture?.Variance[0] == null) return;
 			if (ActionData.HasCustomCursorOffset)
 			{
-				MouseInputController.SetCursorTexture(ActionData.CursorTexture, ActionData.CursorOffset);
+				MouseInputController.SetCursorTexture(ActionData.CursorTexture.Variance[0].Frames[0].sprite.texture, ActionData.CursorOffset);
 			}
 			else
 			{
 				bool isCentered = ActionData.OffsetType == CursorOffsetType.Centered;
-				MouseInputController.SetCursorTexture(ActionData.CursorTexture, isCentered);
+				MouseInputController.SetCursorTexture(ActionData.CursorTexture.Variance[0].Frames[0].sprite.texture, isCentered);
 			}
 		}
 

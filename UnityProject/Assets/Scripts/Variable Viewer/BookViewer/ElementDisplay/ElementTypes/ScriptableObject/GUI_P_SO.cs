@@ -135,7 +135,25 @@ namespace AdminTools.VariableViewer
 		public void SetValue(ISearchSpritePreview change)
 		{
 			SetupValues(change);
-			RequestChangeVariableNetMessage.Send(PageID, Serialise(change) , UISendToClientToggle.toggle, SentenceID);
+			RequestChangeVariableNetMessage.Send(PageID, Serialise(change) , UISendToClientToggle.toggle, SentenceID, iskey);
+		}
+
+		public override object GetDefaultValue(Type InType)
+		{
+			if (IndividualDropDownOptions.Count == 0)
+			{
+				InitialiseIndividualDropDownOptions();
+			}
+
+			foreach (var TypeAndVals in IndividualDropDownOptions)
+			{
+				if (TypeAndVals.Key == InType)
+				{
+					return TypeAndVals.Value[0];
+				}
+			}
+
+			return null;
 		}
 
 		public void RequestOpenBookOnPage()
@@ -230,8 +248,6 @@ namespace AdminTools.VariableViewer
 			{
 				Loggy.Error(e.ToString());
 			}
-
-
 
 		}
 

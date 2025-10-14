@@ -21,7 +21,9 @@ using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Changeling;
 using Core;
+using HealthV2.Living.Mutations.Surface;
 using Logs;
+using Messages.Server.LocalGuiMessages;
 using Mobs.Traversal;
 using Systems.Faith;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
@@ -110,6 +112,7 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 	[field: SerializeField] public MobTraversal Traversal { get; private set; }
 	[field: SerializeField] public GroupedAccess Access { get; private set; }
 	[field: SerializeField] public ActionManager PlayerButtonedActions { get; private set; }
+	[field: SerializeField] public BodySpritesInvisbility PlayerAlpha { get; private set; }
 	public ActionManager PlayerButtonedMindActions => Mind?.PlayerButtonedActions;
 
 	public PlayerStats PlayerStats { get; private set; }
@@ -221,6 +224,7 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 		Access ??= GetComponent<GroupedAccess>();
 		PlayerScriptVisible ??= GetComponent<PlayerScriptVisible>();
 		PlayerButtonedActions ??= GetComponent<ActionManager>();
+		PlayerAlpha ??= GetComponent<BodySpritesInvisbility>();
 	}
 
 	private void OnEnable()
@@ -276,10 +280,11 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 			UIManager.ResetAllUI();
 			GetComponent<MouseInputController>().enabled = true;
 
-			if (UIManager.Instance.statsTab.window.activeInHierarchy == false)
+			if (UIManager.Instance?.statsTab?.window?.activeInHierarchy == false)
 			{
 				UIManager.Instance.statsTab.window.SetActive(true);
 			}
+
 
 			if (PlayerType == PlayerTypes.Ghost)
 			{
@@ -308,6 +313,8 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 				mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
 				Camera2DFollow.followControl.cam.cullingMask = mask;
 				UIManager.Display.RejoinedEvent();
+
+				HandsController.Instance.PickAcctiveHandController();
 			}
 			//Players like blob or Ai
 			else

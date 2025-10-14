@@ -1,0 +1,132 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HighShader
+  m_Shader: {fileID: 4800000, guid: 2fbe41647c82e2c4aa5dba4f786531f0, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 2000
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Channel1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Channel2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _BPM: 19.9
+    - _BlurX: 200
+    - _BlurY: 50
+    - _BumpScale: 1
+    - _ChromaAmount: 0.552
+    - _CosAmount: 0
+    - _Cutoff: 0.5
+    - _DetailNormalMapScale: 1
+    - _DistortTimeSpeed: 0.22358525
+    - _DistortionAmount: 0.01412971
+    - _DistortionIntensity: 0.155
+    - _DistortionScale: 0.1
+    - _DistortionSpeed: 1
+    - _DoubleVision: 0
+    - _DstBlend: 0
+    - _EffectAmount: 1.97
+    - _EnablePlasma: 1
+    - _EnableRainbow: 1
+    - _FractalIntensity: 0
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _GlowAmount: 0.01
+    - _HueIntensity: 0.76827765
+    - _HueSpeed: 0.1
+    - _KaleidoScale: 5
+    - _KaleidoSides: 2
+    - _LightAmount: 5
+    - _Metallic: 0
+    - _MistBlend: 0.199
+    - _Mode: 0
+    - _NoiseScale1: 24.3
+    - _NoiseScale2: 31
+    - _NoiseScale3: 21.5
+    - _OcclusionStrength: 1
+    - _Parallax: 0.02
+    - _PlasmaBlend: 0.24247625
+    - _PlasmaScale: 0.5
+    - _PlasmaSpeed: 1.1727592
+    - _PlasmaSpeedA: 12
+    - _PlasmaSpeedB: 12
+    - _RainbowSpeed: 0.1
+    - _Scale: 1.25
+    - _SinAmount: 0
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _Speed: 2
+    - _SrcBlend: 1
+    - _TimeScale: 1.67
+    - _TimeSpeed: 1.68
+    - _UVSec: 0
+    - _WarpIntensity: 0.05
+    - _WarpScale: 15.4
+    - _Waves: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _GreenKey: {r: 0.26762193, g: 0.5849056, b: 0.32504928, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

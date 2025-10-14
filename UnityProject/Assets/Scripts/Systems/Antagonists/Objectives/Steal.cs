@@ -124,13 +124,13 @@ namespace Antagonists
 			if (item == null)
 				return;
 
-			if (item.Item().ArticleName == null)
+			if (item.ExpensiveName() == null)
 			{
 				ItemName = "NULLNAME";
 				Loggy.Error($"[Steal/SetupInGame] Can`t find name of item {item}");
 			} else
 			{
-				ItemName = item.Item().InitialName;
+				ItemName = item.ExpensiveName();
 			}
 			AntagManager.Instance.TargetedItems.Add(item);
 			// TODO randomise amount based on range/weightings?

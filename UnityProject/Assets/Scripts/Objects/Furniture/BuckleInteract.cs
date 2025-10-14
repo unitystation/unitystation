@@ -2,6 +2,7 @@
 using System.Linq;
 using Core;
 using HealthV2;
+using Logs;
 using UnityEngine;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
@@ -122,14 +123,23 @@ namespace Objects
 		{
 			var playerScript = drop.UsedObject.GetComponent<PlayerScript>();
 
-			IsPushEnough(drop, NetworkSide.Server, playerScript, out bool sameSquare, out Vector2Int dir);
+			if (playerScript.playerMove.IsBuckled && playerScript.playerMove?.BuckledToObject?.gameObject == this.gameObject)
+			{				UnBuckle(playerScript);
 
-			if (sameSquare == false)
+			}
+			else
 			{
-				playerScript.ObjectPhysics.AppearAtWorldPositionServer(transform.position);
+				IsPushEnough(drop, NetworkSide.Server, playerScript, out bool sameSquare, out Vector2Int dir);
+
+				if (sameSquare == false)
+				{
+					playerScript.ObjectPhysics.AppearAtWorldPositionServer(transform.position);
+				}
+
+				BucklePlayer(playerScript);
 			}
 
-			BucklePlayer(playerScript);
+
 		}
 
 		/// <summary>
@@ -151,11 +161,14 @@ namespace Objects
 			if (DefaultWillInteract.Default(interaction, side, Validations.CheckState(x => x.CanBuckleOthers)) == false) return false;
 			if (interaction.TargetObject != gameObject) return false;
 			//can only do this empty handed
-			if (interaction.HandObject != null) return false;
+			if (interaction.HandObject != null && interaction.IsAltClick == false)
+			{
+				return false;
+			}
 
 			//can only do this if there is a buckled player here
-			return MatrixManager.GetAt<MovementSynchronisation>(interaction.TargetObject, side)
-				.Any(pm => pm.IsBuckled);
+			return  MatrixManager.GetAt<MovementSynchronisation>(interaction.TargetObject, side).Any(pm => pm.IsBuckled);
+
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)

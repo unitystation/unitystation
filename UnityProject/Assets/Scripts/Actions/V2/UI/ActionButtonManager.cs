@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Logs;
 using Mirror;
 using Shared.Managers;
@@ -13,11 +14,13 @@ namespace Actions.V2.UI
         private List<UIActionButton> spawnedButtonsBody = new List<UIActionButton>();
         private List<UIActionButton> spawnedButtonsMind = new List<UIActionButton>();
 
-        public void RefreshButtonsBody(SyncList<ActionButtonData> actionButtons) => RefreshButtons(actionButtons, spawnedButtonsBody);
+        public void RefreshButtonsBody(SyncList<ActionButtonData> actionButtons, NetworkIdentity owner)
+	        => RefreshButtons(actionButtons, spawnedButtonsBody, owner);
 
-        public void RefreshButtonsMind(SyncList<ActionButtonData> actionButtons) => RefreshButtons(actionButtons, spawnedButtonsMind, true);
+        public void RefreshButtonsMind(SyncList<ActionButtonData> actionButtons, NetworkIdentity owner)
+	        => RefreshButtons(actionButtons, spawnedButtonsMind, owner, true);
 
-        private void RefreshButtons(SyncList<ActionButtonData> actionButtons, List<UIActionButton> spawnedButtons, bool isMindAction = false)
+        private void RefreshButtons(SyncList<ActionButtonData> actionButtons, List<UIActionButton> spawnedButtons, NetworkIdentity owner, bool isMindAction = false)
         {
             var trackedItems = new List<string>();
 
@@ -39,7 +42,7 @@ namespace Actions.V2.UI
 
                 var newButton = Instantiate(ActionButtonPrefab, transform);
                 var logic = newButton.GetComponent<UIActionButton>();
-	            logic?.Setup(buttonData, isMindAction);
+	            logic?.Setup(buttonData, isMindAction, owner);
                 spawnedButtons.Add(logic);
             }
 
@@ -53,5 +56,31 @@ namespace Actions.V2.UI
                 return shouldRemove;
             });
         }
+
+        public void DeleteSpawnedBodyUIActions(NetworkIdentity ownerRequest)
+        {
+	        foreach (var button in spawnedButtonsBody.ToList())
+	        {
+		        if (button.Owner != ownerRequest) continue;
+		        if (button != null)
+		        {
+			        spawnedButtonsBody.Remove(button);
+			        Destroy(button.gameObject);
+		        }
+	        }
+        }
+
+        public void DeleteSpawnedMindUIActions(NetworkIdentity ownerRequest)
+		{
+	        foreach (var button in spawnedButtonsMind.ToList())
+	        {
+		        if (button.Owner != ownerRequest) continue;
+		        if (button != null)
+		        {
+			        spawnedButtonsMind.Remove(button);
+			        Destroy(button.gameObject);
+		        }
+	        }
+		}
     }
 }

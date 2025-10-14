@@ -278,6 +278,7 @@ GameObject:
   - component: {fileID: 5499534340582390310}
   - component: {fileID: 4361773719097620893}
   - component: {fileID: 6006851799773354682}
+  - component: {fileID: -4352570235736026592}
   m_Layer: 5
   m_Name: AddToQueue
   m_TagString: Untagged
@@ -426,6 +427,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96dd745c9170eac449ebeed0ba2e873d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddInRunTime: 1
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -455,6 +457,18 @@ MonoBehaviour:
       m_values: 
     productionTime: 10
   categoryName: 
+--- !u!114 &-4352570235736026592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2402343256371665828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3788512108263568278
 GameObject:
   m_ObjectHideFlags: 0
@@ -469,6 +483,7 @@ GameObject:
   - component: {fileID: 7577176346993417707}
   - component: {fileID: 928710688314522562}
   - component: {fileID: 1610094648113076705}
+  - component: {fileID: -5319422936588057949}
   m_Layer: 5
   m_Name: Inspection
   m_TagString: Untagged
@@ -617,6 +632,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96dd745c9170eac449ebeed0ba2e873d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddInRunTime: 1
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
@@ -646,6 +662,18 @@ MonoBehaviour:
       m_values: 
     productionTime: 10
   categoryName: 
+--- !u!114 &-5319422936588057949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3788512108263568278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7332131344646232925
 GameObject:
   m_ObjectHideFlags: 0

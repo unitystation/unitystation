@@ -269,6 +269,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8431387283529515776}
+    - targetCorrespondingSourceObject: {fileID: 7600017545650087553, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1249532199820475594}
   m_SourcePrefab: {fileID: 100100000, guid: 05a135eab68164d34bb02b82fff3cde0, type: 3}
 --- !u!114 &3499719427789762796 stripped
 MonoBehaviour:
@@ -364,7 +368,24 @@ MonoBehaviour:
   traitWhitelist: []
   reagentWhitelist: []
   transferMode: 4
+  onlyAllowSyringeFilling: 0
   SyringePulling: 0
   possibleTransferAmounts: []
   transferAmount: 20
   transferSound: []
+--- !u!114 &1249532199820475594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7338509426998086507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8688576ed720a4f40b3583f62adeeb23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundReagents:
+    m_keys: []
+    m_values: []
+  UseReagentContainer: 1

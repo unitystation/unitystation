@@ -6,6 +6,7 @@ using Mirror;
 using Chemistry.Components;
 using AddressableReferences;
 using Chemistry;
+using Logs;
 using Messages.Server.SoundMessages;
 
 
@@ -50,7 +51,7 @@ public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 		Vector2 targetPos = new Vector2(Mathf.RoundToInt(interaction.WorldPositionTarget.x),
 			Mathf.RoundToInt(interaction.WorldPositionTarget.y));
 		List<Vector3Int> positionList = CheckPassableTiles(startPos, targetPos);
-		StartCoroutine(Fire(positionList));
+		StartCoroutine(Fire(positionList, interaction.TargetBodyPart));
 
 		Effect.PlayParticleDirectional(this.gameObject, interaction.TargetVector);
 
@@ -61,7 +62,7 @@ public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 			speed: 1f);
 	}
 
-	private IEnumerator Fire(List<Vector3Int> positionList)
+	private IEnumerator Fire(List<Vector3Int> positionList, BodyPartType bodyPartAim)
 	{
 		if (reagentContainer != null && reagentContainer.ReagentMixTotal > 0.1)
 		{
@@ -69,28 +70,28 @@ public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 			Taking.Divide(positionList.Count);
 			for (int i = 0; i < positionList.Count; i++)
 			{
-				SprayTile(positionList[i], Taking.Clone());
+				SprayTile(positionList[i], Taking.Clone(), bodyPartAim);
 				yield return WaitFor.Seconds(travelTime);
 			}
 		}
 	}
 
-	void SprayTile(Vector3Int worldPos, ReagentMix ToReact)
+	void SprayTile(Vector3Int worldPos, ReagentMix ToReact, BodyPartType bodyPartAim  )
 	{
 		MatrixInfo matrixInfo = MatrixManager.AtPoint(worldPos, true);
 		Vector3Int localPos = MatrixManager.WorldToLocalInt(worldPos, matrixInfo);
 
-		if (reagentContainer.MajorMixReagent.name == "SpaceCleaner")
+		if (reagentContainer.MajorMixReagent?.name == "SpaceCleaner")
 		{
 			matrixInfo.MetaDataLayer.Clean(worldPos, localPos, false);
 		}
-		else if (reagentContainer.MajorMixReagent.name == "Water")
+		else if (reagentContainer.MajorMixReagent?.name == "Water")
 		{
 			matrixInfo.MetaDataLayer.Clean(worldPos, localPos, true);
 		}
 		else
 		{
-			MatrixManager.ReagentReact(ToReact, worldPos);
+			MatrixManager.ReagentReact(ToReact, worldPos, bodyPartAim : bodyPartAim);
 		}
 	}
 

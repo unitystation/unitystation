@@ -40,6 +40,8 @@ namespace Systems.Research
 						else successful = TryEffectPlayer(playerScript);
 
 						centeredAround.TryGetComponent<Artifact>(out var artifact);
+
+						if (playerScript.connectionToClient == null) continue; //Could be an NPC / disconnected player, RPC will fail in this scenario.
 						if (artifact != null) artifact.SpawnClientEffect(playerScript.connectionToClient, successful, playerScript.AssumedWorldPos.To3());
 					}
 				}

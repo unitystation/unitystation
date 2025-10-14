@@ -16,7 +16,18 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 3827740115625508427, guid: 086407f2a016834408c533b2c8cfefe5,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 5983199729636131523}
+    - target: {fileID: 3827740115625508427, guid: 086407f2a016834408c533b2c8cfefe5,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 336e4fcbbac854f4ba35de7857c630d5,
+        type: 2}
+    - target: {fileID: 3827740115625508427, guid: 086407f2a016834408c533b2c8cfefe5,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 336e4fcbbac854f4ba35de7857c630d5,
         type: 2}
@@ -159,6 +170,33 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f09e499706dee414d9a0178c9eef2bfd,
         type: 2}
+    - target: {fileID: 7400919253822581422, guid: 086407f2a016834408c533b2c8cfefe5,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: d62d4b9acecd20440b768ff2601710e5,
+        type: 2}
+    - target: {fileID: 7400919253822581422, guid: 086407f2a016834408c533b2c8cfefe5,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: f09e499706dee414d9a0178c9eef2bfd,
+        type: 2}
+    - target: {fileID: 9191268136490659972, guid: 086407f2a016834408c533b2c8cfefe5,
+        type: 3}
+      propertyPath: RegularColour.a
+      value: 0.6666667
+      objectReference: {fileID: 0}
+    - target: {fileID: 9191268136490659972, guid: 086407f2a016834408c533b2c8cfefe5,
+        type: 3}
+      propertyPath: RegularColour.b
+      value: 0.8627451
+      objectReference: {fileID: 0}
+    - target: {fileID: 9191268136490659972, guid: 086407f2a016834408c533b2c8cfefe5,
+        type: 3}
+      propertyPath: RegularColour.g
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -192,10 +230,16 @@ MonoBehaviour:
   RequiredImpactSpeed: 3
   useCustomSound: 1
   customSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/GlassBreak02.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+--- !u!212 &5983199729636131523 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7109274997928588944, guid: 086407f2a016834408c533b2c8cfefe5,
+    type: 3}
+  m_PrefabInstance: {fileID: 3576332567142839379}
+  m_PrefabAsset: {fileID: 0}

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2299433209442741459}
   - component: {fileID: 3311802465410826619}
   - component: {fileID: 6353124039069323346}
+  - component: {fileID: -7935678053928054409}
   m_Layer: 5
   m_Name: SpeciesElementunlocked
   m_TagString: Untagged
@@ -160,6 +161,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &-7935678053928054409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 773964653054341786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1148023302327108569
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,15 +416,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 0
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!114 &5040933449279880395
 MonoBehaviour:
   m_ObjectHideFlags: 0

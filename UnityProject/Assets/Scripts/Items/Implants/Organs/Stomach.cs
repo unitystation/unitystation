@@ -32,7 +32,7 @@ namespace Items.Implants.Organs
 		public override void ImplantPeriodicUpdate()
 		{
 			base.ImplantPeriodicUpdate();
-
+			if (!StomachContents) return;
 			//BloodContainer
 			if (StomachContents.ReagentMixTotal > 0)
 			{
@@ -83,14 +83,12 @@ namespace Items.Implants.Organs
 
 		public void AddFat()
 		{
-			if (InitialFatSpawned == false)
-			{
-				InitialFatSpawned = true;
-				var Added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject).GameObject.GetComponent<BodyFat>();
-				BodyFats.Add(Added);
-				Added.RelatedStomach = this;
-				RelatedPart.ContainedIn.OrganStorage.ServerTryAdd(Added.gameObject);
-			}
+			if (InitialFatSpawned) return;
+			InitialFatSpawned = true;
+			var Added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject).GameObject.GetComponent<BodyFat>();
+			BodyFats.Add(Added);
+			Added.RelatedStomach = this;
+			RelatedPart.ContainedIn.OrganStorage.ServerTryAdd(Added.gameObject);
 		}
 
 		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)

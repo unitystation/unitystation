@@ -88,11 +88,11 @@ public static class SweetExtensions
 			}
 		}
 
-		var player = go.Player();
+		var Script = go.GetComponentCustom<PlayerScript>();
 
-		if (player != null && player.Script != null && String.IsNullOrWhiteSpace(player.Script.visibleName) == false)
+		if (Script != null && string.IsNullOrWhiteSpace(Script.visibleName) == false)
 		{
-			return player.Script.visibleName;
+			return Script.visibleName;
 		}
 
 		return go?.name.Replace("NPC_", "").Replace("_", " ").Replace("(Clone)","");
@@ -281,10 +281,8 @@ public static class SweetExtensions
 		{
 			return commonComponent;
 		}
-		else
-		{
-			return null;
-		}
+
+		return go.TryGetComponent<CommonComponents>(out var slowGet) ? slowGet : null;
 	}
 
 
@@ -315,6 +313,29 @@ public static class SweetExtensions
 		}
 	}
 
+
+	//New better system for Get component That cashs results
+	public static int NumberOf(this GameObject go)
+	{
+		if (ComponentManager.TryGetCommonComponent(go, out  var commonComponent))
+		{
+			if (commonComponent.TrySafeGetComponent<Stackable>(out var Stackable))
+			{
+				return Stackable.Amount;
+			}
+
+			return 1;
+		}
+		else
+		{
+			if (go == null) return 0;
+			if (go.TryGetComponent<Stackable>(out var Stackable))
+			{
+				return Stackable.Amount;
+			}
+			return 1;
+		}
+	}
 
 
 	//New better system for Get component That cashs results

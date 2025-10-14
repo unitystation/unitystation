@@ -11,19 +11,30 @@ PrefabInstance:
     - target: {fileID: -8356664801693376419, guid: f4bfd4d8b65c193418b3897c80c48bc4,
         type: 3}
       propertyPath: groundReagents.m_keys.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8356664801693376419, guid: f4bfd4d8b65c193418b3897c80c48bc4,
         type: 3}
       propertyPath: groundReagents.m_values.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -8356664801693376419, guid: f4bfd4d8b65c193418b3897c80c48bc4,
+        type: 3}
+      propertyPath: 'groundReagents.m_keys.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: f6cbd85684444265ab0e3a0f83bcfedc,
+        type: 2}
     - target: {fileID: -8356664801693376419, guid: f4bfd4d8b65c193418b3897c80c48bc4,
         type: 3}
       propertyPath: 'groundReagents.m_keys.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: f6cbd85684444265ab0e3a0f83bcfedc,
         type: 2}
+    - target: {fileID: -8356664801693376419, guid: f4bfd4d8b65c193418b3897c80c48bc4,
+        type: 3}
+      propertyPath: 'groundReagents.m_values.Array.data[0]'
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: -8356664801693376419, guid: f4bfd4d8b65c193418b3897c80c48bc4,
         type: 3}
       propertyPath: 'groundReagents.m_values.Array.data[1]'
@@ -116,9 +127,41 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7446554739794233391, guid: 5ff3002120f35c94bb543326900ad8e8,
         type: 3}
+    - target: {fileID: 5268154786123888900, guid: f4bfd4d8b65c193418b3897c80c48bc4,
+        type: 3}
+      propertyPath: UseReagentContainer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268154786123888900, guid: f4bfd4d8b65c193418b3897c80c48bc4,
+        type: 3}
+      propertyPath: groundReagents.m_keys.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268154786123888900, guid: f4bfd4d8b65c193418b3897c80c48bc4,
+        type: 3}
+      propertyPath: groundReagents.m_values.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5268154786123888900, guid: f4bfd4d8b65c193418b3897c80c48bc4,
+        type: 3}
+      propertyPath: 'groundReagents.m_keys.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: f6cbd85684444265ab0e3a0f83bcfedc,
+        type: 2}
+    - target: {fileID: 5268154786123888900, guid: f4bfd4d8b65c193418b3897c80c48bc4,
+        type: 3}
+      propertyPath: 'groundReagents.m_values.Array.data[0]'
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6158160074998654576, guid: f4bfd4d8b65c193418b3897c80c48bc4,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 073f4db7a5f2cd44ba1ec65bc737bacd,
+        type: 2}
+    - target: {fileID: 6158160074998654576, guid: f4bfd4d8b65c193418b3897c80c48bc4,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 073f4db7a5f2cd44ba1ec65bc737bacd,
         type: 2}
@@ -132,7 +175,8 @@ PrefabInstance:
       propertyPath: foreverID
       value: 0ea0ebffe1638824aaf5b924b3ea6a4c
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -8356664801693376419, guid: f4bfd4d8b65c193418b3897c80c48bc4, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

@@ -213,6 +213,11 @@ namespace Objects.Medical
 				LogCategory.RoundFlow);
 			var paper1 = Spawn.ServerPrefab(paperPrefab, gameObject.AssumedWorldPosServer());
 			paper1.GameObject.GetComponent<Paper>().SetServerString(record1.Copy());
+			RemoveRecord();
+			recordsStorage.ServerTryAdd(paper1.GameObject);
+			if (paper1.GameObject.TryGetComponent<Paper>(out var p) == false) return;
+			var record = CloningRecord.FromString(p.ServerString);
+			currentRecord = record;
 		}
 
 		public void UpdateDisplay()
