@@ -10,6 +10,7 @@ using UnityEngine;
 
 namespace Tests
 {
+	[Category("Security")]
 	public class ScanCode
 	{
 		[Test, Timeout(690000)]

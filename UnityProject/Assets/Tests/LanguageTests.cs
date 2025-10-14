@@ -7,6 +7,7 @@ using Systems.CraftingV2;
 
 namespace Tests
 {
+	[Category(nameof(Asset))]
 	public class LanguageTests
 	{
 		[Test]

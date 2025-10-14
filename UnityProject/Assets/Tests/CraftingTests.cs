@@ -9,6 +9,7 @@ using Util;
 
 namespace Tests
 {
+	[Category(nameof(Balance))]
 	public class CraftingTests
 	{
 		private readonly string recipesPath = "ScriptableObjects/Crafting/Recipes";

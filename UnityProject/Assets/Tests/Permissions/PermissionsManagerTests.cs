@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Tests.Permissions
 {
+	[Category("Security")]
 	public class PermissionsManagerTests
 	{
 		private GameObject managerObject;

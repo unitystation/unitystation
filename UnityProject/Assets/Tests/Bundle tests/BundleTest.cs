@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using NUnit.Framework;
-using UnityEditor;
+﻿using NUnit.Framework;
 using UnityEngine;
 
 namespace Tests
 {
+	[Category(nameof(Asset))]
 	public class BundleTest
 	{
 		[Test]
