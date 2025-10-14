@@ -20,14 +20,10 @@ on:
       - ".github/workflows/**"
   workflow_dispatch:
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   # Perform unit testing
   performTest:
-    name: Unit testing on ${{ matrix.unityVersion }}
+    name: SCENES - Unit testing on ${{ matrix.unityVersion }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -61,9 +57,9 @@ jobs:
           echo 'UNITY_PASSWORD='$(head -n 2 "$ACCOUNT_FILE_PATH" | tail -n 1) >> "$GITHUB_ENV"
       - name: Verify environment variables
         run: |
-            echo "UNITY_EMAIL value is set: ${{ env.UNITY_EMAIL != '' }}"
-            echo "UNITY_PASSWORD value is set: ${{ env.UNITY_PASSWORD != '' }}"
-            echo "UNITY_LICENSE length: ${#UNITY_LICENSE}"
+          echo "UNITY_EMAIL value is set: ${{ env.UNITY_EMAIL != '' }}"
+          echo "UNITY_PASSWORD value is set: ${{ env.UNITY_PASSWORD != '' }}"
+          echo "UNITY_LICENSE length: ${#UNITY_LICENSE}"
 
       - name: Installs dotnet and restores packages
         uses: actions/setup-dotnet@v3
@@ -90,14 +86,14 @@ jobs:
         run: mkdir -p testReports/${{ matrix.targetPlatform }}
       - name: Set permissions for testReports directory
         run: chmod -R 777 testReports
-      
+
       # Run tests - only edit mode supported
       # Note: exits with non-zero on legitimate test fails, "if: always()" is needed for reporting
-      - name: Run tests
+      - name: Run Scene tests
         id: tests
         uses: game-ci/unity-test-runner@v4
         with:
-          customParameters: "-nographics"
+          customParameters: '-nographics -testCategory "Scenes"'
           projectPath: ${{ matrix.projectPath }}
           customImage: "unityci/editor:ubuntu-6000.0.48f1-base-3.1.0"
           artifactsPath: ./testReports/${{ matrix.targetPlatform }}
