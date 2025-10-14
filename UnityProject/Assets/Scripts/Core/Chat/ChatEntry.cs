@@ -38,6 +38,13 @@ namespace UI.Chat_UI
 		[SerializeField, BoxGroup("Stack Object")]
 		private Image stackImage = default;
 
+		[SerializeField, BoxGroup("Background")]
+		private Image entryBackground = default;
+
+		[SerializeField, BoxGroup("Background")]
+		private float maximumAlpha = 0.8f;
+
+
 		public RectTransform ViewportTransform { get; set; }
 
 		/// <summary>The current message of the <see cref="ChatEntry"/>.</summary>
@@ -356,6 +363,13 @@ namespace UI.Chat_UI
 			messageTextDark.CrossFadeAlpha(toAlpha, time, false);
 			stackText.CrossFadeAlpha(toAlpha, time, false);
 			stackImage.CrossFadeAlpha(toAlpha, time, false);
+			Debug.Log($"chat background always enabled: {PlayerPrefs.GetInt(PlayerPrefKeys.CHAT_BACKGROUND_ALLWAYS_ENABLED, 0)}");
+			//(Max): The alpha check is for when players disable this setting while one of the backgrounds is still visible.
+			//TODO: Add a check later if the background is custom set for templates to always display them.
+			if (PlayerPrefs.GetInt(PlayerPrefKeys.CHAT_BACKGROUND_ALLWAYS_ENABLED, 0) == 1 || toAlpha <= 0.01f)
+			{
+				entryBackground.CrossFadeAlpha(Mathf.Clamp(toAlpha, 0, maximumAlpha), time, false);
+			}
 		}
 	}
 }
