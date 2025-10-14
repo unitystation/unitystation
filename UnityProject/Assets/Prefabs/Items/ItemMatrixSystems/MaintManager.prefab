@@ -213,4 +213,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474fd7e19918e2244a4aaf825e2511ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gateway: {fileID: 0}
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  maintGenerators: []
+  createGhostRoles: 0
+  numberOfGhostRoles: 4
+  maintSurvivorRole: {fileID: 11400000, guid: 37261e0092e81fa4bb3f082789c064c3, type: 2}
+  maintSurvivorOccupation: {fileID: 11400000, guid: 157380ba942c4224fb7bc9735f137ec7,
+    type: 2}
+  possibleSpecies:
+  - {fileID: 11400000, guid: f8cc40dce57da8d4aa283decb92b4507, type: 2}
+  - {fileID: 11400000, guid: 4c4d0af544e2b6847a3902db71f721fd, type: 2}
+  - {fileID: 11400000, guid: 9964159d746866b47bbdaf9fea2045ff, type: 2}
+  - {fileID: 11400000, guid: 078513666ca7a3540bf3c90b08eb66da, type: 2}
+  - {fileID: 11400000, guid: 8bc1d65392e05ec4095bddde7a8b1324, type: 2}

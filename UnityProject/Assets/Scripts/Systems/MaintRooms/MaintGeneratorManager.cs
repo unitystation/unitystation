@@ -76,6 +76,7 @@ namespace Systems.Scenes
 
 		private void SetUpGhostRoles()
 		{
+			Chat.AddGameWideSystemMsgToChat($"<color=yellow>Creating {gameObject.name} Ghost Roles</color>");
 			//Create Ghost role entry
 			maintSurvivorKey = GhostRoleManager.Instance.ServerCreateRole(maintSurvivorRole);
 
@@ -85,6 +86,8 @@ namespace Systems.Scenes
 
 			//Add a listener for when a player requests that ghost role
 			GhostRoleManager.Instance.serverAvailableRoles[maintSurvivorKey].OnPlayerAdded += SpawnSurvivor;
+
+			Chat.AddGameWideSystemMsgToChat($"<color=yellow>{gameObject.name} Ghost Roles Created</color>");
 		}
 
 		public override void OnDestroy()
@@ -139,7 +142,7 @@ namespace Systems.Scenes
 			//Remove the player so they can join again once they die
 			GhostRoleManager.Instance.ServerRemoveWaitingPlayer(maintSurvivorKey, player);
 
-			Chat.AddExamineMsg(player.GameObject, "You have been wandering the tunnels for hours and have finally found a place to rest...");
+			Chat.AddExamineMsg(player.GameObject, "You have been wandering the tunnels for hours having finally found a place to rest...");
 		}
 	}
 }

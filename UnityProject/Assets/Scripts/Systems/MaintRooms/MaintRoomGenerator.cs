@@ -17,17 +17,26 @@ using UnityEngine.Serialization;
 
 namespace MaintRooms
 {
+	[Serializable]
+	public class WeightedRoomEntry
+	{
+		//This would perfectly serve as a struct, except unity won't expose it in the editor unless this is a class
+		public MaintRoomSO roomToSpawn;
+		public int weight;
+	}
+
 	public class MaintRoomGenerator : NetworkBehaviour, IMultitoolSlaveable, ISelectionGizmo
 	{
 		[SerializeField, SyncVar(hook = nameof(SyncMaintGenerator))]
 		private MaintGenerator maintGenerator;
 
+		[Header("Exclusion Zone Dimensions")]
 		[SerializeField, Range(1, MaintGenerator.MAX_DIMENSIONS)] private int roomWidth = 5;
 		[SerializeField, Range(1, MaintGenerator.MAX_DIMENSIONS)] private int roomHeight = 5;
 
 		private const int WALL_GAP = 2;
+		[SerializeField] private List<WeightedRoomEntry> possibleRoomsWeighted = new List<WeightedRoomEntry>();
 
-		[SerializeField] private List<MaintRoomSO> possibleRooms = new List<MaintRoomSO>();
 		private MaintRoomSO selectedRoom = null;
 
 		public void SyncMaintGenerator(MaintGenerator oldGen, MaintGenerator newGen)
@@ -78,8 +87,34 @@ namespace MaintRooms
 				Array.Fill(maze, (short)MazeState.ExcludedCell, startIndex, (int)roomWidth);
 			}
 
-			if (possibleRooms.Count != 0) selectedRoom = possibleRooms.PickRandom();
+			PickWeightedRoom(out selectedRoom);
 			return Task.CompletedTask;
+		}
+
+		private bool PickWeightedRoom(out MaintRoomSO room)
+		{
+			room = null;
+
+			int totalWeight = 0;
+			int chosenWeight = 0;
+			int currentTotal = 0;
+
+			foreach (WeightedRoomEntry entry in possibleRoomsWeighted)
+			{
+				totalWeight += entry.weight;
+			}
+
+
+			chosenWeight = UnityEngine.Random.Range(0, totalWeight + 1);
+
+			foreach (WeightedRoomEntry entry in possibleRoomsWeighted)
+			{
+				currentTotal += entry.weight;
+				if (chosenWeight > currentTotal) continue;
+				room = entry.roomToSpawn;
+				return true;
+			}
+			return false;
 		}
 
 		public void CarveRoomDoors(Vector3 generatorOffset, int mazeWidth, in short[] maze)
@@ -118,13 +153,12 @@ namespace MaintRooms
 		[Button("Test Room Spawn")]
 		private void TestRoomSpawn()
 		{
-			selectedRoom = possibleRooms.PickRandom();
-			SpawnRandomRoom(true);
+			if(PickWeightedRoom(out selectedRoom)) SpawnRandomRoom(true);
 		}
 
 		public void SpawnRandomRoom(bool isEditor = false)
 		{
-			if (possibleRooms.Count == 0) return;
+			if (possibleRoomsWeighted.Count == 0) return;
 
 			string filePath = Path.Combine("MaintRoomBluePrints", selectedRoom.roomFileName);
 			MapSaver.MapSaver.CodeClass.ThisCodeClass.Reset();
