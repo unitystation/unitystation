@@ -20,10 +20,6 @@ on:
       - ".github/workflows/**"
   workflow_dispatch:
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   # Perform unit testing
   performTest:
