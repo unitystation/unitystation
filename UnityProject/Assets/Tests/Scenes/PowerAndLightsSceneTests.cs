@@ -8,6 +8,7 @@ using Systems.Scenes.Electricity;
 
 namespace Tests.Scenes
 {
+	[Category(nameof(Scenes))]
 	public class PowerAndLightsSceneTests : SceneTest
 	{
 		public PowerAndLightsSceneTests(SceneTestData data) : base(data)

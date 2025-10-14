@@ -4,6 +4,7 @@ using ScriptableObjects.Systems.Spells;
 
 namespace Tests.Asset
 {
+	[Category(nameof(Asset))]
 	public class MissingSOListsTest
 	{
 		[Test]

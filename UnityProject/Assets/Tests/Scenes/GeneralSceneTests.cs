@@ -16,6 +16,7 @@ using Object = UnityEngine.Object;
 
 namespace Tests.Scenes
 {
+	[Category(nameof(Scenes))]
 	public class GeneralSceneTests : SceneTest
 	{
 		public GeneralSceneTests(SceneTestData data) : base(data)
