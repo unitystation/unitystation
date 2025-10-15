@@ -13,6 +13,11 @@ PrefabInstance:
       propertyPath: wattusage
       value: 850
       objectReference: {fileID: 0}
+    - target: {fileID: -6356777978426299504, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: initialwattusage
+      value: 850
+      objectReference: {fileID: 0}
     - target: {fileID: 768889878625444157, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: MachineParts
@@ -99,6 +104,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c1436835108e93048ae4ea9c357de54f,
+        type: 2}
+    - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
       propertyPath: SubCatalogue.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -180,37 +191,38 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   fullAudio:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/Juicer.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   runningAudio:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/JuicerRunningLoop.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   turnOnAudio:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/JuicerTurnOn.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   finishAudio:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/JuicerFinish.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+  storage: {fileID: 8496016549314405764}
   shaker: {fileID: 7965610585904461320}
 --- !u!114 &3326221963050224024
 MonoBehaviour:
@@ -249,7 +261,7 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
-  ignoreRoundstartGrabObjects: 0
+  initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 0}
 --- !u!114 &5556437737810248796
 MonoBehaviour:

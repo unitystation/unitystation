@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using Light2D;
 using Logs;
 using NaughtyAttributes;
+using Objects.Machines;
+using Systems.Construction.Parts;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace Systems.Electricity.NodeModules
 {
 	[RequireComponent(typeof(ResistanceSourceModule))]
-	public class BatterySupplyingModule : ModuleSupplyingDevice
+	public class BatterySupplyingModule : ModuleSupplyingDevice, IRefreshParts
 	{
 		[Header("Battery Settings")]
 		[FormerlySerializedAs("MaximumCurrentSupport")]
@@ -24,13 +26,70 @@ namespace Systems.Electricity.NodeModules
 		public float InitialStandardSupplyingVoltage;
 		[NonSerialized] public float StandardSupplyingVoltage;
 
-		[FormerlySerializedAs("CapacityMax")]
-		public float InitialCapacityMax;
-		[NonSerialized] public float CapacityMax;
+		public float CapacityMax;
+
 
 		[FormerlySerializedAs("CurrentCapacity")]
 		public float InitialCurrentCapacity;
-		[NonSerialized] public float CurrentCapacity;
+		public float GetSetCurrentCapacity
+		{
+			get
+			{
+				float Capacity = 0;
+				foreach (var MachinePart in Machine.getObjectpartsInFrame)
+				{
+					if (MachinePart.itemTrait == CommonTraits.Instance.PowerCell)
+					{
+						Capacity += MachinePart.itemObject.GetComponentCustom<Battery>().Watts;
+					}
+				}
+
+				return Capacity;
+			}
+			set
+			{
+				if (value == 0)
+				{
+					foreach (var MachinePart in Machine.getObjectpartsInFrame)
+					{
+						if (MachinePart.itemTrait == CommonTraits.Instance.PowerCell)
+						{
+							MachinePart.itemObject.GetComponentCustom<Battery>().Watts = 0;
+						}
+					}
+				}
+				else
+				{
+					int maxwatts = 0;
+					int Number = 0;
+					foreach (var MachinePart in Machine.getObjectpartsInFrame)
+					{
+						if (MachinePart.itemTrait == CommonTraits.Instance.PowerCell)
+						{
+							maxwatts += MachinePart.itemObject.GetComponentCustom<Battery>().MaxWatts;
+							Number++;
+						}
+					}
+
+					var Percentage = value/  maxwatts ;
+
+					if (Percentage > 1)
+					{
+						Percentage = 1;
+					}
+
+					foreach (var MachinePart in Machine.getObjectpartsInFrame)
+					{
+						if (MachinePart.itemTrait == CommonTraits.Instance.PowerCell)
+						{
+							var bat = MachinePart.itemObject.GetComponentCustom<Battery>();
+							bat.Watts =  Mathf.RoundToInt(bat.MaxWatts * Percentage);
+						}
+					}
+
+				}
+			}
+		}
 
 		[FormerlySerializedAs("ExtraChargeCutOff")]
 		public float InitialExtraChargeCutOff; // If the voltage is less than this it will decrease the charge steps until either A) it is not or B) it reaches zero then stops charging
@@ -105,7 +164,25 @@ namespace Systems.Electricity.NodeModules
 
 		private bool Init = false;
 
-		public void ApplyInitialValues()
+		private Machine Machine;
+
+
+
+		public void RefreshParts(List<PartReference> partsInFrame, Machine Frame)
+		{
+			float Capacity = 0;
+			foreach (var MachinePart in partsInFrame)
+			{
+				if (MachinePart.itemTrait == CommonTraits.Instance.PowerCell)
+				{
+					Capacity += MachinePart.itemObject.GetComponentCustom<Battery>().MaxWatts;
+				}
+			}
+
+			CapacityMax = Capacity;
+		}
+
+		public void ApplyInitialValues(bool Mapspawn)
 		{
 			if (Init) return;
 			Init= true;
@@ -113,8 +190,11 @@ namespace Systems.Electricity.NodeModules
 			MaximumCurrentSupport = InitialMaximumCurrentSupport;
 			MinimumSupportVoltage = InitialMinimumSupportVoltage;
 			StandardSupplyingVoltage = InitialStandardSupplyingVoltage;
-			CapacityMax = InitialCapacityMax;
-			CurrentCapacity = InitialCurrentCapacity;
+			if (Mapspawn)
+			{
+				GetSetCurrentCapacity = InitialCurrentCapacity;
+			}
+
 			ExtraChargeCutOff = InitialExtraChargeCutOff;
 			IncreasedChargeVoltage = InitialIncreasedChargeVoltage;
 			StandardChargeNumber = InitialStandardChargeNumber;
@@ -129,15 +209,59 @@ namespace Systems.Electricity.NodeModules
 			SlowResponse = InitialSlowResponse;
 		}
 
+		public void CurrentCapacityDelta(int Delta)
+		{
+
+			if (Delta == 0) return;
+			foreach (var MachinePart in Machine.getObjectpartsInFrame)
+			{
+				if (MachinePart.itemTrait == CommonTraits.Instance.PowerCell)
+				{
+					var batty = MachinePart.itemObject.GetComponentCustom<Battery>();
+
+					if (Delta > 0)
+					{
+						var SpareCapacity = batty.MaxWatts - batty.Watts;
+ 						if (Delta > SpareCapacity)
+					    {
+						    batty.Watts = batty.MaxWatts;
+						    Delta -= SpareCapacity;
+					    }
+					    else
+					    {
+						    batty.Watts += Delta;
+						    break;
+					    }
+					}
+					else
+					{
+						var SpareCapacity = batty.Watts;
+						if (Mathf.Abs(Delta) > SpareCapacity)
+						{
+							batty.Watts = 0;
+							Delta += SpareCapacity;
+						}
+						else
+						{
+							batty.Watts += Delta;
+							break;
+						}
+					}
+				}
+			}
+		}
+
 		private void Awake()
 		{
+			Machine = GetComponent<Machine>();
 			ResistanceSourceModule = GetComponent<ResistanceSourceModule>();
 			TTransformerModule = GetComponent<TransformerModule>();
 		}
 
 		private void Start()
 		{
-			ApplyInitialValues();
+			ApplyInitialValues(Machine.MapSpawned);
+
 		}
 
 		public override void BroadcastSetUpMessage(ElectricalNodeControl Node)
@@ -194,7 +318,7 @@ namespace Systems.Electricity.NodeModules
 							if (ToggleCanSupport &&
 							    IsAtVoltageThreshold()) // ToggleCansupport denotes Whether at the current time it is allowed to provide current
 							{
-								if (CurrentCapacity > 0)
+								if (GetSetCurrentCapacity > 0)
 								{
 									var needToPushVoltage = StandardSupplyingVoltage - VoltageAtSupplyPort;
 									current = needToPushVoltage / CircuitResistance;
@@ -267,8 +391,7 @@ namespace Systems.Electricity.NodeModules
 							                VoltageAtChargePort;
 							if (chargeCapacityTime)
 							{
-								CurrentCapacity += (ChargingWatts * (Time.time - ChargLastDeductedTime) *
-								                    (InputLevel / 100));
+								CurrentCapacityDelta(Mathf.RoundToInt((ChargingWatts * (Time.time - ChargLastDeductedTime) * (InputLevel / 100f))));
 							}
 
 							ChargLastDeductedTime = Time.time;
@@ -296,9 +419,9 @@ namespace Systems.Electricity.NodeModules
 								}
 							}
 
-							if (CurrentCapacity >= CapacityMax)
+							if (GetSetCurrentCapacity >= CapacityMax)
 							{
-								CurrentCapacity = CapacityMax;
+								GetSetCurrentCapacity = CapacityMax;
 								ChargingWatts = 0;
 								ToggleCanSupport = true;
 								ChargingDivider = 10;
@@ -306,7 +429,7 @@ namespace Systems.Electricity.NodeModules
 								chargeCapacityTime = false;
 							}
 						}
-						else if (VoltageAtChargePort > IncreasedChargeVoltage && CurrentCapacity < CapacityMax)
+						else if (VoltageAtChargePort > IncreasedChargeVoltage && GetSetCurrentCapacity < CapacityMax)
 						{
 							if (ChargingDivider == 0)
 							{
@@ -338,12 +461,12 @@ namespace Systems.Electricity.NodeModules
 								PullLastDeductedTime = Time.time;
 							}
 
-							CurrentCapacity -= (PullingWatts * (OutputLevel / 100)) *
-							                   (Time.time - PullLastDeductedTime);
+							CurrentCapacityDelta(Mathf.RoundToInt(- (PullingWatts * (OutputLevel / 100f)) * (Time.time - PullLastDeductedTime)));
+
 							PullLastDeductedTime = Time.time;
-							if (CurrentCapacity <= 0)
+							if (GetSetCurrentCapacity <= 0)
 							{
-								CurrentCapacity = 0;
+								GetSetCurrentCapacity = 0;
 								ToggleCanSupport = false;
 								PullingWatts = 0;
 								current = 0;
@@ -352,7 +475,7 @@ namespace Systems.Electricity.NodeModules
 						}
 
 
-						if (VoltageAtSupplyPort < MinimumSupportVoltage && CurrentCapacity > 0)
+						if (VoltageAtSupplyPort < MinimumSupportVoltage && GetSetCurrentCapacity > 0)
 						{
 							var needToPushVoltage = StandardSupplyingVoltage - VoltageAtSupplyPort;
 							current = needToPushVoltage / CircuitResistance;
@@ -361,7 +484,7 @@ namespace Systems.Electricity.NodeModules
 								current = MaximumCurrentSupport;
 							}
 
-							PullingWatts = ((current * StandardSupplyingVoltage) * (OutputLevel / 100));
+							PullingWatts = ((current * StandardSupplyingVoltage) * (OutputLevel / 100f));
 						}
 					}
 					else if (PullingWatts > 0)

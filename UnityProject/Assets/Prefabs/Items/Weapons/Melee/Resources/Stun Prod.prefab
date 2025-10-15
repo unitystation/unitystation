@@ -180,6 +180,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: da640a76bea4cf342a3103e412c82e49,
+        type: 2}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: inventoryRemoveSound.AssetAddress
       value: null
       objectReference: {fileID: 0}
@@ -190,9 +196,21 @@ PrefabInstance:
       objectReference: {fileID: 4900000, guid: 4a6c2d84273b3f94891495b614c3a716, type: 3}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 8766fc6ca8ee3374ab0c6e27466fa9af,
+        type: 2}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: itemSprites.RightHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 66f8925ca5163a24c938d38655a4a791, type: 3}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: d3035d2d833720d4fa5aad1094a3b5a0,
+        type: 2}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: 'itemSprites.LeftHand.Sprites.Array.data[0]'
@@ -335,11 +353,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/EGloves.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   cooldown: 5
@@ -351,7 +369,7 @@ MonoBehaviour:
   minTeleportDistance: 1
   maxTeleportDistance: 5
   hasBattery: 1
-  chargeUsage: 2000
+  chargeUsage: 200000
   cellPrefab: {fileID: 0}
   allowScrewdriver: 1
 --- !u!114 &1703646045356427902
@@ -383,11 +401,11 @@ MonoBehaviour:
   syncInterval: 0.1
   toggleAffectsComponent: 0
   ToggleSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/Sparks01.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   intialState: 2
@@ -416,7 +434,7 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
-  ignoreRoundstartGrabObjects: 0
+  initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}
 --- !u!114 &6669159906137905766

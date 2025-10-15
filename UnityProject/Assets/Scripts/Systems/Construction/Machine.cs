@@ -26,6 +26,7 @@ namespace Objects.Machines
 
 		private List<PartReference> ObjectpartsInFrame = new List<PartReference>();
 
+		public List<PartReference> getObjectpartsInFrame => ObjectpartsInFrame;
 
 		[Tooltip("Prefab of the circuit board that lives inside this computer.")] [SerializeField]
 		private GameObject machineBoardPrefab = null;
@@ -65,6 +66,8 @@ namespace Objects.Machines
 
 		public ItemStorage PartsStorage;
 
+		public bool MapSpawned = false;
+
 		private void Awake()
 		{
 			if (PartsStorage == null)
@@ -88,6 +91,7 @@ namespace Objects.Machines
 			//Means we are mapped so use machine parts ist
 			if (ObjectpartsInFrame.Count == 0)
 			{
+				MapSpawned = true;
 				if (MachineParts.OrNull()?.machineParts == null)
 				{
 					if (canNotBeDeconstructed == false)
@@ -117,6 +121,10 @@ namespace Objects.Machines
 					}
 
 				}
+			}
+			else
+			{
+				MapSpawned = false;
 			}
 
 
@@ -252,8 +260,7 @@ namespace Objects.Machines
 			MachineParts = machineParts;
 		}
 
-		public void
-			SetPartsInFrame(ItemStorage InActiveGameObjectpartsInFrame) //Presume that it is all the it needs parts!!
+		public void SetPartsInFrame(ItemStorage InActiveGameObjectpartsInFrame) //Presume that it is all the it needs parts!!
 		{
 			CachedMultiplier = null;
 

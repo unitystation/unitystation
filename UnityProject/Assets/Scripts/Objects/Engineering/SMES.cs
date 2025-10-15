@@ -36,7 +36,7 @@ namespace Objects.Engineering
 
 		private bool IsCharging => batterySupplyingModule.ChargingDivider > 0.1f;
 		private float MaxCharge => batterySupplyingModule.CapacityMax;
-		private float CurrentCharge => batterySupplyingModule.CurrentCapacity;
+		private float CurrentCharge => batterySupplyingModule.GetSetCurrentCapacity;
 		private int ChargePercent => Mathf.RoundToInt(CurrentCharge * 100 / MaxCharge);
 
 		private bool isExploding = false;
@@ -266,7 +266,7 @@ namespace Objects.Engineering
 				Chat.AddActionMsgToChat(gameObject, $"<color=red>{gameObject.ExpensiveName()} starts to spit out sparks and smoke! No way this can end good...");
 				StartCoroutine(Emp());
 			}
-			batterySupplyingModule.CurrentCapacity -= EmpStrength * 1000;
+			batterySupplyingModule.CurrentCapacityDelta(EmpStrength * 100000);
 		}
 
 		private IEnumerator Emp()

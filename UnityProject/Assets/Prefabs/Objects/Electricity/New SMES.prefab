@@ -114,6 +114,8 @@ MonoBehaviour:
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!114 &417212735603451187
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -243,6 +245,8 @@ MonoBehaviour:
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!114 &6628407259827267574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -375,6 +379,8 @@ MonoBehaviour:
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!114 &4110758120424339495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -526,6 +532,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8026946951644424067, guid: 7f7934b263cb23040ade0147d14b39aa,
         type: 3}
+    - target: {fileID: 4656077842951146614, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: itemStorageStructure
+      value: 
+      objectReference: {fileID: 11400000, guid: 898b750de92d9f245a1ef81872f2207f,
+        type: 2}
     - target: {fileID: 5091487934060065553, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
       propertyPath: exportCost
@@ -697,7 +709,7 @@ MonoBehaviour:
   InitialMaximumCurrentSupport: 8
   InitialMinimumSupportVoltage: 2700
   InitialStandardSupplyingVoltage: 3000
-  InitialCapacityMax: 18000000
+  CapacityMax: 0
   InitialCurrentCapacity: 18000000
   InitialExtraChargeCutOff: 3000
   InitialIncreasedChargeVoltage: 3010

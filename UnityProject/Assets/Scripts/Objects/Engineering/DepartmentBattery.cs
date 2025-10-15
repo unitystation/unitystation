@@ -104,11 +104,13 @@ namespace Objects.Engineering
 		{
 			BatteryStateSprite newState;
 
-			if (BatterySupplyingModule.CurrentCapacity <= 0)
+			var Capacity = BatterySupplyingModule.GetSetCurrentCapacity;
+
+			if (Capacity <= 0)
 			{
 				newState = BatteryStateSprite.Empty;
 			}
-			else if (BatterySupplyingModule.CurrentCapacity <= (BatterySupplyingModule.CapacityMax / 2))
+			else if (Capacity <= (BatterySupplyingModule.CapacityMax / 2))
 			{
 				newState = BatteryStateSprite.Half;
 			}

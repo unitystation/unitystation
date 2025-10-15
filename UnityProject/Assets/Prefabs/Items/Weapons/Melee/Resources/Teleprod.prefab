@@ -175,6 +175,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f038bed65cf4834b859886862c79577,
+        type: 2}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: inventoryRemoveSound.AssetAddress
       value: null
       objectReference: {fileID: 0}
@@ -185,9 +191,21 @@ PrefabInstance:
       objectReference: {fileID: 4900000, guid: 4a6c2d84273b3f94891495b614c3a716, type: 3}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: f0193c830fc6230458a39dffd04df1f8,
+        type: 2}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: itemSprites.RightHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 66f8925ca5163a24c938d38655a4a791, type: 3}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 696902fe508e2844a9fe1a4019e0df40,
+        type: 2}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: 'itemSprites.LeftHand.Sprites.Array.data[0]'
@@ -244,6 +262,12 @@ PrefabInstance:
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 696902fe508e2844a9fe1a4019e0df40,
+        type: 2}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 696902fe508e2844a9fe1a4019e0df40,
         type: 2}
@@ -336,11 +360,11 @@ MonoBehaviour:
   syncInterval: 0.1
   toggleAffectsComponent: 0
   ToggleSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/Sparks01.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   intialState: 2
@@ -357,11 +381,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Magic/TeleportAppear.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   cooldown: 10
@@ -373,7 +397,7 @@ MonoBehaviour:
   minTeleportDistance: 1
   maxTeleportDistance: 5
   hasBattery: 1
-  chargeUsage: 2000
+  chargeUsage: 200000
   cellPrefab: {fileID: 0}
   allowScrewdriver: 1
 --- !u!114 &6523762280114733839
@@ -401,5 +425,6 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
+  initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}

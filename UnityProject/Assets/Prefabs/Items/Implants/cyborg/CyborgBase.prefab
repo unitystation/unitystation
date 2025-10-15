@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 1163316686972202776, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: m_Name
-      value: cyborg base
+      value: CyborgBase
       objectReference: {fileID: 0}
     - target: {fileID: 1168521912962732652, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -272,4 +272,4 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   RelatedPart: {fileID: 0}
-  WattsConsumption: 0.25
+  WattsConsumption: 25
