@@ -71441,25 +71441,6 @@
             "LocalPRS": "0┼0┼0┼"
           },
           {
-            "GitID": "WorldGateway_0┼0┼0┼",
-            "PrefabID": "WorldGateway",
-            "Name": "WorldGateway",
-            "LocalPRS": "0┼0┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "WorldGateway@0",
-                  "Data": [
-                    {
-                      "Name": "WorldName",
-                      "Data": "The Maintrooms"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
             "GitID": "FsCPzJhBBHqvzFwUzLY9_0┼1┼0┼",
             "PrefabID": "FsCPzJhBBHqvzFwUzLY9",
             "NameMatches": true,
@@ -71473,6 +71454,14 @@
                     {
                       "Name": "maintGenerators#0",
                       "Data": "75d2aa6a71ac05e408814d1f8e26c108_1┼1┼0┼@0@MaintGenerator@0"
+                    },
+                    {
+                      "Name": "createGhostRoles",
+                      "Data": "True"
+                    },
+                    {
+                      "Name": "numberOfGhostRoles",
+                      "Data": "8"
                     }
                   ]
                 }
@@ -71505,6 +71494,18 @@
                 {
                   "ClassID": "MaintGenerator@0",
                   "Data": [
+                    {
+                      "Name": "roomGenerators#21",
+                      "Data": "4x?LZ3HbUuOQM90rQKB2_20┼76┼0┼@0@MaintRoomGenerator@0"
+                    },
+                    {
+                      "Name": "roomGenerators#20",
+                      "Data": "4x?LZ3HbUuOQM90rQKB2_78┼78┼0┼@0@MaintRoomGenerator@0"
+                    },
+                    {
+                      "Name": "roomGenerators#19",
+                      "Data": "4x?LZ3HbUuOQM90rQKB2_2┼54┼0┼@0@MaintRoomGenerator@0"
+                    },
                     {
                       "Name": "roomGenerators#18",
                       "Data": "e3ce4f8f6517c15438953e9a2ea7b810_38┼18┼0┼@0@MaintRoomGenerator@0"
@@ -71723,6 +71724,10 @@
                       "Data": "False"
                     },
                     {
+                      "Name": "possibleSpawns#2@<ObjectToSpawn>k__BackingField",
+                      "Data": "NULL"
+                    },
+                    {
                       "Name": "possibleSpawns#2@<ObjectChance>k__BackingField",
                       "Data": "10"
                     },
@@ -71745,6 +71750,10 @@
                     {
                       "Name": "possibleSpawns#2@<TileToSpawn>k__BackingField",
                       "Data": "c87a62cb7a026433f9d4e361d2740cbc"
+                    },
+                    {
+                      "Name": "possibleSpawns#1@<ObjectToSpawn>k__BackingField",
+                      "Data": "NULL"
                     },
                     {
                       "Name": "possibleSpawns#1@<ObjectChance>k__BackingField",
@@ -71804,6 +71813,44 @@
                       "Name": "containers#0",
                       "Data": "1d35052f4fc2cad4d8226d1a63e4a1b3",
                       "IsPrefabID": true
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "4x?LZ3HbUuOQM90rQKB2_2┼54┼0┼",
+            "PrefabID": "4x?LZ3HbUuOQM90rQKB2",
+            "Name": "MediumHorizontalGenerator (1)",
+            "LocalPRS": "2┼54┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "MaintRoomGenerator@0",
+                  "Data": [
+                    {
+                      "Name": "maintGenerator",
+                      "Data": "75d2aa6a71ac05e408814d1f8e26c108_1┼1┼0┼@0@MaintGenerator@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "WorldGateway_3┼3┼0┼",
+            "PrefabID": "WorldGateway",
+            "Name": "WorldGateway",
+            "LocalPRS": "3┼3┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "WorldGateway@0",
+                  "Data": [
+                    {
+                      "Name": "WorldName",
+                      "Data": "The Maintrooms"
                     }
                   ]
                 }
@@ -71892,6 +71939,25 @@
             "PrefabID": "17JXmnS_q$UXwrjPGoH!",
             "Name": "MediumSquareGenerator (1)",
             "LocalPRS": "16┼64┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "MaintRoomGenerator@0",
+                  "Data": [
+                    {
+                      "Name": "maintGenerator",
+                      "Data": "75d2aa6a71ac05e408814d1f8e26c108_1┼1┼0┼@0@MaintGenerator@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "4x?LZ3HbUuOQM90rQKB2_20┼76┼0┼",
+            "PrefabID": "4x?LZ3HbUuOQM90rQKB2",
+            "Name": "MediumHorizontalGenerator (3)",
+            "LocalPRS": "20┼76┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -72158,6 +72224,31 @@
             "PrefabID": "27a55c8f4d191d2499e095d14d156085",
             "Name": "LargeSquareGenerator (2)",
             "LocalPRS": "74┼4┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "MaintRoomGenerator@0",
+                  "Data": [
+                    {
+                      "Name": "maintGenerator",
+                      "Data": "75d2aa6a71ac05e408814d1f8e26c108_1┼1┼0┼@0@MaintGenerator@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "500fc59070199404fb9f20bc8c600044_77┼77┼0┼",
+            "PrefabID": "500fc59070199404fb9f20bc8c600044",
+            "Name": "PlayerSpawnPointMaintRooms (1)",
+            "LocalPRS": "77┼77┼0┼"
+          },
+          {
+            "GitID": "4x?LZ3HbUuOQM90rQKB2_78┼78┼0┼",
+            "PrefabID": "4x?LZ3HbUuOQM90rQKB2",
+            "Name": "MediumHorizontalGenerator (2)",
+            "LocalPRS": "78┼78┼0┼",
             "Object": {
               "ClassDatas": [
                 {

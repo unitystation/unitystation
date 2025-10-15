@@ -539,9 +539,37 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.2",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
+          {
+            "GitID": "a61a43a238ce679478827a09ce62eaf7_0.98┼1.01┼0┼",
+            "PrefabID": "a61a43a238ce679478827a09ce62eaf7",
+            "Name": "MofficBookUnlimited (1)",
+            "LocalPRS": "0.98┼1.01┼0┼"
+          },
+          {
+            "GitID": "38fc3366c44c5c74985ac2eca341696d_0.99┼1.02┼0┼",
+            "PrefabID": "38fc3366c44c5c74985ac2eca341696d",
+            "Name": "GalUncomBookUnlimited (1)",
+            "LocalPRS": "0.99┼1.02┼0┼"
+          },
+          {
+            "GitID": "14V-Be9nv2vCPvXGEt-A_1┼1┼0┼",
+            "PrefabID": "14V-Be9nv2vCPvXGEt-A",
+            "Name": "AbandonedCrateBase (1)",
+            "LocalPRS": "1┼1┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
           {
             "GitID": "2304f6197e788654ebfe0cf0947a8b1a_1┼5┼0┼",
             "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
@@ -580,6 +608,7 @@
                 },
                 {
                   "Name": "light (2)",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -639,6 +668,10 @@
                           "Data": "False"
                         },
                         {
+                          "Name": "spriteRenderer",
+                          "Data": "NULL"
+                        },
+                        {
                           "Name": "doReverseAnimation",
                           "Data": "False"
                         },
@@ -653,6 +686,14 @@
                         {
                           "Name": "InitialColour",
                           "Data": "\u0000ÆÿÍ"
+                        },
+                        {
+                          "Name": "initialSortingOrder",
+                          "Data": "-1"
+                        },
+                        {
+                          "Name": "initialSortingLayerName",
+                          "Data": ""
                         }
                       ]
                     }
@@ -787,6 +828,7 @@
                 },
                 {
                   "Name": "light (2)",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -846,6 +888,10 @@
                           "Data": "False"
                         },
                         {
+                          "Name": "spriteRenderer",
+                          "Data": "NULL"
+                        },
+                        {
                           "Name": "doReverseAnimation",
                           "Data": "False"
                         },
@@ -860,6 +906,14 @@
                         {
                           "Name": "InitialColour",
                           "Data": "\u0000ÆÿÍ"
+                        },
+                        {
+                          "Name": "initialSortingOrder",
+                          "Data": "-1"
+                        },
+                        {
+                          "Name": "initialSortingLayerName",
+                          "Data": ""
                         }
                       ]
                     }
@@ -873,6 +927,12 @@
             "PrefabID": "c80393b4412660b41937e05425ceb921",
             "Name": "DirectionalWindowReinforced (2)",
             "LocalPRS": "3┼5┼0┼"
+          },
+          {
+            "GitID": "500fc59070199404fb9f20bc8c600044_3.01┼3.06┼0┼",
+            "PrefabID": "500fc59070199404fb9f20bc8c600044",
+            "Name": "PlayerSpawnPointMaintRooms (1)",
+            "LocalPRS": "3.01┼3.06┼0┼"
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_4┼2┼0┼",
@@ -997,6 +1057,7 @@
                 },
                 {
                   "Name": "light (2)",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -1056,6 +1117,10 @@
                           "Data": "False"
                         },
                         {
+                          "Name": "spriteRenderer",
+                          "Data": "NULL"
+                        },
+                        {
                           "Name": "doReverseAnimation",
                           "Data": "False"
                         },
@@ -1070,6 +1135,14 @@
                         {
                           "Name": "InitialColour",
                           "Data": "\u0000ÆÿÍ"
+                        },
+                        {
+                          "Name": "initialSortingOrder",
+                          "Data": "-1"
+                        },
+                        {
+                          "Name": "initialSortingLayerName",
+                          "Data": ""
                         }
                       ]
                     }

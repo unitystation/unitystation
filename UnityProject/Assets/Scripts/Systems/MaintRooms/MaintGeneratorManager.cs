@@ -56,7 +56,7 @@ namespace Systems.Scenes
 			sw.Start();
 			RunMaintGenerators();
 			sw.Stop();
-			Chat.AddGameWideSystemMsgToChat($"<color=lime>Initialised {gameObject.name} Maint Generation: " + sw.ElapsedMilliseconds + " ms</color>");
+			Chat.AddGameWideSystemMsgToChat($"<color=green>Initialised {gameObject.name} Maint Generation in {sw.ElapsedMilliseconds}ms</color>");
 		}
 
 		private async void RunMaintGenerators()
@@ -87,7 +87,7 @@ namespace Systems.Scenes
 			//Add a listener for when a player requests that ghost role
 			GhostRoleManager.Instance.serverAvailableRoles[maintSurvivorKey].OnPlayerAdded += SpawnSurvivor;
 
-			Chat.AddGameWideSystemMsgToChat($"<color=yellow>{gameObject.name} Ghost Roles Created</color>");
+			Chat.AddGameWideSystemMsgToChat($"<color=green>{gameObject.name} Ghost Roles Created [{numberOfGhostRoles}]</color>");
 		}
 
 		public override void OnDestroy()

@@ -1755,6 +1755,12 @@
             }
           },
           {
+            "GitID": "500fc59070199404fb9f20bc8c600044_1.97┼5┼0┼",
+            "PrefabID": "500fc59070199404fb9f20bc8c600044",
+            "Name": "PlayerSpawnPointMaintRooms (2)",
+            "LocalPRS": "1.97┼5┼0┼"
+          },
+          {
             "GitID": "abe9c13902b62ce449fdfec99db8f554_2┼9┼0┼",
             "PrefabID": "abe9c13902b62ce449fdfec99db8f554",
             "Name": "Lantern (2)",
@@ -1840,6 +1846,18 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "500fc59070199404fb9f20bc8c600044_5.91┼10.04┼0┼",
+            "PrefabID": "500fc59070199404fb9f20bc8c600044",
+            "Name": "PlayerSpawnPointMaintRooms (3)",
+            "LocalPRS": "5.91┼10.04┼0┼"
+          },
+          {
+            "GitID": "bf668c0a59e6e5c4e9b1cf6485655d0a_5.98┼7.01┼0┼",
+            "PrefabID": "bf668c0a59e6e5c4e9b1cf6485655d0a",
+            "Name": "ExitMarkerMaintRooms (1)",
+            "LocalPRS": "5.98┼7.01┼0┼"
           },
           {
             "GitID": "5fd9d8acdd4f02849884dcddff5db286_6┼0┼0┼",
@@ -1946,6 +1964,12 @@
             "LocalPRS": "9┼8┼0┼"
           },
           {
+            "GitID": "500fc59070199404fb9f20bc8c600044_10.03┼6.13┼0┼",
+            "PrefabID": "500fc59070199404fb9f20bc8c600044",
+            "Name": "PlayerSpawnPointMaintRooms (1)",
+            "LocalPRS": "10.03┼6.13┼0┼"
+          },
+          {
             "GitID": "c937e0abe85aca9499d09951de736ec6_11┼7┼0┼",
             "PrefabID": "c937e0abe85aca9499d09951de736ec6",
             "Name": "LightBulbFixture (1)",
@@ -1983,6 +2007,32 @@
               "Children": [
                 {
                   "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "3053347191ae5df4d8e2f8395311213f_11.09┼0.96┼0┼",
+            "PrefabID": "3053347191ae5df4d8e2f8395311213f",
+            "Name": "AdvancedProtoKineticAccelerator (1)",
+            "LocalPRS": "11.09┼0.96┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                },
+                {
+                  "ID": "0,3",
+                  "Active": false,
+                  "ClassDatas": []
+                },
+                {
+                  "ID": "0,4",
                   "Active": false,
                   "ClassDatas": []
                 }

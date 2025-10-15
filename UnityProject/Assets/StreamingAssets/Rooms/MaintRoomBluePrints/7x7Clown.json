@@ -560,7 +560,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.2",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -778,6 +778,12 @@
             "LocalPRS": "3┼2.31┼0┼"
           },
           {
+            "GitID": "bf668c0a59e6e5c4e9b1cf6485655d0a_3┼3┼0┼",
+            "PrefabID": "bf668c0a59e6e5c4e9b1cf6485655d0a",
+            "Name": "ExitMarkerMaintRooms (1)",
+            "LocalPRS": "3┼3┼0┼"
+          },
+          {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_3┼5┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
             "Name": "LightTubeFixture (2)",
@@ -873,13 +879,47 @@
             "GitID": "a08b3d5119d894fcb917204c9c820035_4.75┼2.12┼0┼",
             "PrefabID": "a08b3d5119d894fcb917204c9c820035",
             "Name": "ClownSuit (3)",
-            "LocalPRS": "4.75┼2.12┼0┼"
+            "LocalPRS": "4.75┼2.12┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ItemSlotActionTracker@0",
+                  "Data": [
+                    {
+                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Data": "SecureStuff.SerializedAction"
+                    },
+                    {
+                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Data": "#removed#"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "a08b3d5119d894fcb917204c9c820035_4.94┼1.88┼0┼",
             "PrefabID": "a08b3d5119d894fcb917204c9c820035",
             "Name": "ClownSuit (2)",
-            "LocalPRS": "4.94┼1.88┼0┼"
+            "LocalPRS": "4.94┼1.88┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ItemSlotActionTracker@0",
+                  "Data": [
+                    {
+                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Data": "SecureStuff.SerializedAction"
+                    },
+                    {
+                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Data": "#removed#"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "24eaaeb286e2fbe48a16783af29e3c02_5┼1┼0┼",
@@ -935,6 +975,12 @@
             "LocalPRS": "5┼5┼0┼"
           },
           {
+            "GitID": "500fc59070199404fb9f20bc8c600044_5┼5┼0┼",
+            "PrefabID": "500fc59070199404fb9f20bc8c600044",
+            "Name": "PlayerSpawnPointMaintRooms (1)",
+            "LocalPRS": "5┼5┼0┼"
+          },
+          {
             "GitID": "5a7af30c589b41a449d0ba74c9e1771c_5┼5┼0┼",
             "PrefabID": "5a7af30c589b41a449d0ba74c9e1771c",
             "Name": "Bed (1)",
@@ -944,7 +990,24 @@
             "GitID": "a08b3d5119d894fcb917204c9c820035_5.12┼2.06┼0┼",
             "PrefabID": "a08b3d5119d894fcb917204c9c820035",
             "Name": "ClownSuit (1)",
-            "LocalPRS": "5.12┼2.06┼0┼"
+            "LocalPRS": "5.12┼2.06┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ItemSlotActionTracker@0",
+                  "Data": [
+                    {
+                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Data": "SecureStuff.SerializedAction"
+                    },
+                    {
+                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Data": "#removed#"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "366fb594c17e76346bbb29ad4ce021ad_5.25┼1.75┼0┼",

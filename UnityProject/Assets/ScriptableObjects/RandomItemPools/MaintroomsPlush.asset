@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce108c02d022d1940bc023ceca025d81, type: 3}
+  m_Name: MaintroomsPlush
+  m_EditorClassIdentifier: 
+  foreverID: MaintroomsPlush
+  pool:
+  - prefab: {fileID: 2961574963685958943, guid: f80ce3ff6de7b054b9fe4631bd671fef,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 6815047510261377383, guid: 527cf3d35d98eb445b08e5c9e7ab506e,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 6590453955135135035, guid: 2fcddfc14a1f4d445bf54f8041bcaffb,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 2850296754986617214, guid: dd2f8c282384b114da33fc74b24e0a72,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 9211101540592885464, guid: 183dcfe0a3fcd6c4ca1a8d373b07489d,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 7355274032695105529, guid: d1c0605a35a6f294094cae68012d69ba,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 910035765281028340, guid: 023a567b3271b994aa0f0ae61cc4d5ff, type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 8750138687023068198, guid: 502e6d39995bf2d4496b962c28208cc6,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 1191592660379339774, guid: 503b1edb77d8d77408a872dfb5f171ca,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 3241635713415497095, guid: d79ebe8cd2cdb6a42942d66268ca94e9,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 7355274032695105529, guid: 144df93ae5cdd7143a8be2ee292ffd72,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 534061400265048773, guid: 7efabaaa1c07b6b45abf9d50d40d12c7, type: 3}
+    maxAmount: 1
+    probability: 100
+  RequiredTrait: {fileID: 0}

@@ -551,7 +551,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.2",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -641,6 +641,12 @@
             "PrefabID": "c7a0601b9d5567942bd6c4d26a735b61",
             "Name": "PurgeModule (1)",
             "LocalPRS": "1.12┼2.88┼0┼"
+          },
+          {
+            "GitID": "500fc59070199404fb9f20bc8c600044_2.01┼3.01┼0┼",
+            "PrefabID": "500fc59070199404fb9f20bc8c600044",
+            "Name": "PlayerSpawnPointMaintRooms (2)",
+            "LocalPRS": "2.01┼3.01┼0┼"
           },
           {
             "GitID": "71484dc6293e4474e8b16b794b7c42c4_3┼1┼0┼",
@@ -929,6 +935,7 @@
                 },
                 {
                   "Name": "light (2)",
+                  "ObjectLayer": 0,
                   "ID": "0,3",
                   "ClassDatas": [
                     {
@@ -988,6 +995,10 @@
                           "Data": "False"
                         },
                         {
+                          "Name": "spriteRenderer",
+                          "Data": "NULL"
+                        },
+                        {
                           "Name": "doReverseAnimation",
                           "Data": "False"
                         },
@@ -1002,6 +1013,14 @@
                         {
                           "Name": "InitialColour",
                           "Data": "\u0000ÆÿÍ"
+                        },
+                        {
+                          "Name": "initialSortingOrder",
+                          "Data": "-1"
+                        },
+                        {
+                          "Name": "initialSortingLayerName",
+                          "Data": ""
                         }
                       ]
                     }
@@ -1028,6 +1047,12 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "500fc59070199404fb9f20bc8c600044_4.01┼3.01┼0┼",
+            "PrefabID": "500fc59070199404fb9f20bc8c600044",
+            "Name": "PlayerSpawnPointMaintRooms (1)",
+            "LocalPRS": "4.01┼3.01┼0┼"
           },
           {
             "GitID": "5829805cc04f84f48837a9f4ffab8070_4.75┼3.25┼0┼",

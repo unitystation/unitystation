@@ -1068,7 +1068,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.2",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -1140,6 +1140,12 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "500fc59070199404fb9f20bc8c600044_1┼2┼0┼",
+            "PrefabID": "500fc59070199404fb9f20bc8c600044",
+            "Name": "PlayerSpawnPointMaintRooms (2)",
+            "LocalPRS": "1┼2┼0┼"
           },
           {
             "GitID": "74425ae81613a44b78b24737fd383d2f_1┼5┼0┼",
@@ -1343,6 +1349,12 @@
             }
           },
           {
+            "GitID": "500fc59070199404fb9f20bc8c600044_3┼2┼0┼",
+            "PrefabID": "500fc59070199404fb9f20bc8c600044",
+            "Name": "PlayerSpawnPointMaintRooms (1)",
+            "LocalPRS": "3┼2┼0┼"
+          },
+          {
             "GitID": "5fd9d8acdd4f02849884dcddff5db286_3┼5┼0┼",
             "PrefabID": "5fd9d8acdd4f02849884dcddff5db286",
             "Name": "AirlockStandardOpaque (1)",
@@ -1527,6 +1539,57 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "0fb5b023412da224eb30c4702c2c22c2_8┼2┼0┼",
+            "PrefabID": "0fb5b023412da224eb30c4702c2c22c2",
+            "Name": "EngineersHazardJumpsuit (1)",
+            "LocalPRS": "8┼2┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ItemSlotActionTracker@0",
+                  "Data": [
+                    {
+                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Data": "SecureStuff.SerializedAction"
+                    },
+                    {
+                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Data": "#removed#"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "14V-Be9nv2vCPvXGEt-A_8┼2┼0┼",
+            "PrefabID": "14V-Be9nv2vCPvXGEt-A",
+            "Name": "AbandonedCrateBase (1)",
+            "LocalPRS": "8┼2┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "5668f8777ce1a794980fbd35aa58f56b_8┼2┼0┼",
+            "PrefabID": "5668f8777ce1a794980fbd35aa58f56b",
+            "Name": "NightVisionGoggles (1)",
+            "LocalPRS": "8┼2┼0┼"
+          },
+          {
+            "GitID": "e8ba246ef937e1b4e8694d8f62eb04ca_8┼2┼0┼",
+            "PrefabID": "e8ba246ef937e1b4e8694d8f62eb04ca",
+            "Name": "RandomHeadsetSpawner (1)",
+            "LocalPRS": "8┼2┼0┼"
           },
           {
             "GitID": "21bb3b22e17572f479870465dd940c9d_8┼3┼0┼",
