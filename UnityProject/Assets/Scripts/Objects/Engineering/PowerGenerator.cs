@@ -46,6 +46,8 @@ namespace Objects.Engineering
 
 		private string runLoopGUID = "";
 
+		public ItemStorage itemStorage;
+
 		private enum SpriteState
 		{
 			Unsecured = 0,
@@ -63,7 +65,6 @@ namespace Objects.Engineering
 			securable = GetComponent<WrenchSecurable>();
 			baseSpriteHandler = GetComponentInChildren<SpriteHandler>();
 			electricalNodeControl = GetComponent<ElectricalNodeControl>();
-			var itemStorage = GetComponent<ItemStorage>();
 			itemSlot = itemStorage.GetIndexedItemSlot(0);
 			securable.OnAnchoredChange.AddListener(OnSecuredChanged);
 		}
