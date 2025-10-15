@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Tests
 {
+	[Category(nameof(Asset))]
 	public class ComponentTests
 	{
 		[Test]

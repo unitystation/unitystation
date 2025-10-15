@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Tests
 {
+	[Category(nameof(Asset))]
 	public class SpriteTests
 	{
 		[Test]

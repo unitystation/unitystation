@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Tests.Config
 {
+	[Category(nameof(Asset))]
 	public class GameManagerTest
 	{
 		private const string GAMEMANAGER_PATH = "Assets/Prefabs/SceneConstruction/NestedManagers";

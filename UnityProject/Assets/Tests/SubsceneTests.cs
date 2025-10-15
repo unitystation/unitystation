@@ -8,6 +8,7 @@ using UnityEngine;
 
 namespace Tests
 {
+	[Category(nameof(Scenes))]
 	public class SubsceneTests
 	{
 		[Test]

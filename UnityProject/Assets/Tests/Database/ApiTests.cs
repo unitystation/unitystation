@@ -6,6 +6,7 @@ using Core.Database;
 
 namespace Tests.Database
 {
+	[Category(nameof(Database))]
 	public class ApiHandlerTests
 	{
 		private static readonly Uri mockUri = new Uri("https://example.com/fake/uri");

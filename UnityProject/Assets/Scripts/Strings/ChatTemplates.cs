@@ -15,15 +15,15 @@ namespace Strings
 		public const string Blue = "#0077ff";
 
 		public static readonly string CaptainAnnounce =
-			$"\n\n<color=white><size={ExtremelyLargeText}><b>Captain Announces</b></size></color>\n\n"
+			$"\n<color=white><size={ExtremelyLargeText}><b>Captain Announces</b></size></color>\n\n"
 			+ "<color=#FF151F><b>{0}</b></color>\n\n";
 
 		public static readonly string CentcomAnnounce =
-			$"\n\n<color=white><size={ExtremelyLargeText}><b>Central Command Update</b></size></color>\n\n"
+			$"\n<color=white><size={ExtremelyLargeText}><b>Central Command Update</b></size></color>\n\n"
 			+ "<color=#FF151F><b>{0}</b></color>\n\n";
 
 		public static readonly string PriorityAnnouncement =
-			$"\n\n<color=white><size={ExtremelyLargeText}><b>Priority Announcement</b></size></color>\n\n"
+			$"\n<color=white><size={ExtremelyLargeText}><b>Priority Announcement</b></size></color>\n\n"
 			+ "<color=#FF151F>{0}</color>\n\n";
 
 		public static readonly string ShuttleCallSub =
