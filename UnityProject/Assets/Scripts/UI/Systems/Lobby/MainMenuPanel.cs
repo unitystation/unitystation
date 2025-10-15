@@ -38,6 +38,15 @@ namespace Lobby
 		{
 			SetSignedInText();
 			joinButton.Select();
+
+			if (string.IsNullOrEmpty(GameData.Instance.JoinArgs?.AccountID) == false)
+			{
+				logoutButton.gameObject.SetActive(false);
+			}
+			else
+			{
+				logoutButton.gameObject.SetActive(true);
+			}
 		}
 
 		private void SetSignedInText()

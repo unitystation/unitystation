@@ -13,6 +13,7 @@ namespace Core.Database
 
 		public static Uri GetUri(string endpoint, string queries = null)
 		{
+
 			UriBuilder.Path = $"/persistence/{endpoint}";
 
 
@@ -33,6 +34,26 @@ namespace Core.Database
 			return response;
 		}
 
+		public static async Task<ApiResult<SubAccountGetCharacterSheet>> PutAccountsCharacterByIDByCharactersToken(int id, SubAccountGetCharacterSheet subAccountGetCharacterSheet, string token)
+		{
+			try
+			{
+				var response = await ApiServer.Put<SubAccountGetCharacterSheet>(
+					GetUri($"characters/{id}/updateToken"),
+					subAccountGetCharacterSheet,
+					token,
+					true
+				);
+				return response;
+			}
+			catch (Exception e)
+			{
+				Loggy.Error(e.ToString());
+			}
+
+			return null;
+		}
+
 		public static async Task<ApiResult<SubAccountGetCharacterSheet>> PostMakeAccountsCharacter(SubAccountGetCharacterSheet subAccountGetCharacterSheet, string token)
 		{
 			var response = await ApiServer.Post<SubAccountGetCharacterSheet>(GetUri($"characters/create", null), subAccountGetCharacterSheet, token);
@@ -40,10 +61,35 @@ namespace Core.Database
 			return response;
 		}
 
+		public static async Task<ApiResult<SubAccountGetCharacterSheet>> PostMakeAccountsCharacterByCharactersToken(
+			SubAccountGetCharacterSheet subAccountGetCharacterSheet, string token)
+		{
+			var response = await ApiServer.Post<SubAccountGetCharacterSheet>(
+				GetUri($"characters/createToken", null),
+				subAccountGetCharacterSheet,
+				token,
+				true);
+
+			return response;
+		}
+
+
 		public static async Task<ApiResult<SubAccountGetCharacterSheet>> GetAccountsCharacter(int id, string token)
 		{
 			var response = await ApiServer.Get<SubAccountGetCharacterSheet>(GetUri($"characters/{id}", null),
 				token);
+
+			return response;
+		}
+
+		public static async Task<ApiResult<AccountGetCharacterSheets>> GetCharactersByCharacterSheetToken(
+			string token,
+			string characterSheetVersion)
+		{
+			var response = await ApiServer.Get<AccountGetCharacterSheets>(
+				GetUri("characters/compatibleToken", $"?character_sheet_version={characterSheetVersion}"),
+				token, true
+			);
 
 			return response;
 		}
@@ -64,6 +110,12 @@ namespace Core.Database
 		public static async Task<ApiResult<JsonObject>> DeleteAccountsCharacterByID(int id, string token)
 		{
 			var response = await ApiServer.Delete<JsonObject>(GetUri($"characters/{id}/delete",""), token);
+			return response;
+		}
+
+		public static async Task<ApiResult<JsonObject>> DeleteAccountsCharacterByIDByCharactersToken(int id, string token)
+		{
+			var response = await ApiServer.Delete<JsonObject>(GetUri($"characters/{id}/deleteToken",""), token, true);
 			return response;
 		}
 	}

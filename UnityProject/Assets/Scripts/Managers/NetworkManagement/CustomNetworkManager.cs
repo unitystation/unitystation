@@ -14,6 +14,7 @@ using Initialisation;
 using Logs;
 using MapSaver;
 using Messages.Server;
+using Mirror.Transports.Encryption;
 using SecureStuff;
 using UnityEditor;
 using Util;
@@ -74,6 +75,8 @@ public class CustomNetworkManager : NetworkManager, IInitialise
 
 	public static bool AllPrefabsLoadedSt => Instance.AllPrefabsLoaded;
 	public bool AllPrefabsLoaded => allSpawnablePrefabs.Count <= currentLocation;
+
+	public EncryptionTransport EncryptionTransport;
 
 	public void UpdateMe()
 	{

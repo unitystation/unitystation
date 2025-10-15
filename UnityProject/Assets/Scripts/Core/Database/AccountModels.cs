@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Core.Accounts;
 using Newtonsoft.Json;
 using Systems.Character;
 
@@ -88,6 +89,17 @@ namespace Core.Database
 		public string VerificationToken {get; set;}
 	}
 
+	[Serializable]
+	public class AccountSHA512Validate : JsonObject
+	{
+		[JsonProperty("sha512_token")]
+		public string sha512_token {get; set;}
+
+		[JsonProperty("unique_identifier")]
+		public string unique_identifier {get; set;}
+	}
+
+
 	#endregion
 
 	#region Responses
@@ -123,6 +135,17 @@ namespace Core.Database
 
 		[JsonProperty("last_updated")]
 		public DateTime LastUpdated {get; set;}
+	}
+
+
+	[Serializable]
+	public class HashCheckExists : JsonObject
+	{
+		[JsonProperty("exists")]
+		public bool exists {get; set;}
+
+		[JsonProperty("account")]
+		public Account account;
 	}
 
 	[Serializable]

@@ -28,7 +28,7 @@ namespace Core.Accounts
 		public Dictionary<string, CharacterSheet> Characters { get; private set; } = new();
 
 		// TODO if the object instance exists, isn't that enough to consider the account available?
-		public bool IsAvailable { get; private set; } = false;
+		public bool IsAvailable { get; set; } = false;
 
 		public bool IsLoggedIn { get; private set; }
 
@@ -56,6 +56,7 @@ namespace Core.Accounts
 
 			return this;
 		}
+
 
 		public async Task<Account> Login(string token)
 		{
