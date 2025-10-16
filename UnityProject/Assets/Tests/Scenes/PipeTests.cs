@@ -10,6 +10,7 @@ using PipeLayer = Tilemaps.Behaviours.Layers.PipeLayer;
 
 namespace Tests.Scenes
 {
+	[Category(nameof(Scenes))]
 	public class PipeTests : SceneTest
 	{
 		public PipeTests(SceneTestData data) : base(data) { }

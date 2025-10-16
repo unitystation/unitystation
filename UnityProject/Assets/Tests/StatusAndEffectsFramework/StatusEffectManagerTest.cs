@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Tests.StatusAndEffectsFramework
 {
-
+	[Category(nameof(Balance))]
 	public class StatusEffectManagerTest
 	{
 		private StatusEffectManager manager;

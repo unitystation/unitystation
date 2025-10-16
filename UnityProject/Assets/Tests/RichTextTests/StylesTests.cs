@@ -6,6 +6,7 @@ using Util.Independent.FluentRichText.Styles;
 
 namespace Tests.RichTextTests
 {
+	[Category(nameof(Chat))]
 	public class StylesTests
 	{
 		[Test]
