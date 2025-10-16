@@ -84,7 +84,7 @@ namespace MaintRooms
 			for (int y = 0; y < roomHeight; y++)
 			{
 				int startIndex = pos.x + ((pos.y + y) * mazeWidth);
-				Array.Fill(maze, (short)MazeState.ExcludedCell, startIndex, (int)roomWidth);
+				Array.Fill(maze, (short)MazeState.ExcludedCell, startIndex, roomWidth);
 			}
 
 			PickWeightedRoom(out selectedRoom);
@@ -178,7 +178,7 @@ namespace MaintRooms
 				Loggy.Error($"No maint generator parent for {gameObject.ExpensiveName()}");
 				return;
 			}
-			//MapLoader.ServerLoadSectionNoCoRoutine(maintGenerator.metaTileMap.matrix.MatrixInfo, Vector3.zero, positionOffset, mapData.ContainedMatrices[0], null, MatrixName: "Backrooms");
+
 			MatrixInfo matrixInfo = null;
 			if(isEditor == false) matrixInfo = maintGenerator?.MatrixInfo;
 
