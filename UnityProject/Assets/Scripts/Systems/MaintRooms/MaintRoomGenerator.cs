@@ -185,7 +185,7 @@ namespace MaintRooms
 
 			if (matrixData == null || mapData.ContainedMatrices.Count == 0)
 			{
-				Loggy.Error($"Invalid MapData at filePath: {Path.GetFullPath(Path.Combine(Application.streamingAssetsPath,FolderType.Rooms.ToString(), filePath + ".json"))}");
+				Loggy.Error($"Invalid MapData at filePath: {Path.Combine(Application.streamingAssetsPath,FolderType.Rooms.ToString(), filePath + ".json")}");
 				return;
 			}
 
