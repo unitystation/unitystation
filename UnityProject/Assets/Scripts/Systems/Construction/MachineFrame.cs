@@ -57,6 +57,8 @@ namespace Objects.Construction
 
 		private MachineParts machineParts;
 
+		public MachineParts MachineParts => machineParts;
+
 		private readonly SyncListItem allowedTraits = new SyncListItem();
 
 		private List<AllowedTraitList> listOfAllowedTraits = new List<AllowedTraitList>();
@@ -367,21 +369,26 @@ namespace Objects.Construction
 				//Process Part
 				PartCheck(usedObject, interaction);
 
-				//Check we have all the parts so we can move on to next stage.
-				foreach (var parts in machineParts.machineParts)
-				{
-					int Required = parts.amountOfThisPart;
-
-					Required -= NumberOfPartsForTrait(parts.itemTrait);
-
-					if (Required > 0)
-					{
-						return;
-					}
-				}
-
-				stateful.ServerChangeState(partsAddedState);
+				CheckPartStage();
 			}
+		}
+
+		public void CheckPartStage()
+		{
+			//Check we have all the parts so we can move on to next stage.
+			foreach (var parts in machineParts.machineParts)
+			{
+				int Required = parts.amountOfThisPart;
+
+				Required -= NumberOfPartsForTrait(parts.itemTrait);
+
+				if (Required > 0)
+				{
+					return;
+				}
+			}
+
+			stateful.ServerChangeState(partsAddedState);
 		}
 
 		/// <summary>

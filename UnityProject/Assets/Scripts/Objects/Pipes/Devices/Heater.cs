@@ -41,6 +41,15 @@ public class Heater : MonoBehaviour, IRefreshParts, ICheckedInteractable<HandApp
 		PowerConsumption = PowerConsumptionBaseLevel * PartsMultiplier;
 	}
 
+	public void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE  , UpdateMe);
+		IsOn = false;
+		if (SpriteHandler.CataloguePage != 0)
+		{
+			SpriteHandler.SetCatalogueIndexSprite(0);
+		}
+	}
 
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
