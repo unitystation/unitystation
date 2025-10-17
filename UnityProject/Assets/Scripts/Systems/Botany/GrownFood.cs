@@ -113,6 +113,10 @@ namespace Systems.Botany
 		{
 			if (reagentContainer.ReagentMixTotal == 0)
 			{
+				if (SeedPacket.GetComponent<SeedPacket>() == null)
+				{
+					return;
+				}
 				SetUpFood( SeedPacket.GetComponent<SeedPacket>().plantData, PlantTrayModification.None, null);
 			}
 		}
