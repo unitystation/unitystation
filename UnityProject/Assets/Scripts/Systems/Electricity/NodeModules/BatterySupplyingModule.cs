@@ -168,6 +168,7 @@ namespace Systems.Electricity.NodeModules
 
 
 
+
 		public void RefreshParts(List<PartReference> partsInFrame, Machine Frame)
 		{
 			float Capacity = 0;
@@ -209,47 +210,6 @@ namespace Systems.Electricity.NodeModules
 			SlowResponse = InitialSlowResponse;
 		}
 
-		public void CurrentCapacityDelta(int Delta)
-		{
-
-			if (Delta == 0) return;
-			foreach (var MachinePart in Machine.getObjectpartsInFrame)
-			{
-				if (MachinePart.itemTrait == CommonTraits.Instance.PowerCell)
-				{
-					var batty = MachinePart.itemObject.GetComponentCustom<Battery>();
-
-					if (Delta > 0)
-					{
-						var SpareCapacity = batty.MaxWatts - batty.Watts;
- 						if (Delta > SpareCapacity)
-					    {
-						    batty.Watts = batty.MaxWatts;
-						    Delta -= SpareCapacity;
-					    }
-					    else
-					    {
-						    batty.Watts += Delta;
-						    break;
-					    }
-					}
-					else
-					{
-						var SpareCapacity = batty.Watts;
-						if (Mathf.Abs(Delta) > SpareCapacity)
-						{
-							batty.Watts = 0;
-							Delta += SpareCapacity;
-						}
-						else
-						{
-							batty.Watts += Delta;
-							break;
-						}
-					}
-				}
-			}
-		}
 
 		private void Awake()
 		{
@@ -391,7 +351,7 @@ namespace Systems.Electricity.NodeModules
 							                VoltageAtChargePort;
 							if (chargeCapacityTime)
 							{
-								CurrentCapacityDelta(Mathf.RoundToInt((ChargingWatts * (Time.time - ChargLastDeductedTime) * (InputLevel / 100f))));
+								Machine.BatteryChangeChargedByDelta(Mathf.RoundToInt((ChargingWatts * (Time.time - ChargLastDeductedTime) * (InputLevel / 100f))));
 							}
 
 							ChargLastDeductedTime = Time.time;
@@ -461,7 +421,7 @@ namespace Systems.Electricity.NodeModules
 								PullLastDeductedTime = Time.time;
 							}
 
-							CurrentCapacityDelta(Mathf.RoundToInt(- (PullingWatts * (OutputLevel / 100f)) * (Time.time - PullLastDeductedTime)));
+							Machine.BatteryChangeChargedByDelta(Mathf.RoundToInt(- (PullingWatts * (OutputLevel / 100f)) * (Time.time - PullLastDeductedTime)));
 
 							PullLastDeductedTime = Time.time;
 							if (GetSetCurrentCapacity <= 0)

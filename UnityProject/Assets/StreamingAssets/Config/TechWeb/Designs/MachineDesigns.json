@@ -1454,5 +1454,25 @@
         ],
         "name": "Portable scrubber (Machine Board)",
         "Item_ID": "1Xuip@qmVQhT?5eCH-Sp"
+    },
+    {
+        "Internal_ID": "board_heater",
+        "Description": "A circuit board used in the construction of a portable heater ",
+        "Category": [
+            "Misc. Machinery"
+        ],
+        "Materials": {
+            "Glass": 1000
+        },
+        "Machinery_type": [
+            "CircuitImprinter"
+        ],
+        "Compatible_machinery": [
+            "Engineering",
+            "Science",
+            "Medical"
+        ],
+        "name": "Portable Heater Board",
+        "Item_ID": "PortableHeaterBoard"
     }
 ]

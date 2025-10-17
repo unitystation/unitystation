@@ -10,6 +10,7 @@ using Objects.Construction;
 using Machines;
 using Messages.Server;
 using Messages.Server.SoundMessages;
+using Systems.Construction.Parts;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Machines
@@ -67,6 +68,66 @@ namespace Objects.Machines
 		public ItemStorage PartsStorage;
 
 		public bool MapSpawned = false;
+
+		public float CurrentBatteryCapacity
+		{
+			get
+			{
+				float Capacity = 0;
+				foreach (var MachinePart in getObjectpartsInFrame)
+				{
+					if (MachinePart.itemTrait == CommonTraits.Instance.PowerCell)
+					{
+						Capacity += MachinePart.itemObject.GetComponentCustom<Battery>().Watts;
+					}
+				}
+
+				return Capacity;
+			}
+			set
+			{
+				if (value == 0)
+				{
+					foreach (var MachinePart in getObjectpartsInFrame)
+					{
+						if (MachinePart.itemTrait == CommonTraits.Instance.PowerCell)
+						{
+							MachinePart.itemObject.GetComponentCustom<Battery>().Watts = 0;
+						}
+					}
+				}
+				else
+				{
+					int maxwatts = 0;
+					int Number = 0;
+					foreach (var MachinePart in getObjectpartsInFrame)
+					{
+						if (MachinePart.itemTrait == CommonTraits.Instance.PowerCell)
+						{
+							maxwatts += MachinePart.itemObject.GetComponentCustom<Battery>().MaxWatts;
+							Number++;
+						}
+					}
+
+					var Percentage = value/  maxwatts ;
+
+					if (Percentage > 1)
+					{
+						Percentage = 1;
+					}
+
+					foreach (var MachinePart in getObjectpartsInFrame)
+					{
+						if (MachinePart.itemTrait == CommonTraits.Instance.PowerCell)
+						{
+							var bat = MachinePart.itemObject.GetComponentCustom<Battery>();
+							bat.Watts =  Mathf.RoundToInt(bat.MaxWatts * Percentage);
+						}
+					}
+
+				}
+			}
+		}
 
 		private void Awake()
 		{
@@ -336,6 +397,49 @@ namespace Objects.Machines
 			return Alladded / TotalParts;
 		}
 
+		public void BatteryChangeChargedByDelta(int Delta)
+		{
+
+			if (Delta == 0) return;
+			foreach (var MachinePart in getObjectpartsInFrame)
+			{
+				if (MachinePart.itemTrait == CommonTraits.Instance.PowerCell)
+				{
+					var batty = MachinePart.itemObject.GetComponentCustom<Battery>();
+
+					if (Delta > 0)
+					{
+						var SpareCapacity = batty.MaxWatts - batty.Watts;
+						if (Delta > SpareCapacity)
+						{
+							batty.Watts = batty.MaxWatts;
+							Delta -= SpareCapacity;
+						}
+						else
+						{
+							batty.Watts += Delta;
+							break;
+						}
+					}
+					else
+					{
+						var SpareCapacity = batty.Watts;
+						if (Mathf.Abs(Delta) > SpareCapacity)
+						{
+							batty.Watts = 0;
+							Delta += SpareCapacity;
+						}
+						else
+						{
+							batty.Watts += Delta;
+							break;
+						}
+					}
+				}
+			}
+		}
+
+
 		public void PartFrameTransfer(Pickupable prevPart, Pickupable NewPart)
 		{
 			if (NewPart)
@@ -384,6 +488,8 @@ namespace Objects.Machines
 				ObjectpartsInFrame.RemoveAll(x => x.itemObject == prevPart.gameObject);
 			}
 		}
+
+
 	}
 
 

@@ -266,7 +266,7 @@ namespace Objects.Engineering
 				Chat.AddActionMsgToChat(gameObject, $"<color=red>{gameObject.ExpensiveName()} starts to spit out sparks and smoke! No way this can end good...");
 				StartCoroutine(Emp());
 			}
-			batterySupplyingModule.CurrentCapacityDelta(EmpStrength * 100000);
+			machine.BatteryChangeChargedByDelta(EmpStrength * 100000);
 		}
 
 		private IEnumerator Emp()
