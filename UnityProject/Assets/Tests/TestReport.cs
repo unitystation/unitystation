@@ -138,6 +138,7 @@ namespace Tests
 		}
 	}
 
+	[Category("Security")]
 	public class TestReportTests
 	{
 		private TestReport Report { get; set; }

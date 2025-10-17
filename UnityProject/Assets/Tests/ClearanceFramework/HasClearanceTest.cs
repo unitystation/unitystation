@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace Tests.ClearanceFramework
 {
+	[Category(nameof(Balance))]
 	public class MockClearanceSource : IClearanceSource
 	{
 		private List<Clearance> issuedClearance = new();
@@ -25,6 +26,7 @@ namespace Tests.ClearanceFramework
 	}
 
 	[TestFixture]
+	[Category(nameof(Balance))]
 	public class HasClearanceTest
 	{
 		private ClearanceRestricted restricted;

@@ -19,6 +19,7 @@ namespace Tests.Examinables
 		public string Examine(Vector3 worldPos = default) => Message;
 	}
 
+	[Category(nameof(Chat))]
 	public class PriorityTest
 	{
 		[Test]

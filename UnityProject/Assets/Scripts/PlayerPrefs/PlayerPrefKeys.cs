@@ -227,4 +227,6 @@
 	public static readonly string ThrowHoldPreference = "ThrowHoldPreference";
 
 	public static readonly string DefaultVoice = "TTSDefaultVoice";
+
+	public const string CHAT_BACKGROUND_ALLWAYS_ENABLED = "ChatBackgroundAllwaysEnabled";
 }
