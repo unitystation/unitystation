@@ -102,11 +102,22 @@ PrefabInstance:
     - target: {fileID: 3852822823612823847, guid: e95a1fa76d625d348b07406df101d4c0,
         type: 3}
       propertyPath: SelfChargeWatts
-      value: 100
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5361654529959193588, guid: e95a1fa76d625d348b07406df101d4c0,
+        type: 3}
+      propertyPath: tier
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8546765201934041357, guid: e95a1fa76d625d348b07406df101d4c0,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a44707b1a6d2e3b4a91f64ac1b2fe355,
+        type: 2}
+    - target: {fileID: 8546765201934041357, guid: e95a1fa76d625d348b07406df101d4c0,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: a44707b1a6d2e3b4a91f64ac1b2fe355,
         type: 2}

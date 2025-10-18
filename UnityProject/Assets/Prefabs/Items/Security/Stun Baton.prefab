@@ -164,6 +164,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 41bdcfaaee2884d4d86e4872c2e960d2,
+        type: 2}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: inventoryRemoveSound.AssetAddress
       value: null
       objectReference: {fileID: 0}
@@ -172,6 +178,12 @@ PrefabInstance:
       propertyPath: itemSprites.LeftHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 4a6c2d84273b3f94891495b614c3a716, type: 3}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f15b95301f00cd4cbe7d54fd6f9828f,
+        type: 2}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: itemSprites.RightHand.EquippedData
@@ -318,11 +330,11 @@ MonoBehaviour:
   syncInterval: 0.1
   toggleAffectsComponent: 0
   ToggleSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/Sparks01.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   intialState: 0
@@ -339,11 +351,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/EGloves.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   cooldown: 3
@@ -355,7 +367,7 @@ MonoBehaviour:
   minTeleportDistance: 1
   maxTeleportDistance: 5
   hasBattery: 1
-  chargeUsage: 1000
+  chargeUsage: 100000
   cellPrefab: {fileID: 5999901686547831408, guid: bd07fb3945875634685790190ea8decc,
     type: 3}
   allowScrewdriver: 1
@@ -396,7 +408,7 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
-  ignoreRoundstartGrabObjects: 0
+  initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}
 --- !u!114 &6669159906137905766

@@ -8,7 +8,7 @@ namespace Objects
 {
 	public class Charger : MonoBehaviour, ICheckedInteractable<HandApply>, IAPCPowerable, IExaminable
 	{
-		private ItemStorage itemStorage;
+		public ItemStorage itemStorage;
 		private ItemSlot ChargingSlot;
 
 		private ElectricalMagazine electricalMagazine;
@@ -25,7 +25,6 @@ namespace Objects
 		private void Awake()
 		{
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
-			itemStorage = GetComponent<ItemStorage>();
 			ChargingSlot = itemStorage.GetIndexedItemSlot(0);
 		}
 

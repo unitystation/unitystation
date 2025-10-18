@@ -269,44 +269,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		Inventory.ServerDrop(slot);
 	}
 
-	/// <summary>
-	/// Request to drop alls item from ItemStorage, send an item slot net id of
-	/// one of the slots on the item storage
-	/// </summary>
-	/// <param name="itemSlotID"></param>
-	[Command]
-	public void CmdDropAllItems(uint itemSlotID, Vector3 Target)
-	{
-		var netInstance = NetworkServer.spawned[itemSlotID];
-		if (netInstance == null) return;
 
-		var storage = netInstance.GetComponent<ItemStorage>();
-		if (this.itemStorage == null) return;
-
-		var slots = storage.GetItemSlots();
-		if (slots == null) return;
-
-		var validateSlot = storage.GetIndexedItemSlot(0);
-		if (validateSlot.RootPlayer() != playerScript.RegisterPlayer) return;
-
-
-		Vector2? possibleTarget = null;
-		if (Target != TransformState.HiddenPos)
-		{
-			if (Validations.IsReachableByPositions(PlayerManager.LocalPlayerScript.RegisterPlayer.WorldPosition, Target, false))
-			{
-				if (MatrixManager.IsPassableAtAllMatricesOneTile(Target.RoundToInt(), CustomNetworkManager.IsServer))
-				{
-					possibleTarget = (Target - PlayerManager.LocalPlayerScript.RegisterPlayer.WorldPosition);
-				}
-			}
-		}
-
-		foreach (var item in slots)
-		{
-			Inventory.ServerDrop(item, possibleTarget);
-		}
-	}
 
 	/// <summary>
 	/// Transfers x amount of items from one hand to another. For stackable items only
@@ -998,30 +961,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
-	[Command]
-	public void CmdTriggerStorageTrap(GameObject storage)
-	{
-		//Probably want to put a validations check here to make sure backpack is in range
-		//though this is only gonna hurt this player so isnt really hackable lol
-		if(storage == null) return;
-		if(storage.TryGetComponent<InteractableStorage>(out var interactableStorage) == false) return;
-
-		var slots = interactableStorage.ItemStorage;
-
-		foreach (var slot in slots.GetItemSlots())
-		{
-			if(slot.IsEmpty) continue;
-			if (slot.ItemObject.TryGetComponent<MouseTrap>(out var trap))
-			{
-				if (trap.IsArmed)
-				{
-					trap.TriggerTrap(playerScript.playerHealth);
-					interactableStorage.PreventUIShowingAfterTrapTrigger = true;
-					return;
-				}
-			}
-		}
-	}
 
 	[Command]
 	public void CmdSetPaintJob(int paintJobIndex)

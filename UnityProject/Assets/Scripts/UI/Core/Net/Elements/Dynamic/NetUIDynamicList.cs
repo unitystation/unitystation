@@ -5,6 +5,7 @@ using Logs;
 using UnityEngine;
 using UnityEngine.UI;
 using Messages.Server;
+using SecureStuff;
 using Tilemaps.Behaviours.Meta;
 
 namespace UI.Core.NetUI

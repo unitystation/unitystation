@@ -52,6 +52,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -109,10 +110,14 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: a1441dd2a6731ad4bb00f3b36f1161ac,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1001 &7393967512050525525
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -328,6 +333,18 @@ PrefabInstance:
     - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: cf1628de09208c845b8c85cf06f2e62a,
+        type: 2}
+    - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 352d2f2d4cdf6804a8e4db37f15e4ab5,
+        type: 2}
+    - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: cf1628de09208c845b8c85cf06f2e62a,
         type: 2}
@@ -570,17 +587,17 @@ PrefabInstance:
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: 'firemodeUsage.Array.data[0]'
-      value: 2000
+      value: 200000
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: 'firemodeUsage.Array.data[1]'
-      value: 1000
+      value: 100000
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: 'firemodeUsage.Array.data[2]'
-      value: 2000
+      value: 200000
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}

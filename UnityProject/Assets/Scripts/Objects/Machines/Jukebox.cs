@@ -88,7 +88,7 @@ namespace Objects
 		private Integrity integrity;
 		private APCPoweredDevice power;
 		private RegisterTile registerTile;
-		private ItemStorage vinylStorage;
+		public ItemStorage vinylStorage;
 		private int currentSongTrackIndex = 0;
 		private float startPlayTime;
 		private bool secondLoadAttempt;
@@ -126,7 +126,6 @@ namespace Objects
 			APCConnectionHandler = GetComponent<APCPoweredDevice>();
 			power = GetComponent<APCPoweredDevice>();
 			registerTile = GetComponent<RegisterTile>();
-			vinylStorage = GetComponent<ItemStorage>();
 			integrity = GetComponent<Integrity>();
 			integrity.OnApplyDamage += OnDamageReceived;
 

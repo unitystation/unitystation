@@ -465,6 +465,15 @@ MonoBehaviour:
         - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
         m_values: 64000000
       productionTime: 0.8
+    - name: Rapid Part Exchange Device
+      product: {fileID: 3353754686357998988, guid: f8fda732ffebabe4e897f6a05b95c450,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: 1027000088130000
+      productionTime: 3
   - categoryName: Misc
     products:
     - name: Basic Power Cell

@@ -46,7 +46,8 @@ namespace Objects.Kitchen
 
 		private RegisterTile registerTile;
 		private SpriteHandler spriteHandler;
-		private ItemStorage storage;
+
+		public ItemStorage storage;
 
 		public bool IsOperating => currentState is ProcessorRunning;
 		public Vector3Int WorldPosition => registerTile.WorldPosition;
@@ -73,7 +74,6 @@ namespace Objects.Kitchen
 		{
 			registerTile = GetComponent<RegisterTile>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
-			storage = GetComponent<ItemStorage>();
 			_ = fullSource = AudioManager.GetAddressableAudioSourceFromCache(fullAudio);
 			_ = turnOnSource = AudioManager.GetAddressableAudioSourceFromCache(turnOnAudio);
 		}

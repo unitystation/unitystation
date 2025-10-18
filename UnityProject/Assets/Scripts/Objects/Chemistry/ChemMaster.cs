@@ -17,9 +17,11 @@ namespace Chemistry
 	{
 		[SerializeField] public List<GameObject> ChemMasterProducts;
 
+		public ItemStorage itemStorage;
+
 		private void Start()
 		{
-			ItemStorage itemStorage = GetComponent<ItemStorage>();
+
 			containerSlot = itemStorage.GetIndexedItemSlot(0);
 			bufferItemOne = itemStorage.GetIndexedItemSlot(1);
 			bufferItemTwo = itemStorage.GetIndexedItemSlot(2);

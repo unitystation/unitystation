@@ -7,14 +7,14 @@ namespace Weapons
 {
 	public class PlasmaRefill : MonoBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<InventoryApply>
 	{
-		private int oreEff = 5000;
+		public int oreEff = 5000;
 
 		// sheets should be about twice as efficent as ore
-		private int sheetEff = 10000;
+		public int sheetEff = 10000;
 		private int toRefill;
 		private int refilledAmmo;
 		private int toConsume;
-	
+
 		private Gun gunComp;
 
 		private void Start()

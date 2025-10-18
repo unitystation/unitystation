@@ -79,6 +79,7 @@ namespace Objects.Kitchen
 		[SerializeField]
 		[Tooltip("Sprite responsible for the oven's door.")]
 		private SpriteHandler spriteHandlerDoor = default;
+		[SerializeField]
 		private ItemStorage storage;
 		private APCPoweredDevice poweredDevice;
 		private readonly Dictionary<ItemSlot, Cookable> storedCookables = new Dictionary<ItemSlot, Cookable>();
@@ -120,7 +121,6 @@ namespace Objects.Kitchen
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
-			storage = GetComponent<ItemStorage>();
 			poweredDevice = GetComponent<APCPoweredDevice>();
 
 			SetState(new OvenUnpowered(this));

@@ -119,7 +119,7 @@ PrefabInstance:
     - target: {fileID: 1828873900730458793, guid: 60b83b01df9880443809c84ab556dad6,
         type: 3}
       propertyPath: plantData.ReagentProduction.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1828873900730458793, guid: 60b83b01df9880443809c84ab556dad6,
         type: 3}
@@ -152,19 +152,19 @@ PrefabInstance:
     - target: {fileID: 1828873900730458793, guid: 60b83b01df9880443809c84ab556dad6,
         type: 3}
       propertyPath: plantData.ReagentProduction.Array.data[1].percentage
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1828873900730458793, guid: 60b83b01df9880443809c84ab556dad6,
         type: 3}
       propertyPath: plantData.ReagentProduction.Array.data[0].ChemistryReagent
       value: 
-      objectReference: {fileID: 11400000, guid: 5458b3a2fbbb709769a12535fe65de9f,
+      objectReference: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237,
         type: 2}
     - target: {fileID: 1828873900730458793, guid: 60b83b01df9880443809c84ab556dad6,
         type: 3}
       propertyPath: plantData.ReagentProduction.Array.data[1].ChemistryReagent
       value: 
-      objectReference: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237,
+      objectReference: {fileID: 11400000, guid: 5492c9211fc87fdb7bdab55f9cdcfccc,
         type: 2}
     - target: {fileID: 6208184613693305981, guid: 60b83b01df9880443809c84ab556dad6,
         type: 3}

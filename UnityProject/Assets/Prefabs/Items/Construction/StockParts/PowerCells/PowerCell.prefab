@@ -114,6 +114,8 @@ MonoBehaviour:
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!114 &7686288889611336097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -387,9 +389,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5f7bc434f271324f9dceb9f6476a0c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  watts: 1000
-  MaxWatts: 1000
-  InternalResistance: 240
+  watts: 100000
+  MaxWatts: 100000
+  InternalResistance: 2
   isBroken: 0
   SelfCharging: 0
   SelfChargeWatts: 0
@@ -406,8 +408,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundReagents:
-    m_keys:
-    - {fileID: 11400000, guid: d59d2c18ec64d1e47983d0ce43d91a5b, type: 2}
-    - {fileID: 11400000, guid: bb1b374d9154ed45ca903a8ace087e8d, type: 2}
-    - {fileID: 11400000, guid: 0dbe4ccb54c65da5e88a73f36441a195, type: 2}
-    m_values: 0f0000000500000005000000
+    m_keys: []
+    m_values: []
+  UseReagentContainer: 0

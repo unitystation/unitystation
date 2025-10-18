@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Messages.Client;
 using Mirror;
 using UnityEngine;
@@ -16,9 +17,12 @@ public class AdminRequestInventories : ClientMessage<AdminRequestInventories.Net
 		if (HasPermission(TAG.ADMIN_GHOST_INVENTORY))
 		{
 			LoadNetworkObject(msg.Object);
-			var Inventorys =
-				InventoryViewerDynamicManager.TraverseInventories(NetworkObject.GetComponent<ItemStorage>(),
-					msg.IncludeEmpties);
+			var storages = NetworkObject.GetComponents<ItemStorage>();
+
+			var Inventorys = storages.SelectMany(x =>  InventoryViewerDynamicManager.TraverseInventories(
+				x,
+				msg.IncludeEmpties));
+
 			AdminReturnInventories.Send(SentByPlayer , Inventorys);
 
 		}

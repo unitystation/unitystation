@@ -176,7 +176,7 @@ public class EscapeShuttle : AutopilotShipMachine
 		loadedOnRoundID = GameManager.RoundID;
 		InItAsIfDockedTo(StationStartBuoy);
 	}
-	
+
 
 	private void Awake()
 	{
@@ -329,6 +329,13 @@ public class EscapeShuttle : AutopilotShipMachine
 	/// </summary>
 	public bool CallShuttle(out string callResult, int seconds = 0, bool bypassLimits = false)
 	{
+		callResult = "not server";
+
+		if (CustomNetworkManager.IsServer == false)
+		{
+			return false;
+		}
+
 		if (blockCall && !bypassLimits)
 		{
 			callResult = "The emergency shuttle cannot be called at this time.";
@@ -393,6 +400,14 @@ public class EscapeShuttle : AutopilotShipMachine
 
 	public bool RecallShuttle(out string callResult, bool ignoreTooLateToRecall = false)
 	{
+		callResult = "not server";
+
+		if (CustomNetworkManager.IsServer == false)
+		{
+			return false;
+		}
+
+
 		if (blockRecall && !ignoreTooLateToRecall)
 		{
 			callResult = "The emergency shuttle cannot be recalled at this time.";
@@ -427,6 +442,9 @@ public class EscapeShuttle : AutopilotShipMachine
 
 	public void SendShuttle()
 	{
+
+		if (CustomNetworkManager.IsServer == false) return;
+
 		SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.HyperSpaceBegin, transform.position, sourceObj: gameObject);
 
 		StartCoroutine(WaitForShuttleLaunch());
@@ -435,7 +453,7 @@ public class EscapeShuttle : AutopilotShipMachine
 	IEnumerator WaitForShuttleLaunch()
 	{
 		yield return WaitFor.Seconds(7f);
-
+		if (CustomNetworkManager.IsServer == false) yield break;
 		SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.HyperSpaceProgress, transform.position, sourceObj: gameObject);
 
 		Status = EscapeShuttleStatus.OnRouteToStationTeleport;
@@ -447,6 +465,8 @@ public class EscapeShuttle : AutopilotShipMachine
 
 	private IEnumerator TickTimer(bool headingToStation = true)
 	{
+		if (CustomNetworkManager.IsServer == false) yield break;
+
 		UnderflowIndex = 0;
 
 

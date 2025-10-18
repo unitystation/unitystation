@@ -18,7 +18,7 @@ namespace Objects.Kitchen
 			: null;
 		[SerializeField] private AddressableAudioSource grindSound = null;
 		private ItemSlot itemSlot;
-		private ItemStorage itemStorage;
+		public ItemStorage itemStorage;
 		public bool GrindOrJuice => grindOrJuice;
 		private bool grindOrJuice = true;
 		private RegisterTile registerTile;
@@ -33,7 +33,7 @@ namespace Objects.Kitchen
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
-			itemStorage = GetComponent<ItemStorage>();
+
 			itemSlot = itemStorage.GetIndexedItemSlot(0);
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 		}
