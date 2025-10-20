@@ -3,10 +3,6 @@ using System.Collections;
 using UnityEngine;
 using NaughtyAttributes;
 using Core.Editor.Attributes;
-using AddressableReferences;
-using Audio.Managers;
-using Messages.Server;
-using Messages.Server.SoundMessages;
 using Mirror;
 
 
@@ -61,21 +57,16 @@ namespace Doors
 		[Tooltip("Time this door's warning animation takes")]
 		private float warningAnimationTime = 0.6f;
 		#endregion
-
-		[SyncVar(hook = nameof(SyncDoorStatus))] public DoorUpdateType SyncDoorUpdateType;
-		[SyncVar] public bool PanelOpen;
-
-		[SerializeField, Tooltip("Sound that plays when opening this door")]
-		private AddressableAudioSource openingSFX;
-		[SerializeField, Tooltip("Sound that plays when closing this door")]
-		private AddressableAudioSource closingSFX;
-		[SerializeField, Tooltip("Sound that plays when access is denied by this door")]
-		private AddressableAudioSource deniedSFX;
-		[SerializeField, Tooltip("Sound that plays when pressure warning is played by this door")]
-		private AddressableAudioSource warningSFX;
+		
+		[SerializeField]
+		[Tooltip("Most recent animation state of the door")]
+		public DoorUpdateType CurrentDoorUpdateType;
 
 		public event Action AnimationStarted;
 		public event Action AnimationFinished;
+		public event Action AnimationClosed;
+		public event Action AnimationOpened;
+
 
 		private SpriteHandler doorBaseHandler;
 		private SpriteHandler overlaySparksHandler;
@@ -106,36 +97,25 @@ namespace Doors
 			PressureWarn = 3
 		}
 
-		public void SyncDoorStatus(DoorUpdateType old,DoorUpdateType newv )
+		public void SyncDoorStatus(DoorUpdateType newv,bool panelExposed = false, bool lights = true)
 		{
-			SyncDoorUpdateType = newv;
-			PlayAnimation(newv, false, PanelOpen);
+			CurrentDoorUpdateType = newv;
+			PlayAnimation(newv, false, panelExposed, lights);
 		}
 
 		//Called on client and server
 		// panelExposed and lights not hooked up into the net message yet
-		public void PlayAnimation(DoorUpdateType type, bool skipAnimation, bool panelExposed = false, bool lights = true)
+		public void PlayAnimation(DoorUpdateType type, bool skipAnimation, bool panelExposed, bool lights)
 		{
-			if (doorMasterController != null)
-			{
-				if (type == DoorUpdateType.Open)
-				{
-					doorMasterController.BoxCollToggleOff();
-				}
-				else if (type == DoorUpdateType.Close)
-				{
-					doorMasterController.BoxCollToggleOn();
-				}
-			}
-
-
+			if (doorMasterController == null) return;
+			
 			if (type == DoorUpdateType.Open)
 			{
-				StartCoroutine(PlayOpeningAnimation(skipAnimation, panelExposed));
+				StartCoroutine(PlayOpeningAnimation(skipAnimation, panelExposed, lights));
 			}
 			else if (type == DoorUpdateType.Close)
 			{
-				StartCoroutine(PlayClosingAnimation(skipAnimation, panelExposed));
+				StartCoroutine(PlayClosingAnimation(skipAnimation, panelExposed, lights));
 			}
 			else if (type == DoorUpdateType.AccessDenied)
 			{
@@ -165,8 +145,15 @@ namespace Doors
 				}
 				overlayFillHandler.SetCatalogueIndexSprite((int) DoorFrame.Opening, false);
 				doorBaseHandler.SetCatalogueIndexSprite((int) DoorFrame.Opening, false);
-				ClientPlaySound(openingSFX);
-				yield return WaitFor.Seconds(openingAnimationTime);
+
+				//Simulates being able slipping through door as its opening, door is considered open halfway through the animation
+				yield return WaitFor.Seconds(openingAnimationTime / 2);
+				AnimationOpened?.Invoke();
+				yield return WaitFor.Seconds(openingAnimationTime / 2);
+			}
+			else
+			{
+				AnimationOpened?.Invoke();
 			}
 
 			// Change to open sprite after done opening
@@ -200,24 +187,31 @@ namespace Doors
 
 				if (lights)
 				{
-					overlayLightsHandler.SetCatalogueIndexSprite((int) Lights.Closing, false);
-					previousLightSprite = (int) Lights.Closing;
+					overlayLightsHandler.SetCatalogueIndexSprite((int)Lights.Closing, false);
+					previousLightSprite = (int)Lights.Closing;
 				}
 
-				overlayFillHandler.SetCatalogueIndexSprite((int) DoorFrame.Closing, false);
-				doorBaseHandler.SetCatalogueIndexSprite((int) DoorFrame.Closing, false);
-				ClientPlaySound(closingSFX);
-				yield return WaitFor.Seconds(closingAnimationTime);
+				overlayFillHandler.SetCatalogueIndexSprite((int)DoorFrame.Closing, false);
+				doorBaseHandler.SetCatalogueIndexSprite((int)DoorFrame.Closing, false);
+
+				//Simulates being able slipping through door as its closing, door is considered closed halfway through the animation
+				yield return WaitFor.Seconds(closingAnimationTime / 2);
+				AnimationClosed?.Invoke();
+				yield return WaitFor.Seconds(closingAnimationTime / 2);
+			}
+			else
+			{
+				AnimationClosed?.Invoke();
 			}
 
 			//Change to closed sprite after it is done closing
 			if (panelExposed)
 			{
-				overlayHackingHandler.SetCatalogueIndexSprite((int) Panel.Closed, false);
+				overlayHackingHandler.SetCatalogueIndexSprite((int)Panel.Closed, false);
 			}
 			else
 			{
-				overlayHackingHandler.SetCatalogueIndexSprite((int) Panel.NoPanel, false);
+				overlayHackingHandler.SetCatalogueIndexSprite((int)Panel.NoPanel, false);
 			}
 
 			overlayLightsHandler.SetCatalogueIndexSprite((int) Lights.NoLight, false);
@@ -260,22 +254,6 @@ namespace Doors
 			overlayLightsHandler.SetCatalogueIndexSprite(previousLightSprite);
 			previousLightSprite = -1;
 			AnimationFinished?.Invoke();
-		}
-
-		private void ClientPlaySound(AddressableAudioSource sound)
-		{
-			if(CustomNetworkManager.IsHeadless) return;
-
-			_ = SoundManager.PlayAtPosition(sound, gameObject.AssumedWorldPosServer());
-		}
-
-		public void ServerPlayDeniedSound()
-		{
-			_ = SoundManager.PlayNetworkedAtPosAsync(deniedSFX, gameObject.AssumedWorldPosServer());
-		}
-		public void ServerPlayPressureSound()
-		{
-			_ = SoundManager.PlayNetworkedAtPosAsync(warningSFX, gameObject.AssumedWorldPosServer());
 		}
 
 		public void TurnOffAllLights()

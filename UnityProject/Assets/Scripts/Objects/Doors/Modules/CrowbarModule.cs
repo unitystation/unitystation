@@ -11,12 +11,8 @@ namespace Doors.Modules
 		[SerializeField] [Tooltip("Base time it takes to pry this door.")]
 		private float pryTime = 4.5f; //TODO calculate time with a multiplier from the tool itself
 
-		[SerializeField] private AddressableAudioSource prySound = null;
-
 		[SerializeField] [Tooltip("Can you crowbar pry the door when there no power")]
 		private bool crowbarRequiresNoPower = true;
-
-		private string soundGuid = "";
 
 		private string doorName;
 		private WeldModule weldModule;
@@ -91,17 +87,10 @@ namespace Doors.Modules
 
 		private void PryDoor(HandApply interaction, bool useTool, bool isClosing)
 		{
-			if (soundGuid != "")
-			{
-				SoundManager.StopNetworked(soundGuid);
-			}
-
-			soundGuid = Guid.NewGuid().ToString();
-			_ = SoundManager.PlayNetworkedAtPosAsync(prySound, master.RegisterTile.WorldPositionServer, master.gameObject,
-				soundGuid);
 
 			if (useTool == true)
 			{
+				master.SoundController.ServerPlaySound(DoorSoundController.DoorSoundType.ToolPry);
 				ToolUtils.ServerUseToolWithActionMessages(interaction, pryTime,
 					$"You start {(isClosing ? "forcing" : "prying")} the {doorName} {(isClosing ? "closed" : "open")}...",
 					$"{interaction.Performer.ExpensiveName()} starts {(isClosing ? "forcing" : "prying")} the {doorName} {(isClosing ? "closed" : "open")}...",
@@ -112,6 +101,7 @@ namespace Doors.Modules
 
 			else if (useTool == false)
 			{
+				master.SoundController.ServerPlaySound(DoorSoundController.DoorSoundType.HandPry);
 				Chat.AddActionMsgToChat(interaction.Performer,
 					$"You start {(isClosing ? "forcing" : "prying")} the {doorName} {(isClosing ? "closed" : "open")}...",
 					$"{interaction.Performer.ExpensiveName()} starts {(isClosing ? "forcing" : "prying")} the {doorName} {(isClosing ? "closed" : "open")} with its {interaction.PerformerPlayerScript.PlayerTypeSettings.PryHandName}...");
@@ -152,7 +142,7 @@ namespace Doors.Modules
 				if (master.TryForceOpen())
 				{
 					Chat.AddActionMsgToChat(interaction.Performer,
-						$"You pry the {doorName} open with your {(useTool ? interaction.PerformerPlayerScript.PlayerTypeSettings.PryHandName : interaction.HandObject.ExpensiveName())}!",
+						$"You pry the {doorName} open with your {(useTool ? interaction.HandObject.ExpensiveName() : interaction.PerformerPlayerScript.PlayerTypeSettings.PryHandName)}!",
 						$"{interaction.Performer.ExpensiveName()} pries the {doorName} open{(useTool ? "" : " with its " + interaction.PerformerPlayerScript.PlayerTypeSettings.PryHandName)}!");
 				}
 				else
@@ -166,8 +156,7 @@ namespace Doors.Modules
 
 		private void OnFailPry()
 		{
-			SoundManager.StopNetworked(soundGuid);
-			soundGuid = "";
+			master.SoundController.StopSound();
 		}
 	}
 }

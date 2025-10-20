@@ -30,41 +30,49 @@ namespace Doors
 		IBumpableObject, IRightClickable
 	{
 		#region inspector
-		[SerializeField ]
+		[SerializeField]
 		[Tooltip("Toggle damaging any living entities caught in the door as it closes")]
 		private bool damageOnClose = false;
 
-		[SerializeField ]
+		[SerializeField]
 		[Tooltip("Amount of damage when closed on someone.")]
 		private float damageClosed = 90;
 
-		[SerializeField ]
+		[SerializeField]
 		[Tooltip("Does this door open automatically when you walk into it?")]
 		private bool isAutomatic = true;
 
-		[SerializeField ]
+		[SerializeField]
 		[Tooltip("Can you interact with the door by HandApply or Bump?")]
 		private bool allowInteraction = true;
 
-		[SerializeField ]
+		[SerializeField]
 		[Tooltip("Is this door designed to close no matter what is underneath it?")]
 		private bool ignorePassableChecks = false;
 
+		[SerializeField]
+		[Tooltip("Does this door push living entities when it closes on them?")]
+		private bool closingPushesEntities = false;
+
 		//Maximum time the door will remain open before closing itself.
-		[SerializeField ]
+		[SerializeField]
 		[Tooltip("Time this door will wait until autoclosing")]
 		private float maxTimeOpen = 5;
 
-		[SerializeField ]
+		[SerializeField]
 		[Tooltip("Prevent the door from auto closing when opened.")]
-		private bool blockAutoClose = false;
+		public bool BlockAutoClose = false;
 
-		[SerializeField ]
+		[SerializeField]
 		[Tooltip("Prevent the door from auto closing when opened if was Clicked on to be opened.")]
 		private bool clickDisablesAutoClose = false;
 
+
+
 		private DoorAnimatorV2 doorAnimator;
 		public DoorAnimatorV2 DoorAnimator => doorAnimator;
+		private DoorSoundController soundController;
+		public DoorSoundController SoundController => soundController;
 
 		private const float INPUT_COOLDOWN = 0.25f;
 
@@ -115,6 +123,7 @@ namespace Doors
 		private bool isFireLock;
 		[field: SerializeField] public bool CanRelink { get; set; } = true;
 		private string doorName;
+
 		private void Awake()
 		{
 			doorName = gameObject.ExpensiveName();
@@ -151,9 +160,15 @@ namespace Doors
 			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 			registerTile = GetComponent<RegisterDoor>();
 			modulesList = GetComponentsInChildren<DoorModuleBase>().ToList();
+
 			doorAnimator = GetComponent<DoorAnimatorV2>();
+			doorAnimator.AnimationOpened += OnAnimationOpened;
+			doorAnimator.AnimationClosed += OnAnimationClosed;
 			doorAnimator.AnimationStarted += OnAnimationStarted;
 			doorAnimator.AnimationFinished += OnAnimationFinished;
+
+			soundController = GetComponent<DoorSoundController>();
+
 			if (UseMachinesForOpenLayeer)
 			{
 				openSortingLayer = SortingLayer.NameToID("Machines");
@@ -283,7 +298,7 @@ namespace Doors
 			{
 				if (clickDisablesAutoClose)
 				{
-					blockAutoClose = false;
+					BlockAutoClose = false;
 				}
 				PulseTryClose(interaction.Performer, inOverrideLogic: true);
 			}
@@ -319,7 +334,7 @@ namespace Doors
 			{
 				if (clickDisablesAutoClose)
 				{
-					blockAutoClose = true;
+					BlockAutoClose = true;
 				}
 				TryOpen(interaction.Performer);
 			}
@@ -379,7 +394,7 @@ namespace Doors
 				if (fireLock != null && fireLock.fireAlarm.activated && fireLock.DoorMasterController.IsClosed) return;
 			}
 
-			if(IsClosed == false || isPerformingAction) return;
+			if(isPerformingAction) return;
 
 			Open(blockClosing);
 		}
@@ -402,7 +417,7 @@ namespace Doors
 
 			if (states.Contains(DoorProcessingStates.PhysicallyPrevented) || states.Contains(DoorProcessingStates.Welded)) return false;
 
-			Open();
+			Open(true);
 			return true;
 		}
 
@@ -417,7 +432,7 @@ namespace Doors
 		/// </summary>
 		public void TryForceClose()
 		{
-			if (IsClosed) return; //Can't close if we are close. Figures.
+			if (IsClosed) return; //Can't close if we are closed. Figures.
 
 			HashSet<DoorProcessingStates> states = new HashSet<DoorProcessingStates>();
 
@@ -426,9 +441,9 @@ namespace Doors
 				module.OpenInteraction(null, states);
 			}
 
-			if (states.Contains(DoorProcessingStates.PhysicallyPrevented) || states.Contains(DoorProcessingStates.Welded)) return;
+			if (states.Contains(DoorProcessingStates.PhysicallyPrevented)) return;
 
-			Close();
+			Close(true);
 		}
 
 		public void PulseTryClose(GameObject inoriginator = null, bool inforce = false, bool inOverrideLogic = false)
@@ -447,10 +462,12 @@ namespace Doors
 
 		public void TryClose()
 		{
+			if(isPerformingAction) return;
+
 			// Sliding door is not passable according to matrix
-			if(!isPerformingAction &&
-				(ignorePassableChecks || matrix.CanCloseDoorAt( registerTile.LocalPositionServer, true )) &&
-				(HasPower || force ) )
+			if (!isPerformingAction &&
+				(ignorePassableChecks || matrix.CanCloseDoorAt(registerTile.LocalPositionServer, true)) &&
+				(HasPower || force))
 
 			{
 				if (OverrideLogic)
@@ -463,10 +480,10 @@ namespace Doors
 
 					foreach (DoorModuleBase module in modulesList)
 					{
-						 module.OpenInteraction(null, states);
+						module.OpenInteraction(null, states);
 					}
 
-					if (!isPerformingAction && CheckStatusAllow(states))
+					if (CheckStatusAllow(states))
 					{
 						Close();
 					}
@@ -482,31 +499,25 @@ namespace Doors
 			}
 		}
 
-		public void Close()
+		public void Close(bool byForce = false)
 		{
-			if (!gameObject) return; // probably destroyed by a shuttle crash
+			if (IsClosed == true) return;
 
-			IsClosed = true;
+			if (!gameObject) return; // probably destroyed by a shuttle crash
+			if (isPerformingAction) return;
+
 			UpdateGui();
 
-			if (isPerformingAction)
-			{
-				return;
+			doorAnimator.SyncDoorStatus(DoorAnimatorV2.DoorUpdateType.Close,
+				ConstructibleDoor != null && ConstructibleDoor.Panelopen,
+				!byForce);
+			soundController.PlaySound(byForce? DoorSoundController.DoorSoundType.Forced : DoorSoundController.DoorSoundType.Close);
 			}
 
-			doorAnimator.PanelOpen = ConstructibleDoor != null && ConstructibleDoor.Panelopen;
-
-			doorAnimator.SyncDoorStatus(doorAnimator.SyncDoorUpdateType,DoorAnimatorV2.DoorUpdateType.Close );
-
-
-			if (damageOnClose)
-			{
-				ServerDamageOnClose();
-			}
-		}
-
-		public void Open(bool blockClosing)
+		public void Open(bool byForce = false)
 		{
+			if (IsClosed == false) return;
+
 			if (isFireLock == false)
 			{
 				var fireLock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
@@ -515,35 +526,17 @@ namespace Doors
 
 			if (!this || !gameObject) return; // probably destroyed by a shuttle crash
 
-			if (!blockClosing)
+			if (!BlockAutoClose)
 			{
 				ResetWaiting();
 			}
-			StartCoroutine(DelayOpen());
-		}
 
-		public void Open()
-		{
-			if (isFireLock == false)
-			{
-				var fireLock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
-				if (fireLock != null && fireLock.fireAlarm!= null && fireLock.fireAlarm.activated && fireLock.DoorMasterController.IsClosed) return;
-			}
-			if (!this || !gameObject) return; // probably destroyed by a shuttle crash
-			if (IsClosed == false) return;
-			ResetWaiting();
-			StartCoroutine(DelayOpen());
-		}
-
-		public IEnumerator DelayOpen()
-		{
-			yield return WaitFor.Seconds(0.1f);
-
-			IsClosed = false;
 			UpdateGui();
 
-			doorAnimator.PanelOpen = ConstructibleDoor != null && ConstructibleDoor.Panelopen;
-			doorAnimator.SyncDoorStatus(doorAnimator.SyncDoorUpdateType,DoorAnimatorV2.DoorUpdateType.Open);
+			doorAnimator.SyncDoorStatus(DoorAnimatorV2.DoorUpdateType.Open,
+				ConstructibleDoor != null && ConstructibleDoor.Panelopen,
+				!byForce);
+			soundController.PlaySound(byForce? DoorSoundController.DoorSoundType.Forced : DoorSoundController.DoorSoundType.Open);
 		}
 
 		public void BoxCollToggleOn()
@@ -644,6 +637,27 @@ namespace Doors
 		}
 
 		/// <summary>
+		/// Invoked by doorAnimator when the animation for closing plays
+		/// </summary>
+		private void OnAnimationClosed()
+		{
+			BoxCollToggleOn();
+
+			if (damageOnClose)
+			{
+				ServerDamageOnClose();
+			}
+		}
+
+		/// <summary>
+		/// Invoked by doorAnimator when the animation for opening plays
+		/// </summary>
+		private void OnAnimationOpened()
+		{
+			BoxCollToggleOff();
+		}
+
+		/// <summary>
 		/// Invoked by doorAnimator once a door animation finishes
 		/// </summary>
 		private void OnAnimationFinished()
@@ -714,7 +728,7 @@ namespace Doors
 			// After the door opens, wait until it's supposed to close.
 			yield return WaitFor.Seconds(maxTimeOpen);
 
-			if(blockAutoClose) yield break;
+			if(BlockAutoClose) yield break;
 
 			if(isAutomatic == false) yield break;
 
@@ -728,7 +742,7 @@ namespace Doors
 
 		public void ToggleBlockAutoClose(bool newState)
 		{
-			blockAutoClose = newState;
+			BlockAutoClose = newState;
 		}
 
 		#region Ai interaction
