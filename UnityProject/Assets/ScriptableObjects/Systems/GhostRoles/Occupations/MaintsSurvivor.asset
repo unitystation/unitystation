@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Maints Survivor
   description: After taking a wrong turn in maintenance you have become lost in what
-    seems to be a never ending maze. Days have past, and you must survive in this
-    new place, defend against its dangers and just maybe, find your way home.
+    seems to be a never ending maze. Days have past, you must survive in this new
+    place, defend against its dangers and just maybe, find your way home.
   descriptionAdmin: 
   sprite: {fileID: 11400000, guid: 2f4ed06eb37f4c645a274b500687e360, type: 2}
   respawnType: 2
   targetOccupation: {fileID: 11400000, guid: 157380ba942c4224fb7bc9735f137ec7, type: 2}
   targetAntagonist: {fileID: 0}
   minPlayers: 1
-  maxPlayers: 1
+  maxPlayers: 4
   timeout: -1
-  canBeAddedByAdmin: 0
+  canBeAddedByAdmin: 1
   team: {fileID: 0}
-  playerCountType: 2
+  playerCountType: 1
