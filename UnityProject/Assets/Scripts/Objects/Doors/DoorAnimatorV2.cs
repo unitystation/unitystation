@@ -74,6 +74,7 @@ namespace Doors
 		[SerializeField, Tooltip("Sound that plays when pressure warning is played by this door")]
 		private AddressableAudioSource warningSFX;
 
+		public event Action AnimationStarted;
 		public event Action AnimationFinished;
 
 		private SpriteHandler doorBaseHandler;
@@ -149,6 +150,8 @@ namespace Doors
 
 		public IEnumerator PlayOpeningAnimation(bool skipAnimation = false, bool panelExposed = false, bool lights = true)
 		{
+			AnimationStarted?.Invoke();
+
 			if (skipAnimation == false)
 			{
 				if (panelExposed)
@@ -186,6 +189,8 @@ namespace Doors
 
 		public IEnumerator PlayClosingAnimation(bool skipAnimation = false, bool panelExposed = false, bool lights = true)
 		{
+			AnimationStarted?.Invoke();
+
 			if (skipAnimation == false)
 			{
 				if (panelExposed)
@@ -225,6 +230,8 @@ namespace Doors
 
 		public IEnumerator PlayDeniedAnimation()
 		{
+			AnimationStarted?.Invoke();
+
 			if (previousLightSprite == -1)
 			{
 				previousLightSprite = overlayLightsHandler.CurrentSpriteIndex;
@@ -240,6 +247,8 @@ namespace Doors
 
 		public IEnumerator PlayPressureWarningAnimation()
 		{
+			AnimationStarted?.Invoke();
+
 			if (previousLightSprite == -1)
 			{
 				previousLightSprite = overlayLightsHandler.CurrentSpriteIndex;
