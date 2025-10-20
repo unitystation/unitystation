@@ -10,6 +10,8 @@ using Chemistry.Components;
 /// </summary>
 public class Grindable : MonoBehaviour
 {
+	public bool UseReagentContainer = false;
+
 	[SerializeField]
 	[Tooltip("What reagent(s) this GameObject becomes when ground.")]
 	private SerializableDictionary<Reagent, float> groundReagents;
@@ -32,7 +34,7 @@ public class Grindable : MonoBehaviour
 		}
 	}
 
-	public bool UseReagentContainer = false;
+
 
 	private ReagentContainer ReagentContainer;
 

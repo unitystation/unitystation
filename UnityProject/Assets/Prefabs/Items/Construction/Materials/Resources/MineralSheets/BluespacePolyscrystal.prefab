@@ -201,9 +201,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8688576ed720a4f40b3583f62adeeb23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UseReagentContainer: 0
   groundReagents:
     m_keys:
     - {fileID: 11400000, guid: c8b0a877670e84d8aa73864eb8152aa5, type: 2}
     m_values:
-    - 0
-  UseReagentContainer: 0
+    - 1000
