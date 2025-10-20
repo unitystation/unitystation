@@ -14,6 +14,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 292bb943f2572084e9ef01d46ddaff1f,
         type: 2}
+    - target: {fileID: 434019004450988535, guid: bd07fb3945875634685790190ea8decc,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 292bb943f2572084e9ef01d46ddaff1f,
+        type: 2}
     - target: {fileID: 862816665872160285, guid: bd07fb3945875634685790190ea8decc,
         type: 3}
       propertyPath: parentID
@@ -27,6 +33,12 @@ PrefabInstance:
     - target: {fileID: 1445861594932124976, guid: bd07fb3945875634685790190ea8decc,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: eb813b0d3ffbf0f4cad02d39100f3d0c,
+        type: 2}
+    - target: {fileID: 1445861594932124976, guid: bd07fb3945875634685790190ea8decc,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: eb813b0d3ffbf0f4cad02d39100f3d0c,
         type: 2}
@@ -44,12 +56,12 @@ PrefabInstance:
     - target: {fileID: 5039032819772725725, guid: bd07fb3945875634685790190ea8decc,
         type: 3}
       propertyPath: watts
-      value: 5000
+      value: 500000
       objectReference: {fileID: 0}
     - target: {fileID: 5039032819772725725, guid: bd07fb3945875634685790190ea8decc,
         type: 3}
       propertyPath: MaxWatts
-      value: 5000
+      value: 500000
       objectReference: {fileID: 0}
     - target: {fileID: 5886797724884822316, guid: bd07fb3945875634685790190ea8decc,
         type: 3}

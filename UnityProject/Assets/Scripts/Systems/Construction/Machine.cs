@@ -10,6 +10,7 @@ using Objects.Construction;
 using Machines;
 using Messages.Server;
 using Messages.Server.SoundMessages;
+using Systems.Construction.Parts;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Objects.Machines
@@ -26,6 +27,7 @@ namespace Objects.Machines
 
 		private List<PartReference> ObjectpartsInFrame = new List<PartReference>();
 
+		public List<PartReference> getObjectpartsInFrame => ObjectpartsInFrame;
 
 		[Tooltip("Prefab of the circuit board that lives inside this computer.")] [SerializeField]
 		private GameObject machineBoardPrefab = null;
@@ -65,6 +67,68 @@ namespace Objects.Machines
 
 		public ItemStorage PartsStorage;
 
+		public bool MapSpawned = false;
+
+		public float CurrentBatteryCapacity
+		{
+			get
+			{
+				float Capacity = 0;
+				foreach (var MachinePart in getObjectpartsInFrame)
+				{
+					if (MachinePart.itemTrait == CommonTraits.Instance.PowerCell)
+					{
+						Capacity += MachinePart.itemObject.GetComponentCustom<Battery>().Watts;
+					}
+				}
+
+				return Capacity;
+			}
+			set
+			{
+				if (value == 0)
+				{
+					foreach (var MachinePart in getObjectpartsInFrame)
+					{
+						if (MachinePart.itemTrait == CommonTraits.Instance.PowerCell)
+						{
+							MachinePart.itemObject.GetComponentCustom<Battery>().Watts = 0;
+						}
+					}
+				}
+				else
+				{
+					int maxwatts = 0;
+					int Number = 0;
+					foreach (var MachinePart in getObjectpartsInFrame)
+					{
+						if (MachinePart.itemTrait == CommonTraits.Instance.PowerCell)
+						{
+							maxwatts += MachinePart.itemObject.GetComponentCustom<Battery>().MaxWatts;
+							Number++;
+						}
+					}
+
+					var Percentage = value/  maxwatts ;
+
+					if (Percentage > 1)
+					{
+						Percentage = 1;
+					}
+
+					foreach (var MachinePart in getObjectpartsInFrame)
+					{
+						if (MachinePart.itemTrait == CommonTraits.Instance.PowerCell)
+						{
+							var bat = MachinePart.itemObject.GetComponentCustom<Battery>();
+							bat.Watts =  Mathf.RoundToInt(bat.MaxWatts * Percentage);
+						}
+					}
+
+				}
+			}
+		}
+
 		private void Awake()
 		{
 			if (PartsStorage == null)
@@ -88,6 +152,7 @@ namespace Objects.Machines
 			//Means we are mapped so use machine parts ist
 			if (ObjectpartsInFrame.Count == 0)
 			{
+				MapSpawned = true;
 				if (MachineParts.OrNull()?.machineParts == null)
 				{
 					if (canNotBeDeconstructed == false)
@@ -104,15 +169,27 @@ namespace Objects.Machines
 
 				foreach (var part in MachineParts.machineParts)
 				{
-					var partObjs = Spawn.ServerPrefab(part.basicItem, gameObject.AssumedWorldPosServer(),
-						gameObject.transform.parent, count: part.amountOfThisPart).GameObjects;
-					
-					foreach (var Object in partObjs)
+
+					for (int i = 0; i < part.amountOfThisPart; i++)
 					{
-						PartsStorage.ServerTryAdd(Object);
+						var partObjs = Spawn.ServerPrefab(part.basicItem, gameObject.AssumedWorldPosServer(),
+							gameObject.transform.parent).GameObjects;
+
+						foreach (var Object in partObjs)
+						{
+							PartsStorage.ServerTryAdd(Object);
+						}
 					}
+
 				}
 			}
+			else
+			{
+				MapSpawned = false;
+			}
+
+
+			var data = PartsStorage.GetItemSlots();
 
 			var toRefresh = GetComponents<IRefreshParts>();
 
@@ -244,8 +321,7 @@ namespace Objects.Machines
 			MachineParts = machineParts;
 		}
 
-		public void
-			SetPartsInFrame(ItemStorage InActiveGameObjectpartsInFrame) //Presume that it is all the it needs parts!!
+		public void SetPartsInFrame(ItemStorage InActiveGameObjectpartsInFrame) //Presume that it is all the it needs parts!!
 		{
 			CachedMultiplier = null;
 
@@ -321,6 +397,49 @@ namespace Objects.Machines
 			return Alladded / TotalParts;
 		}
 
+		public void BatteryChangeChargedByDelta(int Delta)
+		{
+
+			if (Delta == 0) return;
+			foreach (var MachinePart in getObjectpartsInFrame)
+			{
+				if (MachinePart.itemTrait == CommonTraits.Instance.PowerCell)
+				{
+					var batty = MachinePart.itemObject.GetComponentCustom<Battery>();
+
+					if (Delta > 0)
+					{
+						var SpareCapacity = batty.MaxWatts - batty.Watts;
+						if (Delta > SpareCapacity)
+						{
+							batty.Watts = batty.MaxWatts;
+							Delta -= SpareCapacity;
+						}
+						else
+						{
+							batty.Watts += Delta;
+							break;
+						}
+					}
+					else
+					{
+						var SpareCapacity = batty.Watts;
+						if (Mathf.Abs(Delta) > SpareCapacity)
+						{
+							batty.Watts = 0;
+							Delta += SpareCapacity;
+						}
+						else
+						{
+							batty.Watts += Delta;
+							break;
+						}
+					}
+				}
+			}
+		}
+
+
 		public void PartFrameTransfer(Pickupable prevPart, Pickupable NewPart)
 		{
 			if (NewPart)
@@ -369,6 +488,8 @@ namespace Objects.Machines
 				ObjectpartsInFrame.RemoveAll(x => x.itemObject == prevPart.gameObject);
 			}
 		}
+
+
 	}
 
 

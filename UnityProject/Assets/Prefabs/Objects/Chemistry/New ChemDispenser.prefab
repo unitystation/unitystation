@@ -103,6 +103,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 6064203044158750257}
+    - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 126766663bd8096409e1c42f532aebd8,
@@ -145,6 +150,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 2708120206879483670}
   m_SourcePrefab: {fileID: 100100000, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
+--- !u!212 &6064203044158750257 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+    type: 3}
+  m_PrefabInstance: {fileID: 4743104447201845146}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6289378458983504422 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
@@ -186,6 +197,7 @@ MonoBehaviour:
   DispensedTemperatureCelsius: 303.15
   HeaterOn: 0
   HeaterTemperatureKelvin: 293.15
+  itemStorage: {fileID: 2708120206879483670}
   ThisState: 0
 --- !u!114 &2708120206879483670
 MonoBehaviour:

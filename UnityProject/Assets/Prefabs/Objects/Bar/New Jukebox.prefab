@@ -20,6 +20,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -6356777978426299504, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
+      propertyPath: initialwattusage
+      value: 600
+      objectReference: {fileID: 0}
+    - target: {fileID: -6356777978426299504, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
       propertyPath: maximumWorkingVoltage
       value: 150
       objectReference: {fileID: 0}
@@ -49,7 +54,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300002, guid: caea9604c8c2d954b95ff42a3b71876a,
+      objectReference: {fileID: 21300000, guid: caea9604c8c2d954b95ff42a3b71876a,
         type: 3}
     - target: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
@@ -118,7 +123,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 1601351115223018148}
+    - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 92d17c50f2351c94cb27834ffd5b9009,
+        type: 2}
+    - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 92d17c50f2351c94cb27834ffd5b9009,
         type: 2}
@@ -204,29 +220,30 @@ MonoBehaviour:
   vinylRecordItemTrait: {fileID: 11400000, guid: 7eef9258ea1b7040a99d2574da975288,
     type: 2}
   openingStorageSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/Closet/wooden_closet_open.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   closingStorageSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/Closet/wooden_closet_close.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   satisfyingClick:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/misc/box_deploy.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+  vinylStorage: {fileID: 259248993581454824}
 --- !u!114 &6025710849610195436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,9 +293,15 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
-  ignoreRoundstartGrabObjects: 0
+  initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}
+--- !u!212 &1601351115223018148 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+    type: 3}
+  m_PrefabInstance: {fileID: 271236932295265039}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6271799514652255337 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,

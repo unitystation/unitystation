@@ -108,6 +108,7 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait Pill;
 	public ItemTrait ItemBag;
 
+	public ItemTrait PowerCell;
 
 	/// <summary>
 	/// Do not use this list to get references to traits, locally reference them in your scripts instead!

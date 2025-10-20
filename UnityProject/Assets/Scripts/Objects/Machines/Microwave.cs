@@ -94,7 +94,7 @@ namespace Objects.Kitchen
 
 		private RegisterTile registerTile;
 		private SpriteHandler spriteHandler;
-		private ItemStorage storage;
+		public ItemStorage storage;
 		private APCPoweredDevice poweredDevice;
 		private readonly Dictionary<ItemSlot, ItemSlot> storedCookables = new Dictionary<ItemSlot, ItemSlot>();
 
@@ -137,7 +137,6 @@ namespace Objects.Kitchen
 		{
 			registerTile = GetComponent<RegisterTile>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
-			storage = GetComponent<ItemStorage>();
 			poweredDevice = GetComponent<APCPoweredDevice>();
 
 			SetState(new MicrowaveUnpowered(this));

@@ -22,7 +22,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: e01b2ff042a47914091952e5e0cd7374,
+      objectReference: {fileID: 21300002, guid: e01b2ff042a47914091952e5e0cd7374,
         type: 3}
     - target: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
@@ -312,6 +312,7 @@ MonoBehaviour:
   mustBeUnanchored: 0
   secondsToScrewdrive: 2
   PartsStorage: {fileID: 1579910630134490404}
+  MapSpawned: 0
 --- !u!114 &5248956404812388229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -407,6 +408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97a0aa37319240e4e8073cc8cc5f8555, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemStorage: {fileID: 5248956404812388229}
   _APCPoweredDevice: {fileID: 5794580443693233542}
 --- !u!114 &1579910630134490404
 MonoBehaviour:

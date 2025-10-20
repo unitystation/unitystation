@@ -31,6 +31,7 @@ public class LaserLine : MonoBehaviour
 	public LightSprite Sprite;
 	[SerializeField]  SpriteRenderer subSprite = null;
 
+
 	public Vector3 VOrigin;
 	public Vector3 VTarget;
 
@@ -98,9 +99,11 @@ public class LaserLine : MonoBehaviour
 
 		RelatedLaserProjection = _RelatedLaserProjection;
 		var Colour = TechnologyAndBeams.Colour;
-		Colour.a = 0.9f;
+		Colour.a = 0.60f;
 		Sprite.Color = Colour;
+		Colour.a = 1;
 		subSprite.color = Colour;
+
 
 		HookInto();
 		if (WorldTarget == null)
@@ -119,8 +122,11 @@ public class LaserLine : MonoBehaviour
 
 	public void ManualSetup(Vector3 OriginTarget, Vector3 WorldTarget, Color Colour)
 	{
-		Colour.a = 0.65f;
+		Colour.a = 0.60f;
 		Sprite.Color = Colour;
+		Colour.a = 1;
+		subSprite.color = Colour;
+
 		PositionLaserBody(OriginTarget, WorldTarget);
 	}
 

@@ -108,16 +108,27 @@ PrefabInstance:
     - target: {fileID: 3852822823612823847, guid: e95a1fa76d625d348b07406df101d4c0,
         type: 3}
       propertyPath: watts
-      value: 15000
+      value: 1500000
       objectReference: {fileID: 0}
     - target: {fileID: 3852822823612823847, guid: e95a1fa76d625d348b07406df101d4c0,
         type: 3}
       propertyPath: MaxWatts
-      value: 15000
+      value: 1500000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5361654529959193588, guid: e95a1fa76d625d348b07406df101d4c0,
+        type: 3}
+      propertyPath: tier
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8546765201934041357, guid: e95a1fa76d625d348b07406df101d4c0,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 275491b56526c0346b13a382c3daadce,
+        type: 2}
+    - target: {fileID: 8546765201934041357, guid: e95a1fa76d625d348b07406df101d4c0,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 275491b56526c0346b13a382c3daadce,
         type: 2}

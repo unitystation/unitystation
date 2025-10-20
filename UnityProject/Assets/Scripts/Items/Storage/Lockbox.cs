@@ -30,7 +30,7 @@ namespace Items.Storage
 		{
 			if (isLocked == false)
 			{
-				interactableStorage.Interact(interaction);
+				interactableStorage.OpenInventoryInteraction(interaction);
 				return;
 			}
 			Chat.AddExamineMsg(interaction.Performer, "This seems locked.");

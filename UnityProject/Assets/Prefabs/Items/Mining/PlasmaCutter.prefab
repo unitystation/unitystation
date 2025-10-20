@@ -124,6 +124,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a181fd23b03f30049b0879457111adcc,
         type: 2}
+    - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: d7a08fa7791b75642b60ee0346ed2df1,
+        type: 2}
+    - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: c778f69ae7fe25d48aa47d9b4ea82d7f,
+        type: 2}
+    - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: a181fd23b03f30049b0879457111adcc,
+        type: 2}
     - target: {fileID: 4342894697621943514, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: _assetId
@@ -274,7 +292,7 @@ PrefabInstance:
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: 'firemodeUsage.Array.data[0]'
-      value: 250
+      value: 25000
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -325,7 +343,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7536533288437052137, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 6609462004598444120}
+    - target: {fileID: 7536533288437052137, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a181fd23b03f30049b0879457111adcc,
+        type: 2}
+    - target: {fileID: 7536533288437052137, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: a181fd23b03f30049b0879457111adcc,
         type: 2}
@@ -367,3 +396,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65a8731c836944efb4baf302526fc662, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  oreEff: 500000
+  sheetEff: 1000000
+--- !u!212 &6609462004598444120 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4548863991441914418, guid: 143d3926d4a5fa84f95f987c152b33a2,
+    type: 3}
+  m_PrefabInstance: {fileID: 7248905475842763370}
+  m_PrefabAsset: {fileID: 0}
