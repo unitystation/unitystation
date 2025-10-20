@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using SecureStuff;
+using Shared.Systems.ObjectConnection;
 using UnityEngine;
 using UI.Objects.Cargo;
 using UnityEngine.Serialization;
@@ -10,7 +11,7 @@ namespace Objects.Machines
 	/// <summary>
 	/// links machines with their own material storage or material silo
 	/// </summary>
-	public class MaterialStorageLink : MonoBehaviour
+	public class MaterialStorageLink : MonoBehaviour,  IMultitoolSlaveable
 	{
 		[FormerlySerializedAs("IsUsingSilo")]
 		public bool InitialIsUsingSilo;
@@ -23,6 +24,31 @@ namespace Objects.Machines
 
 		private MaterialStorage selfStorage;
 		public GUI_MaterialsList materialListGUI;
+
+		public IMultitoolMasterable Master { set; get; }
+		public bool RequireLink => false;
+
+		public MultitoolConnectionType ConType => MultitoolConnectionType.OreSilo;
+
+		public GameObject gameObject => gameObject;
+
+		public bool CanRelink => true;
+
+		public bool TrySetMaster(GameObject performer, IMultitoolMasterable master)
+		{
+			if (master is not MaterialSilo Silo) return false;
+
+			Master = Silo;
+			ConnectToSilo(Silo.materialStorage);
+			return true;
+		}
+
+		public void SetMasterEditor(IMultitoolMasterable master)
+		{
+			if (master is not MaterialSilo Silo) return;
+			Master = Silo;
+			ConnectToSilo(Silo.materialStorage);
+		}
 
 		private void Awake()
 		{
