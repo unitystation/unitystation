@@ -511,8 +511,16 @@ namespace Doors
 			doorAnimator.SyncDoorStatus(DoorAnimatorV2.DoorUpdateType.Close,
 				ConstructibleDoor != null && ConstructibleDoor.Panelopen,
 				!byForce);
-			soundController.PlaySound(byForce? DoorSoundController.DoorSoundType.Forced : DoorSoundController.DoorSoundType.Close);
+
+			if(byForce)
+			{
+				soundController.ServerPlaySound(DoorSoundController.DoorSoundType.Forced);
 			}
+			else
+			{
+				soundController.PlaySound(DoorSoundController.DoorSoundType.Close);
+			}
+		}
 
 		public void Open(bool byForce = false)
 		{
