@@ -57,10 +57,10 @@ namespace Doors
 		[Tooltip("Time this door's warning animation takes")]
 		private float warningAnimationTime = 0.6f;
 		#endregion
-		
-		[SerializeField]
-		[Tooltip("Most recent animation state of the door")]
-		public DoorUpdateType CurrentDoorUpdateType;
+
+		[SyncVar(hook = nameof(SyncDoorStatus))] public DoorUpdateType SyncDoorUpdateType;
+		[SyncVar] public bool PanelOpen;
+		[SyncVar] public bool LightsWork;
 
 		public event Action AnimationStarted;
 		public event Action AnimationFinished;
@@ -87,6 +87,9 @@ namespace Doors
 			overlayWeldHandler = overlayWeld.GetComponent<SpriteHandler>();
 			overlayHackingHandler = overlayHacking.GetComponent<SpriteHandler>();
 			doorMasterController= this.GetComponent<DoorMasterController>();
+
+			PanelOpen = false;
+			LightsWork = true;
 		}
 
 		public enum DoorUpdateType
@@ -97,25 +100,23 @@ namespace Doors
 			PressureWarn = 3
 		}
 
-		public void SyncDoorStatus(DoorUpdateType newv,bool panelExposed = false, bool lights = true)
+		public void SyncDoorStatus(DoorUpdateType old, DoorUpdateType newv)
 		{
-			CurrentDoorUpdateType = newv;
-			PlayAnimation(newv, false, panelExposed, lights);
+			SyncDoorUpdateType = newv;
+			PlayAnimation(newv);
 		}
 
-		//Called on client and server
-		// panelExposed and lights not hooked up into the net message yet
-		public void PlayAnimation(DoorUpdateType type, bool skipAnimation, bool panelExposed, bool lights)
+		public void PlayAnimation(DoorUpdateType type, bool skipAnimation = false)
 		{
 			if (doorMasterController == null) return;
 			
 			if (type == DoorUpdateType.Open)
 			{
-				StartCoroutine(PlayOpeningAnimation(skipAnimation, panelExposed, lights));
+				StartCoroutine(PlayOpeningAnimation(skipAnimation, PanelOpen, LightsWork));
 			}
 			else if (type == DoorUpdateType.Close)
 			{
-				StartCoroutine(PlayClosingAnimation(skipAnimation, panelExposed, lights));
+				StartCoroutine(PlayClosingAnimation(skipAnimation, PanelOpen, LightsWork));
 			}
 			else if (type == DoorUpdateType.AccessDenied)
 			{

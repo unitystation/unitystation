@@ -507,10 +507,11 @@ namespace Doors
 			if (isPerformingAction) return;
 
 			UpdateGui();
+			
+			doorAnimator.LightsWork = !byForce;
+			doorAnimator.PanelOpen = ConstructibleDoor != null && ConstructibleDoor.Panelopen;
 
-			doorAnimator.SyncDoorStatus(DoorAnimatorV2.DoorUpdateType.Close,
-				ConstructibleDoor != null && ConstructibleDoor.Panelopen,
-				!byForce);
+			doorAnimator.SyncDoorStatus(doorAnimator.SyncDoorUpdateType,DoorAnimatorV2.DoorUpdateType.Close);
 
 			if(byForce)
 			{
@@ -541,10 +542,19 @@ namespace Doors
 
 			UpdateGui();
 
-			doorAnimator.SyncDoorStatus(DoorAnimatorV2.DoorUpdateType.Open,
-				ConstructibleDoor != null && ConstructibleDoor.Panelopen,
-				!byForce);
-			soundController.PlaySound(byForce? DoorSoundController.DoorSoundType.Forced : DoorSoundController.DoorSoundType.Open);
+			doorAnimator.LightsWork = !byForce;
+			doorAnimator.PanelOpen = ConstructibleDoor != null && ConstructibleDoor.Panelopen;
+
+			doorAnimator.SyncDoorStatus(doorAnimator.SyncDoorUpdateType, DoorAnimatorV2.DoorUpdateType.Open);
+
+			if(byForce)
+			{
+				soundController.ServerPlaySound(DoorSoundController.DoorSoundType.Forced);
+			}
+			else
+			{
+				soundController.PlaySound(DoorSoundController.DoorSoundType.Open);
+			}
 		}
 
 		public void BoxCollToggleOn()
