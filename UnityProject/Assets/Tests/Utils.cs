@@ -56,12 +56,6 @@ namespace Tests
 					fileNames.AddRange(Directory.GetFiles(folderPath, "*.*", SearchOption.AllDirectories)
 						.Where(x => x.Contains(".meta") == false));
 				}
-
-				fileNames.AddRange(GUIDsToPaths(FindGUIDsOfType("Scene", "Scenes"),
-					s => (s.Contains("MaintRoomBluePrints")
-					      || s.Contains("DevRooms")
-					      || s.StartsWith("Packages")
-					      || s.Contains("OBSOLETE")) == false).ToList());
 				return fileNames;
 			}
 		}

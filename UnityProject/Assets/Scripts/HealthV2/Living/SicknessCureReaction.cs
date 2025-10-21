@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Chemistry;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
+using Logs;
 
 namespace HealthV2.Sickness
 {
@@ -14,7 +15,7 @@ namespace HealthV2.Sickness
 		public override void PossibleReaction(List<MetabolismComponent> senders, ReagentMix reagentMix,
 		float reactionMultiple, float bodyReactionAmount, float TotalChemicalsProcessed, float UntouchedMultiple, ref bool overdose)
 		{
-			reactionMultiple = Mathf.Min(reactionMultiple, UntouchedMultiple);
+			reactionMultiple = Mathf.Min(UntouchedMultiple, 1);
 
 			//out must be asigned to something, overdose is never used here.
 			overdose = false;
