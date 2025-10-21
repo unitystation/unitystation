@@ -50,16 +50,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <traumaTypes>k__BackingField: 0
-  deadlyDamageInOneHit: 25
+  deadlyDamageInOneHit: 5
   bodyPart: {fileID: 1673759363237950006}
   onTakeDamageSounds: []
   playTraumaNoise: 0
   stages:
     m_keys: 
     m_values: 
-  afflictionReductionFactor: 200
+  afflictionReductionFactor: 4
   MinThresholdDamage: 2
-  CancerPercentage: 0.5
 --- !u!114 &2728592379231489674
 MonoBehaviour:
   m_ObjectHideFlags: 0
