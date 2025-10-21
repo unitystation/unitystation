@@ -38,7 +38,8 @@ namespace Doors.Modules
 					(interaction.PerformerPlayerScript.TryGetComponent<AlienPlayer>(out var alienPlayer) == false ||
 					 alienPlayer.IsLarva == false))
 				{
-					PryDoor(interaction, false, true);
+					string[] verbage = {interaction.Performer.ExpensiveName(), interaction.Performer.GetTheirPronoun().Uncapitalize(), interaction.PerformerPlayerScript.PlayerTypeSettings.PryHandName.Uncapitalize(),"forcing","closed","force"};
+					PryDoor(interaction, false, verbage);
 					States.Add(DoorProcessingStates.PreventSilently);
 				}
 
@@ -46,7 +47,8 @@ namespace Doors.Modules
 				if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) ||
 					Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar))
 				{
-					PryDoor(interaction, true, true);
+					string[] verbage = {interaction.Performer.ExpensiveName(), interaction.Performer.GetTheirPronoun().Uncapitalize(), interaction.HandObject.ExpensiveName().Uncapitalize(),"forcing","closed","force"};
+					PryDoor(interaction, true, verbage);
 					States.Add(DoorProcessingStates.PreventSilently);
 				}
 			}
@@ -64,7 +66,8 @@ namespace Doors.Modules
 					(interaction.PerformerPlayerScript.TryGetComponent<AlienPlayer>(out var alienPlayer) == false ||
 					 alienPlayer.IsLarva == false))
 				{
-					PryDoor(interaction, false, false);
+					string[] verbage = {interaction.Performer.ExpensiveName(), interaction.Performer.GetTheirPronoun().Uncapitalize(), interaction.PerformerPlayerScript.PlayerTypeSettings.PryHandName.Uncapitalize(),"prying","open","pry"};
+					PryDoor(interaction, false, verbage);
 					States.Add(DoorProcessingStates.PreventSilently);
 				}
 
@@ -72,7 +75,8 @@ namespace Doors.Modules
 				if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) ||
 					Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar))
 				{
-					PryDoor(interaction, true, false);
+					string[] verbage = {interaction.Performer.ExpensiveName(), interaction.Performer.GetTheirPronoun().Uncapitalize(), interaction.HandObject.ExpensiveName().Uncapitalize(),"prying","open","pry"};
+					PryDoor(interaction, true, verbage);
 					States.Add(DoorProcessingStates.PreventSilently);
 				}
 			}
@@ -85,9 +89,8 @@ namespace Doors.Modules
 			return;
 		}
 
-		private void PryDoor(HandApply interaction, bool useTool, bool isClosing)
+		private void PryDoor(HandApply interaction, bool useTool, string[] verbage)
 		{
-
 			if (useTool == true)
 			{
 				if(Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor))
@@ -98,33 +101,32 @@ namespace Doors.Modules
 				{
 					master.SoundController.ServerPlaySound(DoorSoundController.DoorSoundType.ToolPry);
 				}
-				
 
 				ToolUtils.ServerUseToolWithActionMessages(interaction, pryTime,
-					$"You start {(isClosing ? "forcing" : "prying")} the {doorName} {(isClosing ? "closed" : "open")}...",
-					$"{interaction.Performer.ExpensiveName()} starts {(isClosing ? "forcing" : "prying")} the {doorName} {(isClosing ? "closed" : "open")}...",
+					$"You start {verbage[3]} the {doorName} {verbage[4]}...",
+					$"{verbage[0]} starts {verbage[3]} the {doorName} {verbage[4]}...",
 					$"",
 					$"",
-					() => TryPry(interaction, useTool, isClosing), onFailComplete: OnFailPry, playSound: false);
+					() => TryPry(interaction, verbage), onFailComplete: OnFailPry, playSound: false);
 			}
 			else
 			{
 				master.SoundController.ServerPlaySound(DoorSoundController.DoorSoundType.HandPry);
 
 				Chat.AddActionMsgToChat(interaction.Performer,
-					$"You start {(isClosing ? "forcing" : "prying")} the {doorName} {(isClosing ? "closed" : "open")}...",
-					$"{interaction.Performer.ExpensiveName()} starts {(isClosing ? "forcing" : "prying")} the {doorName} {(isClosing ? "closed" : "open")} with its {interaction.PerformerPlayerScript.PlayerTypeSettings.PryHandName}...");
+					$"You start {verbage[3]} the {doorName} {verbage[4]}...",
+					$"{verbage[0]} starts {verbage[3]} the {doorName} {verbage[4]} with {verbage[1]} {verbage[2]}...");
 
 				var cfg = new StandardProgressActionConfig(StandardProgressActionType.Construction);
 
 				StandardProgressAction.Create(
 					cfg,
-					() => TryPry(interaction, useTool, isClosing)
+					() => TryPry(interaction, verbage)
 				).ServerStartProgress(master.RegisterTile, pryTime, interaction.Performer);
 			}
 		}
 
-		private void TryPry(HandApply interaction, bool useTool, bool isClosing)
+		private void TryPry(HandApply interaction, string[] verbage)
 		{
 			//Refuse if door is in motion
 			if (master.IsPerformingAction) return;
@@ -134,7 +136,7 @@ namespace Doors.Modules
 				(Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) == false))
 			{
 				Chat.AddActionMsgToChat(interaction.Performer, $"The {doorName} does not budge at all!",
-				$"{interaction.Performer.ExpensiveName()} tries to {(isClosing ? "force" : "pry")}  the {doorName} {(isClosing ? "closed" : "open")} and fails!");
+				$"{verbage[0]} tries to {verbage[5]} the {doorName} {verbage[4]} and fails!");
 				return;
 			}
 
@@ -151,15 +153,14 @@ namespace Doors.Modules
 				if (master.TryForceOpen())
 				{
 					Chat.AddActionMsgToChat(interaction.Performer,
-						$"You pry the {doorName} open with your {(useTool ? interaction.HandObject.ExpensiveName() : interaction.PerformerPlayerScript.PlayerTypeSettings.PryHandName)}!",
-						$"{interaction.Performer.ExpensiveName()} pries the {doorName} open{(useTool ? "" : " with its " + interaction.PerformerPlayerScript.PlayerTypeSettings.PryHandName)}!");
+						$"You pry the {doorName} open with your {verbage[2]}!",
+						$"{verbage[0]} pries the {doorName} open with {verbage[1]} {verbage[2]}!");
 				}
 				else
 				{
 					Chat.AddActionMsgToChat(interaction.Performer, $"The {doorName} does not budge at all!",
-						$"{interaction.Performer.ExpensiveName()} tries to pry the {doorName} open and fails!");
+						$"{verbage[0]} tries to pry the {doorName} open and fails!");
 				}
-
 			}
 		}
 

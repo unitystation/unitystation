@@ -301,19 +301,15 @@ namespace Doors
 					BlockAutoClose = false;
 				}
 				PulseTryClose(interaction.Performer, inOverrideLogic: true);
-			}
-			// If we can't close the door because we are taking an action other than closing a door, don't send a message
-			else if (states.Contains(DoorProcessingStates.PreventSilently))
-			{
 				return;
 			}
+
+			// If we can't close the door because we are taking an action other than closing a door, don't send a message
 			// Otherwise, send a message explaining why we can't close the door
-			else
+			if (!states.Contains(DoorProcessingStates.PreventSilently))
 			{
 				AddChatTryInteractMessage(interaction, states);
 			}
-
-			StartInputCoolDown();
 		}
 
 		/// <summary>
@@ -329,6 +325,7 @@ namespace Doors
 			{
 				module.ClosedInteraction(interaction, states);
 			}
+
 			// If there is nothing preventing the door from opening, try opening it
 			if (!isPerformingAction && CheckStatusAllow(states) && allowInteraction)
 			{
@@ -336,15 +333,14 @@ namespace Doors
 				{
 					BlockAutoClose = true;
 				}
+
 				TryOpen(interaction.Performer);
-			}
-			// If we can't open the door because we are taking an action other than opening a door, don't send a message
-			else if (states.Contains(DoorProcessingStates.PreventSilently))
-			{
 				return;
 			}
+
+			// If we can't open the door because we are taking an action other than opening a door, don't send a message
 			// Otherwise, send a message explaining why we can't open the door
-			else
+			if (!states.Contains(DoorProcessingStates.PreventSilently))
 			{
 				AddChatTryInteractMessage(interaction, states);
 			}

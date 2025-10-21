@@ -154,9 +154,9 @@ namespace Doors
 				//Simulates being able slipping through door as its opening
 				if(slipThroughScaler > 0 && slipThroughScaler < 1)
 				{
-					yield return WaitFor.Seconds(openingAnimationTime / slipThroughScaler);
+					yield return WaitFor.Seconds(openingAnimationTime * slipThroughScaler);
 					AnimationOpened?.Invoke();
-					yield return WaitFor.Seconds(openingAnimationTime / (1-slipThroughScaler));
+					yield return WaitFor.Seconds(openingAnimationTime * (1-slipThroughScaler));
 				}
 				else
 				{
@@ -211,9 +211,9 @@ namespace Doors
 				//Simulates being able slipping through door as its closing
 				if(slipThroughScaler > 0 && slipThroughScaler < 1)
 				{
-					yield return WaitFor.Seconds(openingAnimationTime / (1-slipThroughScaler));
+					yield return WaitFor.Seconds(openingAnimationTime * (1-slipThroughScaler));
 					AnimationClosed?.Invoke();
-					yield return WaitFor.Seconds(openingAnimationTime / slipThroughScaler);
+					yield return WaitFor.Seconds(openingAnimationTime * slipThroughScaler);
 				}
 				else
 				{
