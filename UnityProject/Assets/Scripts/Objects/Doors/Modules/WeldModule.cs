@@ -81,9 +81,9 @@ namespace Doors.Modules
 					{
 						//Scale repair time based off of percent damage
 						//TODO use time multipliers from welder tools
-						float time = repairTime - repairTime * integrity.PercentageDamaged / 100f;
+						float time = repairTime - (repairTime * integrity.PercentageDamaged / 200f);
 
-						ToolUtils.ServerUseToolWithActionMessages(interaction, repairTime,
+						ToolUtils.ServerUseToolWithActionMessages(interaction, time,
 							$"You begin repairing the {doorName}...",
 							$"{interaction.Performer.ExpensiveName()} begins to repair the {doorName}...",
 							$"You finish repairing the {doorName}.",

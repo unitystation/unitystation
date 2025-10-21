@@ -57,7 +57,7 @@ namespace Doors
             BoltsUp,
 		}
 
-        private AddressableAudioSource getSound(DoorSoundType sound)
+        private AddressableAudioSource GetSound(DoorSoundType sound)
         {
             AddressableAudioSource toPlay = null;
             switch (sound)
@@ -99,7 +99,7 @@ namespace Doors
         public void PlaySound(DoorSoundType sound)
         {
             StopSound();
-            AddressableAudioSource toPlay = getSound(sound);
+            AddressableAudioSource toPlay = GetSound(sound);
 
             if (toPlay != null)
             {
@@ -112,7 +112,7 @@ namespace Doors
         public void ServerPlaySound(DoorSoundType sound)
         {
             StopSound();
-            AddressableAudioSource toPlay = getSound(sound);
+            AddressableAudioSource toPlay = GetSound(sound);
             
             if (toPlay != null)
             {
