@@ -13,6 +13,8 @@ namespace Systems.Faith
 		[field: SerializeField] public Sprite FaithIcon { get; set; }
 		[field: SerializeField] public string GodName { get; set; }
 		[field: SerializeField, TextArea] public string NanotrasenProgressMessage { get; set; }
+		public string ProclamationText { get; set; } = "";
+		public string RejectionText { get; set; } = "";
 		[field: SerializeField] public ToleranceToOtherFaiths ToleranceToOtherFaiths { get; set; } = ToleranceToOtherFaiths.Neutral;
 
 		[SerializeReference, SelectImplementation(typeof(IFaithProperty))]
@@ -20,6 +22,9 @@ namespace Systems.Faith
 
 		[SerializeReference, SelectImplementation(typeof(IFaithMiracle))]
 		public List<IFaithMiracle> FaithMiracles = new List<IFaithMiracle>();
+
+		[SerializeReference, SelectImplementation(typeof(IFaithProclamationTextGenerator))]
+		public IFaithProclamationTextGenerator ProclamationTextGenerator;
 	}
 
 	public enum ToleranceToOtherFaiths

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using HealthV2;
 using InGameEvents;
 using Items.Weapons;
+using Logs;
 using Objects.Engineering;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -53,13 +54,20 @@ namespace Systems.Faith.FaithProperties
 
 		private void HandleChaplain(PlayerScript newMember)
 		{
-			if (newMember.Mind.occupation != chaplainOccupation) return;
-			foreach (var parts in bodyPartsToMakeTranshumanist)
+			try
 			{
-				var newPart = Spawn.ClientPrefab(parts.gameObject);
-				newMember.playerHealth.AddingBodyPart(newPart.GameObject.GetComponent<BodyPart>());
+				if (newMember.Mind.occupation != chaplainOccupation) return;
+				foreach (var parts in bodyPartsToMakeTranshumanist)
+				{
+					var newPart = Spawn.ClientPrefab(parts.gameObject).GameObject;
+					newMember.playerHealth.AddingBodyPart(newPart.GetComponent<BodyPart>());
+				}
+				Chat.AddExamineMsg(newMember.GameObject, chaplainBecomeBorgText);
 			}
-			Chat.AddExamineMsg(newMember.GameObject, chaplainBecomeBorgText);
+			catch (Exception e)
+			{
+				Loggy.Error(e.ToString());
+			}
 		}
 
 		public void OnLeaveFaith(PlayerScript member)
