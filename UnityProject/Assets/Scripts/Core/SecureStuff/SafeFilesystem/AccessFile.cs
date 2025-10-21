@@ -14,7 +14,8 @@ namespace SecureStuff
 		Data,
 		Logs,
 		AddressableCatalogues,
-		Maps
+		Maps,
+		Rooms
 	}
 
 	public static class AccessFile
@@ -77,6 +78,7 @@ namespace SecureStuff
 						FolderType.Data => ".Data",
 						FolderType.Logs => ".log",
 						FolderType.Maps => ".json",
+						FolderType.Rooms => ".json",
 						_ => extension
 					};
 				}

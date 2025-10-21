@@ -1196,6 +1196,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8642803761611812381}
+    - targetCorrespondingSourceObject: {fileID: 4813822218561835024, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8293405664538018514}
   m_SourcePrefab: {fileID: 100100000, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
 --- !u!114 &345023311217890025 stripped
 MonoBehaviour:
@@ -1297,8 +1301,53 @@ MonoBehaviour:
   closingAnimationTime: 0.9
   deniedAnimationTime: 0.4
   warningAnimationTime: 0.4
-  SyncDoorUpdateType: 0
-  PanelOpen: 0
+  CurrentDoorUpdateType: 0
+--- !u!114 &8642803761611812381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3862765748506000581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f1c80a23946ca84489209f24da99cfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  damageOnClose: 0
+  damageClosed: 90
+  isAutomatic: 1
+  allowInteraction: 1
+  ignorePassableChecks: 1
+  closingPushesEntities: 0
+  maxTimeOpen: 5
+  BlockAutoClose: 0
+  clickDisablesAutoClose: 1
+  isWindowedDoor: 1
+  UseMachinesForOpenLayeer: 0
+  HackingProcessBase: {fileID: 7214701586148948157}
+  ConstructibleDoor: {fileID: 585629282179255951}
+  <CanRelink>k__BackingField: 1
+  conType: 7
+  requireLink: 0
+--- !u!114 &8293405664538018514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3862765748506000581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf2e268504fc274392eb3c6232bcc34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   openingSFX:
     AssetAddress: Assets/Prefabs/Doors/WinDoor.prefab
     AssetReference:
@@ -1309,6 +1358,14 @@ MonoBehaviour:
       m_EditorAssetChanged: 0
   closingSFX:
     AssetAddress: Assets/Prefabs/Doors/WinDoor.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  forcedSFX:
+    AssetAddress: Assets/Prefabs/Effects/smash.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -1331,36 +1388,46 @@ MonoBehaviour:
       m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
---- !u!114 &8642803761611812381
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3862765748506000581}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f1c80a23946ca84489209f24da99cfd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  damageOnClose: 0
-  damageClosed: 90
-  isAutomatic: 1
-  allowInteraction: 1
-  ignorePassableChecks: 1
-  maxTimeOpen: 5
-  blockAutoClose: 0
-  clickDisablesAutoClose: 1
-  isWindowedDoor: 1
-  UseMachinesForOpenLayeer: 0
-  HackingProcessBase: {fileID: 7214701586148948157}
-  ConstructibleDoor: {fileID: 585629282179255951}
-  <CanRelink>k__BackingField: 1
-  conType: 7
-  requireLink: 0
+  toolPrySFX:
+    AssetAddress: Assets/Prefabs/Doors/DoorPry.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  jawsPrySFX:
+    AssetAddress: Assets/Prefabs/Items/JawsPry.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  handPrySFX:
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  boltsDownSFX:
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  boltsUpSFX:
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
 --- !u!212 &3961883525441312978 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 4732752304642126855, guid: 1291a5cb15d008c41bf0a373403f56b2,
