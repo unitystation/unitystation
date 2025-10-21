@@ -15,24 +15,24 @@ namespace HealthV2.Sickness
 		public override void PossibleReaction(List<MetabolismComponent> senders, ReagentMix reagentMix,
 		float reactionMultiple, float bodyReactionAmount, float TotalChemicalsProcessed, float UntouchedMultiple, ref bool overdose)
 		{
-			reactionMultiple = Mathf.Min(UntouchedMultiple, 1);
+			float toReact = Mathf.Min(UntouchedMultiple, 1);
 
 			//out must be asigned to something, overdose is never used here.
 			overdose = false;
 			foreach (var ingredient in ingredients.m_dict)
 			{
-				reagentMix.Subtract(ingredient.Key, reactionMultiple * ingredient.Value);
+				reagentMix.Subtract(ingredient.Key, toReact * ingredient.Value);
 			}
 
 			foreach (var result in results.m_dict)
 			{
-				var reactionResult = reactionMultiple * result.Value;
+				var reactionResult = toReact * result.Value;
 				reagentMix.Add(result.Key, reactionResult);
 			}
 
 			foreach (var effect in effectDict.m_dict)
 			{
-				var effectResult = reactionMultiple * effect.Value;
+				var effectResult = toReact * effect.Value;
 
 				foreach (var sender in senders)
 				{
