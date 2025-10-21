@@ -25,5 +25,7 @@
 		SoftwareHacked,
 		PhysicallyPrevented,
 		PowerPrevented,
+		Welded,
+		PreventSilently, // Blocks opening the door and prevents processing messages.  Used for when the interaction is something other than trying to open the door (eg repairing with welder)
 	}
 }
