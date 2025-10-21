@@ -50,6 +50,7 @@ namespace Systems.GhostRoles
 			{
 				Destroy(this);
 			}
+
 			EventManager.AddHandler(Event.RoundStarted, OnRoundRestart);
 			EventManager.AddHandler(Event.SceneUnloading, CleanUI);
 		}
@@ -75,6 +76,8 @@ namespace Systems.GhostRoles
 			{
 				ServerCreateRole(role);
 			}
+
+			EventManager.Broadcast(Event.GhostRolesInitialized);
 		}
 
 		#endregion Lifecycle

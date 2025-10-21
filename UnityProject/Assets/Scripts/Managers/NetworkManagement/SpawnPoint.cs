@@ -176,7 +176,7 @@ namespace Systems.Spawns
 
 			{ JobType.CMO, SpawnPointCategory.ChiefMedicalOfficer },
 			{ JobType.DOCTOR, SpawnPointCategory.Medical },
-			{ JobType.VIROLOGIST, SpawnPointCategory.Medical }, // TODO: should be virology point.
+			{ JobType.VIROLOGIST, SpawnPointCategory.Virologist },
 			{ JobType.PARAMEDIC, SpawnPointCategory.Medical },
 			{ JobType.PSYCHIATRIST, SpawnPointCategory.Medical },
 			{ JobType.CHEMIST, SpawnPointCategory.Chemist },
@@ -228,6 +228,7 @@ namespace Systems.Spawns
 			{ JobType.ANCIENT_ENGINEER, SpawnPointCategory.AncientEngineering },
 			{ JobType.ASHWALKER, SpawnPointCategory.Ashwalker },
 			{ JobType.THEWELDER, SpawnPointCategory.MaintSpawns },
+			{ JobType.MAINT_SURVIVOR, SpawnPointCategory.Maintrooms },
 		};
 	}
 
@@ -279,6 +280,7 @@ namespace Systems.Spawns
 		AncientEngineering,
 		Ashwalker,
 		Virologist,
+		Maintrooms,
 	}
 
 	public enum SpawnPointType
