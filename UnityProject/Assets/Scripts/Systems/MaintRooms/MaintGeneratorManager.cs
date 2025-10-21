@@ -131,6 +131,9 @@ namespace Systems.Scenes
 			var survivor = PlayerSpawn.NewSpawnCharacterV2(maintSurvivorOccupation
 				,characterSettings);
 
+			//Ensure the IC name is updated for chat messages
+			survivor.SetPermanentName(characterSettings.Name);
+
 			//Place player mind in the spawned body
 			PlayerSpawn.TransferAccountToSpawnedMind(player, survivor);
 
