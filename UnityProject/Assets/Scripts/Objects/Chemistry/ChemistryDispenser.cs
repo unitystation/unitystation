@@ -35,7 +35,7 @@ namespace Chemistry
 
 		public static event ChangeEvent changeEvent;
 
-		private ItemStorage itemStorage;
+		public ItemStorage itemStorage;
 		private ItemSlot itemSlot;
 
 
@@ -55,7 +55,6 @@ namespace Chemistry
 		private void Awake()
 		{
 			APCPoweredDevice = GetComponent<APCPoweredDevice>();
-			itemStorage = GetComponent<ItemStorage>();
 			itemSlot = itemStorage.GetIndexedItemSlot(0);
 		}
 

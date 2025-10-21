@@ -35,6 +35,7 @@ public class AdminRequestObserving : ClientMessage<AdminRequestObserving.NetMess
 	public static NetMessage Send(ItemStorage ItemStorage, bool Stop)
 	{
 
+		if (ItemStorage == null) return new NetMessage();
 		var msg = new NetMessage
 		{
 			StopObserving = Stop,

@@ -130,12 +130,12 @@ PrefabInstance:
     - target: {fileID: 1851616424243757961, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
       propertyPath: watts
-      value: 10000
+      value: 1000000
       objectReference: {fileID: 0}
     - target: {fileID: 1851616424243757961, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
       propertyPath: MaxWatts
-      value: 10000
+      value: 1000000
       objectReference: {fileID: 0}
     - target: {fileID: 6315500071468813385, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
@@ -153,6 +153,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b0afa2a28a821c74bb8a7ee6e79e3056,
         type: 2}
+    - target: {fileID: 6510392005750913955, guid: a910878bd30ff5d439b94cd12e623762,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: b0afa2a28a821c74bb8a7ee6e79e3056,
+        type: 2}
+    - target: {fileID: 7398805889374048602, guid: a910878bd30ff5d439b94cd12e623762,
+        type: 3}
+      propertyPath: tier
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -36,7 +36,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4347831001461171392, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 1916269442203901713}
+    - target: {fileID: 4347831001461171392, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 5c3e06ed3a7be404f9209d1a3fcfd133,
+        type: 2}
+    - target: {fileID: 4347831001461171392, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 5c3e06ed3a7be404f9209d1a3fcfd133,
         type: 2}
@@ -63,7 +74,7 @@ PrefabInstance:
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.size
-      value: 38
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -127,25 +138,25 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialVendorContent.Array.data[6].Item
       value: 
-      objectReference: {fileID: 2454147907924021695, guid: e746d3505715fa14eb99a37456d99398,
+      objectReference: {fileID: 6251606442000466321, guid: e2ecbd3591e115b459b0160c82af302c,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[7].Item
       value: 
-      objectReference: {fileID: 7599149358166298399, guid: 625f31aec34e13f48a1ece855fc4fe87,
+      objectReference: {fileID: 2454147907924021695, guid: e746d3505715fa14eb99a37456d99398,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[8].Item
       value: 
-      objectReference: {fileID: 841567918206070759, guid: a4df6b632a40f5c448d93a5ac982967a,
+      objectReference: {fileID: 7599149358166298399, guid: 625f31aec34e13f48a1ece855fc4fe87,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[9].Item
       value: 
-      objectReference: {fileID: 3645792569818170068, guid: c10750ad2e97d7c449aa7a5518793cdc,
+      objectReference: {fileID: 7872250047666169019, guid: a8b053482da561b4eba3bd81d8fe51ab,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -156,61 +167,61 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialVendorContent.Array.data[10].Item
       value: 
-      objectReference: {fileID: 3185295443863290486, guid: 74eecc4e2bdf99744869c324b23a224e,
+      objectReference: {fileID: 841567918206070759, guid: a4df6b632a40f5c448d93a5ac982967a,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[11].Item
       value: 
-      objectReference: {fileID: 4067919374657561001, guid: f3bdddfdb45d67a48b3be064a3169fd8,
+      objectReference: {fileID: 3645792569818170068, guid: c10750ad2e97d7c449aa7a5518793cdc,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[12].Item
       value: 
-      objectReference: {fileID: 3241578132518458830, guid: f93f1ab0ed9820742b43e07cb9375aec,
+      objectReference: {fileID: 3185295443863290486, guid: 74eecc4e2bdf99744869c324b23a224e,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[13].Item
       value: 
-      objectReference: {fileID: 6524648055843730005, guid: 4e6de775cebea9d4b959e8aea5b25b74,
+      objectReference: {fileID: 4067919374657561001, guid: f3bdddfdb45d67a48b3be064a3169fd8,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[14].Item
       value: 
-      objectReference: {fileID: 2657039831318589251, guid: 441404a6e6f76064da20f23bbdb9b0fa,
+      objectReference: {fileID: 3241578132518458830, guid: f93f1ab0ed9820742b43e07cb9375aec,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[15].Item
       value: 
-      objectReference: {fileID: 5698618422307797221, guid: d22737e4cfaa38b4ba554a6281d8452a,
+      objectReference: {fileID: 6524648055843730005, guid: 4e6de775cebea9d4b959e8aea5b25b74,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[16].Item
       value: 
-      objectReference: {fileID: 4262046009460108445, guid: 1f4cf8ca3c57601448405702729464c2,
+      objectReference: {fileID: 2657039831318589251, guid: 441404a6e6f76064da20f23bbdb9b0fa,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[17].Item
       value: 
-      objectReference: {fileID: 109438799603730107, guid: a096b50447bc34448ab67474a463eaef,
+      objectReference: {fileID: 5698618422307797221, guid: d22737e4cfaa38b4ba554a6281d8452a,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[18].Item
       value: 
-      objectReference: {fileID: 1097406135505486348, guid: 906603ae0d6fcec4dbabc2b4d3a15f41,
+      objectReference: {fileID: 4262046009460108445, guid: 1f4cf8ca3c57601448405702729464c2,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[19].Item
       value: 
-      objectReference: {fileID: 6308249408532194464, guid: ac68ac78347478d4c8ba461d1d567a98,
+      objectReference: {fileID: 109438799603730107, guid: a096b50447bc34448ab67474a463eaef,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -221,61 +232,61 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialVendorContent.Array.data[20].Item
       value: 
-      objectReference: {fileID: 109438799603730107, guid: 0962cc7b7ee82d14a975400b9762a9ca,
+      objectReference: {fileID: 1097406135505486348, guid: 906603ae0d6fcec4dbabc2b4d3a15f41,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[21].Item
       value: 
-      objectReference: {fileID: 7930972260176783497, guid: 0cfc873136b27b546b0f72cd6a5a349c,
+      objectReference: {fileID: 6308249408532194464, guid: ac68ac78347478d4c8ba461d1d567a98,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[22].Item
       value: 
-      objectReference: {fileID: 8967115930265888818, guid: 048adc7de22264941a619844198b1f44,
+      objectReference: {fileID: 109438799603730107, guid: 0962cc7b7ee82d14a975400b9762a9ca,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[23].Item
       value: 
-      objectReference: {fileID: 3279069433607158746, guid: 4f7ce98391b8ec54493a831134aa65be,
+      objectReference: {fileID: 7930972260176783497, guid: 0cfc873136b27b546b0f72cd6a5a349c,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[24].Item
       value: 
-      objectReference: {fileID: 6051311479596931443, guid: 5ae657a4ccb195c40a5d8b8372be5cce,
+      objectReference: {fileID: 8967115930265888818, guid: 048adc7de22264941a619844198b1f44,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[25].Item
       value: 
-      objectReference: {fileID: 673951613084778289, guid: ffb8828049b890f43baeb7c15447d37b,
+      objectReference: {fileID: 3279069433607158746, guid: 4f7ce98391b8ec54493a831134aa65be,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[26].Item
       value: 
-      objectReference: {fileID: 2775257405307013601, guid: e41afb7979b591443b008859f958eca6,
+      objectReference: {fileID: 6051311479596931443, guid: 5ae657a4ccb195c40a5d8b8372be5cce,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[27].Item
       value: 
-      objectReference: {fileID: 3655365403910077050, guid: b35a262356250504fbfa735d183f9998,
+      objectReference: {fileID: 673951613084778289, guid: ffb8828049b890f43baeb7c15447d37b,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[28].Item
       value: 
-      objectReference: {fileID: 5784119409934351270, guid: 4844235ecae1ba743ab9b40ce79104be,
+      objectReference: {fileID: 2775257405307013601, guid: e41afb7979b591443b008859f958eca6,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[29].Item
       value: 
-      objectReference: {fileID: 3110995093233185859, guid: 28a968b9c8738c243953f51d02afddff,
+      objectReference: {fileID: 3655365403910077050, guid: b35a262356250504fbfa735d183f9998,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -286,47 +297,59 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialVendorContent.Array.data[30].Item
       value: 
-      objectReference: {fileID: 3167608682793627509, guid: af4c7dccbd72a7648bc1cf6bc8647285,
+      objectReference: {fileID: 5784119409934351270, guid: 4844235ecae1ba743ab9b40ce79104be,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[31].Item
       value: 
-      objectReference: {fileID: 4251335794183523180, guid: 650450916815dfb4ba0aa087a3006beb,
+      objectReference: {fileID: 3110995093233185859, guid: 28a968b9c8738c243953f51d02afddff,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[32].Item
       value: 
-      objectReference: {fileID: 4443445747906975854, guid: c9011cdae105db947b62a63d5934fec3,
+      objectReference: {fileID: 3167608682793627509, guid: af4c7dccbd72a7648bc1cf6bc8647285,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[33].Item
       value: 
-      objectReference: {fileID: 4063088516707541665, guid: 3e8c4c93bfc2fcc42b528dd025e382ec,
+      objectReference: {fileID: 4251335794183523180, guid: 650450916815dfb4ba0aa087a3006beb,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[34].Item
       value: 
-      objectReference: {fileID: 1053102236879009808, guid: 60b83b01df9880443809c84ab556dad6,
+      objectReference: {fileID: 4443445747906975854, guid: c9011cdae105db947b62a63d5934fec3,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[35].Item
       value: 
-      objectReference: {fileID: 6928341471179888252, guid: 68259771352072a48a290530b2894872,
+      objectReference: {fileID: 4063088516707541665, guid: 3e8c4c93bfc2fcc42b528dd025e382ec,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[36].Item
       value: 
-      objectReference: {fileID: 6352961564295096936, guid: eb8e5acb0bfcf7a42b21358943d2e1e3,
+      objectReference: {fileID: 1053102236879009808, guid: 60b83b01df9880443809c84ab556dad6,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[37].Item
+      value: 
+      objectReference: {fileID: 6928341471179888252, guid: 68259771352072a48a290530b2894872,
+        type: 3}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[38].Item
+      value: 
+      objectReference: {fileID: 6352961564295096936, guid: eb8e5acb0bfcf7a42b21358943d2e1e3,
+        type: 3}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[39].Item
       value: 
       objectReference: {fileID: 7524940755129637625, guid: 7579a4af66d1b6646a4d42103cfadc68,
         type: 3}
@@ -507,6 +530,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
+      propertyPath: InitialVendorContent.Array.data[38].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[39].Stock
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
       propertyPath: InitialVendorContent.Array.data[0].ItemName
       value: Aloe Seeds
       objectReference: {fileID: 0}
@@ -538,161 +571,171 @@ PrefabInstance:
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[6].ItemName
-      value: Carrot Seeds
+      value: Cannabis
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[7].ItemName
-      value: Chanterelle Mycelium
+      value: Carrot Seeds
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[8].ItemName
-      value: Cherry Pits
+      value: Chanterelle Mycelium
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[9].ItemName
-      value: Cocoa Seeds
+      value: 'Chile '
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[10].ItemName
-      value: Coffee Arabica Seeds
+      value: Cherry Pits
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[11].ItemName
-      value: Corn Seeds
+      value: Cocoa Seeds
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[12].ItemName
-      value: Cotton Seeds
+      value: Coffee Arabica Seeds
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[13].ItemName
-      value: Eggplant Seeds
+      value: Corn Seeds
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[14].ItemName
-      value: Garlic Seeds
+      value: Cotton Seeds
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[15].ItemName
-      value: Grape Seeds
+      value: Eggplant Seeds
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[16].ItemName
-      value: Grass Seeds
+      value: Garlic Seeds
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[17].ItemName
-      value: Lemon Seeds
+      value: Grape Seeds
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[18].ItemName
-      value: Lime Seeds
+      value: Grass Seeds
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[19].ItemName
-      value: Onion Seeds
+      value: Lemon Seeds
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[20].ItemName
-      value: Orange Seeds
+      value: Lime Seeds
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[21].ItemName
-      value: Pineapple Seeds
+      value: Onion Seeds
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[22].ItemName
-      value: Poppy Seeds
+      value: Orange Seeds
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[23].ItemName
-      value: Potato Seeds
+      value: Pineapple Seeds
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[24].ItemName
-      value: Pumpkin Seeds
+      value: Poppy Seeds
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[25].ItemName
-      value: Rice Seeds
+      value: Potato Seeds
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[26].ItemName
-      value: Soybean Seeds
+      value: Pumpkin Seeds
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[27].ItemName
-      value: Sugarcane Seeds
+      value: Rice Seeds
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[28].ItemName
-      value: Sunflower Seeds
+      value: Soybean Seeds
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[29].ItemName
-      value: Tea Aspera Seeds
+      value: Sugarcane Seeds
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[30].ItemName
-      value: Tobacco Seeds
+      value: Sunflower Seeds
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[31].ItemName
-      value: Tomato Seeds
+      value: Tea Aspera Seeds
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[32].ItemName
-      value: Towercap Mycelium
+      value: Tobacco Seeds
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[33].ItemName
-      value: Watermelon Seeds
+      value: Tomato Seeds
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[34].ItemName
-      value: Wheat Seeds
+      value: Towercap Mycelium
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[35].ItemName
-      value: White-Beet Seeds
+      value: Watermelon Seeds
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[36].ItemName
-      value: Korta Nut Seeds
+      value: Wheat Seeds
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[37].ItemName
+      value: White-Beet Seeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[38].ItemName
+      value: Korta Nut Seeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[39].ItemName
       value: Seraka Mycelium
       objectReference: {fileID: 0}
     - target: {fileID: 5293842515076411475, guid: 2f2954acc32d9d3468c620e34a625966,
@@ -782,3 +825,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f2954acc32d9d3468c620e34a625966, type: 3}
+--- !u!212 &1916269442203901713 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 9036003665837402637, guid: 2f2954acc32d9d3468c620e34a625966,
+    type: 3}
+  m_PrefabInstance: {fileID: 7489945304656147740}
+  m_PrefabAsset: {fileID: 0}

@@ -24,9 +24,10 @@ namespace Chemistry
 
 		private ItemSlot itemSlot;
 
+		public ItemStorage itemStorage;
+
 		private void Awake()
 		{
-			ItemStorage itemStorage = GetComponent<ItemStorage>();
 			itemSlot = itemStorage.GetIndexedItemSlot(0);
 		}
 

@@ -112,7 +112,7 @@ namespace UI.Objects.Engineering
 			float newCapacity = 0;
 			foreach (DepartmentBattery battery in LocalAPC.ConnectedDepartmentBatteries)
 			{
-				newCapacity += battery.BatterySupplyingModule.CurrentCapacity;
+				newCapacity += battery.BatterySupplyingModule.GetSetCurrentCapacity;
 			}
 
 			return (newCapacity / MaxCapacity).ToString("P0");

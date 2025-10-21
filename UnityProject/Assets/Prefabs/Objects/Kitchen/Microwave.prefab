@@ -142,7 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Color: {r: 0, g: 1, b: 0, a: 0.65882355}
+  InitialColour: {r: 0, g: 1, b: 0, a: 0.65882355}
   Sprite: {fileID: 21300000, guid: 9e9f6c63bf3334c8791e01efff5c16fb, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
@@ -168,6 +168,7 @@ MeshRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -295,7 +296,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Color: {r: 0.91372555, g: 0.78823537, b: 0.4039216, a: 0.65882355}
+  InitialColour: {r: 0.91372555, g: 0.78823537, b: 0.4039216, a: 0.65882355}
   Sprite: {fileID: 21300000, guid: 9e9f6c63bf3334c8791e01efff5c16fb, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
@@ -321,6 +322,7 @@ MeshRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -413,6 +415,11 @@ PrefabInstance:
     - target: {fileID: -6356777978426299504, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: wattusage
+      value: 850
+      objectReference: {fileID: 0}
+    - target: {fileID: -6356777978426299504, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: initialwattusage
       value: 850
       objectReference: {fileID: 0}
     - target: {fileID: -6356777978426299504, guid: b69bfc56f39849d4ba9139d2d51bedb6,
@@ -520,7 +527,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 3349359237517658759}
+    - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a9d9bf1a77c00d44f8434a8bd3be24c7,
+        type: 2}
+    - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: a9d9bf1a77c00d44f8434a8bd3be24c7,
         type: 2}
@@ -677,44 +695,44 @@ MonoBehaviour:
   syncInterval: 0.1
   doorSFX: {fileID: 11400000, guid: 549f7b89039d4d54aaae21c7b6f17a03, type: 2}
   timerBeepSFX:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/Beep.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   doneDingSFX:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/Microwave/MicrowaveDing.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   DefaultTimerTime: 10
   startSFX:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/Microwave/MicrowaveStart.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   kaputSfx:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/Bang.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   RunningAudio:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/Microwave/MicrowaveLoop.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   ScreenGlow: {fileID: 6475573901286532631}
@@ -727,6 +745,7 @@ MonoBehaviour:
   circuitWattage: 5
   ovenBulbWattage: 25
   magnetronWattage: 850
+  storage: {fileID: 6580316994347479842}
 --- !u!114 &-1987769092904718235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -768,4 +787,11 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
+  initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 0}
+--- !u!212 &3349359237517658759 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+    type: 3}
+  m_PrefabInstance: {fileID: 4287942156532837164}
+  m_PrefabAsset: {fileID: 0}

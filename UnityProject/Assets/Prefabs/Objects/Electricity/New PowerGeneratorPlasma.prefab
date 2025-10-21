@@ -4788,6 +4788,7 @@ ParticleSystemRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -4974,6 +4975,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6943869364395329275, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 978c2be3703d9bd4ca7a8a187ba5a327,
+        type: 2}
+    - target: {fileID: 6943869364395329275, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
       propertyPath: SubCatalogue.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -5155,7 +5162,7 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
-  ignoreRoundstartGrabObjects: 0
+  initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 0}
 --- !u!114 &8704923215026597471
 MonoBehaviour:
@@ -5200,22 +5207,23 @@ MonoBehaviour:
   fuelTypes:
   - {fileID: 11400000, guid: 70d28796af421c64a8770cb93c818bd4, type: 2}
   generatorRunSfx:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/GeneratorRun.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   generatorEndSfx:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/GeneratorEnd.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   smokeParticles: {fileID: 3272720786144794170}
+  itemStorage: {fileID: 1834550296447752039}
 --- !u!114 &8378657802016484482 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 779761725270966111, guid: f9025da3beb40304cb15babfc0a6cafa,

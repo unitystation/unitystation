@@ -213,7 +213,7 @@ namespace Objects.Botany
 				//Weeds checks
 				if (weedLevel < 10)
 				{
-					weedLevel = weedLevel + ((0.1f) * (plantData.WeedGrowthRate / 10f));
+					weedLevel = weedLevel + ((0.75f) * (plantData.WeedGrowthRate / 10f));
 					if (weedLevel > 10)
 					{
 						weedLevel = 10;
@@ -234,7 +234,7 @@ namespace Objects.Botany
 					}
 					else
 					{
-						pestLevel += 0.005f / GetMachineMultiplier();
+						pestLevel += 0.0025f / GetMachineMultiplier();
 					}
 
 				}
