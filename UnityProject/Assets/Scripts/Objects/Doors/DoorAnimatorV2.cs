@@ -56,6 +56,10 @@ namespace Doors
 		[SerializeField ]
 		[Tooltip("Time this door's warning animation takes")]
 		private float warningAnimationTime = 0.6f;
+
+		[SerializeField ]
+		[Tooltip("How fraction of the door needs to be to be open to allow the player to slip through? (0 is none, 1 is fully open)")]
+		private float slipThroughScaler = 0.5f;
 		#endregion
 
 		[SyncVar(hook = nameof(SyncDoorStatus))] public DoorUpdateType SyncDoorUpdateType;
@@ -147,10 +151,19 @@ namespace Doors
 				overlayFillHandler.SetCatalogueIndexSprite((int) DoorFrame.Opening, false);
 				doorBaseHandler.SetCatalogueIndexSprite((int) DoorFrame.Opening, false);
 
-				//Simulates being able slipping through door as its opening, door is considered open halfway through the animation
-				yield return WaitFor.Seconds(openingAnimationTime / 2);
-				AnimationOpened?.Invoke();
-				yield return WaitFor.Seconds(openingAnimationTime / 2);
+				//Simulates being able slipping through door as its opening
+				if(slipThroughScaler > 0 && slipThroughScaler < 1)
+				{
+					yield return WaitFor.Seconds(openingAnimationTime / slipThroughScaler);
+					AnimationOpened?.Invoke();
+					yield return WaitFor.Seconds(openingAnimationTime / (1-slipThroughScaler));
+				}
+				else
+				{
+					AnimationOpened?.Invoke();
+					yield return WaitFor.Seconds(openingAnimationTime);
+				}
+
 			}
 			else
 			{
@@ -195,10 +208,18 @@ namespace Doors
 				overlayFillHandler.SetCatalogueIndexSprite((int)DoorFrame.Closing, false);
 				doorBaseHandler.SetCatalogueIndexSprite((int)DoorFrame.Closing, false);
 
-				//Simulates being able slipping through door as its closing, door is considered closed halfway through the animation
-				yield return WaitFor.Seconds(closingAnimationTime / 2);
-				AnimationClosed?.Invoke();
-				yield return WaitFor.Seconds(closingAnimationTime / 2);
+				//Simulates being able slipping through door as its closing
+				if(slipThroughScaler > 0 && slipThroughScaler < 1)
+				{
+					yield return WaitFor.Seconds(openingAnimationTime / (1-slipThroughScaler));
+					AnimationClosed?.Invoke();
+					yield return WaitFor.Seconds(openingAnimationTime / slipThroughScaler);
+				}
+				else
+				{
+					AnimationClosed?.Invoke();
+					yield return WaitFor.Seconds(openingAnimationTime);
+				}
 			}
 			else
 			{
