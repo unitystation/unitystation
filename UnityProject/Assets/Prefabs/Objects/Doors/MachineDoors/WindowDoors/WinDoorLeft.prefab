@@ -1322,6 +1322,7 @@ MonoBehaviour:
   isAutomatic: 1
   allowInteraction: 1
   ignorePassableChecks: 1
+  closingPushesEntities: 0
   maxTimeOpen: 5
   BlockAutoClose: 0
   clickDisablesAutoClose: 1
@@ -1363,6 +1364,14 @@ MonoBehaviour:
       m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+  forcedSFX:
+    AssetAddress: Assets/Prefabs/Effects/smash.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
   deniedSFX:
     AssetAddress: 
     AssetReference:
@@ -1387,8 +1396,16 @@ MonoBehaviour:
       m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  handPrySFX:
+  jawsPrySFX:
     AssetAddress: Assets/Prefabs/Items/JawsPry.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  handPrySFX:
+    AssetAddress: null
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 

@@ -90,7 +90,16 @@ namespace Doors.Modules
 
 			if (useTool == true)
 			{
-				master.SoundController.ServerPlaySound(DoorSoundController.DoorSoundType.ToolPry);
+				if(Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor))
+				{
+					master.SoundController.ServerPlaySound(DoorSoundController.DoorSoundType.JawsPry);
+				}
+				else
+				{
+					master.SoundController.ServerPlaySound(DoorSoundController.DoorSoundType.ToolPry);
+				}
+				
+
 				ToolUtils.ServerUseToolWithActionMessages(interaction, pryTime,
 					$"You start {(isClosing ? "forcing" : "prying")} the {doorName} {(isClosing ? "closed" : "open")}...",
 					$"{interaction.Performer.ExpensiveName()} starts {(isClosing ? "forcing" : "prying")} the {doorName} {(isClosing ? "closed" : "open")}...",
@@ -102,6 +111,7 @@ namespace Doors.Modules
 			else if (useTool == false)
 			{
 				master.SoundController.ServerPlaySound(DoorSoundController.DoorSoundType.HandPry);
+
 				Chat.AddActionMsgToChat(interaction.Performer,
 					$"You start {(isClosing ? "forcing" : "prying")} the {doorName} {(isClosing ? "closed" : "open")}...",
 					$"{interaction.Performer.ExpensiveName()} starts {(isClosing ? "forcing" : "prying")} the {doorName} {(isClosing ? "closed" : "open")} with its {interaction.PerformerPlayerScript.PlayerTypeSettings.PryHandName}...");
