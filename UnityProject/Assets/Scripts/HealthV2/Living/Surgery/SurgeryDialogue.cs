@@ -97,11 +97,14 @@ namespace UI
 			else
 			{
 				var PlayerSprites = dissectible.GetComponent<PlayerSprites>();
-				var procedure = PlayerSprites.RaceBodyparts.Base.RootImplantProcedure;
-				var newItem = Instantiate(ListItem, ScrollList.transform);
-				newItem.ProcedureToChoose(dissectible.gameObject, () => { StartProcedure(dissectible, dissectible.BodyPartIsOn, procedure); },
-					procedure.ProcedureSprite, procedure.ProcedureName);
-				OpenItems.Add(newItem);
+				if (PlayerSprites.RaceBodyparts.Base.RootImplantProcedure != null)
+				{
+					var procedure = PlayerSprites.RaceBodyparts.Base.RootImplantProcedure;
+					var newItem = Instantiate(ListItem, ScrollList.transform);
+					newItem.ProcedureToChoose(dissectible.gameObject, () => { StartProcedure(dissectible, dissectible.BodyPartIsOn, procedure); },
+						procedure.ProcedureSprite, procedure.ProcedureName);
+					OpenItems.Add(newItem);
+				}
 			}
 		}
 	}

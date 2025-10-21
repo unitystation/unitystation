@@ -1,11 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using HealthV2.Living.PolymorphicSystems.Bodypart;
 using UnityEngine;
 
 public class RedirectPossessing : MonoBehaviour
 {
-
 	public IPlayerPossessable IPlayerPossessable;
 
 	public IPlayerPossessable ToPossessTo;
@@ -16,6 +16,8 @@ public class RedirectPossessing : MonoBehaviour
 	{
 		IPlayerPossessable = this.GetComponent<IPlayerPossessable>();
 		IPlayerPossessable.OnPossessedBy.AddListener(Possessing);
+
+		ItemStorage.ServerInventoryItemSlotSet += BrainInTransfer;
 
 		if (ToPossessTo != null)
 		{
@@ -30,8 +32,46 @@ public class RedirectPossessing : MonoBehaviour
 				}
 			}
 		}
+	}
+
+	public void BrainInTransfer(Pickupable prevPart, Pickupable NewPart)
+	{
+		if (NewPart)
+		{
+
+			if (NewPart.GetComponentCustom<SaturationComponent>() != null)
+			{
+				NewPart.GetComponentCustom<SaturationComponent>().enabled = false;
+			}
+
+			if (NewPart.GetComponentCustom<HungerComponent>() != null)
+			{
+				NewPart.GetComponentCustom<HungerComponent>().enabled = false;
+			}
+			if (NewPart.GetComponentCustom<NaturalChemicalReleaseComponent>() != null)
+			{
+				NewPart.GetComponentCustom<NaturalChemicalReleaseComponent>().enabled = false;
+			}
 
 
+
+		}
+		else if (prevPart)
+		{
+			if (NewPart.GetComponentCustom<SaturationComponent>() != null)
+			{
+				NewPart.GetComponentCustom<SaturationComponent>().enabled = true;
+			}
+
+			if (NewPart.GetComponentCustom<HungerComponent>() != null)
+			{
+				NewPart.GetComponentCustom<HungerComponent>().enabled = true;
+			}
+			if (NewPart.GetComponentCustom<NaturalChemicalReleaseComponent>() != null)
+			{
+				NewPart.GetComponentCustom<NaturalChemicalReleaseComponent>().enabled = true;
+			}
+		}
 	}
 
 
@@ -58,7 +98,5 @@ public class RedirectPossessing : MonoBehaviour
 		mind.SetPossessingObject(ToPossessTo.GameObject);
 		mind.StopGhosting();
 		return;
-
 	}
-
 }

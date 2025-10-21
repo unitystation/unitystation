@@ -45,8 +45,10 @@ namespace HealthV2.Living.PolymorphicSystems
 		public override void BodyPartAdded(BodyPart bodyPart)
 		{
 			var newSaturation =  bodyPart.GetComponent<SaturationComponent>();
+			
 			if (newSaturation != null)
 			{
+				if (newSaturation.enabled == false) return;
 				if (BodyParts.Contains(newSaturation) == false)
 				{
 					BodyParts.Add(newSaturation);
