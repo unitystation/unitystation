@@ -107,8 +107,7 @@ namespace Doors.Modules
 					$"",
 					() => TryPry(interaction, useTool, isClosing), onFailComplete: OnFailPry, playSound: false);
 			}
-
-			else if (useTool == false)
+			else
 			{
 				master.SoundController.ServerPlaySound(DoorSoundController.DoorSoundType.HandPry);
 
@@ -131,7 +130,7 @@ namespace Doors.Modules
 			if (master.IsPerformingAction) return;
 
 			//Refuse if its a crowbar and the door has power
-			else if ((crowbarRequiresNoPower && master.HasPower) &&
+			if ((crowbarRequiresNoPower && master.HasPower) &&
 				(Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) == false))
 			{
 				Chat.AddActionMsgToChat(interaction.Performer, $"The {doorName} does not budge at all!",
@@ -140,14 +139,14 @@ namespace Doors.Modules
 			}
 
 			//Try to close the door if open
-			else if (master.IsClosed == false)
+			if (master.IsClosed == false)
 			{
 				master.TryForceClose();
 				return;
 			}
 
 			//Try to open the door if closed
-			else if (master.IsClosed == true)
+			if (master.IsClosed == true)
 			{
 				if (master.TryForceOpen())
 				{
