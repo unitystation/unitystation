@@ -30,42 +30,49 @@ namespace Doors
 		IBumpableObject, IRightClickable
 	{
 		#region inspector
-		[SerializeField ]
+		[SerializeField]
 		[Tooltip("Toggle damaging any living entities caught in the door as it closes")]
 		private bool damageOnClose = false;
 
-		[SerializeField ]
+		[SerializeField]
 		[Tooltip("Amount of damage when closed on someone.")]
 		private float damageClosed = 90;
 
-		[SerializeField ]
+		[SerializeField]
 		[Tooltip("Does this door open automatically when you walk into it?")]
 		private bool isAutomatic = true;
 
-		[SerializeField ]
+		[SerializeField]
 		[Tooltip("Can you interact with the door by HandApply or Bump?")]
 		private bool allowInteraction = true;
 
-		[SerializeField ]
-		[Tooltip("Is this door designed no matter what is under neath it?")]
+		[SerializeField]
+		[Tooltip("Is this door designed to close no matter what is underneath it?")]
 		private bool ignorePassableChecks = false;
 
+		[SerializeField]
+		[Tooltip("Does this door push living entities when it closes on them?")]
+		private bool closingPushesEntities = false;
+
 		//Maximum time the door will remain open before closing itself.
-		[SerializeField ]
+		[SerializeField]
 		[Tooltip("Time this door will wait until autoclosing")]
 		private float maxTimeOpen = 5;
 
-		[SerializeField ]
+		[SerializeField]
 		[Tooltip("Prevent the door from auto closing when opened.")]
-		private bool blockAutoClose = false;
+		public bool BlockAutoClose = false;
 
-		[SerializeField ]
+		[SerializeField]
 		[Tooltip("Prevent the door from auto closing when opened if was Clicked on to be opened.")]
 		private bool clickDisablesAutoClose = false;
 
 
+
 		private DoorAnimatorV2 doorAnimator;
 		public DoorAnimatorV2 DoorAnimator => doorAnimator;
+		private DoorSoundController soundController;
+		public DoorSoundController SoundController => soundController;
 
 		private const float INPUT_COOLDOWN = 0.25f;
 
@@ -97,7 +104,7 @@ namespace Doors
 
 
 
-		[Tooltip("Does it have a glass window you can see trough?")]
+		[Tooltip("Does it have a glass window you can see through?")]
 		public bool isWindowedDoor;
 
 		private int openLayer;
@@ -115,8 +122,12 @@ namespace Doors
 
 		private bool isFireLock;
 		[field: SerializeField] public bool CanRelink { get; set; } = true;
+		private string doorName;
+
 		private void Awake()
 		{
+			doorName = gameObject.ExpensiveName();
+
 			if (isWindowedDoor == false)
 			{
 				closedLayer = LayerMask.NameToLayer("Door Closed");
@@ -149,8 +160,15 @@ namespace Doors
 			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 			registerTile = GetComponent<RegisterDoor>();
 			modulesList = GetComponentsInChildren<DoorModuleBase>().ToList();
+
 			doorAnimator = GetComponent<DoorAnimatorV2>();
+			doorAnimator.AnimationOpened += OnAnimationOpened;
+			doorAnimator.AnimationClosed += OnAnimationClosed;
+			doorAnimator.AnimationStarted += OnAnimationStarted;
 			doorAnimator.AnimationFinished += OnAnimationFinished;
+
+			soundController = GetComponent<DoorSoundController>();
+
 			if (UseMachinesForOpenLayeer)
 			{
 				openSortingLayer = SortingLayer.NameToID("Machines");
@@ -236,10 +254,12 @@ namespace Doors
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (ConstructibleDoor.Panelopen && ConstructibleDoor.AllowHackingPanel	)
+			if (allowInput == false) return;
+
+			if (ConstructibleDoor.Panelopen && ConstructibleDoor.AllowHackingPanel)
 			{
 				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Cable) ||
-				    Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wirecutter))
+					Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wirecutter))
 				{
 					TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType.HackingPanel, TabAction.Open);
 					return;
@@ -273,15 +293,21 @@ namespace Doors
 			{
 				module.OpenInteraction(interaction, states);
 			}
-
+			// If there is nothing preventing the door from closing, try closing it
 			if (!isPerformingAction && CheckStatusAllow(states) && allowInteraction)
 			{
 				if (clickDisablesAutoClose)
 				{
-					blockAutoClose = false;
+					BlockAutoClose = false;
 				}
 				PulseTryClose(interaction.Performer, inOverrideLogic: true);
 			}
+			// If we can't close the door because we are taking an action other than closing a door, don't send a message
+			else if (states.Contains(DoorProcessingStates.PreventSilently))
+			{
+				return;
+			}
+			// Otherwise, send a message explaining why we can't close the door
 			else
 			{
 				AddChatTryInteractMessage(interaction, states);
@@ -303,15 +329,21 @@ namespace Doors
 			{
 				module.ClosedInteraction(interaction, states);
 			}
-
-			if (!isPerformingAction  && CheckStatusAllow(states) && allowInteraction)
+			// If there is nothing preventing the door from opening, try opening it
+			if (!isPerformingAction && CheckStatusAllow(states) && allowInteraction)
 			{
 				if (clickDisablesAutoClose)
 				{
-					blockAutoClose = true;
+					BlockAutoClose = true;
 				}
 				TryOpen(interaction.Performer);
 			}
+			// If we can't open the door because we are taking an action other than opening a door, don't send a message
+			else if (states.Contains(DoorProcessingStates.PreventSilently))
+			{
+				return;
+			}
+			// Otherwise, send a message explaining why we can't open the door
 			else
 			{
 				AddChatTryInteractMessage(interaction, states);
@@ -320,17 +352,21 @@ namespace Doors
 
 		public void AddChatTryInteractMessage(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
-			if (States.Contains(DoorProcessingStates.PowerPrevented))
+			if (States.Contains(DoorProcessingStates.Welded))
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"{gameObject.ExpensiveName()} is unpowered");
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"The {doorName} is welded shut");
 			}
-			else if (States.Contains(DoorProcessingStates.PhysicallyPrevented) && States.Contains(DoorProcessingStates.SoftwarePrevented) == false)
+			else if (States.Contains(DoorProcessingStates.PowerPrevented))
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"{gameObject.ExpensiveName()} tries to move but something is physically preventing it");
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"The {doorName} is unpowered");
 			}
 			else if (States.Contains(DoorProcessingStates.SoftwarePrevented))
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"{gameObject.ExpensiveName()} denies access");
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"The {doorName} denies access");
+			}
+			else if (States.Contains(DoorProcessingStates.PhysicallyPrevented))
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"The {doorName} tries to move but something is physically preventing it");
 			}
 		}
 
@@ -338,6 +374,8 @@ namespace Doors
 		{
 			if (states.Contains(DoorProcessingStates.PhysicallyPrevented)) return false;
 			if (states.Contains(DoorProcessingStates.PowerPrevented)) return false;
+			if (states.Contains(DoorProcessingStates.Welded)) return false;
+			if (states.Contains(DoorProcessingStates.PreventSilently)) return false;
 			if (states.Contains(DoorProcessingStates.SoftwarePrevented))
 			{
 				return states.Contains(DoorProcessingStates.SoftwareHacked);
@@ -356,7 +394,7 @@ namespace Doors
 				if (fireLock != null && fireLock.fireAlarm.activated && fireLock.DoorMasterController.IsClosed) return;
 			}
 
-			if(IsClosed == false || isPerformingAction) return;
+			if(isPerformingAction) return;
 
 			Open(blockClosing);
 		}
@@ -377,9 +415,9 @@ namespace Doors
 				module.ClosedInteraction(null, states);
 			}
 
-			if (states.Contains(DoorProcessingStates.PhysicallyPrevented)) return false;
+			if (states.Contains(DoorProcessingStates.PhysicallyPrevented) || states.Contains(DoorProcessingStates.Welded)) return false;
 
-			Open();
+			Open(true);
 			return true;
 		}
 
@@ -394,7 +432,7 @@ namespace Doors
 		/// </summary>
 		public void TryForceClose()
 		{
-			if (IsClosed) return; //Can't close if we are close. Figures.
+			if (IsClosed) return; //Can't close if we are closed. Figures.
 
 			HashSet<DoorProcessingStates> states = new HashSet<DoorProcessingStates>();
 
@@ -405,7 +443,7 @@ namespace Doors
 
 			if (states.Contains(DoorProcessingStates.PhysicallyPrevented)) return;
 
-			Close();
+			Close(true);
 		}
 
 		public void PulseTryClose(GameObject inoriginator = null, bool inforce = false, bool inOverrideLogic = false)
@@ -424,10 +462,12 @@ namespace Doors
 
 		public void TryClose()
 		{
+			if(isPerformingAction) return;
+
 			// Sliding door is not passable according to matrix
-			if(!isPerformingAction &&
-				(ignorePassableChecks || matrix.CanCloseDoorAt( registerTile.LocalPositionServer, true )) &&
-				(HasPower || force ) )
+			if (!isPerformingAction &&
+				(ignorePassableChecks || matrix.CanCloseDoorAt(registerTile.LocalPositionServer, true)) &&
+				(HasPower || force))
 
 			{
 				if (OverrideLogic)
@@ -440,10 +480,10 @@ namespace Doors
 
 					foreach (DoorModuleBase module in modulesList)
 					{
-						 module.OpenInteraction(null, states);
+						module.OpenInteraction(null, states);
 					}
 
-					if (!isPerformingAction && CheckStatusAllow(states))
+					if (CheckStatusAllow(states))
 					{
 						Close();
 					}
@@ -459,31 +499,34 @@ namespace Doors
 			}
 		}
 
-		public void Close()
+		public void Close(bool byForce = false)
 		{
+			if (IsClosed == true) return;
+
 			if (!gameObject) return; // probably destroyed by a shuttle crash
+			if (isPerformingAction) return;
 
-			IsClosed = true;
 			UpdateGui();
-
-			if (isPerformingAction)
-			{
-				return;
-			}
-
+			
+			doorAnimator.LightsWork = !byForce;
 			doorAnimator.PanelOpen = ConstructibleDoor != null && ConstructibleDoor.Panelopen;
 
-			doorAnimator.SyncDoorStatus(doorAnimator.SyncDoorUpdateType,DoorAnimatorV2.DoorUpdateType.Close );
+			doorAnimator.SyncDoorStatus(doorAnimator.SyncDoorUpdateType,DoorAnimatorV2.DoorUpdateType.Close);
 
-
-			if (damageOnClose)
+			if(byForce)
 			{
-				ServerDamageOnClose();
+				soundController.ServerPlaySound(DoorSoundController.DoorSoundType.Forced);
+			}
+			else
+			{
+				soundController.PlaySound(DoorSoundController.DoorSoundType.Close);
 			}
 		}
 
-		public void Open(bool blockClosing)
+		public void Open(bool byForce = false)
 		{
+			if (IsClosed == false) return;
+
 			if (isFireLock == false)
 			{
 				var fireLock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
@@ -492,35 +535,26 @@ namespace Doors
 
 			if (!this || !gameObject) return; // probably destroyed by a shuttle crash
 
-			if (!blockClosing)
+			if (!BlockAutoClose)
 			{
 				ResetWaiting();
 			}
-			StartCoroutine(DelayOpen());
-		}
 
-		public void Open()
-		{
-			if (isFireLock == false)
-			{
-				var fireLock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
-				if (fireLock != null && fireLock.fireAlarm!= null && fireLock.fireAlarm.activated && fireLock.DoorMasterController.IsClosed) return;
-			}
-			if (!this || !gameObject) return; // probably destroyed by a shuttle crash
-			if (IsClosed == false) return;
-			ResetWaiting();
-			StartCoroutine(DelayOpen());
-		}
-
-		public IEnumerator DelayOpen()
-		{
-			yield return WaitFor.Seconds(0.1f);
-
-			IsClosed = false;
 			UpdateGui();
 
+			doorAnimator.LightsWork = !byForce;
 			doorAnimator.PanelOpen = ConstructibleDoor != null && ConstructibleDoor.Panelopen;
-			doorAnimator.SyncDoorStatus(doorAnimator.SyncDoorUpdateType,DoorAnimatorV2.DoorUpdateType.Open);
+
+			doorAnimator.SyncDoorStatus(doorAnimator.SyncDoorUpdateType, DoorAnimatorV2.DoorUpdateType.Open);
+
+			if(byForce)
+			{
+				soundController.ServerPlaySound(DoorSoundController.DoorSoundType.Forced);
+			}
+			else
+			{
+				soundController.PlaySound(DoorSoundController.DoorSoundType.Open);
+			}
 		}
 
 		public void BoxCollToggleOn()
@@ -550,47 +584,51 @@ namespace Doors
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (allowInput == false) return false;
-			if (interaction.TargetObject != gameObject) return false;
+			if (Validations.IsTarget(gameObject, interaction) == false) return false;
 			if (DefaultWillInteract.Default(interaction, side,
-				    Validations.CheckState(x => x.CanInteractWithDoors)) == false) return false;
+					Validations.CheckState(x => x.CanInteractWithDoors)) == false) return false;
 
-			//jaws of life
-			if (interaction.HandObject != null &&
-			    Validations.HasItemTrait(interaction.HandObject.gameObject, CommonTraits.Instance.CanPryDoor))
+			if (interaction.HandObject != null)
 			{
-				return true;
-			}
-			//crowbars
-			if (interaction.HandObject != null &&
-			    Validations.HasItemTrait(interaction.HandObject.gameObject, CommonTraits.Instance.Crowbar))
-			{
-				return true;
-			}
-			//screwdrivers
-			if (interaction.HandObject != null &&
-			    Validations.HasItemTrait(interaction.HandObject.gameObject, CommonTraits.Instance.Screwdriver))
-			{
-				return true;//TODO check if clicking on panel region
-			}
-			//welders
-			if (interaction.HandObject != null &&
-			    Validations.HasUsedActiveWelder(interaction))
-			{
-				return true;
-			}
+				//Welders weld door if intent is Harm, repair door if intent is help
+				if (Validations.HasUsedActiveWelder(interaction))
+				{
+					return true;
+				}
 
-			//TODO add pins here//TODO check if clicking on pins region
+				//All other hand objects should melee if intent is harm
+				if (interaction.Intent == Intent.Harm)
+				{
+					return false;
+				}
 
-			if (interaction.HandObject == null &&
-			    interaction.PerformerPlayerScript.PlayerTypeSettings.CanPryDoorsWithHands)
-			{
-				return true;
+				//Jaws of Life and other special pry tools
+				if (Validations.HasItemTrait(interaction.HandObject.gameObject, CommonTraits.Instance.CanPryDoor))
+				{
+					return true;
+				}
+
+				//Crowbars
+				if (Validations.HasItemTrait(interaction.HandObject.gameObject, CommonTraits.Instance.Crowbar))
+				{
+					return true;
+				}
+				//Screwdrivers open the hacking panel
+				if (Validations.HasItemTrait(interaction.HandObject.gameObject, CommonTraits.Instance.Screwdriver))
+				{
+					return true;//TODO check if clicking on panel region
+				}
+
+				//TODO add pins here//TODO check if clicking on pins region
 			}
-
-			if (interaction.HandObject && interaction.Intent == Intent.Harm)
+			else
 			{
-				return false; // False to allow melee
+				// Limbs that can pry doors.  //TODO update this code when prying with hands is moved to body parts
+				if (interaction.PerformerPlayerScript.PlayerTypeSettings.CanPryDoorsWithHands)
+				{
+					if (interaction.Intent == Intent.Harm) return false;
+					else return true;
+				}
 			}
 
 			return true;
@@ -606,6 +644,35 @@ namespace Doors
 		{
 			yield return WaitFor.Seconds(INPUT_COOLDOWN);
 			allowInput = true;
+		}
+
+		/// <summary>
+		/// Invoked by doorAnimator once a door animation starts
+		/// </summary>
+		private void OnAnimationStarted()
+		{
+			isPerformingAction = true;
+		}
+
+		/// <summary>
+		/// Invoked by doorAnimator when the animation for closing plays
+		/// </summary>
+		private void OnAnimationClosed()
+		{
+			BoxCollToggleOn();
+
+			if (damageOnClose)
+			{
+				ServerDamageOnClose();
+			}
+		}
+
+		/// <summary>
+		/// Invoked by doorAnimator when the animation for opening plays
+		/// </summary>
+		private void OnAnimationOpened()
+		{
+			BoxCollToggleOff();
 		}
 
 		/// <summary>
@@ -629,9 +696,9 @@ namespace Doors
 
 			//only do this check when door is closing, and only for doors that block all directions (like airlocks)
 			if (!CustomNetworkManager.IsServer ||
-			    !IsClosed ||
-			    registerTile.OneDirectionRestricted ||
-			    ignorePassableChecks)
+				!IsClosed ||
+				registerTile.OneDirectionRestricted ||
+				ignorePassableChecks)
 			{
 				return;
 			}
@@ -647,8 +714,6 @@ namespace Doors
 			}
 
 			//something is in the way, open back up
-			//set this field to false so open command will actually work
-			isPerformingAction = false;
 			Open();
 		}
 
@@ -681,7 +746,7 @@ namespace Doors
 			// After the door opens, wait until it's supposed to close.
 			yield return WaitFor.Seconds(maxTimeOpen);
 
-			if(blockAutoClose) yield break;
+			if(BlockAutoClose) yield break;
 
 			if(isAutomatic == false) yield break;
 
@@ -695,7 +760,7 @@ namespace Doors
 
 		public void ToggleBlockAutoClose(bool newState)
 		{
-			blockAutoClose = newState;
+			BlockAutoClose = newState;
 		}
 
 		#region Ai interaction
