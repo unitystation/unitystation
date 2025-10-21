@@ -48,7 +48,7 @@ namespace Systems.Scenes
 			TransportUtility.MaintRoomLocations.Clear();
 			if (CustomNetworkManager.IsServer == false) return;
 
-			if(createGhostRoles) EventManager.AddHandler(Event.PostRoundStarted, SetUpGhostRoles);
+			if(createGhostRoles) EventManager.AddHandler(Event.GhostRolesInitialized, SetUpGhostRoles);
 
 			Chat.AddGameWideSystemMsgToChat($"<color=yellow>Initialising {gameObject.name} Maint Generation</color>");
 
@@ -76,7 +76,7 @@ namespace Systems.Scenes
 
 		private void SetUpGhostRoles()
 		{
-			Chat.AddGameWideSystemMsgToChat($"<color=yellow>Creating {gameObject.name} Ghost Roles</color>");
+			Chat.AddGameWideSystemMsgToChat($"<color=yellow>Creating Maint Survivor Ghost Roles</color>");
 			//Create Ghost role entry
 			maintSurvivorKey = GhostRoleManager.Instance.ServerCreateRole(maintSurvivorRole);
 
@@ -87,7 +87,7 @@ namespace Systems.Scenes
 			//Add a listener for when a player requests that ghost role
 			GhostRoleManager.Instance.serverAvailableRoles[maintSurvivorKey].OnPlayerAdded += SpawnSurvivor;
 
-			Chat.AddGameWideSystemMsgToChat($"<color=green>{gameObject.name} Ghost Roles Created [{numberOfGhostRoles}]</color>");
+			Chat.AddGameWideSystemMsgToChat($"<color=green>Maint Survivor Ghost Roles Created [{numberOfGhostRoles}]</color>");
 		}
 
 		public override void OnDestroy()
