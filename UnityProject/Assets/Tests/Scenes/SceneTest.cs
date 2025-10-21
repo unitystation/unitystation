@@ -25,7 +25,7 @@ namespace Tests.Scenes
 	[TestFixtureSource(typeof(SceneTest), nameof(Scenes))]
 	public abstract class SceneTest
 	{
-		public static IEnumerable<SceneTestData> Scenes => Utils.NonDevScenes.Select(scene => new SceneTestData(scene));
+		public static IEnumerable<SceneTestData> Scenes => Utils.NonDevScenes.Select(scene => new SceneTestData(scene)).Concat(Utils.RoomBlueprintScenes.Select(scene => new SceneTestData(scene)));
 
 		private List<GameObject> rootObjects;
 
