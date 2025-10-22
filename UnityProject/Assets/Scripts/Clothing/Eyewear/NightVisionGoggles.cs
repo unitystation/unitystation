@@ -26,7 +26,6 @@ namespace Clothing
 		[SerializeField] private Color shaderColour = new Color(26,255,26, 255);
 
 		[SerializeField] private AddressableAudioSource nightVisionToggleSound;
-		[SerializeField] private AudioSourceParameters nightVisionToggleSoundParameters;
 
 		private IClientSynchronisedEffect Preimplemented => this;
 
@@ -168,7 +167,7 @@ namespace Clothing
 
 			if (CurrentlyOn != null)
 			{
-				_ = SoundManager.PlayNetworkedAtPosAsync(nightVisionToggleSound, CurrentlyOn.WorldPositionServer, nightVisionToggleSoundParameters);
+				_ = SoundManager.PlayNetworkedAtPosAsync(nightVisionToggleSound, CurrentlyOn.WorldPositionServer);
 				DimPlayerLightController dimLightController = CurrentlyOn.PlayerScript?.DimPlayerLightController;
 				if (dimLightController != null && state)
 				{
@@ -177,7 +176,7 @@ namespace Clothing
 				}
 				else if(dimLightController != null) dimLightController.ResetToDefault();
 			}
-			else _ = SoundManager.PlayNetworkedAtPosAsync(nightVisionToggleSound, gameObject.AssumedWorldPosServer(), nightVisionToggleSoundParameters);
+			else _ = SoundManager.PlayNetworkedAtPosAsync(nightVisionToggleSound, gameObject.AssumedWorldPosServer());
 		}
 
 		#region Tooltip
