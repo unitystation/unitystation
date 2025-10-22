@@ -36,5 +36,16 @@ public static class RNG
 		var value = Random.NextDouble();
 		return Chance >= value;
 	}
+	public static Vector2 RandomDirection()
+	{
+		// Pick a random angle in radians between 0 and 2π
+		double angle = Random.NextDouble() * Mathf.PI * 2;
+
+		// Convert the angle to a unit vector
+		float x = (float)Mathf.Cos((float)angle);
+		float y = (float)Mathf.Sin((float)angle);
+
+		return new Vector2(x, y);
+	}
 
 }

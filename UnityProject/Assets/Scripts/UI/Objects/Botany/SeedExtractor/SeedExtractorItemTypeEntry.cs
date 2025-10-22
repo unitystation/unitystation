@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UI.Core.NetUI;
 using Items.Botany;
+using Objects.Botany;
 
 namespace UI.Objects.Botany
 {
@@ -21,21 +22,21 @@ namespace UI.Objects.Botany
 		[SerializeField]
 		private NetColorChanger itemBackground = null;
 
-		private List<SeedPacket> seedPackets;
+		private List<SeedExtractor.SeedAndPlantData> seedPackets;
 
-		public void SetItem(List<SeedPacket> item, GUI_SeedExtractor correspondingWindow)
+		public void SetItem(List<SeedExtractor.SeedAndPlantData> item, GUI_SeedExtractor correspondingWindow)
 		{
 			seedPackets = item;
 			seedExtractorWindow = correspondingWindow;
-			itemName.MasterSetValue(seedPackets.First().name);
-			itemIcon.MasterSetValue(seedPackets.First().name);
+			itemName.MasterSetValue(seedPackets.First().SeedPacket.name);
+			itemIcon.MasterSetValue(seedPackets.First().SeedPacket.name);
 			itemCount.MasterSetValue($"({seedPackets.Count})");
 			itemBackground.MasterSetValue(regularColor);
 		}
 
 		public void Show()
 		{
-			seedExtractorWindow.SelectSeedType(seedPackets.First().name);
+			seedExtractorWindow.SelectSeedType(seedPackets.First().SeedPacket.name);
 		}
 	}
 }
