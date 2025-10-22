@@ -38,7 +38,7 @@ namespace CameraEffects
 		[FormerlySerializedAs("LightingSystem")] public LightingSystem lightingSystem;
 
 
-		private MultiInterestBool _blindness = new MultiInterestBool(false,
+		private readonly MultiInterestBool _blindness = new MultiInterestBool(false,
 			MultiInterestBool.RegisterBehaviour.RegisterFalse,
 			MultiInterestBool.BoolBehaviour.ReturnOnFalse);
 
