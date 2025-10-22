@@ -1,17 +1,18 @@
+using MaintRooms;
 using UnityEngine;
 
 namespace Systems.Scenes
 {
-	public class ExitMarker : MonoBehaviour, IServerSpawn
+	public class ExitMarker : MonoBehaviour
 	{
-		public void OnSpawnServer(SpawnInfo spawnInfo)
+		public void OnEnable()
 		{
-			MaintGeneratorManager.possibleExits.Add(gameObject);
+			RandomExitPosition.ExitMarkers.Add(gameObject);
 		}
 
-		private void OnDestroy()
+		private void OnDisable()
 		{
-			if (CustomNetworkManager.IsServer) MaintGeneratorManager.possibleExits.Remove(gameObject);
+			if (CustomNetworkManager.IsServer) RandomExitPosition.ExitMarkers.Remove(gameObject);
 		}
 	}
 }

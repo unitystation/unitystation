@@ -11,114 +11,77 @@ namespace Doors.Modules
 		[SerializeField] [Tooltip("Base time it takes to pry this door.")]
 		private float pryTime = 4.5f; //TODO calculate time with a multiplier from the tool itself
 
-		[SerializeField] private AddressableAudioSource prySound = null;
-
 		[SerializeField] [Tooltip("Can you crowbar pry the door when there no power")]
 		private bool crowbarRequiresNoPower = true;
 
-		private string soundGuid = "";
-
 		private string doorName;
+		private WeldModule weldModule;
 
 		protected override void Awake()
 		{
 			base.Awake();
 
 			doorName = transform.parent.gameObject.ExpensiveName();
+
+			weldModule = GetComponentInChildren<WeldModule>();
 		}
 
 		public override void OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
-			if (interaction is not {Intent: Intent.Help}) return;
-			//If the door is powered, only allow things that are made to pry doors. If it isn't powered, we let crowbars work.
-
-			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) ||
-			    Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar))
+			//Require help intent to pry doors
+			if (interaction is { Intent: Intent.Help })
 			{
-				if ((crowbarRequiresNoPower && master.HasPower) &&
-				    (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) == false))
+				//If its hands that can pry doors, attempt to open the door
+				//TODO Currently hard coded to not allow larva, when prying with hands is moved to body parts just have larva not have the pry ability and update this
+				if (interaction.HandObject == null
+					&& interaction.PerformerPlayerScript.PlayerTypeSettings.CanPryDoorsWithHands &&
+					(interaction.PerformerPlayerScript.TryGetComponent<AlienPlayer>(out var alienPlayer) == false ||
+					 alienPlayer.IsLarva == false))
 				{
-					return;
+					string[] verbage = {interaction.Performer.ExpensiveName(), interaction.Performer.GetTheirPronoun().Uncapitalize(), interaction.PerformerPlayerScript.PlayerTypeSettings.PryHandName.Uncapitalize(),"forcing","closed","force"};
+					PryDoor(interaction, false, verbage);
+					States.Add(DoorProcessingStates.PreventSilently);
 				}
 
-				ToolUtils.ServerUseToolWithActionMessages(interaction, pryTime,
-					$"You start closing the {doorName}...",
-					$"{interaction.Performer.ExpensiveName()} starts closing the {doorName}...",
-					$"",
-					$"",
-					() => TryPry(interaction));
-
-
-				States.Add(DoorProcessingStates.PhysicallyPrevented);
+				//If its a crowbar or a tool that can pry doors, attempt to pry closed the door
+				if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) ||
+					Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar))
+				{
+					string[] verbage = {interaction.Performer.ExpensiveName(), interaction.Performer.GetTheirPronoun().Uncapitalize(), interaction.HandObject.ExpensiveName().Uncapitalize(),"forcing","closed","force"};
+					PryDoor(interaction, true, verbage);
+					States.Add(DoorProcessingStates.PreventSilently);
+				}
 			}
-
-
-			//allows the jaws of life to pry close doors
 		}
 
 		public override void ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
 		{
-			if (interaction is not {Intent: Intent.Help}) return;
-
-			//TODO card coded not larva, maybe when moved to body parts larva has their doesnt have this ability on theirs
-			if (interaction.HandObject == null
-			    && interaction.PerformerPlayerScript.PlayerTypeSettings.CanPryDoorsWithHands &&
-			    (interaction.PerformerPlayerScript.TryGetComponent<AlienPlayer>(out var alienPlayer) == false ||
-			     alienPlayer.IsLarva == false))
+			//Require the Help Intent and the door to be unwelded, can't even try to pry a welded door
+			if (interaction is { Intent: Intent.Help } && weldModule.IsWelded == false)
 			{
-				PryDoor(interaction, false);
-				States.Add(DoorProcessingStates.PhysicallyPrevented);
-			}
-
-			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) ||
-			    Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar))
-			{
-				if ((crowbarRequiresNoPower && master.HasPower) &&
-				    (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) == false))
+				//If its hands that can pry doors, attempt to pry the door
+				//TODO Currently hard coded to not allow larva, when prying with hands is moved to body parts just have larva not have the pry ability and update this
+				if (interaction.HandObject == null
+					&& interaction.PerformerPlayerScript.PlayerTypeSettings.CanPryDoorsWithHands &&
+					(interaction.PerformerPlayerScript.TryGetComponent<AlienPlayer>(out var alienPlayer) == false ||
+					 alienPlayer.IsLarva == false))
 				{
-					return;
+					string[] verbage = {interaction.Performer.ExpensiveName(), interaction.Performer.GetTheirPronoun().Uncapitalize(), interaction.PerformerPlayerScript.PlayerTypeSettings.PryHandName.Uncapitalize(),"prying","open","pry"};
+					PryDoor(interaction, false, verbage);
+					States.Add(DoorProcessingStates.PreventSilently);
 				}
 
-				PryDoor(interaction);
-				States.Add(DoorProcessingStates.PhysicallyPrevented);
-			}
-		}
-
-		private void PryDoor(HandApply interaction, bool useTool = true)
-		{
-			if (soundGuid != "")
-			{
-				SoundManager.StopNetworked(soundGuid);
+				//If its a crowbar or a tool that can pry doors, attempt to pry open the door
+				if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) ||
+					Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar))
+				{
+					string[] verbage = {interaction.Performer.ExpensiveName(), interaction.Performer.GetTheirPronoun().Uncapitalize(), interaction.HandObject.ExpensiveName().Uncapitalize(),"prying","open","pry"};
+					PryDoor(interaction, true, verbage);
+					States.Add(DoorProcessingStates.PreventSilently);
+				}
 			}
 
-			soundGuid = Guid.NewGuid().ToString();
-			_ = SoundManager.PlayNetworkedAtPosAsync(prySound, master.RegisterTile.WorldPositionServer, master.gameObject,
-				soundGuid);
-
-			if (useTool)
-			{
-				//allows the jaws of life to pry open doors
-				ToolUtils.ServerUseToolWithActionMessages(interaction, pryTime,
-					$"You start prying open the {doorName}...",
-					$"{interaction.Performer.ExpensiveName()} starts prying open the {doorName}...",
-					$"",
-					$"",
-					() => TryPry(interaction), onFailComplete: OnFailPry, playSound: false);
-
-				return;
-			}
-
-			var handName = interaction.PerformerPlayerScript.PlayerTypeSettings.PryHandName;
-
-			Chat.AddActionMsgToChat(interaction.Performer, $"You start prying open the {doorName}...",
-				$"{interaction.Performer.ExpensiveName()} starts prying open the {doorName} with its {handName}...");
-
-			var cfg = new StandardProgressActionConfig(StandardProgressActionType.Construction);
-
-			StandardProgressAction.Create(
-				cfg,
-				() => TryPryHand(interaction)
-			).ServerStartProgress(master.RegisterTile, pryTime, interaction.Performer);
+			return;
 		}
 
 		public override void BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
@@ -126,62 +89,84 @@ namespace Doors.Modules
 			return;
 		}
 
-		private void TryPry(HandApply interaction)
+		private void PryDoor(HandApply interaction, bool useTool, string[] verbage)
 		{
-			if (master.IsClosed && !master.IsPerformingAction)
+			if (useTool == true)
+			{
+				if(Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor))
+				{
+					master.SoundController.ServerPlaySound(DoorSoundController.DoorSoundType.JawsPry);
+				}
+				else
+				{
+					master.SoundController.ServerPlaySound(DoorSoundController.DoorSoundType.ToolPry);
+				}
+
+				ToolUtils.ServerUseToolWithActionMessages(interaction, pryTime,
+					$"You start {verbage[3]} the {doorName} {verbage[4]}...",
+					$"{verbage[0]} starts {verbage[3]} the {doorName} {verbage[4]}...",
+					$"",
+					$"",
+					() => TryPry(interaction, verbage), onFailComplete: OnFailPry, playSound: false);
+			}
+			else
+			{
+				master.SoundController.ServerPlaySound(DoorSoundController.DoorSoundType.HandPry);
+
+				Chat.AddActionMsgToChat(interaction.Performer,
+					$"You start {verbage[3]} the {doorName} {verbage[4]}...",
+					$"{verbage[0]} starts {verbage[3]} the {doorName} {verbage[4]} with {verbage[1]} {verbage[2]}...");
+
+				var cfg = new StandardProgressActionConfig(StandardProgressActionType.Construction);
+
+				StandardProgressAction.Create(
+					cfg,
+					() => TryPry(interaction, verbage)
+				).ServerStartProgress(master.RegisterTile, pryTime, interaction.Performer);
+			}
+		}
+
+		private void TryPry(HandApply interaction, string[] verbage)
+		{
+			//Refuse if door is in motion
+			if (master.IsPerformingAction) return;
+
+			//Refuse if its a crowbar and the door has power
+			if ((crowbarRequiresNoPower && master.HasPower) &&
+				(Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) == false))
+			{
+				Chat.AddActionMsgToChat(interaction.Performer, $"The {doorName} does not budge at all!",
+				$"{verbage[0]} tries to {verbage[5]} the {doorName} {verbage[4]} and fails!");
+				return;
+			}
+
+			//Try to close the door if open
+			if (master.IsClosed == false)
+			{
+				master.TryForceClose();
+				return;
+			}
+
+			//Try to open the door if closed
+			if (master.IsClosed == true)
 			{
 				if (master.TryForceOpen())
 				{
 					Chat.AddActionMsgToChat(interaction.Performer,
-						$"You force the {doorName} open with your {interaction.HandObject.ExpensiveName()}!",
-						$"{interaction.Performer.ExpensiveName()} forces the {doorName} open!");
+						$"You pry the {doorName} open with your {verbage[2]}!",
+						$"{verbage[0]} pries the {doorName} open with {verbage[1]} {verbage[2]}!");
 				}
 				else
 				{
 					Chat.AddActionMsgToChat(interaction.Performer, $"The {doorName} does not budge at all!",
-						$"{interaction.Performer.ExpensiveName()} tries to force the {doorName} open, and fails!");
+						$"{verbage[0]} tries to pry the {doorName} open and fails!");
 				}
-			}
-			else if (!master.IsClosed && !master.IsPerformingAction)
-			{
-				if ((crowbarRequiresNoPower && master.HasPower) &&
-				    (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) == false))
-				{
-					return;
-				}
-
-				master.Close();
-			}
-		}
-
-		private void TryPryHand(HandApply interaction)
-		{
-			if (master.IsClosed == false && master.IsPerformingAction == false)
-			{
-				master.PulseTryClose(inforce: true);
-				return;
-			}
-
-			if (master.IsClosed == false || master.IsPerformingAction) return;
-
-			var handName = interaction.PerformerPlayerScript.PlayerTypeSettings.PryHandName;
-
-			if (master.TryForceOpen())
-			{
-				Chat.AddActionMsgToChat(interaction.Performer, $"You force the {doorName} open with your {handName}!",
-					$"{interaction.Performer.ExpensiveName()} forces the {doorName} open with its {handName}!");
-			}
-			else
-			{
-				Chat.AddActionMsgToChat(interaction.Performer, $"The {doorName} does not budge at all!",
-					$"{interaction.Performer.ExpensiveName()} tries to force the {doorName} open and fails!");
 			}
 		}
 
 		private void OnFailPry()
 		{
-			SoundManager.StopNetworked(soundGuid);
-			soundGuid = "";
+			master.SoundController.StopSound();
 		}
 	}
 }

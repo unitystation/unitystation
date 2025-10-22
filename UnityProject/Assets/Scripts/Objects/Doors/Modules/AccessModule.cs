@@ -92,7 +92,7 @@ namespace Doors.Modules
 		private void DenyAccess()
 		{
 			StartCoroutine(master.DoorAnimator.PlayDeniedAnimation());
-			master.DoorAnimator.ServerPlayDeniedSound();
+			master.SoundController.ServerPlaySound(DoorSoundController.DoorSoundType.AccessDenied);
 		}
 
 		public void ToggleAuthorizationBypassState()

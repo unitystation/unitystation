@@ -5,6 +5,7 @@ using UnityEngine;
 using Tiles;
 using System.Threading.Tasks;
 using InGameGizmos;
+using Logs;
 using MaintRooms;
 using Objects;
 using Shared.Systems.ObjectConnection;
@@ -18,6 +19,8 @@ namespace Systems.Scenes
 		public MultitoolConnectionType ConType => MultitoolConnectionType.MaintGeneratorExclusionZone;
 
 		public int MaxDistance => 9999;
+
+		[SerializeField] private List<MaintRoomGenerator> roomGenerators = new List<MaintRoomGenerator>();
 
 		[field: SerializeField] public bool CanRelink { get; set; } = true;
 		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = true;
@@ -38,7 +41,7 @@ namespace Systems.Scenes
 			{Direction.West, new Vector2Int(-1, 0)}
 		};
 
-		private const int MAX_DIMENSIONS = 256;
+		public const int MAX_DIMENSIONS = 256;
 		private const int MAX_PERCENT = 100;
 		private const int WALL_GAP = 2;
 		private readonly Vector3 GIZMO_OFFSET = new Vector3(-0.5f, -0.5f, 0);
@@ -61,44 +64,65 @@ namespace Systems.Scenes
 		[SerializeField, Tooltip("Possible crates or lockers that items can spawn in")]
 		private List<GameObject> containers = new List<GameObject>();
 
-		[SerializeField, Tooltip("The areas inside the bounds of this maze that the maze should not generate atop of.")]
-		private List<ExclusionZoneMono> exclusionZonesMono = new List<ExclusionZoneMono>();
+		[SerializeField] private GameObject abandonedCrate = default;
 
 		private short[] mazeArray;
 		private List<Vector2Int> possibleCells;
 
 		public GameGizmoSquare GameGizmoSquare { get; private set; }
 
-		public void AddExclusionZoneMono(ExclusionZoneMono ExclusionZoneMono)
+		public void AddRoom(MaintRoomGenerator roomGenerator)
 		{
-			exclusionZonesMono.Add(ExclusionZoneMono);
+			if (roomGenerators.Contains(roomGenerator)) return;
+			roomGenerators.Add(roomGenerator);
+			Loggy.Error("Added Maint Generator at Runtime!");
 		}
 
-		public void RemoveExclusionZoneMono(ExclusionZoneMono ExclusionZoneMono)
+		public void RemoveRoom(MaintRoomGenerator roomGenerator)
 		{
-			exclusionZonesMono.Remove(ExclusionZoneMono);
+			if (roomGenerators.Contains(roomGenerator) == false) return;
+			roomGenerators.Remove(roomGenerator);
 		}
 
-		[Button("Add Generator Reference to Zone List Entries")]
+		[Button("Add generator reference to connected rooms")]
 		public void AddGeneratorToZones()
 		{
-			List<ExclusionZoneMono> lst = new List<ExclusionZoneMono>(exclusionZonesMono);
-			foreach(ExclusionZoneMono zone in lst)
+			List<MaintRoomGenerator> lst = new List<MaintRoomGenerator>(roomGenerators);
+			foreach(var room in lst)
 			{
-				zone.SetMasterEditor(this);
+				room.SetMasterEditor(this);
 			}
 		}
 
-		public override void Start()
+		public async Task InitialiseMaze()
 		{
-			base.Start();
 			if (CustomNetworkManager.IsServer == false) return;
 
 			mazeArray = new short[width * height];
 			possibleCells = new List<Vector2Int>();
 
-			CarveRooms();
-			Task.Run(GenerateNewMaze);
+			foreach (var room in roomGenerators)
+			{
+				await room.ClearSpaceInMaze(this.gameObject.transform.localPosition, width, in mazeArray);
+			}
+
+			if (width % 2 == 0 || height % 2 == 0)
+			{
+				Loggy.Warning("Maint generator has even dimensions, this might result in undesired generation!");
+			}
+
+			await CarvePath(Vector2Int.zero);
+
+			foreach (var room in roomGenerators)
+			{
+				room.CarveRoomDoors(this.gameObject.transform.localPosition, width, in mazeArray);
+			}
+		}
+
+		public void CleanUp()
+		{
+			mazeArray = null;
+			possibleCells.Clear();
 		}
 
 		private void OnDrawGizmos()
@@ -109,26 +133,15 @@ namespace Systems.Scenes
 			Gizmos.DrawWireCube(transform.position + offset.To3() + size / WALL_GAP + GIZMO_OFFSET, size);
 		}
 
+		public void LoadRooms()
+		{
+			foreach (var room in roomGenerators)
+			{
+				room.SpawnRandomRoom();
+			}
+		}
+
 		#region Tiles
-
-		private async Task GenerateNewMaze()
-		{
-			await CarvePath(new Vector2Int(0,0));
-
-			MaintGeneratorManager.MaintGenerators.Add(this);
-		}
-
-		public void OnEnable()
-		{
-			EventManager.AddHandler(Event.ScenesLoadedServer, CreateTiles);
-			EventManager.AddHandler(Event.RoundStarted, PlaceObjects);
-		}
-
-		public void OnDisable()
-		{
-			EventManager.RemoveHandler(Event.ScenesLoadedServer, CreateTiles);
-			EventManager.RemoveHandler(Event.RoundStarted, PlaceObjects);
-		}
 
 		//Growing Tree algorithm for maze generation using a 'newest' choosing method for next cell.
 		//Eller's algorithm does scale better for larger mazes,
@@ -179,20 +192,6 @@ namespace Systems.Scenes
 			return Task.CompletedTask;
 		}
 
-		private void CarveRooms()
-		{
-			foreach (ExclusionZoneMono zone in exclusionZonesMono)
-			{
-				for (int y = 0; y < zone.Size.y; y++)
-				{
-					var pos = (zone.transform.localPosition - this.gameObject.transform.localPosition).RoundTo2Int();
-					int startIndex = pos.x + ((pos.y + y) * width);
-
-					Array.Fill(mazeArray, (short)MazeState.ExcludedCell, startIndex, zone.Size.x);
-				}
-			}
-		}
-
 		private bool IsOutOfBounds(int x, int y)
 		{
 			if (x < 0 || x >= width)
@@ -229,9 +228,9 @@ namespace Systems.Scenes
 			GameGizmoSquare = GameGizmomanager.AddNewSquareStaticClient(this.gameObject,
 				offset.To3() + size / WALL_GAP + GIZMO_OFFSET, Color.red, BoxSize: size);
 
-			foreach (var ExclusionMono in exclusionZonesMono)
+			foreach (var room in roomGenerators)
 			{
-				ExclusionMono.OnSelected();
+				room.OnSelected();
 			}
 		}
 
@@ -239,9 +238,9 @@ namespace Systems.Scenes
 		{
 			GameGizmoSquare.OrNull()?.Remove();
 			GameGizmoSquare = null;
-			foreach (var ExclusionMono in exclusionZonesMono)
+			foreach (var room in roomGenerators)
 			{
-				ExclusionMono.OnDeselect();
+				room.OnDeselect();
 			}
 		}
 
@@ -252,9 +251,9 @@ namespace Systems.Scenes
 			GameGizmoSquare.Position = offset.To3() + size / WALL_GAP + GIZMO_OFFSET;
 			GameGizmoSquare.transform.localScale = size;
 
-			foreach (var ExclusionMono in exclusionZonesMono)
+			foreach (var room in roomGenerators)
 			{
-				ExclusionMono.UpdateGizmos();
+				room.UpdateGizmos();
 			}
 		}
 
@@ -292,8 +291,12 @@ namespace Systems.Scenes
 
 				if (obj.SpawnLockerCrate)
 				{
-					GameObject container = Spawn.ServerPrefab(containers.PickRandom(), SpawnDestination.At(pos))
+					GameObject container = null;
+					if (obj.SpawnInAbandonedCrate) container = Spawn.ServerPrefab(abandonedCrate, SpawnDestination.At(pos))
 						.GameObject;
+					else container = Spawn.ServerPrefab(containers.PickRandom(), SpawnDestination.At(pos))
+						.GameObject;
+
 					if (container.TryGetComponent<ClosetControl>(out var closet) == false) break;
 
 					closet.CollectObjects();
@@ -378,15 +381,10 @@ namespace Systems.Scenes
 		[field: SerializeField, Tooltip("Will this object spawn in combination with a locker or crate?")]
 		public bool SpawnLockerCrate { get; private set; }
 
+		[field: SerializeField, ShowIf(nameof(SpawnLockerCrate)), Tooltip("Will this object spawn in an abandoned crate?")]
+		public bool SpawnInAbandonedCrate { get; private set; }
+
 		[field: SerializeField, Tooltip("The tile, if any, spawned when this object is placed")]
 		public LayerTile TileToSpawn { get; private set; }
-	}
-
-	[Serializable]
-	public class ExclusionZone
-	{
-		[field: SerializeField] public Vector2Int Offset { get; private set; }
-
-		[field: SerializeField] public Vector2Int Size { get; private set; }
 	}
 }

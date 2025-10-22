@@ -40,7 +40,8 @@ public enum Event
 	ChatQuickUnfocus,
 	Cleanup,
 	CleanupEnd,
-	ReadyToInitialiseMatrices
+	ReadyToInitialiseMatrices,
+	GhostRolesInitialized,
 } // + other events. Add them as you need them
 
 [ExecuteInEditMode]
@@ -184,6 +185,9 @@ public class EventManager : MonoBehaviour
 				category = Category.Round;
 				break;
 			case Event.RoundEnded:
+				category = Category.Round;
+				break;
+			case Event.GhostRolesInitialized:
 				category = Category.Round;
 				break;
 			case Event.BlobSpawned:

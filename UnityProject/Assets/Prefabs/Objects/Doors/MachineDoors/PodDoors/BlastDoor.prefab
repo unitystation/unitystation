@@ -112,11 +112,14 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &1927662052458841217
 GameObject:
   m_ObjectHideFlags: 0
@@ -231,11 +234,14 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!114 &6724382713022444060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -355,11 +361,14 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &5144750835177084923
 GameObject:
   m_ObjectHideFlags: 0
@@ -469,11 +478,14 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &5764031026545632270
 GameObject:
   m_ObjectHideFlags: 0
@@ -589,11 +601,14 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!114 &8591727723636216734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -790,11 +805,14 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1001 &1628611137711136242
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1209,6 +1227,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 25917947699532951}
+    - targetCorrespondingSourceObject: {fileID: 4813822218561835024, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 297899629320453026}
   m_SourcePrefab: {fileID: 100100000, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
 --- !u!114 &419772491748247962 stripped
 MonoBehaviour:
@@ -1260,8 +1282,9 @@ MonoBehaviour:
   isAutomatic: 0
   allowInteraction: 0
   ignorePassableChecks: 1
+  closingPushesEntities: 0
   maxTimeOpen: 5
-  blockAutoClose: 1
+  BlockAutoClose: 0
   clickDisablesAutoClose: 0
   isWindowedDoor: 0
   UseMachinesForOpenLayeer: 0
@@ -1312,8 +1335,22 @@ MonoBehaviour:
   closingAnimationTime: 0.6
   deniedAnimationTime: 0.6
   warningAnimationTime: 0.6
-  SyncDoorUpdateType: 1
-  PanelOpen: 0
+  CurrentDoorUpdateType: 0
+--- !u!114 &297899629320453026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6077569209427463650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf2e268504fc274392eb3c6232bcc34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   openingSFX:
     AssetAddress: Assets/Prefabs/Doors/BlastDoor.prefab
     AssetReference:
@@ -1330,6 +1367,14 @@ MonoBehaviour:
       m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+  forcedSFX:
+    AssetAddress: Assets/Prefabs/Effects/smash.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
   deniedSFX:
     AssetAddress: 
     AssetReference:
@@ -1339,6 +1384,46 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   warningSFX:
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  toolPrySFX:
+    AssetAddress: Assets/Prefabs/Doors/DoorPry.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  jawsPrySFX:
+    AssetAddress: Assets/Prefabs/Items/JawsPry.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  handPrySFX:
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  boltsDownSFX:
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  boltsUpSFX:
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 

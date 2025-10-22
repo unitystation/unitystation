@@ -1,0 +1,391 @@
+{
+  "Ver": "1.0.0",
+  "MapName": "5x5idcard",
+  "ContainedMatrices": [
+    {
+      "Ver": "1.1.1",
+      "Location": "0┼0┼0┼",
+      "MatrixName": "5x5idcard",
+      "GitFriendlyTileMapData": {
+        "Ver": "1.0.0",
+        "XYs": [
+          {
+            "Key": "X0Y0",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y1",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y2",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y3",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y4",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y0",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y1",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y2",
+            "Value": [
+              {
+                "Tel": "warningcorner3"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y3",
+            "Value": [
+              {
+                "Tel": "warningline_2"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y4",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y0",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y1",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y2",
+            "Value": [
+              {
+                "Tel": "warningline_1"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y3",
+            "Value": [
+              {
+                "Tel": "podfloor_light"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y4",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X3Y0",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X3Y1",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X3Y2",
+            "Value": [
+              {
+                "Tel": "warningcorner2"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X3Y3",
+            "Value": [
+              {
+                "Tel": "warningline_3"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X3Y4",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X4Y0",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X4Y1",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X4Y2",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X4Y3",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X4Y4",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          }
+        ]
+      },
+      "CompactObjectMapData": {
+        "Ver": "1.5.0",
+        "CommonPrefabs": [],
+        "PrefabData": [
+          {
+            "GitID": "5fd9d8acdd4f02849884dcddff5db286_2┼0┼0┼",
+            "PrefabID": "5fd9d8acdd4f02849884dcddff5db286",
+            "Name": "AirlockStandardOpaque (1)",
+            "LocalPRS": "2┼0┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "1d35052f4fc2cad4d8226d1a63e4a1b3_2┼3┼0┼",
+            "PrefabID": "1d35052f4fc2cad4d8226d1a63e4a1b3",
+            "Name": "CrateBase (2)",
+            "LocalPRS": "2┼3┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "68e52345b8e8eba4aa27e110b598b023_2┼3┼0┼",
+            "PrefabID": "68e52345b8e8eba4aa27e110b598b023",
+            "Name": "IDCardAncient (1)",
+            "LocalPRS": "2┼3┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "BasicClearanceSource@0",
+                  "Data": [
+                    {
+                      "Name": "clearance#0",
+                      "Data": "AwayGeneric1"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "fde32c02abddc814f9366ff1fb21f234_2┼3┼0┼",
+            "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "Name": "LightTubeFixture (3)",
+            "LocalPRS": "2┼3┼0┼0ø0ø180ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Down_By180"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "LightSource@0",
+                  "Data": [
+                    {
+                      "Name": "isWithoutSwitch",
+                      "Data": "True"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          }
+        ],
+        "IDToNetIDClient": {}
+      },
+      "PreviewGizmos": [
+        {
+          "Ver": "1.0.0",
+          "Pos": "2,2,0",
+          "Size": "4,4,0"
+        }
+      ]
+    }
+  ]
+}
