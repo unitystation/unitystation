@@ -43,6 +43,23 @@ namespace Tests
 			}
 		}
 
+		//Seperated from main maps. Perhaps tests could be optimised/streamlined in future for room blueprints vs maps?
+		public static IEnumerable<string> RoomBlueprintScenes
+		{
+			get
+			{
+				List<string> fileNames = new List<string>();
+				var  folderPath = Path.Combine(Application.dataPath, "StreamingAssets/Rooms");
+				if (!string.IsNullOrEmpty(folderPath) && Directory.Exists(folderPath))
+				{
+					// Get all files from the folder and its subfolders
+					fileNames.AddRange(Directory.GetFiles(folderPath, "*.*", SearchOption.AllDirectories)
+						.Where(x => x.Contains(".meta") == false));
+				}
+				return fileNames;
+			}
+		}
+
 		/// <summary>
 		/// Finds all prefabs located in the prefabs folder and returns them as GameObjects.
 		/// </summary>

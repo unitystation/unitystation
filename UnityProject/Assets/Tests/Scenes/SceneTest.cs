@@ -13,11 +13,19 @@ using UnityEngine.SceneManagement;
 
 namespace Tests.Scenes
 {
-	public record SceneTestData(string File)
+	public enum BluePrintType
+	{
+		Map,
+		Room
+	}
+
+	public record SceneTestData(string File, BluePrintType Type)
 	{
 		// This allows the tests to show the name of the scene rather than the file location
 		public override string ToString() => Path.GetFileNameWithoutExtension(File);
 		public string File { get; } = File;
+
+		public BluePrintType Type { get; } = Type;
 	}
 
 	[Ignore("For scene testing subclasses")]
@@ -25,7 +33,8 @@ namespace Tests.Scenes
 	[TestFixtureSource(typeof(SceneTest), nameof(Scenes))]
 	public abstract class SceneTest
 	{
-		public static IEnumerable<SceneTestData> Scenes => Utils.NonDevScenes.Select(scene => new SceneTestData(scene));
+		public static IEnumerable<SceneTestData> Scenes => Utils.NonDevScenes.Select(scene => new SceneTestData(scene, BluePrintType.Map))
+													.Concat(Utils.RoomBlueprintScenes.Select(scene => new SceneTestData(scene, BluePrintType.Room)));
 
 		private List<GameObject> rootObjects;
 
@@ -47,7 +56,12 @@ namespace Tests.Scenes
 			{
 				Scene = EditorSceneManager.OpenScene("Assets/Scenes/DevScenes/EmptyMap.unity");
 				MapSaver.MapSaver.CodeClass.ThisCodeClass.Reset();
-				MapSaver.MapSaver.MapData mapData = JsonConvert.DeserializeObject<MapSaver.MapSaver.MapData>(AccessFile.Load(Data.File, FolderType.Maps));
+				MapSaver.MapSaver.MapData mapData;
+				if(Data.Type == BluePrintType.Map) mapData = JsonConvert.DeserializeObject<MapSaver.MapSaver.MapData>(AccessFile.Load(Data.File, FolderType.Maps));
+				else mapData = JsonConvert.DeserializeObject<MapSaver.MapSaver.MapData>(AccessFile.Load(Data.File, FolderType.Rooms));
+				//TODO: Rooms don't require all the same tests as full maps. Figure out which ones are redundant and skip them. That being said, rooms are only really 1s each
+				//TODO: Consider Loading all rooms at once and doing one large check
+
 				List<IEnumerator> PreviousLevels = new List<IEnumerator>();
 				var Imnum = MapLoader.ServerLoadMap(Vector3.zero, Vector3.zero, mapData);
 				bool Loop = true;
