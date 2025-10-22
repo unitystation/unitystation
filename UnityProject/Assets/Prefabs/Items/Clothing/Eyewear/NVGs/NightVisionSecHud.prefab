@@ -1,0 +1,180 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6363140457656800585
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 338430958433800353, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: <ActionData>k__BackingField.m_values.Array.data[0].target
+      value: 
+      objectReference: {fileID: 8069319551632997631}
+    - target: {fileID: 338430958433800353, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: '<ActionData>k__BackingField.m_keys.Array.data[0].AnimatedIconCatalogue.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 2e7c01b1259dd054690fec8d460f1bc4,
+        type: 2}
+    - target: {fileID: 2394567818253216056, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b317cf03434734642bcc480d30c57c45,
+        type: 3}
+    - target: {fileID: 2476688126581123024, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: _assetId
+      value: 3565759773
+      objectReference: {fileID: 0}
+    - target: {fileID: 2579088290442746468, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_Name
+      value: NightVisionSecHud
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583167340972730128, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583167340972730128, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583167340972730128, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583167340972730128, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583167340972730128, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583167340972730128, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583167340972730128, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583167340972730128, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583167340972730128, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583167340972730128, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2677207007311197446, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: initialName
+      value: night vision security HUD
+      objectReference: {fileID: 0}
+    - target: {fileID: 2677207007311197446, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: initialDescription
+      value: 'Allows for sight in the dark.
+
+        Provides information on the
+        roles and criminal status of crew.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4014275074474256822, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: shaderColour.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4014275074474256822, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: shaderColour.g
+      value: 0.12599431
+      objectReference: {fileID: 0}
+    - target: {fileID: 4014275074474256822, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: shaderColour.r
+      value: 0.83396226
+      objectReference: {fileID: 0}
+    - target: {fileID: 8542444576367387107, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2e7c01b1259dd054690fec8d460f1bc4,
+        type: 2}
+    - target: {fileID: 8894744257401591305, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: foreverID
+      value: b2a76017e4b77d74b8e17a458fea83c7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8914868493469207009, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8914868493469207009, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: 'allClothingData.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 098404fec7a026d48a3265eeddd8ceea,
+        type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2579088290442746468, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -3659603107212058567}
+  m_SourcePrefab: {fileID: 100100000, guid: 5668f8777ce1a794980fbd35aa58f56b, type: 3}
+--- !u!114 &8069319551632997631 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4014275074474256822, guid: 5668f8777ce1a794980fbd35aa58f56b,
+    type: 3}
+  m_PrefabInstance: {fileID: 6363140457656800585}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8900425314937163565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e8deecf3238eac4597c33d91991c2c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &8900425314937163565 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2579088290442746468, guid: 5668f8777ce1a794980fbd35aa58f56b,
+    type: 3}
+  m_PrefabInstance: {fileID: 6363140457656800585}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-3659603107212058567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8900425314937163565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a073751a7dfd42f489b3f224424bfe7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  OnBodyID: 0

@@ -8,8 +8,12 @@ namespace Player
 	public class DimPlayerLightController : NetworkBehaviour
 	{
 		[SerializeField] private LightSprite light;
-		[SyncVar] public Color lightColor = new Color(255, 255, 255, 1);
-		private Color defaultColor = new Color(255, 255, 255, 1);
+		[SyncVar] public Color lightColor = new Color(255, 255, 255, 10);
+		private Color _defaultColor = new Color(255, 255, 255, 10);
+
+		public const float DEFAULT_SIZE = 4;
+		private const float ALPHA_SCALE_FACTOR = 25; //Scales the light sprite by the light colours alpha
+		private float _size = DEFAULT_SIZE; //Override for dim light size independent from the light sprite colour
 
 		private void Awake()
 		{
@@ -18,31 +22,24 @@ namespace Player
 				Loggy.Error("[DimPlayerLightController] - LightSprite is null!! NREs will occur!");
 				return;
 			}
-			defaultColor = light.Color;
+
+			_defaultColor = lightColor;
 		}
 
 		public void UpdateLightLocally()
 		{
-			light.Color = lightColor;
-
-			UpdateSize();
+			UpdateLightData(_size);
 		}
 
-		public void UpdateSize()
+		public void UpdateLightData(float newSize, bool updateColour = true)
 		{
-			var Scale = light.gameObject.transform.localScale;
-			Scale = Vector3.one *4;
+			if(updateColour) light.Color = lightColor;
 
-			if (light.Color.a == 0)
-			{
-				Scale = Vector3.zero;
-			}
-			else
-			{
-				Scale = (light.Color.a / 0.0392156877f) * Scale;
-			}
+			_size = newSize;
+			var scale = Vector3.one * _size;
 
-			light.gameObject.transform.localScale = Scale;
+			scale = light.Color.a == 0 ? Vector3.zero : light.Color.a * ALPHA_SCALE_FACTOR * scale;
+			light.gameObject.transform.localScale = scale;
 		}
 
 		public void TurnOffLight2D()
@@ -58,8 +55,8 @@ namespace Player
 
 		public void ResetToDefault()
 		{
-			lightColor = defaultColor;
-			UpdateSize();
+			lightColor = _defaultColor;
+			UpdateLightData(DEFAULT_SIZE);
 		}
 	}
 }

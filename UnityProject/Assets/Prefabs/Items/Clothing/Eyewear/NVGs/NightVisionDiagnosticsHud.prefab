@@ -1,0 +1,132 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2974623582315617237
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 338430958433800353, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: '<ActionData>k__BackingField.m_keys.Array.data[0].AnimatedIconCatalogue.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: cb02a64914b802b4bbdef0387e77ebbf,
+        type: 2}
+    - target: {fileID: 2394567818253216056, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 182303de889bab745a3507ad5c863047,
+        type: 3}
+    - target: {fileID: 2476688126581123024, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: _assetId
+      value: 4040216179
+      objectReference: {fileID: 0}
+    - target: {fileID: 2579088290442746468, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_Name
+      value: NightVisionDiagnosticsHud
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583167340972730128, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583167340972730128, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583167340972730128, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583167340972730128, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583167340972730128, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583167340972730128, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583167340972730128, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583167340972730128, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583167340972730128, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583167340972730128, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2677207007311197446, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: initialName
+      value: night vision diagnostics HUD
+      objectReference: {fileID: 0}
+    - target: {fileID: 2677207007311197446, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: initialDescription
+      value: 'Allows for sight in the dark.
+
+        Displays the status of machines
+        and synthetics.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4014275074474256822, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: shaderColour.b
+      value: 0.15686274
+      objectReference: {fileID: 0}
+    - target: {fileID: 4014275074474256822, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: shaderColour.g
+      value: 0.5743328
+      objectReference: {fileID: 0}
+    - target: {fileID: 4014275074474256822, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: shaderColour.r
+      value: 0.7647059
+      objectReference: {fileID: 0}
+    - target: {fileID: 8542444576367387107, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: cb02a64914b802b4bbdef0387e77ebbf,
+        type: 2}
+    - target: {fileID: 8894744257401591305, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: foreverID
+      value: 91c4e13a32f97fb49821582c283cf832
+      objectReference: {fileID: 0}
+    - target: {fileID: 8914868493469207009, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: 'allClothingData.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: a66c2fc67fdb7a24bb0d61120dadd3a7,
+        type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5668f8777ce1a794980fbd35aa58f56b, type: 3}

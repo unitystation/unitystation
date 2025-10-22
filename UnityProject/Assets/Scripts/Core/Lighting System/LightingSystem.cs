@@ -311,8 +311,6 @@ public class LightingSystem : MonoBehaviour
 			return;
 		}
 
-		OnLightingSystemEnabled?.Invoke(true);
-
 		if (!SystemInfo.supportsAsyncGPUReadback)
 		{
 			Loggy.Warning("LightingSystem: Async GPU Readback not supported on this machine, slower synchronous readback will" +
@@ -355,6 +353,8 @@ public class LightingSystem : MonoBehaviour
 		}
 
 		operationParameters = new OperationParameters(mMainCamera, renderSettings, matrixRotationMode);;
+
+		OnLightingSystemEnabled?.Invoke(true);
 
 		ResolveRenderingTextures(operationParameters);
 	}

@@ -27,7 +27,7 @@ namespace Changeling
 			effects.AdjustPlayerVisibility(
 				toggle ? ExpandedNightVisionVisibility : effects.MinimalVisibilityScale,
 				toggle ? DefaultvisibilityAnimationSpeed : RevertvisibilityAnimationSpeed);
-			effects.ToggleNightVisionEffectState(toggle);
+			effects.ToggleNightVisionEffectState(toggle, new Color(255,26,26));
 			effects.NvgHasMaxedLensRadius(true);
 
 			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestChangelingAbilitesToggle(Index, toggle);

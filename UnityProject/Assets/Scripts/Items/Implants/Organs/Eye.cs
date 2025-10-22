@@ -233,12 +233,12 @@ namespace Items.Implants.Organs
 		{
 			if (newState)
 			{
-				Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().LightingSystem.renderSettings
+				Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().lightingSystem.renderSettings
 					.fovOcclusionSpread = 3;
 			}
 			else
 			{
-				Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().LightingSystem.renderSettings
+				Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().lightingSystem.renderSettings
 					.fovOcclusionSpread = 0;
 			}
 		}
