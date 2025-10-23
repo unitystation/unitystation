@@ -1,11 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using HealthV2.Living.PolymorphicSystems.Bodypart;
 using UnityEngine;
 
 public class RedirectPossessing : MonoBehaviour
 {
-
 	public IPlayerPossessable IPlayerPossessable;
 
 	public IPlayerPossessable ToPossessTo;
@@ -16,6 +16,8 @@ public class RedirectPossessing : MonoBehaviour
 	{
 		IPlayerPossessable = this.GetComponent<IPlayerPossessable>();
 		IPlayerPossessable.OnPossessedBy.AddListener(Possessing);
+
+		ItemStorage.ServerInventoryItemSlotSet += BrainInTransfer;
 
 		if (ToPossessTo != null)
 		{
@@ -30,8 +32,48 @@ public class RedirectPossessing : MonoBehaviour
 				}
 			}
 		}
+	}
+
+	public void BrainInTransfer(Pickupable prevPart, Pickupable NewPart)
+	{
+		if (NewPart)
+		{
+
+			if (NewPart.TryGetComponentCustom<SaturationComponent>(out var component))
+			{
+				component.enabled = false;
+			}
+
+			if (NewPart.TryGetComponentCustom<HungerComponent>(out var component1))
+			{
+				component.enabled = false;
+			}
+			if (NewPart.TryGetComponentCustom<NaturalChemicalReleaseComponent>(out var component2))
+			{
+				component.enabled = false;
+			}
 
 
+
+		}
+		else if (prevPart)
+		{
+
+			if (NewPart.TryGetComponentCustom<SaturationComponent>(out var component))
+			{
+				component.enabled = true;
+			}
+
+			if (NewPart.TryGetComponentCustom<HungerComponent>(out var component1))
+			{
+				component.enabled = true;
+			}
+			if (NewPart.TryGetComponentCustom<NaturalChemicalReleaseComponent>(out var component2))
+			{
+				component.enabled = true;
+			}
+
+		}
 	}
 
 
@@ -58,7 +100,5 @@ public class RedirectPossessing : MonoBehaviour
 		mind.SetPossessingObject(ToPossessTo.GameObject);
 		mind.StopGhosting();
 		return;
-
 	}
-
 }

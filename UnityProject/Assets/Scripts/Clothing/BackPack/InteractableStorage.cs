@@ -305,13 +305,7 @@ public class InteractableStorage : NetworkBehaviour,
 
 		if (Cooldowns.IsOn(interaction, cooldown, side)) return false;
 
-		if (DoNotShowInventoryOnUI == false)
-		{
-			if (interaction.IsAltClick)
-			{
-				return true;
-			}
-		}
+
 
 		if (IsFull(interaction.UsedObject, interaction.Performer))
 		{
@@ -320,21 +314,33 @@ public class InteractableStorage : NetworkBehaviour,
 			return false;
 		}
 
-		// item must be able to fit
-		// note: since this is in local player's inventory, we are safe to check this stuff on client side
-		if (Validations.CanPutItemToStorage(interaction.Performer.GetComponent<PlayerScript>(),
-			    itemStorage, interaction.UsedObject, side, examineRecipient: interaction.Performer) == false) return false;
+		if (interaction.UsedObject == null)
+		{
+			if (DoNotShowInventoryOnUI == false)
+			{
+				return interaction.IsAltClick == false;
+			}
+		}
+		else
+		{
+			// item must be able to fit
+			// note: since this is in local player's inventory, we are safe to check this stuff on client side
+			if (Validations.CanPutItemToStorage(interaction.Performer.GetComponent<PlayerScript>(),
+				    itemStorage, interaction.UsedObject, side, examineRecipient: interaction.Performer) == false) return false;
+		}
 
 		return true;
 	}
 
 	public void ServerPerformInteraction(InventoryApply interaction)
 	{
+
 		if (DoNotShowInventoryOnUI == false)
 		{
-			if (interaction.IsAltClick)
+			if (interaction.IsAltClick == false)
 			{
 				OpenInventoryInteraction(interaction);
+				return;
 			}
 		}
 

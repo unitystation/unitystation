@@ -69,6 +69,8 @@ namespace Objects.Machines
 
 		public bool MapSpawned = false;
 
+		public IRefreshParts[] IRefreshParts;
+
 		public float CurrentBatteryCapacity
 		{
 			get
@@ -142,6 +144,8 @@ namespace Objects.Machines
 
 			integrity = GetComponent<Integrity>();
 			integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
+
+			IRefreshParts = GetComponents<IRefreshParts>();
 		}
 
 		public void Start()
@@ -328,13 +332,6 @@ namespace Objects.Machines
 			ObjectpartsInFrame.Clear();
 
 			PartsStorage.ServerTryTransferFrom(InActiveGameObjectpartsInFrame);
-
-			var toRefresh = GetComponents<IRefreshParts>();
-
-			foreach (var refresh in toRefresh)
-			{
-				refresh.RefreshParts(ObjectpartsInFrame, this);
-			}
 		}
 
 		public bool GetPanelOpen()
@@ -487,9 +484,12 @@ namespace Objects.Machines
 			{
 				ObjectpartsInFrame.RemoveAll(x => x.itemObject == prevPart.gameObject);
 			}
+
+			foreach (var refresh in IRefreshParts)
+			{
+				refresh.RefreshParts(ObjectpartsInFrame, this);
+			}
 		}
-
-
 	}
 
 

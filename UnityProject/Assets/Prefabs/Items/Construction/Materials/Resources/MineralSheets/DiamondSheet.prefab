@@ -14,6 +14,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f2ee6b00134a2a741890607ec8ef0aea,
         type: 2}
+    - target: {fileID: 514345970168333904, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f2ee6b00134a2a741890607ec8ef0aea,
+        type: 2}
     - target: {fileID: 783613402110013882, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
       propertyPath: parentID
@@ -164,34 +170,20 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.Texture
       value: 
       objectReference: {fileID: 2800000, guid: 1affad26cb7a12f49a064d573fb2207d, type: 3}
+    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 55f534c02d0557842aed0dc145928212,
+        type: 2}
+    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: c4d468ec8f6483b488a4d1c7d7f8397a,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5937237277765483991, guid: 8a023982b9ee4fd40b87f69c23492dd6,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: -2550304783380118611}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a023982b9ee4fd40b87f69c23492dd6, type: 3}
---- !u!1 &6138400208043822838 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5937237277765483991, guid: 8a023982b9ee4fd40b87f69c23492dd6,
-    type: 3}
-  m_PrefabInstance: {fileID: 525434271369392929}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &-2550304783380118611
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6138400208043822838}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8688576ed720a4f40b3583f62adeeb23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  groundReagents:
-    m_keys:
-    - {fileID: 11400000, guid: 82692ea8680693d459ad97993dbda0f3, type: 2}
-    m_values: 14000000

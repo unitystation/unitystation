@@ -90,8 +90,11 @@ namespace HealthV2.Living.PolymorphicSystems
 		public override void BodyPartAdded(BodyPart bodyPart)
 		{
 			var component = bodyPart.GetComponent<HungerComponent>();
+
+
 			if (component != null)
 			{
+				if (component.enabled == false) return;
 				if (BodyParts.Contains(component) == false)
 				{
 					BodyParts.Add(component);

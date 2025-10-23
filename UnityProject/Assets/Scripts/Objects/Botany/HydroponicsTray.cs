@@ -89,7 +89,8 @@ namespace Objects.Botany
 			nutrimentNotifier.PushClear();
 			harvestNotifier.PushClear();
 
-			if (RandomisedReagents)
+
+			if (RandomisedReagents && Machine.MapSpawned)
 			{
 				reagentContainer.TakeReagents(99);
 				var mix = new ReagentMix();
@@ -213,7 +214,7 @@ namespace Objects.Botany
 				//Weeds checks
 				if (weedLevel < 10)
 				{
-					weedLevel = weedLevel + ((0.75f) * (plantData.WeedGrowthRate / 10f));
+					weedLevel = weedLevel + ((0.30f) * (plantData.WeedGrowthRate / 10f));
 					if (weedLevel > 10)
 					{
 						weedLevel = 10;
@@ -243,7 +244,7 @@ namespace Objects.Botany
 				//Water Checks
 				if (reagentContainer[water] > 0)
 				{
-					reagentContainer.Subtract(new ReagentMix(water, .03f / GetMachineMultiplier()));
+					reagentContainer.Subtract(new ReagentMix(water, .015f / GetMachineMultiplier()));
 				}
 				else if (plantData.PlantTrays.Contains(PlantTrays.Fungal_Vitality) == false)
 				{
@@ -265,7 +266,7 @@ namespace Objects.Botany
 							{
 								if (reagentContainer[nutriment] > 0)
 								{
-									reagentContainer.Subtract(new ReagentMix(nutriment, 0.75f /   GetMachineMultiplier()));
+									reagentContainer.Subtract(new ReagentMix(nutriment, 0.5f /   GetMachineMultiplier()));
 								}
 							}
 
