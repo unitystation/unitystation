@@ -29,7 +29,7 @@ MonoBehaviour:
   miningTime: 5
   miningHardness: 1
   constructable: 0
-  RadiationPassability: 1
+  RadiationPassability: 0.3
   ThermalConductivity: 0.05
   HeatCapacity: 10000
   doesReflectBullet: 0
@@ -71,11 +71,11 @@ MonoBehaviour:
   spawnOnDestroy: {fileID: 0}
   damageOverlayList: {fileID: 11400000, guid: a9338e07e1ad66d48bf05e214ab1f02e, type: 2}
   soundOnHit:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/GlassHit.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   SoundOnDestroy: []
