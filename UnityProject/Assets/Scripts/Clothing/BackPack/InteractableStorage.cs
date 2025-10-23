@@ -72,7 +72,7 @@ public class InteractableStorage : NetworkBehaviour,
 	/// <summary>
 	/// Flag to determine if this can empty out all items by activating it
 	/// </summary>
-	[SerializeField] [Tooltip("Can you eaaaa out all items by activating this item?")]
+	[SerializeField] [Tooltip("Can you empty out all items by activating this item?")]
 	private bool canQuickEmpty = false;
 
 	[SerializeField] [Tooltip("Does it require alt click When in top-level inventory")]
@@ -318,14 +318,7 @@ public class InteractableStorage : NetworkBehaviour,
 		{
 			if (DoNotShowInventoryOnUI == false)
 			{
-				if (interaction.IsAltClick == false)
-				{
-					return true;
-				}
-				else
-				{
-					return false;
-				}
+				return interaction.IsAltClick == false;
 			}
 		}
 		else

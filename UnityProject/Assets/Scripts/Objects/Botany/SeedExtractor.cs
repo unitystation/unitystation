@@ -222,8 +222,6 @@ namespace Objects.Botany
 				$"You place the {packet.gameObject.ExpensiveName()} into the seed extractor.",
 				$"{interaction.Performer.name} places the {packet.gameObject.ExpensiveName()} into the seed extractor.");
 			Inventory.ServerDespawn(interaction.HandSlot);
-			return;
-
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
