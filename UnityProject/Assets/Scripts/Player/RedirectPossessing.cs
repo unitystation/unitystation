@@ -39,18 +39,18 @@ public class RedirectPossessing : MonoBehaviour
 		if (NewPart)
 		{
 
-			if (NewPart.GetComponentCustom<SaturationComponent>() != null)
+			if (NewPart.TryGetComponentCustom<SaturationComponent>(out var component))
 			{
-				NewPart.GetComponentCustom<SaturationComponent>().enabled = false;
+				component.enabled = false;
 			}
 
-			if (NewPart.GetComponentCustom<HungerComponent>() != null)
+			if (NewPart.TryGetComponentCustom<HungerComponent>(out var component1))
 			{
-				NewPart.GetComponentCustom<HungerComponent>().enabled = false;
+				component.enabled = false;
 			}
-			if (NewPart.GetComponentCustom<NaturalChemicalReleaseComponent>() != null)
+			if (NewPart.TryGetComponentCustom<NaturalChemicalReleaseComponent>(out var component2))
 			{
-				NewPart.GetComponentCustom<NaturalChemicalReleaseComponent>().enabled = false;
+				component.enabled = false;
 			}
 
 
@@ -58,19 +58,21 @@ public class RedirectPossessing : MonoBehaviour
 		}
 		else if (prevPart)
 		{
-			if (NewPart.GetComponentCustom<SaturationComponent>() != null)
+
+			if (NewPart.TryGetComponentCustom<SaturationComponent>(out var component))
 			{
-				NewPart.GetComponentCustom<SaturationComponent>().enabled = true;
+				component.enabled = true;
 			}
 
-			if (NewPart.GetComponentCustom<HungerComponent>() != null)
+			if (NewPart.TryGetComponentCustom<HungerComponent>(out var component1))
 			{
-				NewPart.GetComponentCustom<HungerComponent>().enabled = true;
+				component.enabled = true;
 			}
-			if (NewPart.GetComponentCustom<NaturalChemicalReleaseComponent>() != null)
+			if (NewPart.TryGetComponentCustom<NaturalChemicalReleaseComponent>(out var component2))
 			{
-				NewPart.GetComponentCustom<NaturalChemicalReleaseComponent>().enabled = true;
+				component.enabled = true;
 			}
+
 		}
 	}
 
