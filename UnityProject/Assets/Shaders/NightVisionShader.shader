@@ -2,6 +2,8 @@
 {
 	Properties{
 		_MainTex("Base (RGB)", RECT) = "white" {}
+		_ScreenTexture("Texture", 2D) = "white" {}
+		_Color ("Some Color", Color) = (1,1,1,1) 
 	}
 
 		SubShader{
@@ -17,27 +19,28 @@
 
 				// frag shaders data
 				uniform sampler2D _MainTex;
-				uniform float4 _Luminance;
+					uniform sampler2D _ScreenTexture;
+					uniform fixed4 _Color;
 				uniform float _LensRadius;
-				uniform float brightness = 1.25f;
 
 				// frag shader
 				float4 frag(v2f_img i) : COLOR
 				{
-
 					float4 col = tex2D(_MainTex, i.uv);
 
-					//obtain luminance value
-					col = dot(col, _Luminance);
+					col = max(0.1f, col);
+					col *= 2.5f;
+
+					col.r = abs(col.rgb);
+					col.gb = col.r;
 
 					//add lens circle effect
 					//(could be optimised by using texture)
-					float dist = distance(i.uv, float2(0.85, 0.85));
-					col *= smoothstep(_LensRadius,  _LensRadius - 0.17, dist);
+					float dist = distance(i.uv, float2(0.5, 0.5));
+					col.rgb *= smoothstep(_LensRadius,  _LensRadius - 0.2f, dist);
 
-					//add rb to the brightest pixels
-					col.r = max(col.r - 0.75, 0) * brightness;
-
+					
+					col.rgb *= _Color * tex2D(_ScreenTexture, float2(i.uv.x*0.2f, i.uv.y*0.2f + _Time.y/100 % 0.25f));
 					// return col pixel
 					return col;
 				}

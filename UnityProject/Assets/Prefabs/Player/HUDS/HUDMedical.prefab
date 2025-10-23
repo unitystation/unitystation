@@ -11,13 +11,13 @@ GameObject:
   - component: {fileID: 7143236600055908701}
   - component: {fileID: 1603040067248660636}
   - component: {fileID: 4909360160866502902}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: HealthSymbol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7143236600055908701
 Transform:
   m_ObjectHideFlags: 0
@@ -50,6 +50,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -110,15 +113,17 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d1f4b00a7c20d71409cd1eb9154d6c2f, type: 2}
   - {fileID: 11400000, guid: d0a82137a6c55544991880fa30d63154, type: 2}
   - {fileID: 11400000, guid: ecc2c6fe38309694c9f3c8e58bc88cdc, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: a3bb76a24186f644a97b0dcdc2bce12c, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: a3bb76a24186f644a97b0dcdc2bce12c,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 1603040067248660636}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &3773905765040299103
 GameObject:
   m_ObjectHideFlags: 0
@@ -129,7 +134,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3950444169679250612}
   - component: {fileID: 4850224076091446347}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: HUDMedical
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,13 +183,13 @@ GameObject:
   - component: {fileID: 3300145034342869394}
   - component: {fileID: 8892765528942550230}
   - component: {fileID: 4122083716685410753}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3300145034342869394
 Transform:
   m_ObjectHideFlags: 0
@@ -217,6 +222,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -286,12 +294,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 334f015a3ea34104aa78f013b2f2559d, type: 2}
   - {fileID: 11400000, guid: fffe8f8445d1ae84b93a93f15512123b, type: 2}
   - {fileID: 11400000, guid: 226d0ec20a0286340bf2bda5b019cc85, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 89e96ddcd10ac8542a18f3a8b86c5b29, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 89e96ddcd10ac8542a18f3a8b86c5b29,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 8892765528942550230}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 

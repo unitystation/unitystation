@@ -6,34 +6,33 @@ namespace HealthV2.TraumaTypes
 	public class TraumaRadiationAfflict : TraumaLogic
 	{
 		[SerializeField,Tooltip("The radiation damage dealt is reduced by this factor to calculate added pathogen count.")]
-		private float afflictionReductionFactor = 400f;
+		private float afflictionReductionFactor = 4f;
 
 		private const float DeadlyCancerCount = 25f;
 
 		[SerializeField]
 		private float MinThresholdDamage = 2;
-		[SerializeField]
-		private float CancerPercentage = 0.5f;
+
 		public override void OnTakeDamage(BodyPartDamageData data)
 		{
-			if (data.DamageAmount < 2) return;
-			if ( data.TramuticDamageType != TraumaticDamageTypes.NONE ) return;
-			if ( data.AttackType != AttackType.Rad ) return;
-			if ( DMMath.Prob(GetRadProtectionPercentage()) ) return;
-			if ( DMMath.Prob(data.TraumaDamageChance) == false ) return;
-			if ( DMMath.Prob(CancerPercentage) == false ) return;
-			Loggy.Error(data.DamageAmount.ToString());
-			if ( deadlyDamageInOneHit > data.DamageAmount)
+			if (data.TramuticDamageType != TraumaticDamageTypes.NONE) return;
+			if (data.AttackType != AttackType.Rad) return;
+			if (DMMath.Prob(GetRadProtectionPercentage())) return;
+			if (DMMath.Prob(data.TraumaDamageChance) == false) return;
+			if (data.DamageAmount < MinThresholdDamage) return;
+			float overflowDamage = data.DamageAmount - MinThresholdDamage;
+
+			if (overflowDamage > deadlyDamageInOneHit)
 			{
-				AfflictMinorCancer(data);
+				ProgressDeadlyEffect();
 				return;
 			}
-			ProgressDeadlyEffect();
+			AfflictMinorCancer(overflowDamage);
 		}
 
-		private void AfflictMinorCancer(BodyPartDamageData data)
+		private void AfflictMinorCancer(float damageAmount)
 		{
-			bodyPart.HealthMaster.reagentPoolSystem.BloodPool.Add(CommonSicknesses.Instance.SpaceCancerReagent, data.DamageAmount / afflictionReductionFactor);
+			bodyPart.HealthMaster.reagentPoolSystem.BloodPool.Add(CommonSicknesses.Instance.SpaceCancerReagent, damageAmount / afflictionReductionFactor);
 		}
 
 		public override void ProgressDeadlyEffect()
