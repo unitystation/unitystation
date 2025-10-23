@@ -27,8 +27,6 @@ namespace Objects.Machines
 
 		public MultitoolConnectionType ConType => MultitoolConnectionType.OreSilo;
 
-		public GameObject gameObject => gameObject;
-
 		public bool CanRelink => true;
 
 		private void Awake()
