@@ -62,7 +62,7 @@ namespace Objects.Botany
 			DropItems(seedPackets, spawnPos).Forget();
 		}
 
-		private async UniTaskVoid DropItems(List<SeedAndPlantData> seedPackets, Vector3 spawnPos)
+		private async UniTask DropItems(List<SeedAndPlantData> seedPackets, Vector3 spawnPos)
 		{
 			// Loop until the list is empty
 			while (seedPackets.Count > 0)
