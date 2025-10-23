@@ -32,6 +32,9 @@ namespace HealthV2.Living.PolymorphicSystems.Bodypart
 		/// </summary>
 		[Tooltip("How much more nutriment does it consume each Second")]
 		public float HealingNutrimentMultiplier = 2f;
+
+		[Tooltip("How much more nutriment does it Healing each Nutriment")]
+		public float ActualHealingNutrimentMultiplier = 5f;
 		// /\ Regeneration = hyper nutriment consumption healing = all body parts?
 
 		public HungerState HungerState = HungerState.Normal;
@@ -50,7 +53,7 @@ namespace HealthV2.Living.PolymorphicSystems.Bodypart
 			for (int i = 0; i < RelatedPart.Damages.Length; i++)
 			{
 				if ((int) DamageType.Oxy == i) continue;
-				RelatedPart.HealDamage(null, (float) (RelatedPart.Damages[i] / DamageMultiplier), i);
+				RelatedPart.HealDamage(null, (float) (RelatedPart.Damages[i] / DamageMultiplier) * ActualHealingNutrimentMultiplier, i);
 			}
 		}
 

@@ -8,7 +8,7 @@ namespace HealthV2.Living.Mutations.Metabolism
 	public class Regeneration  : MutationSO
 	{
 		public float HealingNutriment = 20f;
-
+		public float Healing= 20f;
 		public override Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
 		{
 			return new InRegeneration(BodyPart,_RelatedMutationSO);
@@ -30,12 +30,15 @@ namespace HealthV2.Living.Mutations.Metabolism
 				Related = BodyPart.GetComponent<HungerComponent>();
 				if (Related == null) return;
 				Related.HealingNutrimentMultiplier += Regeneration.HealingNutriment;
+				Related.ActualHealingNutrimentMultiplier += Regeneration.Healing;
+
 			}
 
 			public override void Remove()
 			{
 				if (Related == null) return;
 				Related.HealingNutrimentMultiplier -= Regeneration.HealingNutriment;
+				Related.ActualHealingNutrimentMultiplier -= Regeneration.Healing;
 			}
 
 		}
