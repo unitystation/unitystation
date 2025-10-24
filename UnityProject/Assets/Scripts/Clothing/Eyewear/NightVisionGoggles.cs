@@ -162,7 +162,14 @@ namespace Clothing
 			effects.AdjustPlayerVisibility(
 				finalState ? ExpandedNightVisionVisibility : effects.MinimalVisibilityScale,
 				finalState ? DefaultvisibilityAnimationSpeed : RevertvisibilityAnimationSpeed);
-			effects.ToggleNightVisionEffectState(finalState, shaderColour);
+			try
+			{
+				effects.ToggleNightVisionEffectState(finalState, shaderColour);
+			}
+			catch (Exception e)
+			{
+				Loggy.Error(e.ToString());
+			}
 
 			if (CurrentlyOn != null)
 			{

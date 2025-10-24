@@ -17,17 +17,7 @@ namespace CameraEffects
 
 		[SerializeField] private Texture2D screenTexture;
 
-		private Color _toShaderColour;
-		public Color ToShaderColour
-		{
-			get => _toShaderColour;
-			set
-			{
-				_toShaderColour = value;
-				if (_material == false) _material = new Material(shader);
-				_material.SetColor("_Color", ToShaderColour);
-			}
-		}
+		public Color ToShaderColour { get; set; }
 
 
 		// Called by Camera to apply image effect
@@ -43,7 +33,7 @@ namespace CameraEffects
 			if (lensRadiusMaxed == false) _material.SetFloat("_LensRadius", lensRadius);
 			else _material.SetFloat("_LensRadius", MAX_LENS_RADIUS);
 			_material.SetTexture("_ScreenTexture", screenTexture);
-
+			_material.SetColor("_Color", ToShaderColour);
 
 			Graphics.Blit(source, destination, _material);
 		}
