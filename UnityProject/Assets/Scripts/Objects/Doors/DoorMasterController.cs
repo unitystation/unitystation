@@ -174,6 +174,7 @@ namespace Doors
 				openSortingLayer = SortingLayer.NameToID("Machines");
 			}
 
+			doorAnimator.SyncDoorStatus(doorAnimator.SyncDoorUpdateType, DoorAnimatorV2.DoorUpdateType.Close);
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -515,7 +516,7 @@ namespace Doors
 			}
 			else
 			{
-				soundController.PlaySound(DoorSoundController.DoorSoundType.Close);
+				soundController.ServerPlaySound(DoorSoundController.DoorSoundType.Close);
 			}
 		}
 
@@ -549,7 +550,7 @@ namespace Doors
 			}
 			else
 			{
-				soundController.PlaySound(DoorSoundController.DoorSoundType.Open);
+				soundController.ServerPlaySound(DoorSoundController.DoorSoundType.Open);
 			}
 		}
 
