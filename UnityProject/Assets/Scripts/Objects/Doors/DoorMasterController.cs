@@ -174,6 +174,7 @@ namespace Doors
 				openSortingLayer = SortingLayer.NameToID("Machines");
 			}
 
+			doorAnimator.SyncDoorStatus(doorAnimator.SyncDoorUpdateType, DoorAnimatorV2.DoorUpdateType.Close);
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
