@@ -17,7 +17,7 @@ namespace Messages.Client.GhostRoles
 		{
 			foreach (KeyValuePair<uint, GhostRoleServer> kvp in GhostRoleManager.Instance.serverAvailableRoles)
 			{
-				if (kvp.Value.TimeRemaining < 0) continue;
+				if (kvp.Value.TimeRemaining != -1 && kvp.Value.TimeRemaining <= 0) continue;
 				GhostRoleUpdateMessage.SendTo(SentByPlayer, kvp.Key, kvp.Value);
 			}
 		}
