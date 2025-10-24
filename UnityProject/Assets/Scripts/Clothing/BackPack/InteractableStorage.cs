@@ -231,6 +231,9 @@ public class InteractableStorage : NetworkBehaviour,
 		switch (pickupMode)
 		{
 			case PickupMode.DropClick:
+			case PickupMode.All:
+			case PickupMode.Same:
+			case PickupMode.Single:
 				if (canQuickEmpty)
 				{
 					var slots = itemStorage.GetItemSlots();
@@ -248,11 +251,10 @@ public class InteractableStorage : NetworkBehaviour,
 
 					Chat.AddExamineMsg(interaction.Performer, $"You start dumping out the {gameObject.ExpensiveName()}.");
 				}
-				break;
-			case PickupMode.All:
-			case PickupMode.Same:
-			case PickupMode.Single:
-				OpenInventoryInteraction(interaction);
+				else
+				{
+					OpenInventoryInteraction(interaction);
+				}
 				break;
 		}
 	}
@@ -305,8 +307,6 @@ public class InteractableStorage : NetworkBehaviour,
 
 		if (Cooldowns.IsOn(interaction, cooldown, side)) return false;
 
-
-
 		if (IsFull(interaction.UsedObject, interaction.Performer))
 		{
 			if (Cooldowns.TryStart(interaction, cooldown, side) == false) return false;
@@ -337,7 +337,7 @@ public class InteractableStorage : NetworkBehaviour,
 
 		if (DoNotShowInventoryOnUI == false)
 		{
-			if (interaction.IsAltClick == false)
+			if (interaction.IsAltClick || interaction.UsedObject == null)
 			{
 				OpenInventoryInteraction(interaction);
 				return;

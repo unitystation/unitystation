@@ -47370,6 +47370,9 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "Table"
               }
             ]
           },
@@ -131363,6 +131366,12 @@
             }
           },
           {
+            "GitID": "PlantDNAManipulator_72┼56┼0┼",
+            "PrefabID": "PlantDNAManipulator",
+            "Name": "New PlantDNAManipulator (1)",
+            "LocalPRS": "72┼56┼0┼"
+          },
+          {
             "GitID": "66f05879999b49141bbfc4e0fdc9903a_72┼59┼0┼",
             "PrefabID": "66f05879999b49141bbfc4e0fdc9903a",
             "Name": "WaterTankHighCapacity (1)",
@@ -133977,10 +133986,6 @@
                   "ClassID": "ReagentContainer@0",
                   "Data": [
                     {
-                      "Name": "possibleTransferAmounts#0",
-                      "Data": "#removed#"
-                    },
-                    {
                       "Name": "maxCapacity",
                       "Data": "100"
                     },
@@ -133990,6 +133995,10 @@
                     },
                     {
                       "Name": "initialReagentMix@reagents#Water",
+                      "Data": "#removed#"
+                    },
+                    {
+                      "Name": "possibleTransferAmounts#0",
                       "Data": "#removed#"
                     }
                   ]
