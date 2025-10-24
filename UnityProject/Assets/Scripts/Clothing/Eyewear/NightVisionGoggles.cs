@@ -166,7 +166,7 @@ namespace Clothing
 
 			if (CurrentlyOn != null)
 			{
-				DimPlayerLightController dimLightController = PlayerManager.LocalPlayerScript.DimPlayerLightController;
+				DimPlayerLightController dimLightController = CurrentlyOn.PlayerScript?.DimPlayerLightController;
 				if (dimLightController != null && state)
 				{
 					dimLightController.lightColor = dimLightColour;
