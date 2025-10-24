@@ -183,7 +183,7 @@ namespace Items
 			if (lastTouchedBy == null)
 			{
 				Chat.AddExamineMsg(interaction.Performer,
-					"The pages are filled with holographic words that shift as you move your hand, but none of it are legible yet.");
+					"The pages are filled with holographic words that shift as you move your hand, but none of them are legible yet.");
 				return;
 			}
 
