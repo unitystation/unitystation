@@ -29,9 +29,16 @@ MonoBehaviour:
     - rid: 6780799869088170006
     - rid: 6780799869088170008
     - rid: 6780799869088170010
+    ProclamationTextGenerator:
+      rid: 1407928419411034176
   references:
     version: 2
     RefIds:
+    - rid: 1407928419411034176
+      type: {class: SimpleProclamationText, ns: Systems.Faith.ProclamationGen, asm: Assets}
+      data:
+        Proclamation: There is no god, but god
+        Rejection: I do not believe in god anymore
     - rid: 2708802213016240135
       type: {class: ScienceComesFirst, ns: Systems.Faith.FaithProperties, asm: Assets}
       data:

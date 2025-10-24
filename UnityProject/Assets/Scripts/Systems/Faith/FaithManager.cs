@@ -4,6 +4,7 @@ using System.Linq;
 using Logs;
 using Shared.Managers;
 using UnityEngine;
+using UnityEngine.Assertions;
 using Util.Independent.FluentRichText;
 
 namespace Systems.Faith
@@ -17,6 +18,8 @@ namespace Systems.Faith
 		public List<Action> FaithPropertiesConstantUpdate { get; set; } = new List<Action>();
 		[field: SerializeField] public List<FaithSO> AllFaiths { get; private set; } = new List<FaithSO>();
 
+		private bool isInit = false;
+
 		public override void Awake()
 		{
 			base.Awake();
@@ -27,7 +30,7 @@ namespace Systems.Faith
 
 		private void SetupFaiths()
 		{
-			if (CustomNetworkManager.IsServer == false) return;
+			if (CustomNetworkManager.IsServer == false || isInit) return;
 			foreach (var faith in AllFaiths)
 			{
 				AddFaithToActiveList(faith.Faith);
@@ -36,10 +39,12 @@ namespace Systems.Faith
 			UpdateManager.Add(PeriodicUpdate, FaithPerodicCheckTimeInSeconds);
 			Chat.AddGameWideSystemMsgToChat(
 				$"Faiths have been setup successfully! {CurrentFaiths.Count} faiths are now active.".Color(Color.green));
+			isInit = true;
 		}
 
 		private void ResetReligion()
 		{
+			isInit = false;
 			Loggy.Info("[FaithManager/ResetReligion] - Resetting faiths.");
 			CurrentFaiths.Clear();
 			FaithPropertiesConstantUpdate.Clear();
@@ -54,7 +59,6 @@ namespace Systems.Faith
 
 		private void LongUpdate()
 		{
-			Loggy.Info($"[FaithManager/LongUpdate] - Events check.");
 			foreach (var update in FaithPropertiesEventUpdate)
 			{
 				update?.Invoke();
@@ -100,6 +104,11 @@ namespace Systems.Faith
 				Loggy.Error("[FaithManager/AddFaithToActiveList] - Attempted to call a server function on the client.");
 				return;
 			}
+			if (CurrentFaiths.Any(x => x.Faith.FaithName == faith.FaithName))
+			{
+				Loggy.Warning($"{faith.FaithName} already exists. Skipping..");
+				return;
+			}
 			FaithData data = new FaithData()
 			{
 				Faith = faith,
@@ -108,6 +117,9 @@ namespace Systems.Faith
 			};
 			CurrentFaiths.Add(data);
 			data.SetupFaith();
+			Debug.Assert(data.Faith.ProclamationTextGenerator != null, $"ProclamationTextGenerator is null for {faith.FaithName}.");
+			data.Faith.ProclamationText = data.Faith.ProclamationTextGenerator.GenerateProclamation();
+			data.Faith.RejectionText = data.Faith.ProclamationTextGenerator.GenerateRejection();
 		}
 
 		public static void JoinFaith(Faith faith, PlayerScript player)

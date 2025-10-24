@@ -33,9 +33,22 @@ MonoBehaviour:
     FaithMiracles:
     - rid: 6780799869088170013
     - rid: 6780799869738287105
+    ProclamationTextGenerator:
+      rid: 1407928419411034174
   references:
     version: 2
     RefIds:
+    - rid: 1407928419411034174
+      type: {class: CodedProclamationText, ns: Systems.Faith.ProclamationGen, asm: Assets}
+      data:
+        inputStrings:
+        - 47 6F 64
+        - 6F 6D 6E 69 73 73 69 61 68
+        - 70 72 61 69 73 65
+        - 31
+        - 74 72 75 65
+        - 66 61 6C 73 65
+        length: 3
     - rid: 2708802213016240137
       type: {class: Darkness, ns: Systems.Faith.FaithProperties, asm: Assets}
       data:
@@ -85,11 +98,11 @@ MonoBehaviour:
         goldenRevolver: {fileID: 5110185232032146699, guid: 04e181bad9e993944bf2465d48cb41d4,
           type: 3}
         summonSound:
-          SetLoadSetting: 0
           AssetAddress: Assets/Prefabs/Magic/Blind.prefab
           AssetReference:
             m_AssetGUID: 
             m_SubObjectName: 
+            m_SubObjectGUID: 
             m_SubObjectType: 
             m_EditorAssetChanged: 0
     - rid: 6780799869738287105
