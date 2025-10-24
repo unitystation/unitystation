@@ -217536,6 +217536,14 @@
                   "ClassID": "APC@0",
                   "Data": [
                     {
+                      "Name": "connectedDevices#17",
+                      "Data": "ChemDispenser_34┼11┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#16",
+                      "Data": "ChemDispenser_32┼11┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
                       "Name": "connectedDevices#15",
                       "Data": "31f497a1df0802143afd331d9e780661_32.01┼10.02┼0┼@0@APCPoweredDevice@0"
                     },
@@ -217887,7 +217895,7 @@
                   "Data": [
                     {
                       "Name": "CurrentDirection",
-                      "Data": "Up_By0"
+                      "Data": "Left_By90"
                     }
                   ]
                 },
@@ -217895,88 +217903,72 @@
                   "ClassID": "APC@0",
                   "Data": [
                     {
-                      "Name": "connectedDevices#25",
+                      "Name": "connectedDevices#21",
                       "Data": "c937e0abe85aca9499d09951de736ec6_24┼41┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#24",
+                      "Name": "connectedDevices#20",
                       "Data": "haBBWNjmgJzZ?f-9P$K3_30┼37┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#23",
+                      "Name": "connectedDevices#19",
                       "Data": "haBBWNjmgJzZ?f-9P$K3_32┼37┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#22",
+                      "Name": "connectedDevices#18",
                       "Data": "haBBWNjmgJzZ?f-9P$K3_33┼37┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#21",
+                      "Name": "connectedDevices#17",
                       "Data": "haBBWNjmgJzZ?f-9P$K3_29┼37┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#20",
+                      "Name": "connectedDevices#16",
                       "Data": "fde32c02abddc814f9366ff1fb21f234_31┼37┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#19",
+                      "Name": "connectedDevices#15",
                       "Data": "ArtifactAnalyser_28┼33┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#18",
+                      "Name": "connectedDevices#14",
                       "Data": "artifactconsole_27┼33┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#17",
+                      "Name": "connectedDevices#13",
                       "Data": "ArtifactAnalyser_26┼33┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#16",
+                      "Name": "connectedDevices#12",
                       "Data": "a50474d976314462a79602e20a762520_30┼34┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#15",
+                      "Name": "connectedDevices#11",
                       "Data": "0d553281bdfc0fd438b3f6c7db58688c_29┼36┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#14",
+                      "Name": "connectedDevices#10",
                       "Data": "cb2f847ef3b8b754181a970a4032c552_31┼36┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#13",
+                      "Name": "connectedDevices#9",
                       "Data": "c21551dd992a57349973e4b5af103ca6_32┼37┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#12",
+                      "Name": "connectedDevices#8",
                       "Data": "c21551dd992a57349973e4b5af103ca6_28┼34┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#11",
+                      "Name": "connectedDevices#7",
                       "Data": "e838f08ba052aa84698c5c15b7bf2996_34┼36┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#10",
+                      "Name": "connectedDevices#6",
                       "Data": "e838f08ba052aa84698c5c15b7bf2996_23┼36┼0┼@0@APCPoweredDevice@0"
                     },
                     {
-                      "Name": "connectedDevices#9",
-                      "Data": "e838f08ba052aa84698c5c15b7bf2996_23┼38┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#8",
-                      "Data": "NULL"
-                    },
-                    {
-                      "Name": "connectedDevices#7",
-                      "Data": "NULL"
-                    },
-                    {
-                      "Name": "connectedDevices#6",
-                      "Data": "NULL"
-                    },
-                    {
                       "Name": "connectedDevices#5",
-                      "Data": "NULL"
+                      "Data": "e838f08ba052aa84698c5c15b7bf2996_23┼38┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#4",
@@ -266297,12 +266289,6 @@
             "LocalPRS": "63.04┼86.02┼0┼"
           },
           {
-            "GitID": "fde2e8af4ce865a4ab1b2b3bfb4655c6_63.057┼85.1135┼0┼",
-            "PrefabID": "fde2e8af4ce865a4ab1b2b3bfb4655c6",
-            "Name": "Carrot (2)",
-            "LocalPRS": "63.057┼85.1135┼0┼"
-          },
-          {
             "GitID": "fde2e8af4ce865a4ab1b2b3bfb4655c6_63.058┼85.1135┼0┼",
             "PrefabID": "fde2e8af4ce865a4ab1b2b3bfb4655c6",
             "Name": "Carrot (3)",
@@ -266318,7 +266304,7 @@
           {
             "GitID": "fde2e8af4ce865a4ab1b2b3bfb4655c6_63.06┼85.11┼0┼",
             "PrefabID": "fde2e8af4ce865a4ab1b2b3bfb4655c6",
-            "Name": "Carrot (1)",
+            "Name": "Carrot (2)",
             "LocalPRS": "63.06┼85.11┼0┼"
           },
           {
@@ -266332,6 +266318,12 @@
             "PrefabID": "5ecad40040be9b848af97507c5003164",
             "Name": "CrabMeat (1)",
             "LocalPRS": "63.06┼86.13┼0┼"
+          },
+          {
+            "GitID": "fde2e8af4ce865a4ab1b2b3bfb4655c6_63.061┼85.11┼0┼",
+            "PrefabID": "fde2e8af4ce865a4ab1b2b3bfb4655c6",
+            "Name": "Carrot (1)",
+            "LocalPRS": "63.061┼85.11┼0┼"
           },
           {
             "GitID": "b33a479c33469b747be6fe3130c04a01_63.07┼85.04┼0┼",
