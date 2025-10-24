@@ -65,7 +65,6 @@ namespace Clothing
 		/// </summary>
 		private bool IsInCorrectNamedSlot()
 		{
-			Loggy.Error($"{pickupable.ItemSlot.ToString()}");
 			return pickupable.ItemSlot is { NamedSlot: NamedSlot.eyes };
 		}
 
@@ -167,14 +166,14 @@ namespace Clothing
 
 			if (CurrentlyOn != null)
 			{
-				_ = SoundManager.PlayNetworkedAtPosAsync(nightVisionToggleSound, CurrentlyOn.WorldPositionServer);
-				DimPlayerLightController dimLightController = CurrentlyOn.PlayerScript?.DimPlayerLightController;
+				DimPlayerLightController dimLightController = PlayerManager.LocalPlayerScript.DimPlayerLightController;
 				if (dimLightController != null && state)
 				{
 					dimLightController.lightColor = dimLightColour;
-					dimLightController.UpdateLightData(DimPlayerLightController.DEFAULT_SIZE * darknessVisibilityMultiplier);
+					dimLightController.UpdateLightData(DimPlayerLightController.DEFAULT_SIZE * darknessVisibilityMultiplier, true);
 				}
-				else if(dimLightController != null) dimLightController.ResetToDefault();
+				else if(dimLightController != null && Preimplemented.IsOnLocalPlayer) dimLightController.ResetToDefault();
+				_ = SoundManager.PlayNetworkedAtPosAsync(nightVisionToggleSound, CurrentlyOn.WorldPositionServer);
 			}
 			else _ = SoundManager.PlayNetworkedAtPosAsync(nightVisionToggleSound, gameObject.AssumedWorldPosServer());
 		}
