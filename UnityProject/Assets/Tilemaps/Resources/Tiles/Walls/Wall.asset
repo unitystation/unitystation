@@ -30,7 +30,7 @@ MonoBehaviour:
   miningTime: 5
   miningHardness: 1
   constructable: 0
-  RadiationPassability: 0.75
+  RadiationPassability: 0.25
   ThermalConductivity: 0
   HeatCapacity: 312500
   doesReflectBullet: 0
@@ -70,11 +70,11 @@ MonoBehaviour:
   spawnOnDestroy: {fileID: 11400000, guid: 58463a0bb14e745c9b581c874bd64f58, type: 2}
   damageOverlayList: {fileID: 0}
   soundOnHit:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   SoundOnDestroy: []
