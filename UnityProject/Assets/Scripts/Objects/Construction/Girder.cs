@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Core;
 using UnityEngine;
 using Mirror;
@@ -206,31 +207,42 @@ namespace Objects.Construction
 		[Server]
 		private void ReinforceGirder(HandApply interaction)
 		{
-			interaction.HandObject.GetComponent<Stackable>().ServerConsume(1);
-			Spawn.ServerPrefab(reinforcedGirder, SpawnDestination.At(gameObject));
-			_ = Despawn.ServerSingle(gameObject);
+			StartCoroutine(SyncSpawn(interaction, reinforcedGirder, 1));
 		}
 
 		[Server]
 		private void ConstructFalseWall(HandApply interaction)
 		{
-			GameObject theWall = Spawn.ServerPrefab(FalseWall, SpawnDestination.At(gameObject)).GameObject;
-			DoorMasterController doorController = theWall.GetComponent<DoorMasterController>();
-			tileChangeManager.MetaTileMap.SetTile(registerObject.LocalPositionServer, falseTile);
-			interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
-			_ = Despawn.ServerSingle(gameObject);
-			doorController.TryClose();
+			StartCoroutine(SyncSpawn(interaction, FalseWall, 2));
 		}
 
 		[Server]
 		private void ConstructReinforcedFalseWall(HandApply interaction)
 		{
-			GameObject theWall = Spawn.ServerPrefab(FalseReinforcedWall, SpawnDestination.At(gameObject)).GameObject;
-			DoorMasterController doorController = theWall.GetComponent<DoorMasterController>();
-			tileChangeManager.MetaTileMap.SetTile(registerObject.LocalPositionServer, falseTile);
-			interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
-			_ = Despawn.ServerSingle(gameObject);
-			doorController.TryClose();
+			StartCoroutine(SyncSpawn(interaction, FalseReinforcedWall, 2));
 		}
+
+		/// <summary>
+		/// Waits for the girder to despawn before spawning the desired object
+		/// </summary>
+		/// <param name="interaction">The HandApply action that doing the constructing</param>
+		/// <param name="toSpawn">What we are constructing</param>
+		/// <param name="toConsume">How many resources to consume from the active hand slot</param>
+		IEnumerator SyncSpawn(HandApply interaction, GameObject toSpawn, int toConsume)
+		{
+			interaction.HandObject.GetComponent<Stackable>().ServerConsume(toConsume);
+			SpawnDestination destination = SpawnDestination.At(gameObject);
+			yield return _ = Despawn.ServerSingle(gameObject);
+			GameObject spawned = Spawn.ServerPrefab(toSpawn, destination).GameObject;
+			
+			//Some extra logic to get that Open -> Close animation for the FalseWalls spawning
+			//We want this rather than spawning the door closed so the builder can see they did it right
+			if(toSpawn == FalseReinforcedWall || toSpawn == FalseWall)
+			{
+				DoorMasterController doorController = spawned.GetComponent<DoorMasterController>();
+                tileChangeManager.MetaTileMap.SetTile(registerObject.LocalPositionServer, falseTile);
+				doorController.Close();
+            }
+        }
 	}
 }
