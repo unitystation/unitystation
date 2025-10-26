@@ -40,13 +40,24 @@ MonoBehaviour:
     - rid: 6780799869738287117
     - rid: 6780799869738287119
     - rid: 6780799869738287121
+    ProclamationTextGenerator:
+      rid: 1407928419411034171
   references:
     version: 2
     RefIds:
+    - rid: 1407928419411034171
+      type: {class: CodedProclamationText, ns: Systems.Faith.ProclamationGen, asm: Assets}
+      data:
+        inputStrings:
+        - ROCK AND STONE
+        - WE SHALL
+        - DIGGY DIGGY HOLE
+        length: 2
     - rid: 2708802213016240155
       type: {class: RockAndStone, ns: Systems.Faith.FaithProperties, asm: Assets}
       data:
         propertyIcon: {fileID: 21300008, guid: 321c51faef850244aa8d67229f4f4a42, type: 3}
+        pointsMultiplier: 1.35
     - rid: 2708802213016240158
       type: {class: Darkness, ns: Systems.Faith.FaithProperties, asm: Assets}
       data:
@@ -64,11 +75,11 @@ MonoBehaviour:
         goldenRevolver: {fileID: 5110185232032146699, guid: 04e181bad9e993944bf2465d48cb41d4,
           type: 3}
         summonSound:
-          SetLoadSetting: 0
           AssetAddress: Assets/Prefabs/Magic/Blind.prefab
           AssetReference:
             m_AssetGUID: 
             m_SubObjectName: 
+            m_SubObjectGUID: 
             m_SubObjectType: 
             m_EditorAssetChanged: 0
     - rid: 6780799869738287109

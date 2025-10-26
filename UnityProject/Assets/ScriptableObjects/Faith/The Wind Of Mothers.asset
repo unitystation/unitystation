@@ -27,9 +27,25 @@ MonoBehaviour:
     - rid: 6780799841507999746
     - rid: 6780799720538505217
     - rid: 6780799869738287123
+    ProclamationTextGenerator:
+      rid: 1407928419411034170
   references:
     version: 2
     RefIds:
+    - rid: 1407928419411034170
+      type: {class: CodedProclamationText, ns: Systems.Faith.ProclamationGen, asm: Assets}
+      data:
+        inputStrings:
+        - ixa
+        - parta
+        - lara
+        - mama
+        - oia
+        - fai
+        - ma
+        - ka
+        - ta
+        length: 3
     - rid: 2708802425784369153
       type: {class: HighLife, ns: Systems.Faith.FaithProperties, asm: Assets}
       data:

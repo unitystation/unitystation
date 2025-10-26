@@ -111508,6 +111508,10 @@
                   "ClassID": "APC@0",
                   "Data": [
                     {
+                      "Name": "connectedDevices#2",
+                      "Data": "b5ce361d8fd60a44c85f5418f6eab9e6_60┼71┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
                       "Name": "connectedDevices#1",
                       "Data": "fde32c02abddc814f9366ff1fb21f234_57┼67┼0┼@0@APCPoweredDevice@0"
                     },
@@ -113267,6 +113271,25 @@
                           "Data": "0dd23f1436b901d4bb4b88ffb4e63caa"
                         }
                       ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "b5ce361d8fd60a44c85f5418f6eab9e6_60┼71┼0┼",
+            "PrefabID": "b5ce361d8fd60a44c85f5418f6eab9e6",
+            "Name": "NutriMax (1)",
+            "LocalPRS": "60┼71┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_58┼68┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -125200,7 +125223,24 @@
             "GitID": "872a07241939db44a92aae9b275b6063_72┼69┼0┼",
             "PrefabID": "872a07241939db44a92aae9b275b6063",
             "Name": "BartendersSkirt (1)",
-            "LocalPRS": "72┼69┼0┼"
+            "LocalPRS": "72┼69┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ItemSlotActionTracker@0",
+                  "Data": [
+                    {
+                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Data": "SecureStuff.SerializedAction"
+                    },
+                    {
+                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Data": "#removed#"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "9310e3a7aaa16614e87e410f00c9ec13_72┼69┼0┼",
@@ -125213,7 +125253,24 @@
             "GitID": "c842b429251c54792a95e292b838d034_72┼69┼0┼",
             "PrefabID": "c842b429251c54792a95e292b838d034",
             "Name": "BartendersUniform (1)",
-            "LocalPRS": "72┼69┼0┼"
+            "LocalPRS": "72┼69┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ItemSlotActionTracker@0",
+                  "Data": [
+                    {
+                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Data": "SecureStuff.SerializedAction"
+                    },
+                    {
+                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Data": "#removed#"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "74f1764f9ae8c6146a627626bfa4c6c0_72┼71┼0┼",
@@ -139550,10 +139607,6 @@
                 {
                   "ClassID": "Vendor@0",
                   "Data": [
-                    {
-                      "Name": "InitialVendorContent#165",
-                      "Data": "#removed#"
-                    },
                     {
                       "Name": "InitialVendorContent#164",
                       "Data": "#removed#"
@@ -153917,7 +153970,24 @@
             "GitID": "771a0ac9953472f439625fb33efcfecc_102┼92┼0┼",
             "PrefabID": "771a0ac9953472f439625fb33efcfecc",
             "Name": "CaptainsParadeUniform (1)",
-            "LocalPRS": "102┼92┼0┼"
+            "LocalPRS": "102┼92┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ItemSlotActionTracker@0",
+                  "Data": [
+                    {
+                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Data": "SecureStuff.SerializedAction"
+                    },
+                    {
+                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Data": "#removed#"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "a340b01570aae8349b6c47fabfe0d4a3_102┼92┼0┼",
@@ -158132,13 +158202,47 @@
             "GitID": "42b8312937564f84ca906c22a8aa23b7_107.98┼60.95┼0┼",
             "PrefabID": "42b8312937564f84ca906c22a8aa23b7",
             "Name": "MedicalScrubsBlue (1)",
-            "LocalPRS": "107.98┼60.95┼0┼"
+            "LocalPRS": "107.98┼60.95┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ItemSlotActionTracker@0",
+                  "Data": [
+                    {
+                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Data": "SecureStuff.SerializedAction"
+                    },
+                    {
+                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Data": "#removed#"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "b7293f2ee1e4b5b408a9c76ca1f03f0a_107.99┼61.02┼0┼",
             "PrefabID": "b7293f2ee1e4b5b408a9c76ca1f03f0a",
             "Name": "MedicalScrubsGreen (1)",
-            "LocalPRS": "107.99┼61.02┼0┼"
+            "LocalPRS": "107.99┼61.02┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ItemSlotActionTracker@0",
+                  "Data": [
+                    {
+                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Data": "SecureStuff.SerializedAction"
+                    },
+                    {
+                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Data": "#removed#"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "c21551dd992a57349973e4b5af103ca6_108┼17┼0┼",
@@ -158425,7 +158529,24 @@
             "GitID": "1c4a4e2e7d6a9ce4e9135ceb57d872b8_108┼61┼0┼",
             "PrefabID": "1c4a4e2e7d6a9ce4e9135ceb57d872b8",
             "Name": "MedicalScrubsPurple (1)",
-            "LocalPRS": "108┼61┼0┼"
+            "LocalPRS": "108┼61┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ItemSlotActionTracker@0",
+                  "Data": [
+                    {
+                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Data": "SecureStuff.SerializedAction"
+                    },
+                    {
+                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Data": "#removed#"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "69b2a032b40410c4aace843d93130385_108┼61┼0┼",

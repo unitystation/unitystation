@@ -311,8 +311,9 @@ namespace Core.Physics
 				var inDirection = cachedPosition - Pulling.Component.transform.position;
 				if (inDirection.magnitude > 2f && isServer)
 				{
+					var InPulling = Pulling.Component;
 					PullSet(null, false, ResetForcePosition: true);
-					Pulling.Component.ResetLocationOnClients(true);
+					InPulling?.ResetLocationOnClients(true);
 				}
 				else
 				{

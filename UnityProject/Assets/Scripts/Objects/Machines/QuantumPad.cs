@@ -184,7 +184,7 @@ namespace Objects.Science
 			{
 				//Don't teleport self lol
 				if (reg.gameObject == gameObject) continue;
-				if (reg.UniversalObjectPhysics == null && (reg.UniversalObjectPhysics.Intangible || reg.UniversalObjectPhysics.CanMove == false)) continue;
+				if (reg.UniversalObjectPhysics == null || reg.UniversalObjectPhysics.Intangible || reg.UniversalObjectPhysics.CanMove == false) continue;
 				if (reg.TrySafeGetComponent<GhostMove>(out var ghost))
 				{
 					ghost.CMDSetServerPosition(travelCoord);

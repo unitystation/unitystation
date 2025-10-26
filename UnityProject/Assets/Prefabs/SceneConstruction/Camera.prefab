@@ -304,7 +304,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: 521fac50d43d6dc41bd4ce7d10d09317, type: 3}
   luminance: 0.44
-  lensRadius: 0.84
+  lensRadius: 0.5
+  screenTexture: {fileID: 2800000, guid: 9e3a266204395924d9cc89eb0ec2db71, type: 3}
 --- !u!114 &1578675351978633491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -408,9 +409,9 @@ MonoBehaviour:
   minimalVisibilitySprite: {fileID: 0}
   maxDrunkTime: 120
   maxFlashTime: 25
-  LightingSystem: {fileID: 0}
-  BlindFOVDistance: 0.65
-  FullVisionFOVDistance: 15
+  lightingSystem: {fileID: 0}
+  blindFOVDistance: 0.65
+  fullVisionFOVDistance: 15
 --- !u!114 &5935000786866830145
 MonoBehaviour:
   m_ObjectHideFlags: 0

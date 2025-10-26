@@ -2,6 +2,8 @@
 using UnityEngine;
 using UI.Core.NetUI;
 using Items.Botany;
+using Objects.Botany;
+using Systems.Botany;
 
 namespace UI.Objects.Botany
 {
@@ -16,29 +18,29 @@ namespace UI.Objects.Botany
 		[SerializeField]
 		private NetColorChanger itemBackground = null;
 
-		private SeedPacket seedItem;
+		private SeedExtractor.SeedAndPlantData SeedAndPlantData;
 		private GUI_SeedExtractor seedExtractorWindow;
 
-		public void SetItem(SeedPacket seedPacket, GUI_SeedExtractor correspondingWindow)
+		public void SetItem(SeedExtractor.SeedAndPlantData InSeedAndPlantData, GUI_SeedExtractor correspondingWindow)
 		{
-			seedItem = seedPacket;
+			SeedAndPlantData = InSeedAndPlantData;
 			seedExtractorWindow = correspondingWindow;
 			seedStats.MasterSetValue(
-					$"{seedPacket.plantData.Potency.ToString().PadLeft(3)} " +
-					$"{seedPacket.plantData.Yield.ToString().PadLeft(3)} " +
-					$"{seedPacket.plantData.GrowthSpeed.ToString().PadLeft(3)} " +
-					$"{seedPacket.plantData.Endurance.ToString().PadLeft(3)} " +
-					$"{seedPacket.plantData.Lifespan.ToString().PadLeft(3)} " +
-					$"{seedPacket.plantData.WeedResistance.ToString().PadLeft(3)} " +
-					$"{seedPacket.plantData.WeedGrowthRate.ToString().PadLeft(3)}");
+					$"{InSeedAndPlantData.PlantData.Potency.ToString().PadLeft(3)} " +
+					$"{InSeedAndPlantData.PlantData.Yield.ToString().PadLeft(3)} " +
+					$"{InSeedAndPlantData.PlantData.GrowthSpeed.ToString().PadLeft(3)} " +
+					$"{InSeedAndPlantData.PlantData.Endurance.ToString().PadLeft(3)} " +
+					$"{InSeedAndPlantData.PlantData.Lifespan.ToString().PadLeft(3)} " +
+					$"{InSeedAndPlantData.PlantData.WeedResistance.ToString().PadLeft(3)} " +
+					$"{InSeedAndPlantData.PlantData.WeedGrowthRate.ToString().PadLeft(3)}");
 			itemBackground.MasterSetValue(regularColor);
 		}
 
 		public void Dispense()
 		{
-			if (seedItem == null || seedExtractorWindow == null) return;
+			if (SeedAndPlantData == null || seedExtractorWindow == null) return;
 
-			seedExtractorWindow.DispenseSeedPacket(seedItem);
+			seedExtractorWindow.DispenseSeedPacket(SeedAndPlantData);
 		}
 	}
 }

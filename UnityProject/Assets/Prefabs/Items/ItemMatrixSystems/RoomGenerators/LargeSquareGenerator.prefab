@@ -1,0 +1,283 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2703898563519333602
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3084513279336921590, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: m_Name
+      value: LargeSquareGenerator
+      objectReference: {fileID: 0}
+    - target: {fileID: 3088878203096155266, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3088878203096155266, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3088878203096155266, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3088878203096155266, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3088878203096155266, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3088878203096155266, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3088878203096155266, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3088878203096155266, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3088878203096155266, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3088878203096155266, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3123899332296967234, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: _assetId
+      value: 1853154370
+      objectReference: {fileID: 0}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: roomWidth
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: roomHeight
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: roomSize.x
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: roomSize.y
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: possibleRooms.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: 'possibleRooms.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: f9325a8534df1a6498133a2819fb6d68,
+        type: 2}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: 'possibleRooms.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 087fe1d0c368dc44995e790f63562a08,
+        type: 2}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: 'possibleRooms.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: ca4c1a8546b87c74ebe9a037fad2c9b1,
+        type: 2}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: 'possibleRooms.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: ecfeeb867f56e9e4a8e98474fe9fbebb,
+        type: 2}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: 'possibleRooms.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 8dc37273e9b0a20489b27028541f2e40,
+        type: 2}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: 'possibleRooms.Array.data[5]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 86acaf4e92eb7c74ca0bb5b121e14dd5,
+        type: 2}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: 'possibleRooms.Array.data[6]'
+      value: 
+      objectReference: {fileID: 11400000, guid: f8a27e429a024fb44b551b52943d4986,
+        type: 2}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: 'possibleRooms.Array.data[7]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 552cf382d58ac394897497805afce055,
+        type: 2}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: 'possibleRooms.Array.data[8]'
+      value: 
+      objectReference: {fileID: 11400000, guid: f3a36b256bc18f94c805517e8df936f6,
+        type: 2}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: 'possibleRooms.Array.data[9]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 831032138d9ebe54a9566ad1dd976bd9,
+        type: 2}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: 'possibleRooms.Array.data[10]'
+      value: 
+      objectReference: {fileID: 11400000, guid: a0e30e6f80f135a4bad9d10cd10fa33e,
+        type: 2}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: 'possibleRooms.Array.data[11]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 2179c05e50c46694eac1e86dfaa55aef,
+        type: 2}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: 'possibleRooms.Array.data[12]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 1d988564896babc4c8e7d3eaf45b2010,
+        type: 2}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: 'possibleRooms.Array.data[13]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 6105d08d5d68c174699894f86f906d7d,
+        type: 2}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: 'possibleRooms.Array.data[14]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 87b191cd846a5d9408665afd3a4862ad,
+        type: 2}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: 'possibleRooms.Array.data[15]'
+      value: 
+      objectReference: {fileID: 11400000, guid: ad0c0fab96fa0a24eb8df59c546e0f56,
+        type: 2}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: possibleRoomsWeighted.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: possibleRoomsWeighted.Array.data[0].weight
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: possibleRoomsWeighted.Array.data[1].weight
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: possibleRoomsWeighted.Array.data[2].weight
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: possibleRoomsWeighted.Array.data[3].weight
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: possibleRoomsWeighted.Array.data[4].weight
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: possibleRoomsWeighted.Array.data[5].weight
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: possibleRoomsWeighted.Array.data[6].weight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: possibleRoomsWeighted.Array.data[0].roomToSpawn
+      value: 
+      objectReference: {fileID: 11400000, guid: f9325a8534df1a6498133a2819fb6d68,
+        type: 2}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: possibleRoomsWeighted.Array.data[1].roomToSpawn
+      value: 
+      objectReference: {fileID: 11400000, guid: 087fe1d0c368dc44995e790f63562a08,
+        type: 2}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: possibleRoomsWeighted.Array.data[2].roomToSpawn
+      value: 
+      objectReference: {fileID: 11400000, guid: ca4c1a8546b87c74ebe9a037fad2c9b1,
+        type: 2}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: possibleRoomsWeighted.Array.data[3].roomToSpawn
+      value: 
+      objectReference: {fileID: 11400000, guid: ecfeeb867f56e9e4a8e98474fe9fbebb,
+        type: 2}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: possibleRoomsWeighted.Array.data[4].roomToSpawn
+      value: 
+      objectReference: {fileID: 11400000, guid: 8dc37273e9b0a20489b27028541f2e40,
+        type: 2}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: possibleRoomsWeighted.Array.data[5].roomToSpawn
+      value: 
+      objectReference: {fileID: 11400000, guid: 86acaf4e92eb7c74ca0bb5b121e14dd5,
+        type: 2}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: possibleRoomsWeighted.Array.data[6].roomToSpawn
+      value: 
+      objectReference: {fileID: 11400000, guid: f8a27e429a024fb44b551b52943d4986,
+        type: 2}
+    - target: {fileID: 8247460462756738459, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
+      propertyPath: foreverID
+      value: 27a55c8f4d191d2499e095d14d156085
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 13a3b216aba358f428f0c638c923594b, type: 3}

@@ -16,7 +16,7 @@ namespace UI.Objects.Botany
 		private float cooldownTimer = 2f;
 
 		private SeedExtractor seedExtractor;
-		private Dictionary<string, List<SeedPacket>> seedExtractorContent = new Dictionary<string, List<SeedPacket>>();
+		private Dictionary<string, List<SeedExtractor.SeedAndPlantData>> seedExtractorContent = new Dictionary<string, List<SeedExtractor.SeedAndPlantData>>();
 		[SerializeField]
 		private EmptyItemList seedTypeList = null;
 		[SerializeField]
@@ -58,16 +58,16 @@ namespace UI.Objects.Botany
 		{
 			if (CustomNetworkManager.IsServer == false) return;
 
-			seedExtractorContent = new Dictionary<string, List<SeedPacket>>();
+			seedExtractorContent = new Dictionary<string, List<SeedExtractor.SeedAndPlantData>>();
 			foreach (var seedPacket in seedExtractor.seedPackets)
 			{
-				if (seedExtractorContent.ContainsKey(seedPacket.name))
+				if (seedExtractorContent.ContainsKey(seedPacket.SeedPacket.name))
 				{
-					seedExtractorContent[seedPacket.name].Add(seedPacket);
+					seedExtractorContent[seedPacket.SeedPacket.name].Add(seedPacket);
 				}
 				else
 				{
-					seedExtractorContent.Add(seedPacket.name, new List<SeedPacket> { seedPacket });
+					seedExtractorContent.Add(seedPacket.SeedPacket.name, new List<SeedExtractor.SeedAndPlantData> { seedPacket });
 				}
 			}
 		}
@@ -113,7 +113,7 @@ namespace UI.Objects.Botany
 			else
 			{
 				//If the entry doesn't exist go back to the main menu
-				if (!seedExtractorContent.ContainsKey(selectedSeedType))
+				if (seedExtractorContent.ContainsKey(selectedSeedType) == false)
 				{
 					Back();
 					return;
@@ -156,7 +156,7 @@ namespace UI.Objects.Botany
 		/// <summary>
 		/// Spawn seed packet in world
 		/// </summary>
-		public void DispenseSeedPacket(SeedPacket seedPacket)
+		public void DispenseSeedPacket(SeedExtractor.SeedAndPlantData seedPacket)
 		{
 			if (!CanSell()) return;
 			seedExtractor.DispenseSeedPacket(seedPacket);

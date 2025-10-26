@@ -1,58 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using Core.Physics;
-using NaughtyAttributes;
-using SecureStuff;
+using Logs;
 using Systems.Scenes;
-using UnityEditor;
+using TileManagement;
 using UnityEngine;
 
 namespace MaintRooms
 {
 	public class RandomExitPosition : MonoBehaviour
 	{
-
-		public List<ExitMarker> ExitMarkers = new List<ExitMarker>();
-
+		public static readonly List<GameObject> ExitMarkers = new List<GameObject>();
 
 		public void OnEnable()
 		{
-			EventManager.AddHandler(Event.RoundStarted, PostStart);
+			EventManager.AddHandler(Event.RoundStarted, RandomisePosition);
 		}
 
 		public void OnDisable()
 		{
-			EventManager.RemoveHandler(Event.RoundStarted, PostStart);
+			EventManager.RemoveHandler(Event.RoundStarted, RandomisePosition);
 		}
 
-		[ContextMenu("RebuildExitMarkerList"), VVNote(VVHighlight.SafeToModify100), Button]
-		void RebuildExitMarkerList()
+		public void RandomisePosition()
 		{
+			Loggy.Info($"Randomising gateway location... there are {ExitMarkers.Count} markers in play.");
 
-			ExitMarkers.Clear();
-			foreach (Transform t in transform.parent)
-			{
-				var mobSpawner = t.GetComponent<ExitMarker>();
-				if (mobSpawner != null)
-				{
-					ExitMarkers.Add(mobSpawner);
-				}
-			}
+			if (ExitMarkers.Count == 0) return;
 
+			GetComponent<UniversalObjectPhysics>()
+				.AppearAtWorldPositionServer(ExitMarkers.PickRandom().gameObject
+					.AssumedWorldPosServer()); //Randomise gateway position.
 
-#if UNITY_EDITOR
-			EditorUtility.SetDirty(gameObject);
-#endif
-		}
-
-		public void PostStart()
-		{
-			if (ExitMarkers.Count > 0)
-			{
-				this.GetComponent<UniversalObjectPhysics>()
-					.AppearAtWorldPositionServer(ExitMarkers.PickRandom().gameObject
-						.AssumedWorldPosServer()); //Randomise gateway position.
-			}
+			Loggy.Info($"Gateway location set to {transform.position}");
 		}
 	}
 }

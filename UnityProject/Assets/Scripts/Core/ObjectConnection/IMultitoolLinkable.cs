@@ -28,6 +28,7 @@ namespace Shared.Systems.ObjectConnection
 		SolarPanel,
 		GenericTrigger,
 		CureTester,
+		OreSilo
 	}
 
 	public interface IMultitoolLinkable

@@ -231,6 +231,9 @@ public class InteractableStorage : NetworkBehaviour,
 		switch (pickupMode)
 		{
 			case PickupMode.DropClick:
+			case PickupMode.All:
+			case PickupMode.Same:
+			case PickupMode.Single:
 				if (canQuickEmpty)
 				{
 					var slots = itemStorage.GetItemSlots();
@@ -248,11 +251,10 @@ public class InteractableStorage : NetworkBehaviour,
 
 					Chat.AddExamineMsg(interaction.Performer, $"You start dumping out the {gameObject.ExpensiveName()}.");
 				}
-				break;
-			case PickupMode.All:
-			case PickupMode.Same:
-			case PickupMode.Single:
-				OpenInventoryInteraction(interaction);
+				else
+				{
+					OpenInventoryInteraction(interaction);
+				}
 				break;
 		}
 	}
@@ -305,14 +307,6 @@ public class InteractableStorage : NetworkBehaviour,
 
 		if (Cooldowns.IsOn(interaction, cooldown, side)) return false;
 
-		if (DoNotShowInventoryOnUI == false)
-		{
-			if (interaction.IsAltClick)
-			{
-				return true;
-			}
-		}
-
 		if (IsFull(interaction.UsedObject, interaction.Performer))
 		{
 			if (Cooldowns.TryStart(interaction, cooldown, side) == false) return false;
@@ -320,21 +314,33 @@ public class InteractableStorage : NetworkBehaviour,
 			return false;
 		}
 
-		// item must be able to fit
-		// note: since this is in local player's inventory, we are safe to check this stuff on client side
-		if (Validations.CanPutItemToStorage(interaction.Performer.GetComponent<PlayerScript>(),
-			    itemStorage, interaction.UsedObject, side, examineRecipient: interaction.Performer) == false) return false;
+		if (interaction.UsedObject == null)
+		{
+			if (DoNotShowInventoryOnUI == false)
+			{
+				return interaction.IsAltClick == false;
+			}
+		}
+		else
+		{
+			// item must be able to fit
+			// note: since this is in local player's inventory, we are safe to check this stuff on client side
+			if (Validations.CanPutItemToStorage(interaction.Performer.GetComponent<PlayerScript>(),
+				    itemStorage, interaction.UsedObject, side, examineRecipient: interaction.Performer) == false) return false;
+		}
 
 		return true;
 	}
 
 	public void ServerPerformInteraction(InventoryApply interaction)
 	{
+
 		if (DoNotShowInventoryOnUI == false)
 		{
-			if (interaction.IsAltClick)
+			if (interaction.IsAltClick || interaction.UsedObject == null)
 			{
 				OpenInventoryInteraction(interaction);
+				return;
 			}
 		}
 

@@ -3,12 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using Logs;
 using SecureStuff;
+using Shared.Systems.ObjectConnection;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace Objects.Machines
 {
-	public class MaterialSilo : MonoBehaviour, ICheckedInteractable<HandApply>, IServerLifecycle
+	public class MaterialSilo : MonoBehaviour, ICheckedInteractable<HandApply>, IServerLifecycle, IMultitoolMasterable
 	{
 		[FormerlySerializedAs("linkedStorages")]
 		public List<MaterialStorageLink> InitiallinkedStorages = new List<MaterialStorageLink>();
@@ -18,6 +19,15 @@ namespace Objects.Machines
 		public MaterialStorage materialStorage;
 
 		private bool MapSpawned = false;
+
+
+		public bool IgnoreMaxDistanceMapper { get; set; } = true;
+		public int MaxDistance { get; set; } = 999;
+		public bool CanBeMastered { get; set; } = false;
+
+		public MultitoolConnectionType ConType => MultitoolConnectionType.OreSilo;
+
+		public bool CanRelink => true;
 
 		private void Awake()
 		{

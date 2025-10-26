@@ -1,7 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using Actions.V2;
+using Actions.V2.Trackers;
+using AddressableReferences;
 using CameraEffects;
+using Logs;
+using Messages.Server.SoundMessages;
 using Mirror;
+using Player;
 using UI.Action;
 using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine;
@@ -11,9 +17,15 @@ namespace Clothing
 	public class NightVisionGoggles : NetworkBehaviour, IItemInOutMovedPlayer,
 		ICheckedInteractable<HandActivate>, IClientSynchronisedEffect, IHoverTooltip
 	{
-		private static readonly float defaultvisibilityAnimationSpeed = 1.25f;
-		private static readonly float revertvisibilityAnimationSpeed = 0.2f;
-		private static readonly Vector3 expandedNightVisionVisibility = new Vector3(25, 25, 42);
+		private static readonly float DefaultvisibilityAnimationSpeed = 1.25f;
+		private static readonly float RevertvisibilityAnimationSpeed = 0.2f;
+		private static readonly Vector3 ExpandedNightVisionVisibility = new Vector3(25, 25, 42);
+
+		[SerializeField] private float darknessVisibilityMultiplier = 1.25f;
+		[SerializeField] private Color dimLightColour = new Color(255,255,255,45);
+		[SerializeField] private Color shaderColour = new Color(26,255,26, 255);
+
+		[SerializeField] private AddressableAudioSource nightVisionToggleSound;
 
 		private IClientSynchronisedEffect Preimplemented => this;
 
@@ -25,28 +37,15 @@ namespace Clothing
 		private bool isOn = false;
 
 		public RegisterPlayer CurrentlyOn { get; set; }
-		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
+		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; } = false;
 
-		private ItemActionButton actionButton;
 		private Pickupable pickupable;
 
 		#region LifeCycle
 
 		private void Awake()
 		{
-			actionButton = GetComponent<ItemActionButton>();
 			pickupable = GetComponent<Pickupable>();
-		}
-
-		private void OnEnable()
-		{
-			// Subscribes to UI action buttons.
-			actionButton.ServerActionClicked += ToggleGoggles;
-		}
-
-		private void OnDisable()
-		{
-			actionButton.ServerActionClicked -= ToggleGoggles;
 		}
 
 		#endregion
@@ -55,7 +54,7 @@ namespace Clothing
 
 		public bool IsValidSetup(RegisterPlayer player)
 		{
-			if (player == null) return false;
+			if (player == false) return false;
 			// Checks if it's not null and checks if NamedSlot == NamedSlot.eyes
 			return player.PlayerScript.RegisterPlayer == pickupable.ItemSlot.Player && IsInCorrectNamedSlot();
 		}
@@ -85,12 +84,17 @@ namespace Clothing
 
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			SetGoggleState(!isOn);
+			ToggleGoggles();
 		}
 
 		#endregion
 
-		[Server]
+
+		public void OnButtonPress(Vector2 mousePosition)
+		{
+			ToggleGoggles();
+		}
+
 		private void ToggleGoggles()
 		{
 			SetGoggleState(!isOn);
@@ -103,11 +107,11 @@ namespace Clothing
 		[Server]
 		private void SetGoggleState(bool newState)
 		{
-			isOn = newState;
 			// Checks to see if this item is on a player that's online.
 			if (CurrentlyOn == null || CurrentlyOn.PlayerScript.connectionToClient == null) return;
 			if (IsValidSetup(CurrentlyOn))
 			{
+				isOn = newState;
 				// Gives feedback to the player's actions.
 				Chat.AddExamineMsg(CurrentlyOn.PlayerScript.gameObject,
 					$"You turned {(isOn ? "on" : "off")} the {gameObject.ExpensiveName()}.");
@@ -126,7 +130,7 @@ namespace Clothing
 		public void ApplyDefaultOrCurrentValues(bool Default)
 		{
 			// Inverse of default for correct state
-			ApplyEffects(!Default);
+			ApplyEffects(!Default && isOn);
 		}
 
 		/// <summary>
@@ -135,14 +139,17 @@ namespace Clothing
 		public void SyncNightVision(bool oldState, bool newState)
 		{
 			isOn = newState;
+			if (Preimplemented.IsOnLocalPlayer == false) return;
+
 			// Makes sure that the goggles are on the player before applying the effect.
 			// If it's not on the player, ensure that the effect is disabled to avoid bugs when removing the goggles.
-			ApplyEffects(Preimplemented.IsOnLocalPlayer && newState);
+			ApplyEffects(newState);
 		}
 
 		private void ApplyEffects(bool state)
 		{
 			var finalState = state;
+
 			// If for whatever reason unity is unable to catch the correct main camera that has the CameraEffectControlScript
 			// Don't do anything.
 			if (Camera.main == null ||
@@ -153,9 +160,20 @@ namespace Clothing
 			// True means its on and will show an expanded view in the dark by changing the player's light view.
 			// False will revert it to default.
 			effects.AdjustPlayerVisibility(
-				finalState ? expandedNightVisionVisibility : effects.MinimalVisibilityScale,
-				finalState ? defaultvisibilityAnimationSpeed : revertvisibilityAnimationSpeed);
-			effects.ToggleNightVisionEffectState(finalState);
+				finalState ? ExpandedNightVisionVisibility : effects.MinimalVisibilityScale,
+				finalState ? DefaultvisibilityAnimationSpeed : RevertvisibilityAnimationSpeed);
+			effects.ToggleNightVisionEffectState(finalState, shaderColour);
+
+
+			DimPlayerLightController dimLightController = PlayerManager.LocalPlayerScript?.DimPlayerLightController;
+			if (dimLightController != null && state)
+			{
+				dimLightController.lightColor = dimLightColour;
+				dimLightController.UpdateLightData(DimPlayerLightController.DEFAULT_SIZE * darknessVisibilityMultiplier, true);
+			}
+			else if(dimLightController != null && Preimplemented.IsOnLocalPlayer) dimLightController.ResetToDefault();
+
+			_ = SoundManager.PlayNetworkedAtPosAsync(nightVisionToggleSound, CurrentlyOn.WorldPositionServer);
 		}
 
 		#region Tooltip

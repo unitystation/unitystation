@@ -95,19 +95,6 @@ namespace Doors
             }
             return toPlay;
         }
-
-        public void PlaySound(DoorSoundType sound)
-        {
-            StopSound();
-            AddressableAudioSource toPlay = GetSound(sound);
-
-            if (toPlay != null)
-            {
-                soundGuid = Guid.NewGuid().ToString();
-                _ = SoundManager.PlayAtPosition(toPlay, gameObject.AssumedWorldPosServer(), gameObject, soundGuid);
-            }
-
-        }
                 
         public void ServerPlaySound(DoorSoundType sound)
         {
