@@ -508,7 +508,6 @@ namespace Doors
 			else
 			{
 				soundController.ServerPlaySound(DoorSoundController.DoorSoundType.Close);
-				soundController.ServerPlaySound(DoorSoundController.DoorSoundType.Close);
 			}
 		}
 
@@ -534,7 +533,6 @@ namespace Doors
 			}
 			else
 			{
-				soundController.ServerPlaySound(DoorSoundController.DoorSoundType.Open);
 				soundController.ServerPlaySound(DoorSoundController.DoorSoundType.Open);
 			}
 		}
