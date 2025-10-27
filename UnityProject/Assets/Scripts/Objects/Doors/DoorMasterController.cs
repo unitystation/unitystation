@@ -169,19 +169,26 @@ namespace Doors
 
 			soundController = GetComponent<DoorSoundController>();
 
+			if (CustomNetworkManager.IsServer)
+            {
+                
+            }
 			if (UseMachinesForOpenLayeer)
 			{
 				openSortingLayer = SortingLayer.NameToID("Machines");
 			}
 
-			if (IsClosed)
-			{
-				Close();
-			}
-			else
-			{
-				Open();
-			}
+			if (CustomNetworkManager.IsServer == true)
+            {
+                if (IsClosed)
+				{
+					Close();
+				}
+				else
+				{
+					Open();
+				}
+            }
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -209,7 +216,7 @@ namespace Doors
 		{
 			var firelock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
 			if (firelock != null && firelock.fireAlarm.activated && firelock.DoorMasterController.IsClosed) return;
-			if (isAutomatic == false || allowInput == false)
+			if (!isAutomatic || !allowInput)
 			{
 				return;
 			}
@@ -222,7 +229,7 @@ namespace Doors
 			}
 
 
-			if (isPerformingAction == false && CheckStatusAllow(states))
+			if (!isPerformingAction && CheckStatusAllow(states))
 			{
 				TryOpen(byPlayer);
 			}
@@ -290,7 +297,7 @@ namespace Doors
 				module.OpenInteraction(interaction, states);
 			}
 			// If there is nothing preventing the door from closing, try closing it
-			if (isPerformingAction == false && CheckStatusAllow(states) && allowInteraction)
+			if (!isPerformingAction && CheckStatusAllow(states) && allowInteraction)
 			{
 				if (clickDisablesAutoClose)
 				{
@@ -302,7 +309,7 @@ namespace Doors
 
 			// If we can't close the door because we are taking an action other than closing a door, don't send a message
 			// Otherwise, send a message explaining why we can't close the door
-			if (states.Contains(DoorProcessingStates.PreventSilently) == false)
+			if (!states.Contains(DoorProcessingStates.PreventSilently))
 			{
 				AddChatTryInteractMessage(interaction, states);
 			}
@@ -322,7 +329,7 @@ namespace Doors
 			}
 
 			// If there is nothing preventing the door from opening, try opening it
-			if (isPerformingAction == false && CheckStatusAllow(states) && allowInteraction)
+			if (!isPerformingAction && CheckStatusAllow(states) && allowInteraction)
 			{
 				if (clickDisablesAutoClose)
 				{
@@ -335,7 +342,7 @@ namespace Doors
 
 			// If we can't open the door because we are taking an action other than opening a door, don't send a message
 			// Otherwise, send a message explaining why we can't open the door
-			if (states.Contains(DoorProcessingStates.PreventSilently) == false)
+			if (!states.Contains(DoorProcessingStates.PreventSilently))
 			{
 				AddChatTryInteractMessage(interaction, states);
 			}
@@ -377,23 +384,16 @@ namespace Doors
 			}
 		}
 
-		/// <summary>
-		/// Checks if there is a firelock in place, returns false if there is no firelock
-		/// </summary>
-		public bool CheckFirelock()
+		public void TryOpen(GameObject originator, bool blockClosing = false)
 		{
+			if (!IsClosed) return; //Can't open if we are open. Figures.
 			if (isFireLock == false)
 			{
 				var fireLock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
-				if (fireLock != null && fireLock.fireAlarm.activated && fireLock.DoorMasterController.IsClosed) return true;
+				if (fireLock != null && fireLock.fireAlarm.activated && fireLock.DoorMasterController.IsClosed) return;
 			}
-			return false;
-		}
 
-		public void TryOpen(GameObject originator, bool blockClosing = false)
-		{
-			//Can't open the door if its already open, in motion, or if there is a firelock in place
-			if (IsClosed == false || CheckFirelock() == true || isPerformingAction == true) return;
+			if(isPerformingAction) return;
 
 			Open(blockClosing);
 		}
@@ -405,8 +405,7 @@ namespace Doors
 		/// </summary>
 		public bool TryForceOpen()
 		{
-			//Can't open the door if its already open, in motion, or if there is a firelock in place
-			if (IsClosed == false || CheckFirelock() == true || isPerformingAction == true) return false;
+			if (!IsClosed) return false; //Can't open if we are open. Figures.
 
 			HashSet<DoorProcessingStates> states = new HashSet<DoorProcessingStates>();
 
@@ -432,8 +431,7 @@ namespace Doors
 		/// </summary>
 		public void TryForceClose()
 		{
-			//Can't close the door if its already closed, in motion, or if there is a firelock in place
-			if (IsClosed == true || CheckFirelock() == true || isPerformingAction == true) return;
+			if (IsClosed) return; //Can't close if we are closed. Figures.
 
 			HashSet<DoorProcessingStates> states = new HashSet<DoorProcessingStates>();
 
@@ -446,16 +444,6 @@ namespace Doors
 
 			Close(true);
 		}
-
-		public void PulseTryOpen(GameObject inoriginator = null, bool inforce = false, bool inOverrideLogic = false)
-		{
-			originator = inoriginator;
-			force = inforce;
-			OverrideLogic = inOverrideLogic;
-
-			HackingProcessBase.ImpulsePort(TryClose);
-		}
-
 
 		public void PulseTryClose(GameObject inoriginator = null, bool inforce = false, bool inOverrideLogic = false)
 		{
@@ -473,11 +461,12 @@ namespace Doors
 
 		public void TryClose()
 		{
-			//Can't close the door if its already closed, in motion, or if there is a firelock in place
-			if (IsClosed == true || CheckFirelock() == true || isPerformingAction == true) return;
+			if (IsClosed) return; //Can't close if we are closed. Figures.
+			if(isPerformingAction) return;
 
 			// Sliding door is not passable according to matrix
-			if ((ignorePassableChecks || matrix.CanCloseDoorAt(registerTile.LocalPositionServer, true)) &&
+			if (!isPerformingAction &&
+				(ignorePassableChecks || matrix.CanCloseDoorAt(registerTile.LocalPositionServer, true)) &&
 				(HasPower || force))
 
 			{
@@ -512,7 +501,7 @@ namespace Doors
 
 		public void Close(bool byForce = false)
 		{
-			if (gameObject == false) return; // probably destroyed by a shuttle crash
+			if (!gameObject) return; // probably destroyed by a shuttle crash
 			UpdateGui();
 			
 			doorAnimator.LightsWork = !byForce;
@@ -531,9 +520,9 @@ namespace Doors
 
 		public void Open(bool byForce = false)
 		{
-			if (gameObject == false) return;  // probably destroyed by a shuttle crash
+			if (!gameObject) return;  // probably destroyed by a shuttle crash
 
-			if (BlockAutoClose == false)
+			if (!BlockAutoClose)
 			{
 				ResetWaiting();
 			}
@@ -693,8 +682,8 @@ namespace Doors
 			// the below logic and reopen the door if the client got stuck in the door in the .15 s gap.
 
 			//only do this check when door is closing, and only for doors that block all directions (like airlocks)
-			if (CustomNetworkManager.IsServer == false ||
-				IsClosed == false ||
+			if (!CustomNetworkManager.IsServer ||
+				!IsClosed ||
 				registerTile.OneDirectionRestricted ||
 				ignorePassableChecks)
 			{
