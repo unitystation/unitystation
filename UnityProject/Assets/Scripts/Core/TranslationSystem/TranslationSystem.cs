@@ -6,6 +6,8 @@ public static class TranslationSystem
 {
 	public static bool English = true;
 
+	public static List<string> AvailableLanguages = new List<string>();
+
 	public static Dictionary<string, Dictionary<string, string>> LoadedComplexLanguage = new Dictionary<string, Dictionary<string, string>>();
 
 	public static Dictionary<string, string> LoadedLanguage = new Dictionary<string, string>();

@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using System.Linq;
 using Initialisation;
 using Newtonsoft.Json;
 using SecureStuff;
+using Shared.Managers;
 using UnityEngine;
 
-public class TranslationManager : MonoBehaviour, IInitialise
+public class TranslationManager : SingletonManager<TranslationManager>, IInitialise
 {
 	public InitialisationSystems Subsystem => InitialisationSystems.TranslationSystem;
 
@@ -17,10 +19,17 @@ public class TranslationManager : MonoBehaviour, IInitialise
 
 		if (PlayerPrefs.HasKey(PlayerPrefKeys.LanguagePreference))
 		{
-			CurrentLanguage = PlayerPrefs.GetString(CurrentLanguage, "English");
+			var PreferenceLanguage = PlayerPrefs.GetString(PlayerPrefKeys.LanguagePreference, "English");
+			if (PreferenceLanguage != "System")
+			{
+				CurrentLanguage = PreferenceLanguage;
+			}
 		}
 
+		TranslationSystem.AvailableLanguages = SecureStuff.AccessFile.DirectoriesOrFilesIn("", FolderType.Translation).Select(x => x.Replace(".json", "")).ToList();
+		TranslationSystem.AvailableLanguages.Add("English");
 		//CurrentLanguage = "Welsh";
+
 
 		if (CurrentLanguage == "English")
 		{
