@@ -70,6 +70,8 @@ namespace HealthV2.Sickness
 		public override void PossibleReaction(List<MetabolismComponent> senders, ReagentMix reagentMix,
 		float reactionMultiple, float bodyReactionAmount, float TotalChemicalsProcessed, float UntouchedMultiple, ref bool overdose)
 		{
+			if(senders.Count <= 0) return;
+
 			//This line has the assumption that the only reagent for a sickness reaction is the pathogen.
 			Reagent sicknessReagent = ingredients.m_dict.First().Key;
 
@@ -84,7 +86,8 @@ namespace HealthV2.Sickness
 				diseaseAmount -= ImmuneResponse(diseaseAmountPerOrgan, metabolisedComponent.componentImmuneResponse); //Apply an immune response on a per organ basis
 			}
 
-			float concentrationPercent = (diseaseAmount / reagentMix.Total) * 100;
+			int expectedBloodAmount = senders[0].AssociatedSystem.Base.reagentPoolSystem.NormalBlood;
+			float concentrationPercent = (diseaseAmount / expectedBloodAmount) * 100;
 
 			diseaseAmount = concentrationPercent > DiseaseMaxConcentrationPercent
 				? diseaseAmount * (DiseaseMaxConcentrationPercent / concentrationPercent)

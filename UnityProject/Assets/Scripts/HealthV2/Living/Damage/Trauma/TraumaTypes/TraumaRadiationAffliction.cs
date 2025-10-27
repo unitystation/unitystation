@@ -15,8 +15,8 @@ namespace HealthV2.TraumaTypes
 
 		public override void OnTakeDamage(BodyPartDamageData data)
 		{
-			if (data.TramuticDamageType != TraumaticDamageTypes.NONE) return;
-			if (data.AttackType != AttackType.Rad) return;
+			if (data.TramuticDamageType.HasFlag(traumaTypes) == false) return;
+			if (data.AttackType != AttackType.Internal) return; //Processing of radiation stacks is internal damage.
 			if (DMMath.Prob(GetRadProtectionPercentage())) return;
 			if (DMMath.Prob(data.TraumaDamageChance) == false) return;
 			if (data.DamageAmount < MinThresholdDamage) return;

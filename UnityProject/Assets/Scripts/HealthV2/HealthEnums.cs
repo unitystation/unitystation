@@ -69,5 +69,6 @@ public enum TraumaticDamageTypes
 	SLASH = 1 << 0,
 	PIERCE = 1 << 1,
 	BURN = 1 << 2,
-	BLUNT = 1 << 3
+	BLUNT = 1 << 3,
+	IRRADIATION = 1 << 4,
 }

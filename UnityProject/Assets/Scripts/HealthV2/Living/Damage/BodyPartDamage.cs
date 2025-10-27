@@ -503,7 +503,7 @@ namespace HealthV2
 			if (ProcessingRadiation is < 2 and > 0.05f) ProcessingRadiation = 2;
 
 			HealDamage(null,ProcessingRadiation, DamageType.Radiation);
-			TakeDamage(null, ProcessingRadiation * 0.1f,AttackType.Internal , DamageType.Tox, DamageSubOrgans : false); //This Should bypass all armour
+			TakeDamage(null, ProcessingRadiation * 0.1f, AttackType.Internal , DamageType.Tox, DamageSubOrgans : false, tramuticDamageType: TraumaticDamageTypes.IRRADIATION); //This Should bypass all armour
 		}
 
 		/// <summary>
