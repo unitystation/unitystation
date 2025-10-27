@@ -169,10 +169,6 @@ namespace Doors
 
 			soundController = GetComponent<DoorSoundController>();
 
-			if (CustomNetworkManager.IsServer)
-            {
-                
-            }
 			if (UseMachinesForOpenLayeer)
 			{
 				openSortingLayer = SortingLayer.NameToID("Machines");
