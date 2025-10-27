@@ -1,13 +1,14 @@
-﻿using System.Text;
+﻿using System;
+using Items.Others;
 using Logs;
 using Mirror;
-using Systems.Faith.UI;
-using UI.Core.Action;
+using Systems.Communications;
 using UnityEngine;
+using Util.Independent.FluentRichText;
 
 namespace Systems.Faith
 {
-	public class PlayerFaith : NetworkBehaviour, IRightClickable
+	public class PlayerFaith : NetworkBehaviour, IChatInfluencer
 	{
 		public PlayerScript player;
 		private Faith currentFaith = null;
@@ -22,6 +23,9 @@ namespace Systems.Faith
 		[SerializeField] private ActionData ability;
 		public ActionData ActionData => ability;
 
+		public GameObject Paper;
+		public ItemTrait BibleTrait;
+
 		[Server]
 		public void JoinReligion(Faith newFaith)
 		{
@@ -33,7 +37,34 @@ namespace Systems.Faith
 			currentFaith = newFaith;
 			FaithName = currentFaith.FaithName;
 			FaithManager.JoinFaith(newFaith, player);
-			Chat.AddExamineMsg(gameObject, $"You've joined the {FaithName} faith.");
+			Chat.AddExamineMsg(gameObject, $"You've put your faith in <i>{FaithName}</i>.");
+			try
+			{
+				if (player.Mind?.occupation != null && player.Mind.occupation.DisplayName == "Chaplain")
+				{
+					ShovePaperInsideBible(player);
+				}
+			}
+			catch (Exception e)
+			{
+				Loggy.Error(e.ToString());
+			}
+		}
+
+		private void ShovePaperInsideBible(PlayerScript target)
+		{
+			var spawnedPaper = Spawn.ServerPrefab(Paper).GameObject;
+			var paperText = spawnedPaper.GetComponent<Paper>();
+			paperText.SetServerString($"Faith: {currentFaith.FaithName}\n\nProclamation: {currentFaith.ProclamationText}\n\nRejection: {currentFaith.RejectionText}");
+			var handslots = target.DynamicItemStorage.GetHandSlots();
+			foreach (var slot in handslots)
+			{
+				if (slot.IsEmpty) continue;
+				if (slot.ItemAttributes.HasTrait(BibleTrait) == false) continue;
+				var storage = slot.ItemObject.GetComponent<ItemStorage>();
+				if (storage.ServerTryAdd(spawnedPaper)) return;
+			}
+			spawnedPaper.GetUniversalObjectPhysics().AppearAtWorldPositionServer(target.WorldPos);
 		}
 
 		[Command]
@@ -45,9 +76,9 @@ namespace Systems.Faith
 		[Command]
 		public void LeaveReligion()
 		{
+			FaithManager.LeaveFaith(player);
 			currentFaith = null;
 			FaithName = "None";
-			FaithManager.LeaveFaith(player);
 		}
 
 		[Command]
@@ -61,17 +92,6 @@ namespace Systems.Faith
 		public void RpcShowFaithSelectScreen(NetworkConnection target)
 		{
 			UIManager.Instance.ChaplainFirstTimeSelectScreen.gameObject.SetActive(true);
-		}
-
-		public RightClickableResult GenerateRightClickOptions()
-		{
-			RightClickableResult result = new RightClickableResult();
-			if (gameObject == PlayerManager.LocalPlayerObject && FaithName is not "None")
-			{
-				result.AddElement("Leave Faith",
-					() => PlayerManager.LocalPlayerScript.PlayerFaith.LeaveReligion());
-			}
-			return result;
 		}
 
 		public string ToleranceCheckForReligion()
@@ -132,6 +152,44 @@ namespace Systems.Faith
 				}
 			}
 			return finalText;
+		}
+
+		private void CheckForProclamationOfFaith(ref ChatEvent proclaimerEvent)
+		{
+			if ( CurrentFaith.ProclamationText.ToLower().TrimEnd() != proclaimerEvent.message.ToLower().TrimEnd() ) return;
+			if (proclaimerEvent.originator.TryGetComponent<PlayerFaith>(out var playerFaith) == false)
+			{
+				Loggy.Error($"Could not find PlayerFaith component on {proclaimerEvent.originator.name} when checking for joining religion.");
+				return;
+			}
+			playerFaith.JoinReligion(CurrentFaith);
+			proclaimerEvent.message.Color(Color.green);
+		}
+
+		private void CheckForRemovalOfFaith(ref ChatEvent removal)
+		{
+			if ( CurrentFaith.RejectionText.ToLower().TrimEnd() != removal.message.ToLower().TrimEnd() ) return;
+			if (removal.originator.TryGetComponent<PlayerFaith>(out var playerFaith) == false)
+			{
+				Loggy.Error($"Could not find PlayerFaith component on {removal.originator.name} when checking for removing religion.");
+				return;
+			}
+			if (playerFaith.FaithName == "None") return;
+			playerFaith.LeaveReligion();
+			Chat.AddExamineMsg(playerFaith.gameObject, "You have left your faith.");
+			removal.message.Color(Color.red);
+		}
+
+		public bool WillInfluenceChat()
+		{
+			return CurrentFaith != null;
+		}
+
+		public ChatEvent InfluenceChat(ChatEvent chatToManipulate)
+		{
+			CheckForRemovalOfFaith(ref chatToManipulate);
+			if (CurrentFaith != null) CheckForProclamationOfFaith(ref chatToManipulate);
+			return chatToManipulate;
 		}
 	}
 }

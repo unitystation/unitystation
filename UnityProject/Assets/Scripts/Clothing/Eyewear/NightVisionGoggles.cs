@@ -65,7 +65,6 @@ namespace Clothing
 		/// </summary>
 		private bool IsInCorrectNamedSlot()
 		{
-			Loggy.Error($"{pickupable.ItemSlot.ToString()}");
 			return pickupable.ItemSlot is { NamedSlot: NamedSlot.eyes };
 		}
 
@@ -108,13 +107,11 @@ namespace Clothing
 		[Server]
 		private void SetGoggleState(bool newState)
 		{
-			isOn = newState;
-
 			// Checks to see if this item is on a player that's online.
 			if (CurrentlyOn == null || CurrentlyOn.PlayerScript.connectionToClient == null) return;
-
 			if (IsValidSetup(CurrentlyOn))
 			{
+				isOn = newState;
 				// Gives feedback to the player's actions.
 				Chat.AddExamineMsg(CurrentlyOn.PlayerScript.gameObject,
 					$"You turned {(isOn ? "on" : "off")} the {gameObject.ExpensiveName()}.");
@@ -142,9 +139,11 @@ namespace Clothing
 		public void SyncNightVision(bool oldState, bool newState)
 		{
 			isOn = newState;
+			if (Preimplemented.IsOnLocalPlayer == false) return;
+
 			// Makes sure that the goggles are on the player before applying the effect.
 			// If it's not on the player, ensure that the effect is disabled to avoid bugs when removing the goggles.
-			ApplyEffects(Preimplemented.IsOnLocalPlayer && newState);
+			ApplyEffects(newState);
 		}
 
 		private void ApplyEffects(bool state)
@@ -165,18 +164,16 @@ namespace Clothing
 				finalState ? DefaultvisibilityAnimationSpeed : RevertvisibilityAnimationSpeed);
 			effects.ToggleNightVisionEffectState(finalState, shaderColour);
 
-			if (CurrentlyOn != null)
+
+			DimPlayerLightController dimLightController = PlayerManager.LocalPlayerScript?.DimPlayerLightController;
+			if (dimLightController != null && state)
 			{
-				_ = SoundManager.PlayNetworkedAtPosAsync(nightVisionToggleSound, CurrentlyOn.WorldPositionServer);
-				DimPlayerLightController dimLightController = CurrentlyOn.PlayerScript?.DimPlayerLightController;
-				if (dimLightController != null && state)
-				{
-					dimLightController.lightColor = dimLightColour;
-					dimLightController.UpdateLightData(DimPlayerLightController.DEFAULT_SIZE * darknessVisibilityMultiplier);
-				}
-				else if(dimLightController != null) dimLightController.ResetToDefault();
+				dimLightController.lightColor = dimLightColour;
+				dimLightController.UpdateLightData(DimPlayerLightController.DEFAULT_SIZE * darknessVisibilityMultiplier, true);
 			}
-			else _ = SoundManager.PlayNetworkedAtPosAsync(nightVisionToggleSound, gameObject.AssumedWorldPosServer());
+			else if(dimLightController != null && Preimplemented.IsOnLocalPlayer) dimLightController.ResetToDefault();
+
+			_ = SoundManager.PlayNetworkedAtPosAsync(nightVisionToggleSound, CurrentlyOn.WorldPositionServer);
 		}
 
 		#region Tooltip

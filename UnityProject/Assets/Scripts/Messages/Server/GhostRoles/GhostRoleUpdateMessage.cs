@@ -22,10 +22,7 @@ namespace Messages.Server.GhostRoles
 		// To be run on client
 		public override void Process(NetMessage msg)
 		{
-			if (PlayerManager.LocalPlayerObject == null) return;
-
-			if (MatrixManager.IsInitialized == false) return;
-
+			if (PlayerManager.LocalPlayerScript == null) return;
 			GhostRoleManager.Instance.ClientAddOrUpdateRole(msg.roleID, msg.roleType, msg.minPlayers, msg.maxPlayers, msg.playerCount, msg.timeRemaining);
 		}
 
