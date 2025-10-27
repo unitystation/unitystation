@@ -209,7 +209,7 @@ namespace Doors
 		{
 			var firelock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
 			if (firelock != null && firelock.fireAlarm.activated && firelock.DoorMasterController.IsClosed) return;
-			if (!isAutomatic || !allowInput)
+			if (isAutomatic == false || allowInput == false)
 			{
 				return;
 			}
@@ -222,7 +222,7 @@ namespace Doors
 			}
 
 
-			if (!isPerformingAction && CheckStatusAllow(states))
+			if (isPerformingAction == false && CheckStatusAllow(states))
 			{
 				TryOpen(byPlayer);
 			}
@@ -290,7 +290,7 @@ namespace Doors
 				module.OpenInteraction(interaction, states);
 			}
 			// If there is nothing preventing the door from closing, try closing it
-			if (!isPerformingAction && CheckStatusAllow(states) && allowInteraction)
+			if (isPerformingAction == false && CheckStatusAllow(states) && allowInteraction)
 			{
 				if (clickDisablesAutoClose)
 				{
@@ -302,7 +302,7 @@ namespace Doors
 
 			// If we can't close the door because we are taking an action other than closing a door, don't send a message
 			// Otherwise, send a message explaining why we can't close the door
-			if (!states.Contains(DoorProcessingStates.PreventSilently))
+			if (states.Contains(DoorProcessingStates.PreventSilently) == false)
 			{
 				AddChatTryInteractMessage(interaction, states);
 			}
@@ -322,7 +322,7 @@ namespace Doors
 			}
 
 			// If there is nothing preventing the door from opening, try opening it
-			if (!isPerformingAction && CheckStatusAllow(states) && allowInteraction)
+			if (isPerformingAction == false && CheckStatusAllow(states) && allowInteraction)
 			{
 				if (clickDisablesAutoClose)
 				{
@@ -335,7 +335,7 @@ namespace Doors
 
 			// If we can't open the door because we are taking an action other than opening a door, don't send a message
 			// Otherwise, send a message explaining why we can't open the door
-			if (!states.Contains(DoorProcessingStates.PreventSilently))
+			if (states.Contains(DoorProcessingStates.PreventSilently) == false)
 			{
 				AddChatTryInteractMessage(interaction, states);
 			}
@@ -377,16 +377,23 @@ namespace Doors
 			}
 		}
 
-		public void TryOpen(GameObject originator, bool blockClosing = false)
+		/// <summary>
+		/// Checks if there is a firelock in place, returns false if there is no firelock
+		/// </summary>
+		public bool CheckFirelock()
 		{
-			if (!IsClosed) return; //Can't open if we are open. Figures.
 			if (isFireLock == false)
 			{
 				var fireLock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
-				if (fireLock != null && fireLock.fireAlarm.activated && fireLock.DoorMasterController.IsClosed) return;
+				if (fireLock != null && fireLock.fireAlarm.activated && fireLock.DoorMasterController.IsClosed) return true;
 			}
+			return false;
+		}
 
-			if(isPerformingAction) return;
+		public void TryOpen(GameObject originator, bool blockClosing = false)
+		{
+			//Can't open the door if its already open, in motion, or if there is a firelock in place
+			if (IsClosed == false || CheckFirelock() == true || isPerformingAction == true) return;
 
 			Open(blockClosing);
 		}
@@ -398,7 +405,8 @@ namespace Doors
 		/// </summary>
 		public bool TryForceOpen()
 		{
-			if (!IsClosed) return false; //Can't open if we are open. Figures.
+			//Can't open the door if its already open, in motion, or if there is a firelock in place
+			if (IsClosed == false || CheckFirelock() == true || isPerformingAction == true) return false;
 
 			HashSet<DoorProcessingStates> states = new HashSet<DoorProcessingStates>();
 
@@ -424,7 +432,8 @@ namespace Doors
 		/// </summary>
 		public void TryForceClose()
 		{
-			if (IsClosed) return; //Can't close if we are closed. Figures.
+			//Can't close the door if its already closed, in motion, or if there is a firelock in place
+			if (IsClosed == true || CheckFirelock() == true || isPerformingAction == true) return;
 
 			HashSet<DoorProcessingStates> states = new HashSet<DoorProcessingStates>();
 
@@ -437,6 +446,16 @@ namespace Doors
 
 			Close(true);
 		}
+
+		public void PulseTryOpen(GameObject inoriginator = null, bool inforce = false, bool inOverrideLogic = false)
+		{
+			originator = inoriginator;
+			force = inforce;
+			OverrideLogic = inOverrideLogic;
+
+			HackingProcessBase.ImpulsePort(TryClose);
+		}
+
 
 		public void PulseTryClose(GameObject inoriginator = null, bool inforce = false, bool inOverrideLogic = false)
 		{
@@ -454,12 +473,11 @@ namespace Doors
 
 		public void TryClose()
 		{
-			if (IsClosed) return; //Can't close if we are closed. Figures.
-			if(isPerformingAction) return;
+			//Can't close the door if its already closed, in motion, or if there is a firelock in place
+			if (IsClosed == true || CheckFirelock() == true || isPerformingAction == true) return;
 
 			// Sliding door is not passable according to matrix
-			if (!isPerformingAction &&
-				(ignorePassableChecks || matrix.CanCloseDoorAt(registerTile.LocalPositionServer, true)) &&
+			if ((ignorePassableChecks || matrix.CanCloseDoorAt(registerTile.LocalPositionServer, true)) &&
 				(HasPower || force))
 
 			{
@@ -494,7 +512,7 @@ namespace Doors
 
 		public void Close(bool byForce = false)
 		{
-			if (!gameObject) return; // probably destroyed by a shuttle crash
+			if (gameObject == false) return; // probably destroyed by a shuttle crash
 			UpdateGui();
 			
 			doorAnimator.LightsWork = !byForce;
@@ -513,9 +531,9 @@ namespace Doors
 
 		public void Open(bool byForce = false)
 		{
-			if (!gameObject) return;  // probably destroyed by a shuttle crash
+			if (gameObject == false) return;  // probably destroyed by a shuttle crash
 
-			if (!BlockAutoClose)
+			if (BlockAutoClose == false)
 			{
 				ResetWaiting();
 			}
@@ -675,8 +693,8 @@ namespace Doors
 			// the below logic and reopen the door if the client got stuck in the door in the .15 s gap.
 
 			//only do this check when door is closing, and only for doors that block all directions (like airlocks)
-			if (!CustomNetworkManager.IsServer ||
-				!IsClosed ||
+			if (CustomNetworkManager.IsServer == false ||
+				IsClosed == false ||
 				registerTile.OneDirectionRestricted ||
 				ignorePassableChecks)
 			{
