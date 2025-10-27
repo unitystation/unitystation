@@ -176,14 +176,8 @@ namespace Doors
 
 			if (CustomNetworkManager.IsServer == true)
             {
-                if (IsClosed)
-				{
-					Close();
-				}
-				else
-				{
-					Open();
-				}
+                if (IsClosed) Close();
+				else Open();
             }
 		}
 
