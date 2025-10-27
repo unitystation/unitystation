@@ -59,10 +59,16 @@ MonoBehaviour:
   - StageConcentrationThreshold: 4
     StageEffects:
     - {fileID: 11400000, guid: 5d0b7b3efbb3a33418ee59eb52ef4e14, type: 2}
+    - {fileID: 11400000, guid: c1ed547e609ed734ea50a13a8e35f6f4, type: 2}
+    - {fileID: 11400000, guid: 4b495bfd5e5a6174db5e66d2c4ee407c, type: 2}
+    - {fileID: 11400000, guid: 45793ea50437e4a4e80170ec5fd0c3c6, type: 2}
+  - StageConcentrationThreshold: 8
+    StageEffects:
+    - {fileID: 11400000, guid: 5d0b7b3efbb3a33418ee59eb52ef4e14, type: 2}
     - {fileID: 11400000, guid: ce00514859fcfbf4ebc18904aa14dcde, type: 2}
     - {fileID: 11400000, guid: 4b495bfd5e5a6174db5e66d2c4ee407c, type: 2}
     - {fileID: 11400000, guid: 1efd831ebaa972e43b93dbcbc1382783, type: 2}
-  - StageConcentrationThreshold: 8
+  - StageConcentrationThreshold: 14
     StageEffects:
     - {fileID: 11400000, guid: cd22551c247e5d14dbef9724f827fe5a, type: 2}
   DiseaseMaxConcentrationPercent: 16

@@ -87,6 +87,8 @@ namespace HealthV2.Sickness
 			}
 
 			int expectedBloodAmount = senders[0].AssociatedSystem.Base.reagentPoolSystem.NormalBlood;
+			senders[0].AssociatedSystem.Base.HealthStateController.SetDirtyState(); //Tells the HuD it needs to update next time its update gets called.
+
 			float concentrationPercent = (diseaseAmount / expectedBloodAmount) * 100;
 
 			diseaseAmount = concentrationPercent > DiseaseMaxConcentrationPercent
