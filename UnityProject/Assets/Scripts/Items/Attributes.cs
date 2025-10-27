@@ -12,6 +12,7 @@ using Managers;
 using Messages.Client.Interaction;
 using NaughtyAttributes;
 using UnityEngine.Serialization;
+using Util;
 
 [RequireComponent(typeof(Integrity))]
 public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServerSpawn, IHighlightable
@@ -30,11 +31,11 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 	/// <summary>
 	/// Current name
 	/// </summary>
-	public string ArticleName => articleName;
+	public string ArticleName => articleName; //Shoulld already be translated
 
-	public string InitialName => initialName;
+	public string InitialName => TS.T( initialName);
 
-	public string InitialDescription => initialDescription;
+	public string InitialDescription =>  TS.T(initialDescription);
 
 	// This examine message has priority over everything. If you make yours have higher priority, I will cut your ears.
 	public int ExaminablePriority => 10_000_000;
@@ -81,13 +82,13 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 	[Tooltip("Should an alternate name be used when displaying this in the cargo console report?")]
 	[SerializeField, BoxGroup("Cargo") ]
 	private string exportName = "";
-	public string ExportName => exportName;
+	public string ExportName => TS.T( exportName);
 
 	[Tooltip("Additional message to display in the cargo console report.")]
 	[SerializeField, BoxGroup("Cargo") ]
 	[TextArea(3,5)]
 	private string exportMessage = null;
-	public string ExportMessage => exportMessage;
+	public string ExportMessage => TS.T(exportMessage);
 
 
 	[FormerlySerializedAs("noItemHighlight")] [SerializeField]
@@ -110,7 +111,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 	[Server]
 	public void OnExport()
 	{
-		onExport.Invoke(exportName, exportMessage);
+		onExport.Invoke(ExportName, ExportMessage);
 	}
 
 	[SyncVar(hook = nameof(SyncArticleDescription))]
@@ -160,11 +161,12 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 
 	public override void OnStartClient()
 	{
-		SyncArticleName(articleName, articleName);
+		SyncArticleName(articleName, ArticleName);
 		SyncArticleDescription(articleDescription, articleDescription);
 		SyncSize(size, this.size);
 		base.OnStartClient();
 	}
+
 
 	private void Start()
 	{
@@ -221,15 +223,15 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 		size = initialSize;
 		if (initialNames.Count > 0)
 		{
-			SyncArticleName(articleName, initialNames.PickRandom());
+			SyncArticleName(articleName,  TS.T(initialNames.PickRandom()));
 		}
 		else
 		{
-			SyncArticleName(articleName, initialName);
+			SyncArticleName(articleName, InitialName);
 		}
 
 
-		SyncArticleDescription(articleDescription, initialDescription);
+		SyncArticleDescription(articleDescription, InitialDescription);
 	}
 
 	/// <summary>
@@ -247,13 +249,13 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 			Highlight.HighlightThis(gameObject);
 		}
 		string displayName = null;
-		if (string.IsNullOrWhiteSpace(articleName))
+		if (string.IsNullOrWhiteSpace(ArticleName))
 		{
 			displayName = gameObject.ExpensiveName();
 		}
 		else
 		{
-			displayName = articleName;
+			displayName = ArticleName;
 		}
 		//failsafe
 		if (string.IsNullOrWhiteSpace(displayName)) displayName = "error";
@@ -291,13 +293,13 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 	public string Examine(Vector3 worldPos)
 	{
 		string displayName = "<error>";
-		if (string.IsNullOrWhiteSpace(articleName))
+		if (string.IsNullOrWhiteSpace(ArticleName))
 		{
 			displayName = gameObject.ExpensiveName();
 		}
 		else
 		{
-			displayName = articleName;
+			displayName = ArticleName;
 		}
 
 		string str = "This is a " + displayName + ".";
@@ -322,8 +324,8 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 		{
 			newName = $"{newName} ({stack.Amount})";
 		}
-		newName = newName.Replace("[item]", $"{initialName}");
-		SyncArticleName(articleName, newName);
+		newName = newName.Replace("[item]", $"{InitialName}");
+		SyncArticleName(ArticleName, newName);
 	}
 
 	[Server]
@@ -335,8 +337,8 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 	public List<string> SearchableString()
 	{
 		var names = new List<string>();
-		names.Add(initialName);
-		names.Add(articleName);
+		names.Add(InitialName);
+		names.Add(ArticleName);
 		if (this is ItemAttributesV2 c)
 		{
 			names.AddRange(c.GetTraits().Select(trait => trait.name));
