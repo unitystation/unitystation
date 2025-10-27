@@ -1,15 +1,22 @@
 ﻿using System;
 using Logs;
+using NaughtyAttributes;
 using SecureStuff;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace Actions.V2.Trackers
 {
 	public class ItemSlotActionTracker : MonoBehaviour, IActionButtonTracker
 	{
 		[field:SerializeField] public SerializableDictionary<ActionButtonData, SerializedAction> ActionData { get; set; }
+
+		[SerializeField] private bool requiresSpecificSlots = false;
+		[ShowIf(nameof(requiresSpecificSlots)), SerializeField] private NamedSlot possibleSlots = NamedSlot.eyes;
+
 		public ActionManager TargetActionManager { get; set; }
+
 
 		private Pickupable pickupable;
 
@@ -60,6 +67,13 @@ namespace Actions.V2.Trackers
 				Loggy.Error($"Attempted to register actions for {gameObject.name}, but TargetActionManager is null.");
 				return;
 			}
+
+
+			//If this item needs to be in a specific slot but isn't, don't register the action
+			if (requiresSpecificSlots &&
+			    (pickupable.ItemSlot.NamedSlot == null
+			     || possibleSlots.HasFlag(pickupable.ItemSlot.NamedSlot) == false)) return;
+
 			foreach (var data in ActionData.Keys)
 			{
 				TargetActionManager?.RegisterNewAction(data, ActionData[data].Invoke);

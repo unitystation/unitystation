@@ -11,7 +11,7 @@ namespace HealthV2.TraumaTypes
 		private const float DeadlyCancerCount = 25f;
 
 		[SerializeField]
-		private float MinThresholdDamage = 2;
+		private float MinThresholdDamage = 0.2f;
 
 		public override void OnTakeDamage(BodyPartDamageData data)
 		{
