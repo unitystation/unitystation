@@ -63,12 +63,32 @@ public static class TS
 	{
 		if (string.IsNullOrEmpty(FieldName) == false)
 		{
-			string className = System.IO.Path.GetFileNameWithoutExtension(caller);
+			string className = Filename(caller);
 			return TranslationSystem.Translate(EN_String, className, FieldName );
 		}
 		else
 		{
 			return TranslationSystem.Translate(EN_String, "", FieldName );
 		}
+	}
+
+	private static string Filename(string path )
+	{
+		if (string.IsNullOrEmpty(path))
+			return string.Empty;
+
+		// Normalize directory separators
+		path = path.Replace('\\', '/');
+
+		// Get the part after the last slash
+		int lastSlash = path.LastIndexOf('/');
+		string fileName = (lastSlash >= 0) ? path.Substring(lastSlash + 1) : path;
+
+		// Remove the extension (anything after the last '.')
+		int lastDot = fileName.LastIndexOf('.');
+		if (lastDot > 0) // ensure dot isn't the first character
+			fileName = fileName.Substring(0, lastDot);
+
+		return fileName;
 	}
 }
