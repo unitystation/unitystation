@@ -66,10 +66,16 @@ namespace Doors
 			if (Validations.HasUsedComponent<AirlockPainter>(interaction))
 				return true;
 
+			if (Panelopen && AllowHackingPanel && (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Cable) ||
+					Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wirecutter)))
+				return true;
+
 			if (CheckWeld() && CheckBolts() && CheckPower())
 			{
 				return Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Crowbar);
 			}
+
+				//TODO add pins here//TODO check if clicking on pins region
 
 			return false;
 		}
@@ -111,6 +117,16 @@ namespace Doors
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+			if (Panelopen && AllowHackingPanel)
+			{
+				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Cable) ||
+					Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wirecutter))
+				{
+					TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType.HackingPanel, TabAction.Open);
+					return;
+				}
+			}
+
 			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver) && AllowHackingPanel)
 			{
 				panelopen = !panelopen;

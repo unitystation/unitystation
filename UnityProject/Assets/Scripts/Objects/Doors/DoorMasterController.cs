@@ -29,7 +29,7 @@ namespace Doors
 		ICheckedInteractable<AiActivate>, ICanOpenNetTab, IMultitoolSlaveable, IServerSpawn,
 		IBumpableObject, IRightClickable
 	{
-		#region inspector
+		#region Inspector
 		[SerializeField]
 		[Tooltip("Toggle damaging any living entities caught in the door as it closes")]
 		private bool damageOnClose = false;
@@ -78,6 +78,11 @@ namespace Doors
 
 		#endregion
 
+		#region Initialization
+
+		/// <summary>
+		/// Sets whether the door is open or closed
+		/// </summary>
 		public bool IsClosed
 		{
 			get => registerTile.IsClosed;
@@ -107,12 +112,14 @@ namespace Doors
 		[Tooltip("Does it have a glass window you can see through?")]
 		public bool isWindowedDoor;
 
-		private int openLayer;
+		// These variables are seperated out because open and closed doors are different layers and
+		// windowed doors are set to a different mask layer than non-windowed doors
+		private int openMaskingLayer;
+		private int closedMaskingLayer;
 		private int openSortingLayer;
-		private int closedLayer;
 		private int closedSortingLayer;
 
-		public bool UseMachinesForOpenLayeer = false;
+		public bool UseMachinesForOpenLayer = false;
 
 		public HackingProcessBase HackingProcessBase;
 
@@ -124,39 +131,20 @@ namespace Doors
 		[field: SerializeField] public bool CanRelink { get; set; } = true;
 		private string doorName;
 
+		private GameObject originator;
+		private bool byForce;
+		private bool OverrideLogic;
+
+
 		private void Awake()
 		{
+			//Gets the door name.  Note this may not have the right capitalization
 			doorName = gameObject.ExpensiveName();
 
-			if (isWindowedDoor == false)
-			{
-				closedLayer = LayerMask.NameToLayer("Door Closed");
-			}
-			else
-			{
-				closedLayer = LayerMask.NameToLayer("Windows");
-			}
+			// Set masking and sorting layers
+			SetLayerData();
+			
 
-
-
-			closedSortingLayer = SortingLayer.NameToID("Doors Closed");
-
-
-
-			openLayer = LayerMask.NameToLayer("Door Open");
-
-
-
-
-			if (TryGetComponent<FireLock>(out _))
-			{
-				isFireLock = true;
-				closedSortingLayer = SortingLayer.NameToID("WallObject");
-				openSortingLayer = SortingLayer.NameToID("Machines");
-			}
-
-			openLayer = LayerMask.NameToLayer("Door Open");
-			openSortingLayer = SortingLayer.NameToID("Doors Open");
 			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 			registerTile = GetComponent<RegisterDoor>();
 			modulesList = GetComponentsInChildren<DoorModuleBase>().ToList();
@@ -169,95 +157,93 @@ namespace Doors
 
 			soundController = GetComponent<DoorSoundController>();
 
-			if (UseMachinesForOpenLayeer)
+			//Initialize the door state
+			if (CustomNetworkManager.IsServer == true)
 			{
+				if (IsClosed) Close();
+				else Open();
+			}
+		}
+		
+		/// <summary>
+        /// Sets the appropriate sorting and masking layer for the door
+        /// </summary>
+		private void SetLayerData()
+        {
+            openMaskingLayer = LayerMask.NameToLayer("Door Open");
+
+			// Windowed doors uses the windowed masking layer
+			if (isWindowedDoor == true)
+				closedMaskingLayer = LayerMask.NameToLayer("Windows");
+			else
+				closedMaskingLayer = LayerMask.NameToLayer("Door Closed");
+
+			//If this is a firelock it goes on top of other doors when closed
+			if (TryGetComponent<FireLock>(out _))
+			{
+				isFireLock = true;
+				closedSortingLayer = SortingLayer.NameToID("WallObject");
 				openSortingLayer = SortingLayer.NameToID("Machines");
 			}
-
-			if (CustomNetworkManager.IsServer == true)
-            {
-                if (IsClosed) Close();
-				else Open();
-            }
-		}
+			else
+			{
+				closedSortingLayer = SortingLayer.NameToID("Doors Closed");
+				openSortingLayer = SortingLayer.NameToID("Doors Open");
+			}
+        }
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			HackingProcessBase.RegisterPort(TryForceClose, this.GetType());
 			HackingProcessBase.RegisterPort(TryBump, this.GetType());
 			HackingProcessBase.RegisterPort(TryClose, this.GetType());
 			HackingProcessBase.RegisterPort(ConfirmAIConnection, this.GetType());
 		}
+		#endregion
 
-
-		private bool CheckPower()
+		#region Core Functionality
+		/// <summary>
+        /// Defines what HandApplys interact with ANY door, note that ConstructibleDoor handles
+		/// the hacking panel specific to airlocks.
+        /// </summary>
+		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			foreach (var module in modulesList)
+			if (Validations.IsTarget(gameObject, interaction) == false) return false;
+			if (DefaultWillInteract.Default(interaction, side,
+					Validations.CheckState(x => x.CanInteractWithDoors)) == false) return false;
+
+			if (interaction.HandObject != null)
 			{
-				if(module is PowerModule powerModule)
+				//Welders weld door if intent is Harm, repair door if intent is help
+				if (Validations.HasUsedActiveWelder(interaction)) return true;
+
+				//All other hand objects should melee if intent is harm
+				if (interaction.Intent == Intent.Harm) return false;
+
+				//Jaws of Life and other special pry tools
+				if (Validations.HasItemTrait(interaction.HandObject.gameObject, CommonTraits.Instance.CanPryDoor)) return true;
+
+				//Crowbars
+				if (Validations.HasItemTrait(interaction.HandObject.gameObject, CommonTraits.Instance.Crowbar)) return true;
+			}
+			else
+			{
+				// Limbs that can pry doors.  //FIXME update this code when prying with hands is moved to body parts
+				if (interaction.PerformerPlayerScript.PlayerTypeSettings.CanPryDoorsWithHands)
 				{
-					return powerModule.HasPower;
+					if (interaction.Intent == Intent.Harm) return false;
+					else return true;
 				}
 			}
+
 			return true;
 		}
 
-		private void TryBump()
-		{
-			var firelock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
-			if (firelock != null && firelock.fireAlarm.activated && firelock.DoorMasterController.IsClosed) return;
-			if (!isAutomatic || !allowInput)
-			{
-				return;
-			}
-
-
-			HashSet<DoorProcessingStates> states = new HashSet<DoorProcessingStates>();
-			foreach (var module in modulesList)
-			{
-				module.BumpingInteraction(byPlayer, states);
-			}
-
-
-			if (!isPerformingAction && CheckStatusAllow(states))
-			{
-				TryOpen(byPlayer);
-			}
-
-			StartInputCoolDown();
-		}
-
 		/// <summary>
-		/// Invoke this on server when player bumps into door to try to open it.
+		/// Invoke this on server when player clicks a door to interact with it
 		/// </summary>
-		public void OnBump(GameObject inbyPlayer, GameObject client)
-		{
-			byPlayer = inbyPlayer;
-			HackingProcessBase.ImpulsePort(TryBump);
-		}
-
-		/// <summary>
-		/// Invoke this on server when player bumps into door to try to open it.
-		/// </summary>
-		public void Bump(GameObject inbyPlayer)
-		{
-			byPlayer = inbyPlayer;
-			HackingProcessBase.ImpulsePort(TryBump);
-		}
-
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			if (allowInput == false) return;
-
-			if (ConstructibleDoor.Panelopen && ConstructibleDoor.AllowHackingPanel)
-			{
-				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Cable) ||
-					Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wirecutter))
-				{
-					TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType.HackingPanel, TabAction.Open);
-					return;
-				}
-			}
 
 			//When a player interacts with the door, we must first check with each module on what to do.
 			//For instance, if one of the modules has locked the door, that module will want to prevent us from
@@ -281,27 +267,18 @@ namespace Doors
 		/// <param name="interaction"></param>
 		public void OpenInteraction(HandApply interaction)
 		{
-			HashSet<DoorProcessingStates> states = new HashSet<DoorProcessingStates>();
-			foreach (DoorModuleBase module in modulesList)
-			{
-				module.OpenInteraction(interaction, states);
-			}
-			// If there is nothing preventing the door from closing, try closing it
-			if (!isPerformingAction && CheckStatusAllow(states) && allowInteraction)
-			{
-				if (clickDisablesAutoClose)
-				{
-					BlockAutoClose = false;
-				}
-				PulseTryClose(interaction.Performer, inOverrideLogic: true);
-				return;
-			}
+			// If the door is in motion or interaction is not permitted (firelocks, blast doors)
+			if (isPerformingAction || allowInteraction == false) return;
 
-			// If we can't close the door because we are taking an action other than closing a door, don't send a message
-			// Otherwise, send a message explaining why we can't close the door
-			if (!states.Contains(DoorProcessingStates.PreventSilently))
+			// If there is nothing preventing the door from closing, try closing it
+			if (TryInteraction(interaction))
 			{
-				AddChatTryInteractMessage(interaction, states);
+				//If we are closing a door where clicks disable auto close, we want to re-enable autoclose
+				if (clickDisablesAutoClose)
+					BlockAutoClose = false;
+
+				//Try to close the door via the wiring
+				PulseTryClose(interaction.Performer, inOverrideLogic: true);
 			}
 		}
 
@@ -312,52 +289,132 @@ namespace Doors
 		/// <param name="interaction"></param>
 		public void ClosedInteraction(HandApply interaction)
 		{
+			// If the door is in motion or interaction is not permitted (firelocks, blast doors)
+			if (isPerformingAction || allowInteraction == false) return;
+
+			// If there is nothing preventing the door from opening, try opening it
+			if (TryInteraction(interaction))
+			{
+				//If we are opening a door where clicks disable auto close, we want to disable autoclose
+				if (clickDisablesAutoClose)
+					BlockAutoClose = true;
+
+				//FIXME: Should use wiring, not whatever this is supposed to be
+				TryOpen(interaction.Performer);
+			}
+		}
+
+		/// <summary>
+		/// Runs through each door module and sees if they have a special case for this kind of interaction.
+		/// This version is for clicking on the door with a HandApply interaction.
+		/// </summary>
+		/// <param name="interaction">The Handapply interaction being used</param>
+		/// <returns>True if none of the door modules would prevent the door from opening/closing</returns>
+		private bool TryInteraction(HandApply interaction)
+		{
 			HashSet<DoorProcessingStates> states = new HashSet<DoorProcessingStates>();
 			foreach (DoorModuleBase module in modulesList)
 			{
-				module.ClosedInteraction(interaction, states);
+				if (IsClosed)
+					module.ClosedInteraction(interaction, states);
+				else
+					module.OpenInteraction(interaction, states);
 			}
-
-			// If there is nothing preventing the door from opening, try opening it
-			if (!isPerformingAction && CheckStatusAllow(states) && allowInteraction)
+			
+			// Forcing the door only cares about physical impediments
+			if(byForce)
 			{
-				if (clickDisablesAutoClose)
-				{
-					BlockAutoClose = true;
-				}
-
-				TryOpen(interaction.Performer);
-				return;
+				if (states.Contains(DoorProcessingStates.PhysicallyPrevented) || states.Contains(DoorProcessingStates.Welded)) return false;
+				
+				return true;
 			}
+			 
+			//Give the player feedback on any reason we found that the door wont open
+			AddChatTryInteractMessage(interaction.Performer, states);
 
-			// If we can't open the door because we are taking an action other than opening a door, don't send a message
-			// Otherwise, send a message explaining why we can't open the door
-			if (!states.Contains(DoorProcessingStates.PreventSilently))
-			{
-				AddChatTryInteractMessage(interaction, states);
-			}
+			return CheckStatusAllow(states);
 		}
 
-		public void AddChatTryInteractMessage(HandApply interaction, HashSet<DoorProcessingStates> States)
+		/// <summary>
+		/// Runs through each door module and sees if they have a special case for this kind of interaction.
+		/// This version is for bumping the door or other situations when the player isn't using HandApply
+		/// </summary>
+		/// <returns>True if none of the door modules would prevent the door from opening/closing</returns>
+		private bool TryBumpInteraction()
 		{
-			if (States.Contains(DoorProcessingStates.Welded))
+			HashSet<DoorProcessingStates> states = new HashSet<DoorProcessingStates>();
+			foreach (var module in modulesList)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"The {doorName} is welded shut");
+				module.BumpingInteraction(byPlayer, states);
 			}
-			else if (States.Contains(DoorProcessingStates.PowerPrevented))
+
+			return CheckStatusAllow(states);
+		}
+
+		/// <summary>
+		/// Gives the player feedback on the door's state
+		/// </summary>
+		/// <param name="player">The player to send the interact message to</param>
+		/// <param name="states">A list of states, presumably generated by TryInteraction</param>
+		public void AddChatTryInteractMessage(GameObject player, HashSet<DoorProcessingStates> states)
+		{
+			// If the interaction is being handled by the module (eg crowbaring), say nothing here
+			if (states.Contains(DoorProcessingStates.PreventSilently)) return;
+
+			if (states.Contains(DoorProcessingStates.Welded))
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"The {doorName} is unpowered");
+				Chat.AddExamineMsgFromServer(player, $"The {doorName} is welded shut");
 			}
-			else if (States.Contains(DoorProcessingStates.SoftwarePrevented))
+			else if (states.Contains(DoorProcessingStates.PowerPrevented))
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"The {doorName} denies access");
+				Chat.AddExamineMsgFromServer(player, $"The {doorName} is unpowered");
 			}
-			else if (States.Contains(DoorProcessingStates.PhysicallyPrevented))
+			else if (states.Contains(DoorProcessingStates.SoftwarePrevented))
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"The {doorName} tries to move but something is physically preventing it");
+				Chat.AddExamineMsgFromServer(player, $"The {doorName} denies access");
+			}
+			else if (states.Contains(DoorProcessingStates.PhysicallyPrevented))
+			{
+				Chat.AddExamineMsgFromServer(player, $"The {doorName} tries to move but something is physically preventing it");
 			}
 		}
 
+		/// <summary>
+		/// Invoked by the server when a player bumps into the door, trying to open it
+		/// </summary>
+		/// <param name="inbyPlayer"></param>
+		/// <param name="client"></param>
+		public void OnBump(GameObject inbyPlayer, GameObject client)
+		{
+			byPlayer = inbyPlayer;
+			HackingProcessBase.ImpulsePort(TryBump);
+		}
+
+		#endregion
+
+		#region Status Checks
+
+		/// <summary>
+        /// Searches the door for a power module and returns its state
+        /// </summary>
+        /// <returns>True if the door has power or has no power module (presumably it doesn't need one to work)</returns>
+		private bool CheckPower()
+		{
+			foreach (var module in modulesList)
+			{
+				if (module is PowerModule powerModule)
+				{
+					return powerModule.HasPower;
+				}
+			}
+			return true;
+		}
+
+/// <summary>
+/// Runs through a hashset of states and checks if any prevent the door from function
+/// </summary>
+/// <param name="states"></param>
+/// <returns>True if the door is allowed to open/close</returns>
 		public bool CheckStatusAllow(HashSet<DoorProcessingStates> states)
 		{
 			if (states.Contains(DoorProcessingStates.PhysicallyPrevented)) return false;
@@ -374,90 +431,162 @@ namespace Doors
 			}
 		}
 
-		public void TryOpen(GameObject originator, bool blockClosing = false)
+/// <summary>
+/// Checks if the door has a firelock, and if its engaged
+/// </summary>
+/// <returns>True if the firelock is engaged</returns>
+		private bool FirelockEngagedCheck()
 		{
-			if (!IsClosed) return; //Can't open if we are open. Figures.
 			if (isFireLock == false)
 			{
-				var fireLock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
-				if (fireLock != null && fireLock.fireAlarm.activated && fireLock.DoorMasterController.IsClosed) return;
+				var firelock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
+				if (firelock != null && firelock.fireAlarm.activated && firelock.DoorMasterController.IsClosed) return true;
+			}
+			return false;
+		}
+
+		#endregion
+
+		#region Bumping
+
+		private void TryBump()
+		{
+			//A Door can't be bumped if its in motion, there is a firelock in the way, it isn't automatic, its in 
+			//an input cooldown, and when there is a special reason they can't be interacted with (Blast Doors)
+			if (FirelockEngagedCheck() || isAutomatic == false || allowInput == false || allowInteraction == false || isPerformingAction) return;
+
+			if (TryBumpInteraction())
+			{
+				//FIXME: Should use wiring, not whatever this is
+				TryOpen(byPlayer);
 			}
 
-			if(isPerformingAction) return;
-
-			Open(blockClosing);
+			StartInputCoolDown();
 		}
 
 		/// <summary>
-		/// Try to force the door open regardless of access/internal fuckery.
+		/// Invoke this on server when player bumps into door to try to open it.
+		/// </summary>
+		public void Bump(GameObject inbyPlayer)
+		{
+			byPlayer = inbyPlayer;
+			HackingProcessBase.ImpulsePort(TryBump);
+		}
+
+		#endregion
+
+		#region Opening
+
+		//FIXME This shouldn't exist
+		public void TryOpen(GameObject originator, bool blockClosing = false)
+		{
+			if (IsClosed == false || isPerformingAction || FirelockEngagedCheck()) return; //Can't open if we are open. Figures.
+
+			Open();
+		}
+
+		/// <summary>
+		/// Try to force the door open, caring only about physical impediments.
 		/// Purely check to see if there is something physically restraining the door from being opened such as a weld or door bolts.
 		///	This would be in situations like as prying the door with a crowbar.
 		/// </summary>
+		/// <returns>True if the door was forcable, useful for followup in AI and other code</returns>
 		public bool TryForceOpen()
 		{
-			if (!IsClosed) return false; //Can't open if we are open. Figures.
+			//Can't force open a door that is open, is in motion, or has a firelock over it
+			if (IsClosed == false || isPerformingAction || FirelockEngagedCheck()) return false;
 
-			HashSet<DoorProcessingStates> states = new HashSet<DoorProcessingStates>();
+			byForce = true;
 
-			foreach (DoorModuleBase module in modulesList)
+			if (TryInteraction(null))
 			{
-				module.ClosedInteraction(null, states);
+				Open();
+				byForce = false;
+				return true;
+			}
+			
+			byForce = false;
+			return false;  
+		}
+
+		public void Open()
+		{
+			if (!gameObject) return;  // probably destroyed by a shuttle crash
+
+			if (!BlockAutoClose)
+			{
+				ResetWaiting();
 			}
 
-			if (states.Contains(DoorProcessingStates.PhysicallyPrevented) || states.Contains(DoorProcessingStates.Welded)) return false;
+			UpdateGui();
 
-			Open(true);
-			return true;
+			doorAnimator.LightsWork = !byForce;
+			doorAnimator.PanelOpen = ConstructibleDoor != null && ConstructibleDoor.Panelopen;
+			doorAnimator.SyncDoorStatus(doorAnimator.SyncDoorUpdateType, DoorAnimatorV2.DoorUpdateType.Open);
+
+			if (byForce)
+			{
+				soundController.ServerPlaySound(DoorSoundController.DoorSoundType.Forced);
+			}
+			else
+			{
+				soundController.ServerPlaySound(DoorSoundController.DoorSoundType.Open);
+			}
 		}
 
-		public void PulseTryForceClose()
-		{
-			HackingProcessBase.ImpulsePort(TryForceClose);
-		}
+		#endregion
+
+		#region Closing
 
 		/// <summary>
-		/// Try to force the door closed regardless of access/internal fuckery.
-		/// Purely check to see if there is something physically restraining the door from being closed such as a weld or door bolts.
+		/// Try to force the door open, caring only about physical impediments.
+		/// Purely check to see if there is something physically restraining the door from being opened such as a weld or door bolts.
+		///	This would be in situations like as prying the door with a crowbar.
 		/// </summary>
-		public void TryForceClose()
+		/// <returns>True if the door was forcable, useful for followup in AI and other code</returns>
+		public bool TryForceClose()
 		{
-			if (IsClosed) return; //Can't close if we are closed. Figures.
+			//Can't force closed a door that is closed, is in motion, or has a firelock over it
+			if (IsClosed == true || isPerformingAction || FirelockEngagedCheck()) return false;
 
-			HashSet<DoorProcessingStates> states = new HashSet<DoorProcessingStates>();
+			byForce = true;
 
-			foreach (DoorModuleBase module in modulesList)
+			if (TryInteraction(null))
 			{
-				module.OpenInteraction(null, states);
+				Close();
+				byForce = false;
+				return true;
 			}
-
-			if (states.Contains(DoorProcessingStates.PhysicallyPrevented)) return;
-
-			Close(true);
+			
+			byForce = false;
+			return false;
 		}
 
+/// <summary>
+/// Uses wiring to close the door.  This is the prefered close door method.
+/// </summary>
+/// <param name="inoriginator"></param>
+/// <param name="inforce"></param>
+/// <param name="inOverrideLogic"></param>
 		public void PulseTryClose(GameObject inoriginator = null, bool inforce = false, bool inOverrideLogic = false)
 		{
 			originator = inoriginator;
-			force = inforce;
+			byForce = inforce;
 			OverrideLogic = inOverrideLogic;
 
 			HackingProcessBase.ImpulsePort(TryClose);
 		}
 
-		private GameObject originator;
-		private bool force;
-		private bool OverrideLogic;
-
-
+		//FIXME: Begone with this abomination!
 		public void TryClose()
 		{
 			if (IsClosed) return; //Can't close if we are closed. Figures.
-			if(isPerformingAction) return;
+			if (isPerformingAction) return;
 
 			// Sliding door is not passable according to matrix
 			if (!isPerformingAction &&
 				(ignorePassableChecks || matrix.CanCloseDoorAt(registerTile.LocalPositionServer, true)) &&
-				(HasPower || force))
+				(HasPower || byForce))
 
 			{
 				if (OverrideLogic)
@@ -489,16 +618,16 @@ namespace Doors
 			}
 		}
 
-		public void Close(bool byForce = false)
+		public void Close()
 		{
 			if (!gameObject) return; // probably destroyed by a shuttle crash
 			UpdateGui();
-			
+
 			doorAnimator.LightsWork = !byForce;
 			doorAnimator.PanelOpen = ConstructibleDoor != null && ConstructibleDoor.Panelopen;
-			doorAnimator.SyncDoorStatus(doorAnimator.SyncDoorUpdateType,DoorAnimatorV2.DoorUpdateType.Close);
+			doorAnimator.SyncDoorStatus(doorAnimator.SyncDoorUpdateType, DoorAnimatorV2.DoorUpdateType.Close);
 
-			if(byForce)
+			if (byForce)
 			{
 				soundController.ServerPlaySound(DoorSoundController.DoorSoundType.Forced);
 			}
@@ -508,107 +637,43 @@ namespace Doors
 			}
 		}
 
-		public void Open(bool byForce = false)
-		{
-			if (!gameObject) return;  // probably destroyed by a shuttle crash
 
-			if (!BlockAutoClose)
-			{
-				ResetWaiting();
-			}
+		#endregion
 
-			UpdateGui();
-
-			doorAnimator.LightsWork = !byForce;
-			doorAnimator.PanelOpen = ConstructibleDoor != null && ConstructibleDoor.Panelopen;
-
-			doorAnimator.SyncDoorStatus(doorAnimator.SyncDoorUpdateType, DoorAnimatorV2.DoorUpdateType.Open);
-
-			if(byForce)
-			{
-				soundController.ServerPlaySound(DoorSoundController.DoorSoundType.Forced);
-			}
-			else
-			{
-				soundController.ServerPlaySound(DoorSoundController.DoorSoundType.Open);
-			}
-		}
-
-		public void BoxCollToggleOn()
+		#region Status Handling
+		
+		/// <summary>
+		/// Handles the serverside aspects of doors closing, sets the collision, masking layer, etc
+		/// </summary>
+		private void BoxCollToggleOn()
 		{
 			IsClosed = true;
-			SetLayer(closedLayer);
+			SetMaskingLayer(closedMaskingLayer);
 			spriteRenderer.sortingLayerID = closedSortingLayer;
 			registerTile.SetNewSortingLayer(closedSortingLayer);
 		}
-
-		public void BoxCollToggleOff()
+		
+		/// <summary>
+        /// Handles the serverside aspects of doors opening, sets the collision, masking layer, etc
+        /// </summary>
+		private void BoxCollToggleOff()
 		{
 			IsClosed = false;
-			SetLayer(openLayer);
+			SetMaskingLayer(openMaskingLayer);
 			spriteRenderer.sortingLayerID = openSortingLayer;
 			registerTile.SetNewSortingLayer(openSortingLayer);
 		}
 
-		private void SetLayer(int layer)
+		/// <summary>
+        /// Sets the masking layer of the door
+        /// </summary>
+		private void SetMaskingLayer(int layer)
 		{
 			gameObject.layer = layer;
 			foreach (Transform child in transform)
 			{
 				child.gameObject.layer = layer;
 			}
-		}
-
-		public bool WillInteract(HandApply interaction, NetworkSide side)
-		{
-			if (Validations.IsTarget(gameObject, interaction) == false) return false;
-			if (DefaultWillInteract.Default(interaction, side,
-					Validations.CheckState(x => x.CanInteractWithDoors)) == false) return false;
-
-			if (interaction.HandObject != null)
-			{
-				//Welders weld door if intent is Harm, repair door if intent is help
-				if (Validations.HasUsedActiveWelder(interaction))
-				{
-					return true;
-				}
-
-				//All other hand objects should melee if intent is harm
-				if (interaction.Intent == Intent.Harm)
-				{
-					return false;
-				}
-
-				//Jaws of Life and other special pry tools
-				if (Validations.HasItemTrait(interaction.HandObject.gameObject, CommonTraits.Instance.CanPryDoor))
-				{
-					return true;
-				}
-
-				//Crowbars
-				if (Validations.HasItemTrait(interaction.HandObject.gameObject, CommonTraits.Instance.Crowbar))
-				{
-					return true;
-				}
-				//Screwdrivers open the hacking panel
-				if (Validations.HasItemTrait(interaction.HandObject.gameObject, CommonTraits.Instance.Screwdriver))
-				{
-					return true;//TODO check if clicking on panel region
-				}
-
-				//TODO add pins here//TODO check if clicking on pins region
-			}
-			else
-			{
-				// Limbs that can pry doors.  //TODO update this code when prying with hands is moved to body parts
-				if (interaction.PerformerPlayerScript.PlayerTypeSettings.CanPryDoorsWithHands)
-				{
-					if (interaction.Intent == Intent.Harm) return false;
-					else return true;
-				}
-			}
-
-			return true;
 		}
 
 		public void StartInputCoolDown()
@@ -696,7 +761,7 @@ namespace Doors
 
 		private void ServerDamageOnClose()
 		{
-			foreach (var healthBehaviour in matrix.Get<LivingHealthMasterBase>(registerTile.LocalPositionServer, true) )
+			foreach (var healthBehaviour in matrix.Get<LivingHealthMasterBase>(registerTile.LocalPositionServer, true))
 			{
 				healthBehaviour.ApplyDamageAll(gameObject, damageClosed, AttackType.Melee, DamageType.Brute);
 			}
@@ -723,14 +788,14 @@ namespace Doors
 			// After the door opens, wait until it's supposed to close.
 			yield return WaitFor.Seconds(maxTimeOpen);
 
-			if(BlockAutoClose) yield break;
+			if (BlockAutoClose) yield break;
 
-			if(isAutomatic == false) yield break;
+			if (isAutomatic == false) yield break;
 
-			if(HasPower == false) yield break;
+			if (HasPower == false) yield break;
 
 			//If we are already closed don't need to pulse
-			if(IsClosed) yield break;
+			if (IsClosed) yield break;
 
 			PulseTryClose();
 		}
@@ -739,6 +804,7 @@ namespace Doors
 		{
 			BlockAutoClose = newState;
 		}
+		#endregion
 
 		#region Ai interaction
 
@@ -783,7 +849,8 @@ namespace Doors
 				}
 				else
 				{
-					PulseTryForceClose();
+					//FIXME
+					//PulseTryForceClose();
 				}
 
 				return;
@@ -794,7 +861,7 @@ namespace Doors
 			{
 				foreach (var module in modulesList)
 				{
-					if(module is BoltsModule bolts)
+					if (module is BoltsModule bolts)
 					{
 						//Toggle bolts
 						bolts.PulseToggleBolts();
@@ -813,14 +880,14 @@ namespace Doors
 			bool isAi = playerObject.GetComponent<PlayerScript>().PlayerType == PlayerTypes.Ai;
 			if (netTabType == NetTabType.HackingPanel)
 			{
-			    //Block Ai from hacking UI but allow normal player
-			    return isAi == false;
+				//Block Ai from hacking UI but allow normal player
+				return isAi == false;
 			}
 
 			if (isAi == false)
 			{
-			    //Block normal player from Ai door controlling UI
-			    return false;
+				//Block normal player from Ai door controlling UI
+				return false;
 			}
 
 			if (HasPower == false)
@@ -851,7 +918,7 @@ namespace Doors
 		public void UpdateGui()
 		{
 			var peppers = NetworkTabManager.Instance.GetPeepers(gameObject, NetTabType.Airlock);
-			if(peppers.Count == 0) return;
+			if (peppers.Count == 0) return;
 
 			List<ElementValue> valuesToSend = new List<ElementValue>();
 
@@ -859,7 +926,7 @@ namespace Doors
 
 			foreach (var module in modulesList)
 			{
-				if(module is BoltsModule bolts)
+				if (module is BoltsModule bolts)
 				{
 					valuesToSend.Add(new ElementValue() { Id = "BoltLabel", Value = Encoding.UTF8.GetBytes(bolts.BoltsDown ? "Bolted" : "Unbolted") });
 				}
@@ -918,6 +985,7 @@ namespace Doors
 
 		#endregion
 
+		#region Admin Functions
 		public RightClickableResult GenerateRightClickOptions()
 		{
 			if (KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold) == false)
@@ -976,5 +1044,6 @@ namespace Doors
 		{
 			AdminCommandsManager.Instance.CmdToggleElectrifiedDoor(gameObject);
 		}
+		#endregion
 	}
 }

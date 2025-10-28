@@ -89,8 +89,9 @@ namespace UI.Objects
 	            DoorMasterController.TryForceOpen();
             }
             else
-            {
-	            DoorMasterController.PulseTryForceClose();
+			{
+				//FIXME
+	            //DoorMasterController.PulseTryForceClose();
             }
 		}
 
