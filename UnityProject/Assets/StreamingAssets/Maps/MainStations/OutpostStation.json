@@ -83004,10 +83004,10 @@
                 "Tel": "Plating"
               },
               {
-                "Tel": "FluidStraightPipe",
+                "Tel": "3WayManifold",
                 "Z": 1,
                 "Col": "#FF0031FF",
-                "Tf": "5.960464E-08,-0.9999999,0,0,0.9999999,5.960464E-08,0,0,0,0,1,0,0,0,0,1"
+                "Tf": "-1,8.742278E-08,0,0,-8.742278E-08,-1,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -252654,7 +252654,7 @@
             "GitID": "cb2f847ef3b8b754181a970a4032c552_55┼61┼0┼",
             "PrefabID": "cb2f847ef3b8b754181a970a4032c552",
             "Name": "AirScrubber (1)",
-            "LocalPRS": "55┼61┼0┼0ø0ø90ø",
+            "LocalPRS": "55┼61┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -252663,15 +252663,6 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_55┼67┼0┼@0@APC@0"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Left_By90"
                     }
                   ]
                 },
