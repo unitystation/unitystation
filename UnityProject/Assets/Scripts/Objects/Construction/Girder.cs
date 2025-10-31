@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Core;
 using UnityEngine;
 using Mirror;
@@ -218,8 +219,8 @@ namespace Objects.Construction
 			DoorMasterController doorController = theWall.GetComponent<DoorMasterController>();
 			tileChangeManager.MetaTileMap.SetTile(registerObject.LocalPositionServer, falseTile);
 			interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
+			doorController.Close();
 			_ = Despawn.ServerSingle(gameObject);
-			doorController.TryClose();
 		}
 
 		[Server]
@@ -229,8 +230,8 @@ namespace Objects.Construction
 			DoorMasterController doorController = theWall.GetComponent<DoorMasterController>();
 			tileChangeManager.MetaTileMap.SetTile(registerObject.LocalPositionServer, falseTile);
 			interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
+			doorController.Close();
 			_ = Despawn.ServerSingle(gameObject);
-			doorController.TryClose();
 		}
 	}
 }
