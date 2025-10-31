@@ -19,13 +19,38 @@ namespace Doors
 			registerTile = GetComponent<RegisterTile>();
 		}
 
+		/// <summary>
+		/// Run this when the fire alarm (or other device) sends the alert to close
+		/// </summary>
 		public void ReceiveAlert()
 		{
-			doorMasterController.TryForceClose();
+			foreach (var door in MatrixManager.GetAt<DoorMasterController>(registerTile.WorldPositionServer, true))
+			{
+				if (door.IsFireLock)
+					continue;
 
-			if(doorMasterController.IsClosed == false) return;
+				//Close the door and THEN paralyze the door, otherwise the door will be stuck open under the firelock
+				door.PulseTryClose(bypassSoftware: true);
+				door.IsFireLockEngaged = true;
+			}
 
-			//registerTile.SetNewSortingOrder(SortingLayer.NameToID("Door Closed"));
+			doorMasterController.PulseTryClose(overrideLogic: true);
+		}
+
+		/// <summary>
+		/// Run this when the fire alarm (or other device) sends the all clear notification
+		/// </summary>
+		public void ClearAlert()
+		{
+			foreach (var door in MatrixManager.GetAt<DoorMasterController>(registerTile.WorldPositionServer, true))
+			{
+				if (door.IsFireLock)
+					continue;
+
+				door.IsFireLockEngaged = false;
+			}
+
+			doorMasterController.PulseTryOpen(bypassSoftware: true);
 		}
 
 		#region Multitool Interaction

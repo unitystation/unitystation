@@ -1371,6 +1371,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 5522157268011426574}
+    - targetCorrespondingSourceObject: {fileID: 4813822218561835024, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5418941700178334745}
   m_SourcePrefab: {fileID: 100100000, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
 --- !u!1 &215518841633704133 stripped
 GameObject:
@@ -1468,7 +1472,10 @@ MonoBehaviour:
   closingAnimationTime: 0.6
   deniedAnimationTime: 0.6
   warningAnimationTime: 0.6
-  CurrentDoorUpdateType: 0
+  slipThroughScaler: 0.5
+  SyncDoorUpdateType: 0
+  PanelOpen: 0
+  LightsWork: 0
 --- !u!114 &2268823939221595730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1494,9 +1501,9 @@ MonoBehaviour:
   BlockAutoClose: 0
   clickDisablesAutoClose: 0
   isWindowedDoor: 0
-  UseMachinesForOpenLayer: 0
   HackingProcessBase: {fileID: 2590545318543294087}
   ConstructibleDoor: {fileID: 2423441889713074305}
+  UseMachinesForOpenLayer: 0
   <CanRelink>k__BackingField: 1
   conType: 7
   requireLink: 0
@@ -1631,3 +1638,17 @@ MonoBehaviour:
       m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+--- !u!114 &5418941700178334745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8248341723222571775}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 721556b81b487084782d2d54ec862919, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IDToggleCard: {fileID: 0}
+  needsClosedToLight: 1

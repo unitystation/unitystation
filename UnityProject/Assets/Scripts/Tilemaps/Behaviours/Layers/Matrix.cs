@@ -215,18 +215,6 @@ public class Matrix : MonoBehaviour
 			onlyExcludeLayerOnDestination: onlyExcludeLayerOnDestination);
 	}
 
-	/// <summary>
-	/// Checks if door can be closed at this tile
-	/// – isn't occupied by solid objects and has no living beings
-	/// </summary>
-	public bool CanCloseDoorAt(Vector3Int position, bool isServer)
-	{
-		var firelock = GetFirst<FireLock>(position, isServer);
-		if (firelock != null && firelock.fireAlarm.activated) return true;
-		return IsPassableAtOneMatrix(position, position, isServer) &&
-		        GetFirst<LivingHealthMasterBase>(position, isServer) == null;
-	}
-
 	/// Can one pass from `origin` to adjacent `position`?
 	/// <param name="origin">Position object is at now</param>
 	/// <param name="position">Adjacent position object wants to move to</param>

@@ -20,7 +20,7 @@ namespace Mobs.Traversal.Strategies
 		public int TraverseObstical(Vector3Int direction, Component obsticalObject, LayerTile obsticalTile, PlayerScript mob)
 		{
 			var door = obsticalObject as DoorMasterController;
-			door?.TryOpen(mob.gameObject);
+			door?.PulseTryOpen(mob.gameObject);
 			return 0;
 		}
 	}

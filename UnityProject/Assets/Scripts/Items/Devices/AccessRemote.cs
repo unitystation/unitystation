@@ -88,57 +88,51 @@ namespace Items.Devices
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			DoorMasterController doorController = interaction.TargetObject.GetComponent<DoorMasterController>();
-			if(doorController == null) return;
+			if (doorController == null) return;
 
-			var accessModule = interaction.TargetObject.GetComponentInChildren<AccessModule>();
-			if(accessModule == null) return;
+			Chat.AddExamineMsg(interaction.Performer, $"You use the access remote on the {doorController.DoorName}");
 
-			var restricted = interaction.TargetObject.GetComponentInChildren<ClearanceRestricted>();
+			if (doorController.CheckRemoteConnectivity() == false)
+				Chat.AddExamineMsg(interaction.Performer, $"The {doorController.DoorName} does not respond.");
 
-			Chat.AddExamineMsg(interaction.Performer, $"You use access remote on: {doorController.gameObject.ExpensiveName()}");
-
-			if (restricted != null && restricted.HasClearance(this) == false)
-			{
+			else if (doorController.CheckAccess(gameObject) == false)
 				Chat.AddExamineMsg(interaction.Performer, "This remote does not contain the required access.");
-				return;
-			}
 
-			switch (currentState)
+			else
 			{
-				case AccessRemoteState.Open:
-					TryOpenDoor(doorController, interaction.Performer);
-					break;
-				case AccessRemoteState.Emergency:
-					if (restricted == null)
-					{
-						Chat.AddExamineMsg(interaction.Performer, $"{doorController.gameObject.ExpensiveName()} has no access module!");
-						return;
-					}
-					accessModule.ToggleAuthorizationBypassState();
-					break;
-				case AccessRemoteState.Bolts:
-					BoltsModule boltsModule = interaction.TargetObject.GetComponentInChildren<BoltsModule>();
-					if (boltsModule == null)
-					{
-						Chat.AddExamineMsg(interaction.Performer, $"{doorController.gameObject.ExpensiveName()} has no bolts module!");
-						return;
-					}
-					boltsModule.ToggleBolts();
-					break;
-				default:
-					TryOpenDoor(doorController, interaction.Performer);
-					break;
-			}
+                switch (currentState)
+				{
+					case AccessRemoteState.Open:
+						TryOpenDoor(doorController, interaction.Performer);
+						break;
+					case AccessRemoteState.Emergency:
+						AccessModule accessModule = interaction.TargetObject.GetComponentInChildren<AccessModule>();
+						accessModule.ToggleAuthorizationBypassState();
+						break;
+					case AccessRemoteState.Bolts:
+						BoltsModule boltsModule = interaction.TargetObject.GetComponentInChildren<BoltsModule>();
+						if (boltsModule == null)
+						{
+							Chat.AddExamineMsg(interaction.Performer, $"{doorController.DoorName} has no bolts module!");
+							return;
+						}
+						boltsModule.PulseToggleBolts();
+						break;
+					default:
+						TryOpenDoor(doorController, interaction.Performer);
+						break;
+				}
+            }
 		}
 
 		private void TryOpenDoor(DoorMasterController controller, GameObject performer)
 		{
 			if (controller.IsClosed)
 			{
-				controller.TryOpen(performer);
+				controller.PulseTryOpen(performer);
 				return;
 			}
-			controller.TryClose();
+			controller.PulseTryClose(performer);
 		}
 
 		public IEnumerable<Clearance> IssuedClearance => clearances;

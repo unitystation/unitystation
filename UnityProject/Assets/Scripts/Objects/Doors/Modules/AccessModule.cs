@@ -53,16 +53,19 @@ namespace Doors.Modules
 
 		public override void BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
 		{
-			if (!master.HasPower || !CheckAccess(byPlayer))
+			if (byPlayer != null)
 			{
-				States.Add(DoorProcessingStates.SoftwarePrevented);
+				if (!master.HasPower || !CheckAccess(byPlayer))
+				{
+					States.Add(DoorProcessingStates.SoftwarePrevented);
+				}
 			}
 
 			return;
 		}
 
 
-		private bool CheckAccess(GameObject player)
+		public bool CheckAccess(GameObject player)
 		{
 			return emergencyAccess || ProcessCheckAccess(player);
 		}
@@ -91,7 +94,7 @@ namespace Doors.Modules
 
 		private void DenyAccess()
 		{
-			StartCoroutine(master.DoorAnimator.PlayDeniedAnimation());
+			master.DoorAnimator.RequestAnimation(master.DoorAnimator.PlayDeniedAnimation());
 			master.SoundController.ServerPlaySound(DoorSoundController.DoorSoundType.AccessDenied);
 		}
 

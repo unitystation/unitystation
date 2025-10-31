@@ -320,7 +320,7 @@ namespace Mobs.AI
 							registerTile.LocalPositionServer + (Vector3Int)dir, true);
 						if (dC != null)
 						{
-							dC.TryOpen(gameObject);
+							dC.PulseTryOpen(gameObject);
 							yield return WaitFor.Seconds(1f);
 						}
 						else

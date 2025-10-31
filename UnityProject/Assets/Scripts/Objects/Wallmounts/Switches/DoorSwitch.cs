@@ -127,11 +127,11 @@ namespace Objects.Wallmounts
 
 				if (door.IsClosed)
 				{
-					door.TryOpen(null);
+					door.PulseTryOpen(bypassSoftware: true);
 				}
 				else
 				{
-					door.TryClose();
+					door.PulseTryClose(bypassSoftware: true);
 				}
 			}
 		}
@@ -145,7 +145,7 @@ namespace Objects.Wallmounts
 
 				if (door.IsClosed)
 				{
-					door.TryOpen(null);
+					door.PulseTryOpen(bypassSoftware: true);
 				}
 			}
 		}
@@ -159,7 +159,7 @@ namespace Objects.Wallmounts
 
 				if (door.IsClosed == false)
 				{
-					door.TryClose();
+					door.PulseTryClose(bypassSoftware: true);
 				}
 			}
 		}

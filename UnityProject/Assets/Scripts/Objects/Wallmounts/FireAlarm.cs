@@ -7,6 +7,7 @@ using ScriptableObjects;
 using Systems.Interaction;
 using Shared.Systems.ObjectConnection;
 using CustomInspectors;
+using Cysharp.Threading.Tasks;
 using Doors;
 using Logs;
 using Objects.Lighting;
@@ -50,31 +51,6 @@ namespace Objects.Wallmounts
 			integrity ??= GetComponent<Integrity>();
 		}
 
-
-		public void SendCloseAlerts()
-		{
-			if (hasCables == false) return;
-
-			if (activated || isInCooldown) return;
-			activated = true;
-
-			SyncSprite(FireAlarmState.TopLightSpriteAlert);
-			SoundManager.PlayNetworkedAtPos(FireAlarmSFX, registerTile.ObjectPhysics.Component.OfficialPosition);
-			StartCoroutine(SwitchCoolDown());
-
-			foreach (var firelock in FireLockList)
-			{
-				if (firelock == null) continue;
-				firelock.ReceiveAlert();
-			}
-
-			foreach (var lightSource in lightSourcesForAlarm)
-			{
-				if (lightSource == null) continue;
-				lightSource.Animator.PlayAnimNetworked(0);
-			}
-		}
-
 		public void OnSpawnServer(SpawnInfo info)
 		{
 			integrity.OnExposedEvent.AddListener(SendCloseAlerts);
@@ -107,9 +83,10 @@ namespace Objects.Wallmounts
 
 			if(metaNode.MetaDataSystem.SetUpDone == false) return;
 
-			if (metaNode.GasMixLocal.Pressure < AtmosConstants.WARNING_LOW_PRESSURE || metaNode.GasMixLocal.Pressure > AtmosConstants.WARNING_HIGH_PRESSURE)
+			if ((metaNode.GasMixLocal.Pressure < AtmosConstants.WARNING_LOW_PRESSURE || metaNode.GasMixLocal.Pressure > AtmosConstants.WARNING_HIGH_PRESSURE)
+				&& activated == false)
 			{
-				SendCloseAlerts();
+				InternalToggleState();
 			}
 		}
 
@@ -199,36 +176,58 @@ namespace Objects.Wallmounts
 			}
 		}
 
-		private void InternalToggleState()
+		public void InternalToggleState()
 		{
-			if (activated && !isInCooldown)
-			{
-				activated = false;
-				SyncSprite(FireAlarmState.TopLightSpriteNormal);
-				StartCoroutine(SwitchCoolDown());
-				foreach (var firelock in FireLockList)
-				{
-					if (firelock == null) continue;
-					var controller = firelock.DoorMasterController;
+			if (isInCooldown || hasCables == false) return;
 
-					controller.TryOpen(null);
-				}
-				foreach (var lightSource in lightSourcesForAlarm)
-				{
-					if (lightSource == null) continue;
-					lightSource.Animator.ServerStopAnim();
-				}
-			}
+			if (activated) 
+				ClearAlerts();
 			else
-			{
 				SendCloseAlerts();
+		}
+
+		private void ClearAlerts()
+		{
+			activated = false;
+			SyncSprite(FireAlarmState.TopLightSpriteNormal);
+			_ = SwitchCoolDown();
+
+			foreach (var firelock in FireLockList)
+			{
+				if (firelock == null) continue;
+				firelock.ClearAlert();
+			}
+			foreach (var lightSource in lightSourcesForAlarm)
+			{
+				if (lightSource == null) continue;
+				lightSource.Animator.ServerStopAnim();
 			}
 		}
 
-		private IEnumerator SwitchCoolDown()
+		private void SendCloseAlerts()
+		{
+			activated = true;
+			SyncSprite(FireAlarmState.TopLightSpriteAlert);
+			SoundManager.PlayNetworkedAtPos(FireAlarmSFX, registerTile.ObjectPhysics.Component.OfficialPosition);
+			_ = SwitchCoolDown();
+
+			foreach (var firelock in FireLockList)
+			{
+				if (firelock == null) continue;
+				firelock.ReceiveAlert();
+			}
+
+			foreach (var lightSource in lightSourcesForAlarm)
+			{
+				if (lightSource == null) continue;
+				lightSource.Animator.PlayAnimNetworked(0);
+			}
+		}
+
+		private async UniTaskVoid SwitchCoolDown()
 		{
 			isInCooldown = true;
-			yield return WaitFor.Seconds(coolDownTime);
+			await UniTask.WaitForSeconds(coolDownTime);
 			isInCooldown = false;
 		}
 

@@ -4,6 +4,7 @@ using UnityEngine;
 using NaughtyAttributes;
 using Core.Editor.Attributes;
 using Mirror;
+using Cysharp.Threading.Tasks;
 
 
 namespace Doors
@@ -78,6 +79,12 @@ namespace Doors
 		private SpriteHandler overlayFillHandler;
 		private SpriteHandler overlayWeldHandler;
 		private SpriteHandler overlayHackingHandler;
+		private SpriteRenderer spriteRenderer;
+
+		private int openMaskingLayer;
+		private int closedMaskingLayer;
+		private int openSortingLayer;
+		private int closedSortingLayer;
 
 		private int previousLightSprite = -1;
 		private DoorMasterController doorMasterController;
@@ -90,10 +97,65 @@ namespace Doors
 			overlayFillHandler = overlayFill.GetComponent<SpriteHandler>();
 			overlayWeldHandler = overlayWeld.GetComponent<SpriteHandler>();
 			overlayHackingHandler = overlayHacking.GetComponent<SpriteHandler>();
-			doorMasterController= this.GetComponent<DoorMasterController>();
+			doorMasterController = this.GetComponent<DoorMasterController>();
+			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
+			SetLayerData();
 
 			PanelOpen = false;
 			LightsWork = true;
+		}
+
+		/// <summary>
+		/// Sets the appropriate sorting and masking layer for the door
+		/// </summary>
+		private void SetLayerData()
+		{
+			openMaskingLayer = LayerMask.NameToLayer("Door Open");
+
+			// Windowed doors uses the windowed masking layer
+			if (doorMasterController.isWindowedDoor == true)
+				closedMaskingLayer = LayerMask.NameToLayer("Windows");
+			else
+				closedMaskingLayer = LayerMask.NameToLayer("Door Closed");
+
+			//If this is a firelock it goes on top of other doors when closed
+			if (doorMasterController.IsFireLock)
+			{
+				closedSortingLayer = SortingLayer.NameToID("WallObject");
+				openSortingLayer = SortingLayer.NameToID("Machines");
+			}
+			else
+			{
+				closedSortingLayer = SortingLayer.NameToID("Doors Closed");
+				openSortingLayer = SortingLayer.NameToID("Doors Open");
+			}
+		}
+
+		private async UniTaskVoid ChangeLayers(bool isClosing)
+		{
+			if (isClosing)
+			{
+				spriteRenderer.sortingLayerID = closedSortingLayer;
+				doorMasterController.RegisterTile.SetNewSortingLayer(closedSortingLayer);
+			}
+			else
+			{
+				spriteRenderer.sortingLayerID = openSortingLayer;
+				doorMasterController.RegisterTile.SetNewSortingLayer(openSortingLayer);
+			}
+		}
+		
+		/// <summary>
+		/// Sets the masking layer of the door
+		/// </summary>
+		private void SetMaskingLayer(int layer)
+		{
+			gameObject.layer = layer;
+			foreach (Transform child in transform)
+			{
+				child.gameObject.layer = layer;
+			}
 		}
 
 		public enum DoorUpdateType
@@ -116,24 +178,24 @@ namespace Doors
 			
 			if (type == DoorUpdateType.Open)
 			{
-				StartCoroutine(PlayOpeningAnimation(skipAnimation, PanelOpen, LightsWork));
+				PlayOpeningAnimation(skipAnimation, PanelOpen, LightsWork).Forget();
 			}
 			else if (type == DoorUpdateType.Close)
 			{
-				StartCoroutine(PlayClosingAnimation(skipAnimation, PanelOpen, LightsWork));
+				PlayClosingAnimation(skipAnimation, PanelOpen, LightsWork).Forget();
 			}
 			else if (type == DoorUpdateType.AccessDenied)
 			{
-				StartCoroutine(PlayDeniedAnimation());
+				PlayDeniedAnimation().Forget();
 			}
 
 			else if (type == DoorUpdateType.PressureWarn)
 			{
-				StartCoroutine(PlayPressureWarningAnimation());
+				PlayPressureWarningAnimation().Forget();
 			}
 		}
 
-		public IEnumerator PlayOpeningAnimation(bool skipAnimation = false, bool panelExposed = false, bool lights = true)
+		public async UniTaskVoid PlayOpeningAnimation(bool skipAnimation = false, bool panelExposed = false, bool lights = true)
 		{
 			AnimationStarted?.Invoke();
 
@@ -154,14 +216,15 @@ namespace Doors
 				//Simulates being able slipping through door as its opening
 				if(slipThroughScaler > 0 && slipThroughScaler < 1)
 				{
-					yield return WaitFor.Seconds(openingAnimationTime * slipThroughScaler);
+					await UniTask.WaitForSeconds(openingAnimationTime * slipThroughScaler);
+					SetMaskingLayer(openMaskingLayer);
 					AnimationOpened?.Invoke();
-					yield return WaitFor.Seconds(openingAnimationTime * (1-slipThroughScaler));
+					await UniTask.WaitForSeconds(openingAnimationTime * (1-slipThroughScaler));
 				}
 				else
 				{
 					AnimationOpened?.Invoke();
-					yield return WaitFor.Seconds(openingAnimationTime);
+					await UniTask.WaitForSeconds(openingAnimationTime);
 				}
 
 			}
@@ -177,8 +240,11 @@ namespace Doors
 			}
 			else
 			{
-				overlayHackingHandler.SetCatalogueIndexSprite((int) Panel.NoPanel, false);
+				overlayHackingHandler.SetCatalogueIndexSprite((int)Panel.NoPanel, false);
 			}
+
+			//Toggle layers after animation to hide firelocks behind door
+			ChangeLayers(false).Forget();
 
 			overlayLightsHandler.SetCatalogueIndexSprite((int) Lights.NoLight, false);
 			previousLightSprite = (int) Lights.NoLight;
@@ -188,9 +254,12 @@ namespace Doors
 			AnimationFinished?.Invoke();
 		}
 
-		public IEnumerator PlayClosingAnimation(bool skipAnimation = false, bool panelExposed = false, bool lights = true)
+		public async UniTaskVoid PlayClosingAnimation(bool skipAnimation = false, bool panelExposed = false, bool lights = true)
 		{
 			AnimationStarted?.Invoke();
+
+			//Toggle layers before animation to show firelock close over door
+			ChangeLayers(true).Forget();
 
 			if (skipAnimation == false)
 			{
@@ -211,14 +280,15 @@ namespace Doors
 				//Simulates being able slipping through door as its closing
 				if(slipThroughScaler > 0 && slipThroughScaler < 1)
 				{
-					yield return WaitFor.Seconds(openingAnimationTime * (1-slipThroughScaler));
+					await UniTask.WaitForSeconds(openingAnimationTime * (1 - slipThroughScaler));
+					SetMaskingLayer(closedMaskingLayer);
 					AnimationClosed?.Invoke();
-					yield return WaitFor.Seconds(openingAnimationTime * slipThroughScaler);
+					await UniTask.WaitForSeconds(openingAnimationTime * slipThroughScaler);
 				}
 				else
 				{
 					AnimationClosed?.Invoke();
-					yield return WaitFor.Seconds(openingAnimationTime);
+					await UniTask.WaitForSeconds(openingAnimationTime);
 				}
 			}
 			else
@@ -244,7 +314,7 @@ namespace Doors
 			AnimationFinished?.Invoke();
 		}
 
-		public IEnumerator PlayDeniedAnimation()
+		public async UniTaskVoid PlayDeniedAnimation()
 		{
 			AnimationStarted?.Invoke();
 
@@ -253,7 +323,7 @@ namespace Doors
 				previousLightSprite = overlayLightsHandler.CurrentSpriteIndex;
 			}
 			overlayLightsHandler.SetCatalogueIndexSprite((int)Lights.Denied);
-			yield return WaitFor.Seconds(deniedAnimationTime);
+			await UniTask.WaitForSeconds(deniedAnimationTime);
 
 			if (previousLightSprite == -1) previousLightSprite = 0;
 			overlayLightsHandler.SetCatalogueIndexSprite(previousLightSprite);
@@ -261,7 +331,7 @@ namespace Doors
 			AnimationFinished?.Invoke();
 		}
 
-		public IEnumerator PlayPressureWarningAnimation()
+		public async UniTaskVoid PlayPressureWarningAnimation()
 		{
 			AnimationStarted?.Invoke();
 
@@ -270,7 +340,7 @@ namespace Doors
 				previousLightSprite = overlayLightsHandler.CurrentSpriteIndex;
 			}
 			overlayLightsHandler.SetCatalogueIndexSprite((int)Lights.PressureWarning);
-			yield return WaitFor.Seconds(warningAnimationTime);
+			await UniTask.WaitForSeconds(warningAnimationTime);
 
 			if (previousLightSprite == -1) previousLightSprite = 0;
 			overlayLightsHandler.SetCatalogueIndexSprite(previousLightSprite);
@@ -311,12 +381,12 @@ namespace Doors
 		}
 
 		/// <summary>
-		/// Used to call coroutines from outside monobehaviors
+		/// Used to call UniTasks from outside monobehaviors
 		/// </summary>
 		/// <param name="anim"></param>
-		public void RequestAnimation(IEnumerator anim)
+		public void RequestAnimation(UniTaskVoid anim)
 		{
-			StartCoroutine(anim);
+			anim.Forget();
 		}
 	}
 

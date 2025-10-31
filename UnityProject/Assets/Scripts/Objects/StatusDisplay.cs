@@ -449,7 +449,7 @@ namespace Objects.Wallmounts
 			{
 				//Todo make The actual console itself ingame Hackble, I wouldn't put it on the door because this could get removed and leave references on the door Still
 				//Putting it on this itself would be best
-				door.TryClose();
+				door.PulseTryClose(bypassSoftware: true);
 			}
 		}
 
@@ -458,7 +458,7 @@ namespace Objects.Wallmounts
 		{
 			foreach (var door in NewdoorControllers)
 			{
-				door.TryOpen(null, true);
+				door.PulseTryOpen(bypassSoftware: true);
 			}
 		}
 

@@ -49,7 +49,7 @@ namespace Doors.Modules
 		{
 			if (HasPower == false)
 			{
-				Chat.AddExamineMsgFromServer(byPlayer, $"{master.gameObject.ExpensiveName()} is unpowered");
+				Chat.AddExamineMsgFromServer(byPlayer, $"The {master.DoorName} is unpowered");
 				States.Add(DoorProcessingStates.PowerPrevented);
 			}
 		}
