@@ -9,7 +9,8 @@ namespace Systems.Research.Objects
 	{
 		[SyncVar] public int storedRP;
 
-		public ItemStorage itemStorage { get; set; }
+		[SerializeField] private ItemStorage itemStorage;
+		public ItemStorage ItemStorage => itemStorage;
 
 		public ArtifactSliver ArtifactSliver { get; set; }
 
@@ -24,7 +25,6 @@ namespace Systems.Research.Objects
 		private void Awake()
 		{
 			analyserState = AnalyserState.Idle;
-			itemStorage = GetComponent<ItemStorage>();
 		}
 
 		public void EjectSample()

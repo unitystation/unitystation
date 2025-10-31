@@ -69,119 +69,111 @@ public class MedicalHUD : NetworkBehaviour, IHUD
 
 	public void SetNewHealthServer(float newHealth)
 	{
-		var NewCurrentState = HealthSymbol.Healthy;
-		var NewHealth = HealthBarPercentage.Full100;
-		var HealthPercentage = 0f;
-		if (newHealth != 0)
-		{
-			HealthPercentage = newHealth / HealthStateController.MaxHealth;
-		}
+		var newIcon = HealthSymbol.Healthy;
+		var barPercentage = HealthBarPercentage.Dead;
+		var healthPercentage = 0f;
+		if (HealthStateController.MaxHealth != 0) healthPercentage = newHealth / HealthStateController.MaxHealth;
 
 		int currentStage = GetCurrentSicknessStage();
 		switch (currentStage)
 		{
 			case 0:
-				NewCurrentState = HealthSymbol.Healthy;
+				newIcon = HealthSymbol.Healthy;
 				break;
 			case 1:
-				NewCurrentState = HealthSymbol.SlightlyIll;
+				newIcon = HealthSymbol.SlightlyIll;
 				break;
 			case 2:
-				NewCurrentState = HealthSymbol.ModeratelyIll;
+				newIcon = HealthSymbol.ModeratelyIll;
 				break;
 			case 3:
-				NewCurrentState = HealthSymbol.SubstantiouslyIll;
+				newIcon = HealthSymbol.SubstantiouslyIll;
 				break;
-			case >4:
-				NewCurrentState = HealthSymbol.HeavilyIll;
-				break;
-		}
-
-		switch (HealthPercentage)
-		{
-			case > 1.25f:
-				NewHealth = HealthBarPercentage.Full100;
-				NewCurrentState = HealthSymbol.Buffed;
-				break;
-			case > 1f:
-				NewHealth = HealthBarPercentage.Full100;
-				break;
-			case > 0.93f:
-				NewHealth = HealthBarPercentage.Damaged93;
-				break;
-			case > 0.87f:
-				NewHealth = HealthBarPercentage.Damaged87;
-				break;
-			case > 0.81f:
-				NewHealth = HealthBarPercentage.Damaged81;
-				break;
-			case > 0.75f:
-				NewHealth = HealthBarPercentage.Damaged75;
-				break;
-			case > 0.68f:
-				NewHealth = HealthBarPercentage.Damaged68;
-				break;
-			case > 0.62f:
-				NewHealth = HealthBarPercentage.Damaged62;
-				break;
-			case > 0.56f:
-				NewHealth = HealthBarPercentage.Damaged56;
-				break;
-			case > 0.50f:
-				NewHealth = HealthBarPercentage.Damaged50;
-				break;
-			case > 0.43f:
-				NewHealth = HealthBarPercentage.Damaged43;
-				break;
-			case > 0.37f:
-				NewHealth = HealthBarPercentage.Damaged37;
-				break;
-			case > 0.31f:
-				NewHealth = HealthBarPercentage.Damaged31;
-				break;
-			case > 0.25f:
-				NewHealth = HealthBarPercentage.Damaged25;
-				break;
-			case > 0.18f:
-				NewHealth = HealthBarPercentage.Damaged18;
-				break;
-			case > 0.125f:
-				NewHealth = HealthBarPercentage.Damaged12_5;
-				break;
-			case > 0.065f:
-				NewHealth = HealthBarPercentage.Damaged6_5;
-				break;
-			case > 0f:
-				NewHealth = HealthBarPercentage.Damaged0;
-				break;
-			case > -0.5f:
-				NewHealth = HealthBarPercentage.CriticalN50;
-				NewCurrentState = HealthSymbol.Critical;
-				break;
-			default:
-				NewHealth = HealthBarPercentage.CriticalN85;
-				NewCurrentState = HealthSymbol.Critical;
+			case >=4:
+				newIcon = HealthSymbol.HeavilyIll;
 				break;
 		}
 
 		if (HealthStateController.ConsciousState == ConsciousState.DEAD)
-		{
-			NewHealth = HealthBarPercentage.Dead;
-			NewCurrentState = HealthSymbol.Defibrillatorble;
-			if (PlayerScript.HasSoul == false)
-			{
-				NewCurrentState = HealthSymbol.NoSoul;
-			}
+			newIcon = PlayerScript.HasSoul ? HealthSymbol.Defibrillatorble : HealthSymbol.NoSoul;
+		else GetHealthBarPercentage(healthPercentage, ref barPercentage, ref newIcon);
 
-		}
-
-
-		SyncHealthBarPercentage(CurrentHealthBarPercentage, NewHealth);
-		SyncCurrentState(CurrentState, NewCurrentState);
+		SyncHealthBarPercentage(CurrentHealthBarPercentage, barPercentage);
+		SyncCurrentState(CurrentState, newIcon);
 	}
 
-	//connectionToClient
+	private void GetHealthBarPercentage(float healthPercentage, ref HealthBarPercentage barPercentage, ref HealthSymbol iconOverride)
+	{
+		switch (healthPercentage)
+		{
+			case > 1.25f:
+				barPercentage = HealthBarPercentage.Full100;
+				iconOverride = HealthSymbol.Buffed;
+				break;
+			case >= 1.0f:
+				barPercentage = HealthBarPercentage.Full100;
+				break;
+			case >= 0.93f:
+				barPercentage = HealthBarPercentage.Damaged93;
+				break;
+			case >= 0.87f:
+				barPercentage = HealthBarPercentage.Damaged87;
+				break;
+			case >= 0.81f:
+				barPercentage = HealthBarPercentage.Damaged81;
+				break;
+			case >= 0.75f:
+				barPercentage = HealthBarPercentage.Damaged75;
+				break;
+			case >= 0.68f:
+				barPercentage = HealthBarPercentage.Damaged68;
+				break;
+			case >= 0.62f:
+				barPercentage = HealthBarPercentage.Damaged62;
+				break;
+			case >= 0.56f:
+				barPercentage = HealthBarPercentage.Damaged56;
+				break;
+			case >= 0.50f:
+				barPercentage = HealthBarPercentage.Damaged50;
+				break;
+			case >= 0.43f:
+				barPercentage = HealthBarPercentage.Damaged43;
+				break;
+			case >= 0.37f:
+				barPercentage = HealthBarPercentage.Damaged37;
+				break;
+			case >= 0.31f:
+				barPercentage = HealthBarPercentage.Damaged31;
+				break;
+			case >= 0.25f:
+				barPercentage = HealthBarPercentage.Damaged25;
+				break;
+			case >= 0.18f:
+				barPercentage = HealthBarPercentage.Damaged18;
+				break;
+			case >= 0.125f:
+				barPercentage = HealthBarPercentage.Damaged12_5;
+				break;
+			case >= 0.065f:
+				barPercentage = HealthBarPercentage.Damaged6_5;
+				break;
+			case >= 0f:
+				barPercentage = HealthBarPercentage.Damaged0;
+				break;
+			case >= -0.5f:
+				barPercentage = HealthBarPercentage.CriticalN50;
+				iconOverride = HealthSymbol.Critical;
+				break;
+			default:
+				barPercentage = HealthBarPercentage.CriticalN85;
+				iconOverride = HealthSymbol.Critical;
+				break;
+		}
+	}
 
+
+	//connectionToClient
 	public void SyncCurrentState(HealthSymbol oldHealth, HealthSymbol newHealth)
 	{
 		CurrentState = newHealth;
@@ -214,7 +206,7 @@ public class MedicalHUD : NetworkBehaviour, IHUD
 			if (blood.reagents.TryGetValue(cure.Sickness, out float amount) == false) continue;
 			if (CommonSicknesses.Instance.diseaseReactionDictionary.TryGetValue(cure.Sickness.Name, out var reaction) == false) continue;
 
-			float concentrationPercent = (amount / blood.Total) * 100;
+			float concentrationPercent = (amount / system.NormalBlood) * 100;
 			int newStage = reaction.GetStageID(concentrationPercent);
 			if (newStage > stage) stage = newStage;
 		}

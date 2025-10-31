@@ -21,8 +21,8 @@ namespace Clothing
 		private static readonly float RevertvisibilityAnimationSpeed = 0.2f;
 		private static readonly Vector3 ExpandedNightVisionVisibility = new Vector3(25, 25, 42);
 
-		[SerializeField] private float darknessVisibilityMultiplier = 1.25f;
-		[SerializeField] private Color dimLightColour = new Color(255,255,255,45);
+		[SerializeField] private float darknessVisibilityMultiplier = 15.0f;
+		[SerializeField] private Color dimLightColour = new Color(255,255,255,10);
 		[SerializeField] private Color shaderColour = new Color(26,255,26, 255);
 
 		[SerializeField] private AddressableAudioSource nightVisionToggleSound;
@@ -164,16 +164,17 @@ namespace Clothing
 				finalState ? DefaultvisibilityAnimationSpeed : RevertvisibilityAnimationSpeed);
 			effects.ToggleNightVisionEffectState(finalState, shaderColour);
 
+			if (PlayerManager.LocalPlayerScript == null) return;
+			DimPlayerLightController dimLightController = PlayerManager.LocalPlayerScript.DimPlayerLightController;
 
-			DimPlayerLightController dimLightController = PlayerManager.LocalPlayerScript?.DimPlayerLightController;
 			if (dimLightController != null && state)
 			{
 				dimLightController.lightColor = dimLightColour;
 				dimLightController.UpdateLightData(DimPlayerLightController.DEFAULT_SIZE * darknessVisibilityMultiplier, true);
 			}
-			else if(dimLightController != null && Preimplemented.IsOnLocalPlayer) dimLightController.ResetToDefault();
+			else if(dimLightController != null) dimLightController.ResetToDefault();
 
-			_ = SoundManager.PlayNetworkedAtPosAsync(nightVisionToggleSound, CurrentlyOn.WorldPositionServer);
+			_ = SoundManager.PlayNetworkedAtPosAsync(nightVisionToggleSound, PlayerManager.LocalPlayerScript.RegisterPlayer.WorldPositionServer);
 		}
 
 		#region Tooltip

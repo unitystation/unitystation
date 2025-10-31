@@ -100,15 +100,15 @@ namespace UI.Objects.Research
 			UpdateServerConnectionImage();
 			UpdateRPDisplay();
 
-			if (artifactAnalyser.itemStorage.GetIndexedItemSlot(0).IsOccupied)
+			if (artifactAnalyser.ItemStorage.GetIndexedItemSlot(0).IsOccupied)
 			{
 				artifactSliver = artifactAnalyser.ArtifactSliver;
 			}
-			if (mainSwitcher.CurrentPage == noSamplePage && artifactAnalyser.itemStorage.GetIndexedItemSlot(0).IsOccupied)
+			if (mainSwitcher.CurrentPage == noSamplePage && artifactAnalyser.ItemStorage.GetIndexedItemSlot(0).IsOccupied)
 			{
 				mainSwitcher.SetActivePage(1);
 			}
-			if(mainSwitcher.CurrentPage == scanPage && artifactAnalyser.itemStorage.GetIndexedItemSlot(0).IsEmpty)
+			if(mainSwitcher.CurrentPage == scanPage && artifactAnalyser.ItemStorage.GetIndexedItemSlot(0).IsEmpty)
 			{
 				SwitchToNullPage();
 			}

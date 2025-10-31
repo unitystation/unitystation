@@ -32800,6 +32800,10 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "NE-Low_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -32815,6 +32819,9 @@
               {
                 "Tel": "WE-Medium_Voltage_Cable",
                 "Z": 1
+              },
+              {
+                "Tel": "NS-Low_Voltage_Cable"
               }
             ]
           },
@@ -32828,7 +32835,7 @@
                 "Tel": "Plating"
               },
               {
-                "Tel": "NE-Low_Voltage_Cable",
+                "Tel": "NS-Low_Voltage_Cable",
                 "Z": 1
               }
             ]
@@ -33974,6 +33981,10 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "WE-Low_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -33987,11 +33998,8 @@
                 "Tel": "Plating"
               },
               {
-                "Tel": "NE-Low_Voltage_Cable",
+                "Tel": "WE-Medium_Voltage_Cable",
                 "Z": 1
-              },
-              {
-                "Tel": "WE-Medium_Voltage_Cable"
               }
             ]
           },
@@ -34003,10 +34011,6 @@
               },
               {
                 "Tel": "Plating"
-              },
-              {
-                "Tel": "SW-Low_Voltage_Cable",
-                "Z": 1
               }
             ]
           },
@@ -35204,6 +35208,10 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "WE-Low_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -35217,11 +35225,8 @@
                 "Tel": "Plating"
               },
               {
-                "Tel": "WE-Low_Voltage_Cable",
+                "Tel": "WE-Medium_Voltage_Cable",
                 "Z": 1
-              },
-              {
-                "Tel": "WE-Medium_Voltage_Cable"
               }
             ]
           },
@@ -36306,6 +36311,10 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "WE-Low_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -36319,11 +36328,8 @@
                 "Tel": "Plating"
               },
               {
-                "Tel": "WE-Low_Voltage_Cable",
+                "Tel": "WE-Medium_Voltage_Cable",
                 "Z": 1
-              },
-              {
-                "Tel": "WE-Medium_Voltage_Cable"
               }
             ]
           },
@@ -37471,6 +37477,10 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "WE-Low_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -37484,11 +37494,8 @@
                 "Tel": "Plating"
               },
               {
-                "Tel": "WE-Low_Voltage_Cable",
+                "Tel": "WE-Medium_Voltage_Cable",
                 "Z": 1
-              },
-              {
-                "Tel": "WE-Medium_Voltage_Cable"
               }
             ]
           },
@@ -38550,7 +38557,7 @@
                 "Tel": "Plating"
               },
               {
-                "Tel": "NE-Low_Voltage_Cable",
+                "Tel": "WE-Low_Voltage_Cable",
                 "Z": 1
               }
             ]
@@ -38565,15 +38572,8 @@
                 "Tel": "Plating"
               },
               {
-                "Tel": "NE-Medium_Voltage_Cable",
-                "Z": 1
-              },
-              {
-                "Tel": "SW-Low_Voltage_Cable"
-              },
-              {
                 "Tel": "WE-Medium_Voltage_Cable",
-                "Z": -1
+                "Z": 1
               }
             ]
           },
@@ -74311,10 +74311,10 @@
                 "Tel": "Plating"
               },
               {
-                "Tel": "FluidBentPipe",
+                "Tel": "3WayManifold",
                 "Z": 1,
                 "Col": "#0057FFFF",
-                "Tf": "5.960464E-08,0.9999999,0,0,-0.9999999,5.960464E-08,0,0,0,0,1,0,0,0,0,1"
+                "Tf": "-1,8.742278E-08,0,0,-8.742278E-08,-1,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -76024,6 +76024,12 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidBentPipe",
+                "Z": 1,
+                "Col": "#0057FFFF",
+                "Tf": "-1,8.742278E-08,0,0,-8.742278E-08,-1,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -76041,6 +76047,10 @@
                 "Z": 1,
                 "Col": "#FF0031FF",
                 "Tf": "5.960464E-08,-0.9999999,0,0,0.9999999,5.960464E-08,0,0,0,0,1,0,0,0,0,1"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Col": "#0057FFFF"
               }
             ]
           },
@@ -76052,6 +76062,11 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#0057FFFF"
               }
             ]
           },
@@ -76063,6 +76078,11 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidBentPipe",
+                "Z": 1,
+                "Col": "#0057FFFF"
               }
             ]
           },
@@ -77690,6 +77710,12 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#0057FFFF",
+                "Tf": "5.960464E-08,-0.9999999,0,0,0.9999999,5.960464E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -79436,6 +79462,12 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#0057FFFF",
+                "Tf": "5.960464E-08,-0.9999999,0,0,0.9999999,5.960464E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -81272,6 +81304,12 @@
               },
               {
                 "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#0057FFFF",
+                "Tf": "5.960464E-08,-0.9999999,0,0,0.9999999,5.960464E-08,0,0,0,0,1,0,0,0,0,1"
+              },
+              {
+                "Tel": "FluidStraightPipe",
                 "Col": "#FF0031FF"
               }
             ]
@@ -82966,10 +83004,10 @@
                 "Tel": "Plating"
               },
               {
-                "Tel": "FluidStraightPipe",
+                "Tel": "3WayManifold",
                 "Z": 1,
                 "Col": "#FF0031FF",
-                "Tf": "5.960464E-08,-0.9999999,0,0,0.9999999,5.960464E-08,0,0,0,0,1,0,0,0,0,1"
+                "Tf": "-1,8.742278E-08,0,0,-8.742278E-08,-1,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -82996,6 +83034,12 @@
               {
                 "Tel": "WE-Low_Voltage_Cable",
                 "Z": 1
+              },
+              {
+                "Tel": "FluidBentPipe",
+                "Z": 1,
+                "Col": "#0057FFFF",
+                "Tf": "-1,8.742278E-08,0,0,-8.742278E-08,-1,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -214187,10 +214231,6 @@
                     {
                       "Name": "canisterTier",
                       "Data": "1"
-                    },
-                    {
-                      "Name": "valveIsInitiallyOpen",
-                      "Data": "True"
                     }
                   ]
                 }
@@ -215035,6 +215075,15 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_29┼34┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ArtifactAnalyser@0",
+                  "Data": [
+                    {
+                      "Name": "researchServer",
+                      "Data": "5kxOLzVCyAnAz_ATY8PU_25┼20┼0┼@0@ResearchServer@0"
                     }
                   ]
                 }
@@ -216758,6 +216807,15 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_29┼34┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ArtifactAnalyser@0",
+                  "Data": [
+                    {
+                      "Name": "researchServer",
+                      "Data": "5kxOLzVCyAnAz_ATY8PU_25┼20┼0┼@0@ResearchServer@0"
                     }
                   ]
                 }
@@ -229973,7 +230031,36 @@
             "GitID": "856296105f077014ca9e533266df237a_39┼35┼0┼",
             "PrefabID": "856296105f077014ca9e533266df237a",
             "Name": "ConveyorBelt - Roboticist (1)",
-            "LocalPRS": "39┼35┼0┼"
+            "LocalPRS": "39┼35┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ConveyorBelt@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "c21551dd992a57349973e4b5af103ca6_39┼35┼0┼",
@@ -231070,7 +231157,36 @@
             "GitID": "856296105f077014ca9e533266df237a_40┼35┼0┼",
             "PrefabID": "856296105f077014ca9e533266df237a",
             "Name": "ConveyorBelt - Roboticist (2)",
-            "LocalPRS": "40┼35┼0┼"
+            "LocalPRS": "40┼35┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ConveyorBelt@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "e947d751522b07a4186cd276fb16eefe_40┼36┼0┼",
@@ -251052,71 +251168,6 @@
             }
           },
           {
-            "GitID": "cb2f847ef3b8b754181a970a4032c552_54┼61┼0┼",
-            "PrefabID": "cb2f847ef3b8b754181a970a4032c552",
-            "Name": "AirScrubber (1)",
-            "LocalPRS": "54┼61┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_55┼67┼0┼@0@APC@0"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "AcuDevice@0",
-                  "Data": [
-                    {
-                      "Name": "Controller",
-                      "Data": "a50474d976314462a79602e20a762520_52┼63┼0┼@0@AirController@0"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "0d553281bdfc0fd438b3f6c7db58688c_54┼65┼0┼",
-            "PrefabID": "0d553281bdfc0fd438b3f6c7db58688c",
-            "Name": "AirVent (1)",
-            "LocalPRS": "54┼65┼0┼0ø0ø180ø",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_55┼67┼0┼@0@APC@0"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Down_By180"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "AcuDevice@0",
-                  "Data": [
-                    {
-                      "Name": "Controller",
-                      "Data": "a50474d976314462a79602e20a762520_52┼63┼0┼@0@AirController@0"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
             "GitID": "c21551dd992a57349973e4b5af103ca6_54┼66┼0┼",
             "PrefabID": "c21551dd992a57349973e4b5af103ca6",
             "NameMatches": true,
@@ -252600,6 +252651,71 @@
             }
           },
           {
+            "GitID": "cb2f847ef3b8b754181a970a4032c552_55┼61┼0┼",
+            "PrefabID": "cb2f847ef3b8b754181a970a4032c552",
+            "Name": "AirScrubber (1)",
+            "LocalPRS": "55┼61┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_55┼67┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_52┼63┼0┼@0@AirController@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "0d553281bdfc0fd438b3f6c7db58688c_55┼65┼0┼",
+            "PrefabID": "0d553281bdfc0fd438b3f6c7db58688c",
+            "Name": "AirVent (1)",
+            "LocalPRS": "55┼65┼0┼0ø0ø180ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_55┼67┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Down_By180"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_52┼63┼0┼@0@AirController@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "cd57203a8d3f54f478446e9b0ced6cf9_55┼67┼0┼",
             "PrefabID": "cd57203a8d3f54f478446e9b0ced6cf9",
             "Name": "APC - Virology",
@@ -252649,11 +252765,11 @@
                     },
                     {
                       "Name": "connectedDevices#14",
-                      "Data": "cb2f847ef3b8b754181a970a4032c552_54┼61┼0┼@0@APCPoweredDevice@0"
+                      "Data": "cb2f847ef3b8b754181a970a4032c552_55┼61┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#13",
-                      "Data": "0d553281bdfc0fd438b3f6c7db58688c_54┼65┼0┼@0@APCPoweredDevice@0"
+                      "Data": "0d553281bdfc0fd438b3f6c7db58688c_55┼65┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#12",
@@ -263109,6 +263225,12 @@
             }
           },
           {
+            "GitID": "ab0aa8f76b409df4484ece26230ffdd2_61┼80┼0┼",
+            "PrefabID": "ab0aa8f76b409df4484ece26230ffdd2",
+            "Name": "BlueprintMedBot (3)",
+            "LocalPRS": "61┼80┼0┼"
+          },
+          {
             "GitID": "38246cd9491b4c248abb2e296cc6c76f_61┼87┼0┼",
             "PrefabID": "38246cd9491b4c248abb2e296cc6c76f",
             "NameMatches": true,
@@ -266289,12 +266411,6 @@
             "LocalPRS": "63.04┼86.02┼0┼"
           },
           {
-            "GitID": "fde2e8af4ce865a4ab1b2b3bfb4655c6_63.058┼85.1135┼0┼",
-            "PrefabID": "fde2e8af4ce865a4ab1b2b3bfb4655c6",
-            "Name": "Carrot (3)",
-            "LocalPRS": "63.058┼85.1135┼0┼"
-          },
-          {
             "GitID": "0cbcbdb33f79d8147854f04a0ce18a71_63.06┼25.09┼0┼",
             "PrefabID": "0cbcbdb33f79d8147854f04a0ce18a71",
             "NameMatches": true,
@@ -266304,7 +266420,7 @@
           {
             "GitID": "fde2e8af4ce865a4ab1b2b3bfb4655c6_63.06┼85.11┼0┼",
             "PrefabID": "fde2e8af4ce865a4ab1b2b3bfb4655c6",
-            "Name": "Carrot (2)",
+            "Name": "Carrot (3)",
             "LocalPRS": "63.06┼85.11┼0┼"
           },
           {
@@ -266322,8 +266438,14 @@
           {
             "GitID": "fde2e8af4ce865a4ab1b2b3bfb4655c6_63.061┼85.11┼0┼",
             "PrefabID": "fde2e8af4ce865a4ab1b2b3bfb4655c6",
-            "Name": "Carrot (1)",
+            "Name": "Carrot (2)",
             "LocalPRS": "63.061┼85.11┼0┼"
+          },
+          {
+            "GitID": "fde2e8af4ce865a4ab1b2b3bfb4655c6_63.062┼85.11┼0┼",
+            "PrefabID": "fde2e8af4ce865a4ab1b2b3bfb4655c6",
+            "Name": "Carrot (1)",
+            "LocalPRS": "63.062┼85.11┼0┼"
           },
           {
             "GitID": "b33a479c33469b747be6fe3130c04a01_63.07┼85.04┼0┼",
@@ -272088,6 +272210,12 @@
             }
           },
           {
+            "GitID": "ab0aa8f76b409df4484ece26230ffdd2_67┼61┼0┼",
+            "PrefabID": "ab0aa8f76b409df4484ece26230ffdd2",
+            "Name": "BlueprintMedBot (1)",
+            "LocalPRS": "67┼61┼0┼"
+          },
+          {
             "GitID": "cb2f847ef3b8b754181a970a4032c552_67┼64┼0┼",
             "PrefabID": "cb2f847ef3b8b754181a970a4032c552",
             "Name": "AirScrubber (75)",
@@ -273545,6 +273673,12 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "ab0aa8f76b409df4484ece26230ffdd2_68┼61┼0┼",
+            "PrefabID": "ab0aa8f76b409df4484ece26230ffdd2",
+            "Name": "BlueprintMedBot (2)",
+            "LocalPRS": "68┼61┼0┼"
           },
           {
             "GitID": "f2441585d37f1914395df59a57c5e925_68┼66┼0┼",

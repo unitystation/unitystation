@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 2888345019966124511, guid: a04a2ac5c1ef5a142b26e818b8dfa3fb,
         type: 3}
       propertyPath: relatedRecipes.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2888345019966124511, guid: a04a2ac5c1ef5a142b26e818b8dfa3fb,
         type: 3}
@@ -24,6 +24,12 @@ PrefabInstance:
       propertyPath: relatedRecipes.Array.data[1].recipe
       value: 
       objectReference: {fileID: 11400000, guid: af31a0d28a5bba44dbf8387db67b8ef5,
+        type: 2}
+    - target: {fileID: 2888345019966124511, guid: a04a2ac5c1ef5a142b26e818b8dfa3fb,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 34f83afdf4c496144a5f3e5734200364,
         type: 2}
     - target: {fileID: 2987011942256334699, guid: a04a2ac5c1ef5a142b26e818b8dfa3fb,
         type: 3}
@@ -91,6 +97,24 @@ PrefabInstance:
     - target: {fileID: 2987011942256334699, guid: a04a2ac5c1ef5a142b26e818b8dfa3fb,
         type: 3}
       propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 875cbd999e5a3f24ebf3b47ce20406ae,
+        type: 2}
+    - target: {fileID: 2987011942256334699, guid: a04a2ac5c1ef5a142b26e818b8dfa3fb,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: b8bed30cc741ac945a532f74792501cb,
+        type: 2}
+    - target: {fileID: 2987011942256334699, guid: a04a2ac5c1ef5a142b26e818b8dfa3fb,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 41f84f8bc8b50fd44a4414a8a2f793df,
+        type: 2}
+    - target: {fileID: 2987011942256334699, guid: a04a2ac5c1ef5a142b26e818b8dfa3fb,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteInventoryIcon
       value: 
       objectReference: {fileID: 11400000, guid: 875cbd999e5a3f24ebf3b47ce20406ae,
         type: 2}
