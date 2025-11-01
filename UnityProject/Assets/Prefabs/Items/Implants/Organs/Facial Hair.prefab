@@ -99,13 +99,19 @@ PrefabInstance:
     - target: {fileID: 2394943766557667463, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2394943766557667463, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
         type: 3}
       propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 5e9ac88966a35d34a9fd90c34e1ddaa0,
+        type: 2}
+    - target: {fileID: 2394943766557667463, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 3858899698cc1425f86b8b93032ca57d,
         type: 2}
     - target: {fileID: 2675388328288480441, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
         type: 3}
@@ -183,6 +189,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Facial Hair
       objectReference: {fileID: 0}
+    - target: {fileID: 3914257459538110883, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
+        type: 3}
+      propertyPath: hideClothingFlags
+      value: 512
+      objectReference: {fileID: 0}
     - target: {fileID: 4201345808769060324, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
         type: 3}
       propertyPath: Throughput
@@ -195,6 +206,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8257078513733723234, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 2096510345703615949}
+    - target: {fileID: 8257078513733723234, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 81f3de06cde8aa24c97000faaa8c46c7,
@@ -204,6 +220,12 @@ PrefabInstance:
       propertyPath: initialVariantIndex
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8257078513733723234, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 81f3de06cde8aa24c97000faaa8c46c7,
+        type: 2}
     - target: {fileID: 9181625755951616904, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
         type: 3}
       propertyPath: parentID
@@ -219,3 +241,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a, type: 3}
+--- !u!212 &2096510345703615949 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2675388328288480441, guid: 6c6b9b73c0bb8d14c9329b24820e0a9a,
+    type: 3}
+  m_PrefabInstance: {fileID: 4051179795235733876}
+  m_PrefabAsset: {fileID: 0}

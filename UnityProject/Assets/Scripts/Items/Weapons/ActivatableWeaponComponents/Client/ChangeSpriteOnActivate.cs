@@ -56,7 +56,7 @@ namespace Weapons.ActivatableWeapons
 
 			if (pickupable.ItemSlot != null)
 			{
-				PlayerAppearanceMessage.SendToAll(performer,
+				PlayerAppearance.Process(performer,
 					(int) pickupable.ItemSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), gameObject);
 			}
 		}

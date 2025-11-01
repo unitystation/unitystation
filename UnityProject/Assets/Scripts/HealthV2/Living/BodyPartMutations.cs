@@ -5,6 +5,7 @@ using System.Linq;
 using Core.Physics;
 using Core.Utils;
 using HealthV2;
+using Items;
 using Items.Implants.Organs;
 using Logs;
 using Systems.Character;
@@ -30,6 +31,10 @@ public class BodyPartMutations : BodyPartFunctionality
 	public int Stability = 0;
 
 	public int SecondsForSpeciesMutation = 150;
+
+	public bool MutationRestriction = false;
+
+	public ItemTrait MutationRestrictionItemTrait;
 
 	public static MutationRoundData GetMutationRoundData(MutationSO Mutation)
 	{
@@ -212,6 +217,14 @@ public class BodyPartMutations : BodyPartFunctionality
 	//TODO System for adding and removing body parts
 	private IEnumerator ProcessChangeToSpecies(GameObject BodyPart)
 	{
+		if (MutationRestriction)
+		{
+			if (BodyPart.GetComponent<ItemAttributesV2>()?.InitialTraits?.Contains(MutationRestrictionItemTrait) == false)
+			{
+				yield break;
+			}
+		}
+
 		var modifier = (1 + UnityEngine.Random.Range(-0.75f, 0.90f));
 		yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) * modifier);
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
+using Scripts.Core.Transform;
 using Systems.MobAIs;
 using UnityEngine;
 
@@ -17,6 +18,8 @@ public class DinosaurLivingMutationCarrier : NetworkBehaviour
 	public bool HungryAndWantsToGrow = false; //Sounds like some type of ad , single dinosaurs In your area Hungary for and want to meet up
 
 
+	public ScaleSync ScaleSync;
+
 	[System.Serializable]
 
 	public class GrowthStage
@@ -28,7 +31,10 @@ public class DinosaurLivingMutationCarrier : NetworkBehaviour
 
 	//bunch of sprites for different dinosaurs
 
-
+	public void Awake()
+	{
+		ScaleSync = this.GetComponent<ScaleSync>();
+	}
 
 
 	public void Start()
@@ -46,7 +52,11 @@ public class DinosaurLivingMutationCarrier : NetworkBehaviour
 	{
 		StageSynchronise = NewStage;
 		var NewSize = GrowingStages[NewStage].SpriteSizeScale;
-		this.gameObject.transform.localScale = new Vector3(NewSize, NewSize, NewSize);
+		if (isServer)
+		{
+			ScaleSync.SetScale( new Vector3(NewSize, NewSize, NewSize));
+
+		}
 	}
 
 
