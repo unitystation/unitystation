@@ -37,9 +37,9 @@ namespace DatabaseAPI
 		public static string RulesData => Instance.rulesData;
 
 		// we need to do this in a function because initialisation is hard
-		private string GetBackendUrl()
+		private static string GetBackendUrl()
 		{
-			return new UriBuilder(Uri.UriSchemeHttp, GameManager.Instance.AccountAPIHost, 8000)
+			return new UriBuilder(Uri.UriSchemeHttps, GameManager.Instance.AccountAPIHost)
 			{
 				Path = "baby-serverlist/status/"
 			}.Uri.ToString();
@@ -77,7 +77,6 @@ namespace DatabaseAPI
 
 			ignoranceTransport = FindObjectOfType<Ignorance>();
 			config = configData;
-			UpdateMe();
 		}
 
 		private void LoadMotd()
@@ -100,14 +99,14 @@ namespace DatabaseAPI
 		private static async UniTask<string> GetPublicIp()
 		{
 			HttpResponseMessage response = await SafeHttpRequest.GetAsync("http://ipinfo.io/ip");
-			if (response != null && response.IsSuccessStatusCode)
+			if (response is { IsSuccessStatusCode: true })
 			{
 				var ipResponse = await response.Content.ReadAsStringAsync();
 				return Regex.Replace(ipResponse, @"\t|\n|\r", "");
 			}
 
 			Loggy.Error("Unable to get public IP address.");
-			return "0.0.0.0";
+			return "Unknown";
 		}
 
 		private int GetPort()
@@ -153,8 +152,7 @@ namespace DatabaseAPI
 
 			if (string.IsNullOrEmpty(status.ServerIP))
 			{
-				// status.ServerIP = await GetPublicIp();
-				status.ServerIP = "pichula";
+				status.ServerIP = await GetPublicIp();
 			}
 
 			HttpResponseMessage response = null;
