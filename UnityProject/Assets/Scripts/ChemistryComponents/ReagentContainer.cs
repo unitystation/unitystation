@@ -598,7 +598,7 @@ namespace Chemistry.Components
 		public void ServerPerformInteraction(ContextMenuApply interaction)
 		{
 			var eyeItem = interaction.Performer.GetComponent<Equipment>().GetClothingItem(NamedSlot.eyes)
-				.GameObjectReference;
+				.ServerGameObjectReference;
 			switch (interaction.RequestedOption)
 			{
 				case "Contents":
