@@ -7,6 +7,7 @@ using Items;
 using Items.Others;
 using Logs;
 using Messages.Client.Interaction;
+using Mirror;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Events;
@@ -19,7 +20,7 @@ namespace Chemistry.Components
 	/// Defines reagent container that can store reagent mix. All reagent mix logic done server side.
 	/// Client can only interact with container by Interactions (Examine, HandApply, etc).
 	/// </summary>
-	public partial class ReagentContainer : MonoBehaviour, IServerSpawn, IRightClickable,
+	public partial class ReagentContainer : NetworkBehaviour, IServerSpawn, IRightClickable,
 		ICheckedInteractable<ContextMenuApply>,
 		IEnumerable<KeyValuePair<Reagent, float>>, IServerDespawn
 	{
