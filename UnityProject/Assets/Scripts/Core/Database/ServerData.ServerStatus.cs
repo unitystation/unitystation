@@ -58,7 +58,7 @@ namespace DatabaseAPI
 					Category.DatabaseAPI);
 			}
 
-			if (!AccessFile.Exists("config.json"))
+			if (AccessFile.Exists("config.json") == false)
 			{
 				Loggy.Info("No config found for Rcon and Server Hub connections", Category.DatabaseAPI);
 				return;

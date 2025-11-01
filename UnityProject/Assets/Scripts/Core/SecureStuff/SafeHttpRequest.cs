@@ -145,7 +145,7 @@ namespace SecureStuff
 				return false;
 			}
 
-			foreach (var address in ipAddresses)
+			foreach (IPAddress address in ipAddresses)
 			{
 				switch (address.AddressFamily)
 				{
@@ -211,7 +211,7 @@ namespace SecureStuff
 			}
 
 			//64:ff9b:1:: - 64:ff9b:1:ffff:ffff:ffff:ffff:ffff
-			var segments = ipAddressString.Split(':');
+			string[] segments = ipAddressString.Split(':');
 
 			if (segments[0] == "64")
 			{
@@ -247,8 +247,8 @@ namespace SecureStuff
 		private static string RemoveLeadingZeros(string ipAddressString)
 		{
 			// Split the address by ':' to remove leading zeros from each segment
-			var segments = ipAddressString.Split(':');
-			for (var i = 0; i < segments.Length; i++)
+			string[] segments = ipAddressString.Split(':');
+			for (int i = 0; i < segments.Length; i++)
 			{
 				segments[i] = segments[i].TrimStart('0');
 				if (string.IsNullOrEmpty(segments[i]))
