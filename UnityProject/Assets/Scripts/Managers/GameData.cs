@@ -83,31 +83,24 @@ public class GameData : MonoBehaviour, IInitialise
 
 	#region Lifecycle
 
-	public async void APITest()
+	public async UniTask<bool> CheckBackendAlive()
 	{
+		var url = $"https://{GameManager.Instance.AccountAPIHost}/";
 
-		var url = $"https://{GameManager.Instance.AccountAPIHost}/validatetoken";
-
-		HttpRequestMessage r = new HttpRequestMessage(HttpMethod.Get,
-			url + JsonConvert.SerializeObject(""));
-
+		var request = new HttpRequestMessage(HttpMethod.Get, url);
 		CancellationToken cancellationToken = new CancellationTokenSource(120000).Token;
-
-		HttpResponseMessage res;
 		try
 		{
-			res = await SafeHttpRequest.SendAsync(r, cancellationToken);
+			_ = await SafeHttpRequest.SendAsync(request, cancellationToken);
 		}
 		catch (HttpRequestException e)
 		{
-			Loggy.Error(" APITest Failed setting to off-line mode  " +e.ToString());
-			forceOfflineMode = true;
-			return;
+			Loggy.Error("Could not connect to the backend. It is either dead or there is no internet. Error: " + e);
+			return false;
 		}
 
-		forceOfflineMode = false;
+		return true;
 	}
-
 
 	public void SetForceOfflineMode(bool value)
 	{
@@ -125,7 +118,11 @@ public class GameData : MonoBehaviour, IInitialise
 		forceOfflineMode = !string.IsNullOrEmpty(GetArgument("-offlinemode"));
 		Loggy.Info($"Build Version is: {BuildNumber}. " + (OfflineMode ? "Offline mode" : string.Empty));
 		CheckHeadlessState();
-		APITest();
+		bool isBackendAlive = await CheckBackendAlive();
+		if (isBackendAlive == false)
+		{
+			forceOfflineMode = true;
+		}
 
 		AllowedEnvironmentVariables.SetMONO_REFLECTION_SERIALIZER();
 

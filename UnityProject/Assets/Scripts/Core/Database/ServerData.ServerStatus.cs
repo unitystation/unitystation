@@ -1,53 +1,49 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using UnityEngine;
-using Mirror;
+using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using SecureStuff;
+using Cysharp.Threading.Tasks;
 using IgnoranceTransport;
 using Logs;
 using Managers;
 using Newtonsoft.Json;
+using SecureStuff;
 using UI.Systems.ServerInfoPanel.Models;
 
 namespace DatabaseAPI
 {
 	/// <summary>
-	/// If activated on a server then it will update the
-	/// unitystation rest api with the status of this server.
-	/// To gain access to the unitystation hub for your server
-	/// speak to unitystation staff on discord.
+	///     If activated on a server then it will update the
+	///     unitystation rest api with the status of this server.
+	///     To gain access to the unitystation hub for your server
+	///     speak to unitystation staff on discord.
 	/// </summary>
 	public partial class ServerData
 	{
+		private BuildInfo buildInfo;
 		private ServerConfig config;
+		private Ignorance ignoranceTransport;
 		private ServerMotdData motdData;
 		private string rulesData;
+
 		/// <summary>
-		/// The server config that holds the values
-		/// for your RCON and Unitystation HUB API connections
+		///     The server config that holds the values
+		///     for your RCON and Unitystation HUB API connections
 		/// </summary>
 		public static ServerConfig ServerConfig => Instance.config;
 
 		public static ServerMotdData MotdData => Instance.motdData;
 		public static string RulesData => Instance.rulesData;
 
-		private BuildInfo buildInfo;
-
-		private string hubCookie;
-		private const string hubRoot = "https://api.unitystation.org";
-		private const string hubLogin = hubRoot + "/login?data=";
-		private const string hubUpdate = hubRoot + "/statusupdate?data=";
-		private float updateWait = 0f;
-		private string publicIP;
-		private Ignorance ignoranceTransport;
-		//private BoosterTransport boosterTransport = null;
-
-		//Data.Write( byteArray, Path + "/" + FileName);
+		// we need to do this in a function because initialisation is hard
+		private string GetBackendUrl()
+		{
+			return new UriBuilder(Uri.UriSchemeHttp, GameManager.Instance.AccountAPIHost, 8000)
+			{
+				Path = "baby-serverlist/status/"
+			}.Uri.ToString();
+		}
 
 		private void AttemptConfigLoad()
 		{
@@ -57,15 +53,17 @@ namespace DatabaseAPI
 			}
 			catch (Exception e)
 			{
-				Loggy.Info($"[ServerData.ServerStatus/AttemptConfigLoad()] - Something went wrong while trying to load buildinfo \n {e}",
+				Loggy.Info(
+					$"[ServerData.ServerStatus/AttemptConfigLoad()] - Something went wrong while trying to load buildinfo \n {e}",
 					Category.DatabaseAPI);
 			}
 
-			if (AccessFile.Exists("config.json") == false)
+			if (!AccessFile.Exists("config.json"))
 			{
 				Loggy.Info("No config found for Rcon and Server Hub connections", Category.DatabaseAPI);
 				return;
 			}
+
 			var configData = new ServerConfig();
 			try
 			{
@@ -73,11 +71,13 @@ namespace DatabaseAPI
 			}
 			catch (Exception e)
 			{
-				Loggy.Error($"[ServerData.ServerStatus/AttemptConfigLoad()] - Something went wrong while trying to load config.json. \n {e}");
+				Loggy.Error(
+					$"[ServerData.ServerStatus/AttemptConfigLoad()] - Something went wrong while trying to load config.json. \n {e}");
 			}
+
 			ignoranceTransport = FindObjectOfType<Ignorance>();
 			config = configData;
-			_ = Instance.SendServerStatus();
+			UpdateMe();
 		}
 
 		private void LoadMotd()
@@ -97,182 +97,108 @@ namespace DatabaseAPI
 		}
 
 
-		void MonitorServerStatus()
+		private static async UniTask<string> GetPublicIp()
 		{
-			updateWait += Time.deltaTime;
-			//Update the hub every 10 seconds
-			if (updateWait >= 10f)
+			HttpResponseMessage response = await SafeHttpRequest.GetAsync("http://ipinfo.io/ip");
+			if (response != null && response.IsSuccessStatusCode)
 			{
-				updateWait = 0f;
-				Task.Run(() => Instance.SendServerStatus());
+				var ipResponse = await response.Content.ReadAsStringAsync();
+				return Regex.Replace(ipResponse, @"\t|\n|\r", "");
 			}
+
+			Loggy.Error("Unable to get public IP address.");
+			return "0.0.0.0";
 		}
-
-		private async Task SendServerStatus()
-		{
-
-			var status = new ServerStatus();
-			var requestData = "";
-			try
-			{
-				if (string.IsNullOrEmpty(config.HubUser) || string.IsNullOrEmpty(config.HubPass))
-				{
-					Loggy.Warning("Invalid Hub creds found, aborting HUB connection");
-					return;
-				}
-				var loginRequest = new HubLoginReq
-				{
-					username = config.HubUser,
-					password = config.HubPass
-				};
-
-				status.ServerName = config.ServerName;
-				status.ForkName = buildInfo.ForkName;
-				status.BuildVersion = buildInfo.BuildNumber;
-
-				status.GoodFileVersion = buildInfo.GoodFileVersion;
-
-				if (SubSceneManager.Instance == null)
-				{
-					status.CurrentMap = "loading";
-				}
-				else
-				{
-					status.CurrentMap = SubSceneManager.ServerChosenMainStation;
-				}
-
-				status.Passworded = string.IsNullOrEmpty(config.ConnectionPassword) == false;
-				status.RoundTime = GameManager.Instance.RoundTimeInMinutes.ToString();
-				status.PlayerCountMax = GameManager.Instance.PlayerLimit;
-
-
-				status.GameMode = GameManager.Instance.GetGameModeName();
-				status.IngameTime = GameManager.Instance.roundTimer.text;
-				if (PlayerList.Instance != null)
-				{
-					status.PlayerCount = PlayerList.Instance.ConnectionCount;
-				}
-
-
-				status.ServerIP = publicIP;
-				status.ServerPort = GetPort();
-				status.WinDownload = config.WinDownload;
-				status.OSXDownload = config.OSXDownload;
-				status.LinuxDownload = config.LinuxDownload;
-
-
-				status.fps = (int)FPSMonitor.Instance.Current;
-				requestData = JsonConvert.SerializeObject(loginRequest);
-			}
-			catch (Exception e)
-			{
-				Loggy.Error(e.ToString());
-				return;
-			}
-
-
-	        try
-	        {
-	            string escapedData = Uri.EscapeDataString(requestData);
-	            HttpResponseMessage response = await  SafeHttpRequest.GetAsync(hubLogin + escapedData);
-
-	            if (response.IsSuccessStatusCode)
-	            {
-	                string responseBody = await response.Content.ReadAsStringAsync();
-	                var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(responseBody);
-
-	                if (apiResponse.errorCode == 0)
-	                {
-	                    string cookieHeader = response.Headers.GetValues("set-cookie")?.FirstOrDefault();
-	                    if (!string.IsNullOrEmpty(cookieHeader))
-	                    {
-	                        string[] cookieParts = cookieHeader.Split(';');
-		                    hubCookie = cookieParts[0];
-	                    }
-
-	                    if (!string.IsNullOrEmpty(config.PublicAddress))
-	                    {
-	                        publicIP = config.PublicAddress;
-	                    }
-	                    else if (!string.IsNullOrEmpty(config.BindAddress))
-	                    {
-	                        publicIP = config.BindAddress;
-	                    }
-	                    else
-	                    {
-	                        response = await SafeHttpRequest.GetAsync("http://ipinfo.io/ip");
-	                        string ipResponse = await response.Content.ReadAsStringAsync();
-	                        publicIP = Regex.Replace(ipResponse, @"\t|\n|\r", "");
-	                    }
-	                }
-	                else if (apiResponse.errorCode == 901)
-	                {
-	                    Loggy.Error("Hub API returned unauthorized credentials, aborting HUB connection");
-	                }
-	                else
-	                {
-	                    Loggy.Error("Hub API returned error code " + apiResponse.errorCode + ", aborting HUB connection\n" + apiResponse.errorMsg);
-	                }
-	            }
-	            else
-	            {
-	                Loggy.Error("Hub API returned error, aborting HUB connection");
-	            }
-	        }
-	        catch (Exception ex)
-	        {
-	            Loggy.Error("Error: " + ex.Message);
-	        }
-
-			try
-			{
-				string url = hubUpdate + Uri.EscapeDataString( JsonConvert.SerializeObject(status)) + "&user=" + config.HubUser;
-
-				HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, url);
-				request.Headers.Add("Cookie", hubCookie);
-
-				HttpResponseMessage response = await SafeHttpRequest.SendAsync(request);
-
-				if (!response.IsSuccessStatusCode)
-				{
-					Loggy.Error("Failed to update hub with server status. Error: " + response.ReasonPhrase);
-				}
-			}
-			catch (Exception ex)
-			{
-				Loggy.Error("Error: " + ex.Message);
-			}
-		}
-
 
 		private int GetPort()
 		{
-			int port = (config.ServerPort != 0) ? config.ServerPort : 7777;
+			var port = config.ServerPort != 0 ? config.ServerPort : 7777;
 
-			if (ignoranceTransport != null)
-			{
-				return Convert.ToInt32(ignoranceTransport.port);
-			}
-
-			return port;
+			return ignoranceTransport != null
+				? Convert.ToInt32(ignoranceTransport.port)
+				: port;
 		}
 
+		private async UniTask SendServerStatus()
+		{
+			ServerStatus status = new()
+			{
+				ServerToken = config.ServerToken,
+				ServerName = config.ServerName,
+				ForkName = buildInfo.ForkName,
+				BuildVersion = buildInfo.BuildNumber,
+				GoodFileVersion = buildInfo.GoodFileVersion,
+				CurrentMap = SubSceneManager.Instance.OrNull() is null
+					? "Loading"
+					: SubSceneManager.ServerChosenMainStation,
+				Passworded = !string.IsNullOrEmpty(config.ConnectionPassword),
+				RoundTime = GameManager.Instance.RoundTimeInMinutes.ToString(),
+				PlayerCountMax = GameManager.Instance.PlayerLimit,
+				GameMode = GameManager.Instance.GetGameModeName(),
+				IngameTime = GameManager.Instance.roundTimer.text,
+				PlayerCount = PlayerList.Instance.OrNull() is null
+					? 0
+					: PlayerList.Instance.ConnectionCount,
+				ServerIP = !string.IsNullOrEmpty(config.PublicAddress)
+					? config.PublicAddress
+					: config.BindAddress,
+				ServerPort = GetPort(),
+				WinDownload = config.WinDownload,
+				OSXDownload = config.OSXDownload,
+				LinuxDownload = config.LinuxDownload,
+				fps = (int)FPSMonitor.Instance.Current
+			};
 
-	}
+			await UniTask.SwitchToThreadPool();
 
+			if (string.IsNullOrEmpty(status.ServerIP))
+			{
+				// status.ServerIP = await GetPublicIp();
+				status.ServerIP = "pichula";
+			}
 
+			HttpResponseMessage response = null;
+			Exception requestException = null;
 
-	[Serializable]
-	public class HubLoginReq
-	{
-		public string username;
-		public string password;
+			try
+			{
+				StringContent request = new(JsonConvert.SerializeObject(status), Encoding.UTF8, "application/json");
+				response = await SafeHttpRequest.PostAsync(GetBackendUrl(), request);
+			}
+			catch (Exception ex)
+			{
+				requestException = ex;
+			}
+
+			await UniTask.SwitchToMainThread();
+
+			if (requestException != null)
+			{
+				Loggy.Error().Format(
+					"Failed to update server status to server list. Error: {0}",
+					Category.DatabaseAPI,
+					requestException);
+				return;
+			}
+
+			if (response is not { IsSuccessStatusCode: true })
+			{
+				var reason = response?.ReasonPhrase ?? "Unknown error";
+				Loggy.Error().Format(
+					"Failed to update server status to server list. Error: {0}",
+					Category.DatabaseAPI,
+					reason);
+				return;
+			}
+
+			Loggy.Trace("Successfully updated server status to server list.");
+		}
 	}
 
 	[Serializable]
 	public class ApiResponse
 	{
-		public int errorCode = 0; //0 = all good, read the message variable now, otherwise read errorMsg
+		public int errorCode; //0 = all good, read the message variable now, otherwise read errorMsg
 		public string errorMsg;
 		public string message;
 	}
@@ -280,6 +206,7 @@ namespace DatabaseAPI
 	[Serializable]
 	public class ServerStatus
 	{
+		public string ServerToken;
 		public bool Passworded;
 		public string ServerName;
 		public string ForkName;
@@ -307,12 +234,17 @@ namespace DatabaseAPI
 		public int RconPort;
 		public int ServerPort;
 		public string BindAddress;
+
 		public string PublicAddress;
+
 		//CertKey needed in the future for SSL Rcon
 		public string certKey;
-		public string HubUser;
-		public string HubPass;
+
+		// used to publish your server on the server list
+		public string ServerToken;
+
 		public string ServerName;
+
 		//Location on the internet where clients can be downloaded from:
 		public string WinDownload;
 		public string OSXDownload;
@@ -365,6 +297,7 @@ namespace DatabaseAPI
 		//This is used in the HUB to determine if the player has the right
 		//build for your server. Remember 01 is not a valid integer. Make sure it starts with at least 1
 		public int BuildNumber;
+
 		//I.E. Unitystation, ColonialMarines, BeeStation
 		public string ForkName;
 
