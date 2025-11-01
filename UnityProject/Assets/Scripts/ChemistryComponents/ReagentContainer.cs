@@ -642,6 +642,7 @@ namespace Chemistry.Components
 		public static ReagentContainer Create(ReactionSet reactionSet, int maxCapacity)
 		{
 			GameObject obj = new GameObject();
+			obj.AddComponent<NetworkIdentity>();
 			var container = obj.AddComponent<ReagentContainer>();
 
 			container.ReactionSet = reactionSet;
