@@ -28,7 +28,8 @@ PrefabInstance:
         type: 3}
       propertyPath: plantData.ProduceObject
       value: 
-      objectReference: {fileID: 6251606442000466321}
+      objectReference: {fileID: 3653892573950740132, guid: d5e025aa25145c744ae2e3883cd7dd39,
+        type: 3}
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
       propertyPath: plantData.FullyGrownSpriteSO
@@ -228,12 +229,6 @@ PrefabInstance:
 --- !u!212 &6067438808337380045 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 3989294870869407037, guid: 26abf4c2c542ffa4098216683cb5f652,
-    type: 3}
-  m_PrefabInstance: {fileID: 7164960923473086448}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &6251606442000466321 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3867790606060242529, guid: 26abf4c2c542ffa4098216683cb5f652,
     type: 3}
   m_PrefabInstance: {fileID: 7164960923473086448}
   m_PrefabAsset: {fileID: 0}
