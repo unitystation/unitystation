@@ -75,6 +75,7 @@ public class SpawnInfo
 	/// </summary>
 	public readonly bool JsonMapped;
 
+	public bool WasMapspawn => JsonMapped || Mapspawn;
 
 	private SpawnInfo(SpawnType spawnType, ISpawnable spawnable, SpawnDestination spawnDestination, float? scatterRadius, int count, Occupation occupation,
 		GameObject clonedFrom = null,

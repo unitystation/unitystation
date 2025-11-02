@@ -57,7 +57,7 @@ namespace Objects.Machines
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			MapSpawned = info.JsonMapped || info.Mapspawn;
+			MapSpawned = info.WasMapspawn;
 
 		}
 

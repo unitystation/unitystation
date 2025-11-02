@@ -90,17 +90,9 @@ namespace Objects.Botany
 			harvestNotifier.PushClear();
 
 
-			if (RandomisedReagents && Machine.MapSpawned)
-			{
-				reagentContainer.TakeReagents(99);
-				var mix = new ReagentMix();
-				mix.Add(water, RNG.GetRandomNumber(1f, 30f));
-				mix.Add(nutriment, RNG.GetRandomNumber(1f, 30f));
-				reagentContainer.Add(mix);
-			}
 
-			weedLevel = RNG.GetRandomNumber(0f, 4f);
-			pestLevel = RNG.GetRandomNumber(0f, 4f);
+
+
 		}
 
 		public override void OnStartServer()
@@ -111,6 +103,21 @@ namespace Objects.Botany
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
+			if (RandomisedReagents && info.WasMapspawn)
+			{
+				reagentContainer.TakeReagents(99);
+				var mix = new ReagentMix();
+				mix.Add(water, RNG.GetRandomNumber(1f, 40f));
+				mix.Add(nutriment, RNG.GetRandomNumber(1f, 40f));
+				reagentContainer.Add(mix);
+			}
+
+			if (info.WasMapspawn)
+			{
+				weedLevel = RNG.GetRandomNumber(0f, 4f);
+				pestLevel = RNG.GetRandomNumber(0f, 4f);
+			}
+
 			EnsureInit();
 			ServerInit();
 		}
