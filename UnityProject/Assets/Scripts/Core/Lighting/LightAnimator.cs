@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Core.Lighting
 {
-	public class LightAnimator : NetworkBehaviour, IRightClickable
+	public class LightAnimator : NetworkBehaviour
 	{
 		private List<ILightAnimation> animations = new List<ILightAnimation>();
 		public ILightAnimation ActiveAnimation { get; private set; } = null;
@@ -95,15 +95,6 @@ namespace Core.Lighting
 				PlayAnim(anim);
 				break;
 			}
-		}
-
-		public RightClickableResult GenerateRightClickOptions()
-		{
-			var result = new RightClickableResult();
-			result.AddAdminElement("Start emergency animation", () => { PlayAnimNetworked(0); });
-			result.AddAdminElement("Start flicker animation", () => { PlayAnimNetworked(1); });
-			result.AddAdminElement("Stop animations", StopAnims);
-			return result;
 		}
 	}
 }
