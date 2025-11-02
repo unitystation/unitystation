@@ -66,7 +66,7 @@ public class CameraZoomHandler : MonoBehaviour
 	/// <summary>
 	/// Increment at which zoom changes when using Increase / DecreaseZoomLevel().
 	/// </summary>
-	private readonly int zoomIncrement = 8;
+	private readonly int zoomIncrement = 32;
 
 	void UpdateMe()
 	{

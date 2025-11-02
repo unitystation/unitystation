@@ -12,7 +12,7 @@ namespace Core.Sound
 	{
 		public AudioSource AudioSource = null;
 		public RegisterTile RegisterTile = null;
-
+		public Transform cam;
 		//We need to handle this manually to prevent multiple requests grabbing sound pool items in the same frame
 		public bool IsPlaying = false;
 		private bool monitor = false;
@@ -100,12 +100,14 @@ namespace Core.Sound
 			}
 		}
 
+		private void Start()
+		{
+			cam = UnityEngine.Camera.main.transform;
+		}
+		
 		private bool ClientTooFarFromLoopingSoundSource()
 		{
-			if (PlayerManager.LocalPlayerScript == null || RegisterTile == null) return false; // player hasn't spawned yet or world hasn't fully loaded.
-			if (PlayerManager.LocalPlayerScript.playerMove == null) return false; // player hasn't fully initialized yet.
-			if (Vector3.Distance(transform.position,
-				    PlayerManager.LocalPlayerScript.playerMove.OfficialPosition) > AudioSource.maxDistance)
+			if ((transform.position - cam.transform.position).magnitude > AudioSource.maxDistance)
 			{
 				if (AudioSource.isPlaying)
 				{
