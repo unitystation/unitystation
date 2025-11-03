@@ -699,6 +699,28 @@ PrefabInstance:
       propertyPath: hitSound.AssetAddress
       value: Assets/Prefabs/Effects/Tap.prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 2444544294598043336, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444544294598043336, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 1fd4e61429635a34781d877bf7831025,
+        type: 2}
+    - target: {fileID: 2447550672866220013, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: MutationRestriction
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2447550672866220013, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: MutationRestrictionItemTrait
+      value: 
+      objectReference: {fileID: 11400000, guid: 1fd4e61429635a34781d877bf7831025,
+        type: 2}
     - target: {fileID: 2728592379231489674, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: playTraumaNoise

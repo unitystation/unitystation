@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Core.Physics;
+using UnityEngine;
 
 namespace Weapons.Projectiles.Behaviours
 {
@@ -29,6 +30,7 @@ namespace Weapons.Projectiles.Behaviours
             Quaternion? rot = Quaternion.Euler(0.0f, 0.0f, Random.Range(0, 360f));
             var newObject = Spawn.ServerPrefab(droppedObject,
             position, localRotation: rot );
+            newObject.GameObject.GetComponent<UniversalObjectPhysics>()?.AppearAtWorldPositionServer(position);
         }
 	}
 }

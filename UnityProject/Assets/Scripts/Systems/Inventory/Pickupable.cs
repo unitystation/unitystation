@@ -146,7 +146,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		    HasClothingItem(info.FromPlayer,RecordedItemSlot))
 		{
 			//clear previous slot appearance
-			PlayerAppearanceMessage.SendToAll(info.FromPlayer.gameObject,
+			PlayerAppearance.Process(info.FromPlayer.gameObject,
 				(int)RecordedItemSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), null);
 
 			//ask target playerscript to update shown name.
@@ -164,7 +164,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 			HasClothingItem(info.ToPlayer, RecordedItemSlot))
 		{
 			//change appearance based on new item
-			PlayerAppearanceMessage.SendToAll(info.ToPlayer.gameObject,
+			PlayerAppearance.Process(info.ToPlayer.gameObject,
 				(int)RecordedItemSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), this.gameObject);
 
 			//ask target playerscript to update shown name.

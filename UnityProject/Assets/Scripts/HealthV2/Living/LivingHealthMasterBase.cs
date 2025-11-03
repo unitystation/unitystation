@@ -709,7 +709,7 @@ namespace HealthV2
 		[RightClickMethod]
 		public void DODMG()
 		{
-			ApplyDamageAll(null, 9999, AttackType.Acid, DamageType.Brute);
+			ApplyDamageAll(null, 9999, AttackType.Acid, DamageType.Stamina);
 		}
 
 		public float NutrimentConsumed = 0;

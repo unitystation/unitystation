@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using AddressableReferences;
+using JetBrains.Annotations;
 using Logs;
+using Mirror;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -45,7 +47,7 @@ namespace Chemistry.Components
 
 
 		[Tooltip("Can this container only be filled using a syringe/injector?"), SerializeField] private bool onlyAllowSyringeFilling = false;
-		[SerializeField] public bool SyringePulling;
+		[SerializeField, SyncVar] public bool SyringePulling;
 
 
 		public TransferMode TransferMode => transferMode;
@@ -74,7 +76,7 @@ namespace Chemistry.Components
 		public bool WillInteract(InventoryApply interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
-			return WillInteractHelp(interaction.UsedObject, interaction.TargetObject, side);
+			return WillInteractHelp(interaction.UsedObject, interaction.TargetObject, side, null);
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -86,18 +88,7 @@ namespace Chemistry.Components
 
 			if (interaction.Intent == Intent.Help)
 			{
-				//checks if it's possible to transfer from container to container
-				if (interaction.TargetObject == this.gameObject)
-				{
-
-					if (WillInteractHelp(this.gameObject, interaction.HandObject, side) == false) return false;
-				}
-				else
-				{
-
-					if (WillInteractHelp(this.gameObject, interaction.TargetObject, side) == false) return false;
-				}
-
+				if (WillInteractHelp(interaction.UsedObject, interaction.TargetObject, side, interaction) == false) return false;
 			}
 			else
 			{
@@ -125,44 +116,108 @@ namespace Chemistry.Components
 			return true;
 		}
 
-		private bool WillInteractHelp(GameObject srcObject, GameObject dstObject, NetworkSide side)
+		private bool WillInteractHelp(GameObject srcObject, GameObject dstObject, NetworkSide side, [CanBeNull] HandApply HandApply)
 		{
 			if (srcObject == null || dstObject == null) return false;
 
-			var srcContainer = srcObject.GetComponent<ReagentContainer>();
-			var dstContainer = dstObject.GetComponent<ReagentContainer>();
+			var objectInHands = srcObject.GetComponent<ReagentContainer>();
+			var target = dstObject.GetComponent<ReagentContainer>();
 
-			if (srcContainer == null || dstContainer == null) return false;
+			if (target == null || objectInHands == null) return false;
 
-			if (srcContainer.transferMode == TransferMode.NoTransfer
-			    || dstContainer.transferMode == TransferMode.NoTransfer)
+			ReagentContainer transferTo = null;
+			switch (objectInHands.transferMode)
+			{
+				case TransferMode.Normal:
+					switch (target.transferMode)
+					{
+						case TransferMode.Normal:
+							transferTo = target;
+							break;
+						case TransferMode.OutputOnly:
+							transferTo = objectInHands;
+							break;
+						case TransferMode.InputOnly:
+							transferTo = target;
+							break;
+						default:
+							return false;
+					}
+
+					break;
+				case TransferMode.Syringe:
+					switch (target.transferMode)
+					{
+						case TransferMode.Normal:
+							transferTo = objectInHands.SyringePulling == false ? target : objectInHands;
+							break;
+						case TransferMode.OutputOnly:
+							transferTo = objectInHands;
+							break;
+						case TransferMode.InputOnly:
+							transferTo = target;
+							break;
+						default:
+							return false;
+					}
+
+					break;
+				case TransferMode.OutputOnly:
+					switch (target.transferMode)
+					{
+						case TransferMode.Normal:
+							transferTo = target;
+							break;
+						case TransferMode.OutputOnly:
+							return false;
+						case TransferMode.InputOnly:
+							transferTo = target;
+							break;
+						default:
+							return false;
+					}
+
+					break;
+				case TransferMode.InputOnly:
+					switch (target.transferMode)
+					{
+						case TransferMode.Normal:
+							transferTo = objectInHands;
+							break;
+						case TransferMode.OutputOnly:
+							transferTo = objectInHands;
+							break;
+						case TransferMode.InputOnly:
+							return false;
+						default:
+							return false;
+					}
+					break;
+				default:
+					return false;
+			}
+
+			if (transferTo == null)
 			{
 				return false;
 			}
-
-			if (srcContainer.transferMode == TransferMode.InputOnly
-			    || dstContainer.transferMode == TransferMode.OutputOnly)
-			{
-				return false;
-			}
-
 
 			if (side == NetworkSide.Server)
 			{
-				if (srcContainer.TraitWhitelistOn && !Validations.HasAnyTrait(dstObject, srcContainer.traitWhitelist))
+				if (objectInHands.TraitWhitelistOn && !Validations.HasAnyTrait(dstObject, objectInHands.traitWhitelist))
 				{
 					return false;
 				}
 
-				if (dstContainer.TraitWhitelistOn && !Validations.HasAnyTrait(dstObject, srcContainer.traitWhitelist))
+				if (target.TraitWhitelistOn && !Validations.HasAnyTrait(dstObject, objectInHands.traitWhitelist))
 				{
 					return false;
 				}
 			}
 
-			if (dstContainer.onlyAllowSyringeFilling && srcContainer.transferMode != TransferMode.Syringe) return false;
+			if (target.onlyAllowSyringeFilling && objectInHands.transferMode != TransferMode.Syringe) return false;
 
-			return dstContainer.transferMode != TransferMode.Syringe;
+			return target.transferMode != TransferMode.Syringe;
 		}
 
 		public void ServerPerformInteraction(InventoryApply interaction)
