@@ -578,7 +578,6 @@ namespace Player
 			}
 
 			// Update hide flags
-			ValidateHideFlags();
 			SyncValidateHideFlags(hideClothingFlags, ClothingHideFlags);
 		}
 
@@ -603,6 +602,40 @@ namespace Player
 					Norder.gameObject.SetActive(isVisible);
 				}
 			}
+
+			// foreach (var KV in clothes)
+			// {
+			// 	ClothingHideFlags ClothingHideFlags = ClothingHideFlags.HIDE_NONE;
+			//
+			// 	switch (KV.Key)
+			// 	{
+			// 		case NamedSlot.hands:
+			// 			ClothingHideFlags = ClothingHideFlags.HIDE_GLOVES;
+			// 			break;
+			// 		case NamedSlot.uniform:
+			// 			ClothingHideFlags = ClothingHideFlags.HIDE_JUMPSUIT;
+			// 			break;
+			// 		case NamedSlot.feet:
+			// 			ClothingHideFlags = ClothingHideFlags.HIDE_SHOES;
+			// 			break;
+			// 		case NamedSlot.mask:
+			// 			ClothingHideFlags = ClothingHideFlags.HIDE_MASK;
+			// 			break;
+			// 		case NamedSlot.ear:
+			// 			ClothingHideFlags = ClothingHideFlags.HIDE_EARS;
+			// 			break;
+			// 		case NamedSlot.eyes:
+			// 			ClothingHideFlags = ClothingHideFlags.HIDE_EYES;
+			// 			break;
+			// 		case NamedSlot.neck:
+			// 			ClothingHideFlags = ClothingHideFlags.HIDE_NECK;
+			// 			break;
+			// 	}
+			//
+			//
+			// 	var isVisible = !hideClothingFlags.HasFlag(ClothingHideFlags);
+			// 	KV.Value.gameObject.SetActive(isVisible);
+			// }
 
 			// Need to check all flags with their gameobject names...
 			// TODO: it should be done much easier
