@@ -31,7 +31,8 @@ namespace Systems.Hacking
 
 		//Available colours //TODO Colourblind stuff
 		//If colour blind can use the label to just say the name of the colour, Would be easy to make translation dictionary< colour, string> 
-		//Bobtheapple: I've changed the color options to be more friendly for Deuteranopia, Protanopia and Tritanopia (based on Paul Tol's palette)
+		//Bobtheapple: I've changed the color options to be more friendly color blind friendly (based on Paul Tol's palette), labled them for
+		//dictionary creation later
 		public List<Color> AvailableColours = new List<Color>()
 		{
 			new Color(0.529f, 0.808f, 0.922f), // Light Cyan
