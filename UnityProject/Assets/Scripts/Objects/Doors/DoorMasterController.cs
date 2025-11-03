@@ -697,7 +697,7 @@ namespace Doors
 /// <summary>
 /// Prevents players from spamming doors
 /// </summary>
-		private async UniTask DoorInputCoolDown()
+		private async UniTaskVoid DoorInputCoolDown()
 		{
 			allowInput = false;
 			await UniTask.WaitForSeconds(INPUT_COOLDOWN);
