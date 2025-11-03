@@ -34,7 +34,7 @@ namespace Doors
 				door.IsFireLockEngaged = true;
 			}
 
-			doorMasterController.PulseTryClose(overrideLogic: true);
+			doorMasterController.PulseTryClose(bypassSoftware: true);
 		}
 
 		/// <summary>
@@ -50,7 +50,7 @@ namespace Doors
 				door.IsFireLockEngaged = false;
 			}
 
-			doorMasterController.PulseTryOpen(overrideLogic: true);
+			doorMasterController.PulseTryOpen(bypassSoftware: true);
 		}
 
 		#region Multitool Interaction

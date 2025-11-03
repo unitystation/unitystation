@@ -282,7 +282,7 @@ namespace Doors
 		{
 			//A Door can't be manipulated if its in motion, there is a firelock in the way, its in an input cooldown,
 			// and when there is a special reason they can't be interacted with (Blast Doors)
-			if (CheckInteractionAllowed() == false) return false;
+			if (CheckInteractionAllowed() == false || allowInteraction == false) return false;
 
 			DoorInputCoolDown().Forget();
 
@@ -385,7 +385,7 @@ namespace Doors
 		/// </summary>
 		public bool CheckInteractionAllowed()
 		{
-			if (allowInput == false || allowInteraction == false || isPerformingAction) return false;
+			if (allowInput == false || isPerformingAction) return false;
 
 			if (IsFireLockEngaged)
 			{
