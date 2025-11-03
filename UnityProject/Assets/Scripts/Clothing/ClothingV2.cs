@@ -48,6 +48,9 @@ namespace Systems.Clothing
 
 		[NonSerialized]
 		public List<SpriteDataSO> SpriteDataSO = new List<SpriteDataSO>();
+
+		public Color Colour = Color.white;
+
 		/// <summary>
 		/// Clothing item this is currently equipped to, if there is one. Will be updated when the data is synced.
 		/// </summary>

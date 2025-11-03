@@ -52,8 +52,8 @@ namespace Mobs.BrainAI.States.SimpleBot
 			}
 			if (IsEmagged == false && IsCurrentTaskValid() == true)
 			{
-				creatureToHeal.HealDamageOnAll(master.Body.gameObject, 3f, DamageType.Brute);
-				creatureToHeal.HealDamageOnAll(master.Body.gameObject, 3f, DamageType.Burn);
+				creatureToHeal.HealDamageOnAll(master.Body.gameObject, 2f, DamageType.Brute);
+				creatureToHeal.HealDamageOnAll(master.Body.gameObject, 2f, DamageType.Burn);
 			}
 
 			searchRadius = 1; //Search nearby tiles to see if it can continue to heal without moving

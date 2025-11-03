@@ -10,6 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1497028632681747686, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 6300755222414107616}
+    - target: {fileID: 1497028632681747686, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 6a6ca9a236adba34e83648a9bc942adc,
@@ -170,6 +175,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 892f0c642e2049640b08d738517bb0f5,
         type: 2}
+    - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: MutationRestriction
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: MutationRestrictionItemTrait
+      value: 
+      objectReference: {fileID: 11400000, guid: cf7011331adb47d4880a8f62edf3259d,
+        type: 2}
     - target: {fileID: 6638208500181761376, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: Throughput
@@ -240,6 +256,7 @@ MonoBehaviour:
   RelatedPart: {fileID: 0}
   breatheCooldown: 4
   pressureSafeMin: 16
+  LungEfficiency: 1
   toxicGases:
   - GasType: {fileID: 11400000, guid: 2d3c38fe76e3df249ade18fd6fdac274, type: 2}
     PressureSafeMax: 0.4
@@ -277,3 +294,9 @@ MonoBehaviour:
   SuffocatingAlert: {fileID: 11400000, guid: a242a18320bcd0345b83fe02838d0460, type: 2}
   coughEmote: {fileID: 11400000, guid: 5d61ca3eb68b81946b8226b482703158, type: 2}
   coughCooldown: 6
+--- !u!212 &6300755222414107616 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4859781159729634365, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1441624991261802461}
+  m_PrefabAsset: {fileID: 0}

@@ -229,4 +229,7 @@
 	public static readonly string DefaultVoice = "TTSDefaultVoice";
 
 	public const string CHAT_BACKGROUND_ALLWAYS_ENABLED = "ChatBackgroundAllwaysEnabled";
+
+
+	public const string LanguagePreference = "LanguagePreference";
 }

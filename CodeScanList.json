@@ -3630,6 +3630,18 @@
             },
 			"UniTaskExtensions" : {
 				"All": true
+			},
+			"SwitchToThreadPoolAwaitable" : {
+				"All": true
+			},
+			"SwitchToMainThreadAwaitable": {
+				"All": true
+			},
+			"SwitchToThreadPool":{
+				"All": true
+			},
+			"SwitchToMainThread":{
+				"All": true
 			}
         },
         "Cysharp.Threading.Tasks.CompilerServices": {
