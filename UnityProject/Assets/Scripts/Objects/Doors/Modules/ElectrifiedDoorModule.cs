@@ -62,6 +62,7 @@ namespace Doors.Modules
 			if (master.HasPower == false)
 				return;
 			IsElectrified = !IsElectrified;
+			master.UpdateGUI();
 		}
 
 		public override void OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)

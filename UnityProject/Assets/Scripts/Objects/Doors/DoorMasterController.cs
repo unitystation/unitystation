@@ -5,11 +5,9 @@ using System.Linq;
 using System.Text;
 using AdminCommands;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Mirror;
-using Core.Editor.Attributes;
+using UI.Objects;
 using UI.Core.Net;
-using Messages.Client.NewPlayer;
 using Messages.Server;
 using Systems.Electricity;
 using Systems.Hacking;
@@ -21,7 +19,6 @@ using HealthV2;
 using Objects;
 using Objects.Wallmounts;
 using Shared.Systems.ObjectConnection;
-
 
 namespace Doors
 {
@@ -88,14 +85,21 @@ namespace Doors
 		private RegisterDoor registerTile;
 		public RegisterDoor RegisterTile => registerTile;
 
+
+		private BoltsModule bolts;
+		public BoltsModule Bolts => bolts;
+		private ElectrifiedDoorModule electrifyModule;
+		public ElectrifiedDoorModule ElectrifyModule => electrifyModule;
+		public event Action UpdateGUIEvent;
+
 		/// <summary>
 		/// How long in seconds we should make players wait between clicks/bumps
 		/// </summary>
 		private const float INPUT_COOLDOWN = 0.25f;
 
 		/// <summary>
-        /// Prevents the door from being used during input cooldown
-        /// </summary>
+		/// Prevents the door from being used during input cooldown
+		/// </summary>
 		private bool allowInput = true;
 
 		/// <summary>
@@ -110,8 +114,8 @@ namespace Doors
 		private CancellationTokenSource autoCloseTokenSource;
 
 		/// <summary>
-        /// Prevents interaction while door is in motion
-        /// </summary>
+		/// Prevents interaction while door is in motion
+		/// </summary>
 		private bool isPerformingAction = false;
 		public bool IsPerformingAction => isPerformingAction;
 
@@ -156,6 +160,9 @@ namespace Doors
 
 			worldPosition = registerTile.WorldPositionServer;
 
+			bolts = GetComponentInChildren<BoltsModule>();
+			electrifyModule = GetComponentInChildren<ElectrifiedDoorModule>();
+
 			//Initialize the door state
 			if (CustomNetworkManager.IsServer == true)
 			{
@@ -169,7 +176,7 @@ namespace Doors
 			HackingProcessBase.RegisterPort(Close, this.GetType());
 			HackingProcessBase.RegisterPort(Open, this.GetType());
 			HackingProcessBase.RegisterPort(TryBump, this.GetType());
-			HackingProcessBase.RegisterPort(ConfirmAIConnection, this.GetType());
+			HackingProcessBase.RegisterPort(AIConnection, this.GetType());
 		}
 		#endregion
 
@@ -179,8 +186,6 @@ namespace Doors
 		/// </summary>
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (allowInput == false) return;
-
 			//When a player interacts with the door, we must first check with each module on what to do.
 			//For instance, if one of the modules has locked the door, that module will want to prevent us from
 			//opening the door.
@@ -278,11 +283,11 @@ namespace Doors
 		{
 			//A Door can't be manipulated if its in motion, there is a firelock in the way, its in an input cooldown,
 			// and when there is a special reason they can't be interacted with (Blast Doors)
-			if (IsFireLockEngaged || allowInput == false || allowInteraction == false || isPerformingAction) return false;
+			if (CheckInteractionAllowed() == false) return false;
 
 			DoorInputCoolDown().Forget();
 
-			//Iterate through all the modules and get any blocking states
+			//Iterate through all the modules with the handapply and get any blocking states
 			HashSet<DoorProcessingStates> states = new HashSet<DoorProcessingStates>();
 			foreach (DoorModuleBase module in modulesList)
 			{
@@ -314,15 +319,11 @@ namespace Doors
 		private bool TryInteraction()
 		{
 			//A Door can't be manipulated if its in motion, there is a firelock in the way, or is in an input cooldown
-			if (IsFireLockEngaged || allowInput == false || isPerformingAction) return false;
+			if (CheckInteractionAllowed() == false) return false;
 
 			DoorInputCoolDown().Forget();
 
-			HashSet<DoorProcessingStates> states = new HashSet<DoorProcessingStates>();
-			foreach (var module in modulesList)
-			{
-				module.BumpingInteraction(originator, states);
-			}
+			HashSet<DoorProcessingStates> states = GetStates();
 
 			// Forcing the door only cares about physical blocking states
 			if (byForce)
@@ -368,6 +369,29 @@ namespace Doors
 		#region Status Checks
 
 		/// <summary>
+		/// This gets the blocking states for a non-handapply interaction with the door
+		/// </summary>
+		public HashSet<DoorProcessingStates> GetStates()
+		{
+			HashSet<DoorProcessingStates> states = new HashSet<DoorProcessingStates>();
+			foreach (var module in modulesList)
+			{
+				module.BumpingInteraction(originator, states);
+			}
+			return states;
+		}
+
+		/// <summary>
+		/// Checks for any flag that blocks the door from being interacted with
+		/// </summary>
+		public bool CheckInteractionAllowed()
+		{
+			if (IsFireLockEngaged || allowInput == false || allowInteraction == false || isPerformingAction) return false;
+
+			return true;
+		}
+
+		/// <summary>
 		/// Searches the door for a power module and returns whether the door is powered
 		/// </summary>
 		/// <returns>True if the door has power or has no power module (presumably it doesn't need one to work)</returns>
@@ -386,7 +410,6 @@ namespace Doors
 		/// <summary>
 		/// Runs through a hashset of states and checks if any prevent the door from function
 		/// </summary>
-		/// <param name="states"></param>
 		/// <returns>True if the door is allowed to open/close</returns>
 		public bool CheckStatusAllow(HashSet<DoorProcessingStates> states)
 		{
@@ -453,7 +476,6 @@ namespace Doors
 		/// <summary>
 		/// Invoked by the server when a player bumps into the door, trying to open it
 		/// </summary>
-        /// 
 		public void OnBump(GameObject inOriginator, GameObject client)
 		{
 			originator = inOriginator;
@@ -488,11 +510,8 @@ namespace Doors
 			originator = inOriginator;
 			byForce = bypassSoftware;
 
-			if (overrideLogic)
+			if (overrideLogic || TryInteraction())
 				HackingProcessBase.ImpulsePort(Open);
-
-			else if (TryInteraction())
-				Open();
 		}
 
 		/// <summary>
@@ -524,8 +543,6 @@ namespace Doors
 
 			WaitToAutoClose();
 
-			UpdateGui();
-
 			doorAnimator.LightsWork = !byForce;
 			doorAnimator.PanelOpen = ConstructibleDoor != null && ConstructibleDoor.Panelopen;
 			doorAnimator.SyncDoorStatus(doorAnimator.SyncDoorUpdateType, DoorAnimatorV2.DoorUpdateType.Open);
@@ -550,14 +567,20 @@ namespace Doors
 		public void PulseTryClose(GameObject inOriginator = null, bool bypassSoftware = false, bool overrideLogic = false)
 		{
 			if (IsClosed || HasPower == false) return;
+
 			originator = inOriginator;
 			byForce = bypassSoftware;
-			if (overrideLogic) HackingProcessBase.ImpulsePort(Close);
-				
-			else if (TryInteraction())
+
+			if (overrideLogic || TryInteraction())
 			{
-                Close();
-            } 
+				//We want to send the impulse no matter what the close port is connected to for hacking shennanigans
+				HackingProcessBase.ImpulsePort(Close);
+
+				//But if the cable isn't closing the door, we do also want it to autoclose whenever the cable is reconnected
+				if (HackingProcessBase.HasConnection(Close) == false)
+					WaitToAutoClose();
+			}
+
 
 			else WaitToAutoClose();
 		}
@@ -577,8 +600,11 @@ namespace Doors
 			if (TryInteraction(null))
 			{
 				Close();
+
+				byForce = false;
 				return true;
 			}
+			byForce = false;
 			return false;
 		}
 
@@ -596,8 +622,6 @@ namespace Doors
 				WaitToAutoClose();
 				return;
 			}
-
-			UpdateGui();
 
 			doorAnimator.LightsWork = !byForce;
 			doorAnimator.PanelOpen = ConstructibleDoor != null && ConstructibleDoor.Panelopen;
@@ -628,6 +652,7 @@ namespace Doors
 		private void OnAnimationClosed()
 		{
 			IsClosed = true;
+			UpdateGUI();
 
 			if (damageOnClose)
 				ServerDamageOnClose();
@@ -642,6 +667,7 @@ namespace Doors
 		private void OnAnimationOpened()
 		{
 			IsClosed = false;
+			UpdateGUI();
 		}
 
 		/// <summary>
@@ -667,7 +693,10 @@ namespace Doors
 		#endregion
 
 		#region Misc Functions
-		
+
+/// <summary>
+/// Prevents players from spamming doors
+/// </summary>
 		private async UniTask DoorInputCoolDown()
 		{
 			allowInput = false;
@@ -675,7 +704,9 @@ namespace Doors
 			allowInput = true;
 		}
 
-
+/// <summary>
+/// Deals damage to entities when the door closes on them
+/// </summary>
 		private void ServerDamageOnClose()
 		{
 			foreach (var healthBehaviour in MatrixManager.GetAt<LivingHealthMasterBase>(worldPosition, true))
@@ -684,14 +715,17 @@ namespace Doors
 			}
 		}
 
+/// <summary>
+/// Pushes entites when the door closes on them
+/// </summary>
 		private void ServerPushOnClose()
-        {
-            
-        }
+		{
 
-		/// <summary>
-        /// 
-        /// </summary>
+		}
+
+/// <summary>
+/// Handles the automatic door closing feature
+/// </summary>
 		private void WaitToAutoClose()
 		{
 			if (maxTimeOpen.Approx(-1) || CustomNetworkManager.IsServer == false) return;
@@ -703,6 +737,9 @@ namespace Doors
 			AutoCloseDoor(autoCloseTokenSource.Token).Forget();
 		}
 
+/// <summary>
+/// The timer for the automatic door closing
+/// </summary>
 		private async UniTaskVoid AutoCloseDoor(CancellationToken cancelToken)
 		{
 			try
@@ -712,17 +749,23 @@ namespace Doors
 				if (BlockAutoClose == false && isAutomatic && IsClosed == false)
 					PulseTryClose(bypassSoftware: true);
 			}
-			catch{}
+			catch { }
 		}
 
+/// <summary>
+/// Toggles whether the door should autoclose
+/// </summary>
 		public void ToggleBlockAutoClose(bool newState)
 		{
 			BlockAutoClose = newState;
 		}
 		#endregion
 
-		#region Ai interaction
+		#region AI and NetTab
 
+		/// <summary>
+		/// Sets how the AI player can interact with the door by clicking on it
+		/// </summary>
 		public bool WillInteract(AiActivate interaction, NetworkSide side)
 		{
 			//Normal click should open door UI instead
@@ -733,127 +776,160 @@ namespace Doors
 			return true;
 		}
 
-		private bool AIConnected;
-
-		public void ConfirmAIConnection()
-		{
-			AIConnected = true;
-		}
-
+		/// <summary>
+		/// Handles the AI player's click interactions
+		/// </summary>
 		public void ServerPerformInteraction(AiActivate interaction)
 		{
-			if (HasPower == false)
-			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, "Door is unpowered");
-				return;
-			}
-
-			AIConnected = false;
-			HackingProcessBase.ImpulsePort(ConfirmAIConnection);
-			if (AIConnected == false)
-			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, "Door is disconnected");
-				return;
-			}
-			//Try open/close
 			if (interaction.ClickType == AiActivate.ClickTypes.ShiftClick)
-			{
-				if (IsClosed)
-				{
-					TryForceOpen();
-				}
-				else
-				{
-					//FIXME
-					//PulseTryForceClose();
-				}
+				ToggleOpenDoor(interaction.Performer);
 
-				return;
-			}
-
-			//Toggle bolts
 			if (interaction.ClickType == AiActivate.ClickTypes.CtrlClick)
-			{
-				foreach (var module in modulesList)
-				{
-					if (module is BoltsModule bolts)
-					{
-						//Toggle bolts
-						bolts.PulseToggleBolts();
-						return;
-					}
-				}
-			}
+				ToggleBoltDoor(interaction.Performer);
 		}
 
-		#endregion
-
-		#region Airlock UI
-
-		public bool CanOpenNetTab(GameObject playerObject, NetTabType netTabType)
+		/// <summary>
+		/// Confirms there is nothing stopping the AI from interacting with the door
+		/// </summary>
+		private bool CheckCanAIInteract(GameObject performer, bool isOpenNetTab = false)
 		{
-			bool isAi = playerObject.GetComponent<PlayerScript>().PlayerType == PlayerTypes.Ai;
-			if (netTabType == NetTabType.HackingPanel)
-			{
-				//Block Ai from hacking UI but allow normal player
-				return isAi == false;
-			}
+			// All the normal reasons a door can't be interacted with, skipped if we are just opening the net tab
+			if (isOpenNetTab == false && CheckInteractionAllowed() == false) return false;
 
-			if (isAi == false)
-			{
-				//Block normal player from Ai door controlling UI
-				return false;
-			}
-
+			// The door needs power
 			if (HasPower == false)
 			{
-				Chat.AddExamineMsgFromServer(playerObject, "Door is unpowered");
+				Chat.AddExamineMsgFromServer(performer, $"The {DoorName} is unpowered");
 				return false;
 			}
 
-			AIConnected = false;
-			HackingProcessBase.ImpulsePort(ConfirmAIConnection);
-			if (isAi && AIConnected == false)
+			// The AI needs to be wired in
+			// Hacking shennanigans note: every time the AI tries to interact with the door in any way the wire will pulse
+			if (CanAIInteract() == false)
 			{
-				Chat.AddExamineMsgFromServer(playerObject, "Door is disconnected");
+				Chat.AddExamineMsgFromServer(performer, $"The {DoorName} is disconnected");
 				return false;
 			}
 
-			//Only allow AI to open airlock control UI
 			return true;
 		}
 
-		public bool CanAIInteract()
+		/// <summary>
+		/// This action exists so that it can have a wire running to it in HackingProcessBase
+		/// Don't call this! Call CanAIInteract() to test if the AI is connected to the door.
+		/// </summary>
+		public void AIConnection() { }
+
+		/// <summary>
+		/// Handles the AI opening and closing the door
+		/// </summary>
+		public void ToggleOpenDoor(GameObject performer)
 		{
-			AIConnected = false;
-			HackingProcessBase.ImpulsePort(ConfirmAIConnection);
-			return AIConnected;
-		}
+			if (CheckCanAIInteract(performer) == false) return;
 
-		public void UpdateGui()
-		{
-			var peppers = NetworkTabManager.Instance.GetPeepers(gameObject, NetTabType.Airlock);
-			if (peppers.Count == 0) return;
-
-			List<ElementValue> valuesToSend = new List<ElementValue>();
-
-			valuesToSend.Add(new ElementValue() { Id = "OpenLabel", Value = Encoding.UTF8.GetBytes(IsClosed ? "Closed" : "Open") });
-
-			foreach (var module in modulesList)
+			if (IsClosed)
 			{
-				if (module is BoltsModule bolts)
-				{
-					valuesToSend.Add(new ElementValue() { Id = "BoltLabel", Value = Encoding.UTF8.GetBytes(bolts.BoltsDown ? "Bolted" : "Unbolted") });
-				}
+				//TODO: AI does not have access, if that changes also change this to go off of connected player;
+				PulseTryOpen(bypassSoftware: true);
 
-				if (module is ElectrifiedDoorModule electric)
+				// Tells the AI if the door is miswired. We pulse the door anyway in case of hacking shennanigans, 
+				// but the AI player should get some feedback as to why the door didn't open when they clicked
+				if (HackingProcessBase.HasConnection(Open) == false)
+					Chat.AddExamineMsgFromServer(performer, $"The {DoorName} is wired incorrectly and wont open");
+				else
 				{
-					valuesToSend.Add(new ElementValue() { Id = "ShockStateLabel", Value = Encoding.UTF8.GetBytes(electric.IsElectrified ? "DANGER" : "SAFE") });
+					// Otherwise we tell the ai if it was physically blocked from opening
+					HashSet<DoorProcessingStates> states = GetStates();
+					if (states.Contains(DoorProcessingStates.PhysicallyPrevented) || states.Contains(DoorProcessingStates.Welded))
+						Chat.AddExamineMsgFromServer(performer, $"The {DoorName} tries to move but something is physically preventing it");
+				}
+			}
+			else
+			{
+				//TODO: AI does not have access, if that gets fix change this to PulseTryOpen(performer);
+				PulseTryClose(bypassSoftware: true);
+
+				// Tells the AI if the door is miswired. We pulse the door anyway in case of hacking shennanigans, 
+				// but the AI player should get some feedback as to why the door didn't close when they clicked
+				if (HackingProcessBase.HasConnection(Close) == false)
+					Chat.AddExamineMsgFromServer(performer, $"The {DoorName} is wired incorrectly and wont close");
+				else
+				{
+					// Otherwise we tell the ai if it was physically blocked from opening
+					HashSet<DoorProcessingStates> states = GetStates();
+					if (states.Contains(DoorProcessingStates.PhysicallyPrevented) || states.Contains(DoorProcessingStates.Welded))
+						Chat.AddExamineMsgFromServer(performer, $"The {DoorName} tries to move but something is physically preventing it");
 				}
 			}
 
-			// Update all UI currently opened.
-			TabUpdateMessage.SendToPeepers(gameObject, NetTabType.Airlock, TabAction.Update, valuesToSend.ToArray());
+			UpdateGUI();
+		}
+
+
+		/// <summary>
+		/// Handles the AI bolting and unbolting the door
+		/// </summary>
+		public void ToggleBoltDoor(GameObject performer)
+		{
+			if (CheckCanAIInteract(performer) == false) return;
+
+			if (bolts != null)
+			{
+				bolts.PulseToggleBolts();
+				UpdateGUI();
+			}
+			else
+				Chat.AddExamineMsgFromServer(performer, $"The {DoorName} doesn't have bolts to drop");
+		}
+
+		/// <summary>
+		/// Handles the AI turning the electrification on or off
+		/// </summary>
+		public void ToggleSafetyDoor(GameObject performer)
+		{
+			if (CheckCanAIInteract(performer) == false) return;
+
+			if (electrifyModule != null)
+			{
+				electrifyModule.ToggleElectrocutionInput();
+				UpdateGUI();
+			}
+			else
+				Chat.AddExamineMsgFromServer(performer, $"The {DoorName} can't be electrified");
+		}
+
+		/// <summary>
+		/// Allows the player  to open a net tab.  AI is not permitted to open the hacking interface
+		/// </summary>
+		public bool CanOpenNetTab(GameObject playerObject, NetTabType netTabType)
+		{
+			bool isAi = playerObject.GetComponent<PlayerScript>().PlayerType == PlayerTypes.Ai;
+
+			//Block Ai from hacking UI but allow normal player
+			if (netTabType == NetTabType.HackingPanel) return isAi == false;
+
+			//Block normal player from Ai door controlling UI
+			if (isAi == false) return false;
+
+			return CheckCanAIInteract(playerObject, isOpenNetTab: true);
+		}
+
+		/// <summary>
+		/// Updates the GUI_Airlock net tab
+		/// </summary>
+		public void UpdateGUI()
+		{
+			UpdateGUIEvent?.Invoke();
+		}
+
+		/// <summary>
+		/// Confirms the AI is connected via the HackingProcessBase wiring
+		/// </summary>
+		public bool CanAIInteract()
+		{
+			if (HasPower == false) return false;
+			HackingProcessBase.ImpulsePort(AIConnection);
+			return HackingProcessBase.HasConnection(AIConnection);
 		}
 
 		#endregion
@@ -888,14 +964,9 @@ namespace Doors
 		{
 			doorMaster = master;
 
-			if (master is DoorSwitch doorSwitch)
-			{
-				doorSwitch.NewAddDoorControllerFromScene(this);
-			}
-			else if (master is StatusDisplay statusDisplay)
-			{
-				statusDisplay.NewLinkDoor(this);
-			}
+			if (master is DoorSwitch doorSwitch) doorSwitch.NewAddDoorControllerFromScene(this);
+
+			else if (master is StatusDisplay statusDisplay) statusDisplay.NewLinkDoor(this);
 		}
 
 		#endregion
@@ -903,10 +974,8 @@ namespace Doors
 		#region Admin Functions
 		public RightClickableResult GenerateRightClickOptions()
 		{
-			if (KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold) == false)
-			{
-				return null;
-			}
+			if (KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions,
+				KeyboardInputManager.KeyEventType.Hold) == false) return null;
 
 			bool add = false;
 
@@ -920,29 +989,19 @@ namespace Doors
 			if (PlayerList.HasTAGClient(TAG.ADMIN_TOGGLE_BOLTS))
 			{
 				add = true;
-				if (GetComponentInChildren<BoltsModule>() != null)
-				{
-					options.AddAdminElement("Toggle Bolts", AdminToggleBolt);
-				}
+				if (bolts != null) options.AddAdminElement("Toggle Bolts", AdminToggleBolt);
 			}
 
 			if (PlayerList.HasTAGClient(TAG.ADMIN_ELECTRIFIE_DOOR))
 			{
 				add = true;
-				if (GetComponentInChildren<ElectrifiedDoorModule>() != null)
-				{
-					options.AddAdminElement("Toggle Electrify", AdminToggleElectrify);
-				}
+				if (electrifyModule != null) options.AddAdminElement("Toggle Electrify", AdminToggleElectrify);
 			}
 
-			if (add)
-			{
-				return options;
-			}
-			else
-			{
-				return null;
-			}
+			if (add) return options;
+
+			else return null;
+
 		}
 
 		private void AdminOpen()

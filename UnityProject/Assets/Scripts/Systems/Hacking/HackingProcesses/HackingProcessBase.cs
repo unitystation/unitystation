@@ -29,15 +29,33 @@ namespace Systems.Hacking
 
 		private static bool HasRegisteredForRestart = false;
 
-		//Available colours
-		//If colour blind can use the label to just say the name of the colour, Would be easy to make translation dictionary< colour, string> //TODO Colourblind stuff
+		//Available colours //TODO Colourblind stuff
+		//If colour blind can use the label to just say the name of the colour, Would be easy to make translation dictionary< colour, string> 
+		//Bobtheapple: I've changed the color options to be more friendly for Deuteranopia, Protanopia and Tritanopia (based on Paul Tol's palette)
 		public List<Color> AvailableColours = new List<Color>()
 		{
-			new Color(1, 0, 0), new Color(1, 0, 1), new Color(0, 0, 1), new Color(0, 0.5f, 1), new Color(0, 1, 1),
-			new Color(0, 1, 0.7f), new Color(0, 1, 0), new Color(1, 1, 0), new Color(1, 0.5f, 0), new Color(1, 1, 1),
-			new Color(0.5f, 0, 0), new Color(0.5f, 0, 0.5f), new Color(0, 0, 0.5f), new Color(0, 0.5f, 0.5f),
-			new Color(0, 0.5f, 0), new Color(0.5f, 0.5f, 0), new Color(0.5f, 0.25f, 0), new Color(0.5f, 0.5f, 1),
-			new Color(1, 0.5f, 0.5f), new Color(1, 0.6f, 1)
+			new Color(0.529f, 0.808f, 0.922f), // Light Cyan
+			new Color(0.301f, 0.745f, 0.933f), // Sky Blue
+			new Color(0.682f, 0.780f, 0.909f), // Light Blue
+			new Color(0.000f, 0.447f, 0.741f), // Blue
+			new Color(0.121f, 0.470f, 0.705f), // Deep Blue
+			new Color(0.494f, 0.184f, 0.556f), // Purple
+			new Color(0.466f, 0.674f, 0.188f), // Green
+			new Color(0.333f, 0.333f, 0.000f), // Olive
+			new Color(0.737f, 0.741f, 0.133f), // Olive Yellow
+			new Color(0.929f, 0.694f, 0.125f), // Yellow
+			new Color(0.172f, 0.627f, 0.172f), // Dark Green
+			new Color(0.984f, 0.603f, 0.600f), // Light Red
+			new Color(0.635f, 0.078f, 0.184f), // Red
+			new Color(0.850f, 0.325f, 0.098f), // Vermilion
+			new Color(0.000f, 0.502f, 0.502f), // Teal
+			new Color(0.784f, 0.321f, 0.000f), // Orange
+			new Color(0.917f, 0.494f, 0.721f), // Pink
+			new Color(0.580f, 0.403f, 0.741f), // Violet
+			new Color(0.890f, 0.467f, 0.000f), // Amber
+			new Color(0.792f, 0.698f, 0.839f), // Lavender
+			new Color(0.666f, 0.666f, 0.666f), // Gray
+			new Color(0.231f, 0.231f, 0.231f)  // Blackish Gray
 		};
 
 		public ItemTrait RemoteSignallerTrait;
@@ -151,6 +169,21 @@ namespace Systems.Hacking
 			var ToReturn = MonoAvailableColours[FromType][randomNumber];
 			MonoAvailableColours[FromType].RemoveAt(randomNumber);
 			return ToReturn;
+		}
+
+/// <summary>
+/// This is "cheating" a little, returns whether a port will at LEAST do what it was intended to do without pulsing it
+/// This is for server side checks to save some coding headaches, you should also probably pulse the port too
+/// </summary>
+		public bool HasConnection(Action action)
+		{
+			if (Connections.ContainsKey(action) == false) return false;
+			foreach (var cable in Connections[action])
+			{
+				if (cable.PanelOutput == cable.PanelInput)
+					return true;
+			}
+			return false;
 		}
 
 		public void ImpulsePort(Action action)
