@@ -179,7 +179,7 @@ public class ClothingItem : MonoBehaviour
 	{
 		if (spriteHandler != null)
 		{
-			spriteHandler.SetSpriteVariant(referenceOffset);
+			spriteHandler.SetSpriteVariant(referenceOffset, false);
 		}
 	}
 
