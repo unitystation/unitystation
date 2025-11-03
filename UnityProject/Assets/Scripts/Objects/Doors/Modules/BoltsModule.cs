@@ -46,8 +46,6 @@ namespace Doors.Modules
 		{
 			boltsDown = state;
 
-			master.ToggleBlockAutoClose(state);
-
 			master.SoundController.ServerPlaySound(boltsDown ? DoorSoundController.DoorSoundType.BoltsDown : DoorSoundController.DoorSoundType.BoltsUp);
 
 			if (boltsDown && CanShowLights)

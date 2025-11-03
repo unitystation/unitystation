@@ -448,14 +448,16 @@ namespace Doors
 		/// <summary>
 		/// Searches the door for a access module and returns whether the given entity has access
 		/// </summary>
-		// <returns>True if the entity has access</returns>
+		// <returns>True if the entity has access, false if there is no access</returns>
 		public bool CheckAccess(GameObject performer)
 		{
 			foreach (var module in modulesList)
 			{
 				if (module is AccessModule accessModule)
 				{
-					return accessModule.CheckAccess(performer);
+					HashSet<DoorProcessingStates> states = new HashSet<DoorProcessingStates>();
+					accessModule.CheckAccess(performer, states);
+					return CheckStatusAllow(states);
 				}
 			}
 			return false;
@@ -578,17 +580,10 @@ namespace Doors
 			byForce = bypassSoftware;
 
 			if (overrideLogic || TryInteraction())
-			{
-				//We want to send the impulse no matter what the close port is connected to for hacking shennanigans
 				HackingProcessBase.ImpulsePort(Close);
 
-				//But if the cable isn't closing the door, we do also want it to autoclose whenever the cable is reconnected
-				if (HackingProcessBase.HasConnection(Close) == false)
-					WaitToAutoClose();
-			}
-
-
-			else WaitToAutoClose();
+			//If the door didn't close for whatever reason (bolts, wire cut) we want it to autoclose still when that reason is gone
+			WaitToAutoClose();
 		}
 
 		/// <summary>
