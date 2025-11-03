@@ -90,6 +90,8 @@ namespace Doors
 		public BoltsModule Bolts => bolts;
 		private ElectrifiedDoorModule electrifyModule;
 		public ElectrifiedDoorModule ElectrifyModule => electrifyModule;
+		private AccessModule access;
+		public AccessModule Access => access;
 		public event Action UpdateGuiEvent;
 
 		/// <summary>
@@ -161,6 +163,7 @@ namespace Doors
 			worldPosition = registerTile.WorldPositionServer;
 
 			bolts = GetComponentInChildren<BoltsModule>();
+			access = GetComponentInChildren<AccessModule>();
 			electrifyModule = GetComponentInChildren<ElectrifiedDoorModule>();
 
 			//Initialize the door state
@@ -439,9 +442,7 @@ namespace Doors
 		// <returns>True if the door is powered (or doesn't need power) and has an access module</returns>
 		public bool CheckRemoteConnectivity()
 		{
-			var accessModule = GetComponentInChildren<AccessModule>();
-			if (CheckPower() && accessModule != null) return true;
-
+			if (CheckPower() && access != null) return true;
 			return false;
 		}
 
@@ -451,15 +452,13 @@ namespace Doors
 		// <returns>True if the entity has access, false if there is no access</returns>
 		public bool CheckAccess(GameObject performer)
 		{
-			foreach (var module in modulesList)
+			if (access != null)
 			{
-				if (module is AccessModule accessModule)
-				{
-					HashSet<DoorProcessingStates> states = new HashSet<DoorProcessingStates>();
-					accessModule.CheckAccess(performer, states);
-					return CheckStatusAllow(states);
-				}
+				HashSet<DoorProcessingStates> states = new HashSet<DoorProcessingStates>();
+				access.CheckAccess(performer, states);
+				return CheckStatusAllow(states);
 			}
+
 			return false;
 		}
 

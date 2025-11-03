@@ -83,8 +83,6 @@ namespace Items.Devices
 			return Validations.HasComponent<DoorMasterController>(interaction.TargetObject) && Validations.CanApply(interaction.PerformerPlayerScript, interaction.TargetObject, side, false, ReachRange.Unlimited);
 		}
 
-		//FIXME: this shouldn't make its own check and use doors like this. Refactor doors to allow interacting with them with devices instead
-		// and let the door handle the interaction.
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			DoorMasterController doorController = interaction.TargetObject.GetComponent<DoorMasterController>();
@@ -92,37 +90,40 @@ namespace Items.Devices
 
 			Chat.AddExamineMsg(interaction.Performer, $"You use the access remote on the {doorController.DoorName}");
 
+			// Checks if the door allows you to use a remote on it, it needs an access module for instance
 			if (doorController.CheckRemoteConnectivity() == false)
-				Chat.AddExamineMsg(interaction.Performer, $"The {doorController.DoorName} does not respond.");
-
-			else if (doorController.CheckAccess(gameObject) == false)
-				Chat.AddExamineMsg(interaction.Performer, "This remote does not contain the required access.");
-
-			else
 			{
-                switch (currentState)
-				{
-					case AccessRemoteState.Open:
-						TryOpenDoor(doorController, interaction.Performer);
-						break;
-					case AccessRemoteState.Emergency:
-						AccessModule accessModule = interaction.TargetObject.GetComponentInChildren<AccessModule>();
-						accessModule.ToggleAuthorizationBypassState();
-						break;
-					case AccessRemoteState.Bolts:
-						BoltsModule boltsModule = interaction.TargetObject.GetComponentInChildren<BoltsModule>();
-						if (boltsModule == null)
-						{
-							Chat.AddExamineMsg(interaction.Performer, $"{doorController.DoorName} has no bolts module!");
-							return;
-						}
-						boltsModule.PulseToggleBolts();
-						break;
-					default:
-						TryOpenDoor(doorController, interaction.Performer);
-						break;
-				}
-            }
+				Chat.AddExamineMsg(interaction.Performer, $"The {doorController.DoorName} does not respond.");
+				return;
+			}
+
+			// Checks the door's access module to see if this remote has the appropriate clearance
+			if (doorController.CheckAccess(gameObject) == false)
+			{
+				Chat.AddExamineMsg(interaction.Performer, "This remote does not contain the required access.");
+				return;
+			}
+
+			switch (currentState)
+			{
+				case AccessRemoteState.Open:
+					TryOpenDoor(doorController, interaction.Performer);
+					break;
+				case AccessRemoteState.Emergency:
+					doorController.Access.ToggleAuthorizationBypassState();
+					break;
+				case AccessRemoteState.Bolts:
+					if (doorController.Bolts == null)
+					{
+						Chat.AddExamineMsg(interaction.Performer, $"{doorController.DoorName} doesn't have a bolts module");
+						return;
+					}
+					doorController.Bolts.PulseToggleBolts();
+					break;
+				default:
+					TryOpenDoor(doorController, interaction.Performer);
+					break;
+			}
 		}
 
 		private void TryOpenDoor(DoorMasterController controller, GameObject performer)
