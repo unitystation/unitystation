@@ -29,7 +29,7 @@ namespace Doors.Modules
 		{
 			if (interaction != null)
 			{
-				if (master.HasPower == false || CheckAccess(interaction.Performer == false))
+				if (master.HasPower == false || CheckAccess(interaction.Performer) == false)
 				{
 					States.Add(DoorProcessingStates.SoftwarePrevented);
 				}
