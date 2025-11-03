@@ -24,12 +24,12 @@ namespace UI.Objects
 		{
 			performer = connectedPlayer.GameObject;
 
-			master.UpdateGUIEvent += OnUpdateGUIEvent;
+			master.UpdateGuiEvent += OnUpdateGuiEvent;
 
-			OnUpdateGUIEvent();
+			OnUpdateGuiEvent();
 		}
 
-		private void OnUpdateGUIEvent()
+		private void OnUpdateGuiEvent()
 		{
 			labelOpen.MasterSetValue(master.IsClosed ? "Closed" : "Open");
 
@@ -82,7 +82,7 @@ namespace UI.Objects
 
 		public void OnTabClosedHandler()
 		{
-			master.UpdateGUIEvent -= OnUpdateGUIEvent;
+			master.UpdateGuiEvent -= OnUpdateGuiEvent;
 		}
 	}
 }

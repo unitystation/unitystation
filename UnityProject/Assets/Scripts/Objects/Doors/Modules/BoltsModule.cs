@@ -59,7 +59,7 @@ namespace Doors.Modules
 				master.DoorAnimator.TurnOffAllLights();
 			}
 
-			master.UpdateGUI();
+			master.UpdateGui();
 		}
 
 		/// <summary>

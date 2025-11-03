@@ -24,6 +24,8 @@ namespace Doors
 		/// </summary>
 		public void ReceiveAlert()
 		{
+			if (doorMasterController.HasPower == false) return;
+
 			foreach (var door in MatrixManager.GetAt<DoorMasterController>(registerTile.WorldPositionServer, true))
 			{
 				if (door.IsFireLock)
@@ -42,14 +44,18 @@ namespace Doors
 		/// </summary>
 		public void ClearAlert()
 		{
+			if (doorMasterController.HasPower == false) return;
+			
 			foreach (var door in MatrixManager.GetAt<DoorMasterController>(registerTile.WorldPositionServer, true))
 			{
 				if (door.IsFireLock)
 					continue;
 
+				//Tell any doors that the firelock is lifted
 				door.IsFireLockEngaged = false;
 			}
 
+			//Open the firelock
 			doorMasterController.PulseTryOpen(bypassSoftware: true);
 		}
 

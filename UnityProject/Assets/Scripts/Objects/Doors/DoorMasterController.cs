@@ -90,7 +90,7 @@ namespace Doors
 		public BoltsModule Bolts => bolts;
 		private ElectrifiedDoorModule electrifyModule;
 		public ElectrifiedDoorModule ElectrifyModule => electrifyModule;
-		public event Action UpdateGUIEvent;
+		public event Action UpdateGuiEvent;
 
 		/// <summary>
 		/// How long in seconds we should make players wait between clicks/bumps
@@ -262,7 +262,8 @@ namespace Doors
 		public void ClosedInteraction(HandApply interaction)
 		{
 			// If there is nothing preventing the door from opening, try opening it
-			if (TryInteraction(interaction))
+			// Also prevent things like firelocks abd blastdoors from being opened by hand
+			if (TryInteraction(interaction) && allowInteraction)
 			{
 				//If we are opening a door where clicks disable auto close, we want to disable autoclose
 				if (clickDisablesAutoClose)
@@ -280,9 +281,7 @@ namespace Doors
 		/// <returns>True if none of the door modules would prevent the door from opening/closing</returns>
 		private bool TryInteraction(HandApply interaction)
 		{
-			//A Door can't be manipulated if its in motion, there is a firelock in the way, its in an input cooldown,
-			// and when there is a special reason they can't be interacted with (Blast Doors)
-			if (CheckInteractionAllowed() == false || allowInteraction == false) return false;
+			if (CheckInteractionAllowed() == false) return false;
 
 			DoorInputCoolDown().Forget();
 
@@ -659,7 +658,7 @@ namespace Doors
 		private void OnAnimationClosed()
 		{
 			IsClosed = true;
-			UpdateGUI();
+			UpdateGui();
 
 			if (damageOnClose)
 				ServerDamageOnClose();
@@ -674,7 +673,7 @@ namespace Doors
 		private void OnAnimationOpened()
 		{
 			IsClosed = false;
-			UpdateGUI();
+			UpdateGui();
 		}
 
 		/// <summary>
@@ -869,7 +868,7 @@ namespace Doors
 				}
 			}
 
-			UpdateGUI();
+			UpdateGui();
 		}
 
 
@@ -887,7 +886,7 @@ namespace Doors
 				if (HackingProcessBase.HasConnection(bolts.ToggleBolts) == false)
 					Chat.AddExamineMsgFromServer(performer, $"The {DoorName} is wired incorrectly and you can't access the bolts mechanism");
 
-				UpdateGUI();
+				UpdateGui();
 			}
 			else
 				Chat.AddExamineMsgFromServer(performer, $"The {DoorName} doesn't have bolts to drop");
@@ -907,7 +906,7 @@ namespace Doors
 				if (HackingProcessBase.HasConnection(electrifyModule.ToggleElectrocution) == false)
 					Chat.AddExamineMsgFromServer(performer, $"The {DoorName} is wired incorrectly and you can't access the safety mechanism");
 
-				UpdateGUI();
+				UpdateGui();
 			}
 			else
 				Chat.AddExamineMsgFromServer(performer, $"The {DoorName} can't be electrified");
@@ -932,9 +931,9 @@ namespace Doors
 		/// <summary>
 		/// Updates the GUI_Airlock net tab
 		/// </summary>
-		public void UpdateGUI()
+		public void UpdateGui()
 		{
-			UpdateGUIEvent?.Invoke();
+			UpdateGuiEvent?.Invoke();
 		}
 
 		/// <summary>

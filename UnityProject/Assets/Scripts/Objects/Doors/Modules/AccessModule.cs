@@ -29,7 +29,7 @@ namespace Doors.Modules
 		{
 			if (interaction != null)
 			{
-				if (!master.HasPower || !CheckAccess(interaction.Performer))
+				if (master.HasPower == false || CheckAccess(interaction.Performer == false))
 				{
 					States.Add(DoorProcessingStates.SoftwarePrevented);
 				}
@@ -42,7 +42,7 @@ namespace Doors.Modules
 		{
 			if (interaction != null)
 			{
-				if (!master.HasPower || !CheckAccess(interaction.Performer))
+				if (master.HasPower  == false || CheckAccess(interaction.Performer) == false)
 				{
 					States.Add(DoorProcessingStates.SoftwarePrevented);
 				}
@@ -55,7 +55,7 @@ namespace Doors.Modules
 		{
 			if (byPlayer != null)
 			{
-				if (!master.HasPower || !CheckAccess(byPlayer))
+				if (master.HasPower == false || CheckAccess(byPlayer) == false)
 				{
 					States.Add(DoorProcessingStates.SoftwarePrevented);
 				}
