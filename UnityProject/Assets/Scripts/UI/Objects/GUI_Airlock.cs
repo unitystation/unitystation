@@ -40,8 +40,16 @@ namespace UI.Objects
 
 			if (master.ElectrifyModule != null && master.HasPower)
 			{
-				labelSafety.MasterSetValue(master.ElectrifyModule.IsElectrified ? "DANGER" : "SAFE");
-				safetyImageColor.MasterSetValue(master.ElectrifyModule.IsElectrified ? safetyImageColorWhenHARM : safetyImageColorWhenSAFE);
+				if (master.ElectrifyModule.IsElectrified || master.HackingProcessBase.HasConnection(PreventElectrocution) == false)
+				{
+					labelSafety.MasterSetValue("DANGER");
+					safetyImageColor.MasterSetValue(safetyImageColorWhenHARM);
+				}
+				else
+				{
+					labelSafety.MasterSetValue("SAFE");
+					safetyImageColor.MasterSetValue(safetyImageColorWhenSAFE);
+				}
 			}
 			else
 			{

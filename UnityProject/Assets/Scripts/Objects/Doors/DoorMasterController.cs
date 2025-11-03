@@ -386,7 +386,15 @@ namespace Doors
 		/// </summary>
 		public bool CheckInteractionAllowed()
 		{
-			if (IsFireLockEngaged || allowInput == false || allowInteraction == false || isPerformingAction) return false;
+			if (allowInput == false || allowInteraction == false || isPerformingAction) return false;
+
+			if (IsFireLockEngaged)
+			{
+				//We need to make sure the firelock wasn't destroyed
+				var firelock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
+				if (firelock != null) return false;
+				IsFireLockEngaged = false;
+            }
 
 			return true;
 		}
@@ -807,7 +815,7 @@ namespace Doors
 			// Hacking shennanigans note: every time the AI tries to interact with the door in any way the wire will pulse
 			if (CanAIInteract() == false)
 			{
-				Chat.AddExamineMsgFromServer(performer, $"The {DoorName} is disconnected");
+				Chat.AddExamineMsgFromServer(performer, $"You can't connect to the {DoorName}");
 				return false;
 			}
 
@@ -876,6 +884,10 @@ namespace Doors
 			if (bolts != null)
 			{
 				bolts.PulseToggleBolts();
+
+				if(HackingProcessBase.HasConnection(ToggleBolts) == false)
+					Chat.AddExamineMsgFromServer(performer, $"The {DoorName} is wired incorrectly and you can't access the bolts mechanism");
+
 				UpdateGUI();
 			}
 			else
@@ -892,6 +904,10 @@ namespace Doors
 			if (electrifyModule != null)
 			{
 				electrifyModule.ToggleElectrocutionInput();
+
+				if (HackingProcessBase.HasConnection(ToggleElectrocution) == false)
+					Chat.AddExamineMsgFromServer(performer, $"The {DoorName} is wired incorrectly and you can't access the safety mechanism");
+					
 				UpdateGUI();
 			}
 			else

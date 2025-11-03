@@ -83,7 +83,7 @@ namespace Doors.Modules
 				if (interaction.UsedObject.GetComponent<ItemAttributesV2>().HasTrait(IDToggleCard))
 				{
 					PulseToggleBolts();
-					States.Add(DoorProcessingStates.SoftwarePrevented);
+					States.Add(DoorProcessingStates.PreventSilently);
 				}
 
 				if (PulsePreventBoltsFall())
