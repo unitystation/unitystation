@@ -1,21 +1,30 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using Initialisation;
+using Logs;
 using Shared.Managers;
 using UnityEngine;
-using Logs;
-using Shared.Util;
-using Util;
 
 namespace DatabaseAPI
 {
 	public partial class ServerData : SingletonManager<ServerData>, IInitialise
 	{
 		public static Action serverDataLoaded;
+		public string idToken;
 
 
 		private bool fetchingToken = false;
-		public string idToken;
 		public static string IdToken => Instance.idToken;
+
+		private void OnEnable()
+		{
+			UpdateManager.Add(UpdateMe, 10f);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+		}
 
 		public InitialisationSystems Subsystem => InitialisationSystems.ServerData;
 
@@ -29,29 +38,37 @@ namespace DatabaseAPI
 			serverDataLoaded?.Invoke();
 		}
 
-		private void OnEnable()
-		{
-			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-		}
-
-		private void OnDisable()
-		{
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-		}
-
 		private void UpdateMe()
 		{
-			if (config != null)
+			if (config == null)
 			{
-				if (!string.IsNullOrEmpty(config.HubUser) && !string.IsNullOrEmpty(config.HubPass))
-				{
-					MonitorServerStatus();
-				}
+				Loggy.Warning("Cannot update server status because server config is missing.", Category.DatabaseAPI);
+				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+				return;
 			}
+
+			if (buildInfo == null)
+			{
+				Loggy.Warning("Cannot update server status because build info is missing.", Category.DatabaseAPI);
+				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+				return;
+			}
+
+			if (string.IsNullOrEmpty(config.ServerToken))
+			{
+				Loggy.Warning(
+					"No server token configured. This server won't post status updates to the server list",
+					Category.DatabaseAPI);
+				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+				return;
+			}
+
+			UpdateManager.Add(UpdateMe, 10f);
+			SendServerStatus().Forget();
 		}
 
 		/// <summary>
-		/// Refresh the users profile data
+		///     Refresh the users profile data
 		/// </summary>
 		// public static void ReloadProfile()
 		// {
@@ -64,8 +81,6 @@ namespace DatabaseAPI
 		// 		}
 		// 	});
 		// }
-
-
 		public void OnLogOut()
 		{
 			//auth.SignOut();
