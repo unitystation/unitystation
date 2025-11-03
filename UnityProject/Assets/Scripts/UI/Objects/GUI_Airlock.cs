@@ -40,6 +40,9 @@ namespace UI.Objects
 
 			if (master.ElectrifyModule != null && master.HasPower)
 			{
+				//TODO: This doesn't cover everything, if the AI has the NetTab open and then a player cuts the PreventElectrocution wire, 
+				// it doesn't update until someone interacts with the door or the AI clicks the door again. Wont come up much in normal play
+				// but we could fix this with some tweaks to Hacking or the Electrification module.
 				if (master.ElectrifyModule.IsElectrified || master.HackingProcessBase.HasConnection(master.ElectrifyModule.PreventElectrocution) == false)
 				{
 					labelSafety.MasterSetValue("DANGER");

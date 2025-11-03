@@ -268,7 +268,6 @@ namespace Doors
 				if (clickDisablesAutoClose)
 					BlockAutoClose = true;
 
-				//FIXME: Should use wiring, not whatever this is supposed to be
 				PulseTryOpen(interaction.Performer, overrideLogic: true);
 			}
 		}
@@ -394,7 +393,7 @@ namespace Doors
 				if (MatrixManager.GetAt<FireLock>(worldPosition, true).Any()) return false;
 
 				IsFireLockEngaged = false;
-            }
+			}
 
 			return true;
 		}
@@ -702,9 +701,9 @@ namespace Doors
 
 		#region Misc Functions
 
-/// <summary>
-/// Prevents players from spamming doors
-/// </summary>
+		/// <summary>
+		/// Prevents players from spamming doors
+		/// </summary>
 		private async UniTaskVoid DoorInputCoolDown()
 		{
 			allowInput = false;
@@ -712,9 +711,9 @@ namespace Doors
 			allowInput = true;
 		}
 
-/// <summary>
-/// Deals damage to entities when the door closes on them
-/// </summary>
+		/// <summary>
+		/// Deals damage to entities when the door closes on them
+		/// </summary>
 		private void ServerDamageOnClose()
 		{
 			foreach (var healthBehaviour in MatrixManager.GetAt<LivingHealthMasterBase>(worldPosition, true))
@@ -723,17 +722,17 @@ namespace Doors
 			}
 		}
 
-/// <summary>
-/// Pushes entites when the door closes on them
-/// </summary>
+		/// <summary>
+		/// Pushes entites when the door closes on them
+		/// </summary>
 		private void ServerPushOnClose()
 		{
-
+			//TODO: This needs to be implemented still
 		}
 
-/// <summary>
-/// Handles the automatic door closing feature
-/// </summary>
+		/// <summary>
+		/// Handles the automatic door closing feature
+		/// </summary>
 		private void WaitToAutoClose()
 		{
 			if (maxTimeOpen.Approx(-1) || CustomNetworkManager.IsServer == false) return;
@@ -745,9 +744,9 @@ namespace Doors
 			AutoCloseDoor(autoCloseTokenSource.Token).Forget();
 		}
 
-/// <summary>
-/// The timer for the automatic door closing
-/// </summary>
+		/// <summary>
+		/// The timer for the automatic door closing
+		/// </summary>
 		private async UniTaskVoid AutoCloseDoor(CancellationToken cancelToken)
 		{
 			try
@@ -760,9 +759,9 @@ namespace Doors
 			catch { }
 		}
 
-/// <summary>
-/// Toggles whether the door should autoclose
-/// </summary>
+		/// <summary>
+		/// Toggles whether the door should autoclose
+		/// </summary>
 		public void ToggleBlockAutoClose(bool newState)
 		{
 			BlockAutoClose = newState;
@@ -885,7 +884,7 @@ namespace Doors
 			{
 				bolts.PulseToggleBolts();
 
-				if(HackingProcessBase.HasConnection(bolts.ToggleBolts) == false)
+				if (HackingProcessBase.HasConnection(bolts.ToggleBolts) == false)
 					Chat.AddExamineMsgFromServer(performer, $"The {DoorName} is wired incorrectly and you can't access the bolts mechanism");
 
 				UpdateGUI();
@@ -907,7 +906,7 @@ namespace Doors
 
 				if (HackingProcessBase.HasConnection(electrifyModule.ToggleElectrocution) == false)
 					Chat.AddExamineMsgFromServer(performer, $"The {DoorName} is wired incorrectly and you can't access the safety mechanism");
-					
+
 				UpdateGUI();
 			}
 			else

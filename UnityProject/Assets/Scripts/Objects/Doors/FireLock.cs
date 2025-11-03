@@ -50,7 +50,7 @@ namespace Doors
 				door.IsFireLockEngaged = false;
 			}
 
-			doorMasterController.PulseTryOpen(bypassSoftware: true);
+			doorMasterController.PulseTryOpen(overrideLogic: true);
 		}
 
 		#region Multitool Interaction
