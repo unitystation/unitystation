@@ -55,7 +55,7 @@ namespace Doors.Modules
 
 		public void PlayPressureWarning()
 		{
-			master.DoorAnimator.RequestAnimation(master.DoorAnimator.PlayPressureWarningAnimation());
+			master.DoorAnimator.PlayPressureWarningAnimation().Forget();
 			master.SoundController.ServerPlaySound(DoorSoundController.DoorSoundType.PressureWarn);
 			StartCoroutine(ResetWarning());
 		}

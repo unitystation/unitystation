@@ -379,15 +379,6 @@ namespace Doors
 		{
 			overlayHackingHandler.SetCatalogueIndexSprite((int) Panel.NoPanel);
 		}
-
-		/// <summary>
-		/// Used to call UniTasks from outside monobehaviors
-		/// </summary>
-		/// <param name="anim"></param>
-		public void RequestAnimation(UniTaskVoid anim)
-		{
-			anim.Forget();
-		}
 	}
 
 	public enum Weld

@@ -94,7 +94,7 @@ namespace Doors.Modules
 
 		private void DenyAccess()
 		{
-			master.DoorAnimator.RequestAnimation(master.DoorAnimator.PlayDeniedAnimation());
+			master.DoorAnimator.PlayDeniedAnimation().Forget();
 			master.SoundController.ServerPlaySound(DoorSoundController.DoorSoundType.AccessDenied);
 		}
 

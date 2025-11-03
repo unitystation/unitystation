@@ -61,12 +61,12 @@ namespace Doors.Editor
 			GUILayout.BeginHorizontal();
 			if (GUILayout.Button("Test opening animation"))
 			{
-				animator.RequestAnimation(animator.PlayOpeningAnimation(panelExposed: panel, lights: lights));
+				animator.PlayOpeningAnimation(panelExposed: panel, lights: lights).Forget();
 			}
 
 			if (GUILayout.Button("Test closing animation"))
 			{
-				animator.RequestAnimation(animator.PlayClosingAnimation(panelExposed: panel, lights: lights));
+				animator.PlayClosingAnimation(panelExposed: panel, lights: lights).Forget();
 			}
 			GUILayout.EndHorizontal();
 			#endregion
@@ -76,12 +76,12 @@ namespace Doors.Editor
 			GUILayout.BeginHorizontal();
 			if (GUILayout.Button("Test denying animation"))
 			{
-				animator.RequestAnimation(animator.PlayDeniedAnimation());
+				animator.PlayDeniedAnimation().Forget();
 			}
 
 			if (GUILayout.Button("Test pressure warning"))
 			{
-				animator.RequestAnimation(animator.PlayPressureWarningAnimation());
+				animator.PlayPressureWarningAnimation().Forget();
 			}
 
 			if (GUILayout.Button("Test emergency"))
