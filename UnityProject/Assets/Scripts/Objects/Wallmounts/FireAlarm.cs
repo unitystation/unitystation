@@ -190,7 +190,7 @@ namespace Objects.Wallmounts
 		{
 			activated = false;
 			SyncSprite(FireAlarmState.TopLightSpriteNormal);
-			_ = SwitchCoolDown().Forget();
+			SwitchCoolDown().Forget();
 
 			foreach (var firelock in FireLockList)
 			{
@@ -209,7 +209,7 @@ namespace Objects.Wallmounts
 			activated = true;
 			SyncSprite(FireAlarmState.TopLightSpriteAlert);
 			SoundManager.PlayNetworkedAtPos(FireAlarmSFX, registerTile.ObjectPhysics.Component.OfficialPosition);
-			_ = SwitchCoolDown().Forget();
+			SwitchCoolDown().Forget();
 
 			foreach (var firelock in FireLockList)
 			{

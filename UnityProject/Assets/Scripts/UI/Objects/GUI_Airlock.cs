@@ -40,7 +40,7 @@ namespace UI.Objects
 
 			if (master.ElectrifyModule != null && master.HasPower)
 			{
-				if (master.ElectrifyModule.IsElectrified || master.HackingProcessBase.HasConnection(PreventElectrocution) == false)
+				if (master.ElectrifyModule.IsElectrified || master.HackingProcessBase.HasConnection(master.ElectrifyModule.PreventElectrocution) == false)
 				{
 					labelSafety.MasterSetValue("DANGER");
 					safetyImageColor.MasterSetValue(safetyImageColorWhenHARM);

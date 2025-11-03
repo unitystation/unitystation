@@ -391,8 +391,8 @@ namespace Doors
 			if (IsFireLockEngaged)
 			{
 				//We need to make sure the firelock wasn't destroyed
-				var firelock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
-				if (firelock != null) return false;
+				if (MatrixManager.GetAt<FireLock>(worldPosition, true).Any()) return false;
+
 				IsFireLockEngaged = false;
             }
 
@@ -885,7 +885,7 @@ namespace Doors
 			{
 				bolts.PulseToggleBolts();
 
-				if(HackingProcessBase.HasConnection(ToggleBolts) == false)
+				if(HackingProcessBase.HasConnection(bolts.ToggleBolts) == false)
 					Chat.AddExamineMsgFromServer(performer, $"The {DoorName} is wired incorrectly and you can't access the bolts mechanism");
 
 				UpdateGUI();
@@ -905,7 +905,7 @@ namespace Doors
 			{
 				electrifyModule.ToggleElectrocutionInput();
 
-				if (HackingProcessBase.HasConnection(ToggleElectrocution) == false)
+				if (HackingProcessBase.HasConnection(electrifyModule.ToggleElectrocution) == false)
 					Chat.AddExamineMsgFromServer(performer, $"The {DoorName} is wired incorrectly and you can't access the safety mechanism");
 					
 				UpdateGUI();
