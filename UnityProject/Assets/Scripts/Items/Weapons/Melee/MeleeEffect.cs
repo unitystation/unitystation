@@ -143,70 +143,9 @@ namespace Weapons
 				return;
 			}
 
-			if (canEffect && hasBattery)
-			{
-				if (Battery.Watts >= chargeUsage)
-				{
-					Battery.Watts -= chargeUsage;
-				}
-				else
-				{
-					if(toggleableEffect != null)
-					{
-						toggleableEffect.TurnOff();
-					}
-
-					timer = cooldown;
-					canEffect = false;
-				}
-			}
-
 			RegisterPlayer registerPlayerVictim = target.GetComponent<RegisterPlayer>();
 
-			// Teleport and stun the victim (if needed). We check if there is a cooldown preventing the attacker from effecting the victim.
-			if (registerPlayerVictim && canEffect)
-			{
-				// deactivates the weapon and makes you wait.
-				if (cooldown != 0)
-				{
-					canEffect = false;
-					timer = cooldown;
-				}
-
-				if (canStun)
-				{
-					registerPlayerVictim.ServerStun(stunTime);
-				}
-
-				if (canTeleport)
-				{
-					TeleportUtils.ServerTeleportRandom(target, minTeleportDistance, maxTeleportDistance, avoidSpace, avoidImpassable);
-				}
-
-				SoundManager.PlayNetworkedAtPos(useSound, target.transform.position, sourceObj: target.gameObject);
-
-				// Special case: If we're off harm intent (only teleporting and/or stunning), we should still show the lerp (unless we're hitting ourselves).
-				if (interaction.Intent != Intent.Harm && performer != target)
-				{
-					wna.RpcMeleeAttackLerp(dir, gameObject);
-				}
-			}
-			else if (!canEffect)
-			{
-				if (coolDownMessage) return;
-				coolDownMessage = true;
-				if(hasBattery)
-				{
-					Chat.AddExamineMsg(performer,
-						Battery.Watts >= chargeUsage
-							? $"{gameObject.ExpensiveName()} is on cooldown."
-							: $"The {gameObject.ExpensiveName()} is out of power.");
-				}
-				else
-				{
-					Chat.AddExamineMsg(performer, $"{gameObject.ExpensiveName()} is on cooldown.");
-				}
-			}
+			TryApplyEffect(interaction.Intent, performer, target, dir, registerPlayerVictim, wna, toggleableEffect);
 		}
 
 		#endregion
@@ -238,14 +177,95 @@ namespace Weapons
 		{
 			if (hasBattery)
 			{
-				if ( Battery != null)
+				if (Battery != null)
 				{
-					return $"Charge indicator shows a {Mathf.Round(Battery.Watts*100/Battery.MaxWatts)} percent charge.";
+					return $"Charge indicator shows a {Mathf.Round(Battery.Watts * 100 / Battery.MaxWatts)} percent charge.";
 
 				}
 				return "It does not contain a battery.";
 			}
 			return "";
+		}
+
+		private void CheckBattery(ToggleableEffect toggleableEffect)
+		{
+			if (canEffect && hasBattery)
+			{
+				if (Battery.Watts >= chargeUsage)
+				{
+					Battery.Watts -= chargeUsage;
+				}
+				else
+				{
+					if (toggleableEffect != null)
+					{
+						toggleableEffect.TurnOff();
+					}
+
+					timer = cooldown;
+					canEffect = false;
+				}
+			}
+		}
+		
+		public void TryApplyEffect(Intent intent, GameObject performer, GameObject target, Vector2 dir, RegisterPlayer registerPlayerVictim, WeaponNetworkActions wna, ToggleableEffect toggleableEffect = null)
+		{
+			if (toggleableEffect == null)
+			{
+				toggleableEffect = gameObject.GetComponent<ToggleableEffect>();
+			}
+
+			if (toggleableEffect.CurrentWeaponState != ToggleableEffect.WeaponState.On)
+            {
+                return;
+            }
+
+			CheckBattery(toggleableEffect);
+
+			// Teleport and stun the victim (if needed). We check if there is a cooldown preventing the attacker from effecting the victim.
+			if (registerPlayerVictim && canEffect)
+			{
+				// deactivates the weapon and makes you wait.
+				if (cooldown != 0)
+				{
+					canEffect = false;
+					timer = cooldown;
+				}
+
+				if (canStun)
+				{
+					registerPlayerVictim.ServerStun(stunTime);
+				}
+
+				if (canTeleport)
+				{
+					TeleportUtils.ServerTeleportRandom(target, minTeleportDistance, maxTeleportDistance, avoidSpace, avoidImpassable);
+				}
+
+				SoundManager.PlayNetworkedAtPos(useSound, target.transform.position, sourceObj: target.gameObject);
+
+				// Special case: If we're off harm intent (only teleporting and/or stunning), we should still show the lerp (unless we're hitting ourselves).
+				if (intent != Intent.Harm && performer != target)
+				{
+					wna.RpcMeleeAttackLerp(dir, gameObject);
+				}
+			}
+			else if (!canEffect)
+			{
+				if (coolDownMessage) return;
+				coolDownMessage = true;
+				if (hasBattery)
+				{
+					Chat.AddExamineMsg(performer,
+						Battery.Watts >= chargeUsage
+							? $"{gameObject.ExpensiveName()} is on cooldown."
+							: $"The {gameObject.ExpensiveName()} is out of power.");
+				}
+				else
+				{
+					Chat.AddExamineMsg(performer, $"{gameObject.ExpensiveName()} is on cooldown.");
+				}
+			}
 		}
 	}
 }

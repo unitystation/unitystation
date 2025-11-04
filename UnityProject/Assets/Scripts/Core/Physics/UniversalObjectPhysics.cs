@@ -16,6 +16,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Util;
+using Weapons;
 using Random = UnityEngine.Random;
 
 namespace Core.Physics
@@ -71,6 +72,11 @@ namespace Core.Physics
 		protected MatrixCash SetMatrixCache = new MatrixCash();
 
 		public float ObjectBouncyness = 0.75f;
+
+		/// <summary>
+		/// The chance a thrown weapon will apply its special effect on hit (stun etc.)
+		/// </summary>
+		public float thrownWeaponEffectChance = 0.35f;
 
 		public const float DEFAULT_PUSH_SPEED = 6;
 
@@ -1374,6 +1380,16 @@ namespace Core.Physics
 
 					livingHealthMasterBase.ApplyDamageToBodyPart(ddamagedBy, damage, AttackType.Melee, DamageType.Brute, currentAim);
 					if (currentAim == BodyPartType.Mouth && TryGetComponent<Edible>(out var edible)) edible.TryConsume(null, hit.gameObject, true);
+
+					if (TryGetComponent<MeleeEffect>(out var meleeEffect))
+					{
+						RegisterPlayer registerPlayerVictim = hit.gameObject.GetComponent<RegisterPlayer>();
+						WeaponNetworkActions wna = ddamagedBy?.GetComponent<WeaponNetworkActions>();
+						if (registerPlayerVictim != null && wna != null && UnityEngine.Random.value <= thrownWeaponEffectChance)
+                        {
+							meleeEffect.TryApplyEffect(Intent.Harm, ddamagedBy, hit.gameObject, Vector2.zero, registerPlayerVictim, wna);
+                        }
+					}
 
 					global::Chat.AddThrowHitMsgToChat(gameObject, livingHealthMasterBase.gameObject,
 						currentAim);
