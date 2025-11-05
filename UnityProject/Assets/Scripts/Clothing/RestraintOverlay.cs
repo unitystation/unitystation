@@ -13,11 +13,13 @@ namespace UI.Items
 	/// </summary>
 	public class RestraintOverlay : ClothingItem, IActionGUI
 	{
-		// TODO Different colored overlays for different restraints
-		[SerializeField]
-		private List<Sprite> handCuffOverlays = new List<Sprite>();
 
-		[SerializeField] private SpriteRenderer spriteRend = null;
+		// TODO Different colored overlays for different restraints
+
+		[SerializeField]
+		private SpriteDataSO handCuffOverlay;
+
+
 		private IEnumerator uncuffCoroutine;
 		private Vector3Int positionCache;
 
@@ -28,29 +30,27 @@ namespace UI.Items
 
 		public override void SetReference(GameObject Item)
 		{
-			GameObjectReference = Item;
+			ServerGameObjectReference = Item;
 			if (Item == null)
 			{
-				spriteRend.sprite = null;
+				spriteHandler.Empty();
 			}
 			else
 			{
-				spriteRend.sprite = handCuffOverlays[referenceOffset];
+				spriteHandler.SetSpriteSO(handCuffOverlay);
 			}
 
 			if (CustomNetworkManager.IsServer)
 			{
 				if(thisPlayerScript == null || thisPlayerScript.Mind == null) return;
-				UIActionManager.ToggleServer( gameObject ,this, GameObjectReference != null);
+				UIActionManager.ToggleServer( gameObject ,this, ServerGameObjectReference != null);
 			}
 		}
 
 		public override void UpdateSprite()
 		{
-			if (GameObjectReference != null)
-			{
-				spriteRend.sprite = handCuffOverlays[referenceOffset];
-			}
+			spriteHandler.SetSpriteVariant(referenceOffset);
+
 		}
 
 
@@ -61,7 +61,7 @@ namespace UI.Items
 
 			float resistTime = 0;
 
-			if (GameObjectReference == null)
+			if (ServerGameObjectReference == null)
 			{
 				Loggy.Error($"{thisPlayerScript.playerName} cuffed but no GameObjectReference to the cuffs, so uncuffing time set to 30");
 
@@ -70,7 +70,7 @@ namespace UI.Items
 			}
 			else
 			{
-				resistTime = GameObjectReference.GetComponent<Restraint>().ResistTime;
+				resistTime = ServerGameObjectReference.GetComponent<Restraint>().ResistTime;
 			}
 
 

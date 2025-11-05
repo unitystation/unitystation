@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SWAT Gear Bundle Crate
   m_EditorClassIdentifier: 
   OrderName: SWAT Gear Bundle Crate
-  CreditCost: 2400
+  CreditCost: 4000
   Crate: {fileID: 8898622964154730421, guid: 2ddd540cb32301549aa9c9be8616f5d6, type: 3}
   Items:
   - {fileID: 5524842192926070933, guid: 03363e8c8e39f874f8797bc24d1154a2, type: 3}
@@ -24,5 +24,7 @@ MonoBehaviour:
   - {fileID: 6404652678407139925, guid: e560948fdd6edc3448ac06d10906c4fc, type: 3}
   - {fileID: 6373161644663410599, guid: cf31a682867c234409b80f763fc9a1b9, type: 3}
   - {fileID: 6373161644663410599, guid: cf31a682867c234409b80f763fc9a1b9, type: 3}
-  ContentSellPrice: 500
   EmagOnly: 0
+  SuggestedCargoPrice: 450
+  ContentSellPrice: 375
+  WillFailUnitTests: 0

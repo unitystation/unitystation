@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 2463530834916383129, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
       propertyPath: relatedRecipes.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2463530834916383129, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
@@ -23,12 +23,12 @@ PrefabInstance:
         type: 3}
       propertyPath: relatedRecipes.Array.data[1].recipe
       value: 
-      objectReference: {fileID: 11400000, guid: 65b275405a051454ca6e24642c306e0e,
+      objectReference: {fileID: 11400000, guid: 762f67ac8bbe8f24da65ae84f93aec5c,
         type: 2}
     - target: {fileID: 2463530834916383129, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
       propertyPath: relatedRecipes.Array.data[1].ingredientIndex
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2546418124722880301, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
@@ -70,6 +70,22 @@ PrefabInstance:
     - target: {fileID: 2546418124722880301, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
       propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 6d911abc1c1daef458157e54bb323a8b,
+        type: 2}
+    - target: {fileID: 2546418124722880301, guid: 28c72054b1f484ed4a6253c4feee3eb4,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2546418124722880301, guid: 28c72054b1f484ed4a6253c4feee3eb4,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2546418124722880301, guid: 28c72054b1f484ed4a6253c4feee3eb4,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteInventoryIcon
       value: 
       objectReference: {fileID: 11400000, guid: 6d911abc1c1daef458157e54bb323a8b,
         type: 2}

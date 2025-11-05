@@ -80,6 +80,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2612598377055572914, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2612598377055572914, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: d22dce78319a3a64c804546838f030a8,
+        type: 2}
+    - target: {fileID: 2612598377055572914, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2677207007311197446, guid: 5668f8777ce1a794980fbd35aa58f56b,
         type: 3}
       propertyPath: initialName

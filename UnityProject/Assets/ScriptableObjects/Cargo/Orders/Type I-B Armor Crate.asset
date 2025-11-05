@@ -13,14 +13,18 @@ MonoBehaviour:
   m_Name: Type I-B Armor Crate
   m_EditorClassIdentifier: 
   OrderName: Type I-B Armor Crate
-  CreditCost: 800
+  CreditCost: 8000
   Crate: {fileID: 8898622964154730421, guid: 2ddd540cb32301549aa9c9be8616f5d6, type: 3}
   Items:
-  - {fileID: 8961080704280307221, guid: 900572ab8ed9030429b12eaa3974a43f, type: 3}
-  - {fileID: 8961080704280307221, guid: 900572ab8ed9030429b12eaa3974a43f, type: 3}
-  - {fileID: 8961080704280307221, guid: 900572ab8ed9030429b12eaa3974a43f, type: 3}
-  - {fileID: 6027075545028170607, guid: 756f2030a8381aa4c8151d3e29cae3d2, type: 3}
-  - {fileID: 6027075545028170607, guid: 756f2030a8381aa4c8151d3e29cae3d2, type: 3}
-  - {fileID: 6027075545028170607, guid: 756f2030a8381aa4c8151d3e29cae3d2, type: 3}
-  ContentSellPrice: 500
+  - {fileID: 7723686257471642746, guid: 91aad833277815d498e0686d9fc85bed, type: 3}
+  - {fileID: 7723686257471642746, guid: 91aad833277815d498e0686d9fc85bed, type: 3}
+  - {fileID: 6134014816673098307, guid: ea6fb99488cc5b844a2f657ef90c4d90, type: 3}
+  - {fileID: 6134014816673098307, guid: ea6fb99488cc5b844a2f657ef90c4d90, type: 3}
+  - {fileID: 601481542739936417, guid: 518823bf8eeebc848b0d18a293a1f56f, type: 3}
+  - {fileID: 601481542739936417, guid: 518823bf8eeebc848b0d18a293a1f56f, type: 3}
+  - {fileID: 6373161644663410599, guid: cf31a682867c234409b80f763fc9a1b9, type: 3}
+  - {fileID: 6373161644663410599, guid: cf31a682867c234409b80f763fc9a1b9, type: 3}
   EmagOnly: 0
+  SuggestedCargoPrice: 450
+  ContentSellPrice: 375
+  WillFailUnitTests: 0

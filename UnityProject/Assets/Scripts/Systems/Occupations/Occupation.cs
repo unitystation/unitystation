@@ -117,7 +117,7 @@ public class Occupation : ScriptableObject
 	[SerializeField]
 	[Tooltip("Display name for this occupation.")]
 	private string displayName = null;
-	public string DisplayName => displayName;
+	public string DisplayName => TS.T(displayName);
 
 	[SerializeField]
 	[Tooltip("How difficult is this role to play (especially for a new player)?")]
@@ -144,13 +144,13 @@ public class Occupation : ScriptableObject
 	[Tooltip("A concise description of this job's duties, suitable for being displayed on three lines.")]
 	[TextArea(3, 3)]
 	private string descriptionShort = "";
-	public string DescriptionShort => descriptionShort;
+	public string DescriptionShort => TS.T(descriptionShort);
 
 	[SerializeField]
 	[TextArea(10, 20)]
 	[Tooltip("An elaborate job description for newcomers. Should say what playing this job usually entails, similar to descriptionShort.")]
 	private string descriptionLong = "";
-	public string DescriptionLong => descriptionLong;
+	public string DescriptionLong => TS.T(descriptionLong);
 
 	[Header("Custom properties that will be applied \n to new bodies with this occupation")]
 	[SerializeField] private SerializableDictionary<string, bool> customProperties = default;

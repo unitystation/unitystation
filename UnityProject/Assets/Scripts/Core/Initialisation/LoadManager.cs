@@ -269,7 +269,8 @@ namespace Initialisation
 		ServerInfoUILobby,
 		Addressables,
 		GameData,
-		VoiceChat
+		VoiceChat,
+		TranslationSystem
 	}
 
 	public interface IInitialise

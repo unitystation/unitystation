@@ -31,7 +31,7 @@ public class ClothingItem : MonoBehaviour
 
 	public SpriteHandler spriteHandler;
 
-	public GameObject GameObjectReference;
+	public GameObject ServerGameObjectReference;
 
 	//choice between left or right or other(clothing)
 	public SpriteHandType spriteType;
@@ -77,10 +77,10 @@ public class ClothingItem : MonoBehaviour
 				spriteHandler.Empty();
 			}
 
-			if (!InHands && GameObjectReference != null)
+			if (!InHands && ServerGameObjectReference != null)
 			{
 				// did we take off clothing?
-				var unequippedClothing = GameObjectReference.GetComponent<ClothingV2>();
+				var unequippedClothing = ServerGameObjectReference.GetComponent<ClothingV2>();
 				if (unequippedClothing != null)
 				{
 					if (unequippedClothing)
@@ -89,12 +89,12 @@ public class ClothingItem : MonoBehaviour
 				}
 			}
 
-			GameObjectReference = null; // Remove the item from equipment
+			ServerGameObjectReference = null; // Remove the item from equipment
 		}
 
 		if (item != null)
 		{
-			GameObjectReference = item; // Add item to equipment
+			ServerGameObjectReference = item; // Add item to equipment
 
 			if (InHands)
 			{
@@ -136,9 +136,13 @@ public class ClothingItem : MonoBehaviour
 			spriteHandler.SetCatalogue(clothing.SpriteDataSO);
 			spriteHandler.SetCatalogueIndexSprite(clothing.CurrentClothIndex);
 			List<Color> palette = clothing.GetComponent<ItemAttributesV2>()?.ItemSprites?.Palette;
-			if (palette != null)
+			if (clothing.GetComponent<ItemAttributesV2>()?.ItemSprites?.IsPaletted == true)
 			{
-				spriteHandler.SetPaletteOfCurrentSprite(palette, networked: false);
+				spriteHandler.SetPaletteOfCurrentSprite(palette);
+			}
+			else
+			{
+				spriteHandler.SetColor(clothing.Colour);
 			}
 		}
 
@@ -175,7 +179,7 @@ public class ClothingItem : MonoBehaviour
 	{
 		if (spriteHandler != null)
 		{
-			spriteHandler.SetSpriteVariant(referenceOffset, false);
+			spriteHandler.SetSpriteVariant(referenceOffset);
 		}
 	}
 
@@ -183,7 +187,7 @@ public class ClothingItem : MonoBehaviour
 	{
 		if (spriteHandler != null)
 		{
-			spriteHandler.PushTexture(false);
+			spriteHandler.PushTexture();
 		}
 	}
 
@@ -193,14 +197,14 @@ public class ClothingItem : MonoBehaviour
 		{
 			if (spriteType == SpriteHandType.RightHand)
 			{
-				spriteHandler.SetSpriteSO(_ItemsSprites.SpriteRightHand, networked: false);
+				spriteHandler.SetSpriteSO(_ItemsSprites.SpriteRightHand);
 			}
 			else
 			{
-				spriteHandler.SetSpriteSO(_ItemsSprites.SpriteLeftHand, networked: false);
+				spriteHandler.SetSpriteSO(_ItemsSprites.SpriteLeftHand);
 			}
 
-			spriteHandler.SetPaletteOfCurrentSprite(_ItemsSprites.Palette, networked: false);
+			spriteHandler.SetPaletteOfCurrentSprite(_ItemsSprites.Palette);
 		}
 	}
 }

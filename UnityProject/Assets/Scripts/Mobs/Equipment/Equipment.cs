@@ -55,18 +55,9 @@ public class Equipment : NetworkBehaviour
 		UnregisisterInternals();
 	}
 
-	public void NotifyPlayer(NetworkConnection recipient)
-	{
-		foreach (var clothingItem in clothingItems)
-		{
-			PlayerAppearanceMessage.SendTo(gameObject, (int) clothingItem.Key, recipient,
-				clothingItem.Value.GameObjectReference, true, false);
-		}
-	}
-
 	public void SetReference(int index, GameObject _Item)
 	{
-		PlayerAppearanceMessage.SendToAll(gameObject, index, _Item);
+		PlayerAppearance.Process(gameObject, index, _Item);
 	}
 
 	private void InitInternals()

@@ -174,7 +174,11 @@ namespace Doors
 				openSortingLayer = SortingLayer.NameToID("Machines");
 			}
 
-			doorAnimator.SyncDoorStatus(doorAnimator.SyncDoorUpdateType, DoorAnimatorV2.DoorUpdateType.Close);
+			if (CustomNetworkManager.IsServer == true)
+            {
+                if (IsClosed) Close();
+				else Open();
+            }
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -183,18 +187,6 @@ namespace Doors
 			HackingProcessBase.RegisterPort(TryBump, this.GetType());
 			HackingProcessBase.RegisterPort(TryClose, this.GetType());
 			HackingProcessBase.RegisterPort(ConfirmAIConnection, this.GetType());
-			if (CustomNetworkManager.IsServer)
-			{
-				if (IsClosed)
-				{
-					Close();
-				}
-				else
-				{
-					Open();
-				}
-
-			}
 		}
 
 
@@ -320,7 +312,6 @@ namespace Doors
 		/// <param name="interaction"></param>
 		public void ClosedInteraction(HandApply interaction)
 		{
-			bool canOpen = true;
 			HashSet<DoorProcessingStates> states = new HashSet<DoorProcessingStates>();
 			foreach (DoorModuleBase module in modulesList)
 			{
@@ -385,6 +376,7 @@ namespace Doors
 
 		public void TryOpen(GameObject originator, bool blockClosing = false)
 		{
+			if (!IsClosed) return; //Can't open if we are open. Figures.
 			if (isFireLock == false)
 			{
 				var fireLock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
@@ -459,6 +451,7 @@ namespace Doors
 
 		public void TryClose()
 		{
+			if (IsClosed) return; //Can't close if we are closed. Figures.
 			if(isPerformingAction) return;
 
 			// Sliding door is not passable according to matrix
@@ -498,16 +491,11 @@ namespace Doors
 
 		public void Close(bool byForce = false)
 		{
-			if (IsClosed == true) return;
-
 			if (!gameObject) return; // probably destroyed by a shuttle crash
-			if (isPerformingAction) return;
-
 			UpdateGui();
 			
 			doorAnimator.LightsWork = !byForce;
 			doorAnimator.PanelOpen = ConstructibleDoor != null && ConstructibleDoor.Panelopen;
-
 			doorAnimator.SyncDoorStatus(doorAnimator.SyncDoorUpdateType,DoorAnimatorV2.DoorUpdateType.Close);
 
 			if(byForce)
@@ -522,15 +510,7 @@ namespace Doors
 
 		public void Open(bool byForce = false)
 		{
-			if (IsClosed == false) return;
-
-			if (isFireLock == false)
-			{
-				var fireLock = matrix.GetFirst<FireLock>(registerTile.LocalPositionServer, true);
-				if (fireLock != null && fireLock.fireAlarm.activated && fireLock.DoorMasterController.IsClosed) return;
-			}
-
-			if (!this || !gameObject) return; // probably destroyed by a shuttle crash
+			if (!gameObject) return;  // probably destroyed by a shuttle crash
 
 			if (!BlockAutoClose)
 			{
