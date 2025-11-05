@@ -33,62 +33,8 @@ namespace Systems.Electricity.NodeModules
 		public float InitialCurrentCapacity;
 		public float GetSetCurrentCapacity
 		{
-			get
-			{
-				float Capacity = 0;
-				foreach (var MachinePart in Machine.getObjectpartsInFrame)
-				{
-					if (MachinePart.itemTrait == CommonTraits.Instance.PowerCell)
-					{
-						Capacity += MachinePart.itemObject.GetComponentCustom<Battery>().Watts;
-					}
-				}
-
-				return Capacity;
-			}
-			set
-			{
-				if (value == 0)
-				{
-					foreach (var MachinePart in Machine.getObjectpartsInFrame)
-					{
-						if (MachinePart.itemTrait == CommonTraits.Instance.PowerCell)
-						{
-							MachinePart.itemObject.GetComponentCustom<Battery>().Watts = 0;
-						}
-					}
-				}
-				else
-				{
-					int maxwatts = 0;
-					int Number = 0;
-					foreach (var MachinePart in Machine.getObjectpartsInFrame)
-					{
-						if (MachinePart.itemTrait == CommonTraits.Instance.PowerCell)
-						{
-							maxwatts += MachinePart.itemObject.GetComponentCustom<Battery>().MaxWatts;
-							Number++;
-						}
-					}
-
-					var Percentage = value/  maxwatts ;
-
-					if (Percentage > 1)
-					{
-						Percentage = 1;
-					}
-
-					foreach (var MachinePart in Machine.getObjectpartsInFrame)
-					{
-						if (MachinePart.itemTrait == CommonTraits.Instance.PowerCell)
-						{
-							var bat = MachinePart.itemObject.GetComponentCustom<Battery>();
-							bat.Watts =  Mathf.RoundToInt(bat.MaxWatts * Percentage);
-						}
-					}
-
-				}
-			}
+			get => Machine.CurrentBatteryCapacity;
+			set => Machine.CurrentBatteryCapacity = value;
 		}
 
 		[FormerlySerializedAs("ExtraChargeCutOff")]
@@ -414,17 +360,18 @@ namespace Systems.Electricity.NodeModules
 				{
 					if (ToggleCanSupport)
 					{
+
 						if (PullingWatts > 0)
 						{
 							if (PullLastDeductedTime <= 0)
 							{
 								PullLastDeductedTime = Time.time;
 							}
-
-							Machine.BatteryChangeChargedByDelta(Mathf.RoundToInt(- (PullingWatts * (OutputLevel / 100f)) * (Time.time - PullLastDeductedTime)));
+							bool? notDepleted = null;
+							notDepleted =  Machine.BatteryChangeChargedByDelta(Mathf.RoundToInt(- (PullingWatts * (OutputLevel / 100f)) * (Time.time - PullLastDeductedTime)));
 
 							PullLastDeductedTime = Time.time;
-							if (GetSetCurrentCapacity <= 0)
+							if (notDepleted == false)
 							{
 								GetSetCurrentCapacity = 0;
 								ToggleCanSupport = false;

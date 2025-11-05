@@ -71,62 +71,50 @@ namespace Objects.Machines
 
 		public IRefreshParts[] IRefreshParts;
 
+		public Battery[] Batterys;
+
 		public float CurrentBatteryCapacity
 		{
 			get
 			{
-				float Capacity = 0;
-				foreach (var MachinePart in getObjectpartsInFrame)
-				{
-					if (MachinePart.itemTrait == CommonTraits.Instance.PowerCell)
-					{
-						Capacity += MachinePart.itemObject.GetComponentCustom<Battery>().Watts;
-					}
-				}
+				float capacity = 0f;
+				int count = Batterys.Length;
+				for (int i = 0; i < count; i++)
+					capacity += Batterys[i].Watts;
 
-				return Capacity;
+				return capacity;
 			}
 			set
 			{
-				if (value == 0)
+				int count = Batterys.Length;
+				if (count == 0)
+					return;
+
+				if (value <= 0f)
 				{
-					foreach (var MachinePart in getObjectpartsInFrame)
-					{
-						if (MachinePart.itemTrait == CommonTraits.Instance.PowerCell)
-						{
-							MachinePart.itemObject.GetComponentCustom<Battery>().Watts = 0;
-						}
-					}
+					for (int i = 0; i < count; i++)
+						Batterys[i].Watts = 0;
+					return;
 				}
-				else
+
+				// Compute max capacity
+				int maxWatts = 0;
+				for (int i = 0; i < count; i++)
+					maxWatts += Batterys[i].MaxWatts;
+
+				if (maxWatts <= 0)
+					return;
+
+				// Compute proportion of power to apply
+				float percentage = value / maxWatts;
+				if (percentage > 1f)
+					percentage = 1f;
+
+				int scaled;
+				for (int i = 0; i < count; i++)
 				{
-					int maxwatts = 0;
-					int Number = 0;
-					foreach (var MachinePart in getObjectpartsInFrame)
-					{
-						if (MachinePart.itemTrait == CommonTraits.Instance.PowerCell)
-						{
-							maxwatts += MachinePart.itemObject.GetComponentCustom<Battery>().MaxWatts;
-							Number++;
-						}
-					}
-
-					var Percentage = value/  maxwatts ;
-
-					if (Percentage > 1)
-					{
-						Percentage = 1;
-					}
-
-					foreach (var MachinePart in getObjectpartsInFrame)
-					{
-						if (MachinePart.itemTrait == CommonTraits.Instance.PowerCell)
-						{
-							var bat = MachinePart.itemObject.GetComponentCustom<Battery>();
-							bat.Watts =  Mathf.RoundToInt(bat.MaxWatts * Percentage);
-						}
-					}
-
+					scaled = Mathf.RoundToInt(Batterys[i].MaxWatts * percentage);
+					Batterys[i].Watts = scaled;
 				}
 			}
 		}
@@ -196,7 +184,7 @@ namespace Objects.Machines
 			var data = PartsStorage.GetItemSlots();
 
 			var toRefresh = GetComponents<IRefreshParts>();
-
+			UpdateBatteries();
 			foreach (var refresh in toRefresh)
 			{
 				refresh.RefreshParts(ObjectpartsInFrame, this);
@@ -394,45 +382,53 @@ namespace Objects.Machines
 			return Alladded / TotalParts;
 		}
 
-		public void BatteryChangeChargedByDelta(int Delta)
+
+		public bool? BatteryChangeChargedByDelta(int Delta)
 		{
 
-			if (Delta == 0) return;
-			foreach (var MachinePart in getObjectpartsInFrame)
+			if (Delta == 0) return null;
+			foreach (var batty in Batterys)
 			{
-				if (MachinePart.itemTrait == CommonTraits.Instance.PowerCell)
+				if (Delta > 0)
 				{
-					var batty = MachinePart.itemObject.GetComponentCustom<Battery>();
-
-					if (Delta > 0)
+					var SpareCapacity = batty.MaxWatts - batty.Watts;
+					if (Delta > SpareCapacity)
 					{
-						var SpareCapacity = batty.MaxWatts - batty.Watts;
-						if (Delta > SpareCapacity)
-						{
-							batty.Watts = batty.MaxWatts;
-							Delta -= SpareCapacity;
-						}
-						else
-						{
-							batty.Watts += Delta;
-							break;
-						}
+						batty.Watts = batty.MaxWatts;
+						Delta -= SpareCapacity;
 					}
 					else
 					{
-						var SpareCapacity = batty.Watts;
-						if (Mathf.Abs(Delta) > SpareCapacity)
-						{
-							batty.Watts = 0;
-							Delta += SpareCapacity;
-						}
-						else
-						{
-							batty.Watts += Delta;
-							break;
-						}
+						batty.Watts += Delta;
+						Delta = 0;
+						break;
 					}
 				}
+				else
+				{
+					var SpareCapacity = batty.Watts;
+					if (Mathf.Abs(Delta) > SpareCapacity)
+					{
+						batty.Watts = 0;
+						Delta += SpareCapacity;
+					}
+					else
+					{
+						batty.Watts += Delta;
+						Delta = 0;
+						break;
+					}
+				}
+
+			}
+
+			if (Mathf.Abs(Delta) > 0)
+			{
+				return false;
+			}
+			else
+			{
+				return true;
 			}
 		}
 
@@ -484,11 +480,17 @@ namespace Objects.Machines
 			{
 				ObjectpartsInFrame.RemoveAll(x => x.itemObject == prevPart.gameObject);
 			}
-
+			UpdateBatteries();
 			foreach (var refresh in IRefreshParts)
 			{
 				refresh.RefreshParts(ObjectpartsInFrame, this);
 			}
+		}
+
+		public void UpdateBatteries()
+		{
+			Batterys = getObjectpartsInFrame.Where(x => x.itemTrait == CommonTraits.Instance.PowerCell)
+				.Select(x => x.itemObject.GetComponentCustom<Battery>()).ToArray();
 		}
 	}
 

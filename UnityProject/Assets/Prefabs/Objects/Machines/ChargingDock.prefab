@@ -119,6 +119,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d19ccee65e968cf4298beade5d8fac47,
+        type: 2}
+    - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
       propertyPath: SubCatalogue.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -197,6 +203,13 @@ MonoBehaviour:
   initialContents: {fileID: 0}
   spawnContentsAtRoundstart: 0
   registerTile: {fileID: 4155393202343679647}
+  ObjectPhysics: {fileID: 0}
+  OnObjectStored:
+    m_PersistentCalls:
+      m_Calls: []
+  OnObjectRetrieved:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2486680600366044753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,47 +237,47 @@ MonoBehaviour:
   lockSpritehandler: {fileID: 0}
   weldSpriteHandler: {fileID: 0}
   soundOnOpen:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/Closet/closet_open.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   soundOnClose:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/Closet/closet_close.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   soundOnEmag:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/SnapCracklePop2.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   soundOnEscapeAttempt:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/Clang.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   soundOnEscape:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/Rustle01.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   handPriorityTrait: {fileID: 11400000, guid: 3b31d94e5f52dd740a920ade9a2dc27f, type: 2}
   CannotBeInteractedWithWhenClosed: 1
   IdleWattage: 1
-  ChargingWattage: 300
+  ChargingWattage: 6000
   On: 0
